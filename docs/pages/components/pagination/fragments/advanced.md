@@ -18,15 +18,10 @@ const App = () => {
   const [ellipsis, setEllipsis] = React.useState(true);
   const [boundaryLinks, setBoundaryLinks] = React.useState(true);
   const [activePage, setActivePage] = React.useState(1);
-
-  const renderToggle = (prop, setProp) => {
-    return (
-      <span>
-        {prop}：
-        <Toggle checked={prop} onChange={setProp} />
-      </span>
-    );
-  };
+  const [size, setSize] = React.useState('md');
+  const [maxButtons, setMaxButtons] = React.useState(5);
+  const [total, setTotal] = React.useState(200);
+  const [layout, setLayout] = React.useState(['total', '-', 'limit', '|', 'pager', 'skip']);
 
   return (
     <div>
@@ -35,24 +30,81 @@ const App = () => {
         <MyToggle label="last" checked={last} onChange={setLast} />
         <MyToggle label="prev" checked={prev} onChange={setPrev} />
         <MyToggle label="next" checked={next} onChange={setNext} />
-        <br />
-        <br />
+
         <MyToggle label="ellipsis" checked={ellipsis} onChange={setEllipsis} />
         <MyToggle label="boundaryLinks" checked={boundaryLinks} onChange={setBoundaryLinks} />
+        <hr />
+        <span>
+          size：
+          <SelectPicker
+            value={size}
+            onChange={setSize}
+            cleanable={false}
+            searchable={false}
+            data={[
+              { value: 'xs', label: 'xs' },
+              { value: 'sm', label: 'sm' },
+              { value: 'md', label: 'md' },
+              { value: 'lg', label: 'lg' }
+            ]}
+          />
+        </span>
+
+        <span style={{ marginLeft: 20 }}>
+          maxButtons：
+          <InputNumber
+            style={{ width: 80, display: 'inline-flex' }}
+            value={maxButtons}
+            max={10}
+            min={1}
+            onChange={setMaxButtons}
+          />
+        </span>
+
+        <span style={{ marginLeft: 20 }}>
+          total：
+          <InputNumber
+            style={{ width: 80, display: 'inline-flex' }}
+            value={total}
+            min={0}
+            onChange={setTotal}
+          />
+        </span>
+
+        <hr />
+        <span>
+          layout：
+          <TagPicker
+            value={layout}
+            onChange={setLayout}
+            cleanable={false}
+            searchable={false}
+            data={[
+              { value: 'total', label: 'total' },
+              { value: '-', label: '-' },
+              { value: 'pager', label: 'pager' },
+              { value: '|', label: '|' },
+              { value: 'limit', label: 'limit' },
+              { value: 'skip', label: 'skip' }
+            ]}
+          />
+        </span>
       </div>
 
       <hr />
       <Pagination
+        layout={layout}
+        size={size}
         prev={prev}
         next={next}
         first={first}
         last={last}
         ellipsis={ellipsis}
         boundaryLinks={boundaryLinks}
-        pages={30}
-        maxButtons={5}
+        total={total}
+        maxButtons={maxButtons}
         activePage={activePage}
-        onSelect={setActivePage}
+        onChangePage={setActivePage}
       />
     </div>
   );

@@ -4,10 +4,10 @@ import { innerText, getDOMNode } from '@test/testUtils';
 import PaginationButton from '../PaginationButton';
 
 describe('PaginationButton', () => {
-  it('Should render a <a>', () => {
+  it('Should render a <button>', () => {
     const title = 'Test';
     const instance = getDOMNode(<PaginationButton>{title}</PaginationButton>);
-    assert.equal(instance.tagName, 'A');
+    assert.equal(instance.tagName, 'BUTTON');
     assert.equal(innerText(instance), title);
   });
 

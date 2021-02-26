@@ -9,7 +9,8 @@ import {
   Divider,
   Nav,
   Checkbox,
-  Dropdown
+  Dropdown,
+  Pagination
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
@@ -61,7 +62,8 @@ export default function Page() {
         Arrows,
         MinusSquareO,
         PlusSquareO,
-        Spinner
+        Spinner,
+        Pagination
       }}
     />
   );

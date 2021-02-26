@@ -31,11 +31,10 @@ export default {
     prev: 'Предыдущая',
     next: 'Следующая',
     first: 'Первая',
-    last: 'Последняя'
-  },
-  TablePagination: {
-    lengthMenuInfo: '{0} / страниц',
-    totalInfo: 'всего: {0}'
+    last: 'Последняя',
+    limit: '{0} / страниц',
+    total: 'всего: {0}',
+    skip: 'Идти к{0}'
   },
   Calendar,
   DatePicker: {

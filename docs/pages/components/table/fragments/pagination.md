@@ -8,17 +8,17 @@
 
 const App = () => {
   const [loading, setLoading] = React.useState(false);
-  const [displayLength, setDisplayLength] = React.useState(10);
+  const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
 
-  const handleChangeLength = dataKey => {
+  const handleChangeLimit = dataKey => {
     setPage(1);
-    setDisplayLength(dataKey);
+    setLimit(dataKey);
   };
 
   const data = fakeData.filter((v, i) => {
-    const start = displayLength * (page - 1);
-    const end = start + displayLength;
+    const start = limit * (page - 1);
+    const end = start + limit;
     return i >= start && i < end;
   });
 
@@ -49,24 +49,25 @@ const App = () => {
           <Cell dataKey="companyName" />
         </Column>
       </Table>
-
-      <Table.Pagination
-        lengthMenu={[
-          {
-            value: 10,
-            label: 10
-          },
-          {
-            value: 20,
-            label: 20
-          }
-        ]}
-        activePage={page}
-        displayLength={displayLength}
-        total={fakeData.length}
-        onChangePage={setPage}
-        onChangeLength={handleChangeLength}
-      />
+      <div style={{ padding: 20 }}>
+        <Pagination
+          prev
+          next
+          first
+          last
+          ellipsis
+          boundaryLinks
+          maxButtons={5}
+          size="xs"
+          layout={['total', '-', 'limit', '|', 'pager', 'skip']}
+          total={fakeData.length}
+          limitOptions={[10, 20]}
+          limit={limit}
+          activePage={page}
+          onChangePage={setPage}
+          onChangeLimit={handleChangeLimit}
+        />
+      </div>
     </div>
   );
 };

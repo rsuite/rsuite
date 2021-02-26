@@ -31,11 +31,10 @@ export default {
     prev: '上一页',
     next: '下一页',
     first: '第一页',
-    last: '最后一页'
-  },
-  TablePagination: {
-    lengthMenuInfo: '每页 {0} 条',
-    totalInfo: '共 {0} 条数据'
+    last: '最后一页',
+    limit: '{0} 条/页',
+    total: '共 {0} 条数据',
+    skip: '跳至{0}页'
   },
   Calendar,
   DatePicker: {
