@@ -1,1 +1,95 @@
-@import 'themes/default';
+@import 'mixin';
+
+//
+// Notifications
+// --------------------------------------------------
+
+// Base styles
+// -------------------------
+.rs-notification {
+  // Recovery mouse event.
+  pointer-events: auto;
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  animation-fill-mode: forwards;
+
+  // Multiple notification should have spacing
+  // Hiding notification haven't spacing.
+  &:not(.@{toast-ns}-fade-exited) ~ .rs-notification {
+    margin-top: 10px;
+  }
+
+  // Notification content
+  &-content {
+    background: var(--rs-color-bg-overlay);
+    box-shadow: @notify-box-shadow;
+    padding: @notify-padding;
+    border-radius: @notify-border-radius;
+    max-width: @notify-max-width;
+  }
+
+  // Title
+  &-title {
+    .ellipsis();
+
+    color: @notify-title-font-color;
+    font-size: @notify-title-font-size;
+    line-height: unit((@notify-title-icon-size / @notify-title-font-size));
+
+    > p {
+      margin: 0;
+    }
+
+    .rs-icon {
+      font-size: @notify-title-icon-size;
+      width: @notify-title-icon-size;
+      line-height: 1;
+      margin-right: @notify-title-icon-margin;
+    }
+  }
+
+  &-title-with-icon {
+    display: flex;
+    align-items: center;
+    .ellipsis();
+  }
+
+  // Description
+  &-description {
+    color: @notify-description-color;
+  }
+
+  // Has title and description need to ajust distance
+  &-title + &-description {
+    margin-top: @notify-title-description-gap;
+  }
+
+  &&-hiding {
+    animation: notificationMoveOut 0.3s ease-in forwards;
+
+    & ~ .rs-notification {
+      margin-top: 0;
+    }
+  }
+}
+
+// Alternate styles
+// -------------------------
+// Generate contextual modifier classes for colorizing the alert.
+
+.rs-notification-success {
+  .notification-variant(var(--rs-color-state-success));
+}
+
+.rs-notification-info {
+  .notification-variant(var(--rs-color-state-info));
+}
+
+.rs-notification-warning {
+  .notification-variant(var(--rs-color-state-warning));
+}
+
+.rs-notification-error {
+  .notification-variant(var(--rs-color-state-error));
+}
