@@ -1,1 +1,193 @@
-@import 'themes/default';
+@import '../../styles/core';
+
+//
+// Popovers
+// --------------------------------------------------
+.rs-popover {
+  position: absolute;
+  top: 0;
+  left: 0 /* rtl:ignore */;
+  z-index: @zindex-popover;
+  display: none;
+  padding: 12px;
+  font-size: @font-size-base;
+  background-color: var(--rs-color-bg-overlay);
+  background-clip: padding-box;
+  border-radius: @popover-border-radius;
+  opacity: 0;
+  .drop-shadow(@popover-shadow);
+
+  &.fade {
+    transition: opacity 0.1s linear, transform 0.1s ease-out;
+  }
+
+  &.in {
+    opacity: 1;
+    transition: opacity 0.15s linear, transform 0.15s ease-in;
+  }
+
+  // Arrow is outer, Arrow:after is inner
+  > .rs-popover-arrow {
+    border-width: @popover-arrow-outer-width;
+
+    &,
+    &::after {
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      border-color: transparent;
+      border-style: solid;
+    }
+
+    &::after {
+      border-width: @popover-arrow-width;
+      content: '';
+    }
+  }
+
+  // Popover Title
+  &-title {
+    margin: 0; // reset heading margin
+    font-size: @font-size-base;
+    line-height: @line-height-base;
+  }
+
+  // Popover Content
+  &-content {
+    font-size: @font-size-small;
+    line-height: @line-height-small;
+  }
+
+  &-title ~ &-content {
+    margin-top: 8px;
+  }
+}
+
+// Common style for .placement-top*
+.rs-popover[class*='placement-top'] {
+  margin-top: -(@popover-arrow-width + 2px);
+  .set-translate-transition(0, -@popover-translate-distance);
+
+  > .rs-popover-arrow {
+    margin-left: -@popover-arrow-outer-width;
+    border-bottom-width: 0;
+    bottom: -@popover-arrow-outer-width;
+
+    &::after {
+      bottom: 1px;
+      margin-left: -@popover-arrow-width;
+      border-bottom-width: 0;
+      border-top-color: var(--rs-color-bg-overlay);
+    }
+  }
+}
+
+/* rtl:begin:ignore */
+// Common style for .placement-right*
+.rs-popover[class*='placement-right'] {
+  margin-left: (@popover-arrow-width + 2px);
+  .set-translate-transition(@popover-translate-distance, 0);
+
+  > .rs-popover-arrow {
+    left: -@popover-arrow-outer-width;
+    margin-top: -@popover-arrow-outer-width;
+    border-left-width: 0;
+
+    &::after {
+      left: 1px;
+      bottom: -@popover-arrow-width;
+      border-left-width: 0;
+      border-right-color: var(--rs-color-bg-overlay);
+    }
+  }
+}
+
+// Common style for .placement-left*
+.rs-popover[class*='placement-left'] {
+  margin-left: -(@popover-arrow-width + 2px);
+  .set-translate-transition(-@popover-translate-distance, 0);
+
+  > .rs-popover-arrow {
+    right: -@popover-arrow-outer-width;
+    margin-top: -@popover-arrow-outer-width;
+    border-right-width: 0;
+
+    &::after {
+      right: 1px;
+      border-right-width: 0;
+      border-left-color: var(--rs-color-bg-overlay);
+      bottom: -@popover-arrow-width;
+    }
+  }
+}
+
+/* rtl:end:ignore */
+
+// Common style for .placement-bottom*
+.rs-popover[class*='placement-bottom'] {
+  margin-top: (@popover-arrow-width + 2px);
+  .set-translate-transition(0, @popover-translate-distance);
+
+  > .rs-popover-arrow {
+    margin-left: -@popover-arrow-outer-width;
+    border-top-width: 0;
+    top: -@popover-arrow-outer-width;
+
+    &::after {
+      top: 1px;
+      margin-left: -@popover-arrow-width;
+      border-top-width: 0;
+      border-bottom-color: var(--rs-color-bg-overlay);
+    }
+  }
+}
+
+.rs-popover.placement-bottom,
+.rs-popover.placement-top {
+  > .rs-popover-arrow {
+    left: 50%;
+  }
+}
+
+.rs-popover.placement-bottom-end,
+.rs-popover.placement-top-end {
+  > .rs-popover-arrow {
+    right: @popover-arrow-gap;
+  }
+}
+
+.rs-popover.placement-left,
+.rs-popover.placement-right {
+  > .rs-popover-arrow {
+    top: 50%;
+  }
+}
+
+.rs-popover.placement-left-end,
+.rs-popover.placement-right-end {
+  > .rs-popover-arrow {
+    bottom: @popover-arrow-gap;
+  }
+}
+
+// Adjust full popover arrow postion
+.rs-popover-full {
+  // Reset content padding when [full]
+  padding: 0;
+
+  // Reset content margin-top when [full]
+  .rs-popover-content {
+    margin-top: 0;
+  }
+
+  .rs-popover.placement-top-start& > .rs-popover-arrow,
+  .rs-popover.placement-bottom-start& > .rs-popover-arrow {
+    margin-left: @popover-arrow-outer-width;
+  }
+
+  .rs-popover.placement-right-start& > .rs-popover-arrow,
+  .rs-popover.placement-left-start& > .rs-popover-arrow {
+    margin-top: @popover-arrow-outer-width;
+  }
+}

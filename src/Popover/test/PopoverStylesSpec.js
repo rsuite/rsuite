@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Popover from '../index';
 import { createTestContainer, getStyle, toRGB } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 import Whisper from '../../Whisper/index';
 import Button from '../../Button/index';
 
