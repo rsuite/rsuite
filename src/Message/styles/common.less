@@ -106,17 +106,17 @@
 // Generate contextual modifier classes for colorizing the message.
 
 .rs-message-success {
-  .message-variant(@message-success-bg; @message-success-icon-color);
+  .message-variant(var(--rs-color-message-success-bg); var(--rs-color-message-success-icon));
 }
 
 .rs-message-info {
-  .message-variant(@message-info-bg; @message-info-icon-color);
+  .message-variant(var(--rs-color-message-info-bg); var(--rs-color-message-info-icon));
 }
 
 .rs-message-warning {
-  .message-variant(@message-warning-bg; @message-warning-icon-color);
+  .message-variant(var(--rs-color-message-warning-bg); var(--rs-color-message-warning-icon));
 }
 
 .rs-message-error {
-  .message-variant(@message-error-bg; @message-error-icon-color);
+  .message-variant(var(--rs-color-message-error-bg); var(--rs-color-message-error-icon));
 }
