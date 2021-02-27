@@ -1,1 +1,153 @@
-@import 'themes/default';
+@import '../../styles/core';
+
+//
+// Tooltips
+// --------------------------------------------------
+
+// Base class
+.rs-tooltip {
+  position: absolute;
+  z-index: @zindex-tooltip;
+  display: block;
+  font-size: @font-size-small;
+  opacity: 0;
+  line-height: @line-height-small;
+
+  &.fade {
+    transition: opacity 0.1s linear, transform 0.1s ease-out;
+  }
+
+  &.in {
+    opacity: 1;
+    transition: opacity 0.15s linear, transform 0.15s ease-in;
+  }
+
+  // Wrapper for the tooltip content
+  .rs-tooltip-inner {
+    max-width: @tooltip-max-width;
+    padding: 2px 10px;
+    color: var(--rs-color-tooltip-text);
+    text-align: center; // TODO: remove align center?
+    background-color: var(--rs-color-tooltip-bg);
+    border-radius: @tooltip-border-radius;
+    overflow-wrap: break-word;
+  }
+
+  // Arrows
+  .rs-tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
+}
+
+// Common style for .placement-top*
+.rs-tooltip[class*='placement-top'] {
+  margin-top: -(@tooltip-arrow-width + 2px);
+  .set-translate-transition(0, -@tooltip-translate-distance);
+
+  .rs-tooltip-arrow {
+    bottom: -@tooltip-arrow-width;
+    // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
+    .ie11-edge-direction(bottom, -@tooltip-arrow-width+1px);
+
+    margin-left: -@tooltip-arrow-width;
+    border-width: @tooltip-arrow-width @tooltip-arrow-width 0;
+    border-top-color: var(--rs-color-tooltip-bg);
+  }
+}
+
+// Common style for .placement-bottom*
+.rs-tooltip[class*='placement-bottom'] {
+  margin-top: (@tooltip-arrow-width + 2px);
+  .set-translate-transition(0, @tooltip-translate-distance);
+
+  .rs-tooltip-arrow {
+    top: -@tooltip-arrow-width;
+    // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
+    .ie11-edge-direction(top,-@tooltip-arrow-width+1px);
+
+    margin-left: -@tooltip-arrow-width;
+    border-width: 0 @tooltip-arrow-width @tooltip-arrow-width;
+    border-bottom-color: var(--rs-color-tooltip-bg);
+  }
+}
+
+/* rtl:begin:ignore */
+// Common style for .placement-right*
+.rs-tooltip[class*='placement-right'] {
+  margin-left: (@tooltip-arrow-width + 2px);
+  .set-translate-transition(@tooltip-translate-distance, 0);
+
+  .rs-tooltip-arrow {
+    left: -@tooltip-arrow-width;
+    // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
+    .ie11-edge-direction(left, -@tooltip-arrow-width+1px);
+
+    margin-top: -@tooltip-arrow-width;
+    border-width: @tooltip-arrow-width @tooltip-arrow-width @tooltip-arrow-width 0;
+    border-right-color: var(--rs-color-tooltip-bg);
+  }
+}
+
+// Common style for .placement-lef*
+.rs-tooltip[class*='placement-left'] {
+  margin-left: -(@tooltip-arrow-width + 2px);
+  .set-translate-transition(-@tooltip-translate-distance, 0);
+
+  .rs-tooltip-arrow {
+    right: -@tooltip-arrow-width;
+    // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
+    .ie11-edge-direction(right, -@tooltip-arrow-width+1px);
+
+    margin-top: -@tooltip-arrow-width;
+    border-width: @tooltip-arrow-width 0 @tooltip-arrow-width @tooltip-arrow-width;
+    border-left-color: var(--rs-color-tooltip-bg);
+  }
+}
+
+/* rtl:end:ignore */
+
+.rs-tooltip.placement-bottom,
+.rs-tooltip.placement-top {
+  .rs-tooltip-arrow {
+    left: 50%;
+  }
+}
+
+.rs-tooltip.placement-bottom-start,
+.rs-tooltip.placement-top-start {
+  .rs-tooltip-arrow {
+    left: @tooltip-arrow-gap-lg;
+  }
+}
+
+.rs-tooltip.placement-bottom-end,
+.rs-tooltip.placement-top-end {
+  .rs-tooltip-arrow {
+    right: @tooltip-arrow-gap-sm;
+  }
+}
+
+.rs-tooltip.placement-right,
+.rs-tooltip.placement-left {
+  .rs-tooltip-arrow {
+    top: 50%;
+  }
+}
+
+.rs-tooltip.placement-right-start,
+.rs-tooltip.placement-left-start {
+  .rs-tooltip-arrow {
+    top: @tooltip-arrow-gap-lg;
+  }
+}
+
+.rs-tooltip.placement-right-end,
+.rs-tooltip.placement-left-end {
+  .rs-tooltip-arrow {
+    bottom: @tooltip-arrow-gap-sm;
+  }
+}
