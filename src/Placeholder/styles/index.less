@@ -1,1 +1,118 @@
-@import 'themes/default';
+@import '../../styles/core';
+
+//
+// Placeholder
+// --------------------------------------------------
+
+.rs-placeholder {
+  @placeholder-image-color: var(--rs-color-bg-card);
+
+  display: flex;
+
+  &-paragraph {
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    &-graph {
+      flex: 0 0 auto;
+      width: 60px;
+      height: 60px;
+      border-radius: 2px;
+      margin-right: 20px;
+      background-color: var(--rs-color-placeholder);
+
+      &-circle {
+        border-radius: 50%;
+      }
+
+      &-image {
+        width: 80px;
+        height: 60px;
+        position: relative;
+        overflow: hidden;
+
+        &::after {
+          content: '';
+          width: 0;
+          height: 0;
+          left: 10px;
+          bottom: 10px;
+          position: absolute;
+          border-bottom: 36px solid @placeholder-image-color;
+          border-left: 20px solid transparent;
+          border-right: 30px solid transparent;
+        }
+
+        &::before {
+          content: '';
+          width: 0;
+          height: 0;
+          left: 40px;
+          bottom: 10px;
+          position: absolute;
+          border-bottom: 22px solid @placeholder-image-color;
+          border-left: 16px solid transparent;
+          border-right: 16px solid transparent;
+        }
+      }
+
+      &-image &-inner {
+        width: 12px;
+        height: 12px;
+        right: 18px;
+        top: 10px;
+        border-radius: 50%;
+        background: @placeholder-image-color;
+        position: absolute;
+      }
+    }
+
+    &-rows {
+      width: 100%;
+
+      & > p {
+        background-color: var(--rs-color-placeholder);
+      }
+    }
+  }
+
+  &-grid {
+    &-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      & > p {
+        background-color: var(--rs-color-placeholder);
+      }
+
+      &:first-child {
+        align-items: flex-start; //first col align left
+      }
+    }
+  }
+
+  &-graph {
+    display: inline-block;
+    width: 100%;
+    background-color: var(--rs-color-placeholder);
+  }
+
+  &-active {
+    &.rs-placeholder-graph,
+    .rs-placeholder-paragraph-graph-image,
+    .rs-placeholder-grid-col > p,
+      //noinspection Stylelint
+    .rs-placeholder-paragraph-rows > p {
+      background: linear-gradient(
+        -45deg,
+        var(--rs-color-placeholder) 25%,
+        var(--rs-color-placeholder-active) 37%,
+        var(--rs-color-placeholder) 63%
+      );
+      background-size: 400% 100% !important;
+      animation: placeholder-active 3s ease infinite;
+    }
+  }
+}
