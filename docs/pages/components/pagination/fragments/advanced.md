@@ -10,6 +10,8 @@ const MyToggle = ({ label, checked, onChange }) => {
   );
 };
 
+const limitOptions = [30, 50, 100];
+
 const App = () => {
   const [prev, setPrev] = React.useState(true);
   const [next, setNext] = React.useState(true);
@@ -18,10 +20,11 @@ const App = () => {
   const [ellipsis, setEllipsis] = React.useState(true);
   const [boundaryLinks, setBoundaryLinks] = React.useState(true);
   const [activePage, setActivePage] = React.useState(1);
-  const [size, setSize] = React.useState('md');
+  const [size, setSize] = React.useState('xs');
   const [maxButtons, setMaxButtons] = React.useState(5);
   const [total, setTotal] = React.useState(200);
   const [layout, setLayout] = React.useState(['total', '-', 'limit', '|', 'pager', 'skip']);
+  const [limit, setLimit] = React.useState(50);
 
   return (
     <div>
@@ -51,13 +54,26 @@ const App = () => {
         </span>
 
         <span style={{ marginLeft: 20 }}>
+          limit：
+          <SelectPicker
+            value={limit}
+            onChange={setLimit}
+            cleanable={false}
+            searchable={false}
+            data={limitOptions.map(key => ({ value: key, label: key }))}
+          />
+        </span>
+
+        <span style={{ marginLeft: 20 }}>
           maxButtons：
           <InputNumber
             style={{ width: 80, display: 'inline-flex' }}
             value={maxButtons}
             max={10}
             min={1}
-            onChange={setMaxButtons}
+            onChange={value => {
+              setMaxButtons(parseInt(value));
+            }}
           />
         </span>
 
@@ -67,7 +83,9 @@ const App = () => {
             style={{ width: 80, display: 'inline-flex' }}
             value={total}
             min={0}
-            onChange={setTotal}
+            onChange={value => {
+              setTotal(parseInt(value));
+            }}
           />
         </span>
 
@@ -102,9 +120,12 @@ const App = () => {
         ellipsis={ellipsis}
         boundaryLinks={boundaryLinks}
         total={total}
+        limit={limit}
+        limitOptions={limitOptions}
         maxButtons={maxButtons}
         activePage={activePage}
         onChangePage={setActivePage}
+        onChangeLimit={setLimit}
       />
     </div>
   );

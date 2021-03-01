@@ -147,3 +147,47 @@ return (
   </>
 );
 ```
+
+### Removed `Table.Pagination`, and enhanced `Pagination`
+
+The `Table.Pagination` component has been removed in this version. Please use `Pagination` instead. The `layout` property has been added for customizing the layout.
+
+```js
+// for rsuite v4
+return (
+  <Table.Pagination
+    lengthMenu={[
+      {
+        value: 20,
+        label: 20
+      },
+      {
+        value: 50,
+        label: 50
+      },
+      {
+        value: 100,
+        label: 100
+      }
+    ]}
+    activePage={1}
+    displayLength={20}
+    total={100}
+    onChangePage={handleChangePage}
+    onChangeLength={handleChangeLength}
+  />
+);
+
+// for rsuite v5
+return (
+  <Pagination
+    limit={50}
+    limitOptions={[20, 50, 100]}
+    layout={['total', '-', 'limit', '|', 'pager', 'skip']}
+    total={100}
+    activePage={1}
+    onChangePage={handleChangePage}
+    onChangeLimit={handleChangeLimit}
+  />
+);
+```
