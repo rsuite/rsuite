@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import SafeAnchor from '../SafeAnchor';
 import Ripple from '../Ripple';
 import { useClassNames, createChainedFunction } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -63,12 +62,19 @@ const PaginationButton: RsRefForwardingComponent<
     [disabled, eventKey, onSelect]
   );
 
+  const asProps: Partial<PaginationButtonProps> = {};
+
+  if (typeof Component !== 'string') {
+    asProps.eventKey = eventKey;
+    asProps.active = active;
+  }
+
   return (
     <Component
       {...rest}
+      {...asProps}
       disabled={disabled}
       onClick={createChainedFunction(onClick, handleClick)}
-      active={Component !== SafeAnchor && typeof Component !== 'string' ? active : undefined}
       ref={ref}
       className={classes}
       style={style}

@@ -20,6 +20,10 @@ Paging navigation, used to assist long lists to load only part of the data, you 
 
 <!--{include:`disabled.md`}-->
 
+### Used with Link in next/link
+
+<!--{include:`with-router.md`}-->
+
 ### Advanced
 
 > The `layout` prop can customize the layout of a paging component. It receives an array parameter and renders according to the order of the values in the array. The default value of `layout` is `['pager']`, and the optional values include: `total` (total entry input area), `pager` (page area), `limit` (entry option area), `skip` (quick jump page area), `-` (area placeholder, fill up the remaining space) , `|` (vertical separator).
