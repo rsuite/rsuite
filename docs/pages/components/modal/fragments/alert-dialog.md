@@ -9,15 +9,15 @@ const App = () => {
   return (
     <div className="modal-container">
       <ButtonToolbar>
-        <Button onClick={handleOpen}>Open</Button>
+        <Button onClick={handleOpen}>Disabled</Button>
       </ButtonToolbar>
 
-      <Modal backdrop="static" open={open} onClose={handleClose} size="xs">
+      <Modal backdrop="static" role="alertdialog" open={open} onClose={handleClose} size="xs">
         <Modal.Body>
-          <Remind
+          <RemindIcon
             style={{
               color: '#ffb300',
-              fontSize: 24,
+              fontSize: 24
             }}
           />
           Once a project is disabled, there will be no update on project report, and project members
