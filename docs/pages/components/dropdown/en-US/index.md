@@ -67,14 +67,6 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 
 <!--{include:`submenu.md`}-->
 
-### Custom
-
-<!--{include:`custom.md`}-->
-
-### Used with Buttons
-
-<!--{include:`buttons.md`}-->
-
 ### Menu items
 
 <!--{include:`menu-items.md`}-->
@@ -82,6 +74,10 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 ### Used with Popover
 
 <!--{include:`with-popover.md`}-->
+
+### Used with Buttons
+
+<!--{include:`buttons.md`}-->
 
 ### Used with `next/link`
 

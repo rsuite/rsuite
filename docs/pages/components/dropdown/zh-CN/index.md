@@ -67,14 +67,6 @@
 
 <!--{include:`submenu.md`}-->
 
-### 自定义
-
-<!--{include:`custom.md`}-->
-
-### 与按钮组合使用
-
-<!--{include:`buttons.md`}-->
-
 ### 菜单项
 
 <!--{include:`menu-items.md`}-->
@@ -82,6 +74,10 @@
 ### 与 Popover 组合使用
 
 <!--{include:`with-popover.md`}-->
+
+### 与按钮组合使用
+
+<!--{include:`buttons.md`}-->
 
 ### 与 `next/link` 组合
 

@@ -77,6 +77,10 @@
 
 <!--{include:`vertical.md`}-->
 
+### 分体式按钮
+
+<!--{include:`split-button.md`}-->
+
 ### 按钮工具栏
 
 <!--{include:`toolbar.md`}-->
