@@ -19,6 +19,11 @@ A table displays rows of data.
 
 <!--{include:`default.md`}-->
 
+### Appearance
+
+<!--{include:`appearance.md`}-->
+
+
 ### Virtualized
 
 Support `virtualized`, effectively render large tabular data.
@@ -212,12 +217,6 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
   );
 };
 ```
-
-### Loading
-
-<!--{include:`loading.md`}-->
-
-When the data is in an asynchronous fetch, you need to display a `loading` state, just set the `loading` property on the `<Table>`.
 
 ### Colspan
 
