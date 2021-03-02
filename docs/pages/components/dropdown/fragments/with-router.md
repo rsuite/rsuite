@@ -1,6 +1,12 @@
 <!--start-code-->
 
 ```js
+/** 
+
+import Link from 'next/link';
+
+*/
+
 const MyLink = React.forwardRef((props, ref) => {
   const { href, as, ...rest } = props;
   return (

@@ -1,5 +1,14 @@
 import React from 'react';
-import { Button, IconButton, ButtonGroup, ButtonToolbar, Panel } from 'rsuite';
+import {
+  Button,
+  IconButton,
+  ButtonGroup,
+  ButtonToolbar,
+  Whisper,
+  Panel,
+  Popover,
+  Dropdown
+} from 'rsuite';
 import DefaultPage from '@/components/Page';
 import * as SvgIcons from '@/components/SvgIcons';
 import { Icon } from '@rsuite/icons';
@@ -26,11 +35,15 @@ import StrikethroughIcon from '@rsuite/icons/legacy/Strikethrough';
 import LinkIcon from '@rsuite/icons/legacy/Link';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import PlusIcon from '@rsuite/icons/Plus';
+import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 
 export default function Page() {
   return (
     <DefaultPage
       dependencies={{
+        Whisper,
+        Popover,
+        Dropdown,
         Button,
         IconButton,
         ButtonGroup,
@@ -60,7 +73,8 @@ export default function Page() {
         StrikethroughIcon,
         LinkIcon,
         AddOutlineIcon,
-        PlusIcon
+        PlusIcon,
+        ArrowDownIcon
       }}
     />
   );
