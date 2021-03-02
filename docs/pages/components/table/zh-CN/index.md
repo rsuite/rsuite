@@ -19,6 +19,10 @@
 
 <!--{include:`fixed.md`}-->
 
+### 外观
+
+<!--{include:`appearance.md`}-->
+
 ### 虚拟化的大表格
 
 支持 `virtualized`, 有效地呈现大表格数据。
@@ -214,12 +218,6 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
   );
 };
 ```
-
-### 加载中
-
-<!--{include:`loading.md`}-->
-
-当数据在异步获取中，需要在显示一个 `loading` 状态, 只需要在 `<Table>` 上设置 `loading` 属性就行
 
 ### 合并单元格
 
