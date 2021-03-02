@@ -3,7 +3,7 @@ import { Button, Panel, PanelGroup, Table, Grid, Row, Col } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import useFetchData from '@/utils/useFetchData';
 
-const { HeaderCell, Pagination, Cell, Column } = Table;
+const { HeaderCell, Cell, Column } = Table;
 
 export default function Page() {
   const { response: tableData } = useFetchData('users');
@@ -20,7 +20,7 @@ export default function Page() {
         'body-fill',
         'panel-group',
         'accordion-group',
-        'accordion-group-active',
+        'accordion-group-active'
       ]}
       dependencies={{
         Table,
@@ -28,13 +28,12 @@ export default function Page() {
         Panel,
         Button,
         HeaderCell,
-        Pagination,
         Cell,
         Column,
         Grid,
         Row,
         Col,
-        tableData,
+        tableData
       }}
     />
   );

@@ -35,11 +35,10 @@ export default {
     prev: 'Anterior',
     next: 'Siguiente',
     first: 'Primero',
-    last: 'Último'
-  },
-  TablePagination: {
-    lengthMenuInfo: '{0} / páginas',
-    totalInfo: 'Total: {0}'
+    last: 'Último',
+    limit: '{0} / páginas',
+    total: 'Total: {0}',
+    skip: 'Ir{0}'
   },
   Calendar,
   DatePicker: {

@@ -11,9 +11,10 @@ const App = () => {
         next
         first
         size="lg"
-        pages={10}
+        total={100}
+        limit={10}
         activePage={activePage}
-        onSelect={setActivePage}
+        onChangePage={setActivePage}
       />
       <Divider />
       <Pagination
@@ -22,9 +23,10 @@ const App = () => {
         next
         first
         size="md"
-        pages={10}
+        total={100}
+        limit={10}
         activePage={activePage}
-        onSelect={setActivePage}
+        onChangePage={setActivePage}
       />
       <Divider />
       <Pagination
@@ -33,9 +35,10 @@ const App = () => {
         next
         first
         size="sm"
-        pages={10}
+        total={100}
+        limit={10}
         activePage={activePage}
-        onSelect={setActivePage}
+        onChangePage={setActivePage}
       />
       <Divider />
       <Pagination
@@ -44,9 +47,10 @@ const App = () => {
         next
         first
         size="xs"
-        pages={10}
+        total={100}
+        limit={10}
         activePage={activePage}
-        onSelect={setActivePage}
+        onChangePage={setActivePage}
       />
     </div>
   );

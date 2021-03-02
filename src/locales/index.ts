@@ -25,7 +25,6 @@ export type CalendarLocale = PickKeys<typeof defaultLocale.Calendar>;
 export type PlaintextLocale = PickKeys<typeof defaultLocale.Plaintext>;
 export type PaginationLocale = PickKeys<typeof defaultLocale.Pagination>;
 export type TableLocale = CommonLocale;
-export type TablePaginationLocale = PickKeys<typeof defaultLocale.TablePagination>;
 export type DatePickerLocale = PickKeys<typeof defaultLocale.DatePicker>;
 export type DateRangePickerLocale = PickKeys<typeof defaultLocale.DateRangePicker>;
 export type PickerLocale = PickKeys<typeof defaultLocale.Picker> & CommonLocale;

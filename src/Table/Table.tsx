@@ -1,6 +1,5 @@
 import React from 'react';
 import { Table as RsTable, Column, Cell, HeaderCell, ColumnGroup } from 'rsuite-table';
-import TablePagination from './TablePagination';
 import { StandardProps } from '../@types/common';
 import { useCustom } from '../utils';
 
@@ -209,7 +208,6 @@ interface TableComponent
   ColumnGroup?: React.ComponentType<ColumnGroupProps>;
   Cell?: React.ComponentType<CellProps>;
   HeaderCell?: React.ComponentType<StandardProps>;
-  Pagination?: typeof TablePagination;
 }
 
 const ReactTable = RsTable as any;
@@ -226,7 +224,6 @@ Table.Cell = Cell;
 Table.Column = Column;
 Table.HeaderCell = HeaderCell;
 Table.ColumnGroup = ColumnGroup;
-Table.Pagination = TablePagination;
 
 Table.displayName = 'Table';
 Table.defaultProps = {

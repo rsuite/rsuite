@@ -3,7 +3,7 @@
 ```js
 const App = () => {
   const [activePage, setActivePage] = React.useState(1);
-  return <Pagination pages={10} activePage={activePage} onSelect={setActivePage} />;
+  return <Pagination total={100} limit={10} activePage={activePage} onChangePage={setActivePage} />;
 };
 
 ReactDOM.render(<App />);

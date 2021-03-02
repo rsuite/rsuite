@@ -149,3 +149,47 @@ return (
   </>
 );
 ```
+
+### 删除 Table.Pagination， 并增强 Pagination
+
+`Table.Pagination` 组件在本次更新中删除，请使用 `Pagination` 代替，新增了 `layout` 属性，用于自定义布局。
+
+```js
+// for rsuite v4
+return (
+  <Table.Pagination
+    lengthMenu={[
+      {
+        value: 20,
+        label: 20
+      },
+      {
+        value: 50,
+        label: 50
+      },
+      {
+        value: 100,
+        label: 100
+      }
+    ]}
+    activePage={1}
+    displayLength={20}
+    total={100}
+    onChangePage={handleChangePage}
+    onChangeLength={handleChangeLength}
+  />
+);
+
+// for rsuite v5
+return (
+  <Pagination
+    limit={50}
+    limitOptions={[20, 50, 100]}
+    layout={['total', '-', 'limit', '|', 'pager', 'skip']}
+    total={100}
+    activePage={1}
+    onChangePage={handleChangePage}
+    onChangeLimit={handleChangeLimit}
+  />
+);
+```

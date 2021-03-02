@@ -1,46 +1,40 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import TablePagination from '../TablePagination';
+import PaginationGroup from '../PaginationGroup';
 import { getDOMNode, getInstance, innerText } from '@test/testUtils';
 
-describe('Table-Pagination', () => {
-  it('Should output a TablePagination', () => {
-    const instance = getDOMNode(<TablePagination total={10} />);
-    assert.include(instance.className, 'rs-table-pagination-toolbar');
-  });
-
-  it('Should reverse start and end position', () => {
-    const instance = getDOMNode(<TablePagination reverse />);
-    assert.include(instance.childNodes[0].className, 'rs-table-pagination-end');
-    assert.include(instance.childNodes[1].className, 'rs-table-pagination-start');
+describe('Pagination Group', () => {
+  it('Should output a PaginationGroup', () => {
+    const instance = getDOMNode(<PaginationGroup total={10} />);
+    assert.include(instance.className, 'rs-pagination-group');
   });
 
   it('Should output a prev button', () => {
-    const instance = getInstance(<TablePagination total={10} prev />);
+    const instance = getInstance(<PaginationGroup total={10} prev />);
     assert.ok(instance.querySelector('[aria-label="page previous"]'));
   });
 
   it('Should output a next button', () => {
-    const instance = getInstance(<TablePagination total={10} next />);
+    const instance = getInstance(<PaginationGroup total={10} next />);
     assert.ok(instance.querySelector('[aria-label="page next"]'));
   });
 
   it('Should output a first button', () => {
-    const instance = getInstance(<TablePagination total={10} first />);
+    const instance = getInstance(<PaginationGroup total={10} first />);
     assert.ok(instance.querySelector('[aria-label="page top"]'));
   });
 
   it('Should output a last button', () => {
-    const instance = getInstance(<TablePagination total={10} last />);
+    const instance = getInstance(<PaginationGroup total={10} last />);
     assert.ok(instance.querySelector('[aria-label="page end"]'));
   });
 
   it('Should render 10  buttons', () => {
     const instance = getDOMNode(
-      <TablePagination
+      <PaginationGroup
         total={100}
-        displayLength={10}
+        limit={10}
         maxButtons={1000}
         last={false}
         next={false}
@@ -54,9 +48,9 @@ describe('Table-Pagination', () => {
 
   it('Should render 6  buttons by `maxButtons`', () => {
     const instance = getDOMNode(
-      <TablePagination
+      <PaginationGroup
         total={100}
-        displayLength={10}
+        limit={10}
         maxButtons={6}
         last={false}
         next={false}
@@ -69,9 +63,9 @@ describe('Table-Pagination', () => {
 
   it('Should active page 2', () => {
     const instance = getDOMNode(
-      <TablePagination
+      <PaginationGroup
         total={100}
-        displayLength={10}
+        limit={10}
         maxButtons={6}
         activePage={2}
         last={false}
@@ -83,9 +77,9 @@ describe('Table-Pagination', () => {
     assert.equal(instance.querySelector('.rs-pagination-btn-active').innerText, '2');
   });
 
-  it('Should show info', () => {
-    const instance = getDOMNode(<TablePagination showInfo total={100} />);
-    assert.equal(instance.querySelector('.rs-table-pagination-page-info').innerText, 'Total: 100');
+  it('Should show total', () => {
+    const instance = getDOMNode(<PaginationGroup layout={['total']} total={100} />);
+    assert.equal(instance.querySelector('.rs-pagination-group-total').innerText, 'Total Rows: 100');
   });
 
   it('Should call onChangePage callback', done => {
@@ -93,7 +87,7 @@ describe('Table-Pagination', () => {
       done();
     };
     const instance = getDOMNode(
-      <TablePagination
+      <PaginationGroup
         last={false}
         next={false}
         prev={false}
@@ -105,11 +99,12 @@ describe('Table-Pagination', () => {
     ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-pagination-btn')[1]);
   });
 
-  it('Should render a subtle SelectPicker', () => {
+  it('Should render a limit picker', () => {
     const instance = getInstance(
-      <TablePagination
+      <PaginationGroup
+        layout={['limit']}
         total={100}
-        displayLength={10}
+        limit={10}
         maxButtons={6}
         activePage={2}
         last={false}
@@ -119,30 +114,33 @@ describe('Table-Pagination', () => {
       />
     );
 
-    assert.ok(instance.querySelector('.rs-picker-subtle'));
+    assert.ok(instance.querySelector('.rs-picker-select'));
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<TablePagination className="custom" total={10} />);
+    const instance = getDOMNode(<PaginationGroup className="custom" total={10} />);
     assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<TablePagination style={{ fontSize }} total={10} />);
+    const instance = getDOMNode(<PaginationGroup style={{ fontSize }} total={10} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should be disabled', () => {
     // total={60}  ==> pages 2
-    const instance = getDOMNode(<TablePagination total={60} disabled first last prev next />);
+    const instance = getDOMNode(
+      <PaginationGroup layout={['pager', 'limit']} total={60} disabled first last prev next />
+    );
     assert.equal(instance.querySelectorAll('.rs-pagination-btn-disabled').length, 6);
     assert.ok(instance.querySelector('.rs-picker-disabled'));
   });
 
   it('Should be disabled', () => {
     const instance = getDOMNode(
-      <TablePagination
+      <PaginationGroup
+        layout={['pager', 'limit']}
         total={60}
         first={false}
         last={false}
@@ -163,15 +161,15 @@ describe('Table-Pagination', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<TablePagination total={10} classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<PaginationGroup total={10} classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should render the maximum', () => {
     const instance = getDOMNode(
-      <TablePagination
+      <PaginationGroup
         total={100}
-        displayLength={10}
+        limit={10}
         maxButtons={3}
         activePage={2}
         last={false}
@@ -182,14 +180,14 @@ describe('Table-Pagination', () => {
         boundaryLinks={true}
       />
     );
-    assert.equal(instance.querySelector('a:last-child').innerText, '10');
+    assert.equal(instance.querySelector('button:last-child').innerText, '10');
   });
 
   it('Should render a `more` icon', () => {
     const instance = getDOMNode(
-      <TablePagination
+      <PaginationGroup
         total={100}
-        displayLength={10}
+        limit={10}
         maxButtons={3}
         activePage={2}
         last={false}

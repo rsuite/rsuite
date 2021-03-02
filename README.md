@@ -22,7 +22,7 @@ React Suite supports the latest, stable releases of all major browsers and platf
 
 | IE   | Edge | Firefox | Chrome | Safari |
 | ---- | ---- | ------- | ------ | ------ |
-| >=10 | >=14 | >= 45   | >= 49  | >= 10  |
+| >=11 | >=14 | >= 45   | >= 49  | >= 10  |
 
 ### Server
 

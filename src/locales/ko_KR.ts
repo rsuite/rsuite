@@ -34,11 +34,10 @@ export default {
     prev: '이전',
     next: '다음',
     first: '첫 페이지',
-    last: '마지막'
-  },
-  TablePagination: {
-    lengthMenuInfo: '행 표시 {0}',
-    totalInfo: '전체 {0} 개'
+    last: '마지막',
+    limit: '행 표시 {0}',
+    total: '전체 {0} 개',
+    skip: '이동{0}'
   },
   Calendar,
   DatePicker: {

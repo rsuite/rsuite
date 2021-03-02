@@ -7,7 +7,6 @@
 - `<Table.ColumnGroup>` 用于列头分组
 - `<Table.HeaderCell>` 列头单元格组件
 - `<Table.Cell>` 单元格组件
-- `<Table.Pagination>` 表格分页组件
 
 ## 获取组件
 
@@ -140,6 +139,8 @@ const ImageCell = ({ rowData, dataKey, ...props }) => (
 ```
 
 ### 分页
+
+表格默认是不具备对数据分页处理的功能，如果需要分页，首先需要对数据分页过滤(一般都是由服务端数据接口支持)，然后通过与 [`Pagination`](/zh/components/pagination/) 组件组合以实现表格分页功能。
 
 <!--{include:`pagination.md`}-->
 
@@ -373,25 +374,3 @@ scrollLeft: (left: number) => void;
 | dataKey  | string          | 数据绑定的 `key` ，同时也是排序的 `key` |
 | rowData  | object          | 行数据                                  |
 | rowIndex | number          | 行号                                    |
-
-### `<Table.Pagination>`
-
-| 属性名称         | 类型 `(默认值)`                                  | 描述                                        |
-| ---------------- | ------------------------------------------------ | ------------------------------------------- |
-| activePage       | number `(1)`                                     | 配置当前页号                                |
-| disabled         | boolean , (eventKey: any) => boolean             | 禁用分页                                    |
-| displayLength    | number `(30)`                                    | 配置每页显示多少行条目数，对应 `lengthMenu` |
-| first            | boolean `(true)`                                 | 显示第一页按钮                              |
-| last             | boolean `(true)`                                 | 显示最后一页按钮                            |
-| lengthMenu       | Array                                            | 分页显示行数配置，默认为 30, 50, 100        |
-| maxButtons       | number `(5)`                                     | 配置最多显示按钮数量                        |
-| next             | boolean `(true)`                                 | 显示下一页按钮                              |
-| onChangeLength   | (eventKey: number) => void                       | `lengthMenu` 值发生改变的时候触发的回调函数 |
-| onChangePage     | (eventKey: number) => void                       | page 改变时候触发的回调函数                 |
-| prev             | boolean `(true)`                                 | 显示上一页按钮                              |
-| renderLengthMenu | (picker: ReactNode) => ReactNode                 | 自定义菜单                                  |
-| renderTotal      | (total: number, activePage: number) => ReactNode | 自定义总数                                  |
-| reverse          | boolean                                          | 调换左右的位置                              |
-| showInfo         | boolean `(true)`                                 | 显示分页信息                                |
-| showLengthMenu   | boolean `(true)`                                 | 显示多少行的菜单，默认显示                  |
-| total            | number                                           | 总数据条目数                                |

@@ -35,11 +35,10 @@ export default {
     prev: 'Föregående',
     next: 'Nästa',
     first: 'Första',
-    last: 'Sista'
-  },
-  TablePagination: {
-    lengthMenuInfo: '{0} / sida',
-    totalInfo: 'totalt: {0}'
+    last: 'Sista',
+    limit: '{0} / sida',
+    total: 'totalt: {0}',
+    skip: 'Gå til{0}'
   },
   Calendar,
   DatePicker: {
