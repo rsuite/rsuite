@@ -11,7 +11,7 @@ describe('Pagination', () => {
 
   it('Should render 20 <a>', () => {
     const instance = getDOMNode(<Pagination pages={20} />);
-    assert.equal(instance.querySelectorAll('a').length, 20);
+    assert.equal(instance.querySelectorAll('button').length, 20);
   });
 
   it('Should render 20 button', () => {
@@ -19,26 +19,26 @@ describe('Pagination', () => {
     assert.equal(instance.querySelectorAll('button').length, 20);
   });
 
-  it('Should render 2 <a>', () => {
+  it('Should render 2 <button>', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} />);
-    assert.equal(instance.querySelectorAll('a').length, 2);
+    assert.equal(instance.querySelectorAll('button').length, 2);
   });
 
   it('Should render `ellipsis` button', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} ellipsis />);
-    assert.equal(instance.querySelectorAll('a').length, 3);
+    assert.equal(instance.querySelectorAll('button').length, 3);
     assert.ok(instance.querySelector('[aria-label="more"]'));
   });
 
   it('Should be ellipsis', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} ellipsis={'abc'} />);
-    assert.equal(instance.querySelectorAll('a').length, 3);
-    assert.equal(innerText(instance.querySelector('a.rs-pagination-btn-disabled')), 'abc');
+    assert.equal(instance.querySelectorAll('button').length, 3);
+    assert.equal(innerText(instance.querySelector('button.rs-pagination-btn-disabled')), 'abc');
   });
 
   it('Should be disabled', () => {
     const instance = getDOMNode(<Pagination pages={2} disabled first last prev next />);
-    assert.equal(instance.querySelectorAll('a.rs-pagination-btn-disabled').length, 6);
+    assert.equal(instance.querySelectorAll('button.rs-pagination-btn-disabled').length, 6);
   });
 
   it('Should be disabled', () => {
@@ -53,39 +53,39 @@ describe('Pagination', () => {
         }}
       />
     );
-    const disabledDOMs = instance.querySelectorAll('a.rs-pagination-btn-disabled');
+    const disabledDOMs = instance.querySelectorAll('button.rs-pagination-btn-disabled');
     assert.equal(disabledDOMs.length, 1);
     assert.equal(innerText(disabledDOMs[0]), '2');
   });
 
   it('Should render `first` button', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} first />);
-    assert.ok(instance.querySelector('a[aria-label="First"]'));
+    assert.ok(instance.querySelector('button[aria-label="First"]'));
   });
 
   it('Should render `last` button', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} last />);
-    assert.ok(instance.querySelector('a[aria-label="Last"]'));
+    assert.ok(instance.querySelector('button[aria-label="Last"]'));
   });
 
   it('Should render `prev` button', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} prev />);
-    assert.ok(instance.querySelector('a[aria-label="Previous"]'));
+    assert.ok(instance.querySelector('button[aria-label="Previous"]'));
   });
 
   it('Should render `next` button', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} next />);
-    assert.ok(instance.querySelector('a[aria-label="Next"]'));
+    assert.ok(instance.querySelector('button[aria-label="Next"]'));
   });
 
   it('Should render boundary links', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} ellipsis boundaryLinks />);
-    assert.equal(innerText(instance.querySelector('a:last-child')), '20');
+    assert.equal(innerText(instance.querySelector('button:last-child')), '20');
   });
 
   it('Should active page 5', () => {
     const instance = getDOMNode(<Pagination pages={20} activePage={5} />);
-    assert.equal(innerText(instance.querySelector('a.rs-pagination-btn-active')), '5');
+    assert.equal(innerText(instance.querySelector('button.rs-pagination-btn-active')), '5');
   });
 
   it('Should call onSelect callback', done => {
@@ -97,7 +97,7 @@ describe('Pagination', () => {
 
     const instance = getDOMNode(<Pagination pages={20} onSelect={doneOp} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('a')[1]);
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('button')[1]);
   });
 
   it('Should apply size class', () => {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { DATERANGE_DISABLED_TARGET } from '../utils/constants';
 
 export type ValueType = [Date?, Date?];
 
@@ -6,12 +7,6 @@ export interface RangeType {
   label: React.ReactNode;
   closeOverlay?: boolean;
   value: ValueType | ((value?: ValueType) => ValueType);
-}
-
-export enum DATE_RANGE_DISABLED_TARGET {
-  CALENDAR = 'CALENDAR',
-  TOOLBAR_BUTTON_OK = 'TOOLBAR_BUTTON_OK',
-  TOOLBAR_SHORTCUT = 'TOOLBAR_SHORTCUT'
 }
 
 export type DisabledDateFunction = (
@@ -25,5 +20,5 @@ export type DisabledDateFunction = (
    */
   selectedDone?: boolean,
   // Call the target of the `disabledDate` function
-  target?: DATE_RANGE_DISABLED_TARGET
+  target?: DATERANGE_DISABLED_TARGET
 ) => boolean;

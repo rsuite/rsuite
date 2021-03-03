@@ -44,7 +44,7 @@
 
 ## 无障碍设计
 
-了解更多有关[无障碍设计](../guide/accessibility)的信息。
+了解更多有关[无障碍设计](/zh/guide/accessibility)的信息。
 
 ## Props
 
@@ -102,10 +102,10 @@
 | uncheckableItemValues   | string[]                                                                                      | 设置不显示复选框的选项值                                                        |
 | value                   | string[]                                                                                      | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                            | tree 数据结构 value 属性名称                                                    |
-| virtualized             | boolean `(true)`                                                                              | 是否开启虚拟列表                                                                |
+| virtualized             | boolean                                                                                       | 是否开启虚拟列表                                                                |
 
 ## 相关组件
 
-- [`<CheckTree>`](./check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。
-- [`<Tree>`](./tree) 用于展示一个树结构数据。
-- [`<TreePicker>`](./tree-picker) 选择器组件，树形单项选择器。
+- [`<CheckTree>`](/zh/components/check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。
+- [`<Tree>`](/zh/components/tree) 用于展示一个树结构数据。
+- [`<TreePicker>`](/zh/components/tree-picker) 选择器组件，树形单项选择器。

@@ -62,7 +62,7 @@
 
 ## 无障碍设计
 
-了解更多有关[无障碍设计](../guide/accessibility)的信息。
+了解更多有关[无障碍设计](/zh/guide/accessibility)的信息。
 
 ## Props
 
@@ -102,7 +102,6 @@ type Placement = 'bottomStart' | 'topStart' | 'autoVerticalStart';
 | onExit             | () => void                                                                            | 退出前动画过渡的回调函数             |
 | onExited           | () => void                                                                            | 退出后动画过渡的回调函数             |
 | onExiting          | () => void                                                                            | 退出中动画过渡的回调函数             |
-| onGroupTitleClick  | (event) => void                                                                       | 点击分组标题的回调函数               |
 | onOpen             | () => void                                                                            | 打开回调函数                         |
 | onSearch           | (searchKeyword:string, event) => void                                                 | 搜索的回调函数                       |
 | onSelect           | (item:DataItemType, selectedPaths: DataItemType[], event) => void                     | 选项被点击选择后的回调函数           |

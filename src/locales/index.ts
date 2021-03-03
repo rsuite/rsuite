@@ -1,6 +1,7 @@
 import defaultLocale from './default';
 export { default as arEG } from './ar_EG';
 export { default as daDK } from './da_DK';
+export { default as deDE } from './de_DE';
 export { default as enGB } from './en_GB';
 export { default as enUS } from './en_US';
 export { default as esAR } from './es_AR';
@@ -24,7 +25,6 @@ export type CalendarLocale = PickKeys<typeof defaultLocale.Calendar>;
 export type PlaintextLocale = PickKeys<typeof defaultLocale.Plaintext>;
 export type PaginationLocale = PickKeys<typeof defaultLocale.Pagination>;
 export type TableLocale = CommonLocale;
-export type TablePaginationLocale = PickKeys<typeof defaultLocale.TablePagination>;
 export type DatePickerLocale = PickKeys<typeof defaultLocale.DatePicker>;
 export type DateRangePickerLocale = PickKeys<typeof defaultLocale.DateRangePicker>;
 export type PickerLocale = PickKeys<typeof defaultLocale.Picker> & CommonLocale;

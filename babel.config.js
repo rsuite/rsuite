@@ -17,10 +17,6 @@ module.exports = (api, options) => {
     ['@babel/plugin-transform-runtime', { useESModules: !modules }]
   ];
 
-  if (modules) {
-    plugins.push('add-module-exports');
-  }
-
   return {
     presets: [
       ['@babel/preset-env', { modules, loose: true }],

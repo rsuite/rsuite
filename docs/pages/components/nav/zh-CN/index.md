@@ -53,6 +53,14 @@
 
 <!--{include:`with-router.md`}-->
 
+### 扩展：响应式
+
+<!--{include:`responsive-nav.md`}-->
+
+### 扩展：响应式
+
+<!--{include:`removable-nav.md`}-->
+
 ## Props
 
 ### `<Nav>`
@@ -82,4 +90,4 @@
 
 ### `<Nav.Dropdown>`
 
-- [继承 Dropdown 组件](./dropdown#Props)
+- [继承 Dropdown 组件](/zh/components/dropdown#Props)

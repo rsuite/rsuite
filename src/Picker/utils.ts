@@ -147,7 +147,6 @@ export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
     case KEY_CODE.ESC:
     case KEY_CODE.TAB:
       esc?.(event);
-      event.preventDefault();
       break;
     // left arrow
     case KEY_CODE.LEFT:
@@ -409,7 +408,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
         }
       }
 
-      if (event.keyCode === KEY_CODE.ESC) {
+      if (event.keyCode === KEY_CODE.ESC || event.keyCode === KEY_CODE.TAB) {
         handleClose();
       }
 
@@ -543,7 +542,7 @@ export function usePublicMethods(ref, { triggerRef, overlayRef, targetRef, rootR
 
   useImperativeHandle(ref, () => ({
     get root() {
-      return rootRef?.current ? rootRef?.current : triggerRef.current?.child;
+      return rootRef?.current ? rootRef?.current : triggerRef.current?.root;
     },
     get overlay() {
       return overlayRef.current;

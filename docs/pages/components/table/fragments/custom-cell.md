@@ -59,42 +59,25 @@ const CheckCell = ({ rowData, onChange, checkedKeys, dataKey, ...props }) => (
   </Cell>
 );
 
-const Menu = ({ onSelect }) => (
-  <Dropdown.Menu onSelect={onSelect}>
-    <Dropdown.Item eventKey={3}>Download As...</Dropdown.Item>
-    <Dropdown.Item eventKey={4}>Export PDF</Dropdown.Item>
-    <Dropdown.Item eventKey={5}>Export HTML</Dropdown.Item>
-    <Dropdown.Item eventKey={6}>Settings</Dropdown.Item>
-    <Dropdown.Item eventKey={7}>About</Dropdown.Item>
-  </Dropdown.Menu>
-);
-
-const MenuPopover = React.forwardRef(({ onSelect, ...rest }, ref) => (
-  <Popover {...rest} ref={ref} full>
-    <Menu onSelect={onSelect} />
-  </Popover>
-));
-
-const CustomWhisper = ({ container, children }) => {
-  const ref = React.useRef();
-  const handleSelectMenu = (eventKey, event) => {
-    ref.current.close();
+const renderMenu = ({ onClose, left, top, className }, ref) => {
+  const handleSelect = eventKey => {
+    onClose();
     console.log(eventKey);
   };
   return (
-    <Whisper
-      placement="autoVerticalStart"
-      trigger="click"
-      ref={ref}
-      container={container}
-      speaker={<MenuPopover onSelect={handleSelectMenu} />}
-    >
-      {children}
-    </Whisper>
+    <Popover ref={ref} className={className} style={{ left, top }} full>
+      <Dropdown.Menu onSelect={handleSelect}>
+        <Dropdown.Item eventKey={3}>Download As...</Dropdown.Item>
+        <Dropdown.Item eventKey={4}>Export PDF</Dropdown.Item>
+        <Dropdown.Item eventKey={5}>Export HTML</Dropdown.Item>
+        <Dropdown.Item eventKey={6}>Settings</Dropdown.Item>
+        <Dropdown.Item eventKey={7}>About</Dropdown.Item>
+      </Dropdown.Menu>
+    </Popover>
   );
 };
 
-const ActionCell = ({ rowData, dataKey, container, ...props }) => {
+const ActionCell = ({ rowData, dataKey, ...props }) => {
   function handleAction() {
     alert(`id:${rowData[dataKey]}`);
   }
@@ -102,9 +85,9 @@ const ActionCell = ({ rowData, dataKey, container, ...props }) => {
     <Cell {...props} className="link-group">
       <IconButton appearance="subtle" onClick={handleAction} icon={<Edit2 />} />
       <Divider vertical />
-      <CustomWhisper container={container}>
+      <Whisper placement="autoVerticalStart" trigger="click" speaker={renderMenu}>
         <IconButton appearance="subtle" icon={<More />} />
-      </CustomWhisper>
+      </Whisper>
     </Cell>
   );
 };
@@ -124,8 +107,6 @@ const App = () => {
     indeterminate = true;
   }
 
-  const tableBodyRef = React.useRef();
-
   const handleCheckAll = (value, checked) => {
     const keys = checked ? data.map(item => item.id) : [];
     setCheckedKeys(keys);
@@ -136,14 +117,7 @@ const App = () => {
   };
 
   return (
-    <Table
-      height={300}
-      data={data}
-      id="table"
-      bodyRef={node => {
-        tableBodyRef.current = node;
-      }}
-    >
+    <Table height={300} data={data} id="table">
       <Column width={50} align="center">
         <HeaderCell style={{ padding: 0 }}>
           <div style={{ lineHeight: '40px' }}>
@@ -174,12 +148,7 @@ const App = () => {
 
       <Column width={200}>
         <HeaderCell>Action</HeaderCell>
-        <ActionCell
-          dataKey="id"
-          container={() => {
-            tableBodyRef.current;
-          }}
-        />
+        <ActionCell dataKey="id" />
       </Column>
     </Table>
   );

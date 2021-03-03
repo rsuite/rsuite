@@ -105,10 +105,13 @@ export interface UploaderProps extends WithAsProps {
   locale?: UploaderLocale;
 
   /** Allow the queue to be updated. After you select a file, update the checksum function before the upload file queue, and return false to not update */
-  shouldQueueUpdate?: (fileList: FileType[], newFile: FileType[] | FileType) => boolean;
+  shouldQueueUpdate?: (
+    fileList: FileType[],
+    newFile: FileType[] | FileType
+  ) => boolean | Promise<boolean>;
 
   /** Allow uploading of files. Check function before file upload, return false without uploading  */
-  shouldUpload?: (file: FileType) => boolean;
+  shouldUpload?: (file: FileType) => boolean | Promise<boolean>;
 
   /** callback function that the upload queue has changed */
   onChange?: (fileList: FileType[]) => void;
@@ -428,7 +431,16 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
 
   const handleAjaxUpload = useCallback(() => {
     fileList.current.forEach(file => {
-      if (shouldUpload?.(file) === false) {
+      const checkState = shouldUpload?.(file);
+
+      if (checkState instanceof Promise) {
+        checkState.then(res => {
+          if (res) {
+            handleUploadFile(file);
+          }
+        });
+        return;
+      } else if (checkState === false) {
         return;
       }
 
@@ -454,17 +466,29 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     });
 
     const nextFileList = [...fileList.current, ...newFileList];
+    const checkState = shouldQueueUpdate?.(nextFileList, newFileList);
 
-    // Whether the custom verification file is valid and allows uploading
-    if (shouldQueueUpdate?.(nextFileList, newFileList) === false) {
+    const upload = () => {
+      onChange?.(nextFileList);
+      dispatch({ type: 'push', files: newFileList }, () => {
+        autoUpload && handleAjaxUpload();
+      });
+    };
+
+    if (checkState instanceof Promise) {
+      checkState.then(res => {
+        if (res) {
+          upload();
+        }
+      });
+      return;
+    } else if (checkState === false) {
+      // Whether the custom verification file is valid and allows uploading
       cleanInputValue();
       return;
     }
 
-    onChange?.(nextFileList);
-    dispatch({ type: 'push', files: newFileList }, () => {
-      autoUpload && handleAjaxUpload();
-    });
+    upload();
   };
 
   const handleRemoveFile = (fileKey: string) => {

@@ -7,7 +7,6 @@ A table displays rows of data.
 - `<Table.ColumnGroup>` Used for column header grouping
 - `<Table.HeaderCell>` Column Header cell component
 - `<Table.Cell>` Cell component
-- `<Table.Pagination>` Table paging component
 
 ## Import
 
@@ -18,6 +17,11 @@ A table displays rows of data.
 ### Fixed Column
 
 <!--{include:`default.md`}-->
+
+### Appearance
+
+<!--{include:`appearance.md`}-->
+
 
 ### Virtualized
 
@@ -135,6 +139,8 @@ While the `<Table>` defines a `onSortColumn` callback function, clicking the col
 
 ### Pagination
 
+If you need table data paging, you must first filter the data paging (usually supported by the server data api), and then combine with the [`Pagination`](/components/pagination/) component to achieve table paging.
+
 <!--{include:`pagination.md`}-->
 
 ### Tree
@@ -212,12 +218,6 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
   );
 };
 ```
-
-### Loading
-
-<!--{include:`loading.md`}-->
-
-When the data is in an asynchronous fetch, you need to display a `loading` state, just set the `loading` property on the `<Table>`.
 
 ### Colspan
 
@@ -325,7 +325,7 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 | width                    | number                                                                            | Table width                                                                                   |
 | wordWrap                 | boolean                                                                           | The cell wraps automatically                                                                  |
 
-### Form methods
+### Table methods
 
 - scrollTop
 
@@ -378,25 +378,3 @@ scrollLeft: (left: number) => void;
 | dataKey  | string           | Data binding `key`, but also a sort of `key` |
 | rowData  | object           | Row data                                     |
 | rowIndex | number           | Row number                                   |
-
-### `<Table.Pagination>`
-
-| Property         | Type `(Default)`                                 | Description                                                                            |
-| ---------------- | ------------------------------------------------ | -------------------------------------------------------------------------------------- |
-| activePage       | number `(1)`                                     | Configure the current page number                                                      |
-| disabled         | boolean , (eventKey: any) => boolean             | Disabled component                                                                     |
-| displayLength    | number `(30)`                                    | Configure how many lines of entries per page to display, corresponding to `lengthMenu` |
-| first            | boolean `(true)`                                 | Show first page button                                                                 |
-| last             | boolean `(true)`                                 | Show last Page button                                                                  |
-| lengthMenu       | number[]                                         | Paging display row number configuration, defaults to 30, 50, 100                       |
-| maxButtons       | number `(5)`                                     | Configure the maximum number of display buttons                                        |
-| next             | boolean `(true)`                                 | Show Next Page button                                                                  |
-| onChangeLength   | (eventKey: number) => void                       | The callback function that triggers when the `lengthmenu` value changes                |
-| onChangePage     | (eventKey: number) => void                       | callback function triggered when page changes                                          |
-| prev             | boolean `(true)`                                 | Show Previous Page button                                                              |
-| renderLengthMenu | (picker: ReactNode) => ReactNode                 | Custom menu                                                                            |
-| renderTotal      | (total: number, activePage: number) => ReactNode | Custom total                                                                           |
-| reverse          | boolean                                          | Reverse start and end position                                                         |
-| showInfo         | boolean `(true)`                                 | Show paging information                                                                |
-| showLengthMenu   | boolean `(true)`                                 | Display Dropdown menu                                                                  |
-| total            | number                                           | Total number of data entries                                                           |

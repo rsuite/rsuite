@@ -9,5 +9,4 @@ export type {
   ColumnProps
 } from './Table';
 
-export type { TablePaginationProps } from './TablePagination';
 export default Table;

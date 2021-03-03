@@ -1,5 +1,6 @@
 @import '../../styles/common';
 @import '../../Button/styles/mixin';
+@import './pagination-group';
 @import 'mixin';
 
 //
@@ -14,6 +15,7 @@
     .btn-sm(base);
     .btn-subtle-variant(@pagination-hover-bg);
 
+    margin: 0 2px;
     position: relative;
     float: left; // Collapse white-space
     text-decoration: none;
@@ -46,6 +48,7 @@
     &:focus,
     &.focus,
     &:hover {
+      outline: none;
       color: @pagination-hover-color;
     }
 

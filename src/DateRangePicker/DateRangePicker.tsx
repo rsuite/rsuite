@@ -83,15 +83,10 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   defaultCalendarValue?: ValueType;
 
   /** The character that separates two dates */
-  character: string;
+  character?: string;
 
   /** Disabled date */
-  disabledDate?: (
-    date: Date,
-    selectDate: ValueType,
-    selectedDone: boolean,
-    target: DATERANGE_DISABLED_TARGET
-  ) => boolean;
+  disabledDate?: DisabledDateFunction;
 
   /** Called when the option is selected */
   onSelect?: (date: Date, event?: React.SyntheticEvent<HTMLElement>) => void;

@@ -178,7 +178,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
       {children}
       <SearchDrawer
         show={search}
-        onHide={() => {
+        onClose={() => {
           setSearch(false);
         }}
       />

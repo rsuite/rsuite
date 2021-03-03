@@ -35,7 +35,7 @@ import {
   PickerComponent
 } from '../Picker';
 
-import { FormControlPickerProps, ItemDataType } from '../@types/common';
+import { TypeAttributes, FormControlPickerProps, ItemDataType } from '../@types/common';
 import { ListProps } from 'react-virtualized/dist/commonjs/List';
 
 export type ValueType = number | string;
@@ -54,6 +54,9 @@ export interface SelectProps<T = ValueType> {
    * https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
    */
   listProps?: ListProps;
+
+  /** A picker can have different sizes */
+  size?: TypeAttributes.Size;
 
   /** Custom search rules. */
   searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;

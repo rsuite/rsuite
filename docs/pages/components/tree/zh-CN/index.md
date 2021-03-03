@@ -56,10 +56,10 @@
 | searchKeyword           | string                                                                                        | (受控)搜索关键词                                                                |
 | value                   | string                                                                                        | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                            | tree 数据结构 value 属性名称                                                    |
-| virtualized             | boolean `(true)`                                                                              | 是否开启虚拟列表                                                                |
+| virtualized             | boolean                                                                                       | 是否开启虚拟列表                                                                |
 
 ## 相关组件
 
-- [`<CheckTree>`](./check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。
-- [`<TreePicker>`](./tree-picker) 选择器组件，树形单项选择器。
-- [`<CheckTreePicker>`](./check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。
+- [`<CheckTree>`](/zh/components/check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。
+- [`<TreePicker>`](/zh/components/tree-picker) 选择器组件，树形单项选择器。
+- [`<CheckTreePicker>`](/zh/components/check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。

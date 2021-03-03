@@ -6,7 +6,7 @@ import AppContext from '@/components/AppContext';
 
 interface SearchDrawerProps {
   show?: boolean;
-  onHide?: () => void;
+  onClose?: () => void;
 }
 
 function createAlgoliaClient(language: string) {
@@ -16,7 +16,7 @@ function createAlgoliaClient(language: string) {
 }
 
 export default function SearchDrawer(props: SearchDrawerProps) {
-  const { show, onHide } = props;
+  const { show, onClose } = props;
   const [list, setList] = React.useState([]);
   const [keyword, setKeyword] = React.useState('');
   const { messages, language } = React.useContext(AppContext);
@@ -42,7 +42,7 @@ export default function SearchDrawer(props: SearchDrawerProps) {
   );
 
   return (
-    <Drawer className="search-drawer" placement="left" size="xs" open={show} onOpen={onHide}>
+    <Drawer className="search-drawer" placement="left" size="xs" open={show} onClose={onClose}>
       <Drawer.Header>
         <Drawer.Title>{messages?.common?.search}</Drawer.Title>
       </Drawer.Header>
@@ -64,7 +64,7 @@ export default function SearchDrawer(props: SearchDrawerProps) {
             return (
               <li key={index}>
                 {title.indexOf('<em>') !== -1 ? (
-                  <div onClick={onHide}>
+                  <div onClick={onClose}>
                     <Link href={url}>
                       <div
                         dangerouslySetInnerHTML={{
@@ -74,7 +74,7 @@ export default function SearchDrawer(props: SearchDrawerProps) {
                     </Link>
                   </div>
                 ) : (
-                  <div onClick={onHide}>
+                  <div onClick={onClose}>
                     <Link href={url}>
                       {title}
                       <p>{content}</p>

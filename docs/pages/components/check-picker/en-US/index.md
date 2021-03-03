@@ -72,7 +72,7 @@ Customize a select all function.
 
 ## Accessibility
 
-Learn more in [Accessibility](../guide/accessibility).
+Learn more in [Accessibility](/guide/accessibility).
 
 ## Props
 
@@ -132,6 +132,6 @@ type ValueType = (string | number)[];
 | toggleAs           | ElementType `('a')`                                                               | You can use a custom element for this component             |
 | value              | ValueType                                                                         | Specifies the values of the selected items (Controlled)     |
 | valueKey           | string `('value')`                                                                | Set value key in data                                       |
-| virtualized        | boolean `(true)`                                                                  | Whether using Virtualized List                              |
+| virtualized        | boolean                                                                           | Whether using Virtualized List                              |
 
 [listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types

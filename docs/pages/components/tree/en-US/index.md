@@ -56,10 +56,10 @@
 | searchKeyword           | string                                                                                         | searchKeyword (Controlled)                                                |
 | value                   | string                                                                                         | Selected value                                                            |
 | valueKey                | string `('value')`                                                                             | Tree data Structure Value property name                                   |
-| virtualized             | boolean `(true)`                                                                               | Whether using Virtualized List                                            |
+| virtualized             | boolean                                                                                        | Whether using Virtualized List                                            |
 
 ## Related components
 
-- [`<CheckTree>`](./check-tree) Selector component, which supports a Checkbox on the TreePicker node for multiple selections.
-- [`<TreePicker>`](./tree-picker) Used to show a tree-structured data.
-- [`<CheckTreePicker>`](./check-tree-picker) Used to show a tree-structured data while supporting Checkbox selection.
+- [`<CheckTree>`](/components/check-tree) Selector component, which supports a Checkbox on the TreePicker node for multiple selections.
+- [`<TreePicker>`](/components/tree-picker) Used to show a tree-structured data.
+- [`<CheckTreePicker>`](/components/check-tree-picker) Used to show a tree-structured data while supporting Checkbox selection.

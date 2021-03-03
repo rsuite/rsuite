@@ -73,9 +73,13 @@ This is generally applicable to flow layouts, or to full rows at the top and bot
 
 <!--{include:`group-basic.md`}-->
 
-### Vertical
+### Vertical group
 
 <!--{include:`vertical.md`}-->
+
+### Split button
+
+<!--{include:`split-button.md`}-->
 
 ### Button toolbar
 

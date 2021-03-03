@@ -42,7 +42,7 @@
 
 ## Accessibility
 
-Learn more in [Accessibility](../guide/accessibility).
+Learn more in [Accessibility](/guide/accessibility).
 
 ## Props
 
@@ -98,10 +98,10 @@ Learn more in [Accessibility](../guide/accessibility).
 | toggleAs                | ElementType `('a')`                                                                           | You can use a custom element for this component                           |
 | value                   | string                                                                                        | Selected value                                                            |
 | valueKey                | string `('value')`                                                                            | Tree data Structure Value property name                                   |
-| virtualized             | boolean `(true)`                                                                              | Whether using Virtualized List                                            |
+| virtualized             | boolean                                                                                       | Whether using Virtualized List                                            |
 
 ## Related components
 
-- [`<CheckTreePicker>`](./check-tree-picker) Selector component, which supports a Checkbox on the Treepicker node for multiple selections.
-- [`<Tree>`](./tree) Used to show a tree-structured data.
-- [`<CheckTree>`](./check-tree) Used to show a tree-structured data while supporting Checkbox selection.
+- [`<CheckTreePicker>`](/components/check-tree-picker) Selector component, which supports a Checkbox on the Treepicker node for multiple selections.
+- [`<Tree>`](/components/tree) Used to show a tree-structured data.
+- [`<CheckTree>`](/components/check-tree) Used to show a tree-structured data while supporting Checkbox selection.

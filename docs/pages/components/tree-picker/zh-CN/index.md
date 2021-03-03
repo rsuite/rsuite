@@ -42,7 +42,7 @@
 
 ## 无障碍设计
 
-了解更多有关[无障碍设计](../guide/accessibility)的信息。
+了解更多有关[无障碍设计](/zh/guide/accessibility)的信息。
 
 ## Props
 
@@ -100,10 +100,10 @@
 | toggleAs                | ElementType `('a')`                                                                           | 为组件自定义元素类型                                                            |
 | value                   | string                                                                                        | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                            | tree 数据结构 value 属性名称                                                    |
-| virtualized             | boolean `(true)`                                                                              | 是否开启虚拟列表                                                                |
+| virtualized             | boolean                                                                                       | 是否开启虚拟列表                                                                |
 
 ## 相关组件
 
-- [`<CheckTreePicker>`](./check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。
-- [`<Tree>`](./tree) 用于展示一个树结构数据。
-- [`<CheckTree>`](./check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。
+- [`<CheckTreePicker>`](/zh/components/check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。
+- [`<Tree>`](/zh/components/tree) 用于展示一个树结构数据。
+- [`<CheckTree>`](/zh/components/check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。

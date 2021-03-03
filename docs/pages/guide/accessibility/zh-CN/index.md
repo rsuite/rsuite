@@ -72,13 +72,13 @@
 - 组件的弹窗具有 `listbox` role。
 - 当为组件设置一个 `id` 时，会自动为弹窗生成一个 `id`, 值为`[id]-listbox`， 同时会为组件设置 `aria-controls=[id]-listbox` 与弹窗的 id 关联。
 
-[form.group]: ../components/form#无障碍设计
-[slider]: ../components/slider
-[tree]: ../components/tree
-[input-picker]: ../components/input-picker
-[modal]: ../components/modal
-[input]: ../components/input
-[button]: ../components/button
-[popover]: ../components/popover
-[tooltip]: ../components/tooltip
+[form.group]: /zh/components/form#无障碍设计
+[slider]: /zh/components/slider
+[tree]: /zh/components/tree
+[input-picker]: /zh/components/input-picker
+[modal]: /zh/components/modal
+[input]: /zh/components/input
+[button]: /zh/components/button
+[popover]: /zh/components/popover
+[tooltip]: /zh/components/tooltip
 [wai-aria]: https://www.w3.org/TR/wai-aria/

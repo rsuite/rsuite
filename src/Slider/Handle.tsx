@@ -19,15 +19,6 @@ export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivEl
   onDragEnd?: (event: React.MouseEvent, dataset?: DOMStringMap) => void;
 }
 
-interface MoveTracker {
-  captureMouseMoves(event): void;
-  releaseMouseMoves(): void;
-  isDragging(): boolean;
-  onMouseMove(event): void;
-  didMouseMove(): void;
-  onMouseUp(): void;
-}
-
 const defaultProps: Partial<HandleProps> = {
   as: 'div',
   classPrefix: 'slider'
@@ -63,7 +54,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
     const handleClasses = merge(className, prefix('handle'), { active });
 
     const tooltipRef = useRef();
-    const mouseMoveTracker = useRef<MoveTracker>();
+    const mouseMoveTracker = useRef<DOMMouseMoveTracker>();
 
     const releaseMouseMoves = useCallback(() => {
       mouseMoveTracker.current?.releaseMouseMoves();

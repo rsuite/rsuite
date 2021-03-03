@@ -1,40 +1,55 @@
 <!--start-code-->
 
 ```js
-const instance = (
+/**
+  import { Popover, Dropdown, ButtonToolbar, IconButton } from 'rsuite';
+  import ArrowDownIcon from '@rsuite/icons/ArrowDown';
+  import PlusIcon from '@rsuite/icons/Plus';
+*/
+
+const renderMenu = ({ onClose, left, top, className }, ref) => {
+  const handleSelect = eventKey => {
+    onClose();
+    console.log(eventKey);
+  };
+  return (
+    <Popover ref={ref} className={className} style={{ left, top }} full>
+      <Dropdown.Menu onSelect={handleSelect}>
+        <Dropdown.Menu title="New File">
+          <Dropdown.Item eventKey={1}>New File</Dropdown.Item>
+          <Dropdown.Item eventKey={2}>New File with Current Profile</Dropdown.Item>
+        </Dropdown.Menu>
+        <Dropdown.Item eventKey={3}>Download As...</Dropdown.Item>
+        <Dropdown.Item eventKey={4}>Export PDF</Dropdown.Item>
+        <Dropdown.Item eventKey={5}>Export HTML</Dropdown.Item>
+        <Dropdown.Item eventKey={6}>Settings</Dropdown.Item>
+        <Dropdown.Item eventKey={7}>About</Dropdown.Item>
+      </Dropdown.Menu>
+    </Popover>
+  );
+};
+
+const App = () => (
   <ButtonToolbar>
-    <Dropdown title="Save" toggleAs={Button} appearance="default">
-      <Dropdown.Item>Save as...</Dropdown.Item>
-      <Dropdown.Item>Save & New</Dropdown.Item>
-    </Dropdown>
+    <Whisper placement="bottomStart" trigger="click" speaker={renderMenu}>
+      <IconButton appearance="primary" icon={<PlusIcon />} circle />
+    </Whisper>
+
+    <Whisper placement="bottomStart" trigger="click" speaker={renderMenu}>
+      <IconButton appearance="primary" icon={<PlusIcon />} placement="left">
+        New
+      </IconButton>
+    </Whisper>
 
     <ButtonGroup>
-      <Button>Save</Button>
-      <Dropdown placement="bottomEnd" renderTitle={() => <IconButton icon={<AngleDoubleDown />} />}>
-        <Dropdown.Item icon={<Save />}>Save as...</Dropdown.Item>
-        <Dropdown.Item icon={<Save />}>Save & New</Dropdown.Item>
-      </Dropdown>
+      <Button>Create</Button>
+      <Whisper placement="bottomStart" trigger="click" speaker={renderMenu}>
+        <IconButton icon={<ArrowDownIcon />} />
+      </Whisper>
     </ButtonGroup>
-
-    <Dropdown
-      renderTitle={() => {
-        return (
-          <IconButton icon={<Plus />} placement="left">
-            New
-          </IconButton>
-        );
-      }}
-    >
-      <Dropdown.Item icon={<User />}>New User</Dropdown.Item>
-      <Dropdown.Item icon={<Group />}>New Group</Dropdown.Item>
-      <Dropdown.Menu icon={<Group />} title="More">
-        <Dropdown.Item icon={<User />}>New User</Dropdown.Item>
-        <Dropdown.Item icon={<Group />}>New Group</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
   </ButtonToolbar>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />);
 ```
 
 <!--end-code-->

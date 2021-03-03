@@ -68,7 +68,7 @@ Single selection of data with hierarchical relationship structure.
 
 ## Accessibility
 
-Learn more in [Accessibility](../guide/accessibility).
+Learn more in [Accessibility](/guide/accessibility).
 
 ## Props
 
@@ -105,7 +105,6 @@ Learn more in [Accessibility](../guide/accessibility).
 | onExit                | () => void                                                                            | Callback fired right before the overlay transitions out          |
 | onExited              | () => void                                                                            | Callback fired after the overlay finishes transitioning out      |
 | onExiting             | () => void                                                                            | Callback fired as the overlay begins to transition out           |
-| onGroupTitleClick     | (event) => void                                                                       | Callback fired when click the group title                        |
 | onOpen                | () => void                                                                            | Callback fired when open component                               |
 | onSearch              | (searchKeyword:string, event) => void                                                 | callback function for Search                                     |
 | onSelect              | (item:DataItemType, selectedPaths: DataItemType[], event) => void                     | Callback fired when item is selected                             |

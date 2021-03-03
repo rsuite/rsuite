@@ -7,7 +7,7 @@ const rename = require('gulp-rename');
 const babel = require('gulp-babel');
 const rtlcss = require('gulp-rtlcss');
 const gulp = require('gulp');
-const babelrc = require('./.babelrc.js');
+const babelrc = require('./babel.config');
 
 const ESM_DIR = './es';
 const LIB_DIR = './lib';

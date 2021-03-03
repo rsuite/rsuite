@@ -1,3 +1,38 @@
+<a name="5.0.0-alpha.4"></a>
+# [5.0.0-alpha.4](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.3...v5.0.0-alpha.4) (2021-02-23)
+
+
+### Bug Fixes
+
+* **babel:** fix the problem that commonjs import `default` is undefined ([#1514](https://github.com/rsuite/rsuite/issues/1514)) ([9855f54](https://github.com/rsuite/rsuite/commit/9855f54))
+* **daterangepicker:** delete duplicate type definitions ([#1513](https://github.com/rsuite/rsuite/issues/1513)) ([26c9283](https://github.com/rsuite/rsuite/commit/26c9283))
+* **input-group:** fix InputGroup size misalignment when inside ([#1474](https://github.com/rsuite/rsuite/issues/1474)) ([ca0f90f](https://github.com/rsuite/rsuite/commit/ca0f90f))
+* **radio:** fixed the color of Radio in active state ([#1475](https://github.com/rsuite/rsuite/issues/1475)) ([bc9a3dd](https://github.com/rsuite/rsuite/commit/bc9a3dd))
+* **rtl:** fixed the docs not work when using `rtl` ([#1501](https://github.com/rsuite/rsuite/issues/1501)) ([9ee8ce3](https://github.com/rsuite/rsuite/commit/9ee8ce3))
+* **table:** fixed unhandled scroll bar width when Cell is fixed on right ([#1486](https://github.com/rsuite/rsuite/issues/1486)) ([7e9ccc1](https://github.com/rsuite/rsuite/commit/7e9ccc1))
+* **typos:** fix typos in the docs ([#1502](https://github.com/rsuite/rsuite/issues/1502)) ([15e9170](https://github.com/rsuite/rsuite/commit/15e9170))
+
+
+### Features
+
+* **locales:** add translations for German ([#1495](https://github.com/rsuite/rsuite/issues/1495)) ([b71ed41](https://github.com/rsuite/rsuite/commit/b71ed41))
+* **uploader:** support file async check on Uploader ([#1509](https://github.com/rsuite/rsuite/issues/1509)) ([4726c5a](https://github.com/rsuite/rsuite/commit/4726c5a))
+
+
+
+<a name="5.0.0-alpha.3"></a>
+# [5.0.0-alpha.3](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.2...v5.0.0-alpha.3) (2021-01-23)
+
+
+### Bug Fixes
+
+* **divider:** set aria-orientation on Divider ([#1457](https://github.com/rsuite/rsuite/issues/1457)) ([fe46e4d](https://github.com/rsuite/rsuite/commit/fe46e4d))
+* **picker:** fixed the non-unique key in the Picker option when groupBy ([#1460](https://github.com/rsuite/rsuite/issues/1460)) ([5ca0fa0](https://github.com/rsuite/rsuite/commit/5ca0fa0))
+* **tree:** fix className of Tree and CheckTree ([#1456](https://github.com/rsuite/rsuite/issues/1456)) ([de79cbf](https://github.com/rsuite/rsuite/commit/de79cbf))
+* **whisper:** fix overlay jittering when the cursor is hovered ([#1459](https://github.com/rsuite/rsuite/issues/1459)) ([d29e785](https://github.com/rsuite/rsuite/commit/d29e785))
+
+
+
 <a name="5.0.0-alpha.2"></a>
 # [5.0.0-alpha.2](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.1...v5.0.0-alpha.2) (2021-01-05)
 

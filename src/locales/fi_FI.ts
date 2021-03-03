@@ -35,11 +35,10 @@ export default {
     prev: 'Edellinen',
     next: 'Seuraava',
     first: 'Ensimmäinen',
-    last: 'Viimeinen'
-  },
-  TablePagination: {
-    lengthMenuInfo: '{0} / sivu',
-    totalInfo: 'yhteensä: {0}'
+    last: 'Viimeinen',
+    limit: '{0} / sivu',
+    total: 'yhteensä: {0}',
+    skip: 'Mene{0}'
   },
   Calendar,
   DatePicker: {
