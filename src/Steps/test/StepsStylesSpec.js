@@ -5,11 +5,9 @@ import {
   createTestContainer,
   getDOMNode,
   getStyle,
-  toRGB,
-  getDefaultPalette
 } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Steps styles', () => {
   it('Should render the correct styles', () => {
