@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Nav from '../index';
 import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Nav styles', () => {
   it('Should render the correct styles', () => {
