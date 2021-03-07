@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Input from '../index';
 import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Input styles', () => {
   it('Input should render the correct styles', () => {

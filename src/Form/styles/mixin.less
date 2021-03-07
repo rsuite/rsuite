@@ -1,37 +1,32 @@
 .default-input() {
   display: block;
   width: 100%;
-  color: @input-color;
-  background-color: @input-bg;
+  color: var(--rs-color-text-primary);
+  background-color: var(--rs-color-bg-card);
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
-  border: @input-border-width solid @input-border;
+  border: 1px solid var(--rs-color-border-primary);
   transition: @input-transition;
   border-radius: @border-radius-base;
-  .input-base();
+  .input-md();
 
   // Placeholder
   &::placeholder {
-    color: @input-color-placeholder;
+    color: var(--rs-color-text-secondary);
   }
 
   &:focus,
-  &:hover {
-    border-color: @input-border-focus;
+  &:hover:not(:disabled) {
+    border-color: var(--rs-color-input-focus-border);
     outline: 0;
   }
 
   &:focus {
-    box-shadow: 0 0 0 3px fade(@primary-color, 25%);
+    box-shadow: var(--rs-color-state-focus-shadow);
   }
 
-  &[disabled] {
-    background-color: @input-bg-disabled;
-    color: @input-color-disabled;
-    cursor: @cursor-disabled;
-
-    &:hover {
-      border-color: @input-border;
-    }
+  &:disabled {
+    background-color: var(--rs-color-input-disabled-bg);
+    color: var(--rs-color-text-disabled);
   }
 }
 
@@ -52,8 +47,7 @@
 .input-lg() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-large-vertical; @padding-base-input-horizontal; @font-size-large; @line-height-large;
-    @input-border-radius
+    @padding-large-vertical; @padding-base-input-horizontal; @font-size-large; @line-height-large; @input-border-radius
   );
   /* stylelint-enable */
 }
@@ -61,8 +55,7 @@
 .input-md() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base;
-    @input-border-radius
+    @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius
   );
   /* stylelint-enable */
 }
@@ -70,8 +63,7 @@
 .input-sm() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-small-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base;
-    @input-border-radius
+    @padding-small-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius
   );
   /* stylelint-enable */
 }
@@ -79,14 +71,9 @@
 .input-xs() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-extra-small;
-    @line-height-extra-small; @input-border-radius
+    @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-extra-small; @line-height-extra-small; @input-border-radius
   );
   /* stylelint-enable */
-}
-
-.input-base() {
-  .input-md();
 }
 
 .reset-input-group-addon-size(@size-name) {
