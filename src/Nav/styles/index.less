@@ -66,15 +66,6 @@
 .rs-nav-horizontal {
   white-space: nowrap;
 
-  .rs-nav-item {
-    display: inline-block;
-    vertical-align: top;
-  }
-
-  .rs-nav-item + .rs-nav-item {
-    margin-left: 6px;
-  }
-
   // Waterline
   .rs-nav-bar {
     position: absolute;
@@ -89,16 +80,20 @@
   }
 }
 
+.rs-nav-item,
+.rs-dropdown {
+  .rs-nav-horizontal > & {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .rs-nav-horizontal > & + & {
+    margin-left: 6px;
+  }
+}
+
 .rs-nav-vertical {
-  .rs-nav-item {
-    display: block;
-  }
-
-  .rs-nav-item + .rs-nav-item {
-    margin-top: 6px;
-  }
-
-  .rs-dropdown {
+  > .rs-dropdown {
     width: 100%;
 
     > .rs-dropdown-toggle {
@@ -119,6 +114,17 @@
     .rs-nav-reversed& {
       right: auto;
     }
+  }
+}
+
+.rs-nav-item,
+.rs-dropdown {
+  .rs-nav-vertical > & {
+    display: block;
+  }
+
+  .rs-nav-vertical > & + & {
+    margin-top: 6px;
   }
 }
 
@@ -163,7 +169,8 @@
   // Horizontal
   &.rs-nav-horizontal {
     //Nav content
-    .rs-nav-item {
+    > .rs-nav-item,
+    > .rs-dropdown .rs-dropdown-toggle {
       border-radius: 6px 6px 0 0;
 
       .rs-nav-reversed& {
@@ -191,8 +198,8 @@
   // Vertical
   &.rs-nav-vertical {
     //Nav content
-    .rs-dropdown > .rs-dropdown-toggle,
-    .rs-nav-item {
+    > .rs-nav-item,
+    > .rs-dropdown .rs-dropdown-toggle {
       border-radius: 6px 0 0 6px;
 
       .rs-nav-reversed& {
@@ -281,12 +288,12 @@
 .rs-nav-justified {
   display: flex;
 
-  .rs-nav-item,
-  .rs-dropdown {
+  > .rs-nav-item,
+  > .rs-dropdown {
     flex: 1 1 1%;
   }
 
-  .rs-dropdown .rs-dropdown-toggle {
+  > .rs-dropdown .rs-dropdown-toggle {
     width: 100%;
     text-align: left;
   }
