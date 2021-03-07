@@ -1,126 +1,30 @@
-// Framework grid generation
-//
-// Used only by Bootstrap to generate the correct number of grid classes given
-// any value of `@grid-columns`.
-
-.make-grid-columns() {
-  // Common styles for all sizes of grid columns, widths 1- `@grid-columns`
-  .col(@index) {
-    // initial
-    @item: ~'.rs-col-xs-@{index}, .rs-col-sm-@{index}, .rs-col-md-@{index}, .rs-col-lg-@{index}';
-    .col((@index + 1), @item);
-  }
-  .col(@index, @list) when (@index =< @grid-columns) {
-    // general; "=<" isn't a typo
-    @item: ~'.rs-col-xs-@{index}, .rs-col-sm-@{index}, .rs-col-md-@{index}, .rs-col-lg-@{index}';
-    .col((@index + 1), ~'@{list}, @{item}');
-  }
-  .col(@index, @list) when (@index > @grid-columns) {
-    // terminal
-    @{list} {
-      position: relative;
-      // Prevent columns from collapsing when empty
-      min-height: 1px;
-      // Inner gutter via padding
-      padding-left: ceil((@grid-gutter-width / 2));
-      padding-right: floor((@grid-gutter-width / 2));
+// Create grid for specific class
+.make-grid(@size) {
+  each(range(24), {
+    .rs-col-@{size}-@{value} {
+      width: percentage((@value / 24));
     }
-  }
-  .col(1); // kickstart it
-}
-
-.float-grid-columns(@class) {
-  .col(@index) {
-    // initial
-    @item: ~'.rs-col-@{class}-@{index}';
-    .col((@index + 1), @item);
-  }
-  .col(@index, @list) when (@index =< @grid-columns) {
-    // general
-    @item: ~'.rs-col-@{class}-@{index}';
-    .col((@index + 1), ~'@{list}, @{item}');
-  }
-  .col(@index, @list) when (@index > @grid-columns) {
-    // terminal
-    @{list} {
-      float: left;
+    .rs-col-@{size}-pull-@{value} {
+      right: percentage((@value / 24));
     }
-  }
-  .col(1); // kickstart it
-}
+    .rs-col-@{size}-push-@{value} {
+      left: percentage((@value / 24));
+    }
 
-.calc-grid-column(@index, @class, @type) when (@type = width) and (@index > 0) {
-  .rs-col-@{class}-@{index} {
-    width: percentage((@index / @grid-columns));
+    .rs-col-@{size}-offset-@{value} {
+      margin-left: percentage((@value / 24));
+    }
+  });
+  .rs-col-@{size}-pull-0 {
+    right: auto;
   }
-}
-
-.calc-grid-column(@index, @class, @type) when (@type = push) and (@index > 0) {
-  .rs-col-@{class}-push-@{index} {
-    left: percentage((@index / @grid-columns));
-  }
-}
-
-.calc-grid-column(@index, @class, @type) when (@type = push) and (@index = 0) {
-  .rs-col-@{class}-push-0 {
+  .rs-col-@{size}-push-0 {
     left: auto;
   }
 }
 
-.calc-grid-column(@index, @class, @type) when (@type = pull) and (@index > 0) {
-  .rs-col-@{class}-pull-@{index} {
-    right: percentage((@index / @grid-columns));
-  }
-}
-
-.calc-grid-column(@index, @class, @type) when (@type = pull) and (@index = 0) {
-  .rs-col-@{class}-pull-0 {
-    right: auto;
-  }
-}
-
-.calc-grid-column(@index, @class, @type) when (@type = offset) {
-  .rs-col-@{class}-offset-@{index} {
-    margin-left: percentage((@index / @grid-columns));
-  }
-}
-
-// Basic looping in LESS
-.loop-grid-columns(@index, @class, @type) when (@index >= 0) {
-  .calc-grid-column(@index, @class, @type);
-  // next iteration
-  .loop-grid-columns((@index - 1), @class, @type);
-}
-
-// Create grid for specific class
-.make-grid(@class) {
-  .float-grid-columns(@class);
-  .loop-grid-columns(@grid-columns, @class, width);
-  .loop-grid-columns(@grid-columns, @class, pull);
-  .loop-grid-columns(@grid-columns, @class, push);
-  .loop-grid-columns(@grid-columns, @class, offset);
-}
-
-.hidden(@class) {
-  .rs-hidden-@{class} {
+.hidden(@size) {
+  .rs-hidden-@{size} {
     display: none;
-  }
-}
-
-.make-hidden {
-  @media (max-width: @screen-phone-min) {
-    .hidden(xs);
-  }
-
-  @media (min-width: @screen-phone) and (max-width: @screen-phone-max) {
-    .hidden(sm);
-  }
-
-  @media (min-width: @screen-desktop) and (max-width: @screen-desktop-max) {
-    .hidden(md);
-  }
-
-  @media (min-width: @screen-lg-desktop) {
-    .hidden(lg);
   }
 }
