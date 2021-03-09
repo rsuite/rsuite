@@ -9,7 +9,7 @@ const App = () => {
   return (
     <div className="modal-container">
       <ButtonToolbar>
-        <Button onClick={handleOpen}>Disabled</Button>
+        <Button onClick={handleOpen}>Disable</Button>
       </ButtonToolbar>
 
       <Modal backdrop="static" role="alertdialog" open={open} onClose={handleClose} size="xs">
