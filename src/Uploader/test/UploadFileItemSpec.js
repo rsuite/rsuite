@@ -111,5 +111,3 @@ describe('UploadFileItem', () => {
     assert.equal(instance2.querySelector('.rs-uploader-file-item-icon').tagName, 'svg');
   });
 });
-
-
