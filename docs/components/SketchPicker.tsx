@@ -1,11 +1,7 @@
 import React from 'react';
-import Loadable from 'react-loadable';
+import loadable from '@loadable/component';
 
-const Loader = () => <div>loading...</div>;
-const Sketch = Loadable({
-  loader: () => import('react-color/lib/components/sketch/Sketch'),
-  loading: Loader
-});
+const Sketch = loadable(() => import('react-color/lib/components/sketch/Sketch'));
 
 interface SketchPickerProps {
   color: string;

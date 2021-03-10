@@ -16,7 +16,6 @@ export { default as ajaxUpload } from './ajaxUpload';
 export { default as previewFile } from './previewFile';
 export { default as getDataGroupBy } from './getDataGroupBy';
 export { default as clone } from './clone';
-export { default as createContext } from './createContext';
 export { default as placementPolyfill } from './placementPolyfill';
 export { default as getDOMNode } from './getDOMNode';
 export { default as mergeRefs } from './mergeRefs';

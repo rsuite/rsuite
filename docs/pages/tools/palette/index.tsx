@@ -12,7 +12,6 @@ import {
   Panel,
   Loader
 } from 'rsuite';
-import Loadable from 'react-loadable';
 import { canUseDOM } from 'dom-lib';
 import getPalette from '@/utils/getPalette';
 import ColorPanel from '@/components/ColorPanel';
@@ -22,6 +21,7 @@ import SketchPicker from '@/components/SketchPicker';
 import { readThemeName } from '@/utils/themeHelpers';
 import NextHead from 'next/head';
 import DefaultPage from '@/components/Page';
+import loadable from '@loadable/component';
 
 const colors = [
   '#34C3FF',
@@ -44,10 +44,7 @@ const colors = [
   '#607d8b'
 ];
 
-const CirclePicker = Loadable({
-  loader: () => import('react-color/lib/components/circle/Circle'),
-  loading: () => <div>loading...</div>
-});
+const CirclePicker = loadable(() => import('react-color/lib/components/circle/Circle'));
 
 const lessUrl = 'https://cdn.bootcss.com/less.js/3.9.0/less.min.js';
 const getThemeIsDefault = () => ['default', null].includes(readThemeName());

@@ -7,8 +7,7 @@
 **第一步**: 导入 `Form` 与 `Schema`。
 
 ```jsx
-import Form from 'rsuite/lib/Form';
-import Schema from 'rsuite/lib/Schema';
+import { Form, Schema } from 'rsuite';
 ```
 
 **第二步**: 通过 `Schema.Model` 定义数据模型。
@@ -21,7 +20,7 @@ const model = Schema.Model({
 });
 ```
 
-> [您可以阅读本指南，以了解有关 Schema 的更多信息](/zh/components/schema)
+> [您可以阅读本指南，以了解有关 Schema 的更多信息](https://github.com/rsuite/schema-typed#schema-typed)
 
 **第三步**: 为 `<Form>` 设置 `model`。
 

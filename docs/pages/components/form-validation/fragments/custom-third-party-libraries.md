@@ -28,6 +28,8 @@ const Field = React.forwardRef((props, ref) => {
   );
 });
 
+const mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+
 const App = () => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
@@ -37,10 +39,18 @@ const App = () => {
 
   const handleSubmit = () => {
     if (!formRef.current.check()) {
-      toaster.push(<Message type="error">Error</Message>);
+      toaster.push(
+        <Message showIcon type="error">
+          Error
+        </Message>
+      );
       return;
     }
-    toaster.push(<Message type="success">Success</Message>);
+    toaster.push(
+      <Message showIcon type="success">
+        Success
+      </Message>
+    );
   };
 
   return (
@@ -56,22 +66,7 @@ const App = () => {
           <Field
             name="phone"
             label="Phone Number"
-            mask={[
-              '(',
-              /[1-9]/,
-              /\d/,
-              /\d/,
-              ')',
-              ' ',
-              /\d/,
-              /\d/,
-              /\d/,
-              '-',
-              /\d/,
-              /\d/,
-              /\d/,
-              /\d/
-            ]}
+            mask={mask}
             accepter={InputMask}
             error={formError.phone}
           />

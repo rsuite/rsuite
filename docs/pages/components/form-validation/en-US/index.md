@@ -7,8 +7,7 @@ We recommend using [`schema-typed`](https://github.com/rsuite/schema-typed) to m
 **Step 1**: Import `Form` and `Schema`.
 
 ```jsx
-import Form from 'rsuite/lib/Form';
-import Schema from 'rsuite/lib/Schema';
+import { Form, Schema } from 'rsuite';
 ```
 
 **Step 2**: Use Schema to define the data model.
@@ -20,7 +19,7 @@ const model = Schema.Model({
 });
 ```
 
-> You can learn more about about `Schema` by [reading this guide](/components/schema).
+> You can learn more about about `Schema` by [reading this guide](https://github.com/rsuite/schema-typed#schema-typed).
 
 **Step 3**: Set `model` for `<Form>`.
 
@@ -101,6 +100,12 @@ The default value of `checkTrigger` is `'change'`, options includes:
 There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` components. You can define the entire form's validation method in `<Form>`. If there is a form component that needs to handle the validation independently, you can Set it on `<Form.Control>`.
 
 <!--{include:`custom-check-trigger.md`}-->
+
+
+<!--{include:`dynamic-form.md`}-->
+
+
+
 
 ## Props & Methods
 

@@ -31,35 +31,37 @@ export default function Page() {
     <DefaultPage>
       <div className="component-overview">
         <ul>
-          {components.map(item => {
-            if (item.group) {
-              return (
-                <li className="title" key={item.id}>
-                  <h4 id={item.name}>{item.name}</h4>
-                </li>
-              );
-            } else {
-              return (
-                <li key={item.id}>
-                  <Link href={`/components/${item.id}`} className="header">
-                    {item.name}
-                    {language === 'zh' ? (
-                      <span>
-                        <br /> ({item.title})
-                      </span>
-                    ) : null}
-                  </Link>
-                  <ul className="content">
-                    {item.components
-                      ? item.components.map(name => <Item name={name} key={name} isComponent />)
-                      : null}
+          {components
+            .filter(c => c.components || c.apis || c.group)
+            .map(item => {
+              if (item.group) {
+                return (
+                  <li className="title" key={item.id}>
+                    <h4 id={item.name}>{item.name}</h4>
+                  </li>
+                );
+              } else {
+                return (
+                  <li key={item.id}>
+                    <Link href={`/components/${item.id}`} className="header">
+                      {item.name}
+                      {language === 'zh' ? (
+                        <span>
+                          <br /> ({item.title})
+                        </span>
+                      ) : null}
+                    </Link>
+                    <ul className="content">
+                      {item.components
+                        ? item.components.map(name => <Item name={name} key={name} isComponent />)
+                        : null}
 
-                    {item.apis ? item.apis.map(name => <Item name={name} key={name} />) : null}
-                  </ul>
-                </li>
-              );
-            }
-          })}
+                      {item.apis ? item.apis.map(name => <Item name={name} key={name} />) : null}
+                    </ul>
+                  </li>
+                );
+              }
+            })}
         </ul>
       </div>
     </DefaultPage>

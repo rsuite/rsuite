@@ -74,8 +74,8 @@ const initFormValue = {
 
 const App = () => {
   const cascaderData = data;
-  const [formValue, setFormValue] = useState(initFormValue);
-  const [status, setStatus] = useState('disabled');
+  const [formValue, setFormValue] = React.useState(initFormValue);
+  const [status, setStatus] = React.useState('disabled');
   const disabled = status === 'disabled';
   const readOnly = status === 'readonly';
   const plaintext = status === 'plaintext';

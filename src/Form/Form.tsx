@@ -2,8 +2,7 @@ import React, { useMemo, useCallback, useState, useImperativeHandle, useRef } fr
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
-import { Schema, SchemaModel } from 'schema-typed';
-import { CheckResult } from 'schema-typed/types/Type';
+import { Schema, SchemaModel, CheckResult } from 'schema-typed';
 import { useClassNames } from '../utils';
 import FormContext, { FormValueContext } from './FormContext';
 import FormControl from '../FormControl';
@@ -15,7 +14,7 @@ import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types
 
 export interface FormProps<
   T = Record<string, any>,
-  errorMsgType = string,
+  errorMsgType = any,
   E = { [P in keyof T]?: errorMsgType }
 >
   extends WithAsProps,
@@ -170,8 +169,8 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       const formError = {};
       let errorCount = 0;
 
-      Object.keys(model.schema).forEach(key => {
-        const checkResult = model.checkForField(key, formValue[key], formValue);
+      Object.keys(model.spec).forEach(key => {
+        const checkResult = model.checkForField(key, formValue);
         if (checkResult.hasError === true) {
           errorCount += 1;
           formError[key] = checkResult.errorMessage;
@@ -200,7 +199,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const checkForField = useCallback(
     (fieldName: string, callback?: (checkResult: any) => void) => {
       const formValue = getFormValue() || {};
-      const checkResult = model.checkForField(fieldName, formValue[fieldName], formValue);
+      const checkResult = model.checkForField(fieldName, formValue);
 
       const formError = {
         ...getFormError(),
@@ -228,9 +227,9 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     const promises = [];
     const keys = [];
 
-    Object.keys(model.schema).forEach(key => {
+    Object.keys(model.spec).forEach(key => {
       keys.push(key);
-      promises.push(model.checkForFieldAsync(key, formValue[key], formValue));
+      promises.push(model.checkForFieldAsync(key, formValue));
     });
 
     return Promise.all(promises).then(values => {
@@ -262,20 +261,18 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const checkForFieldAsync = useCallback(
     (fieldName: string) => {
       const formValue = getFormValue() || {};
-      return model
-        .checkForFieldAsync(fieldName, formValue[fieldName], formValue)
-        .then(checkResult => {
-          const formError = { ...getFormError(), [fieldName]: checkResult.errorMessage };
+      return model.checkForFieldAsync(fieldName, formValue).then(checkResult => {
+        const formError = { ...getFormError(), [fieldName]: checkResult.errorMessage };
 
-          onCheck?.(formError);
-          setFormError(formError);
+        onCheck?.(formError);
+        setFormError(formError);
 
-          if (checkResult.hasError) {
-            onError?.(formError);
-          }
+        if (checkResult.hasError) {
+          onError?.(formError);
+        }
 
-          return checkResult;
-        });
+        return checkResult;
+      });
     },
     [model, getFormValue, getFormError, onCheck, onError]
   );
@@ -321,7 +318,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   );
 
   const handleFieldError = useCallback(
-    (name: string, errorMessage: string) => {
+    (name: string, errorMessage: React.ReactNode) => {
       const formError = {
         ...getFormError(),
         [name]: errorMessage

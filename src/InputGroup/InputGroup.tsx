@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
-import { createContext, useClassNames } from '../utils';
+import { useClassNames } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 
-export const InputGroupContext = createContext(null);
+export const InputGroupContext = React.createContext<{ onFocus: () => void; onBlur: () => void }>(
+  null
+);
 
 export interface InputGroupProps extends WithAsProps {
   /** Sets the composition content internally */
