@@ -1,43 +1,45 @@
+<a name="4.9.3"></a>
+
+## [4.9.3](https://github.com/rsuite/rsuite/compare/4.9.2...4.9.3) (2021-03-11)
+
+### Bug Fixes
+
+- **nav:** fix `onSelect` not working on Nav.Item ([#1561](https://github.com/rsuite/rsuite/issues/1561)) ([9b6bb9f](https://github.com/rsuite/rsuite/commit/9b6bb9f))
+- **uploader:** fixed Uploader unable to upload removed files ([#1548](https://github.com/rsuite/rsuite/issues/1548)) ([69d32d1](https://github.com/rsuite/rsuite/commit/69d32d1))
+
 <a name="4.9.2"></a>
+
 ## [4.9.2](https://github.com/rsuite/rsuite/compare/4.9.1...4.9.2) (2021-02-24)
 
-
 ### Bug Fixes
 
-* **inputpicker:** fix can’t click option on InputPicker ([#1529](https://github.com/rsuite/rsuite/issues/1529)) ([4c2bc6f](https://github.com/rsuite/rsuite/commit/4c2bc6f))
-
-
+- **inputpicker:** fix can’t click option on InputPicker ([#1529](https://github.com/rsuite/rsuite/issues/1529)) ([4c2bc6f](https://github.com/rsuite/rsuite/commit/4c2bc6f))
 
 <a name="4.9.1"></a>
+
 ## [4.9.1](https://github.com/rsuite/rsuite/compare/4.9.0...4.9.1) (2021-02-24)
 
-
 ### Bug Fixes
 
-* **tagpicker:** fix the input does not work when focused by keyboard ([#1525](https://github.com/rsuite/rsuite/issues/1525)) ([f5805c0](https://github.com/rsuite/rsuite/commit/f5805c0))
-
-
+- **tagpicker:** fix the input does not work when focused by keyboard ([#1525](https://github.com/rsuite/rsuite/issues/1525)) ([f5805c0](https://github.com/rsuite/rsuite/commit/f5805c0))
 
 <a name="4.9.0"></a>
-# [4.9.0](https://github.com/rsuite/rsuite/compare/4.8.9...4.9.0) (2021-02-24)
 
+# [4.9.0](https://github.com/rsuite/rsuite/compare/4.8.9...4.9.0) (2021-02-24)
 
 ### Bug Fixes
 
-* **footer:** use footer tag for Footer ([#1490](https://github.com/rsuite/rsuite/issues/1490)) ([296df45](https://github.com/rsuite/rsuite/commit/296df45))
-* **inputpicker:** fix the input does not work when focused by keyboard ([#1520](https://github.com/rsuite/rsuite/issues/1520)) ([476d5c7](https://github.com/rsuite/rsuite/commit/476d5c7)), closes [#1487](https://github.com/rsuite/rsuite/issues/1487)
-* **inputpicker:** inputPicker should clear search keywords when closed ([#1522](https://github.com/rsuite/rsuite/issues/1522)) ([d9108ea](https://github.com/rsuite/rsuite/commit/d9108ea))
-* **pickers:** picker should not be interactive during animation exit ([#1521](https://github.com/rsuite/rsuite/issues/1521)) ([e201e78](https://github.com/rsuite/rsuite/commit/e201e78)), closes [#1491](https://github.com/rsuite/rsuite/issues/1491)
-* **rangeslider:** fix RangeSlider style problem ([#1519](https://github.com/rsuite/rsuite/issues/1519)) ([a422b7d](https://github.com/rsuite/rsuite/commit/a422b7d)), closes [#1485](https://github.com/rsuite/rsuite/issues/1485)
-* **rtl:** fixed the docs not work when using `rtl` ([#1503](https://github.com/rsuite/rsuite/issues/1503)) ([9c132a9](https://github.com/rsuite/rsuite/commit/9c132a9))
-
+- **footer:** use footer tag for Footer ([#1490](https://github.com/rsuite/rsuite/issues/1490)) ([296df45](https://github.com/rsuite/rsuite/commit/296df45))
+- **inputpicker:** fix the input does not work when focused by keyboard ([#1520](https://github.com/rsuite/rsuite/issues/1520)) ([476d5c7](https://github.com/rsuite/rsuite/commit/476d5c7)), closes [#1487](https://github.com/rsuite/rsuite/issues/1487)
+- **inputpicker:** inputPicker should clear search keywords when closed ([#1522](https://github.com/rsuite/rsuite/issues/1522)) ([d9108ea](https://github.com/rsuite/rsuite/commit/d9108ea))
+- **pickers:** picker should not be interactive during animation exit ([#1521](https://github.com/rsuite/rsuite/issues/1521)) ([e201e78](https://github.com/rsuite/rsuite/commit/e201e78)), closes [#1491](https://github.com/rsuite/rsuite/issues/1491)
+- **rangeslider:** fix RangeSlider style problem ([#1519](https://github.com/rsuite/rsuite/issues/1519)) ([a422b7d](https://github.com/rsuite/rsuite/commit/a422b7d)), closes [#1485](https://github.com/rsuite/rsuite/issues/1485)
+- **rtl:** fixed the docs not work when using `rtl` ([#1503](https://github.com/rsuite/rsuite/issues/1503)) ([9c132a9](https://github.com/rsuite/rsuite/commit/9c132a9))
 
 ### Features
 
-* **uploader:** support file async check on Uploader ([#1489](https://github.com/rsuite/rsuite/issues/1489)) ([25f5b3a](https://github.com/rsuite/rsuite/commit/25f5b3a))
-* **whisper:** support `onClose` on the `speaker` prop of Whisper ([#1523](https://github.com/rsuite/rsuite/issues/1523)) ([5b25e3f](https://github.com/rsuite/rsuite/commit/5b25e3f)), closes [#1458](https://github.com/rsuite/rsuite/issues/1458)
-
-
+- **uploader:** support file async check on Uploader ([#1489](https://github.com/rsuite/rsuite/issues/1489)) ([25f5b3a](https://github.com/rsuite/rsuite/commit/25f5b3a))
+- **whisper:** support `onClose` on the `speaker` prop of Whisper ([#1523](https://github.com/rsuite/rsuite/issues/1523)) ([5b25e3f](https://github.com/rsuite/rsuite/commit/5b25e3f)), closes [#1458](https://github.com/rsuite/rsuite/issues/1458)
 
 <a name="4.8.9"></a>
 
