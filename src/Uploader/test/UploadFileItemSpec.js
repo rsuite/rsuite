@@ -102,4 +102,12 @@ describe('UploadFileItem', () => {
     const instance = getDOMNode(<UploadFileItem file={file} classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should render an <i> tag, when the file status is uploading', () => {
+    const instance = getDOMNode(<UploadFileItem file={{ ...file, status: 'uploading' }} />);
+    const instance2 = getDOMNode(<UploadFileItem file={{ ...file, status: 'inited' }} />);
+
+    assert.equal(instance.querySelector('.rs-uploader-file-item-icon').tagName, 'I');
+    assert.equal(instance2.querySelector('.rs-uploader-file-item-icon').tagName, 'svg');
+  });
 });

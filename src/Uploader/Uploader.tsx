@@ -468,6 +468,11 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     const nextFileList = [...fileList.current, ...newFileList];
     const checkState = shouldQueueUpdate?.(nextFileList, newFileList);
 
+    if (checkState === false) {
+      cleanInputValue();
+      return;
+    }
+
     const upload = () => {
       onChange?.(nextFileList);
       dispatch({ type: 'push', files: newFileList }, () => {
@@ -477,14 +482,8 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
 
     if (checkState instanceof Promise) {
       checkState.then(res => {
-        if (res) {
-          upload();
-        }
+        res && upload();
       });
-      return;
-    } else if (checkState === false) {
-      // Whether the custom verification file is valid and allows uploading
-      cleanInputValue();
       return;
     }
 
@@ -496,13 +495,14 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     const nextFileList = fileList.current.filter(f => f.fileKey !== fileKey);
 
     if (xhrs.current?.[file.fileKey]?.readyState !== 4) {
-      xhrs.current[file.fileKey].abort();
+      xhrs.current[file.fileKey]?.abort();
     }
 
     dispatch({ type: 'remove', fileKey });
 
     onRemove?.(file);
     onChange?.(nextFileList);
+    cleanInputValue();
   };
 
   const handleReupload = (file: FileType) => {
