@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTestUtils from 'react-dom/test-utils';
 import { innerText, getDOMNode } from '@test/testUtils';
 
 import Nav from '../Nav';
@@ -67,5 +68,39 @@ describe('Nav', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Nav classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should call onSelect callback', done => {
+    const doneOp = eventKey => {
+      if (eventKey === 2) {
+        done();
+      }
+    };
+    const instance = getDOMNode(
+      <Nav onSelect={doneOp}>
+        <Nav.Item eventKey={1}>1</Nav.Item>
+        <Nav.Item eventKey={2}>2</Nav.Item>
+      </Nav>
+    );
+
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-nav-item a')[1]);
+  });
+
+  it('Should call onSelect callback on Nav.Item', done => {
+    const doneOp = eventKey => {
+      if (eventKey === 2) {
+        done();
+      }
+    };
+    const instance = getDOMNode(
+      <Nav>
+        <Nav.Item eventKey={1}>1</Nav.Item>
+        <Nav.Item eventKey={2} onSelect={doneOp}>
+          2
+        </Nav.Item>
+      </Nav>
+    );
+
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-nav-item a')[1]);
   });
 });
