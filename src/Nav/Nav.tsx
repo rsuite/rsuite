@@ -5,7 +5,13 @@ import { setStatic } from 'recompose';
 import shallowEqual from '../utils/shallowEqual';
 
 import NavItem from './NavItem';
-import { prefix, getUnhandledProps, defaultProps, ReactChildren } from '../utils';
+import {
+  prefix,
+  getUnhandledProps,
+  defaultProps,
+  ReactChildren,
+  createChainedFunction
+} from '../utils';
 import { getClassNamePrefix } from '../utils/prefix';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
@@ -56,21 +62,21 @@ class Nav extends React.Component<NavProps> {
     const hasWaterline = appearance !== 'default';
 
     const items = ReactChildren.mapCloneElement(children, item => {
-      const { eventKey, active, ...rest } = item.props;
+      const { eventKey, active, onSelect: onSelectItem, ...rest } = item.props;
       const displayName = item?.type?.displayName;
       const hasTooltip = sidenav && !expanded;
 
       if (~displayName?.indexOf('(NavItem)')) {
         return {
           ...rest,
-          onSelect,
+          onSelect: createChainedFunction(onSelect, onSelectItem),
           hasTooltip,
           active: typeof activeKey === 'undefined' ? active : shallowEqual(activeKey, eventKey)
         };
       } else if (~displayName?.indexOf('(Dropdown)')) {
         return {
           ...rest,
-          onSelect,
+          onSelect: createChainedFunction(onSelect, onSelectItem),
           activeKey,
           showHeader: hasTooltip,
           componentClass: 'li'
