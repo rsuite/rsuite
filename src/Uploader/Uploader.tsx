@@ -132,6 +132,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
 
     this.props.onRemove?.(file);
     this.props.onChange?.(nextFileList);
+    this.cleanInputValue();
   };
 
   handleUploadTriggerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
