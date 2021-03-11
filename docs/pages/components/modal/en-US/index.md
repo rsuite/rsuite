@@ -41,9 +41,9 @@ When set to true, the Modal will display the background when it is opened. Click
 
 <!--{include:`dynamic.md`}-->
 
-### Confirm
+### Alert dialogs
 
-<!--{include:`confirm.md`}-->
+<!--{include:`alert-dialog.md`}-->
 
 ## Accessibility
 
@@ -63,6 +63,14 @@ When set to true, the Modal will display the background when it is opened. Click
     <Modal.Title id="modal-title">My Title</Modal.Title>
   </Modal.Header>
   <Modal.Body id="modal-description">My Description</Modal.Body>
+</Modal>
+```
+
+- Modify `role` to `alertdialog`, when Modal is used as an alert dialog. See [WAI-ARIA Alert and Message Dialogs Pattern](https://www.w3.org/TR/wai-aria-practices/#alertdialog).
+
+```jsx
+<Modal role="alertdialog" backdrop="static">
+  ...
 </Modal>
 ```
 
