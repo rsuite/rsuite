@@ -417,17 +417,17 @@
     "apis": ["DOMHelper"]
   },
   {
-    "id": "schema",
-    "name": "Schema",
-    "title": "数据模型",
-    "apis": ["Schema.Model", "Schema.Types"]
-  },
-
-  {
     "id": "whisper",
     "name": "Whisper",
     "title": "弹窗触发器",
     "components": ["Whisper"]
+  },
+  {
+    "id": "schema",
+    "name": "Schema",
+    "title": "数据模型",
+    "target": "_blank",
+    "url": "https://github.com/rsuite/schema-typed#schema-typed"
   },
   {
     "group": true,

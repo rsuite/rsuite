@@ -1,7 +1,8 @@
 import React from 'react';
+import loadable from '@loadable/component';
+import DefaultPage from '@/components/Page';
 import {
   Form,
-  Dropdown,
   Button,
   ButtonGroup,
   ButtonToolbar,
@@ -11,46 +12,25 @@ import {
   Radio,
   Schema,
   CheckPicker,
-  InputGroup,
   InputNumber,
-  Toggle,
   Panel,
-  Modal,
   SelectPicker,
   Slider,
   DatePicker,
-  DateRangePicker,
   Input,
-  TagPicker,
-  InputPicker,
-  Cascader,
-  MultiCascader,
   Message,
   Rate,
   Uploader,
   toaster,
-  FlexboxGrid
+  FlexboxGrid,
+  IconButton
 } from 'rsuite';
-import Loadable from 'react-loadable';
-import * as dateFns from 'date-fns';
 
-import DefaultPage from '@/components/Page';
-import useFetchData from '@/utils/useFetchData';
-import Avatar from '@rsuite/icons/legacy/Avatar';
+import PlusIcon from '@rsuite/icons/Plus';
+import MinusIcon from '@rsuite/icons/Minus';
 
-function MyLoader() {
-  return <div>loading...</div>;
-}
-
-const JSONTree = Loadable({
-  loader: () => import('react-json-tree'),
-  loading: MyLoader
-});
-
-const MaskedInput = Loadable({
-  loader: () => import('react-text-mask'),
-  loading: MyLoader
-});
+const JSONTree = loadable(() => import('react-json-tree'));
+const MaskedInput = loadable(() => import('react-text-mask'));
 
 const JSONView = ({ formValue, formError }: any) => (
   <div style={{ marginBottom: 10 }}>
@@ -64,18 +44,13 @@ const JSONView = ({ formValue, formError }: any) => (
   </div>
 );
 export default function Page() {
-  const { response: data } = useFetchData('province-simplified');
-  const { response: pickerData } = useFetchData('users-role');
   return (
     <DefaultPage
       dependencies={{
         Schema,
         Form,
         Input,
-        InputGroup,
         InputNumber,
-        Dropdown,
-        Toggle,
         Button,
         ButtonGroup,
         ButtonToolbar,
@@ -86,25 +61,18 @@ export default function Page() {
         Checkbox,
         Panel,
         Radio,
-        Modal,
         JSONView,
         MaskedInput,
         Slider,
         DatePicker,
-        DateRangePicker,
-        TagPicker,
-        dateFns,
-        InputPicker,
-        pickerData,
-        Cascader,
-        MultiCascader,
         Message,
         toaster,
-        data,
         Rate,
         Uploader,
-        Avatar,
-        FlexboxGrid
+        FlexboxGrid,
+        IconButton,
+        PlusIcon,
+        MinusIcon
       }}
     />
   );
