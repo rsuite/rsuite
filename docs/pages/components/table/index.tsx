@@ -10,7 +10,8 @@ import {
   Nav,
   Checkbox,
   Dropdown,
-  Pagination
+  Pagination,
+  TagPicker
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
@@ -63,7 +64,8 @@ export default function Page() {
         MinusSquareO,
         PlusSquareO,
         Spinner,
-        Pagination
+        Pagination,
+        TagPicker
       }}
     />
   );

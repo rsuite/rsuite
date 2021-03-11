@@ -11,6 +11,36 @@ const CompactHeaderCell = props => (
   <HeaderCell {...props} style={{ padding: 4, backgroundColor: '#3498ff', color: '#fff' }} />
 );
 
+const defaultColumns = [
+  {
+    key: 'id',
+    label: 'Id',
+    fixed: true,
+    width: 70
+  },
+  {
+    key: 'firstName',
+    label: 'First Name',
+    fixed: true,
+    width: 130
+  },
+  {
+    key: 'lastName',
+    label: 'Last Name',
+    width: 123
+  },
+  {
+    key: 'city',
+    label: 'City',
+    width: 200
+  },
+  {
+    key: 'street',
+    label: 'Street',
+    flexGrow: 1
+  }
+];
+
 const App = () => {
   const data = fakeData.filter((v, i) => i < 10);
   const [loading, setLoading] = React.useState(false);
@@ -20,7 +50,9 @@ const App = () => {
   const [showHeader, setShowHeader] = React.useState(true);
   const [autoHeight, setAutoHeight] = React.useState(false);
   const [hover, setHover] = React.useState(true);
+  const [columnKeys, setColumnKeys] = React.useState(defaultColumns.map(column => column.key));
 
+  const columns = defaultColumns.filter(column => columnKeys.some(key => key === column.key));
   const CustomCell = compact ? CompactCell : Cell;
   const CustomHeaderCell = compact ? CompactHeaderCell : HeaderCell;
 
@@ -98,6 +130,15 @@ const App = () => {
         </span>
       </div>
       <hr />
+      Columns：<TagPicker
+        data={defaultColumns}
+        labelKey="label"
+        valueKey="key"
+        value={columnKeys}
+        onChange={setColumnKeys}
+        cleanable={false}
+      />
+      <hr />
       <Table
         loading={loading}
         height={300}
@@ -110,34 +151,20 @@ const App = () => {
         headerHeight={compact ? 30 : 40}
         rowHeight={compact ? 30 : 46}
       >
-        <Column width={70} align="center" fixed>
-          <CustomHeaderCell>Id</CustomHeaderCell>
-          <CustomCell dataKey="id" />
-        </Column>
-
-        <Column width={130} fixed>
-          <CustomHeaderCell>First Name</CustomHeaderCell>
-          <CustomCell dataKey="firstName" />
-        </Column>
-
-        <Column width={130}>
-          <CustomHeaderCell>Last Name</CustomHeaderCell>
-          <CustomCell dataKey="lastName" />
-        </Column>
-
-        <Column width={200}>
-          <CustomHeaderCell>City</CustomHeaderCell>
-          <CustomCell dataKey="city" />
-        </Column>
-
-        <Column flexGrow={1}>
-          <CustomHeaderCell>Street</CustomHeaderCell>
-          <CustomCell dataKey="street" />
-        </Column>
+        {columns.map(column => {
+          const { key, label, ...rest } = column;
+          return (
+            <Column {...rest} key={key}>
+              <CustomHeaderCell>{label}</CustomHeaderCell>
+              <CustomCell dataKey={key} />
+            </Column>
+          );
+        })}
       </Table>
     </div>
   );
 };
+
 ReactDOM.render(<App />);
 ```
 
