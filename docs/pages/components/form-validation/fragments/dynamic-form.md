@@ -1,20 +1,31 @@
 <!--start-code-->
 
 ```js
+/**
+ import { Schema, Form, FlexboxGrid, ButtonGroup, IconButton } from 'rsuite';
+ import PlusIcon from '@rsuite/icons/Plus';
+ import MinusIcon from '@rsuite/icons/Minus';
+
+ */
 const { ArrayType, StringType, NumberType, ObjectType } = Schema.Types;
 const model = Schema.Model({
-  order: ArrayType().of(
+  orderId: StringType().minLength(6, 'Minimum 6 characters required').isRequired('Required.'),
+  products: ArrayType().of(
     ObjectType().shape({
-      name: StringType().isRequired('This field is required.'),
-      quantity: NumberType().isRequired('This field is required.')
+      name: StringType().minLength(6, 'Minimum 6 characters required').isRequired('Required.'),
+      quantity: NumberType().isRequired('Required.')
     })
   )
 });
 
 const ErrorMessage = ({ children }) => <span style={{ color: 'red' }}>{children}</span>;
-const Cell = ({ children }) => <td style={{ padding: '2px 4px' }}>{children}</td>;
+const Cell = ({ children, style, ...rest }) => (
+  <td style={{ padding: '2px 4px 2px 0', verticalAlign: 'top', ...style }} {...rest}>
+    {children}
+  </td>
+);
 
-const OrderRow = ({ rowValue = {}, onChange, rowIndex, rowError }) => {
+const ProductItem = ({ rowValue = {}, onChange, rowIndex, rowError }) => {
   const handleChangeName = value => {
     onChange(rowIndex, { ...rowValue, name: value });
   };
@@ -25,11 +36,12 @@ const OrderRow = ({ rowValue = {}, onChange, rowIndex, rowError }) => {
   return (
     <tr>
       <Cell>
-        <Input value={rowValue.name} onChange={handleChangeName} />
+        <Input value={rowValue.name} onChange={handleChangeName} style={{ width: 196 }} />
         {rowError ? <ErrorMessage>{rowError.name.errorMessage}</ErrorMessage> : null}
       </Cell>
       <Cell>
         <InputNumber
+          min={0}
           value={rowValue.quantity}
           onChange={handleChangeAmount}
           style={{ width: 100 }}
@@ -40,49 +52,52 @@ const OrderRow = ({ rowValue = {}, onChange, rowIndex, rowError }) => {
   );
 };
 
-const OrderInputControl = ({ value = [], onChange, fieldError }) => {
+const ProductInputControl = ({ value = [], onChange, fieldError }) => {
   const errors = fieldError ? fieldError.array : [];
-  const [orders, setOrders] = React.useState(value);
-  const handleChange = (rowIndex, value) => {
-    const nextOrders = [...orders];
-    nextOrders[rowIndex] = value;
-    setOrders(nextOrders);
-    onChange(nextOrders);
+  const [products, setProducts] = React.useState(value);
+  const handleChangeProducts = nextProducts => {
+    setProducts(nextProducts);
+    onChange(nextProducts);
+  };
+  const handleInputChange = (rowIndex, value) => {
+    const nextProducts = [...products];
+    nextProducts[rowIndex] = value;
+    handleChangeProducts(nextProducts);
   };
 
   const handleMinus = () => {
-    setOrders(orders.slice(0, -1));
+    handleChangeProducts(products.slice(0, -1));
   };
   const handleAdd = () => {
-    setOrders(orders.concat([{ name: '', quantity: null }]));
+    handleChangeProducts(products.concat([{ name: '', quantity: null }]));
   };
   return (
-    <table cellPadding={4}>
+    <table>
       <thead>
         <tr>
-          <td>Name</td>
-          <td>Quantity</td>
+          <Cell>Product Name</Cell>
+          <Cell>Quantity</Cell>
         </tr>
       </thead>
       <tbody>
-        {orders.map((rowValue, index) => (
-          <OrderRow
+        {products.map((rowValue, index) => (
+          <ProductItem
             key={index}
             rowIndex={index}
             rowValue={rowValue}
             rowError={errors[index] ? errors[index].object : null}
-            onChange={handleChange}
+            onChange={handleInputChange}
           />
         ))}
       </tbody>
       <tfoot>
         <tr>
-          <td colSpan={2}>
-            <ButtonGroup>
-              <Button onClick={handleAdd}>+</Button>
-              <Button onClick={handleMinus}>-</Button>
+          <Cell colSpan={2} style={{ paddingTop: 10 }}>
+            <ButtonGroup size="xs">
+              <IconButton onClick={handleAdd} icon={<PlusIcon />} />
+              <IconButton onClick={handleMinus} icon={<MinusIcon />} />
             </ButtonGroup>
-          </td>
+          </Cell>
         </tr>
       </tfoot>
     </table>
@@ -93,7 +108,8 @@ const App = () => {
   const formRef = React.useRef();
   const [formError, setFormError] = React.useState({});
   const [formValue, setFormValue] = React.useState({
-    order: [{ name: '', quantity: null }]
+    orderId: '',
+    products: [{ name: '', quantity: null }]
   });
 
   return (
@@ -101,12 +117,31 @@ const App = () => {
       <FlexboxGrid.Item colspan={12}>
         <Form
           ref={formRef}
+          checkTrigger="blur"
           onChange={setFormValue}
           onCheck={setFormError}
           formValue={formValue}
           model={model}
         >
-          <Form.Control name="order" accepter={OrderInputControl} fieldError={formError['order']} />
+          <Form.Group controlId="orderId">
+            <Form.ControlLabel>Order ID</Form.ControlLabel>
+            <Form.Control name="orderId" accepter={Input} errorMessage={formError.orderId} />
+          </Form.Group>
+          <Form.Control
+            name="products"
+            accepter={ProductInputControl}
+            fieldError={formError.products}
+          />
+
+          <hr />
+          <Button
+            appearance="primary"
+            onClick={() => {
+              formRef.current.check();
+            }}
+          >
+            Submit
+          </Button>
         </Form>
       </FlexboxGrid.Item>
 

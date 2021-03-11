@@ -4,15 +4,6 @@ import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
 import Link from '@/components/Link';
 
-interface ComponentType {
-  id: string;
-  name: string;
-  title: string;
-  group?: string;
-  components?: string[];
-  apis?: string[];
-}
-
 const Item = ({ name, isComponent }: { name: string; isComponent?: boolean }) => (
   <li>
     <span className="name">{isComponent ? `<${name}>` : name}</span>
@@ -23,9 +14,7 @@ export default function Page() {
   const { language } = React.useContext(AppContext);
   const pages = usePages();
 
-  const components = (pages?.[1]?.children as ComponentType[]).filter(
-    item => item.id !== 'overview'
-  );
+  const components = (pages?.[1]?.children).filter(item => item.id !== 'overview');
 
   return (
     <DefaultPage>

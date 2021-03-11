@@ -22,8 +22,12 @@ import {
   Rate,
   Uploader,
   toaster,
-  FlexboxGrid
+  FlexboxGrid,
+  IconButton
 } from 'rsuite';
+
+import PlusIcon from '@rsuite/icons/Plus';
+import MinusIcon from '@rsuite/icons/Minus';
 
 const JSONTree = loadable(() => import('react-json-tree'));
 const MaskedInput = loadable(() => import('react-text-mask'));
@@ -65,7 +69,10 @@ export default function Page() {
         toaster,
         Rate,
         Uploader,
-        FlexboxGrid
+        FlexboxGrid,
+        IconButton,
+        PlusIcon,
+        MinusIcon
       }}
     />
   );

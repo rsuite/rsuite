@@ -103,7 +103,11 @@ return (
 
 <!--{include:`custom-check-trigger.md`}-->
 
+### 动态表单校验
+
+<!--{include:`dynamic-form.md`}-->
+
 ## Props & Methods
 
 - [Form props](/zh/components/form)
-- [Schema APIs](/zh/components/schema)
+- [Schema APIs](https://github.com/rsuite/schema-typed#table-of-contents)

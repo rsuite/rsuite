@@ -101,13 +101,11 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 <!--{include:`custom-check-trigger.md`}-->
 
+### Dynamic form validation
 
 <!--{include:`dynamic-form.md`}-->
-
-
-
 
 ## Props & Methods
 
 - [Form props](/components/form)
-- [Schema APIs](/components/schema)
+- [Schema APIs](https://github.com/rsuite/schema-typed#table-of-contents)
