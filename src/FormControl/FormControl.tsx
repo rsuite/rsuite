@@ -148,7 +148,10 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
     } else if (errorFromContext) {
       const fieldError = formError?.[name];
 
-      if (typeof fieldError === 'string' || (!fieldError?.array && !fieldError?.object)) {
+      if (
+        typeof fieldError === 'string' ||
+        (!fieldError?.array && !fieldError?.object && fieldError?.hasError)
+      ) {
         messageNode = fieldError;
       }
     }

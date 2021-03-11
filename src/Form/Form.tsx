@@ -173,7 +173,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
         const checkResult = model.checkForField(key, formValue);
         if (checkResult.hasError === true) {
           errorCount += 1;
-          formError[key] = checkResult.errorMessage;
+          formError[key] = checkResult?.errorMessage || checkResult;
         }
       });
 
@@ -203,7 +203,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
 
       const formError = {
         ...getFormError(),
-        [fieldName]: checkResult.errorMessage
+        [fieldName]: checkResult?.errorMessage || checkResult
       };
 
       setFormError(formError);
