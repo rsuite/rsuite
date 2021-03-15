@@ -7,7 +7,7 @@
 Before all start, you may need install [yarn][yarn].
 
 ```bash
-$ yarn create-react-app test-app
+$ yarn create react-app test-app
 ```
 
 After execution, the tool will automatically generate a `react` development scaffold and install all dependencies necessary to develop `react`.
