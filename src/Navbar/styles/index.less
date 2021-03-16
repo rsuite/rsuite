@@ -72,11 +72,6 @@
   background-color: var(--rs-color-navbar-default-bg);
   color: var(--rs-color-navbar-default-text);
 
-  .rs-nav-item.rs-nav-item-active,
-  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
-    color: var(--rs-color-navbar-default-selected-text);
-  }
-
   .rs-nav-item,
   .rs-dropdown .rs-dropdown-toggle {
     &:hover,
@@ -84,6 +79,11 @@
       background-color: var(--rs-color-navbar-default-hover-bg);
       color: var(--rs-color-navbar-default-hover-text);
     }
+  }
+
+  .rs-nav-item.rs-nav-item-active,
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
+    color: var(--rs-color-navbar-default-selected-text);
   }
 }
 
@@ -98,6 +98,12 @@
     &:focus {
       background-color: var(--rs-color-navbar-inverse-hover-bg);
     }
+  }
+
+  // Active
+  .rs-nav-item.rs-nav-item-active,
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
+    background-color: var(--rs-color-navbar-inverse-selected-bg);
   }
 }
 
