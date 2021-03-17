@@ -72,7 +72,9 @@ module.exports = {
       'only-child',
       'only-of-type',
       'root',
-      'target'
+      'target',
+      // Level 4 (including Working Drafts)
+      'focus-within'
     ],
     // String using single quotes
     'string-quotes': 'single',
