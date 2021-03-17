@@ -1,1 +1,274 @@
-@import 'themes/default';
+@import '../../styles/core';
+@import 'mixin.less';
+
+//
+// Buttons
+// --------------------------------------------------
+
+// Base styles
+// --------------------------------------------------
+.rs-btn {
+  .btn-base();
+
+  &:disabled,
+  &.rs-btn-disabled {
+    &:extend(button[disabled]);
+    cursor: @cursor-disabled !important;
+    pointer-events: none;
+
+    .rs-ripple-pond {
+      display: none !important;
+    }
+  }
+}
+
+// Appearance variants
+// --------------------------------------------------
+
+// Default Button
+// TODO: Consider removing this class? Apply default styles to .rs-btn directly.
+.rs-btn-default {
+  color: var(--rs-color-btn-default-text);
+  background-color: var(--rs-color-btn-default-bg);
+
+  &:hover,
+  &:focus {
+    background-color: var(--rs-color-btn-default-hover-bg);
+  }
+
+  &:active,
+  &.rs-btn-active {
+    color: var(--rs-color-btn-default-active-text);
+    background-color: var(--rs-color-btn-default-active-bg);
+  }
+
+  &:disabled,
+  &.rs-btn-disabled {
+    color: var(--rs-color-btn-default-disabled-text);
+    background-color: var(--rs-color-btn-default-disabled-bg);
+  }
+
+  .button-ripple();
+}
+
+// Primary Button
+.rs-btn-primary {
+  color: var(--rs-color-btn-primary-text);
+  background-color: var(--rs-color-btn-primary-bg);
+
+  &:hover,
+  &:focus {
+    background-color: var(--rs-color-btn-primary-hover-bg);
+  }
+
+  &:active,
+  &.rs-btn-active {
+    background-color: var(--rs-color-btn-primary-active-bg);
+  }
+
+  &:disabled,
+  &.rs-btn-disabled {
+    opacity: 0.3;
+  }
+
+  .button-ripple();
+}
+
+// Subtle Button
+.rs-btn-subtle {
+  color: var(--rs-color-btn-subtle-text);
+  background-color: transparent;
+
+  &:hover,
+  &:focus {
+    color: var(--rs-color-btn-subtle-hover-text);
+    background-color: var(--rs-color-btn-subtle-hover-bg);
+  }
+
+  &:active,
+  &.rs-btn-active {
+    color: var(--rs-color-btn-subtle-active-text);
+    background-color: var(--rs-color-btn-subtle-active-bg);
+  }
+
+  &:disabled,
+  &.rs-btn-disabled {
+    color: var(--rs-color-btn-subtle-disabled-text);
+    background: none;
+  }
+
+  .button-ripple();
+}
+
+// Link buttons
+.rs-btn-link {
+  color: var(--rs-color-btn-link-text);
+  background-color: transparent;
+
+  &:hover,
+  &:focus {
+    color: var(--rs-color-btn-link-hover-text);
+    text-decoration: @link-hover-decoration;
+  }
+
+  &:active,
+  &.rs-btn-active {
+    color: var(--rs-color-btn-link-active-text);
+  }
+
+  &:disabled,
+  &.rs-btn-disabled {
+    opacity: 0.3;
+  }
+}
+
+// Ghost Button
+.rs-btn-ghost {
+  color: var(--rs-color-btn-ghost-text);
+  background-color: transparent;
+  border: @btn-ghost-border-width solid var(--rs-color-btn-ghost-border);
+
+  &:hover,
+  &:focus {
+    color: var(--rs-color-btn-ghost-hover-text);
+    border-color: var(--rs-color-btn-ghost-hover-border);
+  }
+
+  &:active,
+  &.rs-btn-active {
+    color: var(--rs-color-btn-ghost-active-text);
+    border-color: var(--rs-color-btn-ghost-active-border);
+  }
+
+  &:disabled,
+  &.rs-btn-disabled {
+    opacity: 0.3;
+  }
+}
+
+// Spectrum buttons
+each(@spectrum, .(@color) {
+  @C200: var(~'--rs-color-@{color}-200');
+  @C400: var(~'--rs-color-@{color}-400');
+  @C500: var(~'--rs-color-@{color}-500');
+  @C600: var(~'--rs-color-@{color}-600');
+  @C700: var(~'--rs-color-@{color}-700');
+  @C800: var(~'--rs-color-@{color}-800');
+  @C900: var(~'--rs-color-@{color}-900');
+
+  .rs-btn-@{color} {
+    --rs-color-btn-primary-bg: @C500;
+    --rs-color-btn-primary-hover-bg: @C600;
+    --rs-color-btn-primary-active-bg: @C700;
+    --rs-color-btn-subtle-hover-bg: @C500;
+    --rs-color-btn-subtle-hover-text: #fff;
+    --rs-color-btn-subtle-active-bg: @C600;
+    --rs-color-btn-subtle-active-text: #fff;
+    --rs-color-btn-ghost-border: @C700;
+    --rs-color-btn-ghost-text: @C700;
+    --rs-color-btn-ghost-hover-border: @C800;
+    --rs-color-btn-ghost-hover-text: @C800;
+    --rs-color-btn-ghost-active-border: @C900;
+    --rs-color-btn-ghost-active-text: @C900;
+    --rs-color-btn-link-text: @C700;
+    --rs-color-btn-link-hover-text: @C800;
+    --rs-color-btn-link-active-text: @C900;
+
+    .rs-theme-dark & {
+      --rs-color-btn-primary-bg: @C700;
+      --rs-color-btn-primary-hover-bg: @C600;
+      --rs-color-btn-primary-active-bg: @C400;
+      --rs-color-btn-subtle-hover-bg: @C600;
+      --rs-color-btn-subtle-hover-text: #fff;
+      --rs-color-btn-subtle-active-bg: @C400;
+      --rs-color-btn-subtle-active-text: #fff;
+      --rs-color-btn-ghost-border: @C500;
+      --rs-color-btn-ghost-text: @C500;
+      --rs-color-btn-ghost-hover-border: @C400;
+      --rs-color-btn-ghost-hover-text: @C400;
+      --rs-color-btn-ghost-active-border: @C200;
+      --rs-color-btn-ghost-active-text: @C200;
+      --rs-color-btn-link-text: @C500;
+      --rs-color-btn-link-hover-text: @C400;
+      --rs-color-btn-link-active-text: @C200;
+    }
+  }
+});
+
+// Button Sizes
+// --------------------------------------------------
+
+.rs-btn-lg {
+  .btn-lg();
+}
+
+.rs-btn-sm {
+  .btn-sm();
+}
+
+.rs-btn-xs {
+  .btn-xs();
+}
+
+// Block button
+// --------------------------------------------------
+
+.rs-btn-block {
+  display: block;
+  width: 100%;
+
+  // Vertically space out multiple block buttons
+  & + & {
+    margin-top: 5px;
+  }
+}
+
+// Button Loading state
+.rs-btn-loading {
+  color: transparent !important;
+  position: relative;
+  cursor: default;
+  pointer-events: none;
+
+  // Spinner
+  > .rs-btn-spin {
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: @btn-loading-spin-default-diameter;
+      height: @btn-loading-spin-default-diameter;
+      margin: auto;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-radius: 50%;
+
+      .rs-btn-xs& {
+        width: @btn-loading-spin-xs-diameter;
+        height: @btn-loading-spin-xs-diameter;
+      }
+    }
+
+    &::before {
+      border: @btn-loading-spin-ring-wide solid var(--rs-color-loader-ring);
+
+      .rs-btn-primary& {
+        border-color: rgba(248, 247, 250, 0.3);
+      }
+    }
+
+    &::after {
+      border-width: @btn-loading-spin-ring-wide;
+      border-color: var(--rs-color-loader-rotor) transparent transparent;
+      border-style: solid;
+      animation: buttonSpin 0.6s infinite linear;
+
+      .rs-btn-primary& {
+        border-top-color: #fff;
+      }
+    }
+  }
+}
+

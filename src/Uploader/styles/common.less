@@ -1,5 +1,5 @@
 @import '../../styles/common';
-@import '../../Button/styles/mixin';
+@import '../../Button/styles/index';
 @import '../../Loader/styles/mixin';
 @import 'mixin';
 
@@ -168,9 +168,8 @@
   .clearfix();
 
   .@{uplns}-trigger-btn {
-    .btn-base();
-    .button-ripple();
-    .btn-variant-subtle();
+    .rs-btn();
+    .rs-btn-subtle();
 
     width: @uploader-picture-side-length;
     height: @uploader-picture-side-length;

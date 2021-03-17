@@ -1,3 +1,3 @@
 import '../../../styles/themes/default/core.less';
-import '../../../Button/styles/themes/default';
+import '../../../Button/styles/index.less';
 import './default.less';

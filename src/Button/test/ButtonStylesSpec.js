@@ -11,7 +11,7 @@ import {
   itChrome
 } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 const { H500, H700, H800, H900 } = getDefaultPalette();
 

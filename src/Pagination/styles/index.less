@@ -1,6 +1,5 @@
 @import '../../styles/core';
-@import '../../Button/styles/common';
-@import '../../Button/styles/mixin';
+@import '../../Button/styles/index';
 @import './pagination-group';
 @import 'mixin';
 
@@ -96,7 +95,7 @@
   }
 
   &-active {
-    .pagination-active(@pagination-base-active-color);
+    .pagination-active();
   }
 }
 
