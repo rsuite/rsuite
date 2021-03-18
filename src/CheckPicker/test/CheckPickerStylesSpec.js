@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import CheckPicker from '../index';
 import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 const data = [
   {
