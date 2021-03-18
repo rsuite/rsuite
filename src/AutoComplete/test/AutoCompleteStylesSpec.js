@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import AutoComplete from '../index';
 import { createTestContainer, getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 const { H050 } = getDefaultPalette();
 
