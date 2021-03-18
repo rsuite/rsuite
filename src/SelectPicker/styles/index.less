@@ -1,1 +1,46 @@
-@import 'themes/default';
+@import '../../styles/core';
+@import '../../Picker/styles/mixin';
+
+// Select Picker
+// ----------------------
+
+// Select picker name space
+@slns: ~'rs-@{select-picker-prefix}';
+
+// Menu Items (the listbox)
+.@{slns}-menu-items {
+  .picker-menu-items-reset();
+  .picker-menu-group-common(picker);
+  .picker-menu-group-title(picker);
+  .picker-menu-group-closed(picker);
+}
+
+// Menu item (the option)
+.@{slns}-menu-item {
+  .picker-select-item();
+
+  &:hover,
+  &:focus,
+  &&-focus {
+    color: currentColor;
+    background-color: var(--rs-color-listbox-option-hover-bg);
+  }
+
+  &&-active {
+    .picker-item-active();
+
+    color: var(--rs-color-listbox-option-selected-text);
+    background-color: var(--rs-color-listbox-option-selected-bg);
+  }
+
+  &&-disabled {
+    color: var(--rs-color-listbox-option-disabled-text);
+    background: none;
+    cursor: @cursor-disabled;
+  }
+
+  .grouped &,
+  .@{slns}-menu-group-children & {
+    padding-left: @picker-group-children-padding-left;
+  }
+}

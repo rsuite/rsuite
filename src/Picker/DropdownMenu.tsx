@@ -149,6 +149,7 @@ const DropdownMenu = React.forwardRef(
        */
       if (group && item[KEY_GROUP]) {
         const groupValue = item[KEY_GROUP_TITLE];
+        // TODO: grouped options should be owned by group
         return (
           <DropdownMenuGroup
             style={style}
