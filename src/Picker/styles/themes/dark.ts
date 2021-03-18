@@ -1,3 +1,3 @@
 import '../../../styles/themes/dark/core.less';
-import '../../../Checkbox/styles/themes/dark';
+import '../../../Checkbox/styles/index';
 import './dark.less';
