@@ -246,7 +246,7 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
         return;
       }
       handleOpen();
-    }, [open, exited, handleOpen, handleClose]);
+    }, [open, handleOpen]);
 
     useEffect(() => {
       if (!exited) {
@@ -255,11 +255,12 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
       handleClose();
     }, [exited, handleClose]);
 
+    // will unmount
     useEffect(() => {
       return () => {
         handleClose();
       };
-    }, [handleClose]);
+    }, []);
 
     const handleExited = useCallback(() => {
       setExited(true);
