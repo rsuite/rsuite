@@ -1,3 +1,29 @@
+<a name="5.0.0-alpha.5"></a>
+# [5.0.0-alpha.5](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.4...v5.0.0-alpha.5) (2021-03-19)
+
+
+### Bug Fixes
+
+* **daterangepicker:** modify the `character` prop to be optional ([#1518](https://github.com/rsuite/rsuite/issues/1518)) ([6b77e52](https://github.com/rsuite/rsuite/commit/6b77e52))
+* **inputpicker:** fix the input does not work when focused by keyboard ([b2dc612](https://github.com/rsuite/rsuite/commit/b2dc612))
+* **inputpicker:** inputPicker should clear search keywords when closed ([679edc3](https://github.com/rsuite/rsuite/commit/679edc3))
+* **modal:** fix input is not allowed to input text in Modal ([#1579](https://github.com/rsuite/rsuite/issues/1579)) ([f4ec497](https://github.com/rsuite/rsuite/commit/f4ec497)), closes [#1570](https://github.com/rsuite/rsuite/issues/1570)
+* **overlaytrigger:** rename `child` to `root` in OverlayTrigger instance ([05ce0ec](https://github.com/rsuite/rsuite/commit/05ce0ec))
+* **pickers:** picker should not be interactive during animation exit ([1f657b7](https://github.com/rsuite/rsuite/commit/1f657b7))
+* **rangeslider:** fix RangeSlider style problem ([cfaa93e](https://github.com/rsuite/rsuite/commit/cfaa93e))
+* **table:** change `Table` locale prop to optional ([#1581](https://github.com/rsuite/rsuite/issues/1581)) ([ca15531](https://github.com/rsuite/rsuite/commit/ca15531))
+* **tree:** fix `spin` icon does not display when Tree is loaded async ([#1535](https://github.com/rsuite/rsuite/issues/1535)) ([0294a43](https://github.com/rsuite/rsuite/commit/0294a43))
+* **uploader:** fixed the status icon not showing during upload ([#1547](https://github.com/rsuite/rsuite/issues/1547)) ([8f24c69](https://github.com/rsuite/rsuite/commit/8f24c69))
+
+
+### Features
+
+* **form:** support for data verification of complex object structure ([#1558](https://github.com/rsuite/rsuite/issues/1558)) ([d5b23f4](https://github.com/rsuite/rsuite/commit/d5b23f4))
+* **pagination:** added for support `layout` on Pagination ([#1533](https://github.com/rsuite/rsuite/issues/1533)) ([9713cd5](https://github.com/rsuite/rsuite/commit/9713cd5))
+* **whisper:** support `onClose` on the `speaker` prop of Whisper ([4ecad64](https://github.com/rsuite/rsuite/commit/4ecad64))
+
+
+
 <a name="5.0.0-alpha.4"></a>
 # [5.0.0-alpha.4](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.3...v5.0.0-alpha.4) (2021-02-23)
 
