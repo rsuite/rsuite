@@ -1,0 +1,63 @@
+.rs-radio-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.rs-radio-group-inline {
+  flex-direction: row;
+  margin-left: -1 * @radio-sense-width;
+}
+
+// Radio Group - picker appearance
+.rs-radio-group-picker {
+  color: @picker-default-toggle-font-color;
+  border: 1px solid @picker-default-toggle-border-color;
+  border-radius: @border-radius-base;
+  margin-left: 0;
+
+  .rs-radio-inline {
+    margin-left: 0;
+  }
+
+  .rs-radio-checker {
+    padding: 0;
+    min-height: auto;
+    border-bottom: 1px solid transparent;
+    margin: 0 10px;
+  }
+
+  // Picker Radio group hidden radio.
+  .rs-radio-wrapper {
+    display: none;
+  }
+
+  .rs-radio-checker > label {
+    .btn-base();
+
+    color: @radio-label-font-color;
+    transition: color 0.3s linear;
+    padding: (@padding-base-vertical - 1px) 0;
+
+    &:hover,
+    &:active {
+      color: @radio-picker-active-color;
+    }
+  }
+
+  .rs-radio-checked .rs-radio-checker {
+    border-bottom: 2px solid @radio-picker-active-color;
+
+    > label {
+      color: @radio-picker-active-color;
+    }
+  }
+
+  .rs-radio-disabled .rs-radio-checker {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .rs-radio-disabled:not(.rs-radio-checked) .rs-radio-checker > label {
+    color: @radio-label-font-color;
+  }
+}

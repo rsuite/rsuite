@@ -4,10 +4,6 @@
   border-radius: @checkbox-border-radius;
 }
 
-.checkbox-inner-active-shadow(@shadow-color:@checkbox-default-border-color) {
-  box-shadow: 0 0 0 3px fade(@shadow-color, 40%);
-}
-
 // Radio and Checkbox common styles
 .radio-checkbox-common() {
   position: relative;
@@ -38,7 +34,7 @@
 
   // Disabled text styles.
   &-disabled > &-checker > label {
-    color: @input-color-disabled;
+    color: var(--rs-color-text-disabled);
   }
 
   // Radios and checkboxes on same line
