@@ -15,13 +15,13 @@ export interface AvatarProps extends WithAsProps {
   /**
    * The `sizes` attribute for the `img` element.
    */
-  sizes: string;
+  sizes?: string;
 
   /**
    * The `srcSet` attribute for the `img` element.
    * Use this attribute for responsive image display.
    */
-  srcSet: string;
+  srcSet?: string;
 
   /**
    * Attributes applied to the `img` element if the component is used to display an image.
