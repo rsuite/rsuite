@@ -1,1 +1,85 @@
-@import 'themes/default';
+@import '../../styles/core';
+@import '../../Button/styles/mixin';
+@import 'mixin';
+
+//
+// Pickers
+// --------------------------------------------------
+
+// The switch trail
+// todo: Consider renaming as .rs-toggle
+.rs-btn-toggle {
+  // Default size is middle.
+  .btn-toggle(md);
+
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: middle;
+  background-color: var(--rs-color-toggle-bg);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color @toggle-transition, width @toggle-transition;
+  user-select: none;
+
+  &:hover {
+    background-color: var(--rs-color-toggle-hover-bg);
+  }
+
+  // The switch thumb
+  &::after {
+    content: '';
+    cursor: pointer;
+    position: absolute;
+    background-color: var(--rs-color-toggle-thumb);
+    transition: left @toggle-transition, margin-left @toggle-transition, width @toggle-transition;
+  }
+
+  // checked state
+  &-checked {
+    background-color: var(--rs-color-toggle-checked-bg);
+
+    &:hover {
+      background-color: var(--rs-color-toggle-checked-hover-bg);
+    }
+  }
+
+  // disabled state
+  &-disabled {
+    background-color: var(--rs-color-toggle-disabled-bg);
+    cursor: not-allowed;
+
+    &::after {
+      background-color: var(--rs-color-toggle-disabled-thumb);
+    }
+
+    &.rs-btn-toggle-checked {
+      background-color: var(--rs-color-toggle-checked-disabled-bg);
+
+      &::after {
+        background-color: var(--rs-color-toggle-checked-disabled-thumb);
+      }
+    }
+  }
+}
+
+// Label text inside the switch
+.rs-btn-toggle-inner {
+  display: block;
+  transition: margin @toggle-transition;
+}
+
+// small
+.rs-btn-toggle-sm {
+  .btn-toggle(sm);
+}
+
+// middle
+.rs-btn-toggle-md {
+  .btn-toggle(md);
+}
+
+// large
+.rs-btn-toggle-lg {
+  .btn-toggle(lg);
+}

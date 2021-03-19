@@ -42,6 +42,9 @@ const defaultProps: Partial<ToggleProps> = {
   classPrefix: 'btn-toggle'
 };
 
+/**
+ * fixme: Should contain an input[type=checkbox]
+ */
 const Toggle = React.forwardRef((props: ToggleProps, ref) => {
   const {
     as: Component,
