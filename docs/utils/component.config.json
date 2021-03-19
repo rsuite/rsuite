@@ -345,7 +345,7 @@
     "id": "table",
     "name": "Table",
     "title": "表格",
-    "components": ["Table", "Table.Column", "Table.HeaderCell", "Table.Cell", "Table.Pagination"],
+    "components": ["Table", "Table.Column", "Table.HeaderCell", "Table.Cell"],
     "designHash": { "default": "76", "dark": "76" }
   },
   { "id": "tree", "name": "Tree", "title": "树形控件", "components": ["Tree"] },
