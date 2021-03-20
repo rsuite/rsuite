@@ -141,6 +141,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       onExited,
       onChange,
       onClean,
+      onCreate,
       onSearch,
       onSelect,
       onOpen,
@@ -313,10 +314,11 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
         if (creatable && item.create) {
           delete item.create;
+          onCreate?.(value, item, event);
           setNewData(newData.concat(item));
         }
       },
-      [creatable, newData, onSelect]
+      [creatable, newData, onSelect, onCreate]
     );
 
     /**
@@ -762,6 +764,7 @@ InputPicker.propTypes = {
   renderMenu: PropTypes.func,
   renderMenuItem: PropTypes.func,
   renderMenuGroup: PropTypes.func,
+  onCreate: PropTypes.func,
   onSelect: PropTypes.func,
   onGroupTitleClick: PropTypes.func,
   onSearch: PropTypes.func,
