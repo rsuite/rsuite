@@ -231,9 +231,9 @@ const UploadFileItem = React.forwardRef(
      */
     const renderFilePanel = () => {
       const fileElement = (
-        <a role="presentation" className={prefix('title')} onClick={handlePreview}>
+        <div className={prefix('title')} onClick={handlePreview}>
           {file.name}
-        </a>
+        </div>
       );
       return (
         <div className={prefix('panel')}>
