@@ -375,7 +375,11 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       for (let i = 0; i < a.length; i++) {
         labelElements.push(a[i]);
         if (b[i]) {
-          labelElements.push(<strong key={i}>{b[i]}</strong>);
+          labelElements.push(
+            <span key={i} className={prefix('cascader-search-match')}>
+              {b[i]}
+            </span>
+          );
         }
       }
 

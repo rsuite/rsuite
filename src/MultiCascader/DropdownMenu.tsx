@@ -52,6 +52,9 @@ const defaultProps: Partial<DropdownMenuProps> = {
   labelKey: 'label'
 };
 
+/**
+ * TODO: reuse Menu from Cascader for consistent behavior
+ */
 const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.forwardRef(
   (props: DropdownMenuProps, ref) => {
     const {

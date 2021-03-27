@@ -1,1 +1,130 @@
-@import 'themes/default';
+@import '../../styles/core';
+@import '../../Dropdown/styles/mixin';
+@import '../../styles/mixins/listbox';
+
+// Cascader
+// ----------------------
+
+.rs-picker-cascader-menu-items > div {
+  .clearfix();
+}
+
+// Search panel
+.rs-picker-cascader-search-panel {
+  max-height: @cascader-search-panel-max-height;
+  overflow: auto;
+}
+
+.rs-picker-cascader-row {
+  .listbox-option();
+
+  &:hover {
+    .listbox-option-hover();
+  }
+
+  &&-focus {
+    .listbox-option-focus();
+  }
+
+  &:disabled,
+  &&-disabled {
+    .listbox-options-disabled();
+
+    .rs-picker-cascader-search-match {
+      opacity: 0.7;
+      font-weight: normal;
+    }
+  }
+}
+
+.rs-picker-cascader-col {
+  padding: @picker-item-content-padding-vertical 0;
+  display: inline-block;
+
+  &::after {
+    content: '\00a0/\00a0'; //content:' / '
+  }
+
+  &:last-child::after {
+    display: none;
+  }
+}
+
+.rs-picker-cascader-search-match {
+  color: var(--rs-color-highlight);
+  font-weight: bold;
+}
+
+// Column menu
+.rs-picker-cascader-menu-column {
+  float: left;
+  overflow-y: auto;
+
+  &-loading {
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .rs-icon {
+      margin: 4px;
+    }
+  }
+}
+
+// Menu Items
+.rs-picker-cascader-menu-items {
+  padding: @border-radius-base 0;
+
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+}
+
+// Menu item
+.rs-picker-cascader-menu-item {
+  .listbox-option();
+
+  @padding-right: (16px + @picker-item-content-padding-horizontal);
+
+  position: relative;
+  padding: @picker-item-content-padding-vertical @padding-right
+    @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
+  word-break: break-word;
+
+  // Has children
+  // TODO: move `has-children` class on the .rs-picker-cascader-menu-item element
+  &s-has-children & {
+    padding-right: @dropdown-toggle-padding-right;
+  }
+
+  &:hover,
+  &:focus,
+  &.rs-picker-select-menu-item-focus {
+    .listbox-option-hover();
+  }
+
+  &&-focus {
+    .listbox-option-focus();
+  }
+
+  &&-active {
+    .listbox-option-selected();
+
+    .rs-picker-cascader-menu-caret {
+      color: @text-color;
+    }
+  }
+
+  &:disabled,
+  &&-disabled {
+    .listbox-options-disabled();
+  }
+}
+
+.rs-picker-cascader-menu-caret {
+  .dropdown-toggle-caret-common();
+}

@@ -1,0 +1,58 @@
+// ARIA Listboxes and Options
+// used in picker menus, e.g. SelectPicker, CheckPicker, Cascader etc
+//
+// Common usage: (note the orders of different states)
+//
+// .item {
+//   .listbox-option();
+//
+//   &:hover {
+//     .listbox-option-hover();
+//   }
+//
+//   &-selected {
+//     .listbox-option-selected();
+//   }
+//
+//   &-disabled {
+//     .listbox-option-disabled();
+//   }
+// }
+
+.listbox() {
+  list-style: none;
+}
+
+.listbox-option() {
+  display: block;
+  padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
+  clear: both;
+  font-weight: normal;
+  line-height: @line-height-base;
+  color: var(--rs-color-text-primary);
+  cursor: pointer;
+  transition: @picker-item-transition;
+  text-decoration: none;
+  width: 100%;
+}
+
+.listbox-option-hover() {
+  color: currentColor;
+  background-color: var(--rs-color-listbox-option-hover-bg);
+}
+
+.listbox-option-focus() {
+  background-color: var(--rs-color-listbox-option-selected-bg);
+  font-weight: bold;
+}
+
+.listbox-option-selected() {
+  .listbox-option-focus();
+  color: var(--rs-color-listbox-option-selected-text);
+}
+
+.listbox-options-disabled {
+  color: var(--rs-color-listbox-option-disabled-text);
+  background: none;
+  cursor: not-allowed;
+}
