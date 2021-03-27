@@ -1,1 +1,1 @@
-import '../../../Slider/styles/themes/dark';
+import '../../../Slider/styles/index';
