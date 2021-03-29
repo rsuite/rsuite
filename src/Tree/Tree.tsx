@@ -124,13 +124,13 @@ export interface TreeProps<ValueType = string | number>
   virtualized?: boolean;
 
   /** Tree data structure Label property name */
-  labelKey?: keyof ItemDataType;
+  labelKey?: string;
 
-  /** ree data Structure Value property name */
-  valueKey?: keyof ItemDataType;
+  /** Tree data Structure Value property name */
+  valueKey?: string;
 
   /** Tree data structure Children property name */
-  childrenKey?: keyof ItemDataType;
+  childrenKey?: string;
 
   /** Default selected Value  */
   defaultValue?: ValueType;
