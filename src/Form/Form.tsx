@@ -99,11 +99,11 @@ export interface FormInstance<
 
 export interface FormComponent
   extends RsRefForwardingComponent<'form', FormProps & { ref?: React.Ref<FormInstance> }> {
-  Control?: typeof FormControl;
-  ControlLabel?: typeof FormControlLabel;
-  ErrorMessage?: typeof FormErrorMessage;
-  Group?: typeof FormGroup;
-  HelpText?: typeof FormHelpText;
+  Control: typeof FormControl;
+  ControlLabel: typeof FormControlLabel;
+  ErrorMessage: typeof FormErrorMessage;
+  Group: typeof FormGroup;
+  HelpText: typeof FormHelpText;
 }
 
 const defaultProps: Partial<FormProps> = {
