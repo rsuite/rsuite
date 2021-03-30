@@ -64,7 +64,7 @@ export interface FormProps<
   /** Callback fired when error checking */
   onError?: (formError: E) => void;
 
-  /** Callback fired when data cheking */
+  /** Callback fired when data checking */
   onCheck?: (formError: E) => void;
 
   /** Callback fired when form submit */
