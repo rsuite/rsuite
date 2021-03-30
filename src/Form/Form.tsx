@@ -1,4 +1,10 @@
-import React, { useMemo, useCallback, useState, useImperativeHandle, useRef } from 'react';
+import React, {
+  useMemo,
+  useCallback,
+  useState,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
@@ -115,7 +121,10 @@ const defaultProps: Partial<FormProps> = {
   model: SchemaModel({})
 };
 
-const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
+const Form: RsRefForwardingComponent<
+  'form',
+  FormProps & { ref?: React.Ref<FormInstance> }
+> = React.forwardRef((props: FormProps, ref) => {
   const {
     checkTrigger,
     classPrefix,
@@ -391,12 +400,11 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   );
 });
 
-Form.Control = FormControl;
-Form.ControlLabel = FormControlLabel;
-Form.ErrorMessage = FormErrorMessage;
-Form.Group = FormGroup;
-Form.HelpText = FormHelpText;
-Form.Control = FormControl;
+(Form as FormComponent).Control = FormControl;
+(Form as FormComponent).ControlLabel = FormControlLabel;
+(Form as FormComponent).ErrorMessage = FormErrorMessage;
+(Form as FormComponent).Group = FormGroup;
+(Form as FormComponent).HelpText = FormHelpText;
 
 Form.displayName = 'Form';
 Form.defaultProps = defaultProps;
@@ -421,4 +429,4 @@ Form.propTypes = {
   disabled: PropTypes.bool
 };
 
-export default Form;
+export default Form as FormComponent;
