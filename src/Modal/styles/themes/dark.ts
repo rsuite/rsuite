@@ -1,3 +1,3 @@
 import '../../../styles/themes/dark/core.less';
-import '../../../Animation/styles/themes/dark';
+import '../../../Animation/styles/index';
 import './dark.less';
