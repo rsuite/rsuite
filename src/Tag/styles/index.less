@@ -1,1 +1,51 @@
-@import 'themes/default';
+@import '../../styles/core';
+
+//
+// Time lines
+// --------------------------------------------------
+
+.rs-tag {
+  display: inline-block;
+  padding: @padding-extra-small-vertical @padding-extra-small-horizontal;
+  background-color: var(--rs-color-tag-bg);
+  color: var(--rs-color-text-primary);
+  border-radius: 6px;
+  font-size: @font-size-extra-small;
+  line-height: @line-height-extra-small;
+
+  &-closable {
+    padding-right: 25px;
+    position: relative;
+  }
+
+  & &-icon-close {
+    position: absolute;
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  &-default &-icon-close:hover {
+    color: var(--rs-color-tag-close);
+  }
+
+  &-group {
+    margin: (-1 * @tag-gap) 0 0 (-1 * @tag-gap);
+  }
+
+  &-group > & {
+    margin-top: @tag-gap;
+    margin-left: @tag-gap;
+  }
+}
+
+.rs-tag + .rs-tag {
+  margin-left: @tag-gap;
+}
+
+// Colorful tags
+each(@spectrum, .(@color) {
+  .rs-tag-@{color} {
+    background-color: var(~'--rs-color-@{color}-500');
+    color: #ffffff;
+  }
+});

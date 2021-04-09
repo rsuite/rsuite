@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import TagGroup from '../index';
 import { createTestContainer, getStyle, itChrome } from '@test/testUtils';
 
-import '../styles/index';
-
 describe('TagGroup styles', () => {
   itChrome('Should render the correct styles', () => {
     const instanceRef = React.createRef();
