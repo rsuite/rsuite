@@ -1,1 +1,15 @@
-@import 'themes/default';
+@import '../../styles/core';
+@import '../../Button/styles/mixin';
+
+//
+// Button toolbar
+// --------------------------------------------------
+
+.rs-btn-toolbar {
+  // Clear whitespace
+  line-height: 0;
+
+  > :not(:first-child):not(.rs-btn-block) {
+    margin-left: 5px;
+  }
+}
