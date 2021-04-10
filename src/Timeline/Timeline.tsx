@@ -17,7 +17,7 @@ export interface TimelineProps extends WithAsProps {
 }
 
 const defaultProps: Partial<TimelineProps> = {
-  as: 'ul',
+  as: 'ul', // TODO: Consider using <ol>?
   classPrefix: 'timeline',
   align: 'left'
 };
