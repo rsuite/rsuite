@@ -143,9 +143,10 @@
   --rs-color-text-disabled: @B400;
   --rs-color-text-error: @error-color;
   --rs-color-border-primary: var(--rs-color-gray-300);
-  --rs-color-border-secondary: var(--rs-color-gray-100);
+  --rs-color-border-secondary: @B100;
   --rs-color-bg-card: @B000;
   --rs-color-bg-overlay: @B000;
+  --rs-color-state-hover-bg: @H050;
   --rs-color-state-focus-shadow: 0 0 0 3px fade(@H500, 25%);
 
   // Button
@@ -182,7 +183,7 @@
   // Loader
   --rs-color-loader-ring: fade(@B050, 80);
   --rs-color-loader-rotor: @B500;
-  --rs-color-loader-backdrop: fade(@B000, 75);
+  --rs-color-loader-backdrop: fade(@B000, 90%);
   --rs-color-loader-ring-inverse: fade(@B050, 30);
   --rs-color-loader-rotor-inverse: @B000;
   --rs-color-loader-backdrop-inverse: fade(@B900, 83);
@@ -337,6 +338,15 @@
   // Timeline
   --rs-color-timeline-indicator-bg: @B300;
   --rs-color-timeline-indicator-active-bg: @H500;
+
+  // Table
+  --rs-color-table-shadow: rgba(9, 9, 9, 0.08);
+  --rs-color-table-sort: @H500;
+  --rs-color-table-resize: @H500;
+  --rs-color-table-scrollbar-track: @B200;
+  --rs-color-table-scrollbar-thumb: @B800;
+  --rs-color-table-scrollbar-thumb-active: @B900;
+  --rs-color-table-scrollbar-vertical-thumb-active: fade(@B900, 40%);
 }
 
 //** Global button ripple switch
