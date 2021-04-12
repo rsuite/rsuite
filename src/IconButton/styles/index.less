@@ -1,1 +1,56 @@
-@import 'themes/default';
+@import '../../styles/core';
+@import '../../Button/styles/mixin';
+
+//
+// IconButton
+// --------------------------------------------------
+
+// Alternate buttons
+// --------------------------------------------------
+
+// Icon Button with text
+.btn-icon-with-text(@bg) {
+  &.rs-btn-icon-with-text > .rs-icon {
+    background: @bg;
+  }
+}
+
+// Default Button
+// Rewrite common button style
+.rs-btn-icon {
+  &.rs-btn-icon-with-text > .rs-icon {
+    transition: @btn-transition;
+  }
+
+  .btn-icon-with-text(@btn-icon-with-text-bg);
+
+  &:hover,
+  &:focus {
+    .btn-icon-with-text(@btn-icon-with-text-hover-bg);
+  }
+
+  &:active,
+  &.rs-btn-active {
+    .btn-icon-with-text(@btn-icon-with-text-active-bg);
+  }
+}
+
+// Icon Button
+// Icon Button text size increase 2 px
+.rs-btn-icon:not(.rs-btn-icon-with-text) {
+  .icon {
+    font-size: @font-size-large;
+    line-height: @line-height-large;
+  }
+
+  &.btn-xs {
+    font-size: @font-size-base;
+    line-height: @line-height-base;
+  }
+}
+
+// Circle Button
+.rs-btn-icon-circle {
+  border-radius: 50% !important;
+  width: (@padding-base-vertical*2 + @line-height-computed);
+}
