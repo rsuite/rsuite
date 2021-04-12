@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Modal from '../index';
 import { createTestContainer, getStyle, toRGB } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Modal styles', () => {
   it('Should render the correct styles', () => {
