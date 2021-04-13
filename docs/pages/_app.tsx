@@ -115,6 +115,13 @@ function App({ Component, pageProps }: AppProps) {
 
   const messages = getMessages(language);
 
+  React.useEffect(() => {
+    const oppositeThemeName = themeName === 'default' ? 'dark' : 'default';
+
+    document.body.classList.add(`rs-theme-${themeName}`);
+    document.body.classList.remove(`rs-theme-${oppositeThemeName}`);
+  }, [themeName]);
+
   return (
     <React.StrictMode>
       <Grid fluid className="app-container">
