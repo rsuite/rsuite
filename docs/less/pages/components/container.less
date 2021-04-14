@@ -1,27 +1,27 @@
 .show-container {
-  > .@{ns}container {
+  > .rs-container {
     margin-bottom: 40px;
   }
 
-  .@{ns}header,
-  .@{ns}content,
-  .@{ns}footer,
-  .@{ns}sidebar {
+  .rs-header,
+  .rs-content,
+  .rs-footer,
+  .rs-sidebar {
     background: @H500;
     color: @B000;
     text-align: center;
   }
 
-  .@{ns}header,
-  .@{ns}footer {
+  .rs-header,
+  .rs-footer {
     line-height: 56px;
     background: @H400;
   }
-  .@{ns}content {
+  .rs-content {
     line-height: 120px;
     background: @H300;
   }
-  .@{ns}sidebar {
+  .rs-sidebar {
     line-height: 120px;
   }
 }
@@ -33,11 +33,11 @@
   background: @show-fake-browser-bg;
 
   &.sidebar-page {
-    .@{ns}sidebar {
+    .rs-sidebar {
       height: 700px;
       box-shadow: @default-box-shadow;
     }
-    .@{ns}sidenav {
+    .rs-sidenav {
       flex: 1 1 auto;
       width: 100%;
 
@@ -45,11 +45,11 @@
         overflow-y: auto;
       }
     }
-    .@{ns}header {
+    .rs-header {
       padding: 0 20px;
     }
 
-    .@{ns}content {
+    .rs-content {
       padding: 20px;
       margin: 20px;
       background: @show-fake-browser-content-bg;
@@ -59,26 +59,26 @@
     }
   }
   &.navbar-page {
-    .@{ns}content {
+    .rs-content {
       padding: 20px;
       margin: 20px;
       height: 500px;
       background: @show-fake-browser-content-bg;
     }
-    .@{ns}footer {
+    .rs-footer {
       padding: 20px;
     }
   }
   &.login-page {
-    .@{ns}content {
+    .rs-content {
       padding: 20px;
       margin: 20px;
       height: 500px;
     }
-    .@{ns}footer {
+    .rs-footer {
       padding: 20px;
     }
-    .@{ns}panel {
+    .rs-panel {
       background: @body-bg;
       margin-top: 70px;
     }

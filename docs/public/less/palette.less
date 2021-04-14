@@ -1332,20 +1332,20 @@
     &-@{name}-wrapper::before {
       border-color: @H500;
     }
-    &-@{name} label:hover .@{ns}-@{name}-inner::before {
+    &-@{name} label:hover .rs--@{name}-inner::before {
       border-color: @H500;
     }
-    &-@{name}-checked .@{ns}-@{name}-wrapper .@{ns}-@{name}-inner::before {
+    &-@{name}-checked .rs--@{name}-wrapper .rs--@{name}-inner::before {
       border-color: @H500;
       background-color: @H500;
       box-shadow: 0 0 0 2px fade(@H500, 40%);
     }
-    &-@{name}:hover .@{ns}-@{name}-wrapper:focus .@{ns}-@{name}-inner::before {
+    &-@{name}:hover .rs--@{name}-wrapper:focus .rs--@{name}-inner::before {
       .inner-active-shadow(@H500);
     }
   }
 
-  .@{ns} {
+  .rs- {
     //#== Button
     &-btn-primary {
       background-color: @btn-primary-bg;

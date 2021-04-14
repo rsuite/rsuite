@@ -2,7 +2,7 @@
   overflow-x: hidden;
 }
 
-.@{ns}sidebar-wrapper.fixed {
+.rs-sidebar-wrapper.fixed {
   position: fixed;
   background: @sidebar-wrapper-bg;
   width: 260px;
@@ -78,7 +78,7 @@
   }
 }
 
-.@{ns}nav.nav-docs {
+.rs-nav.nav-docs {
   overflow: auto;
   position: absolute;
   bottom: 20px;
@@ -99,10 +99,10 @@
     margin-left: 4px;
     opacity: 0.5;
   }
-  .@{ns}nav-item-panel {
+  .rs-nav-item-panel {
     padding: 20px 12px 12px 12px;
     color: #aaa;
-    border-bottom: 1px solid @divider-border-color;
+    border-bottom: 1px solid var(--rs-color-border-primary);
   }
 
   // Scrollbar
@@ -129,11 +129,11 @@
 
 .app-container.night {
   min-width: 1000px;
-  .@{ns}sidebar-wrapper {
+  .rs-sidebar-wrapper {
     background: rgba(242, 242, 242, 0.7);
   }
 
-  .@{ns}nav.nav-docs {
+  .rs-nav.nav-docs {
     a {
       &:hover {
         background: #eee !important;
@@ -142,11 +142,11 @@
     .rs-nav-item-content:focus {
       background: #eee !important;
     }
-    .@{ns}nav-item-active a {
+    .rs-nav-item-active a {
       color: @H700;
       font-weight: bold;
     }
-    .@{ns}nav-item-panel {
+    .rs-nav-item-panel {
       color: #999;
     }
   }

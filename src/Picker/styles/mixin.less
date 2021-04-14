@@ -1,3 +1,4 @@
+@import '../../styles/variables';
 @import '../../Dropdown/styles/mixin';
 
 // Picker Menu items common styles
@@ -118,7 +119,8 @@
 
   .rs-picker-cleanable & {
     padding-right: (
-      @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding + @clean-btn-width + @clean-btn-margin
+      @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding + @clean-btn-width +
+        @clean-btn-margin
     );
   }
 
@@ -349,7 +351,7 @@
     .dropdown-toggle();
 
     color: @picker-default-toggle-font-color;
-    border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
+    border: @picker-default-toggle-border-width solid var(--rs-color-border-primary);
   }
 
   .rs-picker-disabled & {

@@ -4,11 +4,8 @@
 // Select Picker
 // ----------------------
 
-// Select picker name space
-@slns: ~'rs-@{select-picker-prefix}';
-
 // Menu Items (the listbox)
-.@{slns}-menu-items {
+.rs-picker-select-menu-items {
   .picker-menu-items-reset();
   .picker-menu-group-common(picker);
   .picker-menu-group-title(picker);
@@ -16,7 +13,7 @@
 }
 
 // Menu item (the option)
-.@{slns}-menu-item {
+.rs-picker-select-menu-item {
   .picker-select-item();
 
   &:hover,
@@ -40,7 +37,7 @@
   }
 
   .grouped &,
-  .@{slns}-menu-group-children & {
+  .rs-picker-select-menu-group-children & {
     padding-left: @picker-group-children-padding-left;
   }
 }

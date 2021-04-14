@@ -11,7 +11,7 @@
 // Icon Button with text
 .btn-icon-with-text(@bg) {
   &.rs-btn-icon-with-text > .rs-icon {
-    background: @bg;
+    background-color: @bg;
   }
 }
 
@@ -22,16 +22,31 @@
     transition: @btn-transition;
   }
 
-  .btn-icon-with-text(@btn-icon-with-text-bg);
+  .btn-icon-with-text(var(--rs-color-gray-100));
 
   &:hover,
   &:focus {
-    .btn-icon-with-text(@btn-icon-with-text-hover-bg);
+    .btn-icon-with-text(var(--rs-color-gray-300));
   }
 
   &:active,
   &.rs-btn-active {
-    .btn-icon-with-text(@btn-icon-with-text-active-bg);
+    .btn-icon-with-text(var(--rs-color-gray-400));
+  }
+
+  .rs-theme-dark & {
+
+    .btn-icon-with-text(var(--rs-color-gray-600));
+
+    &:hover,
+    &:focus {
+      .btn-icon-with-text(var(--rs-color-gray-500));
+    }
+
+    &:active,
+    &.rs-btn-active {
+      .btn-icon-with-text(var(--rs-color-gray-300));
+    }
   }
 }
 

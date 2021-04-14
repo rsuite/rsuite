@@ -10,7 +10,7 @@
   code {
     padding: 0 !important;
     margin: 0 !important;
-    color: @text-color !important;
+    color: var(--rs-color-text-primary) !important;
   }
 }
 
@@ -30,13 +30,13 @@ a code {
   background: none !important;
 }
 
-.code-view .@{ns}btn-toolbar + .@{ns}btn-toolbar {
+.code-view .rs-btn-toolbar + .rs-btn-toolbar {
   margin-top: 10px;
 }
 
-.code-view .@{ns}btn-toggle {
+.code-view .rs-btn-toggle {
   margin-right: 8px;
-  .@{ns}icon {
+  .rs-icon {
     width: 14px;
     text-align: center;
   }
@@ -61,7 +61,7 @@ a code {
   &:hover {
     border: 1px dashed @H500;
   }
-  
+
   .CodeMirror{
     margin: 0;
   }

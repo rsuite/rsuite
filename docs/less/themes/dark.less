@@ -2,11 +2,11 @@
 // modularized
 //@import '@{rootPath}rsuite/lib/styles/common';
 // integrated
-@import '@{rootPath}src/styles/themes/dark/index';
+@import '@{rootPath}src/styles/index';
 
-@sidebar-wrapper-bg: @B800;
+@sidebar-wrapper-bg: var(--rs-color-bg-card);
 @component-overview-content-name-color: @B300;
-@code-view-wrapper-bg: @B800;
+@code-view-wrapper-bg: var(--rs-color-bg-card);
 @code-view-wrapper-border-color: @code-view-wrapper-bg;
 @code-view-wrapper-hr-color: @B600;
 @doc-highlight-bg: #1e1e1e;
@@ -16,10 +16,9 @@
 @toolbar-btn-subtle-color: @B200;
 
 .document-nav {
-  background: @body-bg !important;
 
   .nav-link {
-    color: @text-color;
+    color: var(--rs-color-text-primary);
   }
 }
 
