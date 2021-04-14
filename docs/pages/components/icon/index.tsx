@@ -10,6 +10,13 @@ import * as faCamera from '@fortawesome/free-solid-svg-icons/faCamera';
 import * as faReact from '@fortawesome/free-brands-svg-icons/faReact';
 import * as faAddressBook from '@fortawesome/free-regular-svg-icons/faAddressBook';
 
+import {
+  FaCamera as FaCameraIcon,
+  FaReact as FaReactIcon,
+  FaAddressBook as FaAddressBookIcon,
+  FaSpinner as FaSpinnerIcon
+} from 'react-icons/fa';
+
 export default function Page() {
   return (
     <DefaultPage
@@ -22,7 +29,11 @@ export default function Page() {
         faCamera,
         faReact,
         faAddressBook,
-        PieChartIcon
+        PieChartIcon,
+        FaCameraIcon,
+        FaSpinnerIcon,
+        FaReactIcon,
+        FaAddressBookIcon
       }}
     />
   );
