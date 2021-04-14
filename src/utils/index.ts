@@ -39,4 +39,6 @@ export { default as useRootClose } from './useRootClose';
 export { default as getSafeRegExpString } from './getSafeRegExpString';
 export { default as stringToObject } from './stringToObject';
 export { default as useEventCallback } from './useEventCallback';
+export { default as useUpdatedRef } from './useUpdatedRef';
+export { default as useWillUnmount } from './useWillUnmount';
 export { default as useUpdateEffect } from './useUpdateEffect';
