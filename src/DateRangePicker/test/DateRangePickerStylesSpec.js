@@ -4,7 +4,7 @@ import DateRangePicker from '../index';
 import { createTestContainer, getInstance } from '@test/testUtils';
 import { getWidth } from 'dom-lib';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('DateRangePicker styles', () => {
   it('Should render the correct styles', call => {
