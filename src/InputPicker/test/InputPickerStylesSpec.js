@@ -4,14 +4,13 @@ import InputPicker from '../index';
 import Button from '../../Button';
 import {
   createTestContainer,
-  getDOMNode,
   getStyle,
   toRGB,
   getDefaultPalette,
   inChrome
 } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 const data = [
   {
