@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import slice from 'lodash/slice';
-import { shallowEqual } from '../utils';
+import { shallowEqual, useUpdateEffect } from '../utils';
 import { CascaderProps } from './Cascader';
 import { ItemDataType } from '../@types/common';
 import { findNodeOfTree } from '../utils/treeUtils';
@@ -91,10 +91,14 @@ export function usePaths(props: CascaderProps) {
     setSelectedPaths(paths);
   }
 
-  useEffect(() => {
+  useUpdateEffect(() => {
     // Update paths when value is updated, then update valueToPaths.
     setValueToPaths(paths);
   }, [paths]);
+
+  useUpdateEffect(() => {
+    enforceUpdate(value);
+  }, [data]);
 
   return {
     enforceUpdate,

@@ -294,6 +294,44 @@ describe('Cascader', () => {
     );
   });
 
+  it('Should update columns', () => {
+    const TestApp = React.forwardRef((props, ref) => {
+      const [data, setData] = React.useState([]);
+      const pickerRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        picker: pickerRef.current,
+        setData
+      }));
+
+      return <Cascader {...props} ref={pickerRef} data={data} open />;
+    });
+
+    TestApp.displayName = 'TestApp';
+
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<TestApp ref={ref} />, container);
+    });
+
+    assert.equal(
+      ref.current.picker.overlay.querySelectorAll('.rs-picker-cascader-menu-item').length,
+      0
+    );
+
+    ReactTestUtils.act(() => {
+      ref.current.setData([{ label: 'test', value: 1 }]);
+    });
+
+    assert.equal(
+      ref.current.picker.overlay.querySelectorAll('.rs-picker-cascader-menu-item').length,
+      1
+    );
+    assert.equal(
+      ref.current.picker.overlay.querySelector('.rs-picker-cascader-menu-item').innerText,
+      'test'
+    );
+  });
+
   describe('ref testing', () => {
     it('Should call onOpen', done => {
       const doneOp = () => {
