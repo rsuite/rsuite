@@ -12,7 +12,7 @@ import {
 } from '@test/testUtils';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import '../styles/index';
+import '../styles/index.less';
 import { CalendarState } from '../Calendar';
 
 const { H500, H700 } = getDefaultPalette();
