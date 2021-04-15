@@ -15,17 +15,17 @@ body {
 
 // Links
 a {
-  color: @link-color;
+  color: var(--rs-color-text-link);
   text-decoration: none;
 
   &:hover,
   &:focus {
-    color: @link-hover-color;
+    color: var(--rs-color-text-link-hover);
     text-decoration: @link-hover-decoration;
   }
 
   &:active {
-    color: @link-active-color;
+    color: var(--rs-color-text-link-active);
     text-decoration: @link-active-decoration;
   }
 }

@@ -6,22 +6,18 @@
 @import '@{rootPath}src/styles/index';
 
 @sidebar-wrapper-bg: #f4f5f7;
-@component-overview-content-name-color: @B500;
 @code-view-wrapper-bg: var(--rs-color-bg-card);
 @code-view-wrapper-border-color: #f1f1f1;
 @code-view-wrapper-hr-color: @code-view-wrapper-border-color;
 @doc-highlight-bg: #f5f5f5;
-@code-view-blockquote-color: @H500;
-@show-fake-browser-bg: @B050;
-@show-fake-browser-content-bg: @B000;
-@toolbar-btn-subtle-color: @B600;
+@code-view-blockquote-color: var(--rs-color-highlight-500);
 
 body {
   background-color: #fff;
 }
 
 #loaderInverseWrapper {
-  background: @B900;
+  background-color: var(--rs-color-gray-900);
 }
 
 #preventOverflowContainer {
@@ -31,7 +27,7 @@ body {
 .top-level-nav .rs-btn-default {
   &:hover,
   &:focus {
-    background: @B800;
+    background-color: var(--rs-color-gray-800);
   }
 }
 

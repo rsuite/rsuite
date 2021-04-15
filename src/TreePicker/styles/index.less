@@ -86,7 +86,7 @@
   }
 
   &-dragging {
-    outline: 1px dashed @H500;
+    outline: 1px dashed var(--rs-color-highlight-500);
   }
 
   &-drag-over-top {
@@ -148,7 +148,7 @@
   &-disabled&-active > .rs-tree-node-label > .rs-tree-node-label-content {
     &,
     &:hover {
-      color: @H200;
+      color: var(--rs-color-highlight-200);
     }
   }
 
@@ -248,7 +248,6 @@
 [dir='rtl'] .rs-tree-node-expand-icon-wrapper {
   right: 0;
   padding-right: inherit;
-  background: @picker-tree-bg;
 }
 
 /* stylelint-disable */

@@ -1,26 +1,18 @@
 @import 'constants';
 
-@primary-color: @H500;
-@primary-bg-color: @H050;
-@primary-border-color: @H300;
-
 //== Scaffolding
 //
 //## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-@body-bg: @B000;
+@body-bg: var(--rs-color-gray-50);
 //** Global text color on `<body>`.
-@text-color: @B800;
-//** Global textual link color.
-@text-primary-color: @H500;
+@text-color: var(--rs-color-text-primary);
 
 //** Link hover decoration.
 @link-hover-decoration: underline;
 //** Link active decoration.
 @link-active-decoration: underline;
-//** border base color.
-@border-base-color: @B300;
 
 //== Common
 //
@@ -96,23 +88,14 @@
 
 //== Tables
 //
-@table-border-color: @B100;
-@table-body-background: @B000;
+@table-body-background: var(--rs-color-bg-card);
 @table-head-background: @table-body-background;
-@table-head-font-color: @B600;
-@table-body-hover-background: @H050;
 @table-table-cell-fixed-shadow: 0 5px rgba(9, 9, 9, 0.08);
-@table-resize-mouse-color: @H500;
-@table-sort-icon-color: @H500;
 @table-header-content-padding-vertical: 10px;
 @table-header-font-size: @font-size-small;
 @table-header-line-small: @line-height-small;
 @table-body-content-padding-vertical: 13px;
 @table-content-padding-horizontal: 10px;
-@table-scrollbar-handle-background: @B800;
-@table-scrollbar-pressed-handle-background: @B900;
-@table-scrollbar-background: @B200;
-@table-scrollbar-pressed-background: @B300;
 @table-scrollbar-timing-duration: 0.1s;
 @table-scrollbar-width: 10px;
 @table-scrollbar-handle-width: 8px;
@@ -124,7 +107,6 @@
 @table-loader-backdrop-color: var(--rs-color-loader-backdrop);
 @table-loader-transition: 0.2s ease-in;
 @table-spanner-background: @table-head-background;
-@table-scrollbar-vertical-handle-background-color: fade(@table-scrollbar-background, 40);
 
 //== Buttons
 //
@@ -133,47 +115,10 @@
 @btn-ripple-background-color: rgba(0, 0, 0, 0.2);
 @btn-font-weight: normal;
 @btn-disabled-opacity: 0.3;
-@btn-focus-shadow: 0 0 0 3px fade(@primary-color, 25%);
 @btn-transition: color 0.2s linear, background-color 0.3s linear;
-// Default Button color set;
-@btn-default-color: @text-color;
-@btn-default-bg: @B050;
-@btn-default-hover-color: @text-color;
-@btn-default-hover-bg: @B200;
-@btn-default-active-bg: @B300;
-@btn-default-focus-bg: @B200;
-@btn-default-disabled-color: @B400;
-@btn-default-disabled-bg: @B050;
 
-// Button has icon color set
-@btn-icon-with-text-bg: @B100;
-@btn-icon-with-text-hover-bg: @B300;
-@btn-icon-with-text-active-bg: @B400;
-// Primary Button color set;
-@btn-primary-color: @B000;
-@btn-primary-bg: @H500;
-@btn-primary-hover-bg: @H600;
-@btn-primary-active-bg: @H700;
-// Default Button color set;
-@btn-link-color: @link-color;
-// Subtle Button color set;
-@btn-subtle-primary-color: @primary-color;
-@btn-subtle-color: @B600;
-@btn-subtle-default-hover-color: @B800;
-@btn-subtle-hover-bg: @B050;
-@btn-subtle-focus-bg: @btn-subtle-hover-bg;
-@btn-subtle-active-color: @B000;
-@btn-subtle-active-default-color: @B900;
-@btn-subtle-active-default-bg: @B200;
-@btn-subtle-disabled-color: @B400;
 // Ghost Button color set;
-@btn-ghost-color: @H700;
-@btn-ghost-border-color: @btn-ghost-color;
 @btn-ghost-border-width: 1px;
-@btn-ghost-hover-color: @H800;
-@btn-ghost-hover-border-color: @btn-ghost-hover-color;
-@btn-ghost-active-color: @H900;
-@btn-ghost-active-border-color: @btn-ghost-active-color;
 
 // Allows for customizing button radius independently from global border radius
 @btn-border-radius-base: @border-radius-base;
@@ -184,24 +129,13 @@
 @btn-loading-spin-default-diameter: 18px;
 @btn-loading-spin-xs-diameter: 16px;
 @btn-loading-spin-ring-wide: 3px;
-@btn-loading-spin-ring-color: @B050;
-@btn-spin-light-color: @B000;
-@btn-spin-light-invert-color: @B500;
-//== Btn Group
-@btn-group-disabled-active-color: @B500;
 //== other
 @ripple-transition: 550ms, 1s;
 
 //== Badge
-@badge-background: @error-color;
 @badge-dot-side-length: 8px;
-@badge-content-border-radius: 8px;
-@badge-content-color: @B000;
 
 //== Avatar
-@avatar-background: @B300;
-@avatar-content-color: @B000;
-@avatar-border-radius: 4px;
 @avatar-lg-side-length: 60px;
 @avatar-md-side-length: 40px;
 @avatar-sm-side-length: 30px;
@@ -217,24 +151,11 @@
 
 // “\00a0” = “ ”
 @form-plain-text-checkbox-divider-content: ',\00a0';
-@form-plain-text-border-color: fadeout(@B000, 100%);
 
 @padding-base-input-vertical: @padding-base-vertical;
 @padding-base-input-horizontal: @padding-base-horizontal;
 
 @input-border-width: 1px;
-
-//** `<input>` background color
-@input-bg: @B000;
-//** `<input disabled>` background color
-@input-bg-disabled: @B050;
-
-//** Text color for `<input>`s
-@input-color: @B800;
-//** Text disabled color
-@input-color-disabled: @B400;
-//** `<input>` border color
-@input-border: @B200;
 
 //** Default `.form-control` border radius
 // This has no effect on `<select>`s  in some browsers, due to the limited stylability of `<select>`s in CSS.
@@ -244,14 +165,8 @@
 //** Small `.form-control` border radius
 @input-border-radius-small: @border-radius-base;
 
-//** Border color for inputs on focus
-@input-border-focus: @H700;
-
 //** Input transition
 @input-transition: border-color ease-in-out 0.3s;
-
-//** Placeholder text color
-@input-color-placeholder: @B600;
 
 //** Default `.input` height
 @input-height-base: (@line-height-computed + (@padding-base-vertical * 2));
@@ -266,10 +181,6 @@
 @form-group-margin-bottom: 24px;
 @form-control-label-margin-bottom: 4px;
 
-//** Background color for textual input addons
-@input-group-addon-bg: @B050;
-//** Border color for textual input addons
-@input-group-addon-border-color: @input-border;
 //** InputGroup padding for add-on
 @input-group-padding-for-add-on-large: 46px;
 @input-group-padding-for-add-on-base: 36px;
@@ -281,17 +192,13 @@
 
 //== Form Layout
 @form-control-width: 300px;
-@form-help-text-color: @B600;
 @form-help-text-inline-gap: 10px;
 @form-control-label-width: 170px;
 @form-control-label-margin-right: 12px;
 // == Error Message
 @form-error-message-padding-vertical: 4px;
 @form-error-message-padding-horizontal: 8px;
-@form-error-message-background-color: @B000;
-@form-error-message-border-color: @B200;
 @form-error-message-height: (@form-error-message-padding-vertical*2 + @line-height-computed);
-@form-error-message-font-color: @error-color;
 @form-error-message-font-size: @font-size-small;
 @form-error-message-triangle-width: 6px;
 @form-error-message-triangle-gap: 10px;
@@ -301,7 +208,6 @@
 //== Number input
 //
 //##
-@number-input-button-color: @B600;
 @number-input-touchspin-font-size: 12px;
 
 //== Dropdowns
@@ -312,17 +218,12 @@
 @dropdown-caret-width: 10px;
 @dropdown-caret-padding: 10px;
 
-//** Background for the dropdown menu.
-@dropdown-bg: @B000;
 //** Divider color for between dropdown items.
 @dropdown-divider-bg: @divider-border-color;
 @dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
 
-//** Disabled dropdown menu item background color.
-@dropdown-link-disabled-color: @B200;
-
 //** Text color for headers within dropdown menus.
-@dropdown-header-color: @B500;
+@dropdown-header-color: var(--rs-color-gray-500);
 
 //** Dropdown item content vertical padding
 @dropdown-item-padding-vertical: 8px;
@@ -346,16 +247,6 @@
 
 //== Toggle
 @toggle-transition: 0.2s linear;
-@toggle-default-bg: @B300;
-@toggle-default-hover-bg: @B400;
-//Toggle checked background color
-@toggle-checked-bg: @H500;
-@toggle-checked-hover-bg: @H600;
-//Disabled toggle checked background color
-@toggle-disabled-default-background-color: @B050;
-@toggle-disabled-checked-background-color: @H100;
-/* stylelint-disable-next-line */ // calcFontColor is hack function
-@toggle-inner-text-color: color(~`calcFontColor('@{toggle-checked-bg}') `);
 @toggle-active-scale: 1.2;
 @toggle-transition: 0.2s ease-in-out;
 @toggle-md-height: 24px;
@@ -363,7 +254,6 @@
 @toggle-md-min-width: 44px;
 @toggle-md-inner-font-size: @font-size-small;
 @toggle-md-handle-diameter: (@toggle-md-height - @toggle-md-handle-gap*2);
-@toggle-md-handle-bg: @B000;
 @toggle-md-inner-line-height-computed: @toggle-md-height;
 @toggle-md-inner-line-height: unit(
   (@toggle-md-inner-line-height-computed / @toggle-md-inner-font-size)
@@ -488,31 +378,18 @@
 @nav-item-spacing: 6px;
 @nav-base-height: (@line-height-computed + @nav-item-padding-vertical * 2);
 @nav-item-icon-spacing: 6px;
-@nav-item-font-default-color: @B600;
-@nav-item-font-active-color: @H600;
 @nav-item-border-radius: 6px;
-@nav-item-default-hover-bg: @B200;
 @nav-item-hover-font-color: @btn-default-hover-color;
-@nav-item-click-bg: @B200;
 @nav-item-click-font-color: @btn-default-color;
-@nav-item-active-font-color: @H700;
-@nav-item-disable-font-color: @B400;
 @nav-item-transition: color 0.3s linear, background-color 0.3s linear;
 
 // Variant
 //** Tab
 @nav-tab-default-bg: @body-bg;
 @nav-tab-bar-width: 1px;
-@nav-tab-bar-color: @B300;
-@nav-tab-bar: @nav-tab-bar-width solid @nav-tab-bar-color;
 
 //** Subtle
 @nav-subtle-bar-width: 2px;
-@nav-subtle-bar-default-color: @B050;
-@nav-subtle-bar-active-color: @H700;
-@nav-subtle-hover-bg: @nav-item-default-hover-bg;
-@nav-subtle-default-bar: @nav-subtle-bar-width solid @nav-subtle-bar-default-color;
-@nav-subtle-active-bar: @nav-subtle-bar-width solid @nav-subtle-default-bar;
 @nav-subtle-content-transition: 0.3s ease-out;
 
 //** Divider
@@ -524,26 +401,7 @@
 @nav-bar-padding-vertical: 18px;
 @nav-bar-padding-horizontal: 16px;
 @nav-bar-height: (@nav-bar-padding-vertical * 2 + @line-height-computed);
-//** Default
-@nav-bar-default-bg: @B050;
-@nav-bar-default-active-color: @H700;
-@nav-bar-default-active-bg: transparent;
-@nav-bar-default-font-color: @B800;
 
-//** Inverse
-/* stylelint-disable-next-line */ // calcFontColor is hack function
-@nav-bar-inverse-font-color: color(~`calcFontColor('@{nav-bar-inverse-bg}') `);
-@nav-bar-inverse-bg: @H500;
-@nav-bar-inverse-hover-bg: @H600;
-@nav-bar-inverse-active-bg: @H700;
-
-//** Subtle
-@nav-bar-subtle-bg: @B000;
-@nav-bar-subtle-font-color: @B700;
-@nav-bar-subtle-font-active-color: @H700;
-@nav-bar-subtle-hover-bg: @B050;
-@nav-bar-subtle-hover-font-color: @B800;
-@nav-bar-subtle-active-bg: fade(@B000, 0);
 
 //== Sidenav
 //
@@ -569,52 +427,15 @@
 @sidenav-level6-retract: (@sidenav-level2-retract + @sidenav-level-retract * 4);
 @sidenav-collapse-transition-config: 0.2s ease-in;
 // ** Sidenav default
-@sidenav-default-bg: @nav-bar-default-bg;
-@sidenav-default-font-color: @nav-item-font-default-color;
 @sidenav-default-hover-font-color: @nav-item-hover-font-color;
 @sidenav-default-click-font-color: @nav-item-click-font-color;
-@sidenav-default-active-font-color: @nav-item-active-font-color;
-@sidenav-default-hover-bg: @nav-item-default-hover-bg;
-@sidenav-default-click-bg: @nav-item-click-bg;
-// ** Sidenav inverse
-/* stylelint-disable-next-line */ // calcFontColor is hack function
-@sidenav-inverse-font-color: color(~`calcFontColor('@{sidenav-inverse-bg}') `);
-@sidenav-inverse-bg: @nav-bar-inverse-bg;
-@sidenav-inverse-hover-bg: @nav-bar-inverse-hover-bg;
-@sidenav-inverse-active-bg: @nav-bar-inverse-active-bg;
-
-// ** Sidenav subtle
-@sidenav-subtle-bg: @B000;
-@sidenav-subtle-hover-bg: @B050;
-@sidenav-subtle-active-bg: @nav-bar-subtle-active-bg;
-@sidenav-subtle-active-color: @nav-bar-subtle-font-active-color;
-
-//== Pagination
-//
-//##
-
-@pagination-hover-color: @btn-subtle-default-hover-color;
-@pagination-base-active-color: @H500;
-@pagination-hover-bg: @btn-subtle-hover-bg;
-@pagination-active-bg: @btn-subtle-active-default-bg;
-@pagination-transition: @ripple-transition, color 0.3s linear;
 
 //== Steps
 //
 //##
 
-@steps-bg: @B000;
 @steps-icon-diameter: 30px;
 @steps-icon-size-default-font-size: 12px;
-@steps-default-color: @B600;
-@steps-tail-default-color: @B400;
-@steps-icon-process-bg: @H500;
-@steps-icon-process-color: @B000;
-@steps-content-process-color: @B800;
-@steps-error-color: @error-color;
-@steps-icon-finish-color: @H500;
-@steps-icon-error-color: @steps-error-color;
-@steps-content-color: @steps-default-color;
 @steps-icon-spacing: 10px;
 @steps-item-spacing: 10px;
 // This space place the steps-icon
@@ -634,32 +455,10 @@
 @small-steps-description-line-height: @line-height-small;
 @small-steps-description-margin-top: 12px;
 
-//== Form states and alerts
-//
-//## Define colors for form feedback states and, by default, alerts.
-
-@state-success-text: @success-color;
-@state-success-bg: @success-light-color;
-
-@state-info-text: @info-color;
-@state-info-bg: @info-light-color;
-
-@state-warning-text: @warning-color;
-@state-warning-bg: @warning-light-color;
-
-@state-error-text: @error-color;
-@state-error-bg: @error-light-color;
-
 //** Checkbox Styles
 @checkbox-width-height: 16px;
 @checkbox-sense-width: 10px;
 @checkbox-border-radius: 3px;
-@checkbox-default-border-color: @border-base-color;
-@checkbox-hover-border-color: @border-primary-color;
-@checkbox-checked-border-color: @border-primary-color;
-//** Checkbox checked mark color
-@checkbox-checked-mark-color: @B000;
-@checkbox-disabled-color: @B050;
 @checkbox-bg: transparent;
 
 //** Radio Checked width
@@ -667,15 +466,7 @@
 @radio-inner-width-height: 6px;
 @radio-sense-width: 10px;
 @radio-border-radius: 50%;
-@radio-default-border-color: @border-base-color;
-@radio-checked-border-color: @border-primary-color;
-@radio-hover-border-color: @border-primary-color;
-@radio-disabled-color: @B050;
 @radio-bg: transparent;
-@radio-inner-checked-color: @B000;
-@radio-picker-active-color: @picker-selected-value-color;
-@radio-label-font-color: @B600;
-@radio-label-font-hover-color: @B800;
 @radio-label-padding-horizontal: 10px;
 
 //== Tooltips
@@ -733,14 +524,11 @@
 //** Modal title line-height
 @modal-title-line-height: @line-height-large;
 
-//** Background color of modal content area
-@modal-content-bg: @dropdown-bg;
-
 //** Modal Box shadow
 @modal-box-shadow: @default-box-shadow;
 
 //** Modal backdrop background color
-@modal-backdrop-bg: @B900;
+@modal-backdrop-bg: var(--rs-color-gray-900);
 //** Modal backdrop opacity
 @modal-backdrop-opacity: 0.3; // 30%
 
@@ -761,22 +549,10 @@
 //== Drawer
 //
 //##
-//** Background color of drawer content area
-@drawer-content-bg: @modal-content-bg;
-//** Font color of drawer title.
-@drawer-title-color: @text-color;
-//** Drawer backdrop background color
-@drawer-backdrop-bg: @modal-backdrop-bg;
-//** Drawer backdrop opacity
-@drawer-backdrop-opacity: @modal-backdrop-opacity; // 30%
-//** Drawer title font-size
-@drawer-title-font-size: @font-size-large;
 //** Padding applied to the drawer content
 @drawer-content-spacing: 20px;
 //** Margin of modal header and body
 @drawer-body-margin: 30px;
-//** Modal Box shadow
-@drawer-box-shadow: @default-box-shadow;
 //** Modal close button
 @drawer-close-btn-size: @font-size-small;
 @drawer-close-btn-line-height: @line-height-small;
@@ -809,17 +585,6 @@
 @message-title-size: @font-size-base;
 @message-border-radius: @border-radius-base;
 @message-link-font-weight: bold;
-@message-header-color: @B900;
-
-// Alternate colors
-@message-success-bg: @state-success-bg;
-@message-success-icon-color: @state-success-text;
-@message-info-bg: @state-info-bg;
-@message-info-icon-color: @state-info-text;
-@message-warning-bg: @state-warning-bg;
-@message-warning-icon-color: @state-warning-text;
-@message-error-bg: @state-error-bg;
-@message-error-icon-color: @state-error-text;
 
 //== toaster
 //
@@ -831,26 +596,16 @@
 //== Notification
 //
 //##
-@notify-default-bg: @B000;
 @notify-padding: 20px;
 @notify-border-radius: @border-radius-base;
 @notify-box-shadow: @default-box-shadow;
 @notify-max-width: 400px;
 @notify-close-btn-font-size: 12px;
 @notify-close-btn-margin: 8px;
-@notify-close-btn-color: @B600;
 @notify-title-font-size: @font-size-large;
 @notify-title-icon-size: 24px;
 @notify-title-icon-margin: 10px;
 @notify-title-description-gap: 8px;
-@notify-title-font-color: @B900;
-@notify-description-color: @B800;
-
-// Alternate colors
-@notify-success-icon-color: @state-success-text;
-@notify-info-icon-color: @state-info-text;
-@notify-warning-icon-color: @state-warning-text;
-@notify-error-icon-color: @state-error-text;
 
 //== Loaders
 //
@@ -880,7 +635,6 @@
 //##
 @progress-line-padding-vertical: 8px;
 @progress-line-padding-horizontal: 12px;
-@progress-info-text-color: @B700;
 @progress-font-size: @font-size-large;
 @progress-bar-height: 10px;
 @progress-element-gap: 12px;
@@ -890,23 +644,13 @@
 //##
 @uploader-file-list-margin-top: 10px;
 @uploader-file-item-icon-font-size: 16px;
-@uploader-default-font-color: @B800;
-@uploader-light-font-color: @B600;
-@uploader-item-hover-background-color: @B050;
 @uploader-base-padding: 8px;
 @uploader-picture-side-length: 66px;
 @uploader-picture-item-gap: 10px;
 @uploader-picture-remove-button-radius: 24px;
-@uploader-picture-border-color: @B200;
-@uploader-picture-background-color: @B300;
-@uploader-picture-text-border-color: @B300;
 @uploader-picture-text-preview-side-length: 50px;
-@uploader-file-item-retry-icon-color: @B800;
 @uploader-picture-item-background: rgba(255, 255, 255, 0.8);
 @uploader-picture-item-btn-remove-background: @uploader-picture-item-background;
-@uploader-drag-and-drop-background-color: @B000;
-@uploader-drag-and-drop-border-color: @B200;
-@uploader-drag-and-drop-border-hover-color: @H500;
 
 //== Panels
 //
@@ -914,10 +658,7 @@
 @panel-padding: 20px;
 @panel-header-font-size: 16px;
 @panel-split-line-color: @dropdown-divider-bg;
-@panel-group-panel-heading-hover-background: @B050;
-@panel-header-color: @B900;
 @panel-accodion-transition: 0.3s linear;
-@panel-border: 1px solid @B200;
 @panel-box-shadow: @default-box-shadow;
 
 //== Time lines
@@ -926,10 +667,7 @@
 @time-line-item-content-margin-left: 12px;
 @time-line-dot-side-length: 10px;
 @time-line-item-padding-left: (@time-line-item-content-margin-left + @time-line-dot-side-length);
-@time-line-dot-default-background-color: @B300;
-@time-line-last-dot-default-background-color: @H500;
 @time-line-tail-width: 2px;
-@time-line-tail-default-background-color: @B300;
 @time-line-item-content-padding-bottom: 18px;
 @time-line-dot-center-gap: ((@line-height-computed - @time-line-dot-side-length) / 2);
 @time-line-content-side-offset: (@time-line-dot-side-length / 2 + @time-line-item-content-margin-left);
@@ -939,25 +677,16 @@
 //== Tags
 //
 //##
-@tag-default-background: @B050;
-@tag-default-color: @B800;
 @tag-gap: 10px;
-@tag-toggle-clean-hover-color: @error-color;
 
 //== List
 //
 //##
-@list-border-color: @B200;
-@list-hover-color: @H050;
 @list-border-width: 1px;
-@list-item-drag-bg-color: @B000;
-@list-item-placeholder-bg-color: @H050;
-@list-item-placeholder-border-color: @H500;
 
 //== Divider
 //
 //##
-@divider-border-color: @B200;
 @divider-horizontal-margin: 24px;
 @divider-with-text-horizontal-margin: 30px;
 @divider-text-space: 12px;
@@ -982,14 +711,8 @@
 // Check picker name space
 @ckpns: ~'rs-@{check-picker-prefix}';
 @picker-none-padding: 6px 12px 12px;
-@picker-none-font-color: @B600;
-//** Picker background
-@picker-bg: @dropdown-bg;
 @picker-transition: @input-transition;
 @picker-shadow: @dropdown-shadow;
-@picker-placeholder-color: @B600;
-@picker-value-count-background-color: @H500;
-@picker-value-count-color: @B000;
 @picker-value-count-border-radius: 10px;
 @picker-value-count-padding: 8px;
 @picker-value-count-margin: 4px;
@@ -997,13 +720,7 @@
 @picker-content-min-width: 200px;
 @picker-search-bar-icon-width: @font-size-base;
 @picker-default-toggle-border-width: 1px;
-@picker-default-toggle-border-color: @input-border;
-@picker-default-toggle-hover-border-color: @H700;
-@picker-default-toggle-font-color: @B800;
-@picker-default-toggle-caret-color: @B600;
 @picker-toggle-clean-width: 12px;
-@picker-toggle-clean-color: @B500;
-@picker-toggle-clean-hover-color: @error-color;
 @picker-toggle-clean-right: 30px;
 //** Picker menu padding
 @picker-menu-padding: 12px;
@@ -1012,18 +729,10 @@
 //** Dropdown item content horizontal padding
 @picker-item-content-padding-horizontal: @picker-menu-padding;
 //** group title
-@picker-group-title-color: @B900;
 @picker-group-children-padding-left: 26px;
 @picker-group-select-menu-gap: 6px;
 @picker-group-select-menu-lin-color: @dropdown-divider-bg;
 @picker-item-transition: color 0.3s linear, background-color 0.3s linear;
-@picker-select-item-color: @B800;
-@picker-menu-item-hover-bg: @H050;
-// Select picker
-@picker-select-menu-item-selected-color: @H700;
-@picker-select-menu-item-selected-disabled-color: @H200;
-@picker-menu-item-disabled-color: @B400;
-@picker-selected-value-color: @H700;
 
 // Check Picker
 @picker-check-checkbox-gap: 10px;
@@ -1032,71 +741,34 @@
   @checkbox-width-height+ @picker-check-checkbox-gap;
 
 // Tree Picker
-@picker-tree-bg: @dropdown-bg;
 @picker-tree-padding: 12px;
 @picker-tree-node-padding-vertical: @padding-base-vertical;
 @picker-tree-node-padding-horizontal: @padding-base-horizontal;
 @picker-tree-node-font-size: 14px;
-@picker-tree-node-active-color: @picker-select-menu-item-selected-color;
-@picker-select-menu-item-selected-bg: fade(@H900, 20);
-@picker-tree-node-active-bg: @picker-select-menu-item-selected-bg;
 @picker-tree-node-line-height: 22px;
 @picker-tree-node-height: (@line-height-computed + @picker-tree-node-padding-vertical * 2);
 @picker-tree-arrow-down-width: 8px;
 @picker-tree-arrow-down-gap: 8px;
-@picker-tree-node-hover-bg: @H050;
 
 //== Calendar Picker
 @calendar-header-width: 280px;
 @calendar-picker-padding: 12px;
 @calendar-picker-view-padding-top: 4px;
 @calendar-header-title-margin: 4px;
-@calendar-header-title-error-color: @error-color;
 @calendar-meridian-border-width: 1px;
 @calendar-table-cell-padding: 1px;
 @calendar-table-cell-content-font-size: @font-size-base;
 @calendar-table-cell-content-line-height: @line-height-base;
 @calendar-table-cell-content-padding: 5px;
-@calendar-table-cell-content-hover-bg: @H050;
 @calendar-table-cell-content-today-border-width: 1px;
-@calendar-table-cell-content-today-border-color: @H700;
-@calendar-table-cell-content-selected-color: @H500;
-@calendar-table-cell-content-disabled-color: @B400;
-/* stylelint-disable */ // calcFontColor is hack function
-@calendar-table-cell-content-selected-font-color: color(
-  ~`calcFontColor('@{calendar-table-cell-content-selected-color}') `
-);
-/* stylelint-enable */
-@calendar-table-cell-header-color: @B600;
-@calendar-table-cell-week-number-color: @B600;
-@calendar-table-cell-week-number-bg: @B050;
 @calendar-month-dropdown-row-border-color: @divider-border-color;
-@calendar-month-dropdown-year-active-color: @H700;
 @calendar-dropdown-top: 44px; // @calendar-picker-padding + content-height + gap
-@calendar-month-dropdown-bg: @dropdown-bg;
 @calendar-month-dropdown-border: @divider-border-color;
-@calendar-title-dropdown-bg: @dropdown-bg;
-@calendar-time-dropdown-column-title-bg: @B050;
-@calendar-time-dropdown-column-title-font-color: @B600;
-@calendar-time-dropdown-column-cell-default-color: @B800;
-@calendar-time-dropdown-column-cell-hover-color: @B800;
-@calendar-time-dropdown-column-cell-active-color: @B000;
-@calendar-time-dropdown-column-cell-hover-bg: @H050;
-@calendar-time-dropdown-column-cell-active-bg: @H500;
-@calendar-right-btn-ok-color: @btn-primary-color;
-@calendar-right-btn-ok-bg: @btn-primary-bg;
-@calendar-option-color: @H700;
 @calendar-in-menu-content-side-length: 30px;
 @calendar-panel-cell-height: 100px;
-@calendar-panel-table-border-color: @B100;
 @calendar-panel-compact-cell-height: 50px;
-@calendar-panel-today-active-font-color: @B000;
-@calendar-panel-today-selected-border-color: @H500;
-@picker-calendar-title-color: @H700;
 @calendar-panel-border-radius: 6px;
 @calendar-panel-today-active-side-length: @line-height-computed;
-@calendar-panel-today-active-background-color: @H500;
-@calendar-table-cell-in-range-background: fade(@H100, 50);
 @calendar-toolbar-border-color: @divider-border-color;
 
 //== DateRange Picker
@@ -1104,7 +776,6 @@
 @date-range-picker-header-padding-vertical: 8px;
 @date-range-picker-header-font-size: @font-size-base;
 @date-range-picker-header-line-height: @line-height-base;
-@date-range-picker-inner-border: 1px solid @B200;
 @date-range-picker-calendar-default-width:255px;
 
 //== Input Picker
@@ -1122,30 +793,16 @@
 // == Cascader
 @cascader-search-panel-max-height: 300px;
 @cascader-row-content-padding-horizontal: @picker-item-content-padding-horizontal;
-@cascader-search-panel-hover-color: @B800;
-@cascader-search-panel-hover-bg: @H050;
-@cascader-search-panel-highlight-word-color: @H500;
 
 //== Slider
 //
 //##
-@slider-bar-default-bg: @B100;
-@slider-bar-hover-bg: @B100;
 @slider-bar-side-length: 6px;
 @slider-handle-diameter: 12px;
 @slider-handle-border-width: 2px;
-@slider-handle-default-bg: @B000;
-@slider-handle-dragging-bg: @H500;
-@slider-handle-default-border-color: @H500;
-@slider-handle-hover-border-color: @H500;
-@slider-handle-hover-box-shadow: 0 0 0 8px fade(@H500, 25);
 @slider-handle-dragging-box-shadow: none;
-@slider-progress-bar-bg: @H500;
 @slider-calibration-diameter: 8px;
 @slider-calibration-border-width: 2px;
-@slider-calibration-bg: @B000;
-@slider-calibration-border-color: @B100;
-@slider-calibration-pass-border-color: @H500;
 @slider-mark-margin-top: 9px;
 @slider-handle-transition: 0.3s ease-in-out;
 
@@ -1158,13 +815,9 @@
 //== Carousel
 //
 //##
-@carousel-bg: @B600;
 @carousel-animation-duration: 0.3s;
 @carousel-toolbar-wrapper-margin: 17px; // @carousel-handler-margin + @carousel-handler-wrapper-margin = 20px
 @carousel-handler-transition: background @carousel-animation-duration linear;
-@carousel-handler-bg: fade(@B000, 40);
-@carousel-handler-hover-bg: @B000;
-@carousel-handler-active-bg: @H500;
 @carousel-handler-margin: 3px;
 @carousel-handler-sense-width: @carousel-handler-margin;
 @carousel-dot-wrapper-side-length: 1.2vw; // 1.2% of the screen width.
@@ -1176,7 +829,6 @@
 //== Rate
 //
 //##
-@rate-default-color: @B200;
 @rate-selected-color: @yellow;
 @rate-xs-font-size: 18px;
 @rate-sm-font-size: 24px;
@@ -1189,260 +841,36 @@
 
 //** Horizontal offset for forms and lists.
 @component-offset-horizontal: 180px;
-//** Text muted color
-@text-muted: @B400;
-//** Headings small color
-@headings-small-color: @B400;
-//** Blockquote small color
-@blockquote-small-color: @B400;
-//** Blockquote font size
-@blockquote-font-size: (@font-size-base * 1.25);
-//** Blockquote border color
-@blockquote-border-color: @B050;
-//** Page header border color
-@page-header-border-color: @B050;
-//** Width of horizontal description list titles
-@dl-horizontal-offset: @component-offset-horizontal;
 //** Horizontal line color.
 @hr-border: @divider-border-color;
-
-//== Base
-//** Background color for `<body>`.
-@body-bg: @B000;
-//** Global text color on `<body>`.
-@text-color: @B800;
-//** border base color.
-@border-base-color: @B300;
-
-//== Avatar
-@avatar-background: @B300;
 
 //== Buttons
 @btn-ripple-background-color: rgba(0, 0, 0, 0.2);
 @btn-disabled-opacity: 0.3;
-//Button Loading
-@btn-spin-light-invert-color: @B500;
 
 // Default Button color set;
 @btn-default-color: @text-color;
-@btn-default-bg: @B050;
 @btn-default-hover-color: @text-color;
-@btn-default-hover-bg: @B200;
-@btn-default-focus-bg: @B200;
-@btn-default-active-bg: @B300;
-@btn-default-disabled-color: @B400;
-@btn-default-disabled-bg: @B050;
-
-// Button has icon color set
-@btn-icon-with-text-bg: @B100;
-@btn-icon-with-text-hover-bg: @B300;
-@btn-icon-with-text-focus-bg: @B300;
-@btn-icon-with-text-active-bg: @B400;
-
-// Subtle Button color set;
-@btn-subtle-color: @B600;
-@btn-subtle-hover-bg: @B050;
-@btn-subtle-default-hover-color: @B800;
-@btn-subtle-active-default-bg: @B200;
-@btn-subtle-active-default-color: @B900;
-
-//== Calendar
-@calendar-panel-table-border-color: @B100;
-@calendar-table-cell-content-hover-bg: @H050;
-@calendar-panel-today-active-background-color: @H500;
-
-// == Cascader
-@cascader-search-panel-hover-color: @B800;
-@cascader-search-panel-hover-bg: @H050;
-@cascader-search-panel-highlight-word-color: @H500;
-
-//== Checkbox
-@checkbox-default-border-color: @border-base-color;
-//** Checkbox checked mark color
-@checkbox-checked-mark-color: @B000;
-//** Checkbox uncheck background
-@checkbox-disabled-color: @B050;
-
-//== CheckTreePicker
-@picker-tree-node-hover-bg: @H050;
-@picker-tree-node-active-color: @picker-select-menu-item-selected-color;
-
-//== DatePicker
-@calendar-time-dropdown-column-title-bg: @B050;
-@calendar-time-dropdown-column-title-font-color: @B600;
-@calendar-time-dropdown-column-cell-default-color: @B800;
-@calendar-time-dropdown-column-cell-hover-color: @B800;
-@calendar-time-dropdown-column-cell-hover-bg: @H050;
-@calendar-time-dropdown-column-cell-active-bg: @H500;
-@calendar-table-cell-week-number-bg: @B050;
-@calendar-table-cell-week-number-color: @B600;
-@calendar-table-cell-content-selected-color: @H500;
-@calendar-right-btn-ok-bg: @btn-primary-bg;
-@calendar-table-cell-header-color: @B600;
-@calendar-table-cell-in-range-background: fade(@H100, 50);
-
-//== DateRangePicker
-@date-range-picker-inner-border: 1px solid @divider-border-color;
 
 //== Divider
-@divider-border-color: @B200; // TODO: Deprecate, use --rs-color-divider-border
+@divider-border-color: var(--rs-color-border-primary); // TODO: Deprecate, use --rs-color-divider-border
 
 //== Dropdown
-@dropdown-bg: @B000;
 //** Active dropdown menu item background color.
 @dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
-
-//== ErrorMessage
-@form-error-message-background-color: @B000;
-@form-error-message-border-color: @B200;
-@form-error-message-font-color: @error-color;
-
-//== FormHelpText
-@form-help-text-color: @B600;
-
-//== Icon
-@icon-inverse: @B000;
-
-//== Input
-//** Placeholder text color
-@input-color-placeholder: @B600;
-//** Text color for `<input>`
-@input-color: @B800;
-//** `<input>` border color
-@input-border: @B200;
-//** `<input>` background color
-@input-bg: @B000;
-//** `<input disabled>` background color
-@input-bg-disabled: @B050;
-//** Background color for textual input addons
-@input-group-addon-bg: @B050;
-
-//== List
-@list-border-color: @B200;
-@list-hover-color: @H050;
-@list-item-drag-bg-color: @B000;
-@list-item-placeholder-bg-color: @H050;
-@list-item-placeholder-border-color: @H500;
-
-//== Message
-// Alternate colors
-@message-success-bg: @state-success-bg;
-@message-success-icon-color: @state-success-text;
-@message-info-bg: @state-info-bg;
-@message-info-icon-color: @state-info-text;
-@message-warning-bg: @state-warning-bg;
-@message-warning-icon-color: @state-warning-text;
-@message-error-bg: @state-error-bg;
-@message-error-icon-color: @state-error-text;
 
 //== Modal
 @modal-backdrop-opacity: 0.3; //30%
 
-//== Nav
-@nav-item-font-default-color: @B600;
-@nav-item-default-hover-bg: @B200;
-@nav-item-click-bg: @B200;
-@nav-tab-bar-color: @B300;
-@nav-subtle-hover-bg: @nav-item-default-hover-bg;
-@nav-subtle-bar-default-color: @B050;
-
-//== Navbar
-@nav-bar-default-bg: @B050;
-@nav-bar-default-font-color: @B800;
-@nav-bar-default-active-color: @H700;
-@nav-bar-subtle-bg: @B000;
-@nav-bar-subtle-font-color: @B700;
-@nav-bar-subtle-font-active-color: @H700;
-@nav-bar-subtle-hover-bg: @B050;
-@nav-bar-subtle-hover-font-color: @B800;
-@nav-bar-inverse-bg: @H500;
-@nav-bar-inverse-active-bg: @H700;
-
-//== Notification
-@notify-default-bg: @B000;
-@notify-close-btn-color: @B600;
-@notify-title-font-color: @B900;
-@notify-description-color: @B800;
-
-//== Panel
-@panel-border: 1px solid @B200;
-@panel-header-color: @B900;
-
 //== Picker
-@picker-select-item-color: @B800;
-@picker-menu-item-hover-bg: @H050;
-@picker-select-menu-item-selected-color: @H700;
-@picker-select-menu-item-selected-bg: @H050;
 @picker-select-menu-item-selected-font-weight: bold;
-@picker-placeholder-color: @B600;
-@picker-default-toggle-font-color: @B800;
-@picker-default-toggle-caret-color: @B600;
-@picker-group-title-color: @B900;
-@picker-none-font-color: @B600;
-@picker-value-count-background-color: @H500;
 
 //== Popover
 @popover-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
 
-//== Progress
-@progress-info-text-color: @B700;
-
-//== Radio
-@radio-default-border-color: @border-base-color;
-//** Checkbox uncheck background
-@radio-disabled-color: @B050;
-@radio-inner-checked-color: @B000;
-@radio-label-font-color: @B600;
-@radio-label-font-hover-color: @B800;
-
-//== SideNav
-@sidenav-subtle-bg: @B000;
-@sidenav-subtle-hover-bg: @B050;
-@sidenav-default-click-bg: @nav-item-click-bg;
-
-//== Slider
-@slider-bar-default-bg: @B100;
-@slider-bar-hover-bg: @B100;
-
-//== Step
-@steps-default-color: @B600;
-@steps-tail-default-color: @B400;
-@steps-bg: @B000;
-@steps-icon-process-color: @B000;
-@steps-content-color: @steps-default-color;
-@steps-content-process-color: @B800;
-
 //== Table
-@table-body-background: @B000;
-@table-head-font-color: @B600;
-@table-body-hover-background: @H050;
-@table-border-color: @B100;
-@table-scrollbar-handle-background: @B800;
-@table-scrollbar-background: @B200;
-@table-scrollbar-pressed-handle-background: @B900;
-@table-scrollbar-pressed-background: @B300;
-@table-scrollbar-vertical-handle-background-color: fade(@table-scrollbar-background, 40);
 @table-table-cell-fixed-shadow: 0 5px rgba(9, 9, 9, 0.08);
 
-//== Toggle
-@toggle-disabled-default-background-color: @B050;
-@toggle-disabled-checked-background-color: @H100;
-// Toggle default background color
-@toggle-default-bg: @B300;
-@toggle-default-hover-bg: @B400;
-// Toggle checked background color
-@toggle-checked-bg: @H500;
-
-//== Tag
-@tag-default-background: @B050;
-@tag-default-color: @B800;
-
 //== Uploader
-@uploader-default-font-color: @B800;
-@uploader-light-font-color: @B600;
-@uploader-item-hover-background-color: @B050;
-@uploader-picture-border-color: @B200;
-@uploader-picture-background-color: @B300;
-@uploader-file-item-retry-icon-color: @B800;
 @uploader-picture-item-background: rgba(255, 255, 255, 0.8);
 @uploader-picture-item-btn-remove-background: @uploader-picture-item-background;

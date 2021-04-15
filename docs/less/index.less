@@ -24,7 +24,7 @@
 @header-height: 64px;
 @scrollbar-width: 10px;
 @top-level-nav-height: 48px;
-@doc-nav-active-color: @link-color;
+@doc-nav-active-color: var(--rs-color-text-link);
 
 .main-container {
   padding-right: 180px;
@@ -96,8 +96,8 @@ pre {
 }
 
 .gitter-open-chat-button {
-  color: @btn-default-color !important;
-  background: @btn-default-bg;
+  color: var(--rs-color-btn-default-text) !important;
+  background-color: var(--rs-color-btn-default-bg);
   border-radius: 0.5em 0 0 0.5em;
   bottom: 40px;
   left: auto;
@@ -131,8 +131,7 @@ pre {
 
   &:hover,
   &:focus {
-    color: @btn-default-hover-color;
-    background-color: @btn-default-hover-bg;
+    background-color: var(--rs-color-btn-default-hover-bg);
   }
 }
 

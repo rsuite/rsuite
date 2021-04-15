@@ -33,7 +33,7 @@
     font-size: @progress-font-size;
     line-height: unit((@info-height / @progress-font-size));
     height: @info-height;
-    color: @progress-info-text-color;
+    color: var(--rs-color-text-secondary);
   }
 
   .rs-progress-trail {
@@ -80,7 +80,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: @B000;
+      background-color: #fff;
       border-radius: 10px;
       animation: progress-active 2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
     }

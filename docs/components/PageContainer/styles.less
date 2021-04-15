@@ -30,7 +30,7 @@
   .nav-link {
     display: block;
     text-decoration: none;
-    color: @B900;
+    color: var(--rs-color-text-primary);
     font-size: 12px;
     position: relative;
     padding: 6px 0;
@@ -48,7 +48,7 @@
       width: 1px;
       height: 100%;
       top: 0;
-      background: @B200;
+      background-color: var(--rs-color-border-primary);
     }
 
     &:hover {
@@ -64,11 +64,11 @@
     }
 
     &.active {
-      color: @H700;
+      color: var(--rs-color-text-active);
 
       &::before {
         width: 2px;
-        background: @H700;
+        background-color: var(--rs-color-text-active);
       }
     }
   }

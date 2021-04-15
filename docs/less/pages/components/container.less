@@ -7,19 +7,19 @@
   .rs-content,
   .rs-footer,
   .rs-sidebar {
-    background: @H500;
-    color: @B000;
+    background-color: var(--rs-color-highlight-500);
+    color: #fff;
     text-align: center;
   }
 
   .rs-header,
   .rs-footer {
     line-height: 56px;
-    background: @H400;
+    background-color: var(--rs-color-highlight-400);
   }
   .rs-content {
     line-height: 120px;
-    background: @H300;
+    background-color: var(--rs-color-highlight-300);
   }
   .rs-sidebar {
     line-height: 120px;
@@ -27,10 +27,10 @@
 }
 
 .show-fake-browser {
-  border: 1px solid @divider-border-color;
+  border: 1px solid var(--rs-color-border-primary);
   box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.28);
   border-radius: 4px;
-  background: @show-fake-browser-bg;
+  background-color: var(--rs-color-bg-well);
 
   &.sidebar-page {
     .rs-sidebar {
@@ -52,10 +52,10 @@
     .rs-content {
       padding: 20px;
       margin: 20px;
-      background: @show-fake-browser-content-bg;
+      background-color: var(--rs-color-bg-card);
     }
     .nav-toggle {
-      border-top: 1px solid @divider-border-color;
+      border-top: 1px solid var(--rs-color-border-primary);
     }
   }
   &.navbar-page {
@@ -63,7 +63,7 @@
       padding: 20px;
       margin: 20px;
       height: 500px;
-      background: @show-fake-browser-content-bg;
+      background-color: var(--rs-color-bg-card);
     }
     .rs-footer {
       padding: 20px;

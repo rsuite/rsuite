@@ -35,7 +35,7 @@
     color: var(--rs-color-text-heading);
 
     &:hover {
-      background-color: @picker-menu-item-hover-bg;
+      background-color: var(--rs-color-state-hover-bg);
     }
 
     .rs-@{prefix}-menu-group-caret {
@@ -78,8 +78,8 @@
 }
 
 .picker-item-hover() {
-  color: @picker-select-item-color;
-  background-color: @picker-menu-item-hover-bg;
+  color: var(--rs-color-text-primary);
+  background-color: var(--rs-color-state-hover-bg);
 }
 
 .picker-item-active() {
@@ -95,7 +95,7 @@
   border-radius: @border-radius-base;
 
   &:hover {
-    background-color: @calendar-table-cell-content-hover-bg;
+    background-color: var(--rs-color-state-hover-bg);
   }
 }
 
@@ -106,7 +106,7 @@
 }
 
 .picker-calendar-title-show() {
-  color: @picker-calendar-title-color;
+  color: var(--rs-color-text-active);
   background: transparent;
 }
 
@@ -350,7 +350,7 @@
   .rs-picker-default & {
     .dropdown-toggle();
 
-    color: @picker-default-toggle-font-color;
+    color: var(--rs-color-text-primary);
     border: @picker-default-toggle-border-width solid var(--rs-color-border-primary);
   }
 
@@ -361,7 +361,7 @@
   .rs-picker-default:not(.rs-picker-disabled) {
     &:hover,
     &:focus {
-      border-color: @picker-default-toggle-hover-border-color;
+      border-color: var(--rs-color-input-focus-border);
     }
   }
 }

@@ -1,4 +1,4 @@
-.checkbox-inner-wrap(@border-color:@checkbox-default-border-color) {
+.checkbox-inner-wrap(@border-color) {
   border: 1px solid @border-color;
   background-color: @checkbox-bg;
   border-radius: @checkbox-border-radius;
@@ -25,7 +25,7 @@
   }
 
   & &-inner::before {
-    border-color: @checkbox-checked-border-color;
+    border-color: var(--rs-color-checkbox-checked-bg);
   }
 
   &&-disabled label {
