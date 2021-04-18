@@ -55,16 +55,17 @@ const themesConfig = multipleThemesCompile({
       loader: 'less-loader',
       options: {
         sourceMap,
-        javascriptEnabled: true,
-        globalVars: {
-          rootPath: '../../../'
+        lessOptions: {
+          javascriptEnabled: true,
+          globalVars: {
+            rootPath: '../../../'
+          }
         }
       }
     }
   ]),
   lessContent: themeName => `// Generate by Script.
 @import '../index.less';
-@import '../themes/${themeName}.less';
 
 @theme-name: ${themeName};`,
   cwd: resolveDirName('./'), // 将相对目录修改为 webpack.config.js 所在目录

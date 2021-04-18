@@ -19,13 +19,10 @@ import { getMessages } from '../locales';
 import {
   DirectionType,
   getDefaultTheme,
-  getThemeCssPath,
-  getThemeId,
   readTheme,
   ThemeType,
   writeTheme
 } from '../utils/themeHelpers';
-import loadCssFile from '../utils/loadCssFile';
 import StyleHead from '../components/StyleHead';
 import { canUseDOM } from 'dom-lib';
 
@@ -60,36 +57,16 @@ function App({ Component, pageProps }: AppProps) {
   const [language, setLanguage] = React.useState(pageProps.userLanguage);
   const [styleLoaded, setStyleLoaded] = React.useState(false);
   const locale = language === 'zh' ? zhCN : enUS;
-  React.useEffect(() => {
-    NProgress.start();
-  }, []);
 
   const handleStyleHeadLoaded = React.useCallback(() => {
-    NProgress.done();
     setStyleLoaded(true);
-  }, []);
-
-  const loadTheme = React.useCallback((themeName: ThemeType, direction: DirectionType) => {
-    const themeId = getThemeId(themeName, direction);
-    NProgress.start();
-    loadCssFile(getThemeCssPath(themeName, direction), themeId).then(() => {
-      const html = document.querySelector('html');
-      html.dir = direction;
-      writeTheme(themeName, direction);
-      NProgress.done();
-      Array.from(document.querySelectorAll('[id^=theme]')).forEach(css => {
-        if (css.id !== themeId) {
-          css.remove();
-        }
-      });
-    });
   }, []);
 
   const onChangeTheme = React.useCallback(() => {
     const newThemeName = themeName === 'default' ? 'dark' : 'default';
     setThemeName(newThemeName);
-    loadTheme(newThemeName, direction);
-  }, [themeName, loadTheme, direction]);
+    writeTheme(newThemeName, direction);
+  }, [themeName, direction]);
 
   React.useEffect(() => {
     if (!canUseDOM) {
@@ -106,8 +83,8 @@ function App({ Component, pageProps }: AppProps) {
   const onChangeDirection = React.useCallback(() => {
     const newDirection = direction === 'ltr' ? 'rtl' : 'ltr';
     setDirection(newDirection);
-    loadTheme(themeName, newDirection);
-  }, [direction, loadTheme, themeName]);
+    writeTheme(themeName, newDirection);
+  }, [direction, themeName]);
 
   const onChangeLanguage = React.useCallback((value: string) => {
     setLanguage(value);

@@ -2,19 +2,6 @@
 @import 'mixins/palette';
 @import 'mixins/calc-font-color';
 
-//** spectrum
-@red: #f44336;
-@orange: #ff9800;
-@yellow: #ffca28;
-@green: #4caf50;
-@cyan: #00bcd4;
-@blue: #2196f3;
-@violet: #673ab7;
-@spectrum: red, orange, yellow, green, cyan, blue, violet;
-
-@import "themes/default";
-@import "themes/dark";
-
 //
 // Variables
 // --------------------------------------------------
@@ -31,7 +18,20 @@
 //** Global button ripple switch
 @button-ripple: true;
 
+//** spectrum
+@red: #f44336;
+@orange: #ff9800;
+@yellow: #ffca28;
+@green: #4caf50;
+@cyan: #00bcd4;
+@blue: #2196f3;
+@violet: #673ab7;
+@spectrum: red, orange, yellow, green, cyan, blue, violet;
+
 // Themes
+
+@import "themes/default";
+@import "themes/dark";
 
 :root,
 .rs-theme-default {
