@@ -168,4 +168,24 @@
   &-placement-right &-toolbar {
     right: @carousel-toolbar-wrapper-margin;
   }
+
+  @keyframes moveLeftHalf {
+    0% {
+      transform: none;
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes moveLeftHalf-vertical {
+    0% {
+      transform: none;
+    }
+
+    100% {
+      transform: translateY(-50%);
+    }
+  }
 }

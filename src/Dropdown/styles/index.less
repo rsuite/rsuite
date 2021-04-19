@@ -324,3 +324,16 @@
   border-bottom: 1px solid @dropdown-divider-bg;
   white-space: nowrap; // as with > li > a
 }
+
+// Opacity not working in Safari,so remove .
+@keyframes slideUpIn {
+  0% {
+    transform-origin: 0% 0%;
+    transform: scaleY(0.8);
+  }
+
+  100% {
+    transform-origin: 0% 0%;
+    transform: scaleY(1);
+  }
+}
