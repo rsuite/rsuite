@@ -13,17 +13,6 @@
   }
 }
 
-.reset-text-color(@color) {
-  &,
-  &:hover,
-  &:focus,
-  &:active {
-    color: @color;
-  }
-}
-
-// Typography
-
 .text-emphasis-variant(@color) {
   color: @color;
 
@@ -36,14 +25,10 @@
 // Text overflow
 // Requires inline-block or block for proper styling
 
-.text-overflow() {
+.ellipsis-basic() {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.ellipsis-basic() {
-  .text-overflow();
 }
 
 .ellipsis(@substract:0) {
@@ -57,22 +42,6 @@
   filter: drop-shadow(@shadow);
   // IE don't support `drop-shadow`,replace it with `box-shadow`.
   .ie-box-shadow(@shadow);
-}
-
-// Reset font color
-.reset-font-color(@font-color:@text-color) {
-  &,
-  &:hover,
-  &:focus,
-  &:active {
-    color: @font-color;
-  }
-}
-
-.icon-font() {
-  font-family: @font-family-icon;
-  font-style: normal;
-  line-height: 1;
 }
 
 .set-translate-transition(@translateX:0,@translateY:0) {
