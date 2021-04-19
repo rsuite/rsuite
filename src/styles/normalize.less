@@ -239,3 +239,10 @@ textarea {
   font-size: inherit;
   line-height: inherit;
 }
+
+// import reset styles
+& when (@reset-import = true) {
+  @import 'scaffolding';
+  @import 'typography';
+}
+
