@@ -39,7 +39,7 @@
 }
 
 .ie-box-shadow(@value) when (@ie-polyfill = true) {
-  box-shadow: ~'@{value}@{ie-suffix}';
+  box-shadow: @value;
 }
 
 // Safari

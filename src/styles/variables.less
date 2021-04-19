@@ -1,4 +1,31 @@
-@import 'constants';
+//Functions
+@import 'mixins/palette';
+@import 'mixins/calc-font-color';
+
+//
+// Controls
+// --------------------------------------------------
+
+// Control enable ie polyfill
+@ie-polyfill: true;
+// reset styles
+@reset-import: true;
+//** Global button ripple switch
+@button-ripple: true;
+
+//
+// Variables
+// --------------------------------------------------
+
+//** spectrum
+@red: #f44336;
+@orange: #ff9800;
+@yellow: #ffca28;
+@green: #4caf50;
+@cyan: #00bcd4;
+@blue: #2196f3;
+@violet: #673ab7;
+@spectrum: red, orange, yellow, green, cyan, blue, violet;
 
 //== Scaffolding
 //
@@ -401,7 +428,6 @@
 @nav-bar-padding-vertical: 18px;
 @nav-bar-padding-horizontal: 16px;
 @nav-bar-height: (@nav-bar-padding-vertical * 2 + @line-height-computed);
-
 
 //== Sidenav
 //
