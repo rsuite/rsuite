@@ -283,3 +283,17 @@ each(@spectrum, .(@color) {
   }
 }
 
+.btn-error() {
+  .rs-btn-subtle();
+
+  --rs-color-btn-subtle-text: var(--rs-color-red-500);
+  --rs-color-btn-subtle-hover-bg: var(--rs-color-red-500);
+  --rs-color-btn-subtle-hover-text: #fff;
+  --rs-color-btn-subtle-active-bg: var(--rs-color-red-600);
+  --rs-color-btn-subtle-active-text: #fff;
+
+  .rs-theme-dark & {
+    --rs-color-btn-subtle-hover-bg: var(--rs-color-red-600);
+    --rs-color-btn-subtle-active-bg: var(--rs-color-red-400);
+  }
+}
