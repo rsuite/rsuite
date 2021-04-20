@@ -22,6 +22,8 @@ import SketchPicker from '@/components/SketchPicker';
 import { readThemeName } from '@/utils/themeHelpers';
 import NextHead from 'next/head';
 import DefaultPage from '@/components/Page';
+import palette from 'rsuite/styles/plugins/palette';
+import calcFontColor from 'rsuite/styles/plugins/calcFontColor';
 
 const colors = [
   '#34C3FF',
@@ -80,7 +82,8 @@ export default function Page() {
           globalVars: {
             '@palette-color': color,
             '@theme-is-default': getThemeIsDefault()
-          }
+          },
+          plugins: [palette, calcFontColor]
         };
         setLoading(true);
 

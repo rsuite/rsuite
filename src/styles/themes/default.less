@@ -19,16 +19,16 @@
 
   //** Pallet
   @base-color: #3498ff; // TODO: Deprecate, use --rs-color-highlight
-  @H050: color(palette(@base-color, 50)); // TODO: Deprecate, use --rs-color-highlight-0
-  @H100: color(palette(@base-color, 100)); // TODO: Deprecate, use --rs-color-highlight-1
-  @H200: color(palette(@base-color, 200)); // TODO: Deprecate, use --rs-color-highlight-2
-  @H300: color(palette(@base-color, 300)); // TODO: Deprecate, use --rs-color-highlight-3
-  @H400: color(palette(@base-color, 400)); // TODO: Deprecate, use --rs-color-highlight-4
+  @H050: palette(@base-color, 50); // TODO: Deprecate, use --rs-color-highlight-0
+  @H100: palette(@base-color, 100); // TODO: Deprecate, use --rs-color-highlight-1
+  @H200: palette(@base-color, 200); // TODO: Deprecate, use --rs-color-highlight-2
+  @H300: palette(@base-color, 300); // TODO: Deprecate, use --rs-color-highlight-3
+  @H400: palette(@base-color, 400); // TODO: Deprecate, use --rs-color-highlight-4
   @H500: @base-color; // TODO: Deprecate, use --rs-color-highlight-5
-  @H600: color(palette(@base-color, 600)); // TODO: Deprecate, use --rs-color-highlight-6
-  @H700: color(palette(@base-color, 700)); // TODO: Deprecate, use --rs-color-highlight-7
-  @H800: color(palette(@base-color, 800)); // TODO: Deprecate, use --rs-color-highlight-8
-  @H900: color(palette(@base-color, 900)); // TODO: Deprecate, use --rs-color-highlight-9
+  @H600: palette(@base-color, 600); // TODO: Deprecate, use --rs-color-highlight-6
+  @H700: palette(@base-color, 700); // TODO: Deprecate, use --rs-color-highlight-7
+  @H800: palette(@base-color, 800); // TODO: Deprecate, use --rs-color-highlight-8
+  @H900: palette(@base-color, 900); // TODO: Deprecate, use --rs-color-highlight-9
   @highlight: @H500;
 
 
@@ -90,10 +90,10 @@
   // Spectrum levels
   each(@spectrum, .(@color-name) {
     @color: @@color-name;
-    --rs-color-@{color-name}-50: color(palette(@color, 50));
+    --rs-color-@{color-name}-50: palette(@color, 50);
     each(range(9), {
       @level: @{index}00;
-      --rs-color-@{color-name}-@{level}: color(palette(@color, @level));
+      --rs-color-@{color-name}-@{level}: palette(@color, @level);
     });
   });
 

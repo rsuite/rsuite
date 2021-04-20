@@ -82,17 +82,18 @@ module.exports = {
      * @param colorNumber
      */
     functions.add('palette', function (color, colorNumber) {
-      colorNumber = Number(colorNumber);
-      var hsv = tinycolor(color).toHsv();
-      var index = colorNumber < 10 ? colorNumber : COLOR_NUMBER_SET.indexOf('' + colorNumber);
+      const hsv = tinycolor(color.value).toHsv();
+      const index = COLOR_NUMBER_SET.indexOf('' + colorNumber.value);
       if (index === -1 || index === PRIMARY_INDEX) {
-        return color;
+        return less.color(color.rgb);
       }
-      return tinycolor({
-        h: calculateHue(hsv.h, index),
-        s: calculateSaturation(hsv.s, index),
-        v: calculateBrightness(hsv.v, index)
-      }).toHexString();
+      return less.color(
+        tinycolor({
+          h: calculateHue(hsv.h, index),
+          s: calculateSaturation(hsv.s, index),
+          v: calculateBrightness(hsv.v, index)
+        }).toHex()
+      );
     });
   }
 };
