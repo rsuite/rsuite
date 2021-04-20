@@ -5,7 +5,7 @@ import helper from '../DOMHelper';
 import ModalManager from './ModalManager';
 import Fade from '../Animation/Fade';
 import { animationPropTypes } from '../Animation/utils';
-import { mergeRefs, getDOMNode, usePortal, createChainedFunction } from '../utils';
+import { mergeRefs, getDOMNode, usePortal, createChainedFunction, useWillUnmount } from '../utils';
 import { WithAsProps, AnimationEventProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface BaseModalProps extends WithAsProps, AnimationEventProps {
@@ -246,7 +246,7 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
         return;
       }
       handleOpen();
-    }, [open, exited, handleOpen, handleClose]);
+    }, [open, handleOpen]);
 
     useEffect(() => {
       if (!exited) {
@@ -255,11 +255,9 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
       handleClose();
     }, [exited, handleClose]);
 
-    useEffect(() => {
-      return () => {
-        handleClose();
-      };
-    }, [handleClose]);
+    useWillUnmount(() => {
+      handleClose();
+    });
 
     const handleExited = useCallback(() => {
       setExited(true);

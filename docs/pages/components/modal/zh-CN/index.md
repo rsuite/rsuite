@@ -41,9 +41,9 @@
 
 <!--{include:`dynamic.md`}-->
 
-### Confirm
+### 警报对话框
 
-<!--{include:`confirm.md`}-->
+<!--{include:`alert-dialog.md`}-->
 
 ## 无障碍设计
 
@@ -63,6 +63,14 @@
     <Modal.Title id="modal-title">My Title</Modal.Title>
   </Modal.Header>
   <Modal.Body id="modal-description">My Description</Modal.Body>
+</Modal>
+```
+
+- 当 Modal 作为一个警报对话框的时候，需要修改 `role` 为 `alertdialog`。 参考 [WAI-ARIA Alert and Message Dialogs Pattern](https://www.w3.org/TR/wai-aria-practices/#alertdialog).
+
+```jsx
+<Modal role="alertdialog" backdrop="static">
+  ...
 </Modal>
 ```
 

@@ -8,6 +8,7 @@ const model = Schema.Model({
     .isEmail('Please enter a valid email address.')
     .isRequired('This field is required.')
 });
+
 function TextField(props) {
   const { name, label, accepter, ...rest } = props;
   return (

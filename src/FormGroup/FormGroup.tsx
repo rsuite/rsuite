@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createContext, useClassNames } from '../utils';
+import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface FormGroupProps extends WithAsProps {
@@ -11,7 +11,7 @@ export interface FormGroupProps extends WithAsProps {
   controlId?: string;
 }
 
-export const FormGroupContext = createContext({});
+export const FormGroupContext = React.createContext<{ controlId?: string }>({});
 
 const FormGroup: RsRefForwardingComponent<'div', FormGroupProps> = React.forwardRef(
   (props: FormGroupProps, ref) => {

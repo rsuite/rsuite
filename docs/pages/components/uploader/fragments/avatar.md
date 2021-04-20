@@ -11,7 +11,7 @@ function previewFile(file, callback) {
 
 const styles = {
   width: 150,
-  height: 150,
+  height: 150
 };
 
 const App = () => {
@@ -23,9 +23,9 @@ const App = () => {
       fileListVisible={false}
       listType="picture"
       action="//jsonplaceholder.typicode.com/posts/"
-      onUpload={(file) => {
+      onUpload={file => {
         setUploading(true);
-        previewFile(file.blobFile, (value) => {
+        previewFile(file.blobFile, value => {
           setFileInfo(value);
         });
       }}

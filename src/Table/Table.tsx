@@ -94,7 +94,7 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   loadAnimation?: true;
 
   /** The component localized character set. */
-  locale: TableLocale;
+  locale?: TableLocale;
 
   /** Display header */
   showHeader?: boolean;

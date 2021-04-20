@@ -122,7 +122,7 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
         // The relevant event is triggered only when the inspection is allowed.
         if (isCheckTrigger) {
           if (checkResult.hasError) {
-            onFieldError?.(name, checkResult.errorMessage);
+            onFieldError?.(name, checkResult?.errorMessage || checkResult);
           } else {
             onFieldSuccess?.(name);
           }
@@ -130,13 +130,15 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
         return checkResult;
       };
 
+      const nextFormValue = { ...formValue, [name]: value };
+
       if (checkAsync) {
-        return model.checkForFieldAsync(name, value, formValue).then(checkResult => {
+        return model.checkForFieldAsync(name, nextFormValue).then(checkResult => {
           return callbackEvents(checkResult);
         });
       }
 
-      return Promise.resolve(callbackEvents(model.checkForField(name, value, formValue)));
+      return Promise.resolve(callbackEvents(model.checkForField(name, nextFormValue)));
     };
 
     let messageNode = null;
@@ -144,7 +146,14 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
     if (!isUndefined(errorMessage)) {
       messageNode = errorMessage;
     } else if (errorFromContext) {
-      messageNode = formError?.[name];
+      const fieldError = formError?.[name];
+
+      if (
+        typeof fieldError === 'string' ||
+        (!fieldError?.array && !fieldError?.object && fieldError?.hasError)
+      ) {
+        messageNode = fieldError;
+      }
     }
 
     const ariaDescribedby = controlId

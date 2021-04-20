@@ -204,7 +204,7 @@ export interface SVGIcon {
   id: string;
 }
 
-export interface ItemDataType {
+export interface ItemDataType extends Record<string, any> {
   label?: string | React.ReactNode;
   value?: string | number;
   groupBy?: string;

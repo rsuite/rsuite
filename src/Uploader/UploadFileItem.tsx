@@ -175,13 +175,13 @@ const UploadFileItem = React.forwardRef(
     /**
      * Render the loading state.
      */
-    const renderLoading = () => {
+    const renderIcon = () => {
       const uploading = file.status === 'uploading';
       const classes = prefix('icon-wrapper', { 'icon-loading': uploading });
 
       return (
         <div className={classes}>
-          <Attachment className={prefix('icon')} />
+          {uploading ? <i className={prefix('icon')} /> : <Attachment className={prefix('icon')} />}
         </div>
       );
     };
@@ -249,7 +249,7 @@ const UploadFileItem = React.forwardRef(
     if (listType === 'picture') {
       return (
         <Component {...rest} ref={ref} className={classes}>
-          {renderLoading()}
+          {renderIcon()}
           {renderPreview()}
           {renderErrorStatus()}
           {renderRemoveButton()}
@@ -260,7 +260,7 @@ const UploadFileItem = React.forwardRef(
     if (listType === 'picture-text') {
       return (
         <Component {...rest} ref={ref} className={classes}>
-          {renderLoading()}
+          {renderIcon()}
           {renderPreview()}
           {renderFilePanel()}
           {renderProgressBar()}
@@ -271,7 +271,7 @@ const UploadFileItem = React.forwardRef(
 
     return (
       <Component {...rest} ref={ref} className={classes}>
-        {renderLoading()}
+        {renderIcon()}
         {renderFilePanel()}
         {renderProgressBar()}
         {renderRemoveButton()}

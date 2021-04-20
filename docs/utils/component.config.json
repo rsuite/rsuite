@@ -345,7 +345,7 @@
     "id": "table",
     "name": "Table",
     "title": "表格",
-    "components": ["Table", "Table.Column", "Table.HeaderCell", "Table.Cell", "Table.Pagination"],
+    "components": ["Table", "Table.Column", "Table.HeaderCell", "Table.Cell"],
     "designHash": { "default": "76", "dark": "76" }
   },
   { "id": "tree", "name": "Tree", "title": "树形控件", "components": ["Tree"] },
@@ -417,17 +417,17 @@
     "apis": ["DOMHelper"]
   },
   {
-    "id": "schema",
-    "name": "Schema",
-    "title": "数据模型",
-    "apis": ["Schema.Model", "Schema.Types"]
-  },
-
-  {
     "id": "whisper",
     "name": "Whisper",
     "title": "弹窗触发器",
     "components": ["Whisper"]
+  },
+  {
+    "id": "schema",
+    "name": "Schema",
+    "title": "数据模型",
+    "target": "_blank",
+    "url": "https://github.com/rsuite/schema-typed#schema-typed"
   },
   {
     "group": true,

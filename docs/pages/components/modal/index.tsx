@@ -1,7 +1,7 @@
 import React from 'react';
 import { ButtonToolbar, Button, Modal, Toggle, RadioGroup, Radio, Loader } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import Remind from '@rsuite/icons/legacy/Remind';
+import RemindIcon from '@rsuite/icons/legacy/Remind';
 
 export default function Page() {
   return (
@@ -14,7 +14,7 @@ export default function Page() {
         Toggle,
         RadioGroup,
         Radio,
-        Remind,
+        RemindIcon
       }}
     />
   );

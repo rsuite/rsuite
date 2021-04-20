@@ -4,7 +4,20 @@ import components from './component.config.json';
 import AppContext from '@/components/AppContext';
 import * as SvgIcons from '@/components/SvgIcons';
 
-export default function usePages() {
+interface Menu {
+  id?: string;
+  name?: string;
+  icon?: any;
+  title?: string;
+  components?: string[];
+  target?: string;
+  group?: boolean;
+  url?: string;
+  apis?: string[];
+  children?: Menu[];
+}
+
+export default function usePages(): Menu[] {
   const { messages } = React.useContext(AppContext);
   return [
     {
