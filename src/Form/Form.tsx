@@ -16,8 +16,7 @@ export interface FormProps<
   T = Record<string, any>,
   errorMsgType = any,
   E = { [P in keyof T]?: errorMsgType }
->
-  extends WithAsProps,
+> extends WithAsProps,
     Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit' | 'onError'> {
   /** Set the left and right columns of the layout of the elements within the form */
   layout?: 'horizontal' | 'vertical' | 'inline';
