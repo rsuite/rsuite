@@ -90,17 +90,8 @@
     cursor: default;
     pointer-events: none;
   }
-}
 
-// Spectrum variants
-each(@spectrum, .(@color) {
-  .rs-rate-@{color} {
-    color: var(~'--rs-color-@{color}-500');
-  }
-});
-
-// Size variants
-.rs-rate {
+  // Size variants
   @sizes: lg, md, sm, xs;
 
   each(@sizes, .(@size) {
@@ -115,5 +106,12 @@ each(@spectrum, .(@color) {
         height: (@font-size + 6);
       }
     }
-  })
+  });
+
+  // Color variants
+  each(@spectrum, .(@color) {
+    &-@{color} {
+      color: var(~'--rs-color-@{color}-500');
+    }
+  });
 }

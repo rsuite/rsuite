@@ -2,8 +2,8 @@
 @import '../../Picker/styles/mixin';
 @import '../../TreePicker/styles/mixin';
 
-// Check Tree Picker
-// ----------------------
+// **Check Tree Picker
+// **----------------------
 
 .rs-check-tree {
   max-height: 360px;
@@ -14,7 +14,7 @@
   &.rs-check-tree-virtualized {
     overflow: hidden;
 
-    /* stylelint-disable-next-line */ // This class name provide by Virtualized.
+    /* stylelint-disable-next-line */ // **This class name provide by Virtualized.
     .ReactVirtualized__Grid.ReactVirtualized__List {
       padding: 0 @picker-menu-padding @picker-menu-padding 0;
 
@@ -30,7 +30,7 @@
   font-size: @picker-tree-node-font-size;
   line-height: @picker-tree-node-line-height;
 
-  > .rs-check-tree-node-label {
+  &-label {
     .rs-check-item {
       display: inline-block;
 

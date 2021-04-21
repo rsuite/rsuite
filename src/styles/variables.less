@@ -6,14 +6,14 @@
 @ie-polyfill: true;
 // reset styles
 @reset-import: true;
-//** Global button ripple switch
+// ** Global button ripple switch
 @button-ripple: true;
 
 //
 // Variables
 // --------------------------------------------------
 
-//** spectrum
+// ** spectrum
 @red: #f44336;
 @orange: #ff9800;
 @yellow: #ffca28;
@@ -27,14 +27,14 @@
 //
 //## Settings for some of the most global styles.
 
-//** Background color for `<body>`.
+// ** Background color for `<body>`.
 @body-bg: var(--rs-color-gray-50);
-//** Global text color on `<body>`.
+// ** Global text color on `<body>`.
 @text-color: var(--rs-color-text-primary);
 
-//** Link hover decoration.
+// ** Link hover decoration.
 @link-hover-decoration: underline;
-//** Link active decoration.
+// ** Link active decoration.
 @link-active-decoration: underline;
 
 //== Common
@@ -71,11 +71,11 @@
 @line-height-h5: 24px;
 @line-height-h6: 22px;
 
-//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+// ** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
 @line-height-computed: 20px;
-//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+// ** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
 @line-height-large-computed: 22px;
-//** Unit-less `line-height` for use in components like buttons.
+// ** Unit-less `line-height` for use in components like buttons.
 @line-height-large: unit((@line-height-large-computed / @font-size-large)); // ~1.375
 @line-height-base: unit((@line-height-computed / @font-size-base)); // ~1.4285714285714286
 @line-height-small: unit((@line-height-computed / @font-size-small)); // ~1.6666666666666667
@@ -83,12 +83,12 @@
   (@line-height-computed / @font-size-extra-small)
 ); // ~1.6666666666666667
 
-//** By default, this inherits from the `<body>`.
+// ** By default, this inherits from the `<body>`.
 @headings-font-family: inherit;
 @headings-font-weight: bolder;
 @headings-color: inherit;
 
-//** Box shadows
+// ** Box shadows
 @default-box-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
 //== Components
@@ -180,37 +180,37 @@
 
 @input-border-width: 1px;
 
-//** Default `.form-control` border radius
+// ** Default `.form-control` border radius
 // This has no effect on `<select>`s  in some browsers, due to the limited stylability of `<select>`s in CSS.
 @input-border-radius: @border-radius-base;
-//** Large `.form-control` border radius
+// ** Large `.form-control` border radius
 @input-border-radius-large: @border-radius-base;
-//** Small `.form-control` border radius
+// ** Small `.form-control` border radius
 @input-border-radius-small: @border-radius-base;
 
-//** Input transition
+// ** Input transition
 @input-transition: border-color ease-in-out 0.3s;
 
-//** Default `.input` height
+// ** Default `.input` height
 @input-height-base: (@line-height-computed + (@padding-base-vertical * 2));
-//** Large `.input` height
+// ** Large `.input` height
 @input-height-large: (@line-height-large-computed + (@padding-large-vertical * 2));
-//** Small `.input` height
+// ** Small `.input` height
 @input-height-small: (@line-height-computed + (@padding-small-vertical * 2));
-//** Extra small `.input` height
+// ** Extra small `.input` height
 @input-height-extra-small: (@line-height-computed + (@padding-extra-small-vertical * 2));
 
-//** `.form-group` margin
+// ** `.form-group` margin
 @form-group-margin-bottom: 24px;
 @form-control-label-margin-bottom: 4px;
 
-//** InputGroup padding for add-on
+// ** InputGroup padding for add-on
 @input-group-padding-for-add-on-large: 46px;
 @input-group-padding-for-add-on-base: 36px;
 @input-group-padding-for-add-on-small: 30px;
 @input-group-padding-for-add-on-extra-small: 26px;
 
-//** Disabled cursor for form controls and buttons.
+// ** Disabled cursor for form controls and buttons.
 @cursor-disabled: not-allowed;
 
 //== Form Layout
@@ -237,32 +237,32 @@
 //
 //## Dropdown menu container and contents.
 
-//**
+// **
 @dropdown-caret-width: 10px;
 @dropdown-caret-padding: 10px;
 
-//** Divider color for between dropdown items.
+// ** Divider color for between dropdown items.
 @dropdown-divider-bg: @divider-border-color;
 @dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
 
-//** Text color for headers within dropdown menus.
+// ** Text color for headers within dropdown menus.
 @dropdown-header-color: var(--rs-color-gray-500);
 
-//** Dropdown item content vertical padding
+// ** Dropdown item content vertical padding
 @dropdown-item-padding-vertical: 8px;
-//** Dropdown item content horizontal padding
+// ** Dropdown item content horizontal padding
 @dropdown-item-padding-horizontal: 12px;
-//** Dropdown item content submenu icon
+// ** Dropdown item content submenu icon
 @dropdown-item-submenu-icon-angle-spacing: 10px;
 @dropdown-item-submenu-icon-angle-width: 5px;
 @dropdown-item-content-submenu-icon-angle-line-height: @line-height-base;
 @dropdown-item-content-submenu-icon-angle-size: @font-size-base;
 @dropdown-toggle-padding-right: (@padding-base-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
-//** Dropdown Caret Font Family
+// ** Dropdown Caret Font Family
 @dropdown-caret-font-family: @font-family-icon;
 @dropdown-caret-icon-padding-horizontal: 9px;
 
-//** DropDownMenu offset value
+// ** DropDownMenu offset value
 @dropdown-max-height: 280px;
 @dropdown-menu-lg-top: 40px;
 @dropdown-menu-sm-top: 27px;
@@ -366,9 +366,9 @@
 //
 //## Define your custom responsive grid.
 
-//** Number of columns in the grid.
+// ** Number of columns in the grid.
 @grid-columns: 24;
-//** Padding between columns. Gets divided in half for the left and right.
+// ** Padding between columns. Gets divided in half for the left and right.
 @grid-gutter-width: 10px;
 
 //== Container sizes
@@ -377,17 +377,17 @@
 
 // Small screen / phone / tablet
 @container-phone: (480px + @grid-gutter-width);
-//** For `@screen-sm-min` and up.
+// ** For `@screen-sm-min` and up.
 @container-sm: @container-phone;
 
 // Medium screen / desktop
 @container-desktop: (940px + @grid-gutter-width);
-//** For `@screen-md-min` and up.
+// ** For `@screen-md-min` and up.
 @container-md: @container-desktop;
 
 // Large screen / wide desktop
 @container-large-desktop: (1140px + @grid-gutter-width);
-//** For `@screen-lg-min` and up.
+// ** For `@screen-lg-min` and up.
 @container-lg: @container-large-desktop;
 
 //== Navs
@@ -407,15 +407,15 @@
 @nav-item-transition: color 0.3s linear, background-color 0.3s linear;
 
 // Variant
-//** Tab
+// ** Tab
 @nav-tab-default-bg: @body-bg;
 @nav-tab-bar-width: 1px;
 
-//** Subtle
+// ** Subtle
 @nav-subtle-bar-width: 2px;
 @nav-subtle-content-transition: 0.3s ease-out;
 
-//** Divider
+// ** Divider
 @nav-divider-margin-vertical: 6px;
 
 //== Navbar
@@ -477,13 +477,13 @@
 @small-steps-description-line-height: @line-height-small;
 @small-steps-description-margin-top: 12px;
 
-//** Checkbox Styles
+// ** Checkbox Styles
 @checkbox-width-height: 16px;
 @checkbox-sense-width: 10px;
 @checkbox-border-radius: 3px;
 @checkbox-bg: transparent;
 
-//** Radio Checked width
+// ** Radio Checked width
 @radio-width-height: 16px;
 @radio-inner-width-height: 6px;
 @radio-sense-width: 10px;
@@ -495,92 +495,92 @@
 //
 //##
 
-//** Tooltip max width
+// ** Tooltip max width
 @tooltip-max-width: 250px;
-//** Tooltip opacity
+// ** Tooltip opacity
 @tooltip-opacity: 1;
-//** Tooltip border radius
+// ** Tooltip border radius
 @tooltip-border-radius: 4px;
 
-//** Tooltip arrow width
+// ** Tooltip arrow width
 @tooltip-arrow-width: 6px;
-//** Tooltip translate distance
+// ** Tooltip translate distance
 @tooltip-translate-distance: 2px;
-//** Distance of Arrow and frame.
+// ** Distance of Arrow and frame.
 @tooltip-arrow-gap-lg: 10px;
 @tooltip-arrow-gap-sm: 4px;
 //== Popovers
 //
 //##
 
-//** Popover maximum width
+// ** Popover maximum width
 @popover-max-width: 250px;
-//** Popover border-radius
+// ** Popover border-radius
 @popover-border-radius: 4px;
 @popover-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
 
-//** Popover arrow width
+// ** Popover arrow width
 @popover-arrow-width: 6px;
-//** Popover translate distance
+// ** Popover translate distance
 @popover-translate-distance: 2px;
 
-//** Popover outer arrow width
+// ** Popover outer arrow width
 @popover-arrow-outer-width: @popover-arrow-width;
-//** Distance of Arrow and frame.
+// ** Distance of Arrow and frame.
 @popover-arrow-gap: 4px;
 
 //== Modals
 //
 //##
 
-//** Padding applied to the modal content
+// ** Padding applied to the modal content
 @modal-content-padding: 20px;
-//** Margin of modal header and body
+// ** Margin of modal header and body
 @modal-body-margin: 20px;
-//** Modal border-radius
+// ** Modal border-radius
 @modal-border-radius: @border-radius-base;
-//** Modal title font-size
+// ** Modal title font-size
 @modal-title-font-size: @font-size-large;
-//** Modal title color
+// ** Modal title color
 @modal-title-color: @text-color;
-//** Modal title line-height
+// ** Modal title line-height
 @modal-title-line-height: @line-height-large;
 
-//** Modal Box shadow
+// ** Modal Box shadow
 @modal-box-shadow: @default-box-shadow;
 
-//** Modal backdrop background color
+// ** Modal backdrop background color
 @modal-backdrop-bg: var(--rs-color-gray-900);
-//** Modal backdrop opacity
+// ** Modal backdrop opacity
 @modal-backdrop-opacity: 0.3; // 30%
 
-//** Modal close button
+// ** Modal close button
 @modal-close-btn-size: @font-size-small;
 @modal-close-btn-line-height: @line-height-small;
 @modal-close-btn-color: @text-color;
 
-//** Modal sizes
+// ** Modal sizes
 @modal-lg: 968px;
 @modal-md: 800px;
 @modal-sm: 600px;
 @modal-xs: 400px;
 
-//** Modal full size margin
+// ** Modal full size margin
 @modal-full-size-margin: 60px;
 
 //== Drawer
 //
 //##
-//** Padding applied to the drawer content
+// ** Padding applied to the drawer content
 @drawer-content-spacing: 20px;
-//** Margin of modal header and body
+// ** Margin of modal header and body
 @drawer-body-margin: 30px;
-//** Modal close button
+// ** Modal close button
 @drawer-close-btn-size: @font-size-small;
 @drawer-close-btn-line-height: @line-height-small;
 @drawer-close-btn-color: @modal-close-btn-color;
 
-//** Drawer sizes
+// ** Drawer sizes
 @drawer-horizontal-lg: @modal-lg;
 @drawer-horizontal-md: @modal-md;
 @drawer-horizontal-sm: @modal-sm;
@@ -591,7 +591,7 @@
 @drawer-vertical-sm: 400px;
 @drawer-vertical-xs: 290px;
 
-//** Modal full size margin
+// ** Modal full size margin
 @drawer-full-size-margin: 60px;
 
 //== Message
@@ -715,7 +715,7 @@
 @divider-vertical-margin: 12px;
 
 //== Picker
-//** prefixs
+// ** prefixs
 @picker-prefix: ~'rs-picker';
 @select-picker-prefix: ~'picker-select';
 @check-picker-prefix: ~'picker-check';
@@ -738,19 +738,19 @@
 @picker-value-count-border-radius: 10px;
 @picker-value-count-padding: 8px;
 @picker-value-count-margin: 4px;
-//** Picker content width
+// ** Picker content width
 @picker-content-min-width: 200px;
 @picker-search-bar-icon-width: @font-size-base;
 @picker-default-toggle-border-width: 1px;
 @picker-toggle-clean-width: 12px;
 @picker-toggle-clean-right: 30px;
-//** Picker menu padding
+// ** Picker menu padding
 @picker-menu-padding: 12px;
-//** Dropdown item content vertical padding
+// ** Dropdown item content vertical padding
 @picker-item-content-padding-vertical: 8px;
-//** Dropdown item content horizontal padding
+// ** Dropdown item content horizontal padding
 @picker-item-content-padding-horizontal: @picker-menu-padding;
-//** group title
+// ** group title
 @picker-group-children-padding-left: 26px;
 @picker-group-select-menu-gap: 6px;
 @picker-group-select-menu-lin-color: @dropdown-divider-bg;
@@ -861,9 +861,9 @@
 //
 //##
 
-//** Horizontal offset for forms and lists.
+// ** Horizontal offset for forms and lists.
 @component-offset-horizontal: 180px;
-//** Horizontal line color.
+// ** Horizontal line color.
 @hr-border: @divider-border-color;
 
 //== Buttons
@@ -878,7 +878,7 @@
 @divider-border-color: var(--rs-color-border-primary); // TODO: Deprecate, use --rs-color-divider-border
 
 //== Dropdown
-//** Active dropdown menu item background color.
+// ** Active dropdown menu item background color.
 @dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
 
 //== Modal

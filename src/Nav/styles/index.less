@@ -62,7 +62,6 @@
   }
 }
 
-
 // Orientations
 .rs-nav-horizontal {
   white-space: nowrap;
@@ -73,7 +72,7 @@
     bottom: 0;
     width: 100%;
 
-    //** Reversed
+    // ** Reversed
     .rs-nav-reversed& {
       bottom: auto;
       top: 0;
@@ -90,6 +89,14 @@
 
   .rs-nav-horizontal > & + & {
     margin-left: 6px;
+  }
+
+  .rs-nav-vertical > & {
+    display: block;
+  }
+
+  .rs-nav-vertical > & + & {
+    margin-top: 6px;
   }
 }
 
@@ -115,17 +122,6 @@
     .rs-nav-reversed& {
       right: auto;
     }
-  }
-}
-
-.rs-nav-item,
-.rs-dropdown {
-  .rs-nav-vertical > & {
-    display: block;
-  }
-
-  .rs-nav-vertical > & + & {
-    margin-top: 6px;
   }
 }
 
@@ -179,12 +175,12 @@
       }
     }
 
-    //** Waterline
+    // ** Waterline
     .rs-nav-bar {
       border-top: 1px solid var(--rs-color-navs-tab-border);
     }
 
-    //** Active
+    // ** Active
     .rs-nav-item.rs-nav-item-active {
       border-bottom-width: 0;
 
@@ -208,13 +204,13 @@
       }
     }
 
-    //** Waterline
+    // ** Waterline
     .rs-nav-bar {
       width: 1px;
       background: var(--rs-color-navs-tab-border);
     }
 
-    //** Active
+    // ** Active
     .rs-nav-item.rs-nav-item-active {
       border-right-width: 0;
 

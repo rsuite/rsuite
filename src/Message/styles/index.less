@@ -1,5 +1,5 @@
 @import '../../styles/common';
-@import "../../toaster/styles/animation";
+@import '../../toaster/styles/animation';
 @import 'mixin';
 
 //
@@ -107,19 +107,33 @@
 // Generate contextual modifier classes for colorizing the message.
 
 .rs-message-success {
-  .message-variant(var(--rs-color-message-success-bg); var(--rs-color-message-success-icon););
+  // Don't write arguments in single line when using var()
+  // it breaks stylelint
+  .message-variant(
+    var(--rs-color-message-success-bg);
+    var(--rs-color-message-success-icon);
+  );
 }
 
 .rs-message-info {
-  .message-variant(var(--rs-color-message-info-bg); var(--rs-color-message-info-icon););
+  .message-variant(
+    var(--rs-color-message-info-bg);
+    var(--rs-color-message-info-icon);
+  );
 }
 
 .rs-message-warning {
-  .message-variant(var(--rs-color-message-warning-bg); var(--rs-color-message-warning-icon););
+  .message-variant(
+    var(--rs-color-message-warning-bg);
+    var(--rs-color-message-warning-icon);
+  );
 }
 
 .rs-message-error {
-  .message-variant(var(--rs-color-message-error-bg); var(--rs-color-message-error-icon););
+  .message-variant(
+    var(--rs-color-message-error-bg);
+    var(--rs-color-message-error-icon);
+  );
 }
 
 .rs-theme-dark {
