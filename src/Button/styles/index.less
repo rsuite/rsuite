@@ -14,12 +14,8 @@
   &.rs-btn-disabled {
     &:extend(button[disabled]);
 
-    cursor: @cursor-disabled !important;
+    cursor: not-allowed;
     pointer-events: none;
-
-    .rs-ripple-pond {
-      display: none !important;
-    }
   }
 }
 
@@ -48,8 +44,6 @@
     color: var(--rs-color-btn-default-disabled-text);
     background-color: var(--rs-color-btn-default-disabled-bg);
   }
-
-  .button-ripple();
 }
 
 // Primary Button
@@ -71,8 +65,6 @@
   &.rs-btn-disabled {
     opacity: 0.3;
   }
-
-  .button-ripple();
 }
 
 // Subtle Button
@@ -97,8 +89,6 @@
     color: var(--rs-color-btn-subtle-disabled-text);
     background: none;
   }
-
-  .button-ripple();
 }
 
 // Link buttons
