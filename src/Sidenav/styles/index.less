@@ -1,5 +1,5 @@
 @import '../../styles/common';
-@import '../../Button/styles/mixin';
+@import '../../Ripple/styles/mixins';
 @import '../../Navbar/styles/index';
 @import 'mixin';
 
@@ -94,7 +94,7 @@
     // Set  the ripple effect of items.
     &-item:not(.rs-dropdown-item-submenu),
     &-item-submenu > .rs-dropdown-menu-toggle {
-      .button-ripple();
+      .with-ripple();
     }
 
     // Remove the ripple effect of disabled items.
@@ -160,12 +160,14 @@
   }
 
   .rs-dropdown.rs-dropdown-collapse > .rs-dropdown-menu.rs-dropdown-menu-collapse-out,
-  .rs-dropdown-item-submenu.rs-dropdown-item-collapse > .rs-dropdown-menu.rs-dropdown-menu-collapse-out {
+  .rs-dropdown-item-submenu.rs-dropdown-item-collapse
+    > .rs-dropdown-menu.rs-dropdown-menu-collapse-out {
     display: none;
   }
 
   .rs-dropdown.rs-dropdown-menu-collapse-in > .rs-dropdown-menu.dropdown-menu-collapse-in,
-  .rs-dropdown-item-submenu.rs-dropdown-menu-collapse-in > .rs-dropdown-menu.rs-dropdown-menu-collapse-in {
+  .rs-dropdown-item-submenu.rs-dropdown-menu-collapse-in
+    > .rs-dropdown-menu.rs-dropdown-menu-collapse-in {
     display: block;
   }
 

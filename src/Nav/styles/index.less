@@ -1,5 +1,5 @@
 @import '../../styles/common';
-@import '../../Button/styles/mixin';
+@import '../../Ripple/styles/mixins';
 
 //
 // Navs
@@ -18,7 +18,7 @@
   // Ripple
   .rs-nav-default &-item,
   .rs-nav-tabs &-item {
-    .button-ripple(~'rs-nav-item-');
+    .with-ripple();
 
     transition: @nav-item-transition;
   }
