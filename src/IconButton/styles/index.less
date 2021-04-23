@@ -4,25 +4,46 @@
 //
 // IconButton
 // --------------------------------------------------
+.rs-btn-icon {
+  > .rs-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+  }
 
-// Alternate buttons
-// --------------------------------------------------
+  &.rs-btn-lg {
+    font-size: 20px;
+  }
+
+  &.rs-btn-md {
+    font-size: 16px;
+  }
+
+  &.rs-btn-sm {
+    font-size: 16px;
+  }
+
+  &.rs-btn-xs {
+    font-size: 12px;
+    line-height: @line-height-base;
+  }
+}
 
 // Icon Button with text
 .btn-icon-with-text(@bg) {
-  &.rs-btn-icon-with-text > .rs-icon {
+  > .rs-icon {
     background-color: @bg;
   }
 }
 
 // Default Button
 // Rewrite common button style
-.rs-btn-icon {
-  &.rs-btn-icon-with-text > .rs-icon {
+.rs-btn-icon-with-text {
+  > .rs-icon {
     transition: @btn-transition;
+    background-color: var(--rs-color-gray-100);
   }
-
-  .btn-icon-with-text(var(--rs-color-gray-100));
 
   .button-activated({
     .btn-icon-with-text(var(--rs-color-gray-300));
@@ -33,7 +54,6 @@
   });
 
   .rs-theme-dark & {
-
     .btn-icon-with-text(var(--rs-color-gray-500));
 
     .button-activated({
@@ -43,20 +63,6 @@
     .button-pressed({
       .btn-icon-with-text(var(--rs-color-gray-200));
     });
-  }
-}
-
-// Icon Button
-// Icon Button text size increase 2 px
-.rs-btn-icon:not(.rs-btn-icon-with-text) {
-  .icon {
-    font-size: @font-size-large;
-    line-height: @line-height-large;
-  }
-
-  &.btn-xs {
-    font-size: @font-size-base;
-    line-height: @line-height-base;
   }
 }
 

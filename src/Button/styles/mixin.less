@@ -65,14 +65,14 @@
     base; @padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius
   );
 
-  &.rs-btn-ghost {
+  .rs-btn-ghost& {
     // Ghost button has 1px border
     padding-top: (@padding-vertical - @btn-ghost-border-width);
     padding-bottom: (@padding-vertical - @btn-ghost-border-width);
   }
 
   // Button icon
-  &.rs-btn-icon {
+  .rs-btn-icon& {
     padding-left: @icon-side-length - @padding-horizontal;
     height: @icon-side-length;
     position: relative;
@@ -99,10 +99,6 @@
     }
 
     > .rs-icon {
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: block;
       width: @icon-side-length;
       height: @icon-side-length;
       padding: @padding-vertical+2 0;
@@ -121,7 +117,7 @@
     }
   }
 
-  &.rs-btn-icon-circle {
+  .rs-btn-icon-circle& {
     width: @icon-side-length;
     padding: @padding-vertical;
   }
