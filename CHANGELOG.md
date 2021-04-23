@@ -1,3 +1,7 @@
+## 4.9.4
+
+- build(deps): bump rsuite-table from 3.14.4 to 3.14.6
+
 <a name="4.9.3"></a>
 
 ## [4.9.3](https://github.com/rsuite/rsuite/compare/4.9.2...4.9.3) (2021-03-11)
