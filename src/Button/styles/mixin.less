@@ -1,29 +1,3 @@
-// Button base styles
-.btn-base() {
-  display: inline-block;
-  margin-bottom: 0; // For input.btn
-  font-weight: @btn-font-weight;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  outline: 0 !important;
-  white-space: nowrap;
-  transition: @btn-transition;
-  // Reset border style in all browser
-  border: none;
-  user-select: none;
-  text-decoration: none;
-
-  .btn-md();
-
-  &:focus {
-    outline: 0;
-    box-shadow: var(--rs-color-state-focus-shadow);
-  }
-
-  .button-ripple();
-}
-
 // States
 
 .button-activated(@rules) {

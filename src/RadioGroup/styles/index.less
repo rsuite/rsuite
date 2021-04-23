@@ -1,3 +1,5 @@
+@import (reference) '../../Button/styles/index';
+
 .rs-radio-group {
   display: flex;
   flex-direction: column;
@@ -32,15 +34,19 @@
   }
 
   .rs-radio-checker > label {
-    .btn-base();
+    // TODO: Should not inherit Button styles
+    .rs-btn();
+    .rs-btn-subtle();
 
     color: var(--rs-color-text-secondary);
+    background: none;
     transition: color 0.3s linear;
     padding: (@padding-base-vertical - 1px) 0;
 
     &:hover,
     &:active {
       color: var(--rs-color-text-active);
+      background: none;
     }
   }
 

@@ -1,5 +1,5 @@
 @import '../../styles/common';
-@import '../../Button/styles/mixin';
+@import (reference) '../../Button/styles/index';
 @import '../../Form/styles/mixin';
 @import 'mixin';
 
@@ -82,7 +82,8 @@
 }
 
 .rs-picker-toggle {
-  .btn-base();
+  // TODO: Should inherit from <Input> styles?
+  .rs-btn();
 
   .rs-picker-default & {
     @padding-vertical: (@padding-base-vertical - @picker-default-toggle-border-width);
@@ -219,7 +220,7 @@
     .rs-@{date-range-picker-prefix}& {
       padding-right: (
         @dropdown-toggle-padding-right + @picker-toggle-clean-width +
-        @picker-item-content-padding-vertical
+          @picker-item-content-padding-vertical
       );
     }
   }

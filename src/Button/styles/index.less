@@ -5,24 +5,28 @@
 // Buttons
 // --------------------------------------------------
 
-// Base styles
-// --------------------------------------------------
-.rs-btn {
-  .btn-base();
-
-  .button-disabled({
-    cursor: not-allowed;
-  });
-}
-
-// Appearance variants
-// --------------------------------------------------
-
 // Default Button
-// TODO: Consider removing this class? Apply default styles to .rs-btn directly.
-.rs-btn-default {
+.rs-btn {
+  display: inline-block;
+  margin-bottom: 0; // For input.btn
+  font-weight: @btn-font-weight;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  outline: 0 !important;
+  white-space: nowrap;
+  transition: @btn-transition;
+  // Reset border style in all browser
+  border: none;
+  user-select: none;
+  text-decoration: none;
   color: var(--rs-color-btn-default-text);
   background-color: var(--rs-color-btn-default-bg);
+
+  &:focus {
+    outline: 0;
+    box-shadow: var(--rs-color-state-focus-shadow);
+  }
 
   .button-activated({
     background-color: var(--rs-color-btn-default-hover-bg);
@@ -34,10 +38,17 @@
   });
 
   .button-disabled({
+    cursor: not-allowed;
     color: var(--rs-color-btn-default-disabled-text);
     background-color: var(--rs-color-btn-default-disabled-bg);
   });
+
+  .btn-md();
+  .button-ripple();
 }
+
+// Appearance variants
+// --------------------------------------------------
 
 // Primary Button
 .rs-btn-primary {
@@ -45,14 +56,17 @@
   background-color: var(--rs-color-btn-primary-bg);
 
   .button-activated({
+    color: var(--rs-color-btn-primary-text);
     background-color: var(--rs-color-btn-primary-hover-bg);
   });
 
   .button-pressed({
+    color: var(--rs-color-btn-primary-text);
     background-color: var(--rs-color-btn-primary-active-bg);
   });
 
   .button-disabled({
+    color: var(--rs-color-btn-primary-text);
     background-color: var(--rs-color-btn-primary-bg);
     opacity: 0.3;
   });
@@ -86,15 +100,18 @@
 
   .button-activated({
     color: var(--rs-color-btn-link-hover-text);
+    background-color: transparent;
     text-decoration: @link-hover-decoration;
   });
 
   .button-pressed({
     color: var(--rs-color-btn-link-active-text);
+    background-color: transparent;
   });
 
   .button-disabled({
     color: var(--rs-color-btn-link-hover-text);
+    background-color: transparent;
     text-decoration: none;
     opacity: 0.3;
   });
@@ -108,15 +125,19 @@
 
   .button-activated({
     color: var(--rs-color-btn-ghost-hover-text);
+    background-color: transparent;
     border-color: var(--rs-color-btn-ghost-hover-border);
   });
 
   .button-pressed({
     color: var(--rs-color-btn-ghost-active-text);
+    background-color: transparent;
     border-color: var(--rs-color-btn-ghost-active-border);
   });
 
   .button-disabled({
+    color: var(--rs-color-btn-ghost-text);
+    background-color: transparent;
     opacity: 0.3;
   });
 }
