@@ -63,7 +63,7 @@
     "react-lifecycles-compat": "^3.0.4",
     "react-virtualized": "^9.21.0",
     "recompose": "^0.30.0",
-    "rsuite-table": "^3.14.4",
+    "rsuite-table": "^3.14.6",
     "schema-typed": "^1.5.1"
   },
   "peerDependencies": {
