@@ -24,6 +24,29 @@
   .button-ripple();
 }
 
+// States
+
+.button-activated(@rules) {
+  &:hover,
+  &:focus {
+    @rules();
+  }
+}
+
+.button-pressed(@rules) {
+  &:active,
+  &.rs-btn-active {
+    @rules();
+  }
+}
+
+.button-disabled(@rules) {
+  &:disabled,
+  &.rs-btn-disabled {
+    @rules();
+  }
+}
+
 // Base button size
 .button-size(base;@padding-vertical; @padding-horizontal; @font-size; @line-height; @border-radius) {
   padding: @padding-vertical @padding-horizontal;

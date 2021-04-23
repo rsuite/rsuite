@@ -10,13 +10,9 @@
 .rs-btn {
   .btn-base();
 
-  &:disabled,
-  &.rs-btn-disabled {
-    &:extend(button[disabled]);
-
+  .button-disabled({
     cursor: not-allowed;
-    pointer-events: none;
-  }
+  });
 }
 
 // Appearance variants
@@ -28,22 +24,19 @@
   color: var(--rs-color-btn-default-text);
   background-color: var(--rs-color-btn-default-bg);
 
-  &:hover,
-  &:focus {
+  .button-activated({
     background-color: var(--rs-color-btn-default-hover-bg);
-  }
+  });
 
-  &:active,
-  &.rs-btn-active {
+  .button-pressed( {
     color: var(--rs-color-btn-default-active-text);
     background-color: var(--rs-color-btn-default-active-bg);
-  }
+  });
 
-  &:disabled,
-  &.rs-btn-disabled {
+  .button-disabled({
     color: var(--rs-color-btn-default-disabled-text);
     background-color: var(--rs-color-btn-default-disabled-bg);
-  }
+  });
 }
 
 // Primary Button
@@ -51,20 +44,18 @@
   color: var(--rs-color-btn-primary-text);
   background-color: var(--rs-color-btn-primary-bg);
 
-  &:hover,
-  &:focus {
+  .button-activated({
     background-color: var(--rs-color-btn-primary-hover-bg);
-  }
+  });
 
-  &:active,
-  &.rs-btn-active {
+  .button-pressed({
     background-color: var(--rs-color-btn-primary-active-bg);
-  }
+  });
 
-  &:disabled,
-  &.rs-btn-disabled {
+  .button-disabled({
+    background-color: var(--rs-color-btn-primary-bg);
     opacity: 0.3;
-  }
+  });
 }
 
 // Subtle Button
@@ -72,23 +63,20 @@
   color: var(--rs-color-btn-subtle-text);
   background-color: transparent;
 
-  &:hover,
-  &:focus {
+  .button-activated({
     color: var(--rs-color-btn-subtle-hover-text);
     background-color: var(--rs-color-btn-subtle-hover-bg);
-  }
+  });
 
-  &:active,
-  &.rs-btn-active {
+  .button-pressed({
     color: var(--rs-color-btn-subtle-active-text);
     background-color: var(--rs-color-btn-subtle-active-bg);
-  }
+  });
 
-  &:disabled,
-  &.rs-btn-disabled {
+  .button-disabled({
     color: var(--rs-color-btn-subtle-disabled-text);
     background: none;
-  }
+  });
 }
 
 // Link buttons
@@ -96,21 +84,20 @@
   color: var(--rs-color-btn-link-text);
   background-color: transparent;
 
-  &:hover,
-  &:focus {
+  .button-activated({
     color: var(--rs-color-btn-link-hover-text);
     text-decoration: @link-hover-decoration;
-  }
+  });
 
-  &:active,
-  &.rs-btn-active {
+  .button-pressed({
     color: var(--rs-color-btn-link-active-text);
-  }
+  });
 
-  &:disabled,
-  &.rs-btn-disabled {
+  .button-disabled({
+    color: var(--rs-color-btn-link-hover-text);
+    text-decoration: none;
     opacity: 0.3;
-  }
+  });
 }
 
 // Ghost Button
@@ -119,22 +106,19 @@
   background-color: transparent;
   border: @btn-ghost-border-width solid var(--rs-color-btn-ghost-border);
 
-  &:hover,
-  &:focus {
+  .button-activated({
     color: var(--rs-color-btn-ghost-hover-text);
     border-color: var(--rs-color-btn-ghost-hover-border);
-  }
+  });
 
-  &:active,
-  &.rs-btn-active {
+  .button-pressed({
     color: var(--rs-color-btn-ghost-active-text);
     border-color: var(--rs-color-btn-ghost-active-border);
-  }
+  });
 
-  &:disabled,
-  &.rs-btn-disabled {
+  .button-disabled({
     opacity: 0.3;
-  }
+  });
 }
 
 // Spectrum buttons

@@ -24,29 +24,25 @@
 
   .btn-icon-with-text(var(--rs-color-gray-100));
 
-  &:hover,
-  &:focus {
+  .button-activated({
     .btn-icon-with-text(var(--rs-color-gray-300));
-  }
+  });
 
-  &:active,
-  &.rs-btn-active {
+  .button-pressed({
     .btn-icon-with-text(var(--rs-color-gray-400));
-  }
+  });
 
   .rs-theme-dark & {
 
     .btn-icon-with-text(var(--rs-color-gray-500));
 
-    &:hover,
-    &:focus {
+    .button-activated({
       .btn-icon-with-text(var(--rs-color-gray-400));
-    }
+    });
 
-    &:active,
-    &.rs-btn-active {
+    .button-pressed({
       .btn-icon-with-text(var(--rs-color-gray-200));
-    }
+    });
   }
 }
 
