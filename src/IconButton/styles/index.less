@@ -6,27 +6,7 @@
 // --------------------------------------------------
 .rs-btn-icon {
   > .rs-icon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-  }
-
-  &.rs-btn-lg {
-    font-size: 20px;
-  }
-
-  &.rs-btn-md {
-    font-size: 16px;
-  }
-
-  &.rs-btn-sm {
-    font-size: 16px;
-  }
-
-  &.rs-btn-xs {
-    font-size: 12px;
-    line-height: @line-height-base;
+    vertical-align: bottom;
   }
 }
 
@@ -41,8 +21,11 @@
 // Rewrite common button style
 .rs-btn-icon-with-text {
   > .rs-icon {
-    transition: @btn-transition;
+    position: absolute;
+    top: 0;
+    display: block;
     background-color: var(--rs-color-gray-100);
+    transition: @btn-transition;
   }
 
   .button-activated({
@@ -69,5 +52,4 @@
 // Circle Button
 .rs-btn-icon-circle {
   border-radius: 50% !important;
-  width: (@padding-base-vertical*2 + @line-height-computed);
 }

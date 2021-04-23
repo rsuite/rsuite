@@ -1,5 +1,5 @@
 @import '../../styles/common';
-@import '../../Button/styles/index';
+@import (reference) '../../Button/styles/index';
 @import './pagination-group';
 @import 'mixin';
 
@@ -15,7 +15,7 @@
 
   &-lg {
     .rs-pagination-btn {
-      .btn-lg(base);
+      .button-size-lg();
 
       min-width: 42px;
 
@@ -31,7 +31,7 @@
 
   &-md {
     .rs-pagination-btn {
-      .btn-md(base);
+      .button-size-md();
 
       min-width: 36px;
 
@@ -43,7 +43,7 @@
 
   &-sm {
     .rs-pagination-btn {
-      .btn-sm(base);
+      .button-size-sm();
 
       min-width: 30px;
 
@@ -55,7 +55,7 @@
 
   &-xs {
     .rs-pagination-btn {
-      .btn-xs(base);
+      .button-size-xs();
 
       min-width: 24px;
 
@@ -69,7 +69,7 @@
 .rs-pagination-btn {
   .rs-btn();
   .rs-btn-subtle();
-  .btn-sm(base);
+  .button-size-sm();
 
   margin: 0 2px;
   position: relative;

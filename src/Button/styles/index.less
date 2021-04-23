@@ -22,6 +22,9 @@
   text-decoration: none;
   color: var(--rs-color-btn-default-text);
   background-color: var(--rs-color-btn-default-bg);
+  border-radius: 6px;
+
+  .rs-btn-md();
 
   &:focus {
     outline: 0;
@@ -32,7 +35,7 @@
     background-color: var(--rs-color-btn-default-hover-bg);
   });
 
-  .button-pressed( {
+  .button-pressed({
     color: var(--rs-color-btn-default-active-text);
     background-color: var(--rs-color-btn-default-active-bg);
   });
@@ -43,7 +46,6 @@
     background-color: var(--rs-color-btn-default-disabled-bg);
   });
 
-  .btn-md();
   .button-ripple();
 }
 
@@ -195,15 +197,19 @@ each(@spectrum, .(@color) {
 // --------------------------------------------------
 
 .rs-btn-lg {
-  .btn-lg();
+  .button-size-lg();
+}
+
+.rs-btn-md {
+  .button-size-md();
 }
 
 .rs-btn-sm {
-  .btn-sm();
+  .button-size-sm();
 }
 
 .rs-btn-xs {
-  .btn-xs();
+  .button-size-xs();
 }
 
 // Block button
