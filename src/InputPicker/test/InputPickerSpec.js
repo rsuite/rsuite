@@ -330,4 +330,18 @@ describe('InputPicker', () => {
     const instance = getDOMNode(<InputPicker tabIndex={10} />);
     assert.equal(instance.querySelector('.rs-picker-search-input').getAttribute('tabindex'), '10');
   });
+
+  it('Should call `onCreate` by keyCode=13 ', done => {
+    const doneOp = (value, item) => {
+      if (!(data.includes(value) || data.includes(item.value))) {
+        done();
+      }
+    };
+    const instance = getInstance(
+      <InputPicker defaultOpen data={data} onCreate={doneOp} defaultValue={'Kariane'} creatable />
+    );
+
+    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 13 });
+  });
 });
