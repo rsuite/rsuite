@@ -5,7 +5,7 @@
   "scripts": {
     "check:type": "tsc",
     "predev": "rimraf ./node_modules/react && rimraf ./node_modules/react-dom",
-    "dev": "concurrently -n \"server,theme-server\" -c \"bgMagentaBright.bold,bgGreenBright.bold\" \"npm run dev:server\" \"npm run dev:theme-server\"",
+    "dev": "concurrently -n SERVER,THEME-SERVER -c cyan,yellow npm:dev:server npm:dev:theme-server",
     "dev:styles": "cross-env STYLE_DEBUG=STYLE npm run dev",
     "dev:server": "cross-env NODE_ENV=development NODE_OPTIONS=--max_old_space_size=8192 node server.js",
     "dev:theme-server": "webpack serve --config webpack.theme.config.js",
