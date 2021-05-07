@@ -3,11 +3,11 @@ import ProgressLine, { ProgressLineProps } from './ProgressLine';
 import { RsRefForwardingComponent } from '../@types/common';
 
 export interface Progress extends RsRefForwardingComponent<'div', ProgressLineProps> {
-  Line?: typeof ProgressLine;
-  Circle?: typeof ProgressCircle;
+  Line: typeof ProgressLine;
+  Circle: typeof ProgressCircle;
 }
 
-const Progress: Progress = ProgressLine;
+const Progress: Progress = ProgressLine as Progress;
 
 Progress.Line = ProgressLine;
 Progress.Circle = ProgressCircle;

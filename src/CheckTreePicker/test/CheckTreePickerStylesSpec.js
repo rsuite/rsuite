@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CheckTreePicker from '../index';
-import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
+import { createTestContainer, getStyle, itChrome } from '@test/testUtils';
 
 import '../styles/index';
 

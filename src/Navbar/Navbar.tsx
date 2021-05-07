@@ -15,8 +15,8 @@ export interface NavbarProps extends WithAsProps {
 }
 
 interface NavbarComponent extends RsRefForwardingComponent<'div', NavbarProps> {
-  Header?: typeof NavbarHeader;
-  Body?: typeof NavbarBody;
+  Header: typeof NavbarHeader;
+  Body: typeof NavbarBody;
 }
 
 const defaultProps: Partial<NavbarProps> = {
@@ -26,7 +26,7 @@ const defaultProps: Partial<NavbarProps> = {
   appearance: 'default'
 };
 
-const Navbar: NavbarComponent = React.forwardRef(
+const Navbar: NavbarComponent = (React.forwardRef(
   (props: NavbarProps, ref: React.Ref<HTMLElement>) => {
     const { className, as: Component, hasChildContext, classPrefix, appearance, ...rest } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
@@ -37,7 +37,7 @@ const Navbar: NavbarComponent = React.forwardRef(
       </NavbarContext.Provider>
     );
   }
-);
+) as unknown) as NavbarComponent;
 
 Navbar.Header = NavbarHeader;
 Navbar.Body = NavbarBody;

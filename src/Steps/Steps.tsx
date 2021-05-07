@@ -28,11 +28,11 @@ const defaultProps: Partial<StepsProps> = {
   current: 0
 };
 
-interface Steps extends RsRefForwardingComponent<'div', StepsProps> {
-  Item?: typeof StepItem;
+interface StepsComponent extends RsRefForwardingComponent<'div', StepsProps> {
+  Item: typeof StepItem;
 }
 
-const Steps: Steps = React.forwardRef((props: StepsProps, ref) => {
+const Steps: StepsComponent = (React.forwardRef((props: StepsProps, ref) => {
   const {
     as: Component,
     classPrefix,
@@ -84,7 +84,7 @@ const Steps: Steps = React.forwardRef((props: StepsProps, ref) => {
       {items}
     </Component>
   );
-});
+}) as unknown) as StepsComponent;
 
 Steps.Item = StepItem;
 

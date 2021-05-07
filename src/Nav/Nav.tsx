@@ -39,11 +39,11 @@ const defaultProps: Partial<NavProps> = {
 };
 
 interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
-  Dropdown?: typeof Dropdown;
-  Item?: typeof NavItem;
+  Dropdown: typeof Dropdown;
+  Item: typeof NavItem;
 }
 
-const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
+const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
   const {
     as: Component,
     classPrefix,
@@ -117,7 +117,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
       }}
     </NavbarContext.Consumer>
   );
-});
+}) as unknown) as NavComponent;
 
 Nav.Dropdown = Dropdown;
 Nav.Item = NavItem;

@@ -16,8 +16,7 @@ export interface FormProps<
   T = Record<string, any>,
   errorMsgType = any,
   E = { [P in keyof T]?: errorMsgType }
->
-  extends WithAsProps,
+> extends WithAsProps,
     Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onChange' | 'onSubmit' | 'onError'> {
   /** Set the left and right columns of the layout of the elements within the form */
   layout?: 'horizontal' | 'vertical' | 'inline';
@@ -99,11 +98,11 @@ export interface FormInstance<
 
 export interface FormComponent
   extends RsRefForwardingComponent<'form', FormProps & { ref?: React.Ref<FormInstance> }> {
-  Control?: typeof FormControl;
-  ControlLabel?: typeof FormControlLabel;
-  ErrorMessage?: typeof FormErrorMessage;
-  Group?: typeof FormGroup;
-  HelpText?: typeof FormHelpText;
+  Control: typeof FormControl;
+  ControlLabel: typeof FormControlLabel;
+  ErrorMessage: typeof FormErrorMessage;
+  Group: typeof FormGroup;
+  HelpText: typeof FormHelpText;
 }
 
 const defaultProps: Partial<FormProps> = {
@@ -115,7 +114,7 @@ const defaultProps: Partial<FormProps> = {
   model: SchemaModel({})
 };
 
-const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
+const Form: FormComponent = (React.forwardRef((props: FormProps, ref) => {
   const {
     checkTrigger,
     classPrefix,
@@ -389,7 +388,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       </FormContext.Provider>
     </form>
   );
-});
+}) as unknown) as FormComponent;
 
 Form.Control = FormControl;
 Form.ControlLabel = FormControlLabel;

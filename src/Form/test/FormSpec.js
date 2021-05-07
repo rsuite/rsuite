@@ -531,6 +531,7 @@ describe('Form', () => {
       )
     });
 
+    // eslint-disable-next-line react/prop-types
     const Field = ({ onChange }) => {
       const handleChange = () => {
         onChange([{ field1: '', field2: '' }]);

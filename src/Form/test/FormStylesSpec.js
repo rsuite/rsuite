@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Form from '../index';
 import Button from '../../Button';
 import FormControlLabel from '../../FormControlLabel';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { createTestContainer, getStyle } from '@test/testUtils';
 
 import '../styles/index';
 
