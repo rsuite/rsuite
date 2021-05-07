@@ -1,3 +1,5 @@
+import de from 'date-fns/locale/de';
+
 const Calendar = {
   sunday: 'So',
   monday: 'Mo',
@@ -17,7 +19,8 @@ const Calendar = {
    * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
    **/
   formattedMonthPattern: 'MMM yyyy',
-  formattedDayPattern: 'dd MMM yyyy'
+  formattedDayPattern: 'dd MMM yyyy',
+  dateLocale: de
 };
 
 export default {

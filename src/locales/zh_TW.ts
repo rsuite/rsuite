@@ -1,3 +1,5 @@
+import zhTW from 'date-fns/locale/zh-TW';
+
 const Calendar = {
   sunday: '日',
   monday: '一',
@@ -13,7 +15,8 @@ const Calendar = {
   minutes: '分',
   seconds: '秒',
   formattedMonthPattern: 'yyyy年MM月',
-  formattedDayPattern: 'yyyy年MM月dd日'
+  formattedDayPattern: 'yyyy年MM月dd日',
+  dateLocale: zhTW
 };
 
 export default {
