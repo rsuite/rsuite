@@ -6,6 +6,7 @@ import AppContext from '@/components/AppContext';
 import zhCN from '@rsuite-locales/zh_CN';
 import enUS from '@rsuite-locales/en_US';
 import * as Sentry from '@sentry/browser';
+import '../less/index.less';
 
 // Connecting the SDK to Sentry
 if (!__DEV__) {
