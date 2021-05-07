@@ -38,6 +38,7 @@
     "react-color": "^2.18.0",
     "react-device-detect": "^1.11.14",
     "react-dom": "^17.0.1",
+    "react-icons": "^4.2.0",
     "react-json-tree": "^0.11.2",
     "react-text-mask": "^5.4.3",
     "rsuite": "^4.8.0",

@@ -53,6 +53,19 @@ npm install --save @fortawesome/free-solid-svg-icons
 
 <!--{include:`custom-font-awesome.md`}-->
 
+### React Icons
+
+react-icons contains popular icons. The following example will demonstrate how to use it in combination with Icon.
+
+```
+npm install react-icons --save
+```
+
+- [React Icons](https://react-icons.github.io/react-icons)
+- [React Icons Github](https://github.com/react-icons/react-icons)
+
+<!--{include:`custom-react-icons.md`}-->
+
 ### Iconfont Icons
 
 If you are a user of [iconfont.cn](https://iconfont.cn), you can use the `createIconFont` method to import icon resources and use them in components.

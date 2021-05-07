@@ -53,6 +53,19 @@ npm install --save @fortawesome/free-solid-svg-icons
 
 <!--{include:`custom-font-awesome.md`}-->
 
+### React Icons
+
+react-icons 包含了流行的图标。以下示例将演示如果与 `Icon` 组合使用。
+
+```
+npm install react-icons --save
+```
+
+- [React Icons](https://react-icons.github.io/react-icons)
+- [React Icons Github](https://github.com/react-icons/react-icons)
+
+<!--{include:`custom-react-icons.md`}-->
+
 ### Iconfont 图标
 
 如果你是 [iconfont.cn](https://iconfont.cn) 的用户，可以使用 `createIconFont` 方法导入图标资源，在组件中使用。
