@@ -7,7 +7,7 @@ React Suite 组件中的语言默认为英语。 如果需要设置其他语言�
 ### 配置语言环境
 
 ```jsx
-import CustomProvider from 'rsuite/lib/CustomProvider';
+import { CustomProvider } from 'rsuite';
 import zhCN from 'rsuite/lib/locales/zh_CN';
 
 return (
@@ -23,9 +23,9 @@ return (
 
 | 语言名称 | 描述              |
 | -------- | ----------------- |
-| ar_EG    | 阿拉伯语          |
+| ar_EG    | 阿拉伯语（埃及）  |
 | da_DK    | 丹麦语            |
-| de_DE    | 德语                |
+| de_DE    | 德语              |
 | en_GB    | 英语              |
 | en_US    | 美式英语          |
 | es_AR    | 西班牙语 (阿根廷) |
@@ -43,30 +43,11 @@ return (
 
 您可以参考 [默认语言文件](https://github.com/rsuite/rsuite/blob/master/src/locales/default.ts) 中的配置，做一个新的语言包通过 `locale` 属性传递给 `<CustomProvider>` 组件。
 
-### 日期格式化
-
-```jsx
-import CustomProvider from 'rsuite/lib/CustomProvider';
-import ruRU from 'rsuite/lib/locales/ru_RU';
-import format from 'date-fns/format';
-import ru from 'date-fns/locale/ru';
-
-function formatDate(data, formatStr) {
-  return format(data, formatStr, { locale: ru });
-}
-
-return (
-  <CustomProvider locale={ruRU} formatDate={formatDate}>
-    <App />
-  </CustomProvider>
-);
-```
-
 ### 与 react-intl 同时使用
 
 ```jsx
 import { IntlProvider } from 'react-intl';
-import CustomProvider from 'rsuite/lib/CustomProvider';
+import { CustomProvider } from 'rsuite';
 import zhCN from 'rsuite/lib/locales/zh_CN';
 
 return (
