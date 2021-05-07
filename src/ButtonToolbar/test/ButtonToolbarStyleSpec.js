@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ButtonToolbar from '../ButtonToolbar';
-import ButtonGroup from '../../ButtonGroup';
 import Button from '../../Button';
 
 import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';

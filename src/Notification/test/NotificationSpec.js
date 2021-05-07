@@ -59,6 +59,6 @@ describe('Notification', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(<Notification closable onClose={doneOp} duration={1} />);
+    getDOMNode(<Notification closable onClose={doneOp} duration={1} />);
   });
 });

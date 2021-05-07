@@ -145,7 +145,8 @@ export interface FormControlPickerProps<
   ValueType = any,
   LocaleType = any,
   DataType = Record<string, any>
-> extends PickerBaseProps<LocaleType>, FormControlBaseProps<ValueType> {
+> extends PickerBaseProps<LocaleType>,
+    FormControlBaseProps<ValueType> {
   /** The data of component */
   data: DataType[];
 

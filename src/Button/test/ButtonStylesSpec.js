@@ -13,7 +13,7 @@ import {
 
 import '../styles/index';
 
-const { H500, H700, H800, H900 } = getDefaultPalette();
+const { H500, H700, H900 } = getDefaultPalette();
 
 describe('Button styles', () => {
   it('Default button should render the correct styles', () => {

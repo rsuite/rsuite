@@ -78,8 +78,8 @@ export interface DropdownProps<T = any>
 }
 
 export interface DropdownComponent extends RsRefForwardingComponent<'div', DropdownProps> {
-  Item?: typeof DropdownMenuItem;
-  Menu?: typeof DropdownMenu;
+  Item: typeof DropdownMenuItem;
+  Menu: typeof DropdownMenu;
 }
 
 const defaultProps: Partial<DropdownProps> = {
@@ -90,7 +90,7 @@ const defaultProps: Partial<DropdownProps> = {
   tabIndex: 0
 };
 
-const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref) => {
+const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref) => {
   const {
     as: Component,
     title,
@@ -274,7 +274,7 @@ const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref)
       {menuElement}
     </Component>
   );
-});
+}) as unknown) as DropdownComponent;
 
 Dropdown.Item = DropdownMenuItem;
 Dropdown.Menu = DropdownMenu;

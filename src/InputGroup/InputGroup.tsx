@@ -25,11 +25,11 @@ export interface InputGroupProps extends WithAsProps {
 }
 
 export interface InputGroupComponent extends RsRefForwardingComponent<'div', InputGroupProps> {
-  Addon?: typeof InputGroupAddon;
-  Button?: typeof InputGroupButton;
+  Addon: typeof InputGroupAddon;
+  Button: typeof InputGroupButton;
 }
 
-const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps, ref) => {
+const InputGroup: InputGroupComponent = (React.forwardRef((props: InputGroupProps, ref) => {
   const {
     as: Component = 'div',
     classPrefix = 'input-group',
@@ -74,7 +74,7 @@ const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps
       </Component>
     </InputGroupContext.Provider>
   );
-});
+}) as unknown) as InputGroupComponent;
 
 InputGroup.displayName = 'InputGroup';
 InputGroup.propTypes = {

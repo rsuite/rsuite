@@ -22,11 +22,11 @@ const defaultProps: Partial<TimelineProps> = {
   align: 'left'
 };
 
-interface Timeline extends RsRefForwardingComponent<'div', TimelineProps> {
-  Item?: typeof TimelineItem;
+interface TimelineComponent extends RsRefForwardingComponent<'div', TimelineProps> {
+  Item: typeof TimelineItem;
 }
 
-const Timeline: Timeline = React.forwardRef((props: TimelineProps, ref) => {
+const Timeline: TimelineComponent = (React.forwardRef((props: TimelineProps, ref) => {
   const { children, as: Component, classPrefix, className, align, endless, ...rest } = props;
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
@@ -46,7 +46,7 @@ const Timeline: Timeline = React.forwardRef((props: TimelineProps, ref) => {
       }))}
     </Component>
   );
-});
+}) as unknown) as TimelineComponent;
 
 Timeline.Item = TimelineItem;
 

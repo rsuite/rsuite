@@ -52,6 +52,7 @@ describe('FormControl', () => {
 
   it('Should be readOnly on accepter', done => {
     function Input(props) {
+      // eslint-disable-next-line react/prop-types
       if (props && props.readOnly) {
         done();
       }

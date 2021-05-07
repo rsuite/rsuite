@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Toggle from '../index';
-import {
-  createTestContainer,
-  getDOMNode,
-  getStyle,
-  toRGB,
-  getDefaultPalette
-} from '@test/testUtils';
+import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
 
 import '../styles/index';
 

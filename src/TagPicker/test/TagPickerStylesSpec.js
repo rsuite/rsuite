@@ -4,7 +4,6 @@ import TagPicker from '../index';
 import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index';
-import MultiCascader from '../../MultiCascader';
 
 const data = [
   {

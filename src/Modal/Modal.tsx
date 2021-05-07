@@ -63,14 +63,14 @@ export interface ModalContextProps {
 export const ModalContext = React.createContext<ModalContextProps>(null);
 
 interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
-  Body?: typeof ModalBody;
-  Header?: typeof ModalHeader;
-  Title?: typeof ModalTitle;
-  Footer?: typeof ModalFooter;
-  Dialog?: typeof ModalDialog;
+  Body: typeof ModalBody;
+  Header: typeof ModalHeader;
+  Title: typeof ModalTitle;
+  Footer: typeof ModalFooter;
+  Dialog: typeof ModalDialog;
 }
 
-const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
+const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
   const {
     className,
     children,
@@ -200,7 +200,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
       </BaseModal>
     </ModalContext.Provider>
   );
-});
+}) as unknown) as ModalComponent;
 
 Modal.Body = ModalBody;
 Modal.Header = ModalHeader;

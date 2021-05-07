@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import FormGroup from '../index';
 
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { createTestContainer, getStyle } from '@test/testUtils';
 
 import '../styles/index';
 import FormControl from '../../FormControl/index';

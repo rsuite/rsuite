@@ -41,10 +41,10 @@ export interface SidenavContextType<T = string> {
   onOpenChange: (openKeys: T[], event: React.SyntheticEvent) => void;
 }
 
-export interface Sidenav extends RsRefForwardingComponent<'div', SidenavProps> {
-  Header?: typeof SidenavHeader;
-  Body?: typeof SidenavBody;
-  Toggle?: typeof SidenavToggle;
+export interface SidenavComponent extends RsRefForwardingComponent<'div', SidenavProps> {
+  Header: typeof SidenavHeader;
+  Body: typeof SidenavBody;
+  Toggle: typeof SidenavToggle;
 }
 
 const defaultProps: Partial<SidenavProps> = {
@@ -54,7 +54,7 @@ const defaultProps: Partial<SidenavProps> = {
   expanded: true
 };
 
-const Sidenav: Sidenav = React.forwardRef((props: SidenavProps, ref) => {
+const Sidenav: SidenavComponent = (React.forwardRef((props: SidenavProps, ref) => {
   const {
     as: Component,
     className,
@@ -126,7 +126,7 @@ const Sidenav: Sidenav = React.forwardRef((props: SidenavProps, ref) => {
       </Transition>
     </SidenavContext.Provider>
   );
-});
+}) as unknown) as SidenavComponent;
 
 Sidenav.Header = SidenavHeader;
 Sidenav.Body = SidenavBody;

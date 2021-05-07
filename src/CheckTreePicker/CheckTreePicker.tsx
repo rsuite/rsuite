@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
-import { List, AutoSizer, ListInstance } from '../Picker/VirtualizedList';
+import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/VirtualizedList';
 import CheckTreeNode from './CheckTreeNode';
 import { PickerLocale } from '../locales';
 import {
@@ -721,7 +721,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     );
   };
 
-  const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }) => {
+  const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }: ListRowProps) => {
     const node = nodes[index];
     const { layer, refKey, showNode } = node;
     const expand = getExpandWhenSearching(

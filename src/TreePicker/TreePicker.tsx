@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
-import { List, AutoSizer, ListInstance } from '../Picker/VirtualizedList';
+import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/VirtualizedList';
 import TreeNode from './TreeNode';
 import { PickerLocale } from '../locales';
 import {
@@ -714,7 +714,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     );
   };
 
-  const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }) => {
+  const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }: ListRowProps) => {
     const node = nodes[index];
     const { layer, showNode } = node;
 

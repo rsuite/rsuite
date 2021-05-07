@@ -4,12 +4,12 @@ import PlaceholderParagraph, { PlaceholderParagraphProps } from './PlaceholderPa
 import { RsRefForwardingComponent } from '../@types/common';
 
 export interface Placeholder extends RsRefForwardingComponent<'div', PlaceholderParagraphProps> {
-  Paragraph?: typeof PlaceholderParagraph;
-  Grid?: typeof PlaceholderGrid;
-  Graph?: typeof PlaceholderGraph;
+  Paragraph: typeof PlaceholderParagraph;
+  Grid: typeof PlaceholderGrid;
+  Graph: typeof PlaceholderGraph;
 }
 
-const Placeholder: Placeholder = PlaceholderParagraph;
+const Placeholder: Placeholder = PlaceholderParagraph as Placeholder;
 
 Placeholder.Paragraph = PlaceholderParagraph;
 Placeholder.Grid = PlaceholderGrid;
