@@ -155,6 +155,7 @@
     "sinon-chai": "^2.12.0",
     "style-loader": "^0.20.3",
     "stylelint": "^13.12.0",
+    "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-standard": "^21.0.0",
     "tinycolor2": "^1.4.1",
     "typescript": "^4.1.3",
