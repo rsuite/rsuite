@@ -29,7 +29,7 @@ function buildLess() {
       gulp
         .src(`${STYLE_SOURCE_DIR}/themes/${theme}/index.less`)
         .pipe(sourcemaps.init())
-        .pipe(less({ javascriptEnabled: true }))
+        .pipe(less())
         .pipe(postcss([require('autoprefixer'), postcssCustomProperties()]))
         .pipe(sourcemaps.write('./'))
         .pipe(rename(`rsuite-${theme}.css`))

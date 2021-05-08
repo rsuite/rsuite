@@ -91,7 +91,6 @@ module.exports = withPlugins([[withImages]], {
           options: {
             sourceMap: true,
             lessOptions: {
-              javascriptEnabled: true,
               globalVars: {
                 rootPath: '../../../'
               }

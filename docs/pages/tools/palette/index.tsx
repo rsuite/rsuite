@@ -75,7 +75,6 @@ export default function Page() {
         window['less'] = {
           async: true,
           logLevel: 0,
-          javascriptEnabled: true,
           globalVars: {
             '@palette-color': color,
             '@theme-is-default': getThemeIsDefault()
