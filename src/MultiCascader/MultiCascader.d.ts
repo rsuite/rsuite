@@ -41,6 +41,14 @@ export interface MultiCascaderProps<ValueType = any> extends FormControlPickerPr
     event: React.SyntheticEvent<HTMLElement>
   ) => void;
 
+  /** Called after the checkbox state changes */
+  onCheck?: (
+    value: ValueType,
+    item: any,
+    checked: boolean,
+    event: React.SyntheticEvent<HTMLElement>
+  ) => void;
+
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
 

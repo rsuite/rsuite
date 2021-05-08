@@ -7,7 +7,6 @@ import Button from '../../Button';
 
 const namespace = `${globalKey}-picker`;
 const toggleClassName = `.${namespace}-toggle-placeholder`;
-const activeClassName = '.rs-dropdown-menu-item-active';
 
 const items = [
   {
@@ -207,6 +206,20 @@ describe('MultiCascader', () => {
     const instance = getInstance(<Dropdown data={items} defaultOpen onSelect={doneOp} />);
     const menu = findDOMNode(instance.menuContainerRef.current);
     ReactTestUtils.Simulate.click(menu.querySelector('.rs-checkbox'));
+  });
+
+  it('Should call onCheck callback ', done => {
+    let checkbox = null;
+    const doneOp = (value, item, checked, event) => {
+      if (value[0] === 'abc' && item.value === 'abc' && checked && event.target === checkbox) {
+        done();
+      }
+    };
+
+    const instance = getInstance(<Dropdown data={items} defaultOpen onCheck={doneOp} />);
+    const menu = findDOMNode(instance.menuContainerRef.current);
+    checkbox = menu.querySelector('.rs-checkbox-wrapper');
+    ReactTestUtils.Simulate.click(checkbox);
   });
 
   it('Should call onChange callback ', done => {

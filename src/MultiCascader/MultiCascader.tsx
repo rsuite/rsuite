@@ -57,7 +57,8 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     renderMenuItem: PropTypes.func,
     renderMenu: PropTypes.func,
     onSearch: PropTypes.func,
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    onCheck: PropTypes.func
   };
 
   static defaultProps = {
@@ -187,7 +188,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
   }
 
   handleCheck = (item: any, event: React.SyntheticEvent<any>, checked: boolean) => {
-    const { valueKey, onChange, cascade, uncheckableItemValues } = this.props;
+    const { valueKey, cascade, uncheckableItemValues, onChange, onCheck } = this.props;
     const itemValue = item[valueKey];
     let value = [];
 
@@ -208,6 +209,7 @@ class MultiCascader extends React.Component<MultiCascaderProps, MultiCascaderSta
     }
 
     onChange?.(value, event);
+    onCheck?.(value, item, checked, event);
   };
 
   handleChangeForSearchItem = (value: any, checked: boolean, event: React.SyntheticEvent<any>) => {
