@@ -40,6 +40,7 @@ import { MultiCascader } from 'rsuite';
 | menuHeight            | number `(200)`                                                                                                     | 设置菜单的高度                       |
 | menuWidth             | number `(156)`                                                                                                     | 设置菜单的宽度                       |
 | onChange              | (value:string[] , event: SyntheticEvent) => void                                                                   | `value` 发生改变时的回调函数         |
+| onCheck               | ( value: ValueType, item: DataItemType, checked: boolean,event ) => void;                                          | 复选框选中状态发生变化的回调函数     |
 | onClean               | (event:SyntheticEvent) => void                                                                                     | 值清理时触发回调                     |
 | onClose               | () => void                                                                                                         | 关闭回调函数                         |
 | onEnter               | () => void                                                                                                         | 显示前动画过渡的回调函数             |
