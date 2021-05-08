@@ -331,4 +331,30 @@ describe('MultiCascader', () => {
       'Select'
     );
   });
+
+  it('Should call onSelect callback with 3 params', done => {
+    let checkbox = null;
+    const doneOp = (node, cascadeData, event) => {
+      if (node.value === 'abcd' && cascadeData[0].value === 'abcd' && event.target === checkbox) {
+        done();
+      }
+    };
+
+    const instance = getInstance(<MultiCascader defaultOpen data={items} onSelect={doneOp} />);
+    checkbox = instance.overlay.querySelectorAll('.rs-checkbox')[1];
+    ReactTestUtils.Simulate.click(checkbox);
+  });
+
+  it('Should call onCheck callback ', done => {
+    let checkbox = null;
+    const doneOp = (value, item, checked, event) => {
+      if (value[0] === 'abc' && item.value === 'abc' && checked && event.target === checkbox) {
+        done();
+      }
+    };
+
+    const instance = getInstance(<MultiCascader data={items} defaultOpen onCheck={doneOp} />);
+    checkbox = instance.overlay.querySelector('.rs-checkbox-wrapper');
+    ReactTestUtils.Simulate.click(checkbox);
+  });
 });
