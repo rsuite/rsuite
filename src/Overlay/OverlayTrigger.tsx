@@ -239,6 +239,7 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
       children,
       speaker,
       onClick,
+      onContextMenu,
       trigger,
       onMouseOver,
       onMouseOut,
@@ -269,7 +270,8 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
         props.onContextMenu = createChainedFunction(
           this.preventDefault,
           this.toggleHideAndShow,
-          props.onContextMenu
+          triggerProps.onContextMenu,
+          onContextMenu
         );
       }
 
