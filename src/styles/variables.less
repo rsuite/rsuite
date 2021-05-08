@@ -499,7 +499,6 @@
 @popover-max-width: 250px;
 // ** Popover border-radius
 @popover-border-radius: 4px;
-@popover-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
 
 // ** Popover arrow width
 @popover-arrow-width: 6px;
@@ -706,7 +705,7 @@
 @ckpns: ~'rs-@{check-picker-prefix}';
 @picker-none-padding: 6px 12px 12px;
 @picker-transition: @input-transition;
-@picker-shadow: @dropdown-shadow;
+@picker-shadow: var(--rs-color-dropdown-shadow);
 @picker-value-count-border-radius: 10px;
 @picker-value-count-padding: 8px;
 @picker-value-count-margin: 4px;
@@ -852,11 +851,5 @@
 // ** Active dropdown menu item background color.
 @dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
 
-//== Modal
-@modal-backdrop-opacity: 0.3; //30%
-
 //== Picker
 @picker-select-menu-item-selected-font-weight: bold;
-
-//== Popover
-@popover-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);

@@ -15,7 +15,7 @@
   background-clip: padding-box;
   border-radius: @popover-border-radius;
   opacity: 0;
-  .drop-shadow(@popover-shadow);
+  .drop-shadow(var(--rs-color-popover-shadow));
 
   &.fade {
     transition: opacity 0.1s linear, transform 0.1s ease-out;
