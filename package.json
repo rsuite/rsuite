@@ -73,7 +73,7 @@
     "react-text-mask": "^5.4.3",
     "react-virtualized": "^9.22.3",
     "rsuite-table": "^5.0.0-alpha.2",
-    "schema-typed": "^2.0.0-alpha.2"
+    "schema-typed": "^2.0.0"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
