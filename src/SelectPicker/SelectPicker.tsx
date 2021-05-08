@@ -83,9 +83,6 @@ export interface SelectProps<T = ValueType> {
   /** Called when the option is selected */
   onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent) => void;
 
-  /** Called when the option is created */
-  onCreate?: (value: any, item: ItemDataType, event: React.SyntheticEvent) => void;
-
   /** Called after clicking the group title */
   onGroupTitleClick?: (event: React.SyntheticEvent) => void;
 

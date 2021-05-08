@@ -75,6 +75,9 @@ export interface InputPickerProps<T = ValueType>
 
   /** The `onFocus` attribute for the `input` element. */
   onFocus?: React.FocusEventHandler;
+
+  /** Called when the option is created */
+  onCreate?: (value: ValueType, item: ItemDataType, event: React.SyntheticEvent) => void;
 }
 
 const defaultProps: Partial<InputPickerProps> = {

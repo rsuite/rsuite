@@ -1,6 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
 
 import InputPicker from '../InputPicker';
 import Button from '../../Button';
@@ -331,17 +332,33 @@ describe('InputPicker', () => {
     assert.equal(instance.querySelector('.rs-picker-search-input').getAttribute('tabindex'), '10');
   });
 
-  it('Should call `onCreate` by keyCode=13 ', done => {
-    const doneOp = (value, item) => {
-      if (!(data.includes(value) || data.includes(item.value))) {
+  it('Should call `onCreate` callback', done => {
+    const doneOp = value => {
+      if (value === 'abc') {
         done();
       }
     };
-    const instance = getInstance(
-      <InputPicker defaultOpen data={data} onCreate={doneOp} defaultValue={'Kariane'} creatable />
-    );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 13 });
+    const inputRef = React.createRef();
+
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <InputPicker ref={inputRef} defaultOpen data={data} onCreate={doneOp} creatable />,
+        createTestContainer()
+      );
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.focus(inputRef.current.root);
+      const input = inputRef.current.root.querySelector('.rs-picker-search-input');
+      ReactTestUtils.Simulate.keyDown(input, { keyCode: 65 });
+      input.value = 'abc';
+      ReactTestUtils.Simulate.change(input);
+    });
+
+    ReactTestUtils.act(() => {
+      const input = inputRef.current.root.querySelector('.rs-picker-search-input');
+      ReactTestUtils.Simulate.keyDown(input, { keyCode: 13 });
+    });
   });
 });
