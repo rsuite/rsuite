@@ -1,7 +1,23 @@
 // see https://rsuitejs.com/design/dark
 .colors-dark() {
+  // Primary palette
 
-  // ** Gray levels.
+  @base-color: #34c3ff; // TODO: remove @base-color, use @primary-color instead
+  @primary-color: @base-color;
+
+  // Highlight levels
+  @H050: palette(@primary-color, 50);
+  @H100: palette(@primary-color, 100);
+  @H200: palette(@primary-color, 200);
+  @H300: palette(@primary-color, 300);
+  @H400: palette(@primary-color, 400);
+  @H500: @primary-color;
+  @H600: palette(@primary-color, 600);
+  @H700: palette(@primary-color, 700);
+  @H800: palette(@primary-color, 800);
+  @H900: palette(@primary-color, 900);
+
+  // Gray levels
   @B000: #fff;
   @B050: #e9ebf0;
   @B100: #cbced4;
@@ -14,34 +30,28 @@
   @B800: #1a1d24;
   @B900: #0f131a;
 
-  // ** Pallet
-  @base-color: #34c3ff; // TODO: Deprecate, use --rs-color-highlight
-  @H050: palette(@base-color, 50); // TODO: Deprecate, use --rs-color-highlight-0
-  @H100: palette(@base-color, 100); // TODO: Deprecate, use --rs-color-highlight-1
-  @H200: palette(@base-color, 200); // TODO: Deprecate, use --rs-color-highlight-2
-  @H300: palette(@base-color, 300); // TODO: Deprecate, use --rs-color-highlight-3
-  @H400: palette(@base-color, 400); // TODO: Deprecate, use --rs-color-highlight-4
-  @H500: @base-color; // TODO: Deprecate, use --rs-color-highlight-5
-  @H600: palette(@base-color, 600); // TODO: Deprecate, use --rs-color-highlight-6
-  @H700: palette(@base-color, 700); // TODO: Deprecate, use --rs-color-highlight-7
-  @H800: palette(@base-color, 800); // TODO: Deprecate, use --rs-color-highlight-8
-  @H900: palette(@base-color, 900); // TODO: Deprecate, use --rs-color-highlight-9
-  @highlight: @H500;
+  // Secondary palette
 
-  // ** Pallet
-  @base-color: #34c3ff;
+  // spectrum
+  @red: #f04f43;
+  @orange: #ff9800;
+  @yellow: #ffc757;
+  @green: #58b15b;
+  @cyan: #00bcd4;
+  @blue: #1499ef;
+  @violet: #673ab7;
 
-  // ** Sub colors.
-  @success-color: #58b15b;
+  // Stateful colors
+  @success-color: @green;
   @success-light-color: @B000;
 
-  @info-color: #1499ef;
+  @info-color: @blue;
   @info-light-color: @B000;
 
   @warning-color: #ffc757;
   @warning-light-color: @B000;
 
-  @error-color: #f04f43;
+  @error-color: @red;
   @error-light-color: @B000;
 
   // ** border base color.
@@ -168,17 +178,7 @@
 
   //== Message
   // Alternate colors
-  @message-success-bg: @success-color;
-  @message-success-icon-color: @B000;
-  @message-info-bg: @info-color;
-  @message-info-icon-color: @B000;
-  @message-warning-bg: @warning-color;
   @message-warning-text-color: @B900;
-  @message-warning-icon-color: @message-warning-text-color;
-  @message-error-bg: @error-color;
-  @message-error-icon-color: @B000;
-  @message-header-color: @B000;
-  @message-link-color: @B000;
 
   //== Modal
   @modal-backdrop-opacity: 0.8; //80%

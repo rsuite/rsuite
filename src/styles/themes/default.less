@@ -3,7 +3,25 @@
 
   //== Colors
 
-  // ** Gray levels.
+  // Primary palette
+
+  // @deprecated kept for compatibility
+  @base-color: #3498ff; // TODO: remove @base-color, use @primary-color instead
+  @primary-color: @base-color;
+
+  // Highlight levels
+  @H050: palette(@primary-color, 50);
+  @H100: palette(@primary-color, 100);
+  @H200: palette(@primary-color, 200);
+  @H300: palette(@primary-color, 300);
+  @H400: palette(@primary-color, 400);
+  @H500: @primary-color;
+  @H600: palette(@primary-color, 600);
+  @H700: palette(@primary-color, 700);
+  @H800: palette(@primary-color, 800);
+  @H900: palette(@primary-color, 900);
+
+  // Gray levels
   @B000: #fff;
   @B050: #f7f7fa;
   @B100: #f2f2f5;
@@ -15,33 +33,30 @@
   @B700: #7a7a7a;
   @B800: #575757;
   @B900: #272c36;
-  @gray: @B500;
 
-  // ** Pallet
-  @base-color: #3498ff; // TODO: Deprecate, use --rs-color-highlight
-  @H050: palette(@base-color, 50); // TODO: Deprecate, use --rs-color-highlight-0
-  @H100: palette(@base-color, 100); // TODO: Deprecate, use --rs-color-highlight-1
-  @H200: palette(@base-color, 200); // TODO: Deprecate, use --rs-color-highlight-2
-  @H300: palette(@base-color, 300); // TODO: Deprecate, use --rs-color-highlight-3
-  @H400: palette(@base-color, 400); // TODO: Deprecate, use --rs-color-highlight-4
-  @H500: @base-color; // TODO: Deprecate, use --rs-color-highlight-5
-  @H600: palette(@base-color, 600); // TODO: Deprecate, use --rs-color-highlight-6
-  @H700: palette(@base-color, 700); // TODO: Deprecate, use --rs-color-highlight-7
-  @H800: palette(@base-color, 800); // TODO: Deprecate, use --rs-color-highlight-8
-  @H900: palette(@base-color, 900); // TODO: Deprecate, use --rs-color-highlight-9
-  @highlight: @H500;
+  // Secondary palette
 
-  // ** Sub colors.
-  @success-color: #4caf50; // TODO: Deprecate, use --rs-color-state-success
+  // Spectrum
+  @red: #f44336;
+  @orange: #fa8900;
+  @yellow: #ffb300;
+  @green: #4caf50;
+  @cyan: #00bcd4;
+  @blue: #2196f3;
+  @violet: #673ab7;
+
+  // Stateful colors
+
+  @success-color: @green; // TODO: Deprecate, use --rs-color-state-success
   @success-light-color: #edfae1; // TODO: Deprecate use --rs-color-bg-success
 
-  @info-color: #2196f3; // TODO: Deprecate, use --rs-color-state-info
+  @info-color: @blue; // TODO: Deprecate, use --rs-color-state-info
   @info-light-color: #e9f5fe; // TODO: Deprecate, use --rs-color-bg-info
 
-  @warning-color: #ffb300; // TODO: Deprecate, use --rs-color-state-warning
+  @warning-color: @yellow; // TODO: Deprecate, use --rs-color-state-warning
   @warning-light-color: #fff9e6; // TODO: Deprecate, use --rs-color-bg-warning
 
-  @error-color: #f44336; // TODO: Deprecate, use --rs-color-state-error
+  @error-color: @red; // TODO: Deprecate, use --rs-color-state-error
   @error-light-color: #fde9ef; // TODO: Deprecate, use --rs-color-bg-error
 
   // ** Global textual link color.
