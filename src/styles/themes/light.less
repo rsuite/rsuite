@@ -1,107 +1,13 @@
+@import 'common';
+
 // see https://rsuitejs.com/design/default
-.colors-default() {
+.theme-light() {
+  @import '../colors/light';
 
-  //== Colors
+  .theme-common();
 
-  // Primary palette
-
-  // @deprecated kept for compatibility
-  @base-color: #3498ff; // TODO: remove @base-color, use @primary-color instead
-  @primary-color: @base-color;
-
-  // Highlight levels
-  @H050: palette(@primary-color, 50);
-  @H100: palette(@primary-color, 100);
-  @H200: palette(@primary-color, 200);
-  @H300: palette(@primary-color, 300);
-  @H400: palette(@primary-color, 400);
-  @H500: @primary-color;
-  @H600: palette(@primary-color, 600);
-  @H700: palette(@primary-color, 700);
-  @H800: palette(@primary-color, 800);
-  @H900: palette(@primary-color, 900);
-
-  // Gray levels
-  @B000: #fff;
-  @B050: #f7f7fa;
-  @B100: #f2f2f5;
-  @B200: #e5e5ea;
-  @B300: #d9d9d9;
-  @B400: #c5c6c7;
-  @B500: #a6a6a6;
-  @B600: #8e8e93;
-  @B700: #7a7a7a;
-  @B800: #575757;
-  @B900: #272c36;
-
-  // Secondary palette
-
-  // Spectrum
-  @red: #f44336;
-  @orange: #fa8900;
-  @yellow: #ffb300;
-  @green: #4caf50;
-  @cyan: #00bcd4;
-  @blue: #2196f3;
-  @violet: #673ab7;
-
-  // Stateful colors
-
-  @success-color: @green; // TODO: Deprecate, use --rs-color-state-success
-  @success-light-color: #edfae1; // TODO: Deprecate use --rs-color-bg-success
-
-  @info-color: @blue; // TODO: Deprecate, use --rs-color-state-info
-  @info-light-color: #e9f5fe; // TODO: Deprecate, use --rs-color-bg-info
-
-  @warning-color: @yellow; // TODO: Deprecate, use --rs-color-state-warning
-  @warning-light-color: #fff9e6; // TODO: Deprecate, use --rs-color-bg-warning
-
-  @error-color: @red; // TODO: Deprecate, use --rs-color-state-error
-  @error-light-color: #fde9ef; // TODO: Deprecate, use --rs-color-bg-error
-
-  // ** Global textual link color.
-  @link-color: var(--rs-color-text-link);
-  // ** Link hover color.
-  @link-hover-color: var(--rs-color-text-link-hover);
-  // ** Link Active color
-  @link-active-color: var(--rs-color-text-link-active);
-
-  --rs-color-white: #fff;
-
-  // Gray levels
-  --rs-color-gray-50: #f7f7fa;
-  --rs-color-gray-100: #f2f2f5;
-  --rs-color-gray-200: #e5e5ea;
-  --rs-color-gray-300: #d9d9d9;
-  --rs-color-gray-400: #c5c6c7;
-  --rs-color-gray-500: #a6a6a6;
-  --rs-color-gray-600: #8e8e93;
-  --rs-color-gray-700: #7a7a7a;
-  --rs-color-gray-800: #575757;
-  --rs-color-gray-900: #272c36;
-
-  // Highlight levels
-  --rs-color-highlight: #3498ff;
-  --rs-color-highlight-50: #f2faff;
-  --rs-color-highlight-100: #cce9ff;
-  --rs-color-highlight-200: #a6d7ff;
-  --rs-color-highlight-300: #80c4ff;
-  --rs-color-highlight-400: #59afff;
-  --rs-color-highlight-500: #3498ff;
-  --rs-color-highlight-600: #2589f5;
-  --rs-color-highlight-700: #1675e0;
-  --rs-color-highlight-800: #0a5dc2;
-  --rs-color-highlight-900: #004299;
-
-  // Spectrum levels
-  each(@spectrum, .(@color-name) {
-    @color: @@color-name;
-    --rs-color-@{color-name}-50: palette(@color, 50);
-    each(range(9), {
-      @level: @{index}00;
-      --rs-color-@{color-name}-@{level}: palette(@color, @level);
-    });
-  });
+  // Reset
+  --rs-color-body: @B050;
 
   // States
   --rs-color-state-success: #4caf50;
@@ -114,9 +20,9 @@
   --rs-color-bg-error: #fde9ef;
 
   // Misc
-  --rs-color-text-link: var(--rs-color-highlight-700);
-  --rs-color-text-link-hover: var(--rs-color-highlight-800);
-  --rs-color-text-link-active: var(--rs-color-highlight-900);
+  --rs-color-text-link: @H700;
+  --rs-color-text-link-hover: @H800;
+  --rs-color-text-link-active: @H900;
   --rs-color-text-primary: @B800;
   --rs-color-text-secondary: @B600;
   --rs-color-text-tertiary: @B500;
@@ -166,7 +72,7 @@
   --rs-color-btn-link-active-text: @H900;
 
   // Divider
-  --rs-color-divider-border: var(--rs-color-gray-200);
+  --rs-color-divider-border: @B200;
 
   // Loader
   --rs-color-loader-ring: fade(@B050, 80);
@@ -177,16 +83,16 @@
   --rs-color-loader-backdrop-inverse: fade(@B900, 83);
 
   // Message
-  --rs-color-message-success-text: @text-color;
+  --rs-color-message-success-text: var(--rs-color-text-primary);
   --rs-color-message-success-icon: @success-color;
   --rs-color-message-success-bg: @success-light-color;
-  --rs-color-message-info-text: @text-color;
+  --rs-color-message-info-text: var(--rs-color-text-primary);
   --rs-color-message-info-icon: @info-color;
   --rs-color-message-info-bg: @info-light-color;
-  --rs-color-message-warning-text: @text-color;
+  --rs-color-message-warning-text: var(--rs-color-text-primary);
   --rs-color-message-warning-icon: @warning-color;
   --rs-color-message-warning-bg: @warning-light-color;
-  --rs-color-message-error-text: @text-color;
+  --rs-color-message-error-text: var(--rs-color-text-primary);
   --rs-color-message-error-icon: @error-color;
   --rs-color-message-error-bg: @error-light-color;
 

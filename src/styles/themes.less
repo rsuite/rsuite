@@ -1,14 +1,13 @@
 // Themes
-@plugin 'plugins/palette';
-
 @import 'mixins/themes';
-@import 'themes/default';
+
+@import 'themes/light';
 @import 'themes/dark';
 
-.theme-default({
-  .colors-default();
-});
+.theme(light, {
+  .theme-light();
+}, true);
 
-.theme-dark({
-  .colors-dark();
+.theme(dark, {
+  .theme-dark();
 });

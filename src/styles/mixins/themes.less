@@ -1,15 +1,17 @@
 // Use .rs-theme-* selector for determining default/dark themes
 // Also declare default theme styles in the :root scope
 
-.theme-default(@rules) {
-  :root,
-  .rs-theme-default {
-    @rules();
+.theme(@theme-name, @rules, @default: false) {
+  & when (@default = true) {
+    :root,
+    .rs-theme-@{theme-name} {
+      @rules();
+    }
   }
-}
 
-.theme-dark(@rules) {
-  .rs-theme-dark {
-    @rules();
+  & when (@default = false) {
+    .rs-theme-@{theme-name} {
+      @rules();
+    }
   }
 }

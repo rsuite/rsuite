@@ -1,120 +1,18 @@
+@import 'common';
+
 // see https://rsuitejs.com/design/dark
-.colors-dark() {
-  // Primary palette
+.theme-dark() {
+  @import '../colors/dark';
 
-  @base-color: #34c3ff; // TODO: remove @base-color, use @primary-color instead
-  @primary-color: @base-color;
+  .theme-common();
 
-  // Highlight levels
-  @H050: palette(@primary-color, 50);
-  @H100: palette(@primary-color, 100);
-  @H200: palette(@primary-color, 200);
-  @H300: palette(@primary-color, 300);
-  @H400: palette(@primary-color, 400);
-  @H500: @primary-color;
-  @H600: palette(@primary-color, 600);
-  @H700: palette(@primary-color, 700);
-  @H800: palette(@primary-color, 800);
-  @H900: palette(@primary-color, 900);
-
-  // Gray levels
-  @B000: #fff;
-  @B050: #e9ebf0;
-  @B100: #cbced4;
-  @B200: #a4a9b3;
-  @B300: #858b94;
-  @B400: #6a6f76;
-  @B500: #5c6066;
-  @B600: #3c3f43;
-  @B700: #292d33;
-  @B800: #1a1d24;
-  @B900: #0f131a;
-
-  // Secondary palette
-
-  // spectrum
-  @red: #f04f43;
-  @orange: #ff9800;
-  @yellow: #ffc757;
-  @green: #58b15b;
-  @cyan: #00bcd4;
-  @blue: #1499ef;
-  @violet: #673ab7;
-
-  // Stateful colors
-  @success-color: @green;
-  @success-light-color: @B000;
-
-  @info-color: @blue;
-  @info-light-color: @B000;
-
-  @warning-color: #ffc757;
-  @warning-light-color: @B000;
-
-  @error-color: @red;
-  @error-light-color: @B000;
-
-  //== Base
-  // ** Background color for `<body>`.
-  @body-bg: @B900;
-  // ** Global text color on `<body>`.
-  @text-color: @B050;
-
-  //== Buttons
-  @btn-ripple-background-color: fade(@B000, 10);
-  @btn-disabled-opacity: 0.4;
-
-  // Default Button color set;
-  @btn-default-color: @B050;
-  @btn-default-hover-color: @B050;
-
-  // Ghost button color set;
-  @btn-ghost-border-width: 1px;
-
-  //== Divider
-  @divider-border-color: @B600; // TODO: Deprecate, use --rs-color-divider-border
-
-  //== Dropdown
-  @dropdown-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2), 0 4px 4px 3px rgba(0, 0, 0, 0.24);
-
-  //== Modal
-  @modal-backdrop-opacity: 0.8; //80%
-
-  //== Picker
-  @picker-select-menu-item-selected-font-weight: bold;
-
-  //== Popover
-  @popover-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-
-  // Gray levels
-  --rs-color-gray-50: #e9ebf0;
-  --rs-color-gray-100: #cbced4;
-  --rs-color-gray-200: #a4a9b3;
-  --rs-color-gray-300: #858b94;
-  --rs-color-gray-400: #6a6f76;
-  --rs-color-gray-500: #5c6066;
-  --rs-color-gray-600: #3c3f43;
-  --rs-color-gray-700: #292d33;
-  --rs-color-gray-800: #1a1d24;
-  --rs-color-gray-900: #0f131a;
-
-  // Highlight levels
-  --rs-color-highlight: #34c3ff;
-  --rs-color-highlight-50: #f2fcff;
-  --rs-color-highlight-100: #ccf3ff;
-  --rs-color-highlight-200: #a6e9ff;
-  --rs-color-highlight-300: #80ddff;
-  --rs-color-highlight-400: #59d0ff;
-  --rs-color-highlight-500: #34c3ff;
-  --rs-color-highlight-600: #25b3f5;
-  --rs-color-highlight-700: #169de0;
-  --rs-color-highlight-800: #0a81c2;
-  --rs-color-highlight-900: #006199;
+  // Reset
+  --rs-color-body: @B900;
 
   // Misc
-  --rs-color-text-link: var(--rs-color-highlight-500);
-  --rs-color-text-link-hover: var(--rs-color-highlight-400);
-  --rs-color-text-link-active: var(--rs-color-highlight-300);
+  --rs-color-text-link: @H500;
+  --rs-color-text-link-hover: @H400;
+  --rs-color-text-link-active: @H300;
   --rs-color-text-primary: @B050;
   --rs-color-text-secondary: @B200;
   --rs-color-text-tertiary: @B300;
@@ -163,7 +61,7 @@
   --rs-color-btn-link-active-text: @H200;
 
   // Divider
-  --rs-color-divider-border: var(--rs-color-gray-600);
+  --rs-color-divider-border: @B600;
 
   // Loader
   --rs-color-loader-ring: fade(@B050, 30);
@@ -174,16 +72,16 @@
   --rs-color-loader-backdrop-inverse: fade(@B000, 90);
 
   // Message
-  --rs-color-message-success-text: @text-color;
+  --rs-color-message-success-text: var(--rs-color-text-primary);
   --rs-color-message-success-icon: @B000;
   --rs-color-message-success-bg: @success-color;
-  --rs-color-message-info-text: @text-color;
+  --rs-color-message-info-text: var(--rs-color-text-primary);
   --rs-color-message-info-icon: @B000;
   --rs-color-message-info-bg: @info-color;
   --rs-color-message-warning-text: @B900;
   --rs-color-message-warning-icon: @B900;
   --rs-color-message-warning-bg: @warning-color;
-  --rs-color-message-error-text: @text-color;
+  --rs-color-message-error-text: var(--rs-color-text-primary);
   --rs-color-message-error-icon: @B000;
   --rs-color-message-error-bg: @error-color;
 

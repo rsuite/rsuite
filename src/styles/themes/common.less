@@ -1,0 +1,35 @@
+.theme-common() {
+  // Gray levels
+  --rs-color-gray-50: @B050;
+  --rs-color-gray-100: @B100;
+  --rs-color-gray-200: @B200;
+  --rs-color-gray-300: @B300;
+  --rs-color-gray-400: @B400;
+  --rs-color-gray-500: @B500;
+  --rs-color-gray-600: @B600;
+  --rs-color-gray-700: @B700;
+  --rs-color-gray-800: @B800;
+  --rs-color-gray-900: @B900;
+
+  // Highlight levels
+  --rs-color-highlight-50: @H050;
+  --rs-color-highlight-100: @H100;
+  --rs-color-highlight-200: @H200;
+  --rs-color-highlight-300: @H300;
+  --rs-color-highlight-400: @H400;
+  --rs-color-highlight-500: @H500;
+  --rs-color-highlight-600: @H600;
+  --rs-color-highlight-700: @H700;
+  --rs-color-highlight-800: @H800;
+  --rs-color-highlight-900: @H900;
+
+  // Spectrum levels
+  each(@spectrum, .(@color-name) {
+    @color: @@color-name;
+    --rs-color-@{color-name}-50: palette(@color, 50);
+    each(range(9), {
+      @level: @{index}00;
+      --rs-color-@{color-name}-@{level}: palette(@color, @level);
+    });
+  });
+}

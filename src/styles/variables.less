@@ -19,11 +19,6 @@
 //
 //## Settings for some of the most global styles.
 
-// ** Background color for `<body>`.
-@body-bg: var(--rs-color-gray-50);
-// ** Global text color on `<body>`.
-@text-color: var(--rs-color-text-primary);
-
 // ** Link hover decoration.
 @link-hover-decoration: underline;
 // ** Link active decoration.
@@ -400,7 +395,6 @@
 
 // Variant
 // ** Tab
-@nav-tab-default-bg: @body-bg;
 @nav-tab-bar-width: 1px;
 
 // ** Subtle
@@ -534,7 +528,7 @@
 // ** Modal title font-size
 @modal-title-font-size: @font-size-large;
 // ** Modal title color
-@modal-title-color: @text-color;
+@modal-title-color: var(--rs-color-text-primary);
 // ** Modal title line-height
 @modal-title-line-height: @line-height-large;
 
@@ -549,7 +543,7 @@
 // ** Modal close button
 @modal-close-btn-size: @font-size-small;
 @modal-close-btn-line-height: @line-height-small;
-@modal-close-btn-color: @text-color;
+@modal-close-btn-color: var(--rs-color-text-primary);
 
 // ** Modal sizes
 @modal-lg: 968px;
@@ -860,8 +854,8 @@
 @btn-disabled-opacity: 0.3;
 
 // Default Button color set;
-@btn-default-color: @text-color;
-@btn-default-hover-color: @text-color;
+@btn-default-color: var(--rs-color-text-primary);
+@btn-default-hover-color: var(--rs-color-text-primary);
 
 //== Divider
 @divider-border-color: var(--rs-color-border-primary); // TODO: Deprecate, use --rs-color-divider-border
