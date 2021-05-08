@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { AnimationEventProps, StandardProps, TypeAttributes } from '../@types/common';
 
-export type OverlayTriggerTrigger = 'click' | 'hover' | 'focus' | 'active' | 'none';
+export type OverlayTriggerTrigger = 'click' | 'contextMenu' | 'hover' | 'focus' | 'active' | 'none';
 
 export interface TriggerProps extends AnimationEventProps, StandardProps {
   /** Triggering events */

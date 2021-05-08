@@ -3,6 +3,7 @@
 `Whisper` 提供了一个 `trigger` 属性，用于在各种场景下控制 `Tooltip` 显示。属性值包括：
 
 - `click`: 当用户点击元素时会被触发，再点击会关闭。
+- `contextMenu`: 当用户点击鼠标右键时触发。
 - `focus`: 当用户点击或触摸元素或通过键盘的 `tab` 键选择它时会被触发。
 - `hover`: 鼠标悬停到元素上时触发，鼠标离开则关闭。
 - `active`: 激活元素时会被触发。
@@ -20,6 +21,9 @@ const instance = (
   <ButtonToolbar>
     <Whisper placement="top" trigger="click" speaker={tooltip}>
       <Button>Click</Button>
+    </Whisper>
+    <Whisper placement="top" trigger="contextMenu" speaker={tooltip}>
+      <Button>ContextMenu</Button>
     </Whisper>
     <Whisper placement="top" trigger="focus" speaker={tooltip}>
       <Button>Focus</Button>

@@ -26,6 +26,7 @@ interface TriggerProps {
   onMouseOut?: React.MouseEventHandler;
   onBlur?: React.MouseEventHandler;
   onClick?: React.MouseEventHandler;
+  onContextMenu?: React.MouseEventHandler;
   onFocus?: React.MouseEventHandler;
 }
 
@@ -81,7 +82,11 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
   handleSpeakerMouseLeave = () => {
     const { trigger } = this.props;
     this.mouseEnteredToSpeaker = false;
-    if (!isOneOf('click', trigger) && !isOneOf('active', trigger)) {
+    if (
+      !isOneOf('click', trigger) &&
+      !isOneOf('active', trigger) &&
+      !isOneOf('contextMenu', trigger)
+    ) {
       this.hideWithCheck();
     }
   };
@@ -128,6 +133,10 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
     } else {
       this.show(isNil(delayShow) ? delay : delayShow);
     }
+  };
+
+  preventDefault = (event: React.MouseEvent<Element, MouseEvent>) => {
+    event.preventDefault();
   };
 
   handleDelayedShow = () => {
@@ -197,6 +206,8 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
 
     if (isOneOf('click', trigger)) {
       overlayProps.onHide = createChainedFunction(this.hide, onHide);
+    } else if (isOneOf('contextMenu', trigger)) {
+      overlayProps.onHide = createChainedFunction(this.hide, onHide);
     } else if (isOneOf('active', trigger)) {
       overlayProps.onHide = createChainedFunction(this.hide, onHide);
     }
@@ -252,6 +263,14 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
     if (!disabled) {
       if (isOneOf('click', trigger)) {
         props.onClick = createChainedFunction(this.toggleHideAndShow, props.onClick);
+      }
+
+      if (isOneOf('contextMenu', trigger)) {
+        props.onContextMenu = createChainedFunction(
+          this.preventDefault,
+          this.toggleHideAndShow,
+          props.onContextMenu
+        );
       }
 
       if (isOneOf('active', trigger)) {
