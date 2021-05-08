@@ -54,99 +54,22 @@
   @error-color: @red;
   @error-light-color: @B000;
 
-  // ** border base color.
-  @border-base-color: @B300;
-  // ** base bg color.
-  @base-bg-color: @B050;
-  // ** border primary color.
-  @border-primary-color: @H500;
-  // ** loading text color
-  @loading-text-color: @B800;
-
   //== Base
   // ** Background color for `<body>`.
   @body-bg: @B900;
   // ** Global text color on `<body>`.
   @text-color: @B050;
-  // ** border base color.
-  @border-base-color: @B600;
-
-  //== Avatar
-  @avatar-background: @B400;
 
   //== Buttons
   @btn-ripple-background-color: fade(@B000, 10);
   @btn-disabled-opacity: 0.4;
-  //Button Loading
-  @btn-spin-light-invert-color: @B000;
 
   // Default Button color set;
   @btn-default-color: @B050;
   @btn-default-hover-color: @B050;
-  @btn-default-hover-bg: @B600;
-  @btn-default-focus-bg: @B600;
-  @btn-default-active-bg: @B400;
-  @btn-default-disabled-color: @B500;
-  @btn-default-disabled-bg: @B700;
-
-  // Button has icon color set
-  @btn-icon-with-text-bg: @B600;
-  @btn-icon-with-text-hover-bg: @B500;
-  @btn-icon-with-text-focus-bg: @B500;
-  @btn-icon-with-text-active-bg: @B300;
-
-  // Subtle Button color set;
-  @btn-subtle-color: @B200;
-  @btn-subtle-hover-bg: @B700;
-  @btn-subtle-active-default-bg: @B400;
-  @btn-subtle-active-default-color: @B000;
 
   // Ghost button color set;
-  @btn-ghost-color: @H500;
-  @btn-ghost-border-color: @btn-ghost-color;
   @btn-ghost-border-width: 1px;
-  @btn-ghost-hover-color: @H400;
-  @btn-ghost-hover-border-color: @btn-ghost-hover-color;
-  @btn-ghost-active-color: @H200;
-  @btn-ghost-active-border-color: @btn-ghost-active-color;
-
-  //== Calendar
-  @calendar-panel-table-border-color: @B600;
-  @calendar-table-cell-content-hover-bg: @B600;
-  @calendar-panel-today-active-background-color: @H700;
-
-  // == Cascader
-  @cascader-search-panel-hover-color: @B000;
-  @cascader-search-panel-hover-bg: @B600;
-  @cascader-search-panel-highlight-word-color: @H500;
-
-  //== Checkbox
-  @checkbox-default-border-color: @B400;
-  // ** Checkbox checked mark color
-  @checkbox-checked-mark-color: @B800;
-  // ** Checkbox uncheck background
-  @checkbox-disabled-color: @B500;
-
-  //== CheckTreePicker
-  @picker-tree-node-hover-bg: @B600;
-  @picker-tree-node-active-color: @H500;
-
-  //== DatePicker
-  @calendar-time-dropdown-column-title-bg: @divider-border-color;
-  @calendar-time-dropdown-column-title-font-color: @B200;
-  @calendar-time-dropdown-column-cell-default-color: @B000;
-  @calendar-time-dropdown-column-cell-hover-color: @B000;
-  @calendar-time-dropdown-column-cell-hover-bg: @B600;
-  @calendar-time-dropdown-column-cell-active-bg: @H700;
-  @calendar-table-cell-week-number-bg: @B900;
-  @calendar-table-cell-week-number-color: @B000;
-  @calendar-table-cell-content-selected-color: @H700;
-  @calendar-right-btn-ok-bg: @H700;
-  @calendar-table-cell-header-color: @B200;
-  @calendar-table-cell-in-range-background: fade(@H900, 50);
-
-  //== DateRangePicker
-  @date-range-picker-inner-border: 1px solid @calendar-toolbar-border-color;
 
   //== Divider
   @divider-border-color: @B600; // TODO: Deprecate, use --rs-color-divider-border
@@ -154,127 +77,14 @@
   //== Dropdown
   @dropdown-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2), 0 4px 4px 3px rgba(0, 0, 0, 0.24);
 
-  //== Icon
-  @icon-inverse: @B700;
-
-  //== Input
-  // ** Placeholder text color
-  @input-color-placeholder: @B200;
-  // ** Text color for `<input>`
-  @input-color: @B000;
-  // ** `<input>` background color
-  @input-bg: @B800;
-  // ** `<input disabled>` background color
-  @input-bg-disabled: @B700;
-  // ** Background color for textual input addons
-  @input-group-addon-bg: @B700;
-
-  //== List
-  @list-border-color: @B700;
-  @list-hover-color: @B600;
-  @list-item-drag-bg-color: @B900;
-  @list-item-placeholder-bg-color: fade(@H900, 20);
-  @list-item-placeholder-border-color: @H500;
-
-  //== Message
-  // Alternate colors
-  @message-warning-text-color: @B900;
-
   //== Modal
   @modal-backdrop-opacity: 0.8; //80%
 
-  //== Nav
-  @nav-item-font-default-color: @B200;
-  @nav-item-click-bg: @btn-subtle-active-default-bg;
-  @nav-tab-bar-color: @B600;
-  @nav-subtle-hover-bg: @B700;
-  @nav-subtle-bar-default-color: @nav-tab-bar-color;
-
-  //== Navbar
-  @nav-bar-default-font-color: @B200;
-  @nav-bar-default-active-color: @H500;
-  @nav-bar-subtle-bg: transparent;
-  @nav-bar-subtle-font-color: @nav-bar-default-font-color;
-  @nav-bar-subtle-font-active-color: @nav-bar-default-active-color;
-  @nav-bar-subtle-hover-bg: @B700;
-  @nav-bar-subtle-hover-font-color: @B050;
-  @nav-bar-inverse-active-bg: @H400;
-
-  //== Panel
-  @panel-border: 1px solid @B600;
-  @panel-header-color: @B000;
-  @panel-font-color: @B050;
-
   //== Picker
-  @picker-select-item-color: @B000;
-  @picker-menu-item-hover-bg: @B600;
-  @picker-select-menu-item-selected-color: @H500;
-  @picker-select-menu-item-selected-bg: fade(@H900, 20);
   @picker-select-menu-item-selected-font-weight: bold;
-  @picker-placeholder-color: @B200;
-  @picker-default-toggle-font-color: @B200;
-  @picker-default-toggle-caret-color: @picker-default-toggle-font-color;
-  @picker-group-title-color: @B000;
-  @picker-none-font-color: @B200;
-  @picker-value-count-background-color: @H700;
 
   //== Popover
   @popover-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-
-  //== Progress
-  @progress-info-text-color: @B000;
-
-  //== Radio
-  @radio-default-border-color: @B400;
-  // ** Checkbox uncheck background
-  @radio-disabled-color: @B500;
-  @radio-inner-checked-color: @B800;
-  @radio-label-font-color: @B200;
-  @radio-label-font-hover-color: @B100;
-
-  //== Slider
-  @slider-bar-default-bg: @B600;
-  @slider-bar-hover-bg: @B600;
-  @slider-handle-default-bg: @B700;
-  @slider-calibration-bg: @B700;
-  @slider-calibration-border-color: @slider-bar-default-bg;
-
-  //== Step
-  @steps-default-color: @B200;
-  @steps-tail-default-color: @B200;
-  @steps-bg: @B800;
-  @steps-icon-process-color: @steps-bg;
-  @steps-content-color: @B200;
-  @steps-content-process-color: @B000;
-  @steps-icon-process-bg: @H700;
-
-  //== Table
-  @table-border-color: @B700;
-  @table-table-cell-fixed-shadow: 0 5px rgba(9, 9, 9, 0.99);
-
-  //== Toggle
-  @toggle-disabled-default-background-color: @B600;
-  @toggle-disabled-checked-background-color: @H900;
-  // Toggle default background color
-  @toggle-default-bg: @B400;
-  @toggle-default-hover-bg: @B300;
-  // Toggle checked background color
-  @toggle-checked-bg: @H700;
-
-  //== Tag
-  @tag-default-background: @B600;
-  @tag-default-color: @B050;
-
-  //== Uploader
-  @uploader-default-font-color: @B000;
-  @uploader-light-font-color: @B200;
-  @uploader-item-hover-background-color: @B600;
-  @uploader-picture-border-color: @B600;
-  @uploader-picture-background-color: @B600;
-  @uploader-file-item-retry-icon-color: @B200;
-  @uploader-picture-item-background: fade(@B600, 80);
-  @uploader-picture-item-btn-remove-background: @B700;
-  @uploader-drag-and-drop-background-color: @B700;
 
   // Gray levels
   --rs-color-gray-50: #e9ebf0;
@@ -371,7 +181,7 @@
   --rs-color-message-info-icon: @B000;
   --rs-color-message-info-bg: @info-color;
   --rs-color-message-warning-text: @B900;
-  --rs-color-message-warning-icon: @message-warning-text-color;
+  --rs-color-message-warning-icon: @B900;
   --rs-color-message-warning-bg: @warning-color;
   --rs-color-message-error-text: @text-color;
   --rs-color-message-error-icon: @B000;
