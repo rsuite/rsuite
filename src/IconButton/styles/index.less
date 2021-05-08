@@ -17,8 +17,7 @@
   }
 }
 
-// Default Button
-// Rewrite common button style
+// Only support default/primary button
 .rs-btn-icon-with-text {
   > .rs-icon {
     position: absolute;
@@ -34,6 +33,18 @@
 
   .button-pressed({
     .btn-icon-with-text(var(--rs-color-iconbtn-pressed-addon));
+  });
+}
+
+.rs-btn-icon-with-text.rs-btn-primary {
+  .btn-icon-with-text(var(--rs-color-iconbtn-primary-addon));
+
+  .button-activated({
+    .btn-icon-with-text(var(--rs-color-iconbtn-primary-activated-addon));
+  });
+
+  .button-pressed({
+    .btn-icon-with-text(var(--rs-color-iconbtn-primary-pressed-addon));
   });
 }
 
