@@ -112,6 +112,23 @@ describe('MultiCascader -  DropdownMenu', () => {
     }, 1);
   });
 
+  it('Should call onSelect callback with 4 params', done => {
+    const doneOp = (node, activePaths, createConcat, event) => {
+      if (
+        typeof node === 'object' &&
+        Array.isArray(activePaths) &&
+        typeof createConcat === 'function' &&
+        event.target
+      ) {
+        done();
+      }
+    };
+
+    const instance = getInstance(<Dropdown defaultOpen data={items} onSelect={doneOp} />);
+    const menuContainer = getDOMNode(instance.menuContainerRef.current);
+    ReactTestUtils.Simulate.click(menuContainer.querySelectorAll('.rs-checkbox')[1]);
+  });
+
   it('Should not call onSelect callback on disabled item', () => {
     const onSelectSpy = sinon.spy();
     const instance = getInstance(
