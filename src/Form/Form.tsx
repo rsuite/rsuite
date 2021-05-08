@@ -2,7 +2,8 @@ import React, { useMemo, useCallback, useState, useImperativeHandle, useRef } fr
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
-import { Schema, SchemaModel, CheckResult } from 'schema-typed';
+import { Schema, SchemaModel } from 'schema-typed';
+import type { CheckResult } from 'schema-typed';
 import { useClassNames } from '../utils';
 import FormContext, { FormValueContext } from './FormContext';
 import FormControl from '../FormControl';
