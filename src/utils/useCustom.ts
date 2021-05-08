@@ -1,7 +1,7 @@
 import { useContext, useCallback } from 'react';
 import defaultLocale from '../locales/default';
 import { CustomContext, CustomValue } from '../CustomProvider/CustomProvider';
-import { format as formatFns } from '../utils/dateUtils';
+import { format, parse } from '../utils/dateUtils';
 
 const mergeObject = (list: any[]) =>
   list.reduce((a, b) => {
@@ -17,11 +17,9 @@ const getDefaultRTL = () =>
  * @param keys
  */
 function useCustom<T = any>(keys: string | string[], overrideLocale?): CustomValue<T> {
-  const {
-    locale = defaultLocale,
-    rtl = getDefaultRTL(),
-    formatDate: format = formatFns
-  } = useContext(CustomContext);
+  const { locale = defaultLocale, rtl = getDefaultRTL(), formatDate, parseDate } = useContext(
+    CustomContext
+  );
 
   let componentLocale: T = {
     // Public part locale
@@ -35,14 +33,25 @@ function useCustom<T = any>(keys: string | string[], overrideLocale?): CustomVal
     componentLocale = mergeObject([componentLocale, overrideLocale]);
   }
 
-  const formatDate = useCallback((date: Date, formatStr: string) => format(date, formatStr), [
-    format
-  ]);
+  const defaultFormatDate = useCallback(
+    (date: number | Date, formatStr: string) =>
+      format(date, formatStr, {
+        locale: locale?.Calendar?.dateLocale
+      }),
+    [locale.Calendar.dateLocale]
+  );
+
+  const defaultParseDate = useCallback(
+    (dateString: string, formatString: string) =>
+      parse(dateString, formatString, new Date(), { locale: locale?.Calendar?.dateLocale }),
+    [locale.Calendar.dateLocale]
+  );
 
   return {
     locale: componentLocale,
     rtl,
-    formatDate
+    formatDate: formatDate || defaultFormatDate,
+    parseDate: parseDate || defaultParseDate
   };
 }
 

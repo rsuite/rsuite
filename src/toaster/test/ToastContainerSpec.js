@@ -1,6 +1,6 @@
 import React from 'react';
 import ToastContainer from '../ToastContainer';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('toaster - ToastContainer', () => {
   it('Should output a container', () => {

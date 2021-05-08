@@ -151,7 +151,9 @@ const PickerToggle: RsRefForwardingComponent<
     },
     [onInputPressEnter, input]
   );
-  const Caret = caretComponent ?? useToggleCaret(placement);
+
+  const ToggleCaret = useToggleCaret(placement);
+  const Caret = caretComponent ?? ToggleCaret;
 
   if (plaintext) {
     return (

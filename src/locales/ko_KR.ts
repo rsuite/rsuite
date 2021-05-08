@@ -1,3 +1,5 @@
+import ko from 'date-fns/locale/ko';
+
 const Calendar = {
   sunday: '일',
   monday: '월',
@@ -17,7 +19,8 @@ const Calendar = {
    * https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
    **/
   formattedMonthPattern: 'yyyy 년 MM 월',
-  formattedDayPattern: 'yyyy 년 MM 월 dd 일'
+  formattedDayPattern: 'yyyy 년 MM 월 dd 일',
+  dateLocale: ko
 };
 export default {
   common: {

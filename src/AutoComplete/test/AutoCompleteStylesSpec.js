@@ -17,7 +17,7 @@ describe('AutoComplete styles', () => {
     inChrome &&
       assert.equal(getStyle(dom, 'border'), `1px solid ${toRGB('#e5e5ea')}`, 'AutoComplete border');
     assert.equal(getStyle(dom, 'color'), toRGB('#575757'), 'AutoComplete font-color');
-    inChrome && assert.equal(getStyle(dom, 'borderRadius'), `6px`, 'AutoComplete border-radius');
+    inChrome && assert.equal(getStyle(dom, 'borderRadius'), '6px', 'AutoComplete border-radius');
   });
 
   it('Should the correct styles when set `open` and `defaultValue`', () => {

@@ -24,7 +24,7 @@ export interface BreadcrumbProps extends WithAsProps {
 }
 
 export interface BreadcrumbComponent extends RsRefForwardingComponent<'ol', BreadcrumbProps> {
-  Item?: typeof BreadcrumbItem;
+  Item: typeof BreadcrumbItem;
 }
 
 const defaultProps: Partial<BreadcrumbProps> = {
@@ -34,7 +34,7 @@ const defaultProps: Partial<BreadcrumbProps> = {
   maxItems: 5
 };
 
-const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps, ref) => {
+const Breadcrumb: BreadcrumbComponent = (React.forwardRef((props: BreadcrumbProps, ref) => {
   const {
     as: Component,
     className,
@@ -106,7 +106,7 @@ const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps
       {renderCollapseItems()}
     </Component>
   );
-});
+}) as unknown) as BreadcrumbComponent;
 
 Breadcrumb.Item = BreadcrumbItem;
 Breadcrumb.displayName = 'Breadcrumb';

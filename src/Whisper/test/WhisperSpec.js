@@ -174,6 +174,7 @@ describe('Whisper', () => {
     };
     const ref = React.createRef();
     const btnRef = React.createRef();
+    // eslint-disable-next-line react/prop-types
     const Overlay = React.forwardRef(({ style, onClose, ...rest }, ref) => {
       return (
         <div {...rest} style={style} ref={ref}>

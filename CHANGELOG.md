@@ -1,3 +1,21 @@
+<a name="5.0.0-alpha.6"></a>
+# [5.0.0-alpha.6](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.5...v5.0.0-alpha.6) (2021-05-07)
+
+
+### Bug Fixes
+
+* **cascader:** fixed the option not re-rendering after data update ([#1608](https://github.com/rsuite/rsuite/issues/1608)) ([6a83064](https://github.com/rsuite/rsuite/commit/6a83064)), closes [#1599](https://github.com/rsuite/rsuite/issues/1599)
+* **customprovider:** integrate the locale of date-fns in CustomProvider ([#1637](https://github.com/rsuite/rsuite/issues/1637)) ([1817430](https://github.com/rsuite/rsuite/commit/1817430)), closes [#1636](https://github.com/rsuite/rsuite/issues/1636)
+* **pickers:** Fixed the inability to pass the type check when the `labelKey` and `valueKey` of the pickers are changed. ([#1589](https://github.com/rsuite/rsuite/issues/1589)) ([ed1bea6](https://github.com/rsuite/rsuite/commit/ed1bea6))
+* **typescript:** fix incorrect definition of Typescript ([#1640](https://github.com/rsuite/rsuite/issues/1640)) ([73bbe88](https://github.com/rsuite/rsuite/commit/73bbe88)), closes [#1633](https://github.com/rsuite/rsuite/issues/1633)
+
+
+### Features
+
+* **hooks:** add the useWillUnmount hook and apply it to Modal ([#1607](https://github.com/rsuite/rsuite/issues/1607)) ([73e3948](https://github.com/rsuite/rsuite/commit/73e3948))
+
+
+
 <a name="5.0.0-alpha.5"></a>
 # [5.0.0-alpha.5](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.4...v5.0.0-alpha.5) (2021-03-19)
 

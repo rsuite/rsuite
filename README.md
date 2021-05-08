@@ -1,3 +1,4 @@
+
 <p align="center">
   <a href="https://rsuitejs.com" target="_blank" rel="noopener noreferrer">
    <img src="https://user-images.githubusercontent.com/1203827/65102389-7be3f100-d9fd-11e9-859e-ae9617ed2f91.png" alt="React Suite logo">
@@ -7,6 +8,7 @@
 English | [中文版][readm-cn]
 
 [![npm][npm-svg]][npm-home] [![GitHub Actions][actions-svg]][actions-home] [![Coverage Status][coverage-svg]][coverage-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter] [![Gitter][gitter-cn-svg]][gitter-cn]
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/rsuite/rsuite)
 
 React Suite is a set of react component libraries for enterprise system products. It is a well-thought-out and developer-friendly UI framework.
 

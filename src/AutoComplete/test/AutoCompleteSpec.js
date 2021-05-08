@@ -150,7 +150,7 @@ describe('AutoComplete', () => {
     ReactTestUtils.Simulate.keyDown(instance.overlay, { keyCode: 13 });
   });
 
-  it("Shouldn't call onSelect nor onChange callback on Enter pressed if selectOnEnter=false", () => {
+  it('Shouldn‘t call onSelect nor onChange callback on Enter pressed if selectOnEnter=false', () => {
     const onSelectSpy = sinon.spy();
 
     const instance = getInstance(

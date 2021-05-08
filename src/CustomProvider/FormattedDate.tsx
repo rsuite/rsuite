@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
-import { CustomContext } from './CustomProvider';
-import { format } from '../utils/dateUtils';
+import React from 'react';
+import { useCustom } from '../utils';
 
 interface FormattedDateProps {
   date: Date;
@@ -8,7 +7,7 @@ interface FormattedDateProps {
 }
 
 function FormattedDate({ date, formatStr }: FormattedDateProps) {
-  const { formatDate = format } = useContext(CustomContext);
+  const { formatDate } = useCustom('Calendar');
 
   return <React.Fragment>{formatDate(date, formatStr)}</React.Fragment>;
 }
