@@ -163,10 +163,10 @@ const PickerToggle: RsRefForwardingComponent<
     );
   }
 
-  const cleanable = cleanableProp && hasValue && !readOnly && !plaintext;
+  const cleanable = cleanableProp && hasValue && !readOnly;
 
   // When the component is read-only or disabled, the input is not interactive.
-  const inputFocused = readOnly || disabled || plaintext ? false : input && activeState;
+  const inputFocused = readOnly || disabled ? false : input && activeState;
 
   return (
     <Component
