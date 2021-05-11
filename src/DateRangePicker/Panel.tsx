@@ -131,7 +131,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
 
     const disabledMonth = useCallback(
       (date: Date) => {
-        let after = true;
+        let after: boolean;
 
         if (disabledDate?.(date, value, DATERANGE_DISABLED_TARGET.CALENDAR)) {
           return true;

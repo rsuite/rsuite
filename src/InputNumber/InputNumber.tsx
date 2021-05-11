@@ -210,7 +210,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
 
   const handleChange = useCallback(
     (value: any, event: React.SyntheticEvent<any>) => {
-      if (!/^-?(?:\d+)?(\.)?(\d+)*$/.test(value) && value !== '') {
+      if (!/^-?(?:\d+)?(\.)?\d*$/.test(value) && value !== '') {
         return;
       }
       handleValue(value, event);
