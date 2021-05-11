@@ -1,10 +1,6 @@
-@import 'common';
-
 // see https://rsuitejs.com/design/dark
-.theme-dark() {
-  @import '../colors/dark';
-
-  .theme-common();
+& {
+  @import (multiple) 'common';
 
   // Reset
   --rs-body: @B900;

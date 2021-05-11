@@ -1,10 +1,6 @@
-@import 'common';
-
 // see https://rsuitejs.com/design/default
-.theme-light() {
-  @import '../colors/light';
-
-  .theme-common();
+& {
+  @import (multiple) 'common';
 
   // Reset
   --rs-body: @B050;

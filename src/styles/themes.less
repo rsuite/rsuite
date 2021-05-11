@@ -1,13 +1,12 @@
 // Themes
 @import 'mixins/themes';
 
-@import 'themes/light';
-@import 'themes/dark';
-
 .theme(light, {
-  .theme-light();
+  @import 'colors/light';
+  @import 'themes/light';
 }, true);
 
 .theme(dark, {
-  .theme-dark();
+  @import 'colors/dark';
+  @import 'themes/dark';
 });
