@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
-import Dropdown from '../MultiCascader';
+import MultiCascader from '../MultiCascader';
 
 const classPrefix = 'rs-picker-cascader-menu';
 
@@ -39,12 +39,12 @@ describe('MultiCascader -  DropdownMenu', () => {
   });
 
   it('Should output 3 `menu-item` ', () => {
-    const instance = getInstance(<Dropdown open data={items} />);
+    const instance = getInstance(<MultiCascader open data={items} />);
     assert.equal(instance.overlay.querySelectorAll('li').length, 3);
   });
 
   it('Should have a menuWidth', () => {
-    const instance = getInstance(<Dropdown defaultOpen data={items} menuWidth={100} />);
+    const instance = getInstance(<MultiCascader defaultOpen data={items} menuWidth={100} />);
 
     const menuContainer = instance.overlay.querySelector('.rs-picker-cascader-menu-column');
     assert.ok(menuContainer.style.width, '100px');
@@ -76,7 +76,13 @@ describe('MultiCascader -  DropdownMenu', () => {
     ];
 
     const instance = getInstance(
-      <Dropdown defaultOpen labelKey="myLabel" valueKey="myValue" childrenKey="items" data={data} />
+      <MultiCascader
+        defaultOpen
+        labelKey="myLabel"
+        valueKey="myValue"
+        childrenKey="items"
+        data={data}
+      />
     );
 
     assert.equal(instance.overlay.querySelectorAll('li').length, 3);
@@ -89,7 +95,7 @@ describe('MultiCascader -  DropdownMenu', () => {
       }
     };
 
-    const instance = getInstance(<Dropdown defaultOpen data={items} onSelect={doneOp} />);
+    const instance = getInstance(<MultiCascader defaultOpen data={items} onSelect={doneOp} />);
 
     ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('.rs-checkbox')[1]);
   });
@@ -97,7 +103,12 @@ describe('MultiCascader -  DropdownMenu', () => {
   it('Should call onSelect callback 2 count', () => {
     const onSelectSpy = sinon.spy();
     const instance = getInstance(
-      <Dropdown defaultOpen data={items} disabledItemValues={['abcd']} onSelect={onSelectSpy} />
+      <MultiCascader
+        defaultOpen
+        data={items}
+        disabledItemValues={['abcd']}
+        onSelect={onSelectSpy}
+      />
     );
 
     setTimeout(() => {
@@ -110,7 +121,12 @@ describe('MultiCascader -  DropdownMenu', () => {
   it('Should not call onSelect callback on disabled item', () => {
     const onSelectSpy = sinon.spy();
     const instance = getInstance(
-      <Dropdown defaultOpen data={items} disabledItemValues={['abcd']} onSelect={onSelectSpy} />
+      <MultiCascader
+        defaultOpen
+        data={items}
+        disabledItemValues={['abcd']}
+        onSelect={onSelectSpy}
+      />
     );
 
     ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('.rs-checkbox')[1]);
@@ -119,7 +135,7 @@ describe('MultiCascader -  DropdownMenu', () => {
 
   it('Should call renderMenuItem callback ', () => {
     const instance = getInstance(
-      <Dropdown defaultOpen data={items} renderMenuItem={item => <i>{item}</i>} />
+      <MultiCascader defaultOpen data={items} renderMenuItem={item => <i>{item}</i>} />
     );
 
     assert.equal(instance.overlay.querySelectorAll('.rs-checkbox i').length, 3);
@@ -127,7 +143,7 @@ describe('MultiCascader -  DropdownMenu', () => {
 
   it('Should be disabled item ', () => {
     const instance = getInstance(
-      <Dropdown defaultOpen data={items} disabledItemValues={['abcd', 'abcde']} />
+      <MultiCascader defaultOpen data={items} disabledItemValues={['abcd', 'abcde']} />
     );
 
     assert.ok(instance.overlay.querySelectorAll('.rs-checkbox')[1].className.match(/\bdisabled\b/));
@@ -136,7 +152,7 @@ describe('MultiCascader -  DropdownMenu', () => {
 
   it('Should be uncheckable item ', () => {
     const instance = getInstance(
-      <Dropdown defaultOpen data={items} uncheckableItemValues={['abcd', 'abcde']} />
+      <MultiCascader defaultOpen data={items} uncheckableItemValues={['abcd', 'abcde']} />
     );
 
     assert.equal(instance.overlay.querySelectorAll('input[role="checkbox"]').length, 1);

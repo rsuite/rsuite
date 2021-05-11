@@ -97,6 +97,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | menuHeight            | number `(200)`                                                                        | Sets the height of the menu                                      |
 | menuWidth             | number `(156)`                                                                        | Sets the width of the menu                                       |
 | onChange              | (value:string[] , event) => void                                                      | Callback fired when value change                                 |
+| onCheck               | (value:ValueType, item:DataItemType, checked:boolean, event) => void;                 | Called after the checkbox state changes                          |
 | onClean               | (event:SyntheticEvent) => void                                                        | Callback fired when value clean                                  |
 | onClose               | () => void                                                                            | Callback fired when close component                              |
 | onEnter               | () => void                                                                            | Callback fired before the overlay transitions in                 |
