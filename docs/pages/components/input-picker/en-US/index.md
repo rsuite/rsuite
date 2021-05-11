@@ -75,6 +75,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | onChange           | (value:string, event) => void                                             | callback function when value changes                        |
 | onClean            | (event:SyntheticEvent) => void                                            | Callback fired when value clean                             |
 | onClose            | () => void                                                                | Close callback functions                                    |
+| onCreate           | (value: string, item: ItemDataType, event) => void                        | Callback fired when a new option is created                 |
 | onEnter            | () => void                                                                | Callback fired before the overlay transitions in            |
 | onEntered          | () => void                                                                | Callback fired after the overlay finishes transitioning in  |
 | onEntering         | () => void                                                                | Callback fired as the overlay begins to transition in       |
