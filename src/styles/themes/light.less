@@ -6,10 +6,6 @@
   --rs-body: @B050;
 
   // States
-  --rs-state-success: #4caf50;
-  --rs-state-info: #2196f3;
-  --rs-state-warning: #ffb300;
-  --rs-state-error: #f44336;
   --rs-bg-success: #edfae1;
   --rs-bg-info: #e9f5fe;
   --rs-bg-warning: #fff9e6;
@@ -27,7 +23,7 @@
   --rs-text-heading-inverse: @B000;
   --rs-text-active: @H700;
   --rs-text-disabled: @B400;
-  --rs-text-error: @error-color;
+  --rs-text-error: @red;
   --rs-border-primary: @B200;
   --rs-border-secondary: @B100;
   --rs-bg-card: @B000;
@@ -88,17 +84,17 @@
 
   // Message
   --rs-message-success-text: var(--rs-text-primary);
-  --rs-message-success-icon: @success-color;
-  --rs-message-success-bg: @success-light-color;
+  --rs-message-success-icon: @green;
+  --rs-message-success-bg: @green-50;
   --rs-message-info-text: var(--rs-text-primary);
-  --rs-message-info-icon: @info-color;
-  --rs-message-info-bg: @info-light-color;
+  --rs-message-info-icon: @blue;
+  --rs-message-info-bg: @blue-50;
   --rs-message-warning-text: var(--rs-text-primary);
-  --rs-message-warning-icon: @warning-color;
-  --rs-message-warning-bg: @warning-light-color;
+  --rs-message-warning-icon: @yellow;
+  --rs-message-warning-bg: @yellow-50;
   --rs-message-error-text: var(--rs-text-primary);
-  --rs-message-error-icon: @error-color;
-  --rs-message-error-bg: @error-light-color;
+  --rs-message-error-icon: @red;
+  --rs-message-error-bg: @red-50;
 
   // Tooltip
   --rs-tooltip-bg: @B900;
@@ -107,8 +103,8 @@
   // Progress
   --rs-progress-bg: @B200;
   --rs-progress-bar: @H500;
-  --rs-progress-bar-success: @success-color;
-  --rs-progress-bar-fail: @error-color;
+  --rs-progress-bar-success: @green;
+  --rs-progress-bar-fail: @red;
 
   // Placeholder
   --rs-placeholder: @B100;
@@ -128,10 +124,10 @@
   --rs-steps-border-state-finish: @H500;
   --rs-steps-state-wait: @B600;
   --rs-steps-state-process: @H500;
-  --rs-steps-state-error: @error-color;
-  --rs-steps-border-state-error: @error-color;
+  --rs-steps-state-error: @red;
+  --rs-steps-border-state-error: @red;
   --rs-steps-icon-state-process: @H500;
-  --rs-steps-icon-state-error: @error-color;
+  --rs-steps-icon-state-error: @red;
 
   // Nav
   --rs-navs-text: @B600;
@@ -215,12 +211,12 @@
   --rs-avatar-text: @B000;
 
   // Badge
-  --rs-badge-bg: @error-color;
+  --rs-badge-bg: @red;
   --rs-badge-text: @B000;
 
   // Tag
   --rs-tag-bg: @B050;
-  --rs-tag-close: @error-color;
+  --rs-tag-close: @red;
 
   // Carousel
   --rs-carousel-bg: @B600;
@@ -258,7 +254,7 @@
   --rs-modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // Form
-  --rs-form-errormessage-text: @error-color;
+  --rs-form-errormessage-text: @red;
   --rs-form-errormessage-bg: #fff;
   --rs-form-errormessage-border: @B200;
 
