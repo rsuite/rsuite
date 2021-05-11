@@ -81,6 +81,14 @@ export interface MultiCascaderProps<T = ValueType>
     event: React.SyntheticEvent
   ) => void;
 
+  /** Called after the checkbox state changes */
+  onCheck?: (
+    value: ValueType,
+    node: ItemDataType,
+    checked: boolean,
+    event: React.SyntheticEvent
+  ) => void;
+
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent) => void;
 
@@ -150,6 +158,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       onChange,
       onOpen,
       onClose,
+      onCheck,
       ...rest
     } = props;
 
@@ -282,8 +291,9 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
         setValue(nextValue);
         onChange?.(nextValue, event);
+        onCheck?.(nextValue, node, checked, event);
       },
-      [cascade, onChange, setValue, splitValue, value, valueKey]
+      [cascade, onChange, onCheck, setValue, splitValue, value, valueKey]
     );
 
     const handleClean = useCallback(
@@ -587,7 +597,8 @@ MultiCascader.propTypes = {
   renderMenuItem: PropTypes.func,
   renderMenu: PropTypes.func,
   onSearch: PropTypes.func,
-  onSelect: PropTypes.func
+  onSelect: PropTypes.func,
+  onCheck: PropTypes.func
 };
 
 export default MultiCascader;

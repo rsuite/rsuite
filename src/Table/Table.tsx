@@ -204,10 +204,10 @@ export interface CellProps extends StandardProps {
 
 interface TableComponent
   extends React.ForwardRefExoticComponent<TableProps & { ref?: React.Ref<TableInstance> }> {
-  Column?: React.ComponentType<ColumnProps>;
-  ColumnGroup?: React.ComponentType<ColumnGroupProps>;
-  Cell?: React.ComponentType<CellProps>;
-  HeaderCell?: React.ComponentType<StandardProps>;
+  Column: React.ComponentType<ColumnProps>;
+  ColumnGroup: React.ComponentType<ColumnGroupProps>;
+  Cell: React.ComponentType<CellProps>;
+  HeaderCell: React.ComponentType<StandardProps>;
 }
 
 const ReactTable = RsTable as any;
@@ -218,7 +218,7 @@ const Table: TableComponent = React.forwardRef(
 
     return <ReactTable {...rest} rtl={rtl} ref={ref} locale={locale} />;
   }
-);
+) as TableComponent;
 
 Table.Cell = Cell;
 Table.Column = Column;

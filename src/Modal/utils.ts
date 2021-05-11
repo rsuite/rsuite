@@ -31,7 +31,7 @@ export const useBodyStyles = (
         const contentDOM = dialog.querySelector(`.${prefix('content')}`);
 
         headerHeight = headerDOM ? helper.getHeight(headerDOM) + headerHeight : headerHeight;
-        footerHeight = footerDOM ? helper.getHeight(footerDOM) + headerHeight : headerHeight;
+        footerHeight = footerDOM ? helper.getHeight(footerDOM) + footerHeight : footerHeight;
         contentHeight = contentDOM ? helper.getHeight(contentDOM) + contentHeight : contentHeight;
 
         if (drawer) {
@@ -40,7 +40,7 @@ export const useBodyStyles = (
           /**
            * Header height + Footer height + Dialog margin
            */
-          const excludeHeight = headerHeight + footerHeight + (entering ? 76 : 60);
+          const excludeHeight = headerHeight + footerHeight + (entering ? 70 : 60);
           const bodyHeight = helper.getHeight(window) - excludeHeight;
           const maxHeight = scrollHeight >= bodyHeight ? bodyHeight : scrollHeight;
           styles.maxHeight = maxHeight;

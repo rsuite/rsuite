@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, SelectPicker } from 'rsuite';
+import { SelectPicker } from 'rsuite';
 import { FormattedMessage } from 'react-intl';
 
 const data = [

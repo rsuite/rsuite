@@ -1,3 +1,21 @@
+<a name="5.0.0-alpha.7"></a>
+# [5.0.0-alpha.7](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.6...v5.0.0-alpha.7) (2021-05-11)
+
+
+### Bug Fixes
+
+* **lgtm:** fix vulnerabilities in static code scanning using lgtm ([#1651](https://github.com/rsuite/rsuite/issues/1651)) ([77d04a7](https://github.com/rsuite/rsuite/commit/77d04a7))
+* **overlay:** update the overlay to the correct position ([#1654](https://github.com/rsuite/rsuite/issues/1654)) ([8148b7a](https://github.com/rsuite/rsuite/commit/8148b7a))
+* **typescript:** fix incorrect definition of Typescript ([#1656](https://github.com/rsuite/rsuite/issues/1656)) ([87c5f3d](https://github.com/rsuite/rsuite/commit/87c5f3d))
+
+
+### Features
+
+* **inputpicker:** support onCreate on InputPicker and TagPicker ([#1645](https://github.com/rsuite/rsuite/issues/1645)) ([5f33fe9](https://github.com/rsuite/rsuite/commit/5f33fe9))
+* **multi-cascader:** support onCheck on MultiCascader ([#1648](https://github.com/rsuite/rsuite/issues/1648)) ([0088a29](https://github.com/rsuite/rsuite/commit/0088a29))
+
+
+
 <a name="5.0.0-alpha.6"></a>
 # [5.0.0-alpha.6](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.5...v5.0.0-alpha.6) (2021-05-07)
 

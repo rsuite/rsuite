@@ -61,7 +61,7 @@ const useInputWidth = (
       return;
     }
 
-    let width = minWidth;
+    let width: number;
     if (placeholder && !value && placeholderRef.current) {
       width = Math.max(sizerRef.current.scrollWidth, placeholderRef.current.scrollWidth) + 2;
     } else {
