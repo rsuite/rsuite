@@ -7,7 +7,7 @@
   .radio-checkbox-common();
 
   [type='radio']:focus ~ .rs-radio-inner::before {
-    box-shadow: var(--rs-color-state-focus-shadow);
+    box-shadow: var(--rs-state-focus-shadow);
   }
 }
 
@@ -76,22 +76,22 @@
 
   // Out border.
   .rs-radio-inner::before {
-    .radio-inner-wrapper(var(--rs-color-radio-border));
+    .radio-inner-wrapper(var(--rs-radio-border));
 
     transition: background 0.2s linear, border 0.2s linear, box-shadow 0.2s linear;
 
     .rs-radio:hover & {
-      border-color: var(--rs-color-radio-checked-bg);
+      border-color: var(--rs-radio-checked-bg);
     }
 
     .rs-radio.rs-radio-disabled & {
-      border-color: var(--rs-color-radio-disabled-bg);
-      background-color: var(--rs-color-radio-disabled-bg);
+      border-color: var(--rs-radio-disabled-bg);
+      background-color: var(--rs-radio-disabled-bg);
     }
 
     .rs-radio-checked & {
-      border-color: var(--rs-color-radio-checked-bg);
-      background-color: var(--rs-color-radio-checked-bg);
+      border-color: var(--rs-radio-checked-bg);
+      background-color: var(--rs-radio-checked-bg);
     }
 
     .rs-radio-disabled.rs-radio-checked & {
@@ -103,7 +103,7 @@
   .rs-radio-inner::after {
     width: @radio-inner-width-height;
     height: @radio-inner-width-height;
-    background-color: var(--rs-color-radio-marker);
+    background-color: var(--rs-radio-marker);
     margin-top: ((@radio-width-height - @radio-inner-width-height) / 2);
     margin-left: ((@radio-width-height - @radio-inner-width-height) / 2);
     border-radius: @radio-border-radius;

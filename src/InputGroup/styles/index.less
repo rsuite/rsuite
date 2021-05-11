@@ -15,18 +15,18 @@
   transition: @input-transition;
   width: 100%;
   cursor: text;
-  color: var(--rs-color-text-primary);
-  border: 1px solid var(--rs-color-border-primary);
+  color: var(--rs-text-primary);
+  border: 1px solid var(--rs-border-primary);
 
   &:not(.rs-input-group-disabled):hover,
   &:not(.rs-input-group-disabled).rs-input-group-focus,
   &:focus-within {
-    border-color: var(--rs-color-input-focus-border);
+    border-color: var(--rs-input-focus-border);
   }
 
   &:not(.rs-input-group-disabled).rs-input-group-focus,
   &:focus-within {
-    box-shadow: var(--rs-color-state-focus-shadow);
+    box-shadow: var(--rs-state-focus-shadow);
   }
 
   .rs-input-number,
@@ -187,8 +187,8 @@
 }
 
 .rs-input-group-disabled {
-  background-color: var(--rs-color-input-disabled-bg);
-  color: var(--rs-color-text-disabled);
+  background-color: var(--rs-input-disabled-bg);
+  color: var(--rs-text-disabled);
   cursor: not-allowed;
 
   .rs-input,
@@ -312,14 +312,14 @@
   align-items: center;
   white-space: nowrap;
   vertical-align: middle; // Match the inputs
-  color: var(--rs-color-text-primary);
+  color: var(--rs-text-primary);
   padding: @padding-base-vertical @padding-base-horizontal;
   font-size: @font-size-base;
   font-weight: normal;
   line-height: 1;
   text-align: center;
-  background-color: var(--rs-color-btn-default-bg);
-  border: 1px solid var(--rs-color-border-primary);
+  background-color: var(--rs-btn-default-bg);
+  border: 1px solid var(--rs-border-primary);
   border-radius: @input-border-radius;
 
   // Sizing

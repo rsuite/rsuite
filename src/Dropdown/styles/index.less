@@ -33,7 +33,7 @@
     z-index: @zindex-dropdown + 1;
     display: none; // none by default, but block on "open" of the menu
     float: left;
-    box-shadow: var(--rs-color-dropdown-shadow);
+    box-shadow: var(--rs-dropdown-shadow);
   }
 
   &-disabled &-toggle.rs-btn {
@@ -44,7 +44,7 @@
       &,
       &:focus,
       &:active {
-        color: var(--rs-color-btn-subtle-disabled-text);
+        color: var(--rs-btn-subtle-disabled-text);
         background: none;
       }
     }
@@ -54,7 +54,7 @@
       &:focus,
       &:active {
         opacity: 0.3;
-        background-color: var(--rs-color-btn-primary-bg);
+        background-color: var(--rs-btn-primary-bg);
       }
     }
 
@@ -105,7 +105,7 @@
   list-style: none;
   font-size: @font-size-base;
   text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
-  background-color: var(--rs-color-bg-overlay);
+  background-color: var(--rs-bg-overlay);
   border-radius: @border-radius-base;
   padding: @border-radius-base 0;
 }
@@ -117,7 +117,7 @@
   clear: both;
   font-weight: normal;
   line-height: @line-height-base;
-  color: var(--rs-color-text-primary);
+  color: var(--rs-text-primary);
   white-space: nowrap; // prevent links from randomly breaking onto new lines
   cursor: pointer; //fixed link has not [href] style
   transition: color 0.3s linear, background-color 0.3s linear;
@@ -133,14 +133,14 @@
   &:hover,
   &:focus {
     color: inherit;
-    background-color: var(--rs-color-dropdown-item-bg-hover);
+    background-color: var(--rs-dropdown-item-bg-hover);
   }
 
   // Disabled state
   //
   // Gray out text and ensure the hover/focus state remains gray
   &-disabled {
-    color: var(--rs-color-text-disabled);
+    color: var(--rs-text-disabled);
     cursor: @cursor-disabled;
     pointer-events: none;
 
@@ -155,7 +155,7 @@
 }
 
 .rs-dropdown-item-divider {
-  .nav-divider(var(--rs-color-dropdown-divider));
+  .nav-divider(var(--rs-dropdown-divider));
 }
 
 // The dropdown submenu
@@ -229,7 +229,7 @@
   &,
   &:hover,
   &:focus {
-    background-color: var(--rs-color-dropdown-item-bg-active);
+    background-color: var(--rs-dropdown-item-bg-active);
   }
 }
 
@@ -240,8 +240,8 @@
   &,
   &:hover,
   &:focus {
-    color: var(--rs-color-dropdown-item-text-active);
-    background-color: var(--rs-color-dropdown-item-bg-active);
+    color: var(--rs-dropdown-item-text-active);
+    background-color: var(--rs-dropdown-item-bg-active);
   }
 }
 
@@ -320,7 +320,7 @@
   display: block;
   padding: @dropdown-item-padding-vertical @dropdown-item-padding-horizontal;
   line-height: @line-height-base;
-  color: var(--rs-color-dropdown-header-text);
+  color: var(--rs-dropdown-header-text);
   border-bottom: 1px solid @dropdown-divider-bg;
   white-space: nowrap; // as with > li > a
 }

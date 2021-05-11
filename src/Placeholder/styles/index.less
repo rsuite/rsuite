@@ -5,7 +5,7 @@
 // --------------------------------------------------
 
 .rs-placeholder {
-  @placeholder-image-color: var(--rs-color-bg-card);
+  @placeholder-image-color: var(--rs-bg-card);
 
   display: flex;
 
@@ -19,7 +19,7 @@
       height: 60px;
       border-radius: 2px;
       margin-right: 20px;
-      background-color: var(--rs-color-placeholder);
+      background-color: var(--rs-placeholder);
 
       &-circle {
         border-radius: 50%;
@@ -71,7 +71,7 @@
       width: 100%;
 
       & > p {
-        background-color: var(--rs-color-placeholder);
+        background-color: var(--rs-placeholder);
       }
     }
   }
@@ -84,7 +84,7 @@
       align-items: flex-end;
 
       & > p {
-        background-color: var(--rs-color-placeholder);
+        background-color: var(--rs-placeholder);
       }
 
       &:first-child {
@@ -96,7 +96,7 @@
   &-graph {
     display: inline-block;
     width: 100%;
-    background-color: var(--rs-color-placeholder);
+    background-color: var(--rs-placeholder);
   }
 
   &-active {
@@ -106,9 +106,9 @@
     .rs-placeholder-paragraph-rows > p {
       background: linear-gradient(
         -45deg,
-        var(--rs-color-placeholder) 25%,
-        var(--rs-color-placeholder-active) 37%,
-        var(--rs-color-placeholder) 63%
+        var(--rs-placeholder) 25%,
+        var(--rs-placeholder-active) 37%,
+        var(--rs-placeholder) 63%
       );
       background-size: 400% 100% !important;
       animation: placeholder-active 3s ease infinite;

@@ -34,33 +34,33 @@
     font-size: @progress-font-size;
     line-height: unit((@info-height / @progress-font-size));
     height: @info-height;
-    color: var(--rs-color-text-secondary);
+    color: var(--rs-text-secondary);
   }
 
   .rs-progress-trail {
-    stroke: var(--rs-color-progress-bg);
+    stroke: var(--rs-progress-bg);
   }
 
   .rs-progress-stroke {
-    stroke: var(--rs-color-progress-bar);
+    stroke: var(--rs-progress-bar);
     transition: stroke-dashoffset 0.3s ease, stroke-dasharray 0.2s ease-in-out, stroke 0.3s;
   }
 
   // Setting status color
   &-success &-info {
-    color: var(--rs-color-progress-bar-success);
+    color: var(--rs-progress-bar-success);
   }
 
   &-success .rs-progress-stroke {
-    stroke: var(--rs-color-progress-bar-success);
+    stroke: var(--rs-progress-bar-success);
   }
 
   &-fail &-info {
-    color: var(--rs-color-progress-bar-fail);
+    color: var(--rs-progress-bar-fail);
   }
 
   &-fail .rs-progress-stroke {
-    stroke: var(--rs-color-progress-bar-fail);
+    stroke: var(--rs-progress-bar-fail);
   }
 }
 
@@ -105,12 +105,12 @@
   }
 
   &-inner {
-    background: var(--rs-color-progress-bg);
+    background: var(--rs-progress-bg);
     border-radius: (@progress-bar-height / 2);
   }
 
   &-bg {
-    background-color: var(--rs-color-progress-bar);
+    background-color: var(--rs-progress-bar);
     border-radius: (@progress-bar-height / 2);
     transition: @progress-bg-transition;
     transition-property: width, background-color;
@@ -123,19 +123,19 @@
 
   // Setting status color
   &-success {
-    color: var(--rs-color-progress-bar-success);
+    color: var(--rs-progress-bar-success);
   }
 
   &-success &-bg {
-    background-color: var(--rs-color-progress-bar-success);
+    background-color: var(--rs-progress-bar-success);
   }
 
   &-fail {
-    color: var(--rs-color-progress-bar-fail);
+    color: var(--rs-progress-bar-fail);
   }
 
   &-fail &-bg {
-    background-color: var(--rs-color-progress-bar-fail);
+    background-color: var(--rs-progress-bar-fail);
   }
 
   &&-vertical {

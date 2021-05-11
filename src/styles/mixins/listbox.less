@@ -29,7 +29,7 @@
   clear: both;
   font-weight: normal;
   line-height: @line-height-base;
-  color: var(--rs-color-text-primary);
+  color: var(--rs-text-primary);
   cursor: pointer;
   transition: @picker-item-transition;
   text-decoration: none;
@@ -38,22 +38,22 @@
 
 .listbox-option-hover() {
   color: currentColor;
-  background-color: var(--rs-color-listbox-option-hover-bg);
+  background-color: var(--rs-listbox-option-hover-bg);
 }
 
 .listbox-option-focus() {
-  background-color: var(--rs-color-listbox-option-selected-bg);
+  background-color: var(--rs-listbox-option-selected-bg);
   font-weight: bold;
 }
 
 .listbox-option-selected() {
   .listbox-option-focus();
 
-  color: var(--rs-color-listbox-option-selected-text);
+  color: var(--rs-listbox-option-selected-text);
 }
 
 .listbox-options-disabled {
-  color: var(--rs-color-listbox-option-disabled-text);
+  color: var(--rs-listbox-option-disabled-text);
   background: none;
   cursor: not-allowed;
 }

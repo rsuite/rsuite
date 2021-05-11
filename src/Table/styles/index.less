@@ -22,7 +22,7 @@
     height: 36px;
     width: 100%;
     top: 0;
-    border-bottom: 1px solid var(--rs-color-border-secondary);
+    border-bottom: 1px solid var(--rs-border-secondary);
 
     &.virtualized {
       .pointer-event-none();
@@ -35,25 +35,25 @@
     bottom: 0;
     width: 100%;
     z-index: 4;
-    border-top: 1px solid var(--rs-color-border-secondary);
+    border-top: 1px solid var(--rs-border-secondary);
     padding: 10px;
-    background-color: var(--rs-color-bg-card);
+    background-color: var(--rs-bg-card);
   }
 
   &-hover &-row:hover &-cell-group {
-    background-color: var(--rs-color-bg-card);
+    background-color: var(--rs-bg-card);
   }
 
   &-hover &-row:hover &-cell {
-    background-color: var(--rs-color-bg-card);
+    background-color: var(--rs-bg-card);
   }
 
   &-row-header {
-    background-color: var(--rs-color-bg-card);
+    background-color: var(--rs-bg-card);
   }
 
   &-row-header &-cell {
-    background-color: var(--rs-color-bg-card);
+    background-color: var(--rs-bg-card);
   }
 
   &-row-header &-cell-group-shadow {
@@ -71,12 +71,12 @@
   &-hover &-row:not(&-row-header):hover,
   &-hover &-row:hover &-cell-group,
   &-hover &-row:hover &-cell {
-    background-color: var(--rs-color-state-hover-bg);
+    background-color: var(--rs-state-hover-bg);
   }
 
   &-hover &-row-header:hover &-cell-group,
   &-hover &-row-header:hover &-cell {
-    background-color: var(--rs-color-bg-card);
+    background-color: var(--rs-bg-card);
   }
 
   // The thead
@@ -84,7 +84,7 @@
     z-index: @zindex-table-header-row-wrapper;
     position: relative;
     font-size: 12px;
-    color: var(--rs-color-text-secondary);
+    color: var(--rs-text-secondary);
   }
 
   &-affix-header {
@@ -127,7 +127,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    background-color: var(--rs-color-loader-backdrop);
+    background-color: var(--rs-loader-backdrop);
     opacity: 0;
     transition: opacity 0.2s ease-in;
     .pointer-event-none();
@@ -165,12 +165,12 @@
     height: 36px;
     border-style: solid;
     border-width: 0;
-    border-color: var(--rs-color-border-secondary);
+    border-color: var(--rs-border-secondary);
     display: block;
     overflow: hidden;
     position: absolute;
     white-space: normal;
-    background-color: var(--rs-color-bg-card);
+    background-color: var(--rs-bg-card);
 
     &.first {
       border-left-width: 0;
@@ -208,7 +208,7 @@
       }
 
       &-icon-sort {
-        color: var(--rs-color-table-sort);
+        color: var(--rs-table-sort);
         font-size: 16px;
         line-height: @table-header-line-small;
       }
@@ -240,14 +240,14 @@
 
     &::before {
       border-style: dashed solid dashed dashed;
-      border-color: transparent var(--rs-color-table-resize) transparent transparent;
+      border-color: transparent var(--rs-table-resize) transparent transparent;
       border-width: @table-column-resize-spanner-triangle-side-length;
       right: 4px;
     }
 
     &::after {
       border-style: dashed dashed dashed solid;
-      border-color: transparent transparent transparent var(--rs-color-table-resize);
+      border-color: transparent transparent transparent var(--rs-table-resize);
       border-width: @table-column-resize-spanner-triangle-side-length;
       left: 4px;
     }
@@ -256,7 +256,7 @@
   // Table not resizing , header should show resize-spanner .
   &:not(&-column-resizing) &-cell-header &-cell:hover ~ &-column-resize-spanner,
   &:not(&-column-resizing) &-column-resize-spanner:hover {
-    background-color: var(--rs-color-table-resize);
+    background-color: var(--rs-table-resize);
 
     &::before,
     &::after {
@@ -269,22 +269,22 @@
     &-fixed-left {
       position: absolute;
       z-index: @zindex-table-cell-group-fixed;
-      background-color: var(--rs-color-bg-card);
+      background-color: var(--rs-bg-card);
     }
 
     &-shadow,
     &-left-shadow {
-      box-shadow: 3px 0 5px var(--rs-color-table-shadow) /* rtl:ignore */;
+      box-shadow: 3px 0 5px var(--rs-table-shadow) /* rtl:ignore */;
     }
 
     &-right-shadow {
-      box-shadow: -3px 0 5px var(--rs-color-table-shadow) /* rtl:ignore */;
+      box-shadow: -3px 0 5px var(--rs-table-shadow) /* rtl:ignore */;
     }
   }
 
   &-mouse-area {
     display: none;
-    background-color: var(--rs-color-table-resize);
+    background-color: var(--rs-table-resize);
     left: -1px;
     top: 0;
     position: absolute;
@@ -294,7 +294,7 @@
     > span {
       .column-resize-spanner();
 
-      background-color: var(--rs-color-table-resize);
+      background-color: var(--rs-table-resize);
       position: absolute;
       left: (-1 * (@table-column-resize-spanner-width / 2));
     }
@@ -306,7 +306,7 @@
   }
 
   &-bordered {
-    border: 1px solid var(--rs-color-border-secondary);
+    border: 1px solid var(--rs-border-secondary);
   }
 
   &-cell-bordered &-cell {
@@ -321,7 +321,7 @@
     width: 100%;
 
     &-header {
-      border-bottom: 1px solid var(--rs-color-border-secondary);
+      border-bottom: 1px solid var(--rs-border-secondary);
       position: absolute;
       width: 100%;
 
@@ -333,7 +333,7 @@
 
     &-cell {
       position: absolute;
-      border-right: 1px solid var(--rs-color-border-secondary);
+      border-right: 1px solid var(--rs-border-secondary);
 
       &-content {
         display: table-cell;
@@ -359,7 +359,7 @@
 
 // Scrollbar
 .rs-table-scrollbar {
-  background-color: var(--rs-color-table-scrollbar-track);
+  background-color: var(--rs-table-scrollbar-track);
   position: absolute;
   transition: background @table-scrollbar-timing-duration linear,
     transform @table-scrollbar-timing-duration linear;
@@ -373,7 +373,7 @@
 
   &-handle {
     position: absolute;
-    background-color: var(--rs-color-table-scrollbar-thumb);
+    background-color: var(--rs-table-scrollbar-thumb);
     border-radius: 4px;
   }
 
@@ -382,7 +382,7 @@
   }
 
   &-pressed &-handle {
-    background-color: var(--rs-color-table-scrollbar-thumb-active);
+    background-color: var(--rs-table-scrollbar-thumb-active);
   }
 
   &-horizontal {
@@ -413,7 +413,7 @@
     width: @table-scrollbar-width;
     // Reserve scroll bar position.
     bottom: @table-scrollbar-width;
-    background-color: var(--rs-color-table-scrollbar-vertical-thumb);
+    background-color: var(--rs-table-scrollbar-vertical-thumb);
   }
 
   &-vertical &-handle {

@@ -36,12 +36,12 @@
 .rs-slider-bar {
   height: @slider-bar-side-length;
   border-radius: (@slider-bar-side-length / 2);
-  background-color: var(--rs-color-slider-bar);
+  background-color: var(--rs-slider-bar);
   transition: background-color ease-in-out 0.3s;
   cursor: pointer;
 
   .rs-slider:hover & {
-    background-color: var(--rs-color-slider-hover-bar);
+    background-color: var(--rs-slider-hover-bar);
   }
 
   .rs-slider-vertical & {
@@ -61,8 +61,8 @@
     width: @slider-handle-diameter;
     height: @slider-handle-diameter;
     border-radius: 50%;
-    border: @slider-handle-border-width solid var(--rs-color-slider-thumb-border);
-    background-color: var(--rs-color-slider-thumb-bg);
+    border: @slider-handle-border-width solid var(--rs-slider-thumb-border);
+    background-color: var(--rs-slider-thumb-bg);
     margin-left: -(@slider-handle-diameter / 2);
     cursor: pointer;
     /* stylelint-disable */ //Formatted by prettier
@@ -73,7 +73,7 @@
 
   &:hover::before,
   &:focus::before {
-    box-shadow: var(--rs-color-slider-thumb-hover-shadow);
+    box-shadow: var(--rs-slider-thumb-hover-shadow);
   }
 
   &:active,
@@ -149,9 +149,9 @@
         width: @slider-calibration-diameter;
         height: @slider-calibration-diameter;
         border-radius: 50%;
-        background-color: var(--rs-color-slider-thumb-bg);
+        background-color: var(--rs-slider-thumb-bg);
         box-sizing: border-box;
-        border: @slider-calibration-border-width solid var(--rs-color-slider-bar);
+        border: @slider-calibration-border-width solid var(--rs-slider-bar);
         margin-left: -4px;
         top: -1px;
 
@@ -174,7 +174,7 @@
       }
 
       &.rs-slider-pass::before {
-        border-color: var(--rs-color-slider-progress);
+        border-color: var(--rs-slider-progress);
       }
 
       &.rs-slider-active::before {
@@ -208,7 +208,7 @@
   position: absolute;
   height: @slider-bar-side-length;
   border-radius: (@slider-bar-side-length / 2) 0 0 (@slider-bar-side-length / 2);
-  background-color: var(--rs-color-slider-progress);
+  background-color: var(--rs-slider-progress);
 
   .rs-slider-vertical & {
     width: @slider-bar-side-length;

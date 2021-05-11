@@ -1,32 +1,32 @@
 .default-input() {
   display: block;
   width: 100%;
-  color: var(--rs-color-text-primary);
-  background-color: var(--rs-color-input-bg);
+  color: var(--rs-text-primary);
+  background-color: var(--rs-input-bg);
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
-  border: 1px solid var(--rs-color-border-primary);
+  border: 1px solid var(--rs-border-primary);
   transition: @input-transition;
   border-radius: @border-radius-base;
   .input-md();
 
   // Placeholder
   &::placeholder {
-    color: var(--rs-color-text-secondary);
+    color: var(--rs-text-secondary);
   }
 
   &:focus,
   &:hover:not(:disabled) {
-    border-color: var(--rs-color-input-focus-border);
+    border-color: var(--rs-input-focus-border);
     outline: 0;
   }
 
   &:focus {
-    box-shadow: var(--rs-color-state-focus-shadow);
+    box-shadow: var(--rs-state-focus-shadow);
   }
 
   &:disabled {
-    background-color: var(--rs-color-input-disabled-bg);
-    color: var(--rs-color-text-disabled);
+    background-color: var(--rs-input-disabled-bg);
+    color: var(--rs-text-disabled);
   }
 }
 

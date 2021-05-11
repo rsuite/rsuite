@@ -39,7 +39,7 @@
   &-file-item-icon-reupload {
     cursor: pointer;
     margin-left: 10px;
-    color: var(--rs-color-text-primary);
+    color: var(--rs-text-primary);
     font-size: 12px;
   }
 }
@@ -55,7 +55,7 @@
     transition: 0.3s linear background-color;
 
     &:hover {
-      background-color: var(--rs-color-uploader-item-hover-bg);
+      background-color: var(--rs-uploader-item-hover-bg);
     }
 
     &-icon-wrapper {
@@ -83,7 +83,7 @@
     &-content {
       display: flex;
       justify-content: space-between;
-      color: var(--rs-color-text-primary);
+      color: var(--rs-text-primary);
       transition: color 0.3s;
     }
 
@@ -95,7 +95,7 @@
 
     &-size {
       flex: 0 0 auto;
-      color: var(--rs-color-text-secondary);
+      color: var(--rs-text-secondary);
       padding: 0 @uploader-base-padding;
     }
 
@@ -113,7 +113,7 @@
       // (36px -  font-size)/2
       top: 12px;
       right: @padding-base-horizontal;
-      color: var(--rs-color-text-secondary);
+      color: var(--rs-text-secondary);
       cursor: pointer;
       padding: 0;
 
@@ -135,7 +135,7 @@
 
       &-bar {
         height: 2px;
-        background-color: var(--rs-color-highlight-500);
+        background-color: var(--rs-highlight-500);
         transition: width 0.3s ease-in-out;
       }
     }
@@ -144,7 +144,7 @@
   .rs-uploader-file-item-has-error {
     .rs-uploader-file-item-content,
     .rs-uploader-file-item-title {
-      color: var(--rs-color-state-error);
+      color: var(--rs-state-error);
     }
   }
 }
@@ -161,13 +161,13 @@
     height: @uploader-picture-side-length;
     margin: 0;
     padding: 0;
-    border: 2px dotted var(--rs-color-border-primary);
+    border: 2px dotted var(--rs-border-primary);
     border-radius: @border-radius-base;
     margin-top: @uploader-picture-item-gap;
   }
 
   .rs-uploader-trigger.rs-uploader-trigger-disabled .rs-uploader-trigger-btn {
-    color: var(--rs-color-btn-subtle-text) !important;
+    color: var(--rs-btn-subtle-text) !important;
     background-color: transparent !important;
 
     &::after {
@@ -188,7 +188,7 @@
     width: @uploader-picture-side-length;
     height: @uploader-picture-side-length;
     overflow: hidden;
-    background-color: var(--rs-color-uploader-item-bg);
+    background-color: var(--rs-uploader-item-bg);
     border-radius: @border-radius-base;
     position: relative;
     margin-top: @uploader-picture-item-gap;
@@ -214,9 +214,9 @@
       height: @uploader-picture-side-length;
       text-align: center;
       z-index: @zindex-uploader-picture-error-wrapper;
-      background-color: var(--rs-color-uploader-overlay-bg);
+      background-color: var(--rs-uploader-overlay-bg);
       cursor: default;
-      color: var(--rs-color-state-error);
+      color: var(--rs-state-error);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -236,7 +236,7 @@
     }
 
     &-btn-remove {
-      color: var(--rs-color-text-secondary);
+      color: var(--rs-text-secondary);
       cursor: pointer;
       position: absolute;
       top: 3px;
@@ -245,7 +245,7 @@
       height: @uploader-picture-remove-button-radius;
       line-height: @uploader-picture-remove-button-radius;
       text-align: center;
-      background-color: var(--rs-color-uploader-overlay-bg);
+      background-color: var(--rs-uploader-overlay-bg);
       border-radius: 50%;
       visibility: hidden;
       opacity: 0;
@@ -272,7 +272,7 @@
       width: @uploader-picture-side-length;
       height: @uploader-picture-side-length;
       line-height: @uploader-picture-side-length;
-      background-color: var(--rs-color-uploader-overlay-bg);
+      background-color: var(--rs-uploader-overlay-bg);
       position: absolute;
       top: 0;
       left: 0;
@@ -314,13 +314,13 @@
     padding-left: @uploader-picture-text-preview-side-length;
     margin-top: @uploader-picture-item-gap;
     padding-right: 30px;
-    border: 1px solid var(--rs-color-border-primary);
+    border: 1px solid var(--rs-border-primary);
     border-radius: @border-radius-base;
     overflow: hidden;
     transition: 0.3s linear background-color;
 
     &:hover {
-      background-color: var(--rs-color-uploader-item-hover-bg);
+      background-color: var(--rs-uploader-item-hover-bg);
     }
 
     &-icon-wrapper {
@@ -335,7 +335,7 @@
       height: @uploader-picture-text-preview-side-length;
       vertical-align: middle;
       text-align: center;
-      background-color: var(--rs-color-border-primary);
+      background-color: var(--rs-border-primary);
       overflow: hidden;
       border-radius: @border-radius-base 0 0 @border-radius-base;
 
@@ -353,13 +353,13 @@
       }
 
       .rs-uploader-file-item-title {
-        color: var(--rs-color-text-primary);
+        color: var(--rs-text-primary);
 
         .ellipsis();
       }
 
       .rs-uploader-file-item-size {
-        color: var(--rs-color-text-secondary);
+        color: var(--rs-text-secondary);
       }
     }
 
@@ -367,7 +367,7 @@
       position: absolute;
       top: 0;
       right: @padding-base-horizontal;
-      color: var(--rs-color-text-secondary);
+      color: var(--rs-text-secondary);
       cursor: pointer;
       height: @uploader-picture-text-preview-side-length;
       display: flex;
@@ -390,7 +390,7 @@
 
       &-bar {
         height: 2px;
-        background-color: var(--rs-color-highlight-500);
+        background-color: var(--rs-highlight-500);
         transition: width 0.3s ease-in-out;
       }
     }
@@ -403,7 +403,7 @@
       width: @uploader-picture-text-preview-side-length;
       height: @uploader-picture-text-preview-side-length;
       z-index: 1;
-      background-color: var(--rs-color-border-primary);
+      background-color: var(--rs-border-primary);
       text-align: center;
       line-height: 50px;
 
@@ -429,7 +429,7 @@
     .rs-uploader-file-item-title,
     .rs-uploader-file-item-status {
       display: block;
-      color: var(--rs-color-state-error);
+      color: var(--rs-state-error);
     }
   }
 }
@@ -437,13 +437,13 @@
 .rs-uploader-draggable {
   .rs-uploader-trigger-customize .rs-uploader-trigger-btn {
     display: block;
-    background: var(--rs-color-uploader-dnd-bg);
-    border: 1px dashed var(--rs-color-uploader-dnd-border);
+    background: var(--rs-uploader-dnd-bg);
+    border: 1px dashed var(--rs-uploader-dnd-border);
   }
 
   .rs-uploader-trigger.rs-uploader-trigger-customize:not(.rs-uploader-trigger-disabled) .rs-uploader-trigger-btn:hover,
   .rs-uploader-trigger-drag-over .rs-uploader-trigger-btn.rs-uploader-trigger-customize {
-    border-color: var(--rs-color-uploader-dnd-hover-border);
+    border-color: var(--rs-uploader-dnd-hover-border);
   }
 
   .rs-uploader-trigger-disabled {

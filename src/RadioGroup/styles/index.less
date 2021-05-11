@@ -12,8 +12,8 @@
 
 // Radio Group - picker appearance
 .rs-radio-group-picker {
-  color: var(--rs-color-text-primary);
-  border: 1px solid var(--rs-color-border-primary);
+  color: var(--rs-text-primary);
+  border: 1px solid var(--rs-border-primary);
   border-radius: @border-radius-base;
   margin-left: 0;
 
@@ -38,23 +38,23 @@
     .rs-btn();
     .rs-btn-subtle();
 
-    color: var(--rs-color-text-secondary);
+    color: var(--rs-text-secondary);
     background: none;
     transition: color 0.3s linear;
     padding: (@padding-base-vertical - 1px) 0;
 
     &:hover,
     &:active {
-      color: var(--rs-color-text-active);
+      color: var(--rs-text-active);
       background: none;
     }
   }
 
   .rs-radio-checked .rs-radio-checker {
-    border-bottom: 2px solid var(--rs-color-text-active);
+    border-bottom: 2px solid var(--rs-text-active);
 
     > label {
-      color: var(--rs-color-text-active);
+      color: var(--rs-text-active);
     }
   }
 
@@ -64,6 +64,6 @@
   }
 
   .rs-radio-disabled:not(.rs-radio-checked) .rs-radio-checker > label {
-    color: var(--rs-color-text-secondary);
+    color: var(--rs-text-secondary);
   }
 }

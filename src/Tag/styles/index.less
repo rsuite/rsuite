@@ -7,8 +7,8 @@
 .rs-tag {
   display: inline-block;
   padding: @padding-extra-small-vertical @padding-extra-small-horizontal;
-  background-color: var(--rs-color-tag-bg);
-  color: var(--rs-color-text-primary);
+  background-color: var(--rs-tag-bg);
+  color: var(--rs-text-primary);
   border-radius: 6px;
   font-size: @font-size-extra-small;
   line-height: @line-height-extra-small;
@@ -25,7 +25,7 @@
   }
 
   &-default &-icon-close:hover {
-    color: var(--rs-color-tag-close);
+    color: var(--rs-tag-close);
   }
 
   &-group {
@@ -45,7 +45,7 @@
 // Colorful tags
 each(@spectrum, .(@color) {
   .rs-tag-@{color} {
-    background-color: var(~'--rs-color-@{color}-500');
+    background-color: var(~'--rs-@{color}-500');
     color: #ffffff;
   }
 });

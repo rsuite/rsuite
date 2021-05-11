@@ -32,18 +32,18 @@
   }
 
   &-toggle &-toggle-placeholder {
-    color: var(--rs-color-text-secondary);
+    color: var(--rs-text-secondary);
   }
 
   &-has-value .rs-btn &-toggle-value,
   &-has-value &-toggle &-toggle-value {
-    color: var(--rs-color-picker-value);
+    color: var(--rs-picker-value);
   }
 
   // empty listbox
   &-none {
     padding: @picker-none-padding;
-    color: var(--rs-color-text-secondary);
+    color: var(--rs-text-secondary);
     cursor: default;
   }
 
@@ -59,7 +59,7 @@
 
   &-value-count {
     margin: 0 @picker-value-count-margin;
-    background-color: var(--rs-color-picker-count);
+    background-color: var(--rs-picker-count);
     color: #fff;
     border-radius: @picker-value-count-border-radius;
     padding: 0 @picker-value-count-padding;
@@ -72,12 +72,12 @@
 
   &:not(.rs-picker-disabled):hover,
   &.rs-picker-focused {
-    border-color: var(--rs-color-input-focus-border);
+    border-color: var(--rs-input-focus-border);
   }
 
   &-toggle-active,
   &.rs-picker-focused {
-    box-shadow: var(--rs-color-state-focus-shadow);
+    box-shadow: var(--rs-state-focus-shadow);
   }
 }
 
@@ -101,8 +101,8 @@
     border: 1px solid #0000;
     padding-left: 10px;
     padding-right: 32px;
-    color: var(--rs-color-text-primary);
-    background-color: var(--rs-color-input-bg);
+    color: var(--rs-text-primary);
+    background-color: var(--rs-input-bg);
   }
 
   &.rs-btn-lg &-textbox {
@@ -133,7 +133,7 @@
     &:hover,
     &:focus,
     &-active {
-      border-color: var(--rs-color-input-focus-border);
+      border-color: var(--rs-input-focus-border);
     }
   }
 
@@ -143,8 +143,8 @@
     transition: none;
 
     &-active {
-      background-color: var(--rs-color-btn-subtle-hover-bg);
-      color: var(--rs-color-btn-subtle-hover-text);
+      background-color: var(--rs-btn-subtle-hover-bg);
+      color: var(--rs-btn-subtle-hover-text);
     }
   }
 }
@@ -231,7 +231,7 @@
   .dropdown-toggle-caret-common(@picker-toggle-clean-right);
 
   background: inherit;
-  color: var(--rs-color-text-secondary);
+  color: var(--rs-text-secondary);
   transition: 0.2s color linear;
   cursor: pointer;
 
@@ -240,7 +240,7 @@
   }
 
   &:hover {
-    color: var(--rs-color-state-error);
+    color: var(--rs-state-error);
   }
 
   .rs-@{date-picker-prefix} &,
@@ -254,7 +254,7 @@
   // Extend  Dropdown toggle caret style
   .dropdown-toggle-caret-common();
 
-  color: var(--rs-color-text-secondary);
+  color: var(--rs-text-secondary);
 }
 
 // Picker Menu
@@ -263,8 +263,8 @@
   text-align: left;
   z-index: @zindex-picker-menu;
   border-radius: @border-radius-base;
-  background-color: var(--rs-color-bg-overlay);
-  box-shadow: var(--rs-color-shadow-overlay);
+  background-color: var(--rs-bg-overlay);
+  box-shadow: var(--rs-shadow-overlay);
   overflow: hidden;
   // Remove transition
   transition: none;
@@ -301,7 +301,7 @@
     .rs-picker-search-bar-search-icon {
       position: absolute;
       width: @picker-search-bar-icon-width;
-      color: var(--rs-color-text-secondary);
+      color: var(--rs-text-secondary);
       font-size: @font-size-base;
       height: @line-height-computed;
       top: (@picker-menu-padding - @border-radius-base + @padding-base-input-vertical);
@@ -330,12 +330,12 @@
 .rs-picker-input {
   .rs-btn,
   .rs-picker-toggle {
-    background-color: var(--rs-color-input-bg) !important;
+    background-color: var(--rs-input-bg) !important;
   }
 
   &.rs-picker-disabled .rs-picker-toggle,
   &.rs-picker-disabled .rs-btn {
-    background-color: var(--rs-color-input-disabled-bg) !important;
+    background-color: var(--rs-input-disabled-bg) !important;
   }
 }
 

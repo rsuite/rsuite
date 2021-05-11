@@ -12,17 +12,17 @@
   overflow: hidden;
 
   &-bordered &-table {
-    border: 1px solid var(--rs-color-border-primary);
+    border: 1px solid var(--rs-border-primary);
     border-radius: @calendar-panel-border-radius;
   }
 
   &-bordered &-table-row:not(:last-child) &-table-cell,
   &-bordered &-table-header-row &-table-cell {
-    border-bottom: 1px solid var(--rs-color-border-secondary);
+    border-bottom: 1px solid var(--rs-border-secondary);
   }
 
   &-bordered &-month-dropdown {
-    border: 1px solid var(--rs-color-border-primary);
+    border: 1px solid var(--rs-border-primary);
     border-radius: @calendar-panel-border-radius;
   }
 
@@ -68,10 +68,10 @@
   }
 
   &-panel &-table-cell-is-today &-table-cell-day {
-    color: var(--rs-color-calendar-today-text);
+    color: var(--rs-calendar-today-text);
     width: @calendar-panel-today-active-side-length;
     height: @calendar-panel-today-active-side-length;
-    background-color: var(--rs-color-calendar-today-bg);
+    background-color: var(--rs-calendar-today-bg);
     border-radius: 50%;
     margin-left: auto;
     margin-right: auto;
@@ -84,7 +84,7 @@
   &-panel &-table-cell-selected &-table-cell-content {
     background-color: inherit;
     color: inherit;
-    box-shadow: inset 0 0 0 1px var(--rs-color-input-focus-border);
+    box-shadow: inset 0 0 0 1px var(--rs-input-focus-border);
   }
 
   &-panel &-table-cell-day {
@@ -161,7 +161,7 @@
     .picker-calendar-title-show();
 
     &.rs-calendar-header-error {
-      color: var(--rs-color-text-error);
+      color: var(--rs-text-error);
 
       &:focus,
       &:hover:active {
@@ -177,7 +177,7 @@
     .picker-calendar-title-show();
 
     &.rs-calendar-header-error {
-      color: var(--rs-color-text-error);
+      color: var(--rs-text-error);
 
       &:hover:active {
         color: #fff;
@@ -209,7 +209,7 @@
 }
 
 .rs-calendar-table-cell-in-range::before {
-  background-color: var(--rs-color-calendar-range-bg);
+  background-color: var(--rs-calendar-range-bg);
 }
 
 // Reset outline for scroll list.
@@ -357,7 +357,7 @@
   &-disabled &-content {
     &,
     &:hover {
-      color: var(--rs-color-text-disabled);
+      color: var(--rs-text-disabled);
     }
   }
 
@@ -385,7 +385,7 @@
   .picker-calendar-cell-content();
 
   .rs-calendar-table-cell-is-today & {
-    box-shadow: inset 0 0 0 1px var(--rs-color-input-focus-border);
+    box-shadow: inset 0 0 0 1px var(--rs-input-focus-border);
   }
 
   .rs-calendar-table-cell-selected & {
@@ -396,7 +396,7 @@
 // Table header row
 .rs-calendar-table-header-row {
   .rs-calendar-table-cell-content {
-    color: var(--rs-color-text-secondary);
+    color: var(--rs-text-secondary);
     font-size: @font-size-small;
     line-height: @line-height-small;
     padding-top: 2px;
@@ -418,8 +418,8 @@
   padding: @calendar-table-cell-padding;
   text-align: center;
   vertical-align: middle;
-  color: var(--rs-color-text-secondary);
-  background-color: var(--rs-color-bg-well);
+  color: var(--rs-text-secondary);
+  background-color: var(--rs-bg-well);
   font-size: @font-size-small;
 }
 
@@ -428,10 +428,10 @@
   display: none;
   position: absolute;
   top: @calendar-dropdown-top;
-  border-top: 1px solid var(--rs-color-border-primary);
+  border-top: 1px solid var(--rs-border-primary);
   margin-top: 0;
   width: 100%;
-  background-color: var(--rs-color-bg-overlay);
+  background-color: var(--rs-bg-overlay);
   overflow: hidden;
   z-index: @zindex-date-range-picker-table-cell-content;
 
@@ -455,7 +455,7 @@
     padding-bottom: 5px;
 
     &:not(:last-child) {
-      border-bottom: 1px dotted var(--rs-color-border-primary);
+      border-bottom: 1px dotted var(--rs-border-primary);
     }
   }
 
@@ -465,7 +465,7 @@
     left: @calendar-picker-padding;
 
     &-active {
-      color: var(--rs-color-text-active);
+      color: var(--rs-text-active);
     }
   }
 
@@ -493,7 +493,7 @@
   }
 
   &-cell:not(&-cell-active).disabled &-cell-content {
-    color: var(--rs-color-text-disabled);
+    color: var(--rs-text-disabled);
     background: none;
     text-decoration: line-through;
     cursor: not-allowed;
@@ -517,8 +517,8 @@
   padding-left: @calendar-picker-padding;
   padding-right: @calendar-picker-padding;
   width: 100%;
-  background-color: var(--rs-color-bg-overlay);
-  color: var(--rs-color-text-primary);
+  background-color: var(--rs-bg-overlay);
+  color: var(--rs-text-primary);
   overflow: hidden;
   z-index: @zindex-date-range-picker-table-cell-content;
 
@@ -555,8 +555,8 @@
 
   &-column-title {
     width: 100%;
-    background-color: var(--rs-color-calendar-time-unit-bg);
-    color: var(--rs-color-text-secondary);
+    background-color: var(--rs-calendar-time-unit-bg);
+    color: var(--rs-text-secondary);
     text-align: center;
     font-size: @font-size-small;
     line-height: @line-height-small;
@@ -582,16 +582,16 @@
 
     &:hover {
       color: inherit;
-      background-color: var(--rs-color-state-hover-bg);
+      background-color: var(--rs-state-hover-bg);
     }
 
     &&-active {
-      background-color: var(--rs-color-bg-active);
+      background-color: var(--rs-bg-active);
       color: #fff;
     }
 
     &&-disabled {
-      color: var(--rs-color-text-disabled);
+      color: var(--rs-text-disabled);
       background: none;
       cursor: not-allowed;
       text-decoration: line-through;

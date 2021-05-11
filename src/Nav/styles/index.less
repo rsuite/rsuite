@@ -28,7 +28,7 @@
 .rs-nav-item {
   padding: 8px 12px;
   cursor: pointer;
-  color: var(--rs-color-navs-text);
+  color: var(--rs-navs-text);
   transition: @nav-item-transition;
   .ellipsis-basic();
   .safari-border-radius-overflow-hidden();
@@ -38,22 +38,22 @@
 
   &:hover,
   &:focus {
-    color: var(--rs-color-navs-text-hover);
+    color: var(--rs-navs-text-hover);
   }
 
   &:active {
-    color: var(--rs-color-navs-text-active);
+    color: var(--rs-navs-text-active);
   }
 
   &.rs-nav-item-disabled {
     cursor: not-allowed;
     pointer-events: none;
-    color: var(--rs-color-text-disabled);
+    color: var(--rs-text-disabled);
   }
 
   &.rs-nav-item-active {
     position: relative;
-    color: var(--rs-color-navs-selected);
+    color: var(--rs-navs-selected);
     z-index: 1;
   }
 
@@ -135,11 +135,11 @@
 
     &:hover,
     &:focus {
-      background: var(--rs-color-navs-bg-hover);
+      background: var(--rs-navs-bg-hover);
     }
 
     &:active {
-      background: var(--rs-color-navs-bg-active);
+      background: var(--rs-navs-bg-active);
     }
   }
 }
@@ -149,16 +149,16 @@
   .rs-nav-item {
     &:hover,
     &:focus {
-      background: var(--rs-color-navs-bg-hover);
+      background: var(--rs-navs-bg-hover);
     }
 
     &:active {
-      background: var(--rs-color-navs-bg-active);
+      background: var(--rs-navs-bg-active);
     }
 
     &.rs-nav-item-active {
-      border: 1px solid var(--rs-color-navs-tab-border);
-      background-color: var(--rs-color-bg-card);
+      border: 1px solid var(--rs-navs-tab-border);
+      background-color: var(--rs-bg-card);
       z-index: 1;
     }
   }
@@ -177,7 +177,7 @@
 
     // ** Waterline
     .rs-nav-bar {
-      border-top: 1px solid var(--rs-color-navs-tab-border);
+      border-top: 1px solid var(--rs-navs-tab-border);
     }
 
     // ** Active
@@ -207,7 +207,7 @@
     // ** Waterline
     .rs-nav-bar {
       width: 1px;
-      background: var(--rs-color-navs-tab-border);
+      background: var(--rs-navs-tab-border);
     }
 
     // ** Active
@@ -231,7 +231,7 @@
     &.rs-nav-item-active::before {
       content: '';
       position: absolute;
-      background-color: var(--rs-color-navs-selected);
+      background-color: var(--rs-navs-selected);
       display: block;
       z-index: 1;
     }
@@ -241,7 +241,7 @@
   &.rs-nav-horizontal {
     //Waterline
     .rs-nav-bar {
-      border-top: 2px solid var(--rs-color-navs-subtle-border);
+      border-top: 2px solid var(--rs-navs-subtle-border);
     }
 
     // Active item
@@ -263,7 +263,7 @@
     // Waterline
     .rs-nav-bar {
       width: 2px;
-      background: var(--rs-color-navs-subtle-border);
+      background: var(--rs-navs-subtle-border);
     }
 
     // Active item

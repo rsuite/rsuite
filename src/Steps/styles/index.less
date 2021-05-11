@@ -22,34 +22,34 @@
   text-align: center;
   font-size: @steps-icon-size;
   line-height: @steps-icon-line-height;
-  color: var(--rs-color-text-secondary);
+  color: var(--rs-text-secondary);
   position: absolute;
   top: 0;
   left: 0;
   display: flex;
   align-items: center;
-  border: 1px solid var(--rs-color-steps-border);
+  border: 1px solid var(--rs-steps-border);
   border-radius: 50%;
 
   // Finish status show check mark.
   .rs-steps-item-status-finish & {
-    border-color: var(--rs-color-steps-state-finish);
-    color: var(--rs-color-steps-state-finish);
+    border-color: var(--rs-steps-state-finish);
+    color: var(--rs-steps-state-finish);
   }
 
   // Error status show X mark.
   .rs-steps-item-status-error & {
-    border-color: var(--rs-color-steps-state-error);
-    color: var(--rs-color-steps-state-error);
+    border-color: var(--rs-steps-state-error);
+    color: var(--rs-steps-state-error);
   }
 
   .rs-steps-item-status-process & {
-    border-color: var(--rs-color-steps-state-process);
-    background-color: var(--rs-color-steps-state-process);
-    color: var(--rs-color-text-inverse);
+    border-color: var(--rs-steps-state-process);
+    background-color: var(--rs-steps-state-process);
+    color: var(--rs-text-inverse);
 
     .rs-icon {
-      color: var(--rs-color-steps-icon-state-process);
+      color: var(--rs-steps-icon-state-process);
     }
   }
 
@@ -75,18 +75,18 @@
 // Item content
 // --------------------------
 .rs-steps-item-content {
-  color: var(--rs-color-text-secondary);
+  color: var(--rs-text-secondary);
   display: inline-block;
   // Change static to relative, Make `z-index` more than Tail line
   position: relative;
   width: 100%;
 
   .rs-steps-item-status-process & {
-    color: var(--rs-color-text-primary);
+    color: var(--rs-text-primary);
   }
 
   .rs-steps-item-status-error & {
-    color: var(--rs-color-text-error);
+    color: var(--rs-text-error);
   }
 }
 
@@ -112,18 +112,18 @@
 .rs-steps-item-tail,
 .rs-steps-item-title::after {
   position: absolute;
-  border-color: var(--rs-color-steps-border);
+  border-color: var(--rs-steps-border);
 
   .rs-steps-item-status-process & {
-    border-color: var(--rs-color-steps-border);
+    border-color: var(--rs-steps-border);
   }
 
   .rs-steps-item-status-finish & {
-    border-color: var(--rs-color-steps-state-finish);
+    border-color: var(--rs-steps-state-finish);
   }
 
   .rs-steps-next-error & {
-    border-color: var(--rs-color-steps-border-state-error);
+    border-color: var(--rs-steps-border-state-error);
   }
 }
 

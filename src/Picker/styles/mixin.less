@@ -32,10 +32,10 @@
     position: relative;
     cursor: default;
     transition: @picker-item-transition;
-    color: var(--rs-color-text-heading);
+    color: var(--rs-text-heading);
 
     &:hover {
-      background-color: var(--rs-color-state-hover-bg);
+      background-color: var(--rs-state-hover-bg);
     }
 
     .rs-@{prefix}-menu-group-caret {
@@ -65,7 +65,7 @@
   clear: both;
   font-weight: normal;
   line-height: @line-height-base;
-  color: var(--rs-color-text-primary);
+  color: var(--rs-text-primary);
   cursor: pointer; //fixed link has not [href] style
   transition: @picker-item-transition;
   text-decoration: none;
@@ -78,8 +78,8 @@
 }
 
 .picker-item-hover() {
-  color: var(--rs-color-text-primary);
-  background-color: var(--rs-color-state-hover-bg);
+  color: var(--rs-text-primary);
+  background-color: var(--rs-state-hover-bg);
 }
 
 .picker-item-active() {
@@ -95,18 +95,18 @@
   border-radius: @border-radius-base;
 
   &:hover {
-    background-color: var(--rs-color-state-hover-bg);
+    background-color: var(--rs-state-hover-bg);
   }
 }
 
 .picker-calendar-cell-content-selected() {
   color: #fff;
-  background-color: var(--rs-color-bg-active);
+  background-color: var(--rs-bg-active);
   box-shadow: none;
 }
 
 .picker-calendar-title-show() {
-  color: var(--rs-color-text-active);
+  color: var(--rs-text-active);
   background: transparent;
 }
 
@@ -350,8 +350,8 @@
   .rs-picker-default & {
     .dropdown-toggle();
 
-    color: var(--rs-color-text-primary);
-    border: @picker-default-toggle-border-width solid var(--rs-color-border-primary);
+    color: var(--rs-text-primary);
+    border: @picker-default-toggle-border-width solid var(--rs-border-primary);
   }
 
   .rs-picker-disabled & {
@@ -361,7 +361,7 @@
   .rs-picker-default:not(.rs-picker-disabled) {
     &:hover,
     &:focus {
-      border-color: var(--rs-color-input-focus-border);
+      border-color: var(--rs-input-focus-border);
     }
   }
 }

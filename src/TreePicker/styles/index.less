@@ -15,8 +15,8 @@
   &-drag-node-mover {
     position: absolute;
     top: -1000px;
-    color: var(--rs-color-text-primary);
-    background-color: var(--rs-color-bg-overlay);
+    color: var(--rs-text-primary);
+    background-color: var(--rs-bg-overlay);
     display: inline-block;
     margin: 0;
     padding: @picker-tree-node-padding-vertical @picker-tree-node-padding-horizontal;
@@ -65,11 +65,11 @@
       border-bottom: 2px solid transparent;
 
       &:hover {
-        background-color: var(--rs-color-listbox-option-hover-bg);
+        background-color: var(--rs-listbox-option-hover-bg);
       }
 
       &:focus {
-        background-color: var(--rs-color-listbox-option-selected-bg);
+        background-color: var(--rs-listbox-option-selected-bg);
       }
     }
   }
@@ -77,21 +77,21 @@
   &&-active > .rs-tree-node-label > .rs-tree-node-label-content {
     .picker-item-active();
 
-    color: var(--rs-color-text-link);
-    background-color: var(--rs-color-listbox-option-selected-bg);
+    color: var(--rs-text-link);
+    background-color: var(--rs-listbox-option-selected-bg);
   }
 
   &-drag-over {
-    background-color: var(--rs-color-listbox-option-hover-bg);
+    background-color: var(--rs-listbox-option-hover-bg);
   }
 
   &-dragging {
-    outline: 1px dashed var(--rs-color-highlight-500);
+    outline: 1px dashed var(--rs-highlight-500);
   }
 
   &-drag-over-top {
     &.rs-tree-node-label-content {
-      border-top: 2px solid var(--rs-color-text-link) !important;
+      border-top: 2px solid var(--rs-text-link) !important;
 
       &::after {
         content: '';
@@ -100,7 +100,7 @@
         left: 12px;
         width: 0;
         height: 0;
-        border-left: 6px solid var(--rs-color-text-link);
+        border-left: 6px solid var(--rs-text-link);
         border-top: 3px solid transparent;
         border-bottom: 3px solid transparent;
       }
@@ -109,7 +109,7 @@
 
   &-drag-over-bottom {
     &.rs-tree-node-label-content {
-      border-bottom: 2px solid var(--rs-color-text-link) !important;
+      border-bottom: 2px solid var(--rs-text-link) !important;
 
       &::after {
         content: '';
@@ -118,7 +118,7 @@
         left: 12px;
         width: 0;
         height: 0;
-        border-left: 6px solid var(--rs-color-text-link);
+        border-left: 6px solid var(--rs-text-link);
         border-top: 3px solid transparent;
         border-bottom: 3px solid transparent;
       }
@@ -132,7 +132,7 @@
   }
 
   &-disabled {
-    color: var(--rs-color-listbox-option-disabled-text);
+    color: var(--rs-listbox-option-disabled-text);
     cursor: @cursor-disabled;
 
     > .rs-tree-node-label > .rs-tree-node-label-content {
@@ -148,16 +148,16 @@
   &-disabled&-active > .rs-tree-node-label > .rs-tree-node-label-content {
     &,
     &:hover {
-      color: var(--rs-color-listbox-option-disabled-selected-text);
+      color: var(--rs-listbox-option-disabled-selected-text);
     }
   }
 
   &:not(&-disabled):focus > .rs-tree-node-label > .rs-tree-node-label-content {
-    background-color: var(--rs-color-listbox-option-selected-bg);
+    background-color: var(--rs-listbox-option-selected-bg);
   }
 
   &:not(&-disabled) > .rs-tree-node-label:focus > .rs-tree-node-label-content {
-    background-color: var(--rs-color-listbox-option-selected-bg);
+    background-color: var(--rs-listbox-option-selected-bg);
   }
 }
 

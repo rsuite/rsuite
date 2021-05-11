@@ -9,8 +9,8 @@
 
   &-independent,
   &-content {
-    background-color: var(--rs-color-badge-bg);
-    color: var(--rs-color-badge-text);
+    background-color: var(--rs-badge-bg);
+    color: var(--rs-badge-text);
     border-radius: 8px;
     font-size: 12px;
     line-height: 16px;
@@ -38,7 +38,7 @@ each(@spectrum, .(@color) {
   .rs-badge-@{color} {
     &.rs-badge-independent,
     .rs-badge-content {
-      background-color: var(~'--rs-color-@{color}-500');
+      background-color: var(~'--rs-@{color}-500');
     }
   }
 });

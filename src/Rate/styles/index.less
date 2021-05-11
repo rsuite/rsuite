@@ -6,7 +6,7 @@
 .rs-rate {
   position: relative;
   display: inline-flex;
-  color: var(--rs-color-yellow-500);
+  color: var(--rs-yellow-500);
   list-style: none;
   vertical-align: middle;
   margin: 0;
@@ -29,7 +29,7 @@
     }
 
     &-after {
-      color: var(--rs-color-border-primary);
+      color: var(--rs-border-primary);
       filter: grayscale(1);
     }
 
@@ -111,7 +111,7 @@
   // Color variants
   each(@spectrum, .(@color) {
     &-@{color} {
-      color: var(~'--rs-color-@{color}-500');
+      color: var(~'--rs-@{color}-500');
     }
   });
 }

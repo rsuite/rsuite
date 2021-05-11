@@ -7,7 +7,7 @@
   position: relative;
   height: 400px;
   overflow: hidden;
-  background-color: var(--rs-color-carousel-bg);
+  background-color: var(--rs-carousel-bg);
 
   &-content {
     position: relative;
@@ -24,7 +24,7 @@
     will-change: transform;
 
     &-item {
-      background-color: var(--rs-color-carousel-bg);
+      background-color: var(--rs-carousel-bg);
       float: left;
       height: 100%;
       width: 100%;
@@ -36,7 +36,7 @@
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: var(--rs-color-carousel-bg);
+    background-color: var(--rs-carousel-bg);
     top: 0;
     animation: moveLeftHalf @carousel-animation-duration ease forwards;
 
@@ -70,14 +70,14 @@
     }
 
     input:checked ~ label {
-      background-color: var(--rs-color-carousel-indicator-active);
+      background-color: var(--rs-carousel-indicator-active);
     }
   }
 
   &-label {
     cursor: pointer;
     display: block;
-    background-color: var(--rs-color-carousel-indicator);
+    background-color: var(--rs-carousel-indicator);
     transition: @carousel-handler-transition;
     transition-property: background, width, height;
     position: relative;
@@ -92,7 +92,7 @@
     }
 
     &:hover {
-      background-color: var(--rs-color-carousel-indicator-hover);
+      background-color: var(--rs-carousel-indicator-hover);
     }
   }
 

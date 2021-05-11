@@ -67,11 +67,11 @@
 // Actual modal
 .rs-modal-content {
   position: relative;
-  background-color: var(--rs-color-bg-overlay);
+  background-color: var(--rs-bg-overlay);
   border-radius: @modal-border-radius;
   // Remove focus outline from opened modal
   outline: 0;
-  box-shadow: var(--rs-color-modal-shadow);
+  box-shadow: var(--rs-modal-shadow);
   padding: @modal-content-padding;
 }
 
@@ -82,7 +82,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: var(--rs-color-bg-backdrop);
+  background-color: var(--rs-bg-backdrop);
 
   // Fade for backdrop
   &.fade {
@@ -123,7 +123,7 @@
   line-height: unit((@line-height-computed / @modal-title-font-size));
   width: 100%;
   display: block;
-  color: var(--rs-color-text-heading);
+  color: var(--rs-text-heading);
   margin: 0;
   .ellipsis();
 }

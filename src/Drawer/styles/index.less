@@ -14,7 +14,7 @@
   overflow: hidden;
   position: fixed;
   z-index: @zindex-drawer;
-  box-shadow: var(--rs-color-drawer-shadow);
+  box-shadow: var(--rs-drawer-shadow);
   // Prevent Chrome on Windows from adding a focus outline. For details, see
   // https://github.com/twbs/bootstrap/pull/10951.
   outline: 0;
@@ -123,7 +123,7 @@
 
 .rs-drawer-content {
   position: absolute;
-  background-color: var(--rs-color-bg-overlay);
+  background-color: var(--rs-bg-overlay);
   outline: 0;
   width: 100%;
   height: 100%;
@@ -136,7 +136,7 @@
   bottom: 0;
   left: 0;
   z-index: @zindex-drawer-background;
-  background-color: var(--rs-color-bg-backdrop);
+  background-color: var(--rs-bg-backdrop);
 
   // Fade for backdrop
   &.fade {
@@ -184,7 +184,7 @@
   width: 100%;
   display: block;
   margin: 0;
-  color: var(--rs-color-text-heading);
+  color: var(--rs-text-heading);
   font-weight: normal;
   font-size: @modal-title-font-size;
   line-height: unit((@line-height-computed / @modal-title-font-size));

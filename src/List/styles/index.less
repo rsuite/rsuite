@@ -7,17 +7,17 @@
 .rs-list {
   position: relative;
   // border-top and border-bottom
-  box-shadow: 0 1px 0 var(--rs-color-list-border), 0 -1px 0 var(--rs-color-list-border);
+  box-shadow: 0 1px 0 var(--rs-list-border), 0 -1px 0 var(--rs-list-border);
   overflow-x: hidden;
   overflow-y: auto;
 
   &-bordered {
     border-radius: @border-radius-base;
-    box-shadow: 0 0 0 1px var(--rs-color-list-border);
+    box-shadow: 0 0 0 1px var(--rs-list-border);
   }
 
   &-hover .rs-list-item:hover {
-    background-color: var(--rs-color-list-hover-bg);
+    background-color: var(--rs-list-hover-bg);
   }
 
   &-sortable .rs-list-item {
@@ -59,12 +59,12 @@
 /* rtl:begin:ignore */
 /* stylelint-disable-next-line */ // For RTL Scope
 .rs-list-item {
-  background-color: var(--rs-color-list-bg);
-  box-shadow: 0 -1px 0 var(--rs-color-list-border), 0 1px 0 var(--rs-color-list-border);
+  background-color: var(--rs-list-bg);
+  box-shadow: 0 -1px 0 var(--rs-list-border), 0 1px 0 var(--rs-list-border);
 
   &-helper {
     position: absolute;
-    background-color: var(--rs-color-list-bg);
+    background-color: var(--rs-list-bg);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
     width: calc(100% - 2px);
     border-radius: @border-radius-base;
@@ -86,7 +86,7 @@
   }
 
   &-holder {
-    background-color: var(--rs-color-list-placeholder-bg);
+    background-color: var(--rs-list-placeholder-bg);
     visibility: hidden;
 
     &::after {
@@ -97,7 +97,7 @@
       left: @list-border-width;
       width: calc(100% - 2 * @list-border-width);
       height: calc(100% - 2 * @list-border-width);
-      border: @list-border-width var(--rs-color-list-placeholder-border) dashed;
+      border: @list-border-width var(--rs-list-placeholder-border) dashed;
     }
   }
 }

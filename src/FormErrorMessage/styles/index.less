@@ -4,12 +4,12 @@
 .rs-form-error-message {
   position: absolute;
   padding: 3px 7px;
-  background-color: var(--rs-color-form-errormessage-bg);
-  border: 1px solid var(--rs-color-form-errormessage-border);
+  background-color: var(--rs-form-errormessage-bg);
+  border: 1px solid var(--rs-form-errormessage-border);
   border-radius: @border-radius-base;
   filter: ~'drop-shadow(0 0 6px rgba(0,0,0,.1))';
   z-index: @zindex-form-error-message;
-  color: var(--rs-color-form-errormessage-text);
+  color: var(--rs-form-errormessage-text);
   font-size: @form-error-message-font-size;
   line-height: 20px;
   display: none;
@@ -54,13 +54,13 @@
       &::before,
       &::after {
         border-width: 0 @form-error-message-triangle-width @form-error-message-triangle-width;
-        border-bottom-color: var(--rs-color-form-errormessage-border);
+        border-bottom-color: var(--rs-form-errormessage-border);
         top: -1 * @form-error-message-triangle-width;
       }
 
       &::after {
         top: -1 * (@form-error-message-triangle-width - 1);
-        border-bottom-color: var(--rs-color-form-errormessage-bg);
+        border-bottom-color: var(--rs-form-errormessage-bg);
       }
     }
   }
@@ -81,13 +81,13 @@
       &::before,
       &::after {
         border-width: @form-error-message-triangle-width @form-error-message-triangle-width 0;
-        border-top-color: var(--rs-color-form-errormessage-border);
+        border-top-color: var(--rs-form-errormessage-border);
         bottom: -1 * @form-error-message-triangle-width;
       }
 
       &::after {
         bottom: -1 * (@form-error-message-triangle-width - 1);
-        border-top-color: var(--rs-color-form-errormessage-bg);
+        border-top-color: var(--rs-form-errormessage-bg);
       }
     }
   }
@@ -147,13 +147,13 @@
       &::after {
         border-width: @form-error-message-triangle-width 0 @form-error-message-triangle-width
           @form-error-message-triangle-width;
-        border-left-color: var(--rs-color-form-errormessage-border);
+        border-left-color: var(--rs-form-errormessage-border);
         right: -1 * @form-error-message-triangle-width;
       }
 
       &::after {
         right: -1 * (@form-error-message-triangle-width - 1);
-        border-left-color: var(--rs-color-form-errormessage-bg);
+        border-left-color: var(--rs-form-errormessage-bg);
       }
     }
   }
@@ -175,13 +175,13 @@
       &::after {
         border-width: @form-error-message-triangle-width @form-error-message-triangle-width
           @form-error-message-triangle-width 0;
-        border-right-color: var(--rs-color-form-errormessage-border);
+        border-right-color: var(--rs-form-errormessage-border);
         left: -1 * @form-error-message-triangle-width;
       }
 
       &::after {
         left: -1 * (@form-error-message-triangle-width - 1);
-        border-right-color: var(--rs-color-form-errormessage-bg);
+        border-right-color: var(--rs-form-errormessage-bg);
       }
     }
   }

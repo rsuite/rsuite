@@ -23,7 +23,7 @@
 
   // Notification content
   &-content {
-    background: var(--rs-color-bg-overlay);
+    background: var(--rs-bg-overlay);
     box-shadow: @notify-box-shadow;
     padding: @notify-padding;
     border-radius: @notify-border-radius;
@@ -34,7 +34,7 @@
   &-title {
     .ellipsis();
 
-    color: var(--rs-color-text-heading);
+    color: var(--rs-text-heading);
     font-size: @notify-title-font-size;
     line-height: unit((@notify-title-icon-size / @notify-title-font-size));
 
@@ -58,7 +58,7 @@
 
   // Description
   &-description {
-    color: var(--rs-color-text-primary);
+    color: var(--rs-text-primary);
   }
 
   // Has title and description need to ajust distance
@@ -80,17 +80,17 @@
 // Generate contextual modifier classes for colorizing the alert.
 
 .rs-notification-success {
-  .notification-variant(var(--rs-color-state-success));
+  .notification-variant(var(--rs-state-success));
 }
 
 .rs-notification-info {
-  .notification-variant(var(--rs-color-state-info));
+  .notification-variant(var(--rs-state-info));
 }
 
 .rs-notification-warning {
-  .notification-variant(var(--rs-color-state-warning));
+  .notification-variant(var(--rs-state-warning));
 }
 
 .rs-notification-error {
-  .notification-variant(var(--rs-color-state-error));
+  .notification-variant(var(--rs-state-error));
 }
