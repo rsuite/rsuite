@@ -3,10 +3,6 @@
 // NavBar
 // --------------------------------------------------
 
-@navbar-height: 56px;
-@navbar-item-padding-vertical: 18px;
-@navbar-item-padding-horizontal: 16px;
-
 .rs-navbar {
   .clearfix();
 }
@@ -39,7 +35,7 @@
   // Nav item content
   > .rs-nav-item {
     // Reset padding
-    padding: @navbar-item-padding-vertical @navbar-item-padding-horizontal;
+    padding: @navbar-item-padding-y @navbar-item-padding-x;
     height: @navbar-height;
   }
 
@@ -58,11 +54,11 @@
   > .rs-dropdown .rs-dropdown-toggle {
     &:extend(.rs-navbar-nav > .rs-nav-item);
 
-    padding-right: @navbar-item-padding-horizontal+ @dropdown-caret-width+ @dropdown-caret-padding;
+    padding-right: @navbar-item-padding-x+ @dropdown-caret-width+ @dropdown-caret-padding;
 
     .rs-dropdown-toggle-caret {
-      top: @navbar-item-padding-vertical;
-      right: @navbar-item-padding-horizontal;
+      top: @navbar-item-padding-y;
+      right: @navbar-item-padding-x;
     }
   }
 }

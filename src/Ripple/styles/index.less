@@ -4,11 +4,11 @@
   position: absolute;
   display: block;
   border-radius: 50%;
-  background-color: @btn-ripple-background-color;
+  background-color: @ripple-bg;
   transform: scale(0);
   transition: 0s;
 
-  & when (@button-ripple = false) {
+  & when (@enable-ripple-effect = false) {
     display: none !important;
   }
 

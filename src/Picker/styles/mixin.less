@@ -4,7 +4,7 @@
 // Picker Menu items common styles
 .picker-menu-items-reset() {
   // Set aside border-radius borders
-  margin-bottom: @border-radius-base;
+  margin-bottom: @border-radius;
   overflow-y: auto;
 
   ul {
@@ -28,7 +28,7 @@
 .picker-menu-group-title(@prefix) {
   .rs-@{prefix}-menu-group-title {
     padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
-    padding-right: (@padding-base-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
+    padding-right: (@padding-x + @dropdown-caret-width + @dropdown-caret-padding);
     position: relative;
     cursor: default;
     transition: @picker-item-transition;
@@ -42,8 +42,8 @@
       display: inline-block;
       margin-left: 2px;
       position: absolute;
-      top: @padding-base-vertical;
-      right: @padding-base-horizontal;
+      top: @padding-y;
+      right: @padding-x;
       transition: transform 0.3s linear;
       padding: 3px;
     }
@@ -92,7 +92,7 @@
   line-height: @calendar-table-cell-content-line-height;
   padding: @calendar-table-cell-content-padding;
   cursor: pointer;
-  border-radius: @border-radius-base;
+  border-radius: @border-radius;
 
   &:hover {
     background-color: var(--rs-state-hover-bg);
@@ -144,24 +144,24 @@
 
 .picker-button-caret-lg() {
   .picker-custom-button-caret-size(
-    @padding-large-horizontal,
-    @padding-large-vertical,
+    @padding-x-lg,
+    @padding-y-lg,
     @clean-btn-margin:4px
   );
 }
 
 .picker-button-caret-md() {
-  .picker-custom-button-caret-size(@padding-base-horizontal, @padding-base-vertical);
+  .picker-custom-button-caret-size(@padding-x, @padding-y);
 }
 
 .picker-button-caret-sm() {
-  .picker-custom-button-caret-size(@padding-small-horizontal, @padding-small-vertical);
+  .picker-custom-button-caret-size(@padding-x-sm, @padding-y-sm);
 }
 
 .picker-button-caret-xs() {
   .picker-custom-button-caret-size(
-    @padding-extra-small-horizontal,
-    @padding-extra-small-vertical,
+    @padding-x-xs,
+    @padding-y-xs,
     @clean-btn-margin:2px
   );
 }
@@ -195,7 +195,7 @@
   .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-large,
-      @padding-large-horizontal,
+      @padding-x-lg,
       @top: 10px,
       @clean-btn-margin: 4px
     );
@@ -207,7 +207,7 @@
   .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-base,
-      @padding-base-horizontal,
+      @padding-x,
       @top: 8px
     );
   }
@@ -218,7 +218,7 @@
   .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-base,
-      @padding-small-horizontal,
+      @padding-x-sm,
       @top: 4px
     );
   }
@@ -229,7 +229,7 @@
   .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-extra-small,
-      @padding-extra-small-horizontal,
+      @padding-x-xs,
       @top: 2px
     );
   }
@@ -287,32 +287,32 @@
 
 .tag-picker-search-input-lg() {
   .tag-picker-search-input-size(
-    @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large
+    @padding-y-lg; @padding-x-lg; @font-size-large; @line-height-large
   );
 }
 
 .tag-picker-search-input-md() {
   .tag-picker-search-input-size(
-    @padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base
+          @padding-y; @padding-x; @font-size-base; @line-height-base
   );
 }
 
 .tag-picker-search-input-sm() {
   .tag-picker-search-input-size(
-    @padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base
+    @padding-y-sm; @padding-x-sm; @font-size-base; @line-height-base
   );
 }
 
 .tag-picker-search-input-xs() {
   /* stylelint-disable */ //Formatted by prettier
   .tag-picker-search-input-size(
-    @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-extra-small;
+    @padding-y-xs; @padding-x-xs; @font-size-extra-small;
     @line-height-extra-small
   );
   /* stylelint-enable */
 
   .rs-picker-input.rs-picker-tag & ~ .rs-picker-tag-wrapper {
-    padding-bottom: @padding-extra-small-vertical - 1px;
+    padding-bottom: @padding-y-xs - 1px;
 
     .rs-tag {
       margin-top: 1px;
@@ -329,19 +329,19 @@
   @border-width: 2 * @picker-default-toggle-border-width;
 
   .rs-picker-toggle.rs-btn-lg {
-    height: (@line-height-large-computed + @padding-large-vertical*2 - @border-width);
+    height: (@line-height-large-computed + @padding-y-lg*2 - @border-width);
   }
 
   .rs-picker-toggle.rs-btn-md {
-    height: (@line-height-computed + @padding-base-vertical*2 - @border-width);
+    height: (@line-height-computed + @padding-y*2 - @border-width);
   }
 
   .rs-picker-toggle.rs-btn-sm {
-    height: (@line-height-computed + @padding-small-vertical*2 - @border-width);
+    height: (@line-height-computed + @padding-y-sm*2 - @border-width);
   }
 
   .rs-picker-toggle.rs-btn-xs {
-    height: (@line-height-computed + @padding-extra-small-vertical*2 - @border-width);
+    height: (@line-height-computed + @padding-y-xs*2 - @border-width);
   }
 }
 

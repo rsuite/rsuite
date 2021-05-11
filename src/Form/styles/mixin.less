@@ -6,7 +6,7 @@
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid var(--rs-border-primary);
   transition: @input-transition;
-  border-radius: @border-radius-base;
+  border-radius: @border-radius;
   .input-md();
 
   // Placeholder
@@ -47,7 +47,7 @@
 .input-lg() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-large-vertical; @padding-base-input-horizontal; @font-size-large; @line-height-large; @input-border-radius
+    @padding-y-lg; @input-padding-x; @font-size-large; @line-height-large; @input-border-radius
   );
   /* stylelint-enable */
 }
@@ -55,7 +55,7 @@
 .input-md() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius
+          @padding-y; @input-padding-x; @font-size-base; @line-height-base; @input-border-radius
   );
   /* stylelint-enable */
 }
@@ -63,7 +63,7 @@
 .input-sm() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-small-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base; @input-border-radius
+    @padding-y-sm; @input-padding-x; @font-size-base; @line-height-base; @input-border-radius
   );
   /* stylelint-enable */
 }
@@ -71,7 +71,7 @@
 .input-xs() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-extra-small; @line-height-extra-small; @input-border-radius
+    @padding-y-xs; @input-padding-x; @font-size-extra-small; @line-height-extra-small; @input-border-radius
   );
   /* stylelint-enable */
 }
@@ -96,7 +96,7 @@
 
   height: @@height - @input-border-width*2;
   padding: (@@vertical - @input-border-width) (@@horizontal - @input-border-width);
-  border-radius: 0 @border-radius-base @border-radius-base 0;
+  border-radius: 0 @border-radius @border-radius 0;
 
   > .rs-icon {
     // Extend font-size from parent.

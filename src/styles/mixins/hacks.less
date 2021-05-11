@@ -2,7 +2,7 @@
 
 // IE 11
 // ---------------------
-.ie11-max-width(@value) when (@ie-polyfill = true) {
+.ie11-max-width(@value) when (@enable-ie-polyfill = true) {
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     & {
@@ -11,7 +11,7 @@
   }
 }
 
-.ie11-height(@value) when (@ie-polyfill = true) {
+.ie11-height(@value) when (@enable-ie-polyfill = true) {
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     & {
@@ -20,7 +20,7 @@
   }
 }
 
-.ie11-z-index(@value) when (@ie-polyfill = true) {
+.ie11-z-index(@value) when (@enable-ie-polyfill = true) {
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     & {
@@ -29,7 +29,7 @@
   }
 }
 
-.ie11-position(@value) when (@ie-polyfill = true) {
+.ie11-position(@value) when (@enable-ie-polyfill = true) {
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     & {
@@ -38,7 +38,7 @@
   }
 }
 
-.ie-box-shadow(@value) when (@ie-polyfill = true) {
+.ie-box-shadow(@value) when (@enable-ie-polyfill = true) {
   box-shadow: @value;
 }
 
@@ -74,7 +74,7 @@
 
 // IE && Edge
 // ---------------------
-.ie11-edge-width(@value) when (@ie-polyfill = true) {
+.ie11-edge-width(@value) when (@enable-ie-polyfill = true) {
   // IE 11
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     & {

@@ -86,8 +86,8 @@
   .rs-btn();
 
   .rs-picker-default & {
-    @padding-vertical: (@padding-base-vertical - @picker-default-toggle-border-width);
-    @padding-horizontal: (@padding-base-horizontal - @picker-default-toggle-border-width);
+    @padding-vertical: (@padding-y - @picker-default-toggle-border-width);
+    @padding-horizontal: (@padding-x - @picker-default-toggle-border-width);
 
     padding: @padding-vertical @padding-horizontal;
   }
@@ -262,7 +262,7 @@
   position: absolute;
   text-align: left;
   z-index: @zindex-picker-menu;
-  border-radius: @border-radius-base;
+  border-radius: @border-radius;
   background-color: var(--rs-bg-overlay);
   box-shadow: var(--rs-shadow-overlay);
   overflow: hidden;
@@ -282,20 +282,20 @@
   // Select picker menu & Check select picker menu always has 6px gap
   &.rs-picker-select-menu,
   &.rs-picker-check-menu {
-    padding-top: @border-radius-base;
+    padding-top: @border-radius;
   }
 
   // Searchbar
   .rs-picker-search-bar {
     position: relative;
-    padding: (@picker-menu-padding - @border-radius-base) @picker-menu-padding @picker-menu-padding;
+    padding: (@picker-menu-padding - @border-radius) @picker-menu-padding @picker-menu-padding;
 
     .rs-picker-search-bar-input {
       .default-input();
 
       min-width: @picker-content-min-width;
       padding-right: @picker-search-bar-icon-width +
-        (@padding-base-input-horizontal - @input-border-width) * 2;
+        (@input-padding-x - @input-border-width) * 2;
     }
 
     .rs-picker-search-bar-search-icon {
@@ -304,12 +304,12 @@
       color: var(--rs-text-secondary);
       font-size: @font-size-base;
       height: @line-height-computed;
-      top: (@picker-menu-padding - @border-radius-base + @padding-base-input-vertical);
-      right: (@picker-menu-padding + @padding-base-input-horizontal);
+      top: (@picker-menu-padding - @border-radius + @input-padding-y);
+      right: (@picker-menu-padding + @input-padding-x);
 
       .rs-@{tree-picker-prefix}-menu&,
       .rs-@{check-tree-picker-prefix}-menu& {
-        top: (@padding-base-input-vertical - @input-border-width);
+        top: (@input-padding-y - @input-border-width);
       }
     }
   }

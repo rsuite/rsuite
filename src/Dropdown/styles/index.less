@@ -96,7 +96,7 @@
 }
 
 .rs-dropdown-no-caret .rs-dropdown-toggle {
-  padding-right: @padding-base-horizontal;
+  padding-right: @padding-x;
 }
 
 // The dropdown menu (ul)
@@ -106,14 +106,14 @@
   font-size: @font-size-base;
   text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   background-color: var(--rs-bg-overlay);
-  border-radius: @border-radius-base;
-  padding: @border-radius-base 0;
+  border-radius: @border-radius;
+  padding: @border-radius 0;
 }
 
 // Links within the dropdown menu
 .rs-dropdown-item {
   display: block;
-  padding: @dropdown-item-padding-vertical @dropdown-item-padding-horizontal;
+  padding: @dropdown-item-padding-y @dropdown-item-padding-x;
   clear: both;
   font-weight: normal;
   line-height: @line-height-base;
@@ -183,7 +183,7 @@
   // Set submenu icon
   &.rs-dropdown-menu-pull-right {
     &.rs-dropdown-item {
-      padding-right: @dropdown-item-padding-horizontal+ @dropdown-item-submenu-icon-angle-spacing+
+      padding-right: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing+
         @dropdown-item-submenu-icon-angle-width;
 
       > .rs-dropdown-menu-toggle .rs-dropdown-menu-toggle-icon {
@@ -194,7 +194,7 @@
 
   &.rs-dropdown-menu-pull-left {
     &.rs-dropdown-item {
-      padding-left: @dropdown-item-padding-horizontal+ @dropdown-item-submenu-icon-angle-spacing +
+      padding-left: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing +
         @dropdown-item-submenu-icon-angle-width;
 
       > .rs-dropdown-menu-toggle .rs-dropdown-menu-toggle-icon {
@@ -318,7 +318,7 @@
 // Dropdown section headers
 .rs-dropdown-header {
   display: block;
-  padding: @dropdown-item-padding-vertical @dropdown-item-padding-horizontal;
+  padding: @dropdown-item-padding-y @dropdown-item-padding-x;
   line-height: @line-height-base;
   color: var(--rs-dropdown-header-text);
   border-bottom: 1px solid @dropdown-divider-bg;

@@ -5,7 +5,7 @@
 .rs-picker-input {
   position: relative;
   border: 1px solid var(--rs-border-primary);
-  border-radius: @border-radius-base;
+  border-radius: @border-radius;
   transition: @picker-transition;
   background-color: var(--rs-input-bg);
 
@@ -17,7 +17,7 @@
 
     &-clean,
     &-caret {
-      top: @padding-base-vertical - @picker-default-toggle-border-width;
+      top: @padding-y - @picker-default-toggle-border-width;
     }
 
     .rs-ripple-pond {
@@ -55,8 +55,7 @@
     .rs-picker-tag & {
       font-size: @font-size-base;
       line-height: @line-height-base;
-      padding: @padding-extra-small-vertical @padding-base-input-horizontal
-        @padding-extra-small-vertical @padding-base-horizontal - @picker-default-toggle-border-width;
+      padding: @padding-y-xs @input-padding-x @padding-y-xs @padding-x - @picker-default-toggle-border-width;
 
       > input {
         background: none;

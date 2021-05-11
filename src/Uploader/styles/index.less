@@ -50,7 +50,7 @@
   }
 
   .rs-uploader-file-item {
-    padding: @padding-base-vertical 30px @padding-base-vertical 36px;
+    padding: @padding-y 30px @padding-y 36px;
     position: relative;
     transition: 0.3s linear background-color;
 
@@ -62,8 +62,8 @@
       position: absolute;
       display: inline-flex;
       align-items: center;
-      top: @padding-base-vertical;
-      left: @padding-base-horizontal;
+      top: @padding-y;
+      left: @padding-x;
       width: @line-height-computed;
       height: @line-height-computed;
       justify-content: center;
@@ -112,7 +112,7 @@
       font-size: 12px;
       // (36px -  font-size)/2
       top: 12px;
-      right: @padding-base-horizontal;
+      right: @padding-x;
       color: var(--rs-text-secondary);
       cursor: pointer;
       padding: 0;
@@ -162,7 +162,7 @@
     margin: 0;
     padding: 0;
     border: 2px dotted var(--rs-border-primary);
-    border-radius: @border-radius-base;
+    border-radius: @border-radius;
     margin-top: @uploader-picture-item-gap;
   }
 
@@ -189,7 +189,7 @@
     height: @uploader-picture-side-length;
     overflow: hidden;
     background-color: var(--rs-uploader-item-bg);
-    border-radius: @border-radius-base;
+    border-radius: @border-radius;
     position: relative;
     margin-top: @uploader-picture-item-gap;
     margin-right: @uploader-picture-item-gap;
@@ -315,7 +315,7 @@
     margin-top: @uploader-picture-item-gap;
     padding-right: 30px;
     border: 1px solid var(--rs-border-primary);
-    border-radius: @border-radius-base;
+    border-radius: @border-radius;
     overflow: hidden;
     transition: 0.3s linear background-color;
 
@@ -337,7 +337,7 @@
       text-align: center;
       background-color: var(--rs-border-primary);
       overflow: hidden;
-      border-radius: @border-radius-base 0 0 @border-radius-base;
+      border-radius: @border-radius 0 0 @border-radius;
 
       > img {
         .img-cover();
@@ -366,7 +366,7 @@
     &-btn-remove {
       position: absolute;
       top: 0;
-      right: @padding-base-horizontal;
+      right: @padding-x;
       color: var(--rs-text-secondary);
       cursor: pointer;
       height: @uploader-picture-text-preview-side-length;

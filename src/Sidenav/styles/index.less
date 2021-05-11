@@ -236,11 +236,10 @@
 
   // The same to the dropdown item
   .rs-dropdown-item {
-    @padding-right: @dropdown-item-padding-horizontal+ @dropdown-item-submenu-icon-angle-spacing +
+    @padding-right: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing +
       @dropdown-item-submenu-icon-angle-width;
 
-    padding: @dropdown-item-padding-vertical @padding-right @dropdown-item-padding-vertical
-      @dropdown-item-padding-horizontal;
+    padding: @dropdown-item-padding-y @padding-right @dropdown-item-padding-y @dropdown-item-padding-x;
   }
 
   .rs-dropdown-toggle-caret {

@@ -85,15 +85,15 @@
 //
 // All hidden styles.
 
-@media (max-width: @screen-phone-min) {
+@media (max-width: (@screen-phone - 1)) {
   .hidden(xs);
 }
 
-@media (min-width: @screen-phone) and (max-width: @screen-phone-max) {
+@media (min-width: @screen-phone) and (max-width: (@screen-desktop - 1)) {
   .hidden(sm);
 }
 
-@media (min-width: @screen-desktop) and (max-width: @screen-desktop-max) {
+@media (min-width: @screen-desktop) and (max-width: (@screen-lg-desktop - 1)) {
   .hidden(md);
 }
 
