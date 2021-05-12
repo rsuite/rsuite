@@ -1,6 +1,7 @@
 @import '../../styles/common';
 @import '../../Form/styles/mixin';
-@import '../../Picker/styles/mixin';
+@import '../../Input/styles/index';
+@import '../../Picker/styles/index';
 
 .rs-picker-input {
   position: relative;
@@ -55,7 +56,8 @@
     .rs-picker-tag & {
       font-size: @font-size-base;
       line-height: @line-height-base;
-      padding: @padding-y-xs @input-padding-x @padding-y-xs @padding-x - @picker-default-toggle-border-width;
+      padding: @padding-y-xs @input-padding-x @padding-y-xs @padding-x -
+        @picker-default-toggle-border-width;
 
       > input {
         background: none;

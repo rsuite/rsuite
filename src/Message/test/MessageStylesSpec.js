@@ -12,7 +12,7 @@ describe('Message styles', () => {
       <Message description="Informational" ref={instanceRef} />,
       createTestContainer()
     );
-    assert.equal(getStyle(getDOMNode(instanceRef.current), 'backgroundColor'), toRGB('#e9f5fe'));
+    assert.equal(getStyle(getDOMNode(instanceRef.current), 'backgroundColor'), toRGB('#f0f9ff'));
   });
 
   it('Icon should render the correct color', () => {

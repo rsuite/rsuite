@@ -1,6 +1,14 @@
-// ** Mixins
+// Mixins
 @import 'mixins/color-modes';
 @import 'mixins/hacks.less';
 @import 'mixins/utilities.less';
-// ** Variables
+
+//  Variables
 @import 'variables.less';
+
+// Color modes
+// FIXME color-modes should not be imported in common
+//       but otherwise it breaks tests
+@import 'color-modes';
+
+@import 'normalize';

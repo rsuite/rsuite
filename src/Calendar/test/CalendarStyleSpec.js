@@ -49,7 +49,11 @@ describe('Calendar styles', () => {
     );
     const contentDom = selectedDom.children[0];
     inChrome &&
-      assert.equal(getStyle(selectedDom, 'borderColor'), H500, 'Selected item border-color');
+      assert.equal(
+        getStyle(selectedDom, 'boxShadow'),
+        `${H500} 0px 0px 0px 1px inset`,
+        'Selected item box-shadow'
+      );
     assert.equal(getStyle(contentDom, 'backgroundColor'), H500, 'Selected item background-color');
     assert.equal(getStyle(contentDom, 'color'), toRGB('#fff'), 'Selected item color');
   });
@@ -85,12 +89,6 @@ describe('Calendar styles', () => {
       toRGB('#fff'),
       'DropdownActiveCellDom color'
     );
-    inChrome &&
-      assert.equal(
-        getStyle(dropdownActiveCellDom, 'borderColor'),
-        H500,
-        'DropdownActiveCellDom border-color'
-      );
     assert.equal(
       getStyle(dropdownActiveCellDom, 'backgroundColor'),
       H500,
