@@ -1,4 +1,5 @@
 // Variables
+// All variables declared in this file is supposed to be customizable by the user
 // This file is ignored by prettier for better alignment
 // See .prettierignore
 
@@ -15,6 +16,10 @@
 // Global button ripple switch
 @button-ripple:         true; // @deprecated use @enable-ripple-effect instead
 @enable-ripple-effect:  @button-ripple;
+
+// Controls which color theme will be used as :root
+// *Internal use only, not ready for production use
+@default-theme:         light;
 
 // Media queries breakpoints
 // Define the breakpoints at which your layout will change, adapting to different screen sizes.
@@ -55,9 +60,33 @@
 @container-large-desktop: (1140px + @grid-gutter-width);
 @container-lg:            @container-large-desktop;
 
+// Color system
+
+// Primary palette
+@base-color:      #3498ff; // @deprecated use @primary-color instead
+@primary-color:   #3498ff;
 
 // Secondary palette
+@red:             #f44336;
+@orange:          #fa8900;
+@yellow:          #ffb300;
+@green:           #4caf50;
+@cyan:            #00bcd4;
+@blue:            #2196f3;
+@violet:          #673ab7;
 
+// Dark mode
+@primary-color-dark:  #34c3ff;
+
+@red-dark:            #f04f43;
+@orange-dark:         #ff9800;
+@yellow-dark:         #ffc757;
+@green-dark:          #58b15b;
+@cyan-dark:           #00bcd4;
+@blue-dark:           #1499ef;
+@violet-dark:         #673ab7;
+
+// List for looping
 @spectrum: red, orange, yellow, green, cyan, blue, violet;
 
 // Typography

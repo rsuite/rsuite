@@ -94,9 +94,9 @@ function App({ Component, pageProps }: AppProps) {
   const messages = getMessages(language);
 
   React.useEffect(() => {
-    const oppositeThemeName = themeName === 'default' ? 'dark' : 'default';
+    const oppositeThemeName = themeName === 'default' ? 'dark' : 'light';
 
-    document.body.classList.add(`rs-theme-${themeName}`);
+    document.body.classList.add(`rs-theme-${themeName === 'default' ? 'light' : 'dark'}`);
     document.body.classList.remove(`rs-theme-${oppositeThemeName}`);
   }, [themeName]);
 
