@@ -236,7 +236,9 @@ describe('Cascader', () => {
     );
 
     ReactTestUtils.Simulate.click(
-      instance.overlay.querySelector('.rs-picker-cascader-menu-has-children a')
+      instance.overlay.querySelector(
+        '.rs-picker-cascader-menu-has-children .rs-picker-cascader-menu-item'
+      )
     );
 
     assert.equal(
