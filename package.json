@@ -31,7 +31,7 @@
     "lint:js": "eslint --ext js src",
     "prepublishOnly": "npm run build",
     "tdd": "cross-env RUN_ENV=test karma start",
-    "test": "npm run format:check && npm run lint && npm run test:component && npm run test:styles",
+    "test": "npm run format:check && npm run lint && npm run test:component",
     "test:component": "cross-env NODE_ENV=coverage RUN_ENV=test karma start --single-run",
     "test:styles": "node test/stylesSpec.js"
   },
