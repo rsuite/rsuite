@@ -173,7 +173,7 @@ each(@spectrum, .(@color) {
     --rs-btn-link-hover-text: @C800;
     --rs-btn-link-active-text: @C900;
 
-    .rs-theme-dark & {
+    .dark-mode({
       --rs-btn-primary-bg: @C700;
       --rs-btn-primary-hover-bg: @C600;
       --rs-btn-primary-active-bg: @C400;
@@ -190,7 +190,7 @@ each(@spectrum, .(@color) {
       --rs-btn-link-text: @C500;
       --rs-btn-link-hover-text: @C400;
       --rs-btn-link-active-text: @C200;
-    }
+    });
   }
 });
 
@@ -295,8 +295,8 @@ each(@spectrum, .(@color) {
   --rs-btn-subtle-active-bg: var(--rs-red-600);
   --rs-btn-subtle-active-text: #fff;
 
-  .rs-theme-dark & {
+  .dark-mode({
     --rs-btn-subtle-hover-bg: var(--rs-red-600);
     --rs-btn-subtle-active-bg: var(--rs-red-400);
-  }
+  });
 }

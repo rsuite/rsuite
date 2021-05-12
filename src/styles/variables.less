@@ -10,16 +10,15 @@
 @enable-ie-polyfill:    @ie-polyfill;
 
 // CSS Resets
-@reset-import:          true; // @deprecated use @enable-reset instead
-@enable-reset:          @reset-import;
+@reset-import:          true; // @deprecated use @enable-css-reset instead
+@enable-css-reset:      @reset-import;
 
 // Global button ripple switch
 @button-ripple:         true; // @deprecated use @enable-ripple-effect instead
 @enable-ripple-effect:  @button-ripple;
 
-// Controls which color theme will be used as :root
-// *Internal use only, not ready for production use
-@default-theme:         light;
+// Whether include styles for dark mode
+@enable-dark-mode:      false;
 
 // Media queries breakpoints
 // Define the breakpoints at which your layout will change, adapting to different screen sizes.
