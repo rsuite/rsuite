@@ -11,6 +11,14 @@ const instance = (
     <Whisper placement="top" controlId="control-id-click" trigger="click" speaker={tooltip}>
       <Button>Click</Button>
     </Whisper>
+    <Whisper
+      placement="top"
+      controlId="control-id-context-menu"
+      trigger="contextMenu"
+      speaker={tooltip}
+    >
+      <Button>ContextMenu</Button>
+    </Whisper>
     <Whisper placement="top" controlId="control-id-focus" trigger="focus" speaker={tooltip}>
       <Button>Focus</Button>
     </Whisper>

@@ -8,7 +8,7 @@ import isOneOf from '../utils/isOneOf';
 import { AnimationEventProps, StandardProps, TypeAttributes } from '../@types/common';
 import { PositionInstance } from './Position';
 import { isUndefined } from 'lodash';
-export type OverlayTriggerTrigger = 'click' | 'hover' | 'focus' | 'active' | 'none';
+export type OverlayTriggerTrigger = 'click' | 'contextMenu' | 'hover' | 'focus' | 'active' | 'none';
 
 function mergeEvents(events = {}, props = {}) {
   const nextEvents = {};
@@ -82,6 +82,9 @@ export interface OverlayTriggerProps extends StandardProps, AnimationEventProps 
   /** Click on the callback function */
   onClick?: () => void;
 
+  /** RightClick on the callback function */
+  onContextMenu?: React.MouseEventHandler;
+
   /** Callback function to get focus */
   onFocus?: () => void;
 
@@ -151,6 +154,7 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
     onClick,
     onMouseOver,
     onMouseOut,
+    onContextMenu,
     onFocus,
     onBlur,
     onClose,
@@ -298,16 +302,32 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
 
   const handleSpeakerMouseLeave = useCallback(() => {
     isOnOverlay.current = false;
-    if (!isOneOf('click', trigger) && !isOneOf('active', trigger)) {
+    if (
+      !isOneOf('click', trigger) &&
+      !isOneOf('contextMenu', trigger) &&
+      !isOneOf('active', trigger)
+    ) {
       handleCloseWhenLeave();
     }
   }, [handleCloseWhenLeave, trigger]);
 
-  const triggerEvents = { onClick, onMouseOver, onMouseOut, onFocus, onBlur };
+  const preventDefault = useCallback((event: React.MouseEvent<Element, MouseEvent>) => {
+    event.preventDefault();
+  }, []);
+
+  const triggerEvents = { onClick, onContextMenu, onMouseOver, onMouseOut, onFocus, onBlur };
 
   if (!disabled && !readOnly && !plaintext) {
     if (isOneOf('click', trigger)) {
       triggerEvents.onClick = createChainedFunction(handleOpenState, triggerEvents.onClick);
+    }
+
+    if (isOneOf('contextMenu', trigger)) {
+      triggerEvents.onContextMenu = createChainedFunction(
+        preventDefault,
+        handleOpenState,
+        triggerEvents.onContextMenu
+      );
     }
 
     if (isOneOf('active', trigger)) {
