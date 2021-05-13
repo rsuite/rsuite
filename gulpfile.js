@@ -13,65 +13,61 @@ const ESM_DIR = './es';
 const LIB_DIR = './lib';
 const DIST_DIR = './dist';
 const STYLE_SOURCE_DIR = './src/styles';
-const STYLE_DIST_DIR = './dist/styles';
+const STYLE_DIST_DIR = DIST_DIR;
 const TS_SOURCE = ['./src/**/*.tsx', './src/**/*.ts', '!./src/**/*.d.ts'];
-const THEMES = ['default', 'dark'];
 
 function clean(done) {
   del.sync([LIB_DIR, ESM_DIR, DIST_DIR], { force: true });
   done();
 }
 
-function buildLess() {
-  return THEMES.map(theme => {
-    const taskName = `buildLess:${theme}`;
-    gulp.task(taskName, () =>
-      gulp
-        .src(`${STYLE_SOURCE_DIR}/themes/${theme}/index.less`)
-        .pipe(sourcemaps.init())
-        .pipe(less())
-        .pipe(postcss([require('autoprefixer'), postcssCustomProperties()]))
-        .pipe(sourcemaps.write('./'))
-        .pipe(rename(`rsuite-${theme}.css`))
-        .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
-    );
-    return taskName;
-  });
+// Build styles
+// - Build LESS into CSS under dist/
+// - Minify CSS files in dist/
+// - Copy LESS into less/
+//
+// Final outputs:
+// - dist/rsuite.css
+// - dist/rsuite.min.css
+// - dist/rsuite-rtl.css
+// - dist/rsuite-rtl.min.css
+// - less/**/*.less
+
+function buildLESS() {
+  return gulp
+    .src(`${STYLE_SOURCE_DIR}/index.less`)
+    .pipe(sourcemaps.init())
+    .pipe(less())
+    .pipe(postcss([require('autoprefixer'), postcssCustomProperties()]))
+    .pipe(sourcemaps.write('./'))
+    .pipe(rename('rsuite.css'))
+    .pipe(gulp.dest(`${STYLE_DIST_DIR}`));
 }
 
-function buildCSS() {
-  return THEMES.map(theme => {
-    const taskName = `buildCSS:${theme}`;
-    gulp.task(taskName, () =>
-      gulp
-        .src(`${STYLE_DIST_DIR}/rsuite-${theme}.css`)
-        .pipe(sourcemaps.init())
-        .pipe(postcss())
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
-    );
-    return taskName;
-  });
+/**
+ * Minify built css files
+ */
+function minifyCSS() {
+  return gulp
+    .src(`${STYLE_DIST_DIR}/rsuite.css`)
+    .pipe(sourcemaps.init())
+    .pipe(postcss()) // uses postcss.config.js where cssnano is configured
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(`${STYLE_DIST_DIR}`));
 }
 
 function buildRTLCSS() {
-  return THEMES.map(theme => {
-    const taskName = `buildRTLCSS:${theme}`;
-    gulp.task(taskName, () =>
-      gulp
-        .src(`${STYLE_DIST_DIR}/rsuite-${theme}.css`)
-        .pipe(rtlcss()) // Convert to RTL.
-        .pipe(rename({ suffix: '-rtl' })) // Append "-rtl" to the filename.
-        .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
-        .pipe(sourcemaps.init())
-        .pipe(postcss())
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
-    );
-    return taskName;
-  });
+  return gulp
+    .src(`${STYLE_DIST_DIR}/rsuite.css`)
+    .pipe(rtlcss()) // Convert to RTL.
+    .pipe(rename({ suffix: '-rtl' })) // Append "-rtl" to the filename.
+    .pipe(gulp.dest(`${STYLE_DIST_DIR}`))
+    .pipe(sourcemaps.init())
+    .pipe(postcss())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest(`${STYLE_DIST_DIR}`));
 }
 
 function buildLib() {
@@ -91,19 +87,16 @@ function buildEsm() {
     .pipe(gulp.dest(ESM_DIR));
 }
 
-function copyFontFiles() {
-  return gulp.src(`${STYLE_SOURCE_DIR}/fonts/**/*`).pipe(gulp.dest(`${STYLE_DIST_DIR}/fonts`));
-}
-
 function copyTypescriptDeclarationFiles() {
   return gulp.src('./src/**/*.d.ts').pipe(gulp.dest(LIB_DIR)).pipe(gulp.dest(ESM_DIR));
 }
 
 function copyLessFiles() {
-  return gulp
-    .src(['./src/**/*.less', './src/**/fonts/**/*'])
-    .pipe(gulp.dest(LIB_DIR))
-    .pipe(gulp.dest(ESM_DIR));
+  return gulp.src('./src/**/*.less').pipe(gulp.dest(LIB_DIR)).pipe(gulp.dest(ESM_DIR));
+}
+
+function copyStyles() {
+  return gulp.src(`${STYLE_SOURCE_DIR}/**/*`).pipe(gulp.dest('./less'));
 }
 
 function watch() {
@@ -116,16 +109,9 @@ function watch() {
   });
 }
 
-exports.buildStyle = gulp.series(
-  clean,
-  ...buildLess(),
-  ...buildCSS(),
-  ...buildRTLCSS(),
-  copyFontFiles
-);
 exports.dev = gulp.series(clean, buildLib, watch);
 exports.build = gulp.series(
   clean,
-  gulp.parallel(buildLib, buildEsm, gulp.series(...buildLess(), ...buildCSS(), ...buildRTLCSS())),
-  gulp.parallel(copyTypescriptDeclarationFiles, copyLessFiles, copyFontFiles)
+  gulp.parallel(buildLib, buildEsm, gulp.series(buildLESS, gulp.parallel(minifyCSS, buildRTLCSS))),
+  gulp.parallel(copyTypescriptDeclarationFiles, copyLessFiles, copyStyles)
 );
