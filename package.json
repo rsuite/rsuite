@@ -31,9 +31,10 @@
     "lint:js": "eslint --ext js src",
     "prepublishOnly": "npm run build",
     "tdd": "cross-env RUN_ENV=test karma start",
-    "test": "npm run format:check && npm run lint && npm run test:component",
+    "test": "npm run format:check && npm run lint && npm run test:component && npm run test:less",
     "test:component": "cross-env NODE_ENV=coverage RUN_ENV=test karma start --single-run",
-    "test:styles": "node test/stylesSpec.js"
+    "test:styles": "node test/stylesSpec.js",
+    "test:less": "mocha test/testLessPlugins.js"
   },
   "keywords": [
     "react",
@@ -142,6 +143,7 @@
     "karma-sinon-chai": "^2.0.2",
     "karma-sourcemap-loader": "^0.3.8",
     "karma-webpack": "^5.0.0",
+    "less": "^4.1.1",
     "less-loader": "^7.2.1",
     "lodash-webpack-plugin": "^0.11.5",
     "make-dir": "^1.3.0",
