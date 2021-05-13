@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import Cascader from '../Cascader';
 import Button from '../../Button';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
 
 const items = [
   {
@@ -330,6 +330,65 @@ describe('Cascader', () => {
       ref.current.picker.overlay.querySelector('.rs-picker-cascader-menu-item').innerText,
       'test'
     );
+  });
+
+  it('Should show search items with childrenKey', () => {
+    const itemsWithChildrenKey = {
+      childrenKey: 'sub',
+      data: [
+        {
+          value: 't',
+          label: 't'
+        },
+        {
+          value: 'h',
+          label: 'h'
+        },
+        {
+          value: 'g',
+          label: 'g',
+          sub: [
+            {
+              value: 'g-m',
+              label: 'g-m'
+            },
+            {
+              value: 'g-b',
+              label: 'g-b'
+            }
+          ]
+        }
+      ]
+    };
+
+    const cascaderRef = React.createRef();
+
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <Cascader ref={cascaderRef} defaultOpen data={itemsWithChildrenKey.data} childrenKey={itemsWithChildrenKey.childrenKey}  />,
+        createTestContainer()
+      );
+    });
+
+    ReactTestUtils.act(() => {
+      const input = cascaderRef.current.overlay.querySelector('.rs-picker-search-bar-input');
+
+      ReactTestUtils.Simulate.focus(input);
+
+      input.value = 'g';
+      ReactTestUtils.Simulate.change(input);
+
+    });
+
+    ReactTestUtils.act(() => {
+      const searchResult = cascaderRef.current.overlay.querySelectorAll('.rs-picker-cascader-row');
+
+      assert.equal(
+        searchResult.length,
+        2
+      );
+
+    });
   });
 
   describe('ref testing', () => {
