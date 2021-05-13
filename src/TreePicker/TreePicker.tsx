@@ -111,12 +111,7 @@ const defaultProps: Partial<TreePickerProps> = {
   searchable: true,
   cleanable: true,
   menuAutoWidth: true,
-  placement: 'bottomStart',
-  locale: {
-    placeholder: 'Select',
-    searchPlaceholder: 'Search',
-    noResultsText: 'No results found'
-  }
+  placement: 'bottomStart'
 };
 
 const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, ref) => {
