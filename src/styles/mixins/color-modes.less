@@ -1,5 +1,7 @@
 .dark-mode(@rules) {
-  .rs-theme-dark & {
-    @rules();
+  & when (@enable-dark-mode = true) {
+    .rs-theme-dark & {
+      @rules();
+    }
   }
 }
