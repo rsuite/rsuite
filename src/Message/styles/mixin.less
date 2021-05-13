@@ -2,7 +2,10 @@
 
 .message-variant(@background; @text-color; @icon-color) {
   background-color: @background;
-  color: @text-color;
+
+  .rs-message-body {
+    color: @text-color;
+  }
 
   .rs-message-icon-wrapper > .rs-icon,
   .rs-message-btn-close {

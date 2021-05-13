@@ -16,6 +16,75 @@
   position: relative;
   animation-fill-mode: forwards;
 
+  &-container {
+    padding: @message-padding;
+    display: flex;
+  }
+
+  // Icon wrapper
+  &-icon-wrapper {
+    align-self: center;
+    font-size: 0; // remove whitespace before svg
+    margin-right: 10px;
+
+    // Icon
+    .rs-icon {
+      font-size: @message-icon-size;
+      align-items: center;
+    }
+  }
+
+  &-content {
+    flex-grow: 1;
+  }
+
+  // Header
+  &-header {
+    color: var(--rs-text-heading);
+    line-height: unit((round((@message-icon-large-size / @message-title-size), 16)));
+    .ellipsis();
+
+    & + .rs-message-body {
+      margin-top: 4px;
+    }
+  }
+
+  // Description
+  &-body {
+    color: var(--rs-text-primary);
+  }
+
+  // Message with a title
+  &.rs-message-has-title {
+    // Bigger icon
+    .rs-message-icon-wrapper {
+      align-self: flex-start;
+
+      .rs-icon {
+        font-size: @message-icon-large-size;
+        line-height: 1;
+      }
+    }
+  }
+
+  // Multiple messages should have spacing
+  // Hiding Message haven't spacing.
+  &:not(.rs-message-hiding) + & {
+    margin-top: 10px;
+
+    //The last message hiding haven't clearance.
+    &.rs-message-hiding:last-child {
+      transition: margin-top 0.1s linear 0.3s;
+      margin-top: 0;
+    }
+  }
+
+  &.rs-message-hiding {
+    // The same with notification
+    animation: notificationMoveOut 0.3s ease-in forwards;
+  }
+
+  // In dark mode, links inside Message body shows underline by default
   .dark-mode({
     .rs-btn-link,
     a {
@@ -33,82 +102,6 @@
       }
     }
   });
-
-  .rs-message-container {
-    padding: 20px;
-  }
-
-  // Multiple messages should have spacing
-  // Hiding Message haven't spacing.
-  &:not(.rs-message-hiding) + .rs-message {
-    margin-top: 10px;
-
-    //The last message hiding haven't clearance.
-    &.rs-message-hiding:last-child {
-      transition: margin-top 0.1s linear 0.3s;
-      margin-top: 0;
-    }
-  }
-
-  // Only has icon
-  &.rs-message-has-icon .rs-message-container {
-    padding-left: (@message-padding + @message-icon-size + @message-icon-margin-right);
-  }
-
-  // Only has title
-  &.rs-message-has-title {
-    h5 {
-      margin-top: 0;
-      margin-bottom: 0;
-      .ellipsis();
-
-      // When title and description all exist , additional a margin
-      & + .rs-message-description {
-        margin-top: 8px;
-      }
-    }
-  }
-
-  // Has icon && title
-  &.rs-message-has-icon.rs-message-has-title .rs-message-container {
-    padding-left: (@message-padding + @message-icon-large-size + @message-icon-margin-right);
-
-    // Bigger icon
-    .rs-message-icon-wrapper .rs-icon {
-      font-size: @message-icon-large-size;
-      line-height: 1;
-    }
-  }
-
-  // Header
-  .rs-message-header {
-    color: var(--rs-text-heading);
-    line-height: unit((round((@message-icon-large-size / @message-title-size), 16)));
-  }
-
-  // Description
-  .rs-message-description {
-    color: var(--rs-text-primary);
-  }
-
-  // Icon wrapper
-  .rs-message-icon-wrapper {
-    position: absolute;
-    top: @message-padding;
-    left: @message-padding;
-    height: @line-height-computed;
-  }
-
-  // Icon
-  .rs-message-icon-wrapper .rs-icon {
-    font-size: @message-icon-size;
-    align-items: center;
-  }
-
-  &.rs-message-hiding {
-    // The same with notification
-    animation: notificationMoveOut 0.3s ease-in forwards;
-  }
 }
 
 // Full the containers
