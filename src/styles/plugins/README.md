@@ -2,17 +2,6 @@
 
 ## Plugins included
 
-### `calcFontColor`
-
-Calculate readable font color against given background color.
-
-```less
-@plugin 'plugins/calcFontColor';
-
-@whitish: calcFontColor(@dark-gray);
-@blackish: calcFontColor(@bright-yellow);
-```
-
 ### `palette`
 
 Generate `50`-`900` color levels of given base color.

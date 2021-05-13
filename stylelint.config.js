@@ -91,12 +91,6 @@ module.exports = {
       {
         ignoreKeywords: ['BlinkMacSystemFont']
       }
-    ],
-    'function-name-case': [
-      'lower',
-      {
-        ignoreFunctions: ['calcFontColor']
-      }
     ]
   }
 };

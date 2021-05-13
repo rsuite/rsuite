@@ -22,7 +22,6 @@ import { readThemeName } from '@/utils/themeHelpers';
 import NextHead from 'next/head';
 import DefaultPage from '@/components/Page';
 import palette from 'rsuite/styles/plugins/palette';
-import calcFontColor from 'rsuite/styles/plugins/calcFontColor';
 import loadable from '@loadable/component';
 
 const colors = [
@@ -79,7 +78,7 @@ export default function Page() {
             '@palette-color': color,
             '@theme-is-default': getThemeIsDefault()
           },
-          plugins: [palette, calcFontColor]
+          plugins: [palette]
         };
         setLoading(true);
 

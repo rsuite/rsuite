@@ -1,5 +1,3 @@
-// Requires `palette` and `calcFontColor` plugins to compile
-
 .inner-active-shadow(@shadow-color) {
   box-shadow: 0 0 0 2px fadeOut(@shadow-color, 60%);
 }
@@ -18,7 +16,7 @@
   @btn-primary-bg: if(@theme-default, @H500, @H700);
   @btn-primary-hover-bg: if(@theme-default, @H600, @H600);
   @btn-primary-active-bg: if(@theme-default, @H700, @H500);
-  @readable-color: calcFontColor(@H500);
+  @readable-color: contrast(@H500, #575757);
 
   .repaint-input(@name) {
     &-@{name}-wrapper::before {
