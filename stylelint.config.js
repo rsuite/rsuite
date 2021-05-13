@@ -1,8 +1,5 @@
 module.exports = {
-  extends: [
-    'stylelint-config-standard',
-    'stylelint-config-prettier'
-  ],
+  extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
   rules: {
     // Overwrite stylelint-config-standard rules
     // ----------------------------------
@@ -93,6 +90,12 @@ module.exports = {
       'lower',
       {
         ignoreKeywords: ['BlinkMacSystemFont']
+      }
+    ],
+    'function-name-case': [
+      'lower',
+      {
+        ignoreFunctions: ['calcFontColor']
       }
     ]
   }
