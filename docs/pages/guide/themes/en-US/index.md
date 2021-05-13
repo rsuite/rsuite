@@ -1,46 +1,22 @@
 # Customize theme 🎨
 
-Depending on the product's variability, React Suite provides flexible configurable parameters on the theme design.
-
-## Light/Dark theme
-
-React Suite offers Light and Dark 2 sets of themes that you can use depending on the needs of your product or the environment in which you operate.
-
-**☀️ Light**
-
-```less
-@import '~rsuite/lib/styles/themes/default/index.less';
-// @import '~rsuite/dist/styles/rsuite-default.css'
-```
-
-**🌙 Dark**
-
-```less
-@import '~rsuite/lib/styles/themes/dark/index.less';
-// @import '~rsuite/dist/styles/rsuite-dark.css'
-```
-
-> Design standards that can be referenced in custom themes: [Light theme](/design/default/), [Dark theme](/design/dark/).
-
-## For customization
-
-The React Suite style uses [Less][less] as the development language and defines a series of variables that can be customized using [Modify Variables][modify variables]. This includes but is not limited to customizing theme colors, resizing component fillet radii, modifying font styles, replacing auxiliary colors, and so on. The code in the following example is a new action in `custom-theme.less`.
+React Suite uses [Less][less] to develop styles and defines a series of variables that can be customized using [Modify Variables][modify variables]. This includes but is not limited to customizing theme colors, resizing component fillet radii, modifying font styles, replacing auxiliary colors, and so on. The code in the following example is a new action in `custom-theme.less`.
 
 ### Import less
 
 Create a separate `.less` file as follows, and then introduce this file.
 
 ```less
-@import '~rsuite/lib/styles/themes/default/index.less'; //The default style file.
+@import '~rsuite/lib/styles/index.less';
 @import 'custom-theme.less'; // Style customization.
 ```
 
 ### Custom Theme Colors
 
-Sets the theme base color.
+Sets the primary color.
 
 ```less
-@base-color: #00bcd4;
+@primary-color: #00bcd4;
 ```
 
 After you configure the theme base color, a set of swatches (`@H050` - `@H900`, H is Hue) reference is generated: [constants.less](rsuite-theme-pallete).
@@ -50,7 +26,7 @@ Now go to the [palette](/tools/palette) to select the appropriate color or uploa
 ### Adjusts the fillet radius of the assembly.
 
 ```less
-@border-radius-base: 2px;
+@border-radius: 2px;
 ```
 
 ### Modify the font style.
@@ -81,20 +57,24 @@ Information, successes, warnings, errors, respectively, the corresponding color,
 
 ### Disable ripple animation
 
+React Suite includes a Material-like ripple effect in some clickable components like Buttons. If you don't want this effect, you can turn off this flag.
+
 ```less
-@button-ripple: false;
+@enable-ripple-effect: false;
 ```
 
 ### Disable IE polyfill
 
+By default, React Suite includes some compatible styles for IE 11. If you don't need these styles, you can remove theme by turning off this flag.
+
 ```less
-@ie-polyfill: false;
+@enable-ie-polyfill: false;
 ```
 
 ### Disable HTML styles reset
 
 ```less
-@reset-import: false;
+@enable-css-reset: false;
 ```
 
 ### More Custom Configurations
@@ -142,10 +122,10 @@ module.exports = merge(
     themesConfig: {
       default: {},
       green: {
-        'base-color': '#008000'
+        'primary-color': '#008000'
       },
       yellow: {
-        'base-color': '#ffff00'
+        'primary-color': '#ffff00'
       }
     }
   })
