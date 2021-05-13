@@ -90,16 +90,6 @@
     a {
       color: inherit;
       text-decoration: underline;
-
-      &:hover {
-        font-weight: bolder;
-      }
-    }
-
-    &-warning {
-      .rs-message-header {
-        color: var(--rs-text-heading-inverse);
-      }
     }
   });
 }
@@ -122,6 +112,7 @@
   // it breaks stylelint
   .message-variant(
     var(--rs-message-success-bg);
+    var(--rs-message-success-header);
     var(--rs-message-success-text);
     var(--rs-message-success-icon);
   );
@@ -130,6 +121,7 @@
 .rs-message-info {
   .message-variant(
     var(--rs-message-info-bg);
+    var(--rs-message-info-header);
     var(--rs-message-info-text);
     var(--rs-message-info-icon);
   );
@@ -138,6 +130,7 @@
 .rs-message-warning {
   .message-variant(
     var(--rs-message-warning-bg);
+    var(--rs-message-warning-header);
     var(--rs-message-warning-text);
     var(--rs-message-warning-icon);
   );
@@ -146,6 +139,7 @@
 .rs-message-error {
   .message-variant(
     var(--rs-message-error-bg);
+    var(--rs-message-error-header);
     var(--rs-message-error-text);
     var(--rs-message-error-icon);
   );

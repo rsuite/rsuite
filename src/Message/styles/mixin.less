@@ -1,7 +1,11 @@
 // Messages
 
-.message-variant(@background; @text-color; @icon-color) {
+.message-variant(@background; @header-color; @text-color; @icon-color) {
   background-color: @background;
+
+  .rs-message-header {
+    color: @header-color;
+  }
 
   .rs-message-body {
     color: @text-color;
