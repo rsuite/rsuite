@@ -1,18 +1,27 @@
-<a name="4.10.0"></a>
-# [4.10.0](https://github.com/rsuite/rsuite/compare/4.9.4...4.10.0) (2021-05-08)
+<a name="4.10.1"></a>
 
-
-### Bug Fixes
-
-* **multi-cascader:** the value of event in onSelect is incorrect ([502be2e](https://github.com/rsuite/rsuite/commit/502be2e))
-* **table:** fix long strings in table cells were incorrectly truncated ([#1647](https://github.com/rsuite/rsuite/issues/1647)) ([926111e](https://github.com/rsuite/rsuite/commit/926111e))
-
+## [4.10.1](https://github.com/rsuite/rsuite/compare/4.10.0...4.10.1) (2021-05-13)
 
 ### Features
 
-* **multi-cascader:** support `onCheck` on `MultiCascader` ([#1646](https://github.com/rsuite/rsuite/issues/1646)) ([e19cd47](https://github.com/rsuite/rsuite/commit/e19cd47))
+- feat: Added menuContext support to `<Popover>` and `<Tooltips>`
 
+### Dependencies
 
+- build(deps): bump rsuite-table from 3.14.6 to 3.15.1
+
+<a name="4.10.0"></a>
+
+# [4.10.0](https://github.com/rsuite/rsuite/compare/4.9.4...4.10.0) (2021-05-08)
+
+### Bug Fixes
+
+- **multi-cascader:** the value of event in onSelect is incorrect ([502be2e](https://github.com/rsuite/rsuite/commit/502be2e))
+- **table:** fix long strings in table cells were incorrectly truncated ([#1647](https://github.com/rsuite/rsuite/issues/1647)) ([926111e](https://github.com/rsuite/rsuite/commit/926111e))
+
+### Features
+
+- **multi-cascader:** support `onCheck` on `MultiCascader` ([#1646](https://github.com/rsuite/rsuite/issues/1646)) ([e19cd47](https://github.com/rsuite/rsuite/commit/e19cd47))
 
 ## 4.9.4
 
