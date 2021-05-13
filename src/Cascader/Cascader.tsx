@@ -168,7 +168,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   useEffect(() => {
     setFlattenData(flattenTree(data, childrenKey));
-  }, [data]);
+  }, [data, childrenKey]);
 
   usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
