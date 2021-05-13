@@ -365,7 +365,12 @@ describe('Cascader', () => {
 
     ReactTestUtils.act(() => {
       ReactDOM.render(
-        <Cascader ref={cascaderRef} defaultOpen data={itemsWithChildrenKey.data} childrenKey={itemsWithChildrenKey.childrenKey}  />,
+        <Cascader
+          ref={cascaderRef}
+          defaultOpen
+          data={itemsWithChildrenKey.data}
+          childrenKey={itemsWithChildrenKey.childrenKey}
+        />,
         createTestContainer()
       );
     });
@@ -377,17 +382,12 @@ describe('Cascader', () => {
 
       input.value = 'g';
       ReactTestUtils.Simulate.change(input);
-
     });
 
     ReactTestUtils.act(() => {
       const searchResult = cascaderRef.current.overlay.querySelectorAll('.rs-picker-cascader-row');
 
-      assert.equal(
-        searchResult.length,
-        2
-      );
-
+      assert.equal(searchResult.length, 2);
     });
   });
 
