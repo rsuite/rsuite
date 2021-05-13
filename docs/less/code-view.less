@@ -83,11 +83,12 @@ a code {
     border-color: @code-view-wrapper-border-color;
 
     > .rs-btn {
-      .rs-btn-md();
-      .rs-icon-code {
-        @font-size: 20px;
-        height: @font-size;
-        font-size: @font-size;
+      font-size: 0;
+      line-height: 16px;
+      padding: 10px;
+
+      .rs-icon {
+        font-size: 16px;
       }
     }
   }
