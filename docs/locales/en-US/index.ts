@@ -14,6 +14,7 @@ export default {
     usage: 'Quick Start',
     useWithCreateReactApp: 'Use in create-react-app',
     useNextApp: 'Use in Next.js',
+    darkMode: 'Dark mode',
     customizeTheme: 'Customize theme',
     intl: 'Installation',
     rtl: 'Right-to-left',
