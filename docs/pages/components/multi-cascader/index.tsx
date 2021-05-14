@@ -3,7 +3,7 @@ import { MultiCascader, Button, Toggle, RadioGroup, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import PreventOverflowContainer from '@/components/PreventOverflowContainer';
 import useFetchData from '@/utils/useFetchData';
-import Spinner from '@rsuite/icons/legacy/Spinner';
+import TagIcon from '@rsuite/icons/Tag';
 
 export default function Page() {
   const { response: data } = useFetchData('province-simplified');
@@ -12,12 +12,12 @@ export default function Page() {
       dependencies={{
         MultiCascader,
         Button,
-        Spinner,
         Toggle,
         RadioGroup,
         Radio,
+        TagIcon,
         PreventOverflowContainer,
-        data,
+        data
       }}
     />
   );

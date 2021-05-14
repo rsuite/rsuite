@@ -56,7 +56,12 @@ export interface CascaderProps<T = ValueType>
   parentSelectable?: boolean;
 
   /** Custom render menu */
-  renderMenu?: (items: ItemDataType[], menu: React.ReactNode, parentNode?: any) => React.ReactNode;
+  renderMenu?: (
+    items: ItemDataType[],
+    menu: React.ReactNode,
+    parentNode?: any,
+    layer?: number
+  ) => React.ReactNode;
 
   /** Custom render menu items */
   renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
