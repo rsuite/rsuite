@@ -8,7 +8,7 @@ import isOneOf from '../utils/isOneOf';
 import { AnimationEventProps, StandardProps, TypeAttributes } from '../@types/common';
 import { PositionInstance } from './Position';
 import { isUndefined } from 'lodash';
-export type OverlayTriggerTrigger = 'click' | 'hover' | 'focus' | 'active' | 'none';
+export type OverlayTriggerType = 'click' | 'hover' | 'focus' | 'active' | 'none';
 
 function mergeEvents(events = {}, props = {}) {
   const nextEvents = {};
@@ -23,7 +23,7 @@ function mergeEvents(events = {}, props = {}) {
 
 export interface OverlayTriggerProps extends StandardProps, AnimationEventProps {
   /** Triggering events */
-  trigger?: OverlayTriggerTrigger | OverlayTriggerTrigger[];
+  trigger?: OverlayTriggerType | OverlayTriggerType[];
 
   /** Display placement */
   placement?: TypeAttributes.Placement;
