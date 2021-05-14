@@ -1,6 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, innerText } from '@test/testUtils';
+import { getDOMNode, createTestContainer, innerText } from '@test/testUtils';
 
 import NavItem from '../NavItem';
 
@@ -82,5 +83,24 @@ describe('NavItem', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<NavItem classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should render a tooltip', () => {
+    const itemRef = React.createRef();
+
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <NavItem ref={itemRef} tooltip>
+          item
+        </NavItem>,
+        createTestContainer()
+      );
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.focus(itemRef.current.root);
+    });
+
+    assert.equal(itemRef.current.overlay.getAttribute('role'), 'tooltip');
   });
 });
