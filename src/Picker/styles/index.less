@@ -294,8 +294,7 @@
       .default-input();
 
       min-width: @picker-content-min-width;
-      padding-right: @picker-search-bar-icon-width +
-        (@input-padding-x - @input-border-width) * 2;
+      padding-right: @picker-search-bar-icon-width + (@input-padding-x - @input-border-width) * 2;
     }
 
     .rs-picker-search-bar-search-icon {
@@ -359,6 +358,10 @@
         @picker-item-content-padding-vertical @picker-check-item-content-padding-left;
       transition: @picker-item-transition;
       line-height: @line-height-computed;
+
+      &::before {
+        background-color: var(--rs-bg-overlay);
+      }
 
       /* stylelint-disable-next-line */ // This class name provide by Virtualized.
       .ReactVirtualized__Grid & {
