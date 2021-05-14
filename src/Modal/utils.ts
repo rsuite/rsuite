@@ -24,32 +24,25 @@ export const useBodyStyles = (
         // default margin
         let headerHeight = 46;
         let footerHeight = 46;
-        let contentHeight = 30;
 
         const headerDOM = dialog.querySelector(`.${prefix('header')}`);
         const footerDOM = dialog.querySelector(`.${prefix('footer')}`);
-        const contentDOM = dialog.querySelector(`.${prefix('content')}`);
 
         headerHeight = headerDOM ? helper.getHeight(headerDOM) + headerHeight : headerHeight;
         footerHeight = footerDOM ? helper.getHeight(footerDOM) + footerHeight : footerHeight;
-        contentHeight = contentDOM ? helper.getHeight(contentDOM) + contentHeight : contentHeight;
 
-        if (drawer) {
-          styles.height = contentHeight - (headerHeight + footerHeight);
-        } else {
-          /**
-           * Header height + Footer height + Dialog margin
-           */
-          const excludeHeight = headerHeight + footerHeight + (entering ? 70 : 60);
-          const bodyHeight = helper.getHeight(window) - excludeHeight;
-          const maxHeight = scrollHeight >= bodyHeight ? bodyHeight : scrollHeight;
-          styles.maxHeight = maxHeight;
-        }
+        /**
+         * Header height + Footer height + Dialog margin
+         */
+        const excludeHeight = headerHeight + footerHeight + (entering ? 70 : 60);
+        const bodyHeight = helper.getHeight(window) - excludeHeight;
+        const maxHeight = scrollHeight >= bodyHeight ? bodyHeight : scrollHeight;
+        styles.maxHeight = maxHeight;
       }
 
       setBodyStyles(styles);
     },
-    [drawer, prefix, ref]
+    [prefix, ref]
   );
 
   const onDestroyEvents = useCallback(() => {
@@ -61,14 +54,14 @@ export const useBodyStyles = (
 
   const onChangeBodyStyles = useCallback(
     (entering?: boolean) => {
-      if (overflow) {
+      if (overflow && !drawer) {
         updateBodyStyles(null, entering);
         contentElement.current = ref.current?.querySelector(`.${prefix('content')}`);
         windowResizeListener.current = helper.on(window, 'resize', updateBodyStyles);
         bindElementResize(contentElement.current, updateBodyStyles);
       }
     },
-    [overflow, prefix, ref, updateBodyStyles]
+    [drawer, overflow, prefix, ref, updateBodyStyles]
   );
 
   useEffect(() => {
