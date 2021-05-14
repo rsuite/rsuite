@@ -1,5 +1,5 @@
 import React from 'react';
-import { TagPicker, Button } from 'rsuite';
+import { TagPicker, Button, Tag } from 'rsuite';
 import lodashRemove from 'lodash/remove';
 import fetch from 'isomorphic-fetch';
 import DefaultPage from '@/components/Page';
@@ -12,7 +12,7 @@ export default function Page() {
   const { response: data } = useFetchData('users-role');
   return (
     <DefaultPage
-      dependencies={{ TagPicker, Button, Spinner, lodashRemove, data, fetch, User, Group }}
+      dependencies={{ Tag, TagPicker, Button, Spinner, lodashRemove, data, fetch, User, Group }}
     />
   );
 }
