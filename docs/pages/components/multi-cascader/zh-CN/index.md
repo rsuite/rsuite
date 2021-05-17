@@ -113,7 +113,7 @@
 | placement             | enum: PlacementStart `('bottomStart')`                                                     | 打开位置                             |
 | preventOverflow       | boolean                                                                                    | 防止浮动元素溢出                     |
 | renderExtraFooter     | () => ReactNode                                                                            | 自定义页脚内容                       |
-| renderMenu            | (children: object[], menu:ReactNode, parentNode?: object) => ReactNode                     | 自定义渲染菜单列表                   |
+| renderMenu            | (children: object[], menu:ReactNode, parentNode?: object, layer?: number) => ReactNode     | 自定义渲染菜单列表                   |
 | renderMenuItem        | (label:ReactNode, item: DataItemType ) => ReactNode                                        | 自定义选项                           |
 | renderValue           | (value:string[], selectedItems: DataItemType[], selectedElement: ReactNode ) => ReactNodee | 自定义被选中的选项                   |
 | searchable            | boolean `(true)`                                                                           | 可以搜索                             |
