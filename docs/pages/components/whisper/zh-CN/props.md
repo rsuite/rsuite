@@ -2,8 +2,9 @@
 
 ```ts
 type Trigger =
-  | Array<'click' | 'hover' | 'focus' | 'active'>
+  | Array<'click' | 'contextMenu' | 'hover' | 'focus' | 'active'>
   | 'click'
+  | 'contextMenu'
   | 'hover'
   | 'focus'
   | 'active'

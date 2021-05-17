@@ -24,6 +24,7 @@ When the mouse clicks/moves in, the pop-up pop-up box is used to display more co
 `Whisper` provides a `trigger` props, which is used to control the display of `Popover` in different business scenarios. Props values ​​include:
 
 - `click`: It will be triggered when the element is clicked, and closed when clicked again.
+- `contextMenu`: It will be triggered when you trigger contextMenu on the element.
 - `focus`: It is generally triggered when the user clicks or taps on an element or selects it with the keyboard's `tab` key.
 - `hover`: Will be triggered when the cursor (mouse pointer) is hovering over the element.
 - `active`: It is triggered when the element is activated.
