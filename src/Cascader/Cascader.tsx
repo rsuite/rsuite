@@ -143,7 +143,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   // Use component active state to support keyboard events.
   const [active, setActive] = useState(false);
-  const [flattenData, setFlattenData] = useState<ItemDataType[]>(flattenTree(data));
+  const [flattenData, setFlattenData] = useState<ItemDataType[]>(flattenTree(data, childrenKey));
 
   const triggerRef = useRef<OverlayTriggerInstance>();
   const overlayRef = useRef<HTMLDivElement>();
@@ -167,8 +167,8 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   });
 
   useEffect(() => {
-    setFlattenData(flattenTree(data));
-  }, [data]);
+    setFlattenData(flattenTree(data, childrenKey));
+  }, [data, childrenKey]);
 
   usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
