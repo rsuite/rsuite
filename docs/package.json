@@ -89,7 +89,7 @@
     "next": "^10.0.7-canary.2",
     "next-compose-plugins": "^2.2.1",
     "next-images": "^1.6.2",
-    "postcss": "^8.2.6",
+    "postcss": "^8.2.10",
     "postcss-loader": "^4.2.0",
     "postcss-rtl": "^1.7.3",
     "react-markdown-reader": "^1.2.0",
