@@ -1,11 +1,13 @@
 import React from 'react';
 import pick from 'lodash/pick';
-import OverlayTrigger, { OverlayTriggerInstance } from '../Overlay/OverlayTrigger';
+import OverlayTrigger, {
+  OverlayTriggerInstance,
+  OverlayTriggerType
+} from '../Overlay/OverlayTrigger';
 import { PositionChildProps } from '../Overlay/Position';
 import { placementPolyfill } from '../utils';
 import { CustomConsumer } from '../CustomProvider';
 import { TypeAttributes } from '../@types/common';
-type TriggerType = 'click' | 'hover' | 'focus' | 'active';
 
 export type { OverlayTriggerInstance, PositionChildProps };
 
@@ -13,7 +15,7 @@ export interface PickerToggleTriggerProps {
   placement?: TypeAttributes.Placement;
   pickerProps: any;
   open?: boolean;
-  trigger?: TriggerType | TriggerType[];
+  trigger?: OverlayTriggerType | OverlayTriggerType[];
   children: React.ReactElement | ((props: any, ref) => React.ReactElement);
   speaker: React.ReactElement | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
   onEnter?: (node: null | Element | Text) => void;
