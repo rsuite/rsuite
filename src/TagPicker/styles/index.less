@@ -37,13 +37,6 @@
     margin-left: @tag-picker-content-padding-horizontal;
   }
 
-  .rs-picker-tag-wrapper {
-    position: relative;
-    // make sure tag in front of toggle
-    z-index: @zindex-picker-toggle + 1;
-    padding-bottom: @tag-picker-content-padding-vertical;
-  }
-
   .rs-picker-search {
     &,
     &-input,
@@ -56,5 +49,25 @@
     &-input > input {
       padding: 0;
     }
+  }
+}
+
+.rs-picker-tag-wrapper {
+  position: relative;
+  // make sure tag in front of toggle
+  z-index: @zindex-picker-toggle + 1;
+  padding-bottom: @tag-picker-content-padding-vertical;
+  min-height: 34px;
+
+  .rs-picker-toggle.rs-btn-lg ~ & {
+    min-height: 40px;
+  }
+
+  .rs-picker-toggle.rs-btn-sm ~ & {
+    min-height: 28px;
+  }
+
+  .rs-picker-toggle.rs-btn-xs ~ & {
+    min-height: 22px;
   }
 }
