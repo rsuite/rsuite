@@ -2,8 +2,8 @@
 
 ```js
 /**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
+ * import { Tag, TagPicker } from 'rsuite';
+ * import data from https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
  */
 
 const instance = (
