@@ -110,13 +110,7 @@ const defaultProps: Partial<CheckTreePickerProps> = {
   appearance: 'default',
   uncheckableItemValues: [],
   classPrefix: 'picker',
-  placement: 'bottomStart',
-  locale: {
-    placeholder: 'Select',
-    searchPlaceholder: 'Search',
-    noResultsText: 'No results found',
-    checkAll: 'All'
-  }
+  placement: 'bottomStart'
 };
 
 const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef((props, ref) => {

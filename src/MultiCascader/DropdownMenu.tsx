@@ -28,7 +28,8 @@ export interface DropdownMenuProps extends WithAsProps {
   renderMenu?: (
     children: ItemDataType[],
     menu: React.ReactNode,
-    parentNode?: ItemDataType
+    parentNode?: ItemDataType,
+    layer?: number
   ) => React.ReactNode;
   onCheck?: (node: ItemDataType, event: React.SyntheticEvent, checked: boolean) => void;
   onSelect?: (
@@ -203,7 +204,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
         const renderMenuElement = () => {
           if (renderMenu) {
-            return renderMenu(children, menu, parentNode);
+            return renderMenu(children, menu, parentNode, layer);
           }
 
           return parentNode?.loading ? (

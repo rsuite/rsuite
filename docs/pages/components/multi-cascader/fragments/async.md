@@ -48,7 +48,7 @@ const App = () => {
           if (parentNode && parentNode.loading) {
             return (
               <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-                <Spinner spin /> Loading...
+                Loading...
               </p>
             );
           }

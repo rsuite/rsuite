@@ -516,9 +516,11 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     }, [setFocusItemValue, setSearchKeyword, onClose, value, multi]);
 
     const handleFocus = useCallback(() => {
-      setOpen(true);
-      triggerRef.current?.open();
-    }, []);
+      if (!readOnly) {
+        setOpen(true);
+        triggerRef.current?.open();
+      }
+    }, [readOnly]);
 
     const handleBlur = useCallback(() => {
       setOpen(false);

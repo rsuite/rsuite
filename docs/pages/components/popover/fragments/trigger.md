@@ -36,6 +36,9 @@ const App = () => (
       <Whisper placement="top" trigger="click" controlId="control-id-click" speaker={speaker}>
         <Button>Click</Button>
       </Whisper>
+      <Whisper placement="top" trigger="contextMenu" speaker={speaker}>
+        <Button>ContextMenu</Button>
+      </Whisper>
       <Whisper placement="top" trigger="focus" controlId="control-id-focus" speaker={speaker}>
         <Button>Focus</Button>
       </Whisper>
