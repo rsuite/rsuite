@@ -78,6 +78,10 @@ const useSortHelper = (config: SortConfig) => {
 
       // init scroller
       const scrollContainer = getScrollingParent(containerElement) || containerElement;
+      const initScroll: Axis = {
+        x: scrollContainer.scrollLeft,
+        y: scrollContainer.scrollTop
+      };
       const autoScroller = new AutoScroller(scrollContainer, (offset: Offset) => {
         activeNodeHolderTranslate.x += offset.left;
         activeNodeHolderTranslate.y += offset.top;
@@ -99,8 +103,8 @@ const useSortHelper = (config: SortConfig) => {
       document.body.appendChild(activeNodeHelper);
 
       const getContainerScrollDelta = (): Offset => ({
-        left: scrollContainer.scrollLeft - scrollContainer.scrollLeft,
-        top: scrollContainer.scrollTop - scrollContainer.scrollTop
+        left: scrollContainer.scrollLeft - initScroll.x,
+        top: scrollContainer.scrollTop - initScroll.y
       });
       const getHolderTranslate = (): Axis =>
         animatedNodesOffset.reduce(
