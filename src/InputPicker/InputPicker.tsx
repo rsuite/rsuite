@@ -582,6 +582,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             <Tag
               {...tagRest}
               key={tag}
+              size={rest.size === 'lg' ? 'lg' : rest.size === 'xs' ? 'sm' : 'md'}
               closable={!disabled && closable && !readOnly && !plaintext}
               title={typeof displayElement === 'string' ? displayElement : undefined}
               onClose={createChainedFunction(handleRemoveItemByTag.bind(null, tag), onClose)}

@@ -1,27 +1,23 @@
 @import '../../styles/common';
 
 //
-// Time lines
+// Tags
 // --------------------------------------------------
 
 .rs-tag {
   display: inline-block;
-  padding: @padding-y-xs @padding-x-xs;
   background-color: var(--rs-tag-bg);
   color: var(--rs-text-primary);
   border-radius: 6px;
-  font-size: @font-size-extra-small;
-  line-height: @line-height-extra-small;
+  line-height: 20px;
 
   &-closable {
-    padding-right: 25px;
     position: relative;
   }
 
-  & &-icon-close {
+  &-icon-close {
     position: absolute;
     font-size: 12px;
-    padding: 6px 8px;
   }
 
   &-default &-icon-close:hover {
@@ -35,6 +31,45 @@
   &-group > & {
     margin-top: @tag-gap;
     margin-left: @tag-gap;
+  }
+
+  &-lg {
+    padding: 5px 10px;
+    font-size: 14px;
+
+    .rs-tag-icon-close {
+      padding: 9px 8px;
+    }
+  }
+
+  &-closable&-lg {
+    padding-right: 27px;
+  }
+
+  &-md {
+    padding: 2px 8px;
+    font-size: 12px;
+
+    .rs-tag-icon-close {
+      padding: 6px 8px;
+    }
+  }
+
+  &-closable&-md {
+    padding-right: 25px;
+  }
+
+  &-sm {
+    padding: 0 8px;
+    font-size: 12px;
+
+    .rs-tag-icon-close {
+      padding: 4px 5px;
+    }
+  }
+
+  &-closable&-sm {
+    padding-right: 25px;
   }
 }
 
