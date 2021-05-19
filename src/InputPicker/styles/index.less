@@ -35,6 +35,19 @@
 
 .rs-picker-tag-wrapper {
   margin-right: @dropdown-toggle-padding-right;
+  min-height: 34px;
+
+  .rs-picker-toggle.rs-btn-lg ~ & {
+    min-height: 40px;
+  }
+
+  .rs-picker-toggle.rs-btn-sm ~ & {
+    min-height: 28px;
+  }
+
+  .rs-picker-toggle.rs-btn-xs ~ & {
+    min-height: 22px;
+  }
 
   .rs-picker-cleanable & {
     margin-right: (@dropdown-toggle-padding-right + @picker-toggle-clean-width);
