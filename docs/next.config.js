@@ -3,6 +3,7 @@ const path = require('path');
 const withImages = require('next-images');
 const withPlugins = require('next-compose-plugins');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const RtlCssPlugin = require('rtlcss-webpack-plugin');
 const pkg = require('./package.json');
 const findPages = require('./scripts/findPages');
 const markdownRenderer = require('./scripts/markdownRenderer');
@@ -74,13 +75,19 @@ module.exports = withPlugins([[withImages]], {
                   preset: [
                     'default',
                     {
-                      discardComnments: {
-                        removeAll: false
+                      discardComments: {
+                        /**
+                         * Reserve rtl control directives
+                         * FIXME cssnano should be used in `optimization` phase
+                         */
+                        remove: comment => !comment.includes('rtl:')
                       }
                     }
                   ]
                 }),
-                require('postcss-rtl')({}),
+                // Do not use postcss-rtl which generates a LTR+RTL css
+                // Use rtlcss-webpack-plugin which generates separate LTR css and RTL css
+                // require('postcss-rtl')({}),
                 require('postcss-custom-properties')()
               ]
             }
@@ -139,7 +146,8 @@ module.exports = withPlugins([[withImages]], {
       new MiniCssExtractPlugin({
         filename: 'static/css/docs.css',
         chunkFilename: 'static/css/[contenthash].css'
-      })
+      }),
+      new RtlCssPlugin('static/css/docs-rtl.css')
     );
 
     config.resolve.alias['@'] = resolveToStaticPath('./');

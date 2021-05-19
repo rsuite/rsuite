@@ -27,6 +27,10 @@ export const getThemeCssPath = (themeName: ThemeType, direction: DirectionType):
     !__DEV__ && direction === 'rtl' ? '.rtl' : ''
   }.css`;
 
+export function getStylesheetPath(dir: DirectionType): string {
+  return `${__DEV__ ? '/_next/static' : ''}/css/docs${dir === 'rtl' ? '-rtl' : ''}.css`;
+}
+
 export const readThemeName = (): ThemeType => {
   if (!canUseDOM) {
     return THEME_DEFAULT;

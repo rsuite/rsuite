@@ -20,12 +20,14 @@ import { getMessages } from '../locales';
 import {
   DirectionType,
   getDefaultTheme,
+  getStylesheetPath,
   readTheme,
   ThemeType,
   writeTheme
 } from '../utils/themeHelpers';
 import StyleHead from '../components/StyleHead';
 import { canUseDOM } from 'dom-lib';
+import loadCssFile from '@/utils/loadCssFile';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
@@ -81,11 +83,39 @@ function App({ Component, pageProps }: AppProps) {
     };
   }, [themeName, direction, onChangeTheme]);
 
-  const onChangeDirection = React.useCallback(() => {
+  const loadStylesheetForDirection = React.useCallback(
+    async (direction: DirectionType) => {
+      console.group(`Changing direction: ${direction}`);
+
+      NProgress.start();
+
+      const id = `stylesheet-${direction}`;
+      const stylesheetPath = getStylesheetPath(direction);
+
+      console.log('Loading stylesheet: ', stylesheetPath);
+      const loaded = await loadCssFile(stylesheetPath, id);
+      console.log(loaded.target);
+
+      const html = document.querySelector('html');
+      html.setAttribute('dir', direction);
+      writeTheme(themeName, direction);
+      NProgress.done();
+
+      for (const css of document.querySelectorAll('[rel=stylesheet]')) {
+        if (/docs(-rtl)?\.css/.test(css.getAttribute('href')) && css.getAttribute('id') !== id) {
+          console.log('Removing stylesheet: ', css);
+          css.remove();
+        }
+      }
+      console.groupEnd();
+    },
+    [themeName]
+  );
+
+  const onChangeDirection = React.useCallback(async () => {
     const newDirection = direction === 'ltr' ? 'rtl' : 'ltr';
     setDirection(newDirection);
-    writeTheme(themeName, newDirection);
-  }, [direction, themeName]);
+  }, [direction]);
 
   const onChangeLanguage = React.useCallback((value: string) => {
     setLanguage(value);
@@ -99,6 +129,10 @@ function App({ Component, pageProps }: AppProps) {
     document.body.classList.add(`rs-theme-${themeName === 'default' ? 'light' : 'dark'}`);
     document.body.classList.remove(`rs-theme-${oppositeThemeName}`);
   }, [themeName]);
+
+  React.useEffect(() => {
+    loadStylesheetForDirection(direction);
+  }, [direction]);
 
   return (
     <React.StrictMode>
