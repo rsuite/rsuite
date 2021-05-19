@@ -4,6 +4,7 @@ const withImages = require('next-images');
 const withPlugins = require('next-compose-plugins');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const RtlCssPlugin = require('rtlcss-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const pkg = require('./package.json');
 const findPages = require('./scripts/findPages');
 const markdownRenderer = require('./scripts/markdownRenderer');
@@ -71,20 +72,6 @@ module.exports = withPlugins([[withImages]], {
             postcssOptions: {
               plugins: [
                 require('autoprefixer'),
-                require('cssnano')({
-                  preset: [
-                    'default',
-                    {
-                      discardComments: {
-                        /**
-                         * Reserve rtl control directives
-                         * FIXME cssnano should be used in `optimization` phase
-                         */
-                        remove: comment => !comment.includes('rtl:')
-                      }
-                    }
-                  ]
-                }),
                 // Do not use postcss-rtl which generates a LTR+RTL css
                 // Use rtlcss-webpack-plugin which generates separate LTR css and RTL css
                 // require('postcss-rtl')({}),
@@ -148,6 +135,24 @@ module.exports = withPlugins([[withImages]], {
         chunkFilename: 'static/css/[contenthash].css'
       }),
       new RtlCssPlugin('static/css/docs-rtl.css')
+    );
+
+    config.optimization.minimizer.push(
+      /**
+       * Minimize CSS using cssnano
+       * @see https://webpack.js.org/plugins/css-minimizer-webpack-plugin/
+       */
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: [
+            'advanced',
+            {
+              // Don't modify z-index
+              zindex: false
+            }
+          ]
+        }
+      })
     );
 
     config.resolve.alias['@'] = resolveToStaticPath('./');
