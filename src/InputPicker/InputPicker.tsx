@@ -689,8 +689,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     if (plaintext) {
       return (
-        <Plaintext localeKey="notSelected">
-          {displayElement || tagElements?.length ? tagElements : null}
+        <Plaintext localeKey="notSelected" ref={targetRef}>
+          {displayElement || (tagElements?.length ? tagElements : null)}
         </Plaintext>
       );
     }
