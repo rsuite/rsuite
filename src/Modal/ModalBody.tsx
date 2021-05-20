@@ -16,7 +16,7 @@ const defaultProps: Partial<ModalBodyProps> = {
 const ModalBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forwardRef(
   (props: ModalBodyProps, ref) => {
     const { as: Component, classPrefix, className, style, children, ...rest } = props;
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
     return (
@@ -30,7 +30,7 @@ const ModalBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forward
                   icon={<Close />}
                   appearance="subtle"
                   size="sm"
-                  className={withClassPrefix('close')}
+                  className={prefix('close')}
                   onClick={context?.onModalClose}
                 />
               )}
