@@ -20,15 +20,14 @@ const App = () => {
   };
   return (
     <div>
-      <ButtonToolbar>
-        <RadioGroup inline appearance="picker" value={size} onChange={setSize}>
-          <span style={styles.radioGroupLabel}>Size: </span>
-          <Radio value="lg">Large</Radio>
-          <Radio value="md">Medium</Radio>
-          <Radio value="sm">Small</Radio>
-          <Radio value="xs">Xsmall</Radio>
-        </RadioGroup>
-      </ButtonToolbar>
+      <RadioGroup inline appearance="picker" value={size} onChange={setSize}>
+        <span style={styles.radioGroupLabel}>Size: </span>
+        <Radio value="lg">Large</Radio>
+        <Radio value="md">Medium</Radio>
+        <Radio value="sm">Small</Radio>
+        <Radio value="xs">Xsmall</Radio>
+      </RadioGroup>
+      <hr />
       <ButtonToolbar>
         <IconButton icon={<AngleLeft />} onClick={() => handleOpen('left')}>
           Left
