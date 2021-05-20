@@ -46,18 +46,16 @@ const App = () => {
       <Drawer size={size} placement={placement} open={open} onClose={() => setOpen(false)}>
         <Drawer.Header>
           <Drawer.Title>Drawer Title</Drawer.Title>
+          <Drawer.Actions>
+            <Button onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={() => setOpen(false)} appearance="primary">
+              Confirm
+            </Button>
+          </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
           <Paragraph rows={8} />
         </Drawer.Body>
-        <Drawer.Footer>
-          <Button onClick={() => setOpen(false)} appearance="primary">
-            Confirm
-          </Button>
-          <Button onClick={() => setOpen(false)} appearance="subtle">
-            Cancel
-          </Button>
-        </Drawer.Footer>
       </Drawer>
     </div>
   );

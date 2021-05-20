@@ -149,12 +149,76 @@
   }
 }
 
+// Drawer header
+// Top section of the modal title.
+.rs-drawer-header {
+  .clearfix();
+
+  position: relative;
+  padding: 20px 40px 20px 60px;
+  border-bottom: 1px solid var(--rs-border-primary);
+  display: flex;
+
+  .rs-drawer-header-close {
+    position: absolute;
+    left: 15px;
+    top: 23px;
+  }
+}
+
+.rs-drawer-title {
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin: 0;
+  color: var(--rs-text-heading);
+  font-weight: normal;
+  font-size: @modal-title-font-size;
+  line-height: 36px; // same as default button height
+  .ellipsis-basic();
+}
+
+.rs-drawer-actions {
+  .clearfix(); // clear it in case folks use .pull-* classes on buttons
+
+  flex-shrink: 0;
+  text-align: right; // right align buttons
+  border-top: none;
+
+  // Properly space out buttons
+  .rs-btn + .rs-btn {
+    margin-left: 10px;
+    margin-bottom: 0; // account for input[type="submit"] which gets the bottom margin like all other inputs
+  }
+  // but override that for button groups
+  .rs-btn-group .rs-btn + .rs-btn {
+    margin-left: -1px;
+  }
+  // and override it for block buttons as well
+  .rs-btn-block + .rs-btn-block {
+    margin-left: 0;
+  }
+}
+
 // Drawer body
 .rs-drawer-body {
   position: relative;
-  margin: @drawer-body-margin @drawer-content-spacing;
-  // Javascript handle height
+  padding: 30px 60px;
+  height: 100%;
   overflow: auto;
+
+  .rs-drawer-header + & {
+    height: calc(100% - 76px);
+  }
+
+  &-close {
+    position: absolute;
+    left: 15px;
+    top: 25px;
+
+    .rs-drawer-header ~ .rs-drawer-body & {
+      display: none;
+    }
+  }
 }
 
 // Measure scrollbar width for padding body during modal show/hide
@@ -166,32 +230,8 @@
   overflow: scroll;
 }
 
-// Drawer header
-// Top section of the modal title.
-.rs-drawer-header {
-  .clearfix();
-
-  padding-right: @line-height-computed;
-  position: relative;
-  margin: @drawer-content-spacing @drawer-content-spacing 0;
-
-  .rs-drawer-header-close {
-    padding: 0 4px;
-  }
-}
-
-.rs-drawer-title {
-  width: 100%;
-  display: block;
-  margin: 0;
-  color: var(--rs-text-heading);
-  font-weight: normal;
-  font-size: @modal-title-font-size;
-  line-height: unit((@line-height-computed / @modal-title-font-size));
-  .ellipsis();
-}
-
 // Footer (for actions)
+// todo rs-drawer-footer has been deprecated, remove the styles once the component API is removed
 .rs-drawer-footer {
   .clearfix(); // clear it in case folks use .pull-* classes on buttons
 
