@@ -427,7 +427,11 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
       for (let i = 0; i < a.length; i++) {
         labelElements.push(a[i]);
         if (b && b[i]) {
-          labelElements.push(<strong key={i}>{b[i]}</strong>);
+          labelElements.push(
+            <span key={i} className={prefix('cascader-search-match')}>
+              {b[i]}
+            </span>
+          );
         }
       }
       return { ...node, [labelKey]: labelElements };
@@ -557,6 +561,8 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     name: 'cascader'
   });
 
+  // TODO: bad api design
+  //       consider an isolated Menu component
   if (inline) {
     return renderDropdownMenu();
   }

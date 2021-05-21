@@ -23,7 +23,7 @@ const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
   (props: TooltipProps, ref) => {
     const { as: Component, className, classPrefix, children, style, visible, ...rest } = props;
 
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
     const styles = {
       opacity: visible ? 1 : undefined,
@@ -32,8 +32,7 @@ const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
 
     return (
       <Component role="tooltip" {...rest} ref={ref} className={classes} style={styles}>
-        <div className={prefix`arrow`} aria-hidden />
-        <div className={prefix`inner`}>{children}</div>
+        {children}
       </Component>
     );
   }

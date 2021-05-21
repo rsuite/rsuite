@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { createChainedFunction, useClassNames } from '../utils';
 import { ModalContext } from './Modal';
 import CloseButton from '../CloseButton';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import Close from '@rsuite/icons/Close';
+import IconButton from '../IconButton';
 
 export interface ModalHeaderProps extends WithAsProps {
   /** Primary content */
@@ -36,15 +38,21 @@ const ModalHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.for
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
-    const buttonElement = (
-      <ModalContext.Consumer>
-        {context => (
-          <CloseButton
-            className={prefix('close')}
-            onClick={createChainedFunction(onClose, context?.onModalClose)}
-          />
-        )}
-      </ModalContext.Consumer>
+    const context = useContext(ModalContext);
+
+    const buttonElement = !context?.isDrawer ? (
+      <CloseButton
+        className={prefix('close')}
+        onClick={createChainedFunction(onClose, context?.onModalClose)}
+      />
+    ) : (
+      <IconButton
+        icon={<Close />}
+        appearance="subtle"
+        size="sm"
+        className={prefix('close')}
+        onClick={createChainedFunction(onClose, context?.onModalClose)}
+      />
     );
 
     return (

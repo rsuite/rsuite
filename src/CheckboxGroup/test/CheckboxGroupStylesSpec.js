@@ -4,7 +4,7 @@ import CheckboxGroup from '../index';
 import Checkbox from '../../Checkbox';
 import { createTestContainer, getDOMNode } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 import { getStyle } from '../../../test/testUtils';
 
 describe('CheckboxGroup styles', () => {

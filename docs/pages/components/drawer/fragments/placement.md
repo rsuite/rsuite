@@ -5,7 +5,7 @@ const App = () => {
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();
 
-  const handleOpen = (key) => {
+  const handleOpen = key => {
     setOpen(true);
     setPlacement(key);
   };
@@ -29,18 +29,16 @@ const App = () => {
       <Drawer placement={placement} open={open} onClose={() => setOpen(false)}>
         <Drawer.Header>
           <Drawer.Title>Drawer Title</Drawer.Title>
+          <Drawer.Actions>
+            <Button onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={() => setOpen(false)} appearance="primary">
+              Confirm
+            </Button>
+          </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
           <Paragraph rows={8} />
         </Drawer.Body>
-        <Drawer.Footer>
-          <Button onClick={() => setOpen(false)} appearance="primary">
-            Confirm
-          </Button>
-          <Button onClick={() => setOpen(false)} appearance="subtle">
-            Cancel
-          </Button>
-        </Drawer.Footer>
       </Drawer>
     </div>
   );

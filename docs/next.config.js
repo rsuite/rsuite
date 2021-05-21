@@ -2,6 +2,9 @@
 const path = require('path');
 const withImages = require('next-images');
 const withPlugins = require('next-compose-plugins');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const RtlCssPlugin = require('rtlcss-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const pkg = require('./package.json');
 const findPages = require('./scripts/findPages');
 const markdownRenderer = require('./scripts/markdownRenderer');
@@ -21,6 +24,13 @@ const LANGUAGES = {
 const getLanguage = language => LANGUAGES[language] || '';
 
 module.exports = withPlugins([[withImages]], {
+  future: {
+    /**
+     * Enable webpack 5
+     * @see https://nextjs.org/docs/messages/webpack5
+     */
+    webpack5: true
+  },
   webpack(config, { webpack }) {
     const originEntry = config.entry;
 
@@ -46,6 +56,42 @@ module.exports = withPlugins([[withImages]], {
       use: ['babel-loader?babelrc'],
       include: [RSUITE_ROOT, path.join(__dirname, './')],
       exclude: /node_modules/
+    });
+
+    config.module.rules.push({
+      test: /\.(le|c)ss$/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader'
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            sourceMap: true,
+            postcssOptions: {
+              plugins: [
+                require('autoprefixer'),
+                // Do not use postcss-rtl which generates a LTR+RTL css
+                // Use rtlcss-webpack-plugin which generates separate LTR css and RTL css
+                // require('postcss-rtl')({}),
+                require('postcss-custom-properties')()
+              ]
+            }
+          }
+        },
+        {
+          loader: 'less-loader',
+          options: {
+            sourceMap: true,
+            lessOptions: {
+              globalVars: {
+                rootPath: '../../../'
+              }
+            }
+          }
+        }
+      ]
     });
 
     config.module.rules.push({
@@ -79,6 +125,35 @@ module.exports = withPlugins([[withImages]], {
         __VERSION__: JSON.stringify(pkg.version)
       })
     ]);
+
+    /**
+     * @see https://github.com/vercel/next.js/blob/0bcc6943ae7a8c3c7d1865b4ae090edafe417c7c/packages/next/build/webpack/config/blocks/css/index.ts#L311
+     */
+    config.plugins.push(
+      new MiniCssExtractPlugin({
+        filename: 'static/css/docs.css',
+        chunkFilename: 'static/css/[contenthash].css'
+      }),
+      new RtlCssPlugin('static/css/docs-rtl.css')
+    );
+
+    config.optimization.minimizer.push(
+      /**
+       * Minimize CSS using cssnano
+       * @see https://webpack.js.org/plugins/css-minimizer-webpack-plugin/
+       */
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: [
+            'advanced',
+            {
+              // Don't modify z-index
+              zindex: false
+            }
+          ]
+        }
+      })
+    );
 
     config.resolve.alias['@'] = resolveToStaticPath('./');
     config.resolve.alias['rsuite'] = resolveToStaticPath('../src');

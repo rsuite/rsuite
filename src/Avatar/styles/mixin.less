@@ -3,14 +3,14 @@
   height: @side-length;
   font-size: @font-size;
 
-  & > .@{ns}icon {
+  & > .rs-icon {
     @icon-font-size: ((@side-length - @font-size)/2 + @font-size);
 
     font-size: @icon-font-size;
     height: @icon-font-size;
   }
 
-  & > .@{ns}avatar-image {
+  & > .rs-avatar-image {
     width: @side-length;
     height: @side-length;
     line-height: @side-length;
@@ -18,17 +18,17 @@
 }
 
 .avatar-lg() {
-  .avatar-size(@avatar-lg-side-length, @avatar-lg-font-size);
+  .avatar-size(@avatar-size-lg, @avatar-font-size-lg);
 }
 
 .avatar-md() {
-  .avatar-size(@avatar-md-side-length, @avatar-md-font-size);
+  .avatar-size(@avatar-size, @avatar-font-size);
 }
 
 .avatar-sm() {
-  .avatar-size(@avatar-sm-side-length, @avatar-sm-font-size);
+  .avatar-size(@avatar-size-sm, @avatar-font-size-sm);
 }
 
 .avatar-xs() {
-  .avatar-size(@avatar-xs-side-length, @avatar-xs-font-size);
+  .avatar-size(@avatar-size-xs, @avatar-font-size-xs);
 }

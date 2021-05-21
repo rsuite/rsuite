@@ -88,7 +88,7 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
           {closable && <CloseButton onClick={handleClose} />}
           {showIcon && <div className={prefix`icon-wrapper`}>{MESSAGE_STATUS_ICONS[type]}</div>}
           <div className={prefix`content`}>
-            {header && <h5 className={prefix`header`}>{header}</h5>}
+            {header && <div className={prefix`header`}>{header}</div>}
             {children && <div className={prefix`body`}>{children}</div>}
           </div>
         </div>

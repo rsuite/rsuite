@@ -21,6 +21,7 @@
     "paths": {
       "@/*": ["./*"],
       "rsuite": ["../src/"],
+      "rsuite/*": ["../src/*"],
       "@rsuite-locales/*": ["../src/locales/*"]
     }
   },

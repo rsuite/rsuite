@@ -1,14 +1,14 @@
 .notification-variant(@icon-color) {
   // Content
-  .@{notification-ns}-content {
+  .rs-notification-content {
     // Description
     // Has title and description need to ajust distance
-    .@{notification-ns}-title + .@{notification-ns}-description {
+    .rs-notification-title + .rs-notification-description {
       margin-left: @notify-title-icon-size+ @notify-title-icon-margin;
     }
 
     // Tip icon
-    .@{ns}icon {
+    .rs-icon {
       color: @icon-color;
 
       &::before {

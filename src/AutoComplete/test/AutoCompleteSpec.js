@@ -34,7 +34,7 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={doneOp} />
     );
-    ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('a')[0]);
+    ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('.rs-auto-complete-item')[0]);
   });
 
   it('Should call onChange callback', done => {
@@ -205,7 +205,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(instance.overlay.querySelectorAll('a i').length, 2);
+    assert.equal(instance.overlay.querySelectorAll('.rs-auto-complete-item .icon').length, 2);
   });
 
   it('Should have a custom className', () => {

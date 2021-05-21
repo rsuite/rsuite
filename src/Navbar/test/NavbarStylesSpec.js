@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import NavBar from '../index';
 import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Navbar styles', () => {
   it('Should render the correct styles', () => {

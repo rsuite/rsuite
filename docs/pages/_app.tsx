@@ -6,6 +6,7 @@ import AppContext from '@/components/AppContext';
 import zhCN from '@rsuite-locales/zh_CN';
 import enUS from '@rsuite-locales/en_US';
 import * as Sentry from '@sentry/browser';
+import '../less/index.less';
 
 // Connecting the SDK to Sentry
 if (!__DEV__) {
@@ -19,15 +20,14 @@ import { getMessages } from '../locales';
 import {
   DirectionType,
   getDefaultTheme,
-  getThemeCssPath,
-  getThemeId,
+  getStylesheetPath,
   readTheme,
   ThemeType,
   writeTheme
 } from '../utils/themeHelpers';
-import loadCssFile from '../utils/loadCssFile';
 import StyleHead from '../components/StyleHead';
 import { canUseDOM } from 'dom-lib';
+import loadCssFile from '@/utils/loadCssFile';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
@@ -60,36 +60,16 @@ function App({ Component, pageProps }: AppProps) {
   const [language, setLanguage] = React.useState(pageProps.userLanguage);
   const [styleLoaded, setStyleLoaded] = React.useState(false);
   const locale = language === 'zh' ? zhCN : enUS;
-  React.useEffect(() => {
-    NProgress.start();
-  }, []);
 
   const handleStyleHeadLoaded = React.useCallback(() => {
-    NProgress.done();
     setStyleLoaded(true);
-  }, []);
-
-  const loadTheme = React.useCallback((themeName: ThemeType, direction: DirectionType) => {
-    const themeId = getThemeId(themeName, direction);
-    NProgress.start();
-    loadCssFile(getThemeCssPath(themeName, direction), themeId).then(() => {
-      const html = document.querySelector('html');
-      html.dir = direction;
-      writeTheme(themeName, direction);
-      NProgress.done();
-      Array.from(document.querySelectorAll('[id^=theme]')).forEach(css => {
-        if (css.id !== themeId) {
-          css.remove();
-        }
-      });
-    });
   }, []);
 
   const onChangeTheme = React.useCallback(() => {
     const newThemeName = themeName === 'default' ? 'dark' : 'default';
     setThemeName(newThemeName);
-    loadTheme(newThemeName, direction);
-  }, [themeName, loadTheme, direction]);
+    writeTheme(newThemeName, direction);
+  }, [themeName, direction]);
 
   React.useEffect(() => {
     if (!canUseDOM) {
@@ -103,17 +83,56 @@ function App({ Component, pageProps }: AppProps) {
     };
   }, [themeName, direction, onChangeTheme]);
 
-  const onChangeDirection = React.useCallback(() => {
+  const loadStylesheetForDirection = React.useCallback(
+    async (direction: DirectionType) => {
+      console.group(`Changing direction: ${direction}`);
+
+      NProgress.start();
+
+      const id = `stylesheet-${direction}`;
+      const stylesheetPath = getStylesheetPath(direction);
+
+      console.log('Loading stylesheet: ', stylesheetPath);
+      const loaded = await loadCssFile(stylesheetPath, id);
+      console.log(loaded.target);
+
+      const html = document.querySelector('html');
+      html.setAttribute('dir', direction);
+      writeTheme(themeName, direction);
+      NProgress.done();
+
+      for (const css of document.querySelectorAll('[rel=stylesheet]')) {
+        if (/docs(-rtl)?\.css/.test(css.getAttribute('href')) && css.getAttribute('id') !== id) {
+          console.log('Removing stylesheet: ', css);
+          css.remove();
+        }
+      }
+      console.groupEnd();
+    },
+    [themeName]
+  );
+
+  const onChangeDirection = React.useCallback(async () => {
     const newDirection = direction === 'ltr' ? 'rtl' : 'ltr';
     setDirection(newDirection);
-    loadTheme(themeName, newDirection);
-  }, [direction, loadTheme, themeName]);
+  }, [direction]);
 
   const onChangeLanguage = React.useCallback((value: string) => {
     setLanguage(value);
   }, []);
 
   const messages = getMessages(language);
+
+  React.useEffect(() => {
+    const oppositeThemeName = themeName === 'default' ? 'dark' : 'light';
+
+    document.body.classList.add(`rs-theme-${themeName === 'default' ? 'light' : 'dark'}`);
+    document.body.classList.remove(`rs-theme-${oppositeThemeName}`);
+  }, [themeName]);
+
+  React.useEffect(() => {
+    loadStylesheetForDirection(direction);
+  }, [direction]);
 
   return (
     <React.StrictMode>

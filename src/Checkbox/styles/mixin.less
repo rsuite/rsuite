@@ -1,17 +1,14 @@
-.checkbox-inner-wrap(@border-color:@checkbox-default-border-color) {
+.checkbox-inner-wrap(@border-color) {
   border: 1px solid @border-color;
   background-color: @checkbox-bg;
   border-radius: @checkbox-border-radius;
 }
 
-.checkbox-inner-active-shadow(@shadow-color:@checkbox-default-border-color) {
-  box-shadow: 0 0 0 3px fade(@shadow-color, 40%);
-}
-
 // Radio and Checkbox common styles
 .radio-checkbox-common() {
   position: relative;
-  display: block;
+  display: inline-block;
+  vertical-align: middle;
 
   // These classes are used on elements with <label> descendants
   &-disabled {
@@ -28,7 +25,7 @@
   }
 
   & &-inner::before {
-    border-color: @checkbox-checked-border-color;
+    border-color: var(--rs-checkbox-checked-bg);
   }
 
   &&-disabled label {
@@ -37,7 +34,7 @@
 
   // Disabled text styles.
   &-disabled > &-checker > label {
-    color: @input-color-disabled;
+    color: var(--rs-text-disabled);
   }
 
   // Radios and checkboxes on same line

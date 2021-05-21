@@ -4,7 +4,7 @@ import FormControl from '../index';
 import Form from '../../Form';
 import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Form control styles', () => {
   it('Should render the correct styles', () => {

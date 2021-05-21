@@ -1,6 +1,6 @@
 import React from 'react';
 import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
-import { PickerComponent } from '../Picker/types';
+import type { PickerComponent } from '../Picker/types';
 
 export type TagPickerProps = InputPickerProps;
 

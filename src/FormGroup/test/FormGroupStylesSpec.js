@@ -4,7 +4,7 @@ import FormGroup from '../index';
 
 import { createTestContainer, getStyle } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 import FormControl from '../../FormControl/index';
 import Form from '../../Form/index';
 

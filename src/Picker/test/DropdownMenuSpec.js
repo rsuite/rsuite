@@ -39,7 +39,7 @@ describe('picker -  DropdownMenu', () => {
       <DropdownMenu data={items} classPrefix={classPrefix} dropdownMenuItemAs={DropdownMenuItem} />
     );
 
-    assert.equal(instance.querySelectorAll('a').length, 3);
+    assert.equal(instance.querySelectorAll('.rs-dropdown-menu-item').length, 3);
   });
 
   it('Should output a item group ', () => {
@@ -106,7 +106,7 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    assert.equal(instance.querySelectorAll('a').length, 3);
+    assert.equal(instance.querySelectorAll('.rs-dropdown-menu-item').length, 3);
   });
 
   it('Should call onSelect callback ', done => {

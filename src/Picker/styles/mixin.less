@@ -1,9 +1,10 @@
+@import '../../styles/variables';
 @import '../../Dropdown/styles/mixin';
 
 // Picker Menu items common styles
 .picker-menu-items-reset() {
   // Set aside border-radius borders
-  margin-bottom: @border-radius-base;
+  margin-bottom: @border-radius;
   overflow-y: auto;
 
   ul {
@@ -16,7 +17,7 @@
 // Picker Menu group common styles
 .picker-menu-group-common(@prefix) {
   // Set border & padding to menu group if  it isn't the first.
-  .@{ns}@{prefix}-menu-group:not(:first-child) {
+  .rs-@{prefix}-menu-group:not(:first-child) {
     margin-top: @picker-group-select-menu-gap;
     border-top: 1px solid @picker-group-select-menu-lin-color;
     padding-top: @picker-group-select-menu-gap;
@@ -25,24 +26,24 @@
 
 // Group title common styles
 .picker-menu-group-title(@prefix) {
-  .@{ns}@{prefix}-menu-group-title {
+  .rs-@{prefix}-menu-group-title {
     padding: @picker-item-content-padding-vertical @picker-item-content-padding-horizontal;
-    padding-right: (@padding-base-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
+    padding-right: (@padding-x + @dropdown-caret-width + @dropdown-caret-padding);
     position: relative;
     cursor: default;
     transition: @picker-item-transition;
-    color: @picker-group-title-color;
+    color: var(--rs-text-heading);
 
     &:hover {
-      background-color: @picker-menu-item-hover-bg;
+      background-color: var(--rs-state-hover-bg);
     }
 
-    .@{ns}@{prefix}-menu-group-caret {
+    .rs-@{prefix}-menu-group-caret {
       display: inline-block;
       margin-left: 2px;
       position: absolute;
-      top: @padding-base-vertical;
-      right: @padding-base-horizontal;
+      top: @padding-y;
+      right: @padding-x;
       transition: transform 0.3s linear;
       padding: 3px;
     }
@@ -51,8 +52,8 @@
 
 // Group closed common styles
 .picker-menu-group-closed(@prefix) {
-  .@{ns}@{prefix}-menu-group.folded {
-    .@{ns}@{prefix}-menu-group-caret {
+  .rs-@{prefix}-menu-group.folded {
+    .rs-@{prefix}-menu-group-caret {
       transform: rotate(90deg);
     }
   }
@@ -64,7 +65,7 @@
   clear: both;
   font-weight: normal;
   line-height: @line-height-base;
-  color: @picker-select-item-color;
+  color: var(--rs-text-primary);
   cursor: pointer; //fixed link has not [href] style
   transition: @picker-item-transition;
   text-decoration: none;
@@ -77,8 +78,8 @@
 }
 
 .picker-item-hover() {
-  color: @picker-select-item-color;
-  background-color: @picker-menu-item-hover-bg;
+  color: var(--rs-text-primary);
+  background-color: var(--rs-state-hover-bg);
 }
 
 .picker-item-active() {
@@ -91,75 +92,76 @@
   line-height: @calendar-table-cell-content-line-height;
   padding: @calendar-table-cell-content-padding;
   cursor: pointer;
-  border-radius: @border-radius-base;
+  border-radius: @border-radius;
 
   &:hover {
-    background-color: @calendar-table-cell-content-hover-bg;
+    background-color: var(--rs-state-hover-bg);
   }
 }
 
 .picker-calendar-cell-content-selected() {
-  color: @calendar-table-cell-content-selected-font-color;
-  border-color: @calendar-table-cell-content-selected-color;
-  background-color: @calendar-table-cell-content-selected-color;
+  color: #fff;
+  background-color: var(--rs-bg-active);
+  box-shadow: none;
 }
 
 .picker-calendar-title-show() {
-  color: @picker-calendar-title-color;
+  color: var(--rs-text-active);
   background: transparent;
 }
 
 .picker-custom-button-caret-size(@padding-horizontal,@padding-vertical,@clean-btn-margin:2px) {
   @clean-btn-width: @dropdown-caret-width;
 
-  .@{ns}picker-toggle-wrapper & {
+  .rs-picker-toggle-wrapper & {
     padding-right: (@padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
   }
 
-  .@{ns}picker-cleanable & {
+  .rs-picker-cleanable & {
     padding-right: (
-      @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding + @clean-btn-width + @clean-btn-margin
+      @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding + @clean-btn-width +
+      @clean-btn-margin
     );
   }
 
-  .@{ns}picker-toggle-caret,
-  .@{ns}picker-toggle-clean {
+  .rs-picker-toggle-caret,
+  .rs-picker-toggle-clean {
     top: @padding-vertical;
 
-    .@{ns}picker-default & {
+    .rs-picker-default & {
       top: @padding-vertical - @picker-default-toggle-border-width;
     }
   }
 
-  .@{ns}picker-toggle-caret {
+  .rs-picker-toggle-caret {
     right: @padding-horizontal;
   }
 
-  .@{ns}picker-toggle-clean {
+  .rs-picker-toggle-clean {
     right: (@dropdown-caret-width + @padding-horizontal + @clean-btn-width - @clean-btn-margin);
   }
 }
 
 .picker-button-caret-lg() {
   .picker-custom-button-caret-size(
-    @padding-large-horizontal,
-    @padding-large-vertical,
+    @padding-x-lg,
+    @padding-y-lg,
     @clean-btn-margin:4px
   );
 }
 
 .picker-button-caret-md() {
-  .picker-custom-button-caret-size(@padding-base-horizontal, @padding-base-vertical);
+  .picker-custom-button-caret-size(@padding-x, @padding-y);
 }
 
 .picker-button-caret-sm() {
-  .picker-custom-button-caret-size(@padding-small-horizontal, @padding-small-vertical);
+  .picker-custom-button-caret-size(@padding-x-sm, @padding-y-sm);
 }
 
 .picker-button-caret-xs() {
   .picker-custom-button-caret-size(
-    @padding-extra-small-horizontal,
-    @padding-extra-small-vertical,
+    @padding-x-xs,
+    @padding-y-xs,
     @clean-btn-margin:2px
   );
 }
@@ -170,30 +172,30 @@
 
   padding-right: (@padding-horizontal + @calendar-caret-width + @dropdown-caret-padding);
 
-  .@{ns}picker-toggle-clean,
-  .@{ns}picker-toggle-caret {
+  .rs-picker-toggle-clean,
+  .rs-picker-toggle-caret {
     top: @top;
 
-    .@{ns}picker-subtle & {
+    .rs-picker-subtle & {
       top: @top - @picker-default-toggle-border-width;
     }
   }
 
-  .@{ns}picker-toggle-caret {
+  .rs-picker-toggle-caret {
     right: @padding-horizontal;
   }
 
-  .@{ns}picker-toggle-clean {
+  .rs-picker-toggle-clean {
     right: (@padding-horizontal + @toggle-clean-padding + @calendar-caret-width);
   }
 }
 
 .date-picker-button-caret-lg() {
-  .@{ns}picker-date &,
-  .@{ns}picker-daterange & {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-large,
-      @padding-large-horizontal,
+      @padding-x-lg,
       @top: 10px,
       @clean-btn-margin: 4px
     );
@@ -201,33 +203,33 @@
 }
 
 .date-picker-button-caret-md() {
-  .@{ns}picker-date &,
-  .@{ns}picker-daterange & {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-base,
-      @padding-base-horizontal,
+      @padding-x,
       @top: 8px
     );
   }
 }
 
 .date-picker-button-caret-sm() {
-  .@{ns}picker-date &,
-  .@{ns}picker-daterange & {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-base,
-      @padding-small-horizontal,
+      @padding-x-sm,
       @top: 4px
     );
   }
 }
 
 .date-picker-button-caret-xs() {
-  .@{ns}picker-date &,
-  .@{ns}picker-daterange & {
+  .rs-picker-date &,
+  .rs-picker-daterange & {
     .daterange-picker-custom-toggle(
       @calendar-caret-width: @font-size-extra-small,
-      @padding-extra-small-horizontal,
+      @padding-x-xs,
       @top: 2px
     );
   }
@@ -237,7 +239,7 @@
   @padding-name: 'padding-@{size}-vertical';
   @padding-vertical: @@padding-name;
 
-  .@{ns}picker-default & {
+  .rs-picker-default & {
     .padding-vertical(@padding-vertical - @picker-default-toggle-border-width);
   }
 }
@@ -246,37 +248,37 @@
   @padding-name: 'padding-@{size}-horizontal';
   @padding-horizontal: @@padding-name;
 
-  .@{ns}picker-default & {
+  .rs-picker-default & {
     padding-left: @padding-horizontal - @picker-default-toggle-border-width;
   }
 }
 
 .tag-picker-search-input-size(@padding-vertical; @padding-horizontal; @font-size; @line-height;) {
-  .@{ns}picker-input:not(.@{ns}picker-tag) & ~ .@{ns}picker-tag-wrapper .@{ns}picker-search-input {
+  .rs-picker-input:not(.rs-picker-tag) & ~ .rs-picker-tag-wrapper .rs-picker-search-input {
     padding: (@padding-vertical - 1px) @padding-horizontal;
     font-size: @font-size;
     line-height: @line-height;
   }
 
-  .@{ns}picker-input.@{ns}picker-tag & ~ .@{ns}picker-tag-wrapper {
+  .rs-picker-input.rs-picker-tag & ~ .rs-picker-tag-wrapper {
     padding-bottom: @padding-vertical - 3px;
 
-    .@{ns}tag {
+    .rs-tag {
       margin-top: @padding-vertical - 3px;
     }
 
-    .@{ns}picker-search-input {
+    .rs-picker-search-input {
       padding-left: @padding-horizontal;
       margin-top: @padding-vertical - 3px;
       font-size: @font-size;
     }
 
-    .@{ns}picker-search-input input {
+    .rs-picker-search-input input {
       height: @line-height * @font-size - 2px;
     }
   }
 
-  .@{ns}picker-input.@{ns}picker-tag & {
+  .rs-picker-input.rs-picker-tag & {
     padding-top: @padding-vertical - 1px;
     padding-bottom: @padding-vertical - 1px;
     box-shadow: none;
@@ -285,39 +287,39 @@
 
 .tag-picker-search-input-lg() {
   .tag-picker-search-input-size(
-    @padding-large-vertical; @padding-large-horizontal; @font-size-large; @line-height-large
+      @padding-y-lg - 1; @padding-x-lg; @font-size-large; @line-height-large
   );
 }
 
 .tag-picker-search-input-md() {
   .tag-picker-search-input-size(
-    @padding-base-vertical; @padding-base-horizontal; @font-size-base; @line-height-base
+          @padding-y; @padding-x; @font-size-base; @line-height-base
   );
 }
 
 .tag-picker-search-input-sm() {
   .tag-picker-search-input-size(
-    @padding-small-vertical; @padding-small-horizontal; @font-size-base; @line-height-base
+    @padding-y-sm; @padding-x-sm; @font-size-base; @line-height-base
   );
 }
 
 .tag-picker-search-input-xs() {
   /* stylelint-disable */ //Formatted by prettier
   .tag-picker-search-input-size(
-    @padding-extra-small-vertical; @padding-extra-small-horizontal; @font-size-extra-small;
-      @line-height-extra-small
+    @padding-y-xs; @padding-x-xs; @font-size-extra-small;
+    @line-height-extra-small
   );
   /* stylelint-enable */
 
-  .@{ns}picker-input.@{ns}picker-tag & ~ .@{ns}picker-tag-wrapper {
-    padding-bottom: @padding-extra-small-vertical - 1px;
+  .rs-picker-input.rs-picker-tag & ~ .rs-picker-tag-wrapper {
+    padding-bottom: @padding-y-xs - 1px;
 
-    .@{ns}tag {
+    .rs-tag {
       margin-top: 1px;
     }
 
     // Adjust search-input size the same with button
-    .@{ns}picker-search-input {
+    .rs-picker-search-input {
       .padding-vertical(1px);
     }
   }
@@ -326,51 +328,51 @@
 .input-picker-input-sizes() {
   @border-width: 2 * @picker-default-toggle-border-width;
 
-  .@{ns}picker-toggle.@{ns}btn-lg {
-    height: (@line-height-large-computed + @padding-large-vertical*2 - @border-width);
+  .rs-picker-toggle.rs-btn-lg {
+    height: (@line-height-large-computed + @padding-y-lg*2 - @border-width);
   }
 
-  .@{ns}picker-toggle.@{ns}btn-md {
-    height: (@line-height-computed + @padding-base-vertical*2 - @border-width);
+  .rs-picker-toggle.rs-btn-md {
+    height: (@line-height-computed + @padding-y*2 - @border-width);
   }
 
-  .@{ns}picker-toggle.@{ns}btn-sm {
-    height: (@line-height-computed + @padding-small-vertical*2 - @border-width);
+  .rs-picker-toggle.rs-btn-sm {
+    height: (@line-height-computed + @padding-y-sm*2 - @border-width);
   }
 
-  .@{ns}picker-toggle.@{ns}btn-xs {
-    height: (@line-height-computed + @padding-extra-small-vertical*2 - @border-width);
+  .rs-picker-toggle.rs-btn-xs {
+    height: (@line-height-computed + @padding-y-xs*2 - @border-width);
   }
 }
 
 // Default picker toggle
 .picker-default-toggle() {
-  .@{ns}picker-default & {
+  .rs-picker-default & {
     .dropdown-toggle();
 
-    color: @picker-default-toggle-font-color;
-    border: @picker-default-toggle-border-width solid @picker-default-toggle-border-color;
+    color: var(--rs-text-primary);
+    border: @picker-default-toggle-border-width solid var(--rs-border-primary);
   }
 
-  .@{ns}picker-disabled & {
+  .rs-picker-disabled & {
     cursor: @cursor-disabled;
   }
 
-  .@{ns}picker-default:not(.@{ns}picker-disabled) {
+  .rs-picker-default:not(.rs-picker-disabled) {
     &:hover,
     &:focus {
-      border-color: @picker-default-toggle-hover-border-color;
+      border-color: var(--rs-input-focus-border);
     }
   }
 }
 
 // Subtle picker toggle
 .picker-subtle-toggle {
-  .@{ns}picker-subtle & {
+  .rs-picker-subtle & {
     .dropdown-toggle();
   }
 
-  .@{ns}picker-subtle.@{ns}picker-disabled & {
+  .rs-picker-subtle.rs-picker-disabled & {
     cursor: @cursor-disabled;
 
     &:hover,

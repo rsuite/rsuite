@@ -293,7 +293,7 @@ describe('SelectPicker', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
     );
-    const list = instance.overlay.querySelectorAll('a');
+    const list = instance.overlay.querySelectorAll('.rs-picker-select-menu-item');
 
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');

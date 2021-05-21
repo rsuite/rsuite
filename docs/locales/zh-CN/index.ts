@@ -13,6 +13,7 @@ export default {
     usage: '快速开始',
     useWithCreateReactApp: '在 create-react-app 中使用',
     useNextApp: '在 Next.js 中使用',
+    darkMode: '深色模式',
     customizeTheme: '定制主题',
     intl: '国际化',
     rtl: 'Right-to-left',

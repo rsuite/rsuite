@@ -17,19 +17,19 @@
     width: (@handle-diameter * @toggle-active-scale);
   }
 
-  .@{ns}btn-toggle-inner {
+  .rs-btn-toggle-inner {
     margin-left: @toogle-height;
     margin-right: @toggle-inner-margin;
     height: @toogle-height;
     line-height: unit((@toogle-height / @toggle-inner-font-size));
     font-size: @toggle-inner-font-size;
 
-    .@{ns}icon {
+    .rs-icon {
       font-size: @toggle-inner-font-size;
     }
   }
 
-  &.@{ns}btn-toggle-checked {
+  &.rs-btn-toggle-checked {
     &::after {
       left: 100%;
       margin-left: -(@handle-diameter + @toggle-handle-gap);
@@ -39,7 +39,7 @@
       margin-left: -(@handle-diameter * @toggle-active-scale + @toggle-handle-gap);
     }
 
-    .@{ns}btn-toggle-inner {
+    .rs-btn-toggle-inner {
       margin-right: @toogle-height;
       margin-left: @toggle-inner-margin;
     }

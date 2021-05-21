@@ -1,9 +1,6 @@
-import React from 'react';
-import { canUseDOM } from 'dom-lib';
-import { getThemeCssPath, getThemeId, readTheme } from '../utils/themeHelpers';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import GlobalLoader from './GlobalLoader';
-import loadCssFile from '../utils/loadCssFile';
+import { readTheme } from '../utils/themeHelpers';
 
 interface StyleHeadProps {
   onLoaded?: () => void;
@@ -12,17 +9,11 @@ interface StyleHeadProps {
 const StyleHead = React.memo((props: StyleHeadProps) => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const [defaultThemeName, defaultDirection] = readTheme();
-    const html = document.querySelector('html');
-    html.dir = defaultDirection;
-    loadCssFile(
-      getThemeCssPath(defaultThemeName, defaultDirection),
-      getThemeId(defaultThemeName, defaultDirection)
-    ).then(() => {
-      setLoading(false);
-      props.onLoaded?.();
-    });
-  }, [canUseDOM]);
+    const [, defaultDirection] = readTheme();
+    document.documentElement.setAttribute('dir', defaultDirection);
+    setLoading(false);
+    props.onLoaded?.();
+  }, []);
   return <>{loading && <GlobalLoader />}</>;
 });
 

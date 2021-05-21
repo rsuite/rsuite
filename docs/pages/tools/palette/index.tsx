@@ -21,6 +21,7 @@ import SketchPicker from '@/components/SketchPicker';
 import { readThemeName } from '@/utils/themeHelpers';
 import NextHead from 'next/head';
 import DefaultPage from '@/components/Page';
+import palette from 'rsuite/styles/plugins/palette';
 import loadable from '@loadable/component';
 
 const colors = [
@@ -73,11 +74,11 @@ export default function Page() {
         window['less'] = {
           async: true,
           logLevel: 0,
-          javascriptEnabled: true,
           globalVars: {
             '@palette-color': color,
             '@theme-is-default': getThemeIsDefault()
-          }
+          },
+          plugins: [palette]
         };
         setLoading(true);
 
