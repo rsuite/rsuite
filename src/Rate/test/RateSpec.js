@@ -149,19 +149,19 @@ describe('Rate', () => {
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[1], {
-        keyCode: 39
+        key: 'ArrowRight'
       });
     });
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[2], {
-        keyCode: 39
+        key: 'ArrowRight'
       });
     });
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[2], {
-        keyCode: 13
+        key: 'Enter'
       });
     });
   });

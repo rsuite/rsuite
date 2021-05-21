@@ -36,7 +36,7 @@ describe('Input', () => {
       done();
     };
     const instance = getDOMNode(<Input onPressEnter={doneOp} />);
-    ReactTestUtils.Simulate.keyDown(instance, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance, { key: 'Enter' });
   });
 
   it('Should set size', () => {

@@ -189,7 +189,7 @@ describe('SelectPicker', () => {
     ReactTestUtils.Simulate.change(input);
   });
 
-  it('Should call `onSelect` by keyCode=13 ', done => {
+  it('Should call `onSelect` by key=Enter ', done => {
     const doneOp = (value, item) => {
       if (value === 'Louisa' && item.value === 'Louisa') {
         done();
@@ -199,8 +199,8 @@ describe('SelectPicker', () => {
       <Dropdown defaultOpen data={data} onSelect={doneOp} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
   });
 
   it('Should call `onOpen` callback', done => {
@@ -219,9 +219,9 @@ describe('SelectPicker', () => {
     picker.close();
   });
 
-  it('Should focus item by keyCode=40 ', done => {
+  it('Should focus item by key=ArrowDown ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={'Eugenia'} />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
 
     if (
       instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Kariane'
@@ -230,9 +230,9 @@ describe('SelectPicker', () => {
     }
   });
 
-  it('Should focus item by keyCode=38 ', done => {
+  it('Should focus item by key=ArrowUp ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={'Kariane'} />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 38 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
     if (
       instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Eugenia'
     ) {
@@ -240,7 +240,7 @@ describe('SelectPicker', () => {
     }
   });
 
-  it('Should call `onChange` by keyCode=13 ', done => {
+  it('Should call `onChange` by key=Enter ', done => {
     const doneOp = () => {
       done();
     };
@@ -248,7 +248,7 @@ describe('SelectPicker', () => {
       <Dropdown defaultOpen data={data} onChange={doneOp} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
   });
 
   it('Should call onBlur callback', done => {

@@ -10,7 +10,7 @@ import {
   useCustom,
   useClassNames,
   useControlled,
-  KEY_CODE,
+  KEY_VALUES,
   mergeRefs,
   shallowEqual
 } from '../utils';
@@ -529,7 +529,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   );
 
   const handleFocusItem = useCallback(
-    (type: number) => {
+    (key: string) => {
       const focusableItems = getFocusableItems(filteredData, {
         disabledItemValues,
         valueKey,
@@ -548,11 +548,11 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           setFocusItemValue(nextFocusItemValue);
         }
       };
-      if (type === KEY_CODE.DOWN) {
+      if (key === KEY_VALUES.DOWN) {
         focusNextItem(focusProps);
         return;
       }
-      if (type === KEY_CODE.UP) {
+      if (key === KEY_VALUES.UP) {
         focusPreviousItem(focusProps);
       }
     },
@@ -602,7 +602,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       childrenKey,
       onExpand: handleExpand,
       onFocusItem: () => {
-        handleFocusItem(KEY_CODE.DOWN);
+        handleFocusItem(KEY_VALUES.DOWN);
       }
     });
   }, [
@@ -638,8 +638,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     onClose: handleClose,
     onMenuKeyDown: event => {
       onMenuKeyDown(event, {
-        down: () => handleFocusItem(KEY_CODE.DOWN),
-        up: () => handleFocusItem(KEY_CODE.UP),
+        down: () => handleFocusItem(KEY_VALUES.DOWN),
+        up: () => handleFocusItem(KEY_VALUES.UP),
         left: rtl ? handleRightArrow : handleLeftArrow,
         right: rtl ? handleLeftArrow : handleRightArrow,
         enter: selectActiveItem,
@@ -655,8 +655,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       }
 
       onMenuKeyDown(event, {
-        down: () => handleFocusItem(KEY_CODE.DOWN),
-        up: () => handleFocusItem(KEY_CODE.UP),
+        down: () => handleFocusItem(KEY_VALUES.DOWN),
+        up: () => handleFocusItem(KEY_VALUES.UP),
         left: rtl ? handleRightArrow : handleLeftArrow,
         right: rtl ? handleLeftArrow : handleRightArrow,
         enter: selectActiveItem

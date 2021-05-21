@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Star from '@rsuite/icons/legacy/Star';
 
-import { useClassNames, useControlled, shallowEqualArray, SIZE, KEY_CODE } from '../utils';
+import { useClassNames, useControlled, shallowEqualArray, SIZE, KEY_VALUES } from '../utils';
 import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
 import Character from './Character';
 import Plaintext from '../Plaintext';
@@ -138,18 +138,18 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
 
     const handleKeyDown = useCallback(
       (index: number, event: React.KeyboardEvent) => {
-        const { keyCode } = event;
+        const { key } = event;
         let nextValue = transformCharacterMapToValue(characterMap);
 
-        if (keyCode === KEY_CODE.RIGHT && nextValue < max) {
+        if (key === KEY_VALUES.RIGHT && nextValue < max) {
           nextValue = allowHalf ? nextValue + 0.5 : nextValue + 1;
-        } else if (keyCode === KEY_CODE.LEFT && nextValue > 0) {
+        } else if (key === KEY_VALUES.LEFT && nextValue > 0) {
           nextValue = allowHalf ? nextValue - 0.5 : nextValue - 1;
         }
 
         setCharacterMap(getCharacterMap(nextValue));
 
-        if (keyCode === KEY_CODE.ENTER) {
+        if (key === KEY_VALUES.ENTER) {
           handleChangeValue(index, event);
         }
       },
