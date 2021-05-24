@@ -325,9 +325,6 @@ describe('MultiCascader', () => {
       ref.current.setData([{ label: 'test', value: 1 }]);
     });
 
-    console.log(
-      ref.current.picker.overlay.querySelectorAll('.rs-picker-cascader-menu-column .rs-check-item')
-    );
     assert.equal(
       ref.current.picker.overlay.querySelectorAll('.rs-picker-cascader-menu-column .rs-check-item')
         .length,
