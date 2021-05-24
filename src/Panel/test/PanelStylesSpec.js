@@ -10,7 +10,7 @@ import {
   itChrome
 } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Panel styles', () => {
   it('Should render the correct styles', () => {

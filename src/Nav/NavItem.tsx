@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { useClassNames, appendTooltip } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 
 export interface NavItemProps<T = string>
@@ -28,7 +28,7 @@ export interface NavItemProps<T = string>
   eventKey?: T;
 
   /** Whether NavItem have a tooltip  */
-  hasTooltip?: boolean;
+  tooltip?: boolean | TypeAttributes.Placement;
 
   /** Providing a `href` will render an `<a>` element */
   href?: string;
@@ -56,7 +56,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       children,
       icon,
       tabIndex,
-      hasTooltip,
+      tooltip,
       divider,
       panel,
       onClick,
@@ -113,8 +113,13 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       </Component>
     );
 
-    return hasTooltip
-      ? appendTooltip({ children: item, message: children, placement: 'right' })
+    return tooltip
+      ? appendTooltip({
+          ref,
+          children: item,
+          message: children,
+          placement: typeof tooltip === 'boolean' ? 'right' : tooltip
+        })
       : item;
   }
 );
@@ -136,7 +141,7 @@ NavItem.propTypes = {
   children: PropTypes.node,
   eventKey: PropTypes.any,
   tabIndex: PropTypes.number,
-  hasTooltip: PropTypes.bool
+  tooltip: PropTypes.bool
 };
 
 export default NavItem;

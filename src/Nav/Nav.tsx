@@ -66,15 +66,15 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
   const hasWaterline = appearance !== 'default';
 
   const items = ReactChildren.mapCloneElement(children, item => {
-    const { eventKey, active, ...rest } = item.props;
+    const { eventKey, active, tooltip: itemTooltip, ...rest } = item.props;
     const displayName = item?.type?.displayName;
-    const hasTooltip = sidenav && !expanded;
+    const tooltip = typeof itemTooltip === 'undefined' ? sidenav && !expanded : itemTooltip;
 
     if (displayName === 'NavItem') {
       return {
         ...rest,
         onSelect,
-        hasTooltip,
+        tooltip,
         active: typeof activeKey === 'undefined' ? active : shallowEqual(activeKey, eventKey)
       };
     } else if (displayName === 'Dropdown') {
@@ -82,7 +82,7 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
         ...rest,
         onSelect,
         activeKey,
-        showHeader: hasTooltip,
+        showHeader: tooltip,
         as: 'div'
       };
     }

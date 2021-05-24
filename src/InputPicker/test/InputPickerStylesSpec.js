@@ -4,7 +4,7 @@ import InputPicker from '../index';
 import Button from '../../Button';
 import { createTestContainer, getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 const data = [
   {
@@ -24,7 +24,7 @@ const data = [
   }
 ];
 
-const { H700 } = getDefaultPalette();
+const { H500 } = getDefaultPalette();
 
 describe('InputPicker styles', () => {
   it('Should render correct toggle styles', () => {
@@ -91,7 +91,7 @@ describe('InputPicker styles', () => {
         data={data}
         onOpen={() => {
           inChrome &&
-            assert.equal(getStyle(dom, 'border'), `1px solid ${H700}`, 'Picker active border');
+            assert.equal(getStyle(dom, 'border'), `1px solid ${H500}`, 'Picker active border');
           done();
         }}
         // For the test set transition to none.

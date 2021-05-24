@@ -2,6 +2,7 @@
 const { merge } = require('webpack-merge');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const multipleThemesCompile = require('@rsuite/webpack-multiple-themes-compile');
+const postcssCustomProperties = require('postcss-custom-properties');
 const RTLCSSPlugin = require('./scripts/RTLCSSPlugin');
 
 const { resolve } = require('path');
@@ -44,7 +45,8 @@ const themesConfig = multipleThemesCompile({
                   })
                 ]
               : []),
-            require('postcss-rtl')({})
+            require('postcss-rtl')({}),
+            postcssCustomProperties()
           ]
         }
       }
@@ -53,16 +55,17 @@ const themesConfig = multipleThemesCompile({
       loader: 'less-loader',
       options: {
         sourceMap,
-        javascriptEnabled: true,
-        globalVars: {
-          rootPath: '../../../'
+        lessOptions: {
+          javascriptEnabled: true,
+          globalVars: {
+            rootPath: '../../../'
+          }
         }
       }
     }
   ]),
   lessContent: themeName => `// Generate by Script.
 @import '../index.less';
-@import '../themes/${themeName}.less';
 
 @theme-name: ${themeName};`,
   cwd: resolveDirName('./'), // 将相对目录修改为 webpack.config.js 所在目录

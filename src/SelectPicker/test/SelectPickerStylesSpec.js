@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import SelectPicker from '../index';
 import { createTestContainer, getStyle, toRGB, inChrome, itChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 const data = [
   {

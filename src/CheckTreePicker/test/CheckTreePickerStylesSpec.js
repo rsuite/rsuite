@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import CheckTreePicker from '../index';
 import { createTestContainer, getStyle, itChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 const data = [
   {

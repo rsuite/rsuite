@@ -86,6 +86,10 @@ const defaultProps: Partial<AutoCompleteProps> = {
   selectOnEnter: true
 };
 
+/**
+ * TODO: Remove unnecessary .rs-auto-complete element
+ * TODO: role=combobox and aria-autocomplete on input element
+ */
 const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
   (props: AutoCompleteProps, ref) => {
     const {

@@ -516,9 +516,11 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     }, [setFocusItemValue, setSearchKeyword, onClose, value, multi]);
 
     const handleFocus = useCallback(() => {
-      setOpen(true);
-      triggerRef.current?.open();
-    }, []);
+      if (!readOnly) {
+        setOpen(true);
+        triggerRef.current?.open();
+      }
+    }, [readOnly]);
 
     const handleBlur = useCallback(() => {
       setOpen(false);
@@ -580,6 +582,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             <Tag
               {...tagRest}
               key={tag}
+              size={rest.size === 'lg' ? 'lg' : rest.size === 'xs' ? 'sm' : 'md'}
               closable={!disabled && closable && !readOnly && !plaintext}
               title={typeof displayElement === 'string' ? displayElement : undefined}
               onClose={createChainedFunction(handleRemoveItemByTag.bind(null, tag), onClose)}

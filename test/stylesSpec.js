@@ -28,10 +28,7 @@ function shouldHasStyleFile() {
   console.log('Should has style file.');
   STYLED_COMPONENTS.map(function testStyleFile(componentName) {
     const indexFile = join(__dirname, `../src/${componentName}/styles/index.ts`);
-    const defaultFile = join(__dirname, `../src/${componentName}/styles/themes/default.ts`);
-    const darkFile = join(__dirname, `../src/${componentName}/styles/themes/dark.ts`);
     assert.equal(existsSync(indexFile), true, `${indexFile} should exists.`);
-    assert.equal(existsSync(defaultFile), true, `${defaultFile} should exists.`);
     assert.equal(existsSync(darkFile), true, `${darkFile} should exists.`);
   });
 }

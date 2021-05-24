@@ -51,6 +51,34 @@ describe('InputPicker', () => {
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
+  it('Should be readOnly', () => {
+    const input1Ref = React.createRef();
+    const input2Ref = React.createRef();
+
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <div>
+          <InputPicker ref={input1Ref} />
+          <InputPicker ref={input2Ref} readOnly />
+        </div>,
+        createTestContainer()
+      );
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.focus(
+        input1Ref.current.root.querySelector('.rs-picker-search-input')
+      );
+      ReactTestUtils.Simulate.focus(
+        input2Ref.current.root.querySelector('.rs-picker-search-input')
+      );
+    });
+
+    assert.ok(input1Ref.current.overlay);
+    assert.ok(input2Ref.current.root.querySelector('input[readonly]'));
+    assert.equal(input2Ref.current.overlay, undefined);
+  });
+
   it('Should output a button', () => {
     const instance = getDOMNode(<InputPicker toggleAs="button" />);
     assert.ok(instance.querySelector('button'));
@@ -301,7 +329,7 @@ describe('InputPicker', () => {
     const instance = getInstance(
       <InputPicker defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
     );
-    const list = instance.overlay.querySelectorAll('a');
+    const list = instance.overlay.querySelectorAll('.rs-picker-select-menu-item');
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
   });

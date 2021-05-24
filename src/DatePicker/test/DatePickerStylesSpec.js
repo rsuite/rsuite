@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import DatePicker from '../index';
 import { createTestContainer } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('DatePicker styles', () => {
   it('Should render the calendar icon', () => {

@@ -1,7 +1,7 @@
 @import '~react-code-view/lib/less/index';
 
 .doc-highlight {
-  background-color: @doc-highlight-bg;
+  background-color: #f5f5f5;
   padding: 10px;
   margin: 1em 0;
   pre {
@@ -10,7 +10,11 @@
   code {
     padding: 0 !important;
     margin: 0 !important;
-    color: @text-color !important;
+    color: var(--rs-text-primary) !important;
+  }
+
+  .rs-theme-dark & {
+    background-color: #1e1e1e;
   }
 }
 
@@ -23,20 +27,24 @@ code:not(.doc-highlight) {
   white-space: pre-wrap;
   background-color: @doc-highlight-bg;
   font-family: Roboto Mono, Monaco, courier, monospace;
+
+  .rs-theme-dark & {
+    background-color: #1e1e1e;
+  }
 }
 
 a code {
-  color: @H500 !important;
+  color: var(--rs-primary-500) !important;
   background: none !important;
 }
 
-.code-view .@{ns}btn-toolbar + .@{ns}btn-toolbar {
+.code-view .rs-btn-toolbar + .rs-btn-toolbar {
   margin-top: 10px;
 }
 
-.code-view .@{ns}btn-toggle {
+.code-view .rs-btn-toggle {
   margin-right: 8px;
-  .@{ns}icon {
+  .rs-icon {
     width: 14px;
     text-align: center;
   }
@@ -55,19 +63,19 @@ a code {
   margin: 18px 0;
   padding: 0;
   border-color: @code-view-wrapper-border-color;
-  background: @code-view-wrapper-bg;
+  background-color: @code-view-wrapper-bg;
   border-radius: 4px;
 
   &:hover {
-    border: 1px dashed @H500;
+    border: 1px dashed var(--rs-primary-500);
   }
-  
-  .CodeMirror{
+
+  .CodeMirror {
     margin: 0;
   }
 
   hr {
-    border-top-color: @code-view-wrapper-hr-color;
+    border-top-color: var(--rs-border-primary);
   }
 
   .code-view-toolbar {
@@ -75,16 +83,29 @@ a code {
     border-color: @code-view-wrapper-border-color;
 
     > .rs-btn {
-      .btn-md();
-      .rs-icon-code {
-        @font-size: 20px;
-        height: @font-size;
-        font-size: @font-size;
+      font-size: 0;
+      line-height: 16px;
+      padding: 10px;
+
+      .rs-icon {
+        font-size: 16px;
       }
     }
   }
   .code-view-error {
     max-height: 200px;
+  }
+
+  .code-view {
+    padding: 18px;
+  }
+
+  .rs-theme-dark & {
+    border-color: #1a1d24;
+
+    .code-view-toolbar {
+      border-color: #1a1d24;
+    }
   }
 }
 

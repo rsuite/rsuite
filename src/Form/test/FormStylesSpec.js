@@ -5,7 +5,7 @@ import Button from '../../Button';
 import FormControlLabel from '../../FormControlLabel';
 import { createTestContainer, getStyle } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Form styles', () => {
   it('Should render the correct styles', () => {

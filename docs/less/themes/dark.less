@@ -2,29 +2,23 @@
 // modularized
 //@import '@{rootPath}rsuite/lib/styles/common';
 // integrated
-@import '@{rootPath}src/styles/themes/dark/index';
+@import '@{rootPath}src/styles/index';
 
-@sidebar-wrapper-bg: @B800;
-@component-overview-content-name-color: @B300;
-@code-view-wrapper-bg: @B800;
+@sidebar-wrapper-bg: var(--rs-bg-card);
+@code-view-wrapper-bg: var(--rs-bg-card);
 @code-view-wrapper-border-color: @code-view-wrapper-bg;
-@code-view-wrapper-hr-color: @B600;
 @doc-highlight-bg: #1e1e1e;
 @code-view-blockquote-color: #169de0;
-@show-fake-browser-bg: @body-bg;
-@show-fake-browser-content-bg: @B800;
-@toolbar-btn-subtle-color: @B200;
 
 .document-nav {
-  background: @body-bg !important;
 
   .nav-link {
-    color: @text-color;
+    color: var(--rs-text-primary);
   }
 }
 
 #loaderInverseWrapper {
-  background: @B000;
+  background: #fff;
 }
 
 //noinspection Stylelint
@@ -59,7 +53,7 @@
 }
 
 .sketch-picker input {
-  color: @B900;
+  color: var(--rs-gray-900);
 }
 
 .nav-wrapper {

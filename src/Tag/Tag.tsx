@@ -5,6 +5,9 @@ import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types
 import CloseButton from '../CloseButton';
 
 export interface TagProps extends WithAsProps {
+  /** Different sizes */
+  size?: 'lg' | 'md' | 'sm';
+
   /** A tag can have different colors */
   color?: TypeAttributes.Color;
 
@@ -22,6 +25,7 @@ const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: 
   const {
     as: Component = 'div',
     classPrefix = 'tag',
+    size = 'md',
     color = 'default',
     children,
     closable,
@@ -31,7 +35,7 @@ const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: 
   } = props;
 
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(color, { closable }));
+  const classes = merge(className, withClassPrefix(size, color, { closable }));
 
   return (
     <Component {...rest} ref={ref} className={classes}>

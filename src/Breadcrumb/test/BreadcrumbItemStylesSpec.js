@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Breadcrumb from '../index';
 import { createTestContainer, getStyle, toRGB, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('BreadcrumbItem styles', () => {
   it('Should render correct styles', () => {
@@ -19,7 +19,6 @@ describe('BreadcrumbItem styles', () => {
     const itemDom = dom.querySelector('.rs-breadcrumb-item');
     const separatorDom = dom.querySelector('.rs-breadcrumb-separator');
     assert.equal(getStyle(itemDom, 'fontSize'), '12px');
-    assert.equal(getStyle(itemDom, 'cursor'), 'pointer');
     // @description Can't get margin value in other browser except chrome
     inChrome && assert.equal(getStyle(separatorDom, 'margin'), '0px 4px');
   });

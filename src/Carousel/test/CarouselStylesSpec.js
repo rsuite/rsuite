@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Carousel from '../index';
 import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Carousel styles', () => {
   it('Should render correct style ', () => {

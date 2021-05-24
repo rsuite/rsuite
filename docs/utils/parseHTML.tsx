@@ -12,6 +12,9 @@ export function getTitle(markdown: string): string {
   return matches[1];
 }
 
+/**
+ * FIXME this prevents block containing multiple sentences.
+ */
 export function getDescription(markdown: string): string {
   const matches = markdown.match(descriptionRegExp);
 

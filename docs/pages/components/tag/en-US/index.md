@@ -12,6 +12,10 @@ Tag for categorizing or markup.
 
 <!--{include:`basic.md`}-->
 
+### Size
+
+<!--{include:`size.md`}-->
+
 ### Colorful Tags
 
 <!--{include:`color.md`}-->

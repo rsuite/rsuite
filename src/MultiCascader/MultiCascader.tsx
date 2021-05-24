@@ -62,7 +62,12 @@ export interface MultiCascaderProps<T = ValueType>
   inline?: boolean;
 
   /** Custom render menu */
-  renderMenu?: (items: ItemDataType[], menu: React.ReactNode, parentNode?: any) => React.ReactNode;
+  renderMenu?: (
+    items: ItemDataType[],
+    menu: React.ReactNode,
+    parentNode?: any,
+    layer?: number
+  ) => React.ReactNode;
 
   /** Custom render menu items */
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
@@ -385,7 +390,11 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       for (let i = 0; i < a.length; i++) {
         labelElements.push(a[i]);
         if (b[i]) {
-          labelElements.push(<strong key={i}>{b[i]}</strong>);
+          labelElements.push(
+            <span key={i} className={prefix('cascader-search-match')}>
+              {b[i]}
+            </span>
+          );
         }
       }
 

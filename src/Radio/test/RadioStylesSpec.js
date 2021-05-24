@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Radio from '../index';
 import { createTestContainer, getDOMNode, toRGB, itChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Radio styles', () => {
   itChrome('Should render the correct border', () => {

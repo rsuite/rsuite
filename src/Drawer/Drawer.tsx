@@ -10,6 +10,7 @@ import Modal, {
 } from '../Modal';
 import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import { useClassNames } from '../utils';
+import deprecateComponent from '../utils/deprecateComponent';
 
 export interface DrawerProps extends ModalProps {
   /** The placement of Drawer */
@@ -34,6 +35,13 @@ const DrawerHeader: RsRefForwardingComponent<
   <Modal.Header classPrefix="drawer-header" {...props} ref={ref} />
 ));
 
+const DrawerActions: RsRefForwardingComponent<
+  'div',
+  ModalFooterProps
+> = React.forwardRef((props, ref) => (
+  <Modal.Footer classPrefix="drawer-actions" {...props} ref={ref} />
+));
+
 const DrawerFooter: RsRefForwardingComponent<
   'div',
   ModalFooterProps
@@ -51,7 +59,11 @@ const DrawerTitle: RsRefForwardingComponent<
 interface DrawerComponent extends React.FC<DrawerProps> {
   Body: typeof DrawerBody;
   Header: typeof DrawerHeader;
+  Actions: typeof DrawerActions;
   Title: typeof DrawerTitle;
+  /**
+   * @deprecated use <Drawer.Actions> instead
+   */
   Footer: typeof DrawerFooter;
 }
 
@@ -78,12 +90,17 @@ const Drawer: DrawerComponent = (React.forwardRef((props: DrawerProps, ref) => {
 
 DrawerBody.displayName = 'DrawerBody';
 DrawerHeader.displayName = 'DrawerHeader';
+DrawerActions.displayName = 'DrawerActions';
 DrawerFooter.displayName = 'DrawerFooter';
 DrawerTitle.displayName = 'DrawerTitle';
 
 Drawer.Body = DrawerBody;
 Drawer.Header = DrawerHeader;
-Drawer.Footer = DrawerFooter;
+Drawer.Actions = DrawerActions;
+Drawer.Footer = deprecateComponent(
+  DrawerFooter,
+  '<Drawer.Footer> has been deprecated, use <Drawer.Actions> instead.'
+);
 Drawer.Title = DrawerTitle;
 
 Drawer.displayName = 'Drawer';

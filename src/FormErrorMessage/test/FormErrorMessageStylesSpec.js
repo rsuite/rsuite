@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import FormErrorMessage from '../index';
 import { createTestContainer, getStyle, getDOMNode, toRGB, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('FormErrorMessage styles', () => {
   it('Should render the correct styles', () => {

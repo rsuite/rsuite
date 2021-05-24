@@ -1,37 +1,32 @@
 .default-input() {
   display: block;
   width: 100%;
-  color: @input-color;
-  background-color: @input-bg;
+  color: var(--rs-text-primary);
+  background-color: var(--rs-input-bg);
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
-  border: @input-border-width solid @input-border;
+  border: 1px solid var(--rs-border-primary);
   transition: @input-transition;
-  border-radius: @border-radius-base;
-  .input-base();
+  border-radius: @border-radius;
+  .input-md();
 
   // Placeholder
   &::placeholder {
-    color: @input-color-placeholder;
+    color: var(--rs-text-secondary);
   }
 
   &:focus,
-  &:hover {
-    border-color: @input-border-focus;
+  &:hover:not(:disabled) {
+    border-color: var(--rs-input-focus-border);
     outline: 0;
   }
 
   &:focus {
-    box-shadow: 0 0 0 3px fade(@primary-color, 25%);
+    box-shadow: var(--rs-state-focus-shadow);
   }
 
-  &[disabled] {
-    background-color: @input-bg-disabled;
-    color: @input-color-disabled;
-    cursor: @cursor-disabled;
-
-    &:hover {
-      border-color: @input-border;
-    }
+  &:disabled {
+    background-color: var(--rs-input-disabled-bg);
+    color: var(--rs-text-disabled);
   }
 }
 
@@ -52,8 +47,7 @@
 .input-lg() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-large-vertical; @padding-base-input-horizontal; @font-size-large; @line-height-large;
-    @input-border-radius
+    @padding-y-lg; @input-padding-x; @font-size-large; @line-height-large; @input-border-radius
   );
   /* stylelint-enable */
 }
@@ -61,8 +55,7 @@
 .input-md() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-base-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base;
-    @input-border-radius
+          @padding-y; @input-padding-x; @font-size-base; @line-height-base; @input-border-radius
   );
   /* stylelint-enable */
 }
@@ -70,8 +63,7 @@
 .input-sm() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-small-vertical; @padding-base-input-horizontal; @font-size-base; @line-height-base;
-    @input-border-radius
+    @padding-y-sm; @input-padding-x; @font-size-base; @line-height-base; @input-border-radius
   );
   /* stylelint-enable */
 }
@@ -79,14 +71,9 @@
 .input-xs() {
   /* stylelint-disable */ //Formatted by prettier
   .input-size(
-    @padding-extra-small-vertical; @padding-base-input-horizontal; @font-size-extra-small;
-    @line-height-extra-small; @input-border-radius
+    @padding-y-xs; @input-padding-x; @font-size-extra-small; @line-height-extra-small; @input-border-radius
   );
   /* stylelint-enable */
-}
-
-.input-base() {
-  .input-md();
 }
 
 .reset-input-group-addon-size(@size-name) {
@@ -109,9 +96,9 @@
 
   height: @@height - @input-border-width*2;
   padding: (@@vertical - @input-border-width) (@@horizontal - @input-border-width);
-  border-radius: 0 @border-radius-base @border-radius-base 0;
+  border-radius: 0 @border-radius @border-radius 0;
 
-  > .@{ns}icon {
+  > .rs-icon {
     // Extend font-size from parent.
     font-size: @@font-size;
     line-height: @@line-height;
@@ -124,19 +111,19 @@
   @vertical: ~'padding-@{size-name}-vertical';
   @add-on-padding: ~'input-group-padding-for-add-on-@{size-name}';
 
-  &.@{ns}input-group-inside > .@{ns}input {
+  &.rs-input-group-inside > .rs-input {
     padding-right: @@add-on-padding;
   }
 
-  &.@{ns}input-group {
-    > .@{ns}input {
+  &.rs-input-group {
+    > .rs-input {
       height: @useable-height;
     }
 
-    > .@{ns}input-group-addon {
+    > .rs-input-group-addon {
       height: @useable-height;
 
-      > .@{ns}icon {
+      > .rs-icon {
         font-size: inherit;
       }
     }

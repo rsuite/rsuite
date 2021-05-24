@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Uploader from '../index';
 import { createTestContainer, getStyle, toRGB } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Uploader styles', () => {
   it('Should render the correct styles', () => {

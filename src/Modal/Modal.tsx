@@ -58,6 +58,9 @@ export interface ModalContextProps {
 
   /** Pass the latest style to body. */
   getBodyStyles?: () => React.CSSProperties;
+
+  /** Whether this Modal is a Drawer */
+  isDrawer: boolean;
 }
 
 export const ModalContext = React.createContext<ModalContextProps>(null);
@@ -109,12 +112,13 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
     prefix
   });
 
-  const modalContextValue = useMemo(
+  const modalContextValue = useMemo<ModalContextProps>(
     () => ({
       onModalClose: onClose,
-      getBodyStyles: () => bodyStyles
+      getBodyStyles: () => bodyStyles,
+      isDrawer: drawer
     }),
-    [onClose, bodyStyles]
+    [onClose, bodyStyles, drawer]
   );
 
   const [shake, setShake] = useState(false);

@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import Dropdown from '../index';
 import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../../Button/styles/index.less';
+import '../styles/index.less';
 
 describe('Dropdown styles', () => {
   it('Should render the correct styles', () => {

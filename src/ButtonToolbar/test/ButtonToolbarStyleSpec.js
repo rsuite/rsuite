@@ -5,7 +5,7 @@ import Button from '../../Button';
 
 import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('ButtonToolbar styles', () => {
   it('Should render the correct vertical align', () => {
