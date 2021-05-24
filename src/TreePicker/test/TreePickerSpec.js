@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import ReactDOM from 'react-dom';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import TreePicker from '../TreePicker';
-import { KEY_CODE } from '../../utils';
+import { KEY_VALUES } from '../../utils';
 
 const itemFocusClassName = '.rs-tree-node-focus';
 const itemExpandedClassName = '.rs-tree-node-expanded';
@@ -214,7 +214,7 @@ describe('TreePicker', () => {
 
   it('Should focus item by keyCode=40', () => {
     const instance = getInstance(<TreePicker open data={data} defaultExpandAll value="tester1" />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: KEY_CODE.DOWN });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: KEY_VALUES.DOWN });
 
     assert.equal(instance.overlay.querySelector(itemFocusClassName).innerText, 'Master');
   });
@@ -223,7 +223,7 @@ describe('TreePicker', () => {
     const instance = getInstance(<TreePicker open data={data} defaultExpandAll value="tester1" />);
 
     ReactTestUtils.Simulate.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: KEY_CODE.UP });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: KEY_VALUES.UP });
     assert.equal(instance.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
@@ -244,7 +244,7 @@ describe('TreePicker', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
     assert.equal(
       tree.overlay.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
       0
@@ -258,7 +258,7 @@ describe('TreePicker', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
     assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'Master');
 
     assert.equal(
@@ -274,7 +274,7 @@ describe('TreePicker', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.LEFT });
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
     assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'Master');
   });
 
@@ -285,7 +285,7 @@ describe('TreePicker', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
     assert.equal(
       tree.overlay.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
       1
@@ -299,7 +299,7 @@ describe('TreePicker', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
     assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
@@ -310,7 +310,7 @@ describe('TreePicker', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
     ReactTestUtils.Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
-    ReactTestUtils.Simulate.keyDown(tree.overlay, { keyCode: KEY_CODE.RIGHT });
+    ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
     assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 

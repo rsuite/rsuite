@@ -7,7 +7,13 @@ import omit from 'lodash/omit';
 import find from 'lodash/find';
 import { OverlayTriggerInstance } from './PickerToggleTrigger';
 import { findNodeOfTree, filterNodesOfTree } from '../utils/treeUtils';
-import { KEY_CODE, useClassNames, shallowEqual, reactToString, placementPolyfill } from '../utils';
+import {
+  KEY_VALUES,
+  useClassNames,
+  shallowEqual,
+  reactToString,
+  placementPolyfill
+} from '../utils';
 import { TypeAttributes, ItemDataType } from '../@types/common';
 
 interface NodeKeys {
@@ -123,37 +129,37 @@ interface EventsProps {
  */
 export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
   const { down, up, enter, del, esc, right, left } = events;
-  switch (event.keyCode) {
+  switch (event.key) {
     // down
-    case KEY_CODE.DOWN:
+    case KEY_VALUES.DOWN:
       down?.(event);
       event.preventDefault();
       break;
     // up
-    case KEY_CODE.UP:
+    case KEY_VALUES.UP:
       up?.(event);
       event.preventDefault();
       break;
     // enter
-    case KEY_CODE.ENTER:
+    case KEY_VALUES.ENTER:
       enter?.(event);
       event.preventDefault();
       break;
     // delete
-    case KEY_CODE.BACKSPACE:
+    case KEY_VALUES.BACKSPACE:
       del?.(event);
       break;
     // esc | tab
-    case KEY_CODE.ESC:
-    case KEY_CODE.TAB:
+    case KEY_VALUES.ESC:
+    case KEY_VALUES.TAB:
       esc?.(event);
       break;
     // left arrow
-    case KEY_CODE.LEFT:
+    case KEY_VALUES.LEFT:
       left?.(event);
       break;
     // right arrow
-    case KEY_CODE.RIGHT:
+    case KEY_VALUES.RIGHT:
       right?.(event);
       break;
     default:
@@ -398,17 +404,17 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     (event: React.KeyboardEvent) => {
       if (event.target === targetRef?.current) {
         // enter
-        if (toggle && event.keyCode === KEY_CODE.ENTER) {
+        if (toggle && event.key === KEY_VALUES.ENTER) {
           handleToggleDropdown();
         }
 
         // delete
-        if (event.keyCode === KEY_CODE.BACKSPACE) {
+        if (event.key === KEY_VALUES.BACKSPACE) {
           onExit?.(event);
         }
       }
 
-      if (event.keyCode === KEY_CODE.ESC || event.keyCode === KEY_CODE.TAB) {
+      if (event.key === KEY_VALUES.ESC || event.key === KEY_VALUES.TAB) {
         handleClose();
       }
 
@@ -419,10 +425,10 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
         // The keyboard operation callback on the menu.
         onMenuKeyDown?.(event);
 
-        if (event.keyCode === KEY_CODE.ENTER) {
+        if (event.key === KEY_VALUES.ENTER) {
           onMenuPressEnter?.(event);
         }
-        if (event.keyCode === KEY_CODE.BACKSPACE) {
+        if (event.key === KEY_VALUES.BACKSPACE) {
           onMenuPressBackspace?.(event);
         }
       }

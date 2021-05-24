@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import helper from '../DOMHelper';
-import { getDOMNode, KEY_CODE } from './';
+import { getDOMNode, KEY_VALUES } from './';
 
 function isLeftClickEvent(event: React.MouseEvent) {
   return event?.button === 0;
@@ -29,7 +29,7 @@ function useRootClose(
 ) {
   const handleDocumentKeyUp = useCallback(
     (event: KeyboardEvent) => {
-      if (event.keyCode === KEY_CODE.ESC) {
+      if (event.key === KEY_VALUES.ESC) {
         onRootClose?.(event);
       }
     },

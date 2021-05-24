@@ -202,10 +202,10 @@ describe('InputPicker', () => {
     const instance = getInstance(
       <InputPicker data={data} defaultOpen defaultValue={'Eugenia'} onClean={doneOp} />
     );
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 8 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Backspace' });
   });
 
-  it('Should call `onSelect` by keyCode=13 ', done => {
+  it('Should call `onSelect` by key=Enter ', done => {
     const doneOp = (value, item) => {
       if (value === 'Louisa' && item.value === 'Louisa') {
         done();
@@ -215,8 +215,8 @@ describe('InputPicker', () => {
       <InputPicker defaultOpen data={data} onSelect={doneOp} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
   });
 
   it('Should output a clean button', () => {
@@ -254,9 +254,9 @@ describe('InputPicker', () => {
     picker.close();
   });
 
-  it('Should focus item by keyCode=40 ', done => {
+  it('Should focus item by key=ArrowDown ', done => {
     const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
 
     if (
       instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Kariane'
@@ -265,9 +265,9 @@ describe('InputPicker', () => {
     }
   });
 
-  it('Should focus item by keyCode=38 ', done => {
+  it('Should focus item by key=ArrowUp ', done => {
     const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={'Kariane'} />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 38 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
 
     if (
       instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Eugenia'
@@ -276,7 +276,7 @@ describe('InputPicker', () => {
     }
   });
 
-  it('Should call `onChange` by keyCode=13 ', done => {
+  it('Should call `onChange` by key=Enter ', done => {
     const doneOp = () => {
       done();
     };
@@ -284,7 +284,7 @@ describe('InputPicker', () => {
       <InputPicker defaultOpen data={data} onChange={doneOp} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
   });
 
   it('Should call onBlur callback', done => {
@@ -379,14 +379,13 @@ describe('InputPicker', () => {
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.focus(inputRef.current.root);
       const input = inputRef.current.root.querySelector('.rs-picker-search-input');
-      ReactTestUtils.Simulate.keyDown(input, { keyCode: 65 });
       input.value = 'abc';
       ReactTestUtils.Simulate.change(input);
     });
 
     ReactTestUtils.act(() => {
       const input = inputRef.current.root.querySelector('.rs-picker-search-input');
-      ReactTestUtils.Simulate.keyDown(input, { keyCode: 13 });
+      ReactTestUtils.Simulate.keyDown(input, { key: 'Enter' });
     });
   });
 });

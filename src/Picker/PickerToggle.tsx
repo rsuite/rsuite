@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 import MaskedInput from 'react-text-mask';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import CloseButton from '../CloseButton';
-import { useClassNames, KEY_CODE, mergeRefs } from '../utils';
+import { useClassNames, KEY_VALUES, mergeRefs } from '../utils';
 import { RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
 import useToggleCaret from '../utils/useToggleCaret';
@@ -145,7 +145,7 @@ const PickerToggle: RsRefForwardingComponent<
 
   const handleInputKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (input && event.keyCode === KEY_CODE.ENTER) {
+      if (input && event.key === KEY_VALUES.ENTER) {
         onInputPressEnter?.(event);
       }
     },

@@ -48,23 +48,31 @@ export enum TREE_NODE_DROP_POSITION {
   DRAG_OVER_BOTTOM = 2 // drag node under tree node
 }
 
-export const KEY_CODE = {
-  /** value: 8 */
-  BACKSPACE: 8,
-  /** value: 13 */
-  ENTER: 13,
-  /** value: 27 */
-  ESC: 27,
-  /** value: 37 */
-  LEFT: 37,
-  /** value: 38 */
-  UP: 38,
-  /** value: 39 */
-  RIGHT: 39,
-  /** value: 40 */
-  DOWN: 40,
-  /** value: 9 */
-  TAB: 9
+/**
+ * UI Events KeyboardEvent key Values
+ * https://www.w3.org/TR/uievents-key
+ */
+export const KEY_VALUES = {
+  // Navigation Keys
+  LEFT: 'ArrowLeft',
+  UP: 'ArrowUp',
+  RIGHT: 'ArrowRight',
+  DOWN: 'ArrowDown',
+  END: 'End',
+  HOME: 'Home',
+  PAGE_DOWN: 'PageDown',
+  PAGE_UP: 'PageUp',
+
+  // Whitespace Keys
+  ENTER: 'Enter',
+  TAB: 'Tab',
+
+  // Editing Keys
+  BACKSPACE: 'Backspace',
+  DELETE: 'Delete',
+
+  // UI Keys
+  ESC: 'Escape'
 };
 
 export enum DATERANGE_DISABLED_TARGET {
