@@ -51,6 +51,14 @@ describe('InputPicker', () => {
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
+  it('Should be plaintext', () => {
+    const instance1 = getInstance(<InputPicker plaintext data={data} value={'Eugenia'} />);
+    const instance2 = getInstance(<InputPicker plaintext data={data} />);
+
+    assert.equal(instance1.target.innerText, 'Eugenia');
+    assert.equal(instance2.target.innerText, 'Not selected');
+  });
+
   it('Should be readOnly', () => {
     const input1Ref = React.createRef();
     const input2Ref = React.createRef();
