@@ -51,8 +51,10 @@ jobs:
             ${{ runner.OS }}-
       - name: Install dependencies
         run: npm ci
-      - name: Run headless tests
-        run: xvfb-run --auto-servernum npm test
+      - name: Run headless test
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: npm test
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
