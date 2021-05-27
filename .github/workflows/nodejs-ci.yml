@@ -20,11 +20,15 @@ jobs:
   test:
     name: 'Test'
 
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        browser: [ChromeCi, Firefox, Safari]
+        os: [ubuntu-latest]
+        browser: [ChromeCi, Firefox]
+        include:
+          - os: macos-11
+            browser: Safari
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v2
