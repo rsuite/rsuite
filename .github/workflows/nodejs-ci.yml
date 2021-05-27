@@ -25,7 +25,7 @@ jobs:
         os: [ubuntu-latest]
         browser: [ChromeCi, Firefox]
         include:
-          - os: macos-11
+          - os: macos-10.15
             browser: Safari
 
     runs-on: ${{ matrix.os }}
