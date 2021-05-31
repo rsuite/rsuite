@@ -41,6 +41,12 @@
     color: var(--rs-navs-text-hover);
   }
 
+  &:focus {
+    .focus-ring();
+
+    z-index: 2; // :focus has larger z-index than -active
+  }
+
   &:active {
     color: var(--rs-navs-text-active);
   }
@@ -129,10 +135,6 @@
     &:focus {
       background: var(--rs-navs-bg-hover);
     }
-
-    &:active {
-      background: var(--rs-navs-bg-active);
-    }
   }
 }
 
@@ -142,10 +144,6 @@
     &:hover,
     &:focus {
       background: var(--rs-navs-bg-hover);
-    }
-
-    &:active {
-      background: var(--rs-navs-bg-active);
     }
 
     &.rs-nav-item-active {
@@ -219,6 +217,11 @@
 .rs-nav-subtle {
   .rs-nav-item {
     position: relative;
+
+    &:hover,
+    &:focus {
+      color: var(--rs-navs-selected);
+    }
 
     &.rs-nav-item-active::before {
       content: '';
