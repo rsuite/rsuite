@@ -25,4 +25,14 @@ describe('Modal styles', () => {
     //   'Modal backDrop background-color'
     // );
   });
+
+  it('Should have correct margin-x: 60px in `full` size', () => {
+    const instanceRef = React.createRef();
+    ReactDOM.render(<Modal ref={instanceRef} open full />, createTestContainer());
+    const dom = instanceRef.current;
+    const dialog = dom.querySelector('.rs-modal-dialog');
+    const { left, right } = dialog.getBoundingClientRect();
+    assert.equal(left, 60, 'margin-left');
+    assert.equal(window.innerWidth - right, 60, 'margin-right');
+  });
 });
