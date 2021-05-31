@@ -170,6 +170,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   const targetRef = useRef<HTMLButtonElement>();
   const listRef = useRef<ListInstance>();
   const overlayRef = useRef<HTMLDivElement>();
+  const searchInputRef = useRef<HTMLInputElement>();
   const treeViewRef = useRef<HTMLDivElement>();
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
   const [active, setActive] = useState(false);
@@ -633,6 +634,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     triggerRef,
     targetRef,
     overlayRef,
+    searchInputRef,
     active,
     onExit: handleClean,
     onClose: handleClose,
@@ -818,6 +820,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
             placeholder={locale.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeywordState}
+            inputRef={searchInputRef}
           />
         ) : null}
         {renderMenu ? renderMenu(renderCheckTree()) : renderCheckTree()}

@@ -10,6 +10,7 @@ export interface SearchBarProps extends WithAsProps {
   value?: string;
   placeholder?: string;
   className?: string;
+  inputRef?: React.Ref<HTMLInputElement>;
   onChange?: (value: string, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
@@ -22,6 +23,7 @@ const SearchBar: RsRefForwardingComponent<'div', SearchBarProps> = React.forward
       children,
       className,
       placeholder,
+      inputRef,
       onChange,
       ...rest
     } = props;
@@ -40,6 +42,7 @@ const SearchBar: RsRefForwardingComponent<'div', SearchBarProps> = React.forward
           value={value}
           onChange={handleChange}
           placeholder={placeholder}
+          ref={inputRef}
         />
         <Search className={prefix('search-icon')} />
         {children}

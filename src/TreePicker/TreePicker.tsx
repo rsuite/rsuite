@@ -175,6 +175,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const targetRef = useRef<HTMLButtonElement>();
   const listRef = useRef<ListInstance>();
   const overlayRef = useRef<HTMLDivElement>();
+  const searchInputRef = useRef<HTMLInputElement>();
   const treeViewRef = useRef<HTMLDivElement>();
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
 
@@ -630,6 +631,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     triggerRef,
     targetRef,
     overlayRef,
+    searchInputRef,
     active,
     onExit: handleClean,
     onClose: handleClose,
@@ -815,6 +817,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
             placeholder={locale.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeywordState}
+            inputRef={searchInputRef}
           />
         ) : null}
         {renderMenu ? renderMenu(renderTree()) : renderTree()}

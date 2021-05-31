@@ -1,6 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
 
 import Dropdown from '../SelectPicker';
 import Button from '../../Button';
@@ -318,5 +319,21 @@ describe('SelectPicker', () => {
     const instance = getDOMNode(<Dropdown data={data} value={2} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
     assert.notInclude(instance.className, 'rs-picker-has-value');
+  });
+
+  it('Should focus the search box', () => {
+    const pickerRef = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<Dropdown ref={pickerRef} data={data} />, createTestContainer());
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.click(pickerRef.current.target);
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.keyDown(pickerRef.current.target, { key: 'a' });
+      assert.equal(document.activeElement, pickerRef.current.overlay.querySelector('input'));
+    });
   });
 });

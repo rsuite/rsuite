@@ -189,6 +189,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     const triggerRef = useRef<OverlayTriggerInstance>();
     const overlayRef = useRef<HTMLDivElement>();
     const targetRef = useRef<HTMLDivElement>();
+    const searchInputRef = useRef<HTMLInputElement>();
 
     usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
@@ -334,6 +335,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       triggerRef,
       targetRef,
       overlayRef,
+      searchInputRef,
       active,
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
@@ -480,6 +482,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
               placeholder={locale?.searchPlaceholder}
               onChange={handleSearch}
               value={searchKeyword}
+              inputRef={searchInputRef}
             />
           )}
 

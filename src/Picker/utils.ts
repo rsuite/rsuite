@@ -351,6 +351,7 @@ interface ToggleKeyDownEventProps {
   triggerRef?: React.RefObject<any>;
   targetRef: React.RefObject<any>;
   overlayRef?: React.RefObject<any>;
+  searchInputRef?: React.RefObject<any>;
   active?: boolean;
   onExit?: (event) => void;
   onKeyDown?: (event) => void;
@@ -372,6 +373,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     triggerRef,
     targetRef,
     overlayRef,
+    searchInputRef,
     active,
     onExit,
     onOpen,
@@ -431,6 +433,11 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
         if (event.key === KEY_VALUES.BACKSPACE) {
           onMenuPressBackspace?.(event);
         }
+
+        // The search box gets focus when typing characters and numbers.
+        if (event.key.length === 1 && /\w/.test(event.key)) {
+          searchInputRef.current?.focus();
+        }
       }
     },
     [
@@ -443,7 +450,8 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
       onMenuPressBackspace,
       onMenuPressEnter,
       toggle,
-      targetRef
+      targetRef,
+      searchInputRef
     ]
   );
 

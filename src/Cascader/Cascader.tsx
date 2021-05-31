@@ -153,6 +153,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   const triggerRef = useRef<OverlayTriggerInstance>();
   const overlayRef = useRef<HTMLDivElement>();
   const targetRef = useRef<HTMLButtonElement>();
+  const searchInputRef = useRef<HTMLInputElement>();
   const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
 
   const {
@@ -330,6 +331,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     triggerRef,
     targetRef,
     overlayRef,
+    searchInputRef,
     active,
     onExit: handleClean,
     onMenuKeyDown: onFocusItem,
@@ -501,6 +503,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
             placeholder={locale?.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeyword}
+            inputRef={searchInputRef}
           />
         )}
 
