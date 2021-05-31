@@ -15,4 +15,11 @@ describe('Radio styles', () => {
       `1px solid ${toRGB('#d9d9d9')}`
     );
   });
+
+  it('Should render checked style even in disabled state', () => {
+    const instanceRef = React.createRef();
+    ReactDOM.render(<Radio ref={instanceRef} checked disabled />, createTestContainer());
+    const innerDom = getDOMNode(instanceRef.current).querySelector('.rs-radio-inner');
+    assert.equal(window.getComputedStyle(innerDom, '::before').backgroundColor, toRGB('#3498ff'));
+  });
 });
