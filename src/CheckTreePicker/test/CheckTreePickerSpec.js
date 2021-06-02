@@ -298,6 +298,66 @@ describe('CheckTreePicker', () => {
     instance.unmount();
   });
 
+  it('Should return 2 values', done => {
+    const customData = [
+      {
+        value: '1',
+        label: '1',
+        children: [
+          {
+            value: '1-1',
+            label: '1-1'
+          },
+          {
+            value: '1-2',
+            label: '1-2'
+          },
+          {
+            value: '1-3',
+            label: '1-3'
+          }
+        ]
+      },
+      {
+        value: '2',
+        label: '2',
+        children: [
+          {
+            value: '2-1',
+            label: '2-1'
+          },
+          {
+            value: '2-2',
+            label: '2-2'
+          },
+          {
+            value: '2-3',
+            label: '2-3'
+          }
+        ]
+      }
+    ];
+
+    const doneOp = values => {
+      if (values.length === 2) {
+        done();
+      }
+    };
+    const instance = getDOMNode(
+      <CheckTreePicker
+        data={customData}
+        inline
+        value={['1-1', '1-2', '1-3']}
+        cascade
+        defaultExpandAll
+        onChange={doneOp}
+      />
+    );
+
+    assert.equal(instance.querySelectorAll('.rs-checkbox-checked').length, 4);
+    ReactTestUtils.Simulate.change(instance.querySelectorAll('.rs-check-tree-node input')[5]);
+  });
+
   it('Should render empty tree when searchKeyword is `name`', () => {
     const instance = mount(<CheckTreePicker data={data} inline searchKeyword="name" />);
     assert.equal(instance.find('.rs-check-tree-node').length, 0);
