@@ -343,6 +343,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
     if (isEveryChildChecked(node, this.nodes, this.props)) {
       this.nodes[node.refKey].checkAll = true;
+      this.nodes[node.refKey].check = true;
       return CHECK_STATE.CHECK;
     }
 
@@ -481,6 +482,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     const checkItems = [];
     Object.keys(this.nodes).map((refKey: string) => {
       const node = this.nodes[refKey];
+
       if (selectedValues.some((value: any) => shallowEqual(node[valueKey], value))) {
         checkItems.push(node);
       }
@@ -531,7 +533,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   }
 
   /**
-   * 过滤选中的values中不包含 uncheckableItemValues 的那些值
+   * 过滤选中的 values 中不包含 uncheckableItemValues 的那些值
    * @param {*} values
    */
   filterSelectedValues(values: any[]) {
@@ -743,7 +745,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   }
 
   toggleNode(key: string, node: Node, toggleValue: boolean) {
-    // 如果该节点处于 disabledChecbox，则忽略该值
+    // 如果该节点处于 disabledCheckbox，则忽略该值
     if (!node.uncheckable) {
       this.nodes[node.refKey][key] = toggleValue;
     }
