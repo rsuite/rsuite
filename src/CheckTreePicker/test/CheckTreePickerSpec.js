@@ -4,9 +4,22 @@ import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
-import { findDOMNode } from 'react-dom';
+import ReactDOM, { findDOMNode } from 'react-dom';
+import { assert } from 'chai';
 
 Enzyme.configure({ adapter: new Adapter() });
+
+let container;
+
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  document.body.removeChild(container);
+  container = null;
+});
 
 const data = [
   {
@@ -383,5 +396,115 @@ describe('CheckTreePicker', () => {
     assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
     assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
     assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
+
+  it('Should controlled by value', () => {
+    const TestApp = React.forwardRef((props, ref) => {
+      const [value, setValue] = React.useState();
+      const pickerRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        picker: pickerRef.current,
+        setValue
+      }));
+
+      return <CheckTreePicker data={data} ref={pickerRef} value={value} defaultExpandAll open />;
+    });
+
+    TestApp.displayName = 'TestCheckTreePicker';
+
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<TestApp ref={ref} />, container);
+    });
+
+    assert.equal(
+      ref.current.picker.treeViewRef.current.querySelectorAll('.rs-checkbox-checked').length,
+      0
+    );
+
+    ReactTestUtils.act(() => {
+      ref.current.setValue(['Master']);
+    });
+    assert.equal(
+      ref.current.picker.treeViewRef.current.querySelectorAll('.rs-checkbox-checked').length,
+      4
+    );
+  });
+
+  it('Should controlled by expandItemValues', () => {
+    const TestApp = React.forwardRef((props, ref) => {
+      const [expandItemValues, setExpandItemValues] = React.useState();
+      const pickerRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        picker: pickerRef.current,
+        setExpandItemValues
+      }));
+
+      return (
+        <CheckTreePicker data={data} ref={pickerRef} expandItemValues={expandItemValues} open />
+      );
+    });
+
+    TestApp.displayName = 'TestCheckTreePicker';
+
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<TestApp ref={ref} />, container);
+    });
+
+    assert.equal(
+      ref.current.picker.treeViewRef.current.querySelectorAll('.rs-check-tree-node-expanded')
+        .length,
+      0
+    );
+
+    ReactTestUtils.act(() => {
+      ref.current.setExpandItemValues(['Master']);
+    });
+    assert.equal(
+      ref.current.picker.treeViewRef.current.querySelectorAll('.rs-check-tree-node-expanded')
+        .length,
+      1
+    );
+  });
+
+  it('Should controlled by uncheckableItemValues', () => {
+    const TestApp = React.forwardRef((props, ref) => {
+      const [uncheckableItemValues, setUncheckableItemValues] = React.useState();
+      const pickerRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        picker: pickerRef.current,
+        setUncheckableItemValues
+      }));
+
+      return (
+        <CheckTreePicker
+          data={data}
+          ref={pickerRef}
+          uncheckableItemValues={uncheckableItemValues}
+          open
+        />
+      );
+    });
+
+    TestApp.displayName = 'TestCheckTreePicker';
+
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<TestApp ref={ref} />, container);
+    });
+
+    assert.equal(
+      ref.current.picker.treeViewRef.current.querySelectorAll('.rs-checkbox-inner').length,
+      5
+    );
+
+    ReactTestUtils.act(() => {
+      ref.current.setUncheckableItemValues(['Master']);
+    });
+    assert.equal(
+      ref.current.picker.treeViewRef.current.querySelectorAll('.rs-checkbox-inner').length,
+      4
+    );
   });
 });
