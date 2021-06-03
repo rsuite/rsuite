@@ -195,11 +195,14 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       nextState.value = value;
     }
 
-    if (compareArray(expandItemValues, prevState.expandItemValues)) {
+    if (compareArray(expandItemValues, prevState.expandItemValues) && _.isArray(expandItemValues)) {
       nextState.expandItemValues = expandItemValues;
     }
 
-    if (compareArray(uncheckableItemValues, prevState.uncheckableItemValues)) {
+    if (
+      compareArray(uncheckableItemValues, prevState.uncheckableItemValues) &&
+      _.isArray(uncheckableItemValues)
+    ) {
       nextState.uncheckableItemValues = uncheckableItemValues;
     }
 
@@ -258,7 +261,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     const { value } = this.props;
     if (compareArray(value, prevState.value)) {
       this.unserializeLists({
-        check: value,
+        check: value ?? [],
         expand: expandItemValues
       });
       this.setState({
@@ -271,7 +274,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
   updateExpandItemValuesChange(prevState: CheckTreePickerState) {
     const { expandItemValues } = this.props;
-    if (compareArray(expandItemValues, prevState.expandItemValues)) {
+    if (compareArray(expandItemValues, prevState.expandItemValues) && _.isArray(expandItemValues)) {
       this.unserializeLists({
         expand: expandItemValues
       });
@@ -284,7 +287,10 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   updateUncheckableItemValuesChange(prevState: CheckTreePickerState) {
     const { data, selectedValues, expandItemValues } = this.state;
     const { uncheckableItemValues } = this.props;
-    if (compareArray(uncheckableItemValues, prevState.uncheckableItemValues)) {
+    if (
+      compareArray(uncheckableItemValues, prevState.uncheckableItemValues) &&
+      _.isArray(uncheckableItemValues)
+    ) {
       this.flattenNodes(data);
       this.unserializeLists({
         check: selectedValues,

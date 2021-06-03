@@ -123,7 +123,10 @@ export function treeDeprecatedWarning(
  * @param b
  */
 export function compareArray(a: any[], b: any[]) {
-  return _.isArray(a) && _.isArray(b) && !shallowEqualArray(a, b);
+  if (!(_.isArray(a) && _.isArray(b))) {
+    return a !== b;
+  }
+  return !shallowEqualArray(a, b);
 }
 
 /**

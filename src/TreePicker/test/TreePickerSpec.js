@@ -2,13 +2,22 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
-import { findDOMNode } from 'react-dom';
+import ReactDOM, { findDOMNode } from 'react-dom';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import TreePicker from '../TreePicker';
 
 Enzyme.configure({ adapter: new Adapter() });
+let container;
 
-export const delay = timeout => new Promise(resolve => setTimeout(resolve, timeout));
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  document.body.removeChild(container);
+  container = null;
+});
 
 const data = [
   {
@@ -157,7 +166,7 @@ describe('TreePicker', () => {
   });
 
   it('Should call `onChange` callback', done => {
-    const doneOp = values => {
+    const doneOp = () => {
       done();
     };
     const instance = getDOMNode(<TreePicker inline onChange={doneOp} data={data} />);
@@ -243,7 +252,7 @@ describe('TreePicker', () => {
   });
 
   it('Should focus item by keyCode=13 ', done => {
-    const doneOp = values => {
+    const doneOp = () => {
       done();
     };
     const instance = mount(<TreePicker data={data} onChange={doneOp} inline defaultExpandAll />);
@@ -271,8 +280,6 @@ describe('TreePicker', () => {
   });
 
   it('Should load data async', () => {
-    let activeNode = null;
-    let layer = 0;
     const data = [
       {
         label: 'Master',
@@ -293,8 +300,6 @@ describe('TreePicker', () => {
 
     let newData = [];
     const mockOnExpand = (node, l, concat) => {
-      activeNode = node;
-      layer = l;
       newData = concat(data, children);
     };
 
@@ -391,13 +396,36 @@ describe('TreePicker', () => {
     assert.ok(list[0].innerText, 'Louisa');
   });
 
-  it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<TreePicker value="Test" renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<TreePicker value="Test" renderValue={() => null} />);
-    const instance3 = getDOMNode(<TreePicker value="Test" renderValue={() => undefined} />);
+  it('Should controlled by expandItemValues', () => {
+    const TestApp = React.forwardRef((props, ref) => {
+      const [expandItemValues, setExpandItemValues] = React.useState();
+      const pickerRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        picker: pickerRef.current,
+        setExpandItemValues
+      }));
 
-    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+      return <TreePicker data={data} ref={pickerRef} expandItemValues={expandItemValues} open />;
+    });
+
+    TestApp.displayName = 'TestCheckTreePicker';
+
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<TestApp ref={ref} />, container);
+    });
+
+    assert.equal(
+      ref.current.picker.treeViewRef.current.querySelectorAll('.rs-tree-node-expanded').length,
+      0
+    );
+
+    ReactTestUtils.act(() => {
+      ref.current.setExpandItemValues(['Master']);
+    });
+    assert.equal(
+      ref.current.picker.treeViewRef.current.querySelectorAll('.rs-tree-node-expanded').length,
+      1
+    );
   });
 });
