@@ -1,3 +1,16 @@
+<a name="4.10.2"></a>
+
+## [4.10.2](https://github.com/rsuite/rsuite/compare/4.10.1...4.10.2) (2021-06-03)
+
+### Bug Fixes
+
+- **checktreepicker:** onChange callback does't return the correct value ([#1710](https://github.com/rsuite/rsuite/issues/1710)) ([060a43c](https://github.com/rsuite/rsuite/commit/060a43c))
+- **tree:** fix the uncontrolled problem of TreePicker and CheckTreePicker([#1715](https://github.com/rsuite/rsuite/issues/1715)) ([e0d148c](https://github.com/rsuite/rsuite/commit/e0d148c))
+
+### Dependencies
+
+- build(deps): bump element-resieze-event from 3.0.3 to 3.0.6
+
 <a name="4.10.1"></a>
 
 ## [4.10.1](https://github.com/rsuite/rsuite/compare/4.10.0...4.10.1) (2021-05-13)
