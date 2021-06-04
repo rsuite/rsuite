@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import '../../styles/mixins/menu';
 @import 'mixin';
 
 //
@@ -120,7 +121,6 @@
   color: var(--rs-text-primary);
   white-space: nowrap; // prevent links from randomly breaking onto new lines
   cursor: pointer; //fixed link has not [href] style
-  transition: color 0.3s linear, background-color 0.3s linear;
   .reset-link-text-decoration(none);
 
   > .rs-icon {
@@ -132,8 +132,7 @@
   // Hover/Focus state
   &:hover,
   &:focus {
-    color: inherit;
-    background-color: var(--rs-dropdown-item-bg-hover);
+    .menuitem-active();
   }
 
   // Disabled state
@@ -225,11 +224,11 @@
 // Active state
 .rs-dropdown-menu > .rs-dropdown-menu-item-focus {
   outline: 0;
+  background-color: var(--rs-dropdown-item-bg-active);
 
-  &,
   &:hover,
   &:focus {
-    background-color: var(--rs-dropdown-item-bg-active);
+    .menuitem-active();
   }
 }
 
