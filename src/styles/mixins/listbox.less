@@ -6,8 +6,9 @@
 // .item {
 //   .listbox-option();
 //
-//   &:hover {
-//     .listbox-option-hover();
+//   &:hover,
+//   &:focus {
+//     .listbox-option-active();
 //   }
 //
 //   &-selected {
@@ -40,13 +41,15 @@
   }
 }
 
-.listbox-option-hover() {
+// "-active" for aria-activedescendant
+.listbox-option-active(@multiselectable: false) {
   background-color: var(--rs-listbox-option-hover-bg);
-  color: var(--rs-listbox-option-hover-text);
-}
 
-.listbox-option-focus() {
-  .listbox-option-hover();
+  // No need to change text color in multiselectable listboxes
+  // in favor of checkbox state changes
+  & when (@multiselectable = false) {
+    color: var(--rs-listbox-option-hover-text);
+  }
 }
 
 .listbox-option-selected() {

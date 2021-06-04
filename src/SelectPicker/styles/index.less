@@ -17,13 +17,10 @@
 .rs-picker-select-menu-item {
   .listbox-option();
 
-  &:hover {
-    .listbox-option-hover();
-  }
-
+  &:hover,
   &:focus,
   &&-focus {
-    .listbox-option-focus();
+    .listbox-option-active();
   }
 
   &&-active {
