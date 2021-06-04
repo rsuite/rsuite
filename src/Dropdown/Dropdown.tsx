@@ -1,5 +1,6 @@
 import React, { useRef, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import uniqueId from 'lodash/uniqueId';
 import kebabCase from 'lodash/kebabCase';
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
@@ -132,6 +133,16 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const collapsible = sidenav && expanded;
 
+  const toggleIdRef = useRef<string>();
+  if (!toggleIdRef.current) {
+    toggleIdRef.current = uniqueId(prefix`button-`);
+  }
+
+  const menuIdRef = useRef<string>();
+  if (!menuIdRef.current) {
+    menuIdRef.current = uniqueId(prefix`menu-`);
+  }
+
   const handleToggle = useCallback(
     (isOpen?: boolean) => {
       const nextOpen = typeof isOpen === 'undefined' ? !open : isOpen;
@@ -220,6 +231,12 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
       dropdownProps.onMouseLeave = createChainedFunction(handleMouseLeave, onMouseLeave);
     }
   }
+
+  const menuA11yProps = {
+    id: menuIdRef.current,
+    'aria-labelledby': toggleIdRef.current
+  };
+
   const menuElement = (
     <DropdownMenu
       expanded={menuExpanded}
@@ -230,19 +247,26 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
       activeKey={activeKey}
       openKeys={openKeys}
       ref={overlayTarget}
+      {...menuA11yProps}
     >
       {showHeader && <li className={prefix('header')}>{title}</li>}
       {children}
     </DropdownMenu>
   );
 
+  const toggleA11yProps = {
+    id: toggleIdRef.current,
+    'aria-controls': menuIdRef.current
+  };
+
   const toggleElement = (
     <DropdownToggle
       role="button"
-      aria-haspopup
+      aria-haspopup="menu"
       aria-expanded={open}
       {...rest}
       {...toggleProps}
+      {...toggleA11yProps}
       ref={triggerTarget}
       as={renderTitle ? 'span' : toggleAs}
       noCaret={noCaret}
