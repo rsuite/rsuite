@@ -197,7 +197,7 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
     const { className: transitionClassName, ...transitionRestProps } = transitionProps || {};
 
     return (
-      <div
+      <ul
         {...rest}
         {...transitionRestProps}
         className={classNames(classes, transitionClassName)}
@@ -205,7 +205,7 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
         ref={mergeRefs(transitionRef, ref)}
       >
         {items}
-      </div>
+      </ul>
     );
   }, expanded);
 });

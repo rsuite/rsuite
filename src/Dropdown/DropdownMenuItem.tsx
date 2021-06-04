@@ -1,6 +1,5 @@
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import SafeAnchor from '../SafeAnchor';
 import { isOneOf, createChainedFunction, useClassNames, useControlled } from '../utils';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -53,7 +52,7 @@ export interface DropdownMenuItemProps<T = any>
 }
 
 const defaultProps: Partial<DropdownMenuItemProps> = {
-  as: SafeAnchor,
+  as: 'li',
   classPrefix: 'dropdown-item',
   trigger: 'hover'
 };

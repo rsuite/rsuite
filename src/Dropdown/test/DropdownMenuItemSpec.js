@@ -7,11 +7,11 @@ import Sidenav from '../../Sidenav';
 import User from '@rsuite/icons/legacy/User';
 
 describe('DropdownMenuItem', () => {
-  it('Should render a <a>', () => {
+  it('Should render element with role="menuitem"', () => {
     const title = 'Test';
     const instance = getDOMNode(<DropdownMenuItem>{title}</DropdownMenuItem>);
 
-    assert.equal(instance.tagName, 'A');
+    assert.equal(instance.getAttribute('role'), 'menuitem', 'role');
     assert.equal(innerText(instance), title);
   });
 

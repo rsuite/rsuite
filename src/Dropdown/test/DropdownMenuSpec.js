@@ -6,7 +6,7 @@ import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
 
 describe('DropdownMenu', () => {
-  it('Should render a <div>', () => {
+  it('Should render element with role="menu"', () => {
     const instance = getDOMNode(
       <DropdownMenu>
         <DropdownMenuItem>1</DropdownMenuItem>
@@ -15,7 +15,7 @@ describe('DropdownMenu', () => {
     );
 
     assert.ok(instance.className.match(/\bdropdown-menu\b/));
-    assert.equal(instance.tagName, 'DIV');
+    assert.equal(instance.getAttribute('role'), 'menu', 'role');
     assert.equal(instance.children.length, 2);
   });
 
@@ -101,7 +101,7 @@ describe('DropdownMenu', () => {
       </DropdownMenu>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('a')[2]);
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('[role="menuitem"]')[2]);
   });
 
   it('Should call onSelect callback', done => {
@@ -120,7 +120,7 @@ describe('DropdownMenu', () => {
       </DropdownMenu>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('a')[2]);
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('[role="menuitem"]')[2]);
   });
 
   it('Should have a custom className', () => {

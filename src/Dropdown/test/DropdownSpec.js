@@ -90,7 +90,9 @@ describe('Dropdown', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-dropdown-menu a')[1]);
+    ReactTestUtils.Simulate.click(
+      instance.querySelectorAll('.rs-dropdown-menu [role="menuitem"]')[1]
+    );
   });
 
   it('Should call onToggle callback', done => {
