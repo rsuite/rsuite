@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import tinycolor from 'tinycolor2';
 import AutoComplete from '../index';
 import { createTestContainer, getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
-const { H050 } = getDefaultPalette();
+const { H100 } = getDefaultPalette();
 
 describe('AutoComplete styles', () => {
   it('Input should render the correct styles', () => {
@@ -33,7 +34,7 @@ describe('AutoComplete styles', () => {
     );
     assert.equal(
       getStyle(focusItemDom, 'backgroundColor'),
-      H050,
+      tinycolor(H100).setAlpha(0.5).toRgbString(),
       'AutoComplete focus item background-color'
     );
     assert.equal(getStyle(dom, 'color'), toRGB('#575757'), 'AutoComplete  focus item font-color');
