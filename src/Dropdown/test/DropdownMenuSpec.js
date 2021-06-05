@@ -61,9 +61,9 @@ describe('DropdownMenu', () => {
     assert.ok(instance.querySelector('.rs-dropdown-item-submenu.rs-dropdown-item-open'));
   });
 
-  it('Should be active when set `activeKey` in submenu', () => {
+  it('Submenu should be open when its `eventKey` is included in `openKeys` from ancestors', () => {
     const instance = getDOMNode(
-      <DropdownMenu activeKey={'2'}>
+      <DropdownMenu openKeys={['2']}>
         <DropdownMenu eventKey={'2'}>
           <DropdownMenuItem>2.1</DropdownMenuItem>
           <DropdownMenuItem>2.2</DropdownMenuItem>
@@ -71,7 +71,12 @@ describe('DropdownMenu', () => {
       </DropdownMenu>
     );
 
-    assert.ok(instance.querySelector('.rs-dropdown-item-submenu.rs-dropdown-menu-item-focus'));
+    assert.ok(
+      instance
+        .querySelector('.rs-dropdown-item-submenu')
+        .classList.contains('rs-dropdown-item-open'),
+      'Sub-menu is open'
+    );
   });
 
   it('Should be pull left', () => {
@@ -87,10 +92,13 @@ describe('DropdownMenu', () => {
     assert.ok(instance.querySelector('.rs-dropdown-menu-pull-left.rs-dropdown-item-pull-left'));
   });
 
-  it('Should call onSelect callback', done => {
+  it('Should call onSelect callback with correct `eventKey`', done => {
     let doneOp = eventKey => {
-      if (eventKey === 3) {
+      try {
+        assert.equal(eventKey, 3, 'eventKey');
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(
@@ -101,26 +109,7 @@ describe('DropdownMenu', () => {
       </DropdownMenu>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('[role="menuitem"]')[2]);
-  });
-
-  it('Should call onSelect callback', done => {
-    let doneOp = eventKey => {
-      if (eventKey === 3) {
-        done();
-      }
-    };
-    const instance = getDOMNode(
-      <DropdownMenu activeKey={1}>
-        <DropdownMenuItem eventKey={1}>1</DropdownMenuItem>
-        <DropdownMenuItem eventKey={2}>2</DropdownMenuItem>
-        <DropdownMenuItem eventKey={3} onSelect={doneOp}>
-          3
-        </DropdownMenuItem>
-      </DropdownMenu>
-    );
-
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('[role="menuitem"]')[2]);
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('[role^="menuitem"]')[2]);
   });
 
   it('Should have a custom className', () => {

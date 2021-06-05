@@ -18,6 +18,7 @@ import { SidenavContext, SidenavContextType } from '../Sidenav/Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import useUniqueId from '../utils/useUniqueId';
+import DropdownContext from './DropdownContext';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -286,10 +287,16 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   );
 
   return (
-    <Component {...dropdownProps} ref={ref} style={style} className={classes}>
-      {toggleElement}
-      {menuElement}
-    </Component>
+    <DropdownContext.Provider
+      value={{
+        activeKey
+      }}
+    >
+      <Component {...dropdownProps} ref={ref} style={style} className={classes}>
+        {toggleElement}
+        {menuElement}
+      </Component>
+    </DropdownContext.Provider>
   );
 }) as unknown) as DropdownComponent;
 

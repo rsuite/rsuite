@@ -1,10 +1,13 @@
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import isNil from 'lodash/isNil';
 import { isOneOf, createChainedFunction, useClassNames, useControlled } from '../utils';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import useUniqueId from '../utils/useUniqueId';
+import MenuContext from './MenuContext';
+import DropdownContext from './DropdownContext';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -65,7 +68,7 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
       children,
       divider,
       panel,
-      active,
+      active: activeProp,
       disabled,
       className,
       submenu,
@@ -85,14 +88,23 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
       ...rest
     } = props;
 
+    const dropdown = useContext(DropdownContext);
+    const menu = useContext(MenuContext);
+
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const { sidenav, expanded } = useContext(SidenavContext) || {};
-    const [open, setOpen] = useControlled(openProp, false);
+    const [open, setOpen] = useControlled(openProp, menu?.openKeys?.includes(eventKey) ?? false);
+
+    const active =
+      activeProp ||
+      (!isNil(menu?.activeKey) && menu.activeKey === eventKey) ||
+      (!isNil(dropdown.activeKey) && dropdown.activeKey === eventKey);
+
     const classes = merge(
       className,
       withClassPrefix({
         [`pull-${pullLeft ? 'left' : 'right'}`]: submenu,
-        [expandedProp ? 'expand' : 'collapse']: submenu && sidenav,
+        [expandedProp || expanded ? 'expand' : 'collapse']: submenu && sidenav,
         'with-icon': icon,
         open,
         submenu,
@@ -115,8 +127,9 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
         }
 
         onSelect?.(eventKey, event);
+        menu?.onSelect?.(eventKey, event);
       },
-      [disabled, open, eventKey, trigger, submenu, setOpen, onSelect]
+      [disabled, open, eventKey, trigger, submenu, setOpen, onSelect, menu?.onSelect]
     );
 
     const handleMouseOver = useCallback(() => {
@@ -136,7 +149,7 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
 
     if (divider) {
       return (
-        <div
+        <Component
           ref={ref}
           role="separator"
           style={style}
@@ -189,14 +202,26 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
       return React.cloneElement(submenu, ariaAttributes);
     }
 
+    const ariaAttributes: React.DetailedHTMLProps<
+      React.HTMLAttributes<HTMLLIElement>,
+      HTMLLIElement
+    > = {
+      role: 'menuitem',
+      'aria-disabled': disabled
+    };
+
+    if (active) {
+      ariaAttributes.role = 'menuitemcheckbox';
+      ariaAttributes['aria-checked'] = true;
+    }
+
     return (
       <Component
-        role="menuitem"
+        {...ariaAttributes}
         {...rest}
         {...itemEventProps}
         tabIndex={disabled ? -1 : tabIndex}
         ref={ref}
-        aria-disabled={disabled}
         style={style}
         className={classes}
         onClick={createChainedFunction(handleClick, onClick)}

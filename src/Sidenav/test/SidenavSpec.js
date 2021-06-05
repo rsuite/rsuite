@@ -77,9 +77,18 @@ describe('Sidenav', () => {
       </Sidenav>
     );
 
-    assert.ok(instance.querySelector('.m-1 .rs-dropdown-menu-collapse-in'));
-    assert.ok(instance.querySelector('.m-2 .rs-dropdown-menu-collapse-in'));
-    assert.ok(instance.querySelector('.m-2-2 .rs-dropdown-menu-collapse-out'));
+    assert.ok(
+      instance.querySelector('.m-1 .rs-dropdown-menu-collapse-in'),
+      'Menu 1 should be open'
+    );
+    assert.ok(
+      instance.querySelector('.m-2 .rs-dropdown-menu-collapse-in'),
+      'Menu 2 should be open'
+    );
+    assert.ok(
+      instance.querySelector('.m-2-2 .rs-dropdown-menu-collapse-out'),
+      'Menu 2-2 should not be open'
+    );
   });
 
   it('Should have a custom className', () => {
