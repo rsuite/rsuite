@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import Collapse from '../Animation/Collapse';
+import MenuContext from './MenuContext';
 
 import DropdownMenuItem from './DropdownMenuItem';
-import Ripple from '../Ripple';
 import {
   createChainedFunction,
   ReactChildren,
@@ -48,6 +48,11 @@ const defaultProps: Partial<DropdownMenuProps> = {
   classPrefix: 'dropdown-menu'
 };
 
+/**
+ * If <Dropdown.Menu> is inside another <Dropdown.Menu>,
+ * it renders a `menuitem` and a `menu`.
+ * Otherwise it renders the `menu` alone.
+ */
 const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
   const {
     children,
@@ -126,6 +131,21 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
         );
         const Icon = (pullLeft && !rtl) || (rtl && !pullLeft) ? AngleLeft : AngleRight;
 
+        const submenu = renderCollapse((transitionProps, ref) => {
+          const { className, ...transitionRestProps } = transitionProps || {};
+          return (
+            <ul
+              {...transitionRestProps}
+              id={(rest as any).id}
+              ref={ref}
+              role="menu"
+              className={merge(className, withClassPrefix())}
+            >
+              {itemsAndStatus.items}
+            </ul>
+          );
+        }, expanded);
+
         return (
           <DropdownMenuItem
             icon={icon}
@@ -134,33 +154,19 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
             expanded={expanded}
             className={itemClassName}
             pullLeft={pullLeft}
-            as="div"
-            submenu
-            role={null}
+            submenu={submenu}
+            role="none presentation"
           >
             <div
               className={prefix`toggle`}
               onClick={e => handleToggleChange(eventKey, e)}
-              role="menu"
+              role="menuitem"
+              aria-controls={(rest as any).id}
               tabIndex={-1}
             >
               <span>{title}</span>
               <Icon className={prefix`toggle-icon`} />
-              <Ripple />
             </div>
-            {renderCollapse((transitionProps, ref) => {
-              const { className, ...transitionRestProps } = transitionProps || {};
-              return (
-                <div
-                  {...transitionRestProps}
-                  ref={ref}
-                  role="menu"
-                  className={merge(className, withClassPrefix())}
-                >
-                  {itemsAndStatus.items}
-                </div>
-              );
-            }, expanded)}
           </DropdownMenuItem>
         );
       }
@@ -197,15 +203,21 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
     const { className: transitionClassName, ...transitionRestProps } = transitionProps || {};
 
     return (
-      <ul
-        {...rest}
-        {...transitionRestProps}
-        className={classNames(classes, transitionClassName)}
-        role="menu"
-        ref={mergeRefs(transitionRef, ref)}
+      <MenuContext.Provider
+        value={{
+          activeDescendant: activeKey
+        }}
       >
-        {items}
-      </ul>
+        <ul
+          {...rest}
+          {...transitionRestProps}
+          className={classNames(classes, transitionClassName)}
+          role="menu"
+          ref={mergeRefs(transitionRef, ref)}
+        >
+          {items}
+        </ul>
+      </MenuContext.Provider>
     );
   }, expanded);
 });

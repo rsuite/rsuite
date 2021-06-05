@@ -4,6 +4,7 @@ import { isOneOf, createChainedFunction, useClassNames, useControlled } from '..
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
+import useUniqueId from '../utils/useUniqueId';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -32,8 +33,8 @@ export interface DropdownMenuItemProps<T = any>
   /** Set the icon */
   icon?: React.ReactElement<IconProps>;
 
-  /** Whether it is a submenu. */
-  submenu?: boolean;
+  /** The submenu that this menuitem controls (if exists) */
+  submenu?: React.ReactElement;
 
   /** The sub-level menu appears from the right side by default, and when `pullLeft` is set, it appears from the left. */
   pullLeft?: boolean;
@@ -100,6 +101,8 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
       })
     );
 
+    const menuitemId = useUniqueId(prefix`-`);
+
     const handleClick = useCallback(
       (event: React.SyntheticEvent<any>) => {
         if (disabled) {
@@ -150,6 +153,42 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
       );
     }
 
+    /**
+     * Apply aria attributes if submenu exists
+     */
+    function renderChildren() {
+      if (!React.isValidElement(children)) return children;
+
+      const ariaAttributes: React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLDivElement>,
+        HTMLDivElement
+      > = {};
+
+      if (submenu) {
+        ariaAttributes.id = menuitemId;
+        ariaAttributes['aria-haspopup'] = 'menu';
+        ariaAttributes['aria-expanded'] = open;
+      }
+
+      return React.cloneElement(children, ariaAttributes);
+    }
+
+    /**
+     * Apply aria attributes on submenu if exists
+     */
+    function renderSubmenu() {
+      if (!submenu || !React.isValidElement(submenu)) return null;
+
+      const ariaAttributes: React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLDivElement>,
+        HTMLDivElement
+      > = {
+        'aria-labelledby': menuitemId
+      };
+
+      return React.cloneElement(submenu, ariaAttributes);
+    }
+
     return (
       <Component
         role="menuitem"
@@ -163,7 +202,8 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
         onClick={createChainedFunction(handleClick, onClick)}
       >
         {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-        {children}
+        {renderChildren()}
+        {renderSubmenu()}
       </Component>
     );
   }
@@ -181,7 +221,7 @@ DropdownMenuItem.propTypes = {
   active: PropTypes.bool,
   disabled: PropTypes.bool,
   pullLeft: PropTypes.bool,
-  submenu: PropTypes.bool,
+  submenu: PropTypes.element,
   onSelect: PropTypes.func,
   onClick: PropTypes.func,
   icon: PropTypes.node,

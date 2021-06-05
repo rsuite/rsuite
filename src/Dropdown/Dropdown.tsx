@@ -1,6 +1,5 @@
 import React, { useRef, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import uniqueId from 'lodash/uniqueId';
 import kebabCase from 'lodash/kebabCase';
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
@@ -18,6 +17,7 @@ import {
 import { SidenavContext, SidenavContextType } from '../Sidenav/Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
+import useUniqueId from '../utils/useUniqueId';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -126,22 +126,15 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
 
   const { onOpenChange, openKeys = [], sidenav, expanded } =
     useContext<SidenavContextType>(SidenavContext) || {};
-  const overlayTarget = useRef();
+  const overlayTarget = useRef<HTMLUListElement>();
   const triggerTarget = useRef();
   const [open, setOpen] = useControlled(openProp, false);
   const menuExpanded = openKeys.some(key => shallowEqual(key, eventKey));
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const collapsible = sidenav && expanded;
 
-  const toggleIdRef = useRef<string>();
-  if (!toggleIdRef.current) {
-    toggleIdRef.current = uniqueId(prefix`button-`);
-  }
-
-  const menuIdRef = useRef<string>();
-  if (!menuIdRef.current) {
-    menuIdRef.current = uniqueId(prefix`menu-`);
-  }
+  const toggleId = useUniqueId(prefix`button-`);
+  const menuId = useUniqueId(prefix`menu-`);
 
   const handleToggle = useCallback(
     (isOpen?: boolean) => {
@@ -233,8 +226,8 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   }
 
   const menuA11yProps = {
-    id: menuIdRef.current,
-    'aria-labelledby': toggleIdRef.current
+    id: menuId,
+    'aria-labelledby': toggleId
   };
 
   const menuElement = (
@@ -255,8 +248,8 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   );
 
   const toggleA11yProps = {
-    id: toggleIdRef.current,
-    'aria-controls': menuIdRef.current
+    id: toggleId,
+    'aria-controls': menuId
   };
 
   const toggleElement = (
