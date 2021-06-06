@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import { isOneOf, createChainedFunction, useClassNames, useControlled } from '../utils';
@@ -8,6 +8,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import useUniqueId from '../utils/useUniqueId';
 import MenuContext from './MenuContext';
 import DropdownContext from './DropdownContext';
+import useEnsuredRef from '../utils/useEnsuredRef';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -88,10 +89,14 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
       ...rest
     } = props;
 
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+
+    const menuitemRef = useEnsuredRef(ref);
+    const menuitemId = useUniqueId(prefix`-`);
+
     const dropdown = useContext(DropdownContext);
     const menu = useContext(MenuContext);
 
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const { sidenav, expanded } = useContext(SidenavContext) || {};
     const [open, setOpen] = useControlled(openProp, menu?.openKeys?.includes(eventKey) ?? false);
 
@@ -109,11 +114,10 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
         open,
         submenu,
         active,
-        disabled
+        disabled,
+        focus: menu?.activeDescendantId === menuitemId
       })
     );
-
-    const menuitemId = useUniqueId(prefix`-`);
 
     const handleClick = useCallback(
       (event: React.SyntheticEvent<any>) => {
@@ -147,10 +151,15 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
       itemEventProps.onMouseOut = createChainedFunction(handleMouseOut, onMouseOut);
     }
 
+    useEffect(() => {
+      menu?.onItemRendered(menuitemRef.current);
+    }, []);
+
     if (divider) {
       return (
         <Component
-          ref={ref}
+          ref={menuitemRef}
+          id={menuitemId}
           role="separator"
           style={style}
           className={merge(prefix('divider'), className)}
@@ -160,7 +169,13 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
 
     if (panel) {
       return (
-        <div ref={ref} role="menuitem" style={style} className={merge(prefix('panel'), className)}>
+        <div
+          ref={menuitemRef}
+          id={menuitemId}
+          role="menuitem"
+          style={style}
+          className={merge(prefix('panel'), className)}
+        >
           {children}
         </div>
       );
@@ -210,18 +225,20 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
       'aria-disabled': disabled
     };
 
-    if (active) {
-      ariaAttributes.role = 'menuitemcheckbox';
-      ariaAttributes['aria-checked'] = true;
-    }
+    // Too aggressive for now
+    // if (active) {
+    //   ariaAttributes.role = 'menuitemcheckbox';
+    //   ariaAttributes['aria-checked'] = true;
+    // }
 
     return (
       <Component
+        id={menuitemId}
         {...ariaAttributes}
         {...rest}
         {...itemEventProps}
         tabIndex={disabled ? -1 : tabIndex}
-        ref={ref}
+        ref={menuitemRef}
         style={style}
         className={classes}
         onClick={createChainedFunction(handleClick, onClick)}

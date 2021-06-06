@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import isNil from 'lodash/isNil';
@@ -39,6 +39,11 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
   trigger?: 'hover' | 'click';
   onSelect?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
   onToggle?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
+  /**
+   * Which item to place focus when menu gets opened
+   * @internal Only used when opening with keyboard control
+   */
+  focusIndexOnOpen?: number;
 }
 
 const defaultProps: Partial<DropdownMenuProps> = {
@@ -62,6 +67,7 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
     openKeys,
     onSelect,
     onToggle,
+    focusIndexOnOpen,
     ...rest
   } = props;
   const parentMenuContext = useContext(MenuContext);
@@ -77,6 +83,25 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
     [onToggle]
   );
 
+  const [itemIds, setItemIds] = useState<string[]>([]);
+
+  // Register menuitems' ID
+  const handleItemRendered = useCallback((element: HTMLElement) => {
+    setItemIds(ids => [...ids, element.id]);
+  }, []);
+
+  const [activeItemIndex, setActiveItemIndex] = useState<number>();
+
+  const activeDescendantId = useMemo(() => {
+    if (isNil(activeItemIndex)) return null;
+
+    return itemIds[activeItemIndex];
+  }, [itemIds, activeItemIndex]);
+
+  useEffect(() => {
+    setActiveItemIndex(focusIndexOnOpen);
+  }, [focusIndexOnOpen]);
+
   const renderCollapse = (children, expanded?: boolean) => {
     return collapsible ? (
       <Collapse
@@ -91,6 +116,15 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
     ) : (
       children()
     );
+  };
+
+  // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-13
+  const menuAriaAttributes: React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLUListElement>,
+    HTMLUListElement
+  > = {
+    role: 'menu',
+    'aria-activedescendant': activeDescendantId
   };
 
   // Parent menu exists. This is a submenu.
@@ -109,8 +143,8 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
           {...transitionRestProps}
           id={(rest as any).id}
           ref={ref}
-          role="menu"
           className={merge(className, withClassPrefix())}
+          {...menuAriaAttributes}
         >
           {props.children}
         </ul>
@@ -151,7 +185,9 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
         activeKey,
         openKeys,
         collapsible,
-        onSelect
+        onSelect,
+        onItemRendered: handleItemRendered,
+        activeDescendantId
       }}
     >
       {renderCollapse((transitionProps, transitionRef) => {
@@ -162,8 +198,9 @@ const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
             {...rest}
             {...transitionRestProps}
             className={classNames(classes, transitionClassName)}
-            role="menu"
             ref={mergeRefs(transitionRef, ref)}
+            tabIndex={0}
+            {...menuAriaAttributes}
           >
             {children}
           </ul>

@@ -3,9 +3,12 @@ import React from 'react';
 export interface MenuContextProps {
   /**
    * Reference of active child item
-   * similarly `aria-activedescendant` but using eventKey instead of ID
    */
   activeKey?: string;
+  /**
+   * `aria-activedescendant` passing down
+   */
+  activeDescendantId: string | null;
   /**
    * Specify which submenus (if exists) are open by default
    */
@@ -19,6 +22,10 @@ export interface MenuContextProps {
    * Callback when menuitem is triggered
    */
   onSelect: (eventKey: string, event: React.SyntheticEvent<HTMLElement>) => void;
+  /**
+   * Feeds the menuitem DOM info back into menu
+   */
+  onItemRendered?: (element: HTMLElement) => void;
 }
 
 /**

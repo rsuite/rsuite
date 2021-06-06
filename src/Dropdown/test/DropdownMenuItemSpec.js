@@ -109,4 +109,9 @@ describe('DropdownMenuItem', () => {
     const instance = getDOMNode(<DropdownMenuItem classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should accept a custom `id`', () => {
+    const menuitem = getDOMNode(<DropdownMenuItem id="custom-id">Menu item</DropdownMenuItem>);
+    assert.equal(menuitem.getAttribute('id'), 'custom-id', 'id');
+  });
 });

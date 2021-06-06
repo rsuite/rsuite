@@ -6,7 +6,7 @@ import Button from '../../Button';
 import { innerText } from '@test/testUtils';
 
 describe('Dropdown', () => {
-  it('Should render a Dropdown', () => {
+  it('Should render a button that controls a popup menu', () => {
     const instance = getDOMNode(
       <Dropdown>
         <Dropdown.Item>1</Dropdown.Item>
@@ -15,10 +15,16 @@ describe('Dropdown', () => {
         <div>abc</div>
       </Dropdown>
     );
-    assert.include(instance.className, 'rs-dropdown');
+
+    const button = instance.querySelector('[role="button"]');
+    assert.ok(button, 'The button');
+    assert.equal(button.getAttribute('aria-haspopup'), 'menu', '`aria-haspopup`');
+
+    const menuId = button.getAttribute('aria-controls');
+    assert.ok(instance.querySelector(`#${menuId}[role="menu"]`), 'The menu');
   });
 
-  it('Should be disabled', () => {
+  it('Should be disabled given `disabled=true`', () => {
     const instance = getDOMNode(
       <Dropdown disabled>
         <Dropdown.Item>1</Dropdown.Item>
@@ -168,5 +174,53 @@ describe('Dropdown', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Dropdown classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  describe('Focus management', () => {
+    // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-13
+    describe('Opening the menu', () => {
+      ['Enter', 'Space'].forEach(key => {
+        it(`Should open the menu when pressing ${key}`, () => {
+          const instance = getDOMNode(
+            <Dropdown>
+              <Dropdown.Item id="first-menuitem">Item 1</Dropdown.Item>
+              <Dropdown.Item>Item 2</Dropdown.Item>
+              <Dropdown.Item>Item 3</Dropdown.Item>
+            </Dropdown>
+          );
+          const button = instance.querySelector('[role="button"]');
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(button, { key });
+          });
+
+          assert.ok(button.getAttribute('aria-expanded') === 'true', 'The menu is open');
+
+          const menu = instance.querySelector('[role="menu"]');
+          assert.equal(
+            menu.getAttribute('aria-activedescendant'),
+            'first-menuitem',
+            'aria-activedescendant'
+          );
+        });
+      });
+    });
+    it('Should close the opened menu when pressing Escape', () => {
+      const instance = getDOMNode(
+        <Dropdown defaultOpen>
+          <Dropdown.Item id="first-menuitem">Item 1</Dropdown.Item>
+          <Dropdown.Item>Item 2</Dropdown.Item>
+          <Dropdown.Item>Item 3</Dropdown.Item>
+        </Dropdown>
+      );
+      const button = instance.querySelector('[role="button"]');
+      const menu = instance.querySelector('[role="menu"]');
+
+      ReactTestUtils.act(() => {
+        ReactTestUtils.Simulate.keyDown(menu, { key: 'Escape' });
+      });
+
+      assert.notEqual(button.getAttribute('aria-expanded'), 'true', 'The menu is closed');
+    });
   });
 });
