@@ -3,7 +3,6 @@ import { getDOMNode } from '@test/testUtils';
 import DropdownToggle from '../DropdownToggle';
 import { innerText } from '@test/testUtils';
 import User from '@rsuite/icons/legacy/User';
-import ReactTestUtils from 'react-dom/test-utils';
 
 describe('DropdownToggle', () => {
   it('Should render a toggle', () => {
