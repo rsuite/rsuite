@@ -1,18 +1,15 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React, { useCallback, useContext } from 'react';
+import MenuContext from './MenuContext';
+import Menu, { MenuProps } from './Menu';
+import MenuItem from './MenuItem';
 import isNil from 'lodash/isNil';
+import { shallowEqual, useClassNames } from '../utils';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
-import Collapse from '../Animation/Collapse';
-import MenuContext from './MenuContext';
-
-import DropdownMenuItem from './DropdownMenuItem';
-import { shallowEqual, mergeRefs, useClassNames } from '../utils';
-
-import { IconProps } from '@rsuite/icons/lib/Icon';
-import { StandardProps } from '../@types/common';
 import useCustom from '../utils/useCustom';
+import PropTypes from 'prop-types';
+import { StandardProps } from '../@types/common';
+import { IconProps } from '@rsuite/icons/lib/Icon';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
@@ -39,178 +36,87 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
   trigger?: 'hover' | 'click';
   onSelect?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
   onToggle?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
-  /**
-   * Which item to place focus when menu gets opened
-   * @internal Only used when opening with keyboard control
-   */
-  focusIndexOnOpen?: number;
 }
 
-const defaultProps: Partial<DropdownMenuProps> = {
+const defaultProps: Partial<MenuProps> = {
   openKeys: [],
   classPrefix: 'dropdown-menu'
 };
 
 /**
- * If <Dropdown.Menu> is inside another <Dropdown.Menu>,
- * it renders a `menuitem` and a `menu`.
- * Otherwise it renders the `menu` alone.
+ * <Dropdown.Menu>
+ *
+ * @description
+ * Note the difference between this component and <Menu> component:
+ * <Menu> is used for ARIA menu control logic and is used internally only.
+ * This component is only used for supporting submenu syntax and is
+ * assigned to Dropdown.Menu
+ *
+ * @example
+ *
+ * <Dropdown>
+ *   <Dropdown.Item>Item 1</Dropdown.Item>
+ *   <Dropdown.Menu title="Submenu">
+ *     <Dropdown.Item>Sub item</Dropdown.Item>
+ *   </Dropdown.Menu>
+ * </Dropdown>
  */
-const DropdownMenu = React.forwardRef((props: DropdownMenuProps, ref) => {
-  const {
-    children,
-    className,
-    classPrefix,
-    collapsible: collapsibleProp,
-    expanded,
-    activeKey,
-    openKeys,
-    onSelect,
-    onToggle,
-    focusIndexOnOpen,
-    ...rest
-  } = props;
-  const parentMenuContext = useContext(MenuContext);
+const DropdownMenu = React.forwardRef(
+  (
+    props: MenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>,
+    ref
+  ) => {
+    const { classPrefix, openKeys, onToggle, ...rest } = props;
 
-  const collapsible = collapsibleProp ?? parentMenuContext?.collapsible;
+    const parentMenu = useContext(MenuContext);
 
-  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-  const { rtl } = useCustom('DropdownMenu');
-  const handleToggleChange = useCallback(
-    (eventKey: string, event: React.MouseEvent) => {
-      onToggle?.(eventKey, event);
-    },
-    [onToggle]
-  );
-
-  const [itemIds, setItemIds] = useState<string[]>([]);
-
-  // Register menuitems' ID
-  const handleItemRendered = useCallback((element: HTMLElement) => {
-    setItemIds(ids => [...ids, element.id]);
-  }, []);
-
-  const [activeItemIndex, setActiveItemIndex] = useState<number>();
-
-  const activeDescendantId = useMemo(() => {
-    if (isNil(activeItemIndex)) return null;
-
-    return itemIds[activeItemIndex];
-  }, [itemIds, activeItemIndex]);
-
-  useEffect(() => {
-    setActiveItemIndex(focusIndexOnOpen);
-  }, [focusIndexOnOpen]);
-
-  const renderCollapse = (children, expanded?: boolean) => {
-    return collapsible ? (
-      <Collapse
-        in={expanded}
-        exitedClassName={prefix`collapse-out`}
-        exitingClassName={prefix`collapsing`}
-        enteredClassName={prefix`collapse-in`}
-        enteringClassName={prefix`collapsing`}
-      >
-        {children}
-      </Collapse>
-    ) : (
-      children()
+    const { rtl } = useCustom('DropdownMenu');
+    const handleToggleChange = useCallback(
+      (eventKey: string, event: React.MouseEvent) => {
+        onToggle?.(eventKey, event);
+      },
+      [onToggle]
     );
-  };
+    const { merge, prefix } = useClassNames(classPrefix);
 
-  // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-13
-  const menuAriaAttributes: React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLUListElement>,
-    HTMLUListElement
-  > = {
-    role: 'menu',
-    'aria-activedescendant': activeDescendantId
-  };
-
-  // Parent menu exists. This is a submenu.
-  // Should render a `menuitem` that controls this submenu.
-  if (parentMenuContext) {
-    const { icon, open, trigger, pullLeft, eventKey, title, className } = props;
-    const expanded = !isNil(eventKey) && openKeys.some(key => shallowEqual(key, eventKey));
-    const itemClassName = merge(className, prefix(`pull-${pullLeft ? 'left' : 'right'}`));
-    const Icon = (pullLeft && !rtl) || (rtl && !pullLeft) ? AngleLeft : AngleRight;
-
-    const submenu = renderCollapse((transitionProps, ref) => {
-      const { className, ...transitionRestProps } = transitionProps || {};
+    // Parent menu exists. This is a submenu.
+    // Should render a `menuitem` that controls this submenu.
+    if (parentMenu) {
+      const { icon, open, trigger, pullLeft, eventKey, title, className } = props;
+      const expanded = !isNil(eventKey) && openKeys.some(key => shallowEqual(key, eventKey));
+      const itemClassName = merge(className, prefix(`pull-${pullLeft ? 'left' : 'right'}`));
+      const Icon = (pullLeft && !rtl) || (rtl && !pullLeft) ? AngleLeft : AngleRight;
 
       return (
-        <ul
-          {...transitionRestProps}
-          id={(rest as any).id}
-          ref={ref}
-          className={merge(className, withClassPrefix())}
-          {...menuAriaAttributes}
+        <MenuItem
+          icon={icon}
+          open={open}
+          trigger={trigger}
+          expanded={expanded}
+          className={itemClassName}
+          pullLeft={pullLeft}
+          submenu={<Menu ref={ref} {...props} />}
+          eventKey={eventKey}
         >
-          {props.children}
-        </ul>
-      );
-    }, expanded);
-
-    return (
-      <DropdownMenuItem
-        icon={icon}
-        open={open}
-        trigger={trigger}
-        expanded={expanded}
-        className={itemClassName}
-        pullLeft={pullLeft}
-        submenu={submenu}
-        role="none presentation"
-        eventKey={eventKey}
-      >
-        <div
-          className={prefix`toggle`}
-          onClick={e => handleToggleChange(eventKey, e)}
-          role="menuitem"
-          aria-controls={(rest as any).id}
-          tabIndex={-1}
-        >
-          <span>{title}</span>
-          <Icon className={prefix`toggle-icon`} />
-        </div>
-      </DropdownMenuItem>
-    );
-  }
-
-  const classes = merge(className, withClassPrefix());
-
-  return (
-    <MenuContext.Provider
-      value={{
-        activeKey,
-        openKeys,
-        collapsible,
-        onSelect,
-        onItemRendered: handleItemRendered,
-        activeDescendantId
-      }}
-    >
-      {renderCollapse((transitionProps, transitionRef) => {
-        const { className: transitionClassName, ...transitionRestProps } = transitionProps || {};
-
-        return (
-          <ul
-            {...rest}
-            {...transitionRestProps}
-            className={classNames(classes, transitionClassName)}
-            ref={mergeRefs(transitionRef, ref)}
-            tabIndex={0}
-            {...menuAriaAttributes}
+          <div
+            className={prefix`toggle`}
+            onClick={e => handleToggleChange(eventKey, e)}
+            role="menuitem"
+            aria-controls={(rest as any).id}
+            tabIndex={-1}
           >
-            {children}
-          </ul>
-        );
-      }, expanded)}
-    </MenuContext.Provider>
-  );
-});
+            <span>{title}</span>
+            <Icon className={prefix`toggle-icon`} />
+          </div>
+        </MenuItem>
+      );
+    }
 
-DropdownMenu.displayName = 'DropdownMenu';
+    return <Menu ref={ref} {...props} />;
+  }
+);
+
+DropdownMenu.displayName = 'Dropdown.Menu';
 DropdownMenu.defaultProps = defaultProps;
 DropdownMenu.propTypes = {
   active: PropTypes.bool,

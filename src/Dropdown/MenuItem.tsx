@@ -1,7 +1,7 @@
-import React, { useContext, useCallback, useEffect } from 'react';
+import React, { useContext, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import { isOneOf, createChainedFunction, useClassNames, useControlled } from '../utils';
+import { isOneOf, createChainedFunction, useClassNames, useControlled, KEY_VALUES } from '../utils';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
@@ -9,6 +9,8 @@ import useUniqueId from '../utils/useUniqueId';
 import MenuContext from './MenuContext';
 import DropdownContext from './DropdownContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
+import MenuControlContext from './MenuControlContext';
+import useMenuControl from './useMenuControl';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -62,7 +64,7 @@ const defaultProps: Partial<DropdownMenuItemProps> = {
   trigger: 'hover'
 };
 
-const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = React.forwardRef(
+const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.forwardRef(
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
     const {
       as: Component,
@@ -91,11 +93,14 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
 
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
-    const menuitemRef = useEnsuredRef(ref);
+    const menuitemRef = useEnsuredRef<HTMLLIElement>(ref);
     const menuitemId = useUniqueId(prefix`-`);
+    const submenuRef = useRef<HTMLUListElement>();
 
     const dropdown = useContext(DropdownContext);
     const menu = useContext(MenuContext);
+    const menuControl = useContext(MenuControlContext);
+    const submenuControl = useMenuControl(submenuRef);
 
     const { sidenav, expanded } = useContext(SidenavContext) || {};
     const [open, setOpen] = useControlled(openProp, menu?.openKeys?.includes(eventKey) ?? false);
@@ -104,6 +109,30 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
       activeProp ||
       (!isNil(menu?.activeKey) && menu.activeKey === eventKey) ||
       (!isNil(dropdown.activeKey) && dropdown.activeKey === eventKey);
+
+    // Whether this menuitem has focus
+    const focus = menuControl?.items[menuControl?.activeItemIndex] === menuitemRef.current;
+
+    /**
+     * Keyboard interaction on menu
+     * @see https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-12
+     */
+    const handleSubmenuKeydown = useCallback(
+      (e: React.KeyboardEvent<HTMLUListElement>) => {
+        switch (e.key) {
+          // Close the menu
+          case KEY_VALUES.ESC:
+            e.preventDefault();
+            e.stopPropagation();
+            setOpen(false);
+            menuControl?.focusItem(menuitemRef.current);
+            break;
+          default:
+            break;
+        }
+      },
+      [menuControl?.focusItem]
+    );
 
     const classes = merge(
       className,
@@ -115,25 +144,42 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
         submenu,
         active,
         disabled,
-        focus: menu?.activeDescendantId === menuitemId
+        focus
       })
     );
 
-    const handleClick = useCallback(
-      (event: React.SyntheticEvent<any>) => {
-        if (disabled) {
-          event.preventDefault();
-          return;
-        }
+    const openSubmenuIfExists = useCallback(() => {
+      if (!submenu) return;
 
-        if (isOneOf('click', trigger) && submenu) {
-          setOpen(!open);
-        }
+      setOpen(true);
 
+      submenuControl.focusItemAt(0);
+    }, [submenu, submenuControl]);
+
+    const activate = useCallback(
+      (event?: React.SyntheticEvent<HTMLLIElement>) => {
         onSelect?.(eventKey, event);
         menu?.onSelect?.(eventKey, event);
       },
-      [disabled, open, eventKey, trigger, submenu, setOpen, onSelect, menu?.onSelect]
+      [eventKey, onSelect, menu?.onSelect]
+    );
+
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLLIElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (disabled) {
+          return;
+        }
+
+        if (submenu) {
+          openSubmenuIfExists();
+        } else {
+          activate();
+        }
+      },
+      [disabled, open, submenu, openSubmenuIfExists, activate]
     );
 
     const handleMouseOver = useCallback(() => {
@@ -152,7 +198,7 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
     }
 
     useEffect(() => {
-      menu?.onItemRendered(menuitemRef.current);
+      menuControl?.registerItem(menuitemRef.current);
     }, []);
 
     if (divider) {
@@ -169,15 +215,15 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
 
     if (panel) {
       return (
-        <div
+        <Component
           ref={menuitemRef}
           id={menuitemId}
-          role="menuitem"
+          role="none presentation"
           style={style}
           className={merge(prefix('panel'), className)}
         >
           {children}
-        </div>
+        </Component>
       );
     }
 
@@ -196,32 +242,32 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
         ariaAttributes.id = menuitemId;
         ariaAttributes['aria-haspopup'] = 'menu';
         ariaAttributes['aria-expanded'] = open;
+        ariaAttributes.tabIndex = disabled ? -1 : focus ? 0 : -1;
       }
 
       return React.cloneElement(children, ariaAttributes);
     }
 
-    /**
-     * Apply aria attributes on submenu if exists
-     */
     function renderSubmenu() {
-      if (!submenu || !React.isValidElement(submenu)) return null;
+      if (!submenu) return null;
 
-      const ariaAttributes: React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLDivElement>,
-        HTMLDivElement
-      > = {
-        'aria-labelledby': menuitemId
-      };
-
-      return React.cloneElement(submenu, ariaAttributes);
+      return (
+        <MenuControlContext.Provider value={submenuControl}>
+          {React.cloneElement(submenu, {
+            ref: submenuRef,
+            'aria-labelledby': menuitemId,
+            hidden: !open,
+            onKeyDown: handleSubmenuKeydown
+          })}
+        </MenuControlContext.Provider>
+      );
     }
 
     const ariaAttributes: React.DetailedHTMLProps<
       React.HTMLAttributes<HTMLLIElement>,
       HTMLLIElement
     > = {
-      role: 'menuitem',
+      role: !submenu ? 'menuitem' : 'none presentation',
       'aria-disabled': disabled
     };
 
@@ -251,9 +297,9 @@ const DropdownMenuItem: RsRefForwardingComponent<'a', DropdownMenuItemProps> = R
   }
 );
 
-DropdownMenuItem.displayName = 'DropdownMenuItem';
-DropdownMenuItem.defaultProps = defaultProps;
-DropdownMenuItem.propTypes = {
+MenuItem.displayName = 'DropdownMenuItem';
+MenuItem.defaultProps = defaultProps;
+MenuItem.propTypes = {
   as: PropTypes.elementType,
   divider: PropTypes.bool,
   panel: PropTypes.bool,
@@ -275,4 +321,4 @@ DropdownMenuItem.propTypes = {
   tabIndex: PropTypes.number
 };
 
-export default DropdownMenuItem;
+export default MenuItem;

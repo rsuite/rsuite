@@ -1,12 +1,15 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 
 /**
- * Useful in forwardRef components
+ * Used in forwardRef components to ensure ref exists
+ * so that calling ref.current shall not throw error
  *
  * @example
  *
  * const Button = forwardRef((props, ref) => {
  *
+ *   // if ref exists, buttonRef = ref
+ *   // otherwise buttonRef is a newly created ref
  *   const buttonRef = useEnsuredRef(ref);
  *
  *   useEffect(() => {
@@ -18,8 +21,8 @@ import { useRef } from 'react';
  * });
  *
  */
-export default function useEnsuredRef(ref) {
-  const dumpRef = useRef();
+export default function useEnsuredRef<T = undefined>(ref): React.MutableRefObject<T | undefined> {
+  const dumpRef = useRef<T>();
 
   if (ref) {
     return ref;

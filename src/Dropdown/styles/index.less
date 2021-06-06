@@ -32,7 +32,6 @@
     position: absolute;
     // dropdown-menu zindex value is greater than dropdown-toggle
     z-index: @zindex-dropdown + 1;
-    display: none; // none by default, but block on "open" of the menu
     float: left;
     box-shadow: var(--rs-dropdown-shadow);
   }
@@ -110,6 +109,10 @@
   border-radius: @border-radius;
   padding: @border-radius 0;
   outline: 0;
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 // Links within the dropdown menu
@@ -134,6 +137,9 @@
   &:hover,
   &&-focus {
     .menuitem-active();
+  }
+  &:focus {
+    outline: 0;
   }
 
   // Disabled state
@@ -248,7 +254,6 @@
 // Open state for the dropdown
 .rs-dropdown-open {
   > .rs-dropdown-menu {
-    display: block;
     animation-play-state: running;
   }
 

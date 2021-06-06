@@ -1,9 +1,9 @@
-import React, { useRef, useContext, useCallback, useState } from 'react';
+import React, { useRef, useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
-import DropdownMenuItem from './DropdownMenuItem';
+import MenuItem from './MenuItem';
 import {
   shallowEqual,
   createChainedFunction,
@@ -12,13 +12,16 @@ import {
   placementPolyfill,
   PLACEMENT_8,
   useRootClose,
-  useControlled
+  useControlled,
+  KEY_VALUES
 } from '../utils';
 import { SidenavContext, SidenavContextType } from '../Sidenav/Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import useUniqueId from '../utils/useUniqueId';
 import DropdownContext from './DropdownContext';
+import MenuControlContext from './MenuControlContext';
+import useMenuControl from './useMenuControl';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -86,7 +89,7 @@ export interface DropdownProps<T = any>
 }
 
 export interface DropdownComponent extends RsRefForwardingComponent<'div', DropdownProps> {
-  Item: typeof DropdownMenuItem;
+  Item: typeof MenuItem;
   Menu: typeof DropdownMenu;
 }
 
@@ -143,18 +146,23 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   const buttonId = useUniqueId(prefix`button-`);
   const menuId = useUniqueId(prefix`menu-`);
 
+  const menuControl = useMenuControl(overlayTarget);
+
   const handleToggle = useCallback(
     (isOpen?: boolean) => {
       const nextOpen = typeof isOpen === 'undefined' ? !open : isOpen;
       const fn = nextOpen ? onOpen : onClose;
 
-      if (!nextOpen) {
-        setMenuFocusItemIndex(null);
-      }
-
       fn?.();
       setOpen(nextOpen);
       onToggle?.(nextOpen);
+
+      // When closing the menu, move focus back to button
+      if (!nextOpen) {
+        requestAnimationFrame(() => {
+          triggerTarget.current.focus();
+        });
+      }
     },
     [onClose, onOpen, onToggle, open, setOpen]
   );
@@ -204,7 +212,10 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   useRootClose(() => handleToggle(), {
     triggerTarget,
     overlayTarget,
-    disabled: !open
+    disabled: !open,
+    // Don't use global Escape listener
+    // Menu implements its own
+    listenEscape: false
   });
 
   const dropdownProps = {
@@ -212,28 +223,31 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     onMouseLeave
   };
 
-  const handleButtonKeydown = useCallback((e: React.KeyboardEvent<HTMLButtonElement>) => {
-    switch (e.key) {
-      // Open the menu
-      case 'Enter':
-      case 'Space':
-        e.preventDefault();
-        e.stopPropagation();
-        if (!open) {
-          setMenuFocusItemIndex(0);
-          handleToggle(true);
-          requestAnimationFrame(() => {
-            // Move focus to the menu
-            overlayTarget.current.focus();
-          });
-        } else {
-          handleToggle(false);
-        }
-        break;
-      default:
-        break;
-    }
-  }, []);
+  /**
+   * Keyboard interaction on menu button
+   * @see https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-13
+   */
+  const handleButtonKeydown = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      switch (e.key) {
+        // Open the menu
+        case KEY_VALUES.ENTER:
+        case KEY_VALUES.SPACE:
+          e.preventDefault();
+          e.stopPropagation();
+          if (!open) {
+            handleToggle(true);
+            menuControl.focusItemAt(0);
+          } else {
+            handleToggle(false);
+          }
+          break;
+        default:
+          break;
+      }
+    },
+    [handleToggle, menuControl.focusItemAt]
+  );
 
   const toggleProps = {
     onClick: createChainedFunction(handleOpenChange, onClick),
@@ -259,55 +273,6 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
       dropdownProps.onMouseLeave = createChainedFunction(handleMouseLeave, onMouseLeave);
     }
   }
-
-  const handleMenuKeydown = useCallback((e: React.KeyboardEvent<HTMLUListElement>) => {
-    switch (e.key) {
-      // Close the menu
-      case 'Escape':
-        e.preventDefault();
-        e.stopPropagation();
-        handleToggle(false);
-        requestAnimationFrame(() => {
-          // Move focus back to button
-          triggerTarget.current.focus();
-        });
-        break;
-      default:
-        break;
-    }
-  }, []);
-
-  const menuEventHandlers: React.HTMLAttributes<HTMLUListElement> = {
-    onKeyDown: handleMenuKeydown
-  };
-
-  /**
-   * Focus management
-   */
-  const [menuFocusItemIndex, setMenuFocusItemIndex] = useState<number>();
-
-  const menuAriaAttributes = {
-    'aria-labelledby': buttonId
-  };
-
-  const menuElement = (
-    <DropdownMenu
-      expanded={menuExpanded}
-      style={menuStyle}
-      onSelect={handleSelect as any}
-      onToggle={handleToggleChange}
-      collapsible={collapsible}
-      activeKey={activeKey}
-      openKeys={openKeys}
-      ref={overlayTarget}
-      focusIndexOnOpen={menuFocusItemIndex}
-      {...{ id: menuId, menuAriaAttributes }}
-      {...menuEventHandlers}
-    >
-      {showHeader && <li className={prefix('header')}>{title}</li>}
-      {children}
-    </DropdownMenu>
-  );
 
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-14
   const buttonAriaAttributes = {
@@ -336,6 +301,54 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     </DropdownToggle>
   );
 
+  /**
+   * Keyboard interaction on menu
+   * @see https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-12
+   */
+  const handleMenuKeydown = useCallback((e: React.KeyboardEvent<HTMLUListElement>) => {
+    switch (e.key) {
+      // Close the menu
+      case KEY_VALUES.ESC:
+        e.preventDefault();
+        e.stopPropagation();
+        handleToggle(false);
+        requestAnimationFrame(() => {
+          // Move focus back to button
+          triggerTarget.current.focus();
+        });
+        break;
+      default:
+        break;
+    }
+  }, []);
+
+  const menuEventHandlers: React.HTMLAttributes<HTMLUListElement> = {
+    onKeyDown: handleMenuKeydown
+  };
+
+  const menuAriaAttributes = {
+    'aria-labelledby': buttonId
+  };
+
+  const menuElement = (
+    <DropdownMenu
+      expanded={menuExpanded}
+      style={menuStyle}
+      onSelect={handleSelect as any}
+      onToggle={handleToggleChange}
+      collapsible={collapsible}
+      activeKey={activeKey}
+      openKeys={openKeys}
+      ref={overlayTarget}
+      hidden={!open}
+      {...{ id: menuId, ...menuAriaAttributes }}
+      {...menuEventHandlers}
+    >
+      {showHeader && <li className={prefix('header')}>{title}</li>}
+      {children}
+    </DropdownMenu>
+  );
+
   const classes = merge(
     className,
     withClassPrefix({
@@ -355,13 +368,13 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     >
       <Component {...dropdownProps} ref={ref} style={style} className={classes}>
         {toggleElement}
-        {menuElement}
+        <MenuControlContext.Provider value={menuControl}>{menuElement}</MenuControlContext.Provider>
       </Component>
     </DropdownContext.Provider>
   );
 }) as unknown) as DropdownComponent;
 
-Dropdown.Item = DropdownMenuItem;
+Dropdown.Item = MenuItem;
 Dropdown.Menu = DropdownMenu;
 
 Dropdown.displayName = 'Dropdown';

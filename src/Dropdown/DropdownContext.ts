@@ -4,4 +4,7 @@ export interface DropdownContextProps {
   activeKey?: string;
 }
 
-export default React.createContext<DropdownContextProps>({});
+const DropdownContext = React.createContext<DropdownContextProps>({});
+DropdownContext.displayName = 'DropdownContext';
+
+export default DropdownContext;

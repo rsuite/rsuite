@@ -6,10 +6,6 @@ export interface MenuContextProps {
    */
   activeKey?: string;
   /**
-   * `aria-activedescendant` passing down
-   */
-  activeDescendantId: string | null;
-  /**
    * Specify which submenus (if exists) are open by default
    */
   openKeys: string[];
@@ -22,13 +18,10 @@ export interface MenuContextProps {
    * Callback when menuitem is triggered
    */
   onSelect: (eventKey: string, event: React.SyntheticEvent<HTMLElement>) => void;
-  /**
-   * Feeds the menuitem DOM info back into menu
-   */
-  onItemRendered?: (element: HTMLElement) => void;
 }
 
-/**
- * Defaults to null for checking whether a Menu is inside another menu
- */
-export default React.createContext<MenuContextProps>(null);
+// Defaults to null for checking whether a Menu is inside another menu
+const MenuContext = React.createContext<MenuContextProps | null>(null);
+MenuContext.displayName = 'MenuContext';
+
+export default MenuContext;

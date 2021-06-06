@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { innerText, getDOMNode } from '@test/testUtils';
 
-import DropdownMenuItem from '../DropdownMenuItem';
+import DropdownMenuItem from '../MenuItem';
 import Sidenav from '../../Sidenav';
 import User from '@rsuite/icons/legacy/User';
 
@@ -43,14 +43,14 @@ describe('DropdownMenuItem', () => {
   });
 
   it('Should be submenu', () => {
-    const instance = getDOMNode(<DropdownMenuItem submenu />);
+    const instance = getDOMNode(<DropdownMenuItem submenu={<ul></ul>} />);
     assert.include(instance.className, 'rs-dropdown-item-submenu');
   });
 
   it('Should be expanded in `Sidenav`', () => {
     const instance = getDOMNode(
       <Sidenav>
-        <DropdownMenuItem expanded submenu />
+        <DropdownMenuItem expanded submenu={<ul></ul>} />
       </Sidenav>
     );
     const Item = instance.querySelector('.rs-dropdown-item');
@@ -63,7 +63,7 @@ describe('DropdownMenuItem', () => {
   });
 
   it('Should be `pullLeft`', () => {
-    const instance = getDOMNode(<DropdownMenuItem pullLeft submenu />);
+    const instance = getDOMNode(<DropdownMenuItem pullLeft submenu={<ul></ul>} />);
     assert.include(instance.className, 'rs-dropdown-item-pull-left');
   });
 

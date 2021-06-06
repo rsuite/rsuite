@@ -30,15 +30,24 @@ export function getInstance(children) {
   // so we can test against this to verify this is a functional component
   if (!(children.type.prototype && children.type.prototype.isReactComponent)) {
     const instanceRef = React.createRef();
-    /**
-     * https://stackoverflow.com/questions/36682241/testing-functional-components-with-renderintodocument
-     */
-    ReactTestUtils.renderIntoDocument(React.cloneElement(children, { ref: instanceRef }));
 
+    // Use act() to make sure componentDidMount/useEffect is done
+    ReactTestUtils.act(() => {
+      /**
+       * https://stackoverflow.com/questions/36682241/testing-functional-components-with-renderintodocument
+       */
+      ReactTestUtils.renderIntoDocument(React.cloneElement(children, { ref: instanceRef }));
+    });
     return instanceRef.current;
   }
 
-  return ReactTestUtils.renderIntoDocument(children);
+  let instance;
+
+  ReactTestUtils.act(() => {
+    instance = ReactTestUtils.renderIntoDocument(children);
+  });
+
+  return instance;
 }
 
 export function getDOMNode(children) {
@@ -54,19 +63,21 @@ export function getDOMNode(children) {
     return findDOMNode(children);
   }
 
-  if (isDOMElement(getInstance(children))) {
-    return getInstance(children);
+  const instance = getInstance(children);
+
+  if (isDOMElement(instance)) {
+    return instance;
   }
 
-  if (getInstance(children) && isDOMElement(getInstance(children).root)) {
-    return getInstance(children).root;
+  if (instance && isDOMElement(instance.root)) {
+    return instance.root;
   }
 
-  if (getInstance(children) && isDOMElement(getInstance(children).child)) {
-    return getInstance(children).child;
+  if (instance && isDOMElement(instance.child)) {
+    return instance.child;
   }
 
-  return findDOMNode(getInstance(children));
+  return findDOMNode(instance);
 }
 
 export function innerText(node) {

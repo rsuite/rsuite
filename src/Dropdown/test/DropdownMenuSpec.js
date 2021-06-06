@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Sidenav from '../../Sidenav';
 import DropdownMenu from '../DropdownMenu';
-import DropdownMenuItem from '../DropdownMenuItem';
+import DropdownMenuItem from '../MenuItem';
 
 describe('DropdownMenu', () => {
   it('Should render element with role="menu"', () => {
