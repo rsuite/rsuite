@@ -689,8 +689,18 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       : { as: 'input' };
 
     if (plaintext) {
+      const plaintextProps: React.DetailsHTMLAttributes<HTMLDivElement> = {};
+
+      // TagPicker has -6px margin-left on the plaintext wrapper
+      // for fixing margin-left on tags from 2nd line on
+      if (multi) {
+        plaintextProps.style = {
+          marginLeft: -6
+        };
+      }
+
       return (
-        <Plaintext localeKey="notSelected" ref={targetRef}>
+        <Plaintext localeKey="notSelected" ref={targetRef} {...plaintextProps}>
           {displayElement || (tagElements?.length ? tagElements : null)}
         </Plaintext>
       );
