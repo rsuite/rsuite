@@ -62,10 +62,7 @@ const defaultProps: Partial<MenuProps> = {
  * </Dropdown>
  */
 const DropdownMenu = React.forwardRef(
-  (
-    props: MenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>,
-    ref
-  ) => {
+  (props: MenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>, ref) => {
     const { classPrefix, openKeys, onToggle, ...rest } = props;
 
     const parentMenu = useContext(MenuContext);
