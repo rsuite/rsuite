@@ -732,21 +732,24 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           >
             {searching || (multi && hasValue) ? null : displayElement || locale?.placeholder}
           </PickerToggle>
-          <div className={prefix`tag-wrapper`}>
-            {tagElements}
-            {displaySearchInput && (
-              <InputSearch
-                {...inputProps}
-                tabIndex={tabIndex}
-                readOnly={readOnly}
-                onBlur={createChainedFunction(handleBlur, onBlur)}
-                onFocus={createChainedFunction(handleFocus, onFocus)}
-                inputRef={inputRef}
-                onChange={handleSearch}
-                value={open ? searchKeyword : ''}
-              />
-            )}
-          </div>
+          {/* TODO Separate InputPicker and TagPicker implementation */}
+          {!(!multi && disabled) && (
+            <div className={prefix`tag-wrapper`}>
+              {tagElements}
+              {displaySearchInput && (
+                <InputSearch
+                  {...inputProps}
+                  tabIndex={tabIndex}
+                  readOnly={readOnly}
+                  onBlur={createChainedFunction(handleBlur, onBlur)}
+                  onFocus={createChainedFunction(handleFocus, onFocus)}
+                  inputRef={inputRef}
+                  onChange={handleSearch}
+                  value={open ? searchKeyword : ''}
+                />
+              )}
+            </div>
+          )}
         </Component>
       </PickerToggleTrigger>
     );
