@@ -68,7 +68,7 @@
     "date-fns": "^2.13.0",
     "date-fns-tz": "^1.0.12",
     "dom-lib": "^2.0.3",
-    "element-resize-event": "^3.0.3",
+    "element-resize-event": "^3.0.6",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react-text-mask": "^5.4.3",
