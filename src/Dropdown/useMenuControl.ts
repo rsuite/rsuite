@@ -38,16 +38,27 @@ export default function useMenuControl(
     (index: number | null) => {
       if (isNil(index)) {
         setActiveItemIndex(null);
+        focusSelf();
       } else {
         focusItem(items[index]);
       }
     },
-    [items, focusItem]
+    [items, focusItem, focusSelf]
   );
 
   const moveItemFocus = useCallback(
     (delta: number) => {
-      focusItemAt(Math.max(0, Math.min(items.length - 1, activeItemIndex + delta)));
+      // If there's no item with focus,
+      // focus should "enter" the menu by delta steps
+      if (activeItemIndex === null) {
+        if (delta > 0) {
+          focusItemAt(Math.min(items.length - 1, delta - 1));
+        } else if (delta < 0) {
+          focusItemAt(Math.max(0, items.length + delta));
+        }
+      } else {
+        focusItemAt(Math.max(0, Math.min(items.length - 1, activeItemIndex + delta)));
+      }
     },
     [items, activeItemIndex, focusItemAt]
   );

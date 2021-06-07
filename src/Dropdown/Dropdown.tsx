@@ -164,7 +164,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
         });
       }
     },
-    [onClose, onOpen, onToggle, open, setOpen]
+    [onClose, onOpen, onToggle, open, setOpen, menuControl.focusItemAt]
   );
 
   const handleOpenChange = useCallback(
@@ -188,8 +188,9 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
         return;
       }
       handleToggle();
+      menuControl.focusItemAt(null);
     },
-    [disabled, handleToggle]
+    [disabled, handleToggle, menuControl.focusItemAt]
   );
 
   const handleMouseEnter = useCallback(() => {
@@ -242,6 +243,16 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
             handleToggle(false);
           }
           break;
+        // Open the menu (if closed) and move focus to first item
+        // This is mostly useful after opening the menu with click
+        case KEY_VALUES.DOWN:
+          e.preventDefault();
+          e.stopPropagation();
+          if (!open) {
+            handleToggle(true);
+          }
+          menuControl.focusItemAt(0);
+          break;
         default:
           break;
       }
@@ -249,7 +260,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     [handleToggle, menuControl.focusItemAt]
   );
 
-  const toggleProps = {
+  const buttonEventHandlers = {
     onClick: createChainedFunction(handleOpenChange, onClick),
     onContextMenu,
     onKeyDown: handleButtonKeydown
@@ -261,11 +272,11 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
    */
   if (!collapsible) {
     if (isOneOf('click', trigger)) {
-      toggleProps.onClick = createChainedFunction(handleClick, toggleProps.onClick);
+      buttonEventHandlers.onClick = createChainedFunction(handleClick, buttonEventHandlers.onClick);
     }
 
     if (isOneOf('contextMenu', trigger)) {
-      toggleProps.onContextMenu = createChainedFunction(handleClick, onContextMenu);
+      buttonEventHandlers.onContextMenu = createChainedFunction(handleClick, onContextMenu);
     }
 
     if (isOneOf('hover', trigger)) {
@@ -285,7 +296,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   const toggleElement = (
     <DropdownToggle
       {...rest}
-      {...toggleProps}
+      {...buttonEventHandlers}
       id={buttonId}
       {...buttonAriaAttributes}
       ref={triggerTarget}
