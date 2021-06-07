@@ -37,14 +37,9 @@ describe('DropdownMenuItem', () => {
     assert.include(instance.className, 'rs-dropdown-item-active');
   });
 
-  it('Should be open', () => {
-    const instance = getDOMNode(<DropdownMenuItem open />);
-    assert.include(instance.className, 'rs-dropdown-item-open');
-  });
-
-  it('Should be submenu', () => {
+  it('Should render menuitem that controls submenu given `submenu`', () => {
     const instance = getDOMNode(<DropdownMenuItem submenu={<ul></ul>} />);
-    assert.include(instance.className, 'rs-dropdown-item-submenu');
+    assert.include(['true', 'menu'], instance.getAttribute('aria-haspopup'));
   });
 
   it('Should be expanded in `Sidenav`', () => {
@@ -60,11 +55,6 @@ describe('DropdownMenuItem', () => {
   it('Should be disabled', () => {
     const instance = getDOMNode(<DropdownMenuItem disabled />);
     assert.include(instance.className, 'rs-dropdown-item-disabled');
-  });
-
-  it('Should be `pullLeft`', () => {
-    const instance = getDOMNode(<DropdownMenuItem pullLeft submenu={<ul></ul>} />);
-    assert.include(instance.className, 'rs-dropdown-item-pull-left');
   });
 
   it('Should render a icon', () => {

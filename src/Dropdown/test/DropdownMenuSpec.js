@@ -48,50 +48,6 @@ describe('DropdownMenu', () => {
     assert.ok(instance.querySelector('.rs-dropdown-item-submenu.rs-dropdown-item-expand'));
   });
 
-  it('Should be open when set `open` in submenu', () => {
-    const instance = getDOMNode(
-      <DropdownMenu>
-        <DropdownMenu open>
-          <DropdownMenuItem>2.1</DropdownMenuItem>
-          <DropdownMenuItem>2.2</DropdownMenuItem>
-        </DropdownMenu>
-      </DropdownMenu>
-    );
-
-    assert.ok(instance.querySelector('.rs-dropdown-item-submenu.rs-dropdown-item-open'));
-  });
-
-  it('Submenu should be open when its `eventKey` is included in `openKeys` from ancestors', () => {
-    const instance = getDOMNode(
-      <DropdownMenu openKeys={['2']}>
-        <DropdownMenu eventKey={'2'}>
-          <DropdownMenuItem>2.1</DropdownMenuItem>
-          <DropdownMenuItem>2.2</DropdownMenuItem>
-        </DropdownMenu>
-      </DropdownMenu>
-    );
-
-    assert.ok(
-      instance
-        .querySelector('.rs-dropdown-item-submenu')
-        .classList.contains('rs-dropdown-item-open'),
-      'Sub-menu is open'
-    );
-  });
-
-  it('Should be pull left', () => {
-    const instance = getDOMNode(
-      <DropdownMenu>
-        <DropdownMenu pullLeft>
-          <DropdownMenuItem>2.1</DropdownMenuItem>
-          <DropdownMenuItem>2.2</DropdownMenuItem>
-        </DropdownMenu>
-      </DropdownMenu>
-    );
-
-    assert.ok(instance.querySelector('.rs-dropdown-menu-pull-left.rs-dropdown-item-pull-left'));
-  });
-
   it('Should call onSelect callback with correct `eventKey`', done => {
     let doneOp = eventKey => {
       try {

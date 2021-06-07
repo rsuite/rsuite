@@ -12,7 +12,6 @@ import {
   placementPolyfill,
   PLACEMENT_8,
   useRootClose,
-  useControlled,
   KEY_VALUES
 } from '../utils';
 import { SidenavContext, SidenavContextType } from '../Sidenav/Sidenav';
@@ -138,7 +137,9 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     useContext<SidenavContextType>(SidenavContext) || {};
   const overlayTarget = useRef<HTMLUListElement>();
   const triggerTarget = useRef<HTMLButtonElement>();
-  const [open, setOpen] = useControlled(openProp, defaultOpen);
+  const menuControl = useMenuControl(overlayTarget);
+
+  const open = menuControl.open;
   const menuExpanded = openKeys.some(key => shallowEqual(key, eventKey));
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const collapsible = sidenav && expanded;
@@ -146,25 +147,28 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   const buttonId = useUniqueId(prefix`button-`);
   const menuId = useUniqueId(prefix`menu-`);
 
-  const menuControl = useMenuControl(overlayTarget);
-
   const handleToggle = useCallback(
     (isOpen?: boolean) => {
       const nextOpen = typeof isOpen === 'undefined' ? !open : isOpen;
       const fn = nextOpen ? onOpen : onClose;
 
       fn?.();
-      setOpen(nextOpen);
       onToggle?.(nextOpen);
-
-      // When closing the menu, move focus back to button
-      if (!nextOpen) {
-        requestAnimationFrame(() => {
-          triggerTarget.current.focus();
-        });
+      if (nextOpen) {
+        menuControl.openMenu();
+      } else {
+        menuControl.closeMenu();
       }
     },
-    [onClose, onOpen, onToggle, open, setOpen, menuControl.focusItemAt]
+    [
+      onClose,
+      onOpen,
+      onToggle,
+      open,
+      menuControl.focusItemAt,
+      menuControl.openMenu,
+      menuControl.closeMenu
+    ]
   );
 
   const handleOpenChange = useCallback(

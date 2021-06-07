@@ -5,6 +5,10 @@ import React from 'react';
  */
 export interface MenuControlContextProps {
   /**
+   * Whether menu is open/visible
+   */
+  open: boolean;
+  /**
    * Items' DOM elements
    */
   items: HTMLLIElement[];
@@ -16,6 +20,12 @@ export interface MenuControlContextProps {
    * Feeds the menuitem DOM info back into menu
    */
   registerItem: (item: HTMLElement) => void;
+  /**
+   * Remove menuitem registry by element id (used when menuitem unmounts)
+   * When dom unmounts, it's likely the ref is already cleared,
+   * so use id as argument instead of the element itself
+   */
+  unregisterItem: (id: string) => void;
   /**
    * Request moving focus onto given item element
    */
@@ -29,6 +39,14 @@ export interface MenuControlContextProps {
    * Move focus up/down between items
    */
   moveItemFocus: (delta: number) => void;
+  /**
+   * Open the menu
+   */
+  openMenu: () => void;
+  /**
+   * Close menu and return focus to its context (if exists)
+   */
+  closeMenu: () => void;
 }
 
 const MenuControlContext = React.createContext<MenuControlContextProps | null>(null);

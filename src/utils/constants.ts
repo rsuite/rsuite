@@ -51,7 +51,6 @@ export enum TREE_NODE_DROP_POSITION {
 /**
  * UI Events KeyboardEvent key Values
  * https://www.w3.org/TR/uievents-key
- * @todo Use enum instead of object const
  */
 export const KEY_VALUES = {
   // Navigation Keys

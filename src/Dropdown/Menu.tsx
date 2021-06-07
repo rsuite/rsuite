@@ -12,6 +12,7 @@ import useEnsuredRef from '../utils/useEnsuredRef';
 import MenuControlContext from './MenuControlContext';
 import useUniqueId from '../utils/useUniqueId';
 import useMenuControl from './useMenuControl';
+import deprecatePropType from '../utils/deprecatePropType';
 
 export interface MenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
@@ -61,6 +62,7 @@ const Menu = React.forwardRef(
       activeKey,
       openKeys,
       onSelect,
+      pullLeft,
       ...rest
     } = props;
 
@@ -69,6 +71,7 @@ const Menu = React.forwardRef(
     const menuId = useUniqueId(prefix`-`);
 
     const parentMenu = useContext(MenuContext);
+    const isSubmenu = !!parentMenu;
     const upperMenuControl = useContext(MenuControlContext);
     const menuControl = useMenuControl(menuRef, upperMenuControl);
 
@@ -105,6 +108,8 @@ const Menu = React.forwardRef(
      */
     const handleKeydown = useCallback(
       (e: React.KeyboardEvent<HTMLUListElement>) => {
+        const activeItem = menuControl.items[menuControl.activeItemIndex];
+
         switch (e.key) {
           // Move focus to previous item
           case KEY_VALUES.UP:
@@ -118,6 +123,22 @@ const Menu = React.forwardRef(
             e.stopPropagation();
             menuControl.moveItemFocus(1);
             break;
+          // When focus is in a menu and on a menuitem that has a submenu, opens the submenu and places focus on its first item.
+          case KEY_VALUES.RIGHT:
+            e.preventDefault();
+            e.stopPropagation();
+            if (activeItem.getAttribute('aria-haspopup') === 'menu') {
+              activeItem.click();
+            }
+            break;
+          // When focus is in a submenu of an item in a menu, closes the submenu and returns focus to the parent menuitem.
+          case KEY_VALUES.LEFT:
+            e.preventDefault();
+            e.stopPropagation();
+            if (isSubmenu) {
+              menuControl.closeMenu();
+            }
+            break;
           // Move focus to the first item
           case KEY_VALUES.HOME:
             e.preventDefault();
@@ -130,11 +151,10 @@ const Menu = React.forwardRef(
             e.stopPropagation();
             menuControl.focusItemAt(menuControl.items.length - 1);
             break;
-
           // - When focus is on a menuitem that has a submenu, opens the submenu and places focus on its first item.
           // - Otherwise, activates the item and closes the menu.
           case KEY_VALUES.ENTER:
-            const activeItem = menuControl.items[menuControl.activeItemIndex];
+          case KEY_VALUES.SPACE:
             if (activeItem) {
               e.preventDefault();
               e.stopPropagation();
@@ -205,7 +225,7 @@ Menu.propTypes = {
   children: PropTypes.node,
   icon: PropTypes.any,
   classPrefix: PropTypes.string,
-  pullLeft: PropTypes.bool,
+  pullLeft: deprecatePropType(PropTypes.bool),
   title: PropTypes.node,
   open: PropTypes.bool,
   trigger: PropTypes.oneOf(['click', 'hover']),

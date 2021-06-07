@@ -4,9 +4,6 @@ import Menu, { MenuProps } from './Menu';
 import MenuItem from './MenuItem';
 import isNil from 'lodash/isNil';
 import { shallowEqual, useClassNames } from '../utils';
-import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
-import AngleRight from '@rsuite/icons/legacy/AngleRight';
-import useCustom from '../utils/useCustom';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
@@ -63,53 +60,40 @@ const defaultProps: Partial<MenuProps> = {
  */
 const DropdownMenu = React.forwardRef(
   (props: MenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>, ref) => {
-    const { classPrefix, openKeys, onToggle, ...rest } = props;
+    const { openKeys, onToggle, eventKey, ...rest } = props;
 
     const parentMenu = useContext(MenuContext);
 
-    const { rtl } = useCustom('DropdownMenu');
-    const handleToggleChange = useCallback(
-      (eventKey: string, event: React.MouseEvent) => {
+    const handleToggleSubmenu = useCallback(
+      (_: string, event: React.MouseEvent) => {
         onToggle?.(eventKey, event);
       },
-      [onToggle]
+      [eventKey, onToggle]
     );
-    const { merge, prefix } = useClassNames(classPrefix);
+    const { merge, prefix } = useClassNames(props.classPrefix);
 
     // Parent menu exists. This is a submenu.
     // Should render a `menuitem` that controls this submenu.
     if (parentMenu) {
-      const { icon, open, trigger, pullLeft, eventKey, title, className } = props;
+      const { icon, open, trigger, eventKey, title, className } = props;
       const expanded = !isNil(eventKey) && openKeys.some(key => shallowEqual(key, eventKey));
-      const itemClassName = merge(className, prefix(`pull-${pullLeft ? 'left' : 'right'}`));
-      const Icon = (pullLeft && !rtl) || (rtl && !pullLeft) ? AngleLeft : AngleRight;
+      const itemClassName = merge(className, prefix('pull-right'));
 
       return (
         <MenuItem
           icon={icon}
-          open={open}
           trigger={trigger}
           expanded={expanded}
           className={itemClassName}
-          pullLeft={pullLeft}
-          submenu={<Menu ref={ref} {...props} />}
+          submenu={<Menu ref={ref} open={open} onToggle={handleToggleSubmenu} {...rest} />}
           eventKey={eventKey}
         >
-          <div
-            className={prefix`toggle`}
-            onClick={e => handleToggleChange(eventKey, e)}
-            role="menuitem"
-            aria-controls={(rest as any).id}
-            tabIndex={-1}
-          >
-            <span>{title}</span>
-            <Icon className={prefix`toggle-icon`} />
-          </div>
+          {title}
         </MenuItem>
       );
     }
 
-    return <Menu ref={ref} {...props} />;
+    return <Menu ref={ref} {...rest} />;
   }
 );
 
