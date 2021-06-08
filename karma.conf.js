@@ -57,6 +57,9 @@ const webpackConfig = {
   }
 };
 
+/**
+ * @param {import('karma').Config} config
+ */
 module.exports = config => {
   const { env } = process;
   const { M, F } = env;
