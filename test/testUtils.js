@@ -25,32 +25,40 @@ export function renderIntoDocument(children) {
   return ReactTestUtils.renderIntoDocument(children);
 }
 
-export function getInstance(children) {
+export function getInstance(children, waitForDidMount = true) {
   // isReactComponent is only defined if children is of React.Component class
   // so we can test against this to verify this is a functional component
   if (!(children.type.prototype && children.type.prototype.isReactComponent)) {
     const instanceRef = React.createRef();
 
-    // Use act() to make sure componentDidMount/useEffect is done
-    ReactTestUtils.act(() => {
-      /**
-       * https://stackoverflow.com/questions/36682241/testing-functional-components-with-renderintodocument
-       */
+    if (waitForDidMount) {
+      // Use act() to make sure componentDidMount/useEffect is done
+      ReactTestUtils.act(() => {
+        /**
+         * https://stackoverflow.com/questions/36682241/testing-functional-components-with-renderintodocument
+         */
+        ReactTestUtils.renderIntoDocument(React.cloneElement(children, { ref: instanceRef }));
+      });
+    } else {
       ReactTestUtils.renderIntoDocument(React.cloneElement(children, { ref: instanceRef }));
-    });
+    }
     return instanceRef.current;
   }
 
   let instance;
 
-  ReactTestUtils.act(() => {
+  if (waitForDidMount) {
+    ReactTestUtils.act(() => {
+      instance = ReactTestUtils.renderIntoDocument(children);
+    });
+  } else {
     instance = ReactTestUtils.renderIntoDocument(children);
-  });
+  }
 
   return instance;
 }
 
-export function getDOMNode(children) {
+export function getDOMNode(children, waitForDidMount = true) {
   if (isDOMElement(children)) {
     return children;
   }
@@ -63,7 +71,7 @@ export function getDOMNode(children) {
     return findDOMNode(children);
   }
 
-  const instance = getInstance(children);
+  const instance = getInstance(children, waitForDidMount);
 
   if (isDOMElement(instance)) {
     return instance;
