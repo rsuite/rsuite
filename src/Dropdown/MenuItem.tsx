@@ -91,7 +91,6 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
       tabIndex,
       icon,
       trigger,
-      open: _deprecatedOpenProp,
       expanded: expandedProp,
       eventKey,
       onClick,

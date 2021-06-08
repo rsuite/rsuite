@@ -21,6 +21,7 @@ import useUniqueId from '../utils/useUniqueId';
 import DropdownContext from './DropdownContext';
 import MenuControlContext from './MenuControlContext';
 import useMenuControl from './useMenuControl';
+import deprecatePropType from '../utils/deprecatePropType';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -59,7 +60,10 @@ export interface DropdownProps<T = any>
   /** No caret variation */
   noCaret?: boolean;
 
-  /** Open the menu and control it */
+  /**
+   * Open the menu and control it
+   * @deprecated
+   */
   open?: boolean;
 
   /** Whether Dropdown menu shows header  */
@@ -79,12 +83,6 @@ export interface DropdownProps<T = any>
 
   /** Selected callback function */
   onSelect?: (eventKey: T, event: React.MouseEvent<HTMLElement>) => void;
-
-  /**
-   * Opens by default
-   * @internal Only used for testing
-   */
-  defaultOpen?: boolean;
 }
 
 export interface DropdownComponent extends RsRefForwardingComponent<'div', DropdownProps> {
@@ -119,7 +117,6 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     toggleAs,
     noCaret,
     style,
-    open: openProp,
     showHeader,
     onClick,
     onMouseEnter,
@@ -129,7 +126,6 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     onOpen,
     onClose,
     onToggle,
-    defaultOpen = false,
     ...rest
   } = props;
 
@@ -410,7 +406,7 @@ Dropdown.propTypes = {
   toggleClassName: PropTypes.string,
   children: PropTypes.node,
   tabIndex: PropTypes.number,
-  open: PropTypes.bool,
+  open: deprecatePropType(PropTypes.bool),
   eventKey: PropTypes.any,
   as: PropTypes.elementType,
   toggleAs: PropTypes.elementType,

@@ -62,7 +62,6 @@ const Menu = React.forwardRef(
       activeKey,
       openKeys,
       onSelect,
-      pullLeft,
       ...rest
     } = props;
 
