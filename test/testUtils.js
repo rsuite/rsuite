@@ -14,7 +14,11 @@ const DARK_PRIMARY_COLOR = '#34c3ff';
 export const getDefaultPalette = () => getPalette(DEFAULT_PRIMARY_COLOR);
 export const getDarkPalette = () => getPalette(DARK_PRIMARY_COLOR);
 
-// Check whether it is a DOM object?
+/**
+ * Check whether it is a DOM object?
+ * @param node
+ * @return {boolean}
+ */
 function isDOMElement(node) {
   return (
     node && typeof node === 'object' && node.nodeType === 1 && typeof node.nodeName === 'string'
@@ -25,6 +29,9 @@ export function renderIntoDocument(children) {
   return ReactTestUtils.renderIntoDocument(children);
 }
 
+/**
+ * @return {Element}
+ */
 export function getInstance(children) {
   // isReactComponent is only defined if children is of React.Component class
   // so we can test against this to verify this is a functional component
@@ -41,6 +48,9 @@ export function getInstance(children) {
   return ReactTestUtils.renderIntoDocument(children);
 }
 
+/**
+ * @return {Element}
+ */
 export function getDOMNode(children) {
   if (isDOMElement(children)) {
     return children;
@@ -69,6 +79,10 @@ export function getDOMNode(children) {
   return findDOMNode(getInstance(children));
 }
 
+/**
+ * @param {HTMLElement} node
+ * @return {String}
+ */
 export function innerText(node) {
   if (window.navigator.userAgent.toLowerCase().indexOf('firefox') !== -1) {
     return node.textContent;
@@ -76,6 +90,9 @@ export function innerText(node) {
   return node.innerText;
 }
 
+/**
+ * @return {HTMLDivElement}
+ */
 export function createTestContainer() {
   const container = document.createElement('div');
   document.body.appendChild(container);

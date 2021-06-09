@@ -6,57 +6,9 @@
  * Run a test of a file: `src/Picker/test/PickerToggleSpec.js npm run tdd`
  */
 
-const path = require('path');
-const webpack = require('webpack');
-
-const webpackConfig = {
-  output: {
-    pathinfo: true
-  },
-  mode: 'development',
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
-    alias: {
-      '@test': path.resolve(__dirname, './test')
-    }
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        RUN_ENV: JSON.stringify(process.env.RUN_ENV)
-      }
-    })
-  ],
-  module: {
-    rules: [
-      {
-        test: [/\.tsx?$/, /\.jsx?$/],
-        use: ['babel-loader?babelrc'],
-        exclude: /node_modules/
-      },
-      {
-        test: /\.(less|css)$/,
-        use: [
-          {
-            loader: 'style-loader' // creates style nodes from JS strings
-          },
-          {
-            loader: 'css-loader' // translates CSS into CommonJS
-          },
-          {
-            loader: 'less-loader', // compiles Less to CSS,
-            options: {
-              lessOptions: {
-                javascriptEnabled: true
-              }
-            }
-          }
-        ]
-      }
-    ]
-  }
-};
-
+/**
+ * @param {import('karma').Config} config
+ */
 module.exports = config => {
   const { env } = process;
   const { M, F } = env;
@@ -91,7 +43,7 @@ module.exports = config => {
       'test/*.js': ['webpack'],
       'src/**/*.js': ['webpack']
     },
-    webpack: webpackConfig,
+    webpack: require('./webpack.karma.js'),
     webpackMiddleware: {
       noInfo: true
     },
