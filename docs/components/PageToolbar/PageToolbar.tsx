@@ -66,6 +66,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
           <MenuPopover>
             {designHash && (
               <Dropdown.Item
+                as="a"
                 icon={<Diamond />}
                 target="_blank"
                 href={`/design/${themeName}/#artboard${designHash}`}
@@ -75,6 +76,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
             )}
             {routerId && language && (
               <Dropdown.Item
+                as="a"
                 icon={<Edit2 />}
                 target="_blank"
                 href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${routerId}${localePath}/index.md`}
@@ -85,6 +87,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
 
             <Dropdown.Item
               icon={<Bug />}
+              as="a"
               target="_blank"
               href={'https://github.com/rsuite/rsuite/issues/new?template=bug_report.md'}
             >
@@ -92,6 +95,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
             </Dropdown.Item>
             {canUseDOM && (
               <Dropdown.Item
+                as="a"
                 icon={<Twitter />}
                 target="_blank"
                 href={`https://twitter.com/share?text=${document?.title}&url=${location?.href}`}
