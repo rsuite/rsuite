@@ -494,7 +494,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [props, timeZone]
     );
 
-    const inSameMonth = useCallback((date: Date) => DateUtils.isSameMonth(date, pageDate), [pageDate]);
+    const inSameMonth = useCallback((date: Date) => DateUtils.isSameMonth(date, pageDate), [
+      pageDate
+    ]);
 
     const calendar = (
       <Calendar

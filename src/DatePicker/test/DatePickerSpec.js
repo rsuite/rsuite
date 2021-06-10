@@ -313,16 +313,12 @@ describe('DatePicker ', () => {
   });
 
   it('Should show dates that are not in the same month', () => {
-    const instance = getInstance(
-      <DatePicker value={new Date('6/10/2021')} open/>
-    );
+    const instance = getInstance(<DatePicker value={new Date('6/10/2021')} open />);
     const picker = instance.overlay;
-    const days=picker.querySelectorAll('.rs-calendar-table-cell-un-same-month');
+    const days = picker.querySelectorAll('.rs-calendar-table-cell-un-same-month');
 
-    assert.equal(days[0].innerText,'30');
-    assert.equal(days[1].innerText,'31');
-    assert.equal(days[2].innerText,'1');
-   
+    assert.equal(days[0].innerText, '30');
+    assert.equal(days[1].innerText, '31');
+    assert.equal(days[2].innerText, '1');
   });
-
 });
