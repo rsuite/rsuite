@@ -39,7 +39,8 @@ There are many functions that need to interact with users in web applications, w
 - The <kbd>Tab</kbd> key can be used to switch the focus between [Button][button],[Input][input] and other form components.
 - When components such as [Modal][modal], [Popover][popover] and [Tooltip][tooltip] are in focus, the <kbd>Enter</kbd> key opens the pop-up window, and the <kbd>ESC</kbd> key closes the pop-up window.
 - Use the <kbd>↓</kbd> <kbd>↑</kbd> <kbd>→</kbd> <kbd>←</kbd> key to switch the focus on the component with option operation.
-- When Pickers is on, press any character key, the search box will focus and switch to search mode.
+- Use the <kbd>→</kbd> <kbd>←</kbd> key to expand and collapse the nodes of [TreePicker](tree-picker) and [CheckTreePicker](check-tree-picker).
+- When pickers is in the open state, press any character key, the search box will be focused.
 
 ## Accessibility of non-semantic controls
 
