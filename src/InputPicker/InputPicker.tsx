@@ -689,8 +689,18 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       : { as: 'input' };
 
     if (plaintext) {
+      const plaintextProps: React.DetailsHTMLAttributes<HTMLDivElement> = {};
+
+      // TagPicker has -6px margin-left on the plaintext wrapper
+      // for fixing margin-left on tags from 2nd line on
+      if (multi) {
+        plaintextProps.style = {
+          marginLeft: -6
+        };
+      }
+
       return (
-        <Plaintext localeKey="notSelected" ref={targetRef}>
+        <Plaintext localeKey="notSelected" ref={targetRef} {...plaintextProps}>
           {displayElement || (tagElements?.length ? tagElements : null)}
         </Plaintext>
       );
@@ -732,21 +742,24 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           >
             {searching || (multi && hasValue) ? null : displayElement || locale?.placeholder}
           </PickerToggle>
-          <div className={prefix`tag-wrapper`}>
-            {tagElements}
-            {displaySearchInput && (
-              <InputSearch
-                {...inputProps}
-                tabIndex={tabIndex}
-                readOnly={readOnly}
-                onBlur={createChainedFunction(handleBlur, onBlur)}
-                onFocus={createChainedFunction(handleFocus, onFocus)}
-                inputRef={inputRef}
-                onChange={handleSearch}
-                value={open ? searchKeyword : ''}
-              />
-            )}
-          </div>
+          {/* TODO Separate InputPicker and TagPicker implementation */}
+          {!(!multi && disabled) && (
+            <div className={prefix`tag-wrapper`}>
+              {tagElements}
+              {displaySearchInput && (
+                <InputSearch
+                  {...inputProps}
+                  tabIndex={tabIndex}
+                  readOnly={readOnly}
+                  onBlur={createChainedFunction(handleBlur, onBlur)}
+                  onFocus={createChainedFunction(handleFocus, onFocus)}
+                  inputRef={inputRef}
+                  onChange={handleSearch}
+                  value={open ? searchKeyword : ''}
+                />
+              )}
+            </div>
+          )}
         </Component>
       </PickerToggleTrigger>
     );

@@ -101,19 +101,21 @@
     left: ~'calc(50% - @{tail-offset})';
   }
 
-  &-align-alternate &-item:nth-child(2n) &-item-content {
-    text-align: right;
-    width: ~'calc(50% - @{time-line-content-side-offset})';
+  &-align-alternate &-item-content {
+    width: 50%;
   }
 
-  &-align-alternate &-item:nth-child(2n + 1) {
+  &-align-alternate &-item:nth-child(even) &-item-content {
     text-align: right;
   }
 
-  &-align-alternate &-item:nth-child(2n + 1) &-item-content {
+  &-align-alternate &-item:nth-child(odd) {
+    text-align: right;
+  }
+
+  &-align-alternate &-item:nth-child(odd) &-item-content {
     display: inline-block;
     text-align: left;
-    width: ~'calc(50% - @{time-line-content-side-offset})';
   }
 
   // With time

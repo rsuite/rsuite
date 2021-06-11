@@ -6,7 +6,7 @@ import React, {
   useCallback,
   useImperativeHandle
 } from 'react';
-import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
+import bindElementResize from 'element-resize-event';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import helper from '../DOMHelper';
@@ -129,9 +129,6 @@ const usePosition = (
       lastTargetRef.current = null;
       containerScrollListener?.off();
       resizeListener?.off();
-      if (overlay) {
-        unbindElementResize(overlay);
-      }
     };
   }, [preventOverflow, ref, updatePosition]);
 

@@ -10,7 +10,8 @@
     "sourceMap": true,
     "moduleResolution": "node",
     "target": "esnext",
-    "jsx": "react"
+    "jsx": "react",
+    "skipLibCheck": true
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

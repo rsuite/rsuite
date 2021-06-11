@@ -102,4 +102,12 @@ describe('InputPicker styles', () => {
     dom = instanceRef.current.root;
     instanceRef.current.open();
   });
+
+  it('Should have correct height when disabled', () => {
+    const instanceRef = React.createRef();
+    ReactDOM.render(<InputPicker ref={instanceRef} data={data} disabled />, createTestContainer());
+    const dom = instanceRef.current.root;
+
+    assert.equal(getStyle(dom, 'height'), '36px', 'InputPicker height');
+  });
 });

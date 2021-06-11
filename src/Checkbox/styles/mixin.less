@@ -24,7 +24,7 @@
     cursor: pointer;
   }
 
-  & &-inner::before {
+  &-inner::before {
     border-color: var(--rs-checkbox-checked-bg);
   }
 
@@ -46,5 +46,9 @@
     font-weight: normal;
     margin-top: 0;
     margin-left: @radio-sense-width; // space out consecutive inline controls
+
+    .rs-plaintext &:first-child {
+      margin-left: 0;
+    }
   }
 }
