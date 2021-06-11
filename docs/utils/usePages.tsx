@@ -15,6 +15,7 @@ interface Menu {
   url?: string;
   apis?: string[];
   children?: Menu[];
+  new?: boolean;
 }
 
 export default function usePages(): Menu[] {
@@ -33,7 +34,11 @@ export default function usePages(): Menu[] {
           id: 'usage',
           name: messages?.common?.usage
         },
-
+        {
+          id: 'v5-features',
+          name: messages?.common?.v5Features,
+          new: true
+        },
         {
           id: 'composition',
           name: messages?.common?.composition
@@ -69,14 +74,6 @@ export default function usePages(): Menu[] {
         {
           id: 'modularized',
           name: messages?.common?.modularized
-        },
-        {
-          id: 'v4-to-v5',
-          name: messages?.common?.v4ToV5
-        },
-        {
-          id: 'v3-to-v4',
-          name: messages?.common?.v3ToV4
         },
         {
           id: 'logs',

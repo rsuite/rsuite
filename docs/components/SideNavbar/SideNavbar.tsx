@@ -1,14 +1,14 @@
 import React from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
-import { Sidebar, Nav, IconButton } from 'rsuite';
+import { Sidebar, Nav, IconButton, Badge } from 'rsuite';
 import Link from '@/components/Link';
 import AppContext from '../AppContext';
 import usePages from '@/utils/usePages';
 import debounce from 'lodash/debounce';
 import { scrollTop } from 'dom-lib';
 import ExternalLinkSquare from '@rsuite/icons/legacy/ExternalLinkSquare';
-import Bars from '@rsuite/icons/legacy/Bars';
+import BarsIcon from '@rsuite/icons/legacy/Bars';
 
 interface SideNavbarProps {
   style: React.CSSProperties;
@@ -80,7 +80,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
         navItems.push(
           <Nav.Item key={child.id} href={pathname} active={active} as={Link}>
             {child.name}
-            {title}
+            {title} {child.new && <Badge content="new" />}
           </Nav.Item>
         );
       }
@@ -92,7 +92,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
       {showMediaToggleButton && (
         <IconButton
           className="media-toggle-side-bar"
-          icon={<Bars />}
+          icon={<BarsIcon />}
           onClick={handleOpenMediaSidebar}
         />
       )}
