@@ -98,7 +98,7 @@ const Menu = React.forwardRef(
       HTMLUListElement
     > = {
       role: 'menu',
-      'aria-activedescendant': menuControl.items[menuControl.activeItemIndex]?.id
+      'aria-activedescendant': menuControl.items[menuControl.activeItemIndex]?.element.id
     };
 
     /**
@@ -107,7 +107,7 @@ const Menu = React.forwardRef(
      */
     const handleKeydown = useCallback(
       (e: React.KeyboardEvent<HTMLUListElement>) => {
-        const activeItem = menuControl.items[menuControl.activeItemIndex];
+        const activeItem = menuControl.items[menuControl.activeItemIndex]?.element;
 
         switch (e.key) {
           // Move focus to previous item
@@ -148,7 +148,7 @@ const Menu = React.forwardRef(
           case KEY_VALUES.END:
             e.preventDefault();
             e.stopPropagation();
-            menuControl.focusItemAt(menuControl.items.length - 1);
+            menuControl.focusItemAt(-1);
             break;
           // - When focus is on a menuitem that has a submenu, opens the submenu and places focus on its first item.
           // - Otherwise, activates the item and closes the menu.

@@ -121,7 +121,7 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
       (!isNil(dropdown.activeKey) && dropdown.activeKey === eventKey);
 
     // Whether this menuitem has focus
-    const focus = menuControl?.items[menuControl?.activeItemIndex] === menuitemRef.current;
+    const focus = menuControl?.items[menuControl?.activeItemIndex]?.element === menuitemRef.current;
 
     /**
      * Keyboard interaction on menu
@@ -140,7 +140,7 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
             break;
         }
       },
-      [submenuControl.closeMenu, menuControl?.focusItem]
+      [submenuControl.closeMenu]
     );
 
     const { rtl } = useCustom('DropdownMenu');
@@ -215,11 +215,11 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
     }
 
     useEffect(() => {
-      menuControl?.registerItem(menuitemRef.current);
+      menuControl?.registerItem(menuitemRef.current, { disabled });
       return () => {
         menuControl?.unregisterItem(menuitemId);
       };
-    }, [menuitemId]);
+    }, [menuitemId, disabled]);
 
     if (divider) {
       return (

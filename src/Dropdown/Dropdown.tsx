@@ -188,9 +188,8 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
         return;
       }
       handleToggle();
-      menuControl.focusItemAt(null);
     },
-    [disabled, handleToggle, menuControl.focusItemAt]
+    [disabled, handleToggle]
   );
 
   const handleMouseEnter = useCallback(() => {

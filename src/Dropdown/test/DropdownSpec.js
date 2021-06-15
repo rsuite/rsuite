@@ -198,32 +198,75 @@ describe('Dropdown', () => {
   });
 
   describe('Keyboard interaction', () => {
+    /**
+     * @param ui
+     * @param openMenuAfterRendered Whether open the menu after Dropdown is rendered
+     * @return {{button: HTMLElement, root: HTMLElement, menu: HTMLElement}}
+     */
+    function renderDropdown(ui, openMenuAfterRendered = false) {
+      const instance = getDOMNode(ui);
+
+      const button = instance.querySelector('[role="button"]');
+      const menu = instance.querySelector('[role="menu"]');
+
+      if (openMenuAfterRendered) {
+        // Open the menu
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
+        });
+      }
+
+      return {
+        root: instance,
+        button,
+        menu
+      };
+    }
+
     // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-13
     describe('Menu Button', () => {
       [KEY_VALUES.ENTER, KEY_VALUES.SPACE, KEY_VALUES.DOWN].forEach(key => {
-        it(`"${key}" - Opens the menu and places focus on the first menu item.`, () => {
-          const instance = getDOMNode(
-            <Dropdown>
-              <Dropdown.Item id="first-menuitem">Item 1</Dropdown.Item>
-              <Dropdown.Item>Item 2</Dropdown.Item>
-              <Dropdown.Item>Item 3</Dropdown.Item>
-            </Dropdown>
-          );
+        describe(`"${key}"`, () => {
+          it('Opens the menu and places focus on the first menu item.', () => {
+            const { button, menu } = renderDropdown(
+              <Dropdown>
+                <Dropdown.Item id="first-menuitem">Item 1</Dropdown.Item>
+                <Dropdown.Item>Item 2</Dropdown.Item>
+                <Dropdown.Item>Item 3</Dropdown.Item>
+              </Dropdown>
+            );
 
-          const button = instance.querySelector('[role="button"]');
-          const menu = instance.querySelector('[role="menu"]');
+            ReactTestUtils.act(() => {
+              ReactTestUtils.Simulate.keyDown(button, { key });
+            });
 
-          ReactTestUtils.act(() => {
-            ReactTestUtils.Simulate.keyDown(button, { key });
+            assert.isFalse(menu.hidden, 'The menu is open');
+
+            assert.equal(
+              menu.getAttribute('aria-activedescendant'),
+              'first-menuitem',
+              'aria-activedescendant'
+            );
           });
+          it('Should skip disabled items', () => {
+            const { button, menu } = renderDropdown(
+              <Dropdown>
+                <Dropdown.Item disabled id="disabled-item">
+                  Item 1
+                </Dropdown.Item>
+                <Dropdown.Item id="second-item">Item 2</Dropdown.Item>
+                <Dropdown.Item>Item 3</Dropdown.Item>
+              </Dropdown>
+            );
 
-          assert.isFalse(menu.hidden, 'The menu is open');
+            ReactTestUtils.act(() => {
+              ReactTestUtils.Simulate.keyDown(button, { key });
+            });
 
-          assert.equal(
-            menu.getAttribute('aria-activedescendant'),
-            'first-menuitem',
-            'aria-activedescendant'
-          );
+            expect(menu.getAttribute('aria-activedescendant'), 'Active menuitem').to.equal(
+              'second-item'
+            );
+          });
         });
       });
     });
@@ -283,49 +326,86 @@ describe('Dropdown', () => {
         });
       });
 
-      it('ArrowDown - Move focus to the next item', () => {
-        const instance = getDOMNode(
-          <Dropdown>
-            <Dropdown.Item>Item 1</Dropdown.Item>
-            <Dropdown.Item id="second-item">Item 2</Dropdown.Item>
-          </Dropdown>
-        );
-        const button = instance.querySelector('[role="button"]');
-        const menu = instance.querySelector('[role="menu"]');
+      describe('ArrowDown', function () {
+        it('Move focus to the next item', () => {
+          const { menu } = renderDropdown(
+            <Dropdown>
+              <Dropdown.Item>Item 1</Dropdown.Item>
+              <Dropdown.Item id="second-item">Item 2</Dropdown.Item>
+            </Dropdown>,
+            true
+          );
 
-        // Open the menu
-        ReactTestUtils.act(() => {
-          ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowDown' });
+          });
+
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('second-item');
         });
 
-        ReactTestUtils.act(() => {
-          ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowDown' });
-        });
+        it('Should skip disabled item', () => {
+          const { menu } = renderDropdown(
+            <Dropdown>
+              <Dropdown.Item>Item 1</Dropdown.Item>
+              <Dropdown.Item disabled id="disabled-item">
+                Item 2
+              </Dropdown.Item>
+              <Dropdown.Item id="third-item">Item 3</Dropdown.Item>
+            </Dropdown>,
+            true
+          );
 
-        expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('second-item');
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowDown' });
+          });
+
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('third-item');
+        });
       });
-      it('ArrowUp - Move focus to the previous item', () => {
-        const instance = getDOMNode(
-          <Dropdown>
-            <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
-            <Dropdown.Item id="second-item">Item 2</Dropdown.Item>
-          </Dropdown>
-        );
-        const button = instance.querySelector('[role="button"]');
-        const menu = instance.querySelector('[role="menu"]');
+      describe('ArrowUp', function () {
+        it('Move focus to the previous item', () => {
+          const instance = getDOMNode(
+            <Dropdown>
+              <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
+              <Dropdown.Item id="second-item">Item 2</Dropdown.Item>
+            </Dropdown>
+          );
+          const button = instance.querySelector('[role="button"]');
+          const menu = instance.querySelector('[role="menu"]');
 
-        // Open the menu
-        ReactTestUtils.act(() => {
-          ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
-        });
+          // Open the menu
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
+          });
 
-        ReactTestUtils.act(() => {
-          ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowDown' });
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowDown' });
+          });
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowUp' });
+          });
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
-        ReactTestUtils.act(() => {
-          ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowUp' });
+        it('Should skip disabled item', () => {
+          const { menu } = renderDropdown(
+            <Dropdown>
+              <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
+              <Dropdown.Item disabled id="disabled-item">
+                Item 2
+              </Dropdown.Item>
+              <Dropdown.Item id="third-item">Item 3</Dropdown.Item>
+            </Dropdown>,
+            true
+          );
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowDown' });
+          });
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowUp' });
+          });
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
-        expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
       });
 
       it('ArrowRight - When focus is in a menu and on a menuitem that has a submenu, opens the submenu and places focus on its first item', () => {
