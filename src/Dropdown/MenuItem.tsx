@@ -317,6 +317,7 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
           tabIndex={disabled ? -1 : tabIndex}
           style={style}
           className={classes}
+          {...(menuitemEventHandlers as any)}
         >
           <div
             ref={menuitemRef as any}
@@ -324,8 +325,7 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
             className={prefix`toggle`}
             aria-controls={(rest as any).id}
             tabIndex={-1}
-            {...menuitemAriaAttributes}
-            {...(menuitemEventHandlers as any)}
+            {...(menuitemAriaAttributes as any)}
           >
             {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
             <span>{children}</span>
