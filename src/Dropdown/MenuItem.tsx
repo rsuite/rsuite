@@ -215,11 +215,15 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
     }
 
     useEffect(() => {
-      menuControl?.registerItem(menuitemRef.current, { disabled });
+      // Don't register separator items and panels
+      // They aren't keyboard navigable
+      if (!divider && !panel) {
+        menuControl?.registerItem(menuitemRef.current, { disabled });
+      }
       return () => {
         menuControl?.unregisterItem(menuitemId);
       };
-    }, [menuitemId, disabled]);
+    }, [menuitemId, disabled, divider, panel]);
 
     if (divider) {
       return (

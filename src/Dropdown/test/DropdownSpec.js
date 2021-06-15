@@ -267,6 +267,25 @@ describe('Dropdown', () => {
               'second-item'
             );
           });
+          it('Should skip separator items', () => {
+            const { button, menu } = renderDropdown(
+              <Dropdown>
+                <Dropdown.Item divider id="separator">
+                  Item 1
+                </Dropdown.Item>
+                <Dropdown.Item id="second-item">Item 2</Dropdown.Item>
+                <Dropdown.Item>Item 3</Dropdown.Item>
+              </Dropdown>
+            );
+
+            ReactTestUtils.act(() => {
+              ReactTestUtils.Simulate.keyDown(button, { key });
+            });
+
+            expect(menu.getAttribute('aria-activedescendant'), 'Active menuitem').to.equal(
+              'second-item'
+            );
+          });
         });
       });
     });
@@ -361,6 +380,25 @@ describe('Dropdown', () => {
 
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('third-item');
         });
+
+        it('Should skip separator item', () => {
+          const { menu } = renderDropdown(
+            <Dropdown>
+              <Dropdown.Item>Item 1</Dropdown.Item>
+              <Dropdown.Item divider id="separator">
+                Item 2
+              </Dropdown.Item>
+              <Dropdown.Item id="third-item">Item 3</Dropdown.Item>
+            </Dropdown>,
+            true
+          );
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowDown' });
+          });
+
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('third-item');
+        });
       });
       describe('ArrowUp', function () {
         it('Move focus to the previous item', () => {
@@ -391,6 +429,27 @@ describe('Dropdown', () => {
             <Dropdown>
               <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
               <Dropdown.Item disabled id="disabled-item">
+                Item 2
+              </Dropdown.Item>
+              <Dropdown.Item id="third-item">Item 3</Dropdown.Item>
+            </Dropdown>,
+            true
+          );
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowDown' });
+          });
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowUp' });
+          });
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
+        });
+
+        it('Should skip separator item', () => {
+          const { menu } = renderDropdown(
+            <Dropdown>
+              <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
+              <Dropdown.Item divider id="separator">
                 Item 2
               </Dropdown.Item>
               <Dropdown.Item id="third-item">Item 3</Dropdown.Item>
