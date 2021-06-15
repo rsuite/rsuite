@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Collapse from '../Animation/Collapse';
 import MenuContext from './MenuContext';
 
-import { mergeRefs, useClassNames, KEY_VALUES } from '../utils';
+import { mergeRefs, useClassNames, KEY_VALUES, useCustom } from '../utils';
 
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { StandardProps } from '../@types/common';
@@ -74,6 +74,8 @@ const Menu = React.forwardRef(
     const upperMenuControl = useContext(MenuControlContext);
     const menuControl = useMenuControl(menuRef, upperMenuControl);
 
+    const { rtl } = useCustom('DropdownMenu');
+
     const collapsible = collapsibleProp ?? parentMenu?.collapsible;
 
     const renderCollapse = (children, expanded?: boolean) => {
@@ -126,16 +128,24 @@ const Menu = React.forwardRef(
           case KEY_VALUES.RIGHT:
             e.preventDefault();
             e.stopPropagation();
-            if (activeItem.getAttribute('aria-haspopup') === 'menu') {
-              activeItem.click();
+            if (!rtl) {
+              if (activeItem.getAttribute('aria-haspopup') === 'menu') {
+                activeItem.click();
+              }
+            } else if (isSubmenu) {
+              menuControl.closeMenu();
             }
             break;
           // When focus is in a submenu of an item in a menu, closes the submenu and returns focus to the parent menuitem.
           case KEY_VALUES.LEFT:
             e.preventDefault();
             e.stopPropagation();
-            if (isSubmenu) {
-              menuControl.closeMenu();
+            if (!rtl) {
+              if (isSubmenu) {
+                menuControl.closeMenu();
+              }
+            } else if (activeItem.getAttribute('aria-haspopup') === 'menu') {
+              activeItem.click();
             }
             break;
           // Move focus to the first item
@@ -173,7 +183,7 @@ const Menu = React.forwardRef(
 
         rest.onKeyDown?.(e);
       },
-      [rest.onKeyDown, menuControl]
+      [rest.onKeyDown, menuControl, rtl]
     );
 
     const menuEventHandlers: React.HTMLAttributes<HTMLUListElement> = {
