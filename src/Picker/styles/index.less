@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import '../../styles/mixins/listbox';
 @import (reference) '../../Button/styles/index';
 @import '../../Form/styles/mixin';
 @import 'mixin';
@@ -343,8 +344,9 @@
   display: block;
 
   &:not(.rs-checkbox-disabled):hover,
+  &:focus,
   &-focus {
-    .picker-item-hover();
+    .listbox-option-active(true);
   }
 
   .rs-checkbox-checker {

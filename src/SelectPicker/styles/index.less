@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import '../../styles/mixins/listbox';
 @import '../../Picker/styles/index';
 
 // Select Picker
@@ -14,13 +15,12 @@
 
 // Menu item (the option)
 .rs-picker-select-menu-item {
-  .picker-select-item();
+  .listbox-option();
 
   &:hover,
   &:focus,
   &&-focus {
-    color: currentColor;
-    background-color: var(--rs-listbox-option-hover-bg);
+    .listbox-option-active();
   }
 
   &&-active {
