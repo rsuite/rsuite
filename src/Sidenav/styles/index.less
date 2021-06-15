@@ -202,7 +202,7 @@
   // Level2
   // -----------------
   .rs-dropdown-item,
-  .rs-dropdown-item-submenu > .rs-dropdown-menu-toggle {
+  .rs-dropdown-item-submenu > .rs-dropdown-item-toggle {
     padding: @sidenav-children-padding-vertical @sidenav-padding-horizontal
       @sidenav-children-padding-vertical @sidenav-level2-retract;
   }
@@ -214,7 +214,7 @@
   // Level3
   // -----------------
   .rs-dropdown-item .rs-dropdown-item:not(.rs-dropdown-item-submenu),
-  .rs-dropdown-item-submenu > .rs-dropdown-menu .rs-dropdown-menu-toggle {
+  .rs-dropdown-item-submenu > .rs-dropdown-menu .rs-dropdown-item-toggle {
     padding-left: @sidenav-level3-retract;
   }
 
@@ -239,7 +239,8 @@
     @padding-right: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing +
       @dropdown-item-submenu-icon-angle-width;
 
-    padding: @dropdown-item-padding-y @padding-right @dropdown-item-padding-y @dropdown-item-padding-x;
+    padding: @dropdown-item-padding-y @padding-right @dropdown-item-padding-y
+      @dropdown-item-padding-x;
   }
 
   .rs-dropdown-toggle-caret {
