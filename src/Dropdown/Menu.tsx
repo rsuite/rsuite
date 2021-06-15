@@ -62,6 +62,7 @@ const Menu = React.forwardRef(
       activeKey,
       openKeys,
       onSelect,
+      onKeyDown,
       ...rest
     } = props;
 
@@ -181,9 +182,9 @@ const Menu = React.forwardRef(
             break;
         }
 
-        rest.onKeyDown?.(e);
+        onKeyDown?.(e);
       },
-      [rest.onKeyDown, menuControl, rtl]
+      [onKeyDown, menuControl, isSubmenu, rtl]
     );
 
     const menuEventHandlers: React.HTMLAttributes<HTMLUListElement> = {

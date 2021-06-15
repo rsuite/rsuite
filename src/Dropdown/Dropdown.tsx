@@ -256,7 +256,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
           break;
       }
     },
-    [handleToggle, menuControl.focusItemAt]
+    [open, handleToggle, menuControl]
   );
 
   const buttonEventHandlers = {
@@ -315,22 +315,25 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
    * Keyboard interaction on menu
    * @see https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-12
    */
-  const handleMenuKeydown = useCallback((e: React.KeyboardEvent<HTMLUListElement>) => {
-    switch (e.key) {
-      // Close the menu
-      case KEY_VALUES.ESC:
-        e.preventDefault();
-        e.stopPropagation();
-        handleToggle(false);
-        requestAnimationFrame(() => {
-          // Move focus back to button
-          triggerTarget.current.focus();
-        });
-        break;
-      default:
-        break;
-    }
-  }, []);
+  const handleMenuKeydown = useCallback(
+    (e: React.KeyboardEvent<HTMLUListElement>) => {
+      switch (e.key) {
+        // Close the menu
+        case KEY_VALUES.ESC:
+          e.preventDefault();
+          e.stopPropagation();
+          handleToggle(false);
+          requestAnimationFrame(() => {
+            // Move focus back to button
+            triggerTarget.current.focus();
+          });
+          break;
+        default:
+          break;
+      }
+    },
+    [handleToggle]
+  );
 
   const menuEventHandlers: React.HTMLAttributes<HTMLUListElement> = {
     onKeyDown: handleMenuKeydown
