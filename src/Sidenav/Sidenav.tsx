@@ -32,13 +32,15 @@ export interface SidenavProps<T = string> extends WithAsProps {
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
-export const SidenavContext = React.createContext(null);
+export const SidenavContext = React.createContext<SidenavContextType>(null);
 
 export interface SidenavContextType<T = string> {
   openKeys: T[];
+  activeKey: T;
   sidenav: boolean;
   expanded: boolean;
-  onOpenChange: (openKeys: T[], event: React.SyntheticEvent) => void;
+  onOpenChange: (eventKey: T, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
 export interface SidenavComponent extends RsRefForwardingComponent<'div', SidenavProps> {
@@ -48,7 +50,7 @@ export interface SidenavComponent extends RsRefForwardingComponent<'div', Sidena
 }
 
 const defaultProps: Partial<SidenavProps> = {
-  as: 'div',
+  as: 'nav',
   classPrefix: 'sidenav',
   appearance: 'default',
   expanded: true
@@ -90,7 +92,7 @@ const Sidenav: SidenavComponent = (React.forwardRef((props: SidenavProps, ref) =
     [onOpenChange, openKeys, setOpenKeys]
   );
 
-  const contextValue = useMemo(
+  const contextValue = useMemo<SidenavContextType>(
     () => ({
       expanded,
       activeKey,

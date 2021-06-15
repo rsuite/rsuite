@@ -198,13 +198,13 @@ const Menu = React.forwardRef(
       return (
         <ul
           id={menuId}
+          {...menuAriaAttributes}
+          {...menuEventHandlers}
           {...rest}
           {...transitionRestProps}
           className={classNames(classes, transitionClassName)}
           ref={mergeRefs(transitionRef, menuRef)}
           tabIndex={0}
-          {...menuAriaAttributes}
-          {...menuEventHandlers}
         >
           {children}
         </ul>

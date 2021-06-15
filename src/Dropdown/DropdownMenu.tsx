@@ -1,12 +1,15 @@
 import React, { useCallback, useContext } from 'react';
+import isNil from 'lodash/isNil';
+import omit from 'lodash/omit';
 import MenuContext from './MenuContext';
 import Menu, { MenuProps } from './Menu';
 import MenuItem from './MenuItem';
-import isNil from 'lodash/isNil';
 import { shallowEqual, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
+import { SidenavContext } from '../Sidenav/Sidenav';
+import TreeviewItem from '../Sidenav/TreeviewItem';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
@@ -41,7 +44,7 @@ const defaultProps: Partial<MenuProps> = {
 };
 
 /**
- * <Dropdown.Menu>
+ * The <Dropdown.Menu> API
  *
  * @description
  * Note the difference between this component and <Menu> component:
@@ -71,6 +74,12 @@ const DropdownMenu = React.forwardRef(
       [eventKey, onToggle]
     );
     const { merge, prefix } = useClassNames(props.classPrefix);
+
+    const sidenav = useContext(SidenavContext);
+
+    if (sidenav?.expanded) {
+      return <TreeviewItem {...(omit(props, 'classPrefix') as any)} />;
+    }
 
     // Parent menu exists. This is a submenu.
     // Should render a `menuitem` that controls this submenu.

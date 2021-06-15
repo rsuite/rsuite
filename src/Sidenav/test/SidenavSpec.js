@@ -22,12 +22,11 @@ describe('Sidenav', () => {
     assert.include(instance.className, 'rs-sidenav-collapse-in');
   });
 
-  it('Should call onSelect callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onSelect callback', () => {
+    const onSelectSpy = sinon.spy();
+
     const instance = getDOMNode(
-      <Sidenav onSelect={doneOp}>
+      <Sidenav onSelect={onSelectSpy}>
         <Nav>
           <Nav.Item eventKey="1">a</Nav.Item>
           <Nav.Item eventKey="2">b</Nav.Item>
@@ -36,6 +35,8 @@ describe('Sidenav', () => {
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-nav-item'));
+
+    expect(onSelectSpy, 'onSelect').to.have.been.calledWith('1');
   });
 
   it('Should call onOpenChange callback', done => {
@@ -77,17 +78,26 @@ describe('Sidenav', () => {
       </Sidenav>
     );
 
+    ['1', '2'].forEach(key => {
+      const menu = instance.querySelector(`.m-${key}`);
+
+      assert.ok(menu.getAttribute('aria-expanded') === 'true', `Menu ${key} should be open`);
+      assert.ok(
+        menu.querySelector('[role="group"]').classList.contains('rs-dropdown-menu-collapse-in'),
+        `Menu ${key} has transition class`
+      );
+    });
+
     assert.ok(
-      instance.querySelector('.m-1 .rs-dropdown-menu-collapse-in'),
-      'Menu 1 should be open'
-    );
-    assert.ok(
-      instance.querySelector('.m-2 .rs-dropdown-menu-collapse-in'),
-      'Menu 2 should be open'
-    );
-    assert.ok(
-      instance.querySelector('.m-2-2 .rs-dropdown-menu-collapse-out'),
+      instance.querySelector('.m-2-2').getAttribute('aria-expanded') !== 'true',
       'Menu 2-2 should not be open'
+    );
+    assert.ok(
+      instance
+        .querySelector('.m-2-2')
+        .querySelector('[role="group"]')
+        .classList.contains('rs-dropdown-menu-collapse-out'),
+      'Menu 2-2 has transition class'
     );
   });
 
