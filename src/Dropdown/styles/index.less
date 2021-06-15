@@ -230,11 +230,11 @@
 // Active state
 .rs-dropdown-menu > .rs-dropdown-menu-item-focus {
   outline: 0;
+  background-color: var(--rs-dropdown-item-bg-active);
 
-  &,
   &:hover,
   &:focus {
-    background-color: var(--rs-dropdown-item-bg-active);
+    .menuitem-active();
   }
 }
 

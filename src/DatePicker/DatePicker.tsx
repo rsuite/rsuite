@@ -494,6 +494,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [props, timeZone]
     );
 
+    const inSameMonth = useCallback((date: Date) => DateUtils.isSameMonth(date, pageDate), [
+      pageDate
+    ]);
+
     const calendar = (
       <Calendar
         {...calendarProps}
@@ -505,6 +509,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         format={formatStr}
         timeZone={timeZone}
         isoWeek={isoWeek}
+        inSameMonth={inSameMonth}
         calendarState={calendarState}
         pageDate={pageDate}
         onMoveForward={handleMoveForward}

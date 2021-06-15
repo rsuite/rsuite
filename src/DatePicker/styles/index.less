@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import '../../styles/mixins/listbox';
 @import '../../Button/styles/mixin';
 @import '../../Picker/styles/mixin';
 
@@ -77,6 +78,10 @@
       height: @calendar-in-menu-content-side-length;
     }
 
+    .rs-calendar-month-dropdown-cell-content:hover {
+      .listbox-option-active();
+    }
+
     .rs-calendar-table-header-row .rs-calendar-table-cell-content {
       height: 24px;
       padding-top: 0;
@@ -86,6 +91,13 @@
       padding-left: 0;
       padding-right: 0;
       display: inline-block;
+    }
+
+    // There's a small gap between cell and cell-content (cell-content smaller than cell)
+    // So don't apply hover style directly on cell-content
+    .rs-calendar-table-cell:hover .rs-calendar-table-cell-content {
+      // borrowed from listbox option
+      .listbox-option-active();
     }
 
     .rs-calendar-month-dropdown-scroll {

@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import '../../styles/mixins/listbox';
 @import '../../Button/styles/index';
 @import '../../Picker/styles/mixin';
 
@@ -210,6 +211,10 @@
 
 .rs-calendar-table-cell-in-range::before {
   background-color: var(--rs-calendar-range-bg);
+}
+
+.rs-calendar-table-cell-in-range:hover::before {
+  display: none;
 }
 
 // Reset outline for scroll list.
@@ -572,7 +577,6 @@
     display: block;
     text-align: center;
     cursor: pointer;
-    transition: background-color 0.3s linear;
 
     &,
     &:hover,
@@ -581,8 +585,7 @@
     }
 
     &:hover {
-      color: inherit;
-      background-color: var(--rs-state-hover-bg);
+      .listbox-option-active();
     }
 
     &&-active {

@@ -19,11 +19,11 @@
   .listbox-option();
 
   &:hover {
-    .listbox-option-hover();
+    .listbox-option-active();
   }
 
   &&-focus {
-    .listbox-option-focus();
+    .listbox-option-active();
   }
 
   &:disabled,
@@ -102,12 +102,9 @@
 
   &:hover,
   &:focus,
-  &.rs-picker-select-menu-item-focus {
-    .listbox-option-hover();
-  }
-
+  &.rs-picker-select-menu-item-focus,
   &&-focus {
-    .listbox-option-focus();
+    .listbox-option-active();
   }
 
   &&-active {
