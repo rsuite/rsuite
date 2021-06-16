@@ -39,6 +39,8 @@
 - [Button][button]、[Input][input] 等表单组件之间可以通过 <kbd>Tab</kbd> 键切换焦点。
 - [Modal][modal]、[Popover][popover]、[Tooltip][tooltip] 等组件在聚焦状态下，<kbd>Enter</kbd> 键打开弹窗，<kbd>ESC</kbd> 键关闭弹窗。
 - 通过 <kbd>↓</kbd> <kbd>↑</kbd> <kbd>→</kbd> <kbd>←</kbd> 键，在具有选项操作的组件上进行焦点切换。
+- 通过 <kbd>→</kbd> <kbd>←</kbd> 键，可以展开和折叠 [TreePicker](tree-picker) 和 [CheckTreePicker](check-tree-picker) 的节点。
+- 当 Pickers 处于打开状态时候，按下任何字符键，搜索框将会聚焦，切换为搜索模式。
 
 ## 非语义组件的可访问性
 
@@ -81,4 +83,6 @@
 [button]: /zh/components/button
 [popover]: /zh/components/popover
 [tooltip]: /zh/components/tooltip
+[tree-picker]: /zh/components/tree-picker
+[check-tree-picker]: /zh/components/check-tree-picker
 [wai-aria]: https://www.w3.org/TR/wai-aria/
