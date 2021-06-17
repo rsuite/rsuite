@@ -644,8 +644,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         up: () => handleFocusItem(KEY_VALUES.UP),
         left: rtl ? handleRightArrow : handleLeftArrow,
         right: rtl ? handleLeftArrow : handleRightArrow,
-        enter: selectActiveItem,
-        del: handleClean
+        enter: selectActiveItem
       });
     }
   });

@@ -641,8 +641,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         up: () => handleFocusItem(KEY_VALUES.UP),
         left: rtl ? handleRightArrow : handleLeftArrow,
         right: rtl ? handleLeftArrow : handleRightArrow,
-        enter: selectActiveItem,
-        del: handleClean
+        enter: selectActiveItem
       });
     },
     ...rest
