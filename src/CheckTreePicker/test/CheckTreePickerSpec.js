@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
-import { KEY_VALUES } from '../../utils';
+import { KEY_VALUES, shallowEqualArray } from '../../utils';
 import { assert } from 'chai';
 
 const itemFocusClassName = '.rs-check-tree-node-focus';
@@ -403,6 +403,65 @@ describe('CheckTreePicker', () => {
     });
 
     assert.ok(ref.current.overlay.querySelector('[data-key="0-1-0"]'));
+  });
+
+  it('Should trigger onChange and return correctly value', done => {
+    const data = [
+      {
+        value: '1',
+        label: '1',
+        children: [
+          {
+            value: '1-1',
+            label: '1-1'
+          },
+          {
+            value: '1-2',
+            label: '1-2'
+          },
+          {
+            value: '1-3',
+            label: '1-3'
+          }
+        ]
+      },
+      {
+        value: '2',
+        label: '2',
+        children: [
+          {
+            value: '2-1',
+            label: '2-1'
+          },
+          {
+            value: '2-2',
+            label: '2-2'
+          },
+          {
+            value: '2-3',
+            label: '2-3'
+          }
+        ]
+      }
+    ];
+
+    const expectValue = ['1', '2-1'];
+    const mockOnChange = value => {
+      if (shallowEqualArray(expectValue, value)) {
+        done();
+      }
+    };
+
+    const instance = getInstance(
+      <CheckTreePicker
+        data={data}
+        onChange={mockOnChange}
+        defaultValue={['1-1', '1-2', '1-3']}
+        open
+        defaultExpandAll
+      />
+    );
+    ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-1-0"] input'));
   });
 
   it('Should render empty tree when searchKeyword is `name`', () => {
