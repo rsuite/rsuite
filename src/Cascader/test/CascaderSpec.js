@@ -413,4 +413,32 @@ describe('Cascader', () => {
       instance.close();
     });
   });
+
+  it('Should update columns', () => {
+    const TestApp = React.forwardRef((props, ref) => {
+      const [data, setData] = React.useState([]);
+      const pickerRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        setData,
+        picker: pickerRef.current
+      }));
+
+      return <Cascader {...props} ref={pickerRef} data={data} open />;
+    });
+    const ref = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<TestApp ref={ref} />, container);
+    });
+
+    const overlay = ref.current.picker.overlay;
+
+    assert.equal(overlay.querySelectorAll('.rs-picker-cascader-menu-item').length, 0);
+
+    ReactTestUtils.act(() => {
+      ref.current.setData([{ label: 'test', value: 1 }]);
+    });
+
+    assert.equal(overlay.querySelectorAll('.rs-picker-cascader-menu-item').length, 1);
+    assert.equal(overlay.querySelector('.rs-picker-cascader-menu-item').innerText, 'test');
+  });
 });

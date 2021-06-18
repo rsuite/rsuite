@@ -15,7 +15,8 @@ import {
   mergeRefs,
   getSafeRegExpString,
   useClassNames,
-  useCustom
+  useCustom,
+  useUpdateEffect
 } from '../utils';
 
 import {
@@ -181,7 +182,13 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     );
 
     // The columns displayed in the cascading panel.
-    const { columnData, setColumnData, addColumn } = useColumnData(flattenData);
+    const { columnData, setColumnData, addColumn, enforceUpdateColumnData } = useColumnData(
+      flattenData
+    );
+
+    useUpdateEffect(() => {
+      enforceUpdateColumnData(data);
+    }, [data]);
 
     // The path after cascading data selection.
     const [selectedPaths, setSelectedPaths] = useState<ItemDataType[]>();

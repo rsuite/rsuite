@@ -196,10 +196,16 @@ export function useColumnData(flattenData: ItemType[]) {
     setColumnData([...slice(columnData, 0, index), column]);
   }
 
+  function enforceUpdateColumnData(nextData: ItemDataType[]) {
+    const nextFlattenData = flattenTree(nextData);
+    setColumnData([nextFlattenData.filter(item => !item.parent)]);
+  }
+
   return {
     columnData,
     addColumn,
-    setColumnData
+    setColumnData,
+    enforceUpdateColumnData
   };
 }
 
