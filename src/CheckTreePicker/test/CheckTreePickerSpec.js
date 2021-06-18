@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
-import { KEY_VALUES, shallowEqualArray } from '../../utils';
+import { KEY_VALUES } from '../../utils';
 import { assert } from 'chai';
 
 const itemFocusClassName = '.rs-check-tree-node-focus';
@@ -186,14 +186,11 @@ describe('CheckTreePicker', () => {
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
   });
 
-  it('Should call `onChange` callback with 1 values', done => {
-    const doneOp = values => {
-      if (values.length === 1) {
-        done();
-      }
-    };
-    const instance = getInstance(<CheckTreePicker open onChange={doneOp} data={data} />);
+  it('Should call `onChange` callback with 1 values', () => {
+    const mockOnChange = sinon.spy();
+    const instance = getInstance(<CheckTreePicker open onChange={mockOnChange} data={data} />);
     ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-0"] input'));
+    expect(mockOnChange).to.have.been.calledWith(['Master']);
   });
 
   it('Should call `onClean` callback', done => {
@@ -405,7 +402,7 @@ describe('CheckTreePicker', () => {
     assert.ok(ref.current.overlay.querySelector('[data-key="0-1-0"]'));
   });
 
-  it('Should trigger onChange and return correctly value', done => {
+  it('Should trigger onChange and return correctly value', () => {
     const data = [
       {
         value: '1',
@@ -445,12 +442,8 @@ describe('CheckTreePicker', () => {
       }
     ];
 
-    const expectValue = ['1', '2-1'];
-    const mockOnChange = value => {
-      if (shallowEqualArray(expectValue, value)) {
-        done();
-      }
-    };
+    const expectedValue = ['1', '2-1'];
+    const mockOnChange = sinon.spy();
 
     const instance = getInstance(
       <CheckTreePicker
@@ -461,7 +454,9 @@ describe('CheckTreePicker', () => {
         defaultExpandAll
       />
     );
+
     ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-1-0"] input'));
+    expect(mockOnChange).to.have.been.calledWith(expectedValue);
   });
 
   it('Should render empty tree when searchKeyword is `name`', () => {
