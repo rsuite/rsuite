@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
-import Sidenav from '../../Sidenav';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../MenuItem';
 
