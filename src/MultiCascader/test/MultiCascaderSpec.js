@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance, globalKey } from '@test/testUtils';
+import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
 
@@ -297,44 +297,6 @@ describe('MultiCascader', () => {
     assert.include(instance1.className, 'rs-picker-has-value');
     assert.notInclude(instance2.className, 'rs-picker-has-value');
     assert.notInclude(instance3.className, 'rs-picker-has-value');
-  });
-
-  it('Should update columns', () => {
-    const TestApp = React.forwardRef((props, ref) => {
-      const [data, setData] = React.useState([]);
-      const pickerRef = React.useRef();
-      React.useImperativeHandle(ref, () => ({
-        setData,
-        picker: pickerRef.current
-      }));
-
-      return <MultiCascader {...props} ref={pickerRef} defaultOpen data={data} open />;
-    });
-    const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<TestApp ref={ref} />, container);
-    });
-
-    assert.equal(
-      ref.current.picker.overlay.querySelectorAll('.rs-picker-cascader-menu-column .rs-check-item')
-        .length,
-      0
-    );
-
-    ReactTestUtils.act(() => {
-      ref.current.setData([{ label: 'test', value: 1 }]);
-    });
-
-    assert.equal(
-      ref.current.picker.overlay.querySelectorAll('.rs-picker-cascader-menu-column .rs-check-item')
-        .length,
-      1
-    );
-    assert.equal(
-      ref.current.picker.overlay.querySelector('.rs-picker-cascader-menu-column .rs-check-item')
-        .innerText,
-      'test'
-    );
   });
 
   it('Should update value', () => {
