@@ -54,15 +54,7 @@ const TreeviewItemGroup = React.forwardRef(
       Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>,
     ref
   ) => {
-    const {
-      className,
-      classPrefix,
-      collapsible: collapsibleProp,
-      expanded,
-      activeKey,
-      openKeys,
-      onSelect
-    } = props;
+    const { className, classPrefix, collapsible: collapsibleProp, expanded } = props;
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const menuRef = useEnsuredRef<HTMLUListElement>(ref);
@@ -89,30 +81,19 @@ const TreeviewItemGroup = React.forwardRef(
 
     const classes = merge(className, withClassPrefix());
 
-    return (
-      <MenuContext.Provider
-        value={{
-          activeKey,
-          openKeys,
-          collapsible,
-          onSelect
-        }}
-      >
-        {renderCollapse((transitionProps, transitionRef) => {
-          const { className: transitionClassName, ...transitionRestProps } = transitionProps || {};
+    return renderCollapse((transitionProps, transitionRef) => {
+      const { className: transitionClassName, ...transitionRestProps } = transitionProps || {};
 
-          return (
-            <ul
-              ref={mergeRefs(transitionRef, menuRef)}
-              role="group"
-              {...props}
-              {...transitionRestProps}
-              className={classNames(classes, transitionClassName)}
-            />
-          );
-        }, expanded)}
-      </MenuContext.Provider>
-    );
+      return (
+        <ul
+          ref={mergeRefs(transitionRef, menuRef)}
+          role="group"
+          {...props}
+          {...transitionRestProps}
+          className={classNames(classes, transitionClassName)}
+        />
+      );
+    }, expanded);
   }
 );
 
