@@ -4,7 +4,6 @@ import kebabCase from 'lodash/kebabCase';
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import {
-  shallowEqual,
   createChainedFunction,
   isOneOf,
   useClassNames,
@@ -129,14 +128,12 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     ...rest
   } = props;
 
-  const { onOpenChange, openKeys = [], sidenav, expanded } =
-    useContext<SidenavContextType>(SidenavContext) || {};
+  const { onOpenChange, sidenav, expanded } = useContext<SidenavContextType>(SidenavContext) || {};
   const overlayTarget = useRef<HTMLUListElement>();
   const triggerTarget = useRef<HTMLButtonElement>();
   const menuControl = useMenuControl(overlayTarget);
 
   const open = menuControl.open;
-  const menuExpanded = openKeys.some(key => shallowEqual(key, eventKey));
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const collapsible = sidenav && expanded;
 
@@ -351,13 +348,11 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
 
   const menuElement = (
     <DropdownMenu
-      expanded={menuExpanded}
       style={menuStyle}
       onSelect={handleSelect as any}
       onToggle={handleToggleChange}
       collapsible={collapsible}
       activeKey={activeKey}
-      openKeys={openKeys}
       ref={overlayTarget}
       hidden={!open}
       {...{ id: menuId, ...menuAriaAttributes }}
@@ -372,7 +367,6 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     className,
     withClassPrefix({
       [`placement-${kebabCase(placementPolyfill(placement))}`]: placement,
-      [menuExpanded ? 'expand' : 'collapse']: sidenav,
       disabled,
       open,
       'no-caret': noCaret

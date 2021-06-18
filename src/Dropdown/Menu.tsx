@@ -18,12 +18,14 @@ export interface MenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
-  /** The submenu expands from the left and defaults to the right */
+  /**
+   * The submenu expands from the left and defaults to the right
+   * @deprecated
+   */
   pullLeft?: boolean;
 
   /**
    *  Only used for setting the default expand state when it's a submenu.
-   *  Used in conjunction with `openKeys` from parents
    */
   eventKey?: T;
 
@@ -31,7 +33,6 @@ export interface MenuProps<T = string> extends StandardProps {
   icon?: React.ReactElement<IconProps>;
 
   open?: boolean;
-  openKeys?: T[];
   collapsible?: boolean;
   expanded?: boolean;
   active?: boolean;
@@ -42,7 +43,6 @@ export interface MenuProps<T = string> extends StandardProps {
 }
 
 const defaultProps: Partial<MenuProps> = {
-  openKeys: [],
   classPrefix: 'dropdown-menu'
 };
 
@@ -60,7 +60,6 @@ const Menu = React.forwardRef(
       collapsible: collapsibleProp,
       expanded,
       activeKey,
-      openKeys,
       onSelect,
       onKeyDown,
       ...rest
@@ -215,7 +214,6 @@ const Menu = React.forwardRef(
       <MenuContext.Provider
         value={{
           activeKey,
-          openKeys,
           collapsible,
           onSelect
         }}
@@ -240,7 +238,6 @@ Menu.propTypes = {
   open: PropTypes.bool,
   trigger: PropTypes.oneOf(['click', 'hover']),
   eventKey: PropTypes.any,
-  openKeys: PropTypes.array,
   expanded: PropTypes.bool,
   collapsible: PropTypes.bool,
   onSelect: PropTypes.func,

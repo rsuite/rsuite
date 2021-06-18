@@ -113,7 +113,6 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
 
     const { sidenav, expanded: sidenavExpanded } = useContext(SidenavContext) || {};
     const open = submenuControl.open;
-    // const [open, ] = useControlled(openProp, menu?.openKeys?.includes(eventKey) ?? false);
 
     const active =
       activeProp ||
