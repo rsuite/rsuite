@@ -1,10 +1,9 @@
 import React, { useCallback, useContext } from 'react';
-import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
 import MenuContext from './MenuContext';
 import Menu, { MenuProps } from './Menu';
 import MenuItem from './MenuItem';
-import { shallowEqual, useClassNames } from '../utils';
+import { useClassNames } from '../utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
@@ -20,7 +19,6 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
 
   /**
    *  Only used for setting the default expand state when it's a submenu.
-   *  Used in conjunction with `openKeys` from parents
    */
   eventKey?: T;
 
@@ -28,7 +26,6 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
   icon?: React.ReactElement<IconProps>;
 
   open?: boolean;
-  openKeys?: T[];
   collapsible?: boolean;
   expanded?: boolean;
   active?: boolean;
@@ -39,7 +36,6 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
 }
 
 const defaultProps: Partial<MenuProps> = {
-  openKeys: [],
   classPrefix: 'dropdown-menu'
 };
 
@@ -63,7 +59,7 @@ const defaultProps: Partial<MenuProps> = {
  */
 const DropdownMenu = React.forwardRef(
   (props: MenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>, ref) => {
-    const { openKeys, onToggle, eventKey, ...rest } = props;
+    const { onToggle, eventKey, ...rest } = props;
 
     const parentMenu = useContext(MenuContext);
 
@@ -85,14 +81,12 @@ const DropdownMenu = React.forwardRef(
     // Should render a `menuitem` that controls this submenu.
     if (parentMenu) {
       const { icon, open, trigger, eventKey, title, className } = props;
-      const expanded = !isNil(eventKey) && openKeys.some(key => shallowEqual(key, eventKey));
       const itemClassName = merge(className, prefix('pull-right'));
 
       return (
         <MenuItem
           icon={icon}
           trigger={trigger}
-          expanded={expanded}
           className={itemClassName}
           submenu={<Menu ref={ref} open={open} onToggle={handleToggleSubmenu} {...rest} />}
           eventKey={eventKey}
@@ -120,7 +114,6 @@ DropdownMenu.propTypes = {
   open: PropTypes.bool,
   trigger: PropTypes.oneOf(['click', 'hover']),
   eventKey: PropTypes.any,
-  openKeys: PropTypes.array,
   expanded: PropTypes.bool,
   collapsible: PropTypes.bool,
   onSelect: PropTypes.func,
