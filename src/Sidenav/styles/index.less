@@ -77,6 +77,12 @@
       height: @sidenav-level1-item-font-size;
     }
   }
+
+  > .rs-dropdown-focus .rs-dropdown-toggle {
+    .focus-ring();
+
+    z-index: 2;
+  }
 }
 
 // Expanded styles
@@ -94,9 +100,26 @@
     flex: 1 1 auto;
     flex-direction: column;
 
+    &-item-focus {
+      .focus-ring(inset);
+
+      background: none;
+      z-index: 2;
+
+      &.rs-dropdown-item-submenu {
+        box-shadow: none;
+
+        > .rs-dropdown-item-toggle {
+          .focus-ring(inset);
+
+          z-index: 2;
+        }
+      }
+    }
+
     // Set  the ripple effect of items.
     &-item:not(.rs-dropdown-item-submenu),
-    &-item-submenu > .rs-dropdown-menu-toggle {
+    &-item-submenu > .rs-dropdown-item-toggle {
       .with-ripple();
     }
 

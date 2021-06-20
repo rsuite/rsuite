@@ -1,20 +1,18 @@
-import React, { useCallback, useContext, useEffect, useRef } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import TreeviewItemContext from './TreeviewItemContext';
 import useUniqueId from '../utils/useUniqueId';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { createChainedFunction, isOneOf, useClassNames } from '../utils';
+import { createChainedFunction, useClassNames } from '../utils';
 import useEnsuredRef from '../utils/useEnsuredRef';
-import MenuControlContext from '../Dropdown/MenuControlContext';
-import useMenuControl from '../Dropdown/useMenuControl';
 import { SidenavContext } from './Sidenav';
 import useCustom from '../utils/useCustom';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import PropTypes from 'prop-types';
-import deprecatePropType from '../utils/deprecatePropType';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import TreeviewItemGroup from './TreeviewItemGroup';
 import TreeControlContext from './TreeControlContext';
+import Ripple from '../Ripple';
 
 export interface TreeviewItemProps<T = any>
   extends WithAsProps,
@@ -46,22 +44,6 @@ export interface TreeviewItemProps<T = any>
   /** The submenu that this menuitem controls (if exists) */
   submenu?: React.ReactElement;
 
-  /**
-   * The sub-level menu appears from the right side by default, and when `pullLeft` is set, it appears from the left.
-   * @deprecated Submenus are now pointing the same direction.
-   */
-  pullLeft?: boolean;
-
-  /** Triggering event for submenu expansion. */
-  trigger?: 'hover' | 'click';
-
-  /**
-   * Whether the submenu is opened.
-   * @deprecated
-   * @internal
-   */
-  open?: boolean;
-
   /** Whether the submenu is expanded, used in Sidenav. */
   expanded?: boolean;
 
@@ -73,8 +55,7 @@ export interface TreeviewItemProps<T = any>
 
 const defaultProps: Partial<TreeviewItemProps> = {
   as: 'li',
-  classPrefix: 'dropdown-item',
-  trigger: 'hover'
+  classPrefix: 'dropdown-item'
 };
 
 /**
@@ -96,50 +77,51 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
     classPrefix,
     tabIndex,
     icon,
-    trigger,
+    title,
     eventKey,
     onClick,
-    onMouseOver,
-    onMouseOut,
     onSelect,
     ...rest
   } = props;
 
-  const submenu = !!children;
-
   const parentTreeitem = useContext(TreeviewItemContext);
   const treeControl = useContext(TreeControlContext);
 
-  const isRootNode = !parentTreeitem;
-  const isParentNode = !!children;
-  const level = isRootNode ? 1 : parentTreeitem.level + 1;
+  const { rtl } = useCustom('DropdownMenu');
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { openKeys, onOpenChange, onSelect: onSidenavSelect } = useContext(SidenavContext);
+
+  // WAI-ARIA treeitem
+  const isRootNode = !parentTreeitem;
+  const isParentNode = !!children;
 
   const treeitemRef = useEnsuredRef<HTMLLIElement>(ref);
-  const treeitemId = useUniqueId('treeitem');
-  const submenuRef = useRef<HTMLUListElement>();
+  const treeitemId = useUniqueId('treeitem-');
+  const treeitemExpanded = openKeys.includes(eventKey);
+  const treeitemLevel = isRootNode ? 1 : parentTreeitem.level + 1;
 
-  const menuControl = useContext(MenuControlContext);
-  const submenuControl = useMenuControl(submenuRef);
+  const treeitemAriaAttributes: React.HTMLAttributes<HTMLLIElement> = {
+    role: 'treeitem',
+    'aria-level': treeitemLevel,
+    'aria-disabled': disabled
+  };
 
-  const { sidenav, expanded: sidenavExpanded, openKeys, onOpenChange, onSelect: onSidenavSelect } =
-    useContext(SidenavContext) || {};
-  const treeitemExpanded = openKeys?.includes(eventKey) ?? false;
+  if (isParentNode) {
+    treeitemAriaAttributes['aria-expanded'] = treeitemExpanded;
+  }
 
   // Whether this treeitem is selected
   const active = false;
 
-  const { rtl } = useCustom('DropdownMenu');
-
   const classes = merge(
     className,
     withClassPrefix({
-      [`pull-${rtl ? 'left' : 'right'}`]: submenu,
-      [treeitemExpanded ? 'expand' : 'collapse']: submenu && sidenav,
+      [`pull-${rtl ? 'left' : 'right'}`]: isParentNode,
+      [treeitemExpanded ? 'expand' : 'collapse']: isParentNode,
       'with-icon': icon,
       open: treeitemExpanded,
-      submenu,
+      submenu: isParentNode,
       active,
       disabled,
       // Whether this treeitem has focus
@@ -170,40 +152,30 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
       activate(event);
       onSidenavSelect?.(eventKey, event);
     },
-    [disabled, treeitemExpanded, submenu, activate, onSidenavSelect, eventKey]
+    [disabled, treeitemExpanded, isParentNode, activate, onSidenavSelect, eventKey]
   );
-
-  const handleMouseOver = useCallback(() => {
-    if (submenu) {
-      submenuControl.openMenu();
-    }
-  }, [submenu, submenuControl.openMenu]);
-
-  const handleMouseOut = useCallback(() => {
-    if (submenu) {
-      submenuControl.closeMenu();
-    }
-  }, [submenu, submenuControl.closeMenu]);
 
   const menuitemEventHandlers: React.LiHTMLAttributes<HTMLLIElement> = {
     onClick: createChainedFunction(handleClick, onClick)
   };
 
-  if (isOneOf('hover', trigger) && submenu && !sidenavExpanded) {
-    menuitemEventHandlers.onMouseOver = createChainedFunction(handleMouseOver, onMouseOver);
-    menuitemEventHandlers.onMouseOut = createChainedFunction(handleMouseOut, onMouseOut);
-  }
-
   useEffect(() => {
-    // Don't register separator items and panels
-    // They aren't keyboard navigable
     if (!divider && !panel) {
-      menuControl?.registerItem(treeitemRef.current, { disabled });
+      treeControl.registerNode(treeitemId, parentTreeitem?.id, { eventKey });
     }
+
     return () => {
-      menuControl?.unregisterItem(treeitemId);
+      treeControl.unregisterNode(treeitemId);
     };
-  }, [treeitemId, disabled, divider, panel]);
+  }, [
+    treeControl.registerNode,
+    treeControl.unregisterNode,
+    treeitemId,
+    parentTreeitem?.id,
+    eventKey,
+    divider,
+    panel
+  ]);
 
   if (divider) {
     return (
@@ -226,49 +198,38 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
         style={style}
         className={merge(prefix('panel'), className)}
       >
-        {props.title}
+        {title}
       </Component>
     );
   }
 
-  const treeitemAriaAttributes: React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLLIElement>,
-    HTMLLIElement
-  > = {
-    role: 'treeitem',
-    'aria-level': level,
-    'aria-disabled': disabled
-  };
-
-  if (children) {
+  if (isParentNode) {
     const Icon = rtl ? AngleLeft : AngleRight;
-
-    treeitemAriaAttributes['aria-expanded'] = treeitemExpanded;
 
     return (
       <TreeviewItemContext.Provider
         value={{
-          level
+          id: treeitemId,
+          level: treeitemLevel
         }}
       >
         <Component
-          ref={treeitemRef as any}
+          ref={treeitemRef}
           id={treeitemId}
           {...rest}
           tabIndex={disabled ? -1 : tabIndex}
           style={style}
           className={classes}
-          {...(treeitemAriaAttributes as any)}
-          {...(menuitemEventHandlers as any)}
+          {...treeitemAriaAttributes}
+          {...menuitemEventHandlers}
         >
           <div className={prefix`toggle`} tabIndex={-1}>
             {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-            <span>{props.title}</span>
+            {title}
             <Icon className={prefix`toggle-icon`} />
+            <Ripple />
           </div>
-          <TreeviewItemGroup expanded={treeitemExpanded} collapsible>
-            {children}
-          </TreeviewItemGroup>
+          <TreeviewItemGroup expanded={treeitemExpanded}>{children}</TreeviewItemGroup>
         </Component>
       </TreeviewItemContext.Provider>
     );
@@ -277,7 +238,8 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
   return (
     <TreeviewItemContext.Provider
       value={{
-        level
+        id: treeitemId,
+        level: treeitemLevel
       }}
     >
       <Component
@@ -291,24 +253,22 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
         {...menuitemEventHandlers}
       >
         {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-        {props.title}
+        {title}
+        <Ripple />
       </Component>
     </TreeviewItemContext.Provider>
   );
 });
 
-TreeviewItem.displayName = 'TreeviewItem';
+TreeviewItem.displayName = 'Treeview.Item';
 TreeviewItem.defaultProps = defaultProps;
 TreeviewItem.propTypes = {
   as: PropTypes.elementType,
   divider: PropTypes.bool,
   panel: PropTypes.bool,
-  trigger: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['click', 'hover'])]),
-  open: deprecatePropType(PropTypes.bool),
   expanded: PropTypes.bool,
   active: PropTypes.bool,
   disabled: PropTypes.bool,
-  pullLeft: deprecatePropType(PropTypes.bool),
   submenu: PropTypes.element,
   onSelect: PropTypes.func,
   onClick: PropTypes.func,

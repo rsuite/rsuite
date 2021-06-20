@@ -11,7 +11,16 @@ const Treeview: RsRefForwardingComponent<
 
   return (
     <TreeControlContext.Provider value={treeControl}>
-      <ul ref={ref} role="tree" {...props} />
+      <ul
+        ref={ref}
+        role="tree"
+        tabIndex={0}
+        aria-activedescendant={treeControl.activeDescendantId}
+        onFocus={treeControl.handleReceiveFocus}
+        onBlur={treeControl.handleLoseFocus}
+        {...treeControl.keyboardEventHandlers}
+        {...props}
+      />
     </TreeControlContext.Provider>
   );
 });
