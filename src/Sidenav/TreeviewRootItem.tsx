@@ -74,6 +74,10 @@ export interface TreeviewRootItemProps<T = any>
 
   /** Selected callback function */
   onSelect?: (eventKey: T, event: React.MouseEvent<HTMLElement>) => void;
+
+  divider?: boolean;
+
+  panel?: boolean;
 }
 
 const defaultProps: Partial<TreeviewRootItemProps> = {
@@ -159,7 +163,6 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
         return;
       }
       handleToggle();
-      console.debug('onSidenavSelect', onSidenavSelect);
       onSidenavSelect?.(eventKey, event);
     },
     [disabled, handleToggle, onSidenavSelect, eventKey]
@@ -222,9 +225,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
       style,
       children,
       icon,
-      tabIndex,
       tooltip,
-      eventKey,
       title,
       ...rest
     } = props as any;
