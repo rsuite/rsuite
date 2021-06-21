@@ -13,25 +13,27 @@ function useControlled<T = any>(
   defaultValue: T,
   formatValue?: (value: T) => T
 ): [T, (value: React.SetStateAction<T>) => void, boolean] {
-  const { current: isControlled } = useRef(controlledValue !== undefined);
+  const controlledRef = useRef(false);
+  controlledRef.current = controlledValue !== undefined;
+
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
   // If it is controlled, this directly returns the attribute value.
-  let value = isControlled ? controlledValue : uncontrolledValue;
+  let value = controlledRef.current ? controlledValue : uncontrolledValue;
 
   value = formatValue ? formatValue(value) : value;
 
   const setValue = useCallback(
     nextValue => {
       // Only update the value in state when it is not under control.
-      if (!isControlled) {
+      if (!controlledRef.current) {
         setUncontrolledValue(nextValue);
       }
     },
-    [isControlled]
+    [controlledRef]
   );
 
-  return [value, setValue, isControlled];
+  return [value, setValue, controlledRef.current];
 }
 
 export default useControlled;
