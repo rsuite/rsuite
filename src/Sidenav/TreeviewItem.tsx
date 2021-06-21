@@ -90,7 +90,7 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
   const { rtl } = useCustom('DropdownMenu');
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const { openKeys, onOpenChange, onSelect: onSidenavSelect } = useContext(SidenavContext);
+  const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = useContext(SidenavContext);
 
   // WAI-ARIA treeitem
   const isRootNode = !parentTreeitem;

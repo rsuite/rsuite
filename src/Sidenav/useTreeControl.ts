@@ -8,6 +8,8 @@ export interface UseTreeControlOptions {
   initialExpandedNodes?: string[];
 }
 
+const emptyArray = [];
+
 /**
  * Treeview keyboard interaction and focus management
  * Ref: https://www.w3.org/TR/wai-aria-practices-1.1/#TreeView
@@ -17,7 +19,7 @@ export default function useTreeControl(
 ): TreeControlContextProps {
   const { initialExpandedNodes = [] } = options;
 
-  const { openKeys = [], onOpenChange } = useContext(SidenavContext);
+  const { openKeys = emptyArray, onOpenChange } = useContext(SidenavContext);
 
   const [activeItemIndex, setActiveItemIndex] = useState<number | null>(null);
   const [nodes, setNodes] = useState<Node[]>([]);

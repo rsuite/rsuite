@@ -63,7 +63,7 @@ export function getInstance(children, waitForDidMount = true) {
 }
 
 /**
- * @return {Element}
+ * @return {HTMLElement}
  */
 export function getDOMNode(children, waitForDidMount = true) {
   if (isDOMElement(children)) {
