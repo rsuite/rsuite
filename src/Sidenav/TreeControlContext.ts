@@ -16,6 +16,7 @@ export interface TreeControlContextProps {
   nodes: TreeNode[];
   activeItemIndex: number | null;
   activeDescendantId: string | null;
+  expandedNodeIds: string[];
   registerNode: (id: string, parent?: string, props?: { eventKey?: string }) => void;
   unregisterNode: (id: string) => void;
   handleReceiveFocus: React.FocusEventHandler;
@@ -29,6 +30,7 @@ const TreeControlContext = React.createContext<TreeControlContextProps>({
   nodes: [],
   activeItemIndex: null,
   activeDescendantId: null,
+  expandedNodeIds: [],
   registerNode: noop,
   unregisterNode: noop,
   handleReceiveFocus: noop,

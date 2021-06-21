@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import DropdownToggle from '../Dropdown/DropdownToggle';
 import {
-  shallowEqual,
   createChainedFunction,
   useClassNames,
   placementPolyfill,
@@ -20,6 +19,7 @@ import Ripple from '../Ripple';
 import TreeviewItemGroup from './TreeviewItemGroup';
 import TreeviewItemContext from './TreeviewItemContext';
 import TreeControlContext from './TreeControlContext';
+import useEnsuredRef from '../utils/useEnsuredRef';
 
 export interface TreeviewRootItemProps<T = any>
   extends WithAsProps,
@@ -121,14 +121,16 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     ...rest
   } = props;
 
-  const { onOpenChange, openKeys = [], onSelect: onSidenavSelect } = useContext(SidenavContext);
+  const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = useContext(SidenavContext);
   const treeControl = useContext(TreeControlContext);
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
   // treeitem ARIA attributes and properties/states
+  const treeitemRef = useEnsuredRef<HTMLLIElement>(ref);
   const treeitemId = useUniqueId('treeitem-');
-  const treeitemExpanded = openKeys.some(key => shallowEqual(key, eventKey));
+  const treeitemExpanded =
+    treeControl.expandedNodeIds.includes(rest.id ?? treeitemId) || openKeys.includes(eventKey);
   const treeitemHasFocus = treeControl.activeDescendantId === treeitemId;
 
   const handleToggle = useCallback(
@@ -195,14 +197,16 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
   };
 
   useEffect(() => {
+    const treeitem = treeitemRef.current;
+
     if (!divider && !panel) {
-      treeControl.registerNode(treeitemId, null, { eventKey });
+      treeControl.registerNode(treeitem.id, null, { eventKey });
     }
 
     return () => {
-      treeControl.unregisterNode(treeitemId);
+      treeControl.unregisterNode(treeitem.id);
     };
-  }, [treeControl.registerNode, treeControl.unregisterNode, treeitemId, eventKey, divider, panel]);
+  }, [treeControl.registerNode, treeControl.unregisterNode, eventKey, divider, panel]);
 
   // Nav.Item
 
@@ -238,7 +242,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     if (divider) {
       return (
         <li
-          ref={ref}
+          ref={treeitemRef}
           role="separator"
           style={style}
           className={merge(className, prefix('divider'))}
@@ -249,7 +253,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     if (panel) {
       return (
         <li
-          ref={ref}
+          ref={treeitemRef}
           role="none presentation"
           style={style}
           className={merge(className, prefix('panel'))}
@@ -261,7 +265,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
 
     const item = (
       <Component
-        ref={ref}
+        ref={treeitemRef}
         id={treeitemId}
         aria-selected={active}
         {...rest}
@@ -281,7 +285,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     return (
       <TreeviewItemContext.Provider
         value={{
-          id: treeitemId,
+          id: rest.id ?? treeitemId,
           level: 1
         }}
       >
@@ -301,20 +305,20 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
   return (
     <TreeviewItemContext.Provider
       value={{
-        id: treeitemId,
+        id: rest.id ?? treeitemId,
         level: 1
       }}
     >
       <Component
-        ref={ref}
+        ref={treeitemRef}
         id={treeitemId}
         style={style}
         className={classes}
+        {...rest}
         {...treeitemAriaAttributes}
       >
         <DropdownToggle
           role="button"
-          {...rest}
           {...buttonEventHandlers}
           tabIndex={-1}
           as={renderTitle ? 'span' : toggleAs}

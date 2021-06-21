@@ -4,27 +4,27 @@ import { KEY_VALUES } from '../utils';
 import { SidenavContext } from './Sidenav';
 import { Node } from './Node';
 
-export interface UseTreeControlOptions {
-  initialExpandedNodes?: string[];
-}
-
 const emptyArray = [];
 
 /**
  * Treeview keyboard interaction and focus management
  * Ref: https://www.w3.org/TR/wai-aria-practices-1.1/#TreeView
  */
-export default function useTreeControl(
-  options: UseTreeControlOptions = {}
-): TreeControlContextProps {
-  const { initialExpandedNodes = [] } = options;
-
+export default function useTreeControl(): TreeControlContextProps {
   const { openKeys = emptyArray, onOpenChange } = useContext(SidenavContext);
 
   const [activeItemIndex, setActiveItemIndex] = useState<number | null>(null);
   const [nodes, setNodes] = useState<Node[]>([]);
   const activeNode = nodes[activeItemIndex];
-  const [expandedNodeIds, setExpandedNodeIds] = useState<string[]>(initialExpandedNodes);
+  const [expandedNodeIds, setExpandedNodeIds] = useState<string[]>(() => {
+    const ids: string[] = [];
+    for (const node of nodes) {
+      if (node.nodeValue && openKeys.includes(node.nodeValue)) {
+        ids.push(node.id);
+      }
+    }
+    return ids;
+  });
 
   useEffect(() => {
     setExpandedNodeIds(() => {
@@ -58,7 +58,7 @@ export default function useTreeControl(
     setNodes(nodes => {
       const newNode = new Node();
       newNode.id = id;
-      newNode.nodeValue = props.eventKey;
+      newNode.nodeValue = props.eventKey ?? newNode.id;
       newNode.parent = parent;
 
       const parentNode: Node = nodes.find(node => node.id === parent) ?? (null as any);
@@ -260,6 +260,7 @@ export default function useTreeControl(
     nodes,
     activeItemIndex,
     activeDescendantId: activeNode?.id,
+    expandedNodeIds,
     registerNode,
     unregisterNode,
     handleReceiveFocus,

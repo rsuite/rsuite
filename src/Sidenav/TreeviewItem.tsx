@@ -98,7 +98,8 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
 
   const treeitemRef = useEnsuredRef<HTMLLIElement>(ref);
   const treeitemId = useUniqueId('treeitem-');
-  const treeitemExpanded = openKeys.includes(eventKey);
+  const treeitemExpanded =
+    treeControl.expandedNodeIds.includes(rest.id ?? treeitemId) || openKeys.includes(eventKey);
   const treeitemLevel = isRootNode ? 1 : parentTreeitem.level + 1;
 
   const treeitemAriaAttributes: React.HTMLAttributes<HTMLLIElement> = {
@@ -160,17 +161,17 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
   };
 
   useEffect(() => {
+    const treeitem = treeitemRef.current;
     if (!divider && !panel) {
-      treeControl.registerNode(treeitemId, parentTreeitem?.id, { eventKey });
+      treeControl.registerNode(treeitem.id, parentTreeitem?.id, { eventKey });
     }
 
     return () => {
-      treeControl.unregisterNode(treeitemId);
+      treeControl.unregisterNode(treeitem.id);
     };
   }, [
     treeControl.registerNode,
     treeControl.unregisterNode,
-    treeitemId,
     parentTreeitem?.id,
     eventKey,
     divider,
@@ -209,7 +210,7 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
     return (
       <TreeviewItemContext.Provider
         value={{
-          id: treeitemId,
+          id: rest.id ?? treeitemId,
           level: treeitemLevel
         }}
       >
@@ -238,7 +239,7 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
   return (
     <TreeviewItemContext.Provider
       value={{
-        id: treeitemId,
+        id: rest.id ?? treeitemId,
         level: treeitemLevel
       }}
     >
