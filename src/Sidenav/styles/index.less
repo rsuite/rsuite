@@ -260,6 +260,10 @@
     height: @sidenav-item-height;
     // supplement padding
     padding-left: @sidenav-default-width;
+
+    &:focus {
+      .focus-ring();
+    }
   }
 
   // The same to the dropdown item

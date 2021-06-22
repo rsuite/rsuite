@@ -315,6 +315,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
         style={style}
         className={classes}
         {...rest}
+        tabIndex={-1}
         {...treeitemAriaAttributes}
       >
         <DropdownToggle
