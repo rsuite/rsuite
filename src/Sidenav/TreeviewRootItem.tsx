@@ -2,13 +2,7 @@ import React, { useContext, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import DropdownToggle from '../Dropdown/DropdownToggle';
-import {
-  createChainedFunction,
-  useClassNames,
-  placementPolyfill,
-  PLACEMENT_8,
-  appendTooltip
-} from '../utils';
+import { createChainedFunction, useClassNames, placementPolyfill, PLACEMENT_8 } from '../utils';
 import { SidenavContext } from './Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
@@ -222,17 +216,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
   );
 
   if (!children) {
-    const {
-      active,
-      disabled,
-      className,
-      style,
-      children,
-      icon,
-      tooltip,
-      title,
-      ...rest
-    } = props as any;
+    const { active, ...extraAttributes } = rest as any;
 
     const classes = merge(
       className,
@@ -268,7 +252,8 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
         ref={treeitemRef}
         id={treeitemId}
         aria-selected={active}
-        {...rest}
+        data-eventkey={eventKey}
+        {...extraAttributes}
         tabIndex={-1}
         disabled={Component === SafeAnchor ? disabled : null}
         className={classes}
@@ -289,14 +274,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
           level: 1
         }}
       >
-        {tooltip
-          ? appendTooltip({
-              ref,
-              children: item,
-              message: children,
-              placement: typeof tooltip === 'boolean' ? 'right' : tooltip
-            })
-          : item}
+        {item}
       </TreeviewItemContext.Provider>
     );
   }
@@ -317,6 +295,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
         {...rest}
         tabIndex={-1}
         {...treeitemAriaAttributes}
+        data-eventkey={eventKey}
       >
         <DropdownToggle
           role="button"
