@@ -113,14 +113,8 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
     return null;
   });
 
-  const ariaAttributes: React.HTMLAttributes<HTMLElement> = {};
-
-  if (sidenav) {
-    ariaAttributes.role = 'tree';
-  }
-
   return (
-    <Component {...rest} ref={ref} className={classes} {...ariaAttributes}>
+    <Component {...rest} ref={ref} className={classes}>
       {items}
       {hasWaterline && <div className={prefix('bar')} />}
     </Component>
