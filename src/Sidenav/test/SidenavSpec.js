@@ -82,7 +82,6 @@ describe('Sidenav', () => {
       const menu = instance.querySelector(`.m-${key}`);
 
       assert.ok(menu.getAttribute('aria-expanded') === 'true', `Menu ${key} should be open`);
-      console.debug(menu.querySelector('[role="group"]'));
       assert.ok(
         menu.querySelector('[role="group"]').classList.contains('rs-dropdown-menu-collapse-in'),
         `Menu ${key} has transition class`
