@@ -525,6 +525,57 @@ describe('Dropdown', () => {
         expect(submenu.hidden, 'The submenu is closed').to.be.true;
       });
 
+      describe('End', () => {
+        it('If arrow key wrapping is not supported, moves focus to the last item in the current menu.', () => {
+          const instance = getDOMNode(
+            <Dropdown>
+              <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
+              <Dropdown.Item>Item 2</Dropdown.Item>
+              <Dropdown.Item id="last-item">Item 3</Dropdown.Item>
+            </Dropdown>
+          );
+          const button = instance.querySelector('[role="button"]');
+          const menu = instance.querySelector('[role="menu"]');
+
+          // Open the menu
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
+          });
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'End' });
+          });
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('last-item');
+        });
+      });
+      describe('Home', () => {
+        it('Home - If arrow key wrapping is not supported, moves focus to the first item in the current menu', () => {
+          const instance = getDOMNode(
+            <Dropdown>
+              <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
+              <Dropdown.Item>Item 2</Dropdown.Item>
+              <Dropdown.Item id="last-item">Item 3</Dropdown.Item>
+            </Dropdown>
+          );
+          const button = instance.querySelector('[role="button"]');
+          const menu = instance.querySelector('[role="menu"]');
+
+          // Open the menu
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
+          });
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'End' });
+          });
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'Home' });
+          });
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
+        });
+      });
+
       it('Escape - Close the menu and return focus to button', () => {
         const instance = getDOMNode(
           <Dropdown>
