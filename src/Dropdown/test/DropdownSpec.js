@@ -5,6 +5,11 @@ import Dropdown from '../Dropdown';
 import Button from '../../Button';
 import { innerText } from '@test/testUtils';
 import { KEY_VALUES } from '../../utils';
+import * as utils from '../../utils';
+
+afterEach(() => {
+  sinon.restore();
+});
 
 describe('Dropdown', () => {
   it('Should render a button that controls a popup menu', () => {
@@ -467,62 +472,131 @@ describe('Dropdown', () => {
         });
       });
 
-      it('ArrowRight - When focus is in a menu and on a menuitem that has a submenu, opens the submenu and places focus on its first item', () => {
-        const instance = getDOMNode(
-          <Dropdown>
-            <Dropdown.Menu id="submenu">
-              <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        );
-        const button = instance.querySelector('[role="button"]');
-        const menu = instance.querySelector('[role="menu"]');
+      describe('ArrowRight', () => {
+        it('When focus is in a menu and on a menuitem that has a submenu, opens the submenu and places focus on its first item', () => {
+          const instance = getDOMNode(
+            <Dropdown>
+              <Dropdown.Menu id="submenu">
+                <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          );
+          const button = instance.querySelector('[role="button"]');
+          const menu = instance.querySelector('[role="menu"]');
 
-        // Open the menu
-        ReactTestUtils.act(() => {
-          ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
+          // Open the menu
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
+          });
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowRight' });
+          });
+
+          const submenu = instance.querySelector('#submenu');
+
+          expect(!submenu.hidden, 'The submenu is opened').to.be.true;
+          expect(submenu.getAttribute('aria-activedescendant'), 'Active item').to.equal(
+            'first-subitem'
+          );
         });
 
-        ReactTestUtils.act(() => {
-          ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowRight' });
+        it('RTL: When focus is in a submenu of an item in a menu, closes the submenu and returns focus to the parent menuitem.', () => {
+          sinon.stub(utils, 'useCustom').returns({
+            rtl: true
+          });
+
+          const instance = getDOMNode(
+            <Dropdown>
+              <Dropdown.Menu id="submenu">
+                <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          );
+          const button = instance.querySelector('[role="button"]');
+          const menu = instance.querySelector('[role="menu"]');
+
+          // Open the menu
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
+          });
+
+          // Open the submenu
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'Enter' });
+          });
+
+          const submenu = instance.querySelector('#submenu');
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(submenu, { key: 'ArrowRight' });
+          });
+
+          expect(submenu.hidden, 'The submenu is closed').to.be.true;
         });
-
-        const submenu = instance.querySelector('#submenu');
-
-        expect(!submenu.hidden, 'The submenu is opened').to.be.true;
-        expect(submenu.getAttribute('aria-activedescendant'), 'Active item').to.equal(
-          'first-subitem'
-        );
       });
 
-      it('ArrowLeft - When focus is in a submenu of an item in a menu, closes the submenu and returns focus to the parent menuitem.', () => {
-        const instance = getDOMNode(
-          <Dropdown>
-            <Dropdown.Menu id="submenu">
-              <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        );
-        const button = instance.querySelector('[role="button"]');
-        const menu = instance.querySelector('[role="menu"]');
+      describe('ArrowLeft', () => {
+        it('When focus is in a submenu of an item in a menu, closes the submenu and returns focus to the parent menuitem.', () => {
+          const instance = getDOMNode(
+            <Dropdown>
+              <Dropdown.Menu id="submenu">
+                <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          );
+          const button = instance.querySelector('[role="button"]');
+          const menu = instance.querySelector('[role="menu"]');
 
-        // Open the menu
-        ReactTestUtils.act(() => {
-          ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
+          // Open the menu
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
+          });
+
+          // Open the submenu
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'Enter' });
+          });
+
+          const submenu = instance.querySelector('#submenu');
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(submenu, { key: 'ArrowLeft' });
+          });
+
+          expect(submenu.hidden, 'The submenu is closed').to.be.true;
         });
 
-        // Open the submenu
-        ReactTestUtils.act(() => {
-          ReactTestUtils.Simulate.keyDown(menu, { key: 'Enter' });
+        it('RTL: When focus is in a menu and on a menuitem that has a submenu, opens the submenu and places focus on its first item', () => {
+          sinon.stub(utils, 'useCustom').returns({
+            rtl: true
+          });
+          const instance = getDOMNode(
+            <Dropdown>
+              <Dropdown.Menu id="submenu">
+                <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          );
+          const button = instance.querySelector('[role="button"]');
+          const menu = instance.querySelector('[role="menu"]');
+
+          // Open the menu
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(button, { key: 'Enter' });
+          });
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowLeft' });
+          });
+
+          const submenu = instance.querySelector('#submenu');
+
+          expect(!submenu.hidden, 'The submenu is opened').to.be.true;
+          expect(submenu.getAttribute('aria-activedescendant'), 'Active item').to.equal(
+            'first-subitem'
+          );
         });
-
-        const submenu = instance.querySelector('#submenu');
-
-        ReactTestUtils.act(() => {
-          ReactTestUtils.Simulate.keyDown(submenu, { key: 'ArrowLeft' });
-        });
-
-        expect(submenu.hidden, 'The submenu is closed').to.be.true;
       });
 
       describe('End', () => {
