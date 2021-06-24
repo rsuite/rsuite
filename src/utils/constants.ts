@@ -66,6 +66,7 @@ export const KEY_VALUES = {
   // Whitespace Keys
   ENTER: 'Enter',
   TAB: 'Tab',
+  SPACE: ' ',
 
   // Editing Keys
   BACKSPACE: 'Backspace',

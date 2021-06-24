@@ -2,16 +2,16 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { innerText, getDOMNode } from '@test/testUtils';
 
-import DropdownMenuItem from '../DropdownMenuItem';
+import DropdownMenuItem from '../MenuItem';
 import Sidenav from '../../Sidenav';
 import User from '@rsuite/icons/legacy/User';
 
 describe('DropdownMenuItem', () => {
-  it('Should render a <a>', () => {
+  it('Should render element with role="menuitem"', () => {
     const title = 'Test';
     const instance = getDOMNode(<DropdownMenuItem>{title}</DropdownMenuItem>);
 
-    assert.equal(instance.tagName, 'A');
+    assert.equal(instance.getAttribute('role'), 'menuitem', 'role');
     assert.equal(innerText(instance), title);
   });
 
@@ -37,20 +37,15 @@ describe('DropdownMenuItem', () => {
     assert.include(instance.className, 'rs-dropdown-item-active');
   });
 
-  it('Should be open', () => {
-    const instance = getDOMNode(<DropdownMenuItem open />);
-    assert.include(instance.className, 'rs-dropdown-item-open');
-  });
-
-  it('Should be submenu', () => {
-    const instance = getDOMNode(<DropdownMenuItem submenu />);
-    assert.include(instance.className, 'rs-dropdown-item-submenu');
+  it('Should render menuitem that controls submenu given `submenu`', () => {
+    const instance = getDOMNode(<DropdownMenuItem submenu={<ul></ul>} />);
+    assert.include(['true', 'menu'], instance.getAttribute('aria-haspopup'));
   });
 
   it('Should be expanded in `Sidenav`', () => {
     const instance = getDOMNode(
       <Sidenav>
-        <DropdownMenuItem expanded submenu />
+        <DropdownMenuItem expanded submenu={<ul></ul>} />
       </Sidenav>
     );
     const Item = instance.querySelector('.rs-dropdown-item');
@@ -60,11 +55,6 @@ describe('DropdownMenuItem', () => {
   it('Should be disabled', () => {
     const instance = getDOMNode(<DropdownMenuItem disabled />);
     assert.include(instance.className, 'rs-dropdown-item-disabled');
-  });
-
-  it('Should be `pullLeft`', () => {
-    const instance = getDOMNode(<DropdownMenuItem pullLeft submenu />);
-    assert.include(instance.className, 'rs-dropdown-item-pull-left');
   });
 
   it('Should render a icon', () => {
@@ -108,5 +98,10 @@ describe('DropdownMenuItem', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<DropdownMenuItem classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should accept a custom `id`', () => {
+    const menuitem = getDOMNode(<DropdownMenuItem id="custom-id">Menu item</DropdownMenuItem>);
+    assert.equal(menuitem.getAttribute('id'), 'custom-id', 'id');
   });
 });

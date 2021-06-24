@@ -16,27 +16,33 @@ interface Options {
   disabled: boolean;
   triggerTarget: TargetType;
   overlayTarget: TargetType;
+  /**
+   * Whether close on Escape keyup.
+   * Defaults to true.
+   */
+  listenEscape?: boolean;
 }
 
 /**
  * A hook that listens to the document click event and closes the overlay.
  * @param onRootClose
  * @param param1
+ * @todo Allow different behaviors based on whether clicked element is focusable
  */
 function useRootClose(
   onRootClose: (e: Event) => void,
-  { disabled, triggerTarget, overlayTarget }: Options
+  { disabled, triggerTarget, overlayTarget, listenEscape = true }: Options
 ) {
   const handleDocumentKeyUp = useCallback(
     (event: KeyboardEvent) => {
-      if (event.key === KEY_VALUES.ESC) {
+      if (listenEscape && event.key === KEY_VALUES.ESC) {
         onRootClose?.(event);
       }
     },
-    [onRootClose]
+    [listenEscape, onRootClose]
   );
 
-  const handleDocumentClick = useCallback(
+  const handleDocumentMouseDown = useCallback(
     event => {
       const triggerElement = getDOMNode(triggerTarget);
       const overlayElement = getDOMNode(overlayTarget);
@@ -66,14 +72,14 @@ function useRootClose(
     if (disabled || !currentTarget) return;
 
     const doc = helper.ownerDocument(currentTarget);
-    const onDocumentClickListener = helper.on(doc, 'click', handleDocumentClick, true);
+    const onDocumentMouseDownListener = helper.on(doc, 'mousedown', handleDocumentMouseDown, true);
     const onDocumentKeyupListener = helper.on(doc, 'keyup', handleDocumentKeyUp);
 
     return () => {
-      onDocumentClickListener?.off();
+      onDocumentMouseDownListener?.off();
       onDocumentKeyupListener?.off();
     };
-  }, [triggerTarget, disabled, onRootClose, handleDocumentClick, handleDocumentKeyUp]);
+  }, [triggerTarget, disabled, onRootClose, handleDocumentMouseDown, handleDocumentKeyUp]);
 }
 
 export default useRootClose;

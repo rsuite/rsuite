@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
-import DropdownMenuItem from './DropdownMenuItem';
+import MenuItem from './MenuItem';
 import {
   shallowEqual,
   createChainedFunction,
@@ -12,11 +12,16 @@ import {
   placementPolyfill,
   PLACEMENT_8,
   useRootClose,
-  useControlled
+  KEY_VALUES
 } from '../utils';
 import { SidenavContext, SidenavContextType } from '../Sidenav/Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
+import useUniqueId from '../utils/useUniqueId';
+import DropdownContext from './DropdownContext';
+import MenuControlContext from './MenuControlContext';
+import useMenuControl from './useMenuControl';
+import deprecatePropType from '../utils/deprecatePropType';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -55,7 +60,10 @@ export interface DropdownProps<T = any>
   /** No caret variation */
   noCaret?: boolean;
 
-  /** Open the menu and control it */
+  /**
+   * Open the menu and control it
+   * @deprecated
+   */
   open?: boolean;
 
   /** Whether Dropdown menu shows header  */
@@ -78,7 +86,7 @@ export interface DropdownProps<T = any>
 }
 
 export interface DropdownComponent extends RsRefForwardingComponent<'div', DropdownProps> {
-  Item: typeof DropdownMenuItem;
+  Item: typeof MenuItem;
   Menu: typeof DropdownMenu;
 }
 
@@ -102,7 +110,6 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     classPrefix,
     placement,
     activeKey,
-    tabIndex,
     toggleClassName,
     trigger,
     icon,
@@ -110,7 +117,6 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     toggleAs,
     noCaret,
     style,
-    open: openProp,
     showHeader,
     onClick,
     onMouseEnter,
@@ -125,12 +131,17 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
 
   const { onOpenChange, openKeys = [], sidenav, expanded } =
     useContext<SidenavContextType>(SidenavContext) || {};
-  const overlayTarget = useRef();
-  const triggerTarget = useRef();
-  const [open, setOpen] = useControlled(openProp, false);
+  const overlayTarget = useRef<HTMLUListElement>();
+  const triggerTarget = useRef<HTMLButtonElement>();
+  const menuControl = useMenuControl(overlayTarget);
+
+  const open = menuControl.open;
   const menuExpanded = openKeys.some(key => shallowEqual(key, eventKey));
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const collapsible = sidenav && expanded;
+
+  const buttonId = useUniqueId(prefix`button-`);
+  const menuId = useUniqueId(prefix`menu-`);
 
   const handleToggle = useCallback(
     (isOpen?: boolean) => {
@@ -138,10 +149,22 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
       const fn = nextOpen ? onOpen : onClose;
 
       fn?.();
-      setOpen(nextOpen);
       onToggle?.(nextOpen);
+      if (nextOpen) {
+        menuControl.openMenu();
+      } else {
+        menuControl.closeMenu();
+      }
     },
-    [onClose, onOpen, onToggle, open, setOpen]
+    [
+      onClose,
+      onOpen,
+      onToggle,
+      open,
+      menuControl.focusItemAt,
+      menuControl.openMenu,
+      menuControl.closeMenu
+    ]
   );
 
   const handleOpenChange = useCallback(
@@ -189,17 +212,57 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   useRootClose(() => handleToggle(), {
     triggerTarget,
     overlayTarget,
-    disabled: !open
+    disabled: !open,
+    // Don't use global Escape listener
+    // Menu implements its own
+    listenEscape: false
   });
-
-  const toggleProps = {
-    onClick: createChainedFunction(handleOpenChange, onClick),
-    onContextMenu
-  };
 
   const dropdownProps = {
     onMouseEnter,
     onMouseLeave
+  };
+
+  /**
+   * Keyboard interaction on menu button
+   * @see https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-13
+   */
+  const handleButtonKeydown = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      switch (e.key) {
+        // Open the menu
+        case KEY_VALUES.ENTER:
+        case KEY_VALUES.SPACE:
+          e.preventDefault();
+          e.stopPropagation();
+          if (!open) {
+            handleToggle(true);
+            menuControl.focusItemAt(0);
+          } else {
+            handleToggle(false);
+          }
+          break;
+        // Open the menu (if closed) and move focus to first item
+        // This is mostly useful after opening the menu with click
+        case KEY_VALUES.DOWN:
+          e.preventDefault();
+          e.stopPropagation();
+          if (!open) {
+            handleToggle(true);
+          }
+          menuControl.focusItemAt(0);
+          break;
+        default:
+          break;
+      }
+    },
+    [open, handleToggle, menuControl]
+  );
+
+  const buttonEventHandlers = {
+    onClick: createChainedFunction(handleOpenChange, onClick),
+    onContextMenu,
+    onKeyDown: handleButtonKeydown
   };
 
   /**
@@ -208,11 +271,11 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
    */
   if (!collapsible) {
     if (isOneOf('click', trigger)) {
-      toggleProps.onClick = createChainedFunction(handleClick, toggleProps.onClick);
+      buttonEventHandlers.onClick = createChainedFunction(handleClick, buttonEventHandlers.onClick);
     }
 
     if (isOneOf('contextMenu', trigger)) {
-      toggleProps.onContextMenu = createChainedFunction(handleClick, onContextMenu);
+      buttonEventHandlers.onContextMenu = createChainedFunction(handleClick, onContextMenu);
     }
 
     if (isOneOf('hover', trigger)) {
@@ -220,33 +283,24 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
       dropdownProps.onMouseLeave = createChainedFunction(handleMouseLeave, onMouseLeave);
     }
   }
-  const menuElement = (
-    <DropdownMenu
-      expanded={menuExpanded}
-      style={menuStyle}
-      onSelect={handleSelect}
-      onToggle={handleToggleChange}
-      collapsible={collapsible}
-      activeKey={activeKey}
-      openKeys={openKeys}
-      ref={overlayTarget}
-    >
-      {showHeader && <li className={prefix('header')}>{title}</li>}
-      {children}
-    </DropdownMenu>
-  );
+
+  // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-14
+  const buttonAriaAttributes = {
+    role: 'button',
+    'aria-haspopup': 'menu',
+    'aria-expanded': open || undefined, // it's recommend to remove aria-expanded when menu is hidden
+    'aria-controls': menuId
+  };
 
   const toggleElement = (
     <DropdownToggle
-      role="button"
-      aria-haspopup
-      aria-expanded={open}
       {...rest}
-      {...toggleProps}
+      {...buttonEventHandlers}
+      id={buttonId}
+      {...buttonAriaAttributes}
       ref={triggerTarget}
       as={renderTitle ? 'span' : toggleAs}
       noCaret={noCaret}
-      tabIndex={tabIndex}
       className={toggleClassName}
       renderTitle={renderTitle}
       icon={icon}
@@ -255,6 +309,57 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     >
       {title}
     </DropdownToggle>
+  );
+
+  /**
+   * Keyboard interaction on menu
+   * @see https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-12
+   */
+  const handleMenuKeydown = useCallback(
+    (e: React.KeyboardEvent<HTMLUListElement>) => {
+      switch (e.key) {
+        // Close the menu
+        case KEY_VALUES.ESC:
+          e.preventDefault();
+          e.stopPropagation();
+          handleToggle(false);
+          requestAnimationFrame(() => {
+            // Move focus back to button
+            triggerTarget.current.focus();
+          });
+          break;
+        default:
+          break;
+      }
+    },
+    [handleToggle]
+  );
+
+  const menuEventHandlers: React.HTMLAttributes<HTMLUListElement> = {
+    onKeyDown: handleMenuKeydown
+  };
+
+  const menuAriaAttributes = {
+    'aria-labelledby': buttonId
+  };
+
+  const menuElement = (
+    <DropdownMenu
+      expanded={menuExpanded}
+      style={menuStyle}
+      onSelect={handleSelect as any}
+      onToggle={handleToggleChange}
+      collapsible={collapsible}
+      activeKey={activeKey}
+      openKeys={openKeys}
+      ref={overlayTarget}
+      hidden={!open}
+      {...{ id: menuId, ...menuAriaAttributes }}
+      {...menuEventHandlers}
+    >
+      {showHeader && <li className={prefix('header')}>{title}</li>}
+      {children}
+    </DropdownMenu>
   );
 
   const classes = merge(
@@ -269,14 +374,20 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   );
 
   return (
-    <Component {...dropdownProps} ref={ref} style={style} className={classes}>
-      {toggleElement}
-      {menuElement}
-    </Component>
+    <DropdownContext.Provider
+      value={{
+        activeKey
+      }}
+    >
+      <Component {...dropdownProps} ref={ref} style={style} className={classes}>
+        {toggleElement}
+        <MenuControlContext.Provider value={menuControl}>{menuElement}</MenuControlContext.Provider>
+      </Component>
+    </DropdownContext.Provider>
   );
 }) as unknown) as DropdownComponent;
 
-Dropdown.Item = DropdownMenuItem;
+Dropdown.Item = MenuItem;
 Dropdown.Menu = DropdownMenu;
 
 Dropdown.displayName = 'Dropdown';
@@ -297,7 +408,7 @@ Dropdown.propTypes = {
   toggleClassName: PropTypes.string,
   children: PropTypes.node,
   tabIndex: PropTypes.number,
-  open: PropTypes.bool,
+  open: deprecatePropType(PropTypes.bool),
   eventKey: PropTypes.any,
   as: PropTypes.elementType,
   toggleAs: PropTypes.elementType,

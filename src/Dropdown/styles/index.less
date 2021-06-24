@@ -32,7 +32,6 @@
     position: absolute;
     // dropdown-menu zindex value is greater than dropdown-toggle
     z-index: @zindex-dropdown + 1;
-    display: none; // none by default, but block on "open" of the menu
     float: left;
     box-shadow: var(--rs-dropdown-shadow);
   }
@@ -80,10 +79,6 @@
       display: none !important;
     }
   }
-
-  .rs-popover-content &-item-submenu:not(&-item-open) > &-menu {
-    display: none;
-  }
 }
 
 .rs-dropdown-toggle {
@@ -109,6 +104,11 @@
   background-color: var(--rs-bg-overlay);
   border-radius: @border-radius;
   padding: @border-radius 0;
+  outline: 0;
+
+  &[hidden] {
+    display: none;
+  }
 }
 
 // Links within the dropdown menu
@@ -131,8 +131,11 @@
 
   // Hover/Focus state
   &:hover,
-  &:focus {
+  &&-focus {
     .menuitem-active();
+  }
+  &:focus {
+    outline: 0;
   }
 
   // Disabled state
@@ -164,10 +167,10 @@
   &.rs-dropdown-item {
     position: relative;
 
-    > .rs-dropdown-menu-toggle {
+    > .rs-dropdown-item-toggle {
       display: inline-block;
 
-      .rs-dropdown-menu-toggle-icon {
+      .rs-dropdown-item-toggle-icon {
         position: absolute;
         top: 11px;
       }
@@ -180,27 +183,30 @@
   }
 
   // Set submenu icon
-  &.rs-dropdown-menu-pull-right {
-    &.rs-dropdown-item {
+  .rs-dropdown-item& {
+    padding: 0;
+
+    .rs-dropdown-item-toggle {
+      padding: @dropdown-item-padding-y @dropdown-item-padding-x;
       padding-right: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing+
         @dropdown-item-submenu-icon-angle-width;
+    }
 
-      > .rs-dropdown-menu-toggle .rs-dropdown-menu-toggle-icon {
-        right: @dropdown-caret-icon-padding-horizontal;
-      }
+    .rs-dropdown-item-toggle-icon {
+      right: @dropdown-caret-icon-padding-horizontal;
     }
   }
-
-  &.rs-dropdown-menu-pull-left {
-    &.rs-dropdown-item {
-      padding-left: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing +
-        @dropdown-item-submenu-icon-angle-width;
-
-      > .rs-dropdown-menu-toggle .rs-dropdown-menu-toggle-icon {
-        left: @dropdown-caret-icon-padding-horizontal;
-      }
-    }
-  }
+  //
+  //&.rs-dropdown-menu-pull-left {
+  //  &.rs-dropdown-item {
+  //    padding-left: @dropdown-item-padding-x+ @dropdown-item-submenu-icon-angle-spacing +
+  //      @dropdown-item-submenu-icon-angle-width;
+  //
+  //    > .rs-dropdown-menu-toggle .rs-dropdown-menu-toggle-icon {
+  //      left: @dropdown-caret-icon-padding-horizontal;
+  //    }
+  //  }
+  //}
 
   // Pull right
   &.rs-dropdown-menu-pull-right > .rs-dropdown-menu {
@@ -247,7 +253,6 @@
 // Open state for the dropdown
 .rs-dropdown-open {
   > .rs-dropdown-menu {
-    display: block;
     animation-play-state: running;
   }
 

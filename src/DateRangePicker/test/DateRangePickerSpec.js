@@ -211,7 +211,8 @@ describe('DateRangePicker', () => {
       <DateRangePicker
         open
         defaultCalendarValue={[new Date('2019-01-01'), new Date('2019-09-01')]}
-      />
+      />,
+      false
     ).overlay;
 
     assert.ok(menu.querySelector('div[title="01 Feb 2019"]'));
