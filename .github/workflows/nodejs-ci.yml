@@ -9,6 +9,7 @@ on:
       - master
       - next
       - v4
+      - 'ci/**'
   pull_request:
     branches:
       - master
@@ -50,3 +51,5 @@ jobs:
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1

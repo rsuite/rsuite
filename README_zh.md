@@ -6,7 +6,12 @@
   </a>
 </p>
 
-[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][travis-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter] [![Gitter][gitter-cn-svg]][gitter-cn]
+[![npm][npm-svg]][npm-home]
+[![Travis][travis-svg]][travis-home]
+[![codecov](https://codecov.io/gh/rsuite/rsuite/branch/next/graph/badge.svg?token=HGeKd0BD3t)](https://codecov.io/gh/rsuite/rsuite)
+[![Discord][discord-svg]][discord-invite]
+[![Gitter][gitter-svg]][gitter]
+[![Gitter][gitter-cn-svg]][gitter-cn]
 
 React Suite 是一套 React 组件库，为后台产品而生。同时也是一个具有贴心设计以及对开发者友好的 UI 框架。
 
@@ -168,7 +173,6 @@ React Suite 基于 [MIT licensed][license] 发布。
 [npm-home]: https://www.npmjs.com/package/rsuite
 [travis-svg]: https://travis-ci.org/rsuite/rsuite.svg?branch=master
 [travis-home]: https://travis-ci.org/rsuite/rsuite
-[coverage-svg]: https://coveralls.io/repos/github/rsuite/rsuite/badge.svg?branch=master
 [travis-home]: https://coveralls.io/github/rsuite/rsuite?branch=master
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
