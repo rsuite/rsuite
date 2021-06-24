@@ -1,11 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import Collapse from '../Animation/Collapse';
 import MenuContext from './MenuContext';
-
-import { mergeRefs, useClassNames, KEY_VALUES, useCustom } from '../utils';
-
+import { useClassNames, KEY_VALUES, useCustom } from '../utils';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { StandardProps } from '../@types/common';
 import useEnsuredRef from '../utils/useEnsuredRef';
@@ -15,9 +11,6 @@ import useMenuControl from './useMenuControl';
 import deprecatePropType from '../utils/deprecatePropType';
 
 export interface MenuProps<T = string> extends StandardProps {
-  /** Define the title as a submenu */
-  title?: React.ReactNode;
-
   /**
    * The submenu expands from the left and defaults to the right
    * @deprecated
@@ -33,8 +26,6 @@ export interface MenuProps<T = string> extends StandardProps {
   icon?: React.ReactElement<IconProps>;
 
   open?: boolean;
-  collapsible?: boolean;
-  expanded?: boolean;
   active?: boolean;
   activeKey?: T;
   trigger?: 'hover' | 'click';
@@ -52,18 +43,8 @@ const defaultProps: Partial<MenuProps> = {
  * Otherwise it renders the `menu` alone.
  */
 const Menu = React.forwardRef(
-  (props: MenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>, ref) => {
-    const {
-      children,
-      className,
-      classPrefix,
-      collapsible: collapsibleProp,
-      expanded,
-      activeKey,
-      onSelect,
-      onKeyDown,
-      ...rest
-    } = props;
+  (props: MenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'onSelect'>, ref) => {
+    const { children, className, classPrefix, activeKey, onSelect, onKeyDown, ...rest } = props;
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const menuRef = useEnsuredRef<HTMLUListElement>(ref);
@@ -75,24 +56,6 @@ const Menu = React.forwardRef(
     const menuControl = useMenuControl(menuRef, upperMenuControl);
 
     const { rtl } = useCustom('DropdownMenu');
-
-    const collapsible = collapsibleProp ?? parentMenu?.collapsible;
-
-    const renderCollapse = (children, expanded?: boolean) => {
-      return collapsible ? (
-        <Collapse
-          in={expanded}
-          exitedClassName={prefix`collapse-out`}
-          exitingClassName={prefix`collapsing`}
-          enteredClassName={prefix`collapse-in`}
-          enteringClassName={prefix`collapsing`}
-        >
-          {children}
-        </Collapse>
-      ) : (
-        children()
-      );
-    };
 
     // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-13
     const menuAriaAttributes: React.DetailedHTMLProps<
@@ -191,30 +154,24 @@ const Menu = React.forwardRef(
     };
 
     const classes = merge(className, withClassPrefix());
-    const menuElement = renderCollapse((transitionProps, transitionRef) => {
-      const { className: transitionClassName, ...transitionRestProps } = transitionProps || {};
-
-      return (
-        <ul
-          id={menuId}
-          {...menuAriaAttributes}
-          {...menuEventHandlers}
-          {...rest}
-          {...transitionRestProps}
-          className={classNames(classes, transitionClassName)}
-          ref={mergeRefs(transitionRef, menuRef)}
-          tabIndex={0}
-        >
-          {children}
-        </ul>
-      );
-    }, expanded);
+    const menuElement = (
+      <ul
+        id={menuId}
+        {...menuAriaAttributes}
+        {...menuEventHandlers}
+        {...rest}
+        className={classes}
+        ref={menuRef}
+        tabIndex={0}
+      >
+        {children}
+      </ul>
+    );
 
     return (
       <MenuContext.Provider
         value={{
           activeKey,
-          collapsible,
           onSelect
         }}
       >
@@ -234,12 +191,9 @@ Menu.propTypes = {
   icon: PropTypes.any,
   classPrefix: PropTypes.string,
   pullLeft: deprecatePropType(PropTypes.bool),
-  title: PropTypes.node,
   open: PropTypes.bool,
   trigger: PropTypes.oneOf(['click', 'hover']),
   eventKey: PropTypes.any,
-  expanded: PropTypes.bool,
-  collapsible: PropTypes.bool,
   onSelect: PropTypes.func,
   onToggle: PropTypes.func
 };
