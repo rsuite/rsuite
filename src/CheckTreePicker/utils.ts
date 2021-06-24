@@ -175,6 +175,7 @@ export function getNodeCheckState({ nodes, node, cascade, childrenKey }: any): C
 
   if (isEveryChildChecked(nodes, node)) {
     nodes[node.refKey].checkAll = true;
+    nodes[node.refKey].check = true;
     return CHECK_STATE.CHECK;
   }
 
