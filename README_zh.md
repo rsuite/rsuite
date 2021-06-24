@@ -169,7 +169,7 @@ Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
 React Suite 基于 [MIT licensed][license] 发布。
 
 [readm-en]: https://github.com/rsuite/rsuite/blob/master/README.md
-[npm-svg]: https://badge.fury.io/js/rsuite.svg
+[npm-svg]: https://img.shields.io/npm/v/rsuite/next
 [npm-home]: https://www.npmjs.com/package/rsuite
 [travis-svg]: https://travis-ci.org/rsuite/rsuite.svg?branch=master
 [travis-home]: https://travis-ci.org/rsuite/rsuite
