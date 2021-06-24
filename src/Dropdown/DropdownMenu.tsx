@@ -58,8 +58,11 @@ const defaultProps: Partial<MenuProps> = {
  * </Dropdown>
  */
 const DropdownMenu = React.forwardRef(
-  (props: MenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>, ref) => {
-    const { onToggle, eventKey, ...rest } = props;
+  (
+    props: DropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>,
+    ref
+  ) => {
+    const { onToggle, eventKey, title, ...rest } = props;
 
     const parentMenu = useContext(MenuContext);
 
@@ -80,7 +83,7 @@ const DropdownMenu = React.forwardRef(
     // Parent menu exists. This is a submenu.
     // Should render a `menuitem` that controls this submenu.
     if (parentMenu) {
-      const { icon, open, trigger, eventKey, title, className } = props;
+      const { icon, open, trigger, className } = props;
       const itemClassName = merge(className, prefix('pull-right'));
 
       return (
