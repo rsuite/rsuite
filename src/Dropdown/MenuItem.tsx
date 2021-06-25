@@ -189,7 +189,7 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
           activate(event);
         }
       },
-      [disabled, open, submenu, openSubmenuIfExists, activate]
+      [disabled, submenu, openSubmenuIfExists, activate]
     );
 
     const handleMouseOver = useCallback(() => {

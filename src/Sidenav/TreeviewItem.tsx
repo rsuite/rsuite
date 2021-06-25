@@ -153,7 +153,7 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
       activate(event);
       onSidenavSelect?.(eventKey, event);
     },
-    [disabled, treeitemExpanded, isParentNode, activate, onSidenavSelect, eventKey]
+    [disabled, activate, onSidenavSelect, eventKey]
   );
 
   const menuitemEventHandlers: React.LiHTMLAttributes<HTMLLIElement> = {

@@ -139,7 +139,7 @@ export default function useTreeControl(): TreeControlContextProps {
 
       return nextVisibleNode;
     },
-    [nodes, isNodeExpanded, rootNodes]
+    [isNodeExpanded, rootNodes]
   );
 
   const findPreviousVisibleNode = useCallback(
@@ -242,7 +242,6 @@ export default function useTreeControl(): TreeControlContextProps {
     },
     [
       activeNode,
-      nodes,
       moveFocusToNode,
       isNodeExpanded,
       findNextVisibleNode,
