@@ -248,8 +248,6 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
           }
           menuControl.focusItemAt(0);
           break;
-        default:
-          break;
       }
     },
     [open, handleToggle, menuControl]

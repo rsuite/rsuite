@@ -330,6 +330,25 @@ describe('Dropdown', () => {
               'second-item'
             );
           });
+
+          if (key !== KEY_VALUES.DOWN) {
+            it('Closes the menu if it was open', () => {
+              const { button, menu } = renderDropdown(
+                <Dropdown>
+                  <Dropdown.Item id="first-menuitem">Item 1</Dropdown.Item>
+                  <Dropdown.Item>Item 2</Dropdown.Item>
+                  <Dropdown.Item>Item 3</Dropdown.Item>
+                </Dropdown>,
+                true
+              );
+
+              ReactTestUtils.act(() => {
+                ReactTestUtils.Simulate.keyDown(button, { key });
+              });
+
+              expect(menu.hidden, 'The menu is closed').to.be.true;
+            });
+          }
         });
       });
     });
