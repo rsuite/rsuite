@@ -284,12 +284,6 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     'aria-controls': menuId
   };
 
-  if (sidenav) {
-    delete buttonAriaAttributes['aria-haspopup'];
-    delete buttonAriaAttributes['aria-expanded'];
-    delete buttonAriaAttributes['aria-controls'];
-  }
-
   const toggleElement = (
     <DropdownToggle
       {...rest}
