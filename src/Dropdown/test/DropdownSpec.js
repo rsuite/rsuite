@@ -11,6 +11,23 @@ afterEach(() => {
   sinon.restore();
 });
 
+/**
+ * @param ui
+ * @return {{button: HTMLButtonElement, root: HTMLElement, menu: HTMLUListElement}}
+ */
+function renderDropdown(ui) {
+  const instance = getDOMNode(ui);
+
+  const button = instance.querySelector('[role="button"]');
+  const menu = instance.querySelector('[role="menu"]');
+
+  return {
+    root: instance,
+    button,
+    menu
+  };
+}
+
 describe('Dropdown', () => {
   it('Should render a button that controls a popup menu', () => {
     const instance = getDOMNode(
@@ -48,6 +65,28 @@ describe('Dropdown', () => {
     const menu = instance.querySelector('[role="menu"]');
 
     assert.isFalse(menu.hidden, 'The menu is opened');
+  });
+
+  it('Should toggle the menu on mouseEnter/mouseLeave button given trigger "hover"', () => {
+    const { root, button, menu } = renderDropdown(
+      <Dropdown trigger="hover">
+        <Dropdown.Item>Item 1</Dropdown.Item>
+        <Dropdown.Item>Item 2</Dropdown.Item>
+        <Dropdown.Item>Item 3</Dropdown.Item>
+      </Dropdown>
+    );
+
+    ReactTestUtils.act(() => {
+      button.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    });
+
+    expect(!menu.hidden, 'Menu is open').to.be.true;
+
+    ReactTestUtils.act(() => {
+      root.dispatchEvent(new MouseEvent('mouseout', { bubbles: true }));
+    });
+
+    expect(menu.hidden, 'Menu is closed').to.be.true;
   });
 
   it('Should be disabled given `disabled=true`', () => {
