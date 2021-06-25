@@ -41,9 +41,7 @@ module.exports = config => {
     logLevel: config.LOG_INFO,
     preprocessors: {
       'test/*.js': ['webpack'],
-      'src/**/*.js': ['webpack'],
-      'src/**/*.ts': ['coverage'],
-      'src/**/*.tsx': ['coverage']
+      'src/**/*.js': ['webpack', 'sourcemap']
     },
     webpack: require('./webpack.karma.js'),
     webpackMiddleware: {
