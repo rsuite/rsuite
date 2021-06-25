@@ -128,14 +128,13 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     ...rest
   } = props;
 
-  const { onOpenChange, sidenav, expanded } = useContext<SidenavContextType>(SidenavContext) || {};
+  const { onOpenChange, sidenav } = useContext<SidenavContextType>(SidenavContext) || {};
   const overlayTarget = useRef<HTMLUListElement>();
   const triggerTarget = useRef<HTMLButtonElement>();
   const menuControl = useMenuControl(overlayTarget);
 
   const open = menuControl.open;
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const collapsible = sidenav && expanded;
 
   const buttonId = useUniqueId(prefix`button-`);
   const menuId = useUniqueId(prefix`menu-`);
@@ -266,19 +265,17 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
    * Bind event of trigger,
    * not used in  in the expanded state of '<Sidenav>'
    */
-  if (!collapsible) {
-    if (isOneOf('click', trigger)) {
-      buttonEventHandlers.onClick = createChainedFunction(handleClick, buttonEventHandlers.onClick);
-    }
+  if (isOneOf('click', trigger)) {
+    buttonEventHandlers.onClick = createChainedFunction(handleClick, buttonEventHandlers.onClick);
+  }
 
-    if (isOneOf('contextMenu', trigger)) {
-      buttonEventHandlers.onContextMenu = createChainedFunction(handleClick, onContextMenu);
-    }
+  if (isOneOf('contextMenu', trigger)) {
+    buttonEventHandlers.onContextMenu = createChainedFunction(handleClick, onContextMenu);
+  }
 
-    if (isOneOf('hover', trigger)) {
-      dropdownProps.onMouseEnter = createChainedFunction(handleMouseEnter, onMouseEnter);
-      dropdownProps.onMouseLeave = createChainedFunction(handleMouseLeave, onMouseLeave);
-    }
+  if (isOneOf('hover', trigger)) {
+    dropdownProps.onMouseEnter = createChainedFunction(handleMouseEnter, onMouseEnter);
+    dropdownProps.onMouseLeave = createChainedFunction(handleMouseLeave, onMouseLeave);
   }
 
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-14
@@ -351,7 +348,6 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
       style={menuStyle}
       onSelect={handleSelect as any}
       onToggle={handleToggleChange}
-      collapsible={collapsible}
       activeKey={activeKey}
       ref={overlayTarget}
       hidden={!open}
