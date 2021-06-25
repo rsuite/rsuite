@@ -89,6 +89,28 @@ describe('Dropdown', () => {
     expect(menu.hidden, 'Menu is closed').to.be.true;
   });
 
+  it('Should toggle the menu on right-click given trigger "contextMenu"', () => {
+    const { button, menu } = renderDropdown(
+      <Dropdown trigger="contextMenu">
+        <Dropdown.Item>Item 1</Dropdown.Item>
+        <Dropdown.Item>Item 2</Dropdown.Item>
+        <Dropdown.Item>Item 3</Dropdown.Item>
+      </Dropdown>
+    );
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.contextMenu(button);
+    });
+
+    expect(!menu.hidden, 'Menu is open').to.be.true;
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.contextMenu(button);
+    });
+
+    expect(menu.hidden, 'Menu is closed').to.be.true;
+  });
+
   it('Should be disabled given `disabled=true`', () => {
     const instance = getDOMNode(
       <Dropdown disabled>
