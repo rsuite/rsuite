@@ -30,7 +30,7 @@ module.exports = (api, options) => {
           [
             'istanbul',
             {
-              exclude: ['src/utils/ajaxUpload.ts']
+              exclude: ['src/**/*Spec.js', 'test/**/*']
             }
           ]
         ]

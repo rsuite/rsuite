@@ -13,7 +13,7 @@ module.exports = config => {
   const { env } = process;
   const { M, F } = env;
 
-  let testFile = 'test/index.js';
+  let testFile = 'src/**/*Spec.js';
 
   if (M) {
     testFile = `src/${M}/test/*.js`;
@@ -40,8 +40,7 @@ module.exports = config => {
     reporters: ['mocha', 'coverage'],
     logLevel: config.LOG_INFO,
     preprocessors: {
-      'test/*.js': ['webpack'],
-      'src/**/*.js': ['webpack', 'sourcemap']
+      'src/**/*Spec.js': ['webpack']
     },
     webpack: require('./webpack.karma.js'),
     webpackMiddleware: {
