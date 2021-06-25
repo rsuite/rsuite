@@ -140,8 +140,6 @@ const Menu = React.forwardRef(
             // Handle this event in upper controlling context
             // See <Dropdown> and <MenuItem>
             break;
-          default:
-            break;
         }
 
         onKeyDown?.(e);

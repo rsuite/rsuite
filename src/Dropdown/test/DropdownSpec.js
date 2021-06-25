@@ -501,6 +501,21 @@ describe('Dropdown', () => {
           );
         });
 
+        it('When focus is in a menu and on a menuitem that does not has a submenu, do nothing', () => {
+          const { menu } = renderDropdown(
+            <Dropdown>
+              <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
+            </Dropdown>,
+            true
+          );
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowRight' });
+          });
+
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
+        });
+
         it('RTL: When focus is in a submenu of an item in a menu, closes the submenu and returns focus to the parent menuitem.', () => {
           sinon.stub(utils, 'useCustom').returns({
             rtl: true
@@ -596,6 +611,24 @@ describe('Dropdown', () => {
           expect(submenu.getAttribute('aria-activedescendant'), 'Active item').to.equal(
             'first-subitem'
           );
+        });
+
+        it('RTL: When focus is in a menu and on a menuitem that does not has a submenu, do nothing', () => {
+          sinon.stub(utils, 'useCustom').returns({
+            rtl: true
+          });
+          const { menu } = renderDropdown(
+            <Dropdown>
+              <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
+            </Dropdown>,
+            true
+          );
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowLeft' });
+          });
+
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
       });
 
