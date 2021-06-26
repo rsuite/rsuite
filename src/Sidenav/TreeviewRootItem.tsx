@@ -115,7 +115,9 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     ...rest
   } = props;
 
-  const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = useContext(SidenavContext);
+  const { openKeys = [], activeKey, onOpenChange, onSelect: onSidenavSelect } = useContext(
+    SidenavContext
+  );
   const treeControl = useContext(TreeControlContext);
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
@@ -125,6 +127,9 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
   const treeitemId = useUniqueId('treeitem-');
   const treeitemExpanded =
     treeControl.expandedNodeIds.includes(rest.id ?? treeitemId) || openKeys.includes(eventKey);
+  const treeitemSelected =
+    treeControl.selectedNodeIds.includes(rest.id ?? treeitemId) ||
+    (eventKey && activeKey === eventKey);
   const treeitemHasFocus = treeControl.activeDescendantId === treeitemId;
 
   const handleToggle = useCallback(
@@ -187,7 +192,8 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
 
   const treeitemAriaAttributes: React.HTMLAttributes<HTMLElement> = {
     role: 'treeitem',
-    'aria-level': 1
+    'aria-level': 1,
+    'aria-selected': treeitemSelected ? true : undefined // `aria-selected` should not be present on non-selected nodes
   };
 
   const { registerNode, unregisterNode } = treeControl;
@@ -254,7 +260,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
         ref={treeitemRef}
         id={treeitemId}
         aria-selected={active}
-        data-eventkey={eventKey}
+        data-event-key={eventKey}
         {...extraAttributes}
         tabIndex={-1}
         disabled={Component === SafeAnchor ? disabled : null}
@@ -297,7 +303,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
         {...rest}
         tabIndex={-1}
         {...treeitemAriaAttributes}
-        data-eventkey={eventKey}
+        data-event-key={eventKey}
       >
         <DropdownToggle
           role="button"

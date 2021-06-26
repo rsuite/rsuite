@@ -11,7 +11,7 @@ const emptyArray = [];
  * Ref: https://www.w3.org/TR/wai-aria-practices-1.1/#TreeView
  */
 export default function useTreeControl(): TreeControlContextProps {
-  const { openKeys = emptyArray, onOpenChange } = useContext(SidenavContext);
+  const { openKeys = emptyArray, onOpenChange, activeKey } = useContext(SidenavContext);
 
   const [activeItemIndex, setActiveItemIndex] = useState<number | null>(null);
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -20,6 +20,15 @@ export default function useTreeControl(): TreeControlContextProps {
     const ids: string[] = [];
     for (const node of nodes) {
       if (node.nodeValue && openKeys.includes(node.nodeValue)) {
+        ids.push(node.id);
+      }
+    }
+    return ids;
+  });
+  const [selectedNodeIds, setSelectedNodeIds] = useState<string[]>(() => {
+    const ids: string[] = [];
+    for (const node of nodes) {
+      if (node.id === activeKey) {
         ids.push(node.id);
       }
     }
@@ -37,6 +46,18 @@ export default function useTreeControl(): TreeControlContextProps {
       return ids;
     });
   }, [openKeys, nodes]);
+
+  useEffect(() => {
+    setSelectedNodeIds(() => {
+      const ids: string[] = [];
+      for (const node of nodes) {
+        if (node.id === activeKey) {
+          ids.push(node.id);
+        }
+      }
+      return ids;
+    });
+  }, [activeKey, nodes]);
 
   const expandNode = useCallback(
     (node: TreeNode) => {
@@ -259,6 +280,7 @@ export default function useTreeControl(): TreeControlContextProps {
     nodes,
     activeItemIndex,
     activeDescendantId: activeNode?.id,
+    selectedNodeIds,
     expandedNodeIds,
     registerNode,
     unregisterNode,

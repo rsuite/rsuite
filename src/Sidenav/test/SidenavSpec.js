@@ -117,6 +117,21 @@ describe('Sidenav', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
+  it('Should set `aria-selected=true` on the item indicated by `activeKey`', () => {
+    const instance = getDOMNode(
+      <Sidenav activeKey="1">
+        <Nav>
+          <Nav.Item eventKey="1" id="selected-item">
+            a
+          </Nav.Item>
+          <Nav.Item eventKey="2">b</Nav.Item>
+        </Nav>
+      </Sidenav>
+    );
+
+    expect(instance.querySelector('#selected-item').getAttribute('aria-selected')).to.equal('true');
+  });
+
   /**
    * Ref: https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-22
    */

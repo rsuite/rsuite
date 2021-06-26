@@ -90,7 +90,9 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
   const { rtl } = useCustom('DropdownMenu');
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = useContext(SidenavContext);
+  const { openKeys = [], activeKey, onOpenChange, onSelect: onSidenavSelect } = useContext(
+    SidenavContext
+  );
 
   // WAI-ARIA treeitem
   const isRootNode = !parentTreeitem;
@@ -100,11 +102,15 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
   const treeitemId = useUniqueId('treeitem-');
   const treeitemExpanded =
     treeControl.expandedNodeIds.includes(rest.id ?? treeitemId) || openKeys.includes(eventKey);
+  const treeitemSelected =
+    treeControl.selectedNodeIds.includes(rest.id ?? treeitemId) ||
+    (eventKey && activeKey === eventKey);
   const treeitemLevel = isRootNode ? 1 : parentTreeitem.level + 1;
 
   const treeitemAriaAttributes: React.HTMLAttributes<HTMLLIElement> = {
     role: 'treeitem',
     'aria-level': treeitemLevel,
+    'aria-selected': treeitemSelected ? true : undefined, // `aria-selected` should not be present on non-selected nodes
     'aria-disabled': disabled
   };
 

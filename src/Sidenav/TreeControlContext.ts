@@ -16,6 +16,11 @@ export interface TreeControlContextProps {
   nodes: TreeNode[];
   activeItemIndex: number | null;
   activeDescendantId: string | null;
+  /**
+   * `aria-selected` items. When treeview is not multi-selectable,
+   * selected items will count at most 1
+   */
+  selectedNodeIds: string[];
   expandedNodeIds: string[];
   registerNode: (id: string, parent?: string, props?: { eventKey?: string }) => void;
   unregisterNode: (id: string) => void;
@@ -30,6 +35,7 @@ const TreeControlContext = React.createContext<TreeControlContextProps>({
   nodes: [],
   activeItemIndex: null,
   activeDescendantId: null,
+  selectedNodeIds: [],
   expandedNodeIds: [],
   registerNode: noop,
   unregisterNode: noop,
