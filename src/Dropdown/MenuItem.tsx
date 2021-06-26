@@ -176,9 +176,6 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
 
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLLIElement>) => {
-        event.preventDefault();
-        event.stopPropagation();
-
         if (disabled) {
           return;
         }
