@@ -171,7 +171,7 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
   useEffect(() => {
     const treeitem = treeitemRef.current;
     if (!divider && !panel) {
-      registerNode(treeitem.id, parentTreeitem?.id, { eventKey });
+      registerNode(treeitem, parentTreeitem?.id, { eventKey });
     }
 
     return () => {

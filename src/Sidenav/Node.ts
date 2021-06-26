@@ -10,6 +10,8 @@ export class Node {
   parentNode: Node | null = null;
   childNodes: Node[] = [];
 
+  element: HTMLElement;Z
+
   appendChild(newChild: Node) {
     newChild.parentNode = this;
     this.childNodes.push(newChild);

@@ -1,8 +1,8 @@
-import React, { useContext, useCallback, useEffect } from 'react';
+import React, { useContext, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import DropdownToggle from '../Dropdown/DropdownToggle';
-import { createChainedFunction, useClassNames, placementPolyfill, PLACEMENT_8 } from '../utils';
+import { useClassNames, placementPolyfill, PLACEMENT_8 } from '../utils';
 import { SidenavContext } from './Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
@@ -123,6 +123,8 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
   // treeitem ARIA attributes and properties/states
+  const isParentNode = !!children;
+
   const treeitemRef = useEnsuredRef<HTMLLIElement>(ref);
   const treeitemId = useUniqueId('treeitem-');
   const treeitemExpanded =
@@ -131,6 +133,9 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     treeControl.selectedNodeIds.includes(rest.id ?? treeitemId) ||
     (eventKey && activeKey === eventKey);
   const treeitemHasFocus = treeControl.activeDescendantId === treeitemId;
+
+  // Only used in treeitem that has child treeitems
+  const treeitemInnerRef = useRef<HTMLElement>();
 
   const handleToggle = useCallback(
     (isOpen?: boolean) => {
@@ -143,13 +148,6 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     [onClose, onOpen, onToggle, open]
   );
 
-  const handleOpenChange = useCallback(
-    (event: React.MouseEvent) => {
-      onOpenChange?.(eventKey, event);
-    },
-    [eventKey, onOpenChange]
-  );
-
   const handleToggleChange = useCallback(
     (eventKey: any, event: React.SyntheticEvent<any>) => {
       onOpenChange?.(eventKey, event);
@@ -157,25 +155,37 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     [onOpenChange]
   );
 
-  const handleClick = useCallback(
-    (event: React.MouseEvent) => {
-      event.preventDefault();
+  const handleClickTreeitem = useCallback(
+    (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+      if (event.target !== treeitemRef.current && event.target !== treeitemInnerRef.current) {
+        return;
+      }
       if (disabled) {
         return;
       }
-      handleToggle();
+      if (isParentNode) {
+        handleToggle();
+        onOpenChange?.(eventKey, event);
+      }
+
       onSidenavSelect?.(eventKey, event);
+      onClick?.(event);
     },
-    [disabled, handleToggle, onSidenavSelect, eventKey]
+    [
+      treeitemRef,
+      disabled,
+      isParentNode,
+      handleToggle,
+      onSidenavSelect,
+      onOpenChange,
+      eventKey,
+      onClick
+    ]
   );
 
   const handleSelect = (eventKey: any, event: React.MouseEvent<HTMLElement>) => {
     onSelect?.(eventKey, event);
     handleToggle(false);
-  };
-
-  const buttonEventHandlers = {
-    onClick: createChainedFunction(handleOpenChange, handleClick, onClick)
   };
 
   const classes = merge(
@@ -202,7 +212,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     const treeitem = treeitemRef.current;
 
     if (!divider && !panel) {
-      registerNode(treeitem.id, null, { eventKey });
+      registerNode(treeitem, null, { eventKey });
     }
 
     return () => {
@@ -212,18 +222,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
 
   // Nav.Item
 
-  const handleNavItemClick = useCallback(
-    (event: React.MouseEvent<HTMLElement>) => {
-      if (!disabled) {
-        onSelect?.(eventKey, event);
-        onSidenavSelect?.(eventKey, event);
-        onClick?.(event);
-      }
-    },
-    [disabled, onSelect, eventKey, onClick, onSidenavSelect]
-  );
-
-  if (!children) {
+  if (!isParentNode) {
     const { active, ...extraAttributes } = rest as any;
 
     const classes = merge(
@@ -265,7 +264,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
         tabIndex={-1}
         disabled={Component === SafeAnchor ? disabled : null}
         className={classes}
-        onClick={handleNavItemClick}
+        onClick={handleClickTreeitem}
         style={style}
         {...treeitemAriaAttributes}
       >
@@ -303,11 +302,12 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
         {...rest}
         tabIndex={-1}
         {...treeitemAriaAttributes}
+        onClick={handleClickTreeitem}
         data-event-key={eventKey}
       >
         <DropdownToggle
+          ref={treeitemInnerRef}
           role="button"
-          {...buttonEventHandlers}
           tabIndex={-1}
           as={renderTitle ? 'span' : toggleAs}
           noCaret={noCaret}
@@ -316,6 +316,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
           icon={icon}
           placement={placement}
           inSidenav
+          onClick={handleClickTreeitem}
         >
           {title}
         </DropdownToggle>

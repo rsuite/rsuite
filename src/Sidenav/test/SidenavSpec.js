@@ -347,9 +347,26 @@ describe('Sidenav', () => {
         const parentNode = treeview.querySelector('#parent-item');
         expect(parentNode.getAttribute('aria-expanded'), 'Parent item expanded').to.equal('true');
       });
-      it(
-        'In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.'
-      );
+      it('In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.', () => {
+        const onSelectSpy = sinon.spy();
+        const treeview = renderSidenav(
+          <Sidenav onSelect={onSelectSpy}>
+            <Nav>
+              <Nav.Item id="first-item" eventKey="1">
+                1
+              </Nav.Item>
+              <Dropdown id="parent-item">
+                <Dropdown.Item id="first-child">1</Dropdown.Item>
+              </Dropdown>
+            </Nav>
+          </Sidenav>
+        );
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(treeview, { key: 'Enter' });
+        });
+
+        expect(onSelectSpy).to.have.been.calledWith('1');
+      });
     });
 
     it('Should not trigger focus management when item receives focus', () => {

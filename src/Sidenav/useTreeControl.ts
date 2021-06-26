@@ -75,14 +75,15 @@ export default function useTreeControl(): TreeControlContextProps {
     [onOpenChange]
   );
 
-  const registerNode = useCallback((id: string, parent: string = null, props?: any) => {
+  const registerNode = useCallback((element: HTMLElement, parentId: string = null, props?: any) => {
     setNodes(nodes => {
       const newNode = new Node();
-      newNode.id = id;
+      newNode.id = element.id;
+      newNode.element = element;
       newNode.nodeValue = props.eventKey ?? newNode.id;
-      newNode.parent = parent;
+      newNode.parent = parentId;
 
-      const parentNode: Node = nodes.find(node => node.id === parent) ?? (null as any);
+      const parentNode: Node = nodes.find(node => node.id === parentId) ?? (null as any);
       parentNode?.appendChild(newNode);
 
       for (const node of nodes) {
@@ -245,16 +246,18 @@ export default function useTreeControl(): TreeControlContextProps {
           break;
         // Enter: activates a node, i.e., performs its default action.
         // For parent nodes, one possible default action is to open or close the node.
-        // todo In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
+        // In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.
         case KEY_VALUES.ENTER:
+          event.preventDefault();
+          event.stopPropagation();
           if (activeNode.hasChildNodes()) {
-            event.preventDefault();
-            event.stopPropagation();
             if (isNodeExpanded(activeNode)) {
               collapseNode(activeNode);
             } else {
               expandNode(activeNode);
             }
+          } else {
+            activeNode.element.click();
           }
           break;
         default:

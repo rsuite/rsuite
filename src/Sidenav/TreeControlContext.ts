@@ -22,7 +22,7 @@ export interface TreeControlContextProps {
    */
   selectedNodeIds: string[];
   expandedNodeIds: string[];
-  registerNode: (id: string, parent?: string, props?: { eventKey?: string }) => void;
+  registerNode: (element: HTMLElement, parentId?: string, props?: { eventKey?: string }) => void;
   unregisterNode: (id: string) => void;
   handleReceiveFocus: React.FocusEventHandler;
   handleLoseFocus: React.FocusEventHandler;
