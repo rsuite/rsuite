@@ -14,8 +14,8 @@ const instance = (
         <Dropdown.Item>Item 2-2</Dropdown.Item>
         <Dropdown.Item>Item 2-3</Dropdown.Item>
       </Dropdown.Menu>
-      <Dropdown.Menu title="Left Item 3" pullLeft>
-        <Dropdown.Menu title="Item 3-1" pullLeft>
+      <Dropdown.Menu title="Left Item 3">
+        <Dropdown.Menu title="Item 3-1">
           <Dropdown.Item>Item 3-1-1</Dropdown.Item>
           <Dropdown.Item active>Item 3-1-2</Dropdown.Item>
           <Dropdown.Item>Item 3-1-3</Dropdown.Item>
