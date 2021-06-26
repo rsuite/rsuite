@@ -190,17 +190,19 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     'aria-level': 1
   };
 
+  const { registerNode, unregisterNode } = treeControl;
+
   useEffect(() => {
     const treeitem = treeitemRef.current;
 
     if (!divider && !panel) {
-      treeControl.registerNode(treeitem.id, null, { eventKey });
+      registerNode(treeitem.id, null, { eventKey });
     }
 
     return () => {
-      treeControl.unregisterNode(treeitem.id);
+      unregisterNode(treeitem.id);
     };
-  }, [treeControl.registerNode, treeControl.unregisterNode, eventKey, divider, panel]);
+  }, [treeitemRef, registerNode, unregisterNode, eventKey, divider, panel]);
 
   // Nav.Item
 

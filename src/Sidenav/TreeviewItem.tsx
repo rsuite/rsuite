@@ -160,23 +160,18 @@ const TreeviewItem: RsRefForwardingComponent<'li', TreeviewItemProps> = React.fo
     onClick: createChainedFunction(handleClick, onClick)
   };
 
+  const { registerNode, unregisterNode } = treeControl;
+
   useEffect(() => {
     const treeitem = treeitemRef.current;
     if (!divider && !panel) {
-      treeControl.registerNode(treeitem.id, parentTreeitem?.id, { eventKey });
+      registerNode(treeitem.id, parentTreeitem?.id, { eventKey });
     }
 
     return () => {
-      treeControl.unregisterNode(treeitem.id);
+      unregisterNode(treeitem.id);
     };
-  }, [
-    treeControl.registerNode,
-    treeControl.unregisterNode,
-    parentTreeitem?.id,
-    eventKey,
-    divider,
-    panel
-  ]);
+  }, [treeitemRef, registerNode, unregisterNode, parentTreeitem?.id, eventKey, divider, panel]);
 
   if (divider) {
     return (
