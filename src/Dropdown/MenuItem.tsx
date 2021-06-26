@@ -213,16 +213,18 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
       menuitemEventHandlers.onMouseOut = createChainedFunction(handleMouseOut, onMouseOut);
     }
 
+    const { registerItem, unregisterItem } = menuControl ?? {};
+
     useEffect(() => {
       // Don't register separator items and panels
       // They aren't keyboard navigable
       if (!divider && !panel) {
-        menuControl?.registerItem(menuitemRef.current, { disabled });
+        registerItem?.(menuitemRef.current, { disabled });
       }
       return () => {
-        menuControl?.unregisterItem(menuitemId);
+        unregisterItem?.(menuitemId);
       };
-    }, [menuitemId, disabled, divider, panel]);
+    }, [registerItem, unregisterItem, menuitemRef, menuitemId, disabled, divider, panel]);
 
     if (divider) {
       return (

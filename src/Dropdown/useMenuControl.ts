@@ -18,7 +18,8 @@ export default function useMenuControl(
   // Whether menu is open/visible
   const [open, setOpen] = useState(false);
 
-  const [items, setItems] = useState<ItemRegistryEntry[]>([]);
+  // Menu's menuitems
+  const itemsRef = useRef<ItemRegistryEntry[]>([]);
   const [activeItemIndex, setActiveItemIndex] = useState<number | null>(null);
 
   // When grabbing focus, keep track of previous activeElement
@@ -27,13 +28,13 @@ export default function useMenuControl(
 
   const registerItem = useCallback(
     (element: HTMLLIElement, props?: Partial<DropdownMenuItemProps>) => {
-      setItems(items => [...items, { element, props }]);
+      itemsRef.current = [...itemsRef.current, { element, props }];
     },
     []
   );
 
   const unregisterItem = useCallback((id: string) => {
-    setItems(items => items.filter(item => item.element.id !== id));
+    itemsRef.current = itemsRef.current.filter(item => item.element.id !== id);
   }, []);
 
   // Focus the menu itself
@@ -48,29 +49,28 @@ export default function useMenuControl(
 
   const focusItem = useCallback(
     (item: ItemRegistryEntry) => {
-      const itemIndex = items.indexOf(item);
+      const itemIndex = itemsRef.current.indexOf(item);
       if (itemIndex !== -1) {
         setActiveItemIndex(itemIndex);
         focusSelf();
       }
     },
-    [items, focusSelf]
+    [focusSelf]
   );
 
   type LookUpDirection = 1 | -1;
 
-  const lookupNextActiveItemIndex = useCallback(
-    (start: number, direction: LookUpDirection): number | null => {
-      for (let i = start; i > -1 && i < items.length; i += direction) {
-        if (!items[i].props?.disabled) {
-          return i;
-        }
+  const lookupNextActiveItemIndex = useCallback((start: number, direction: LookUpDirection):
+    | number
+    | null => {
+    for (let i = start; i > -1 && i < itemsRef.current.length; i += direction) {
+      if (!itemsRef.current[i].props?.disabled) {
+        return i;
       }
+    }
 
-      return null;
-    },
-    [items]
-  );
+    return null;
+  }, []);
 
   const focusItemAt = useCallback(
     (index: FocusItemAtIndex | null) => {
@@ -82,15 +82,15 @@ export default function useMenuControl(
         if (index === 0) {
           activeItemIndex = lookupNextActiveItemIndex(0, 1);
         } else if (index === -1) {
-          activeItemIndex = lookupNextActiveItemIndex(items.length - 1, -1);
+          activeItemIndex = lookupNextActiveItemIndex(itemsRef.current.length - 1, -1);
         }
 
         if (!isNil(activeItemIndex)) {
-          focusItem(items[activeItemIndex]);
+          focusItem(itemsRef.current[activeItemIndex]);
         }
       }
     },
-    [items, focusItem, focusSelf, lookupNextActiveItemIndex]
+    [focusItem, focusSelf, lookupNextActiveItemIndex]
   );
 
   const moveItemFocus = useCallback(
@@ -101,19 +101,19 @@ export default function useMenuControl(
       // focus should "enter" the menu by delta steps
       if (activeItemIndex === null) {
         if (delta > 0) {
-          nextActiveItemIndex = Math.min(items.length - 1, delta - 1);
+          nextActiveItemIndex = Math.min(itemsRef.current.length - 1, delta - 1);
         } else if (delta < 0) {
-          nextActiveItemIndex = Math.max(0, items.length + delta);
+          nextActiveItemIndex = Math.max(0, itemsRef.current.length + delta);
         }
       } else {
         nextActiveItemIndex = lookupNextActiveItemIndex(activeItemIndex + delta, delta);
       }
 
       if (!isNil(nextActiveItemIndex)) {
-        focusItem(items[nextActiveItemIndex]);
+        focusItem(itemsRef.current[nextActiveItemIndex]);
       }
     },
-    [items, activeItemIndex, lookupNextActiveItemIndex, focusItem]
+    [activeItemIndex, lookupNextActiveItemIndex, focusItem]
   );
 
   const openMenu = useCallback(() => {
@@ -132,7 +132,7 @@ export default function useMenuControl(
   return (
     existingControl ?? {
       open,
-      items,
+      items: itemsRef.current,
       activeItemIndex,
       registerItem,
       unregisterItem,
