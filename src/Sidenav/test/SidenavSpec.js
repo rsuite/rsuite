@@ -121,13 +121,15 @@ describe('Sidenav', () => {
    * Ref: https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-22
    */
   describe('Keyboard interaction', () => {
-    function renderSidenav(ui) {
+    function renderSidenav(ui, focusAfterMount = true) {
       const element = getDOMNode(ui);
       const tree = element.querySelector('[role="tree"]');
 
-      ReactTestUtils.act(() => {
-        ReactTestUtils.Simulate.focus(tree);
-      });
+      if (focusAfterMount) {
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.focus(tree);
+        });
+      }
       return tree;
     }
 
@@ -333,6 +335,25 @@ describe('Sidenav', () => {
       it(
         'In single-select trees where selection does not follow focus (see note below), the default action is typically to select the focused node.'
       );
+    });
+
+    it('Should not trigger focus management when item receives focus', () => {
+      const treeview = renderSidenav(
+        <Sidenav>
+          <Nav>
+            <Nav.Item id="first-item">1</Nav.Item>
+            <Dropdown id="parent-item">
+              <Dropdown.Item id="first-child">1</Dropdown.Item>
+            </Dropdown>
+          </Nav>
+        </Sidenav>,
+        false
+      );
+      ReactTestUtils.act(() => {
+        ReactTestUtils.Simulate.focus(treeview.querySelector('#first-item'));
+      });
+
+      expect(treeview.getAttribute('aria-activedescendant'), 'Active item').to.be.null;
     });
   });
 });
