@@ -139,7 +139,7 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
             break;
         }
       },
-      [submenuControl.closeMenu]
+      [submenuControl]
     );
 
     const { rtl } = useCustom('DropdownMenu');
@@ -171,7 +171,7 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
         onSelect?.(eventKey, event);
         menu?.onSelect?.(eventKey, event);
       },
-      [eventKey, onSelect, menu?.onSelect]
+      [eventKey, onSelect, menu]
     );
 
     const handleClick = useCallback(
@@ -196,13 +196,13 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
       if (submenu) {
         submenuControl.openMenu();
       }
-    }, [submenu, submenuControl.openMenu]);
+    }, [submenu, submenuControl]);
 
     const handleMouseOut = useCallback(() => {
       if (submenu) {
         submenuControl.closeMenu();
       }
-    }, [submenu, submenuControl.closeMenu]);
+    }, [submenu, submenuControl]);
 
     const menuitemEventHandlers: React.LiHTMLAttributes<HTMLLIElement> = {
       onClick: createChainedFunction(handleClick, onClick)

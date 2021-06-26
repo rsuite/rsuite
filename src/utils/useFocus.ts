@@ -13,7 +13,7 @@ export default function useFocus<E extends HTMLElement>(elementRef: React.Mutabl
         elementRef.current.focus();
       }
     });
-  }, []);
+  }, [elementRef]);
 
   // Return focus to previous active element
   const release = useCallback(() => {

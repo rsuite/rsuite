@@ -152,15 +152,7 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
         menuControl.closeMenu();
       }
     },
-    [
-      onClose,
-      onOpen,
-      onToggle,
-      open,
-      menuControl.focusItemAt,
-      menuControl.openMenu,
-      menuControl.closeMenu
-    ]
+    [onClose, onOpen, onToggle, open, menuControl]
   );
 
   const handleOpenChange = useCallback(
