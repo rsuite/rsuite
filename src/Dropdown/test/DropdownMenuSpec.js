@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
-import Sidenav from '../../Sidenav';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../MenuItem';
 
@@ -31,21 +30,6 @@ describe('DropdownMenu', () => {
     );
 
     assert.ok(instance.querySelector('.rs-dropdown-item-submenu'));
-  });
-
-  it('Should be expanded when set openKeys in submenu', () => {
-    const instance = getDOMNode(
-      <Sidenav>
-        <DropdownMenu openKeys={['2']}>
-          <DropdownMenu eventKey="2">
-            <DropdownMenuItem>2.1</DropdownMenuItem>
-            <DropdownMenuItem>2.2</DropdownMenuItem>
-          </DropdownMenu>
-        </DropdownMenu>
-      </Sidenav>
-    );
-
-    assert.ok(instance.querySelector('.rs-dropdown-item-submenu.rs-dropdown-item-expand'));
   });
 
   it('Should call onSelect callback with correct `eventKey`', done => {

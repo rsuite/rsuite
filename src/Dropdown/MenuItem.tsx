@@ -91,7 +91,7 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
       tabIndex,
       icon,
       trigger,
-      expanded: expandedProp,
+      expanded,
       eventKey,
       onClick,
       onMouseOver,
@@ -111,9 +111,8 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
     const menuControl = useContext(MenuControlContext);
     const submenuControl = useMenuControl(submenuRef);
 
-    const { sidenav, expanded } = useContext(SidenavContext) || {};
+    const { sidenav, expanded: sidenavExpanded } = useContext(SidenavContext) || {};
     const open = submenuControl.open;
-    // const [open, ] = useControlled(openProp, menu?.openKeys?.includes(eventKey) ?? false);
 
     const active =
       activeProp ||
@@ -140,7 +139,7 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
             break;
         }
       },
-      [submenuControl.closeMenu]
+      [submenuControl]
     );
 
     const { rtl } = useCustom('DropdownMenu');
@@ -149,7 +148,7 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
       className,
       withClassPrefix({
         [`pull-${rtl ? 'left' : 'right'}`]: submenu,
-        [expandedProp || expanded ? 'expand' : 'collapse']: submenu && sidenav,
+        [expanded || sidenavExpanded ? 'expand' : 'collapse']: submenu && sidenav,
         'with-icon': icon,
         open,
         submenu,
@@ -172,14 +171,11 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
         onSelect?.(eventKey, event);
         menu?.onSelect?.(eventKey, event);
       },
-      [eventKey, onSelect, menu?.onSelect]
+      [eventKey, onSelect, menu]
     );
 
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLLIElement>) => {
-        event.preventDefault();
-        event.stopPropagation();
-
         if (disabled) {
           return;
         }
@@ -190,40 +186,42 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
           activate(event);
         }
       },
-      [disabled, open, submenu, openSubmenuIfExists, activate]
+      [disabled, submenu, openSubmenuIfExists, activate]
     );
 
     const handleMouseOver = useCallback(() => {
       if (submenu) {
         submenuControl.openMenu();
       }
-    }, [submenu, submenuControl.openMenu]);
+    }, [submenu, submenuControl]);
 
     const handleMouseOut = useCallback(() => {
       if (submenu) {
         submenuControl.closeMenu();
       }
-    }, [submenu, submenuControl.closeMenu]);
+    }, [submenu, submenuControl]);
 
     const menuitemEventHandlers: React.LiHTMLAttributes<HTMLLIElement> = {
       onClick: createChainedFunction(handleClick, onClick)
     };
 
-    if (isOneOf('hover', trigger) && submenu && !expanded) {
+    if (isOneOf('hover', trigger) && submenu && !sidenavExpanded) {
       menuitemEventHandlers.onMouseOver = createChainedFunction(handleMouseOver, onMouseOver);
       menuitemEventHandlers.onMouseOut = createChainedFunction(handleMouseOut, onMouseOut);
     }
+
+    const { registerItem, unregisterItem } = menuControl ?? {};
 
     useEffect(() => {
       // Don't register separator items and panels
       // They aren't keyboard navigable
       if (!divider && !panel) {
-        menuControl?.registerItem(menuitemRef.current, { disabled });
+        registerItem?.(menuitemRef.current, { disabled });
       }
       return () => {
-        menuControl?.unregisterItem(menuitemId);
+        unregisterItem?.(menuitemId);
       };
-    }, [menuitemId, disabled, divider, panel]);
+    }, [registerItem, unregisterItem, menuitemRef, menuitemId, disabled, divider, panel]);
 
     if (divider) {
       return (
@@ -275,13 +273,16 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
     function renderSubmenu() {
       if (!submenu) return null;
 
+      const submenuAriaAttributes: React.HTMLAttributes<HTMLElement> = {};
+
       return (
         <MenuControlContext.Provider value={submenuControl}>
           {React.cloneElement(submenu, {
             ref: submenuRef,
             'aria-labelledby': menuitemId,
             hidden: !open,
-            onKeyDown: handleSubmenuKeydown
+            onKeyDown: handleSubmenuKeydown,
+            ...submenuAriaAttributes
           })}
         </MenuControlContext.Provider>
       );
@@ -295,20 +296,12 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
       'aria-disabled': disabled
     };
 
-    if (submenu) {
-      menuitemAriaAttributes['aria-haspopup'] = 'menu';
-    }
-
-    // Too aggressive for now
-    // if (active) {
-    //   ariaAttributes.role = 'menuitemcheckbox';
-    //   ariaAttributes['aria-checked'] = true;
-    // }
-
     // If submenu exists, render a menuitem that controls the submenu
     // wrapped by a <li role="none presentation">
     if (submenu) {
       const Icon = rtl ? AngleLeft : AngleRight;
+
+      menuitemAriaAttributes['aria-haspopup'] = 'menu';
 
       return (
         <Component
@@ -355,7 +348,7 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
   }
 );
 
-MenuItem.displayName = 'DropdownMenuItem';
+MenuItem.displayName = 'MenuItem';
 MenuItem.defaultProps = defaultProps;
 MenuItem.propTypes = {
   as: PropTypes.elementType,

@@ -11,6 +11,23 @@ afterEach(() => {
   sinon.restore();
 });
 
+/**
+ * @param ui
+ * @return {{button: HTMLButtonElement, root: HTMLElement, menu: HTMLUListElement}}
+ */
+function renderDropdown(ui) {
+  const instance = getDOMNode(ui);
+
+  const button = instance.querySelector('[role="button"]');
+  const menu = instance.querySelector('[role="menu"]');
+
+  return {
+    root: instance,
+    button,
+    menu
+  };
+}
+
 describe('Dropdown', () => {
   it('Should render a button that controls a popup menu', () => {
     const instance = getDOMNode(
@@ -48,6 +65,50 @@ describe('Dropdown', () => {
     const menu = instance.querySelector('[role="menu"]');
 
     assert.isFalse(menu.hidden, 'The menu is opened');
+  });
+
+  it('Should toggle the menu on mouseEnter/mouseLeave button given trigger "hover"', () => {
+    const { root, button, menu } = renderDropdown(
+      <Dropdown trigger="hover">
+        <Dropdown.Item>Item 1</Dropdown.Item>
+        <Dropdown.Item>Item 2</Dropdown.Item>
+        <Dropdown.Item>Item 3</Dropdown.Item>
+      </Dropdown>
+    );
+
+    ReactTestUtils.act(() => {
+      button.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+    });
+
+    expect(!menu.hidden, 'Menu is open').to.be.true;
+
+    ReactTestUtils.act(() => {
+      root.dispatchEvent(new MouseEvent('mouseout', { bubbles: true }));
+    });
+
+    expect(menu.hidden, 'Menu is closed').to.be.true;
+  });
+
+  it('Should toggle the menu on right-click given trigger "contextMenu"', () => {
+    const { button, menu } = renderDropdown(
+      <Dropdown trigger="contextMenu">
+        <Dropdown.Item>Item 1</Dropdown.Item>
+        <Dropdown.Item>Item 2</Dropdown.Item>
+        <Dropdown.Item>Item 3</Dropdown.Item>
+      </Dropdown>
+    );
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.contextMenu(button);
+    });
+
+    expect(!menu.hidden, 'Menu is open').to.be.true;
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.contextMenu(button);
+    });
+
+    expect(menu.hidden, 'Menu is closed').to.be.true;
   });
 
   it('Should be disabled given `disabled=true`', () => {
@@ -291,6 +352,25 @@ describe('Dropdown', () => {
               'second-item'
             );
           });
+
+          if (key !== KEY_VALUES.DOWN) {
+            it('Closes the menu if it was open', () => {
+              const { button, menu } = renderDropdown(
+                <Dropdown>
+                  <Dropdown.Item id="first-menuitem">Item 1</Dropdown.Item>
+                  <Dropdown.Item>Item 2</Dropdown.Item>
+                  <Dropdown.Item>Item 3</Dropdown.Item>
+                </Dropdown>,
+                true
+              );
+
+              ReactTestUtils.act(() => {
+                ReactTestUtils.Simulate.keyDown(button, { key });
+              });
+
+              expect(menu.hidden, 'The menu is closed').to.be.true;
+            });
+          }
         });
       });
     });
@@ -501,6 +581,21 @@ describe('Dropdown', () => {
           );
         });
 
+        it('When focus is in a menu and on a menuitem that does not has a submenu, do nothing', () => {
+          const { menu } = renderDropdown(
+            <Dropdown>
+              <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
+            </Dropdown>,
+            true
+          );
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowRight' });
+          });
+
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
+        });
+
         it('RTL: When focus is in a submenu of an item in a menu, closes the submenu and returns focus to the parent menuitem.', () => {
           sinon.stub(utils, 'useCustom').returns({
             rtl: true
@@ -596,6 +691,24 @@ describe('Dropdown', () => {
           expect(submenu.getAttribute('aria-activedescendant'), 'Active item').to.equal(
             'first-subitem'
           );
+        });
+
+        it('RTL: When focus is in a menu and on a menuitem that does not has a submenu, do nothing', () => {
+          sinon.stub(utils, 'useCustom').returns({
+            rtl: true
+          });
+          const { menu } = renderDropdown(
+            <Dropdown>
+              <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
+            </Dropdown>,
+            true
+          );
+
+          ReactTestUtils.act(() => {
+            ReactTestUtils.Simulate.keyDown(menu, { key: 'ArrowLeft' });
+          });
+
+          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
       });
 

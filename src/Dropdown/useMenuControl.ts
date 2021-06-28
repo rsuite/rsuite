@@ -44,7 +44,7 @@ export default function useMenuControl(
         menuRef.current.focus();
       }
     });
-  }, []);
+  }, [menuRef]);
 
   const focusItem = useCallback(
     (item: ItemRegistryEntry) => {
@@ -54,7 +54,7 @@ export default function useMenuControl(
         focusSelf();
       }
     },
-    [items]
+    [items, focusSelf]
   );
 
   type LookUpDirection = 1 | -1;

@@ -2,6 +2,7 @@ import React from 'react';
 import { innerText, getDOMNode } from '@test/testUtils';
 
 import Nav from '../Nav';
+import Dropdown from '../../Dropdown';
 
 describe('Nav', () => {
   it('Should render a nav', () => {
@@ -67,5 +68,18 @@ describe('Nav', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Nav classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should work with Dropdown', () => {
+    const instance = getDOMNode(
+      <Nav>
+        <Nav.Item>Nav item</Nav.Item>
+        <Dropdown title="Dropdown">
+          <Dropdown.Item>Dropdown item</Dropdown.Item>
+        </Dropdown>
+      </Nav>
+    );
+
+    expect(instance.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
   });
 });

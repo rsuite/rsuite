@@ -1,12 +1,14 @@
 import React, { useCallback, useContext } from 'react';
+import omit from 'lodash/omit';
 import MenuContext from './MenuContext';
 import Menu, { MenuProps } from './Menu';
 import MenuItem from './MenuItem';
-import isNil from 'lodash/isNil';
-import { shallowEqual, useClassNames } from '../utils';
+import { useClassNames } from '../utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
+import { SidenavContext } from '../Sidenav/Sidenav';
+import TreeviewItem from '../Sidenav/TreeviewItem';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
@@ -17,7 +19,6 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
 
   /**
    *  Only used for setting the default expand state when it's a submenu.
-   *  Used in conjunction with `openKeys` from parents
    */
   eventKey?: T;
 
@@ -25,7 +26,6 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
   icon?: React.ReactElement<IconProps>;
 
   open?: boolean;
-  openKeys?: T[];
   collapsible?: boolean;
   expanded?: boolean;
   active?: boolean;
@@ -36,12 +36,11 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
 }
 
 const defaultProps: Partial<MenuProps> = {
-  openKeys: [],
   classPrefix: 'dropdown-menu'
 };
 
 /**
- * <Dropdown.Menu>
+ * The <Dropdown.Menu> API
  *
  * @description
  * Note the difference between this component and <Menu> component:
@@ -59,8 +58,11 @@ const defaultProps: Partial<MenuProps> = {
  * </Dropdown>
  */
 const DropdownMenu = React.forwardRef(
-  (props: MenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>, ref) => {
-    const { openKeys, onToggle, eventKey, ...rest } = props;
+  (
+    props: DropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>,
+    ref
+  ) => {
+    const { onToggle, eventKey, title, ...rest } = props;
 
     const parentMenu = useContext(MenuContext);
 
@@ -72,18 +74,22 @@ const DropdownMenu = React.forwardRef(
     );
     const { merge, prefix } = useClassNames(props.classPrefix);
 
+    const sidenav = useContext(SidenavContext);
+
+    if (sidenav?.expanded) {
+      return <TreeviewItem {...(omit(props, 'classPrefix') as any)} />;
+    }
+
     // Parent menu exists. This is a submenu.
     // Should render a `menuitem` that controls this submenu.
     if (parentMenu) {
-      const { icon, open, trigger, eventKey, title, className } = props;
-      const expanded = !isNil(eventKey) && openKeys.some(key => shallowEqual(key, eventKey));
+      const { icon, open, trigger, className } = props;
       const itemClassName = merge(className, prefix('pull-right'));
 
       return (
         <MenuItem
           icon={icon}
           trigger={trigger}
-          expanded={expanded}
           className={itemClassName}
           submenu={<Menu ref={ref} open={open} onToggle={handleToggleSubmenu} {...rest} />}
           eventKey={eventKey}
@@ -111,7 +117,6 @@ DropdownMenu.propTypes = {
   open: PropTypes.bool,
   trigger: PropTypes.oneOf(['click', 'hover']),
   eventKey: PropTypes.any,
-  openKeys: PropTypes.array,
   expanded: PropTypes.bool,
   collapsible: PropTypes.bool,
   onSelect: PropTypes.func,

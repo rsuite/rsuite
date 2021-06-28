@@ -15,6 +15,9 @@
 }
 
 .rs-sidenav-nav {
+  list-style: none;
+  padding: 0;
+
   > .rs-nav-item,
   > .rs-dropdown .rs-dropdown-toggle,
   .rs-dropdown-item {
@@ -74,6 +77,12 @@
       height: @sidenav-level1-item-font-size;
     }
   }
+
+  > .rs-dropdown-focus .rs-dropdown-toggle {
+    .focus-ring();
+
+    z-index: 2;
+  }
 }
 
 // Expanded styles
@@ -91,9 +100,26 @@
     flex: 1 1 auto;
     flex-direction: column;
 
+    &-item-focus {
+      .focus-ring(inset);
+
+      background: none;
+      z-index: 2;
+
+      &.rs-dropdown-item-submenu {
+        box-shadow: none;
+
+        > .rs-dropdown-item-toggle {
+          .focus-ring(inset);
+
+          z-index: 2;
+        }
+      }
+    }
+
     // Set  the ripple effect of items.
     &-item:not(.rs-dropdown-item-submenu),
-    &-item-submenu > .rs-dropdown-menu-toggle {
+    &-item-submenu > .rs-dropdown-item-toggle {
       .with-ripple();
     }
 
@@ -104,12 +130,12 @@
 
     // Setting icon to dropdown-caret.
     .rs-dropdown-toggle-caret::before,
-    .rs-dropdown-menu-toggle > .rs-icon::before {
+    .rs-dropdown-item-toggle > .rs-dropdown-item-toggle-icon::before {
       display: none;
     }
 
     .rs-dropdown-toggle-caret,
-    .rs-dropdown-menu-toggle > .rs-icon {
+    .rs-dropdown-item-toggle > .rs-dropdown-item-toggle-icon {
       transition: transform 0.3s linear;
     }
 
@@ -118,7 +144,9 @@
       transform: rotate(180deg);
     }
 
-    .rs-dropdown-item.rs-dropdown-item-expand > .rs-dropdown-menu-toggle > .rs-icon {
+    .rs-dropdown-item.rs-dropdown-item-expand
+      > .rs-dropdown-item-toggle
+      > .rs-dropdown-item-toggle-icon {
       transform: rotate(270deg);
     }
 
@@ -174,12 +202,12 @@
   // @warn Here we can only use absolute positioning because of the limitations of using <Dropdown/> component.
 
   .rs-dropdown-item-submenu {
-    > .rs-dropdown-menu-toggle {
+    > .rs-dropdown-item-toggle {
       padding-left: @sidenav-level2-retract;
       padding-right: (@sidenav-padding-horizontal + @sidenav-dropdown-toggle-caret-width);
       position: relative;
 
-      > .rs-dropdown-menu-toggle-icon {
+      > .rs-dropdown-item-toggle-icon {
         position: absolute;
         right: @sidenav-padding-horizontal;
         top: @sidenav-children-padding-vertical;
@@ -232,6 +260,10 @@
     height: @sidenav-item-height;
     // supplement padding
     padding-left: @sidenav-default-width;
+
+    &:focus {
+      .focus-ring();
+    }
   }
 
   // The same to the dropdown item
@@ -241,6 +273,10 @@
 
     padding: @dropdown-item-padding-y @padding-right @dropdown-item-padding-y
       @dropdown-item-padding-x;
+  }
+
+  .rs-dropdown-item-submenu {
+    padding: 0;
   }
 
   .rs-dropdown-toggle-caret {
@@ -296,7 +332,8 @@
 .rs-sidenav-default.rs-sidenav-collapse-in,
 .rs-sidenav-default.rs-sidenav-collapsing {
   .rs-dropdown-item:not(.rs-dropdown-item-submenu),
-  .rs-dropdown-item > .rs-dropdown-menu-toggle {
+  .rs-dropdown-item > .rs-dropdown-menu-toggle,
+  .rs-dropdown-item > .rs-dropdown-item-toggle {
     color: var(--rs-navbar-default-text);
 
     &:hover,
@@ -348,7 +385,8 @@
 .rs-sidenav-inverse.rs-sidenav-collapse-in,
 .rs-sidenav-inverse.rs-sidenav-collapsing {
   .rs-dropdown-item:not(.rs-dropdown-item-submenu),
-  .rs-dropdown-item > .rs-dropdown-menu-toggle {
+  .rs-dropdown-item > .rs-dropdown-menu-toggle,
+  .rs-dropdown-item > .rs-dropdown-item-toggle {
     color: var(--rs-navbar-inverse-text);
 
     &:hover,
@@ -381,7 +419,8 @@
 .rs-sidenav-subtle.rs-sidenav-collapse-in,
 .rs-sidenav-subtle.rs-sidenav-collapsing {
   .rs-dropdown-item:not(.rs-dropdown-item-submenu),
-  .rs-dropdown-item > .rs-dropdown-menu-toggle {
+  .rs-dropdown-item > .rs-dropdown-menu-toggle,
+  .rs-dropdown-item > .rs-dropdown-item-toggle {
     color: var(--rs-navbar-subtle-text);
 
     &:hover,
