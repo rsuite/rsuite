@@ -115,7 +115,7 @@
 | renderExtraFooter     | () => ReactNode                                                                            | 自定义页脚内容                       |
 | renderMenu            | (children: object[], menu:ReactNode, parentNode?: object, layer?: number) => ReactNode     | 自定义渲染菜单列表                   |
 | renderMenuItem        | (label:ReactNode, item: DataItemType ) => ReactNode                                        | 自定义选项                           |
-| renderValue           | (value:string[], selectedItems: DataItemType[], selectedElement: ReactNode ) => ReactNodee | 自定义被选中的选项                   |
+| renderValue           | (value:string[], selectedItems: DataItemType[], selectedElement: ReactNode ) => ReactNode | 自定义被选中的选项                   |
 | searchable            | boolean `(true)`                                                                           | 可以搜索                             |
 | size                  | enum: 'lg', 'md', 'sm', 'xs' `('md')`                                                      | 设置组件尺寸                         |
 | toggleAs              | ElementType `('a')`                                                                        | 为组件自定义元素类型                 |
