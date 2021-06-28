@@ -3,7 +3,7 @@ import { DatePicker } from 'rsuite';
 const App = () => {
   return (
     <div className="container">
-      <DatePicker value={new Date()}></DatePicker>
+      <DatePicker defaultValue={new Date()}></DatePicker>
     </div>
   );
 };
