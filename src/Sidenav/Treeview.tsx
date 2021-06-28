@@ -17,7 +17,7 @@ const Treeview: RsRefForwardingComponent<
         treeControl.handleReceiveFocus(event);
       }
     },
-    [treeControl]
+    [treeRef, treeControl]
   );
 
   return (
