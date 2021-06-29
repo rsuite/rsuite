@@ -1,4 +1,4 @@
-# Reason example
+# Snowpack example
 
 ## How to use
 
