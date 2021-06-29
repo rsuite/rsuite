@@ -21,6 +21,7 @@ import MenuControlContext from './MenuControlContext';
 import useMenuControl from './useMenuControl';
 import deprecatePropType from '../utils/deprecatePropType';
 import DropdownItem from './DropdownItem';
+import { NavbarContext } from '../Navbar/Navbar';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface MenuRootProps<T = any>
@@ -129,6 +130,8 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
   } = props;
 
   const { onOpenChange, sidenav } = useContext<SidenavContextType>(SidenavContext) || {};
+  const navbar = useContext(NavbarContext);
+
   const overlayTarget = useRef<HTMLUListElement>();
   const triggerTarget = useRef<HTMLButtonElement>();
   const menuControl = useMenuControl(overlayTarget);
@@ -276,6 +279,10 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     'aria-controls': menuId
   };
 
+  if (navbar) {
+    buttonAriaAttributes.role = 'menuitem';
+  }
+
   const toggleElement = (
     <DropdownToggle
       {...rest}
@@ -354,6 +361,10 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
   );
 
   const rootAriaAttributes: React.HTMLAttributes<HTMLElement> = {};
+
+  if (navbar) {
+    rootAriaAttributes.role = 'none presentation';
+  }
 
   return (
     <DropdownContext.Provider

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
@@ -66,7 +66,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const sidenav = React.useContext(SidenavContext);
+    const sidenav = useContext(SidenavContext);
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active, disabled }));

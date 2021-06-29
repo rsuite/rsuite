@@ -36,7 +36,7 @@ export interface NavProps<T = any>
 const defaultProps: Partial<NavProps> = {
   classPrefix: 'nav',
   appearance: 'default',
-  as: 'nav'
+  as: 'div'
 };
 
 interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
@@ -62,6 +62,8 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
 
   const { sidenav = false, expanded = false, activeKey = activeKeyProp, onSelect = onSelectProp } =
     React.useContext(SidenavContext) || {};
+
+  // Whether inside a <Navbar>
   const navbar = useContext(NavbarContext);
   const { withClassPrefix, merge, rootPrefix, prefix } = useClassNames(classPrefix);
 
@@ -92,12 +94,18 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
     const tooltip = typeof itemTooltip === 'undefined' ? sidenav && !expanded : itemTooltip;
 
     if (displayName === 'NavItem') {
-      return {
+      const navItemProps = {
         ...rest,
         onSelect,
         tooltip,
         active: typeof activeKey === 'undefined' ? active : shallowEqual(activeKey, eventKey)
       };
+
+      if (navbar) {
+        navItemProps.role = 'menuitem';
+      }
+
+      return navItemProps;
     }
 
     if (displayName === 'Dropdown') {
@@ -113,8 +121,14 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
     return null;
   });
 
+  const ariaAttributes: React.HTMLAttributes<HTMLUListElement> = {};
+
+  if (navbar) {
+    ariaAttributes.role = 'menubar';
+  }
+
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Component {...rest} ref={ref} className={classes} {...ariaAttributes}>
       {items}
       {hasWaterline && <div className={prefix('bar')} />}
     </Component>
