@@ -1,4 +1,4 @@
-# Reason example
+# Vite example
 
 ## How to use
 
