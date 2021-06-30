@@ -53,9 +53,6 @@ export interface DropdownProps<T = any>
    */
   open?: boolean;
 
-  /** Whether Dropdown menu shows header  */
-  showHeader?: boolean;
-
   /** Custom title */
   renderTitle?: (children?: React.ReactNode) => React.ReactNode;
 
@@ -126,7 +123,6 @@ Dropdown.propTypes = {
   as: PropTypes.elementType,
   toggleAs: PropTypes.elementType,
   noCaret: PropTypes.bool,
-  showHeader: PropTypes.bool,
   style: PropTypes.object,
   onClose: PropTypes.func,
   onOpen: PropTypes.func,

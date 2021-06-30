@@ -66,9 +66,6 @@ export interface MenuRootProps<T = any>
    */
   open?: boolean;
 
-  /** Whether Dropdown menu shows header  */
-  showHeader?: boolean;
-
   /** Custom title */
   renderTitle?: (children?: React.ReactNode) => React.ReactNode;
 
@@ -117,7 +114,6 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     toggleAs,
     noCaret,
     style,
-    showHeader,
     onClick,
     onMouseEnter,
     onMouseLeave,
@@ -129,7 +125,8 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     ...rest
   } = props;
 
-  const { onOpenChange, sidenav } = useContext<SidenavContextType>(SidenavContext) || {};
+  const { onOpenChange, sidenav, expanded: sidenavExpanded } =
+    useContext<SidenavContextType>(SidenavContext) || {};
   const navbar = useContext(NavbarContext);
 
   const overlayTarget = useRef<HTMLUListElement>();
@@ -334,6 +331,9 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     'aria-labelledby': buttonId
   };
 
+  // Show header when inside a collapsed <Sidenav>
+  const showHeader = sidenav && !sidenavExpanded;
+
   const menuElement = (
     <DropdownMenu
       style={menuStyle}
@@ -412,7 +412,6 @@ MenuRoot.propTypes = {
   as: PropTypes.elementType,
   toggleAs: PropTypes.elementType,
   noCaret: PropTypes.bool,
-  showHeader: PropTypes.bool,
   style: PropTypes.object,
   onClose: PropTypes.func,
   onOpen: PropTypes.func,

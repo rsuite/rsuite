@@ -352,7 +352,6 @@ TreeviewRootItem.propTypes = {
   as: PropTypes.elementType,
   toggleAs: PropTypes.elementType,
   noCaret: PropTypes.bool,
-  showHeader: PropTypes.bool,
   style: PropTypes.object,
   onClose: PropTypes.func,
   onOpen: PropTypes.func,

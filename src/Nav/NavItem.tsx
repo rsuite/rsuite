@@ -1,12 +1,15 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
+import isNil from 'lodash/isNil';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
-import { useClassNames, appendTooltip } from '../utils';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
+import { useClassNames, appendTooltip, shallowEqual } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import TreeviewRootItem from '../Sidenav/TreeviewRootItem';
+import NavContext from './NavContext';
+import { NavbarContext } from '../Navbar/Navbar';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -29,9 +32,6 @@ export interface NavItemProps<T = string>
   /** The value of the current option */
   eventKey?: T;
 
-  /** Whether NavItem have a tooltip  */
-  tooltip?: boolean | TypeAttributes.Placement;
-
   /** Providing a `href` will render an `<a>` element */
   href?: string;
 
@@ -49,7 +49,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<any>) => {
     const {
       as: Component,
-      active,
+      active: activeProp,
       disabled,
       eventKey,
       className,
@@ -58,7 +58,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       children,
       icon,
       tabIndex,
-      tooltip,
       divider,
       panel,
       onClick,
@@ -66,7 +65,12 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       ...rest
     } = props;
 
+    const { activeKey } = useContext(NavContext);
+
+    const active = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
+
     const sidenav = useContext(SidenavContext);
+    const navbar = useContext(NavbarContext);
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active, disabled }));
@@ -107,6 +111,10 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
 
     const ariaAttributes: React.HTMLAttributes<HTMLElement> = {};
 
+    if (navbar) {
+      ariaAttributes.role = 'menuitem';
+    }
+
     const item = (
       <Component
         aria-selected={active}
@@ -125,12 +133,15 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       </Component>
     );
 
+    // Show tooltip when inside a collapse <Sidenav>
+    const tooltip = sidenav && !sidenav.expanded;
+
     return tooltip
       ? appendTooltip({
           ref,
           children: item,
           message: children,
-          placement: typeof tooltip === 'boolean' ? 'right' : tooltip
+          placement: 'right'
         })
       : item;
   }
@@ -152,8 +163,7 @@ NavItem.propTypes = {
   onSelect: PropTypes.func,
   children: PropTypes.node,
   eventKey: PropTypes.any,
-  tabIndex: PropTypes.number,
-  tooltip: PropTypes.bool
+  tabIndex: PropTypes.number
 };
 
 export default NavItem;

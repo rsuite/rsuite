@@ -2,11 +2,12 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import NavItem from './NavItem';
 import Dropdown from '../Dropdown';
-import { ReactChildren, useClassNames, shallowEqual } from '../utils';
+import { ReactChildren, useClassNames } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import Treeview from '../Sidenav/Treeview';
+import NavContext from './NavContext';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -60,8 +61,7 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
     ...rest
   } = props;
 
-  const { sidenav = false, expanded = false, activeKey = activeKeyProp, onSelect = onSelectProp } =
-    React.useContext(SidenavContext) || {};
+  const sidenav = useContext(SidenavContext);
 
   // Whether inside a <Navbar>
   const navbar = useContext(NavbarContext);
@@ -82,38 +82,23 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
     })
   );
 
-  if (sidenav && expanded) {
+  if (sidenav?.expanded) {
     return <Treeview className={classes}>{children}</Treeview>;
   }
 
-  const hasWaterline = appearance !== 'default';
+  const { activeKey: activeKeyFromSidenav, onSelect: onSelectFromSidenav = onSelectProp } =
+    sidenav || {};
+
+  const activeKey = activeKeyProp ?? activeKeyFromSidenav;
 
   const items = ReactChildren.mapCloneElement(children, item => {
-    const { eventKey, active, tooltip: itemTooltip, ...rest } = item.props;
     const displayName = item?.type?.displayName;
-    const tooltip = typeof itemTooltip === 'undefined' ? sidenav && !expanded : itemTooltip;
-
-    if (displayName === 'NavItem') {
-      const navItemProps = {
-        ...rest,
-        onSelect,
-        tooltip,
-        active: typeof activeKey === 'undefined' ? active : shallowEqual(activeKey, eventKey)
-      };
-
-      if (navbar) {
-        navItemProps.role = 'menuitem';
-      }
-
-      return navItemProps;
-    }
 
     if (displayName === 'Dropdown') {
       return {
-        ...rest,
-        onSelect,
+        ...item.props,
+        onSelect: onSelectFromSidenav,
         activeKey,
-        showHeader: tooltip,
         as: 'div'
       };
     }
@@ -127,11 +112,20 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
     ariaAttributes.role = 'menubar';
   }
 
+  const hasWaterline = appearance !== 'default';
+
   return (
-    <Component {...rest} ref={ref} className={classes} {...ariaAttributes}>
-      {items}
-      {hasWaterline && <div className={prefix('bar')} />}
-    </Component>
+    <NavContext.Provider
+      value={{
+        activeKey,
+        onSelect: onSelectProp ?? onSelectFromSidenav
+      }}
+    >
+      <Component {...rest} ref={ref} className={classes} {...ariaAttributes}>
+        {items}
+        {hasWaterline && <div className={prefix('bar')} />}
+      </Component>
+    </NavContext.Provider>
   );
 }) as unknown) as NavComponent;
 

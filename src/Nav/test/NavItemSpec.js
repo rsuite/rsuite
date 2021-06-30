@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, createTestContainer, innerText } from '@test/testUtils';
 
 import NavItem from '../NavItem';
+import Sidenav from '../../Sidenav';
 
 describe('NavItem', () => {
   it('Should render a <a>', () => {
@@ -85,14 +86,14 @@ describe('NavItem', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should render a tooltip', () => {
+  it('Should render a tooltip when used inside a collapsed <Sidenav>', () => {
     const itemRef = React.createRef();
 
     ReactTestUtils.act(() => {
       ReactDOM.render(
-        <NavItem ref={itemRef} tooltip>
-          item
-        </NavItem>,
+        <Sidenav expanded={false}>
+          <NavItem ref={itemRef}>item</NavItem>
+        </Sidenav>,
         createTestContainer()
       );
     });
