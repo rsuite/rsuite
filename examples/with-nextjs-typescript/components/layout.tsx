@@ -40,7 +40,7 @@ const Layout: React.FC<LayoutProps> = ({ activeKey, children, ...props }) => {
           <Nav.Item
             key={item.key}
             eventKey={item.key}
-            {...((item?.icon && { icon: <Icon icon={item?.icon} /> }) as any)}
+            icon={item?.icon ? <Icon icon={item?.icon} /> : null}
           >
             <Link href={item.path}>
               <a>{item.name}</a>

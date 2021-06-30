@@ -6,7 +6,7 @@ Download the example:
 
 ```
 curl https://codeload.github.com/rsuite/rsuite/tar.gz/master | tar -xz --strip=2 rsuite-master/examples/with-nextjs-typescript
-cd with-nextjs-typescrip
+cd with-nextjs-typescript
 ```
 
 Install it and run:

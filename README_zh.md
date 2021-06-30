@@ -89,8 +89,8 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [在 Flow 中使用][demo-flow-app]
 - [在 TypeScript 中使用][demo-typescript-app]
 - [在 Next.js 中使用][demo-nextjs]
+- [在 Next.js 和 Typescript 中使用 ][demo-nextjs-typescript]
 - [在 UmiJS 中使用][demo-umi-app]
-- [在 Next.js-Typescript 中使用][demo-nextjs-typescript]
 
 ## 更新日志
 

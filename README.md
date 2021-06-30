@@ -98,8 +98,8 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Use in Flow][demo-flow-app]
 - [Use in TypeScript][demo-typescript-app]
 - [Use in Next.js][demo-nextjs]
+- [Use in Next.js and Typescript][demo-nextjs-typescript]
 - [Use in UmiJS][demo-umi-app]
-- [Use in Next.js-Typescript][demo-nextjs-typescript]
 
 ## Changelog
 

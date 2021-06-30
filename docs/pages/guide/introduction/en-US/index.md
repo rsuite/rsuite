@@ -50,8 +50,8 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 - [Use in Flow][demo-flow-app]
 - [Use in TypeScript][demo-typescript-app]
 - [Use in Next.js][demo-nextjs]
+- [Use in Next.js and Typescript][demo-nextjs-typescript]
 - [Use in UmiJS][demo-umi-app]
-- [Use in Next.js-Typescript][demo-nextjs-typescript]
 
 ## Changelog
 

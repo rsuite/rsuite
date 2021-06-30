@@ -14,6 +14,7 @@
     "rsuite": "^4.10.2"
   },
   "devDependencies": {
+    "@types/next": "^9.0.0",
     "@types/react": "17.0.11",
     "@zeit/next-less": "^1.0.1",
     "less": "^4.1.1",
