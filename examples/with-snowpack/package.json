@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "with-snowpack",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "snowpack dev",
+    "build": "snowpack build"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rsuite": "^4.10.2"
+  },
+  "devDependencies": {
+    "@snowpack/plugin-react-refresh": "^2.5.0",
+    "less": "^4.1.1",
+    "snowpack": "^3.6.2",
+    "snowpack-plugin-less": "^1.0.7"
+  }
+}

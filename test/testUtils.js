@@ -29,9 +29,6 @@ export function renderIntoDocument(children) {
   return ReactTestUtils.renderIntoDocument(children);
 }
 
-/**
- * @return {Element}
- */
 export function getInstance(children, waitForDidMount = true) {
   // isReactComponent is only defined if children is of React.Component class
   // so we can test against this to verify this is a functional component
@@ -66,7 +63,7 @@ export function getInstance(children, waitForDidMount = true) {
 }
 
 /**
- * @return {Element}
+ * @return {HTMLElement}
  */
 export function getDOMNode(children, waitForDidMount = true) {
   if (isDOMElement(children)) {
