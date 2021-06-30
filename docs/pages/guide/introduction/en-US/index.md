@@ -51,6 +51,7 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 - [Use in TypeScript][demo-typescript-app]
 - [Use in Next.js][demo-nextjs]
 - [Use in UmiJS][demo-umi-app]
+- [Use in Snowpack][demo-snowpack]
 - [Use in Vite][demo-vite]
 
 ## Changelog
@@ -160,4 +161,5 @@ RSUITE is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
 [babel-preset-env]: https://babeljs.io/docs/en/babel-preset-env
 [rsuite-stars]: https://img.shields.io/github/stars/rsuite/rsuite?style=social
+[demo-snowpack]: https://github.com/rsuite/rsuite/tree/master/examples/with-snowpack
 [demo-vite]: https://github.com/rsuite/rsuite/tree/master/examples/with-vite

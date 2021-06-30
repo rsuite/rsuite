@@ -90,6 +90,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [在 TypeScript 中使用][demo-typescript-app]
 - [在 Next.js 中使用][demo-nextjs]
 - [在 UmiJS 中使用][demo-umi-app]
+- [在 Snowpack 中使用][demo-snowpack]
 - [在 Vite 中使用][demo-vite]
 
 ## 更新日志
@@ -208,4 +209,5 @@ React Suite 基于 [MIT licensed][license] 发布。
 [demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
 [demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
 [demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
+[demo-snowpack]: https://github.com/rsuite/rsuite/tree/master/examples/with-snowpack
 [demo-vite]: https://github.com/rsuite/rsuite/tree/master/examples/with-vite

@@ -99,6 +99,7 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Use in TypeScript][demo-typescript-app]
 - [Use in Next.js][demo-nextjs]
 - [Use in UmiJS][demo-umi-app]
+- [Use in Snowpack][demo-snowpack]
 - [Use in Vite][demo-vite]
 
 ## Changelog
@@ -210,4 +211,5 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
 [demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
 [demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
+[demo-snowpack]: https://github.com/rsuite/rsuite/tree/master/examples/with-snowpack
 [demo-vite]: https://github.com/rsuite/rsuite/tree/master/examples/with-vite
