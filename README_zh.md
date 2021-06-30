@@ -85,7 +85,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [在 TypeScript 中使用][demo-typescript-app]
 - [在 Next.js 中使用][demo-nextjs]
 - [在 UmiJS 中使用][demo-umi-app]
-- [使用 Vite 打包][demo-vite]
+- [在 Vite 中使用][demo-vite]
 
 ## 更新日志
 
