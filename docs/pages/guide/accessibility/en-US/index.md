@@ -39,6 +39,8 @@ There are many functions that need to interact with users in web applications, w
 - The <kbd>Tab</kbd> key can be used to switch the focus between [Button][button],[Input][input] and other form components.
 - When components such as [Modal][modal], [Popover][popover] and [Tooltip][tooltip] are in focus, the <kbd>Enter</kbd> key opens the pop-up window, and the <kbd>ESC</kbd> key closes the pop-up window.
 - Use the <kbd>↓</kbd> <kbd>↑</kbd> <kbd>→</kbd> <kbd>←</kbd> key to switch the focus on the component with option operation.
+- Use the <kbd>→</kbd> <kbd>←</kbd> key to expand and collapse the nodes of [TreePicker](tree-picker) and [CheckTreePicker](check-tree-picker).
+- When pickers is in the open state, press any character key, the search box will be focused.
 
 ## Accessibility of non-semantic controls
 
@@ -72,7 +74,7 @@ Use the `aria-*` attribute in the form to make the form input components descrip
 - The popup of the component has a `listbox` role.
 - When an `id` is set for a component, it will automatically generate an `id` for the popup, the value is `[id]-listbox`, and it will also set `aria-controls=[id]-listbox` and popup The id of the window is associated.
 
-[form.group]: /components/form#无障碍设计
+[form.group]: /components/form#accessibility
 [slider]: /components/slider
 [tree]: /components/tree
 [input-picker]: /components/input-picker
@@ -81,4 +83,6 @@ Use the `aria-*` attribute in the form to make the form input components descrip
 [button]: /components/button
 [popover]: /components/popover
 [tooltip]: /components/tooltip
+[tree-picker]: /zh/components/tree-picker
+[check-tree-picker]: /zh/components/check-tree-picker
 [wai-aria]: https://www.w3.org/TR/wai-aria/
