@@ -51,7 +51,7 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 - [Use in TypeScript][demo-typescript-app]
 - [Use in Next.js][demo-nextjs]
 - [Use in UmiJS][demo-umi-app]
-- [Use Snowpack build][demo-snowpack]
+- [Use in Snowpack][demo-snowpack]
 
 ## Changelog
 

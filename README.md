@@ -92,7 +92,7 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Use in TypeScript][demo-typescript-app]
 - [Use in Next.js][demo-nextjs]
 - [Use in UmiJS][demo-umi-app]
-- [Use Snowpack build][demo-snowpack]
+- [Use in Snowpack][demo-snowpack]
 
 ## Changelog
 
