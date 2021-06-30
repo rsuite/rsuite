@@ -122,6 +122,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     const triggerRef = useRef<OverlayTriggerInstance>();
     const targetRef = useRef<HTMLButtonElement>();
     const overlayRef = useRef<HTMLDivElement>();
+    const searchInputRef = useRef<HTMLInputElement>();
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue || []);
 
@@ -222,6 +223,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       triggerRef,
       targetRef,
       overlayRef,
+      searchInputRef,
       active,
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
@@ -365,6 +367,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
               placeholder={locale?.searchPlaceholder}
               onChange={handleSearch}
               value={searchKeyword}
+              inputRef={searchInputRef}
             />
           )}
           {renderMenu ? renderMenu(menu) : menu}

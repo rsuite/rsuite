@@ -6,7 +6,7 @@ import { parseISO } from '../../utils/dateUtils';
 
 describe('DateRangePicker - Panel', () => {
   it('Should render a div with "rs-calendar" class', () => {
-    const instance = getDOMNode(<Panel onChangeCalendarDate={() => {}} />);
+    const instance = getDOMNode(<Panel onChangeCalendarDate={() => 1} />);
 
     assert.equal(instance.nodeName, 'DIV');
     assert.ok(instance.className.match(/\brs-calendar\b/));
@@ -17,7 +17,7 @@ describe('DateRangePicker - Panel', () => {
       <Panel
         calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
-        onChangeCalendarDate={() => {}}
+        onChangeCalendarDate={() => 1}
         format="yyyy-MM"
       />
     );

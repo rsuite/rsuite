@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
-import { List, AutoSizer, ListInstance } from '../Picker/VirtualizedList';
+import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/VirtualizedList';
 import TreeNode from './TreeNode';
 import { PickerLocale } from '../locales';
 import {
@@ -10,7 +10,7 @@ import {
   useCustom,
   useControlled,
   TREE_NODE_DROP_POSITION,
-  KEY_CODE,
+  KEY_VALUES,
   mergeRefs,
   shallowEqual
 } from '../utils';
@@ -111,12 +111,7 @@ const defaultProps: Partial<TreePickerProps> = {
   searchable: true,
   cleanable: true,
   menuAutoWidth: true,
-  placement: 'bottomStart',
-  locale: {
-    placeholder: 'Select',
-    searchPlaceholder: 'Search',
-    noResultsText: 'No results found'
-  }
+  placement: 'bottomStart'
 };
 
 const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, ref) => {
@@ -180,6 +175,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const targetRef = useRef<HTMLButtonElement>();
   const listRef = useRef<ListInstance>();
   const overlayRef = useRef<HTMLDivElement>();
+  const searchInputRef = useRef<HTMLInputElement>();
   const treeViewRef = useRef<HTMLDivElement>();
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
 
@@ -533,7 +529,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
   const handleFocusItem = useCallback(
-    (type: number) => {
+    (key: string) => {
       const focusableItems = getFocusableItems(filteredData, {
         disabledItemValues,
         valueKey,
@@ -551,11 +547,11 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           setFocusItemValue(nextFocusItemValue);
         }
       };
-      if (type === KEY_CODE.DOWN) {
+      if (key === KEY_VALUES.DOWN) {
         focusNextItem(focusProps);
         return;
       }
-      if (type === KEY_CODE.UP) {
+      if (key === KEY_VALUES.UP) {
         focusPreviousItem(focusProps);
       }
     },
@@ -601,7 +597,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       childrenKey,
       onExpand: handleExpand,
       onFocusItem: () => {
-        handleFocusItem(KEY_CODE.DOWN);
+        handleFocusItem(KEY_VALUES.DOWN);
       }
     });
   }, [
@@ -635,13 +631,14 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     triggerRef,
     targetRef,
     overlayRef,
+    searchInputRef,
     active,
     onExit: handleClean,
     onClose: handleClose,
     onMenuKeyDown: event => {
       onMenuKeyDown(event, {
-        down: () => handleFocusItem(KEY_CODE.DOWN),
-        up: () => handleFocusItem(KEY_CODE.UP),
+        down: () => handleFocusItem(KEY_VALUES.DOWN),
+        up: () => handleFocusItem(KEY_VALUES.UP),
         left: rtl ? handleRightArrow : handleLeftArrow,
         right: rtl ? handleLeftArrow : handleRightArrow,
         enter: selectActiveItem,
@@ -658,8 +655,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       }
 
       onMenuKeyDown(event, {
-        down: () => handleFocusItem(KEY_CODE.DOWN),
-        up: () => handleFocusItem(KEY_CODE.UP),
+        down: () => handleFocusItem(KEY_VALUES.DOWN),
+        up: () => handleFocusItem(KEY_VALUES.UP),
         left: rtl ? handleRightArrow : handleLeftArrow,
         right: rtl ? handleLeftArrow : handleRightArrow,
         enter: selectActiveItem
@@ -714,7 +711,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     );
   };
 
-  const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }) => {
+  const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }: ListRowProps) => {
     const node = nodes[index];
     const { layer, showNode } = node;
 
@@ -820,6 +817,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
             placeholder={locale.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeywordState}
+            inputRef={searchInputRef}
           />
         ) : null}
         {renderMenu ? renderMenu(renderTree()) : renderTree()}

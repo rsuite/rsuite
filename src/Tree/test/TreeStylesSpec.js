@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import Tree from '../index';
 import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
 
-import '../styles/index';
-
 const data = [
   {
     label: 'Master',

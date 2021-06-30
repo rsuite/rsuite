@@ -62,7 +62,12 @@ export interface MultiCascaderProps<T = ValueType>
   inline?: boolean;
 
   /** Custom render menu */
-  renderMenu?: (items: ItemDataType[], menu: React.ReactNode, parentNode?: any) => React.ReactNode;
+  renderMenu?: (
+    items: ItemDataType[],
+    menu: React.ReactNode,
+    parentNode?: any,
+    layer?: number
+  ) => React.ReactNode;
 
   /** Custom render menu items */
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
@@ -78,6 +83,14 @@ export interface MultiCascaderProps<T = ValueType>
   onSelect?: (
     node: ItemDataType,
     cascadePaths: ItemDataType[],
+    event: React.SyntheticEvent
+  ) => void;
+
+  /** Called after the checkbox state changes */
+  onCheck?: (
+    value: ValueType,
+    node: ItemDataType,
+    checked: boolean,
     event: React.SyntheticEvent
   ) => void;
 
@@ -150,6 +163,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       onChange,
       onOpen,
       onClose,
+      onCheck,
       ...rest
     } = props;
 
@@ -175,6 +189,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     const triggerRef = useRef<OverlayTriggerInstance>();
     const overlayRef = useRef<HTMLDivElement>();
     const targetRef = useRef<HTMLDivElement>();
+    const searchInputRef = useRef<HTMLInputElement>();
 
     usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
@@ -282,8 +297,9 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
         setValue(nextValue);
         onChange?.(nextValue, event);
+        onCheck?.(nextValue, node, checked, event);
       },
-      [cascade, onChange, setValue, splitValue, value, valueKey]
+      [cascade, onChange, onCheck, setValue, splitValue, value, valueKey]
     );
 
     const handleClean = useCallback(
@@ -319,6 +335,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       triggerRef,
       targetRef,
       overlayRef,
+      searchInputRef,
       active,
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
@@ -375,7 +392,11 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       for (let i = 0; i < a.length; i++) {
         labelElements.push(a[i]);
         if (b[i]) {
-          labelElements.push(<strong key={i}>{b[i]}</strong>);
+          labelElements.push(
+            <span key={i} className={prefix('cascader-search-match')}>
+              {b[i]}
+            </span>
+          );
         }
       }
 
@@ -461,6 +482,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
               placeholder={locale?.searchPlaceholder}
               onChange={handleSearch}
               value={searchKeyword}
+              inputRef={searchInputRef}
             />
           )}
 
@@ -583,7 +605,8 @@ MultiCascader.propTypes = {
   renderMenuItem: PropTypes.func,
   renderMenu: PropTypes.func,
   onSearch: PropTypes.func,
-  onSelect: PropTypes.func
+  onSelect: PropTypes.func,
+  onCheck: PropTypes.func
 };
 
 export default MultiCascader;

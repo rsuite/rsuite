@@ -6,28 +6,24 @@
 @import '@{rootPath}src/styles/index';
 
 @sidebar-wrapper-bg: #f4f5f7;
-@component-overview-content-name-color: @B500;
-@code-view-wrapper-bg: @body-bg;
+@code-view-wrapper-bg: var(--rs-bg-card);
 @code-view-wrapper-border-color: #f1f1f1;
 @code-view-wrapper-hr-color: @code-view-wrapper-border-color;
 @doc-highlight-bg: #f5f5f5;
-@code-view-blockquote-color: @H500;
-@show-fake-browser-bg: @B050;
-@show-fake-browser-content-bg: @B000;
-@toolbar-btn-subtle-color: @B600;
+@code-view-blockquote-color: var(--rs-primary-500);
 
 #loaderInverseWrapper {
-  background: @B900;
+  background-color: var(--rs-gray-900);
 }
 
 #preventOverflowContainer {
   box-shadow: #999 1px 1px 5px inset;
 }
 
-.top-level-nav .@{ns}btn-default {
+.top-level-nav .rs-btn {
   &:hover,
   &:focus {
-    background: @B800;
+    background-color: var(--rs-gray-800);
   }
 }
 

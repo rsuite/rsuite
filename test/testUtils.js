@@ -14,7 +14,11 @@ const DARK_PRIMARY_COLOR = '#34c3ff';
 export const getDefaultPalette = () => getPalette(DEFAULT_PRIMARY_COLOR);
 export const getDarkPalette = () => getPalette(DARK_PRIMARY_COLOR);
 
-// Check whether it is a DOM object?
+/**
+ * Check whether it is a DOM object?
+ * @param node
+ * @return {boolean}
+ */
 function isDOMElement(node) {
   return (
     node && typeof node === 'object' && node.nodeType === 1 && typeof node.nodeName === 'string'
@@ -25,23 +29,43 @@ export function renderIntoDocument(children) {
   return ReactTestUtils.renderIntoDocument(children);
 }
 
-export function getInstance(children) {
+export function getInstance(children, waitForDidMount = true) {
   // isReactComponent is only defined if children is of React.Component class
   // so we can test against this to verify this is a functional component
   if (!(children.type.prototype && children.type.prototype.isReactComponent)) {
     const instanceRef = React.createRef();
-    /**
-     * https://stackoverflow.com/questions/36682241/testing-functional-components-with-renderintodocument
-     */
-    ReactTestUtils.renderIntoDocument(React.cloneElement(children, { ref: instanceRef }));
 
+    if (waitForDidMount) {
+      // Use act() to make sure componentDidMount/useEffect is done
+      ReactTestUtils.act(() => {
+        /**
+         * https://stackoverflow.com/questions/36682241/testing-functional-components-with-renderintodocument
+         */
+        ReactTestUtils.renderIntoDocument(React.cloneElement(children, { ref: instanceRef }));
+      });
+    } else {
+      ReactTestUtils.renderIntoDocument(React.cloneElement(children, { ref: instanceRef }));
+    }
     return instanceRef.current;
   }
 
-  return ReactTestUtils.renderIntoDocument(children);
+  let instance;
+
+  if (waitForDidMount) {
+    ReactTestUtils.act(() => {
+      instance = ReactTestUtils.renderIntoDocument(children);
+    });
+  } else {
+    instance = ReactTestUtils.renderIntoDocument(children);
+  }
+
+  return instance;
 }
 
-export function getDOMNode(children) {
+/**
+ * @return {HTMLElement}
+ */
+export function getDOMNode(children, waitForDidMount = true) {
   if (isDOMElement(children)) {
     return children;
   }
@@ -54,21 +78,27 @@ export function getDOMNode(children) {
     return findDOMNode(children);
   }
 
-  if (isDOMElement(getInstance(children))) {
-    return getInstance(children);
+  const instance = getInstance(children, waitForDidMount);
+
+  if (isDOMElement(instance)) {
+    return instance;
   }
 
-  if (getInstance(children) && isDOMElement(getInstance(children).root)) {
-    return getInstance(children).root;
+  if (instance && isDOMElement(instance.root)) {
+    return instance.root;
   }
 
-  if (getInstance(children) && isDOMElement(getInstance(children).child)) {
-    return getInstance(children).child;
+  if (instance && isDOMElement(instance.child)) {
+    return instance.child;
   }
 
-  return findDOMNode(getInstance(children));
+  return findDOMNode(instance);
 }
 
+/**
+ * @param {HTMLElement} node
+ * @return {String}
+ */
 export function innerText(node) {
   if (window.navigator.userAgent.toLowerCase().indexOf('firefox') !== -1) {
     return node.textContent;
@@ -76,6 +106,9 @@ export function innerText(node) {
   return node.innerText;
 }
 
+/**
+ * @return {HTMLDivElement}
+ */
 export function createTestContainer() {
   const container = document.createElement('div');
   document.body.appendChild(container);

@@ -4,7 +4,7 @@ import DateRangePicker from '../index';
 import { createTestContainer, getInstance } from '@test/testUtils';
 import { getWidth } from 'dom-lib';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('DateRangePicker styles', () => {
   it('Should render the correct styles', call => {
@@ -20,6 +20,6 @@ describe('DateRangePicker styles', () => {
     const instance = getInstance(<DateRangePicker block defaultOpen />);
 
     assert.ok(instance.root.className.includes('rs-picker-block'));
-    assert.ok(getWidth(instance.overlay) === 510);
+    assert.equal(getWidth(instance.overlay), 492);
   });
 });

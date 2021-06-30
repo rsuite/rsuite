@@ -5,11 +5,9 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
 import IconClockO from '@rsuite/icons/legacy/ClockO';
-
 import { Calendar, CalendarState } from '../Calendar';
 import Toolbar, { RangeType } from './Toolbar';
 import { DatePickerLocale } from '../locales';
-
 import {
   composeFunctions,
   createChainedFunction,
@@ -184,7 +182,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       ...rest
     } = props;
 
-    const { locale, formatDate } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
+    const { locale, formatDate, parseDate } = useCustom<DatePickerLocale>(
+      'DatePicker',
+      overrideLocale
+    );
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
 
     // Format the value according to the time zone.
@@ -416,12 +417,13 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
         // isMatch('01/11/2020', 'MM/dd/yyyy') ==> true
         // isMatch('2020-11-01', 'MM/dd/yyyy') ==> false
-        if (!DateUtils.isMatch(value, formatStr)) {
+        if (!DateUtils.isMatch(value, formatStr, { locale: locale.dateLocale })) {
           setInputState('Error');
+
           return;
         }
 
-        let date = new Date(value);
+        let date = parseDate(value, formatStr);
 
         // If only the time is included in the characters, it will default to today.
         if (DateUtils.shouldOnlyTime(formatStr)) {
@@ -440,7 +442,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
         handleSelect(date, event, false);
       },
-      [disabledDate, formatStr, handleSelect]
+      [formatStr, locale, parseDate, disabledDate, handleSelect]
     );
 
     /**
@@ -492,6 +494,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [props, timeZone]
     );
 
+    const inSameMonth = useCallback((date: Date) => DateUtils.isSameMonth(date, pageDate), [
+      pageDate
+    ]);
+
     const calendar = (
       <Calendar
         {...calendarProps}
@@ -503,6 +509,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         format={formatStr}
         timeZone={timeZone}
         isoWeek={isoWeek}
+        inSameMonth={inSameMonth}
         calendarState={calendarState}
         pageDate={pageDate}
         onMoveForward={handleMoveForward}

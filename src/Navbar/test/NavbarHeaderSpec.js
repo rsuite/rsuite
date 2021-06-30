@@ -2,7 +2,15 @@ import React from 'react';
 import NavbarHeader from '../NavbarHeader';
 import { innerText, getDOMNode } from '@test/testUtils';
 
-describe('NavbarHeader', () => {
+describe('NavbarHeader (deprecated)', () => {
+  beforeEach(() => {
+    sinon.stub(console, 'warn').callsFake(() => null);
+  });
+
+  afterEach(() => {
+    console.warn.restore();
+  });
+
   it('Should render a header', () => {
     let title = 'Test';
     let instance = getDOMNode(<NavbarHeader>{title}</NavbarHeader>);
@@ -25,5 +33,10 @@ describe('NavbarHeader', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<NavbarHeader classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should warn deprecation message', () => {
+    getDOMNode(<NavbarHeader />);
+    assert.ok(/deprecated/i.test(console.warn.firstCall.args[0]));
   });
 });

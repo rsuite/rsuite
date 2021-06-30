@@ -58,19 +58,22 @@ export interface ModalContextProps {
 
   /** Pass the latest style to body. */
   getBodyStyles?: () => React.CSSProperties;
+
+  /** Whether this Modal is a Drawer */
+  isDrawer: boolean;
 }
 
 export const ModalContext = React.createContext<ModalContextProps>(null);
 
 interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
-  Body?: typeof ModalBody;
-  Header?: typeof ModalHeader;
-  Title?: typeof ModalTitle;
-  Footer?: typeof ModalFooter;
-  Dialog?: typeof ModalDialog;
+  Body: typeof ModalBody;
+  Header: typeof ModalHeader;
+  Title: typeof ModalTitle;
+  Footer: typeof ModalFooter;
+  Dialog: typeof ModalDialog;
 }
 
-const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
+const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
   const {
     className,
     children,
@@ -109,12 +112,13 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     prefix
   });
 
-  const modalContextValue = useMemo(
+  const modalContextValue = useMemo<ModalContextProps>(
     () => ({
       onModalClose: onClose,
-      getBodyStyles: () => bodyStyles
+      getBodyStyles: () => bodyStyles,
+      isDrawer: drawer
     }),
-    [onClose, bodyStyles]
+    [onClose, bodyStyles, drawer]
   );
 
   const [shake, setShake] = useState(false);
@@ -200,7 +204,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
       </BaseModal>
     </ModalContext.Provider>
   );
-});
+}) as unknown) as ModalComponent;
 
 Modal.Body = ModalBody;
 Modal.Header = ModalHeader;

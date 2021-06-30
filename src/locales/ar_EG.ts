@@ -1,3 +1,5 @@
+import arSA from 'date-fns/locale/ar-SA';
+
 const Calendar = {
   sunday: 'ح',
   monday: 'ن',
@@ -13,7 +15,8 @@ const Calendar = {
   minutes: 'دقائق',
   seconds: 'ثواني',
   formattedMonthPattern: 'MMM, yyyy',
-  formattedDayPattern: 'MMM dd, yyyy'
+  formattedDayPattern: 'MMM dd, yyyy',
+  dateLocale: arSA
 };
 
 export default {

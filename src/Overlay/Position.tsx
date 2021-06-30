@@ -6,12 +6,14 @@ import React, {
   useCallback,
   useImperativeHandle
 } from 'react';
+import bindElementResize from 'element-resize-event';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import helper from '../DOMHelper';
 import positionUtils, { PositionType } from './positionUtils';
 import { getDOMNode } from '../utils';
 import { TypeAttributes } from '../@types/common';
+import { useUpdateEffect } from '../utils';
 
 export interface PositionChildProps {
   className: string;
@@ -40,7 +42,6 @@ const usePosition = (
 ): [PositionType, (placementChanged?: any) => void] => {
   const { placement, preventOverflow, containerPadding, container, triggerTarget } = props;
   const containerRef = useRef<Element>();
-  const containerScrollListenerRef = useRef<{ off: () => void }>();
   const lastTargetRef = useRef<Element>();
   const defaultPosition = {
     positionLeft: 0,
@@ -60,7 +61,12 @@ const usePosition = (
   );
 
   const updatePosition = useCallback(
-    (placementChanged = true) => {
+    /**
+     * @param placementChanged  Whether the placement has changed
+     * @param forceUpdateDOM Whether to update the DOM directly
+     * @returns void
+     */
+    (placementChanged = true, forceUpdateDOM?: boolean) => {
       if (!triggerTarget?.current) {
         return;
       }
@@ -70,9 +76,7 @@ const usePosition = (
         throw new Error('`target` should return an HTMLElement');
       }
 
-      /**
-       * If the target and placement do not change, the position is not updated.
-       */
+      //  If the target and placement do not change, the position is not updated.
       if (targetElement === lastTargetRef.current && !placementChanged) {
         return;
       }
@@ -83,7 +87,16 @@ const usePosition = (
         helper.ownerDocument(ref.current).body
       );
 
-      setPosition(utils.calcOverlayPosition(overlay, targetElement, containerElement));
+      const posi = utils.calcOverlayPosition(overlay, targetElement, containerElement);
+
+      if (forceUpdateDOM && overlay) {
+        const preClassName = overlay?.className?.match(/(placement-\S+)/)?.[0];
+        helper.removeClass(overlay, preClassName);
+        helper.addClass(overlay, posi.positionClassName);
+        helper.addStyle(overlay, { left: `${posi.positionLeft}px`, top: `${posi.positionTop}px` });
+      } else {
+        setPosition(posi);
+      }
 
       containerRef.current = containerElement;
       lastTargetRef.current = targetElement;
@@ -93,20 +106,33 @@ const usePosition = (
 
   useEffect(() => {
     updatePosition(false);
+    const overlay = getDOMNode(ref.current);
+    let containerScrollListener;
     if (containerRef.current && preventOverflow) {
-      containerScrollListenerRef.current = helper.on(
+      // Update the overlay position when the container scroll bar is scrolling
+      containerScrollListener = helper.on(
         containerRef.current?.tagName === 'BODY' ? window : containerRef.current,
         'scroll',
-        () => updatePosition()
+        () => updatePosition(true, true)
       );
     }
+
+    // Update the position when the window size changes
+    const resizeListener = helper.on(window, 'resize', () => updatePosition(true, true));
+
+    if (overlay) {
+      // Update the position when the size of the overlay changes
+      bindElementResize(overlay, () => updatePosition(true, true));
+    }
+
     return () => {
       lastTargetRef.current = null;
-      containerScrollListenerRef.current?.off();
+      containerScrollListener?.off();
+      resizeListener?.off();
     };
-  }, [preventOverflow, updatePosition]);
+  }, [preventOverflow, ref, updatePosition]);
 
-  useEffect(() => updatePosition(), [updatePosition, placement]);
+  useUpdateEffect(() => updatePosition(), [updatePosition, placement]);
 
   return [position, updatePosition];
 };

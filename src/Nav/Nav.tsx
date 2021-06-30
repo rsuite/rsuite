@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import NavItem from './NavItem';
 import Dropdown from '../Dropdown';
@@ -6,6 +6,7 @@ import { ReactChildren, useClassNames, shallowEqual } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import Treeview from '../Sidenav/Treeview';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -35,15 +36,15 @@ export interface NavProps<T = any>
 const defaultProps: Partial<NavProps> = {
   classPrefix: 'nav',
   appearance: 'default',
-  as: 'div'
+  as: 'nav'
 };
 
 interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
-  Dropdown?: typeof Dropdown;
-  Item?: typeof NavItem;
+  Dropdown: typeof Dropdown;
+  Item: typeof NavItem;
 }
 
-const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
+const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
   const {
     as: Component,
     classPrefix,
@@ -61,28 +62,50 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
 
   const { sidenav = false, expanded = false, activeKey = activeKeyProp, onSelect = onSelectProp } =
     React.useContext(SidenavContext) || {};
-
+  const navbar = useContext(NavbarContext);
   const { withClassPrefix, merge, rootPrefix, prefix } = useClassNames(classPrefix);
+
+  const classes = merge(
+    className,
+    rootPrefix({
+      'navbar-nav': navbar,
+      'navbar-right': pullRight,
+      'sidenav-nav': sidenav
+    }),
+    withClassPrefix(appearance, {
+      horizontal: navbar || (!vertical && !sidenav),
+      vertical: vertical || sidenav,
+      justified,
+      reversed
+    })
+  );
+
+  if (sidenav && expanded) {
+    return <Treeview className={classes}>{children}</Treeview>;
+  }
+
   const hasWaterline = appearance !== 'default';
 
   const items = ReactChildren.mapCloneElement(children, item => {
-    const { eventKey, active, ...rest } = item.props;
+    const { eventKey, active, tooltip: itemTooltip, ...rest } = item.props;
     const displayName = item?.type?.displayName;
-    const hasTooltip = sidenav && !expanded;
+    const tooltip = typeof itemTooltip === 'undefined' ? sidenav && !expanded : itemTooltip;
 
     if (displayName === 'NavItem') {
       return {
         ...rest,
         onSelect,
-        hasTooltip,
+        tooltip,
         active: typeof activeKey === 'undefined' ? active : shallowEqual(activeKey, eventKey)
       };
-    } else if (displayName === 'Dropdown') {
+    }
+
+    if (displayName === 'Dropdown') {
       return {
         ...rest,
         onSelect,
         activeKey,
-        showHeader: hasTooltip,
+        showHeader: tooltip,
         as: 'div'
       };
     }
@@ -91,33 +114,12 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
   });
 
   return (
-    <NavbarContext.Consumer>
-      {navbar => {
-        const classes = merge(
-          className,
-          rootPrefix({
-            'navbar-nav': navbar,
-            'navbar-right': pullRight,
-            'sidenav-nav': sidenav
-          }),
-          withClassPrefix(appearance, {
-            horizontal: navbar || (!vertical && !sidenav),
-            vertical: vertical || sidenav,
-            justified: justified,
-            reversed: reversed
-          })
-        );
-
-        return (
-          <Component {...rest} ref={ref} className={classes}>
-            {items}
-            {hasWaterline && <div className={prefix('bar')} />}
-          </Component>
-        );
-      }}
-    </NavbarContext.Consumer>
+    <Component {...rest} ref={ref} className={classes}>
+      {items}
+      {hasWaterline && <div className={prefix('bar')} />}
+    </Component>
   );
-});
+}) as unknown) as NavComponent;
 
 Nav.Dropdown = Dropdown;
 Nav.Item = NavItem;

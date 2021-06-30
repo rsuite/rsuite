@@ -34,7 +34,7 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={doneOp} />
     );
-    ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('a')[0]);
+    ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('.rs-auto-complete-item')[0]);
   });
 
   it('Should call onChange callback', done => {
@@ -87,7 +87,7 @@ describe('AutoComplete', () => {
     ReactTestUtils.Simulate.keyDown(instance.overlay);
   });
 
-  it('Should call onMenuFocus callback when keyCode=40', done => {
+  it('Should call onMenuFocus callback when key=ArrowDown', done => {
     const doneOp = () => {
       done();
     };
@@ -96,11 +96,11 @@ describe('AutoComplete', () => {
       <AutoComplete defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
     );
     ReactTestUtils.Simulate.keyDown(instance.overlay, {
-      keyCode: 40
+      key: 'ArrowDown'
     });
   });
 
-  it('Should call onMenuFocus callback when keyCode=38', done => {
+  it('Should call onMenuFocus callback when key=ArrowUp', done => {
     let i = 0;
     const doneOp = () => {
       i++;
@@ -112,15 +112,11 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay, {
-      keyCode: 40
-    });
-    ReactTestUtils.Simulate.keyDown(instance.overlay, {
-      keyCode: 38
-    });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowUp' });
   });
 
-  it('Should call onChange callback when keyCode=13', done => {
+  it('Should call onChange callback when key=Enter', done => {
     const doneOp = () => {
       done();
     };
@@ -128,15 +124,11 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete defaultValue="a" onChange={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay, {
-      keyCode: 40
-    });
-    ReactTestUtils.Simulate.keyDown(instance.overlay, {
-      keyCode: 13
-    });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Enter' });
   });
 
-  it('Should call onSelect callback with selected item when keyCode=13', done => {
+  it('Should call onSelect callback with selected item when key=Enter', done => {
     const doneOp = value => {
       if (value === 'ab') {
         done();
@@ -146,11 +138,11 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete defaultValue="a" onSelect={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Enter' });
   });
 
-  it("Shouldn't call onSelect nor onChange callback on Enter pressed if selectOnEnter=false", () => {
+  it('Shouldn‘t call onSelect nor onChange callback on Enter pressed if selectOnEnter=false', () => {
     const onSelectSpy = sinon.spy();
 
     const instance = getInstance(
@@ -163,17 +155,13 @@ describe('AutoComplete', () => {
         open
       />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay, {
-      keyCode: 40
-    });
-    ReactTestUtils.Simulate.keyDown(instance.overlay, {
-      keyCode: 13
-    });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowUp' });
 
     assert.ok(!onSelectSpy.calledOnce);
   });
 
-  it('Should call onClose callback when keyCode=27', done => {
+  it('Should call onClose callback when key=Escape', done => {
     const doneOp = () => {
       done();
     };
@@ -181,9 +169,7 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete defaultValue="a" onClose={doneOp} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay, {
-      keyCode: 27
-    });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Escape' });
   });
 
   it('Should call onBlur callback', done => {
@@ -205,7 +191,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(instance.overlay.querySelectorAll('a i').length, 2);
+    assert.equal(instance.overlay.querySelectorAll('.rs-auto-complete-item .icon').length, 2);
   });
 
   it('Should have a custom className', () => {

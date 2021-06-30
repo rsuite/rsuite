@@ -4,7 +4,7 @@ import InputGroup from '../index';
 import Input from '../../Input';
 import { getStyle } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('InputGroup styles', () => {
   it('Should be set to a larger height', () => {

@@ -1,5 +1,5 @@
 .top-level-nav {
-  background: @B900;
+  background: var(--rs-gray-900);
   position: absolute;
   width: 100vw;
   left: 0;
@@ -100,21 +100,21 @@
       }
     }
 
-    .@{ns}icon {
+    .rs-icon {
       line-height: 18px;
       vertical-align: top;
     }
 
     &.active {
-      color: @H500;
+      color: var(--rs-primary-500);
     }
 
     &:focus {
-      color: @H400;
+      color: var(--rs-primary-400);
     }
 
     &:hover:focus {
-      color: @H600;
+      color: var(--rs-primary-600);
       background: transparent;
     }
   }

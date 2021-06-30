@@ -52,6 +52,7 @@ React Suite 支持服务端渲染， 支持通过 [Next.js](https://github.com/z
 - [在 Next.js 中使用][demo-nextjs]
 - [在 UmiJS 中使用][demo-umi-app]
 - [在 Snowpack 中使用][demo-snowpack]
+- [在 Vite 中使用][demo-vite]
 
 ## 更新日志
 
@@ -163,3 +164,4 @@ RSUITE 基于 [MIT licensed][license] 发布。
 [babel-preset-env]: https://babeljs.io/docs/en/babel-preset-env
 [rsuite-stars]: https://img.shields.io/github/stars/rsuite/rsuite?style=social
 [demo-snowpack]: https://github.com/rsuite/rsuite/tree/master/examples/with-snowpack
+[demo-vite]: https://github.com/rsuite/rsuite/tree/master/examples/with-vite

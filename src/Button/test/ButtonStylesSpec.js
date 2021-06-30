@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Button from '../index';
+import Button from '../Button';
 import ButtonToolbar from '../../ButtonToolbar';
 import {
   createTestContainer,
@@ -11,9 +11,9 @@ import {
   itChrome
 } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
-const { H500, H700, H800, H900 } = getDefaultPalette();
+const { H500, H700, H900 } = getDefaultPalette();
 
 describe('Button styles', () => {
   it('Default button should render the correct styles', () => {
@@ -115,21 +115,43 @@ describe('Button styles', () => {
     assert.equal(getStyle(xs, 'padding'), '2px 8px', 'Xsmall button padding');
   });
 
-  it('Color button should render the correct color', () => {
-    const instanceRef = React.createRef();
-    ReactDOM.render(
-      <Button color="red" ref={instanceRef}>
-        Red
-      </Button>,
-      createTestContainer()
-    );
-    const dom = getDOMNode(instanceRef.current);
-    assert.equal(
-      getStyle(dom, 'backgroundColor'),
-      toRGB('#f44336'),
-      'Color button background-color'
-    );
-    assert.equal(getStyle(dom, 'color'), toRGB('#fff'), 'Color button font-color');
+  describe('Colorful buttons', () => {
+    it('Primary button should render the correct color', () => {
+      const instanceRef = React.createRef();
+      ReactDOM.render(
+        <Button color="red" appearance="primary" ref={instanceRef}>
+          Red
+        </Button>,
+        createTestContainer()
+      );
+      const dom = getDOMNode(instanceRef.current);
+      assert.equal(
+        getStyle(dom, 'backgroundColor'),
+        toRGB('#f44336'),
+        'Color button background-color'
+      );
+      assert.equal(getStyle(dom, 'color'), toRGB('#fff'), 'Color button font-color');
+    });
+
+    it('Subtle button should render the correct styles', () => {
+      const instanceRef = React.createRef();
+      ReactDOM.render(
+        <Button color="red" appearance="subtle" ref={instanceRef}>
+          Red
+        </Button>,
+        createTestContainer()
+      );
+      assert.equal(
+        getStyle(getDOMNode(instanceRef.current), 'color'),
+        toRGB('#8e8e93'),
+        'Subtle button font-color'
+      );
+      assert.equal(
+        getStyle(getDOMNode(instanceRef.current), 'backgroundColor'),
+        toRGB('#0000'),
+        'Subtle button background-color'
+      );
+    });
   });
 
   it('Button should render the correct display', () => {
@@ -195,7 +217,7 @@ describe('Button styles', () => {
     );
     assert.equal(
       getStyle(getDOMNode(instanceRef.current), 'color'),
-      toRGB('#575757'),
+      toRGB('#272c36'),
       'Default button font-color'
     );
   });

@@ -1,6 +1,7 @@
 import React from 'react';
 import NavbarBody from './NavbarBody';
 import NavbarHeader from './NavbarHeader';
+import NavbarBrand from './NavbarBrand';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
@@ -15,8 +16,15 @@ export interface NavbarProps extends WithAsProps {
 }
 
 interface NavbarComponent extends RsRefForwardingComponent<'div', NavbarProps> {
-  Header?: typeof NavbarHeader;
-  Body?: typeof NavbarBody;
+  /**
+   * @deprecated use Navbar.Brand instead
+   */
+  Header: typeof NavbarHeader;
+  /**
+   * @deprecated use Nav as direct child of Navbar
+   */
+  Body: typeof NavbarBody;
+  Brand: typeof NavbarBrand;
 }
 
 const defaultProps: Partial<NavbarProps> = {
@@ -26,7 +34,7 @@ const defaultProps: Partial<NavbarProps> = {
   appearance: 'default'
 };
 
-const Navbar: NavbarComponent = React.forwardRef(
+const Navbar: NavbarComponent = (React.forwardRef(
   (props: NavbarProps, ref: React.Ref<HTMLElement>) => {
     const { className, as: Component, hasChildContext, classPrefix, appearance, ...rest } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
@@ -37,10 +45,11 @@ const Navbar: NavbarComponent = React.forwardRef(
       </NavbarContext.Provider>
     );
   }
-);
+) as unknown) as NavbarComponent;
 
 Navbar.Header = NavbarHeader;
 Navbar.Body = NavbarBody;
+Navbar.Brand = NavbarBrand;
 
 Navbar.displayName = 'Navbar';
 Navbar.defaultProps = defaultProps;

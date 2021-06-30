@@ -73,6 +73,7 @@ const CalendarPanel: RsRefForwardingComponent<
   );
   const [showMonth, setShowMonth] = useState<boolean>(false);
   const { locale } = useCustom('Calendar', overrideLocale);
+
   const prevValueRef = useRef<Date>(value);
   const prevTimeZoneRef = useRef<string>(timeZone);
   const setValue = useCallback((nextValue: Date) => {

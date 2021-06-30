@@ -1,1 +1,125 @@
-@import 'themes/default';
+@import '../../styles/common';
+
+// NavBar
+// --------------------------------------------------
+
+.rs-navbar {
+  .clearfix();
+}
+
+.rs-navbar-header {
+  float: left;
+  display: inline-block;
+  height: @navbar-height;
+  color: inherit;
+
+  a {
+    color: inherit;
+  }
+}
+
+.rs-navbar-brand {
+  &:extend(.rs-navbar-header); // TODO deprecate .rs-navbar-header
+
+  padding: 18px 20px;
+}
+
+// Common
+.rs-navbar-nav {
+  float: left;
+
+  &.rs-navbar-right {
+    float: right;
+  }
+
+  // Nav item content
+  > .rs-nav-item {
+    // Reset padding
+    padding: @navbar-item-padding-y @navbar-item-padding-x;
+    height: @navbar-height;
+  }
+
+  > .rs-nav-item,
+  > .rs-dropdown {
+    margin: 0 !important;
+  }
+
+  > .rs-nav-item,
+  > .rs-dropdown .rs-dropdown-toggle {
+    border-radius: 0;
+    color: inherit;
+  }
+
+  // DropDown
+  > .rs-dropdown .rs-dropdown-toggle {
+    &:extend(.rs-navbar-nav > .rs-nav-item);
+
+    padding-right: @navbar-item-padding-x+ @dropdown-caret-width+ @dropdown-caret-padding;
+
+    .rs-dropdown-toggle-caret {
+      top: @navbar-item-padding-y;
+      right: @navbar-item-padding-x;
+    }
+  }
+}
+
+// Default Navbar
+.rs-navbar-default {
+  background-color: var(--rs-navbar-default-bg);
+  color: var(--rs-navbar-default-text);
+
+  .rs-nav-item,
+  .rs-dropdown .rs-dropdown-toggle {
+    &:hover,
+    &:focus {
+      background-color: var(--rs-navbar-default-hover-bg);
+      color: var(--rs-navbar-default-hover-text);
+    }
+  }
+
+  .rs-nav-item.rs-nav-item-active,
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
+    color: var(--rs-navbar-default-selected-text);
+  }
+}
+
+// Inverse Navbar
+.rs-navbar-inverse {
+  background-color: var(--rs-navbar-inverse-bg);
+  color: var(--rs-navbar-inverse-text);
+
+  .rs-nav-item,
+  .rs-dropdown .rs-dropdown-toggle {
+    &:hover,
+    &:focus {
+      background-color: var(--rs-navbar-inverse-hover-bg);
+    }
+  }
+
+  // Active
+  .rs-nav-item.rs-nav-item-active,
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
+    background-color: var(--rs-navbar-inverse-selected-bg);
+  }
+}
+
+// Subtle Navbar
+.rs-navbar-subtle {
+  background-color: var(--rs-navbar-subtle-bg);
+  color: var(--rs-navbar-subtle-text);
+
+  .rs-nav-item,
+  .rs-dropdown .rs-dropdown-toggle {
+    &:hover,
+    &:focus {
+      background-color: var(--rs-navbar-subtle-hover-bg);
+      color: var(--rs-navbar-subtle-hover-text);
+    }
+  }
+
+  // Active
+  .rs-nav-item.rs-nav-item-active,
+  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle {
+    color: var(--rs-navbar-subtle-selected-text);
+  }
+}

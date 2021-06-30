@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import MultiCascader from '../index';
 import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 const data = [
   {

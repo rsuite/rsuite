@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Divider from '../index';
-import { createTestContainer, getStyle, getDOMNode, toRGB, inChrome } from '@test/testUtils';
+import { createTestContainer, getStyle, toRGB, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Divider styles', () => {
   it('Should render the correct styles', () => {

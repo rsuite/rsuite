@@ -1,22 +1,7 @@
-.pagination-active(@color) {
-  .btn-ghost-variant(@color, @color);
-
-  &:hover,
-  &:focus,
-  &.focus {
-    .btn-ghost-variant(@color, @color);
-  }
-
-  &:active {
-    &,
-    &:hover,
-    &:focus,
-    &.focus {
-      .btn-ghost-variant(@color, @color);
-    }
-  }
+.pagination-active() {
+  .rs-btn-ghost();
 }
 
-.pagination-active-size(@padding-vertical:@padding-base-vertical, @padding-horizontal:@padding-base-horizontal) {
+.pagination-active-size(@padding-vertical:@padding-y, @padding-horizontal:@padding-x) {
   padding: (@padding-vertical - 1) (@padding-horizontal - 1);
 }

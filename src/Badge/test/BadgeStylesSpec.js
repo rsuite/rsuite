@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Badge from '../index';
 import { createTestContainer, getStyle, itChrome, toRGB } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Badge styles', () => {
   it('Independent should render correct style ', () => {

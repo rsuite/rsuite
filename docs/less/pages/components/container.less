@@ -1,43 +1,43 @@
 .show-container {
-  > .@{ns}container {
+  > .rs-container {
     margin-bottom: 40px;
   }
 
-  .@{ns}header,
-  .@{ns}content,
-  .@{ns}footer,
-  .@{ns}sidebar {
-    background: @H500;
-    color: @B000;
+  .rs-header,
+  .rs-content,
+  .rs-footer,
+  .rs-sidebar {
+    background-color: var(--rs-primary-500);
+    color: #fff;
     text-align: center;
   }
 
-  .@{ns}header,
-  .@{ns}footer {
+  .rs-header,
+  .rs-footer {
     line-height: 56px;
-    background: @H400;
+    background-color: var(--rs-primary-400);
   }
-  .@{ns}content {
+  .rs-content {
     line-height: 120px;
-    background: @H300;
+    background-color: var(--rs-primary-300);
   }
-  .@{ns}sidebar {
+  .rs-sidebar {
     line-height: 120px;
   }
 }
 
 .show-fake-browser {
-  border: 1px solid @divider-border-color;
+  border: 1px solid var(--rs-border-primary);
   box-shadow: 0 0.1em 0.5em 0 rgba(0, 0, 0, 0.28);
   border-radius: 4px;
-  background: @show-fake-browser-bg;
+  background-color: var(--rs-bg-well);
 
   &.sidebar-page {
-    .@{ns}sidebar {
+    .rs-sidebar {
       height: 700px;
-      box-shadow: @default-box-shadow;
+      box-shadow: @box-shadow;
     }
-    .@{ns}sidenav {
+    .rs-sidenav {
       flex: 1 1 auto;
       width: 100%;
 
@@ -45,41 +45,41 @@
         overflow-y: auto;
       }
     }
-    .@{ns}header {
+    .rs-header {
       padding: 0 20px;
     }
 
-    .@{ns}content {
+    .rs-content {
       padding: 20px;
       margin: 20px;
-      background: @show-fake-browser-content-bg;
+      background-color: var(--rs-bg-card);
     }
     .nav-toggle {
-      border-top: 1px solid @divider-border-color;
+      border-top: 1px solid var(--rs-border-primary);
     }
   }
   &.navbar-page {
-    .@{ns}content {
+    .rs-content {
       padding: 20px;
       margin: 20px;
       height: 500px;
-      background: @show-fake-browser-content-bg;
+      background-color: var(--rs-bg-card);
     }
-    .@{ns}footer {
+    .rs-footer {
       padding: 20px;
     }
   }
   &.login-page {
-    .@{ns}content {
+    .rs-content {
       padding: 20px;
       margin: 20px;
       height: 500px;
     }
-    .@{ns}footer {
+    .rs-footer {
       padding: 20px;
     }
-    .@{ns}panel {
-      background: @body-bg;
+    .rs-panel {
+      background: var(--rs-body);
       margin-top: 70px;
     }
   }

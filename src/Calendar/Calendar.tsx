@@ -171,7 +171,8 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       className,
       withClassPrefix({
         'show-time-dropdown': dropTime,
-        'show-month-dropdown': dropMonth
+        'show-month-dropdown': dropMonth,
+        'show-week-numbers': showWeekNumbers
       })
     );
     const timeDropdownProps = pick(rest, DateUtils.calendarOnlyProps);

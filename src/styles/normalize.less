@@ -16,10 +16,6 @@
 }
 
 body {
-  font-size: @font-size-base;
-  line-height: @line-height-base;
-  color: @text-color;
-  background-color: @body-bg;
   // Remove default margin.
   margin: 0;
   // Optimize for the retina screen
@@ -144,7 +140,7 @@ select {
 // 3. Improve usability and consistency of cursor style between image-type
 //    `input` and others.
 button,
-html input[type='button'], 
+html input[type='button'],
 input[type='reset'],
 input[type='submit'] {
   -webkit-appearance: button; // 2
@@ -243,3 +239,10 @@ textarea {
   font-size: inherit;
   line-height: inherit;
 }
+
+// import reset styles
+& when (@enable-css-reset = true) {
+  @import 'scaffolding';
+  @import 'typography';
+}
+

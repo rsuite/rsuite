@@ -1,3 +1,5 @@
+import ru from 'date-fns/locale/ru';
+
 const Calendar = {
   sunday: 'Вс',
   monday: 'Пн',
@@ -13,7 +15,8 @@ const Calendar = {
   minutes: 'Минут',
   seconds: 'Секунд',
   formattedMonthPattern: 'MMM, yyyy',
-  formattedDayPattern: 'MMM dd, yyyy'
+  formattedDayPattern: 'MMM dd, yyyy',
+  dateLocale: ru
 };
 
 export default {

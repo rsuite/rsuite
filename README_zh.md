@@ -6,7 +6,12 @@
   </a>
 </p>
 
-[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][travis-home] [![Discord][discord-svg]][discord-invite] [![Gitter][gitter-svg]][gitter] [![Gitter][gitter-cn-svg]][gitter-cn]
+[![npm][npm-svg]][npm-home]
+[![Travis][travis-svg]][travis-home]
+[![codecov](https://codecov.io/gh/rsuite/rsuite/branch/next/graph/badge.svg?token=HGeKd0BD3t)](https://codecov.io/gh/rsuite/rsuite)
+[![Discord][discord-svg]][discord-invite]
+[![Gitter][gitter-svg]][gitter]
+[![Gitter][gitter-cn-svg]][gitter-cn]
 
 React Suite 是一套 React 组件库，为后台产品而生。同时也是一个具有贴心设计以及对开发者友好的 UI 框架。
 
@@ -86,6 +91,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [在 Next.js 中使用][demo-nextjs]
 - [在 UmiJS 中使用][demo-umi-app]
 - [在 Snowpack 中使用][demo-snowpack]
+- [在 Vite 中使用][demo-vite]
 
 ## 更新日志
 
@@ -165,11 +171,10 @@ Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
 React Suite 基于 [MIT licensed][license] 发布。
 
 [readm-en]: https://github.com/rsuite/rsuite/blob/master/README.md
-[npm-svg]: https://badge.fury.io/js/rsuite.svg
+[npm-svg]: https://img.shields.io/npm/v/rsuite/next
 [npm-home]: https://www.npmjs.com/package/rsuite
 [travis-svg]: https://travis-ci.org/rsuite/rsuite.svg?branch=master
 [travis-home]: https://travis-ci.org/rsuite/rsuite
-[coverage-svg]: https://coveralls.io/repos/github/rsuite/rsuite/badge.svg?branch=master
 [travis-home]: https://coveralls.io/github/rsuite/rsuite?branch=master
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
@@ -205,3 +210,4 @@ React Suite 基于 [MIT licensed][license] 发布。
 [demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
 [demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
 [demo-snowpack]: https://github.com/rsuite/rsuite/tree/master/examples/with-snowpack
+[demo-vite]: https://github.com/rsuite/rsuite/tree/master/examples/with-vite

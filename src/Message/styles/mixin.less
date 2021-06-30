@@ -1,11 +1,18 @@
 // Messages
 
-.message-variant(@background; @icon-color) {
+.message-variant(@background; @header-color; @text-color; @icon-color) {
   background-color: @background;
-  color: @text-color;
 
-  .@{ns}message-icon-wrapper > .@{ns}icon,
-  .@{ns}message-btn-close {
+  .rs-message-header {
+    color: @header-color;
+  }
+
+  .rs-message-body {
+    color: @text-color;
+  }
+
+  .rs-message-icon-wrapper > .rs-icon,
+  .rs-message-btn-close {
     color: @icon-color;
   }
 }

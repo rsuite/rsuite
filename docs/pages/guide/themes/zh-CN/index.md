@@ -1,29 +1,5 @@
 # 定制主题 🎨
 
-根据产品的差异性，React Suite 在主题设计上提供灵活的可配置参数。
-
-## Light/Dark 主题
-
-React Suite 默认提供了 Light 与 Dark 两套主题，您可以根据产品的需求或者操作的的环境使用不同主题样式。
-
-**☀️ Light**
-
-```less
-@import '~rsuite/lib/styles/themes/default/index.less';
-// @import '~rsuite/dist/styles/rsuite-default.css' 或者引入 CSS
-```
-
-**🌙 Dark**
-
-```less
-@import '~rsuite/lib/styles/themes/dark/index.less';
-// @import '~rsuite/dist/styles/rsuite-dark.css' 或者引入 CSS
-```
-
-> 在定制主题中可参考的原型及规范: [Light 主题](/design/default/)， [Dark 主题](/design/dark/)
-
-## 进行定制
-
 React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定义了一系列的变量，可使用 [Modify Variables][modify variables] 的方式进行定制化。包括但不限定于[定制主题色](#定制主题色)、[调整组件圆角半径](#调整组件圆角半径)、[修改字体样式](#修改字体样式)、[替换辅助色](#替换辅助色)等。下面示例中的代码均为在`custom-theme.less`进行新增操作。
 
 ### 引入 less
@@ -31,7 +7,7 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 新建一个单独的 Less 文件如下，再引入这个文件。
 
 ```less
-@import '~rsuite/lib/styles/themes/default/index.less'; //引入默认的样式文件
+@import '~rsuite/lib/styles/index.less';
 @import 'custom-theme.less'; // 进行样式定制
 ```
 
@@ -40,7 +16,7 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 设置主题基色。
 
 ```less
-@base-color: #00bcd4;
+@primary-color: #00bcd4;
 ```
 
 配置主题基色以后，会生成一组色板（`@H050` - `@H900`， H 是 Hue 的缩写 ）参考: [constants.less][rsuite-theme-pallete]。现在就去[调色板](/tools/palette)选择适合的颜色或上传自己的 Logo 进行预览。
@@ -48,7 +24,7 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 ### 调整组件圆角半径
 
 ```less
-@border-radius-base: 2px;
+@border-radius: 2px;
 ```
 
 ### 修改字体样式
@@ -79,20 +55,24 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 
 ### 禁用涟漪动画
 
+React Suite 在 `<Button>` 等一些可点击的组件上添加了涟漪动画效果。如果你不想要这些效果，可以关闭如下标识。
+
 ```less
-@button-ripple: false;
+@enable-ripple-effect: false;
 ```
 
 ### 禁用 IE polyfill
 
+React Suite 默认包含了一些用于兼容 IE 11 的样式。如果你不需要这些兼容，可以关闭如下标识。
+
 ```less
-@ie-polyfill: false;
+@enable-ie-polyfill: false;
 ```
 
 ### 禁用 reset 相关样式引用
 
 ```less
-@reset-import: false;
+@enable-css-reset: false;
 ```
 
 ### 更多自定义配置
@@ -141,10 +121,10 @@ module.exports = merge(
     themesConfig: {
       default: {},
       green: {
-        'base-color': '#008000'
+        'primary-color': '#008000'
       },
       yellow: {
-        'base-color': '#ffff00'
+        'primary-color': '#ffff00'
       }
     }
   })

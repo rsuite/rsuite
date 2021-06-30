@@ -20,15 +20,14 @@ const App = () => {
   };
   return (
     <div>
-      <ButtonToolbar>
-        <RadioGroup inline appearance="picker" value={size} onChange={setSize}>
-          <span style={styles.radioGroupLabel}>Size: </span>
-          <Radio value="lg">Large</Radio>
-          <Radio value="md">Medium</Radio>
-          <Radio value="sm">Small</Radio>
-          <Radio value="xs">Xsmall</Radio>
-        </RadioGroup>
-      </ButtonToolbar>
+      <RadioGroup inline appearance="picker" value={size} onChange={setSize}>
+        <span style={styles.radioGroupLabel}>Size: </span>
+        <Radio value="lg">Large</Radio>
+        <Radio value="md">Medium</Radio>
+        <Radio value="sm">Small</Radio>
+        <Radio value="xs">Xsmall</Radio>
+      </RadioGroup>
+      <hr />
       <ButtonToolbar>
         <IconButton icon={<AngleLeft />} onClick={() => handleOpen('left')}>
           Left
@@ -47,18 +46,16 @@ const App = () => {
       <Drawer size={size} placement={placement} open={open} onClose={() => setOpen(false)}>
         <Drawer.Header>
           <Drawer.Title>Drawer Title</Drawer.Title>
+          <Drawer.Actions>
+            <Button onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={() => setOpen(false)} appearance="primary">
+              Confirm
+            </Button>
+          </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
           <Paragraph rows={8} />
         </Drawer.Body>
-        <Drawer.Footer>
-          <Button onClick={() => setOpen(false)} appearance="primary">
-            Confirm
-          </Button>
-          <Button onClick={() => setOpen(false)} appearance="subtle">
-            Cancel
-          </Button>
-        </Drawer.Footer>
       </Drawer>
     </div>
   );

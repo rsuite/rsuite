@@ -1,4 +1,4 @@
-@import 'common';
+@import 'variables';
 
 //
 // Scaffolding
@@ -11,21 +11,25 @@ html {
 
 body {
   font-family: @font-family-base;
+  font-size: @font-size-base;
+  line-height: @line-height-base;
+  color: var(--rs-text-primary);
+  background-color: var(--rs-bg-well);
 }
 
 // Links
 a {
-  color: @link-color;
+  color: var(--rs-text-link);
   text-decoration: none;
 
   &:hover,
   &:focus {
-    color: @link-hover-color;
+    color: var(--rs-text-link-hover);
     text-decoration: @link-hover-decoration;
   }
 
   &:active {
-    color: @link-active-color;
+    color: var(--rs-text-link-active);
     text-decoration: @link-active-decoration;
   }
 }
@@ -40,5 +44,9 @@ hr {
   margin-top: @line-height-computed;
   margin-bottom: @line-height-computed;
   border: 0;
-  border-top: 1px solid @hr-border;
+  border-top: 1px solid @divider-border-color;
+}
+
+[role='button'] {
+  cursor: pointer;
 }

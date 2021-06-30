@@ -7,7 +7,7 @@ The locale in the React Suite component defaults to English. If you need to set 
 ### Configure locale
 
 ```jsx
-import CustomProvider from 'rsuite/lib/CustomProvider';
+import { CustomProvider } from 'rsuite';
 import zhCN from 'rsuite/lib/locales/zh_CN';
 
 return (
@@ -23,7 +23,7 @@ return (
 
 | Locale | Description         |
 | ------ | ------------------- |
-| ar_EG  | Arabic              |
+| ar_EG  | Arabic (Egypt)      |
 | da_DK  | Danish              |
 | de_DE  | German              |
 | en_GB  | English             |
@@ -43,30 +43,11 @@ return (
 
 You can refer to the configuration in the [default locale](https://github.com/rsuite/rsuite/blob/master/src/locales/default.ts) file to make a new locale pack passed to the `<CustomProvider>` component via the locale property.
 
-### Format date
-
-```jsx
-import CustomProvider from 'rsuite/lib/CustomProvider';
-import ruRU from 'rsuite/lib/locales/ru_RU';
-import format from 'date-fns/format';
-import ru from 'date-fns/locale/ru';
-
-function formatDate(data, formatStr) {
-  return format(data, formatStr, { locale: ru });
-}
-
-return (
-  <CustomProvider locale={ruRU} formatDate={formatDate}>
-    <App />
-  </CustomProvider>
-);
-```
-
 ### Used with react-intl
 
 ```jsx
 import { IntlProvider } from 'react-intl';
-import CustomProvider from 'rsuite/lib/CustomProvider';
+import { CustomProvider } from 'rsuite';
 import zhCN from 'rsuite/lib/locales/zh_CN';
 
 return (

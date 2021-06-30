@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Tag from '../index';
 import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Tag styles', () => {
   it('Should render the correct styles', () => {

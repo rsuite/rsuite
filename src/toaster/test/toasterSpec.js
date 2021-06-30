@@ -1,6 +1,5 @@
 import React from 'react';
 import toaster from '../toaster';
-import ReactTestUtils from 'react-dom/test-utils';
 
 const element = document.createElement('div');
 document.body.appendChild(element);

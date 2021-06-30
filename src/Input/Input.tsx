@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
 import Plaintext from '../Plaintext';
-import { createChainedFunction, TypeChecker, mergeRefs, useClassNames, KEY_CODE } from '../utils';
+import { createChainedFunction, TypeChecker, mergeRefs, useClassNames, KEY_VALUES } from '../utils';
 import {
   WithAsProps,
   RsRefForwardingComponent,
@@ -66,7 +66,7 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
 
     const handleKeyDown = useCallback(
       (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.keyCode === KEY_CODE.ENTER) {
+        if (event.key === KEY_VALUES.ENTER) {
           onPressEnter?.(event);
         }
         onKeyDown?.(event);

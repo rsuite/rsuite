@@ -13,7 +13,7 @@ export interface FlexboxGridProps extends WithAsProps {
 }
 
 interface FlexboxGridCompont extends RsRefForwardingComponent<'div', FlexboxGridProps> {
-  Item?: typeof FlexboxGridItem;
+  Item: typeof FlexboxGridItem;
 }
 
 const defaultProps: Partial<FlexboxGridProps> = {
@@ -23,12 +23,12 @@ const defaultProps: Partial<FlexboxGridProps> = {
   justify: 'start'
 };
 
-const FlexboxGrid: FlexboxGridCompont = React.forwardRef((props: FlexboxGridProps, ref) => {
+const FlexboxGrid: FlexboxGridCompont = (React.forwardRef((props: FlexboxGridProps, ref) => {
   const { as: Component, className, classPrefix, align, justify, ...rest } = props;
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(align, justify));
   return <Component {...rest} ref={ref} className={classes} />;
-});
+}) as unknown) as FlexboxGridCompont;
 
 FlexboxGrid.Item = FlexboxGridItem;
 

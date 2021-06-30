@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import TagPicker from '../index';
 import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
 
-import '../styles/index';
-import MultiCascader from '../../MultiCascader';
+import '../styles/index.less';
 
 const data = [
   {

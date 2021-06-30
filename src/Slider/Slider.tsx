@@ -112,6 +112,9 @@ export const sliderPropTypes = {
   getAriaValueText: PropTypes.func
 };
 
+/**
+ * fixme: Should contain an input
+ */
 const Slider = React.forwardRef((props: SliderProps, ref) => {
   const {
     'aria-label': ariaLabel,

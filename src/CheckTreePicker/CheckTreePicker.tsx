@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
-import { List, AutoSizer, ListInstance } from '../Picker/VirtualizedList';
+import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/VirtualizedList';
 import CheckTreeNode from './CheckTreeNode';
 import { PickerLocale } from '../locales';
 import {
@@ -10,7 +10,7 @@ import {
   useCustom,
   useClassNames,
   useControlled,
-  KEY_CODE,
+  KEY_VALUES,
   mergeRefs,
   shallowEqual
 } from '../utils';
@@ -110,13 +110,7 @@ const defaultProps: Partial<CheckTreePickerProps> = {
   appearance: 'default',
   uncheckableItemValues: [],
   classPrefix: 'picker',
-  placement: 'bottomStart',
-  locale: {
-    placeholder: 'Select',
-    searchPlaceholder: 'Search',
-    noResultsText: 'No results found',
-    checkAll: 'All'
-  }
+  placement: 'bottomStart'
 };
 
 const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef((props, ref) => {
@@ -176,6 +170,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   const targetRef = useRef<HTMLButtonElement>();
   const listRef = useRef<ListInstance>();
   const overlayRef = useRef<HTMLDivElement>();
+  const searchInputRef = useRef<HTMLInputElement>();
   const treeViewRef = useRef<HTMLDivElement>();
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
   const [active, setActive] = useState(false);
@@ -535,7 +530,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   );
 
   const handleFocusItem = useCallback(
-    (type: number) => {
+    (key: string) => {
       const focusableItems = getFocusableItems(filteredData, {
         disabledItemValues,
         valueKey,
@@ -554,11 +549,11 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           setFocusItemValue(nextFocusItemValue);
         }
       };
-      if (type === KEY_CODE.DOWN) {
+      if (key === KEY_VALUES.DOWN) {
         focusNextItem(focusProps);
         return;
       }
-      if (type === KEY_CODE.UP) {
+      if (key === KEY_VALUES.UP) {
         focusPreviousItem(focusProps);
       }
     },
@@ -608,7 +603,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       childrenKey,
       onExpand: handleExpand,
       onFocusItem: () => {
-        handleFocusItem(KEY_CODE.DOWN);
+        handleFocusItem(KEY_VALUES.DOWN);
       }
     });
   }, [
@@ -639,13 +634,14 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     triggerRef,
     targetRef,
     overlayRef,
+    searchInputRef,
     active,
     onExit: handleClean,
     onClose: handleClose,
     onMenuKeyDown: event => {
       onMenuKeyDown(event, {
-        down: () => handleFocusItem(KEY_CODE.DOWN),
-        up: () => handleFocusItem(KEY_CODE.UP),
+        down: () => handleFocusItem(KEY_VALUES.DOWN),
+        up: () => handleFocusItem(KEY_VALUES.UP),
         left: rtl ? handleRightArrow : handleLeftArrow,
         right: rtl ? handleLeftArrow : handleRightArrow,
         enter: selectActiveItem,
@@ -661,8 +657,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       }
 
       onMenuKeyDown(event, {
-        down: () => handleFocusItem(KEY_CODE.DOWN),
-        up: () => handleFocusItem(KEY_CODE.UP),
+        down: () => handleFocusItem(KEY_VALUES.DOWN),
+        up: () => handleFocusItem(KEY_VALUES.UP),
         left: rtl ? handleRightArrow : handleLeftArrow,
         right: rtl ? handleLeftArrow : handleRightArrow,
         enter: selectActiveItem
@@ -721,7 +717,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     );
   };
 
-  const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }) => {
+  const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }: ListRowProps) => {
     const node = nodes[index];
     const { layer, refKey, showNode } = node;
     const expand = getExpandWhenSearching(
@@ -824,6 +820,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
             placeholder={locale.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeywordState}
+            inputRef={searchInputRef}
           />
         ) : null}
         {renderMenu ? renderMenu(renderCheckTree()) : renderCheckTree()}

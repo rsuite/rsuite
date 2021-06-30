@@ -1,3 +1,5 @@
+import ptBR from 'date-fns/locale/pt-BR';
+
 const Calendar = {
   sunday: 'Do',
   monday: 'Se',
@@ -13,7 +15,8 @@ const Calendar = {
   minutes: 'Minutos',
   seconds: 'Segundos',
   formattedMonthPattern: 'MMM, yyyy',
-  formattedDayPattern: 'dd MMM, yyyy'
+  formattedDayPattern: 'dd MMM, yyyy',
+  dateLocale: ptBR
 };
 
 export default {

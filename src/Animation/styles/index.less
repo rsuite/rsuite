@@ -1,1 +1,97 @@
-@import 'themes/default';
+@import '../../styles/common';
+@import 'mixin';
+@import 'animation';
+
+// Slide
+.slide-out {
+  .animation-common(cubic-bezier(0.4, 0, 1, 1)); //Fast out
+}
+
+.slide-in {
+  .animation-common(ease-in-out);
+}
+
+.right {
+  .slide-animation-setting(slideInRight, slideOutRight);
+}
+
+.left {
+  .slide-animation-setting(slideInLeft, slideOutLeft);
+}
+
+.top {
+  .slide-animation-setting(slideInTop, slideOutTop);
+}
+
+.bottom {
+  .slide-animation-setting(slideInBottom, slideOutBottom);
+}
+
+// Bounce
+.bounce-in {
+  animation-name: bounceIn;
+  .animation-common(cubic-bezier(0.68, -0.55, 0.27, 1.55)); // Ease in out
+
+  @keyframes bounceIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+.bounce-out {
+  animation-name: bounceOut;
+  .animation-common(cubic-bezier(0.4, 0, 1, 1)); //Fast out
+
+  @keyframes bounceOut {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity 0.15s linear;
+  pointer-events: none;
+
+  &.in {
+    opacity: 1;
+    pointer-events: unset;
+  }
+}
+
+.collapse {
+  display: none;
+
+  &.in {
+    display: block;
+  }
+
+  tr&.in {
+    display: table-row;
+  }
+
+  tbody&.in {
+    display: table-row-group;
+  }
+}
+
+.collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.35s ease, visibility 0.35s ease;
+}

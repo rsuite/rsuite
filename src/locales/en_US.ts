@@ -1,3 +1,5 @@
+import enUS from 'date-fns/locale/en-US';
+
 const Calendar = {
   sunday: 'Su',
   monday: 'Mo',
@@ -13,7 +15,8 @@ const Calendar = {
   minutes: 'Minutes',
   seconds: 'Seconds',
   formattedMonthPattern: 'MMM, yyyy',
-  formattedDayPattern: 'MMM dd, yyyy'
+  formattedDayPattern: 'MMM dd, yyyy',
+  dateLocale: enUS
 };
 
 export default {

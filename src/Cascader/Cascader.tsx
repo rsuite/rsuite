@@ -56,7 +56,12 @@ export interface CascaderProps<T = ValueType>
   parentSelectable?: boolean;
 
   /** Custom render menu */
-  renderMenu?: (items: ItemDataType[], menu: React.ReactNode, parentNode?: any) => React.ReactNode;
+  renderMenu?: (
+    items: ItemDataType[],
+    menu: React.ReactNode,
+    parentNode?: any,
+    layer?: number
+  ) => React.ReactNode;
 
   /** Custom render menu items */
   renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
@@ -143,11 +148,12 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   // Use component active state to support keyboard events.
   const [active, setActive] = useState(false);
-  const [flattenData, setFlattenData] = useState<ItemDataType[]>(flattenTree(data));
+  const [flattenData, setFlattenData] = useState<ItemDataType[]>(flattenTree(data, childrenKey));
 
   const triggerRef = useRef<OverlayTriggerInstance>();
   const overlayRef = useRef<HTMLDivElement>();
   const targetRef = useRef<HTMLButtonElement>();
+  const searchInputRef = useRef<HTMLInputElement>();
   const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
 
   const {
@@ -167,8 +173,8 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   });
 
   useEffect(() => {
-    setFlattenData(flattenTree(data));
-  }, [data]);
+    setFlattenData(flattenTree(data, childrenKey));
+  }, [data, childrenKey]);
 
   usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
@@ -325,6 +331,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     triggerRef,
     targetRef,
     overlayRef,
+    searchInputRef,
     active,
     onExit: handleClean,
     onMenuKeyDown: onFocusItem,
@@ -422,7 +429,11 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
       for (let i = 0; i < a.length; i++) {
         labelElements.push(a[i]);
         if (b && b[i]) {
-          labelElements.push(<strong key={i}>{b[i]}</strong>);
+          labelElements.push(
+            <span key={i} className={prefix('cascader-search-match')}>
+              {b[i]}
+            </span>
+          );
         }
       }
       return { ...node, [labelKey]: labelElements };
@@ -492,6 +503,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
             placeholder={locale?.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeyword}
+            inputRef={searchInputRef}
           />
         )}
 
@@ -552,6 +564,8 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     name: 'cascader'
   });
 
+  // TODO: bad api design
+  //       consider an isolated Menu component
   if (inline) {
     return renderDropdownMenu();
   }

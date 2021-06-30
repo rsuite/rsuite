@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { useClassNames, appendTooltip } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
+import { SidenavContext } from '../Sidenav/Sidenav';
+import TreeviewRootItem from '../Sidenav/TreeviewRootItem';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -28,7 +30,7 @@ export interface NavItemProps<T = string>
   eventKey?: T;
 
   /** Whether NavItem have a tooltip  */
-  hasTooltip?: boolean;
+  tooltip?: boolean | TypeAttributes.Placement;
 
   /** Providing a `href` will render an `<a>` element */
   href?: string;
@@ -56,13 +58,18 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       children,
       icon,
       tabIndex,
-      hasTooltip,
+      tooltip,
       divider,
       panel,
       onClick,
       onSelect,
       ...rest
     } = props;
+
+    const sidenav = React.useContext(SidenavContext);
+
+    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ active, disabled }));
 
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLElement>) => {
@@ -74,8 +81,10 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       [disabled, onSelect, eventKey, onClick]
     );
 
-    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active, disabled }));
+    if (sidenav?.expanded) {
+      const { children, ...restProps } = props;
+      return <TreeviewRootItem title={children} {...restProps} />;
+    }
 
     if (divider) {
       return (
@@ -96,6 +105,8 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       );
     }
 
+    const ariaAttributes: React.HTMLAttributes<HTMLElement> = {};
+
     const item = (
       <Component
         aria-selected={active}
@@ -106,6 +117,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
         onClick={handleClick}
         ref={ref}
         style={style}
+        {...ariaAttributes}
       >
         {icon}
         {children}
@@ -113,8 +125,13 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       </Component>
     );
 
-    return hasTooltip
-      ? appendTooltip({ children: item, message: children, placement: 'right' })
+    return tooltip
+      ? appendTooltip({
+          ref,
+          children: item,
+          message: children,
+          placement: typeof tooltip === 'boolean' ? 'right' : tooltip
+        })
       : item;
   }
 );
@@ -136,7 +153,7 @@ NavItem.propTypes = {
   children: PropTypes.node,
   eventKey: PropTypes.any,
   tabIndex: PropTypes.number,
-  hasTooltip: PropTypes.bool
+  tooltip: PropTypes.bool
 };
 
 export default NavItem;

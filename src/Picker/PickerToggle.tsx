@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 import MaskedInput from 'react-text-mask';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import CloseButton from '../CloseButton';
-import { useClassNames, KEY_CODE, mergeRefs } from '../utils';
+import { useClassNames, KEY_VALUES, mergeRefs } from '../utils';
 import { RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
 import useToggleCaret from '../utils/useToggleCaret';
@@ -145,13 +145,15 @@ const PickerToggle: RsRefForwardingComponent<
 
   const handleInputKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
-      if (input && event.keyCode === KEY_CODE.ENTER) {
+      if (input && event.key === KEY_VALUES.ENTER) {
         onInputPressEnter?.(event);
       }
     },
     [onInputPressEnter, input]
   );
-  const Caret = caretComponent ?? useToggleCaret(placement);
+
+  const ToggleCaret = useToggleCaret(placement);
+  const Caret = caretComponent ?? ToggleCaret;
 
   if (plaintext) {
     return (
@@ -161,10 +163,10 @@ const PickerToggle: RsRefForwardingComponent<
     );
   }
 
-  const cleanable = cleanableProp && hasValue && !readOnly && !plaintext;
+  const cleanable = cleanableProp && hasValue && !readOnly;
 
   // When the component is read-only or disabled, the input is not interactive.
-  const inputFocused = readOnly || disabled || plaintext ? false : input && activeState;
+  const inputFocused = readOnly || disabled ? false : input && activeState;
 
   return (
     <Component

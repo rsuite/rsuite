@@ -342,43 +342,6 @@
     "designHash": { "default": "71", "dark": "71" }
   },
   {
-    "id": "table",
-    "name": "Table",
-    "title": "表格",
-    "components": ["Table", "Table.Column", "Table.HeaderCell", "Table.Cell"],
-    "designHash": { "default": "76", "dark": "76" }
-  },
-  { "id": "tree", "name": "Tree", "title": "树形控件", "components": ["Tree"] },
-  { "id": "check-tree", "name": "CheckTree", "title": "树形多选控件", "components": ["CheckTree"] },
-  {
-    "id": "panel",
-    "name": "Panel",
-    "title": "面板",
-    "components": ["Panel", "PanelGroup"],
-    "designHash": { "default": "75", "dark": "75" }
-  },
-  {
-    "id": "timeline",
-    "name": "Timeline",
-    "title": "时间轴",
-    "components": ["Timeline", "Timeline.Item"],
-    "designHash": { "default": "85", "dark": "85" }
-  },
-  {
-    "id": "tag",
-    "name": "Tag",
-    "title": "标签",
-    "components": ["Tag"],
-    "designHash": { "default": "84", "dark": "84" }
-  },
-  {
-    "id": "list",
-    "name": "List",
-    "title": "列表",
-    "components": ["List", "List.Item"],
-    "designHash": { "default": "73", "dark": "73" }
-  },
-  {
     "id": "calendar",
     "name": "Calendar",
     "title": "日历",
@@ -391,6 +354,43 @@
     "title": "轮播",
     "components": ["Carousel"],
     "designHash": { "default": "72", "dark": "72" }
+  },
+  { "id": "check-tree", "name": "CheckTree", "title": "树形多选控件", "components": ["CheckTree"] },
+  {
+    "id": "list",
+    "name": "List",
+    "title": "列表",
+    "components": ["List", "List.Item"],
+    "designHash": { "default": "73", "dark": "73" }
+  },
+  {
+    "id": "table",
+    "name": "Table",
+    "title": "表格",
+    "components": ["Table", "Table.Column", "Table.HeaderCell", "Table.Cell"],
+    "designHash": { "default": "76", "dark": "76" }
+  },
+  {
+    "id": "tag",
+    "name": "Tag",
+    "title": "标签",
+    "components": ["Tag"],
+    "designHash": { "default": "84", "dark": "84" }
+  },
+  { "id": "tree", "name": "Tree", "title": "树形控件", "components": ["Tree"] },
+  {
+    "id": "timeline",
+    "name": "Timeline",
+    "title": "时间轴",
+    "components": ["Timeline", "Timeline.Item"],
+    "designHash": { "default": "85", "dark": "85" }
+  },
+  {
+    "id": "panel",
+    "name": "Panel",
+    "title": "面板",
+    "components": ["Panel", "PanelGroup"],
+    "designHash": { "default": "75", "dark": "75" }
   },
   {
     "group": true,

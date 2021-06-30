@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ButtonToolbar from '../ButtonToolbar';
-import ButtonGroup from '../../ButtonGroup';
 import Button from '../../Button';
 
 import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('ButtonToolbar styles', () => {
   it('Should render the correct vertical align', () => {

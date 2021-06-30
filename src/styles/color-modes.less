@@ -1,0 +1,12 @@
+// Themes
+
+:root,
+.rs-theme-light {
+  @import 'color-modes/light';
+}
+
+& when (@enable-dark-mode = true) {
+  .rs-theme-dark {
+    @import 'color-modes/dark';
+  }
+}

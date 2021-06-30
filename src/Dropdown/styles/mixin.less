@@ -1,9 +1,9 @@
-.dropdown-toggle-caret-common(@right:@padding-base-horizontal) {
+.dropdown-toggle-caret-common(@right:@padding-x) {
   display: flex;
   align-items: center;
   margin-left: 2px;
   position: absolute;
-  top: @padding-base-vertical;
+  top: @padding-y;
   right: @right;
   height: @line-height-computed;
   font-size: 12px;
@@ -12,7 +12,7 @@
 .dropdown-toggle-caret-size(@vertical,@horizontal,@caret-size) {
   padding-right: @horizontal+ @dropdown-caret-width+ @dropdown-caret-padding !important;
 
-  .@{ns}dropdown-toggle-caret {
+  .rs-dropdown-toggle-caret {
     top: @vertical;
     right: @horizontal;
     font-size: @caret-size;
@@ -20,16 +20,16 @@
 }
 
 .dropdown-toggle-size() {
-  &.@{ns}btn-lg {
-    .dropdown-toggle-caret-size(@padding-large-vertical, @padding-large-horizontal, 14px);
+  &.rs-btn-lg {
+    .dropdown-toggle-caret-size(@padding-y-lg, @padding-x-lg, 14px);
   }
 
-  &.@{ns}btn-sm {
-    .dropdown-toggle-caret-size(@padding-small-vertical, @padding-small-horizontal, 10px);
+  &.rs-btn-sm {
+    .dropdown-toggle-caret-size(@padding-y-sm, @padding-x-sm, 10px);
   }
 
-  &.@{ns}btn-xs {
-    .dropdown-toggle-caret-size(@padding-extra-small-vertical, @padding-extra-small-horizontal, 8px);
+  &.rs-btn-xs {
+    .dropdown-toggle-caret-size(@padding-y-xs, @padding-x-xs, 8px);
   }
 }
 
@@ -48,7 +48,7 @@
     padding: 0 !important;
   }
 
-  .@{ns}nav & {
+  .rs-nav & {
     &:focus {
       box-shadow: none;
     }

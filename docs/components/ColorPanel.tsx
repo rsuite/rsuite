@@ -2,6 +2,7 @@ import React from 'react';
 import Color from 'color';
 import { Popover, Whisper } from 'rsuite';
 import Question2 from '@rsuite/icons/legacy/Question2';
+import type { PositionChildProps } from 'rsuite/es/Overlay/Position';
 
 interface ColorType {
   hex: string;
@@ -38,11 +39,11 @@ export default function ColorPanel(props: ColorPanelProps) {
 
           const styles = {
             background: item.hex,
-            color: a > b ? '#575757' : '#fff',
+            color: a > b ? '#575757' : '#fff'
           };
 
-          let levelNoraml = '';
-          let levelLarge = '';
+          let levelNoraml = '⚠️';
+          let levelLarge = '⚠️';
 
           if (contrast >= 3) {
             levelLarge = 'AA';
@@ -73,9 +74,9 @@ export default function ColorPanel(props: ColorPanelProps) {
   );
 }
 
-function Speaker() {
+const Speaker = React.forwardRef(({ style, ...rest }: PositionChildProps, ref) => {
   return (
-    <Popover title="Contrast Ratio" style={{ width: 700 }}>
+    <Popover ref={ref} style={{ width: 700, ...style }} title="Contrast Ratio" {...rest}>
       <p>
         The latest accessibility guidelines (e.g.,
         <a
@@ -114,4 +115,4 @@ function Speaker() {
       </ul>
     </Popover>
   );
-}
+});

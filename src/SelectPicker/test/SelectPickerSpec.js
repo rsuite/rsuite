@@ -1,6 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
 
 import Dropdown from '../SelectPicker';
 import Button from '../../Button';
@@ -189,7 +190,7 @@ describe('SelectPicker', () => {
     ReactTestUtils.Simulate.change(input);
   });
 
-  it('Should call `onSelect` by keyCode=13 ', done => {
+  it('Should call `onSelect` by key=Enter ', done => {
     const doneOp = (value, item) => {
       if (value === 'Louisa' && item.value === 'Louisa') {
         done();
@@ -199,8 +200,8 @@ describe('SelectPicker', () => {
       <Dropdown defaultOpen data={data} onSelect={doneOp} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
   });
 
   it('Should call `onOpen` callback', done => {
@@ -219,9 +220,9 @@ describe('SelectPicker', () => {
     picker.close();
   });
 
-  it('Should focus item by keyCode=40 ', done => {
+  it('Should focus item by key=ArrowDown ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={'Eugenia'} />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
 
     if (
       instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Kariane'
@@ -230,9 +231,9 @@ describe('SelectPicker', () => {
     }
   });
 
-  it('Should focus item by keyCode=38 ', done => {
+  it('Should focus item by key=ArrowUp ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={'Kariane'} />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 38 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
     if (
       instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText === 'Eugenia'
     ) {
@@ -240,7 +241,7 @@ describe('SelectPicker', () => {
     }
   });
 
-  it('Should call `onChange` by keyCode=13 ', done => {
+  it('Should call `onChange` by key=Enter ', done => {
     const doneOp = () => {
       done();
     };
@@ -248,7 +249,7 @@ describe('SelectPicker', () => {
       <Dropdown defaultOpen data={data} onChange={doneOp} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
   });
 
   it('Should call onBlur callback', done => {
@@ -293,7 +294,7 @@ describe('SelectPicker', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
     );
-    const list = instance.overlay.querySelectorAll('a');
+    const list = instance.overlay.querySelectorAll('.rs-picker-select-menu-item');
 
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
@@ -318,5 +319,21 @@ describe('SelectPicker', () => {
     const instance = getDOMNode(<Dropdown data={data} value={2} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
     assert.notInclude(instance.className, 'rs-picker-has-value');
+  });
+
+  it('Should focus the search box', () => {
+    const pickerRef = React.createRef();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<Dropdown ref={pickerRef} data={data} />, createTestContainer());
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.click(pickerRef.current.target);
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.keyDown(pickerRef.current.target, { key: 'a' });
+      assert.equal(document.activeElement, pickerRef.current.overlay.querySelector('input'));
+    });
   });
 });

@@ -129,5 +129,4 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 | Property | Type`(default)`            | Description                                                 |
 | -------- | -------------------------- | ----------------------------------------------------------- |
 | icon     | Element&lt;typeof Icon&gt; | Set the icon                                                |
-| pullLeft | boolean                    | The submenu expands from the left and defaults to the right |
 | title    | string                     | Define the title as a submenu                               |

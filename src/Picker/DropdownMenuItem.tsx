@@ -62,7 +62,7 @@ const DropdownMenuItem: RsRefForwardingComponent<'div', DropdownMenuItemProps> =
         onKeyDown={disabled ? null : onKeyDown}
         onClick={handleClick}
       >
-        <a className={classes}>{renderItem ? renderItem(value) : children}</a>
+        <span className={classes}>{renderItem ? renderItem(value) : children}</span>
       </Component>
     );
   }

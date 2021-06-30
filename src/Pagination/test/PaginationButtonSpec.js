@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { innerText, getDOMNode } from '@test/testUtils';
@@ -40,7 +41,7 @@ describe('PaginationButton', () => {
   });
 
   it('Custom elements can get the active prop', () => {
-    const Button = React.forwardRef(({ active, eventKey, ...rest }, ref) => {
+    const Button = React.forwardRef(({ active, ...rest }, ref) => {
       return (
         <span ref={ref} {...rest}>
           {active ? 'active' : 'inactive'}
@@ -55,7 +56,7 @@ describe('PaginationButton', () => {
   });
 
   it('Custom elements can get the eventKey prop', () => {
-    const Button = React.forwardRef(function Button({ eventKey, active, ...rest }, ref) {
+    const Button = React.forwardRef(function Button({ eventKey, ...rest }, ref) {
       return (
         <span ref={ref} {...rest}>
           {eventKey}

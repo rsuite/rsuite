@@ -8,7 +8,14 @@
 
 const instance = (
   <div>
-    <InputPicker creatable data={data} style={{ width: 224 }} />
+    <InputPicker
+      creatable
+      data={data}
+      style={{ width: 224 }}
+      onCreate={(value, item) => {
+        console.log(value, item);
+      }}
+    />
     <hr />
     <InputPicker
       creatable
@@ -16,6 +23,9 @@ const instance = (
       style={{ width: 224 }}
       groupBy="role"
       placeholder="Group Select"
+      onCreate={(value, item) => {
+        console.log(value, item);
+      }}
     />
   </div>
 );

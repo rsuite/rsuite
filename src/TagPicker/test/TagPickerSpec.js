@@ -175,7 +175,7 @@ describe('TagPicker', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
-  it('Should call `onSelect` by keyCode=13 ', done => {
+  it('Should call `onSelect` by key=Enter ', done => {
     const doneOp = (value, item) => {
       if (value[1] === 'Louisa' && item.value === 'Louisa') {
         done();
@@ -185,8 +185,8 @@ describe('TagPicker', () => {
       <TagPicker defaultOpen data={data} onSelect={doneOp} defaultValue={['Kariane']} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(instance, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance, { key: 'Enter' });
   });
 
   it('Should output a clean button', () => {
@@ -207,19 +207,19 @@ describe('TagPicker', () => {
     ReactTestUtils.Simulate.change(input);
   });
 
-  it('Should focus item by keyCode=40 ', () => {
+  it('Should focus item by key=ArrowDown ', () => {
     const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={['Eugenia']} />);
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowDown' });
     assert.equal(instance.overlay.querySelector('.rs-check-item-focus').innerText, 'Kariane');
   });
 
-  it('Should focus item by keyCode=38 ', () => {
+  it('Should focus item by key=ArrowUp ', () => {
     const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={['Kariane']} />);
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { keyCode: 38 });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowUp' });
     assert.equal(instance.overlay.querySelector('.rs-check-item-focus').innerText, 'Eugenia');
   });
 
-  it('Should call `onChange` by keyCode=13 ', done => {
+  it('Should call `onChange` by key=Enter ', done => {
     const doneOp = () => {
       done();
     };
@@ -227,7 +227,7 @@ describe('TagPicker', () => {
       <TagPicker defaultOpen data={data} onChange={doneOp} defaultValue={['Kariane']} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance, { key: 'Enter' });
   });
 
   it('Should call `onChange` by remove last item ', done => {
@@ -240,7 +240,7 @@ describe('TagPicker', () => {
       <TagPicker defaultOpen data={data} onChange={doneOp} defaultValue={['Kariane', 'Eugenia']} />
     );
     assert.equal(instance.querySelectorAll('.rs-tag').length, 2);
-    ReactTestUtils.Simulate.keyDown(instance.querySelector('input'), { keyCode: 8 });
+    ReactTestUtils.Simulate.keyDown(instance.querySelector('input'), { key: 'Backspace' });
   });
 
   it('Should call `onChange` by removeTag ', done => {
