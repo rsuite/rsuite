@@ -69,7 +69,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
                 as="a"
                 icon={<Diamond />}
                 target="_blank"
-                href={`/design/${themeName}/#artboard${designHash}`}
+                href={`/design/${themeName}/#s${designHash}`}
               >
                 {messages?.common?.design}
               </Dropdown.Item>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
     <title>Checkbox</title>
-    <desc>Created with Sketch.</desc>
     <g id="Checkbox" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <rect id="Rectangle-6" fill="#3498FF" x="0" y="0" width="16" height="16" rx="3"></rect>
         <line x1="3.37867966" y1="9.5" x2="7.62132034" y2="9.5" id="Path-3" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(5.500000, 9.500000) rotate(-315.000000) translate(-5.500000, -9.500000) "></line>

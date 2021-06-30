@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="8px" height="9px" viewBox="0 0 8 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
     <title>Sequence</title>
-    <desc>Created with Sketch.</desc>
-    <g id="Sequence" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round">
-        <line x1="4" y1="1" x2="4" y2="8" id="Line-7" stroke="#3498FF" stroke-width="2"></line>
-        <line x1="4" y1="8" x2="1" y2="5" id="Line-8" stroke="#3498FF" stroke-width="2"></line>
-        <line x1="7" y1="8" x2="4" y2="5" id="Line-8" stroke="#3498FF" stroke-width="2" transform="translate(5.500000, 6.500000) scale(-1, 1) translate(-5.500000, -6.500000) "></line>
+    <g id="Sequence" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Background" x="0" y="0" width="8" height="9"></rect>
+        <line x1="4" y1="1" x2="4" y2="8" id="Line-7" stroke="#3498FF" stroke-width="2" stroke-linecap="round"></line>
+        <line x1="4" y1="8" x2="1" y2="5" id="Line-8" stroke="#3498FF" stroke-width="2" stroke-linecap="round"></line>
+        <line x1="7" y1="8" x2="4" y2="5" id="Line-8" stroke="#3498FF" stroke-width="2" stroke-linecap="round" transform="translate(5.500000, 6.500000) scale(-1, 1) translate(-5.500000, -6.500000) "></line>
     </g>
 </svg>
