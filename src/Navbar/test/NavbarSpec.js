@@ -4,7 +4,7 @@ import { getDOMNode } from '@test/testUtils';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
-import { render } from '@testing-library/react';
+import { getByRole } from '@testing-library/dom';
 
 describe('Navbar', () => {
   it('Should render a navbar', () => {
@@ -38,7 +38,7 @@ describe('Navbar', () => {
   });
 
   it('Should render an ARIA menubar with menuitems', () => {
-    const { getByRole } = render(
+    const instance = getDOMNode(
       <Navbar>
         <Navbar.Brand href="#">RSUITE</Navbar.Brand>
         <Nav>
@@ -54,10 +54,10 @@ describe('Navbar', () => {
       </Navbar>
     );
 
-    expect(getByRole('menubar'), 'Menubar').not.to.be.null;
+    expect(getByRole(instance, 'menubar'), 'Menubar').not.to.be.null;
 
     for (const label of ['Home', 'News', 'Products', 'About']) {
-      expect(getByRole('menuitem', { name: label })).not.to.be.null;
+      expect(getByRole(instance, 'menuitem', { name: label })).not.to.be.null;
     }
   });
 });
