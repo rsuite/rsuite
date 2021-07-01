@@ -106,7 +106,7 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     renderTitle,
     classPrefix,
     placement,
-    activeKey,
+    activeKey: activeKeyProp,
     toggleClassName,
     trigger,
     icon,
@@ -118,15 +118,23 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     onMouseEnter,
     onMouseLeave,
     onContextMenu,
-    onSelect,
+    onSelect: onSelectProp,
     onOpen,
     onClose,
     onToggle,
     ...rest
   } = props;
 
-  const { onOpenChange, sidenav, expanded: sidenavExpanded } =
-    useContext<SidenavContextType>(SidenavContext) || {};
+  const {
+    onOpenChange,
+    sidenav,
+    expanded: sidenavExpanded,
+    activeKey: activeKeyFromSidenav,
+    onSelect: onSelectFromSidenav
+  } = useContext<SidenavContextType>(SidenavContext) || {};
+
+  const activeKey = activeKeyProp ?? activeKeyFromSidenav;
+
   const navbar = useContext(NavbarContext);
 
   const overlayTarget = useRef<HTMLUListElement>();
@@ -191,6 +199,8 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
       handleToggle(false);
     }
   }, [disabled, handleToggle]);
+
+  const onSelect = onSelectProp ?? onSelectFromSidenav;
 
   const handleSelect = (eventKey: any, event: React.MouseEvent<HTMLElement>) => {
     onSelect?.(eventKey, event);

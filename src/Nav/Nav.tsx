@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import NavItem from './NavItem';
 import Dropdown from '../Dropdown';
-import { ReactChildren, useClassNames } from '../utils';
+import { useClassNames } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -91,21 +91,6 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
 
   const activeKey = activeKeyProp ?? activeKeyFromSidenav;
 
-  const items = ReactChildren.mapCloneElement(children, item => {
-    const displayName = item?.type?.displayName;
-
-    if (displayName === 'Dropdown') {
-      return {
-        ...item.props,
-        onSelect: onSelectFromSidenav,
-        activeKey,
-        as: 'div'
-      };
-    }
-
-    return null;
-  });
-
   const ariaAttributes: React.HTMLAttributes<HTMLUListElement> = {};
 
   if (navbar) {
@@ -122,7 +107,7 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
       }}
     >
       <Component {...rest} ref={ref} className={classes} {...ariaAttributes}>
-        {items}
+        {children}
         {hasWaterline && <div className={prefix('bar')} />}
       </Component>
     </NavContext.Provider>

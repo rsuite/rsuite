@@ -105,7 +105,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     noCaret,
     style,
     onClick,
-    onSelect,
+    onSelect: onSelectProp,
     onOpen,
     onClose,
     open,
@@ -115,7 +115,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     ...rest
   } = props;
 
-  const { openKeys = [], activeKey, onOpenChange, onSelect: onSidenavSelect } = useContext(
+  const { openKeys = [], activeKey, onOpenChange, onSelect: onSelectFromSidenav } = useContext(
     SidenavContext
   );
   const treeControl = useContext(TreeControlContext);
@@ -168,7 +168,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
         onOpenChange?.(eventKey, event);
       }
 
-      onSidenavSelect?.(eventKey, event);
+      onSelectFromSidenav?.(eventKey, event);
       onClick?.(event);
     },
     [
@@ -176,12 +176,15 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
       disabled,
       isParentNode,
       handleToggle,
-      onSidenavSelect,
+      onSelectFromSidenav,
       onOpenChange,
       eventKey,
       onClick
     ]
   );
+
+  // fixme onSelectProp and onSelectFromSidenav should be able to called both (if exists)
+  const onSelect = onSelectProp ?? onSelectFromSidenav;
 
   const handleSelect = (eventKey: any, event: React.MouseEvent<HTMLElement>) => {
     onSelect?.(eventKey, event);
