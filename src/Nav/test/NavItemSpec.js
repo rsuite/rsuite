@@ -5,8 +5,7 @@ import { getDOMNode, createTestContainer, innerText } from '@test/testUtils';
 
 import NavItem from '../NavItem';
 import Sidenav from '../../Sidenav';
-import { getByRole } from '@testing-library/dom';
-import { findByRole, getByTestId, queryByRole, screen, waitFor } from '@testing-library/react';
+import { getByTestId, screen } from '@testing-library/react';
 
 describe('NavItem', () => {
   it('Should render a <a>', () => {
