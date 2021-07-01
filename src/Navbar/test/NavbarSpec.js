@@ -1,10 +1,16 @@
 import React from 'react';
+import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
 import { getByRole } from '@testing-library/dom';
+import * as utils from '../../utils';
+
+afterEach(() => {
+  sinon.restore();
+});
 
 describe('Navbar', () => {
   it('Should render a navbar', () => {
@@ -59,5 +65,125 @@ describe('Navbar', () => {
     for (const label of ['Home', 'News', 'Products', 'About']) {
       expect(getByRole(instance, 'menuitem', { name: label })).not.to.be.null;
     }
+  });
+
+  // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-12
+  describe('Keyboard interactions & Focus management', () => {
+    function renderNavbar(ui, focusAfterMount = true) {
+      const instance = getDOMNode(ui);
+
+      const menubar = instance.querySelector('[role="menubar"]');
+
+      if (focusAfterMount) {
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.focus(menubar);
+        });
+      }
+
+      return { root: instance, menubar };
+    }
+
+    it('Should put focus to first item when receive focus', () => {
+      const { menubar } = renderNavbar(
+        <Navbar>
+          <Nav>
+            <Nav.Item id="first-item">First item</Nav.Item>
+          </Nav>
+        </Navbar>
+      );
+
+      expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
+    });
+
+    describe('Right Arrow', () => {
+      it('When focus is in a menubar, moves focus to the next item', () => {
+        const { menubar } = renderNavbar(
+          <Navbar>
+            <Nav>
+              <Nav.Item id="first-item">First item</Nav.Item>
+              <Nav.Item id="second-item">Second item</Nav.Item>
+            </Nav>
+          </Navbar>
+        );
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'ArrowRight' });
+        });
+
+        expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
+      });
+
+      it('optionally wrapping from the last to the first.');
+
+      it('RTL: When focus is in a menubar, moves focus to the previous item', () => {
+        sinon.stub(utils, 'useCustom').returns({
+          rtl: true
+        });
+
+        const { menubar } = renderNavbar(
+          <Navbar>
+            <Nav>
+              <Nav.Item id="first-item">First item</Nav.Item>
+              <Nav.Item id="second-item">Second item</Nav.Item>
+            </Nav>
+          </Navbar>
+        );
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'ArrowLeft' });
+        });
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'ArrowRight' });
+        });
+
+        expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
+      });
+    });
+
+    describe('Left Arrow', () => {
+      it('When focus is in a menubar, moves focus to the previous item', () => {
+        const { menubar } = renderNavbar(
+          <Navbar>
+            <Nav>
+              <Nav.Item id="first-item">First item</Nav.Item>
+              <Nav.Item id="second-item">Second item</Nav.Item>
+            </Nav>
+          </Navbar>
+        );
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'ArrowRight' });
+        });
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'ArrowLeft' });
+        });
+
+        expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
+      });
+
+      it('optionally wrapping from the first to the last.');
+
+      it('When focus is in a menubar, moves focus to the next item', () => {
+        sinon.stub(utils, 'useCustom').returns({
+          rtl: true
+        });
+
+        const { menubar } = renderNavbar(
+          <Navbar>
+            <Nav>
+              <Nav.Item id="first-item">First item</Nav.Item>
+              <Nav.Item id="second-item">Second item</Nav.Item>
+            </Nav>
+          </Navbar>
+        );
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'ArrowLeft' });
+        });
+
+        expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
+      });
+    });
   });
 });

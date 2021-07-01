@@ -294,6 +294,7 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     <DropdownToggle
       {...rest}
       {...buttonEventHandlers}
+      tabIndex={navbar ? -1 : rest.tabIndex}
       id={buttonId}
       {...buttonAriaAttributes}
       ref={triggerTarget}

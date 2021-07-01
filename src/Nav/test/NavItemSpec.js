@@ -5,6 +5,8 @@ import { getDOMNode, createTestContainer, innerText } from '@test/testUtils';
 
 import NavItem from '../NavItem';
 import Sidenav from '../../Sidenav';
+import { getByRole } from '@testing-library/dom';
+import { findByRole, getByTestId, queryByRole, screen, waitFor } from '@testing-library/react';
 
 describe('NavItem', () => {
   it('Should render a <a>', () => {
@@ -86,22 +88,21 @@ describe('NavItem', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should render a tooltip when used inside a collapsed <Sidenav>', () => {
-    const itemRef = React.createRef();
-
+  it('Should render a tooltip when used inside a collapsed <Sidenav>', async () => {
+    const container = createTestContainer();
     ReactTestUtils.act(() => {
       ReactDOM.render(
         <Sidenav expanded={false}>
-          <NavItem ref={itemRef}>item</NavItem>
+          <NavItem data-testid="nav-item">item</NavItem>
         </Sidenav>,
-        createTestContainer()
+        container
       );
     });
 
     ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.focus(itemRef.current.root);
+      ReactTestUtils.Simulate.focus(getByTestId(container, 'nav-item'));
     });
 
-    assert.equal(itemRef.current.overlay.getAttribute('role'), 'tooltip');
+    expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;
   });
 });

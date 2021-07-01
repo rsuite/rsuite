@@ -1,15 +1,18 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
-import { useClassNames, appendTooltip, shallowEqual } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { appendTooltip, shallowEqual, useClassNames } from '../utils';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import TreeviewRootItem from '../Sidenav/TreeviewRootItem';
 import NavContext from './NavContext';
 import { NavbarContext } from '../Navbar/Navbar';
+import MenubarContext, { MenubarActionTypes } from './MenubarContext';
+import useEnsuredRef from '../utils/useEnsuredRef';
+import useUniqueId from '../utils/useUniqueId';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -72,8 +75,18 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
     const sidenav = useContext(SidenavContext);
     const navbar = useContext(NavbarContext);
 
+    const menubar = useContext(MenubarContext);
+    const [menubarState, dispatch] = menubar ?? [];
+    const menuitemRef = useEnsuredRef<HTMLLIElement>(ref);
+    const menuitemId = useUniqueId('menuitem-');
+
+    const hasFocus = !menubarState
+      ? false
+      : !isNil(menubarState.activeItemIndex) &&
+        menubarState.items[menubarState.activeItemIndex].element === menuitemRef.current;
+
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ active, disabled }));
+    const classes = merge(className, withClassPrefix({ focus: hasFocus, active, disabled }));
 
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLElement>) => {
@@ -84,6 +97,17 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       },
       [disabled, onSelect, eventKey, onClick]
     );
+
+    useEffect(() => {
+      if (navbar && !divider && !panel) {
+        const menuitem = menuitemRef.current;
+        dispatch({ type: MenubarActionTypes.RegisterItem, element: menuitem, props: { disabled } });
+
+        return () => {
+          dispatch({ type: MenubarActionTypes.UnregisterItem, id: menuitem.id });
+        };
+      }
+    }, [navbar, menuitemRef, dispatch, disabled, divider, panel]);
 
     if (sidenav?.expanded) {
       const { children, ...restProps } = props;
@@ -117,13 +141,14 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
 
     const item = (
       <Component
+        ref={menuitemRef}
+        id={menuitemId}
         aria-selected={active}
         {...rest}
-        tabIndex={tabIndex}
+        tabIndex={navbar ? -1 : tabIndex}
         disabled={Component === SafeAnchor ? disabled : null}
         className={classes}
         onClick={handleClick}
-        ref={ref}
         style={style}
         {...ariaAttributes}
       >
@@ -138,7 +163,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
 
     return tooltip
       ? appendTooltip({
-          ref,
           children: item,
           message: children,
           placement: 'right'

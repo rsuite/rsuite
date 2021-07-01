@@ -8,6 +8,8 @@ import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import Treeview from '../Sidenav/Treeview';
 import NavContext from './NavContext';
+import useEnsuredRef from '../utils/useEnsuredRef';
+import Menubar from './Menubar';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -65,6 +67,9 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
 
   // Whether inside a <Navbar>
   const navbar = useContext(NavbarContext);
+
+  const menubarRef = useEnsuredRef(ref);
+
   const { withClassPrefix, merge, rootPrefix, prefix } = useClassNames(classPrefix);
 
   const classes = merge(
@@ -91,13 +96,23 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
 
   const activeKey = activeKeyProp ?? activeKeyFromSidenav;
 
-  const ariaAttributes: React.HTMLAttributes<HTMLUListElement> = {};
-
-  if (navbar) {
-    ariaAttributes.role = 'menubar';
-  }
-
   const hasWaterline = appearance !== 'default';
+
+  if (!navbar) {
+    return (
+      <NavContext.Provider
+        value={{
+          activeKey,
+          onSelect: onSelectProp ?? onSelectFromSidenav
+        }}
+      >
+        <Component {...rest} ref={menubarRef} className={classes}>
+          {children}
+          {hasWaterline && <div className={prefix('bar')} />}
+        </Component>
+      </NavContext.Provider>
+    );
+  }
 
   return (
     <NavContext.Provider
@@ -106,10 +121,14 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
         onSelect: onSelectProp ?? onSelectFromSidenav
       }}
     >
-      <Component {...rest} ref={ref} className={classes} {...ariaAttributes}>
-        {children}
-        {hasWaterline && <div className={prefix('bar')} />}
-      </Component>
+      <Menubar>
+        {(menubar: any) => (
+          <Component {...rest} ref={menubarRef} className={classes} {...menubar}>
+            {children}
+            {hasWaterline && <div className={prefix('bar')} />}
+          </Component>
+        )}
+      </Menubar>
     </NavContext.Provider>
   );
 }) as unknown) as NavComponent;
