@@ -20,7 +20,6 @@ export interface DropdownMenuProps extends WithAsProps {
   labelKey: string;
   menuWidth: number;
   menuHeight: number | string;
-  loadingText: string;
   renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
   renderMenu?: (
     items: ItemDataType[],
@@ -30,7 +29,6 @@ export interface DropdownMenuProps extends WithAsProps {
   ) => React.ReactNode;
   onSelect?: (
     node: ItemDataType,
-    cascadeData: ItemDataType[][],
     cascadePaths: ItemDataType[],
     isLeafNode: boolean,
     event: React.MouseEvent
@@ -64,7 +62,6 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       cascadeData,
       cascadePaths,
       labelKey,
-      loadingText,
       renderMenu,
       renderMenuItem,
       onSelect,
@@ -95,39 +92,28 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       });
     }, [prefix]);
 
-    const getCascadeItems = useCallback(
-      (items: ItemDataType[], layer: number, node: ItemDataType, isLeafNode: boolean) => {
-        const data = [];
+    const getCascadePaths = useCallback(
+      (layer: number, node: ItemDataType) => {
         const paths = [];
 
         for (let i = 0; i < cascadeData.length && i < layer; i += 1) {
-          data.push(cascadeData[i]);
           if (i < layer - 1 && cascadePaths) {
             paths.push(cascadePaths[i]);
           }
         }
 
         paths.push(node);
-        if (!isLeafNode) {
-          data.push(items);
-        }
 
-        return {
-          cascadeData: data,
-          cascadePaths: paths
-        };
+        return paths;
       },
       [cascadeData, cascadePaths]
     );
 
     const handleSelect = (layer: number, node: any, event: React.MouseEvent) => {
-      const children = node[childrenKey];
-      const isLeafNode = isNil(children);
-      const items = (children || []).map(item => ({ ...item, parent: node }));
+      const isLeafNode = isNil(node[childrenKey]);
+      const cascadePaths = getCascadePaths(layer + 1, node);
 
-      const { cascadeData, cascadePaths } = getCascadeItems(items, layer + 1, node, isLeafNode);
-
-      onSelect?.(node, cascadeData, cascadePaths, isLeafNode, event);
+      onSelect?.(node, cascadePaths, isLeafNode, event);
     };
 
     const renderCascadeNode = (node: any, index: number, layer: number, focus: boolean) => {
@@ -139,7 +125,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
-      const Icon = rtl ? AngleRightIcon : AngleLeftIcon;
+      const Icon = node.loading ? SpinnerIcon : rtl ? AngleRightIcon : AngleLeftIcon;
 
       return (
         <DropdownMenuItem
@@ -154,7 +140,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
           onSelect={(_value, event) => handleSelect(layer, node, event)}
         >
           {renderMenuItem ? renderMenuItem(label, node) : label}
-          {children ? <Icon className={prefix('caret')} /> : null}
+          {children ? <Icon className={prefix('caret')} spin={node.loading} /> : null}
         </DropdownMenuItem>
       );
     };
@@ -176,21 +162,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       );
 
       const parentNode = cascadePaths[layer - 1];
-      const renderMenuElement = () => {
-        if (renderMenu) {
-          return renderMenu(children, menu, parentNode, layer);
-        }
-
-        return parentNode?.loading ? (
-          <div className={prefix('column-loading')}>
-            <SpinnerIcon spin /> <span>{loadingText}</span>
-          </div>
-        ) : (
-          menu
-        );
-      };
-
-      const node = (
+      return (
         <div
           key={onlyKey}
           className={prefix('column')}
@@ -198,10 +170,9 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
           data-type={'column'}
           style={{ height: menuHeight, width: menuWidth }}
         >
-          {renderMenuElement()}
+          {renderMenu ? renderMenu(children, menu, parentNode, layer) : menu}
         </div>
       );
-      return node;
     });
 
     return (
