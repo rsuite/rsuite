@@ -436,7 +436,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
         // The search box gets focus when typing characters and numbers.
         if (event.key.length === 1 && /\w/.test(event.key)) {
-          searchInputRef.current?.focus();
+          searchInputRef?.current?.focus();
         }
       }
     },

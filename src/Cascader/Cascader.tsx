@@ -357,7 +357,9 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
       node.loading = true;
 
       const children = getChildren(node);
+
       if (children instanceof Promise) {
+        // TODO: 当快速点击节点(个节点未加载完成就点击了另外一个节点)，会导致子节点返回的 children 不能正确的返回附加到对应的节点上
         children.then((data: ItemDataType[]) => {
           node.loading = false;
           node[childrenKey] = data;
