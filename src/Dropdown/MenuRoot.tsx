@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useCallback } from 'react';
+import React, { useRef, useContext, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import DropdownToggle from './DropdownToggle';
@@ -22,6 +22,9 @@ import useMenuControl from './useMenuControl';
 import deprecatePropType from '../utils/deprecatePropType';
 import DropdownItem from './DropdownItem';
 import { NavbarContext } from '../Navbar/Navbar';
+import MenubarContext, { MenubarActionTypes } from '../Nav/MenubarContext';
+import isNil from 'lodash/isNil';
+import Menu from './Menu';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface MenuRootProps<T = any>
@@ -290,6 +293,25 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     buttonAriaAttributes.role = 'menuitem';
   }
 
+  const menubar = useContext(MenubarContext);
+  const [menubarState, dispatch] = menubar ?? [];
+
+  useEffect(() => {
+    if (navbar) {
+      const menuitem = triggerTarget.current as any;
+      dispatch({ type: MenubarActionTypes.RegisterItem, element: menuitem, props: { disabled } });
+
+      return () => {
+        dispatch({ type: MenubarActionTypes.UnregisterItem, id: menuitem.id });
+      };
+    }
+  }, [navbar, triggerTarget, dispatch, disabled]);
+
+  const hasFocus = !menubarState
+    ? false
+    : !isNil(menubarState.activeItemIndex) &&
+      menubarState.items[menubarState.activeItemIndex].element === (triggerTarget.current as any);
+
   const toggleElement = (
     <DropdownToggle
       {...rest}
@@ -322,10 +344,6 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
           e.preventDefault();
           e.stopPropagation();
           handleToggle(false);
-          requestAnimationFrame(() => {
-            // Move focus back to button
-            triggerTarget.current.focus();
-          });
           break;
         default:
           break;
@@ -346,7 +364,7 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
   const showHeader = sidenav && !sidenavExpanded;
 
   const menuElement = (
-    <DropdownMenu
+    <Menu
       style={menuStyle}
       onSelect={handleSelect as any}
       onToggle={handleToggleChange}
@@ -358,7 +376,7 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
     >
       {showHeader && <li className={prefix('header')}>{title}</li>}
       {children}
-    </DropdownMenu>
+    </Menu>
   );
 
   const classes = merge(
@@ -367,6 +385,7 @@ const MenuRoot: DropdownComponent = (React.forwardRef((props: MenuRootProps, ref
       [`placement-${kebabCase(placementPolyfill(placement))}`]: placement,
       disabled,
       open,
+      focus: hasFocus,
       'no-caret': noCaret
     })
   );

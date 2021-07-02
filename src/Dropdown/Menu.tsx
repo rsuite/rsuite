@@ -9,6 +9,7 @@ import MenuControlContext from './MenuControlContext';
 import useUniqueId from '../utils/useUniqueId';
 import useMenuControl from './useMenuControl';
 import deprecatePropType from '../utils/deprecatePropType';
+import { isFocusEntering } from '../utils/events';
 
 export interface MenuProps<T = string> extends StandardProps {
   /**
@@ -52,6 +53,7 @@ const Menu = React.forwardRef(
 
     const parentMenu = useContext(MenuContext);
     const isSubmenu = !!parentMenu;
+
     const upperMenuControl = useContext(MenuControlContext);
     const menuControl = useMenuControl(menuRef, upperMenuControl);
 
@@ -147,7 +149,19 @@ const Menu = React.forwardRef(
       [onKeyDown, menuControl, isSubmenu, rtl]
     );
 
+    const { focusItemAt } = menuControl;
+
+    const onFocus = useCallback(
+      (event: React.FocusEvent) => {
+        if (isFocusEntering(event)) {
+          focusItemAt(0);
+        }
+      },
+      [focusItemAt]
+    );
+
     const menuEventHandlers: React.HTMLAttributes<HTMLUListElement> = {
+      onFocus,
       onKeyDown: handleKeydown
     };
 

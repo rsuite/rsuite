@@ -229,5 +229,32 @@ describe('Navbar', () => {
         expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
       });
     });
+
+    describe('Enter', () => {
+      it('When focus is on a menuitem that has a submenu, opens the submenu and places focus on its first item.', () => {
+        const { menubar } = renderNavbar(
+          <Navbar>
+            <Nav>
+              <Dropdown>
+                <Dropdown.Item id="first-item">Submenu item</Dropdown.Item>
+              </Dropdown>
+            </Nav>
+          </Navbar>
+        );
+        const menu = menubar.querySelector('[role="menu"]');
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'Enter' });
+        });
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.focus(menu);
+        });
+
+        expect(!menu.hidden, 'Submenu is open').to.be.true;
+        expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
+      });
+      it('Otherwise, activates the item and closes the menu.');
+    });
   });
 });

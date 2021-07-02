@@ -32,6 +32,15 @@
     margin: 0 !important;
   }
 
+  &:focus {
+    .rs-nav-item:focus-visible,
+    .rs-nav-item.rs-nav-item-focus {
+      .focus-ring();
+
+      z-index: 1;
+    }
+  }
+
   > .rs-dropdown .rs-dropdown-menu-item-focus,
   > .rs-dropdown .rs-dropdown-item-active {
     font-weight: normal;

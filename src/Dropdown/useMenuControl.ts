@@ -39,7 +39,7 @@ export default function useMenuControl(
   // Focus the menu itself
   const focusSelf = useCallback(() => {
     requestAnimationFrame(() => {
-      if (document.activeElement !== menuRef.current) {
+      if (document.activeElement !== menuRef.current && menuRef.current.tabIndex >= 0) {
         previousActiveElementRef.current = document.activeElement as HTMLElement;
         menuRef.current.focus();
       }
