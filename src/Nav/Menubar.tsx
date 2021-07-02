@@ -41,6 +41,22 @@ export default function Menubar({ children }: MenubarProps) {
             to: !rtl ? MoveFocusTo.Prev : MoveFocusTo.Next
           });
           break;
+        case KEY_VALUES.HOME:
+          event.preventDefault();
+          event.stopPropagation();
+          dispatch({
+            type: MenubarActionTypes.MoveFocus,
+            to: MoveFocusTo.First
+          });
+          break;
+        case KEY_VALUES.END:
+          event.preventDefault();
+          event.stopPropagation();
+          dispatch({
+            type: MenubarActionTypes.MoveFocus,
+            to: MoveFocusTo.Last
+          });
+          break;
       }
     },
     [dispatch]

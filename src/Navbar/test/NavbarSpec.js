@@ -185,5 +185,49 @@ describe('Navbar', () => {
         expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
       });
     });
+
+    describe('End', () => {
+      it('If arrow key wrapping is not supported, moves focus to the last item in the current menu or menubar.', () => {
+        const { menubar } = renderNavbar(
+          <Navbar>
+            <Nav>
+              <Nav.Item id="first-item">First item</Nav.Item>
+              <Nav.Item>Second item</Nav.Item>
+              <Nav.Item id="last-item">Third item</Nav.Item>
+            </Nav>
+          </Navbar>
+        );
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'End' });
+        });
+
+        expect(menubar.getAttribute('aria-activedescendant')).to.equal('last-item');
+      });
+    });
+
+    describe('Home', () => {
+      it('If arrow key wrapping is not supported, moves focus to the first item in the current menu or menubar', () => {
+        const { menubar } = renderNavbar(
+          <Navbar>
+            <Nav>
+              <Nav.Item id="first-item">First item</Nav.Item>
+              <Nav.Item>Second item</Nav.Item>
+              <Nav.Item id="last-item">Third item</Nav.Item>
+            </Nav>
+          </Navbar>
+        );
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'End' });
+        });
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'Home' });
+        });
+
+        expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
+      });
+    });
   });
 });
