@@ -96,6 +96,22 @@ describe('Navbar', () => {
       expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
     });
 
+    it('When a menubar loses focus, keyboard focus is placed on none item.', () => {
+      const { menubar } = renderNavbar(
+        <Navbar>
+          <Nav>
+            <Nav.Item id="first-item">First item</Nav.Item>
+          </Nav>
+        </Navbar>
+      );
+
+      ReactTestUtils.act(() => {
+        ReactTestUtils.Simulate.blur(menubar);
+      });
+
+      expect(menubar.getAttribute('aria-activedescendant')).to.be.null;
+    });
+
     describe('Right Arrow', () => {
       it('When focus is in a menubar, moves focus to the next item', () => {
         const { menubar } = renderNavbar(
