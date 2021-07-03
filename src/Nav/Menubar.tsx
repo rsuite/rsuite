@@ -75,6 +75,13 @@ export default function Menubar({ children }: MenubarProps) {
             to: MoveFocusTo.Last
           });
           break;
+        case KEY_VALUES.DOWN:
+          if (activeItem?.element.getAttribute('aria-haspopup') === 'menu') {
+            event.preventDefault();
+            event.stopPropagation();
+            activeItem.element.click();
+          }
+          break;
         case KEY_VALUES.ENTER:
         case KEY_VALUES.SPACE:
           event.preventDefault();
