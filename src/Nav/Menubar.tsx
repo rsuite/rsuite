@@ -78,9 +78,7 @@ export default function Menubar({ children }: MenubarProps) {
         case KEY_VALUES.ENTER:
           event.preventDefault();
           event.stopPropagation();
-          if (activeItem?.element.getAttribute('aria-haspopup') === 'menu') {
-            activeItem?.element.click();
-          }
+          activeItem?.element.click();
           break;
       }
     },

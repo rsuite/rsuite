@@ -83,7 +83,7 @@ describe('Navbar', () => {
       return { root: instance, menubar };
     }
 
-    it('Should put focus to first item when receive focus', () => {
+    it('When a menubar receives focus, keyboard focus is placed on the first item.', () => {
       const { menubar } = renderNavbar(
         <Navbar>
           <Nav>
@@ -254,7 +254,22 @@ describe('Navbar', () => {
         expect(!menu.hidden, 'Submenu is open').to.be.true;
         expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
       });
-      it('Otherwise, activates the item and closes the menu.');
+      it('Otherwise, activates the item.', () => {
+        const onSelectSpy = sinon.spy();
+        const { menubar } = renderNavbar(
+          <Navbar>
+            <Nav>
+              <Nav.Item onSelect={onSelectSpy}>First item</Nav.Item>
+            </Nav>
+          </Navbar>
+        );
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'Enter' });
+        });
+
+        expect(onSelectSpy, 'onSelect').to.be.called;
+      });
     });
   });
 });
