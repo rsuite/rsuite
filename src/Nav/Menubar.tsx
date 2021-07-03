@@ -76,13 +76,14 @@ export default function Menubar({ children }: MenubarProps) {
           });
           break;
         case KEY_VALUES.ENTER:
+        case KEY_VALUES.SPACE:
           event.preventDefault();
           event.stopPropagation();
           activeItem?.element.click();
           break;
       }
     },
-    [items, activeItemIndex, dispatch]
+    [rtl, items, activeItemIndex, dispatch]
   );
 
   const element = children({

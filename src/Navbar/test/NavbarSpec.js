@@ -68,6 +68,7 @@ describe('Navbar', () => {
   });
 
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-12
+  // Ref: https://www.w3.org/TR/wai-aria-practices/examples/menubar/menubar-1/menubar-1.html
   describe('Keyboard interactions & Focus management', () => {
     function renderNavbar(ui, focusAfterMount = true) {
       const instance = getDOMNode(ui);
@@ -164,7 +165,7 @@ describe('Navbar', () => {
 
       it('optionally wrapping from the first to the last.');
 
-      it('When focus is in a menubar, moves focus to the next item', () => {
+      it('RTL: When focus is in a menubar, moves focus to the next item', () => {
         sinon.stub(utils, 'useCustom').returns({
           rtl: true
         });
@@ -187,7 +188,7 @@ describe('Navbar', () => {
     });
 
     describe('End', () => {
-      it('If arrow key wrapping is not supported, moves focus to the last item in the current menu or menubar.', () => {
+      it('Moves focus to last item in the menubar.', () => {
         const { menubar } = renderNavbar(
           <Navbar>
             <Nav>
@@ -207,7 +208,7 @@ describe('Navbar', () => {
     });
 
     describe('Home', () => {
-      it('If arrow key wrapping is not supported, moves focus to the first item in the current menu or menubar', () => {
+      it('Moves focus to first item in the menubar.', () => {
         const { menubar } = renderNavbar(
           <Navbar>
             <Nav>
@@ -266,6 +267,48 @@ describe('Navbar', () => {
 
         ReactTestUtils.act(() => {
           ReactTestUtils.Simulate.keyDown(menubar, { key: 'Enter' });
+        });
+
+        expect(onSelectSpy, 'onSelect').to.be.called;
+      });
+    });
+
+    describe('Space', () => {
+      it('When focus is on a menuitem that has a submenu, opens the submenu and places focus on its first item.', () => {
+        const { menubar } = renderNavbar(
+          <Navbar>
+            <Nav>
+              <Dropdown>
+                <Dropdown.Item id="first-item">Submenu item</Dropdown.Item>
+              </Dropdown>
+            </Nav>
+          </Navbar>
+        );
+        const menu = menubar.querySelector('[role="menu"]');
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: ' ' });
+        });
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.focus(menu);
+        });
+
+        expect(!menu.hidden, 'Submenu is open').to.be.true;
+        expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
+      });
+      it('Otherwise, activates the item.', () => {
+        const onSelectSpy = sinon.spy();
+        const { menubar } = renderNavbar(
+          <Navbar>
+            <Nav>
+              <Nav.Item onSelect={onSelectSpy}>First item</Nav.Item>
+            </Nav>
+          </Navbar>
+        );
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: ' ' });
         });
 
         expect(onSelectSpy, 'onSelect').to.be.called;
