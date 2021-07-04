@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
+import { getByTestId, screen } from '@testing-library/react';
 import { getDOMNode, createTestContainer, innerText } from '@test/testUtils';
 
 import NavItem from '../NavItem';
 import Sidenav from '../../Sidenav';
-import { getByTestId, screen } from '@testing-library/react';
+import Nav from '../Nav';
 
 describe('NavItem', () => {
   it('Should render a <a>', () => {
@@ -36,13 +37,25 @@ describe('NavItem', () => {
   });
 
   it('Should render a separator', () => {
-    let instance = getDOMNode(<NavItem divider />);
-    assert.include(instance.className, 'rs-nav-item-divider');
+    let instance = getDOMNode(
+      <Sidenav>
+        <Nav>
+          <NavItem divider data-testid="nav-item" />
+        </Nav>
+      </Sidenav>
+    );
+    assert.include(getByTestId(instance, 'nav-item').className, 'rs-nav-item-divider');
   });
 
   it('Should render a panel', () => {
-    let instance = getDOMNode(<NavItem panel />);
-    assert.include(instance.className, 'rs-nav-item-panel');
+    let instance = getDOMNode(
+      <Sidenav>
+        <Nav>
+          <NavItem panel data-testid="nav-item" />
+        </Nav>
+      </Sidenav>
+    );
+    assert.include(getByTestId(instance, 'nav-item').className, 'rs-nav-item-panel');
   });
 
   it('Should be active', () => {

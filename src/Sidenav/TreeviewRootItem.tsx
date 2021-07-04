@@ -223,8 +223,6 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
     };
   }, [treeitemRef, registerNode, unregisterNode, eventKey, divider, panel]);
 
-  // Nav.Item
-
   if (!isParentNode) {
     const { active, ...extraAttributes } = rest as any;
 
@@ -240,6 +238,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
           role="separator"
           style={style}
           className={merge(className, prefix('divider'))}
+          {...extraAttributes}
         />
       );
     }
@@ -251,6 +250,7 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
           role="none presentation"
           style={style}
           className={merge(className, prefix('panel'))}
+          {...extraAttributes}
         >
           {title}
         </li>

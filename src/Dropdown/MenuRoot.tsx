@@ -22,7 +22,7 @@ import useMenuControl from './useMenuControl';
 import deprecatePropType from '../utils/deprecatePropType';
 import DropdownItem from './DropdownItem';
 import { NavbarContext } from '../Navbar/Navbar';
-import MenubarContext, { MenubarActionTypes } from '../Nav/MenubarContext';
+import MenubarContext, { MenubarActionTypes } from '../Navbar/MenubarContext';
 import isNil from 'lodash/isNil';
 import Menu from './Menu';
 

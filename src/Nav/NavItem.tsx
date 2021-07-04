@@ -1,6 +1,7 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
+import omit from 'lodash/omit';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { appendTooltip, shallowEqual, useClassNames } from '../utils';
@@ -10,9 +11,7 @@ import { SidenavContext } from '../Sidenav/Sidenav';
 import TreeviewRootItem from '../Sidenav/TreeviewRootItem';
 import NavContext from './NavContext';
 import { NavbarContext } from '../Navbar/Navbar';
-import MenubarContext, { MenubarActionTypes } from './MenubarContext';
-import useEnsuredRef from '../utils/useEnsuredRef';
-import useUniqueId from '../utils/useUniqueId';
+import MenubarItem from '../Navbar/MenubarItem';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -44,10 +43,12 @@ export interface NavItemProps<T = string>
 
 const defaultProps: Partial<NavItemProps> = {
   classPrefix: 'nav-item',
-  as: SafeAnchor,
-  tabIndex: 0
+  as: SafeAnchor
 };
 
+/**
+ * The <Nav.Item> API
+ */
 const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<any>) => {
     const {
@@ -72,21 +73,11 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
 
     const active = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
 
-    const sidenav = useContext(SidenavContext);
     const navbar = useContext(NavbarContext);
-
-    const menubar = useContext(MenubarContext);
-    const [menubarState, dispatch] = menubar ?? [];
-    const menuitemRef = useEnsuredRef<HTMLLIElement>(ref);
-    const menuitemId = useUniqueId('menuitem-');
-
-    const hasFocus = !menubarState
-      ? false
-      : !isNil(menubarState.activeItemIndex) &&
-        menubarState.items[menubarState.activeItemIndex].element === menuitemRef.current;
+    const sidenav = useContext(SidenavContext);
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ focus: hasFocus, active, disabled }));
+    const classes = merge(className, withClassPrefix({ active, disabled }));
 
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLElement>) => {
@@ -98,16 +89,26 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       [disabled, onSelect, eventKey, onClick]
     );
 
-    useEffect(() => {
-      if (navbar && !divider && !panel) {
-        const menuitem = menuitemRef.current;
-        dispatch({ type: MenubarActionTypes.RegisterItem, element: menuitem, props: { disabled } });
-
-        return () => {
-          dispatch({ type: MenubarActionTypes.UnregisterItem, id: menuitem.id });
-        };
-      }
-    }, [navbar, menuitemRef, dispatch, disabled, divider, panel]);
+    // If <Nav.Item> is inside <Navbar>, render a <Menubar.Item>
+    if (navbar) {
+      const { icon, children, eventKey, onSelect, ...extraAttributes } = omit(props, [
+        'active',
+        'divider',
+        'panel'
+      ]);
+      return (
+        <MenubarItem
+          ref={ref}
+          selected={active}
+          data-event-key={eventKey}
+          onActivate={e => onSelect?.(eventKey, e)}
+          {...extraAttributes}
+        >
+          {icon}
+          {children}
+        </MenubarItem>
+      );
+    }
 
     if (sidenav?.expanded) {
       const { children, ...restProps } = props;
@@ -141,8 +142,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
 
     const item = (
       <Component
-        ref={menuitemRef}
-        id={menuitemId}
+        ref={ref}
         aria-selected={active}
         {...rest}
         tabIndex={navbar ? -1 : tabIndex}
@@ -172,7 +172,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
 );
 
 NavItem.defaultProps = defaultProps;
-NavItem.displayName = 'NavItem';
+NavItem.displayName = 'Nav.Item';
 NavItem.propTypes = {
   as: PropTypes.elementType,
   active: PropTypes.bool,
