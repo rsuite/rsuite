@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import DropdownMenu from './DropdownMenu';
 import { PLACEMENT_8 } from '../utils';
@@ -8,7 +8,9 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import DropdownItem from './DropdownItem';
 import TreeviewRootItem from '../Sidenav/TreeviewRootItem';
-import MenuRoot from './MenuRoot';
+import DropdownContext from './DropdownContext';
+import Menu, { MenuButtonTrigger } from './Menu';
+import DropdownToggle from './DropdownToggle';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -88,13 +90,79 @@ const defaultProps: Partial<DropdownProps> = {
  * Otherwise renders a <MenuRoot>
  */
 const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref) => {
+  const { activeKey, onSelect, ...rest } = props;
+
+  const {
+    title,
+    onClose,
+    onOpen,
+    onToggle,
+    eventKey,
+    trigger,
+    placement,
+    renderTitle,
+    toggleAs,
+    toggleClassName,
+    ...menuProps
+  } = rest;
+
+  const menuButtonTriggers = useMemo<MenuButtonTrigger[] | undefined>(() => {
+    if (!trigger) {
+      return undefined;
+    }
+
+    const triggerMap = {
+      hover: 'mouseover',
+      click: 'click',
+      contextMenu: 'contextmenu'
+    };
+
+    if (!Array.isArray(trigger)) {
+      return [triggerMap[trigger]];
+    }
+
+    return trigger.map(t => triggerMap[t]);
+  }, [trigger]);
+
   const sidenav = useContext<SidenavContextType>(SidenavContext);
 
   if (sidenav?.expanded) {
-    return <TreeviewRootItem ref={ref} {...props} />;
+    return (
+      <DropdownContext.Provider value={{ activeKey, onSelect }}>
+        <TreeviewRootItem ref={ref} {...props} />
+      </DropdownContext.Provider>
+    );
   }
 
-  return <MenuRoot ref={ref} {...props} />;
+  return (
+    <DropdownContext.Provider value={{ activeKey, onSelect }}>
+      <Menu
+        ref={ref}
+        menuButtonText={title}
+        renderMenuButton={menuButtonProps => (
+          <DropdownToggle
+            as={renderTitle ? 'span' : toggleAs}
+            className={toggleClassName}
+            {...menuButtonProps}
+          >
+            {title}
+          </DropdownToggle>
+        )}
+        openMenuOn={menuButtonTriggers}
+        popupPlacement={placement}
+        onToggleMenu={(open, event) => {
+          onToggle?.(open);
+          sidenav?.onOpenChange(eventKey, event);
+          if (open) {
+            onOpen?.();
+          } else {
+            onClose?.();
+          }
+        }}
+        {...menuProps}
+      />
+    </DropdownContext.Provider>
+  );
 }) as unknown) as DropdownComponent;
 
 Dropdown.Item = DropdownItem;

@@ -5,9 +5,9 @@ import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import MenubarContext, { MenubarActionTypes } from './MenubarContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
 import useUniqueId from '../utils/useUniqueId';
+import MenuContext, { MenuActionTypes } from '../Dropdown/MenuContext';
 
 export interface MenubarItemProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
   /** Activation status */
@@ -40,7 +40,7 @@ const MenubarItem: RsRefForwardingComponent<'li', MenubarItemProps> = React.forw
       ...rest
     } = props;
 
-    const [{ items, activeItemIndex }, dispatch] = useContext(MenubarContext);
+    const [{ items, activeItemIndex }, dispatch] = useContext(MenuContext);
     const menuitemRef = useEnsuredRef<HTMLLIElement>(ref);
     const menuitemId = useUniqueId('menuitem-');
     const menuitemActive =
@@ -60,10 +60,10 @@ const MenubarItem: RsRefForwardingComponent<'li', MenubarItemProps> = React.forw
 
     useEffect(() => {
       const menuitem = menuitemRef.current;
-      dispatch({ type: MenubarActionTypes.RegisterItem, element: menuitem, props: { disabled } });
+      dispatch({ type: MenuActionTypes.RegisterItem, element: menuitem, props: { disabled } });
 
       return () => {
-        dispatch({ type: MenubarActionTypes.UnregisterItem, id: menuitem.id });
+        dispatch({ type: MenuActionTypes.UnregisterItem, id: menuitem.id });
       };
     }, [menuitemRef, dispatch, disabled]);
 
@@ -83,7 +83,7 @@ const MenubarItem: RsRefForwardingComponent<'li', MenubarItemProps> = React.forw
         ref={menuitemRef}
         id={menuitemId}
         tabIndex={-1}
-        disabled={Component === SafeAnchor ? disabled : null}
+        disabled={Component === SafeAnchor ? disabled : undefined}
         className={classes}
         onClick={handleClick}
         style={style}

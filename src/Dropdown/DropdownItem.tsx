@@ -1,11 +1,14 @@
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import TreeviewItem from '../Sidenav/TreeviewItem';
 import deprecatePropType from '../utils/deprecatePropType';
 import MenuItem from './MenuItem';
+import DropdownContext from './DropdownContext';
+import isNil from 'lodash/isNil';
+import { shallowEqual } from '../utils';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -53,9 +56,6 @@ export interface DropdownMenuItemProps<T = any>
    */
   open?: boolean;
 
-  /** Whether the submenu is expanded, used in Sidenav. */
-  expanded?: boolean;
-
   /** Select the callback function for the current option  */
   onSelect?: (eventKey: T, event: React.SyntheticEvent<HTMLElement>) => void;
 }
@@ -73,6 +73,18 @@ const defaultProps: Partial<DropdownMenuItemProps> = {
  */
 const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.forwardRef(
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
+    const { active: activeProp, eventKey, onSelect, ...menuitemProps } = props;
+
+    const dropdown = useContext(DropdownContext);
+
+    const handleSelectItem = useCallback(
+      (event: React.SyntheticEvent<HTMLElement>) => {
+        onSelect?.(eventKey, event);
+        dropdown?.onSelect?.(eventKey, event);
+      },
+      [onSelect, eventKey, dropdown]
+    );
+
     const sidenav = useContext(SidenavContext);
 
     if (sidenav?.expanded) {
@@ -80,7 +92,18 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       return <TreeviewItem ref={ref} title={children} {...restProps} />;
     }
 
-    return <MenuItem ref={ref} {...props} />;
+    const menuitemSelected =
+      activeProp || (!isNil(eventKey) && shallowEqual(dropdown?.activeKey, eventKey));
+
+    return (
+      <MenuItem
+        ref={ref}
+        selected={menuitemSelected}
+        onActivate={handleSelectItem}
+        data-event-key={eventKey}
+        {...menuitemProps}
+      />
+    );
   }
 );
 
@@ -92,7 +115,6 @@ DropdownItem.propTypes = {
   panel: PropTypes.bool,
   trigger: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['click', 'hover'])]),
   open: deprecatePropType(PropTypes.bool),
-  expanded: PropTypes.bool,
   active: PropTypes.bool,
   disabled: PropTypes.bool,
   pullLeft: deprecatePropType(PropTypes.bool),

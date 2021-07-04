@@ -1,20 +1,40 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 
-export interface MenuContextProps {
-  /**
-   * Reference of active child item
-   */
-  activeKey?: string;
-  /**
-   * Only the outer-most menu would receive this directly as prop  (usually when menus are inside Sidenav)
-   * Submenus can only access this prop from context
-   */
-  collapsible?: boolean;
-  /**
-   * Callback when menuitem is triggered
-   */
-  onSelect: (eventKey: string, event: React.SyntheticEvent<HTMLElement>) => void;
+export type MenuContextProps = [MenuState, Dispatch<MenuAction>];
+
+export interface MenuState {
+  open: boolean;
+  items: Array<{
+    element: HTMLLIElement;
+    props?: {
+      disabled?: boolean;
+    };
+  }>;
+  activeItemIndex: number | null;
 }
+
+export enum MenuActionTypes {
+  RegisterItem,
+  UnregisterItem,
+  OpenMenu,
+  CloseMenu,
+  MoveFocus
+}
+
+export enum MoveFocusTo {
+  Next,
+  Prev,
+  Last,
+  First,
+  None
+}
+
+export type MenuAction =
+  | { type: MenuActionTypes.RegisterItem; element: HTMLLIElement; props?: { disabled: boolean } }
+  | { type: MenuActionTypes.UnregisterItem; id: string }
+  | { type: MenuActionTypes.OpenMenu }
+  | { type: MenuActionTypes.CloseMenu }
+  | { type: MenuActionTypes.MoveFocus; to: MoveFocusTo };
 
 // Defaults to null for checking whether a Menu is inside another menu
 const MenuContext = React.createContext<MenuContextProps | null>(null);

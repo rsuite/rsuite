@@ -125,7 +125,7 @@ export default function useMenuControl(
     setOpen(false);
     setActiveItemIndex(null);
     requestAnimationFrame(() => {
-      previousActiveElementRef.current?.focus();
+      previousActiveElementRef.current?.focus({ preventScroll: true });
     });
   }, []);
 

@@ -318,7 +318,6 @@ const TreeviewRootItem: RsRefForwardingComponent<'li', TreeviewRootItemProps> = 
           renderTitle={renderTitle}
           icon={icon}
           placement={placement}
-          inSidenav
           onClick={handleClickTreeitem}
         >
           {title}

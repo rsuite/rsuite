@@ -1,16 +1,16 @@
 // Headless ARIA `menubar`
 import React, { useCallback, useRef } from 'react';
-import MenubarContext, { MenubarActionTypes, MoveFocusTo } from './MenubarContext';
-import useMenubar from './useMenubar';
+import MenuContext, { MenuActionTypes, MoveFocusTo } from '../Dropdown/MenuContext';
 import { KEY_VALUES, useCustom } from '../utils';
 import { isFocusEntering, isFocusLeaving } from '../utils/events';
+import useMenu from '../Dropdown/useMenu';
 
 export interface MenubarProps {
   children: (menubar: React.HTMLAttributes<HTMLUListElement>) => React.ReactElement;
 }
 
 export default function Menubar({ children }: MenubarProps) {
-  const menubar = useMenubar();
+  const menubar = useMenu();
   const [{ items, activeItemIndex }, dispatch] = menubar;
 
   const menubarElementRef = useRef<HTMLUListElement>();
@@ -20,7 +20,7 @@ export default function Menubar({ children }: MenubarProps) {
       // Focus moves inside Menubar
       if (isFocusEntering(event)) {
         if (activeItemIndex === null) {
-          dispatch({ type: MenubarActionTypes.MoveFocus, to: MoveFocusTo.First });
+          dispatch({ type: MenuActionTypes.MoveFocus, to: MoveFocusTo.First });
         }
       }
     },
@@ -31,7 +31,7 @@ export default function Menubar({ children }: MenubarProps) {
     (event: React.FocusEvent) => {
       // Focus moves outside of Menubar
       if (isFocusLeaving(event)) {
-        dispatch({ type: MenubarActionTypes.MoveFocus, to: MoveFocusTo.None });
+        dispatch({ type: MenuActionTypes.MoveFocus, to: MoveFocusTo.None });
       }
     },
     [dispatch]
@@ -47,7 +47,7 @@ export default function Menubar({ children }: MenubarProps) {
           event.preventDefault();
           event.stopPropagation();
           dispatch({
-            type: MenubarActionTypes.MoveFocus,
+            type: MenuActionTypes.MoveFocus,
             to: !rtl ? MoveFocusTo.Next : MoveFocusTo.Prev
           });
           break;
@@ -55,7 +55,7 @@ export default function Menubar({ children }: MenubarProps) {
           event.preventDefault();
           event.stopPropagation();
           dispatch({
-            type: MenubarActionTypes.MoveFocus,
+            type: MenuActionTypes.MoveFocus,
             to: !rtl ? MoveFocusTo.Prev : MoveFocusTo.Next
           });
           break;
@@ -63,7 +63,7 @@ export default function Menubar({ children }: MenubarProps) {
           event.preventDefault();
           event.stopPropagation();
           dispatch({
-            type: MenubarActionTypes.MoveFocus,
+            type: MenuActionTypes.MoveFocus,
             to: MoveFocusTo.First
           });
           break;
@@ -71,7 +71,7 @@ export default function Menubar({ children }: MenubarProps) {
           event.preventDefault();
           event.stopPropagation();
           dispatch({
-            type: MenubarActionTypes.MoveFocus,
+            type: MenuActionTypes.MoveFocus,
             to: MoveFocusTo.Last
           });
           break;
@@ -103,10 +103,10 @@ export default function Menubar({ children }: MenubarProps) {
   });
 
   return (
-    <MenubarContext.Provider value={menubar}>
+    <MenuContext.Provider value={menubar}>
       {React.cloneElement(element, {
         ref: menubarElementRef
       })}
-    </MenubarContext.Provider>
+    </MenuContext.Provider>
   );
 }

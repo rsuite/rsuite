@@ -1,6 +1,5 @@
 import React, { useCallback, useContext } from 'react';
 import omit from 'lodash/omit';
-import MenuContext from './MenuContext';
 import Menu, { MenuProps } from './Menu';
 import MenuItem from './MenuItem';
 import { useClassNames } from '../utils';
@@ -9,6 +8,11 @@ import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import TreeviewItem from '../Sidenav/TreeviewItem';
+import VerticalMenubar from './VerticalMenubar';
+import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
+import AngleRight from '@rsuite/icons/legacy/AngleRight';
+import useCustom from '../utils/useCustom';
+import DropdownContext from './DropdownContext';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
@@ -62,19 +66,33 @@ const DropdownMenu = React.forwardRef(
     props: DropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>,
     ref
   ) => {
-    const { onToggle, eventKey, title, ...rest } = props;
+    const { onToggle, eventKey, title, onSelect, ...rest } = props;
 
-    const parentMenu = useContext(MenuContext);
+    const dropdown = useContext(DropdownContext);
+    const sidenav = useContext(SidenavContext);
+    const { rtl } = useCustom('DropdownMenuItem');
 
     const handleToggleSubmenu = useCallback(
-      (_: string, event: React.MouseEvent) => {
+      (_: boolean, event: React.SyntheticEvent<HTMLElement>) => {
         onToggle?.(eventKey, event);
       },
       [eventKey, onToggle]
     );
     const { merge, prefix } = useClassNames(props.classPrefix);
 
-    const sidenav = useContext(SidenavContext);
+    // <Dropdown.Menu> is used outside of <Dropdown>
+    // renders a vertical `menubar`
+    if (!dropdown) {
+      return (
+        <VerticalMenubar
+          ref={ref}
+          onActivateItem={event => {
+            onSelect?.((event.target as HTMLElement).dataset.eventKey, event);
+          }}
+          {...rest}
+        />
+      );
+    }
 
     if (sidenav?.expanded) {
       return <TreeviewItem {...(omit(props, 'classPrefix') as any)} />;
@@ -82,24 +100,34 @@ const DropdownMenu = React.forwardRef(
 
     // Parent menu exists. This is a submenu.
     // Should render a `menuitem` that controls this submenu.
-    if (parentMenu) {
-      const { icon, open, trigger, className } = props;
-      const itemClassName = merge(className, prefix('pull-right'));
+    const { icon, className, ...menuProps } = omit(rest, ['classPrefix', 'trigger']);
+    const itemClassName = merge(className, prefix('pull-right'));
 
-      return (
-        <MenuItem
-          icon={icon}
-          trigger={trigger}
-          className={itemClassName}
-          submenu={<Menu ref={ref} open={open} onToggle={handleToggleSubmenu} {...rest} />}
-          eventKey={eventKey}
-        >
-          {title}
-        </MenuItem>
-      );
-    }
+    const Icon = rtl ? AngleLeft : AngleRight;
 
-    return <Menu ref={ref} {...rest} />;
+    return (
+      <Menu
+        ref={ref}
+        as="li"
+        classPrefix="dropdown-item"
+        openMenuOn={['mouseover', 'click']}
+        renderMenuButton={menuButtonProps => (
+          <MenuItem
+            as="div"
+            icon={icon}
+            className={itemClassName}
+            data-event-key={eventKey}
+            {...menuButtonProps}
+          >
+            {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+            {title}
+            <Icon className={prefix`toggle-icon`} />
+          </MenuItem>
+        )}
+        onToggleMenu={handleToggleSubmenu}
+        {...menuProps}
+      />
+    );
   }
 );
 

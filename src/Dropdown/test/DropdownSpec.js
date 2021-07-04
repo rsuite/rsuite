@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
+import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Dropdown from '../Dropdown';
 import Button from '../../Button';
@@ -171,7 +171,7 @@ describe('Dropdown', () => {
     assert.ok(!instance.querySelector('.rs-dropdown-toggle-caret'));
   });
 
-  it('Should call onSelect callback', done => {
+  it('Should call onSelect callback when clicking an item', done => {
     const doneOp = eventKey => {
       if (eventKey === 2) {
         done();
@@ -186,6 +186,28 @@ describe('Dropdown', () => {
     ReactTestUtils.Simulate.click(
       instance.querySelectorAll('.rs-dropdown-menu [role="menuitem"]')[1]
     );
+  });
+
+  it('Should close menu after clicking an item without submenu', () => {
+    const instance = getDOMNode(
+      <Dropdown>
+        <Dropdown.Item id="menu-item">1</Dropdown.Item>
+      </Dropdown>
+    );
+
+    const button = instance.querySelector('[role="button"]');
+
+    // Open the menu
+    act(() => {
+      Simulate.click(button);
+    });
+
+    act(() => {
+      Simulate.click(instance.querySelector('#menu-item'));
+    });
+    const menu = instance.querySelector('[role="menu"]');
+
+    expect(menu.hidden, 'Menu is closed').to.be.true;
   });
 
   it('Should call onToggle callback', done => {
