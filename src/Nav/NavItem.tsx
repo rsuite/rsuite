@@ -134,12 +134,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       );
     }
 
-    const ariaAttributes: React.HTMLAttributes<HTMLElement> = {};
-
-    if (navbar) {
-      ariaAttributes.role = 'menuitem';
-    }
-
     const item = (
       <Component
         ref={ref}
@@ -150,7 +144,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
         className={classes}
         onClick={handleClick}
         style={style}
-        {...ariaAttributes}
       >
         {icon}
         {children}

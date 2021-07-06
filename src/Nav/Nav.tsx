@@ -125,7 +125,6 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
         {(menubar: any) => (
           <Component {...rest} className={classes} {...menubar}>
             {children}
-            {hasWaterline && <div className={prefix('bar')} />}
           </Component>
         )}
       </Menubar>
