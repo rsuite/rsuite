@@ -91,8 +91,15 @@ function copyTypescriptDeclarationFiles() {
   return gulp.src('./src/**/*.d.ts').pipe(gulp.dest(LIB_DIR)).pipe(gulp.dest(ESM_DIR));
 }
 
-function copyLessFiles() {
+function copyLessStylesheets() {
   return gulp.src('./src/**/*.less').pipe(gulp.dest(LIB_DIR)).pipe(gulp.dest(ESM_DIR));
+}
+
+function copyLessPlugins() {
+  return gulp
+    .src('./src/styles/plugins/*.js')
+    .pipe(gulp.dest(`${LIB_DIR}/styles/plugins`))
+    .pipe(gulp.dest(`${ESM_DIR}/styles/plugins`));
 }
 
 function copyStyles() {
@@ -113,5 +120,5 @@ exports.dev = gulp.series(clean, buildLib, watch);
 exports.build = gulp.series(
   clean,
   gulp.parallel(buildLib, buildEsm, gulp.series(buildLESS, gulp.parallel(minifyCSS, buildRTLCSS))),
-  gulp.parallel(copyTypescriptDeclarationFiles, copyLessFiles, copyStyles)
+  gulp.parallel(copyTypescriptDeclarationFiles, copyLessStylesheets, copyLessPlugins, copyStyles)
 );

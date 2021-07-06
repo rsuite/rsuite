@@ -12,15 +12,21 @@ const filesToEnsureExistence = [
   'dist/rsuite.css',
   'dist/rsuite.min.css',
   'dist/rsuite-rtl.css',
-  'dist/rsuite-rtl.min.css'
+  'dist/rsuite-rtl.min.css',
+  // See https://github.com/rsuite/rsuite/issues/1767
+  'lib/styles/plugins/palette.js'
 ];
 
 const directoriesToEnsureExistence = ['less'];
 
-filesToEnsureExistence.forEach(function ensureFileExistence(filePath) {
-  assert.ok(fs.existsSync(filePath), `File ${filePath} should exist`);
+it('Ensure file existence', () => {
+  filesToEnsureExistence.forEach(function ensureFileExistence(filePath) {
+    assert.isTrue(fs.existsSync(filePath), `File ${filePath} exists`);
+  });
 });
 
-directoriesToEnsureExistence.forEach(function ensureDirectoryExistence(directoryPath) {
-  assert.ok(fs.existsSync(directoryPath), `Directory ${directoryPath} should exist`);
+it('Ensure directory existence', () => {
+  directoriesToEnsureExistence.forEach(function ensureDirectoryExistence(directoryPath) {
+    assert.isTrue(fs.existsSync(directoryPath), `Directory ${directoryPath} exists`);
+  });
 });
