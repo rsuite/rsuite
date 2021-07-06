@@ -61,7 +61,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       style,
       children,
       icon,
-      tabIndex,
       divider,
       panel,
       onClick,
@@ -139,7 +138,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
         ref={ref}
         aria-selected={active}
         {...rest}
-        tabIndex={navbar ? -1 : tabIndex}
         disabled={Component === SafeAnchor ? disabled : null}
         className={classes}
         onClick={handleClick}
@@ -179,8 +177,7 @@ NavItem.propTypes = {
   icon: PropTypes.node,
   onSelect: PropTypes.func,
   children: PropTypes.node,
-  eventKey: PropTypes.any,
-  tabIndex: PropTypes.number
+  eventKey: PropTypes.any
 };
 
 export default NavItem;
