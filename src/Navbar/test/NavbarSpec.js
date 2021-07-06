@@ -69,7 +69,7 @@ describe('Navbar', () => {
 
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-12
   // Ref: https://www.w3.org/TR/wai-aria-practices/examples/menubar/menubar-1/menubar-1.html
-  describe('Keyboard interactions & Focus management', () => {
+  describe('Keyboard interaction & Focus management', () => {
     function renderNavbar(ui, focusAfterMount = true) {
       const instance = getDOMNode(ui);
 
@@ -119,6 +119,25 @@ describe('Navbar', () => {
             <Nav>
               <Nav.Item id="first-item">First item</Nav.Item>
               <Nav.Item id="second-item">Second item</Nav.Item>
+            </Nav>
+          </Navbar>
+        );
+
+        ReactTestUtils.act(() => {
+          ReactTestUtils.Simulate.keyDown(menubar, { key: 'ArrowRight' });
+        });
+
+        expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
+      });
+
+      it('Works correctly with menuitem with submenu', () => {
+        const { menubar } = renderNavbar(
+          <Navbar>
+            <Nav>
+              <Nav.Item id="first-item">First item</Nav.Item>
+              <Dropdown id="second-item" title="Second item">
+                <Dropdown.Item>Submenu item</Dropdown.Item>
+              </Dropdown>
             </Nav>
           </Navbar>
         );

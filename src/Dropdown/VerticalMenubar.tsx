@@ -44,7 +44,7 @@ const VerticalMenubar = React.forwardRef(
      * Keyboard interaction on menu
      * @see https://www.w3.org/TR/wai-aria-practices-1.2/#keyboard-interaction-12
      */
-    const menubar = useMenu();
+    const menubar = useMenu({ role: 'menubar' });
     const [{ items, activeItemIndex }, dispatch] = menubar;
 
     const activeItem = items[activeItemIndex]?.element;

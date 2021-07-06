@@ -9,6 +9,7 @@ import {
 } from './MenuContext';
 
 export const initialMenuState: MenuState = {
+  role: 'menu',
   open: false,
   items: [],
   activeItemIndex: null

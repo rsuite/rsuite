@@ -10,7 +10,7 @@ export interface MenubarProps {
 }
 
 export default function Menubar({ children }: MenubarProps) {
-  const menubar = useMenu();
+  const menubar = useMenu({ role: 'menubar' });
   const [{ items, activeItemIndex }, dispatch] = menubar;
 
   const menubarElementRef = useRef<HTMLUListElement>();

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useImperativeHandle, useRef } from 'react';
+import React, { useCallback, useContext, useEffect, useImperativeHandle, useRef } from 'react';
 import PropTypes from 'prop-types';
 import MenuContext, { MenuActionTypes, MenuContextProps, MoveFocusTo } from './MenuContext';
 import { KEY_VALUES, placementPolyfill, useClassNames, useCustom } from '../utils';
@@ -79,6 +79,7 @@ const Menu = React.forwardRef(
 
     const parentMenu = useContext(MenuContext);
     const isSubmenu = !!parentMenu;
+    const [parentMenuState, parentDispatch] = parentMenu ?? [];
 
     const menu = useMenu();
     const [menuState, dispatch] = menu;
@@ -238,6 +239,26 @@ const Menu = React.forwardRef(
       buttonAriaAttributes.role = 'menuitem';
     }
 
+    // Register menu button as item of parent menu
+    useEffect(() => {
+      if (isSubmenu) {
+        const menuitem = buttonElementRef.current;
+
+        parentDispatch({
+          type: MenuActionTypes.RegisterItem,
+          element: menuitem as any,
+          props: { disabled }
+        });
+
+        return () => {
+          parentDispatch({
+            type: MenuActionTypes.UnregisterItem,
+            id: menuitem.id
+          });
+        };
+      }
+    }, [isSubmenu, parentDispatch, disabled]);
+
     const buttonProps: MenuButtonProps = {
       id: buttonId,
       ...buttonAriaAttributes,
@@ -249,7 +270,9 @@ const Menu = React.forwardRef(
 
     if (parentMenu) {
       buttonProps.tabIndex = -1;
-    } else {
+    }
+
+    if (parentMenuState?.role !== 'menu') {
       Object.assign(buttonProps, rest);
     }
 
@@ -381,7 +404,7 @@ const Menu = React.forwardRef(
       ...menuEventHandlers
     };
 
-    if (parentMenu) {
+    if (parentMenuState?.role === 'menu') {
       Object.assign(menuProps, rest);
     }
 

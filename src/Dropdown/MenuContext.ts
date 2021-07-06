@@ -3,6 +3,7 @@ import React, { Dispatch } from 'react';
 export type MenuContextProps = [MenuState, Dispatch<MenuAction>];
 
 export interface MenuState {
+  role: 'menu' | 'menubar';
   open: boolean;
   items: Array<{
     element: HTMLLIElement;
