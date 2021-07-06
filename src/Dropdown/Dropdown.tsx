@@ -111,7 +111,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
       return undefined;
     }
 
-    const triggerMap = {
+    const triggerMap: { [key: string]: MenuButtonTrigger } = {
       hover: 'mouseover',
       click: 'click',
       contextMenu: 'contextmenu'

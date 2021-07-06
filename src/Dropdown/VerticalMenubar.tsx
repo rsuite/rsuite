@@ -9,10 +9,7 @@ import { isFocusEntering, isFocusLeaving } from '../utils/events';
 import MenuContext, { MenuActionTypes } from './MenuContext';
 import useMenu from './useMenu';
 
-export interface VerticalMenubarProps<T = string> extends StandardProps {
-  activeKey?: T;
-  onSelect?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
-
+export interface VerticalMenubarProps extends StandardProps {
   onActivateItem?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
@@ -26,15 +23,7 @@ const defaultProps: Partial<VerticalMenubarProps> = {
 
 const VerticalMenubar = React.forwardRef(
   (props: VerticalMenubarProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'onSelect'>, ref) => {
-    const {
-      children,
-      className,
-      classPrefix,
-      activeKey,
-      onSelect,
-      onActivateItem,
-      ...rest
-    } = props;
+    const { children, className, classPrefix, onActivateItem, ...rest } = props;
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const menubarRef = useEnsuredRef<HTMLUListElement>(ref);
@@ -168,11 +157,9 @@ const VerticalMenubar = React.forwardRef(
 VerticalMenubar.displayName = 'Menubar';
 VerticalMenubar.defaultProps = defaultProps;
 VerticalMenubar.propTypes = {
-  activeKey: PropTypes.any,
   className: PropTypes.string,
   children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  onSelect: PropTypes.func
+  classPrefix: PropTypes.string
 };
 
 export default VerticalMenubar;
