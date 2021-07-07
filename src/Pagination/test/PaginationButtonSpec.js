@@ -41,12 +41,8 @@ describe('PaginationButton', () => {
   });
 
   it('Custom elements can get the active prop', () => {
-    const Button = React.forwardRef(({ active, ...rest }, ref) => {
-      return (
-        <span ref={ref} {...rest}>
-          {active ? 'active' : 'inactive'}
-        </span>
-      );
+    const Button = React.forwardRef(({ active }, ref) => {
+      return <span ref={ref}>{active ? 'active' : 'inactive'}</span>;
     });
     Button.displayName = 'Button';
     const activeInstance = getDOMNode(<PaginationButton active as={Button} />);
@@ -63,7 +59,7 @@ describe('PaginationButton', () => {
         </span>
       );
     });
-    const instance = getDOMNode(<PaginationButton eventKey={1} active as={Button} />);
+    const instance = getDOMNode(<PaginationButton eventKey={1} as={Button} />);
     assert.equal(instance.innerText, '1');
   });
 
