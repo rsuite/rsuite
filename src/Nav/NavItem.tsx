@@ -11,7 +11,7 @@ import { SidenavContext } from '../Sidenav/Sidenav';
 import TreeviewRootItem from '../Sidenav/TreeviewRootItem';
 import NavContext from './NavContext';
 import { NavbarContext } from '../Navbar/Navbar';
-import MenubarItem from '../Navbar/MenubarItem';
+import MenuItem from '../Dropdown/MenuItem';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -90,22 +90,29 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
 
     // If <Nav.Item> is inside <Navbar>, render a <Menubar.Item>
     if (navbar) {
-      const { icon, children, eventKey, onSelect, ...extraAttributes } = omit(props, [
-        'active',
-        'divider',
-        'panel'
-      ]);
       return (
-        <MenubarItem
-          ref={ref}
-          selected={active}
-          data-event-key={eventKey}
-          onActivate={e => onSelect?.(eventKey, e)}
-          {...extraAttributes}
-        >
-          {icon}
-          {children}
-        </MenubarItem>
+        <MenuItem selected={active} disabled={disabled} onActivate={e => onSelect?.(eventKey, e)}>
+          {({ selected, active, ...menuitem }, menuitemRef) => {
+            const classes = merge(
+              className,
+              withClassPrefix({ focus: active, active: selected, disabled })
+            );
+            return (
+              <Component
+                ref={menuitemRef}
+                disabled={Component === SafeAnchor ? disabled : undefined}
+                className={classes}
+                data-event-key={eventKey}
+                {...menuitem}
+                {...omit(rest, ['divider', 'panel'])}
+              >
+                {icon}
+                {children}
+                <Ripple />
+              </Component>
+            );
+          }}
+        </MenuItem>
       );
     }
 
