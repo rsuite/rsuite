@@ -123,12 +123,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     }
 
     return (
-      <MenuItem
-        ref={ref}
-        selected={menuitemSelected}
-        disabled={disabled}
-        onActivate={handleSelectItem}
-      >
+      <MenuItem selected={menuitemSelected} disabled={disabled} onActivate={handleSelectItem}>
         {({ selected, active, ...menuitem }, menuitemRef) => {
           const classes = merge(
             className,

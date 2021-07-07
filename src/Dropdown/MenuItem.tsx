@@ -1,11 +1,9 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import useUniqueId from '../utils/useUniqueId';
 import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
-import useEnsuredRef from '../utils/useEnsuredRef';
 
-export interface DropdownMenuItemProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
+export interface MenuItemProps {
   /** Active the current option */
   selected?: boolean;
 
@@ -30,81 +28,80 @@ export interface MenuitemRenderProps {
 /**
  * Headless ARIA `menuitem`
  */
-const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.forwardRef(
-  (props: DropdownMenuItemProps, ref: React.Ref<HTMLLIElement>) => {
-    const { children, selected, disabled, onActivate } = props;
+function MenuItem(props: MenuItemProps) {
+  const { children, selected, disabled, onActivate } = props;
 
-    const menuitemRef = useEnsuredRef<HTMLLIElement>(ref);
-    const menuitemId = useUniqueId('menuitem-');
+  const menuitemRef = useRef<HTMLLIElement>();
+  const menuitemId = useUniqueId('menuitem-');
 
-    const menu = useContext(MenuContext);
-    const [menuState, dispatch] = menu ?? [];
+  const menu = useContext(MenuContext);
+  // fixme make sure <MenuItem> is used inside a <Menu>
+  const [menuState, dispatch] = menu ?? [];
 
-    // Whether this menuitem has focus (indicated by `aria-activedescendant` from parent menu)
-    const hasFocus = menuState?.items[menuState?.activeItemIndex]?.element === menuitemRef.current;
+  // Whether this menuitem has focus (indicated by `aria-activedescendant` from parent menu)
+  const hasFocus = menuState?.items[menuState?.activeItemIndex]?.element === menuitemRef.current;
 
-    const handleClick = useCallback(
-      (event: React.MouseEvent<HTMLLIElement>) => {
-        if (disabled) {
-          return;
-        }
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLLIElement>) => {
+      if (disabled) {
+        return;
+      }
 
-        onActivate?.(event);
-        dispatch?.({
-          type: MenuActionTypes.CloseMenu
-        });
-      },
-      [disabled, onActivate, dispatch]
-    );
-
-    // Gain/release focus on mouseenter/mouseleave
-    const handleMouseEnter = useCallback(() => {
-      dispatch({
-        type: MenuActionTypes.MoveFocus,
-        to: MoveFocusTo.Specific,
-        id: menuitemRef.current.id
-      });
-    }, [dispatch, menuitemRef]);
-
-    const handleMouseLeave = useCallback(() => {
-      dispatch({
-        type: MenuActionTypes.MoveFocus,
-        to: MoveFocusTo.None
-      });
-    }, [dispatch]);
-
-    useEffect(() => {
-      const menuitemElement = menuitemRef.current;
-
+      onActivate?.(event);
       dispatch?.({
-        type: MenuActionTypes.RegisterItem,
-        element: menuitemElement,
-        props: { disabled }
+        type: MenuActionTypes.CloseMenu
       });
-      return () => {
-        dispatch?.({ type: MenuActionTypes.UnregisterItem, id: menuitemElement.id });
-      };
-    }, [menuitemRef, disabled, dispatch]);
+    },
+    [disabled, onActivate, dispatch]
+  );
 
-    return children(
-      {
-        id: menuitemId,
-        role: 'menuitem',
-        'aria-selected': selected,
-        'aria-disabled': disabled,
-        tabIndex: 0,
-        onClick: handleClick,
-        onMouseEnter: handleMouseEnter,
-        onMouseLeave: handleMouseLeave,
-        // render props
+  // Gain/release focus on mouseenter/mouseleave
+  const handleMouseEnter = useCallback(() => {
+    dispatch({
+      type: MenuActionTypes.MoveFocus,
+      to: MoveFocusTo.Specific,
+      id: menuitemRef.current.id
+    });
+  }, [dispatch, menuitemRef]);
 
-        selected,
-        active: hasFocus
-      },
-      menuitemRef
-    );
-  }
-);
+  const handleMouseLeave = useCallback(() => {
+    dispatch({
+      type: MenuActionTypes.MoveFocus,
+      to: MoveFocusTo.None
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    const menuitemElement = menuitemRef.current;
+
+    dispatch?.({
+      type: MenuActionTypes.RegisterItem,
+      element: menuitemElement,
+      props: { disabled }
+    });
+    return () => {
+      dispatch?.({ type: MenuActionTypes.UnregisterItem, id: menuitemElement.id });
+    };
+  }, [menuitemRef, disabled, dispatch]);
+
+  return children(
+    {
+      id: menuitemId,
+      role: 'menuitem',
+      'aria-selected': selected,
+      'aria-disabled': disabled,
+      tabIndex: -1,
+      onClick: handleClick,
+      onMouseEnter: handleMouseEnter,
+      onMouseLeave: handleMouseLeave,
+      // render props
+
+      selected,
+      active: hasFocus
+    },
+    menuitemRef
+  );
+}
 
 MenuItem.displayName = 'MenuItem';
 MenuItem.propTypes = {

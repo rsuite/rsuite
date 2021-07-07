@@ -1,7 +1,8 @@
 import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import omit from 'lodash/omit';
 import DropdownMenu from './DropdownMenu';
-import { PLACEMENT_8 } from '../utils';
+import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../utils';
 import { SidenavContext, SidenavContextType } from '../Sidenav/Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
@@ -13,6 +14,7 @@ import Menu, { MenuButtonTrigger } from './Menu';
 import DropdownToggle from './DropdownToggle';
 import MenuContext from './MenuContext';
 import MenuItem from './MenuItem';
+import kebabCase from 'lodash/kebabCase';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -82,8 +84,7 @@ const defaultProps: Partial<DropdownProps> = {
   as: 'div',
   classPrefix: 'dropdown',
   placement: 'bottomStart',
-  trigger: 'click',
-  tabIndex: 0
+  trigger: 'click'
 };
 
 /**
@@ -95,6 +96,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   const { activeKey, onSelect, ...rest } = props;
 
   const {
+    as: Component,
     title,
     onClose,
     onOpen,
@@ -105,8 +107,24 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     renderTitle,
     toggleAs,
     toggleClassName,
+    classPrefix,
+    className,
+    disabled,
+    children,
+    menuStyle,
+    style,
     ...menuProps
   } = rest;
+
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
+
+  const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } = useClassNames(
+    'dropdown-menu'
+  );
+
+  const { withClassPrefix: withNavItemClassPrefix, merge: mergeNavItemClassNames } = useClassNames(
+    'nav-item'
+  );
 
   const menuButtonTriggers = useMemo<MenuButtonTrigger[] | undefined>(() => {
     if (!trigger) {
@@ -133,65 +151,72 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   if (sidenav?.expanded) {
     return (
       <DropdownContext.Provider value={{ activeKey, onSelect }}>
-        <TreeviewRootItem ref={ref} {...props} />
+        <TreeviewRootItem ref={ref} {...rest} />
       </DropdownContext.Provider>
     );
   }
 
+  let renderMenuButton = (menuButtonProps, menuButtonRef) => (
+    <DropdownToggle
+      ref={menuButtonRef}
+      as={renderTitle ? 'span' : toggleAs}
+      className={toggleClassName}
+      placement={placement}
+      disabled={disabled}
+      {...menuButtonProps}
+      {...menuProps}
+    >
+      {title}
+    </DropdownToggle>
+  );
+
   if (parentMenu) {
-    return (
-      <DropdownContext.Provider value={{ activeKey, onSelect }}>
-        <Menu
-          ref={ref}
-          menuButtonText={title}
-          renderMenuButton={menuButtonProps => (
-            <MenuItem>
-              {(_, menuitemRef) => {
-                return (
-                  <DropdownToggle
-                    ref={menuitemRef}
-                    as={renderTitle ? 'span' : toggleAs}
-                    className={toggleClassName}
-                    {...menuButtonProps}
-                  >
-                    {title}
-                  </DropdownToggle>
-                );
-              }}
-            </MenuItem>
-          )}
-          openMenuOn={menuButtonTriggers}
-          popupPlacement={placement}
-          onToggleMenu={(open, event) => {
-            onToggle?.(open);
-            sidenav?.onOpenChange(eventKey, event);
-            if (open) {
-              onOpen?.();
-            } else {
-              onClose?.();
-            }
-          }}
-          {...menuProps}
-        />
-      </DropdownContext.Provider>
+    renderMenuButton = (menuButtonProps, buttonRef) => (
+      <MenuItem disabled={disabled}>
+        {({ active, ...menuitemProps }, menuitemRef) => {
+          return (
+            <DropdownToggle
+              ref={mergeRefs(buttonRef, menuitemRef)}
+              as={renderTitle ? 'span' : toggleAs}
+              className={mergeNavItemClassNames(
+                toggleClassName,
+                withNavItemClassPrefix({
+                  focus: active
+                })
+              )}
+              {...menuButtonProps}
+              {...omit(menuitemProps, ['onClick'])}
+              {...menuProps}
+            >
+              {title}
+            </DropdownToggle>
+          );
+        }}
+      </MenuItem>
     );
   }
+
   return (
     <DropdownContext.Provider value={{ activeKey, onSelect }}>
       <Menu
-        ref={ref}
         menuButtonText={title}
-        renderMenuButton={menuButtonProps => (
-          <DropdownToggle
-            as={renderTitle ? 'span' : toggleAs}
-            className={toggleClassName}
-            {...menuButtonProps}
-          >
-            {title}
-          </DropdownToggle>
-        )}
+        renderMenuButton={renderMenuButton}
         openMenuOn={menuButtonTriggers}
-        popupPlacement={placement}
+        renderMenuPopup={({ open, ...popupProps }, popupRef) => {
+          const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+
+          return (
+            <ul
+              ref={popupRef}
+              className={menuClassName}
+              style={menuStyle}
+              hidden={!open}
+              {...popupProps}
+            >
+              {children}
+            </ul>
+          );
+        }}
         onToggleMenu={(open, event) => {
           onToggle?.(open);
           sidenav?.onOpenChange(eventKey, event);
@@ -201,8 +226,28 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
             onClose?.();
           }
         }}
-        {...menuProps}
-      />
+      >
+        {({ open, ...menuContainer }, menuContainerRef) => {
+          const classes = merge(
+            className,
+            withClassPrefix({
+              [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
+              disabled,
+              open,
+              submenu: !!parentMenu
+              // focus: hasFocus
+            })
+          );
+          return (
+            <Component
+              ref={mergeRefs(ref, menuContainerRef)}
+              className={classes}
+              {...menuContainer}
+              style={style}
+            />
+          );
+        }}
+      </Menu>
     </DropdownContext.Provider>
   );
 }) as unknown) as DropdownComponent;
@@ -227,7 +272,6 @@ Dropdown.propTypes = {
   className: PropTypes.string,
   toggleClassName: PropTypes.string,
   children: PropTypes.node,
-  tabIndex: PropTypes.number,
   open: deprecatePropType(PropTypes.bool),
   eventKey: PropTypes.any,
   as: PropTypes.elementType,

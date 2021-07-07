@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react';
 import omit from 'lodash/omit';
-import Menu, { MenuProps } from './Menu';
+import Menu from './Menu';
 import MenuItem from './MenuItem';
 import { mergeRefs, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
@@ -40,7 +40,7 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
   onToggle?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
 }
 
-const defaultProps: Partial<MenuProps> = {
+const defaultProps: Partial<DropdownMenuProps> = {
   classPrefix: 'dropdown-menu'
 };
 
@@ -67,7 +67,7 @@ const DropdownMenu = React.forwardRef(
     props: DropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>,
     ref
   ) => {
-    const { onToggle, eventKey, title, onSelect, classPrefix, ...rest } = props;
+    const { onToggle, eventKey, title, onSelect, classPrefix, children, ...rest } = props;
 
     const dropdown = useContext(DropdownContext);
     const sidenav = useContext(SidenavContext);
@@ -80,6 +80,10 @@ const DropdownMenu = React.forwardRef(
       [eventKey, onToggle]
     );
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+
+    const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } = useClassNames(
+      'dropdown-menu'
+    );
 
     const {
       merge: mergeItemClassNames,
@@ -104,7 +108,9 @@ const DropdownMenu = React.forwardRef(
           }}
         >
           {(menubar, menubarRef) => (
-            <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest} />
+            <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest}>
+              {children}
+            </ul>
           )}
         </Menubar>
       );
@@ -124,18 +130,15 @@ const DropdownMenu = React.forwardRef(
 
     return (
       <Menu
-        ref={ref}
-        as="li"
-        classPrefix="dropdown-item"
         openMenuOn={['mouseover', 'click']}
-        renderMenuButton={({ open, ...menuButtonProps }) => (
+        renderMenuButton={({ open, ...menuButtonProps }, buttonRef) => (
           <MenuItem disabled={disabled}>
-            {({ selected, active, ...menuitem }, ref) => {
+            {({ selected, active, ...menuitem }, menuitemRef) => {
               const classes = mergeItemClassNames(
                 className,
                 prefixItemClassName(`pull-${rtl ? 'left' : 'right'}`),
                 prefixItemClassName`toggle`,
-                prefixItemClassName`submenu`,
+                // prefixItemClassName`submenu`,
                 withItemClassPrefix({
                   [sidenavExpanded ? 'expand' : 'collapse']: sidenav,
                   'with-icon': icon,
@@ -148,7 +151,7 @@ const DropdownMenu = React.forwardRef(
 
               return (
                 <div
-                  ref={ref as any}
+                  ref={mergeRefs(buttonRef, menuitemRef as any)}
                   className={classes}
                   data-event-key={eventKey}
                   data-event-key-type={typeof eventKey}
@@ -163,9 +166,42 @@ const DropdownMenu = React.forwardRef(
             }}
           </MenuItem>
         )}
+        renderMenuPopup={({ open, ...popupProps }, popupRef) => {
+          const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+
+          return (
+            <ul
+              ref={popupRef}
+              className={menuClassName}
+              hidden={!open}
+              {...popupProps}
+              {...menuProps}
+            >
+              {children}
+            </ul>
+          );
+        }}
         onToggleMenu={handleToggleSubmenu}
-        {...menuProps}
-      />
+      >
+        {({ open, ...menuContainer }, menuContainerRef) => {
+          const classes = mergeItemClassNames(
+            className,
+            withItemClassPrefix({
+              disabled,
+              open,
+              submenu: true
+              // focus: hasFocus
+            })
+          );
+          return (
+            <li
+              ref={mergeRefs(ref, menuContainerRef as any)}
+              className={classes}
+              {...(menuContainer as any)}
+            />
+          );
+        }}
+      </Menu>
     );
   }
 );
