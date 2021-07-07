@@ -73,7 +73,7 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   loading?: boolean;
 
   /** Primary content */
-  children?: React.ReactNode;
+  children: React.ReactNode;
 
   /** Show border */
   bordered?: boolean;
@@ -88,7 +88,7 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   wordWrap?: boolean;
 
   /** A ref attached to the table body element */
-  bodyRef?: React.Ref<HTMLDivElement>;
+  bodyRef?: (ref: HTMLElement) => void;
 
   /** Whether to enable loading animation */
   loadAnimation?: true;
@@ -118,7 +118,10 @@ export interface TableProps<RowKey = string | number | symbol, RowData = any>
   onExpandChange?: (expanded: boolean, rowData: RowData) => void;
 
   /** Callback after table data update. */
-  onDataUpdated?: (nextData: any[], scrollTo: (coord: { x: number; y: number }) => void) => void;
+  onDataUpdated?: (
+    nextData: RowData[],
+    scrollTo: (coord: { x: number; y: number }) => void
+  ) => void;
 
   /** Tree table, the callback function in the expanded node */
   renderTreeToggle?: (
@@ -210,18 +213,15 @@ interface TableComponent
   HeaderCell: React.ComponentType<StandardProps>;
 }
 
-const ReactTable = RsTable as any;
-const Table: TableComponent = React.forwardRef(
-  (props: TableProps, ref: React.RefObject<typeof ReactTable>) => {
-    const { locale: localeProp, ...rest } = props;
-    const { locale, rtl } = useCustom('Table', localeProp);
+const Table: TableComponent = React.forwardRef((props: TableProps, ref: React.RefObject<any>) => {
+  const { locale: localeProp, ...rest } = props;
+  const { locale, rtl } = useCustom('Table', localeProp);
 
-    return <ReactTable {...rest} rtl={rtl} ref={ref} locale={locale} />;
-  }
-) as TableComponent;
+  return <RsTable {...(rest as any)} rtl={rtl} ref={ref} locale={locale} />;
+}) as TableComponent;
 
-Table.Cell = Cell;
-Table.Column = Column;
+Table.Cell = Cell as React.ComponentType<CellProps>;
+Table.Column = Column as React.ComponentType<ColumnProps>;
 Table.HeaderCell = HeaderCell;
 Table.ColumnGroup = ColumnGroup;
 
