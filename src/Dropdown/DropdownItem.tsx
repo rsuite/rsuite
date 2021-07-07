@@ -8,7 +8,7 @@ import deprecatePropType from '../utils/deprecatePropType';
 import MenuItem from './MenuItem';
 import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
-import { shallowEqual } from '../utils';
+import { mergeRefs, shallowEqual, useClassNames } from '../utils';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -73,9 +73,10 @@ const defaultProps: Partial<DropdownMenuItemProps> = {
  */
 const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.forwardRef(
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
-    const { active: activeProp, eventKey, onSelect, ...menuitemProps } = props;
+    const { classPrefix, className, active: activeProp, eventKey, onSelect, icon, ...rest } = props;
 
     const dropdown = useContext(DropdownContext);
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
     const handleSelectItem = useCallback(
       (event: React.SyntheticEvent<HTMLElement>) => {
@@ -88,22 +89,74 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     const sidenav = useContext(SidenavContext);
 
     if (sidenav?.expanded) {
-      const { children, ...restProps } = props;
-      return <TreeviewItem ref={ref} title={children} {...restProps} />;
+      const { children, ...treeitemProps } = props;
+      return <TreeviewItem ref={ref} title={children} {...treeitemProps} />;
     }
 
     const menuitemSelected =
       activeProp || (!isNil(eventKey) && shallowEqual(dropdown?.activeKey, eventKey));
 
+    const { as: Component, divider, panel, children, disabled, ...restProps } = rest;
+
+    if (divider) {
+      return (
+        <Component
+          ref={ref}
+          role="separator"
+          className={merge(prefix('divider'), className)}
+          {...restProps}
+        />
+      );
+    }
+
+    if (panel) {
+      return (
+        <Component
+          ref={ref}
+          role="none presentation"
+          className={merge(prefix('panel'), className)}
+          {...restProps}
+        >
+          {children}
+        </Component>
+      );
+    }
+
     return (
       <MenuItem
         ref={ref}
         selected={menuitemSelected}
+        disabled={disabled}
         onActivate={handleSelectItem}
-        data-event-key={eventKey}
-        data-event-key-type={typeof eventKey}
-        {...menuitemProps}
-      />
+      >
+        {({ selected, active, ...menuitem }, menuitemRef) => {
+          const classes = merge(
+            className,
+            withClassPrefix({
+              'with-icon': icon,
+              open,
+              active: selected,
+              disabled,
+              focus: active,
+              divider,
+              panel
+            })
+          );
+          return (
+            <Component
+              ref={mergeRefs(ref, menuitemRef)}
+              className={classes}
+              data-event-key={eventKey}
+              data-event-key-type={typeof eventKey}
+              {...menuitem}
+              {...restProps}
+            >
+              {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+              {children}
+            </Component>
+          );
+        }}
+      </MenuItem>
     );
   }
 );

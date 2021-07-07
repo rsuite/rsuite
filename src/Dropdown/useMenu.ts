@@ -22,7 +22,10 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
     case MenuActionTypes.RegisterItem:
       return {
         ...state,
-        items: [...items, { element: action.element, props: action.props }]
+        items: [
+          ...items,
+          { element: action.element, id: action.element.id, props: action.props } as any
+        ]
       };
     case MenuActionTypes.UnregisterItem:
       return {

@@ -33,6 +33,7 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
   collapsible?: boolean;
   expanded?: boolean;
   active?: boolean;
+  disabled?: boolean;
   activeKey?: T;
   trigger?: 'hover' | 'click';
   onSelect?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
@@ -80,6 +81,12 @@ const DropdownMenu = React.forwardRef(
     );
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
 
+    const {
+      merge: mergeItemClassNames,
+      withClassPrefix: withItemClassPrefix,
+      prefix: prefixItemClassName
+    } = useClassNames('dropdown-item');
+
     // <Dropdown.Menu> is used outside of <Dropdown>
     // renders a vertical `menubar`
     if (!dropdown) {
@@ -107,10 +114,11 @@ const DropdownMenu = React.forwardRef(
       return <TreeviewItem {...(omit(props, 'classPrefix') as any)} />;
     }
 
+    const sidenavExpanded = sidenav?.expanded ?? false;
+
     // Parent menu exists. This is a submenu.
     // Should render a `menuitem` that controls this submenu.
-    const { icon, className, ...menuProps } = omit(rest, ['trigger']);
-    const itemClassName = merge(className, prefix('pull-right'));
+    const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
 
     const Icon = rtl ? AngleLeft : AngleRight;
 
@@ -120,18 +128,39 @@ const DropdownMenu = React.forwardRef(
         as="li"
         classPrefix="dropdown-item"
         openMenuOn={['mouseover', 'click']}
-        renderMenuButton={menuButtonProps => (
-          <MenuItem
-            as="div"
-            icon={icon}
-            className={itemClassName}
-            data-event-key={eventKey}
-            data-event-key-type={typeof eventKey}
-            {...menuButtonProps}
-          >
-            {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-            {title}
-            <Icon className={prefix`toggle-icon`} />
+        renderMenuButton={({ open, ...menuButtonProps }) => (
+          <MenuItem disabled={disabled}>
+            {({ selected, active, ...menuitem }, ref) => {
+              const classes = mergeItemClassNames(
+                className,
+                prefixItemClassName(`pull-${rtl ? 'left' : 'right'}`),
+                prefixItemClassName`toggle`,
+                prefixItemClassName`submenu`,
+                withItemClassPrefix({
+                  [sidenavExpanded ? 'expand' : 'collapse']: sidenav,
+                  'with-icon': icon,
+                  open,
+                  active: selected,
+                  disabled,
+                  focus: active
+                })
+              );
+
+              return (
+                <div
+                  ref={ref as any}
+                  className={classes}
+                  data-event-key={eventKey}
+                  data-event-key-type={typeof eventKey}
+                  {...(menuitem as any)}
+                  {...menuButtonProps}
+                >
+                  {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                  {title}
+                  <Icon className={prefix`toggle-icon`} />
+                </div>
+              );
+            }}
           </MenuItem>
         )}
         onToggleMenu={handleToggleSubmenu}

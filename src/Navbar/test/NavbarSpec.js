@@ -12,7 +12,7 @@ afterEach(() => {
   sinon.restore();
 });
 
-describe('Navbar', () => {
+describe('<Navbar>', () => {
   it('Should render a navbar', () => {
     const instance = getDOMNode(<Navbar />);
     assert.include(instance.className, 'rs-navbar');
@@ -130,7 +130,7 @@ describe('Navbar', () => {
         expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
       });
 
-      it('Works correctly with menuitem with submenu', () => {
+      it('Works correctly on menuitem with submenu', () => {
         const { menubar } = renderNavbar(
           <Navbar>
             <Nav>

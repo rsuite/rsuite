@@ -11,6 +11,8 @@ import TreeviewRootItem from '../Sidenav/TreeviewRootItem';
 import DropdownContext from './DropdownContext';
 import Menu, { MenuButtonTrigger } from './Menu';
 import DropdownToggle from './DropdownToggle';
+import MenuContext from './MenuContext';
+import MenuItem from './MenuItem';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -124,6 +126,8 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     return trigger.map(t => triggerMap[t]);
   }, [trigger]);
 
+  const parentMenu = useContext(MenuContext);
+
   const sidenav = useContext<SidenavContextType>(SidenavContext);
 
   if (sidenav?.expanded) {
@@ -134,6 +138,44 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     );
   }
 
+  if (parentMenu) {
+    return (
+      <DropdownContext.Provider value={{ activeKey, onSelect }}>
+        <Menu
+          ref={ref}
+          menuButtonText={title}
+          renderMenuButton={menuButtonProps => (
+            <MenuItem>
+              {(_, menuitemRef) => {
+                return (
+                  <DropdownToggle
+                    ref={menuitemRef}
+                    as={renderTitle ? 'span' : toggleAs}
+                    className={toggleClassName}
+                    {...menuButtonProps}
+                  >
+                    {title}
+                  </DropdownToggle>
+                );
+              }}
+            </MenuItem>
+          )}
+          openMenuOn={menuButtonTriggers}
+          popupPlacement={placement}
+          onToggleMenu={(open, event) => {
+            onToggle?.(open);
+            sidenav?.onOpenChange(eventKey, event);
+            if (open) {
+              onOpen?.();
+            } else {
+              onClose?.();
+            }
+          }}
+          {...menuProps}
+        />
+      </DropdownContext.Provider>
+    );
+  }
   return (
     <DropdownContext.Provider value={{ activeKey, onSelect }}>
       <Menu

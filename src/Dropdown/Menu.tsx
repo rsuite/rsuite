@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useImperativeHandle, useRef } from 'react';
+import React, { useCallback, useContext, useImperativeHandle, useRef } from 'react';
 import PropTypes from 'prop-types';
 import MenuContext, { MenuActionTypes, MenuContextProps, MoveFocusTo } from './MenuContext';
 import { KEY_VALUES, placementPolyfill, useClassNames, useCustom } from '../utils';
@@ -17,7 +17,7 @@ export interface MenuProps extends WithAsProps {
 
   menuButtonText?: React.ReactNode;
   renderMenuButton?: (
-    props: MenuButtonProps
+    props: React.ButtonHTMLAttributes<HTMLButtonElement> & MenuButtonRenderProps
   ) => React.ReactElement<React.ButtonHTMLAttributes<HTMLButtonElement>>;
 
   menuStyle?: React.CSSProperties;
@@ -31,7 +31,7 @@ export interface MenuProps extends WithAsProps {
 
 export type MenuButtonTrigger = 'mouseover' | 'click' | 'contextmenu';
 
-export interface MenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface MenuButtonRenderProps {
   open: boolean;
 }
 
@@ -79,7 +79,7 @@ const Menu = React.forwardRef(
 
     const parentMenu = useContext(MenuContext);
     const isSubmenu = !!parentMenu;
-    const [parentMenuState, parentDispatch] = parentMenu ?? [];
+    const [parentMenuState] = parentMenu ?? [];
 
     const menu = useMenu();
     const [menuState, dispatch] = menu;
@@ -94,7 +94,7 @@ const Menu = React.forwardRef(
       [dispatch]
     );
 
-    const { rtl } = useCustom('DropdownMenu');
+    const { rtl } = useCustom('Dropdown.Menu');
 
     const activeItem = menuState.items[menuState.activeItemIndex]?.element;
 
@@ -239,27 +239,7 @@ const Menu = React.forwardRef(
       buttonAriaAttributes.role = 'menuitem';
     }
 
-    // Register menu button as item of parent menu
-    useEffect(() => {
-      if (isSubmenu) {
-        const menuitem = buttonElementRef.current;
-
-        parentDispatch({
-          type: MenuActionTypes.RegisterItem,
-          element: menuitem as any,
-          props: { disabled }
-        });
-
-        return () => {
-          parentDispatch({
-            type: MenuActionTypes.UnregisterItem,
-            id: menuitem.id
-          });
-        };
-      }
-    }, [isSubmenu, parentDispatch, disabled]);
-
-    const buttonProps: MenuButtonProps = {
+    const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> & MenuButtonRenderProps = {
       id: buttonId,
       ...buttonAriaAttributes,
       ...buttonEventHandlers,

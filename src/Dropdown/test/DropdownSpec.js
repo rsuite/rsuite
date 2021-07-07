@@ -28,7 +28,7 @@ function renderDropdown(ui) {
   };
 }
 
-describe('Dropdown', () => {
+describe('<Dropdown>', () => {
   it('Should render a button that controls a popup menu', () => {
     const instance = getDOMNode(
       <Dropdown title="Menu">
@@ -285,7 +285,7 @@ describe('Dropdown', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  describe('Keyboard interaction', () => {
+  describe('Keyboard interaction & Focus management', () => {
     /**
      * @param ui
      * @param openMenuAfterRendered Whether open the menu after Dropdown is rendered
