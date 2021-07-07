@@ -27,6 +27,7 @@ export enum MoveFocusTo {
   Prev,
   Last,
   First,
+  Specific,
   None
 }
 
@@ -35,7 +36,8 @@ export type MenuAction =
   | { type: MenuActionTypes.UnregisterItem; id: string }
   | { type: MenuActionTypes.OpenMenu }
   | { type: MenuActionTypes.CloseMenu }
-  | { type: MenuActionTypes.MoveFocus; to: MoveFocusTo };
+  | { type: MenuActionTypes.MoveFocus; to: Exclude<MoveFocusTo, MoveFocusTo.Specific> }
+  | { type: MenuActionTypes.MoveFocus; to: MoveFocusTo.Specific; id: string };
 
 // Defaults to null for checking whether a Menu is inside another menu
 const MenuContext = React.createContext<MenuContextProps | null>(null);

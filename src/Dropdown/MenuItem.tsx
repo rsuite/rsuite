@@ -5,7 +5,7 @@ import { SidenavContext } from '../Sidenav/Sidenav';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import useUniqueId from '../utils/useUniqueId';
-import MenuContext, { MenuActionTypes } from './MenuContext';
+import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
 import useCustom from '../utils/useCustom';
 
@@ -61,6 +61,10 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
       onClick,
       onActivate,
       open,
+
+      // Event handlers that we control
+      onMouseEnter,
+      onMouseLeave,
       ...rest
     } = props;
 
@@ -110,8 +114,36 @@ const MenuItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.fo
       [disabled, onActivate, dispatch]
     );
 
+    // Gain/release focus on mouseenter/mouseleave
+    const handleMouseEnter = useCallback(
+      (event: React.MouseEvent<HTMLElement>) => {
+        dispatch({
+          type: MenuActionTypes.MoveFocus,
+          to: MoveFocusTo.Specific,
+          id: menuitemRef.current.id
+        });
+
+        onMouseEnter?.(event);
+      },
+      [dispatch, menuitemRef, onMouseEnter]
+    );
+
+    const handleMouseLeave = useCallback(
+      (event: React.MouseEvent<HTMLElement>) => {
+        dispatch({
+          type: MenuActionTypes.MoveFocus,
+          to: MoveFocusTo.None
+        });
+
+        onMouseLeave?.(event);
+      },
+      [dispatch, onMouseLeave]
+    );
+
     const menuitemEventHandlers: React.LiHTMLAttributes<HTMLLIElement> = {
-      onClick: createChainedFunction(handleClick, onClick)
+      onClick: createChainedFunction(handleClick, onClick),
+      onMouseEnter: handleMouseEnter,
+      onMouseLeave: handleMouseLeave
     };
 
     useEffect(() => {

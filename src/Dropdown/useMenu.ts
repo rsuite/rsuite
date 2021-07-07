@@ -83,6 +83,14 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
             }
           }
           break;
+        case MoveFocusTo.Specific:
+          for (let i = 0; i < items.length; i++) {
+            if (items[i].element.id === action.id && !items[i].props.disabled) {
+              nextActiveItemIndex = i;
+              break;
+            }
+          }
+          break;
         case MoveFocusTo.None:
           nextActiveItemIndex = null;
           break;
