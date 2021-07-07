@@ -1,5 +1,5 @@
 /**
- * 解析 design/../index.html 中的导航的 hash ，使之与 menu 中 components.json 的 hash 对应。
+ * 解析 design/../index.html 中的导航的 hash ，使之与 menu 中 components.config.json 的 hash 对应。
  */
 const fs = require('fs');
 const { resolve } = require('path');
@@ -12,8 +12,10 @@ const COMPONENTS_JSON_PATH = '../utils/component.config.json';
 
 const readfile = path => fs.readFileSync(resolve(__dirname, path), { encoding: 'UTF-8' });
 
-const gerJSONDataFromDesignHtmlData = htmlData =>
-  JSON.parse(/\$\(function\(\)\{ SMApp\((.*)\) \}\)\;/.exec(htmlData)[1]);
+const gerJSONDataFromDesignHtmlData = htmlData => {
+  const jsonStr = /let\ data\ \=\ \{([\s\S]*)\};/.exec(htmlData)[1];
+  return JSON.parse(`{${jsonStr}}`);
+};
 
 const parseArtboardData = jsonData =>
   _.get(jsonData, 'artboards').map((data, index) => ({
@@ -40,6 +42,7 @@ fs.writeFile(
       const { name } = obj;
       const getHash = theme =>
         _.get(themeArtsboardData[theme], `${name.toLowerCase()}.index`) || null;
+
       obj = {
         ...obj,
         designHash: Object.fromEntries(

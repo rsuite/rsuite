@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/page</title>
+    <g id="Icon/page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M9.58578644,0 C9.80680018,0 10.0202705,0.0731644725 10.193816,0.206080627 L10.2928932,0.292893219 L14,4 C14,4.55228475 13.5522847,5 13,5 L9.5,5 L9.5,5 C9.22385763,5 9,4.77614237 9,4.5 L9,1 L3,1 C2.48716416,1 2.06449284,1.38604019 2.00672773,1.88337887 L2,2 L2,14 C2,14.5128358 2.38604019,14.9355072 2.88337887,14.9932723 L3,15 L12,15 C12.5128358,15 12.9355072,14.6139598 12.9932723,14.1166211 L13,14 L13,7.5 C13,7.22385763 13.2238576,7 13.5,7 C13.7454599,7 13.9496084,7.17687516 13.9919443,7.41012437 L14,7.5 L14,14 C14,15.0543618 13.1841222,15.9181651 12.1492623,15.9945143 L12,16 L3,16 C1.9456382,16 1.08183488,15.1841222 1.00548574,14.1492623 L1,14 L1,2 C1,0.945638205 1.81587779,0.0818348781 2.85073766,0.00548573643 L3,0 L9.58578644,0 Z M10,1.415 L10,4 L12.585,4 L10,1.415 Z" id="Combined-Shape" fill="#575757" fill-rule="nonzero" transform="translate(7.500000, 8.000000) scale(1, -1) translate(-7.500000, -8.000000) "></path>
+        <rect id="Rectangle-3" fill="#575757" transform="translate(6.000000, 9.500000) scale(1, -1) translate(-6.000000, -9.500000) " x="4" y="9" width="4" height="1" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-3" fill="#575757" transform="translate(6.000000, 12.500000) scale(1, -1) translate(-6.000000, -12.500000) " x="4" y="12" width="4" height="1" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy" fill="#575757" transform="translate(7.500000, 6.500000) scale(1, -1) translate(-7.500000, -6.500000) " x="4" y="6" width="7" height="1" rx="0.5"></rect>
+        <rect id="Rectangle-3-Copy-2" fill="#575757" transform="translate(7.500000, 3.500000) scale(1, -1) translate(-7.500000, -3.500000) " x="4" y="3" width="7" height="1" rx="0.5"></rect>
+    </g>
+</svg>
