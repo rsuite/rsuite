@@ -11,7 +11,7 @@ import { SidenavContext } from '../Sidenav/Sidenav';
 import TreeviewRootItem from '../Sidenav/TreeviewRootItem';
 import NavContext from './NavContext';
 import { NavbarContext } from '../Navbar/Navbar';
-import MenuItem from '../Dropdown/MenuItem';
+import MenuItem from '../Menu/MenuItem';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,

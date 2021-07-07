@@ -9,7 +9,7 @@ import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import Treeview from '../Sidenav/Treeview';
 import NavContext from './NavContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
-import Menubar from '../Navbar/Menubar';
+import Menubar from '../Menu/Menubar';
 
 export interface NavProps<T = any>
   extends WithAsProps,

@@ -10,10 +10,10 @@ import deprecatePropType from '../utils/deprecatePropType';
 import DropdownItem from './DropdownItem';
 import TreeviewRootItem from '../Sidenav/TreeviewRootItem';
 import DropdownContext from './DropdownContext';
-import Menu, { MenuButtonTrigger } from './Menu';
+import Menu, { MenuButtonTrigger } from '../Menu/Menu';
 import DropdownToggle from './DropdownToggle';
-import MenuContext from './MenuContext';
-import MenuItem from './MenuItem';
+import MenuContext from '../Menu/MenuContext';
+import MenuItem from '../Menu/MenuItem';
 import kebabCase from 'lodash/kebabCase';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';

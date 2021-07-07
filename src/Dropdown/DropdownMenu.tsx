@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import omit from 'lodash/omit';
-import Menu from './Menu';
-import MenuItem from './MenuItem';
+import Menu from '../Menu/Menu';
+import MenuItem from '../Menu/MenuItem';
 import { mergeRefs, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
@@ -12,7 +12,7 @@ import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import useCustom from '../utils/useCustom';
 import DropdownContext from './DropdownContext';
-import Menubar from '../Navbar/Menubar';
+import Menubar from '../Menu/Menubar';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */

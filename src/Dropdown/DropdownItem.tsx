@@ -5,7 +5,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import TreeviewItem from '../Sidenav/TreeviewItem';
 import deprecatePropType from '../utils/deprecatePropType';
-import MenuItem from './MenuItem';
+import MenuItem from '../Menu/MenuItem';
 import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';

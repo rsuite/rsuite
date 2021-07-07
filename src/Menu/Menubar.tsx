@@ -1,9 +1,9 @@
 // Headless ARIA `menubar`
 import React, { useCallback, useRef } from 'react';
-import MenuContext, { MenuActionTypes, MoveFocusTo } from '../Dropdown/MenuContext';
+import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
 import { KEY_VALUES, useCustom } from '../utils';
 import { isFocusEntering, isFocusLeaving } from '../utils/events';
-import useMenu from '../Dropdown/useMenu';
+import useMenu from './useMenu';
 
 export interface MenubarProps {
   /** Whether menubar is arranged in vertical form, defaults to false */
