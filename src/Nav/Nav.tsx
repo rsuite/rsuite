@@ -87,9 +87,12 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
     })
   );
 
+  // If inside expanded <Sidenav>, render an ARIA `tree`
   if (sidenav?.expanded) {
     return <Treeview className={classes}>{children}</Treeview>;
   }
+
+  // If inside a collapsed <Sidenav>, render an ARIA `menubar` (vertical)
 
   const { activeKey: activeKeyFromSidenav, onSelect: onSelectFromSidenav = onSelectProp } =
     sidenav || {};
@@ -122,8 +125,8 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
       }}
     >
       <Menubar>
-        {(menubar: any) => (
-          <Component {...rest} className={classes} {...menubar}>
+        {(menubar, ref) => (
+          <Component ref={ref} {...rest} className={classes} {...menubar}>
             {children}
           </Component>
         )}

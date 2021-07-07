@@ -2,17 +2,17 @@ import React, { useCallback, useContext } from 'react';
 import omit from 'lodash/omit';
 import Menu, { MenuProps } from './Menu';
 import MenuItem from './MenuItem';
-import { useClassNames } from '../utils';
+import { mergeRefs, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import TreeviewItem from '../Sidenav/TreeviewItem';
-import VerticalMenubar from './VerticalMenubar';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import useCustom from '../utils/useCustom';
 import DropdownContext from './DropdownContext';
+import Menubar from '../Navbar/Menubar';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
@@ -66,7 +66,7 @@ const DropdownMenu = React.forwardRef(
     props: DropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>,
     ref
   ) => {
-    const { onToggle, eventKey, title, onSelect, ...rest } = props;
+    const { onToggle, eventKey, title, onSelect, classPrefix, ...rest } = props;
 
     const dropdown = useContext(DropdownContext);
     const sidenav = useContext(SidenavContext);
@@ -78,19 +78,28 @@ const DropdownMenu = React.forwardRef(
       },
       [eventKey, onToggle]
     );
-    const { merge, prefix } = useClassNames(props.classPrefix);
+    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
 
     // <Dropdown.Menu> is used outside of <Dropdown>
     // renders a vertical `menubar`
     if (!dropdown) {
+      const classes = merge(props.className, withClassPrefix());
+
       return (
-        <VerticalMenubar
-          ref={ref}
+        <Menubar
+          vertical
           onActivateItem={event => {
-            onSelect?.((event.target as HTMLElement).dataset.eventKey, event);
+            const { eventKey, eventKeyType } = (event.target as HTMLElement).dataset;
+
+            // Only cast number type for now
+            const eventKeyToEmit = eventKeyType === 'number' ? Number(eventKey) : eventKey;
+            onSelect?.(eventKeyToEmit as any, event);
           }}
-          {...rest}
-        />
+        >
+          {(menubar, menubarRef) => (
+            <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest} />
+          )}
+        </Menubar>
       );
     }
 
@@ -100,7 +109,7 @@ const DropdownMenu = React.forwardRef(
 
     // Parent menu exists. This is a submenu.
     // Should render a `menuitem` that controls this submenu.
-    const { icon, className, ...menuProps } = omit(rest, ['classPrefix', 'trigger']);
+    const { icon, className, ...menuProps } = omit(rest, ['trigger']);
     const itemClassName = merge(className, prefix('pull-right'));
 
     const Icon = rtl ? AngleLeft : AngleRight;
@@ -117,6 +126,7 @@ const DropdownMenu = React.forwardRef(
             icon={icon}
             className={itemClassName}
             data-event-key={eventKey}
+            data-event-key-type={typeof eventKey}
             {...menuButtonProps}
           >
             {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}

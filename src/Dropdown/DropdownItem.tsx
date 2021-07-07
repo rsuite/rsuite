@@ -101,6 +101,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
         selected={menuitemSelected}
         onActivate={handleSelectItem}
         data-event-key={eventKey}
+        data-event-key-type={typeof eventKey}
         {...menuitemProps}
       />
     );

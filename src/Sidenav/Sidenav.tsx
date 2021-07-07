@@ -50,7 +50,7 @@ export interface SidenavComponent extends RsRefForwardingComponent<'div', Sidena
 }
 
 const defaultProps: Partial<SidenavProps> = {
-  as: 'div',
+  as: 'nav',
   classPrefix: 'sidenav',
   appearance: 'default',
   expanded: true

@@ -385,7 +385,7 @@ const Menu = React.forwardRef(
 
         onKeyDown?.(e);
       },
-      [onKeyDown, dispatch, activeItem, isSubmenu, rtl, menuFocus, closeMenu]
+      [onKeyDown, dispatch, activeItem, isSubmenu, rtl, closeMenu]
     );
 
     // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-13

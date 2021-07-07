@@ -6,10 +6,20 @@ import { isFocusEntering, isFocusLeaving } from '../utils/events';
 import useMenu from '../Dropdown/useMenu';
 
 export interface MenubarProps {
-  children: (menubar: React.HTMLAttributes<HTMLUListElement>) => React.ReactElement;
+  /** Whether menubar is arranged in vertical form, defaults to false */
+  vertical?: boolean;
+
+  /** Render prop */
+  children: (
+    menubar: React.HTMLAttributes<HTMLUListElement>,
+    ref: React.Ref<HTMLUListElement>
+  ) => React.ReactElement;
+
+  /** Callback triggered when an item is being activated */
+  onActivateItem?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-export default function Menubar({ children }: MenubarProps) {
+export default function Menubar({ vertical = false, children, onActivateItem }: MenubarProps) {
   const menubar = useMenu({ role: 'menubar' });
   const [{ items, activeItemIndex }, dispatch] = menubar;
 
@@ -42,24 +52,28 @@ export default function Menubar({ children }: MenubarProps) {
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLUListElement>) => {
       const activeItem = items[activeItemIndex];
-      switch (event.key) {
-        case KEY_VALUES.RIGHT:
+      switch (true) {
+        case !vertical && !rtl && event.key === KEY_VALUES.RIGHT:
+        case !vertical && rtl && event.key === KEY_VALUES.LEFT:
+        case vertical && event.key === KEY_VALUES.DOWN:
           event.preventDefault();
           event.stopPropagation();
           dispatch({
             type: MenuActionTypes.MoveFocus,
-            to: !rtl ? MoveFocusTo.Next : MoveFocusTo.Prev
+            to: MoveFocusTo.Next
           });
           break;
-        case KEY_VALUES.LEFT:
+        case !vertical && !rtl && event.key === KEY_VALUES.LEFT:
+        case !vertical && rtl && event.key === KEY_VALUES.RIGHT:
+        case vertical && event.key === KEY_VALUES.UP:
           event.preventDefault();
           event.stopPropagation();
           dispatch({
             type: MenuActionTypes.MoveFocus,
-            to: !rtl ? MoveFocusTo.Prev : MoveFocusTo.Next
+            to: MoveFocusTo.Prev
           });
           break;
-        case KEY_VALUES.HOME:
+        case event.key === KEY_VALUES.HOME:
           event.preventDefault();
           event.stopPropagation();
           dispatch({
@@ -67,7 +81,7 @@ export default function Menubar({ children }: MenubarProps) {
             to: MoveFocusTo.First
           });
           break;
-        case KEY_VALUES.END:
+        case event.key === KEY_VALUES.END:
           event.preventDefault();
           event.stopPropagation();
           dispatch({
@@ -75,38 +89,52 @@ export default function Menubar({ children }: MenubarProps) {
             to: MoveFocusTo.Last
           });
           break;
-        case KEY_VALUES.DOWN:
+        case !vertical && event.key === KEY_VALUES.DOWN:
+        case vertical && !rtl && event.key === KEY_VALUES.RIGHT:
+        case vertical && rtl && event.key === KEY_VALUES.LEFT:
           if (activeItem?.element.getAttribute('aria-haspopup') === 'menu') {
             event.preventDefault();
             event.stopPropagation();
             activeItem.element.click();
           }
           break;
-        case KEY_VALUES.ENTER:
-        case KEY_VALUES.SPACE:
+        case event.key === KEY_VALUES.ENTER:
+        case event.key === KEY_VALUES.SPACE:
           event.preventDefault();
           event.stopPropagation();
           activeItem?.element.click();
           break;
       }
     },
-    [rtl, items, activeItemIndex, dispatch]
+    [rtl, items, activeItemIndex, dispatch, vertical]
   );
 
-  const element = children({
-    role: 'menubar',
-    tabIndex: 0,
-    onFocus,
-    onBlur,
-    onKeyDown,
-    'aria-activedescendant': items[activeItemIndex]?.element.id
-  });
+  // Only used for handling click events bubbling from children
+  // Which indicates that a child menuitem is being activated
+  const onClick = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      if (items.some(item => item.element === event.target)) {
+        onActivateItem?.(event);
+      }
+    },
+    [items, onActivateItem]
+  );
 
   return (
     <MenuContext.Provider value={menubar}>
-      {React.cloneElement(element, {
-        ref: menubarElementRef
-      })}
+      {children(
+        {
+          role: 'menubar',
+          tabIndex: 0,
+          onFocus,
+          onBlur,
+          onKeyDown,
+          onClick,
+          'aria-activedescendant': items[activeItemIndex]?.element.id,
+          'aria-orientation': vertical ? 'vertical' : undefined // implicitly set 'horizontal'
+        },
+        menubarElementRef
+      )}
     </MenuContext.Provider>
   );
 }

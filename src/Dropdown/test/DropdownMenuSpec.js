@@ -182,26 +182,25 @@ describe('<Dropdown.Menu>', () => {
     assert.isNotNull(instance.querySelector('.rs-dropdown-item-submenu'));
   });
 
-  it('Should call onSelect callback with correct `eventKey`', done => {
-    let doneOp = eventKey => {
-      try {
-        assert.equal(eventKey, 3, 'eventKey');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onSelect callback with correct `eventKey`', () => {
+    const onSelectSpy = sinon.spy();
+
     const instance = getDOMNode(
-      <DropdownMenu onSelect={doneOp} activeKey={1}>
+      <DropdownMenu onSelect={onSelectSpy} activeKey={1}>
         <DropdownItem eventKey={1}>1</DropdownItem>
         <DropdownItem eventKey={2}>2</DropdownItem>
         <DropdownItem eventKey={3}>3</DropdownItem>
       </DropdownMenu>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('[role^="menuitem"]')[2], {
-      bubbles: true
+    act(() => {
+      Simulate.click(instance.querySelectorAll('[role^="menuitem"]')[2], {
+        bubbles: true
+      });
     });
+
+    expect(onSelectSpy).to.have.been.called;
+    expect(onSelectSpy).to.have.been.calledWith(3);
   });
 
   it('Should have a custom className', () => {
