@@ -336,6 +336,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-13
   const menuAriaAttributes: React.HTMLAttributes<HTMLUListElement> = {
     role: 'menu',
+    'aria-labelledby': buttonId,
     'aria-activedescendant': activeItem?.id
   };
 
@@ -391,21 +392,23 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
     rootEventHandlers.onMouseLeave = handleMouseLeave;
   }
 
-  return children(
-    {
-      ...rootEventHandlers,
-      children: (
-        <>
-          {buttonElement}
-          <MenuContext.Provider value={menu}>{menuElement}</MenuContext.Provider>
-        </>
-      ),
+  const rootProps: React.HTMLAttributes<HTMLDivElement> & MenuRenderProps = {
+    ...rootEventHandlers,
+    children: (
+      <>
+        {buttonElement}
+        <MenuContext.Provider value={menu}>{menuElement}</MenuContext.Provider>
+      </>
+    ),
+    // render props
+    open
+  };
 
-      // render props
-      open
-    },
-    rootElementRef
-  );
+  if (isSubmenu) {
+    rootProps.role = 'none presentation';
+  }
+
+  return children(rootProps, rootElementRef);
 }
 
 Menu.displayName = 'Menu';

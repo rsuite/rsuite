@@ -92,8 +92,6 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
     return <Treeview className={classes}>{children}</Treeview>;
   }
 
-  // If inside a collapsed <Sidenav>, render an ARIA `menubar` (vertical)
-
   const { activeKey: activeKeyFromSidenav, onSelect: onSelectFromSidenav = onSelectProp } =
     sidenav || {};
 
@@ -101,7 +99,9 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
 
   const hasWaterline = appearance !== 'default';
 
-  if (!navbar) {
+  // If inside a <Navbar>, render an ARIA `menubar` (horizontal)
+  // If inside a collapsed <Sidenav>, render an ARIA `menubar` (vertical)
+  if (navbar || sidenav) {
     return (
       <NavContext.Provider
         value={{
@@ -109,14 +109,16 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
           onSelect: onSelectProp ?? onSelectFromSidenav
         }}
       >
-        <Component {...rest} ref={menubarRef} className={classes}>
-          {children}
-          {hasWaterline && <div className={prefix('bar')} />}
-        </Component>
+        <Menubar vertical={!!sidenav}>
+          {(menubar, ref) => (
+            <Component ref={ref} {...rest} className={classes} {...menubar}>
+              {children}
+            </Component>
+          )}
+        </Menubar>
       </NavContext.Provider>
     );
   }
-
   return (
     <NavContext.Provider
       value={{
@@ -124,13 +126,10 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
         onSelect: onSelectProp ?? onSelectFromSidenav
       }}
     >
-      <Menubar>
-        {(menubar, ref) => (
-          <Component ref={ref} {...rest} className={classes} {...menubar}>
-            {children}
-          </Component>
-        )}
-      </Menubar>
+      <Component {...rest} ref={menubarRef} className={classes}>
+        {children}
+        {hasWaterline && <div className={prefix('bar')} />}
+      </Component>
     </NavContext.Provider>
   );
 }) as unknown) as NavComponent;

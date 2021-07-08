@@ -22,10 +22,7 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
     case MenuActionTypes.RegisterItem:
       return {
         ...state,
-        items: [
-          ...items,
-          { element: action.element, id: action.element.id, props: action.props } as any
-        ]
+        items: [...items, { element: action.element, props: action.props }]
       };
     case MenuActionTypes.UnregisterItem:
       return {
@@ -98,6 +95,8 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
           nextActiveItemIndex = null;
           break;
       }
+
+      console.log(nextActiveItemIndex, items[nextActiveItemIndex]?.element);
 
       return {
         ...state,

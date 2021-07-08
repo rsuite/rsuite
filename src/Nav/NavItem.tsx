@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
-import { appendTooltip, shallowEqual, useClassNames } from '../utils';
+import { appendTooltip, mergeRefs, shallowEqual, useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
@@ -88,8 +88,13 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       [disabled, onSelect, eventKey, onClick]
     );
 
-    // If <Nav.Item> is inside <Navbar>, render a <Menubar.Item>
-    if (navbar) {
+    if (sidenav?.expanded) {
+      const { children, ...restProps } = props;
+      return <TreeviewRootItem title={children} {...restProps} />;
+    }
+
+    // If <Nav.Item> is inside <Navbar> or collapsed <Sidenav>, render an ARIA `menuitem`
+    if (navbar || sidenav) {
       return (
         <MenuItem selected={active} disabled={disabled} onActivate={e => onSelect?.(eventKey, e)}>
           {({ selected, active, ...menuitem }, menuitemRef) => {
@@ -97,9 +102,10 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
               className,
               withClassPrefix({ focus: active, active: selected, disabled })
             );
-            return (
+
+            const item = (
               <Component
-                ref={menuitemRef}
+                ref={mergeRefs(ref, menuitemRef)}
                 disabled={Component === SafeAnchor ? disabled : undefined}
                 className={classes}
                 data-event-key={eventKey}
@@ -111,14 +117,34 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
                 <Ripple />
               </Component>
             );
+
+            // Show tooltip when inside a collapse <Sidenav>
+            return sidenav
+              ? appendTooltip({
+                  children: (triggerProps, triggerRef) => {
+                    return (
+                      <Component
+                        ref={mergeRefs(mergeRefs(ref, menuitemRef), triggerRef as any)}
+                        disabled={Component === SafeAnchor ? disabled : undefined}
+                        className={classes}
+                        data-event-key={eventKey}
+                        {...menuitem}
+                        {...omit(rest, ['divider', 'panel'])}
+                        {...triggerProps}
+                      >
+                        {icon}
+                        {children}
+                        <Ripple />
+                      </Component>
+                    );
+                  },
+                  message: children,
+                  placement: 'right'
+                })
+              : item;
           }}
         </MenuItem>
       );
-    }
-
-    if (sidenav?.expanded) {
-      const { children, ...restProps } = props;
-      return <TreeviewRootItem title={children} {...restProps} />;
     }
 
     if (divider) {
@@ -140,7 +166,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       );
     }
 
-    const item = (
+    return (
       <Component
         ref={ref}
         aria-selected={active}
@@ -155,17 +181,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
         <Ripple />
       </Component>
     );
-
-    // Show tooltip when inside a collapse <Sidenav>
-    const tooltip = sidenav && !sidenav.expanded;
-
-    return tooltip
-      ? appendTooltip({
-          children: item,
-          message: children,
-          placement: 'right'
-        })
-      : item;
   }
 );
 

@@ -8,7 +8,7 @@ import NavItem from '../NavItem';
 import Sidenav from '../../Sidenav';
 import Nav from '../Nav';
 
-describe('NavItem', () => {
+describe('<Nav.Item>', () => {
   it('Should render a <a>', () => {
     let title = 'Test';
     let instance = getDOMNode(<NavItem>{title}</NavItem>);
