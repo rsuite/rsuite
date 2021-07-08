@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-const withImages = require('next-images');
-const withPlugins = require('next-compose-plugins');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const RtlCssPlugin = require('rtlcss-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -23,15 +21,12 @@ const LANGUAGES = {
 
 const getLanguage = language => LANGUAGES[language] || '';
 
-module.exports = withPlugins([[withImages]], {
-  future: {
-    /**
-     * Enable webpack 5
-     * @see https://nextjs.org/docs/messages/webpack5
-     */
-    webpack5: true
+module.exports = {
+  env: {
+    DEV: __DEV__ ? 1 : 0,
+    VERSION: pkg.version
   },
-  webpack(config, { webpack }) {
+  webpack(config) {
     const originEntry = config.entry;
 
     config.module.rules.unshift({
@@ -119,22 +114,16 @@ module.exports = withPlugins([[withImages]], {
       ]
     });
 
-    config.plugins = config.plugins.concat([
-      new webpack.DefinePlugin({
-        __DEV__: JSON.stringify(__DEV__),
-        __VERSION__: JSON.stringify(pkg.version)
-      })
-    ]);
-
     /**
      * @see https://github.com/vercel/next.js/blob/0bcc6943ae7a8c3c7d1865b4ae090edafe417c7c/packages/next/build/webpack/config/blocks/css/index.ts#L311
      */
     config.plugins.push(
       new MiniCssExtractPlugin({
-        filename: 'static/css/docs.css',
+        experimentalUseImportModule: true, // isWebpack5
+        filename: 'static/css/[name].css',
         chunkFilename: 'static/css/[contenthash].css'
       }),
-      new RtlCssPlugin('static/css/docs-rtl.css')
+      new RtlCssPlugin('static/css/[name]-rtl.css')
     );
 
     config.optimization.minimizer.push(
@@ -203,4 +192,4 @@ module.exports = withPlugins([[withImages]], {
     // Number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 3 // default 2
   }
-});
+};
