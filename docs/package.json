@@ -85,7 +85,7 @@
     "less": "^4.0.0",
     "less-loader": "^8.1.1",
     "markdown-loader": "2.0.0",
-    "mini-css-extract-plugin": "^1.5.0",
+    "mini-css-extract-plugin": "^2.1.0",
     "next": "^11.0.1",
     "postcss": "^8.2.10",
     "postcss-loader": "^4.2.0",
