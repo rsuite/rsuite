@@ -18,7 +18,7 @@ export default function Page() {
         Dashboard,
         Group,
         Magic,
-        GearCircle,
+        GearCircle
       }}
     />
   );

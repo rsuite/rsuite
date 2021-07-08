@@ -101,16 +101,16 @@ const Speaker = React.forwardRef(({ style, ...rest }: PositionChildProps, ref) =
       </p>
       <ul>
         <li>
-          <strong>3 : 1</strong> - minimum contrast for "large scale" text (18 pt or 14 pt bold, or
-          larger) under WCAG 2.0 1.4.3 (Level AA)
+          <strong>3 : 1</strong> - minimum contrast for &quot;large scale&quot; text (18 pt or 14 pt
+          bold, or larger) under WCAG 2.0 1.4.3 (Level AA)
         </li>
         <li>
           <strong>4.5 : 1</strong> - minimum contrast for regular sized text under WCAG 2.0 1.4.3
           (Level AA)
         </li>
         <li>
-          <strong>7 : 1</strong> - "enhanced" contrast for regular sized text under WCAG 2.0 1.4.6
-          (Level AAA)
+          <strong>7 : 1</strong> - &quot;enhanced&quot; contrast for regular sized text under WCAG
+          2.0 1.4.6 (Level AAA)
         </li>
       </ul>
     </Popover>

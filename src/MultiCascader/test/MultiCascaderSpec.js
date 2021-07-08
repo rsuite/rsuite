@@ -385,4 +385,45 @@ describe('MultiCascader', () => {
     assert.equal(overlay.querySelectorAll('.rs-check-item').length, 1);
     assert.equal(overlay.querySelector('.rs-check-item').innerText, 'test');
   });
+
+  it('Should children be loaded lazily', () => {
+    const instance = getInstance(
+      <MultiCascader
+        open
+        data={[{ label: '1', value: '1', children: [] }]}
+        getChildren={() => {
+          return [{ label: '2', value: '2' }];
+        }}
+      />
+    );
+
+    ReactTestUtils.Simulate.click(
+      instance.overlay.querySelector('.rs-picker-cascader-menu-has-children .rs-check-item')
+    );
+
+    assert.equal(instance.overlay.querySelectorAll('.rs-check-item')[1].innerText, '2');
+  });
+
+  it('Should present an asyn loading state', () => {
+    function fetchNodes() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve([{ label: '2', value: '2' }]);
+        }, 500);
+      });
+    }
+
+    const instance = getInstance(
+      <MultiCascader
+        open
+        data={[{ label: '1', value: '1', children: [] }]}
+        getChildren={fetchNodes}
+      />
+    );
+
+    ReactTestUtils.Simulate.click(
+      instance.overlay.querySelector('.rs-picker-cascader-menu-has-children .rs-check-item')
+    );
+    assert.ok(instance.overlay.querySelector('.rs-icon.rs-icon-spin'));
+  });
 });

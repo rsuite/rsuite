@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="80px" height="60px" viewBox="0 0 80 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
     <title>Group 6 Copy 2</title>
-    <desc>Created with Sketch.</desc>
     <g id="Placeholder" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g transform="translate(-90.000000, -170.000000)" id="Group-5">
-            <g transform="translate(90.000000, 170.000000)">
-                <g id="Group-6-Copy-2">
-                    <rect id="Rectangle" fill="#F2F2F5" x="0" y="0" width="80" height="60" rx="6"></rect>
-                    <polygon id="Rectangle" fill="#FFFFFF" points="30.5 16 56 52 8 52"></polygon>
-                    <polygon id="Rectangle-Copy-3" fill="#FFFFFF" points="56.5 28 72 52 34 52"></polygon>
-                    <circle id="Oval" fill="#FFFFFF" cx="56" cy="14" r="6"></circle>
-                </g>
+            <g transform="translate(90.000000, 170.000000)" id="Group-6-Copy-2">
+                <rect id="Rectangle" fill="#F2F2F5" x="0" y="0" width="80" height="60" rx="6"></rect>
+                <polygon id="Rectangle" fill="#FFFFFF" points="30.5 16 56 52 8 52"></polygon>
+                <polygon id="Rectangle-Copy-3" fill="#FFFFFF" points="56.5 28 72 52 34 52"></polygon>
+                <circle id="Oval" fill="#FFFFFF" cx="56" cy="14" r="6"></circle>
             </g>
         </g>
     </g>

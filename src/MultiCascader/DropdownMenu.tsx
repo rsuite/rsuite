@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import isNil from 'lodash/isNil';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
@@ -17,7 +16,6 @@ export interface DropdownMenuProps extends WithAsProps {
   childrenKey: string;
   valueKey: string;
   labelKey: string;
-  loadingText: string;
   menuWidth: number;
   menuHeight: number | string;
   cascade?: boolean;
@@ -34,7 +32,6 @@ export interface DropdownMenuProps extends WithAsProps {
   onCheck?: (node: ItemDataType, event: React.SyntheticEvent, checked: boolean) => void;
   onSelect?: (
     node: ItemDataType,
-    cascadeData: ItemDataType[][],
     cascadePaths: ItemDataType[],
     event: React.SyntheticEvent
   ) => void;
@@ -73,7 +70,6 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       value,
       valueKey,
       labelKey,
-      loadingText,
       renderMenuItem,
       renderMenu,
       onCheck,
@@ -85,42 +81,30 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
     const classes = merge(className, prefix('items'));
     const rtl = useCustom('DropdownMenu');
 
-    const getCascadeItems = useCallback(
-      (items: ItemDataType[], layer: number, node: ItemDataType, isLeafNode: boolean) => {
-        const data = [];
+    const getCascadePaths = useCallback(
+      (layer: number, node: ItemDataType) => {
         const paths = [];
 
         for (let i = 0; i < cascadeData.length && i < layer; i += 1) {
-          data.push(cascadeData[i]);
           if (i < layer - 1 && cascadePaths) {
             paths.push(cascadePaths[i]);
           }
         }
 
         paths.push(node);
-        if (!isLeafNode) {
-          data.push(items);
-        }
 
-        return {
-          cascadeData: data,
-          cascadePaths: paths
-        };
+        return paths;
       },
       [cascadeData, cascadePaths]
     );
 
     const handleSelect = useCallback(
       (layer: number, node: any, event: React.SyntheticEvent<HTMLElement>) => {
-        const children = node[childrenKey];
-        const isLeafNode = isNil(children);
-        const items = (children || []).map(item => ({ ...item, parent: node }));
+        const cascadePaths = getCascadePaths(layer + 1, node);
 
-        const { cascadeData, cascadePaths } = getCascadeItems(items, layer + 1, node, isLeafNode);
-
-        onSelect?.(node, cascadeData, cascadePaths, event);
+        onSelect?.(node, cascadePaths, event);
       },
-      [childrenKey, getCascadeItems, onSelect]
+      [getCascadePaths, onSelect]
     );
 
     const renderCascadeNode = (
@@ -140,7 +124,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
-      const Icon = rtl ? AngleRightIcon : AngleLeftIcon;
+      const Icon = node.loading ? SpinnerIcon : rtl ? AngleRightIcon : AngleLeftIcon;
       let active = value.some(v => v === nodeValue);
 
       if (cascade) {
@@ -165,7 +149,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
           checkable={!uncheckable}
         >
           {renderMenuItem ? renderMenuItem(nodeLabel, node) : nodeLabel}
-          {children ? <Icon className={prefix('caret')} /> : null}
+          {children ? <Icon className={prefix('caret')} spin={node.loading} /> : null}
         </DropdownMenuCheckItem>
       );
     };
@@ -202,26 +186,11 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
           'column-uncheckable': uncheckableCount === children.length
         });
 
-        const renderMenuElement = () => {
-          if (renderMenu) {
-            return renderMenu(children, menu, parentNode, layer);
-          }
-
-          return parentNode?.loading ? (
-            <div className={prefix('column-loading')}>
-              <SpinnerIcon spin /> <span>{loadingText}</span>
-            </div>
-          ) : (
-            menu
-          );
-        };
-
-        const node = (
+        return (
           <div key={onlyKey} className={columnClasses} data-layer={layer} style={columnStyles}>
-            {renderMenuElement()}
+            {renderMenu ? renderMenu(children, menu, parentNode, layer) : menu}
           </div>
         );
-        return node;
       });
       return <div style={styles}>{cascadeNodes}</div>;
     };

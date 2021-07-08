@@ -247,6 +247,27 @@ describe('Cascader', () => {
     );
   });
 
+  it('Should present an asyn loading state', () => {
+    function fetchNodes() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve([{ label: '2', value: '2' }]);
+        }, 500);
+      });
+    }
+
+    const instance = getInstance(
+      <Cascader open data={[{ label: '1', value: '1', children: [] }]} getChildren={fetchNodes} />
+    );
+
+    ReactTestUtils.Simulate.click(
+      instance.overlay.querySelector(
+        '.rs-picker-cascader-menu-has-children .rs-picker-cascader-menu-item'
+      )
+    );
+    assert.ok(instance.overlay.querySelector('.rs-icon.rs-icon-spin'));
+  });
+
   it('Should call renderValue', () => {
     const instance1 = getDOMNode(<Cascader value="Test" renderValue={() => '1'} />);
     const instance2 = getDOMNode(<Cascader value="Test" renderValue={() => null} />);

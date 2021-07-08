@@ -181,31 +181,6 @@ RSUITE 中使用的图标字体文件都部署在 [jsDelivr CDN](http://cdn.jsde
 }
 ```
 
-### 如何全局修改组件的 className 前缀，`rs-` ？
-
-首先，在您的 `less` 文件中定义 `@ns` 来覆盖默认配置。
-
-```less
-@ns: custom-;
-```
-
-然后, 再通过 webpack 注入常量 `__RSUITE_CLASSNAME_PREFIX__` , 所有组件的 className 前缀会通过注入的常量覆盖默认的 `rs-`
-
-```js
-plugins: [
-  //...
-  new webpack.DefinePlugin({
-    __RSUITE_CLASSNAME_PREFIX__: JSON.stringify('custom-')
-  })
-];
-```
-
-如果是通过服务端渲染，在 `server.js` 添加如下代码 :
-
-```js
-global.__RSUITE_CLASSNAME_PREFIX__ = 'custom-';
-```
-
 > 如果您使用了 [`create-react-app`][cra] 创建项目，可以通过 [`react-app-rewire-less`][rarl] 和 [`react-app-rewire-define-plugin`][rardp] 进行修改。详见[在 create-react-app 中使用][use-with-create-app]。
 
 [cra]: https://github.com/facebook/create-react-app

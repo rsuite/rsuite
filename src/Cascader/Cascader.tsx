@@ -341,7 +341,6 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   const handleSelect = (
     node: ItemDataType,
-    cascadeData: ItemDataType[][],
     cascadePaths: ItemDataType[],
     isLeafNode: boolean,
     event: React.MouseEvent
@@ -350,16 +349,14 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
     onSelect?.(node, cascadePaths, event);
     setSelectedPaths(cascadePaths);
-    setColumnData(cascadeData);
 
     // Lazy load node's children
-    if (typeof getChildren === 'function' && node.children?.length === 0) {
+    if (typeof getChildren === 'function' && node[childrenKey]?.length === 0) {
       node.loading = true;
 
       const children = getChildren(node);
 
       if (children instanceof Promise) {
-        // TODO: 当快速点击节点(个节点未加载完成就点击了另外一个节点)，会导致子节点返回的 children 不能正确的返回附加到对应的节点上
         children.then((data: ItemDataType[]) => {
           node.loading = false;
           node[childrenKey] = data;
@@ -370,6 +367,8 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
         node[childrenKey] = children;
         addColumn(children as ItemDataType[], cascadePaths.length);
       }
+    } else if (node[childrenKey]?.length) {
+      addColumn(node[childrenKey], cascadePaths.length);
     }
 
     if (isLeafNode) {
@@ -523,7 +522,6 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
             cascadeData={columnData}
             cascadePaths={selectedPaths}
             activeItemValue={value}
-            loadingText={locale?.loading}
             onSelect={handleSelect}
             renderMenu={renderMenu}
             renderMenuItem={renderMenuItem}

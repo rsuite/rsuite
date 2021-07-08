@@ -17,7 +17,7 @@ export default function Page() {
         PencilSquare,
         Book,
         Wechat,
-        SteamSquare,
+        SteamSquare
       }}
     />
   );

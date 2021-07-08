@@ -183,31 +183,6 @@ In addition, you will also need to configure `url-loader` in webpack to load ico
 }
 ```
 
-### How to globally modify the component's className prefix, `rs-` ?
-
-First, define `@ns` in your `less` file to override the default configuration.
-
-```less
-@ns: custom-;
-```
-
-Then, the constant `__RSUITE_CLASSNAME_PREFIX__` is injected via webpack , and the className prefix of all components overrides the default `rs-` by the injected constant.
-
-```js
-plugins: [
-  //...
-  new webpack.DefinePlugin({
-    __RSUITE_CLASSNAME_PREFIX__: JSON.stringify('custom-')
-  })
-];
-```
-
-If it is rendered through the server, add the following code in `server.js`:
-
-```js
-global.__RSUITE_CLASSNAME_PREFIX__ = 'custom-';
-```
-
 If you use [`create-react-app`][cra] to create a project, you can modify it with [`react-app-rewire-less`][rarl] and [`react-app-rewire-define-plugin`][rardp]. For more details, see [Use in create-react-app][use-with-create-app].
 
 [cra]: https://github.com/facebook/create-react-app
