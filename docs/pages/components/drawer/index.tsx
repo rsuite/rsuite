@@ -19,7 +19,7 @@ export default function Page() {
         AngleRight,
         AngleLeft,
         AngleDown,
-        AngleUp,
+        AngleUp
       }}
     />
   );
