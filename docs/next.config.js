@@ -123,7 +123,7 @@ module.exports = {
         filename: 'static/css/[name].css',
         chunkFilename: 'static/css/[contenthash].css'
       }),
-      new RtlCssPlugin('static/css/docs-rtl.css')
+      new RtlCssPlugin('static/css/[name]-rtl.css')
     );
 
     config.optimization.minimizer.push(

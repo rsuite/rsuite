@@ -102,7 +102,7 @@ function App({ Component, pageProps }: AppProps) {
       NProgress.done();
 
       for (const css of document.querySelectorAll('[rel=stylesheet]')) {
-        if (/docs(-rtl)?\.css/.test(css.getAttribute('href')) && css.getAttribute('id') !== id) {
+        if (/_app(-rtl)?\.css/.test(css.getAttribute('href')) && css.getAttribute('id') !== id) {
           console.log('Removing stylesheet: ', css);
           css.remove();
         }
