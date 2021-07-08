@@ -23,8 +23,8 @@ const getLanguage = language => LANGUAGES[language] || '';
 
 module.exports = {
   env: {
-    DEV: JSON.stringify(__DEV__),
-    VERSION: JSON.stringify(pkg.version)
+    DEV: __DEV__ ? 1 : 0,
+    VERSION: pkg.version
   },
   webpack(config) {
     const originEntry = config.entry;
