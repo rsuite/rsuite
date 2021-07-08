@@ -1,6 +1,14 @@
 import React from 'react';
-import { Table as RsTable, Column, Cell, HeaderCell, ColumnGroup } from 'rsuite-table';
-import type { TableProps, ColumnProps, ColumnGroupProps } from 'rsuite-table';
+import {
+  Table as RsTable,
+  Column,
+  Cell,
+  HeaderCell,
+  ColumnGroup,
+  TableProps,
+  ColumnProps,
+  ColumnGroupProps
+} from 'rsuite-table';
 import { StandardProps } from '../@types/common';
 import { useCustom } from '../utils';
 
