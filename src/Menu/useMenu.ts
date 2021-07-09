@@ -96,8 +96,6 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
           break;
       }
 
-      console.log(nextActiveItemIndex, items[nextActiveItemIndex]?.element);
-
       return {
         ...state,
         activeItemIndex: nextActiveItemIndex
