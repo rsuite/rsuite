@@ -163,7 +163,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
       className={toggleClassName}
       placement={placement}
       disabled={disabled}
-      {...menuButtonProps}
+      {...omit(menuButtonProps, ['open'])}
       {...menuProps}
     >
       {title}

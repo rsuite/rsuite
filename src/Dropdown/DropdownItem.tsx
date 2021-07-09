@@ -46,9 +46,6 @@ export interface DropdownMenuItemProps<T = any>
    */
   pullLeft?: boolean;
 
-  /** Triggering event for submenu expansion. */
-  trigger?: 'hover' | 'click';
-
   /**
    * Whether the submenu is opened.
    * @deprecated
@@ -62,8 +59,7 @@ export interface DropdownMenuItemProps<T = any>
 
 const defaultProps: Partial<DropdownMenuItemProps> = {
   as: 'li',
-  classPrefix: 'dropdown-item',
-  trigger: 'hover'
+  classPrefix: 'dropdown-item'
 };
 
 /**
@@ -137,13 +133,20 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
               panel
             })
           );
+
+          const dataAttributes: { [key: string]: any } = {
+            'data-event-key': eventKey
+          };
+
+          if (!isNil(eventKey) && typeof eventKey !== 'string') {
+            dataAttributes['data-event-key-type'] = typeof eventKey;
+          }
           return (
             <Component
               ref={mergeRefs(ref, menuitemRef)}
               className={classes}
-              data-event-key={eventKey}
-              data-event-key-type={typeof eventKey}
               {...menuitem}
+              {...dataAttributes}
               {...restProps}
             >
               {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
