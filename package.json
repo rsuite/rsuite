@@ -33,7 +33,6 @@
     "tdd": "cross-env RUN_ENV=test karma start",
     "test": "npm run format:check && npm run lint && npm run test:component && npm run test:less",
     "test:component": "cross-env NODE_ENV=coverage RUN_ENV=test karma start --single-run",
-    "test:styles": "node test/stylesSpec.js",
     "test:less": "mocha test/testLessPlugins.js"
   },
   "keywords": [
