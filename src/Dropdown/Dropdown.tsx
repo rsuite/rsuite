@@ -15,6 +15,8 @@ import DropdownToggle from './DropdownToggle';
 import MenuContext from '../Menu/MenuContext';
 import MenuItem from '../Menu/MenuItem';
 import kebabCase from 'lodash/kebabCase';
+import { NavbarContext } from '../Navbar/Navbar';
+import Disclosure from '../Disclosure/Disclosure';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -147,12 +149,66 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   const parentMenu = useContext(MenuContext);
 
   const sidenav = useContext<SidenavContextType>(SidenavContext);
+  const navbar = useContext(NavbarContext);
 
   if (sidenav?.expanded) {
     return (
       <DropdownContext.Provider value={{ activeKey, onSelect }}>
         <TreeviewRootItem ref={ref} {...rest} />
       </DropdownContext.Provider>
+    );
+  }
+
+  // Renders a disclosure when used inside <Navbar>
+  if (navbar) {
+    return (
+      <Disclosure hideOnClickOutside>
+        {({ open }, containerRef) => {
+          const classes = merge(
+            className,
+            withClassPrefix({
+              [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
+              disabled,
+              open
+              // focus: hasFocus
+            })
+          );
+          return (
+            <Component ref={mergeRefs(ref, containerRef)} className={classes} style={style}>
+              <Disclosure.Button>
+                {(buttonProps, buttonRef) => (
+                  <DropdownToggle
+                    ref={buttonRef}
+                    as={renderTitle ? 'span' : toggleAs}
+                    className={toggleClassName}
+                    placement={placement}
+                    disabled={disabled}
+                    {...omit(buttonProps, ['open'])}
+                    {...menuProps}
+                  >
+                    {title}
+                  </DropdownToggle>
+                )}
+              </Disclosure.Button>
+              <Disclosure.Content>
+                {({ open }, elementRef) => {
+                  const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+                  return (
+                    <ul
+                      ref={elementRef as any}
+                      className={menuClassName}
+                      style={menuStyle}
+                      hidden={!open}
+                    >
+                      {children}
+                    </ul>
+                  );
+                }}
+              </Disclosure.Content>
+            </Component>
+          );
+        }}
+      </Disclosure>
     );
   }
 

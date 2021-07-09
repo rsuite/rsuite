@@ -99,9 +99,8 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
 
   const hasWaterline = appearance !== 'default';
 
-  // If inside a <Navbar>, render an ARIA `menubar` (horizontal)
   // If inside a collapsed <Sidenav>, render an ARIA `menubar` (vertical)
-  if (navbar || sidenav) {
+  if (sidenav) {
     return (
       <NavContext.Provider
         value={{

@@ -93,8 +93,8 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       return <TreeviewRootItem title={children} {...restProps} />;
     }
 
-    // If <Nav.Item> is inside <Navbar> or collapsed <Sidenav>, render an ARIA `menuitem`
-    if (navbar || sidenav) {
+    // If <Nav.Item> is inside collapsed <Sidenav>, render an ARIA `menuitem`
+    if (sidenav) {
       return (
         <MenuItem selected={active} disabled={disabled} onActivate={e => onSelect?.(eventKey, e)}>
           {({ selected, active, ...menuitem }, menuitemRef) => {
@@ -163,6 +163,24 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
         <div ref={ref} style={style} className={merge(className, prefix('panel'))}>
           {children}
         </div>
+      );
+    }
+
+    if (navbar) {
+      return (
+        <a
+          ref={ref}
+          href="#"
+          aria-selected={active || undefined}
+          {...rest}
+          className={classes}
+          onClick={handleClick}
+          style={style}
+        >
+          {icon}
+          {children}
+          <Ripple />
+        </a>
       );
     }
 

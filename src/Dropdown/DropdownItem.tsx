@@ -9,6 +9,7 @@ import MenuItem from '../Menu/MenuItem';
 import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';
+import { NavbarContext } from '../Navbar/Navbar';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -83,6 +84,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     );
 
     const sidenav = useContext(SidenavContext);
+    const navbar = useContext(NavbarContext);
 
     if (sidenav?.expanded) {
       const { children, ...treeitemProps } = props;
@@ -115,6 +117,33 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
         >
           {children}
         </Component>
+      );
+    }
+
+    if (navbar) {
+      const classes = merge(
+        className,
+        withClassPrefix({
+          'with-icon': icon,
+          disabled,
+          divider,
+          panel
+        })
+      );
+      const dataAttributes: { [key: string]: any } = {
+        'data-event-key': eventKey
+      };
+
+      if (!isNil(eventKey) && typeof eventKey !== 'string') {
+        dataAttributes['data-event-key-type'] = typeof eventKey;
+      }
+      return (
+        <li>
+          <a ref={ref} href="#" className={classes} {...dataAttributes} {...restProps}>
+            {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+            {children}
+          </a>
+        </li>
       );
     }
 

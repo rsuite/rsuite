@@ -49,11 +49,11 @@ function MenuItem(props: MenuItemProps) {
 
       onActivate?.(event);
     },
-    [disabled, onActivate, dispatch]
+    [disabled, onActivate]
   );
 
   // Gain/release focus on mouseenter/mouseleave
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseMove = useCallback(() => {
     dispatch({
       type: MenuActionTypes.MoveFocus,
       to: MoveFocusTo.Specific,
@@ -81,24 +81,27 @@ function MenuItem(props: MenuItemProps) {
     };
   }, [menuitemRef, disabled, dispatch]);
 
-  return children(
-    {
-      id: menuitemId,
-      role: 'menuitem',
-      // fixme Only use `aria-checked` on menuitemradio and menuitemcheckbox
-      'aria-checked': selected || undefined,
-      'aria-disabled': disabled,
-      tabIndex: -1,
-      onClick: handleClick,
-      onMouseEnter: handleMouseEnter,
-      onMouseLeave: handleMouseLeave,
-      // render props
+  const menuitemProps: React.LiHTMLAttributes<HTMLLIElement> & MenuitemRenderProps = {
+    id: menuitemId,
+    role: 'menuitem',
+    // fixme Only use `aria-checked` on menuitemradio and menuitemcheckbox
+    'aria-checked': selected || undefined,
+    'aria-disabled': disabled,
+    tabIndex: -1,
+    onClick: handleClick,
+    // render props
 
-      selected,
-      active: hasFocus
-    },
-    menuitemRef
-  );
+    selected,
+    active: hasFocus
+  };
+
+  // Only move focus on hover in a `menu`, not `menubar`
+  if (menuState?.role === 'menu') {
+    menuitemProps.onMouseMove = handleMouseMove;
+    menuitemProps.onMouseLeave = handleMouseLeave;
+  }
+
+  return children(menuitemProps, menuitemRef);
 }
 
 MenuItem.displayName = 'MenuItem';
