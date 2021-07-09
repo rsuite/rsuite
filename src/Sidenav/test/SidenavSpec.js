@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
+import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
 import Sidenav from '../Sidenav';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
 
-describe('Sidenav', () => {
+describe('<Sidenav>', () => {
   it('Should render a navigation', () => {
     const instance = getDOMNode(<Sidenav />);
     assert.include(instance.className, 'rs-sidenav');
@@ -99,6 +99,26 @@ describe('Sidenav', () => {
         .classList.contains('rs-dropdown-menu-collapse-out'),
       'Menu 2-2 has transition class'
     );
+  });
+
+  it('<Dropdown> inside collapsed <Sidenav> should contain a header in its menu', () => {
+    const instance = getDOMNode(
+      <Sidenav expanded={false}>
+        <Sidenav.Body>
+          <Nav>
+            <Dropdown eventKey="1" title="1" className="m-1">
+              <Dropdown.Item eventKey="1-1">Geo</Dropdown.Item>
+            </Dropdown>
+          </Nav>
+        </Sidenav.Body>
+      </Sidenav>
+    );
+
+    act(() => {
+      Simulate.click(instance.querySelector('.m-1'));
+    });
+
+    expect(instance.querySelector('.rs-dropdown-header')).not.to.be.null;
   });
 
   it('Should have a custom className', () => {

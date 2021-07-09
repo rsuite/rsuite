@@ -116,7 +116,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     ...menuProps
   } = rest;
 
-  const { merge, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
   const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } = useClassNames(
     'dropdown-menu'
@@ -204,6 +204,8 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
         openMenuOn={menuButtonTriggers}
         renderMenuPopup={({ open, ...popupProps }, popupRef) => {
           const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+          // When inside a collapsed <Sidenav>, render a header in menu
+          const showHeader = !!sidenav;
 
           return (
             <ul
@@ -213,6 +215,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
               hidden={!open}
               {...popupProps}
             >
+              {showHeader && <div className={prefix('header')}>{title}</div>}
               {children}
             </ul>
           );
