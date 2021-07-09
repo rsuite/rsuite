@@ -195,6 +195,19 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
     [disabled, toggleMenu]
   );
 
+  const handleButtonContextMenu = useCallback(
+    (event: React.MouseEvent) => {
+      // prevents default contextmenu
+      event.preventDefault();
+
+      // Only opens menu on right click. Left click can close the menu opened by a right click
+      if (open) return;
+      if (disabled) return;
+      openMenu(event);
+    },
+    [open, disabled, openMenu]
+  );
+
   const buttonEventHandlers: React.ButtonHTMLAttributes<HTMLButtonElement> = {
     onKeyDown: handleButtonKeydown
   };
@@ -208,7 +221,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
   }
 
   if (openMenuOn?.includes('contextmenu')) {
-    buttonEventHandlers.onContextMenu = handleButtonClick;
+    buttonEventHandlers.onContextMenu = handleButtonContextMenu;
   }
 
   const buttonId = useUniqueId('menubutton-');
