@@ -204,6 +204,28 @@ describe('<Dropdown>', () => {
     expect(menu.hidden, 'Menu is closed').to.be.true;
   });
 
+  it('Should close menu after clicking an item without submenu (inside a submenu)', () => {
+    const { root, button, menu } = renderDropdown(
+      <Dropdown>
+        <Dropdown.Item>Menu item</Dropdown.Item>
+        <Dropdown.Menu title="Submenu">
+          <Dropdown.Item id="submenu-item">Submenu item</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+
+    // Open the menu
+    act(() => {
+      Simulate.click(button);
+    });
+
+    act(() => {
+      Simulate.click(root.querySelector('#submenu-item'));
+    });
+
+    expect(menu.hidden, 'Menu is closed').to.be.true;
+  });
+
   it('Should call onToggle callback', done => {
     const doneOp = () => {
       done();

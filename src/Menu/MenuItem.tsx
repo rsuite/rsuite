@@ -48,9 +48,6 @@ function MenuItem(props: MenuItemProps) {
       }
 
       onActivate?.(event);
-      dispatch?.({
-        type: MenuActionTypes.CloseMenu
-      });
     },
     [disabled, onActivate, dispatch]
   );

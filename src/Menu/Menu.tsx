@@ -2,7 +2,6 @@ import React, { useCallback, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
 import MenuContext, { MenuActionTypes, MenuContextProps, MoveFocusTo } from './MenuContext';
 import { KEY_VALUES, useCustom } from '../utils';
-import { TypeAttributes } from '../@types/common';
 import useUniqueId from '../utils/useUniqueId';
 import useMenu from './useMenu';
 import useFocus from '../utils/useFocus';
@@ -27,10 +26,7 @@ export interface MenuProps {
     ref: React.Ref<HTMLUListElement>
   ) => React.ReactElement<React.HTMLAttributes<HTMLUListElement>>;
 
-  menuStyle?: React.CSSProperties;
-
   openMenuOn?: MenuButtonTrigger[];
-  popupPlacement?: TypeAttributes.Placement8;
   onToggleMenu?: (open: boolean, event: React.SyntheticEvent) => void;
 }
 
@@ -77,13 +73,11 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
   const isSubmenu = !!parentMenu;
 
   const menu = useMenu();
-  const [menuState, dispatch] = menu;
-
-  const open = menuState.open;
+  const [{ open, items, activeItemIndex }, dispatch] = menu;
 
   const { rtl } = useCustom('Menu');
 
-  const activeItem = menuState.items[menuState.activeItemIndex]?.element;
+  const activeItem = items[activeItemIndex]?.element;
 
   const menuFocus = useFocus(menuElementRef);
 
@@ -346,6 +340,28 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
     [dispatch, activeItem, isSubmenu, rtl, closeMenu]
   );
 
+  // Only used for clicks bubbling from child `menuitem`s.
+  const handleMenuClick = useCallback(
+    (event: React.MouseEvent) => {
+      const target = event.target as HTMLElement;
+
+      // Only handle clicks on `menuitem`s
+      if (target.getAttribute('role') !== 'menuitem') return;
+
+      // Ignore clicks on `menuitem`s that controls a submenu
+      if (target.getAttribute('aria-haspopup') === 'menu') return;
+
+      // Ignore disabled `menuitem`s
+      if (target.getAttribute('aria-disabled') === 'true') return;
+
+      // A `menuitem` without submenu is being activated, close this menu
+      dispatch({
+        type: MenuActionTypes.CloseMenu
+      });
+    },
+    [dispatch]
+  );
+
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-13
   const menuAriaAttributes: React.HTMLAttributes<HTMLUListElement> = {
     role: 'menu',
@@ -354,6 +370,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
   };
 
   const menuEventHandlers: React.HTMLAttributes<HTMLUListElement> = {
+    onClick: handleMenuClick,
     onKeyDown: handleMenuKeydown
   };
 
