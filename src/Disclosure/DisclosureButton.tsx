@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useRef } from 'react';
 import DisclosureContext, { DisclosureActionTypes } from './DisclosureContext';
+import { KEY_VALUES } from '../utils';
 
 export interface DisclosureButtonRenderProps {
   open: boolean;
@@ -19,7 +20,7 @@ function DisclosureButton(props: DisclosureButtonProps) {
 
   const [{ open }, dispatch] = useContext(DisclosureContext);
 
-  const onClick = useCallback(() => {
+  const toggle = useCallback(() => {
     if (!open) {
       dispatch({ type: DisclosureActionTypes.Show });
     } else {
@@ -27,7 +28,25 @@ function DisclosureButton(props: DisclosureButtonProps) {
     }
   }, [open, dispatch]);
 
-  return children({ role: 'button', 'aria-expanded': open, onClick, open }, buttonRef);
+  const onClick = useCallback(() => {
+    toggle();
+  }, [toggle]);
+
+  const onKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      switch (event.key) {
+        case KEY_VALUES.ENTER:
+        case KEY_VALUES.SPACE:
+          event.preventDefault();
+          event.stopPropagation();
+          toggle();
+          break;
+      }
+    },
+    [toggle]
+  );
+
+  return children({ role: 'button', 'aria-expanded': open, onClick, onKeyDown, open }, buttonRef);
 }
 
 DisclosureButton.displayName = 'Disclosure.Button';
