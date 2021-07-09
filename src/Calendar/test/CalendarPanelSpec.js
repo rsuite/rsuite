@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { format, parseISO } from '../../utils/dateUtils';
+import { differenceInMinutes } from 'date-fns';
+import { parseISO } from '../../utils/dateUtils';
 import { getDOMNode } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
 
@@ -80,8 +81,9 @@ describe('Calendar - Panel', () => {
       <CalendarPanel
         timeZone={timeZone}
         onSelect={value => {
-          assert.equal(format(value, 'HH:mm'), format(new Date(), 'HH:mm'));
-          done();
+          if (differenceInMinutes(new Date(), value) <= 1) {
+            done();
+          }
         }}
       />
     );
