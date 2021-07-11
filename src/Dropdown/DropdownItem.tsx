@@ -3,13 +3,13 @@ import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
-import TreeviewItem from '../Sidenav/TreeviewItem';
 import deprecatePropType from '../utils/deprecatePropType';
 import MenuItem from '../Menu/MenuItem';
 import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
+import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -87,8 +87,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     const navbar = useContext(NavbarContext);
 
     if (sidenav?.expanded) {
-      const { children, ...treeitemProps } = props;
-      return <TreeviewItem ref={ref} title={children} {...treeitemProps} />;
+      return <SidenavDropdownItem ref={ref} {...props} />;
     }
 
     const menuitemSelected =

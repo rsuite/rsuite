@@ -42,6 +42,74 @@ describe('<Disclosure>', () => {
     expect(!content.hidden, 'Content is visible').to.be.true;
   });
 
+  it('Should be possible to control Disclosure with `open` and `onToggle`', () => {
+    const onToggleSpy = sinon.spy();
+    const { getByTestId, rerender } = render(
+      <Disclosure open onToggle={onToggleSpy}>
+        {() => (
+          <>
+            <Disclosure.Button>
+              {props => (
+                <button data-testid="button" {...props}>
+                  Button
+                </button>
+              )}
+            </Disclosure.Button>
+            <Disclosure.Content>
+              {({ open, ...props }) => (
+                <div data-testid="content" hidden={!open} {...props}>
+                  Content
+                </div>
+              )}
+            </Disclosure.Content>
+          </>
+        )}
+      </Disclosure>
+    );
+
+    const button = getByTestId('button');
+    const content = getByTestId('content');
+
+    expect(!content.hidden, 'Content is visible').to.be.true;
+
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    expect(onToggleSpy).to.have.been.calledWith(false);
+
+    rerender(
+      <Disclosure open={false} onToggle={onToggleSpy}>
+        {() => (
+          <>
+            <Disclosure.Button>
+              {props => (
+                <button data-testid="button" {...props}>
+                  Button
+                </button>
+              )}
+            </Disclosure.Button>
+            <Disclosure.Content>
+              {({ open, ...props }) => (
+                <div data-testid="content" hidden={!open} {...props}>
+                  Content
+                </div>
+              )}
+            </Disclosure.Content>
+          </>
+        )}
+      </Disclosure>
+    );
+
+    expect(content.hidden, 'Content is hidden').to.be.true;
+
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    expect(onToggleSpy).to.have.been.calledWith(true);
+  });
+
   describe('Keyboard interaction', function () {
     it('Enter: activates the disclosure control and toggles the visibility of the disclosure content.', () => {
       const { getByTestId } = render(

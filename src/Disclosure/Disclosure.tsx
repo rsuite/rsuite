@@ -1,10 +1,11 @@
 // Headless Disclosure
 // Ref: https://w3c.github.io/aria-practices/#disclosure
 
-import React, { useReducer, useRef } from 'react';
+import React, { useMemo, useReducer, useRef } from 'react';
 import DisclosureContext, {
   DisclosureAction,
   DisclosureActionTypes,
+  DisclosureContextProps,
   DisclosureState
 } from './DisclosureContext';
 import DisclosureButton from './DisclosureButton';
@@ -18,7 +19,15 @@ export interface DisclosureRenderProps {
 export interface DisclosureProps {
   children: (props: DisclosureRenderProps, ref: React.Ref<HTMLElement>) => React.ReactNode;
 
+  /** Controlled open state */
+  open?: boolean;
+
+  /** Whether disclosure is initially expanded */
+  defaultOpen?: boolean;
   hideOnClickOutside?: boolean;
+
+  /** Callback when disclosure button is being activated to update the open state */
+  onToggle?: (open: boolean, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 const initialDisclosureState: DisclosureState = {
@@ -36,13 +45,22 @@ function disclosureReducer(state: DisclosureState, action: DisclosureAction): Di
 }
 
 function Disclosure(props: DisclosureProps) {
-  const { children, hideOnClickOutside = false } = props;
+  const {
+    children,
+    open: openProp,
+    defaultOpen = false,
+    hideOnClickOutside = false,
+    onToggle
+  } = props;
 
-  const disclosure = useReducer(disclosureReducer, initialDisclosureState);
+  const [{ open: openState }, dispatch] = useReducer(disclosureReducer, {
+    ...initialDisclosureState,
+    open: defaultOpen
+  });
 
   const containerElementRef = useRef<HTMLElement>();
 
-  const [{ open }, dispatch] = disclosure;
+  const open = openProp ?? openState;
 
   useClickOutside({
     enabled: hideOnClickOutside,
@@ -50,8 +68,12 @@ function Disclosure(props: DisclosureProps) {
     handle: () => dispatch({ type: DisclosureActionTypes.Hide })
   });
 
+  const context = useMemo<DisclosureContextProps>(() => {
+    return [{ open }, dispatch, { onToggle }];
+  }, [open, dispatch, onToggle]);
+
   return (
-    <DisclosureContext.Provider value={disclosure}>
+    <DisclosureContext.Provider value={context}>
       {children({ open }, containerElementRef)}
     </DisclosureContext.Provider>
   );

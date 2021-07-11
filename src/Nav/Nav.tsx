@@ -6,7 +6,6 @@ import { useClassNames } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import Treeview from '../Sidenav/Treeview';
 import NavContext from './NavContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
 import Menubar from '../Menu/Menubar';
@@ -87,9 +86,12 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
     })
   );
 
-  // If inside expanded <Sidenav>, render an ARIA `tree`
   if (sidenav?.expanded) {
-    return <Treeview className={classes}>{children}</Treeview>;
+    return (
+      <ul ref={ref as any} className={classes} {...rest}>
+        {children}
+      </ul>
+    );
   }
 
   const { activeKey: activeKeyFromSidenav, onSelect: onSelectFromSidenav = onSelectProp } =

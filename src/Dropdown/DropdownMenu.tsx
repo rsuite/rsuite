@@ -7,12 +7,12 @@ import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
-import TreeviewItem from '../Sidenav/TreeviewItem';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import useCustom from '../utils/useCustom';
 import DropdownContext from './DropdownContext';
 import Menubar from '../Menu/Menubar';
+import SidenavDropdownMenu from '../Sidenav/SidenavDropdownMenu';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
@@ -117,7 +117,7 @@ const DropdownMenu = React.forwardRef(
     }
 
     if (sidenav?.expanded) {
-      return <TreeviewItem {...(omit(props, 'classPrefix') as any)} />;
+      return <SidenavDropdownMenu {...(omit(props, 'classPrefix') as any)} />;
     }
 
     const sidenavExpanded = sidenav?.expanded ?? false;

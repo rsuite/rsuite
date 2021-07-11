@@ -97,7 +97,7 @@ const Sidenav: SidenavComponent = (React.forwardRef((props: SidenavProps, ref) =
       expanded,
       activeKey,
       sidenav: true,
-      openKeys,
+      openKeys: openKeys ?? [],
       onOpenChange: handleOpenChange,
       onSelect
     }),

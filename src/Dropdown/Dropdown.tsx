@@ -8,7 +8,6 @@ import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import DropdownItem from './DropdownItem';
-import TreeviewRootItem from '../Sidenav/TreeviewRootItem';
 import DropdownContext from './DropdownContext';
 import Menu, { MenuButtonTrigger } from '../Menu/Menu';
 import DropdownToggle from './DropdownToggle';
@@ -17,6 +16,7 @@ import MenuItem from '../Menu/MenuItem';
 import kebabCase from 'lodash/kebabCase';
 import { NavbarContext } from '../Navbar/Navbar';
 import Disclosure from '../Disclosure/Disclosure';
+import SidenavDropdown from '../Sidenav/SidenavDropdown';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -151,10 +151,11 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   const sidenav = useContext<SidenavContextType>(SidenavContext);
   const navbar = useContext(NavbarContext);
 
+  // Render a disclosure when inside expanded <Sidenav>
   if (sidenav?.expanded) {
     return (
       <DropdownContext.Provider value={{ activeKey, onSelect }}>
-        <TreeviewRootItem ref={ref} {...rest} />
+        <SidenavDropdown ref={ref} {...rest} />
       </DropdownContext.Provider>
     );
   }

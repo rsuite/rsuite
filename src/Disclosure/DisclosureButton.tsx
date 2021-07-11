@@ -18,28 +18,36 @@ function DisclosureButton(props: DisclosureButtonProps) {
 
   const buttonRef = useRef<HTMLButtonElement>();
 
-  const [{ open }, dispatch] = useContext(DisclosureContext);
+  const [{ open }, dispatch, { onToggle }] = useContext(DisclosureContext);
 
-  const toggle = useCallback(() => {
-    if (!open) {
-      dispatch({ type: DisclosureActionTypes.Show });
-    } else {
-      dispatch({ type: DisclosureActionTypes.Hide });
-    }
-  }, [open, dispatch]);
+  const toggle = useCallback(
+    (event: React.SyntheticEvent<HTMLElement>) => {
+      if (!open) {
+        dispatch({ type: DisclosureActionTypes.Show });
+        onToggle?.(true, event);
+      } else {
+        dispatch({ type: DisclosureActionTypes.Hide });
+        onToggle?.(false, event);
+      }
+    },
+    [open, dispatch, onToggle]
+  );
 
-  const onClick = useCallback(() => {
-    toggle();
-  }, [toggle]);
+  const onClick = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      toggle(event);
+    },
+    [toggle]
+  );
 
   const onKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
+    (event: React.KeyboardEvent<HTMLElement>) => {
       switch (event.key) {
         case KEY_VALUES.ENTER:
         case KEY_VALUES.SPACE:
           event.preventDefault();
           event.stopPropagation();
-          toggle();
+          toggle(event);
           break;
       }
     },

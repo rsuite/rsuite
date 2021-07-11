@@ -8,10 +8,10 @@ import { appendTooltip, mergeRefs, shallowEqual, useClassNames } from '../utils'
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
-import TreeviewRootItem from '../Sidenav/TreeviewRootItem';
 import NavContext from './NavContext';
 import { NavbarContext } from '../Navbar/Navbar';
 import MenuItem from '../Menu/MenuItem';
+import SidenavItem from '../Sidenav/SidenavItem';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -89,8 +89,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
     );
 
     if (sidenav?.expanded) {
-      const { children, ...restProps } = props;
-      return <TreeviewRootItem title={children} {...restProps} />;
+      return <SidenavItem {...props} />;
     }
 
     // If <Nav.Item> is inside collapsed <Sidenav>, render an ARIA `menuitem`
@@ -154,13 +153,14 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
           role="separator"
           style={style}
           className={merge(className, prefix('divider'))}
+          {...rest}
         />
       );
     }
 
     if (panel) {
       return (
-        <div ref={ref} style={style} className={merge(className, prefix('panel'))}>
+        <div ref={ref} style={style} className={merge(className, prefix('panel'))} {...rest}>
           {children}
         </div>
       );
