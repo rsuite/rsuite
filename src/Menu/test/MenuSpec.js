@@ -15,7 +15,9 @@ describe('<Menu>', () => {
           <ul ref={popupRef} {...popupProps} hidden={!open} data-testid="menu" />
         )}
       >
-        {(containerProps, containerRef) => <div ref={containerRef} {...containerProps} />}
+        {(containerProps, containerRef) => (
+          <div ref={containerRef} {...containerProps} data-testid="container" />
+        )}
       </Menu>
     );
 
@@ -28,7 +30,7 @@ describe('<Menu>', () => {
     expect(!menu.hidden, 'Menu is open').to.be.true;
 
     act(() => {
-      fireEvent.blur(menu);
+      fireEvent.blur(getByTestId('container'));
     });
     expect(menu.hidden, 'Menu is closed').to.be.true;
   });

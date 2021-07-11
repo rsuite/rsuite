@@ -355,21 +355,9 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
       // Ignore disabled `menuitem`s
       if (target.getAttribute('aria-disabled') === 'true') return;
 
-      // A `menuitem` without submenu is being activated, close this menu
-      dispatch({
-        type: MenuActionTypes.CloseMenu
-      });
+      closeMenu(event, !isSubmenu);
     },
-    [dispatch]
-  );
-
-  const handleMenuBlur = useCallback(
-    (event: React.FocusEvent) => {
-      if (isFocusLeaving(event)) {
-        closeMenu(event, false);
-      }
-    },
-    [closeMenu]
+    [dispatch, closeMenu, isSubmenu]
   );
 
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-13
@@ -381,8 +369,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
 
   const menuEventHandlers: React.HTMLAttributes<HTMLUListElement> = {
     onClick: handleMenuClick,
-    onKeyDown: handleMenuKeydown,
-    onBlur: handleMenuBlur
+    onKeyDown: handleMenuKeydown
   };
 
   const menuProps: React.HTMLAttributes<HTMLUListElement> = {
@@ -426,7 +413,18 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
 
   const rootElementRef = useRef<HTMLDivElement>();
 
-  const rootEventHandlers: React.HTMLAttributes<HTMLDivElement> = {};
+  const handleContainerBlur = useCallback(
+    (event: React.FocusEvent) => {
+      if (isFocusLeaving(event)) {
+        closeMenu(event, false);
+      }
+    },
+    [closeMenu]
+  );
+
+  const rootEventHandlers: React.HTMLAttributes<HTMLDivElement> = {
+    onBlur: handleContainerBlur
+  };
 
   if (openMenuOn?.includes('mouseover')) {
     rootEventHandlers.onMouseEnter = handleMouseEnter;
