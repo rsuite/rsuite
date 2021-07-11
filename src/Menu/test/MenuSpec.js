@@ -27,11 +27,11 @@ describe('<Menu>', () => {
     act(() => {
       fireEvent.click(button);
     });
-    expect(!menu.hidden, 'Menu is open').to.be.true;
+    expect(menu).to.be.visible;
 
     act(() => {
       fireEvent.blur(getByTestId('container'));
     });
-    expect(menu.hidden, 'Menu is closed').to.be.true;
+    expect(menu).not.to.be.visible;
   });
 });
