@@ -52,14 +52,24 @@ function MenuItem(props: MenuItemProps) {
     [disabled, onActivate]
   );
 
-  // Gain/release focus on mouseenter/mouseleave
+  // Gain/release focus on mousedown in `menubar`
+
+  const handleMouseDown = useCallback(() => {
+    dispatch({
+      type: MenuActionTypes.MoveFocus,
+      to: MoveFocusTo.Specific,
+      id: menuitemRef.current.id
+    });
+  }, [dispatch]);
+
+  // Gain/release focus on mouseenter/mouseleave in `menu`
   const handleMouseMove = useCallback(() => {
     dispatch({
       type: MenuActionTypes.MoveFocus,
       to: MoveFocusTo.Specific,
       id: menuitemRef.current.id
     });
-  }, [dispatch, menuitemRef]);
+  }, [dispatch]);
 
   const handleMouseLeave = useCallback(() => {
     dispatch({
@@ -99,6 +109,10 @@ function MenuItem(props: MenuItemProps) {
   if (menuState?.role === 'menu') {
     menuitemProps.onMouseMove = handleMouseMove;
     menuitemProps.onMouseLeave = handleMouseLeave;
+  }
+
+  if (menuState?.role === 'menubar') {
+    menuitemProps.onMouseDown = handleMouseDown;
   }
 
   return children(menuitemProps, menuitemRef);

@@ -153,7 +153,6 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
             className,
             withClassPrefix({
               'with-icon': icon,
-              open,
               active: selected,
               disabled,
               focus: active,

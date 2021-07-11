@@ -6,6 +6,7 @@ import useUniqueId from '../utils/useUniqueId';
 import useMenu from './useMenu';
 import useFocus from '../utils/useFocus';
 import useClickOutside from '../utils/useClickOutside';
+import { isFocusLeaving } from '../utils/events';
 
 export interface MenuProps {
   disabled?: boolean;
@@ -101,7 +102,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
   );
 
   const closeMenu = useCallback(
-    (event: React.SyntheticEvent) => {
+    (event: React.SyntheticEvent, returnFocusToButton = true) => {
       dispatch({
         type: MenuActionTypes.CloseMenu
       });
@@ -111,7 +112,9 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
       });
       onToggleMenu?.(false, event);
 
-      menuFocus.release({ preventScroll: true });
+      if (returnFocusToButton) {
+        menuFocus.release({ preventScroll: true });
+      }
     },
     [dispatch, onToggleMenu, menuFocus]
   );
@@ -291,9 +294,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
           e.stopPropagation();
           if (!rtl) {
             if (isSubmenu) {
-              dispatch({
-                type: MenuActionTypes.CloseMenu
-              });
+              closeMenu(e);
             }
           } else if (activeItem?.getAttribute('aria-haspopup') === 'menu') {
             activeItem.click();
@@ -362,6 +363,15 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
     [dispatch]
   );
 
+  const handleMenuBlur = useCallback(
+    (event: React.FocusEvent) => {
+      if (isFocusLeaving(event)) {
+        closeMenu(event, false);
+      }
+    },
+    [closeMenu]
+  );
+
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-13
   const menuAriaAttributes: React.HTMLAttributes<HTMLUListElement> = {
     role: 'menu',
@@ -371,7 +381,8 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
 
   const menuEventHandlers: React.HTMLAttributes<HTMLUListElement> = {
     onClick: handleMenuClick,
-    onKeyDown: handleMenuKeydown
+    onKeyDown: handleMenuKeydown,
+    onBlur: handleMenuBlur
   };
 
   const menuProps: React.HTMLAttributes<HTMLUListElement> = {

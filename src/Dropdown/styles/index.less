@@ -133,6 +133,18 @@
     margin-right: 6px;
   }
 
+  &&-active {
+    outline: 0;
+    font-weight: bold;
+
+    &,
+    &:hover,
+    &:focus {
+      color: var(--rs-dropdown-item-text-active);
+      background-color: var(--rs-dropdown-item-bg-active);
+    }
+  }
+
   // Hover/Focus state
   &:focus-visible,
   &&-focus {
@@ -167,6 +179,10 @@
 // The dropdown submenu
 .rs-dropdown-item-submenu {
   position: relative;
+
+  &:hover > .rs-dropdown-item-toggle {
+    .menuitem-active();
+  }
 
   &.rs-dropdown-item {
     position: relative;
@@ -238,18 +254,6 @@
   &:hover,
   &:focus {
     .menuitem-active();
-  }
-}
-
-.rs-dropdown-menu > .rs-dropdown-item-active {
-  outline: 0;
-  font-weight: bold;
-
-  &,
-  &:hover,
-  &:focus {
-    color: var(--rs-dropdown-item-text-active);
-    background-color: var(--rs-dropdown-item-bg-active);
   }
 }
 

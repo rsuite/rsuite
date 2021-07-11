@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
+import { fireEvent } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
@@ -43,6 +44,22 @@ describe('<Dropdown.Menu>', () => {
       );
 
       expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
+    });
+
+    it('Clicking a menuitem moves focus onto the menuitem.', () => {
+      const menubar = renderMenubar(
+        <DropdownMenu>
+          <DropdownItem id="first-item">First item</DropdownItem>
+          <DropdownItem id="second-item">Second item</DropdownItem>
+        </DropdownMenu>,
+        false
+      );
+
+      act(() => {
+        fireEvent.mouseDown(menubar.querySelector('#second-item'));
+      });
+
+      expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
     });
 
     describe('Down Arrow', () => {
