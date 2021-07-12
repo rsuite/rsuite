@@ -30,3 +30,9 @@ it('Ensure directory existence', () => {
     assert.isTrue(fs.existsSync(directoryPath), `Directory ${directoryPath} exists`);
   });
 });
+
+it('Should enable Dark mode by default', () => {
+  const css = fs.readFileSync('dist/rsuite.css');
+
+  assert.isTrue(/\.rs-theme-dark/.test(css), 'Dark mode styles are included');
+});
