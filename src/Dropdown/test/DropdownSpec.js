@@ -115,7 +115,7 @@ describe('<Dropdown>', () => {
     assert.include(instance.className, 'rs-dropdown-disabled');
   });
 
-  it('Should hava a custom className in toggle', () => {
+  it('Should have a custom className in toggle', () => {
     const instance = getDOMNode(
       <Dropdown toggleClassName="custom-toggle">
         <Dropdown.Item>1</Dropdown.Item>
