@@ -100,6 +100,7 @@
     "@commitlint/config-conventional": "^8.3.4",
     "@testing-library/react": "^11.2.3",
     "@testing-library/react-hooks": "^7.0.0",
+    "@testing-library/user-event": "^13.1.9",
     "@types/karma": "^5.0.1",
     "@types/karma-sinon-chai": "^2.0.0",
     "@types/karma-webpack": "^2.0.9",

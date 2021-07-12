@@ -7,6 +7,7 @@ import useMenu from './useMenu';
 import useFocus from '../utils/useFocus';
 import useClickOutside from '../utils/useClickOutside';
 import { isFocusLeaving } from '../utils/events';
+import { isFocusableElement } from '../utils/dom';
 
 export interface MenuProps {
   disabled?: boolean;
@@ -113,10 +114,10 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
       onToggleMenu?.(false, event);
 
       if (returnFocusToButton) {
-        menuFocus.release({ preventScroll: true });
+        buttonElementRef.current.focus({ preventScroll: true });
       }
     },
-    [dispatch, onToggleMenu, menuFocus]
+    [dispatch, onToggleMenu, buttonElementRef]
   );
 
   const toggleMenu = useCallback(
@@ -139,7 +140,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
       );
     },
     // fixme if clicking on a focusable element, don't move focus to menu button
-    handle: event => closeMenu(event as any)
+    handle: event => closeMenu(event as any, !isFocusableElement(event.target as HTMLElement))
   });
 
   /**

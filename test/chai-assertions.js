@@ -4,6 +4,7 @@
 chai.use((chai, { flag }) => {
   /**
    * Check element is visible
+   * Useful for testing popups and disclosures
    * Ref: https://github.com/testing-library/jest-dom/blob/main/src/to-be-visible.js
    * @this {import('chai').AssertionStatic}
    */
