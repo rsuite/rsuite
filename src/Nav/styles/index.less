@@ -43,6 +43,12 @@
     color: var(--rs-navs-text-hover);
   }
 
+  &:focus-visible {
+    .focus-ring();
+
+    z-index: 1;
+  }
+
   &:active {
     color: var(--rs-navs-text-active);
   }
