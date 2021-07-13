@@ -50,14 +50,19 @@ const PickerOverlay: RsRefForwardingComponent<'div', PickerOverlayProps> = React
     const overlayRef = useRef();
     const handleResize = useCallback(() => {
       const instance = target?.current;
+
       if (instance && resizePlacement.includes(placement)) {
         instance.updatePosition();
       }
     }, [target, placement]);
 
-    useElementResize(() => overlayRef.current, handleResize);
+    useElementResize(
+      useCallback(() => overlayRef.current, []),
+      handleResize
+    );
     useEffect(() => {
       const toggle = target?.current;
+
       if (autoWidth && toggle.root) {
         // Get the width value of the button,
         // and then set it to the menu to make their width consistent.
