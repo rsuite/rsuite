@@ -5,7 +5,8 @@ import { CalendarLocale } from '../locales';
 import Button from '../Button';
 import { FormattedDate } from '../CustomProvider';
 import { composeFunctions, useClassNames, useCustom, TimeZone, DateUtils } from '../utils';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps, TimeZoneName } from '../@types/common';
+import useCalendarDate from './useCalendarDate';
 
 export interface CalendarPanelProps extends WithAsProps {
   /** Controlled value */
@@ -18,7 +19,7 @@ export interface CalendarPanelProps extends WithAsProps {
   isoWeek?: boolean;
 
   /** IANA time zone */
-  timeZone?: string;
+  timeZone?: TimeZoneName;
 
   /** Display a compact calendar   */
   compact?: boolean;
@@ -65,12 +66,13 @@ const CalendarPanel: RsRefForwardingComponent<
     value: valueProp,
     ...rest
   } = props;
+
   const [value, updateValue] = useState<Date>(
     TimeZone.toTimeZone(valueProp ?? defaultValue, timeZone)
   );
-  const [pageDate, setPageDate] = useState(
-    TimeZone.toTimeZone(valueProp ?? defaultValue ?? new Date(), timeZone)
-  );
+
+  const { calendarDate, setCalendarDate } = useCalendarDate(valueProp, defaultValue, timeZone);
+
   const [showMonth, setShowMonth] = useState<boolean>(false);
   const { locale } = useCustom('Calendar', overrideLocale);
 
@@ -90,8 +92,8 @@ const CalendarPanel: RsRefForwardingComponent<
     );
     prevTimeZoneRef.current = timeZone;
     setValue(nextValue);
-    setPageDate(nextValue ?? TimeZone.zonedDate(timeZone));
-  }, [setValue, timeZone, valueProp]);
+    setCalendarDate(nextValue ?? TimeZone.zonedDate(timeZone));
+  }, [setCalendarDate, setValue, timeZone, valueProp]);
 
   const handleToggleMonthDropdown = useCallback(() => {
     setShowMonth(prevShowMonth => !prevShowMonth);
@@ -100,17 +102,17 @@ const CalendarPanel: RsRefForwardingComponent<
   const handleChange = useCallback(
     (nextValue: Date) => {
       setValue(nextValue);
-      setPageDate(
+      setCalendarDate(
         composeFunctions(
-          (d: Date) => DateUtils.setHours(d, DateUtils.getHours(pageDate)),
-          (d: Date) => DateUtils.setMinutes(d, DateUtils.getMinutes(pageDate)),
-          (d: Date) => DateUtils.setSeconds(d, DateUtils.getSeconds(pageDate))
+          (d: Date) => DateUtils.setHours(d, DateUtils.getHours(calendarDate)),
+          (d: Date) => DateUtils.setMinutes(d, DateUtils.getMinutes(calendarDate)),
+          (d: Date) => DateUtils.setSeconds(d, DateUtils.getSeconds(calendarDate))
         )(nextValue)
       );
 
       onChange?.(TimeZone.toLocalTimeZone(nextValue, timeZone));
     },
-    [onChange, pageDate, setValue, timeZone]
+    [setValue, setCalendarDate, onChange, timeZone, calendarDate]
   );
 
   const handleChangePageDate = useCallback(
@@ -162,7 +164,7 @@ const CalendarPanel: RsRefForwardingComponent<
       isoWeek={isoWeek}
       format="yyyy-MM-dd"
       calendarState={showMonth ? CalendarState.DROP_MONTH : null}
-      pageDate={pageDate}
+      calendarDate={calendarDate}
       timeZone={timeZone}
       limitEndYear={1000}
       locale={locale}

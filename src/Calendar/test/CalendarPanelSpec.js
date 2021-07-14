@@ -1,8 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { differenceInMinutes } from 'date-fns';
 import { parseISO } from '../../utils/dateUtils';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode, createTestContainer } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
 
 describe('Calendar - Panel', () => {
@@ -90,5 +91,33 @@ describe('Calendar - Panel', () => {
     ReactTestUtils.Simulate.click(
       instance.querySelector('.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content')
     );
+  });
+
+  it('Should be a controlled value', done => {
+    const instanceRef = React.createRef();
+    const container = createTestContainer();
+    const App = React.forwardRef((props, ref) => {
+      const [value, setValue] = React.useState(new Date('6/10/2021'));
+      const pickerRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        panel: pickerRef.current,
+        setDate: date => {
+          setValue(date);
+        }
+      }));
+      return <CalendarPanel value={value} ref={pickerRef} format="yyyy-MM-dd" />;
+    });
+
+    ReactDOM.render(<App ref={instanceRef} />, container);
+    instanceRef.current.setDate(new Date('7/11/2021'));
+    const panel = instanceRef.current.panel;
+
+    assert.equal(panel.querySelector('.rs-calendar-header-title').innerText, 'Jun 2021');
+
+    setTimeout(() => {
+      if (panel.querySelector('.rs-calendar-header-title').innerText === 'Jul 2021') {
+        done();
+      }
+    }, 100);
   });
 });

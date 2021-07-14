@@ -53,10 +53,13 @@ export function getDefaultRanges(timeZone: string, date: Date | Date[]): InnerRa
 }
 
 const generateRangesIterator = ({
-  pageDate,
+  calendarDate,
   timeZone
-}: Pick<ToolbarProps, 'pageDate' | 'timeZone'>) => ({ value, ...rest }: RangeType): InnerRange => {
-  value = typeof value === 'function' ? value(pageDate) : value;
+}: Pick<ToolbarProps, 'calendarDate' | 'timeZone'>) => ({
+  value,
+  ...rest
+}: RangeType): InnerRange => {
+  value = typeof value === 'function' ? value(calendarDate) : value;
   return {
     value:
       value instanceof Array
@@ -70,16 +73,16 @@ const generateRangesIterator = ({
  * get Toolbar ranges from Toolbar props
  * @param ranges
  * @param timeZone
- * @param pageDate
+ * @param calendarDate
  */
 export const getRanges = ({
   ranges,
   timeZone,
-  pageDate
-}: Pick<ToolbarProps, 'ranges' | 'timeZone' | 'pageDate'>): InnerRange[] => {
+  calendarDate
+}: Pick<ToolbarProps, 'ranges' | 'timeZone' | 'calendarDate'>): InnerRange[] => {
   return typeof ranges === 'undefined'
-    ? getDefaultRanges(timeZone, pageDate)
-    : ranges.map(generateRangesIterator({ pageDate, timeZone }));
+    ? getDefaultRanges(timeZone, calendarDate)
+    : ranges.map(generateRangesIterator({ calendarDate, timeZone }));
 };
 
 export const useCalendarState = () => {

@@ -672,7 +672,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
             </div>
             <Toolbar
               locale={locale}
-              pageDate={selectValue}
+              calendarDate={selectValue}
               disabledOkBtn={disabledOkButton}
               disabledShortcut={disabledShortcutButton}
               hideOkBtn={oneTap}

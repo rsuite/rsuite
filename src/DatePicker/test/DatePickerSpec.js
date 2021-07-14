@@ -1,7 +1,8 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { format, isSameDay, parseISO } from '../../utils/dateUtils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
 import DatePicker from '../DatePicker';
 import { toTimeZone } from '../../utils/timeZone';
 
@@ -320,5 +321,38 @@ describe('DatePicker ', () => {
     assert.equal(days[0].innerText, '30');
     assert.equal(days[1].innerText, '31');
     assert.equal(days[2].innerText, '1');
+  });
+
+  it('Should be a controlled value', done => {
+    const instanceRef = React.createRef();
+    const container = createTestContainer();
+    const App = React.forwardRef((props, ref) => {
+      const [value, setValue] = React.useState(new Date('6/10/2021'));
+      const pickerRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        picker: pickerRef.current,
+        setDate: date => {
+          setValue(date);
+        }
+      }));
+      return <DatePicker value={value} open ref={pickerRef} format="yyyy-MM-dd" />;
+    });
+
+    ReactDOM.render(<App ref={instanceRef} />, container);
+    instanceRef.current.setDate(new Date('7/11/2021'));
+
+    assert.equal(
+      instanceRef.current.picker.root.querySelector('.rs-picker-toggle-value').innerText,
+      '2021-07-11'
+    );
+
+    setTimeout(() => {
+      if (
+        instanceRef.current.picker.overlay.querySelector('.rs-calendar-header-title').innerText ===
+        '11 Jul 2021'
+      ) {
+        done();
+      }
+    }, 100);
   });
 });
