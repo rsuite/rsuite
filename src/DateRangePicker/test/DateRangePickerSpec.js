@@ -172,9 +172,38 @@ describe('DateRangePicker', () => {
     const today = menu?.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
-    ReactTestUtils.Simulate.mouseEnter(today);
+
+    ReactTestUtils.Simulate.click(today);
     ReactTestUtils.Simulate.click(today);
     ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
+  });
+
+  it('Should select a date range', () => {
+    const menu = getInstance(
+      <DateRangePicker
+        hoverRange="week"
+        defaultOpen
+        defaultValue={[new Date('07/04/2021'), new Date('07/10/2021')]}
+      />
+    ).overlay;
+
+    const cell = menu
+      ?.querySelectorAll('.rs-calendar-table-row')[3]
+      .querySelector('.rs-calendar-table-cell-content');
+
+    const cell2 = menu
+      ?.querySelectorAll('.rs-calendar-table-row')[4]
+      .querySelector('.rs-calendar-table-cell-content');
+
+    ReactTestUtils.Simulate.click(cell);
+    ReactTestUtils.Simulate.mouseEnter(cell2);
+
+    const allInRangeCells = menu.querySelectorAll(
+      '.rs-calendar-table-cell-in-range,.rs-calendar-table-cell-selected-start'
+    );
+
+    assert.equal(allInRangeCells[0].innerText, '11');
+    assert.equal(allInRangeCells[allInRangeCells.length - 1].innerText, '24');
   });
 
   it('Should fire `onChange` if click ok after only select one date in oneTap mode', done => {
