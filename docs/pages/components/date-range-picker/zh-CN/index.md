@@ -145,10 +145,6 @@ combine(...) => boolean
 
 <!--{include:`controlled.md`}-->
 
-### 时区
-
-<!--{include:`time-zone.md`}-->
-
 ## 无障碍设计
 
 了解更多有关[无障碍设计](/zh/guide/accessibility)的信息。
