@@ -225,4 +225,14 @@ describe('DateRangePicker', () => {
 
     assert.equal(menu.querySelectorAll('.rs-picker-daterange-calendar-single').length, 1);
   });
+
+  it('Should display the formatted date', () => {
+    const target = getInstance(<DateRangePicker showOneCalendar />).target;
+    const input = target.querySelector('.rs-picker-toggle-textbox');
+
+    input.value = '2020010120210707';
+    ReactTestUtils.Simulate.change(input);
+
+    assert.equal(input.value, '2020-01-01 ~ 2021-07-07');
+  });
 });
