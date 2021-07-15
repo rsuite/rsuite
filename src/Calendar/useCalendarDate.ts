@@ -1,18 +1,26 @@
-import { useState } from 'react';
-import { toTimeZone } from '../utils/timeZone';
+import { useState, useCallback, useRef } from 'react';
 import { useUpdateEffect } from '../utils';
-import { TimeZoneName } from '../@types/common';
 
-const useCalendarDate = (value: Date, defaultDate: Date, timeZone?: TimeZoneName) => {
-  const [calendarDate, setCalendarDate] = useState<Date>(
-    toTimeZone(value ?? defaultDate ?? new Date(), timeZone)
+const useCalendarDate = (value: Date, defaultDate: Date) => {
+  const valueRef = useRef(value);
+
+  const [calendarDate, setValue] = useState<Date>(value ?? defaultDate ?? new Date());
+
+  const setCalendarDate = useCallback(
+    (date: Date) => {
+      if (date.valueOf() !== calendarDate.valueOf()) {
+        setValue(date);
+      }
+    },
+    [calendarDate]
   );
 
   useUpdateEffect(() => {
-    if (value) {
-      setCalendarDate(toTimeZone(value, timeZone));
+    if (value?.valueOf() !== valueRef.current?.valueOf()) {
+      setCalendarDate(value);
+      valueRef.current = value;
     }
-  }, [value, timeZone]);
+  }, [value]);
 
   return { calendarDate, setCalendarDate };
 };

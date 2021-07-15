@@ -4,7 +4,6 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { format, isSameDay, parseISO } from '../../utils/dateUtils';
 import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
 import DatePicker from '../DatePicker';
-import { toTimeZone } from '../../utils/timeZone';
 
 describe('DatePicker ', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -298,19 +297,6 @@ describe('DatePicker ', () => {
       12
     );
     assert.equal(picker.querySelector('.rs-calendar-time-dropdown-column li').innerText, '12');
-  });
-
-  it('Should be zoned date', () => {
-    const timeZone = new Date().getTimezoneOffset() === -480 ? 'Europe/London' : 'Asia/Shanghai';
-    const template = 'yyyy-MM-dd HH:mm:ss';
-    const date = new Date(2020, 5, 30, 23, 30, 0);
-
-    const instance = getDOMNode(
-      <DatePicker format={template} timeZone={timeZone} value={date} defaultOpen />
-    );
-    const ret = instance.querySelector('.rs-picker-toggle-value').innerHTML;
-
-    assert.equal(ret, format(toTimeZone(date, timeZone), template));
   });
 
   it('Should show dates that are not in the same month', () => {

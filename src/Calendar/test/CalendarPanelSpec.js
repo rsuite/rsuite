@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { differenceInMinutes } from 'date-fns';
 import { parseISO } from '../../utils/dateUtils';
 import { getDOMNode, createTestContainer } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
@@ -74,23 +73,6 @@ describe('Calendar - Panel', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<CalendarPanel classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
-  });
-
-  it('Should call `onSelect` callback in zoned date', done => {
-    const timeZone = 'Africa/Abidjan';
-    const instance = getDOMNode(
-      <CalendarPanel
-        timeZone={timeZone}
-        onSelect={value => {
-          if (differenceInMinutes(new Date(), value) <= 1) {
-            done();
-          }
-        }}
-      />
-    );
-    ReactTestUtils.Simulate.click(
-      instance.querySelector('.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content')
-    );
   });
 
   it('Should be a controlled value', done => {

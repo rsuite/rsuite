@@ -26,7 +26,6 @@ export interface PanelProps extends WithAsProps, Omit<CalendarCoreProps, OmitCal
   onSelect?: (date: Date, event?: React.SyntheticEvent<any>) => void;
   showOneCalendar?: boolean;
   showWeekNumbers?: boolean;
-  timeZone?: string;
   value?: ValueType;
 }
 
@@ -183,7 +182,6 @@ Panel.propTypes = {
   calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   index: PropTypes.number,
   format: PropTypes.string,
-  timeZone: PropTypes.string,
   isoWeek: PropTypes.bool,
   limitEndYear: PropTypes.number,
   classPrefix: PropTypes.string,

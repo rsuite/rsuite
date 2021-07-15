@@ -91,9 +91,6 @@ export interface CalendarProps
   /** Whether to show week numbers */
   showWeekNumbers?: boolean;
 
-  /** IANA time zone */
-  timeZone?: string;
-
   inline?: boolean;
 }
 
@@ -134,7 +131,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       renderToolbar,
       showMeridian,
       showWeekNumbers,
-      timeZone,
       inline,
       ...rest
     } = props;
@@ -191,7 +187,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       onSelect,
       renderCell,
       showWeekNumbers,
-      timeZone,
       inline
     };
     return (
@@ -266,8 +261,7 @@ Calendar.propTypes = {
   renderTitle: PropTypes.func,
   renderToolbar: PropTypes.func,
   showMeridian: PropTypes.bool,
-  showWeekNumbers: PropTypes.bool,
-  timeZone: PropTypes.string
+  showWeekNumbers: PropTypes.bool
 };
 
 export default Calendar;

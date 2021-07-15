@@ -2,7 +2,7 @@ import React, { ReactNode, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button';
 import { useClassNames, useUpdateEffect } from '../utils';
-import { RsRefForwardingComponent, WithAsProps, TimeZoneName } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { getDefaultRanges, getRanges } from './utils';
 import { InnerRange, RangeType, ToolbarValue } from './types';
 import { CalendarLocale } from '../locales';
@@ -14,7 +14,6 @@ export interface ToolbarProps extends WithAsProps {
   locale?: CalendarLocale;
   calendarDate?: ToolbarValue;
   ranges: RangeType[];
-  timeZone?: TimeZoneName;
   disabledOkBtn?: (value?: ToolbarValue) => boolean;
   disabledShortcut?: (value?: ToolbarValue) => boolean;
   onOk?: (event: React.MouseEvent) => void;
@@ -42,7 +41,6 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
       onClickShortcut,
       calendarDate,
       ranges: rangesProp,
-      timeZone,
       locale,
       ...rest
     } = props;
@@ -50,12 +48,12 @@ const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
 
     useUpdateEffect(() => {
-      setRanges(getRanges({ ranges: rangesProp, calendarDate, timeZone }));
-    }, [calendarDate, rangesProp, timeZone]);
+      setRanges(getRanges({ ranges: rangesProp, calendarDate }));
+    }, [calendarDate, rangesProp]);
 
     const hasLocaleKey = useCallback(
-      (key: ReactNode) => getDefaultRanges(timeZone, calendarDate).some(item => item.label === key),
-      [calendarDate, timeZone]
+      (key: ReactNode) => getDefaultRanges(calendarDate).some(item => item.label === key),
+      [calendarDate]
     );
 
     const renderOkButton = useCallback(() => {
@@ -129,8 +127,7 @@ Toolbar.propTypes = {
   onOk: PropTypes.func,
   disabledShortcut: PropTypes.func,
   disabledOkBtn: PropTypes.func,
-  hideOkButton: PropTypes.bool,
-  timeZone: PropTypes.string
+  hideOkButton: PropTypes.bool
 };
 Toolbar.defaultProps = defaultProps;
 
