@@ -10,8 +10,7 @@ import { useRef, useState, useCallback } from 'react';
  */
 function useControlled<T = any>(
   controlledValue: T,
-  defaultValue: T,
-  formatValue?: (value: T) => T
+  defaultValue: T
 ): [T, (value: React.SetStateAction<T>) => void, boolean] {
   const controlledRef = useRef(false);
   controlledRef.current = controlledValue !== undefined;
@@ -19,9 +18,7 @@ function useControlled<T = any>(
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
   // If it is controlled, this directly returns the attribute value.
-  let value = controlledRef.current ? controlledValue : uncontrolledValue;
-
-  value = formatValue ? formatValue(value) : value;
+  const value = controlledRef.current ? controlledValue : uncontrolledValue;
 
   const setValue = useCallback(
     nextValue => {
