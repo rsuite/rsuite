@@ -7,6 +7,8 @@ import {
   isSameDay,
   parseISO,
   startOfWeek,
+  startOfMonth,
+  endOfMonth,
   subDays
 } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
@@ -166,8 +168,7 @@ describe('DateRangePicker', () => {
       }
     };
 
-    const menu = getInstance(<DateRangePicker onOk={doneOp} hoverRange="week" defaultOpen />)
-      .overlay;
+    const menu = getInstance(<DateRangePicker onOk={doneOp} hoverRange="week" open />).overlay;
 
     const today = menu?.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
@@ -178,7 +179,56 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
   });
 
-  it('Should select a date range', () => {
+  it('Should select a whole month', done => {
+    const doneOp = values => {
+      if (
+        isSameDay(startOfMonth(new Date()), values[0]) &&
+        isSameDay(endOfMonth(new Date()), values[1])
+      ) {
+        done();
+      }
+    };
+
+    const menu = getInstance(<DateRangePicker onOk={doneOp} hoverRange="month" open />).overlay;
+
+    const today = menu?.querySelector(
+      '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
+    );
+
+    ReactTestUtils.Simulate.click(today);
+    ReactTestUtils.Simulate.click(today);
+    ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
+  });
+
+  it('Should select a date range by hover', () => {
+    const menu = getInstance(
+      <DateRangePicker
+        hoverRange="week"
+        open
+        defaultValue={[new Date('07/04/2021'), new Date('07/10/2021')]}
+      />
+    ).overlay;
+
+    const startCell = menu
+      ?.querySelectorAll('.rs-calendar-table-row')[3]
+      .querySelector('.rs-calendar-table-cell-content');
+
+    const endCell = menu
+      ?.querySelectorAll('.rs-calendar-table-row')[4]
+      .querySelector('.rs-calendar-table-cell-content');
+
+    ReactTestUtils.Simulate.click(startCell);
+    ReactTestUtils.Simulate.mouseEnter(endCell);
+
+    const allInRangeCells = menu.querySelectorAll(
+      '.rs-calendar-table-cell-in-range, .rs-calendar-table-cell-selected-start'
+    );
+
+    assert.equal(allInRangeCells[0].innerText, '11');
+    assert.equal(allInRangeCells[allInRangeCells.length - 1].innerText, '24');
+  });
+
+  it('Should select a date range by click', () => {
     const menu = getInstance(
       <DateRangePicker
         hoverRange="week"
@@ -187,19 +237,20 @@ describe('DateRangePicker', () => {
       />
     ).overlay;
 
-    const cell = menu
+    const startCell = menu
       ?.querySelectorAll('.rs-calendar-table-row')[3]
       .querySelector('.rs-calendar-table-cell-content');
 
-    const cell2 = menu
+    const endCell = menu
       ?.querySelectorAll('.rs-calendar-table-row')[4]
       .querySelector('.rs-calendar-table-cell-content');
 
-    ReactTestUtils.Simulate.click(cell);
-    ReactTestUtils.Simulate.mouseEnter(cell2);
+    ReactTestUtils.Simulate.click(startCell);
+    ReactTestUtils.Simulate.mouseEnter(endCell);
+    ReactTestUtils.Simulate.click(endCell);
 
     const allInRangeCells = menu.querySelectorAll(
-      '.rs-calendar-table-cell-in-range,.rs-calendar-table-cell-selected-start'
+      '.rs-calendar-table-cell-in-range, .rs-calendar-table-cell-selected-start'
     );
 
     assert.equal(allInRangeCells[0].innerText, '11');
@@ -256,12 +307,50 @@ describe('DateRangePicker', () => {
   });
 
   it('Should display the formatted date', () => {
-    const target = getInstance(<DateRangePicker showOneCalendar />).target;
+    const instance = getInstance(<DateRangePicker />);
+    const target = instance.target;
     const input = target.querySelector('.rs-picker-toggle-textbox');
 
     input.value = '2020010120210707';
     ReactTestUtils.Simulate.change(input);
 
     assert.equal(input.value, '2020-01-01 ~ 2021-07-07');
+  });
+
+  it('Should render an error message', () => {
+    const instance = getInstance(<DateRangePicker />);
+    const target = instance.target;
+    const input = target.querySelector('.rs-picker-toggle-textbox');
+
+    input.value = 'ssss';
+    ReactTestUtils.Simulate.change(input);
+    assert.include(instance.root.className, 'rs-picker-error');
+
+    ReactTestUtils.Simulate.blur(input);
+    assert.notInclude(instance.root.className, 'rs-picker-error');
+  });
+
+  it('Should update the calendar when clicking on a non-current month', () => {
+    const menu = getInstance(
+      <DateRangePicker
+        defaultOpen
+        defaultValue={[new Date('07/04/2021'), new Date('07/10/2021')]}
+      />
+    ).overlay;
+
+    // Jun 27, 2021
+    const unSameMonthCell = menu.querySelector(
+      '.rs-calendar-table-cell-un-same-month .rs-calendar-table-cell-content'
+    );
+
+    ReactTestUtils.Simulate.mouseEnter(unSameMonthCell);
+    ReactTestUtils.Simulate.click(unSameMonthCell);
+
+    assert.equal(
+      menu
+        .querySelector('.rs-calendar-table-cell-un-same-month .rs-calendar-table-cell-content')
+        .getAttribute('title'),
+      '30 May 2021'
+    );
   });
 });

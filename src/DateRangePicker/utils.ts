@@ -10,6 +10,10 @@ export function getCalendarDate({ value }: { value?: ValueType }): ValueType {
   if (value[0] && value[1]) {
     const sameMonth = DateUtils.isSameMonth(value[0], value[1]);
     return [value[0], sameMonth ? DateUtils.addMonths(value[1], 1) : value[1]];
+
+    // If only the start date
+  } else if (value[0]) {
+    return [value[0], DateUtils.addMonths(value[0], 1)];
   }
 
   const todayDate = new Date();
