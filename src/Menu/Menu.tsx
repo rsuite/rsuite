@@ -358,7 +358,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
 
       closeMenu(event, !isSubmenu);
     },
-    [dispatch, closeMenu, isSubmenu]
+    [closeMenu, isSubmenu]
   );
 
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-13

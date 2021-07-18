@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
@@ -24,36 +24,34 @@ describe('<Dropdown.Menu>', () => {
   });
 
   it('Should render a submenu when used inside <Dropdown>', () => {
-    const { getByRole } = render(
+    const instance = getDOMNode(
       <Dropdown>
-        <Dropdown.Item>Menu item</Dropdown.Item>
-        <Dropdown.Menu title="Submenu">
+        <Dropdown.Menu title="Submenu" data-testid="submenu">
           <Dropdown.Item id="submenu-item">Submenu item</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
 
-    const button = getByRole('button');
+    const button = instance.querySelector('[role="button"]');
 
     userEvent.click(button);
 
-    const menuitem = getByRole('menuitem', { name: 'Submenu' });
+    const menuitem = instance.querySelector('[role="menuitem"]');
 
     expect(menuitem).not.to.be.null;
     expect(menuitem).to.have.attribute('aria-haspopup', 'menu');
   });
 
   it('Should render a submenu when used inside another <Dropdown.Menu>', () => {
-    const { getByRole } = render(
+    const instance = getDOMNode(
       <Dropdown.Menu>
-        <Dropdown.Item>Menu item</Dropdown.Item>
         <Dropdown.Menu title="Submenu">
           <Dropdown.Item id="submenu-item">Submenu item</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown.Menu>
     );
 
-    const menuitem = getByRole('menuitem', { name: 'Submenu' });
+    const menuitem = instance.querySelector('[role="menuitem"]');
 
     expect(menuitem).not.to.be.null;
     expect(menuitem).to.have.attribute('aria-haspopup', 'menu');
