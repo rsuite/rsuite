@@ -1,7 +1,7 @@
 /**
  * TODO: Add typescript definition for custom assertions
  */
-chai.use((chai, { flag }) => {
+chai.use((chai, { flag, inspect }) => {
   /**
    * Check element is visible
    * Useful for testing popups and disclosures
@@ -50,4 +50,36 @@ chai.use((chai, { flag }) => {
       (!element.parentElement || isElementVisible(element.parentElement, element))
     );
   }
+
+  /**
+   * Ref: https://github.com/testing-library/jest-dom/blob/main/src/to-have-attribute.js
+   * @this {import('chai').AssertionStatic}
+   */
+  chai.Assertion.addMethod('attribute', function (name, val) {
+    const el = flag(this, 'object'),
+      actual = el.getAttribute(name);
+
+    if (!flag(this, 'negate') || undefined === val) {
+      this.assert(
+        !!el.attributes[name],
+        'expected element to have an attribute #{exp}',
+        'expected element not to have an attribute #{exp}',
+        name
+      );
+    }
+
+    if (undefined !== val) {
+      this.assert(
+        val === actual,
+        'expected element to have an attribute ' +
+          inspect(name) +
+          ' with the value #{exp}, but the value was #{act}',
+        'expected element not to have an attribute ' + inspect(name) + ' with the value #{act}',
+        val,
+        actual
+      );
+    }
+
+    flag(this, 'object', actual);
+  });
 });

@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
 import Dropdown from '../Dropdown';
+import userEvent from '@testing-library/user-event';
 
 describe('<Dropdown.Menu>', () => {
   it('Should render a vertical ARIA menubar when used alone', () => {
@@ -20,6 +21,42 @@ describe('<Dropdown.Menu>', () => {
     // legacy assertions
     assert.isTrue(/\bdropdown-menu\b/.test(instance.className));
     assert.equal(instance.children.length, 2);
+  });
+
+  it('Should render a submenu when used inside <Dropdown>', () => {
+    const { getByRole } = render(
+      <Dropdown>
+        <Dropdown.Item>Menu item</Dropdown.Item>
+        <Dropdown.Menu title="Submenu">
+          <Dropdown.Item id="submenu-item">Submenu item</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+
+    const button = getByRole('button');
+
+    userEvent.click(button);
+
+    const menuitem = getByRole('menuitem', { name: 'Submenu' });
+
+    expect(menuitem).not.to.be.null;
+    expect(menuitem).to.have.attribute('aria-haspopup', 'menu');
+  });
+
+  it('Should render a submenu when used inside another <Dropdown.Menu>', () => {
+    const { getByRole } = render(
+      <Dropdown.Menu>
+        <Dropdown.Item>Menu item</Dropdown.Item>
+        <Dropdown.Menu title="Submenu">
+          <Dropdown.Item id="submenu-item">Submenu item</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown.Menu>
+    );
+
+    const menuitem = getByRole('menuitem', { name: 'Submenu' });
+
+    expect(menuitem).not.to.be.null;
+    expect(menuitem).to.have.attribute('aria-haspopup', 'menu');
   });
 
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#menu

@@ -71,7 +71,7 @@ const DropdownMenu = React.forwardRef(
 
     const dropdown = useContext(DropdownContext);
     const sidenav = useContext(SidenavContext);
-    const { rtl } = useCustom('DropdownMenuItem');
+    const { rtl } = useCustom('DropdownMenu');
 
     const handleToggleSubmenu = useCallback(
       (_: boolean, event: React.SyntheticEvent<HTMLElement>) => {
@@ -97,30 +97,30 @@ const DropdownMenu = React.forwardRef(
       const classes = merge(props.className, withClassPrefix());
 
       return (
-        <Menubar
-          vertical
-          onActivateItem={event => {
-            const { eventKey, eventKeyType } = (event.target as HTMLElement).dataset;
+        <DropdownContext.Provider value={{ activeKey: rest.activeKey, onSelect }}>
+          <Menubar
+            vertical
+            onActivateItem={event => {
+              const { eventKey, eventKeyType } = (event.target as HTMLElement).dataset;
 
-            // Only cast number type for now
-            const eventKeyToEmit = eventKeyType === 'number' ? Number(eventKey) : eventKey;
-            onSelect?.(eventKeyToEmit as any, event);
-          }}
-        >
-          {(menubar, menubarRef) => (
-            <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest}>
-              {children}
-            </ul>
-          )}
-        </Menubar>
+              // Only cast number type for now
+              const eventKeyToEmit = eventKeyType === 'number' ? Number(eventKey) : eventKey;
+              onSelect?.(eventKeyToEmit as any, event);
+            }}
+          >
+            {(menubar, menubarRef) => (
+              <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest}>
+                {children}
+              </ul>
+            )}
+          </Menubar>
+        </DropdownContext.Provider>
       );
     }
 
     if (sidenav?.expanded) {
       return <SidenavDropdownMenu {...(omit(props, 'classPrefix') as any)} />;
     }
-
-    const sidenavExpanded = sidenav?.expanded ?? false;
 
     // Parent menu exists. This is a submenu.
     // Should render a `menuitem` that controls this submenu.
@@ -140,7 +140,6 @@ const DropdownMenu = React.forwardRef(
                 prefixItemClassName`toggle`,
                 // prefixItemClassName`submenu`,
                 withItemClassPrefix({
-                  [sidenavExpanded ? 'expand' : 'collapse']: sidenav,
                   'with-icon': icon,
                   open,
                   active: selected,
@@ -156,7 +155,7 @@ const DropdownMenu = React.forwardRef(
                   data-event-key={eventKey}
                   data-event-key-type={typeof eventKey}
                   {...(menuitem as any)}
-                  {...menuButtonProps}
+                  {...omit(menuButtonProps, ['role'])}
                 >
                   {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
                   {title}
