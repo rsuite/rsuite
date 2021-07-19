@@ -10,9 +10,9 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { DatePickerLocale } from '../locales';
 import { DATERANGE_DISABLED_TARGET } from '../utils';
 
-type OmitCalendarCoreTypes = 'disabledDate' | 'onSelect' | 'onMouseMove' | 'pageDate';
+type OmitCalendarCoreTypes = 'disabledDate' | 'onSelect' | 'onMouseMove' | 'calendarDate';
 
-export interface PanelProps extends WithAsProps, Omit<CalendarCoreProps, OmitCalendarCoreTypes> {
+export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, OmitCalendarCoreTypes> {
   calendarDate?: ValueType;
   disabledDate?: (date: Date, selectValue: ValueType, type: string) => boolean;
   format?: string;
@@ -26,19 +26,18 @@ export interface PanelProps extends WithAsProps, Omit<CalendarCoreProps, OmitCal
   onSelect?: (date: Date, event?: React.SyntheticEvent<any>) => void;
   showOneCalendar?: boolean;
   showWeekNumbers?: boolean;
-  timeZone?: string;
   value?: ValueType;
 }
 
-const defaultProps: Partial<PanelProps> = {
+const defaultProps: Partial<CalendarProps> = {
   as: CalendarCore,
   calendarDate: [new Date(), addMonths(new Date(), 1)],
   format: 'yyyy-MM-dd',
   index: 0,
   value: []
 };
-const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
-  (props: PanelProps, ref) => {
+const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
+  (props: CalendarProps, ref) => {
     const {
       as: Component,
       calendarDate,
@@ -98,15 +97,15 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       index
     ]);
 
-    const getPageDate = useCallback(() => calendarDate[index], [calendarDate, index]);
+    const getCalendarDate = useCallback(() => calendarDate[index], [calendarDate, index]);
 
     const handleMoveForward = useCallback(() => {
-      onMoveForward?.(addMonths(getPageDate(), 1));
-    }, [getPageDate, onMoveForward]);
+      onMoveForward?.(addMonths(getCalendarDate(), 1));
+    }, [getCalendarDate, onMoveForward]);
 
     const handleMoveBackward = useCallback(() => {
-      onMoveBackward?.(addMonths(getPageDate(), -1));
-    }, [getPageDate, onMoveBackward]);
+      onMoveBackward?.(addMonths(getCalendarDate(), -1));
+    }, [getCalendarDate, onMoveBackward]);
 
     const disabledBackward = useCallback(() => {
       const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
@@ -168,22 +167,21 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
         onMoveForward={handleMoveForward}
         onToggleMonthDropdown={toggleMonthDropdown}
         onToggleTimeDropdown={toggleTimeDropdown}
-        pageDate={getPageDate()}
+        calendarDate={getCalendarDate()}
         ref={ref}
       />
     );
   }
 );
 
-Panel.displayName = 'Panel';
-Panel.defaultProps = defaultProps;
-Panel.propTypes = {
+Calendar.displayName = 'DateRangePicker.Calendar';
+Calendar.defaultProps = defaultProps;
+Calendar.propTypes = {
   value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   calendarDate: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   index: PropTypes.number,
   format: PropTypes.string,
-  timeZone: PropTypes.string,
   isoWeek: PropTypes.bool,
   limitEndYear: PropTypes.number,
   classPrefix: PropTypes.string,
@@ -193,4 +191,4 @@ Panel.propTypes = {
   onChangeCalendarDate: PropTypes.func
 };
 
-export default Panel;
+export default Calendar;
