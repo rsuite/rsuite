@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Button, Nav } from 'rsuite';
-import 'rsuite/styles/less/index.less';
+import 'rsuite/lib/styles/index.less';
 
 const NavLink = React.forwardRef((props, ref) => {
   const { as, href, ...rest } = props;
