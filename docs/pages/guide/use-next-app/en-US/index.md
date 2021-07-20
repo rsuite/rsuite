@@ -1,6 +1,6 @@
 # Use in Next.js
 
-Production grade React applications that scale. The world's leading companies use Next.js to build server-rendered applications, static websites, and more.
+Next.js gives you the best developer experience with all the features you need for production: hybrid static & server rendering, TypeScript support, smart bundling, route pre-fetching, and more.
 
 ## Install and Initialization
 
@@ -23,26 +23,55 @@ $ yarn dev
 
 Open the browser at `http://localhost:3000/`. It renders a header saying "Welcome to Next.js!" on the page.
 
-## Install rsuite
+## next.config.js
 
-React Suite style depends on less, first need to install less
+Next.js does not support [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less) in versions 10 and 11. We need to compile less style files through the less-loader of webpack.
 
-```bash
-$ yarn add @zeit/next-less less
+Installation devDependencies:
+
+```
+$ yarn add webpack less less-loader css-loader mini-css-extract-plugin --dev
 ```
 
-Add a `next.config.js` file with the following configuration:
+Refer to the following configuration:
 
 ```js
-const withLess = require('@zeit/next-less');
-module.exports = withLess({
-  lessLoaderOptions: {
-    javascriptEnabled: true
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.(le|c)ss$/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader'
+        },
+        {
+          loader: 'less-loader',
+          options: {
+            sourceMap: true,
+            lessOptions: {
+              javascriptEnabled: true
+            }
+          }
+        }
+      ]
+    });
+
+    config.plugins.push(
+      new MiniCssExtractPlugin({
+        filename: 'static/css/[name].css',
+        chunkFilename: 'static/css/[contenthash].css'
+      })
+    );
+
+    return config;
   }
-});
+};
 ```
 
-install rsuite
+## Use rsuite
 
 ```
 $ yarn add rsuite
@@ -109,30 +138,31 @@ There are some navigation components in the rsuite component, such as `Dropdown`
 import Link from 'next/link';
 import { Nav } from 'rsuite';
 
-function Navigation() {
+const NavLink = React.forwardRef((props, ref) => {
+  const { as, href, ...rest } = props;
+  return (
+    <Link href={href} as={as}>
+      <a ref={ref} {...rest} />
+    </Link>
+  );
+});
+
+return () => {
   return (
     <Nav>
-      <Nav.Item
-        renderItem={item => {
-          return <Link href="/">{item}</Link>;
-        }}
-      >
+      <Nav.Item componentClass={NavLink} href="/">
         Home
       </Nav.Item>
 
-      <Nav.Item
-        renderItem={item => {
-          return <Link href="/about">{item}</Link>;
-        }}
-      >
+      <Nav.Item componentClass={NavLink} href="/about">
         About
       </Nav.Item>
     </Nav>
   );
-}
+};
 ```
 
 ## Examples
 
-- [next-app](https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs)
-- [rsuite-management-system-ssr](https://github.com/rsuite/rsuite-management-system-ssr)
+- [Use in Next.js](https://github.com/rsuite/rsuite/tree/next/examples/with-nextjs)
+- [Use in Next.js and Typescript](https://github.com/rsuite/rsuite/tree/next/examples/with-nextjs-typescript)

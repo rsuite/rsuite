@@ -6,12 +6,11 @@ export default function Home() {
   return (
     <>
       <Header>
-        <title>TWO</title>
+        <title>Page 2</title>
       </Header>
       <Layout activeKey="two">
-        <h1> TWO </h1>
+        <h1> Page 2 </h1>
       </Layout>
     </>
   );
 }
-

@@ -23,26 +23,55 @@ $ yarn dev
 
 浏览器打开 `http://localhost:3000/`，当您看到 `Welcome to Next.js!` 页面就是安装成功了。
 
-## 引入 rsuite
+## 配置 next.config.js
 
-React Suite 的样式依赖 less, 首先需要安装 less
+Next.js 在 10，11 版本中不支持 [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less), 我们需要通过 webpack 的 less-loader 来编译 less 样式文件。
 
-```bash
-$ yarn add @zeit/next-less less
+安装依赖:
+
+```
+$ yarn add webpack less less-loader css-loader mini-css-extract-plugin --dev
 ```
 
-添加一个 next.config.js 文件，配置如下：
+参考以下配置:
 
 ```js
-const withLess = require('@zeit/next-less');
-module.exports = withLess({
-  lessLoaderOptions: {
-    javascriptEnabled: true
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.(le|c)ss$/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader'
+        },
+        {
+          loader: 'less-loader',
+          options: {
+            sourceMap: true,
+            lessOptions: {
+              javascriptEnabled: true
+            }
+          }
+        }
+      ]
+    });
+
+    config.plugins.push(
+      new MiniCssExtractPlugin({
+        filename: 'static/css/[name].css',
+        chunkFilename: 'static/css/[contenthash].css'
+      })
+    );
+
+    return config;
   }
-});
+};
 ```
 
-安装 rsuite
+### 使用 rsuite
 
 ```
 $ yarn add rsuite
@@ -109,30 +138,31 @@ $ yarn dev
 import Link from 'next/link';
 import { Nav } from 'rsuite';
 
-function Navigation() {
+const NavLink = React.forwardRef((props, ref) => {
+  const { as, href, ...rest } = props;
+  return (
+    <Link href={href} as={as}>
+      <a ref={ref} {...rest} />
+    </Link>
+  );
+});
+
+return () => {
   return (
     <Nav>
-      <Nav.Item
-        renderItem={item => {
-          return <Link href="/">{item}</Link>;
-        }}
-      >
+      <Nav.Item componentClass={NavLink} href="/">
         Home
       </Nav.Item>
 
-      <Nav.Item
-        renderItem={item => {
-          return <Link href="/about">{item}</Link>;
-        }}
-      >
+      <Nav.Item componentClass={NavLink} href="/about">
         About
       </Nav.Item>
     </Nav>
   );
-}
+};
 ```
 
 ## 示例
 
-- [next-app](https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs)
-- [rsuite-management-system-ssr](https://github.com/rsuite/rsuite-management-system-ssr)
+- [Use in Next.js](https://github.com/rsuite/rsuite/tree/next/examples/with-nextjs)
+- [Use in Next.js and Typescript](https://github.com/rsuite/rsuite/tree/next/examples/with-nextjs-typescript)

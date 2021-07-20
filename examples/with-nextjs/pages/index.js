@@ -1,17 +1,9 @@
 import React from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
-import { Button, Nav } from 'rsuite';
-import 'rsuite/styles/less/index.less';
+import { Button } from 'rsuite';
+import Navbar from '../components/navbar';
 
-const NavLink = React.forwardRef((props, ref) => {
-  const { as, href, ...rest } = props;
-  return (
-    <Link href={href} as={as}>
-      <a ref={ref} {...rest} />
-    </Link>
-  );
-});
+import 'rsuite/lib/styles/index.less';
 
 const Home = () => (
   <div>
@@ -23,18 +15,10 @@ const Home = () => (
       <h1 className="title">Welcome to React Suite</h1>
       <p className="description">
         A suite of React components, intimate UI design, and a friendly development experience.
-        <br />
       </p>
-      <hr></hr>
-      <Nav>
-        <Nav.Item componentClass={NavLink} href="/page1">
-          Page 1
-        </Nav.Item>
-        <Nav.Item componentClass={NavLink} href="/page2">
-          Page 2
-        </Nav.Item>
-      </Nav>
-      <hr></hr>
+      <hr />
+      <Navbar />
+      <hr />
       <Button appearance="primary" href="https://rsuitejs.com/">
         Getting started
       </Button>

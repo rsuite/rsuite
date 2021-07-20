@@ -1,56 +1,50 @@
 import Link from 'next/link';
 import React from 'react';
-import { Nav, Icon, IconProps } from 'rsuite';
+import PropTypes from 'prop-types';
+import { Nav } from 'rsuite';
 import './layout.less';
 
-interface Router {
-  name: string;
-  key: string;
-  path: string;
-  icon?: IconProps['icon'];
-}
-
-const routers: Router[] = [
-  {
-    name: 'home',
-    key: 'home',
-    path: '/'
-  },
-  {
-    name: 'one',
-    key: 'one',
-    path: '/one'
-  },
-  {
-    name: 'two',
-    key: 'two',
-    path: '/two'
-  }
-];
-
 interface LayoutProps {
-  activeKey: string;
+  activeKey?: string;
+  children?: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ activeKey, children, ...props }) => {
+interface NavLinkProps {
+  as: string;
+  href: string;
+}
+
+const NavLink = React.forwardRef((props: NavLinkProps, ref: React.Ref<HTMLAnchorElement>) => {
+  const { as, href, ...rest } = props;
+  return (
+    <Link href={href} as={as}>
+      <a ref={ref} {...rest} />
+    </Link>
+  );
+});
+
+const Layout: React.FunctionComponent<LayoutProps> = ({ activeKey, children }) => {
   return (
     <div className="container">
-      <Nav activeKey={activeKey} className="nav" justified>
-        {routers.map(item => (
-          <Nav.Item
-            key={item.key}
-            eventKey={item.key}
-            icon={item?.icon ? <Icon icon={item?.icon} /> : null}
-          >
-            <Link href={item.path}>
-              <a>{item.name}</a>
-            </Link>
-          </Nav.Item>
-        ))}
+      <Nav activeKey={activeKey}>
+        <Nav.Item eventKey="home" componentClass={NavLink} href="/">
+          Home
+        </Nav.Item>
+        <Nav.Item eventKey="one" componentClass={NavLink} href="/one">
+          Page 1
+        </Nav.Item>
+        <Nav.Item eventKey="two" componentClass={NavLink} href="/two">
+          Page 2
+        </Nav.Item>
       </Nav>
       {children}
     </div>
   );
+};
+
+Layout.propTypes = {
+  activeKey: PropTypes.string,
+  children: PropTypes.node
 };
 
 export default Layout;
