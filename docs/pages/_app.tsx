@@ -9,10 +9,10 @@ import * as Sentry from '@sentry/browser';
 import '../less/index.less';
 
 // Connecting the SDK to Sentry
-if (!__DEV__) {
+if (!process.env.DEV) {
   Sentry.init({
     dsn: 'https://be402c47cb1a4d79b78ad283191299f7@sentry-prd.hypers.cc/7',
-    release: `v${__VERSION__}`
+    release: `v${process.env.VERSION}`
   });
 }
 
@@ -31,7 +31,7 @@ import loadCssFile from '@/utils/loadCssFile';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
-  if (__DEV__) {
+  if (process.env.DEV) {
     console.log(`Loading: ${url}`);
   }
 });
@@ -102,7 +102,7 @@ function App({ Component, pageProps }: AppProps) {
       NProgress.done();
 
       for (const css of document.querySelectorAll('[rel=stylesheet]')) {
-        if (/docs(-rtl)?\.css/.test(css.getAttribute('href')) && css.getAttribute('id') !== id) {
+        if (/_app(-rtl)?\.css/.test(css.getAttribute('href')) && css.getAttribute('id') !== id) {
           console.log('Removing stylesheet: ', css);
           css.remove();
         }

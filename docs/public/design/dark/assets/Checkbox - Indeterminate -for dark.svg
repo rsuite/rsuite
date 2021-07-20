@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
     <title>Checkbox - Indeterminate -for dark</title>
-    <desc>Created with Sketch.</desc>
     <g id="Checkbox---Indeterminate--for-dark" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <path d="M13,0 C14.6568542,-3.04359188e-16 16,1.34314575 16,3 L16,13 C16,14.6568542 14.6568542,16 13,16 L3,16 C1.34314575,16 2.02906125e-16,14.6568542 0,13 L0,3 C-2.02906125e-16,1.34314575 1.34314575,3.04359188e-16 3,0 L13,0 Z M12,7 L4,7 C3.44771525,7 3,7.44771525 3,8 C3,8.55228475 3.44771525,9 4,9 L4,9 L12,9 C12.5522847,9 13,8.55228475 13,8 C13,7.44771525 12.5522847,7 12,7 L12,7 Z" id="Combined-Shape" fill="#34C3FF"></path>
     </g>

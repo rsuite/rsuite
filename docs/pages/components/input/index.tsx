@@ -23,7 +23,7 @@ export default function Page() {
         Info,
         Avatar,
         Eye,
-        EyeSlash,
+        EyeSlash
       }}
     />
   );

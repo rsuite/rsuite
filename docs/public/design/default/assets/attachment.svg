@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
     <title>attachment</title>
-    <desc>Created with Sketch.</desc>
     <g id="attachment" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Background" x="0" y="0" width="16" height="16"></rect>
         <rect id="Rectangle-29" fill="#575757" x="4" y="3" width="1" height="9"></rect>
         <path d="M6.5,11 C6.5,12 7.25,12.5 8,12.5 C8.75,12.5 9.5,12 9.5,11" id="Oval" stroke="#575757"></path>
         <path d="M9.5,3 C9.5,1.5 8.5,0.5 7,0.5 C5.5,0.5 4.5,1.5 4.5,3" id="Oval-Copy" stroke="#575757"></path>

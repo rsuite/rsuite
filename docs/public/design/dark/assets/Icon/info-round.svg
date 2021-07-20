@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/info-round</title>
+    <g id="Icon/info-round" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M8,0 C12.418278,0 16,3.581722 16,8 C16,12.418278 12.418278,16 8,16 C3.581722,16 0,12.418278 0,8 C0,3.581722 3.581722,0 8,0 Z M8,7 C7.44771525,7 7,7.44771525 7,8 L7,8 L7,12 C7,12.5522847 7.44771525,13 8,13 C8.55228475,13 9,12.5522847 9,12 L9,12 L9,8 C9,7.44771525 8.55228475,7 8,7 Z M8,3 C7.44771525,3 7,3.44771525 7,4 C7,4.55228475 7.44771525,5 8,5 C8.55228475,5 9,4.55228475 9,4 C9,3.44771525 8.55228475,3 8,3 Z" id="Combined-Shape" fill="#575757" fill-rule="nonzero"></path>
+    </g>
+</svg>

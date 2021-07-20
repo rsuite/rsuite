@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
@@ -7,21 +7,13 @@ import { addMonths, compareAsc, isSameDay, isSameMonth } from '../utils/dateUtil
 import * as disabledDateUtils from './disabledDateUtils';
 import { FormattedDate } from '../CustomProvider';
 import Toolbar from '../DatePicker/Toolbar';
-import Panel from './Panel';
-import {
-  getCalendarDate,
-  getMonthHoverRange,
-  getWeekHoverRange,
-  setTimingMargin,
-  toLocalValue,
-  toZonedValue
-} from './utils';
+import Calendar from './Calendar';
+import { getCalendarDate, getMonthHoverRange, getWeekHoverRange, setTimingMargin } from './utils';
 import {
   createChainedFunction,
   DATERANGE_DISABLED_TARGET,
   DateUtils,
   mergeRefs,
-  TimeZone,
   useClassNames,
   useControlled,
   useCustom
@@ -41,11 +33,9 @@ import {
   PositionChildProps,
   usePickerClassName
 } from '../Picker';
-import { toLocalTimeZone } from '../utils/timeZone';
-import { FormControlBaseProps, PickerBaseProps, TimeZoneName } from '../@types/common';
+import { FormControlBaseProps, PickerBaseProps } from '../@types/common';
 import { DisabledDateFunction, RangeType, ValueType } from './types';
 import partial from 'lodash/partial';
-import useUpdateEffect from '../utils/useUpdateEffect';
 import { DateRangePickerLocale } from '../locales';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
 
@@ -57,9 +47,6 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
 
   /** Format date */
   format?: string;
-
-  /** IANA time zone */
-  timeZone?: TimeZoneName;
 
   /** The date range that will be selected when you click on the date */
   hoverRange?: 'week' | 'month' | ((date: Date) => ValueType);
@@ -167,7 +154,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     showOneCalendar,
     showWeekNumbers,
     style,
-    timeZone,
+
     toggleAs,
     value: valueProp,
     onChange,
@@ -188,19 +175,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   );
   const rangeFormatStr = `${formatStr}${character}${formatStr}`;
 
-  // Temporary store `value` prop in a specific time zone. if `timeZone` prop not passed, use current time zone.
-  const zonedValue: ValueType = useMemo(() => toZonedValue(valueProp, timeZone), [
-    timeZone,
-    valueProp
-  ]);
-
-  // Temporary store `defaultValue` prop in a specific time zone. if `timeZone` prop not passed, use current time zone.
-  const zonedDefaultValue: ValueType = useMemo(() => toZonedValue(defaultValue || [], timeZone), [
-    defaultValue,
-    timeZone
-  ]);
-
-  const [value, setValue] = useControlled(zonedValue, zonedDefaultValue);
+  const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue ?? []);
 
   /**
    * Whether to complete the selection.
@@ -218,43 +193,38 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    * the second click to determine the end date of the date range.
    *
    */
-  const [selectValue, setSelectValue] = useState<ValueType>(zonedValue ?? zonedDefaultValue ?? []);
+  const [selectValue, setSelectValue] = useState<ValueType>(valueProp ?? defaultValue ?? []);
 
   // The date of the current hover, used to reduce the calculation of `handleMouseMove`
   const [hoverValue, setHoverValue] = useState<ValueType>([]);
 
   // The displayed calendar panel is rendered based on this value.
   const [calendarDate, setCalendarDate] = useState(
-    getCalendarDate({
-      value: zonedValue ?? toZonedValue(defaultCalendarValue, timeZone),
-      timeZone
-    })
+    getCalendarDate({ value: valueProp ?? defaultCalendarValue })
   );
 
   const [inputState, setInputState] = useState<InputState>();
 
   /**
+   * When hoverRange is set, `selectValue` will be updated during the hover process,
+   * which will cause the `selectValue` to be updated after the first click,
+   * so declare a Ref to temporarily store the `selectValue` of the first click.
+   */
+  const selectRangeValueRef = useRef(null);
+
+  /**
    * Call this function to update the calendar panel rendering benchmark value.
-   *
    * If params `value` is not passed, it defaults to [new Date(), addMonth(new Date(), 1)].
    */
-  const updateCalendarDate = useCallback(
-    (value?: ValueType) => {
-      setCalendarDate(getCalendarDate({ value, timeZone }));
-    },
-    [timeZone]
-  );
+  const updateCalendarDate = useCallback((value?: ValueType) => {
+    setCalendarDate(getCalendarDate({ value }));
+  }, []);
 
   // if valueProp changed then update selectValue/hoverValue
   useEffect(() => {
-    setSelectValue(zonedValue ?? []);
-    setHoverValue(zonedValue ?? []);
-  }, [valueProp, zonedValue]);
-
-  // if selectValue changed then update calendarDate/localZonedSelectValue
-  useUpdateEffect(() => {
-    updateCalendarDate(selectValue);
-  }, [selectValue, updateCalendarDate]);
+    setSelectValue(valueProp ?? []);
+    setHoverValue(valueProp ?? []);
+  }, [valueProp]);
 
   const [isPickerToggleActive, setPickerToggleActive] = useState(false);
 
@@ -291,7 +261,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         }
 
         return renderValue ? (
-          renderValue(toLocalValue(displayValue, timeZone), formatStr)
+          renderValue(displayValue, formatStr)
         ) : (
           <>
             <FormattedDate date={displayValue[0]} formatStr={formatStr} />
@@ -303,13 +273,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
       return isPlaintext ? '' : placeholder || rangeFormatStr;
     },
-    [character, formatDate, formatStr, placeholder, rangeFormatStr, renderValue, timeZone, value]
+    [character, formatDate, formatStr, placeholder, rangeFormatStr, renderValue, value]
   );
 
   /**
    * preset hover range
    */
-  const getHoverRange = useCallback(
+  const getHoverRangeValue = useCallback(
     (date: Date): ValueType => {
       if (!hoverRange) {
         return [];
@@ -328,10 +298,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         return [];
       }
 
-      const hoverValues: ValueType = toZonedValue(
-        hoverRangeFunc(TimeZone.toLocalTimeZone(date, timeZone)),
-        timeZone
-      );
+      const hoverValues: ValueType = hoverRangeFunc(date);
       const isHoverRangeValid = hoverValues instanceof Array && hoverValues.length === 2;
       if (!isHoverRangeValid) {
         return [];
@@ -341,7 +308,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       }
       return hoverValues;
     },
-    [hoverRange, isoWeek, timeZone]
+    [hoverRange, isoWeek]
   );
 
   const handleValueUpdate = useCallback(
@@ -351,7 +318,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       setSelectValue(nextValue || []);
       if (!isSameDay(nextValue[0], value[0]) || !isSameDay(nextValue[1], value[1])) {
         setValue(nextValue);
-        onChange?.(toLocalValue(nextValue, timeZone), event);
+        onChange?.(nextValue, event);
       }
 
       // `closeOverlay` default value is `true`
@@ -359,30 +326,57 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         handleCloseDropdown();
       }
     },
-    [handleCloseDropdown, onChange, selectValue, setSelectValue, setValue, timeZone, value]
+    [handleCloseDropdown, onChange, selectValue, setSelectValue, setValue, value]
   );
 
+  /**
+   * Select the date range. If oneTap is not set, you need to click twice to select the start time and end time.
+   * The MouseMove event is called between the first click and the second click to update the selection state.
+   */
   const handleMouseMove = useCallback(
     (date: Date) => {
-      const hoverRange = getHoverRange(date);
+      const hoverRangeValue = getHoverRangeValue(date);
+
+      // After the first click
       if (!hasDoneSelect.current) {
-        setHoverValue(prevHoverValue => {
-          const nextHoverValue = Array.from(prevHoverValue) as ValueType;
-          nextHoverValue[+!hasDoneSelect.current] = date;
-          return nextHoverValue;
-        });
-      } else if (hoverRange.length) {
-        setHoverValue(hoverRange);
+        // If hoverRange is set, you need to change the value of hoverValue according to the rules
+        if (hoverRange) {
+          const nextHoverValue = [selectRangeValueRef.current[0], hoverRangeValue[1]] as ValueType;
+
+          if (DateUtils.isBefore(hoverRangeValue[0], selectRangeValueRef.current[0])) {
+            nextHoverValue[0] = hoverRangeValue[0];
+            nextHoverValue[1] = selectRangeValueRef.current[1];
+          }
+          setSelectValue(nextHoverValue);
+        } else {
+          setHoverValue(prevHoverValue => [prevHoverValue[0], date]);
+        }
+
+        // Before the first click, if hoverRangeValue has a value, hoverValue needs to be updated
+      } else if (hoverRange && hoverRangeValue.length) {
+        setHoverValue(hoverRangeValue);
       }
     },
-    [getHoverRange]
+    [getHoverRangeValue, hoverRange]
   );
 
   const handleSelectValueChange = useCallback(
     (date: Date, event: React.SyntheticEvent<any>) => {
       let nextSelectValue = Array.from(hoverValue) as ValueType;
-      const hoverRange = getHoverRange(date);
-      const noHoverRangeValid = hoverRange.length !== 2;
+      const hoverRangeValue = getHoverRangeValue(date);
+      const noHoverRangeValid = hoverRangeValue.length !== 2;
+
+      // in `oneTap` mode
+      if (hasDoneSelect.current && oneTap) {
+        handleValueUpdate(
+          event,
+          noHoverRangeValid
+            ? [setTimingMargin(date), setTimingMargin(date, 'right')]
+            : hoverRangeValue
+        );
+        hasDoneSelect.current = false;
+        return;
+      }
 
       // no preset hover range can use
       if (noHoverRangeValid) {
@@ -394,17 +388,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           nextSelectValue[1] = date;
         }
       } else {
-        // use preset hover range as select value
-        nextSelectValue = hoverRange;
-      }
-
-      // in `oneTap` mode
-      if (hasDoneSelect.current && oneTap) {
-        handleValueUpdate(
-          event,
-          noHoverRangeValid ? [setTimingMargin(date), setTimingMargin(date, 'right')] : hoverRange
-        );
-        return;
+        if (!hasDoneSelect.current) {
+          nextSelectValue = selectValue;
+          selectRangeValueRef.current = null;
+        } else {
+          nextSelectValue = hoverRangeValue;
+          selectRangeValueRef.current = hoverRangeValue;
+        }
       }
 
       // If user have completed the selection, then sort
@@ -417,9 +407,19 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
       setHoverValue(nextSelectValue);
       setSelectValue(nextSelectValue);
-      onSelect?.(toLocalTimeZone(date, timeZone), event);
+      updateCalendarDate(nextSelectValue);
+      onSelect?.(date, event);
+      hasDoneSelect.current = !hasDoneSelect.current;
     },
-    [getHoverRange, handleValueUpdate, hoverValue, onSelect, oneTap, timeZone]
+    [
+      getHoverRangeValue,
+      handleValueUpdate,
+      hoverValue,
+      onSelect,
+      oneTap,
+      selectValue,
+      updateCalendarDate
+    ]
   );
 
   /**
@@ -431,7 +431,6 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     const selectValueLength = selectValue?.length ?? 0;
     const doneSelected = selectValueLength === 0 || selectValueLength === 2;
 
-    hasDoneSelect.current = doneSelected;
     doneSelected && setHoverValue([]);
   }, [selectValue]);
 
@@ -458,9 +457,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   const handleOK = useCallback(
     (event: React.SyntheticEvent<any>) => {
       handleValueUpdate(event);
-      onOk?.(toLocalValue(selectValue, timeZone), event);
+      onOk?.(selectValue, event);
     },
-    [handleValueUpdate, onOk, selectValue, timeZone]
+    [handleValueUpdate, onOk, selectValue]
   );
 
   const handleClean = useCallback(
@@ -506,9 +505,10 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
       setHoverValue(selectValue);
       setSelectValue(selectValue);
+      updateCalendarDate(selectValue);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [character, rangeFormatStr]
+    [character, rangeFormatStr, updateCalendarDate]
   );
 
   /**
@@ -535,14 +535,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       ];
     } else {
       nextCalendarDate = getCalendarDate({
-        value: toZonedValue(defaultCalendarValue, timeZone),
-        timeZone
+        value: defaultCalendarValue
       });
     }
 
     setSelectValue(value);
     updateCalendarDate(nextCalendarDate);
-  }, [defaultCalendarValue, updateCalendarDate, setSelectValue, timeZone, value]);
+  }, [defaultCalendarValue, updateCalendarDate, setSelectValue, value]);
 
   const handleEntered = useCallback(() => {
     onOpen?.();
@@ -563,14 +562,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       selectedDone: boolean,
       target: DATERANGE_DISABLED_TARGET
     ): boolean => {
-      return disabledDateProp?.(
-        toLocalTimeZone(date, timeZone),
-        toLocalValue(selectDate, timeZone),
-        selectedDone,
-        target
-      );
+      return disabledDateProp?.(date, selectDate, selectedDone, target);
     },
-    [disabledDateProp, timeZone]
+    [disabledDateProp]
   );
 
   const disabledByBetween = useCallback(
@@ -616,7 +610,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const handleDisabledDate = useCallback(
     (date: Date, values: ValueType, type: DATERANGE_DISABLED_TARGET) => {
-      return !!disabledDate(date, values, hasDoneSelect.current, type);
+      return disabledDate(date, values, hasDoneSelect.current, type);
     },
     [disabledDate]
   );
@@ -629,90 +623,59 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     ...rest
   });
 
-  const renderDropdownMenu = useCallback(
-    (positionProps: PositionChildProps, speakerRef) => {
-      const { left, top, className } = positionProps;
-      const classes = merge(className, menuClassName, prefix('daterange-menu'));
-      const panelClasses = prefix('daterange-panel', {
-        'daterange-panel-show-one-calendar': showOneCalendar
-      });
-      const styles = { ...menuStyle, left, top };
+  const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+    const { left, top, className } = positionProps;
+    const classes = merge(className, menuClassName, prefix('daterange-menu'));
+    const panelClasses = prefix('daterange-panel', {
+      'daterange-panel-show-one-calendar': showOneCalendar
+    });
+    const styles = { ...menuStyle, left, top };
 
-      const panelProps = {
-        calendarDate,
-        disabledDate: handleDisabledDate,
-        format: formatStr,
-        hoverRangeValue: hoverValue,
-        isoWeek,
-        limitEndYear,
-        locale,
-        showOneCalendar,
-        showWeekNumbers,
-        timeZone,
-        value: selectValue,
-        onChangeCalendarDate: handleChangeCalendarDate,
-        onMouseMove: handleMouseMove,
-        onSelect: handleSelectValueChange
-      };
-
-      return (
-        <PickerOverlay
-          className={classes}
-          ref={mergeRefs(overlayRef, speakerRef)}
-          target={triggerRef}
-          style={styles}
-        >
-          <div className={panelClasses}>
-            <div className={prefix('daterange-content')}>
-              <div className={prefix('daterange-header')}>{getDisplayString(selectValue)}</div>
-              <div className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}>
-                <Panel index={0} {...panelProps} />
-                {!showOneCalendar && <Panel index={1} {...panelProps} />}
-              </div>
-            </div>
-            <Toolbar
-              locale={locale}
-              pageDate={selectValue}
-              disabledOkBtn={disabledOkButton}
-              disabledShortcut={disabledShortcutButton}
-              hideOkBtn={oneTap}
-              onOk={handleOK}
-              onClickShortcut={handleShortcutPageDate}
-              ranges={ranges}
-              timeZone={timeZone}
-            />
-          </div>
-        </PickerOverlay>
-      );
-    },
-    [
-      menuStyle,
-      merge,
-      menuClassName,
-      prefix,
-      showOneCalendar,
+    const panelProps = {
       calendarDate,
-      handleDisabledDate,
-      formatStr,
-      hoverValue,
+      disabledDate: handleDisabledDate,
+      format: formatStr,
+      hoverRangeValue: hoverValue,
       isoWeek,
       limitEndYear,
       locale,
-      handleChangeCalendarDate,
-      handleMouseMove,
-      handleSelectValueChange,
+      showOneCalendar,
       showWeekNumbers,
-      timeZone,
-      selectValue,
-      getDisplayString,
-      disabledOkButton,
-      disabledShortcutButton,
-      oneTap,
-      handleOK,
-      handleShortcutPageDate,
-      ranges
-    ]
-  );
+      value: selectValue,
+      onChangeCalendarDate: handleChangeCalendarDate,
+      onMouseMove: handleMouseMove,
+      onSelect: handleSelectValueChange
+    };
+
+    return (
+      <PickerOverlay
+        className={classes}
+        ref={mergeRefs(overlayRef, speakerRef)}
+        target={triggerRef}
+        style={styles}
+      >
+        <div className={panelClasses}>
+          <div className={prefix('daterange-content')}>
+            <div className={prefix('daterange-header')}>{getDisplayString(selectValue)}</div>
+            <div className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}>
+              <Calendar index={0} {...panelProps} />
+              {!showOneCalendar && <Calendar index={1} {...panelProps} />}
+            </div>
+          </div>
+          <Toolbar
+            locale={locale}
+            calendarDate={selectValue}
+            disabledOkBtn={disabledOkButton}
+            disabledShortcut={disabledShortcutButton}
+            hideOkBtn={oneTap}
+            onOk={handleOK}
+            onClickShortcut={handleShortcutPageDate}
+            ranges={ranges}
+          />
+        </div>
+      </PickerOverlay>
+    );
+  };
 
   const hasValue = value && value.length > 1;
   const [classes, usedClassNamePropKeys] = usePickerClassName({
@@ -731,7 +694,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       onExited={createChainedFunction(handleExited, onExited)}
       speaker={renderDropdownMenu}
     >
-      <Component ref={rootRef} className={merge(className, classes)} style={style}>
+      <Component
+        ref={rootRef}
+        className={merge(className, classes, {
+          [prefix('error')]: inputState === 'Error'
+        })}
+        style={style}
+      >
         <PickerToggle
           {...omit(rest, [
             ...omitTriggerPropKeys,
@@ -783,7 +752,6 @@ DateRangePicker.propTypes = {
   defaultCalendarValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   hoverRange: PropTypes.oneOfType([PropTypes.oneOf(['week', 'month']), PropTypes.func]),
   format: PropTypes.string,
-  timeZone: PropTypes.string,
   isoWeek: PropTypes.bool,
   oneTap: PropTypes.bool,
   limitEndYear: PropTypes.number,
