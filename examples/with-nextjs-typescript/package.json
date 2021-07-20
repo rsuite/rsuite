@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "^9.3.0",
+    "next": "^11.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "rsuite": "^4.10.2"
@@ -16,9 +16,11 @@
   "devDependencies": {
     "@types/next": "^9.0.0",
     "@types/react": "17.0.11",
-    "@zeit/next-less": "^1.0.1",
+    "typescript": "4.3.4",
+    "css-loader": "^6.2.0",
     "less": "^4.1.1",
-    "postcss-import": "^14.0.2",
-    "typescript": "4.3.4"
+    "less-loader": "^10.0.1",
+    "mini-css-extract-plugin": "^2.1.0",
+    "webpack": "^5.45.1"
   }
 }
