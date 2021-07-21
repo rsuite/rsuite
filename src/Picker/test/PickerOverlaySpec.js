@@ -2,9 +2,17 @@ import React from 'react';
 import PickerOverlay from '../PickerOverlay';
 import { getWidth } from 'dom-lib';
 import { render } from '@testing-library/react';
+import * as utils from '../../utils';
+import useElementResize from '@test/stubs/useElementResize';
 
 describe('PickerOverlay', () => {
+  afterEach(() => {
+    sinon.restore();
+  });
+
   it('Should update the position after the size is changed', done => {
+    sinon.stub(utils, 'useElementResize').callsFake(useElementResize);
+
     const instanceRef = React.createRef();
 
     const Button = React.forwardRef((props, ref) => {
