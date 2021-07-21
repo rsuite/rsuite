@@ -1,13 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { createTestContainer } from '@test/testUtils';
 import PickerOverlay from '../PickerOverlay';
 import { getWidth } from 'dom-lib';
+import { render } from '@testing-library/react';
+import * as utils from '../../utils';
+import useElementResize from '@test/stubs/useElementResize';
 
 describe('PickerOverlay', () => {
+  afterEach(() => {
+    sinon.restore();
+  });
+
   it('Should update the position after the size is changed', done => {
+    sinon.stub(utils, 'useElementResize').callsFake(useElementResize);
+
     const instanceRef = React.createRef();
-    const container = createTestContainer();
 
     const Button = React.forwardRef((props, ref) => {
       const targetRef = React.useRef();
@@ -39,16 +45,13 @@ describe('PickerOverlay', () => {
         </div>
       );
     });
-    ReactDOM.render(<App ref={instanceRef} />, container);
+    render(<App ref={instanceRef} />);
 
-    setTimeout(() => {
-      instanceRef.current.changeOverlaySize();
-    }, 100);
+    instanceRef.current.changeOverlaySize();
   });
 
   it('Should go to change the width according to the target', done => {
     const instanceRef = React.createRef();
-    const container = createTestContainer();
 
     const Button = React.forwardRef((props, ref) => {
       const targetRef = React.useRef();
@@ -83,12 +86,9 @@ describe('PickerOverlay', () => {
       );
     });
 
-    ReactDOM.render(<App ref={instanceRef} />, container);
-
-    setTimeout(() => {
-      if (getWidth(instanceRef.current.querySelector('.rs-picker-menu')) === 200) {
-        done();
-      }
-    }, 100);
+    render(<App ref={instanceRef} />);
+    if (getWidth(instanceRef.current.querySelector('.rs-picker-menu')) === 200) {
+      done();
+    }
   });
 });
