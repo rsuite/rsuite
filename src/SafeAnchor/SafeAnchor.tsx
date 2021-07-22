@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { KEY_VALUES } from '../utils/constants';
 
 export interface SafeAnchorProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
   /** Link specified url */
@@ -17,7 +16,7 @@ function isTrivialHref(href: string) {
 
 const SafeAnchor: RsRefForwardingComponent<'a', SafeAnchorProps> = React.forwardRef(
   (props: SafeAnchorProps, ref) => {
-    const { as: Component = 'a', href, disabled, onClick, onKeyDown, ...restProps } = props;
+    const { as: Component = 'a', href, disabled, onClick, ...restProps } = props;
     const handleClick = useCallback(
       event => {
         if (disabled || isTrivialHref(href)) {
@@ -34,17 +33,6 @@ const SafeAnchor: RsRefForwardingComponent<'a', SafeAnchorProps> = React.forward
       [disabled, href, onClick]
     );
 
-    const handleKeyDown = useCallback(
-      event => {
-        if (event.key === KEY_VALUES.SPACE) {
-          event.preventDefault();
-          handleClick(event);
-        }
-        onKeyDown?.(event);
-      },
-      [handleClick, onKeyDown]
-    );
-
     // There are default role and href attributes on the node to ensure Focus management and keyboard interactions.
     const trivialProps = isTrivialHref(href) ? { role: 'button', href: '#' } : null;
 
@@ -54,14 +42,7 @@ const SafeAnchor: RsRefForwardingComponent<'a', SafeAnchorProps> = React.forward
     }
 
     return (
-      <Component
-        ref={ref}
-        href={href}
-        {...trivialProps}
-        {...restProps}
-        onClick={handleClick}
-        onKeyDown={handleKeyDown}
-      />
+      <Component ref={ref} href={href} {...trivialProps} {...restProps} onClick={handleClick} />
     );
   }
 );

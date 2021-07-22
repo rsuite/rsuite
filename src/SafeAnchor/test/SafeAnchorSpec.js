@@ -20,30 +20,30 @@ describe('SafeAnchor', () => {
     ReactTestUtils.Simulate.click(instance);
   });
 
-  it('Should call onKeyDown callback', done => {
+  it('Should call onClick callback', done => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(<SafeAnchor onKeyDown={doneOp} />);
-    ReactTestUtils.Simulate.keyDown(instance);
+    const instance = getDOMNode(<SafeAnchor onClick={doneOp} href="http://a.com" />);
+    ReactTestUtils.Simulate.click(instance);
   });
 
-  it('Should call onClick callback by key === SPACE', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<SafeAnchor onClick={doneOp} />);
-    ReactTestUtils.Simulate.keyDown(instance, {
-      key: ' '
-    });
+  it('Should not prevent the default value when href is provided', () => {
+    const handleClick = sinon.spy();
+    const instance = getDOMNode(<SafeAnchor onClick={handleClick} href="#foo" />);
+
+    ReactTestUtils.Simulate.click(instance);
+
+    assert.ok(handleClick.calledOnce);
+    assert.equal(handleClick.getCall(0).args[0].isDefaultPrevented(), false);
   });
 
   it('Should disabled onClick callback and tabIndex = -1', () => {
-    const onHideSpy = sinon.spy();
-    const instance = getDOMNode(<SafeAnchor onClick={onHideSpy} disabled />);
+    const handleClick = sinon.spy();
+    const instance = getDOMNode(<SafeAnchor onClick={handleClick} disabled />);
     ReactTestUtils.Simulate.click(instance);
 
-    assert.ok(!onHideSpy.calledOnce);
+    assert.equal(handleClick.calledOnce, false);
     assert.equal(instance.tabIndex, -1);
   });
 
