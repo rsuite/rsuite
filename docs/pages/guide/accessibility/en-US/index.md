@@ -32,7 +32,7 @@ Corresponding to the rendered HTML structure:
 </section>
 ```
 
-## Enhancing keyboard accessibility
+## Focus management and keyboard interactions
 
 There are many functions that need to interact with users in web applications, which require components we provide to manage focus and keyboard interaction, such as:
 
@@ -51,9 +51,7 @@ There are many component functions beyond those available in standard HTML, such
 Use the `aria-*` attribute in the form to make the form input components descriptive, which is convenient for screen readers to read the corresponding tags and descriptions of the components. For example: Automatically associate `aria-labelledby` with `aria-describedby` through the `controlId` property of [Form.Group][form.group]. When you try to submit the form, if there is a validation error, we will display an error message box under the form input component and include some ARIA properties. The following is the corresponding HTML structure:
 
 ```html
-<div role="alert" aria-relevant="all" class="rs-form-control-message">
-  This field is required.
-</div>
+<div role="alert" aria-relevant="all" class="rs-form-control-message">This field is required.</div>
 ```
 
 - `role="alert"` automatically turns the element it is applied to into a live region, so changes to it are read out.

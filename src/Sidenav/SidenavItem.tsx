@@ -6,6 +6,7 @@ import { SidenavContext } from './Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import Ripple from '../Ripple';
+import SafeAnchor from '../SafeAnchor';
 
 export interface SidenavItemProps<T = any>
   extends WithAsProps,
@@ -99,9 +100,8 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
   }
 
   return (
-    <a
+    <SafeAnchor
       ref={ref as any}
-      href="#"
       className={merge(className, withClassPrefix({ active: selected, disabled }))}
       onClick={handleClick}
       style={style}
@@ -112,7 +112,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
       {icon}
       {children}
       <Ripple />
-    </a>
+    </SafeAnchor>
   );
 });
 

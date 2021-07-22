@@ -6,6 +6,7 @@ import { SidenavContext } from './Sidenav';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import Ripple from '../Ripple';
+import SafeAnchor from '../SafeAnchor';
 
 export interface SidenavDropdownItemProps<T = any>
   extends WithAsProps,
@@ -130,9 +131,8 @@ const SidenavDropdownItem: RsRefForwardingComponent<
   }
 
   return (
-    <a
+    <SafeAnchor
       ref={ref as any}
-      href="#"
       {...rest}
       style={style}
       className={classes}
@@ -142,7 +142,7 @@ const SidenavDropdownItem: RsRefForwardingComponent<
       {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
       {children}
       <Ripple />
-    </a>
+    </SafeAnchor>
   );
 });
 

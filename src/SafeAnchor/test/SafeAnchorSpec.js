@@ -6,6 +6,9 @@ import SafeAnchor from '../SafeAnchor';
 describe('SafeAnchor', () => {
   it('Should output a Anchor', () => {
     const instance = getDOMNode(<SafeAnchor>Title</SafeAnchor>);
+
+    assert.equal(instance.getAttribute('href'), '#');
+    assert.equal(instance.getAttribute('role'), 'button');
     assert.equal(instance.innerHTML, 'Title');
   });
 
@@ -15,6 +18,24 @@ describe('SafeAnchor', () => {
     };
     const instance = getDOMNode(<SafeAnchor onClick={doneOp} />);
     ReactTestUtils.Simulate.click(instance);
+  });
+
+  it('Should call onKeyDown callback', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<SafeAnchor onKeyDown={doneOp} />);
+    ReactTestUtils.Simulate.keyDown(instance);
+  });
+
+  it('Should call onClick callback by key === SPACE', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getDOMNode(<SafeAnchor onClick={doneOp} />);
+    ReactTestUtils.Simulate.keyDown(instance, {
+      key: ' '
+    });
   });
 
   it('Should disabled onClick callback and tabIndex = -1', () => {
@@ -30,12 +51,12 @@ describe('SafeAnchor', () => {
     const href = '/url';
     const instance = getDOMNode(<SafeAnchor href={href}>Title</SafeAnchor>);
 
-    assert.equal(instance.nodeName, 'A');
+    assert.isNull(instance.getAttribute('role'));
     assert.equal(instance.getAttribute('href'), href);
   });
 
   it('Should have a custom className', () => {
     const instance = getDOMNode(<SafeAnchor className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
+    assert.include(instance.className, 'custom');
   });
 });
