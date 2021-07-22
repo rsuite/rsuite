@@ -7,9 +7,10 @@ import deprecatePropType from '../utils/deprecatePropType';
 import MenuItem from '../Menu/MenuItem';
 import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
-import { mergeRefs, shallowEqual, useClassNames } from '../utils';
+import { createChainedFunction, mergeRefs, shallowEqual, useClassNames } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
+import DisclosureContext, { DisclosureActionTypes } from '../Disclosure/DisclosureContext';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -85,6 +86,13 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 
     const sidenav = useContext(SidenavContext);
     const navbar = useContext(NavbarContext);
+    const disclosure = useContext(DisclosureContext);
+
+    const [, dispatchDisclosure] = disclosure ?? [];
+
+    const handleClickNavbarDropdownItem = useCallback(() => {
+      dispatchDisclosure({ type: DisclosureActionTypes.Hide });
+    }, [dispatchDisclosure]);
 
     if (sidenav?.expanded) {
       return <SidenavDropdownItem ref={ref} {...props} />;
@@ -138,7 +146,14 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       }
       return (
         <li>
-          <a ref={ref} href="#" className={classes} {...dataAttributes} {...restProps}>
+          <a
+            ref={ref}
+            href="#"
+            className={classes}
+            {...dataAttributes}
+            {...restProps}
+            onClick={createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick)}
+          >
             {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
             {children}
           </a>
