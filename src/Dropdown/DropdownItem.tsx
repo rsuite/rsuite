@@ -11,6 +11,7 @@ import { createChainedFunction, mergeRefs, shallowEqual, useClassNames } from '.
 import { NavbarContext } from '../Navbar/Navbar';
 import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 import DisclosureContext, { DisclosureActionTypes } from '../Disclosure/DisclosureContext';
+import SafeAnchor from '../SafeAnchor';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -146,9 +147,8 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       }
       return (
         <li>
-          <a
+          <SafeAnchor
             ref={ref}
-            href="#"
             className={classes}
             {...dataAttributes}
             {...restProps}
@@ -156,7 +156,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
           >
             {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
             {children}
-          </a>
+          </SafeAnchor>
         </li>
       );
     }

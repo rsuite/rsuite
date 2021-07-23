@@ -168,9 +168,8 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
 
     if (navbar) {
       return (
-        <a
+        <Component
           ref={ref}
-          href="#"
           aria-selected={active || undefined}
           {...rest}
           className={classes}
@@ -180,14 +179,13 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
           {icon}
           {children}
           <Ripple />
-        </a>
+        </Component>
       );
     }
 
     return (
-      <a
+      <Component
         ref={ref}
-        href="#"
         tabIndex={disabled ? -1 : undefined}
         {...rest}
         className={classes}
@@ -198,7 +196,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
         {icon}
         {children}
         <Ripple />
-      </a>
+      </Component>
     );
   }
 );
