@@ -1,3 +1,23 @@
+<a name="5.0.0-beta.1"></a>
+# [5.0.0-beta.1](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.9...v5.0.0-beta.1) (2021-07-23)
+
+
+### Bug Fixes
+
+* **calendar:** fix the date on the calendar as controlled and remove timezone ([#1781](https://github.com/rsuite/rsuite/issues/1781)) ([70e323d](https://github.com/rsuite/rsuite/commit/70e323d))
+* **cascader:** adjust the rendering status of async loaded child nodes ([#1764](https://github.com/rsuite/rsuite/issues/1764)) ([ae41a18](https://github.com/rsuite/rsuite/commit/ae41a18))
+* **cascader:** fix data not controlled on MultiCascader ([#1747](https://github.com/rsuite/rsuite/issues/1747)) ([593adc5](https://github.com/rsuite/rsuite/commit/593adc5))
+* **check-tree-picker:** onChange does't return the correct value ([#1743](https://github.com/rsuite/rsuite/issues/1743)) ([b34a919](https://github.com/rsuite/rsuite/commit/b34a919))
+* **dropdown-item:** close <Dropdown> inside <Navbar> on click its item ([#1791](https://github.com/rsuite/rsuite/issues/1791)) ([cc01a34](https://github.com/rsuite/rsuite/commit/cc01a34))
+* **navigation:** improve accessibility of nav components ([#1792](https://github.com/rsuite/rsuite/issues/1792)) ([45468bd](https://github.com/rsuite/rsuite/commit/45468bd))
+* **picker:** picker should not focus when it is disabled ([#1782](https://github.com/rsuite/rsuite/issues/1782)) ([6640c58](https://github.com/rsuite/rsuite/commit/6640c58))
+* **picker:** update the position after the overlay size is changed ([#1780](https://github.com/rsuite/rsuite/issues/1780)) ([6366c36](https://github.com/rsuite/rsuite/commit/6366c36))
+* **styles:** enable dark mode by default ([#1776](https://github.com/rsuite/rsuite/issues/1776)) ([13420e3](https://github.com/rsuite/rsuite/commit/13420e3))
+* add less plugins to output lib dir, fix [#1767](https://github.com/rsuite/rsuite/issues/1767) ([#1770](https://github.com/rsuite/rsuite/issues/1770)) ([7a83699](https://github.com/rsuite/rsuite/commit/7a83699))
+* **use-controlled:** value doest't change when controlledValue changed ([#1742](https://github.com/rsuite/rsuite/issues/1742)) ([682eb2b](https://github.com/rsuite/rsuite/commit/682eb2b))
+
+
+
 <a name="5.0.0-alpha.9"></a>
 
 # [5.0.0-alpha.9](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.8...v5.0.0-alpha.9) (2021-06-15)
