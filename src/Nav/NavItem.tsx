@@ -64,13 +64,21 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       divider,
       panel,
       onClick,
-      onSelect,
+      onSelect: onSelectProp,
       ...rest
     } = props;
 
-    const { activeKey } = useContext(NavContext);
+    const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
 
     const active = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
+
+    const emitSelect = useCallback(
+      (event: React.SyntheticEvent) => {
+        onSelectProp?.(eventKey, event);
+        onSelectFromNav?.(eventKey, event);
+      },
+      [eventKey, onSelectProp, onSelectFromNav]
+    );
 
     const navbar = useContext(NavbarContext);
     const sidenav = useContext(SidenavContext);
@@ -81,11 +89,11 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLElement>) => {
         if (!disabled) {
-          onSelect?.(eventKey, event);
+          emitSelect(event);
           onClick?.(event);
         }
       },
-      [disabled, onSelect, eventKey, onClick]
+      [disabled, emitSelect, onClick]
     );
 
     if (sidenav?.expanded) {
@@ -95,7 +103,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
     // If <Nav.Item> is inside collapsed <Sidenav>, render an ARIA `menuitem`
     if (sidenav) {
       return (
-        <MenuItem selected={active} disabled={disabled} onActivate={e => onSelect?.(eventKey, e)}>
+        <MenuItem selected={active} disabled={disabled} onActivate={emitSelect}>
           {({ selected, active, ...menuitem }, menuitemRef) => {
             const classes = merge(
               className,

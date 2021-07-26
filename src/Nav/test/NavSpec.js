@@ -3,8 +3,10 @@ import { innerText, getDOMNode } from '@test/testUtils';
 
 import Nav from '../Nav';
 import Dropdown from '../../Dropdown';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-describe('Nav', () => {
+describe('<Nav>', () => {
   it('Should render a nav', () => {
     const title = 'Test';
     const instance = getDOMNode(<Nav>{title}</Nav>);
@@ -68,6 +70,21 @@ describe('Nav', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Nav classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should call onSelect callback with correct arguments', () => {
+    const onSelectSpy = sinon.spy();
+    const { getByTestId } = render(
+      <Nav onSelect={onSelectSpy}>
+        <Nav.Item eventKey="1" data-testid="item">
+          Nav item
+        </Nav.Item>
+      </Nav>
+    );
+
+    userEvent.click(getByTestId('item'));
+
+    expect(onSelectSpy).to.have.been.calledWith('1', sinon.match.any);
   });
 
   it('Should work with Dropdown', () => {
