@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import DropdownMenu from './DropdownMenu';
@@ -17,6 +17,7 @@ import kebabCase from 'lodash/kebabCase';
 import { NavbarContext } from '../Navbar/Navbar';
 import Disclosure from '../Disclosure/Disclosure';
 import SidenavDropdown from '../Sidenav/SidenavDropdown';
+import NavContext from '../Nav/NavContext';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -74,7 +75,7 @@ export interface DropdownProps<T = any>
   onToggle?: (open?: boolean) => void;
 
   /** Selected callback function */
-  onSelect?: (eventKey: T, event: React.MouseEvent<HTMLElement>) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
 export interface DropdownComponent extends RsRefForwardingComponent<'div', DropdownProps> {
@@ -95,7 +96,7 @@ const defaultProps: Partial<DropdownProps> = {
  * Otherwise renders a <MenuRoot>
  */
 const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref) => {
-  const { activeKey, onSelect, ...rest } = props;
+  const { activeKey, onSelect: onSelectProp, ...rest } = props;
 
   const {
     as: Component,
@@ -117,6 +118,18 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     style,
     ...menuProps
   } = rest;
+
+  const { onSelect: onSelectFromNav } = useContext(NavContext);
+
+  const emitSelect = useCallback(
+    (eventKey: string, event: React.SyntheticEvent) => {
+      onSelectProp?.(eventKey, event);
+
+      // If <Dropdown> is inside <Nav>, also trigger `onSelect` on <Nav>
+      onSelectFromNav?.(eventKey, event);
+    },
+    [onSelectProp, onSelectFromNav]
+  );
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
@@ -154,7 +167,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   // Render a disclosure when inside expanded <Sidenav>
   if (sidenav?.expanded) {
     return (
-      <DropdownContext.Provider value={{ activeKey, onSelect }}>
+      <DropdownContext.Provider value={{ activeKey, onSelect: emitSelect }}>
         <SidenavDropdown ref={ref} {...rest} />
       </DropdownContext.Provider>
     );
@@ -254,7 +267,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   }
 
   return (
-    <DropdownContext.Provider value={{ activeKey, onSelect }}>
+    <DropdownContext.Provider value={{ activeKey, onSelect: emitSelect }}>
       <Menu
         menuButtonText={title}
         renderMenuButton={renderMenuButton}

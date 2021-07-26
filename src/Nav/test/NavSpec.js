@@ -79,12 +79,24 @@ describe('<Nav>', () => {
         <Nav.Item eventKey="1" data-testid="item">
           Nav item
         </Nav.Item>
+
+        <Dropdown title="Dropdown">
+          <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+            Dropdown item
+          </Dropdown.Item>
+        </Dropdown>
       </Nav>
     );
 
     userEvent.click(getByTestId('item'));
+    expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
 
-    expect(onSelectSpy).to.have.been.calledWith('1', sinon.match.any);
+    onSelectSpy.resetHistory();
+    userEvent.click(getByTestId('dropdown-item'));
+    expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
+      '2-1',
+      sinon.match.any
+    );
   });
 
   it('Should work with Dropdown', () => {
