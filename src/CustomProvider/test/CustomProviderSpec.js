@@ -45,4 +45,16 @@ describe('CustomProvider', () => {
     );
     assert.equal(node.querySelector('.rs-calendar-header-title').innerText, 'мая, 2021');
   });
+
+  it('Should be rendered as a dark theme', () => {
+    getDOMNode(
+      <div>
+        <CustomProvider theme="dark">
+          <div />
+        </CustomProvider>
+      </div>
+    );
+
+    assert.include(document.body.classList.toString(), 'rs-theme-dark');
+  });
 });

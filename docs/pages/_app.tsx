@@ -124,20 +124,17 @@ function App({ Component, pageProps }: AppProps) {
   const messages = getMessages(language);
 
   React.useEffect(() => {
-    const oppositeThemeName = themeName === 'default' ? 'dark' : 'light';
-
-    document.body.classList.add(`rs-theme-${themeName === 'default' ? 'light' : 'dark'}`);
-    document.body.classList.remove(`rs-theme-${oppositeThemeName}`);
-  }, [themeName]);
-
-  React.useEffect(() => {
     loadStylesheetForDirection(direction);
   }, [direction]);
 
   return (
     <React.StrictMode>
-      <Grid fluid className="app-container">
-        <CustomProvider locale={locale} rtl={direction === 'rtl'}>
+      <CustomProvider
+        locale={locale}
+        rtl={direction === 'rtl'}
+        theme={themeName === 'default' ? 'light' : 'dark'}
+      >
+        <Grid fluid className="app-container">
           <AppContext.Provider
             value={{
               messages,
@@ -153,8 +150,8 @@ function App({ Component, pageProps }: AppProps) {
             <StyleHead onLoaded={handleStyleHeadLoaded} />
             <Component {...pageProps} />
           </AppContext.Provider>
-        </CustomProvider>
-      </Grid>
+        </Grid>
+      </CustomProvider>
     </React.StrictMode>
   );
 }
