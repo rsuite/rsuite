@@ -65,8 +65,9 @@ More Configuration references: [react-intl](https://github.com/yahoo/react-intl)
 
 ### `<CustomProvider>`
 
-| Property   | Type`(Default)`                                                       | Description                                    |
-| ---------- | --------------------------------------------------------------------- | ---------------------------------------------- |
-| formatDate | (date: Date ,format?: string, options?: {locale?: object;}) => string | Format date                                    |
-| locale     | object`(rsuite/lib/locales/default)`                                  | Configure Language Pack                        |
-| rtl        | boolean                                                               | Text and other elements go from left to right. |
+| Property   | Type`(Default)`                                    | Description                                                                          |
+| ---------- | -------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| formatDate | (date: Date, format?: string) => string            | Return the formatted date string in the given format. The result may vary by locale. |
+| locale     | object`(rsuite/lib/locales/default)`               | Configure Language Pack                                                              |
+| parseDate  | (dateString: string, formatString: string) => Date | Return the date parsed from string using the given format string.                    |
+| rtl        | boolean                                            | Text and other elements go from left to right.                                       |

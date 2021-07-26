@@ -336,3 +336,27 @@ return (
   />
 );
 ```
+
+#### 2.11 使用 `CustomProvider` 替换 `IntlProvider`
+
+```js
+// for rsuite v4
+import { IntlProvider } from 'rsuite';
+import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
+
+return (
+  <IntlProvider locale={zhCN}>
+    <App />
+  </IntlProvider>
+);
+
+// for rsuite v5
+import { CustomProvider } from 'rsuite';
+import zhCN from 'rsuite/lib/locales/zh_CN';
+
+return (
+  <CustomProvider locale={zhCN}>
+    <App />
+  </CustomProvider>
+);
+```
