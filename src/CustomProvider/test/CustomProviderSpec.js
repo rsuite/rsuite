@@ -46,6 +46,7 @@ describe('CustomProvider', () => {
     assert.equal(node.querySelector('.rs-calendar-header-title').innerText, 'мая, 2021');
   });
 
+  // TODO: This is a side-effect test, which will affect the style check test.
   it('Should be rendered as a dark theme', () => {
     getDOMNode(
       <div>
@@ -56,5 +57,6 @@ describe('CustomProvider', () => {
     );
 
     assert.include(document.body.classList.toString(), 'rs-theme-dark');
+    document.body.classList.remove('rs-theme-dark');
   });
 });
