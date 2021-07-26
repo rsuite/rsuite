@@ -178,6 +178,16 @@ return <Icon icon="gear" size="3x" />;
 return <GearIcon style={{ fontSize: '3em' }} />;
 ```
 
+The relationship between the `size` attribute value and its corresponding `fontSize` value is as follows:
+
+| `size` | `fontSize` |
+| ------ | ---------- |
+| `lg`   | `1.3333em` |
+| `2x`   | `2em`      |
+| `3x`   | `3em`      |
+| `4x`   | `4em`      |
+| `5x`   | `5em`      |
+
 #### 2.3 date-fns upgrade v2
 
 The date-fns tool is used in React Suite for date format, calculation, etc. Based on the Unicode standard, the new format string used for [format functions has changed](<(https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)>). [Detailed description]

@@ -181,6 +181,16 @@ return <Icon icon="gear" size="3x" />;
 return <GearIcon style={{ fontSize: '3em' }} />;
 ```
 
+`size` 属性值及其对应的 `fontSize` 值关系如下：
+
+| `size` | `fontSize` |
+| ------ | ---------- |
+| `lg`   | `1.3333em` |
+| `2x`   | `2em`      |
+| `3x`   | `3em`      |
+| `4x`   | `4em`      |
+| `5x`   | `5em`      |
+
 #### 2.3 date-fns 升级 v2
 
 在 React Suite 中使用了 date-fns 工具用于对日期格式、计算等等。基于 Unicode 标准，[用于格式功能的新格式字符串有变更](https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)。
