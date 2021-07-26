@@ -168,6 +168,16 @@ import GearIcon from '@rsuite/icons/Gear';
 return <GearIcon />;
 ```
 
+The `size` property has been removed and replaced by `fontSize`.
+
+```js
+// for rsuite v4
+return <Icon icon="gear" size="3x" />;
+
+// for rsuite v5
+return <GearIcon style={{ fontSize: '3em' }} />;
+```
+
 #### 2.3 date-fns upgrade v2
 
 The date-fns tool is used in React Suite for date format, calculation, etc. Based on the Unicode standard, the new format string used for [format functions has changed](<(https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)>). [Detailed description]
@@ -201,12 +211,22 @@ All pop-up notification messages are managed using the new API toaster. The Aler
 Alert.info('description');
 
 // for rsutie v5
-toaster.push(<Message type="info" description="description" closable />);
+toaster.push(
+  <Message type="info" closable>
+    description
+  </Message>
+);
 ```
+
+Remove messages and clear all messages
 
 ```js
 // Remove message
-const key = toaster.push(<Message type="info" description="description" closable />);
+const key = toaster.push(
+  <Message type="info" closable>
+    description
+  </Message>
+);
 toaster.remove(key);
 
 // Clear all messages
