@@ -12,7 +12,7 @@ const nextHandler = nextApp.getRequestHandler();
 async function run() {
   await nextApp.prepare();
   const app = express();
-  const rootPaths = ['/components/', '/extensions/', '/guide/', '/tools/'];
+  const rootPaths = ['/components/', '/guide/', '/resources/'];
 
   app.use('/design', express.static('public/design'));
   app.get('*', (req, res) => {

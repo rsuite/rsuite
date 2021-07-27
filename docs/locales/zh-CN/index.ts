@@ -8,7 +8,8 @@ export default {
     guide: '新手指南',
     design: '设计原型',
     components: '组件',
-    tools: '工具',
+    resources: '资源 & 工具',
+    designResources: '设计资源',
     introduction: '介绍',
     usage: '快速开始',
     useWithCreateReactApp: '在 create-react-app 中使用',
@@ -19,7 +20,7 @@ export default {
     rtl: 'Right-to-left',
     changeLog: '更新日志',
     palette: '调色板',
-    icons: '图标库',
+    icons: '图标资源',
     closeMenu: '收起菜单',
     openMenu: '展开菜单',
     edit: '编辑当前页面',
@@ -27,7 +28,7 @@ export default {
     collapseMenu: '内容导航',
     changeLanguage: '切换语言',
     flow: 'Flow',
-    extension: '扩展',
+    extension: '扩展组件',
     gettingStarted: '开始使用',
     htmlElements: '支持的 HTML 元素',
     modularized: '按需加载',
@@ -43,12 +44,23 @@ export default {
     copyFailed: '复制失败，浏览器不支持此功能',
     shareTwitter: '分享到 Twitter',
     accessibility: '无障碍设计',
-    composition: '组件封装'
+    composition: '组件封装',
+    examples: '示例项目'
   },
   palette: {
     title: '分析产品商标颜色',
     step1: '上传产品的 Logo',
     step2: '通过分析 Logo 中的配色，制作主题颜色',
     step3: '点击 Logo 合适的位置，改变主题颜色'
+  },
+  resourcesDesign: {
+    defaultHeader: '组件设计 - 默认主题',
+    defaultDescription: '组件设计在线访问版本',
+    darkHeader: '组件设计 - 暗黑主题',
+    darkDescription: '组件设计在线访问版本',
+    figmaHeader: 'Figma 开源组件包',
+    figmaDescription: '可以直接在 Figma 平台使用的开源组件包',
+    sketchHeader: 'Sketch 组件包',
+    sketchDescription: '提供给 Sketch 导入的组件包'
   }
 };

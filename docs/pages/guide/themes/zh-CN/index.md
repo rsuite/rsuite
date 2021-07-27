@@ -19,7 +19,7 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 @primary-color: #00bcd4;
 ```
 
-配置主题基色以后，会生成一组色板（`@H050` - `@H900`， H 是 Hue 的缩写 ）参考: [constants.less][rsuite-theme-pallete]。现在就去[调色板](/tools/palette)选择适合的颜色或上传自己的 Logo 进行预览。
+配置主题基色以后，会生成一组色板（`@H050` - `@H900`， H 是 Hue 的缩写 ）参考: [constants.less][rsuite-theme-pallete]。现在就去[调色板](/resources/palette)选择适合的颜色或上传自己的 Logo 进行预览。
 
 ### 调整组件圆角半径
 

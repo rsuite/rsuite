@@ -64,26 +64,20 @@ function getNavItems(messages) {
       key: 'guide',
       tip: messages?.common?.guide,
       to: '/guide/introduction',
-      icon: <Icon as={() => <SvgIcons.Guide />} style={{ fontSize: 20 }} />
+      icon: <Icon as={() => <SvgIcons.Guide />} />
     },
     {
       key: 'components',
       tip: messages?.common?.components,
       to: '/components/overview',
-      icon: <Icon as={() => <SvgIcons.Component />} style={{ fontSize: 20 }} />
+      icon: <Icon as={() => <SvgIcons.Component />} />
     },
 
     {
-      key: 'tools',
-      tip: messages?.common?.tools,
-      to: '/tools/palette',
-      icon: <Icon as={() => <SvgIcons.Tools />} style={{ fontSize: 20 }} />
-    },
-    {
-      key: 'extensions',
-      tip: messages?.common?.extension,
-      to: '/extensions',
-      icon: <Icon as={() => <SvgIcons.Extension />} style={{ fontSize: 20 }} />
+      key: 'resources',
+      tip: messages?.common?.resources,
+      to: '/resources/icons',
+      icon: <Icon as={() => <SvgIcons.Ecology />} />
     }
   ];
 }
@@ -95,8 +89,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
   const onToggleMenu = (_event, show?: boolean) => {
     props?.onToggleMenu?.(show);
   };
-  const { messages, theme } = React.useContext(AppContext);
-  const [themeName] = theme;
+  const { messages } = React.useContext(AppContext);
 
   const navItems = getNavItems(messages);
 
@@ -149,22 +142,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
             )}
           </ButtonWithTooltip>
         ))}
-        <ButtonWithTooltip
-          tip={messages?.common?.design}
-          target="_blank"
-          href={`/design/${themeName === 'dark' ? 'dark' : 'default'}/`}
-        >
-          <Icon as={() => <SvgIcons.Design />} style={{ fontSize: 20 }} />
-        </ButtonWithTooltip>
-        <SearchButton
-          className="hidden-xs"
-          tip={messages?.common?.search}
-          onClick={() => {
-            setSearch(true);
-          }}
-        />
-      </div>
-      <div className="top-level-nav-footer">
+
         <ButtonWithTooltip
           tip="GitHub"
           href="https://github.com/rsuite/rsuite"
@@ -174,7 +152,15 @@ export default function TopLevelNav(props: TopLevelNavProps) {
         >
           <Github style={{ fontSize: 20 }} />
         </ButtonWithTooltip>
+        <SearchButton
+          className="hidden-xs"
+          tip={messages?.common?.search}
+          onClick={() => {
+            setSearch(true);
+          }}
+        />
       </div>
+      <div className="top-level-nav-footer"></div>
       {children}
       <SearchDrawer
         show={search}

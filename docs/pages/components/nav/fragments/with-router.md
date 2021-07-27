@@ -21,8 +21,8 @@ const instance = (
     <Nav.Item as={MyLink} href="/components/overview">
       Components
     </Nav.Item>
-    <Nav.Item as={MyLink} href="/tools/palette">
-      Tools
+    <Nav.Item as={MyLink} href="/resources/palette">
+      Resources
     </Nav.Item>
   </Nav>
 );
