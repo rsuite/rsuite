@@ -41,13 +41,13 @@ export default () => {
       header: messages.resourcesDesign.defaultHeader,
       description: messages.resourcesDesign.defaultDescription,
       icon: <ResourcesDesign style={{ fontSize: 100, fill: '#fff' }} />,
-      href: 'https://rsuitejs.com/design/default/'
+      href: '/design/default/'
     },
     {
       header: messages.resourcesDesign.darkHeader,
       description: messages.resourcesDesign.darkDescription,
       icon: <ResourcesDesign style={{ fontSize: 100, fill: '#aaa' }} />,
-      href: 'https://rsuitejs.com/design/dark/'
+      href: '/design/dark/'
     },
     {
       header: messages.resourcesDesign.figmaHeader,
