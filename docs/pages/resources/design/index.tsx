@@ -18,7 +18,7 @@ const Card = (props: CardProps) => {
     <Panel
       bordered
       bodyFill
-      style={{ display: 'block', height: 267, textDecoration: 'none' }}
+      style={{ display: 'block', height: 267, textDecoration: 'none', marginBottom: 10 }}
       as="a"
       href={href}
       target="_blank"
@@ -68,7 +68,7 @@ export default () => {
       <Row>
         {resources.map((item, index) => {
           return (
-            <Col md={6} sm={12} key={index}>
+            <Col md={6} sm={12} xs={24} key={index}>
               <Card {...item} />
             </Col>
           );
