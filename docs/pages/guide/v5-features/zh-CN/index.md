@@ -171,6 +171,26 @@ import GearIcon from '@rsuite/icons/Gear';
 return <GearIcon />;
 ```
 
+移除了 `size` 属性，采用 `fontSize` 代替。
+
+```js
+// for rsuite v4
+return <Icon icon="gear" size="3x" />;
+
+// for rsuite v5
+return <GearIcon style={{ fontSize: '3em' }} />;
+```
+
+`size` 属性值及其对应的 `fontSize` 值关系如下：
+
+| `size` | `fontSize` |
+| ------ | ---------- |
+| `lg`   | `1.3333em` |
+| `2x`   | `2em`      |
+| `3x`   | `3em`      |
+| `4x`   | `4em`      |
+| `5x`   | `5em`      |
+
 #### 2.3 date-fns 升级 v2
 
 在 React Suite 中使用了 date-fns 工具用于对日期格式、计算等等。基于 Unicode 标准，[用于格式功能的新格式字符串有变更](https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)。
@@ -204,14 +224,22 @@ return (
 Alert.info('description');
 
 // for rsutie v5
-toaster.push(<Message type="info" description="description" closable />);
+toaster.push(
+  <Message type="info" closable>
+    description
+  </Message>
+);
 ```
 
-一个可以配置的通知信息
+删除一个消息或者清空消息
 
 ```js
 // Remove message
-const key = toaster.push(<Message type="info" description="description" closable />);
+const key = toaster.push(
+  <Message type="info" closable>
+    description
+  </Message>
+);
 toaster.remove(key);
 
 // Clear all messages
@@ -316,5 +344,29 @@ return (
     onChangePage={handleChangePage}
     onChangeLimit={handleChangeLimit}
   />
+);
+```
+
+#### 2.11 使用 `CustomProvider` 替换 `IntlProvider`
+
+```js
+// for rsuite v4
+import { IntlProvider } from 'rsuite';
+import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
+
+return (
+  <IntlProvider locale={zhCN}>
+    <App />
+  </IntlProvider>
+);
+
+// for rsuite v5
+import { CustomProvider } from 'rsuite';
+import zhCN from 'rsuite/lib/locales/zh_CN';
+
+return (
+  <CustomProvider locale={zhCN}>
+    <App />
+  </CustomProvider>
 );
 ```
