@@ -51,4 +51,4 @@ dev-publish.sh
 dist
 docs/out/
 /types
-less
+/less/
