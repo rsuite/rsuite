@@ -12,6 +12,7 @@ import { NavbarContext } from '../Navbar/Navbar';
 import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 import DisclosureContext, { DisclosureActionTypes } from '../Disclosure/DisclosureContext';
 import SafeAnchor from '../SafeAnchor';
+import NavContext from '../Nav/NavContext';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -74,6 +75,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
     const { classPrefix, className, active: activeProp, eventKey, onSelect, icon, ...rest } = props;
 
+    const nav = useContext(NavContext);
     const dropdown = useContext(DropdownContext);
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
@@ -100,7 +102,9 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     }
 
     const menuitemSelected =
-      activeProp || (!isNil(eventKey) && shallowEqual(dropdown?.activeKey, eventKey));
+      activeProp ||
+      (!isNil(eventKey) &&
+        (shallowEqual(dropdown?.activeKey, eventKey) || shallowEqual(nav?.activeKey, eventKey)));
 
     const { as: Component, divider, panel, children, disabled, ...restProps } = rest;
 

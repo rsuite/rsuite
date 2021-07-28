@@ -1,10 +1,9 @@
 import React from 'react';
 import { innerText, getDOMNode } from '@test/testUtils';
-
-import Nav from '../Nav';
-import Dropdown from '../../Dropdown';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import Nav from '../Nav';
+import Dropdown from '../../Dropdown';
 
 describe('<Nav>', () => {
   it('Should render a nav', () => {
@@ -97,6 +96,20 @@ describe('<Nav>', () => {
       '2-1',
       sinon.match.any
     );
+  });
+
+  it('Should highlight <Dropdown.Item> with `activeKey`', () => {
+    const { getByTestId } = render(
+      <Nav activeKey="2-1">
+        <Dropdown title="Dropdown">
+          <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+            Dropdown item
+          </Dropdown.Item>
+        </Dropdown>
+      </Nav>
+    );
+
+    expect(getByTestId('dropdown-item').getAttribute('aria-checked')).to.equal('true');
   });
 
   it('Should work with Dropdown', () => {
