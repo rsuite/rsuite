@@ -16,7 +16,7 @@ export default {
     useNextApp: '在 Next.js 中使用',
     darkMode: '深色模式',
     customizeTheme: '定制主题',
-    intl: '国际化',
+    i18n: '国际化',
     rtl: 'Right-to-left',
     changeLog: '更新日志',
     palette: '调色板',
