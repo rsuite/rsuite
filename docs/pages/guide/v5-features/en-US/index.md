@@ -313,9 +313,3 @@ return (
   />
 );
 ```
-
-#### 2.11 Use `tinycolor2` for Less plugins
-
-React Suite uses `tinycolor2` to support its Less plugins, you may install it as your devDependency.
-
-    npm install -D tinycolor2

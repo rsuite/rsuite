@@ -318,9 +318,3 @@ return (
   />
 );
 ```
-
-#### 2.11 使用 `tinycolor2` 支持 Less 插件
-
-React Suite 使用 `tinycolor2` 来支持 Less 插件，你可能需要将其添加为 devDependency。
-
-    npm install -D tinycolor2
