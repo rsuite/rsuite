@@ -24,8 +24,8 @@ const instance = (
     <Dropdown.Item as={MyLink} href="/components/overview">
       Components
     </Dropdown.Item>
-    <Dropdown.Item as={MyLink} href="/tools/palette">
-      Tools
+    <Dropdown.Item as={MyLink} href="/resources/palette">
+      Resources
     </Dropdown.Item>
   </Dropdown>
 );

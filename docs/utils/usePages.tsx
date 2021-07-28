@@ -102,24 +102,31 @@ export default function usePages(): Menu[] {
       children: components
     },
     {
-      id: 'tools',
-      name: messages?.common?.tools,
-      icon: <Icon as={() => <SvgIcons.Tools />} style={{ fontSize: 20 }} />,
+      id: 'resources',
+      name: messages?.common?.resources,
+      icon: <Icon as={() => <SvgIcons.Ecology />} style={{ fontSize: 20 }} />,
       children: [
+        {
+          id: 'icons',
+          name: messages?.common?.icons
+        },
+        {
+          id: 'design',
+          name: messages?.common?.designResources
+        },
         {
           id: 'palette',
           name: messages?.common?.palette
         },
         {
-          id: 'icons',
-          name: messages?.common?.icons
+          id: 'extensions',
+          name: messages?.common?.extension
+        },
+        {
+          id: 'examples',
+          name: messages?.common?.examples
         }
       ]
-    },
-    {
-      id: 'extensions',
-      icon: <Icon as={() => <SvgIcons.Extension />} style={{ fontSize: 20 }} />,
-      name: messages?.common?.extension
     }
   ];
 }

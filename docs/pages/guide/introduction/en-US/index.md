@@ -38,22 +38,7 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 
 ## Examples
 
-- [Management system][demo-admin]
-- [Use modularized][demo-modular-import]
-- [Use CDN][demo-cdn]
-- [Installation][demo-intl-app]
-- [Themes][demo-multiple-themes]
-- [RTL - RTLCSS][demo-rtlcss]
-- [RTL - PostCSS-RTL][demo-postcss-rtl]
-- [Use in create-react-app][demo-create-react-app]
-- [Use in Electron][demo-electron]
-- [Use in Flow][demo-flow-app]
-- [Use in TypeScript][demo-typescript-app]
-- [Use in Next.js][demo-nextjs]
-- [Use in Next.js and Typescript][demo-nextjs-typescript]
-- [Use in UmiJS][demo-umi-app]
-- [Use in Snowpack][demo-snowpack]
-- [Use in Vite][demo-vite]
+<!--{include:(resources/examples/en-US/official-examples.md)}-->
 
 ## Changelog
 
@@ -147,21 +132,5 @@ RSUITE is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg
-[demo-admin]: https://github.com/rsuite/rsuite-management-system
-[demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
-[demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
-[demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
-[demo-electron]: https://github.com/rsuite/rsuite/tree/master/examples/with-electron
-[demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
-[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
-[demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
-[demo-typescript-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-typescript
-[demo-nextjs]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs
-[demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
-[demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
-[demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
 [babel-preset-env]: https://babeljs.io/docs/en/babel-preset-env
 [rsuite-stars]: https://img.shields.io/github/stars/rsuite/rsuite?style=social
-[demo-nextjs-typescript]: https://github.com/rsuite/rsuite/tree/master/examples/with-next-typescript
-[demo-snowpack]: https://github.com/rsuite/rsuite/tree/master/examples/with-snowpack
-[demo-vite]: https://github.com/rsuite/rsuite/tree/master/examples/with-vite

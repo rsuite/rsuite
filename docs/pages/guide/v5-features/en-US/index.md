@@ -8,9 +8,11 @@ The purpose of React Suite v5 is to improve the accessibility and scalability of
 
 ### 1. Improve accessibility
 
+It is our hope that more users can use barrier-free use of products developed by React Suite. We will improve each component provided by React Suite in multiple scenarios such as keyboard operation and screen reading devices.
+
 #### 1.1 Accessibility
 
-It is our hope that more users can use barrier-free use of products developed by React Suite. We will improve each component provided by React Suite in multiple scenarios such as keyboard operation and screen reading devices.
+React Suite follows the [WAI-ARIA](https://www.w3.org/TR/wai-aria/) standard. All components have been refactored to have appropriate attributes and keyboard interaction functions out of the box.
 
 For details, please read: [Accessibility](/guide/accessibility)
 
@@ -20,7 +22,7 @@ In React Suite v4, we refer to the 《Web Content Accessibility Guidelines (WCAG
 
 #### 1.3 Use SVG Icon instead of Icon font
 
-Icon font has some rendering problems, which makes the icon blurry, the need to load the font file, and the content area flickers. For better accessibility, we decided to prefer SVG Icon.
+Icon font has some rendering problems, which makes the icon blurry, the need to load the font file, and the content area flickers. For better accessibility, we decided to prefer SVG Icon. And can be well compatible with third-party icon resources.
 
 ```js
 import GearIcon from '@rsuite/icons/Gear';

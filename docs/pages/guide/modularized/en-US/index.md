@@ -92,10 +92,10 @@ We reset some HTML styles in rsuite by default.But you may not need these styles
         // If you are using less-loader@5 or older version, please spread the lessOptions to options directly.
         lessOptions: {
           javascriptEnabled: true,
-          modifyVars: { '@reset-import': false }
+          modifyVars: { '@enable-css-reset': false }
         }
     }
 }
 ```
 
-[config-reset-import]: /en/guide/themes#Disable%20styles%20reset
+[config-reset-import]: /en/guide/themes#disable-html-styles-reset

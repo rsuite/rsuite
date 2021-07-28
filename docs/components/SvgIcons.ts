@@ -18,3 +18,7 @@ export const { default: Dark } = require('@/resources/images/dark.svg');
 export const { default: More } = require('@/resources/images/more.svg');
 export const { default: Language } = require('@/resources/images/language.svg');
 export const { default: Transparent } = require('@/resources/images/transparent.svg');
+export const { default: Ecology } = require('@/resources/images/ecology.svg');
+export const { default: ResourcesDesign } = require('@/resources/images/resources-design.svg');
+export const { default: ResourcesFigma } = require('@/resources/images/resources-figma.svg');
+export const { default: ResourcesSketch } = require('@/resources/images/resources-sketch.svg');

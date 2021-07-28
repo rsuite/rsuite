@@ -6,7 +6,7 @@ React Suite provides some guidance and suggestions for using icons in React Suit
 
 React Suite provides a set of icon components, you need to install the `@rsuite/icons` icon component.
 
-> [React Suite Icons](/tools/icons)
+> [React Suite Icons](/resources/icons)
 
 <!--{include:(components/icon/fragments/install.md)}-->
 
