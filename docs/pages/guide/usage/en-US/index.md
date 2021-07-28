@@ -41,7 +41,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 <iframe src="https://codesandbox.io/embed/k9v972q3lr" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-- [Use in create-react-app](use-with-create-react-app)
-- [Use in Next.js](use-next-app)
+- [Use in create-react-app](/guide/use-with-create-react-app/)
+- [Use in Next.js](/guide/use-next-app/)
 
 [gitter-home]: https://gitter.im/rsuite/rsuite
