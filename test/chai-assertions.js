@@ -1,24 +1,30 @@
 /**
  * TODO: Add typescript definition for custom assertions
  */
-chai.use((chai, { flag, inspect }) => {
+chai.use((chai, { flag }) => {
   /**
    * Check element is visible
    * Useful for testing popups and disclosures
+   *
+   * Overwrite `visible` from chai-dom with jest-dom implementation
    * Ref: https://github.com/testing-library/jest-dom/blob/main/src/to-be-visible.js
+   * @see https://github.com/nathanboktae/chai-dom/issues/51
+   *
    * @this {import('chai').AssertionStatic}
    */
-  chai.Assertion.addProperty('visible', function () {
-    const element = flag(this, 'object');
+  chai.Assertion.overwriteProperty('visible', function () {
+    return function () {
+      const element = flag(this, 'object');
 
-    const isInDocument = element.ownerDocument === element.getRootNode({ composed: true });
-    const isVisible = isInDocument && isElementVisible(element);
+      const isInDocument = element.ownerDocument === element.getRootNode({ composed: true });
+      const isVisible = isInDocument && isElementVisible(element);
 
-    this.assert(
-      isVisible,
-      `Element is not visible${isInDocument ? '' : ' (element is not in the document)'}`,
-      'Element is visible'
-    );
+      this.assert(
+        isVisible,
+        `Element is not visible${isInDocument ? '' : ' (element is not in the document)'}`,
+        'Element is visible'
+      );
+    };
   });
 
   function isStyleVisible(element) {
@@ -50,36 +56,4 @@ chai.use((chai, { flag, inspect }) => {
       (!element.parentElement || isElementVisible(element.parentElement, element))
     );
   }
-
-  /**
-   * Ref: https://github.com/testing-library/jest-dom/blob/main/src/to-have-attribute.js
-   * @this {import('chai').AssertionStatic}
-   */
-  chai.Assertion.addMethod('attribute', function (name, val) {
-    const el = flag(this, 'object'),
-      actual = el.getAttribute(name);
-
-    flag(this, 'object', actual);
-
-    if (!flag(this, 'negate') || undefined === val) {
-      this.assert(
-        el.hasAttribute(name),
-        'expected element to have an attribute #{exp}',
-        'expected element not to have an attribute #{exp}',
-        name
-      );
-    }
-
-    if (undefined !== val) {
-      this.assert(
-        val === actual,
-        'expected element to have an attribute ' +
-          inspect(name) +
-          ' with the value #{exp}, but the value was #{act}',
-        'expected element not to have an attribute ' + inspect(name) + ' with the value #{act}',
-        val,
-        actual
-      );
-    }
-  });
 });

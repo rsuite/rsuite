@@ -35,7 +35,7 @@ module.exports = config => {
     browserNoActivityTimeout: 210000,
     basePath: '',
     files: [testFile].map(pattern => ({ pattern, watched: false })),
-    frameworks: ['mocha', 'sinon-chai', 'webpack'],
+    frameworks: ['mocha', 'chai-dom', 'sinon-chai', 'webpack'],
     colors: true,
     reporters: ['mocha', 'coverage'],
     logLevel: config.LOG_INFO,
