@@ -185,7 +185,6 @@ ToastContainer.defaultProps = defaultProps;
 ToastContainer.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,
-  duration: PropTypes.number,
   placement: PropTypes.elementType,
   container: PropTypes.oneOfType([PropTypes.node, PropTypes.func])
 };
