@@ -139,9 +139,11 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
           'with-icon': icon,
           disabled,
           divider,
-          panel
+          panel,
+          active: menuitemSelected
         })
       );
+
       const dataAttributes: { [key: string]: any } = {
         'data-event-key': eventKey
       };
@@ -154,6 +156,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
           <SafeAnchor
             ref={ref}
             className={classes}
+            aria-current={menuitemSelected || undefined}
             {...dataAttributes}
             {...restProps}
             onClick={createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick)}

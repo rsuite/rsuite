@@ -1,10 +1,10 @@
 import React from 'react';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { getDOMNode } from '@test/testUtils';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
-import { render } from '@testing-library/react';
 import Dropdown from '../../Dropdown';
-import userEvent from '@testing-library/user-event';
 
 describe('<Navbar>', () => {
   it('Should render a navbar', () => {
@@ -71,5 +71,21 @@ describe('<Navbar>', () => {
 
     userEvent.click(getByText('Company'));
     expect(getByText('Company')).not.to.be.visible;
+  });
+
+  it('Should highlight <Dropdown.Item> matching <Nav> `activeKey`', () => {
+    const { getByTestId } = render(
+      <Navbar>
+        <Nav activeKey="2-1">
+          <Dropdown title="Dropdown">
+            <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+              Dropdown item
+            </Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      </Navbar>
+    );
+
+    expect(getByTestId('dropdown-item')).to.have.attribute('aria-current', 'true');
   });
 });
