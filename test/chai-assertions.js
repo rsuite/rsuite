@@ -59,9 +59,11 @@ chai.use((chai, { flag, inspect }) => {
     const el = flag(this, 'object'),
       actual = el.getAttribute(name);
 
+    flag(this, 'object', actual);
+
     if (!flag(this, 'negate') || undefined === val) {
       this.assert(
-        !!el.attributes[name],
+        el.hasAttribute(name),
         'expected element to have an attribute #{exp}',
         'expected element not to have an attribute #{exp}',
         name
@@ -79,7 +81,5 @@ chai.use((chai, { flag, inspect }) => {
         actual
       );
     }
-
-    flag(this, 'object', actual);
   });
 });
