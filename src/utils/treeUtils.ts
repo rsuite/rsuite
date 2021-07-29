@@ -308,8 +308,17 @@ export function filterNodesOfTree(data, check) {
 
 /**
  * get all focusable items
+ * exclude not visible and disabled node
+ * @param filteredData - filtered tree data
+ * @param props - TreeProps
+ * @param isSearching - component is in Searching
+ * @returns
  */
-export const getFocusableItems = (filteredData: ItemDataType[], props: PartialTreeProps) => {
+export const getFocusableItems = (
+  filteredData: ItemDataType[],
+  props: PartialTreeProps,
+  isSearching?: boolean
+) => {
   const { disabledItemValues, valueKey, childrenKey, expandItemValues } = props;
   const items = [];
   const loop = (nodes: any[]) => {
@@ -317,10 +326,12 @@ export const getFocusableItems = (filteredData: ItemDataType[], props: PartialTr
       const disabled = disabledItemValues.some(disabledItem =>
         shallowEqual(disabledItem, node[valueKey])
       );
-      if (!disabled) {
+      if (!disabled && node.visible) {
         items.push(node);
       }
-      if (node[childrenKey] && expandItemValues.includes(node[valueKey])) {
+      // always expand when searching
+      const expand = isSearching ? true : expandItemValues.includes(node[valueKey]);
+      if (node[childrenKey] && expand) {
         loop(node[childrenKey]);
       }
     });
@@ -498,15 +509,15 @@ export function rightArrowHandler({
  * @param valueKey
  */
 export const getScrollToIndex = (nodes: TreeNodeType[], value: string | number, valueKey: string) =>
-  nodes.filter(n => n.showNode && n.visible).findIndex(item => item[valueKey] === value);
+  nodes.filter(n => n.visible).findIndex(item => item[valueKey] === value);
 
 /**
- * expand always return true when searching
+ * when searching, expand state always return true
  * @param searchKeyword
  * @param expand
  */
 export function getExpandWhenSearching(searchKeyword: string, expand: boolean) {
-  return !isEmpty(searchKeyword) ? true : expand;
+  return isSearching(searchKeyword) ? true : expand;
 }
 
 export function getTreeActiveNode(nodes: TreeNodesType, value: number | string, valueKey: string) {
@@ -708,12 +719,32 @@ export function useFlattenTreeData({
     nodes: TreeNodesType,
     data: any[],
     expandItemValues: ItemDataType[],
-    cascade?: boolean
+    options: {
+      cascade?: boolean;
+      searchKeyword?: string;
+    }
   ) => {
+    const { cascade, searchKeyword } = options;
     return flattenTree(data, childrenKey, (node: any) => {
       let formatted = {};
       const curNode = nodes?.[node.refKey];
       const parentKeys = getNodeParentKeys(nodes, curNode, valueKey);
+      /**
+       * When using virtualized,
+       * if the parent node is collapsed, the child nodes should be hidden
+       * avoid component height calculation errors
+       */
+      let visible = curNode?.parent
+        ? shouldShowNodeByParentExpanded(expandItemValues, parentKeys)
+        : true;
+
+      /**
+       * when searching, every node default expand
+       * the node's visible should follow the original state
+       */
+      if (isSearching(searchKeyword)) {
+        visible = node.visible;
+      }
       if (curNode) {
         const checkState = !isUndefined(cascade)
           ? getNodeCheckState({ node: curNode, cascade, nodes, childrenKey })
@@ -726,10 +757,7 @@ export function useFlattenTreeData({
           layer: curNode.layer,
           parent: curNode.parent,
           checkState,
-          // when parent node fold, children nodes should be hidden
-          showNode: curNode.parent
-            ? shouldShowNodeByParentExpanded(expandItemValues, parentKeys)
-            : true
+          visible
         };
       }
       return formatted;
@@ -911,4 +939,8 @@ export function focusToActiveTreeNode({
   }
 
   activeItem?.focus?.();
+}
+
+export function isSearching(searchKeyword?: string) {
+  return !isEmpty(searchKeyword);
 }

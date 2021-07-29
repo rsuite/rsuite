@@ -65,7 +65,8 @@ import {
   focusToActiveTreeNode,
   focusTreeNode,
   leftArrowHandler,
-  rightArrowHandler
+  rightArrowHandler,
+  isSearching
 } from '../utils/treeUtils';
 
 import { TreeBaseProps } from '../Tree/Tree';
@@ -81,8 +82,6 @@ export interface CheckTreePickerProps<T = ValueType>
 
   /** A picker that can be counted */
   countable?: boolean;
-
-  /** default value */
 
   /** Set the option value for the check box not to be rendered */
   uncheckableItemValues?: T;
@@ -250,21 +249,21 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     (render?: any) => {
       let formattedNodes = [];
       if (virtualized) {
-        formattedNodes = formatVirtualizedTreeData(
-          flattenNodes,
-          filteredData,
-          expandItemValues,
-          cascade
-        ).filter(item => item.showNode && item.visible);
+        formattedNodes = formatVirtualizedTreeData(flattenNodes, filteredData, expandItemValues, {
+          cascade,
+          searchKeyword: searchKeywordState
+        }).filter(item => item.visible);
       } else {
         formattedNodes = getFormattedTree(filteredData, flattenNodes, {
           childrenKey,
           cascade
         }).map(node => render?.(node, 1));
       }
+
       return formattedNodes;
     },
     [
+      searchKeywordState,
       expandItemValues,
       filteredData,
       flattenNodes,
@@ -537,12 +536,16 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const handleFocusItem = useCallback(
     (key: string) => {
-      const focusableItems = getFocusableItems(filteredData, {
-        disabledItemValues,
-        valueKey,
-        childrenKey,
-        expandItemValues
-      });
+      const focusableItems = getFocusableItems(
+        filteredData,
+        {
+          disabledItemValues,
+          valueKey,
+          childrenKey,
+          expandItemValues
+        },
+        isSearching(searchKeywordState)
+      );
 
       const selector = `.${checkTreePrefix('node-label')}`;
       const focusProps = {
@@ -564,6 +567,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       }
     },
     [
+      searchKeywordState,
       checkTreePrefix,
       expandItemValues,
       filteredData,
@@ -725,7 +729,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }: ListRowProps) => {
     const node = nodes[index];
-    const { layer, refKey, showNode } = node;
+    const { layer, refKey, visible } = node;
     const expand = getExpandWhenSearching(
       searchKeywordState,
       expandItemValues.includes(node[valueKey])
@@ -736,7 +740,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     };
 
     return (
-      showNode && (
+      visible && (
         <CheckTreeNode
           style={style}
           key={key}
