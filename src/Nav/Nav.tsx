@@ -86,18 +86,25 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
     })
   );
 
-  if (sidenav?.expanded) {
-    return (
-      <ul ref={ref as any} className={classes} {...rest}>
-        {children}
-      </ul>
-    );
-  }
-
   const { activeKey: activeKeyFromSidenav, onSelect: onSelectFromSidenav = onSelectProp } =
     sidenav || {};
 
   const activeKey = activeKeyProp ?? activeKeyFromSidenav;
+
+  if (sidenav?.expanded) {
+    return (
+      <NavContext.Provider
+        value={{
+          activeKey,
+          onSelect: onSelectProp ?? onSelectFromSidenav
+        }}
+      >
+        <ul ref={ref as any} className={classes} {...rest}>
+          {children}
+        </ul>
+      </NavContext.Provider>
+    );
+  }
 
   const hasWaterline = appearance !== 'default';
 

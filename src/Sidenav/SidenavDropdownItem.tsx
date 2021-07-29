@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
+import NavContext from '../Nav/NavContext';
 
 export interface SidenavDropdownItemProps<T = any>
   extends WithAsProps,
@@ -76,10 +77,14 @@ const SidenavDropdownItem: RsRefForwardingComponent<
   } = props;
 
   const { activeKey, onSelect: onSidenavSelect } = useContext(SidenavContext);
+  const nav = useContext(NavContext);
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
-  const selected = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
+  const selected =
+    activeProp ??
+    (!isNil(eventKey) &&
+      (shallowEqual(eventKey, activeKey) || shallowEqual(nav?.activeKey, eventKey)));
 
   const classes = merge(
     className,
@@ -136,7 +141,7 @@ const SidenavDropdownItem: RsRefForwardingComponent<
       {...rest}
       style={style}
       className={classes}
-      aria-selected={selected || undefined}
+      aria-current={selected || undefined}
       {...menuitemEventHandlers}
     >
       {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}

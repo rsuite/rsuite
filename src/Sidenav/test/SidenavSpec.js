@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
+import { getByTestId, render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 
 import Sidenav from '../Sidenav';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
-import { getByTestId } from '@testing-library/react';
 
 describe('<Sidenav>', () => {
   it('Should render a navigation', () => {
@@ -150,5 +150,23 @@ describe('<Sidenav>', () => {
     );
 
     expect(instance.querySelector('#selected-item').getAttribute('aria-selected')).to.equal('true');
+  });
+
+  it('Should mark <Dropdown.Item> matching <Nav> `activeKey` as current', () => {
+    const { getByTestId } = render(
+      <Sidenav>
+        <Nav activeKey="2-1">
+          <Dropdown title="Dropdown">
+            <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+              Dropdown item
+            </Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      </Sidenav>
+    );
+
+    expect(getByTestId('dropdown-item')).to.have.attribute('aria-current', 'true');
+    // The accent style
+    expect(getByTestId('dropdown-item')).to.have.class('rs-dropdown-item-active');
   });
 });
