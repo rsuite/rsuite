@@ -182,13 +182,13 @@ return <GearIcon style={{ fontSize: '3em' }} />;
 
 The relationship between the `size` attribute value and its corresponding `fontSize` value is as follows:
 
-| `size` | `fontSize` |
-| ------ | ---------- |
-| `lg`   | `1.3333em` |
-| `2x`   | `2em`      |
-| `3x`   | `3em`      |
-| `4x`   | `4em`      |
-| `5x`   | `5em`      |
+| size | fontSize   |
+| ---- | ---------- |
+| `lg` | `1.3333em` |
+| `2x` | `2em`      |
+| `3x` | `3em`      |
+| `4x` | `4em`      |
+| `5x` | `5em`      |
 
 #### 2.3 date-fns upgrade v2
 
@@ -257,10 +257,12 @@ Notification.info({
 });
 
 // for rsuite v5
-toaster.push(<Notification title="info" description="description" />, {
-  duration: 4500,
-  placement: 'topStart'
-});
+toaster.push(
+  <Notification type="info" header="info" duration={4500}>
+    description
+  </Notification>,
+  { placement: 'topStart' }
+);
 ```
 
 #### 2.6 Rename Form related components

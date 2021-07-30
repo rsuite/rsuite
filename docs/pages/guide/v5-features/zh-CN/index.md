@@ -185,13 +185,13 @@ return <GearIcon style={{ fontSize: '3em' }} />;
 
 `size` 属性值及其对应的 `fontSize` 值关系如下：
 
-| `size` | `fontSize` |
-| ------ | ---------- |
-| `lg`   | `1.3333em` |
-| `2x`   | `2em`      |
-| `3x`   | `3em`      |
-| `4x`   | `4em`      |
-| `5x`   | `5em`      |
+| size | fontSize   |
+| ---- | ---------- |
+| `lg` | `1.3333em` |
+| `2x` | `2em`      |
+| `3x` | `3em`      |
+| `4x` | `4em`      |
+| `5x` | `5em`      |
 
 #### 2.3 date-fns 升级 v2
 
@@ -260,10 +260,12 @@ Notification.info({
 });
 
 // for rsuite v5
-toaster.push(<Notification title="info" description="description" />, {
-  duration: 4500,
-  placement: 'topStart'
-});
+toaster.push(
+  <Notification type="info" header="info" duration={4500}>
+    description
+  </Notification>,
+  { placement: 'topStart' }
+);
 ```
 
 #### 2.6 Form 相关组件重命名
