@@ -5,6 +5,7 @@
 推送一个消息，并返回一个唯一的 key
 
 ```ts
+type PlacementType = 'topCenter' | 'bottomCenter' | 'topStart' | 'topEnd' | 'bottomStart' | 'bottomEnd';
 
 interface ToastContainerProps{
   /** The placement of the message box */
@@ -20,6 +21,10 @@ toaster.push(message: React.ReactNode, options?: ToastContainerProps): string;
 e.g:
 
 ```js
+// Message
+toaster.push(<Message>message</Message>);
+
+// Notification
 toaster.push(<Notification>message</Notification>, {
   placement: 'topEnd'
 });
