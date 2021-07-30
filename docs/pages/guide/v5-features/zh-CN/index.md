@@ -261,13 +261,10 @@ Notification.info({
 
 // for rsuite v5
 toaster.push(
-  <Notification type="info" header="info">
+  <Notification type="info" header="info" duration={4500}>
     description
   </Notification>,
-  {
-    duration: 4500,
-    placement: 'topStart'
-  }
+  { placement: 'topStart' }
 );
 ```
 
