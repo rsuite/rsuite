@@ -727,6 +727,13 @@
     ]
   },
   {
+    "id": "custom-provider",
+    "name": "CustomProvider",
+    "title": "个性化配置",
+    "apis": [
+      "CustomProvider"
+    ]
+  },{
     "id": "dom-helper",
     "name": "DOMHelper",
     "title": "DOM 助手",

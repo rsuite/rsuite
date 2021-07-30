@@ -56,8 +56,8 @@ export default function usePages(): Menu[] {
           name: messages?.common?.accessibility
         },
         {
-          id: 'intl',
-          name: messages?.common?.intl
+          id: 'i18n',
+          name: messages?.common?.i18n
         },
         {
           id: 'rtl',

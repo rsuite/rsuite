@@ -17,7 +17,7 @@ export default {
     useNextApp: 'Use in Next.js',
     darkMode: 'Dark mode',
     customizeTheme: 'Customize theme',
-    intl: 'Installation',
+    i18n: 'i18n',
     rtl: 'Right-to-left',
     changeLog: 'Change log',
     palette: 'Palette',
