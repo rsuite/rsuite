@@ -93,9 +93,13 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 
     const [, dispatchDisclosure] = disclosure ?? [];
 
-    const handleClickNavbarDropdownItem = useCallback(() => {
-      dispatchDisclosure({ type: DisclosureActionTypes.Hide });
-    }, [dispatchDisclosure]);
+    const handleClickNavbarDropdownItem = useCallback(
+      (event: React.SyntheticEvent<HTMLElement>) => {
+        dispatchDisclosure({ type: DisclosureActionTypes.Hide });
+        handleSelectItem?.(event);
+      },
+      [dispatchDisclosure, handleSelectItem]
+    );
 
     if (sidenav?.expanded) {
       return <SidenavDropdownItem ref={ref} {...props} />;

@@ -176,53 +176,55 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   // Renders a disclosure when used inside <Navbar>
   if (navbar) {
     return (
-      <Disclosure hideOnClickOutside>
-        {({ open }, containerRef) => {
-          const classes = merge(
-            className,
-            withClassPrefix({
-              [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
-              disabled,
-              open
-              // focus: hasFocus
-            })
-          );
-          return (
-            <Component ref={mergeRefs(ref, containerRef)} className={classes} style={style}>
-              <Disclosure.Button>
-                {(buttonProps, buttonRef) => (
-                  <DropdownToggle
-                    ref={buttonRef}
-                    as={renderTitle ? 'span' : toggleAs}
-                    className={toggleClassName}
-                    placement={placement}
-                    disabled={disabled}
-                    {...omit(buttonProps, ['open'])}
-                    {...menuProps}
-                  >
-                    {title}
-                  </DropdownToggle>
-                )}
-              </Disclosure.Button>
-              <Disclosure.Content>
-                {({ open }, elementRef) => {
-                  const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
-                  return (
-                    <ul
-                      ref={elementRef as any}
-                      className={menuClassName}
-                      style={menuStyle}
-                      hidden={!open}
+      <DropdownContext.Provider value={{ activeKey, onSelect: emitSelect }}>
+        <Disclosure hideOnClickOutside>
+          {({ open }, containerRef) => {
+            const classes = merge(
+              className,
+              withClassPrefix({
+                [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
+                disabled,
+                open
+                // focus: hasFocus
+              })
+            );
+            return (
+              <Component ref={mergeRefs(ref, containerRef)} className={classes} style={style}>
+                <Disclosure.Button>
+                  {(buttonProps, buttonRef) => (
+                    <DropdownToggle
+                      ref={buttonRef}
+                      as={renderTitle ? 'span' : toggleAs}
+                      className={toggleClassName}
+                      placement={placement}
+                      disabled={disabled}
+                      {...omit(buttonProps, ['open'])}
+                      {...menuProps}
                     >
-                      {children}
-                    </ul>
-                  );
-                }}
-              </Disclosure.Content>
-            </Component>
-          );
-        }}
-      </Disclosure>
+                      {title}
+                    </DropdownToggle>
+                  )}
+                </Disclosure.Button>
+                <Disclosure.Content>
+                  {({ open }, elementRef) => {
+                    const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+                    return (
+                      <ul
+                        ref={elementRef as any}
+                        className={menuClassName}
+                        style={menuStyle}
+                        hidden={!open}
+                      >
+                        {children}
+                      </ul>
+                    );
+                  }}
+                </Disclosure.Content>
+              </Component>
+            );
+          }}
+        </Disclosure>
+      </DropdownContext.Provider>
     );
   }
 
