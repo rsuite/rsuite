@@ -6,6 +6,7 @@ import { getDOMNode } from '@test/testUtils';
 import Sidenav from '../Sidenav';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
+import userEvent from '@testing-library/user-event';
 
 describe('<Sidenav>', () => {
   it('Should render a navigation', () => {
@@ -168,5 +169,26 @@ describe('<Sidenav>', () => {
     expect(getByTestId('dropdown-item')).to.have.attribute('aria-current', 'true');
     // The accent style
     expect(getByTestId('dropdown-item')).to.have.class('rs-dropdown-item-active');
+  });
+
+  it('Should call <Nav onSelect> with correct eventKey from <Dropdown.Item>', () => {
+    const onSelectSpy = sinon.spy();
+    const { getByTestId } = render(
+      <Sidenav>
+        <Nav activeKey="2-1" onSelect={onSelectSpy}>
+          <Dropdown title="Dropdown" data-testid="dropdown">
+            <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+              Dropdown item
+            </Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      </Sidenav>
+    );
+
+    // opens the dropdown
+    userEvent.click(getByTestId('dropdown'));
+
+    userEvent.click(getByTestId('dropdown-item'));
+    expect(onSelectSpy).to.have.been.calledWith('2-1', sinon.match.any);
   });
 });

@@ -8,6 +8,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';
+import DropdownContext from '../Dropdown/DropdownContext';
 
 export interface SidenavDropdownItemProps<T = any>
   extends WithAsProps,
@@ -78,6 +79,7 @@ const SidenavDropdownItem: RsRefForwardingComponent<
 
   const { activeKey, onSelect: onSidenavSelect } = useContext(SidenavContext);
   const nav = useContext(NavContext);
+  const dropdown = useContext(DropdownContext);
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
@@ -100,9 +102,10 @@ const SidenavDropdownItem: RsRefForwardingComponent<
       if (disabled) return;
 
       onSelect?.(eventKey, event);
+      dropdown?.onSelect(eventKey, event);
       onSidenavSelect?.(eventKey, event);
     },
-    [disabled, onSelect, onSidenavSelect, eventKey]
+    [disabled, onSelect, onSidenavSelect, eventKey, dropdown]
   );
 
   const menuitemEventHandlers: React.HTMLAttributes<HTMLElement> = {
