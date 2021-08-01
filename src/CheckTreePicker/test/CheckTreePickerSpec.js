@@ -590,4 +590,17 @@ describe('CheckTreePicker', () => {
 
     assert.ok(!instance.root.querySelector('.rs-picker-toggle-value .rs-picker-value-item'));
   });
+
+  it('Should display the search result when in virtualized mode', () => {
+    const instance = getInstance(<CheckTreePicker open virtualized data={data} />);
+
+    assert.equal(instance.overlay.querySelectorAll('.rs-check-tree-node').length, 2);
+
+    const searchBar = instance.overlay.querySelector('.rs-picker-search-bar-input');
+    ReactTestUtils.Simulate.change(searchBar, {
+      target: { value: 'test' }
+    });
+
+    assert.equal(instance.overlay.querySelectorAll('.rs-check-tree-node').length, 4);
+  });
 });
