@@ -188,7 +188,7 @@ type DisabledDateFunction = (
 | hoverRange           | unions: 'week', 'month' or (date: Date) => ValueType    | 点击日期时将选中的日期范围                                |
 | isoWeek              | boolean                                                 | ISO 8601 标准， 每个日历星期从星期一开始，星期日为第 7 天 |
 | limitEndYear         | number `(1000)`                                         | 相对当前选择日期，设置可选年份下限                        |
-| locale               | object                                                  | 本地化对应的语言描述                                      |
+| locale               | [CalendarLocaleType](/zh/guide/i18n/#calendar)          | 本地化的文本                                              |
 | menuClassName        | string                                                  | 选项菜单的 className                                      |
 | onChange             | (value: ValueType) => void                              | 值改变后的回调函数                                        |
 | onClean              | (event) => void                                         | 清除值后的回调函数                                        |
@@ -209,8 +209,8 @@ type DisabledDateFunction = (
 | preventOverflow      | boolean                                                 | 防止浮动元素溢出                                          |
 | ranges               | Range `(Ranges)`                                        | 快捷项配置，默认 `今天`,`昨天`，`最近 7 天`               |
 | renderValue          | (value: ValueType, format: string) => ReactNode         | 自定义被选中的选项                                        |
-| showWeekNumbers      | boolean                                                 | 显示周数量                                                |
 | showOneCalendar      | boolen                                                  | 显示一个日历                                              |
+| showWeekNumbers      | boolean                                                 | 显示周数量                                                |
 | size                 | enum: 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | 设置组件尺寸                                              |
 | toggleAs             | ElementType `('a')`                                     | 为组件自定义元素类型                                      |
 | value                | ValueType                                               | 值 `受控`                                                 |

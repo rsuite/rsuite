@@ -127,7 +127,7 @@
 | inline                | boolean                                                 | 默认显示日历面板                                                            |
 | isoWeek               | boolean                                                 | ISO 8601 标准， 每个日历星期从星期一开始，星期日为第 7 天                   |
 | limitEndYear          | number `(1000)`                                         | 相对当前选择日期，设置可选年份下限                                          |
-| locale                | object                                                  | 本地化对应的语言描述                                                        |
+| locale                | [CalendarLocaleType](/zh/guide/i18n/#calendar)          | 本地化的文本                                                                |
 | menuClassName         | string                                                  | 选项菜单的 className                                                        |
 | onChange              | (date:Date) => void                                     | 值改变后的回调函数                                                          |
 | onChangeCalendarDate  | (date: Date, event) => void                             | 日历日期改变后的回调函数                                                    |
@@ -157,7 +157,7 @@
 | size                  | enum: 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | 组件设置尺寸                                                                |
 | timeZone              | string                                                  | [IANA 时区名](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) |
 | toggleAs              | ElementType `('a')`                                     | 为组件自定义元素类型                                                        |
-| value                 | Date                                                    | 值`受控`                                                                    |
+| value                 | Date                                                    | 值`受控                                                                     |
 
 ## Default
 

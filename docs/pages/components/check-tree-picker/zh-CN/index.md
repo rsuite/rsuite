@@ -72,6 +72,7 @@
 | getChildren             | (node: DataItemType) => Promise&lt;DataItemType&gt;                                           | 异步加载节点数据                                                                |
 | height                  | number `(360px)`                                                                              | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
 | labelKey                | string `('label')`                                                                            | tree 数据结构 label 属性名称                                                    |
+| locale                  | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                   | 本地化的文本                                                                    |
 | menuClassName           | string                                                                                        | 选项菜单的 className                                                            |
 | menuStyle               | CSSProperties                                                                                 | 应用于菜单 DOM 节点的 style                                                     |
 | onChange                | (values:string[]) => void                                                                     | 数据改变的回调函数                                                              |
