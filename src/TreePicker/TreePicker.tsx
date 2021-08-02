@@ -36,7 +36,8 @@ import {
   focusToActiveTreeNode,
   leftArrowHandler,
   focusTreeNode,
-  rightArrowHandler
+  rightArrowHandler,
+  isSearching
 } from '../utils/treeUtils';
 
 import {
@@ -252,18 +253,23 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     (render?: any) => {
       let formattedNodes = [];
       if (virtualized) {
-        formattedNodes = formatVirtualizedTreeData(
-          flattenNodes,
-          filteredData,
-          expandItemValues
-        ).filter(n => n.showNode && n.visible);
+        formattedNodes = formatVirtualizedTreeData(flattenNodes, filteredData, expandItemValues, {
+          searchKeyword: searchKeywordState
+        }).filter(n => n.visible);
       } else {
         formattedNodes = filteredData.map((dataItem, index) => render?.(dataItem, index, 1));
       }
 
       return formattedNodes;
     },
-    [expandItemValues, filteredData, flattenNodes, formatVirtualizedTreeData, virtualized]
+    [
+      searchKeywordState,
+      expandItemValues,
+      filteredData,
+      flattenNodes,
+      formatVirtualizedTreeData,
+      virtualized
+    ]
   );
 
   const focusActiveNode = useCallback(() => {
@@ -530,12 +536,16 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   const handleFocusItem = useCallback(
     (key: string) => {
-      const focusableItems = getFocusableItems(filteredData, {
-        disabledItemValues,
-        valueKey,
-        childrenKey,
-        expandItemValues
-      });
+      const focusableItems = getFocusableItems(
+        filteredData,
+        {
+          disabledItemValues,
+          valueKey,
+          childrenKey,
+          expandItemValues
+        },
+        isSearching(searchKeywordState)
+      );
       const selector = `.${treePrefix('node-label')}`;
       const focusProps = {
         focusItemValue,
@@ -556,6 +566,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       }
     },
     [
+      searchKeywordState,
       expandItemValues,
       filteredData,
       focusItemValue,
@@ -620,6 +631,11 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   const handleClean = useCallback(
     (event: React.SyntheticEvent<any>) => {
+      const target = event.target as Element;
+      // exclude searchBar
+      if (target.matches('div[role="searchbox"] > input')) {
+        return;
+      }
       setValue(null);
       onChange?.(null, event);
     },
@@ -713,7 +729,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }: ListRowProps) => {
     const node = nodes[index];
-    const { layer, showNode } = node;
+    const { layer, visible } = node;
 
     const expand = getExpandWhenSearching(
       searchKeywordState,
@@ -730,7 +746,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     };
 
     return (
-      showNode && (
+      visible && (
         <TreeNode ref={ref => saveTreeNodeRef(node.refKey, ref)} key={key} {...nodeProps} />
       )
     );

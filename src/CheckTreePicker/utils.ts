@@ -12,7 +12,6 @@ export interface TreeNodeType {
   visible?: boolean;
   expand?: boolean;
   layer?: number;
-  showNode?: boolean;
   label?: string | React.ReactNode;
   value?: string | number;
   groupBy?: string;
