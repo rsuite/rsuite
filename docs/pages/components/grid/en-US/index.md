@@ -1,6 +1,6 @@
 # Grid
 
-A Grid layout component that provides 24 grids, referring to the response design of [Bootstrap](https://getbootstrap.com/docs/3.3/css/).
+A Grid layout component that provides 24 grids, referring to the responsive design of [Bootstrap](https://getbootstrap.com/docs/3.3/css/).
 
 Contains the following components:
 
