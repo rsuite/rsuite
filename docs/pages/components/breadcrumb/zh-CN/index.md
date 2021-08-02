@@ -61,10 +61,10 @@ WAI-ARIA:https://www.w3.org/TR/wai-aria-practices/#breadcrumb
 | ----------- | -------------------------------------------------- | ---------------------------------------------- |
 | as          | elementType `('nav')`                              | 为组件自定义元素类型                           |
 | classPrefix | string `('breadcrumb')`                            | 组件 CSS 类的前缀                              |
-| maxItems    | numner`(5)`                                        | 设置要显示的面包屑的最大数量, 超过后会自动折叠 |
-| separator   | ReactNode `('/')`                                  | 分隔符                                         |
-| onExpand    | (event: MouseEvent) => void                        | 在折叠视图中并单击省略号时要调用的函数         |
 | locale      | [BreadcrumbLocaleType](/zh/guide/i18n/#breadcrumb) | 本地化的文本                                   |
+| maxItems    | numner`(5)`                                        | 设置要显示的面包屑的最大数量, 超过后会自动折叠 |
+| onExpand    | (event: MouseEvent) => void                        | 在折叠视图中并单击省略号时要调用的函数         |
+| separator   | ReactNode `('/')`                                  | 分隔符                                         |
 
 ### `<Breadcrumb.Item>`
 
