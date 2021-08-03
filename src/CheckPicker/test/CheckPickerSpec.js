@@ -172,6 +172,28 @@ describe('CheckPicker', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
+  it('Should call `onClean` callback by key="Backspace" ', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(<Dropdown data={data} onClean={doneOp} defaultOpen />);
+
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Backspace' });
+  });
+
+  it('Should call `onClean` callback by key="Backspace" on overlay ', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(<Dropdown data={data} onClean={doneOp} defaultOpen />);
+
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Enter' });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Backspace' });
+  });
+
   it('Should call `onOpen` callback', done => {
     const doneOp = () => {
       done();
