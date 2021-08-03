@@ -38,23 +38,24 @@
 type LayoutType = 'total' | '-' | 'pager' | '|' | 'limit' | 'skip';
 ```
 
-| 属性名称      | 类型 `(默认值)`                              | 描述                                                 |
-| ------------- | -------------------------------------------- | ---------------------------------------------------- |
-| activePage \* | number `(1)`                                 | 当前页码                                             |
-| boundaryLinks | boolean                                      | 显示边界分页按钮 1 和 pages                          |
-| classPrefix   | string `('pagination')`                      | 组件 CSS 类的前缀                                    |
-| disabled      | boolean &#124; (eventKey: number) => boolean | 禁用分页                                             |
-| ellipsis      | boolean                                      | 显示省略符                                           |
-| first         | boolean                                      | 显示第一页                                           |
-| last          | boolean                                      | 显示最后一页                                         |
-| layout        | LayoutType[] `(['pager'])`                   | 自定义一个分页组件的布局                             |
-| limit         | number `(30)`                                | 每页显示的条数。将会借助 total 和 limit 计算出分页数 |
-| limitOptions  | number[] `([30,50,100])`                     | 每页条数的选择项                                     |
-| linkAs        | ElementType `(button)`                       | 为组件选项自定义元素类型                             |
-| linkProps     | object                                       | 为组件选项添加属性                                   |
-| maxButtons    | number                                       | 分页按钮最多显示数                                   |
-| next          | boolean                                      | 显示下一页                                           |
-| onChangeLimit | (limit:number) => void;                      | 每页显示的条数改变的回调                             |
-| onChangePage  | (page:number) => void;                       | 页码改变的回调                                       |
-| prev          | boolean                                      | 显示上一页                                           |
-| total \*      | number                                       | 数据总数。一般通过服务端得到                         |
+| 属性名称      | 类型 `(默认值)`                                    | 描述                                                 |
+| ------------- | -------------------------------------------------- | ---------------------------------------------------- |
+| activePage \* | number `(1)`                                       | 当前页码                                             |
+| boundaryLinks | boolean                                            | 显示边界分页按钮 1 和 pages                          |
+| classPrefix   | string `('pagination')`                            | 组件 CSS 类的前缀                                    |
+| disabled      | boolean &#124; (eventKey: number) => boolean       | 禁用分页                                             |
+| ellipsis      | boolean                                            | 显示省略符                                           |
+| first         | boolean                                            | 显示第一页                                           |
+| last          | boolean                                            | 显示最后一页                                         |
+| layout        | LayoutType[] `(['pager'])`                         | 自定义一个分页组件的布局                             |
+| limit         | number `(30)`                                      | 每页显示的条数。将会借助 total 和 limit 计算出分页数 |
+| limitOptions  | number[] `([30,50,100])`                           | 每页条数的选择项                                     |
+| linkAs        | ElementType `(button)`                             | 为组件选项自定义元素类型                             |
+| linkProps     | object                                             | 为组件选项添加属性                                   |
+| locale        | [PaginationLocaleType](/zh/guide/i18n/#pagination) | 本地化的文本                                         |
+| maxButtons    | number                                             | 分页按钮最多显示数                                   |
+| next          | boolean                                            | 显示下一页                                           |
+| onChangeLimit | (limit:number) => void;                            | 每页显示的条数改变的回调                             |
+| onChangePage  | (page:number) => void;                             | 页码改变的回调                                       |
+| prev          | boolean                                            | 显示上一页                                           |
+| total \*      | number                                             | 数据总数。一般通过服务端得到                         |

@@ -69,6 +69,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | groupBy            | string                                                                    | Set grouping criteria 'key' in 'data'                       |
 | labelKey           | string `('label')`                                                        | Set options to display the 'key' in 'data'                  |
 | listProps          | [ListProps][listprops]                                                    | List-related properties in `react-virtualized`              |
+| locale             | [PickerLocaleType](/guide/i18n/#pickers)                                  | Locale text                                                 |
 | maxHeight          | number `(320)`                                                            | Set the max height of the Dropdown                          |
 | menuClassName      | string                                                                    | A css class to apply to the Menu DOM node.                  |
 | menuStyle          | CSSProperties                                                             | A style to apply to the Menu DOM node.                      |

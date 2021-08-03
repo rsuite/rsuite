@@ -71,6 +71,7 @@
 | fileListVisible    | boolean`(true)`                                                                                | 显示文件列表                                                                  |
 | headers            | object                                                                                         | 设置上传的请求头部                                                            |
 | listType           | menu: 'text' , 'picture-text' , 'picture' `('text')`                                           | 上传列表的样式                                                                |
+| locale             | [UploaderLocaleType](/zh/guide/i18n/#uploader)                                                 | 本地化的文本                                                                  |
 | maxPreviewFileSize | number `(5242880)`                                                                             | 设置预览文件最大限制                                                          |
 | multiple           | boolean                                                                                        | 允许一次选择多个文件上传                                                      |
 | name               | string `('file')`                                                                              | 上传对应文件的参数名                                                          |

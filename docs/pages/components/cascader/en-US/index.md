@@ -90,6 +90,7 @@ type Placement = 'bottomStart' | 'topStart' | 'autoVerticalStart';
 | height             | number `(320)`                                                                                   | The height of Dropdown                                           |
 | inline             | boolean                                                                                          | The menu is displayed directly when the component is initialized |
 | labelKey           | string `('label')`                                                                               | Set label key in data                                            |
+| locale             | [PickerLocaleType](/guide/i18n/#pickers)                                                         | Locale text                                                      |
 | menuHeight         | number                                                                                           | Sets the height of the menu                                      |
 | menuWidth          | number                                                                                           | Sets the width of the menu                                       |
 | onChange           | (value:string, event) => void                                                                    | Callback fired when value change                                 |

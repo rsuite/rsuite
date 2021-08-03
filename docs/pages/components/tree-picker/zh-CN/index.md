@@ -72,18 +72,19 @@
 | inline                  | boolean                                                                                       | 是否内联显示 tree                                                               |
 | labelKey                | string `('label')`                                                                            | tree 数据结构 label 属性名称                                                    |
 | locale                  | object                                                                                        | 本地语言                                                                        |
+| locale                  | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                   | 本地化的文本                                                                    |
 | menuClassName           | string                                                                                        | 应用于菜单 DOM 节点的 css class                                                 |
 | menuStyle               | CSSProperties                                                                                 | 应用于菜单 DOM 节点的 style                                                     |
 | onChange                | (value:string) => void                                                                        | 数据改变的回调函数                                                              |
 | onClean                 | (event:SyntheticEvent) => void                                                                | 值清理时触发回调                                                                |
 | onClose                 | () => void                                                                                    | 关闭 Dropdown 的回调函数                                                        |
-| onExpand                | (expandItemValues: any [], activeNode:DataItemType, concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
 | onEnter                 | () => void                                                                                    | 显示前动画过渡的回调函数                                                        |
 | onEntered               | () => void                                                                                    | 显示后动画过渡的回调函数                                                        |
 | onEntering              | () => void                                                                                    | 显示中动画过渡的回调函数                                                        |
 | onExit                  | () => void                                                                                    | 退出前动画过渡的回调函数                                                        |
 | onExited                | () => void                                                                                    | 退出后动画过渡的回调函数                                                        |
 | onExiting               | () => void                                                                                    | 退出中动画过渡的回调函数                                                        |
+| onExpand                | (expandItemValues: any [], activeNode:DataItemType, concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
 | onOpen                  | () => void                                                                                    | 展开 Dropdown 的回调函数                                                        |
 | onSearch                | (searchKeyword:string, event) => void                                                         | 搜索回调函数                                                                    |
 | onSelect                | (activeNode:DataItemType, value:any, event) => void                                           | 选择树节点后的回调函数                                                          |

@@ -186,6 +186,7 @@ type DisabledDateFunction = (
 | hoverRange           | unions: 'week', 'month' or (date: Date) => ValueType    | The date range that will be selected when you click on the date                      |
 | isoWeek              | boolean                                                 | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day |
 | limitEndYear         | number `(1000)`                                         | Sets the lower limit of the available year relative to the current selection date    |
+| locale               | [CalendarLocaleType](/guide/i18n/#calendar)             | Locale text                                                                          |
 | onChange             | (value: ValueType) => void                              | Callback fired when value changed                                                    |
 | onClean              | (event) => void                                         | Callback fired when value clean                                                      |
 | onClose              | () => void                                              | Callback fired when close component                                                  |

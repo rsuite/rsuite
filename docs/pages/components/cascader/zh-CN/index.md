@@ -90,6 +90,7 @@ type Placement = 'bottomStart' | 'topStart' | 'autoVerticalStart';
 | height             | number `(320)`                                                                         | 设置 Dropdown 的高度                 |
 | inline             | boolean                                                                                | 在组件初始后直接展示菜单             |
 | labelKey           | string `('label')`                                                                     | 设置选项显示内容在 `data` 中的 `key` |
+| locale             | [PickerLocaleType](/zh/guide/i18n/#pickers)                                            | 本地化的文本                         |
 | menuClassName      | string                                                                                 | 选项菜单的 className                 |
 | menuHeight         | number                                                                                 | 设置菜单的高度                       |
 | menuWidth          | number                                                                                 | 设置菜单的宽度                       |

@@ -57,13 +57,14 @@ WAI-ARIA:https://www.w3.org/TR/wai-aria-practices/#breadcrumb
 
 ### `<Breadcrumb>`
 
-| Property    | Type `(Default)`            | Description                                                                       |
-| ----------- | --------------------------- | --------------------------------------------------------------------------------- |
-| as          | ElementType `('nav')`       | You can use a custom element type for this component.                             |
-| classPrefix | string `('breadcrumb')`     | The prefix of the component CSS class                                             |
-| maxItems    | numner`(5)`                 | Set the maximum number of breadcrumbs to display                                  |
-| onExpand    | (event: MouseEvent) => void | A function to be called when you are in the collapsed view and click the ellipsis |
-| separator   | ReactNode `('/')`           | Custom separator                                                                  |
+| Property    | Type `(Default)`                                | Description                                                                       |
+| ----------- | ----------------------------------------------- | --------------------------------------------------------------------------------- |
+| as          | ElementType `('nav')`                           | You can use a custom element type for this component.                             |
+| classPrefix | string `('breadcrumb')`                         | The prefix of the component CSS class                                             |
+| locale      | [BreadcrumbLocaleType](/guide/i18n/#breadcrumb) | Locale text                                                                       |
+| maxItems    | numner`(5)`                                     | Set the maximum number of breadcrumbs to display                                  |
+| onExpand    | (event: MouseEvent) => void                     | A function to be called when you are in the collapsed view and click the ellipsis |
+| separator   | ReactNode `('/')`                               | Custom separator                                                                  |
 
 ### `<Breadcrumb.Item>`
 

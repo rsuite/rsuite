@@ -70,6 +70,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | getChildren             | (node: DataItemType) => Promise&lt;DataItemType&gt;                                           | load node children data asynchronously                                    |
 | height                  | number `(360px)`                                                                              | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                            | Tree data structure Label property name                                   |
+| locale                  | [PickerLocaleType](/guide/i18n/#pickers)                                                      | Locale text                                                               |
 | menuClassName           | string                                                                                        | A css class to apply to the Menu DOM node                                 |
 | menuStyle               | CSSProperties                                                                                 | style for Menu                                                            |
 | onChange                | (value:string) => void                                                                        | Callback function for data change                                         |

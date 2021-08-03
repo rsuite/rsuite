@@ -15,7 +15,7 @@ return (
 );
 ```
 
-<!--{include:`locales.md`}-->
+<!--{include:`example.md`}-->
 
 ## Supported locales
 
@@ -131,6 +131,21 @@ return (
   </CustomProvider>
 );
 ```
+
+## Component localization
+
+If you only want to adjust the localized text of the component, you can directly customize it through the `locale` property of the component. Take the Table component as an example:
+
+```jsx
+const locale = {
+  emptyMessage: 'No data found.',
+  loading: 'Loading, please wait.'
+};
+
+return <Table locale={locale} />;
+```
+
+<!--{include:(guide/i18n/fragments/locales.md)}-->
 
 ## Used with react-intl
 

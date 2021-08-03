@@ -43,13 +43,14 @@
 
 ### `<Toggle>`
 
-| 属性名称          | 类型 `(默认值)`                    | 描述                 |
-| ----------------- | ---------------------------------- | -------------------- |
-| checked           | boolean                            | 指定当前是否选中     |
-| checkedChildren   | ReactNode                          | 选中显示的内容       |
-| classPrefix       | string `('toggle')`                | 组件 CSS 类的前缀    |
-| defaultChecked    | boolean                            | 初始是否选中         |
-| disabled          | boolean                            | 禁用                 |
-| onChange          | (checked: boolean, event) => void  | 状态改变时的回调函数 |
-| size              | enum: 'lg' &#124; 'md' &#124; 'sm' | 开关尺寸             |
-| unCheckedChildren | ReactNode                          | 非选中显示的内容     |
+| 属性名称          | 类型 `(默认值)`                            | 描述                 |
+| ----------------- | ------------------------------------------ | -------------------- |
+| checked           | boolean                                    | 指定当前是否选中     |
+| checkedChildren   | ReactNode                                  | 选中显示的内容       |
+| classPrefix       | string `('toggle')`                        | 组件 CSS 类的前缀    |
+| defaultChecked    | boolean                                    | 初始是否选中         |
+| disabled          | boolean                                    | 禁用                 |
+| locale            | [ToggleLocaleType](/zh/guide/i18n/#toggle) | 本地化的文本         |
+| onChange          | (checked: boolean, event) => void          | 状态改变时的回调函数 |
+| size              | enum: 'lg' &#124; 'md' &#124; 'sm'         | 开关尺寸             |
+| unCheckedChildren | ReactNode                                  | 非选中显示的内容     |

@@ -15,7 +15,7 @@ return (
 );
 ```
 
-<!--{include:`locales.md`}-->
+<!--{include:`example.md`}-->
 
 ## 目前支持的语言环境
 
@@ -131,6 +131,21 @@ return (
   </CustomProvider>
 );
 ```
+
+## 组件本地化
+
+如果您只想调整当组件本地化的文本，可以直接通过组件的 `locale` 属性进行自定义。 以下以 Table 组件为例：
+
+```jsx
+const locale = {
+  emptyMessage: '数据为空',
+  loading: '数据加载中, 请稍候'
+};
+
+return <Table locale={locale} />;
+```
+
+<!--{include:(guide/i18n/fragments/locales.md)}-->
 
 ## 与 react-intl 同时使用
 

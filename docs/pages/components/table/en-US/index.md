@@ -22,7 +22,6 @@ A table displays rows of data.
 
 <!--{include:`appearance.md`}-->
 
-
 ### Virtualized
 
 Support `virtualized`, effectively render large tabular data.
@@ -278,8 +277,8 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 | ---------- | ------------------------------------------------------------------- |
 | ascending  | Data are sorted in ascending order.                                 |
 | descending | Data are sorted in descending order.                                |
-| other      | Data are sorted by an algorithm other than ascending or descending. |
 | none       | Default (no sort applied).                                          |
+| other      | Data are sorted by an algorithm other than ascending or descending. |
 
 ## Props
 
@@ -303,6 +302,7 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 | hover                    | boolean `(true)`                                                                  | The row of the table has a mouseover effect                                                   |
 | isTree                   | boolean                                                                           | Show as Tree table                                                                            |
 | loading                  | boolean                                                                           | Show loading                                                                                  |
+| locale                   | [TableLocaleType](/guide/i18n/#table)                                             | Locale text                                                                                   |
 | minHeight                | number `(0)`                                                                      | Minimum height                                                                                |
 | onDataUpdated            | (nextData: object[], scrollTo: (coord: { x: number; y: number }) => void) => void | Callback after table data update.                                                             |
 | onExpandChange           | (expanded:boolean, rowData:object) => void                                        | Tree table, the callback function in the expanded node                                        |

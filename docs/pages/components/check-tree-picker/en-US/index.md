@@ -72,18 +72,19 @@ Learn more in [Accessibility](/guide/accessibility).
 | getChildren             | (node: DataItemType) => Promise&lt;DataItemType&gt;                                           | load node children data asynchronously                                    |
 | height                  | number `(360px)`                                                                              | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                            | set label key in data                                                     |
+| locale                  | [PickerLocaleType](/guide/i18n/#pickers)                                                      | Locale text                                                               |
 | menuClassName           | string                                                                                        | className for Menu                                                        |
 | menuStyle               | CSSProperties                                                                                 | style for Menu                                                            |
 | onChange                | (values:string[]) => void                                                                     | Callback fired when value change                                          |
 | onClean                 | (event:SyntheticEvent) => void                                                                | Callback fired when value clean                                           |
 | onClose                 | () => void                                                                                    | Callback fired when close component                                       |
-| onExpand                | (expandItemValues: any [], activeNode:DataItemType, concat:(data, children) => Array) => void | Callback fired when tree node expand state changed                        |
 | onEnter                 | () => void                                                                                    | Callback fired before the overlay transitions in                          |
 | onEntered               | () => void                                                                                    | Callback fired after the overlay finishes transitioning in                |
 | onEntering              | () => void                                                                                    | Callback fired as the overlay begins to transition in                     |
 | onExit                  | () => void                                                                                    | Callback fired right before the overlay transitions out                   |
 | onExited                | () => void                                                                                    | Callback fired after the overlay finishes transitioning out               |
 | onExiting               | () => void                                                                                    | Callback fired as the overlay begins to transition out                    |
+| onExpand                | (expandItemValues: any [], activeNode:DataItemType, concat:(data, children) => Array) => void | Callback fired when tree node expand state changed                        |
 | onOpen                  | () => void                                                                                    | Callback fired when open component                                        |
 | onSearch                | (searchKeyword:string, event) => void                                                         | Callback fired when search                                                |
 | onSelect                | (activeNode:DataItemType, value:any, event) => void                                           | Callback fired when tree node is selected                                 |
