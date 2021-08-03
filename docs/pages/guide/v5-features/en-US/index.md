@@ -371,3 +371,40 @@ return (
   </CustomProvider>
 );
 ```
+
+#### 2.12 Deprecate `activeKey` and `onSelect` properties of `<Sidenav>`
+
+`<Sidenav>` is always used in conjunction with `<Nav>`.
+You should use `activeKey` and `onSelect` properties of `<Nav>` instead.
+
+```js
+// for rsuite v4
+
+return (
+  <Sidenav activeKey={activeKey} onSelect={setActiveKey}>
+    <Sidenav.Body>
+      <Nav>
+        <Nav.Item>Nav item</Nav.Item>
+        <Dropdown title="Dropdown">
+          <Dropdown.Item>Dropdown item</Dropdown.Item>
+        </Dropdown>
+      </Nav>
+    </Sidenav.Body>
+  </Sidenav>
+);
+
+// for rsuite v5
+
+return (
+  <Sidenav>
+    <Sidenav.Body>
+      <Nav activeKey={activeKey} onSelect={setActiveKey}>
+        <Nav.Item>Nav item</Nav.Item>
+        <Dropdown title="Dropdown">
+          <Dropdown.Item>Dropdown item</Dropdown.Item>
+        </Dropdown>
+      </Nav>
+    </Sidenav.Body>
+  </Sidenav>
+);
+```

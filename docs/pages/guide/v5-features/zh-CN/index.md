@@ -374,3 +374,40 @@ return (
   </CustomProvider>
 );
 ```
+
+#### 2.12 废弃 `<Sidenav>` 组件的 `activeKey` 和 `onSelect` 属性
+
+`<Sidenav>` 组件总是和 `<Nav>` 组件配合使用。
+你应当使用 `<Nav>` 组件的 `activeKey` 和 `onSelect` 属性。
+
+```js
+// for rsuite v4
+
+return (
+  <Sidenav activeKey={activeKey} onSelect={setActiveKey}>
+    <Sidenav.Body>
+      <Nav>
+        <Nav.Item>Nav item</Nav.Item>
+        <Dropdown title="Dropdown">
+          <Dropdown.Item>Dropdown item</Dropdown.Item>
+        </Dropdown>
+      </Nav>
+    </Sidenav.Body>
+  </Sidenav>
+);
+
+// for rsuite v5
+
+return (
+  <Sidenav>
+    <Sidenav.Body>
+      <Nav activeKey={activeKey} onSelect={setActiveKey}>
+        <Nav.Item>Nav item</Nav.Item>
+        <Dropdown title="Dropdown">
+          <Dropdown.Item>Dropdown item</Dropdown.Item>
+        </Dropdown>
+      </Nav>
+    </Sidenav.Body>
+  </Sidenav>
+);
+```
