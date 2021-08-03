@@ -8,9 +8,11 @@ React Suite v5 的目的是改进组件的可访问性和可扩展性，以下�
 
 ### 1. 提升可访问(Accessibility)
 
+我们的希望可以让更多的用户在 React Suite 开发的产品上无障碍的使用。我们会在键盘操作、读屏设备等多个场景去改善 React Suite 提供的每一个组件。
+
 #### 1.1 无障碍设计
 
-可以让更多的用户在 React Suite 开发的产品上无障碍的使用，是我们的希望，我们会在键盘操作、读屏设备等多个场景去改善 React Suite 提供的每一个组件。
+React Suite 遵循 [WAI-ARIA](https://www.w3.org/TR/wai-aria/) 标准，对所有组件进行了重构，均具有开箱即用的适当属性和键盘交互功能。
 
 详细的内容请阅读: [无障碍设计](/zh/guide/accessibility)
 
@@ -20,7 +22,7 @@ React Suite v5 的目的是改进组件的可访问性和可扩展性，以下�
 
 #### 1.3 采用 SVG Icon 代替 Icon font
 
-Icon font 存在存在一些渲染上问题，导致图标模糊，需要载入字体文件，导致内容区域闪烁等问题。 为了更好的可访问性(Accessibility)，我们决定优先采用 SVG Icon。
+Icon font 存在存在一些渲染上问题，导致图标模糊，需要载入字体文件，导致内容区域闪烁等问题。 为了更好的可访问性(Accessibility)，我们决定优先采用 SVG Icon。 并且能够友好的兼容第三方的图标资源。
 
 ```js
 import GearIcon from '@rsuite/icons/Gear';
@@ -171,6 +173,26 @@ import GearIcon from '@rsuite/icons/Gear';
 return <GearIcon />;
 ```
 
+移除了 `size` 属性，采用 `fontSize` 代替。
+
+```js
+// for rsuite v4
+return <Icon icon="gear" size="3x" />;
+
+// for rsuite v5
+return <GearIcon style={{ fontSize: '3em' }} />;
+```
+
+`size` 属性值及其对应的 `fontSize` 值关系如下：
+
+| size | fontSize   |
+| ---- | ---------- |
+| `lg` | `1.3333em` |
+| `2x` | `2em`      |
+| `3x` | `3em`      |
+| `4x` | `4em`      |
+| `5x` | `5em`      |
+
 #### 2.3 date-fns 升级 v2
 
 在 React Suite 中使用了 date-fns 工具用于对日期格式、计算等等。基于 Unicode 标准，[用于格式功能的新格式字符串有变更](https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)。
@@ -204,14 +226,22 @@ return (
 Alert.info('description');
 
 // for rsutie v5
-toaster.push(<Message type="info" description="description" closable />);
+toaster.push(
+  <Message type="info" closable>
+    description
+  </Message>
+);
 ```
 
-一个可以配置的通知信息
+删除一个消息或者清空消息
 
 ```js
 // Remove message
-const key = toaster.push(<Message type="info" description="description" closable />);
+const key = toaster.push(
+  <Message type="info" closable>
+    description
+  </Message>
+);
 toaster.remove(key);
 
 // Clear all messages
@@ -230,10 +260,12 @@ Notification.info({
 });
 
 // for rsuite v5
-toaster.push(<Notification title="info" description="description" />, {
-  duration: 4500,
-  placement: 'topStart'
-});
+toaster.push(
+  <Notification type="info" header="info" duration={4500}>
+    description
+  </Notification>,
+  { placement: 'topStart' }
+);
 ```
 
 #### 2.6 Form 相关组件重命名
@@ -316,5 +348,29 @@ return (
     onChangePage={handleChangePage}
     onChangeLimit={handleChangeLimit}
   />
+);
+```
+
+#### 2.11 使用 `CustomProvider` 替换 `IntlProvider`
+
+```js
+// for rsuite v4
+import { IntlProvider } from 'rsuite';
+import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
+
+return (
+  <IntlProvider locale={zhCN}>
+    <App />
+  </IntlProvider>
+);
+
+// for rsuite v5
+import { CustomProvider } from 'rsuite';
+import zhCN from 'rsuite/lib/locales/zh_CN';
+
+return (
+  <CustomProvider locale={zhCN}>
+    <App />
+  </CustomProvider>
 );
 ```

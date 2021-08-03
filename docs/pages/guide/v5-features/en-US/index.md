@@ -8,9 +8,11 @@ The purpose of React Suite v5 is to improve the accessibility and scalability of
 
 ### 1. Improve accessibility
 
+It is our hope that more users can use barrier-free use of products developed by React Suite. We will improve each component provided by React Suite in multiple scenarios such as keyboard operation and screen reading devices.
+
 #### 1.1 Accessibility
 
-It is our hope that more users can use barrier-free use of products developed by React Suite. We will improve each component provided by React Suite in multiple scenarios such as keyboard operation and screen reading devices.
+React Suite follows the [WAI-ARIA](https://www.w3.org/TR/wai-aria/) standard. All components have been refactored to have appropriate attributes and keyboard interaction functions out of the box.
 
 For details, please read: [Accessibility](/guide/accessibility)
 
@@ -20,7 +22,7 @@ In React Suite v4, we refer to the 《Web Content Accessibility Guidelines (WCAG
 
 #### 1.3 Use SVG Icon instead of Icon font
 
-Icon font has some rendering problems, which makes the icon blurry, the need to load the font file, and the content area flickers. For better accessibility, we decided to prefer SVG Icon.
+Icon font has some rendering problems, which makes the icon blurry, the need to load the font file, and the content area flickers. For better accessibility, we decided to prefer SVG Icon. And can be well compatible with third-party icon resources.
 
 ```js
 import GearIcon from '@rsuite/icons/Gear';
@@ -168,6 +170,26 @@ import GearIcon from '@rsuite/icons/Gear';
 return <GearIcon />;
 ```
 
+The `size` property has been removed and replaced by `fontSize`.
+
+```js
+// for rsuite v4
+return <Icon icon="gear" size="3x" />;
+
+// for rsuite v5
+return <GearIcon style={{ fontSize: '3em' }} />;
+```
+
+The relationship between the `size` attribute value and its corresponding `fontSize` value is as follows:
+
+| size | fontSize   |
+| ---- | ---------- |
+| `lg` | `1.3333em` |
+| `2x` | `2em`      |
+| `3x` | `3em`      |
+| `4x` | `4em`      |
+| `5x` | `5em`      |
+
 #### 2.3 date-fns upgrade v2
 
 The date-fns tool is used in React Suite for date format, calculation, etc. Based on the Unicode standard, the new format string used for [format functions has changed](<(https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)>). [Detailed description]
@@ -201,12 +223,22 @@ All pop-up notification messages are managed using the new API toaster. The Aler
 Alert.info('description');
 
 // for rsutie v5
-toaster.push(<Message type="info" description="description" closable />);
+toaster.push(
+  <Message type="info" closable>
+    description
+  </Message>
+);
 ```
+
+Remove messages and clear all messages
 
 ```js
 // Remove message
-const key = toaster.push(<Message type="info" description="description" closable />);
+const key = toaster.push(
+  <Message type="info" closable>
+    description
+  </Message>
+);
 toaster.remove(key);
 
 // Clear all messages
@@ -225,10 +257,12 @@ Notification.info({
 });
 
 // for rsuite v5
-toaster.push(<Notification title="info" description="description" />, {
-  duration: 4500,
-  placement: 'topStart'
-});
+toaster.push(
+  <Notification type="info" header="info" duration={4500}>
+    description
+  </Notification>,
+  { placement: 'topStart' }
+);
 ```
 
 #### 2.6 Rename Form related components
@@ -311,5 +345,29 @@ return (
     onChangePage={handleChangePage}
     onChangeLimit={handleChangeLimit}
   />
+);
+```
+
+#### 2.11 Replace `IntlProvider` with `CustomProvider`
+
+```js
+// for rsuite v4
+import { IntlProvider } from 'rsuite';
+import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
+
+return (
+  <IntlProvider locale={zhCN}>
+    <App />
+  </IntlProvider>
+);
+
+// for rsuite v5
+import { CustomProvider } from 'rsuite';
+import zhCN from 'rsuite/lib/locales/zh_CN';
+
+return (
+  <CustomProvider locale={zhCN}>
+    <App />
+  </CustomProvider>
 );
 ```

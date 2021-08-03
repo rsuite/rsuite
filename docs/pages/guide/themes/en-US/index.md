@@ -21,7 +21,7 @@ Sets the primary color.
 
 After you configure the theme base color, a set of swatches (`@H050` - `@H900`, H is Hue) reference is generated: [constants.less](rsuite-theme-pallete).
 
-Now go to the [palette](/tools/palette) to select the appropriate color or upload your own Logo to preview.
+Now go to the [palette](/resources/palette) to select the appropriate color or upload your own Logo to preview.
 
 ### Adjusts the fillet radius of the assembly.
 

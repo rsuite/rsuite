@@ -93,7 +93,7 @@ var _Button = require('rsuite/lib/Button');
         // 如果使用 less-loader@5 或者更老的版本 ，请移除 lessOptions 这一级直接配置选项。
         lessOptions: {
           javascriptEnabled: true,
-          modifyVars: { '@reset-import': false }
+          modifyVars: { '@enable-css-reset': false }
         }
     }
 }

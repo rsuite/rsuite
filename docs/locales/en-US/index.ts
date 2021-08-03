@@ -9,14 +9,15 @@ export default {
     guide: 'Guide',
     design: 'Design',
     components: 'Components',
-    tools: 'Tools',
+    resources: 'Resources & Tools',
+    designResources: 'Design Resources',
     introduction: 'Introduction',
     usage: 'Quick Start',
     useWithCreateReactApp: 'Use in create-react-app',
     useNextApp: 'Use in Next.js',
     darkMode: 'Dark mode',
     customizeTheme: 'Customize theme',
-    intl: 'Installation',
+    i18n: 'i18n',
     rtl: 'Right-to-left',
     changeLog: 'Change log',
     palette: 'Palette',
@@ -28,7 +29,7 @@ export default {
     collapseMenu: 'Content navigation',
     changeLanguage: 'Language',
     flow: 'Flow',
-    extension: 'Extensions',
+    extension: 'Extension Components',
     gettingStarted: 'Getting started',
     htmlElements: 'Supported HTML Elements',
     modularized: 'Use modularized',
@@ -44,13 +45,23 @@ export default {
     copyFailed: 'Copy the failure, the browser doesn`t support this feature',
     shareTwitter: 'Share on Twitter',
     accessibility: 'Accessibility',
-    composition: 'Composition'
+    composition: 'Composition',
+    examples: 'Example Projects'
   },
-
   palette: {
     title: 'Get the product color',
     step1: 'Upload the Logo of the product',
     step2: 'By analyzing the color of the Logo, make the theme color',
     step3: 'Click on the location of the Logo to change the theme color'
+  },
+  resourcesDesign: {
+    defaultHeader: 'Design - Light theme',
+    defaultDescription: 'Component design - Sketch Measure.',
+    darkHeader: 'Design - Dark theme',
+    darkDescription: 'Component design - Sketch Measure.',
+    figmaHeader: 'Figma Open Source Library',
+    figmaDescription: 'Open source library that can be used directly on Figma.',
+    sketchHeader: 'Sketch Symbols',
+    sketchDescription: 'Provide symbols imported by Sketch.'
   }
 };

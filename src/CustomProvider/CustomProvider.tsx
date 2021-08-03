@@ -1,6 +1,7 @@
 import React from 'react';
-import { getClassNamePrefix } from '../utils/prefix';
+import { getClassNamePrefix, prefix } from '../utils/prefix';
 import { Locale } from '../locales';
+import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 
 export interface CustomValue<T = Locale> {
   /** Language configuration */
@@ -42,7 +43,7 @@ export interface CustomValue<T = Locale> {
 
 export interface CustomProviderProps<T = Locale> extends CustomValue<T> {
   /** Supported themes */
-  theme?: 'default' | 'dark' | 'high-contrast';
+  theme?: 'light' | 'dark' | 'high-contrast';
 
   /** The prefix of the component CSS class */
   classPrefix?: string;
@@ -53,11 +54,25 @@ export interface CustomProviderProps<T = Locale> extends CustomValue<T> {
 
 const CustomContext = React.createContext<CustomProviderProps>({});
 const { Consumer, Provider } = CustomContext;
+const themes = ['light', 'dark', 'high-contrast'];
 
 const CustomProvider = (props: CustomProviderProps) => {
-  const { children, classPrefix = getClassNamePrefix(), ...rest } = props;
+  const { children, classPrefix = getClassNamePrefix(), theme, ...rest } = props;
 
-  const value = React.useMemo(() => ({ classPrefix, ...rest }), [classPrefix, rest]);
+  const value = React.useMemo(() => ({ classPrefix, theme, ...rest }), [classPrefix, theme, rest]);
+
+  React.useEffect(() => {
+    if (canUseDOM && theme) {
+      addClass(document.body, prefix(classPrefix, `theme-${theme}`));
+
+      // Remove the className that will cause style conflicts
+      themes.forEach(t => {
+        if (t !== theme) {
+          removeClass(document.body, prefix(classPrefix, `theme-${t}`));
+        }
+      });
+    }
+  }, [classPrefix, theme]);
 
   return <Provider value={value}>{children}</Provider>;
 };

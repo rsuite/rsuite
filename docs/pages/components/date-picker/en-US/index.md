@@ -66,7 +66,7 @@ The calendar panel can be displayed in ISO standard via the ʻisoWeek` property 
 
 ### Set the local language
 
-`DatePicker` supports local language custom configuration, but we recommend using the unified [internationalization](/guide/intl) configuration.
+`DatePicker` supports local language custom configuration, but we recommend using the unified [i18n](/guide/i18n) configuration.
 
 <!--{include:`intl.md`}-->
 
