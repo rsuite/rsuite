@@ -12,6 +12,7 @@ import { NavbarContext } from '../Navbar/Navbar';
 import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 import DisclosureContext, { DisclosureActionTypes } from '../Disclosure/DisclosureContext';
 import SafeAnchor from '../SafeAnchor';
+import NavContext from '../Nav/NavContext';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -74,6 +75,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
     const { classPrefix, className, active: activeProp, eventKey, onSelect, icon, ...rest } = props;
 
+    const nav = useContext(NavContext);
     const dropdown = useContext(DropdownContext);
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
@@ -91,16 +93,22 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 
     const [, dispatchDisclosure] = disclosure ?? [];
 
-    const handleClickNavbarDropdownItem = useCallback(() => {
-      dispatchDisclosure({ type: DisclosureActionTypes.Hide });
-    }, [dispatchDisclosure]);
+    const handleClickNavbarDropdownItem = useCallback(
+      (event: React.SyntheticEvent<HTMLElement>) => {
+        dispatchDisclosure({ type: DisclosureActionTypes.Hide });
+        handleSelectItem?.(event);
+      },
+      [dispatchDisclosure, handleSelectItem]
+    );
 
     if (sidenav?.expanded) {
       return <SidenavDropdownItem ref={ref} {...props} />;
     }
 
     const menuitemSelected =
-      activeProp || (!isNil(eventKey) && shallowEqual(dropdown?.activeKey, eventKey));
+      activeProp ||
+      (!isNil(eventKey) &&
+        (shallowEqual(dropdown?.activeKey, eventKey) || shallowEqual(nav?.activeKey, eventKey)));
 
     const { as: Component, divider, panel, children, disabled, ...restProps } = rest;
 
@@ -135,9 +143,11 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
           'with-icon': icon,
           disabled,
           divider,
-          panel
+          panel,
+          active: menuitemSelected
         })
       );
+
       const dataAttributes: { [key: string]: any } = {
         'data-event-key': eventKey
       };
@@ -150,6 +160,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
           <SafeAnchor
             ref={ref}
             className={classes}
+            aria-current={menuitemSelected || undefined}
             {...dataAttributes}
             {...restProps}
             onClick={createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick)}

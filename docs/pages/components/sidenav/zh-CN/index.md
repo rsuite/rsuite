@@ -43,12 +43,10 @@
 
 | 属性名称        | 类型 `(默认值)`                                    | 描述                                       |
 | --------------- | -------------------------------------------------- | ------------------------------------------ |
-| activeKey       | string                                             | 激活选项, 对应菜单 eventKey                |
 | appearance      | enum: 'default', 'inverse', 'subtle' `('default')` | 菜单外观                                   |
 | as              | ElementType `('div')`                              | 为组件自定义元素类型                       |
 | classPrefix     | string `('sidenav')`                               | 组件 CSS 类的前缀                          |
 | defaultOpenKeys | string[]                                           | 默认展开菜单, 对应 Dropdown 中 eventKey    |
 | expanded        | boolean `(true)`                                   | 是否是展开 Sidenav                         |
 | onOpenChange    | (openKeys: string[], event) => void                | 菜单打开发生改变的回调函数                 |
-| onSelect        | (eventKey: string[], event) => void                | 选择菜单的回调函数                         |
 | openKeys        | string[]                                           | 打开菜单, 对应 Dropdown 中 eventKey (受控) |

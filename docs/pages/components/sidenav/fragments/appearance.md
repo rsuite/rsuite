@@ -11,12 +11,12 @@ const styles = {
   marginRight: 10
 };
 
-const MySidenav = ({ ...props }) => {
+const MySidenav = ({ appearance, ...props }) => {
   return (
     <div style={styles}>
-      <Sidenav {...props} defaultOpenKeys={['3', '4']}>
+      <Sidenav appearance={appearance} defaultOpenKeys={['3', '4']}>
         <Sidenav.Body>
-          <Nav>
+          <Nav {...props}>
             <Nav.Item eventKey="1" active icon={<Dashboard />}>
               Dashboard
             </Nav.Item>

@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
+import { getByTestId, render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 
 import Sidenav from '../Sidenav';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
-import { getByTestId } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 describe('<Sidenav>', () => {
+  afterEach(() => {
+    sinon.restore();
+  });
+
   it('Should render a navigation', () => {
     const instance = getDOMNode(<Sidenav />);
     assert.include(instance.className, 'rs-sidenav');
@@ -24,6 +29,8 @@ describe('<Sidenav>', () => {
   });
 
   it('Should call onSelect callback', () => {
+    const consoleWarnSpy = sinon.spy(console, 'warn');
+
     const onSelectSpy = sinon.spy();
 
     const instance = getDOMNode(
@@ -37,6 +44,9 @@ describe('<Sidenav>', () => {
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-nav-item'));
 
+    expect(consoleWarnSpy, 'Deprecation warning').to.have.been.calledWith(
+      sinon.match(/onselect.+deprecated/i)
+    );
     expect(onSelectSpy, 'onSelect').to.have.been.calledWith('1');
   });
 
@@ -138,6 +148,8 @@ describe('<Sidenav>', () => {
   });
 
   it('Should set `aria-selected=true` on the item indicated by `activeKey`', () => {
+    const consoleWarnSpy = sinon.spy(console, 'warn');
+
     const instance = getDOMNode(
       <Sidenav activeKey="1">
         <Nav>
@@ -148,7 +160,48 @@ describe('<Sidenav>', () => {
         </Nav>
       </Sidenav>
     );
-
+    expect(consoleWarnSpy, 'Deprecation warning').to.have.been.calledWith(
+      sinon.match(/activekey.+deprecated/i)
+    );
     expect(instance.querySelector('#selected-item').getAttribute('aria-selected')).to.equal('true');
+  });
+
+  it('Should mark <Dropdown.Item> matching <Nav> `activeKey` as current', () => {
+    const { getByTestId } = render(
+      <Sidenav>
+        <Nav activeKey="2-1">
+          <Dropdown title="Dropdown">
+            <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+              Dropdown item
+            </Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      </Sidenav>
+    );
+
+    expect(getByTestId('dropdown-item')).to.have.attribute('aria-current', 'true');
+    // The accent style
+    expect(getByTestId('dropdown-item')).to.have.class('rs-dropdown-item-active');
+  });
+
+  it('Should call <Nav onSelect> with correct eventKey from <Dropdown.Item>', () => {
+    const onSelectSpy = sinon.spy();
+    const { getByTestId } = render(
+      <Sidenav>
+        <Nav activeKey="2-1" onSelect={onSelectSpy}>
+          <Dropdown title="Dropdown" data-testid="dropdown">
+            <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+              Dropdown item
+            </Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      </Sidenav>
+    );
+
+    // opens the dropdown
+    userEvent.click(getByTestId('dropdown'));
+
+    userEvent.click(getByTestId('dropdown-item'));
+    expect(onSelectSpy).to.have.been.calledWith('2-1', sinon.match.any);
   });
 });
