@@ -1,3 +1,22 @@
+<a name="5.0.0-beta.2"></a>
+# [5.0.0-beta.2](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.1...v5.0.0-beta.2) (2021-08-03)
+
+
+### Bug Fixes
+
+* **check-picker:** fix unable to clear value when pressing `Backspace` ([#1812](https://github.com/rsuite/rsuite/issues/1812)) ([1534174](https://github.com/rsuite/rsuite/commit/1534174))
+* **nav:** trigger `onSelect` on `<Nav>` when clicking `<Nav.Item>` ([#1797](https://github.com/rsuite/rsuite/issues/1797)) ([3fc99c4](https://github.com/rsuite/rsuite/commit/3fc99c4))
+* CheckTreePicker and TreePicker search problems ([#1808](https://github.com/rsuite/rsuite/issues/1808)) ([2c5e651](https://github.com/rsuite/rsuite/commit/2c5e651)), closes [#1577](https://github.com/rsuite/rsuite/issues/1577)
+* **message:** improve close icon style ([#1807](https://github.com/rsuite/rsuite/issues/1807)) ([4d1bf3f](https://github.com/rsuite/rsuite/commit/4d1bf3f))
+* **typescript:** export props of all components ([#1803](https://github.com/rsuite/rsuite/issues/1803)) ([a4edeba](https://github.com/rsuite/rsuite/commit/a4edeba))
+
+
+### Features
+
+* **CustomProvider:** support `theme` on `<CustomProvider>` ([#1798](https://github.com/rsuite/rsuite/issues/1798)) ([cb5794c](https://github.com/rsuite/rsuite/commit/cb5794c))
+
+
+
 <a name="5.0.0-beta.1"></a>
 # [5.0.0-beta.1](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.9...v5.0.0-beta.1) (2021-07-23)
 
