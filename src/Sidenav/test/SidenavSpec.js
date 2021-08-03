@@ -9,6 +9,10 @@ import Dropdown from '../../Dropdown';
 import userEvent from '@testing-library/user-event';
 
 describe('<Sidenav>', () => {
+  afterEach(() => {
+    sinon.restore();
+  });
+
   it('Should render a navigation', () => {
     const instance = getDOMNode(<Sidenav />);
     assert.include(instance.className, 'rs-sidenav');
@@ -25,6 +29,8 @@ describe('<Sidenav>', () => {
   });
 
   it('Should call onSelect callback', () => {
+    const consoleWarnSpy = sinon.spy(console, 'warn');
+
     const onSelectSpy = sinon.spy();
 
     const instance = getDOMNode(
@@ -38,6 +44,9 @@ describe('<Sidenav>', () => {
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-nav-item'));
 
+    expect(consoleWarnSpy, 'Deprecation warning').to.have.been.calledWith(
+      sinon.match(/onselect.+deprecated/i)
+    );
     expect(onSelectSpy, 'onSelect').to.have.been.calledWith('1');
   });
 
@@ -139,6 +148,8 @@ describe('<Sidenav>', () => {
   });
 
   it('Should set `aria-selected=true` on the item indicated by `activeKey`', () => {
+    const consoleWarnSpy = sinon.spy(console, 'warn');
+
     const instance = getDOMNode(
       <Sidenav activeKey="1">
         <Nav>
@@ -149,7 +160,9 @@ describe('<Sidenav>', () => {
         </Nav>
       </Sidenav>
     );
-
+    expect(consoleWarnSpy, 'Deprecation warning').to.have.been.calledWith(
+      sinon.match(/activekey.+deprecated/i)
+    );
     expect(instance.querySelector('#selected-item').getAttribute('aria-selected')).to.equal('true');
   });
 

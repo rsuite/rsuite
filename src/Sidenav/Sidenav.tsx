@@ -8,6 +8,7 @@ import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
 import { useClassNames, useControlled, mergeRefs } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import deprecatePropType from '../utils/deprecatePropType';
 
 export interface SidenavProps<T = string> extends WithAsProps {
   /** Whether to expand the Sidenav */
@@ -22,13 +23,19 @@ export interface SidenavProps<T = string> extends WithAsProps {
   /** Open menu, corresponding to Dropdown eventkey (controlled) */
   openKeys?: T[];
 
-  /** Activation option, corresponding menu eventkey */
+  /**
+   * Activation option, corresponding menu eventkey
+   * @deprecated Use <Nav activeKey> instead
+   */
   activeKey?: T;
 
   /** Menu opening callback function that changed */
   onOpenChange?: (openKeys: T[], event: React.SyntheticEvent) => void;
 
-  /** Select the callback function for the menu */
+  /**
+   * Select the callback function for the menu
+   * @deprecated Use <Sidenav onSelect> instead
+   */
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
@@ -145,8 +152,8 @@ Sidenav.propTypes = {
   defaultOpenKeys: PropTypes.array,
   openKeys: PropTypes.array,
   onOpenChange: PropTypes.func,
-  activeKey: PropTypes.any,
-  onSelect: PropTypes.func
+  activeKey: deprecatePropType(PropTypes.any, 'Use `activeKey` on <Nav> component instead'),
+  onSelect: deprecatePropType(PropTypes.func, 'Use `onSelect` on <Nav> component instead')
 };
 
 export default Sidenav;
