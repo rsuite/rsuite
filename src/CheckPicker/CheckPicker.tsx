@@ -193,10 +193,12 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
         if (disabled || !cleanable) {
           return;
         }
+
         setValue([]);
+        onClean?.(event);
         handleChangeValue([], event);
       },
-      [disabled, cleanable, setValue, handleChangeValue]
+      [disabled, cleanable, setValue, onClean, handleChangeValue]
     );
 
     const handleMenuPressEnter = (event: React.KeyboardEvent<HTMLElement>) => {
@@ -228,6 +230,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
       onMenuPressEnter: handleMenuPressEnter,
+      onMenuPressBackspace: handleClean,
       onClose: () => {
         setFocusItemValue(null);
       },
@@ -398,7 +401,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
             id={id}
             ref={targetRef}
             disabled={disabled}
-            onClean={createChainedFunction(handleClean, onClean)}
+            onClean={handleClean}
             onKeyDown={onPickerKeyDown}
             as={toggleAs}
             cleanable={cleanable && !disabled}
