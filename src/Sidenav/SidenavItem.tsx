@@ -2,11 +2,11 @@ import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import { useClassNames, shallowEqual } from '../utils';
-import { SidenavContext } from './Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
+import NavContext from '../Nav/NavContext';
 
 export interface SidenavItemProps<T = any>
   extends WithAsProps,
@@ -56,7 +56,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
     ...rest
   } = props;
 
-  const { activeKey, onSelect: onSelectFromSidenav } = useContext(SidenavContext);
+  const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
@@ -67,10 +67,10 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
       if (disabled) return;
 
       onSelect?.(eventKey, event);
-      onSelectFromSidenav?.(eventKey, event);
+      onSelectFromNav?.(eventKey, event);
       onClick?.(event);
     },
-    [disabled, onSelect, onSelectFromSidenav, eventKey, onClick]
+    [disabled, onSelect, onSelectFromNav, eventKey, onClick]
   );
 
   if (divider) {
