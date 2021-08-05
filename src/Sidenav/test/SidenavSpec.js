@@ -184,11 +184,14 @@ describe('<Sidenav>', () => {
     expect(getByTestId('dropdown-item')).to.have.class('rs-dropdown-item-active');
   });
 
-  it('Should call <Nav onSelect> with correct eventKey from <Dropdown.Item>', () => {
+  it('Should call <Nav onSelect> with correct eventKey', () => {
     const onSelectSpy = sinon.spy();
     const { getByTestId } = render(
       <Sidenav>
-        <Nav activeKey="2-1" onSelect={onSelectSpy}>
+        <Nav onSelect={onSelectSpy}>
+          <Nav.Item eventKey="1-1" data-testid="nav-item">
+            Nav item
+          </Nav.Item>
           <Dropdown title="Dropdown" data-testid="dropdown">
             <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
               Dropdown item
@@ -198,10 +201,17 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
+    userEvent.click(getByTestId('nav-item'));
+    expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1-1', sinon.match.any);
+
+    onSelectSpy.resetHistory();
     // opens the dropdown
     userEvent.click(getByTestId('dropdown'));
 
     userEvent.click(getByTestId('dropdown-item'));
-    expect(onSelectSpy).to.have.been.calledWith('2-1', sinon.match.any);
+    expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
+      '2-1',
+      sinon.match.any
+    );
   });
 });
