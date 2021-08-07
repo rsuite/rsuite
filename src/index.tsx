@@ -86,7 +86,7 @@ export { default as Breadcrumb } from './Breadcrumb';
 export type { BreadcrumbProps, BreadcrumbItemProps } from './Breadcrumb';
 
 export { default as Pagination } from './Pagination';
-export type { PaginationProps, PaginationButtonProps, PaginationGroupProps } from './Pagination';
+export type { PaginationProps, PaginationButtonProps, BasePaginationProps } from './Pagination';
 
 export { default as Steps } from './Steps';
 export type { StepsProps, StepItemProps } from './Steps';
