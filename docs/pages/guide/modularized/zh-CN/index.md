@@ -39,7 +39,7 @@ import Button from 'rsuite/lib/Button';
 $ npm install babel-preset-rsuite --save-dev
 ```
 
-#### 使用
+### 使用
 
 ```json
 // .babelrc or babel-loader option
@@ -58,7 +58,7 @@ import { Button } from 'rsuite';
 var _Button = require('rsuite/lib/Button');
 ```
 
-#### 参数配置
+### 参数配置
 
 ```json
 // .babelrc or babel-loader option
