@@ -1,3 +1,14 @@
+<a name="5.0.0-beta.3"></a>
+# [5.0.0-beta.3](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.2...v5.0.0-beta.3) (2021-08-08)
+
+
+### Bug Fixes
+
+* **pagination:** export type definition of `PaginationProps` ([#1817](https://github.com/rsuite/rsuite/issues/1817)) ([80c7d9e](https://github.com/rsuite/rsuite/commit/80c7d9e))
+* **sidenav:** trigger <Nav onSelect> on click <Nav.Item> ([#1815](https://github.com/rsuite/rsuite/issues/1815)) ([cae171d](https://github.com/rsuite/rsuite/commit/cae171d))
+
+
+
 <a name="5.0.0-beta.2"></a>
 # [5.0.0-beta.2](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.1...v5.0.0-beta.2) (2021-08-03)
 
