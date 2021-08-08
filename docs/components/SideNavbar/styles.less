@@ -90,12 +90,16 @@
   top: 80px;
   padding: 0 10px;
 
-  a {
+  .rs-nav-item {
     font-weight: 400;
     color: inherit;
     transition: none;
     border-radius: 2px;
     padding-left: 20px;
+  }
+  .rs-nav-item-active {
+    color: var(--rs-navs-selected);
+    font-weight: bold;
   }
 
   .title-zh {
@@ -128,31 +132,6 @@
   &::-webkit-scrollbar-track {
     border-radius: (@scrollbar-width / 2);
     background: transparent;
-  }
-}
-
-.app-container.night {
-  min-width: 1000px;
-  .rs-sidebar-wrapper {
-    background: rgba(242, 242, 242, 0.7);
-  }
-
-  .rs-nav.nav-docs {
-    a {
-      &:hover {
-        background: #eee !important;
-      }
-    }
-    .rs-nav-item-content:focus {
-      background: #eee !important;
-    }
-    .rs-nav-item-active a {
-      color: var(--rs-text-link);
-      font-weight: bold;
-    }
-    .rs-nav-item-panel {
-      color: #999;
-    }
   }
 }
 

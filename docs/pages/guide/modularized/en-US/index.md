@@ -39,7 +39,7 @@ Use [babel-preset-rsuite](https://github.com/rsuite/babel-preset-rsuite) to conv
 $ npm install babel-preset-rsuite --save-dev
 ```
 
-#### Config
+### Config
 
 ```json
 // .babelrc or babel-loader option
@@ -58,7 +58,7 @@ import { Button } from 'rsuite';
 var _Button = require('rsuite/lib/Button');
 ```
 
-#### Parameter configuration
+### Parameter configuration
 
 ```json
 {
