@@ -43,44 +43,33 @@ export default function SearchDrawer(props: SearchDrawerProps) {
 
   return (
     <Drawer className="search-drawer" placement="left" size="xs" open={show} onClose={onClose}>
-      <Drawer.Header>
-        <Drawer.Title>{messages?.common?.search}</Drawer.Title>
-      </Drawer.Header>
-      <Drawer.Body>
+      <Drawer.Header style={{ border: 'none' }}>
         <Input
           placeholder={messages?.common?.search}
           className="search-input"
           value={keyword}
           onChange={onSearch}
         />
+      </Drawer.Header>
+      <Drawer.Body style={{ padding: '0px 20px 0 56px' }}>
         <ul className="search-list">
           {list.map((item, index) => {
             const component = item?.component;
-            const content = item?.content;
-            let title = item?._highlightResult?.title?.value;
-            title = `${component} > ${title.replace(/`/gi, '')}`;
+            const content = item?._highlightResult?.content?.value;
+            const title = item?._highlightResult?.title?.value;
             const url = `/components/${component}`;
 
             return (
               <li key={index}>
-                {title.indexOf('<em>') !== -1 ? (
-                  <div onClick={onClose}>
-                    <Link href={url}>
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: `${title}<p>${content}</p>`
-                        }}
-                      />
-                    </Link>
-                  </div>
-                ) : (
-                  <div onClick={onClose}>
-                    <Link href={url}>
-                      {title}
-                      <p>{content}</p>
-                    </Link>
-                  </div>
-                )}
+                <div onClick={onClose}>
+                  <Link href={url}>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: `${title}<p>${content}</p>`
+                      }}
+                    />
+                  </Link>
+                </div>
               </li>
             );
           })}
