@@ -42,7 +42,7 @@ render(<GearIcon />);
 
 ### 3. 采用函数组件重构
 
-我们函数组件去重构大部分的组件，采用 React Hooks 所带来的新特性，提升开发体验。
+我们采用函数组件重构大部分的组件，采用 React Hooks 所带来的新特性，提升开发体验。
 
 ---
 
@@ -52,13 +52,13 @@ render(<GearIcon />);
 
 - 改进 Form 在纯文本视图的效果
 
-- 对组件重命名
+- 对组件进行重命名
 
 ```
 `FormGroup` 重命名为 `Form.Group`
 `FormControl` 重命名为 `Form.Control`
 `ControlLabel` 重命名为 `Form.ControlLabel`
-`ErrorMessge` 重命名为 `Form.ErrorMessge`
+`ErrorMessage` 重命名为 `Form.ErrorMessage`
 `HelpBlock` 重命名为 `Form.HelpText`
 ```
 
@@ -83,7 +83,7 @@ const checkResult = model.check({
 console.log(checkResult);
 ```
 
-checkResult return structure is:
+checkResult 返回的数据结构:
 
 ```js
 {
@@ -106,7 +106,7 @@ checkResult return structure is:
 };
 ```
 
-详细的使用请阅读: [表单校验](/zh/components/form-validation)与[Schema](https://github.com/rsuite/schema-typed)
+详细的使用教程请阅读: [表单校验](/zh/components/form-validation)与[Schema](https://github.com/rsuite/schema-typed)
 
 ### 2. Avatar 新增支持 srcSet、sizes、imgProps 属性
 
@@ -273,7 +273,7 @@ toaster.push(
 - `FormGroup` 重命名为 `Form.Group`
 - `FormControl` 重命名为 `Form.Control`
 - `ControlLabel` 重命名为 `Form.ControlLabel`
-- `ErrorMessge` 重命名为 `Form.ErrorMessge`
+- `ErrorMessage` 重命名为 `Form.ErrorMessage`
 - `HelpBlock` 重命名为 `Form.HelpText`
 
 #### 2.7 所有组件的 componentClass 属性重命名为 as
