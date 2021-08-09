@@ -111,13 +111,12 @@ class TimeDropdown extends React.PureComponent<TimeDropdownProps> {
   };
 
   handleClick = (type: TimeType, d: number, event: React.MouseEvent) => {
-    const { onSelect, date } = this.props;
-    // $FlowFixMe
+    const { onSelect, date, showMeridian } = this.props;
     let nextDate = date || new Date();
 
     switch (type) {
       case 'hours':
-        nextDate = setHours(date, d);
+        nextDate = setHours(date, showMeridian && getHours(nextDate) >= 12 ? d + 12 : d);
         break;
       case 'minutes':
         nextDate = setMinutes(date, d);
