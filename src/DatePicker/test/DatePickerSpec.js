@@ -341,4 +341,24 @@ describe('DatePicker ', () => {
       }
     }, 100);
   });
+
+  it('Should keep AM PM unchanged', () => {
+    const instance = getInstance(
+      <DatePicker
+        value={parseISO('2017-08-14 13:00:00')}
+        format="hh:mm:ss a"
+        defaultOpen
+        showMeridian
+      />
+    );
+
+    const picker = instance.overlay;
+
+    assert.equal(picker.querySelector('.rs-calendar-header-title-time').innerText, '01:00:00');
+
+    ReactTestUtils.Simulate.click(picker.querySelector('.rs-calendar-time-dropdown-cell'));
+
+    assert.equal(picker.querySelector('.rs-calendar-header-meridian').innerText, 'PM');
+    assert.equal(picker.querySelector('.rs-calendar-header-title-time').innerText, '12:00:00');
+  });
 });
