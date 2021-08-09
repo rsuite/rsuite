@@ -42,7 +42,7 @@ Current mainstream browsers already support CSS variables. We plan to provide a 
 
 ### 3. Refactoring with functional components
 
-We will use function components to refactor most of the components, and use the new features brought by React Hooks to improve the development experience.
+We refactored most of our components using function component and adopted the new features brought by React Hooks to enhance the development experience.
 
 ---
 
@@ -57,7 +57,7 @@ We will use function components to refactor most of the components, and use the 
 Rename FormGroup to Form.Group
 Rename FormControl to Form.Control
 Rename ControlLabel to Form.ControlLabel
-Rename ErrorMessge to Form.ErrorMessge
+Rename ErrorMessage to Form.ErrorMessage
 Rename HelpBlock to Form.HelpText
 ```
 
@@ -270,7 +270,7 @@ toaster.push(
 - `FormGroup` was renamed to `Form.Group`
 - `FormControl` was renamed to `Form.Control`
 - `ControlLabel` was renamed to `Form.ControlLabel`
-- `ErrorMessge` was renamed to `Form.ErrorMessge`
+- `ErrorMessage` was renamed to `Form.ErrorMessage`
 - `HelpBlock` was renamed to `Form.HelpText`
 
 #### 2.7 Rename the `componentClass· property of all components to`as`
