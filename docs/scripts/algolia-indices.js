@@ -14,10 +14,8 @@ async function getIndices(locale) {
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
-    const path = locale === 'zh' ? 'zh-CN' : 'en-US';
-
     const doc = await readFile(
-      resolve(__dirname, `../pages/components/${item.id}/${path}/index.md`),
+      resolve(__dirname, `../pages/components/${item.id}/${locale}/index.md`),
       'utf8'
     );
     const text = doc.match(/(?<=#[\S\ ]+\n\n)[\S\ ]+/gi);
@@ -30,7 +28,7 @@ async function getIndices(locale) {
     indices.push({
       objectID: item.id,
       component: item.id,
-      title: locale === 'zh' ? `${item.name} ${item.title}` : item.name,
+      title: locale === 'zh-CN' ? `${item.name} ${item.title}` : item.name,
       anchor: item.id,
       content
     });
@@ -75,5 +73,5 @@ function uploadIndices(locale) {
   });
 }
 
-uploadIndices('zh');
-uploadIndices('en');
+uploadIndices('zh-CN');
+uploadIndices('en-US');
