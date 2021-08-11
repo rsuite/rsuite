@@ -28,11 +28,12 @@
 @top-level-nav-height: 48px;
 @doc-nav-active-color: var(--rs-text-link);
 
-
 body {
   background-color: #fff;
 
-  &.rs-theme-dark {
+  // TODO use variable exported from rsuite
+  &.rs-theme-dark,
+  &.rs-theme-high-contrast {
     background-color: #0f131a;
   }
 }
@@ -162,4 +163,3 @@ html[dir='rtl'] .document-nav {
 .nav-wrapper {
   padding: 20px;
 }
-

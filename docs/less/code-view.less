@@ -13,7 +13,8 @@
     color: var(--rs-text-primary) !important;
   }
 
-  .rs-theme-dark & {
+  .rs-theme-dark &,
+  .rs-theme-high-contrast & {
     background-color: #1e1e1e;
   }
 }
@@ -28,7 +29,8 @@ code:not(.doc-highlight) {
   background-color: @doc-highlight-bg;
   font-family: Roboto Mono, Monaco, courier, monospace;
 
-  .rs-theme-dark & {
+  .rs-theme-dark &,
+  .rs-theme-high-contrast & {
     background-color: #1e1e1e;
   }
 }
@@ -100,7 +102,8 @@ a code {
     padding: 18px;
   }
 
-  .rs-theme-dark & {
+  .rs-theme-dark &,
+  .rs-theme-high-contrast & {
     border-color: #1a1d24;
 
     .code-view-toolbar {

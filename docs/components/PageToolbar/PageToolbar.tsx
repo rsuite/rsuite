@@ -9,6 +9,7 @@ import Diamond from '@rsuite/icons/legacy/Diamond';
 import Edit2 from '@rsuite/icons/legacy/Edit2';
 import Bug from '@rsuite/icons/legacy/Bug';
 import Twitter from '@rsuite/icons/legacy/Twitter';
+import { SwitchTheme } from './SwitchTheme';
 
 const MenuPopover = React.forwardRef(function MenuPopover({ children, ...rest }: any, ref) {
   return (
@@ -28,12 +29,8 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
     language,
     localePath,
     theme: [themeName, direction],
-    onChangeDirection,
-    onChangeTheme
+    onChangeDirection
   } = React.useContext(AppContext);
-
-  const ThemeIcon = props =>
-    themeName === 'dark' ? <SvgIcons.Light {...props} /> : <SvgIcons.Dark {...props} />;
 
   const DirectionIcon = props =>
     direction === 'rtl' ? <SvgIcons.Rtl {...props} /> : <SvgIcons.Ltr {...props} />;
@@ -43,14 +40,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
       <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.changeLanguage}</Tooltip>}>
         <LanguageButton />
       </Whisper>
-      <Whisper placement="bottom" speaker={<Tooltip>Toggle light/dark theme</Tooltip>}>
-        <IconButton
-          size="sm"
-          appearance="subtle"
-          icon={<Icon as={ThemeIcon} />}
-          onClick={onChangeTheme}
-        />
-      </Whisper>
+      <SwitchTheme />
       <Whisper placement="bottom" speaker={<Tooltip>Toggle RTL/LTR</Tooltip>}>
         <IconButton
           size="sm"

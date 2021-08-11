@@ -1,16 +1,17 @@
 import { canUseDOM } from 'dom-lib';
+import { CustomProviderProps } from 'rsuite';
 
-export type ThemeType = 'default' | 'dark';
+export type ThemeType = CustomProviderProps['theme'];
 export type DirectionType = 'rtl' | 'ltr';
 
 export const getDefaultTheme = (): ThemeType => {
   if (!canUseDOM) {
-    return 'default';
+    return 'light';
   }
   if (matchMedia?.('(prefers-color-scheme: dark)').matches) {
     return 'dark';
   }
-  return 'default';
+  return 'light';
 };
 
 export const THEME_KEY = 'theme';
