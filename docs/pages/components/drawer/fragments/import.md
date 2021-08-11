@@ -2,5 +2,5 @@
 import { Drawer } from 'rsuite';
 
 // or
-import Drawer from 'rsuite/lib/Drawer';
+import Drawer from 'rsuite/Drawer';
 ```

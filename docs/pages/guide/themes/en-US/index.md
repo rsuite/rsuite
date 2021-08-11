@@ -7,7 +7,7 @@ React Suite uses [Less][less] to develop styles and defines a series of variable
 Create a separate `.less` file as follows, and then introduce this file.
 
 ```less
-@import '~rsuite/lib/styles/index.less';
+@import '~rsuite/styles/index.less';
 @import 'custom-theme.less'; // Style customization.
 ```
 

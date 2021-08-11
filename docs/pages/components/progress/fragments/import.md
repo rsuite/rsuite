@@ -2,5 +2,5 @@
 import { Progress } from 'rsuite';
 
 // or
-import Progress from 'rsuite/lib/Progress';
+import Progress from 'rsuite/Progress';
 ```

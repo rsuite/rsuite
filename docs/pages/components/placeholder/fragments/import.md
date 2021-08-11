@@ -2,5 +2,5 @@
 import { Placeholder } from 'rsuite';
 
 // or
-import Placeholder from 'rsuite/lib/Placeholder';
+import Placeholder from 'rsuite/Placeholder';
 ```

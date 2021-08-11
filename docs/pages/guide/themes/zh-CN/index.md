@@ -7,7 +7,7 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 新建一个单独的 Less 文件如下，再引入这个文件。
 
 ```less
-@import '~rsuite/lib/styles/index.less';
+@import '~rsuite/styles/index.less';
 @import 'custom-theme.less'; // 进行样式定制
 ```
 

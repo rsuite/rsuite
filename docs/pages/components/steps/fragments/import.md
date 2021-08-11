@@ -2,5 +2,5 @@
 import { Steps } from 'rsuite';
 
 // or
-import Steps from 'rsuite/lib/Steps';
+import Steps from 'rsuite/Steps';
 ```

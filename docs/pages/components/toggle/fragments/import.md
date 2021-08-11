@@ -2,5 +2,5 @@
 import { Toggle } from 'rsuite';
 
 // or
-import Toggle from 'rsuite/lib/Toggle';
+import Toggle from 'rsuite/Toggle';
 ```

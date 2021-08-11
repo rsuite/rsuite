@@ -2,5 +2,5 @@
 import { SelectPicker } from 'rsuite';
 
 // or
-import SelectPicker from 'rsuite/lib/SelectPicker';
+import SelectPicker from 'rsuite/SelectPicker';
 ```

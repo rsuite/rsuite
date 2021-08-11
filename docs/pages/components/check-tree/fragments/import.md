@@ -2,5 +2,5 @@
 import { CheckTree } from 'rsuite';
 
 // or
-import CheckTree from 'rsuite/lib/CheckTree';
+import CheckTree from 'rsuite/CheckTree';
 ```

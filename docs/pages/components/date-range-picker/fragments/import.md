@@ -2,5 +2,5 @@
 import { DateRangePicker } from 'rsuite';
 
 // or
-import DateRangePicker from 'rsuite/lib/DateRangePicker';
+import DateRangePicker from 'rsuite/DateRangePicker';
 ```
