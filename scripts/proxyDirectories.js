@@ -104,6 +104,4 @@ async function proxy() {
   await proxyLocales();
 }
 
-proxy();
-
 module.exports = proxy;
