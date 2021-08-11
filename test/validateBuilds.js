@@ -9,15 +9,16 @@ const fs = require('fs');
 // - less/**/*.less
 
 const filesToEnsureExistence = [
-  'dist/rsuite.css',
-  'dist/rsuite.min.css',
-  'dist/rsuite-rtl.css',
-  'dist/rsuite-rtl.min.css',
+  'lib/dist/rsuite.css',
+  'lib/dist/rsuite.min.css',
+  'lib/dist/rsuite-rtl.css',
+  'lib/dist/rsuite-rtl.min.css',
   // See https://github.com/rsuite/rsuite/issues/1767
-  'lib/styles/plugins/palette.js'
+  'lib/cjs/styles/plugins/palette.js',
+  'lib/esm/styles/plugins/palette.js'
 ];
 
-const directoriesToEnsureExistence = ['less'];
+const directoriesToEnsureExistence = ['lib/cjs/styles', 'lib/esm/styles'];
 
 it('Ensure file existence', () => {
   filesToEnsureExistence.forEach(function ensureFileExistence(filePath) {
@@ -32,7 +33,7 @@ it('Ensure directory existence', () => {
 });
 
 it('Should enable Dark mode by default', () => {
-  const css = fs.readFileSync('dist/rsuite.css');
+  const css = fs.readFileSync('lib/dist/rsuite.css');
 
   assert.isTrue(/\.rs-theme-dark/.test(css), 'Dark mode styles are included');
 });
