@@ -8,10 +8,6 @@
   transform: scale(0);
   transition: 0s;
 
-  & when (@enable-ripple-effect = false) {
-    display: none !important;
-  }
-
   &-rippling {
     transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
       opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
@@ -28,5 +24,13 @@
     top: 0;
     left: 0;
     pointer-events: none;
+
+    & when (@enable-ripple-effect = false) {
+      display: none !important;
+    }
+
+    .high-contrast-mode({
+      display: none !important;
+    });
   }
 }

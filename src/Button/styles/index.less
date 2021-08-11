@@ -18,7 +18,7 @@
   white-space: nowrap;
   transition: @btn-transition;
   // Reset border style in all browser
-  border: none;
+  border: var(--rs-btn-default-border, none);
   user-select: none;
   text-decoration: none;
   color: var(--rs-btn-default-text);
@@ -33,6 +33,7 @@
   }
 
   .button-activated({
+    color: var(--rs-btn-default-hover-text);
     background-color: var(--rs-btn-default-hover-bg);
   });
 
@@ -57,6 +58,7 @@
 .rs-btn-primary {
   color: var(--rs-btn-primary-text);
   background-color: var(--rs-btn-primary-bg);
+  border: none;
 
   .button-activated({
     color: var(--rs-btn-primary-text);
@@ -79,6 +81,7 @@
 .rs-btn-subtle {
   color: var(--rs-btn-subtle-text);
   background-color: transparent;
+  border: none;
 
   .button-activated({
     color: var(--rs-btn-subtle-hover-text);
@@ -100,6 +103,7 @@
 .rs-btn-link {
   color: var(--rs-btn-link-text);
   background-color: transparent;
+  border: none;
 
   .button-activated({
     color: var(--rs-btn-link-hover-text);
@@ -260,6 +264,10 @@ each(@spectrum, .(@color) {
 
       .rs-btn-primary& {
         border-color: rgba(248, 247, 250, 0.3);
+
+        .high-contrast-mode({
+          border-color: var(--rs-loader-ring-inverse);
+        });
       }
     }
 
@@ -271,6 +279,10 @@ each(@spectrum, .(@color) {
 
       .rs-btn-primary& {
         border-top-color: #fff;
+
+        .high-contrast-mode({
+          border-top-color: var(--rs-loader-rotor-inverse);
+        });
       }
     }
   }
