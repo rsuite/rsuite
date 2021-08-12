@@ -12,7 +12,8 @@
     "build:export": "next export",
     "start": "cross-env NODE_ENV=production node server.js",
     "start:next": "next start",
-    "parsing-design-docs": "node ./scripts/parsingDesignDocs.js"
+    "parsing-design-docs": "node ./scripts/parsingDesignDocs.js",
+    "algolia":"node ./scripts/algolia-indices.js"
   },
   "author": "HYPERS Team",
   "license": "MIT",
