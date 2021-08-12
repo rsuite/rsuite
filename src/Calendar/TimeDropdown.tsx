@@ -109,7 +109,10 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
 
       switch (type) {
         case 'hours':
-          nextDate = DateUtils.setHours(date, d);
+          nextDate = DateUtils.setHours(
+            date,
+            showMeridian && DateUtils.getHours(nextDate) >= 12 ? d + 12 : d
+          );
           break;
         case 'minutes':
           nextDate = DateUtils.setMinutes(date, d);
