@@ -20,7 +20,7 @@ const Calendar = {
    **/
   formattedMonthPattern: 'MMM yyyy',
   formattedDayPattern: 'dd MMM yyyy',
-  dateLocale: sv
+  dateLocale: sv as any
 };
 
 export default {

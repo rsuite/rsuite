@@ -16,7 +16,7 @@ const Calendar = {
   seconds: 'Seconds',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'MMM dd, yyyy',
-  dateLocale: enUS
+  dateLocale: enUS as any
 };
 
 export default {
