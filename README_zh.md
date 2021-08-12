@@ -53,7 +53,7 @@ npm i rsuite@next --save
 
 ```js
 import { Button } from 'rsuite';
-import 'rsuite/lib/styles/index.less'; // or 'rsuite/dist/styles/rsuite-default.css'
+import 'rsuite/lib/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
 
 ReactDOM.render(<Button>Button</Button>, mountNode);
 ```

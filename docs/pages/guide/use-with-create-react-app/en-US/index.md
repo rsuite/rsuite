@@ -32,7 +32,7 @@ And then edit `./src/App.js`
 - import logo from './logo.svg';
   import './App.css';
 
-+ import 'rsuite/dist/styles/rsuite-default.css';
++ import 'rsuite/dist/rsuite.min.css';
 + import { Button } from 'rsuite';
 
   class App extends Component {
@@ -87,7 +87,7 @@ yarn add react-app-rewired customize-cra less less-loader
 3.  Edit `./src/App.js`
 
 ```diff
-- import 'rsuite/dist/styles/rsuite-default.css';
+- import 'rsuite/dist/rsuite.min.css';
 + import 'rsuite/styles/index.less';
   import { Button } from 'rsuite';
 ```
