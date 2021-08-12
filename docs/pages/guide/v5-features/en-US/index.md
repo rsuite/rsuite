@@ -363,7 +363,7 @@ return (
 
 // for rsuite v5
 import { CustomProvider } from 'rsuite';
-import zhCN from 'rsuite/lib/locales/zh_CN';
+import zhCN from 'rsuite/locales/zh_CN';
 
 return (
   <CustomProvider locale={zhCN}>
