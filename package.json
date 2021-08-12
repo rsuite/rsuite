@@ -1,10 +1,10 @@
 {
   "name": "rsuite",
-  "version": "5.0.0-alpha.12",
+  "version": "5.0.0-alpha.13",
   "description": "A suite of react components",
-  "main": "cjs/index.js",
-  "module": "esm/index.js",
-  "typings": "esm/index.d.ts",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "typings": "lib/esm/index.d.ts",
   "directories": {
     "lib": "cjs/"
   },
@@ -70,6 +70,11 @@
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "lib"
+  ],
   "devDependencies": {
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.2",

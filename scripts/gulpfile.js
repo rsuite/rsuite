@@ -129,6 +129,11 @@ function copyDocs() {
 
 function createPkgFile(done) {
   delete pkg.devDependencies;
+  delete pkg.files;
+
+  pkg.main = 'cjs/index.js';
+  pkg.module = 'esm/index.js';
+  pkg.typings = 'esm/index.d.ts';
   pkg.scripts = {
     prepublishOnly: '../node_modules/mocha/bin/mocha ../test/validateBuilds.js'
   };
