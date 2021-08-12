@@ -411,3 +411,40 @@ return (
   </Sidenav>
 );
 ```
+
+#### 2.13 按需加载
+
+**导入组件**
+
+```ts
+// v4
+import Button from 'rsuite/lib/Button';
+import 'rsuite/lib/Button/styles/index.less';
+
+// v5
+import Button from 'rsuite/Button';
+import 'rsuite/Button/styles/index.less';
+```
+
+**导入本地化语言包**
+
+```ts
+// v4
+import ruRU from 'rsuite/lib/IntlProvider/locales/ru_RU';
+
+// v5
+import ruRU from 'rsuite/locales/ru_RU';
+```
+
+**全局导入样式**
+
+```ts
+// v4
+import 'rsuite/lib/styles/index.less'; // less
+import 'rsuite/dist/styles/rsuite-default.css'; // css
+
+// v5
+import 'rsuite/styles/index.less'; // less
+import 'rsuite/dist/rsuite.min.css'; // or css
+import 'rsuite/dist/rsuite-rtl.min.css'; // or rtl css
+```
