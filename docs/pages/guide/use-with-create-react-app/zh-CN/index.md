@@ -65,7 +65,7 @@ $ yarn add rsuite
 1.  安装必要依赖。
 
 ```bash
-yarn add react-app-rewired customize-cra less less-loader
+yarn add react-app-rewired customize-cra less less-loader@7
 ```
 
 2.  修改 `package.json` 中的脚本
@@ -111,6 +111,15 @@ module.exports = override(
 重新执行 `yarn start`，看到红色按钮就是配置成功了。
 
 这里使用 [react-app-rewired][react-app-rewired] 和 [customize-cra][customize-cra],配合 [less-loader][less-loader] 利用 `modifyVars` 配置实现定制主题。更多方法，详见[定制主题](/guide/themes)。
+
+## 常见问题
+
+### TypeError: this.getOptions is not a function
+
+`less-loader` 自 `8.0.0` 起不再支持 webpack <5 版本，而 `create-react-app` 包含的 webpack 版本为 4。
+查看[相关 issue](https://github.com/webpack-contrib/less-loader/issues/416) 。
+
+你应使用更早版本的 `less-loader`，例如 `7.3.0`。
 
 ## 源码
 
