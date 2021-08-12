@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "5.0.0-alpha.11",
+  "version": "5.0.0-alpha.12",
   "description": "A suite of react components",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -20,7 +20,7 @@
     "build:gulp": "gulp build --gulpfile scripts/gulpfile.js",
     "build:types": "npx tsc --emitDeclarationOnly --outDir lib/cjs && npx tsc --emitDeclarationOnly --outDir lib/esm",
     "build:docs": "npm run build --prefix docs",
-    "postbuild:gulp": "mocha test/validateBuilds.js",
+    "postbuild": "mocha test/validateBuilds.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
     "dist:analyze": "ANALYZE=true webpack --mode production --progress",

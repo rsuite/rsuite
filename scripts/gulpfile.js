@@ -104,10 +104,7 @@ function copyLessStylesheets() {
 }
 
 function copyLessPlugins() {
-  return gulp
-    .src(`${srcRoot}/styles/plugins/*.js`)
-    .pipe(gulp.dest(`${cjsRoot}/styles/plugins`))
-    .pipe(gulp.dest(`${esmRoot}/styles/plugins`));
+  return gulp.src(`${srcRoot}/styles/plugins/*.js`).pipe(gulp.dest(`${libRoot}/styles/plugins`));
 }
 
 function watch() {
