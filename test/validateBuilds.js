@@ -1,5 +1,6 @@
 const { assert } = require('chai');
 const fs = require('fs');
+const path = require('path');
 
 const filesToEnsureExistence = [
   // Validate dist
@@ -40,12 +41,12 @@ const filesToEnsureExistence = [
 
 it('Ensure file existence', () => {
   filesToEnsureExistence.forEach(function ensureFileExistence(filePath) {
-    assert.isTrue(fs.existsSync(filePath), `File ${filePath} exists`);
+    assert.isTrue(fs.existsSync(path.join(__dirname, `../${filePath}`)), `File ${filePath} exists`);
   });
 });
 
 it('Should enable Dark mode by default', () => {
-  const css = fs.readFileSync('lib/dist/rsuite.css');
+  const css = fs.readFileSync(path.join(__dirname, '../lib/dist/rsuite.css'));
 
   assert.isTrue(/\.rs-theme-dark/.test(css), 'Dark mode styles are included');
 });

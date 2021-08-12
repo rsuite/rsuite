@@ -129,7 +129,9 @@ function copyDocs() {
 
 function createPkgFile(done) {
   delete pkg.devDependencies;
-  delete pkg.scripts;
+  pkg.scripts = {
+    prepublishOnly: '../node_modules/mocha/bin/mocha ../test/validateBuilds.js'
+  };
 
   writeFile(`${libRoot}/package.json`, JSON.stringify(pkg, null, 2) + '\n')
     .then(() => {
