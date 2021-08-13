@@ -16,7 +16,7 @@ const Calendar = {
   seconds: '秒',
   formattedMonthPattern: 'yyyy年MM月',
   formattedDayPattern: 'yyyy年MM月dd日',
-  dateLocale: zhTW
+  dateLocale: zhTW as any
 };
 
 export default {

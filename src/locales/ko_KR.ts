@@ -20,7 +20,7 @@ const Calendar = {
    **/
   formattedMonthPattern: 'yyyy 년 MM 월',
   formattedDayPattern: 'yyyy 년 MM 월 dd 일',
-  dateLocale: ko
+  dateLocale: ko as any
 };
 export default {
   common: {
