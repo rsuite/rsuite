@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import 'mixins';
 
 //
 // Tooltips
@@ -30,6 +31,7 @@
   }
 
   // Arrows
+  &::before,
   &::after {
     content: ' ';
     display: block;
@@ -39,22 +41,27 @@
     border-color: transparent;
     border-style: solid;
   }
+
+  &::before {
+    display: none;
+  }
+
+  .high-contrast-mode({
+    border: 1px solid var(--rs-border-primary);
+
+    &::before {
+      display: block;
+    }
+  });
 }
 
 // Common style for .placement-top*
+// TODO consider replacing class with data-placement attribute
 .rs-tooltip[class*='placement-top'] {
   margin-top: -(@tooltip-arrow-width + 2px);
   .set-translate-transition(0, -@tooltip-translate-distance);
 
-  &::after {
-    bottom: -@tooltip-arrow-width;
-    // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-    .ie11-edge-direction(bottom, -@tooltip-arrow-width+1px);
-
-    margin-left: -@tooltip-arrow-width;
-    border-width: @tooltip-arrow-width @tooltip-arrow-width 0;
-    border-top-color: var(--rs-tooltip-bg);
-  }
+  .with-tooltip-arrow(bottom);
 }
 
 // Common style for .placement-bottom*
@@ -62,15 +69,7 @@
   margin-top: (@tooltip-arrow-width + 2px);
   .set-translate-transition(0, @tooltip-translate-distance);
 
-  &::after {
-    top: -@tooltip-arrow-width;
-    // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-    .ie11-edge-direction(top,-@tooltip-arrow-width+1px);
-
-    margin-left: -@tooltip-arrow-width;
-    border-width: 0 @tooltip-arrow-width @tooltip-arrow-width;
-    border-bottom-color: var(--rs-tooltip-bg);
-  }
+  .with-tooltip-arrow(top);
 }
 
 /* rtl:begin:ignore */
@@ -79,15 +78,7 @@
   margin-left: (@tooltip-arrow-width + 2px);
   .set-translate-transition(@tooltip-translate-distance, 0);
 
-  &::after {
-    left: -@tooltip-arrow-width;
-    // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-    .ie11-edge-direction(left, -@tooltip-arrow-width+1px);
-
-    margin-top: -@tooltip-arrow-width;
-    border-width: @tooltip-arrow-width @tooltip-arrow-width @tooltip-arrow-width 0;
-    border-right-color: var(--rs-tooltip-bg);
-  }
+  .with-tooltip-arrow(left);
 }
 
 // Common style for .placement-lef*
@@ -95,21 +86,14 @@
   margin-left: -(@tooltip-arrow-width + 2px);
   .set-translate-transition(-@tooltip-translate-distance, 0);
 
-  &::after {
-    right: -@tooltip-arrow-width;
-    // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
-    .ie11-edge-direction(right, -@tooltip-arrow-width+1px);
-
-    margin-top: -@tooltip-arrow-width;
-    border-width: @tooltip-arrow-width 0 @tooltip-arrow-width @tooltip-arrow-width;
-    border-left-color: var(--rs-tooltip-bg);
-  }
+  .with-tooltip-arrow(right);
 }
 
 /* rtl:end:ignore */
 
 .rs-tooltip.placement-bottom,
 .rs-tooltip.placement-top {
+  &::before,
   &::after {
     left: 50%;
   }
@@ -117,6 +101,7 @@
 
 .rs-tooltip.placement-bottom-start,
 .rs-tooltip.placement-top-start {
+  &::before,
   &::after {
     left: @tooltip-arrow-gap-lg;
   }
@@ -124,6 +109,10 @@
 
 .rs-tooltip.placement-bottom-end,
 .rs-tooltip.placement-top-end {
+  &::before {
+    right: @tooltip-arrow-gap-sm - 1px;
+  }
+
   &::after {
     right: @tooltip-arrow-gap-sm;
   }
@@ -131,6 +120,7 @@
 
 .rs-tooltip.placement-right,
 .rs-tooltip.placement-left {
+  &::before,
   &::after {
     top: 50%;
   }
@@ -138,6 +128,7 @@
 
 .rs-tooltip.placement-right-start,
 .rs-tooltip.placement-left-start {
+  &::before,
   &::after {
     top: @tooltip-arrow-gap-lg;
   }
@@ -145,6 +136,9 @@
 
 .rs-tooltip.placement-right-end,
 .rs-tooltip.placement-left-end {
+  &::before {
+    bottom: @tooltip-arrow-gap-sm - 1px;
+  }
   &::after {
     bottom: @tooltip-arrow-gap-sm;
   }
