@@ -360,12 +360,13 @@ scrollLeft: (left: number) => void;
 
 ### `<Table.ColumnGroup>`
 
-| 属性名称      | 类型 `(默认值)`                 | 描述         |
-| ------------- | ------------------------------- | ------------ |
-| align         | enum: 'left','center','right'   | 对齐方式     |
-| fixed         | boolean, 'left', 'right'        | 固定列组     |
-| header        | ReactNode                       | 分组表头     |
-| verticalAlign | enum: 'top', 'middle', 'bottom' | 垂直对齐方式 |
+| 属性名称          | 类型 `(默认值)`                 | 描述                                                            |
+| ----------------- | ------------------------------- | --------------------------------------------------------------- |
+| align             | enum: 'left','center','right'   | 对齐方式                                                        |
+| fixed             | boolean, 'left', 'right'        | 固定列组                                                        |
+| groupHeaderHeight | number                          | 合并单元格组的标题高度。 默认值是 Table 属性 `headerHeight` 50% 的值。 |
+| header            | ReactNode                       | 分组表头                                                        |
+| verticalAlign     | enum: 'top', 'middle', 'bottom' | 垂直对齐方式                                                    |
 
 ### `<Table.Cell>`
 
