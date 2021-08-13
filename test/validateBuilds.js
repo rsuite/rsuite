@@ -1,6 +1,41 @@
 const { assert } = require('chai');
 const fs = require('fs');
 const path = require('path');
+const flatten = require('lodash/flatten');
+const { findResources } = require('../scripts/proxyDirectories');
+
+const components = findResources({
+  dir: path.join(__dirname, '../src'),
+  ignores: ['styles', '@types']
+});
+
+const unstyledComponents = [
+  'Schema',
+  'DOMHelper',
+  'Whisper',
+  'SafeAnchor',
+  'Menu',
+  'Affix',
+  'RangeSlider',
+  'utils',
+  'Plaintext',
+  'Disclosure',
+  'Overlay',
+  'CustomProvider',
+  'locales',
+  'CheckTree',
+  'Tree',
+  'Col',
+  'TagGroup'
+];
+
+const styledComponents = components.filter(i => !unstyledComponents.includes(i));
+
+const locales = findResources({
+  dir: path.join(__dirname, '../src/locales'),
+  ignores: ['index'],
+  isFile: true
+});
 
 const filesToEnsureExistence = [
   // Validate dist
@@ -17,26 +52,32 @@ const filesToEnsureExistence = [
   'lib/LICENSE',
   'lib/package.json',
 
-  // Validate proxy directories
-  'lib/Button/package.json',
-  'lib/locales/zh_CN/package.json',
-
   // Validate less
   'lib/styles/index.less',
-  'lib/Button/styles/index.less',
   'lib/styles/plugins/palette.js', // See https://github.com/rsuite/rsuite/issues/1767
+  ...styledComponents.map(i => `lib/${i}/styles/index.less`),
 
-  // Validate cjs/esm
-  'lib/cjs/Button/index.js',
-  'lib/esm/Button/index.js',
-  'lib/cjs/locales/zh_CN.js',
-  'lib/esm/locales/zh_CN.js',
+  // Validate components
+  ...flatten(
+    components.map(i => [
+      `lib/${i}/package.json`,
+      `lib/cjs/${i}/index.js`,
+      `lib/esm/${i}/index.js`,
+      `lib/esm/${i}/index.d.ts`,
+      `lib/cjs/${i}/index.d.ts`
+    ])
+  ),
 
-  // Validate d.ts files
-  'lib/esm/Button/index.d.ts',
-  'lib/cjs/Button/index.d.ts',
-  'lib/cjs/locales/zh_CN.d.ts',
-  'lib/esm/locales/zh_CN.d.ts'
+  // Validate locales
+  ...flatten(
+    locales.map(i => [
+      `lib/locales/${i}/package.json`,
+      `lib/cjs/locales/${i}.js`,
+      `lib/esm/locales/${i}.js`,
+      `lib/cjs/locales/${i}.d.ts`,
+      `lib/esm/locales/${i}.d.ts`
+    ])
+  )
 ];
 
 it('Ensure file existence', () => {
@@ -47,6 +88,5 @@ it('Ensure file existence', () => {
 
 it('Should enable Dark mode by default', () => {
   const css = fs.readFileSync(path.join(__dirname, '../lib/dist/rsuite.css'));
-
   assert.isTrue(/\.rs-theme-dark/.test(css), 'Dark mode styles are included');
 });

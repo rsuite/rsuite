@@ -104,4 +104,5 @@ async function proxy() {
   await proxyLocales();
 }
 
-module.exports = proxy;
+module.exports.findResources = findResources;
+module.exports.default = proxy;

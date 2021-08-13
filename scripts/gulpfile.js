@@ -11,7 +11,7 @@ const babel = require('gulp-babel');
 const rtlcss = require('gulp-rtlcss');
 const gulp = require('gulp');
 const babelrc = require('../babel.config');
-const proxyDirectories = require('./proxyDirectories');
+const { default: proxyDirectories } = require('./proxyDirectories');
 const pkg = require('../package.json');
 
 const writeFile = util.promisify(fs.writeFile);
