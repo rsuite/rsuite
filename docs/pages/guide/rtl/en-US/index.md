@@ -27,11 +27,11 @@ function RTL(props) {
 - Including the RTL version when using the compiled React Suite CSS
 
 ```less
-@import '~rsuite/dist/styles/rsuite-default-rtl.css'; //or ~rsuite/dist/styles/rsuite-dark-rtl.css
+@import '~rsuite/dist/rsuite-rtl.min.css';
 ```
 
 - Processing the final CSS via [rtlcss](https://rtlcss.com/) in case of using the Less version
 
 ```less
-@import '~rsuite/styles/themes/default/index.less'; // or ~rsuite/styles/themes/dark/index.less
+@import '~rsuite/styles/index.less';
 ```
