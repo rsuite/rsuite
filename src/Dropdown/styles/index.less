@@ -108,6 +108,10 @@
     z-index: @zindex-dropdown + 1;
     float: left;
     box-shadow: var(--rs-dropdown-shadow);
+
+    .high-contrast-mode({
+      border: 1px solid var(--rs-border-primary);
+    });
   }
 
   &[hidden] {

@@ -61,10 +61,8 @@ const DropdownToggle: RsRefForwardingComponent<
     );
   }
 
-  const buttonProps = Component === Button ? { appearance: 'subtle' } : null;
-
   return (
-    <Component {...buttonProps} {...rest} ref={ref} className={classes}>
+    <Component {...rest} ref={ref} className={classes}>
       {icon}
       {children}
       {noCaret ? null : <Caret className={prefix('caret')} />}
