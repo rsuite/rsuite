@@ -1,3 +1,4 @@
+@import '../../styles/common';
 @import '../../toaster/styles/animation';
 @import 'mixin';
 
@@ -14,6 +15,10 @@
   display: inline-block;
   flex: 0 0 auto;
   animation-fill-mode: forwards;
+  border-radius: @notify-border-radius;
+  background: var(--rs-bg-overlay);
+  box-shadow: @notify-box-shadow;
+  overflow: hidden;
 
   // Multiple notification should have spacing
   // Hiding notification haven't spacing.
@@ -21,12 +26,13 @@
     margin-top: 10px;
   }
 
+  .high-contrast-mode({
+    border: 1px solid var(--rs-border-primary);
+  });
+
   // Notification content
   &-content {
-    background: var(--rs-bg-overlay);
-    box-shadow: @notify-box-shadow;
     padding: @notify-padding;
-    border-radius: @notify-border-radius;
     max-width: @notify-max-width;
   }
 
