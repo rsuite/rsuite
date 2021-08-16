@@ -137,6 +137,36 @@ checkResult 返回的数据结构:
 <Badge color="yellow">Yellow</Badge>
 ```
 
+### 6. 重构 Table
+
+使用 react hooks 重构了 Table， 并改进了表格滚动时的性能。 [废弃了 `onDataUpdated` 和 `bodyRef` 属性](https://github.com/rsuite/rsuite-table/pull/232)。
+
+对于一些要在表格内部渲染的组件，之前可以通过 `bodyRef` 获取表格的 body 容器。 现在我们可以通过 `Table` 的 `ref` 直接获取容器。
+
+```js
+// v4
+const ref = uesRef();
+return (
+  <>
+    <Table
+      bodyRef={body => {
+        ref.current = body;
+      }}
+    />
+    <CheckPicker container={() => bodyRef.current} />
+  </>
+);
+
+// v5
+const ref = uesRef();
+return (
+  <>
+    <Table ref={tableRef} />
+    <CheckPicker container={() => ref.current.body} />
+  </>
+);
+```
+
 ---
 
 ## 从 v4 升级到 v5 🚀

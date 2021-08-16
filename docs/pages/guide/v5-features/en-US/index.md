@@ -134,6 +134,36 @@ The difference between `onChangeCommitted` and `onChange` is that `onChange` is 
 <Badge color="yellow">Yellow</Badge>
 ```
 
+### 6. Refactor Table
+
+Use react hooks to refactor the Table and improve the performance when the table scrolls. [The `onDataUpdated` and `bodyRef` props are deprecated](https://github.com/rsuite/rsuite-table/pull/232).
+
+For some components to be rendered inside the table, the body container of the table can be obtained through `bodyRef` before. Now we can get the container directly through the `ref` of `Table`.
+
+```js
+// v4
+const ref = uesRef();
+return (
+  <>
+    <Table
+      bodyRef={body => {
+        ref.current = body;
+      }}
+    />
+    <CheckPicker container={() => bodyRef.current} />
+  </>
+);
+
+// v5
+const ref = uesRef();
+return (
+  <>
+    <Table ref={tableRef} />
+    <CheckPicker container={() => ref.current.body} />
+  </>
+);
+```
+
 ---
 
 ## To v5 from v4

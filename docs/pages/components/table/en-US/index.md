@@ -364,12 +364,13 @@ scrollLeft: (left: number) => void;
 
 ### `<Table.ColumnGroup>`
 
-| Property      | Type `(Default)`                | Description        |
-| ------------- | ------------------------------- | ------------------ |
-| align         | enum: 'left','center','right'   | Alignment          |
-| fixed         | boolean, 'left', 'right'        | Fixed column group |
-| header        | ReactNode                       | Group header       |
-| verticalAlign | enum: 'top', 'middle', 'bottom' | Vertical alignment |
+| Property          | Type `(Default)`                | Description                                                                                             |
+| ----------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| align             | enum: 'left','center','right'   | Alignment                                                                                               |
+| fixed             | boolean, 'left', 'right'        | Fixed column group                                                                                      |
+| groupHeaderHeight | number                          | The height of the header of the merged cell group. The default value is 50% of the table `headerHeight` |
+| header            | ReactNode                       | Group header                                                                                            |
+| verticalAlign     | enum: 'top', 'middle', 'bottom' | Vertical alignment                                                                                      |
 
 ### `<Table.Cell>`
 
