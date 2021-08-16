@@ -23,6 +23,6 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
-      - run: npm publish lib --tag canary
+      - run: npm publish lib --tag next
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
