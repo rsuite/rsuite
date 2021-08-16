@@ -23,7 +23,7 @@ module.exports = {
     rsuite: path.join(__dirname, 'src')
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'lib/dist'),
     filename,
     library: 'rsuite',
     libraryTarget: 'umd'

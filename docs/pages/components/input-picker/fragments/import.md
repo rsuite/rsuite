@@ -2,5 +2,5 @@
 import { InputPicker } from 'rsuite';
 
 // or
-import InputPicker from 'rsuite/lib/InputPicker';
+import InputPicker from 'rsuite/InputPicker';
 ```

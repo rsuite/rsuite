@@ -2,5 +2,5 @@
 import { TreePicker } from 'rsuite';
 
 // or
-import TreePicker from 'rsuite/lib/TreePicker';
+import TreePicker from 'rsuite/TreePicker';
 ```

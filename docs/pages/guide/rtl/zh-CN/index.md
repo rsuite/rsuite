@@ -33,5 +33,5 @@ function RTL(props) {
 - 如果使用 Less 版本，则通过 [rtlcss](https://rtlcss.com/) 处理最终成 CSS
 
 ```less
-@import '~rsuite/lib/styles/themes/default/index.less'; // or ~rsuite/lib/styles/themes/dark/index.less
+@import '~rsuite/styles/themes/default/index.less'; // or ~rsuite/styles/themes/dark/index.less
 ```

@@ -2,5 +2,5 @@
 import { FlexboxGrid } from 'rsuite';
 
 // or
-import FlexboxGrid from 'rsuite/lib/FlexboxGrid';
+import FlexboxGrid from 'rsuite/FlexboxGrid';
 ```

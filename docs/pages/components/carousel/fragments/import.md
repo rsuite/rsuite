@@ -2,5 +2,5 @@
 import { Carousel } from 'rsuite';
 
 // or
-import Carousel from 'rsuite/lib/Carousel';
+import Carousel from 'rsuite/Carousel';
 ```

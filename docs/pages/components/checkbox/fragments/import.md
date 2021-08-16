@@ -2,6 +2,6 @@
 import { Checkbox, CheckboxGroup } from 'rsuite';
 
 //or
-import Checkbox from 'rsuite/lib/Checkbox';
-import CheckboxGroup from 'rsuite/lib/CheckboxGroup';
+import Checkbox from 'rsuite/Checkbox';
+import CheckboxGroup from 'rsuite/CheckboxGroup';
 ```

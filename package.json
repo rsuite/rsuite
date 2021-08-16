@@ -1,12 +1,12 @@
 {
   "name": "rsuite",
-  "version": "5.0.0-beta.3",
+  "version": "5.0.0-alpha.13",
   "description": "A suite of react components",
-  "main": "lib/index.js",
-  "typings": "es/index.d.ts",
-  "module": "es/index.js",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "typings": "lib/esm/index.d.ts",
   "directories": {
-    "lib": "lib/"
+    "lib": "cjs/"
   },
   "scripts": {
     "format": "prettier --write \"{src,test}/**/*.{tsx,ts,js}\"",
@@ -17,10 +17,10 @@
     "dist:dev": "cross-env NODE_ENV=development  webpack --progress",
     "dist:pro": "webpack --mode production --progress",
     "build": "npm run build:gulp && npm run dist && npm run build:types",
-    "build:gulp": "gulp build",
-    "build:types": "npx tsc --emitDeclarationOnly --outDir lib && npx tsc --emitDeclarationOnly --outDir es",
+    "build:gulp": "gulp build --gulpfile scripts/gulpfile.js",
+    "build:types": "npx tsc --emitDeclarationOnly --outDir lib/cjs && npx tsc --emitDeclarationOnly --outDir lib/esm",
     "build:docs": "npm run build --prefix docs",
-    "postbuild:gulp": "mocha test/validateBuilds.js",
+    "postbuild": "mocha test/validateBuilds.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "coveralls": "cat ./coverage/lcov/lcov.info | ./node_modules/.bin/coveralls",
     "dist:analyze": "ANALYZE=true webpack --mode production --progress",
@@ -47,15 +47,6 @@
     "type": "git",
     "url": "git@github.com:rsuite/rsuite.git"
   },
-  "files": [
-    "CHANGELOG.md",
-    "README.md",
-    "dist",
-    "lib",
-    "types",
-    "es",
-    "less"
-  ],
   "dependencies": {
     "@babel/runtime": "^7.8.4",
     "@rsuite/icons": "^1.0.0",
@@ -79,6 +70,11 @@
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0"
   },
+  "files": [
+    "CHANGELOG.md",
+    "README.md",
+    "lib"
+  ],
   "devDependencies": {
     "@babel/cli": "^7.7.0",
     "@babel/core": "^7.7.2",
@@ -180,8 +176,8 @@
     "ie >= 10"
   ],
   "sideEffects": [
-    "lib/**/styles/*",
-    "es/**/styles/*",
+    "cjs/**/styles/*",
+    "esm/**/styles/*",
     "dist/*",
     "*.less",
     "*.css"

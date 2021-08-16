@@ -6,7 +6,7 @@ The locale in the React Suite component defaults to English. If you need to set 
 
 ```jsx
 import { CustomProvider } from 'rsuite';
-import zhCN from 'rsuite/lib/locales/zh_CN';
+import zhCN from 'rsuite/locales/zh_CN';
 
 return (
   <CustomProvider locale={zhCN}>
@@ -152,7 +152,7 @@ return <Table locale={locale} />;
 ```jsx
 import { IntlProvider } from 'react-intl';
 import { CustomProvider } from 'rsuite';
-import zhCN from 'rsuite/lib/locales/zh_CN';
+import zhCN from 'rsuite/locales/zh_CN';
 
 return (
   <IntlProvider locale="zh">

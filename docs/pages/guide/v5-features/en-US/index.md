@@ -393,7 +393,7 @@ return (
 
 // for rsuite v5
 import { CustomProvider } from 'rsuite';
-import zhCN from 'rsuite/lib/locales/zh_CN';
+import zhCN from 'rsuite/locales/zh_CN';
 
 return (
   <CustomProvider locale={zhCN}>
@@ -437,4 +437,41 @@ return (
     </Sidenav.Body>
   </Sidenav>
 );
+```
+
+#### 2.13 Import on Demand
+
+**Import components**
+
+```ts
+// v4
+import Button from 'rsuite/lib/Button';
+import 'rsuite/lib/Button/styles/index.less';
+
+// v5
+import Button from 'rsuite/Button';
+import 'rsuite/Button/styles/index.less';
+```
+
+**Import locales**
+
+```ts
+// v4
+import ruRU from 'rsuite/lib/IntlProvider/locales/ru_RU';
+
+// v5
+import ruRU from 'rsuite/locales/ru_RU';
+```
+
+**Import styles globally**
+
+```ts
+// v4
+import 'rsuite/lib/styles/index.less'; // less
+import 'rsuite/dist/styles/rsuite-default.css'; // css
+
+// v5
+import 'rsuite/styles/index.less'; // less
+import 'rsuite/dist/rsuite.min.css'; // or css
+import 'rsuite/dist/rsuite-rtl.min.css'; // or rtl css
 ```
