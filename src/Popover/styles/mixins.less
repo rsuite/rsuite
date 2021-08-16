@@ -1,0 +1,72 @@
+@import '../../styles/variables';
+@import '../../styles/mixins/hacks';
+@import '../../styles/mixins/color-modes';
+
+// Draw a triangle towards given direction
+// .popover-arrow(@direction, @size, @color)
+//
+// @direction: top | right | bottom | left
+// @size:      Size (height) of the triangle
+// @color:     Filling color of the triangle
+
+.popover-arrow(top, @size, @color) {
+  top: -@size;
+  // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
+  .ie11-edge-direction(top, -(@size+1px));
+
+  margin-left: -@size;
+  border-width: 0 @size @size;
+  border-bottom-color: @color;
+}
+
+.popover-arrow(bottom, @size, @color) {
+  bottom: -@size;
+  // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
+  .ie11-edge-direction(bottom, -(@size+1px));
+
+  margin-left: -@size;
+  border-width: @size @size 0;
+  border-top-color: @color;
+}
+
+/* rtl:begin:ignore */
+.popover-arrow(right, @size, @color) {
+  right: -@size;
+  // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
+  .ie11-edge-direction(right, -(@size+1px));
+
+  margin-top: -@size;
+  border-width: @size 0 @size @size;
+  border-left-color: @color;
+}
+
+.popover-arrow(left, @size, @color) {
+  left: -@size;
+  // FIXED: The problem of the  1 pixel white border in Edge/IE11 browser .
+  .ie11-edge-direction(left, -(@size+1px));
+
+  margin-top: -@size;
+  border-width: @size @size @size 0;
+  border-right-color: @color;
+}
+
+/* rtl:end:ignore */
+
+// Append Popover's arrow to Popover
+// @direction: The arrow's pointing direction. It's usually opposite of popover's placement
+//             e.g. popover[placement="top"] has an arrow[direction="bottom"]
+// @size:      The arrow's size (height)
+// @bg:        The arrow's background color, usually equal to popover's background
+// @border:    The arrow's border color, usually equal to popover's border (which only take effect
+//             in high-contrast theme)
+.with-popover-arrow(@direction, @size: @popover-arrow-width, @bg: var(--rs-bg-overlay), @border: var(--rs-border-primary)) {
+  &::after {
+    .popover-arrow(@direction, @size, @bg);
+  }
+
+  .high-contrast-mode({
+    &::before {
+      .popover-arrow(@direction, @size + 1px, @border);
+    }
+  });
+}
