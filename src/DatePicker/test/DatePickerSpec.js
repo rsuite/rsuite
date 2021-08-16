@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { format, isSameDay, parseISO } from '../../utils/dateUtils';
-import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
+import { getDOMNode, getInstance, render } from '@test/testUtils';
 import DatePicker from '../DatePicker';
 
 describe('DatePicker ', () => {
@@ -311,7 +310,6 @@ describe('DatePicker ', () => {
 
   it('Should be a controlled value', done => {
     const instanceRef = React.createRef();
-    const container = createTestContainer();
     const App = React.forwardRef((props, ref) => {
       const [value, setValue] = React.useState(new Date('6/10/2021'));
       const pickerRef = React.useRef();
@@ -324,22 +322,38 @@ describe('DatePicker ', () => {
       return <DatePicker value={value} open ref={pickerRef} format="yyyy-MM-dd" />;
     });
 
-    ReactDOM.render(<App ref={instanceRef} />, container);
+    render(<App ref={instanceRef} />);
+
     instanceRef.current.setDate(new Date('7/11/2021'));
-
-    assert.equal(
-      instanceRef.current.picker.root.querySelector('.rs-picker-toggle-value').innerText,
-      '2021-07-11'
-    );
-
+    const picker = instanceRef.current.picker;
+    assert.equal(picker.root.querySelector('.rs-picker-toggle-value').innerText, '2021-07-11');
     setTimeout(() => {
-      if (
-        instanceRef.current.picker.overlay.querySelector('.rs-calendar-header-title').innerText ===
-        '11 Jul 2021'
-      ) {
+      if (picker.overlay.querySelector('.rs-calendar-header-title').innerText === '11 Jul 2021') {
         done();
       }
     }, 100);
+  });
+
+  it('Should be a controlled value, null is allowed', () => {
+    const instanceRef = React.createRef();
+    const App = React.forwardRef((props, ref) => {
+      const [value, setValue] = React.useState(new Date('6/10/2021'));
+      const pickerRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        picker: pickerRef.current,
+        setDate: date => {
+          setValue(date);
+        }
+      }));
+      return <DatePicker value={value} open ref={pickerRef} format="yyyy-MM-dd" />;
+    });
+
+    render(<App ref={instanceRef} />);
+
+    const picker = instanceRef.current.picker.root;
+    assert.equal(picker.querySelector('.rs-picker-toggle-value').innerText, '2021-06-10');
+    instanceRef.current.setDate(null);
+    assert.equal(picker.querySelector('.rs-picker-toggle-placeholder').innerText, 'yyyy-MM-dd');
   });
 
   it('Should keep AM PM unchanged', () => {
