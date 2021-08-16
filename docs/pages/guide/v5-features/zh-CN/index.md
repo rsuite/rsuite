@@ -478,3 +478,29 @@ import 'rsuite/styles/index.less'; // less
 import 'rsuite/dist/rsuite.min.css'; // or css
 import 'rsuite/dist/rsuite-rtl.min.css'; // or rtl css
 ```
+
+#### 2.14 废弃 `<Dropdown>` 组件的 `renderTitle` 属性
+
+废弃 `renderTitle`，取而代之的是 `renderToggle`。
+
+```js
+//v4
+return (
+  <Dropdown
+    renderTitle={() => <IconButton appearance="primary" icon={<Icon icon="plus" />} circle />}
+  >
+    ...
+  </Dropdown>
+);
+
+//v5
+return (
+  <Dropdown
+    renderToggle={(props, ref) => (
+      <IconButton {...props} ref={ref} icon={<PlusIcon />} circle appearance="primary" />
+    )}
+  >
+    ...
+  </Dropdown>
+);
+```

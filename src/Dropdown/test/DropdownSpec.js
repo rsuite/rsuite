@@ -823,4 +823,24 @@ describe('<Dropdown>', () => {
       });
     });
   });
+
+  it('Should render a custom toggle', () => {
+    const renderToggle = (props, ref) => {
+      return (
+        <button {...props} ref={ref}>
+          new
+        </button>
+      );
+    };
+    const instance = getDOMNode(
+      <Dropdown renderToggle={renderToggle}>
+        <Dropdown.Item>item-1</Dropdown.Item>
+        <Dropdown.Item>item-2</Dropdown.Item>
+      </Dropdown>
+    );
+
+    assert.equal(instance.innerText, 'new');
+    ReactTestUtils.Simulate.click(instance.querySelector('[role="button"]'));
+    assert.equal(instance.innerText, 'new\nitem-1\nitem-2');
+  });
 });

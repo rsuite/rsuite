@@ -28,10 +28,10 @@ const instance = (
     </ButtonToolbar>
 
     <ButtonToolbar>
-      <IconButton icon={<FacebookOfficialIcon />} color="blue" circle />
-      <IconButton icon={<GooglePlusCircleIcon />} color="red" circle />
-      <IconButton icon={<TwitterIcon />} color="cyan" circle />
-      <IconButton icon={<LinkedinIcon />} color="blue" circle />
+      <IconButton icon={<FacebookOfficialIcon />} color="blue" appearance="primary" circle />
+      <IconButton icon={<GooglePlusCircleIcon />} color="red" appearance="primary" circle />
+      <IconButton icon={<TwitterIcon />} color="cyan" appearance="primary" circle />
+      <IconButton icon={<LinkedinIcon />} color="blue" appearance="primary" circle />
     </ButtonToolbar>
 
     <ButtonToolbar>
