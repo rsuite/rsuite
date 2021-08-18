@@ -145,12 +145,12 @@ checkResult 返回的数据结构:
 
 ```js
 // v4
-const ref = uesRef();
+const bodyRef = uesRef();
 return (
   <>
     <Table
       bodyRef={body => {
-        ref.current = body;
+        bodyRef.current = body;
       }}
     />
     <CheckPicker container={() => bodyRef.current} />
@@ -161,7 +161,7 @@ return (
 const ref = uesRef();
 return (
   <>
-    <Table ref={tableRef} />
+    <Table ref={ref} />
     <CheckPicker container={() => ref.current.body} />
   </>
 );
