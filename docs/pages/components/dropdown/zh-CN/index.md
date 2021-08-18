@@ -38,13 +38,13 @@
 
 <!--{include:`disabled.md`}-->
 
-### 与按钮组合
+### 继承按钮属性
 
 `Dropdown` 的 `toggleAs` 属性默认值为是 `Button`, 可以设置按钮相关的属性（例如: size, appearance）, 以按钮的样式展示。
 
 <!--{include:`toggle-as.md`}-->
 
-### 没有插入号
+### 没有箭头图标
 
 <!--{include:`no-caret.md`}-->
 
@@ -71,6 +71,10 @@
 
 <!--{include:`menu-items.md`}-->
 
+### 自定义 Toggle
+
+<!--{include:`custom-toggle.md`}-->
+
 ### 与 Popover 组合使用
 
 <!--{include:`with-popover.md`}-->
@@ -90,24 +94,24 @@
 
 ### `<Dropdown>`
 
-| 属性名称        | 类型 `(默认值)`                     | 描述                                             |
-| --------------- | ----------------------------------- | ------------------------------------------------ |
-| activeKey       | string                              | 激活状态的选项，对应 Dropdown.Item 中的 eventKey |
-| classPrefix     | string `('dropdown')`               | 组件 CSS 类的前缀                                |
-| disabled        | boolean                             | 禁用组件                                         |
-| icon            | Element&lt;typeof Icon&gt;          | 设置图标                                         |
-| menuStyle       | CSSProperties                       | 菜单样式                                         |
-| onClose         | () => void                          | 菜单关闭的回调函数                               |
-| onOpen          | () => void                          | 菜单弹出的回调函数                               |
-| onSelect        | (eventKey: string, event) => void   | 选择后的回调函数                                 |
-| onToggle        | (open?: boolean) => void            | 菜单状态切换的回调函数                           |
-| open            | boolean                             | 受控的打开状态                                   |
-| placement       | Placement `('bottomStart')`         | 菜单显示位置                                     |
-| renderTitle     | (children?: ReactNode) => ReactNode | 自定义 title                                     |
-| title           | ReactNode                           | 菜单默认显示内容                                 |
-| toggleAs        | ElementType `(Button)`              | 为组件自定义元素类型                             |
-| toggleClassName | string                              | 设置 Toggle 的 className                         |
-| trigger         | Trigger `('click')`                 | 触发事件                                         |
+| 属性名称        | 类型 `(默认值)`                   | 描述                                             |
+| --------------- | --------------------------------- | ------------------------------------------------ |
+| activeKey       | string                            | 激活状态的选项，对应 Dropdown.Item 中的 eventKey |
+| classPrefix     | string `('dropdown')`             | 组件 CSS 类的前缀                                |
+| disabled        | boolean                           | 禁用组件                                         |
+| icon            | Element&lt;typeof Icon&gt;        | 设置图标                                         |
+| menuStyle       | CSSProperties                     | 菜单样式                                         |
+| onClose         | () => void                        | 菜单关闭的回调函数                               |
+| onOpen          | () => void                        | 菜单弹出的回调函数                               |
+| onSelect        | (eventKey: string, event) => void | 选择后的回调函数                                 |
+| onToggle        | (open?: boolean) => void          | 菜单状态切换的回调函数                           |
+| open            | boolean                           | 受控的打开状态                                   |
+| placement       | Placement `('bottomStart')`       | 菜单显示位置                                     |
+| renderToggle    | (props, ref) => any;              | 自定义 Toggle                                    |
+| title           | ReactNode                         | 菜单默认显示内容                                 |
+| toggleAs        | ElementType `(Button)`            | 为组件自定义元素类型                             |
+| toggleClassName | string                            | 设置 Toggle 的 className                         |
+| trigger         | Trigger `('click')`               | 触发事件                                         |
 
 ### `<Dropdown.Item>`
 
@@ -126,7 +130,7 @@
 
 ### `<Dropdown.Menu>`
 
-| 属性名称 | 类型                       | 描述                             |
-| -------- | -------------------------- | -------------------------------- |
-| icon     | Element&lt;typeof Icon&gt; | 设置图标                         |
-| title    | string                     | 作为子菜单定义标题               |
+| 属性名称 | 类型                       | 描述               |
+| -------- | -------------------------- | ------------------ |
+| icon     | Element&lt;typeof Icon&gt; | 设置图标           |
+| title    | string                     | 作为子菜单定义标题 |

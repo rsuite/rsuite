@@ -475,3 +475,29 @@ import 'rsuite/styles/index.less'; // less
 import 'rsuite/dist/rsuite.min.css'; // or css
 import 'rsuite/dist/rsuite-rtl.min.css'; // or rtl css
 ```
+
+#### 2.12 Deprecate `renderTitle` property of `<Dropdown>`
+
+The `renderTitle` has been deprecated and replaced by `renderToggle`.
+
+```js
+//v4
+return (
+  <Dropdown
+    renderTitle={() => <IconButton appearance="primary" icon={<Icon icon="plus" />} circle />}
+  >
+    ...
+  </Dropdown>
+);
+
+//v5
+return (
+  <Dropdown
+    renderToggle={(props, ref) => (
+      <IconButton {...props} ref={ref} icon={<PlusIcon />} circle appearance="primary" />
+    )}
+  >
+    ...
+  </Dropdown>
+);
+```
