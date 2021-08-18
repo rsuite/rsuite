@@ -1,3 +1,18 @@
+<a name="5.0.0-beta.5"></a>
+# [5.0.0-beta.5](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.4...v5.0.0-beta.5) (2021-08-18)
+
+
+### Bug Fixes
+
+* **date-picker:** fix DatePicker cannot be used as controlled ([#1844](https://github.com/rsuite/rsuite/issues/1844)) ([3d6c035](https://github.com/rsuite/rsuite/commit/3d6c035)), closes [#1842](https://github.com/rsuite/rsuite/issues/1842)
+
+
+### Features
+
+* **dropdown:** support `renderToggle` on `<Dropdown>` ([#1843](https://github.com/rsuite/rsuite/issues/1843)) ([99c1925](https://github.com/rsuite/rsuite/commit/99c1925))
+
+
+
 <a name="5.0.0-beta.4"></a>
 
 # [5.0.0-beta.4](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.3...v5.0.0-beta.4) (2021-08-16)
