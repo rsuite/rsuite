@@ -8,7 +8,7 @@ const useCalendarDate = (value: Date, defaultDate: Date) => {
 
   const setCalendarDate = useCallback(
     (date: Date) => {
-      if (date.valueOf() !== calendarDate.valueOf()) {
+      if (date && date?.valueOf() !== calendarDate?.valueOf()) {
         setValue(date);
       }
     },
