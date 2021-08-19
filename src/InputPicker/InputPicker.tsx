@@ -56,10 +56,10 @@ export type TriggerType = 'Enter' | 'Space' | 'Comma';
 export interface InputPickerContextProps {
   multi?: boolean;
   tagProps?: TagProps;
-  trigger: TriggerType | TriggerType[];
+  trigger?: TriggerType | TriggerType[];
 }
 
-export const InputPickerContext = React.createContext<InputPickerContextProps>(null);
+export const InputPickerContext = React.createContext<InputPickerContextProps>({});
 
 interface InputItemDataType extends ItemDataType {
   create?: boolean;
