@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
@@ -20,7 +20,9 @@ import {
   useClassNames,
   useCustom,
   useControlled,
-  mergeRefs
+  mergeRefs,
+  isOneOf,
+  KEY_VALUES
 } from '../utils';
 
 import {
@@ -49,6 +51,16 @@ import { SelectProps } from '../SelectPicker';
 import InputAutosize from './InputAutosize';
 import InputSearch from './InputSearch';
 
+export type TriggerType = 'Enter' | 'Space' | 'Comma';
+
+export interface InputPickerContextProps {
+  multi?: boolean;
+  tagProps?: TagProps;
+  trigger: TriggerType | TriggerType[];
+}
+
+export const InputPickerContext = React.createContext<InputPickerContextProps>(null);
+
 interface InputItemDataType extends ItemDataType {
   create?: boolean;
 }
@@ -59,13 +71,8 @@ export interface InputPickerProps<T = ValueType>
     SelectProps<T> {
   tabIndex?: number;
 
-  multi?: boolean;
-
   /** Settings can create new options */
   creatable?: boolean;
-
-  /**  Tag related props. */
-  tagProps?: TagProps;
 
   /** Option to cache value when searching asynchronously */
   cacheData?: InputItemDataType[];
@@ -93,8 +100,7 @@ const defaultProps: Partial<InputPickerProps> = {
   placement: 'bottomStart',
   searchable: true,
   menuAutoWidth: true,
-  menuMaxHeight: 320,
-  tagProps: {}
+  menuMaxHeight: 320
 };
 
 const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
@@ -115,10 +121,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       toggleAs,
       style,
       searchable,
-      multi,
       open: controlledOpen,
       placeholder,
-      tagProps,
       groupBy,
       menuClassName,
       menuStyle,
@@ -155,6 +159,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       placement,
       ...rest
     } = props;
+
+    const { multi, tagProps, trigger } = useContext(InputPickerContext);
 
     if (groupBy === valueKey || groupBy === labelKey) {
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
@@ -330,7 +336,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
      * @param item
      * @param event
      */
-    const handleItemSelect = (value: string, item: InputItemDataType, event: React.MouseEvent) => {
+    const handleSelectItem = (value: string, item: InputItemDataType, event: React.MouseEvent) => {
       setValue(value);
       setFocusItemValue(value);
       setSearchKeyword('');
@@ -346,7 +352,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
      * @param event
      * @param checked
      */
-    const handleCheckItemSelect = (
+    const handleCheckTag = (
       nextItemValue: string,
       item: InputItemDataType,
       event: React.MouseEvent,
@@ -367,7 +373,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       focusInput();
     };
 
-    const selectFocusMenuCheckItem = useCallback(
+    const handleTagKeyPress = useCallback(
       (event: React.KeyboardEvent) => {
         const val = cloneValue();
         const data = getAllData();
@@ -412,7 +418,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ]
     );
 
-    const selectFocusMenuItem = useCallback(
+    const handleMenuItemKeyPress = useCallback(
       (event: React.KeyboardEvent) => {
         if (!focusItemValue || !controlledData) {
           return;
@@ -499,13 +505,47 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ]
     );
 
+    const events = {
+      onMenuPressBackspace: multi ? removeLastItem : handleClean,
+      onMenuKeyDown: onKeyDown,
+      onMenuPressEnter: null,
+      onKeyDown: null
+    };
+
+    const handleKeyPress = useCallback(
+      (event: React.KeyboardEvent<any>) => {
+        // When typing a space, create a tag.
+        if (isOneOf('Space', trigger) && event.key === KEY_VALUES.SPACE) {
+          handleTagKeyPress(event);
+          event.preventDefault();
+        }
+
+        // When typing a comma, create a tag.
+        if (isOneOf('Comma', trigger) && event.key === KEY_VALUES.COMMA) {
+          handleTagKeyPress(event);
+          event.preventDefault();
+        }
+      },
+      [handleTagKeyPress, trigger]
+    );
+
+    if (multi) {
+      if (isOneOf('Enter', trigger)) {
+        events.onMenuPressEnter = handleTagKeyPress;
+      }
+
+      if (creatable) {
+        events.onKeyDown = handleKeyPress;
+      }
+    } else {
+      events.onMenuPressEnter = handleMenuItemKeyPress;
+    }
+
     const onPickerKeyDown = useToggleKeyDownEvent({
       triggerRef,
       targetRef,
       overlayRef,
-      onMenuPressEnter: multi ? selectFocusMenuCheckItem : selectFocusMenuItem,
-      onMenuPressBackspace: multi ? removeLastItem : handleClean,
-      onMenuKeyDown: onKeyDown,
+      ...events,
       ...rest
     });
 
@@ -634,7 +674,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           maxHeight={menuMaxHeight}
           data={items}
           group={!isUndefined(groupBy)}
-          onSelect={multi ? handleCheckItemSelect : handleItemSelect}
+          onSelect={multi ? handleCheckTag : handleSelectItem}
           renderMenuGroup={renderMenuGroup}
           renderMenuItem={renderDropdownMenuItem}
           virtualized={virtualized}
@@ -777,7 +817,6 @@ InputPicker.propTypes = {
   menuMaxHeight: PropTypes.number,
   searchable: PropTypes.bool,
   creatable: PropTypes.bool,
-  multi: PropTypes.bool,
   groupBy: PropTypes.any,
   sort: PropTypes.func,
   renderMenu: PropTypes.func,
@@ -788,8 +827,7 @@ InputPicker.propTypes = {
   onGroupTitleClick: PropTypes.func,
   onSearch: PropTypes.func,
   virtualized: PropTypes.bool,
-  searchBy: PropTypes.func,
-  tagProps: PropTypes.object
+  searchBy: PropTypes.func
 };
 
 export default InputPicker;

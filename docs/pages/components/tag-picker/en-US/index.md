@@ -28,6 +28,12 @@ Multi-select by tag and support new options
 
 <!--{include:`creatable.md`}-->
 
+### Trigger
+
+Sets the trigger for creating a tag, which needs to be combined with the `creatable` property. Options include: `Enter`, `Space`, `Comma`, and the default value `Enter`. Multiple trigger values can be set.
+
+<!--{include:`trigger.md`}-->
+
 ### Custom
 
 <!--{include:`custom.md`}-->
@@ -96,6 +102,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | sort               | (isGroup: boolean) => (a: any, b: any) => number                       | Sort options                                                |
 | tagProps           | [TagProps][tagprops]                                                   | Set the props of the Tag                                    |
 | toggleAs           | ElementType `('a')`                                                    | You can use a custom element for this component             |
+| trigger            | 'Enter' &#124; 'Space' &#124; 'Comma' `('Enter')`                      | Set the trigger for creating tags                           |
 | value              | string[]                                                               | Specifies the values of the selected items (Controlled)     |
 | valueKey           | string `('value')`                                                     | Set value key in data                                       |
 | virtualized        | boolean                                                                | Whether using Virtualized List                              |
