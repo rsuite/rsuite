@@ -142,7 +142,7 @@ For some components to be rendered inside the table, the body container of the t
 
 ```js
 // v4
-const bodyRef = uesRef();
+const bodyRef = useRef();
 return (
   <>
     <Table
@@ -155,7 +155,7 @@ return (
 );
 
 // v5
-const ref = uesRef();
+const ref = useRef();
 return (
   <>
     <Table ref={ref} />

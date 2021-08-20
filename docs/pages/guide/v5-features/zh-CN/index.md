@@ -145,7 +145,7 @@ checkResult 返回的数据结构:
 
 ```js
 // v4
-const bodyRef = uesRef();
+const bodyRef = useRef();
 return (
   <>
     <Table
@@ -158,7 +158,7 @@ return (
 );
 
 // v5
-const ref = uesRef();
+const ref = useRef();
 return (
   <>
     <Table ref={ref} />
