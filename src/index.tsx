@@ -138,6 +138,9 @@ export type { InputPickerProps } from './InputPicker';
 export { default as TagPicker } from './TagPicker';
 export type { TagPickerProps } from './TagPicker';
 
+export { default as TagInput } from './TagInput';
+export type { TagInputProps } from './TagInput';
+
 export { default as TreePicker } from './TreePicker';
 export type { TreePickerProps } from './TreePicker';
 

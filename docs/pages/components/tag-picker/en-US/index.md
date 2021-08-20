@@ -28,12 +28,6 @@ Multi-select by tag and support new options
 
 <!--{include:`creatable.md`}-->
 
-### Trigger
-
-Sets the trigger for creating a tag, which needs to be combined with the `creatable` property. Options include: `Enter`, `Space`, `Comma`, and the default value `Enter`. Multiple trigger values can be set.
-
-<!--{include:`trigger.md`}-->
-
 ### Custom
 
 <!--{include:`custom.md`}-->

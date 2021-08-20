@@ -54,9 +54,15 @@ describe('InputPicker', () => {
   it('Should be plaintext', () => {
     const instance1 = getInstance(<InputPicker plaintext data={data} value={'Eugenia'} />);
     const instance2 = getInstance(<InputPicker plaintext data={data} />);
+    const instance3 = getInstance(<InputPicker plaintext data={data} placeholder="-" />);
+    const instance4 = getInstance(
+      <InputPicker plaintext data={data} placeholder="-" value={'Eugenia'} />
+    );
 
     assert.equal(instance1.target.innerText, 'Eugenia');
     assert.equal(instance2.target.innerText, 'Not selected');
+    assert.equal(instance3.target.innerText, '-');
+    assert.equal(instance4.target.innerText, 'Eugenia');
   });
 
   it('Should be readOnly', () => {

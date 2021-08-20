@@ -418,4 +418,18 @@ describe('TagPicker', () => {
     ReactTestUtils.Simulate.change(input);
     ReactTestUtils.Simulate.keyDown(input, { key: ',' });
   });
+
+  it('Should be plaintext', () => {
+    const instance1 = getInstance(<TagPicker plaintext data={data} value={['Eugenia']} />);
+    const instance2 = getInstance(<TagPicker plaintext data={data} />);
+    const instance3 = getInstance(<TagPicker plaintext data={data} placeholder="-" />);
+    const instance4 = getInstance(
+      <TagPicker plaintext data={data} placeholder="-" value={['Eugenia']} />
+    );
+
+    assert.equal(instance1.target.innerText, 'Eugenia');
+    assert.equal(instance2.target.innerText, 'Not selected');
+    assert.equal(instance3.target.innerText, '-');
+    assert.equal(instance4.target.innerText, 'Eugenia');
+  });
 });

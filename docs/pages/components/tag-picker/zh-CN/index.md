@@ -1,4 +1,4 @@
-# TagPicker 标签输入选择器
+# TagPicker 标签选择器
 
 以标签的方式进行多选，同时支持新增选项
 
@@ -29,12 +29,6 @@
 ### 可新建
 
 <!--{include:`creatable.md`}-->
-
-### 触发事件
-
-通过 `trigger` 属性设置创建标签的触发器，需要和 `creatable` 属性组合使用。 可选择包括：`Enter`, `Space`, `Comma`，默认值为 `Enter`, 可以同时设置多个触发事件。
-
-<!--{include:`trigger.md`}-->
 
 ### 自定义
 
