@@ -164,6 +164,14 @@ return (
 );
 ```
 
+### 7. [Add support for TagInput](/components/tag-input/)
+
+```ts
+import TagInput from 'rsuite/TagInput';
+
+return <TagInput defaultValue={['HTML', 'CSS']} trigger={['Enter', 'Space', 'Comma']} />;
+```
+
 ---
 
 ## To v5 from v4

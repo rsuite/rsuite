@@ -167,6 +167,14 @@ return (
 );
 ```
 
+### 7.[新增 TagInput 组件](/zh/components/tag-input/)
+
+```ts
+import TagInput from 'rsuite/TagInput';
+
+return <TagInput defaultValue={['HTML', 'CSS']} trigger={['Enter', 'Space', 'Comma']} />;
+```
+
 ---
 
 ## 从 v4 升级到 v5 🚀
