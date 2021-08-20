@@ -71,6 +71,7 @@ export const KEY_VALUES = {
   // Editing Keys
   BACKSPACE: 'Backspace',
   DELETE: 'Delete',
+  COMMA: ',',
 
   // UI Keys
   ESC: 'Escape'

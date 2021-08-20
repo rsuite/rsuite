@@ -30,6 +30,12 @@
 
 <!--{include:`creatable.md`}-->
 
+### 触发事件
+
+通过 `trigger` 属性设置创建标签的触发器，需要和 `creatable` 属性组合使用。 可选择包括：`Enter`, `Space`, `Comma`，默认值为 `Enter`, 可以同时设置多个触发事件。
+
+<!--{include:`trigger.md`}-->
+
 ### 自定义
 
 <!--{include:`custom.md`}-->
@@ -97,6 +103,7 @@
 | sort               | (isGroup: boolean) => (a: any, b: any) => number                        | 对选项排序                                 |
 | tagProps           | [TagProps][tagprops]                                                    | 设置 Tag 的属性                            |
 | toggleAs           | ElementType `('a')`                                                     | 为组件自定义元素类型                       |
+| trigger            | 'Enter' &#124; 'Space' &#124; 'Comma' `('Enter')`                       | 设置创建标签的触发事件                     |
 | value              | string[]                                                                | 设置值 `受控`                              |
 | valueKey           | string `('value')`                                                      | 设置选项值在 `data` 中的 `key`             |
 | virtualized        | boolean                                                                 | 是否开启虚拟列表                           |
