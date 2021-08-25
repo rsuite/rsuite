@@ -5,16 +5,11 @@ import { render } from '@test/testUtils';
 import TagInput from '../index';
 
 describe('TagInput', () => {
-  it('Should create a tag', done => {
-    const doneOp = value => {
-      if (value.length === 1 && value[0] === 'abc') {
-        done();
-      }
-    };
-
+  it('Should create a tag', () => {
+    const onCreateSpy = sinon.spy();
     const inputRef = React.createRef();
 
-    render(<TagInput ref={inputRef} onCreate={doneOp} creatable />);
+    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable />);
     const picker = inputRef.current.root;
     const input = picker.querySelector('.rs-picker-search input');
 
@@ -22,18 +17,15 @@ describe('TagInput', () => {
     input.value = 'abc';
     ReactTestUtils.Simulate.change(input);
     ReactTestUtils.Simulate.keyDown(input, { key: 'Enter' });
+
+    expect(onCreateSpy).to.have.been.calledWith(['abc']);
   });
 
-  it('Should create a tag by tirgger="Space" ', done => {
-    const doneOp = value => {
-      if (value.length === 1 && value[0] === 'abc') {
-        done();
-      }
-    };
-
+  it('Should create a tag by tirgger="Space" ', () => {
+    const onCreateSpy = sinon.spy();
     const inputRef = React.createRef();
 
-    render(<TagInput ref={inputRef} onCreate={doneOp} creatable trigger="Space" />);
+    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Space" />);
     const picker = inputRef.current.root;
     const input = picker.querySelector('.rs-picker-search input');
 
@@ -41,18 +33,14 @@ describe('TagInput', () => {
     input.value = 'abc';
     ReactTestUtils.Simulate.change(input);
     ReactTestUtils.Simulate.keyDown(input, { key: ' ' });
+    expect(onCreateSpy).to.have.been.calledWith(['abc']);
   });
 
-  it('Should create a tag by tirgger="Comma" ', done => {
-    const doneOp = value => {
-      if (value.length === 1 && value[0] === 'abc') {
-        done();
-      }
-    };
-
+  it('Should create a tag by tirgger="Comma" ', () => {
+    const onCreateSpy = sinon.spy();
     const inputRef = React.createRef();
 
-    render(<TagInput ref={inputRef} onCreate={doneOp} creatable trigger="Comma" />);
+    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Comma" />);
 
     const picker = inputRef.current.root;
     const input = picker.querySelector('.rs-picker-search input');
@@ -61,6 +49,7 @@ describe('TagInput', () => {
     input.value = 'abc';
     ReactTestUtils.Simulate.change(input);
     ReactTestUtils.Simulate.keyDown(input, { key: ',' });
+    expect(onCreateSpy).to.have.been.calledWith(['abc']);
   });
 
   it('Should render 2 tags by events', () => {
