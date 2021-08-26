@@ -47,7 +47,10 @@ const DropdownToggle: RsRefForwardingComponent<
   const buttonProps = Component === Button ? { appearance: 'subtle' } : null;
   const toggle = (
     <Component {...buttonProps} {...rest} ref={ref} className={classes}>
-      <span className={prefix('icon')}>{icon}</span>
+      {icon &&
+        React.cloneElement(icon, {
+          className: prefix('icon')
+        })}
       {children}
       {noCaret ? null : <Caret className={prefix('caret')} />}
     </Component>
