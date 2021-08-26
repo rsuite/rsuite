@@ -37,20 +37,32 @@
   outline: none;
   .reset-link-text-decoration(none);
 
+  .high-contrast-mode({
+    transition: none;
+  });
+
   &:hover,
   &:focus,
   &&-focus {
     color: var(--rs-navs-text-hover);
+
+    .high-contrast-mode({
+      text-decoration: underline;
+    });
   }
 
   &:focus-visible {
-    .focus-ring();
+    .focus-ring(slim);
 
-    z-index: 1;
+    z-index: 2;
   }
 
   &:active {
     color: var(--rs-navs-text-active);
+
+    .high-contrast-mode({
+      text-decoration: underline;
+    });
   }
 
   &.rs-nav-item-disabled {
@@ -63,6 +75,10 @@
     position: relative;
     color: var(--rs-navs-selected);
     z-index: 1;
+
+    .high-contrast-mode({
+      text-decoration: underline;
+    });
   }
 
   > .rs-icon {
