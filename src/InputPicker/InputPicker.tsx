@@ -227,7 +227,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         filteredData: InputItemDataType[],
         event: React.SyntheticEvent<any>
       ) => {
-        disabledOptions;
         // The first option after filtering is the focus.
         setFocusItemValue(
           disabledOptions ? searchKeyword : filteredData?.[0]?.[valueKey] || searchKeyword
