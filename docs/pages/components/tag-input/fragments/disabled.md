@@ -1,48 +1,28 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
-
 const instance = (
   <div>
     <label>Disabled: </label>
-    <TagPicker
+    <TagInput
       disabled
-      data={data}
-      placeholder="-"
       defaultValue={['Julius']}
       style={{ width: 300 }}
       menuStyle={{ width: 300 }}
     />
 
-    <label style={{ marginLeft: 10 }}>Disabled option: </label>
-    <TagPicker
-      data={data}
-      placeholder="-"
-      defaultValue={['Julius']}
-      disabledItemValues={['Eugenia', 'Travon', 'Vincenza']}
-      style={{ width: 300 }}
-      menuStyle={{ width: 300 }}
-    />
     <hr />
     <label>Read only: </label>
-    <TagPicker
+    <TagInput
       readOnly
-      data={data}
-      placeholder="-"
       defaultValue={['Julius']}
       style={{ width: 300 }}
       menuStyle={{ width: 300 }}
     />
     <hr />
     <label>Plaintext: </label>
-    <TagPicker
+    <TagInput
       plaintext
-      data={data}
-      placeholder="-"
       defaultValue={['Julius']}
       style={{ width: 300 }}
       menuStyle={{ width: 300 }}

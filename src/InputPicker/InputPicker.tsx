@@ -54,9 +54,21 @@ import InputSearch from './InputSearch';
 export type TriggerType = 'Enter' | 'Space' | 'Comma';
 
 export interface InputPickerContextProps {
+  /** Multiple selections are allowed */
   multi?: boolean;
+
+  /** Tag related props. */
   tagProps?: TagProps;
+
+  /**
+   * Set the trigger for creating tags. only valid when creatable
+   */
   trigger?: TriggerType | TriggerType[];
+
+  /**
+   * No overlay provides options
+   */
+  disabledOptions?: boolean;
 }
 
 export const InputPickerContext = React.createContext<InputPickerContextProps>({});
@@ -160,7 +172,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const { multi, tagProps, trigger } = useContext(InputPickerContext);
+    const { multi, tagProps, trigger, disabledOptions } = useContext(InputPickerContext);
 
     if (groupBy === valueKey || groupBy === labelKey) {
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
@@ -216,10 +228,12 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         event: React.SyntheticEvent<any>
       ) => {
         // The first option after filtering is the focus.
-        setFocusItemValue(filteredData?.[0]?.[valueKey] || searchKeyword);
+        setFocusItemValue(
+          disabledOptions ? searchKeyword : filteredData?.[0]?.[valueKey] || searchKeyword
+        );
         onSearch?.(searchKeyword, event);
       },
-      [setFocusItemValue, onSearch, valueKey]
+      [disabledOptions, setFocusItemValue, valueKey, onSearch]
     );
 
     // Use search keywords to filter options.
@@ -256,16 +270,16 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       const allData = getAllDataAndCache();
       const activeItem = allData.find(item => shallowEqual(item[valueKey], value));
 
-      let displayElement: React.ReactNode = placeholder;
+      let itemNode: React.ReactNode = placeholder;
 
       if (activeItem?.[labelKey]) {
-        displayElement = activeItem?.[labelKey];
+        itemNode = activeItem?.[labelKey];
       }
 
       return {
         isValid: !!activeItem,
         activeItem,
-        displayElement
+        itemNode
       };
     };
 
@@ -389,7 +403,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
         if (!val.some(v => shallowEqual(v, focusItemValue))) {
           val.push(focusItemValue);
-        } else {
+        } else if (!disabledOptions) {
           remove(val, itemVal => shallowEqual(itemVal, focusItemValue));
         }
 
@@ -405,16 +419,17 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         handleChange(val, event);
       },
       [
-        setValue,
         cloneValue,
         getAllData,
-        handleChange,
-        handleSelect,
-        createOption,
-        setSearchKeyword,
-        disabledItemValues,
         focusItemValue,
-        valueKey
+        disabledItemValues,
+        disabledOptions,
+        setValue,
+        setSearchKeyword,
+        handleSelect,
+        handleChange,
+        valueKey,
+        createOption
       ]
     );
 
@@ -586,18 +601,19 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       return renderMenuItem ? renderMenuItem(newLabel, item) : newLabel;
     };
 
-    const renderSingleValue = () => {
+    const checkValue = () => {
       if (multi) {
-        return { isValid: false, displayElement: placeholder };
+        return { isValid: false, itemNode: null };
       }
+
       const dataItem = getDateItem(value);
-      let displayElement = dataItem.displayElement;
+      let itemNode = dataItem.itemNode;
 
       if (!isNil(value) && isFunction(renderValue)) {
-        displayElement = renderValue(value, dataItem.activeItem, displayElement);
+        itemNode = renderValue(value, dataItem.activeItem, itemNode);
       }
 
-      return { isValid: dataItem.isValid, displayElement };
+      return { isValid: dataItem.isValid, itemNode };
     };
 
     const renderMultiValue = () => {
@@ -611,7 +627,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       const tagElements = tags
         .map(tag => {
-          const { isValid, displayElement, activeItem } = getDateItem(tag);
+          const { isValid, itemNode, activeItem } = getDateItem(tag);
           items.push(activeItem);
 
           if (!isValid) {
@@ -624,10 +640,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
               key={tag}
               size={rest.size === 'lg' ? 'lg' : rest.size === 'xs' ? 'sm' : 'md'}
               closable={!disabled && closable && !readOnly && !plaintext}
-              title={typeof displayElement === 'string' ? displayElement : undefined}
+              title={typeof itemNode === 'string' ? itemNode : undefined}
               onClose={createChainedFunction(handleRemoveItemByTag.bind(null, tag), onClose)}
             >
-              {displayElement}
+              {itemNode}
             </Tag>
           );
         })
@@ -657,6 +673,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         items = getDataGroupBy(items, groupBy, sort);
       } else if (typeof sort === 'function') {
         items = items.sort(sort(false));
+      }
+
+      if (disabledOptions) {
+        return <PickerOverlay ref={mergeRefs(overlayRef, speakerRef)} />;
       }
 
       const menu = items.length ? (
@@ -698,7 +718,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       );
     };
 
-    const { isValid, displayElement } = renderSingleValue();
+    const { isValid, itemNode } = checkValue();
     const tagElements = renderMultiValue();
 
     /**
@@ -706,7 +726,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      * 3.If renderValue returns null or undefined, hasValue is false.
      */
-    const hasSingleValue = !isNil(value) && isFunction(renderValue) && !isNil(displayElement);
+    const hasSingleValue = !isNil(value) && isFunction(renderValue) && !isNil(itemNode);
     const hasMultiValue =
       isArray(value) && value.length > 0 && isFunction(renderValue) && !isNil(tagElements);
     const hasValue = multi ? !!tagElements?.length || hasMultiValue : isValid || hasSingleValue;
@@ -719,7 +739,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const classes = merge(pickerClasses, {
       [prefix`tag`]: multi,
-      [prefix`focused`]: open
+      [prefix`focused`]: open,
+      [prefix`disabled-options`]: disabledOptions
     });
     const searching = !!searchKeyword && open;
     const displaySearchInput = searchable && !disabled;
@@ -741,10 +762,12 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       return (
         <Plaintext localeKey="notSelected" ref={targetRef} {...plaintextProps}>
-          {displayElement || (tagElements?.length ? tagElements : null)}
+          {itemNode || (tagElements?.length ? tagElements : null) || placeholder}
         </Plaintext>
       );
     }
+
+    const placeholderNode = placeholder || (disabledOptions ? null : locale?.placeholder);
 
     return (
       <PickerToggleTrigger
@@ -779,8 +802,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             disabled={disabled}
             placement={placement}
             inputValue={value}
+            caret={!disabledOptions}
           >
-            {searching || (multi && hasValue) ? null : displayElement || locale?.placeholder}
+            {searching || (multi && hasValue) ? null : itemNode || placeholderNode}
           </PickerToggle>
           {/* TODO Separate InputPicker and TagPicker implementation */}
           {!(!multi && disabled) && (

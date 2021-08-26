@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import InputPicker, {
   InputPickerProps,
   InputPickerContext,
@@ -20,8 +20,10 @@ export interface TagPickerProps extends InputPickerProps {
 const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(
   (props: TagPickerProps, ref) => {
     const { tagProps, trigger, ...rest } = props;
+    const contextValue = useMemo(() => ({ multi: true, trigger, tagProps }), [tagProps, trigger]);
+
     return (
-      <InputPickerContext.Provider value={{ multi: true, trigger, tagProps }}>
+      <InputPickerContext.Provider value={contextValue}>
         <InputPicker {...rest} ref={ref} />
       </InputPickerContext.Provider>
     );

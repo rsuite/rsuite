@@ -202,12 +202,15 @@ const PickerToggle: RsRefForwardingComponent<
         render={(ref, props) => <input ref={mergeRefs(inputRef, ref)} {...props} />}
       />
 
-      <span
-        className={prefix(hasValue ? 'value' : 'placeholder')}
-        aria-placeholder={typeof children === 'string' ? children : null}
-      >
-        {children}
-      </span>
+      {children ? (
+        <span
+          className={prefix(hasValue ? 'value' : 'placeholder')}
+          aria-placeholder={typeof children === 'string' ? children : null}
+        >
+          {children}
+        </span>
+      ) : null}
+
       {cleanable && <CloseButton className={prefix`clean`} tabIndex={-1} onClick={handleClean} />}
       {caret && <Caret className={prefix`caret`} />}
     </Component>
