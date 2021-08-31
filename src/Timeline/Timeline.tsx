@@ -2,10 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { setStatic } from 'recompose';
 
 import TimelineItem from './TimelineItem';
-import { defaultProps, prefix, ReactChildren } from '../utils';
+import { setStatic, defaultProps, prefix, ReactChildren } from '../utils';
 import { TimelineProps } from './Timeline.d';
 
 class Timeline extends React.Component<TimelineProps> {

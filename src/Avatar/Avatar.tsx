@@ -1,8 +1,7 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { compose } from 'recompose';
-import { defaultProps, prefix, withStyleProps } from '../utils';
+import { compose, defaultProps, prefix, withStyleProps } from '../utils';
 import { SIZE } from '../constants';
 import { AvatarProps } from './Avatar.d';
 

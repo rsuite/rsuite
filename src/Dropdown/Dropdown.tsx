@@ -2,7 +2,6 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { setStatic } from 'recompose';
 import { contains } from 'dom-lib';
 
 import RootCloseWrapper from '../Overlay/RootCloseWrapper';
@@ -11,6 +10,7 @@ import DropdownToggle from './DropdownToggle';
 import DropdownMenu from './DropdownMenu';
 import DropdownMenuItem from './DropdownMenuItem';
 import {
+  setStatic,
   createChainedFunction,
   prefix,
   isOneOf,

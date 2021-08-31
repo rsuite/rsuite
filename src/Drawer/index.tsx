@@ -1,6 +1,4 @@
-import { setStatic, setDisplayName } from 'recompose';
-
-import { defaultProps } from '../utils';
+import { setStatic, setDisplayName, defaultProps } from '../utils';
 import Drawer from './Drawer';
 import ModalBody from '../Modal/ModalBody';
 import ModalHeader from '../Modal/ModalHeader';

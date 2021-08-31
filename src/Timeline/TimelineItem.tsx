@@ -1,9 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { compose } from 'recompose';
 
-import { prefix, defaultProps, withStyleProps } from '../utils';
+import { compose, prefix, defaultProps, withStyleProps } from '../utils';
 import { TimelineItemProps } from './TimelineItem.d';
 
 class TimelineItem extends React.Component<TimelineItemProps> {

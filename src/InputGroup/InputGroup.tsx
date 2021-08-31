@@ -1,10 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { setStatic, compose } from 'recompose';
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
-import { prefix, withStyleProps, defaultProps, createContext } from '../utils';
+import { setStatic, compose, prefix, withStyleProps, defaultProps, createContext } from '../utils';
 import { InputGroupProps } from './InputGroup.d';
 
 export const InputGroupContext = createContext(null);

@@ -2,10 +2,9 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
-import { setStatic } from 'recompose';
 
 import StepItem from './StepItem';
-import { prefix, defaultProps, ReactChildren, isIE10 } from '../utils';
+import { setStatic, prefix, defaultProps, ReactChildren, isIE10 } from '../utils';
 import { StepsProps } from './Steps.d';
 
 class Steps extends React.Component<StepsProps> {

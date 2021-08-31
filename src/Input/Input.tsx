@@ -1,10 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { compose } from 'recompose';
 import _ from 'lodash';
 
 import {
+  compose,
   withStyleProps,
   defaultProps,
   createChainedFunction,
