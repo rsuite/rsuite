@@ -86,7 +86,18 @@
     height: @line-height-computed;
   }
 
-  &-active {
+  .high-contrast-mode({
+    transition: none;
+    color: var(--rs-pagination-item-text);
+
+    &:hover,
+    &:focus-visible {
+      color: var(--rs-pagination-item-current-text);
+      text-decoration: underline;
+    }
+  });
+
+  &&-active {
     .pagination-active();
   }
 }

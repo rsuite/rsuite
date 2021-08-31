@@ -71,7 +71,7 @@ const defaultProps: Partial<PaginationProps> = {
   classPrefix: 'pagination',
   activePage: 1,
   pages: 1,
-  size: 'md'
+  size: 'xs'
 };
 
 const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwardRef(
