@@ -6,7 +6,7 @@ import { mergeRefs, useClassNames } from '../utils';
 import ListContext from './ListContext';
 import { Collection } from './helper/useManager';
 
-export interface ListItemProps extends WithAsProps {
+export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
   /* Index of list item, for sort */
   index?: number;
 
