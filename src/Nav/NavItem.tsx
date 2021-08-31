@@ -1,16 +1,14 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import omit from 'lodash/omit';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
-import { appendTooltip, mergeRefs, shallowEqual, useClassNames } from '../utils';
+import { shallowEqual, useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import NavContext from './NavContext';
 import { NavbarContext } from '../Navbar/Navbar';
-import MenuItem from '../Menu/MenuItem';
 import SidenavItem from '../Sidenav/SidenavItem';
 import NavbarItem from '../Navbar/NavbarItem';
 
@@ -92,62 +90,8 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       [disabled, emitSelect, onClick]
     );
 
-    if (sidenav?.expanded) {
-      return <SidenavItem {...props} classPrefix={classPrefix} />;
-    }
-
-    // If <Nav.Item> is inside collapsed <Sidenav>, render an ARIA `menuitem`
     if (sidenav) {
-      return (
-        <MenuItem selected={active} disabled={disabled} onActivate={emitSelect}>
-          {({ selected, active, ...menuitem }, menuitemRef) => {
-            const classes = merge(
-              className,
-              withClassPrefix({ focus: active, active: selected, disabled })
-            );
-
-            const item = (
-              <Component
-                ref={mergeRefs(ref, menuitemRef)}
-                disabled={Component === SafeAnchor ? disabled : undefined}
-                className={classes}
-                data-event-key={eventKey}
-                {...menuitem}
-                {...omit(rest, ['divider', 'panel'])}
-              >
-                {icon}
-                {children}
-                <Ripple />
-              </Component>
-            );
-
-            // Show tooltip when inside a collapse <Sidenav>
-            return sidenav
-              ? appendTooltip({
-                  children: (triggerProps, triggerRef) => {
-                    return (
-                      <Component
-                        ref={mergeRefs(mergeRefs(ref, menuitemRef), triggerRef as any)}
-                        disabled={Component === SafeAnchor ? disabled : undefined}
-                        className={classes}
-                        data-event-key={eventKey}
-                        {...menuitem}
-                        {...omit(rest, ['divider', 'panel'])}
-                        {...triggerProps}
-                      >
-                        {icon}
-                        {children}
-                        <Ripple />
-                      </Component>
-                    );
-                  },
-                  message: children,
-                  placement: 'right'
-                })
-              : item;
-          }}
-        </MenuItem>
-      );
+      return <SidenavItem {...props} />;
     }
 
     if (divider) {

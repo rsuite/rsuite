@@ -44,7 +44,7 @@ describe('<Nav.Item>', () => {
         </Nav>
       </Sidenav>
     );
-    assert.include(getByTestId(instance, 'nav-item').className, 'rs-nav-item-divider');
+    assert.include(getByTestId(instance, 'nav-item').className, 'rs-sidenav-item-divider');
   });
 
   it('Should render a panel', () => {
@@ -55,7 +55,7 @@ describe('<Nav.Item>', () => {
         </Nav>
       </Sidenav>
     );
-    assert.include(getByTestId(instance, 'nav-item').className, 'rs-nav-item-panel');
+    assert.include(getByTestId(instance, 'nav-item').className, 'rs-sidenav-item-panel');
   });
 
   it('Should be active', () => {

@@ -42,7 +42,7 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-nav-item'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-sidenav-item'));
 
     expect(consoleWarnSpy, 'Deprecation warning').to.have.been.calledWith(
       sinon.match(/onselect.+deprecated/i)

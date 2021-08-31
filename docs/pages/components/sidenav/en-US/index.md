@@ -20,6 +20,8 @@ An encapsulation of the Nav for the sidebar of the page.
 
 `appearance` value include:`default`,`inverse`,`subtle`
 
+> In high-contrast theme, all appearances looks the same as `default`.
+
 <!--{include:`appearance.md`}-->
 
 ### Collapsed Menu
