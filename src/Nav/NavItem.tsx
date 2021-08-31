@@ -12,6 +12,7 @@ import NavContext from './NavContext';
 import { NavbarContext } from '../Navbar/Navbar';
 import MenuItem from '../Menu/MenuItem';
 import SidenavItem from '../Sidenav/SidenavItem';
+import NavbarItem from '../Navbar/NavbarItem';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -41,23 +42,18 @@ export interface NavItemProps<T = string>
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
-const defaultProps: Partial<NavItemProps> = {
-  classPrefix: 'nav-item',
-  as: SafeAnchor
-};
-
 /**
  * The <Nav.Item> API
  */
 const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<any>) => {
     const {
-      as: Component,
+      as: Component = SafeAnchor,
       active: activeProp,
       disabled,
       eventKey,
       className,
-      classPrefix,
+      classPrefix = 'nav-item',
       style,
       children,
       icon,
@@ -97,7 +93,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
     );
 
     if (sidenav?.expanded) {
-      return <SidenavItem {...props} />;
+      return <SidenavItem {...props} classPrefix={classPrefix} />;
     }
 
     // If <Nav.Item> is inside collapsed <Sidenav>, render an ARIA `menuitem`
@@ -175,20 +171,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
     }
 
     if (navbar) {
-      return (
-        <Component
-          ref={ref}
-          aria-selected={active || undefined}
-          {...rest}
-          className={classes}
-          onClick={handleClick}
-          style={style}
-        >
-          {icon}
-          {children}
-          <Ripple />
-        </Component>
-      );
+      return <NavbarItem {...props} />;
     }
 
     return (
@@ -209,7 +192,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   }
 );
 
-NavItem.defaultProps = defaultProps;
 NavItem.displayName = 'Nav.Item';
 NavItem.propTypes = {
   as: PropTypes.elementType,
