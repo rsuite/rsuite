@@ -8,6 +8,7 @@ interface Options {
   timeout?: number;
   data?: any;
   withCredentials?: boolean;
+  disableMultipart?: boolean;
   headers?: any;
   file: File;
   url: string;
@@ -40,17 +41,23 @@ export default function ajaxUpload(options: Options) {
     onProgress,
     file,
     url,
-    withCredentials
+    withCredentials,
+    disableMultipart
   } = options;
 
   const xhr = new XMLHttpRequest();
-  const formData = new FormData();
-
-  formData.append(name, file, file.name);
+  let sendableData = null;
 
   xhr.open('POST', url, true);
 
-  Object.keys(data).forEach(key => formData.append(key, data[key]));
+  if (!disableMultipart) {
+    sendableData = new FormData();
+    sendableData.append(name, file, file.name);
+    Object.keys(data).forEach(key => sendableData.append(key, data[key]));
+  } else {
+    sendableData = file;
+  }
+
   Object.keys(headers).forEach(key => {
     if (headers[key] !== null) {
       xhr.setRequestHeader(key, headers[key]);
@@ -95,7 +102,7 @@ export default function ajaxUpload(options: Options) {
     onError({ type: 'xhr_error' }, event, xhr);
   };
 
-  xhr.send(formData);
+  xhr.send(sendableData);
 
   return xhr;
 }
