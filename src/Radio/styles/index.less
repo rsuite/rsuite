@@ -58,6 +58,10 @@
     visibility: hidden;
     transition: transform 0.2s linear, opacity 0.2s linear;
 
+    .high-contrast-mode({
+      transition: none;
+    });
+
     .rs-radio-checked & {
       transform: scale(1.5);
       opacity: 0;
@@ -80,6 +84,10 @@
     .radio-inner-wrapper(var(--rs-radio-border));
 
     transition: background 0.2s linear, border 0.2s linear, box-shadow 0.2s linear;
+
+    .high-contrast-mode({
+      transition: none;
+    });
 
     .rs-radio:hover & {
       border-color: var(--rs-radio-checked-bg);
@@ -111,6 +119,10 @@
     opacity: 0;
     transform: scale(0);
     transition: opacity 0.2s ease-in, transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
+
+    .high-contrast-mode({
+      transition: none;
+    });
 
     .rs-radio-checked & {
       transform: scale(1);
