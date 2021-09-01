@@ -270,6 +270,10 @@
   // Remove transition
   transition: none;
 
+  .high-contrast-mode({
+    border: 1px solid var(--rs-border-primary);
+  });
+
   // Increase z-index when modal opened.
   .rs-modal-open & {
     z-index: (@zindex-modal + @zindex-picker-toggle);

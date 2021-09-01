@@ -19,6 +19,7 @@
 //     .listbox-option-disabled();
 //   }
 // }
+@import 'color-modes';
 
 .listbox() {
   list-style: none;
@@ -45,6 +46,12 @@
 .listbox-option-active(@multiselectable: false) {
   background-color: var(--rs-listbox-option-hover-bg);
 
+  .high-contrast-mode({
+    .focus-ring(slim-inset);
+
+    text-decoration: underline;
+  });
+
   // No need to change text color in multiselectable listboxes
   // in favor of checkbox state changes
   & when (@multiselectable = false) {
@@ -56,9 +63,13 @@
   background-color: var(--rs-listbox-option-selected-bg);
   font-weight: bold;
   color: var(--rs-listbox-option-selected-text);
+
+  .high-contrast-mode({
+    text-decoration: underline;
+  });
 }
 
-.listbox-options-disabled {
+.listbox-options-disabled() {
   color: var(--rs-listbox-option-disabled-text);
   background: none;
   cursor: not-allowed;
