@@ -2,5 +2,5 @@
 import { Table } from 'rsuite';
 
 // or
-import Table from 'rsuite/lib/Table';
+import Table from 'rsuite/Table';
 ```

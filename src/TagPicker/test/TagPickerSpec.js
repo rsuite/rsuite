@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, render } from '@test/testUtils';
 
 import TagPicker from '../index';
 import Button from '../../Button';
@@ -351,5 +351,85 @@ describe('TagPicker', () => {
   it('Should set a tabindex for input', () => {
     const instance = getDOMNode(<TagPicker tabIndex={10} />);
     assert.equal(instance.querySelector('input[type="text"]').getAttribute('tabindex'), '10');
+  });
+
+  it('Should create a tag', done => {
+    const doneOp = value => {
+      if (value.length === 1 && value[0] === 'abc') {
+        done();
+      }
+    };
+
+    const inputRef = React.createRef();
+
+    ReactTestUtils.act(() => {
+      render(<TagPicker ref={inputRef} data={[]} onCreate={doneOp} creatable />);
+    });
+
+    const picker = inputRef.current.root;
+    const input = picker.querySelector('.rs-picker-search input');
+
+    ReactTestUtils.Simulate.click(picker);
+    input.value = 'abc';
+    ReactTestUtils.Simulate.change(input);
+    ReactTestUtils.Simulate.keyDown(input, { key: 'Enter' });
+  });
+
+  it('Should create a tag by tirgger="Space" ', done => {
+    const doneOp = value => {
+      if (value.length === 1 && value[0] === 'abc') {
+        done();
+      }
+    };
+
+    const inputRef = React.createRef();
+
+    ReactTestUtils.act(() => {
+      render(<TagPicker ref={inputRef} data={[]} onCreate={doneOp} creatable trigger="Space" />);
+    });
+
+    const picker = inputRef.current.root;
+    const input = picker.querySelector('.rs-picker-search input');
+
+    ReactTestUtils.Simulate.click(picker);
+    input.value = 'abc';
+    ReactTestUtils.Simulate.change(input);
+    ReactTestUtils.Simulate.keyDown(input, { key: ' ' });
+  });
+
+  it('Should create a tag by tirgger="Comma" ', done => {
+    const doneOp = value => {
+      if (value.length === 1 && value[0] === 'abc') {
+        done();
+      }
+    };
+
+    const inputRef = React.createRef();
+
+    ReactTestUtils.act(() => {
+      render(<TagPicker ref={inputRef} data={[]} onCreate={doneOp} creatable trigger="Comma" />);
+    });
+
+    const picker = inputRef.current.root;
+    const input = picker.querySelector('.rs-picker-search input');
+
+    ReactTestUtils.Simulate.click(picker);
+    input.value = 'abc';
+    ReactTestUtils.Simulate.change(input);
+    ReactTestUtils.Simulate.keyDown(input, { key: ',' });
+  });
+
+  it('Should be plaintext', () => {
+    const instance1 = getInstance(<TagPicker plaintext data={data} value={['Eugenia']} />);
+    const instance2 = getInstance(<TagPicker plaintext data={data} />);
+    const instance3 = getInstance(<TagPicker plaintext data={data} placeholder="-" />);
+    const instance4 = getInstance(
+      <TagPicker plaintext data={data} placeholder="-" value={['Eugenia']} />
+    );
+
+    assert.equal(instance1.target.innerText, 'Eugenia');
+    assert.equal(instance2.target.innerText, 'Not selected');
+    assert.equal(instance3.target.innerText, '-');
+    assert.equal(instance4.target.innerText, 'Eugenia');
   });
 });

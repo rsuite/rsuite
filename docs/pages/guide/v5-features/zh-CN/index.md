@@ -137,6 +137,44 @@ checkResult 返回的数据结构:
 <Badge color="yellow">Yellow</Badge>
 ```
 
+### 6. 重构 Table
+
+使用 react hooks 重构了 Table， 并改进了表格滚动时的性能。 [废弃了 `onDataUpdated` 和 `bodyRef` 属性](https://github.com/rsuite/rsuite-table/pull/232)。
+
+对于一些要在表格内部渲染的组件，之前可以通过 `bodyRef` 获取表格的 body 容器。 现在我们可以通过 `Table` 的 `ref` 直接获取容器。
+
+```js
+// v4
+const bodyRef = useRef();
+return (
+  <>
+    <Table
+      bodyRef={body => {
+        bodyRef.current = body;
+      }}
+    />
+    <CheckPicker container={() => bodyRef.current} />
+  </>
+);
+
+// v5
+const ref = useRef();
+return (
+  <>
+    <Table ref={ref} />
+    <CheckPicker container={() => ref.current.body} />
+  </>
+);
+```
+
+### 7.[新增 TagInput 组件](/zh/components/tag-input/)
+
+```ts
+import TagInput from 'rsuite/TagInput';
+
+return <TagInput defaultValue={['HTML', 'CSS']} trigger={['Enter', 'Space', 'Comma']} />;
+```
+
 ---
 
 ## 从 v4 升级到 v5 🚀
@@ -366,7 +404,7 @@ return (
 
 // for rsuite v5
 import { CustomProvider } from 'rsuite';
-import zhCN from 'rsuite/lib/locales/zh_CN';
+import zhCN from 'rsuite/locales/zh_CN';
 
 return (
   <CustomProvider locale={zhCN}>
@@ -409,5 +447,68 @@ return (
       </Nav>
     </Sidenav.Body>
   </Sidenav>
+);
+```
+
+#### 2.13 按需加载
+
+**导入组件**
+
+```ts
+// v4
+import Button from 'rsuite/lib/Button';
+import 'rsuite/lib/Button/styles/index.less';
+
+// v5
+import Button from 'rsuite/Button';
+import 'rsuite/Button/styles/index.less';
+```
+
+**导入本地化语言包**
+
+```ts
+// v4
+import ruRU from 'rsuite/lib/IntlProvider/locales/ru_RU';
+
+// v5
+import ruRU from 'rsuite/locales/ru_RU';
+```
+
+**全局导入样式**
+
+```ts
+// v4
+import 'rsuite/lib/styles/index.less'; // less
+import 'rsuite/dist/styles/rsuite-default.css'; // css
+
+// v5
+import 'rsuite/styles/index.less'; // less
+import 'rsuite/dist/rsuite.min.css'; // or css
+import 'rsuite/dist/rsuite-rtl.min.css'; // or rtl css
+```
+
+#### 2.14 废弃 `<Dropdown>` 组件的 `renderTitle` 属性
+
+废弃 `renderTitle`，取而代之的是 `renderToggle`。
+
+```js
+//v4
+return (
+  <Dropdown
+    renderTitle={() => <IconButton appearance="primary" icon={<Icon icon="plus" />} circle />}
+  >
+    ...
+  </Dropdown>
+);
+
+//v5
+return (
+  <Dropdown
+    renderToggle={(props, ref) => (
+      <IconButton {...props} ref={ref} icon={<PlusIcon />} circle appearance="primary" />
+    )}
+  >
+    ...
+  </Dropdown>
 );
 ```

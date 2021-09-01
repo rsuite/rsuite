@@ -1,52 +1,76 @@
-<a name="5.0.0-beta.3"></a>
-# [5.0.0-beta.3](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.2...v5.0.0-beta.3) (2021-08-08)
+<a name="5.0.0-beta.5"></a>
+# [5.0.0-beta.5](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.4...v5.0.0-beta.5) (2021-08-18)
 
 
 ### Bug Fixes
 
-* **pagination:** export type definition of `PaginationProps` ([#1817](https://github.com/rsuite/rsuite/issues/1817)) ([80c7d9e](https://github.com/rsuite/rsuite/commit/80c7d9e))
-* **sidenav:** trigger <Nav onSelect> on click <Nav.Item> ([#1815](https://github.com/rsuite/rsuite/issues/1815)) ([cae171d](https://github.com/rsuite/rsuite/commit/cae171d))
-
-
-
-<a name="5.0.0-beta.2"></a>
-# [5.0.0-beta.2](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.1...v5.0.0-beta.2) (2021-08-03)
-
-
-### Bug Fixes
-
-* **check-picker:** fix unable to clear value when pressing `Backspace` ([#1812](https://github.com/rsuite/rsuite/issues/1812)) ([1534174](https://github.com/rsuite/rsuite/commit/1534174))
-* **nav:** trigger `onSelect` on `<Nav>` when clicking `<Nav.Item>` ([#1797](https://github.com/rsuite/rsuite/issues/1797)) ([3fc99c4](https://github.com/rsuite/rsuite/commit/3fc99c4))
-* CheckTreePicker and TreePicker search problems ([#1808](https://github.com/rsuite/rsuite/issues/1808)) ([2c5e651](https://github.com/rsuite/rsuite/commit/2c5e651)), closes [#1577](https://github.com/rsuite/rsuite/issues/1577)
-* **message:** improve close icon style ([#1807](https://github.com/rsuite/rsuite/issues/1807)) ([4d1bf3f](https://github.com/rsuite/rsuite/commit/4d1bf3f))
-* **typescript:** export props of all components ([#1803](https://github.com/rsuite/rsuite/issues/1803)) ([a4edeba](https://github.com/rsuite/rsuite/commit/a4edeba))
+* **date-picker:** fix DatePicker cannot be used as controlled ([#1844](https://github.com/rsuite/rsuite/issues/1844)) ([3d6c035](https://github.com/rsuite/rsuite/commit/3d6c035)), closes [#1842](https://github.com/rsuite/rsuite/issues/1842)
 
 
 ### Features
 
-* **CustomProvider:** support `theme` on `<CustomProvider>` ([#1798](https://github.com/rsuite/rsuite/issues/1798)) ([cb5794c](https://github.com/rsuite/rsuite/commit/cb5794c))
+* **dropdown:** support `renderToggle` on `<Dropdown>` ([#1843](https://github.com/rsuite/rsuite/issues/1843)) ([99c1925](https://github.com/rsuite/rsuite/commit/99c1925))
 
 
 
-<a name="5.0.0-beta.1"></a>
-# [5.0.0-beta.1](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.9...v5.0.0-beta.1) (2021-07-23)
+<a name="5.0.0-beta.4"></a>
 
+# [5.0.0-beta.4](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.3...v5.0.0-beta.4) (2021-08-16)
 
 ### Bug Fixes
 
-* **calendar:** fix the date on the calendar as controlled and remove timezone ([#1781](https://github.com/rsuite/rsuite/issues/1781)) ([70e323d](https://github.com/rsuite/rsuite/commit/70e323d))
-* **cascader:** adjust the rendering status of async loaded child nodes ([#1764](https://github.com/rsuite/rsuite/issues/1764)) ([ae41a18](https://github.com/rsuite/rsuite/commit/ae41a18))
-* **cascader:** fix data not controlled on MultiCascader ([#1747](https://github.com/rsuite/rsuite/issues/1747)) ([593adc5](https://github.com/rsuite/rsuite/commit/593adc5))
-* **check-tree-picker:** onChange does't return the correct value ([#1743](https://github.com/rsuite/rsuite/issues/1743)) ([b34a919](https://github.com/rsuite/rsuite/commit/b34a919))
-* **dropdown-item:** close <Dropdown> inside <Navbar> on click its item ([#1791](https://github.com/rsuite/rsuite/issues/1791)) ([cc01a34](https://github.com/rsuite/rsuite/commit/cc01a34))
-* **navigation:** improve accessibility of nav components ([#1792](https://github.com/rsuite/rsuite/issues/1792)) ([45468bd](https://github.com/rsuite/rsuite/commit/45468bd))
-* **picker:** picker should not focus when it is disabled ([#1782](https://github.com/rsuite/rsuite/issues/1782)) ([6640c58](https://github.com/rsuite/rsuite/commit/6640c58))
-* **picker:** update the position after the overlay size is changed ([#1780](https://github.com/rsuite/rsuite/issues/1780)) ([6366c36](https://github.com/rsuite/rsuite/commit/6366c36))
-* **styles:** enable dark mode by default ([#1776](https://github.com/rsuite/rsuite/issues/1776)) ([13420e3](https://github.com/rsuite/rsuite/commit/13420e3))
-* add less plugins to output lib dir, fix [#1767](https://github.com/rsuite/rsuite/issues/1767) ([#1770](https://github.com/rsuite/rsuite/issues/1770)) ([7a83699](https://github.com/rsuite/rsuite/commit/7a83699))
-* **use-controlled:** value doest't change when controlledValue changed ([#1742](https://github.com/rsuite/rsuite/issues/1742)) ([682eb2b](https://github.com/rsuite/rsuite/commit/682eb2b))
+- **date-picker:** fix AM/PM display incorrect issue when switching hours ([#1823](https://github.com/rsuite/rsuite/issues/1823)) ([110715e](https://github.com/rsuite/rsuite/commit/110715e))
+- **dropdown-menu:** remove unrecognizable activeKey from dom ([#1827](https://github.com/rsuite/rsuite/issues/1827)) ([d578b5b](https://github.com/rsuite/rsuite/commit/d578b5b))
+- **locales:** fix the undefined problem of Locale ([#1834](https://github.com/rsuite/rsuite/issues/1834)) ([bf35a23](https://github.com/rsuite/rsuite/commit/bf35a23))
+- refactor(styles): change body background in light theme (#1840)
 
+### BREAKING CHANGES
 
+- build(deps): bump rsuite-table from 5.0.0-alpha.5 to 5.0.0-alpha.8 (#1836)
+- chore: use proxyDirectories to build esm/cjs (#1830)
+
+<a name="5.0.0-beta.3"></a>
+
+# [5.0.0-beta.3](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.2...v5.0.0-beta.3) (2021-08-08)
+
+### Bug Fixes
+
+- **pagination:** export type definition of `PaginationProps` ([#1817](https://github.com/rsuite/rsuite/issues/1817)) ([80c7d9e](https://github.com/rsuite/rsuite/commit/80c7d9e))
+- **sidenav:** trigger `<Nav onSelect>` on click `<Nav.Item>` ([#1815](https://github.com/rsuite/rsuite/issues/1815)) ([cae171d](https://github.com/rsuite/rsuite/commit/cae171d))
+
+<a name="5.0.0-beta.2"></a>
+
+# [5.0.0-beta.2](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.1...v5.0.0-beta.2) (2021-08-03)
+
+### Bug Fixes
+
+- **check-picker:** fix unable to clear value when pressing `Backspace` ([#1812](https://github.com/rsuite/rsuite/issues/1812)) ([1534174](https://github.com/rsuite/rsuite/commit/1534174))
+- **nav:** trigger `onSelect` on `<Nav>` when clicking `<Nav.Item>` ([#1797](https://github.com/rsuite/rsuite/issues/1797)) ([3fc99c4](https://github.com/rsuite/rsuite/commit/3fc99c4))
+- CheckTreePicker and TreePicker search problems ([#1808](https://github.com/rsuite/rsuite/issues/1808)) ([2c5e651](https://github.com/rsuite/rsuite/commit/2c5e651)), closes [#1577](https://github.com/rsuite/rsuite/issues/1577)
+- **message:** improve close icon style ([#1807](https://github.com/rsuite/rsuite/issues/1807)) ([4d1bf3f](https://github.com/rsuite/rsuite/commit/4d1bf3f))
+- **typescript:** export props of all components ([#1803](https://github.com/rsuite/rsuite/issues/1803)) ([a4edeba](https://github.com/rsuite/rsuite/commit/a4edeba))
+
+### Features
+
+- **CustomProvider:** support `theme` on `<CustomProvider>` ([#1798](https://github.com/rsuite/rsuite/issues/1798)) ([cb5794c](https://github.com/rsuite/rsuite/commit/cb5794c))
+
+<a name="5.0.0-beta.1"></a>
+
+# [5.0.0-beta.1](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.9...v5.0.0-beta.1) (2021-07-23)
+
+### Bug Fixes
+
+- **calendar:** fix the date on the calendar as controlled and remove timezone ([#1781](https://github.com/rsuite/rsuite/issues/1781)) ([70e323d](https://github.com/rsuite/rsuite/commit/70e323d))
+- **cascader:** adjust the rendering status of async loaded child nodes ([#1764](https://github.com/rsuite/rsuite/issues/1764)) ([ae41a18](https://github.com/rsuite/rsuite/commit/ae41a18))
+- **cascader:** fix data not controlled on MultiCascader ([#1747](https://github.com/rsuite/rsuite/issues/1747)) ([593adc5](https://github.com/rsuite/rsuite/commit/593adc5))
+- **check-tree-picker:** onChange does't return the correct value ([#1743](https://github.com/rsuite/rsuite/issues/1743)) ([b34a919](https://github.com/rsuite/rsuite/commit/b34a919))
+- **dropdown-item:** close <Dropdown> inside <Navbar> on click its item ([#1791](https://github.com/rsuite/rsuite/issues/1791)) ([cc01a34](https://github.com/rsuite/rsuite/commit/cc01a34))
+- **navigation:** improve accessibility of nav components ([#1792](https://github.com/rsuite/rsuite/issues/1792)) ([45468bd](https://github.com/rsuite/rsuite/commit/45468bd))
+- **picker:** picker should not focus when it is disabled ([#1782](https://github.com/rsuite/rsuite/issues/1782)) ([6640c58](https://github.com/rsuite/rsuite/commit/6640c58))
+- **picker:** update the position after the overlay size is changed ([#1780](https://github.com/rsuite/rsuite/issues/1780)) ([6366c36](https://github.com/rsuite/rsuite/commit/6366c36))
+- **styles:** enable dark mode by default ([#1776](https://github.com/rsuite/rsuite/issues/1776)) ([13420e3](https://github.com/rsuite/rsuite/commit/13420e3))
+- add less plugins to output lib dir, fix [#1767](https://github.com/rsuite/rsuite/issues/1767) ([#1770](https://github.com/rsuite/rsuite/issues/1770)) ([7a83699](https://github.com/rsuite/rsuite/commit/7a83699))
+- **use-controlled:** value doest't change when controlledValue changed ([#1742](https://github.com/rsuite/rsuite/issues/1742)) ([682eb2b](https://github.com/rsuite/rsuite/commit/682eb2b))
 
 <a name="5.0.0-alpha.9"></a>
 

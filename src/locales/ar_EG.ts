@@ -16,7 +16,7 @@ const Calendar = {
   seconds: 'ثواني',
   formattedMonthPattern: 'MMM, yyyy',
   formattedDayPattern: 'MMM dd, yyyy',
-  dateLocale: arSA
+  dateLocale: arSA as any
 };
 
 export default {

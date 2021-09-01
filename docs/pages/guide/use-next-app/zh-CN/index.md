@@ -83,7 +83,7 @@ $ yarn add rsuite
 import React from 'react';
 import Head from 'next/head';
 import { Button } from 'rsuite';
-import 'rsuite/lib/styles/index.less';
+import 'rsuite/styles/index.less';
 
 const Home = () => (
   <div>

@@ -2,10 +2,11 @@
 
 const util = require('util');
 const fs = require('fs');
+const { resolve } = require('path');
 const algoliaSearch = require('algoliasearch');
 const components = require('../utils/component.config.json');
 
-const items = components.filter(item => !item.group && item.id !== 'overview');
+const items = components.filter(item => !item.group && item.id !== 'overview' && !item.target);
 const readFile = util.promisify(fs.readFile);
 
 async function getIndices(locale) {
@@ -13,8 +14,10 @@ async function getIndices(locale) {
 
   for (let i = 0; i < items.length; i++) {
     const item = items[i];
-    const path = locale === 'zh' ? item.id : `${item.id}/en`;
-    const doc = await readFile(`../pages/components/${path}/index.md`, 'utf8');
+    const doc = await readFile(
+      resolve(__dirname, `../pages/components/${item.id}/${locale}/index.md`),
+      'utf8'
+    );
     const text = doc.match(/(?<=#[\S\ ]+\n\n)[\S\ ]+/gi);
     let content = '';
 
@@ -25,7 +28,7 @@ async function getIndices(locale) {
     indices.push({
       objectID: item.id,
       component: item.id,
-      title: locale === 'zh' ? `${item.name} ${item.title}` : item.name,
+      title: locale === 'zh-CN' ? `${item.name} ${item.title}` : item.name,
       anchor: item.id,
       content
     });
@@ -70,5 +73,5 @@ function uploadIndices(locale) {
   });
 }
 
-uploadIndices('zh');
-uploadIndices('en');
+uploadIndices('zh-CN');
+uploadIndices('en-US');

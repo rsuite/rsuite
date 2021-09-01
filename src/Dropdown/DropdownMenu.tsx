@@ -67,7 +67,16 @@ const DropdownMenu = React.forwardRef(
     props: DropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>,
     ref
   ) => {
-    const { onToggle, eventKey, title, onSelect, classPrefix, children, ...rest } = props;
+    const {
+      onToggle,
+      eventKey,
+      title,
+      activeKey,
+      onSelect,
+      classPrefix,
+      children,
+      ...rest
+    } = props;
 
     const dropdown = useContext(DropdownContext);
     const sidenav = useContext(SidenavContext);
@@ -97,7 +106,7 @@ const DropdownMenu = React.forwardRef(
       const classes = merge(props.className, withClassPrefix());
 
       return (
-        <DropdownContext.Provider value={{ activeKey: rest.activeKey, onSelect }}>
+        <DropdownContext.Provider value={{ activeKey, onSelect }}>
           <Menubar
             vertical
             onActivateItem={event => {

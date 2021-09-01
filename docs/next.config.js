@@ -146,9 +146,7 @@ module.exports = {
 
     config.resolve.alias['@'] = resolveToStaticPath('./');
     config.resolve.alias['rsuite'] = resolveToStaticPath('../src');
-    config.resolve.alias['@rsuite-locales'] = resolveToStaticPath(
-      './node_modules/rsuite/lib/locales'
-    );
+    config.resolve.alias['@rsuite-locales'] = resolveToStaticPath('./node_modules/rsuite/locales');
 
     config.entry = async () => {
       const entries = await originEntry();

@@ -2,5 +2,5 @@
 import { Uploader } from 'rsuite';
 
 // or
-import Uploader from 'rsuite/lib/Uploader';
+import Uploader from 'rsuite/Uploader';
 ```

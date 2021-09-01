@@ -537,6 +537,14 @@
     }
   },
   {
+    "id": "tag-input",
+    "name": "TagInput",
+    "title": "标签输入",
+    "components": [
+      "TagInput"
+    ]
+  },
+  {
     "id": "toggle",
     "name": "Toggle",
     "title": "开关",

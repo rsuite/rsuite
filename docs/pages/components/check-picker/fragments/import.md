@@ -2,5 +2,5 @@
 import { CheckPicker } from 'rsuite';
 
 // or
-import CheckPicker from 'rsuite/lib/CheckPicker';
+import CheckPicker from 'rsuite/CheckPicker';
 ```

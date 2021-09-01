@@ -6,7 +6,7 @@ React Suite 组件中的语言默认为英语。 如果需要设置其他语言�
 
 ```jsx
 import { CustomProvider } from 'rsuite';
-import zhCN from 'rsuite/lib/locales/zh_CN';
+import zhCN from 'rsuite/locales/zh_CN';
 
 return (
   <CustomProvider locale={zhCN}>
@@ -152,7 +152,7 @@ return <Table locale={locale} />;
 ```jsx
 import { IntlProvider } from 'react-intl';
 import { CustomProvider } from 'rsuite';
-import zhCN from 'rsuite/lib/locales/zh_CN';
+import zhCN from 'rsuite/locales/zh_CN';
 
 return (
   <IntlProvider locale="zh">

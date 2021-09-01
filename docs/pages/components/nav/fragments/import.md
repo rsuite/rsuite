@@ -2,5 +2,5 @@
 import { Nav } from 'rsuite';
 
 // or
-import Nav from 'rsuite/lib/Nav';
+import Nav from 'rsuite/Nav';
 ```

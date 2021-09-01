@@ -2,5 +2,5 @@
 import { Cascader } from 'rsuite';
 
 // or
-import Cascader from 'rsuite/lib/Cascader';
+import Cascader from 'rsuite/Cascader';
 ```

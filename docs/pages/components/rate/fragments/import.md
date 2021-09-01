@@ -2,5 +2,5 @@
 import { Rate } from 'rsuite';
 
 //or
-import Rate from 'rsuite/lib/Rate';
+import Rate from 'rsuite/Rate';
 ```

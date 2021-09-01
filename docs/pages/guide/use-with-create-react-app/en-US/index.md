@@ -32,7 +32,7 @@ And then edit `./src/App.js`
 - import logo from './logo.svg';
   import './App.css';
 
-+ import 'rsuite/dist/styles/rsuite-default.css';
++ import 'rsuite/dist/rsuite.min.css';
 + import { Button } from 'rsuite';
 
   class App extends Component {
@@ -66,7 +66,7 @@ To use the custom theme feature, you must modify the default configuration of th
 1.  Installation dependencies.
 
 ```bash
-yarn add react-app-rewired customize-cra less less-loader
+yarn add react-app-rewired customize-cra less less-loader@7
 ```
 
 2.  Modify scripts in `package.json`
@@ -87,8 +87,8 @@ yarn add react-app-rewired customize-cra less less-loader
 3.  Edit `./src/App.js`
 
 ```diff
-- import 'rsuite/dist/styles/rsuite-default.css';
-+ import 'rsuite/lib/styles/index.less';
+- import 'rsuite/dist/rsuite.min.css';
++ import 'rsuite/styles/index.less';
   import { Button } from 'rsuite';
 ```
 
@@ -112,6 +112,15 @@ module.exports = override(
 Re-executing `yarn start`, the red button is the configuration was successful
 
 We uses [react-app-rewired][react-app-rewired] and [customize-cra][customize-cra] to implement custom themes with [less-loader][less-loader] using `modifyVars` configuration. For more details, see [Customize Theme](/guide/themes).
+
+## Troubleshooting
+
+### TypeError: this.getOptions is not a function
+
+`less-loader` no longer supports webpack <5 since `8.0.0` while `create-react-app` comes with webpack 4.
+See [related issue](https://github.com/webpack-contrib/less-loader/issues/416).
+
+Make sure you are using `less-loader` with a lower major version, e.g. `7.3.0`.
 
 ## Source code
 

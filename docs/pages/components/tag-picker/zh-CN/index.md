@@ -1,4 +1,4 @@
-# TagPicker 标签输入选择器
+# TagPicker 标签选择器
 
 以标签的方式进行多选，同时支持新增选项
 
@@ -97,6 +97,7 @@
 | sort               | (isGroup: boolean) => (a: any, b: any) => number                        | 对选项排序                                 |
 | tagProps           | [TagProps][tagprops]                                                    | 设置 Tag 的属性                            |
 | toggleAs           | ElementType `('a')`                                                     | 为组件自定义元素类型                       |
+| trigger            | 'Enter' &#124; 'Space' &#124; 'Comma' `('Enter')`                       | 设置创建标签的触发事件                     |
 | value              | string[]                                                                | 设置值 `受控`                              |
 | valueKey           | string `('value')`                                                      | 设置选项值在 `data` 中的 `key`             |
 | virtualized        | boolean                                                                 | 是否开启虚拟列表                           |

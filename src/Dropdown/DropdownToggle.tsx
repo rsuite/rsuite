@@ -1,7 +1,5 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-
-import Ripple from '../Ripple';
 import Button from '../Button';
 import { useClassNames } from '../utils';
 import { IconProps } from '@rsuite/icons/lib/Icon';
@@ -12,7 +10,7 @@ import { SidenavContext } from '../Sidenav/Sidenav';
 export interface DropdownToggleProps extends WithAsProps {
   icon?: React.ReactElement<IconProps>;
   noCaret?: boolean;
-  renderTitle?: (children?: React.ReactNode) => React.ReactNode;
+  renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
   placement?: TypeAttributes.Placement8;
 }
 
@@ -29,7 +27,7 @@ const DropdownToggle: RsRefForwardingComponent<
     as: Component,
     className,
     classPrefix,
-    renderTitle,
+    renderToggle,
     children,
     icon,
     noCaret,
@@ -39,35 +37,25 @@ const DropdownToggle: RsRefForwardingComponent<
 
   const sidenav = useContext(SidenavContext);
   const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(
-    className,
-    withClassPrefix({
-      'custom-title': typeof renderTitle === 'function',
-      'no-caret': noCaret
-    })
-  );
+  const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
 
   const inSidenav = !!sidenav;
 
   // Caret icon is down by default, when Dropdown is used in Sidenav.
   const Caret = useToggleCaret(inSidenav ? 'bottomStart' : placement);
 
-  if (renderTitle) {
-    return (
-      <Component {...rest} ref={ref} className={classes}>
-        {renderTitle(children)}
-        <Ripple />
-      </Component>
-    );
-  }
-
-  return (
+  const toggle = (
     <Component {...rest} ref={ref} className={classes}>
-      {icon}
+      {icon &&
+        React.cloneElement(icon, {
+          className: prefix('icon')
+        })}
       {children}
       {noCaret ? null : <Caret className={prefix('caret')} />}
     </Component>
   );
+
+  return renderToggle ? renderToggle(rest, ref) : toggle;
 });
 
 DropdownToggle.displayName = 'DropdownToggle';
@@ -79,7 +67,17 @@ DropdownToggle.propTypes = {
   classPrefix: PropTypes.string,
   noCaret: PropTypes.bool,
   as: PropTypes.elementType,
-  renderTitle: PropTypes.func
+  renderToggle: PropTypes.func,
+  placement: PropTypes.oneOf([
+    'bottomStart',
+    'bottomEnd',
+    'topStart',
+    'topEnd',
+    'leftStart',
+    'rightStart',
+    'leftEnd',
+    'rightEnd'
+  ])
 };
 
 export default DropdownToggle;

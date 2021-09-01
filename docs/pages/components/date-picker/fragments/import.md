@@ -2,5 +2,5 @@
 import { DatePicker } from 'rsuite';
 
 // or
-import DatePicker from 'rsuite/lib/DatePicker';
+import DatePicker from 'rsuite/DatePicker';
 ```

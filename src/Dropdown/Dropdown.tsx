@@ -62,8 +62,13 @@ export interface DropdownProps<T = any>
    */
   open?: boolean;
 
-  /** Custom title */
-  renderTitle?: (children?: React.ReactNode) => React.ReactNode;
+  /**
+   * @deprecated
+   */
+  renderTitle?: (children: React.ReactNode) => React.ReactNode;
+
+  /** Custom Toggle */
+  renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
 
   /** The callback function that the menu closes */
   onClose?: () => void;
@@ -107,7 +112,6 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     eventKey,
     trigger,
     placement,
-    renderTitle,
     toggleAs,
     toggleClassName,
     classPrefix,
@@ -116,7 +120,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
     children,
     menuStyle,
     style,
-    ...menuProps
+    ...toggleProps
   } = rest;
 
   const { onSelect: onSelectFromNav } = useContext(NavContext);
@@ -194,12 +198,12 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
                   {(buttonProps, buttonRef) => (
                     <DropdownToggle
                       ref={buttonRef}
-                      as={renderTitle ? 'span' : toggleAs}
+                      as={toggleAs}
                       className={toggleClassName}
                       placement={placement}
                       disabled={disabled}
                       {...omit(buttonProps, ['open'])}
-                      {...menuProps}
+                      {...toggleProps}
                     >
                       {title}
                     </DropdownToggle>
@@ -231,12 +235,12 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   let renderMenuButton = (menuButtonProps, menuButtonRef) => (
     <DropdownToggle
       ref={menuButtonRef}
-      as={renderTitle ? 'span' : toggleAs}
+      as={toggleAs}
       className={toggleClassName}
       placement={placement}
       disabled={disabled}
       {...omit(menuButtonProps, ['open'])}
-      {...menuProps}
+      {...toggleProps}
     >
       {title}
     </DropdownToggle>
@@ -249,7 +253,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
           return (
             <DropdownToggle
               ref={mergeRefs(buttonRef, menuitemRef)}
-              as={renderTitle ? 'span' : toggleAs}
+              as={toggleAs}
               className={mergeNavItemClassNames(
                 toggleClassName,
                 withNavItemClassPrefix({
@@ -258,7 +262,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
               )}
               {...menuButtonProps}
               {...omit(menuitemProps, ['onClick'])}
-              {...menuProps}
+              {...toggleProps}
             >
               {title}
             </DropdownToggle>
@@ -361,7 +365,7 @@ Dropdown.propTypes = {
   onMouseLeave: PropTypes.func,
   onContextMenu: PropTypes.func,
   onClick: PropTypes.func,
-  renderTitle: PropTypes.func
+  renderToggle: PropTypes.func
 };
 
 export default Dropdown;

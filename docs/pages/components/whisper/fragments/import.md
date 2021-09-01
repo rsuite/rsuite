@@ -2,5 +2,5 @@
 import { Whisper } from 'rsuite';
 
 // or
-import Whisper from 'rsuite/lib/Whisper';
+import Whisper from 'rsuite/Whisper';
 ```

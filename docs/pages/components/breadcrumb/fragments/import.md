@@ -2,5 +2,5 @@
 import { Breadcrumb } from 'rsuite';
 
 //or
-import Breadcrumb from 'rsuite/lib/Breadcrumb';
+import Breadcrumb from 'rsuite/Breadcrumb';
 ```

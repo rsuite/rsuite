@@ -2,7 +2,7 @@
 import { Grid, Row, Col } from 'rsuite';
 
 //or
-import Grid from 'rsuite/lib/Grid';
-import Row from 'rsuite/lib/Row';
-import Col from 'rsuite/lib/Col';
+import Grid from 'rsuite/Grid';
+import Row from 'rsuite/Row';
+import Col from 'rsuite/Col';
 ```
