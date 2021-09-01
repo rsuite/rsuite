@@ -71,7 +71,7 @@ export default function ajaxUpload(options: Options) {
   if (timeout) {
     xhr.timeout = timeout;
     xhr.ontimeout = event => {
-      onError({ type: 'timeout' }, event, xhr);
+      onError?.({ type: 'timeout' }, event, xhr);
     };
   }
 
@@ -82,10 +82,10 @@ export default function ajaxUpload(options: Options) {
   xhr.onload = event => {
     const resp = getResponse(xhr);
     if (xhr.status < 200 || xhr.status >= 300) {
-      onError({ type: 'server_error', response: resp }, event, xhr);
+      onError?.({ type: 'server_error', response: resp }, event, xhr);
       return;
     }
-    onSuccess(resp, event, xhr);
+    onSuccess?.(resp, event, xhr);
   };
 
   if (xhr.upload) {
@@ -94,15 +94,15 @@ export default function ajaxUpload(options: Options) {
       if (event.lengthComputable) {
         percent = (event.loaded / event.total) * 100;
       }
-      onProgress(percent, event, xhr);
+      onProgress?.(percent, event, xhr);
     };
   }
 
   xhr.onerror = event => {
-    onError({ type: 'xhr_error' }, event, xhr);
+    onError?.({ type: 'xhr_error' }, event, xhr);
   };
 
   xhr.send(sendableData);
 
-  return xhr;
+  return { xhr, data: sendableData };
 }
