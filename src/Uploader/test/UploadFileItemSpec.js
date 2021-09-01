@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
-import UploadFileItem from '../UploadFileItem';
+import UploadFileItem, { formatSize } from '../UploadFileItem';
 
 let file = {
   fileKey: 'a',
@@ -35,12 +35,20 @@ describe('UploadFileItem', () => {
     assert.include(instance.className, 'rs-uploader-file-item-disabled');
   });
 
-  it('Should call onCancel callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<UploadFileItem file={file} onCancel={doneOp} />);
+  it('Should call `onCancel` callback', () => {
+    const onCancelSpy = sinon.spy();
+    const instance = getDOMNode(<UploadFileItem file={file} onCancel={onCancelSpy} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-btn-remove'));
+
+    assert.ok(onCancelSpy.calledOnce);
+  });
+
+  it('Should not call `onCancel` callback', () => {
+    const onCancelSpy = sinon.spy();
+    const instance = getDOMNode(<UploadFileItem file={file} onCancel={onCancelSpy} disabled />);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-btn-remove'));
+
+    assert.equal(onCancelSpy.calledOnce, false);
   });
 
   it('Should not render remove button', () => {
@@ -48,30 +56,40 @@ describe('UploadFileItem', () => {
     assert.ok(!instance.querySelector('.rs-uploader-file-item-btn-remove'));
   });
 
-  it('Should call onPreview callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onPreview callback', () => {
+    const onPreviewSpy = sinon.spy();
     const instance = getDOMNode(
-      <UploadFileItem file={file} onPreview={doneOp} listType="picture-text" />
+      <UploadFileItem file={file} onPreview={onPreviewSpy} listType="picture-text" />
     );
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-title'));
+    assert.ok(onPreviewSpy.calledOnce);
   });
 
-  it('Should call onReupload callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should not call onPreview callback', () => {
+    const onPreviewSpy = sinon.spy();
     const instance = getDOMNode(
-      <UploadFileItem
-        file={{
-          ...file,
-          status: 'error'
-        }}
-        onReupload={doneOp}
-      />
+      <UploadFileItem file={file} onPreview={onPreviewSpy} listType="picture-text" disabled />
+    );
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-title'));
+    assert.equal(onPreviewSpy.calledOnce, false);
+  });
+
+  it('Should call onReupload callback', () => {
+    const onReuploadSpy = sinon.spy();
+    const instance = getDOMNode(
+      <UploadFileItem file={{ ...file, status: 'error' }} onReupload={onReuploadSpy} />
     );
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-icon-reupload'));
+    assert.ok(onReuploadSpy.calledOnce);
+  });
+
+  it('Should not call onReupload callback', () => {
+    const onReuploadSpy = sinon.spy();
+    const instance = getDOMNode(
+      <UploadFileItem file={{ ...file, status: 'error' }} onReupload={onReuploadSpy} disabled />
+    );
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-icon-reupload'));
+    assert.equal(onReuploadSpy.calledOnce, false);
   });
 
   it('Should have a custom className', () => {
@@ -109,5 +127,24 @@ describe('UploadFileItem', () => {
 
     assert.equal(instance.querySelector('.rs-uploader-file-item-icon').tagName, 'I');
     assert.equal(instance2.querySelector('.rs-uploader-file-item-icon').tagName, 'svg');
+  });
+
+  it('Should render an <i> tag, when the file status is uploading', () => {
+    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' };
+    const instance = getDOMNode(<UploadFileItem file={file} />);
+    assert.equal(instance.querySelector('.rs-uploader-file-item-size').innerText, '3B');
+  });
+});
+
+describe('UploadFileItem - formatSize', () => {
+  it('Should be formatted to file size unit', () => {
+    assert.equal(formatSize(1024), '1024B');
+    assert.equal(formatSize(1024 + 1), '1.00KB');
+    assert.equal(formatSize(1024 * 1024), '1024.00KB');
+    assert.equal(formatSize(1024 * 1024 + 1), '1.00MB');
+    assert.equal(formatSize(1024 * 1024 * 1024), '1024.00MB');
+    assert.equal(formatSize(1024 * 1024 * 1024 + 1), '1.00GB');
+    assert.equal(formatSize(1024 * 1024 * 1024 * 1024), '1024.00GB');
+    assert.equal(formatSize(1024 * 1024 * 1024 * 1024 + 1), '1024.00GB');
   });
 });

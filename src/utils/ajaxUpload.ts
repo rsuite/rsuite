@@ -8,6 +8,7 @@ interface Options {
   timeout?: number;
   data?: any;
   withCredentials?: boolean;
+  disableMultipart?: boolean;
   headers?: any;
   file: File;
   url: string;
@@ -40,17 +41,23 @@ export default function ajaxUpload(options: Options) {
     onProgress,
     file,
     url,
-    withCredentials
+    withCredentials,
+    disableMultipart
   } = options;
 
   const xhr = new XMLHttpRequest();
-  const formData = new FormData();
-
-  formData.append(name, file, file.name);
+  let sendableData = null;
 
   xhr.open('POST', url, true);
 
-  Object.keys(data).forEach(key => formData.append(key, data[key]));
+  if (!disableMultipart) {
+    sendableData = new FormData();
+    sendableData.append(name, file, file.name);
+    Object.keys(data).forEach(key => sendableData.append(key, data[key]));
+  } else {
+    sendableData = file;
+  }
+
   Object.keys(headers).forEach(key => {
     if (headers[key] !== null) {
       xhr.setRequestHeader(key, headers[key]);
@@ -64,7 +71,7 @@ export default function ajaxUpload(options: Options) {
   if (timeout) {
     xhr.timeout = timeout;
     xhr.ontimeout = event => {
-      onError({ type: 'timeout' }, event, xhr);
+      onError?.({ type: 'timeout' }, event, xhr);
     };
   }
 
@@ -75,10 +82,10 @@ export default function ajaxUpload(options: Options) {
   xhr.onload = event => {
     const resp = getResponse(xhr);
     if (xhr.status < 200 || xhr.status >= 300) {
-      onError({ type: 'server_error', response: resp }, event, xhr);
+      onError?.({ type: 'server_error', response: resp }, event, xhr);
       return;
     }
-    onSuccess(resp, event, xhr);
+    onSuccess?.(resp, event, xhr);
   };
 
   if (xhr.upload) {
@@ -87,15 +94,15 @@ export default function ajaxUpload(options: Options) {
       if (event.lengthComputable) {
         percent = (event.loaded / event.total) * 100;
       }
-      onProgress(percent, event, xhr);
+      onProgress?.(percent, event, xhr);
     };
   }
 
   xhr.onerror = event => {
-    onError({ type: 'xhr_error' }, event, xhr);
+    onError?.({ type: 'xhr_error' }, event, xhr);
   };
 
-  xhr.send(formData);
+  xhr.send(sendableData);
 
-  return xhr;
+  return { xhr, data: sendableData };
 }
