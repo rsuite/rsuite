@@ -46,17 +46,18 @@
 .listbox-option-active(@multiselectable: false) {
   background-color: var(--rs-listbox-option-hover-bg);
 
-  .high-contrast-mode({
-    .focus-ring(slim-inset);
-
-    text-decoration: underline;
-  });
-
   // No need to change text color in multiselectable listboxes
   // in favor of checkbox state changes
   & when (@multiselectable = false) {
     color: var(--rs-listbox-option-hover-text);
   }
+
+  .high-contrast-mode({
+    .focus-ring(slim-inset);
+
+    color: var(--rs-listbox-option-hover-text);
+    text-decoration: underline;
+  });
 }
 
 .listbox-option-selected() {

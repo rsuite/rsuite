@@ -128,6 +128,10 @@
 .rs-picker-toggle {
   .rs-picker-default & {
     transition: @picker-transition;
+
+    .high-contrast-mode({
+      transition: none;
+    });
   }
 
   .rs-picker-default:not(.rs-picker-disabled) & {
@@ -349,8 +353,14 @@
 
   &:not(.rs-checkbox-disabled):hover,
   &:focus,
-  &-focus {
+  &&-focus {
     .listbox-option-active(true);
+
+    .high-contrast-mode({
+      .rs-check-tree-node-text-wrapper {
+        text-decoration: underline;
+      }
+    });
   }
 
   .rs-checkbox-checker {
@@ -365,8 +375,16 @@
       transition: @picker-item-transition;
       line-height: @line-height-computed;
 
+      .high-contrast-mode({
+        transition: none;
+      });
+
       &::before {
         background-color: var(--rs-bg-overlay);
+
+        .high-contrast-mode({
+          background: none;
+        });
       }
 
       /* stylelint-disable-next-line */ // This class name provide by Virtualized.
