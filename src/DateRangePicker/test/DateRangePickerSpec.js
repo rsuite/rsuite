@@ -77,40 +77,34 @@ describe('DateRangePicker', () => {
     );
   });
 
-  it('Should call `onChange` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-
-    const instance = getInstance(<DateRangePicker onChange={doneOp} defaultOpen oneTap />);
-
+  it('Should call `onChange` callback', () => {
+    const onChangeSpy = sinon.spy();
+    const instance = getInstance(<DateRangePicker onChange={onChangeSpy} defaultOpen oneTap />);
     const today = instance.overlay.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
 
-    assert.ok(today);
-
     ReactTestUtils.Simulate.click(today);
+    assert.ok(today);
+    assert.ok(onChangeSpy.calledOnce);
   });
 
-  it('Should call onClean callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onClean callback', () => {
+    const onCleanSpy = sinon.spy();
     const instance = getInstance(
-      <DateRangePicker defaultValue={[new Date(), new Date()]} onClean={doneOp} />
+      <DateRangePicker defaultValue={[new Date(), new Date()]} onClean={onCleanSpy} />
     );
 
     ReactTestUtils.Simulate.click(instance.root.querySelector('.rs-picker-toggle-clean'));
+    assert.ok(onCleanSpy.calledOnce);
   });
 
-  it('Should call `onOpen` callback', done => {
+  it('Should call `onOpen` callback', () => {
     const doneOp = () => {
       done();
     };
 
     const instance = getDOMNode(<DateRangePicker onOpen={doneOp} />);
-
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle'));
   });
 
@@ -161,40 +155,30 @@ describe('DateRangePicker', () => {
 
   it('Should select a whole week', () => {
     const onOkSpy = sinon.spy();
-    const menu = getInstance(<DateRangePicker onOk={onOkSpy} hoverRange="week" open />).overlay;
+    const menu = getInstance(
+      <DateRangePicker
+        defaultValue={[new Date('08/08/2021'), new Date('08/14/2021')]}
+        onOk={onOkSpy}
+        hoverRange="week"
+        open
+      />
+    ).overlay;
 
-    act(() => {
-      ReactTestUtils.Simulate.click(
-        menu?.querySelector('.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content')
-      );
-    });
-    act(() => {
-      ReactTestUtils.Simulate.click(
-        menu?.querySelector('.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content')
-      );
-    });
-    act(() => {
-      ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
-    });
+    const day = menu
+      ?.querySelectorAll('.rs-calendar-table-row')[1]
+      .querySelector('.rs-calendar-table-cell-content');
 
-    expect(onOkSpy).to.have.been.called;
+    ReactTestUtils.Simulate.click(day);
+    ReactTestUtils.Simulate.click(day);
+    ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
-    assert.isTrue(isSameDay(startOfWeek(new Date()), onOkSpy.firstCall.firstArg[0]));
-    assert.isTrue(isSameDay(endOfWeek(new Date()), onOkSpy.firstCall.firstArg[1]));
+    assert.ok(isSameDay(startOfWeek(new Date('08/01/2021')), onOkSpy.args[0][0][0]));
+    assert.ok(isSameDay(endOfWeek(new Date('08/07/2021')), onOkSpy.args[0][0][1]));
   });
 
-  it('Should select a whole month', done => {
-    const doneOp = values => {
-      if (
-        isSameDay(startOfMonth(new Date()), values[0]) &&
-        isSameDay(endOfMonth(new Date()), values[1])
-      ) {
-        done();
-      }
-    };
-
-    const menu = getInstance(<DateRangePicker onOk={doneOp} hoverRange="month" open />).overlay;
-
+  it('Should select a whole month', () => {
+    const onOkSpy = sinon.spy();
+    const menu = getInstance(<DateRangePicker onOk={onOkSpy} hoverRange="month" open />).overlay;
     const today = menu?.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
@@ -202,6 +186,9 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(today);
     ReactTestUtils.Simulate.click(today);
     ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
+
+    assert.ok(isSameDay(startOfMonth(new Date()), onOkSpy.args[0][0][0]));
+    assert.ok(isSameDay(endOfMonth(new Date()), onOkSpy.args[0][0][1]));
   });
 
   it('Should select a date range by hover', () => {
@@ -261,24 +248,18 @@ describe('DateRangePicker', () => {
     assert.equal(allInRangeCells[allInRangeCells.length - 1].innerText, '24');
   });
 
-  it('Should fire `onChange` if click ok after only select one date in oneTap mode', done => {
-    const doneOp = values => {
-      if (
-        isSameDay(startOfWeek(new Date()), values[0]) &&
-        isSameDay(endOfWeek(new Date()), values[1])
-      ) {
-        done();
-      }
-    };
-
+  it('Should fire `onChange` if click ok after only select one date in oneTap mode', () => {
+    const onChangeSpy = sinon.spy();
     const menu = getInstance(
-      <DateRangePicker onChange={doneOp} hoverRange="week" oneTap defaultOpen />
+      <DateRangePicker onChange={onChangeSpy} hoverRange="week" oneTap defaultOpen />
     ).overlay;
 
     const today = menu.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
     ReactTestUtils.Simulate.click(today);
+    assert.ok(isSameDay(startOfWeek(new Date()), onChangeSpy.args[0][0][0]));
+    assert.ok(isSameDay(endOfWeek(new Date()), onChangeSpy.args[0][0][1]));
   });
 
   it('Should have a custom className prefix', () => {

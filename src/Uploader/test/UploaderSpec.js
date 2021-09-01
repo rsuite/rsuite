@@ -1,5 +1,6 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
+import ReactTestUtils from 'react-dom/test-utils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Uploader from '../Uploader';
 import Button from '../../Button';
@@ -59,5 +60,73 @@ describe('Uploader', () => {
   it('Should have draggable className', () => {
     const instance = getDOMNode(<Uploader action="" draggable />);
     assert.include(instance.className, 'rs-uploader-draggable');
+  });
+
+  it('Should call `onUpload` callback', () => {
+    const onUploadSpy = sinon.spy();
+    const file = {
+      blobFile: new File(['foo'], 'foo.txt', { type: 'text/plain' })
+    };
+
+    const instance = getInstance(<Uploader name="file" action="" onUpload={onUploadSpy} />);
+    instance.start(file);
+
+    assert.ok(onUploadSpy.args[0][1] instanceof FormData);
+    assert.ok(onUploadSpy.calledOnce);
+  });
+
+  it('Should call `onUpload` callback', () => {
+    const onUploadSpy = sinon.spy();
+    const file = { blobFile: new File(['foo'], 'foo.txt') };
+
+    const instance = getInstance(<Uploader name="file" action="" onUpload={onUploadSpy} />);
+    instance.start(file);
+    assert.ok(onUploadSpy.calledOnce);
+  });
+
+  it('Should upload a FormData', () => {
+    const onUploadSpy = sinon.spy();
+    const file = { blobFile: new File(['foo'], 'foo.txt') };
+
+    const instance = getInstance(<Uploader name="file" action="" onUpload={onUploadSpy} />);
+    instance.start(file);
+
+    assert.ok(onUploadSpy.args[0][1] instanceof FormData);
+  });
+
+  it('Should upload a File', () => {
+    const onUploadSpy = sinon.spy();
+    const file = { blobFile: new File(['foo'], 'foo.txt') };
+
+    const instance = getInstance(
+      <Uploader name="file" action="" onUpload={onUploadSpy} disableMultipart />
+    );
+    instance.start(file);
+
+    assert.ok(onUploadSpy.args[0][1] instanceof File);
+  });
+
+  it('Should call `onChange` callback', () => {
+    const onUploadSpy = sinon.spy();
+    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'inited' };
+
+    const instance = getInstance(
+      <Uploader name="file" action="" onChange={onUploadSpy} defaultFileList={[file]} />
+    );
+    const input = instance.root.querySelector('input');
+    ReactTestUtils.Simulate.change(input);
+    assert.ok(onUploadSpy.calledOnce);
+  });
+
+  it('Should call `onRemove` callback', () => {
+    const onRemoveSpy = sinon.spy();
+    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' };
+
+    const instance = getInstance(
+      <Uploader name="file" action="" onRemove={onRemoveSpy} defaultFileList={[file]} />
+    );
+    const removeBtn = instance.root.querySelector('.rs-uploader-file-item-btn-remove');
+    ReactTestUtils.Simulate.click(removeBtn);
+    assert.ok(onRemoveSpy.calledOnce);
   });
 });

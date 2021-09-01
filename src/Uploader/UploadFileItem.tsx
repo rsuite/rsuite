@@ -29,7 +29,7 @@ export interface UploadFileItemProps extends WithAsProps {
  * Format display file size
  * @param size
  */
-const getSize = (size = 0): string => {
+export const formatSize = (size = 0): string => {
   const K = 1024;
   const M = 1024 * 1024;
   const G = 1024 * 1024 * 1024;
@@ -221,7 +221,7 @@ const UploadFileItem = React.forwardRef(
      */
     const renderFileSize = () => {
       if (file.status !== 'error' && file.blobFile) {
-        return <span className={prefix('size')}>{getSize(file?.blobFile?.size)}</span>;
+        return <span className={prefix('size')}>{formatSize(file?.blobFile?.size)}</span>;
       }
       return null;
     };
