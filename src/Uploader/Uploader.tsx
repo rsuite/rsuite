@@ -123,7 +123,7 @@ export interface UploaderProps extends WithAsProps {
   onChange?: (fileList: FileType[]) => void;
 
   /** The callback function that starts the upload file */
-  onUpload?: (file: FileType) => void;
+  onUpload?: (file: FileType, uploadData: any, xhr: XMLHttpRequest) => void;
 
   /** In the file list, for uploading failed files, click the callback function to upload */
   onReupload?: (file: FileType) => void;
@@ -404,7 +404,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    */
   const handleUploadFile = useCallback(
     (file: FileType) => {
-      const xhr = ajaxUpload({
+      const { xhr, data: uploadData } = ajaxUpload({
         name,
         timeout,
         headers,
@@ -420,7 +420,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
 
       updateFileStatus({ ...file, status: 'uploading' });
       xhrs.current[file.fileKey] = xhr;
-      onUpload?.(file);
+      onUpload?.(file, uploadData, xhr);
     },
     [
       action,
