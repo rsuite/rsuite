@@ -14,6 +14,7 @@ import {
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DateRangePicker from '../DateRangePicker';
+import { act } from '@testing-library/react';
 
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
@@ -158,25 +159,28 @@ describe('DateRangePicker', () => {
     assert.equal(root.style.fontSize, fontSize);
   });
 
-  it('Should select a whole week', done => {
-    const doneOp = values => {
-      if (
-        isSameDay(startOfWeek(new Date()), values[0]) &&
-        isSameDay(endOfWeek(new Date()), values[1])
-      ) {
-        done();
-      }
-    };
+  it('Should select a whole week', () => {
+    const onOkSpy = sinon.spy();
+    const menu = getInstance(<DateRangePicker onOk={onOkSpy} hoverRange="week" open />).overlay;
 
-    const menu = getInstance(<DateRangePicker onOk={doneOp} hoverRange="week" open />).overlay;
+    act(() => {
+      ReactTestUtils.Simulate.click(
+        menu?.querySelector('.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content')
+      );
+    });
+    act(() => {
+      ReactTestUtils.Simulate.click(
+        menu?.querySelector('.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content')
+      );
+    });
+    act(() => {
+      ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
+    });
 
-    const today = menu?.querySelector(
-      '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
-    );
+    expect(onOkSpy).to.have.been.called;
 
-    ReactTestUtils.Simulate.click(today);
-    ReactTestUtils.Simulate.click(today);
-    ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
+    assert.isTrue(isSameDay(startOfWeek(new Date()), onOkSpy.firstCall.firstArg[0]));
+    assert.isTrue(isSameDay(endOfWeek(new Date()), onOkSpy.firstCall.firstArg[1]));
   });
 
   it('Should select a whole month', done => {
