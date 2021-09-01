@@ -1,11 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { setStatic } from 'recompose';
 import shallowEqual from '../utils/shallowEqual';
 
 import NavItem from './NavItem';
 import {
+  setStatic,
   prefix,
   getUnhandledProps,
   defaultProps,

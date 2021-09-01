@@ -1,9 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { compose } from 'recompose';
 
-import { defaultProps, prefix, getUnhandledProps, withStyleProps } from '../utils';
+import { compose, defaultProps, prefix, getUnhandledProps, withStyleProps } from '../utils';
 import { transformValueToCharacterMap, transformCharacterMapToValue } from './utils';
 import shallowEqualArray from '../utils/shallowEqualArray';
 import Icon from '../Icon';

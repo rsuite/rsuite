@@ -1,9 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { compose } from 'recompose';
 
-import { withStyleProps, defaultProps, prefix } from '../utils';
+import { compose, withStyleProps, defaultProps, prefix } from '../utils';
 import { ButtonGroupProps } from './ButtonGroup.d';
 
 class ButtonGroup extends React.Component<ButtonGroupProps> {

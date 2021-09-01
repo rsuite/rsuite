@@ -2,8 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { compose } from 'recompose';
-import { withStyleProps, defaultProps, prefix, createContext } from '../utils';
+import { compose, withStyleProps, defaultProps, prefix, createContext } from '../utils';
 import { FormGroupProps } from './FormGroup.d';
 
 export const FormGroupContext = createContext(null);

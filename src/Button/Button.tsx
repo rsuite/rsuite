@@ -1,11 +1,17 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { compose } from 'recompose';
 import SafeAnchor from '../SafeAnchor';
 import Ripple from '../Ripple';
 
-import { withStyleProps, getUnhandledProps, defaultProps, prefix, isOneOf } from '../utils';
+import {
+  compose,
+  withStyleProps,
+  getUnhandledProps,
+  defaultProps,
+  prefix,
+  isOneOf
+} from '../utils';
 import { ButtonProps } from './Button.d';
 
 class Button extends React.Component<ButtonProps> {

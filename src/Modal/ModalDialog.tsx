@@ -1,9 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { compose } from 'recompose';
 
-import { withStyleProps, defaultProps, prefix, refType } from '../utils';
+import { compose, withStyleProps, defaultProps, prefix, refType } from '../utils';
 import { ModalDialogProps } from './ModalDialog.d';
 import mergeRefs from '../utils/mergeRefs';
 

@@ -1,10 +1,9 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { setStatic } from 'recompose';
 import NavbarBody from './NavbarBody';
 import NavbarHeader from './NavbarHeader';
-import { prefix, defaultProps, createContext } from '../utils';
+import { setStatic, prefix, defaultProps, createContext } from '../utils';
 import { NavbarProps } from './Navbar.d';
 
 export const NavbarContext = createContext(null);

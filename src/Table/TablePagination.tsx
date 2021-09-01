@@ -1,13 +1,12 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { compose } from 'recompose';
 
 import Pagination from '../Pagination';
 import SelectPicker from '../SelectPicker';
 import Divider from '../Divider';
 
-import { prefix, tplTransform, getUnhandledProps, defaultProps } from '../utils';
+import { compose, prefix, tplTransform, getUnhandledProps, defaultProps } from '../utils';
 import withLocale from '../IntlProvider/withLocale';
 import { TablePaginationProps } from './TablePagination.d';
 

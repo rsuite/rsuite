@@ -1,6 +1,4 @@
-import { compose } from 'recompose';
-
-import { defaultProps } from '../utils';
+import { compose, defaultProps } from '../utils';
 import InputPicker from '../InputPicker/InputPicker';
 import withLocale from '../IntlProvider/withLocale';
 

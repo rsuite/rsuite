@@ -1,9 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { setStatic } from 'recompose';
 
-import { defaultProps, prefix } from '../utils';
+import { setStatic, defaultProps, prefix } from '../utils';
 import FlexboxGridItem from './FlexboxGridItem';
 import { FlexboxGridProps } from './FlexboxGrid.d';
 

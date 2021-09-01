@@ -6,7 +6,6 @@
       "webpack-cli",
       "gulp",
       "eslint-plugin-json",
-      "recompose",
       "sinon-chai",
       "sinon",
       "prettier",

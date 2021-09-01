@@ -3,6 +3,7 @@ export * from './htmlPropsUtils';
 
 export { default as withStyleProps } from './withStyleProps';
 
+export * from './recompose';
 export { default as prefix, defaultClassPrefix, getClassNamePrefix, globalKey } from './prefix';
 export { default as createChainedFunction } from './createChainedFunction';
 export { default as defaultProps } from './defaultProps';

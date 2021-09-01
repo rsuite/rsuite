@@ -1,9 +1,8 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { compose } from 'recompose';
 
-import { withStyleProps, defaultProps, prefix } from '../utils';
+import { compose, withStyleProps, defaultProps, prefix } from '../utils';
 import { LoaderProps } from './Loader.d';
 
 class Loader extends React.Component<LoaderProps> {

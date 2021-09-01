@@ -2,13 +2,12 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { compose } from 'recompose';
 
 import IntlContext from '../IntlProvider/IntlContext';
 import withLocale from '../IntlProvider/withLocale';
 import FileItem from './UploadFileItem';
 import UploadTrigger from './UploadTrigger';
-import { prefix, ajaxUpload, defaultProps, getUnhandledProps } from '../utils';
+import { compose, prefix, ajaxUpload, defaultProps, getUnhandledProps } from '../utils';
 import { getFiles, guid } from './utils';
 import { UploaderProps, FileType } from './Uploader.d';
 

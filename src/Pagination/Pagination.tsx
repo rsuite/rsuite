@@ -1,12 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { compose } from 'recompose';
 import PaginationButton from './PaginationButton';
 import SafeAnchor from '../SafeAnchor';
 import Icon from '../Icon';
 
-import { withStyleProps, defaultProps, getUnhandledProps } from '../utils';
+import { compose, withStyleProps, defaultProps, getUnhandledProps } from '../utils';
 import { PAGINATION_ICON_NAMES } from '../constants';
 import { PaginationProps } from './Pagination.d';
 

@@ -1,14 +1,13 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { setStatic } from 'recompose';
 import Transition from '../Animation/Transition';
 import shallowEqual from '../utils/shallowEqual';
 import _ from 'lodash';
 import SidenavBody from './SidenavBody';
 import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
-import { prefix, defaultProps, getUnhandledProps, createContext } from '../utils';
+import { setStatic, prefix, defaultProps, getUnhandledProps, createContext } from '../utils';
 import { SidenavProps } from './Sidenav.d';
 
 export const SidenavContext = createContext(null);

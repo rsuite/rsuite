@@ -1,6 +1,6 @@
 import * as React from 'react';
 import _ from 'lodash';
-import { setDisplayName, wrapDisplayName } from 'recompose';
+import { setDisplayName, wrapDisplayName } from '../utils';
 import format from 'date-fns/format';
 import defaultLocale from './locales/default';
 import extendReactStatics from '../utils/extendReactStatics';

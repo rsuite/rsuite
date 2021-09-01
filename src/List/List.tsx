@@ -1,6 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { setStatic } from 'recompose';
 import classNames from 'classnames';
 import { on } from 'dom-lib';
 import {
@@ -12,7 +11,7 @@ import {
   getEdgeOffset,
   getScrollingParent
 } from './utils';
-import { prefix, defaultProps, getUnhandledProps } from '../utils';
+import { setStatic, prefix, defaultProps, getUnhandledProps } from '../utils';
 import ListItem from './ListItem';
 import { ListProps } from './List.d';
 import Manager from './Manager';
