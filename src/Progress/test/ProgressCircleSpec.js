@@ -63,4 +63,31 @@ describe('Progress - Circle', () => {
     const instance = getDOMNode(<ProgressCircle classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should render start position by `gapPosition`', () => {
+    const instance1 = getDOMNode(<ProgressCircle gapPosition="top" />);
+    const instance2 = getDOMNode(<ProgressCircle gapPosition="bottom" />);
+    const instance3 = getDOMNode(<ProgressCircle gapPosition="left" />);
+    const instance4 = getDOMNode(<ProgressCircle gapPosition="right" />);
+
+    assert.equal(
+      instance1.querySelector('.rs-progress-trail').getAttribute('d'),
+      'M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94'
+    );
+
+    assert.equal(
+      instance2.querySelector('.rs-progress-trail').getAttribute('d'),
+      'M 50,50 m 0,47 a 47,47 0 1 1 0,-94 a 47,47 0 1 1 0,94'
+    );
+
+    assert.equal(
+      instance3.querySelector('.rs-progress-trail').getAttribute('d'),
+      'M 50,50 m -47,0 a 47,47 0 1 1 94,0 a 47,47 0 1 1 -94,0'
+    );
+
+    assert.equal(
+      instance4.querySelector('.rs-progress-trail').getAttribute('d'),
+      'M 50,50 m 47,0 a 47,47 0 1 1 -94,0 a 47,47 0 1 1 94,0'
+    );
+  });
 });
