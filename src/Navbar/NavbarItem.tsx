@@ -30,20 +30,15 @@ export interface NavItemProps<T = string>
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
-const defaultProps: Partial<NavItemProps> = {
-  classPrefix: 'navbar-item',
-  as: SafeAnchor
-};
-
 const NavbarItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<any>) => {
     const {
-      as: Component,
+      as: Component = SafeAnchor,
       active: activeProp,
       disabled,
       eventKey,
       className,
-      classPrefix,
+      classPrefix = 'navbar-item',
       style,
       children,
       icon,
@@ -94,7 +89,6 @@ const NavbarItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef
   }
 );
 
-NavbarItem.defaultProps = defaultProps;
 NavbarItem.displayName = 'Navbar.Item';
 NavbarItem.propTypes = {
   as: PropTypes.elementType,
