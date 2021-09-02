@@ -36,6 +36,7 @@ const defaultProps: Partial<CalendarProps> = {
   index: 0,
   value: []
 };
+
 const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
   (props: CalendarProps, ref) => {
     const {

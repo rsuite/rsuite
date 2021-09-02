@@ -14,6 +14,10 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 <!--{include:`basic.md`}-->
 
+### Date and time
+
+<!--{include:`format-time.md`}-->
+
 ### Appearance
 
 <!--{include:`appearance.md`}-->
