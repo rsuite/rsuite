@@ -1,5 +1,4 @@
 import React from 'react';
-import { Simulate } from 'react-dom/test-utils';
 import { getInstance } from '@test/testUtils';
 import CheckTree from '../index';
 
