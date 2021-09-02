@@ -4,7 +4,7 @@
 .rs-checkbox {
   .radio-checkbox-common();
 
-  [type='checkbox']:focus ~ .rs-checkbox-inner::before {
+  [type='checkbox']:focus-visible ~ .rs-checkbox-inner::before {
     box-shadow: var(--rs-state-focus-shadow);
   }
 }
@@ -128,7 +128,7 @@
       transition: none;
     });
 
-    .rs-checkbox-checker:hover & {
+    label:hover & {
       border-color: var(--rs-checkbox-checked-bg);
     }
 
@@ -146,6 +146,10 @@
     .rs-checkbox-disabled.rs-checkbox-checked &,
     .rs-checkbox-disabled.rs-checkbox-indeterminate & {
       opacity: 0.3;
+
+      .high-contrast-mode({
+        opacity: 0.5;
+      });
     }
   }
 }

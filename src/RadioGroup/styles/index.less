@@ -44,6 +44,10 @@
     transition: color 0.3s linear;
     padding: (@padding-y - 1px) 0;
 
+    .high-contrast-mode({
+      transition: none;
+    });
+
     &:hover,
     &:active {
       color: var(--rs-text-active);
