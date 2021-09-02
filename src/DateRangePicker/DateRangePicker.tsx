@@ -1,23 +1,29 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import IconCalendar from '@rsuite/icons/legacy/Calendar'
-import isUndefined from 'lodash/isUndefined'
-import omit from 'lodash/omit'
-import partial from 'lodash/partial'
-import pick from 'lodash/pick'
-import PropTypes from 'prop-types'
-import { FormControlBaseProps, PickerBaseProps } from '../@types/common'
-import { FormattedDate } from '../CustomProvider'
-import Toolbar from '../DatePicker/Toolbar'
-import { DateRangePickerLocale } from '../locales'
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import IconCalendar from '@rsuite/icons/legacy/Calendar';
+import isUndefined from 'lodash/isUndefined';
+import omit from 'lodash/omit';
+import partial from 'lodash/partial';
+import pick from 'lodash/pick';
+import PropTypes from 'prop-types';
+import { FormControlBaseProps, PickerBaseProps } from '../@types/common';
+import { FormattedDate } from '../CustomProvider';
+import Toolbar from '../DatePicker/Toolbar';
+import { DateRangePickerLocale } from '../locales';
 import {
-  omitTriggerPropKeys, OverlayTriggerInstance,
+  omitTriggerPropKeys,
+  OverlayTriggerInstance,
   PickerComponent,
-  pickerDefaultProps, PickerOverlay, pickerPropTypes, PickerToggle,
+  pickerDefaultProps,
+  PickerOverlay,
+  pickerPropTypes,
+  PickerToggle,
   PickerToggleTrigger,
-  pickTriggerPropKeys, PositionChildProps,
-  usePickerClassName, usePublicMethods,
+  pickTriggerPropKeys,
+  PositionChildProps,
+  usePickerClassName,
+  usePublicMethods,
   useToggleKeyDownEvent
-} from '../Picker'
+} from '../Picker';
 import {
   createChainedFunction,
   DATERANGE_DISABLED_TARGET,
@@ -26,12 +32,18 @@ import {
   useClassNames,
   useControlled,
   useCustom
-} from '../utils'
-import { addMonths, compareAsc, isSameMonth } from '../utils/dateUtils'
-import Calendar from './Calendar'
-import * as disabledDateUtils from './disabledDateUtils'
-import { DisabledDateFunction, RangeType, ValueType } from './types'
-import { getCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameValueType, setTimingMargin } from './utils'
+} from '../utils';
+import { addMonths, compareAsc, isSameMonth } from '../utils/dateUtils';
+import Calendar from './Calendar';
+import * as disabledDateUtils from './disabledDateUtils';
+import { DisabledDateFunction, RangeType, ValueType } from './types';
+import {
+  getCalendarDate,
+  getMonthHoverRange,
+  getWeekHoverRange,
+  isSameValueType,
+  setTimingMargin
+} from './utils';
 
 type InputState = 'Typing' | 'Error' | 'Initial';
 
@@ -435,11 +447,11 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       updateCalendarDate(nextCalendarDate as ValueType);
 
       setSelectValue(prev => {
-        const next = Array.from(prev) as ValueType
-        next[index] = date
-   
-        return next
-       })
+        const next = Array.from(prev) as ValueType;
+        next[index] = date;
+
+        return next;
+      });
     },
     [calendarDate, updateCalendarDate]
   );
