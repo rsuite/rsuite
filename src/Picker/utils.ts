@@ -541,7 +541,11 @@ interface Refs {
  * @param ref
  * @param params
  */
-export function usePublicMethods(ref, { triggerRef, overlayRef, targetRef, rootRef }: Refs) {
+export function usePublicMethods(
+  ref,
+  { triggerRef, overlayRef, targetRef, rootRef }: Refs,
+  disabled?: boolean
+) {
   const handleOpen = useCallback(() => {
     triggerRef.current?.open();
   }, [triggerRef]);
@@ -554,18 +558,21 @@ export function usePublicMethods(ref, { triggerRef, overlayRef, targetRef, rootR
     triggerRef.current?.updatePosition();
   }, [triggerRef]);
 
-  useImperativeHandle(ref, () => ({
-    get root() {
-      return rootRef?.current ? rootRef?.current : triggerRef.current?.root;
-    },
-    get overlay() {
-      return overlayRef.current;
-    },
-    get target() {
-      return targetRef?.current;
-    },
-    updatePosition: handleUpdatePosition,
-    open: handleOpen,
-    close: handleClose
-  }));
+  if (!disabled) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useImperativeHandle(ref, () => ({
+      get root() {
+        return rootRef?.current ? rootRef?.current : triggerRef.current?.root;
+      },
+      get overlay() {
+        return overlayRef.current;
+      },
+      get target() {
+        return targetRef?.current;
+      },
+      updatePosition: handleUpdatePosition,
+      open: handleOpen,
+      close: handleClose
+    }));
+  }
 }

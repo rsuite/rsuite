@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import TreePicker from '../TreePicker';
+import TreeContext from './TreeContext';
 import { StandardProps, ItemDataType, RsRefForwardingComponent } from '../@types/common';
 
 /**
@@ -57,9 +58,6 @@ export interface TreeBaseProps<ValueType = string | number, ItemDataType = Recor
   extends StandardProps {
   /** The height of Dropdown */
   height?: number;
-
-  /** Display inline */
-  inline?: boolean;
 
   /** Whether display search input box */
   searchable?: boolean;
@@ -136,12 +134,16 @@ export interface TreeProps<ValueType = string | number>
   defaultValue?: ValueType;
 }
 
-const Tree: RsRefForwardingComponent<
-  'div',
-  TreeProps
-> = React.forwardRef((props: TreeProps, ref: React.Ref<any>) => (
-  <TreePicker inline ref={ref} {...props} />
-));
+const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
+  (props: TreeProps, ref: React.Ref<any>) => {
+    const dragNodeRef = useRef();
+    return (
+      <TreeContext.Provider value={{ inline: true, dragNodeRef }}>
+        <TreePicker ref={ref} {...props} />
+      </TreeContext.Provider>
+    );
+  }
+);
 
 Tree.displayName = 'Tree';
 export default Tree;

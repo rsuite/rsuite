@@ -1,9 +1,9 @@
-import React, { forwardRef, useCallback } from 'react';
+import React, { forwardRef, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { hasClass } from 'dom-lib';
 import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 import Spinner from '@rsuite/icons/legacy/Spinner';
-
+import TreeContext from '../Tree/TreeContext';
 import reactToString from '../utils/reactToString';
 import { useClassNames, TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -82,6 +82,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     ref
   ) => {
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+    const { dragNodeRef } = useContext(TreeContext);
 
     const getTitle = useCallback(() => {
       if (typeof label === 'string') {
@@ -120,13 +121,14 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
 
     const handleDragStart = useCallback(
       (event: React.DragEvent) => {
-        const dragNode = document.getElementById('drag-node');
+        const dragNode = dragNodeRef?.current;
+
         if (dragNode) {
-          event.dataTransfer.setDragImage(dragNode, 0, 0);
+          event.dataTransfer?.setDragImage(dragNode, 0, 0);
         }
         onDragStart?.(nodeData, event);
       },
-      [nodeData, onDragStart]
+      [dragNodeRef, nodeData, onDragStart]
     );
 
     const handleDragEnter = useCallback(

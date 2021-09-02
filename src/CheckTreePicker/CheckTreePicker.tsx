@@ -1,9 +1,10 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
 import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/VirtualizedList';
 import CheckTreeNode from './CheckTreeNode';
+import TreeContext from '../Tree/TreeContext';
 import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
@@ -123,7 +124,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     toggleAs,
     searchKeyword,
     locale: overrideLocale,
-    inline,
     cascade,
     disabled,
     valueKey,
@@ -165,6 +165,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     renderTreeNode,
     ...rest
   } = props;
+
+  const { inline } = useContext(TreeContext);
   const triggerRef = useRef<OverlayTriggerInstance>();
   const targetRef = useRef<HTMLButtonElement>();
   const listRef = useRef<ListInstance>();
@@ -507,7 +509,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ]
   );
 
-  usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
+  usePublicMethods(ref, { triggerRef, overlayRef, targetRef }, inline);
 
   const handleClean = useCallback(
     (event: React.SyntheticEvent<any>) => {
@@ -776,7 +778,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     return (
       <div
         id={id ? `${id}-listbox` : undefined}
-        ref={treeViewRef}
+        ref={inline ? mergeRefs(treeViewRef, ref as any) : treeViewRef}
         role="tree"
         aria-multiselectable
         className={classes}
@@ -916,7 +918,6 @@ CheckTreePicker.propTypes = {
   ...listPickerPropTypes,
   height: PropTypes.number,
   appearance: PropTypes.oneOf(['default', 'subtle']),
-  inline: PropTypes.bool,
   locale: PropTypes.any,
   cascade: PropTypes.bool,
   countable: PropTypes.bool,
