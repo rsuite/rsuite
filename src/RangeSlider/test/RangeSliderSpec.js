@@ -1,7 +1,7 @@
 import React from 'react';
-import { innerText, getDOMNode } from '@test/testUtils';
-import RangeSlider from '../RangeSlider';
 import ReactTestUtils from 'react-dom/test-utils';
+import { getDOMNode } from '@test/testUtils';
+import RangeSlider from '../RangeSlider';
 
 describe('RangeSlider', () => {
   it('Should render a RangeSlider', () => {
@@ -29,31 +29,26 @@ describe('RangeSlider', () => {
 
   it('Should be displayed vertically', () => {
     const instance = getDOMNode(<RangeSlider vertical />);
-    assert.ok(instance.className.match(/\brs-slider-vertical\b/));
+    assert.include(instance.className, 'rs-slider-vertical');
   });
 
   it('Should be disabled', () => {
     const instance = getDOMNode(<RangeSlider disabled />);
-    assert.ok(instance.className.match(/\brs-slider-disabled\b/));
+    assert.include(instance.className, 'rs-slider-disabled');
   });
 
-  it('Should call onChange callback', done => {
-    const instance = getDOMNode(
-      <RangeSlider
-        defaultValue={[10, 50]}
-        onChange={value => {
-          if (value[0] === 0 && value[1] === 50) {
-            done();
-          }
-        }}
-      />
-    );
+  it('Should call onChange callback', () => {
+    const onChangeSpy = sinon.spy();
+    const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} onChange={onChangeSpy} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-slider-progress-bar'));
+
+    assert.equal(onChangeSpy.firstCall.firstArg[0], 0);
+    assert.equal(onChangeSpy.firstCall.firstArg[1], 50);
   });
 
   it('Should render custom title', () => {
     const instance = getDOMNode(<RangeSlider tooltip={false} handleTitle={'test'} />);
-    assert.equal(innerText(instance.querySelector('.rs-slider-handle')), 'test');
+    assert.equal(instance.querySelector('.rs-slider-handle').innerText, 'test');
   });
 
   it('Should have a custom className', () => {
@@ -94,5 +89,23 @@ describe('RangeSlider', () => {
 
     ReactTestUtils.Simulate.keyDown(handle, { key: 'End' });
     assert.equal(handle.getAttribute('aria-valuenow'), '100');
+  });
+
+  it('Should call `onChangeCommitted` callback', done => {
+    const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
+    const mouseupEvent = new MouseEvent('mouseup', { bubbles: true });
+    const instance = getDOMNode(<RangeSlider onChangeCommitted={() => done()} />);
+
+    const handle = instance.querySelector('.rs-slider-handle');
+    ReactTestUtils.Simulate.mouseDown(handle);
+    handle.dispatchEvent(mousemoveEvent);
+    handle.dispatchEvent(mouseupEvent);
+
+    assert.include(handle.className, 'active');
+  });
+
+  it('Should call `onChange` callback', done => {
+    const instance = getDOMNode(<RangeSlider onChange={() => done()} />);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-slider-bar'));
   });
 });
