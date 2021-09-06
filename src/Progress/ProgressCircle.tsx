@@ -70,34 +70,32 @@ const ProgressCircle: RsRefForwardingComponent<'div', ProgressCircleProps> = Rea
     const getPathStyles = useCallback(() => {
       const radius = 50 - strokeWidth / 2;
 
-      let beginPositionX = 0;
-      let beginPositionY = -radius;
-      let endPositionX = 0;
-      let endPositionY = -2 * radius;
+      let x1 = 0;
+      let y1 = -radius;
+      let x2 = 0;
+      let y2 = -2 * radius;
 
       switch (gapPosition) {
         case 'left':
-          beginPositionX = -radius;
-          beginPositionY = 0;
-          endPositionX = 2 * radius;
-          endPositionY = 0;
+          x1 = -radius;
+          y1 = 0;
+          x2 = 2 * radius;
+          y2 = 0;
           break;
         case 'right':
-          beginPositionX = radius;
-          beginPositionY = 0;
-          endPositionX = -2 * radius;
-          endPositionY = 0;
+          x1 = radius;
+          y1 = 0;
+          x2 = -2 * radius;
+          y2 = 0;
           break;
         case 'bottom':
-          beginPositionY = radius;
-          endPositionY = 2 * radius;
+          y1 = radius;
+          y2 = 2 * radius;
           break;
         default:
       }
 
-      const pathString = `M 50,50 m ${beginPositionX},${beginPositionY}
-       a ${radius},${radius} 0 1 1 ${endPositionX},${-endPositionY}
-       a ${radius},${radius} 0 1 1 ${-endPositionX},${endPositionY}`;
+      const pathString = `M 50,50 m ${x1},${y1} a ${radius},${radius} 0 1 1 ${x2},${-y2} a ${radius},${radius} 0 1 1 ${-x2},${y2}`;
 
       const len = Math.PI * 2 * radius;
       const trailPathStyle = {
