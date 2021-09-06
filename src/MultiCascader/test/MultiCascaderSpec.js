@@ -1,12 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
+import { act } from '@testing-library/react';
+import { getDOMNode, getInstance, render } from '@test/testUtils';
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
-
-const namespace = `${globalKey}-picker`;
-const toggleClassName = `.${namespace}-toggle-placeholder`;
 
 const items = [
   {
@@ -33,18 +30,6 @@ const items = [
   }
 ];
 
-let container;
-
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});
-
 describe('MultiCascader', () => {
   it('Should output a dropdown', () => {
     const instance = getDOMNode(<MultiCascader>Title</MultiCascader>);
@@ -63,7 +48,7 @@ describe('MultiCascader', () => {
       <MultiCascader data={items} value={['abcde-1', 'abcde-2']} countable={false} />
     );
 
-    assert.ok(!instance.querySelector('.rs-picker-value-count'));
+    assert.isNull(instance.querySelector('.rs-picker-value-count'));
   });
 
   it('Should render the parent node by children value', () => {
@@ -117,7 +102,7 @@ describe('MultiCascader', () => {
     const placeholder = 'foobar';
     const instance = getDOMNode(<MultiCascader placeholder={placeholder} />);
 
-    assert.equal(instance.querySelector(toggleClassName).innerText, placeholder);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, placeholder);
   });
 
   it('Should output a button', () => {
@@ -140,7 +125,7 @@ describe('MultiCascader', () => {
     assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, placeholder);
 
     const instance2 = getDOMNode(<MultiCascader renderValue={() => placeholder} />);
-    assert.equal(instance2.querySelector(toggleClassName).innerText, 'Select');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
   });
 
   it('Should output a value by renderValue()', () => {
@@ -196,72 +181,62 @@ describe('MultiCascader', () => {
     assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
-  it('Should call onSelect callback ', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onSelect` callback ', () => {
+    const onSelectSpy = sinon.spy();
+    const instance = getInstance(<MultiCascader data={items} defaultOpen onSelect={onSelectSpy} />);
 
-    const instance = getInstance(<MultiCascader data={items} defaultOpen onSelect={doneOp} />);
     ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-checkbox'));
+    assert.ok(onSelectSpy.calledOnce);
   });
 
-  it('Should call onChange callback ', done => {
-    const doneOp = value => {
-      if (value[0] === 'abc') {
-        done();
-      }
-    };
-
-    const instance = getInstance(<MultiCascader data={items} defaultOpen onChange={doneOp} />);
+  it('Should call `onChange` callback ', () => {
+    const onChangeSpy = sinon.spy();
+    const instance = getInstance(<MultiCascader data={items} defaultOpen onChange={onChangeSpy} />);
     const menu = instance.overlay.querySelector('.rs-checkbox-wrapper');
 
     ReactTestUtils.Simulate.click(menu);
+    assert.equal(onChangeSpy.firstCall.firstArg[0], 'abc');
   });
 
-  it('Should call onClean callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onClean` callback', () => {
+    const onCleanSpy = sinon.spy();
     const instance = getDOMNode(
-      <MultiCascader data={items} defaultValue={['abc']} onClean={doneOp} />
+      <MultiCascader data={items} defaultValue={['abc']} onClean={onCleanSpy} />
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+    assert.ok(onCleanSpy.calledOnce);
   });
 
-  it('Should call `onOpen` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const picker = getInstance(<MultiCascader onOpen={doneOp} data={items} />);
+  it('Should call `onOpen` callback', () => {
+    const onOpenSpy = sinon.spy();
+    const picker = getInstance(<MultiCascader onOpen={onOpenSpy} data={items} />);
+
     picker.open();
+    assert.ok(onOpenSpy.calledOnce);
   });
 
-  it('Should call `onClose` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const picker = getInstance(<MultiCascader defaultOpen onClose={doneOp} data={items} />);
+  it('Should call `onClose` callback', () => {
+    const onCloseSpy = sinon.spy();
+    const picker = getInstance(<MultiCascader defaultOpen onClose={onCloseSpy} data={items} />);
+
     picker.close();
+    assert.ok(onCloseSpy.calledOnce);
   });
 
   it('Should clean selected default value', () => {
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(
-        <MultiCascader ref={ref} defaultOpen data={items} defaultValue={['abcde-1']} />,
-        container
-      );
+    act(() => {
+      render(<MultiCascader ref={ref} defaultOpen data={items} defaultValue={['abcde-1']} />);
     });
 
-    ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.click(ref.current.root.querySelector('.rs-picker-toggle-clean'));
+    const target = ref.current.root;
+
+    act(() => {
+      ReactTestUtils.Simulate.click(target.querySelector('.rs-picker-toggle-clean'));
     });
 
-    assert.equal(
-      ref.current.root.querySelector('.rs-picker-toggle-placeholder').innerText,
-      'Select'
-    );
+    assert.equal(target.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
   });
 
   it('Should have a custom className', () => {
@@ -316,46 +291,43 @@ describe('MultiCascader', () => {
     TestApp.displayName = 'TestApp';
 
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<TestApp ref={ref} />, container);
+    act(() => {
+      render(<TestApp ref={ref} />);
     });
+    const target = ref.current.picker.root;
 
-    assert.equal(ref.current.picker.root.querySelector('.rs-picker-value-list').innerText, 'abc');
+    assert.equal(target.querySelector('.rs-picker-value-list').innerText, 'abc');
 
-    ReactTestUtils.act(() => {
+    act(() => {
       ref.current.setValue([]);
     });
 
-    assert.equal(
-      ref.current.picker.root.querySelector('.rs-picker-toggle-placeholder').innerText,
-      'Select'
-    );
+    assert.equal(target.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
   });
 
-  it('Should call onSelect callback with 3 params', done => {
-    let checkbox = null;
-    const doneOp = (node, cascadeData, event) => {
-      if (node.value === 'abcd' && cascadeData[0].value === 'abcd' && event.target === checkbox) {
-        done();
-      }
-    };
+  it('Should call onSelect callback with 3 params', () => {
+    const onSelectSpy = sinon.spy();
 
-    const instance = getInstance(<MultiCascader defaultOpen data={items} onSelect={doneOp} />);
-    checkbox = instance.overlay.querySelectorAll('.rs-checkbox')[1];
+    const instance = getInstance(<MultiCascader defaultOpen data={items} onSelect={onSelectSpy} />);
+    const checkbox = instance.overlay.querySelectorAll('.rs-checkbox')[1];
     ReactTestUtils.Simulate.click(checkbox);
+
+    assert.equal(onSelectSpy.firstCall.firstArg.value, 'abcd');
+    assert.equal(onSelectSpy.firstCall.args[1][0].value, 'abcd');
+    assert.equal(onSelectSpy.firstCall.lastArg.target, checkbox);
   });
 
-  it('Should call onCheck callback ', done => {
-    let checkbox = null;
-    const doneOp = (value, item, checked, event) => {
-      if (value[0] === 'abc' && item.value === 'abc' && checked && event.target === checkbox) {
-        done();
-      }
-    };
+  it('Should call onCheck callback ', () => {
+    const onCheckSpy = sinon.spy();
+    const instance = getInstance(<MultiCascader data={items} defaultOpen onCheck={onCheckSpy} />);
+    const checkbox = instance.overlay.querySelector('.rs-checkbox-wrapper');
 
-    const instance = getInstance(<MultiCascader data={items} defaultOpen onCheck={doneOp} />);
-    checkbox = instance.overlay.querySelector('.rs-checkbox-wrapper');
     ReactTestUtils.Simulate.click(checkbox);
+
+    assert.equal(onCheckSpy.firstCall.firstArg[0], 'abc');
+    assert.equal(onCheckSpy.firstCall.args[1].value, 'abc');
+    assert.isTrue(onCheckSpy.firstCall.args[2]);
+    assert.equal(onCheckSpy.firstCall.lastArg.target, checkbox);
   });
 
   it('Should update columns', () => {
@@ -370,15 +342,15 @@ describe('MultiCascader', () => {
       return <MultiCascader {...props} ref={pickerRef} data={data} open />;
     });
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<TestApp ref={ref} />, container);
+    act(() => {
+      render(<TestApp ref={ref} />);
     });
 
     const overlay = ref.current.picker.overlay;
 
     assert.equal(overlay.querySelectorAll('.rs-check-item').length, 0);
 
-    ReactTestUtils.act(() => {
+    act(() => {
       ref.current.setData([{ label: 'test', value: 1 }]);
     });
 
@@ -425,5 +397,16 @@ describe('MultiCascader', () => {
       instance.overlay.querySelector('.rs-picker-cascader-menu-has-children .rs-check-item')
     );
     assert.ok(instance.overlay.querySelector('.rs-icon.rs-icon-spin'));
+  });
+
+  it('Should call `onSearch` callback ', () => {
+    const onSearchSpy = sinon.spy();
+    const instance = getInstance(<MultiCascader data={items} defaultOpen onSearch={onSearchSpy} />);
+    const input = instance.overlay.querySelector('.rs-picker-search-bar-input');
+    input.value = 'abcde';
+
+    ReactTestUtils.Simulate.change(input);
+    assert.equal(instance.overlay.querySelectorAll('.rs-picker-cascader-row').length, 3);
+    assert.ok(onSearchSpy.calledOnce);
   });
 });
