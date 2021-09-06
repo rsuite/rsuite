@@ -1,3 +1,22 @@
+<a name="5.0.0-beta.6"></a>
+# [5.0.0-beta.6](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.5...v5.0.0-beta.6) (2021-09-06)
+
+
+### Bug Fixes
+
+* **drawer:** fix incorrect styles in drawer title and drawer actions ([#1874](https://github.com/rsuite/rsuite/issues/1874)) ([747a5f1](https://github.com/rsuite/rsuite/commit/747a5f1))
+* **list-item:** fix unable to set HTML event on List.Item ([#1863](https://github.com/rsuite/rsuite/issues/1863)) ([07578a2](https://github.com/rsuite/rsuite/commit/07578a2)), closes [#1859](https://github.com/rsuite/rsuite/issues/1859)
+* **sidenav:** fix incorrect indent before dropdown toggle ([#1856](https://github.com/rsuite/rsuite/issues/1856)) ([048da73](https://github.com/rsuite/rsuite/commit/048da73))
+
+
+### Features
+
+* **tag-input:** add support for TagInput ([#1848](https://github.com/rsuite/rsuite/issues/1848)) ([eb66602](https://github.com/rsuite/rsuite/commit/eb66602)), closes [#1265](https://github.com/rsuite/rsuite/issues/1265)
+* **tag-picker:** support `trigger` on `<TagPicker>` ([#1847](https://github.com/rsuite/rsuite/issues/1847)) ([8ace065](https://github.com/rsuite/rsuite/commit/8ace065))
+* **uploader:** support `disableMultipart` on `<Uploader>` ([#1862](https://github.com/rsuite/rsuite/issues/1862)) ([a6d7dcb](https://github.com/rsuite/rsuite/commit/a6d7dcb))
+
+
+
 <a name="5.0.0-beta.5"></a>
 # [5.0.0-beta.5](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.4...v5.0.0-beta.5) (2021-08-18)
 
