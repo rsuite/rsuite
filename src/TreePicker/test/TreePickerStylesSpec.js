@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import TreePicker from '../index';
-import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
+import { render, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -35,8 +34,7 @@ const data = [
 describe('TreePicker styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    const containerDom = createTestContainer();
-    ReactDOM.render(<TreePicker data={data} ref={instanceRef} open />, containerDom);
+    render(<TreePicker data={data} ref={instanceRef} open />);
     const pickerMenuDom = document.querySelector('.rs-picker-tree-menu');
     const treeWrapperDom = pickerMenuDom.querySelector('.rs-tree');
     const treeNodeDom = pickerMenuDom.querySelector('.rs-tree-node');
