@@ -95,4 +95,26 @@ describe('TagInput', () => {
     assert.equal(picker.querySelectorAll('.rs-tag')[0].innerText, 'abc');
     assert.equal(picker.querySelectorAll('.rs-tag')[1].innerText, '123');
   });
+
+  it('Should create a label only through `Enter`', () => {
+    const onCreateSpy = sinon.spy();
+    const inputRef = React.createRef();
+
+    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable />);
+    const picker = inputRef.current.root;
+    const input = picker.querySelector('.rs-picker-search input');
+
+    ReactTestUtils.Simulate.click(picker);
+
+    input.value = 'abc ';
+    ReactTestUtils.Simulate.change(input);
+    ReactTestUtils.Simulate.keyDown(input, { key: ' ' });
+    ReactTestUtils.Simulate.keyDown(input, { key: 'Comma' });
+
+    assert.isTrue(onCreateSpy.notCalled);
+
+    ReactTestUtils.Simulate.keyDown(input, { key: 'Enter' });
+
+    assert.isTrue(onCreateSpy.calledOnce);
+  });
 });
