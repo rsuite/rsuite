@@ -33,7 +33,8 @@
     "tdd": "cross-env RUN_ENV=test karma start",
     "test": "npm run format:check && npm run lint && npm run test:component && npm run test:less",
     "test:component": "cross-env NODE_ENV=coverage RUN_ENV=test karma start --single-run",
-    "test:less": "mocha test/testLessPlugins.js"
+    "test:less": "mocha test/testLessPlugins.js",
+    "prepare": "husky install"
   },
   "keywords": [
     "react",
@@ -136,7 +137,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-rtlcss": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
-    "husky": "^4.2.5",
+    "husky": "^7.0.2",
     "karma": "^5.2.3",
     "karma-chai-dom": "^1.1.0",
     "karma-chrome-launcher": "^3.1.0",
@@ -150,6 +151,7 @@
     "karma-webpack": "^5.0.0",
     "less": "^3.7.0",
     "less-loader": "^7.2.1",
+    "lint-staged": "^11.1.2",
     "lodash-webpack-plugin": "^0.11.5",
     "make-dir": "^1.3.0",
     "mocha": "^9.0.2",
@@ -181,10 +183,5 @@
     "dist/*",
     "*.less",
     "*.css"
-  ],
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  }
+  ]
 }
