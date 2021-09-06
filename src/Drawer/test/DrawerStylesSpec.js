@@ -1,14 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Drawer from '../index';
-import { createTestContainer, getStyle } from '@test/testUtils';
+import { render, getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Drawer styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Drawer ref={instanceRef} open />, createTestContainer());
+    render(<Drawer ref={instanceRef} open />);
     const dom = instanceRef.current;
     const drawerDom = dom.querySelector('.rs-drawer');
     assert.equal(getStyle(dom, 'position'), 'fixed');

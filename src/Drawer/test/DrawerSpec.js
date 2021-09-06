@@ -10,7 +10,7 @@ describe('Drawer', () => {
         <p>message</p>
       </Drawer>
     );
-    assert.ok(instance.querySelectorAll('.rs-drawer.rs-drawer-right'));
+    assert.isNotNull(instance.querySelectorAll('.rs-drawer.rs-drawer-right'));
   });
 
   it('Should be full', () => {
@@ -19,7 +19,7 @@ describe('Drawer', () => {
         <p>message</p>
       </Drawer>
     );
-    assert.ok(instance.querySelectorAll('.rs-drawer.rs-drawer-full'));
+    assert.isNotNull(instance.querySelectorAll('.rs-drawer.rs-drawer-full'));
   });
 
   it('Should have a `top` className for placement', () => {
@@ -28,12 +28,12 @@ describe('Drawer', () => {
         <p>message</p>
       </Drawer>
     );
-    assert.ok(instance.querySelectorAll('.rs-drawer-top'));
+    assert.isNotNull(instance.querySelectorAll('.rs-drawer-top'));
   });
 
   it('Should have a custom className', () => {
     const instance = getDOMNode(<Drawer className="custom" open />);
-    assert.ok(instance.querySelector('.rs-drawer.custom'));
+    assert.isNotNull(instance.querySelector('.rs-drawer.custom'));
   });
 
   it('Should have a custom style', () => {
@@ -44,6 +44,6 @@ describe('Drawer', () => {
 
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Drawer classPrefix="custom-prefix" open />);
-    assert.ok(instance.querySelector('.fade').className.match(/\bcustom-prefix\b/));
+    assert.include(instance.querySelector('.fade').className, 'custom-prefix');
   });
 });
