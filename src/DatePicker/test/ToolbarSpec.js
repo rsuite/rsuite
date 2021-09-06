@@ -9,7 +9,7 @@ describe('Toolbar', () => {
     const instance = getDOMNode(<Toolbar />);
 
     assert.equal(instance.nodeName, 'DIV');
-    assert.ok(instance.className.match(/\brs-picker-toolbar\b/));
+    assert.include(instance.className, 'rs-picker-toolbar');
   });
 
   it('Should render a custom option', () => {
@@ -27,26 +27,23 @@ describe('Toolbar', () => {
     assert.equal(instance.querySelector('.btn-today').innerText, 'today');
   });
 
-  it('Should call `onOk` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Toolbar onOk={doneOp} />);
+  it('Should call `onOk` callback', () => {
+    const onOkSpy = sinon.spy();
+    const instance = getDOMNode(<Toolbar onOk={onOkSpy} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toolbar-right .rs-btn'));
+    assert.isTrue(onOkSpy.calledOnce);
   });
 
-  it('Should call `onClickShortcut` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-
-    const instance = getDOMNode(<Toolbar onClickShortcut={doneOp} />);
+  it('Should call `onClickShortcut` callback', () => {
+    const onClickShortcutSpy = sinon.spy();
+    const instance = getDOMNode(<Toolbar onClickShortcut={onClickShortcutSpy} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toolbar-ranges button'));
+    assert.isTrue(onClickShortcutSpy.calledOnce);
   });
 
   it('Should have a custom className', () => {
     const instance = getDOMNode(<Toolbar className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
+    assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
@@ -57,6 +54,16 @@ describe('Toolbar', () => {
 
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Toolbar classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    assert.include(instance.className, 'custom-prefix');
+  });
+
+  it('Should not render the ok button', () => {
+    const instance = getDOMNode(<Toolbar hideOkBtn />);
+    assert.isNull(instance.querySelector('.rs-picker-toolbar-right button'));
+  });
+
+  it('Should not render any elements', () => {
+    const instance = getDOMNode(<Toolbar hideOkBtn ranges={[]} />);
+    assert.isNull(instance);
   });
 });

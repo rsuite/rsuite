@@ -124,7 +124,6 @@
 | hideHours             | (hour:number, date:Date) => boolean                     | 隐藏小时                                                                    |
 | hideMinutes           | (minute:number, date:Date) => boolean                   | 隐藏分钟                                                                    |
 | hideSeconds           | (second:number, date:Date) => boolean                   | 隐藏秒                                                                      |
-| inline                | boolean                                                 | 默认显示日历面板                                                            |
 | isoWeek               | boolean                                                 | ISO 8601 标准， 每个日历星期从星期一开始，星期日为第 7 天                   |
 | limitEndYear          | number `(1000)`                                         | 相对当前选择日期，设置可选年份下限                                          |
 | locale                | [CalendarLocaleType](/zh/guide/i18n/#calendar)          | 本地化的文本                                                                |

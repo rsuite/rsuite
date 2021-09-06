@@ -52,7 +52,11 @@ export interface DatePickerProps
   /** Format date */
   format?: string;
 
-  /** Display date panel when component initial */
+  /**
+   * Display date panel when component initial
+   *
+   * @deprecated use <Calendar> instead
+   **/
   inline?: boolean;
 
   /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
@@ -141,7 +145,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       defaultValue,
       disabled,
       format: formatStr,
-      inline,
       isoWeek,
       limitEndYear,
       locale: overrideLocale,
@@ -177,7 +180,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       'DatePicker',
       overrideLocale
     );
-    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, prefix } = useClassNames(classPrefix);
 
     const [value, setValue] = useControlled<Date>(valueProp, defaultValue);
     const { calendarDate, setCalendarDate } = useCalendarDate(valueProp, calendarDefaultDate);
@@ -540,14 +543,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [formatStr]
     );
 
-    if (inline) {
-      return (
-        <Component ref={rootRef} className={merge(className, withClassPrefix('date-inline'))}>
-          {calendar}
-        </Component>
-      );
-    }
-
     return (
       <PickerToggleTrigger
         trigger="active"
@@ -607,7 +602,6 @@ DatePicker.propTypes = {
   hideHours: PropTypes.func,
   hideMinutes: PropTypes.func,
   hideSeconds: PropTypes.func,
-  inline: PropTypes.bool,
   isoWeek: PropTypes.bool,
   limitEndYear: PropTypes.number,
   onChange: PropTypes.func,
