@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
 import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/VirtualizedList';
@@ -63,6 +63,7 @@ import { TreeDragProps, TreeBaseProps } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 import { TreeNodeType } from '../CheckTreePicker/utils';
+import TreeContext from '../Tree/TreeContext';
 
 // default value for virtualized
 export const maxTreeHeight = 320;
@@ -121,7 +122,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     data,
     style,
     value: controlledValue,
-    inline,
     locale: overrideLocale,
     height,
     className,
@@ -151,6 +151,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     getChildren,
     renderTreeIcon,
     renderTreeNode,
+    onExit,
     onExited,
     onClean,
     onOpen,
@@ -179,6 +180,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const searchInputRef = useRef<HTMLInputElement>();
   const treeViewRef = useRef<HTMLDivElement>();
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
+  const { inline, dragNodeRef } = useContext(TreeContext);
 
   const [value, setValue, isControlled] = useControlled(controlledValue, defaultValue);
   const {
@@ -302,6 +304,13 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   useEffect(() => {
     setSearchKeyword(searchKeyword ?? '');
   }, [searchKeyword, setSearchKeyword]);
+
+  useEffect(() => {
+    if (dragNodeRef) {
+      dragNodeRef.current = treeViewRef.current?.querySelector(`.${treePrefix('drag-node-mover')}`);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getDropData = useCallback(
     (nodeData: any) => {
@@ -523,16 +532,15 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const handleClose = useCallback(() => {
     triggerRef.current?.close?.();
     setSearchKeyword('');
-    onClose?.();
     setActive(false);
     setFocusItemValue(activeNode?.[valueKey]);
     /**
      * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
      */
     targetRef.current?.focus();
-  }, [activeNode, onClose, setSearchKeyword, valueKey]);
+  }, [activeNode, setSearchKeyword, valueKey]);
 
-  usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
+  usePublicMethods(ref, { triggerRef, overlayRef, targetRef }, inline);
 
   const handleFocusItem = useCallback(
     (key: string) => {
@@ -758,11 +766,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       if (isFunction(renderDragNode)) {
         dragNodeContent = renderDragNode(dragNode);
       }
-      return (
-        <span id="drag-node" className={treePrefix('drag-node-mover')}>
-          {dragNodeContent}
-        </span>
-      );
+      return <span className={treePrefix('drag-node-mover')}>{dragNodeContent}</span>;
     }
     return null;
   };
@@ -776,40 +780,38 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     const formattedNodes = getFormattedNodes(renderNode);
     const styles = inline ? { height, ...style } : {};
     return (
-      <React.Fragment>
-        <div
-          role="tree"
-          id={id ? `${id}-listbox` : undefined}
-          ref={treeViewRef}
-          className={classes}
-          style={styles}
-          onKeyDown={inline ? handleTreeKeyDown : undefined}
-        >
-          <div className={treePrefix('nodes')}>
-            {virtualized ? (
-              <AutoSizer
-                defaultHeight={inline ? height : maxTreeHeight}
-                style={{ width: 'auto', height: 'auto' }}
-              >
-                {({ height, width }) => (
-                  <List
-                    ref={listRef}
-                    width={width}
-                    height={height}
-                    rowHeight={36}
-                    rowCount={formattedNodes.length}
-                    rowRenderer={renderVirtualListNode(formattedNodes)}
-                    scrollToAlignment="center"
-                  />
-                )}
-              </AutoSizer>
-            ) : (
-              formattedNodes
-            )}
-          </div>
+      <div
+        role="tree"
+        id={id ? `${id}-listbox` : undefined}
+        ref={inline ? mergeRefs(treeViewRef, ref as any) : treeViewRef}
+        className={classes}
+        style={styles}
+        onKeyDown={inline ? handleTreeKeyDown : undefined}
+      >
+        <div className={treePrefix('nodes')}>
+          {virtualized ? (
+            <AutoSizer
+              defaultHeight={inline ? height : maxTreeHeight}
+              style={{ width: 'auto', height: 'auto' }}
+            >
+              {({ height, width }) => (
+                <List
+                  ref={listRef}
+                  width={width}
+                  height={height}
+                  rowHeight={36}
+                  rowCount={formattedNodes.length}
+                  rowRenderer={renderVirtualListNode(formattedNodes)}
+                  scrollToAlignment="center"
+                />
+              )}
+            </AutoSizer>
+          ) : (
+            formattedNodes
+          )}
         </div>
         {renderDefaultDragNode()}
-      </React.Fragment>
+      </div>
     );
   };
 
@@ -877,6 +879,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       placement={placement}
       onEnter={handleOpen}
       onEntered={onEntered}
+      onExit={createChainedFunction(onClose, onExit)}
       onExited={createChainedFunction(handleClose, onExited)}
       speaker={renderDropdownMenu}
     >
@@ -909,7 +912,6 @@ TreePicker.propTypes = {
   locale: PropTypes.any,
   appearance: PropTypes.oneOf(['default', 'subtle']),
   height: PropTypes.number,
-  inline: PropTypes.bool,
   draggable: PropTypes.bool,
   virtualized: PropTypes.bool,
   searchable: PropTypes.bool,

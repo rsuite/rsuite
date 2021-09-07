@@ -157,6 +157,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       renderMenuItem,
       renderExtraFooter,
       onEnter,
+      onExit,
       onExited,
       onClean,
       onSearch,
@@ -244,10 +245,9 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     }, [onOpen]);
 
     const handleExited = useCallback(() => {
-      onClose?.();
       setActive(false);
       setSearchKeyword('');
-    }, [onClose]);
+    }, []);
 
     const handleSelect = useCallback(
       (node: ItemDataType, cascadePaths: ItemDataType[], event: React.SyntheticEvent) => {
@@ -563,6 +563,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         placement={placement}
         onEnter={createChainedFunction(handleEntered, onEnter)}
         onExited={createChainedFunction(handleExited, onExited)}
+        onExit={createChainedFunction(onClose, onExit)}
         speaker={renderDropdownMenu}
       >
         <Component className={classes} style={style}>

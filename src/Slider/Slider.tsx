@@ -281,7 +281,11 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
   );
 
   if (plaintext) {
-    return <Plaintext localeKey="notSelected">{value}</Plaintext>;
+    return (
+      <Plaintext localeKey="notSelected" ref={ref}>
+        {value}
+      </Plaintext>
+    );
   }
 
   return (
