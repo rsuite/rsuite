@@ -140,7 +140,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const [htmlInputProps, rest] = partitionHTMLProps(restProps);
   const inputRef = useRef();
 
-  const handleValue = useCallback(
+  const handleChangeValue = useCallback(
     (currentValue: number | string, event?: React.SyntheticEvent) => {
       if (currentValue !== value) {
         // Disable the up button when the value is greater than the maximum value.
@@ -176,17 +176,17 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     (event: React.SyntheticEvent) => {
       const val = +(value || 0);
       const bit = decimals(val, step);
-      handleValue(getSafeValue((val + step).toFixed(bit)), event);
+      handleChangeValue(getSafeValue((val + step).toFixed(bit)), event);
     },
-    [getSafeValue, handleValue, step, value]
+    [getSafeValue, handleChangeValue, step, value]
   );
   const handleMinus = useCallback(
     (event: React.SyntheticEvent) => {
       const val = +(value || 0);
       const bit = decimals(val, step);
-      handleValue(getSafeValue((val - step).toFixed(bit)), event);
+      handleChangeValue(getSafeValue((val - step).toFixed(bit)), event);
     },
-    [getSafeValue, handleValue, step, value]
+    [getSafeValue, handleChangeValue, step, value]
   );
 
   const handleWheel = useCallback(
@@ -213,17 +213,17 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
       if (!/^-?(?:\d+)?(\.)?\d*$/.test(value) && value !== '') {
         return;
       }
-      handleValue(value, event);
+      handleChangeValue(value, event);
     },
-    [handleValue]
+    [handleChangeValue]
   );
 
   const handleBlur = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const targetValue = Number.parseFloat(event.target?.value);
-      handleValue(getSafeValue(targetValue), event);
+      handleChangeValue(getSafeValue(targetValue), event);
     },
-    [getSafeValue, handleValue]
+    [getSafeValue, handleChangeValue]
   );
 
   useEffect(() => {
@@ -249,6 +249,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
       disabled={disabled}
       readOnly={readOnly}
       plaintext={plaintext}
+      ref={plaintext ? (ref as any) : undefined}
     />
   );
 
