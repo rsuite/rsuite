@@ -44,6 +44,15 @@
   }
 }
 
+.rs-uploader-file-item {
+  &:hover &-title {
+    .high-contrast-mode({
+      color: var(--rs-uploader-item-hover-text);
+      text-decoration: underline;
+    });
+  }
+}
+
 .rs-uploader-text {
   .rs-uploader-file-items {
     margin-top: @uploader-file-list-margin-top;
@@ -441,7 +450,8 @@
     border: 1px dashed var(--rs-uploader-dnd-border);
   }
 
-  .rs-uploader-trigger.rs-uploader-trigger-customize:not(.rs-uploader-trigger-disabled) .rs-uploader-trigger-btn:hover,
+  .rs-uploader-trigger.rs-uploader-trigger-customize:not(.rs-uploader-trigger-disabled)
+    .rs-uploader-trigger-btn:hover,
   .rs-uploader-trigger-drag-over .rs-uploader-trigger-btn.rs-uploader-trigger-customize {
     border-color: var(--rs-uploader-dnd-hover-border);
   }
