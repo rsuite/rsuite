@@ -69,7 +69,6 @@
 | expandItemValues        | any []                                                                                        | 设置展开节点的值（受控）                                                        |
 | getChildren             | (node: DataItemType) => Promise&lt;DataItemType&gt;                                           | 异步加载节点数据                                                                |
 | height                  | number `(360px)`                                                                              | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
-| inline                  | boolean                                                                                       | 是否内联显示 tree                                                               |
 | labelKey                | string `('label')`                                                                            | tree 数据结构 label 属性名称                                                    |
 | locale                  | object                                                                                        | 本地语言                                                                        |
 | locale                  | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                   | 本地化的文本                                                                    |
