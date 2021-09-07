@@ -1,4 +1,5 @@
 @import '../../styles/variables';
+@import "../../styles/mixins/color-modes";
 @import '../../Dropdown/styles/mixin';
 
 // Picker Menu items common styles
@@ -100,9 +101,13 @@
 }
 
 .picker-calendar-cell-content-selected() {
-  color: #fff;
+  color: var(--rs-calendar-date-selected-text);
   background-color: var(--rs-bg-active);
   box-shadow: none;
+
+  .high-contrast-mode({
+    text-decoration: underline;
+  });
 }
 
 .picker-calendar-title-show() {
