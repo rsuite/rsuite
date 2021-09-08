@@ -54,7 +54,7 @@ describe('Panel', () => {
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-panel-header'));
-    assert.equal(onSelectSpy.firstCall.firstArg, 12);
+    expect(onSelectSpy).to.have.been.calledWith(12);
   });
 
   it('Should pass transition callbacks to Collapse', done => {
