@@ -3,32 +3,32 @@
 @import 'animation';
 
 // Slide
-.rs-slide-out {
+.rs-anim-slide-out {
   .animation-common(cubic-bezier(0.4, 0, 1, 1)); //Fast out
 }
 
-.rs-slide-in {
+.rs-anim-slide-in {
   .animation-common(ease-in-out);
 }
 
-.rs-right {
+.rs-anim-right {
   .slide-animation-setting(slideInRight, slideOutRight);
 }
 
-.rs-left {
+.rs-anim-left {
   .slide-animation-setting(slideInLeft, slideOutLeft);
 }
 
-.rs-top {
+.rs-anim-top {
   .slide-animation-setting(slideInTop, slideOutTop);
 }
 
-.rs-bottom {
+.rs-anim-bottom {
   .slide-animation-setting(slideInBottom, slideOutBottom);
 }
 
 // Bounce
-.rs-bounce-in {
+.rs-anim-bounce-in {
   animation-name: bounceIn;
   .animation-common(cubic-bezier(0.68, -0.55, 0.27, 1.55)); // Ease in out
 
@@ -45,7 +45,7 @@
   }
 }
 
-.rs-bounce-out {
+.rs-anim-bounce-out {
   animation-name: bounceOut;
   .animation-common(cubic-bezier(0.4, 0, 1, 1)); //Fast out
 
@@ -62,34 +62,34 @@
   }
 }
 
-.rs-fade {
+.rs-anim-fade {
   opacity: 0;
   transition: opacity 0.15s linear;
   pointer-events: none;
 
-  &.rs-in {
+  &.rs-anim-in {
     opacity: 1;
     pointer-events: unset;
   }
 }
 
-.rs-collapse {
+.rs-anim-collapse {
   display: none;
 
-  &.rs-in {
+  &.rs-anim-in {
     display: block;
   }
 
-  tr&.rs-in {
+  tr&.rs-anim-in {
     display: table-row;
   }
 
-  tbody&.rs-in {
+  tbody&.rs-anim-in {
     display: table-row-group;
   }
 }
 
-.rs-collapsing {
+.rs-anim-collapsing {
   position: relative;
   height: 0;
   overflow: hidden;

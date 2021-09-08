@@ -59,7 +59,7 @@ const Collapse = React.forwardRef((props: CollapseProps, ref: React.Ref<any>) =>
     ...rest
   } = props;
 
-  const { rootPrefix, prefix, merge } = useClassNames('collapse');
+  const { prefix, merge } = useClassNames('anim');
   const dimension = typeof dimensionProp === 'function' ? dimensionProp() : dimensionProp;
 
   const handleEnter = useCallback(
@@ -103,11 +103,11 @@ const Collapse = React.forwardRef((props: CollapseProps, ref: React.Ref<any>) =>
     <Transition
       {...rest}
       ref={ref}
-      className={merge(className, prefix({ horizontal: dimension === 'width' }))}
-      exitedClassName={exitedClassName || rootPrefix('collapse')}
-      exitingClassName={exitingClassName || rootPrefix('collapsing')}
-      enteredClassName={enteredClassName || rootPrefix('collapse', 'in')}
-      enteringClassName={enteringClassName || rootPrefix('collapsing')}
+      className={merge(className, prefix({ 'collapse-horizontal': dimension === 'width' }))}
+      exitedClassName={exitedClassName || prefix('collapse')}
+      exitingClassName={exitingClassName || prefix('collapsing')}
+      enteredClassName={enteredClassName || prefix('collapse', 'in')}
+      enteringClassName={enteringClassName || prefix('collapsing')}
       onEnter={createChainedFunction(handleEnter, onEnter)}
       onEntering={createChainedFunction(handleEntering, onEntering)}
       onEntered={createChainedFunction(handleEntered, onEntered)}

@@ -10,14 +10,14 @@ describe('Animation.Collapse', () => {
         <div>test</div>
       </Collapse>
     );
-    assert.include(instance.className, 'rs-collapse-horizontal');
+    assert.include(instance.className, 'rs-anim-collapse-horizontal');
 
     const instance2 = getDOMNode(
       <Collapse in dimension={() => 'width'}>
         <div>test</div>
       </Collapse>
     );
-    assert.include(instance2.className, 'rs-collapse-horizontal');
+    assert.include(instance2.className, 'rs-anim-collapse-horizontal');
   });
 
   it('Should set a dimension value at onExit of the transition', done => {

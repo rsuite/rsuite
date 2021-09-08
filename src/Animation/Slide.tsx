@@ -8,9 +8,9 @@ export interface SlideProps extends TransitionProps {
 
 const Slide = React.forwardRef(
   ({ timeout = 300, placement = 'right', ...props }: SlideProps, ref: React.Ref<any>) => {
-    const { rootPrefix } = useClassNames('slide');
-    const enterClassName = rootPrefix('slide-in', placement, 'animated');
-    const exitClassName = rootPrefix('slide-out', placement, 'animated');
+    const { prefix } = useClassNames('anim');
+    const enterClassName = prefix('slide-in', placement);
+    const exitClassName = prefix('slide-out', placement);
 
     return (
       <Transition

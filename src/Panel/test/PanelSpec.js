@@ -14,7 +14,7 @@ describe('Panel', () => {
 
   it('Should default expanded', () => {
     const instance = getDOMNode(<Panel collapsible defaultExpanded />);
-    assert.isNotNull(instance.querySelector('.rs-panel-collapse.rs-in'));
+    assert.isNotNull(instance.querySelector('.rs-panel-collapse.rs-anim-in'));
   });
 
   it('Should show border', () => {
@@ -29,7 +29,7 @@ describe('Panel', () => {
 
   it('Should be expanded', () => {
     const instance = getDOMNode(<Panel collapsible expanded />);
-    assert.isNotNull(instance.querySelector('.rs-panel-collapse.rs-in'));
+    assert.isNotNull(instance.querySelector('.rs-panel-collapse.rs-anim-in'));
   });
 
   it('Should render the custom header', () => {
