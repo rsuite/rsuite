@@ -6,14 +6,14 @@ export type FadeProps = TransitionProps;
 
 const Fade = React.forwardRef(
   ({ timeout = 300, className, ...props }: FadeProps, ref: React.Ref<any>) => {
-    const { withClassPrefix, prefix, merge } = useClassNames('anim');
+    const { prefix, merge } = useClassNames('anim');
 
     return (
       <Transition
         {...props}
         ref={ref}
         timeout={timeout}
-        className={merge(className, withClassPrefix('fade'))}
+        className={merge(className, prefix('fade'))}
         enteredClassName={prefix('in')}
         enteringClassName={prefix('in')}
       />
