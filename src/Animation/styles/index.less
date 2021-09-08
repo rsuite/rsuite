@@ -3,32 +3,32 @@
 @import 'animation';
 
 // Slide
-.slide-out {
+.rs-slide-out {
   .animation-common(cubic-bezier(0.4, 0, 1, 1)); //Fast out
 }
 
-.slide-in {
+.rs-slide-in {
   .animation-common(ease-in-out);
 }
 
-.right {
+.rs-right {
   .slide-animation-setting(slideInRight, slideOutRight);
 }
 
-.left {
+.rs-left {
   .slide-animation-setting(slideInLeft, slideOutLeft);
 }
 
-.top {
+.rs-top {
   .slide-animation-setting(slideInTop, slideOutTop);
 }
 
-.bottom {
+.rs-bottom {
   .slide-animation-setting(slideInBottom, slideOutBottom);
 }
 
 // Bounce
-.bounce-in {
+.rs-bounce-in {
   animation-name: bounceIn;
   .animation-common(cubic-bezier(0.68, -0.55, 0.27, 1.55)); // Ease in out
 
@@ -45,7 +45,7 @@
   }
 }
 
-.bounce-out {
+.rs-bounce-out {
   animation-name: bounceOut;
   .animation-common(cubic-bezier(0.4, 0, 1, 1)); //Fast out
 
@@ -62,36 +62,36 @@
   }
 }
 
-.fade {
+.rs-fade {
   opacity: 0;
   transition: opacity 0.15s linear;
   pointer-events: none;
 
-  &.in {
+  &.rs-in {
     opacity: 1;
     pointer-events: unset;
   }
 }
 
-.collapse {
+.rs-collapse {
   display: none;
 
-  &.in {
+  &.rs-in {
     display: block;
   }
 
-  tr&.in {
+  tr&.rs-in {
     display: table-row;
   }
 
-  tbody&.in {
+  tbody&.rs-in {
     display: table-row-group;
   }
 }
 
-.collapsing {
+.rs-collapsing {
   position: relative;
   height: 0;
   overflow: hidden;
-  transition: height 0.35s ease, visibility 0.35s ease;
+  transition: height 0.35s ease, width 0.35s ease, visibility 0.35s ease;
 }
