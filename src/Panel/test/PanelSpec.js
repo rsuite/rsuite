@@ -1,9 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import Panel from '../Panel';
-import { getDOMNode, innerText } from '@test/testUtils';
-import { createTestContainer } from '../../../test/testUtils';
+import { getDOMNode, innerText, render } from '@test/testUtils';
 
 describe('Panel', () => {
   it('Should render a panel', () => {
@@ -16,22 +14,22 @@ describe('Panel', () => {
 
   it('Should default expanded', () => {
     const instance = getDOMNode(<Panel collapsible defaultExpanded />);
-    assert.ok(instance.querySelector('.rs-panel-collapse.in'));
+    assert.isNotNull(instance.querySelector('.rs-panel-collapse.rs-in'));
   });
 
   it('Should show border', () => {
     const instance = getDOMNode(<Panel bordered />);
-    assert.ok(instance.className.match(/\brs-panel-bordered\b/));
+    assert.include(instance.className, 'rs-panel-bordered');
   });
 
   it('Should with shadow', () => {
     const instance = getDOMNode(<Panel shaded />);
-    assert.ok(instance.className.match(/\brs-panel-shaded\b/));
+    assert.include(instance.className, 'rs-panel-shaded');
   });
 
   it('Should be expanded', () => {
     const instance = getDOMNode(<Panel collapsible expanded />);
-    assert.ok(instance.querySelector('.rs-panel-collapse.in'));
+    assert.isNotNull(instance.querySelector('.rs-panel-collapse.rs-in'));
   });
 
   it('Should render the custom header', () => {
@@ -49,18 +47,14 @@ describe('Panel', () => {
     assert.equal(instance.querySelector('.rs-panel-body').getAttribute('role'), 'button');
   });
 
-  it('Should call onSelect callback', done => {
-    const doneOp = eventKey => {
-      if (eventKey === 12) {
-        done();
-      }
-    };
-
+  it('Should call onSelect callback', () => {
+    const onSelectSpy = sinon.spy();
     const instance = getDOMNode(
-      <Panel collapsible onSelect={doneOp} eventKey={12} header={'abc'} />
+      <Panel collapsible onSelect={onSelectSpy} eventKey={12} header={'abc'} />
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-panel-header'));
+    assert.equal(onSelectSpy.firstCall.firstArg, 12);
   });
 
   it('Should pass transition callbacks to Collapse', done => {
@@ -70,7 +64,7 @@ describe('Panel', () => {
     };
     const ref = React.createRef();
     let title;
-    ReactDOM.render(
+    render(
       <Panel
         collapsible
         defaultExpanded={false}
@@ -92,8 +86,7 @@ describe('Panel', () => {
         ref={ref}
       >
         Panel content
-      </Panel>,
-      createTestContainer()
+      </Panel>
     );
 
     title = ref.current.querySelector('.rs-panel-title');
@@ -113,6 +106,6 @@ describe('Panel', () => {
 
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Panel classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    assert.include(instance.className, 'custom-prefix');
   });
 });
