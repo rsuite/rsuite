@@ -25,6 +25,10 @@
   background-color: var(--rs-btn-default-bg);
   border-radius: 6px;
 
+  .high-contrast-mode({
+    transition: none;
+  });
+
   .rs-btn-md();
 
   &:focus {
@@ -185,6 +189,25 @@ each(@spectrum, .(@color) {
       --rs-btn-subtle-hover-text: #fff;
       --rs-btn-subtle-active-bg: @C400;
       --rs-btn-subtle-active-text: #fff;
+      --rs-btn-ghost-border: @C500;
+      --rs-btn-ghost-text: @C500;
+      --rs-btn-ghost-hover-border: @C400;
+      --rs-btn-ghost-hover-text: @C400;
+      --rs-btn-ghost-active-border: @C200;
+      --rs-btn-ghost-active-text: @C200;
+      --rs-btn-link-text: @C500;
+      --rs-btn-link-hover-text: @C400;
+      --rs-btn-link-active-text: @C200;
+    });
+
+    .high-contrast-mode({
+      --rs-btn-primary-bg: @C700;
+      --rs-btn-primary-hover-bg: @C600;
+      --rs-btn-primary-active-bg: @C400;
+      --rs-btn-subtle-hover-bg: @C600;
+      --rs-btn-subtle-hover-text: var(--rs-gray-900);
+      --rs-btn-subtle-active-bg: @C400;
+      --rs-btn-subtle-active-text: var(--rs-gray-900);
       --rs-btn-ghost-border: @C500;
       --rs-btn-ghost-text: @C500;
       --rs-btn-ghost-hover-border: @C400;
