@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Carousel from '../Carousel';
 
@@ -39,5 +40,55 @@ describe('Carousel', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Carousel classPrefix="custom-prefix" md={1} />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should be autoplay', done => {
+    const style = { height: 20 };
+    getDOMNode(
+      <Carousel
+        autoplay
+        autoplayInterval={500}
+        onSlideStart={() => done()}
+        style={{ width: 200, height: 20 }}
+      >
+        <div style={style}>1</div>
+        <div style={style}>2</div>
+      </Carousel>
+    );
+  });
+
+  it('Should call `onSlideStart` callback', done => {
+    const instance = getDOMNode(
+      <Carousel onSlideStart={() => done()}>
+        <div>1</div>
+        <div>2</div>
+      </Carousel>
+    );
+
+    const input = instance.querySelectorAll('.rs-carousel-label-wrapper')[1].querySelector('input');
+    ReactTestUtils.Simulate.change(input);
+  });
+
+  it('Should call `onSelect` callback', done => {
+    const instance = getDOMNode(
+      <Carousel onSelect={() => done()}>
+        <div>1</div>
+        <div>2</div>
+      </Carousel>
+    );
+
+    const input = instance.querySelectorAll('.rs-carousel-label-wrapper')[1].querySelector('input');
+    ReactTestUtils.Simulate.change(input);
+  });
+
+  it('Should call `onSlideEnd` callback', done => {
+    const instance = getDOMNode(
+      <Carousel onSlideEnd={() => done()}>
+        <div>1</div>
+        <div>2</div>
+      </Carousel>
+    );
+
+    ReactTestUtils.Simulate.transitionEnd(instance.querySelector('.rs-carousel-slider'));
   });
 });
