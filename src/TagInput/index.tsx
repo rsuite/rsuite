@@ -45,7 +45,7 @@ const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInp
 });
 
 TagInput.defaultProps = {
-  trigger: ['Enter', 'Space'],
+  trigger: 'Enter',
   tagProps: {}
 };
 
