@@ -24,6 +24,8 @@
 - 'inverse' 反色的导航栏。
 - 'subtle' 弱化的导航栏。
 
+> 在高对比度主题下, 只有 `default` 外观有效。
+
 <!--{include:`appearance.md`}-->
 
 ## Props

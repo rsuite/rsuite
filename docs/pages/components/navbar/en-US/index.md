@@ -20,6 +20,8 @@ For navigation at the top of the page.
 
 `appearance` values include: `default`,`inverse`,`subtle`.
 
+> In high-contrast theme, all appearances looks the same as `default`.
+
 <!--{include:`appearance.md`}-->
 
 ## Props

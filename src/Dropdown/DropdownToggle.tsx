@@ -44,9 +44,8 @@ const DropdownToggle: RsRefForwardingComponent<
   // Caret icon is down by default, when Dropdown is used in Sidenav.
   const Caret = useToggleCaret(inSidenav ? 'bottomStart' : placement);
 
-  const buttonProps = Component === Button ? { appearance: 'subtle' } : null;
   const toggle = (
-    <Component {...buttonProps} {...rest} ref={ref} className={classes}>
+    <Component {...rest} ref={ref} className={classes}>
       {icon &&
         React.cloneElement(icon, {
           className: prefix('icon')

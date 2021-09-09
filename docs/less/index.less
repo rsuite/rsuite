@@ -28,6 +28,16 @@
 @top-level-nav-height: 48px;
 @doc-nav-active-color: var(--rs-text-link);
 
+body {
+  background-color: #fff;
+
+  // TODO use variable exported from rsuite
+  &.rs-theme-dark,
+  &.rs-theme-high-contrast {
+    background-color: #0f131a;
+  }
+}
+
 .main-container {
   @media (max-width: @media-xs) {
     margin-top: (@top-level-nav-height + 28px);
@@ -153,4 +163,3 @@ html[dir='rtl'] .document-nav {
 .nav-wrapper {
   padding: 20px;
 }
-

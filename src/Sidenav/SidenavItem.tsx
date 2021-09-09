@@ -1,12 +1,15 @@
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import { useClassNames, shallowEqual } from '../utils';
+import { useClassNames, shallowEqual, mergeRefs, appendTooltip } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';
+import MenuItem from '../Menu/MenuItem';
+import omit from 'lodash/omit';
+import { SidenavContext } from './Sidenav';
 
 export interface SidenavItemProps<T = any>
   extends WithAsProps,
@@ -31,21 +34,17 @@ export interface SidenavItemProps<T = any>
   panel?: boolean;
 }
 
-const defaultProps: Partial<SidenavItemProps> = {
-  as: 'div',
-  classPrefix: 'dropdown'
-};
-
 const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forwardRef<
   HTMLLIElement,
   SidenavItemProps
 >((props: SidenavItemProps, ref) => {
   const {
+    as: Component = SafeAnchor,
     active: activeProp,
     children,
     className,
     disabled,
-    classPrefix,
+    classPrefix = 'sidenav-item',
     icon,
     eventKey,
     style,
@@ -55,6 +54,8 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
     panel,
     ...rest
   } = props;
+
+  const sidenav = useContext(SidenavContext);
 
   const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
 
@@ -72,6 +73,59 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
     },
     [disabled, onSelect, onSelectFromNav, eventKey, onClick]
   );
+
+  if (!sidenav.expanded) {
+    return (
+      <MenuItem selected={selected} disabled={disabled} onActivate={handleClick}>
+        {({ selected, active, ...menuitem }, menuitemRef) => {
+          const classes = merge(
+            className,
+            withClassPrefix({ focus: active, active: selected, disabled })
+          );
+
+          const item = (
+            <Component
+              ref={mergeRefs(ref, menuitemRef)}
+              disabled={Component === SafeAnchor ? disabled : undefined}
+              className={classes}
+              data-event-key={eventKey}
+              {...menuitem}
+              {...omit(rest, ['divider', 'panel'])}
+            >
+              {icon}
+              {children}
+              <Ripple />
+            </Component>
+          );
+
+          // Show tooltip when inside a collapse <Sidenav>
+          return sidenav
+            ? appendTooltip({
+                children: (triggerProps, triggerRef) => {
+                  return (
+                    <Component
+                      ref={mergeRefs(mergeRefs(ref, menuitemRef), triggerRef as any)}
+                      disabled={Component === SafeAnchor ? disabled : undefined}
+                      className={classes}
+                      data-event-key={eventKey}
+                      {...menuitem}
+                      {...omit(rest, ['divider', 'panel'])}
+                      {...triggerProps}
+                    >
+                      {icon}
+                      {children}
+                      <Ripple />
+                    </Component>
+                  );
+                },
+                message: children,
+                placement: 'right'
+              })
+            : item;
+        }}
+      </MenuItem>
+    );
+  }
 
   if (divider) {
     return (
@@ -100,7 +154,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
   }
 
   return (
-    <SafeAnchor
+    <Component
       ref={ref as any}
       className={merge(className, withClassPrefix({ active: selected, disabled }))}
       onClick={handleClick}
@@ -112,12 +166,11 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
       {icon}
       {children}
       <Ripple />
-    </SafeAnchor>
+    </Component>
   );
 });
 
 SidenavItem.displayName = 'Sidenav.Item';
-SidenavItem.defaultProps = defaultProps;
 SidenavItem.propTypes = {
   classPrefix: PropTypes.string,
   disabled: PropTypes.bool,

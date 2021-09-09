@@ -60,8 +60,8 @@
 
   &-value-count {
     margin: 0 @picker-value-count-margin;
-    background-color: var(--rs-picker-count);
-    color: #fff;
+    background-color: var(--rs-picker-count-bg);
+    color: var(--rs-picker-count-text);
     border-radius: @picker-value-count-border-radius;
     padding: 0 @picker-value-count-padding;
     line-height: @line-height-computed;
@@ -128,6 +128,10 @@
 .rs-picker-toggle {
   .rs-picker-default & {
     transition: @picker-transition;
+
+    .high-contrast-mode({
+      transition: none;
+    });
   }
 
   .rs-picker-default:not(.rs-picker-disabled) & {
@@ -270,6 +274,10 @@
   // Remove transition
   transition: none;
 
+  .high-contrast-mode({
+    border: 1px solid var(--rs-border-primary);
+  });
+
   // Increase z-index when modal opened.
   .rs-modal-open & {
     z-index: (@zindex-modal + @zindex-picker-toggle);
@@ -345,8 +353,14 @@
 
   &:not(.rs-checkbox-disabled):hover,
   &:focus,
-  &-focus {
+  &&-focus {
     .listbox-option-active(true);
+
+    .high-contrast-mode({
+      .rs-check-tree-node-text-wrapper {
+        text-decoration: underline;
+      }
+    });
   }
 
   .rs-checkbox-checker {
@@ -361,8 +375,16 @@
       transition: @picker-item-transition;
       line-height: @line-height-computed;
 
+      .high-contrast-mode({
+        transition: none;
+      });
+
       &::before {
         background-color: var(--rs-bg-overlay);
+
+        .high-contrast-mode({
+          background: none;
+        });
       }
 
       /* stylelint-disable-next-line */ // This class name provide by Virtualized.

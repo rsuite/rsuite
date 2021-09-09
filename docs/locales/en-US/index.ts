@@ -16,6 +16,7 @@ export default {
     useWithCreateReactApp: 'Use in create-react-app',
     useNextApp: 'Use in Next.js',
     darkMode: 'Dark mode',
+    highContrastMode: 'High-contrast mode',
     customizeTheme: 'Customize theme',
     i18n: 'i18n',
     rtl: 'Right-to-left',

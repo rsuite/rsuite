@@ -4,7 +4,7 @@
 .rs-checkbox {
   .radio-checkbox-common();
 
-  [type='checkbox']:focus ~ .rs-checkbox-inner::before {
+  [type='checkbox']:focus-visible ~ .rs-checkbox-inner::before {
     box-shadow: var(--rs-state-focus-shadow);
   }
 }
@@ -36,6 +36,10 @@
     opacity: 0;
     transform: rotate(45deg) scale(0);
     transition: opacity 0.2s ease-in, transform 0.2s cubic-bezier(0.12, 0.4, 0.29, 1.46);
+
+    .high-contrast-mode({
+      transition: none;
+    });
 
     .rs-checkbox-checked &,
     .rs-checkbox-indeterminate & {
@@ -95,6 +99,10 @@
     visibility: hidden;
     transition: transform 0.2s linear, opacity 0.2s linear;
 
+    .high-contrast-mode({
+      transition: none;
+    });
+
     .rs-checkbox-checked & {
       transform: scale(1.5);
       opacity: 0;
@@ -116,7 +124,11 @@
 
     transition: background 0.2s linear, border 0.2s linear, box-shadow 0.2s linear;
 
-    .rs-checkbox-checker:hover & {
+    .high-contrast-mode({
+      transition: none;
+    });
+
+    label:hover & {
       border-color: var(--rs-checkbox-checked-bg);
     }
 
@@ -134,6 +146,10 @@
     .rs-checkbox-disabled.rs-checkbox-checked &,
     .rs-checkbox-disabled.rs-checkbox-indeterminate & {
       opacity: 0.3;
+
+      .high-contrast-mode({
+        opacity: 0.5;
+      });
     }
   }
 }

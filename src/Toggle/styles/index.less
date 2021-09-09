@@ -17,10 +17,15 @@
   box-sizing: border-box;
   vertical-align: middle;
   background-color: var(--rs-toggle-bg);
-  color: #fff;
+  color: var(--rs-toggle-thumb);
   cursor: pointer;
   transition: background-color @toggle-transition, width @toggle-transition;
   user-select: none;
+
+  .high-contrast-mode({
+    transition: none;
+    box-shadow: inset 0 0 0 1px var(--rs-toggle-thumb);
+  });
 
   &:hover {
     background-color: var(--rs-toggle-hover-bg);
@@ -31,35 +36,36 @@
     content: '';
     cursor: pointer;
     position: absolute;
-    background-color: var(--rs-toggle-thumb);
+    background-color: currentColor;
     transition: left @toggle-transition, margin-left @toggle-transition, width @toggle-transition;
+
+    .high-contrast-mode({
+      transition: none;
+    });
+  }
+
+  // disabled state
+  &&-disabled {
+    background-color: var(--rs-toggle-disabled-bg);
+    color: var(--rs-toggle-disabled-thumb);
+    box-shadow: inset 0 0 0 1px var(--rs-toggle-disabled-thumb);
+    cursor: not-allowed;
   }
 
   // checked state
-  &-checked {
+  &&-checked {
     background-color: var(--rs-toggle-checked-bg);
+    color: var(--rs-toggle-checked-thumb);
+    box-shadow: none;
 
     &:hover {
       background-color: var(--rs-toggle-checked-hover-bg);
     }
   }
 
-  // disabled state
-  &-disabled {
-    background-color: var(--rs-toggle-disabled-bg);
-    cursor: not-allowed;
-
-    &::after {
-      background-color: var(--rs-toggle-disabled-thumb);
-    }
-
-    &.rs-btn-toggle-checked {
-      background-color: var(--rs-toggle-checked-disabled-bg);
-
-      &::after {
-        background-color: var(--rs-toggle-checked-disabled-thumb);
-      }
-    }
+  &&-disabled&-checked {
+    background-color: var(--rs-toggle-checked-disabled-bg);
+    color: var(--rs-toggle-checked-disabled-thumb);
   }
 }
 
@@ -67,6 +73,10 @@
 .rs-btn-toggle-inner {
   display: block;
   transition: margin @toggle-transition;
+
+  .high-contrast-mode({
+    transition: none;
+  });
 }
 
 // small

@@ -1,3 +1,5 @@
+@import '../../styles/mixins/color-modes';
+
 .default-input() {
   display: block;
   width: 100%;
@@ -8,6 +10,10 @@
   transition: @input-transition;
   border-radius: @border-radius;
   .input-md();
+
+  .high-contrast-mode({
+    transition: none;
+  });
 
   // Placeholder
   &::placeholder {

@@ -1,16 +1,12 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
+import { IconProps } from '@rsuite/icons/lib/Icon';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { shallowEqual, useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { IconProps } from '@rsuite/icons/lib/Icon';
-import { SidenavContext } from '../Sidenav/Sidenav';
-import NavContext from './NavContext';
-import { NavbarContext } from '../Navbar/Navbar';
-import SidenavItem from '../Sidenav/SidenavItem';
-import NavbarItem from '../Navbar/NavbarItem';
+import NavContext from '../Nav/NavContext';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -20,12 +16,6 @@ export interface NavItemProps<T = string>
 
   /** Disabled status */
   disabled?: boolean;
-
-  /** divier for nav item */
-  divider?: boolean;
-
-  /** display panel */
-  panel?: boolean;
 
   /** Sets the icon for the component */
   icon?: React.ReactElement<IconProps>;
@@ -40,10 +30,7 @@ export interface NavItemProps<T = string>
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
-/**
- * The <Nav.Item> API
- */
-const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
+const NavbarItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<any>) => {
     const {
       as: Component = SafeAnchor,
@@ -51,12 +38,10 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       disabled,
       eventKey,
       className,
-      classPrefix = 'nav-item',
+      classPrefix = 'navbar-item',
       style,
       children,
       icon,
-      divider,
-      panel,
       onClick,
       onSelect: onSelectProp,
       ...rest
@@ -74,10 +59,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       [eventKey, onSelectProp, onSelectFromNav]
     );
 
-    const navbar = useContext(NavbarContext);
-    const sidenav = useContext(SidenavContext);
-
-    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active, disabled }));
 
     const handleClick = useCallback(
@@ -90,43 +72,14 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       [disabled, emitSelect, onClick]
     );
 
-    if (sidenav) {
-      return <SidenavItem {...props} />;
-    }
-
-    if (divider) {
-      return (
-        <div
-          ref={ref}
-          role="separator"
-          style={style}
-          className={merge(className, prefix('divider'))}
-          {...rest}
-        />
-      );
-    }
-
-    if (panel) {
-      return (
-        <div ref={ref} style={style} className={merge(className, prefix('panel'))} {...rest}>
-          {children}
-        </div>
-      );
-    }
-
-    if (navbar) {
-      return <NavbarItem {...props} />;
-    }
-
     return (
       <Component
         ref={ref}
-        tabIndex={disabled ? -1 : undefined}
+        aria-selected={active || undefined}
         {...rest}
         className={classes}
         onClick={handleClick}
         style={style}
-        aria-selected={active || undefined}
       >
         {icon}
         {children}
@@ -136,15 +89,13 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   }
 );
 
-NavItem.displayName = 'Nav.Item';
-NavItem.propTypes = {
+NavbarItem.displayName = 'Navbar.Item';
+NavbarItem.propTypes = {
   as: PropTypes.elementType,
   active: PropTypes.bool,
   disabled: PropTypes.bool,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
-  divider: PropTypes.bool,
-  panel: PropTypes.bool,
   onClick: PropTypes.func,
   style: PropTypes.object,
   icon: PropTypes.node,
@@ -153,4 +104,4 @@ NavItem.propTypes = {
   eventKey: PropTypes.any
 };
 
-export default NavItem;
+export default NavbarItem;

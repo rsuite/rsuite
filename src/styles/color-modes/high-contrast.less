@@ -1,4 +1,4 @@
-@import '../colors/dark';
+@import '../colors/high-contrast';
 
 // see https://rsuitejs.com/design/dark
 & {
@@ -19,35 +19,38 @@
   --rs-text-heading-inverse: @B900;
   --rs-text-active: @H500;
   --rs-text-disabled: @B500;
-  --rs-border-primary: @B600;
+  --rs-border-primary: @B100;
   --rs-border-secondary: @B700;
   --rs-bg-card: @B800;
-  --rs-bg-overlay: @B700;
+  --rs-bg-overlay: @B800;
   --rs-bg-well: @B900;
-  --rs-bg-active: @H700;
+  --rs-bg-active: @H500;
   --rs-bg-backdrop: fade(@B900, 80%);
   --rs-state-hover-bg: @B600;
-  --rs-state-focus-shadow: 0 0 0 3px fade(@H500, 25%);
+  --rs-state-focus-shadow: 0 0 0 3px @B900, 0 0 0 5px @B000;
+  --rs-state-focus-shadow-slim: 0 0 0 2px @B000;
   --rs-state-focus-outline: 3px solid fade(@H500, 25%);
   --rs-shadow-overlay: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // Button
-  --rs-btn-default-bg: @B600;
-  --rs-btn-default-text: @B050;
-  --rs-btn-default-hover-bg: @B500;
-  --rs-btn-default-active-bg: @B300;
-  --rs-btn-default-active-text: @B000;
-  --rs-btn-default-disabled-bg: @B600;
-  --rs-btn-default-disabled-text: @B500;
-  --rs-btn-primary-bg: @H700;
-  --rs-btn-primary-text: @B000;
-  --rs-btn-primary-hover-bg: @H600;
-  --rs-btn-primary-active-bg: @H400;
-  --rs-btn-subtle-text: @B200;
-  --rs-btn-subtle-hover-bg: @B700;
-  --rs-btn-subtle-hover-text: @B050;
-  --rs-btn-subtle-active-bg: @B400;
-  --rs-btn-subtle-active-text: @B000;
+  --rs-btn-default-bg: transparent;
+  --rs-btn-default-text: @H500;
+  --rs-btn-default-border: 1px solid @H500;
+  --rs-btn-default-hover-bg: transparent;
+  --rs-btn-default-hover-text: @H400;
+  --rs-btn-default-active-bg: transparent;
+  --rs-btn-default-active-text: @H200;
+  --rs-btn-default-disabled-bg: transparent;
+  --rs-btn-default-disabled-text: @H500;
+  --rs-btn-primary-bg: @H500;
+  --rs-btn-primary-text: @B900;
+  --rs-btn-primary-hover-bg: @H400;
+  --rs-btn-primary-active-bg: @H200;
+  --rs-btn-subtle-text: @H500;
+  --rs-btn-subtle-hover-bg: transparent;
+  --rs-btn-subtle-hover-text: @H400;
+  --rs-btn-subtle-active-bg: transparent;
+  --rs-btn-subtle-active-text: @H200;
   --rs-btn-subtle-disabled-text: @B500;
   --rs-btn-ghost-border: @H500;
   --rs-btn-ghost-text: @H500;
@@ -60,12 +63,12 @@
   --rs-btn-link-active-text: @H200;
 
   // Icon Button
-  --rs-iconbtn-addon: @B500;
-  --rs-iconbtn-activated-addon: @B400;
-  --rs-iconbtn-pressed-addon: @B200;
-  --rs-iconbtn-primary-addon: @H600;
-  --rs-iconbtn-primary-activated-addon: @H500;
-  --rs-iconbtn-primary-pressed-addon: @H400;
+  --rs-iconbtn-addon: transparent;
+  --rs-iconbtn-activated-addon: transparent;
+  --rs-iconbtn-pressed-addon: transparent;
+  --rs-iconbtn-primary-addon: @H400;
+  --rs-iconbtn-primary-activated-addon: @H300;
+  --rs-iconbtn-primary-pressed-addon: @H100;
 
   // Divider
   --rs-divider-border: @B600;
@@ -82,22 +85,26 @@
   --rs-message-success-header: #fff;
   --rs-message-success-text: #fff;
   --rs-message-success-icon: #fff;
-  --rs-message-success-bg: @green-500;
+  --rs-message-success-bg: @green-900;
+  --rs-message-success-border: @green-300;
   --rs-message-info-header: #fff;
   --rs-message-info-text: #fff;
   --rs-message-info-icon: #fff;
-  --rs-message-info-bg: @blue-500;
-  --rs-message-warning-header: @B900;
-  --rs-message-warning-text: @B900;
-  --rs-message-warning-icon: @B900;
-  --rs-message-warning-bg: @yellow-500;
+  --rs-message-info-bg: @blue-900;
+  --rs-message-info-border: @blue-500;
+  --rs-message-warning-header: #fff;
+  --rs-message-warning-text: #fff;
+  --rs-message-warning-icon: #fff;
+  --rs-message-warning-bg: @yellow-900;
+  --rs-message-warning-border: @yellow-500;
   --rs-message-error-header: #fff;
   --rs-message-error-text: #fff;
   --rs-message-error-icon: #fff;
-  --rs-message-error-bg: @red-500;
+  --rs-message-error-bg: @red-900;
+  --rs-message-error-border: @red-300;
 
   // Tooltip
-  --rs-tooltip-bg: @B500;
+  --rs-tooltip-bg: @B800;
   --rs-tooltip-text: @B000;
 
   // Progress
@@ -119,8 +126,8 @@
   --rs-dropdown-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2), 0 4px 4px 3px rgba(0, 0, 0, 0.24);
 
   // ARIA menu
-  --rs-menuitem-active-bg: @B600;
-  --rs-menuitem-active-text: currentColor;
+  --rs-menuitem-active-bg: transparent;
+  --rs-menuitem-active-text: @H500;
 
   // Steps
   --rs-steps-border: @B200;
@@ -135,9 +142,9 @@
 
   // Navs
   --rs-navs-text: @B200;
-  --rs-navs-text-hover: @B100;
-  --rs-navs-bg-hover: @B400;
-  --rs-navs-text-active: @B000;
+  --rs-navs-text-hover: @H500;
+  --rs-navs-bg-hover: transparent;
+  --rs-navs-text-active: @H500;
   --rs-navs-bg-active: @B400;
   --rs-navs-tab-border: @B600;
   --rs-navs-subtle-border: @B600;
@@ -145,19 +152,20 @@
 
   // Navbar
   --rs-navbar-default-bg: @B800;
-  --rs-navbar-default-text: @B200;
+  --rs-navbar-default-text: @B050;
   --rs-navbar-default-selected-text: @H500;
-  --rs-navbar-default-hover-bg: @B700;
-  --rs-navbar-default-hover-text: @B050;
-  --rs-navbar-inverse-bg: @H700;
-  --rs-navbar-inverse-text: #fff;
-  --rs-navbar-inverse-selected-bg: @H400;
-  --rs-navbar-inverse-hover-bg: @H600;
-  --rs-navbar-subtle-bg: transparent;
-  --rs-navbar-subtle-text: @B200;
+  --rs-navbar-default-hover-bg: transparent;
+  --rs-navbar-default-hover-text: @H500;
+  --rs-navbar-inverse-bg: @B800;
+  --rs-navbar-inverse-text: @B050;
+  --rs-navbar-inverse-selected-bg: transparent;
+  --rs-navbar-inverse-selected-text: @H500;
+  --rs-navbar-inverse-hover-bg: transparent;
+  --rs-navbar-subtle-bg: @B800;
+  --rs-navbar-subtle-text: @B050;
   --rs-navbar-subtle-selected-text: @H500;
-  --rs-navbar-subtle-hover-bg: @B700;
-  --rs-navbar-subtle-hover-text: @B050;
+  --rs-navbar-subtle-hover-bg: transparent;
+  --rs-navbar-subtle-hover-text: @H500;
 
   // Input
   --rs-input-bg: @B800;
@@ -165,40 +173,40 @@
   --rs-input-disabled-bg: @B700;
 
   // ARIA Listboxes
-  --rs-listbox-option-hover-bg: @B600;
-  --rs-listbox-option-hover-text: currentColor;
+  --rs-listbox-option-hover-bg: transparent;
+  --rs-listbox-option-hover-text: @H500;
   --rs-listbox-option-selected-text: @H500;
-  --rs-listbox-option-selected-bg: fade(@H900, 20%);
+  --rs-listbox-option-selected-bg: transparent;
   --rs-listbox-option-disabled-text: @B500;
   --rs-listbox-option-disabled-selected-text: @H200;
 
   // Checkbox
   --rs-checkbox-icon: @B800;
-  --rs-checkbox-border: @B400;
+  --rs-checkbox-border: @B100;
   --rs-checkbox-checked-bg: @H500;
   --rs-checkbox-disabled-bg: @B500;
 
   // Radio
   --rs-radio-marker: @B800;
-  --rs-radio-border: @B400;
+  --rs-radio-border: @B100;
   --rs-radio-checked-bg: @H500;
   --rs-radio-disabled-bg: @B500;
 
   // Rate
-  --rs-rate-symbol: @B600;
-  --rs-rate-symbol-checked: @yellow-500;
+  --rs-rate-symbol: @B100;
+  --rs-rate-symbol-checked: @H500;
 
   // Toggle
-  --rs-toggle-bg: @B400;
-  --rs-toggle-thumb: #fff;
-  --rs-toggle-hover-bg: @B300;
-  --rs-toggle-disabled-bg: @B600;
-  --rs-toggle-disabled-thumb: @B500;
-  --rs-toggle-checked-bg: @H700;
-  --rs-toggle-checked-thumb: #fff;
-  --rs-toggle-checked-hover-bg: @H600;
+  --rs-toggle-bg: @B800;
+  --rs-toggle-thumb: @B100;
+  --rs-toggle-hover-bg: @B800;
+  --rs-toggle-disabled-bg: @B800;
+  --rs-toggle-disabled-thumb: @B300;
+  --rs-toggle-checked-bg: @H500;
+  --rs-toggle-checked-thumb: @B800;
+  --rs-toggle-checked-hover-bg: @H400;
   --rs-toggle-checked-disabled-bg: @H900;
-  --rs-toggle-checked-disabled-thumb: @B300;
+  --rs-toggle-checked-disabled-thumb: @B800;
 
   // Slider
   --rs-slider-bar: @B600;
@@ -210,7 +218,8 @@
 
   // Uploader
   --rs-uploader-item-bg: @B300;
-  --rs-uploader-item-hover-bg: @B600;
+  --rs-uploader-item-hover-bg: @B800;
+  --rs-uploader-item-hover-text: @H500;
   --rs-uploader-overlay-bg: fade(@B600, 80);
   --rs-uploader-dnd-bg: @B700;
   --rs-uploader-dnd-border: @B200;
@@ -221,7 +230,7 @@
   --rs-avatar-text: @B000;
 
   // Badge
-  --rs-badge-bg: @red;
+  --rs-badge-bg: @red-500;
   --rs-badge-text: @B000;
 
   // Tag
@@ -237,8 +246,12 @@
   // Panel
   --rs-panel-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
+  // Pagination
+  --rs-pagination-item-text: @B050;
+  --rs-pagination-item-current-text: @H500;
+
   // List
-  --rs-list-bg: @B900;
+  --rs-list-bg: transparent;
   --rs-list-border: @B700;
   --rs-list-hover-bg: @B600;
   --rs-list-placeholder-bg: fade(@H900, 20%);
@@ -258,27 +271,29 @@
   --rs-table-scrollbar-vertical-track: @B700;
 
   // Drawer
+  --rs-drawer-bg: @B700;
   --rs-drawer-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // Modal
   --rs-modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+  --rs-modal-border: 1px solid @B100;
 
   // Form
   --rs-form-errormessage-text: #fff;
-  --rs-form-errormessage-bg: @red;
-  --rs-form-errormessage-border: @red;
+  --rs-form-errormessage-bg: @red-500;
+  --rs-form-errormessage-border: @red-500;
 
   // Picker
   --rs-picker-value: @H500;
-  --rs-picker-count-bg: @H700;
-  --rs-picker-count-text: #fff;
+  --rs-picker-count-bg: @H500;
+  --rs-picker-count-text: @B900;
 
   // Calendar
-  --rs-calendar-today-bg: @H700;
-  --rs-calendar-today-text: #fff;
+  --rs-calendar-today-bg: @H500;
+  --rs-calendar-today-text: @B900;
   --rs-calendar-range-bg: fade(@H900, 50%);
-  --rs-calendar-time-unit-bg: @B600;
-  --rs-calendar-date-selected-text: #fff;
+  --rs-calendar-time-unit-bg: @B900;
+  --rs-calendar-date-selected-text: @B900;
 
   // Popover
   --rs-popover-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);

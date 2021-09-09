@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, CustomProvider } from 'rsuite';
+import { Grid, CustomProvider, CustomProviderProps } from 'rsuite';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import AppContext from '@/components/AppContext';
@@ -55,7 +55,7 @@ function App({ Component, pageProps }: AppProps) {
     readTheme,
     [getDefaultTheme()]
   );
-  const [themeName, setThemeName] = React.useState(defaultThemeName);
+  const [themeName, setThemeName] = React.useState<CustomProviderProps['theme']>(defaultThemeName);
   const [direction, setDirection] = React.useState(defaultDirection);
   const [language, setLanguage] = React.useState(pageProps.userLanguage);
   const [styleLoaded, setStyleLoaded] = React.useState(false);
@@ -65,11 +65,13 @@ function App({ Component, pageProps }: AppProps) {
     setStyleLoaded(true);
   }, []);
 
-  const onChangeTheme = React.useCallback(() => {
-    const newThemeName = themeName === 'default' ? 'dark' : 'default';
-    setThemeName(newThemeName);
-    writeTheme(newThemeName, direction);
-  }, [themeName, direction]);
+  const onChangeTheme = React.useCallback(
+    newThemeName => {
+      setThemeName(newThemeName);
+      writeTheme(newThemeName, direction);
+    },
+    [direction]
+  );
 
   React.useEffect(() => {
     if (!canUseDOM) {
@@ -112,7 +114,7 @@ function App({ Component, pageProps }: AppProps) {
     [themeName]
   );
 
-  const onChangeDirection = React.useCallback(async () => {
+  const onChangeDirection = React.useCallback(() => {
     const newDirection = direction === 'ltr' ? 'rtl' : 'ltr';
     setDirection(newDirection);
   }, [direction]);
@@ -129,11 +131,7 @@ function App({ Component, pageProps }: AppProps) {
 
   return (
     <React.StrictMode>
-      <CustomProvider
-        locale={locale}
-        rtl={direction === 'rtl'}
-        theme={themeName === 'default' ? 'light' : 'dark'}
-      >
+      <CustomProvider locale={locale} rtl={direction === 'rtl'} theme={themeName}>
         <Grid fluid className="app-container">
           <AppContext.Provider
             value={{

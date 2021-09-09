@@ -590,7 +590,13 @@
 
     &&-active {
       background-color: var(--rs-bg-active);
-      color: #fff;
+      color: var(--rs-calendar-date-selected-text);
+
+      .high-contrast-mode({
+        &:hover {
+          .listbox-option-active();
+        }
+      });
     }
 
     &&-disabled {

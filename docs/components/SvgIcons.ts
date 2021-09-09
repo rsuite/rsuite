@@ -15,6 +15,7 @@ export const { default: Ltr } = require('@/resources/images/ltr.svg');
 export const { default: Avatar } = require('@/resources/images/avatar-user.svg');
 export const { default: Light } = require('@/resources/images/light.svg');
 export const { default: Dark } = require('@/resources/images/dark.svg');
+export const { default: HighContrast } = require('@/resources/images/high-contrast.svg');
 export const { default: More } = require('@/resources/images/more.svg');
 export const { default: Language } = require('@/resources/images/language.svg');
 export const { default: Transparent } = require('@/resources/images/transparent.svg');

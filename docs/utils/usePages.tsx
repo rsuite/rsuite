@@ -48,6 +48,10 @@ export default function usePages(): Menu[] {
           name: messages?.common?.darkMode
         },
         {
+          id: 'high-contrast-mode',
+          name: messages?.common?.highContrastMode
+        },
+        {
           id: 'themes',
           name: messages?.common?.customizeTheme
         },
