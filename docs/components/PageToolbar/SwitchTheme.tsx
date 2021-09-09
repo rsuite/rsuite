@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { CustomProviderProps, Dropdown, IconButton, Popover, Whisper } from 'rsuite';
 import { Icon } from '@rsuite/icons';
-import { Light, Dark } from '@/components/SvgIcons';
+import { Light, Dark, HighContrast } from '@/components/SvgIcons';
 import AppContext from '@/components/AppContext';
 
 export function SwitchTheme() {
@@ -14,7 +14,7 @@ export function SwitchTheme() {
     {
       light: Light,
       dark: Dark,
-      'high-contrast': Dark
+      'high-contrast': HighContrast
     }[themeName] ?? Light;
 
   return (
@@ -36,7 +36,9 @@ export function SwitchTheme() {
             <Dropdown.Item eventKey="dark" icon={<Icon as={Dark} />}>
               Dark
             </Dropdown.Item>
-            <Dropdown.Item eventKey="high-contrast">High contrast</Dropdown.Item>
+            <Dropdown.Item eventKey="high-contrast" icon={<Icon as={HighContrast} />}>
+              High contrast
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Popover>
       )}
