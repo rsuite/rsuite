@@ -126,7 +126,6 @@ Learn more in [Accessibility](/guide/accessibility).
 | hideHours             | (hour:number, date:Date) => boolean                     | Hidden hours                                                                         |
 | hideMinutes           | (minute:number, date:Date) => boolean                   | Hidden minutes                                                                       |
 | hideSeconds           | (second:number, date:Date) => boolean                   | Hidden seconds                                                                       |
-| inline                | boolean                                                 | Display date panel when component initial                                            |
 | isoWeek               | boolean                                                 | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day |
 | limitEndYear          | number `(1000)`                                         | Set the lower limit of the available year relative to the current selection date     |
 | locale                | [CalendarLocaleType](/guide/i18n/#calendar)             | Locale text                                                                          |
