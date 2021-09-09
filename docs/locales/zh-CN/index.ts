@@ -14,8 +14,6 @@ export default {
     usage: '快速开始',
     useWithCreateReactApp: '在 create-react-app 中使用',
     useNextApp: '在 Next.js 中使用',
-    darkMode: '深色模式',
-    highContrastMode: '高对比度模式',
     officialThemes: '官方主题',
     customization: '个性化定制',
     i18n: '国际化',
