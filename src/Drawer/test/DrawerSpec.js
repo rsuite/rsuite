@@ -44,6 +44,6 @@ describe('Drawer', () => {
 
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Drawer classPrefix="custom-prefix" open />);
-    assert.include(instance.querySelector('.fade').className, 'custom-prefix');
+    assert.isNotNull(instance.querySelector('.rs-custom-prefix'));
   });
 });
