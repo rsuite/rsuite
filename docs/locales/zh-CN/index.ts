@@ -48,12 +48,6 @@ export default {
     composition: '组件封装',
     examples: '示例项目'
   },
-  palette: {
-    title: '分析产品商标颜色',
-    step1: '上传产品的 Logo',
-    step2: '通过分析 Logo 中的配色，制作主题颜色',
-    step3: '点击 Logo 合适的位置，改变主题颜色'
-  },
   resourcesDesign: {
     defaultHeader: '组件设计 - 默认主题',
     defaultDescription: '组件设计在线访问版本',

@@ -166,15 +166,23 @@ return (
 
 ### 7. [Add support for TagInput](/components/tag-input/)
 
+The enhancement of Input supports input tags and management tags.
+
 ```ts
 import TagInput from 'rsuite/TagInput';
 
 return <TagInput defaultValue={['HTML', 'CSS']} trigger={['Enter', 'Space', 'Comma']} />;
 ```
 
+### 8.Support `onSelect`, `onSlideEnd`, `onSlideStart` on `<Carousel>`
+
+- `onSelect`: Callback fired when the active item changes
+- `onSlideEnd`: Callback fired when a slide transition ends
+- `onSlideStart`: Callback fired when a slide transition starts
+
 ---
 
-## To v5 from v4
+## Upgrading To v5 From v4
 
 The v5 version has been released, and then I will provide you with guidance so that you can quickly upgrade from v4 to v5.
 

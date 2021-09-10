@@ -49,12 +49,6 @@ export default {
     composition: 'Composition',
     examples: 'Example Projects'
   },
-  palette: {
-    title: 'Get the product color',
-    step1: 'Upload the Logo of the product',
-    step2: 'By analyzing the color of the Logo, make the theme color',
-    step3: 'Click on the location of the Logo to change the theme color'
-  },
   resourcesDesign: {
     defaultHeader: 'Design - Light theme',
     defaultDescription: 'Component design - Sketch Measure.',

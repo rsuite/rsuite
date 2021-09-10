@@ -169,11 +169,19 @@ return (
 
 ### 7.[新增 TagInput 组件](/zh/components/tag-input/)
 
+对 Input 的增强，支持输入标签，管理标签。
+
 ```ts
 import TagInput from 'rsuite/TagInput';
 
 return <TagInput defaultValue={['HTML', 'CSS']} trigger={['Enter', 'Space', 'Comma']} />;
 ```
+
+### 8.在 `<Carousel>` 组件上支持 `onSelect`, `onSlideEnd`, `onSlideStart` 属性。
+
+- `onSelect`: 活动项更改时触发的回调
+- `onSlideEnd`: 幻灯片过渡结束时触发的回调
+- `onSlideStart`: 幻灯片过渡开始时触发的回调
 
 ---
 
