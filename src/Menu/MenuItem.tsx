@@ -39,7 +39,9 @@ function MenuItem(props: MenuItemProps) {
   const [menuState, dispatch] = menu ?? [];
 
   // Whether this menuitem has focus (indicated by `aria-activedescendant` from parent menu)
-  const hasFocus = menuState?.items[menuState?.activeItemIndex]?.element === menuitemRef.current;
+  const hasFocus =
+    menuState?.items[menuState?.activeItemIndex]?.element === menuitemRef.current &&
+    !!menuitemRef.current;
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLLIElement>) => {
