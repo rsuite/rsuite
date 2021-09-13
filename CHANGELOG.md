@@ -1,3 +1,16 @@
+<a name="4.10.3"></a>
+## [4.10.3](https://github.com/rsuite/rsuite/compare/4.10.2...4.10.3) (2021-09-13)
+
+
+### Bug Fixes
+
+* **deps:** remove recompose dep ([#1864](https://github.com/rsuite/rsuite/issues/1864)) ([d293e9d](https://github.com/rsuite/rsuite/commit/d293e9d))
+* fix some issues of docs styles ([#1846](https://github.com/rsuite/rsuite/issues/1846)) ([a8c4262](https://github.com/rsuite/rsuite/commit/a8c4262))
+* **cascader:** update the position after the overlay size is changed ([#1779](https://github.com/rsuite/rsuite/issues/1779)) ([d073f22](https://github.com/rsuite/rsuite/commit/d073f22))
+* **date-picker:** fix AM/PM display incorrect issue when switching hours ([#1822](https://github.com/rsuite/rsuite/issues/1822)) ([1e67b89](https://github.com/rsuite/rsuite/commit/1e67b89))
+
+
+
 <a name="4.10.2"></a>
 
 ## [4.10.2](https://github.com/rsuite/rsuite/compare/4.10.1...4.10.2) (2021-06-03)
