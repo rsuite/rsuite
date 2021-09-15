@@ -4,9 +4,9 @@
 /**
  * import data from
  * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- * 
+ *
  * import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
- * 
+ *
  */
 
 const App = () => {

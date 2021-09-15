@@ -3,14 +3,14 @@
 ```js
 const panelStyles = {
   padding: '15px 20px',
-  color: '#aaa',
+  color: '#aaa'
 };
 
 const headerStyles = {
   padding: 20,
   fontSize: 16,
   background: '#34c3ff',
-  color: ' #fff',
+  color: ' #fff'
 };
 
 const instance = (

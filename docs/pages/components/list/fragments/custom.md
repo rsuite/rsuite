@@ -10,7 +10,7 @@ const data = [
     peak: 3223,
     peakRaise: 433,
     uv: 433,
-    uvRaise: 33,
+    uvRaise: 33
   },
   {
     title: 'Celebrate Mid-Autumn Festival',
@@ -20,7 +20,7 @@ const data = [
     peak: 3223,
     peakRaise: 238,
     uv: 238,
-    uvRaise: 28,
+    uvRaise: 28
   },
   {
     title: 'Live basketball',
@@ -30,7 +30,7 @@ const data = [
     peak: 4238,
     peakRaise: -239,
     uv: 239,
-    uvRaise: 29,
+    uvRaise: 29
   },
   {
     title: 'Legislative Yuan meeting live',
@@ -40,7 +40,7 @@ const data = [
     peak: 4238,
     peakRaise: 2321,
     uv: 921,
-    uvRaise: 91,
+    uvRaise: 91
   },
   {
     title: 'Iwank Patch',
@@ -50,32 +50,32 @@ const data = [
     peak: 2321,
     peakRaise: 1321,
     uv: 321,
-    uvRaise: 132,
-  },
+    uvRaise: 132
+  }
 ];
 const styleCenter = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  height: '60px',
+  height: '60px'
 };
 
 const slimText = {
   fontSize: '0.666em',
   color: '#97969B',
   fontWeight: 'lighter',
-  paddingBottom: 5,
+  paddingBottom: 5
 };
 
 const titleStyle = {
   paddingBottom: 5,
   whiteSpace: 'nowrap',
-  fontWeight: 500,
+  fontWeight: 500
 };
 
 const dataStyle = {
   fontSize: '1.2em',
-  fontWeight: 500,
+  fontWeight: 500
 };
 
 class ListDemo extends React.Component {
@@ -91,7 +91,7 @@ class ListDemo extends React.Component {
       <span
         style={{
           paddingLeft: 15,
-          color: isNegative ? 'red' : 'green',
+          color: isNegative ? 'red' : 'green'
         }}
       >
         <span>{isPositive ? '+' : null}</span>
@@ -111,8 +111,8 @@ class ListDemo extends React.Component {
                 {React.cloneElement(item['icon'], {
                   style: {
                     color: 'darkgrey',
-                    fontSize: '1.5em',
-                  },
+                    fontSize: '1.5em'
+                  }
                 })}
               </FlexboxGrid.Item>
               {/*base info*/}
@@ -122,7 +122,7 @@ class ListDemo extends React.Component {
                   ...styleCenter,
                   flexDirection: 'column',
                   alignItems: 'flex-start',
-                  overflow: 'hidden',
+                  overflow: 'hidden'
                 }}
               >
                 <div style={titleStyle}>{item['title']}</div>
@@ -154,7 +154,7 @@ class ListDemo extends React.Component {
               <FlexboxGrid.Item
                 colspan={4}
                 style={{
-                  ...styleCenter,
+                  ...styleCenter
                 }}
               >
                 <a href="#">View</a>

@@ -12,7 +12,7 @@ const App = () => {
       });
     }
   };
-  
+
   const handleOffEvent = () => {
     if (listenerRef.current) {
       listenerRef.current.off();

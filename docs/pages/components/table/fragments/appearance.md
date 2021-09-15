@@ -130,7 +130,8 @@ const App = () => {
         </span>
       </div>
       <hr />
-      Columns：<TagPicker
+      Columns：
+      <TagPicker
         data={defaultColumns}
         labelKey="label"
         valueKey="key"

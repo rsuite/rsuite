@@ -1,1 +1,3 @@
-```bashnpm install --save @rsuite/icons```
+```bash
+npm install --save @rsuite/icons
+```
