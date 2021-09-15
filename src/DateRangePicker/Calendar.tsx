@@ -21,7 +21,8 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   isoWeek?: boolean;
   limitEndYear?: number;
   locale?: DatePickerLocale;
-  onChangeCalendarDate?: (index: number, nextPageDate: Date) => void;
+  onChangeCalendarDate?: (index: number, date: Date) => void;
+  onChangeCalendarTime?: (index: number, date: Date) => void;
   onMouseMove?: (date: Date) => void;
   onSelect?: (date: Date, event?: React.SyntheticEvent<any>) => void;
   showOneCalendar?: boolean;
@@ -46,6 +47,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       index,
       limitEndYear,
       onChangeCalendarDate,
+      onChangeCalendarTime,
       showOneCalendar,
       value,
       ...rest
@@ -76,9 +78,9 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
 
     const handleChangePageTime = useCallback(
       (nextPageDate: Date) => {
-        onChangeCalendarDate(index, nextPageDate);
+        onChangeCalendarTime(index, nextPageDate);
       },
-      [index, onChangeCalendarDate]
+      [index, onChangeCalendarTime]
     );
 
     const toggleMonthDropdown = useCallback(() => {
@@ -93,10 +95,10 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       );
     }, [calendarState]);
 
-    const inSameMonth = useCallback((date: Date) => isSameMonth(date, calendarDate[index]), [
-      calendarDate,
-      index
-    ]);
+    const inSameMonth = useCallback(
+      (date: Date) => isSameMonth(date, calendarDate[index]),
+      [calendarDate, index]
+    );
 
     const getCalendarDate = useCallback(() => calendarDate[index], [calendarDate, index]);
 

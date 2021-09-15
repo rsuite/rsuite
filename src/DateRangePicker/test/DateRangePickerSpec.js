@@ -9,9 +9,13 @@ import {
   startOfWeek,
   startOfMonth,
   endOfMonth,
-  subDays
+  subDays,
+  setHours,
+  setMinutes,
+  setSeconds
 } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
+import { isSameValueType } from '../utils';
 
 import DateRangePicker from '../DateRangePicker';
 
@@ -76,7 +80,7 @@ describe('DateRangePicker', () => {
     );
   });
 
-  it('Should output custom value with time selection', () => {
+  it('Should output custom value with time', () => {
     const now = new Date();
     const yesterday = subDays(now, 1);
     const template = 'MM/dd/yyyy hh:mm:ss';
@@ -92,6 +96,65 @@ describe('DateRangePicker', () => {
     assert.equal(
       instance.target.querySelector('.rs-picker-toggle-value').innerText,
       `${format(yesterday, template)}~${format(now, template)}`
+    );
+  });
+
+  it('Should select date and time successfully', () => {
+    const now = new Date();
+    const nextday = addDays(now, 1);
+    const template = 'dd MMM yyyy hh:mm:ss';
+    const onOkSpy = sinon.spy();
+
+    const instance = getInstance(<DateRangePicker format={template} defaultOpen onOk={onOkSpy} />);
+    const picker = instance.overlay;
+
+    const todayCell = '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content';
+    const nextdayCell =
+      '.rs-calendar-table-cell-is-today + .rs-calendar-table-cell .rs-calendar-table-cell-content';
+
+    // select start date and end date
+    ReactTestUtils.Simulate.click(picker.querySelector(todayCell));
+    ReactTestUtils.Simulate.mouseEnter(picker.querySelector(nextdayCell));
+    ReactTestUtils.Simulate.click(picker.querySelector(nextdayCell));
+
+    function generateTimeItem(calendarIndex, type, index) {
+      return `.rs-calendar[index="${calendarIndex}"] .rs-calendar-time-dropdown ul[data-type="${type}"]>li:nth-child(${index}) .rs-calendar-time-dropdown-cell`;
+    }
+
+    const startTimeToolbar = '.rs-calendar[index="0"] .rs-calendar-header-time-toolbar';
+    const endTimeToolbar = '.rs-calendar[index="1"] .rs-calendar-header-time-toolbar';
+
+    // click the left calendar time toolbar, display time selection panel
+    ReactTestUtils.Simulate.click(picker.querySelector(startTimeToolbar));
+    // select time to 6:6:6
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(0, 'hours', 7)));
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(0, 'minutes', 7)));
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(0, 'seconds', 7)));
+    // close the left calendar time picker panel.
+    ReactTestUtils.Simulate.click(picker.querySelector(startTimeToolbar));
+
+    // click the right calendar time toolbar, display time selection panel
+    ReactTestUtils.Simulate.click(picker.querySelector(endTimeToolbar));
+    // select time to 9:9:9
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(1, 'hours', 10)));
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(1, 'minutes', 10)));
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(1, 'seconds', 10)));
+    ReactTestUtils.Simulate.click(picker.querySelector(endTimeToolbar));
+
+    ReactTestUtils.Simulate.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
+
+    const result = Array.from([now, nextday]);
+
+    result[0].setHours(6);
+    result[0].setMinutes(6);
+    result[0].setSeconds(6);
+    result[1].setHours(9);
+    result[1].setMinutes(9);
+    result[1].setSeconds(9);
+
+    assert.equal(
+      instance.target.querySelector('.rs-picker-toggle-value').innerText,
+      `${format(result[0], template)} ~ ${format(result[1], template)}`
     );
   });
 

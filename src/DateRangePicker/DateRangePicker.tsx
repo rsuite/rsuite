@@ -33,7 +33,17 @@ import {
   useControlled,
   useCustom
 } from '../utils';
-import { addMonths, compareAsc, isSameMonth } from '../utils/dateUtils';
+import {
+  addMonths,
+  compareAsc,
+  isSameMonth,
+  setHours,
+  setMinutes,
+  setSeconds,
+  getSeconds,
+  getHours,
+  getMinutes
+} from '../utils/dateUtils';
 import Calendar from './Calendar';
 import * as disabledDateUtils from './disabledDateUtils';
 import { DisabledDateFunction, RangeType, ValueType } from './types';
@@ -445,15 +455,28 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       const nextCalendarDate = Array.from(calendarDate);
       nextCalendarDate[index] = date;
       updateCalendarDate(nextCalendarDate as ValueType);
+    },
+    [calendarDate, updateCalendarDate]
+  );
+
+  const handleChangeCalendarTime = useCallback(
+    (index: number, date: Date) => {
+      const nextHour = getHours(date);
+      const nextMinutes = getMinutes(date);
+      const nextSeconds = getSeconds(date);
 
       setSelectValue(prev => {
         const next = Array.from(prev) as ValueType;
-        next[index] = date;
+
+        next[index].setHours(nextHour);
+        next[index].setMinutes(nextMinutes);
+        next[index].setSeconds(nextSeconds);
 
         return next;
       });
+      handleChangeCalendarDate(index, date);
     },
-    [calendarDate, updateCalendarDate]
+    [handleChangeCalendarDate]
   );
 
   /**
@@ -655,6 +678,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       showWeekNumbers,
       value: selectValue,
       onChangeCalendarDate: handleChangeCalendarDate,
+      onChangeCalendarTime: handleChangeCalendarTime,
       onMouseMove: handleMouseMove,
       onSelect: handleSelectValueChange
     };
