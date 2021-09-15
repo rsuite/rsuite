@@ -189,6 +189,7 @@ type DisabledDateFunction = (
 | defaultValue         | ValueType                                               | 默认值                                                    |
 | disabled             | boolean                                                 | 禁用组件                                                  |
 | disabledDate         | DisabledDateFunction                                    | 禁用日期                                                  |
+| format               | string `('yyyy-MM-dd')`                                 | 日期显示格式化                                            |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => ValueType    | 点击日期时将选中的日期范围                                |
 | isoWeek              | boolean                                                 | ISO 8601 标准， 每个日历星期从星期一开始，星期日为第 7 天 |
 | limitEndYear         | number `(1000)`                                         | 相对当前选择日期，设置可选年份下限                        |

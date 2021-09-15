@@ -187,6 +187,7 @@ type DisabledDateFunction = (
 | defaultValue         | ValueType                                               | Default value                                                                        |
 | disabled             | boolean                                                 | Whether disabled the component                                                       |
 | disabledDate         | DisabledDateFunction                                    | Disabled data                                                                        |
+| format               | string `('yyyy-MM-dd')`                                 | Format date                                                                          |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => ValueType    | The date range that will be selected when you click on the date                      |
 | isoWeek              | boolean                                                 | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day |
 | limitEndYear         | number `(1000)`                                         | Sets the lower limit of the available year relative to the current selection date    |
