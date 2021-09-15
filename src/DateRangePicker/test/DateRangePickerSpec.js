@@ -76,6 +76,25 @@ describe('DateRangePicker', () => {
     );
   });
 
+  it('Should output custom value with time selection', () => {
+    const now = new Date();
+    const yesterday = subDays(now, 1);
+    const template = 'MM/dd/yyyy hh:mm:ss';
+    const instance = getInstance(
+      <DateRangePicker
+        value={[yesterday, now]}
+        renderValue={value => {
+          return `${format(value[0], template)}~${format(value[1], template)}`;
+        }}
+      />
+    );
+
+    assert.equal(
+      instance.target.querySelector('.rs-picker-toggle-value').innerText,
+      `${format(yesterday, template)}~${format(now, template)}`
+    );
+  });
+
   it('Should call `onChange` callback', () => {
     const onChangeSpy = sinon.spy();
     const instance = getInstance(<DateRangePicker onChange={onChangeSpy} defaultOpen oneTap />);
