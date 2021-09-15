@@ -1,22 +1,17 @@
+import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import {
   addDays,
+  endOfMonth,
   endOfWeek,
   format,
   isSameDay,
   parseISO,
-  startOfWeek,
   startOfMonth,
-  endOfMonth,
-  subDays,
-  setHours,
-  setMinutes,
-  setSeconds
+  startOfWeek,
+  subDays
 } from '../../utils/dateUtils';
-import { getDOMNode, getInstance } from '@test/testUtils';
-import { isSameValueType } from '../utils';
-
 import DateRangePicker from '../DateRangePicker';
 
 describe('DateRangePicker', () => {

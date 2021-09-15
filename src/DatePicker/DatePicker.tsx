@@ -1,14 +1,28 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import mapValues from 'lodash/mapValues';
-import pick from 'lodash/pick';
-import omit from 'lodash/omit';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
 import IconClockO from '@rsuite/icons/legacy/ClockO';
+import mapValues from 'lodash/mapValues';
+import omit from 'lodash/omit';
+import pick from 'lodash/pick';
+import PropTypes from 'prop-types';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
 import { Calendar, CalendarState } from '../Calendar';
 import useCalendarDate from '../Calendar/useCalendarDate';
-import Toolbar, { RangeType } from './Toolbar';
 import { DatePickerLocale } from '../locales';
+import {
+  omitTriggerPropKeys,
+  OverlayTriggerInstance,
+  pickerDefaultProps,
+  PickerOverlay,
+  pickerPropTypes,
+  PickerToggle,
+  PickerToggleTrigger,
+  pickTriggerPropKeys,
+  PositionChildProps,
+  usePickerClassName,
+  usePublicMethods,
+  useToggleKeyDownEvent
+} from '../Picker';
 import {
   composeFunctions,
   createChainedFunction,
@@ -18,24 +32,7 @@ import {
   useControlled,
   useCustom
 } from '../utils';
-
-import {
-  PickerOverlay,
-  OverlayTriggerInstance,
-  pickerDefaultProps,
-  pickerPropTypes,
-  PickerToggle,
-  PickerToggleTrigger,
-  pickTriggerPropKeys,
-  omitTriggerPropKeys,
-  PositionChildProps,
-  usePickerClassName,
-  usePublicMethods,
-  useToggleKeyDownEvent
-} from '../Picker';
-
-import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
-
+import Toolbar, { RangeType } from './Toolbar';
 import { useCalendarState } from './utils';
 
 export type { RangeType } from './Toolbar';

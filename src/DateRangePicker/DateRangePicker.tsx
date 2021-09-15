@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
 import partial from 'lodash/partial';
 import pick from 'lodash/pick';
 import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormControlBaseProps, PickerBaseProps } from '../@types/common';
 import { FormattedDate } from '../CustomProvider';
 import Toolbar from '../DatePicker/Toolbar';
@@ -36,13 +36,10 @@ import {
 import {
   addMonths,
   compareAsc,
-  isSameMonth,
-  setHours,
-  setMinutes,
-  setSeconds,
-  getSeconds,
   getHours,
-  getMinutes
+  getMinutes,
+  getSeconds,
+  isSameMonth
 } from '../utils/dateUtils';
 import Calendar from './Calendar';
 import * as disabledDateUtils from './disabledDateUtils';
