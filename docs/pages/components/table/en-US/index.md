@@ -240,6 +240,10 @@ In some cases, you need to merge the relationships between columns to organize y
 
 > When `lastName` corresponds to a column value of `null` or `undefined`, it is merged by the `firstName` column.
 
+### Rowspan
+
+<!--{include:`rowspan.md`}-->
+
 ### Summary
 
 <!--{include:`summary.md`}-->
@@ -354,6 +358,7 @@ scrollLeft: (left: number) => void;
 | minWidth      | number`(200)`                                    | When you use `flexGrow`, you can set a minimum width by `minwidth`                                          |
 | onResize      | (columnWidth?: number, dataKey?: string) => void | Callback after column width change                                                                          |
 | resizable     | boolean                                          | Customizable Resize Column width                                                                            |
+| rowSpan       | (rowData: any) => number                         | Merges rows on the specified column.                                                                        |
 | sortable      | boolean                                          | Sortable                                                                                                    |
 | treeCol       | boolean                                          | A column of a tree.                                                                                         |
 | verticalAlign | enum: 'top', 'middle', 'bottom'                  | Vertical alignment                                                                                          |

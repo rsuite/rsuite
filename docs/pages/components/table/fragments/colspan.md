@@ -2,8 +2,8 @@
 
 ```js
 /**
- * import fakeDataForColSpan from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-colspan.json
+ * import fakeMergeCellsData from
+ * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-merge-cells.json
  */
 
 const App = () => {
@@ -13,7 +13,7 @@ const App = () => {
       cellBordered
       height={420}
       headerHeight={80}
-      data={fakeDataForColSpan}
+      data={fakeMergeCellsData}
       onRowClick={data => {
         console.log(data);
       }}

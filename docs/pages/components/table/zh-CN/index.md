@@ -220,7 +220,7 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 };
 ```
 
-### 合并单元格
+### 合并列
 
 <!--{include:`colspan.md`}-->
 
@@ -242,6 +242,10 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 ```
 
 > 当 `lastName` 对应列的值为 `null` 或者 `undefined` 的时候，则会被 `firstName` 列合并。
+
+### 合并行
+
+<!--{include:`rowspan.md`}-->
 
 ### 汇总
 
@@ -350,6 +354,7 @@ scrollLeft: (left: number) => void;
 | minWidth      | number`(200)`                                    | 当使用了 `flexGrow` 以后，可以通过 `minWidth` 设置一个最小宽度                        |
 | onResize      | (columnWidth?: number, dataKey?: string) => void | 列宽改变后的回调                                                                      |
 | resizable     | boolean                                          | 可自定义调整列宽                                                                      |
+| rowSpan       | (rowData: any) => number                         | 合并指定列上的行                                                                      |
 | sortable      | boolean                                          | 可排序                                                                                |
 | treeCol       | boolean                                          | 指定列显示为 Tree                                                                     |
 | verticalAlign | enum: 'top', 'middle', 'bottom'                  | 垂直对齐方式                                                                          |
@@ -360,13 +365,13 @@ scrollLeft: (left: number) => void;
 
 ### `<Table.ColumnGroup>`
 
-| 属性名称          | 类型 `(默认值)`                 | 描述                                                            |
-| ----------------- | ------------------------------- | --------------------------------------------------------------- |
-| align             | enum: 'left','center','right'   | 对齐方式                                                        |
-| fixed             | boolean, 'left', 'right'        | 固定列组                                                        |
+| 属性名称          | 类型 `(默认值)`                 | 描述                                                                   |
+| ----------------- | ------------------------------- | ---------------------------------------------------------------------- |
+| align             | enum: 'left','center','right'   | 对齐方式                                                               |
+| fixed             | boolean, 'left', 'right'        | 固定列组                                                               |
 | groupHeaderHeight | number                          | 合并单元格组的标题高度。 默认值是 Table 属性 `headerHeight` 50% 的值。 |
-| header            | ReactNode                       | 分组表头                                                        |
-| verticalAlign     | enum: 'top', 'middle', 'bottom' | 垂直对齐方式                                                    |
+| header            | ReactNode                       | 分组表头                                                               |
+| verticalAlign     | enum: 'top', 'middle', 'bottom' | 垂直对齐方式                                                           |
 
 ### `<Table.Cell>`
 

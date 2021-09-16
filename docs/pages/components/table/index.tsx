@@ -32,7 +32,7 @@ export default function Page() {
   const { response: fakeData } = useFetchData('users');
   const { response: fakeTreeData } = useFetchData('tree-data');
   const { response: fakeLargeData } = useFetchData('large-data');
-  const { response: fakeDataForColSpan } = useFetchData('users-colspan');
+  const { response: fakeMergeCellsData } = useFetchData('users-merge-cells');
 
   return (
     <DefaultPage
@@ -42,7 +42,7 @@ export default function Page() {
         Toggle,
         fakeData,
         fakeTreeData,
-        fakeDataForColSpan,
+        fakeMergeCellsData,
         fakeLargeData,
         Popover,
         Whisper,
