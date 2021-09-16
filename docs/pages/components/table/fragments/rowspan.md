@@ -8,15 +8,7 @@
 
 const App = () => {
   return (
-    <Table
-      bordered
-      cellBordered
-      autoHeight
-      data={fakeMergeCellsData}
-      onRowClick={data => {
-        console.log(data);
-      }}
-    >
+    <Table bordered cellBordered autoHeight data={fakeMergeCellsData} hover={false}>
       <Column
         width={200}
         verticalAlign="middle"
