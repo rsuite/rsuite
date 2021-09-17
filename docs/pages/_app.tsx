@@ -78,10 +78,22 @@ function App({ Component, pageProps }: AppProps) {
       return;
     }
     const media = matchMedia('(prefers-color-scheme: dark)');
-    media?.addEventListener?.('change', onChangeTheme);
+
+    // todo Improve the preference logic
+    // e.g. whether use prefers high-contrast theme when in dark mode
+    function handlePrefersColorSchemeChange(e: MediaQueryListEvent) {
+      // prefers dark
+      if (e.matches) {
+        onChangeTheme('dark');
+      } else {
+        onChangeTheme('light');
+      }
+    }
+
+    media?.addEventListener?.('change', handlePrefersColorSchemeChange);
 
     return () => {
-      media?.removeEventListener?.('change', onChangeTheme);
+      media?.removeEventListener?.('change', handlePrefersColorSchemeChange);
     };
   }, [themeName, direction, onChangeTheme]);
 
