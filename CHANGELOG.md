@@ -1,3 +1,19 @@
+<a name="5.0.0-beta.8"></a>
+# [5.0.0-beta.8](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.7...v5.0.0-beta.8) (2021-09-17)
+
+
+### Bug Fixes
+
+* **date-picker:** fix calendar header wrapping ([#1907](https://github.com/rsuite/rsuite/issues/1907)) ([4cfc3af](https://github.com/rsuite/rsuite/commit/4cfc3af))
+* **navbar,dropdown:** unexpected focus submenu ([#1908](https://github.com/rsuite/rsuite/issues/1908)) ([697aa3e](https://github.com/rsuite/rsuite/commit/697aa3e))
+
+
+### Features
+
+* **table:** support `rowSpan` on `<Table.Column>` ([#1909](https://github.com/rsuite/rsuite/issues/1909)) ([34a3a1f](https://github.com/rsuite/rsuite/commit/34a3a1f))
+
+
+
 <a name="5.0.0-beta.7"></a>
 
 # [5.0.0-beta.7](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.6...v5.0.0-beta.7) (2021-09-09)
