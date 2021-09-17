@@ -48,7 +48,21 @@ We refactored most of our components using function component and adopted the ne
 
 ## Improvements in components
 
-### 1. Improvements to Form
+### 1.[Use modularized](/guide/modularized/)
+
+When importing components in v4, you need to distinguish between cjs and esm. In v5 this is automatic.
+
+```jsx
+// v4: cjs
+import Button from 'rsuite/lib/Button';
+// v4: esm
+import Button from 'rsuite/es/Button';
+
+// v5
+import Button from 'rsuite/Button';
+```
+
+### 2. Improvements to Form
 
 - Improve the style of Form in plain text mode
 - Rename Form related components
@@ -107,17 +121,17 @@ checkResult return structure is:
 
 For detailed usage, please read: [Form Validation](components/form-validation) and [Schema](https://github.com/rsuite/schema-typed)
 
-### 2. Added support for srcSet, sizes,imgProps on Avatar
+### 3. Added support for srcSet, sizes,imgProps on Avatar
 
 - srcSet: The srcSet attribute for the img element. Use this attribute for responsive image display.
 - sizes: The sizes attribute for the img element.
 - imgProps: Attributes applied to the img element if the component is used to display an image.
 
-### 3. Added support `onChangeCommitted` on Slider and RangeSlider
+### 4. Added support `onChangeCommitted` on Slider and RangeSlider
 
 The difference between `onChangeCommitted` and `onChange` is that `onChange` is triggered every time the value changes, while `onChangeCommitted` is a callback that is triggered after the `mouseup` event is triggered and the value changes.
 
-### 4. Improvements to DatePicker and DateRangePicker
+### 5. Improvements to DatePicker and DateRangePicker
 
 - DatePicker and DateRangePicker support keyboard input.
 - DateRangePicker can only select date before, and time can be selected in v5
@@ -126,7 +140,7 @@ The difference between `onChangeCommitted` and `onChange` is that `onChange` is 
 <DateRangePicker format="yyyy-MM-dd HH:mm:ss" />
 ```
 
-### 5. Badge supports the color property
+### 6. Badge supports the color property
 
 ```js
 <Badge color="red">Red</Badge>
@@ -134,7 +148,9 @@ The difference between `onChangeCommitted` and `onChange` is that `onChange` is 
 <Badge color="yellow">Yellow</Badge>
 ```
 
-### 6. Refactor Table
+### 7. Improvements to Table
+
+- Refactor Table
 
 Use react hooks to refactor the Table and improve the performance when the table scrolls. [The `onDataUpdated` and `bodyRef` props are deprecated](https://github.com/rsuite/rsuite-table/pull/232).
 
@@ -164,7 +180,54 @@ return (
 );
 ```
 
-### 7. [Add support for TagInput](/components/tag-input/)
+- Add support for `rowSpan`
+
+```jsx
+const data = [
+  {
+    city: 'New Gust',
+    name: 'Janis',
+    rowspan: 2
+  },
+  {
+    city: 'New Gust',
+    name: 'Ernest Schuppe Anderson'
+  },
+  {
+    city: 'Maria Junctions',
+    name: 'Alessandra',
+    rowspan: 3
+  },
+  {
+    city: 'Maria Junctions',
+    name: 'Margret'
+  },
+  {
+    city: 'Maria Junctions',
+    name: 'Emiliano'
+  }
+];
+return (
+  <Table data={data}>
+    <Column
+      width={100}
+      verticalAlign="middle"
+      rowSpan={rowData => {
+        return rowData.rowspan;
+      }}
+    >
+      <HeaderCell>Name</HeaderCell>
+      <Cell dataKey="city" />
+    </Column>
+    <Column width={100}>
+      <HeaderCell />
+      <Cell dataKey="name" />
+    </Column>
+  </Table>
+);
+```
+
+### 8. [Add support for TagInput](/components/tag-input/)
 
 ```ts
 import TagInput from 'rsuite/TagInput';
@@ -508,4 +571,21 @@ return (
     ...
   </Dropdown>
 );
+```
+
+#### 2.14 Use `open/close` instead of `show/hide`.
+
+In v4, the attribute naming of the component has the use of `open/close` and `show/hide` at the same time. Unified naming in v5.
+
+```html
+// v4
+
+<Modal show="{true}" onShow="{...}" onHide="{...}" />
+<Drawer show="{true}" onShow="{...}" onHide="{...}" />
+<Whisper delayHide="{1000}" delayShow="{1000}" />
+
+// v5
+<Modal open="{true}" onOpen="{...}" onClose="{...}" />
+<Drawer open="{true}" onOpen="{...}" onClose="{...}" />
+<Whisper delayClose="{1000}" delayOpen="{1000}" />
 ```
