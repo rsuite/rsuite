@@ -62,7 +62,7 @@ import Button from 'rsuite/es/Button';
 import Button from 'rsuite/Button';
 ```
 
-### 2. 对 Form 表单的改进
+### 2. [对 Form 表单的改进](/zh/components/form/)
 
 - 改进 Form 在纯文本视图的效果。
 - 对组件进行重命名。
@@ -121,17 +121,17 @@ checkResult 返回的数据结构:
 
 详细的使用教程请阅读: [表单校验](/zh/components/form-validation)与[Schema](https://github.com/rsuite/schema-typed)
 
-### 3. Avatar 新增支持 srcSet、sizes、imgProps 属性
+### 3. [Avatar 新增支持 srcSet、sizes、imgProps 属性](/zh/components/avatar/)
 
 - srcSet: `<img>` 元素的 `srcSet` 属性。 使用此属性进行响应式图像显示。
 - sizes: `<img>` 元素的 `sizes` 属性。
 - imgProps: 如果该组件用于显示图像，则应用于 `<img>` 元素的属性。
 
-### 4. Slider 和 RangeSlider 支持 `onChangeCommitted`
+### 4. [Slider 和 RangeSlider 支持 `onChangeCommitted`](/zh/components/slider/)
 
 `onChangeCommitted` 和 `onChange` 不同的点在于，`onChange` 是每一次值的改变都会触发，而 `onChangeCommitted` 是在 `mouseup` 事件触发后并且值发生了改变而触发的的回调。
 
-### 5. DatePicker 和 DateRangePicker 功能改进
+### 5. [DatePicker](/zh/components/date-picker/) 和 [DateRangePicker](/zh/components/date-range-picker/) 功能改进
 
 - DatePicker 与 DateRangePicker 支持键盘输入。
 - DateRangePicker 之前只能选择日期，在 v5 中可以选择时间。
@@ -140,7 +140,7 @@ checkResult 返回的数据结构:
 <DateRangePicker format="yyyy-MM-dd HH:mm:ss" />
 ```
 
-### 6. Badge 支持 `color` 属性
+### 6. [Badge 支持 `color` 属性](/zh/components/badge/)
 
 `color` 属性设置徽标提示点样式
 
@@ -150,7 +150,7 @@ checkResult 返回的数据结构:
 <Badge color="yellow">Yellow</Badge>
 ```
 
-### 7. 对 Table 的改进
+### 7. [对 Table 的改进](/zh/components/table/)
 
 - 重构 Table
 
@@ -582,13 +582,12 @@ return (
 ```html
 // v4
 
-<Modal show={true} onShow={...} onHide={...} />
-<Drawer show={true} onShow={...} onHide={...} />
-<Whisper delayHide={1000} delayShow={1000} />
+<Modal show="{true}" onShow="{...}" onHide="{...}" />
+<Drawer show="{true}" onShow="{...}" onHide="{...}" />
+<Whisper delayHide="{1000}" delayShow="{1000}" />
 
 // v5
-<Modal open={true} onOpen={...} onClose={...} />
-<Drawer open={true} onOpen={...} onClose={...} />
-<Whisper delayClose={1000} delayOpen={1000} />
-
+<Modal open="{true}" onOpen="{...}" onClose="{...}" />
+<Drawer open="{true}" onOpen="{...}" onClose="{...}" />
+<Whisper delayClose="{1000}" delayOpen="{1000}" />
 ```

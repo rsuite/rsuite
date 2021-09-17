@@ -62,7 +62,7 @@ import Button from 'rsuite/es/Button';
 import Button from 'rsuite/Button';
 ```
 
-### 2. Improvements to Form
+### 2. [Improvements to Form](/components/form/)
 
 - Improve the style of Form in plain text mode
 - Rename Form related components
@@ -121,17 +121,17 @@ checkResult return structure is:
 
 For detailed usage, please read: [Form Validation](components/form-validation) and [Schema](https://github.com/rsuite/schema-typed)
 
-### 3. Added support for srcSet, sizes,imgProps on Avatar
+### 3. [Added support for srcSet, sizes,imgProps on Avatar](/components/avatar/)
 
 - srcSet: The srcSet attribute for the img element. Use this attribute for responsive image display.
 - sizes: The sizes attribute for the img element.
 - imgProps: Attributes applied to the img element if the component is used to display an image.
 
-### 4. Added support `onChangeCommitted` on Slider and RangeSlider
+### 4. [Added support `onChangeCommitted` on Slider and RangeSlider](/components/slider/)
 
 The difference between `onChangeCommitted` and `onChange` is that `onChange` is triggered every time the value changes, while `onChangeCommitted` is a callback that is triggered after the `mouseup` event is triggered and the value changes.
 
-### 5. Improvements to DatePicker and DateRangePicker
+### 5. Improvements to [DatePicker](/components/date-picker/) and [DateRangePicker](/components/date-range-picker/)
 
 - DatePicker and DateRangePicker support keyboard input.
 - DateRangePicker can only select date before, and time can be selected in v5
@@ -140,7 +140,7 @@ The difference between `onChangeCommitted` and `onChange` is that `onChange` is 
 <DateRangePicker format="yyyy-MM-dd HH:mm:ss" />
 ```
 
-### 6. Badge supports the color property
+### 6. [Add support for `color` on Badge](/components/badge/)
 
 ```js
 <Badge color="red">Red</Badge>
@@ -148,7 +148,7 @@ The difference between `onChangeCommitted` and `onChange` is that `onChange` is 
 <Badge color="yellow">Yellow</Badge>
 ```
 
-### 7. Improvements to Table
+### 7. [Improvements to Table](/components/table/)
 
 - Refactor Table
 
