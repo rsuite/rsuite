@@ -48,7 +48,7 @@ import {
   getCalendarDate,
   getMonthHoverRange,
   getWeekHoverRange,
-  isSameValueType,
+  isSameDateRange,
   setTimingMargin
 } from './utils';
 
@@ -329,7 +329,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       const nextValue = !isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
 
       setSelectValue(nextValue || []);
-      if (!isSameValueType(nextValue, value)) {
+      if (!isSameDateRange(nextValue, value)) {
         setValue(nextValue);
         onChange?.(nextValue, event);
       }

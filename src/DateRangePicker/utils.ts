@@ -41,7 +41,7 @@ export const getDefaultRanges = (): RangeType[] => {
   ];
 };
 
-export const isSameValueType = (source: ValueType, dest: ValueType) =>
+export const isSameDateRange = (source: ValueType, dest: ValueType) =>
   source?.[0]?.valueOf() === dest?.[0]?.valueOf() &&
   source?.[1]?.valueOf() === dest?.[1]?.valueOf();
 
