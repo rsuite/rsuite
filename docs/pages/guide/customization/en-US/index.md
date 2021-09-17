@@ -1,4 +1,4 @@
-# Customize theme 🎨
+# Customization 🎨
 
 React Suite uses [Less][less] to develop styles and defines a series of variables that can be customized using [Modify Variables][modify variables]. This includes but is not limited to customizing theme colors, resizing component fillet radii, modifying font styles, replacing auxiliary colors, and so on. The code in the following example is a new action in `custom-theme.less`.
 
@@ -147,40 +147,6 @@ If you use `html-webpack-plugin`, in order to avoid introducing all styles into 
 ├── theme-default.css
 ├── theme-green.css
 └── theme-yellow.css
-```
-
-## FAQ
-
-<a id="note"></a>
-
-### How to configure font files locally?
-
-The icon font files used in Rsuite are deployed in [jsDelivr CDN](http://cdn.jsdelivr.net/npm/rsuite-icon-font@3.0.0/fonts/),
-If you want to deploy locally, you need to modify the path to the icon font:
-
-```less
-@icon-font-path: './fonts';
-```
-
-In addition, you will also need to configure `url-loader` in webpack to load icon font files, webpack 4 configuration example:
-
-```js
-{
-  test: /\.(woff|woff2|eot|ttf|svg)($|\?)/,
-  use: [
-    {
-      loader: 'url-loader',
-      options: {
-        limit: 1,
-        size: 16,
-        hash: 'sha512',
-        digest: 'hex',
-        name: '[hash].[ext]',
-        publicPath: '/'
-      }
-    }
-  ]
-}
 ```
 
 If you use [`create-react-app`][cra] to create a project, you can modify it with [`react-app-rewire-less`][rarl] and [`react-app-rewire-define-plugin`][rardp]. For more details, see [Use in create-react-app][use-with-create-app].

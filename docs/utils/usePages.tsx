@@ -44,16 +44,12 @@ export default function usePages(): Menu[] {
           name: messages?.common?.composition
         },
         {
-          id: 'dark-mode',
-          name: messages?.common?.darkMode
+          id: 'official-themes',
+          name: messages?.common?.officialThemes
         },
         {
-          id: 'high-contrast-mode',
-          name: messages?.common?.highContrastMode
-        },
-        {
-          id: 'themes',
-          name: messages?.common?.customizeTheme
+          id: 'customization',
+          name: messages?.common?.customization
         },
         {
           id: 'accessibility',
