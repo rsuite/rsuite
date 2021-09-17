@@ -465,9 +465,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       setSelectValue(prev => {
         const next = Array.from(prev) as ValueType;
 
-        next[index].setHours(nextHour);
-        next[index].setMinutes(nextMinutes);
-        next[index].setSeconds(nextSeconds);
+        next[index]?.setHours(nextHour);
+        next[index]?.setMinutes(nextMinutes);
+        next[index]?.setSeconds(nextSeconds);
 
         return next;
       });
