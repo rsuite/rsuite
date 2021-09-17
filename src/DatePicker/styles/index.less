@@ -55,7 +55,7 @@
   }
 
   .rs-calendar {
-    width: @calendar-width;
+    min-width: @calendar-width;
     // To make sure <Calendar/> horizontal align at center when toolbar  width is so long.
     display: block;
     margin: 0 auto;
@@ -65,11 +65,15 @@
         @datepicker-calendar-cell-gap-x * 7 + 30px * 8 + @datepicker-calendar-padding-x * 2
       );
 
-      width: @calendar-width;
+      min-width: @calendar-width;
     }
 
     &-header {
       width: 100%;
+    }
+
+    &-table {
+      width: unset;
     }
 
     .rs-calendar-month-dropdown-cell-content,
