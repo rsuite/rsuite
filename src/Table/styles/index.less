@@ -29,6 +29,10 @@
     }
   }
 
+  &-row-rowspan + &-row {
+    border-top: 1px solid var(--rs-border-secondary);
+  }
+
   &-row-expanded {
     position: absolute;
     height: 46px;
@@ -212,6 +216,10 @@
         font-size: 16px;
         line-height: @table-header-line-height;
       }
+    }
+
+    &-rowspan {
+      border-bottom: 1px solid var(--rs-border-secondary) !important;
     }
   }
 
