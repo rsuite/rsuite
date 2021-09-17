@@ -13,6 +13,7 @@ import {
   subDays
 } from '../../utils/dateUtils';
 import DateRangePicker from '../DateRangePicker';
+import { isSameDateRange } from '../utils';
 
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
@@ -79,18 +80,11 @@ describe('DateRangePicker', () => {
     const now = new Date();
     const yesterday = subDays(now, 1);
     const template = 'MM/dd/yyyy hh:mm:ss';
-    const instance = getInstance(
-      <DateRangePicker
-        value={[yesterday, now]}
-        renderValue={value => {
-          return `${format(value[0], template)}~${format(value[1], template)}`;
-        }}
-      />
-    );
+    const instance = getInstance(<DateRangePicker value={[yesterday, now]} format={template} />);
 
     assert.equal(
       instance.target.querySelector('.rs-picker-toggle-value').innerText,
-      `${format(yesterday, template)}~${format(now, template)}`
+      `${format(yesterday, template)} ~ ${format(now, template)}`
     );
   });
 
@@ -128,6 +122,8 @@ describe('DateRangePicker', () => {
     // close the left calendar time picker panel.
     ReactTestUtils.Simulate.click(picker.querySelector(startTimeToolbar));
 
+    assert.equal(picker.querySelector(startTimeToolbar).innerText, '06:06:06');
+
     // click the right calendar time toolbar, display time selection panel
     ReactTestUtils.Simulate.click(picker.querySelector(endTimeToolbar));
     // select time to 9:9:9
@@ -136,6 +132,9 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(1, 'seconds', 10)));
     ReactTestUtils.Simulate.click(picker.querySelector(endTimeToolbar));
 
+    assert.equal(picker.querySelector(endTimeToolbar).innerText, '09:09:09');
+
+    // press ok button
     ReactTestUtils.Simulate.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
     const result = Array.from([now, nextday]);
@@ -147,6 +146,7 @@ describe('DateRangePicker', () => {
     result[1].setMinutes(9);
     result[1].setSeconds(9);
 
+    assert.ok(isSameDateRange(result, onOkSpy.args[0][0]));
     assert.equal(
       instance.target.querySelector('.rs-picker-toggle-value').innerText,
       `${format(result[0], template)} ~ ${format(result[1], template)}`

@@ -42,8 +42,8 @@ export const getDefaultRanges = (): RangeType[] => {
 };
 
 export const isSameDateRange = (source: ValueType, dest: ValueType) =>
-  source?.[0]?.valueOf() === dest?.[0]?.valueOf() &&
-  source?.[1]?.valueOf() === dest?.[1]?.valueOf();
+  source?.[0]?.toString() === dest?.[0]?.toString() &&
+  source?.[1]?.toString() === dest?.[1]?.toString();
 
 export const getMonthHoverRange = (date: Date): ValueType => [
   DateUtils.startOfMonth(date),
