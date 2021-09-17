@@ -48,11 +48,24 @@ render(<GearIcon />);
 
 ## 功能改进 🔨
 
-### 1. 对 Form 表单的改进
+### 1.[按需加载](/zh/guide/modularized/)
 
-- 改进 Form 在纯文本视图的效果
+在 v4 中导入组件的时候需要区分是 cjs 还是 esm。 在 v5 中这是自动的。
 
-- 对组件进行重命名
+```jsx
+// v4: cjs
+import Button from 'rsuite/lib/Button';
+// v4: esm
+import Button from 'rsuite/es/Button';
+
+// v5
+import Button from 'rsuite/Button';
+```
+
+### 2. [对 Form 表单的改进](/zh/components/form/)
+
+- 改进 Form 在纯文本视图的效果。
+- 对组件进行重命名。
 
 ```
 `FormGroup` 重命名为 `Form.Group`
@@ -62,7 +75,7 @@ render(<GearIcon />);
 `HelpBlock` 重命名为 `Form.HelpText`
 ```
 
-- 表单校验支持对象结构
+- 表单校验支持对象结构。
 
 ```js
 const model = SchemaModel({
@@ -108,26 +121,26 @@ checkResult 返回的数据结构:
 
 详细的使用教程请阅读: [表单校验](/zh/components/form-validation)与[Schema](https://github.com/rsuite/schema-typed)
 
-### 2. Avatar 新增支持 srcSet、sizes、imgProps 属性
+### 3. [Avatar 新增支持 srcSet、sizes、imgProps 属性](/zh/components/avatar/)
 
 - srcSet: `<img>` 元素的 `srcSet` 属性。 使用此属性进行响应式图像显示。
 - sizes: `<img>` 元素的 `sizes` 属性。
 - imgProps: 如果该组件用于显示图像，则应用于 `<img>` 元素的属性。
 
-### 3. Slider 和 RangeSlider 支持 `onChangeCommitted`
+### 4. [Slider 和 RangeSlider 支持 `onChangeCommitted`](/zh/components/slider/)
 
 `onChangeCommitted` 和 `onChange` 不同的点在于，`onChange` 是每一次值的改变都会触发，而 `onChangeCommitted` 是在 `mouseup` 事件触发后并且值发生了改变而触发的的回调。
 
-### 4. DatePicker 和 DateRangePicker 功能改进
+### 5. [DatePicker](/zh/components/date-picker/) 和 [DateRangePicker](/zh/components/date-range-picker/) 功能改进
 
 - DatePicker 与 DateRangePicker 支持键盘输入。
-- DateRangePicker 之前只能选择日期，在 v5 中可以选择时间
+- DateRangePicker 之前只能选择日期，在 v5 中可以选择时间。
 
 ```js
 <DateRangePicker format="yyyy-MM-dd HH:mm:ss" />
 ```
 
-### 5. Badge 支持 `color` 属性
+### 6. [Badge 支持 `color` 属性](/zh/components/badge/)
 
 `color` 属性设置徽标提示点样式
 
@@ -137,7 +150,9 @@ checkResult 返回的数据结构:
 <Badge color="yellow">Yellow</Badge>
 ```
 
-### 6. 重构 Table
+### 7. [对 Table 的改进](/zh/components/table/)
+
+- 重构 Table
 
 使用 react hooks 重构了 Table， 并改进了表格滚动时的性能。 [废弃了 `onDataUpdated` 和 `bodyRef` 属性](https://github.com/rsuite/rsuite-table/pull/232)。
 
@@ -167,7 +182,54 @@ return (
 );
 ```
 
-### 7.[新增 TagInput 组件](/zh/components/tag-input/)
+- 支持 rowSpan 合并行
+
+```jsx
+const data = [
+  {
+    city: 'New Gust',
+    name: 'Janis',
+    rowspan: 2
+  },
+  {
+    city: 'New Gust',
+    name: 'Ernest Schuppe Anderson'
+  },
+  {
+    city: 'Maria Junctions',
+    name: 'Alessandra',
+    rowspan: 3
+  },
+  {
+    city: 'Maria Junctions',
+    name: 'Margret'
+  },
+  {
+    city: 'Maria Junctions',
+    name: 'Emiliano'
+  }
+];
+return (
+  <Table data={data}>
+    <Column
+      width={100}
+      verticalAlign="middle"
+      rowSpan={rowData => {
+        return rowData.rowspan;
+      }}
+    >
+      <HeaderCell>Name</HeaderCell>
+      <Cell dataKey="city" />
+    </Column>
+    <Column width={100}>
+      <HeaderCell />
+      <Cell dataKey="name" />
+    </Column>
+  </Table>
+);
+```
+
+### 8.[新增 TagInput 组件](/zh/components/tag-input/)
 
 对 Input 的增强，支持输入标签，管理标签。
 
@@ -519,4 +581,21 @@ return (
     ...
   </Dropdown>
 );
+```
+
+#### 2.14 用 `open/close` 代替 `show/hide`。
+
+在 v4 版本中组件的属性命名同时存在 `open/close` 和 `show/hide` 的使用。在 v5 中将命名统一起来。
+
+```html
+// v4
+
+<Modal show="{true}" onShow="{...}" onHide="{...}" />
+<Drawer show="{true}" onShow="{...}" onHide="{...}" />
+<Whisper delayHide="{1000}" delayShow="{1000}" />
+
+// v5
+<Modal open="{true}" onOpen="{...}" onClose="{...}" />
+<Drawer open="{true}" onOpen="{...}" onClose="{...}" />
+<Whisper delayClose="{1000}" delayOpen="{1000}" />
 ```
