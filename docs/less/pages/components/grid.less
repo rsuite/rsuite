@@ -7,7 +7,7 @@
 .show-grid {
   [class*='rs-col-'] {
     padding: 10px 5px;
-    color: #fff;
+    color: var(--rs-btn-primary-text);
     background-color: var(--rs-primary-500);
     text-align: center;
     margin-top: 6px;
@@ -19,18 +19,18 @@
         background-color: var(--rs-primary-900);
 
         &:nth-child(even) {
-          opacity: .9;
+          opacity: 0.9;
         }
       }
     }
 
     [class*='rs-col-']:nth-child(2n) {
-      opacity: .9;
+      opacity: 0.9;
     }
   }
 
   [class*='rs-col-']:nth-child(2n) {
-    opacity: .8;
+    opacity: 0.8;
   }
 }
 
@@ -41,13 +41,13 @@
       margin-top: 6px;
       margin-bottom: 6px;
       padding: 10px 5px;
-      color: white;
+      color: var(--rs-btn-primary-text);
       text-align: center;
       background-color: var(--rs-primary-500);
     }
 
     &-item:nth-child(2n) {
-      opacity: .8;
+      opacity: 0.8;
     }
   }
 }

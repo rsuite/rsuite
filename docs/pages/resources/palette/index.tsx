@@ -15,7 +15,6 @@ import {
 import { canUseDOM } from 'dom-lib';
 import getPalette from '@/utils/getPalette';
 import ColorPanel from '@/components/ColorPanel';
-import ImageToColors from '@/components/ImageToColors';
 import loadJsFile from '@/utils/loadJsFile';
 import SketchPicker from '@/components/SketchPicker';
 import { readThemeName } from '@/utils/themeHelpers';
@@ -138,12 +137,6 @@ export default function Page() {
           </div>
         </div>
       </div>
-
-      <ImageToColors
-        onColorChange={value => {
-          handleChangeComplete({ hex: value['#'] });
-        }}
-      />
     </DefaultPage>
   );
 }
