@@ -20,7 +20,8 @@
 
   > .rs-sidenav-item,
   > .rs-dropdown .rs-dropdown-toggle,
-  .rs-dropdown-item {
+  .rs-dropdown-item,
+  .rs-dropdown-item-toggle {
     padding: @sidenav-padding-vertical @sidenav-padding-horizontal;
     transition: @nav-item-transition;
     border-radius: 0;
@@ -462,7 +463,8 @@
   color: var(--rs-sidenav-inverse-text);
 
   .rs-sidenav-item,
-  .rs-dropdown .rs-dropdown-toggle {
+  .rs-dropdown .rs-dropdown-toggle,
+  .rs-dropdown-item-submenu:hover > .rs-dropdown-item-toggle {
     background-color: var(--rs-sidenav-inverse-bg);
 
     &:hover,
@@ -492,8 +494,8 @@
     }
   }
 
-  .rs-dropdown.rs-dropdown-selected-within ~ .rs-dropdown-toggle,
-  .rs-sidenav-item.rs-sidenav-item-active {
+  .rs-sidenav-item.rs-sidenav-item-active,
+  .rs-dropdown-item.rs-dropdown-item-active {
     background-color: var(--rs-sidenav-inverse-selected-bg);
   }
 }
@@ -511,11 +513,6 @@
       background-color: var(--rs-sidenav-inverse-hover-bg);
       color: var(--rs-sidenav-inverse-text);
     }
-  }
-
-  // Reset active dropdown-item style
-  .rs-dropdown-menu > .rs-dropdown-item.rs-dropdown-item-active:not(.rs-dropdown-item-submenu) {
-    background-color: var(--rs-sidenav-inverse-hover-bg);
   }
 }
 
