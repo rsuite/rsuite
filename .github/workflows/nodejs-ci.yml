@@ -9,7 +9,6 @@ on:
       - master
       - next
       - v4
-      - 'ci/**'
   pull_request:
     branches:
       - master
