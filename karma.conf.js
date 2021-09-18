@@ -31,7 +31,6 @@ module.exports = config => {
     logLevel: config.LOG_INFO,
     preprocessors: {
       'src/**/*Spec.js': ['webpack'],
-      'test/**/*.js': ['webpack']
     },
     client: {
       mocha: {

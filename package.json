@@ -140,7 +140,7 @@
     "gulp-rtlcss": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
     "husky": "^7.0.2",
-    "karma": "^6.3.2",
+    "karma": "^6.3.4",
     "karma-browserstack-launcher": "^1.6.0",
     "karma-chai-dom": "^1.1.0",
     "karma-chrome-launcher": "^3.1.0",
