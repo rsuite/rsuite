@@ -30,7 +30,7 @@ module.exports = config => {
     reporters: ['mocha', 'coverage', 'BrowserStack'],
     logLevel: config.LOG_INFO,
     preprocessors: {
-      'src/**/*Spec.js': ['webpack'],
+      'src/**/*Spec.js': ['webpack']
     },
     client: {
       mocha: {
@@ -90,7 +90,9 @@ module.exports = config => {
         browser_version: '14.0'
       }
     },
-    browsers: CI ? [process.env.KARMA_BROWSER] : ['Chrome'],
+    browsers: CI
+      ? ['bs_win_ie11', 'bs_win_edge', 'bs_mac_chrome', 'bs_mac_firefox', 'bs_mac_safari']
+      : ['Chrome'],
     // @see https://github.com/browserstack/karma-browserstack-example/blob/master/karma.conf.js
     captureTimeout: 3e5,
     // browserDisconnectTolerance: 0,

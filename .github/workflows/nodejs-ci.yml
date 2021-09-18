@@ -24,11 +24,6 @@ jobs:
 
     continue-on-error: true
 
-    strategy:
-      max-parallel: 1
-      matrix:
-        browser: ['bs_win_ie11', 'bs_win_edge', 'bs_mac_chrome', 'bs_mac_firefox', 'bs_mac_safari']
-
     steps:
       - name: 'BrowserStack Env Setup' # Invokes the setup-env action
         uses: browserstack/github-actions/setup-env@master
@@ -59,8 +54,5 @@ jobs:
         run: npm test
         env:
           CI: true
-          KARMA_BROWSER: ${{ matrix.browser }}
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
-        with:
-          flags: ${{ matrix.browser }}
