@@ -30,7 +30,7 @@ export type DropdownAction =
       type: DropdownActionType.RegisterItem;
       payload: {
         id: string;
-        props?: { selected: boolean };
+        props: { selected: boolean };
       };
     }
   | { type: DropdownActionType.UnregisterItem; payload: { id: string } };
@@ -64,9 +64,7 @@ export function reducer(
           ...state.items,
           {
             id: action.payload.id,
-            props: action.payload.props || {
-              selected: false
-            }
+            props: action.payload.props
           }
         ]
       };

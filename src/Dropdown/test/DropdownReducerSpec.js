@@ -42,6 +42,12 @@ describe('DropdownState::reducer', () => {
           props: {
             selected: false
           }
+        },
+        {
+          id: 'another',
+          props: {
+            selected: false
+          }
         }
       ]
     };
@@ -61,6 +67,12 @@ describe('DropdownState::reducer', () => {
           id: 'test',
           props: {
             selected: true
+          }
+        },
+        {
+          id: 'another',
+          props: {
+            selected: false
           }
         }
       ]
