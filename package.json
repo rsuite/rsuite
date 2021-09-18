@@ -87,6 +87,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
     "@babel/plugin-transform-proto-to-assign": "^7.0.0",
     "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/plugin-transform-template-literals": "^7.14.5",
     "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-react": "^7.7.0",
@@ -116,6 +117,7 @@
     "brfs": "^1.6.1",
     "chai": "^4.1.0",
     "conventional-changelog-cli": "^2.1.1",
+    "core-js": "^3.15.2",
     "coveralls": "^2.13.1",
     "cross-env": "^6.0.3",
     "css-loader": "^0.28.11",
@@ -138,7 +140,8 @@
     "gulp-rtlcss": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
     "husky": "^7.0.2",
-    "karma": "^5.2.3",
+    "karma": "^6.3.2",
+    "karma-browserstack-launcher": "^1.6.0",
     "karma-chai-dom": "^1.1.0",
     "karma-chrome-launcher": "^3.1.0",
     "karma-cli": "^2.0.0",
@@ -175,7 +178,7 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "ie >= 10"
+    "ie 11"
   ],
   "sideEffects": [
     "cjs/**/styles/*",
