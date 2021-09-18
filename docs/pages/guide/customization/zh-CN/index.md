@@ -21,6 +21,10 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 
 配置主题基色以后，会生成一组色板（`@H050` - `@H900`， H 是 Hue 的缩写 ）参考: [constants.less][rsuite-theme-pallete]。现在就去[调色板](/resources/palette)选择适合的颜色或上传自己的 Logo 进行预览。
 
+#### 深色模式
+
+如果你想同时自定义内建深色模式的颜色，你可以使用 `@primary-color-dark` 变量。
+
 ### 调整组件圆角半径
 
 ```less
@@ -54,6 +58,10 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 @red:    #f44336;
 ```
 <!-- prettier-ignore-end -->
+
+#### 深色模式
+
+如果你想同时自定义内建深色模式的颜色，你可以使用对应的 `@green-dark`, `@blue-dark`, `@yellow-dark`, `@red-dark` 变量。
 
 ### 禁用涟漪动画
 

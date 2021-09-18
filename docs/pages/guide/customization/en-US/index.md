@@ -23,6 +23,10 @@ After you configure the theme base color, a set of swatches (`@H050` - `@H900`, 
 
 Now go to the [palette](/resources/palette) to select the appropriate color or upload your own Logo to preview.
 
+#### Dark mode
+
+If you want to also customize the built-in dark mode, you can use `@primary-color-dark` variable.
+
 ### Adjusts the fillet radius of the assembly.
 
 ```less
@@ -56,6 +60,10 @@ Secondary palettes acts as auxiliary colors which often stands for different sta
 @red:    #f44336;
 ```
 <!-- prettier-ignore-end -->
+
+#### Dark mode
+
+If you want to also customize the built-in dark mode, you can use corresponding `@green-dark`, `@blue-dark`, `@yellow-dark`, `@red-dark` variable.
 
 ### Disable ripple animation
 
