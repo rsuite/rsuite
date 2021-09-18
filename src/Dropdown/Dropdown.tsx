@@ -1,6 +1,7 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
+import pick from 'lodash/pick';
 import DropdownMenu from './DropdownMenu';
 import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../utils';
 import { SidenavContext, SidenavContextType } from '../Sidenav/Sidenav';
@@ -8,7 +9,7 @@ import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import DropdownItem from './DropdownItem';
-import DropdownContext from './DropdownContext';
+import DropdownContext, { DropdownContextProps } from './DropdownContext';
 import Menu, { MenuButtonTrigger } from '../Menu/Menu';
 import DropdownToggle from './DropdownToggle';
 import MenuContext from '../Menu/MenuContext';
@@ -18,6 +19,7 @@ import { NavbarContext } from '../Navbar/Navbar';
 import Disclosure from '../Disclosure/Disclosure';
 import SidenavDropdown from '../Sidenav/SidenavDropdown';
 import NavContext from '../Nav/NavContext';
+import { initialState, reducer } from './DropdownState';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -168,10 +170,20 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   const sidenav = useContext<SidenavContextType>(SidenavContext);
   const navbar = useContext(NavbarContext);
 
+  const [{ items }, dispatch] = useReducer(reducer, initialState);
+
+  const hasSelectedItem = useMemo(() => {
+    return items.some(item => item.props.selected);
+  }, [items]);
+
+  const dropdownContextValue = useMemo<DropdownContextProps>(() => {
+    return { activeKey, onSelect: emitSelect, hasSelectedItem, dispatch };
+  }, [activeKey, emitSelect, hasSelectedItem, dispatch]);
+
   // Render a disclosure when inside expanded <Sidenav>
   if (sidenav?.expanded) {
     return (
-      <DropdownContext.Provider value={{ activeKey, onSelect: emitSelect }}>
+      <DropdownContext.Provider value={dropdownContextValue}>
         <SidenavDropdown ref={ref} {...rest} />
       </DropdownContext.Provider>
     );
@@ -180,7 +192,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   // Renders a disclosure when used inside <Navbar>
   if (navbar) {
     return (
-      <DropdownContext.Provider value={{ activeKey, onSelect: emitSelect }}>
+      <DropdownContext.Provider value={dropdownContextValue}>
         <Disclosure hideOnClickOutside>
           {({ open }, containerRef) => {
             const classes = merge(
@@ -240,7 +252,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
       placement={placement}
       disabled={disabled}
       {...omit(menuButtonProps, ['open'])}
-      {...toggleProps}
+      {...omit(toggleProps, ['data-testid'])}
     >
       {title}
     </DropdownToggle>
@@ -262,7 +274,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
               )}
               {...menuButtonProps}
               {...omit(menuitemProps, ['onClick'])}
-              {...toggleProps}
+              {...omit(toggleProps, 'data-testid')}
             >
               {title}
             </DropdownToggle>
@@ -273,13 +285,13 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   }
 
   return (
-    <DropdownContext.Provider value={{ activeKey, onSelect: emitSelect }}>
+    <DropdownContext.Provider value={dropdownContextValue}>
       <Menu
         menuButtonText={title}
         renderMenuButton={renderMenuButton}
         openMenuOn={menuButtonTriggers}
         renderMenuPopup={({ open, ...popupProps }, popupRef) => {
-          const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+          const menuClassName = mergeMenuClassName(className, withMenuClassPrefix({}));
           // When inside a collapsed <Sidenav>, render a header in menu
           const showHeader = !!sidenav;
 
@@ -313,8 +325,8 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
               [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
               disabled,
               open,
-              submenu: !!parentMenu
-              // focus: hasFocus
+              submenu: !!parentMenu,
+              'selected-within': hasSelectedItem
             })
           );
           return (
@@ -322,6 +334,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
               ref={mergeRefs(ref, menuContainerRef)}
               className={classes}
               {...menuContainer}
+              {...pick(toggleProps, ['data-testid'])}
               style={style}
             />
           );

@@ -214,4 +214,42 @@ describe('<Sidenav>', () => {
       sinon.match.any
     );
   });
+
+  it('Should add "selected-within" className on <Dropdown> when some item inside is selected', () => {
+    const { getByTestId } = render(
+      <Sidenav>
+        <Nav activeKey="2-1">
+          <Dropdown title="Dropdown 1" data-testid="dropdown-1">
+            <Dropdown.Item eventKey="2-1">Active by activeKey from Nav</Dropdown.Item>
+          </Dropdown>
+
+          <Dropdown title="Dropdown 2" data-testid="dropdown-2">
+            <Dropdown.Item active>Active by active prop</Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      </Sidenav>
+    );
+
+    expect(getByTestId('dropdown-1').className).to.include('selected-within');
+    expect(getByTestId('dropdown-2').className).to.include('selected-within');
+  });
+
+  it('(Collapsed) Should add "selected-within" className on <Dropdown> when some item inside is selected', () => {
+    const { getByTestId } = render(
+      <Sidenav expanded={false}>
+        <Nav activeKey="2-1">
+          <Dropdown title="Dropdown 1" data-testid="dropdown-1">
+            <Dropdown.Item eventKey="2-1">Active by activeKey from Nav</Dropdown.Item>
+          </Dropdown>
+
+          <Dropdown title="Dropdown 2" data-testid="dropdown-2">
+            <Dropdown.Item active>Active by active prop</Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      </Sidenav>
+    );
+
+    expect(getByTestId('dropdown-1').className).to.include('selected-within');
+    expect(getByTestId('dropdown-2').className).to.include('selected-within');
+  });
 });

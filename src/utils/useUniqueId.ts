@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import uniqueId from 'lodash/uniqueId';
 
 /**
- * Used for generating unique ID for elements
+ * Used for generating unique ID for DOM elements
  */
 export default function useUniqueId(prefix?: string) {
   const idRef = useRef<string>();

@@ -1,5 +1,5 @@
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from '../Sidenav/Sidenav';
@@ -13,6 +13,8 @@ import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 import DisclosureContext, { DisclosureActionTypes } from '../Disclosure/DisclosureContext';
 import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';
+import useInternalId from '../utils/useInternalId';
+import { DropdownActionType } from './DropdownState';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -75,6 +77,8 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
     const { classPrefix, className, active: activeProp, eventKey, onSelect, icon, ...rest } = props;
 
+    const internalId = useInternalId('DropdownItem');
+
     const nav = useContext(NavContext);
     const dropdown = useContext(DropdownContext);
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
@@ -101,14 +105,39 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       [dispatchDisclosure, handleSelectItem]
     );
 
-    if (sidenav?.expanded) {
-      return <SidenavDropdownItem ref={ref} {...props} />;
-    }
-
-    const menuitemSelected =
+    const selected =
       activeProp ||
       (!isNil(eventKey) &&
         (shallowEqual(dropdown?.activeKey, eventKey) || shallowEqual(nav?.activeKey, eventKey)));
+
+    const dispatch = dropdown?.dispatch;
+
+    useEffect(() => {
+      if (dispatch) {
+        dispatch({
+          type: DropdownActionType.RegisterItem,
+          payload: {
+            id: internalId,
+            props: {
+              selected
+            }
+          }
+        });
+
+        return () => {
+          dispatch({
+            type: DropdownActionType.UnregisterItem,
+            payload: {
+              id: internalId
+            }
+          });
+        };
+      }
+    }, [internalId, selected, dispatch]);
+
+    if (sidenav?.expanded) {
+      return <SidenavDropdownItem ref={ref} {...props} />;
+    }
 
     const { as: Component, divider, panel, children, disabled, ...restProps } = rest;
 
@@ -144,7 +173,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
           disabled,
           divider,
           panel,
-          active: menuitemSelected
+          active: selected
         })
       );
 
@@ -160,7 +189,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
           <SafeAnchor
             ref={ref}
             className={classes}
-            aria-current={menuitemSelected || undefined}
+            aria-current={selected || undefined}
             {...dataAttributes}
             {...restProps}
             onClick={createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick)}
@@ -173,7 +202,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     }
 
     return (
-      <MenuItem selected={menuitemSelected} disabled={disabled} onActivate={handleSelectItem}>
+      <MenuItem selected={selected} disabled={disabled} onActivate={handleSelectItem}>
         {({ selected, active, ...menuitem }, menuitemRef) => {
           const classes = merge(
             className,

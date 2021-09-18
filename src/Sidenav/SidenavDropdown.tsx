@@ -11,6 +11,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Disclosure from '../Disclosure/Disclosure';
+import DropdownContext from '../Dropdown/DropdownContext';
 
 export interface SidenavDropdownProps<T = any>
   extends WithAsProps,
@@ -98,6 +99,7 @@ const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = Re
   } = props;
 
   const { openKeys = [], onOpenChange } = useContext(SidenavContext);
+  const { hasSelectedItem } = useContext(DropdownContext);
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
 
@@ -130,7 +132,7 @@ const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = Re
             [`placement-${kebabCase(placementPolyfill(placement))}`]: placement,
             [open ? 'expand' : 'collapse']: true,
             disabled,
-            // open,
+            'selected-within': hasSelectedItem,
             'no-caret': noCaret
           })
         );

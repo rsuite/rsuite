@@ -429,7 +429,7 @@
 .rs-sidenav-default.rs-sidenav-collapsing,
 .rs-sidenav-default.rs-sidenav-collapse-out {
   // Set active Level1 style
-  .rs-dropdown-menu.rs-dropdown-menu-active ~ .rs-dropdown-toggle {
+  .rs-dropdown.rs-dropdown-selected-within .rs-dropdown-toggle {
     > .rs-icon {
       color: var(--rs-navbar-default-selected-text);
     }
@@ -441,7 +441,7 @@
   .rs-navbar-inverse();
 
   // Active
-  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle,
+  .rs-dropdown.rs-dropdown-selected-within .rs-dropdown-toggle,
   .rs-sidenav-item,
   .rs-dropdown .rs-dropdown-toggle {
     color: var(--rs-navbar-inverse-text);
@@ -453,7 +453,7 @@
     }
   }
 
-  .rs-dropdown .rs-dropdown-menu-active ~ .rs-dropdown-toggle,
+  .rs-dropdown.rs-dropdown-selected-within ~ .rs-dropdown-toggle,
   .rs-sidenav-item.rs-sidenav-item-active {
     background-color: var(--rs-navbar-inverse-selected-bg);
   }
@@ -518,7 +518,7 @@
 .rs-sidenav-subtle.rs-sidenav-collapsing,
 .rs-sidenav-subtle.rs-sidenav-collapse-out {
   // Set active Level1 style
-  .rs-dropdown-menu.rs-dropdown-menu-active ~ .rs-dropdown-toggle {
+  .rs-dropdown.rs-dropdown-selected-within .rs-dropdown-toggle {
     color: var(--rs-navbar-subtle-text);
 
     &:hover {
