@@ -6,21 +6,22 @@ The purpose of React Suite v5 is to improve the accessibility and scalability of
 
 ## Major changes ✨
 
-### 1. Improve accessibility
+### Improve accessibility
 
 It is our hope that more users can use barrier-free use of products developed by React Suite. We will improve each component provided by React Suite in multiple scenarios such as keyboard operation and screen reading devices.
 
-#### 1.1 Accessibility
+<br/>
+**Accessibility**
 
 React Suite follows the [WAI-ARIA](https://www.w3.org/TR/wai-aria/) standard. All components have been refactored to have appropriate attributes and keyboard interaction functions out of the box.
 
-For details, please read: [Accessibility](/guide/accessibility)
+<br/>
+**Add a set of high contrast themes**
 
-#### 1.2 Add a set of high contrast themes
+In React Suite v4, we refer to the 《Web Content Accessibility Guidelines (WCAG) 》 standard for color contrast requirements, and have made great improvements to the components to meet most users. We still hope to improve on this basis and take care of a small number of people with visual impairments. React Suite officially provides a total of [3 sets of themes (light, dark, high-contrast)](/guide/official-themes/).
 
-In React Suite v4, we refer to the 《Web Content Accessibility Guidelines (WCAG) 》 standard for color contrast requirements, and have made great improvements to the components to meet most users. We still hope to improve on this basis and take care of a small number of people with visual impairments.
-
-#### 1.3 Use SVG Icon instead of Icon font
+<br/>
+**Use SVG Icon instead of Icon font**
 
 Icon font has some rendering problems, which makes the icon blurry, the need to load the font file, and the content area flickers. For better accessibility, we decided to prefer SVG Icon. And can be well compatible with third-party icon resources.
 
@@ -36,19 +37,15 @@ render(<GearIcon />);
 </svg>;
 ```
 
-### 2. Support CSS variables
+### Support CSS variables
 
 Current mainstream browsers already support CSS variables. We plan to provide a set of component CSS variable configurations to make theme customization and theme switching more convenient.
 
-### 3. Refactoring with functional components
+### Refactoring with functional components
 
 We refactored most of our components using function component and adopted the new features brought by React Hooks to enhance the development experience.
 
----
-
-## Improvements in components
-
-### 1.[Use modularized](/guide/modularized/)
+### Use modularized
 
 When importing components in v4, you need to distinguish between cjs and esm. In v5 this is automatic.
 
@@ -62,7 +59,7 @@ import Button from 'rsuite/es/Button';
 import Button from 'rsuite/Button';
 ```
 
-### 2. [Improvements to Form](/components/form/)
+### Improvements to Form
 
 - Improve the style of Form in plain text mode
 - Rename Form related components
@@ -121,17 +118,17 @@ checkResult return structure is:
 
 For detailed usage, please read: [Form Validation](components/form-validation) and [Schema](https://github.com/rsuite/schema-typed)
 
-### 3. [Added support for srcSet, sizes,imgProps on Avatar](/components/avatar/)
+### Added support for srcSet, sizes,imgProps on Avatar
 
 - srcSet: The srcSet attribute for the img element. Use this attribute for responsive image display.
 - sizes: The sizes attribute for the img element.
 - imgProps: Attributes applied to the img element if the component is used to display an image.
 
-### 4. [Added support `onChangeCommitted` on Slider and RangeSlider](/components/slider/)
+### Added support `onChangeCommitted` on Slider and RangeSlider
 
 The difference between `onChangeCommitted` and `onChange` is that `onChange` is triggered every time the value changes, while `onChangeCommitted` is a callback that is triggered after the `mouseup` event is triggered and the value changes.
 
-### 5. Improvements to [DatePicker](/components/date-picker/) and [DateRangePicker](/components/date-range-picker/)
+### Improvements to DatePicker and DateRangePicker
 
 - DatePicker and DateRangePicker support keyboard input.
 - DateRangePicker can only select date before, and time can be selected in v5
@@ -140,7 +137,7 @@ The difference between `onChangeCommitted` and `onChange` is that `onChange` is 
 <DateRangePicker format="yyyy-MM-dd HH:mm:ss" />
 ```
 
-### 6. [Add support for `color` on Badge](/components/badge/)
+### Add support for `color` on Badge
 
 ```js
 <Badge color="red">Red</Badge>
@@ -148,7 +145,7 @@ The difference between `onChangeCommitted` and `onChange` is that `onChange` is 
 <Badge color="yellow">Yellow</Badge>
 ```
 
-### 7. [Improvements to Table](/components/table/)
+### Improvements to Table
 
 - Refactor Table
 
@@ -227,7 +224,7 @@ return (
 );
 ```
 
-### 8. [Add support for TagInput](/components/tag-input/)
+### Add support for TagInput
 
 The enhancement of Input supports input tags and management tags.
 
@@ -237,7 +234,9 @@ import TagInput from 'rsuite/TagInput';
 return <TagInput defaultValue={['HTML', 'CSS']} trigger={['Enter', 'Space', 'Comma']} />;
 ```
 
-### 8.Support `onSelect`, `onSlideEnd`, `onSlideStart` on `<Carousel>`
+### Improvements to Carousel
+
+Support `onSelect`, `onSlideEnd`, `onSlideStart` on `<Carousel>`
 
 - `onSelect`: Callback fired when the active item changes
 - `onSlideEnd`: Callback fired when a slide transition ends
@@ -249,19 +248,33 @@ return <TagInput defaultValue={['HTML', 'CSS']} trigger={['Enter', 'Space', 'Com
 
 The v5 version has been released, and then I will provide you with guidance so that you can quickly upgrade from v4 to v5.
 
-### 1. Updating your dependencies
+### Updating your dependencies
 
 - React is upgraded to version 16.8 and above.
 
-### 2. Handling breaking changes
+### Run codemods
 
-#### 2.1 It no longer supports IE 10
+The process of upgrading components for large projects is often painful. We have prepared these [codemods](https://github.com/rsuite/codemod) to ease your migration experience.
 
-We will no longer support IE 10 in the v5 version. If you need to continue using the IE 10 browser, please continue to use the v4 version.
+**Usage**
 
-#### 2.2 Use SVG Icon instead of Icon font
+```
+npx rsuite-codemod <transform> <path> [...options]
+```
 
-Icon font has some rendering problems, resulting in blurry icons, font files need to be loaded, and flickering of the content area. For better accessibility, we decided to use SVG Icon first. You need to install `@rsuite/icons` before using it.
+- `transform` - [name of transform](https://github.com/rsuite/codemod#included-transforms).
+- `path` - files or directory to transform.
+- use the `--dry` option for a dry-run and use `--print` to print the output for comparison.
+
+### Handling breaking changes
+
+#### Supported browsers
+
+We will no longer support IE 10 in the v5. If you need to continue using the IE 10 browser, please continue to use the v4.
+
+#### Use SVG Icon instead of Icon font
+
+Use SVG Icon, import dependency `@rsuite/icons`.
 
 ```
 npm i @rsuite/icons
@@ -291,17 +304,15 @@ return <GearIcon style={{ fontSize: '3em' }} />;
 
 The relationship between the `size` attribute value and its corresponding `fontSize` value is as follows:
 
-| size | fontSize   |
-| ---- | ---------- |
-| `lg` | `1.3333em` |
-| `2x` | `2em`      |
-| `3x` | `3em`      |
-| `4x` | `4em`      |
-| `5x` | `5em`      |
+- `lg` : `1.3333em`
+- `2x` : `2em`
+- `3x` : `3em`
+- `4x` : `4em`
+- `5x` : `5em`
 
-#### 2.3 date-fns upgrade v2
+#### date-fns upgrade v2
 
-The date-fns tool is used in React Suite for date format, calculation, etc. Based on the Unicode standard, the new format string used for [format functions has changed](<(https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)>). [Detailed description]
+The [date-fns](https://date-fns.org/v2.24.0/docs/Upgrade-Guide) tool is used in React Suite for date format, calculation, etc. Based on the Unicode standard, the new format string used for [format functions has changed](<(https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)>). [Detailed description]
 
 ```js
 // for rsuite v4
@@ -323,7 +334,7 @@ return (
 );
 ```
 
-#### 2.4 Alert is deprecated. Use `toaster.push(<Message>)` instead
+#### Alert is deprecated. Use `toaster.push(<Message>)` instead
 
 All pop-up notification messages are managed using the new API toaster. The Alert component will be deprecated. The alternative is to use a combination of toaster and Message. E.g:
 
@@ -354,7 +365,7 @@ toaster.remove(key);
 toaster.clear();
 ```
 
-#### 2.5 Refactor Notification
+#### Refactor Notification
 
 ```js
 // for rsuite v4
@@ -374,7 +385,7 @@ toaster.push(
 );
 ```
 
-#### 2.6 Rename Form related components
+#### Rename Form related components
 
 - `FormGroup` was renamed to `Form.Group`
 - `FormControl` was renamed to `Form.Control`
@@ -382,7 +393,7 @@ toaster.push(
 - `ErrorMessage` was renamed to `Form.ErrorMessage`
 - `HelpBlock` was renamed to `Form.HelpText`
 
-#### 2.7 Rename the `componentClass· property of all components to`as`
+#### Rename the `componentClass` property of all components to `as`
 
 ```js
 // for rsuite v4
@@ -392,17 +403,22 @@ return <Button componentClass="span" />;
 return <Button as="span" />;
 ```
 
-#### 2.8 All virtualized properties of Picker, the default value is changed from `true` to `false`
+#### Disable all picker `virtualized` by default
 
-All pickers are closed `virtualized`. If you want to continue using it in the project, you need to manually open it.
+The default value of virtualized for all pickers is `false`. If you want to continue using it in the project, you need to set it to `true`.
 
 ```js
 <SelectPicker virtualized />
 ```
 
-#### 2.9 Cascader/MutilCascader/TreePicker/CheckTreePicker improves the way to update children asynchronously
+#### Improve the way to update children asynchronously
 
-In order to facilitate asynchronous updating of child nodes, a new `getChildren` property has been added.
+In order to facilitate asynchronous updating of child nodes, a new `getChildren` property has been added. Affected components:
+
+- Cascader
+- MutilCascader
+- TreePicker
+- CheckTreePicker
 
 ```js
 getChildren:(node: ItemDataType) => Promise<ItemDataType[]>
@@ -423,7 +439,7 @@ return (
 );
 ```
 
-#### 2.10 Removed `Table.Pagination`, and enhanced `Pagination`
+#### Removed `Table.Pagination`, and enhanced `Pagination`
 
 The `Table.Pagination` component has been removed in this version. Please use `Pagination` instead. The `layout` property has been added for customizing the layout.
 
@@ -457,7 +473,7 @@ return (
 );
 ```
 
-#### 2.11 Replace `IntlProvider` with `CustomProvider`
+#### Replace `IntlProvider` with `CustomProvider`
 
 ```js
 // for rsuite v4
@@ -481,7 +497,7 @@ return (
 );
 ```
 
-#### 2.12 Deprecate `activeKey` and `onSelect` properties of `<Sidenav>`
+#### Deprecate `activeKey` and `onSelect` properties of `<Sidenav>`
 
 `<Sidenav>` is always used in conjunction with `<Nav>`.
 You should use `activeKey` and `onSelect` properties of `<Nav>` instead.
@@ -518,7 +534,7 @@ return (
 );
 ```
 
-#### 2.13 Import on Demand
+#### Import on Demand
 
 **Import components**
 
@@ -555,7 +571,7 @@ import 'rsuite/dist/rsuite.min.css'; // or css
 import 'rsuite/dist/rsuite-rtl.min.css'; // or rtl css
 ```
 
-#### 2.12 Deprecate `renderTitle` property of `<Dropdown>`
+#### Deprecate `renderTitle` property of `<Dropdown>`
 
 The `renderTitle` has been deprecated and replaced by `renderToggle`.
 
@@ -581,7 +597,7 @@ return (
 );
 ```
 
-#### 2.14 Use `open/close` instead of `show/hide`.
+#### Use `open/close` instead of `show/hide`.
 
 In v4, the attribute naming of the component has the use of `open/close` and `show/hide` at the same time. Unified naming in v5.
 

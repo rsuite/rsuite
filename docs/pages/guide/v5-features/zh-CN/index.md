@@ -6,23 +6,24 @@ React Suite v5 的目的是改进组件的可访问性和可扩展性，以下�
 
 ## 主要功能 ✨
 
-### 1. 提升可访问(Accessibility)
+### 提升可访问(Accessibility)
 
 我们的希望可以让更多的用户在 React Suite 开发的产品上无障碍的使用。我们会在键盘操作、读屏设备等多个场景去改善 React Suite 提供的每一个组件。
 
-#### 1.1 无障碍设计
+<br/>
+**无障碍设计**
 
 React Suite 遵循 [WAI-ARIA](https://www.w3.org/TR/wai-aria/) 标准，对所有组件进行了重构，均具有开箱即用的适当属性和键盘交互功能。
 
-详细的内容请阅读: [无障碍设计](/zh/guide/accessibility)
+<br/>
+**新增一套高对比度主题**
 
-#### 1.2 新增一套高对比度主题
+在 React Suite v4 我们参照 [《Web Content Accessibility Guidelines (WCAG) 》](https://www.w3.org/TR/WCAG/#contrast-minimum)标准对颜色对比度的要求，对组件做了很大的改进，可以满足大多数用户。 我们还是希望在此基础上进行提升，并照顾到一小部分在视力上存在障碍的人群。 目前 React Suite 官方一共提供了 [3 套主题 (light、dark、high-contrast)](/zh/guide/official-themes/)。
 
-在 React Suite v4 我们参照 [《Web Content Accessibility Guidelines (WCAG) 》](https://www.w3.org/TR/WCAG/#contrast-minimum)标准对颜色对比度的要求，对组件做了很大的改进，可以满足大多数用户。 我们还是希望在此基础上进行提升，并照顾到一小部分在视力上存在障碍的人群。
+<br/>
+**采用 SVG Icon 代替 Icon font**
 
-#### 1.3 采用 SVG Icon 代替 Icon font
-
-Icon font 存在存在一些渲染上问题，导致图标模糊，需要载入字体文件，导致内容区域闪烁等问题。 为了更好的可访问性(Accessibility)，我们决定优先采用 SVG Icon。 并且能够友好的兼容第三方的图标资源。
+Icon font 存在存在一些渲染上问题，导致图标模糊，需要载入字体文件，内容区域闪烁等问题。 为了更好的可访问性(Accessibility)，我们决定优先采用 SVG Icon。 并且能够友好的兼容第三方的图标资源。
 
 ```js
 import GearIcon from '@rsuite/icons/Gear';
@@ -36,19 +37,15 @@ render(<GearIcon />);
 </svg>;
 ```
 
-### 2. 支持 CSS 变量
+### 支持 CSS 变量
 
 当前主流的浏览器都已经支持 CSS 变量，我们计划提供一套组件 CSS 变量配置，可以更方便的做主题自定义，主题切换。
 
-### 3. 采用函数组件重构
+### 采用函数组件重构
 
 我们采用函数组件重构大部分的组件，采用 React Hooks 所带来的新特性，提升开发体验。
 
----
-
-## 功能改进 🔨
-
-### 1.[按需加载](/zh/guide/modularized/)
+### 按需加载
 
 在 v4 中导入组件的时候需要区分是 cjs 还是 esm。 在 v5 中这是自动的。
 
@@ -62,7 +59,7 @@ import Button from 'rsuite/es/Button';
 import Button from 'rsuite/Button';
 ```
 
-### 2. [对 Form 表单的改进](/zh/components/form/)
+### 对 Form 表单的改进
 
 - 改进 Form 在纯文本视图的效果。
 - 对组件进行重命名。
@@ -121,17 +118,17 @@ checkResult 返回的数据结构:
 
 详细的使用教程请阅读: [表单校验](/zh/components/form-validation)与[Schema](https://github.com/rsuite/schema-typed)
 
-### 3. [Avatar 新增支持 srcSet、sizes、imgProps 属性](/zh/components/avatar/)
+### Avatar 新增支持 srcSet、sizes、imgProps 属性
 
 - srcSet: `<img>` 元素的 `srcSet` 属性。 使用此属性进行响应式图像显示。
 - sizes: `<img>` 元素的 `sizes` 属性。
 - imgProps: 如果该组件用于显示图像，则应用于 `<img>` 元素的属性。
 
-### 4. [Slider 和 RangeSlider 支持 `onChangeCommitted`](/zh/components/slider/)
+### Slider 和 RangeSlider 支持 `onChangeCommitted`
 
 `onChangeCommitted` 和 `onChange` 不同的点在于，`onChange` 是每一次值的改变都会触发，而 `onChangeCommitted` 是在 `mouseup` 事件触发后并且值发生了改变而触发的的回调。
 
-### 5. [DatePicker](/zh/components/date-picker/) 和 [DateRangePicker](/zh/components/date-range-picker/) 功能改进
+### DatePicker 和 DateRangePicker 功能改进
 
 - DatePicker 与 DateRangePicker 支持键盘输入。
 - DateRangePicker 之前只能选择日期，在 v5 中可以选择时间。
@@ -140,7 +137,7 @@ checkResult 返回的数据结构:
 <DateRangePicker format="yyyy-MM-dd HH:mm:ss" />
 ```
 
-### 6. [Badge 支持 `color` 属性](/zh/components/badge/)
+### Badge 支持 `color` 属性
 
 `color` 属性设置徽标提示点样式
 
@@ -150,7 +147,7 @@ checkResult 返回的数据结构:
 <Badge color="yellow">Yellow</Badge>
 ```
 
-### 7. [对 Table 的改进](/zh/components/table/)
+### 对 Table 的改进
 
 - 重构 Table
 
@@ -229,7 +226,7 @@ return (
 );
 ```
 
-### 8.[新增 TagInput 组件](/zh/components/tag-input/)
+### 新增 TagInput 组件
 
 对 Input 的增强，支持输入标签，管理标签。
 
@@ -239,7 +236,9 @@ import TagInput from 'rsuite/TagInput';
 return <TagInput defaultValue={['HTML', 'CSS']} trigger={['Enter', 'Space', 'Comma']} />;
 ```
 
-### 8.在 `<Carousel>` 组件上支持 `onSelect`, `onSlideEnd`, `onSlideStart` 属性。
+### 对 Carousel 的改进
+
+在 `<Carousel>` 组件上支持 `onSelect`, `onSlideEnd`, `onSlideStart` 属性。
 
 - `onSelect`: 活动项更改时触发的回调
 - `onSlideEnd`: 幻灯片过渡结束时触发的回调
@@ -251,19 +250,33 @@ return <TagInput defaultValue={['HTML', 'CSS']} trigger={['Enter', 'Space', 'Com
 
 接下来将为你提供指导，从而能够迅速的从 v4 升级到 v5。
 
-### 1. 准备工作
+### 准备工作
 
 - React 升级到 16.8 以上版本。
 
-### 2. 不兼容的变更
+### 运行 codemods
 
-#### 2.1 不再对 IE 10 进行兼容支持
+对于大型项目来说升级组件的过程往往是痛苦的，我们准备了 [codemods](https://github.com/rsuite/codemod) 来简化您的迁移体验 。
+
+**使用说明**
+
+```
+npx rsuite-codemod <transform> <path> [...options]
+```
+
+- `transform` - [转换的名称](https://github.com/rsuite/codemod#included-transforms)。
+- `path` - 要转换的文件或目录。
+- 使用 `--dry` 选项进行试运行，并使用 `--print` 打印输出以进行比较。
+
+### 不兼容的变更
+
+#### 不再对 IE 10 进行兼容支持
 
 我们将在 v5 版本中不再支持 IE 10，如果你需要继续在 IE 10 浏览器上使用请继续使用 v4 版本。
 
-#### 2.2 采用 SVG Icon 代替 Icon font
+#### 采用 SVG Icon 代替 Icon font
 
-Icon font 存在存在一些渲染上问题，导致图标模糊，需要载入字体文件，导致内容区域闪烁等问题。 为了更好的可访问性(Accessibility)，我们决定优先采用 SVG Icon，使用前你需要安装 `@rsuite/icons`。
+使用 SVG Icon，使用前你需要安装 `@rsuite/icons`。
 
 ```
 npm i @rsuite/icons
@@ -293,17 +306,15 @@ return <GearIcon style={{ fontSize: '3em' }} />;
 
 `size` 属性值及其对应的 `fontSize` 值关系如下：
 
-| size | fontSize   |
-| ---- | ---------- |
-| `lg` | `1.3333em` |
-| `2x` | `2em`      |
-| `3x` | `3em`      |
-| `4x` | `4em`      |
-| `5x` | `5em`      |
+- `lg` : `1.3333em`
+- `2x` : `2em`
+- `3x` : `3em`
+- `4x` : `4em`
+- `5x` : `5em`
 
-#### 2.3 date-fns 升级 v2
+#### date-fns 升级 v2
 
-在 React Suite 中使用了 date-fns 工具用于对日期格式、计算等等。基于 Unicode 标准，[用于格式功能的新格式字符串有变更](https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)。
+在 React Suite 中使用了 [date-fns](https://date-fns.org/v2.24.0/docs/Upgrade-Guide) 工具用于对日期格式、计算等等。基于 Unicode 标准，[用于格式功能的新格式字符串有变更](https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)。
 
 ```js
 // for rsuite v4
@@ -325,7 +336,7 @@ return (
 );
 ```
 
-#### 2.4 废弃 Alert 组件，用 `toaster.push(<Message>)` 代替
+#### 废弃 Alert 组件，用 `toaster.push(<Message>)` 代替
 
 所有的弹出的通知消息，都使用新的 API toaster 进行管理。Alert 组件将会被废弃，替代的方式是通过 toaster 与 Message 组合使用。 例如：
 
@@ -356,7 +367,7 @@ toaster.remove(key);
 toaster.clear();
 ```
 
-#### 2.5 修改 Notification 使用方式
+#### 修改 Notification 使用方式
 
 ```js
 // for rsuite v4
@@ -376,7 +387,7 @@ toaster.push(
 );
 ```
 
-#### 2.6 Form 相关组件重命名
+#### Form 相关组件重命名
 
 - `FormGroup` 重命名为 `Form.Group`
 - `FormControl` 重命名为 `Form.Control`
@@ -384,7 +395,7 @@ toaster.push(
 - `ErrorMessage` 重命名为 `Form.ErrorMessage`
 - `HelpBlock` 重命名为 `Form.HelpText`
 
-#### 2.7 所有组件的 componentClass 属性重命名为 as
+#### 所有组件的 componentClass 属性重命名为 as
 
 ```js
 // for rsuite v4
@@ -394,17 +405,22 @@ return <Button componentClass="span" />;
 return <Button as="span" />;
 ```
 
-#### 2.8 所有 Picker 的 virtualized 属性，默认值从 true 改为 false
+#### 默认关闭所有 Picker 的 virtualized
 
-所有的 Picker 关闭了 virtualized ，如果你希望继续在项目中使用，需要手动开启。
+所有的 Picker 的 virtualized 的默认值为 `false`。如果你希望继续在项目中使用，需要设置为 `true`。
 
 ```js
 <SelectPicker virtualized />
 ```
 
-#### 2.9 Cascader/MutilCascader/TreePicker/CheckTreePicker 改进异步更新子级的方式
+#### 改进异步更新子级的方式
 
-为了方便异步更新子节点，新增了一个 getChildren 属性。
+为了方便异步更新子节点，新增了一个 getChildren 属性。受影响的组件:
+
+- Cascader
+- MutilCascader
+- TreePicker
+- CheckTreePicker
 
 ```js
 getChildren:(node: ItemDataType) => Promise<ItemDataType[]>
@@ -425,7 +441,7 @@ return (
 );
 ```
 
-#### 2.10 删除 Table.Pagination， 并增强 Pagination
+#### 删除 Table.Pagination， 并增强 Pagination
 
 `Table.Pagination` 组件在本次更新中删除，请使用 `Pagination` 代替，新增了 `layout` 属性，用于自定义布局。
 
@@ -459,7 +475,7 @@ return (
 );
 ```
 
-#### 2.11 使用 `CustomProvider` 替换 `IntlProvider`
+#### 使用 `CustomProvider` 替换 `IntlProvider`
 
 ```js
 // for rsuite v4
@@ -483,7 +499,7 @@ return (
 );
 ```
 
-#### 2.12 废弃 `<Sidenav>` 组件的 `activeKey` 和 `onSelect` 属性
+#### 废弃 `<Sidenav>` 组件的 `activeKey` 和 `onSelect` 属性
 
 `<Sidenav>` 组件总是和 `<Nav>` 组件配合使用。
 你应当使用 `<Nav>` 组件的 `activeKey` 和 `onSelect` 属性。
@@ -520,7 +536,7 @@ return (
 );
 ```
 
-#### 2.13 按需加载
+#### 按需加载
 
 **导入组件**
 
@@ -557,7 +573,7 @@ import 'rsuite/dist/rsuite.min.css'; // or css
 import 'rsuite/dist/rsuite-rtl.min.css'; // or rtl css
 ```
 
-#### 2.14 废弃 `<Dropdown>` 组件的 `renderTitle` 属性
+#### 废弃 `<Dropdown>` 组件的 `renderTitle` 属性
 
 废弃 `renderTitle`，取而代之的是 `renderToggle`。
 
@@ -583,7 +599,7 @@ return (
 );
 ```
 
-#### 2.14 用 `open/close` 代替 `show/hide`。
+#### 用 `open/close` 代替 `show/hide`。
 
 在 v4 版本中组件的属性命名同时存在 `open/close` 和 `show/hide` 的使用。在 v5 中将命名统一起来。
 
