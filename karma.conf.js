@@ -91,7 +91,7 @@ module.exports = config => {
       }
     },
     browsers: CI
-      ? ['bs_win_ie11', 'bs_win_edge', 'bs_mac_chrome', 'bs_mac_firefox', 'bs_mac_safari']
+      ? [/*'bs_win_ie11',*/ 'bs_win_edge', 'bs_mac_chrome', 'bs_mac_firefox', 'bs_mac_safari']
       : ['Chrome'],
     // @see https://github.com/browserstack/karma-browserstack-example/blob/master/karma.conf.js
     captureTimeout: 3e5,
