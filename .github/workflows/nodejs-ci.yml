@@ -55,3 +55,5 @@ jobs:
           CI: true
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
+        with:
+          flags: bs_win_edge,bs_mac_chrome,bs_mac_firefox,bs_mac_safari
