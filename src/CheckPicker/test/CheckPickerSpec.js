@@ -81,15 +81,15 @@ describe('CheckPicker', () => {
   it('Should active item by `value`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<Dropdown defaultOpen data={data} value={value} />);
-    assert.equal(instance.root.querySelector(valueClassName).innerText, 'Louisa');
-    assert.equal(instance.overlay.querySelector(itemActiveClassName).innerText, value);
+    assert.equal(instance.root.querySelector(valueClassName).textContent, 'Louisa');
+    assert.equal(instance.overlay.querySelector(itemActiveClassName).textContent, value);
   });
 
   it('Should active item by `defaultValue`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={value} />);
-    assert.equal(instance.root.querySelector(valueClassName).innerText, 'Louisa');
-    assert.equal(instance.overlay.querySelector(itemActiveClassName).innerText, value);
+    assert.equal(instance.root.querySelector(valueClassName).textContent, 'Louisa');
+    assert.equal(instance.overlay.querySelector(itemActiveClassName).textContent, value);
   });
 
   it('Should render a group', () => {
@@ -309,7 +309,7 @@ describe('CheckPicker', () => {
 
     const menu = instance.overlay.querySelector('.rs-checkbox');
 
-    assert.equal(menu.innerText, 'Kariane');
+    assert.equal(menu.textContent, 'Kariane');
   });
 
   it('Should be render selected options be sticky', () => {
