@@ -15,12 +15,6 @@ function isBeforeDay(date1: Date, date2: Date): boolean {
   );
 }
 
-function dateFrom(date: string | Date): Date {
-  if (date instanceof Date) return date;
-
-  return DateUtils.parseISO(date);
-}
-
 /**
  Allow the maximum number of days specified, other dates are disabled.
  */
@@ -89,7 +83,10 @@ export function allowedRange(
   endDate: string | Date
 ): DisabledDateFunction {
   return (date: Date): boolean => {
-    if (isBeforeDay(date, dateFrom(startDate)) || isAfterDay(date, dateFrom(endDate))) {
+    if (
+      isBeforeDay(date, DateUtils.dateFrom(startDate)) ||
+      isAfterDay(date, DateUtils.dateFrom(endDate))
+    ) {
       return true;
     }
     return false;
@@ -101,7 +98,7 @@ export function allowedRange(
  */
 export function before(beforeDate: string | Date = new Date()): DisabledDateFunction {
   return (date: Date): boolean => {
-    if (isBeforeDay(date, dateFrom(beforeDate))) {
+    if (isBeforeDay(date, DateUtils.dateFrom(beforeDate))) {
       return true;
     }
     return false;
@@ -113,7 +110,7 @@ export function before(beforeDate: string | Date = new Date()): DisabledDateFunc
  */
 export function after(afterDate: string | Date = new Date()): DisabledDateFunction {
   return (date: Date): boolean => {
-    if (isAfterDay(date, dateFrom(afterDate))) {
+    if (isAfterDay(date, DateUtils.dateFrom(afterDate))) {
       return true;
     }
     return false;
