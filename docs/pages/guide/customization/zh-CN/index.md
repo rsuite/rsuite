@@ -55,7 +55,7 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 
 ### 禁用涟漪动画
 
-React Suite 在 `<Button>` 等一些可点击的组件上添加了涟漪动画效果。如果你不想要这些效果，可以关闭如下标识。
+React Suite 在 `<Button>` 等一些可点击的组件上添加了涟漪动画效果。如果您不想要这些效果，可以关闭如下标识。
 
 ```less
 @enable-ripple-effect: false;
@@ -63,7 +63,7 @@ React Suite 在 `<Button>` 等一些可点击的组件上添加了涟漪动画�
 
 ### 禁用 IE polyfill
 
-React Suite 默认包含了一些用于兼容 IE 11 的样式。如果你不需要这些兼容，可以关闭如下标识。
+React Suite 默认包含了一些用于兼容 IE 11 的样式。如果您不需要这些兼容，可以关闭如下标识。
 
 ```less
 @enable-ie-polyfill: false;

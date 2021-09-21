@@ -93,7 +93,7 @@ const checkResult = model.check({
 console.log(checkResult);
 ```
 
-checkResult 返回的数据结构:
+输出数据结构:
 
 ```js
 {
@@ -248,7 +248,7 @@ return <TagInput defaultValue={['HTML', 'CSS']} trigger={['Enter', 'Space', 'Com
 
 ## 从 v4 升级到 v5 🚀
 
-接下来将为你提供指导，从而能够迅速的从 v4 升级到 v5。
+接下来将为您提供指导，从而能够迅速的从 v4 升级到 v5。
 
 ### 准备工作
 
@@ -272,11 +272,11 @@ npx rsuite-codemod <transform> <path> [...options]
 
 #### 不再对 IE 10 进行兼容支持
 
-我们将在 v5 版本中不再支持 IE 10，如果你需要继续在 IE 10 浏览器上使用请继续使用 v4 版本。
+我们将在 v5 版本中不再支持 IE 10，如果您需要继续在 IE 10 浏览器上使用请继续使用 v4 版本。
 
 #### 采用 SVG Icon 代替 Icon font
 
-使用 SVG Icon，使用前你需要安装 `@rsuite/icons`。
+使用 SVG Icon，使用前您需要安装 `@rsuite/icons`。
 
 ```
 npm i @rsuite/icons
@@ -407,7 +407,7 @@ return <Button as="span" />;
 
 #### 默认关闭所有 Picker 的 virtualized
 
-所有的 Picker 的 virtualized 的默认值为 `false`。如果你希望继续在项目中使用，需要设置为 `true`。
+所有的 Picker 的 virtualized 的默认值为 `false`。如果您希望继续在项目中使用，需要设置为 `true`。
 
 ```js
 <SelectPicker virtualized />
@@ -502,7 +502,7 @@ return (
 #### 废弃 `<Sidenav>` 组件的 `activeKey` 和 `onSelect` 属性
 
 `<Sidenav>` 组件总是和 `<Nav>` 组件配合使用。
-你应当使用 `<Nav>` 组件的 `activeKey` 和 `onSelect` 属性。
+您应当使用 `<Nav>` 组件的 `activeKey` 和 `onSelect` 属性。
 
 ```js
 // for rsuite v4

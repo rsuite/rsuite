@@ -41,11 +41,11 @@ render(<GearIcon />);
 
 Current mainstream browsers already support CSS variables. We plan to provide a set of component CSS variable configurations to make theme customization and theme switching more convenient.
 
-### Refactoring with functional components
+### Refactoring React Class Components with Hooks
 
 We refactored most of our components using function component and adopted the new features brought by React Hooks to enhance the development experience.
 
-### Use modularized
+### Import on Demand
 
 When importing components in v4, you need to distinguish between cjs and esm. In v5 this is automatic.
 
@@ -93,7 +93,7 @@ const checkResult = model.check({
 console.log(checkResult);
 ```
 
-checkResult return structure is:
+output:
 
 ```js
 {
@@ -120,9 +120,9 @@ For detailed usage, please read: [Form Validation](components/form-validation) a
 
 ### Added support for srcSet, sizes,imgProps on Avatar
 
-- srcSet: The srcSet attribute for the img element. Use this attribute for responsive image display.
-- sizes: The sizes attribute for the img element.
-- imgProps: Attributes applied to the img element if the component is used to display an image.
+- `srcSet`: The srcSet attribute for the img element. Use this attribute for responsive image display.
+- `sizes`: The sizes attribute for the img element.
+- `imgProps`: Attributes applied to the img element if the component is used to display an image.
 
 ### Added support `onChangeCommitted` on Slider and RangeSlider
 

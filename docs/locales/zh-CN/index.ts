@@ -31,7 +31,7 @@ export default {
     extension: '扩展组件',
     gettingStarted: '开始使用',
     htmlElements: '支持的 HTML 元素',
-    modularized: '按需加载',
+    modularized: '最小化打包文件大小',
     v2: '2.* 版本',
     v3: '3.* 版本',
     v3ToV4: '从 v3 升级到 v3',
