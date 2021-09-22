@@ -624,7 +624,6 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const disabledOkButton = useCallback(() => {
     const [start, end] = selectValue;
-    console.log(start, end, hasDoneSelect.current);
     if (!start || !end || !hasDoneSelect.current) {
       return true;
     }
