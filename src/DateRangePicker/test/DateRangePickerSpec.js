@@ -72,7 +72,7 @@ describe('DateRangePicker', () => {
     );
 
     assert.equal(
-      instance.target.querySelector('.rs-picker-toggle-value').innerText,
+      instance.target.querySelector('.rs-picker-toggle-value').textContent,
       '04/01/2019~04/02/2019'
     );
   });
@@ -84,7 +84,7 @@ describe('DateRangePicker', () => {
     const instance = getInstance(<DateRangePicker value={[yesterday, now]} format={template} />);
 
     assert.equal(
-      instance.target.querySelector('.rs-picker-toggle-value').innerText,
+      instance.target.querySelector('.rs-picker-toggle-value').textContent,
       `${format(yesterday, template)} ~ ${format(now, template)}`
     );
   });
@@ -123,7 +123,7 @@ describe('DateRangePicker', () => {
     // close the left calendar time picker panel.
     ReactTestUtils.Simulate.click(picker.querySelector(startTimeToolbar));
 
-    assert.equal(picker.querySelector(startTimeToolbar).innerText, '06:06:06');
+    assert.equal(picker.querySelector(startTimeToolbar).textContent, '06:06:06');
 
     // click the right calendar time toolbar, display time selection panel
     ReactTestUtils.Simulate.click(picker.querySelector(endTimeToolbar));
@@ -133,7 +133,7 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(1, 'seconds', 10)));
     ReactTestUtils.Simulate.click(picker.querySelector(endTimeToolbar));
 
-    assert.equal(picker.querySelector(endTimeToolbar).innerText, '09:09:09');
+    assert.equal(picker.querySelector(endTimeToolbar).textContent, '09:09:09');
 
     // press ok button
     ReactTestUtils.Simulate.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
@@ -149,7 +149,7 @@ describe('DateRangePicker', () => {
 
     assert.ok(isSameDateRange(result, onOkSpy.args[0][0]));
     assert.equal(
-      instance.target.querySelector('.rs-picker-toggle-value').innerText,
+      instance.target.querySelector('.rs-picker-toggle-value').textContent,
       `${format(result[0], template)} ~ ${format(result[1], template)}`
     );
   });
@@ -176,14 +176,14 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(0, 'minutes', 7)));
     ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(0, 'seconds', 7)));
 
-    assert.equal(picker.querySelector(startTimeToolbar).innerText, '06:06:06');
+    assert.equal(picker.querySelector(startTimeToolbar).textContent, '06:06:06');
 
     // select time to 9:9:9
     ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(1, 'hours', 10)));
     ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(1, 'minutes', 10)));
     ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(1, 'seconds', 10)));
 
-    assert.equal(picker.querySelector(endTimeToolbar).innerText, '09:09:09');
+    assert.equal(picker.querySelector(endTimeToolbar).textContent, '09:09:09');
 
     // press ok button
     ReactTestUtils.Simulate.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
@@ -199,7 +199,7 @@ describe('DateRangePicker', () => {
 
     assert.ok(isSameDateRange(result, onOkSpy.args[0][0]));
     assert.equal(
-      instance.target.querySelector('.rs-picker-toggle-value').innerText,
+      instance.target.querySelector('.rs-picker-toggle-value').textContent,
       `${format(result[0], template)} ~ ${format(result[1], template)}`
     );
   });
@@ -342,8 +342,8 @@ describe('DateRangePicker', () => {
       '.rs-calendar-table-cell-in-range, .rs-calendar-table-cell-selected-start'
     );
 
-    assert.equal(allInRangeCells[0].innerText, '11');
-    assert.equal(allInRangeCells[allInRangeCells.length - 1].innerText, '24');
+    assert.equal(allInRangeCells[0].textContent, '11');
+    assert.equal(allInRangeCells[allInRangeCells.length - 1].textContent, '24');
   });
 
   it('Should select a date range by click', () => {
@@ -371,8 +371,8 @@ describe('DateRangePicker', () => {
       '.rs-calendar-table-cell-in-range, .rs-calendar-table-cell-selected-start'
     );
 
-    assert.equal(allInRangeCells[0].innerText, '11');
-    assert.equal(allInRangeCells[allInRangeCells.length - 1].innerText, '24');
+    assert.equal(allInRangeCells[0].textContent, '11');
+    assert.equal(allInRangeCells[allInRangeCells.length - 1].textContent, '24');
   });
 
   it('Should fire `onChange` if click ok after only select one date in oneTap mode', () => {
