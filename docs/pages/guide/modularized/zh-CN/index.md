@@ -4,7 +4,7 @@
 
 ## Tree Shaking
 
-Tree Shaking 是一种通过清除最终文件中未使用的代码来优化体积的方法。在项目需要通过 ES modules 的去导入组件。
+Tree Shaking 是一种通过清除最终文件中未使用的代码来优化体积的方法。必须通过 ES modules 导入组件。
 
 ```js
 import { Button, Input } from 'rsuite';
