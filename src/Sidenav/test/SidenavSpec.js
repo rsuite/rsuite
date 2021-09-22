@@ -215,6 +215,37 @@ describe('<Sidenav>', () => {
     );
   });
 
+  it('Should call <Nav onSelect> with correct eventKey when <Sidenav expanded={false}>', () => {
+    const onSelectSpy = sinon.spy();
+    const { getByTestId } = render(
+      <Sidenav expanded={false}>
+        <Nav onSelect={onSelectSpy}>
+          <Nav.Item eventKey="1-1" data-testid="nav-item">
+            Nav item
+          </Nav.Item>
+          <Dropdown title="Dropdown" data-testid="dropdown">
+            <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+              Dropdown item
+            </Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      </Sidenav>
+    );
+
+    userEvent.click(getByTestId('nav-item'));
+    expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1-1', sinon.match.any);
+
+    onSelectSpy.resetHistory();
+    // opens the dropdown
+    userEvent.click(getByTestId('dropdown'));
+
+    userEvent.click(getByTestId('dropdown-item'));
+    expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
+      '2-1',
+      sinon.match.any
+    );
+  });
+
   it('Should add "selected-within" className on <Dropdown> when some item inside is selected', () => {
     const { getByTestId } = render(
       <Sidenav>

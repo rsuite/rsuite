@@ -83,45 +83,28 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
             withClassPrefix({ focus: active, active: selected, disabled })
           );
 
-          const item = (
-            <Component
-              ref={mergeRefs(ref, menuitemRef)}
-              disabled={Component === SafeAnchor ? disabled : undefined}
-              className={classes}
-              data-event-key={eventKey}
-              {...menuitem}
-              {...omit(rest, ['divider', 'panel'])}
-            >
-              {icon}
-              {children}
-              <Ripple />
-            </Component>
-          );
-
           // Show tooltip when inside a collapse <Sidenav>
-          return sidenav
-            ? appendTooltip({
-                children: (triggerProps, triggerRef) => {
-                  return (
-                    <Component
-                      ref={mergeRefs(mergeRefs(ref, menuitemRef), triggerRef as any)}
-                      disabled={Component === SafeAnchor ? disabled : undefined}
-                      className={classes}
-                      data-event-key={eventKey}
-                      {...menuitem}
-                      {...omit(rest, ['divider', 'panel'])}
-                      {...triggerProps}
-                    >
-                      {icon}
-                      {children}
-                      <Ripple />
-                    </Component>
-                  );
-                },
-                message: children,
-                placement: 'right'
-              })
-            : item;
+          return appendTooltip({
+            children: (triggerProps, triggerRef) => {
+              return (
+                <Component
+                  ref={mergeRefs(mergeRefs(ref, menuitemRef), triggerRef as any)}
+                  disabled={Component === SafeAnchor ? disabled : undefined}
+                  className={classes}
+                  data-event-key={eventKey}
+                  {...omit(rest, ['divider', 'panel'])}
+                  {...triggerProps}
+                  {...menuitem}
+                >
+                  {icon}
+                  {children}
+                  <Ripple />
+                </Component>
+              );
+            },
+            message: children,
+            placement: 'right'
+          });
         }}
       </MenuItem>
     );
