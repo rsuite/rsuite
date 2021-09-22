@@ -458,16 +458,20 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const handleChangeCalendarTime = useCallback(
     (index: number, date: Date) => {
-      const nextHour = getHours(date);
-      const nextMinutes = getMinutes(date);
-      const nextSeconds = getSeconds(date);
-
       setSelectValue(prev => {
         const next = Array.from(prev) as ValueType;
 
-        next[index]?.setHours(nextHour);
-        next[index]?.setMinutes(nextMinutes);
-        next[index]?.setSeconds(nextSeconds);
+        if (next[index]) {
+          const nextHour = getHours(date);
+          const nextMinutes = getMinutes(date);
+          const nextSeconds = getSeconds(date);
+
+          next[index].setHours(nextHour);
+          next[index].setMinutes(nextMinutes);
+          next[index].setSeconds(nextSeconds);
+        } else {
+          next[index] = date;
+        }
 
         return next;
       });
@@ -620,6 +624,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const disabledOkButton = useCallback(() => {
     const [start, end] = selectValue;
+    console.log(start, end, hasDoneSelect.current);
     if (!start || !end || !hasDoneSelect.current) {
       return true;
     }

@@ -10,7 +10,8 @@ import {
   parseISO,
   startOfMonth,
   startOfWeek,
-  subDays
+  subDays,
+  addMonths
 } from '../../utils/dateUtils';
 import DateRangePicker from '../DateRangePicker';
 import { isSameDateRange } from '../utils';
@@ -88,7 +89,7 @@ describe('DateRangePicker', () => {
     );
   });
 
-  it('Should select date and time successfully', () => {
+  it('Should select date time successfully', () => {
     const now = new Date();
     const nextday = addDays(now, 1);
     const template = 'dd MMM yyyy hh:mm:ss';
@@ -138,6 +139,56 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
     const result = Array.from([now, nextday]);
+
+    result[0].setHours(6);
+    result[0].setMinutes(6);
+    result[0].setSeconds(6);
+    result[1].setHours(9);
+    result[1].setMinutes(9);
+    result[1].setSeconds(9);
+
+    assert.ok(isSameDateRange(result, onOkSpy.args[0][0]));
+    assert.equal(
+      instance.target.querySelector('.rs-picker-toggle-value').innerText,
+      `${format(result[0], template)} ~ ${format(result[1], template)}`
+    );
+  });
+
+  it('Should select time successfully', () => {
+    const now = new Date();
+    // The end calendar default value is after a month from start calendar value
+    const nextMonth = addMonths(now, 1);
+    const template = 'hh:mm:ss';
+    const onOkSpy = sinon.spy();
+
+    const instance = getInstance(<DateRangePicker format={template} defaultOpen onOk={onOkSpy} />);
+    const picker = instance.overlay;
+
+    function generateTimeItem(calendarIndex, type, index) {
+      return `.rs-calendar[index="${calendarIndex}"] .rs-calendar-time-dropdown ul[data-type="${type}"]>li:nth-child(${index}) .rs-calendar-time-dropdown-cell`;
+    }
+
+    const startTimeToolbar = '.rs-calendar[index="0"] .rs-calendar-header-time-toolbar';
+    const endTimeToolbar = '.rs-calendar[index="1"] .rs-calendar-header-time-toolbar';
+
+    // select time to 6:6:6
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(0, 'hours', 7)));
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(0, 'minutes', 7)));
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(0, 'seconds', 7)));
+
+    assert.equal(picker.querySelector(startTimeToolbar).innerText, '06:06:06');
+
+    // select time to 9:9:9
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(1, 'hours', 10)));
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(1, 'minutes', 10)));
+    ReactTestUtils.Simulate.click(picker.querySelector(generateTimeItem(1, 'seconds', 10)));
+
+    assert.equal(picker.querySelector(endTimeToolbar).innerText, '09:09:09');
+
+    // press ok button
+    ReactTestUtils.Simulate.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
+
+    const result = Array.from([now, nextMonth]);
 
     result[0].setHours(6);
     result[0].setMinutes(6);

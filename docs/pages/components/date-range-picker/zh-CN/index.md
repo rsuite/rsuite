@@ -14,9 +14,9 @@
 
 <!--{include:`basic.md`}-->
 
-### 日期与时间
+### 日期时间或时间
 
-<!--{include:`format-time.md`}-->
+<!--{include:`format-date-time.md`}-->
 
 ### 外观
 
