@@ -119,7 +119,7 @@ module.exports = override(
 `less-loader` 自 `8.0.0` 起不再支持 webpack <5 版本，而 `create-react-app` 包含的 webpack 版本为 4。
 查看[相关 issue](https://github.com/webpack-contrib/less-loader/issues/416) 。
 
-你应使用更早版本的 `less-loader`，例如 `7.3.0`。
+您应使用更早版本的 `less-loader`，例如 `7.3.0`。
 
 ## 源码
 

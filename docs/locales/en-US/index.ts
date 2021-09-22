@@ -32,7 +32,7 @@ export default {
     extension: 'Extension Components',
     gettingStarted: 'Getting started',
     htmlElements: 'Supported HTML Elements',
-    modularized: 'Use modularized',
+    modularized: 'Minimizing bundle size',
     v2: 'Version 2.*',
     v3: 'Version 3.*',
     v3ToV4: 'To v4 from v3',

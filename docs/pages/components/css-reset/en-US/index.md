@@ -42,4 +42,4 @@ The HTML `<dl>` element represents a description list. The element encloses a li
 
 <!--{include:`list-dl.md`}-->
 
-[config-reset-import]: /en/guide/themes#Disable%20styles%20reset
+[config-reset-import]: /guide/customization/#disable-html-styles-reset

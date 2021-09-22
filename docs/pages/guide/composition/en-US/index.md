@@ -4,7 +4,7 @@ React Suite has always been looking for a balance between the flexibility and si
 
 ## Component prop
 
-### as prop
+### `as` prop
 
 All UI components in React Suite provide an `as` prop to change the root element to be rendered.
 

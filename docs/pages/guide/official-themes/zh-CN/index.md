@@ -1,6 +1,6 @@
 # 官方主题
 
-React Suite 官方默认提供了以下 3 种主题，你只需要简单的配置就可以使用。
+React Suite 官方默认提供了以下 3 种主题，您只需要简单的配置就可以使用。
 
 - `light`: 浅色主题 (默认)。
 - `dark`: 深色主题。 通常叫它夜间模式 🌘，在弱光环境下调暗色调，缓解视疲劳。
@@ -26,11 +26,11 @@ React Suite 官方默认提供了以下 3 种主题，你只需要简单的配�
 @enable-high-contrast: true;
 ```
 
-☆ 我们更推荐你使用 Less，因为它在你编译生成的 CSS 的时候只会载入对应主题的样式，从而减小 CSS 文件的体积。
+☆ 我们更推荐您使用 Less，因为它在您编译生成的 CSS 的时候只会载入对应主题的样式，从而减小 CSS 文件的体积。
 
 ### 2.配置 CustomProvider
 
-你的应用程序如果已经被包含在[`<CustomProvider>`](/zh/components/custom-provider)容器中，那你只需要再添加一个 `theme` 属性，配置你对应的主题名称即可。
+您的应用程序如果已经被包含在[`<CustomProvider>`](/zh/components/custom-provider)容器中，那您只需要再添加一个 `theme` 属性，配置您对应的主题名称即可。
 
 ```jsx
 function App(props) {
@@ -40,10 +40,10 @@ function App(props) {
 
 其实在组件渲染过程中，[`<CustomProvider>`](/zh/components/custom-provider)会在 `<body>` 元素上添加个全局的 `className`，从而让子级元素都作用于对应的主题样式。
 
-如果你希望改变只一部分的组件的主题，只需在任何容器元素上添加 `.rs-theme-dark` 类或者 `.rs-theme-high-contrast` 类，即可在其中应用对应的主题样式。
+如果您希望改变只一部分的组件的主题，只需在任何容器元素上添加 `.rs-theme-dark` 类或者 `.rs-theme-high-contrast` 类，即可在其中应用对应的主题样式。
 
 ---
 
 ## 个性化定制
 
-如果以上提供的主题不能满足你应用的视觉要求，你可以通过我们预定义的一些参数配置来满足业务上的[个性化定制](/zh/guide/customization)需求。
+如果以上提供的主题不能满足您应用的视觉要求，您可以通过我们预定义的一些参数配置来满足业务上的[个性化定制](/zh/guide/customization)需求。
