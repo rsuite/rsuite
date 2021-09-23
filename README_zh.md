@@ -72,6 +72,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 **历史版本:**
 
+- [4.\* 版本](https://v4.rsuitejs.com/)
 - [3.\* 版本](https://v3.rsuitejs.com/)
 - [2.\* 版本](https://v2.rsuitejs.com/)
 

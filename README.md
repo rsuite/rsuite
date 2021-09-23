@@ -1,4 +1,3 @@
-
 <p align="center">
   <a href="https://rsuitejs.com" target="_blank" rel="noopener noreferrer">
    <img src="https://user-images.githubusercontent.com/1203827/65102389-7be3f100-d9fd-11e9-859e-ae9617ed2f91.png" alt="React Suite logo">
@@ -79,8 +78,9 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Right-to-left][rsuite-doc-guide-rtl]
 - [Components][rsuite-components-overview]
 
-**Previous old version**
+**Historic version**
 
+- [Version 4.\*](https://v3.rsuitejs.com/)
 - [Version 3.\*](https://v3.rsuitejs.com/)
 - [Version 2.\*](https://v2.rsuitejs.com/)
 
