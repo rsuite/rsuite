@@ -190,7 +190,7 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 | htmlFor     | string                      | 对应 html label 标签的 for 属性，默认为 Form.Group 的 controlId |
 | tooltip     | boolean                     | 是否通过 Tooltip 组件显示                                       |
 
-### `<Form.ErrorMessge>`
+### `<Form.ErrorMessage>`
 
 | 属性名称    | 类型`(默认值)`                    | 描述              |
 | ----------- | --------------------------------- | ----------------- |
