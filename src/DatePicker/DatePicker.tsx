@@ -402,7 +402,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
         // If only the time is included in the characters, it will default to today.
         if (DateUtils.shouldOnlyTime(formatStr)) {
-          date = new Date(`${DateUtils.format(new Date(), 'yyyy-MM-dd')} ${value}`);
+          date = DateUtils.parseISO(`${DateUtils.format(new Date(), 'yyyy-MM-dd')} ${value}`);
         }
 
         if (!DateUtils.isValid(date)) {

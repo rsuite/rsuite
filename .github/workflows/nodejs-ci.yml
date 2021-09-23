@@ -9,7 +9,6 @@ on:
       - master
       - next
       - v4
-      - 'ci/**'
   pull_request:
     branches:
       - master
@@ -22,11 +21,15 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        browser: [ChromeCi, Firefox]
+    continue-on-error: true
 
     steps:
+      - name: 'BrowserStack Env Setup' # Invokes the setup-env action
+        uses: browserstack/github-actions/setup-env@master
+        with:
+          username: ${{ secrets.BS_USERNAME }}
+          access-key: ${{ secrets.BS_ACCESS_KEY }}
+
       - uses: actions/checkout@v2
 
       - name: Setup kernel, increase watchers
@@ -47,11 +50,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run headless tests
-        run: xvfb-run --auto-servernum npm test
+        run: npm test
         env:
           CI: true
-          BROWSER: ${{ matrix.browser }}
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
-          flags: ${{ matrix.browser }}
+          flags: bs_win_edge,bs_mac_chrome,bs_mac_firefox,bs_mac_safari

@@ -5,6 +5,7 @@ import getDay from 'date-fns/getDay';
 import getMinutes from 'date-fns/getMinutes';
 import getSeconds from 'date-fns/getSeconds';
 import addDays from 'date-fns/addDays';
+import parseISO from 'date-fns/parseISO';
 
 export { default as addDays } from 'date-fns/addDays';
 export { default as addMonths } from 'date-fns/addMonths';
@@ -28,7 +29,7 @@ export { default as isEqual } from 'date-fns/isEqual';
 export { default as isSameDay } from 'date-fns/isSameDay';
 export { default as isSameMonth } from 'date-fns/isSameMonth';
 export { default as parse } from 'date-fns/parse';
-export { default as parseISO } from 'date-fns/parseISO';
+export { parseISO };
 export { default as setDate } from 'date-fns/setDate';
 export { default as setHours } from 'date-fns/setHours';
 export { default as setMinutes } from 'date-fns/setMinutes';
@@ -132,4 +133,10 @@ export function getDateMask(formatStr: string) {
   return Array.from(formatStr).map(i => {
     return i.match(/[A-Za-z]/) ? /[\d|A-Za-z]/ : i;
   });
+}
+
+export function dateFrom(date: string | Date): Date {
+  if (date instanceof Date) return date;
+
+  return parseISO(date);
 }

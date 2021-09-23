@@ -197,7 +197,7 @@ describe('TreePicker', () => {
     const instance = getInstance(<TreePicker open data={data} defaultExpandAll value="tester1" />);
     Simulate.keyDown(instance.target, { key: KEY_VALUES.DOWN });
 
-    assert.equal(instance.overlay.querySelector('.rs-tree-node-focus').innerText, 'Master');
+    assert.equal(instance.overlay.querySelector('.rs-tree-node-focus').textContent, 'Master');
   });
 
   it('Should focus item by keyCode=38 ', () => {
@@ -205,7 +205,7 @@ describe('TreePicker', () => {
 
     Simulate.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
     Simulate.keyDown(instance.target, { key: KEY_VALUES.UP });
-    assert.equal(instance.overlay.querySelector('.rs-tree-node-focus').innerText, 'tester0');
+    assert.equal(instance.overlay.querySelector('.rs-tree-node-focus').textContent, 'tester0');
   });
 
   it('Should focus item by keyCode=13 ', done => {
@@ -240,7 +240,7 @@ describe('TreePicker', () => {
 
     Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
     Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
-    assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').innerText, 'Master');
+    assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'Master');
 
     assert.equal(
       tree.overlay.querySelectorAll('div[data-ref="0-0"] > .rs-tree-node-expanded').length,
@@ -256,7 +256,7 @@ describe('TreePicker', () => {
 
     Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
     Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
-    assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').innerText, 'Master');
+    assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'Master');
   });
 
   /**
@@ -281,7 +281,7 @@ describe('TreePicker', () => {
 
     Simulate.click(tree.overlay.querySelector('span[data-key="0-0-0"]'));
     Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
-    assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').innerText, 'tester0');
+    assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'tester0');
   });
 
   /**
@@ -292,7 +292,7 @@ describe('TreePicker', () => {
 
     Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
     Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
-    assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').innerText, 'tester0');
+    assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'tester0');
   });
 
   it('Should have a custom className', () => {

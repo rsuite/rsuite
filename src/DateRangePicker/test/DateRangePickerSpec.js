@@ -14,6 +14,7 @@ import {
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import DateRangePicker from '../DateRangePicker';
+import { DateUtils } from '../../utils';
 
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
@@ -270,7 +271,7 @@ describe('DateRangePicker', () => {
     const menu = getInstance(
       <DateRangePicker
         open
-        defaultCalendarValue={[new Date('2019-01-01'), new Date('2019-09-01')]}
+        defaultCalendarValue={[DateUtils.parseISO('2019-01-01'), DateUtils.parseISO('2019-09-01')]}
       />,
       false
     ).overlay;
