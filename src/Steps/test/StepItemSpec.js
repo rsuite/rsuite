@@ -27,7 +27,7 @@ describe('StepItem', () => {
 
   it('Should output a number ', () => {
     const instance = getDOMNode(<StepItem stepNumber={10} />);
-    assert.equal(instance.textContent, '10');
+    assert.equal(innerText(instance), '10');
   });
 
   it('Should render description ', () => {

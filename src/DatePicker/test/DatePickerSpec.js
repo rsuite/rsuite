@@ -153,7 +153,7 @@ describe('DatePicker ', () => {
       ReactTestUtils.Simulate.blur(input);
     });
 
-    assert.equal(instance.root.querySelector('.rs-picker-toggle-value').textContent, '10:00:00');
+    assert.equal(instance.root.querySelector('.rs-picker-toggle-value').innerText, '10:00:00');
   });
 
   it('Should call `onClean` callback', () => {

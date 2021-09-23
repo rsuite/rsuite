@@ -28,7 +28,7 @@ module.exports = {
       {
         test: [/\.tsx?$/, /\.jsx?$/],
         use: ['babel-loader?babelrc'],
-        exclude: /node_modules(?!\/sinon)/
+        exclude: /node_modules/
       },
       {
         test: /\.(less|css)$/,

@@ -81,15 +81,15 @@ describe('CheckPicker', () => {
   it('Should active item by `value`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<Dropdown defaultOpen data={data} value={value} />);
-    assert.equal(instance.root.querySelector(valueClassName).textContent, 'Louisa');
-    assert.equal(instance.overlay.querySelector(itemActiveClassName).textContent, value);
+    assert.equal(instance.root.querySelector(valueClassName).innerText, 'Louisa');
+    assert.equal(instance.overlay.querySelector(itemActiveClassName).innerText, value);
   });
 
   it('Should active item by `defaultValue`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={value} />);
-    assert.equal(instance.root.querySelector(valueClassName).textContent, 'Louisa');
-    assert.equal(instance.overlay.querySelector(itemActiveClassName).textContent, value);
+    assert.equal(instance.root.querySelector(valueClassName).innerText, 'Louisa');
+    assert.equal(instance.overlay.querySelector(itemActiveClassName).innerText, value);
   });
 
   it('Should render a group', () => {
@@ -215,20 +215,24 @@ describe('CheckPicker', () => {
     assert.ok(instance.querySelector(cleanClassName));
   });
 
-  it('Should focus item by key=ArrowDown ', () => {
+  it('Should focus item by key=ArrowDown ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={['Eugenia']} />);
 
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
 
-    expect(instance.overlay.querySelector(itemFocusClassName)).to.have.text('Kariane');
+    if (instance.overlay.querySelector(itemFocusClassName).innerText === 'Kariane') {
+      done();
+    }
   });
 
-  it('Should focus item by key=ArrowUp ', () => {
+  it('Should focus item by key=ArrowUp ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={['Kariane']} />);
 
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
 
-    expect(instance.overlay.querySelector(itemFocusClassName)).to.have.text('Eugenia');
+    if (instance.overlay.querySelector(itemFocusClassName).innerText === 'Eugenia') {
+      done();
+    }
   });
 
   it('Should call `onChange` by key=Enter ', done => {
@@ -305,7 +309,7 @@ describe('CheckPicker', () => {
 
     const menu = instance.overlay.querySelector('.rs-checkbox');
 
-    assert.equal(menu.textContent, 'Kariane');
+    assert.equal(menu.innerText, 'Kariane');
   });
 
   it('Should be render selected options be sticky', () => {

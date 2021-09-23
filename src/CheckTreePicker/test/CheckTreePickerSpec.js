@@ -243,7 +243,7 @@ describe('CheckTreePicker', () => {
     const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
     ReactTestUtils.Simulate.keyDown(tree.target, { key: KEY_VALUES.DOWN });
 
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'Master');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'Master');
   });
 
   it('Should focus item by keyCode=38 ', () => {
@@ -252,7 +252,7 @@ describe('CheckTreePicker', () => {
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0-1"] input'));
     ReactTestUtils.Simulate.keyDown(tree.target, { key: KEY_VALUES.UP });
 
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'tester0');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
   it('Should focus item by keyCode=13 ', done => {
@@ -287,7 +287,7 @@ describe('CheckTreePicker', () => {
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'Master');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'Master');
 
     assert.equal(
       tree.overlay.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
@@ -303,7 +303,7 @@ describe('CheckTreePicker', () => {
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'Master');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'Master');
   });
 
   /**
@@ -328,7 +328,7 @@ describe('CheckTreePicker', () => {
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'tester0');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
   /**
@@ -339,7 +339,7 @@ describe('CheckTreePicker', () => {
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'tester0');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
   });
 
   it('Should have a custom className', () => {
