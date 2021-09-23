@@ -172,13 +172,13 @@ describe('MultiCascader', () => {
   it('Should be active by value', () => {
     const value = ['abcd'];
     const instance = getInstance(<MultiCascader defaultOpen data={items} value={value} />);
-    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').textContent, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
   it('Should be active by defaultValue', () => {
     const value = ['abcd'];
     const instance = getInstance(<MultiCascader defaultOpen data={items} defaultValue={value} />);
-    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').textContent, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
   });
 
   it('Should call `onSelect` callback ', () => {
@@ -355,7 +355,7 @@ describe('MultiCascader', () => {
     });
 
     assert.equal(overlay.querySelectorAll('.rs-check-item').length, 1);
-    assert.equal(overlay.querySelector('.rs-check-item').textContent, 'test');
+    assert.equal(overlay.querySelector('.rs-check-item').innerText, 'test');
   });
 
   it('Should children be loaded lazily', () => {
@@ -373,7 +373,7 @@ describe('MultiCascader', () => {
       instance.overlay.querySelector('.rs-picker-cascader-menu-has-children .rs-check-item')
     );
 
-    assert.equal(instance.overlay.querySelectorAll('.rs-check-item')[1].textContent, '2');
+    assert.equal(instance.overlay.querySelectorAll('.rs-check-item')[1].innerText, '2');
   });
 
   it('Should present an asyn loading state', () => {
