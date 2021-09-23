@@ -2,7 +2,7 @@
 
 ```js
 const styles = {
-  marginBottom: 10
+  marginBottom: 10,
 };
 
 const CustomInput = ({ ...props }) => <Input {...props} style={styles} />;

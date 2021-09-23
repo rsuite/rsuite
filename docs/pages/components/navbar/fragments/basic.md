@@ -3,7 +3,9 @@
 ```js
 const instance = (
   <Navbar>
-    <Navbar.Brand href="#">RSUITE</Navbar.Brand>
+    <Navbar.Brand href="#">
+      RSUITE
+    </Navbar.Brand>
     <Nav>
       <Nav.Item icon={<Home />}>Home</Nav.Item>
       <Nav.Item>News</Nav.Item>

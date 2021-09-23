@@ -2,7 +2,7 @@
 
 ```js
 const styles = {
-  marginBottom: 50
+  marginBottom: 50,
 };
 
 const CustomNav = ({ active, onSelect, ...props }) => {

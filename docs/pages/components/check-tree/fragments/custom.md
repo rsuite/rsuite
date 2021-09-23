@@ -10,7 +10,7 @@ const instance = (
   <CheckTree
     data={data}
     defaultExpandAll
-    renderTreeNode={nodeData => {
+    renderTreeNode={(nodeData) => {
       return (
         <span>
           <MapMarker /> {nodeData.label}

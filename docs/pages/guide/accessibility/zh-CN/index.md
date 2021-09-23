@@ -51,7 +51,9 @@
 在表单中通过 `aria-*` 属性让表单输入组件具有描述性，便于屏幕阅读器读出组件对应的标签与描述。例如: 通过 [Form.Group][form.group] 的 `controlId` 属性自动关联 `aria-labelledby` 与 `aria-describedby`。当您尝试提交表单时，如果存在验证错误，我们在表单输入组件下显示一个错误消息框，并包含了一些 ARIA 属性。 以下是对应 HTML 结构:
 
 ```html
-<div role="alert" aria-relevant="all" class="rs-form-control-message">This field is required.</div>
+<div role="alert" aria-relevant="all" class="rs-form-control-message">
+  This field is required.
+</div>
 ```
 
 - `role="alert"` 自动将其转变为实时区域，所以它一变化就会念出来。
