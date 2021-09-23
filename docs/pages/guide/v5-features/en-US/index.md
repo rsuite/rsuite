@@ -269,7 +269,7 @@ npx rsuite-codemod <transform> <path> [...options]
 
 #### Supported browsers
 
-Dropped Internet Explorer 10 and 11
+Dropped Internet Explorer 10
 
 ```diff
 - last 2 versions or > 1% or ie >= 10
