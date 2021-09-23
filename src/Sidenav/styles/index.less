@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import '../../styles//mixins/menu';
 @import '../../Ripple/styles/mixins';
 @import 'mixin';
 
@@ -416,8 +417,16 @@
   }
 
   .rs-sidenav-item.rs-sidenav-item-active,
+  .rs-dropdown-item.rs-dropdown-item-active,
   .rs-dropdown.rs-dropdown-selected-within .rs-dropdown-toggle-icon {
     color: var(--rs-sidenav-default-selected-text);
+  }
+
+  // Collapsed
+  &.rs-sidenav-collapse-out {
+    .rs-dropdown-item.rs-dropdown-item-active {
+      .menuitem-active();
+    }
   }
 }
 

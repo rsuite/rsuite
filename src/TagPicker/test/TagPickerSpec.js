@@ -67,16 +67,16 @@ describe('TagPicker', () => {
   it('Should active item by `value`', () => {
     const value = 'Louisa';
     const instance = getInstance(<TagPicker defaultOpen data={data} value={[value]} />);
-    assert.equal(instance.root.querySelector('.rs-tag-text').innerText, value);
-    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.root.querySelector('.rs-tag-text').textContent, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').textContent, value);
   });
 
   it('Should active item by `defaultValue`', () => {
     const value = 'Louisa';
     const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={[value]} />);
 
-    assert.equal(instance.root.querySelector('.rs-tag-text').innerText, value);
-    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.root.querySelector('.rs-tag-text').textContent, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').textContent, value);
     assert.ok(instance.root.querySelector('.rs-tag-icon-close'));
   });
 
@@ -210,13 +210,13 @@ describe('TagPicker', () => {
   it('Should focus item by key=ArrowDown ', () => {
     const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={['Eugenia']} />);
     ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowDown' });
-    assert.equal(instance.overlay.querySelector('.rs-check-item-focus').innerText, 'Kariane');
+    assert.equal(instance.overlay.querySelector('.rs-check-item-focus').textContent, 'Kariane');
   });
 
   it('Should focus item by key=ArrowUp ', () => {
     const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={['Kariane']} />);
     ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowUp' });
-    assert.equal(instance.overlay.querySelector('.rs-check-item-focus').innerText, 'Eugenia');
+    assert.equal(instance.overlay.querySelector('.rs-check-item-focus').textContent, 'Eugenia');
   });
 
   it('Should call `onChange` by key=Enter ', done => {

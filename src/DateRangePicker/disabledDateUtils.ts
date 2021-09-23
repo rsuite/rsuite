@@ -83,7 +83,10 @@ export function allowedRange(
   endDate: string | Date
 ): DisabledDateFunction {
   return (date: Date): boolean => {
-    if (isBeforeDay(date, new Date(startDate)) || isAfterDay(date, new Date(endDate))) {
+    if (
+      isBeforeDay(date, DateUtils.dateFrom(startDate)) ||
+      isAfterDay(date, DateUtils.dateFrom(endDate))
+    ) {
       return true;
     }
     return false;
@@ -95,7 +98,7 @@ export function allowedRange(
  */
 export function before(beforeDate: string | Date = new Date()): DisabledDateFunction {
   return (date: Date): boolean => {
-    if (isBeforeDay(date, new Date(beforeDate))) {
+    if (isBeforeDay(date, DateUtils.dateFrom(beforeDate))) {
       return true;
     }
     return false;
@@ -107,7 +110,7 @@ export function before(beforeDate: string | Date = new Date()): DisabledDateFunc
  */
 export function after(afterDate: string | Date = new Date()): DisabledDateFunction {
   return (date: Date): boolean => {
-    if (isAfterDay(date, new Date(afterDate))) {
+    if (isAfterDay(date, DateUtils.dateFrom(afterDate))) {
       return true;
     }
     return false;

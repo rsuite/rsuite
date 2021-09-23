@@ -5,6 +5,7 @@ import FormattedDate from '../FormattedDate';
 import { getDOMNode } from '@test/testUtils';
 import { format } from '../../utils/dateUtils';
 import ruRU from '../../locales/ru_RU';
+import { DateUtils } from '../../utils';
 
 function formatDate(date, formatStr) {
   return format(date, formatStr, {
@@ -18,7 +19,7 @@ describe('FormattedDate', () => {
       <div>
         <CustomProvider locale={ruRU}>
           <div>
-            <FormattedDate date={new Date('2020-01-01')} formatStr="MMM dd, yyyy" />
+            <FormattedDate date={DateUtils.parseISO('2020-01-01')} formatStr="MMM dd, yyyy" />
           </div>
         </CustomProvider>
       </div>
@@ -31,7 +32,7 @@ describe('FormattedDate', () => {
       <div>
         <CustomProvider formatDate={formatDate}>
           <div>
-            <FormattedDate date={new Date('2020-01-01')} formatStr="MMM dd, yyyy" />
+            <FormattedDate date={DateUtils.parseISO('2020-01-01')} formatStr="MMM dd, yyyy" />
           </div>
         </CustomProvider>
       </div>
@@ -42,7 +43,7 @@ describe('FormattedDate', () => {
   it('Should render default formatted date', () => {
     const domNode = getDOMNode(
       <div>
-        <FormattedDate date={new Date('2020-01-01')} formatStr="MMM dd, yyyy" />
+        <FormattedDate date={DateUtils.parseISO('2020-01-01')} formatStr="MMM dd, yyyy" />
       </div>
     );
     assert.equal(domNode.innerText, 'Jan 01, 2020');

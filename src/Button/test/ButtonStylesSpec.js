@@ -196,10 +196,10 @@ describe('Button styles', () => {
     const ghostButton = buttons[4];
 
     assert.equal(getStyle(defaultButton, 'opacity'), '1');
-    assert.equal(getStyle(primaryButton, 'opacity'), '0.3');
-    assert.equal(getStyle(linkButton, 'opacity'), '0.3');
+    expect(getStyle(primaryButton, 'opacity')).to.be.almost('0.3');
+    expect(getStyle(linkButton, 'opacity')).to.be.almost('0.3');
     assert.equal(getStyle(subtleButton, 'opacity'), '1');
-    assert.equal(getStyle(ghostButton, 'opacity'), '0.3');
+    expect(getStyle(ghostButton, 'opacity')).to.be.almost('0.3');
   });
 
   it('Default button should render the correct styles when set active', () => {

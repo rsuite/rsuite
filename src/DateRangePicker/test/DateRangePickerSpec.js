@@ -398,7 +398,7 @@ describe('DateRangePicker', () => {
     const menu = getInstance(
       <DateRangePicker
         open
-        defaultCalendarValue={[new Date('2019-01-01'), new Date('2019-09-01')]}
+        defaultCalendarValue={[parseISO('2019-01-01'), parseISO('2019-09-01')]}
       />,
       false
     ).overlay;

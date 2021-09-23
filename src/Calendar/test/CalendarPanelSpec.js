@@ -42,7 +42,7 @@ describe('Calendar - Panel', () => {
     assert.equal(
       instance
         .querySelectorAll('.rs-calendar-table-row')[1]
-        .querySelector('.rs-calendar-table-cell-content').innerText,
+        .querySelector('.rs-calendar-table-cell-content').textContent,
       '1'
     );
   });

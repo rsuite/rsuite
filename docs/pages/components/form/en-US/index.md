@@ -6,7 +6,8 @@ A set of components and models that process form data.
 - `<Form.Group>` Define form groups, used for form layout.
 - `<Form.Control>` Define form-control.
 - `<Form.ControlLabel>` title of form-control.
-- `<Form.HelpText>` help infomation of form-controll
+- `<Form.HelpText>` help infomation of form-control.
+- `<Form.ErrorMessage>` error infomation of form-control.
 
 ## Import
 
@@ -201,7 +202,7 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 | htmlFor     | string                      | Attribute of the html label tag, defaults to the controlId of the Form.Group |
 | tooltip     | boolean                     | Whether to show through the Tooltip component                                |
 
-### `<Form.ErrorMessge>`
+### `<Form.ErrorMessage>`
 
 | Property    | Type`(default)`                   | Description                           |
 | ----------- | --------------------------------- | ------------------------------------- |
