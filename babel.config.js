@@ -14,8 +14,7 @@ module.exports = (api, options) => {
     '@babel/plugin-proposal-nullish-coalescing-operator',
     '@babel/plugin-proposal-export-namespace-from',
     '@babel/plugin-proposal-export-default-from',
-    ['@babel/plugin-transform-runtime', { useESModules: !modules }],
-    '@babel/plugin-transform-template-literals'
+    ['@babel/plugin-transform-runtime', { useESModules: !modules }]
   ];
 
   return {

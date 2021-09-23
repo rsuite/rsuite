@@ -125,7 +125,7 @@ describe('SelectPicker styles', () => {
     const ref = React.createRef();
     ReactDOM.render(<SelectPicker disabled ref={ref} />, createTestContainer());
     const defaultDom = ref.current.root;
-    expect(getStyle(defaultDom, 'opacity')).to.be.almost(0.3);
+    assert.equal(getStyle(defaultDom, 'opacity'), 0.3);
     assert.equal(
       getStyle(defaultDom.querySelector('.rs-picker-toggle'), 'backgroundColor'),
       toRGB('#f7f7fa')

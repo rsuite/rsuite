@@ -28,7 +28,7 @@ describe('Notification', () => {
 
   it('Should have a header', () => {
     const instance = getDOMNode(<Notification header="header" />);
-    assert.equal(instance.querySelector('.rs-notification-title').textContent, 'header');
+    assert.equal(instance.querySelector('.rs-notification-title').innerText, 'header');
   });
 
   it('Should have a custom className', () => {

@@ -18,7 +18,7 @@ describe('picker - DropdownMenuGroup', () => {
       </DropdownMenuGroup>
     );
 
-    assert.equal(instance.querySelector('.rs-dropdown-menu-group-title').textContent, 'title');
+    assert.equal(instance.querySelector('.rs-dropdown-menu-group-title').innerText, 'title');
   });
 
   it('Should have a role', () => {
