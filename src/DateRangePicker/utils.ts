@@ -41,9 +41,18 @@ export const getDefaultRanges = (): RangeType[] => {
   ];
 };
 
-export const isSameValueType = (source: ValueType, dest: ValueType) =>
-  source?.[0]?.valueOf() === dest?.[0]?.valueOf() &&
-  source?.[1]?.valueOf() === dest?.[1]?.valueOf();
+export const isSameRange = (source: ValueType, dest: ValueType, format: string) => {
+  let result =
+    DateUtils.isSameDay(source?.[0], dest?.[0]) && DateUtils.isSameDay(source?.[1], dest?.[1]);
+
+  if (DateUtils.shouldTime(format)) {
+    result &&=
+      DateUtils.isSameSecond(source?.[0], dest?.[0]) &&
+      DateUtils.isSameSecond(source?.[1], dest?.[1]);
+  }
+
+  return result;
+};
 
 export const getMonthHoverRange = (date: Date): ValueType => [
   DateUtils.startOfMonth(date),

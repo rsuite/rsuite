@@ -27,6 +27,7 @@ export { default as isBefore } from 'date-fns/isBefore';
 export { default as isEqual } from 'date-fns/isEqual';
 export { default as isSameDay } from 'date-fns/isSameDay';
 export { default as isSameMonth } from 'date-fns/isSameMonth';
+export { default as isSameSecond } from 'date-fns/isSameSecond';
 export { default as parse } from 'date-fns/parse';
 export { default as parseISO } from 'date-fns/parseISO';
 export { default as setDate } from 'date-fns/setDate';

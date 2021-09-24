@@ -59,7 +59,7 @@ import 'core-js/modules/es7.string.trim-right';
 import 'core-js/modules/es6.weak-map';
 import 'core-js/modules/es6.weak-set';
 import 'core-js/modules/es6.symbol';
-import assign from 'object-assign'
+import assign from 'object-assign';
 
 // Specialized Packages:
 Object.assign = assign;

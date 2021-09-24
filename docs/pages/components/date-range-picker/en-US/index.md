@@ -14,6 +14,10 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 <!--{include:`basic.md`}-->
 
+### Date time or time
+
+<!--{include:`format-date-time.md`}-->
+
 ### Appearance
 
 <!--{include:`appearance.md`}-->
@@ -183,6 +187,7 @@ type DisabledDateFunction = (
 | defaultValue         | ValueType                                               | Default value                                                                        |
 | disabled             | boolean                                                 | Whether disabled the component                                                       |
 | disabledDate         | DisabledDateFunction                                    | Disabled data                                                                        |
+| format               | string `('yyyy-MM-dd')`                                 | Format date [refer to date-fns format](https://date-fns.org/v2.24.0/docs/format)     |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => ValueType    | The date range that will be selected when you click on the date                      |
 | isoWeek              | boolean                                                 | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day |
 | limitEndYear         | number `(1000)`                                         | Sets the lower limit of the available year relative to the current selection date    |

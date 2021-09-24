@@ -1,19 +1,36 @@
+import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import {
   addDays,
+  endOfMonth,
   endOfWeek,
   format,
   isSameDay,
   parseISO,
-  startOfWeek,
   startOfMonth,
-  endOfMonth,
-  subDays
+  startOfWeek,
+  subDays,
+  addMonths
 } from '../../utils/dateUtils';
-import { getDOMNode, getInstance } from '@test/testUtils';
-
 import DateRangePicker from '../DateRangePicker';
+import { isSameRange } from '../utils';
+
+function setTimePickerValue(picker, calendarIndex, { hours, minutes, seconds }) {
+  function generateTimeItem(calendarIndex, type, index) {
+    return `.rs-calendar[index="${calendarIndex}"] .rs-calendar-time-dropdown ul[data-type="${type}"]>li:nth-child(${index}) .rs-calendar-time-dropdown-cell`;
+  }
+
+  ReactTestUtils.Simulate.click(
+    picker.querySelector(generateTimeItem(calendarIndex, 'hours', hours + 1))
+  );
+  ReactTestUtils.Simulate.click(
+    picker.querySelector(generateTimeItem(calendarIndex, 'minutes', minutes + 1))
+  );
+  ReactTestUtils.Simulate.click(
+    picker.querySelector(generateTimeItem(calendarIndex, 'seconds', seconds + 1))
+  );
+}
 
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
@@ -71,8 +88,104 @@ describe('DateRangePicker', () => {
     );
 
     assert.equal(
-      instance.target.querySelector('.rs-picker-toggle-value').innerText,
+      instance.target.querySelector('.rs-picker-toggle-value').textContent,
       '04/01/2019~04/02/2019'
+    );
+  });
+
+  it('Should output custom value with time', () => {
+    const value = [new Date(2019, 10, 11, 1, 0, 0), new Date(2019, 10, 12, 1, 0, 0)];
+    const template = 'MM/dd/yyyy hh:mm:ss';
+    const instance = getInstance(<DateRangePicker value={value} format={template} />);
+
+    assert.equal(
+      instance.target.querySelector('.rs-picker-toggle-value').textContent,
+      '11/11/2019 01:00:00 ~ 11/12/2019 01:00:00'
+    );
+  });
+
+  it('Should select date time successfully', () => {
+    const defaultValue = [new Date(2019, 10, 11, 0, 0, 0), new Date(2019, 11, 11, 0, 0, 0)];
+    const template = 'dd MMM yyyy HH:mm:ss';
+    const onOkSpy = sinon.spy();
+
+    const instance = getInstance(
+      <DateRangePicker defaultValue={defaultValue} format={template} defaultOpen onOk={onOkSpy} />
+    );
+    const picker = instance.overlay;
+
+    const startTimeToolbar = '.rs-calendar[index="0"] .rs-calendar-header-time-toolbar';
+    const endTimeToolbar = '.rs-calendar[index="1"] .rs-calendar-header-time-toolbar';
+
+    // click the left calendar time toolbar, display time selection panel
+    ReactTestUtils.Simulate.click(picker.querySelector(startTimeToolbar));
+    // select time to 6:6:6
+    setTimePickerValue(picker, 0, { hours: 6, minutes: 6, seconds: 6 });
+    // close the left calendar time picker panel.
+    ReactTestUtils.Simulate.click(picker.querySelector(startTimeToolbar));
+
+    assert.equal(picker.querySelector(startTimeToolbar).textContent, '06:06:06');
+
+    // click the right calendar time toolbar, display time selection panel
+    ReactTestUtils.Simulate.click(picker.querySelector(endTimeToolbar));
+    // select time to 9:9:9
+    setTimePickerValue(picker, 1, { hours: 9, minutes: 9, seconds: 9 });
+    ReactTestUtils.Simulate.click(picker.querySelector(endTimeToolbar));
+
+    assert.equal(picker.querySelector(endTimeToolbar).textContent, '09:09:09');
+
+    // press ok button
+    ReactTestUtils.Simulate.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
+
+    assert.ok(
+      isSameRange(
+        [new Date(2019, 10, 11, 6, 6, 6), new Date(2019, 11, 11, 9, 9, 9)],
+        onOkSpy.args[0][0]
+      )
+    );
+    assert.equal(
+      instance.target.querySelector('.rs-picker-toggle-value').textContent,
+      '11 Nov 2019 06:06:06 ~ 11 Dec 2019 09:09:09'
+    );
+  });
+
+  it('Should select time successfully', () => {
+    const start = new Date(2019, 10, 11, 0, 0, 0);
+    // The end calendar default value is after a month from start calendar value
+    const end = addMonths(start, 1);
+    const template = 'hh:mm:ss';
+    const onOkSpy = sinon.spy();
+
+    const instance = getInstance(
+      <DateRangePicker defaultValue={[start, end]} format={template} defaultOpen onOk={onOkSpy} />
+    );
+    const picker = instance.overlay;
+
+    const startTimeToolbar = '.rs-calendar[index="0"] .rs-calendar-header-time-toolbar';
+    const endTimeToolbar = '.rs-calendar[index="1"] .rs-calendar-header-time-toolbar';
+
+    // select time to 6:6:6
+    setTimePickerValue(picker, 0, { hours: 6, minutes: 6, seconds: 6 });
+
+    assert.equal(picker.querySelector(startTimeToolbar).textContent, '06:06:06');
+
+    // select time to 9:9:9
+    setTimePickerValue(picker, 1, { hours: 9, minutes: 9, seconds: 9 });
+
+    assert.equal(picker.querySelector(endTimeToolbar).textContent, '09:09:09');
+
+    // press ok button
+    ReactTestUtils.Simulate.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
+
+    assert.ok(
+      isSameRange(
+        [new Date(2019, 10, 11, 6, 6, 6), new Date(2019, 11, 11, 9, 9, 9)],
+        onOkSpy.args[0][0]
+      )
+    );
+    assert.equal(
+      instance.target.querySelector('.rs-picker-toggle-value').textContent,
+      '06:06:06 ~ 09:09:09'
     );
   });
 
@@ -214,8 +327,8 @@ describe('DateRangePicker', () => {
       '.rs-calendar-table-cell-in-range, .rs-calendar-table-cell-selected-start'
     );
 
-    assert.equal(allInRangeCells[0].innerText, '11');
-    assert.equal(allInRangeCells[allInRangeCells.length - 1].innerText, '24');
+    assert.equal(allInRangeCells[0].textContent, '11');
+    assert.equal(allInRangeCells[allInRangeCells.length - 1].textContent, '24');
   });
 
   it('Should select a date range by click', () => {
@@ -243,8 +356,8 @@ describe('DateRangePicker', () => {
       '.rs-calendar-table-cell-in-range, .rs-calendar-table-cell-selected-start'
     );
 
-    assert.equal(allInRangeCells[0].innerText, '11');
-    assert.equal(allInRangeCells[allInRangeCells.length - 1].innerText, '24');
+    assert.equal(allInRangeCells[0].textContent, '11');
+    assert.equal(allInRangeCells[allInRangeCells.length - 1].textContent, '24');
   });
 
   it('Should fire `onChange` if click ok after only select one date in oneTap mode', () => {
@@ -270,7 +383,7 @@ describe('DateRangePicker', () => {
     const menu = getInstance(
       <DateRangePicker
         open
-        defaultCalendarValue={[new Date('2019-01-01'), new Date('2019-09-01')]}
+        defaultCalendarValue={[parseISO('2019-01-01'), parseISO('2019-09-01')]}
       />,
       false
     ).overlay;

@@ -1,14 +1,29 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
-import omit from 'lodash/omit';
-import pick from 'lodash/pick';
+import IconCalendar from '@rsuite/icons/legacy/Calendar';
 import isUndefined from 'lodash/isUndefined';
-import { addMonths, compareAsc, isSameDay, isSameMonth } from '../utils/dateUtils';
-import * as disabledDateUtils from './disabledDateUtils';
+import omit from 'lodash/omit';
+import partial from 'lodash/partial';
+import pick from 'lodash/pick';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FormControlBaseProps, PickerBaseProps } from '../@types/common';
 import { FormattedDate } from '../CustomProvider';
 import Toolbar from '../DatePicker/Toolbar';
-import Calendar from './Calendar';
-import { getCalendarDate, getMonthHoverRange, getWeekHoverRange, setTimingMargin } from './utils';
+import { DateRangePickerLocale } from '../locales';
+import {
+  omitTriggerPropKeys,
+  OverlayTriggerInstance,
+  PickerComponent,
+  pickerDefaultProps,
+  PickerOverlay,
+  pickerPropTypes,
+  PickerToggle,
+  PickerToggleTrigger,
+  pickTriggerPropKeys,
+  PositionChildProps,
+  usePickerClassName,
+  usePublicMethods,
+  useToggleKeyDownEvent
+} from '../Picker';
 import {
   createChainedFunction,
   DATERANGE_DISABLED_TARGET,
@@ -18,26 +33,17 @@ import {
   useControlled,
   useCustom
 } from '../utils';
-import {
-  PickerOverlay,
-  OverlayTriggerInstance,
-  PickerComponent,
-  pickerDefaultProps,
-  pickerPropTypes,
-  usePublicMethods,
-  useToggleKeyDownEvent,
-  PickerToggle,
-  PickerToggleTrigger,
-  pickTriggerPropKeys,
-  omitTriggerPropKeys,
-  PositionChildProps,
-  usePickerClassName
-} from '../Picker';
-import { FormControlBaseProps, PickerBaseProps } from '../@types/common';
+import { addMonths, compareAsc, isSameMonth } from '../utils/dateUtils';
+import Calendar from './Calendar';
+import * as disabledDateUtils from './disabledDateUtils';
 import { DisabledDateFunction, RangeType, ValueType } from './types';
-import partial from 'lodash/partial';
-import { DateRangePickerLocale } from '../locales';
-import IconCalendar from '@rsuite/icons/legacy/Calendar';
+import {
+  getCalendarDate,
+  getMonthHoverRange,
+  getWeekHoverRange,
+  isSameRange,
+  setTimingMargin
+} from './utils';
 
 type InputState = 'Typing' | 'Error' | 'Initial';
 
@@ -316,7 +322,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       const nextValue = !isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
 
       setSelectValue(nextValue || []);
-      if (!isSameDay(nextValue[0], value[0]) || !isSameDay(nextValue[1], value[1])) {
+      if (!isSameRange(nextValue, value, formatStr)) {
         setValue(nextValue);
         onChange?.(nextValue, event);
       }
@@ -326,7 +332,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         handleCloseDropdown();
       }
     },
-    [handleCloseDropdown, onChange, selectValue, setSelectValue, setValue, value]
+    [formatStr, handleCloseDropdown, onChange, selectValue, setValue, value]
   );
 
   /**
@@ -438,10 +444,33 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     (index: number, date: Date) => {
       const nextCalendarDate = Array.from(calendarDate);
       nextCalendarDate[index] = date;
-
       updateCalendarDate(nextCalendarDate as ValueType);
     },
     [calendarDate, updateCalendarDate]
+  );
+
+  const handleChangeCalendarTime = useCallback(
+    (index: number, date: Date) => {
+      setSelectValue(prev => {
+        const next = [...prev] as ValueType;
+        const clonedDate = new Date(date.valueOf());
+
+        // if next[index] is not empty, only update the time after aligning the year, month and day
+        if (next[index]) {
+          clonedDate.setFullYear(
+            next[index].getFullYear(),
+            next[index].getMonth(),
+            next[index].getDate()
+          );
+        }
+
+        next[index] = clonedDate;
+
+        return next;
+      });
+      handleChangeCalendarDate(index, date);
+    },
+    [handleChangeCalendarDate]
   );
 
   /**
@@ -643,6 +672,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       showWeekNumbers,
       value: selectValue,
       onChangeCalendarDate: handleChangeCalendarDate,
+      onChangeCalendarTime: handleChangeCalendarTime,
       onMouseMove: handleMouseMove,
       onSelect: handleSelectValueChange
     };
