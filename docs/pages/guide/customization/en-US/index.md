@@ -23,6 +23,10 @@ After you configure the theme base color, a set of swatches (`@H050` - `@H900`, 
 
 Now go to the [palette](/resources/palette) to select the appropriate color or upload your own Logo to preview.
 
+#### Dark mode
+
+If you want to also customize the built-in dark mode, you can use `@primary-color-dark` variable.
+
 ### Adjusts the fillet radius of the assembly.
 
 ```less
@@ -37,23 +41,29 @@ Now go to the [palette](/resources/palette) to select the appropriate color or u
 @font-size-base: 14px;
 ```
 
-### Replace the auxiliary color.
+### Secondary palette
 
-Information, successes, warnings, errors, respectively, the corresponding color, modified to affect the [Message](/components/message), Notification](/components/notification) and other needs to display the status of the components.
+Secondary palettes acts as auxiliary colors which often stands for different states - informational, successful, warnings and errors, respectively. You can customize the secondary palette to change the look of [Message](/components/message), [Notification](/components/notification) and other needs to display the states of the components.
 
+| Color     | State     |
+| --------- | --------- |
+| `@green`  | `success` |
+| `@blue`   | `info`    |
+| `@yellow` | `warning` |
+| `@red`    | `error`   |
+
+<!-- prettier-ignore-start -->
 ```less
-@info-color: #2196f3;
-@info-light-color: #e9f5fe;
-
-@success-color: #4caf50;
-@success-light-color: #edfae1;
-
-@warning-color: #ffb300;
-@warning-light-color: #fff9e6;
-
-@error-color: #f44336;
-@error-light-color: #fde9ef;
+@green:  #4caf50;
+@blue:   #2196f3;
+@yellow: #ffb300;
+@red:    #f44336;
 ```
+<!-- prettier-ignore-end -->
+
+#### Dark mode
+
+If you want to also customize the built-in dark mode, you can use corresponding `@green-dark`, `@blue-dark`, `@yellow-dark`, `@red-dark` variable.
 
 ### Disable ripple animation
 

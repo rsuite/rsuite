@@ -21,6 +21,10 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 
 配置主题基色以后，会生成一组色板（`@H050` - `@H900`， H 是 Hue 的缩写 ）参考: [constants.less][rsuite-theme-pallete]。现在就去[调色板](/resources/palette)选择适合的颜色或上传自己的 Logo 进行预览。
 
+#### 深色模式
+
+如果你想同时自定义内建深色模式的颜色，你可以使用 `@primary-color-dark` 变量。
+
 ### 调整组件圆角半径
 
 ```less
@@ -35,23 +39,29 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 @font-size-base: 14px;
 ```
 
-### 替换辅助色
+### 第二色板
 
-信息，成功，警告，错误分别对应的颜色，修改后影响到 [Message](/zh/components/message)，[Notification](/zh/components/notification) 等需要显示状态的组件。
+第二色板用作辅助颜色，分别代表不同的状态——信息、成功、警告、错误。你可以自定义第二色板来修改 [Message](/zh/components/message)、[Notification](/zh/components/notification) 等需要显示状态的组件的外观。
 
+| Color     | State     |
+| --------- | --------- |
+| `@green`  | `success` |
+| `@blue`   | `info`    |
+| `@yellow` | `warning` |
+| `@red`    | `error`   |
+
+<!-- prettier-ignore-start -->
 ```less
-@info-color: #2196f3;
-@info-light-color: #e9f5fe;
-
-@success-color: #4caf50;
-@success-light-color: #edfae1;
-
-@warning-color: #ffb300;
-@warning-light-color: #fff9e6;
-
-@error-color: #f44336;
-@error-light-color: #fde9ef;
+@green:  #4caf50;
+@blue:   #2196f3;
+@yellow: #ffb300;
+@red:    #f44336;
 ```
+<!-- prettier-ignore-end -->
+
+#### 深色模式
+
+如果你想同时自定义内建深色模式的颜色，你可以使用对应的 `@green-dark`, `@blue-dark`, `@yellow-dark`, `@red-dark` 变量。
 
 ### 禁用涟漪动画
 
@@ -147,7 +157,6 @@ module.exports = merge(
 ├── theme-green.css
 └── theme-yellow.css
 ```
-
 
 > 如果您使用了 [`create-react-app`][cra] 创建项目，可以通过 [`react-app-rewire-less`][rarl] 和 [`react-app-rewire-define-plugin`][rardp] 进行修改。详见[在 create-react-app 中使用][use-with-create-app]。
 
