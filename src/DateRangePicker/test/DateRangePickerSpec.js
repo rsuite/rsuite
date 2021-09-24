@@ -14,7 +14,7 @@ import {
   addMonths
 } from '../../utils/dateUtils';
 import DateRangePicker from '../DateRangePicker';
-import { isSameDateRange } from '../utils';
+import { isSameRange } from '../utils';
 
 function setTimePickerValue(picker, calendarIndex, { hours, minutes, seconds }) {
   function generateTimeItem(calendarIndex, type, index) {
@@ -138,7 +138,7 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
     assert.ok(
-      isSameDateRange(
+      isSameRange(
         [new Date(2019, 10, 11, 6, 6, 6), new Date(2019, 10, 12, 9, 9, 9)],
         onOkSpy.args[0][0]
       )
@@ -178,7 +178,7 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
     assert.ok(
-      isSameDateRange(
+      isSameRange(
         [new Date(2019, 10, 11, 6, 6, 6), new Date(2019, 11, 11, 9, 9, 9)],
         onOkSpy.args[0][0]
       )
