@@ -105,12 +105,12 @@ describe('DateRangePicker', () => {
   });
 
   it('Should select date time successfully', () => {
-    const value = [new Date(2019, 10, 11, 0, 0, 0), new Date(2019, 10, 12, 0, 0, 0)];
-    const template = 'dd MMM yyyy hh:mm:ss';
+    const defaultValue = [new Date(2019, 10, 11, 0, 0, 0), new Date(2019, 11, 11, 0, 0, 0)];
+    const template = 'dd MMM yyyy HH:mm:ss';
     const onOkSpy = sinon.spy();
 
     const instance = getInstance(
-      <DateRangePicker value={value} format={template} defaultOpen onOk={onOkSpy} />
+      <DateRangePicker defaultValue={defaultValue} format={template} defaultOpen onOk={onOkSpy} />
     );
     const picker = instance.overlay;
 
@@ -139,13 +139,13 @@ describe('DateRangePicker', () => {
 
     assert.ok(
       isSameRange(
-        [new Date(2019, 10, 11, 6, 6, 6), new Date(2019, 10, 12, 9, 9, 9)],
+        [new Date(2019, 10, 11, 6, 6, 6), new Date(2019, 11, 11, 9, 9, 9)],
         onOkSpy.args[0][0]
       )
     );
     assert.equal(
       instance.target.querySelector('.rs-picker-toggle-value').textContent,
-      '11 Nov 2019 06:06:06 ~ 12 Nov 2019 09:09:09'
+      '11 Nov 2019 06:06:06 ~ 11 Dec 2019 09:09:09'
     );
   });
 
@@ -157,7 +157,7 @@ describe('DateRangePicker', () => {
     const onOkSpy = sinon.spy();
 
     const instance = getInstance(
-      <DateRangePicker value={[start, end]} format={template} defaultOpen onOk={onOkSpy} />
+      <DateRangePicker defaultValue={[start, end]} format={template} defaultOpen onOk={onOkSpy} />
     );
     const picker = instance.overlay;
 
