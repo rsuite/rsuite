@@ -94,7 +94,7 @@ describe('DateRangePicker', () => {
   });
 
   it('Should output custom value with time', () => {
-    const value = [new Date('11/11 2019 01:00:00'), new Date('11/12 2019 01:00:00')];
+    const value = [new Date(2019, 10, 11, 1, 0, 0), new Date(2019, 10, 12, 1, 0, 0)];
     const template = 'MM/dd/yyyy hh:mm:ss';
     const instance = getInstance(<DateRangePicker value={value} format={template} />);
 
@@ -105,7 +105,7 @@ describe('DateRangePicker', () => {
   });
 
   it('Should select date time successfully', () => {
-    const value = [new Date('11/11 2019 00:00:00'), new Date('11/12 2019 00:00:00')];
+    const value = [new Date(2019, 10, 11, 0, 0, 0), new Date(2019, 10, 12, 0, 0, 0)];
     const template = 'dd MMM yyyy hh:mm:ss';
     const onOkSpy = sinon.spy();
 
@@ -139,7 +139,7 @@ describe('DateRangePicker', () => {
 
     assert.ok(
       isSameDateRange(
-        [new Date('11/11 2019 06:06:06'), new Date('11/12 2019 09:09:09')],
+        [new Date(2019, 10, 11, 6, 6, 6), new Date(2019, 10, 12, 9, 9, 9)],
         onOkSpy.args[0][0]
       )
     );
@@ -150,7 +150,7 @@ describe('DateRangePicker', () => {
   });
 
   it('Should select time successfully', () => {
-    const start = new Date('11/11 2019 00:00:00');
+    const start = new Date(2019, 10, 11, 0, 0, 0);
     // The end calendar default value is after a month from start calendar value
     const end = addMonths(start, 1);
     const template = 'hh:mm:ss';
@@ -179,7 +179,7 @@ describe('DateRangePicker', () => {
 
     assert.ok(
       isSameDateRange(
-        [new Date('11/11 2019 06:06:06'), new Date('12/11 2019 09:09:09')],
+        [new Date(2019, 10, 11, 6, 6, 6), new Date(2019, 11, 11, 9, 9, 9)],
         onOkSpy.args[0][0]
       )
     );
