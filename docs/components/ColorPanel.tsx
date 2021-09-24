@@ -1,6 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import Color from 'color';
-import { Icon, Popover, Whisper } from 'rsuite';
+import { Popover, Whisper } from 'rsuite';
+import Question2 from '@rsuite/icons/legacy/Question2';
+import type { PositionChildProps } from 'rsuite/es/Overlay/Position';
 
 interface ColorType {
   hex: string;
@@ -21,7 +23,7 @@ export default function ColorPanel(props: ColorPanelProps) {
           <th>
             <Whisper placement={'top'} trigger="hover" speaker={<Speaker />}>
               <a href="https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast">
-                Ratio <Icon icon="question2" />
+                Ratio <Question2 />
               </a>
             </Whisper>
           </th>
@@ -40,8 +42,8 @@ export default function ColorPanel(props: ColorPanelProps) {
             color: a > b ? '#575757' : '#fff'
           };
 
-          let levelNoraml = '';
-          let levelLarge = '';
+          let levelNoraml = '⚠️';
+          let levelLarge = '⚠️';
 
           if (contrast >= 3) {
             levelLarge = 'AA';
@@ -72,9 +74,9 @@ export default function ColorPanel(props: ColorPanelProps) {
   );
 }
 
-function Speaker() {
+const Speaker = React.forwardRef(({ style, ...rest }: PositionChildProps, ref) => {
   return (
-    <Popover title="Contrast Ratio" style={{ width: 700 }}>
+    <Popover ref={ref} style={{ width: 700, ...style }} title="Contrast Ratio" {...rest}>
       <p>
         The latest accessibility guidelines (e.g.,
         <a
@@ -99,18 +101,18 @@ function Speaker() {
       </p>
       <ul>
         <li>
-          <strong>3 : 1</strong> - minimum contrast for "large scale" text (18 pt or 14 pt bold, or
-          larger) under WCAG 2.0 1.4.3 (Level AA)
+          <strong>3 : 1</strong> - minimum contrast for &quot;large scale&quot; text (18 pt or 14 pt
+          bold, or larger) under WCAG 2.0 1.4.3 (Level AA)
         </li>
         <li>
           <strong>4.5 : 1</strong> - minimum contrast for regular sized text under WCAG 2.0 1.4.3
           (Level AA)
         </li>
         <li>
-          <strong>7 : 1</strong> - "enhanced" contrast for regular sized text under WCAG 2.0 1.4.6
-          (Level AAA)
+          <strong>7 : 1</strong> - &quot;enhanced&quot; contrast for regular sized text under WCAG
+          2.0 1.4.6 (Level AAA)
         </li>
       </ul>
     </Popover>
   );
-}
+});

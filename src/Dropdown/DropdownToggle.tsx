@@ -1,73 +1,83 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-
-import Ripple from '../Ripple';
 import Button from '../Button';
-import { prefix, defaultProps } from '../utils';
-import { IconProps } from '../Icon/Icon.d';
+import { useClassNames } from '../utils';
+import { IconProps } from '@rsuite/icons/lib/Icon';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
+import useToggleCaret from '../utils/useToggleCaret';
+import { SidenavContext } from '../Sidenav/Sidenav';
 
-export interface DorpdownToggleProps {
-  className?: string;
-  classPrefix?: string;
-  children?: React.ReactNode;
+export interface DropdownToggleProps extends WithAsProps {
   icon?: React.ReactElement<IconProps>;
   noCaret?: boolean;
-  componentClass: React.ElementType;
-  renderTitle?: (children?: React.ReactNode) => React.ReactNode;
+  renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
+  placement?: TypeAttributes.Placement8;
 }
 
-class DorpdownToggle extends React.Component<DorpdownToggleProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    children: PropTypes.node,
-    icon: PropTypes.node,
-    classPrefix: PropTypes.string,
-    noCaret: PropTypes.bool,
-    componentClass: PropTypes.elementType,
-    renderTitle: PropTypes.func
-  };
-  render() {
-    const {
-      className,
-      classPrefix,
-      renderTitle,
-      children,
-      icon,
-      noCaret,
-      componentClass: Component,
-      ...props
-    } = this.props;
-    const addPrefix = prefix(classPrefix);
-
-    if (renderTitle) {
-      return (
-        <span {...props} className={classNames(classPrefix, addPrefix('custom-title'), className)}>
-          {renderTitle(children)}
-          <Ripple />
-        </span>
-      );
-    }
-
-    let buttonProps = {};
-    if (Component === Button) {
-      buttonProps = {
-        componentClass: 'a',
-        appearance: 'subtle'
-      };
-    }
-
-    return (
-      <Component {...buttonProps} {...props} className={classNames(classPrefix, className)}>
-        {icon}
-        {children}
-        {noCaret ? null : <span className={addPrefix('caret')} />}
-      </Component>
-    );
-  }
-}
-
-export default defaultProps<DorpdownToggleProps>({
-  componentClass: Button,
+const defaultProps: Partial<DropdownToggleProps> = {
+  as: Button,
   classPrefix: 'dropdown-toggle'
-})(DorpdownToggle);
+};
+
+const DropdownToggle: RsRefForwardingComponent<
+  typeof Button,
+  DropdownToggleProps
+> = React.forwardRef((props: DropdownToggleProps, ref) => {
+  const {
+    as: Component,
+    className,
+    classPrefix,
+    renderToggle,
+    children,
+    icon,
+    noCaret,
+    placement,
+    ...rest
+  } = props;
+
+  const sidenav = useContext(SidenavContext);
+  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
+
+  const inSidenav = !!sidenav;
+
+  // Caret icon is down by default, when Dropdown is used in Sidenav.
+  const Caret = useToggleCaret(inSidenav ? 'bottomStart' : placement);
+
+  const toggle = (
+    <Component {...rest} ref={ref} className={classes}>
+      {icon &&
+        React.cloneElement(icon, {
+          className: prefix('icon')
+        })}
+      {children}
+      {noCaret ? null : <Caret className={prefix('caret')} />}
+    </Component>
+  );
+
+  return renderToggle ? renderToggle(rest, ref) : toggle;
+});
+
+DropdownToggle.displayName = 'DropdownToggle';
+DropdownToggle.defaultProps = defaultProps;
+DropdownToggle.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+  icon: PropTypes.node,
+  classPrefix: PropTypes.string,
+  noCaret: PropTypes.bool,
+  as: PropTypes.elementType,
+  renderToggle: PropTypes.func,
+  placement: PropTypes.oneOf([
+    'bottomStart',
+    'bottomEnd',
+    'topStart',
+    'topEnd',
+    'leftStart',
+    'rightStart',
+    'leftEnd',
+    'rightEnd'
+  ])
+};
+
+export default DropdownToggle;

@@ -1,15 +1,24 @@
-import Transition from './Transition';
-import Fade from './Fade';
-import Collapse from './Collapse';
-import Bounce from './Bounce';
-import Slide from './Slide';
+import Transition, { TransitionProps } from './Transition';
+import Slide, { SlideProps } from './Slide';
+import Collapse, { CollapseProps } from './Collapse';
+import Fade, { FadeProps } from './Fade';
+import Bounce, { BounceProps } from './Bounce';
 
-const Animation = {
+export interface AnimationAPI {
+  Transition: React.ComponentType<TransitionProps>;
+  Collapse: React.ComponentType<CollapseProps>;
+  Fade: React.FunctionComponent<FadeProps>;
+  Bounce: React.FunctionComponent<BounceProps>;
+  Slide: React.FunctionComponent<SlideProps>;
+}
+
+const Animation: AnimationAPI = {
   Transition,
-  Fade,
   Collapse,
+  Fade,
   Bounce,
   Slide
 };
 
+export type { TransitionProps, SlideProps, CollapseProps, FadeProps, BounceProps };
 export default Animation;

@@ -9,7 +9,7 @@ describe('Toggle', () => {
     const Title = 'Title';
     const instance = getDOMNode(<Toggle title="title">{Title}</Toggle>);
 
-    assert.equal(instance.tagName, 'A');
+    assert.equal(instance.tagName, 'DIV');
     assert.include(instance.className, 'toggle');
     assert.equal(instance.innerText, Title);
   });
@@ -17,7 +17,7 @@ describe('Toggle', () => {
   it('Should output a button', () => {
     const Title = 'Title';
     const instance = getDOMNode(
-      <Toggle title="title" componentClass="button">
+      <Toggle title="title" as="button">
         {Title}
       </Toggle>
     );
@@ -71,5 +71,20 @@ describe('Toggle', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Toggle classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should add value to input', () => {
+    const instance = getDOMNode(
+      <Toggle title="title" inputValue={['value1', 'value2']}>
+        Title
+      </Toggle>
+    );
+    assert.ok(instance.querySelector('[value="value1,value2"]'));
+  });
+
+  it('Should be disabled', () => {
+    const instance = getDOMNode(<Toggle disabled>Title</Toggle>);
+    assert.equal(instance.getAttribute('aria-disabled'), 'true');
+    assert.equal(instance.getAttribute('tabindex'), undefined);
   });
 });

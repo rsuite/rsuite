@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Message from '../index';
 import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Message styles', () => {
   it('Should render the correct background color', () => {
@@ -12,7 +12,7 @@ describe('Message styles', () => {
       <Message description="Informational" ref={instanceRef} />,
       createTestContainer()
     );
-    assert.equal(getStyle(getDOMNode(instanceRef.current), 'backgroundColor'), toRGB('#e9f5fe'));
+    assert.equal(getStyle(getDOMNode(instanceRef.current), 'backgroundColor'), toRGB('#f0f9ff'));
   });
 
   it('Icon should render the correct color', () => {

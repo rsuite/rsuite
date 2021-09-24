@@ -1,89 +1,93 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
-import classNames from 'classnames';
-import { ReactChildren, getUnhandledProps, defaultProps, prefix } from '../utils';
-import { PanelGroupProps } from './PanelGroup.d';
-import { PanelProps } from '../Panel/Panel.d';
+import { useClassNames, useControlled } from '../utils';
+import { WithAsProps } from '../@types/common';
 
-interface PanelGroupState {
-  activeKey?: boolean;
+type KeyType = string | number;
+export interface PanelGroupProps<T = KeyType> extends WithAsProps {
+  /** Whether it is a collapsible panel. */
+  accordion?: boolean;
+
+  /** Expand the Panel, corresponding to the 'Panel' of 'eventkey' */
+  activeKey?: T;
+
+  /** Show border */
+  bordered?: boolean;
+
+  /** The default expansion panel. */
+  defaultActiveKey?: T;
+
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** Toggles the callback function for the expand panel */
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
-class PanelGroup extends React.Component<PanelGroupProps, PanelGroupState> {
-  static propTypes = {
-    accordion: PropTypes.bool,
-    activeKey: PropTypes.any,
-    bordered: PropTypes.bool,
-    defaultActiveKey: PropTypes.any,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    classPrefix: PropTypes.string,
-    onSelect: PropTypes.func
-  };
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeKey: props.defaultActiveKey
-    };
-  }
-
-  getActiveKey() {
-    const { activeKey } = this.props;
-    return _.isUndefined(activeKey) ? this.state.activeKey : activeKey;
-  }
-
-  handleSelect = (activeKey: any, event: React.MouseEvent) => {
-    this.setState({ activeKey });
-    this.props.onSelect?.(activeKey, event);
-  };
-
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
-
-  renderPanel = (child: React.ReactElement<PanelProps>, index: number) => {
-    if (!React.isValidElement(child)) {
-      return child;
-    }
-    const { accordion } = this.props;
-    const activeKey = this.getActiveKey();
-    const props: PanelProps = {
-      key: child.key ? child.key : index,
-      ref: _.get(child, 'ref')
-    };
-
-    if (accordion) {
-      return {
-        ...props,
-        headerRole: 'tab',
-        panelRole: 'tabpanel',
-        collapsible: true,
-        expanded: _.isUndefined(activeKey)
-          ? child.props.expanded
-          : child.props.eventKey === activeKey,
-        onSelect: this.handleSelect
-      };
-    }
-
-    return props;
-  };
-
-  render() {
-    const { className, accordion, bordered, classPrefix, children, ...rest } = this.props;
-    const classes = classNames(classPrefix, className, {
-      [this.addPrefix('accordion')]: accordion,
-      [this.addPrefix('bordered')]: bordered
-    });
-
-    const unhandled = getUnhandledProps(PanelGroup, rest);
-
-    return (
-      <div {...unhandled} role={accordion ? 'tablist' : undefined} className={classes}>
-        {ReactChildren.mapCloneElement(children, this.renderPanel)}
-      </div>
-    );
-  }
-}
-
-export default defaultProps<PanelGroupProps>({
+const defaultProps: Partial<PanelGroupProps> = {
+  as: 'div',
   classPrefix: 'panel-group'
-})(PanelGroup);
+};
+
+interface PanelGroupContext {
+  accordion?: boolean;
+  activeKey?: KeyType;
+  onGroupSelect?: (activeKey: KeyType, event: React.MouseEvent) => void;
+}
+
+export const PanelGroupContext = React.createContext<PanelGroupContext>({});
+
+const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
+  const {
+    as: Component,
+    accordion,
+    defaultActiveKey,
+    bordered,
+    className,
+    classPrefix,
+    children,
+    activeKey: activeProp,
+    onSelect,
+    ...rest
+  } = props;
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const [activeKey, setActiveKey] = useControlled(activeProp, defaultActiveKey);
+  const classes = merge(
+    className,
+    withClassPrefix({
+      accordion,
+      bordered
+    })
+  );
+
+  const handleSelect = useCallback(
+    (activeKey: KeyType, event: React.MouseEvent) => {
+      setActiveKey(activeKey);
+      onSelect?.(activeKey, event);
+    },
+    [onSelect, setActiveKey]
+  );
+
+  return (
+    <Component {...rest} ref={ref} role={accordion ? 'tablist' : undefined} className={classes}>
+      <PanelGroupContext.Provider value={{ accordion, activeKey, onGroupSelect: handleSelect }}>
+        {children}
+      </PanelGroupContext.Provider>
+    </Component>
+  );
+});
+
+PanelGroup.displayName = 'PanelGroup';
+PanelGroup.defaultProps = defaultProps;
+PanelGroup.propTypes = {
+  accordion: PropTypes.bool,
+  activeKey: PropTypes.any,
+  bordered: PropTypes.bool,
+  defaultActiveKey: PropTypes.any,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  classPrefix: PropTypes.string,
+  onSelect: PropTypes.func
+};
+
+export default PanelGroup;

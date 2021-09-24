@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "noImplicitAny": false,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
-    "target": "es5",
-    "jsx": "react"
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "target": "esnext",
+    "jsx": "react",
+    "skipLibCheck": true
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

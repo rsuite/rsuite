@@ -1,13 +1,10 @@
-import * as React from 'react';
-import { Avatar, Icon, Badge } from 'rsuite';
+import React from 'react';
+import { Avatar, Badge } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import { Avatar as AvatarUser } from '@/components/SvgIcons';
+import { Avatar as AvatarIcon } from '@/components/SvgIcons';
+import User from '@rsuite/icons/legacy/User';
+import { Icon } from '@rsuite/icons';
 
 export default function Page() {
-  return (
-    <DefaultPage
-      examples={['basic', 'text', 'icon', 'image', 'size', 'badge']}
-      dependencies={{ Avatar, Icon, Badge, AvatarUser }}
-    />
-  );
+  return <DefaultPage dependencies={{ Avatar, Badge, AvatarIcon, User, Icon }} />;
 }

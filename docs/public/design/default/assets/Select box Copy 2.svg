@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Select box Copy 2</title>
+    <g id="Data-Entry" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Checkbox" transform="translate(-102.000000, -255.000000)">
+            <g id="编组" transform="translate(102.000000, 255.000000)">
+                <rect id="Rectangle-6" fill="#3498FF" x="0" y="0" width="16" height="16" rx="3"></rect>
+                <line x1="10.8284271" y1="5.17157288" x2="5.17157288" y2="10.8284271" id="Path-3-Copy" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(8.000000, 8.000000) rotate(-315.000000) translate(-8.000000, -8.000000) "></line>
+            </g>
+        </g>
+    </g>
+</svg>

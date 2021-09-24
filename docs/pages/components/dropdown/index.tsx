@@ -1,41 +1,27 @@
-import * as React from 'react';
-import {
-  Dropdown,
-  Button,
-  Icon,
-  ButtonToolbar,
-  IconButton,
-  ButtonGroup,
-  Popover,
-  Whisper
-} from 'rsuite';
+import React from 'react';
+import { Dropdown, Button, ButtonToolbar, IconButton, ButtonGroup, Popover, Whisper } from 'rsuite';
 import Link from 'next/link';
 import DefaultPage from '@/components/Page';
+
+import PageIcon from '@rsuite/icons/Page';
+import FolderFillIcon from '@rsuite/icons/FolderFill';
+import DetailIcon from '@rsuite/icons/Detail';
+import FileDownloadIcon from '@rsuite/icons/FileDownload';
+import ArrowDownIcon from '@rsuite/icons/ArrowDown';
+import PlusIcon from '@rsuite/icons/Plus';
 
 export default function Page() {
   return (
     <DefaultPage
-      examples={[
-        'basic',
-        'trigger',
-        'active',
-        'disabled',
-        'size',
-        'no-caret',
-        'icons',
-        'divider',
-        'placement',
-        'submenu',
-        'custom',
-        'buttons',
-        'menu-items',
-        'with-popover',
-        'with-router'
-      ]}
       dependencies={{
+        ArrowDownIcon,
+        PlusIcon,
+        PageIcon,
+        FolderFillIcon,
+        DetailIcon,
+        FileDownloadIcon,
         Dropdown,
         Button,
-        Icon,
         ButtonToolbar,
         IconButton,
         ButtonGroup,

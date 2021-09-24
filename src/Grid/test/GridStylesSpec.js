@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Grid from '../index';
 import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Grid styles', () => {
   itChrome('Should render the correct styles', () => {

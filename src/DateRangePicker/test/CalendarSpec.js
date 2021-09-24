@@ -2,46 +2,72 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Calendar from '../Calendar';
+import { parseISO } from '../../utils/dateUtils';
 
 describe('DateRangePicker - Calendar', () => {
-  it('Should render a div with `calendar` class', () => {
-    const instance = getDOMNode(
-      <Calendar format="YYYY-MM-DD" calendarDate={[new Date(), new Date()]} />
-    );
+  it('Should render a div with "rs-calendar" class', () => {
+    const instance = getDOMNode(<Calendar onChangeCalendarDate={() => 1} />);
 
     assert.equal(instance.nodeName, 'DIV');
-    assert.ok(instance.className.match(/\bcalendar\b/));
+    assert.ok(instance.className.match(/\brs-calendar\b/));
   });
 
-  it('Should call `onSelect` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-
+  it('Should output a date', () => {
     const instance = getDOMNode(
-      <Calendar format="YYYY-MM-DD" calendarDate={[new Date(), new Date()]} onSelect={doneOp} />
+      <Calendar
+        calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
+        index={0}
+        onChangeCalendarDate={() => 1}
+        format="yyyy-MM"
+      />
     );
-    const instanceDOM = instance;
-    ReactTestUtils.Simulate.click(instanceDOM.querySelector('.rs-calendar-table-cell-is-today'));
+    assert.equal(instance.querySelector('.rs-calendar-header-title').innerText, '2017-08');
   });
 
-  it('Should have a custom className', () => {
+  it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
-      <Calendar format="YYYY-MM-DD" className="custom" calendarDate={[new Date(), new Date()]} />
+      <Calendar
+        calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
+        index={0}
+        onChangeCalendarDate={() => {
+          done();
+        }}
+      />
     );
-    assert.ok(instance.className.match(/\bcustom\b/));
+
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-backward'));
   });
 
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
+  it('Should call `onChangeCalendarDate` callback', done => {
     const instance = getDOMNode(
-      <Calendar format="YYYY-MM-DD" style={{ fontSize }} calendarDate={[new Date(), new Date()]} />
+      <Calendar
+        calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
+        index={0}
+        onChangeCalendarDate={() => {
+          done();
+        }}
+      />
     );
-    assert.equal(instance.style.fontSize, fontSize);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-forward'));
+  });
+
+  it('Should call `onChangeCalendarDate` callback', done => {
+    const instance = getDOMNode(
+      <Calendar
+        calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
+        index={0}
+        onChangeCalendarDate={() => {
+          done();
+        }}
+      />
+    );
+
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title-date'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-month-dropdown-cell'));
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Calendar format="YYYY-MM-DD" classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<Calendar classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

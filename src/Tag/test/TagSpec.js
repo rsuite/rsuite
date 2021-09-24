@@ -7,7 +7,7 @@ import Tag from '../Tag';
 describe('Tag', () => {
   it('Should output a Tag', () => {
     const instance = getDOMNode(<Tag />);
-    assert.equal(instance.className, 'rs-tag rs-tag-default');
+    assert.equal(instance.className, 'rs-tag rs-tag-md rs-tag-default');
   });
 
   it('Should call onClose callback', done => {

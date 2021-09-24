@@ -1,16 +1,24 @@
-# Divider Dividing line
+# Divider
 
-`<Divider>` Dividing line
+Divider are used to group content horizontally or vertically.
 
-## Usage
+## Import
 
-```js
-import { Divider } from 'rsuite';
-```
+<!--{include:(components/divider/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Divider With Text
+
+<!--{include:`with-text.md`}-->
+
+### Vertical Divider
+
+<!--{include:`vertical.md`}-->
 
 ## Props
 
@@ -18,6 +26,6 @@ import { Divider } from 'rsuite';
 
 | Property    | Type`(default)`      | Description                           |
 | ----------- | -------------------- | ------------------------------------- |
-| children    | React.Node           | Set text in the dividing line         |
+| children    | ReactNode            | Set the text on the dividing line     |
 | classPrefix | string `('divider')` | The prefix of the component CSS class |
 | vertical    | boolean              | Vertical dividing line                |

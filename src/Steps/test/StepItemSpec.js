@@ -1,7 +1,7 @@
 import React from 'react';
 import { innerText, getDOMNode } from '@test/testUtils';
 import StepItem from '../StepItem';
-import Icon from '../../Icon';
+import User from '@rsuite/icons/legacy/User';
 
 describe('StepItem', () => {
   it('Should render a StepItem', () => {
@@ -20,9 +20,9 @@ describe('StepItem', () => {
   });
 
   it('Should render custom icon', () => {
-    const instance = getDOMNode(<StepItem icon={<Icon icon="user" />} />);
+    const instance = getDOMNode(<StepItem icon={<User />} />);
     assert.ok(instance.className.match(/\brs-steps-item-custom\b/));
-    assert.ok(instance.querySelector('i.rs-icon-user'));
+    assert.isNotNull(instance.querySelector('[aria-label="user"]'));
   });
 
   it('Should output a number ', () => {

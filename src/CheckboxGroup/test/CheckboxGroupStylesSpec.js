@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import CheckboxGroup from '../index';
 import Checkbox from '../../Checkbox';
-import { createTestContainer, getDOMNode, toRGB } from '@test/testUtils';
+import { createTestContainer, getDOMNode } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 import { getStyle } from '../../../test/testUtils';
 
 describe('CheckboxGroup styles', () => {

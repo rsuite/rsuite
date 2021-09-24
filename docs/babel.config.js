@@ -1,6 +1,6 @@
 module.exports = (api, options) => {
   const { NODE_ENV } = options || process.env;
-  const __PRO__ = NODE_ENV === 'production';
+  //const __PRO__ = NODE_ENV === 'production';
 
   if (api) {
     api.cache(() => NODE_ENV);
@@ -36,23 +36,18 @@ module.exports = (api, options) => {
     '@babel/plugin-proposal-export-namespace-from',
     '@babel/plugin-proposal-export-default-from',
     '@babel/plugin-transform-object-assign',
-    'add-module-exports'
-  ];
-
-  if (__PRO__) {
-    presets.unshift('rsuite');
-  } else {
-    plugins.push([
+    'add-module-exports',
+    [
       'module-resolver',
       {
         alias: {
           '@': './',
-          '@rsuite-locales': '../src/IntlProvider/locales',
+          '@rsuite-locales': '../src/locales',
           rsuite: '../src'
         }
       }
-    ]);
-  }
+    ]
+  ];
 
   return {
     presets,

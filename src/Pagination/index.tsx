@@ -1,4 +1,6 @@
-import withLocale from '../IntlProvider/withLocale';
-import Pagination from './Pagination';
+import PaginationGroup from './PaginationGroup';
 
-export default withLocale(['Pagination'])(Pagination);
+export type { PaginationGroupProps as PaginationProps } from './PaginationGroup';
+export type { PaginationProps as BasePaginationProps } from './Pagination';
+export type { PaginationButtonProps } from './PaginationButton';
+export default PaginationGroup;

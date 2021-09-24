@@ -3,18 +3,97 @@
 A set of components and models that process form data.
 
 - `<Form>` Define a form.
-- `<FormControl>` Define form-control.
-- `<FormGroup>` Define form groups, used for form layout.
-- `<ControlLabel>` title of form-control.
-- `<HelpBlock>` help infomation of form-controll
+- `<Form.Group>` Define form groups, used for form layout.
+- `<Form.Control>` Define form-control.
+- `<Form.ControlLabel>` title of form-control.
+- `<Form.HelpText>` help infomation of form-control.
+- `<Form.ErrorMessage>` error infomation of form-control.
 
-## Usage
+## Import
 
-```js
-import { Form, FormGroup, FormControl, ControlLabel, HelpBlock } from 'rsuite';
+<!--{include:(components/form/fragments/import.md)}-->
+
+## Layouts
+
+---
+
+### Default
+
+The default is the vertical layout
+
+<!--{include:`basic.md`}-->
+
+### Fluid
+
+The `fluid` property allows the Input 100% of the form to fill the container, valid only in vertical layouts.
+
+<!--{include:`fluid.md`}-->
+
+### Horizontal layout
+
+<!--{include:`horizontal.md`}-->
+
+### Inline Layout
+
+<!--{include:`inline.md`}-->
+
+### Layout In Modal
+
+<!--{include:`modal-layout.md`}-->
+
+## Status
+
+---
+
+### Help Text
+
+`<Form.HelpText>` A help description can be defined below the form component. If the `tooltip` property is set, an icon will be displayed on the form component and the help description information will be displayed as `<Tooltip>`.
+
+<!--{include:`help-block.md`}-->
+
+### Error Message
+
+Error message can be set in 2 ways:
+
+- The `<Form.Control>` component passes an `errorMessage` property setting error message, and `errorPlacement` sets the location of the error message display.
+- Customize a prompt message.
+
+<!--{include:`error-message.md`}-->
+
+### Disabled and read only
+
+<!--{include:`status.md`}-->
+
+## Accessibility
+
+- Through the `controlId` prop of `<Form.Group>`, you can set `id` on `<Form.Control>` and set `htmlFor` on `<Form.ControlLabel>`. In addition, `aria-labelledby` and `aria-describeby` will be generated for `<Form.Control>`, corresponding to the `id` of `<Form.ControlLabel>` and `<Form.HelpText>`.
+
+```html
+<Form.Group controlId="name">
+  <Form.ControlLabel>Username</Form.ControlLabel>
+  <Form.Control />
+  <Form.HelpText>Username is required</Form.HelpText>
+</Form.Group>
 ```
 
-<!--{demo}-->
+HTML:
+
+```html
+<div class="rs-form-group" role="group">
+  <label id="name-control-label" for="name" class="rs-form-control-label">Username</label>
+  <div class="rs-form-control rs-form-control-wrapper">
+    <input
+      id="name"
+      class="rs-input"
+      aria-labelledby="name-control-label"
+      aria-describedby="name-help-text"
+    />
+  </div>
+  <span id="name-help-text" class="rs-form-help-text">Username is required</span>
+</div>
+```
+
+- Click the button of `type='submit'` in the Form, and the submit event of the form will be triggered automatically.
 
 ## Props
 
@@ -22,19 +101,18 @@ import { Form, FormGroup, FormControl, ControlLabel, HelpBlock } from 'rsuite';
 
 | Property         | Type `(default)`                                        | Description                                                                                                |
 | ---------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| checkDelay       | number `(500)`                                          | Delayed processing when data check, unit: millisecond                                                      |
 | checkTrigger     | enum: 'change','blur','none' `('change')`               | Trigger the type of form validation                                                                        |
 | classPrefix      | string `('form')`                                       | The prefix of the component CSS class                                                                      |
-| errorFromContext | boolean `(true)`                                        | Error reminders in FormControl are defaulted from Context                                                  |
+| errorFromContext | boolean `(true)`                                        | Error reminders in Form.Control are defaulted from Context                                                 |
 | fluid            | boolean                                                 | The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts |
-| formDefaultValue | Object                                                  | Default value of form                                                                                      |
-| formError        | Object                                                  | Error message of form                                                                                      |
-| formValue        | Object                                                  | Value of form (Controlled)                                                                                 |
+| formDefaultValue | object                                                  | Default value of form                                                                                      |
+| formError        | object                                                  | Error message of form                                                                                      |
+| formValue        | object                                                  | Value of form (Controlled)                                                                                 |
 | layout           | enum: 'horizontal', 'vertical', 'inline' `('vertical')` | Set the left and right columns of the layout of the elements within the form                               |
-| model            | Schema                                                  | SchemaModel Object                                                                                         |
-| onChange         | (formValue:Object, event:Object) => void                | Callback fired when data changing                                                                          |
-| onCheck          | (formError:Object) => void                              | Callback fired when data cheking                                                                           |
-| onError          | (formError:Object) => void                              | Callback fired when error checking                                                                         |
+| model            | Schema                                                  | SchemaModel object                                                                                         |
+| onChange         | (formValue:object, event:object) => void                | Callback fired when data changing                                                                          |
+| onCheck          | (formError:object) => void                              | Callback fired when data cheking                                                                           |
+| onError          | (formError:object) => void                              | Callback fired when error checking                                                                         |
 
 ### Form methods
 
@@ -81,46 +159,65 @@ Clean error message.
 cleanErrors(callback: () => void) => void
 ```
 
-- cleanErrorForFiled
+- cleanErrorForField
 
 Clear single field error message
 
 ```js
-cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
+cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 ```
 
-### `<FormControl>`
+### `<Form.Control>`
 
-| Property       | Type`(default)`                              | Description                                                                      |
-| -------------- | -------------------------------------------- | -------------------------------------------------------------------------------- |
-| accepter       | React.ElementType `(Input)`                  | Proxied components                                                               |
-| checkTrigger   | enum: 'change','blur','none'                 | The data validation trigger type, and it wiill overrides the setting on `<Form>` |
-| classPrefix    | string `('form-control')`                    | The prefix of the component CSS class                                            |
-| errorMessage   | React.Node                                   | Show error messages                                                              |
-| errorPlacement | enum: [Placement8](#types) `('bottomStart')` | The placement of error messages                                                  |
-| name \*        | string                                       | The name of form-control                                                         |
-| readOnly       | boolean                                      | Make the control readonly                                                        |
-| plaintext      | boolean                                      | Make the control plaintext                                                       |
+| Property       | Type`(default)`                   | Description                                                                      |
+| -------------- | --------------------------------- | -------------------------------------------------------------------------------- |
+| accepter       | ElementType `(Input)`             | Proxied components                                                               |
+| checkTrigger   | enum: 'change','blur','none'      | The data validation trigger type, and it wiill overrides the setting on `<Form>` |
+| classPrefix    | string `('form-control')`         | The prefix of the component CSS class                                            |
+| errorMessage   | ReactNode                         | Show error messages                                                              |
+| errorPlacement | enum: Placement `('bottomStart')` | The placement of error messages                                                  |
+| name \*        | string                            | The name of form-control                                                         |
+| plaintext      | boolean                           | Make the control plaintext                                                       |
+| readOnly       | boolean                           | Make the control readonly                                                        |
 
-### `<FormGroup>`
+### `<Form.Group>`
 
-| Property    | Type`(default)`         | Description                           |
-| ----------- | ----------------------- | ------------------------------------- |
-| classPrefix | string `('form-group')` | The prefix of the component CSS class |
-| controlId   | string                  | Sets id for controlled component      |
+| Property    | Type`(default)`         | Description                                                         |
+| ----------- | ----------------------- | ------------------------------------------------------------------- |
+| classPrefix | string `('form-group')` | The prefix of the component CSS class                               |
+| controlId   | string                  | Sets id on `<Form.Control>` and `htmlFor` on `<Form.ControlLabel>`. |
 
-### `<ControlLabel>`
+### `<Form.ControlLabel>`
 
-| Property    | Type`(default)`            | Description                                                                 |
-| ----------- | -------------------------- | --------------------------------------------------------------------------- |
-| classPrefix | string `('control-label')` | The prefix of the component CSS class                                       |
-| htmlFor     | string                     | Attribute of the html label tag, defaults to the controlId of the FormGroup |
-| srOnly      | boolean                    | Screen reader only                                                          |
+| Property    | Type`(default)`                 | Description                                                                  |
+| ----------- | ------------------------------- | ---------------------------------------------------------------------------- |
+| classPrefix | string `('form-control-label')` | The prefix of the component CSS class                                        |
+| htmlFor     | string                          | Attribute of the html label tag, defaults to the controlId of the Form.Group |
 
-### `<HelpBlock>`
+### `<Form.HelpText>`
 
-| Property    | Type`(default)`         | Description                                                                 |
-| ----------- | ----------------------- | --------------------------------------------------------------------------- |
-| classPrefix | string `('help-block')` | The prefix of the component CSS class                                       |
-| htmlFor     | string                  | Attribute of the html label tag, defaults to the controlId of the FormGroup |
-| tooltip     | boolean                 | Whether to show through the Tooltip component                               |
+| Property    | Type`(default)`             | Description                                                                  |
+| ----------- | --------------------------- | ---------------------------------------------------------------------------- |
+| classPrefix | string `('form-help-text')` | The prefix of the component CSS class                                        |
+| htmlFor     | string                      | Attribute of the html label tag, defaults to the controlId of the Form.Group |
+| tooltip     | boolean                     | Whether to show through the Tooltip component                                |
+
+### `<Form.ErrorMessage>`
+
+| Property    | Type`(default)`                   | Description                           |
+| ----------- | --------------------------------- | ------------------------------------- |
+| classPrefix | string `('form-error-message')`   | The prefix of the component CSS class |
+| show        | boolean                           | Whether to display error message      |
+| placement   | enum: Placement `('bottomStart')` | The placement of error messages       |
+
+```js
+type Placement =
+  | 'bottomStart'
+  | 'bottomEnd'
+  | 'topStart'
+  | 'topEnd'
+  | 'leftStart'
+  | 'rightStart'
+  | 'leftEnd'
+  | 'rightEnd';
+```

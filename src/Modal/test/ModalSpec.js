@@ -7,12 +7,12 @@ import Modal from '../Modal';
 describe('Modal', () => {
   it('Should render the modal content', () => {
     const instance = getInstance(
-      <Modal show>
+      <Modal open>
         <p>message</p>
       </Modal>
     );
 
-    assert.equal(instance.modalRef.current.getDialogElement().querySelectorAll('p').length, 1);
+    assert.equal(instance.querySelectorAll('p').length, 1);
   });
 
   it('Should close the modal when the modal dialog is clicked', done => {
@@ -20,40 +20,38 @@ describe('Modal', () => {
       done();
     };
 
-    const instance = getInstance(<Modal show onHide={doneOp} />);
-    const dialog = instance.modalRef.current.getDialogElement();
+    const instance = getInstance(<Modal open onClose={doneOp} />);
 
-    ReactTestUtils.Simulate.click(dialog);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-modal-backdrop'));
   });
 
   it('Should not close the modal when the "static" dialog is clicked', () => {
-    const onHideSpy = sinon.spy();
-    const instance = getInstance(<Modal show onHide={onHideSpy} backdrop="static" />);
-    const dialog = instance.modalRef.current.getDialogElement();
-    ReactTestUtils.Simulate.click(dialog);
+    const onCloseSpy = sinon.spy();
+    const instance = getInstance(<Modal open onClose={onCloseSpy} backdrop="static" />);
+    ReactTestUtils.Simulate.click(instance);
 
-    assert.ok(!onHideSpy.calledOnce);
+    assert.ok(!onCloseSpy.calledOnce);
   });
 
   it('Should be automatic height', () => {
     const instance = getInstance(
-      <Modal className="custom" overflow show>
+      <Modal className="custom" overflow open>
         <Modal.Body style={{ height: 2000 }} />
       </Modal>
     );
-    assert.ok(instance.dialogElement.querySelector('.rs-modal-body').style.overflow, 'auto');
+    assert.ok(instance.querySelector('.rs-modal-body').style.overflow, 'auto');
   });
 
-  it('Should call onHide callback', done => {
+  it('Should call onClose callback', done => {
     const doneOp = () => {
       done();
     };
     const instance = getInstance(
-      <Modal className="custom" show onHide={doneOp}>
+      <Modal className="custom" open onClose={doneOp}>
         <Modal.Header />
       </Modal>
     );
-    const closeButton = instance.dialogElement.querySelector('.rs-modal-header-close');
+    const closeButton = instance.querySelector('.rs-modal-header-close');
     ReactTestUtils.Simulate.click(closeButton);
   });
 
@@ -62,28 +60,28 @@ describe('Modal', () => {
       done();
     };
 
+    const ref = React.createRef();
+
     class Demo extends React.Component {
       constructor(props) {
         super(props);
         this.state = {
-          show: true
+          open: true
         };
         this.handleClose = this.handleClose.bind(this);
       }
       handleClose() {
         this.setState({
-          show: false
+          open: false
         });
       }
       render() {
         return (
           <Modal
             className="custom"
-            ref={ref => {
-              this.demo = ref;
-            }}
-            show={this.state.show}
-            onHide={this.handleClose}
+            ref={ref}
+            open={this.state.open}
+            onClose={this.handleClose}
             onExited={doneOp}
           >
             <Modal.Header />
@@ -91,24 +89,24 @@ describe('Modal', () => {
         );
       }
     }
-    const instance = getInstance(<Demo />);
-    const closeButton = instance.demo.dialogElement.querySelector('.rs-modal-header-close');
+    getInstance(<Demo />);
+    const closeButton = ref.current.querySelector('.rs-modal-header-close');
     ReactTestUtils.Simulate.click(closeButton);
   });
 
   it('Should have a custom className', () => {
-    const instance = getInstance(<Modal className="custom" show />);
-    assert.ok(instance.dialogElement.className.match(/\bcustom\b/));
+    const instance = getInstance(<Modal className="custom" open />);
+    assert.ok(instance.querySelector('.custom'));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getInstance(<Modal style={{ fontSize }} show />);
-    assert.equal(instance.dialogElement.style.fontSize, fontSize);
+    const instance = getInstance(<Modal style={{ fontSize }} open />);
+    assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getInstance(<Modal classPrefix="custom-prefix" show />);
-    assert.ok(instance.dialogElement.className.match(/\bcustom-prefix\b/));
+    const instance = getInstance(<Modal classPrefix="custom-prefix" open />);
+    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

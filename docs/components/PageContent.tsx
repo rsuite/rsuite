@@ -1,91 +1,114 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { Divider, Icon, ButtonGroup, Button, IconButton, Tooltip, Whisper } from 'rsuite';
-import { canUseDOM } from 'dom-lib';
+import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
+import { canUseDOM, toggleClass } from 'dom-lib';
 import { Markdown } from 'react-markdown-reader';
 import AppContext from './AppContext';
 import PageContainer from './PageContainer';
 import Head from './Head';
 import Paragraph from './Paragraph';
 import components from '../utils/component.config.json';
-import { getTitle, getDescription, replaceWithPlaceholder } from '../utils/parseHTML';
+import { getTitle, getDescription } from '../utils/parseHTML';
+import scrollIntoView from '../utils/scrollIntoView';
+import { CodeViewProps } from './CodeView';
+import Github from '@rsuite/icons/legacy/Github';
+import { Icon } from '@rsuite/icons';
+import { Transparent as TransparentIcon } from './SvgIcons';
+import { useCallback } from 'react';
 
 const babelOptions = {
   presets: ['env', 'stage-1', 'react'],
   plugins: ['transform-class-properties']
 };
 
-const CustomCodeView = ({ dependencies, source, onLoaded, ...rest }: any) => {
+interface CustomCodeViewProps {
+  className?: string;
+  height?: number;
+  dependencies?: any;
+  source?: any;
+  onLoaded?: () => void;
+  path: string;
+  renderToolbar?: (showCodeButton: React.ReactNode) => React.ReactNode;
+}
+
+const CustomCodeView = (props: CustomCodeViewProps) => {
+  const { dependencies, source, height = 100, path, onLoaded, ...rest } = props;
   const { styleLoaded } = React.useContext(AppContext);
-  const placeholder = (
-    <div
-      dangerouslySetInnerHTML={{
-        __html: replaceWithPlaceholder(source ?? '')
-      }}
-    />
-  );
+  const viewRef = React.useRef();
+
+  const renderPlaceholder = React.useCallback(() => {
+    return <Placeholder.Graph height={height} />;
+  }, [height]);
+
+  const handleChangeTransparent = useCallback(() => {
+    toggleClass(viewRef.current, 'rs-code-transparent');
+  }, []);
+
   if (canUseDOM && source && styleLoaded) {
-    const CodeView = dynamic(
+    const CodeView: React.ComponentType<CodeViewProps> = dynamic(
       () =>
         import('./CodeView').then(Component => {
           onLoaded?.();
           return Component;
         }),
       {
-        loading: () => placeholder
+        loading: renderPlaceholder
       }
     );
+
     return (
-      <CodeView
-        {...rest}
-        source={source}
-        theme="dark"
-        babelOptions={babelOptions}
-        buttonClassName="rs-btn-subtle rs-btn-icon-circle"
-        dependencies={{ ...dependencies, Paragraph, Divider }}
-      />
+      <div ref={viewRef} className="rs-code-view">
+        <CodeView
+          {...rest}
+          style={{ minHeight: height }}
+          source={source}
+          theme="dark"
+          babelOptions={babelOptions}
+          buttonClassName="rs-btn-subtle rs-btn-icon-circle"
+          dependencies={{ ...dependencies, Paragraph, Divider }}
+          renderToolbar={(CodeButton: React.ReactElement) => {
+            return (
+              <React.Fragment>
+                <Whisper placement="top" speaker={<Tooltip>Show the source</Tooltip>}>
+                  {CodeButton}
+                </Whisper>{' '}
+                <Whisper placement="top" speaker={<Tooltip>Transparent background</Tooltip>}>
+                  <IconButton
+                    onClick={handleChangeTransparent}
+                    appearance="subtle"
+                    icon={<Icon as={TransparentIcon} />}
+                    circle
+                    size="xs"
+                  />
+                </Whisper>
+                <Whisper placement="top" speaker={<Tooltip>See the source on GitHub</Tooltip>}>
+                  <IconButton
+                    appearance="subtle"
+                    icon={<Github />}
+                    circle
+                    size="xs"
+                    target="_blank"
+                    href={path}
+                  />
+                </Whisper>
+              </React.Fragment>
+            );
+          }}
+        />
+      </div>
     );
   }
-  return placeholder;
+  return renderPlaceholder();
 };
 
-interface TabsProps {
-  title: string;
-  tabExamples: any[];
-  dependencies: any;
-}
-
-function Tabs(props: TabsProps) {
-  const { tabExamples, title, dependencies } = props;
-
-  if (!tabExamples?.length) {
-    return null;
-  }
-
-  const [tabIndex, setTabIndex] = React.useState<number>(0);
-  const activeExample = tabExamples[tabIndex];
-
-  return (
-    <div>
-      <h3>{title}</h3>
-      <ButtonGroup size="xs" className="menu-tabs">
-        {tabExamples.map((item, index: number) => (
-          <Button
-            key={index}
-            appearance={index === tabIndex ? 'primary' : 'default'}
-            onClick={() => {
-              setTabIndex(index);
-            }}
-          >
-            {item.title}
-          </Button>
-        ))}
-      </ButtonGroup>
-      <CustomCodeView key={tabIndex} source={activeExample?.source} dependencies={dependencies} />
-    </div>
-  );
-}
+CustomCodeView.propTypes = {
+  height: PropTypes.number,
+  dependencies: PropTypes.object,
+  source: PropTypes.string,
+  onLoaded: PropTypes.func
+};
 
 export interface PageContentProps {
   id?: string;
@@ -97,15 +120,9 @@ export interface PageContentProps {
   hidePageNav?: boolean;
 }
 
-const PageContent = ({
-  category = 'components',
-  examples = [],
-  dependencies,
-  tabExamples,
-  children,
-  hidePageNav
-}: PageContentProps) => {
-  const { messages, localePath } = React.useContext(AppContext);
+const PageContent = (props: PageContentProps) => {
+  const { category = 'components', dependencies, children, hidePageNav } = props;
+  const { localePath } = React.useContext(AppContext);
 
   const router = useRouter();
 
@@ -118,65 +135,49 @@ const PageContent = ({
   const description = getDescription(context);
   const pageHead = <Head title={title} description={description} />;
 
-  if (!examples?.length) {
-    return (
-      <PageContainer routerId={pathname} hidePageNav={hidePageNav}>
-        {pageHead}
-        <Markdown>{context}</Markdown>
-        {children}
-      </PageContainer>
-    );
-  }
-
-  const componentExamples = examples.map(item => ({
-    source: require(`../pages${pathname}${localePath}/${item}.md`),
-    path: `https://github.com/rsuite/rsuite/tree/master/docs/pages${pathname}${localePath}/${item}.md`
-  }));
-
   const component = components.find(item => item.id === id || item.name === id);
   const designHash = component?.designHash;
 
-  const docs = context.split('<!--{demo}-->');
-  const header = docs[0];
-  const footer = docs[1];
+  const fragments = context.split(/<!--{(\S+)}-->/);
+
+  React.useEffect(() => {
+    scrollIntoView();
+  }, []);
 
   return (
     <PageContainer designHash={designHash} routerId={pathname} hidePageNav={hidePageNav}>
       {pageHead}
-      <Markdown>{header}</Markdown>
-      {componentExamples.map((item, index) => (
-        <CustomCodeView
-          key={index}
-          source={item.source}
-          dependencies={dependencies}
-          renderToolbar={showCodeButton => {
-            return (
-              <React.Fragment>
-                <Whisper placement="top" speaker={<Tooltip>Show the source</Tooltip>}>
-                  {showCodeButton}
-                </Whisper>{' '}
-                <Whisper placement="top" speaker={<Tooltip>See the source on GitHub</Tooltip>}>
-                  <IconButton
-                    appearance="subtle"
-                    icon={<Icon icon="github" />}
-                    circle
-                    size="xs"
-                    target="_blank"
-                    href={item.path}
-                  />
-                </Whisper>
-              </React.Fragment>
-            );
-          }}
-        />
-      ))}
-      <Tabs
-        title={messages?.common?.advanced}
-        tabExamples={tabExamples}
-        dependencies={dependencies}
-      />
+      {fragments.map((item, index) => {
+        const result = item.match(/include:`(\S+)`(\|(\d+)\|)?/);
+        // Import sample code
+        const codeName = result?.[1];
+        const height = result?.[3];
 
-      <Markdown>{footer}</Markdown>
+        if (codeName) {
+          return (
+            <CustomCodeView
+              key={index}
+              height={height ? parseInt(height) : undefined}
+              source={require(`../pages${pathname}/fragments/${codeName}`)}
+              dependencies={dependencies}
+              path={`https://github.com/rsuite/rsuite/tree/master/docs/pages${pathname}/fragments/${codeName}`}
+              onLoaded={() => {
+                scrollIntoView();
+              }}
+            />
+          );
+        }
+
+        // Import markdown documents
+        const markdownFile = item.match(/include:\((\S+)\)/)?.[1];
+
+        if (markdownFile) {
+          return <Markdown key={index}>{require(`../pages/${markdownFile}`)}</Markdown>;
+        }
+
+        return <Markdown key={index}>{item}</Markdown>;
+      })}
+
       {children}
     </PageContainer>
   );

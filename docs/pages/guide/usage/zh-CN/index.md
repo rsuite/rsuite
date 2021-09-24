@@ -28,7 +28,7 @@ import ReactDOM from 'react-dom';
 import { Button } from 'rsuite';
 
 // import default style
-import 'rsuite/lib/styles/index.less'; // or 'rsuite/dist/styles/rsuite-default.css'
+import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
 
 function App() {
   return <Button>Hello World</Button>;
@@ -41,7 +41,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 <iframe src="https://codesandbox.io/embed/k9v972q3lr" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
 
-- [在 create-react-app 中使用](use-with-create-react-app)
-- [在 Next.js 中使用](use-next-app)
+- [在 create-react-app 中使用](/zh/guide/use-with-create-react-app/)
+- [在 Next.js 中使用](/zh/guide/use-next-app/)
 
 [wechat-entry]: https://github.com/rsuite/rsuite/blob/master/README_zh.md#%E6%94%AF%E6%8C%81-react-suite

@@ -1,28 +1,37 @@
-import * as React from 'react';
-import { Grid, IntlProvider as RSIntlProvider } from 'rsuite';
+import React from 'react';
+import { Grid, CustomProvider, CustomProviderProps } from 'rsuite';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import AppContext from '@/components/AppContext';
 import zhCN from '@rsuite-locales/zh_CN';
 import enUS from '@rsuite-locales/en_US';
+import * as Sentry from '@sentry/browser';
+import '../less/index.less';
+
+// Connecting the SDK to Sentry
+if (!process.env.DEV) {
+  Sentry.init({
+    dsn: 'https://be402c47cb1a4d79b78ad283191299f7@sentry-prd.hypers.cc/7',
+    release: `v${process.env.VERSION}`
+  });
+}
 
 import { getMessages } from '../locales';
 import {
   DirectionType,
   getDefaultTheme,
-  getThemeCssPath,
-  getThemeId,
+  getStylesheetPath,
   readTheme,
   ThemeType,
   writeTheme
 } from '../utils/themeHelpers';
-import loadCssFile from '../utils/loadCssFile';
 import StyleHead from '../components/StyleHead';
 import { canUseDOM } from 'dom-lib';
+import loadCssFile from '@/utils/loadCssFile';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
-  if (process.env.__DEV__) {
+  if (process.env.DEV) {
     console.log(`Loading: ${url}`);
   }
 });
@@ -46,58 +55,81 @@ function App({ Component, pageProps }: AppProps) {
     readTheme,
     [getDefaultTheme()]
   );
-  const [themeName, setThemeName] = React.useState(defaultThemeName);
+  const [themeName, setThemeName] = React.useState<CustomProviderProps['theme']>(defaultThemeName);
   const [direction, setDirection] = React.useState(defaultDirection);
   const [language, setLanguage] = React.useState(pageProps.userLanguage);
   const [styleLoaded, setStyleLoaded] = React.useState(false);
   const locale = language === 'zh' ? zhCN : enUS;
-  React.useEffect(() => {
-    NProgress.start();
-  }, []);
 
   const handleStyleHeadLoaded = React.useCallback(() => {
-    NProgress.done();
     setStyleLoaded(true);
   }, []);
 
-  const loadTheme = React.useCallback((themeName: ThemeType, direction: DirectionType) => {
-    const themeId = getThemeId(themeName, direction);
-    NProgress.start();
-    loadCssFile(getThemeCssPath(themeName, direction), themeId).then(() => {
-      const html = document.querySelector('html');
-      html.dir = direction;
-      writeTheme(themeName, direction);
-      NProgress.done();
-      Array.from(document.querySelectorAll('[id^=theme]')).forEach(css => {
-        if (css.id !== themeId) {
-          css.remove();
-        }
-      });
-    });
-  }, []);
-
-  const onChangeTheme = React.useCallback(() => {
-    const newThemeName = themeName === 'default' ? 'dark' : 'default';
-    setThemeName(newThemeName);
-    loadTheme(newThemeName, direction);
-  }, [themeName, direction]);
+  const onChangeTheme = React.useCallback(
+    newThemeName => {
+      setThemeName(newThemeName);
+      writeTheme(newThemeName, direction);
+    },
+    [direction]
+  );
 
   React.useEffect(() => {
     if (!canUseDOM) {
       return;
     }
     const media = matchMedia('(prefers-color-scheme: dark)');
-    media?.addEventListener?.('change', onChangeTheme);
+
+    // todo Improve the preference logic
+    // e.g. whether use prefers high-contrast theme when in dark mode
+    function handlePrefersColorSchemeChange(e: MediaQueryListEvent) {
+      // prefers dark
+      if (e.matches) {
+        onChangeTheme('dark');
+      } else {
+        onChangeTheme('light');
+      }
+    }
+
+    media?.addEventListener?.('change', handlePrefersColorSchemeChange);
+
     return () => {
-      media?.removeEventListener?.('change', onChangeTheme);
+      media?.removeEventListener?.('change', handlePrefersColorSchemeChange);
     };
-  }, [themeName, direction]);
+  }, [themeName, direction, onChangeTheme]);
+
+  const loadStylesheetForDirection = React.useCallback(
+    async (direction: DirectionType) => {
+      console.group(`Changing direction: ${direction}`);
+
+      NProgress.start();
+
+      const id = `stylesheet-${direction}`;
+      const stylesheetPath = getStylesheetPath(direction);
+
+      console.log('Loading stylesheet: ', stylesheetPath);
+      const loaded = await loadCssFile(stylesheetPath, id);
+      console.log(loaded.target);
+
+      const html = document.querySelector('html');
+      html.setAttribute('dir', direction);
+      writeTheme(themeName, direction);
+      NProgress.done();
+
+      for (const css of document.querySelectorAll('[rel=stylesheet]')) {
+        if (/_app(-rtl)?\.css/.test(css.getAttribute('href')) && css.getAttribute('id') !== id) {
+          console.log('Removing stylesheet: ', css);
+          css.remove();
+        }
+      }
+      console.groupEnd();
+    },
+    [themeName]
+  );
 
   const onChangeDirection = React.useCallback(() => {
     const newDirection = direction === 'ltr' ? 'rtl' : 'ltr';
     setDirection(newDirection);
-    loadTheme(themeName, newDirection);
-  }, [themeName, direction]);
+  }, [direction]);
 
   const onChangeLanguage = React.useCallback((value: string) => {
     setLanguage(value);
@@ -105,26 +137,32 @@ function App({ Component, pageProps }: AppProps) {
 
   const messages = getMessages(language);
 
+  React.useEffect(() => {
+    loadStylesheetForDirection(direction);
+  }, [direction]);
+
   return (
-    <Grid fluid className="app-container">
-      <RSIntlProvider locale={locale} rtl={direction === 'rtl'}>
-        <AppContext.Provider
-          value={{
-            messages,
-            language,
-            localePath: language === 'zh' ? '/zh-CN' : '/en-US',
-            theme: [themeName, direction],
-            onChangeDirection,
-            onChangeTheme,
-            onChangeLanguage,
-            styleLoaded
-          }}
-        >
-          <StyleHead onLoaded={handleStyleHeadLoaded} />
-          <Component {...pageProps} />
-        </AppContext.Provider>
-      </RSIntlProvider>
-    </Grid>
+    <React.StrictMode>
+      <CustomProvider locale={locale} rtl={direction === 'rtl'} theme={themeName}>
+        <Grid fluid className="app-container">
+          <AppContext.Provider
+            value={{
+              messages,
+              language,
+              localePath: language === 'zh' ? '/zh-CN' : '/en-US',
+              theme: [themeName, direction],
+              onChangeDirection,
+              onChangeTheme,
+              onChangeLanguage,
+              styleLoaded
+            }}
+          >
+            <StyleHead onLoaded={handleStyleHeadLoaded} />
+            <Component {...pageProps} />
+          </AppContext.Provider>
+        </Grid>
+      </CustomProvider>
+    </React.StrictMode>
   );
 }
 

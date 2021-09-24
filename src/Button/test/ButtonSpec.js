@@ -38,22 +38,26 @@ describe('Button', () => {
 
   it('Should be disabled', () => {
     const instance = getDOMNode(<Button disabled>Title</Button>);
+
     assert.ok(instance.disabled);
   });
 
   it('Should be loading', () => {
     const instance = getInstance(<Button loading>Title</Button>);
-    assert.include(getDOMNode(instance).className, 'rs-btn-loading');
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn-spin');
+    assert.include(instance.className, 'rs-btn-loading');
+    assert.ok(instance.querySelector('.rs-btn-spin'));
   });
 
   it('Should be disabled link', () => {
+    const onClickSpy = sinon.spy();
     const instance = getDOMNode(
-      <Button disabled href="#">
+      <Button disabled href="https://rsuitejs.com" onClick={onClickSpy}>
         Title
       </Button>
     );
-    assert.ok(instance.className.match(/\bdisabled\b/));
+
+    ReactTestUtils.Simulate.click(instance);
+    assert.ok(!onClickSpy.calledOnce);
   });
 
   it('Should have block class', () => {
@@ -101,5 +105,16 @@ describe('Button', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Button classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should have a correct role', () => {
+    const instance = getDOMNode(<Button as="span" />);
+
+    const instance2 = getDOMNode(<Button as="span" role="combobox" />);
+
+    assert.equal(instance.getAttribute('role'), 'button');
+    assert.equal(instance.nodeName, 'SPAN');
+
+    assert.equal(instance2.getAttribute('role'), 'combobox');
   });
 });

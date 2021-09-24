@@ -1,45 +1,114 @@
-# Icon 图标
+# Icons
 
-图标组件，除了内置的常用图标外，还可以自定义引入 SVG 图标。
+在 React Suite 应用中使用图标，我们提供了一些知道和建议。
 
-`<Icon>` 通过字体实现的矢量图形。
-`<IconStack>` 实现多个图标叠加。
+## React Suite 图标
 
-## 获取组件
+我们提供了一套图标组件，您需要安装`@rsuite/icons`图标组件。
 
-```js
-import { Icon } from 'rsuite';
+> [React Suite 图标资源](/zh/resources/icons)
+
+<!--{include:(components/icon/fragments/install.md)}-->
+
+**使用**
+
+<!--{include:(components/icon/fragments/import.md)}-->
+
+### 大小
+
+<!--{include:`size.md`}-->
+
+### 颜色
+
+<!--{include:`color.md`}-->
+
+### 动态图标
+
+<!--{include:`spin.md`}-->
+
+### 旋转和翻转
+
+<!--{include:`rotate.md`}-->
+
+## 扩展图标
+
+### 自定义 SVG 图标
+
+<!--{include:`custom-svg.md`}-->
+
+### Font awesome 图标
+
+Font awesome 提供了 3 套开源的图标，可以根据需求安装:
+
+```
+npm install --save @fortawesome/free-brands-svg-icons
+npm install --save @fortawesome/free-regular-svg-icons
+npm install --save @fortawesome/free-solid-svg-icons
 ```
 
-## 演示
+- [Font awesome 图标库](https://fontawesome.com/icons?d=listing&m=free)
+- [Font awesome 源代码](https://github.com/FortAwesome/Font-Awesome/tree/master/js-packages/%40fortawesome)
 
-<!--{demo}-->
+**使用示例**
+
+<!--{include:`custom-font-awesome.md`}-->
+
+### React Icons
+
+react-icons 包含了流行的图标。以下示例将演示如果与 `Icon` 组合使用。
+
+```
+npm install react-icons --save
+```
+
+- [React Icons](https://react-icons.github.io/react-icons)
+- [React Icons Github](https://github.com/react-icons/react-icons)
+
+<!--{include:`custom-react-icons.md`}-->
+
+### Iconfont 图标
+
+如果您是 [iconfont.cn](https://iconfont.cn) 的用户，可以使用 `createIconFont` 方法导入图标资源，在组件中使用。
+
+<!--{include:`create-icon-font.md`}-->
 
 ## Props
 
-[图标库](/tools/icons)
-
 ### `<Icon>`
 
-| 属性名称       | 类型 `(默认值)`                    | 描述                                    |
-| -------------- | ---------------------------------- | --------------------------------------- |
-| classPrefix    | string `('icon')`                  | 组件 CSS 类的前缀                       |
-| componentClass | React.ElementType `('i')`          | 为组件自定义元素类型                    |
-| fixedWidth     | boolean                            | 因为有很多图标尺寸参差不齐,固定图标宽度 |
-| flip           | enum: 'horizontal', 'vertical'     | 翻转图标                                |
-| icon \*        | union: string,SvgSymbol            | 使用的 icon 名                          |
-| inverse        | boolean                            | 翻转颜色                                |
-| pulse          | boolean                            | 动态旋转图标，旋转 8 步                 |
-| rotate         | number                             | 旋转图标                                |
-| size           | enum: 'lg', '2x', '3x', '4x', '5x' | 放大图标                                |
-| spin           | boolean                            | 动态旋转图标                            |
-| stack          | enum: '1x', '2x'                   | 组合多个图标                            |
-| svgStyle       | React.CSSProperties                | 当使用自定义 svg Icon, 设置 svg 的样式  |
+`<Icon>` 与导入的单个图标都拥有以下属性。
 
+| 属性名称 | 类型 `(默认值)`                | 描述                               |
+| -------- | ------------------------------ | ---------------------------------- |
+| as       | ElementType&lt;SVGElement&gt;  | 自定义的 svg 图标组件              |
+| fill     | string `(currentColor)`        | 图标填充颜色                       |
+| flip     | 'horizontal' &#124; 'vertical' | 翻转图标                           |
+| pulse    | boolean                        | 动态旋转图标，有脉冲效果           |
+| rotate   | number                         | 旋转图标                           |
+| spin     | boolean                        | 动态旋转图标                       |
+| style    | CSSProperties                  | 图标的样式，例如 fontSize 和 color |
 
-### `<IconStack>`
+### `createIconFont`
 
-| 属性名称    | 类型 `(默认值)`                    | 描述              |
-| ----------- | ---------------------------------- | ----------------- |
-| classPrefix | string `('icon')`                  | 组件 CSS 类的前缀 |
-| size        | enum: 'lg', '2x', '3x', '4x', '5x' | 放大图标          |
+| 属性名称    | 类型 `(默认值)`                  | 描述                                                                                |
+| ----------- | -------------------------------- | ----------------------------------------------------------------------------------- |
+| commonProps | HTMLAttributes&lt;SVGElement&gt; | 给所有图标组件设置额外公共的属性                                                    |
+| scriptUrl   | string &#124; string[]           | [iconfont.cn](https://iconfont.cn) 项目在线生成的 js 地址，当然您也可以使用本地地址 |
+
+### `<IconFont>`
+
+`<IconFont>` 是通过 `createIconFont` 创建的组件。
+
+```js
+const IconFont = createIconFont(...);
+```
+
+| 属性名称 | 类型 `(默认值)`                | 描述                             |
+| -------- | ------------------------------ | -------------------------------- |
+| fill     | string `(currentColor)`        | 图标的填充颜色                   |
+| flip     | 'horizontal' &#124; 'vertical' | 翻转图标                         |
+| icon     | string                         | iconfont 图标集中的名称          |
+| pulse    | boolean                        | 动态旋转图标，有脉冲效果         |
+| rotate   | number                         | 旋转图标                         |
+| spin     | boolean                        | 动态旋转图标                     |
+| style    | CSSProperties                  | 图标样式，例如 fontSize 和 color |

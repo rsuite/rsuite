@@ -2,11 +2,13 @@ import React from 'react';
 import { readTheme, readDirection } from '@/utils/themeHelpers';
 import { ZHDict } from '@/locales';
 
+export type Theme = 'light' | 'dark' | 'high-contrast';
+
 interface AppContextProps {
   direction?: string;
   theme?: string[];
   onChangeDirection?: () => void;
-  onChangeTheme?: () => void;
+  onChangeTheme?: (theme: Theme) => void;
   onChangeLanguage?: (value: string) => void;
   messages?: ZHDict;
   language?: string;

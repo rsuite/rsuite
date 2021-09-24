@@ -1,22 +1,14 @@
-.pagination-active(@font-color) {
-  .active() {
-    color: @font-color;
-    background-color: transparent;
-  }
-  .active;
+@import '../../styles/mixins/color-modes';
 
-  &:hover,
-  &:focus,
-  &.focus {
-    .active;
-  }
+.pagination-active() {
+  .rs-btn-ghost();
 
-  &:active {
-    &,
-    &:hover,
-    &:focus,
-    &.focus {
-      .active;
-    }
-  }
+  .high-contrast-mode({
+    color: var(--rs-pagination-item-current-text);
+    text-decoration: underline;
+  });
+}
+
+.pagination-active-size(@padding-vertical:@padding-y, @padding-horizontal:@padding-x) {
+  padding: (@padding-vertical - 1) (@padding-horizontal - 1);
 }

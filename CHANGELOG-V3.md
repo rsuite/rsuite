@@ -88,7 +88,7 @@
 
 > May 23, 2019
 
-* **Feature**: Support `cleanErrorForFiled` method in `<Form>`. ([#470])
+* **Feature**: Support `cleanErrorForField` method in `<Form>`. ([#470])
 * **Feature**: Support `open` on `<Whisper>`. ([#467])
 * **Bugfix**: MultiCascader: don't throw on a non-present selected value. ([#468])
 * **Bugfix**: [TS] Fix type definition for DOMHelper ([#469])
@@ -100,7 +100,7 @@
 
 ---
 
-* **Feature**: `<Form>` 组件里支持 `cleanErrorForFiled` 方法。 ([#470])
+* **Feature**: `<Form>` 组件里支持 `cleanErrorForField` 方法。 ([#470])
 * **Feature**: `<Whisper>` 支持 `open` 属性，默认打开 speaker 设置的组件。 ([#467])
 * **Bugfix**: 修复 `<MultiCascader>` 的值在选项中不存在时候会抛出异常。 ([#468])
 * **Bugfix**: [TS] 修复 `DOMHelper` 类型定义 ([#469])

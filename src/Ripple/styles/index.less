@@ -1,0 +1,36 @@
+@import '../../styles/common';
+
+.rs-ripple {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background-color: @ripple-bg;
+  transform: scale(0);
+  transition: 0s;
+
+  &-rippling {
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(1);
+    opacity: 0;
+  }
+
+  &-pond {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+
+    & when (@enable-ripple-effect = false) {
+      display: none !important;
+    }
+
+    .high-contrast-mode({
+      display: none !important;
+    });
+  }
+}

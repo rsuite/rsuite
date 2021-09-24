@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CheckTreePicker from '../index';
-import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
+import { createTestContainer, getStyle, itChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 const data = [
   {
@@ -35,9 +35,7 @@ const data = [
 describe('CheckTreePicker styles', () => {
   itChrome('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<CheckTreePicker data={data} ref={instanceRef} />, createTestContainer());
-    const toggleDom = getDOMNode(instanceRef.current).querySelector('.rs-picker-toggle');
-    toggleDom.click();
+    ReactDOM.render(<CheckTreePicker data={data} ref={instanceRef} open />, createTestContainer());
     const itemLabel = document.body.querySelector('.rs-check-tree .rs-checkbox-checker label');
     assert.equal(getStyle(itemLabel, 'padding'), '8px 12px 8px 58px');
   });

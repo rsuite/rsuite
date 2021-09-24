@@ -12,7 +12,7 @@
  * @returns {function|undefined}
  */
 
-function createChainedFunction<T = Function>(...funcs: T[]): T {
+function createChainedFunction<T = any>(...funcs: T[]): T {
   return funcs
     .filter(f => f !== null && typeof f !== 'undefined')
     .reduce((acc: any, f: any) => {

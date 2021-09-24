@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
     <title>collasped</title>
-    <desc>Created with Sketch.</desc>
     <g id="collasped" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <rect id="Rectangle-6" stroke="#8E8E93" x="1.5" y="1.5" width="13" height="13" rx="3"></rect>
         <line x1="4.5" y1="8" x2="11.5" y2="8" id="Line-2" stroke="#979797" stroke-linecap="round"></line>

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Icon, Whisper, Tooltip, Button, IconButton } from 'rsuite';
+import React from 'react';
+import { Whisper, Tooltip, Button, IconButton } from 'rsuite';
 import classNames from 'classnames';
 import { isMobile } from 'react-device-detect';
 import Logo from '../Logo';
@@ -8,29 +8,28 @@ import SearchDrawer from '../SearchDrawer';
 import AppContext from '../AppContext';
 import Link from '@/components/Link';
 import { useRouter } from 'next/router';
+import { Icon } from '@rsuite/icons';
+import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
+import AngleRight from '@rsuite/icons/legacy/AngleRight';
+import Github from '@rsuite/icons/legacy/Github';
 
 interface ButtonWithTooltipProps {
   children: React.ReactNode;
   tip: React.ReactNode;
   className?: string;
-  componentClass?: React.ElementType;
+  as?: React.ElementType;
   [key: string]: any;
 }
 
 function ButtonWithTooltip({
   children,
-  componentClass = 'a',
+  as = 'a',
   tip,
   className,
   ...props
 }: ButtonWithTooltipProps) {
   const btn = (
-    <Button
-      {...props}
-      size="lg"
-      className={classNames('icon-btn-circle', className)}
-      componentClass={componentClass}
-    >
+    <Button {...props} size="lg" className={classNames('icon-btn-circle', className)} as={as}>
       {children}
     </Button>
   );
@@ -47,7 +46,7 @@ function ButtonWithTooltip({
 function SearchButton({ tip, ...rest }: any) {
   return (
     <ButtonWithTooltip tip={tip} {...rest}>
-      <Icon icon={SvgIcons.Search} size="lg" />
+      <Icon as={() => <SvgIcons.Search />} style={{ fontSize: 20 }} />
     </ButtonWithTooltip>
   );
 }
@@ -65,26 +64,20 @@ function getNavItems(messages) {
       key: 'guide',
       tip: messages?.common?.guide,
       to: '/guide/introduction',
-      icon: <Icon icon={SvgIcons.Guide} size="lg" />
+      icon: <Icon as={() => <SvgIcons.Guide />} />
     },
     {
       key: 'components',
       tip: messages?.common?.components,
       to: '/components/overview',
-      icon: <Icon icon={SvgIcons.Component} size="lg" />
+      icon: <Icon as={() => <SvgIcons.Component />} />
     },
 
     {
-      key: 'tools',
-      tip: messages?.common?.tools,
-      to: '/tools/palette',
-      icon: <Icon icon={SvgIcons.Tools} size="lg" />
-    },
-    {
-      key: 'extensions',
-      tip: messages?.common?.extension,
-      to: '/extensions',
-      icon: <Icon icon={SvgIcons.Extension} size="lg" />
+      key: 'resources',
+      tip: messages?.common?.resources,
+      to: '/resources/icons',
+      icon: <Icon as={() => <SvgIcons.Ecology />} />
     }
   ];
 }
@@ -96,8 +89,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
   const onToggleMenu = (_event, show?: boolean) => {
     props?.onToggleMenu?.(show);
   };
-  const { messages, theme } = React.useContext(AppContext);
-  const [themeName] = theme;
+  const { messages } = React.useContext(AppContext);
 
   const navItems = getNavItems(messages);
 
@@ -108,10 +100,10 @@ export default function TopLevelNav(props: TopLevelNavProps) {
           circle
           className="btn-nav-toggle"
           appearance="default"
-          icon={<Icon icon={showSubmenu ? 'angle-left' : 'angle-right'} />}
+          icon={showSubmenu ? <AngleLeft /> : <AngleRight />}
           size="xs"
           style={{ left: showSubmenu ? 310 : 70 }}
-          tip={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
+          title={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
           onClick={onToggleMenu}
         />
       )}
@@ -133,7 +125,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
             tip={item.tip}
             key={item.key}
             href={item.to}
-            componentClass={Link}
+            as={Link}
             onClick={event => {
               onToggleMenu(event, true);
             }}
@@ -142,7 +134,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
               item.icon,
               router.pathname.indexOf(`/${item.key}`) === 0
                 ? {
-                    svgStyle: {
+                    style: {
                       fill: '#169de0'
                     }
                   }
@@ -150,12 +142,15 @@ export default function TopLevelNav(props: TopLevelNavProps) {
             )}
           </ButtonWithTooltip>
         ))}
+
         <ButtonWithTooltip
-          tip={messages?.common?.design}
+          tip="GitHub"
+          href="https://github.com/rsuite/rsuite"
+          style={{ padding: 11 }}
+          as="a"
           target="_blank"
-          href={`/design/${themeName === 'dark' ? 'dark' : 'default'}/`}
         >
-          <Icon icon={SvgIcons.Design} size="lg" />
+          <Github style={{ fontSize: 20 }} />
         </ButtonWithTooltip>
         <SearchButton
           className="hidden-xs"
@@ -165,15 +160,11 @@ export default function TopLevelNav(props: TopLevelNavProps) {
           }}
         />
       </div>
-      <div className="top-level-nav-footer">
-        <ButtonWithTooltip tip="GitHub" href="https://github.com/rsuite/rsuite" target="_blank">
-          <Icon icon="github" size="lg" />
-        </ButtonWithTooltip>
-      </div>
+      <div className="top-level-nav-footer"></div>
       {children}
       <SearchDrawer
         show={search}
-        onHide={() => {
+        onClose={() => {
           setSearch(false);
         }}
       />

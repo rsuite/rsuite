@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import useFetch from './useFetch';
 import AppContext from '@/components/AppContext';
 

@@ -10,7 +10,7 @@ import {
   inChrome
 } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 const { H500 } = getDefaultPalette();
 

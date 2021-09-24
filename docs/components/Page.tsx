@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PageContent, { PageContentProps } from '@/components/PageContent';
 import Frame, { FrameProps } from '@/components/Frame';
 

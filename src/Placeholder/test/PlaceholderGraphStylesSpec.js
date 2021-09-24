@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PlaceholderGraph from '../PlaceholderGraph';
 import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('PlaceholderGraph styles', () => {
   it('Should render the correct styles', () => {

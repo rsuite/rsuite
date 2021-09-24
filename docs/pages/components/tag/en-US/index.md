@@ -2,25 +2,36 @@
 
 Tag for categorizing or markup.
 
+## Import
 
-## Usage
-
-```js
-import { Tag, TagGroup } from 'rsuite';
-```
+<!--{include:(components/tag/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Size
+
+<!--{include:`size.md`}-->
+
+### Colorful Tags
+
+<!--{include:`color.md`}-->
+
+### Dynamically tagging
+
+<!--{include:`dynamic.md`}-->
 
 ## Props
 
 ### `<Tag>`
 
-| Property       | Type `(Default)`                           | Description                                          |
-| -------------- | ------------------------------------------ | ---------------------------------------------------- |
-| children \*    | React.Node                                 | The content of the component.                        |
-| classPrefix    | string `('tag')`                           | The prefix of the component CSS class                |
-| closable       | boolean                                    |
-| componentClass | React.ElementType `('div')`                | You can use a custom element type for this component |
-| onClose        | (event: SyntheticEvent&lt;any&gt;) => void | Click the callback function for the Close button     |
+| Property    | Type `(Default)`      | Description                                          |
+| ----------- | --------------------- | ---------------------------------------------------- |
+| as          | ElementType `('div')` | You can use a custom element type for this component |
+| children \* | ReactNode             | The content of the component.                        |
+| classPrefix | string `('tag')`      | The prefix of the component CSS class                |
+| closable    | boolean               |
+| onClose     | (event) => void       | Click the callback function for the Close button     |

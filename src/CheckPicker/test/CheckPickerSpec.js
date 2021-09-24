@@ -6,8 +6,6 @@ import Dropdown from '../CheckPicker';
 import Button from '../../Button';
 
 const namespace = `${globalKey}-picker`;
-const classPrefix = `${namespace}-check`;
-const groupClassName = `.${classPrefix}-menu-group`;
 const itemFocusClassName = '.rs-check-item-focus';
 const itemActiveClassName = '.rs-checkbox-checked';
 const cleanClassName = `.${namespace}-toggle-clean`;
@@ -34,10 +32,9 @@ const data = [
 
 describe('CheckPicker', () => {
   it('Should clean selected default value', () => {
-    const instance = getDOMNode(<Dropdown defaultOpen data={data} defaultValue={['Eugenia']} />);
-
-    ReactTestUtils.Simulate.click(instance.querySelector(cleanClassName));
-    expect(instance.querySelector(placeholderClassName).innerText).to.equal('Select');
+    const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={['Eugenia']} />);
+    ReactTestUtils.Simulate.click(instance.root.querySelector(cleanClassName));
+    expect(instance.root.querySelector(placeholderClassName).innerText).to.equal('Select');
   });
 
   it('Should not clean selected value', () => {
@@ -55,8 +52,8 @@ describe('CheckPicker', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<Dropdown toggleComponentClass="button" />);
-    assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'button'));
+    const instance = getInstance(<Dropdown toggleAs="button" />);
+    assert.ok(instance.root.querySelector('button'));
   });
 
   it('Should be disabled', () => {
@@ -71,29 +68,33 @@ describe('CheckPicker', () => {
     assert.ok(instance.className.match(/\bblock\b/));
   });
 
+  it('Should be readOnly', () => {
+    const instance = getDOMNode(<Dropdown readOnly />);
+    assert.include(instance.className, 'rs-picker-read-only');
+  });
+
+  it('Should be plaintext', () => {
+    const instance = getDOMNode(<Dropdown plaintext />);
+    assert.include(instance.className, 'rs-picker-plaintext');
+  });
+
   it('Should active item by `value`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<Dropdown defaultOpen data={data} value={value} />);
-    const menu = getDOMNode(instance.menuContainerRef.current);
-
-    assert.equal(getDOMNode(instance).querySelector(valueClassName).innerText, 'Louisa');
-    assert.equal(menu.querySelector(itemActiveClassName).innerText, value);
+    assert.equal(instance.root.querySelector(valueClassName).innerText, 'Louisa');
+    assert.equal(instance.overlay.querySelector(itemActiveClassName).innerText, value);
   });
 
   it('Should active item by `defaultValue`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={value} />);
-
-    const menu = getDOMNode(instance.menuContainerRef.current);
-
-    assert.equal(getDOMNode(instance).querySelector(valueClassName).innerText, 'Louisa');
-    assert.equal(menu.querySelector(itemActiveClassName).innerText, value);
+    assert.equal(instance.root.querySelector(valueClassName).innerText, 'Louisa');
+    assert.equal(instance.overlay.querySelector(itemActiveClassName).innerText, value);
   });
 
   it('Should render a group', () => {
     const instance = getInstance(<Dropdown defaultOpen groupBy="role" data={data} />);
-    const menu = getDOMNode(instance.menuContainerRef.current);
-    assert.ok(menu.querySelector(groupClassName));
+    assert.ok(instance.overlay.querySelector('.rs-picker-menu-group'));
   });
 
   it('Should have a placeholder', () => {
@@ -135,11 +136,6 @@ describe('CheckPicker', () => {
     assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
   });
 
-  it('Should not be call renderValue()', () => {
-    const instance = getDOMNode(<Dropdown renderValue={() => 'value'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
-  });
-
   it('Should render a placeholder when value error', () => {
     const instance = getDOMNode(
       <Dropdown
@@ -162,9 +158,7 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <Dropdown defaultOpen onChange={doneOp} data={[{ label: '1', value: '1' }]} />
     );
-    const menu = getDOMNode(instance.menuContainerRef.current);
-
-    ReactTestUtils.Simulate.change(menu.querySelectorAll('input')[0]);
+    ReactTestUtils.Simulate.change(instance.overlay.querySelectorAll('input')[1]);
   });
 
   it('Should call `onClean` callback', done => {
@@ -176,6 +170,28 @@ describe('CheckPicker', () => {
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+  });
+
+  it('Should call `onClean` callback by key="Backspace" ', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(<Dropdown data={data} onClean={doneOp} defaultOpen />);
+
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Backspace' });
+  });
+
+  it('Should call `onClean` callback by key="Backspace" on overlay ', done => {
+    const doneOp = () => {
+      done();
+    };
+    const instance = getInstance(<Dropdown data={data} onClean={doneOp} defaultOpen />);
+
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Enter' });
+    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Backspace' });
   });
 
   it('Should call `onOpen` callback', done => {
@@ -199,43 +215,37 @@ describe('CheckPicker', () => {
     assert.ok(instance.querySelector(cleanClassName));
   });
 
-  it('Should focus item by keyCode=40 ', done => {
+  it('Should focus item by key=ArrowDown ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={['Eugenia']} />);
-    const menu = getDOMNode(instance.menuContainerRef.current);
-    const toggle = getDOMNode(instance.getToggleInstance().toggleRef.current);
 
-    ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
 
-    if (menu.querySelector(itemFocusClassName).innerText === 'Kariane') {
+    if (instance.overlay.querySelector(itemFocusClassName).innerText === 'Kariane') {
       done();
     }
   });
 
-  it('Should focus item by keyCode=38 ', done => {
+  it('Should focus item by key=ArrowUp ', done => {
     const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={['Kariane']} />);
-    const menuDOM = getDOMNode(instance.menuContainerRef.current);
 
-    ReactTestUtils.Simulate.keyDown(getDOMNode(instance.getToggleInstance().toggleRef.current), {
-      keyCode: 38
-    });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
 
-    if (menuDOM.querySelector(itemFocusClassName).innerText === 'Eugenia') {
+    if (instance.overlay.querySelector(itemFocusClassName).innerText === 'Eugenia') {
       done();
     }
   });
 
-  it('Should call `onChange` by keyCode=13 ', done => {
+  it('Should call `onChange` by key=Enter ', done => {
     const doneOp = () => {
       done();
     };
     const instance = getInstance(
       <Dropdown defaultOpen data={data} onChange={doneOp} defaultValue={['Kariane']} />
     );
-    const toggle = getDOMNode(instance.getToggleInstance().toggleRef.current);
-    ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
   });
 
-  it('Should call `onSelect` by keyCode=13 ', done => {
+  it('Should call `onSelect` by key=Enter ', done => {
     const doneOp = (value, item) => {
       if (value.length === 2 && item.value === 'Louisa') {
         done();
@@ -244,9 +254,8 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={data} onSelect={doneOp} defaultValue={['Kariane']} />
     );
-    const toggle = getDOMNode(instance.getToggleInstance().toggleRef.current);
-    ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 40 });
-    ReactTestUtils.Simulate.keyDown(toggle, { keyCode: 13 });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
   });
 
   it('Should call onBlur callback', done => {
@@ -254,9 +263,8 @@ describe('CheckPicker', () => {
       done();
     };
     const instance = getInstance(<Dropdown data={data} onBlur={doneOp} />);
-    const toggle = getDOMNode(instance.getToggleInstance().toggleRef.current);
 
-    ReactTestUtils.Simulate.blur(toggle);
+    ReactTestUtils.Simulate.blur(instance.target);
   });
 
   it('Should call onFocus callback', done => {
@@ -264,17 +272,15 @@ describe('CheckPicker', () => {
       done();
     };
     const instance = getInstance(<Dropdown data={data} onFocus={doneOp} />);
-    const toggle = getDOMNode(instance.getToggleInstance().toggleRef.current);
-
-    ReactTestUtils.Simulate.focus(toggle);
+    ReactTestUtils.Simulate.focus(instance.target);
   });
 
   it('Should have a custom className', () => {
     const instance = getInstance(
       <Dropdown className="custom" defaultOpen data={[{ label: '', value: '1' }]} />
     );
-    assert.include(getDOMNode(instance).className, 'custom');
-    expect(getDOMNode(instance.menuContainerRef.current).className).to.not.include('custom');
+    assert.include(instance.root.className, 'custom');
+    expect(instance.overlay.className).to.not.include('custom');
   });
 
   it('Should have a custom style', () => {
@@ -287,11 +293,8 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <Dropdown placeholder="test" data={[{ label: '', value: '1' }]} value={['1']} defaultOpen />
     );
-    const menu = getDOMNode(instance.menuContainerRef.current).querySelector(
-      '.rs-checkbox-checked'
-    );
-
-    assert.equal(menu.innerText, '');
+    const checkbox = instance.overlay.querySelector('.rs-checkbox-checked');
+    assert.equal(checkbox.innerText, '');
   });
 
   it('Should have a custom className prefix', () => {
@@ -304,7 +307,7 @@ describe('CheckPicker', () => {
       <Dropdown placeholder="test" sticky data={data} value={['Kariane']} defaultOpen />
     );
 
-    const menu = getDOMNode(instance.menuContainerRef.current).querySelector('.rs-checkbox');
+    const menu = instance.overlay.querySelector('.rs-checkbox');
 
     assert.equal(menu.innerText, 'Kariane');
   });
@@ -320,23 +323,61 @@ describe('CheckPicker', () => {
       />
     );
 
-    const count = getDOMNode(instance.menuContainerRef.current).querySelectorAll(
-      '.rs-checkbox-checked'
-    ).length;
+    const count = instance.overlay.querySelectorAll('.rs-checkbox-checked').length;
     assert.equal(count, 3);
   });
 
-  it('Should render a button by toggleComponentClass={Button}', () => {
-    const instance = getInstance(<Dropdown open data={data} toggleComponentClass={Button} />);
-    ReactTestUtils.findRenderedDOMComponentWithClass(instance, 'rs-btn');
+  it('Should render a button by toggleAs={Button}', () => {
+    const instance = getInstance(<Dropdown open data={data} toggleAs={Button} />);
+    assert.ok(instance.root.querySelector('.rs-btn'));
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
     const instance = getInstance(
       <Dropdown defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
     );
-    const list = getDOMNode(instance.menuContainerRef.current).querySelectorAll('.rs-check-item');
+    const list = instance.overlay.querySelectorAll('.rs-check-item');
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
+  });
+
+  it('Should not be call renderValue()', () => {
+    const instance = getDOMNode(<Dropdown renderValue={() => 'value'} />);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+  });
+
+  it('Should call renderValue', () => {
+    const instance1 = getDOMNode(<Dropdown value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<Dropdown value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(<Dropdown value="Test" renderValue={() => undefined} />);
+
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+
+    assert.include(instance1.className, 'rs-picker-has-value');
+    assert.notInclude(instance2.className, 'rs-picker-has-value');
+    assert.notInclude(instance3.className, 'rs-picker-has-value');
+  });
+
+  describe('ref testing', () => {
+    it('Should call onOpen', done => {
+      const doneOp = () => {
+        done();
+      };
+
+      const instance = getInstance(<Dropdown onOpen={doneOp} data={data} />);
+      instance.open();
+    });
+
+    it('Should call onClose', done => {
+      const doneOp = () => {
+        done();
+      };
+
+      const instance = getInstance(<Dropdown onClose={doneOp} data={data} />);
+      instance.open();
+      instance.close();
+    });
   });
 });

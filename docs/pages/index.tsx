@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col, Message } from 'rsuite';
+import { Button, ButtonToolbar, FlexboxGrid, Grid, Row, Col } from 'rsuite';
 import TopLevelNav from '@/components/TopLevelNav';
 import Link from '@/components/Link';
 import Logo from '@/components/Logo';
@@ -26,28 +26,8 @@ function HomePage() {
         <TopLevelNav hideToggle />
         <PageToolbar />
         <Row>
-          <Col md={16}>
-            <Message
-              style={{ marginTop: 20 }}
-              description={
-                <h5>
-                  Black Lives Matter.{' '}
-                  <a
-                    href="https://support.eji.org/give/153413/#!/donation/checkout"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    id="blm-link"
-                  >
-                    Support the Equal Justice Initiative.
-                  </a>
-                </h5>
-              }
-            />
-          </Col>
-        </Row>
-        <Row>
           <FlexboxGrid align="middle" className="banner">
-            <FlexboxGrid.Item componentClass={Col} colspan={24} md={12}>
+            <FlexboxGrid.Item as={Col} colspan={24} md={12}>
               <section className="section">
                 <h1 className="title">React Suite</h1>
                 <p className="sub-title"> {messages?.common?.resume}</p>
@@ -84,18 +64,13 @@ function HomePage() {
                   </a>
                 </p>
                 <ButtonToolbar className="primary-toolbar">
-                  <Button
-                    size="lg"
-                    appearance="primary"
-                    componentClass={Link}
-                    href={'/guide/introduction'}
-                  >
+                  <Button size="lg" appearance="primary" as={Link} href={'/guide/introduction'}>
                     {messages?.common?.gettingStarted}
                   </Button>
                   <Button
                     size="lg"
                     appearance="ghost"
-                    componentClass={Link}
+                    as={Link}
                     style={{ marginLeft: 10 }}
                     href={'/components/overview'}
                   >
@@ -105,12 +80,7 @@ function HomePage() {
               </section>
             </FlexboxGrid.Item>
 
-            <FlexboxGrid.Item
-              className="logo-react-suite-wrapper"
-              componentClass={Col}
-              colspan={24}
-              md={12}
-            >
+            <FlexboxGrid.Item className="logo-react-suite-wrapper" as={Col} colspan={24} md={12}>
               <div className="section logo-react-suite">
                 <Logo width={120} height={138} />
                 <ReactLogo running={running} />

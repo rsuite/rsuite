@@ -1,22 +1,6 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { defaultProps } from '../utils';
-import { StandardProps } from '../@types/common';
+import createComponent, { ComponentProps } from '../utils/createComponent';
+export type SidenavBodyProps = ComponentProps;
 
-class SidenavBody extends React.Component<StandardProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string
-  };
-  render() {
-    const { classPrefix, className, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
+const SidenavBody = createComponent({ name: 'SidenavBody' });
 
-    return <div {...props} className={classes} />;
-  }
-}
-
-export default defaultProps<StandardProps>({
-  classPrefix: 'sidenav-body'
-})(SidenavBody);
+export default SidenavBody;

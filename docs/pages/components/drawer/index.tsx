@@ -1,12 +1,26 @@
-import * as React from 'react';
-import { ButtonToolbar, Button, IconButton, Drawer, Icon, RadioGroup, Radio } from 'rsuite';
+import React from 'react';
+import { ButtonToolbar, Button, IconButton, Drawer, RadioGroup, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
+import AngleRight from '@rsuite/icons/legacy/AngleRight';
+import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
+import AngleDown from '@rsuite/icons/legacy/AngleDown';
+import AngleUp from '@rsuite/icons/legacy/AngleUp';
 
 export default function Page() {
   return (
     <DefaultPage
-      examples={['basic', 'backdrop', 'placement', 'size', 'full']}
-      dependencies={{ ButtonToolbar, Button, IconButton, Drawer, Icon, RadioGroup, Radio }}
+      dependencies={{
+        ButtonToolbar,
+        Button,
+        IconButton,
+        Drawer,
+        RadioGroup,
+        Radio,
+        AngleRight,
+        AngleLeft,
+        AngleDown,
+        AngleUp
+      }}
     />
   );
 }

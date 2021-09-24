@@ -1,261 +1,384 @@
-import * as React from 'react';
+import React, { useCallback, useContext, useMemo, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import _ from 'lodash';
-import setStatic from 'recompose/setStatic';
-import RootCloseWrapper from '../Overlay/RootCloseWrapper';
-import shallowEqual from '../utils/shallowEqual';
-
-import DropdownToggle from './DropdownToggle';
+import omit from 'lodash/omit';
+import pick from 'lodash/pick';
 import DropdownMenu from './DropdownMenu';
-import DropdownMenuItem from './DropdownMenuItem';
-import {
-  createChainedFunction,
-  prefix,
-  isOneOf,
-  getUnhandledProps,
-  defaultProps,
-  placementPolyfill
-} from '../utils';
-import { SidenavContext } from '../Sidenav/Sidenav';
-import { PLACEMENT_8 } from '../constants';
-import { DropdownProps } from './Dropdown.d';
+import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../utils';
+import { SidenavContext, SidenavContextType } from '../Sidenav/Sidenav';
+import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { IconProps } from '@rsuite/icons/lib/Icon';
+import deprecatePropType from '../utils/deprecatePropType';
+import DropdownItem from './DropdownItem';
+import DropdownContext, { DropdownContextProps } from './DropdownContext';
+import Menu, { MenuButtonTrigger } from '../Menu/Menu';
+import DropdownToggle from './DropdownToggle';
+import MenuContext from '../Menu/MenuContext';
+import MenuItem from '../Menu/MenuItem';
+import kebabCase from 'lodash/kebabCase';
+import { NavbarContext } from '../Navbar/Navbar';
+import Disclosure from '../Disclosure/Disclosure';
+import SidenavDropdown from '../Sidenav/SidenavDropdown';
+import NavContext from '../Nav/NavContext';
+import { initialState, reducer } from './DropdownState';
 
-interface DropdownState {
+export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
+export interface DropdownProps<T = any>
+  extends WithAsProps,
+    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect' | 'title'> {
+  /** Define the title as a submenu */
+  title?: React.ReactNode;
+
+  /** Set the icon */
+  icon?: React.ReactElement<IconProps>;
+
+  /** The option to activate the state, corresponding to the eventkey in the Dropdown.item */
+  activeKey?: T;
+
+  /** Triggering events */
+  trigger?: DropdownTrigger | DropdownTrigger[];
+
+  /** The placement of Menu */
+  placement?: TypeAttributes.Placement8;
+
+  /** Whether or not component is disabled */
+  disabled?: boolean;
+
+  /** The style of the menu */
+  menuStyle?: React.CSSProperties;
+
+  /** A css class to apply to the Toggle DOM node */
+  toggleClassName?: string;
+
+  /** The value of the current option */
+  eventKey?: T;
+
+  /** You can use a custom element type for this toggle component */
+  toggleAs?: React.ElementType;
+
+  /** No caret variation */
+  noCaret?: boolean;
+
+  /**
+   * Open the menu and control it
+   * @deprecated
+   */
   open?: boolean;
+
+  /**
+   * @deprecated
+   */
+  renderTitle?: (children: React.ReactNode) => React.ReactNode;
+
+  /** Custom Toggle */
+  renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
+
+  /** The callback function that the menu closes */
+  onClose?: () => void;
+
+  /** Menu Pop-up callback function */
+  onOpen?: () => void;
+
+  /** Callback function for menu state switching */
+  onToggle?: (open?: boolean) => void;
+
+  /** Selected callback function */
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
-interface SidenavContextType {
-  openKeys: any[];
-  sidenav: boolean;
-  expanded: boolean;
+export interface DropdownComponent extends RsRefForwardingComponent<'div', DropdownProps> {
+  Item: typeof DropdownItem;
+  Menu: typeof DropdownMenu;
 }
 
-class Dropdown extends React.Component<DropdownProps, DropdownState> {
-  static displayName = 'Dropdown';
-  static contextType = SidenavContext;
-  static propTypes = {
-    activeKey: PropTypes.any,
-    classPrefix: PropTypes.string,
-    trigger: PropTypes.oneOfType([
-      PropTypes.array,
-      PropTypes.oneOf(['click', 'hover', 'contextMenu'])
-    ]),
-    placement: PropTypes.oneOf(PLACEMENT_8),
-    title: PropTypes.node,
-    disabled: PropTypes.bool,
-    icon: PropTypes.node,
-    menuStyle: PropTypes.object,
-    className: PropTypes.string,
-    toggleClassName: PropTypes.string,
-    children: PropTypes.node,
-    tabIndex: PropTypes.number,
-    open: PropTypes.bool,
-    eventKey: PropTypes.any,
-    componentClass: PropTypes.elementType,
-    toggleComponentClass: PropTypes.elementType,
-    noCaret: PropTypes.bool,
-    showHeader: PropTypes.bool,
-    style: PropTypes.object,
-    onClose: PropTypes.func,
-    onOpen: PropTypes.func,
-    onToggle: PropTypes.func,
-    onSelect: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onContextMenu: PropTypes.func,
-    onClick: PropTypes.func,
-    renderTitle: PropTypes.func
-  };
-  static defaultProps = {
-    placement: 'bottomStart',
-    trigger: 'click',
-    tabIndex: 0
-  };
+const defaultProps: Partial<DropdownProps> = {
+  as: 'div',
+  classPrefix: 'dropdown',
+  placement: 'bottomStart',
+  trigger: 'click'
+};
 
-  constructor(props: DropdownProps) {
-    super(props);
-    this.state = {
-      open: props.open
-    };
-  }
+/**
+ * The <Dropdown> API
+ * When used inside <Sidenav>, renders a <TreeviewRootItem>;
+ * Otherwise renders a <MenuRoot>
+ */
+const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref) => {
+  const { activeKey, onSelect: onSelectProp, ...rest } = props;
 
-  getOpen() {
-    const { open } = this.props;
-    if (_.isUndefined(open)) {
-      return this.state.open;
+  const {
+    as: Component,
+    title,
+    onClose,
+    onOpen,
+    onToggle,
+    eventKey,
+    trigger,
+    placement,
+    toggleAs,
+    toggleClassName,
+    classPrefix,
+    className,
+    disabled,
+    children,
+    menuStyle,
+    style,
+    ...toggleProps
+  } = rest;
+
+  const { onSelect: onSelectFromNav } = useContext(NavContext);
+
+  const emitSelect = useCallback(
+    (eventKey: string, event: React.SyntheticEvent) => {
+      onSelectProp?.(eventKey, event);
+
+      // If <Dropdown> is inside <Nav>, also trigger `onSelect` on <Nav>
+      onSelectFromNav?.(eventKey, event);
+    },
+    [onSelectProp, onSelectFromNav]
+  );
+
+  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+
+  const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } = useClassNames(
+    'dropdown-menu'
+  );
+
+  const { withClassPrefix: withNavItemClassPrefix, merge: mergeNavItemClassNames } = useClassNames(
+    'nav-item'
+  );
+
+  const menuButtonTriggers = useMemo<MenuButtonTrigger[] | undefined>(() => {
+    if (!trigger) {
+      return undefined;
     }
-    return open;
-  }
 
-  toggle = (isOpen?: boolean) => {
-    const { onOpen, onClose, onToggle } = this.props;
-    const open = _.isUndefined(isOpen) ? !this.getOpen() : isOpen;
-    const handleToggle = open ? onOpen : onClose;
-
-    this.setState({ open });
-    handleToggle?.();
-    onToggle?.(open);
-  };
-
-  handleClick = (event: React.SyntheticEvent<any>) => {
-    event.preventDefault();
-    if (this.props.disabled) {
-      return;
-    }
-    this.toggle();
-  };
-
-  handleOpenChange = (event: React.SyntheticEvent<any>) => {
-    const { eventKey } = this.props;
-    this.context?.onOpenChange?.(eventKey, event);
-  };
-
-  handleToggleChange = (eventKey: any, event: React.SyntheticEvent<any>) => {
-    this.context?.onOpenChange?.(eventKey, event);
-  };
-
-  handleMouseEnter = () => {
-    if (!this.props.disabled) {
-      this.toggle(true);
-    }
-  };
-
-  handleMouseLeave = () => {
-    if (!this.props.disabled) {
-      this.toggle(false);
-    }
-  };
-
-  handleSelect = (eventKey: any, event: React.MouseEvent<HTMLElement>) => {
-    this.props.onSelect?.(eventKey, event);
-    this.toggle(false);
-  };
-
-  render() {
-    const {
-      title,
-      children,
-      className,
-      menuStyle,
-      disabled,
-      renderTitle,
-      classPrefix,
-      placement,
-      activeKey,
-      tabIndex,
-      toggleClassName,
-      trigger,
-      icon,
-      onClick,
-      onMouseEnter,
-      onMouseLeave,
-      onContextMenu,
-      eventKey,
-      componentClass: Component,
-      toggleComponentClass,
-      noCaret,
-      style,
-      showHeader,
-      ...props
-    } = this.props;
-
-    const { openKeys = [], sidenav, expanded }: SidenavContextType = this.context || {};
-    const menuExpanded = openKeys.some(key => shallowEqual(key, eventKey));
-    const addPrefix = prefix(classPrefix);
-    const open = this.getOpen();
-    const collapsible = sidenav && expanded;
-    const unhandled = getUnhandledProps(Dropdown, props);
-    const toggleProps = {
-      ...unhandled,
-      onClick: createChainedFunction(this.handleOpenChange, onClick),
-      onContextMenu
+    const triggerMap: { [key: string]: MenuButtonTrigger } = {
+      hover: 'mouseover',
+      click: 'click',
+      contextMenu: 'contextmenu'
     };
 
-    const dropdownProps = {
-      onMouseEnter,
-      onMouseLeave
-    };
-
-    /**
-     * Bind event of trigger,
-     * not used in  in the expanded state of '<Sidenav>'
-     */
-    if (!collapsible) {
-      if (isOneOf('click', trigger)) {
-        toggleProps.onClick = createChainedFunction(this.handleClick, toggleProps.onClick);
-      }
-
-      if (isOneOf('contextMenu', trigger)) {
-        toggleProps.onContextMenu = createChainedFunction(this.handleClick, onContextMenu);
-      }
-
-      if (isOneOf('hover', trigger)) {
-        dropdownProps.onMouseEnter = createChainedFunction(this.handleMouseEnter, onMouseEnter);
-        dropdownProps.onMouseLeave = createChainedFunction(this.handleMouseLeave, onMouseLeave);
-      }
-    }
-    const menuProps = {
-      collapsible,
-      activeKey,
-      openKeys,
-      expanded: menuExpanded,
-      style: menuStyle,
-      onSelect: this.handleSelect,
-      onToggle: this.handleToggleChange
-    };
-    let menu = <DropdownMenu {...menuProps}>{children}</DropdownMenu>;
-
-    if (open) {
-      menu = (
-        <RootCloseWrapper onRootClose={this.toggle}>
-          {(props, ref) => (
-            <DropdownMenu {...props} {...menuProps} htmlElementRef={ref}>
-              {showHeader && <li className={addPrefix('header')}>{title}</li>}
-              {children}
-            </DropdownMenu>
-          )}
-        </RootCloseWrapper>
-      );
+    if (!Array.isArray(trigger)) {
+      return [triggerMap[trigger]];
     }
 
-    const toggle = (
-      <DropdownToggle
-        {...toggleProps}
-        noCaret={noCaret}
-        tabIndex={tabIndex}
-        className={toggleClassName}
-        renderTitle={renderTitle}
-        icon={icon}
-        componentClass={toggleComponentClass}
-      >
-        {title}
-      </DropdownToggle>
-    );
+    return trigger.map(t => triggerMap[t]);
+  }, [trigger]);
 
-    const classes = classNames(classPrefix, className, {
-      [addPrefix(`placement-${_.kebabCase(placementPolyfill(placement))}`)]: placement,
-      [addPrefix('disabled')]: disabled,
-      [addPrefix('no-caret')]: noCaret,
-      [addPrefix('open')]: open,
-      [addPrefix(menuExpanded ? 'expand' : 'collapse')]: sidenav
-    });
+  const parentMenu = useContext(MenuContext);
 
+  const sidenav = useContext<SidenavContextType>(SidenavContext);
+  const navbar = useContext(NavbarContext);
+
+  const [{ items }, dispatch] = useReducer(reducer, initialState);
+
+  const hasSelectedItem = useMemo(() => {
+    return items.some(item => item.props.selected);
+  }, [items]);
+
+  const dropdownContextValue = useMemo<DropdownContextProps>(() => {
+    return { activeKey, onSelect: emitSelect, hasSelectedItem, dispatch };
+  }, [activeKey, emitSelect, hasSelectedItem, dispatch]);
+
+  // Render a disclosure when inside expanded <Sidenav>
+  if (sidenav?.expanded) {
     return (
-      <Component {...dropdownProps} style={style} className={classes} role="menu">
-        {menu}
-        {toggle}
-      </Component>
+      <DropdownContext.Provider value={dropdownContextValue}>
+        <SidenavDropdown ref={ref} {...rest} />
+      </DropdownContext.Provider>
     );
   }
-}
 
-const EnhancedDropdown = defaultProps({
-  componentClass: 'div',
-  classPrefix: 'dropdown'
-})(Dropdown);
+  // Renders a disclosure when used inside <Navbar>
+  if (navbar) {
+    return (
+      <DropdownContext.Provider value={dropdownContextValue}>
+        <Disclosure hideOnClickOutside>
+          {({ open }, containerRef) => {
+            const classes = merge(
+              className,
+              withClassPrefix({
+                [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
+                disabled,
+                open
+                // focus: hasFocus
+              })
+            );
+            return (
+              <Component ref={mergeRefs(ref, containerRef)} className={classes} style={style}>
+                <Disclosure.Button>
+                  {(buttonProps, buttonRef) => (
+                    <DropdownToggle
+                      ref={buttonRef}
+                      as={toggleAs}
+                      className={toggleClassName}
+                      placement={placement}
+                      disabled={disabled}
+                      {...omit(buttonProps, ['open'])}
+                      {...toggleProps}
+                    >
+                      {title}
+                    </DropdownToggle>
+                  )}
+                </Disclosure.Button>
+                <Disclosure.Content>
+                  {({ open }, elementRef) => {
+                    const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+                    return (
+                      <ul
+                        ref={elementRef as any}
+                        className={menuClassName}
+                        style={menuStyle}
+                        hidden={!open}
+                      >
+                        {children}
+                      </ul>
+                    );
+                  }}
+                </Disclosure.Content>
+              </Component>
+            );
+          }}
+        </Disclosure>
+      </DropdownContext.Provider>
+    );
+  }
 
-setStatic('Item', DropdownMenuItem)(EnhancedDropdown);
-setStatic('Menu', DropdownMenu)(EnhancedDropdown);
+  let renderMenuButton = (menuButtonProps, menuButtonRef) => (
+    <DropdownToggle
+      ref={menuButtonRef}
+      as={toggleAs}
+      className={toggleClassName}
+      placement={placement}
+      disabled={disabled}
+      {...omit(menuButtonProps, ['open'])}
+      {...omit(toggleProps, ['data-testid'])}
+    >
+      {title}
+    </DropdownToggle>
+  );
 
-export default EnhancedDropdown;
+  if (parentMenu) {
+    renderMenuButton = (menuButtonProps, buttonRef) => (
+      <MenuItem disabled={disabled}>
+        {({ active, ...menuitemProps }, menuitemRef) => {
+          return (
+            <DropdownToggle
+              ref={mergeRefs(buttonRef, menuitemRef)}
+              as={toggleAs}
+              className={mergeNavItemClassNames(
+                toggleClassName,
+                withNavItemClassPrefix({
+                  focus: active
+                })
+              )}
+              {...menuButtonProps}
+              {...omit(menuitemProps, ['onClick'])}
+              {...omit(toggleProps, 'data-testid')}
+            >
+              {title}
+            </DropdownToggle>
+          );
+        }}
+      </MenuItem>
+    );
+  }
+
+  return (
+    <DropdownContext.Provider value={dropdownContextValue}>
+      <Menu
+        menuButtonText={title}
+        renderMenuButton={renderMenuButton}
+        openMenuOn={menuButtonTriggers}
+        renderMenuPopup={({ open, ...popupProps }, popupRef) => {
+          const menuClassName = mergeMenuClassName(className, withMenuClassPrefix({}));
+          // When inside a collapsed <Sidenav>, render a header in menu
+          const showHeader = !!sidenav;
+
+          return (
+            <ul
+              ref={popupRef}
+              className={menuClassName}
+              style={menuStyle}
+              hidden={!open}
+              {...popupProps}
+            >
+              {showHeader && <div className={prefix('header')}>{title}</div>}
+              {children}
+            </ul>
+          );
+        }}
+        onToggleMenu={(open, event) => {
+          onToggle?.(open);
+          sidenav?.onOpenChange(eventKey, event);
+          if (open) {
+            onOpen?.();
+          } else {
+            onClose?.();
+          }
+        }}
+      >
+        {({ open, ...menuContainer }, menuContainerRef) => {
+          const classes = merge(
+            className,
+            withClassPrefix({
+              [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
+              disabled,
+              open,
+              submenu: !!parentMenu,
+              'selected-within': hasSelectedItem
+            })
+          );
+          return (
+            <Component
+              ref={mergeRefs(ref, menuContainerRef)}
+              className={classes}
+              {...menuContainer}
+              {...pick(toggleProps, ['data-testid'])}
+              style={style}
+            />
+          );
+        }}
+      </Menu>
+    </DropdownContext.Provider>
+  );
+}) as unknown) as DropdownComponent;
+
+Dropdown.Item = DropdownItem;
+Dropdown.Menu = DropdownMenu;
+
+Dropdown.displayName = 'Dropdown';
+Dropdown.defaultProps = defaultProps;
+Dropdown.propTypes = {
+  activeKey: PropTypes.any,
+  classPrefix: PropTypes.string,
+  trigger: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.oneOf(['click', 'hover', 'contextMenu'])
+  ]),
+  placement: PropTypes.oneOf(PLACEMENT_8),
+  title: PropTypes.node,
+  disabled: PropTypes.bool,
+  icon: PropTypes.node,
+  menuStyle: PropTypes.object,
+  className: PropTypes.string,
+  toggleClassName: PropTypes.string,
+  children: PropTypes.node,
+  open: deprecatePropType(PropTypes.bool),
+  eventKey: PropTypes.any,
+  as: PropTypes.elementType,
+  toggleAs: PropTypes.elementType,
+  noCaret: PropTypes.bool,
+  style: PropTypes.object,
+  onClose: PropTypes.func,
+  onOpen: PropTypes.func,
+  onToggle: PropTypes.func,
+  onSelect: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
+  onContextMenu: PropTypes.func,
+  onClick: PropTypes.func,
+  renderToggle: PropTypes.func
+};
+
+export default Dropdown;

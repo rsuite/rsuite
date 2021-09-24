@@ -1,22 +1,19 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import OverlayTrigger from '../Overlay/OverlayTrigger';
-import { createChainedFunction, placementPolyfill, refType, mergeRefs } from '../utils';
-import IntlContext from '../IntlProvider/IntlContext';
-import { WhisperProps } from './Whisper.d';
+import { createChainedFunction, placementPolyfill, PLACEMENT } from '../utils';
+import { CustomConsumer } from '../CustomProvider';
+import { OverlayTriggerProps } from '../Overlay/OverlayTrigger';
 
-export const overlayProps = [
-  'placement',
-  'shouldUpdatePosition',
-  'arrowOffsetLeft',
-  'arrowOffsetTop',
-  'positionLeft',
-  'positionTop'
-];
+export type WhisperProps = OverlayTriggerProps;
+
+export interface WhisperInstance extends React.Component<WhisperProps> {
+  open: (delay?: number) => void;
+  close: (delay?: number) => void;
+}
 
 const Whisper = React.forwardRef((props: WhisperProps, ref) => {
   const {
-    triggerRef,
     onOpen,
     onClose,
     onEntered,
@@ -26,29 +23,28 @@ const Whisper = React.forwardRef((props: WhisperProps, ref) => {
     ...rest
   } = props;
   return (
-    <IntlContext.Consumer>
+    <CustomConsumer>
       {context => (
         <OverlayTrigger
+          {...rest}
+          ref={ref}
           preventOverflow={preventOverflow}
           placement={placementPolyfill(placement, context?.rtl)}
           onEntered={createChainedFunction(onOpen, onEntered)}
           onExited={createChainedFunction(onClose, onExited)}
-          ref={mergeRefs(ref, triggerRef)} // for test
-          {...rest}
         />
       )}
-    </IntlContext.Consumer>
+    </CustomConsumer>
   );
 });
 
 Whisper.displayName = 'Whisper';
 Whisper.propTypes = {
-  triggerRef: refType,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   onEntered: PropTypes.func,
   onExited: PropTypes.func,
-  placement: PropTypes.string,
+  placement: PropTypes.oneOf(PLACEMENT),
   /**
    * Prevent floating element overflow
    */

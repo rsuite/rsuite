@@ -1,12 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
-import { Sidebar, Nav, Icon, IconButton } from 'rsuite';
+import { Sidebar, Nav, IconButton, Badge } from 'rsuite';
 import Link from '@/components/Link';
 import AppContext from '../AppContext';
-import getPages from '@/utils/pages';
+import usePages from '@/utils/usePages';
 import debounce from 'lodash/debounce';
 import { scrollTop } from 'dom-lib';
+import ExternalLinkSquare from '@rsuite/icons/legacy/ExternalLinkSquare';
+import BarsIcon from '@rsuite/icons/legacy/Bars';
 
 interface SideNavbarProps {
   style: React.CSSProperties;
@@ -16,14 +18,14 @@ function setSidebarScrollTop() {
   const sidebar = document.getElementById('sidebar');
   const top = scrollTop(sidebar);
 
-  sessionStorage.setItem('SIDEBAR-TOP', top);
+  sessionStorage.setItem('SIDEBAR-TOP', `${top}`);
 }
 
 function initSidebarScrollTop() {
   const sidebar = document.getElementById('sidebar');
   const top = sessionStorage.getItem('SIDEBAR-TOP') || 0;
   if (sidebar) {
-    scrollTop(sidebar, top);
+    scrollTop(sidebar, +top);
   }
 }
 
@@ -35,7 +37,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
   const showMediaToggleButton = props.style.width !== 0;
 
   const navItems = [];
-  const menuList = getPages();
+  const menuList = usePages();
   const data = menuList.find(item => item.id === activeKey);
 
   const { name: activeTitle, icon, children = [] } = data;
@@ -71,14 +73,14 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
         navItems.push(
           <Nav.Item key={child.id} href={child.url} target="_blank">
             {child.name} {title}
-            <Icon icon="external-link-square" className="external-link" />
+            <ExternalLinkSquare className="external-link" />
           </Nav.Item>
         );
       } else {
         navItems.push(
-          <Nav.Item key={child.id} href={pathname} active={active} componentClass={Link}>
+          <Nav.Item key={child.id} href={pathname} active={active} as={Link}>
             {child.name}
-            {title}
+            {title} {child.new && <Badge content="new" />}
           </Nav.Item>
         );
       }
@@ -90,7 +92,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
       {showMediaToggleButton && (
         <IconButton
           className="media-toggle-side-bar"
-          icon={<Icon icon="bars" />}
+          icon={<BarsIcon />}
           onClick={handleOpenMediaSidebar}
         />
       )}

@@ -1,79 +1,72 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { prefix, getUnhandledProps, defaultProps } from '../utils';
-import { setYear } from 'date-fns';
-import { setMonth } from 'date-fns';
-import composeFunctions from '../utils/composeFunctions';
+import { composeFunctions, useClassNames } from '../utils';
+import { setMonth, setYear } from '../utils/dateUtils';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { useCalendarContext } from './CalendarContext';
 
-export interface MonthDropdownItemProps {
-  date?: Date;
+export interface MonthDropdownItemProps extends WithAsProps {
   month?: number;
   year?: number;
-  onSelect?: (date: Date, event: React.MouseEvent) => void;
-  className?: string;
-  classPrefix?: string;
   active?: boolean;
   disabled?: boolean;
 }
 
-class MonthDropdownItem extends React.PureComponent<MonthDropdownItemProps> {
-  static propTypes = {
-    date: PropTypes.instanceOf(Date),
-    month: PropTypes.number,
-    year: PropTypes.number,
-    onSelect: PropTypes.func,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    active: PropTypes.bool,
-    disabled: PropTypes.bool
-  };
-  static defaultProps = {
-    month: 0
-  };
+const defaultProps: Partial<MonthDropdownItemProps> = {
+  as: 'div',
+  classPrefix: 'calendar-month-dropdown-cell',
+  month: 0
+};
 
-  handleClick = (event: React.MouseEvent) => {
-    const { onSelect, month, year, date, disabled } = this.props;
+const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps> = React.forwardRef(
+  (props: MonthDropdownItemProps, ref) => {
+    const { as: Component, className, classPrefix, active, disabled, month, year, ...rest } = props;
+    const { date, onChangePageDate: onSelect } = useCalendarContext();
 
-    if (disabled) {
-      return;
-    }
+    const handleClick = useCallback(
+      (event: React.MouseEvent) => {
+        if (disabled) {
+          return;
+        }
 
-    if (year && month && date) {
-      const nextMonth = composeFunctions(
-        d => setYear(d, year),
-        d => setMonth(d, month - 1)
-      )(date);
-      onSelect?.(nextMonth, event);
-    }
-  };
+        if (year && month && date) {
+          const nextMonth = composeFunctions(
+            d => setYear(d, year),
+            d => setMonth(d, month - 1)
+          )(date);
 
-  render() {
-    const { className, classPrefix, month, active, disabled, ...rest } = this.props;
+          onSelect?.(nextMonth, event);
+        }
+      },
+      [date, disabled, month, onSelect, year]
+    );
 
-    const addPrefix = prefix(classPrefix);
-    const unhandled = getUnhandledProps(MonthDropdownItem, rest);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('active')]: active,
-      disabled
-    });
+    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ active }), { disabled });
 
     return (
-      <div
-        {...unhandled}
+      <Component
+        {...rest}
+        ref={ref}
         className={classes}
-        onClick={this.handleClick}
+        onClick={handleClick}
         key={month}
-        role="button"
-        tabIndex="-1"
+        tabIndex={-1}
       >
-        <span className={addPrefix('content')}>{month}</span>
-      </div>
+        <span className={prefix('content')}>{month}</span>
+      </Component>
     );
   }
-}
+);
+MonthDropdownItem.displayName = 'MonthDropdownItem';
+MonthDropdownItem.defaultProps = defaultProps;
+MonthDropdownItem.propTypes = {
+  month: PropTypes.number,
+  year: PropTypes.number,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  active: PropTypes.bool,
+  disabled: PropTypes.bool
+};
 
-const enhance = defaultProps<MonthDropdownItemProps>({
-  classPrefix: 'calendar-month-dropdown-cell'
-});
-export default enhance(MonthDropdownItem);
+export default MonthDropdownItem;

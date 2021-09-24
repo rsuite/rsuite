@@ -1,21 +1,25 @@
-import * as React from 'react';
-import Transition from './Transition';
-import { TransitionProps } from './Animation.d';
+import React from 'react';
+import Transition, { TransitionProps } from './Transition';
+import { useClassNames } from '../utils';
 
-const Bounce = React.forwardRef(
-  ({ timeout = 300, ...props }: TransitionProps, ref: React.Ref<any>) => (
+export type BounceProps = TransitionProps;
+
+const Bounce = React.forwardRef(({ timeout = 300, ...props }: BounceProps, ref: React.Ref<any>) => {
+  const { prefix } = useClassNames('anim');
+
+  return (
     <Transition
       {...props}
       ref={ref}
       animation
       timeout={timeout}
-      enteringClassName="bounce-in animated"
-      enteredClassName="bounce-in animated"
-      exitingClassName="bounce-out animated"
-      exitedClassName="bounce-out animated"
+      enteringClassName={prefix('bounce-in')}
+      enteredClassName={prefix('bounce-in')}
+      exitingClassName={prefix('bounce-out')}
+      exitedClassName={prefix('bounce-out')}
     />
-  )
-);
+  );
+});
 
 Bounce.displayName = 'Bounce';
 

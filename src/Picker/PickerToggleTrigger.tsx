@@ -1,61 +1,63 @@
 import React from 'react';
-import _ from 'lodash';
-import OverlayTrigger from '../Overlay/OverlayTrigger';
+import pick from 'lodash/pick';
+import OverlayTrigger, {
+  OverlayTriggerInstance,
+  OverlayTriggerType
+} from '../Overlay/OverlayTrigger';
+import { PositionChildProps } from '../Overlay/Position';
 import { placementPolyfill } from '../utils';
-import IntlContext from '../IntlProvider/IntlContext';
+import { CustomConsumer } from '../CustomProvider';
+import { TypeAttributes } from '../@types/common';
 
-type TriggerType = 'click' | 'hover' | 'focus' | 'active';
+export type { OverlayTriggerInstance, PositionChildProps };
 
 export interface PickerToggleTriggerProps {
-  placement?: string;
+  placement?: TypeAttributes.Placement;
   pickerProps: any;
   open?: boolean;
-  trigger?: TriggerType | TriggerType[];
-  children: React.ReactNode;
-  speaker: React.ReactElement<any>;
-  positionRef?: React.Ref<any>;
+  trigger?: OverlayTriggerType | OverlayTriggerType[];
+  children: React.ReactElement | ((props: any, ref) => React.ReactElement);
+  speaker: React.ReactElement | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
   onEnter?: (node: null | Element | Text) => void;
   onEntered?: (node: null | Element | Text) => void;
   onExit?: (node: null | Element | Text) => void;
   onExited?: (node: null | Element | Text) => void;
 }
 
-const PickerToggleTriggerProps = [
+export const omitTriggerPropKeys = [
   'onEntered',
   'onExited',
-  'open',
-  'defaultOpen',
-  'disabled',
   'onEnter',
   'onEntering',
   'onExit',
   'onExiting',
+  'open',
+  'defaultOpen',
   'onHide',
   'container',
   'containerPadding',
-  'preventOverflow',
-  'positionRef'
+  'preventOverflow'
 ];
 
+export const pickTriggerPropKeys = [...omitTriggerPropKeys, 'disabled', 'plaintext', 'readOnly'];
+
 const PickerToggleTrigger = React.forwardRef(
-  (props: PickerToggleTriggerProps, ref: React.RefObject<any>) => {
-    const { pickerProps, speaker, trigger = 'click', open, ...rest } = props;
-    const placement = pickerProps.placement;
+  (props: PickerToggleTriggerProps, ref: React.Ref<any>) => {
+    const { pickerProps, speaker, placement, trigger = 'click', ...rest } = props;
 
     return (
-      <IntlContext.Consumer>
+      <CustomConsumer>
         {context => (
           <OverlayTrigger
-            trigger={trigger}
+            {...rest}
+            {...pick(pickerProps, pickTriggerPropKeys)}
             ref={ref}
-            open={open}
+            trigger={trigger}
             placement={placementPolyfill(placement, context?.rtl)}
             speaker={speaker}
-            {..._.pick(pickerProps, PickerToggleTriggerProps)}
-            {...rest}
           />
         )}
-      </IntlContext.Consumer>
+      </CustomConsumer>
     );
   }
 );

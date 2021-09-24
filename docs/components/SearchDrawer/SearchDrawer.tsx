@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import algoliasearch from 'algoliasearch/lite';
 import { Drawer, Input } from 'rsuite';
 import Link from '@/components/Link';
@@ -6,7 +6,7 @@ import AppContext from '@/components/AppContext';
 
 interface SearchDrawerProps {
   show?: boolean;
-  onHide?: () => void;
+  onClose?: () => void;
 }
 
 function createAlgoliaClient(language: string) {
@@ -16,7 +16,7 @@ function createAlgoliaClient(language: string) {
 }
 
 export default function SearchDrawer(props: SearchDrawerProps) {
-  const { show, onHide } = props;
+  const { show, onClose } = props;
   const [list, setList] = React.useState([]);
   const [keyword, setKeyword] = React.useState('');
   const { messages, language } = React.useContext(AppContext);
@@ -26,58 +26,50 @@ export default function SearchDrawer(props: SearchDrawerProps) {
     client = createAlgoliaClient(language);
   }, [language]);
 
-  const onSearch = React.useCallback(keyword => {
-    setKeyword(keyword);
-    if (keyword === '') {
-      setList([]);
-      return;
-    }
+  const onSearch = React.useCallback(
+    keyword => {
+      setKeyword(keyword);
+      if (keyword === '') {
+        setList([]);
+        return;
+      }
 
-    client?.search?.(keyword, { hitsPerPage: 6 }).then(({ hits }) => {
-      setList(hits || []);
-    });
-  }, []);
+      client?.search?.(keyword, { hitsPerPage: 6 }).then(({ hits }) => {
+        setList(hits || []);
+      });
+    },
+    [client]
+  );
 
   return (
-    <Drawer className="search-drawer" placement="left" size="xs" show={show} onHide={onHide}>
-      <Drawer.Header>
-        <Drawer.Title>{messages?.common?.search}</Drawer.Title>
-      </Drawer.Header>
-      <Drawer.Body>
+    <Drawer className="search-drawer" placement="left" size="xs" open={show} onClose={onClose}>
+      <Drawer.Header style={{ border: 'none' }}>
         <Input
           placeholder={messages?.common?.search}
           className="search-input"
           value={keyword}
           onChange={onSearch}
         />
+      </Drawer.Header>
+      <Drawer.Body style={{ padding: '0px 20px 0 56px' }}>
         <ul className="search-list">
           {list.map((item, index) => {
             const component = item?.component;
-            const content = item?.content;
-            let title = item?._highlightResult?.title?.value;
-            title = `${component} > ${title.replace(/`/gi, '')}`;
+            const content = item?._highlightResult?.content?.value;
+            const title = item?._highlightResult?.title?.value;
             const url = `/components/${component}`;
 
             return (
               <li key={index}>
-                {title.indexOf('<em>') !== -1 ? (
-                  <div onClick={onHide}>
-                    <Link href={url}>
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: `${title}<p>${content}</p>`
-                        }}
-                      />
-                    </Link>
-                  </div>
-                ) : (
-                  <div onClick={onHide}>
-                    <Link href={url}>
-                      {title}
-                      <p>{content}</p>
-                    </Link>
-                  </div>
-                )}
+                <div onClick={onClose}>
+                  <Link href={url}>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: `${title}<p>${content}</p>`
+                      }}
+                    />
+                  </Link>
+                </div>
               </li>
             );
           })}

@@ -1,58 +1,35 @@
-.dropdown-toggle-caret-common(@right:@padding-base-horizontal) {
-  display: inline-block;
+.dropdown-toggle-caret-common(@right:@padding-x) {
+  display: flex;
+  align-items: center;
   margin-left: 2px;
   position: absolute;
-  top: @padding-base-vertical;
+  top: @padding-y;
   right: @right;
-  font-weight: normal;
-
-  &::before {
-    font-family: @dropdown-caret-font-family !important;
-  }
+  height: @line-height-computed;
+  font-size: 12px;
 }
 
-.dropdown-toggle-caret-size(@vertical,@horizontal) {
+.dropdown-toggle-caret-size(@vertical,@horizontal,@caret-size) {
   padding-right: @horizontal+ @dropdown-caret-width+ @dropdown-caret-padding !important;
 
-  .@{ns}dropdown-toggle-caret {
+  .rs-dropdown-toggle-caret {
     top: @vertical;
     right: @horizontal;
+    font-size: @caret-size;
   }
 }
 
 .dropdown-toggle-size() {
-  &.@{ns}btn-lg {
-    .dropdown-toggle-caret-size(@padding-large-vertical, @padding-large-horizontal);
+  &.rs-btn-lg {
+    .dropdown-toggle-caret-size(@padding-y-lg, @padding-x-lg, 14px);
   }
 
-  &.@{ns}btn-sm {
-    .dropdown-toggle-caret-size(@padding-small-vertical, @padding-small-horizontal);
+  &.rs-btn-sm {
+    .dropdown-toggle-caret-size(@padding-y-sm, @padding-x-sm, 10px);
   }
 
-  &.@{ns}btn-xs {
-    .dropdown-toggle-caret-size(@padding-extra-small-vertical, @padding-extra-small-horizontal);
-  }
-}
-
-.set-dropdown-caret(@prefix) {
-  .@{prefix}-placement-left-end &::before,
-  .@{prefix}-placement-left-start &::before {
-    content: @drop-left-caret-content ~'/* rtl: "@{drop-right-caret-content}" */';
-  }
-
-  .@{prefix}-placement-right-end &::before,
-  .@{prefix}-placement-right-start &::before {
-    content: @drop-right-caret-content ~'/* rtl: "@{drop-left-caret-content}" */';
-  }
-
-  .@{prefix}-placement-top-start &::before,
-  .@{prefix}-placement-top-end &::before {
-    content: @dropup-caret-content;
-  }
-
-  .@{prefix}-placement-bottom-start &::before,
-  .@{prefix}-placement-bottom-end &::before {
-    content: @dropdown-caret-content;
+  &.rs-btn-xs {
+    .dropdown-toggle-caret-size(@padding-y-xs, @padding-x-xs, 8px);
   }
 }
 
@@ -65,11 +42,6 @@
   // Rest `:focus` blue border.
   outline: none;
   cursor: pointer;
-
-  // Custom title toggle need reset padding.
-  &-custom-title {
-    padding: 0 !important;
-  }
 }
 
 // Horizontal dividers

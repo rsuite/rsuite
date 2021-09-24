@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import IconButton from '../IconButton';
-import Icon from '../../Icon';
+import User from '@rsuite/icons/legacy/User';
+import Star from '@rsuite/icons/legacy/Star';
 
 describe('IconButton', () => {
   it('Should output a button', () => {
@@ -12,18 +12,18 @@ describe('IconButton', () => {
   });
 
   it('Should output a icon', () => {
-    const instance = getInstance(<IconButton icon={<Icon icon="user" />} />);
-    assert.ok(ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'i'));
+    const instance = getDOMNode(<IconButton icon={<User />} />);
+    assert.ok(instance.querySelector('.rs-icon'));
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<IconButton icon={<Icon icon="star" />} className="custom" />);
+    const instance = getDOMNode(<IconButton icon={<Star />} className="custom" />);
     assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<IconButton icon={<Icon icon="star" />} style={{ fontSize }} />);
+    const instance = getDOMNode(<IconButton icon={<Star />} style={{ fontSize }} />);
 
     assert.equal(instance.style.fontSize, fontSize);
   });

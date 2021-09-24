@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import IconButton from '../index';
 import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('IconButton styles', () => {
   it('Should render the correct width and height', () => {

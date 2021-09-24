@@ -1,17 +1,16 @@
-import * as React from 'react';
+import React from 'react';
+import { useClassNames } from '../utils';
+import Button, { ButtonProps } from '../Button';
 
-import classNames from 'classnames';
-import { defaultProps } from '../utils';
-import Button from '../Button';
-import { ButtonProps } from '../Button/Button.d';
+const InputGroupButton = React.forwardRef((props: ButtonProps, ref: React.Ref<any>) => {
+  const { classPrefix = 'input-group-btn', className, ...rest } = props;
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const { withClassPrefix: withAddOnClassPrefix } = useClassNames('input-group-addon');
+  const classes = merge(withAddOnClassPrefix(), className, withClassPrefix());
 
-class InputGroupButton extends React.Component<ButtonProps> {
-  render() {
-    const { className, classPrefix, ...props } = this.props;
-    return <Button componentClass="a" {...props} className={classNames(classPrefix, className)} />;
-  }
-}
+  return <Button {...rest} ref={ref} className={classes} />;
+});
 
-export default defaultProps<ButtonProps>({
-  classPrefix: 'input-group-btn'
-})(InputGroupButton);
+InputGroupButton.displayName = 'InputGroupButton';
+
+export default InputGroupButton;

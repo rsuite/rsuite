@@ -1,20 +1,20 @@
 import PropTypes from 'prop-types';
-import { PLACEMENT } from '../constants';
-import { refType } from '../utils';
-import { animationPropTypes } from '../Animation/propTypes';
+import { PLACEMENT } from '../utils';
+import { PickerAppearance, TypeAttributes } from '../@types/common';
+import { animationPropTypes } from '../Animation/utils';
 
 export const pickerPropTypes = {
   ...animationPropTypes,
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
-  locale: PropTypes.object,
+  locale: PropTypes.any,
   appearance: PropTypes.oneOf(['default', 'subtle']),
   block: PropTypes.bool,
   containerPadding: PropTypes.number,
-  container: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+  container: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   disabled: PropTypes.bool,
-  toggleComponentClass: PropTypes.elementType,
+  toggleAs: PropTypes.elementType,
   menuClassName: PropTypes.string,
   menuStyle: PropTypes.object,
   placeholder: PropTypes.node,
@@ -28,12 +28,9 @@ export const pickerPropTypes = {
   cleanable: PropTypes.bool,
   renderExtraFooter: PropTypes.func,
   renderValue: PropTypes.func,
-  positionRef: refType,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
-  onClean: PropTypes.func,
-  /** @deprecated Use `onClose` instead */
-  onHide: PropTypes.func
+  onClean: PropTypes.func
 };
 
 export const listPickerPropTypes = {
@@ -50,8 +47,8 @@ export const listPickerPropTypes = {
 
 export const pickerDefaultProps = {
   cleanable: true,
-  placement: 'bottomStart',
-  appearance: 'default'
+  placement: 'bottomStart' as TypeAttributes.Placement,
+  appearance: 'default' as PickerAppearance
 };
 
 export const listPickerDefaultProps = {

@@ -1,87 +1,133 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import compose from 'recompose/compose';
 import SafeAnchor from '../SafeAnchor';
 import Ripple from '../Ripple';
+import { isOneOf, useClassNames } from '../utils';
+import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-import { withStyleProps, getUnhandledProps, defaultProps, prefix, isOneOf } from '../utils';
-import { ButtonProps } from './Button.d';
+export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
+  /** A button can have different appearances. */
+  appearance?: TypeAttributes.Appearance;
 
-class Button extends React.Component<ButtonProps> {
-  static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
-    active: PropTypes.bool,
-    componentClass: PropTypes.elementType,
-    children: PropTypes.node,
-    block: PropTypes.bool,
-    loading: PropTypes.bool,
-    disabled: PropTypes.bool,
-    ripple: PropTypes.bool
-  };
+  /** A button can show it is currently the active user selection */
+  active?: boolean;
 
-  static defaultProps = {
-    appearance: 'default',
-    ripple: true
-  };
+  /** A button can have different sizes */
+  size?: TypeAttributes.Size;
 
-  render() {
+  /** A button can have different colors */
+  color?: TypeAttributes.Color;
+
+  /** Format button to appear inside a content bloc */
+  block?: boolean;
+
+  /** Providing a `href` will render an `<a>` element, _styled_ as a button */
+  href?: string;
+
+  /** Where to display the linked URL */
+  target?: string;
+
+  /** A button can show a loading indicator */
+  loading?: boolean;
+
+  /** A button can show it is currently unable to be interacted with */
+  disabled?: boolean;
+
+  /** Ripple after button click */
+  ripple?: boolean;
+
+  /** Defines HTML button type attribute */
+  type?: 'button' | 'reset' | 'submit';
+}
+
+const defaultProps: Partial<ButtonProps> = {
+  appearance: 'default',
+  classPrefix: 'btn',
+  ripple: true
+};
+
+const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef(
+  (props: ButtonProps, ref) => {
     const {
+      as,
       active,
-      disabled,
-      loading,
+      appearance,
       block,
       className,
-      classPrefix,
-      appearance,
       children,
+      classPrefix,
+      color,
+      disabled,
+      loading,
       ripple,
-      componentClass: Component,
-      ...props
-    } = this.props;
+      size,
+      type: typeProp,
+      ...rest
+    } = props;
 
-    const unhandled = getUnhandledProps(Button, props);
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, addPrefix(appearance), className, {
-      [addPrefix('active')]: active,
-      [addPrefix('disabled')]: disabled,
-      [addPrefix('loading')]: loading,
-      [addPrefix('block')]: block
-    });
+    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+    const classes = merge(
+      className,
+      withClassPrefix(appearance, color, size, { active, disabled, loading, block })
+    );
 
     const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
-    const spin = <span className={addPrefix('spin')} />;
+    const spin = <span className={prefix`spin`} />;
 
-    if (Component === 'button') {
-      if (unhandled.href) {
-        return (
-          <SafeAnchor {...unhandled} aria-disabled={disabled} className={classes}>
-            {loading && spin}
-            {children}
-            {rippleElement}
-          </SafeAnchor>
-        );
-      }
-      unhandled.type = unhandled.type || 'button';
+    if (rest.href) {
+      return (
+        <SafeAnchor
+          {...rest}
+          as={as}
+          ref={ref}
+          aria-disabled={disabled}
+          disabled={disabled}
+          className={classes}
+        >
+          {loading && spin}
+          {children}
+          {rippleElement}
+        </SafeAnchor>
+      );
     }
 
+    const Component = as || 'button';
+    const type = typeProp || (Component === 'button' ? 'button' : undefined);
+    const role = rest.role || (Component !== 'button' ? 'button' : undefined);
+
     return (
-      <Component {...unhandled} disabled={disabled} className={classes}>
+      <Component
+        {...rest}
+        role={role}
+        type={type}
+        ref={ref}
+        disabled={disabled}
+        aria-disabled={disabled}
+        className={classes}
+      >
         {loading && spin}
         {children}
         {rippleElement}
       </Component>
     );
   }
-}
+);
 
-export default compose<any, ButtonProps>(
-  withStyleProps<ButtonProps>({
-    hasSize: true,
-    hasColor: true
-  }),
-  defaultProps<ButtonProps>({
-    classPrefix: 'btn',
-    componentClass: 'button'
-  })
-)(Button);
+Button.displayName = 'Button';
+Button.defaultProps = defaultProps;
+Button.propTypes = {
+  as: PropTypes.elementType,
+  active: PropTypes.bool,
+  appearance: PropTypes.oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
+  block: PropTypes.bool,
+  children: PropTypes.node,
+  color: PropTypes.oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']),
+  disabled: PropTypes.bool,
+  href: PropTypes.string,
+  loading: PropTypes.bool,
+  ripple: PropTypes.bool,
+  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
+  type: PropTypes.oneOf(['button', 'reset', 'submit'])
+};
+
+export default Button;

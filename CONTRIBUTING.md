@@ -1,21 +1,21 @@
 # Contributing to RSUITE
 
-Rsuite also wants to get help from the community while providing the developer service.
+Rsuite wants to get help from the community while providing a developer service.
 
-This article describes how you can help rsuite do a better job and contribute to your own strength.
+This article describes how you can help rsuite do a better job and contribute with your own strengths.
 
 ## Bug reports
 
-We uniformly collect bugs and state management through ' Github Issues'. If you find a bug, you can notify us by 'Github issues'.
+We uniformly collect bugs and state management through 'Github Issues'. If you find a bug, you can notify us by 'Github issues'.
 
 ## Feature requests
 
-If you have a demand that is rsuite, you can tell us that we will assess the rationality of the requirements and implement your functionality in the appropriate version.
-You can also participate in our development, submit Pull Request.
+If you have a feature idea for rsuite, you can let us know and we will assess the rationality of the requirements and implement your functionality in the appropriate version.
+You can also participate in our development by submitting a pull request.
 
 ## Pull Request
 
-We will seriously review every Pull request and will incorporate your code if it meets our code requirements.
+We take every pull request seriously and will incorporate your code if it meets our code requirements.
 
 You need to follow these procedures:
 
@@ -33,9 +33,9 @@ cd rsuite
 npm install
 ```
 
--Next you can start, add your code, either fix a bug or create a new feature.
+-Then you can start, add your code, and either fix a bug or create a new feature.
 
--To ensure functional stability, you need to write test cases and pass the test to execute the following command:
+-To ensure functional stability, you need to write tests for your code and pass the tests. Execute tests with the following command:
 
 ```bash
 npm run test
@@ -49,4 +49,4 @@ npm run lint
 
 * Open a Pull Request.
 
-Finally, thank you for your participation.
+Thank you for your participation!

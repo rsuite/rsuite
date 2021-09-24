@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="5px" viewBox="0 0 8 5" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>arrow2</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.556863 0 0 0 0 0.556863 0 0 0 0 0.576471 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Data-Entry" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="InputNumber" transform="translate(-202.000000, -174.000000)">
+            <g id="arrow2" transform="translate(198.000000, 168.000000)" filter="url(#filter-1)">
+                <g>
+                    <path d="M8,11 C7.74407768,11 7.48815536,10.9023689 7.29289322,10.7071068 L4.29289322,7.70710678 C3.90236893,7.31658249 3.90236893,6.68341751 4.29289322,6.29289322 C4.68341751,5.90236893 5.31658249,5.90236893 5.70710678,6.29289322 L8,8.58578644 L10.2928932,6.29289322 C10.6834175,5.90236893 11.3165825,5.90236893 11.7071068,6.29289322 C12.0976311,6.68341751 12.0976311,7.31658249 11.7071068,7.70710678 L8.70710678,10.7071068 C8.51184464,10.9023689 8.25592232,11 8,11 Z" id="Combined-Shape" fill="#575757" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

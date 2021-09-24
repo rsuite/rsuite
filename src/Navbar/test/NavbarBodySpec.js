@@ -3,7 +3,15 @@ import { getDOMNode } from '@test/testUtils';
 
 import NavbarBody from '../NavbarBody';
 
-describe('NavbarBody', () => {
+describe('NavbarBody (deprecated)', () => {
+  beforeEach(() => {
+    sinon.stub(console, 'warn').callsFake(() => null);
+  });
+
+  afterEach(() => {
+    console.warn.restore();
+  });
+
   it('Should render a body', () => {
     const title = 'Test';
     const instance = getDOMNode(<NavbarBody>{title}</NavbarBody>);
@@ -25,5 +33,10 @@ describe('NavbarBody', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<NavbarBody classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should warn deprecation message', () => {
+    getDOMNode(<NavbarBody />);
+    assert.ok(/deprecated/i.test(console.warn.firstCall.args[0]));
   });
 });

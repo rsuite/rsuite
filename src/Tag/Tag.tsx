@@ -1,53 +1,58 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import compose from 'recompose/compose';
-import { prefix, withStyleProps, defaultProps } from '../utils';
-import { TagProps } from './Tag.d';
+import { useClassNames } from '../utils';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
+import CloseButton from '../CloseButton';
 
-class Tag extends React.Component<TagProps> {
-  static propTypes = {
-    closable: PropTypes.bool,
-    classPrefix: PropTypes.string,
-    onClose: PropTypes.func,
-    children: PropTypes.node,
-    className: PropTypes.string,
-    componentClass: PropTypes.elementType
-  };
-  render() {
-    const {
-      children,
-      componentClass: Component,
-      onClose,
-      classPrefix,
-      closable,
-      className,
-      ...rest
-    } = this.props;
+export interface TagProps extends WithAsProps {
+  /** Different sizes */
+  size?: 'lg' | 'md' | 'sm';
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classnames(classPrefix, className, {
-      [addPrefix('closeable')]: closable
-    });
+  /** A tag can have different colors */
+  color?: TypeAttributes.Color;
 
-    return (
-      <Component className={classes} {...rest}>
-        <span className={addPrefix('text')}>{children}</span>
-        {closable && (
-          <i role="button" tabIndex={-1} className={addPrefix('icon-close')} onClick={onClose} />
-        )}
-      </Component>
-    );
-  }
+  /** Whether to close */
+  closable?: boolean;
+
+  /** The content of the component */
+  children?: React.ReactNode;
+
+  /** Click the callback function for the Close button */
+  onClose?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-export default compose<any, TagProps>(
-  withStyleProps<TagProps>({
-    hasColor: true,
-    defaultColor: 'default'
-  }),
-  defaultProps<TagProps>({
-    componentClass: 'div',
-    classPrefix: 'tag'
-  })
-)(Tag);
+const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: TagProps, ref) => {
+  const {
+    as: Component = 'div',
+    classPrefix = 'tag',
+    size = 'md',
+    color = 'default',
+    children,
+    closable,
+    className,
+    onClose,
+    ...rest
+  } = props;
+
+  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix(size, color, { closable }));
+
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      <span className={prefix`text`}>{children}</span>
+      {closable && <CloseButton className={prefix`icon-close`} onClick={onClose} />}
+    </Component>
+  );
+});
+
+Tag.displayName = 'Tag';
+Tag.propTypes = {
+  closable: PropTypes.bool,
+  classPrefix: PropTypes.string,
+  onClose: PropTypes.func,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  as: PropTypes.elementType
+};
+
+export default Tag;

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Content from '../index';
 import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Content styles', () => {
   itChrome('Should render the correct styles', () => {

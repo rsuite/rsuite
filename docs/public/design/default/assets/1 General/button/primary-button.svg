@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="36px" viewBox="0 0 80 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>1 General/button/primary-button</title>
+    <g id="1-General/button/primary-button" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M6,0 L74,0 C77.3137085,-6.08718376e-16 80,2.6862915 80,6 L80,30 C80,33.3137085 77.3137085,36 74,36 L6,36 C2.6862915,36 4.05812251e-16,33.3137085 0,30 L0,6 C-4.05812251e-16,2.6862915 2.6862915,-2.79460044e-16 6,0 Z" id="Rectangle-9" fill="#3498FF"></path>
+        <text id="强调按钮" font-family="PingFangSC-Regular, PingFang SC" font-size="14" font-weight="normal" line-spacing="20" fill="#FFFFFF">
+            <tspan x="12" y="23">强调按钮</tspan>
+        </text>
+    </g>
+</svg>

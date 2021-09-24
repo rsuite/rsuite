@@ -12,13 +12,13 @@
 <html dir="rtl"></html>
 ```
 
-### 2.配置 IntlProvider
+### 2.配置 CustomProvider
 
-在 IntlProvider 组件上设置 rtl 属性，配置所有组件支持 RTL。
+在 CustomProvider 组件上设置 rtl 属性，及所有组件根据 RTL 布局渲染。
 
 ```jsx
 function RTL(props) {
-  return <IntlProvider rtl>{props.children}</IntlProvider>;
+  return <CustomProvider rtl>{props.children}</CustomProvider>;
 }
 ```
 
@@ -27,11 +27,11 @@ function RTL(props) {
 - 使用已编译的 RTL 版本的 CSS 文件
 
 ```less
-@import '~rsuite/dist/styles/rsuite-default-rtl.css'; //or ~rsuite/dist/styles/rsuite-dark-rtl.css
+@import '~rsuite/dist/rsuite-rtl.min.css';
 ```
 
 - 如果使用 Less 版本，则通过 [rtlcss](https://rtlcss.com/) 处理最终成 CSS
 
 ```less
-@import '~rsuite/lib/styles/themes/default/index.less'; // or ~rsuite/lib/styles/themes/dark/index.less
+@import '~rsuite/styles/index.less';
 ```

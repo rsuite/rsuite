@@ -1,6 +1,6 @@
 {
   "name": "nextjs-app",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,11 +8,16 @@
     "start": "next start"
   },
   "dependencies": {
-    "@zeit/next-less": "^1.0.1",
-    "less": "^3.9.0",
-    "next": "^9.3.0",
-    "react": "16.9.0",
-    "react-dom": "16.9.0",
-    "rsuite": "^3.8.8"
+    "next": "^11.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rsuite": "^4.10.2"
+  },
+  "devDependencies": {
+    "css-loader": "^6.2.0",
+    "less": "^4.1.1",
+    "less-loader": "^10.0.1",
+    "mini-css-extract-plugin": "^2.1.0",
+    "webpack": "^5.45.1"
   }
 }

@@ -1,68 +1,68 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import _ from 'lodash';
-import { getUnhandledProps, prefix, defaultProps, refType } from '../utils';
+import { TypeChecker, useClassNames } from '../utils';
+import { StandardProps } from '../@types/common';
 
-export interface InputSearchProps {
-  classPrefix?: string;
+export interface InputSearchProps
+  extends StandardProps,
+    Omit<React.HTMLAttributes<HTMLInputElement>, 'onChange'> {
+  as?: React.ElementType | string;
+  readOnly?: boolean;
   value?: string;
-  className?: string;
-  children?: React.ReactNode;
-  style?: React.CSSProperties;
-  inputRef?: React.RefObject<any>;
-  componentClass: React.ElementType;
+  inputStyle?: React.CSSProperties;
+  inputRef?: React.Ref<any>;
   onChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-class InputSearch extends React.Component<InputSearchProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    value: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    style: PropTypes.object,
-    inputRef: refType,
-    componentClass: PropTypes.elementType,
-    onChange: PropTypes.func
-  };
+const InputSearch = React.forwardRef((props: InputSearchProps, ref: React.Ref<HTMLDivElement>) => {
+  const {
+    as: Component = 'input',
+    classPrefix = 'picker-search',
+    children,
+    className,
+    value,
+    inputRef,
+    style,
+    readOnly,
+    onChange,
+    ...rest
+  } = props;
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.props.onChange?.(_.get(event, 'target.value'), event);
-  };
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange?.(event?.target?.value, event);
+    },
+    [onChange]
+  );
 
-  render() {
-    const {
-      value,
-      componentClass: Component,
-      children,
-      className,
-      classPrefix,
-      inputRef,
-      style,
-      ...rest
-    } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const unhandled = getUnhandledProps(InputSearch, rest);
+  const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix());
 
-    return (
-      <div className={classNames(classPrefix, className)} style={style}>
-        <Component
-          {...unhandled}
-          ref={inputRef}
-          className={addPrefix('input')}
-          value={value}
-          onChange={this.handleChange}
-        />
-        {children}
-      </div>
-    );
-  }
-}
-
-const enhance = defaultProps<InputSearchProps>({
-  classPrefix: 'picker-search',
-  componentClass: 'input'
+  return (
+    <div ref={ref} className={classes} style={style}>
+      <Component
+        {...rest}
+        ref={inputRef}
+        readOnly={readOnly}
+        className={prefix`input`}
+        value={value}
+        onChange={handleChange}
+      />
+      {children}
+    </div>
+  );
 });
 
-export default enhance(InputSearch);
+InputSearch.displayName = 'InputSearch';
+InputSearch.propTypes = {
+  classPrefix: PropTypes.string,
+  value: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  style: PropTypes.object,
+  inputRef: TypeChecker.refType,
+  as: PropTypes.elementType,
+  onChange: PropTypes.func
+};
+
+export default InputSearch;

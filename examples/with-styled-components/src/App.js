@@ -3,7 +3,7 @@ import Button from 'rsuite/es/Button';
 import ButtonToolbar from 'rsuite/es/ButtonToolbar';
 import StyledButton from './StyledButton';
 
-import 'rsuite/es/ButtonToolbar/styles/themes/default.less';
+import 'rsuite/es/ButtonToolbar/styles/index';
 import 'rsuite/es/button/styles/themes/default.less';
 
 function App() {

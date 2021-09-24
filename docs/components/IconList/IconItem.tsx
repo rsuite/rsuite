@@ -1,29 +1,36 @@
-import * as React from 'react';
+import React from 'react';
 import classnames from 'classnames';
-import { Icon } from 'rsuite';
-import Clipboard from 'rsuite-clipboard';
+import { IconProps } from '@rsuite/icons/lib/Icon';
 
-interface IconItemProps {
-  onCopy: (text, result) => void;
-  icon: any;
-  newIcon: boolean;
+export interface IconItemProps {
+  onSelect: (name: string, event: React.MouseEvent) => void;
+  icon: React.FC<IconProps>;
+  name: string;
+  newIcon?: boolean;
 }
 
-export default function IconItem(props: IconItemProps) {
-  const { onCopy, icon, newIcon, ...rest } = props;
+const IconItem = (props: IconItemProps) => {
+  const { onSelect, icon: IconComponent, name, newIcon, ...rest } = props;
 
-  const handleCopy = React.useCallback((text, result) => {
-    onCopy?.(text, result);
-  }, []);
+  const handleSelect = React.useCallback(
+    event => {
+      onSelect?.(name, event);
+    },
+    [name, onSelect]
+  );
 
   return (
-    <Clipboard text={icon} onCopy={handleCopy}>
-      <div className={classnames('icon-item', { 'new-icon': newIcon })}>
-        <div className="icon-wrapper">
-          <Icon icon={icon} {...rest} className="icon-content" />
-        </div>
-        <p className="icon-name-text">{icon}</p>
+    <div
+      className={classnames('icon-item', { 'new-icon': newIcon })}
+      tabIndex={0}
+      onClick={handleSelect}
+    >
+      <div className="icon-wrapper">
+        <IconComponent className="icon-svg" {...rest} />
       </div>
-    </Clipboard>
+      <p className="icon-label">{name}</p>
+    </div>
   );
-}
+};
+
+export default IconItem;

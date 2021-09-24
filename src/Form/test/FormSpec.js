@@ -1,8 +1,9 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import _isNil from 'lodash/isNil';
 import _omit from 'lodash/omit';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
 
 import Form from '../Form';
 import FormControl from '../../FormControl';
@@ -158,7 +159,7 @@ describe('Form', () => {
     });
   });
 
-  it('Should be {n1} for formError when call cleanErrorForFiled', () => {
+  it('Should be {n1} for formError when call cleanErrorForField', () => {
     const values = {
       n1: 1,
       n2: 1
@@ -175,7 +176,7 @@ describe('Form', () => {
       </Form>
     );
     instance.check();
-    instance.cleanErrorForFiled('n2', () => {
+    instance.cleanErrorForField('n2', () => {
       assert.equal(instance.state.formError.n1, 'error');
       assert.equal(instance.state.formError.n2, undefined);
     });
@@ -222,6 +223,7 @@ describe('Form', () => {
       number: Schema.Types.StringType().isRequired(tip)
     });
 
+    const formRef = React.createRef();
     class Demo extends React.Component {
       constructor(props) {
         super(props);
@@ -301,7 +303,7 @@ describe('Form', () => {
         const { formValue, formError } = this.state;
         return (
           <Form
-            ref={ref => (this.form = ref)}
+            ref={formRef}
             model={curModel}
             formValue={formValue}
             formError={formError}
@@ -317,8 +319,9 @@ describe('Form', () => {
       }
     }
 
-    const instance = getInstance(<Demo />);
-    const element = getDOMNode(instance.form);
+    getInstance(<Demo />);
+
+    const element = formRef.current.root;
     ReactTestUtils.Simulate.change(element.querySelector('input[name="name1"]'));
     ReactTestUtils.Simulate.change(element.querySelector('input[name="name2"]'));
     ReactTestUtils.Simulate.change(element.querySelector('input[name="name3"]'));
@@ -515,6 +518,94 @@ describe('Form', () => {
       if (result.hasError) {
         done();
       }
+    });
+  });
+
+  it('Should support complex inspections by onChange', done => {
+    const model = Schema.Model({
+      items: Schema.Types.ArrayType().of(
+        Schema.Types.ObjectType().shape({
+          field1: Schema.Types.StringType().isRequired('error1'),
+          field2: Schema.Types.NumberType().isRequired('error2')
+        })
+      )
+    });
+
+    // eslint-disable-next-line react/prop-types
+    const Field = ({ onChange }) => {
+      const handleChange = () => {
+        onChange([{ field1: '', field2: '' }]);
+      };
+      return <input name="items" onChange={handleChange} />;
+    };
+
+    const values = {
+      items: []
+    };
+
+    const doneOp = error => {
+      const item = error.items.array[0].object;
+      if (
+        error.items.hasError &&
+        item.field1.hasError &&
+        item.field1.errorMessage === 'error1' &&
+        item.field2.hasError &&
+        item.field2.errorMessage === 'error2'
+      ) {
+        done();
+      }
+    };
+    const instance = getDOMNode(
+      <Form formDefaultValue={values} onError={doneOp} model={model}>
+        <FormControl name="items" accepter={Field} />
+      </Form>
+    );
+    ReactTestUtils.Simulate.change(instance.querySelector('input[name="items"]'));
+  });
+
+  it('Should support complex inspections by check method ', done => {
+    const model = Schema.Model({
+      items: Schema.Types.ArrayType().of(
+        Schema.Types.ObjectType().shape({
+          field1: Schema.Types.StringType().isRequired('error1'),
+          field2: Schema.Types.NumberType().isRequired('error2')
+        })
+      )
+    });
+
+    const Field = () => {
+      return <input name="items" />;
+    };
+
+    const values = {
+      items: [{ field1: '', field2: '' }]
+    };
+
+    const doneOp = error => {
+      const item = error.items.array[0].object;
+      if (
+        error.items.hasError &&
+        item.field1.hasError &&
+        item.field1.errorMessage === 'error1' &&
+        item.field2.hasError &&
+        item.field2.errorMessage === 'error2'
+      ) {
+        done();
+      }
+    };
+
+    const formRef = React.createRef();
+
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <Form formDefaultValue={values} onError={doneOp} model={model} ref={formRef}>
+          <FormControl name="items" accepter={Field} />
+        </Form>,
+        createTestContainer()
+      );
+    });
+    ReactTestUtils.act(() => {
+      formRef.current.check();
     });
   });
 });

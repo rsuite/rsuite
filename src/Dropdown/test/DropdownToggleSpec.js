@@ -1,8 +1,8 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownToggle from '../DropdownToggle';
-import Icon from '../../Icon';
 import { innerText } from '@test/testUtils';
+import User from '@rsuite/icons/legacy/User';
 
 describe('DropdownToggle', () => {
   it('Should render a toggle', () => {
@@ -20,13 +20,13 @@ describe('DropdownToggle', () => {
     assert.equal(innerText(instance), title);
   });
 
-  it('Should have a icon', () => {
-    const instance = getDOMNode(<DropdownToggle icon={<Icon icon="user" />}>abc</DropdownToggle>);
-    assert.ok(instance.querySelector('i.rs-icon-user'));
+  it('Should have an icon', () => {
+    const instance = getDOMNode(<DropdownToggle icon={<User />}>abc</DropdownToggle>);
+    assert.ok(instance.querySelector('.rs-dropdown-toggle-icon.rs-icon'));
   });
 
   it('Should render custom component', () => {
-    const instance = getDOMNode(<DropdownToggle componentClass={'div'}>abc</DropdownToggle>);
+    const instance = getDOMNode(<DropdownToggle as={'div'}>abc</DropdownToggle>);
     assert.equal(instance.tagName, 'DIV');
   });
 
@@ -35,11 +35,16 @@ describe('DropdownToggle', () => {
     assert.ok(!instance.querySelector('.rs-dropdown-toggle-caret'));
   });
 
-  it('Should render a custom title', () => {
-    const instance = getDOMNode(
-      <DropdownToggle renderTitle={children => <b>{children}</b>}>abc</DropdownToggle>
-    );
-    assert.equal(instance.innerText, 'abc');
+  it('Should render a custom toggle', () => {
+    const renderToggle = (props, ref) => {
+      return (
+        <button {...props} ref={ref}>
+          new
+        </button>
+      );
+    };
+    const instance = getDOMNode(<DropdownToggle renderToggle={renderToggle}>abc</DropdownToggle>);
+    assert.equal(instance.innerText, 'new');
   });
 
   it('Should have a custom className', () => {

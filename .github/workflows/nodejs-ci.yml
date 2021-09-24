@@ -6,12 +6,13 @@ name: Node.js CI
 on:
   push:
     branches:
-      - master
+      - main
       - next
       - v4
+      - 'ci/**'
   pull_request:
     branches:
-      - master
+      - main
       - next
       - v4
 
@@ -27,6 +28,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+      - name: Setup kernel, increase watchers
+        run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+
       - name: Use Node.js 12.x
         uses: actions/setup-node@v1
         with:
@@ -46,3 +51,7 @@ jobs:
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          flags: ${{ matrix.browser }}

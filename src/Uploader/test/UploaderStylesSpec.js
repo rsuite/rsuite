@@ -1,24 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Uploader from '../index';
-import {
-  createTestContainer,
-  getDOMNode,
-  getStyle,
-  toRGB,
-  getDefaultPalette
-} from '@test/testUtils';
+import { getStyle, toRGB, render } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Uploader styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
-    ReactDOM.render(<Uploader ref={instanceRef} />, createTestContainer());
-    const dom = getDOMNode(instanceRef.current);
-    const triggerButtonDom = dom.querySelector('.rs-uploader-trigger-btn');
+    const ref = React.createRef();
+    render(<Uploader ref={ref} />);
+
+    const button = ref.current.root.querySelector('.rs-uploader-trigger-btn');
     assert.equal(
-      getStyle(triggerButtonDom, 'backgroundColor'),
+      getStyle(button, 'backgroundColor'),
       toRGB('#f7f7fa'),
       'Uploader trigger button background-color'
     );

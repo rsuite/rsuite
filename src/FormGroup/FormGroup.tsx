@@ -1,44 +1,44 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import _ from 'lodash';
-import compose from 'recompose/compose';
-import { withStyleProps, defaultProps, prefix, createContext } from '../utils';
-import { FormGroupProps } from './FormGroup.d';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export const FormGroupContext = createContext(null);
+export interface FormGroupProps extends WithAsProps {
+  /**
+   * Sets id on `<Form.Control>` and `htmlFor` on `<Form.ControlLabel>`.
+   * And generate ʻaria-labelledby` and ʻaria-describedby` for `<Form.Control>`.
+   */
+  controlId?: string;
+}
 
-class FormGroup extends React.Component<FormGroupProps> {
-  static propTypes = {
-    controlId: PropTypes.string,
-    isValid: PropTypes.bool,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    validationState: PropTypes.oneOf(['success', 'warning', 'error'])
-  };
-  render() {
-    const { controlId, validationState, className, isValid, classPrefix, ...rest } = this.props;
-    const addPrefix = prefix(classPrefix);
+export const FormGroupContext = React.createContext<{ controlId?: string }>({});
 
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('has-success')]: !validationState && isValid,
-      [addPrefix('has-error')]: !validationState && isValid === false,
-      [addPrefix(`has-${validationState || ''}`)]: !_.isUndefined(validationState)
-    });
+const FormGroup: RsRefForwardingComponent<'div', FormGroupProps> = React.forwardRef(
+  (props: FormGroupProps, ref) => {
+    const {
+      as: Component = 'div',
+      classPrefix = 'form-group',
+      controlId,
+      className,
+      ...rest
+    } = props;
+
+    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix());
 
     return (
-      <FormGroupContext.Provider value={controlId}>
-        <div {...rest} className={classes} role="group" />
+      <FormGroupContext.Provider value={{ controlId }}>
+        <Component {...rest} ref={ref} className={classes} role="group" />
       </FormGroupContext.Provider>
     );
   }
-}
+);
 
-export default compose<any, FormGroupProps>(
-  withStyleProps<FormGroupProps>({
-    hasSize: true
-  }),
-  defaultProps<FormGroupProps>({
-    classPrefix: 'form-group'
-  })
-)(FormGroup);
+FormGroup.displayName = 'FormGroup';
+FormGroup.propTypes = {
+  controlId: PropTypes.string,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string
+};
+
+export default FormGroup;

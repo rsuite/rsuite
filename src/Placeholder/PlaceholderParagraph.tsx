@@ -1,40 +1,53 @@
-import * as React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { prefix, defaultProps, getUnhandledProps } from '../utils';
-import { PlaceholderParagraphProps } from './PlaceholderParagraph.d';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-class PlaceholderParagraph extends React.Component<PlaceholderParagraphProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    rows: PropTypes.number,
-    rowHeight: PropTypes.number,
-    rowMargin: PropTypes.number,
-    graph: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['circle', 'square', 'image'])]),
-    active: PropTypes.bool
-  };
-  static defaultProps = {
-    rows: 2,
-    rowHeight: 10,
-    rowMargin: 20
-  };
+export interface PlaceholderParagraphProps extends WithAsProps {
+  /* number of rows */
+  rows?: number;
 
-  render() {
-    const {
-      className,
-      rows,
-      rowHeight,
-      rowMargin,
-      graph,
-      active,
-      classPrefix,
-      ...rest
-    } = this.props;
+  /* height of rows */
+  rowHeight?: number;
 
-    const addPrefix = prefix(classPrefix);
-    const unhandled = getUnhandledProps(PlaceholderParagraph, rest);
-    const graphShape = graph === true ? 'square' : graph;
+  /* margin of rows */
+  rowMargin?: number;
+
+  /* show graph */
+  graph?: boolean | 'circle' | 'square' | 'image';
+
+  /** Placeholder status */
+  active?: boolean;
+}
+
+const defaultProps: Partial<PlaceholderParagraphProps> = {
+  as: 'div',
+  classPrefix: 'placeholder',
+  rows: 2,
+  rowHeight: 10,
+  rowMargin: 20
+};
+
+const PlaceholderParagraph: RsRefForwardingComponent<
+  'div',
+  PlaceholderParagraphProps
+> = React.forwardRef((props: PlaceholderParagraphProps, ref) => {
+  const {
+    as: Component,
+    className,
+    rows,
+    rowHeight,
+    rowMargin,
+    graph,
+    active,
+    classPrefix,
+    ...rest
+  } = props;
+
+  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const graphShape = graph === true ? 'square' : graph;
+
+  const rowElements = useMemo(() => {
     const rowArr = [];
 
     for (let i = 0; i < rows; i++) {
@@ -45,29 +58,34 @@ class PlaceholderParagraph extends React.Component<PlaceholderParagraphProps> {
       };
       rowArr.push(<p key={i} style={styles} />);
     }
+    return rowArr;
+  }, [rowHeight, rowMargin, rows]);
 
-    const classes = classNames(className, classPrefix, addPrefix('paragraph'), {
-      [addPrefix('active')]: active
-    });
+  const classes = merge(className, withClassPrefix('paragraph', { active }));
+  const graphClasses = prefix('paragraph-graph', `paragraph-graph-${graphShape}`);
 
-    const graphClasses = classNames(
-      addPrefix('paragraph-graph'),
-      addPrefix(`paragraph-graph-${graphShape}`)
-    );
+  return (
+    <Component {...rest} ref={ref} className={classes}>
+      {graphShape && (
+        <div className={graphClasses}>
+          <span className={prefix('paragraph-graph-inner')} />
+        </div>
+      )}
+      <div className={prefix('paragraph-rows')}>{rowElements}</div>
+    </Component>
+  );
+});
 
-    return (
-      <div className={classes} {...unhandled}>
-        {graphShape && (
-          <div className={graphClasses}>
-            <span className={addPrefix('paragraph-graph-inner')} />
-          </div>
-        )}
-        <div className={addPrefix('paragraph-rows')}>{rowArr}</div>
-      </div>
-    );
-  }
-}
+PlaceholderParagraph.displayName = 'PlaceholderParagraph';
+PlaceholderParagraph.defaultProps = defaultProps;
+PlaceholderParagraph.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  rows: PropTypes.number,
+  rowHeight: PropTypes.number,
+  rowMargin: PropTypes.number,
+  graph: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['circle', 'square', 'image'])]),
+  active: PropTypes.bool
+};
 
-export default defaultProps({
-  classPrefix: 'placeholder'
-})(PlaceholderParagraph);
+export default PlaceholderParagraph;

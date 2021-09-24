@@ -4,7 +4,7 @@ import ButtonGroup from '../index';
 import Button from '../../Button';
 import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Button Group styles', () => {
   it('Should render the correct width', () => {

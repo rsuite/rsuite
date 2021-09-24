@@ -33,6 +33,9 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
+# sonarqube scanner
+
+.scannerwork/
 
 # custom
 
@@ -47,3 +50,5 @@ karma.sauce.conf.js
 dev-publish.sh
 dist
 docs/out/
+/types
+/less/

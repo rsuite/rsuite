@@ -1,100 +1,41 @@
 # Notification
 
-For global notifications, suspended in the corner of the page.
+Used for system notifications. Generally used to push messages.
 
-- `Notification.open` Open a default notification.
-- `Notification.info` Open a info notification.
-- `Notification.success` Open a notification that means success information.
-- `Notification.warning` Open a notification that means warning information.
-- `Notification.error` Open a notification that means error information.
-- `Notification.close` Close a notification.
-- `Notification.closeAll` Close all notifications.
+## Import
 
-## Usage
-
-```js
-import { Notification } from 'rsuite';
-```
+<!--{include:(components/notification/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
 
-## Methods
+<!--{include:`basic.md`}-->
 
-### `Notification.open`
+### Message type
 
-```ts
-Notification.open(props: NotificationProps);
-```
+<!--{include:`type.md`}-->
 
-### `Notification.info`
+### Closeable
 
-```ts
-Notification.info(props: NotificationProps);
-```
+<!--{include:`close.md`}-->
 
-### `Notification.success`
+### With toaster
 
-```ts
-Notification.success(props: NotificationProps);
-```
+<!--{include:`with-toaster.md`}-->
 
-### `Notification.warning`
+## Props & Methods
 
-```ts
-Notification.warning(props: NotificationProps);
-```
+### `<Notification>`
 
-### `Notification.error`
+| Property    | Type `(Default)`                                     | Description                                                                                                                                                                        |
+| ----------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| children \* | ReactNode                                            | The description of the message box                                                                                                                                                 |
+| closable    | boolean                                              | The remove button is displayed.                                                                                                                                                    |
+| duration    | number `(4500)`                                      | Delay automatic closing notification, only effective when used in combination with `toaster`. Do not automatically turn off notifications when the value is 0 (unit: milliseconds) |
+| header \*   | string                                               | The title of the message box                                                                                                                                                       |
+| onClose     | () => void                                           | Callback after the message is removed                                                                                                                                              |
+| placement   | enum: [NotificationPlacement](#types)`('topCenter')` | The placement of the message box.                                                                                                                                                  |
+| type        | enum: 'info', 'success', 'warning', 'error'          | The type of the message box.                                                                                                                                                       |
 
-```ts
-Notification.error(props: NotificationProps);
-```
-
-### `Notification.close`
-
-```ts
-Notification.close(key?: string);
-```
-
-### `Notification.closeAll`
-
-```ts
-Notification.closeAll();
-```
-
-## Types
-
-```ts
-interface NotificationProps {
-  title: React.ReactNode;
-  description: React.ReactNode;
-  duration?: number;
-  placement?: string;
-  className?: string;
-  style?: React.CSSProperties;
-  top?: number;
-  bottom?: number;
-  key?: string;
-  onClose?: () => void;
-}
-```
-
-| Property       | Type `(Default)`                                  | Description                                                                                                             |
-| -------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| bottom         | number `(24)`                                     | The distance from the bottom of the message box                                                                         |
-| description \* | React.Node                                        | The description of the message box                                                                                      |
-| duration       | number `(4500)`                                   | message box duration (Unit: milliseconds)                                                                               |
-| key            | string                                            | The message box is uniquely identified, and you must fill out the field if you want to manually remove the message box. |
-| onClose        | () => void                                        | Closes the callback function.                                                                                           |
-| placement      | enum: [NotificationPlacement](#types)`('topEnd')` | The placement of the message box.                                                                                       |
-| title \*       | string                                            | The title of the message box                                                                                            |
-| top            | number `(24)`                                     | The distance from the top of the message box                                                                            |
-
-## Related components
-
-- [`<Popover>`](./popover)
-- [`<Tooltip>`](./tooltip)
-- [`<Message>`](./message)
-- [`<Alert`>](./alert)
+<!--{include:(components/notification/en-US/toaster.md)}-->

@@ -1,6 +1,5 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
-
 import Divider from '../Divider';
 
 describe('Divider', () => {
@@ -16,6 +15,7 @@ describe('Divider', () => {
     const instance = getDOMNode(<Divider vertical />);
     const classes = instance.className;
     assert.include(classes, 'rs-divider-vertical');
+    assert.equal(instance.getAttribute('aria-orientation'), 'vertical');
   });
 
   it('Should hava a children', () => {

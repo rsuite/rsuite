@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Row from '../index';
 import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Row styles', () => {
   itChrome('Should render the correct styles', () => {

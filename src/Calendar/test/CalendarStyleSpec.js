@@ -1,17 +1,19 @@
 import React from 'react';
-import ReactDOM, { findDOMNode } from 'react-dom';
+import ReactDOM from 'react-dom';
 import Calendar from '../CalendarPanel';
 import {
   createTestContainer,
+  getDefaultPalette,
   getDOMNode,
   getStyle,
-  getDefaultPalette,
-  toRGB,
+  inChrome,
   itChrome,
-  inChrome
+  toRGB
 } from '@test/testUtils';
+import ReactTestUtils from 'react-dom/test-utils';
 
-import '../styles/index';
+import '../styles/index.less';
+import { CalendarState } from '../Calendar';
 
 const { H500, H700 } = getDefaultPalette();
 
@@ -34,7 +36,7 @@ describe('Calendar styles', () => {
 
     const todayButtonDom = dom.querySelector('.rs-calendar-btn-today');
     assert.equal(getStyle(todayButtonDom, 'backgroundColor'), toRGB('#f7f7fa'));
-    inChrome && assert.equal(getStyle(todayButtonDom, 'padding'), '8px 12px');
+    inChrome && assert.equal(getStyle(todayButtonDom, 'padding'), '5px 10px');
   });
 
   it('Selected item should render correct styles', () => {
@@ -47,7 +49,11 @@ describe('Calendar styles', () => {
     );
     const contentDom = selectedDom.children[0];
     inChrome &&
-      assert.equal(getStyle(selectedDom, 'borderColor'), H500, 'Selected item border-color');
+      assert.equal(
+        getStyle(selectedDom, 'boxShadow'),
+        `${H500} 0px 0px 0px 1px inset`,
+        'Selected item box-shadow'
+      );
     assert.equal(getStyle(contentDom, 'backgroundColor'), H500, 'Selected item background-color');
     assert.equal(getStyle(contentDom, 'color'), toRGB('#fff'), 'Selected item color');
   });
@@ -83,12 +89,6 @@ describe('Calendar styles', () => {
       toRGB('#fff'),
       'DropdownActiveCellDom color'
     );
-    inChrome &&
-      assert.equal(
-        getStyle(dropdownActiveCellDom, 'borderColor'),
-        H500,
-        'DropdownActiveCellDom border-color'
-      );
     assert.equal(
       getStyle(dropdownActiveCellDom, 'backgroundColor'),
       H500,
@@ -111,10 +111,13 @@ describe('Calendar styles', () => {
   itChrome('Should be bordered on month row', () => {
     const instanceRef = React.createRef();
     ReactDOM.render(
-      <Calendar calendarState={'DROP_MONTH'} bordered ref={instanceRef} />,
+      <Calendar calendarState={CalendarState.DROP_MONTH} bordered ref={instanceRef} />,
       createTestContainer()
     );
-    const dom = getDOMNode(instanceRef.current);
+    const dom = instanceRef.current;
+
+    // click month dropdown button
+    ReactTestUtils.Simulate.click(dom.querySelector('.rs-calendar-header-title-date'));
     const dropdownRowDom = dom.querySelector('.rs-calendar-month-dropdown-row');
 
     assert.equal(

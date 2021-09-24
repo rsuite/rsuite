@@ -1,0 +1,308 @@
+@import '../colors/light';
+
+// see https://rsuitejs.com/design/default
+& {
+  @import (multiple) 'common';
+
+  // Reset
+  --rs-body: @B000;
+
+  // States
+  --rs-bg-success: #edfae1;
+  --rs-bg-info: #e9f5fe;
+  --rs-bg-warning: #fff9e6;
+  --rs-bg-error: #fde9ef;
+
+  // Misc
+  --rs-text-link: @H700;
+  --rs-text-link-hover: @H800;
+  --rs-text-link-active: @H900;
+  --rs-text-primary: @B800;
+  --rs-text-secondary: @B600;
+  --rs-text-tertiary: @B500;
+  --rs-text-heading: @B900;
+  --rs-text-inverse: @B050;
+  --rs-text-heading-inverse: @B000;
+  --rs-text-active: @H700;
+  --rs-text-disabled: @B400;
+  --rs-text-error: @red;
+  --rs-border-primary: @B200;
+  --rs-border-secondary: @B100;
+  --rs-bg-card: @B000;
+  --rs-bg-overlay: @B000;
+  --rs-bg-well: @B050;
+  --rs-bg-active: @H500;
+  --rs-bg-backdrop: fade(@B900, 30%);
+  --rs-state-hover-bg: @H050;
+  --rs-state-focus-shadow: 0 0 0 3px fade(@H500, 25%);
+  --rs-state-focus-outline: 3px solid fade(@H500, 25%);
+  --rs-shadow-overlay: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+
+  // Button
+  --rs-btn-default-bg: @B050;
+  --rs-btn-default-text: @B800;
+  --rs-btn-default-hover-bg: @B200;
+  --rs-btn-default-active-bg: @B300;
+  --rs-btn-default-active-text: @B900;
+  --rs-btn-default-disabled-bg: @B050;
+  --rs-btn-default-disabled-text: @B400;
+  --rs-btn-primary-bg: @H500;
+  --rs-btn-primary-text: @B000;
+  --rs-btn-primary-hover-bg: @H600;
+  --rs-btn-primary-active-bg: @H700;
+  --rs-btn-subtle-text: @B600;
+  --rs-btn-subtle-hover-bg: @B050;
+  --rs-btn-subtle-hover-text: @B800;
+  --rs-btn-subtle-active-bg: @B200;
+  --rs-btn-subtle-active-text: @B900;
+  --rs-btn-subtle-disabled-text: @B400;
+  --rs-btn-ghost-border: @H700;
+  --rs-btn-ghost-text: @H700;
+  --rs-btn-ghost-hover-border: @H800;
+  --rs-btn-ghost-hover-text: @H800;
+  --rs-btn-ghost-active-border: @H900;
+  --rs-btn-ghost-active-text: @H900;
+  --rs-btn-link-text: @H700;
+  --rs-btn-link-hover-text: @H800;
+  --rs-btn-link-active-text: @H900;
+
+  // Icon Button
+  --rs-iconbtn-addon: @B100;
+  --rs-iconbtn-activated-addon: @B300;
+  --rs-iconbtn-pressed-addon: @B400;
+  --rs-iconbtn-primary-addon: @H600;
+  --rs-iconbtn-primary-activated-addon: @H700;
+  --rs-iconbtn-primary-pressed-addon: @H800;
+
+  // Divider
+  --rs-divider-border: @B200;
+
+  // Loader
+  --rs-loader-ring: fade(@B050, 80);
+  --rs-loader-rotor: @B500;
+  --rs-loader-backdrop: fade(@B000, 90%);
+  --rs-loader-ring-inverse: fade(@B050, 30);
+  --rs-loader-rotor-inverse: @B000;
+  --rs-loader-backdrop-inverse: fade(@B900, 83);
+
+  // Message
+  --rs-message-success-header: var(--rs-text-heading);
+  --rs-message-success-text: var(--rs-text-primary);
+  --rs-message-success-icon: @green;
+  --rs-message-success-bg: @green-50;
+  --rs-message-info-header: var(--rs-text-heading);
+  --rs-message-info-text: var(--rs-text-primary);
+  --rs-message-info-icon: @blue;
+  --rs-message-info-bg: @blue-50;
+  --rs-message-warning-header: var(--rs-text-heading);
+  --rs-message-warning-text: var(--rs-text-primary);
+  --rs-message-warning-icon: @yellow;
+  --rs-message-warning-bg: @yellow-50;
+  --rs-message-error-header: var(--rs-text-heading);
+  --rs-message-error-text: var(--rs-text-primary);
+  --rs-message-error-icon: @red;
+  --rs-message-error-bg: @red-50;
+
+  // Tooltip
+  --rs-tooltip-bg: @B900;
+  --rs-tooltip-text: @B000;
+
+  // Progress
+  --rs-progress-bg: @B200;
+  --rs-progress-bar: @H500;
+  --rs-progress-bar-success: @green;
+  --rs-progress-bar-fail: @red;
+
+  // Placeholder
+  --rs-placeholder: @B100;
+  --rs-placeholder-active: @B200;
+
+  // Dropdown
+  --rs-dropdown-divider: @B200;
+  --rs-dropdown-item-bg-hover: @H050;
+  --rs-dropdown-item-bg-active: fade(@H050, 50);
+  --rs-dropdown-item-text-active: @H700;
+  --rs-dropdown-header-text: @B500;
+  --rs-dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
+
+  // ARIA menu
+  --rs-menuitem-active-bg: fade(@H100, 50);
+  --rs-menuitem-active-text: @H700;
+
+  // Steps
+  --rs-steps-border: @B600;
+  --rs-steps-state-finish: @H500;
+  --rs-steps-border-state-finish: @H500;
+  --rs-steps-state-wait: @B600;
+  --rs-steps-state-process: @H500;
+  --rs-steps-state-error: @red;
+  --rs-steps-border-state-error: @red;
+  --rs-steps-icon-state-process: @H500;
+  --rs-steps-icon-state-error: @red;
+
+  // Nav
+  --rs-navs-text: @B600;
+  --rs-navs-text-hover: @B800;
+  --rs-navs-bg-hover: @B200;
+  --rs-navs-text-active: @B900;
+  --rs-navs-bg-active: @B200;
+  --rs-navs-tab-border: @B300;
+  --rs-navs-subtle-border: @B050;
+  --rs-navs-selected: @H700;
+
+  // Navbar
+  --rs-navbar-default-bg: @B050;
+  --rs-navbar-default-text: @B800;
+  --rs-navbar-default-selected-text: @H700;
+  --rs-navbar-default-hover-bg: @B200;
+  --rs-navbar-default-hover-text: @B800;
+  --rs-navbar-inverse-bg: @H500;
+  --rs-navbar-inverse-text: #fff;
+  --rs-navbar-inverse-selected-bg: @H700;
+  --rs-navbar-inverse-hover-bg: @H600;
+  --rs-navbar-subtle-bg: #fff;
+  --rs-navbar-subtle-text: @B600;
+  --rs-navbar-subtle-selected-text: @H700;
+  --rs-navbar-subtle-hover-bg: @B050;
+  --rs-navbar-subtle-hover-text: @B800;
+
+  // Sidenav
+  --rs-sidenav-default-bg: @B050;
+  --rs-sidenav-default-text: @B800;
+  --rs-sidenav-default-selected-text: @H700;
+  --rs-sidenav-default-hover-bg: @B200;
+  --rs-sidenav-default-hover-text: @B800;
+  --rs-sidenav-inverse-bg: @H500;
+  --rs-sidenav-inverse-text: #fff;
+  --rs-sidenav-inverse-selected-bg: @H700;
+  --rs-sidenav-inverse-hover-bg: @H600;
+  --rs-sidenav-subtle-bg: #fff;
+  --rs-sidenav-subtle-text: @B600;
+  --rs-sidenav-subtle-selected-text: @H700;
+  --rs-sidenav-subtle-hover-bg: @B050;
+  --rs-sidenav-subtle-hover-text: @B800;
+
+  // Input
+  --rs-input-bg: @B000;
+  --rs-input-focus-border: @H500;
+  --rs-input-disabled-bg: @B050;
+
+  // ARIA Listboxes
+  --rs-listbox-option-hover-bg: fade(@H100, 50%);
+  --rs-listbox-option-hover-text: @H700;
+  --rs-listbox-option-selected-text: @H700;
+  --rs-listbox-option-selected-bg: @H050;
+  --rs-listbox-option-disabled-text: @B400;
+  --rs-listbox-option-disabled-selected-text: @H200;
+
+  // Checkbox
+  --rs-checkbox-icon: #fff;
+  --rs-checkbox-border: @B300;
+  --rs-checkbox-checked-bg: @H500;
+  --rs-checkbox-disabled-bg: @B050;
+
+  // Radio
+  --rs-radio-marker: #fff;
+  --rs-radio-border: @B300;
+  --rs-radio-checked-bg: @H500;
+  --rs-radio-disabled-bg: @B050;
+
+  // Rate
+  --rs-rate-symbol: @B600;
+  --rs-rate-symbol-checked: @yellow-500;
+
+  // Toggle
+  --rs-toggle-bg: @B300;
+  --rs-toggle-thumb: #fff;
+  --rs-toggle-hover-bg: @B400;
+  --rs-toggle-disabled-bg: @B050;
+  --rs-toggle-disabled-thumb: #fff;
+  --rs-toggle-checked-bg: @H500;
+  --rs-toggle-checked-thumb: #fff;
+  --rs-toggle-checked-hover-bg: @H600;
+  --rs-toggle-checked-disabled-bg: @H100;
+  --rs-toggle-checked-disabled-thumb: #fff;
+
+  // Slider
+  --rs-slider-bar: @B100;
+  --rs-slider-hover-bar: @B200;
+  --rs-slider-thumb-border: @H500;
+  --rs-slider-thumb-bg: #fff;
+  --rs-slider-thumb-hover-shadow: 0 0 0 8px fade(@H500, 25);
+  --rs-slider-progress: @H500;
+
+  // Uploader
+  --rs-uploader-item-bg: @B300;
+  --rs-uploader-item-hover-bg: @B050;
+  --rs-uploader-overlay-bg: fade(#fff, 80);
+  --rs-uploader-dnd-bg: @B000;
+  --rs-uploader-dnd-border: @B200;
+  --rs-uploader-dnd-hover-border: @H500;
+
+  // Avatar
+  --rs-avatar-bg: @B300;
+  --rs-avatar-text: @B000;
+
+  // Badge
+  --rs-badge-bg: @red;
+  --rs-badge-text: @B000;
+
+  // Tag
+  --rs-tag-bg: @B050;
+  --rs-tag-close: @red;
+
+  // Carousel
+  --rs-carousel-bg: @B600;
+  --rs-carousel-indicator: fade(@B000, 40);
+  --rs-carousel-indicator-hover: @B000;
+  --rs-carousel-indicator-active: @H500;
+
+  // Panel
+  --rs-panel-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+
+  // List
+  --rs-list-bg: @B000;
+  --rs-list-border: @B200;
+  --rs-list-hover-bg: @H050;
+  --rs-list-placeholder-bg: fade(@H050, 50%);
+  --rs-list-placeholder-border: @H500;
+
+  // Timeline
+  --rs-timeline-indicator-bg: @B300;
+  --rs-timeline-indicator-active-bg: @H500;
+
+  // Table
+  --rs-table-shadow: rgba(9, 9, 9, 0.08);
+  --rs-table-sort: @H500;
+  --rs-table-resize: @H500;
+  --rs-table-scrollbar-track: @B200;
+  --rs-table-scrollbar-thumb: @B800;
+  --rs-table-scrollbar-thumb-active: @B900;
+  --rs-table-scrollbar-vertical-track: fade(@B200, 40%);
+
+  // Drawer
+  --rs-drawer-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+
+  // Modal
+  --rs-modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
+
+  // Form
+  --rs-form-errormessage-text: @red;
+  --rs-form-errormessage-bg: #fff;
+  --rs-form-errormessage-border: @B200;
+
+  // Picker
+  --rs-picker-value: @H700;
+  --rs-picker-count-bg: @H500;
+  --rs-picker-count-text: #fff;
+
+  // Calendar
+  --rs-calendar-today-bg: @H500;
+  --rs-calendar-today-text: #fff;
+  --rs-calendar-range-bg: fade(@H100, 50%);
+  --rs-calendar-time-unit-bg: @B050;
+  --rs-calendar-date-selected-text: #fff;
+
+  // Popover
+  --rs-popover-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+}

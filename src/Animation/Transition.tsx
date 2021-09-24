@@ -1,19 +1,54 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { on, transition } from 'dom-lib';
 import classNames from 'classnames';
-import getUnhandledProps from '../utils/getUnhandledProps';
-import getDOMNode from '../utils/getDOMNode';
-import getAnimationEnd from './getAnimationEnd';
+import isFunction from 'lodash/isFunction';
+import omit from 'lodash/omit';
+import { getDOMNode } from '../utils';
+import { AnimationEventProps } from '../@types/common';
+import { getAnimationEnd, animationPropTypes } from './utils';
 
-import { TransitionProps } from './Animation.d';
-import { animationPropTypes } from './propTypes';
+export enum STATUS {
+  UNMOUNTED = 0,
+  EXITED = 1,
+  ENTERING = 2,
+  ENTERED = 3,
+  EXITING = 4
+}
 
-export const UNMOUNTED = 0;
-export const EXITED = 1;
-export const ENTERING = 2;
-export const ENTERED = 3;
-export const EXITING = 4;
+export interface TransitionProps extends AnimationEventProps {
+  animation?: boolean;
+
+  /** Primary content */
+  children?: ((props: any, ref: React.Ref<any>) => React.ReactNode) | React.ReactNode;
+
+  /** Additional classes */
+  className?: string;
+
+  /** Show the component; triggers the enter or exit animation */
+  in?: boolean;
+
+  /** Unmount the component (remove it from the DOM) when it is not shown */
+  unmountOnExit?: boolean;
+
+  /** Run the enter animation when the component mounts, if it is initially shown */
+  transitionAppear?: boolean;
+
+  /** A Timeout for the animation */
+  timeout?: number;
+
+  /** CSS class or classes applied when the component is exited */
+  exitedClassName?: string;
+
+  /** CSS class or classes applied while the component is exiting */
+  exitingClassName?: string;
+
+  /** CSS class or classes applied when the component is entered */
+  enteredClassName?: string;
+
+  /** CSS class or classes applied while the component is entering */
+  enteringClassName?: string;
+}
 
 interface TransitionState {
   status?: number;
@@ -53,9 +88,9 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
 
     let initialStatus: number;
     if (props.in) {
-      initialStatus = props.transitionAppear ? EXITED : ENTERED;
+      initialStatus = props.transitionAppear ? STATUS.EXITED : STATUS.ENTERED;
     } else {
-      initialStatus = props.unmountOnExit ? UNMOUNTED : EXITED;
+      initialStatus = props.unmountOnExit ? STATUS.UNMOUNTED : STATUS.EXITED;
     }
 
     this.state = {
@@ -68,10 +103,17 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
 
   static getDerivedStateFromProps(nextProps: TransitionProps, prevState: TransitionState) {
     if (nextProps.in && nextProps.unmountOnExit) {
-      if (prevState.status === UNMOUNTED) {
+      if (prevState.status === STATUS.UNMOUNTED) {
         // Start enter transition in componentDidUpdate.
-        return { status: EXITED };
+        return { status: STATUS.EXITED };
       }
+    }
+    return null;
+  }
+
+  getSnapshotBeforeUpdate() {
+    if (!this.props.in || !this.props.unmountOnExit) {
+      this.needsUpdate = true;
     }
     return null;
   }
@@ -82,23 +124,16 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     }
   }
 
-  getSnapshotBeforeUpdate() {
-    if (!this.props.in || !this.props.unmountOnExit) {
-      this.needsUpdate = true;
-    }
-    return null;
-  }
-
   componentDidUpdate() {
     const { status } = this.state;
     const { unmountOnExit } = this.props;
 
-    if (unmountOnExit && status === EXITED) {
+    if (unmountOnExit && status === STATUS.EXITED) {
       if (this.props.in) {
         this.performEnter(this.props);
       } else {
         if (this.instanceElement) {
-          this.setState({ status: UNMOUNTED });
+          this.setState({ status: STATUS.UNMOUNTED });
         }
       }
       return;
@@ -108,10 +143,10 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       this.needsUpdate = false;
 
       if (this.props.in) {
-        if (status === EXITING || status === EXITED) {
+        if (status === STATUS.EXITING || status === STATUS.EXITED) {
           this.performEnter(this.props);
         }
-      } else if (status === ENTERING || status === ENTERED) {
+      } else if (status === STATUS.ENTERING || status === STATUS.ENTERED) {
         this.performExit(this.props);
       }
     }
@@ -122,7 +157,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     this.instanceElement = null;
   }
 
-  onTransitionEnd(node: React.ReactNode, handler: React.AnimationEventHandler) {
+  onTransitionEnd(node: HTMLElement, handler: React.AnimationEventHandler) {
     this.setNextCallback(handler);
 
     this.animationEventListener?.off();
@@ -131,7 +166,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       const { timeout, animation } = this.props;
       this.animationEventListener = on(
         node,
-        animation ? getAnimationEnd() : transition.end,
+        animation ? getAnimationEnd() : transition().end,
         this.nextCallback
       );
       if (timeout !== null) {
@@ -186,10 +221,10 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     this.instanceElement = node;
     onEnter?.(node);
 
-    this.safeSetState({ status: ENTERING }, () => {
+    this.safeSetState({ status: STATUS.ENTERING }, () => {
       onEntering?.(node);
       this.onTransitionEnd(node, () => {
-        this.safeSetState({ status: ENTERED }, () => {
+        this.safeSetState({ status: STATUS.ENTERED }, () => {
           onEntered?.(node);
         });
       });
@@ -205,11 +240,11 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     this.instanceElement = node;
     onExit?.(node);
 
-    this.safeSetState({ status: EXITING }, () => {
+    this.safeSetState({ status: STATUS.EXITING }, () => {
       onExiting?.(node);
 
       this.onTransitionEnd(node, () => {
-        this.safeSetState({ status: EXITED }, () => {
+        this.safeSetState({ status: STATUS.EXITED }, () => {
           onExited?.(node);
         });
       });
@@ -232,7 +267,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
   render() {
     const status = this.state.status;
 
-    if (status === UNMOUNTED) {
+    if (status === STATUS.UNMOUNTED) {
       return null;
     }
 
@@ -246,34 +281,30 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       ...rest
     } = this.props;
 
-    const childProps = getUnhandledProps(Transition, rest);
+    const childProps: any = omit(rest, Object.keys(transitionPropTypes));
 
     let transitionClassName;
-    if (status === EXITED) {
+    if (status === STATUS.EXITED) {
       transitionClassName = exitedClassName;
-    } else if (status === ENTERING) {
+    } else if (status === STATUS.ENTERING) {
       transitionClassName = enteringClassName;
-    } else if (status === ENTERED) {
+    } else if (status === STATUS.ENTERED) {
       transitionClassName = enteredClassName;
-    } else if (status === EXITING) {
+    } else if (status === STATUS.EXITING) {
       transitionClassName = exitingClassName;
     }
 
-    if (typeof children === 'function') {
-      return children(
-        {
-          ...childProps,
-          className: classNames(className, transitionClassName)
-        },
-        this.childRef
-      );
+    if (isFunction(children)) {
+      childProps.className = classNames(className, transitionClassName);
+      return children(childProps, this.childRef);
     }
 
     const child = React.Children.only(children) as React.DetailedReactHTMLElement<any, HTMLElement>;
 
     return React.cloneElement(child, {
       ...childProps,
-      className: classNames(child.props.className, className, transitionClassName)
+      ref: this.childRef,
+      className: classNames(className, child.props?.className, transitionClassName)
     });
   }
 }

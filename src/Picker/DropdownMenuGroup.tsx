@@ -1,38 +1,39 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { prefix, getUnhandledProps } from '../utils';
-import { StandardProps } from '../@types/common';
+import { useClassNames } from '../utils';
+import { WithAsProps } from '../@types/common';
+import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 
-export interface DropdownMenuGroupProps extends StandardProps {
-  children?: React.ReactNode;
-}
+export interface DropdownMenuGroupProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {}
 
-class DropdownMenuGroup extends React.Component<DropdownMenuGroupProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node
-  };
-  static defaultProps = {
-    classPrefix: 'dropdown-menu-group'
-  };
+const defaultProps: Partial<DropdownMenuGroupProps> = {
+  as: 'div',
+  classPrefix: 'dropdown-menu-group'
+};
 
-  render() {
-    const { children, classPrefix, className, ...rest } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, className);
-    const unhandled = getUnhandledProps(DropdownMenuGroup, rest);
+const DropdownMenuGroup = React.forwardRef(
+  (props: DropdownMenuGroupProps, ref: React.Ref<HTMLDivElement>) => {
+    const { as: Component, classPrefix, children, className, ...rest } = props;
+    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix());
 
     return (
-      <div role="listitem" className={classes} {...unhandled}>
-        <div className={addPrefix('title')} tabIndex={-1}>
+      <Component role="group" {...rest} ref={ref} className={classes}>
+        <div className={prefix`title`} tabIndex={-1}>
           <span>{children}</span>
-          <span aria-hidden="true" className={addPrefix('caret')} />
+          <ArrowDown aria-hidden className={prefix`caret`} />
         </div>
-      </div>
+      </Component>
     );
   }
-}
+);
+
+DropdownMenuGroup.displayName = 'DropdownMenuGroup';
+DropdownMenuGroup.defaultProps = defaultProps;
+DropdownMenuGroup.propTypes = {
+  classPrefix: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node
+};
 
 export default DropdownMenuGroup;

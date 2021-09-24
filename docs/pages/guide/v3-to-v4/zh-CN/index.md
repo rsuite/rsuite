@@ -1,4 +1,5 @@
-# V3 升级到 V4 注意事项
+# 从 v3 升级到 v4
+
 
 升级到 V4 有些破坏性的变更，需要做一些调整。
 
@@ -76,7 +77,7 @@ TreePicker 组件与 CheckTreePicker 组件废弃了 expandAll 属性，同时�
 
 ```diff
 - onSelect (activeNode:DataItemType, layer:number, values:string[]) => void
-+ onSelect (activeNode: any, value: any, event: React.SyntheticEvent<any>) => void;
++ onSelect (activeNode: any, value: any, event) => void;
 ```
 
 ## 6.升级 `babel-preset-rsuite`

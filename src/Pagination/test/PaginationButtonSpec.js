@@ -1,13 +1,14 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { innerText, getDOMNode } from '@test/testUtils';
 import PaginationButton from '../PaginationButton';
 
 describe('PaginationButton', () => {
-  it('Should render a li', () => {
+  it('Should render a <button>', () => {
     const title = 'Test';
     const instance = getDOMNode(<PaginationButton>{title}</PaginationButton>);
-    assert.equal(instance.tagName, 'LI');
+    assert.equal(instance.tagName, 'BUTTON');
     assert.equal(innerText(instance), title);
   });
 
@@ -28,7 +29,7 @@ describe('PaginationButton', () => {
       }
     };
     const instance = getDOMNode(<PaginationButton onSelect={doneOp} eventKey={10} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('a'));
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Should call onClick callback', done => {
@@ -36,39 +37,30 @@ describe('PaginationButton', () => {
       done();
     };
     const instance = getDOMNode(<PaginationButton onClick={doneOp} eventKey={10} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('a'));
-  });
-
-  it('Should output a custom item', () => {
-    const instance = getDOMNode(
-      <PaginationButton
-        renderItem={() => {
-          return <span>custom</span>;
-        }}
-      />
-    );
-    assert.include(instance.querySelector('span').innerText, 'custom');
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Custom elements can get the active prop', () => {
-    const activeInstance = getDOMNode(
-      <PaginationButton
-        active
-        componentClass={({ active }) => {
-          return <span>{active ? 'active' : 'inactive'}</span>;
-        }}
-      />
-    );
-    const inactiveInstance = getDOMNode(
-      <PaginationButton
-        active={false}
-        componentClass={({ active }) => {
-          return <span>{active ? 'active' : 'inactive'}</span>;
-        }}
-      />
-    );
-    assert.equal(activeInstance.querySelector('span').innerText, 'active');
-    assert.equal(inactiveInstance.querySelector('span').innerText, 'inactive');
+    const Button = React.forwardRef(({ active }, ref) => {
+      return <span ref={ref}>{active ? 'active' : 'inactive'}</span>;
+    });
+    Button.displayName = 'Button';
+    const activeInstance = getDOMNode(<PaginationButton active as={Button} />);
+    const inactiveInstance = getDOMNode(<PaginationButton active={false} as={Button} />);
+    assert.equal(activeInstance.innerText, 'active');
+    assert.equal(inactiveInstance.innerText, 'inactive');
+  });
+
+  it('Custom elements can get the eventKey prop', () => {
+    const Button = React.forwardRef(function Button({ eventKey, ...rest }, ref) {
+      return (
+        <span ref={ref} {...rest}>
+          {eventKey}
+        </span>
+      );
+    });
+    const instance = getDOMNode(<PaginationButton eventKey={1} as={Button} />);
+    assert.equal(instance.innerText, '1');
   });
 
   it('Should have a custom className', () => {

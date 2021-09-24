@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Form from '../../Form';
 import FormControl from '../FormControl';
+import FormGroup from '../../FormGroup';
 
 describe('FormControl', () => {
   it('Should output a input', () => {
@@ -41,25 +42,25 @@ describe('FormControl', () => {
 
   it('Should be readOnly', () => {
     const instance = getDOMNode(
-      <Form>
-        <FormControl name="username" readOnly />
+      <Form readOnly>
+        <FormControl name="username" />
       </Form>
     );
 
-    assert.ok(instance.querySelector('.rs-form-control-wrapper.read-only'));
     assert.ok(instance.querySelector('input[readonly]'));
   });
 
   it('Should be readOnly on accepter', done => {
     function Input(props) {
+      // eslint-disable-next-line react/prop-types
       if (props && props.readOnly) {
         done();
       }
       return <input {...props} />;
     }
     getDOMNode(
-      <Form>
-        <FormControl name="username" readOnly accepter={Input} />
+      <Form readOnly>
+        <FormControl name="username" accepter={Input} />
       </Form>
     );
   });
@@ -84,7 +85,7 @@ describe('FormControl', () => {
       </Form>
     );
 
-    assert.include(instance.querySelector('input').className, 'custom');
+    assert.include(instance.querySelector('.rs-form-control').className, 'custom');
   });
 
   it('Should have a custom style', () => {
@@ -126,10 +127,19 @@ describe('FormControl', () => {
   });
 
   it('Should render correctly when errorMessage was null', () => {
-    const fontSize = '12px';
     const instance = getDOMNode(
       <Form formError={{ username: 'error' }}>
-        <FormControl errorMessage={null} style={{ fontSize }} name="username" />
+        <FormControl errorMessage={null} name="username" />
+      </Form>
+    );
+
+    assert.ok(!instance.querySelector('.rs-form-control-message-wrapper'));
+  });
+
+  it('Should render correctly when errorMessage was null 2', () => {
+    const instance = getDOMNode(
+      <Form formError={{ username: 'error' }} errorFromContext={false}>
+        <FormControl name="username" />
       </Form>
     );
 
@@ -137,24 +147,28 @@ describe('FormControl', () => {
   });
 
   it('Should the priority of errorMessage be higher than formError', () => {
-    const fontSize = '12px';
     const instance = getDOMNode(
       <Form formError={{ username: 'error1' }}>
-        <FormControl errorMessage={'error2'} style={{ fontSize }} name="username" />
+        <FormControl errorMessage={'error2'} name="username" />
       </Form>
     );
 
     assert.equal(instance.querySelector('.rs-form-control-message-wrapper').innerText, 'error2');
   });
 
-  it('Should render correctly when errorMessage was null', () => {
-    const fontSize = '12px';
+  it('Should be associated with ErrorMessage via aria-describedby', () => {
     const instance = getDOMNode(
-      <Form formError={{ username: 'error' }} errorFromContext={false}>
-        <FormControl style={{ fontSize }} name="username" />
+      <Form>
+        <FormGroup controlId="name1">
+          <FormControl errorMessage={'error2'} name="name1" />
+        </FormGroup>
       </Form>
     );
 
-    assert.ok(!instance.querySelector('.rs-form-control-message-wrapper'));
+    assert.equal(
+      instance.querySelector('input').getAttribute('aria-describedby'),
+      'name1-error-message'
+    );
+    assert.equal(instance.querySelector('[role="alert"]').id, 'name1-error-message');
   });
 });

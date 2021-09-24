@@ -9,27 +9,59 @@
 
 ## 获取组件
 
-```js
-import { Input, InputGroup } from 'rsuite';
-```
+<!--{include:(components/input/fragments/import.md)}-->
 
 ## 演示
 
-<!--{demo}-->
+### 默认
+
+<!--{include:`basic.md`}-->
+
+### 尺寸
+
+<!--{include:`size.md`}-->
+
+### Textarea
+
+<!--{include:`textarea.md`}-->
+
+### 禁用与只读
+
+<!--{include:`disabled.md`}-->
+
+### 输入框组合
+
+<!--{include:`input-group.md`}-->
+
+### Inside
+
+<!--{include:`input-group-inside.md`}-->
+
+### 与按钮组合
+
+<!--{include:`input-group-button.md`}-->
+
+### 密码框
+
+<!--{include:`input-group-password.md`}-->
+
+### 帮助提示
+
+<!--{include:`tooltip.md`}-->
 
 ## Props
 
 ### `<Input>`
 
-| 属性名称     | 类型 `(默认值)`                                                    | 描述                     |
-| ------------ | ------------------------------------------------------------------ | ------------------------ |
-| classPrefix  | string `('input')`                                                 | 组件 CSS 类的前缀        |
-| defaultValue | number                                                             | 设置默认值               |
-| disabled     | boolean                                                            | 禁用                     |
-| onChange     | (value: any, event: SyntheticInputEvent<HTMLInputElement>) => void | value 发生变化的回调函数 |
-| size         | enum: 'lg', 'md', 'sm', 'xs' `('md')`                              | 设置输入框尺寸           |
-| type         | string `('text' )`                                                 | HTML input type.         |
-| value        | number                                                             | 设置值 `受控`            |
+| 属性名称     | 类型 `(默认值)`                       | 描述                     |
+| ------------ | ------------------------------------- | ------------------------ |
+| classPrefix  | string `('input')`                    | 组件 CSS 类的前缀        |
+| defaultValue | string                                | 设置默认值               |
+| disabled     | boolean                               | 禁用                     |
+| onChange     | (value: string, event) => void        | value 发生变化的回调函数 |
+| size         | enum: 'lg', 'md', 'sm', 'xs' `('md')` | 设置输入框尺寸           |
+| type         | string `('text' )`                    | HTML input type.         |
+| value        | string                                | 设置值 `受控`            |
 
 ### `<InputGroup>`
 

@@ -2,26 +2,37 @@
 
 Display a set of elements in a carousel
 
-## Usege
+## Import
 
-```js
-import { Carousel } from 'rsuite';
-```
+<!--{include:(components/carousel/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Default
+
+<!--{include:`basic.md`}-->
+
+### Appearance
+
+<!--{include:`appearance.md`}-->
+
+### Autoplay
+
+<!--{include:`autoplay.md`}-->
 
 ## Props
 
 ### `<Carousel>`
 
-| Property       | Type `(Default)`                                | Description                 |
-| -------------- | ----------------------------------------------- | --------------------------- |
-| autoplay       | boolean                                         | Automatic carousel element. |
-| autoplayInterval| number (`4000`)                                         | Delay in ms until navigating to the next item. |
-| children       | string, React.ReactNode                         | Carousel elements           |
-| classPrefix    | string `('carousel')`                           | Component CSS class prefix  |
-| componentClass | React.ElementType `('div')`                     | Custom element type         |
-| placement      | enum:'top','bottom','left','right' `('bottom')` | Button placement            |
-| shape          | enum:'dot','bar' `('dot')`                      | Button shape                |
+| Property         | Type `(Default)`                                       | Description                                    |
+| ---------------- | ------------------------------------------------------ | ---------------------------------------------- |
+| as               | ElementType `('div')`                                  | Custom element type                            |
+| autoplay         | boolean                                                | Automatic carousel element.                    |
+| autoplayInterval | number (`4000`)                                        | Delay in ms until navigating to the next item. |
+| children         | ReactNode                                              | Carousel elements                              |
+| classPrefix      | string `('carousel')`                                  | Component CSS class prefix                     |
+| onSelect         | (index: number, event?: React.ChangeEvent) => void     | Callback fired when the active item changes    |
+| onSlideEnd       | (index: number, event?: React.TransitionEvent) => void | Callback fired when a slide transition ends    |
+| onSlideStart     | (index: number, event?: React.ChangeEvent) => void     | Callback fired when a slide transition starts  |
+| placement        | enum:'top','bottom','left','right' `('bottom')`        | Button placement                               |
+| shape            | enum:'dot','bar' `('dot')`                             | Button shape                                   |

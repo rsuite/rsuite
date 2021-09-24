@@ -1,4 +1,3 @@
-import { h } from 'preact';
 import style from './style';
 import { Button, Notification, Placeholder } from 'rsuite';
 import React from 'preact/compat';

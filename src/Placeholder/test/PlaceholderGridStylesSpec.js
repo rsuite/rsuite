@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PlaceholderGrid from '../PlaceholderGrid';
 import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('PlaceholderGrid styles', () => {
   it('Should render the correct styles', () => {

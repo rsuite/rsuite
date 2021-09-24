@@ -1,21 +1,30 @@
-import * as React from 'react';
-import { Input, InputNumber, InputGroup, Icon, Whisper, Tooltip, Grid, Row, Col } from 'rsuite';
+import React from 'react';
+import { Input, InputNumber, InputGroup, Whisper, Tooltip, Grid, Row, Col } from 'rsuite';
 import DefaultPage from '@/components/Page';
+import Search from '@rsuite/icons/Search';
+import Info from '@rsuite/icons/legacy/Info';
+import Avatar from '@rsuite/icons/legacy/Avatar';
+import Eye from '@rsuite/icons/legacy/Eye';
+import EyeSlash from '@rsuite/icons/legacy/EyeSlash';
 
 export default function Page() {
   return (
     <DefaultPage
-      examples={[
-        'basic',
-        'size',
-        'textarea',
-        'disabled',
-        'input-group',
-        'input-group-inside',
-        'input-group-button',
-        'tooltip'
-      ]}
-      dependencies={{ Input, InputNumber, InputGroup, Icon, Whisper, Tooltip, Grid, Row, Col }}
+      dependencies={{
+        Input,
+        InputNumber,
+        InputGroup,
+        Whisper,
+        Tooltip,
+        Grid,
+        Row,
+        Col,
+        Search,
+        Info,
+        Avatar,
+        Eye,
+        EyeSlash
+      }}
     />
   );
 }

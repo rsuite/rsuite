@@ -1,87 +1,87 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { prefix, getUnhandledProps, defaultProps } from '../utils';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface DropdownMenuItemProps {
-  classPrefix: string;
-  componentClass?: React.ElementType;
+export interface DropdownMenuItemProps extends WithAsProps {
   active?: boolean;
   disabled?: boolean;
   value?: any;
-  onSelect?: (value: any, event: React.MouseEvent) => void;
-  onKeyDown?: (event: React.KeyboardEvent) => void;
   focus?: boolean;
   title?: string;
-  className?: string;
-  children?: React.ReactNode;
-  getItemData?: () => any;
+  onSelect?: (value: any, event: React.MouseEvent) => void;
+  onKeyDown?: (event: React.KeyboardEvent) => void;
+  renderItem?: (value: any) => React.ReactNode;
 }
 
-class DropdownMenuItem extends React.Component<DropdownMenuItemProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string.isRequired,
-    active: PropTypes.bool,
-    disabled: PropTypes.bool,
-    value: PropTypes.any,
-    onSelect: PropTypes.func,
-    onKeyDown: PropTypes.func,
-    focus: PropTypes.bool,
-    title: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    getItemData: PropTypes.func,
-    componentClass: PropTypes.elementType
-  };
-  static defaultProps = {
-    componentClass: 'div'
-  };
+const defaultProps: Partial<DropdownMenuItemProps> = {
+  as: 'div',
+  classPrefix: 'dropdown-menu-item'
+};
 
-  handleClick = (event: React.MouseEvent) => {
-    const { value, disabled, onSelect } = this.props;
-    event.preventDefault();
-    if (!disabled && onSelect) {
-      onSelect(value, event);
-    }
-  };
-
-  render() {
+const DropdownMenuItem: RsRefForwardingComponent<'div', DropdownMenuItemProps> = React.forwardRef(
+  (props: DropdownMenuItemProps, ref) => {
     const {
+      as: Component,
       active,
-      onKeyDown,
-      disabled,
-      focus,
+      classPrefix,
       children,
       className,
-      classPrefix,
-      componentClass: Component,
+      disabled,
+      focus,
+      value,
+      onKeyDown,
+      onSelect,
+      renderItem,
       ...rest
-    } = this.props;
+    } = props;
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, {
-      [addPrefix('active')]: active,
-      [addPrefix('focus')]: focus,
-      [addPrefix('disabled')]: disabled
-    });
+    const handleClick = useCallback(
+      (event: React.MouseEvent) => {
+        event.preventDefault();
+        if (!disabled) {
+          onSelect?.(value, event);
+        }
+      },
+      [onSelect, disabled, value]
+    );
 
-    const unhandled = getUnhandledProps(DropdownMenuItem, rest);
+    const { withClassPrefix } = useClassNames(classPrefix);
+    const classes = withClassPrefix({ active, focus, disabled });
 
     return (
-      <Component {...unhandled} className={className} role="listitem">
-        <a
-          className={classes}
-          tabIndex={-1}
-          onKeyDown={disabled ? null : onKeyDown}
-          onClick={this.handleClick}
-        >
-          {children}
-        </a>
+      <Component
+        role="option"
+        aria-selected={active}
+        aria-disabled={disabled}
+        data-key={value}
+        {...rest}
+        ref={ref}
+        className={className}
+        tabIndex={-1}
+        onKeyDown={disabled ? null : onKeyDown}
+        onClick={handleClick}
+      >
+        <span className={classes}>{renderItem ? renderItem(value) : children}</span>
       </Component>
     );
   }
-}
+);
 
-export default defaultProps<DropdownMenuItemProps>({
-  classPrefix: 'dropdown-menu-item'
-})(DropdownMenuItem);
+DropdownMenuItem.displayName = 'DropdownMenuItem';
+DropdownMenuItem.defaultProps = defaultProps;
+DropdownMenuItem.propTypes = {
+  classPrefix: PropTypes.string,
+  active: PropTypes.bool,
+  disabled: PropTypes.bool,
+  value: PropTypes.any,
+  onSelect: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  focus: PropTypes.bool,
+  title: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  as: PropTypes.elementType
+};
+
+export default DropdownMenuItem;

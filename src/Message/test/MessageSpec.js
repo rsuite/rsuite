@@ -10,13 +10,13 @@ describe('Message', () => {
   });
 
   it('Should render a title', () => {
-    const instance = getDOMNode(<Message title="title" />);
+    const instance = getDOMNode(<Message header="title" />);
     assert.include(instance.className, 'rs-message-has-title');
     assert.equal(instance.innerText, 'title');
   });
 
   it('Should render a description', () => {
-    const instance = getDOMNode(<Message description="description" />);
+    const instance = getDOMNode(<Message>description</Message>);
     assert.equal(instance.innerText, 'description');
   });
 
@@ -38,7 +38,7 @@ describe('Message', () => {
 
   it('Should be closable', () => {
     const instance = getDOMNode(<Message closable />);
-    assert.ok(instance.querySelector('.rs-message-btn-close'));
+    assert.ok(instance.querySelector('.rs-btn-close'));
   });
 
   it('Should call onClose callback', done => {
@@ -46,7 +46,7 @@ describe('Message', () => {
       done();
     };
     const instance = getDOMNode(<Message closable onClose={doneOp} />);
-    const closeButton = instance.querySelector('.rs-message-btn-close');
+    const closeButton = instance.querySelector('.rs-btn-close');
     ReactTestUtils.Simulate.click(closeButton);
   });
 

@@ -1,18 +1,90 @@
-import * as React from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { getWidth, getHeight, getOffset } from 'dom-lib';
-import { getUnhandledProps, defaultProps, prefix } from '../utils';
-import { SliderProps } from './Slider.d';
 import ProgressBar from './ProgressBar';
 import Handle from './Handle';
 import Graduated from './Graduated';
-
+import { useClassNames, useControlled, useCustom } from '../utils';
 import { precisionMath, checkValue } from './utils';
+import { WithAsProps, FormControlBaseProps } from '../@types/common';
+import Plaintext from '../Plaintext';
 
-interface SliderState {
-  value: number;
+export interface LocaleType {
+  placeholder?: string;
+  searchPlaceholder?: string;
+  noResultsText?: string;
+  loading?: string;
 }
+
+export interface SliderProps<T = number> extends WithAsProps, FormControlBaseProps<T> {
+  /**
+   * The label of the slider.
+   */
+  'aria-label'?: string;
+  /**
+   * The id of the element containing a label for the slider.
+   */
+  'aria-labelledby'?: string;
+  /**
+   * A string value that provides a user-friendly name for the current value of the slider.
+   */
+  'aria-valuetext'?: string;
+
+  /** Minimum value of sliding range */
+  min?: number;
+
+  /** Maximum sliding range */
+  max?: number;
+
+  /** Slide the value of one step */
+  step?: number;
+
+  /** A css class to apply to the Handle node. */
+  handleClassName?: string;
+
+  /** Customizing what is displayed inside a handle */
+  handleTitle?: React.ReactNode;
+
+  /** 	A css class to apply to the Bar DOM node */
+  barClassName?: string;
+
+  /** custom style */
+  handleStyle?: React.CSSProperties;
+
+  /** Show Ticks */
+  graduated?: boolean;
+
+  /** Whether to show Tooltip when sliding */
+  tooltip?: boolean;
+
+  /** Show sliding progress bar */
+  progress?: boolean;
+
+  /** Vertical Slide */
+  vertical?: boolean;
+
+  /** Customize labels on the render ruler */
+  renderMark?: (mark: number) => React.ReactNode;
+
+  /** Customize the content of the rendered Tooltip. */
+  renderTooltip?: (value: number) => React.ReactNode;
+
+  /** Accepts a function which returns a string value that provides a user-friendly name for the current value of the slider. */
+  getAriaValueText?: (value: number, eventKey?: 'start' | 'end') => string;
+
+  /** Callback function that is fired when the mouseup is triggered. */
+  onChangeCommitted?: (value: T, event: React.MouseEvent) => void;
+}
+
+const defaultProps: Partial<SliderProps> = {
+  as: 'div',
+  classPrefix: 'slider',
+  min: 0,
+  max: 100,
+  step: 1,
+  defaultValue: 0,
+  tooltip: true
+};
 
 export const sliderPropTypes = {
   min: PropTypes.number,
@@ -27,224 +99,251 @@ export const sliderPropTypes = {
   barClassName: PropTypes.string,
   handleStyle: PropTypes.object,
   disabled: PropTypes.bool,
+  plaintext: PropTypes.bool,
+  readOnly: PropTypes.bool,
   graduated: PropTypes.bool,
   tooltip: PropTypes.bool,
   progress: PropTypes.bool,
   vertical: PropTypes.bool,
   onChange: PropTypes.func,
+  onChangeCommitted: PropTypes.func,
   renderMark: PropTypes.func,
   renderTooltip: PropTypes.func,
-  locale: PropTypes.object
+  getAriaValueText: PropTypes.func
 };
 
-class Slider extends React.Component<SliderProps, SliderState> {
-  static propTypes = sliderPropTypes;
-  static defaultProps = {
-    min: 0,
-    max: 100,
-    step: 1,
-    defaultValue: 0,
-    tooltip: true,
-    locale: {}
-  };
-  barRef: React.RefObject<HTMLDivElement>;
-  mouseMoveTracker = null;
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: this.checkValue(props.defaultValue, props)
-    };
-    this.barRef = React.createRef();
-  }
+/**
+ * fixme: Should contain an input
+ */
+const Slider = React.forwardRef((props: SliderProps, ref) => {
+  const {
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby,
+    'aria-valuetext': ariaValuetext,
+    as: Componnet,
+    graduated,
+    className,
+    barClassName,
+    progress,
+    vertical,
+    disabled,
+    readOnly,
+    plaintext,
+    classPrefix,
+    min,
+    handleClassName,
+    handleStyle,
+    handleTitle,
+    tooltip,
+    step,
+    defaultValue,
+    value: valueProp,
+    max: maxProp,
+    getAriaValueText,
+    renderTooltip,
+    renderMark,
+    onChange,
+    onChangeCommitted,
+    ...rest
+  } = props;
 
-  getSplitCount() {
-    const { min, step } = this.props;
-    const max = this.getMax();
-    return precisionMath((max - min) / step);
-  }
+  const barRef = useRef<HTMLDivElement>();
+  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { rtl } = useCustom('Slider');
 
-  getMax(props?: SliderProps) {
-    const { max, min, step } = props || this.props;
-    return precisionMath(Math.floor((max - min) / step) * step + min);
-  }
+  const classes = merge(
+    className,
+    withClassPrefix({ vertical, disabled, readOnly, graduated, 'with-mark': renderMark })
+  );
 
-  getValue() {
-    const { value } = this.props;
-    return typeof value === 'undefined' ? this.state.value : this.checkValue(value);
-  }
+  const max = useMemo(() => precisionMath(Math.floor((maxProp - min) / step) * step + min), [
+    maxProp,
+    min,
+    step
+  ]);
 
-  setValue(value: number, event: React.MouseEvent) {
-    const nextValue = this.checkValue(value);
-    this.setState({ value: nextValue });
-    this.props.onChange?.(nextValue, event);
-  }
+  /**
+   * Returns a valid value that does not exceed the specified range of values.
+   */
+  const getValidValue = useCallback(
+    (value: number) => {
+      return checkValue(value, min, max);
+    },
+    [max, min]
+  );
 
-  checkValue(value: number, props?: SliderProps) {
-    const { min } = props || this.props;
-    const max = this.getMax(props);
-    return checkValue(value, min, max);
-  }
+  const [value, setValue] = useControlled(getValidValue(valueProp), getValidValue(defaultValue));
+  const count = useMemo(() => precisionMath((max - min) / step), [max, min, step]);
 
-  getHeight() {
-    if (this.barRef.current) {
-      return getHeight(this.barRef.current);
-    }
-    return 0;
-  }
+  // Get the height of the progress bar
+  const getBarHeight = useCallback(() => (barRef.current ? getHeight(barRef.current) : 0), []);
+  // Get the width of the progress bar
+  const getBarWidth = useCallback(() => (barRef.current ? getWidth(barRef.current) : 0), []);
 
-  getWidth() {
-    if (this.barRef.current) {
-      return getWidth(this.barRef.current);
-    }
-    return 0;
-  }
-  getValueByOffset(offset: number) {
-    const { step, vertical } = this.props;
-    const count = this.getSplitCount();
+  const getValueByOffset = useCallback(
+    (offset: number) => {
+      let value = 0;
 
-    let value = 0;
+      if (isNaN(offset)) {
+        return value;
+      }
 
-    if (isNaN(offset)) {
-      return value;
-    }
+      if (vertical) {
+        const barHeight = getBarHeight();
+        value = Math.round(offset / (barHeight / count)) * step;
+      } else {
+        const barWidth = getBarWidth();
+        value = Math.round(offset / (barWidth / count)) * step;
+      }
 
-    if (vertical) {
-      const barHeight = this.getHeight();
-      value = Math.round(offset / (barHeight / count)) * step;
-    } else {
-      const barWidth = this.getWidth();
-      value = Math.round(offset / (barWidth / count)) * step;
-    }
+      return precisionMath(value);
+    },
+    [count, getBarHeight, getBarWidth, step, vertical]
+  );
 
-    return precisionMath(value);
-  }
+  /**
+   * A value within the valid range is calculated from the position triggered by the event.
+   */
+  const getValueByPosition = useCallback(
+    (event: React.MouseEvent) => {
+      const barOffset = getOffset(barRef.current);
+      const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
+      const offsetValue = rtl && !vertical ? barOffset.width - offset : offset;
 
-  getValueByPosition = (event: React.MouseEvent) => {
-    const { vertical, min, locale } = this.props;
-    const barOffset = getOffset(this.barRef.current);
-    const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
-    const value = locale.rtl && !vertical ? barOffset.width - offset : offset;
+      return getValueByOffset(offsetValue) + min;
+    },
+    [getValueByOffset, min, rtl, vertical]
+  );
 
-    return this.getValueByOffset(value) + min;
-  };
+  /**
+   * Callback function that is fired when the mousemove is triggered
+   */
+  const handleChangeValue = useCallback(
+    (event: React.MouseEvent) => {
+      if (disabled || readOnly) {
+        return;
+      }
+      const nextValue = getValidValue(getValueByPosition(event));
+      setValue(nextValue);
+      onChange?.(nextValue, event);
+    },
+    [disabled, getValidValue, getValueByPosition, onChange, readOnly, setValue]
+  );
 
-  handleClick = (event: React.MouseEvent) => {
-    if (this.props.disabled) {
-      return;
-    }
-    const value = this.getValueByPosition(event);
-    this.setValue(value, event);
-  };
-  handleDragMove = (event: React.MouseEvent) => {
-    this.setValue(this.getValueByPosition(event), event);
-  };
+  /**
+   * Callback function that is fired when the mouseup is triggered
+   */
+  const handleChangeCommitted = useCallback(
+    (event: React.MouseEvent) => {
+      if (disabled || readOnly) {
+        return;
+      }
+      const nextValue = getValidValue(getValueByPosition(event));
 
-  addPrefix = (name: string) => prefix(this.props.classPrefix)(name);
+      onChangeCommitted?.(nextValue, event);
+    },
+    [disabled, getValidValue, getValueByPosition, onChangeCommitted, readOnly]
+  );
 
-  renderGraduated() {
-    const { step, min, renderMark } = this.props;
-    const max = this.getMax();
-    const count = this.getSplitCount();
-    const value = this.getValue();
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      let nextValue;
+      const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
+      const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
 
+      switch (event.key) {
+        case 'Home':
+          nextValue = min;
+          break;
+        case 'End':
+          nextValue = max;
+          break;
+        case increaseKey:
+        case 'ArrowUp':
+          nextValue = Math.min(max, value + step);
+          break;
+
+        case decreaseKey:
+        case 'ArrowDown':
+          nextValue = Math.max(min, value - step);
+          break;
+        default:
+          return;
+      }
+
+      // Prevent scroll of the page
+      event.preventDefault();
+
+      setValue(nextValue);
+      onChange?.(nextValue, event);
+    },
+    [max, min, onChange, rtl, setValue, step, value]
+  );
+
+  if (plaintext) {
     return (
-      <Graduated
-        step={step}
-        min={min}
-        max={max}
-        count={count}
-        value={value}
-        renderMark={renderMark}
-      />
+      <Plaintext localeKey="notSelected" ref={ref}>
+        {value}
+      </Plaintext>
     );
   }
 
-  renderHandle() {
-    const {
-      handleClassName,
-      handleStyle,
-      handleTitle,
-      min,
-      vertical,
-      tooltip,
-      renderTooltip,
-      locale,
-      disabled
-    } = this.props;
-
-    const max = this.getMax();
-    const value = this.getValue();
-
-    return (
-      <Handle
-        position={((value - min) / (max - min)) * 100}
-        className={handleClassName}
-        style={handleStyle}
-        disabled={disabled}
-        vertical={vertical}
-        tooltip={tooltip}
-        renderTooltip={renderTooltip}
-        rtl={locale.rtl}
-        value={value}
-        onDragMove={this.handleDragMove}
-      >
-        {handleTitle}
-      </Handle>
-    );
-  }
-
-  renderProgress() {
-    const { vertical, min, locale } = this.props;
-    const max = this.getMax();
-    const value = this.getValue();
-    return (
-      <ProgressBar
-        rtl={locale.rtl}
-        vertical={vertical}
-        start={0}
-        end={((value - min) / (max - min)) * 100}
-      />
-    );
-  }
-
-  render() {
-    const {
-      graduated,
-      className,
-      barClassName,
-      progress,
-      vertical,
-      disabled,
-      classPrefix,
-      renderMark,
-      ...rest
-    } = this.props;
-
-    const classes = classNames(classPrefix, className, {
-      [this.addPrefix('vertical')]: vertical,
-      [this.addPrefix('disabled')]: disabled,
-      [this.addPrefix('graduated')]: graduated,
-      [this.addPrefix('with-mark')]: renderMark
-    });
-
-    const unhandled = getUnhandledProps(Slider, rest);
-
-    return (
-      <div {...unhandled} className={classes} role="presentation">
-        <div
-          className={classNames(this.addPrefix('bar'), barClassName)}
-          ref={this.barRef}
-          onClick={this.handleClick}
-        >
-          {progress && this.renderProgress()}
-          {graduated && this.renderGraduated()}
-        </div>
-        {this.renderHandle()}
+  return (
+    <Componnet {...rest} ref={ref} className={classes} role="presentation">
+      <div ref={barRef} className={merge(barClassName, prefix('bar'))} onClick={handleChangeValue}>
+        {progress && (
+          <ProgressBar
+            rtl={rtl}
+            vertical={vertical}
+            start={0}
+            end={((value - min) / (max - min)) * 100}
+          />
+        )}
+        {graduated && (
+          <Graduated
+            step={step}
+            min={min}
+            max={max}
+            count={count}
+            value={value}
+            renderMark={renderMark}
+          />
+        )}
       </div>
-    );
-  }
-}
+      {
+        <Handle
+          position={((value - min) / (max - min)) * 100}
+          className={handleClassName}
+          style={handleStyle}
+          disabled={disabled}
+          vertical={vertical}
+          tooltip={tooltip}
+          rtl={rtl}
+          value={value}
+          renderTooltip={renderTooltip}
+          onDragMove={handleChangeValue}
+          onKeyDown={handleKeyDown}
+          onDragEnd={handleChangeCommitted}
+          role="slider"
+          tabIndex={disabled || readOnly ? null : 0}
+          aria-orientation={vertical ? 'vertical' : 'horizontal'}
+          aria-valuenow={value}
+          aria-disabled={disabled}
+          aria-valuetext={getAriaValueText ? getAriaValueText(value) : ariaValuetext}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledby}
+          aria-valuemax={max}
+          aria-valuemin={min}
+        >
+          {handleTitle}
+        </Handle>
+      }
+    </Componnet>
+  );
+});
 
-export default defaultProps<SliderProps>({
-  classPrefix: 'slider'
-})(Slider);
+Slider.displayName = 'Slider';
+Slider.defaultProps = defaultProps;
+Slider.propTypes = sliderPropTypes;
+
+export default Slider;

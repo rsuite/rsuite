@@ -14,9 +14,9 @@ RSUITE Design Prototype and specification, click to [view][rsuite-design]
 
 - React Suite supports all major modern browsers.
 
-| <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" /></br>IE | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" /></br>Edge | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" /></br>Firefox | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" /> </br>Chrome | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" /></br>Safari |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| >=10                                                                                                                                                 | >= 14                                                                                                                                                  | >= 45                                                                                                                                                         | >=49                                                                                                                                                       | >=10                                                                                                                                                      |
+| <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="IE / Edge" width="24px" height="24px" /></br>IE / Edge | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" /></br>Firefox | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" /> </br>Chrome | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" /></br>Safari |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| IE11, Edge                                                                                                                                                  | last 2 versions                                                                                                                                               | last 2 versions                                                                                                                                            | last 2 versions                                                                                                                                           |
 
 - ** IE<=9 is no longer supported ** since React Suite 3.0.
 - Our support for IE10 has been gracefully downgraded, and some styles and animations have been simplified.
@@ -38,19 +38,7 @@ React Suite supports server side rendering. Support [Next.js](https://github.com
 
 ## Examples
 
-- [Management system][demo-admin]
-- [Use modularized][demo-modular-import]
-- [Use CDN][demo-cdn]
-- [Internationalization][demo-intl-app]
-- [Themes][demo-multiple-themes]
-- [RTL - RTLCSS][demo-rtlcss]
-- [RTL - PostCSS-RTL][demo-postcss-rtl]
-- [Use in create-react-app][demo-create-react-app]
-- [Use in Electron][demo-electron]
-- [Use in Flow][demo-flow-app]
-- [Use in TypeScript][demo-typescript-app]
-- [Use in Next.js][demo-nextjs]
-- [Use in UmiJS][demo-umi-app]
+<!--{include:(resources/examples/en-US/official-examples.md)}-->
 
 ## Changelog
 
@@ -144,18 +132,5 @@ RSUITE is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg
-[demo-admin]: https://github.com/rsuite/rsuite-management-system
-[demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
-[demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
-[demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
-[demo-electron]: https://github.com/rsuite/rsuite/tree/master/examples/with-electron
-[demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
-[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
-[demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
-[demo-typescript-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-typescript
-[demo-nextjs]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs
-[demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
-[demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
-[demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
 [babel-preset-env]: https://babeljs.io/docs/en/babel-preset-env
 [rsuite-stars]: https://img.shields.io/github/stars/rsuite/rsuite?style=social

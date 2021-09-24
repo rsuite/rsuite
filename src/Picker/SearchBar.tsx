@@ -1,53 +1,65 @@
-import * as React from 'react';
-import _ from 'lodash';
+import React, { useCallback } from 'react';
+import get from 'lodash/get';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { prefix, defaultProps, getUnhandledProps } from '../utils';
+import Search from '@rsuite/icons/legacy/Search';
 
-export interface SearchBarProps {
-  classPrefix?: string;
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+
+export interface SearchBarProps extends WithAsProps {
   value?: string;
   placeholder?: string;
   className?: string;
-  children?: React.ReactNode;
+  inputRef?: React.Ref<HTMLInputElement>;
   onChange?: (value: string, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-class SearchBar extends React.Component<SearchBarProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    value: PropTypes.string,
-    placeholder: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node,
-    onChange: PropTypes.func
-  };
-
-  handleChange = (event: React.SyntheticEvent<HTMLElement>) => {
-    this.props.onChange?.(_.get(event, 'target.value'), event);
-  };
-
-  render() {
-    const { value, children, className, classPrefix, placeholder, ...rest } = this.props;
-    const addPrefix = prefix(classPrefix);
-    const unhandled = getUnhandledProps(SearchBar, rest);
-
+const SearchBar: RsRefForwardingComponent<'div', SearchBarProps> = React.forwardRef(
+  (props: SearchBarProps, ref) => {
+    const {
+      as: Component = 'div',
+      classPrefix = 'picker-search-bar',
+      value,
+      children,
+      className,
+      placeholder,
+      inputRef,
+      onChange,
+      ...rest
+    } = props;
+    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix());
+    const handleChange = useCallback(
+      (event: React.SyntheticEvent<HTMLElement>) => {
+        onChange?.(get(event, 'target.value'), event);
+      },
+      [onChange]
+    );
     return (
-      <div {...unhandled} className={classNames(classPrefix, className)}>
+      <Component role="searchbox" {...rest} ref={ref} className={classes}>
         <input
-          className={addPrefix('input')}
+          className={prefix('input')}
           value={value}
-          onChange={this.handleChange}
+          onChange={handleChange}
           placeholder={placeholder}
+          ref={inputRef}
         />
+        <Search className={prefix('search-icon')} />
         {children}
-      </div>
+      </Component>
     );
   }
-}
+);
 
-const enhance = defaultProps<SearchBarProps>({
-  classPrefix: 'picker-search-bar'
-});
+SearchBar.displayName = 'SearchBar';
+SearchBar.propTypes = {
+  as: PropTypes.elementType,
+  classPrefix: PropTypes.string,
+  value: PropTypes.string,
+  placeholder: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  onChange: PropTypes.func
+};
 
-export default enhance(SearchBar);
+export default SearchBar;

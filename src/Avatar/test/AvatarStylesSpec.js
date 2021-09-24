@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Avatar from '../index';
 import { createTestContainer, getDOMNode, getStyle, toRGB, itChrome } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('Avatar styles', () => {
   it('Should render the correct background', () => {

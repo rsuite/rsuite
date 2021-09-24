@@ -8,7 +8,7 @@ import {
   BooleanType
 } from 'schema-typed';
 
-export default {
+const SchemaTyped = {
   Model: SchemaModel,
   Types: {
     StringType,
@@ -19,3 +19,5 @@ export default {
     BooleanType
   }
 };
+
+export default SchemaTyped;

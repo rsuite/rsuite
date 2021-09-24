@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   Container,
   Header,
@@ -9,31 +9,34 @@ import {
   Divider,
   Sidenav,
   Nav,
-  Icon,
   IconButton,
   Toggle,
   Dropdown,
   FlexboxGrid,
   Panel,
   Form,
-  FormGroup,
-  ControlLabel,
-  FormControl,
   ButtonToolbar,
   Navbar
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
 import Logo from '@/components/Logo';
+import Home from '@rsuite/icons/legacy/Home';
+import Cog from '@rsuite/icons/legacy/Cog';
+import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
+import AngleRight from '@rsuite/icons/legacy/AngleRight';
+import LogoAnalytics from '@rsuite/icons/legacy/LogoAnalytics';
+import Dashboard from '@rsuite/icons/Dashboard';
+import Group from '@rsuite/icons/legacy/Group';
+import Magic from '@rsuite/icons/legacy/Magic';
+import GearCircle from '@rsuite/icons/legacy/GearCircle';
 
 export default function Page() {
   return (
     <DefaultPage
-      examples={['basic', 'sidebar-page', 'navbar-page', 'login-page']}
       dependencies={{
         Logo,
         Divider,
-        Icon,
         IconButton,
         Button,
         Container,
@@ -48,11 +51,17 @@ export default function Page() {
         FlexboxGrid,
         Panel,
         Form,
-        FormGroup,
-        ControlLabel,
-        FormControl,
         ButtonToolbar,
-        Navbar
+        Navbar,
+        Home,
+        Cog,
+        AngleLeft,
+        AngleRight,
+        LogoAnalytics,
+        Dashboard,
+        Group,
+        Magic,
+        GearCircle
       }}
     />
   );

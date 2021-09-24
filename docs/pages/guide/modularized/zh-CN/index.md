@@ -1,84 +1,36 @@
-# 按需加载
+# 最小化打包文件大小
 
-为了解决在生产环境文件体积过大的问题， React Suite 支持 ES Module，您可以通过打包工具的 Tree Shaking 功能去掉文件中无用的代码。
+我们应该使得的编译后的文件尽可能的小，来提升用户体验。
+
+## Tree Shaking
+
+Tree Shaking 是一种通过清除最终文件中未使用的代码来优化体积的方法。必须通过 ES modules 导入组件。
+
+```js
+import { Button, Input } from 'rsuite';
+```
+
+然后在打包构建工具中进行配置:
 
 - [Tree Shaking in rollup.js](https://rollupjs.org/guide/en/#tree-shaking)
 - [Tree Shaking in Webpack](https://webpack.js.org/guides/tree-shaking/)
 
-如果您当前的开发环境不支持 `Tree Shaking`, 可以采用以下两种方案。
+⚠️ 如果您的开发环境不支持 `Tree Shaking`, 还可以通过以下方法来到达最小化打包文件大小。
 
-## 方案一：手动引入
+## 使用路径导入
 
-手动引入，需要在写代码的时候就只引入用到的文件，比如只使用 Button 组件：
-
-```js
-import Button from 'rsuite/lib/Button';
-```
-
-引入对应的样式文件:
+路径导入是在写代码的时候就只引入用到的文件，这样可以避免导入用不到的模块。比如 Button 组件：
 
 ```diff
-import Button from 'rsuite/lib/Button';
-+ import 'rsuite/lib/Button/styles';  // 引入默认样式 less
+- import { Button } from 'rsuite';
++ import Button from 'rsuite/Button';
 ```
 
-也可以引入指定主题样式:
+导入对应的样式文件:
 
 ```diff
-import Button from 'rsuite/lib/Button';
-+ import 'rsuite/lib/Button/styles/themes/dark';  // 引入 dark 主题的 less
-```
-
-## 方案二：使用 babel-preset-rsuite
-
-使用 [babel-preset-rsuite](https://github.com/rsuite/babel-preset-rsuite) 可以在 Babel 编译阶段把代码转换成按需引入的方式。
-
-### 安装 babel-preset-rsuite
-
-```bash
-$ npm install babel-preset-rsuite --save-dev
-```
-
-#### 使用
-
-```json
-// .babelrc or babel-loader option
-{
-  "presets": ["rsuite"]
-}
-```
-
-示例：
-
-```js
-// Transforms:
-import { Button } from 'rsuite';
-
-// Roughly to:
-var _Button = require('rsuite/lib/Button');
-```
-
-#### 参数配置
-
-```json
-// .babelrc or babel-loader option
-{
-  "presets": [["rsuite", { "style": true, "theme": "dark" }]]
-}
-```
-
-- `style` (boolean) , 按需引入样式文件。
-- `theme` ('default'|'dark'), 引入指定主题的样式文件，默认：'default'。
-
-示例：
-
-```js
-// Transforms:
-import { Button } from 'rsuite';
-
-// Roughly to:
-require('rsuite/lib/Button/styles/themes/dark.less');
-var _Button = require('rsuite/lib/Button');
+import Button from 'rsuite/Button';
++ import 'rsuite/Button/styles/index.less';
 ```
 
 ## 禁用 HTML 相关样式的 reset
@@ -93,10 +45,10 @@ var _Button = require('rsuite/lib/Button');
         // 如果使用 less-loader@5 或者更老的版本 ，请移除 lessOptions 这一级直接配置选项。
         lessOptions: {
           javascriptEnabled: true,
-          modifyVars: { '@reset-import': false }
+          modifyVars: { '@enable-css-reset': false }
         }
     }
 }
 ```
 
-[config-reset-import]: /guide/themes#禁用%20reset%20相关样式引用
+[config-reset-import]: /zh/guide/customization/#禁用-reset-相关样式引用

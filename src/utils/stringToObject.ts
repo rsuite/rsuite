@@ -1,7 +1,7 @@
-import _ from 'lodash';
+import isObject from 'lodash/isObject';
 
 export default (value: any, labelKey?: string, valueKey?: string) => {
-  if (_.isObject(value)) {
+  if (isObject(value)) {
     return value;
   }
 

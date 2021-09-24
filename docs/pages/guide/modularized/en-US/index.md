@@ -1,83 +1,36 @@
-# Use modularized
+# Minimizing Bundle Size
 
-In order to solve the problem of excessive file size in the production environment, React Suite supports ES Module, you can remove the useless code in the file through the Tree Shaking function of the packaging tool.
+We should make the compiled files as small as possible to improve user experience.
+
+## Tree Shaking
+
+Tree Shaking is a method of optimizing the volume by removing unused code in the final file. The components must be imported via ES modules.
+
+```js
+import { Button, Input } from 'rsuite';
+```
+
+Then configure it in the packaging build tool:
 
 - [Tree Shaking in rollup.js](https://rollupjs.org/guide/en/#tree-shaking)
 - [Tree Shaking in Webpack](https://webpack.js.org/guides/tree-shaking/)
 
-If your current development environment does not support `Tree Shaking`, you can use the following 2 methods.
+⚠️ If your development environment does not support `Tree Shaking`, you can also use the following methods to minimize the packaged file size.
 
-## Method 1: Manually import
+## Use path import
 
-Manual import requires only importing the files used when writing the code, such as using only the `<Button>` component:
-
-```js
-import Button from 'rsuite/lib/Button';
-```
-
-Import the corresponding style file:
+Path import is to import only the files that are used when writing the code, so as to avoid importing unused modules. For example:
 
 ```diff
-import Button from 'rsuite/lib/Button';
-+ import 'rsuite/lib/Button/styles';  // import default style less
+- import { Button } from 'rsuite';
++ import Button from 'rsuite/Button';
 ```
 
-You can also import the specified theme style:
+Import button style file:
 
 ```diff
-import Button from 'rsuite/lib/Button';
-+ import 'rsuite/lib/Button/styles/themes/dark';  // import dark theme less
-```
-
-## Method 2：Use babel-preset-rsuite
-
-Use [babel-preset-rsuite](https://github.com/rsuite/babel-preset-rsuite) to convert code into an on-demand import during the `Babel` compilation phase.
-
-### Install babel-preset-rsuite
-
-```bash
-$ npm install babel-preset-rsuite --save-dev
-```
-
-#### Config
-
-```json
-// .babelrc or babel-loader option
-{
-  "presets": ["rsuite"]
-}
-```
-
-Sample code:
-
-```js
-// Transforms:
-import { Button } from 'rsuite';
-
-// Roughly to:
-var _Button = require('rsuite/lib/Button');
-```
-
-#### Parameter configuration
-
-```json
-{
-  "presets": [["rsuite", { "style": true, "theme": "dark" }]]
-}
-```
-
-- `style` (boolean) , Import style files as needed.
-- `theme` ('default'|'dark'), Import style files for the specified theme.
-
-Sample code:
-
-```js
-// Transforms:
-import { Button } from 'rsuite';
-
-// Roughly to:
-require('rsuite/lib/Button/styles/themes/dark.less');
-var _Button = require('rsuite/lib/Button');
+import Button from 'rsuite/Button';
++ import 'rsuite/Button/styles/index.less';
 ```
 
 ## Disabled HTML styles reset
@@ -92,10 +45,10 @@ We reset some HTML styles in rsuite by default.But you may not need these styles
         // If you are using less-loader@5 or older version, please spread the lessOptions to options directly.
         lessOptions: {
           javascriptEnabled: true,
-          modifyVars: { '@reset-import': false }
+          modifyVars: { '@enable-css-reset': false }
         }
     }
 }
 ```
 
-[config-reset-import]: /en/guide/themes#Disable%20styles%20reset
+[config-reset-import]: /guide/customization/#disable-html-styles-reset

@@ -1,12 +1,9 @@
-import * as React from 'react';
-import { Navbar, Nav, Button, Icon, Dropdown } from 'rsuite';
+import React from 'react';
+import { Navbar, Nav, Button, Dropdown } from 'rsuite';
 import DefaultPage from '@/components/Page';
+import Home from '@rsuite/icons/legacy/Home';
+import Cog from '@rsuite/icons/legacy/Cog';
 
 export default function Page() {
-  return (
-    <DefaultPage
-      examples={['basic', 'appearance']}
-      dependencies={{ Navbar, Nav, Button, Icon, Dropdown }}
-    />
-  );
+  return <DefaultPage dependencies={{ Navbar, Nav, Button, Dropdown, Home, Cog }} />;
 }

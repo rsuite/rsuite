@@ -10,7 +10,7 @@ describe('Timeline', () => {
   });
 
   it('Should output a div', () => {
-    const instance = getDOMNode(<Timeline componentClass={'div'} />);
+    const instance = getDOMNode(<Timeline as={'div'} />);
     assert.equal(instance.tagName, 'DIV');
   });
 

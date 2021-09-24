@@ -28,30 +28,30 @@
 
 .search-input {
   border: none;
-  border-radius: 4px;
+  border-radius: 0;
+  border-bottom: 1px solid #ddd;
 }
 
 .search-list {
   list-style: none;
   padding: 0;
-  margin: 20px 0 0 0;
   a {
-    color: #575757;
+    color: var(--rs-text-primary);
     padding: 10px 6px;
     display: block;
     font-size: 14px;
     text-decoration: none;
     &:hover {
-      background: @H050;
+      text-decoration: underline;
     }
     em {
-      color: @base-color;
+      color: var(--rs-primary-500);
       font-style: normal;
       font-weight: bold;
     }
     p {
       margin-top: 10px;
-      color: #999;
+      color: var(--rs-text-primary);
       font-size: 12px;
     }
   }

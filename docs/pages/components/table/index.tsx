@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   Table,
   Toggle,
@@ -7,66 +7,45 @@ import {
   Button,
   IconButton,
   Divider,
-  Icon,
   Nav,
   Checkbox,
-  Dropdown
+  Dropdown,
+  Pagination,
+  TagPicker
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
-import AppContext from '@/components/AppContext';
 import useFetchData from '@/utils/useFetchData';
-import { useDrag, useDrop, DndProvider } from 'react-dnd';
-import Backend from 'react-dnd-html5-backend';
+import Edit2 from '@rsuite/icons/legacy/Edit2';
+import More from '@rsuite/icons/legacy/More';
+import MehO from '@rsuite/icons/legacy/MehO';
+import FrownO from '@rsuite/icons/legacy/FrownO';
+import SmileO from '@rsuite/icons/legacy/SmileO';
+import Arrows from '@rsuite/icons/legacy/Arrows';
+import MinusSquareO from '@rsuite/icons/legacy/MinusSquareO';
+import PlusSquareO from '@rsuite/icons/legacy/PlusSquareO';
+import Spinner from '@rsuite/icons/legacy/Spinner';
 
-const { HeaderCell, Pagination, Cell, Column, ColumnGroup } = Table;
-const TablePagination = Pagination;
+const { HeaderCell, Cell, Column, ColumnGroup } = Table;
 
 export default function Page() {
-  const { messages, localePath } = React.useContext(AppContext);
   const { response: fakeData } = useFetchData('users');
   const { response: fakeTreeData } = useFetchData('tree-data');
   const { response: fakeLargeData } = useFetchData('large-data');
-  const { response: fakeDataForColSpan } = useFetchData('users-colspan');
-
-  const tabExamples = [
-    'resizable',
-    'fluid-column',
-    'fixed',
-    'word-wrap',
-    'custom-cell',
-    'sort',
-    'pagination',
-    'tree',
-    'expanded',
-    'edit',
-    'loading',
-    'colspan',
-    'summary',
-    'auto-height',
-    'affix-header',
-    'affix-horizontal-scrollbar',
-    'draggable'
-  ].map(item => ({
-    title: messages?.table[`tab.${item}`],
-    source: require(`.${localePath}/${item}.md`)
-  }));
+  const { response: fakeMergeCellsData } = useFetchData('users-merge-cells');
 
   return (
     <DefaultPage
-      examples={['default', 'large']}
       dependencies={{
         Nav,
         Checkbox,
         Toggle,
         fakeData,
         fakeTreeData,
-        fakeDataForColSpan,
+        fakeMergeCellsData,
         fakeLargeData,
-        TablePagination,
         Popover,
         Whisper,
-        Icon,
         Divider,
         IconButton,
         Table,
@@ -75,13 +54,19 @@ export default function Page() {
         Cell,
         Column,
         Dropdown,
-        useDrag,
-        useDrop,
-        DndProvider,
-        Backend,
-        ColumnGroup
+        ColumnGroup,
+        Edit2,
+        More,
+        MehO,
+        FrownO,
+        SmileO,
+        Arrows,
+        MinusSquareO,
+        PlusSquareO,
+        Spinner,
+        Pagination,
+        TagPicker
       }}
-      tabExamples={tabExamples}
     />
   );
 }

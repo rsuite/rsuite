@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import List from '../index';
 import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
 
-import '../styles/index';
+import '../styles/index.less';
 
 describe('List styles', () => {
   it('Should render correct toggle styles', () => {

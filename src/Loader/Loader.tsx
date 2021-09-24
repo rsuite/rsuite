@@ -1,28 +1,41 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import compose from 'recompose/compose';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 
-import { withStyleProps, defaultProps, prefix } from '../utils';
-import { LoaderProps } from './Loader.d';
+export interface LoaderProps extends WithAsProps {
+  /** Centered in the container */
+  center?: boolean;
 
-class Loader extends React.Component<LoaderProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    center: PropTypes.bool,
-    backdrop: PropTypes.bool,
-    inverse: PropTypes.bool,
-    vertical: PropTypes.bool,
-    content: PropTypes.node,
-    speed: PropTypes.oneOf(['normal', 'fast', 'slow'])
-  };
-  static defaultProps = {
-    speed: 'normal'
-  };
+  /** Whether the background is displayed */
+  backdrop?: boolean;
 
-  render() {
+  /** An alternative dark visual style for the Loader */
+  inverse?: boolean;
+
+  /** The icon is displayed vertically with the text */
+  vertical?: boolean;
+
+  /** Custom descriptive text */
+  content?: React.ReactNode;
+
+  /** The speed at which the loader rotates */
+  speed?: 'normal' | 'fast' | 'slow';
+
+  /** A loader can have different sizes */
+  size?: TypeAttributes.Size;
+}
+
+const defaultProps: Partial<LoaderProps> = {
+  as: 'div',
+  classPrefix: 'loader',
+  speed: 'normal'
+};
+
+const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
+  (props: LoaderProps, ref) => {
     const {
+      as: Component,
       classPrefix,
       className,
       inverse,
@@ -31,36 +44,49 @@ class Loader extends React.Component<LoaderProps> {
       center,
       vertical,
       content,
-      ...props
-    } = this.props;
+      size,
+      ...rest
+    } = props;
 
     const hasContent = !!content;
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(addPrefix('wrapper'), addPrefix(`speed-${speed}`), className, {
-      [addPrefix('backdrop-wrapper')]: backdrop,
-      [addPrefix('vertical')]: vertical,
-      [addPrefix('inverse')]: inverse,
-      [addPrefix('center')]: center,
-      [addPrefix('has-content')]: hasContent
-    });
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+
+    const classes = merge(
+      className,
+      prefix('wrapper', `speed-${speed}`, size, {
+        'backdrop-wrapper': backdrop,
+        'has-content': hasContent,
+        vertical,
+        inverse,
+        center
+      })
+    );
 
     return (
-      <div {...props} className={classes}>
-        {backdrop && <div className={addPrefix('backdrop')} />}
-        <div className={classPrefix}>
-          <span className={addPrefix('spin')} />
-          {hasContent && <span className={addPrefix('content')}>{content}</span>}
+      <Component role="progressbar" {...rest} ref={ref} className={classes}>
+        {backdrop && <div className={prefix('backdrop')} />}
+        <div className={withClassPrefix()}>
+          <span className={prefix('spin')} />
+          {hasContent && <span className={prefix('content')}>{content}</span>}
         </div>
-      </div>
+      </Component>
     );
   }
-}
+);
 
-export default compose<any, LoaderProps>(
-  withStyleProps<LoaderProps>({
-    hasSize: true
-  }),
-  defaultProps<LoaderProps>({
-    classPrefix: 'loader'
-  })
-)(Loader);
+Loader.displayName = 'Loader';
+Loader.defaultProps = defaultProps;
+Loader.propTypes = {
+  as: PropTypes.elementType,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  center: PropTypes.bool,
+  backdrop: PropTypes.bool,
+  inverse: PropTypes.bool,
+  vertical: PropTypes.bool,
+  content: PropTypes.node,
+  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
+  speed: PropTypes.oneOf(['normal', 'fast', 'slow'])
+};
+
+export default Loader;

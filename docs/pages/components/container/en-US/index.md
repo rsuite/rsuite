@@ -2,18 +2,30 @@
 
 The container layout can define the main frame of the page.
 
-* `<Container>` Container, used for layout.
-* `<Header>` Container header.
-* `<Content>` Container content.
-* `<Footer>` Container footer.
-* `<Sidebar>` Container sidebar.
+- `<Container>` Container, used for layout.
+- `<Header>` Container header.
+- `<Content>` Container content.
+- `<Footer>` Container footer.
+- `<Sidebar>` Container sidebar.
 
-## Usage
+## Import
 
-```js
-import { Container, Header, Content, Footer, Sidebar } from 'rsuite';
-```
+<!--{include:(components/container/fragments/import.md)}-->
 
 ## Examples
 
-<!--{demo}-->
+### Basic Layout
+
+<!--{include:`basic.md`}-->
+
+### Sidebar Layout
+
+<!--{include:`sidebar-page.md`}-->
+
+### Navbar Layout
+
+<!--{include:`navbar-page.md`}-->
+
+### Login Page Layout
+
+<!--{include:`login-page.md`}-->

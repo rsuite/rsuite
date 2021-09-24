@@ -1,23 +1,13 @@
-import * as React from 'react';
-import { Uploader, Icon, Button, Loader, Alert } from 'rsuite';
+import React from 'react';
+import { Uploader, Button, Loader, Message, toaster } from 'rsuite';
 import DefaultPage from '@/components/Page';
+import Avatar from '@rsuite/icons/legacy/Avatar';
+import CameraRetro from '@rsuite/icons/legacy/CameraRetro';
 
 export default function Page() {
   return (
     <DefaultPage
-      examples={[
-        'basic',
-        'picture',
-        'picture-text',
-        'avatar',
-        'drag-and-drop',
-        'file-list',
-        'file-list-custom',
-        'disabled',
-        'manually',
-        'controlled'
-      ]}
-      dependencies={{ Uploader, Icon, Button, Loader, Alert }}
+      dependencies={{ Uploader, Button, Loader, Message, Avatar, CameraRetro, toaster }}
     />
   );
 }

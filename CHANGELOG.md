@@ -1,3 +1,431 @@
+<a name="5.0.0-beta.8"></a>
+# [5.0.0-beta.8](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.7...v5.0.0-beta.8) (2021-09-17)
+
+
+### Bug Fixes
+
+* **date-picker:** fix calendar header wrapping ([#1907](https://github.com/rsuite/rsuite/issues/1907)) ([4cfc3af](https://github.com/rsuite/rsuite/commit/4cfc3af))
+* **navbar,dropdown:** unexpected focus submenu ([#1908](https://github.com/rsuite/rsuite/issues/1908)) ([697aa3e](https://github.com/rsuite/rsuite/commit/697aa3e))
+
+
+### Features
+
+* **table:** support `rowSpan` on `<Table.Column>` ([#1909](https://github.com/rsuite/rsuite/issues/1909)) ([34a3a1f](https://github.com/rsuite/rsuite/commit/34a3a1f))
+
+
+
+<a name="5.0.0-beta.7"></a>
+
+# [5.0.0-beta.7](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.6...v5.0.0-beta.7) (2021-09-09)
+
+### Bug Fixes
+
+- **tag-input:** adjust default value of the trigger to `Enter` ([#1886](https://github.com/rsuite/rsuite/issues/1886)) ([4405b6b](https://github.com/rsuite/rsuite/commit/4405b6b))
+
+### Features
+
+- **carousel:** support `onSelect`, `onSlideEnd`, `onSlideStart` on `<Carousel>` ([#1889](https://github.com/rsuite/rsuite/issues/1889)) ([91e7b98](https://github.com/rsuite/rsuite/commit/91e7b98))
+- **date-picker:** remove `inline` on `<DatePicker>` ([#1892](https://github.com/rsuite/rsuite/issues/1892)) ([83a77df](https://github.com/rsuite/rsuite/commit/83a77df))
+- **theme:** added support for high-contrast theme ([#1828](https://github.com/rsuite/rsuite/pull/1828))
+
+<a name="5.0.0-beta.6"></a>
+
+# [5.0.0-beta.6](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.5...v5.0.0-beta.6) (2021-09-06)
+
+### Bug Fixes
+
+- **drawer:** fix incorrect styles in drawer title and drawer actions ([#1874](https://github.com/rsuite/rsuite/issues/1874)) ([747a5f1](https://github.com/rsuite/rsuite/commit/747a5f1))
+- **list-item:** fix unable to set HTML event on List.Item ([#1863](https://github.com/rsuite/rsuite/issues/1863)) ([07578a2](https://github.com/rsuite/rsuite/commit/07578a2)), closes [#1859](https://github.com/rsuite/rsuite/issues/1859)
+- **sidenav:** fix incorrect indent before dropdown toggle ([#1856](https://github.com/rsuite/rsuite/issues/1856)) ([048da73](https://github.com/rsuite/rsuite/commit/048da73))
+
+### Features
+
+- **tag-input:** add support for TagInput ([#1848](https://github.com/rsuite/rsuite/issues/1848)) ([eb66602](https://github.com/rsuite/rsuite/commit/eb66602)), closes [#1265](https://github.com/rsuite/rsuite/issues/1265)
+- **tag-picker:** support `trigger` on `<TagPicker>` ([#1847](https://github.com/rsuite/rsuite/issues/1847)) ([8ace065](https://github.com/rsuite/rsuite/commit/8ace065))
+- **uploader:** support `disableMultipart` on `<Uploader>` ([#1862](https://github.com/rsuite/rsuite/issues/1862)) ([a6d7dcb](https://github.com/rsuite/rsuite/commit/a6d7dcb))
+
+<a name="5.0.0-beta.5"></a>
+
+# [5.0.0-beta.5](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.4...v5.0.0-beta.5) (2021-08-18)
+
+### Bug Fixes
+
+- **date-picker:** fix DatePicker cannot be used as controlled ([#1844](https://github.com/rsuite/rsuite/issues/1844)) ([3d6c035](https://github.com/rsuite/rsuite/commit/3d6c035)), closes [#1842](https://github.com/rsuite/rsuite/issues/1842)
+
+### Features
+
+- **dropdown:** support `renderToggle` on `<Dropdown>` ([#1843](https://github.com/rsuite/rsuite/issues/1843)) ([99c1925](https://github.com/rsuite/rsuite/commit/99c1925))
+
+<a name="5.0.0-beta.4"></a>
+
+# [5.0.0-beta.4](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.3...v5.0.0-beta.4) (2021-08-16)
+
+### Bug Fixes
+
+- **date-picker:** fix AM/PM display incorrect issue when switching hours ([#1823](https://github.com/rsuite/rsuite/issues/1823)) ([110715e](https://github.com/rsuite/rsuite/commit/110715e))
+- **dropdown-menu:** remove unrecognizable activeKey from dom ([#1827](https://github.com/rsuite/rsuite/issues/1827)) ([d578b5b](https://github.com/rsuite/rsuite/commit/d578b5b))
+- **locales:** fix the undefined problem of Locale ([#1834](https://github.com/rsuite/rsuite/issues/1834)) ([bf35a23](https://github.com/rsuite/rsuite/commit/bf35a23))
+- refactor(styles): change body background in light theme (#1840)
+
+### BREAKING CHANGES
+
+- build(deps): bump rsuite-table from 5.0.0-alpha.5 to 5.0.0-alpha.8 (#1836)
+- chore: use proxyDirectories to build esm/cjs (#1830)
+
+<a name="5.0.0-beta.3"></a>
+
+# [5.0.0-beta.3](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.2...v5.0.0-beta.3) (2021-08-08)
+
+### Bug Fixes
+
+- **pagination:** export type definition of `PaginationProps` ([#1817](https://github.com/rsuite/rsuite/issues/1817)) ([80c7d9e](https://github.com/rsuite/rsuite/commit/80c7d9e))
+- **sidenav:** trigger `<Nav onSelect>` on click `<Nav.Item>` ([#1815](https://github.com/rsuite/rsuite/issues/1815)) ([cae171d](https://github.com/rsuite/rsuite/commit/cae171d))
+
+<a name="5.0.0-beta.2"></a>
+
+# [5.0.0-beta.2](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.1...v5.0.0-beta.2) (2021-08-03)
+
+### Bug Fixes
+
+- **check-picker:** fix unable to clear value when pressing `Backspace` ([#1812](https://github.com/rsuite/rsuite/issues/1812)) ([1534174](https://github.com/rsuite/rsuite/commit/1534174))
+- **nav:** trigger `onSelect` on `<Nav>` when clicking `<Nav.Item>` ([#1797](https://github.com/rsuite/rsuite/issues/1797)) ([3fc99c4](https://github.com/rsuite/rsuite/commit/3fc99c4))
+- CheckTreePicker and TreePicker search problems ([#1808](https://github.com/rsuite/rsuite/issues/1808)) ([2c5e651](https://github.com/rsuite/rsuite/commit/2c5e651)), closes [#1577](https://github.com/rsuite/rsuite/issues/1577)
+- **message:** improve close icon style ([#1807](https://github.com/rsuite/rsuite/issues/1807)) ([4d1bf3f](https://github.com/rsuite/rsuite/commit/4d1bf3f))
+- **typescript:** export props of all components ([#1803](https://github.com/rsuite/rsuite/issues/1803)) ([a4edeba](https://github.com/rsuite/rsuite/commit/a4edeba))
+
+### Features
+
+- **CustomProvider:** support `theme` on `<CustomProvider>` ([#1798](https://github.com/rsuite/rsuite/issues/1798)) ([cb5794c](https://github.com/rsuite/rsuite/commit/cb5794c))
+
+<a name="5.0.0-beta.1"></a>
+
+# [5.0.0-beta.1](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.9...v5.0.0-beta.1) (2021-07-23)
+
+### Bug Fixes
+
+- **calendar:** fix the date on the calendar as controlled and remove timezone ([#1781](https://github.com/rsuite/rsuite/issues/1781)) ([70e323d](https://github.com/rsuite/rsuite/commit/70e323d))
+- **cascader:** adjust the rendering status of async loaded child nodes ([#1764](https://github.com/rsuite/rsuite/issues/1764)) ([ae41a18](https://github.com/rsuite/rsuite/commit/ae41a18))
+- **cascader:** fix data not controlled on MultiCascader ([#1747](https://github.com/rsuite/rsuite/issues/1747)) ([593adc5](https://github.com/rsuite/rsuite/commit/593adc5))
+- **check-tree-picker:** onChange does't return the correct value ([#1743](https://github.com/rsuite/rsuite/issues/1743)) ([b34a919](https://github.com/rsuite/rsuite/commit/b34a919))
+- **dropdown-item:** close <Dropdown> inside <Navbar> on click its item ([#1791](https://github.com/rsuite/rsuite/issues/1791)) ([cc01a34](https://github.com/rsuite/rsuite/commit/cc01a34))
+- **navigation:** improve accessibility of nav components ([#1792](https://github.com/rsuite/rsuite/issues/1792)) ([45468bd](https://github.com/rsuite/rsuite/commit/45468bd))
+- **picker:** picker should not focus when it is disabled ([#1782](https://github.com/rsuite/rsuite/issues/1782)) ([6640c58](https://github.com/rsuite/rsuite/commit/6640c58))
+- **picker:** update the position after the overlay size is changed ([#1780](https://github.com/rsuite/rsuite/issues/1780)) ([6366c36](https://github.com/rsuite/rsuite/commit/6366c36))
+- **styles:** enable dark mode by default ([#1776](https://github.com/rsuite/rsuite/issues/1776)) ([13420e3](https://github.com/rsuite/rsuite/commit/13420e3))
+- add less plugins to output lib dir, fix [#1767](https://github.com/rsuite/rsuite/issues/1767) ([#1770](https://github.com/rsuite/rsuite/issues/1770)) ([7a83699](https://github.com/rsuite/rsuite/commit/7a83699))
+- **use-controlled:** value doest't change when controlledValue changed ([#1742](https://github.com/rsuite/rsuite/issues/1742)) ([682eb2b](https://github.com/rsuite/rsuite/commit/682eb2b))
+
+<a name="5.0.0-alpha.9"></a>
+
+# [5.0.0-alpha.9](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.8...v5.0.0-alpha.9) (2021-06-15)
+
+### Bug Fixes
+
+- **cascader:** fix search result row height ([#1717](https://github.com/rsuite/rsuite/issues/1717)) ([94696eb](https://github.com/rsuite/rsuite/commit/94696eb))
+- **date-picker:** correct the style of non-current month dates ([#1732](https://github.com/rsuite/rsuite/issues/1732)) ([90058f8](https://github.com/rsuite/rsuite/commit/90058f8))
+- **datepicker:** fix gap between date cells ([#1726](https://github.com/rsuite/rsuite/issues/1726)) ([03a7604](https://github.com/rsuite/rsuite/commit/03a7604))
+- **input-picker:** fix extra height in disabled state ([#1718](https://github.com/rsuite/rsuite/issues/1718)) ([dd56301](https://github.com/rsuite/rsuite/commit/dd56301))
+- **input-picker:** fix InputPicker value not rendering when plaintext ([#1690](https://github.com/rsuite/rsuite/issues/1690)) ([fcb5995](https://github.com/rsuite/rsuite/commit/fcb5995))
+- **keyboard-event:** replace the deprecated keyCode with key ([#1691](https://github.com/rsuite/rsuite/issues/1691)) ([2f7a6d1](https://github.com/rsuite/rsuite/commit/2f7a6d1))
+- **list:** wrong position when auto scrolling ([#1687](https://github.com/rsuite/rsuite/issues/1687)) ([6b387f0](https://github.com/rsuite/rsuite/commit/6b387f0))
+- **modal:** remove extra margins in full-size modal ([#1699](https://github.com/rsuite/rsuite/issues/1699)) ([d231cc6](https://github.com/rsuite/rsuite/commit/d231cc6))
+- **navbar:** fix navbar dropdown hover text color ([#1719](https://github.com/rsuite/rsuite/issues/1719)) ([44230fd](https://github.com/rsuite/rsuite/commit/44230fd))
+- **position:** fix the exception that occurs when overlay is unmount ([#1714](https://github.com/rsuite/rsuite/issues/1714)) ([9a29a5a](https://github.com/rsuite/rsuite/commit/9a29a5a))
+- **radio:** fix checked radio style in disabled state ([#1708](https://github.com/rsuite/rsuite/issues/1708)) ([62a4dc7](https://github.com/rsuite/rsuite/commit/62a4dc7))
+- **radio:** fix disabled radio hover style ([#1709](https://github.com/rsuite/rsuite/issues/1709)) ([cdf0d09](https://github.com/rsuite/rsuite/commit/cdf0d09))
+- **timeline:** fix incorrect spacing around axis in alternate alignment ([#1731](https://github.com/rsuite/rsuite/issues/1731)) ([b0e2f18](https://github.com/rsuite/rsuite/commit/b0e2f18))
+- MultiCascader data cann't be controlled ([#1696](https://github.com/rsuite/rsuite/issues/1696)) ([7f9b03b](https://github.com/rsuite/rsuite/commit/7f9b03b))
+
+### Features
+
+- **nav:** improve NavItem visibility ([#1702](https://github.com/rsuite/rsuite/issues/1702)) ([8cb0b82](https://github.com/rsuite/rsuite/commit/8cb0b82))
+- **pickers:** improve picker keyboard interaction experience ([#1700](https://github.com/rsuite/rsuite/issues/1700)) ([b3bde80](https://github.com/rsuite/rsuite/commit/b3bde80))
+- Rewrite style system (#1476) ([19ed855](https://github.com/rsuite/rsuite/commit/19ed855)), closes [#1476](https://github.com/rsuite/rsuite/issues/1476) [#1671](https://github.com/rsuite/rsuite/issues/1671) [#1679](https://github.com/rsuite/rsuite/issues/1679)
+
+### BREAKING CHANGES
+
+- deprecate Navbar.Header and Navbar.Body
+- refactor(styles): re-org Sidenav styles
+- refactor(styles): re-org Pagination styles
+- refactor(styles): re-org Button styles
+- refactor(styles): re-org InputGroup styles
+- refactor(styles): re-org InputNumber styles
+- refactor(styles): re-org AutoComplete styles
+- refactor(styles): re-org SelectPicker styles
+- refactor(styles): re-org CheckPicker styles
+- refactor(styles): re-org Checkbox styles
+- refactor(styles): re-org Radio styles
+- refactor(styles): re-org Toggle styles
+- refactor(styles): re-org Rate styles
+- refactor(styles): re-org Slider styles
+- refactor(styles): re-org Uploader styles
+- refactor(styles): re-org Cascader styles
+- refactor(styles): remove iconfont related styles
+- refactor(styles): re-org Avatar styles
+- refactor(styles): re-org Badge styles
+- refactor(styles): re-org Tag styles
+- refactor(styles): re-org Carousel styles
+- refactor(styles): re-org ButtonToolbar styles
+- refactor(styles): re-org ButtonGroup styles
+- refactor(styles): re-org Animation styles
+- refactor(styles): re-org Panel styles
+- refactor(styles): re-org List styles
+- refactor(styles): re-org Timeline styles
+- refactor(styles): re-org Table styles
+- refactor(styles): re-org CloseButton styles
+- refactor(styles): re-org Modal and Drawer styles
+- refactor(styles): re-org IconButton styles
+- refactor(styles): re-org Form styles
+- refactor(styles): re-org toaster styles
+- refactor(styles): re-org Message styles
+- docs(theme): add rs-theme- classes on container element
+- refactor(theme): use rs-theme- classes to determine color theme
+- refactor(styles): remove unused files in Ripple
+- refactor(styles): re-org CheckTree and CheckTreePicker styles
+- refactor(styles): re-org Picker styles
+- refactor(styles): re-org Tree and TreePicker styles
+- refactor(styles): re-org InputPicker styles
+- refactor(styles): re-org Calendar styles
+- refactor(styles): re-org DatePicker and DateRangePicker styles
+- refactor(styles): unify theme styles
+- refactor(button): alter default button background color
+- refactor(styles): remove unused less variables
+- docs: use unified themes
+- refactor(styles): split themes mixins
+- refactor(styles): split non-common keyframes
+- refactor(styles): re-order imports
+- refactor(styles): remove unused global utility classes
+- refactor(styles): remove unused common mixins
+- refactor(styles): remove keyframe.less
+- refactor(styles): rename core.less to common
+- refactor(styles): transform palette hack mixin into less plugin
+- refactor(styles): fix palette plugin output type
+- test(styles): fix button style tests
+- test(styles): fix missing imports that prevent tests running
+- fix(styles): fix primary border color in default theme
+- chore(deps): re-generate package-lock.json
+- style: prettier format
+- chore(deps): downgrade eslint-plugin-react to 7.20.3 to avoid issues
+- style: upgrade stylelint and resolve violations
+- refactor(styles): simplify ripple related styles
+- refactor(styles): re-org button styles in different states
+- refactor(styles): re-org icon-button in different states
+- refactor(styles): remove .rs-btn-default class
+- refactor(styles): re-org Button sizing mixins
+- refactor(styles): re-org Ripple styles and mixins
+- docs: fix docs.css missing from docs app
+- chore(stylelint): add stylelint-config-prettier
+- docs: add docs for less plugins
+- refactor(styles): re-org primary and secondary palettes
+- refactor(styles): remove unused color variables in dark theme
+- refactor(styles): split theme palette and functional colors
+- refactor(styles): remove direct use of gray/highlight levels
+- refactor(styles): fix icon button in primary appearance
+- refactor(styles): remove redundant color variables from dark theme
+- build: omit javascriptEnabled option for less
+- chore: eslint ignore less plugins
+- refactor(styles): prefix css variables with rs instead of rs-color
+- refactor(styles): re-org color themes inclusion
+- refactor(styles): re-org variable declarations
+- docs(button): fix custom combination example
+- refactor(nav): remove margins between nav items
+- refactor(styles): replace stateful color variables with semantic colors
+- refactor(styles): separate color variables for light/dark modes
+- feat(styles): add variable for toggling dark mode inclusion
+- fix(styles): fix styling test failures
+- test(autocomplete): fix test failures
+- test(cascader): fix test failures due to dom change
+- test(inputpicker): fix test failures due to dom change
+- test(picker): fix test failures due to dom change
+- test(selectpicker): fix test failures due to dom change
+- chore: skip checking style existence
+- build: fix build scripts for stylesheets
+- fix(styles): fix incorrect casing in importing paths
+- docs: fix button heights in toolbar
+- docs: fix button style in codeview toolbar
+- fix(styles): remove dark mode styles when enable-dark-mode is false
+- docs: add docs for dark mode
+- docs(customize): replace deprecated variables with new ones
+- fix(message): re-org Message styles
+- deprecate Drawer.Footer in favor of new Drawer.Actions
+- feat(drawer): improve close button placement and appearance
+- feat(drawer): deprecate Drawer.Footer replaced with Drawer.Actions
+- fix(drawer): fix drawer body overflow height
+- style(drawer): remove redundant comments
+- fix(drawer): remove classes incorrectly assigned to close button
+- fix(radiogroup): fix radio group picker width
+
+<a name="5.0.0-alpha.8"></a>
+
+# [5.0.0-alpha.8](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.7...v5.0.0-alpha.8) (2021-05-17)
+
+### Bug Fixes
+
+- **cascader:** fix `childrenKey` property not work when searching([#1568](https://github.com/rsuite/rsuite/issues/1568)) ([#1666](https://github.com/rsuite/rsuite/issues/1666)) ([c5f3fc6](https://github.com/rsuite/rsuite/commit/c5f3fc6))
+- **drawer:** remove height on Drawer body ([#1683](https://github.com/rsuite/rsuite/issues/1683)) ([759fd69](https://github.com/rsuite/rsuite/commit/759fd69))
+- **input-picker:** fix InputPicker can select values in readOnly mode ([#1674](https://github.com/rsuite/rsuite/issues/1674)) ([7e5d02b](https://github.com/rsuite/rsuite/commit/7e5d02b))
+- treePicker & CheckTreePicker ([ec88694](https://github.com/rsuite/rsuite/commit/ec88694))
+
+### Features
+
+- **cascader:** add `layer` parameter in `renderMenu` callback ([#1681](https://github.com/rsuite/rsuite/issues/1681)) ([1c6b1e0](https://github.com/rsuite/rsuite/commit/1c6b1e0))
+- **nav-item:** support `tooltip` on NavItem ([#1680](https://github.com/rsuite/rsuite/issues/1680)) ([f25d569](https://github.com/rsuite/rsuite/commit/f25d569))
+- **Whisper:** added support for trigger prop value `contextMenu` on `Whisper` ([491be3a](https://github.com/rsuite/rsuite/commit/491be3a))
+
+<a name="5.0.0-alpha.7"></a>
+
+# [5.0.0-alpha.7](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.6...v5.0.0-alpha.7) (2021-05-11)
+
+### Bug Fixes
+
+- **lgtm:** fix vulnerabilities in static code scanning using lgtm ([#1651](https://github.com/rsuite/rsuite/issues/1651)) ([77d04a7](https://github.com/rsuite/rsuite/commit/77d04a7))
+- **overlay:** update the overlay to the correct position ([#1654](https://github.com/rsuite/rsuite/issues/1654)) ([8148b7a](https://github.com/rsuite/rsuite/commit/8148b7a))
+- **typescript:** fix incorrect definition of Typescript ([#1656](https://github.com/rsuite/rsuite/issues/1656)) ([87c5f3d](https://github.com/rsuite/rsuite/commit/87c5f3d))
+
+### Features
+
+- **inputpicker:** support onCreate on InputPicker and TagPicker ([#1645](https://github.com/rsuite/rsuite/issues/1645)) ([5f33fe9](https://github.com/rsuite/rsuite/commit/5f33fe9))
+- **multi-cascader:** support onCheck on MultiCascader ([#1648](https://github.com/rsuite/rsuite/issues/1648)) ([0088a29](https://github.com/rsuite/rsuite/commit/0088a29))
+
+<a name="5.0.0-alpha.6"></a>
+
+# [5.0.0-alpha.6](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.5...v5.0.0-alpha.6) (2021-05-07)
+
+### Bug Fixes
+
+- **cascader:** fixed the option not re-rendering after data update ([#1608](https://github.com/rsuite/rsuite/issues/1608)) ([6a83064](https://github.com/rsuite/rsuite/commit/6a83064)), closes [#1599](https://github.com/rsuite/rsuite/issues/1599)
+- **customprovider:** integrate the locale of date-fns in CustomProvider ([#1637](https://github.com/rsuite/rsuite/issues/1637)) ([1817430](https://github.com/rsuite/rsuite/commit/1817430)), closes [#1636](https://github.com/rsuite/rsuite/issues/1636)
+- **pickers:** Fixed the inability to pass the type check when the `labelKey` and `valueKey` of the pickers are changed. ([#1589](https://github.com/rsuite/rsuite/issues/1589)) ([ed1bea6](https://github.com/rsuite/rsuite/commit/ed1bea6))
+- **typescript:** fix incorrect definition of Typescript ([#1640](https://github.com/rsuite/rsuite/issues/1640)) ([73bbe88](https://github.com/rsuite/rsuite/commit/73bbe88)), closes [#1633](https://github.com/rsuite/rsuite/issues/1633)
+
+### Features
+
+- **hooks:** add the useWillUnmount hook and apply it to Modal ([#1607](https://github.com/rsuite/rsuite/issues/1607)) ([73e3948](https://github.com/rsuite/rsuite/commit/73e3948))
+
+<a name="5.0.0-alpha.5"></a>
+
+# [5.0.0-alpha.5](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.4...v5.0.0-alpha.5) (2021-03-19)
+
+### Bug Fixes
+
+- **daterangepicker:** modify the `character` prop to be optional ([#1518](https://github.com/rsuite/rsuite/issues/1518)) ([6b77e52](https://github.com/rsuite/rsuite/commit/6b77e52))
+- **inputpicker:** fix the input does not work when focused by keyboard ([b2dc612](https://github.com/rsuite/rsuite/commit/b2dc612))
+- **inputpicker:** inputPicker should clear search keywords when closed ([679edc3](https://github.com/rsuite/rsuite/commit/679edc3))
+- **modal:** fix input is not allowed to input text in Modal ([#1579](https://github.com/rsuite/rsuite/issues/1579)) ([f4ec497](https://github.com/rsuite/rsuite/commit/f4ec497)), closes [#1570](https://github.com/rsuite/rsuite/issues/1570)
+- **overlaytrigger:** rename `child` to `root` in OverlayTrigger instance ([05ce0ec](https://github.com/rsuite/rsuite/commit/05ce0ec))
+- **pickers:** picker should not be interactive during animation exit ([1f657b7](https://github.com/rsuite/rsuite/commit/1f657b7))
+- **rangeslider:** fix RangeSlider style problem ([cfaa93e](https://github.com/rsuite/rsuite/commit/cfaa93e))
+- **table:** change `Table` locale prop to optional ([#1581](https://github.com/rsuite/rsuite/issues/1581)) ([ca15531](https://github.com/rsuite/rsuite/commit/ca15531))
+- **tree:** fix `spin` icon does not display when Tree is loaded async ([#1535](https://github.com/rsuite/rsuite/issues/1535)) ([0294a43](https://github.com/rsuite/rsuite/commit/0294a43))
+- **uploader:** fixed the status icon not showing during upload ([#1547](https://github.com/rsuite/rsuite/issues/1547)) ([8f24c69](https://github.com/rsuite/rsuite/commit/8f24c69))
+
+### Features
+
+- **form:** support for data verification of complex object structure ([#1558](https://github.com/rsuite/rsuite/issues/1558)) ([d5b23f4](https://github.com/rsuite/rsuite/commit/d5b23f4))
+- **pagination:** added for support `layout` on Pagination ([#1533](https://github.com/rsuite/rsuite/issues/1533)) ([9713cd5](https://github.com/rsuite/rsuite/commit/9713cd5))
+- **whisper:** support `onClose` on the `speaker` prop of Whisper ([4ecad64](https://github.com/rsuite/rsuite/commit/4ecad64))
+
+<a name="5.0.0-alpha.4"></a>
+
+# [5.0.0-alpha.4](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.3...v5.0.0-alpha.4) (2021-02-23)
+
+### Bug Fixes
+
+- **babel:** fix the problem that commonjs import `default` is undefined ([#1514](https://github.com/rsuite/rsuite/issues/1514)) ([9855f54](https://github.com/rsuite/rsuite/commit/9855f54))
+- **daterangepicker:** delete duplicate type definitions ([#1513](https://github.com/rsuite/rsuite/issues/1513)) ([26c9283](https://github.com/rsuite/rsuite/commit/26c9283))
+- **input-group:** fix InputGroup size misalignment when inside ([#1474](https://github.com/rsuite/rsuite/issues/1474)) ([ca0f90f](https://github.com/rsuite/rsuite/commit/ca0f90f))
+- **radio:** fixed the color of Radio in active state ([#1475](https://github.com/rsuite/rsuite/issues/1475)) ([bc9a3dd](https://github.com/rsuite/rsuite/commit/bc9a3dd))
+- **rtl:** fixed the docs not work when using `rtl` ([#1501](https://github.com/rsuite/rsuite/issues/1501)) ([9ee8ce3](https://github.com/rsuite/rsuite/commit/9ee8ce3))
+- **table:** fixed unhandled scroll bar width when Cell is fixed on right ([#1486](https://github.com/rsuite/rsuite/issues/1486)) ([7e9ccc1](https://github.com/rsuite/rsuite/commit/7e9ccc1))
+- **typos:** fix typos in the docs ([#1502](https://github.com/rsuite/rsuite/issues/1502)) ([15e9170](https://github.com/rsuite/rsuite/commit/15e9170))
+
+### Features
+
+- **locales:** add translations for German ([#1495](https://github.com/rsuite/rsuite/issues/1495)) ([b71ed41](https://github.com/rsuite/rsuite/commit/b71ed41))
+- **uploader:** support file async check on Uploader ([#1509](https://github.com/rsuite/rsuite/issues/1509)) ([4726c5a](https://github.com/rsuite/rsuite/commit/4726c5a))
+
+<a name="5.0.0-alpha.3"></a>
+
+# [5.0.0-alpha.3](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.2...v5.0.0-alpha.3) (2021-01-23)
+
+### Bug Fixes
+
+- **divider:** set aria-orientation on Divider ([#1457](https://github.com/rsuite/rsuite/issues/1457)) ([fe46e4d](https://github.com/rsuite/rsuite/commit/fe46e4d))
+- **picker:** fixed the non-unique key in the Picker option when groupBy ([#1460](https://github.com/rsuite/rsuite/issues/1460)) ([5ca0fa0](https://github.com/rsuite/rsuite/commit/5ca0fa0))
+- **tree:** fix className of Tree and CheckTree ([#1456](https://github.com/rsuite/rsuite/issues/1456)) ([de79cbf](https://github.com/rsuite/rsuite/commit/de79cbf))
+- **whisper:** fix overlay jittering when the cursor is hovered ([#1459](https://github.com/rsuite/rsuite/issues/1459)) ([d29e785](https://github.com/rsuite/rsuite/commit/d29e785))
+
+<a name="5.0.0-alpha.2"></a>
+
+# [5.0.0-alpha.2](https://github.com/rsuite/rsuite/compare/v5.0.0-alpha.1...v5.0.0-alpha.2) (2021-01-05)
+
+### Bug Fixes
+
+- **calendar:** fix the issue of disabled date styles in Calendar ([#1424](https://github.com/rsuite/rsuite/issues/1424)) ([13b64be](https://github.com/rsuite/rsuite/commit/13b64be))
+- **cascader:** fix icon style in Cascader ([#1426](https://github.com/rsuite/rsuite/issues/1426)) ([3076eb8](https://github.com/rsuite/rsuite/commit/3076eb8))
+- **check-picker:** fixed the group icon not showing in CheckPicker ([#1422](https://github.com/rsuite/rsuite/issues/1422)) ([082a648](https://github.com/rsuite/rsuite/commit/082a648))
+- **formcontrol:** improve the accessibility of FormControl ([#1433](https://github.com/rsuite/rsuite/issues/1433)) ([c7855d4](https://github.com/rsuite/rsuite/commit/c7855d4))
+- **pickers:** fix the missing value on input in picker ([#1430](https://github.com/rsuite/rsuite/issues/1430)) ([7d06531](https://github.com/rsuite/rsuite/commit/7d06531))
+- **rate:** fix the half-ratings style of Rate ([#1423](https://github.com/rsuite/rsuite/issues/1423)) ([f064f48](https://github.com/rsuite/rsuite/commit/f064f48))
+- **select-picker:** fix SelectPicker not re-render when data is updated ([#1421](https://github.com/rsuite/rsuite/issues/1421)) ([0eb2a65](https://github.com/rsuite/rsuite/commit/0eb2a65))
+- **uploader:** fix the style of Uploader in plaintext ([#1427](https://github.com/rsuite/rsuite/issues/1427)) ([dfb98ee](https://github.com/rsuite/rsuite/commit/dfb98ee))
+
+### Performance Improvements
+
+- **date-fns:** use `date-fns-tz` instead of `date-fns-timezone` ([#1413](https://github.com/rsuite/rsuite/issues/1413)) ([1747d27](https://github.com/rsuite/rsuite/commit/1747d27))
+
+<a name="5.0.0-alpha.1"></a>
+
+# [5.0.0-alpha.1](https://github.com/rsuite/rsuite/compare/4.8.0...5.0.0-alpha.1) (2020-12-24)
+
+### Bug Fixes
+
+- **breadcrumb:** update locales of Breadcrumb ([30a1550](https://github.com/rsuite/rsuite/commit/30a1550))
+- **checkpicker:** fix value error problem when keyboard interaction ([#1332](https://github.com/rsuite/rsuite/issues/1332)) ([ea5f91c](https://github.com/rsuite/rsuite/commit/ea5f91c))
+- **daterangepicker:** fix the issue of DateRangePicker closing delay ([9fc40ee](https://github.com/rsuite/rsuite/commit/9fc40ee))
+- **DateRangePicker:** 修复选择时间时面板收起的问题 & prettier code ([#1330](https://github.com/rsuite/rsuite/issues/1330)) ([afd0b7e](https://github.com/rsuite/rsuite/commit/afd0b7e))
+- **form-controls:** adjust the style of the plain text of form controls ([#1405](https://github.com/rsuite/rsuite/issues/1405)) ([cca782f](https://github.com/rsuite/rsuite/commit/cca782f))
+- **icon:** adjust the dependent icons in the component ([70fdddb](https://github.com/rsuite/rsuite/commit/70fdddb))
+- **icon:** fix icon-related style issues ([b0ebaba](https://github.com/rsuite/rsuite/commit/b0ebaba))
+- **icon-button:** fix IconButton style error when disabled ([ecbf4e5](https://github.com/rsuite/rsuite/commit/ecbf4e5))
+- **input-group:** adjust button elements in input-group ([#1406](https://github.com/rsuite/rsuite/issues/1406)) ([14acbab](https://github.com/rsuite/rsuite/commit/14acbab))
+- **list:** improve List ([0eb95b0](https://github.com/rsuite/rsuite/commit/0eb95b0))
+- **modal:** fix ModalManager uncontrollable ([#1335](https://github.com/rsuite/rsuite/issues/1335)) ([26834da](https://github.com/rsuite/rsuite/commit/26834da))
+- **pickers:** fixed picker will select children when set invalid value ([#1336](https://github.com/rsuite/rsuite/issues/1336)) ([dd99886](https://github.com/rsuite/rsuite/commit/dd99886))
+- **popover:** set shadow to popover component ([#1360](https://github.com/rsuite/rsuite/issues/1360)) ([94c6851](https://github.com/rsuite/rsuite/commit/94c6851))
+- **tagpicker:** fix tagpicker rendervalue styles ([#1376](https://github.com/rsuite/rsuite/issues/1376)) ([4fdf09d](https://github.com/rsuite/rsuite/commit/4fdf09d))
+- **tree:** revese Left and Right Arrow event in rtl ([#1337](https://github.com/rsuite/rsuite/issues/1337)) ([cfae655](https://github.com/rsuite/rsuite/commit/cfae655))
+- **tree-picker:** fixed the icon problem in TreePicker ([#1382](https://github.com/rsuite/rsuite/issues/1382)) ([ba78f3c](https://github.com/rsuite/rsuite/commit/ba78f3c))
+- **v4:** sync the bugs fixed in v4 ([#1380](https://github.com/rsuite/rsuite/issues/1380)) ([9053982](https://github.com/rsuite/rsuite/commit/9053982))
+- 🐛 修复非法传递到 DOM 节点上的问题 ([#1268](https://github.com/rsuite/rsuite/issues/1268)) ([aedaae1](https://github.com/rsuite/rsuite/commit/aedaae1))
+- 🐛 修正 Rate 笔误 ([#1230](https://github.com/rsuite/rsuite/issues/1230)) ([83d1cee](https://github.com/rsuite/rsuite/commit/83d1cee))
+- fix typescript type definition ([#1366](https://github.com/rsuite/rsuite/issues/1366)) ([9bfb445](https://github.com/rsuite/rsuite/commit/9bfb445))
+- fixed document sidenav icon ([3881e44](https://github.com/rsuite/rsuite/commit/3881e44))
+- form method cleanErrorForFiled renamed into cleanErrorForField ([#1236](https://github.com/rsuite/rsuite/issues/1236)) ([1aaaab0](https://github.com/rsuite/rsuite/commit/1aaaab0))
+- ISO week format on calendar panel ([666bc2b](https://github.com/rsuite/rsuite/commit/666bc2b))
+- **tag-picker:** fix tag picker styles issue ([#1167](https://github.com/rsuite/rsuite/issues/1167)) ([4f4e88b](https://github.com/rsuite/rsuite/commit/4f4e88b))
+
+### Features
+
+- **slider:** support `onChangeCommitted` on Slider and RangeSlider ([#1404](https://github.com/rsuite/rsuite/issues/1404)) ([fca8c86](https://github.com/rsuite/rsuite/commit/fca8c86)), closes [#1321](https://github.com/rsuite/rsuite/issues/1321)
+- support focus on form controls ([#1391](https://github.com/rsuite/rsuite/issues/1391)) ([820a31b](https://github.com/rsuite/rsuite/commit/820a31b))
+- **cascader:** support keyboard interaction on Cascader ([#1339](https://github.com/rsuite/rsuite/issues/1339)) ([252afdf](https://github.com/rsuite/rsuite/commit/252afdf))
+- **daterangepicker:** support input and mask on DateRangePicker and DatePicker ([#1368](https://github.com/rsuite/rsuite/issues/1368)) ([4b47e09](https://github.com/rsuite/rsuite/commit/4b47e09))
+- **icons:** update icon list ([#1363](https://github.com/rsuite/rsuite/issues/1363)) ([a9b584f](https://github.com/rsuite/rsuite/commit/a9b584f))
+- `rootPrefix` supports compound parameters ([268aef9](https://github.com/rsuite/rsuite/commit/268aef9))
+- replace icon component ([#1359](https://github.com/rsuite/rsuite/issues/1359)) ([6ad16b9](https://github.com/rsuite/rsuite/commit/6ad16b9))
+- **datepicker:** support keyboard input on DatePicker ([#1350](https://github.com/rsuite/rsuite/issues/1350)) ([36e3268](https://github.com/rsuite/rsuite/commit/36e3268))
+- **form:** support plaintext on all form controls ([#1328](https://github.com/rsuite/rsuite/issues/1328)) ([a26dfc6](https://github.com/rsuite/rsuite/commit/a26dfc6))
+- **slider:** support keyboard interaction on Slider and RangeSlider ([#1324](https://github.com/rsuite/rsuite/issues/1324)) ([8b1f6cf](https://github.com/rsuite/rsuite/commit/8b1f6cf))
+- improve the accessibility of Nav ([278696e](https://github.com/rsuite/rsuite/commit/278696e))
+- **toaster:** add support for toaster ([#1246](https://github.com/rsuite/rsuite/issues/1246)) ([41b86db](https://github.com/rsuite/rsuite/commit/41b86db))
+
+### Performance Improvements
+
+- improve accessibility with ARIA ([#1323](https://github.com/rsuite/rsuite/issues/1323)) ([24b4379](https://github.com/rsuite/rsuite/commit/24b4379))
+- remove deprecated code ([1ef99b1](https://github.com/rsuite/rsuite/commit/1ef99b1))
+- **selectpicker:** adjust the dependency of Picker ([1fc5f24](https://github.com/rsuite/rsuite/commit/1fc5f24))
+
 # 4.8.0
 
 > July 9, 2020

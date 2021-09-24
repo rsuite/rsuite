@@ -26,7 +26,7 @@ describe('UploadTrigger', () => {
   });
 
   it('Should render custom component', () => {
-    const instance = getDOMNode(<UploadTrigger componentClass={'a'} />);
+    const instance = getDOMNode(<UploadTrigger as={'a'} />);
     assert.equal(instance.querySelector('.rs-uploader-trigger-btn').tagName, 'A');
   });
 
@@ -57,5 +57,32 @@ describe('UploadTrigger', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<UploadTrigger classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should call `onDragEnter` callback', () => {
+    const onDragEnterSpy = sinon.spy();
+    const instance = getDOMNode(<UploadTrigger draggable onDragEnter={onDragEnterSpy} />);
+    const button = instance.querySelector('button');
+
+    ReactTestUtils.Simulate.dragEnter(button);
+    assert.ok(onDragEnterSpy.calledOnce);
+  });
+
+  it('Should call `onDragOver` callback', () => {
+    const onDragOverSpy = sinon.spy();
+    const instance = getDOMNode(<UploadTrigger draggable onDragOver={onDragOverSpy} />);
+    const button = instance.querySelector('button');
+
+    ReactTestUtils.Simulate.dragOver(button);
+    assert.ok(onDragOverSpy.calledOnce);
+  });
+
+  it('Should call `onDragLeave` callback', () => {
+    const onDragLeaveSpy = sinon.spy();
+    const instance = getDOMNode(<UploadTrigger draggable onDragLeave={onDragLeaveSpy} />);
+    const button = instance.querySelector('button');
+
+    ReactTestUtils.Simulate.dragLeave(button);
+    assert.ok(onDragLeaveSpy.calledOnce);
   });
 });

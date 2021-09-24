@@ -9,7 +9,7 @@ const SATURATION_MAX = 100;
 const BRIGHTNESS_MIN = 20;
 const BRIGHTNESS_MAX = 100;
 
-export default function(primaryColor) {
+export default function (primaryColor) {
   const colors = Object.fromEntries(
     Array.from(new Array(10), (color, index) => {
       const { h, s, v } = tinycolor(primaryColor).toHsv();

@@ -1,14 +1,18 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, innerText } from '@test/testUtils';
+import { getByTestId, screen } from '@testing-library/react';
+import { getDOMNode, createTestContainer, innerText } from '@test/testUtils';
 
 import NavItem from '../NavItem';
+import Sidenav from '../../Sidenav';
+import Nav from '../Nav';
 
-describe('NavItem', () => {
-  it('Should render a li', () => {
+describe('<Nav.Item>', () => {
+  it('Should render a <a>', () => {
     let title = 'Test';
     let instance = getDOMNode(<NavItem>{title}</NavItem>);
-    assert.equal(instance.tagName, 'LI');
+    assert.equal(instance.tagName, 'A');
     assert.equal(innerText(instance), title);
   });
 
@@ -21,7 +25,7 @@ describe('NavItem', () => {
     };
 
     let instance = getDOMNode(<NavItem onSelect={doneOp} eventKey={key} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('a'));
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Should call onClick callback', done => {
@@ -29,17 +33,29 @@ describe('NavItem', () => {
       done();
     };
     let instance = getDOMNode(<NavItem onSelect={doneOp} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('a'));
+    ReactTestUtils.Simulate.click(instance);
   });
 
   it('Should render a separator', () => {
-    let instance = getDOMNode(<NavItem divider />);
-    assert.include(instance.className, 'rs-nav-item-divider');
+    let instance = getDOMNode(
+      <Sidenav>
+        <Nav>
+          <NavItem divider data-testid="nav-item" />
+        </Nav>
+      </Sidenav>
+    );
+    assert.include(getByTestId(instance, 'nav-item').className, 'rs-sidenav-item-divider');
   });
 
   it('Should render a panel', () => {
-    let instance = getDOMNode(<NavItem panel />);
-    assert.include(instance.className, 'rs-nav-item-panel');
+    let instance = getDOMNode(
+      <Sidenav>
+        <Nav>
+          <NavItem panel data-testid="nav-item" />
+        </Nav>
+      </Sidenav>
+    );
+    assert.include(getByTestId(instance, 'nav-item').className, 'rs-sidenav-item-panel');
   });
 
   it('Should be active', () => {
@@ -56,7 +72,7 @@ describe('NavItem', () => {
     const onHideSpy = sinon.spy();
 
     let instance = getDOMNode(<NavItem onSelect={onHideSpy} disabled />);
-    ReactTestUtils.Simulate.click(instance.querySelector('a'));
+    ReactTestUtils.Simulate.click(instance);
     assert.ok(!onHideSpy.calledOnce);
   });
 
@@ -64,19 +80,8 @@ describe('NavItem', () => {
     const onHideSpy = sinon.spy();
 
     let instance = getDOMNode(<NavItem onClick={onHideSpy} disabled />);
-    ReactTestUtils.Simulate.click(instance.querySelector('a'));
+    ReactTestUtils.Simulate.click(instance);
     assert.ok(!onHideSpy.calledOnce);
-  });
-
-  it('Should output a custom item', () => {
-    let instance = getDOMNode(
-      <NavItem
-        renderItem={() => {
-          return <span>custom</span>;
-        }}
-      />
-    );
-    assert.include(instance.querySelector('span').innerText, 'custom');
   });
 
   it('Should have a custom className', () => {
@@ -93,5 +98,23 @@ describe('NavItem', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<NavItem classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should render a tooltip when used inside a collapsed <Sidenav>', async () => {
+    const container = createTestContainer();
+    ReactTestUtils.act(() => {
+      ReactDOM.render(
+        <Sidenav expanded={false}>
+          <NavItem data-testid="nav-item">item</NavItem>
+        </Sidenav>,
+        container
+      );
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.focus(getByTestId(container, 'nav-item'));
+    });
+
+    expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;
   });
 });

@@ -1,26 +1,6 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import { defaultProps } from '../utils';
-import { ModalTitleProps } from './ModalTitle.d';
+import createComponent, { ComponentProps } from '../utils/createComponent';
+export type ModalTitleProps = ComponentProps;
 
-class ModalTitle extends React.Component<ModalTitleProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    children: PropTypes.node
-  };
-  render() {
-    const { className, classPrefix, children, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
-    return (
-      <h4 {...props} className={classes}>
-        {children}
-      </h4>
-    );
-  }
-}
+const ModalTitle = createComponent({ name: 'ModalTitle', componentAs: 'h4' });
 
-export default defaultProps<ModalTitleProps>({
-  classPrefix: 'modal-title'
-})(ModalTitle);
+export default ModalTitle;

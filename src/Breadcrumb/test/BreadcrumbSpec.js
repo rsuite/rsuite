@@ -4,17 +4,16 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import Breadcrumb from '../Breadcrumb';
 
 describe('Breadcrumb', () => {
-  it('Should apply id to the wrapper ol element', () => {
-    const instance = getInstance(<Breadcrumb id="custom-id" />);
-    const olNode = ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'ol');
+  it('Should apply id to the wrapper nav element', () => {
+    const instance = getDOMNode(<Breadcrumb id="custom-id" />);
 
-    assert.equal(olNode.id, 'custom-id');
+    assert.equal(instance.tagName, 'NAV');
+    assert.equal(instance.id, 'custom-id');
   });
 
   it('Should have breadcrumb class', () => {
     const instance = getInstance(<Breadcrumb />);
-    const olNode = ReactTestUtils.findRenderedDOMComponentWithTag(instance, 'ol');
-    assert.include(olNode.className, 'breadcrumb');
+    assert.include(instance.className, 'breadcrumb');
   });
 
   it('Should have custom classes', () => {
@@ -58,21 +57,7 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    ReactTestUtils.Simulate.click(
-      instance.querySelectorAll('.rs-breadcrumb-item')[1].querySelector('a')
-    );
-  });
-
-  it('Should have a navigation role', () => {
-    const instance = getDOMNode(<Breadcrumb />);
-
-    assert.equal(instance.getAttribute('role'), 'navigation');
-  });
-
-  it('Should have an aria-label in ol', () => {
-    const instance = getDOMNode(<Breadcrumb />);
-
-    assert.equal(instance.getAttribute('aria-label'), 'breadcrumbs');
+    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-breadcrumb-item')[1]);
   });
 
   it('Should have a default separator', () => {
@@ -83,8 +68,8 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    assert.equal(instance.querySelectorAll('li')[1].className, 'rs-breadcrumb-separator');
-    assert.equal(instance.querySelectorAll('li')[1].innerText, '/');
+    assert.equal(instance.childNodes[1].className, 'rs-breadcrumb-separator');
+    assert.equal(instance.childNodes[1].innerText, '/');
   });
 
   it('Should have a custom separator', () => {
@@ -95,9 +80,9 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    assert.equal(instance.querySelectorAll('li')[1].className, 'rs-breadcrumb-separator');
-    assert.equal(instance.querySelectorAll('li')[1].childNodes[0].tagName, 'SPAN');
-    assert.equal(instance.querySelectorAll('li')[1].childNodes[0].innerText, '-');
+    assert.equal(instance.childNodes[1].className, 'rs-breadcrumb-separator');
+    assert.equal(instance.childNodes[1].tagName, 'SPAN');
+    assert.equal(instance.childNodes[1].innerText, '-');
   });
 
   it('Should have a custom className', () => {

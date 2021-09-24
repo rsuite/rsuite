@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import SideNavbar from './SideNavbar';
 import TopLevelNav from './TopLevelNav';
 import AppContext from './AppContext';

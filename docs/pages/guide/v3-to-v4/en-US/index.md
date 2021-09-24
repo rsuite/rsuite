@@ -1,4 +1,4 @@
-# V3 upgrade to V4 considerations
+# To v4 from v3
 
 There are some breaking changes to upgrading to V4 that require some tweaking.
 
@@ -76,7 +76,7 @@ The `TreePicker` and the `CheckTreePicker` deprecated the `expandAll` property a
 
 ```diff
 - onSelect (activeNode:DataItemType, layer:number, values:string[]) => void
-+ onSelect (activeNode: any, value: any, event: React.SyntheticEvent<any>) => void;
++ onSelect (activeNode: any, value: any, event) => void;
 ```
 
 ## 6.Upgrade `babel-preset-rsuite`

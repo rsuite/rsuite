@@ -1,35 +1,57 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { SafeAnchorProps } from './SafeAnchor.d';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-const SafeAnchor: React.FunctionComponent = React.forwardRef<'SafeAnchor', SafeAnchorProps>(
-  (props, ref) => {
-    const { componentClass: Component = 'a', disabled, ...rest } = props;
-    const handleClick = (event: React.MouseEvent) => {
-      if (disabled) {
-        event.preventDefault();
-        event.stopPropagation();
-        return;
-      }
+export interface SafeAnchorProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
+  /** Link specified url */
+  href?: string;
 
-      rest.onClick?.(event);
-    };
+  /** A link can show it is currently unable to be interacted with */
+  disabled?: boolean;
+}
+
+function isTrivialHref(href: string) {
+  return !href || href.trim() === '#';
+}
+
+const SafeAnchor: RsRefForwardingComponent<'a', SafeAnchorProps> = React.forwardRef(
+  (props: SafeAnchorProps, ref) => {
+    const { as: Component = 'a', href, disabled, onClick, ...restProps } = props;
+    const handleClick = useCallback(
+      event => {
+        if (disabled || isTrivialHref(href)) {
+          event.preventDefault();
+        }
+
+        if (disabled) {
+          event.stopPropagation();
+          return;
+        }
+
+        onClick?.(event);
+      },
+      [disabled, href, onClick]
+    );
+
+    // There are default role and href attributes on the node to ensure Focus management and keyboard interactions.
+    const trivialProps = isTrivialHref(href) ? { role: 'button', href: '#' } : null;
 
     if (disabled) {
-      rest.tabIndex = -1;
-      rest['aria-disabled'] = true;
+      restProps.tabIndex = -1;
+      restProps['aria-disabled'] = true;
     }
 
-    return <Component ref={ref} {...rest} onClick={handleClick} />;
+    return (
+      <Component ref={ref} href={href} {...trivialProps} {...restProps} onClick={handleClick} />
+    );
   }
 );
 
 SafeAnchor.displayName = 'SafeAnchor';
 SafeAnchor.propTypes = {
+  href: PropTypes.string,
   disabled: PropTypes.bool,
-
-  /** @default 'a' */
-  componentClass: PropTypes.elementType
+  as: PropTypes.elementType
 };
 
 export default SafeAnchor;

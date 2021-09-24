@@ -1,60 +1,81 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import SafeAnchor from '../SafeAnchor';
-import { defaultProps, prefix } from '../utils';
+import { useClassNames } from '../utils';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-import { BreadcrumbItemProps } from './BreadcrumbItem.d';
+export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | string> {
+  // Style as the currently active section
+  active?: boolean;
 
-class BreadcrumbItem extends React.Component<BreadcrumbItemProps> {
-  static propTypes = {
-    active: PropTypes.bool,
-    className: PropTypes.string,
-    style: PropTypes.object,
-    href: PropTypes.string,
-    title: PropTypes.string,
-    target: PropTypes.string,
-    classPrefix: PropTypes.string,
-    componentClass: PropTypes.elementType,
-    renderItem: PropTypes.func
-  };
-  render() {
+  // Render as an `a` tag instead of a `div` and adds the href attribute
+  href?: string;
+
+  // Display title.
+  title?: string;
+
+  // The target attribute specifies where to open the linked document
+  target?: string;
+}
+
+const defaultProps: Partial<BreadcrumbItemProps> = {
+  as: SafeAnchor,
+  classPrefix: 'breadcrumb-item'
+};
+
+const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React.forwardRef(
+  (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {
+      as: Component,
       href,
       classPrefix,
       title,
       target,
-      componentClass: Component,
       className,
       style,
       active,
-      renderItem,
+      children,
       ...rest
-    } = this.props;
+    } = props;
 
-    const addPrefix = prefix(classPrefix);
+    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ active }));
 
-    const linkProps = { href, title, target };
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('active')]: active
-    });
-
-    let item: React.ReactNode = <Component {...rest} {...linkProps} />;
-    if (renderItem) {
-      item = renderItem(item);
+    if (active) {
+      return (
+        <span ref={ref} {...rest} style={style} className={classes}>
+          {children}
+        </span>
+      );
     }
 
     return (
-      <li style={style} className={classes}>
-        {active ? <span {...rest} /> : item}
-      </li>
+      <Component
+        {...rest}
+        href={href}
+        title={title}
+        target={target}
+        ref={ref}
+        style={style}
+        className={classes}
+      >
+        {children}
+      </Component>
     );
   }
-}
+);
 
-const enhance = defaultProps<BreadcrumbItemProps>({
-  classPrefix: 'breadcrumb-item',
-  componentClass: SafeAnchor
-});
+BreadcrumbItem.displayName = 'BreadcrumbItem';
+BreadcrumbItem.defaultProps = defaultProps;
+BreadcrumbItem.propTypes = {
+  active: PropTypes.bool,
+  className: PropTypes.string,
+  style: PropTypes.object,
+  href: PropTypes.string,
+  title: PropTypes.string,
+  target: PropTypes.string,
+  classPrefix: PropTypes.string,
+  as: PropTypes.elementType
+};
 
-export default enhance(BreadcrumbItem);
+export default BreadcrumbItem;

@@ -1,12 +1,9 @@
-import * as React from 'react';
-import { AutoComplete, InputGroup, Icon } from 'rsuite';
+import React from 'react';
+import { AutoComplete, InputGroup } from 'rsuite';
 import DefaultPage from '@/components/Page';
+import SearchIcon from '@rsuite/icons/Search';
+import MemberIcon from '@rsuite/icons/Member';
 
 export default function Page() {
-  return (
-    <DefaultPage
-      examples={['basic', 'email', 'render-item', 'disabled', 'input-group', 'controlled']}
-      dependencies={{ AutoComplete, InputGroup, Icon }}
-    />
-  );
+  return <DefaultPage dependencies={{ AutoComplete, InputGroup, SearchIcon, MemberIcon }} />;
 }

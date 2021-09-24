@@ -1,122 +1,156 @@
-import * as React from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
-
-import SafeAnchor from '../SafeAnchor';
+import isNil from 'lodash/isNil';
 import Ripple from '../Ripple';
-import appendTooltip from '../utils/appendTooltip';
+import SafeAnchor from '../SafeAnchor';
+import { shallowEqual, useClassNames } from '../utils';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import { IconProps } from '@rsuite/icons/lib/Icon';
+import { SidenavContext } from '../Sidenav/Sidenav';
+import NavContext from './NavContext';
+import { NavbarContext } from '../Navbar/Navbar';
+import SidenavItem from '../Sidenav/SidenavItem';
+import NavbarItem from '../Navbar/NavbarItem';
 
-import { createChainedFunction, defaultProps, prefix, getUnhandledProps } from '../utils';
-import { NavItemProps } from './NavItem.d';
+export interface NavItemProps<T = string>
+  extends WithAsProps,
+    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
+  /** Activation status */
+  active?: boolean;
 
-class NavItem extends React.Component<NavItemProps> {
-  static displayName = 'NavItem';
-  static propTypes = {
-    active: PropTypes.bool,
-    disabled: PropTypes.bool,
-    className: PropTypes.string,
-    classPrefix: PropTypes.string,
-    divider: PropTypes.bool,
-    panel: PropTypes.bool,
-    onClick: PropTypes.func,
-    style: PropTypes.object,
-    icon: PropTypes.node,
-    onSelect: PropTypes.func,
-    children: PropTypes.node,
-    eventKey: PropTypes.any,
-    tabIndex: PropTypes.number,
-    hasTooltip: PropTypes.bool,
-    componentClass: PropTypes.elementType,
-    renderItem: PropTypes.func
-  };
-  static defaultProps = {
-    tabIndex: 0
-  };
+  /** Disabled status */
+  disabled?: boolean;
 
-  handleClick = (event: React.MouseEvent) => {
-    const { onSelect, disabled, eventKey } = this.props;
-    if (onSelect && !disabled) {
-      onSelect(eventKey, event);
-    }
-  };
+  /** divier for nav item */
+  divider?: boolean;
 
-  render() {
+  /** display panel */
+  panel?: boolean;
+
+  /** Sets the icon for the component */
+  icon?: React.ReactElement<IconProps>;
+
+  /** The value of the current option */
+  eventKey?: T;
+
+  /** Providing a `href` will render an `<a>` element */
+  href?: string;
+
+  /** Select the callback function that the event triggers. */
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
+}
+
+/**
+ * The <Nav.Item> API
+ */
+const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
+  (props: NavItemProps, ref: React.Ref<any>) => {
     const {
-      active,
+      as: Component = SafeAnchor,
+      active: activeProp,
       disabled,
-      onClick,
+      eventKey,
       className,
-      classPrefix,
+      classPrefix = 'nav-item',
       style,
       children,
       icon,
-      tabIndex,
-      hasTooltip,
       divider,
       panel,
-      componentClass: Component,
-      renderItem,
+      onClick,
+      onSelect: onSelectProp,
       ...rest
-    } = this.props;
+    } = props;
 
-    const addPrefix = prefix(classPrefix);
-    const unhandled = getUnhandledProps(NavItem, rest);
-    const classes = classNames(classPrefix, className, {
-      [addPrefix('active')]: active,
-      [addPrefix('disabled')]: disabled
-    });
+    const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
+
+    const active = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
+
+    const emitSelect = useCallback(
+      (event: React.SyntheticEvent) => {
+        onSelectProp?.(eventKey, event);
+        onSelectFromNav?.(eventKey, event);
+      },
+      [eventKey, onSelectProp, onSelectFromNav]
+    );
+
+    const navbar = useContext(NavbarContext);
+    const sidenav = useContext(SidenavContext);
+
+    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ active, disabled }));
+
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLElement>) => {
+        if (!disabled) {
+          emitSelect(event);
+          onClick?.(event);
+        }
+      },
+      [disabled, emitSelect, onClick]
+    );
+
+    if (sidenav) {
+      return <SidenavItem {...props} />;
+    }
 
     if (divider) {
       return (
-        <li
+        <div
+          ref={ref}
           role="separator"
           style={style}
-          className={classNames(addPrefix('divider'), className)}
+          className={merge(className, prefix('divider'))}
+          {...rest}
         />
       );
     }
 
     if (panel) {
       return (
-        <li style={style} className={classNames(addPrefix('panel'), className)}>
+        <div ref={ref} style={style} className={merge(className, prefix('panel'))} {...rest}>
           {children}
-        </li>
+        </div>
       );
     }
 
-    if (Component === SafeAnchor) {
-      unhandled.disabled = disabled;
+    if (navbar) {
+      return <NavbarItem {...props} />;
     }
 
-    let item: React.ReactNode = (
+    return (
       <Component
-        {...unhandled}
-        role="button"
-        tabIndex={tabIndex}
-        className={addPrefix('content')}
-        onClick={createChainedFunction(onClick, this.handleClick)}
+        ref={ref}
+        tabIndex={disabled ? -1 : undefined}
+        {...rest}
+        className={classes}
+        onClick={handleClick}
+        style={style}
+        aria-selected={active || undefined}
       >
         {icon}
         {children}
         <Ripple />
       </Component>
     );
-
-    if (renderItem) {
-      item = renderItem(item);
-    }
-
-    return (
-      <li className={classes} style={style}>
-        {hasTooltip
-          ? appendTooltip({ children: item, message: children, placement: 'right' })
-          : item}
-      </li>
-    );
   }
-}
+);
 
-export default defaultProps<NavItemProps>({
-  classPrefix: 'nav-item',
-  componentClass: SafeAnchor
-})(NavItem);
+NavItem.displayName = 'Nav.Item';
+NavItem.propTypes = {
+  as: PropTypes.elementType,
+  active: PropTypes.bool,
+  disabled: PropTypes.bool,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
+  divider: PropTypes.bool,
+  panel: PropTypes.bool,
+  onClick: PropTypes.func,
+  style: PropTypes.object,
+  icon: PropTypes.node,
+  onSelect: PropTypes.func,
+  children: PropTypes.node,
+  eventKey: PropTypes.any
+};
+
+export default NavItem;

@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Affix from '../Affix';
-import { getDOMNode, createTestContainer } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import { getOffset } from 'dom-lib';
+import Affix from '../Affix';
 
 describe('Affix', () => {
   it('Should render a button', () => {
@@ -15,67 +14,32 @@ describe('Affix', () => {
     assert.equal(instance.children[0].children[0].tagName, 'BUTTON');
   });
 
-  it('Should call onChange callback', done => {
+  it('Should call onChange callback', () => {
     const buttonRef = React.createRef();
     const affixRef = React.createRef();
 
-    ReactDOM.render(
-      <div style={{ height: 3000 }}>
+    const onChangeSpy = sinon.spy();
+
+    getDOMNode(
+      <div style={{ height: 3000 }} data-testid="div">
         <div style={{ height: 100 }}>--</div>
-        <Affix
-          top={10}
-          ref={affixRef}
-          onChange={() => {
-            const affixDOM = getDOMNode(affixRef.current);
-            if (
-              affixDOM.children[0].className === 'rs-affix' &&
-              affixDOM.children[0].style.position === 'fixed'
-            ) {
-              done();
-            }
-          }}
-        >
+        <Affix top={10} ref={affixRef} onChange={onChangeSpy}>
           <button ref={buttonRef}>button</button>
         </Affix>
-      </div>,
-      createTestContainer()
+      </div>
     );
+
     const top = getOffset(buttonRef.current).top;
+
     window.scrollTo({ top });
-  });
+    window.dispatchEvent(new UIEvent('scroll'));
 
-  it('Should call onChange callback when set container', done => {
-    const buttonRef = React.createRef();
-    const affixRef = React.createRef();
-    const containerRef = React.createRef();
-
-    ReactDOM.render(
-      <div style={{ height: 3000 }} ref={containerRef}>
-        <div style={{ height: 100 }}>--</div>
-        <Affix
-          top={10}
-          ref={affixRef}
-          container={() => {
-            return containerRef.current;
-          }}
-          onChange={() => {
-            const affixDOM = getDOMNode(affixRef.current);
-            if (
-              affixDOM.children[0].className === 'rs-affix' &&
-              affixDOM.children[0].style.position === 'fixed'
-            ) {
-              done();
-            }
-          }}
-        >
-          <button ref={buttonRef}>button</button>
-        </Affix>
-      </div>,
-
-      createTestContainer()
-    );
-    const top = getOffset(buttonRef.current).top;
-    window.scrollTo({ top });
+    expect(onChangeSpy).to.have.been.called;
+    const affixDOM = getDOMNode(affixRef.current);
+    expect(
+      affixDOM.children[0].className === 'rs-affix' &&
+        affixDOM.children[0].style.position === 'fixed'
+    ).to.be.true;
   });
 
   it('Should have a custom style', () => {

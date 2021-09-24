@@ -1,4 +1,9 @@
 import CalendarPanel from './CalendarPanel';
-import withLocale from '../IntlProvider/withLocale';
+import Calendar, { CalendarState } from './Calendar';
+import CalendarContext from './CalendarContext';
+import { CalendarContextValue } from './types';
 
-export default withLocale(['Calendar'])(CalendarPanel);
+export { Calendar, CalendarContext, CalendarState };
+export type { CalendarContextValue };
+export type { CalendarPanelProps } from './CalendarPanel';
+export default CalendarPanel;

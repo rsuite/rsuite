@@ -5,3 +5,4 @@ tools
 node_modules
 coverage
 /.git
+src/styles/plugins

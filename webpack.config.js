@@ -1,16 +1,29 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const webpack = require('webpack');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const __DEV__ = process.env.NODE_ENV === 'development';
 const filename = __DEV__ ? '[name].js' : '[name].min.js';
+
+const plugins = [
+  new LodashModuleReplacementPlugin(),
+  new webpack.SourceMapDevToolPlugin({
+    filename: `${filename}.map`
+  })
+];
+
+if (process.env.ANALYZE === 'true') {
+  plugins.push(new BundleAnalyzerPlugin());
+}
 
 module.exports = {
   entry: {
     rsuite: path.join(__dirname, 'src')
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'lib/dist'),
     filename,
     library: 'rsuite',
     libraryTarget: 'umd'
@@ -38,12 +51,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new LodashModuleReplacementPlugin(),
-    new webpack.SourceMapDevToolPlugin({
-      filename: `${filename}.map`
-    })
-  ],
+  plugins,
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
   }

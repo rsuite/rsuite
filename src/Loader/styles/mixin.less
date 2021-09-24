@@ -10,14 +10,14 @@
 }
 
 .loader-size(@diameter,@font-size) {
-  .@{ns}loader {
+  .rs-loader {
     &-spin {
       .set-side-length(@diameter);
     }
 
     &-content {
       font-size: @font-size;
-      line-height: unit(@diameter / @font-size);
+      line-height: unit((@diameter / @font-size));
     }
 
     &-vertical & {
@@ -25,7 +25,7 @@
     }
 
     &-vertical &-content {
-      line-height: unit(@line-height-computed / @font-size);
+      line-height: unit((@line-height-computed / @font-size));
     }
   }
 }
@@ -42,13 +42,13 @@
   }
 
   &::before {
-    border: @loader-spin-ring-wide solid @loader-spin-ring-color;
+    border: @loader-spin-ring-width solid var(--rs-loader-ring);
   }
 
   &::after {
-    border-width: @loader-spin-ring-wide;
+    border-width: @loader-spin-ring-width;
     border-style: solid;
-    border-color: @loader-spin-ring-active-color transparent transparent;
+    border-color: var(--rs-loader-rotor) transparent transparent;
     animation: loaderSpin @loader-duration-normal infinite linear;
   }
 }

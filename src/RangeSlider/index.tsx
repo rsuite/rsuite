@@ -1,4 +1,3 @@
 import RangeSlider from './RangeSlider';
-import withLocale from '../IntlProvider/withLocale';
-
-export default withLocale([])(RangeSlider);
+export type { RangeSliderProps } from './RangeSlider';
+export default RangeSlider;

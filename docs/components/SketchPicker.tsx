@@ -1,11 +1,7 @@
-import * as React from 'react';
-import Loadable from 'react-loadable';
+import React from 'react';
+import loadable from '@loadable/component';
 
-const Loader = () => <div>loading...</div>;
-const Sketch = Loadable({
-  loader: () => import('react-color/lib/components/sketch/Sketch'),
-  loading: Loader
-});
+const Sketch = loadable(() => import('react-color/lib/components/sketch/Sketch'));
 
 interface SketchPickerProps {
   color: string;
@@ -14,7 +10,7 @@ interface SketchPickerProps {
 
 export default function SketchPicker(props: SketchPickerProps) {
   const { color } = props;
-  const [displayColorPicker, setDisplayColorPicker] = React.useState();
+  const [displayColorPicker, setDisplayColorPicker] = React.useState(false);
   return (
     <div className="sketch-picker-wrapper">
       <div

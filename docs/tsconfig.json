@@ -20,7 +20,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@rsuite-locales/*": ["./node_modules/rsuite/lib/IntlProvider/locales/*"]
+      "rsuite": ["../src/"],
+      "rsuite/*": ["../src/*"],
+      "@rsuite-locales/*": ["../src/locales/*"]
     }
   },
   "exclude": ["node_modules"],
