@@ -11,7 +11,7 @@
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",
     "less": "^3.9.0",
-    "next": "9.0.3",
+    "next": "11.1.1",
     "react": "16.9.0",
     "react-dom": "16.9.0",
     "rsuite": "^4.1.4"
