@@ -33,14 +33,7 @@ import {
   useControlled,
   useCustom
 } from '../utils';
-import {
-  addMonths,
-  compareAsc,
-  getHours,
-  getMinutes,
-  getSeconds,
-  isSameMonth
-} from '../utils/dateUtils';
+import { addMonths, compareAsc, isSameMonth } from '../utils/dateUtils';
 import Calendar from './Calendar';
 import * as disabledDateUtils from './disabledDateUtils';
 import { DisabledDateFunction, RangeType, ValueType } from './types';
@@ -48,7 +41,7 @@ import {
   getCalendarDate,
   getMonthHoverRange,
   getWeekHoverRange,
-  isSameDateRange,
+  isSameRange,
   setTimingMargin
 } from './utils';
 
@@ -329,7 +322,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       const nextValue = !isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
 
       setSelectValue(nextValue || []);
-      if (!isSameDateRange(nextValue, value)) {
+      if (!isSameRange(nextValue, value, formatStr)) {
         setValue(nextValue);
         onChange?.(nextValue, event);
       }
@@ -339,7 +332,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         handleCloseDropdown();
       }
     },
-    [handleCloseDropdown, onChange, selectValue, setSelectValue, setValue, value]
+    [formatStr, handleCloseDropdown, onChange, selectValue, setValue, value]
   );
 
   /**
@@ -459,19 +452,19 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   const handleChangeCalendarTime = useCallback(
     (index: number, date: Date) => {
       setSelectValue(prev => {
-        const next = Array.from(prev) as ValueType;
+        const next = [...prev] as ValueType;
+        const clonedDate = new Date(date.valueOf());
 
+        // if next[index] is not empty, only update the time after aligning the year, month and day
         if (next[index]) {
-          const nextHour = getHours(date);
-          const nextMinutes = getMinutes(date);
-          const nextSeconds = getSeconds(date);
-
-          next[index].setHours(nextHour);
-          next[index].setMinutes(nextMinutes);
-          next[index].setSeconds(nextSeconds);
-        } else {
-          next[index] = date;
+          clonedDate.setFullYear(
+            next[index].getFullYear(),
+            next[index].getMonth(),
+            next[index].getDate()
+          );
         }
+
+        next[index] = clonedDate;
 
         return next;
       });
