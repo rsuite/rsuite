@@ -108,6 +108,9 @@ export interface PickerBaseProps<LocaleType = any> extends WithAsProps, Animatio
   /** A picker that can clear values */
   cleanable?: boolean;
 
+  /** A picker can have different sizes */
+  size?: TypeAttributes.Size;
+
   /** Called when Modal is displayed */
   onOpen?: () => void;
 
