@@ -94,14 +94,13 @@ describe('DateRangePicker', () => {
   });
 
   it('Should output custom value with time', () => {
-    const now = new Date();
-    const yesterday = subDays(now, 1);
+    const value = [new Date('11/11 2019 01:00:00'), new Date('11/12 2019 01:00:00')];
     const template = 'MM/dd/yyyy hh:mm:ss';
-    const instance = getInstance(<DateRangePicker value={[yesterday, now]} format={template} />);
+    const instance = getInstance(<DateRangePicker value={value} format={template} />);
 
     assert.equal(
       instance.target.querySelector('.rs-picker-toggle-value').textContent,
-      `${format(yesterday, template)} ~ ${format(now, template)}`
+      '11/11/2019 01:00:00 ~ 11/12/2019 01:00:00'
     );
   });
 
