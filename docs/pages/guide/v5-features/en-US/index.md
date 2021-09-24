@@ -1,8 +1,6 @@
-# React Suite 5 new features and upgrade guide
+# New Features v5 and Migration from v4
 
-It has been a year since the first version of React Suite v4. In this year or so, v4 has iterated a total of 30 versions, adding many new features, and more and more developers are starting to use React Suite , And participate in function development and improvement. There are also developers who have always provided us with valuable suggestions. We thank you again and hope that we will move forward together in the future so that React Suite can serve more developers.
-
-The purpose of React Suite v5 is to improve the accessibility and scalability of components. The new features and upgrade guide will be introduced in detail below.
+The accessibility and scalability of components are improved in React Suite 5. The following will introduce in detail the new features and how to upgrade from `4.x` to `5.0`.
 
 ## Major changes ✨
 
@@ -244,13 +242,14 @@ Support `onSelect`, `onSlideEnd`, `onSlideStart` on `<Carousel>`
 
 ---
 
-## Upgrading To v5 From v4
+## Migration from v4 to v5
 
-The v5 version has been released, and then I will provide you with guidance so that you can quickly upgrade from v4 to v5.
+The next step will provide you with guidance so that you can quickly migrate from v4 to v5.
 
 ### Updating your dependencies
 
 - React is upgraded to version 16.8 and above.
+- Make sure your current rsuite version is `4.*`, otherwise [please migrate to v4 first](https://v4.rsuitejs.com/guide/v3-to-v4/).
 
 ### Run codemods
 
@@ -270,7 +269,12 @@ npx rsuite-codemod <transform> <path> [...options]
 
 #### Supported browsers
 
-We will no longer support IE 10 in the v5. If you need to continue using the IE 10 browser, please continue to use the v4.
+Dropped Internet Explorer 10
+
+```diff
+- last 2 versions or > 1% or ie >= 10
++ last 2 versions or > 1% and not ie <11
+```
 
 #### Use SVG Icon instead of Icon font
 

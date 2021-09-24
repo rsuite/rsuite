@@ -1,8 +1,6 @@
-# React Suite 5 新特性及升级指南
+# v5 新特性及升级指南
 
-React Suite v4 的第一个版本已经有一年的时间了，在这一年左右的时间里 v4 一共迭代了 30 个版本，新增了许多特性，也越来越多的开发者开始使用 React Suite，并且参与功能开发与改进。还有一直对我们提出宝贵建议的开发者们，我们再次表示感谢，希望未来我们一起前行，让 React Suite 能够服务到更多的开发者。
-
-React Suite v5 的目的是改进组件的可访问性和可扩展性，以下将详细介绍新增特性及升级指南。
+React Suite 5 的目的是改进组件的可访问性和可扩展性。以下将详细介绍新增特性以及如何从 `4.x` 升级到 `5.0`。
 
 ## 主要功能 ✨
 
@@ -253,6 +251,7 @@ return <TagInput defaultValue={['HTML', 'CSS']} trigger={['Enter', 'Space', 'Com
 ### 准备工作
 
 - React 升级到 16.8 以上版本。
+- 确保您当前的 `rsuite` 版本是 `4.*`, 否则[请先迁移到 v4](https://v4.rsuitejs.com/guide/v3-to-v4/)。
 
 ### 运行 codemods
 
@@ -273,6 +272,11 @@ npx rsuite-codemod <transform> <path> [...options]
 #### 不再对 IE 10 进行兼容支持
 
 我们将在 v5 版本中不再支持 IE 10，如果您需要继续在 IE 10 浏览器上使用请继续使用 v4 版本。
+
+```diff
+- last 2 versions or > 1% or ie >= 10
++ last 2 versions or > 1% and not ie <11
+```
 
 #### 采用 SVG Icon 代替 Icon font
 
