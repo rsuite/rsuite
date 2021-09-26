@@ -2,7 +2,6 @@ import React from 'react';
 import Color from 'color';
 import { Popover, Whisper } from 'rsuite';
 import Question2 from '@rsuite/icons/legacy/Question2';
-import type { PositionChildProps } from 'rsuite/es/Overlay/Position';
 
 interface ColorType {
   hex: string;
@@ -74,7 +73,7 @@ export default function ColorPanel(props: ColorPanelProps) {
   );
 }
 
-const Speaker = React.forwardRef(({ style, ...rest }: PositionChildProps, ref) => {
+const Speaker = React.forwardRef(({ style, ...rest }: any, ref) => {
   return (
     <Popover ref={ref} style={{ width: 700, ...style }} title="Contrast Ratio" {...rest}>
       <p>
