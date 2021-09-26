@@ -45,12 +45,12 @@ function getScrollDimensionValue(elem: Element, dimension: DIMENSION) {
 const Collapse = React.forwardRef((props: CollapseProps, ref: React.Ref<any>) => {
   const {
     className,
-    dimension: dimensionProp,
+    dimension: dimensionProp = DIMENSION.HEIGHT,
     exitedClassName,
     exitingClassName,
     enteredClassName,
     enteringClassName,
-    getDimensionValue,
+    getDimensionValue = defaultGetDimensionValue,
     onEnter,
     onEntering,
     onEntered,
@@ -118,11 +118,6 @@ const Collapse = React.forwardRef((props: CollapseProps, ref: React.Ref<any>) =>
 });
 
 Collapse.displayName = 'Collapse';
-Collapse.defaultProps = {
-  timeout: 300,
-  dimension: DIMENSION.HEIGHT,
-  getDimensionValue: defaultGetDimensionValue
-};
 
 Collapse.propTypes = {
   ...transitionPropTypes,
