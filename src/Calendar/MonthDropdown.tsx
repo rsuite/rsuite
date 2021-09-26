@@ -49,24 +49,16 @@ function getRowHeight(count: number) {
   };
 }
 
-const defaultProps: Partial<MonthDropdownProps> = {
-  as: 'div',
-  classPrefix: 'calendar-month-dropdown',
-  limitEndYear: 5,
-  height: 221,
-  width: 256
-};
-
 const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React.forwardRef(
   (props: MonthDropdownProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
-      classPrefix,
-      limitEndYear,
+      classPrefix = 'calendar-month-dropdown',
+      limitEndYear = 5,
       show,
-      height: defaultHeight,
-      width: defaultWidth,
+      height: defaultHeight = 221,
+      width: defaultWidth = 256,
       disabledMonth,
       ...rest
     } = props;
@@ -162,7 +154,6 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
 );
 
 MonthDropdown.displayName = 'MonthDropdown';
-MonthDropdown.defaultProps = defaultProps;
 MonthDropdown.propTypes = {
   limitEndYear: PropTypes.number,
   className: PropTypes.string,

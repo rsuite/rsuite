@@ -26,17 +26,12 @@ export interface HeaderProps extends WithAsProps {
   renderToolbar?: (date: Date) => React.ReactNode;
 }
 
-const defaultProps: Partial<HeaderProps> = {
-  classPrefix: 'calendar-header',
-  as: 'div'
-};
-
 const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
   (props: HeaderProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
-      classPrefix,
+      classPrefix = 'calendar-header',
       disabledBackward,
       disabledForward,
       showDate,
@@ -171,6 +166,5 @@ Header.propTypes = {
   showMonth: PropTypes.bool,
   showTime: PropTypes.bool
 };
-Header.defaultProps = defaultProps;
 
 export default Header;

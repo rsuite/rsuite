@@ -94,17 +94,12 @@ export interface CalendarProps
   inline?: boolean;
 }
 
-const defaultProps: Partial<CalendarProps> = {
-  classPrefix: 'calendar',
-  as: 'div'
-};
-
 const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
   (props: CalendarProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
-      classPrefix,
+      classPrefix = 'calendar',
       calendarState,
       dateRange,
       disabledBackward,
@@ -231,7 +226,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
 );
 
 Calendar.displayName = 'Calendar';
-Calendar.defaultProps = defaultProps;
 Calendar.propTypes = {
   calendarState: PropTypes.oneOf(Object.values(CalendarState)),
   className: PropTypes.string,
