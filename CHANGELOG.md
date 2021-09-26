@@ -1,18 +1,26 @@
-<a name="5.0.0-beta.8"></a>
-# [5.0.0-beta.8](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.7...v5.0.0-beta.8) (2021-09-17)
+<a name="5.0.0"></a>
 
+# [5.0.0](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.8...v5.0.0) (2021-09-26)
 
 ### Bug Fixes
 
-* **date-picker:** fix calendar header wrapping ([#1907](https://github.com/rsuite/rsuite/issues/1907)) ([4cfc3af](https://github.com/rsuite/rsuite/commit/4cfc3af))
-* **navbar,dropdown:** unexpected focus submenu ([#1908](https://github.com/rsuite/rsuite/issues/1908)) ([697aa3e](https://github.com/rsuite/rsuite/commit/697aa3e))
+- **DateRangePicker:** support time selection ([#1882](https://github.com/rsuite/rsuite/issues/1882)) ([59779ef](https://github.com/rsuite/rsuite/commit/59779ef))
+- **picker:** [TS] fix the missing definition of `size` in Pickers ([#1926](https://github.com/rsuite/rsuite/issues/1926)) ([6497698](https://github.com/rsuite/rsuite/commit/6497698))
+- **sidenav:** accent dropdown icon w/ active item ([#1913](https://github.com/rsuite/rsuite/issues/1913)) ([efa389c](https://github.com/rsuite/rsuite/commit/efa389c))
+- **sidenav:** fix nav item not activated in collapsed sidenav ([#1918](https://github.com/rsuite/rsuite/issues/1918)) ([59fe040](https://github.com/rsuite/rsuite/commit/59fe040))
 
+<a name="5.0.0-beta.8"></a>
+
+# [5.0.0-beta.8](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.7...v5.0.0-beta.8) (2021-09-17)
+
+### Bug Fixes
+
+- **date-picker:** fix calendar header wrapping ([#1907](https://github.com/rsuite/rsuite/issues/1907)) ([4cfc3af](https://github.com/rsuite/rsuite/commit/4cfc3af))
+- **navbar,dropdown:** unexpected focus submenu ([#1908](https://github.com/rsuite/rsuite/issues/1908)) ([697aa3e](https://github.com/rsuite/rsuite/commit/697aa3e))
 
 ### Features
 
-* **table:** support `rowSpan` on `<Table.Column>` ([#1909](https://github.com/rsuite/rsuite/issues/1909)) ([34a3a1f](https://github.com/rsuite/rsuite/commit/34a3a1f))
-
-
+- **table:** support `rowSpan` on `<Table.Column>` ([#1909](https://github.com/rsuite/rsuite/issues/1909)) ([34a3a1f](https://github.com/rsuite/rsuite/commit/34a3a1f))
 
 <a name="5.0.0-beta.7"></a>
 
