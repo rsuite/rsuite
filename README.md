@@ -80,7 +80,7 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 
 **Historic version**
 
-- [Version 4.\*](https://v3.rsuitejs.com/)
+- [Version 4.\*](https://v4.rsuitejs.com/)
 - [Version 3.\*](https://v3.rsuitejs.com/)
 - [Version 2.\*](https://v2.rsuitejs.com/)
 
