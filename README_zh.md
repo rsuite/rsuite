@@ -211,6 +211,6 @@ React Suite 基于 [MIT licensed][license] 发布。
 [demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
 [demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
 [demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
-[demo-nextjs-typescript]: https://github.com/rsuite/rsuite/tree/master/examples/with-next-typescript
+[demo-nextjs-typescript]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs-typescript
 [demo-snowpack]: https://github.com/rsuite/rsuite/tree/master/examples/with-snowpack
 [demo-vite]: https://github.com/rsuite/rsuite/tree/master/examples/with-vite
