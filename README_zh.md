@@ -70,12 +70,6 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [Right-to-left][rsuite-doc-guide-intl]
 - [组件][rsuite-components-overview]
 
-**历史版本:**
-
-- [4.\* 版本](https://v4.rsuitejs.com/)
-- [3.\* 版本](https://v3.rsuitejs.com/)
-- [2.\* 版本](https://v2.rsuitejs.com/)
-
 ### 示例
 
 - [管理系统][demo-admin]
@@ -94,6 +88,18 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [在 UmiJS 中使用][demo-umi-app]
 - [在 Snowpack 中使用][demo-snowpack]
 - [在 Vite 中使用][demo-vite]
+
+## 历史版本
+
+上个大版本 4.x 将不再添加新特性，
+我们推荐你升级到最新的 5.x 版本。
+4.x 的功能修复仍会在一段时间内提供支持，
+安全修复也会支持，直到 6.x 开始开发。
+
+### 历史版本的文档
+
+- [4.x 版本文档](https://v4.rsuitejs.com/)
+- [3.x 版本文档](https://v3.rsuitejs.com/)
 
 ## 更新日志
 
