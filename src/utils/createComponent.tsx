@@ -14,18 +14,21 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 /**
  * Create a component with `classPrefix` and `as` attributes.
- * @param defaultProps
  */
-function createComponent(defaultProps: Props) {
-  const { name, componentAs, componentClassPrefix, ...componentRestProps } = defaultProps;
-
+function createComponent({ name, componentAs, componentClassPrefix, ...defaultProps }: Props) {
   const Component: RsRefForwardingComponent<'div', ComponentProps> = React.forwardRef(
     (props: ComponentProps, ref) => {
-      const { as: Component, classPrefix, className, role, ...rest } = props;
+      const {
+        as: Component = componentAs || 'div',
+        classPrefix = componentClassPrefix || kebabCase(name),
+        className,
+        role,
+        ...rest
+      } = props;
       const { withClassPrefix, merge } = useClassNames(classPrefix);
       const classes = merge(className, withClassPrefix());
 
-      return <Component {...rest} role={role} ref={ref} className={classes} />;
+      return <Component {...defaultProps} {...rest} role={role} ref={ref} className={classes} />;
     }
   );
 
@@ -35,11 +38,6 @@ function createComponent(defaultProps: Props) {
     className: PropTypes.string,
     classPrefix: PropTypes.string,
     children: PropTypes.node
-  };
-  Component.defaultProps = {
-    ...componentRestProps,
-    as: componentAs || 'div',
-    classPrefix: componentClassPrefix || kebabCase(name)
   };
 
   return Component;
