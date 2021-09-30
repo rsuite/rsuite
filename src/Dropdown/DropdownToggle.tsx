@@ -14,19 +14,14 @@ export interface DropdownToggleProps extends WithAsProps {
   placement?: TypeAttributes.Placement8;
 }
 
-const defaultProps: Partial<DropdownToggleProps> = {
-  as: Button,
-  classPrefix: 'dropdown-toggle'
-};
-
 const DropdownToggle: RsRefForwardingComponent<
   typeof Button,
   DropdownToggleProps
 > = React.forwardRef((props: DropdownToggleProps, ref) => {
   const {
-    as: Component,
+    as: Component = Button,
     className,
-    classPrefix,
+    classPrefix = 'dropdown-toggle',
     renderToggle,
     children,
     icon,
@@ -59,7 +54,6 @@ const DropdownToggle: RsRefForwardingComponent<
 });
 
 DropdownToggle.displayName = 'DropdownToggle';
-DropdownToggle.defaultProps = defaultProps;
 DropdownToggle.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,

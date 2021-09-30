@@ -90,13 +90,6 @@ export interface DropdownComponent extends RsRefForwardingComponent<'div', Dropd
   Menu: typeof DropdownMenu;
 }
 
-const defaultProps: Partial<DropdownProps> = {
-  as: 'div',
-  classPrefix: 'dropdown',
-  placement: 'bottomStart',
-  trigger: 'click'
-};
-
 /**
  * The <Dropdown> API
  * When used inside <Sidenav>, renders a <TreeviewRootItem>;
@@ -106,17 +99,17 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
   const { activeKey, onSelect: onSelectProp, ...rest } = props;
 
   const {
-    as: Component,
+    as: Component = 'div',
     title,
     onClose,
     onOpen,
     onToggle,
     eventKey,
-    trigger,
-    placement,
+    trigger = 'click',
+    placement = 'bottomStart',
     toggleAs,
     toggleClassName,
-    classPrefix,
+    classPrefix = 'dropdown',
     className,
     disabled,
     children,
@@ -348,7 +341,6 @@ Dropdown.Item = DropdownItem;
 Dropdown.Menu = DropdownMenu;
 
 Dropdown.displayName = 'Dropdown';
-Dropdown.defaultProps = defaultProps;
 Dropdown.propTypes = {
   activeKey: PropTypes.any,
   classPrefix: PropTypes.string,
