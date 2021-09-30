@@ -9,13 +9,9 @@ export interface SidenavDropdownCollapseProps extends StandardProps {
   open?: boolean;
 }
 
-const defaultProps: Partial<SidenavDropdownCollapseProps> = {
-  classPrefix: 'dropdown-menu'
-};
-
 const SidenavDropdownCollapse = React.forwardRef(
   (props: SidenavDropdownCollapseProps & React.HTMLAttributes<HTMLUListElement>, ref) => {
-    const { className, classPrefix, open, ...restProps } = props;
+    const { className, classPrefix = 'dropdown-menu', open, ...restProps } = props;
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
 
@@ -48,7 +44,6 @@ const SidenavDropdownCollapse = React.forwardRef(
 );
 
 SidenavDropdownCollapse.displayName = 'Sidenav.Dropdown.Collapse';
-SidenavDropdownCollapse.defaultProps = defaultProps;
 SidenavDropdownCollapse.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,

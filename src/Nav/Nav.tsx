@@ -35,12 +35,6 @@ export interface NavProps<T = any>
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
-const defaultProps: Partial<NavProps> = {
-  classPrefix: 'nav',
-  appearance: 'default',
-  as: 'div'
-};
-
 interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
   Dropdown: typeof Dropdown;
   Item: typeof NavItem;
@@ -48,9 +42,9 @@ interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
 
 const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
   const {
-    as: Component,
-    classPrefix,
-    appearance,
+    as: Component = 'div',
+    classPrefix = 'nav',
+    appearance = 'default',
     vertical,
     justified,
     reversed,
@@ -146,7 +140,6 @@ Nav.Dropdown = Dropdown;
 Nav.Item = NavItem;
 
 Nav.displayName = 'Nav';
-Nav.defaultProps = defaultProps;
 Nav.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,
