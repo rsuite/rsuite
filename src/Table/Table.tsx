@@ -37,10 +37,10 @@ interface TableComponent
 }
 
 const Table: TableComponent = React.forwardRef((props: TableProps, ref: React.RefObject<any>) => {
-  const { locale: localeProp, ...rest } = props;
+  const { locale: localeProp, loadAnimation = true, ...rest } = props;
   const { locale, rtl } = useCustom('Table', localeProp);
 
-  return <RsTable {...rest} rtl={rtl} ref={ref} locale={locale} />;
+  return <RsTable {...rest} rtl={rtl} ref={ref} locale={locale} loadAnimation={loadAnimation} />;
 }) as TableComponent;
 
 Table.Cell = Cell as React.ComponentType<CellProps>;
@@ -49,8 +49,5 @@ Table.HeaderCell = HeaderCell;
 Table.ColumnGroup = ColumnGroup;
 
 Table.displayName = 'Table';
-Table.defaultProps = {
-  loadAnimation: true
-};
 
 export default Table;
