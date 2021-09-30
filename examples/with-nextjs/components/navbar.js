@@ -13,13 +13,13 @@ const NavLink = React.forwardRef((props, ref) => {
 
 const Navbar = () => (
   <Nav>
-    <Nav.Item componentClass={NavLink} href="/">
+    <Nav.Item as={NavLink} href="/">
       Home
     </Nav.Item>
-    <Nav.Item componentClass={NavLink} href="/page1">
+    <Nav.Item as={NavLink} href="/page1">
       Page 1
     </Nav.Item>
-    <Nav.Item componentClass={NavLink} href="/page2">
+    <Nav.Item as={NavLink} href="/page2">
       Page 2
     </Nav.Item>
   </Nav>
