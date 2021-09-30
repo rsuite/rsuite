@@ -15,16 +15,11 @@ export interface PopoverProps extends WithAsProps {
   full?: boolean;
 }
 
-const defaultProps: Partial<PopoverProps> = {
-  as: 'div',
-  classPrefix: 'popover'
-};
-
 const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
   (props: PopoverProps, ref) => {
     const {
-      as: Component,
-      classPrefix,
+      as: Component = 'div',
+      classPrefix = 'popover',
       title,
       children,
       style,
@@ -54,7 +49,6 @@ const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
 );
 
 Popover.displayName = 'Popover';
-Popover.defaultProps = defaultProps;
 Popover.propTypes = {
   as: PropTypes.elementType,
   classPrefix: PropTypes.string,
