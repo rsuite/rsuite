@@ -33,25 +33,18 @@ export interface MessageProps extends WithAsProps {
 
 type DisplayType = 'show' | 'hide' | 'hiding';
 
-const defaultProps: Partial<MessageProps> = {
-  as: 'div',
-  classPrefix: 'message',
-  type: 'info',
-  duration: 2000
-};
-
 const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
   (props: MessageProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
-      classPrefix,
+      classPrefix = 'message',
       children,
       closable,
-      duration,
+      duration = 2000,
       full,
       header,
-      type,
+      type = 'info',
       showIcon,
       onClose,
       ...rest
@@ -98,7 +91,6 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
 );
 
 Message.displayName = 'Message';
-Message.defaultProps = defaultProps;
 Message.propTypes = {
   type: PropTypes.oneOf(STATUS),
   className: PropTypes.string,
