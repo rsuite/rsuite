@@ -23,7 +23,7 @@ React Suite 设计原型与规范， [点击查看][rsuite-design]。
 
 ### 浏览器
 
-React Suite 支持最新的，稳定版的全部主流浏览器和平台。 从 React Suite 3 开始不支持 IE9 以下版本(包括 IE9)。不推荐在移动端使用。
+React Suite 支持最新的，稳定版的全部主流浏览器和平台。 从 React Suite 5 开始不支持 IE10 以下版本(包括 IE10)。不推荐在移动端使用。
 
 | IE   | Edge | Firefox | Chrome | Safari |
 | ---- | ---- | ------- | ------ | ------ |
