@@ -78,12 +78,6 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Right-to-left][rsuite-doc-guide-rtl]
 - [Components][rsuite-components-overview]
 
-**Historic version**
-
-- [Version 4.\*](https://v4.rsuitejs.com/)
-- [Version 3.\*](https://v3.rsuitejs.com/)
-- [Version 2.\*](https://v2.rsuitejs.com/)
-
 ### Examples
 
 - [Management system][demo-admin]
@@ -102,6 +96,18 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Use in UmiJS][demo-umi-app]
 - [Use in Snowpack][demo-snowpack]
 - [Use in Vite][demo-vite]
+
+## Previous major versions
+
+The previous major version 4.x will no longer receive new features,
+and it is recommended to upgrade to the latest 5.x releases.
+Bug fixes for 4.x are still being supported for a period of time,
+and security fixes are supported until 6.x is in progress.
+
+### Documentations for previous major versions
+
+- [4.x documentation](https://v4.rsuitejs.com/)
+- [3.x documentation](https://v3.rsuitejs.com/)
 
 ## Changelog
 
@@ -173,7 +179,7 @@ This project exists thanks to all the people who contribute.
 React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 
 [readm-cn]: https://github.com/rsuite/rsuite/blob/master/README_zh.md
-[npm-svg]: https://img.shields.io/npm/v/rsuite/next
+[npm-svg]: https://img.shields.io/npm/v/rsuite
 [npm-home]: https://www.npmjs.com/package/rsuite
 [actions-svg]: https://github.com/rsuite/rsuite/workflows/Node.js%20CI/badge.svg?branch=master
 [actions-home]: https://github.com/rsuite/rsuite/actions?query=branch%3Amaster+workflow%3A%22Node.js+CI%22
