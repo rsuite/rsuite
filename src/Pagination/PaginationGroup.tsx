@@ -31,13 +31,6 @@ export interface PaginationGroupProps extends PaginationProps {
   onChangeLimit?: (limit: number) => void;
 }
 
-const defaultProps: Partial<PaginationGroupProps> = {
-  as: 'div',
-  classPrefix: 'pagination-group',
-  layout: ['pager'],
-  limitOptions: [30, 50, 100]
-};
-
 const LimitPicker = (props: Partial<PaginationGroupProps> & { prefix: any }) => {
   const { disabled, limitOptions, locale, limit, onChangeLimit, size, prefix } = props;
   const disabledPicker = typeof disabled === 'function' ? disabled('picker') : disabled;
@@ -65,11 +58,14 @@ const LimitPicker = (props: Partial<PaginationGroupProps> & { prefix: any }) => 
   );
 };
 
+const defaultLayout = ['pager'];
+const defaultLimitOptions = [30, 50, 100];
+
 const PaginationGroup: RsRefForwardingComponent<'div', PaginationGroupProps> = React.forwardRef(
   (props: PaginationGroupProps, ref) => {
     const {
-      as: Component,
-      classPrefix,
+      as: Component = 'div',
+      classPrefix = 'pagination-group',
       size,
       total,
       prev,
@@ -78,13 +74,13 @@ const PaginationGroup: RsRefForwardingComponent<'div', PaginationGroupProps> = R
       last,
       maxButtons,
       className,
-      limitOptions,
+      limitOptions = defaultLimitOptions,
       limit: limitProp,
       activePage: activePageProp,
       disabled,
       style,
       locale: localeProp,
-      layout,
+      layout = defaultLayout,
       onChangePage,
       onChangeLimit,
       ...rest
@@ -188,7 +184,6 @@ const PaginationGroup: RsRefForwardingComponent<'div', PaginationGroupProps> = R
 );
 
 PaginationGroup.displayName = 'PaginationGroup';
-PaginationGroup.defaultProps = defaultProps;
 PaginationGroup.propTypes = {
   ...Pagination.propTypes,
   locale: PropTypes.any,

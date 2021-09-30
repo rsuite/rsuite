@@ -66,32 +66,24 @@ export interface PaginationProps extends WithAsProps {
   onSelect?: (eventKey: number, event: React.MouseEvent) => void;
 }
 
-const defaultProps: Partial<PaginationProps> = {
-  as: 'div',
-  classPrefix: 'pagination',
-  activePage: 1,
-  pages: 1,
-  size: 'xs'
-};
-
 const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwardRef(
   (props: PaginationProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
-      classPrefix,
+      classPrefix = 'pagination',
       disabled: disabledProp,
       locale: overrideLocale,
-      activePage,
+      activePage = 1,
       maxButtons,
-      pages,
+      pages = 1,
       ellipsis,
       boundaryLinks,
       first,
       prev,
       next,
       last,
-      size,
+      size = 'xs',
       linkAs,
       linkProps,
       onSelect,
@@ -272,7 +264,6 @@ const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwa
 );
 
 Pagination.displayName = 'Pagination';
-Pagination.defaultProps = defaultProps;
 Pagination.propTypes = {
   onSelect: PropTypes.func,
   activePage: PropTypes.number,
