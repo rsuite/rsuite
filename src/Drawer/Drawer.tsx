@@ -17,12 +17,6 @@ export interface DrawerProps extends ModalProps {
   placement?: TypeAttributes.Placement4;
 }
 
-const defaultProps: Partial<DrawerProps> = {
-  classPrefix: 'drawer',
-  placement: 'right',
-  animation: Slide
-};
-
 const DrawerBody: RsRefForwardingComponent<
   'div',
   ModalBodyProps
@@ -68,7 +62,13 @@ interface DrawerComponent extends React.FC<DrawerProps> {
 }
 
 const Drawer: DrawerComponent = (React.forwardRef((props: DrawerProps, ref) => {
-  const { className, placement, classPrefix, ...rest } = props;
+  const {
+    className,
+    placement = 'right',
+    classPrefix = 'drawer',
+    animation = Slide,
+    ...rest
+  } = props;
   const { merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, prefix(placement));
 
@@ -83,6 +83,7 @@ const Drawer: DrawerComponent = (React.forwardRef((props: DrawerProps, ref) => {
       drawer
       classPrefix={classPrefix}
       className={classes}
+      animation={animation}
       animationProps={animationProps}
     />
   );
@@ -104,7 +105,6 @@ Drawer.Footer = deprecateComponent(
 Drawer.Title = DrawerTitle;
 
 Drawer.displayName = 'Drawer';
-Drawer.defaultProps = defaultProps;
 Drawer.propTypes = {
   classPrefix: PropTypes.string,
   placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
