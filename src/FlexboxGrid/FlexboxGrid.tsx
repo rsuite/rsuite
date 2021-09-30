@@ -16,15 +16,15 @@ interface FlexboxGridCompont extends RsRefForwardingComponent<'div', FlexboxGrid
   Item: typeof FlexboxGridItem;
 }
 
-const defaultProps: Partial<FlexboxGridProps> = {
-  as: 'div',
-  classPrefix: 'flex-box-grid',
-  align: 'top',
-  justify: 'start'
-};
-
 const FlexboxGrid: FlexboxGridCompont = (React.forwardRef((props: FlexboxGridProps, ref) => {
-  const { as: Component, className, classPrefix, align, justify, ...rest } = props;
+  const {
+    as: Component = 'div',
+    className,
+    classPrefix = 'flex-box-grid',
+    align = 'top',
+    justify = 'start',
+    ...rest
+  } = props;
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(align, justify));
   return <Component {...rest} ref={ref} className={classes} />;
@@ -33,7 +33,6 @@ const FlexboxGrid: FlexboxGridCompont = (React.forwardRef((props: FlexboxGridPro
 FlexboxGrid.Item = FlexboxGridItem;
 
 FlexboxGrid.displayName = 'FlexboxGrid';
-FlexboxGrid.defaultProps = defaultProps;
 FlexboxGrid.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,
