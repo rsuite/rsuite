@@ -18,11 +18,8 @@ RSUITE Design Prototype and specification, click to [view][rsuite-design]
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | IE11, Edge                                                                                                                                                  | last 2 versions                                                                                                                                               | last 2 versions                                                                                                                                            | last 2 versions                                                                                                                                           |
 
-- ** IE<=9 is no longer supported ** since React Suite 3.0.
-- Our support for IE10 has been gracefully downgraded, and some styles and animations have been simplified.
-
-  > Notice: For IE series browsers, you need to provide support using Polyfill. We recommend using [babel-preset-env][babel-preset-env] to handle browser compatibility issues.
-
+- ** IE<=10 is no longer supported ** since React Suite 5.0.
+- If you need to continue using it on IE 10, please use [React Suite 4.0](https://v4.rsuitejs.com/guide/introduction/).
 - React Suite is designed and implemented for use on modern desktop browsers rather than mobile browsers.
 
 ### Server
