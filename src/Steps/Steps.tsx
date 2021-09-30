@@ -21,27 +21,20 @@ export interface StepsProps extends WithAsProps {
   currentStatus?: 'finish' | 'wait' | 'process' | 'error';
 }
 
-const defaultProps: Partial<StepsProps> = {
-  as: 'div',
-  classPrefix: 'steps',
-  currentStatus: 'process',
-  current: 0
-};
-
 interface StepsComponent extends RsRefForwardingComponent<'div', StepsProps> {
   Item: typeof StepItem;
 }
 
 const Steps: StepsComponent = (React.forwardRef((props: StepsProps, ref) => {
   const {
-    as: Component,
-    classPrefix,
+    as: Component = 'div',
+    classPrefix = 'steps',
     className,
     children,
     vertical,
     small,
-    current,
-    currentStatus,
+    current = 0,
+    currentStatus = 'process',
     ...rest
   } = props;
 
@@ -89,7 +82,6 @@ const Steps: StepsComponent = (React.forwardRef((props: StepsProps, ref) => {
 Steps.Item = StepItem;
 
 Steps.displayName = 'Steps';
-Steps.defaultProps = defaultProps;
 Steps.propTypes = {
   classPrefix: PropTypes.string,
   vertical: PropTypes.bool,
