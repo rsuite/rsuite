@@ -35,14 +35,14 @@ export const RadioContext = React.createContext<RadioContextProps>({});
 const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwardRef(
   (props: RadioGroupProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
       inline,
       children,
-      classPrefix,
+      classPrefix = 'radio-group',
       value: valueProp,
       defaultValue,
-      appearance,
+      appearance = 'default',
       name,
       plaintext,
       disabled,
@@ -92,14 +92,7 @@ const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwa
   }
 );
 
-const defaultProps: Partial<RadioGroupProps> = {
-  as: 'div',
-  appearance: 'default',
-  classPrefix: 'radio-group'
-};
-
 RadioGroup.displayName = 'RadioGroup';
-RadioGroup.defaultProps = defaultProps;
 RadioGroup.propTypes = {
   appearance: PropTypes.oneOf(['default', 'picker']),
   name: PropTypes.string,
