@@ -3,8 +3,8 @@ import { Grid, CustomProvider, CustomProviderProps } from 'rsuite';
 import NProgress from 'nprogress';
 import Router from 'next/router';
 import AppContext from '@/components/AppContext';
-import zhCN from '@rsuite-locales/zh_CN';
-import enUS from '@rsuite-locales/en_US';
+import zhCN from 'rsuite/locales/zh_CN';
+import enUS from 'rsuite/locales/en_US';
 import * as Sentry from '@sentry/browser';
 import '../less/index.less';
 
@@ -139,6 +139,7 @@ function App({ Component, pageProps }: AppProps) {
 
   React.useEffect(() => {
     loadStylesheetForDirection(direction);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [direction]);
 
   return (

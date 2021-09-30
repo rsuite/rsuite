@@ -1,5 +1,5 @@
 import React from 'react';
-import algoliasearch from 'algoliasearch/lite';
+import algoliasearch, { SearchIndex } from 'algoliasearch/lite';
 import { Drawer, Input } from 'rsuite';
 import Link from '@/components/Link';
 import AppContext from '@/components/AppContext';
@@ -20,10 +20,10 @@ export default function SearchDrawer(props: SearchDrawerProps) {
   const [list, setList] = React.useState([]);
   const [keyword, setKeyword] = React.useState('');
   const { messages, language } = React.useContext(AppContext);
+  const client = React.useRef<SearchIndex>();
 
-  let client = null;
   React.useEffect(() => {
-    client = createAlgoliaClient(language);
+    client.current = createAlgoliaClient(language);
   }, [language]);
 
   const onSearch = React.useCallback(
@@ -34,7 +34,7 @@ export default function SearchDrawer(props: SearchDrawerProps) {
         return;
       }
 
-      client?.search?.(keyword, { hitsPerPage: 6 }).then(({ hits }) => {
+      client.current?.search?.(keyword, { hitsPerPage: 6 }).then(({ hits }) => {
         setList(hits || []);
       });
     },
