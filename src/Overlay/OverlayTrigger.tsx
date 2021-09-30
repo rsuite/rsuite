@@ -122,12 +122,6 @@ function onMouseEventHandler(
   }
 }
 
-const defaultProps: Partial<OverlayTriggerProps> = {
-  trigger: ['hover', 'focus'],
-  placement: 'bottomStart',
-  rootClose: true
-};
-
 export interface OverlayTriggerInstance {
   root: Element;
   updatePosition?: () => void;
@@ -135,13 +129,15 @@ export interface OverlayTriggerInstance {
   close?: () => void;
 }
 
+const defaultTrigger = ['hover', 'focus'];
+
 const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   const {
     children,
     container,
     controlId,
     defaultOpen,
-    trigger,
+    trigger = defaultTrigger,
     disabled,
     readOnly,
     plaintext,
@@ -150,8 +146,9 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
     delayOpen: delayOpenProp,
     delayClose: delayCloseProp,
     enterable,
-    placement,
+    placement = 'bottomStart',
     speaker,
+    rootClose = true,
     onClick,
     onMouseOver,
     onMouseOut,
@@ -356,6 +353,7 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   const renderOverlay = () => {
     const overlayProps: OverlayProps = {
       ...rest,
+      rootClose,
       triggerTarget: triggerRef,
       onClose: trigger !== 'none' ? createChainedFunction(handleClose, onClose) : undefined,
       placement,
@@ -400,6 +398,5 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
 });
 
 OverlayTrigger.displayName = 'OverlayTrigger';
-OverlayTrigger.defaultProps = defaultProps;
 
 export default OverlayTrigger;

@@ -18,19 +18,13 @@ export interface ModalHeaderProps extends WithAsProps {
   onClose?: (event: React.MouseEvent) => void;
 }
 
-const defaultProps: Partial<ModalHeaderProps> = {
-  as: 'div',
-  closeButton: true,
-  classPrefix: 'modal-header'
-};
-
 const ModalHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.forwardRef(
   (props: ModalHeaderProps, ref) => {
     const {
-      as: Component,
-      classPrefix,
+      as: Component = 'div',
+      classPrefix = 'modal-header',
       className,
-      closeButton,
+      closeButton = true,
       children,
       onClose,
       ...rest
@@ -65,7 +59,6 @@ const ModalHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.for
 );
 
 ModalHeader.displayName = 'ModalHeader';
-ModalHeader.defaultProps = defaultProps;
 ModalHeader.propTypes = {
   as: PropTypes.elementType,
   classPrefix: PropTypes.string,

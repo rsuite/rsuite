@@ -20,20 +20,15 @@ export const modalDialogPropTypes = {
   children: PropTypes.node
 };
 
-const defaultProps: Partial<ModalDialogProps> = {
-  as: 'div',
-  classPrefix: 'modal'
-};
-
 const ModalDialog: RsRefForwardingComponent<'div', ModalDialogProps> = React.forwardRef(
   (props: ModalDialogProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       style,
       children,
       dialogClassName,
       dialogStyle,
-      classPrefix,
+      classPrefix = 'modal',
       className,
       size,
       ...rest
@@ -59,7 +54,6 @@ const ModalDialog: RsRefForwardingComponent<'div', ModalDialogProps> = React.for
 );
 
 ModalDialog.displayName = 'ModalDialog';
-ModalDialog.defaultProps = defaultProps;
 ModalDialog.propTypes = modalDialogPropTypes;
 
 export default ModalDialog;
