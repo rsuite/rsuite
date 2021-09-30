@@ -150,11 +150,11 @@ const NavLink = React.forwardRef((props, ref) => {
 return () => {
   return (
     <Nav>
-      <Nav.Item componentClass={NavLink} href="/">
+      <Nav.Item as={NavLink} href="/">
         Home
       </Nav.Item>
 
-      <Nav.Item componentClass={NavLink} href="/about">
+      <Nav.Item as={NavLink} href="/about">
         About
       </Nav.Item>
     </Nav>
