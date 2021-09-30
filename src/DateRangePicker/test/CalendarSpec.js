@@ -21,7 +21,7 @@ describe('DateRangePicker - Calendar', () => {
         format="yyyy-MM"
       />
     );
-    assert.equal(instance.querySelector('.rs-calendar-header-title').innerText, '2017-08');
+    assert.equal(instance.querySelector('.rs-calendar-header-title').textContent, '2017-08');
   });
 
   it('Should call `onChangeCalendarDate` callback', done => {

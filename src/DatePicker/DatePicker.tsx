@@ -22,7 +22,6 @@ import {
 import {
   PickerOverlay,
   OverlayTriggerInstance,
-  pickerDefaultProps,
   pickerPropTypes,
   PickerToggle,
   PickerToggleTrigger,
@@ -123,35 +122,27 @@ export interface DatePickerProps
   renderValue?: (value: Date, format: string) => string;
 }
 
-const defaultProps: Partial<DatePickerProps> = {
-  ...pickerDefaultProps,
-  as: 'div',
-  classPrefix: 'picker',
-  format: 'yyyy-MM-dd',
-  limitEndYear: 1000,
-  placeholder: ''
-};
-
 type InputState = 'Typing' | 'Error' | 'Initial';
 
 const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwardRef(
   (props: DatePickerProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
-      classPrefix,
+      classPrefix = 'picker',
       calendarDefaultDate,
-      cleanable,
+      cleanable = true,
       defaultValue,
       disabled,
-      format: formatStr,
+      format: formatStr = 'yyyy-MM-dd',
       isoWeek,
-      limitEndYear,
+      limitEndYear = 1000,
       locale: overrideLocale,
       menuClassName,
-      placement,
+      appearance = 'default',
+      placement = 'bottomStart',
       oneTap,
-      placeholder,
+      placeholder = '',
       ranges,
       value: valueProp,
       showMeridian,
@@ -526,6 +517,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const [classes, usedClassNamePropKeys] = usePickerClassName({
       ...props,
+      classPrefix,
       name: 'date',
       hasValue
     });
@@ -563,6 +555,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             className={prefix({ error: inputState === 'Error' })}
             as={toggleAs}
             ref={targetRef}
+            appearance={appearance}
             input
             inputValue={value ? formatDate(value, formatStr) : ''}
             inputPlaceholder={
@@ -589,7 +582,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 );
 
 DatePicker.displayName = 'DatePicker';
-DatePicker.defaultProps = defaultProps;
 DatePicker.propTypes = {
   ...pickerPropTypes,
   calendarDefaultDate: PropTypes.instanceOf(Date),

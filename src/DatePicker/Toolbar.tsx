@@ -20,20 +20,15 @@ export interface ToolbarProps extends WithAsProps {
   onClickShortcut?: (value: ToolbarValue, closeOverlay?: boolean, event?: React.MouseEvent) => void;
 }
 
-const defaultProps: Partial<ToolbarProps> = {
-  classPrefix: 'picker-toolbar',
-  as: 'div'
-};
-
 /**
  * Toolbar for DatePicker and DateRangePicker
  */
 const Toolbar: RsRefForwardingComponent<'div', ToolbarProps> = React.forwardRef(
   (props: ToolbarProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
-      classPrefix,
+      classPrefix = 'picker-toolbar',
       disabledOkBtn,
       disabledShortcut,
       hideOkBtn,
@@ -129,6 +124,5 @@ Toolbar.propTypes = {
   disabledOkBtn: PropTypes.func,
   hideOkButton: PropTypes.bool
 };
-Toolbar.defaultProps = defaultProps;
 
 export default Toolbar;
