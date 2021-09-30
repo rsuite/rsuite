@@ -14,18 +14,17 @@ describe('Slider - Handle', () => {
     assert.ok(onDragStartSpy.calledOnce);
   });
 
-  it('Should call `onDragMove` callback', () => {
-    const onDragMoveSpy = sinon.spy();
+  it('Should call `onDragMove` callback', done => {
+    const onDragMove = () => done();
 
     const ref = React.createRef();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
 
-    render(<Handle ref={ref} onDragMove={onDragMoveSpy} />);
+    render(<Handle ref={ref} onDragMove={onDragMove} />);
 
     ReactTestUtils.Simulate.mouseDown(ref.current);
     ref.current.dispatchEvent(mousemoveEvent);
 
-    expect(onDragMoveSpy).to.have.been.called;
     assert.include(ref.current.className, 'active');
   });
 
