@@ -94,45 +94,33 @@ export interface SelectPickerProps<T = ValueType>
   extends FormControlPickerProps<T, PickerLocale, ItemDataType>,
     SelectProps<T> {}
 
-const defaultProps: Partial<SelectPickerProps> = {
-  as: 'div',
-  appearance: 'default',
-  classPrefix: 'picker',
-  searchable: true,
-  cleanable: true,
-  data: [],
-  disabledItemValues: [],
-  valueKey: 'value',
-  labelKey: 'label',
-  placement: 'bottomStart',
-  menuAutoWidth: true,
-  menuMaxHeight: 320
-};
+const emptyArray = [];
 
 const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
   (props: SelectPickerProps, ref) => {
     const {
-      as: Component,
-      data,
-      valueKey,
-      labelKey,
+      as: Component = 'div',
+      appearance = 'default',
+      data = emptyArray,
+      valueKey = 'value',
+      labelKey = 'label',
       value: valueProp,
-      classPrefix,
+      classPrefix = 'picker',
       placeholder,
       defaultValue,
       disabled,
-      cleanable,
-      placement,
+      cleanable = true,
+      placement = 'bottomStart',
       menuClassName,
-      menuAutoWidth,
-      menuMaxHeight,
+      menuAutoWidth = true,
+      menuMaxHeight = 320,
       menuStyle,
       groupBy,
       locale: overrideLocale,
       toggleAs,
       style,
-      searchable,
-      disabledItemValues,
+      searchable = true,
+      disabledItemValues = emptyArray,
       virtualized,
       listProps,
       id,
@@ -377,6 +365,8 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
 
     const [classes, usedClassNamePropKeys] = usePickerClassName({
       ...props,
+      classPrefix,
+      appearance,
       hasValue,
       name: 'select'
     });
@@ -395,6 +385,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
             ref={targetRef}
+            appearance={appearance}
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={onPickerKeyDown}
             as={toggleAs}
@@ -414,7 +405,6 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
 );
 
 SelectPicker.displayName = 'SelectPicker';
-SelectPicker.defaultProps = defaultProps;
 SelectPicker.propTypes = {
   ...listPickerPropTypes,
   locale: PropTypes.any,
