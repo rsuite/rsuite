@@ -24,7 +24,7 @@ React Suite Design Prototype and specification, click to [view][rsuite-design].
 
 ### Browser
 
-React Suite supports the latest, stable releases of all major browsers and platforms. IE<=9 is no longer supported since React Suite 3.0. React Suite is designed and implemented for use on modern desktop browsers rather than mobile browsers.
+React Suite supports the latest, stable releases of all major browsers and platforms. IE<=10 is no longer supported since React Suite 5.0. React Suite is designed and implemented for use on modern desktop browsers rather than mobile browsers.
 
 | IE   | Edge | Firefox | Chrome | Safari |
 | ---- | ---- | ------- | ------ | ------ |
