@@ -35,19 +35,13 @@ export interface InputProps
   onPressEnter?: React.KeyboardEventHandler<HTMLInputElement>;
 }
 
-const defaultProps: Partial<InputProps> = {
-  as: 'input',
-  classPrefix: 'input',
-  type: 'text'
-};
-
 const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
   (props: InputProps, ref) => {
     const {
       className,
-      classPrefix,
-      as: Component,
-      type,
+      classPrefix = 'input',
+      as: Component = 'input',
+      type = 'text',
       disabled,
       value,
       defaultValue,
@@ -124,7 +118,6 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
 );
 
 Input.displayName = 'Input';
-Input.defaultProps = defaultProps;
 Input.propTypes = {
   type: PropTypes.string,
   as: PropTypes.elementType,

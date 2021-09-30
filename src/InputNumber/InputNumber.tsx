@@ -11,7 +11,6 @@ import Input from '../Input';
 import Button from '../Button';
 import { partitionHTMLProps, createChainedFunction, useClassNames, useControlled } from '../utils';
 import { WithAsProps, TypeAttributes, FormControlBaseProps } from '../@types/common';
-import { Partial } from '../@types/utils';
 
 export interface InputNumberProps<T = number | string>
   extends WithAsProps,
@@ -96,21 +95,11 @@ function disableMinValue(value: number | string, min: number) {
   return false;
 }
 
-const defaultProps: Partial<InputNumberProps> = {
-  as: InputGroup,
-  classPrefix: 'input-number',
-  min: -Infinity,
-  max: Infinity,
-  step: 1,
-  buttonAppearance: 'subtle',
-  scrollable: true
-};
-
 const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const {
-    as: Component,
+    as: Component = InputGroup,
     className,
-    classPrefix,
+    classPrefix = 'input-number',
     disabled,
     readOnly,
     plaintext,
@@ -119,11 +108,11 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     size,
     prefix: prefixElement,
     postfix,
-    step,
-    buttonAppearance,
-    min,
-    max,
-    scrollable,
+    step = 1,
+    buttonAppearance = 'subtle',
+    min = -Infinity,
+    max = Infinity,
+    scrollable = true,
     onChange,
     onWheel,
     ...restProps
@@ -285,7 +274,6 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
 });
 
 InputNumber.displayName = 'InputNumber';
-InputNumber.defaultProps = defaultProps;
 InputNumber.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,
