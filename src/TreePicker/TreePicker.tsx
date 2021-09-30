@@ -50,7 +50,6 @@ import {
   onMenuKeyDown,
   usePublicMethods,
   listPickerPropTypes,
-  listPickerDefaultProps,
   OverlayTriggerInstance,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
@@ -104,47 +103,38 @@ export interface TreePickerProps<T = number | string>
   onScroll?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-const defaultProps: Partial<TreePickerProps> = {
-  ...listPickerDefaultProps,
-  classPrefix: 'picker',
-  as: 'div',
-  height: 360,
-  appearance: 'default',
-  searchable: true,
-  cleanable: true,
-  menuAutoWidth: true,
-  placement: 'bottomStart'
-};
+const emptyArray = [];
 
 const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, ref) => {
   const {
-    as: Component,
-    data,
+    as: Component = 'div',
+    data = emptyArray,
+    appearance = 'default',
     style,
     value: controlledValue,
     locale: overrideLocale,
-    height,
+    height = 360,
     className,
     disabled,
-    placement,
-    cleanable,
+    placement = 'bottomStart',
+    cleanable = true,
     menuStyle,
-    searchable,
+    searchable = true,
     virtualized,
-    classPrefix,
+    classPrefix = 'picker',
     defaultValue,
     placeholder,
     searchKeyword,
     menuClassName,
-    menuAutoWidth,
+    menuAutoWidth = true,
     searchBy,
     toggleAs,
-    labelKey,
-    valueKey,
-    childrenKey,
+    labelKey = 'label',
+    valueKey = 'value',
+    childrenKey = 'children',
     draggable,
     defaultExpandAll,
-    disabledItemValues,
+    disabledItemValues = emptyArray,
     expandItemValues: controlledExpandItemValues,
     defaultExpandItemValues,
     id,
@@ -864,6 +854,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   const [classes, usedClassNamePropKeys] = usePickerClassName({
     ...props,
+    classPrefix,
+    appearance,
     hasValue: hasValidValue,
     name: 'tree'
   });
@@ -888,6 +880,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys, 'cascade'])}
           id={id}
           ref={targetRef}
+          appearance={appearance}
           onKeyDown={onPickerKeydown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}
@@ -906,7 +899,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 });
 
 TreePicker.displayName = 'TreePicker';
-TreePicker.defaultProps = defaultProps;
 TreePicker.propTypes = {
   ...listPickerPropTypes,
   locale: PropTypes.any,
