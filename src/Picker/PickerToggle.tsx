@@ -36,11 +36,7 @@ export interface PickerToggleProps extends ToggleButtonProps {
   onClean?: (event: React.MouseEvent) => void;
 }
 
-const defaultProps: Partial<PickerToggleProps> = {
-  as: ToggleButton,
-  classPrefix: 'picker-toggle',
-  inputMask: []
-};
+const defaultInputMask = [];
 
 const PickerToggle: RsRefForwardingComponent<
   typeof ToggleButton,
@@ -48,8 +44,8 @@ const PickerToggle: RsRefForwardingComponent<
 > = React.forwardRef((props: PickerToggleProps, ref) => {
   const {
     active: activeProp,
-    as: Component,
-    classPrefix,
+    as: Component = ToggleButton,
+    classPrefix = 'picker-toggle',
     children,
     caret = true,
     className,
@@ -64,7 +60,7 @@ const PickerToggle: RsRefForwardingComponent<
     input,
     inputPlaceholder,
     inputValue: inputValueProp,
-    inputMask,
+    inputMask = defaultInputMask,
     onInputChange,
     onInputPressEnter,
     onInputBlur,
@@ -218,7 +214,6 @@ const PickerToggle: RsRefForwardingComponent<
 });
 
 PickerToggle.displayName = 'PickerToggle';
-PickerToggle.defaultProps = defaultProps;
 PickerToggle.propTypes = {
   classPrefix: PropTypes.string,
   hasValue: PropTypes.bool,
