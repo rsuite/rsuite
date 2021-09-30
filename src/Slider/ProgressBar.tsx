@@ -10,16 +10,11 @@ interface ProgressBarProps extends WithAsProps {
   end?: number;
 }
 
-const defaultProps: Partial<ProgressBarProps> = {
-  as: 'div',
-  classPrefix: 'slider-progress-bar'
-};
-
 const ProgressBar: RsRefForwardingComponent<'div', ProgressBarProps> = React.forwardRef(
   (props: ProgressBarProps, ref) => {
     const {
-      as: Component,
-      classPrefix,
+      as: Component = 'div',
+      classPrefix = 'slider-progress-bar',
       vertical,
       rtl,
       end = 0,
@@ -42,7 +37,6 @@ const ProgressBar: RsRefForwardingComponent<'div', ProgressBarProps> = React.for
 );
 
 ProgressBar.displayName = 'ProgressBar';
-ProgressBar.defaultProps = defaultProps;
 ProgressBar.propTypes = {
   as: PropTypes.elementType,
   classPrefix: PropTypes.string,

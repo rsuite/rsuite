@@ -14,21 +14,16 @@ export interface GraduatedProps extends WithAsProps {
   renderMark?: (mark: number) => React.ReactNode;
 }
 
-const defaultProps: Partial<GraduatedProps> = {
-  as: 'div',
-  classPrefix: 'slider'
-};
-
 const Graduated: RsRefForwardingComponent<'div', GraduatedProps> = React.forwardRef(
   (props: GraduatedProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       step,
       min,
       max,
       count,
       value,
-      classPrefix,
+      classPrefix = 'slider',
       className,
       renderMark
     } = props;
@@ -81,7 +76,6 @@ const Graduated: RsRefForwardingComponent<'div', GraduatedProps> = React.forward
 );
 
 Graduated.displayName = 'Graduated';
-Graduated.defaultProps = defaultProps;
 Graduated.propTypes = {
   step: PropTypes.number,
   min: PropTypes.number,
