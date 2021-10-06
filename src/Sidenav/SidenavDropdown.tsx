@@ -52,8 +52,14 @@ export interface SidenavDropdownProps<T = any>
    */
   open?: boolean;
 
-  /** Custom title */
+  /**
+   * Custom title
+   * @deprecated Use `renderToggle` instead.
+   */
   renderTitle?: (children?: React.ReactNode) => React.ReactNode;
+
+  /** Custom Toggle */
+  renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
 
   /** The callback function that the menu closes */
   onClose?: () => void;
@@ -82,7 +88,9 @@ const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = Re
     className,
     menuStyle,
     disabled,
+    /* eslint-disable @typescript-eslint/no-unused-vars */
     renderTitle,
+    renderToggle,
     classPrefix,
     placement,
     toggleClassName,
@@ -149,10 +157,10 @@ const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = Re
               {(buttonProps, buttonRef) => (
                 <DropdownToggle
                   ref={buttonRef}
-                  as={renderTitle ? 'span' : toggleAs}
+                  as={toggleAs}
                   noCaret={noCaret}
                   className={toggleClassName}
-                  renderTitle={renderTitle}
+                  renderToggle={renderToggle}
                   icon={icon}
                   placement={placement}
                   {...omit(buttonProps, ['open'])}
@@ -202,7 +210,8 @@ SidenavDropdown.propTypes = {
   onMouseLeave: PropTypes.func,
   onContextMenu: PropTypes.func,
   onClick: PropTypes.func,
-  renderTitle: PropTypes.func
+  renderTitle: deprecatePropType(PropTypes.func),
+  renderToggle: PropTypes.func
 };
 
 export default SidenavDropdown;
