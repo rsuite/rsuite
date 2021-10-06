@@ -50,6 +50,27 @@ describe('<Sidenav>', () => {
     expect(onSelectSpy, 'onSelect').to.have.been.calledWith('1');
   });
 
+  describe('<Dropdown> inside <Sidenav>', () => {
+    it('Should render a disclosure', () => {
+      const { getByText } = render(
+        <Sidenav>
+          <Nav>
+            <Dropdown title="Dropdown">
+              <Dropdown.Item>Dropdown Item</Dropdown.Item>
+            </Dropdown>
+          </Nav>
+        </Sidenav>
+      );
+
+      // Disclosure content is hidden by default
+      expect(getByText('Dropdown Item')).not.to.be.visible;
+
+      // Click the disclosure's button to reveal its content
+      userEvent.click(getByText('Dropdown'));
+      expect(getByText('Dropdown Item')).to.be.visible;
+    });
+  });
+
   it('Should call onOpenChange callback', done => {
     const doneOp = () => {
       done();

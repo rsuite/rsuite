@@ -1,6 +1,5 @@
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import isNil from 'lodash/isNil';
 import kebabCase from 'lodash/kebabCase';
 import omit from 'lodash/omit';
 import DropdownToggle from '../Dropdown/DropdownToggle';
@@ -12,6 +11,7 @@ import deprecatePropType from '../utils/deprecatePropType';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Disclosure from '../Disclosure/Disclosure';
 import DropdownContext from '../Dropdown/DropdownContext';
+import useInternalId from '../utils/useInternalId';
 
 export interface SidenavDropdownProps<T = any>
   extends WithAsProps,
@@ -111,6 +111,9 @@ const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = Re
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
 
+  const internalId = useInternalId('SidenavDropdown');
+  const uniqueKey = eventKey ?? internalId;
+
   const handleToggleDisclosure = useCallback(
     (open: boolean, event: React.SyntheticEvent<HTMLElement>) => {
       if (open) {
@@ -121,18 +124,15 @@ const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = Re
 
       onToggle?.(open);
 
-      if (isNil(eventKey)) return;
-
-      onOpenChange?.(eventKey, event);
+      onOpenChange?.(uniqueKey, event);
     },
-    [onClose, onOpen, onToggle, eventKey, onOpenChange]
+    [onClose, onOpen, onToggle, uniqueKey, onOpenChange]
   );
 
+  const open = openProp ?? openKeys.includes(uniqueKey);
+
   return (
-    <Disclosure
-      open={openProp ?? (!isNil(eventKey) && openKeys.includes(eventKey))}
-      onToggle={handleToggleDisclosure}
-    >
+    <Disclosure open={open} onToggle={handleToggleDisclosure}>
       {({ open }, containerRef) => {
         const classes = merge(
           className,
