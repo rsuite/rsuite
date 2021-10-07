@@ -15,10 +15,13 @@ describe('Calendar-MonthDropdownItem', () => {
     assert.equal(instance.innerText, '1');
   });
 
-  it('Should call `onSelect` callback', done => {
+  it('Should call `onSelect` callback with correct date', done => {
     const onChangePageDate = date => {
-      if (format(date, 'yyyy-MM') === '2017-01') {
+      try {
+        assert.equal(format(date, 'yyyy-MM'), '2017-01');
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const ref = React.createRef();

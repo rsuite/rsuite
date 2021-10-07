@@ -111,10 +111,13 @@ describe('Rate', () => {
     assert.include(instance.className, 'rs-rate-lg');
   });
 
-  it('Should call onChange callback', done => {
+  it('Should call onChange callback with correct value', done => {
     const doneOp = value => {
-      if (value === 3) {
+      try {
+        assert.equal(value, 3);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 
@@ -136,8 +139,11 @@ describe('Rate', () => {
 
   it('Should call onChange callback by KeyDown event', done => {
     const doneOp = value => {
-      if (value === 3) {
+      try {
+        assert.equal(value, 3);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

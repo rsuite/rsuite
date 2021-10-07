@@ -1,5 +1,6 @@
 import previewFile from '../previewFile';
 
+// fixme wrong `done` usage
 describe('[utils] previewFile', done => {
   it('Should return base64 string', () => {
     const file = new File(['First Line Text', 'Second Line Text'], 'test');

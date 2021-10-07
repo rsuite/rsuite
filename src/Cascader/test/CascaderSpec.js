@@ -131,10 +131,13 @@ describe('Cascader', () => {
     );
   });
 
-  it('Should call onSelect callback ', done => {
+  it('Should call onSelect callback with correct node value', done => {
     const doneOp = node => {
-      if (node.value === '2') {
+      try {
+        assert.equal(node.value, '2');
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getInstance(<Cascader data={items} defaultOpen onSelect={doneOp} />);
@@ -143,10 +146,13 @@ describe('Cascader', () => {
     );
   });
 
-  it('Should call onChange callback ', done => {
+  it('Should call onChange callback with correct value', done => {
     const doneOp = value => {
-      if (value === '2') {
+      try {
+        assert.equal(value, '2');
         done();
+      } catch (err) {
+        done(err);
       }
     };
 
@@ -158,8 +164,11 @@ describe('Cascader', () => {
 
   it('Should call onChange callback by `parentSelectable`', done => {
     const doneOp = value => {
-      if (value === '3') {
+      try {
+        assert.equal(value, '3');
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

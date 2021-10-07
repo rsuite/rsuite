@@ -34,9 +34,12 @@ describe('Animation.Collapse', () => {
           ref={collapseRef}
           in={show}
           onExit={() => {
-            // eslint-disable-next-line react/no-find-dom-node
-            if (findDOMNode(collapseRef.current).style.height === '50px') {
+            try {
+              // eslint-disable-next-line react/no-find-dom-node
+              assert.equal(findDOMNode(collapseRef.current).style.height, '50px');
               done();
+            } catch (err) {
+              done(err);
             }
           }}
           getDimensionValue={() => {

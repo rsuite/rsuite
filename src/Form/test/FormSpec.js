@@ -196,14 +196,17 @@ describe('Form', () => {
     });
   });
 
-  it('Should call onChange callback', done => {
+  it('Should call onChange callback with correct form values', done => {
     const values = {
       name: 'abc'
     };
 
     const doneOp = v => {
-      if (v.name === values.name) {
+      try {
+        assert.deepEqual(v, values);
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(
@@ -295,7 +298,12 @@ describe('Form', () => {
                 _isNil(formError.name2) &&
                 formValue.name3 === 'abc@qq.com' &&
                 _isNil(formError.name3);
-              this.result && done();
+              try {
+                assert.isTrue(this.result);
+                done();
+              } catch (err) {
+                done(err);
+              }
           }
         });
 
@@ -334,8 +342,11 @@ describe('Form', () => {
     };
 
     const doneOp = v => {
-      if (v.name === checkEmail) {
+      try {
+        assert.equal(v.name, checkEmail);
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(
@@ -376,8 +387,11 @@ describe('Form', () => {
     };
 
     const doneOp = v => {
-      if (typeof v.name === 'undefined') {
+      try {
+        assert.typeOf(v.name, 'undefined');
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(
@@ -394,8 +408,11 @@ describe('Form', () => {
     };
 
     const doneOp = v => {
-      if (typeof v.name === 'undefined') {
+      try {
+        assert.typeOf(v.name, 'undefined');
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(
@@ -437,8 +454,13 @@ describe('Form', () => {
     };
 
     const doneOp = v => {
-      if (v.email === 'email is null') {
+      try {
+        assert.deepEqual(v, {
+          email: 'email is null'
+        });
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(
@@ -477,8 +499,13 @@ describe('Form', () => {
       name: 'abc'
     };
     const doneOp = v => {
-      if (v.name === 'Duplicate name') {
+      try {
+        assert.deepEqual(v, {
+          name: 'Duplicate name'
+        });
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(
@@ -499,8 +526,11 @@ describe('Form', () => {
       </Form>
     );
     instance.checkAsync().then(result => {
-      if (result.hasError) {
+      try {
+        assert.isTrue(result.hasError);
         done();
+      } catch (err) {
+        done(err);
       }
     });
   });
@@ -515,8 +545,11 @@ describe('Form', () => {
       </Form>
     );
     instance.checkForFieldAsync('name').then(result => {
-      if (result.hasError) {
+      try {
+        assert.isTrue(result.hasError);
         done();
+      } catch (err) {
+        done(err);
       }
     });
   });
@@ -545,14 +578,21 @@ describe('Form', () => {
 
     const doneOp = error => {
       const item = error.items.array[0].object;
-      if (
-        error.items.hasError &&
-        item.field1.hasError &&
-        item.field1.errorMessage === 'error1' &&
-        item.field2.hasError &&
-        item.field2.errorMessage === 'error2'
-      ) {
+      try {
+        assert.isTrue(error.items.hasError);
+        assert.deepEqual(item, {
+          field1: {
+            hasError: true,
+            errorMessage: 'error1'
+          },
+          field2: {
+            hasError: true,
+            errorMessage: 'error2'
+          }
+        });
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(
@@ -583,14 +623,21 @@ describe('Form', () => {
 
     const doneOp = error => {
       const item = error.items.array[0].object;
-      if (
-        error.items.hasError &&
-        item.field1.hasError &&
-        item.field1.errorMessage === 'error1' &&
-        item.field2.hasError &&
-        item.field2.errorMessage === 'error2'
-      ) {
+      try {
+        assert.isTrue(error.items.hasError);
+        assert.deepEqual(item, {
+          field1: {
+            hasError: true,
+            errorMessage: 'error1'
+          },
+          field2: {
+            hasError: true,
+            errorMessage: 'error2'
+          }
+        });
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

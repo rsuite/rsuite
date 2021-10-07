@@ -16,11 +16,14 @@ describe('<Nav.Item>', () => {
     assert.equal(innerText(instance), title);
   });
 
-  it('Should call onSelect callback', done => {
+  it('Should call onSelect callback with correct eventKey', done => {
     let key = 'Test';
     let doneOp = eventKey => {
-      if (eventKey === key) {
+      try {
+        assert.equal(eventKey, key);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

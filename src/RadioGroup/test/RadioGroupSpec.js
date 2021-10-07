@@ -75,12 +75,15 @@ describe('RadioGroup', () => {
     assert.ok(radios[1].className.match(/\bradio-checked\b/));
   });
 
-  it('Should call onChange callback', done => {
+  it('Should call onChange callback with correct value', done => {
     const instance = getDOMNode(
       <RadioGroup
         onChange={value => {
-          if (value === 3) {
+          try {
+            assert.equal(value, 3);
             done();
+          } catch (err) {
+            done(err);
           }
         }}
       >
@@ -120,13 +123,16 @@ describe('RadioGroup', () => {
     ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
   });
 
-  it('Should call onChange callback and return correct parameters', done => {
+  it('Should call onChange callback with correct event target', done => {
     const instance = getDOMNode(
       <RadioGroup
         name="test"
         onChange={(value, event) => {
-          if (value === 3 && event.target.name === 'test') {
+          try {
+            assert.equal(event.target.name, 'test');
             done();
+          } catch (err) {
+            done(err);
           }
         }}
       >

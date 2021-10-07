@@ -175,10 +175,14 @@ describe('TagPicker', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
-  it('Should call `onSelect` by key=Enter ', done => {
+  it('Should call `onSelect` with correct args by key=Enter ', done => {
     const doneOp = (value, item) => {
-      if (value[1] === 'Louisa' && item.value === 'Louisa') {
+      try {
+        assert.deepEqual(value, ['Kariane', 'Louisa']);
+        assert.equal(item.value, 'Louisa');
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(
@@ -194,10 +198,13 @@ describe('TagPicker', () => {
     assert.ok(instance.root.querySelector('.rs-picker-toggle-clean'));
   });
 
-  it('Should call `onSearch` callback', done => {
+  it('Should call `onSearch` callback with correct search keyword', done => {
     const doneOp = key => {
-      if (key === 'a') {
+      try {
+        assert.equal(key, 'a');
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(<TagPicker defaultOpen onSearch={doneOp} />);
@@ -232,8 +239,11 @@ describe('TagPicker', () => {
 
   it('Should call `onChange` by remove last item ', done => {
     const doneOp = value => {
-      if (value.length === 1 && value[0] === 'Kariane') {
+      try {
+        assert.deepEqual(value, ['Kariane']);
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(
@@ -245,8 +255,11 @@ describe('TagPicker', () => {
 
   it('Should call `onChange` by removeTag ', done => {
     const doneOp = value => {
-      if (value.length === 1 && value[0] === 'Eugenia') {
+      try {
+        assert.deepEqual(value, ['Eugenia']);
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(
@@ -353,10 +366,13 @@ describe('TagPicker', () => {
     assert.equal(instance.querySelector('input[type="text"]').getAttribute('tabindex'), '10');
   });
 
-  it('Should create a tag', done => {
+  it('Should call `onCreate` with correct value', done => {
     const doneOp = value => {
-      if (value.length === 1 && value[0] === 'abc') {
+      try {
+        assert.deepEqual(value, ['abc']);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 
@@ -377,8 +393,11 @@ describe('TagPicker', () => {
 
   it('Should create a tag by tirgger="Space" ', done => {
     const doneOp = value => {
-      if (value.length === 1 && value[0] === 'abc') {
+      try {
+        assert.deepEqual(value, ['abc']);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 
@@ -399,8 +418,11 @@ describe('TagPicker', () => {
 
   it('Should create a tag by tirgger="Comma" ', done => {
     const doneOp = value => {
-      if (value.length === 1 && value[0] === 'abc') {
+      try {
+        assert.deepEqual(value, ['abc']);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

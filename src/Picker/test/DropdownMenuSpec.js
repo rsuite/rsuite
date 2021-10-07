@@ -109,10 +109,13 @@ describe('picker -  DropdownMenu', () => {
     assert.equal(instance.querySelectorAll('.rs-dropdown-menu-item').length, 3);
   });
 
-  it('Should call onSelect callback ', done => {
+  it('Should call onSelect callback with correct value', done => {
     const doneOp = value => {
-      if (value === 'b') {
+      try {
+        assert.equal(value, 'b');
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

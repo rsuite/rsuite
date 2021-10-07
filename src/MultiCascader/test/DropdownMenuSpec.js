@@ -88,10 +88,13 @@ describe('MultiCascader -  DropdownMenu', () => {
     assert.equal(instance.overlay.querySelectorAll('li').length, 3);
   });
 
-  it('Should call onSelect callback ', done => {
+  it('Should call onSelect callback with correct node value', done => {
     const doneOp = node => {
-      if (node.value === 'abcd') {
+      try {
+        assert.equal(node.value, 'abcd');
         done();
+      } catch (err) {
+        done(err);
       }
     };
 
