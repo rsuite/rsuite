@@ -225,4 +225,20 @@ describe('picker -  DropdownMenu', () => {
 
     assert.equal(instance.querySelectorAll('[data-key="1"]').length, 1);
   });
+
+  it('Should to reset the option height', () => {
+    const instance = getDOMNode(
+      <DropdownMenu
+        data={items}
+        maxHeight={50}
+        dropdownMenuItemAs={DropdownMenuItem}
+        classPrefix={classPrefix}
+        virtualized
+        listProps={{ rowHeight: 28 }}
+      />
+    );
+
+    const option = instance.querySelector('[role="option"]');
+    assert.equal(option.style.height, '28px');
+  });
 });

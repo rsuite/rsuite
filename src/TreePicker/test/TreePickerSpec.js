@@ -493,4 +493,13 @@ describe('TreePicker', () => {
 
     assert.equal(instance.overlay.querySelectorAll('.rs-tree-node').length, 4);
   });
+
+  it('Should to reset the option height', () => {
+    const instance = getInstance(
+      <TreePicker open virtualized data={data} listProps={{ rowHeight: 28 }} />
+    );
+
+    const node = instance.overlay.querySelector('.rs-tree-node');
+    assert.equal(node.style.height, '28px');
+  });
 });

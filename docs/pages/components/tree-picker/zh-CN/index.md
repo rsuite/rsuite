@@ -70,8 +70,9 @@
 | getChildren             | (node: DataItemType) => Promise&lt;DataItemType&gt;                                           | 异步加载节点数据                                                                |
 | height                  | number `(360px)`                                                                              | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
 | labelKey                | string `('label')`                                                                            | tree 数据结构 label 属性名称                                                    |
-| locale                  | object                                                                                        | 本地语言                                                                        |
+| listProps               | [ListProps][listprops]                                                                        | `react-virtualized` 中 List 的相关属性                                          |
 | locale                  | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                   | 本地化的文本                                                                    |
+| locale                  | object                                                                                        | 本地语言                                                                        |
 | menuClassName           | string                                                                                        | 应用于菜单 DOM 节点的 css class                                                 |
 | menuStyle               | CSSProperties                                                                                 | 应用于菜单 DOM 节点的 style                                                     |
 | onChange                | (value:string) => void                                                                        | 数据改变的回调函数                                                              |
@@ -107,3 +108,5 @@
 - [`<CheckTreePicker>`](/zh/components/check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。
 - [`<Tree>`](/zh/components/tree) 用于展示一个树结构数据。
 - [`<CheckTree>`](/zh/components/check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。
+
+[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types

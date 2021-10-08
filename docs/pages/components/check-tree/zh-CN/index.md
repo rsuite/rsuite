@@ -38,13 +38,14 @@
 | childKey                | string `('children')`                                                                         | tree 数据结构 children 属性名称                                                 |
 | data \*                 | Array&lt;DataItemType&gt;                                                                     | tree 数据                                                                       |
 | defaultExpandAll        | boolean                                                                                       | 默认展开所有节点                                                                |
+| defaultExpandItemValues | any []                                                                                        | 设置默认展开节点的值                                                            |
 | defaultValue            | string[]                                                                                      | 默认选中的值                                                                    |
 | disabledItemValues      | string[]                                                                                      | 禁用节点列表                                                                    |
-| defaultExpandItemValues | any []                                                                                        | 设置默认展开节点的值                                                            |
 | expandItemValues        | any []                                                                                        | 设置展开节点的值（受控）                                                        |
 | getChildren             | (node: DataItemType) => Promise&lt;DataItemType&gt;                                           | 异步加载节点数据                                                                |
 | height                  | number `(360px)`                                                                              | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
 | labelKey                | string `('label')`                                                                            | tree 数据结构 label 属性名称                                                    |
+| listProps               | [ListProps][listprops]                                                                        | `react-virtualized` 中 List 的相关属性                                          |
 | onChange                | (values:string[]) => void                                                                     | 数据改变的回调函数                                                              |
 | onExpand                | (expandItemValues: any [], activeNode:DataItemType, concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
 | onSelect                | (activeNode:DataItemType,value:any, event) => void                                            | 选择树节点后的回调函数                                                          |
@@ -61,3 +62,5 @@
 - [`<Tree>`](/zh/components/tree) 用于展示一个树结构数据。
 - [`<TreePicker>`](/zh/components/tree-picker) 选择器组件，树形单项选择器。
 - [`<CheckTreePicker>`](/zh/components/check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。
+
+[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types

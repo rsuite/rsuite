@@ -72,6 +72,7 @@
 | getChildren             | (node: DataItemType) => Promise&lt;DataItemType&gt;                                           | 异步加载节点数据                                                                |
 | height                  | number `(360px)`                                                                              | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
 | labelKey                | string `('label')`                                                                            | tree 数据结构 label 属性名称                                                    |
+| listProps               | [ListProps][listprops]                                                                        | `react-virtualized` 中 List 的相关属性                                          |
 | locale                  | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                   | 本地化的文本                                                                    |
 | menuClassName           | string                                                                                        | 选项菜单的 className                                                            |
 | menuStyle               | CSSProperties                                                                                 | 应用于菜单 DOM 节点的 style                                                     |
@@ -110,3 +111,5 @@
 - [`<CheckTree>`](/zh/components/check-tree) 用于展示一个树结构数据，同时支持 Checkbox 选择。
 - [`<Tree>`](/zh/components/tree) 用于展示一个树结构数据。
 - [`<TreePicker>`](/zh/components/tree-picker) 选择器组件，树形单项选择器。
+
+[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types

@@ -138,6 +138,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     expandItemValues: controlledExpandItemValues,
     defaultExpandItemValues,
     id,
+    listProps,
     getChildren,
     renderTreeIcon,
     renderTreeNode,
@@ -793,6 +794,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
                   rowCount={formattedNodes.length}
                   rowRenderer={renderVirtualListNode(formattedNodes)}
                   scrollToAlignment="center"
+                  {...listProps}
                 />
               )}
             </AutoSizer>

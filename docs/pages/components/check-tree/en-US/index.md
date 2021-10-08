@@ -38,13 +38,14 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 | childKey                | string `('children')`                                                                         | Set childrenKey key in data                                               |
 | data \*                 | Array&lt;DataItemType&gt;                                                                     | Tree data                                                                 |
 | defaultExpandAll        | boolean                                                                                       | Expand all tree node                                                      |
-| defaultValue            | string[]                                                                                      | Default values of the selected tree node                                  |
 | defaultExpandItemValues | any []                                                                                        | Set the value of the default expanded node                                |
+| defaultValue            | string[]                                                                                      | Default values of the selected tree node                                  |
 | disabledItemValues      | string[]                                                                                      | Values of disabled tree node                                              |
 | expandItemValues        | any []                                                                                        | Set the value of the expanded node (controlled)                           |
 | getChildren             | (node: DataItemType) => Promise&lt;DataItemType&gt;                                           | load node children data asynchronously                                    |
 | height                  | number `(360px)`                                                                              | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                            | Set label key in data                                                     |
+| listProps               | [ListProps][listprops]                                                                        | List-related properties in `react-virtualized`                            |
 | onChange                | (values:string[]) => void                                                                     | Callback fired when value change                                          |
 | onExpand                | (expandItemValues: any [], activeNode:DataItemType, concat:(data, children) => Array) => void | callback fired when tree node expand state changed                        |
 | onSelect                | (activeNode:string, value:any, event) => void                                                 | Callback fired when tree node is selected                                 |
@@ -61,3 +62,5 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 - [`<Tree>`](/components/tree)
 - [`<TreePicker>`](/components/tree-picker)
 - [`<CheckTreePicker>`](/components/check-tree-picker)
+
+[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types

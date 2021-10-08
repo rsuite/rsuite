@@ -212,13 +212,13 @@ const DropdownMenu = React.forwardRef(
                 role="listbox"
                 containerRole={''}
                 aria-readonly={null}
-                {...listProps}
                 width={width}
                 height={height || maxHeight}
                 scrollToIndex={findIndex(data, item => item[valueKey] === activeItemValues?.[0])}
                 rowCount={rowCount}
                 rowHeight={getRowHeight.bind(this, filteredItems)}
                 rowRenderer={renderItem.bind(null, filteredItems)}
+                {...listProps}
               />
             )}
           </AutoSizer>
