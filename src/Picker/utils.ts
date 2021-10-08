@@ -416,13 +416,6 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
         }
       }
 
-      if (event.key === KEY_VALUES.ESC || event.key === KEY_VALUES.TAB) {
-        handleClose();
-      }
-
-      // Native event callback
-      onKeyDown?.(event);
-
       if (overlayRef?.current) {
         // The keyboard operation callback on the menu.
         onMenuKeyDown?.(event);
@@ -430,7 +423,12 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
         if (event.key === KEY_VALUES.ENTER) {
           onMenuPressEnter?.(event);
         }
-        if (event.key === KEY_VALUES.BACKSPACE) {
+
+        /**
+         * There is no callback when typing the Backspace key in the search box.
+         * The default is to remove search keywords
+         */
+        if (event.key === KEY_VALUES.BACKSPACE && event.target !== searchInputRef?.current) {
           onMenuPressBackspace?.(event);
         }
 
@@ -439,6 +437,13 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
           searchInputRef?.current?.focus();
         }
       }
+
+      if (event.key === KEY_VALUES.ESC || event.key === KEY_VALUES.TAB) {
+        handleClose();
+      }
+
+      // Native event callback
+      onKeyDown?.(event);
     },
     [
       handleClose,

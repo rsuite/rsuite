@@ -360,6 +360,28 @@ describe('CheckPicker', () => {
     assert.notInclude(instance3.className, 'rs-picker-has-value');
   });
 
+  it('Should not call `onClean` callback on Input ', () => {
+    const onCleanSpy = sinon.spy();
+    const instance = getInstance(<Dropdown data={data} onClean={onCleanSpy} defaultOpen />);
+    const input = instance.overlay.querySelector('.rs-picker-search-bar-input');
+
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
+    ReactTestUtils.Simulate.keyDown(input, { key: 'Backspace' });
+
+    assert.isTrue(onCleanSpy.notCalled);
+  });
+
+  it('Should call onClose callback by key="Escape"', done => {
+    const instance = getInstance(<Dropdown data={data} onClose={done} defaultOpen />);
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Escape' });
+  });
+
+  it('Should call onClose callback by key="Tab"', done => {
+    const instance = getInstance(<Dropdown data={data} onClose={done} defaultOpen />);
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Tab' });
+  });
+
   describe('ref testing', () => {
     it('Should call onOpen', done => {
       const doneOp = () => {
