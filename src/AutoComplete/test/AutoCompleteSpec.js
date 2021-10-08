@@ -25,10 +25,14 @@ describe('AutoComplete', () => {
     assert.include(instance.className, 'rs-auto-complete-disabled');
   });
 
-  it('Should call onSelect callback', done => {
+  it('Should call onSelect callback with correct args', done => {
     const doneOp = (value, item) => {
-      if ((value === 'a', (item.value = 'a'))) {
+      try {
+        assert.equal(value, 'a');
+        assert.equal(item.value, 'a');
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getInstance(
@@ -130,8 +134,11 @@ describe('AutoComplete', () => {
 
   it('Should call onSelect callback with selected item when key=Enter', done => {
     const doneOp = value => {
-      if (value === 'ab') {
+      try {
+        assert.equal(value, 'ab');
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

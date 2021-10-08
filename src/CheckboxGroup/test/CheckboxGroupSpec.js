@@ -84,12 +84,15 @@ describe('CheckboxGroup', () => {
     assert.ok(checkboxs[3].className.match(checked));
   });
 
-  it('Should call onChange callback', done => {
+  it('Should call onChange callback with correct value', done => {
     const instance = getDOMNode(
       <CheckboxGroup
         onChange={value => {
-          if (value.length === 1 && value[0] === 3) {
+          try {
+            assert.deepEqual(value, [3]);
             done();
+          } catch (err) {
+            done(err);
           }
         }}
       >
