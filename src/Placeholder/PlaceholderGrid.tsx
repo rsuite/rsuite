@@ -21,25 +21,16 @@ export interface PlaceholderGridProps extends WithAsProps {
   active?: boolean;
 }
 
-const defaultProps: Partial<PlaceholderGridProps> = {
-  as: 'div',
-  classPrefix: 'placeholder',
-  rows: 5,
-  columns: 5,
-  rowHeight: 10,
-  rowMargin: 20
-};
-
 const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = React.forwardRef(
   (props: PlaceholderGridProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
-      classPrefix,
-      rows,
-      columns,
-      rowHeight,
-      rowMargin,
+      classPrefix = 'placeholder',
+      rows = 5,
+      columns = 5,
+      rowHeight = 10,
+      rowMargin = 20,
       active,
       ...rest
     } = props;
@@ -83,7 +74,6 @@ const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = R
 );
 
 PlaceholderGrid.displayName = 'PlaceholderGrid';
-PlaceholderGrid.defaultProps = defaultProps;
 PlaceholderGrid.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,

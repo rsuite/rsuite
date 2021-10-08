@@ -21,10 +21,6 @@ export interface OverlayProps extends AnimationEventProps {
   onClose?: () => void;
 }
 
-const defaultProps: Partial<OverlayProps> = {
-  transition: Fade
-};
-
 export const overlayPropTypes = {
   container: PropTypes.any,
   children: PropTypes.any,
@@ -54,7 +50,7 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
     rootClose,
     children,
     childrenProps,
-    transition: Transition,
+    transition: Transition = Fade,
     open,
     preventOverflow,
     triggerTarget,
@@ -147,7 +143,6 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
 });
 
 Overlay.displayName = 'Overlay';
-Overlay.defaultProps = defaultProps;
 Overlay.propTypes = overlayPropTypes;
 
 export default Overlay;

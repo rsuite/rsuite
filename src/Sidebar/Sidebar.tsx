@@ -12,15 +12,17 @@ export interface SidebarProps extends WithAsProps {
   collapsible?: boolean;
 }
 
-const defaultProps: Partial<SidebarProps> = {
-  as: 'aside',
-  classPrefix: 'sidebar',
-  width: 260
-};
-
 const Sidebar: RsRefForwardingComponent<'aside', SidebarProps> = React.forwardRef(
   (props: SidebarProps, ref) => {
-    const { as: Component, classPrefix, className, collapsible, width, style, ...rest } = props;
+    const {
+      as: Component = 'aside',
+      classPrefix = 'sidebar',
+      className,
+      collapsible,
+      width = 260,
+      style,
+      ...rest
+    } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ collapse: collapsible }));
     const { setHasSidebar } = useContext(ContainerContext);
@@ -40,7 +42,6 @@ const Sidebar: RsRefForwardingComponent<'aside', SidebarProps> = React.forwardRe
 );
 
 Sidebar.displayName = 'Sidebar';
-Sidebar.defaultProps = defaultProps;
 Sidebar.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,

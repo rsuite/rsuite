@@ -14,14 +14,17 @@ export interface TooltipProps extends WithAsProps {
   children?: React.ReactNode;
 }
 
-const defaultProps: Partial<TooltipProps> = {
-  as: 'div',
-  classPrefix: 'tooltip'
-};
-
 const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
   (props: TooltipProps, ref) => {
-    const { as: Component, className, classPrefix, children, style, visible, ...rest } = props;
+    const {
+      as: Component = 'div',
+      className,
+      classPrefix = 'tooltip',
+      children,
+      style,
+      visible,
+      ...rest
+    } = props;
 
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
@@ -39,7 +42,6 @@ const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
 );
 
 Tooltip.displayName = 'Tooltip';
-Tooltip.defaultProps = defaultProps;
 Tooltip.propTypes = {
   visible: PropTypes.bool,
   classPrefix: PropTypes.string,

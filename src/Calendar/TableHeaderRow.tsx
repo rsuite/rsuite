@@ -6,16 +6,11 @@ import { useCalendarContext } from './CalendarContext';
 
 export type TableHeaderRowProps = WithAsProps;
 
-const defaultProps: Partial<TableHeaderRowProps> = {
-  classPrefix: 'calendar-table',
-  as: 'div'
-};
-
 const weekKeys = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 const TableHeaderRow: RsRefForwardingComponent<'div', TableHeaderRowProps> = React.forwardRef(
   (props: TableHeaderRowProps, ref) => {
-    const { as: Component, className, classPrefix, ...rest } = props;
+    const { as: Component = 'div', className, classPrefix = 'calendar-table', ...rest } = props;
     const { locale, showWeekNumbers, isoWeek } = useCalendarContext();
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('row', 'header-row'));
@@ -45,6 +40,5 @@ TableHeaderRow.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string
 };
-TableHeaderRow.defaultProps = defaultProps;
 
 export default TableHeaderRow;

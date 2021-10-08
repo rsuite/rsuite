@@ -40,11 +40,6 @@ export interface SidenavDropdownMenuProps<T = any>
   title?: React.ReactNode;
 }
 
-const defaultProps: Partial<SidenavDropdownMenuProps> = {
-  as: 'li',
-  classPrefix: 'dropdown-item'
-};
-
 /**
  * Tree View Node
  * @see https://www.w3.org/TR/wai-aria-practices-1.2/#TreeView
@@ -54,12 +49,12 @@ const SidenavDropdownMenu: RsRefForwardingComponent<
   SidenavDropdownMenuProps
 > = React.forwardRef<HTMLLIElement, SidenavDropdownMenuProps>((props, ref) => {
   const {
-    as: Component,
+    as: Component = 'li',
     children,
     disabled,
     className,
     style,
-    classPrefix,
+    classPrefix = 'dropdown-item',
     tabIndex,
     icon,
     title,
@@ -144,7 +139,6 @@ const SidenavDropdownMenu: RsRefForwardingComponent<
 });
 
 SidenavDropdownMenu.displayName = 'Sidenav.Dropdown.Menu';
-SidenavDropdownMenu.defaultProps = defaultProps;
 SidenavDropdownMenu.propTypes = {
   as: PropTypes.elementType,
   expanded: PropTypes.bool,

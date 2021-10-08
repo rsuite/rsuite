@@ -26,21 +26,16 @@ export interface PaginationButtonProps
   onSelect?: (eventKey: number | string, event: React.MouseEvent) => void;
 }
 
-const defaultProps: Partial<PaginationButtonProps> = {
-  classPrefix: 'pagination-btn',
-  as: 'button'
-};
-
 const PaginationButton: RsRefForwardingComponent<
   'button',
   PaginationButtonProps
 > = React.forwardRef((props: PaginationButtonProps, ref) => {
   const {
-    as: Component,
+    as: Component = 'button',
     active,
     disabled,
     className,
-    classPrefix,
+    classPrefix = 'pagination-btn',
     children,
     eventKey,
     style,
@@ -86,7 +81,6 @@ const PaginationButton: RsRefForwardingComponent<
 });
 
 PaginationButton.displayName = 'PaginationButton';
-PaginationButton.defaultProps = defaultProps;
 PaginationButton.propTypes = {
   classPrefix: PropTypes.string,
   eventKey: PropTypes.any,

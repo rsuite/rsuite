@@ -170,21 +170,6 @@ export interface FileProgressType {
   progress?: number;
 }
 
-const defaultProps: Partial<UploaderProps> = {
-  as: 'div',
-  classPrefix: 'uploader',
-  autoUpload: true,
-  timeout: 0,
-  name: 'file',
-  multiple: false,
-  disabled: false,
-  withCredentials: false,
-  data: {},
-  listType: 'text',
-  removable: true,
-  fileListVisible: true
-};
-
 const getFiles = (
   event: React.ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLInputElement>
 ) => {
@@ -266,34 +251,34 @@ const useFileList = (
 
 const Uploader = React.forwardRef((props: UploaderProps, ref) => {
   const {
-    as: Component,
-    classPrefix,
+    as: Component = 'div',
+    classPrefix = 'uploader',
     className,
-    listType,
+    listType = 'text',
     defaultFileList,
     fileList: fileListProp,
-    fileListVisible,
+    fileListVisible = true,
     locale: localeProp,
     style,
     draggable,
-    name,
-    multiple,
-    disabled,
+    name = 'file',
+    multiple = false,
+    disabled = false,
     readOnly,
     plaintext,
     accept,
     children,
     toggleAs,
-    removable,
+    removable = true,
     disabledFileItem,
     maxPreviewFileSize,
-    autoUpload,
+    autoUpload = true,
     action,
     headers,
-    withCredentials,
+    withCredentials = false,
     disableMultipart,
-    timeout,
-    data,
+    timeout = 0,
+    data = {},
     onRemove,
     onUpload,
     shouldUpload,
@@ -595,7 +580,6 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
 });
 
 Uploader.displayName = 'Uploader';
-Uploader.defaultProps = defaultProps;
 Uploader.propTypes = {
   action: PropTypes.string,
   accept: PropTypes.string,

@@ -37,23 +37,17 @@ export interface CalendarPanelProps extends WithAsProps {
   renderCell?: (date: Date) => React.ReactNode;
 }
 
-const defaultProps: Partial<CalendarPanelProps> = {
-  defaultValue: new Date(),
-  classPrefix: 'calendar',
-  as: Calendar
-};
-
 const CalendarPanel: RsRefForwardingComponent<
   typeof Calendar,
   CalendarPanelProps
 > = React.forwardRef((props: CalendarPanelProps, ref) => {
   const {
-    as: Component,
+    as: Component = Calendar,
     bordered,
     className,
-    classPrefix,
+    classPrefix = 'calendar',
     compact,
-    defaultValue,
+    defaultValue = new Date(),
     isoWeek,
     locale: overrideLocale,
     onChange,
@@ -155,6 +149,5 @@ CalendarPanel.propTypes = {
   onSelect: PropTypes.func,
   renderCell: PropTypes.func
 };
-CalendarPanel.defaultProps = defaultProps;
 
 export default CalendarPanel;

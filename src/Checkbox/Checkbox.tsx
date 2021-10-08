@@ -58,14 +58,6 @@ export interface CheckboxProps<V = ValueType> extends WithAsProps {
   onCheckboxClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-const defaultProps: Partial<CheckboxProps> = {
-  as: 'div',
-  classPrefix: 'checkbox',
-  checkable: true,
-  tabIndex: 0,
-  inputProps: {}
-};
-
 const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRef(
   (props: CheckboxProps, ref) => {
     const {
@@ -80,18 +72,18 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
     } = useContext(CheckboxGroupContext);
 
     const {
-      as: Component,
+      as: Component = 'div',
       checked: controlledChecked,
       className,
       children,
-      classPrefix,
-      checkable,
+      classPrefix = 'checkbox',
+      checkable = true,
       defaultChecked,
       title,
       inputRef,
       inputProps,
       indeterminate,
-      tabIndex,
+      tabIndex = 0,
       disabled = disabledContext,
       readOnly = readOnlyContext,
       plaintext = plaintextContext,
@@ -179,7 +171,6 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
 );
 
 Checkbox.displayName = 'Checkbox';
-Checkbox.defaultProps = defaultProps;
 Checkbox.propTypes = {
   as: PropTypes.elementType,
   title: PropTypes.string,

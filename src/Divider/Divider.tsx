@@ -10,14 +10,16 @@ export interface DividerProps extends WithAsProps {
   vertical?: boolean;
 }
 
-const defaultProps: Partial<DividerProps> = {
-  classPrefix: 'divider',
-  as: 'div'
-};
-
 const Divider: RsRefForwardingComponent<'div', DividerProps> = React.forwardRef(
   (props: DividerProps, ref) => {
-    const { as: Component, className, classPrefix, children, vertical, ...rest } = props;
+    const {
+      as: Component = 'div',
+      className,
+      classPrefix = 'divider',
+      children,
+      vertical,
+      ...rest
+    } = props;
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(
       className,
@@ -41,7 +43,6 @@ const Divider: RsRefForwardingComponent<'div', DividerProps> = React.forwardRef(
 );
 
 Divider.displayName = 'Divider';
-Divider.defaultProps = defaultProps;
 Divider.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,

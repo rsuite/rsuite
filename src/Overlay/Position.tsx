@@ -31,16 +31,17 @@ export interface PositionProps {
   triggerTarget?: React.RefObject<any>;
 }
 
-const defaultProps: Partial<PositionProps> = {
-  containerPadding: 0,
-  placement: 'right'
-};
-
 const usePosition = (
   props: PositionProps,
   ref: React.RefObject<HTMLElement>
 ): [PositionType, (placementChanged?: any) => void] => {
-  const { placement, preventOverflow, containerPadding, container, triggerTarget } = props;
+  const {
+    placement = 'right',
+    preventOverflow,
+    containerPadding = 0,
+    container,
+    triggerTarget
+  } = props;
   const containerRef = useRef<Element>();
   const lastTargetRef = useRef<Element>();
   const defaultPosition = {
@@ -178,7 +179,6 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
 });
 
 Position.displayName = 'Position';
-Position.defaultProps = defaultProps;
 Position.propTypes = {
   className: PropTypes.string,
   children: PropTypes.func,

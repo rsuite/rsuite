@@ -40,10 +40,6 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
   onToggle?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
 }
 
-const defaultProps: Partial<DropdownMenuProps> = {
-  classPrefix: 'dropdown-menu'
-};
-
 /**
  * The <Dropdown.Menu> API
  *
@@ -73,7 +69,7 @@ const DropdownMenu = React.forwardRef(
       title,
       activeKey,
       onSelect,
-      classPrefix,
+      classPrefix = 'dropdown-menu',
       children,
       ...rest
     } = props;
@@ -215,7 +211,6 @@ const DropdownMenu = React.forwardRef(
 );
 
 DropdownMenu.displayName = 'Dropdown.Menu';
-DropdownMenu.defaultProps = defaultProps;
 DropdownMenu.propTypes = {
   active: PropTypes.bool,
   activeKey: PropTypes.any,

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Checkbox from '../index';
+import Checkbox from '../Checkbox';
 import { createTestContainer, getDOMNode, toRGB, itChrome } from '@test/testUtils';
 
 import '../styles/index.less';

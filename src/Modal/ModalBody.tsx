@@ -1,21 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { ModalContext } from './Modal';
+import { ModalContext } from './ModalContext';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import IconButton from '../IconButton';
 import Close from '@rsuite/icons/Close';
 
 export type ModalBodyProps = WithAsProps;
 
-const defaultProps: Partial<ModalBodyProps> = {
-  as: 'div',
-  classPrefix: 'modal-body'
-};
-
 const ModalBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forwardRef(
   (props: ModalBodyProps, ref) => {
-    const { as: Component, classPrefix, className, style, children, ...rest } = props;
+    const {
+      as: Component = 'div',
+      classPrefix = 'modal-body',
+      className,
+      style,
+      children,
+      ...rest
+    } = props;
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
@@ -44,7 +46,6 @@ const ModalBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forward
 );
 
 ModalBody.displayName = 'ModalBody';
-ModalBody.defaultProps = defaultProps;
 ModalBody.propTypes = {
   as: PropTypes.elementType,
   classPrefix: PropTypes.string,

@@ -12,39 +12,30 @@ import { SliderProps } from '../Slider';
 export type ValueType = number[];
 export type RangeSliderProps = SliderProps<ValueType>;
 
-const defaultProps: Partial<RangeSliderProps> = {
-  as: 'div',
-  classPrefix: 'slider',
-  min: 0,
-  max: 100,
-  step: 1,
-  defaultValue: [0, 0],
-  tooltip: true,
-  progress: true
-};
+const defaultDefaultValue = [0, 0];
 
 const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   const {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledby,
     'aria-valuetext': ariaValuetext,
-    as: Component,
+    as: Component = 'div',
     barClassName,
     className,
-    defaultValue,
+    defaultValue = defaultDefaultValue,
     graduated,
-    progress,
+    progress = true,
     vertical,
     disabled,
-    classPrefix,
-    min,
-    max: maxProp,
-    step,
+    classPrefix = 'slider',
+    min = 0,
+    max: maxProp = 100,
+    step = 1,
     value: valueProp,
     handleClassName,
     handleStyle,
     handleTitle,
-    tooltip,
+    tooltip = true,
     getAriaValueText,
     renderTooltip,
     renderMark,
@@ -333,7 +324,6 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 });
 
 RangeSlider.displayName = 'RangeSlider';
-RangeSlider.defaultProps = defaultProps;
 RangeSlider.propTypes = {
   ...sliderPropTypes,
   value: PropTypes.arrayOf(PropTypes.number),

@@ -18,7 +18,7 @@ export interface TagInputProps extends InputPickerProps {
 }
 
 const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInputProps, ref) => {
-  const { tagProps, trigger, value, defaultValue, ...rest } = props;
+  const { tagProps = {}, trigger = 'Enter', value, defaultValue, ...rest } = props;
   const contextValue = useMemo(() => ({ multi: true, disabledOptions: true, trigger, tagProps }), [
     tagProps,
     trigger
@@ -43,11 +43,6 @@ const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInp
     </InputPickerContext.Provider>
   );
 });
-
-TagInput.defaultProps = {
-  trigger: 'Enter',
-  tagProps: {}
-};
 
 TagInput.displayName = 'TagInput';
 

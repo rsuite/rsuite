@@ -56,9 +56,9 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       loading,
       nodeData,
       className,
-      classPrefix,
+      classPrefix = 'tree-node',
       disabled,
-      visible,
+      visible = true,
       draggable,
       expand,
       focus,
@@ -274,10 +274,6 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
 );
 
 TreeNode.displayName = 'TreePickerNode';
-TreeNode.defaultProps = {
-  visible: true,
-  classPrefix: 'tree-node'
-};
 TreeNode.propTypes = {
   as: PropTypes.elementType,
   rtl: PropTypes.bool,

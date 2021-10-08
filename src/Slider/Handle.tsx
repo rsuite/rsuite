@@ -19,16 +19,11 @@ export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivEl
   onDragEnd?: (event: React.MouseEvent, dataset?: DOMStringMap) => void;
 }
 
-const defaultProps: Partial<HandleProps> = {
-  as: 'div',
-  classPrefix: 'slider'
-};
-
 const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
   (props: HandleProps, ref) => {
     const {
-      as: Component,
-      classPrefix,
+      as: Component = 'div',
+      classPrefix = 'slider',
       className,
       disabled,
       style,
@@ -143,7 +138,6 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
 );
 
 Handle.displayName = 'Handle';
-Handle.defaultProps = defaultProps;
 Handle.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,

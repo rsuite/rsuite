@@ -19,7 +19,7 @@ export interface TagPickerProps extends InputPickerProps {
 
 const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(
   (props: TagPickerProps, ref) => {
-    const { tagProps, trigger, ...rest } = props;
+    const { tagProps = {}, trigger = 'Enter', ...rest } = props;
     const contextValue = useMemo(() => ({ multi: true, trigger, tagProps }), [tagProps, trigger]);
 
     return (
@@ -29,11 +29,6 @@ const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(
     );
   }
 );
-
-TagPicker.defaultProps = {
-  trigger: 'Enter',
-  tagProps: {}
-};
 
 TagPicker.displayName = 'TagPicker';
 

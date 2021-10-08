@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Tooltip from '../index';
+import Tooltip from '../Tooltip';
 import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';

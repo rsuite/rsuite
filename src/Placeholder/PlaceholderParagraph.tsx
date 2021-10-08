@@ -20,27 +20,19 @@ export interface PlaceholderParagraphProps extends WithAsProps {
   active?: boolean;
 }
 
-const defaultProps: Partial<PlaceholderParagraphProps> = {
-  as: 'div',
-  classPrefix: 'placeholder',
-  rows: 2,
-  rowHeight: 10,
-  rowMargin: 20
-};
-
 const PlaceholderParagraph: RsRefForwardingComponent<
   'div',
   PlaceholderParagraphProps
 > = React.forwardRef((props: PlaceholderParagraphProps, ref) => {
   const {
-    as: Component,
+    as: Component = 'div',
     className,
-    rows,
-    rowHeight,
-    rowMargin,
+    rows = 2,
+    rowHeight = 10,
+    rowMargin = 20,
     graph,
     active,
-    classPrefix,
+    classPrefix = 'placeholder',
     ...rest
   } = props;
 
@@ -77,7 +69,6 @@ const PlaceholderParagraph: RsRefForwardingComponent<
 });
 
 PlaceholderParagraph.displayName = 'PlaceholderParagraph';
-PlaceholderParagraph.defaultProps = defaultProps;
 PlaceholderParagraph.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { createChainedFunction, useClassNames } from '../utils';
-import { ModalContext } from './Modal';
+import { ModalContext } from './ModalContext';
 import CloseButton from '../CloseButton';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import Close from '@rsuite/icons/Close';
@@ -18,19 +18,13 @@ export interface ModalHeaderProps extends WithAsProps {
   onClose?: (event: React.MouseEvent) => void;
 }
 
-const defaultProps: Partial<ModalHeaderProps> = {
-  as: 'div',
-  closeButton: true,
-  classPrefix: 'modal-header'
-};
-
 const ModalHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.forwardRef(
   (props: ModalHeaderProps, ref) => {
     const {
-      as: Component,
-      classPrefix,
+      as: Component = 'div',
+      classPrefix = 'modal-header',
       className,
-      closeButton,
+      closeButton = true,
       children,
       onClose,
       ...rest
@@ -65,7 +59,6 @@ const ModalHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.for
 );
 
 ModalHeader.displayName = 'ModalHeader';
-ModalHeader.defaultProps = defaultProps;
 ModalHeader.propTypes = {
   as: PropTypes.elementType,
   classPrefix: PropTypes.string,

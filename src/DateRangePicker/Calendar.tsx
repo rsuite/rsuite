@@ -30,26 +30,19 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   value?: ValueType;
 }
 
-const defaultProps: Partial<CalendarProps> = {
-  as: CalendarCore,
-  calendarDate: [new Date(), addMonths(new Date(), 1)],
-  format: 'yyyy-MM-dd',
-  index: 0,
-  value: []
-};
-
 const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
   (props: CalendarProps, ref) => {
     const {
-      as: Component,
-      calendarDate,
+      as: Component = CalendarCore,
+      calendarDate = [new Date(), addMonths(new Date(), 1)],
+      format = 'yyyy-MM-dd',
       disabledDate,
-      index,
+      index = 0,
       limitEndYear,
       onChangeCalendarDate,
       onChangeCalendarTime,
       showOneCalendar,
-      value,
+      value = [],
       ...rest
     } = props;
     const [calendarState, setCalendarState] = useState<CalendarState>();
@@ -156,6 +149,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
     return (
       <Component
         {...rest}
+        format={format}
         calendarState={calendarState}
         dateRange={value}
         disabledBackward={disabledBackward()}
@@ -178,7 +172,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
 );
 
 Calendar.displayName = 'DateRangePicker.Calendar';
-Calendar.defaultProps = defaultProps;
 Calendar.propTypes = {
   value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   hoverValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),

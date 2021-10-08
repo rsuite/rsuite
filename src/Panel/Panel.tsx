@@ -46,19 +46,13 @@ export interface PanelProps<T = string | number> extends WithAsProps, AnimationE
   onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;
 }
 
-const defaultProps: Partial<PanelProps> = {
-  classPrefix: 'panel',
-  panelRole: 'region',
-  as: 'div'
-};
-
 const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
   (props: PanelProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       children,
       className,
-      classPrefix,
+      classPrefix = 'panel',
       bodyFill,
       bordered,
       collapsible: collapsibleProp,
@@ -67,7 +61,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       expanded: expandedProp,
       header,
       headerRole: headerRoleProp,
-      panelRole,
+      panelRole = 'region',
       shaded,
       id,
       onEnter,
@@ -192,7 +186,6 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
 );
 
 Panel.displayName = 'Panel';
-Panel.defaultProps = defaultProps;
 Panel.propTypes = {
   collapsible: PropTypes.bool,
   bordered: PropTypes.bool,

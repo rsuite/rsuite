@@ -19,22 +19,17 @@ export interface CheckboxGroupProps<V = ValueType[]> extends WithAsProps, FormCo
   inline?: boolean;
 }
 
-const defaultProps: Partial<CheckboxGroupProps> = {
-  as: 'div',
-  classPrefix: 'checkbox-group'
-};
-
 const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React.forwardRef(
   (props: CheckboxGroupProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
       inline,
       children,
       name,
       value: valueProp,
       defaultValue,
-      classPrefix,
+      classPrefix = 'checkbox-group',
       disabled,
       readOnly,
       plaintext,
@@ -93,7 +88,6 @@ const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React
 );
 
 CheckboxGroup.displayName = 'CheckboxGroup';
-CheckboxGroup.defaultProps = defaultProps;
 CheckboxGroup.propTypes = {
   as: PropTypes.elementType,
   name: PropTypes.string,

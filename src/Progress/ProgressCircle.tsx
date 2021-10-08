@@ -35,33 +35,21 @@ export interface ProgressCircleProps extends WithAsProps {
   status?: 'success' | 'fail' | 'active';
 }
 
-const defaultProps: Partial<ProgressCircleProps> = {
-  as: 'div',
-  classPrefix: 'progress',
-  percent: 0,
-  strokeWidth: 6,
-  trailWidth: 6,
-  gapDegree: 0,
-  showInfo: true,
-  strokeLinecap: 'round',
-  gapPosition: 'top'
-};
-
 const ProgressCircle: RsRefForwardingComponent<'div', ProgressCircleProps> = React.forwardRef(
   (props: ProgressCircleProps, ref) => {
     const {
-      as: Component,
-      strokeWidth,
-      trailWidth,
-      percent,
-      strokeLinecap,
+      as: Component = 'div',
+      strokeWidth = 6,
+      trailWidth = 6,
+      percent = 0,
+      strokeLinecap = 'round',
       className,
-      showInfo,
+      showInfo = true,
       status,
-      classPrefix,
+      classPrefix = 'progress',
       style,
-      gapDegree,
-      gapPosition,
+      gapDegree = 0,
+      gapPosition = 'top',
       trailColor,
       strokeColor,
       ...rest
@@ -167,7 +155,6 @@ const ProgressCircle: RsRefForwardingComponent<'div', ProgressCircleProps> = Rea
 );
 
 ProgressCircle.displayName = 'ProgressCircle';
-ProgressCircle.defaultProps = defaultProps;
 ProgressCircle.propTypes = {
   className: PropTypes.string,
   strokeColor: PropTypes.string,

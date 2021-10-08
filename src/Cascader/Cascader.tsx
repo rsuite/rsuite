@@ -90,33 +90,22 @@ export interface CascaderProps<T = ValueType>
   getChildren?: (node: ItemDataType) => ItemDataType[] | Promise<ItemDataType[]>;
 }
 
-const defaultProps: Partial<CascaderProps> = {
-  as: 'div',
-  classPrefix: 'picker',
-  cleanable: true,
-  placement: 'bottomStart',
-  appearance: 'default',
-  data: [],
-  disabledItemValues: [],
-  childrenKey: 'children',
-  valueKey: 'value',
-  labelKey: 'label',
-  searchable: true
-};
+const emptyArray = [];
 
 const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: CascaderProps, ref) => {
   const {
-    as: Component,
-    data,
-    classPrefix,
-    childrenKey,
-    valueKey,
-    labelKey,
+    as: Component = 'div',
+    data = emptyArray,
+    classPrefix = 'picker',
+    childrenKey = 'children',
+    valueKey = 'value',
+    labelKey = 'label',
     defaultValue,
     placeholder,
     disabled,
-    disabledItemValues,
-    cleanable,
+    disabledItemValues = emptyArray,
+    appearance = 'default',
+    cleanable = true,
     locale: overrideLocale,
     toggleAs,
     style,
@@ -126,9 +115,9 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     menuStyle,
     menuWidth,
     menuHeight,
-    searchable,
+    searchable = true,
     parentSelectable,
-    placement,
+    placement = 'bottomStart',
     id,
     renderMenuItem,
     renderValue,
@@ -560,6 +549,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   const [classes, usedClassNamePropKeys] = usePickerClassName({
     ...props,
+    classPrefix,
     hasValue,
     name: 'cascader'
   });
@@ -585,6 +575,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
           id={id}
           ref={targetRef}
           as={toggleAs}
+          appearance={appearance}
           disabled={disabled}
           onClean={createChainedFunction(handleClean, onClean)}
           onKeyDown={onPickerKeyDown}
@@ -602,7 +593,6 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 });
 
 Cascader.displayName = 'Cascader';
-Cascader.defaultProps = defaultProps;
 Cascader.propTypes = {
   ...listPickerPropTypes,
   disabledItemValues: PropTypes.array,

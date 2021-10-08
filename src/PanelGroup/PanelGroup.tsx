@@ -24,11 +24,6 @@ export interface PanelGroupProps<T = KeyType> extends WithAsProps {
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
-const defaultProps: Partial<PanelGroupProps> = {
-  as: 'div',
-  classPrefix: 'panel-group'
-};
-
 interface PanelGroupContext {
   accordion?: boolean;
   activeKey?: KeyType;
@@ -39,12 +34,12 @@ export const PanelGroupContext = React.createContext<PanelGroupContext>({});
 
 const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
   const {
-    as: Component,
+    as: Component = 'div',
     accordion,
     defaultActiveKey,
     bordered,
     className,
-    classPrefix,
+    classPrefix = 'panel-group',
     children,
     activeKey: activeProp,
     onSelect,
@@ -78,7 +73,6 @@ const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
 });
 
 PanelGroup.displayName = 'PanelGroup';
-PanelGroup.defaultProps = defaultProps;
 PanelGroup.propTypes = {
   accordion: PropTypes.bool,
   activeKey: PropTypes.any,

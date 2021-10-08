@@ -47,8 +47,8 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
       as: Component = 'div',
       style,
       className,
-      classPrefix,
-      visible,
+      classPrefix = 'check-tree-node',
+      visible = true,
       layer,
       disabled,
       allUncheckable,
@@ -229,11 +229,6 @@ CheckTreeNode.propTypes = {
   onSelect: PropTypes.func,
   onRenderTreeIcon: PropTypes.func,
   onRenderTreeNode: PropTypes.func
-};
-
-CheckTreeNode.defaultProps = {
-  visible: true,
-  classPrefix: 'check-tree-node'
 };
 
 export default CheckTreeNode;

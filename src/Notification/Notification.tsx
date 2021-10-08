@@ -31,19 +31,13 @@ export interface NotificationProps extends WithAsProps {
   onClose?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const defaultProps: Partial<NotificationProps> = {
-  as: 'div',
-  classPrefix: 'notification',
-  duration: 4500
-};
-
 const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.forwardRef(
   (props: NotificationProps, ref) => {
     const {
-      as: Component,
-      classPrefix,
+      as: Component = 'div',
+      classPrefix = 'notification',
       closable,
-      duration,
+      duration = 4500,
       className,
       type,
       header,
@@ -112,7 +106,6 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
 );
 
 Notification.displayName = 'Notification';
-Notification.defaultProps = defaultProps;
 Notification.propTypes = {
   as: PropTypes.elementType,
   duration: PropTypes.number,

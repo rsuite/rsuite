@@ -15,13 +15,16 @@ export interface IconButtonProps extends ButtonProps {
   placement?: 'left' | 'right';
 }
 
-const defaultProps: Partial<IconButtonProps> = {
-  classPrefix: 'btn-icon',
-  placement: 'left'
-};
-
 const IconButton = React.forwardRef((props: IconButtonProps, ref) => {
-  const { icon, placement, children, circle, classPrefix, className, ...rest } = props;
+  const {
+    icon,
+    placement = 'left',
+    children,
+    circle,
+    classPrefix = 'btn-icon',
+    className,
+    ...rest
+  } = props;
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(
@@ -41,7 +44,6 @@ const IconButton = React.forwardRef((props: IconButtonProps, ref) => {
 });
 
 IconButton.displayName = 'IconButton';
-IconButton.defaultProps = defaultProps;
 IconButton.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.any,
