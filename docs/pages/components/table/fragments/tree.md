@@ -16,6 +16,8 @@ const App = () => {
       rowKey="id"
       height={400}
       data={fakeTreeData}
+      /** shouldUpdateScroll: whether to update the scroll bar after data update **/
+      shouldUpdateScroll={false}
       onExpandChange={(isOpen, rowData) => {
         console.log(isOpen, rowData);
       }}
