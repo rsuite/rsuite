@@ -311,7 +311,6 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
           onDragMove={handleChangeValue}
           onKeyDown={handleKeyDown}
           onDragEnd={handleChangeCommitted}
-          role="slider"
           tabIndex={disabled || readOnly ? null : 0}
           aria-orientation={vertical ? 'vertical' : 'horizontal'}
           aria-valuenow={value}

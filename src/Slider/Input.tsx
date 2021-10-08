@@ -4,7 +4,8 @@ const rangeStyles: React.CSSProperties = {
   position: 'absolute',
   overflow: 'hidden',
   width: '100%',
-  height: '100%'
+  height: '100%',
+  clip: 'rect(0, 0, 0, 0)'
 };
 
 const Input = React.forwardRef(

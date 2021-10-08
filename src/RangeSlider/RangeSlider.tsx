@@ -281,7 +281,6 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     onDragEnd: handleChangeCommitted,
     onKeyDown: handleKeyDown,
     tabIndex: disabled ? null : 0,
-    role: 'slider',
     'aria-orientation': vertical ? 'vertical' : 'horizontal',
     'aria-disabled': disabled,
     'aria-valuemax': max,
