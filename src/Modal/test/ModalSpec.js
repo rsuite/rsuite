@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render, screen } from '@testing-library/react';
 import { getInstance } from '@test/testUtils';
 
 import Modal from '../Modal';
@@ -108,5 +109,23 @@ describe('Modal', () => {
   it('Should have a custom className prefix', () => {
     const instance = getInstance(<Modal classPrefix="custom-prefix" open />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  describe('a11y', () => {
+    it('Should render an ARIA dialog with given title as its accessible name', () => {
+      const title = 'Attention';
+      const message = 'Message';
+
+      render(
+        <Modal open>
+          <Modal.Header>
+            <Modal.Title>{title}</Modal.Title>
+          </Modal.Header>
+          <p>{message}</p>
+        </Modal>
+      );
+
+      expect(screen.getByRole('dialog', { name: title })).to.be.visible;
+    });
   });
 });
