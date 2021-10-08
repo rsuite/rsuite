@@ -44,8 +44,11 @@ describe('[utils] ajaxUpload', () => {
       url: '',
       timeout: 1,
       onError: e => {
-        if ((e.type = 'timeout')) {
+        try {
+          assert.equal(e.type, 'timeout');
           done();
+        } catch (err) {
+          done(err);
         }
       }
     });

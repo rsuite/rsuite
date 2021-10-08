@@ -221,28 +221,24 @@ describe('CheckPicker', () => {
     assert.ok(instance.querySelector(cleanClassName));
   });
 
-  it('Should focus item by key=ArrowDown ', done => {
+  it('Should focus item by key=ArrowDown ', () => {
     const instance = getInstance(
       <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />
     );
 
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
 
-    if (instance.overlay.querySelector(itemFocusClassName).innerText === 'Kariane') {
-      done();
-    }
+    assert.equal(instance.overlay.querySelector(itemFocusClassName).innerText, 'Kariane');
   });
 
-  it('Should focus item by key=ArrowUp ', done => {
+  it('Should focus item by key=ArrowUp ', () => {
     const instance = getInstance(
       <CheckPicker defaultOpen data={data} defaultValue={['Kariane']} />
     );
 
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
 
-    if (instance.overlay.querySelector(itemFocusClassName).innerText === 'Eugenia') {
-      done();
-    }
+    assert.equal(instance.overlay.querySelector(itemFocusClassName).innerText, 'Eugenia');
   });
 
   it('Should call `onChange` by key=Enter ', done => {
@@ -257,8 +253,12 @@ describe('CheckPicker', () => {
 
   it('Should call `onSelect` by key=Enter ', done => {
     const doneOp = (value, item) => {
-      if (value.length === 2 && item.value === 'Louisa') {
+      try {
+        assert.lengthOf(value, 2);
+        assert.equal(item.value, 'Louisa');
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getInstance(

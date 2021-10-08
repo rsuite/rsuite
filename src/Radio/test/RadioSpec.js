@@ -61,11 +61,14 @@ describe('Radio', () => {
     ReactTestUtils.Simulate.click(instance.querySelector('label'));
   });
 
-  it('Should call onChange callback', done => {
+  it('Should call onChange callback with correct value', done => {
     const value = 'Test';
     const doneOp = data => {
-      if (data === value) {
+      try {
+        assert.equal(data, value);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 
@@ -95,8 +98,11 @@ describe('Radio', () => {
 
   it('Should be checked with change', done => {
     const doneOp = checked => {
-      if (checked === '100') {
+      try {
+        assert.equal(checked, '100');
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

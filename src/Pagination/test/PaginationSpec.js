@@ -88,10 +88,13 @@ describe('Pagination', () => {
     assert.equal(innerText(instance.querySelector('button.rs-pagination-btn-active')), '5');
   });
 
-  it('Should call onSelect callback', done => {
+  it('Should call onSelect callback with correct eventKey', done => {
     const doneOp = eventKey => {
-      if (eventKey === 2) {
+      try {
+        assert.equal(eventKey, 2);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

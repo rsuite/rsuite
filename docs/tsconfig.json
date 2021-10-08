@@ -19,10 +19,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
-      "rsuite": ["../src/"],
-      "rsuite/*": ["../src/*"],
-      "@rsuite-locales/*": ["../src/locales/*"]
+      "@/*": ["./*"]
     }
   },
   "exclude": ["node_modules"],

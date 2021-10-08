@@ -28,8 +28,11 @@ describe('PanelGroup', () => {
 
   it('Should call onSelect callback', done => {
     const doneOp = eventKey => {
-      if (eventKey === 2) {
+      try {
+        assert.equal(eventKey, 2);
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(

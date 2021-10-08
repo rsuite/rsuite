@@ -22,10 +22,13 @@ describe('PaginationButton', () => {
     assert.ok(instance.className.match(/\bactive\b/));
   });
 
-  it('Should call onSelect callback', done => {
+  it('Should call onSelect callback with correct eventKey', done => {
     const doneOp = eventKey => {
-      if (eventKey === 10) {
+      try {
+        assert.equal(eventKey, 10);
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(<PaginationButton onSelect={doneOp} eventKey={10} />);

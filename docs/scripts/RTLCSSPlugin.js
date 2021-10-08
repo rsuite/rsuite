@@ -34,10 +34,10 @@ class RTLCSSPlugin {
           .process(content)
           .then(result => {
             compilation.assets[assetName] = {
-              source: function() {
+              source: function () {
                 return result.css;
               },
-              size: function() {
+              size: function () {
                 return result.css.length;
               }
             };

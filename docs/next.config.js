@@ -10,6 +10,7 @@ const markdownRenderer = require('./scripts/markdownRenderer');
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
 const __DEV__ = process.env.NODE_ENV !== 'production';
+const __LOCAL__ = process.env.ALIAS === 'locally';
 
 const RSUITE_ROOT = path.join(__dirname, '../src');
 const LANGUAGES = {
@@ -20,6 +21,9 @@ const LANGUAGES = {
 };
 
 const getLanguage = language => LANGUAGES[language] || '';
+const babelBuildInclude = __LOCAL__
+  ? [RSUITE_ROOT, path.join(__dirname, './')]
+  : [path.join(__dirname, './')];
 
 module.exports = {
   env: {
@@ -49,7 +53,7 @@ module.exports = {
     config.module.rules.push({
       test: /\.ts|tsx?$/,
       use: ['babel-loader?babelrc'],
-      include: [RSUITE_ROOT, path.join(__dirname, './')],
+      include: babelBuildInclude,
       exclude: /node_modules/
     });
 
@@ -81,7 +85,7 @@ module.exports = {
             sourceMap: true,
             lessOptions: {
               globalVars: {
-                rootPath: '../../../'
+                rootPath: __LOCAL__ ? '../../../src/' : '~rsuite'
               }
             }
           }
@@ -143,10 +147,6 @@ module.exports = {
         }
       })
     );
-
-    config.resolve.alias['@'] = resolveToStaticPath('./');
-    config.resolve.alias['rsuite'] = resolveToStaticPath('../src');
-    config.resolve.alias['@rsuite-locales'] = resolveToStaticPath('./node_modules/rsuite/locales');
 
     config.entry = async () => {
       const entries = await originEntry();

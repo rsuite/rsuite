@@ -23,7 +23,7 @@ React Suite 设计原型与规范， [点击查看][rsuite-design]。
 
 ### 浏览器
 
-React Suite 支持最新的，稳定版的全部主流浏览器和平台。 从 React Suite 3 开始不支持 IE9 以下版本(包括 IE9)。不推荐在移动端使用。
+React Suite 支持最新的，稳定版的全部主流浏览器和平台。 从 React Suite 5 开始不支持 IE10 以下版本(包括 IE10)。不推荐在移动端使用。
 
 | IE   | Edge | Firefox | Chrome | Safari |
 | ---- | ---- | ------- | ------ | ------ |
@@ -70,12 +70,6 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [Right-to-left][rsuite-doc-guide-intl]
 - [组件][rsuite-components-overview]
 
-**历史版本:**
-
-- [4.\* 版本](https://v4.rsuitejs.com/)
-- [3.\* 版本](https://v3.rsuitejs.com/)
-- [2.\* 版本](https://v2.rsuitejs.com/)
-
 ### 示例
 
 - [管理系统][demo-admin]
@@ -94,6 +88,18 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [在 UmiJS 中使用][demo-umi-app]
 - [在 Snowpack 中使用][demo-snowpack]
 - [在 Vite 中使用][demo-vite]
+
+## 历史版本
+
+上个大版本 4.x 将不再添加新特性，
+我们推荐你升级到最新的 5.x 版本。
+4.x 的功能修复仍会在一段时间内提供支持，
+安全修复也会支持，直到 6.x 开始开发。
+
+### 历史版本的文档
+
+- [4.x 版本文档](https://v4.rsuitejs.com/)
+- [3.x 版本文档](https://v3.rsuitejs.com/)
 
 ## 更新日志
 
@@ -173,7 +179,7 @@ Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
 React Suite 基于 [MIT licensed][license] 发布。
 
 [readm-en]: https://github.com/rsuite/rsuite/blob/master/README.md
-[npm-svg]: https://img.shields.io/npm/v/rsuite/next
+[npm-svg]: https://img.shields.io/npm/v/rsuite
 [npm-home]: https://www.npmjs.com/package/rsuite
 [travis-svg]: https://travis-ci.org/rsuite/rsuite.svg?branch=master
 [travis-home]: https://travis-ci.org/rsuite/rsuite
@@ -211,6 +217,6 @@ React Suite 基于 [MIT licensed][license] 发布。
 [demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
 [demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
 [demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
-[demo-nextjs-typescript]: https://github.com/rsuite/rsuite/tree/master/examples/with-next-typescript
+[demo-nextjs-typescript]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs-typescript
 [demo-snowpack]: https://github.com/rsuite/rsuite/tree/master/examples/with-snowpack
 [demo-vite]: https://github.com/rsuite/rsuite/tree/master/examples/with-vite
