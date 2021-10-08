@@ -114,14 +114,13 @@ describe('Modal', () => {
   describe('a11y', () => {
     it('Should render an ARIA dialog with given title as its accessible name', () => {
       const title = 'Attention';
-      const message = 'Message';
 
       render(
         <Modal open>
           <Modal.Header>
             <Modal.Title>{title}</Modal.Title>
           </Modal.Header>
-          <p>{message}</p>
+          <p>Message</p>
         </Modal>
       );
 
@@ -130,14 +129,13 @@ describe('Modal', () => {
 
     it('Should allow overriding the dialog role', () => {
       const title = 'Attention';
-      const message = 'Message';
 
       render(
         <Modal open role="alertdialog">
           <Modal.Header>
             <Modal.Title>{title}</Modal.Title>
           </Modal.Header>
-          <p>{message}</p>
+          <p>Message</p>
         </Modal>
       );
 
