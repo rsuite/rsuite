@@ -76,16 +76,6 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
   onChangeCommitted?: (value: T, event: React.MouseEvent) => void;
 }
 
-const defaultProps: Partial<SliderProps> = {
-  as: 'div',
-  classPrefix: 'slider',
-  min: 0,
-  max: 100,
-  step: 1,
-  defaultValue: 0,
-  tooltip: true
-};
-
 export const sliderPropTypes = {
   min: PropTypes.number,
   max: PropTypes.number,
@@ -120,7 +110,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     'aria-label': ariaLabel,
     'aria-labelledby': ariaLabelledby,
     'aria-valuetext': ariaValuetext,
-    as: Componnet,
+    as: Componnet = 'div',
     graduated,
     className,
     barClassName,
@@ -129,16 +119,16 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     disabled,
     readOnly,
     plaintext,
-    classPrefix,
-    min,
+    classPrefix = 'slider',
+    min = 0,
     handleClassName,
     handleStyle,
     handleTitle,
-    tooltip,
-    step,
-    defaultValue,
+    tooltip = true,
+    step = 1,
+    defaultValue = 0,
     value: valueProp,
-    max: maxProp,
+    max: maxProp = 100,
     getAriaValueText,
     renderTooltip,
     renderMark,
@@ -343,7 +333,6 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
 });
 
 Slider.displayName = 'Slider';
-Slider.defaultProps = defaultProps;
 Slider.propTypes = sliderPropTypes;
 
 export default Slider;

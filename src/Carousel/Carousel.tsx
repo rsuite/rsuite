@@ -27,25 +27,17 @@ export interface CarouselProps extends WithAsProps {
   onSlideEnd?: (index: number, event: React.TransitionEvent<HTMLDivElement>) => void;
 }
 
-const defaultProps: Partial<CarouselProps> = {
-  as: 'div',
-  classPrefix: 'carousel',
-  autoplayInterval: 4000,
-  placement: 'bottom',
-  shape: 'dot'
-};
-
 const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRef(
   (props: CarouselProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       children,
-      classPrefix,
+      classPrefix = 'carousel',
       className,
-      placement,
-      shape,
+      placement = 'bottom',
+      shape = 'dot',
       autoplay,
-      autoplayInterval,
+      autoplayInterval = 4000,
       onSelect,
       onSlideStart,
       onSlideEnd,
@@ -169,7 +161,6 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
 );
 
 Carousel.displayName = 'Carousel';
-Carousel.defaultProps = defaultProps;
 Carousel.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,

@@ -34,17 +34,12 @@ export interface StepItemProps extends WithAsProps {
   title?: React.ReactNode;
 }
 
-const defaultProps: Partial<StepItemProps> = {
-  as: 'div',
-  classPrefix: 'steps-item'
-};
-
 const StepItem: RsRefForwardingComponent<'div', StepItemProps> = React.forwardRef(
   (props: StepItemProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
-      classPrefix,
+      classPrefix = 'steps-item',
       style,
       itemWidth,
       status,
@@ -87,7 +82,6 @@ const StepItem: RsRefForwardingComponent<'div', StepItemProps> = React.forwardRe
 );
 
 StepItem.displayName = 'StepItem';
-StepItem.defaultProps = defaultProps;
 StepItem.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,

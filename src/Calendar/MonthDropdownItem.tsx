@@ -12,15 +12,18 @@ export interface MonthDropdownItemProps extends WithAsProps {
   disabled?: boolean;
 }
 
-const defaultProps: Partial<MonthDropdownItemProps> = {
-  as: 'div',
-  classPrefix: 'calendar-month-dropdown-cell',
-  month: 0
-};
-
 const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps> = React.forwardRef(
   (props: MonthDropdownItemProps, ref) => {
-    const { as: Component, className, classPrefix, active, disabled, month, year, ...rest } = props;
+    const {
+      as: Component = 'div',
+      className,
+      classPrefix = 'calendar-month-dropdown-cell',
+      active,
+      disabled,
+      month = 0,
+      year,
+      ...rest
+    } = props;
     const { date, onChangePageDate: onSelect } = useCalendarContext();
 
     const handleClick = useCallback(
@@ -59,7 +62,6 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
   }
 );
 MonthDropdownItem.displayName = 'MonthDropdownItem';
-MonthDropdownItem.defaultProps = defaultProps;
 MonthDropdownItem.propTypes = {
   month: PropTypes.number,
   year: PropTypes.number,

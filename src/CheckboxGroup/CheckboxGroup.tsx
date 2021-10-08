@@ -5,7 +5,8 @@ import remove from 'lodash/remove';
 import { useClassNames, useControlled, shallowEqual } from '../utils';
 import Plaintext from '../Plaintext';
 import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
-import { ValueType } from '../Checkbox';
+import type { ValueType } from '../Checkbox';
+import { CheckboxGroupContext } from './CheckboxGroupContext';
 
 export interface CheckboxGroupProps<V = ValueType[]> extends WithAsProps, FormControlBaseProps<V> {
   /** Used for the name of the form */
@@ -18,35 +19,17 @@ export interface CheckboxGroupProps<V = ValueType[]> extends WithAsProps, FormCo
   inline?: boolean;
 }
 
-const defaultProps: Partial<CheckboxGroupProps> = {
-  as: 'div',
-  classPrefix: 'checkbox-group'
-};
-
-export interface CheckboxGroupContextValue {
-  inline?: boolean;
-  name?: string;
-  value?: ValueType[];
-  controlled?: boolean;
-  disabled?: boolean;
-  readOnly?: boolean;
-  plaintext?: boolean;
-  onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
-}
-
-export const CheckboxGroupContext = React.createContext<CheckboxGroupContextValue>({});
-
 const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React.forwardRef(
   (props: CheckboxGroupProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
       inline,
       children,
       name,
       value: valueProp,
       defaultValue,
-      classPrefix,
+      classPrefix = 'checkbox-group',
       disabled,
       readOnly,
       plaintext,
@@ -105,7 +88,6 @@ const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React
 );
 
 CheckboxGroup.displayName = 'CheckboxGroup';
-CheckboxGroup.defaultProps = defaultProps;
 CheckboxGroup.propTypes = {
   as: PropTypes.elementType,
   name: PropTypes.string,

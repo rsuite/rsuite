@@ -105,51 +105,37 @@ export interface MultiCascaderProps<T = ValueType>
   getChildren?: (node: ItemDataType) => ItemDataType[] | Promise<ItemDataType[]>;
 }
 
-const defaultProps: Partial<MultiCascaderProps> = {
-  as: 'div',
-  classPrefix: 'picker',
-  cleanable: true,
-  cascade: true,
-  countable: true,
-  placement: 'bottomStart',
-  appearance: 'default',
-  data: [],
-  disabledItemValues: [],
-  uncheckableItemValues: [],
-  childrenKey: 'children',
-  valueKey: 'value',
-  labelKey: 'label',
-  searchable: true
-};
+const emptyArray = [];
 
 const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
   (props: MultiCascaderProps, ref) => {
     const {
-      as: Component,
-      data,
-      classPrefix,
+      as: Component = 'div',
+      data = emptyArray,
+      classPrefix = 'picker',
       defaultValue,
       value: valueProp,
-      valueKey,
-      labelKey,
-      childrenKey,
+      valueKey = 'value',
+      labelKey = 'label',
+      childrenKey = 'children',
       disabled,
-      disabledItemValues,
-      cleanable,
+      disabledItemValues = emptyArray,
+      cleanable = true,
       locale: overrideLocale,
       toggleAs,
       style,
-      countable,
-      cascade,
+      countable = true,
+      cascade = true,
       inline,
       placeholder,
-      placement,
+      placement = 'bottomStart',
+      appearance = 'default',
       menuWidth,
       menuHeight,
       menuClassName,
       menuStyle,
-      searchable,
-      uncheckableItemValues,
+      searchable = true,
+      uncheckableItemValues = emptyArray,
       id,
       getChildren,
       renderValue,
@@ -548,6 +534,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
     const [classes, usedClassNamePropKeys] = usePickerClassName({
       ...props,
+      classPrefix,
       hasValue,
       name: 'cascader'
     });
@@ -571,6 +558,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
             as={toggleAs}
+            appearance={appearance}
             disabled={disabled}
             ref={targetRef}
             onClean={createChainedFunction(handleClean, onClean)}
@@ -590,7 +578,6 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 );
 
 MultiCascader.displayName = 'MultiCascader';
-MultiCascader.defaultProps = defaultProps;
 MultiCascader.propTypes = {
   ...listPickerPropTypes,
   value: PropTypes.array,

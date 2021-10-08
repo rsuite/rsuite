@@ -26,21 +26,15 @@ export interface LoaderProps extends WithAsProps {
   size?: TypeAttributes.Size;
 }
 
-const defaultProps: Partial<LoaderProps> = {
-  as: 'div',
-  classPrefix: 'loader',
-  speed: 'normal'
-};
-
 const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
   (props: LoaderProps, ref) => {
     const {
-      as: Component,
-      classPrefix,
+      as: Component = 'div',
+      classPrefix = 'loader',
       className,
       inverse,
       backdrop,
-      speed,
+      speed = 'normal',
       center,
       vertical,
       content,
@@ -75,7 +69,6 @@ const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
 );
 
 Loader.displayName = 'Loader';
-Loader.defaultProps = defaultProps;
 Loader.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,

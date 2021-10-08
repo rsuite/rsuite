@@ -37,8 +37,11 @@ describe('Animation', () => {
         exitedClassName="class-out"
         enteredClassName="class-in"
         onEntered={() => {
-          if (instance.className === 'class-in') {
+          try {
+            assert.equal(instance.className, 'class-in');
             done();
+          } catch (err) {
+            done(err);
           }
         }}
       >

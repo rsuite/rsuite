@@ -35,10 +35,13 @@ describe('Toggle', () => {
     assert.equal(innerText(instance), 'on');
   });
 
-  it('Should call onChange callback ', done => {
+  it('Should call onChange callback with correct checked state', done => {
     const doneOp = checked => {
-      if (checked) {
+      try {
+        assert.isTrue(checked);
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(<Toggle onChange={doneOp} />);
@@ -47,8 +50,11 @@ describe('Toggle', () => {
 
   it('Should call onChange callback and the correct arguments returned', done => {
     const doneOp = checked => {
-      if (checked === false) {
+      try {
+        assert.isFalse(checked);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

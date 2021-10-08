@@ -165,10 +165,13 @@ describe('<Dropdown>', () => {
     assert.ok(!instance.querySelector('.rs-dropdown-toggle-caret'));
   });
 
-  it('Should call onSelect callback when clicking an item', done => {
+  it('Should call onSelect callback with correct eventKey when clicking an item', done => {
     const doneOp = eventKey => {
-      if (eventKey === 2) {
+      try {
+        assert.equal(eventKey, 2);
         done();
+      } catch (err) {
+        done(err);
       }
     };
     const instance = getDOMNode(

@@ -5,6 +5,7 @@ import BaseModal, { BaseModalProps, modalPropTypes } from '../Overlay/Modal';
 import Bounce from '../Animation/Bounce';
 import { useClassNames, mergeRefs, SIZE } from '../utils';
 import ModalDialog, { modalDialogPropTypes } from './ModalDialog';
+import { ModalContext, ModalContextProps } from './ModalContext';
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
@@ -41,30 +42,6 @@ export interface ModalProps extends BaseModalProps {
   /** Render Modal as Drawer */
   drawer?: boolean;
 }
-
-const defaultProps: Partial<ModalProps> = {
-  classPrefix: 'modal',
-  size: 'sm',
-  animation: Bounce,
-  animationTimeout: 300,
-  dialogAs: ModalDialog,
-  backdrop: true,
-  overflow: true
-};
-
-export interface ModalContextProps {
-  /** Pass the close event callback to the header close button. */
-  onModalClose: (event: React.MouseEvent<Element, MouseEvent>) => void;
-
-  /** Pass the latest style to body. */
-  getBodyStyles?: () => React.CSSProperties;
-
-  /** Whether this Modal is a Drawer */
-  isDrawer: boolean;
-}
-
-export const ModalContext = React.createContext<ModalContextProps>(null);
-
 interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
   Body: typeof ModalBody;
   Header: typeof ModalHeader;
@@ -77,19 +54,19 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
   const {
     className,
     children,
-    classPrefix,
+    classPrefix = 'modal',
     dialogClassName,
     backdropClassName,
-    backdrop,
+    backdrop = true,
     dialogStyle,
-    animation,
+    animation = Bounce,
     open,
-    size,
+    size = 'sm',
     full,
-    dialogAs: Dialog,
+    dialogAs: Dialog = ModalDialog,
     animationProps,
-    animationTimeout,
-    overflow,
+    animationTimeout = 300,
+    overflow = true,
     drawer,
     onClose,
     onEntered,
@@ -213,7 +190,6 @@ Modal.Footer = ModalFooter;
 Modal.Dialog = ModalDialog;
 
 Modal.displayName = 'Modal';
-Modal.defaultProps = defaultProps;
 Modal.propTypes = {
   ...modalPropTypes,
   animation: PropTypes.any,

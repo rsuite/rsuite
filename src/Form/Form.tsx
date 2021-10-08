@@ -106,26 +106,17 @@ export interface FormComponent
   HelpText: typeof FormHelpText;
 }
 
-const defaultProps: Partial<FormProps> = {
-  checkTrigger: 'change',
-  classPrefix: 'form',
-  errorFromContext: true,
-  formDefaultValue: {},
-  layout: 'vertical',
-  model: SchemaModel({})
-};
-
 const Form: FormComponent = (React.forwardRef((props: FormProps, ref) => {
   const {
-    checkTrigger,
-    classPrefix,
-    errorFromContext,
-    formDefaultValue,
+    checkTrigger = 'change',
+    classPrefix = 'form',
+    errorFromContext = true,
+    formDefaultValue = {},
     formValue,
     formError,
     fluid,
-    layout,
-    model,
+    layout = 'vertical',
+    model = SchemaModel({}),
     readOnly,
     plaintext,
     className,
@@ -399,7 +390,6 @@ Form.HelpText = FormHelpText;
 Form.Control = FormControl;
 
 Form.displayName = 'Form';
-Form.defaultProps = defaultProps;
 Form.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,

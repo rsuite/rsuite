@@ -14,14 +14,16 @@ export interface SidenavToggleProps extends WithAsProps {
   onToggle?: (expanded: boolean, event: React.MouseEvent) => void;
 }
 
-const defaultProps: Partial<SidenavToggleProps> = {
-  as: 'div',
-  classPrefix: 'sidenav-toggle'
-};
-
 const SidenavToggle: RsRefForwardingComponent<'div', SidenavToggleProps> = React.forwardRef(
   (props: SidenavToggleProps, ref) => {
-    const { as: Component, expanded, className, classPrefix, onToggle, ...rest } = props;
+    const {
+      as: Component = 'div',
+      expanded,
+      className,
+      classPrefix = 'sidenav-toggle',
+      onToggle,
+      ...rest
+    } = props;
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ collapsed: !expanded }));
     const Icon = expanded ? AngleRight : AngleLeft;
@@ -39,7 +41,6 @@ const SidenavToggle: RsRefForwardingComponent<'div', SidenavToggleProps> = React
 );
 
 SidenavToggle.displayName = 'SidenavToggle';
-SidenavToggle.defaultProps = defaultProps;
 SidenavToggle.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,

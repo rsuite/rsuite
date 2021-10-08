@@ -21,11 +21,6 @@ export interface TimeDropdownProps extends WithAsProps {
   hideSeconds?: (second: number, date: Date) => boolean;
 }
 
-const defaultProps: Partial<TimeDropdownProps> = {
-  classPrefix: 'calendar-time-dropdown',
-  as: 'div'
-};
-
 interface Time {
   hours?: number;
   minutes?: number;
@@ -94,7 +89,14 @@ const scrollTo = (time: Time, row: HTMLDivElement) => {
 
 const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.forwardRef(
   (props: TimeDropdownProps, ref) => {
-    const { as: Component, className, classPrefix, show, showMeridian, ...rest } = props;
+    const {
+      as: Component = 'div',
+      className,
+      classPrefix = 'calendar-time-dropdown',
+      show,
+      showMeridian,
+      ...rest
+    } = props;
     const { locale, format, date, onChangePageTime: onSelect } = useCalendarContext();
     const rowRef = useRef<HTMLDivElement>(null);
 
@@ -193,7 +195,6 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
 );
 
 TimeDropdown.displayName = 'TimeDropdown';
-TimeDropdown.defaultProps = defaultProps;
 TimeDropdown.propTypes = {
   show: PropTypes.bool,
   showMeridian: PropTypes.bool,

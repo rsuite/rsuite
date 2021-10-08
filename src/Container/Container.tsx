@@ -10,12 +10,14 @@ interface ContainerContextValue {
   setHasSidebar?: (value: boolean) => void;
 }
 
-const defaultProps: Partial<ContainerProps> = {
-  as: 'section',
-  classPrefix: 'container'
-};
 const Container = React.forwardRef((props: ContainerProps, ref: React.Ref<HTMLDivElement>) => {
-  const { as: Component, classPrefix, className, children, ...rest } = props;
+  const {
+    as: Component = 'section',
+    classPrefix = 'container',
+    className,
+    children,
+    ...rest
+  } = props;
   const [hasSidebar, setHasSidebar] = useState(false);
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix({ 'has-sidebar': hasSidebar }));
@@ -30,7 +32,6 @@ const Container = React.forwardRef((props: ContainerProps, ref: React.Ref<HTMLDi
 });
 
 Container.displayName = 'Container';
-Container.defaultProps = defaultProps;
 Container.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,

@@ -28,21 +28,16 @@ export interface UploadTriggerInstance {
 
 const Button = props => <button {...props} type="button" />;
 
-const defaultProps: Partial<UploadTriggerProps> = {
-  as: Button,
-  classPrefix: 'uploader-trigger'
-};
-
 const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
   const {
-    as: Component,
+    as: Component = Button,
     name,
     accept,
     multiple,
     disabled,
     readOnly,
     children,
-    classPrefix,
+    classPrefix = 'uploader-trigger',
     className,
     draggable,
     locale,
@@ -177,7 +172,6 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
 });
 
 UploadTrigger.displayName = 'UploadTrigger';
-UploadTrigger.defaultProps = defaultProps;
 UploadTrigger.propTypes = {
   locale: PropTypes.any,
   name: PropTypes.string,

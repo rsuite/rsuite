@@ -54,38 +54,25 @@ export interface CheckPickerProps<T = ValueType>
   countable?: boolean;
 }
 
-const defaultProps: Partial<CheckPickerProps> = {
-  as: 'div',
-  appearance: 'default',
-  classPrefix: 'picker',
-  countable: true,
-  searchable: true,
-  cleanable: true,
-  data: [],
-  disabledItemValues: [],
-  valueKey: 'value',
-  labelKey: 'label',
-  placement: 'bottomStart',
-  menuAutoWidth: true,
-  menuMaxHeight: 320
-};
+const emptyArray = [];
 
 const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
   (props: CheckPickerProps, ref) => {
     const {
-      as: Component,
-      classPrefix,
-      countable,
-      data,
-      disabledItemValues,
-      valueKey,
-      labelKey,
-      searchable,
+      as: Component = 'div',
+      appearance = 'default',
+      classPrefix = 'picker',
+      countable = true,
+      data = emptyArray,
+      disabledItemValues = emptyArray,
+      valueKey = 'value',
+      labelKey = 'label',
+      searchable = true,
       virtualized,
-      cleanable,
-      placement,
-      menuAutoWidth,
-      menuMaxHeight,
+      cleanable = true,
+      placement = 'bottomStart',
+      menuAutoWidth = true,
+      menuMaxHeight = 320,
       menuClassName,
       menuStyle,
       locale: overrideLocale,
@@ -381,6 +368,10 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
 
     const [classes, usedClassNamePropKeys] = usePickerClassName({
       ...props,
+      appearance,
+      classPrefix,
+      cleanable,
+      countable,
       hasValue,
       name: 'check'
     });
@@ -400,6 +391,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
             ref={targetRef}
+            appearance={appearance}
             disabled={disabled}
             onClean={handleClean}
             onKeyDown={onPickerKeyDown}
@@ -419,7 +411,6 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
 );
 
 CheckPicker.displayName = 'CheckPicker';
-CheckPicker.defaultProps = defaultProps;
 CheckPicker.propTypes = {
   ...listPickerPropTypes,
   locale: PropTypes.any,

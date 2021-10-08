@@ -15,10 +15,12 @@ describe('Slider - Handle', () => {
   });
 
   it('Should call `onDragMove` callback', done => {
+    const onDragMove = () => done();
+
     const ref = React.createRef();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
 
-    render(<Handle ref={ref} onDragMove={() => done()} />);
+    render(<Handle ref={ref} onDragMove={onDragMove} />);
 
     ReactTestUtils.Simulate.mouseDown(ref.current);
     ref.current.dispatchEvent(mousemoveEvent);

@@ -99,52 +99,37 @@ export interface InputPickerProps<T = ValueType>
   onCreate?: (value: ValueType, item: ItemDataType, event: React.SyntheticEvent) => void;
 }
 
-const defaultProps: Partial<InputPickerProps> = {
-  as: 'div',
-  appearance: 'default',
-  cleanable: true,
-  cacheData: [],
-  classPrefix: 'picker',
-  data: [],
-  disabledItemValues: [],
-  valueKey: 'value',
-  labelKey: 'label',
-  placement: 'bottomStart',
-  searchable: true,
-  menuAutoWidth: true,
-  menuMaxHeight: 320
-};
-
 const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
   (props: InputPickerProps, ref) => {
     const {
-      as: Component,
-      cleanable,
-      cacheData,
-      classPrefix,
-      data: controlledData,
+      as: Component = 'div',
+      appearance = 'default',
+      cleanable = true,
+      cacheData = [],
+      classPrefix = 'picker',
+      data: controlledData = [],
       disabled,
       readOnly,
       plaintext,
       defaultValue,
       defaultOpen,
-      disabledItemValues,
+      disabledItemValues = [],
       locale: overrideLocale,
       toggleAs,
       style,
-      searchable,
+      searchable = true,
       open: controlledOpen,
       placeholder,
       groupBy,
       menuClassName,
       menuStyle,
-      menuAutoWidth,
-      menuMaxHeight,
+      menuAutoWidth = true,
+      menuMaxHeight = 320,
       creatable,
       value: valueProp,
-      valueKey,
+      valueKey = 'value',
       virtualized,
-      labelKey,
+      labelKey = 'label',
       listProps,
       id,
       tabIndex,
@@ -168,7 +153,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       onBlur,
       onFocus,
       searchBy,
-      placement,
+      placement = 'bottomStart',
       ...rest
     } = props;
 
@@ -733,6 +718,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const [pickerClasses, usedClassNamePropKeys] = usePickerClassName({
       ...props,
+      classPrefix,
+      appearance,
       hasValue,
       name: 'input'
     });
@@ -790,6 +777,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
+            appearance={appearance}
             readOnly={readOnly}
             plaintext={plaintext}
             ref={targetRef}
@@ -831,7 +819,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 );
 
 InputPicker.displayName = 'InputPicker';
-InputPicker.defaultProps = defaultProps;
 InputPicker.propTypes = {
   ...listPickerPropTypes,
   locale: PropTypes.any,

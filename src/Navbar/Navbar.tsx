@@ -26,15 +26,15 @@ interface NavbarComponent extends RsRefForwardingComponent<'div', NavbarProps> {
   Brand: typeof NavbarBrand;
 }
 
-const defaultProps: Partial<NavbarProps> = {
-  as: 'nav',
-  classPrefix: 'navbar',
-  appearance: 'default'
-};
-
 const Navbar: NavbarComponent = (React.forwardRef(
   (props: NavbarProps, ref: React.Ref<HTMLElement>) => {
-    const { className, as: Component, classPrefix, appearance, ...rest } = props;
+    const {
+      className,
+      as: Component = 'nav',
+      classPrefix = 'navbar',
+      appearance = 'default',
+      ...rest
+    } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(appearance));
     return (
@@ -50,6 +50,5 @@ Navbar.Body = NavbarBody;
 Navbar.Brand = NavbarBrand;
 
 Navbar.displayName = 'Navbar';
-Navbar.defaultProps = defaultProps;
 
 export default Navbar;

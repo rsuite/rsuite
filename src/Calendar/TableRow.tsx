@@ -8,15 +8,16 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 export interface TableRowProps extends WithAsProps {
   weekendDate?: Date;
 }
-const defaultProps: Partial<TableRowProps> = {
-  as: 'div',
-  classPrefix: 'calendar-table',
-  weekendDate: new Date()
-};
 
 const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRef(
   (props: TableRowProps, ref) => {
-    const { as: Component, className, classPrefix, weekendDate, ...rest } = props;
+    const {
+      as: Component = 'div',
+      className,
+      classPrefix = 'calendar-table',
+      weekendDate = new Date(),
+      ...rest
+    } = props;
     const {
       date: selected = new Date(),
       dateRange,
@@ -136,7 +137,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
       <Component {...rest} ref={ref} role="row" className={classes}>
         {showWeekNumbers && (
           <div className={prefix('cell-week-number')} role="cell">
-            {DateUtils.format(props.weekendDate, isoWeek ? 'I' : 'w')}
+            {DateUtils.format(weekendDate, isoWeek ? 'I' : 'w')}
           </div>
         )}
         {renderDays()}
@@ -146,7 +147,6 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
 );
 
 TableRow.displayName = 'TableRow';
-TableRow.defaultProps = defaultProps;
 TableRow.propTypes = {
   weekendDate: PropTypes.instanceOf(Date),
   className: PropTypes.string,

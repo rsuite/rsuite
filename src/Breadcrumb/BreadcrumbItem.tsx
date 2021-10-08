@@ -18,17 +18,12 @@ export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | str
   target?: string;
 }
 
-const defaultProps: Partial<BreadcrumbItemProps> = {
-  as: SafeAnchor,
-  classPrefix: 'breadcrumb-item'
-};
-
 const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React.forwardRef(
   (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {
-      as: Component,
+      as: Component = SafeAnchor,
       href,
-      classPrefix,
+      classPrefix = 'breadcrumb-item',
       title,
       target,
       className,
@@ -66,7 +61,6 @@ const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React
 );
 
 BreadcrumbItem.displayName = 'BreadcrumbItem';
-BreadcrumbItem.defaultProps = defaultProps;
 BreadcrumbItem.propTypes = {
   active: PropTypes.bool,
   className: PropTypes.string,

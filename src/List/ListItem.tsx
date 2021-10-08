@@ -17,19 +17,13 @@ export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLEle
   disabled?: boolean;
 }
 
-const defaultProps: Partial<ListItemProps> = {
-  as: 'div',
-  classPrefix: 'list-item',
-  collection: 0
-};
-
 const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivElement>) => {
   const {
-    as: Component,
+    as: Component = 'div',
     children,
     className,
-    classPrefix,
-    collection,
+    classPrefix = 'list-item',
+    collection = 0,
     disabled,
     index,
     ...rest
@@ -64,7 +58,6 @@ const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivE
 });
 
 ListItem.displayName = 'ListItem';
-ListItem.defaultProps = defaultProps;
 ListItem.propTypes = {
   index: PropTypes.number,
   collection: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

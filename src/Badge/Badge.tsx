@@ -14,22 +14,16 @@ export interface BadgeProps extends WithAsProps {
   color?: TypeAttributes.Color;
 }
 
-const defaultProps: Partial<BadgeProps> = {
-  as: 'div',
-  maxCount: 99,
-  classPrefix: 'badge'
-};
-
 const Badge: RsRefForwardingComponent<'div', BadgeProps> = React.forwardRef(
   (props: BadgeProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       content: contentText,
       color,
       className,
-      classPrefix,
+      classPrefix = 'badge',
       children,
-      maxCount,
+      maxCount = 99,
       ...rest
     } = props;
 
@@ -67,7 +61,6 @@ const Badge: RsRefForwardingComponent<'div', BadgeProps> = React.forwardRef(
 );
 
 Badge.displayName = 'Badge';
-Badge.defaultProps = defaultProps;
 Badge.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,

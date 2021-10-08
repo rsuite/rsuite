@@ -14,15 +14,18 @@ export interface PlaceholderGraphProps extends WithAsProps {
   active?: boolean;
 }
 
-const defaultProps: Partial<PlaceholderGraphProps> = {
-  as: 'div',
-  classPrefix: 'placeholder',
-  height: 200
-};
-
 const PlaceholderGraph: RsRefForwardingComponent<'div', PlaceholderGraphProps> = React.forwardRef(
   (props: PlaceholderGraphProps, ref) => {
-    const { as: Component, className, width, height, style, active, classPrefix, ...rest } = props;
+    const {
+      as: Component = 'div',
+      className,
+      width,
+      height = 200,
+      style,
+      active,
+      classPrefix = 'placeholder',
+      ...rest
+    } = props;
     const { merge, withClassPrefix } = useClassNames(classPrefix);
 
     const classes = merge(className, withClassPrefix('graph', { active }));
@@ -40,6 +43,5 @@ PlaceholderGraph.propTypes = {
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   active: PropTypes.bool
 };
-PlaceholderGraph.defaultProps = defaultProps;
 
 export default PlaceholderGraph;

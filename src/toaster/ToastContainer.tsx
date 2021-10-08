@@ -21,13 +21,6 @@ export interface ToastContainerProps extends WithAsProps {
   /** Set the message to appear in the specified container */
   container?: HTMLElement | (() => HTMLElement);
 }
-
-const defaultProps: Partial<ToastContainerProps> = {
-  as: 'div',
-  classPrefix: 'toast-container',
-  placement: 'topCenter'
-};
-
 export interface ToastContainerInstance {
   root: HTMLElement;
   push: (message: React.ReactNode) => string;
@@ -112,7 +105,13 @@ const ToastContainer: ToastContainerComponent = React.forwardRef(
   (props: ToastContainerProps, ref) => {
     const rootRef = useRef<HTMLDivElement>();
 
-    const { as: Component, className, classPrefix, placement, ...rest } = props;
+    const {
+      as: Component = 'div',
+      className,
+      classPrefix = 'toast-container',
+      placement = 'topCenter',
+      ...rest
+    } = props;
     const { withClassPrefix, merge, rootPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(kebabCase(placement)));
     const { push, clear, remove, messages } = useMessages();
@@ -181,7 +180,6 @@ ToastContainer.getInstance = (props: ToastContainerProps) => {
 };
 
 ToastContainer.displayName = 'ToastContainer';
-ToastContainer.defaultProps = defaultProps;
 ToastContainer.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,

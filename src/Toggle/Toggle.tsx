@@ -37,24 +37,19 @@ export interface ToggleProps extends WithAsProps {
   onChange?: (checked: boolean, event: React.SyntheticEvent) => void;
 }
 
-const defaultProps: Partial<ToggleProps> = {
-  as: 'span',
-  classPrefix: 'btn-toggle'
-};
-
 /**
  * fixme: Should contain an input[type=checkbox]
  */
 const Toggle = React.forwardRef((props: ToggleProps, ref) => {
   const {
-    as: Component,
+    as: Component = 'span',
     disabled,
     readOnly,
     plaintext,
     className,
     checkedChildren,
     unCheckedChildren,
-    classPrefix,
+    classPrefix = 'btn-toggle',
     checked: checkedProp,
     defaultChecked,
     size,
@@ -103,7 +98,6 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
 });
 
 Toggle.displayName = 'Toggle';
-Toggle.defaultProps = defaultProps;
 Toggle.propTypes = {
   disabled: PropTypes.bool,
   checked: PropTypes.bool,

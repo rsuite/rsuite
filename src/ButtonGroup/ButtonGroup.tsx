@@ -27,18 +27,12 @@ export interface ButtonGroupProps extends WithAsProps {
   size?: TypeAttributes.Size;
 }
 
-const defaultProps: Partial<ButtonGroupProps> = {
-  as: 'div',
-  classPrefix: 'btn-group',
-  role: 'group'
-};
-
 const ButtonGroup: RsRefForwardingComponent<'div', ButtonGroupProps> = React.forwardRef(
   (props: ButtonGroupProps, ref) => {
     const {
-      as: Component,
-      classPrefix,
-      role,
+      as: Component = 'div',
+      classPrefix = 'btn-group',
+      role = 'group',
       className,
       children,
       block,
@@ -60,7 +54,6 @@ const ButtonGroup: RsRefForwardingComponent<'div', ButtonGroupProps> = React.for
 );
 
 ButtonGroup.displayName = 'ButtonGroup';
-ButtonGroup.defaultProps = defaultProps;
 ButtonGroup.propTypes = {
   className: PropTypes.string,
   as: PropTypes.elementType,

@@ -20,15 +20,6 @@ export interface ListProps extends WithAsProps, SortConfig {
   sortable?: boolean;
 }
 
-const defaultProps: Partial<ListProps> = {
-  as: 'div',
-  classPrefix: 'list',
-  size: 'md',
-  autoScroll: true,
-  pressDelay: 0,
-  transitionDuration: 300
-};
-
 export interface ListComponent extends RsRefForwardingComponent<'div', ListProps> {
   Item: typeof ListItem;
 }
@@ -36,16 +27,16 @@ export interface ListComponent extends RsRefForwardingComponent<'div', ListProps
 const List: ListComponent = (React.forwardRef(
   (props: ListProps, ref: React.Ref<HTMLDivElement>) => {
     const {
-      as: Component,
-      classPrefix,
+      as: Component = 'div',
+      classPrefix = 'list',
       className,
       bordered,
       hover,
-      size,
+      size = 'md',
       sortable,
-      autoScroll,
-      pressDelay,
-      transitionDuration,
+      autoScroll = true,
+      pressDelay = 0,
+      transitionDuration = 300,
       children,
       onSort,
       onSortEnd,
@@ -89,7 +80,6 @@ const List: ListComponent = (React.forwardRef(
 List.Item = ListItem;
 
 List.displayName = 'List';
-List.defaultProps = defaultProps;
 List.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,

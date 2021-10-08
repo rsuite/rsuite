@@ -332,8 +332,14 @@ describe('DatePicker ', () => {
 
   it('Should not change for the value  when it is controlled', done => {
     const doneOp = () => {
-      if (instance.target.querySelector('.rs-picker-toggle-value').innerText === '2018-01-05') {
+      try {
+        assert.equal(
+          instance.target.querySelector('.rs-picker-toggle-value').innerText,
+          '2018-01-05'
+        );
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

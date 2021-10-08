@@ -26,13 +26,8 @@ const getPosition = (target: HTMLElement, event: React.MouseEvent) => {
   };
 };
 
-const defaultProps: Partial<RippleProps> = {
-  as: 'span',
-  classPrefix: 'ripple'
-};
-
 const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElement>) => {
-  const { as: Component, className, classPrefix, onMouseDown, ...rest } = props;
+  const { as: Component = 'span', className, classPrefix = 'ripple', onMouseDown, ...rest } = props;
   const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, prefix('pond'));
   const triggerRef = useRef<HTMLElement>();
@@ -81,7 +76,6 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
 });
 
 Ripple.displayName = 'Ripple';
-Ripple.defaultProps = defaultProps;
 Ripple.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,

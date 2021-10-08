@@ -56,20 +56,13 @@ export interface SidenavComponent extends RsRefForwardingComponent<'div', Sidena
   Toggle: typeof SidenavToggle;
 }
 
-const defaultProps: Partial<SidenavProps> = {
-  as: 'nav',
-  classPrefix: 'sidenav',
-  appearance: 'default',
-  expanded: true
-};
-
 const Sidenav: SidenavComponent = (React.forwardRef((props: SidenavProps, ref) => {
   const {
-    as: Component,
+    as: Component = 'nav',
     className,
-    classPrefix,
-    appearance,
-    expanded,
+    classPrefix = 'sidenav',
+    appearance = 'default',
+    expanded = true,
     activeKey,
     defaultOpenKeys,
     openKeys: openKeysProp,
@@ -142,7 +135,6 @@ Sidenav.Body = SidenavBody;
 Sidenav.Toggle = SidenavToggle;
 
 Sidenav.displayName = 'Sidenav';
-Sidenav.defaultProps = defaultProps;
 Sidenav.propTypes = {
   as: PropTypes.elementType,
   classPrefix: PropTypes.string,

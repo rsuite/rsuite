@@ -27,21 +27,14 @@ export interface BreadcrumbComponent extends RsRefForwardingComponent<'ol', Brea
   Item: typeof BreadcrumbItem;
 }
 
-const defaultProps: Partial<BreadcrumbProps> = {
-  as: 'nav',
-  classPrefix: 'breadcrumb',
-  separator: '/',
-  maxItems: 5
-};
-
 const Breadcrumb: BreadcrumbComponent = (React.forwardRef((props: BreadcrumbProps, ref) => {
   const {
-    as: Component,
+    as: Component = 'nav',
     className,
-    classPrefix,
+    classPrefix = 'breadcrumb',
     children,
-    maxItems,
-    separator,
+    maxItems = 5,
+    separator = '/',
     locale: overrideLocale,
     onExpand,
     ...rest
@@ -110,7 +103,6 @@ const Breadcrumb: BreadcrumbComponent = (React.forwardRef((props: BreadcrumbProp
 
 Breadcrumb.Item = BreadcrumbItem;
 Breadcrumb.displayName = 'Breadcrumb';
-Breadcrumb.defaultProps = defaultProps;
 Breadcrumb.propTypes = {
   separator: PropTypes.node,
   as: PropTypes.elementType,

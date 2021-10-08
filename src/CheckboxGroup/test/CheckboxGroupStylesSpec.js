@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import CheckboxGroup from '../index';
+import CheckboxGroup from '../CheckboxGroup';
 import Checkbox from '../../Checkbox';
-import { createTestContainer, getDOMNode } from '@test/testUtils';
+import { getStyle, createTestContainer, getDOMNode } from '@test/testUtils';
 
 import '../styles/index.less';
-import { getStyle } from '../../../test/testUtils';
 
 describe('CheckboxGroup styles', () => {
   it('Should render the correct margin', () => {

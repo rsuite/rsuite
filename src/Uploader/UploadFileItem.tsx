@@ -48,27 +48,18 @@ export const formatSize = (size = 0): string => {
   return `${size}B`;
 };
 
-const defaultProps: Partial<UploadFileItemProps> = {
-  as: 'div',
-  classPrefix: 'uploader-file-item',
-  maxPreviewFileSize: 1024 * 1024 * 5, // 5MB
-  listType: 'text',
-  removable: true,
-  allowReupload: true
-};
-
 const UploadFileItem = React.forwardRef(
   (props: UploadFileItemProps, ref: React.RefObject<HTMLDivElement>) => {
     const {
-      as: Component,
+      as: Component = 'div',
       disabled,
-      allowReupload,
+      allowReupload = true,
       file,
-      classPrefix,
-      listType,
+      classPrefix = 'uploader-file-item',
+      listType = 'text',
       className,
-      removable,
-      maxPreviewFileSize,
+      removable = true,
+      maxPreviewFileSize = 1024 * 1024 * 5, // 5MB
       locale,
       renderFileInfo,
       onPreview,
@@ -281,7 +272,6 @@ const UploadFileItem = React.forwardRef(
 );
 
 UploadFileItem.displayName = 'UploadFileItem';
-UploadFileItem.defaultProps = defaultProps;
 UploadFileItem.propTypes = {
   locale: PropTypes.any,
   file: PropTypes.object,

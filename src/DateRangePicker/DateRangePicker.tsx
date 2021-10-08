@@ -13,7 +13,6 @@ import {
   omitTriggerPropKeys,
   OverlayTriggerInstance,
   PickerComponent,
-  pickerDefaultProps,
   PickerOverlay,
   pickerPropTypes,
   PickerToggle,
@@ -120,44 +119,31 @@ export interface DateRangePicker extends PickerComponent<DateRangePickerProps> {
   combine?: (...args: any) => DisabledDateFunction;
 }
 
-const defaultProps: Partial<DateRangePickerProps> = {
-  ...pickerDefaultProps,
-  as: 'div',
-  classPrefix: 'picker',
-  cleanable: true,
-  placement: 'bottomStart',
-  appearance: 'default',
-  format: 'yyyy-MM-dd',
-  limitEndYear: 1000,
-  placeholder: '',
-  showOneCalendar: false,
-  character: ' ~ '
-};
-
 const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
   const {
-    as: Component,
-    classPrefix,
+    as: Component = 'div',
+    classPrefix = 'picker',
     className,
-    cleanable,
-    character,
+    appearance = 'default',
+    cleanable = true,
+    character = ' ~ ',
     defaultCalendarValue,
     defaultValue,
     disabled,
     disabledDate: disabledDateProp,
-    format: formatStr,
+    format: formatStr = 'yyyy-MM-dd',
     hoverRange,
     isoWeek,
-    limitEndYear,
+    limitEndYear = 1000,
     locale: overrideLocale,
     menuClassName,
     menuStyle,
     oneTap,
-    placeholder,
-    placement,
+    placeholder = '',
+    placement = 'bottomStart',
     ranges,
     renderValue,
-    showOneCalendar,
+    showOneCalendar = false,
     showWeekNumbers,
     style,
 
@@ -710,6 +696,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   const hasValue = value && value.length > 1;
   const [classes, usedClassNamePropKeys] = usePickerClassName({
     ...props,
+    classPrefix,
     name: 'daterange',
     hasValue
   });
@@ -739,6 +726,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           ])}
           as={toggleAs}
           ref={targetRef}
+          appearance={appearance}
           input
           inputMask={DateUtils.getDateMask(rangeFormatStr)}
           inputValue={value ? (getDisplayString(value, true) as string) : ''}
@@ -773,7 +761,6 @@ DateRangePicker.beforeToday = disabledDateUtils.beforeToday;
 DateRangePicker.combine = disabledDateUtils.combine;
 
 DateRangePicker.displayName = 'DateRangePicker';
-DateRangePicker.defaultProps = defaultProps;
 DateRangePicker.propTypes = {
   ...pickerPropTypes,
   ranges: PropTypes.array,

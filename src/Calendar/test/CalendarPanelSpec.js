@@ -97,8 +97,11 @@ describe('Calendar - Panel', () => {
     assert.equal(panel.querySelector('.rs-calendar-header-title').innerText, 'Jun 2021');
 
     setTimeout(() => {
-      if (panel.querySelector('.rs-calendar-header-title').innerText === 'Jul 2021') {
+      try {
+        assert.equal(panel.querySelector('.rs-calendar-header-title').innerText, 'Jul 2021');
         done();
+      } catch (err) {
+        done(err);
       }
     }, 100);
   });

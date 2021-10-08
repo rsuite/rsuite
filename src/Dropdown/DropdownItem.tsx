@@ -63,11 +63,6 @@ export interface DropdownMenuItemProps<T = any>
   onSelect?: (eventKey: T, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-const defaultProps: Partial<DropdownMenuItemProps> = {
-  as: 'li',
-  classPrefix: 'dropdown-item'
-};
-
 /**
  * The <Dropdown.Item> API
  * When used inside <Sidenav>, renders a <TreeviewItem>
@@ -75,7 +70,15 @@ const defaultProps: Partial<DropdownMenuItemProps> = {
  */
 const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.forwardRef(
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
-    const { classPrefix, className, active: activeProp, eventKey, onSelect, icon, ...rest } = props;
+    const {
+      classPrefix = 'dropdown-item',
+      className,
+      active: activeProp,
+      eventKey,
+      onSelect,
+      icon,
+      ...rest
+    } = props;
 
     const internalId = useInternalId('DropdownItem');
 
@@ -139,7 +142,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       return <SidenavDropdownItem ref={ref} {...props} />;
     }
 
-    const { as: Component, divider, panel, children, disabled, ...restProps } = rest;
+    const { as: Component = 'li', divider, panel, children, disabled, ...restProps } = rest;
 
     if (divider) {
       return (
@@ -242,7 +245,6 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 );
 
 DropdownItem.displayName = 'Dropdown.Item';
-DropdownItem.defaultProps = defaultProps;
 DropdownItem.propTypes = {
   as: PropTypes.elementType,
   divider: PropTypes.bool,

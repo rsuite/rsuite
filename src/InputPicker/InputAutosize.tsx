@@ -53,7 +53,7 @@ const useInputWidth = (
   sizerRef: React.RefObject<HTMLDivElement>,
   placeholderRef: React.RefObject<HTMLDivElement>
 ) => {
-  const { minWidth, placeholder, value, onAutosize } = props;
+  const { minWidth = 1, placeholder, value, onAutosize } = props;
   const [inputWidth, setInputWidth] = useState(minWidth);
 
   useEffect(() => {
@@ -184,9 +184,6 @@ InputAutosize.propTypes = {
   style: PropTypes.object,
   value: PropTypes.any,
   onAutosize: PropTypes.func
-};
-InputAutosize.defaultProps = {
-  minWidth: 1
 };
 
 export default InputAutosize;

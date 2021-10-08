@@ -78,14 +78,6 @@ export interface AutoCompleteProps<T = ValueType>
   renderMenuItem?: (label: React.ReactNode, item: ItemDataType) => React.ReactNode;
 }
 
-const defaultProps: Partial<AutoCompleteProps> = {
-  as: 'div',
-  classPrefix: 'auto-complete',
-  defaultValue: '',
-  placement: 'bottomStart',
-  selectOnEnter: true
-};
-
 /**
  * TODO: Remove unnecessary .rs-auto-complete element
  * TODO: role=combobox and aria-autocomplete on input element
@@ -93,13 +85,13 @@ const defaultProps: Partial<AutoCompleteProps> = {
 const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
   (props: AutoCompleteProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       disabled,
       className,
-      placement,
-      selectOnEnter,
-      classPrefix,
-      defaultValue,
+      placement = 'bottomStart',
+      selectOnEnter = true,
+      classPrefix = 'auto-complete',
+      defaultValue = '',
       data,
       value: valueProp,
       open,
@@ -291,7 +283,6 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
 );
 
 AutoComplete.displayName = 'AutoComplete';
-AutoComplete.defaultProps = defaultProps;
 AutoComplete.propTypes = {
   ...animationPropTypes,
   data: PropTypes.array,

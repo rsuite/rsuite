@@ -37,18 +37,7 @@ export interface DropdownMenuProps extends WithAsProps {
   ) => void;
 }
 
-const defaultProps: Partial<DropdownMenuProps> = {
-  as: 'div',
-  disabledItemValues: [],
-  uncheckableItemValues: [],
-  cascadeData: [],
-  cascadePaths: [],
-  menuWidth: 156,
-  menuHeight: 200,
-  childrenKey: 'children',
-  valueKey: 'value',
-  labelKey: 'label'
-};
+const emptyArray = [];
 
 /**
  * TODO: reuse Menu from Cascader for consistent behavior
@@ -56,20 +45,20 @@ const defaultProps: Partial<DropdownMenuProps> = {
 const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.forwardRef(
   (props: DropdownMenuProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       classPrefix,
       className,
       cascade,
-      cascadeData,
-      cascadePaths,
-      childrenKey,
-      disabledItemValues,
-      menuWidth,
-      menuHeight,
-      uncheckableItemValues,
+      cascadeData = emptyArray,
+      cascadePaths = emptyArray,
+      childrenKey = 'children',
+      disabledItemValues = emptyArray,
+      menuWidth = 156,
+      menuHeight = 200,
+      uncheckableItemValues = emptyArray,
       value,
-      valueKey,
-      labelKey,
+      valueKey = 'value',
+      labelKey = 'label',
       renderMenuItem,
       renderMenu,
       onCheck,
@@ -204,7 +193,6 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 );
 
 DropdownMenu.displayName = 'DropdownMenu';
-DropdownMenu.defaultProps = defaultProps;
 
 DropdownMenu.propTypes = {
   classPrefix: PropTypes.string,

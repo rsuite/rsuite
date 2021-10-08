@@ -49,11 +49,14 @@ describe('Checkbox', () => {
     assert.equal(input.tagName, 'INPUT');
   });
 
-  it('Should call onChange callback', done => {
+  it('Should call onChange callback with correct value', done => {
     const value = 'Test';
     const doneOp = data => {
-      if (data === value) {
+      try {
+        assert.equal(data, value);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 
@@ -91,8 +94,11 @@ describe('Checkbox', () => {
 
   it('Should be checked with change', done => {
     const doneOp = (value, checked) => {
-      if (checked) {
+      try {
+        assert.isTrue(checked);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 
@@ -102,9 +108,12 @@ describe('Checkbox', () => {
   });
 
   it('Should be unchecked with change', done => {
-    const doneOp = checked => {
-      if (!checked) {
+    const doneOp = (value, checked) => {
+      try {
+        assert.isFalse(checked);
         done();
+      } catch (err) {
+        done(err);
       }
     };
 

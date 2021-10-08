@@ -20,14 +20,18 @@ export interface TimelineItemProps extends WithAsProps {
   time?: React.ReactNode;
 }
 
-const defaultProps: Partial<TimelineItemProps> = {
-  as: 'li',
-  classPrefix: 'timeline-item'
-};
-
 const TimelineItem: RsRefForwardingComponent<'div', TimelineItemProps> = React.forwardRef(
   (props: TimelineItemProps, ref) => {
-    const { as: Component, children, classPrefix, last, className, dot, time, ...rest } = props;
+    const {
+      as: Component = 'li',
+      children,
+      classPrefix = 'timeline-item',
+      last,
+      className,
+      dot,
+      time,
+      ...rest
+    } = props;
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ last }));
 
@@ -43,7 +47,6 @@ const TimelineItem: RsRefForwardingComponent<'div', TimelineItemProps> = React.f
 );
 
 TimelineItem.displayName = 'TimelineItem';
-TimelineItem.defaultProps = defaultProps;
 TimelineItem.propTypes = {
   last: PropTypes.bool,
   dot: PropTypes.node,

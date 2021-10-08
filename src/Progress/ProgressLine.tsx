@@ -29,26 +29,19 @@ export interface ProgressLineProps extends WithAsProps {
   vertical?: boolean;
 }
 
-const defaultProps: Partial<ProgressLineProps> = {
-  as: 'div',
-  classPrefix: 'progress',
-  showInfo: true,
-  percent: 0
-};
-
 const ProgressLine: RsRefForwardingComponent<'div', ProgressLineProps> = React.forwardRef(
   (props: ProgressLineProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       className,
-      percent,
+      percent = 0,
       strokeColor,
       strokeWidth,
       trailColor,
       trailWidth,
       status,
-      showInfo,
-      classPrefix,
+      showInfo = true,
+      classPrefix = 'progress',
       vertical,
       ...rest
     } = props;
@@ -102,7 +95,6 @@ const ProgressLine: RsRefForwardingComponent<'div', ProgressLineProps> = React.f
 );
 
 ProgressLine.displayName = 'ProgressLine';
-ProgressLine.defaultProps = defaultProps;
 ProgressLine.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,

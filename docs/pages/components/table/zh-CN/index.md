@@ -176,6 +176,7 @@ const data = [
 - `rowKey` 给每一行数据对一个唯一 key , 对应 `data` 中的一个唯一值的 `key`。 (可以在 `<Table>` 设置 `rowKey` 进行修改，默认值: 'key' )
 - `renderTreeToggle:() => ReactNode` 自定义 Toggle
 - `onExpandChange:(expanded:boolean,rowData:object) => void` 展开/关闭节点的回调函数
+- `treeCol` 是 `<Table.Column>` 上的属性，可以指定该列显示为树形。
 
 ### 可展开
 

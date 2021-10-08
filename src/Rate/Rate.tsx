@@ -45,33 +45,23 @@ export interface RateProps<T = number> extends WithAsProps, FormControlBaseProps
   onChangeActive?: (value: T, event: React.SyntheticEvent) => void;
 }
 
-const defaultProps: Partial<RateProps> = {
-  as: 'ul',
-  classPrefix: 'rate',
-  character: <Star />,
-  cleanable: true,
-  defaultValue: 0,
-  max: 5,
-  size: 'md'
-};
-
 const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
   (props: RateProps, ref) => {
     const {
-      as: Component,
-      character,
+      as: Component = 'ul',
+      character = <Star />,
       className,
-      classPrefix,
+      classPrefix = 'rate',
       disabled,
-      max,
+      max = 5,
       readOnly,
       vertical,
-      size,
+      size = 'md',
       color,
       allowHalf,
       value: valueProp,
-      defaultValue,
-      cleanable,
+      defaultValue = 0,
+      cleanable = true,
       plaintext,
       onChange,
       renderCharacter,
@@ -219,7 +209,6 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
 );
 
 Rate.displayName = 'Rate';
-Rate.defaultProps = defaultProps;
 Rate.propTypes = {
   allowHalf: PropTypes.bool,
   character: PropTypes.node,

@@ -28,7 +28,6 @@ export interface RsRefForwardingComponent<T extends React.ElementType, P = unkno
   ): React.ReactElement | null;
   propTypes?: any;
   contextTypes?: any;
-  defaultProps?: Partial<P>;
   displayName?: string;
 }
 

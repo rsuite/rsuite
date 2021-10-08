@@ -31,7 +31,6 @@ import {
   omitTriggerPropKeys,
   PositionChildProps,
   listPickerPropTypes,
-  listPickerDefaultProps,
   PickerComponent,
   useToggleKeyDownEvent
 } from '../Picker';
@@ -98,54 +97,42 @@ export interface CheckTreePickerProps<T = ValueType>
   onScroll?: (event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-const defaultProps: Partial<CheckTreePickerProps> = {
-  ...listPickerDefaultProps,
-  as: 'div',
-  height: 360,
-  cascade: true,
-  countable: true,
-  searchable: true,
-  menuAutoWidth: true,
-  defaultValue: [],
-  appearance: 'default',
-  uncheckableItemValues: [],
-  classPrefix: 'picker',
-  placement: 'bottomStart'
-};
+const emptyArray = [];
 
 const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef((props, ref) => {
   const {
-    as: Component,
-    data,
+    as: Component = 'div',
+    data = emptyArray,
     style,
-    cleanable,
-    countable,
+    appearance = 'default',
+    cleanable = true,
+    countable = true,
     searchBy,
     toggleAs,
     searchKeyword,
     locale: overrideLocale,
-    cascade,
+    cascade = true,
     disabled,
-    valueKey,
-    labelKey,
-    placement,
-    childrenKey,
+    valueKey = 'value',
+    labelKey = 'label',
+    placement = 'bottomStart',
+    childrenKey = 'children',
     placeholder,
     value: controlledValue,
-    defaultValue,
+    defaultValue = emptyArray,
     defaultExpandAll,
-    disabledItemValues,
+    disabledItemValues = emptyArray,
     expandItemValues: controlledExpandItemValues,
     defaultExpandItemValues,
-    height,
+    height = 360,
     menuStyle,
-    searchable,
+    searchable = true,
     virtualized,
     className,
-    classPrefix,
+    classPrefix = 'picker',
     menuClassName,
-    menuAutoWidth,
-    uncheckableItemValues,
+    menuAutoWidth = true,
+    uncheckableItemValues = emptyArray,
     id,
     renderMenu,
     getChildren,
@@ -872,6 +859,11 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const [classes, usedClassNamePropKeys] = usePickerClassName({
     ...props,
+    classPrefix,
+    appearance,
+    countable,
+    cleanable,
+    disabled,
     hasValue: hasValidValue,
     name: 'check-tree'
   });
@@ -895,6 +887,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
           id={id}
           ref={targetRef}
+          appearance={appearance}
           onKeyDown={onPickerKeydown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}
@@ -913,7 +906,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 });
 
 CheckTreePicker.displayName = 'CheckTreePicker';
-CheckTreePicker.defaultProps = defaultProps;
 CheckTreePicker.propTypes = {
   ...listPickerPropTypes,
   height: PropTypes.number,

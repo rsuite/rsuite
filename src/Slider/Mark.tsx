@@ -9,14 +9,16 @@ export interface MarkProps extends WithAsProps {
   renderMark?: (mark: number) => React.ReactNode;
 }
 
-const defaultProps: Partial<MarkProps> = {
-  as: 'span',
-  classPrefix: 'slider-mark'
-};
-
 const Mark: RsRefForwardingComponent<'span', MarkProps> = React.forwardRef(
   (props: MarkProps, ref) => {
-    const { as: Component, mark, last, classPrefix, className, renderMark } = props;
+    const {
+      as: Component = 'span',
+      mark,
+      last,
+      classPrefix = 'slider-mark',
+      className,
+      renderMark
+    } = props;
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ last }));
 
@@ -33,7 +35,6 @@ const Mark: RsRefForwardingComponent<'span', MarkProps> = React.forwardRef(
 );
 
 Mark.displayName = 'Mark';
-Mark.defaultProps = defaultProps;
 Mark.propTypes = {
   as: PropTypes.elementType,
   classPrefix: PropTypes.string,

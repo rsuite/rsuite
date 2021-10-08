@@ -19,18 +19,13 @@ interface CharacterProps extends WithAsProps {
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
-const defaultProps: Partial<CharacterProps> = {
-  as: 'li',
-  classPrefix: 'rate-character'
-};
-
 const getKey = (a, b) => (helper.contains(a, b) ? 'before' : 'after');
 
 const Character: RsRefForwardingComponent<'li', CharacterProps> = React.forwardRef(
   (props: CharacterProps, ref) => {
     const {
-      as: Component,
-      classPrefix,
+      as: Component = 'li',
+      classPrefix = 'rate-character',
       className,
       children,
       vertical,
@@ -80,7 +75,6 @@ const Character: RsRefForwardingComponent<'li', CharacterProps> = React.forwardR
 );
 
 Character.displayName = 'Character';
-Character.defaultProps = defaultProps;
 Character.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,

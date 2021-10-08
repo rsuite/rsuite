@@ -6,14 +6,15 @@ import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 
 export interface DropdownMenuGroupProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {}
 
-const defaultProps: Partial<DropdownMenuGroupProps> = {
-  as: 'div',
-  classPrefix: 'dropdown-menu-group'
-};
-
 const DropdownMenuGroup = React.forwardRef(
   (props: DropdownMenuGroupProps, ref: React.Ref<HTMLDivElement>) => {
-    const { as: Component, classPrefix, children, className, ...rest } = props;
+    const {
+      as: Component = 'div',
+      classPrefix = 'dropdown-menu-group',
+      children,
+      className,
+      ...rest
+    } = props;
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
@@ -29,7 +30,6 @@ const DropdownMenuGroup = React.forwardRef(
 );
 
 DropdownMenuGroup.displayName = 'DropdownMenuGroup';
-DropdownMenuGroup.defaultProps = defaultProps;
 DropdownMenuGroup.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,

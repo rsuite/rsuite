@@ -48,13 +48,6 @@ export interface RadioProps<T = ValueType>
   onChange?: (value: T, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
 }
 
-const defaultProps: Partial<RadioProps> = {
-  as: 'div',
-  classPrefix: 'radio',
-  tabIndex: 0,
-  inputProps: {}
-};
-
 const Radio = React.forwardRef((props: RadioProps, ref) => {
   const {
     value: groupValue,
@@ -68,14 +61,14 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
   } = useContext(RadioContext);
 
   const {
-    as: Component,
+    as: Component = 'div',
     title,
     className,
     children,
     checked: checkedProp,
     defaultChecked,
-    classPrefix,
-    tabIndex,
+    classPrefix = 'radio',
+    tabIndex = 0,
     inputRef,
     inputProps,
     disabled = disabledContext,
@@ -166,7 +159,6 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
 });
 
 Radio.displayName = 'Radio';
-Radio.defaultProps = defaultProps;
 Radio.propTypes = {
   id: PropTypes.string,
   name: PropTypes.string,

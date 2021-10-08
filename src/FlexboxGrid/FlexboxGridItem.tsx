@@ -11,16 +11,16 @@ export interface FlexboxGridItemProps extends WithAsProps {
   order?: number;
 }
 
-const defaultProps: Partial<FlexboxGridItemProps> = {
-  as: 'div',
-  classPrefix: 'flex-box-grid-item',
-  colspan: 0,
-  order: 0
-};
-
 const FlexboxGridItem: RsRefForwardingComponent<'div', FlexboxGridItemProps> = React.forwardRef(
   (props: FlexboxGridItemProps, ref) => {
-    const { as: Component, className, classPrefix, colspan, order, ...rest } = props;
+    const {
+      as: Component = 'div',
+      className,
+      classPrefix = 'flex-box-grid-item',
+      colspan = 0,
+      order = 0,
+      ...rest
+    } = props;
 
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(
@@ -36,7 +36,6 @@ const FlexboxGridItem: RsRefForwardingComponent<'div', FlexboxGridItemProps> = R
 );
 
 FlexboxGridItem.displayName = 'FlexboxGridItem';
-FlexboxGridItem.defaultProps = defaultProps;
 FlexboxGridItem.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,

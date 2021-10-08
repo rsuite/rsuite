@@ -74,14 +74,6 @@ function getManager() {
   return manager;
 }
 
-const defaultProps: Partial<ModalProps> = {
-  as: 'div',
-  backdrop: true,
-  keyboard: true,
-  autoFocus: true,
-  enforceFocus: true
-};
-
 const useModalManager = () => {
   const modalManager = getManager();
   const modal = useRef({ dialog: null, backdrop: null });
@@ -103,7 +95,7 @@ const useModalManager = () => {
 const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
   (props: ModalProps, ref) => {
     const {
-      as: Component,
+      as: Component = 'div',
       children,
       transition: Transition,
       dialogTransitionTimeout,
@@ -112,14 +104,14 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
       container,
       animationProps,
       containerClassName,
-      keyboard,
-      enforceFocus,
-      backdrop,
+      keyboard = true,
+      enforceFocus = true,
+      backdrop = true,
       backdropTransitionTimeout,
       backdropStyle,
       backdropClassName,
       open,
-      autoFocus,
+      autoFocus = true,
       onBackdropClick,
       onEscapeKeyUp,
       onExit,
@@ -351,7 +343,6 @@ export const modalPropTypes = {
 };
 
 Modal.displayName = 'OverlayModal';
-Modal.defaultProps = defaultProps;
 Modal.propTypes = {
   ...animationPropTypes,
   ...modalPropTypes,

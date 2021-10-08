@@ -16,18 +16,20 @@ export interface TimelineProps extends WithAsProps {
   endless?: boolean;
 }
 
-const defaultProps: Partial<TimelineProps> = {
-  as: 'ul', // TODO: Consider using <ol>?
-  classPrefix: 'timeline',
-  align: 'left'
-};
-
 interface TimelineComponent extends RsRefForwardingComponent<'div', TimelineProps> {
   Item: typeof TimelineItem;
 }
 
 const Timeline: TimelineComponent = (React.forwardRef((props: TimelineProps, ref) => {
-  const { children, as: Component, classPrefix, className, align, endless, ...rest } = props;
+  const {
+    children,
+    as: Component = 'ul',
+    classPrefix = 'timeline',
+    className,
+    align = 'left',
+    endless,
+    ...rest
+  } = props;
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const count = React.Children.count(children);
@@ -51,7 +53,6 @@ const Timeline: TimelineComponent = (React.forwardRef((props: TimelineProps, ref
 Timeline.Item = TimelineItem;
 
 Timeline.displayName = 'Timeline';
-Timeline.defaultProps = defaultProps;
 Timeline.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,

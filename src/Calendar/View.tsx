@@ -7,14 +7,9 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export type ViewProps = WithAsProps;
 
-const defaultProps: Partial<ViewProps> = {
-  as: 'div',
-  classPrefix: 'calendar-view'
-};
-
 const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
   (props: ViewProps, ref) => {
-    const { as: Component, className, classPrefix, ...rest } = props;
+    const { as: Component = 'div', className, classPrefix = 'calendar-view', ...rest } = props;
     const { date = new Date(), isoWeek } = useCalendarContext();
     const thisMonthDate = DateUtils.setDate(date, 1);
     const { merge, withClassPrefix } = useClassNames(classPrefix);
@@ -29,7 +24,6 @@ const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
 );
 
 View.displayName = 'View';
-View.defaultProps = defaultProps;
 View.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,

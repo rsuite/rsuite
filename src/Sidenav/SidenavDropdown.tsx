@@ -71,18 +71,12 @@ export interface SidenavDropdownProps<T = any>
   onToggle?: (open?: boolean) => void;
 }
 
-const defaultProps: Partial<SidenavDropdownProps> = {
-  as: 'div',
-  classPrefix: 'dropdown',
-  placement: 'bottomStart'
-};
-
 const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = React.forwardRef<
   HTMLLIElement,
   SidenavDropdownProps
 >((props: SidenavDropdownProps, ref) => {
   const {
-    as: Component,
+    as: Component = 'div',
     title,
     children,
     className,
@@ -91,8 +85,8 @@ const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = Re
     /* eslint-disable @typescript-eslint/no-unused-vars */
     renderTitle,
     renderToggle,
-    classPrefix,
-    placement,
+    classPrefix = 'dropdown',
+    placement = 'bottomStart',
     toggleClassName,
     icon,
     eventKey,
@@ -184,7 +178,6 @@ const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = Re
 });
 
 SidenavDropdown.displayName = 'Sidenav.Dropdown';
-SidenavDropdown.defaultProps = defaultProps;
 SidenavDropdown.propTypes = {
   activeKey: PropTypes.any,
   classPrefix: PropTypes.string,

@@ -50,9 +50,7 @@ export interface MenuHandle {
   dispatch: MenuContextProps[1];
 }
 
-const defaultProps: Partial<MenuProps> = {
-  openMenuOn: ['click']
-};
+const defaultOpenMenuOn = ['click'];
 
 /**
  * Headless ARIA `menu`
@@ -61,7 +59,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
   const {
     disabled,
     children,
-    openMenuOn,
+    openMenuOn = defaultOpenMenuOn,
     menuButtonText,
     renderMenuButton,
     renderMenuPopup,
@@ -452,7 +450,6 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
 }
 
 Menu.displayName = 'Menu';
-Menu.defaultProps = defaultProps;
 Menu.propTypes = {
   children: PropTypes.func.isRequired
 };
