@@ -372,6 +372,16 @@ describe('CheckPicker', () => {
     assert.isTrue(onCleanSpy.notCalled);
   });
 
+  it('Should call onClose callback by key="Escape"', done => {
+    const instance = getInstance(<Dropdown data={data} onClose={done} defaultOpen />);
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Escape' });
+  });
+
+  it('Should call onClose callback by key="Tab"', done => {
+    const instance = getInstance(<Dropdown data={data} onClose={done} defaultOpen />);
+    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Tab' });
+  });
+
   describe('ref testing', () => {
     it('Should call onOpen', done => {
       const doneOp = () => {
