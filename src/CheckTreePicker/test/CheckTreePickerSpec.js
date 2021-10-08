@@ -603,4 +603,13 @@ describe('CheckTreePicker', () => {
 
     assert.equal(instance.overlay.querySelectorAll('.rs-check-tree-node').length, 4);
   });
+
+  it('Should to reset the option height', () => {
+    const instance = getInstance(
+      <CheckTreePicker open virtualized data={data} listProps={{ rowHeight: 28 }} />
+    );
+
+    const node = instance.overlay.querySelector('.rs-check-tree-node');
+    assert.equal(node.style.height, '28px');
+  });
 });

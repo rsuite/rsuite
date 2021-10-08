@@ -30,7 +30,8 @@ export const pickerPropTypes = {
   renderValue: PropTypes.func,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
-  onClean: PropTypes.func
+  onClean: PropTypes.func,
+  listProps: PropTypes.object
 };
 
 export const listPickerPropTypes = {

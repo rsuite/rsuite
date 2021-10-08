@@ -72,6 +72,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | getChildren             | (node: DataItemType) => Promise&lt;DataItemType&gt;                                           | load node children data asynchronously                                    |
 | height                  | number `(360px)`                                                                              | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                            | set label key in data                                                     |
+| listProps               | [ListProps][listprops]                                                                        | List-related properties in `react-virtualized`                            |
 | locale                  | [PickerLocaleType](/guide/i18n/#pickers)                                                      | Locale text                                                               |
 | menuClassName           | string                                                                                        | className for Menu                                                        |
 | menuStyle               | CSSProperties                                                                                 | style for Menu                                                            |
@@ -110,3 +111,5 @@ Learn more in [Accessibility](/guide/accessibility).
 - [`<CheckTree>`](/components/check-tree)
 - [`<Tree>`](/components/tree)
 - [`<TreePicker>`](/components/tree-picker)
+
+[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types

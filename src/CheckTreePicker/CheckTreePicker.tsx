@@ -147,6 +147,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     menuAutoWidth,
     uncheckableItemValues,
     id,
+    listProps,
     renderMenu,
     getChildren,
     renderExtraFooter,
@@ -801,6 +802,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
                   rowCount={formattedNodes.length}
                   rowRenderer={renderVirtualListNode(formattedNodes)}
                   scrollToAlignment="center"
+                  {...listProps}
                 />
               )}
             </AutoSizer>
