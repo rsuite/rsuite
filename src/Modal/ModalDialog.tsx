@@ -44,7 +44,14 @@ const ModalDialog: RsRefForwardingComponent<'div', ModalDialogProps> = React.for
     const dialogClasses = merge(dialogClassName, prefix('dialog'));
 
     return (
-      <Component {...rest} ref={ref} className={classes} style={modalStyle}>
+      <Component
+        role="dialog"
+        aria-modal
+        {...rest}
+        ref={ref}
+        className={classes}
+        style={modalStyle}
+      >
         <div role="document" className={dialogClasses} style={dialogStyle}>
           <div className={prefix`content`}>{children}</div>
         </div>
