@@ -42,6 +42,9 @@ export interface ModalProps extends BaseModalProps {
 
   /** Render Modal as Drawer */
   drawer?: boolean;
+
+  /** Accepts `role` HTML attribute */
+  role?: React.HTMLAttributes<HTMLElement>['role'];
 }
 interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
   Body: typeof ModalBody;
@@ -73,6 +76,7 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
     onEntered,
     onEntering,
     onExited,
+    role = 'dialog',
     ...rest
   } = props;
 
@@ -170,6 +174,7 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
           const { className: transitionClassName, ...transitionRest } = transitionProps;
           return (
             <Dialog
+              role={role}
               id={dialogId}
               aria-labelledby={`${dialogId}-title`}
               {...transitionRest}

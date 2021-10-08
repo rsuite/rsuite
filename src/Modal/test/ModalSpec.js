@@ -127,5 +127,21 @@ describe('Modal', () => {
 
       expect(screen.getByRole('dialog', { name: title })).to.be.visible;
     });
+
+    it('Should allow overriding the dialog role', () => {
+      const title = 'Attention';
+      const message = 'Message';
+
+      render(
+        <Modal open role="alertdialog">
+          <Modal.Header>
+            <Modal.Title>{title}</Modal.Title>
+          </Modal.Header>
+          <p>{message}</p>
+        </Modal>
+      );
+
+      expect(screen.getByRole('alertdialog', { name: title })).to.be.visible;
+    });
   });
 });
