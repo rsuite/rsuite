@@ -377,7 +377,7 @@ describe('CheckPicker', () => {
 
   it('Should not call `onClean` callback on Input ', () => {
     const onCleanSpy = sinon.spy();
-    const instance = getInstance(<Dropdown data={data} onClean={onCleanSpy} defaultOpen />);
+    const instance = getInstance(<CheckPicker data={data} onClean={onCleanSpy} defaultOpen />);
     const input = instance.overlay.querySelector('.rs-picker-search-bar-input');
 
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
@@ -388,12 +388,12 @@ describe('CheckPicker', () => {
   });
 
   it('Should call onClose callback by key="Escape"', done => {
-    const instance = getInstance(<Dropdown data={data} onClose={done} defaultOpen />);
+    const instance = getInstance(<CheckPicker data={data} onClose={done} defaultOpen />);
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Escape' });
   });
 
   it('Should call onClose callback by key="Tab"', done => {
-    const instance = getInstance(<Dropdown data={data} onClose={done} defaultOpen />);
+    const instance = getInstance(<CheckPicker data={data} onClose={done} defaultOpen />);
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Tab' });
   });
 
