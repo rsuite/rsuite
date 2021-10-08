@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Col from '../index';
 import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
+import '../../Grid/styles/index.less';
 
 describe('Col styles', () => {
   itChrome('Should render the correct styles', () => {

@@ -1,14 +1,13 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
 import Col from '../Col';
-import { globalKey } from '../../utils/prefix';
 
 describe('Col', () => {
   it('Should render a Col', () => {
     const title = 'Test';
     const instance = getDOMNode(<Col md={1}>{title}</Col>);
-    assert.include(instance.className, `${globalKey}col-md-1`);
-    assert.equal(instance.innerHTML, title);
+    assert.equal(instance.className, 'rs-col rs-col-md-1');
+    assert.equal(instance.textContent, title);
   });
 
   it('Should set col of zero', () => {
