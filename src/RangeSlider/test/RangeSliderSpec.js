@@ -70,7 +70,7 @@ describe('RangeSlider', () => {
 
   it('Should handle keyboard operations', () => {
     const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} />);
-    const handle = instance.querySelector('[role="slider"]');
+    const handle = instance.querySelector('.rs-slider-handle');
     const input = instance.querySelector('input[type="range"]');
 
     assert.equal(input.value, '10');
