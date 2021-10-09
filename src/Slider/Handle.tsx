@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { DOMMouseMoveTracker, addStyle, getWidth } from 'dom-lib';
-
 import Tooltip from '../Tooltip';
 import { useClassNames, mergeRefs } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import Input from './Input';
 
 export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
@@ -17,6 +17,8 @@ export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivEl
   onDragMove?: (event: React.DragEvent, dataset?: DOMStringMap) => void;
   onDragStart?: (event: React.MouseEvent) => void;
   onDragEnd?: (event: React.MouseEvent, dataset?: DOMStringMap) => void;
+  'data-range'?: number[];
+  'data-key'?: string;
 }
 
 const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
@@ -33,10 +35,15 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
       tooltip,
       rtl,
       value,
+      role,
+      tabIndex,
       renderTooltip,
       onDragStart,
       onDragMove,
       onDragEnd,
+      onKeyDown,
+      'data-range': dataRange,
+      'data-key': dateKey,
       ...rest
     } = props;
     const [active, setActive] = useState(false);
@@ -119,18 +126,27 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
 
     return (
       <Component
-        {...rest}
+        role={role}
+        tabIndex={tabIndex}
         ref={mergeRefs(ref, rootRef)}
         className={handleClasses}
         onMouseDown={handleMouseDown}
         onMouseEnter={handleMouseEnter}
+        onKeyDown={onKeyDown}
         style={styles}
+        data-range={dataRange}
+        data-key={dateKey}
       >
         {tooltip && (
-          <Tooltip ref={tooltipRef} className={merge(prefix('tooltip'), 'placement-top')}>
+          <Tooltip
+            aria-hidden="true"
+            ref={tooltipRef}
+            className={merge(prefix('tooltip'), 'placement-top')}
+          >
             {renderTooltip ? renderTooltip(value) : value}
           </Tooltip>
         )}
+        <Input value={value} {...rest} />
         {children}
       </Component>
     );

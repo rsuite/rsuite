@@ -24,6 +24,7 @@ describe('Slider', () => {
   it('Should be displayed vertically', () => {
     const instance = getDOMNode(<Slider vertical />);
     assert.include(instance.className, 'rs-slider-vertical');
+    assert.equal(instance.querySelector('input').getAttribute('aria-orientation'), 'vertical');
   });
 
   it('Should be disabled', () => {
@@ -73,26 +74,27 @@ describe('Slider', () => {
 
   it('Should handle keyboard operations', () => {
     const instance = getDOMNode(<Slider defaultValue={10} />);
-    const handle = instance.querySelector('[role="slider"]');
-    assert.equal(handle.getAttribute('aria-valuenow'), '10');
+    const handle = instance.querySelector('.rs-slider-handle');
+    const input = instance.querySelector('input[type="range"]');
+    assert.equal(input.value, '10');
 
     ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowUp' });
-    assert.equal(handle.getAttribute('aria-valuenow'), '11');
+    assert.equal(input.value, '11');
 
     ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowRight' });
-    assert.equal(handle.getAttribute('aria-valuenow'), '12');
+    assert.equal(input.value, '12');
 
     ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowDown' });
-    assert.equal(handle.getAttribute('aria-valuenow'), '11');
+    assert.equal(input.value, '11');
 
     ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowLeft' });
-    assert.equal(handle.getAttribute('aria-valuenow'), '10');
+    assert.equal(input.value, '10');
 
     ReactTestUtils.Simulate.keyDown(handle, { key: 'Home' });
-    assert.equal(handle.getAttribute('aria-valuenow'), '0');
+    assert.equal(input.value, '0');
 
     ReactTestUtils.Simulate.keyDown(handle, { key: 'End' });
-    assert.equal(handle.getAttribute('aria-valuenow'), '100');
+    assert.equal(input.value, '100');
   });
 
   it('Should call `onChangeCommitted` callback', done => {
@@ -119,5 +121,17 @@ describe('Slider', () => {
   it('Should call `onChange` callback', done => {
     const instance = getDOMNode(<Slider onChange={() => done()} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-slider-bar'));
+  });
+
+  it('Should output an `input` stored value', () => {
+    const instance = getDOMNode(<Slider min={10} max={100} value={20} />);
+
+    const input = instance.querySelector('input[type="range"]');
+
+    assert.equal(input.value, 20);
+    assert.equal(input.getAttribute('aria-valuenow'), 20);
+    assert.equal(input.getAttribute('aria-valuemax'), 100);
+    assert.equal(input.getAttribute('aria-valuemin'), 10);
+    assert.equal(input.getAttribute('aria-orientation'), 'horizontal');
   });
 });
