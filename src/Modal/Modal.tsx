@@ -15,7 +15,9 @@ import { useBodyStyles } from './utils';
 import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import useUniqueId from '../utils/useUniqueId';
 
-export interface ModalProps extends BaseModalProps {
+export interface ModalProps
+  extends BaseModalProps,
+    Pick<React.HTMLAttributes<HTMLElement>, 'role' | 'id'> {
   /** A modal can have different sizes */
   size?: TypeAttributes.Size;
 
@@ -42,9 +44,6 @@ export interface ModalProps extends BaseModalProps {
 
   /** Render Modal as Drawer */
   drawer?: boolean;
-
-  /** Accepts `role` HTML attribute */
-  role?: React.HTMLAttributes<HTMLElement>['role'];
 }
 interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
   Body: typeof ModalBody;
@@ -77,6 +76,7 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
     onEntering,
     onExited,
     role = 'dialog',
+    id: idProp,
     ...rest
   } = props;
 
@@ -94,7 +94,7 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
     prefix
   });
 
-  const dialogId = useUniqueId('dialog-');
+  const dialogId = useUniqueId('dialog-', idProp);
 
   const modalContextValue = useMemo<ModalContextProps>(
     () => ({

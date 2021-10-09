@@ -127,6 +127,18 @@ describe('Modal', () => {
       expect(screen.getByRole('dialog', { name: title })).to.be.visible;
     });
 
+    it('Should accepts custom ID on dialog', () => {
+      const id = 'my-dialog';
+
+      render(
+        <Modal open id={id}>
+          <p>Message</p>
+        </Modal>
+      );
+
+      expect(screen.getByRole('dialog')).to.have.attr('id', id);
+    });
+
     it('Should allow overriding the dialog role', () => {
       const title = 'Attention';
 
