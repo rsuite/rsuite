@@ -68,7 +68,7 @@ export interface ColProps extends WithAsProps {
 
 const Col: RsRefForwardingComponent<'div', ColProps> = React.forwardRef((props: ColProps, ref) => {
   const { as: Component = 'div', classPrefix = 'col', className, ...rest } = props;
-  const { prefix, merge, rootPrefix } = useClassNames(classPrefix);
+  const { prefix, merge, rootPrefix, withClassPrefix } = useClassNames(classPrefix);
 
   const colClasses = {};
   const omitKeys = {};
@@ -91,7 +91,7 @@ const Col: RsRefForwardingComponent<'div', ColProps> = React.forwardRef((props: 
     colClasses[prefix(`${size}-pull-${pull}`)] = pull >= 0;
   });
 
-  const classes = merge(className, classPrefix, colClasses);
+  const classes = merge(className, withClassPrefix(), colClasses);
   const unhandledProps = omit(rest, Object.keys(omitKeys));
 
   return <Component role="gridcell" {...unhandledProps} ref={ref} className={classes} />;
