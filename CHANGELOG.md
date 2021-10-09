@@ -1,3 +1,19 @@
+<a name="5.0.1"></a>
+
+## [5.0.1](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.8...v5.0.1) (2021-10-09)
+
+### Bug Fixes
+
+- **check-picker:** fix `onClean` should not be triggered on Input ([#1947](https://github.com/rsuite/rsuite/issues/1947)) ([5cb1685](https://github.com/rsuite/rsuite/commit/5cb1685))
+- **col:** fix the missing className prefix in Col ([#1967](https://github.com/rsuite/rsuite/issues/1967)) ([fc0e0af](https://github.com/rsuite/rsuite/commit/fc0e0af))
+- **DateRangePicker:** support time selection ([#1882](https://github.com/rsuite/rsuite/issues/1882)) ([59779ef](https://github.com/rsuite/rsuite/commit/59779ef))
+- **picker:** [TS] fix the missing definition of `size` in Pickers ([#1926](https://github.com/rsuite/rsuite/issues/1926)) ([6497698](https://github.com/rsuite/rsuite/commit/6497698))
+- **pickers:** fix `listProps` not working on picker ([#1962](https://github.com/rsuite/rsuite/issues/1962)) ([956ef12](https://github.com/rsuite/rsuite/commit/956ef12))
+- **sidenav:** accent dropdown icon w/ active item ([#1913](https://github.com/rsuite/rsuite/issues/1913)) ([efa389c](https://github.com/rsuite/rsuite/commit/efa389c))
+- **sidenav:** Dropdown not expanding inside Sidenav ([#1956](https://github.com/rsuite/rsuite/issues/1956)) ([07723cd](https://github.com/rsuite/rsuite/commit/07723cd))
+- **sidenav:** fix nav item not activated in collapsed sidenav ([#1918](https://github.com/rsuite/rsuite/issues/1918)) ([59fe040](https://github.com/rsuite/rsuite/commit/59fe040))
+- **slider:** fix missing `input` in Slider and RangeSlider ([#1968](https://github.com/rsuite/rsuite/issues/1968)) ([a35bd2b](https://github.com/rsuite/rsuite/commit/a35bd2b))
+
 <a name="5.0.0"></a>
 
 # [5.0.0](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.8...v5.0.0) (2021-09-26)
