@@ -127,7 +127,7 @@ describe('Modal', () => {
       expect(screen.getByRole('dialog', { name: title })).to.be.visible;
     });
 
-    it('Should accepts custom ID on dialog', () => {
+    it('Should accept custom ID on dialog', () => {
       const id = 'my-dialog';
 
       render(
@@ -137,6 +137,26 @@ describe('Modal', () => {
       );
 
       expect(screen.getByRole('dialog')).to.have.attr('id', id);
+    });
+
+    it('Should accept `aria-labelledby` and `aria-describedby` on dialog', () => {
+      const labelId = 'modal-title';
+      const labelText = 'My Title';
+      const descriptionId = 'modal-description';
+
+      render(
+        <Modal open aria-labelledby={labelId} aria-describedby={descriptionId}>
+          <Modal.Header>
+            <Modal.Title id={labelId}>{labelText}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body id={descriptionId}>My Description</Modal.Body>
+        </Modal>
+      );
+
+      expect(screen.getByRole('dialog', { name: labelText })).to.have.attr(
+        'aria-describedby',
+        descriptionId
+      );
     });
 
     it('Should allow overriding the dialog role', () => {

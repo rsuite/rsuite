@@ -17,7 +17,10 @@ import useUniqueId from '../utils/useUniqueId';
 
 export interface ModalProps
   extends BaseModalProps,
-    Pick<React.HTMLAttributes<HTMLElement>, 'role' | 'id'> {
+    Pick<
+      React.HTMLAttributes<HTMLElement>,
+      'role' | 'id' | 'aria-labelledby' | 'aria-describedby'
+    > {
   /** A modal can have different sizes */
   size?: TypeAttributes.Size;
 
@@ -77,6 +80,8 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
     onExited,
     role = 'dialog',
     id: idProp,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
     ...rest
   } = props;
 
@@ -176,7 +181,8 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
             <Dialog
               role={role}
               id={dialogId}
-              aria-labelledby={`${dialogId}-title`}
+              aria-labelledby={ariaLabelledby ?? `${dialogId}-title`}
+              aria-describedby={ariaDescribedby}
               {...transitionRest}
               {...pick(rest, Object.keys(modalDialogPropTypes))}
               ref={mergeRefs(dialogRef, transitionRef)}
