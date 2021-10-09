@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render, screen } from '@testing-library/react';
 import { getInstance } from '@test/testUtils';
 
 import Modal from '../Modal';
@@ -108,5 +109,69 @@ describe('Modal', () => {
   it('Should have a custom className prefix', () => {
     const instance = getInstance(<Modal classPrefix="custom-prefix" open />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  describe('a11y', () => {
+    it('Should render an ARIA dialog with given title as its accessible name', () => {
+      const title = 'Attention';
+
+      render(
+        <Modal open>
+          <Modal.Header>
+            <Modal.Title>{title}</Modal.Title>
+          </Modal.Header>
+          <p>Message</p>
+        </Modal>
+      );
+
+      expect(screen.getByRole('dialog', { name: title })).to.be.visible;
+    });
+
+    it('Should accept custom ID on dialog', () => {
+      const id = 'my-dialog';
+
+      render(
+        <Modal open id={id}>
+          <p>Message</p>
+        </Modal>
+      );
+
+      expect(screen.getByRole('dialog')).to.have.attr('id', id);
+    });
+
+    it('Should accept `aria-labelledby` and `aria-describedby` on dialog', () => {
+      const labelId = 'modal-title';
+      const labelText = 'My Title';
+      const descriptionId = 'modal-description';
+
+      render(
+        <Modal open aria-labelledby={labelId} aria-describedby={descriptionId}>
+          <Modal.Header>
+            <Modal.Title id={labelId}>{labelText}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body id={descriptionId}>My Description</Modal.Body>
+        </Modal>
+      );
+
+      expect(screen.getByRole('dialog', { name: labelText })).to.have.attr(
+        'aria-describedby',
+        descriptionId
+      );
+    });
+
+    it('Should allow overriding the dialog role', () => {
+      const title = 'Attention';
+
+      render(
+        <Modal open role="alertdialog">
+          <Modal.Header>
+            <Modal.Title>{title}</Modal.Title>
+          </Modal.Header>
+          <p>Message</p>
+        </Modal>
+      );
+
+      expect(screen.getByRole('alertdialog', { name: title })).to.be.visible;
+    });
   });
 });

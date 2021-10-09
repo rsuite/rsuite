@@ -13,8 +13,14 @@ import ModalFooter from './ModalFooter';
 import helper from '../DOMHelper';
 import { useBodyStyles } from './utils';
 import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
+import useUniqueId from '../utils/useUniqueId';
 
-export interface ModalProps extends BaseModalProps {
+export interface ModalProps
+  extends BaseModalProps,
+    Pick<
+      React.HTMLAttributes<HTMLElement>,
+      'role' | 'id' | 'aria-labelledby' | 'aria-describedby'
+    > {
   /** A modal can have different sizes */
   size?: TypeAttributes.Size;
 
@@ -72,6 +78,10 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
     onEntered,
     onEntering,
     onExited,
+    role = 'dialog',
+    id: idProp,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
     ...rest
   } = props;
 
@@ -89,13 +99,16 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
     prefix
   });
 
+  const dialogId = useUniqueId('dialog-', idProp);
+
   const modalContextValue = useMemo<ModalContextProps>(
     () => ({
+      dialogId,
       onModalClose: onClose,
       getBodyStyles: () => bodyStyles,
       isDrawer: drawer
     }),
-    [onClose, bodyStyles, drawer]
+    [dialogId, onClose, bodyStyles, drawer]
   );
 
   const [shake, setShake] = useState(false);
@@ -166,6 +179,10 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
           const { className: transitionClassName, ...transitionRest } = transitionProps;
           return (
             <Dialog
+              role={role}
+              id={dialogId}
+              aria-labelledby={ariaLabelledby ?? `${dialogId}-title`}
+              aria-describedby={ariaDescribedby}
               {...transitionRest}
               {...pick(rest, Object.keys(modalDialogPropTypes))}
               ref={mergeRefs(dialogRef, transitionRef)}

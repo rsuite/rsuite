@@ -1,4 +1,5 @@
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 import ModalDialog from '../ModalDialog';
 import { innerText, getDOMNode } from '@test/testUtils';
 
@@ -37,5 +38,18 @@ describe('ModalDialog', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<ModalDialog classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  describe('a11y', () => {
+    it('Should render an ARIA dialog with correct content', () => {
+      const message = 'Message';
+      render(
+        <ModalDialog>
+          <p>{message}</p>
+        </ModalDialog>
+      );
+
+      expect(screen.queryByRole('dialog')).to.have.text(message);
+    });
   });
 });
