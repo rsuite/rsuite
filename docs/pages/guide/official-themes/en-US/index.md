@@ -7,6 +7,12 @@ React Suite officially provides the following 3 themes by default, you only need
 - `high-contrast`: High contrast theme. It uses a limited color palette with contrasting colors to make an interface easier to use.
   It's useful when users have photosensitivity or contrast issues, as well as in low-light environments.
 
+<img src="/images/themes/light-themes@2x.png" width="259" alt="light"/>
+<img src="/images/themes/dark-themes@2x.png" width="259" alt="dark" />
+<img src="/images/themes/high-contrast-themes@2x.png" width="259" alt="high contrast"/>
+
+---
+
 ## Usage
 
 ### 1. Import style files
