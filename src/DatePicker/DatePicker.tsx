@@ -519,7 +519,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       ...props,
       classPrefix,
       name: 'date',
-      hasValue
+      hasValue,
+      cleanable
     });
 
     const renderDate = useCallback(() => {
