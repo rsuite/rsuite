@@ -551,7 +551,8 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     ...props,
     classPrefix,
     hasValue,
-    name: 'cascader'
+    name: 'cascader',
+    cleanable
   });
 
   // TODO: bad api design

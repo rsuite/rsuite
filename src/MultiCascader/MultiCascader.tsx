@@ -536,7 +536,8 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       ...props,
       classPrefix,
       hasValue,
-      name: 'cascader'
+      name: 'cascader',
+      cleanable
     });
 
     if (inline) {

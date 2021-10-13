@@ -368,7 +368,8 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       classPrefix,
       appearance,
       hasValue,
-      name: 'select'
+      name: 'select',
+      cleanable
     });
 
     return (
