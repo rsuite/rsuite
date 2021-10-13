@@ -1,6 +1,6 @@
 import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
+import ReactTestUtils, { act } from 'react-dom/test-utils';
 import {
   addDays,
   endOfMonth,
@@ -449,5 +449,24 @@ describe('DateRangePicker', () => {
         .getAttribute('title'),
       '30 May 2021'
     );
+  });
+
+  it('Should call `onChange` callback when input change', () => {
+    const onChangeSpy = sinon.spy();
+
+    const instance = getInstance(<DateRangePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
+    const input = instance.root.querySelector('.rs-picker-toggle-textbox');
+
+    act(() => {
+      input.value = '09/10/2020 ~ 09/11/2021';
+      ReactTestUtils.Simulate.change(input);
+    });
+    act(() => {
+      ReactTestUtils.Simulate.blur(input);
+    });
+
+    assert.isTrue(onChangeSpy.calledOnce);
+    assert.equal(format(onChangeSpy.firstCall.firstArg[0], 'dd/MM/yyyy'), '09/10/2020');
+    assert.equal(format(onChangeSpy.firstCall.firstArg[1], 'dd/MM/yyyy'), '09/11/2021');
   });
 });
