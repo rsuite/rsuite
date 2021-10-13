@@ -85,11 +85,11 @@ describe('DatePicker ', () => {
   it('Should call `onChange` callback when input change', () => {
     const onChangeSpy = sinon.spy();
 
-    const instance = getInstance(<DatePicker onChange={onChangeSpy} />);
+    const instance = getInstance(<DatePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     act(() => {
-      input.value = '2021-10-01';
+      input.value = '01/10/2021';
       ReactTestUtils.Simulate.change(input);
     });
     act(() => {
@@ -97,6 +97,7 @@ describe('DatePicker ', () => {
     });
 
     assert.isTrue(onChangeSpy.calledOnce);
+    assert.equal(format(onChangeSpy.firstCall.firstArg, 'dd/MM/yyyy'), '01/10/2021');
   });
 
   it('Should be prompted for an error date', () => {
