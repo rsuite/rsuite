@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import UploadFileItem, { formatSize } from '../UploadFileItem';
 
-let file = {
+const file = {
   fileKey: 'a',
   name: 'a',
   progress: 0,
@@ -133,6 +133,66 @@ describe('UploadFileItem', () => {
     const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' };
     const instance = getDOMNode(<UploadFileItem file={file} />);
     assert.equal(instance.querySelector('.rs-uploader-file-item-size').innerText, '3B');
+  });
+
+  it('Should not render a default thumbnail', () => {
+    const instance = getDOMNode(<UploadFileItem file={file} listType="text" />);
+    const thumbnail = instance.querySelector('.rs-uploader-file-item-preview');
+    assert.isNull(thumbnail);
+  });
+
+  it('Should render a default thumbnail when listType="picture-text" ', () => {
+    const instance = getDOMNode(<UploadFileItem file={file} listType="picture-text" />);
+    const thumbnail = instance.querySelector(
+      '.rs-uploader-file-item-preview .rs-uploader-file-item-icon'
+    );
+    assert.isNotNull(thumbnail);
+  });
+
+  it('Should render a default thumbnail when listType="picture"', () => {
+    const instance = getDOMNode(<UploadFileItem file={file} listType="picture" />);
+    const thumbnail = instance.querySelector(
+      '.rs-uploader-file-item-preview .rs-uploader-file-item-icon'
+    );
+    assert.isNotNull(thumbnail);
+  });
+
+  it('Should render a custom thumbnail', () => {
+    const instance = getDOMNode(
+      <UploadFileItem
+        file={file}
+        listType="picture-text"
+        renderThumbnail={() => {
+          return <span>custom-thumbnail</span>;
+        }}
+      />
+    );
+    const thumbnail = instance.querySelector('.rs-uploader-file-item-preview');
+
+    assert.include(thumbnail.textContent, 'custom-thumbnail');
+  });
+
+  it('Should render the picture', done => {
+    const file = {
+      name: 'image.png',
+      fileKey: 1,
+      blobFile: new File(['10'], 'image.png', {
+        type: 'image/png'
+      })
+    };
+
+    const instance = getDOMNode(
+      <UploadFileItem
+        file={file}
+        listType="picture-text"
+        onThumbnailCompleted={img => {
+          const thumbnail = instance.querySelector('.rs-uploader-file-item-preview img');
+          if (thumbnail.src === img) {
+            done();
+          }
+        }}
+      />
+    );
   });
 });
 

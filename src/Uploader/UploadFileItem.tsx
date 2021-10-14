@@ -20,9 +20,11 @@ export interface UploadFileItemProps extends WithAsProps {
   allowReupload?: boolean;
   locale?: UploaderLocale;
   renderFileInfo?: (file: FileType, fileElement: React.ReactNode) => React.ReactNode;
+  renderThumbnail?: (file: FileType, thumbnail: React.ReactNode) => React.ReactNode;
   onCancel?: (fileKey: number | string, event: React.MouseEvent) => void;
   onPreview?: (file: FileType, event: React.MouseEvent) => void;
   onReupload?: (file: FileType, event: React.MouseEvent) => void;
+  onThumbnailCompleted?: (thumbnail: string) => void;
 }
 
 /**
@@ -62,9 +64,11 @@ const UploadFileItem = React.forwardRef(
       maxPreviewFileSize = 1024 * 1024 * 5, // 5MB
       locale,
       renderFileInfo,
+      renderThumbnail,
       onPreview,
       onCancel,
       onReupload,
+      onThumbnailCompleted,
       ...rest
     } = props;
 
@@ -85,6 +89,7 @@ const UploadFileItem = React.forwardRef(
           return;
         }
 
+        // The thumbnail file size cannot be larger than the preset value.
         if (!file.blobFile || file?.blobFile?.size > maxPreviewFileSize) {
           return;
         }
@@ -98,9 +103,10 @@ const UploadFileItem = React.forwardRef(
       if (!file.url) {
         getThumbnail((previewImage: any) => {
           setPreviewImage(previewImage);
+          onThumbnailCompleted?.(previewImage);
         });
       }
-    }, [file.url, getThumbnail]);
+    }, [file.url, getThumbnail, onThumbnailCompleted]);
 
     const handlePreview = useCallback(
       (event: React.MouseEvent) => {
@@ -153,14 +159,17 @@ const UploadFileItem = React.forwardRef(
     };
 
     const renderPreview = () => {
-      if (previewImage) {
-        return (
-          <div className={prefix('preview')}>
-            <img role="presentation" src={previewImage} alt={file.name} onClick={handlePreview} />
-          </div>
-        );
-      }
-      return null;
+      const thumbnail = previewImage ? (
+        <img role="presentation" src={previewImage} alt={file.name} onClick={handlePreview} />
+      ) : (
+        <Attachment className={prefix('icon')} />
+      );
+
+      return (
+        <div className={prefix('preview')}>
+          {renderThumbnail ? renderThumbnail(file, thumbnail) : thumbnail}
+        </div>
+      );
     };
 
     /**
@@ -170,9 +179,21 @@ const UploadFileItem = React.forwardRef(
       const uploading = file.status === 'uploading';
       const classes = prefix('icon-wrapper', { 'icon-loading': uploading });
 
+      if (uploading) {
+        return (
+          <div className={classes}>
+            <i className={prefix('icon')} />
+          </div>
+        );
+      }
+
+      if (listType === 'picture' || listType === 'picture-text') {
+        return null;
+      }
+
       return (
         <div className={classes}>
-          {uploading ? <i className={prefix('icon')} /> : <Attachment className={prefix('icon')} />}
+          <Attachment className={prefix('icon')} />
         </div>
       );
     };
@@ -283,9 +304,11 @@ UploadFileItem.propTypes = {
   removable: PropTypes.bool,
   allowReupload: PropTypes.bool,
   renderFileInfo: PropTypes.func,
+  renderThumbnail: PropTypes.func,
   onCancel: PropTypes.func,
   onPreview: PropTypes.func,
-  onReupload: PropTypes.func
+  onReupload: PropTypes.func,
+  onThumbnailCompleted: PropTypes.func
 };
 
 export default UploadFileItem;

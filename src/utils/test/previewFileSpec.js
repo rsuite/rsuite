@@ -1,11 +1,25 @@
 import previewFile from '../previewFile';
 
-// fixme wrong `done` usage
-describe('[utils] previewFile', done => {
-  it('Should return base64 string', () => {
-    const file = new File(['First Line Text', 'Second Line Text'], 'test');
+describe('[utils] previewFile', () => {
+  it('Should output image base64 string', done => {
+    const file = new File(['10'], 'image.png', {
+      type: 'image/png'
+    });
+
     previewFile(file, result => {
-      if (result.indexOf('data:;base64,Rmlyc3QgTGluZSBUZXh0U2Vjb25kIExpbmUgVGV4dA==') > -1) {
+      if (result === 'data:image/png;base64,MTA=') {
+        done();
+      }
+    });
+  });
+
+  it('Should output null', done => {
+    const file = new File(['10'], 'image.png', {
+      type: 'text/plain'
+    });
+
+    previewFile(file, result => {
+      if (result === null) {
         done();
       }
     });
