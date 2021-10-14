@@ -41,7 +41,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | Property     | Type`(Default)`                                              | Description                                             |
 | ------------ | ------------------------------------------------------------ | ------------------------------------------------------- |
 | defaultValue | string[]                                                     | Default values of the selected items                    |
-| disabled     | boolean                                                      | Whether disabled componet                               |
+| disabled     | boolean                                                      | Whether disabled component                               |
 | onChange     | (value:string[], event) => void                              | Callback fired when value change                        |
 | onClean      | (event) => void                                              | Callback fired when value clean                         |
 | size         | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' `('md')`            | A picker can have different sizes                       |
