@@ -161,7 +161,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     ...rest
   } = props;
   const { merge, prefix } = useClassNames(classPrefix);
-  const { locale, formatDate } = useCustom<DateRangePickerLocale>(
+  const { locale, formatDate, parseDate } = useCustom<DateRangePickerLocale>(
     'DateRangePicker',
     overrideLocale
   );
@@ -497,15 +497,15 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       // isMatch('01/11/2020', 'MM/dd/yyyy') ==> true
       // isMatch('2020-11-01', 'MM/dd/yyyy') ==> false
       if (
-        !DateUtils.isMatch(rangeValue[0], formatStr) ||
-        !DateUtils.isMatch(rangeValue[1], formatStr)
+        !DateUtils.isMatch(rangeValue[0], formatStr, { locale: locale.dateLocale }) ||
+        !DateUtils.isMatch(rangeValue[1], formatStr, { locale: locale.dateLocale })
       ) {
         setInputState('Error');
         return;
       }
 
-      const startDate = new Date(rangeValue[0]);
-      const endDate = new Date(rangeValue[1]);
+      const startDate = parseDate(rangeValue[0], formatStr);
+      const endDate = parseDate(rangeValue[1], formatStr);
       const selectValue = [startDate, endDate] as ValueType;
 
       if (!DateUtils.isValid(startDate) || !DateUtils.isValid(endDate)) {
