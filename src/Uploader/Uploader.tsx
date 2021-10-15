@@ -160,6 +160,9 @@ export interface UploaderProps extends WithAsProps {
 
   /** Custom render file information */
   renderFileInfo?: (file: FileType, fileElement: React.ReactNode) => React.ReactNode;
+
+  /** Custom render thumbnail */
+  renderThumbnail?: (file: FileType, thumbnail: React.ReactNode) => React.ReactNode;
 }
 
 // Define several states of the file during the upload process.
@@ -284,6 +287,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     shouldUpload,
     shouldQueueUpdate,
     renderFileInfo,
+    renderThumbnail,
     onPreview,
     onChange,
     onSuccess,
@@ -552,6 +556,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
             onReupload={handleReupload}
             onCancel={handleRemoveFile}
             renderFileInfo={renderFileInfo}
+            renderThumbnail={renderThumbnail}
             removable={removable && !readOnly && !plaintext}
             allowReupload={!readOnly && !plaintext}
           />
@@ -613,6 +618,7 @@ Uploader.propTypes = {
   style: PropTypes.object,
   toggleAs: PropTypes.elementType,
   renderFileInfo: PropTypes.func,
+  renderThumbnail: PropTypes.func,
   removable: PropTypes.bool,
   fileListVisible: PropTypes.bool,
   draggable: PropTypes.bool,
