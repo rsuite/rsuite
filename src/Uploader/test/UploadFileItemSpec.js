@@ -187,8 +187,11 @@ describe('UploadFileItem', () => {
         listType="picture-text"
         onThumbnailCompleted={img => {
           const thumbnail = instance.querySelector('.rs-uploader-file-item-preview img');
-          if (thumbnail.src === img) {
+          try {
+            assert.equal(thumbnail.src, img);
             done();
+          } catch (err) {
+            done(err);
           }
         }}
       />
