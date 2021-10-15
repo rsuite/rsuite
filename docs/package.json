@@ -27,7 +27,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@loadable/component": "^5.14.1",
     "@rsuite/document-nav": "^1.0.14",
-    "@rsuite/icons": "^1.0.0",
+    "@rsuite/icons": "^1.0.2",
     "@rsuite/responsive-nav": "^5.0.0-beta.3",
     "@sentry/browser": "^5.27.2",
     "classnames": "^2.2.6",
