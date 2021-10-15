@@ -19,8 +19,11 @@ describe('[utils] previewFile', () => {
     });
 
     previewFile(file, result => {
-      if (result === null) {
+      try {
+        assert.isNull(result);
         done();
+      } catch (err) {
+        done(err);
       }
     });
   });
