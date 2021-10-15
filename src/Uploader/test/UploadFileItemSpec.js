@@ -172,7 +172,7 @@ describe('UploadFileItem', () => {
     assert.include(thumbnail.textContent, 'custom-thumbnail');
   });
 
-  it('Should render the picture', done => {
+  it('Should call `onThumbnailCompleted` with rendered thumbnail src', done => {
     const file = {
       name: 'image.png',
       fileKey: 1,
