@@ -13,7 +13,7 @@ describe('[utils] previewFile', () => {
     });
   });
 
-  it('Should output null', done => {
+  it('Should output null if file is not an image', done => {
     const file = new File(['10'], 'image.png', {
       type: 'text/plain'
     });
