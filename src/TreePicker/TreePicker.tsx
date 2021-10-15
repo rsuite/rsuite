@@ -859,7 +859,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     classPrefix,
     appearance,
     hasValue: hasValidValue,
-    name: 'tree'
+    name: 'tree',
+    cleanable
   });
 
   if (inline) {

@@ -721,7 +721,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       classPrefix,
       appearance,
       hasValue,
-      name: 'input'
+      name: 'input',
+      cleanable
     });
 
     const classes = merge(pickerClasses, {

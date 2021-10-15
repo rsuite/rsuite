@@ -40,6 +40,12 @@ describe('DateRangePicker', () => {
     assert.ok(instance.className.match(/\brs-picker-daterange\b/));
   });
 
+  it('Should be cleanable by default', () => {
+    const instance = getDOMNode(<DateRangePicker value={[new Date(), new Date()]} />);
+
+    expect(instance).to.have.class('rs-picker-cleanable');
+  });
+
   it('Should be disabled', () => {
     const instance = getDOMNode(<DateRangePicker disabled />);
     assert.ok(instance.className.match(/\bdisabled\b/));
