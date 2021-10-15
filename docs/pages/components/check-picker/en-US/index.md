@@ -94,7 +94,7 @@ type ValueType = (string | number)[];
 | container          | HTMLElement &#124; (() => HTMLElement)                                            | Sets the rendering container                                |
 | data \*            | DataItemType[]                                                                    | The data of component                                       |
 | defaultValue       | ValueType                                                                         | Default values of the selected items                        |
-| disabled           | boolean                                                                           | Whether disabled componet                                   |
+| disabled           | boolean                                                                           | Whether disabled component                                   |
 | disabledItemValues | ValueType[]                                                                       | Disable item by value                                       |
 | groupBy            | string                                                                            | Set group condition key in data                             |
 | labelKey           | string `('label')`                                                                | Set label key in data                                       |

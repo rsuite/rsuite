@@ -60,7 +60,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | creatable          | boolean                                                                | Settings can create new options                             |
 | data \*            | DataItemType[]                                                         | The data of component                                       |
 | defaultValue       | string[]                                                               | Default values of the selected items                        |
-| disabled           | boolean                                                                | Whether disabled componet                                   |
+| disabled           | boolean                                                                | Whether disabled component                                   |
 | disabledItemValues | string[]                                                               | Disable item by value                                       |
 | groupBy            | string                                                                 | Set group condition key in data                             |
 | labelKey           | string `('label')`                                                     | Set label key in data                                       |
