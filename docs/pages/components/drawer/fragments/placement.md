@@ -12,16 +12,16 @@ const App = () => {
   return (
     <div>
       <ButtonToolbar>
-        <IconButton icon={<AngleLeft />} onClick={() => handleOpen('left')}>
+        <IconButton icon={<AngleRightIcon />} onClick={() => handleOpen('left')}>
           Left
         </IconButton>
-        <IconButton icon={<AngleRight />} onClick={() => handleOpen('right')}>
+        <IconButton icon={<AngleLeftIcon />} onClick={() => handleOpen('right')}>
           Right
         </IconButton>
-        <IconButton icon={<AngleUp />} onClick={() => handleOpen('top')}>
+        <IconButton icon={<AngleDownIcon />} onClick={() => handleOpen('top')}>
           Top
         </IconButton>
-        <IconButton icon={<AngleDown />} onClick={() => handleOpen('bottom')}>
+        <IconButton icon={<AngleUpIcon />} onClick={() => handleOpen('bottom')}>
           Bottom
         </IconButton>
       </ButtonToolbar>
