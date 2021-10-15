@@ -14,7 +14,7 @@ export interface TagPickerProps extends InputPickerProps {
   /**
    * Set the trigger for creating tags. only valid when creatable
    */
-  trigger: TriggerType | TriggerType[];
+  trigger?: TriggerType | TriggerType[];
 }
 
 const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(
