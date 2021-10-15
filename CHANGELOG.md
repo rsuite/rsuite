@@ -1,3 +1,15 @@
+<a name="5.0.2"></a>
+
+## [5.0.2](https://github.com/rsuite/rsuite/compare/v5.0.1...v5.0.2) (2021-10-15)
+
+### Bug Fixes
+
+- **date-range-picker:** fix date formatting error when typing ([#1991](https://github.com/rsuite/rsuite/issues/1991)) ([f65f7f8](https://github.com/rsuite/rsuite/commit/f65f7f8))
+- **pickers:** clean button overlapping with value ([#1984](https://github.com/rsuite/rsuite/issues/1984)) ([ec127dc](https://github.com/rsuite/rsuite/commit/ec127dc))
+- **table:** fix the typescript type definition of Table ([#1998](https://github.com/rsuite/rsuite/issues/1998)) ([8d00b8d](https://github.com/rsuite/rsuite/commit/8d00b8d)), closes [#1958](https://github.com/rsuite/rsuite/issues/1958)
+- **tag-picker:** update TagPicker trigger props declare. ([#1996](https://github.com/rsuite/rsuite/issues/1996)) ([27da381](https://github.com/rsuite/rsuite/commit/27da381))
+- **uploader:** improve thumbnail rendering on file list ([#1997](https://github.com/rsuite/rsuite/issues/1997)) ([68344d7](https://github.com/rsuite/rsuite/commit/68344d7))
+
 <a name="5.0.1"></a>
 
 ## [5.0.1](https://github.com/rsuite/rsuite/compare/v5.0.0-beta.8...v5.0.1) (2021-10-09)
