@@ -1,15 +1,6 @@
 import React from 'react';
-import {
-  Table as RsTable,
-  Column,
-  Cell,
-  HeaderCell,
-  ColumnGroup,
-  TableProps,
-  ColumnProps,
-  ColumnGroupProps
-} from 'rsuite-table';
-import { StandardProps } from '../@types/common';
+import { Table as RsTable, Column, Cell, HeaderCell, ColumnGroup, TableProps } from 'rsuite-table';
+import { StandardProps, RsRefForwardingComponent } from '../@types/common';
 import { useCustom } from '../utils';
 
 export interface TableInstance extends React.Component<TableProps> {
@@ -29,22 +20,22 @@ export interface CellProps extends StandardProps {
 }
 
 interface TableComponent
-  extends React.ForwardRefExoticComponent<TableProps & { ref?: React.Ref<TableInstance> }> {
-  Column: React.ComponentType<ColumnProps>;
-  ColumnGroup: React.ComponentType<ColumnGroupProps>;
-  Cell: React.ComponentType<CellProps>;
-  HeaderCell: React.ComponentType<StandardProps>;
+  extends RsRefForwardingComponent<'div', TableProps & { ref?: React.Ref<TableInstance> }> {
+  Column: typeof Column;
+  Cell: typeof Cell;
+  HeaderCell: typeof HeaderCell;
+  ColumnGroup: typeof ColumnGroup;
 }
 
-const Table: TableComponent = React.forwardRef((props: TableProps, ref: React.RefObject<any>) => {
+const Table: TableComponent = (React.forwardRef((props: TableProps, ref: React.RefObject<any>) => {
   const { locale: localeProp, loadAnimation = true, ...rest } = props;
   const { locale, rtl } = useCustom('Table', localeProp);
 
   return <RsTable {...rest} rtl={rtl} ref={ref} locale={locale} loadAnimation={loadAnimation} />;
-}) as TableComponent;
+}) as unknown) as TableComponent;
 
-Table.Cell = Cell as React.ComponentType<CellProps>;
-Table.Column = Column as React.ComponentType<ColumnProps>;
+Table.Cell = Cell;
+Table.Column = Column;
 Table.HeaderCell = HeaderCell;
 Table.ColumnGroup = ColumnGroup;
 
