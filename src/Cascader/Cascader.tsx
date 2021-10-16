@@ -552,6 +552,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     classPrefix,
     hasValue,
     name: 'cascader',
+    appearance,
     cleanable
   });
 
