@@ -30,6 +30,10 @@ module.exports = {
     DEV: __DEV__ ? 1 : 0,
     VERSION: pkg.version
   },
+  /**
+   *
+   * @param {import('webpack').Configuration} config
+   */
   webpack(config) {
     const originEntry = config.entry;
 
@@ -155,6 +159,15 @@ module.exports = {
       }
       return entries;
     };
+
+    // If we are building docs with local rsuite from src (local development and review builds),
+    // we should target `react` and `react-dom` imports to root node_modules
+    if (__LOCAL__) {
+      Object.assign(config.resolve.alias, {
+        react: path.resolve(__dirname, '../node_modules/react'),
+        'react-dom': path.resolve(__dirname, '../node_modules/react-dom')
+      });
+    }
 
     return config;
   },

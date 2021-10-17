@@ -5,7 +5,6 @@
   "scripts": {
     "check:type": "tsc",
     "clear": "rimraf ./.next && rimraf ./out ",
-    "predev": "rimraf ./node_modules/react && rimraf ./node_modules/react-dom",
     "dev": "cross-env NODE_ENV=development ALIAS=locally node server.js",
     "dev:styles": "cross-env STYLE_DEBUG=STYLE npm run dev",
     "build": "npm run clear && ALIAS=locally next build && next export",
