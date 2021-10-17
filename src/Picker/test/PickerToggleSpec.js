@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import Toggle from '../PickerToggle';
 import { getDOMNode } from '@test/testUtils';
 
-describe('Toggle', () => {
+describe('<PickerToggle>', () => {
   it('Should output a toggle', () => {
     const Title = 'Title';
     const instance = getDOMNode(<Toggle title="title">{Title}</Toggle>);
@@ -27,17 +29,30 @@ describe('Toggle', () => {
     assert.equal(instance.innerText, Title);
   });
 
-  it('Should call `onClean` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(
-      <Toggle title="title" hasValue cleanable onClean={doneOp}>
-        Title
-      </Toggle>
-    );
+  describe('Cleanable (`cleanable`=true)', () => {
+    it('Should render a clear button when value is present', () => {
+      const { getByRole } = render(
+        <Toggle cleanable hasValue>
+          Title
+        </Toggle>
+      );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+      expect(getByRole('button', { name: /clear/i })).to.exist;
+    });
+
+    it('Should call `onClean` callback when clicking clear button', () => {
+      const onCleanSpy = sinon.spy();
+
+      const { getByRole } = render(
+        <Toggle cleanable hasValue onClean={onCleanSpy}>
+          Title
+        </Toggle>
+      );
+
+      userEvent.click(getByRole('button', { name: /clear/i }));
+
+      expect(onCleanSpy).to.have.been.called;
+    });
   });
 
   it('Should call onBlur callback', done => {

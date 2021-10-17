@@ -159,7 +159,7 @@ const PickerToggle: RsRefForwardingComponent<
     );
   }
 
-  const cleanable = cleanableProp && hasValue && !readOnly;
+  const showCleanButton = cleanableProp && hasValue && !readOnly;
 
   // When the component is read-only or disabled, the input is not interactive.
   const inputFocused = readOnly || disabled ? false : input && activeState;
@@ -207,7 +207,14 @@ const PickerToggle: RsRefForwardingComponent<
         </span>
       ) : null}
 
-      {cleanable && <CloseButton className={prefix`clean`} tabIndex={-1} onClick={handleClean} />}
+      {showCleanButton && (
+        <CloseButton
+          className={prefix`clean`}
+          tabIndex={-1}
+          locale={{ closeLabel: 'Clear' }}
+          onClick={handleClean}
+        />
+      )}
       {caret && <Caret className={prefix`caret`} />}
     </Component>
   );
