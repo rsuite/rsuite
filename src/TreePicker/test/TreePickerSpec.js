@@ -38,6 +38,12 @@ describe('TreePicker', () => {
     expect(instance.querySelector('.rs-picker-toggle-value').innerText).to.equal('Master');
   });
 
+  it('Should have "default" appearance by default', () => {
+    const instance = getDOMNode(<TreePicker />);
+
+    expect(instance).to.have.class('rs-picker-default');
+  });
+
   it('Should clean selected value', () => {
     const instance = getDOMNode(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
 

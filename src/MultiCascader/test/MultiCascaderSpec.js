@@ -37,6 +37,12 @@ describe('MultiCascader', () => {
     assert.ok(instance.className.match(/\bpicker-cascader\b/));
   });
 
+  it('Should have "default" appearance by default', () => {
+    const instance = getDOMNode(<MultiCascader />);
+
+    expect(instance).to.have.class('rs-picker-default');
+  });
+
   it('Should render number', () => {
     const instance = getDOMNode(<MultiCascader data={items} value={['abcde-1', 'abcde-2']} />);
 

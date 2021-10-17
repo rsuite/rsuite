@@ -39,6 +39,12 @@ describe('CheckPicker', () => {
     expect(instance.root.querySelector(placeholderClassName).innerText).to.equal('Select');
   });
 
+  it('Should have "default" appearance by default', () => {
+    const instance = getDOMNode(<CheckPicker />);
+
+    expect(instance).to.have.class('rs-picker-default');
+  });
+
   it('Should not clean selected value', () => {
     const instance = getDOMNode(<CheckPicker defaultOpen data={data} value={['Eugenia']} />);
 

@@ -32,6 +32,12 @@ describe('InputPicker', () => {
     expect(instance.querySelector('.rs-picker-toggle-placeholder').innerText).to.equal('Select');
   });
 
+  it('Should have "default" appearance by default', () => {
+    const instance = getDOMNode(<InputPicker />);
+
+    expect(instance).to.have.class('rs-picker-default');
+  });
+
   it('Should not clean selected value', () => {
     const instance = getDOMNode(<InputPicker defaultOpen data={data} value={'Eugenia'} />);
 
