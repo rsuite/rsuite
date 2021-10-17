@@ -67,6 +67,13 @@
 .rs-navbar-nav > .rs-dropdown-item {
   outline: 0;
 
+  &,
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+  }
+
   &:focus-visible {
     .focus-ring();
 
@@ -137,6 +144,7 @@
     &:hover,
     &:focus {
       background-color: var(--rs-navbar-inverse-hover-bg);
+      color: var(--rs-navbar-inverse-hover-text);
     }
   }
 
