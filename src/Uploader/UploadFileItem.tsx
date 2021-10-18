@@ -24,7 +24,6 @@ export interface UploadFileItemProps extends WithAsProps {
   onCancel?: (fileKey: number | string, event: React.MouseEvent) => void;
   onPreview?: (file: FileType, event: React.MouseEvent) => void;
   onReupload?: (file: FileType, event: React.MouseEvent) => void;
-  onThumbnailCompleted?: (thumbnail: string) => void;
 }
 
 /**
@@ -68,7 +67,6 @@ const UploadFileItem = React.forwardRef(
       onPreview,
       onCancel,
       onReupload,
-      onThumbnailCompleted,
       ...rest
     } = props;
 
@@ -103,10 +101,9 @@ const UploadFileItem = React.forwardRef(
       if (!file.url) {
         getThumbnail((previewImage: any) => {
           setPreviewImage(previewImage);
-          onThumbnailCompleted?.(previewImage);
         });
       }
-    }, [file.url, getThumbnail, onThumbnailCompleted]);
+    }, [file.url, getThumbnail]);
 
     const handlePreview = useCallback(
       (event: React.MouseEvent) => {
@@ -307,8 +304,7 @@ UploadFileItem.propTypes = {
   renderThumbnail: PropTypes.func,
   onCancel: PropTypes.func,
   onPreview: PropTypes.func,
-  onReupload: PropTypes.func,
-  onThumbnailCompleted: PropTypes.func
+  onReupload: PropTypes.func
 };
 
 export default UploadFileItem;

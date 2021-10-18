@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { waitFor } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import UploadFileItem, { formatSize } from '../UploadFileItem';
 
@@ -172,7 +173,7 @@ describe('UploadFileItem', () => {
     assert.include(thumbnail.textContent, 'custom-thumbnail');
   });
 
-  it('Should call `onThumbnailCompleted` with rendered thumbnail src', done => {
+  it('Should render a thumbnail previewing the image to upload', async () => {
     const file = {
       name: 'image.png',
       fileKey: 1,
@@ -181,21 +182,12 @@ describe('UploadFileItem', () => {
       })
     };
 
-    const instance = getDOMNode(
-      <UploadFileItem
-        file={file}
-        listType="picture-text"
-        onThumbnailCompleted={img => {
-          const thumbnail = instance.querySelector('.rs-uploader-file-item-preview img');
-          try {
-            assert.equal(thumbnail.src, img);
-            done();
-          } catch (err) {
-            done(err);
-          }
-        }}
-      />
-    );
+    const instance = getDOMNode(<UploadFileItem file={file} listType="picture-text" />);
+
+    await waitFor(() => {
+      const thumbnail = instance.querySelector('.rs-uploader-file-item-preview img');
+      assert.equal(thumbnail.src, 'data:image/png;base64,MTA=');
+    });
   });
 });
 
