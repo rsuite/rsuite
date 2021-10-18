@@ -97,10 +97,7 @@ export function usePickerClassName(props: PickerClassNameProps): [string, string
       [`placement-${kebabCase(placementPolyfill(placement))}`]: placement,
       'read-only': readOnly,
       'has-value': hasValue,
-      // fixme Bad implementation.
-      //       Should implement by modifying `.cleanable` styles according to `.has-value` class,
-      //       not by removing `.cleanable` class.
-      cleanable: hasValue && cleanable,
+      cleanable,
       block,
       disabled,
       countable,
