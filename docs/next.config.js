@@ -10,7 +10,16 @@ const markdownRenderer = require('./scripts/markdownRenderer');
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
 const SVG_LOGO_PATH = resolveToStaticPath('./resources/images');
 const __DEV__ = process.env.NODE_ENV !== 'production';
-const __LOCAL__ = process.env.ALIAS === 'locally';
+
+const {
+  // 'production' on main branch
+  // 'preview' on pr branches
+  // emtpy on local machine
+  // @see https://vercel.com/docs/concepts/projects/environment-variables#system-environment-variables
+  VERCEL_ENV = 'local'
+} = process.env;
+
+const __USE_SRC__ = VERCEL_ENV === 'preview' || VERCEL_ENV === 'local';
 
 const RSUITE_ROOT = path.join(__dirname, '../src');
 const LANGUAGES = {
@@ -21,7 +30,7 @@ const LANGUAGES = {
 };
 
 const getLanguage = language => LANGUAGES[language] || '';
-const babelBuildInclude = __LOCAL__
+const babelBuildInclude = __USE_SRC__
   ? [RSUITE_ROOT, path.join(__dirname, './')]
   : [path.join(__dirname, './')];
 
@@ -89,7 +98,7 @@ module.exports = {
             sourceMap: true,
             lessOptions: {
               globalVars: {
-                rootPath: __LOCAL__ ? '../../../src/' : '~rsuite'
+                rootPath: __USE_SRC__ ? '../../../src/' : '~rsuite'
               }
             }
           }
@@ -162,7 +171,7 @@ module.exports = {
 
     // If we are building docs with local rsuite from src (local development and review builds),
     // we should target `react` and `react-dom` imports to root node_modules
-    if (__LOCAL__) {
+    if (__USE_SRC__) {
       Object.assign(config.resolve.alias, {
         react: path.resolve(__dirname, '../node_modules/react'),
         'react-dom': path.resolve(__dirname, '../node_modules/react-dom')
