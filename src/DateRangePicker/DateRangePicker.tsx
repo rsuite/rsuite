@@ -698,6 +698,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     ...props,
     classPrefix,
     name: 'daterange',
+    appearance,
     hasValue,
     cleanable
   });

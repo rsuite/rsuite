@@ -56,6 +56,12 @@ describe('CheckTreePicker', () => {
     ).to.equal('Master (All)');
   });
 
+  it('Should have "default" appearance by default', () => {
+    const instance = getDOMNode(<CheckTreePicker />);
+
+    expect(instance).to.have.class('rs-picker-default');
+  });
+
   it('Should clean selected value', () => {
     const instance = getDOMNode(
       <CheckTreePicker defaultOpen data={data} defaultValue={['Master']} />

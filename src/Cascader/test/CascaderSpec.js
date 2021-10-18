@@ -50,6 +50,12 @@ describe('Cascader', () => {
     assert.ok(instance.className.match(/\bpicker-cascader\b/));
   });
 
+  it('Should have "default" appearance by default', () => {
+    const instance = getDOMNode(<Cascader />);
+
+    expect(instance).to.have.class('rs-picker-default');
+  });
+
   it('Should be disabled', () => {
     const instance = getDOMNode(<Cascader disabled />);
 

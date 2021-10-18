@@ -11,6 +11,12 @@ describe('DatePicker ', () => {
     assert.ok(instance.className.match(/\brs-picker-date\b/));
   });
 
+  it('Should have "default" appearance by default', () => {
+    const instance = getDOMNode(<DatePicker />);
+
+    expect(instance).to.have.class('rs-picker-default');
+  });
+
   it('Should be cleanable by default', () => {
     const instance = getDOMNode(<DatePicker value={new Date()} />);
 

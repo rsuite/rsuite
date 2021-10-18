@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
 
 import Dropdown from '../SelectPicker';
+import SelectPicker from '../SelectPicker';
 import Button from '../../Button';
 
 const data = [
@@ -30,6 +31,12 @@ describe('SelectPicker', () => {
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
     expect(instance.querySelector('.rs-picker-toggle-placeholder').innerText).to.equal('Select');
+  });
+
+  it('Should have "default" appearance by default', () => {
+    const instance = getDOMNode(<SelectPicker />);
+
+    expect(instance).to.have.class('rs-picker-default');
   });
 
   it('Should not clean selected value', () => {
