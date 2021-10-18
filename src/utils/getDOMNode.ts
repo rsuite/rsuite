@@ -1,4 +1,4 @@
-import { findDOMNode } from 'react-dom';
+// import { findDOMNode } from 'react-dom';
 
 export default function getDOMNode(element: any) {
   /**
@@ -18,9 +18,9 @@ export default function getDOMNode(element: any) {
     return htmlElement;
   }
 
-  /**
-   * If you can't get the native HTML element, you can only get it through findDOMNode.
-   */
-  // eslint-disable-next-line react/no-find-dom-node
-  return findDOMNode(element);
+  // /**
+  //  * If you can't get the native HTML element, you can only get it through findDOMNode.
+  //  */
+  // // eslint-disable-next-line react/no-find-dom-node
+  // return findDOMNode(element);
 }

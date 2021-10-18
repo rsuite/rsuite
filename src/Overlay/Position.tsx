@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { ownerDocument, getContainer, on } from 'dom-lib';
 import positionUtils from './positionUtils';
 import shallowEqual from '../utils/shallowEqual';
-import getDOMNode from '../utils/getDOMNode';
 import { TypeAttributes } from '../@types/common';
 
 interface PositionProps {
@@ -58,12 +57,7 @@ class Position extends React.Component<PositionProps, PositionState> {
   }
 
   getHTMLElement() {
-    /**
-     * findDOMNode is deprecated in StrictMode.
-     * Replace findDOMNode with ref. Provided for `Transition` calls.
-     * https://fb.me/react-strict-mode-find-node
-     */
-    return getDOMNode(this.childRef.current);
+    return this.childRef.current;
   }
 
   componentDidMount() {
@@ -140,8 +134,10 @@ class Position extends React.Component<PositionProps, PositionState> {
       return;
     }
 
-    const overlay = getDOMNode(this);
+    const overlay = this.getHTMLElement();
     const container = getContainer(this.props.container, ownerDocument(this).body);
+    console.log(target)
+
     const nextPosition = this.utils.calcOverlayPosition(overlay, target, container);
 
     this.container = container;
@@ -176,7 +172,8 @@ class Position extends React.Component<PositionProps, PositionState> {
         ...child.props.style,
         left: positionLeft,
         top: positionTop
-      }
+      },
+      ref: this.childRef
     });
   }
 }

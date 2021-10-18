@@ -23,6 +23,7 @@ const LANGUAGES = {
 const useLanguage = language => LANGUAGES[language] || '';
 
 module.exports = withPlugins([[withImages]], {
+  reactStrictMode: true,
   webpack(config) {
     const originEntry = config.entry;
 

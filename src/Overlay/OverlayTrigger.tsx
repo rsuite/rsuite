@@ -6,10 +6,10 @@ import { contains } from 'dom-lib';
 import Overlay, { OverlayProps } from './Overlay';
 import createChainedFunction from '../utils/createChainedFunction';
 import isOneOf from '../utils/isOneOf';
-import getDOMNode from '../utils/getDOMNode';
 import Portal from '../Portal';
 import { OverlayTriggerProps } from './OverlayTrigger.d';
 import { TypeAttributes } from '../@types/common';
+import { mergeRefs, getDOMNode } from '../utils';
 function onMouseEventHandler(handler: React.MouseEventHandler, event: React.MouseEvent) {
   const target = event.currentTarget;
   const related = event.relatedTarget || get(event, ['nativeEvent', 'toElement']);
@@ -58,6 +58,8 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
   mouseEnteredToSpeaker = false;
   mouseEnteredToTrigger = false;
 
+  _targetRef = React.createRef<HTMLElement>();
+
   constructor(props: OverlayTriggerProps) {
     super(props);
 
@@ -73,7 +75,7 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
     clearTimeout(this.delayHideTimer);
   }
 
-  getOverlayTarget = () => getDOMNode(this);
+  getOverlayTarget = () => getDOMNode(this._targetRef.current);
 
   handleSpeakerMouseEnter = () => {
     this.mouseEnteredToSpeaker = true;
@@ -255,7 +257,8 @@ class OverlayTrigger extends React.Component<OverlayTriggerProps, OverlayTrigger
 
     const triggerProps = triggerComponent.props;
 
-    const props: TriggerProps = {
+    const props: TriggerProps & React.RefAttributes<HTMLElement> = {
+      ref: mergeRefs(triggerProps.ref, this._targetRef),
       key: 'triggerComponent',
       onClick: createChainedFunction(triggerProps.onClick, onClick),
       'aria-describedby': get(speaker, ['props', 'id'])

@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import { setStatic } from '../utils';
+import { setStatic, mergeRefs } from '../utils';
 import shallowEqual from '../utils/shallowEqual';
 import Input from '../Input';
 import AutoCompleteItem from './AutoCompleteItem';
@@ -55,6 +55,8 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
   menuContainerRef: React.RefObject<any>;
   triggerRef: React.RefObject<any>;
 
+  _elementRef: React.RefObject<any>;
+
   constructor(props: AutoCompleteProps) {
     super(props);
     const { defaultValue } = props;
@@ -66,6 +68,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
     };
     this.menuContainerRef = React.createRef();
     this.triggerRef = React.createRef();
+    this._elementRef = React.createRef();
   }
 
   getValue() {
@@ -90,6 +93,10 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
         return item;
       }
     });
+  }
+
+  getHTMLElement() {
+    return this._elementRef.current;
   }
 
   getFocusableMenuItems = () => {
@@ -290,6 +297,7 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
         >
           <Input
             {...unhandled}
+            inputRef={mergeRefs(unhandled.inputRef, this._elementRef)}
             disabled={disabled}
             value={value}
             onBlur={this.handleInputBlur}
