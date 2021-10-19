@@ -1,21 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Form from '../index';
 import Button from '../../Button';
 import FormControlLabel from '../../FormControlLabel';
-import { createTestContainer, getStyle } from '@test/testUtils';
+import { getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Form styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <Form ref={instanceRef} layout="inline">
         <Button>Text</Button>
         <FormControlLabel>Text</FormControlLabel>
-      </Form>,
-      createTestContainer()
+      </Form>
     );
     const dom = instanceRef.current.root;
     const buttonDom = dom.children[0];

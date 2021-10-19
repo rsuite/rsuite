@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import NavBar from '../index';
-import { createTestContainer, getDOMNode, getStyle, toRGB } from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Navbar styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<NavBar ref={instanceRef} />, createTestContainer());
+    render(<NavBar ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#f7f7fa'), 'NavBar background-color');
   });

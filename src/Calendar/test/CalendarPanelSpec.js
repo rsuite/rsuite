@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { parseISO } from '../../utils/dateUtils';
-import { getDOMNode, createTestContainer } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import CalendarPanel from '../CalendarPanel';
 
 describe('Calendar - Panel', () => {
@@ -77,7 +77,6 @@ describe('Calendar - Panel', () => {
 
   it('Should be a controlled value', done => {
     const instanceRef = React.createRef();
-    const container = createTestContainer();
     const App = React.forwardRef((props, ref) => {
       const [value, setValue] = React.useState(new Date('6/10/2021'));
       const pickerRef = React.useRef();
@@ -90,7 +89,7 @@ describe('Calendar - Panel', () => {
       return <CalendarPanel value={value} ref={pickerRef} format="yyyy-MM-dd" />;
     });
 
-    ReactDOM.render(<App ref={instanceRef} />, container);
+    render(<App ref={instanceRef} />);
     instanceRef.current.setDate(new Date('7/11/2021'));
     const panel = instanceRef.current.panel;
 

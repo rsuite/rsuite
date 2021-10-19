@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import InputPicker from '../index';
 import Button from '../../Button';
-import { createTestContainer, getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
+import { getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -29,7 +29,7 @@ const { H500 } = getDefaultPalette();
 describe('InputPicker styles', () => {
   it('Should render correct toggle styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<InputPicker ref={instanceRef} data={data} />, createTestContainer());
+    render(<InputPicker ref={instanceRef} data={data} />);
     const dom = instanceRef.current.root;
     const toggleDom = dom.querySelector('.rs-picker-toggle');
     const toggleInputDom = dom.querySelector('.rs-picker-search-input');
@@ -44,40 +44,28 @@ describe('InputPicker styles', () => {
 
   it('Should render correct large size', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
-      <InputPicker toggleAs={Button} size="lg" ref={instanceRef} data={data} />,
-      createTestContainer()
-    );
+    render(<InputPicker toggleAs={Button} size="lg" ref={instanceRef} data={data} />);
     const dom = instanceRef.current.root;
     assert.equal(getStyle(dom, 'height'), '42px', 'Toggle height');
   });
 
   it('Should render correct middle size ', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
-      <InputPicker toggleAs={Button} size="md" ref={instanceRef} data={data} />,
-      createTestContainer()
-    );
+    render(<InputPicker toggleAs={Button} size="md" ref={instanceRef} data={data} />);
     const dom = instanceRef.current.root;
     assert.equal(getStyle(dom, 'height'), '36px', 'Toggle height');
   });
 
   it('Should render correct small size ', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
-      <InputPicker toggleAs={Button} size="sm" ref={instanceRef} data={data} />,
-      createTestContainer()
-    );
+    render(<InputPicker toggleAs={Button} size="sm" ref={instanceRef} data={data} />);
     const dom = instanceRef.current.root;
     assert.equal(getStyle(dom, 'height'), '30px', 'Toggle height');
   });
 
   it('Should render correct xsmall size ', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
-      <InputPicker toggleAs={Button} size="xs" ref={instanceRef} data={data} />,
-      createTestContainer()
-    );
+    render(<InputPicker toggleAs={Button} size="xs" ref={instanceRef} data={data} />);
     const dom = instanceRef.current.root;
     assert.equal(getStyle(dom, 'height'), '24px', 'Toggle height');
   });
@@ -85,7 +73,7 @@ describe('InputPicker styles', () => {
   it('Should render correct toggle styles when open', done => {
     const instanceRef = React.createRef();
     let dom;
-    ReactDOM.render(
+    render(
       <InputPicker
         ref={instanceRef}
         data={data}
@@ -96,8 +84,7 @@ describe('InputPicker styles', () => {
         }}
         // For the test set transition to none.
         style={{ transition: 'none' }}
-      />,
-      createTestContainer()
+      />
     );
     dom = instanceRef.current.root;
     instanceRef.current.open();
@@ -105,7 +92,7 @@ describe('InputPicker styles', () => {
 
   it('Should have correct height when disabled', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<InputPicker ref={instanceRef} data={data} disabled />, createTestContainer());
+    render(<InputPicker ref={instanceRef} data={data} disabled />);
     const dom = instanceRef.current.root;
 
     assert.equal(getStyle(dom, 'height'), '36px', 'InputPicker height');

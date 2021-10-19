@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import PlaceholderGrid from '../PlaceholderGrid';
-import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('PlaceholderGrid styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<PlaceholderGrid ref={instanceRef} />, createTestContainer());
+    render(<PlaceholderGrid ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     const theFirstColDom = dom.querySelector('.rs-placeholder-grid-col:first-child');
     const theSecondColDom = dom.querySelector('.rs-placeholder-grid-col:nth-child(2)');

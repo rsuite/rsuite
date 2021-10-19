@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Loader from '../index';
-import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Loader styles', () => {
   it('Should render correct toggle styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Loader ref={instanceRef} />, createTestContainer());
+    render(<Loader ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     const spinDom = dom.querySelector('.rs-loader-spin');
 

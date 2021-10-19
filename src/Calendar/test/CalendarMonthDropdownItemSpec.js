@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import MonthDropdownItem from '../MonthDropdownItem';
 import { format } from '../../utils/dateUtils';
 import CalendarContext from '../CalendarContext';
-import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-MonthDropdownItem', () => {
   it('Should output a  `1` ', () => {
@@ -25,11 +24,10 @@ describe('Calendar-MonthDropdownItem', () => {
       }
     };
     const ref = React.createRef();
-    ReactDOM.render(
+    render(
       <CalendarContext.Provider value={{ date: new Date(), onChangePageDate }}>
         <MonthDropdownItem month={1} year={2017} ref={ref} />
-      </CalendarContext.Provider>,
-      createTestContainer()
+      </CalendarContext.Provider>
     );
 
     ReactTestUtils.Simulate.click(ref.current);

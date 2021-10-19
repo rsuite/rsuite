@@ -1,18 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Tooltip from '../Tooltip';
-import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Tooltip styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <Tooltip ref={instanceRef} visible>
         Text
-      </Tooltip>,
-      createTestContainer()
+      </Tooltip>
     );
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'fontSize'), '12px', 'Tooltip font-size');

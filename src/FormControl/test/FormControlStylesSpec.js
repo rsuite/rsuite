@@ -1,19 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import FormControl from '../index';
 import Form from '../../Form';
-import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Form control styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <Form>
         <FormControl ref={instanceRef} name="name" />
-      </Form>,
-      createTestContainer()
+      </Form>
     );
     const dom = getDOMNode(instanceRef.current);
     const inputDom = dom.querySelector('.rs-input');

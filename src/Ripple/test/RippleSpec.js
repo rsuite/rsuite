@@ -1,20 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Ripple from '../Ripple';
-
-let container;
-
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});
 
 describe('Ripple', () => {
   it('Should render a Ripple', () => {
@@ -27,14 +15,11 @@ describe('Ripple', () => {
       done();
     };
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(
-        <div ref={ref} style={{ width: 100, height: 100 }}>
-          <Ripple onMouseDown={doneOp} />
-        </div>,
-        container
-      );
-    });
+    render(
+      <div ref={ref} style={{ width: 100, height: 100 }}>
+        <Ripple onMouseDown={doneOp} />
+      </div>
+    );
 
     ReactTestUtils.act(() => {
       const event = new Event('mousedown');

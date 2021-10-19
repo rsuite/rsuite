@@ -1,10 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import TimeDropdown from '../TimeDropdown';
 import CalendarContext from '../CalendarContext';
-import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar - TimeDropdown', () => {
   it('Should render a div with `time-dropdown` class', () => {
@@ -16,11 +15,10 @@ describe('Calendar - TimeDropdown', () => {
 
   it('Should render 3 column', () => {
     const ref = React.createRef();
-    ReactDOM.render(
+    render(
       <CalendarContext.Provider value={{ format: 'HH:mm:ss' }}>
         <TimeDropdown ref={ref} />
-      </CalendarContext.Provider>,
-      createTestContainer()
+      </CalendarContext.Provider>
     );
 
     assert.equal(ref.current.querySelectorAll('.rs-calendar-time-dropdown-column').length, 3);
@@ -28,11 +26,10 @@ describe('Calendar - TimeDropdown', () => {
 
   it('Should render 2 column', () => {
     const ref = React.createRef();
-    ReactDOM.render(
+    render(
       <CalendarContext.Provider value={{ format: 'HH:mm' }}>
         <TimeDropdown ref={ref} />
-      </CalendarContext.Provider>,
-      createTestContainer()
+      </CalendarContext.Provider>
     );
 
     assert.equal(ref.current.querySelectorAll('.rs-calendar-time-dropdown-column').length, 2);
@@ -40,11 +37,10 @@ describe('Calendar - TimeDropdown', () => {
 
   it('Should render 1 column', () => {
     const ref = React.createRef();
-    ReactDOM.render(
+    render(
       <CalendarContext.Provider value={{ format: 'HH' }}>
         <TimeDropdown ref={ref} />
-      </CalendarContext.Provider>,
-      createTestContainer()
+      </CalendarContext.Provider>
     );
 
     assert.equal(ref.current.querySelectorAll('.rs-calendar-time-dropdown-column').length, 1);
@@ -55,11 +51,10 @@ describe('Calendar - TimeDropdown', () => {
       done();
     };
     const ref = React.createRef();
-    ReactDOM.render(
+    render(
       <CalendarContext.Provider value={{ onChangePageTime, date: new Date(), format: 'HH' }}>
         <TimeDropdown ref={ref} />
-      </CalendarContext.Provider>,
-      createTestContainer()
+      </CalendarContext.Provider>
     );
 
     ReactTestUtils.Simulate.click(ref.current.querySelector('[data-key="hours-1"]'));
@@ -67,7 +62,7 @@ describe('Calendar - TimeDropdown', () => {
 
   it('Should be disabled', () => {
     const ref = React.createRef();
-    ReactDOM.render(
+    render(
       <CalendarContext.Provider value={{ format: 'HH' }}>
         <TimeDropdown
           disabledHours={h => {
@@ -75,8 +70,7 @@ describe('Calendar - TimeDropdown', () => {
           }}
           ref={ref}
         />
-      </CalendarContext.Provider>,
-      createTestContainer()
+      </CalendarContext.Provider>
     );
 
     assert.equal(
@@ -87,7 +81,7 @@ describe('Calendar - TimeDropdown', () => {
 
   it('Should be hide', () => {
     const ref = React.createRef();
-    ReactDOM.render(
+    render(
       <CalendarContext.Provider value={{ format: 'HH' }}>
         <TimeDropdown
           hideHours={h => {
@@ -95,8 +89,7 @@ describe('Calendar - TimeDropdown', () => {
           }}
           ref={ref}
         />
-      </CalendarContext.Provider>,
-      createTestContainer()
+      </CalendarContext.Provider>
     );
 
     assert.equal(ref.current.querySelectorAll('li').length, 11);

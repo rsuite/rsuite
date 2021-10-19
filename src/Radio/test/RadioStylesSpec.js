@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Radio from '../index';
-import { createTestContainer, getDOMNode, toRGB, itChrome } from '@test/testUtils';
+import { getDOMNode, toRGB, itChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Radio styles', () => {
   itChrome('Should render the correct border', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Radio ref={instanceRef} />, createTestContainer());
+    render(<Radio ref={instanceRef} />);
     const innerDom = getDOMNode(instanceRef.current).querySelector('.rs-radio-inner');
     assert.equal(
       window.getComputedStyle(innerDom, '::before').border,
@@ -18,7 +18,7 @@ describe('Radio styles', () => {
 
   it('Should render checked style even in disabled state', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Radio ref={instanceRef} checked disabled />, createTestContainer());
+    render(<Radio ref={instanceRef} checked disabled />);
     const innerDom = getDOMNode(instanceRef.current).querySelector('.rs-radio-inner');
     assert.equal(window.getComputedStyle(innerDom, '::before').backgroundColor, toRGB('#3498ff'));
   });

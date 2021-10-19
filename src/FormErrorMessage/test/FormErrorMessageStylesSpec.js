@@ -1,20 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import FormErrorMessage from '../index';
-import { createTestContainer, getStyle, getDOMNode, toRGB, inChrome } from '@test/testUtils';
+import { getStyle, getDOMNode, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('FormErrorMessage styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <div className="rs-form-control-wrapper">
         <FormErrorMessage show ref={instanceRef}>
           Text
         </FormErrorMessage>
-      </div>,
-      createTestContainer()
+      </div>
     );
     const dom = getDOMNode(instanceRef.current);
     const errorMessageDom = dom.querySelector('.rs-form-error-message');

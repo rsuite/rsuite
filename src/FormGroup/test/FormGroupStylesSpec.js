@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import FormGroup from '../index';
 
-import { createTestContainer, getStyle } from '@test/testUtils';
+import { getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 import FormControl from '../../FormControl/index';
@@ -11,13 +11,12 @@ import Form from '../../Form/index';
 describe('FormGroup styles', () => {
   it('Form layout horizontal Should render the correct styles', () => {
     const inputInstanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <Form layout="horizontal" ref={inputInstanceRef}>
         <FormGroup>
           <FormControl name="name" />
         </FormGroup>
-      </Form>,
-      createTestContainer()
+      </Form>
     );
     const dom = inputInstanceRef.current.root;
     const formControlWrapperDom = dom.querySelector('.rs-form-control-wrapper');

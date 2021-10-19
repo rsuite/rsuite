@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import InputNumber from '../index';
-import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('InputNumber styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<InputNumber ref={instanceRef} />, createTestContainer());
+    render(<InputNumber ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'InputNumber background-color');
     inChrome &&

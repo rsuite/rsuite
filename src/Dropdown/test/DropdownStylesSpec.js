@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Dropdown from '../index';
-import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
+import { getStyle, inChrome } from '@test/testUtils';
 
 import '../../Button/styles/index.less';
 import '../styles/index.less';
@@ -9,12 +9,11 @@ import '../styles/index.less';
 describe('Dropdown styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <Dropdown title="Default" ref={instanceRef}>
         <Dropdown.Item>1</Dropdown.Item>
         <Dropdown.Item>2</Dropdown.Item>
-      </Dropdown>,
-      createTestContainer()
+      </Dropdown>
     );
     const dom = instanceRef.current;
     const toggleDom = dom.querySelector('.rs-dropdown-toggle');

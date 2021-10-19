@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getByTestId, screen } from '@testing-library/react';
-import { getDOMNode, createTestContainer, innerText } from '@test/testUtils';
+import { getDOMNode, innerText } from '@test/testUtils';
 
 import NavItem from '../NavItem';
 import Sidenav from '../../Sidenav';
@@ -104,18 +104,14 @@ describe('<Nav.Item>', () => {
   });
 
   it('Should render a tooltip when used inside a collapsed <Sidenav>', async () => {
-    const container = createTestContainer();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(
-        <Sidenav expanded={false}>
-          <NavItem data-testid="nav-item">item</NavItem>
-        </Sidenav>,
-        container
-      );
-    });
+    const { getByTestId } = render(
+      <Sidenav expanded={false}>
+        <NavItem data-testid="nav-item">item</NavItem>
+      </Sidenav>
+    );
 
     ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.focus(getByTestId(container, 'nav-item'));
+      ReactTestUtils.Simulate.focus(getByTestId('nav-item'));
     });
 
     expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;

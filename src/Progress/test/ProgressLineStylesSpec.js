@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ProgressLine from '../ProgressLine';
-import { createTestContainer, getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('ProgressLine styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<ProgressLine ref={instanceRef} />, createTestContainer());
+    render(<ProgressLine ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     const outerDom = dom.querySelector('.rs-progress-line-outer');
     const innerDom = dom.querySelector('.rs-progress-line-inner');

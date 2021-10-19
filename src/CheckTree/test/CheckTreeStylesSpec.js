@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import CheckTree from '../index';
-import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
+import { getStyle, inChrome } from '@test/testUtils';
 
 const data = [
   {
@@ -33,10 +33,7 @@ const data = [
 describe('CheckTree styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
-      <CheckTree virtualized={false} data={data} ref={instanceRef} />,
-      createTestContainer()
-    );
+    render(<CheckTree virtualized={false} data={data} ref={instanceRef} />);
     const itemLabel = document.body.querySelector('.rs-check-tree .rs-check-tree-node');
     inChrome && assert.equal(getStyle(itemLabel, 'padding'), '0px 0px 0px 12px');
   });

@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import TagPicker from '../index';
-import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
+import { getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -25,8 +25,7 @@ const data = [
 
 describe('TagPicker styles', () => {
   it('Should render the correct styles', () => {
-    const containerDom = createTestContainer();
-    ReactDOM.render(<TagPicker data={data} open />, containerDom);
+    render(<TagPicker data={data} open />);
     const itemLabel = document.body.querySelector(
       '.rs-picker-check-menu-items .rs-checkbox-checker label'
     );

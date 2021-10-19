@@ -1,19 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Breadcrumb from '../index';
-import { createTestContainer, getStyle, toRGB, inChrome } from '@test/testUtils';
+import { getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('BreadcrumbItem styles', () => {
   it('Should render correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <Breadcrumb ref={instanceRef}>
         <Breadcrumb.Item>1</Breadcrumb.Item>
         <Breadcrumb.Item>2</Breadcrumb.Item>
-      </Breadcrumb>,
-      createTestContainer()
+      </Breadcrumb>
     );
     const dom = instanceRef.current;
     const itemDom = dom.querySelector('.rs-breadcrumb-item');
@@ -25,11 +24,10 @@ describe('BreadcrumbItem styles', () => {
 
   it('Active item should render correct color', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <Breadcrumb ref={instanceRef}>
         <Breadcrumb.Item active>1</Breadcrumb.Item>
-      </Breadcrumb>,
-      createTestContainer()
+      </Breadcrumb>
     );
     const dom = instanceRef.current;
     const li = dom.querySelector('.rs-breadcrumb-item');

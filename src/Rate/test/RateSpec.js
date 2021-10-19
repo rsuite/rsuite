@@ -1,22 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import CameraRetro from '@rsuite/icons/legacy/CameraRetro';
 import Star from '@rsuite/icons/legacy/Star';
 import Rate from '../Rate';
-
-let container;
-
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});
 
 describe('Rate', () => {
   it('Should render a default Rate', () => {
@@ -31,9 +19,7 @@ describe('Rate', () => {
 
   it('Should allow clean full value', () => {
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<Rate defaultValue={1} ref={ref} />, container);
-    });
+    render(<Rate defaultValue={1} ref={ref} />);
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-rate-character-full'));
@@ -122,9 +108,7 @@ describe('Rate', () => {
     };
 
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />, container);
-    });
+    render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />);
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.mouseMove(
@@ -149,9 +133,7 @@ describe('Rate', () => {
 
     const ref = React.createRef();
 
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />, container);
-    });
+    render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />);
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[1], {
@@ -208,9 +190,7 @@ describe('Rate', () => {
     TestApp.displayName = 'TestApp';
 
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<TestApp ref={ref} />, container);
-    });
+    render(<TestApp ref={ref} />);
 
     assert.equal(
       ref.current.root.querySelector('[aria-checked="true"]').getAttribute('aria-posinset'),
