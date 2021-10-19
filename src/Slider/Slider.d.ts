@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { StandardProps } from '../@types/common';
+import { StandardProps, FormControlBaseProps } from '../@types/common';
 
-export interface SliderProps<ValueType = number> extends StandardProps {
+export interface SliderProps<ValueType = number>
+  extends StandardProps,
+    FormControlBaseProps<ValueType> {
   /** Minimum value of sliding range */
   min?: number;
 
@@ -10,12 +12,6 @@ export interface SliderProps<ValueType = number> extends StandardProps {
 
   /** Slide the value of one step */
   step?: number;
-
-  /** Value (Controlled) */
-  value?: ValueType;
-
-  /** Default value */
-  defaultValue?: ValueType;
 
   /** A css class to apply to the Handle node. */
   handleClassName?: string;
@@ -43,9 +39,6 @@ export interface SliderProps<ValueType = number> extends StandardProps {
 
   /** Vertical Slide */
   vertical?: boolean;
-
-  /** Callback function that changes data */
-  onChange?: (value: ValueType, event: React.MouseEvent) => void;
 
   /** Customize labels on the render ruler */
   renderMark?: (mark: number) => React.ReactNode;
