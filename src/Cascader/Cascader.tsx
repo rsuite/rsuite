@@ -73,6 +73,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
   triggerRef: React.RefObject<any>;
   containerRef: React.RefObject<any>;
   positionRef: React.RefObject<any>;
+  menuWrapperRef: React.RefObject<any>;
   menuContainerRef: React.RefObject<any>;
   isControlled: boolean;
 
@@ -98,7 +99,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     this.state = {
       ...initState,
       ...getDerivedStateForCascade(props, initState),
-      flattenData: flattenTree(props.data)
+      flattenData: flattenTree(props.data, props.childrenKey)
     };
 
     this.isControlled = !_.isUndefined(props.value);
@@ -108,11 +109,12 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     this.toggleRef = React.createRef();
 
     // for test
+    this.menuWrapperRef = React.createRef();
     this.menuContainerRef = React.createRef();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { value, data, labelKey, valueKey } = nextProps;
+    const { value, data, labelKey, valueKey, childrenKey } = nextProps;
     if (data !== prevState.data) {
       // First get the value of the clicked node `selectNodeValue`, and then get the new `newChildren`.
       const selectNodeValue = prevState?.selectNode?.[valueKey];
@@ -129,13 +131,13 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
             newChildren.map(item => stringToObject(item, labelKey, valueKey))
           ),
           data,
-          flattenData: flattenTree(data)
+          flattenData: flattenTree(data, childrenKey)
         };
       }
 
       return {
         ...getDerivedStateForCascade(nextProps, prevState),
-        flattenData: flattenTree(data),
+        flattenData: flattenTree(data, childrenKey),
         data
       };
     }
@@ -450,6 +452,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
     return (
       <MenuWrapper
+        ref={this.menuWrapperRef}
         className={classes}
         style={menuStyle}
         getToggleInstance={this.getToggleInstance}
