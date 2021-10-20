@@ -481,6 +481,19 @@
     }
   }
 
+  .rs-dropdown-item,
+  .rs-dropdown-item > .rs-dropdown-menu-toggle,
+  .rs-dropdown-item > .rs-dropdown-item-toggle {
+    color: var(--rs-sidenav-inverse-text);
+
+    &:hover,
+    &:focus,
+    &.rs-dropdown-item-focus {
+      background-color: var(--rs-sidenav-inverse-hover-bg);
+      color: var(--rs-sidenav-inverse-text);
+    }
+  }
+
   // Active
   .rs-sidenav-item.rs-sidenav-item-active,
   .rs-dropdown.rs-dropdown-selected-within .rs-dropdown-toggle {
@@ -505,22 +518,6 @@
   .rs-sidenav-item.rs-sidenav-item-active,
   .rs-dropdown-item.rs-dropdown-item-active {
     background-color: var(--rs-sidenav-inverse-selected-bg);
-  }
-}
-
-.rs-sidenav-inverse.rs-sidenav-collapse-in,
-.rs-sidenav-inverse.rs-sidenav-collapsing {
-  .rs-dropdown-item:not(.rs-dropdown-item-submenu),
-  .rs-dropdown-item > .rs-dropdown-menu-toggle,
-  .rs-dropdown-item > .rs-dropdown-item-toggle {
-    color: var(--rs-sidenav-inverse-text);
-
-    &:hover,
-    &:focus,
-    &.rs-dropdown-item-focus {
-      background-color: var(--rs-sidenav-inverse-hover-bg);
-      color: var(--rs-sidenav-inverse-text);
-    }
   }
 }
 
