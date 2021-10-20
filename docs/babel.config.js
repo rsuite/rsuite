@@ -1,5 +1,5 @@
 module.exports = (api, options) => {
-  const { NODE_ENV, ALIAS = 'locally' } = options || process.env;
+  const { NODE_ENV, VERCEL_ENV = 'local' } = options || process.env;
 
   if (api) {
     api.cache(() => NODE_ENV);
@@ -42,7 +42,7 @@ module.exports = (api, options) => {
     '@': './'
   };
 
-  if (ALIAS === 'locally') {
+  if (VERCEL_ENV === 'preview' || VERCEL_ENV === 'local') {
     alias.rsuite = '../src';
   }
 
