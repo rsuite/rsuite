@@ -156,9 +156,10 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
       }
     }
 
-    const ariaDescribedby = controlId
-      ? `${controlId}-${messageNode ? 'error-message' : 'help-text'}`
-      : null;
+    const ariaDescribedby = controlId ? `${controlId}-help-text` : null;
+
+    const fieldHasError = Boolean(messageNode);
+    const ariaErrormessage = fieldHasError && controlId ? `${controlId}-error-message` : undefined;
 
     return (
       <Component className={classes} ref={ref}>
@@ -166,6 +167,8 @@ const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.for
           id={controlId}
           aria-labelledby={controlId ? `${controlId}-control-label` : null}
           aria-describedby={ariaDescribedby}
+          aria-invalid={fieldHasError || undefined}
+          aria-errormessage={ariaErrormessage}
           {...rest}
           readOnly={readOnly}
           plaintext={plaintext}

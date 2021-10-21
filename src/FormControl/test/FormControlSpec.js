@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 
 import { getDOMNode } from '@test/testUtils';
 import Form from '../../Form';
@@ -156,8 +157,8 @@ describe('FormControl', () => {
     assert.equal(instance.querySelector('.rs-form-control-message-wrapper').innerText, 'error2');
   });
 
-  it('Should be associated with ErrorMessage via aria-describedby', () => {
-    const instance = getDOMNode(
+  it('Should be associated with ErrorMessage via aria-errormessage', () => {
+    const { getByRole } = render(
       <Form>
         <FormGroup controlId="name1">
           <FormControl errorMessage={'error2'} name="name1" />
@@ -165,10 +166,12 @@ describe('FormControl', () => {
       </Form>
     );
 
-    assert.equal(
-      instance.querySelector('input').getAttribute('aria-describedby'),
-      'name1-error-message'
-    );
-    assert.equal(instance.querySelector('[role="alert"]').id, 'name1-error-message');
+    const input = getByRole('textbox');
+    const alert = getByRole('alert');
+
+    expect(input).to.have.attr('aria-invalid', 'true');
+
+    expect(alert).to.exist;
+    expect(input).to.have.attr('aria-errormessage', alert.getAttribute('id'));
   });
 });
