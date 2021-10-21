@@ -77,4 +77,12 @@ describe('Toggle', () => {
     const instance = getDOMNode(<Toggle classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should toggle with the space key', () => {
+    const instance = getDOMNode(<Toggle defaultChecked />);
+    assert.equal(instance.getAttribute('aria-checked'), 'true');
+
+    ReactTestUtils.Simulate.keyDown(instance, { code: 'Space' });
+    assert.equal(instance.getAttribute('aria-checked'), 'false');
+  });
 });
