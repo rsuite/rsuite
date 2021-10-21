@@ -847,7 +847,7 @@ describe('<Dropdown>', () => {
   });
 
   it('Should render a As Component', () => {
-    const AsComponent = () => <div>As Component</div>;
+    const AsComponent = React.forwardRef((_, ref) => <div ref={ref}>As Component</div>);
     const instance = getDOMNode(
       <Nav>
         <Dropdown title="">
