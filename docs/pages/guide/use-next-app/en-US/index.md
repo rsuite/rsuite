@@ -23,17 +23,43 @@ $ yarn dev
 
 Open the browser at `http://localhost:3000/`. It renders a header saying "Welcome to Next.js!" on the page.
 
-## next.config.js
+## Applying RSuite Styles
+Next.js has droped the support for [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less) in versions 10 and 11 and only supports [SASS](https://sass-lang.com/) (`*.scss` file extention), however, RSuite styles are written in [Less](https://lesscss.org/). There are two approaches you can take for applying `rsuite` styles in your Next.js project, chose only one.
 
-Next.js does not support [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less) in versions 10 and 11. We need to compile less style files through the less-loader of webpack.
+### Approach 1: importing compiled RSuite CSS
+This is the simplest way of applying rsuite styles to your project. Simply go to the `_app.js` or `_app.tsx` in your project directory (if you want the styles applied globally) and import them:
 
-Installation devDependencies:
+```tsx
+import "rsuite/dist/rsuite.min.css"; // The compiled less styles for rsuite
+import "../styles/globals.scss"; // Your global styles in the Next.js app
+import type { AppProps } from "next/app";
+
+function MyApp({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
+}
+export default MyApp;
+
+```
+
+
+> **_NOTE:_**  The order of the `import`s matters! In case there are conflicting styles, the second `import` is applied.
+
+If you wish to apply the styles only in parts of the app in which you use RSuite, you can do so as well.
+
+This approach is best for those who want to keep the [built-in Next CSS and SASS support](https://nextjs.org/docs/basic-features/built-in-css-support) and not configure Webpack.
+
+
+### Approach 2: Setting up less-loader through next.config.js
+
+The second way of doing things is to compile less style files through the less-loader of webpack using [next.config.js](https://nextjs.org/docs/api-reference/next.config.js/introduction). Keep in mind that this approach will disable the [built-in Next CSS and SASS support](https://nextjs.org/docs/basic-features/built-in-css-support).
+
+Installing devDependencies:
 
 ```
 $ yarn add webpack less less-loader css-loader mini-css-extract-plugin --dev
 ```
 
-Refer to the following configuration:
+Paste the following configuration into `next.config.js`:
 
 ```js
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -70,8 +96,10 @@ module.exports = {
   }
 };
 ```
+Now your project supports `less` files instead of `scss`.
 
 ## Use rsuite
+After taking one of the approaches above you can install RSuite:
 
 ```
 $ yarn add rsuite
@@ -83,7 +111,7 @@ Then edit the `./pages/index.js` file and change it to:
 import React from 'react';
 import Head from 'next/head';
 import { Button } from 'rsuite';
-import 'rsuite/styles/index.less';
+import 'rsuite/styles/index.less'; // If you took the first approach (applying compiled less) there is no need to do this.
 
 const Home = () => (
   <div>
