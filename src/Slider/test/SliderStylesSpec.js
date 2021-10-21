@@ -1,14 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Slider from '../index';
-import {
-  createTestContainer,
-  getDOMNode,
-  getStyle,
-  toRGB,
-  getDefaultPalette,
-  inChrome
-} from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -17,7 +10,7 @@ const { H500 } = getDefaultPalette();
 describe('Slider styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Slider ref={instanceRef} />, createTestContainer());
+    render(<Slider ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     const barDom = dom.querySelector('.rs-slider-bar');
     const handleDom = dom.querySelector('.rs-slider-handle');

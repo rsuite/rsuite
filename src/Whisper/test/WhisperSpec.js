@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Whisper from '../Whisper';
 import Tooltip from '../../Tooltip';
@@ -185,24 +185,21 @@ describe('Whisper', () => {
 
     Overlay.displayName = 'Overlay';
 
-    ReactTestUtils.act(() => {
-      ReactDOM.render(
-        <Whisper
-          ref={ref}
-          onExited={doneOp}
-          trigger="click"
-          speaker={(props, ref) => {
-            const { className, left, top, onClose } = props;
-            return (
-              <Overlay style={{ left, top }} onClose={onClose} className={className} ref={ref} />
-            );
-          }}
-        >
-          <button ref={btnRef}>button</button>
-        </Whisper>,
-        createTestContainer()
-      );
-    });
+    render(
+      <Whisper
+        ref={ref}
+        onExited={doneOp}
+        trigger="click"
+        speaker={(props, ref) => {
+          const { className, left, top, onClose } = props;
+          return (
+            <Overlay style={{ left, top }} onClose={onClose} className={className} ref={ref} />
+          );
+        }}
+      >
+        <button ref={btnRef}>button</button>
+      </Whisper>
+    );
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.click(ref.current.root);
     });

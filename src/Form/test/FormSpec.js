@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import _isNil from 'lodash/isNil';
 import _omit from 'lodash/omit';
-import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Form from '../Form';
 import FormControl from '../../FormControl';
@@ -643,14 +643,11 @@ describe('Form', () => {
 
     const formRef = React.createRef();
 
-    ReactTestUtils.act(() => {
-      ReactDOM.render(
-        <Form formDefaultValue={values} onError={doneOp} model={model} ref={formRef}>
-          <FormControl name="items" accepter={Field} />
-        </Form>,
-        createTestContainer()
-      );
-    });
+    render(
+      <Form formDefaultValue={values} onError={doneOp} model={model} ref={formRef}>
+        <FormControl name="items" accepter={Field} />
+      </Form>
+    );
     ReactTestUtils.act(() => {
       formRef.current.check();
     });

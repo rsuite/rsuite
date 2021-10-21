@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import tinycolor from 'tinycolor2';
 import AutoComplete from '../index';
-import { createTestContainer, getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
+import { getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -11,7 +11,7 @@ const { H100 } = getDefaultPalette();
 describe('AutoComplete styles', () => {
   it('Input should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<AutoComplete ref={instanceRef} />, createTestContainer());
+    render(<AutoComplete ref={instanceRef} />);
     const dom = instanceRef.current.root.querySelector('input');
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'AutoComplete background-color');
     // @description Can't get border-radius value in other browser except chrome
@@ -23,10 +23,7 @@ describe('AutoComplete styles', () => {
 
   it('Should the correct styles when set `open` and `defaultValue`', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
-      <AutoComplete ref={instanceRef} data={['a', 'b', 'ab']} open defaultValue="a" />,
-      createTestContainer()
-    );
+    render(<AutoComplete ref={instanceRef} data={['a', 'b', 'ab']} open defaultValue="a" />);
     const dom = instanceRef.current.root.querySelector('input');
     const focusItemDom = document.querySelector('.rs-auto-complete-item-focus');
     const unFocusItemDom = document.querySelector(
@@ -47,7 +44,7 @@ describe('AutoComplete styles', () => {
 
   it('Disabled should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<AutoComplete ref={instanceRef} disabled />, createTestContainer());
+    render(<AutoComplete ref={instanceRef} disabled />);
     const dom = instanceRef.current.root.querySelector('input');
     assert.equal(
       getStyle(dom, 'backgroundColor'),

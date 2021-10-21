@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Cascader from '../index';
-import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
+import { getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -25,10 +25,7 @@ const data = [
 describe('Cascader styles', () => {
   it('Should render the correct caret', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
-      <Cascader ref={instanceRef} data={data} menuClassName="rs-cascader-styles-test" open />,
-      createTestContainer()
-    );
+    render(<Cascader ref={instanceRef} data={data} menuClassName="rs-cascader-styles-test" open />);
 
     const menuItemDom = document.body.querySelector(
       '.rs-cascader-styles-test .rs-picker-cascader-menu-item'

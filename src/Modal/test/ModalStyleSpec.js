@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Modal from '../index';
-import { createTestContainer, getStyle } from '@test/testUtils';
+import { getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Modal styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Modal ref={instanceRef} open />, createTestContainer());
+    render(<Modal ref={instanceRef} open />);
     const dom = instanceRef.current;
     const drawerDom = dom.querySelector('.rs-modal');
     assert.equal(getStyle(dom, 'position'), 'fixed', 'Modal wrapper position');
@@ -28,7 +28,7 @@ describe('Modal styles', () => {
 
   it('Should have correct margin-x: 60px in `full` size', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Modal ref={instanceRef} open full />, createTestContainer());
+    render(<Modal ref={instanceRef} open full />);
     const dom = instanceRef.current;
     const dialog = dom.querySelector('.rs-modal-dialog');
     const { left, right } = dialog.getBoundingClientRect();

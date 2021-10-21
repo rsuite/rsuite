@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Table from '../index';
-import { createTestContainer, getStyle } from '@test/testUtils';
+import { getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -18,14 +18,13 @@ const { Column, HeaderCell, Cell } = Table;
 
 describe('Table styles', () => {
   it('Should render the correct styles', () => {
-    ReactDOM.render(
+    render(
       <Table data={data}>
         <Column>
           <HeaderCell>ID</HeaderCell>
           <Cell dataKey="id" />
         </Column>
-      </Table>,
-      createTestContainer()
+      </Table>
     );
     const dom = document.querySelector('.rs-table');
     // assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'Table background-color');

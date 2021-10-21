@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import Cascader from '../Cascader';
 import Button from '../../Button';
-import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 const items = [
   {
@@ -29,18 +29,6 @@ const items = [
     ]
   }
 ];
-
-let container;
-
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});
 
 describe('Cascader', () => {
   it('Should output a picker', () => {
@@ -312,9 +300,7 @@ describe('Cascader', () => {
     TestApp.displayName = 'TestApp';
 
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<TestApp ref={ref} />, container);
-    });
+    render(<TestApp ref={ref} />);
 
     assert.equal(ref.current.picker.root.querySelector('.rs-picker-toggle-value').innerText, '2');
     assert.equal(
@@ -347,9 +333,7 @@ describe('Cascader', () => {
     TestApp.displayName = 'TestApp';
 
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<TestApp ref={ref} />, container);
-    });
+    render(<TestApp ref={ref} />);
 
     assert.equal(
       ref.current.picker.overlay.querySelectorAll('.rs-picker-cascader-menu-item').length,
@@ -401,17 +385,14 @@ describe('Cascader', () => {
 
     const cascaderRef = React.createRef();
 
-    ReactTestUtils.act(() => {
-      ReactDOM.render(
-        <Cascader
-          ref={cascaderRef}
-          defaultOpen
-          data={itemsWithChildrenKey.data}
-          childrenKey={itemsWithChildrenKey.childrenKey}
-        />,
-        createTestContainer()
-      );
-    });
+    render(
+      <Cascader
+        ref={cascaderRef}
+        defaultOpen
+        data={itemsWithChildrenKey.data}
+        childrenKey={itemsWithChildrenKey.childrenKey}
+      />
+    );
 
     ReactTestUtils.act(() => {
       const input = cascaderRef.current.overlay.querySelector('.rs-picker-search-bar-input');
@@ -462,9 +443,7 @@ describe('Cascader', () => {
       return <Cascader {...props} ref={pickerRef} data={data} open />;
     });
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<TestApp ref={ref} />, container);
-    });
+    render(<TestApp ref={ref} />);
 
     const overlay = ref.current.picker.overlay;
 

@@ -1,21 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Panel from '../index';
-import {
-  createTestContainer,
-  getDOMNode,
-  getStyle,
-  toRGB,
-  inChrome,
-  itChrome
-} from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB, inChrome, itChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Panel styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Panel ref={instanceRef} />, createTestContainer());
+    render(<Panel ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     inChrome && assert.equal(getStyle(dom, 'borderRadius'), '6px', 'Panel border-radius');
     assert.equal(getStyle(dom, 'overflow'), 'hidden', 'Panel overflow');
@@ -23,7 +16,7 @@ describe('Panel styles', () => {
 
   itChrome('Should render the correct border', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Panel ref={instanceRef} bordered />, createTestContainer());
+    render(<Panel ref={instanceRef} bordered />);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'border'), `1px solid ${toRGB('#e5e5ea')}`);
   });

@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import MultiCascader from '../index';
-import { createTestContainer, getStyle, inChrome } from '@test/testUtils';
+import { getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -25,14 +25,13 @@ const data = [
 describe('MultiCascader styles', () => {
   it('Should render the correct caret', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <MultiCascader
         ref={instanceRef}
         data={data}
         menuClassName="rs-multi-cascader-styles-test"
         open
-      />,
-      createTestContainer()
+      />
     );
 
     const menuItemDom = instanceRef.current.overlay;

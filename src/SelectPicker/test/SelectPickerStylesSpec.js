@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import SelectPicker from '../index';
-import { createTestContainer, getStyle, toRGB, inChrome, itChrome } from '@test/testUtils';
+import { getStyle, toRGB, inChrome, itChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -26,7 +26,7 @@ const data = [
 describe('SelectPicker styles', () => {
   it('Default select picker should render correct toggle styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<SelectPicker ref={instanceRef} open />, createTestContainer());
+    render(<SelectPicker ref={instanceRef} open />);
 
     const pickerNoneDom = document.body.querySelector('.rs-picker-none');
     inChrome &&
@@ -45,7 +45,7 @@ describe('SelectPicker styles', () => {
 
   it('Subtle select picker should render correct toggle styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<SelectPicker appearance="subtle" ref={instanceRef} />, createTestContainer());
+    render(<SelectPicker appearance="subtle" ref={instanceRef} />);
 
     inChrome &&
       assert.equal(getStyle(instanceRef.current.target, 'borderWidth'), '0px', 'Toggle border');
@@ -73,7 +73,7 @@ describe('SelectPicker styles', () => {
       </div>
     );
 
-    ReactDOM.render(instance, createTestContainer());
+    render(instance);
     const pickerToggles = instanceRef.current.querySelectorAll('.rs-picker-toggle');
     assert.equal(getStyle(pickerToggles[0], 'padding'), '9px 36px 9px 15px');
     assert.equal(getStyle(pickerToggles[1], 'padding'), '7px 32px 7px 11px');
@@ -92,7 +92,7 @@ describe('SelectPicker styles', () => {
       </div>
     );
 
-    ReactDOM.render(instance, createTestContainer());
+    render(instance);
     const pickerToggles = instanceRef.current.querySelectorAll('.rs-picker-toggle');
     assert.equal(getStyle(pickerToggles[0], 'padding'), '10px 36px 10px 16px');
     assert.equal(getStyle(pickerToggles[1], 'padding'), '8px 32px 8px 12px');
@@ -102,15 +102,14 @@ describe('SelectPicker styles', () => {
 
   it('Block select picker should render correct toggle styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<SelectPicker ref={instanceRef} block data={data} />, createTestContainer());
+    render(<SelectPicker ref={instanceRef} block data={data} />);
     assert.equal(getStyle(instanceRef.current.root, 'display'), 'block');
   });
 
   it('Select picker group should render correct styles', () => {
     const ref = React.createRef();
-    ReactDOM.render(
-      <SelectPicker ref={ref} groupBy="role" data={data} menuClassName="group-test-menu" open />,
-      createTestContainer()
+    render(
+      <SelectPicker ref={ref} groupBy="role" data={data} menuClassName="group-test-menu" open />
     );
 
     const secondItemGroup = ref.current.overlay.querySelectorAll(
@@ -123,7 +122,7 @@ describe('SelectPicker styles', () => {
 
   it('Disabled select picker should render correct toggle styles', () => {
     const ref = React.createRef();
-    ReactDOM.render(<SelectPicker disabled ref={ref} />, createTestContainer());
+    render(<SelectPicker disabled ref={ref} />);
     const defaultDom = ref.current.root;
     assert.equal(getStyle(defaultDom, 'opacity'), 0.3);
     assert.equal(
@@ -132,10 +131,7 @@ describe('SelectPicker styles', () => {
     );
 
     const ref2 = React.createRef();
-    ReactDOM.render(
-      <SelectPicker appearance="subtle" disabled ref={ref2} />,
-      createTestContainer()
-    );
+    render(<SelectPicker appearance="subtle" disabled ref={ref2} />);
     assert.equal(
       getStyle(ref2.current.root.querySelector('.rs-picker-toggle'), 'backgroundColor'),
       toRGB('#0000')

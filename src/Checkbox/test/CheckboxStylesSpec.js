@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Checkbox from '../Checkbox';
-import { createTestContainer, getDOMNode, toRGB, itChrome } from '@test/testUtils';
+import { getDOMNode, toRGB, itChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Checkbox styles', () => {
   itChrome('Should render the correct border', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Checkbox ref={instanceRef} />, createTestContainer());
+    render(<Checkbox ref={instanceRef} />);
     const innerDom = getDOMNode(instanceRef.current).querySelector('.rs-checkbox-inner');
     assert.equal(
       window.getComputedStyle(innerDom, '::before').border,

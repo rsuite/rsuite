@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Calendar from '../CalendarPanel';
 import {
-  createTestContainer,
   getDefaultPalette,
   getDOMNode,
   getStyle,
@@ -20,7 +19,7 @@ const { H500, H700 } = getDefaultPalette();
 describe('Calendar styles', () => {
   it('MonthToolbar should render correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Calendar ref={instanceRef} />, createTestContainer());
+    render(<Calendar ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
 
     const monthToolbarDom = dom.querySelector('.rs-calendar-header-month-toolbar');
@@ -31,7 +30,7 @@ describe('Calendar styles', () => {
 
   it('TodayButton should render correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Calendar ref={instanceRef} />, createTestContainer());
+    render(<Calendar ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
 
     const todayButtonDom = dom.querySelector('.rs-calendar-btn-today');
@@ -41,7 +40,7 @@ describe('Calendar styles', () => {
 
   it('Selected item should render correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Calendar ref={instanceRef} />, createTestContainer());
+    render(<Calendar ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
 
     const selectedDom = dom.querySelector(
@@ -60,7 +59,7 @@ describe('Calendar styles', () => {
 
   it('Click date title button should render correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Calendar ref={instanceRef} />, createTestContainer());
+    render(<Calendar ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
 
     const dateTitleDom = dom.querySelector('.rs-calendar-header-title-date');
@@ -98,7 +97,7 @@ describe('Calendar styles', () => {
 
   itChrome('Should be bordered on cell', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Calendar bordered ref={instanceRef} />, createTestContainer());
+    render(<Calendar bordered ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     const tableCellDom = dom.querySelector('.rs-calendar-table-cell');
     assert.equal(
@@ -110,10 +109,7 @@ describe('Calendar styles', () => {
 
   itChrome('Should be bordered on month row', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
-      <Calendar calendarState={CalendarState.DROP_MONTH} bordered ref={instanceRef} />,
-      createTestContainer()
-    );
+    render(<Calendar calendarState={CalendarState.DROP_MONTH} bordered ref={instanceRef} />);
     const dom = instanceRef.current;
 
     // click month dropdown button
@@ -129,7 +125,7 @@ describe('Calendar styles', () => {
 
   it('Should render compact calendar', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Calendar compact ref={instanceRef} />, createTestContainer());
+    render(<Calendar compact ref={instanceRef} />);
     const tableCellContentDom = getDOMNode(instanceRef.current).querySelector(
       '.rs-calendar-table-row:not(.rs-calendar-table-header-row) .rs-calendar-table-cell-content'
     );

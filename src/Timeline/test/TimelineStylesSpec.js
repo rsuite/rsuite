@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Timeline from '../index';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { getDOMNode, getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Timeline styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Timeline ref={instanceRef} />, createTestContainer());
+    render(<Timeline ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'listStyleType'), 'none', 'Timeline list-style');
   });

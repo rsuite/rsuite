@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 import InputPicker from '../InputPicker';
 import Button from '../../Button';
@@ -75,15 +75,12 @@ describe('InputPicker', () => {
     const input1Ref = React.createRef();
     const input2Ref = React.createRef();
 
-    ReactTestUtils.act(() => {
-      ReactDOM.render(
-        <div>
-          <InputPicker ref={input1Ref} />
-          <InputPicker ref={input2Ref} readOnly />
-        </div>,
-        createTestContainer()
-      );
-    });
+    render(
+      <div>
+        <InputPicker ref={input1Ref} />
+        <InputPicker ref={input2Ref} readOnly />
+      </div>
+    );
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.focus(
@@ -400,12 +397,7 @@ describe('InputPicker', () => {
 
     const inputRef = React.createRef();
 
-    ReactTestUtils.act(() => {
-      ReactDOM.render(
-        <InputPicker ref={inputRef} defaultOpen data={data} onCreate={doneOp} creatable />,
-        createTestContainer()
-      );
-    });
+    render(<InputPicker ref={inputRef} defaultOpen data={data} onCreate={doneOp} creatable />);
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.focus(inputRef.current.root);

@@ -1,17 +1,16 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import List from '../index';
-import { createTestContainer, getStyle } from '@test/testUtils';
+import { getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('ListItem styles', () => {
   it('Should render correct toggle styles', () => {
-    ReactDOM.render(
+    render(
       <List className="rs-list-styles-test">
         <List.Item index={1} />
-      </List>,
-      createTestContainer()
+      </List>
     );
     const dom = document.querySelector('.rs-list-styles-test .rs-list-item');
     assert.equal(getStyle(dom, 'position'), 'relative', 'List item position');

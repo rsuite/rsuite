@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Divider from '../index';
-import { createTestContainer, getStyle, toRGB, inChrome } from '@test/testUtils';
+import { getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Divider styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Divider ref={instanceRef} />, createTestContainer());
+    render(<Divider ref={instanceRef} />);
 
     const element = instanceRef.current;
     assert.equal(getStyle(element, 'backgroundColor'), toRGB('#e5e5ea'), 'Divider background');

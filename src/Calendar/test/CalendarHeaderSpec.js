@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
 import Header from '../Header';
 import CalendarContext from '../CalendarContext';
-import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-Header', () => {
   it('Should render a div with "calendar-header" class', () => {
@@ -50,11 +49,10 @@ describe('Calendar-Header', () => {
     };
     const ref = React.createRef();
 
-    ReactDOM.render(
+    render(
       <CalendarContext.Provider value={{ date: new Date(), format: 'HH:mm:ss' }}>
         <Header showTime onToggleTimeDropdown={doneOp} ref={ref} />
-      </CalendarContext.Provider>,
-      createTestContainer()
+      </CalendarContext.Provider>
     );
 
     ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-calendar-header-title-time'));

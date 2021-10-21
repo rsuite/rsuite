@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Popover from '../index';
-import { createTestContainer, getStyle, toRGB } from '@test/testUtils';
+import { getStyle, toRGB } from '@test/testUtils';
 
 import '../styles/index.less';
 import Whisper from '../../Whisper/index';
@@ -10,11 +10,10 @@ import Button from '../../Button/index';
 describe('Popover styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <Popover ref={instanceRef} visible>
         Text
-      </Popover>,
-      createTestContainer()
+      </Popover>
     );
     const dom = instanceRef.current;
 
@@ -22,7 +21,7 @@ describe('Popover styles', () => {
   });
 
   it('Should render top start', () => {
-    ReactDOM.render(
+    render(
       <Whisper
         trigger="click"
         open
@@ -34,8 +33,7 @@ describe('Popover styles', () => {
         }
       >
         <Button appearance="subtle">Test</Button>
-      </Whisper>,
-      createTestContainer()
+      </Whisper>
     );
     const dom = document.querySelector('.popover-top-start');
     assert.equal(getStyle(dom, 'marginTop'), '-8px', 'Popover margin value');

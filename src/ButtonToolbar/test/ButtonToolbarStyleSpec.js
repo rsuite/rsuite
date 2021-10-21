@@ -1,27 +1,26 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ButtonToolbar from '../ButtonToolbar';
 import Button from '../../Button';
 
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { getDOMNode, getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('ButtonToolbar styles', () => {
   it('Should render the correct vertical align', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<ButtonToolbar ref={instanceRef} />, createTestContainer());
+    render(<ButtonToolbar ref={instanceRef} />);
     assert.equal(getStyle(getDOMNode(instanceRef.current), 'line-height'), '0px');
   });
 
   it('Should render the correct margin left', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <ButtonToolbar ref={instanceRef}>
         <Button>Title</Button>
         <Button>Title</Button>
-      </ButtonToolbar>,
-      createTestContainer()
+      </ButtonToolbar>
     );
     assert.equal(getStyle(getDOMNode(instanceRef.current).children[1], 'marginLeft'), '5px');
   });

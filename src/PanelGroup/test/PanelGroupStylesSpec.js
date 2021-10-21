@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import PanelGroup from '../index';
-import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, itChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('PanelGroup styles', () => {
   itChrome('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<PanelGroup ref={instanceRef} />, createTestContainer());
+    render(<PanelGroup ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'borderRadius'), '6px', 'Panel border-radius');
   });

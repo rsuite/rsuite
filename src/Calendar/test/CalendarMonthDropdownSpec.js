@@ -1,23 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import MonthDropdown from '../MonthDropdown';
 import CalendarContext from '../CalendarContext';
-import { createTestContainer } from '../../../test/testUtils';
 
 describe('Calendar-MonthDropdown', () => {
   it('Should output year and month ', () => {
     const ref = React.createRef();
-    ReactDOM.render(
+    render(
       <CalendarContext.Provider
         value={{
           date: new Date()
         }}
       >
         <MonthDropdown show ref={ref} />
-      </CalendarContext.Provider>,
-      createTestContainer()
+      </CalendarContext.Provider>
     );
     assert.equal(ref.current.querySelectorAll('.rs-calendar-month-dropdown-year').length, 8);
   });
@@ -27,18 +25,17 @@ describe('Calendar-MonthDropdown', () => {
       done();
     };
     const ref = React.createRef();
-    ReactDOM.render(
+    render(
       <CalendarContext.Provider value={{ onChangePageDate, date: new Date() }}>
         <MonthDropdown show ref={ref} />
-      </CalendarContext.Provider>,
-      createTestContainer()
+      </CalendarContext.Provider>
     );
     ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-calendar-month-dropdown-cell'));
   });
 
   it('Should disable month', () => {
     const ref = React.createRef();
-    ReactDOM.render(
+    render(
       <CalendarContext.Provider value={{ date: new Date(2019, 8, 1) }}>
         <MonthDropdown
           show
@@ -49,8 +46,7 @@ describe('Calendar-MonthDropdown', () => {
           }}
           ref={ref}
         />
-      </CalendarContext.Provider>,
-      createTestContainer()
+      </CalendarContext.Provider>
     );
 
     const cells = ref.current

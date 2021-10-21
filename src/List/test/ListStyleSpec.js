@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import List from '../index';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { getDOMNode, getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('List styles', () => {
   it('Should render correct toggle styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<List ref={instanceRef} />, createTestContainer());
+    render(<List ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
 
     assert.equal(getStyle(dom, 'position'), 'relative', 'List position');

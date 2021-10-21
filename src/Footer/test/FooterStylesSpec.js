@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Footer from '../index';
-import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, itChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Footer styles', () => {
   itChrome('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Footer ref={instanceRef} />, createTestContainer());
+    render(<Footer ref={instanceRef} />);
     assert.equal(getStyle(getDOMNode(instanceRef.current), 'flex'), '0 0 auto');
   });
 });

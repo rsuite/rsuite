@@ -1,14 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import Flexbox from '../index';
-import { createTestContainer, getDOMNode, getStyle, inChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Flexbox styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Flexbox ref={instanceRef} />, createTestContainer());
+    render(<Flexbox ref={instanceRef} />);
     assert.equal(getStyle(getDOMNode(instanceRef.current), 'display'), 'flex', 'Flexbox display');
     inChrome &&
       assert.equal(
@@ -20,7 +20,7 @@ describe('Flexbox styles', () => {
 
   it('Should render the correct aligned', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(<Flexbox ref={instanceRef} align="top" />, createTestContainer());
+    render(<Flexbox ref={instanceRef} align="top" />);
     assert.equal(getStyle(getDOMNode(instanceRef.current), 'alignItems'), 'flex-start');
   });
 });

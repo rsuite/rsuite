@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance, createTestContainer } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Dropdown from '../SelectPicker';
 import SelectPicker from '../SelectPicker';
@@ -338,9 +338,7 @@ describe('SelectPicker', () => {
 
   it('Should focus the search box', () => {
     const pickerRef = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<Dropdown ref={pickerRef} data={data} />, createTestContainer());
-    });
+    render(<Dropdown ref={pickerRef} data={data} />);
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.click(pickerRef.current.target);

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
@@ -35,18 +35,6 @@ const data = [
     value: 'disabled'
   }
 ];
-
-let container;
-
-beforeEach(() => {
-  container = document.createElement('div');
-  document.body.appendChild(container);
-});
-
-afterEach(() => {
-  document.body.removeChild(container);
-  container = null;
-});
 
 describe('CheckTreePicker', () => {
   it('Should render default value', () => {
@@ -379,25 +367,22 @@ describe('CheckTreePicker', () => {
     ];
 
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(
-        <CheckTreePicker
-          ref={ref}
-          data={data}
-          value={['Master']}
-          open
-          cascade={false}
-          defaultExpandAll
-          getChildren={() => [
-            {
-              label: 'children1',
-              value: 'children1'
-            }
-          ]}
-        />,
-        container
-      );
-    });
+    render(
+      <CheckTreePicker
+        ref={ref}
+        data={data}
+        value={['Master']}
+        open
+        cascade={false}
+        defaultExpandAll
+        getChildren={() => [
+          {
+            label: 'children1',
+            value: 'children1'
+          }
+        ]}
+      />
+    );
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.click(
@@ -536,9 +521,7 @@ describe('CheckTreePicker', () => {
       expandItemValues = values;
     };
     const ref = React.createRef();
-    ReactTestUtils.act(() => {
-      ReactDOM.render(<TestApp ref={ref} onExpand={mockOnExpand} />, container);
-    });
+    render(<TestApp ref={ref} onExpand={mockOnExpand} />);
 
     assert.ok(ref.current.picker.overlay.querySelector('.rs-check-tree-node-expanded'));
 

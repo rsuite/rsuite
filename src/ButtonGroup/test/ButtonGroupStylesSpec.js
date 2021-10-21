@@ -1,20 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import ButtonGroup from '../index';
 import Button from '../../Button';
-import { createTestContainer, getDOMNode, getStyle, itChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, itChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Button Group styles', () => {
   it('Should render the correct width', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <ButtonGroup justified ref={instanceRef}>
         <Button>Text</Button>
         <Button>Text2</Button>
-      </ButtonGroup>,
-      createTestContainer()
+      </ButtonGroup>
     );
     const buttons = getDOMNode(instanceRef.current).children;
 
@@ -23,11 +22,10 @@ describe('Button Group styles', () => {
 
   itChrome('Should render the correct padding', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
+    render(
       <ButtonGroup size="lg" ref={instanceRef}>
         <Button>Text</Button>
-      </ButtonGroup>,
-      createTestContainer()
+      </ButtonGroup>
     );
     const buttons = getDOMNode(instanceRef.current).children;
 

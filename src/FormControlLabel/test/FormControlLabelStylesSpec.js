@@ -1,17 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from '@testing-library/react';
 import FormControlLabel from '../index';
-import { createTestContainer, getDOMNode, getStyle } from '@test/testUtils';
+import { getDOMNode, getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('FormControlLabel styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
-    ReactDOM.render(
-      <FormControlLabel ref={instanceRef}>Title</FormControlLabel>,
-      createTestContainer()
-    );
+    render(<FormControlLabel ref={instanceRef}>Title</FormControlLabel>);
     assert.equal(getStyle(getDOMNode(instanceRef.current), 'marginBottom'), '4px');
   });
 });
