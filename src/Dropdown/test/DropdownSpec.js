@@ -856,6 +856,6 @@ describe('<Dropdown>', () => {
       </Nav>
     );
     ReactTestUtils.Simulate.click(instance.querySelector('[role="button"]'));
-    assert.equal(instance.innerText, '\nAs Component');
+    assert.equal(instance.textContent, 'As Component');
   });
 });
