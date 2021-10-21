@@ -5,6 +5,13 @@
   min-width: @min-width;
   border-radius: (@toogle-height / 2);
 
+  &-loader {
+    width: @handle-diameter;
+    height: @handle-diameter;
+    left: @toggle-handle-gap;
+    top: @toggle-handle-gap;
+  }
+
   &::after {
     width: @handle-diameter;
     height: @handle-diameter;
@@ -43,6 +50,11 @@
       margin-right: @toogle-height;
       margin-left: @toggle-inner-margin;
     }
+  }
+
+  &.rs-btn-toggle-checked &-loader {
+    left: 100%;
+    margin-left: -(@handle-diameter + @toggle-handle-gap);
   }
 }
 

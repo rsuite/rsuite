@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Toggle from '../Toggle';
@@ -76,5 +77,16 @@ describe('Toggle', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Toggle classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  describe('Loading', () => {
+    it('Should have "rs-btn-toggle-loading" className', () => {
+      const { getByTestId } = render(<Toggle loading data-testid="toggle" />);
+      expect(getByTestId('toggle')).to.have.class('rs-btn-toggle-loading');
+    });
+    it('Should have `aria-busy` attribute set to `true`', () => {
+      const { getByTestId } = render(<Toggle loading data-testid="toggle" />);
+      expect(getByTestId('toggle')).to.have.attr('aria-busy', 'true');
+    });
   });
 });
