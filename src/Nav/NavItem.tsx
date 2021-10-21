@@ -37,7 +37,7 @@ export interface NavItemProps<T = string>
   href?: string;
 
   /** Select the callback function that the event triggers. */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 /**
@@ -67,7 +67,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
     const active = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
 
     const emitSelect = useCallback(
-      (event: React.SyntheticEvent) => {
+      (event: React.SyntheticEvent<HTMLElement>) => {
         onSelectProp?.(eventKey, event);
         onSelectFromNav?.(eventKey, event);
       },
