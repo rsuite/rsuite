@@ -1,0 +1,29 @@
+name: 🐛 Bug report
+description: Report a reproducible bug or regression
+body:
+  - type: input
+    attributes:
+      label: What version of rsuite are you using?
+      placeholder: 'For example: 4.0.0'
+  - type: input
+    attributes:
+      label: What version of React are you using?
+      placeholder: 'For example: 17.0.0'
+  - type: input
+    attributes:
+      label: What browser are you using?
+      placeholder: 'For example: Chrome, Safari'
+  - type: textarea
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is.
+  - type: textarea
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+  - type: textarea
+    attributes:
+      label: To Reproduce
+      description: |
+        Steps to reproduce the behavior, please provide a clear code snippets that always reproduces the issue or a GitHub repository. Screenshots can be provided in the issue body below.
+        Or reproduce the bug through codesandbox. https://codesandbox.io/s/rsuite-template-5vq6zo2z5l
