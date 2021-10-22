@@ -1,3 +1,14 @@
+<a name="4.10.4"></a>
+## [4.10.4](https://github.com/rsuite/rsuite/compare/4.10.3...4.10.4) (2021-10-22)
+
+
+### Bug Fixes
+
+* **cascader:** search not working with custom childreKey ([#2020](https://github.com/rsuite/rsuite/issues/2020)) ([ef957c3](https://github.com/rsuite/rsuite/commit/ef957c3))
+* **Slider:** fix onChange argument types ([#2021](https://github.com/rsuite/rsuite/issues/2021)) ([4707d8b](https://github.com/rsuite/rsuite/commit/4707d8b))
+
+
+
 <a name="4.10.3"></a>
 ## [4.10.3](https://github.com/rsuite/rsuite/compare/4.10.2...4.10.3) (2021-09-13)
 
