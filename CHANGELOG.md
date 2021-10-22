@@ -1,3 +1,11 @@
+## [5.0.3](https://github.com/rsuite/rsuite/compare/v5.0.2...v5.0.3) (2021-10-22)
+
+### Bug Fixes
+
+- **Navbar:** fix item hover style ([#2010](https://github.com/rsuite/rsuite/issues/2010)) ([8e6e13f](https://github.com/rsuite/rsuite/commit/8e6e13f3eafc1b0cd89900943e351fac817b8598))
+- **pickers:** add missing default appearance ([#2004](https://github.com/rsuite/rsuite/issues/2004)) ([e0bbc45](https://github.com/rsuite/rsuite/commit/e0bbc45cfe5a1cc9978dd8e1d988294764ec321a))
+- **Uploader:** fix disabled button opacity ([#2009](https://github.com/rsuite/rsuite/issues/2009)) ([a02aae7](https://github.com/rsuite/rsuite/commit/a02aae7395521a1246082e410811fe0e71b02a03))
+
 <a name="5.0.2"></a>
 
 ## [5.0.2](https://github.com/rsuite/rsuite/compare/v5.0.1...v5.0.2) (2021-10-15)
