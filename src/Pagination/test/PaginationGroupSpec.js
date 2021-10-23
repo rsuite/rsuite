@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import PaginationGroup from '../PaginationGroup';
-import { getDOMNode, getInstance, innerText } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 describe('Pagination Group', () => {
   it('Should output a PaginationGroup', () => {
@@ -74,12 +74,15 @@ describe('Pagination Group', () => {
         first={false}
       />
     );
-    assert.equal(instance.querySelector('.rs-pagination-btn-active').innerText, '2');
+    assert.equal(instance.querySelector('.rs-pagination-btn-active').textContent, '2');
   });
 
   it('Should show total', () => {
     const instance = getDOMNode(<PaginationGroup layout={['total']} total={100} />);
-    assert.equal(instance.querySelector('.rs-pagination-group-total').innerText, 'Total Rows: 100');
+    assert.equal(
+      instance.querySelector('.rs-pagination-group-total').textContent,
+      'Total Rows: 100'
+    );
   });
 
   it('Should call onChangePage callback', done => {
@@ -157,7 +160,7 @@ describe('Pagination Group', () => {
     const disabledDOMs = instance.querySelectorAll('.rs-pagination-btn-disabled');
     assert.ok(instance.querySelector('.rs-picker-disabled'));
     assert.equal(disabledDOMs.length, 1);
-    assert.equal(innerText(disabledDOMs[0]), '2');
+    assert.equal(disabledDOMs[0].textContent, '2');
   });
 
   it('Should have a custom className prefix', () => {
@@ -180,7 +183,7 @@ describe('Pagination Group', () => {
         boundaryLinks={true}
       />
     );
-    assert.equal(instance.querySelector('button:last-child').innerText, '10');
+    assert.equal(instance.querySelector('button:last-child').textContent, '10');
   });
 
   it('Should render a `more` icon', () => {

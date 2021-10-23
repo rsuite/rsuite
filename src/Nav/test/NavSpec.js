@@ -1,5 +1,5 @@
 import React from 'react';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Nav from '../Nav';
@@ -11,7 +11,7 @@ describe('<Nav>', () => {
     const instance = getDOMNode(<Nav>{title}</Nav>);
     const node = instance;
     assert.ok(node.className.match(/\bnav\b/));
-    assert.equal(innerText(node), title);
+    assert.equal(node.textContent, title);
   });
 
   it('Should have a `nav-tabs` className', () => {

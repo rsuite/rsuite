@@ -10,7 +10,7 @@ describe('picker - DropdownMenuItem', () => {
     const instance = getDOMNode(<DropdownMenuItem title="title">{Title}</DropdownMenuItem>);
 
     assert.equal(instance.tagName, 'DIV');
-    assert.equal(instance.innerText, Title);
+    assert.equal(instance.textContent, Title);
   });
 
   it('Should be active', () => {

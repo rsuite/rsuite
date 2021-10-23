@@ -13,7 +13,7 @@ describe('Container', () => {
       </Container>
     );
     assert.equal(instance.className, 'rs-container');
-    assert.equal(instance.innerText, title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should render a Container when children is false', () => {

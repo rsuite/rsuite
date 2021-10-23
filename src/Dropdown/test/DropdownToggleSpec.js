@@ -1,7 +1,6 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownToggle from '../DropdownToggle';
-import { innerText } from '@test/testUtils';
 import User from '@rsuite/icons/legacy/User';
 
 describe('DropdownToggle', () => {
@@ -11,13 +10,13 @@ describe('DropdownToggle', () => {
 
     assert.include(instance.className, 'dropdown-toggle');
     assert.ok(instance.querySelector('.rs-dropdown-toggle-caret'));
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should have a title', () => {
     const title = 'Test';
     const instance = getDOMNode(<DropdownToggle>{title}</DropdownToggle>);
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should have an icon', () => {
@@ -44,7 +43,7 @@ describe('DropdownToggle', () => {
       );
     };
     const instance = getDOMNode(<DropdownToggle renderToggle={renderToggle}>abc</DropdownToggle>);
-    assert.equal(instance.innerText, 'new');
+    assert.equal(instance.textContent, 'new');
   });
 
   it('Should have a custom className', () => {

@@ -17,7 +17,7 @@ describe('Calendar-TableRow', () => {
     const instance = getDOMNode(<TableRow />);
 
     assert.equal(
-      instance.querySelector('.rs-calendar-table-cell-is-today').innerText,
+      instance.querySelector('.rs-calendar-table-cell-is-today').textContent,
       getDate(new Date()) + ''
     );
   });
@@ -61,7 +61,7 @@ describe('Calendar-TableRow', () => {
       </CalendarContext.Provider>
     );
     assert.equal(
-      ref.current.querySelector('.rs-calendar-table-cell-week-number').innerText,
+      ref.current.querySelector('.rs-calendar-table-cell-week-number').textContent,
       format(new Date(), 'w')
     );
   });
@@ -74,7 +74,7 @@ describe('Calendar-TableRow', () => {
       </CalendarContext.Provider>
     );
     assert.equal(
-      ref.current.querySelector('.rs-calendar-table-cell-week-number').innerText,
+      ref.current.querySelector('.rs-calendar-table-cell-week-number').textContent,
       format(new Date(), 'I')
     );
   });

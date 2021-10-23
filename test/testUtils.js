@@ -126,17 +126,6 @@ export function getDOMNode(children, waitForDidMount = true) {
 }
 
 /**
- * @param {HTMLElement} node
- * @return {String}
- */
-export function innerText(node) {
-  if (window.navigator.userAgent.toLowerCase().indexOf('firefox') !== -1) {
-    return node.textContent;
-  }
-  return node.innerText;
-}
-
-/**
  * @return {HTMLDivElement}
  */
 export function createTestContainer() {

@@ -57,7 +57,7 @@ describe('Rate', () => {
 
   it('Should render A character', () => {
     const instance = getDOMNode(<Rate defaultValue={1} character="A" />);
-    assert.equal(instance.querySelector('.rs-rate-character-before').innerText, 'A');
+    assert.equal(instance.querySelector('.rs-rate-character-before').textContent, 'A');
   });
 
   it('Should render a custom character', () => {

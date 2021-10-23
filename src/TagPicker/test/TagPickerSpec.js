@@ -29,7 +29,7 @@ describe('TagPicker', () => {
 
     ReactTestUtils.Simulate.click(instance.root.querySelector('.rs-picker-toggle-clean'));
 
-    expect(instance.root.querySelector('.rs-picker-toggle-placeholder').innerText).to.equal(
+    expect(instance.root.querySelector('.rs-picker-toggle-placeholder').textContent).to.equal(
       'Select'
     );
   });
@@ -38,7 +38,7 @@ describe('TagPicker', () => {
     const instance = getDOMNode(<TagPicker defaultOpen data={data} value={['Eugenia']} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
     expect(instance.querySelectorAll('.rs-tag').length).to.equal(1);
-    expect(instance.querySelector('.rs-tag-text').innerText).to.equal('Eugenia');
+    expect(instance.querySelector('.rs-tag-text').textContent).to.equal('Eugenia');
   });
 
   it('Should output a TagPicker', () => {
@@ -67,16 +67,16 @@ describe('TagPicker', () => {
   it('Should active item by `value`', () => {
     const value = 'Louisa';
     const instance = getInstance(<TagPicker defaultOpen data={data} value={[value]} />);
-    assert.equal(instance.root.querySelector('.rs-tag-text').innerText, value);
-    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.root.querySelector('.rs-tag-text').textContent, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').textContent, value);
   });
 
   it('Should active item by `defaultValue`', () => {
     const value = 'Louisa';
     const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={[value]} />);
 
-    assert.equal(instance.root.querySelector('.rs-tag-text').innerText, value);
-    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.root.querySelector('.rs-tag-text').textContent, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').textContent, value);
     assert.ok(instance.root.querySelector('.rs-tag-icon-close'));
   });
 
@@ -88,7 +88,7 @@ describe('TagPicker', () => {
   it('Should have a placeholder', () => {
     const instance = getDOMNode(<TagPicker className="custom" placeholder="test" />);
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
   it('Should render a placeholder when value error', () => {
@@ -102,7 +102,7 @@ describe('TagPicker', () => {
         value={['4']}
       />
     );
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
   it('Allow `label` to be an empty string', () => {
@@ -111,7 +111,7 @@ describe('TagPicker', () => {
     );
     const checkbox = instance.overlay.querySelector('.rs-checkbox-checked');
 
-    assert.equal(checkbox.innerText, '');
+    assert.equal(checkbox.textContent, '');
   });
 
   it('Should render value by `renderValue`', () => {
@@ -125,7 +125,7 @@ describe('TagPicker', () => {
       />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-tag-wrapper').innerText, 'foo-bar');
+    assert.equal(instance.querySelector('.rs-picker-tag-wrapper').textContent, 'foo-bar');
   });
 
   it('Should output a value by renderValue()', () => {
@@ -145,13 +145,13 @@ describe('TagPicker', () => {
       <TagPicker renderValue={v => [v, placeholder]} data={[]} value={[2]} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-tag-wrapper').innerText, `1${placeholder}`);
-    assert.equal(instance2.querySelector('.rs-picker-tag-wrapper').innerText, `2${placeholder}`);
+    assert.equal(instance.querySelector('.rs-picker-tag-wrapper').textContent, `1${placeholder}`);
+    assert.equal(instance2.querySelector('.rs-picker-tag-wrapper').textContent, `2${placeholder}`);
   });
 
   it('Should render a placeholder when value error', () => {
     const instance = getDOMNode(<TagPicker value={[2]} placeholder={'test'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
   it('Should call `onChange` callback', done => {
@@ -217,13 +217,13 @@ describe('TagPicker', () => {
   it('Should focus item by key=ArrowDown ', () => {
     const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={['Eugenia']} />);
     ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowDown' });
-    assert.equal(instance.overlay.querySelector('.rs-check-item-focus').innerText, 'Kariane');
+    assert.equal(instance.overlay.querySelector('.rs-check-item-focus').textContent, 'Kariane');
   });
 
   it('Should focus item by key=ArrowUp ', () => {
     const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={['Kariane']} />);
     ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowUp' });
-    assert.equal(instance.overlay.querySelector('.rs-check-item-focus').innerText, 'Eugenia');
+    assert.equal(instance.overlay.querySelector('.rs-check-item-focus').textContent, 'Eugenia');
   });
 
   it('Should call `onChange` by key=Enter ', done => {
@@ -337,7 +337,7 @@ describe('TagPicker', () => {
 
   it('Should not be call renderValue()', () => {
     const instance = getDOMNode(<TagPicker renderValue={() => 'value'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should call renderValue', () => {
@@ -345,9 +345,9 @@ describe('TagPicker', () => {
     const instance2 = getDOMNode(<TagPicker value={['Test']} renderValue={() => null} />);
     const instance3 = getDOMNode(<TagPicker value={['Test']} renderValue={() => undefined} />);
 
-    assert.equal(instance1.querySelector('.rs-picker-tag-wrapper').innerText, '1');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance1.querySelector('.rs-picker-tag-wrapper').textContent, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
 
     assert.include(instance1.className, 'rs-picker-has-value');
     assert.notInclude(instance2.className, 'rs-picker-has-value');
@@ -357,7 +357,7 @@ describe('TagPicker', () => {
   it('Children should not be selected', () => {
     const data = [{ value: 1, label: 'A', children: [{ value: 2, label: 'B' }] }];
     const instance = getDOMNode(<TagPicker data={data} value={[2]} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
     assert.notInclude(instance.className, 'rs-picker-has-value');
   });
 
@@ -449,9 +449,9 @@ describe('TagPicker', () => {
       <TagPicker plaintext data={data} placeholder="-" value={['Eugenia']} />
     );
 
-    assert.equal(instance1.target.innerText, 'Eugenia');
-    assert.equal(instance2.target.innerText, 'Not selected');
-    assert.equal(instance3.target.innerText, '-');
-    assert.equal(instance4.target.innerText, 'Eugenia');
+    assert.equal(instance1.target.textContent, 'Eugenia');
+    assert.equal(instance2.target.textContent, 'Not selected');
+    assert.equal(instance3.target.textContent, '-');
+    assert.equal(instance4.target.textContent, 'Eugenia');
   });
 });

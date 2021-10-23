@@ -42,7 +42,7 @@ describe('Calendar - Panel', () => {
     assert.equal(
       instance
         .querySelectorAll('.rs-calendar-table-row')[1]
-        .querySelector('.rs-calendar-table-cell-content').innerText,
+        .querySelector('.rs-calendar-table-cell-content').textContent,
       '1'
     );
   });
@@ -93,11 +93,11 @@ describe('Calendar - Panel', () => {
     instanceRef.current.setDate(new Date('7/11/2021'));
     const panel = instanceRef.current.panel;
 
-    assert.equal(panel.querySelector('.rs-calendar-header-title').innerText, 'Jun 2021');
+    assert.equal(panel.querySelector('.rs-calendar-header-title').textContent, 'Jun 2021');
 
     setTimeout(() => {
       try {
-        assert.equal(panel.querySelector('.rs-calendar-header-title').innerText, 'Jul 2021');
+        assert.equal(panel.querySelector('.rs-calendar-header-title').textContent, 'Jul 2021');
         done();
       } catch (err) {
         done(err);

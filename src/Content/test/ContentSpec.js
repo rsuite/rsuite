@@ -1,7 +1,6 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
 import Content from '../Content';
-import { innerText } from '@test/testUtils';
 
 describe('Content', () => {
   it('Should render a Content', () => {
@@ -9,7 +8,7 @@ describe('Content', () => {
     const instance = getDOMNode(<Content>{title}</Content>);
 
     assert.equal(instance.className, 'rs-content');
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should have a custom className', () => {

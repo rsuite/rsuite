@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Toggle from '../Toggle';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('Toggle', () => {
   it('Should output a toggle', () => {
@@ -27,12 +27,12 @@ describe('Toggle', () => {
 
   it('Should output a `off` in inner ', () => {
     const instance = getDOMNode(<Toggle unCheckedChildren="off" />);
-    assert.equal(innerText(instance), 'off');
+    assert.equal(instance.textContent, 'off');
   });
 
   it('Should output a `on` in inner ', () => {
     const instance = getDOMNode(<Toggle checkedChildren="on" checked />);
-    assert.equal(innerText(instance), 'on');
+    assert.equal(instance.textContent, 'on');
   });
 
   it('Should call onChange callback with correct checked state', done => {

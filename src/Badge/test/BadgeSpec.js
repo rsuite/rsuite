@@ -16,7 +16,7 @@ describe('Badge', () => {
   it('Should render content', () => {
     const content = 'NEW+';
     const instance = getDOMNode(<Badge content={content} />);
-    assert.equal(instance.innerText, content);
+    assert.equal(instance.textContent, content);
   });
 
   it('Should be invisible', () => {
@@ -31,18 +31,18 @@ describe('Badge', () => {
   it('MaxCount is invalid', () => {
     const content = '999';
     const instance = getDOMNode(<Badge content={content} />);
-    assert.equal(instance.innerText, content);
+    assert.equal(instance.textContent, content);
   });
 
   it('Should render default maxCount', () => {
     const instance = getDOMNode(<Badge content={999} />);
-    assert.equal(instance.innerText, '99+');
+    assert.equal(instance.textContent, '99+');
   });
 
   it('Should render customized maxCount', () => {
     const maxCount = 200;
     const instance = getDOMNode(<Badge content={999} maxCount={maxCount} />);
-    assert.equal(instance.innerText, `${maxCount}+`);
+    assert.equal(instance.textContent, `${maxCount}+`);
   });
 
   it('Should render wrapper button', () => {

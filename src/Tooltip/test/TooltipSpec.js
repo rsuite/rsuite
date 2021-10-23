@@ -1,6 +1,6 @@
 import React from 'react';
 import Tooltip from '../Tooltip';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('Tooltip', () => {
   it('Should render a Tooltip', () => {
@@ -8,7 +8,7 @@ describe('Tooltip', () => {
     const instance = getDOMNode(<Tooltip>{title}</Tooltip>);
     assert.equal(instance.tagName, 'DIV');
     assert.equal(instance.className, 'rs-tooltip');
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should have a id', () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import Header from '../Header';
 
 describe('Header', () => {
@@ -7,7 +7,7 @@ describe('Header', () => {
     const title = 'Test';
     const instance = getDOMNode(<Header>{title}</Header>);
     assert.include(instance.className, 'rs-header');
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should have a custom className', () => {

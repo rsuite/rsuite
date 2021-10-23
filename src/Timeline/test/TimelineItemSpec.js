@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDOMNode, innerText } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 import TimelineItem from '../TimelineItem';
 
@@ -13,13 +13,13 @@ describe('TimelineItem', () => {
 
   it('Should render a dot', () => {
     const instance = getDOMNode(<TimelineItem dot={<i>test</i>} />);
-    assert.equal(innerText(instance.querySelector('.rs-timeline-item-custom-dot')), 'test');
+    assert.equal(instance.querySelector('.rs-timeline-item-custom-dot').textContent, 'test');
   });
 
   it('Should render a time', () => {
     const time = '2019-10-21';
     const instance = getDOMNode(<TimelineItem time={time} />);
-    assert.equal(innerText(instance.querySelector('.rs-timeline-item-time')), time);
+    assert.equal(instance.querySelector('.rs-timeline-item-time').textContent, time);
   });
 
   it('Should output the last item', () => {

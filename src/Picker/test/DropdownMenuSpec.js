@@ -65,7 +65,7 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    assert.equal(instance.querySelector('.rs-dropdown-menu-item-active').innerText, 'c');
+    assert.equal(instance.querySelector('.rs-dropdown-menu-item-active').textContent, 'c');
   });
 
   it('Should have a maxHeight', () => {

@@ -29,7 +29,7 @@ describe('InputPicker', () => {
     const instance = getDOMNode(<InputPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
-    expect(instance.querySelector('.rs-picker-toggle-placeholder').innerText).to.equal('Select');
+    expect(instance.querySelector('.rs-picker-toggle-placeholder').textContent).to.equal('Select');
   });
 
   it('Should have "default" appearance by default', () => {
@@ -42,7 +42,7 @@ describe('InputPicker', () => {
     const instance = getDOMNode(<InputPicker defaultOpen data={data} value={'Eugenia'} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
-    expect(instance.querySelector('.rs-picker-toggle-value').innerText).to.equal('Eugenia');
+    expect(instance.querySelector('.rs-picker-toggle-value').textContent).to.equal('Eugenia');
   });
 
   it('Should output a dropdown', () => {
@@ -65,10 +65,10 @@ describe('InputPicker', () => {
       <InputPicker plaintext data={data} placeholder="-" value={'Eugenia'} />
     );
 
-    assert.equal(instance1.target.innerText, 'Eugenia');
-    assert.equal(instance2.target.innerText, 'Not selected');
-    assert.equal(instance3.target.innerText, '-');
-    assert.equal(instance4.target.innerText, 'Eugenia');
+    assert.equal(instance1.target.textContent, 'Eugenia');
+    assert.equal(instance2.target.textContent, 'Not selected');
+    assert.equal(instance3.target.textContent, '-');
+    assert.equal(instance4.target.textContent, 'Eugenia');
   });
 
   it('Should be readOnly', () => {
@@ -110,9 +110,9 @@ describe('InputPicker', () => {
     const value = 'Louisa';
     const instance = getInstance(<InputPicker defaultOpen data={data} value={value} />);
 
-    assert.equal(instance.root.querySelector('.rs-picker-toggle-value').innerText, value);
+    assert.equal(instance.root.querySelector('.rs-picker-toggle-value').textContent, value);
     assert.equal(
-      instance.overlay.querySelector('.rs-picker-select-menu-item-active').innerText,
+      instance.overlay.querySelector('.rs-picker-select-menu-item-active').textContent,
       value
     );
   });
@@ -120,9 +120,9 @@ describe('InputPicker', () => {
   it('Should active item by `defaultValue`', () => {
     const value = 'Louisa';
     const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={value} />);
-    assert.equal(instance.root.querySelector('.rs-picker-toggle-value').innerText, value);
+    assert.equal(instance.root.querySelector('.rs-picker-toggle-value').textContent, value);
     assert.equal(
-      instance.overlay.querySelector('.rs-picker-select-menu-item-active').innerText,
+      instance.overlay.querySelector('.rs-picker-select-menu-item-active').textContent,
       value
     );
   });
@@ -136,7 +136,7 @@ describe('InputPicker', () => {
   it('Should have a placeholder', () => {
     const instance = getDOMNode(<InputPicker className="custom" placeholder="test" />);
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
   it('Allow `label` to be an empty string', () => {
@@ -144,7 +144,7 @@ describe('InputPicker', () => {
       <InputPicker placeholder="test" data={[{ label: '', value: '1' }]} value={'1'} defaultOpen />
     );
     const menuContainer = instance.overlay.querySelector('.rs-picker-select-menu-item-active');
-    assert.equal(menuContainer.innerText, '');
+    assert.equal(menuContainer.textContent, '');
   });
 
   it('Should render value by `renderValue`', () => {
@@ -157,7 +157,7 @@ describe('InputPicker', () => {
         renderValue={(value, item) => `${item.label}-${value}`}
       />
     );
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, 'foo-bar');
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, 'foo-bar');
   });
 
   it('Should output a value by renderValue()', () => {
@@ -177,18 +177,18 @@ describe('InputPicker', () => {
       <InputPicker renderValue={v => [v, placeholder]} data={[]} value={2} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, `1${placeholder}`);
-    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, `1${placeholder}`);
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').textContent, `2${placeholder}`);
   });
 
   it('Should not be call renderValue()', () => {
     const instance = getDOMNode(<InputPicker renderValue={() => 'value'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should render a placeholder when value error', () => {
     const instance = getDOMNode(<InputPicker value={2} placeholder={'test'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
   it('Should call `onChange` callback with correct value', done => {
@@ -286,7 +286,7 @@ describe('InputPicker', () => {
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
 
     assert.equal(
-      instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText,
+      instance.overlay.querySelector('.rs-picker-select-menu-item-focus').textContent,
       'Kariane'
     );
   });
@@ -296,7 +296,7 @@ describe('InputPicker', () => {
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
 
     assert.equal(
-      instance.overlay.querySelector('.rs-picker-select-menu-item-focus').innerText,
+      instance.overlay.querySelector('.rs-picker-select-menu-item-focus').textContent,
       'Eugenia'
     );
   });
@@ -356,7 +356,7 @@ describe('InputPicker', () => {
     );
     const list = instance.overlay.querySelectorAll('.rs-picker-select-menu-item');
     assert.equal(list.length, 1);
-    assert.ok(list[0].innerText, 'Louisa');
+    assert.ok(list[0].textContent, 'Louisa');
   });
 
   it('Should call renderValue', () => {
@@ -364,9 +364,9 @@ describe('InputPicker', () => {
     const instance2 = getDOMNode(<InputPicker value="Test" renderValue={() => null} />);
     const instance3 = getDOMNode(<InputPicker value="Test" renderValue={() => undefined} />);
 
-    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
 
     assert.include(instance1.className, 'rs-picker-has-value');
     assert.notInclude(instance2.className, 'rs-picker-has-value');
@@ -376,7 +376,7 @@ describe('InputPicker', () => {
   it('Children should not be selected', () => {
     const data = [{ value: 1, label: 'A', children: [{ value: 2, label: 'B' }] }];
     const instance = getDOMNode(<InputPicker data={data} value={2} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
     assert.notInclude(instance.className, 'rs-picker-has-value');
   });
 

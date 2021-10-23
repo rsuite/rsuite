@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, innerText } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import Pagination from '../Pagination';
 
 describe('Pagination', () => {
@@ -33,7 +33,7 @@ describe('Pagination', () => {
   it('Should be ellipsis', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} ellipsis={'abc'} />);
     assert.equal(instance.querySelectorAll('button').length, 3);
-    assert.equal(innerText(instance.querySelector('button.rs-pagination-btn-disabled')), 'abc');
+    assert.equal(instance.querySelector('button.rs-pagination-btn-disabled').textContent, 'abc');
   });
 
   it('Should be disabled', () => {
@@ -55,7 +55,7 @@ describe('Pagination', () => {
     );
     const disabledDOMs = instance.querySelectorAll('button.rs-pagination-btn-disabled');
     assert.equal(disabledDOMs.length, 1);
-    assert.equal(innerText(disabledDOMs[0]), '2');
+    assert.equal(disabledDOMs[0].textContent, '2');
   });
 
   it('Should render `first` button', () => {
@@ -80,12 +80,12 @@ describe('Pagination', () => {
 
   it('Should render boundary links', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} ellipsis boundaryLinks />);
-    assert.equal(innerText(instance.querySelector('button:last-child')), '20');
+    assert.equal(instance.querySelector('button:last-child').textContent, '20');
   });
 
   it('Should active page 5', () => {
     const instance = getDOMNode(<Pagination pages={20} activePage={5} />);
-    assert.equal(innerText(instance.querySelector('button.rs-pagination-btn-active')), '5');
+    assert.equal(instance.querySelector('button.rs-pagination-btn-active').textContent, '5');
   });
 
   it('Should call onSelect callback with correct eventKey', done => {
