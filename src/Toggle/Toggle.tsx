@@ -78,7 +78,7 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<Element>) => {
-      if (event.code !== 'Space') {
+      if (event.key !== ' ') {
         return;
       }
       handleChange(event);
