@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 
 import DropdownItem from '../DropdownItem';
@@ -14,11 +15,17 @@ describe('<Dropdown.Item>', () => {
     assert.equal(instance.textContent, title);
   });
 
-  it('Should render an <a> element given as="a"', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<DropdownItem as="a">{title}</DropdownItem>);
-    assert.equal(instance.tagName, 'A');
-    assert.equal(instance.textContent, title);
+  it('Should render custom element inside a <li>', () => {
+    const { getByTestId } = render(
+      <DropdownItem as="a" data-testid="dropdown-item">
+        Link
+      </DropdownItem>
+    );
+
+    const element = getByTestId('dropdown-item');
+
+    expect(element).to.have.tagName('A');
+    expect(element.parentElement).to.have.tagName('LI');
   });
 
   it('Should render a divider', () => {
