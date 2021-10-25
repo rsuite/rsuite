@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Grid, IntlProvider, Button } from 'rsuite';
-import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
+import { Grid, Button } from 'rsuite';
 
 export interface HelloProps {
   compiler: string;
@@ -12,7 +11,6 @@ export interface HelloProps {
 export class Hello extends React.Component<HelloProps, {}> {
   render() {
     return (
-      <IntlProvider locale={zhCN}>
         <Grid>
           <h1>
             Hello from {this.props.compiler} and {this.props.framework}!
@@ -21,7 +19,6 @@ export class Hello extends React.Component<HelloProps, {}> {
             React Suite
           </Button>
         </Grid>
-      </IntlProvider>
     );
   }
 }
