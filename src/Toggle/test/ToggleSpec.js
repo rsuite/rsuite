@@ -77,4 +77,18 @@ describe('Toggle', () => {
     const instance = getDOMNode(<Toggle classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should toggle with the space key', done => {
+    const doneOp = checked => {
+      try {
+        assert.isTrue(checked);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    };
+
+    const instance = getDOMNode(<Toggle onChange={doneOp} />);
+    ReactTestUtils.Simulate.keyDown(instance, { key: ' ' });
+  });
 });
