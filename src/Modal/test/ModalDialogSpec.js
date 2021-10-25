@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ModalDialog from '../ModalDialog';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('ModalDialog', () => {
   it('Should render a dialog', () => {
@@ -10,7 +10,7 @@ describe('ModalDialog', () => {
 
     assert.equal(instance.className, 'rs-modal');
     assert.ok(instance.querySelector('.rs-modal-dialog'));
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should have a custom className in dialog', () => {

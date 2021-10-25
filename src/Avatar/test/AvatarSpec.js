@@ -6,7 +6,7 @@ describe('Avatar', () => {
   it('Should render avatar', () => {
     const content = 'RS';
     const instance = getDOMNode(<Avatar>{content}</Avatar>);
-    assert.equal(instance.innerText, content);
+    assert.equal(instance.textContent, content);
   });
 
   it('Change background', () => {

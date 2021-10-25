@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import PanelGroup from '../PanelGroup';
 import Panel from '../../Panel';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('PanelGroup', () => {
   it('Should render a PanelGroup', () => {
@@ -13,7 +13,7 @@ describe('PanelGroup', () => {
 
     assert.equal(instanceDom.tagName, 'DIV');
     assert.ok(instanceDom.className.match(/\bpanel-group\b/));
-    assert.equal(innerText(instanceDom), title);
+    assert.equal(instanceDom.textContent, title);
   });
 
   it('Should render 2 Panels', () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getByTestId, screen } from '@testing-library/react';
-import { getDOMNode, innerText } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 import NavItem from '../NavItem';
 import Sidenav from '../../Sidenav';
@@ -13,7 +13,7 @@ describe('<Nav.Item>', () => {
     let title = 'Test';
     let instance = getDOMNode(<NavItem>{title}</NavItem>);
     assert.equal(instance.tagName, 'A');
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should call onSelect callback with correct eventKey', done => {

@@ -1,13 +1,13 @@
 import React from 'react';
 import Footer from '../Footer';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('Footer', () => {
   it('Should render a Footer', () => {
     const title = 'Test';
     const instance = getDOMNode(<Footer>{title}</Footer>);
     assert.include(instance.className, 'rs-footer');
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should have a custom className', () => {

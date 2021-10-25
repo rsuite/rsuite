@@ -1,5 +1,5 @@
 import React from 'react';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import ProgressLine from '../ProgressLine';
 
 describe('Progress - Line', () => {
@@ -12,7 +12,7 @@ describe('Progress - Line', () => {
     const instance = getDOMNode(<ProgressLine percent={10} />);
 
     assert.equal(instance.querySelector('.rs-progress-line-bg').style.width, '10%');
-    assert.equal(innerText(instance), '10%');
+    assert.equal(instance.textContent, '10%');
   });
 
   it('Should have a height', () => {

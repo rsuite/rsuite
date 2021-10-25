@@ -23,7 +23,7 @@ describe('FormattedDate', () => {
         </CustomProvider>
       </div>
     );
-    assert.equal(domNode.innerText, 'янв. 01, 2020');
+    assert.equal(domNode.textContent, 'янв. 01, 2020');
   });
 
   it('Should render formatted date by formatDate', () => {
@@ -36,7 +36,7 @@ describe('FormattedDate', () => {
         </CustomProvider>
       </div>
     );
-    assert.equal(domNode.innerText, 'янв. 01, 2020');
+    assert.equal(domNode.textContent, 'янв. 01, 2020');
   });
 
   it('Should render default formatted date', () => {
@@ -45,6 +45,6 @@ describe('FormattedDate', () => {
         <FormattedDate date={new Date('2020-01-01')} formatStr="MMM dd, yyyy" />
       </div>
     );
-    assert.equal(domNode.innerText, 'Jan 01, 2020');
+    assert.equal(domNode.textContent, 'Jan 01, 2020');
   });
 });

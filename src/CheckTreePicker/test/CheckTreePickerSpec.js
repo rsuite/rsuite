@@ -40,7 +40,7 @@ describe('CheckTreePicker', () => {
   it('Should render default value', () => {
     const instance = getDOMNode(<CheckTreePicker defaultOpen data={data} value={['Master']} />);
     expect(
-      instance.querySelector('.rs-picker-toggle-value .rs-picker-value-item').innerText
+      instance.querySelector('.rs-picker-toggle-value .rs-picker-value-item').textContent
     ).to.equal('Master (All)');
   });
 
@@ -56,7 +56,7 @@ describe('CheckTreePicker', () => {
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
-    expect(instance.querySelector('.rs-picker-toggle').innerText).to.equal('Select');
+    expect(instance.querySelector('.rs-picker-toggle').textContent).to.equal('Select');
   });
 
   it('Should output a clean button', () => {
@@ -115,7 +115,7 @@ describe('CheckTreePicker', () => {
   it('Should have a placeholder', () => {
     const instance = getDOMNode(<CheckTreePicker data={data} placeholder="test" />);
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
   it('Should output a value by renderValue()', () => {
@@ -153,9 +153,9 @@ describe('CheckTreePicker', () => {
       />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '1,2');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, placeholder);
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, '1,2');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').textContent, `2${placeholder}`);
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').textContent, placeholder);
   });
 
   it('Should call renderValue', () => {
@@ -165,19 +165,19 @@ describe('CheckTreePicker', () => {
       <CheckTreePicker value={['test']} renderValue={() => undefined} />
     );
 
-    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should not be call renderValue()', () => {
     const instance = getDOMNode(<CheckTreePicker data={[]} renderValue={() => 'value'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should render a placeholder when value error', () => {
     const instance = getDOMNode(<CheckTreePicker placeholder="test" data={data} value={['4']} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
   it('Should call `onChange` callback with 1 values', () => {
@@ -237,7 +237,7 @@ describe('CheckTreePicker', () => {
     const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
     ReactTestUtils.Simulate.keyDown(tree.target, { key: KEY_VALUES.DOWN });
 
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'Master');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'Master');
   });
 
   it('Should focus item by keyCode=38 ', () => {
@@ -246,7 +246,7 @@ describe('CheckTreePicker', () => {
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0-1"] input'));
     ReactTestUtils.Simulate.keyDown(tree.target, { key: KEY_VALUES.UP });
 
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'tester0');
   });
 
   it('Should focus item by keyCode=13 ', done => {
@@ -281,7 +281,7 @@ describe('CheckTreePicker', () => {
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'Master');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'Master');
 
     assert.equal(
       tree.overlay.querySelectorAll(`div[data-ref="0-0"] > ${itemExpandedClassName}`).length,
@@ -297,7 +297,7 @@ describe('CheckTreePicker', () => {
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'Master');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'Master');
   });
 
   /**
@@ -322,7 +322,7 @@ describe('CheckTreePicker', () => {
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'tester0');
   });
 
   /**
@@ -333,7 +333,7 @@ describe('CheckTreePicker', () => {
 
     ReactTestUtils.Simulate.change(tree.overlay.querySelector('div[data-key="0-0"] input'));
     ReactTestUtils.Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
-    assert.equal(tree.overlay.querySelector(itemFocusClassName).innerText, 'tester0');
+    assert.equal(tree.overlay.querySelector(itemFocusClassName).textContent, 'tester0');
   });
 
   it('Should have a custom className', () => {
@@ -551,7 +551,7 @@ describe('CheckTreePicker', () => {
     );
     const list = getDOMNode(instance.overlay).querySelectorAll('.rs-check-tree-node');
     assert.equal(list.length, 1);
-    assert.ok(list[0].innerText, 'Louisa');
+    assert.ok(list[0].textContent, 'Louisa');
   });
 
   it('Should only clean the searchKeyword', () => {
@@ -569,7 +569,7 @@ describe('CheckTreePicker', () => {
       key: KEY_VALUES.BACKSPACE
     });
     assert.equal(
-      instance.root.querySelector('.rs-picker-toggle-value .rs-picker-value-item').innerText,
+      instance.root.querySelector('.rs-picker-toggle-value .rs-picker-value-item').textContent,
       'Master (All)'
     );
 

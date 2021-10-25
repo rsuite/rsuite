@@ -1,5 +1,5 @@
 import React from 'react';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import Sidebar from '../Sidebar';
 
 describe('Sidebar', () => {
@@ -7,7 +7,7 @@ describe('Sidebar', () => {
     const title = 'Test';
     const instance = getDOMNode(<Sidebar>{title}</Sidebar>);
     assert.equal(instance.className, 'rs-sidebar');
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should have a custom className', () => {

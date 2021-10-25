@@ -36,7 +36,7 @@ describe('CheckPicker', () => {
       <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />
     );
     ReactTestUtils.Simulate.click(instance.root.querySelector(cleanClassName));
-    expect(instance.root.querySelector(placeholderClassName).innerText).to.equal('Select');
+    expect(instance.root.querySelector(placeholderClassName).textContent).to.equal('Select');
   });
 
   it('Should have "default" appearance by default', () => {
@@ -49,7 +49,7 @@ describe('CheckPicker', () => {
     const instance = getDOMNode(<CheckPicker defaultOpen data={data} value={['Eugenia']} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector(cleanClassName));
-    expect(instance.querySelector(valueClassName).innerText).to.equal('Eugenia');
+    expect(instance.querySelector(valueClassName).textContent).to.equal('Eugenia');
   });
 
   it('Should output a dropdown', () => {
@@ -89,15 +89,15 @@ describe('CheckPicker', () => {
   it('Should active item by `value`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<CheckPicker defaultOpen data={data} value={value} />);
-    assert.equal(instance.root.querySelector(valueClassName).innerText, 'Louisa');
-    assert.equal(instance.overlay.querySelector(itemActiveClassName).innerText, value);
+    assert.equal(instance.root.querySelector(valueClassName).textContent, 'Louisa');
+    assert.equal(instance.overlay.querySelector(itemActiveClassName).textContent, value);
   });
 
   it('Should active item by `defaultValue`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<CheckPicker defaultOpen data={data} defaultValue={value} />);
-    assert.equal(instance.root.querySelector(valueClassName).innerText, 'Louisa');
-    assert.equal(instance.overlay.querySelector(itemActiveClassName).innerText, value);
+    assert.equal(instance.root.querySelector(valueClassName).textContent, 'Louisa');
+    assert.equal(instance.overlay.querySelector(itemActiveClassName).textContent, value);
   });
 
   it('Should render a group', () => {
@@ -108,7 +108,7 @@ describe('CheckPicker', () => {
   it('Should have a placeholder', () => {
     const instance = getDOMNode(<CheckPicker className="custom" placeholder="test" />);
 
-    assert.equal(instance.querySelector(placeholderClassName).innerText, 'test');
+    assert.equal(instance.querySelector(placeholderClassName).textContent, 'test');
   });
 
   it('Should render value by `renderValue`', () => {
@@ -124,7 +124,7 @@ describe('CheckPicker', () => {
       />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, '1,2');
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, '1,2');
   });
 
   it('Should output a value by renderValue()', () => {
@@ -144,8 +144,8 @@ describe('CheckPicker', () => {
       <CheckPicker renderValue={v => [v, placeholder]} data={[]} value={[2]} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, `1${placeholder}`);
-    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, `1${placeholder}`);
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').textContent, `2${placeholder}`);
   });
 
   it('Should render a placeholder when value error', () => {
@@ -160,7 +160,7 @@ describe('CheckPicker', () => {
       />
     );
 
-    assert.equal(instance.querySelector(placeholderClassName).innerText, 'test');
+    assert.equal(instance.querySelector(placeholderClassName).textContent, 'test');
   });
 
   it('Should call `onChange` callback', done => {
@@ -234,7 +234,7 @@ describe('CheckPicker', () => {
 
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
 
-    assert.equal(instance.overlay.querySelector(itemFocusClassName).innerText, 'Kariane');
+    assert.equal(instance.overlay.querySelector(itemFocusClassName).textContent, 'Kariane');
   });
 
   it('Should focus item by key=ArrowUp ', () => {
@@ -244,7 +244,7 @@ describe('CheckPicker', () => {
 
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
 
-    assert.equal(instance.overlay.querySelector(itemFocusClassName).innerText, 'Eugenia');
+    assert.equal(instance.overlay.querySelector(itemFocusClassName).textContent, 'Eugenia');
   });
 
   it('Should call `onChange` by key=Enter ', done => {
@@ -315,7 +315,7 @@ describe('CheckPicker', () => {
       />
     );
     const checkbox = instance.overlay.querySelector('.rs-checkbox-checked');
-    assert.equal(checkbox.innerText, '');
+    assert.equal(checkbox.textContent, '');
   });
 
   it('Should have a custom className prefix', () => {
@@ -330,7 +330,7 @@ describe('CheckPicker', () => {
 
     const menu = instance.overlay.querySelector('.rs-checkbox');
 
-    assert.equal(menu.innerText, 'Kariane');
+    assert.equal(menu.textContent, 'Kariane');
   });
 
   it('Should be render selected options be sticky', () => {
@@ -359,12 +359,12 @@ describe('CheckPicker', () => {
     );
     const list = instance.overlay.querySelectorAll('.rs-check-item');
     assert.equal(list.length, 1);
-    assert.ok(list[0].innerText, 'Louisa');
+    assert.ok(list[0].textContent, 'Louisa');
   });
 
   it('Should not be call renderValue()', () => {
     const instance = getDOMNode(<CheckPicker renderValue={() => 'value'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should call renderValue', () => {
@@ -372,9 +372,9 @@ describe('CheckPicker', () => {
     const instance2 = getDOMNode(<CheckPicker value="Test" renderValue={() => null} />);
     const instance3 = getDOMNode(<CheckPicker value="Test" renderValue={() => undefined} />);
 
-    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
 
     assert.include(instance1.className, 'rs-picker-has-value');
     assert.notInclude(instance2.className, 'rs-picker-has-value');

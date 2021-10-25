@@ -1,13 +1,13 @@
 import React from 'react';
 import FormErrorMessage from '../FormErrorMessage';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('FormErrorMessage', () => {
   it('Should render a FormErrorMessage', () => {
     const title = 'Test';
     const instance = getDOMNode(<FormErrorMessage show>{title}</FormErrorMessage>);
     assert.include(instance.className, 'rs-form-error-message-wrapper');
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should be show', () => {
