@@ -9,13 +9,13 @@ let container;
 let target;
 const targetWidth = 10;
 const targetHeight = 10;
-const targetPositionLeft = 20;
-const targetPositionTop = 20;
+const targetLeft = 20;
+const targetTop = 20;
 const targetMarginTop = 20;
 const targetMarginLeft = 20;
 
-const targetPositionTop = targetPositionTop + targetMarginTop;
-const targetPositionLeft = targetPositionLeft + targetMarginLeft;
+const targetPositionTop = targetTop + targetMarginTop;
+const targetPositionLeft = targetLeft + targetMarginLeft;
 beforeEach(() => {
   container = document.createElement('div');
   container.style.position = 'absolute';
