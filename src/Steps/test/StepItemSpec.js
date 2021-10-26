@@ -1,5 +1,5 @@
 import React from 'react';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import StepItem from '../StepItem';
 import User from '@rsuite/icons/legacy/User';
 
@@ -27,17 +27,17 @@ describe('StepItem', () => {
 
   it('Should output a number ', () => {
     const instance = getDOMNode(<StepItem stepNumber={10} />);
-    assert.equal(innerText(instance), '10');
+    assert.equal(instance.textContent, '10');
   });
 
   it('Should render description ', () => {
     const instance = getDOMNode(<StepItem description={'test'} />);
-    assert.equal(innerText(instance), 'test');
+    assert.equal(instance.textContent, 'test');
   });
 
   it('Should render title ', () => {
     const instance = getDOMNode(<StepItem title={'test'} />);
-    assert.equal(innerText(instance), 'test');
+    assert.equal(instance.textContent, 'test');
   });
 
   it('Should have a custom className', () => {

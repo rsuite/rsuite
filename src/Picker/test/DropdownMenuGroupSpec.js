@@ -8,7 +8,7 @@ describe('picker - DropdownMenuGroup', () => {
     const instance = getDOMNode(<DropdownMenuGroup>{Title}</DropdownMenuGroup>);
 
     assert.equal(instance.className, 'rs-dropdown-menu-group');
-    assert.equal(instance.innerText, Title);
+    assert.equal(instance.textContent, Title);
   });
 
   it('Should have a title', () => {
@@ -18,7 +18,7 @@ describe('picker - DropdownMenuGroup', () => {
       </DropdownMenuGroup>
     );
 
-    assert.equal(instance.querySelector('.rs-dropdown-menu-group-title').innerText, 'title');
+    assert.equal(instance.querySelector('.rs-dropdown-menu-group-title').textContent, 'title');
   });
 
   it('Should have a role', () => {

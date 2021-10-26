@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import PaginationButton from '../PaginationButton';
 
 describe('PaginationButton', () => {
@@ -9,7 +9,7 @@ describe('PaginationButton', () => {
     const title = 'Test';
     const instance = getDOMNode(<PaginationButton>{title}</PaginationButton>);
     assert.equal(instance.tagName, 'BUTTON');
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should be disabled', () => {
@@ -50,8 +50,8 @@ describe('PaginationButton', () => {
     Button.displayName = 'Button';
     const activeInstance = getDOMNode(<PaginationButton active as={Button} />);
     const inactiveInstance = getDOMNode(<PaginationButton active={false} as={Button} />);
-    assert.equal(activeInstance.innerText, 'active');
-    assert.equal(inactiveInstance.innerText, 'inactive');
+    assert.equal(activeInstance.textContent, 'active');
+    assert.equal(inactiveInstance.textContent, 'inactive');
   });
 
   it('Custom elements can get the eventKey prop', () => {
@@ -63,7 +63,7 @@ describe('PaginationButton', () => {
       );
     });
     const instance = getDOMNode(<PaginationButton eventKey={1} as={Button} />);
-    assert.equal(instance.innerText, '1');
+    assert.equal(instance.textContent, '1');
   });
 
   it('Should have a custom className', () => {

@@ -3,14 +3,13 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
 import Drawer from '../Drawer';
-import { innerText } from '@test/testUtils';
 
 describe('Drawer.Header', () => {
   it('Should render a drawer header', () => {
     const title = 'Test';
     const instance = getDOMNode(<Drawer.Header>{title}</Drawer.Header>);
     assert.equal(instance.className, 'rs-drawer-header');
-    assert.equal(innerText(instance), 'Test');
+    assert.equal(instance.textContent, 'Test');
   });
 
   it('Should hide close button', () => {

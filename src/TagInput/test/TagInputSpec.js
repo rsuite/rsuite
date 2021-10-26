@@ -70,8 +70,8 @@ describe('TagInput', () => {
     ReactTestUtils.Simulate.keyDown(input, { key: 'Enter' });
 
     assert.equal(picker.querySelectorAll('.rs-tag').length, 2);
-    assert.equal(picker.querySelectorAll('.rs-tag')[0].innerText, 'abc');
-    assert.equal(picker.querySelectorAll('.rs-tag')[1].innerText, 'a');
+    assert.equal(picker.querySelectorAll('.rs-tag')[0].textContent, 'abc');
+    assert.equal(picker.querySelectorAll('.rs-tag')[1].textContent, 'a');
   });
 
   it('Should render 2 tags by value', () => {
@@ -81,8 +81,8 @@ describe('TagInput', () => {
     const picker = inputRef.current.root;
 
     assert.equal(picker.querySelectorAll('.rs-tag').length, 2);
-    assert.equal(picker.querySelectorAll('.rs-tag')[0].innerText, 'abc');
-    assert.equal(picker.querySelectorAll('.rs-tag')[1].innerText, '123');
+    assert.equal(picker.querySelectorAll('.rs-tag')[0].textContent, 'abc');
+    assert.equal(picker.querySelectorAll('.rs-tag')[1].textContent, '123');
   });
 
   it('Should render 2 tags by defaultValue', () => {
@@ -92,8 +92,8 @@ describe('TagInput', () => {
     const picker = inputRef.current.root;
 
     assert.equal(picker.querySelectorAll('.rs-tag').length, 2);
-    assert.equal(picker.querySelectorAll('.rs-tag')[0].innerText, 'abc');
-    assert.equal(picker.querySelectorAll('.rs-tag')[1].innerText, '123');
+    assert.equal(picker.querySelectorAll('.rs-tag')[0].textContent, 'abc');
+    assert.equal(picker.querySelectorAll('.rs-tag')[1].textContent, '123');
   });
 
   it('Should create a label only through `Enter`', () => {

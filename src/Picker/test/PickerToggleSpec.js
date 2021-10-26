@@ -13,7 +13,7 @@ describe('<PickerToggle>', () => {
 
     assert.equal(instance.tagName, 'DIV');
     assert.include(instance.className, 'toggle');
-    assert.equal(instance.innerText, Title);
+    assert.equal(instance.textContent, Title);
   });
 
   it('Should output a button', () => {
@@ -26,7 +26,7 @@ describe('<PickerToggle>', () => {
 
     assert.equal(instance.tagName, 'BUTTON');
     assert.include(instance.className, 'toggle');
-    assert.equal(instance.innerText, Title);
+    assert.equal(instance.textContent, Title);
   });
 
   describe('Cleanable (`cleanable`=true)', () => {

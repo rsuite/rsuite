@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import Toggle from '../Toggle';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('Toggle', () => {
   it('Should output a toggle', () => {
@@ -28,12 +28,12 @@ describe('Toggle', () => {
 
   it('Should output a `off` in inner ', () => {
     const instance = getDOMNode(<Toggle unCheckedChildren="off" />);
-    assert.equal(innerText(instance), 'off');
+    assert.equal(instance.textContent, 'off');
   });
 
   it('Should output a `on` in inner ', () => {
     const instance = getDOMNode(<Toggle checkedChildren="on" checked />);
-    assert.equal(innerText(instance), 'on');
+    assert.equal(instance.textContent, 'on');
   });
 
   it('Should call onChange callback with correct checked state', done => {
@@ -77,6 +77,20 @@ describe('Toggle', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Toggle classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should toggle with the space key', done => {
+    const doneOp = checked => {
+      try {
+        assert.isTrue(checked);
+        done();
+      } catch (err) {
+        done(err);
+      }
+    };
+
+    const instance = getDOMNode(<Toggle onChange={doneOp} />);
+    ReactTestUtils.Simulate.keyDown(instance, { key: ' ' });
   });
 
   describe('Loading', () => {

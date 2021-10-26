@@ -1,5 +1,5 @@
 import React from 'react';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import ProgressCircle from '../ProgressCircle';
 
 describe('Progress - Circle', () => {
@@ -10,7 +10,7 @@ describe('Progress - Circle', () => {
 
   it('Should have a percentage', () => {
     const instance = getDOMNode(<ProgressCircle percent={10} />);
-    assert.equal(innerText(instance), '10%');
+    assert.equal(instance.textContent, '10%');
   });
 
   it('Should have a width', () => {

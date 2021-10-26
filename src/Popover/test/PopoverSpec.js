@@ -1,7 +1,6 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
 import Popover from '../Popover';
-import { innerText } from '@test/testUtils';
 
 describe('Popover', () => {
   it('Should render a Popover', () => {
@@ -9,7 +8,7 @@ describe('Popover', () => {
     const instance = getDOMNode(<Popover>{title}</Popover>);
     assert.equal(instance.tagName, 'DIV');
     assert.equal(instance.className, 'rs-popover');
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should be full', () => {

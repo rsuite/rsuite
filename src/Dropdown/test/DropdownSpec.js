@@ -3,7 +3,6 @@ import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Dropdown from '../Dropdown';
 import Button from '../../Button';
-import { innerText } from '@test/testUtils';
 import { KEY_VALUES } from '../../utils';
 import * as utils from '../../utils';
 
@@ -143,7 +142,7 @@ describe('<Dropdown>', () => {
       </Dropdown>
     );
 
-    assert.equal(innerText(instance.querySelector('.rs-dropdown-toggle')), 'abc');
+    assert.equal(instance.querySelector('.rs-dropdown-toggle').textContent, 'abc');
   });
 
   it('Should render custom component', () => {
@@ -842,8 +841,7 @@ describe('<Dropdown>', () => {
       </Dropdown>
     );
 
-    assert.equal(instance.innerText, 'new');
-    ReactTestUtils.Simulate.click(instance.querySelector('[role="button"]'));
-    assert.equal(instance.innerText, 'new\nitem-1\nitem-2');
+    const button = instance.querySelector('[role="button"]');
+    assert.equal(button.textContent, 'new');
   });
 });

@@ -24,7 +24,7 @@ describe('Toolbar', () => {
         ]}
       />
     );
-    assert.equal(instance.querySelector('.btn-today').innerText, 'today');
+    assert.equal(instance.querySelector('.btn-today').textContent, 'today');
   });
 
   it('Should call `onOk` callback', () => {

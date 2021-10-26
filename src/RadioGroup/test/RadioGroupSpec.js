@@ -154,7 +154,7 @@ describe('RadioGroup', () => {
         <Radio value={false}>false</Radio>
       </RadioGroup>
     );
-    assert.equal(instance.querySelector('.rs-radio-checked').innerText, 'false');
+    assert.equal(instance.querySelector('.rs-radio-checked').textContent, 'false');
   });
 
   it('Should have a custom className', () => {

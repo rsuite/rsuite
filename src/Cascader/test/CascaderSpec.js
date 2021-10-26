@@ -60,7 +60,7 @@ describe('Cascader', () => {
     const placeholder = 'foobar';
     const instance = getDOMNode(<Cascader placeholder={placeholder} />);
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, placeholder);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, placeholder);
   });
 
   it('Should output a button', () => {
@@ -90,19 +90,19 @@ describe('Cascader', () => {
     // Invalid value
     const instance3 = getDOMNode(<Cascader renderValue={v => [v, placeholder]} value={''} />);
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, `1${placeholder}`);
-    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
-    assert.equal(instance3.querySelector('.rs-picker-toggle-value').innerText, placeholder);
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, `1${placeholder}`);
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').textContent, `2${placeholder}`);
+    assert.equal(instance3.querySelector('.rs-picker-toggle-value').textContent, placeholder);
   });
 
   it('Should not be call renderValue()', () => {
     const instance = getDOMNode(<Cascader renderValue={() => 'value'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should render a placeholder when value error', () => {
     const instance = getDOMNode(<Cascader value={2} placeholder={'test'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
   it('Should be active by value', () => {
@@ -110,7 +110,7 @@ describe('Cascader', () => {
     const instance = getInstance(<Cascader defaultOpen data={items} value={value} />);
 
     assert.equal(
-      instance.overlay.querySelector('.rs-picker-cascader-menu-item-active').innerText,
+      instance.overlay.querySelector('.rs-picker-cascader-menu-item-active').textContent,
       value
     );
   });
@@ -120,7 +120,7 @@ describe('Cascader', () => {
     const instance = getInstance(<Cascader defaultOpen data={items} defaultValue={value} />);
 
     assert.equal(
-      instance.overlay.querySelector('.rs-picker-cascader-menu-item-active').innerText,
+      instance.overlay.querySelector('.rs-picker-cascader-menu-item-active').textContent,
       value
     );
   });
@@ -203,7 +203,7 @@ describe('Cascader', () => {
     const instance = getDOMNode(<Cascader defaultOpen data={items} defaultValue={'3-1'} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
-    expect(instance.querySelector('.rs-picker-toggle-placeholder').innerText).to.equal('Select');
+    expect(instance.querySelector('.rs-picker-toggle-placeholder').textContent).to.equal('Select');
   });
 
   it('Should have a custom className', () => {
@@ -245,7 +245,7 @@ describe('Cascader', () => {
     );
 
     assert.equal(
-      instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1].innerText,
+      instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1].textContent,
       '2'
     );
   });
@@ -276,9 +276,9 @@ describe('Cascader', () => {
     const instance2 = getDOMNode(<Cascader value="Test" renderValue={() => null} />);
     const instance3 = getDOMNode(<Cascader value="Test" renderValue={() => undefined} />);
 
-    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
 
     assert.include(instance1.className, 'rs-picker-has-value');
     assert.notInclude(instance2.className, 'rs-picker-has-value');
@@ -302,9 +302,9 @@ describe('Cascader', () => {
     const ref = React.createRef();
     render(<TestApp ref={ref} />);
 
-    assert.equal(ref.current.picker.root.querySelector('.rs-picker-toggle-value').innerText, '2');
+    assert.equal(ref.current.picker.root.querySelector('.rs-picker-toggle-value').textContent, '2');
     assert.equal(
-      ref.current.picker.overlay.querySelector('.rs-picker-cascader-menu-item-active').innerText,
+      ref.current.picker.overlay.querySelector('.rs-picker-cascader-menu-item-active').textContent,
       '2'
     );
 
@@ -313,7 +313,7 @@ describe('Cascader', () => {
     });
 
     assert.equal(
-      ref.current.picker.root.querySelector('.rs-picker-toggle-placeholder').innerText,
+      ref.current.picker.root.querySelector('.rs-picker-toggle-placeholder').textContent,
       'Select'
     );
   });
@@ -349,7 +349,7 @@ describe('Cascader', () => {
       1
     );
     assert.equal(
-      ref.current.picker.overlay.querySelector('.rs-picker-cascader-menu-item').innerText,
+      ref.current.picker.overlay.querySelector('.rs-picker-cascader-menu-item').textContent,
       'test'
     );
   });
@@ -454,6 +454,6 @@ describe('Cascader', () => {
     });
 
     assert.equal(overlay.querySelectorAll('.rs-picker-cascader-menu-item').length, 1);
-    assert.equal(overlay.querySelector('.rs-picker-cascader-menu-item').innerText, 'test');
+    assert.equal(overlay.querySelector('.rs-picker-cascader-menu-item').textContent, 'test');
   });
 });

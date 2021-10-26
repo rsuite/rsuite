@@ -3,14 +3,13 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
 import ModalHeader from '../ModalHeader';
-import { innerText } from '@test/testUtils';
 
 describe('ModalHeader', () => {
   it('Should render a modal header', () => {
     const title = 'Test';
     const instance = getDOMNode(<ModalHeader>{title}</ModalHeader>);
     assert.equal(instance.className, 'rs-modal-header');
-    assert.equal(innerText(instance), 'Test');
+    assert.equal(instance.textContent, 'Test');
   });
 
   it('Should hide close button', () => {

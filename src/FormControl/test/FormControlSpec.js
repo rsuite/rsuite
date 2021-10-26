@@ -154,7 +154,7 @@ describe('FormControl', () => {
       </Form>
     );
 
-    assert.equal(instance.querySelector('.rs-form-control-message-wrapper').innerText, 'error2');
+    assert.equal(instance.querySelector('.rs-form-control-message-wrapper').textContent, 'error2');
   });
 
   it('Should be associated with ErrorMessage via aria-errormessage', () => {

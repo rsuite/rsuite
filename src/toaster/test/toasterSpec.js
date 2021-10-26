@@ -12,7 +12,7 @@ describe('toaster', () => {
 
     const message = element.querySelector('#msg-1');
     assert.include(message.className, 'rs-toast-fade-entered');
-    assert.equal(message.innerText, 'abc');
+    assert.equal(message.textContent, 'abc');
   });
 
   it('Should render 2 containers', () => {

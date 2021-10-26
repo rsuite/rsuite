@@ -71,7 +71,7 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
   const label = checked ? locale.on : locale.off;
 
   const handleChange = useCallback(
-    (event: React.MouseEvent) => {
+    (event: React.MouseEvent | React.KeyboardEvent) => {
       if (disabled || readOnly) {
         return;
       }
@@ -79,6 +79,17 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
       onChange?.(!checked, event);
     },
     [checked, disabled, onChange, readOnly, setChecked]
+  );
+
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent<Element>) => {
+      if (event.key !== ' ') {
+        return;
+      }
+      handleChange(event);
+      event.preventDefault();
+    },
+    [handleChange]
   );
 
   if (plaintext) {
@@ -92,11 +103,12 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
       aria-disabled={disabled}
       aria-label={typeof inner === 'string' ? inner : label}
       aria-busy={loading || undefined}
-      tabIndex={-1}
+      tabIndex={0}
       {...rest}
       ref={ref}
       className={classes}
       onClick={handleChange}
+      onKeyDown={handleKeyDown}
     >
       <span className={prefix('inner')}>{inner}</span>
       {loading && <Loader className={prefix('loader')} />}

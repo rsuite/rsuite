@@ -11,7 +11,7 @@ describe('Calendar-MonthDropdownItem', () => {
     const instance = getDOMNode(<MonthDropdownItem month={1} date={new Date()} />);
 
     assert.equal(instance.nodeName, 'DIV');
-    assert.equal(instance.innerText, '1');
+    assert.equal(instance.textContent, '1');
   });
 
   it('Should call `onSelect` callback with correct date', done => {

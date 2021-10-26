@@ -6,7 +6,7 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 describe('Button', () => {
   it('Should output a button', () => {
     const instance = getDOMNode(<Button>Title</Button>);
-    assert.equal(instance.innerText, 'Title');
+    assert.equal(instance.textContent, 'Title');
     assert.equal(instance.nodeName, 'BUTTON');
     assert.ok(instance.className.match(/\bbtn-default\b/));
   });

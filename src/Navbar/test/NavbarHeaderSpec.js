@@ -1,6 +1,6 @@
 import React from 'react';
 import NavbarHeader from '../NavbarHeader';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('NavbarHeader (deprecated)', () => {
   beforeEach(() => {
@@ -16,7 +16,7 @@ describe('NavbarHeader (deprecated)', () => {
     let instance = getDOMNode(<NavbarHeader>{title}</NavbarHeader>);
     assert.equal(instance.tagName, 'DIV');
     assert.ok(instance.className.match(/\bnavbar-header\b/));
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should have a custom className', () => {
