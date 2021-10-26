@@ -29,8 +29,8 @@ beforeEach(() => {
   target.style.position = 'absolute';
   target.style.width = `${targetWidth}px`;
   target.style.height = `${targetHeight}px`;
-  target.style.left = `${targetPositionLeft}px`;
-  target.style.top = `${targetPositionTop}px`;
+  target.style.left = `${targetLeft}px`;
+  target.style.top = `${targetTop}px`;
   target.style.marginLeft = `${targetMarginLeft}px`;
   target.style.marginTop = `${targetMarginTop}px`;
 
