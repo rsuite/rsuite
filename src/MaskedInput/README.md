@@ -1,6 +1,6 @@
 # rsuite/TextMask
 
-fork https://github.com/text-mask/text-mask/tree/master/react ([license](https://github.com/text-mask/text-mask/blob/master/react/LICENSE))
+Largely copied directly from: https://github.com/text-mask/text-mask/tree/master/react ([license](https://github.com/text-mask/text-mask/blob/master/react/LICENSE))
 
 ---
 
