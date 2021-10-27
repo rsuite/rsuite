@@ -7,7 +7,12 @@ export const getLineNumber = () => {
   const stack = err['stack'];
   const stackLines = stack.split('\n');
   const calleeLine = stackLines[2];
-  const lineNumber = calleeLine.match(/\(.+:(\d+):\d+\)/)[1];
+  let lineNumber = 0;
+
+  if (calleeLine) {
+    const l = calleeLine.match(/\(.+:(\d+):\d+\)/);
+    lineNumber = l && l[1] ? parseInt(l[1], 10) : 0;
+  }
 
   return lineNumber;
 };
