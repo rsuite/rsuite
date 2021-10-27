@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import Checkbox from '../Checkbox';
 import { getDOMNode } from '@test/testUtils';
 
@@ -140,5 +141,28 @@ describe('Checkbox', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Checkbox classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  describe('Plain text', () => {
+    it('Should render its label if checked', () => {
+      const label = 'Check me';
+
+      const { getByTestId } = render(
+        <Checkbox checked plaintext data-testid="checkbox">
+          {label}
+        </Checkbox>
+      );
+
+      expect(getByTestId('checkbox')).to.have.text(label);
+    });
+    it('Should render nothing if unchecked', () => {
+      const { queryByTestId } = render(
+        <Checkbox checked={false} plaintext data-testid="checkbox">
+          Check me
+        </Checkbox>
+      );
+
+      expect(queryByTestId('checkbox')).not.to.exist;
+    });
   });
 });
