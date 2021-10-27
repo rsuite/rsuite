@@ -4,6 +4,7 @@ import { useClassNames, useControlled, useCustom } from '../utils';
 import { WithAsProps, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
 import { ToggleLocale } from '../locales';
+import Loader from '../Loader';
 
 export interface ToggleProps extends WithAsProps {
   /** Wheather to disabled toggle */
@@ -14,6 +15,9 @@ export interface ToggleProps extends WithAsProps {
 
   /** Make the control readonly */
   readOnly?: boolean;
+
+  /** Whether the checked state is being updated */
+  loading?: boolean;
 
   /** Checked（Controlled) */
   checked?: boolean;
@@ -45,6 +49,7 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
     as: Component = 'span',
     disabled,
     readOnly,
+    loading = false,
     plaintext,
     className,
     checkedChildren,
@@ -61,7 +66,7 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
   const { locale } = useCustom<ToggleLocale>('Toggle', localeProp);
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix(size, { checked, disabled }));
+  const classes = merge(className, withClassPrefix(size, { checked, disabled, loading }));
   const inner = checked ? checkedChildren : unCheckedChildren;
   const label = checked ? locale.on : locale.off;
 
@@ -97,6 +102,7 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
       aria-checked={checked}
       aria-disabled={disabled}
       aria-label={typeof inner === 'string' ? inner : label}
+      aria-busy={loading || undefined}
       tabIndex={0}
       {...rest}
       ref={ref}
@@ -105,6 +111,7 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
       onKeyDown={handleKeyDown}
     >
       <span className={prefix('inner')}>{inner}</span>
+      {loading && <Loader className={prefix('loader')} />}
     </Component>
   );
 });
@@ -116,6 +123,7 @@ Toggle.propTypes = {
   defaultChecked: PropTypes.bool,
   checkedChildren: PropTypes.node,
   unCheckedChildren: PropTypes.node,
+  loading: PropTypes.bool,
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   onChange: PropTypes.func
