@@ -58,7 +58,7 @@
     "@types/react-virtualized": "^9.21.11",
     "classnames": "^2.3.1",
     "date-fns": "^2.13.0",
-    "dom-lib": "^2.0.3",
+    "dom-lib": "^2.1.0",
     "element-resize-event": "^3.0.6",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",

@@ -128,7 +128,7 @@ export default (props: UtilProps) => {
   return {
     getPosition(target, container) {
       const offset =
-        container.tagName === 'BODY' ? getOffset(target) : getPosition(target, container);
+        container.tagName === 'BODY' ? getOffset(target) : getPosition(target, container, false);
       return offset;
     },
 
