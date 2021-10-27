@@ -11,6 +11,7 @@ describe('convertMaskToPlaceholder', () => {
     expect(() => convertMaskToPlaceholder({})).to.throw(err);
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     expect(() => convertMaskToPlaceholder(() => {})).to.throw(err);
+    expect(() => convertMaskToPlaceholder(['-'], '-')).to.throw();
   });
 });
 describe('processCaretTraps', () => {
