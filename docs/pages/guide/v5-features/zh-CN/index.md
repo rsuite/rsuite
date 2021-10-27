@@ -316,6 +316,22 @@ return <GearIcon style={{ fontSize: '3em' }} />;
 - `4x` : `4em`
 - `5x` : `5em`
 
+旧版图标兼容
+
+rsuite v4 版的图标库，可以在 `@rsuite/icons/legacy` 目录下找到对应资源。
+
+```js
+// rsuite v4
+import { Icon } from 'rsuite';
+
+return <Icon icon="arrow-down" />;
+
+// rsuite v5
+import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
+
+return <ArrowDown />;
+```
+
 #### date-fns 升级 v2
 
 在 React Suite 中使用了 [date-fns](https://date-fns.org/v2.24.0/docs/Upgrade-Guide) 工具用于对日期格式、计算等等。基于 Unicode 标准，[用于格式功能的新格式字符串有变更](https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)。

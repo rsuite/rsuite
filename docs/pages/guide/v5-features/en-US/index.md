@@ -314,6 +314,22 @@ The relationship between the `size` attribute value and its corresponding `fontS
 - `4x` : `4em`
 - `5x` : `5em`
 
+Compatible with legacy icons
+
+The rsuite v4 icons can be found inside `@rsuite/icons/legacy`.
+
+```js
+// rsuite v4
+import { Icon } from 'rsuite';
+
+return <Icon icon="arrow-down" />;
+
+// rsuite v5
+import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
+
+return <ArrowDown />;
+```
+
 #### date-fns upgrade v2
 
 The [date-fns](https://date-fns.org/v2.24.0/docs/Upgrade-Guide) tool is used in React Suite for date format, calculation, etc. Based on the Unicode standard, the new format string used for [format functions has changed](<(https://blog.date-fns.org/post/unicode-tokens-in-date-fns-v2-sreatyki91jg/)>). [Detailed description]
