@@ -203,6 +203,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
             aria-current={selected || undefined}
             {...dataAttributes}
             {...restProps}
+            as={Component}
             onClick={createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick)}
           >
             {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
