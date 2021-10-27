@@ -36,6 +36,7 @@ return (
 | sv_SE  | Swedish             |
 | zh_CN  | Simplified Chinese  |
 | zh_TW  | traditional Chinese |
+| fa_IR  | Persian (Iran)      |
 
 ## Customize
 

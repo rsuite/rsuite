@@ -14,6 +14,7 @@ export { default as ruRU } from './ru_RU';
 export { default as svSE } from './sv_SE';
 export { default as zhCN } from './zh_CN';
 export { default as zhTw } from './zh_TW';
+export { default as faIR } from './fa_IR';
 
 type PickKeys<T> = {
   [keys in keyof T]?: T[keys];
