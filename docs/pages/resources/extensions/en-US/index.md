@@ -4,16 +4,16 @@ In the product development process, components that meet the specified business 
 
 ---
 
-| Name                                           | Preview                        | Description                                                                                       |
-| ---------------------------------------------- | ------------------------------ | ------------------------------------------------------------------------------------------------- |
-| [@rsuite/charts][charts]                       | [View][charts-docs]            | A set of charts based on `rsuite` and `echarts`.                                                  |
-| [@rsuite/schema-form][schema-form]             | [View][schema-form-docs]       | Form generation and validation based on `schema-typed` and `rsuite`.                              |
-| [@rsuite/responsive-nav][nav]                  | [View][nav-docs]               | A responsive navigation component.                                                                |
-| [@rsuite/react-frame][frame]                   | [View][frame-docs]             | Management system layout framework based on `rsuite` UI.                                          |
-| [@rsuite/multi-date-picker][multi-date-picker] | [View][multi-date-picker-docs] | A date picker that can select multiple dates.                                                     |
-| [@rsuite/document-nav][document-nav]           | [View][document-nav-docs]      | Document navigation is automatically generated based on the HTML title (h1-h6) tag.               |
-| [@rsuite/timezone-picker][timezone-picker]     | [View][timezone-picker-docs]   | Time zone selector based on `rsuite` UI.                                       |
-| [rsuite-color-picker][color-picker]            | [View][color-picker-docs]      | Package a color picker extension that can select color for rsuite. [@cXiaof][color-picker-author] |
+| Name                                           | NPM                           | Document                           | Description                                                                                       |
+| ---------------------------------------------- | ----------------------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------- |
+| [@rsuite/charts][charts]                       | ![npm][npm-charts]            | [document][charts-docs]            | A set of charts based on `rsuite` and `echarts`.                                                  |
+| [@rsuite/schema-form][schema-form]             | ![npm][npm-schema-form]       | [document][schema-form-docs]       | Form generation and validation based on `schema-typed` and `rsuite`.                              |
+| [@rsuite/responsive-nav][nav]                  | ![npm][npm-responsive-nav]    | [document][nav-docs]               | A responsive navigation component.                                                                |
+| [@rsuite/react-frame][frame]                   | ![npm][npm-react-frame]       | [document][frame-docs]             | Management system layout framework based on `rsuite` UI.                                          |
+| [@rsuite/multi-date-picker][multi-date-picker] | ![npm][npm-multi-date-picker] | [document][multi-date-picker-docs] | A date picker that can select multiple dates.                                                     |
+| [@rsuite/document-nav][document-nav]           | ![npm][npm-document-nav]      | [document][document-nav-docs]      | Document navigation is automatically generated based on the HTML title (h1-h6) tag.               |
+| [@rsuite/timezone-picker][timezone-picker]     | ![npm][npm-timezone-picker]   | [document][timezone-picker-docs]   | Time zone selector based on `rsuite` UI.                                                          |
+| [rsuite-color-picker][color-picker]            | ![npm][npm-color-picker]      | [document][color-picker-docs]      | Package a color picker extension that can select color for rsuite. [@cXiaof][color-picker-author] |
 
 [schema-form]: https://github.com/rsuite/schema-form
 [schema-form-docs]: https://rsuite.github.io/schema-form/
@@ -32,3 +32,11 @@ In the product development process, components that meet the specified business 
 [color-picker]: https://github.com/cXiaof/rsuite-color-picker
 [color-picker-docs]: https://cxiaof.github.io/rsuite-color-picker/assets/
 [color-picker-author]: https://github.com/cXiaof
+[npm-charts]: https://badge.fury.io/js/@rsuite%2Fcharts.svg
+[npm-schema-form]: https://badge.fury.io/js/@rsuite%2Fschema-form.svg
+[npm-responsive-nav]: https://badge.fury.io/js/@rsuite%2Fresponsive-nav.svg
+[npm-react-frame]: https://badge.fury.io/js/@rsuite%2Freact-frame.svg
+[npm-multi-date-picker]: https://badge.fury.io/js/@rsuite%2Fmulti-date-picker.svg
+[npm-document-nav]: https://badge.fury.io/js/@rsuite%2Fdocument-nav.svg
+[npm-timezone-picker]: https://badge.fury.io/js/@rsuite%2Ftimezone-picker.svg
+[npm-color-picker]: https://badge.fury.io/js/rsuite-color-picker.svg
