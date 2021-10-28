@@ -17,6 +17,7 @@ import ru_RU from 'rsuite/locales/ru_RU';
 import sv_SE from 'rsuite/locales/sv_SE';
 import zh_CN from 'rsuite/locales/zh_CN';
 import zh_TW from 'rsuite/locales/zh_TW';
+import fa_IR from 'rsuite/locales/fa_IR';
 
 const locales = [
   { key: 'ar_EG', value: ar_EG },
@@ -26,6 +27,7 @@ const locales = [
   { key: 'en_US', value: en_US },
   { key: 'es_AR', value: es_AR },
   { key: 'es_ES', value: es_ES },
+  { key: 'fa_IR', value: fa_IR },
   { key: 'fi_FI', value: fi_FI },
   { key: 'it_IT', value: it_IT },
   { key: 'ko_KR', value: ko_KR },

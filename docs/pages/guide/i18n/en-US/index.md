@@ -28,6 +28,7 @@ return (
 | en_US  | American English    |
 | es_AR  | Spanish (Argentina) |
 | es_ES  | Spanish (Spain)     |
+| fa_IR  | Persian (Iran)      |
 | fi_FI  | Finnish             |
 | it_IT  | Italian             |
 | ko_KR  | Korean              |
@@ -36,7 +37,6 @@ return (
 | sv_SE  | Swedish             |
 | zh_CN  | Simplified Chinese  |
 | zh_TW  | traditional Chinese |
-| fa_IR  | Persian (Iran)      |
 
 ## Customize
 
