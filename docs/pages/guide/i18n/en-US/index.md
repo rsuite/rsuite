@@ -28,6 +28,7 @@ return (
 | en_US  | American English    |
 | es_AR  | Spanish (Argentina) |
 | es_ES  | Spanish (Spain)     |
+| fa_IR  | Persian (Iran)      |
 | fi_FI  | Finnish             |
 | it_IT  | Italian             |
 | ko_KR  | Korean              |
