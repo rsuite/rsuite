@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
@@ -177,5 +178,32 @@ describe('RadioGroup', () => {
     const instance = getDOMNode(<RadioGroup appearance="picker" />);
 
     assert.include(instance.className, 'rs-radio-group-picker');
+  });
+
+  describe('Plain text', () => {
+    it("Should render selected radio's label", () => {
+      const { getByTestId } = render(
+        <RadioGroup plaintext value={2} data-testid="radio-group">
+          <Radio value={1}>Choice 1</Radio>
+          <Radio value={2}>Choice 2</Radio>
+          <Radio value={3}>Choice 3</Radio>
+          <Radio value={4}>Choice 4</Radio>
+        </RadioGroup>
+      );
+
+      expect(getByTestId('radio-group')).to.have.text('Choice 2');
+    });
+    it('Should render "not selected" if none is selected', () => {
+      const { getByTestId } = render(
+        <RadioGroup plaintext data-testid="radio-group">
+          <Radio value={1}>Choice 1</Radio>
+          <Radio value={2}>Choice 2</Radio>
+          <Radio value={3}>Choice 3</Radio>
+          <Radio value={4}>Choice 4</Radio>
+        </RadioGroup>
+      );
+
+      expect(getByTestId('radio-group')).to.have.text('Not selected');
+    });
   });
 });
