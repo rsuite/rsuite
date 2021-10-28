@@ -74,7 +74,7 @@ const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React
     return (
       <CheckboxGroupContext.Provider value={contextValue}>
         {plaintext ? (
-          <Plaintext ref={ref} localeKey="notSelected">
+          <Plaintext ref={ref} localeKey="notSelected" {...rest}>
             {value?.length ? children : null}
           </Plaintext>
         ) : (

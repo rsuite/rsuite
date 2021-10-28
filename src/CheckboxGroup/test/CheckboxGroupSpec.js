@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
@@ -146,5 +147,32 @@ describe('CheckboxGroup', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<CheckboxGroup classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  describe('Plain text', () => {
+    it("Should render selected checkboxes's labels", () => {
+      const { getByTestId } = render(
+        <CheckboxGroup plaintext value={[2, 4]} data-testid="checkbox-group">
+          <Checkbox value={1}>Test1</Checkbox>
+          <Checkbox value={2}>Test2</Checkbox>
+          <Checkbox value={3}>Test3</Checkbox>
+          <Checkbox value={4}>Test4</Checkbox>
+        </CheckboxGroup>
+      );
+
+      expect(getByTestId('checkbox-group')).to.have.text('Test2Test4');
+    });
+    it('Should render "not selected" if none is selected', () => {
+      const { getByTestId } = render(
+        <CheckboxGroup plaintext value={[]} data-testid="checkbox-group">
+          <Checkbox value={1}>Test1</Checkbox>
+          <Checkbox value={2}>Test2</Checkbox>
+          <Checkbox value={3}>Test3</Checkbox>
+          <Checkbox value={4}>Test4</Checkbox>
+        </CheckboxGroup>
+      );
+
+      expect(getByTestId('checkbox-group')).to.have.text('Not selected');
+    });
   });
 });
