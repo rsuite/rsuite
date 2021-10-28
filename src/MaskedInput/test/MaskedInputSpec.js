@@ -93,16 +93,15 @@ describe('MaskedInput', () => {
 
   it('does not render masked characters', () => {
     const inputRef = React.createRef();
-    act(() => {
-      render(
-        <MaskedInput
-          ref={inputRef}
-          value="abc"
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-          guide={true}
-        />
-      );
-    });
+
+    render(
+      <MaskedInput
+        ref={inputRef}
+        value="abc"
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+        guide={true}
+      />
+    );
 
     expect(inputRef.current.value).to.equal('(___) ___-____');
   });
@@ -110,15 +109,13 @@ describe('MaskedInput', () => {
   it('does not allow masked characters', () => {
     const inputRef = React.createRef();
 
-    act(() => {
-      render(
-        <MaskedInputTest
-          ref={inputRef}
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-          guide={true}
-        />
-      );
-    });
+    render(
+      <MaskedInputTest
+        ref={inputRef}
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+        guide={true}
+      />
+    );
 
     expect(inputRef.current.input.value).to.equal('');
 
@@ -136,14 +133,13 @@ describe('MaskedInput', () => {
 
   it('can call textMaskInputElement.update to update the inputElement.value', () => {
     const inputRef = React.createRef();
-    act(() => {
-      render(
-        <MaskedInputTest
-          ref={inputRef}
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        />
-      );
-    });
+
+    render(
+      <MaskedInputTest
+        ref={inputRef}
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+      />
+    );
 
     expect(inputRef.current.input.value).to.equal('');
 
@@ -157,15 +153,14 @@ describe('MaskedInput', () => {
 
   it('can pass value to updateValue method', () => {
     const inputRef = React.createRef();
-    act(() => {
-      render(
-        <MaskedInputTest
-          ref={inputRef}
-          value="123"
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        />
-      );
-    });
+
+    render(
+      <MaskedInputTest
+        ref={inputRef}
+        value="123"
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+      />
+    );
 
     expect(inputRef.current.input.value).to.equal('(123) ___-____');
 
@@ -178,9 +173,8 @@ describe('MaskedInput', () => {
 
   it('can pass textMaskConfig to updateValue method', () => {
     const inputRef = React.createRef();
-    act(() => {
-      render(<MaskedInputTest ref={inputRef} value="123" mask={false} />);
-    });
+
+    render(<MaskedInputTest ref={inputRef} value="123" mask={false} />);
 
     expect(inputRef.current.input.value).to.equal('123');
 
@@ -271,16 +265,15 @@ describe('MaskedInput', () => {
   // test fix for issues #230, #483, #778 etc.
   it('works correct in stateful Component', () => {
     const inputRef = React.createRef();
-    act(() => {
-      render(
-        <MaskedInputTest
-          ref={inputRef}
-          value="1234"
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-          guide={false}
-        />
-      );
-    });
+
+    render(
+      <MaskedInputTest
+        ref={inputRef}
+        value="1234"
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+        guide={false}
+      />
+    );
 
     // Initial value "1234" from StatefulComponent is masked correct
     expect(inputRef.current.input.value).to.equal('(123) 4');
@@ -301,18 +294,16 @@ describe('MaskedInput as controlled component', () => {
   it('works if value prop was changed', () => {
     const inputRef = React.createRef();
 
-    act(() => {
-      render(
-        <MaskedInputTest
-          ref={inputRef}
-          value=""
-          guide={false}
-          placeholderChar="_"
-          showMask={false}
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        />
-      );
-    });
+    render(
+      <MaskedInputTest
+        ref={inputRef}
+        value=""
+        guide={false}
+        placeholderChar="_"
+        showMask={false}
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+      />
+    );
 
     act(() => {
       inputRef.current.updateValue('123');
@@ -336,18 +327,16 @@ describe('MaskedInput as controlled component', () => {
   it('works if showMask prop was changed', () => {
     const inputRef = React.createRef();
 
-    act(() => {
-      render(
-        <MaskedInputTest
-          ref={inputRef}
-          value=""
-          guide
-          placeholderChar="_"
-          showMask={false}
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        />
-      );
-    });
+    render(
+      <MaskedInputTest
+        ref={inputRef}
+        value=""
+        guide
+        placeholderChar="_"
+        showMask={false}
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+      />
+    );
 
     act(() => {
       inputRef.current.updateProps({ showMask: true });
@@ -358,18 +347,16 @@ describe('MaskedInput as controlled component', () => {
   it('works if guide prop was changed', () => {
     const inputRef = React.createRef();
 
-    act(() => {
-      render(
-        <MaskedInputTest
-          ref={inputRef}
-          value=""
-          guide={false}
-          placeholderChar="_"
-          showMask={false}
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        />
-      );
-    });
+    render(
+      <MaskedInputTest
+        ref={inputRef}
+        value=""
+        guide={false}
+        placeholderChar="_"
+        showMask={false}
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+      />
+    );
 
     act(() => {
       inputRef.current.updateValue(123);
@@ -389,18 +376,16 @@ describe('MaskedInput as controlled component', () => {
   it('works if placeholderChar prop was changed', () => {
     const inputRef = React.createRef();
 
-    act(() => {
-      render(
-        <MaskedInputTest
-          ref={inputRef}
-          value=""
-          guide={false}
-          placeholderChar="_"
-          showMask
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        />
-      );
-    });
+    render(
+      <MaskedInputTest
+        ref={inputRef}
+        value=""
+        guide={false}
+        placeholderChar="_"
+        showMask
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+      />
+    );
 
     act(() => {
       inputRef.current.updateProps({ guide: true });
@@ -419,18 +404,16 @@ describe('MaskedInput as controlled component', () => {
   it('works if mask as array prop was changed', () => {
     const inputRef = React.createRef();
 
-    act(() => {
-      render(
-        <MaskedInputTest
-          ref={inputRef}
-          value=""
-          guide
-          placeholderChar="_"
-          showMask
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        />
-      );
-    });
+    render(
+      <MaskedInputTest
+        ref={inputRef}
+        value=""
+        guide
+        placeholderChar="_"
+        showMask
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+      />
+    );
 
     act(() => {
       inputRef.current.updateValue('1234567890');
@@ -450,18 +433,16 @@ describe('MaskedInput as controlled component', () => {
   it('works if mask as function prop was changed', () => {
     const inputRef = React.createRef();
 
-    act(() => {
-      render(
-        <MaskedInputTest
-          ref={inputRef}
-          value=""
-          guide
-          placeholderChar="_"
-          showMask
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        />
-      );
-    });
+    render(
+      <MaskedInputTest
+        ref={inputRef}
+        value=""
+        guide
+        placeholderChar="_"
+        showMask
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+      />
+    );
 
     act(() => {
       inputRef.current.updateValue('1234567890');
@@ -481,18 +462,16 @@ describe('MaskedInput as controlled component', () => {
   it('works if pipe prop was changed', () => {
     const inputRef = React.createRef();
 
-    act(() => {
-      render(
-        <MaskedInputTest
-          ref={inputRef}
-          value=""
-          guide
-          placeholderChar="_"
-          showMask
-          mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-        />
-      );
-    });
+    render(
+      <MaskedInputTest
+        ref={inputRef}
+        value=""
+        guide
+        placeholderChar="_"
+        showMask
+        mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+      />
+    );
 
     act(() => {
       inputRef.current.updateValue('1234567890');
