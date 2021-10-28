@@ -40,7 +40,7 @@ interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
   Item: typeof NavItem;
 }
 
-const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
+const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
   const {
     as: Component = 'div',
     classPrefix = 'nav',
@@ -134,7 +134,7 @@ const Nav: NavComponent = (React.forwardRef((props: NavProps, ref: React.Ref<HTM
       </Component>
     </NavContext.Provider>
   );
-}) as unknown) as NavComponent;
+}) as unknown as NavComponent;
 
 Nav.Dropdown = Dropdown;
 Nav.Item = NavItem;

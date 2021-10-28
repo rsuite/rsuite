@@ -44,99 +44,97 @@ export interface SidenavDropdownMenuProps<T = any>
  * Tree View Node
  * @see https://www.w3.org/TR/wai-aria-practices-1.2/#TreeView
  */
-const SidenavDropdownMenu: RsRefForwardingComponent<
-  'li',
-  SidenavDropdownMenuProps
-> = React.forwardRef<HTMLLIElement, SidenavDropdownMenuProps>((props, ref) => {
-  const {
-    as: Component = 'li',
-    children,
-    disabled,
-    className,
-    style,
-    classPrefix = 'dropdown-item',
-    tabIndex,
-    icon,
-    title,
-    eventKey,
-    onClick,
-    onSelect,
-    ...rest
-  } = props;
+const SidenavDropdownMenu: RsRefForwardingComponent<'li', SidenavDropdownMenuProps> =
+  React.forwardRef<HTMLLIElement, SidenavDropdownMenuProps>((props, ref) => {
+    const {
+      as: Component = 'li',
+      children,
+      disabled,
+      className,
+      style,
+      classPrefix = 'dropdown-item',
+      tabIndex,
+      icon,
+      title,
+      eventKey,
+      onClick,
+      onSelect,
+      ...rest
+    } = props;
 
-  const { rtl } = useCustom('DropdownMenu');
+    const { rtl } = useCustom('DropdownMenu');
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-  const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = useContext(SidenavContext);
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = useContext(SidenavContext);
 
-  const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLElement>) => {
-      if (disabled) return;
-      onSelect?.(eventKey, event);
-      onSidenavSelect?.(eventKey, event);
-    },
-    [disabled, onSelect, onSidenavSelect, eventKey]
-  );
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLElement>) => {
+        if (disabled) return;
+        onSelect?.(eventKey, event);
+        onSidenavSelect?.(eventKey, event);
+      },
+      [disabled, onSelect, onSidenavSelect, eventKey]
+    );
 
-  const menuitemEventHandlers: React.LiHTMLAttributes<HTMLLIElement> = {
-    onClick: createChainedFunction(handleClick, onClick)
-  };
+    const menuitemEventHandlers: React.LiHTMLAttributes<HTMLLIElement> = {
+      onClick: createChainedFunction(handleClick, onClick)
+    };
 
-  const Icon = rtl ? AngleLeft : AngleRight;
+    const Icon = rtl ? AngleLeft : AngleRight;
 
-  return (
-    <Disclosure
-      open={!isNil(eventKey) && openKeys.includes(eventKey)}
-      onToggle={(_, event) => onOpenChange?.(eventKey, event)}
-    >
-      {({ open }) => {
-        const classes = merge(
-          className,
-          prefix('submenu'),
-          prefix(`pull-${rtl ? 'left' : 'right'}`),
-          prefix(open ? 'expand' : 'collapse'),
-          withClassPrefix({
-            'with-icon': icon,
-            // open,
-            disabled
-          })
-        );
-        return (
-          <Component
-            ref={ref}
-            {...rest}
-            tabIndex={disabled ? -1 : tabIndex}
-            style={style}
-            className={classes}
-            {...menuitemEventHandlers}
-          >
-            <Disclosure.Button>
-              {buttonProps => {
-                return (
-                  <button
-                    className={prefix`toggle`}
-                    onClick={handleClick}
-                    {...omit(buttonProps, ['open'])}
-                  >
-                    {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-                    {title}
-                    <Icon className={prefix`toggle-icon`} />
-                    <Ripple />
-                  </button>
-                );
-              }}
-            </Disclosure.Button>
-            <Disclosure.Content>
-              {({ open }) => {
-                return <SidenavDropdownCollapse open={open}>{children}</SidenavDropdownCollapse>;
-              }}
-            </Disclosure.Content>
-          </Component>
-        );
-      }}
-    </Disclosure>
-  );
-});
+    return (
+      <Disclosure
+        open={!isNil(eventKey) && openKeys.includes(eventKey)}
+        onToggle={(_, event) => onOpenChange?.(eventKey, event)}
+      >
+        {({ open }) => {
+          const classes = merge(
+            className,
+            prefix('submenu'),
+            prefix(`pull-${rtl ? 'left' : 'right'}`),
+            prefix(open ? 'expand' : 'collapse'),
+            withClassPrefix({
+              'with-icon': icon,
+              // open,
+              disabled
+            })
+          );
+          return (
+            <Component
+              ref={ref}
+              {...rest}
+              tabIndex={disabled ? -1 : tabIndex}
+              style={style}
+              className={classes}
+              {...menuitemEventHandlers}
+            >
+              <Disclosure.Button>
+                {buttonProps => {
+                  return (
+                    <button
+                      className={prefix`toggle`}
+                      onClick={handleClick}
+                      {...omit(buttonProps, ['open'])}
+                    >
+                      {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                      {title}
+                      <Icon className={prefix`toggle-icon`} />
+                      <Ripple />
+                    </button>
+                  );
+                }}
+              </Disclosure.Button>
+              <Disclosure.Content>
+                {({ open }) => {
+                  return <SidenavDropdownCollapse open={open}>{children}</SidenavDropdownCollapse>;
+                }}
+              </Disclosure.Content>
+            </Component>
+          );
+        }}
+      </Disclosure>
+    );
+  });
 
 SidenavDropdownMenu.displayName = 'Sidenav.Dropdown.Menu';
 SidenavDropdownMenu.propTypes = {

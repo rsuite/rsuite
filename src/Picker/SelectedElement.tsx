@@ -14,16 +14,8 @@ export interface SelectedElementProps {
 }
 
 const SelectedElement = (props: SelectedElementProps) => {
-  const {
-    selectedItems,
-    prefix,
-    valueKey,
-    labelKey,
-    childrenKey,
-    countable,
-    cascade,
-    locale
-  } = props;
+  const { selectedItems, prefix, valueKey, labelKey, childrenKey, countable, cascade, locale } =
+    props;
 
   const count = selectedItems.length;
   let title = '';

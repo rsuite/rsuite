@@ -25,7 +25,7 @@ interface StepsComponent extends RsRefForwardingComponent<'div', StepsProps> {
   Item: typeof StepItem;
 }
 
-const Steps: StepsComponent = (React.forwardRef((props: StepsProps, ref) => {
+const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
   const {
     as: Component = 'div',
     classPrefix = 'steps',
@@ -77,7 +77,7 @@ const Steps: StepsComponent = (React.forwardRef((props: StepsProps, ref) => {
       {items}
     </Component>
   );
-}) as unknown) as StepsComponent;
+}) as unknown as StepsComponent;
 
 Steps.Item = StepItem;
 

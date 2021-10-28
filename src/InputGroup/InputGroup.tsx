@@ -6,9 +6,8 @@ import InputGroupButton from './InputGroupButton';
 import { useClassNames } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 
-export const InputGroupContext = React.createContext<{ onFocus: () => void; onBlur: () => void }>(
-  null
-);
+export const InputGroupContext =
+  React.createContext<{ onFocus: () => void; onBlur: () => void }>(null);
 
 export interface InputGroupProps extends WithAsProps {
   /** Sets the composition content internally */
@@ -29,7 +28,7 @@ export interface InputGroupComponent extends RsRefForwardingComponent<'div', Inp
   Button: typeof InputGroupButton;
 }
 
-const InputGroup: InputGroupComponent = (React.forwardRef((props: InputGroupProps, ref) => {
+const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps, ref) => {
   const {
     as: Component = 'div',
     classPrefix = 'input-group',
@@ -62,10 +61,10 @@ const InputGroup: InputGroupComponent = (React.forwardRef((props: InputGroupProp
     });
   };
 
-  const contextValue = useMemo(() => ({ onFocus: handleFocus, onBlur: handleBlur }), [
-    handleFocus,
-    handleBlur
-  ]);
+  const contextValue = useMemo(
+    () => ({ onFocus: handleFocus, onBlur: handleBlur }),
+    [handleFocus, handleBlur]
+  );
 
   return (
     <InputGroupContext.Provider value={contextValue}>
@@ -74,7 +73,7 @@ const InputGroup: InputGroupComponent = (React.forwardRef((props: InputGroupProp
       </Component>
     </InputGroupContext.Provider>
   );
-}) as unknown) as InputGroupComponent;
+}) as unknown as InputGroupComponent;
 
 InputGroup.displayName = 'InputGroup';
 InputGroup.propTypes = {

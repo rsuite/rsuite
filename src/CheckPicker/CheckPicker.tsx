@@ -114,14 +114,15 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue || []);
 
     // Used to hover the focuse item  when trigger `onKeydown`
-    const { focusItemValue, setFocusItemValue, onKeyDown: onFocusItem } = useFocusItemValue(
-      value?.[0],
-      {
-        data,
-        valueKey,
-        target: () => overlayRef.current
-      }
-    );
+    const {
+      focusItemValue,
+      setFocusItemValue,
+      onKeyDown: onFocusItem
+    } = useFocusItemValue(value?.[0], {
+      data,
+      valueKey,
+      target: () => overlayRef.current
+    });
 
     const handleSearchCallback = useCallback(
       (searchKeyword: string, filteredData: ItemDataType[], event: React.SyntheticEvent) => {
@@ -133,18 +134,13 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     );
 
     // Use search keywords to filter options.
-    const {
-      searchKeyword,
-      filteredData,
-      setSearchKeyword,
-      handleSearch,
-      checkShouldDisplay
-    } = useSearch({
-      labelKey,
-      data,
-      searchBy,
-      callback: handleSearchCallback
-    });
+    const { searchKeyword, filteredData, setSearchKeyword, handleSearch, checkShouldDisplay } =
+      useSearch({
+        labelKey,
+        data,
+        searchBy,
+        callback: handleSearchCallback
+      });
 
     // Use component active state to support keyboard events.
     const [active, setActive] = useState(false);

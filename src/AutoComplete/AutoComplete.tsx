@@ -120,14 +120,15 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     const overlayRef = useRef<HTMLDivElement>(null);
 
     // Used to hover the focuse item  when trigger `onKeydown`
-    const { focusItemValue, setFocusItemValue, onKeyDown: handleKeyDown } = useFocusItemValue(
-      value,
-      {
-        data: datalist,
-        callback: onMenuFocus,
-        target: () => overlayRef.current
-      }
-    );
+    const {
+      focusItemValue,
+      setFocusItemValue,
+      onKeyDown: handleKeyDown
+    } = useFocusItemValue(value, {
+      data: datalist,
+      callback: onMenuFocus,
+      target: () => overlayRef.current
+    });
 
     const handleKeyDownEvent = (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (!overlayRef.current) {

@@ -176,14 +176,14 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const [uncontrolledOpen, setOpen] = useState(defaultOpen);
     const open = isUndefined(controlledOpen) ? uncontrolledOpen : controlledOpen;
 
-    const getAllData = useCallback(() => [].concat(uncontrolledData, newData), [
-      uncontrolledData,
-      newData
-    ]);
-    const getAllDataAndCache = useCallback(() => [].concat(getAllData(), cacheData), [
-      getAllData,
-      cacheData
-    ]);
+    const getAllData = useCallback(
+      () => [].concat(uncontrolledData, newData),
+      [uncontrolledData, newData]
+    );
+    const getAllDataAndCache = useCallback(
+      () => [].concat(getAllData(), cacheData),
+      [getAllData, cacheData]
+    );
 
     const [value, setValue, isControlled] = useControlled<ValueType>(
       valueProp,
@@ -268,10 +268,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       };
     };
 
-    const getInput = useCallback(() => (multi ? inputRef.current?.input : inputRef.current), [
-      inputRef,
-      multi
-    ]);
+    const getInput = useCallback(
+      () => (multi ? inputRef.current?.input : inputRef.current),
+      [inputRef, multi]
+    );
     const focusInput = useCallback(() => getInput()?.focus(), [getInput]);
     const blurInput = useCallback(() => getInput()?.blur(), [getInput]);
 

@@ -16,7 +16,7 @@ interface FlexboxGridCompont extends RsRefForwardingComponent<'div', FlexboxGrid
   Item: typeof FlexboxGridItem;
 }
 
-const FlexboxGrid: FlexboxGridCompont = (React.forwardRef((props: FlexboxGridProps, ref) => {
+const FlexboxGrid: FlexboxGridCompont = React.forwardRef((props: FlexboxGridProps, ref) => {
   const {
     as: Component = 'div',
     className,
@@ -28,7 +28,7 @@ const FlexboxGrid: FlexboxGridCompont = (React.forwardRef((props: FlexboxGridPro
   const { merge, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(align, justify));
   return <Component {...rest} ref={ref} className={classes} />;
-}) as unknown) as FlexboxGridCompont;
+}) as unknown as FlexboxGridCompont;
 
 FlexboxGrid.Item = FlexboxGridItem;
 
