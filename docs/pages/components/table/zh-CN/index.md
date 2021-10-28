@@ -104,16 +104,14 @@ const ImageCell = ({ rowData, dataKey, ...props }) => (
 
 如果在实际应用中需要根据数据内容来定义行高，可以使用以下方式
 
-```html
-<Table
-    onRerenderRowHeight={(rowData) => {
-      if (rowData.firstName === 'Janis') {
-        return 30;
-      }
-    }}
-  >
-...
-</Table>
+```js
+const rowHeight = rowData => {
+  if (rowData && rowData.firstName === 'Janis') {
+    return 60;
+  }
+  return 46;
+};
+<Table rowHeight={rowHeight}>...</Table>;
 ```
 
 ### 排序

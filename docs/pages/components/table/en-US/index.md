@@ -101,15 +101,13 @@ Use:
 If you need to define row heights based on the content of your data in practical applications, you can use the following methods:
 
 ```js
-<Table
-  onRerenderRowHeight={rowData => {
-    if (rowData.firstName === 'Janis') {
-      return 30;
-    }
-  }}
->
-  ...
-</Table>
+const rowHeight = rowData => {
+  if (rowData && rowData.firstName === 'Janis') {
+    return 60;
+  }
+  return 46;
+};
+<Table rowHeight={rowHeight}>...</Table>;
 ```
 
 ### Sort
