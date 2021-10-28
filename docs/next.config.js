@@ -19,6 +19,8 @@ const {
   VERCEL_ENV = 'local'
 } = process.env;
 
+console.log('Building in VERCEL_ENV=' + VERCEL_ENV);
+
 const __USE_SRC__ = VERCEL_ENV === 'preview' || VERCEL_ENV === 'local';
 
 const RSUITE_ROOT = path.join(__dirname, '../src');
