@@ -175,6 +175,7 @@ module.exports = {
     // we should target `react` and `react-dom` imports to root node_modules
     if (__USE_SRC__) {
       Object.assign(config.resolve.alias, {
+        rsuite: path.resolve(__dirname, '../src'),
         react: path.resolve(__dirname, '../node_modules/react'),
         'react-dom': path.resolve(__dirname, '../node_modules/react-dom')
       });
