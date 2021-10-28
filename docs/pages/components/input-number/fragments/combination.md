@@ -4,10 +4,10 @@
 const App = () => {
   const [value, setValue] = React.useState(0);
   const handleMinus = () => {
-    setValue(value - 1);
+    setValue(parseInt(value, 10) - 1);
   };
   const handlePlus = () => {
-    setValue(value + 1);
+    setValue(parseInt(value, 10) + 1);
   };
   return (
     <div style={{ width: 160 }}>
