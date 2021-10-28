@@ -38,7 +38,7 @@ export default function adjustCaretPosition({
   //
   // Such cases can also happen when the user presses the backspace while holding down the ALT
   // key.
-  const isPartialMultiCharEdit = editLength > 1 && !isAddition && !isFirstRawValue;
+  const isPartialMultiCharEdit = editLength > 1 && !isFirstRawValue;
 
   // This algorithm doesn't support all cases of multi-character edits, so we just return
   // the current caret position.
