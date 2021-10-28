@@ -19,8 +19,6 @@ const {
   VERCEL_ENV = 'local'
 } = process.env;
 
-console.log('Building in VERCEL_ENV=' + VERCEL_ENV);
-
 const __USE_SRC__ = VERCEL_ENV === 'preview' || VERCEL_ENV === 'local';
 
 const RSUITE_ROOT = path.join(__dirname, '../src');
@@ -36,6 +34,9 @@ const babelBuildInclude = __USE_SRC__
   ? [RSUITE_ROOT, path.join(__dirname, './')]
   : [path.join(__dirname, './')];
 
+/**
+ * @type {import('next').NextConfig}
+ */
 module.exports = {
   env: {
     DEV: __DEV__ ? 1 : 0,
@@ -175,13 +176,15 @@ module.exports = {
     // we should target `react` and `react-dom` imports to root node_modules
     if (__USE_SRC__) {
       Object.assign(config.resolve.alias, {
-        rsuite: path.resolve(__dirname, '../src'),
         react: path.resolve(__dirname, '../node_modules/react'),
         'react-dom': path.resolve(__dirname, '../node_modules/react-dom')
       });
     }
 
     return config;
+  },
+  typescript: {
+    tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
   },
   trailingSlash: true,
   exportPathMap: () => {
