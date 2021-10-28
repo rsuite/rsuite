@@ -2,7 +2,6 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, act } from '@testing-library/react';
 import MaskedInput from '../MaskedInput';
-import { getDOMNode } from '@test/testUtils';
 import mergeRefs from '../../utils/mergeRefs';
 
 const MaskedInputTest = React.forwardRef((props, ref) => {
@@ -27,7 +26,7 @@ const MaskedInputTest = React.forwardRef((props, ref) => {
 describe('MaskedInput', () => {
   it('does not throw when instantiated', () => {
     expect(() =>
-      getDOMNode(
+      render(
         <MaskedInput
           mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
           guide={true}
@@ -37,73 +36,76 @@ describe('MaskedInput', () => {
   });
 
   it('renders a single input element', () => {
-    const maskedInput = getDOMNode(
+    const { getByTestId } = render(
       <MaskedInput
+        data-testid="test"
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
         guide={true}
       />
     );
 
-    expect(maskedInput.tagName).to.be.equal('INPUT');
+    expect(getByTestId('test').tagName).to.be.equal('INPUT');
   });
 
   it('renders correctly with an undefined value', () => {
-    const maskedInput = getDOMNode(
+    const { getByTestId } = render(
       <MaskedInput
+        data-testid="test"
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
         guide={true}
       />
     );
-    expect(maskedInput.value).to.equal('');
+    expect(getByTestId('test').value).to.equal('');
   });
 
   it('renders correctly with an initial value', () => {
-    const maskedInput = getDOMNode(
+    const { getByTestId } = render(
       <MaskedInput
+        data-testid="test"
         value="123"
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
         guide={true}
       />
     );
 
-    expect(maskedInput.value).to.equal('(123) ___-____');
+    expect(getByTestId('test').value).to.equal('(123) ___-____');
   });
 
   it('renders mask instead of empty string when showMask is true', () => {
-    const maskedInput = getDOMNode(
+    const { getByTestId } = render(
       <MaskedInput
+        data-testid="test"
         showMask={true}
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
         guide={true}
       />
     );
-    expect(maskedInput.value).to.equal('(___) ___-____');
+    expect(getByTestId('test').value).to.equal('(___) ___-____');
   });
 
   it('does not render mask instead of empty string when showMask is false', () => {
-    const maskedInput = getDOMNode(
+    const { getByTestId } = render(
       <MaskedInput
+        data-testid="test"
         showMask={false}
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
         guide={true}
       />
     );
-    expect(maskedInput.value).to.equal('');
+    expect(getByTestId('test').value).to.equal('');
   });
 
   it('does not render masked characters', () => {
-    const inputRef = React.createRef();
-
-    render(
+    const { getByTestId } = render(
       <MaskedInput
-        ref={inputRef}
+        data-testid="test"
         value="abc"
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
         guide={true}
       />
     );
 
-    expect(inputRef.current.value).to.equal('(___) ___-____');
+    expect(getByTestId('test').value).to.equal('(___) ___-____');
   });
 
   it('does not allow masked characters', () => {
@@ -127,8 +129,8 @@ describe('MaskedInput', () => {
   });
 
   it('can be disabled by setting the mask to false', () => {
-    const maskedInput = getDOMNode(<MaskedInput value="123abc" mask={false} />);
-    expect(maskedInput.value).to.equal('123abc');
+    const { getByTestId } = render(<MaskedInput data-testid="test" value="123abc" mask={false} />);
+    expect(getByTestId('test').value).to.equal('123abc');
   });
 
   it('can call textMaskInputElement.update to update the inputElement.value', () => {
@@ -189,8 +191,9 @@ describe('MaskedInput', () => {
   });
 
   it('accepts function as mask property', () => {
-    const maskedInput = getDOMNode(
+    const { getByTestId } = render(
       <MaskedInput
+        data-testid="test"
         value="1234"
         mask={value => {
           expect(value).to.equal('1234');
@@ -213,12 +216,13 @@ describe('MaskedInput', () => {
         }}
       />
     );
-    expect(maskedInput.value).to.equal('(123) 4__-____');
+    expect(getByTestId('test').value).to.equal('(123) 4__-____');
   });
 
   it('accepts pipe function', () => {
-    const maskedInput = getDOMNode(
+    const { getByTestId } = render(
       <MaskedInput
+        data-testid="test"
         value="1234"
         mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
         pipe={value => {
@@ -227,22 +231,23 @@ describe('MaskedInput', () => {
         }}
       />
     );
-    expect(maskedInput.value).to.equal('abc');
+    expect(getByTestId('test').value).to.equal('abc');
   });
 
   it('calls `onChange` when a change event is received', () => {
     const onChangeSpy = sinon.spy(event => {
       expect(event.target.value).to.equal('123');
     });
-    const maskedInput = getDOMNode(
+    const { getByTestId } = render(
       <MaskedInput
+        data-testid="test"
         value="123"
         onChange={onChangeSpy}
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
         guide={true}
       />
     );
-    ReactTestUtils.Simulate.change(maskedInput, { target: { value: '123' } });
+    ReactTestUtils.Simulate.change(getByTestId('test'), { target: { value: '123' } });
     expect(onChangeSpy.callCount).to.equal(1);
   });
 
@@ -250,15 +255,16 @@ describe('MaskedInput', () => {
     const onBlurSpy = sinon.spy(event => {
       expect(event.target.value).to.equal('(123) ___-____');
     });
-    const maskedInput = getDOMNode(
+    const { getByTestId } = render(
       <MaskedInput
+        data-testid="test"
         value="123"
         onBlur={onBlurSpy}
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
         guide={true}
       />
     );
-    ReactTestUtils.Simulate.blur(maskedInput);
+    ReactTestUtils.Simulate.blur(getByTestId('test'));
     expect(onBlurSpy.callCount).to.equal(1);
   });
 
