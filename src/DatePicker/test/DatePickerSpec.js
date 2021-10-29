@@ -94,7 +94,7 @@ describe('DatePicker ', () => {
     assert.isTrue(isSameDay(onChangeSpy.firstCall.firstArg, new Date()));
   });
 
-  it('Should call `onChange` callback when input change', () => {
+  it('Should call `onChange` callback when input change and blur', () => {
     const onChangeSpy = sinon.spy();
 
     const instance = getInstance(<DatePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
@@ -106,6 +106,24 @@ describe('DatePicker ', () => {
     });
     act(() => {
       ReactTestUtils.Simulate.blur(input);
+    });
+
+    assert.isTrue(onChangeSpy.calledOnce);
+    assert.equal(format(onChangeSpy.firstCall.firstArg, 'dd/MM/yyyy'), '01/10/2021');
+  });
+
+  it('Should call `onChange` callback when input change and Enter key', () => {
+    const onChangeSpy = sinon.spy();
+
+    const instance = getInstance(<DatePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
+    const input = instance.root.querySelector('.rs-picker-toggle-textbox');
+
+    act(() => {
+      input.value = '01/10/2021';
+      ReactTestUtils.Simulate.change(input);
+    });
+    act(() => {
+      ReactTestUtils.Simulate.keyDown(input, { key: 'Enter' });
     });
 
     assert.isTrue(onChangeSpy.calledOnce);

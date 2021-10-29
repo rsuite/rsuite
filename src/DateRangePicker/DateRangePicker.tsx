@@ -529,7 +529,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   /**
    * The callback after the enter key is triggered on the input
    */
-  const handleInputBlur = useCallback(
+  const handleInputPressEnd = useCallback(
     event => {
       if (inputState === 'Typing') {
         handleValueUpdate(event, selectValue);
@@ -736,7 +736,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
             typeof placeholder === 'string' && placeholder ? placeholder : rangeFormatStr
           }
           onInputChange={handleInputChange}
-          onInputBlur={handleInputBlur}
+          onInputBlur={handleInputPressEnd}
+          onInputPressEnter={handleInputPressEnd}
           onKeyDown={onPickerKeyDown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}

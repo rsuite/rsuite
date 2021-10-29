@@ -62,7 +62,6 @@
     "element-resize-event": "^3.0.6",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
-    "react-text-mask": "^5.4.3",
     "react-virtualized": "^9.22.3",
     "rsuite-table": "^5.0.2",
     "schema-typed": "^2.0.1"

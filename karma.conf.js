@@ -16,7 +16,7 @@ module.exports = config => {
   let testFile = 'src/**/*Spec.js';
 
   if (M) {
-    testFile = `src/${M}/test/*.js`;
+    testFile = `src/${M}/test/*Spec.js`;
   } else if (F) {
     testFile = F;
   }

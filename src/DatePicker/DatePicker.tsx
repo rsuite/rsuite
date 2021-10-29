@@ -414,7 +414,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     /**
      * The callback after the enter key is triggered on the input
      */
-    const handleInputBlur = useCallback(
+    const handleInputPressEnd = useCallback(
       event => {
         if (inputState === 'Typing') {
           updateValue(event, calendarDate);
@@ -567,7 +567,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             }
             inputMask={DateUtils.getDateMask(formatStr)}
             onInputChange={handleInputChange}
-            onInputBlur={handleInputBlur}
+            onInputBlur={handleInputPressEnd}
+            onInputPressEnter={handleInputPressEnd}
             onKeyDown={onPickerKeyDown}
             onClean={createChainedFunction(handleClean, onClean)}
             cleanable={cleanable && !disabled}
