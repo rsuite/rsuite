@@ -108,6 +108,9 @@ export type {
 export { default as Input } from './Input';
 export type { InputProps } from './Input';
 
+export { default as MaskedInput } from './MaskedInput';
+export type { MaskedInputProps } from './MaskedInput';
+
 export { default as InputNumber } from './InputNumber';
 export type { InputNumberProps } from './InputNumber';
 

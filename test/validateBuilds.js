@@ -26,7 +26,8 @@ const unstyledComponents = [
   'CheckTree',
   'Tree',
   'Col',
-  'TagGroup'
+  'TagGroup',
+  'MaskedInput'
 ];
 
 const styledComponents = components.filter(i => !unstyledComponents.includes(i));

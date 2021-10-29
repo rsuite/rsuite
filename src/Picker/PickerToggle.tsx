@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-import MaskedInput from 'react-text-mask';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import CloseButton from '../CloseButton';
 import { useClassNames, KEY_VALUES, mergeRefs } from '../utils';
@@ -9,6 +8,7 @@ import { RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
 import useToggleCaret from '../utils/useToggleCaret';
 import { IconProps } from '@rsuite/icons/lib/Icon';
+import MaskedInput from '../MaskedInput';
 
 type ValueType = string | number;
 
