@@ -150,7 +150,7 @@ describe('CheckboxGroup', () => {
   });
 
   describe('Plain text', () => {
-    it("Should render selected checkboxes's labels", () => {
+    it("Should render selected checkboxes' labels", () => {
       const { getByTestId } = render(
         <CheckboxGroup plaintext value={[2, 4]} data-testid="checkbox-group">
           <Checkbox value={1}>Test1</Checkbox>
