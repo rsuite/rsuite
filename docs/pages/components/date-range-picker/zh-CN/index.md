@@ -182,6 +182,7 @@ type DisabledDateFunction = (
 | -------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | appearance           | enum: 'default' &#124; 'subtle' `('default')`           | 设置外观                                                                        |
 | block                | boolean                                                 | 堵塞整行                                                                        |
+| character            | string `(' ~ ')`                                        | 两个日期之间的分隔符                                                            |
 | cleanable            | boolean `(true)`                                        | 可以清除选择值                                                                  |
 | container            | HTMLElement &#124; (() => HTMLElement)                  | 设置渲染的容器                                                                  |
 | defaultCalendarValue | ValueType                                               | 默认日历面板日期                                                                |

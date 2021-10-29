@@ -45,15 +45,8 @@ export type SortConfig = {
 };
 
 const useSortHelper = (config: SortConfig) => {
-  const {
-    autoScroll,
-    pressDelay,
-    transitionDuration,
-    onSort,
-    onSortEnd,
-    onSortMove,
-    onSortStart
-  } = config;
+  const { autoScroll, pressDelay, transitionDuration, onSort, onSortEnd, onSortMove, onSortStart } =
+    config;
   const [sorting, setSorting] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const pressTimer = useRef<any>();

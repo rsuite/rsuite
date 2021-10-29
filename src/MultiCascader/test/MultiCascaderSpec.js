@@ -46,7 +46,7 @@ describe('MultiCascader', () => {
   it('Should render number', () => {
     const instance = getDOMNode(<MultiCascader data={items} value={['abcde-1', 'abcde-2']} />);
 
-    assert.equal(instance.querySelector('.rs-picker-value-count').innerText, '1');
+    assert.equal(instance.querySelector('.rs-picker-value-count').textContent, '1');
   });
 
   it('Should not render number', () => {
@@ -60,7 +60,7 @@ describe('MultiCascader', () => {
   it('Should render the parent node by children value', () => {
     const instance = getDOMNode(<MultiCascader data={items} value={['abcde-1', 'abcde-2']} />);
 
-    assert.equal(instance.querySelector('.rs-picker-value-list').innerText, 'abcde (All)');
+    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, 'abcde (All)');
   });
 
   it('Should render the parent node by children defaultValue', () => {
@@ -68,7 +68,7 @@ describe('MultiCascader', () => {
       <MultiCascader data={items} defaultValue={['abcde-1', 'abcde-2']} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-value-list').innerText, 'abcde (All)');
+    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, 'abcde (All)');
   });
 
   it('Should render the parent node by children value', () => {
@@ -76,7 +76,7 @@ describe('MultiCascader', () => {
       <MultiCascader data={items} value={['abcde-1']} uncheckableItemValues={['abcde-2']} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-value-list').innerText, 'abcde (All)');
+    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, 'abcde (All)');
   });
 
   it('Should render the children nodes', () => {
@@ -88,7 +88,7 @@ describe('MultiCascader', () => {
       />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-value-list').innerText, 'abcde-1,abcde-2');
+    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, 'abcde-1,abcde-2');
   });
 
   it('Should be disabled', () => {
@@ -108,7 +108,7 @@ describe('MultiCascader', () => {
     const placeholder = 'foobar';
     const instance = getDOMNode(<MultiCascader placeholder={placeholder} />);
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, placeholder);
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, placeholder);
   });
 
   it('Should output a button', () => {
@@ -128,10 +128,10 @@ describe('MultiCascader', () => {
       <MultiCascader renderValue={() => placeholder} data={items} value={['abc']} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, placeholder);
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, placeholder);
 
     const instance2 = getDOMNode(<MultiCascader renderValue={() => placeholder} />);
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should output a value by renderValue()', () => {
@@ -151,13 +151,13 @@ describe('MultiCascader', () => {
       <MultiCascader renderValue={v => [v, placeholder]} data={[]} value={[2]} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').innerText, `1${placeholder}`);
-    assert.equal(instance2.querySelector('.rs-picker-toggle-value').innerText, `2${placeholder}`);
+    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, `1${placeholder}`);
+    assert.equal(instance2.querySelector('.rs-picker-toggle-value').textContent, `2${placeholder}`);
   });
 
   it('Should not be call renderValue()', () => {
     const instance = getDOMNode(<MultiCascader renderValue={() => 'value'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should render a placeholder when value error', () => {
@@ -172,19 +172,19 @@ describe('MultiCascader', () => {
       />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').innerText, 'test');
+    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
   it('Should be active by value', () => {
     const value = ['abcd'];
     const instance = getInstance(<MultiCascader defaultOpen data={items} value={value} />);
-    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').textContent, value);
   });
 
   it('Should be active by defaultValue', () => {
     const value = ['abcd'];
     const instance = getInstance(<MultiCascader defaultOpen data={items} defaultValue={value} />);
-    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').innerText, value);
+    assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').textContent, value);
   });
 
   it('Should call `onSelect` callback ', () => {
@@ -242,7 +242,7 @@ describe('MultiCascader', () => {
       ReactTestUtils.Simulate.click(target.querySelector('.rs-picker-toggle-clean'));
     });
 
-    assert.equal(target.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(target.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should have a custom className', () => {
@@ -271,9 +271,9 @@ describe('MultiCascader', () => {
     const instance2 = getDOMNode(<MultiCascader value={['Test']} renderValue={() => null} />);
     const instance3 = getDOMNode(<MultiCascader value={['Test']} renderValue={() => undefined} />);
 
-    assert.equal(instance1.querySelector('.rs-picker-toggle-value').innerText, '1');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
+    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
 
     assert.include(instance1.className, 'rs-picker-has-value');
     assert.notInclude(instance2.className, 'rs-picker-has-value');
@@ -302,13 +302,13 @@ describe('MultiCascader', () => {
     });
     const target = ref.current.picker.root;
 
-    assert.equal(target.querySelector('.rs-picker-value-list').innerText, 'abc');
+    assert.equal(target.querySelector('.rs-picker-value-list').textContent, 'abc');
 
     act(() => {
       ref.current.setValue([]);
     });
 
-    assert.equal(target.querySelector('.rs-picker-toggle-placeholder').innerText, 'Select');
+    assert.equal(target.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should call onSelect callback with 3 params', () => {
@@ -361,7 +361,7 @@ describe('MultiCascader', () => {
     });
 
     assert.equal(overlay.querySelectorAll('.rs-check-item').length, 1);
-    assert.equal(overlay.querySelector('.rs-check-item').innerText, 'test');
+    assert.equal(overlay.querySelector('.rs-check-item').textContent, 'test');
   });
 
   it('Should children be loaded lazily', () => {
@@ -379,7 +379,7 @@ describe('MultiCascader', () => {
       instance.overlay.querySelector('.rs-picker-cascader-menu-has-children .rs-check-item')
     );
 
-    assert.equal(instance.overlay.querySelectorAll('.rs-check-item')[1].innerText, '2');
+    assert.equal(instance.overlay.querySelectorAll('.rs-check-item')[1].textContent, '2');
   });
 
   it('Should present an asyn loading state', () => {

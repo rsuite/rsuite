@@ -12,12 +12,12 @@ describe('Message', () => {
   it('Should render a title', () => {
     const instance = getDOMNode(<Message header="title" />);
     assert.include(instance.className, 'rs-message-has-title');
-    assert.equal(instance.innerText, 'title');
+    assert.equal(instance.textContent, 'title');
   });
 
   it('Should render a description', () => {
     const instance = getDOMNode(<Message>description</Message>);
-    assert.equal(instance.innerText, 'description');
+    assert.equal(instance.textContent, 'description');
   });
 
   it('Should have a type', () => {

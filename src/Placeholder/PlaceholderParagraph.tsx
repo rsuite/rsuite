@@ -20,53 +20,51 @@ export interface PlaceholderParagraphProps extends WithAsProps {
   active?: boolean;
 }
 
-const PlaceholderParagraph: RsRefForwardingComponent<
-  'div',
-  PlaceholderParagraphProps
-> = React.forwardRef((props: PlaceholderParagraphProps, ref) => {
-  const {
-    as: Component = 'div',
-    className,
-    rows = 2,
-    rowHeight = 10,
-    rowMargin = 20,
-    graph,
-    active,
-    classPrefix = 'placeholder',
-    ...rest
-  } = props;
+const PlaceholderParagraph: RsRefForwardingComponent<'div', PlaceholderParagraphProps> =
+  React.forwardRef((props: PlaceholderParagraphProps, ref) => {
+    const {
+      as: Component = 'div',
+      className,
+      rows = 2,
+      rowHeight = 10,
+      rowMargin = 20,
+      graph,
+      active,
+      classPrefix = 'placeholder',
+      ...rest
+    } = props;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-  const graphShape = graph === true ? 'square' : graph;
+    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+    const graphShape = graph === true ? 'square' : graph;
 
-  const rowElements = useMemo(() => {
-    const rowArr = [];
+    const rowElements = useMemo(() => {
+      const rowArr = [];
 
-    for (let i = 0; i < rows; i++) {
-      const styles = {
-        width: `${Math.random() * 75 + 25}%`,
-        height: rowHeight,
-        marginTop: i > 0 ? rowMargin : Number(rowMargin) / 2
-      };
-      rowArr.push(<p key={i} style={styles} />);
-    }
-    return rowArr;
-  }, [rowHeight, rowMargin, rows]);
+      for (let i = 0; i < rows; i++) {
+        const styles = {
+          width: `${Math.random() * 75 + 25}%`,
+          height: rowHeight,
+          marginTop: i > 0 ? rowMargin : Number(rowMargin) / 2
+        };
+        rowArr.push(<p key={i} style={styles} />);
+      }
+      return rowArr;
+    }, [rowHeight, rowMargin, rows]);
 
-  const classes = merge(className, withClassPrefix('paragraph', { active }));
-  const graphClasses = prefix('paragraph-graph', `paragraph-graph-${graphShape}`);
+    const classes = merge(className, withClassPrefix('paragraph', { active }));
+    const graphClasses = prefix('paragraph-graph', `paragraph-graph-${graphShape}`);
 
-  return (
-    <Component {...rest} ref={ref} className={classes}>
-      {graphShape && (
-        <div className={graphClasses}>
-          <span className={prefix('paragraph-graph-inner')} />
-        </div>
-      )}
-      <div className={prefix('paragraph-rows')}>{rowElements}</div>
-    </Component>
-  );
-});
+    return (
+      <Component {...rest} ref={ref} className={classes}>
+        {graphShape && (
+          <div className={graphClasses}>
+            <span className={prefix('paragraph-graph-inner')} />
+          </div>
+        )}
+        <div className={prefix('paragraph-rows')}>{rowElements}</div>
+      </Component>
+    );
+  });
 
 PlaceholderParagraph.displayName = 'PlaceholderParagraph';
 PlaceholderParagraph.propTypes = {

@@ -180,6 +180,7 @@ type DisabledDateFunction = (
 | -------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | appearance           | enum: 'default' &#124; 'subtle' `('default')`           | Set picker appearence                                                                |
 | block                | boolean                                                 | Blocking an entire row                                                               |
+| character            | string `(' ~ ')`                                        | The character that separates two dates                                               |
 | cleanable            | boolean `(true)`                                        | Whether the selected value can be cleared                                            |
 | container            | HTMLElement &#124; (() => HTMLElement)                  | Sets the rendering container                                                         |
 | defaultCalendarValue | ValueType                                               | Default calendar panel date                                                          |

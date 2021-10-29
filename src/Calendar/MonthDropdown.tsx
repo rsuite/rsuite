@@ -66,9 +66,10 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
     const { date = new Date() } = useCalendarContext();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
 
-    const getRowCount = useCallback(() => DateUtils.getYear(new Date()) + limitEndYear, [
-      limitEndYear
-    ]);
+    const getRowCount = useCallback(
+      () => DateUtils.getYear(new Date()) + limitEndYear,
+      [limitEndYear]
+    );
 
     const isMonthDisabled = useCallback(
       (year, month) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import Steps from '../Steps';
 
 describe('Steps', () => {
@@ -24,7 +24,7 @@ describe('Steps', () => {
     );
 
     assert.equal(
-      innerText(instance.querySelector('.rs-steps-item-status-process .rs-steps-item-content')),
+      instance.querySelector('.rs-steps-item-status-process .rs-steps-item-content').textContent,
       'C'
     );
   });
@@ -40,7 +40,7 @@ describe('Steps', () => {
     );
 
     assert.equal(
-      innerText(instance.querySelector('.rs-steps-item-status-error .rs-steps-item-content')),
+      instance.querySelector('.rs-steps-item-status-error .rs-steps-item-content').textContent,
       'B'
     );
   });

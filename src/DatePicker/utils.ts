@@ -51,16 +51,15 @@ export function getDefaultRanges(date: Date | Date[]): InnerRange[] {
   return rangeKeys.map(rangeIterator);
 }
 
-const generateRangesIterator = ({ calendarDate }: Pick<ToolbarProps, 'calendarDate'>) => ({
-  value,
-  ...rest
-}: RangeType): InnerRange => {
-  value = typeof value === 'function' ? value(calendarDate) : value;
-  return {
-    value,
-    ...rest
+const generateRangesIterator =
+  ({ calendarDate }: Pick<ToolbarProps, 'calendarDate'>) =>
+  ({ value, ...rest }: RangeType): InnerRange => {
+    value = typeof value === 'function' ? value(calendarDate) : value;
+    return {
+      value,
+      ...rest
+    };
   };
-};
 
 /**
  * get Toolbar ranges from Toolbar props

@@ -37,103 +37,101 @@ export interface CalendarPanelProps extends WithAsProps {
   renderCell?: (date: Date) => React.ReactNode;
 }
 
-const CalendarPanel: RsRefForwardingComponent<
-  typeof Calendar,
-  CalendarPanelProps
-> = React.forwardRef((props: CalendarPanelProps, ref) => {
-  const {
-    as: Component = Calendar,
-    bordered,
-    className,
-    classPrefix = 'calendar',
-    compact,
-    defaultValue = new Date(),
-    isoWeek,
-    locale: overrideLocale,
-    onChange,
-    onSelect,
-    renderCell,
-    value,
-    ...rest
-  } = props;
+const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarPanelProps> =
+  React.forwardRef((props: CalendarPanelProps, ref) => {
+    const {
+      as: Component = Calendar,
+      bordered,
+      className,
+      classPrefix = 'calendar',
+      compact,
+      defaultValue = new Date(),
+      isoWeek,
+      locale: overrideLocale,
+      onChange,
+      onSelect,
+      renderCell,
+      value,
+      ...rest
+    } = props;
 
-  const { calendarDate, setCalendarDate } = useCalendarDate(value, defaultValue);
-  const [showMonth, setShowMonth] = useState<boolean>(false);
-  const { locale } = useCustom('Calendar', overrideLocale);
+    const { calendarDate, setCalendarDate } = useCalendarDate(value, defaultValue);
+    const [showMonth, setShowMonth] = useState<boolean>(false);
+    const { locale } = useCustom('Calendar', overrideLocale);
 
-  const handleToggleMonthDropdown = useCallback(() => {
-    setShowMonth(prevShowMonth => !prevShowMonth);
-  }, []);
+    const handleToggleMonthDropdown = useCallback(() => {
+      setShowMonth(prevShowMonth => !prevShowMonth);
+    }, []);
 
-  const handleChange = useCallback(
-    (nextValue: Date) => {
-      setCalendarDate(nextValue);
-      onChange?.(nextValue);
-    },
-    [setCalendarDate, onChange]
-  );
+    const handleChange = useCallback(
+      (nextValue: Date) => {
+        setCalendarDate(nextValue);
+        onChange?.(nextValue);
+      },
+      [setCalendarDate, onChange]
+    );
 
-  const handleChangePageDate = useCallback(
-    (nextValue: Date) => {
+    const handleChangePageDate = useCallback(
+      (nextValue: Date) => {
+        setShowMonth(false);
+        handleChange(nextValue);
+      },
+      [handleChange]
+    );
+
+    const handleClickToday = useCallback(() => {
       setShowMonth(false);
-      handleChange(nextValue);
-    },
-    [handleChange]
-  );
+      handleChange(new Date());
+    }, [handleChange]);
 
-  const handleClickToday = useCallback(() => {
-    setShowMonth(false);
-    handleChange(new Date());
-  }, [handleChange]);
+    const handleSelect = useCallback(
+      (nextValue: Date) => {
+        onSelect?.(nextValue);
+        handleChange(nextValue);
+      },
+      [handleChange, onSelect]
+    );
 
-  const handleSelect = useCallback(
-    (nextValue: Date) => {
-      onSelect?.(nextValue);
-      handleChange(nextValue);
-    },
-    [handleChange, onSelect]
-  );
+    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
 
-  const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+    const renderToolbar = useCallback(
+      () => (
+        <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
+          {locale.today || 'Today'}
+        </Button>
+      ),
+      [handleClickToday, locale.today, prefix]
+    );
 
-  const renderToolbar = useCallback(
-    () => (
-      <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
-        {locale.today || 'Today'}
-      </Button>
-    ),
-    [handleClickToday, locale.today, prefix]
-  );
+    const customRenderCell = useCallback((date: Date) => renderCell?.(date), [renderCell]);
 
-  const customRenderCell = useCallback((date: Date) => renderCell?.(date), [renderCell]);
+    const classes = merge(className, withClassPrefix('panel', { bordered, compact }));
 
-  const classes = merge(className, withClassPrefix('panel', { bordered, compact }));
-
-  return (
-    <Component
-      {...rest}
-      inline
-      className={classes}
-      ref={ref}
-      isoWeek={isoWeek}
-      format="yyyy-MM-dd"
-      calendarState={showMonth ? CalendarState.DROP_MONTH : null}
-      calendarDate={calendarDate}
-      limitEndYear={1000}
-      locale={locale}
-      renderTitle={date => (
-        <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
-      )}
-      renderToolbar={renderToolbar}
-      renderCell={customRenderCell}
-      onMoveForward={handleChange}
-      onMoveBackward={handleChange}
-      onToggleMonthDropdown={handleToggleMonthDropdown}
-      onChangePageDate={handleChangePageDate}
-      onSelect={handleSelect}
-    />
-  );
-});
+    return (
+      <Component
+        {...rest}
+        inline
+        className={classes}
+        ref={ref}
+        isoWeek={isoWeek}
+        format="yyyy-MM-dd"
+        calendarState={showMonth ? CalendarState.DROP_MONTH : null}
+        calendarDate={calendarDate}
+        limitEndYear={1000}
+        locale={locale}
+        renderTitle={date => (
+          <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
+        )}
+        renderToolbar={renderToolbar}
+        renderCell={customRenderCell}
+        onMoveForward={handleChange}
+        onMoveBackward={handleChange}
+        onToggleMonthDropdown={handleToggleMonthDropdown}
+        onChangePageDate={handleChangePageDate}
+        onSelect={handleSelect}
+      />
+    );
+  });
 
 CalendarPanel.displayName = 'CalendarPanel';
 CalendarPanel.propTypes = {

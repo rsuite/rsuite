@@ -56,7 +56,7 @@ interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
   Dialog: typeof ModalDialog;
 }
 
-const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
+const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   const {
     className,
     children,
@@ -198,7 +198,7 @@ const Modal: ModalComponent = (React.forwardRef((props: ModalProps, ref) => {
       </BaseModal>
     </ModalContext.Provider>
   );
-}) as unknown) as ModalComponent;
+}) as unknown as ModalComponent;
 
 Modal.Body = ModalBody;
 Modal.Header = ModalHeader;

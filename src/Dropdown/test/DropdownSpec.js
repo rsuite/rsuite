@@ -3,7 +3,7 @@ import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Dropdown from '../Dropdown';
 import Button from '../../Button';
-import { innerText } from '@test/testUtils';
+import Nav from '../../Nav';
 import { KEY_VALUES } from '../../utils';
 import * as utils from '../../utils';
 
@@ -143,7 +143,7 @@ describe('<Dropdown>', () => {
       </Dropdown>
     );
 
-    assert.equal(innerText(instance.querySelector('.rs-dropdown-toggle')), 'abc');
+    assert.equal(instance.querySelector('.rs-dropdown-toggle').textContent, 'abc');
   });
 
   it('Should render custom component', () => {
@@ -842,8 +842,20 @@ describe('<Dropdown>', () => {
       </Dropdown>
     );
 
-    assert.equal(instance.innerText, 'new');
+    const button = instance.querySelector('[role="button"]');
+    assert.equal(button.textContent, 'new');
+  });
+
+  it('Should render a As Component', () => {
+    const AsComponent = React.forwardRef((_, ref) => <div ref={ref}>As Component</div>);
+    const instance = getDOMNode(
+      <Nav>
+        <Dropdown title="">
+          <Dropdown.Item as={AsComponent}>item-1</Dropdown.Item>
+        </Dropdown>
+      </Nav>
+    );
     ReactTestUtils.Simulate.click(instance.querySelector('[role="button"]'));
-    assert.equal(instance.innerText, 'new\nitem-1\nitem-2');
+    assert.equal(instance.textContent, 'As Component');
   });
 });

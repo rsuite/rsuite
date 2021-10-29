@@ -3,7 +3,8 @@ import * as ReactDOM from 'react-dom';
 
 import { Hello } from './components/Hello';
 
-import 'rsuite/lib/styles/index.less';
+import 'rsuite/styles/index.less';
+
 
 ReactDOM.render(
   <Hello compiler="TypeScript" framework="React" />,

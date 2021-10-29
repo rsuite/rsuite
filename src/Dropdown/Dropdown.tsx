@@ -95,7 +95,7 @@ export interface DropdownComponent extends RsRefForwardingComponent<'div', Dropd
  * When used inside <Sidenav>, renders a <TreeviewRootItem>;
  * Otherwise renders a <MenuRoot>
  */
-const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref) => {
+const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref) => {
   const { activeKey, onSelect: onSelectProp, ...rest } = props;
 
   const {
@@ -132,13 +132,11 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
-  const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } = useClassNames(
-    'dropdown-menu'
-  );
+  const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
+    useClassNames('dropdown-menu');
 
-  const { withClassPrefix: withNavItemClassPrefix, merge: mergeNavItemClassNames } = useClassNames(
-    'nav-item'
-  );
+  const { withClassPrefix: withNavItemClassPrefix, merge: mergeNavItemClassNames } =
+    useClassNames('nav-item');
 
   const menuButtonTriggers = useMemo<MenuButtonTrigger[] | undefined>(() => {
     if (!trigger) {
@@ -335,7 +333,7 @@ const Dropdown: DropdownComponent = (React.forwardRef((props: DropdownProps, ref
       </Menu>
     </DropdownContext.Provider>
   );
-}) as unknown) as DropdownComponent;
+}) as unknown as DropdownComponent;
 
 Dropdown.Item = DropdownItem;
 Dropdown.Menu = DropdownMenu;

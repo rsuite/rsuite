@@ -17,9 +17,12 @@ const getDefaultRTL = () =>
  * @param keys
  */
 function useCustom<T = any>(keys: string | string[], overrideLocale?): CustomValue<T> {
-  const { locale = defaultLocale, rtl = getDefaultRTL(), formatDate, parseDate } = useContext(
-    CustomContext
-  );
+  const {
+    locale = defaultLocale,
+    rtl = getDefaultRTL(),
+    formatDate,
+    parseDate
+  } = useContext(CustomContext);
 
   let componentLocale: T = {
     // Public part locale

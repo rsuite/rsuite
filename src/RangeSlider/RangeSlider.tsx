@@ -55,11 +55,10 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     withClassPrefix({ vertical, disabled, graduated, 'with-mark': renderMark })
   );
 
-  const max = useMemo(() => precisionMath(Math.floor((maxProp - min) / step) * step + min), [
-    maxProp,
-    min,
-    step
-  ]);
+  const max = useMemo(
+    () => precisionMath(Math.floor((maxProp - min) / step) * step + min),
+    [maxProp, min, step]
+  );
 
   /**
    * Returns a valid value that does not exceed the specified range of values.

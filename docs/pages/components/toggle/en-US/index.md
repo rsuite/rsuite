@@ -28,6 +28,10 @@ Can be set by the `checkedchildren`, `uncheckedchildren` two properties, respect
 
 <!--{include:`disabled.md`}-->
 
+### Loading
+
+<!--{include:`loading.md`}-->
+
 ## Accessibility
 
 - `Toggle` has role `switch`.
@@ -43,14 +47,15 @@ Can be set by the `checkedchildren`, `uncheckedchildren` two properties, respect
 
 ### `<Toggle>`
 
-| Property          | Type `(Default)`                        | Description                           |
-| ----------------- | --------------------------------------- | ------------------------------------- |
-| checked           | boolean                                 | Checked（Controlled）                 |
-| checkedChildren   | ReactNode                               | Checked display content               |
-| classPrefix       | string `'toggle'`                       | The prefix of the component CSS class |
-| defaultChecked    | boolean                                 | Default checked                       |
-| disabled          | boolean                                 | Disabled                              |
-| locale            | [ToggleLocaleType](/guide/i18n/#toggle) | Locale text                           |
-| onChange          | (checked: boolean, event) => void       | Callback function when state changes  |
-| size              | enum: 'lg' &#124; 'md' &#124; 'sm'      | Toggle size                           |
-| unCheckedChildren | ReactNode                               | Unselected display content            |
+| Property          | Type `(Default)`                        | Description                                                                 |
+| ----------------- | --------------------------------------- | --------------------------------------------------------------------------- |
+| checked           | boolean                                 | Checked（Controlled）                                                       |
+| checkedChildren   | ReactNode                               | Checked display content                                                     |
+| classPrefix       | string `'toggle'`                       | The prefix of the component CSS class                                       |
+| defaultChecked    | boolean                                 | Default checked                                                             |
+| disabled          | boolean                                 | Disabled                                                                    |
+| loading           | boolean                                 | Whether to show a spinner indicating checked state is being fetched/updated |
+| locale            | [ToggleLocaleType](/guide/i18n/#toggle) | Locale text                                                                 |
+| onChange          | (checked: boolean, event) => void       | Callback function when state changes                                        |
+| size              | enum: 'lg' &#124; 'md' &#124; 'sm'      | Toggle size                                                                 |
+| unCheckedChildren | ReactNode                               | Unselected display content                                                  |

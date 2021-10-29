@@ -38,7 +38,7 @@ describe('Breadcrumb', () => {
     );
 
     assert.equal(instance.querySelectorAll('.rs-breadcrumb-item').length, 3);
-    assert.equal(instance.querySelectorAll('.rs-breadcrumb-item')[1].innerText, '...');
+    assert.equal(instance.querySelectorAll('.rs-breadcrumb-item')[1].textContent, '...');
   });
 
   it('Should call onExpand callback', done => {
@@ -69,7 +69,7 @@ describe('Breadcrumb', () => {
     );
 
     assert.equal(instance.childNodes[1].className, 'rs-breadcrumb-separator');
-    assert.equal(instance.childNodes[1].innerText, '/');
+    assert.equal(instance.childNodes[1].textContent, '/');
   });
 
   it('Should have a custom separator', () => {
@@ -82,7 +82,7 @@ describe('Breadcrumb', () => {
 
     assert.equal(instance.childNodes[1].className, 'rs-breadcrumb-separator');
     assert.equal(instance.childNodes[1].tagName, 'SPAN');
-    assert.equal(instance.childNodes[1].innerText, '-');
+    assert.equal(instance.childNodes[1].textContent, '-');
   });
 
   it('Should have a custom className', () => {

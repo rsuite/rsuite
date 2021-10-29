@@ -108,7 +108,7 @@ describe('UploadFileItem', () => {
         }}
       />
     );
-    assert.include(instance.querySelector('.file-info').innerText, 'a');
+    assert.include(instance.querySelector('.file-info').textContent, 'a');
   });
 
   it('Should have a custom style', () => {
@@ -133,7 +133,7 @@ describe('UploadFileItem', () => {
   it('Should render an <i> tag, when the file status is uploading', () => {
     const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' };
     const instance = getDOMNode(<UploadFileItem file={file} />);
-    assert.equal(instance.querySelector('.rs-uploader-file-item-size').innerText, '3B');
+    assert.equal(instance.querySelector('.rs-uploader-file-item-size').textContent, '3B');
   });
 
   it('Should not render a default thumbnail', () => {

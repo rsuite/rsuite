@@ -86,9 +86,8 @@ const DropdownMenu = React.forwardRef(
     );
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
 
-    const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } = useClassNames(
-      'dropdown-menu'
-    );
+    const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
+      useClassNames('dropdown-menu');
 
     const {
       merge: mergeItemClassNames,

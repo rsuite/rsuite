@@ -14,44 +14,42 @@ export interface DropdownToggleProps extends WithAsProps {
   placement?: TypeAttributes.Placement8;
 }
 
-const DropdownToggle: RsRefForwardingComponent<
-  typeof Button,
-  DropdownToggleProps
-> = React.forwardRef((props: DropdownToggleProps, ref) => {
-  const {
-    as: Component = Button,
-    className,
-    classPrefix = 'dropdown-toggle',
-    renderToggle,
-    children,
-    icon,
-    noCaret,
-    placement,
-    ...rest
-  } = props;
+const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProps> =
+  React.forwardRef((props: DropdownToggleProps, ref) => {
+    const {
+      as: Component = Button,
+      className,
+      classPrefix = 'dropdown-toggle',
+      renderToggle,
+      children,
+      icon,
+      noCaret,
+      placement,
+      ...rest
+    } = props;
 
-  const sidenav = useContext(SidenavContext);
-  const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
+    const sidenav = useContext(SidenavContext);
+    const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
+    const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
 
-  const inSidenav = !!sidenav;
+    const inSidenav = !!sidenav;
 
-  // Caret icon is down by default, when Dropdown is used in Sidenav.
-  const Caret = useToggleCaret(inSidenav ? 'bottomStart' : placement);
+    // Caret icon is down by default, when Dropdown is used in Sidenav.
+    const Caret = useToggleCaret(inSidenav ? 'bottomStart' : placement);
 
-  const toggle = (
-    <Component {...rest} ref={ref} className={classes}>
-      {icon &&
-        React.cloneElement(icon, {
-          className: prefix('icon')
-        })}
-      {children}
-      {noCaret ? null : <Caret className={prefix('caret')} />}
-    </Component>
-  );
+    const toggle = (
+      <Component {...rest} ref={ref} className={classes}>
+        {icon &&
+          React.cloneElement(icon, {
+            className: prefix('icon')
+          })}
+        {children}
+        {noCaret ? null : <Caret className={prefix('caret')} />}
+      </Component>
+    );
 
-  return renderToggle ? renderToggle(rest, ref) : toggle;
-});
+    return renderToggle ? renderToggle(rest, ref) : toggle;
+  });
 
 DropdownToggle.displayName = 'DropdownToggle';
 DropdownToggle.propTypes = {

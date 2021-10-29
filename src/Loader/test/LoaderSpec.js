@@ -25,7 +25,7 @@ describe('Loader', () => {
 
   it('Should have content', () => {
     let instance = getDOMNode(<Loader content="content" />);
-    assert.equal(instance.innerText, 'content');
+    assert.equal(instance.textContent, 'content');
   });
 
   it('Should have a speed', () => {

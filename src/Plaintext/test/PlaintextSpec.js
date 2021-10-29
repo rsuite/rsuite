@@ -1,5 +1,5 @@
 import React from 'react';
-import { innerText, getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import Plaintext from '../Plaintext';
 
 describe('Plaintext', () => {
@@ -7,7 +7,7 @@ describe('Plaintext', () => {
     const title = 'Test';
     const instance = getDOMNode(<Plaintext>{title}</Plaintext>);
     assert.include(instance.className, 'rs-plaintext');
-    assert.equal(innerText(instance), title);
+    assert.equal(instance.textContent, title);
   });
 
   it('Should have a custom className', () => {

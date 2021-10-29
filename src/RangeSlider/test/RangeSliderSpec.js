@@ -49,7 +49,7 @@ describe('RangeSlider', () => {
 
   it('Should render custom title', () => {
     const instance = getDOMNode(<RangeSlider tooltip={false} handleTitle={'test'} />);
-    assert.equal(instance.querySelector('.rs-slider-handle').innerText, 'test');
+    assert.equal(instance.querySelector('.rs-slider-handle').textContent, 'test');
   });
 
   it('Should have a custom className', () => {

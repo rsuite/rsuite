@@ -27,7 +27,7 @@ export interface BreadcrumbComponent extends RsRefForwardingComponent<'ol', Brea
   Item: typeof BreadcrumbItem;
 }
 
-const Breadcrumb: BreadcrumbComponent = (React.forwardRef((props: BreadcrumbProps, ref) => {
+const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps, ref) => {
   const {
     as: Component = 'nav',
     className,
@@ -99,7 +99,7 @@ const Breadcrumb: BreadcrumbComponent = (React.forwardRef((props: BreadcrumbProp
       {renderCollapseItems()}
     </Component>
   );
-}) as unknown) as BreadcrumbComponent;
+}) as unknown as BreadcrumbComponent;
 
 Breadcrumb.Item = BreadcrumbItem;
 Breadcrumb.displayName = 'Breadcrumb';

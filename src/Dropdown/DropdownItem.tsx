@@ -77,7 +77,12 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       eventKey,
       onSelect,
       icon,
-      ...rest
+      as: Component = 'li',
+      divider,
+      panel,
+      children,
+      disabled,
+      ...restProps
     } = props;
 
     const internalId = useInternalId('DropdownItem');
@@ -138,14 +143,22 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       }
     }, [internalId, selected, dispatch]);
 
+    const renderDropdownItem = useCallback(
+      (ui: React.ReactElement) => {
+        if (Component === 'li') {
+          return ui;
+        }
+
+        return <li role="none presentation">{ui}</li>;
+      },
+      [Component]
+    );
+
     if (sidenav?.expanded) {
       return <SidenavDropdownItem ref={ref} {...props} />;
     }
-
-    const { as: Component = 'li', divider, panel, children, disabled, ...restProps } = rest;
-
     if (divider) {
-      return (
+      return renderDropdownItem(
         <Component
           ref={ref}
           role="separator"
@@ -156,13 +169,8 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     }
 
     if (panel) {
-      return (
-        <Component
-          ref={ref}
-          role="none presentation"
-          className={merge(prefix('panel'), className)}
-          {...restProps}
-        >
+      return renderDropdownItem(
+        <Component ref={ref} className={merge(prefix('panel'), className)} {...restProps}>
           {children}
         </Component>
       );
@@ -195,6 +203,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
             aria-current={selected || undefined}
             {...dataAttributes}
             {...restProps}
+            as={Component}
             onClick={createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick)}
           >
             {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
@@ -226,7 +235,8 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
           if (!isNil(eventKey) && typeof eventKey !== 'string') {
             dataAttributes['data-event-key-type'] = typeof eventKey;
           }
-          return (
+
+          return renderDropdownItem(
             <Component
               ref={mergeRefs(ref, menuitemRef)}
               className={classes}

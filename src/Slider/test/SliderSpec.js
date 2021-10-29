@@ -46,14 +46,14 @@ describe('Slider', () => {
     );
 
     const marks = instance.querySelectorAll('.rs-slider-mark-content');
-    assert.equal(marks[0].innerText, 'Single');
-    assert.equal(marks[1].innerText, 1);
-    assert.equal(marks[2].innerText, 2);
+    assert.equal(marks[0].textContent, 'Single');
+    assert.equal(marks[1].textContent, 1);
+    assert.equal(marks[2].textContent, 2);
   });
 
   it('Should render custom title', () => {
     const instance = getDOMNode(<Slider tooltip={false} handleTitle={'test'} />);
-    assert.equal(instance.innerText, 'test');
+    assert.equal(instance.textContent, 'test');
   });
 
   it('Should have a custom className', () => {
@@ -114,7 +114,7 @@ describe('Slider', () => {
     const instance = getDOMNode(<Slider plaintext />);
 
     assert.include(instance.className, 'rs-plaintext');
-    assert.equal(instance.innerText, 'Not selected');
+    assert.equal(instance.textContent, 'Not selected');
     assert.notInclude(instance.className, 'rs-slider');
   });
 

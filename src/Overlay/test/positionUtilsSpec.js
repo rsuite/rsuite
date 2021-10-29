@@ -1,11 +1,21 @@
 import positionUtils from '../positionUtils';
-
+/**
+ * @type {HTMLDivElement}
+ */
 let container;
+/**
+ * @type {HTMLDivElement}
+ */
 let target;
 const targetWidth = 10;
 const targetHeight = 10;
 const targetLeft = 20;
 const targetTop = 20;
+const targetMarginTop = 20;
+const targetMarginLeft = 20;
+
+const targetPositionTop = targetTop + targetMarginTop;
+const targetPositionLeft = targetLeft + targetMarginLeft;
 beforeEach(() => {
   container = document.createElement('div');
   container.style.position = 'absolute';
@@ -21,6 +31,8 @@ beforeEach(() => {
   target.style.height = `${targetHeight}px`;
   target.style.left = `${targetLeft}px`;
   target.style.top = `${targetTop}px`;
+  target.style.marginLeft = `${targetMarginLeft}px`;
+  target.style.marginTop = `${targetMarginTop}px`;
 
   container.appendChild(target);
 });
@@ -50,8 +62,8 @@ describe('Overlay - positionUtils', () => {
     const positon = utils.getPosition(target, container);
 
     assert.deepEqual(positon, {
-      top: targetTop,
-      left: targetLeft,
+      top: targetPositionTop,
+      left: targetPositionLeft,
       width: targetWidth,
       height: targetHeight
     });
@@ -75,8 +87,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft - overlayWidth);
-    assert.equal(positon.positionTop, targetTop - targetHeight / 2);
+    assert.equal(positon.positionLeft, targetPositionLeft - overlayWidth);
+    assert.equal(positon.positionTop, targetPositionTop - targetHeight / 2);
     assert.equal(positon.positionClassName, 'placement-left');
   });
 
@@ -87,8 +99,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft - overlayWidth);
-    assert.equal(positon.positionTop, targetTop);
+    assert.equal(positon.positionLeft, targetPositionLeft - overlayWidth);
+    assert.equal(positon.positionTop, targetPositionTop);
     assert.equal(positon.positionClassName, 'placement-left-start');
   });
 
@@ -99,8 +111,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft - overlayWidth);
-    assert.equal(positon.positionTop, targetTop - targetHeight);
+    assert.equal(positon.positionLeft, targetPositionLeft - overlayWidth);
+    assert.equal(positon.positionTop, targetPositionTop - targetHeight);
     assert.equal(positon.positionClassName, 'placement-left-end');
   });
 
@@ -111,8 +123,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft + targetWidth);
-    assert.equal(positon.positionTop, targetTop - targetHeight / 2);
+    assert.equal(positon.positionLeft, targetPositionLeft + targetWidth);
+    assert.equal(positon.positionTop, targetPositionTop - targetHeight / 2);
     assert.equal(positon.positionClassName, 'placement-right');
   });
 
@@ -123,8 +135,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft + targetWidth);
-    assert.equal(positon.positionTop, targetTop);
+    assert.equal(positon.positionLeft, targetPositionLeft + targetWidth);
+    assert.equal(positon.positionTop, targetPositionTop);
     assert.equal(positon.positionClassName, 'placement-right-start');
   });
 
@@ -135,8 +147,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft + targetWidth);
-    assert.equal(positon.positionTop, targetTop - targetHeight);
+    assert.equal(positon.positionLeft, targetPositionLeft + targetWidth);
+    assert.equal(positon.positionTop, targetPositionTop - targetHeight);
     assert.equal(positon.positionClassName, 'placement-right-end');
   });
 
@@ -147,8 +159,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft - targetWidth / 2);
-    assert.equal(positon.positionTop, targetTop - overlayHeight);
+    assert.equal(positon.positionLeft, targetPositionLeft - targetWidth / 2);
+    assert.equal(positon.positionTop, targetPositionTop - overlayHeight);
     assert.equal(positon.positionClassName, 'placement-top');
   });
 
@@ -159,8 +171,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft);
-    assert.equal(positon.positionTop, targetTop - overlayHeight);
+    assert.equal(positon.positionLeft, targetPositionLeft);
+    assert.equal(positon.positionTop, targetPositionTop - overlayHeight);
     assert.equal(positon.positionClassName, 'placement-top-start');
   });
 
@@ -171,8 +183,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft - targetWidth);
-    assert.equal(positon.positionTop, targetTop - overlayHeight);
+    assert.equal(positon.positionLeft, targetPositionLeft - targetWidth);
+    assert.equal(positon.positionTop, targetPositionTop - overlayHeight);
     assert.equal(positon.positionClassName, 'placement-top-end');
   });
 
@@ -183,8 +195,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft - targetWidth / 2);
-    assert.equal(positon.positionTop, targetTop + targetHeight);
+    assert.equal(positon.positionLeft, targetPositionLeft - targetWidth / 2);
+    assert.equal(positon.positionTop, targetPositionTop + targetHeight);
     assert.equal(positon.positionClassName, 'placement-bottom');
   });
 
@@ -195,8 +207,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft);
-    assert.equal(positon.positionTop, targetTop + targetHeight);
+    assert.equal(positon.positionLeft, targetPositionLeft);
+    assert.equal(positon.positionTop, targetPositionTop + targetHeight);
     assert.equal(positon.positionClassName, 'placement-bottom-start');
   });
 
@@ -207,8 +219,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft - targetWidth);
-    assert.equal(positon.positionTop, targetTop + targetHeight);
+    assert.equal(positon.positionLeft, targetPositionLeft - targetWidth);
+    assert.equal(positon.positionTop, targetPositionTop + targetHeight);
     assert.equal(positon.positionClassName, 'placement-bottom-end');
   });
 
@@ -219,8 +231,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft);
-    assert.equal(positon.positionTop, targetTop + targetHeight);
+    assert.equal(positon.positionLeft, targetPositionLeft);
+    assert.equal(positon.positionTop, targetPositionTop + targetHeight);
     assert.equal(positon.positionClassName, 'placement-bottom-start');
   });
 
@@ -231,8 +243,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, document.body);
 
-    assert.equal(positon.positionLeft, targetLeft + targetWidth);
-    assert.equal(positon.positionTop, targetTop);
+    assert.equal(positon.positionLeft, targetPositionLeft + targetWidth);
+    assert.equal(positon.positionTop, targetPositionTop);
     assert.equal(positon.positionClassName, 'placement-right-start');
   });
 
@@ -243,8 +255,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft - targetWidth / 2);
-    assert.equal(positon.positionTop, targetTop + targetHeight);
+    assert.equal(positon.positionLeft, targetPositionLeft - targetWidth / 2);
+    assert.equal(positon.positionTop, targetPositionTop + targetHeight);
     assert.equal(positon.positionClassName, 'placement-bottom');
   });
 
@@ -255,8 +267,8 @@ describe('Overlay - positionUtils', () => {
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
     const positon = utils.calcOverlayPosition(overlay, target, container);
 
-    assert.equal(positon.positionLeft, targetLeft + targetWidth);
-    assert.equal(positon.positionTop, targetTop - targetHeight / 2);
+    assert.equal(positon.positionLeft, targetPositionLeft + targetWidth);
+    assert.equal(positon.positionTop, targetPositionTop - targetHeight / 2);
     assert.equal(positon.positionClassName, 'placement-right');
   });
 });

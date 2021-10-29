@@ -148,13 +148,8 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
   const childRef = React.useRef();
 
   const [position, updatePosition] = usePosition(props, childRef);
-  const {
-    positionClassName,
-    arrowOffsetLeft,
-    arrowOffsetTop,
-    positionLeft,
-    positionTop
-  } = position;
+  const { positionClassName, arrowOffsetLeft, arrowOffsetTop, positionLeft, positionTop } =
+    position;
 
   useImperativeHandle(ref, () => ({
     get child() {

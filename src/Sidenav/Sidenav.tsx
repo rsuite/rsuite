@@ -56,7 +56,7 @@ export interface SidenavComponent extends RsRefForwardingComponent<'div', Sidena
   Toggle: typeof SidenavToggle;
 }
 
-const Sidenav: SidenavComponent = (React.forwardRef((props: SidenavProps, ref) => {
+const Sidenav: SidenavComponent = React.forwardRef((props: SidenavProps, ref) => {
   const {
     as: Component = 'nav',
     className,
@@ -128,7 +128,7 @@ const Sidenav: SidenavComponent = (React.forwardRef((props: SidenavProps, ref) =
       </Transition>
     </SidenavContext.Provider>
   );
-}) as unknown) as SidenavComponent;
+}) as unknown as SidenavComponent;
 
 Sidenav.Header = SidenavHeader;
 Sidenav.Body = SidenavBody;

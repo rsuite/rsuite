@@ -31,8 +31,8 @@ describe('CustomProvider', () => {
       </div>
     );
 
-    assert.equal(node.querySelectorAll('.rs-picker-toggle-placeholder')[0].innerText, '选择');
-    assert.equal(node.querySelectorAll('.rs-picker-toggle-placeholder')[1].innerText, '选择');
+    assert.equal(node.querySelectorAll('.rs-picker-toggle-placeholder')[0].textContent, '选择');
+    assert.equal(node.querySelectorAll('.rs-picker-toggle-placeholder')[1].textContent, '选择');
   });
 
   it('Should render formatted date', () => {
@@ -43,7 +43,7 @@ describe('CustomProvider', () => {
         </CustomProvider>
       </div>
     );
-    assert.equal(node.querySelector('.rs-calendar-header-title').innerText, 'мая, 2021');
+    assert.equal(node.querySelector('.rs-calendar-header-title').textContent, 'мая, 2021');
   });
 
   // TODO: This is a side-effect test, which will affect the style check test.
