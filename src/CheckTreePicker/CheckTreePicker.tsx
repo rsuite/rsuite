@@ -165,9 +165,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   const [active, setActive] = useState(false);
   const [activeNode, setActiveNode] = useState(null);
   const { prefix, merge } = useClassNames(classPrefix);
-  const { prefix: checkTreePrefix, withClassPrefix: withCheckTreeClassPrefix } = useClassNames(
-    'check-tree'
-  );
+  const { prefix: checkTreePrefix, withClassPrefix: withCheckTreeClassPrefix } =
+    useClassNames('check-tree');
 
   const [value, setValue, isControlled] = useControlled<ValueType>(controlledValue, defaultValue);
   const {
@@ -208,26 +207,21 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     }
   });
 
-  const {
-    filteredData,
-    searchKeywordState,
-    setSearchKeyword,
-    handleSearch,
-    setFilteredData
-  } = useTreeSearch({
-    labelKey,
-    childrenKey,
-    searchKeyword,
-    data: treeData,
-    searchBy,
-    callback: (
-      searchKeyword: string,
-      _filterData: TreeNodeType[],
-      event: React.KeyboardEvent<HTMLInputElement>
-    ) => {
-      onSearch?.(searchKeyword, event);
-    }
-  });
+  const { filteredData, searchKeywordState, setSearchKeyword, handleSearch, setFilteredData } =
+    useTreeSearch({
+      labelKey,
+      childrenKey,
+      searchKeyword,
+      data: treeData,
+      searchBy,
+      callback: (
+        searchKeyword: string,
+        _filterData: TreeNodeType[],
+        event: React.KeyboardEvent<HTMLInputElement>
+      ) => {
+        onSearch?.(searchKeyword, event);
+      }
+    });
 
   const { treeNodesRefs, saveTreeNodeRef } = useTreeNodeRefs();
 
@@ -717,29 +711,31 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     );
   };
 
-  const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }: ListRowProps) => {
-    const node = nodes[index];
-    const { layer, refKey, visible } = node;
-    const expand = getExpandWhenSearching(
-      searchKeywordState,
-      expandItemValues.includes(node[valueKey])
-    );
-    const nodeProps = {
-      ...getTreeNodeProps({ ...node, expand }, layer),
-      hasChildren: node.hasChildren
-    };
+  const renderVirtualListNode =
+    (nodes: any[]) =>
+    ({ key, index, style }: ListRowProps) => {
+      const node = nodes[index];
+      const { layer, refKey, visible } = node;
+      const expand = getExpandWhenSearching(
+        searchKeywordState,
+        expandItemValues.includes(node[valueKey])
+      );
+      const nodeProps = {
+        ...getTreeNodeProps({ ...node, expand }, layer),
+        hasChildren: node.hasChildren
+      };
 
-    return (
-      visible && (
-        <CheckTreeNode
-          style={style}
-          key={key}
-          ref={ref => saveTreeNodeRef(refKey, ref)}
-          {...nodeProps}
-        />
-      )
-    );
-  };
+      return (
+        visible && (
+          <CheckTreeNode
+            style={style}
+            key={key}
+            ref={ref => saveTreeNodeRef(refKey, ref)}
+            {...nodeProps}
+          />
+        )
+      );
+    };
 
   const renderCheckTree = () => {
     const classes = withCheckTreeClassPrefix({

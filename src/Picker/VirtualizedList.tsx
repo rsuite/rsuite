@@ -8,5 +8,5 @@ export interface ListInstance {
 }
 
 export type { ListProps, AutoSizerProps, ListRowProps };
-export const List = (VirtualizedList as any) as React.ComponentType<ListProps>;
-export const AutoSizer = (VirtualizedAutoSizer as any) as React.ComponentType<AutoSizerProps>;
+export const List = VirtualizedList as any as React.ComponentType<ListProps>;
+export const AutoSizer = VirtualizedAutoSizer as any as React.ComponentType<AutoSizerProps>;

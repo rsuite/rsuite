@@ -453,15 +453,17 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             props,
             DateUtils.calendarOnlyProps
           ),
-          disabledOrHiddenTimeFunc => (next: number, date: Date): boolean =>
-            disabledOrHiddenTimeFunc(next, date)
+          disabledOrHiddenTimeFunc =>
+            (next: number, date: Date): boolean =>
+              disabledOrHiddenTimeFunc(next, date)
         ),
       [props]
     );
 
-    const inSameMonth = useCallback((date: Date) => DateUtils.isSameMonth(date, calendarDate), [
-      calendarDate
-    ]);
+    const inSameMonth = useCallback(
+      (date: Date) => DateUtils.isSameMonth(date, calendarDate),
+      [calendarDate]
+    );
 
     const calendar = (
       <Calendar

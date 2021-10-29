@@ -151,33 +151,32 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
 
     // Used to hover the focus item  when trigger `onKeydown`
-    const { focusItemValue, setFocusItemValue, onKeyDown: onFocusItem } = useFocusItemValue(value, {
+    const {
+      focusItemValue,
+      setFocusItemValue,
+      onKeyDown: onFocusItem
+    } = useFocusItemValue(value, {
       data,
       valueKey,
       target: () => overlayRef.current
     });
 
     // Use search keywords to filter options.
-    const {
-      searchKeyword,
-      filteredData,
-      updateFilteredData,
-      setSearchKeyword,
-      handleSearch
-    } = useSearch({
-      labelKey,
-      data,
-      searchBy,
-      callback: (
-        searchKeyword: string,
-        filteredData: ItemDataType[],
-        event: React.SyntheticEvent
-      ) => {
-        // The first option after filtering is the focus.
-        setFocusItemValue(filteredData?.[0]?.[valueKey]);
-        onSearch?.(searchKeyword, event);
-      }
-    });
+    const { searchKeyword, filteredData, updateFilteredData, setSearchKeyword, handleSearch } =
+      useSearch({
+        labelKey,
+        data,
+        searchBy,
+        callback: (
+          searchKeyword: string,
+          filteredData: ItemDataType[],
+          event: React.SyntheticEvent
+        ) => {
+          // The first option after filtering is the focus.
+          setFocusItemValue(filteredData?.[0]?.[valueKey]);
+          onSearch?.(searchKeyword, event);
+        }
+      });
 
     useEffect(() => {
       updateFilteredData(data);

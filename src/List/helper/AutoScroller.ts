@@ -36,14 +36,8 @@ class AutoScroller {
   update({ translate, minTranslate, maxTranslate, width, height }: AutoScrollerUpdatePayload) {
     const direction = { x: 0, y: 0 };
     const speed = { x: 0, y: 0 };
-    const {
-      scrollTop,
-      scrollLeft,
-      scrollHeight,
-      scrollWidth,
-      clientHeight,
-      clientWidth
-    } = this.container;
+    const { scrollTop, scrollLeft, scrollHeight, scrollWidth, clientHeight, clientWidth } =
+      this.container;
 
     const isTop = scrollTop === 0;
     const isBottom = scrollTop === scrollHeight - clientHeight;

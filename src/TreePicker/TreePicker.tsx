@@ -206,26 +206,21 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const { prefix, merge } = useClassNames(classPrefix);
   const { prefix: treePrefix, withClassPrefix: withTreeClassPrefix } = useClassNames('tree');
 
-  const {
-    filteredData,
-    searchKeywordState,
-    setSearchKeyword,
-    handleSearch,
-    setFilteredData
-  } = useTreeSearch({
-    labelKey,
-    childrenKey,
-    searchKeyword,
-    data: treeData,
-    searchBy,
-    callback: (
-      searchKeyword: string,
-      _filterData: TreeNodeType[],
-      event: React.KeyboardEvent<HTMLInputElement>
-    ) => {
-      onSearch?.(searchKeyword, event);
-    }
-  });
+  const { filteredData, searchKeywordState, setSearchKeyword, handleSearch, setFilteredData } =
+    useTreeSearch({
+      labelKey,
+      childrenKey,
+      searchKeyword,
+      data: treeData,
+      searchBy,
+      callback: (
+        searchKeyword: string,
+        _filterData: TreeNodeType[],
+        event: React.KeyboardEvent<HTMLInputElement>
+      ) => {
+        onSearch?.(searchKeyword, event);
+      }
+    });
 
   const {
     dragNodeKeys,
@@ -726,30 +721,32 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     );
   };
 
-  const renderVirtualListNode = (nodes: any[]) => ({ key, index, style }: ListRowProps) => {
-    const node = nodes[index];
-    const { layer, visible } = node;
+  const renderVirtualListNode =
+    (nodes: any[]) =>
+    ({ key, index, style }: ListRowProps) => {
+      const node = nodes[index];
+      const { layer, visible } = node;
 
-    const expand = getExpandWhenSearching(
-      searchKeywordState,
-      expandItemValues.includes(node[valueKey])
-    );
-    if (!node.visible) {
-      return null;
-    }
+      const expand = getExpandWhenSearching(
+        searchKeywordState,
+        expandItemValues.includes(node[valueKey])
+      );
+      if (!node.visible) {
+        return null;
+      }
 
-    const nodeProps = {
-      ...getTreeNodeProps({ ...node, expand }, layer),
-      style,
-      hasChildren: node.hasChildren
+      const nodeProps = {
+        ...getTreeNodeProps({ ...node, expand }, layer),
+        style,
+        hasChildren: node.hasChildren
+      };
+
+      return (
+        visible && (
+          <TreeNode ref={ref => saveTreeNodeRef(node.refKey, ref)} key={key} {...nodeProps} />
+        )
+      );
     };
-
-    return (
-      visible && (
-        <TreeNode ref={ref => saveTreeNodeRef(node.refKey, ref)} key={key} {...nodeProps} />
-      )
-    );
-  };
 
   const renderDefaultDragNode = () => {
     if (draggable) {

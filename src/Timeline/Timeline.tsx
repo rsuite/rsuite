@@ -20,7 +20,7 @@ interface TimelineComponent extends RsRefForwardingComponent<'div', TimelineProp
   Item: typeof TimelineItem;
 }
 
-const Timeline: TimelineComponent = (React.forwardRef((props: TimelineProps, ref) => {
+const Timeline: TimelineComponent = React.forwardRef((props: TimelineProps, ref) => {
   const {
     children,
     as: Component = 'ul',
@@ -48,7 +48,7 @@ const Timeline: TimelineComponent = (React.forwardRef((props: TimelineProps, ref
       }))}
     </Component>
   );
-}) as unknown) as TimelineComponent;
+}) as unknown as TimelineComponent;
 
 Timeline.Item = TimelineItem;
 

@@ -169,9 +169,8 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     );
 
     // The columns displayed in the cascading panel.
-    const { columnData, setColumnData, addColumn, enforceUpdateColumnData } = useColumnData(
-      flattenData
-    );
+    const { columnData, setColumnData, addColumn, enforceUpdateColumnData } =
+      useColumnData(flattenData);
 
     useUpdateEffect(() => {
       enforceUpdateColumnData(data);
@@ -191,29 +190,31 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
 
     // Used to hover the focuse item  when trigger `onKeydown`
-    const { focusItemValue, setLayer, setKeys, onKeyDown: onFocusItem } = useFocusItemValue(
-      selectedPaths?.[selectedPaths.length - 1]?.[valueKey],
-      {
-        rtl,
-        data: flattenData,
-        valueKey,
-        defaultLayer: selectedPaths?.length ? selectedPaths.length - 1 : 0,
-        target: () => overlayRef.current,
-        callback: useCallback(
-          value => {
-            const { columns, paths } = getColumnsAndPaths(data, value, {
-              valueKey,
-              childrenKey,
-              isAttachChildren: true
-            });
+    const {
+      focusItemValue,
+      setLayer,
+      setKeys,
+      onKeyDown: onFocusItem
+    } = useFocusItemValue(selectedPaths?.[selectedPaths.length - 1]?.[valueKey], {
+      rtl,
+      data: flattenData,
+      valueKey,
+      defaultLayer: selectedPaths?.length ? selectedPaths.length - 1 : 0,
+      target: () => overlayRef.current,
+      callback: useCallback(
+        value => {
+          const { columns, paths } = getColumnsAndPaths(data, value, {
+            valueKey,
+            childrenKey,
+            isAttachChildren: true
+          });
 
-            setColumnData(columns);
-            setSelectedPaths(paths);
-          },
-          [childrenKey, data, setColumnData, valueKey]
-        )
-      }
-    );
+          setColumnData(columns);
+          setSelectedPaths(paths);
+        },
+        [childrenKey, data, setColumnData, valueKey]
+      )
+    });
 
     /**
      * 1.Have a value and the value is valid.

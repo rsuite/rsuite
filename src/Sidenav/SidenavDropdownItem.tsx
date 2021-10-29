@@ -51,103 +51,101 @@ export interface SidenavDropdownItemProps<T = any>
  * Tree View Node
  * @see https://www.w3.org/TR/wai-aria-practices-1.2/#TreeView
  */
-const SidenavDropdownItem: RsRefForwardingComponent<
-  'li',
-  SidenavDropdownItemProps
-> = React.forwardRef<HTMLLIElement, SidenavDropdownItemProps>((props, ref) => {
-  const {
-    as: Component = 'li',
-    active: activeProp,
-    children,
-    disabled,
-    divider,
-    panel,
-    className,
-    style,
-    classPrefix = 'dropdown-item',
-    icon,
-    eventKey,
-    onClick,
-    onSelect,
-    ...rest
-  } = props;
+const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemProps> =
+  React.forwardRef<HTMLLIElement, SidenavDropdownItemProps>((props, ref) => {
+    const {
+      as: Component = 'li',
+      active: activeProp,
+      children,
+      disabled,
+      divider,
+      panel,
+      className,
+      style,
+      classPrefix = 'dropdown-item',
+      icon,
+      eventKey,
+      onClick,
+      onSelect,
+      ...rest
+    } = props;
 
-  const { activeKey, onSelect: onSidenavSelect } = useContext(SidenavContext);
-  const nav = useContext(NavContext);
-  const dropdown = useContext(DropdownContext);
+    const { activeKey, onSelect: onSidenavSelect } = useContext(SidenavContext);
+    const nav = useContext(NavContext);
+    const dropdown = useContext(DropdownContext);
 
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
-  const selected =
-    activeProp ??
-    (!isNil(eventKey) &&
-      (shallowEqual(eventKey, activeKey) || shallowEqual(nav?.activeKey, eventKey)));
+    const selected =
+      activeProp ??
+      (!isNil(eventKey) &&
+        (shallowEqual(eventKey, activeKey) || shallowEqual(nav?.activeKey, eventKey)));
 
-  const classes = merge(
-    className,
-    withClassPrefix({
-      'with-icon': icon,
-      active: selected,
-      disabled
-    })
-  );
-
-  const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLLIElement>) => {
-      if (disabled) return;
-
-      onSelect?.(eventKey, event);
-      dropdown?.onSelect(eventKey, event);
-      onSidenavSelect?.(eventKey, event);
-    },
-    [disabled, onSelect, onSidenavSelect, eventKey, dropdown]
-  );
-
-  const menuitemEventHandlers: React.HTMLAttributes<HTMLElement> = {
-    onClick: createChainedFunction(handleClick, onClick)
-  };
-
-  if (divider) {
-    return (
-      <Component
-        ref={ref}
-        role="separator"
-        style={style}
-        className={merge(prefix('divider'), className)}
-        {...rest}
-      />
+    const classes = merge(
+      className,
+      withClassPrefix({
+        'with-icon': icon,
+        active: selected,
+        disabled
+      })
     );
-  }
 
-  if (panel) {
+    const handleClick = useCallback(
+      (event: React.MouseEvent<HTMLLIElement>) => {
+        if (disabled) return;
+
+        onSelect?.(eventKey, event);
+        dropdown?.onSelect(eventKey, event);
+        onSidenavSelect?.(eventKey, event);
+      },
+      [disabled, onSelect, onSidenavSelect, eventKey, dropdown]
+    );
+
+    const menuitemEventHandlers: React.HTMLAttributes<HTMLElement> = {
+      onClick: createChainedFunction(handleClick, onClick)
+    };
+
+    if (divider) {
+      return (
+        <Component
+          ref={ref}
+          role="separator"
+          style={style}
+          className={merge(prefix('divider'), className)}
+          {...rest}
+        />
+      );
+    }
+
+    if (panel) {
+      return (
+        <Component
+          ref={ref}
+          role="none presentation"
+          style={style}
+          className={merge(prefix('panel'), className)}
+          {...rest}
+        >
+          {children}
+        </Component>
+      );
+    }
+
     return (
-      <Component
-        ref={ref}
-        role="none presentation"
-        style={style}
-        className={merge(prefix('panel'), className)}
+      <SafeAnchor
+        ref={ref as any}
         {...rest}
+        style={style}
+        className={classes}
+        aria-current={selected || undefined}
+        {...menuitemEventHandlers}
       >
+        {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
         {children}
-      </Component>
+        <Ripple />
+      </SafeAnchor>
     );
-  }
-
-  return (
-    <SafeAnchor
-      ref={ref as any}
-      {...rest}
-      style={style}
-      className={classes}
-      aria-current={selected || undefined}
-      {...menuitemEventHandlers}
-    >
-      {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-      {children}
-      <Ripple />
-    </SafeAnchor>
-  );
-});
+  });
 
 SidenavDropdownItem.displayName = 'Sidenav.Dropdown.Item';
 SidenavDropdownItem.propTypes = {

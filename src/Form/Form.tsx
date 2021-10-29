@@ -106,7 +106,7 @@ export interface FormComponent
   HelpText: typeof FormHelpText;
 }
 
-const Form: FormComponent = (React.forwardRef((props: FormProps, ref) => {
+const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const {
     checkTrigger = 'change',
     classPrefix = 'form',
@@ -380,7 +380,7 @@ const Form: FormComponent = (React.forwardRef((props: FormProps, ref) => {
       </FormContext.Provider>
     </form>
   );
-}) as unknown) as FormComponent;
+}) as unknown as FormComponent;
 
 Form.Control = FormControl;
 Form.ControlLabel = FormControlLabel;

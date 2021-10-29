@@ -17,38 +17,25 @@ export interface DrawerProps extends ModalProps {
   placement?: TypeAttributes.Placement4;
 }
 
-const DrawerBody: RsRefForwardingComponent<
-  'div',
-  ModalBodyProps
-> = React.forwardRef((props, ref) => <Modal.Body classPrefix="drawer-body" {...props} ref={ref} />);
+const DrawerBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forwardRef(
+  (props, ref) => <Modal.Body classPrefix="drawer-body" {...props} ref={ref} />
+);
 
-const DrawerHeader: RsRefForwardingComponent<
-  'div',
-  ModalHeaderProps
-> = React.forwardRef((props, ref) => (
-  <Modal.Header classPrefix="drawer-header" {...props} ref={ref} />
-));
+const DrawerHeader: RsRefForwardingComponent<'div', ModalHeaderProps> = React.forwardRef(
+  (props, ref) => <Modal.Header classPrefix="drawer-header" {...props} ref={ref} />
+);
 
-const DrawerActions: RsRefForwardingComponent<
-  'div',
-  ModalFooterProps
-> = React.forwardRef((props, ref) => (
-  <Modal.Footer classPrefix="drawer-actions" {...props} ref={ref} />
-));
+const DrawerActions: RsRefForwardingComponent<'div', ModalFooterProps> = React.forwardRef(
+  (props, ref) => <Modal.Footer classPrefix="drawer-actions" {...props} ref={ref} />
+);
 
-const DrawerFooter: RsRefForwardingComponent<
-  'div',
-  ModalFooterProps
-> = React.forwardRef((props, ref) => (
-  <Modal.Footer classPrefix="drawer-footer" {...props} ref={ref} />
-));
+const DrawerFooter: RsRefForwardingComponent<'div', ModalFooterProps> = React.forwardRef(
+  (props, ref) => <Modal.Footer classPrefix="drawer-footer" {...props} ref={ref} />
+);
 
-const DrawerTitle: RsRefForwardingComponent<
-  'div',
-  ModalTitleProps
-> = React.forwardRef((props, ref) => (
-  <Modal.Title classPrefix="drawer-title" {...props} ref={ref} />
-));
+const DrawerTitle: RsRefForwardingComponent<'div', ModalTitleProps> = React.forwardRef(
+  (props, ref) => <Modal.Title classPrefix="drawer-title" {...props} ref={ref} />
+);
 
 interface DrawerComponent extends React.FC<DrawerProps> {
   Body: typeof DrawerBody;
@@ -61,7 +48,7 @@ interface DrawerComponent extends React.FC<DrawerProps> {
   Footer: typeof DrawerFooter;
 }
 
-const Drawer: DrawerComponent = (React.forwardRef((props: DrawerProps, ref) => {
+const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
   const {
     className,
     placement = 'right',
@@ -87,7 +74,7 @@ const Drawer: DrawerComponent = (React.forwardRef((props: DrawerProps, ref) => {
       animationProps={animationProps}
     />
   );
-}) as unknown) as DrawerComponent;
+}) as unknown as DrawerComponent;
 
 DrawerBody.displayName = 'DrawerBody';
 DrawerHeader.displayName = 'DrawerHeader';

@@ -88,10 +88,10 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       );
     }, [calendarState]);
 
-    const inSameMonth = useCallback((date: Date) => isSameMonth(date, calendarDate[index]), [
-      calendarDate,
-      index
-    ]);
+    const inSameMonth = useCallback(
+      (date: Date) => isSameMonth(date, calendarDate[index]),
+      [calendarDate, index]
+    );
 
     const getCalendarDate = useCallback(() => calendarDate[index], [calendarDate, index]);
 

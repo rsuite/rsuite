@@ -27,12 +27,12 @@ interface TableComponent
   ColumnGroup: typeof ColumnGroup;
 }
 
-const Table: TableComponent = (React.forwardRef((props: TableProps, ref: React.RefObject<any>) => {
+const Table: TableComponent = React.forwardRef((props: TableProps, ref: React.RefObject<any>) => {
   const { locale: localeProp, loadAnimation = true, ...rest } = props;
   const { locale, rtl } = useCustom('Table', localeProp);
 
   return <RsTable {...rest} rtl={rtl} ref={ref} locale={locale} loadAnimation={loadAnimation} />;
-}) as unknown) as TableComponent;
+}) as unknown as TableComponent;
 
 Table.Cell = Cell;
 Table.Column = Column;

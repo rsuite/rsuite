@@ -22,86 +22,84 @@ export interface DropdownMenuCheckItemProps extends WithAsProps {
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
-const DropdownMenuCheckItem: RsRefForwardingComponent<
-  'div',
-  DropdownMenuCheckItemProps
-> = React.forwardRef((props: DropdownMenuCheckItemProps, ref) => {
-  const {
-    active,
-    as: Component = 'div',
-    checkboxAs: CheckboxItem = Checkbox,
-    classPrefix = 'check-item',
-    checkable = true,
-    disabled,
-    value,
-    focus,
-    children,
-    className,
-    indeterminate,
-    onKeyDown,
-    onSelect,
-    onCheck,
-    onSelectItem,
-    ...rest
-  } = props;
+const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckItemProps> =
+  React.forwardRef((props: DropdownMenuCheckItemProps, ref) => {
+    const {
+      active,
+      as: Component = 'div',
+      checkboxAs: CheckboxItem = Checkbox,
+      classPrefix = 'check-item',
+      checkable = true,
+      disabled,
+      value,
+      focus,
+      children,
+      className,
+      indeterminate,
+      onKeyDown,
+      onSelect,
+      onCheck,
+      onSelectItem,
+      ...rest
+    } = props;
 
-  const handleChange = useCallback(
-    (value: any, checked: boolean, event: React.SyntheticEvent<HTMLElement>) => {
-      onSelect?.(value, event, checked);
-    },
-    [onSelect]
-  );
+    const handleChange = useCallback(
+      (value: any, checked: boolean, event: React.SyntheticEvent<HTMLElement>) => {
+        onSelect?.(value, event, checked);
+      },
+      [onSelect]
+    );
 
-  const handleCheck = useCallback(
-    (event: React.SyntheticEvent<HTMLElement>) => {
-      if (!disabled) {
-        onCheck?.(value, event, !active);
-      }
-    },
-    [value, disabled, onCheck, active]
-  );
+    const handleCheck = useCallback(
+      (event: React.SyntheticEvent<HTMLElement>) => {
+        if (!disabled) {
+          onCheck?.(value, event, !active);
+        }
+      },
+      [value, disabled, onCheck, active]
+    );
 
-  const handleSelectItem = useCallback(
-    (event: React.SyntheticEvent<HTMLElement>) => {
-      if (!disabled) {
-        onSelectItem?.(value, event, !active);
-      }
-    },
-    [value, disabled, onSelectItem, active]
-  );
+    const handleSelectItem = useCallback(
+      (event: React.SyntheticEvent<HTMLElement>) => {
+        if (!disabled) {
+          onSelectItem?.(value, event, !active);
+        }
+      },
+      [value, disabled, onSelectItem, active]
+    );
 
-  const { withClassPrefix } = useClassNames(classPrefix);
-  const checkboxItemClasses = withClassPrefix({ focus });
+    const { withClassPrefix } = useClassNames(classPrefix);
+    const checkboxItemClasses = withClassPrefix({ focus });
 
-  return (
-    <Component
-      role="option"
-      aria-selected={active}
-      aria-disabled={disabled}
-      data-key={value}
-      {...rest}
-      ref={ref}
-      className={className}
-      tabIndex={-1}
-    >
-      <CheckboxItem
-        value={value}
-        role="checkbox"
-        disabled={disabled}
-        checked={active}
-        checkable={checkable}
-        indeterminate={indeterminate}
-        className={checkboxItemClasses}
-        onKeyDown={disabled ? null : onKeyDown}
-        onChange={handleChange}
-        onClick={handleSelectItem}
-        onCheckboxClick={handleCheck}
+    return (
+      <Component
+        role="option"
+        aria-selected={active}
+        aria-disabled={disabled}
+        data-key={value}
+        {...rest}
+        ref={ref}
+        className={className}
+        tabIndex={-1}
       >
-        {children}
-      </CheckboxItem>
-    </Component>
-  );
-});
+        <CheckboxItem
+          value={value}
+          role="checkbox"
+          disabled={disabled}
+          checked={active}
+          checkable={checkable}
+          indeterminate={indeterminate}
+          className={checkboxItemClasses}
+          onKeyDown={disabled ? null : onKeyDown}
+          onChange={handleChange}
+          onClick={handleSelectItem}
+          onCheckboxClick={handleCheck}
+        >
+          {children}
+        </CheckboxItem>
+      </Component>
+    );
+  });
 
 DropdownMenuCheckItem.displayName = 'DropdownMenuCheckItem';
 DropdownMenuCheckItem.propTypes = {

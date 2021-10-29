@@ -26,7 +26,7 @@ interface NavbarComponent extends RsRefForwardingComponent<'div', NavbarProps> {
   Brand: typeof NavbarBrand;
 }
 
-const Navbar: NavbarComponent = (React.forwardRef(
+const Navbar: NavbarComponent = React.forwardRef(
   (props: NavbarProps, ref: React.Ref<HTMLElement>) => {
     const {
       className,
@@ -43,7 +43,7 @@ const Navbar: NavbarComponent = (React.forwardRef(
       </NavbarContext.Provider>
     );
   }
-) as unknown) as NavbarComponent;
+) as unknown as NavbarComponent;
 
 Navbar.Header = NavbarHeader;
 Navbar.Body = NavbarBody;
