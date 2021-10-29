@@ -463,7 +463,7 @@ describe('DateRangePicker', () => {
     );
   });
 
-  it('Should call `onChange` callback when input change', () => {
+  it('Should call `onChange` callback when input change and blur', () => {
     const onChangeSpy = sinon.spy();
 
     const instance = getInstance(<DateRangePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
@@ -475,6 +475,25 @@ describe('DateRangePicker', () => {
     });
     act(() => {
       ReactTestUtils.Simulate.blur(input);
+    });
+
+    assert.isTrue(onChangeSpy.calledOnce);
+    assert.equal(format(onChangeSpy.firstCall.firstArg[0], 'dd/MM/yyyy'), '09/10/2020');
+    assert.equal(format(onChangeSpy.firstCall.firstArg[1], 'dd/MM/yyyy'), '09/11/2021');
+  });
+
+  it('Should call `onChange` callback when input change and Enter key', () => {
+    const onChangeSpy = sinon.spy();
+
+    const instance = getInstance(<DateRangePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
+    const input = instance.root.querySelector('.rs-picker-toggle-textbox');
+
+    act(() => {
+      input.value = '09/10/2020 ~ 09/11/2021';
+      ReactTestUtils.Simulate.change(input);
+    });
+    act(() => {
+      ReactTestUtils.Simulate.keyDown(input, { key: 'Enter' });
     });
 
     assert.isTrue(onChangeSpy.calledOnce);
