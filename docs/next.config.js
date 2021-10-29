@@ -34,6 +34,9 @@ const babelBuildInclude = __USE_SRC__
   ? [RSUITE_ROOT, path.join(__dirname, './')]
   : [path.join(__dirname, './')];
 
+/**
+ * @type {import('next').NextConfig}
+ */
 module.exports = {
   env: {
     DEV: __DEV__ ? 1 : 0,
@@ -179,6 +182,9 @@ module.exports = {
     }
 
     return config;
+  },
+  typescript: {
+    tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
   },
   trailingSlash: true,
   exportPathMap: () => {
