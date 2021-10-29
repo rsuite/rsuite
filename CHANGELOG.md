@@ -1,3 +1,20 @@
+# [5.1.0](https://github.com/rsuite/rsuite/compare/v5.0.3...v5.1.0) (2021-10-29)
+
+### Bug Fixes
+
+- **DatePicker:** fix DatePicker does not change value after pressing enter ([#2055](https://github.com/rsuite/rsuite/issues/2055)) ([c775444](https://github.com/rsuite/rsuite/commit/c7754445763f2553a3cc50e195b1dc347f774415))
+- **DateRangePicker:** fix DateRangePicker does not change value after pressing enter ([#2056](https://github.com/rsuite/rsuite/issues/2056)) ([8e5db2e](https://github.com/rsuite/rsuite/commit/8e5db2e54d8e6ad79f7219dc69cd1f52f32a8295))
+- **Dropdown.Item:** item inside Nav not pass "as" ([#2026](https://github.com/rsuite/rsuite/issues/2026)) ([34bfffd](https://github.com/rsuite/rsuite/commit/34bfffdbcd353753912b30b38523e3b62f430e98)), closes [#2025](https://github.com/rsuite/rsuite/issues/2025)
+- **Dropdown.Item:** render custom element inside li ([#2044](https://github.com/rsuite/rsuite/issues/2044)) ([a2e8a00](https://github.com/rsuite/rsuite/commit/a2e8a00c94f77028ed489a65f970264eeb9551ea))
+- **Overlay:** fix position offset inside container ([#2049](https://github.com/rsuite/rsuite/issues/2049)) ([c27b19e](https://github.com/rsuite/rsuite/commit/c27b19e9c9ec0191ccf5d36d9efe6b176b0b6d84))
+- **Toggle:** improve a11y (keyboard focusable + keyboard events) ([#2032](https://github.com/rsuite/rsuite/issues/2032)) ([9fdfd52](https://github.com/rsuite/rsuite/commit/9fdfd52e1eab3ad3e93569112e33ad3490335fbd))
+
+### Features
+
+- **locales:** Created fa_IR locale to add support of Persian language in Rsuite locals ([#2061](https://github.com/rsuite/rsuite/issues/2061)) ([14e5946](https://github.com/rsuite/rsuite/commit/14e59466cfd285ec1098d67280338a7df1ef8f5f))
+- **MaskedInput:** added support for MaskedInput to replace `react-text-mask` ([#2054](https://github.com/rsuite/rsuite/issues/2054)) ([496416a](https://github.com/rsuite/rsuite/commit/496416a2e4b32362252ef70f5c4e40f785ecf5be))
+- **Toggle:** add loading prop ([#2031](https://github.com/rsuite/rsuite/issues/2031)) ([28778de](https://github.com/rsuite/rsuite/commit/28778de0af0495a1bb68479bf3c679413255ce7b))
+
 ## [5.0.3](https://github.com/rsuite/rsuite/compare/v5.0.2...v5.0.3) (2021-10-22)
 
 ### Bug Fixes
