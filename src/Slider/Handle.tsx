@@ -50,7 +50,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
 
     const rootRef = useRef<HTMLDivElement>();
     const horizontalKey = rtl ? 'right' : 'left';
-    const direction = vertical ? 'top' : horizontalKey;
+    const direction = vertical ? 'bottom' : horizontalKey;
     const styles = { ...style, [direction]: `${position}%` };
     const { merge, prefix } = useClassNames(classPrefix);
     const handleClasses = merge(className, prefix('handle'), { active });
@@ -146,7 +146,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
             {renderTooltip ? renderTooltip(value) : value}
           </Tooltip>
         )}
-        <Input value={value} {...rest} />
+        <Input tabIndex={-1} value={value} {...rest} />
         {children}
       </Component>
     );

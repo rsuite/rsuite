@@ -69,7 +69,7 @@ const Graduated: RsRefForwardingComponent<'div', GraduatedProps> = React.forward
 
     return (
       <Component ref={ref} className={classes}>
-        <ul>{graduatedItems}</ul>
+        <ol>{graduatedItems}</ol>
       </Component>
     );
   }
