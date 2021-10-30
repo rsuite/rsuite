@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useControlled, useCustom } from '../utils';
+import { KEY_VALUES, useClassNames, useControlled, useCustom } from '../utils';
 import { WithAsProps, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
 import { ToggleLocale } from '../locales';
@@ -38,7 +38,7 @@ export interface ToggleProps extends WithAsProps {
   locale?: ToggleLocale;
 
   /** Callback function when state changes */
-  onChange?: (checked: boolean, event: React.SyntheticEvent) => void;
+  onChange?: (checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 /**
@@ -62,6 +62,7 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
     onChange,
     ...rest
   } = props;
+  const inputRef = useRef<HTMLInputElement>();
   const [checked, setChecked] = useControlled(checkedProp, defaultChecked);
   const { locale } = useCustom<ToggleLocale>('Toggle', localeProp);
 
@@ -70,26 +71,32 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
   const inner = checked ? checkedChildren : unCheckedChildren;
   const label = checked ? locale.on : locale.off;
 
-  const handleChange = useCallback(
-    (event: React.MouseEvent | React.KeyboardEvent) => {
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       if (disabled || readOnly) {
         return;
       }
-      setChecked(!checked);
-      onChange?.(!checked, event);
+      const { checked } = e.target;
+
+      setChecked(checked);
+      onChange?.(checked, e);
     },
-    [checked, disabled, onChange, readOnly, setChecked]
+    [disabled, readOnly, setChecked, onChange]
   );
 
+  const handleClick = useCallback(() => {
+    inputRef.current.click();
+  }, [inputRef]);
+
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<Element>) => {
-      if (event.key !== ' ') {
+    (e: React.KeyboardEvent<Element>) => {
+      if (e.key !== KEY_VALUES.SPACE) {
         return;
       }
-      handleChange(event);
-      event.preventDefault();
+      e.preventDefault();
+      inputRef.current.click();
     },
-    [handleChange]
+    [inputRef]
   );
 
   if (plaintext) {
@@ -107,9 +114,18 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
       {...rest}
       ref={ref}
       className={classes}
-      onClick={handleChange}
+      onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
+      <input
+        ref={inputRef}
+        type="checkbox"
+        checked={checked}
+        disabled={disabled}
+        readOnly={readOnly}
+        hidden
+        onChange={handleInputChange}
+      />
       <span className={prefix('inner')}>{inner}</span>
       {loading && <Loader className={prefix('loader')} />}
     </Component>
