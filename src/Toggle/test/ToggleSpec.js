@@ -8,7 +8,7 @@ import { getDOMNode } from '@test/testUtils';
 describe('Toggle', () => {
   it('Should output a toggle', () => {
     const instance = getDOMNode(<Toggle />);
-    assert.equal(instance.className, 'rs-btn-toggle');
+    assert.equal(instance.className, 'rs-toggle');
   });
 
   it('Should be disabled', () => {
@@ -18,12 +18,12 @@ describe('Toggle', () => {
 
   it('Should be checked', () => {
     const instance = getDOMNode(<Toggle checked />);
-    assert.ok(instance.className.match(/\bbtn-toggle-checked\b/));
+    assert.ok(instance.className.match(/\btoggle-checked\b/));
   });
 
   it('Should apply size class', () => {
     const instance = getDOMNode(<Toggle size="lg" />);
-    assert.ok(instance.className.match(/\bbtn-toggle-lg\b/));
+    assert.ok(instance.className.match(/\btoggle-lg\b/));
   });
 
   it('Should output a `off` in inner ', () => {
@@ -54,15 +54,15 @@ describe('Toggle', () => {
     it('Should toggle with the Space key', () => {
       const onChangeSpy = sinon.spy();
 
-      const { getByTestId, rerender } = render(
+      const { getByRole, rerender } = render(
         <Toggle onChange={onChangeSpy} data-testid="toggle" />
       );
-      getByTestId('toggle').focus();
+      getByRole('switch').focus();
       userEvent.keyboard('{space}');
       expect(onChangeSpy).to.have.been.calledWith(true);
 
       rerender(<Toggle checked onChange={onChangeSpy} data-testid="toggle" />);
-      getByTestId('toggle').focus();
+      getByRole('switch').focus();
       userEvent.keyboard('{space}');
       expect(onChangeSpy).to.have.been.calledWith(false);
     });
@@ -107,13 +107,13 @@ describe('Toggle', () => {
   });
 
   describe('Loading', () => {
-    it('Should have "rs-btn-toggle-loading" className', () => {
+    it('Should have "rs-toggle-loading" className', () => {
       const { getByTestId } = render(<Toggle loading data-testid="toggle" />);
-      expect(getByTestId('toggle')).to.have.class('rs-btn-toggle-loading');
+      expect(getByTestId('toggle')).to.have.class('rs-toggle-loading');
     });
     it('Should have `aria-busy` attribute set to `true`', () => {
-      const { getByTestId } = render(<Toggle loading data-testid="toggle" />);
-      expect(getByTestId('toggle')).to.have.attr('aria-busy', 'true');
+      const { getByRole } = render(<Toggle loading />);
+      expect(getByRole('switch')).to.have.attr('aria-busy', 'true');
     });
   });
 });
