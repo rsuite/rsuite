@@ -193,7 +193,9 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
   const getValueByPosition = useCallback(
     (event: React.MouseEvent) => {
       const barOffset = getOffset(barRef.current);
-      const offset = vertical ? event.pageY - barOffset.top : event.pageX - barOffset.left;
+      const offset = vertical
+        ? barOffset.top + barOffset.height - event.pageY
+        : event.pageX - barOffset.left;
       const offsetValue = rtl && !vertical ? barOffset.width - offset : offset;
 
       return getValueByOffset(offsetValue) + min;

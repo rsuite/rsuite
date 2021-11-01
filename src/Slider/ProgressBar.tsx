@@ -27,7 +27,7 @@ const ProgressBar: RsRefForwardingComponent<'div', ProgressBarProps> = React.for
 
     const sizeKey = vertical ? 'height' : 'width';
     const dirKey = rtl ? 'right' : 'left';
-    const startKey = vertical ? 'top' : dirKey;
+    const startKey = vertical ? 'bottom' : dirKey;
 
     const styles = { ...style, [startKey]: `${start}%`, [sizeKey]: `${end - start}%` };
     const classes = merge(className, withClassPrefix());
