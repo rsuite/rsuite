@@ -4,12 +4,7 @@ import isUndefined from 'lodash/isUndefined';
 import Input from '../Input';
 import FormErrorMessage from '../FormErrorMessage';
 import { useClassNames } from '../utils';
-import {
-  TypeAttributes,
-  FormControlBaseProps,
-  WithAsProps,
-  RsRefForwardingComponent
-} from '../@types/common';
+import { TypeAttributes, FormControlBaseProps, WithAsProps } from '../@types/common';
 import FormContext, { FormValueContext } from '../Form/FormContext';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 
@@ -55,145 +50,149 @@ export interface FormControlProps<P = any, ValueType = any>
   checkAsync?: boolean;
 }
 
-const FormControl: RsRefForwardingComponent<'div', FormControlProps> = React.forwardRef(
-  (props: FormControlProps, ref) => {
-    const {
-      readOnly: readOnlyContext,
-      plaintext: plaintextContext,
-      disabled: disabledContext,
-      errorFromContext,
-      formDefaultValue = {},
-      formError,
-      onFieldChange,
-      onFieldError,
-      onFieldSuccess,
-      model,
-      checkTrigger: contextCheckTrigger
-    } = useContext(FormContext);
+interface FormControlComponent extends React.FC<FormControlProps> {
+  <Accepter extends React.ElementType = typeof Input>(
+    props: FormControlProps & { accepter?: Accepter } & React.ComponentPropsWithRef<Accepter>
+  ): React.ReactElement;
+}
 
-    const {
-      as: Component = 'div',
-      accepter: AccepterComponent = Input,
-      classPrefix = 'form-control',
-      className,
-      checkAsync,
-      checkTrigger,
-      errorPlacement = 'bottomStart',
-      errorMessage,
-      name,
-      value,
-      readOnly = readOnlyContext,
-      plaintext = plaintextContext,
-      disabled = disabledContext,
-      onChange,
-      onBlur,
-      ...rest
-    } = props;
+const FormControl: FormControlComponent = React.forwardRef((props: FormControlProps, ref) => {
+  const {
+    readOnly: readOnlyContext,
+    plaintext: plaintextContext,
+    disabled: disabledContext,
+    errorFromContext,
+    formDefaultValue = {},
+    formError,
+    onFieldChange,
+    onFieldError,
+    onFieldSuccess,
+    model,
+    checkTrigger: contextCheckTrigger
+  } = useContext(FormContext);
 
-    const { controlId } = useContext(FormGroupContext);
+  const {
+    as: Component = 'div',
+    accepter: AccepterComponent = Input,
+    classPrefix = 'form-control',
+    className,
+    checkAsync,
+    checkTrigger,
+    errorPlacement = 'bottomStart',
+    errorMessage,
+    name,
+    value,
+    readOnly = readOnlyContext,
+    plaintext = plaintextContext,
+    disabled = disabledContext,
+    onChange,
+    onBlur,
+    ...rest
+  } = props;
 
-    if (!onFieldChange) {
-      throw new Error(`
+  const { controlId } = useContext(FormGroupContext);
+
+  if (!onFieldChange) {
+    throw new Error(`
       <FormControl> must be inside a component decorated with <Form>.
       And need to update React to 16.6.0 +.
     `);
-    }
-
-    const trigger = checkTrigger || contextCheckTrigger;
-    const formValue = useContext(FormValueContext);
-    const val = isUndefined(value) ? formValue?.[name] : value;
-
-    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix('wrapper'));
-
-    const handleFieldChange = (value: any, event: React.SyntheticEvent<any>) => {
-      handleFieldCheck(value, trigger === 'change');
-      onFieldChange?.(name, value, event);
-      onChange?.(value, event);
-    };
-
-    const handleFieldBlur = (event: React.FocusEvent<HTMLFormElement>) => {
-      handleFieldCheck(val, trigger === 'blur');
-      onBlur?.(event);
-    };
-
-    const handleFieldCheck = (value: any, isCheckTrigger: boolean) => {
-      const callbackEvents = checkResult => {
-        // The relevant event is triggered only when the inspection is allowed.
-        if (isCheckTrigger) {
-          if (checkResult.hasError) {
-            onFieldError?.(name, checkResult?.errorMessage || checkResult);
-          } else {
-            onFieldSuccess?.(name);
-          }
-        }
-        return checkResult;
-      };
-
-      const nextFormValue = { ...formValue, [name]: value };
-
-      if (checkAsync) {
-        return model.checkForFieldAsync(name, nextFormValue).then(checkResult => {
-          return callbackEvents(checkResult);
-        });
-      }
-
-      return Promise.resolve(callbackEvents(model.checkForField(name, nextFormValue)));
-    };
-
-    let messageNode = null;
-
-    if (!isUndefined(errorMessage)) {
-      messageNode = errorMessage;
-    } else if (errorFromContext) {
-      const fieldError = formError?.[name];
-
-      if (
-        typeof fieldError === 'string' ||
-        (!fieldError?.array && !fieldError?.object && fieldError?.hasError)
-      ) {
-        messageNode = fieldError;
-      }
-    }
-
-    const ariaDescribedby = controlId ? `${controlId}-help-text` : null;
-
-    const fieldHasError = Boolean(messageNode);
-    const ariaErrormessage = fieldHasError && controlId ? `${controlId}-error-message` : undefined;
-
-    return (
-      <Component className={classes} ref={ref}>
-        <AccepterComponent
-          id={controlId}
-          aria-labelledby={controlId ? `${controlId}-control-label` : null}
-          aria-describedby={ariaDescribedby}
-          aria-invalid={fieldHasError || undefined}
-          aria-errormessage={ariaErrormessage}
-          {...rest}
-          readOnly={readOnly}
-          plaintext={plaintext}
-          disabled={disabled}
-          name={name}
-          onChange={handleFieldChange}
-          onBlur={handleFieldBlur}
-          defaultValue={formDefaultValue[name]}
-          value={val}
-        />
-
-        <FormErrorMessage
-          id={`${controlId}-error-message`}
-          role="alert"
-          aria-relevant="all"
-          show={!!messageNode}
-          className={prefix`message-wrapper`}
-          placement={errorPlacement}
-        >
-          {messageNode}
-        </FormErrorMessage>
-      </Component>
-    );
   }
-);
+
+  const trigger = checkTrigger || contextCheckTrigger;
+  const formValue = useContext(FormValueContext);
+  const val = isUndefined(value) ? formValue?.[name] : value;
+
+  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix('wrapper'));
+
+  const handleFieldChange = (value: any, event: React.SyntheticEvent<any>) => {
+    handleFieldCheck(value, trigger === 'change');
+    onFieldChange?.(name, value, event);
+    onChange?.(value, event);
+  };
+
+  const handleFieldBlur = (event: React.FocusEvent<HTMLFormElement>) => {
+    handleFieldCheck(val, trigger === 'blur');
+    onBlur?.(event);
+  };
+
+  const handleFieldCheck = (value: any, isCheckTrigger: boolean) => {
+    const callbackEvents = checkResult => {
+      // The relevant event is triggered only when the inspection is allowed.
+      if (isCheckTrigger) {
+        if (checkResult.hasError) {
+          onFieldError?.(name, checkResult?.errorMessage || checkResult);
+        } else {
+          onFieldSuccess?.(name);
+        }
+      }
+      return checkResult;
+    };
+
+    const nextFormValue = { ...formValue, [name]: value };
+
+    if (checkAsync) {
+      return model.checkForFieldAsync(name, nextFormValue).then(checkResult => {
+        return callbackEvents(checkResult);
+      });
+    }
+
+    return Promise.resolve(callbackEvents(model.checkForField(name, nextFormValue)));
+  };
+
+  let messageNode = null;
+
+  if (!isUndefined(errorMessage)) {
+    messageNode = errorMessage;
+  } else if (errorFromContext) {
+    const fieldError = formError?.[name];
+
+    if (
+      typeof fieldError === 'string' ||
+      (!fieldError?.array && !fieldError?.object && fieldError?.hasError)
+    ) {
+      messageNode = fieldError;
+    }
+  }
+
+  const ariaDescribedby = controlId ? `${controlId}-help-text` : null;
+
+  const fieldHasError = Boolean(messageNode);
+  const ariaErrormessage = fieldHasError && controlId ? `${controlId}-error-message` : undefined;
+
+  return (
+    <Component className={classes} ref={ref}>
+      <AccepterComponent
+        id={controlId}
+        aria-labelledby={controlId ? `${controlId}-control-label` : null}
+        aria-describedby={ariaDescribedby}
+        aria-invalid={fieldHasError || undefined}
+        aria-errormessage={ariaErrormessage}
+        {...rest}
+        readOnly={readOnly}
+        plaintext={plaintext}
+        disabled={disabled}
+        name={name}
+        onChange={handleFieldChange}
+        onBlur={handleFieldBlur}
+        defaultValue={formDefaultValue[name]}
+        value={val}
+      />
+
+      <FormErrorMessage
+        id={`${controlId}-error-message`}
+        role="alert"
+        aria-relevant="all"
+        show={!!messageNode}
+        className={prefix`message-wrapper`}
+        placement={errorPlacement}
+      >
+        {messageNode}
+      </FormErrorMessage>
+    </Component>
+  );
+});
 
 FormControl.displayName = 'FormControl';
 FormControl.propTypes = {
