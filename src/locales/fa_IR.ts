@@ -1,14 +1,14 @@
 import faIR from 'date-fns/locale/fa-IR';
 
 const Calendar = {
-  sunday: 'یکشنبه',
-  monday: 'دوشنبه',
-  tuesday: 'سه شنبه',
-  wednesday: 'چهارشنبه',
-  thursday: 'پنجشنبه',
-  friday: 'جمعه',
-  saturday: 'شنبه',
-  ok: 'خوب',
+  sunday: 'ی',
+  monday: 'د',
+  tuesday: 'س',
+  wednesday: 'چ',
+  thursday: 'پ',
+  friday: 'ج',
+  saturday: 'ش',
+  ok: 'تایید',
   today: 'امروز',
   yesterday: 'دیروز',
   hours: 'ساعت',
