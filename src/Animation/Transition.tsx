@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { on, transition } from 'dom-lib';
+import getTransitionEnd from 'dom-lib/getTransitionEnd';
+import on from 'dom-lib/on';
 import classNames from 'classnames';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
@@ -166,7 +167,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       const { timeout, animation } = this.props;
       this.animationEventListener = on(
         node,
-        animation ? getAnimationEnd() : transition().end,
+        animation ? getAnimationEnd() : getTransitionEnd(),
         this.nextCallback
       );
       if (timeout !== null) {

@@ -1,7 +1,12 @@
 import maxBy from 'lodash/maxBy';
 import minBy from 'lodash/minBy';
 import kebabCase from 'lodash/kebabCase';
-import { ownerDocument, getOffset, getPosition, scrollTop, scrollLeft } from 'dom-lib';
+import ownerDocument from 'dom-lib/ownerDocument';
+import getOffset from 'dom-lib/getOffset';
+import scrollTop from 'dom-lib/scrollTop';
+import scrollLeft from 'dom-lib/scrollLeft';
+import getPosition from 'dom-lib/getPosition';
+
 import { TypeAttributes } from '../@types/common';
 
 export interface PositionType {

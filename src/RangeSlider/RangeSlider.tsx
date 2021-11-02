@@ -1,6 +1,8 @@
 import React, { useMemo, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { getWidth, getHeight, getOffset } from 'dom-lib';
+import getWidth from 'dom-lib/getWidth';
+import getHeight from 'dom-lib/getHeight';
+import getOffset from 'dom-lib/getOffset';
 import { useClassNames, useCustom, useControlled, useEventCallback } from '../utils';
 import { sliderPropTypes } from '../Slider/Slider';
 import ProgressBar from '../Slider/ProgressBar';

@@ -1,4 +1,4 @@
-import { canUseDOM } from 'dom-lib';
+import canUseDOM from 'dom-lib/canUseDOM';
 import { CustomProviderProps } from 'rsuite';
 
 export type ThemeType = CustomProviderProps['theme'];

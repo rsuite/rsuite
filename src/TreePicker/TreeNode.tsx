@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { hasClass } from 'dom-lib';
+import hasClass from 'dom-lib/hasClass';
 import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 import Spinner from '@rsuite/icons/legacy/Spinner';
 import TreeContext from '../Tree/TreeContext';

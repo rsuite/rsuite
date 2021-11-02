@@ -9,7 +9,13 @@ import React, {
 import bindElementResize from 'element-resize-event';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import helper from '../DOMHelper';
+import getContainer from 'dom-lib/getContainer';
+import ownerDocument from 'dom-lib/ownerDocument';
+import removeClass from 'dom-lib/removeClass';
+import on from 'dom-lib/on';
+import addClass from 'dom-lib/addClass';
+import addStyle from 'dom-lib/addStyle';
+import isElement from '../DOMHelper/isElement';
 import positionUtils, { PositionType } from './positionUtils';
 import { getDOMNode } from '../utils';
 import { TypeAttributes } from '../@types/common';
@@ -73,7 +79,7 @@ const usePosition = (
       }
       const targetElement = getDOMNode(triggerTarget);
 
-      if (!helper.isElement(targetElement)) {
+      if (!isElement(targetElement)) {
         throw new Error('`target` should return an HTMLElement');
       }
 
@@ -83,18 +89,18 @@ const usePosition = (
       }
 
       const overlay = getDOMNode(ref.current);
-      const containerElement = helper.getContainer(
+      const containerElement = getContainer(
         typeof container === 'function' ? container() : container,
-        helper.ownerDocument(ref.current).body
+        ownerDocument(ref.current).body
       );
 
       const posi = utils.calcOverlayPosition(overlay, targetElement, containerElement);
 
       if (forceUpdateDOM && overlay) {
         const preClassName = overlay?.className?.match(/(placement-\S+)/)?.[0];
-        helper.removeClass(overlay, preClassName);
-        helper.addClass(overlay, posi.positionClassName);
-        helper.addStyle(overlay, { left: `${posi.positionLeft}px`, top: `${posi.positionTop}px` });
+        removeClass(overlay, preClassName);
+        addClass(overlay, posi.positionClassName);
+        addStyle(overlay, { left: `${posi.positionLeft}px`, top: `${posi.positionTop}px` });
       } else {
         setPosition(posi);
       }
@@ -111,7 +117,7 @@ const usePosition = (
     let containerScrollListener;
     if (containerRef.current && preventOverflow) {
       // Update the overlay position when the container scroll bar is scrolling
-      containerScrollListener = helper.on(
+      containerScrollListener = on(
         containerRef.current?.tagName === 'BODY' ? window : containerRef.current,
         'scroll',
         () => updatePosition(true, true)
@@ -119,7 +125,7 @@ const usePosition = (
     }
 
     // Update the position when the window size changes
-    const resizeListener = helper.on(window, 'resize', () => updatePosition(true, true));
+    const resizeListener = on(window, 'resize', () => updatePosition(true, true));
 
     if (overlay) {
       // Update the position when the size of the overlay changes

@@ -1,7 +1,8 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import getOffset from 'dom-lib/getOffset';
+import on from 'dom-lib/on';
 import Transition from '../Animation/Transition';
-import helper from '../DOMHelper';
 import { mergeRefs, useClassNames } from '../utils';
 import { WithAsProps } from '../@types/common';
 
@@ -10,7 +11,7 @@ export interface RippleProps extends WithAsProps {
 }
 
 const getPosition = (target: HTMLElement, event: React.MouseEvent) => {
-  const offset = helper.getOffset(target);
+  const offset = getOffset(target);
   const offsetX = (event.pageX || 0) - offset.left;
   const offsetY = (event.pageY || 0) - offset.top;
 
@@ -50,7 +51,7 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
 
   useEffect(() => {
     const parentNode = triggerRef.current.parentNode as HTMLElement;
-    const mousedownListener = helper.on(parentNode, 'mousedown', handleMouseDown);
+    const mousedownListener = on(parentNode, 'mousedown', handleMouseDown);
     return () => {
       mousedownListener?.off();
     };

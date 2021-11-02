@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
 import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
-
-import helper from '../DOMHelper';
+import on from 'dom-lib/on';
 import InputGroup from '../InputGroup/InputGroup';
 import InputGroupAddon from '../InputGroup/InputGroupAddon';
 import Input from '../Input';
@@ -216,9 +215,9 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   );
 
   useEffect(() => {
-    let wheelListener: ReturnType<typeof helper.on>;
+    let wheelListener: ReturnType<typeof on>;
     if (inputRef.current && scrollable) {
-      wheelListener = helper.on(inputRef.current, 'wheel', handleWheel, { passive: false });
+      wheelListener = on(inputRef.current, 'wheel', handleWheel, { passive: false });
     }
     return () => {
       wheelListener?.off();

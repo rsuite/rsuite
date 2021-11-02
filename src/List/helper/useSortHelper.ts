@@ -1,4 +1,4 @@
-import { on } from 'dom-lib';
+import on from 'dom-lib/on';
 import { MouseEventHandler, useCallback, useRef, useState } from 'react';
 import { Offset } from '../../@types/common';
 import AutoScroller from './AutoScroller';

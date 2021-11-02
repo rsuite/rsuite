@@ -5,8 +5,9 @@ import ReactDOM, { findDOMNode, unmountComponentAtNode } from 'react-dom';
 import * as ReactTestUtils from 'react-dom/test-utils';
 import getPalette from './getPalette';
 import tinycolor from 'tinycolor2';
-export { getStyle } from 'dom-lib';
+import getStyle from 'dom-lib/getStyle';
 
+export { getStyle };
 export const globalKey = 'rs';
 const DEFAULT_PRIMARY_COLOR = '#3498ff';
 const DARK_PRIMARY_COLOR = '#34c3ff';

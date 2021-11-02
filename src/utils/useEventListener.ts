@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { on } from 'dom-lib';
+import on from 'dom-lib/on';
 
 /**
  * Attach the event handler directly to the specified DOM element.

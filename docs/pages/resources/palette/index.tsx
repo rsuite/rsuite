@@ -12,7 +12,7 @@ import {
   Panel,
   Loader
 } from 'rsuite';
-import { canUseDOM } from 'dom-lib';
+import canUseDOM from 'dom-lib/canUseDOM';
 import getPalette from '@/utils/getPalette';
 import ColorPanel from '@/components/ColorPanel';
 import loadJsFile from '@/utils/loadJsFile';
