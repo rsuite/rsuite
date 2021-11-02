@@ -105,7 +105,6 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 | onOpen          | () => void                        | Menu Pop-up callback function                                                           |
 | onSelect        | (eventKey: string, event) => void | Selected callback function                                                              |
 | onToggle        | (open?: boolean) => void          | Callback function for menu state switching.                                             |
-| open            | boolean                           | Controlled open state                                                                   |
 | placement       | Placement `('bottomStart')`       | The placement of Menu                                                                   |
 | renderToggle    | (props, ref) => any;              | Custom Toggle                                                                           |
 | title           | ReactNode                         | Menu defaults to display content.                                                       |
