@@ -110,7 +110,7 @@ describe('<PickerToggle>', () => {
       </span>
     );
 
-    const { getByTestId } = render(<Toggle caretComponent={MyCaret} />);
+    const { getByTestId } = render(<Toggle caretAs={MyCaret} />);
 
     expect(getByTestId('caret')).to.have.class('rs-picker-toggle-caret');
   });
