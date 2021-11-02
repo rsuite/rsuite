@@ -183,7 +183,6 @@ React Suite 基于 [MIT licensed][license] 发布。
 [npm-home]: https://www.npmjs.com/package/rsuite
 [travis-svg]: https://travis-ci.org/rsuite/rsuite.svg?branch=master
 [travis-home]: https://travis-ci.org/rsuite/rsuite
-[travis-home]: https://coveralls.io/github/rsuite/rsuite?branch=master
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
 [rsuite-design]: https://rsuitejs.com/design/default
