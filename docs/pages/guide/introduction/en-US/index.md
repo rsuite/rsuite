@@ -2,7 +2,7 @@
 
 React Suite is a library of React components, designed for middle platform and back-end products. Committed to creating intimate interactive designs while providing developers with a friendly development experience.
 
-[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Gitter][gitter-svg]][gitter]
+[![npm][npm-svg]][npm-home] [![Gitter][gitter-svg]][gitter]
 
 ## UI Design
 
@@ -108,8 +108,6 @@ RSUITE is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [readm-cn]: https://github.com/rsuite/rsuite/blob/master/README_zh.md
 [npm-svg]: https://badge.fury.io/js/rsuite.svg
 [npm-home]: https://www.npmjs.com/package/rsuite
-[travis-svg]: https://travis-ci.org/rsuite/rsuite.svg?branch=master
-[travis-home]: https://travis-ci.org/rsuite/rsuite
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
 [rsuite-design]: https://rsuitejs.com/design/default

@@ -7,7 +7,6 @@
 </p>
 
 [![npm][npm-svg]][npm-home]
-[![Travis][travis-svg]][travis-home]
 [![codecov](https://codecov.io/gh/rsuite/rsuite/branch/next/graph/badge.svg?token=HGeKd0BD3t)](https://codecov.io/gh/rsuite/rsuite)
 [![Discord][discord-svg]][discord-invite]
 [![Gitter][gitter-svg]][gitter]
@@ -181,8 +180,6 @@ React Suite 基于 [MIT licensed][license] 发布。
 [readm-en]: https://github.com/rsuite/rsuite/blob/master/README.md
 [npm-svg]: https://img.shields.io/npm/v/rsuite
 [npm-home]: https://www.npmjs.com/package/rsuite
-[travis-svg]: https://travis-ci.org/rsuite/rsuite.svg?branch=master
-[travis-home]: https://travis-ci.org/rsuite/rsuite
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
 [rsuite-design]: https://rsuitejs.com/design/default
