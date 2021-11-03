@@ -94,13 +94,13 @@ type ValueType = (string | number)[];
 | container          | HTMLElement &#124; (() => HTMLElement)                                            | Sets the rendering container                                |
 | data \*            | DataItemType[]                                                                    | The data of component                                       |
 | defaultValue       | ValueType                                                                         | Default values of the selected items                        |
-| disabled           | boolean                                                                           | Whether disabled component                                   |
+| disabled           | boolean                                                                           | Whether disabled component                                  |
 | disabledItemValues | ValueType[]                                                                       | Disable item by value                                       |
 | groupBy            | string                                                                            | Set group condition key in data                             |
 | labelKey           | string `('label')`                                                                | Set label key in data                                       |
 | listProps          | [ListProps][listprops]                                                            | List-related properties in `react-virtualized`              |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                          | Locale text                                                 |
-| maxHeight          | number `(320)`                                                                    | The max height of Dropdown                                  |
+| menuMaxHeight      | number `(320)`                                                                    | The max height of Dropdown                                  |
 | menuClassName      | string                                                                            | A css class to apply to the Menu DOM node.                  |
 | menuStyle          | CSSProperties                                                                     | A style to apply to the Menu DOM node.                      |
 | onChange           | (value:ValueType, event) => void                                                  | Callback fired when value change                            |
