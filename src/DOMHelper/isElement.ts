@@ -1,5 +1,5 @@
 const isElement = (node: HTMLElement) => {
-  return node?.nodeType && typeof node?.nodeName === 'string';
+  return node?.nodeType === 1 && typeof node?.nodeName === 'string';
 };
 
 export default isElement;
