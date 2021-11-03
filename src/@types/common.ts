@@ -120,14 +120,23 @@ export interface PickerBaseProps<LocaleType = any> extends WithAsProps, Animatio
   renderExtraFooter?: () => React.ReactNode;
 }
 
-export interface FormControlBaseProps<ValueType = any> {
+export interface FormControlBaseProps<
+  ValueType = React.InputHTMLAttributes<HTMLInputElement>['value']
+> {
+  /** Name of the form field */
+  name?: string;
+
   /** Initial value */
   defaultValue?: ValueType;
 
   /** Current value of the component. Creates a controlled component */
   value?: ValueType;
 
-  /** Called after the value has been changed */
+  /**
+   * Called after the value has been changed
+   * todo Override event as React.ChangeEvent in components where onChange is delegated
+   *      to an underlying <input> element
+   */
   onChange?: (value: ValueType, event: React.SyntheticEvent) => void;
 
   /** Set the component to be disabled and cannot be entered */
