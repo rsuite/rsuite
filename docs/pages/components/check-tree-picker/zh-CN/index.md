@@ -105,6 +105,7 @@
 | value                   | string[]                                                                                      | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                            | tree 数据结构 value 属性名称                                                    |
 | virtualized             | boolean                                                                                       | 是否开启虚拟列表                                                                |
+| caretAs                 | ElementType                                                                                   | 自定义右侧箭头图标的组件                                                        |
 
 ## 相关组件
 

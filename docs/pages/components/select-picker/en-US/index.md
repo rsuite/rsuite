@@ -120,5 +120,6 @@ type ValueType = string | number;
 | value              | ValueType                                                                    | Value (Controlled)                                          |
 | valueKey           | string `('value')`                                                           | Set option value 'key' in 'data'                            |
 | virtualized        | boolean                                                                      | Whether using Virtualized List                              |
+| caretAs            | ElementType                                                                  | Custom component for the caret icon                         |
 
 [listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types

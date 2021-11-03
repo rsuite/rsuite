@@ -105,6 +105,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | value                   | string[]                                                                                      | (Controlled) specifies the values of the selected tree node               |
 | valueKey                | string `('value')`                                                                            | Set value key in data                                                     |
 | virtualized             | boolean                                                                                       | Whether using Virtualized List                                            |
+| caretAs                 | ElementType                                                                                   | Custom component for the caret icon                                       |
 
 ## Related Components
 

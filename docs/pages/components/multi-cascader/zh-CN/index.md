@@ -123,3 +123,4 @@
 | uncheckableItemValues | string[]                                                                                  | 设置不显示复选框的选项值             |
 | value                 | string[]                                                                                  | 设置值（受控）                       |
 | valueKey              | string `('value')`                                                                        | 设置选项值在 `data` 中的 `key`       |
+| caretAs               | ElementType                                                                               | 自定义右侧箭头图标的组件             |

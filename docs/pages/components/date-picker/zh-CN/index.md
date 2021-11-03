@@ -157,6 +157,7 @@
 | timeZone              | string                                                  | [IANA 时区名](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) |
 | toggleAs              | ElementType `('a')`                                     | 为组件自定义元素类型                                                        |
 | value                 | Date                                                    | 值`受控                                                                     |
+| caretAs               | ElementType                                             | 自定义右侧箭头图标的组件                                                    |
 
 ## Default
 
