@@ -1,21 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
-import 'rsuite/lib/styles/themes/dark/index.less';
+// import default style
+import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
 
-/** import default css */
-// import 'rsuite/dist/styles/rsuite-default.css';
+/**
+ * Support personalized configurations such as localization, Right to Left, and themes
+ */
 
-/** import dark css */
-// import 'rsuite/dist/styles/rsuite-dark.css';
-
-import { Button } from 'rsuite';
+import { Button, CustomProvider, ButtonToolbar } from 'rsuite';
 
 function App() {
+  const [theme, setTheme] = useState('light');
+
+  const switchTheme = e => setTheme(e.target.value);
+
   return (
-    <div className="App">
-      <Button appearance="primary"> Hello world </Button>
-    </div>
+    <CustomProvider theme={theme}>
+      <div className="App">
+        <ButtonToolbar>
+          <Button appearance="default" onClick={switchTheme} value="light">
+            Light theme(default)
+          </Button>
+          <Button appearance="primary" onClick={switchTheme} value="dark">
+            Dark theme
+          </Button>
+          <Button appearance="ghost" onClick={switchTheme} value="high-contrast">
+            High contrast theme
+          </Button>
+        </ButtonToolbar>
+      </div>
+    </CustomProvider>
   );
 }
 
