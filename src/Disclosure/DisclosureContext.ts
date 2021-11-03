@@ -15,7 +15,7 @@ export type DisclosureContextProps = [
   DisclosureState,
   Dispatch<DisclosureAction>,
   {
-    onToggle: (open: boolean, event?: React.SyntheticEvent<HTMLElement>) => void;
+    onToggle: (open: boolean, event?: React.SyntheticEvent) => void;
   }
 ];
 

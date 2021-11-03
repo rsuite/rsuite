@@ -53,7 +53,7 @@ export interface FormProps<
   errorFromContext?: boolean;
 
   /** Callback fired when data changing */
-  onChange?: (formValue: T, event: React.SyntheticEvent<HTMLElement>) => void;
+  onChange?: (formValue: T, event: React.SyntheticEvent) => void;
 
   /** Callback fired when error checking */
   onError?: (formError: E) => void;
@@ -331,7 +331,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   );
 
   const handleFieldChange = useCallback(
-    (name: string, value: any, event: React.SyntheticEvent<any>) => {
+    (name: string, value: any, event: React.SyntheticEvent) => {
       const formValue = getFormValue();
       const nextFormValue = {
         ...formValue,

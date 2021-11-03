@@ -13,7 +13,7 @@ export interface RadioContextProps {
   disabled?: boolean;
   readOnly?: boolean;
   plaintext?: boolean;
-  onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLInputElement>) => void;
+  onChange?: (value: ValueType, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface RadioGroupProps<T = ValueType> extends WithAsProps, FormControlBaseProps<T> {

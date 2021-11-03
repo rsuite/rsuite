@@ -129,21 +129,16 @@ export interface UploaderProps extends WithAsProps {
   onReupload?: (file: FileType) => void;
 
   /** In the file list, click the callback function for the uploaded file */
-  onPreview?: (file: FileType, event: React.SyntheticEvent<any>) => void;
+  onPreview?: (file: FileType, event: React.SyntheticEvent) => void;
 
   /** Upload callback function with erro */
-  onError?: (
-    status: any,
-    file: FileType,
-    event: React.SyntheticEvent<any>,
-    xhr: XMLHttpRequest
-  ) => void;
+  onError?: (status: any, file: FileType, event: React.SyntheticEvent, xhr: XMLHttpRequest) => void;
 
   /** callback function after successful upload */
   onSuccess?: (
     response: any,
     file: FileType,
-    event: React.SyntheticEvent<any>,
+    event: React.SyntheticEvent,
     xhr: XMLHttpRequest
   ) => void;
 
@@ -151,7 +146,7 @@ export interface UploaderProps extends WithAsProps {
   onProgress?: (
     percent: number,
     file: FileType,
-    event: React.SyntheticEvent<any>,
+    event: React.SyntheticEvent,
     xhr: XMLHttpRequest
   ) => void;
 
@@ -335,7 +330,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * @param xhr
    */
   const handleAjaxUploadSuccess = useCallback(
-    (file: FileType, response: any, event: React.SyntheticEvent<any>, xhr: XMLHttpRequest) => {
+    (file: FileType, response: any, event: React.SyntheticEvent, xhr: XMLHttpRequest) => {
       const nextFile: FileType = {
         ...file,
         status: 'finished',
@@ -355,7 +350,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * @param xhr
    */
   const handleAjaxUploadError = useCallback(
-    (file: FileType, status: any, event: React.SyntheticEvent<any>, xhr: XMLHttpRequest) => {
+    (file: FileType, status: any, event: React.SyntheticEvent, xhr: XMLHttpRequest) => {
       const nextFile: FileType = {
         ...file,
         status: 'error'
@@ -374,7 +369,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * @param xhr
    */
   const handleAjaxUploadProgress = useCallback(
-    (file: FileType, percent: number, event: React.SyntheticEvent<any>, xhr: XMLHttpRequest) => {
+    (file: FileType, percent: number, event: React.SyntheticEvent, xhr: XMLHttpRequest) => {
       const nextFile: FileType = {
         ...file,
         status: 'uploading',

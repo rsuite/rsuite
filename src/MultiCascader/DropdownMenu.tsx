@@ -88,7 +88,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
     );
 
     const handleSelect = useCallback(
-      (layer: number, node: any, event: React.SyntheticEvent<HTMLElement>) => {
+      (layer: number, node: any, event: React.SyntheticEvent) => {
         const cascadePaths = getCascadePaths(layer + 1, node);
 
         onSelect?.(node, cascadePaths, event);

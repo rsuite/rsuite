@@ -100,7 +100,7 @@ export interface TreePickerProps<T = number | string>
   ) => React.ReactNode;
 
   /** Called when scrolling */
-  onScroll?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  onScroll?: (event: React.SyntheticEvent) => void;
 }
 
 const emptyArray = [];
@@ -363,7 +363,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   };
 
   const handleSelect = useCallback(
-    (nodeData: any, event: React.SyntheticEvent<any>) => {
+    (nodeData: any, event: React.SyntheticEvent) => {
       if (!nodeData) {
         return;
       }
@@ -616,7 +616,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   ]);
 
   const selectActiveItem = useCallback(
-    (event: React.SyntheticEvent<any>) => {
+    (event: React.SyntheticEvent) => {
       const activeItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
       handleSelect(activeItem, event);
     },
@@ -624,7 +624,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   );
 
   const handleClean = useCallback(
-    (event: React.SyntheticEvent<any>) => {
+    (event: React.SyntheticEvent) => {
       const target = event.target as Element;
       // exclude searchBar
       if (target.matches('div[role="searchbox"] > input')) {

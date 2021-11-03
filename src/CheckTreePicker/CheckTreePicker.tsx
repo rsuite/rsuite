@@ -94,7 +94,7 @@ export interface CheckTreePickerProps<T = ValueType>
   ) => React.ReactNode;
 
   /** Called when scrolling */
-  onScroll?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  onScroll?: (event: React.SyntheticEvent) => void;
 }
 
 const emptyArray = [];
@@ -392,7 +392,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   );
 
   const handleSelect = useCallback(
-    (node: TreeNodeType, event: React.SyntheticEvent<any>) => {
+    (node: TreeNodeType, event: React.SyntheticEvent) => {
       if (!node) {
         return;
       }
@@ -494,7 +494,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   usePublicMethods(ref, { triggerRef, overlayRef, targetRef }, inline);
 
   const handleClean = useCallback(
-    (event: React.SyntheticEvent<any>) => {
+    (event: React.SyntheticEvent) => {
       const target = event.target as Element;
       // exclude searchBar
       if (target.matches('div[role="searchbox"] > input')) {

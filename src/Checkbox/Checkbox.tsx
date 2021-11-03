@@ -49,13 +49,13 @@ export interface CheckboxProps<V = ValueType> extends WithAsProps {
   name?: string;
 
   /** Called when the user attempts to change the checked state. */
-  onChange?: (value: V, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
+  onChange?: (value: V, checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
 
   /** Called when the checkbox or label is clicked. */
-  onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  onClick?: (event: React.SyntheticEvent) => void;
 
   /** Called when the checkbox is clicked. */
-  onCheckboxClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  onCheckboxClick?: (event: React.SyntheticEvent) => void;
 }
 
 const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRef(
@@ -114,7 +114,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
     }
 
     const handleChange = useCallback(
-      (event: React.SyntheticEvent<HTMLInputElement>) => {
+      (event: React.ChangeEvent<HTMLInputElement>) => {
         const nextChecked = !checked;
 
         if (disabled || readOnly) {

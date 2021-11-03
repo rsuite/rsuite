@@ -26,7 +26,7 @@ export interface FormControlProps<P = any, ValueType = any>
   value?: ValueType;
 
   /** Callback fired when data changing */
-  onChange?(value: ValueType, event: React.SyntheticEvent<HTMLElement>): void;
+  onChange?(value: ValueType, event: React.SyntheticEvent): void;
 
   /** The data validation trigger type, and it wiill overrides the setting on <Form> */
   checkTrigger?: TypeAttributes.CheckTrigger;
@@ -106,7 +106,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix('wrapper'));
 
-  const handleFieldChange = (value: any, event: React.SyntheticEvent<any>) => {
+  const handleFieldChange = (value: any, event: React.SyntheticEvent) => {
     handleFieldCheck(value, trigger === 'change');
     onFieldChange?.(name, value, event);
     onChange?.(value, event);

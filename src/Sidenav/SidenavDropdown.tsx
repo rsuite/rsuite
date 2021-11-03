@@ -109,7 +109,7 @@ const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = Re
   const uniqueKey = eventKey ?? internalId;
 
   const handleToggleDisclosure = useCallback(
-    (open: boolean, event: React.SyntheticEvent<HTMLElement>) => {
+    (open: boolean, event: React.SyntheticEvent) => {
       if (open) {
         onClose?.();
       } else {

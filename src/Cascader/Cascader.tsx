@@ -84,7 +84,7 @@ export interface CascaderProps<T = ValueType>
   onClean?: (event: React.SyntheticEvent) => void;
 
   /** Called when searching */
-  onSearch?: (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => void;
+  onSearch?: (searchKeyword: string, event: React.SyntheticEvent) => void;
 
   /** Asynchronously load the children of the tree node. */
   getChildren?: (node: ItemDataType) => ItemDataType[] | Promise<ItemDataType[]>;
@@ -238,7 +238,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   });
 
   const handleSearch = useCallback(
-    (value: string, event: React.SyntheticEvent<HTMLElement>) => {
+    (value: string, event: React.SyntheticEvent) => {
       const items = getSearchResult(value);
 
       setSearchKeyword(value);
@@ -393,7 +393,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   const handleSearchRowSelect = (
     node: ItemDataType,
     nodes: ItemDataType[],
-    event: React.SyntheticEvent<HTMLElement>
+    event: React.SyntheticEvent
   ) => {
     const nextValue = node[valueKey];
 

@@ -292,7 +292,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     );
 
     const handleClean = useCallback(
-      (event: React.SyntheticEvent<HTMLElement>) => {
+      (event: React.SyntheticEvent) => {
         if (disabled) {
           return;
         }

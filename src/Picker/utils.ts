@@ -467,7 +467,7 @@ interface SearchProps {
   labelKey: string;
   data: ItemDataType[];
   searchBy: (keyword, label, item) => boolean;
-  callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent<any>) => void;
+  callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent) => void;
 }
 
 /**
@@ -508,7 +508,7 @@ export function useSearch(props: SearchProps) {
     filterNodesOfTree(data, item => checkShouldDisplay(item))
   );
 
-  const handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
+  const handleSearch = (searchKeyword: string, event: React.SyntheticEvent) => {
     const filteredData = filterNodesOfTree(data, item => checkShouldDisplay(item, searchKeyword));
     setFilteredData(filteredData);
     setSearchKeyword(searchKeyword);

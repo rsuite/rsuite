@@ -16,9 +16,9 @@ export interface DropdownMenuCheckItemProps extends WithAsProps {
   title?: string;
   className?: string;
   children?: React.ReactNode;
-  onSelect?: (value: any, event: React.SyntheticEvent<HTMLElement>, checked: boolean) => void;
-  onCheck?: (value: any, event: React.SyntheticEvent<HTMLElement>, checked: boolean) => void;
-  onSelectItem?: (value: any, event: React.SyntheticEvent<HTMLElement>, checked: boolean) => void;
+  onSelect?: (value: any, event: React.SyntheticEvent, checked: boolean) => void;
+  onCheck?: (value: any, event: React.SyntheticEvent, checked: boolean) => void;
+  onSelectItem?: (value: any, event: React.SyntheticEvent, checked: boolean) => void;
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
@@ -44,14 +44,14 @@ const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckIt
     } = props;
 
     const handleChange = useCallback(
-      (value: any, checked: boolean, event: React.SyntheticEvent<HTMLElement>) => {
+      (value: any, checked: boolean, event: React.SyntheticEvent) => {
         onSelect?.(value, event, checked);
       },
       [onSelect]
     );
 
     const handleCheck = useCallback(
-      (event: React.SyntheticEvent<HTMLElement>) => {
+      (event: React.SyntheticEvent) => {
         if (!disabled) {
           onCheck?.(value, event, !active);
         }
@@ -60,7 +60,7 @@ const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckIt
     );
 
     const handleSelectItem = useCallback(
-      (event: React.SyntheticEvent<HTMLElement>) => {
+      (event: React.SyntheticEvent) => {
         if (!disabled) {
           onSelectItem?.(value, event, !active);
         }
