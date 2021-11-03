@@ -2,7 +2,7 @@
 
 React Suite 是一套 React 组件库，为中后台产品而生。致力于创造出贴心的交互设计，同时为开发者提供了友好的开发体验。
 
-[![npm][npm-svg]][npm-home] [![Travis][travis-svg]][travis-home] [![Coverage Status][coverage-svg]][travis-home] [![Gitter][gitter-svg]][gitter]
+[![npm][npm-svg]][npm-home] [![Gitter][gitter-svg]][gitter]
 
 ### UI Design
 
@@ -110,10 +110,6 @@ RSUITE 基于 [MIT licensed][license] 发布。
 [readm-cn]: https://github.com/rsuite/rsuite/blob/master/README_zh.md
 [npm-svg]: https://badge.fury.io/js/rsuite.svg
 [npm-home]: https://www.npmjs.com/package/rsuite
-[travis-svg]: https://travis-ci.org/rsuite/rsuite.svg?branch=master
-[travis-home]: https://travis-ci.org/rsuite/rsuite
-[coverage-svg]: https://coveralls.io/repos/github/rsuite/rsuite/badge.svg?branch=master
-[coverage-home]: https://coveralls.io/github/rsuite/rsuite?branch=master
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
 [rsuite-design]: https://rsuitejs.com/design/default
