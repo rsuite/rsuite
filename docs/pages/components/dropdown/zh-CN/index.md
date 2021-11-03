@@ -105,7 +105,6 @@
 | onOpen          | () => void                        | 菜单弹出的回调函数                               |
 | onSelect        | (eventKey: string, event) => void | 选择后的回调函数                                 |
 | onToggle        | (open?: boolean) => void          | 菜单状态切换的回调函数                           |
-| open            | boolean                           | 受控的打开状态                                   |
 | placement       | Placement `('bottomStart')`       | 菜单显示位置                                     |
 | renderToggle    | (props, ref) => any;              | 自定义 Toggle                                    |
 | title           | ReactNode                         | 菜单默认显示内容                                 |
