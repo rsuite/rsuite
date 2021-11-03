@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useControlled, useCustom } from '../utils';
-import { WithAsProps, TypeAttributes } from '../@types/common';
+import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import Plaintext from '../Plaintext';
 import { ToggleLocale } from '../locales';
 import Loader from '../Loader';
@@ -38,13 +38,13 @@ export interface ToggleProps extends WithAsProps {
   locale?: ToggleLocale;
 
   /** Callback function when state changes */
-  onChange?: (checked: boolean, event: React.SyntheticEvent) => void;
+  onChange?: (checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-/**
- * fixme: Should contain an input[type=checkbox]
- */
-const Toggle = React.forwardRef((props: ToggleProps, ref) => {
+const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
+  HTMLLabelElement,
+  ToggleProps
+>((props, ref) => {
   const {
     as: Component = 'span',
     disabled,
@@ -54,7 +54,7 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
     className,
     checkedChildren,
     unCheckedChildren,
-    classPrefix = 'btn-toggle',
+    classPrefix = 'toggle',
     checked: checkedProp,
     defaultChecked,
     size,
@@ -62,6 +62,7 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
     onChange,
     ...rest
   } = props;
+  const inputRef = useRef<HTMLInputElement>();
   const [checked, setChecked] = useControlled(checkedProp, defaultChecked);
   const { locale } = useCustom<ToggleLocale>('Toggle', localeProp);
 
@@ -70,26 +71,17 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
   const inner = checked ? checkedChildren : unCheckedChildren;
   const label = checked ? locale.on : locale.off;
 
-  const handleChange = useCallback(
-    (event: React.MouseEvent | React.KeyboardEvent) => {
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
       if (disabled || readOnly) {
         return;
       }
-      setChecked(!checked);
-      onChange?.(!checked, event);
-    },
-    [checked, disabled, onChange, readOnly, setChecked]
-  );
+      const { checked } = e.target;
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<Element>) => {
-      if (event.key !== ' ') {
-        return;
-      }
-      handleChange(event);
-      event.preventDefault();
+      setChecked(checked);
+      onChange?.(checked, e);
     },
-    [handleChange]
+    [disabled, readOnly, setChecked, onChange]
   );
 
   if (plaintext) {
@@ -97,28 +89,34 @@ const Toggle = React.forwardRef((props: ToggleProps, ref) => {
   }
 
   return (
-    <Component
-      role="switch"
-      aria-checked={checked}
-      aria-disabled={disabled}
-      aria-label={typeof inner === 'string' ? inner : label}
-      aria-busy={loading || undefined}
-      tabIndex={0}
-      {...rest}
-      ref={ref}
-      className={classes}
-      onClick={handleChange}
-      onKeyDown={handleKeyDown}
-    >
-      <span className={prefix('inner')}>{inner}</span>
-      {loading && <Loader className={prefix('loader')} />}
-    </Component>
+    <label ref={ref} className={classes} {...rest}>
+      <input
+        ref={inputRef}
+        type="checkbox"
+        checked={checked}
+        disabled={disabled}
+        readOnly={readOnly}
+        onChange={handleInputChange}
+        className={prefix('input')}
+        role="switch"
+        aria-checked={checked}
+        aria-disabled={disabled}
+        aria-label={typeof inner === 'string' ? inner : label}
+        aria-busy={loading || undefined}
+      />
+      <Component className={prefix('presentation')}>
+        <span className={prefix('inner')}>{inner}</span>
+        {loading && <Loader className={prefix('loader')} />}
+      </Component>
+    </label>
   );
 });
 
 Toggle.displayName = 'Toggle';
 Toggle.propTypes = {
   disabled: PropTypes.bool,
+  readOnly: PropTypes.bool,
+  plaintext: PropTypes.bool,
   checked: PropTypes.bool,
   defaultChecked: PropTypes.bool,
   checkedChildren: PropTypes.node,
@@ -126,7 +124,13 @@ Toggle.propTypes = {
   loading: PropTypes.bool,
   classPrefix: PropTypes.string,
   className: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  as: PropTypes.elementType,
+  size: PropTypes.oneOf(['sm', 'md', 'lg']),
+  locale: PropTypes.shape({
+    on: PropTypes.string,
+    off: PropTypes.string
+  })
 };
 
 export default Toggle;

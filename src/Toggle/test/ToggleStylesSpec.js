@@ -7,6 +7,10 @@ import '../styles/index.less';
 describe('Toggle styles', () => {
   it('Should render the correct styles', () => {
     const dom = getDOMNode(<Toggle />);
-    assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#d9d9d9'), 'Toggle background-color');
+    assert.equal(
+      getStyle(dom.querySelector('.rs-toggle-presentation'), 'backgroundColor'),
+      toRGB('#d9d9d9'),
+      'Toggle background-color'
+    );
   });
 });

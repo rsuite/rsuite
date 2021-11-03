@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
 
 import Toggle from '../Toggle';
 import { getDOMNode } from '@test/testUtils';
@@ -8,7 +8,7 @@ import { getDOMNode } from '@test/testUtils';
 describe('Toggle', () => {
   it('Should output a toggle', () => {
     const instance = getDOMNode(<Toggle />);
-    assert.equal(instance.className, 'rs-btn-toggle');
+    assert.equal(instance.className, 'rs-toggle');
   });
 
   it('Should be disabled', () => {
@@ -18,12 +18,12 @@ describe('Toggle', () => {
 
   it('Should be checked', () => {
     const instance = getDOMNode(<Toggle checked />);
-    assert.ok(instance.className.match(/\bbtn-toggle-checked\b/));
+    assert.ok(instance.className.match(/\btoggle-checked\b/));
   });
 
   it('Should apply size class', () => {
     const instance = getDOMNode(<Toggle size="lg" />);
-    assert.ok(instance.className.match(/\bbtn-toggle-lg\b/));
+    assert.ok(instance.className.match(/\btoggle-lg\b/));
   });
 
   it('Should output a `off` in inner ', () => {
@@ -36,31 +36,58 @@ describe('Toggle', () => {
     assert.equal(instance.textContent, 'on');
   });
 
-  it('Should call onChange callback with correct checked state', done => {
-    const doneOp = checked => {
-      try {
-        assert.isTrue(checked);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-    const instance = getDOMNode(<Toggle onChange={doneOp} />);
-    ReactTestUtils.Simulate.click(instance);
-  });
+  describe('onChange', () => {
+    it('Should call onChange callback with checked state', () => {
+      const onChangeSpy = sinon.spy();
 
-  it('Should call onChange callback and the correct arguments returned', done => {
-    const doneOp = checked => {
-      try {
-        assert.isFalse(checked);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+      const { getByTestId, rerender } = render(
+        <Toggle onChange={onChangeSpy} data-testid="toggle" />
+      );
+      userEvent.click(getByTestId('toggle'));
+      expect(onChangeSpy).to.have.been.calledWith(true);
 
-    const instance = getDOMNode(<Toggle defaultChecked={true} onChange={doneOp} />);
-    ReactTestUtils.Simulate.click(instance);
+      rerender(<Toggle checked onChange={onChangeSpy} data-testid="toggle" />);
+      userEvent.click(getByTestId('toggle'));
+      expect(onChangeSpy).to.have.been.calledWith(false);
+    });
+
+    it('Should toggle with the Space key', () => {
+      const onChangeSpy = sinon.spy();
+
+      const { getByRole, rerender } = render(
+        <Toggle onChange={onChangeSpy} data-testid="toggle" />
+      );
+      getByRole('switch').focus();
+      userEvent.keyboard('{space}');
+      expect(onChangeSpy).to.have.been.calledWith(true);
+
+      rerender(<Toggle checked onChange={onChangeSpy} data-testid="toggle" />);
+      getByRole('switch').focus();
+      userEvent.keyboard('{space}');
+      expect(onChangeSpy).to.have.been.calledWith(false);
+    });
+
+    it('Should not call `onChange` callback when disabled', () => {
+      const onChangeSpy = sinon.spy();
+
+      const { getByTestId } = render(
+        <Toggle disabled onChange={onChangeSpy} data-testid="toggle" />
+      );
+      userEvent.click(getByTestId('toggle'));
+
+      expect(onChangeSpy).not.to.have.been.called;
+    });
+
+    it('Should not call `onChange` callback when readOnly', () => {
+      const onChangeSpy = sinon.spy();
+
+      const { getByTestId } = render(
+        <Toggle readOnly onChange={onChangeSpy} data-testid="toggle" />
+      );
+      userEvent.click(getByTestId('toggle'));
+
+      expect(onChangeSpy).not.to.have.been.called;
+    });
   });
 
   it('Should have a custom className', () => {
@@ -79,28 +106,14 @@ describe('Toggle', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should toggle with the space key', done => {
-    const doneOp = checked => {
-      try {
-        assert.isTrue(checked);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-
-    const instance = getDOMNode(<Toggle onChange={doneOp} />);
-    ReactTestUtils.Simulate.keyDown(instance, { key: ' ' });
-  });
-
   describe('Loading', () => {
-    it('Should have "rs-btn-toggle-loading" className', () => {
+    it('Should have "rs-toggle-loading" className', () => {
       const { getByTestId } = render(<Toggle loading data-testid="toggle" />);
-      expect(getByTestId('toggle')).to.have.class('rs-btn-toggle-loading');
+      expect(getByTestId('toggle')).to.have.class('rs-toggle-loading');
     });
     it('Should have `aria-busy` attribute set to `true`', () => {
-      const { getByTestId } = render(<Toggle loading data-testid="toggle" />);
-      expect(getByTestId('toggle')).to.have.attr('aria-busy', 'true');
+      const { getByRole } = render(<Toggle loading />);
+      expect(getByRole('switch')).to.have.attr('aria-busy', 'true');
     });
   });
 });

@@ -8,10 +8,23 @@
 
 // The switch trail
 // todo: Consider renaming as .rs-toggle
-.rs-btn-toggle {
-  // Default size is middle.
-  .btn-toggle(md);
+.rs-toggle {
+  position: relative;
 
+  // Default size is middle.
+  .toggle(md);
+}
+
+.rs-toggle-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+}
+
+.rs-toggle-presentation {
   position: relative;
   display: inline-block;
   box-sizing: border-box;
@@ -27,25 +40,19 @@
     box-shadow: inset 0 0 0 1px var(--rs-toggle-thumb);
   });
 
+  .rs-toggle-input:focus-visible + & {
+    .focus-ring();
+
+    .high-contrast-mode({
+      box-shadow: inset 0 0 0 1px var(--rs-toggle-thumb), var(--rs-state-focus-shadow);;
+    });
+  }
+
   &:hover {
     background-color: var(--rs-toggle-hover-bg);
   }
 
   // The switch thumb
-  &-loader {
-    position: absolute;
-    transition: left @toggle-transition, margin-left @toggle-transition, width @toggle-transition;
-
-    .rs-loader-spin {
-      &::before {
-        border-color: var(--rs-toggle-loader-ring);
-      }
-      &::after {
-        border-top-color: var(--rs-toggle-loader-rotor);
-      }
-    }
-  }
-
   &::after {
     content: '';
     cursor: pointer;
@@ -59,7 +66,7 @@
   }
 
   // disabled state
-  &&-disabled {
+  .rs-toggle-disabled & {
     background-color: var(--rs-toggle-disabled-bg);
     color: var(--rs-toggle-disabled-thumb);
     box-shadow: inset 0 0 0 1px var(--rs-toggle-disabled-thumb);
@@ -67,7 +74,7 @@
   }
 
   // checked state
-  &&-checked {
+  .rs-toggle-checked & {
     background-color: var(--rs-toggle-checked-bg);
     color: var(--rs-toggle-checked-thumb);
     box-shadow: none;
@@ -77,12 +84,12 @@
     }
   }
 
-  &&-disabled&-checked {
+  .rs-toggle-disabled.rs-toggle-checked & {
     background-color: var(--rs-toggle-checked-disabled-bg);
     color: var(--rs-toggle-checked-disabled-thumb);
   }
 
-  &&-loading {
+  .rs-toggle-loading & {
     &::after {
       display: none;
     }
@@ -90,7 +97,7 @@
 }
 
 // Label text inside the switch
-.rs-btn-toggle-inner {
+.rs-toggle-inner {
   display: block;
   transition: margin @toggle-transition;
 
@@ -99,17 +106,31 @@
   });
 }
 
+.rs-toggle-loader {
+  position: absolute;
+  transition: left @toggle-transition, margin-left @toggle-transition, width @toggle-transition;
+
+  .rs-loader-spin {
+    &::before {
+      border-color: var(--rs-toggle-loader-ring);
+    }
+    &::after {
+      border-top-color: var(--rs-toggle-loader-rotor);
+    }
+  }
+}
+
 // small
-.rs-btn-toggle-sm {
-  .btn-toggle(sm);
+.rs-toggle-sm {
+  .toggle(sm);
 }
 
 // middle
-.rs-btn-toggle-md {
-  .btn-toggle(md);
+.rs-toggle-md {
+  .toggle(md);
 }
 
 // large
-.rs-btn-toggle-lg {
-  .btn-toggle(lg);
+.rs-toggle-lg {
+  .toggle(lg);
 }
