@@ -94,7 +94,7 @@ type ValueType = (string | number)[];
 | container          | HTMLElement &#124; (() => HTMLElement)                                            | Sets the rendering container                                |
 | data \*            | DataItemType[]                                                                    | The data of component                                       |
 | defaultValue       | ValueType                                                                         | Default values of the selected items                        |
-| disabled           | boolean                                                                           | Whether disabled component                                   |
+| disabled           | boolean                                                                           | Whether disabled component                                  |
 | disabledItemValues | ValueType[]                                                                       | Disable item by value                                       |
 | groupBy            | string                                                                            | Set group condition key in data                             |
 | labelKey           | string `('label')`                                                                | Set label key in data                                       |
@@ -134,5 +134,6 @@ type ValueType = (string | number)[];
 | value              | ValueType                                                                         | Specifies the values of the selected items (Controlled)     |
 | valueKey           | string `('value')`                                                                | Set value key in data                                       |
 | virtualized        | boolean                                                                           | Whether using Virtualized List                              |
+| caretAs            | ElementType                                                                       | Custom component for the caret icon                         |
 
 [listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types

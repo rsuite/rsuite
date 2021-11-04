@@ -217,6 +217,7 @@ type DisabledDateFunction = (
 | size                 | enum: 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | A picker can have different sizes                                                    |
 | toggleAs             | ElementType `('a')`                                     | You can use a custom element for this component                                      |
 | value                | ValueType                                               | Value (Controlled)                                                                   |
+| caretAs              | ElementType                                             | Custom component for the caret icon                                                  |
 
 ## Default
 

@@ -102,4 +102,16 @@ describe('<PickerToggle>', () => {
     assert.equal(instance.getAttribute('aria-disabled'), 'true');
     assert.equal(instance.getAttribute('tabindex'), undefined);
   });
+
+  it('Should render a custom caret', () => {
+    const MyCaret = props => (
+      <span data-testid="caret" {...props}>
+        ⬇️
+      </span>
+    );
+
+    const { getByTestId } = render(<Toggle caretAs={MyCaret} />);
+
+    expect(getByTestId('caret')).to.have.class('rs-picker-toggle-caret');
+  });
 });
