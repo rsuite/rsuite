@@ -32,7 +32,7 @@ export interface TreeDragProps<ItemDataType = Record<string, any>> {
   draggable?: boolean;
 
   /** Called when scrolling */
-  onScroll?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  onScroll?: (event: React.SyntheticEvent) => void;
 
   /** Called when node drag start */
   onDragStart?: (nodeData: ItemDataType, e: React.DragEvent) => void;
@@ -92,7 +92,7 @@ export interface TreeBaseProps<ValueType = string | number, ItemDataType = Recor
   ) => void;
 
   /** Callback function after selecting tree node */
-  onSelect?: (activeNode: ItemDataType, value: ValueType, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (activeNode: ItemDataType, value: ValueType, event: React.SyntheticEvent) => void;
 
   /** Custom Render tree Node */
   renderTreeNode?: (nodeData: ItemDataType) => React.ReactNode;
@@ -104,7 +104,7 @@ export interface TreeBaseProps<ValueType = string | number, ItemDataType = Recor
   onSearch?: (searchKeyword: string, event: React.KeyboardEvent<HTMLInputElement>) => void;
 
   /** Called when clean */
-  onClean?: (event: React.SyntheticEvent<any>) => void;
+  onClean?: (event: React.SyntheticEvent) => void;
 
   /** Custom search rules. */
   searchBy?: (keyword: string, label: React.ReactNode, item: any) => boolean;

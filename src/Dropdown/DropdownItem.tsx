@@ -60,7 +60,7 @@ export interface DropdownMenuItemProps<T = any>
   open?: boolean;
 
   /** Select the callback function for the current option  */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent<HTMLElement>) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
 /**
@@ -92,7 +92,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
     const handleSelectItem = useCallback(
-      (event: React.SyntheticEvent<HTMLElement>) => {
+      (event: React.SyntheticEvent) => {
         onSelect?.(eventKey, event);
         dropdown?.onSelect?.(eventKey, event);
       },
@@ -106,7 +106,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     const [, dispatchDisclosure] = disclosure ?? [];
 
     const handleClickNavbarDropdownItem = useCallback(
-      (event: React.SyntheticEvent<HTMLElement>) => {
+      (event: React.SyntheticEvent) => {
         dispatchDisclosure({ type: DisclosureActionTypes.Hide });
         handleSelectItem?.(event);
       },

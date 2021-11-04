@@ -30,7 +30,7 @@ export interface TreeNodeProps extends WithAsProps {
   classPrefix?: string;
   style?: React.CSSProperties;
   onExpand?: (nodeData: any) => void;
-  onSelect?: (nodeData: any, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (nodeData: any, event: React.SyntheticEvent) => void;
   onRenderTreeIcon?: (nodeData: any) => React.ReactNode;
   onRenderTreeNode?: (nodeData: any) => React.ReactNode;
   onDragStart?: (data: any, event: React.DragEvent<any>) => void;
@@ -94,7 +94,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     }, [label]);
 
     const handleExpand = useCallback(
-      (event: React.SyntheticEvent<any>) => {
+      (event: React.SyntheticEvent) => {
         // stop propagation when using custom loading icon
         event?.nativeEvent?.stopImmediatePropagation?.();
         onExpand?.(nodeData);
@@ -103,7 +103,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     );
 
     const handleSelect = useCallback(
-      (event: React.SyntheticEvent<any>) => {
+      (event: React.SyntheticEvent) => {
         if (disabled) {
           return;
         }

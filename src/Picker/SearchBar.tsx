@@ -11,7 +11,7 @@ export interface SearchBarProps extends WithAsProps {
   placeholder?: string;
   className?: string;
   inputRef?: React.Ref<HTMLInputElement>;
-  onChange?: (value: string, event: React.SyntheticEvent<HTMLElement>) => void;
+  onChange?: (value: string, event: React.SyntheticEvent) => void;
 }
 
 const SearchBar: RsRefForwardingComponent<'div', SearchBarProps> = React.forwardRef(
@@ -30,7 +30,7 @@ const SearchBar: RsRefForwardingComponent<'div', SearchBarProps> = React.forward
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
     const handleChange = useCallback(
-      (event: React.SyntheticEvent<HTMLElement>) => {
+      (event: React.SyntheticEvent) => {
         onChange?.(get(event, 'target.value'), event);
       },
       [onChange]

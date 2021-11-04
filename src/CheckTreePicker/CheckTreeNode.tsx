@@ -33,7 +33,7 @@ export interface CheckTreeNodeProps extends WithAsProps {
   uncheckable?: boolean;
   allUncheckable?: boolean;
   onExpand?: (nodeData: any) => void;
-  onSelect?: (nodeData: any, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (nodeData: any, event: React.SyntheticEvent) => void;
   onRenderTreeIcon?: (nodeData: any, expandIcon?: React.ReactNode) => React.ReactNode;
   onRenderTreeNode?: (nodeData: any) => React.ReactNode;
 }
@@ -81,7 +81,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     };
 
     const handleExpand = useCallback(
-      (event: React.SyntheticEvent<any>) => {
+      (event: React.SyntheticEvent) => {
         // stop propagation when using custom loading icon
         event?.nativeEvent?.stopImmediatePropagation?.();
         onExpand?.(nodeData);
@@ -90,7 +90,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     );
 
     const handleSelect = useCallback(
-      (_value: any, event: React.SyntheticEvent<any>) => {
+      (_value: any, event: React.SyntheticEvent) => {
         if (disabled || uncheckable) {
           return;
         }

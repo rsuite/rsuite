@@ -54,10 +54,10 @@ export interface AutoCompleteProps<T = ValueType>
   onSelect?: (value: any, item: ItemDataType, event: React.SyntheticEvent) => void;
 
   /** Called on focus */
-  onFocus?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  onFocus?: React.FocusEventHandler;
 
   /** Called on blur */
-  onBlur?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  onBlur?: React.FocusEventHandler;
 
   /** Called on menu focus */
   onMenuFocus?: (focusItemValue: any, event: React.KeyboardEvent) => void;
@@ -167,7 +167,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     );
 
     const handleChangeValue = useCallback(
-      (value: any, event: React.SyntheticEvent<any>) => {
+      (value: any, event: React.SyntheticEvent) => {
         onChange?.(value, event);
       },
       [onChange]
@@ -205,7 +205,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     );
 
     const handleInputFocus = useCallback(
-      (event: React.SyntheticEvent<HTMLElement>) => {
+      (event: React.FocusEvent) => {
         onFocus?.(event);
         handleOpen();
       },
@@ -213,7 +213,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     );
 
     const handleInputBlur = useCallback(
-      (event: React.SyntheticEvent<HTMLElement>) => {
+      (event: React.FocusEvent) => {
         setTimeout(handleClose, 300);
         onBlur?.(event);
       },

@@ -36,8 +36,8 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
   disabled?: boolean;
   activeKey?: T;
   trigger?: 'hover' | 'click';
-  onSelect?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
-  onToggle?: (eventKey: T, event: React.SyntheticEvent<Element>) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
+  onToggle?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
 /**
@@ -79,7 +79,7 @@ const DropdownMenu = React.forwardRef(
     const { rtl } = useCustom('DropdownMenu');
 
     const handleToggleSubmenu = useCallback(
-      (_: boolean, event: React.SyntheticEvent<HTMLElement>) => {
+      (_: boolean, event: React.SyntheticEvent) => {
         onToggle?.(eventKey, event);
       },
       [eventKey, onToggle]

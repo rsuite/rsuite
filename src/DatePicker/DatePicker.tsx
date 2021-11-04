@@ -95,7 +95,7 @@ export interface DatePickerProps
   hideSeconds?: (second: number, date: Date) => boolean;
 
   /** Called when the calendar panel date changes */
-  onChangeCalendarDate?: (date: Date, event?: React.SyntheticEvent<HTMLElement>) => void;
+  onChangeCalendarDate?: (date: Date, event?: React.SyntheticEvent) => void;
 
   /** Called when opening the month view */
   onToggleMonthDropdown?: (toggle: boolean) => void;
@@ -104,7 +104,7 @@ export interface DatePickerProps
   onToggleTimeDropdown?: (toggle: boolean) => void;
 
   /** Called when the option is selected */
-  onSelect?: (date: Date, event?: React.SyntheticEvent<HTMLElement>) => void;
+  onSelect?: (date: Date, event?: React.SyntheticEvent) => void;
 
   /** Called after the prev month */
   onPrevMonth?: (date: Date) => void;
@@ -113,7 +113,7 @@ export interface DatePickerProps
   onNextMonth?: (date: Date) => void;
 
   /** Called after clicking the OK button */
-  onOk?: (date: Date, event: React.SyntheticEvent<HTMLElement>) => void;
+  onOk?: (date: Date, event: React.SyntheticEvent) => void;
 
   /** Called when clean */
   onClean?: (event: React.MouseEvent) => void;
@@ -215,7 +215,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * The callback triggered when the date changes.
      */
     const handleDateChange = useCallback(
-      (nextValue: Date, event?: React.SyntheticEvent<any>) => {
+      (nextValue: Date, event?: React.SyntheticEvent) => {
         onSelect?.(nextValue, event);
         onChangeCalendarDate?.(nextValue, event);
       },
@@ -260,7 +260,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     }, [calendarDate, setCalendarDate]);
 
     const updateValue = useCallback(
-      (event: React.SyntheticEvent<any>, nextPageDate?: Date | null, closeOverlay = true) => {
+      (event: React.SyntheticEvent, nextPageDate?: Date | null, closeOverlay = true) => {
         const nextValue: Date = typeof nextPageDate !== 'undefined' ? nextPageDate : calendarDate;
 
         setCalendarDate(nextValue || new Date());
@@ -282,7 +282,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * The callback triggered after the date in the shortcut area is clicked.
      */
     const handleShortcutPageDate = useCallback(
-      (value: Date, closeOverlay?: boolean, event?: React.SyntheticEvent<any>) => {
+      (value: Date, closeOverlay?: boolean, event?: React.SyntheticEvent) => {
         updateValue(event, value, closeOverlay);
         handleDateChange(value, event);
       },
@@ -293,7 +293,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * The callback triggered after clicking the OK button.
      */
     const handleOK = useCallback(
-      (event: React.SyntheticEvent<any>) => {
+      (event: React.SyntheticEvent) => {
         updateValue(event);
         onOk?.(calendarDate, event);
       },

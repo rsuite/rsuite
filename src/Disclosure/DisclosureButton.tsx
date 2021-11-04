@@ -21,7 +21,7 @@ function DisclosureButton(props: DisclosureButtonProps) {
   const [{ open }, dispatch, { onToggle }] = useContext(DisclosureContext);
 
   const toggle = useCallback(
-    (event: React.SyntheticEvent<HTMLElement>) => {
+    (event: React.SyntheticEvent) => {
       if (!open) {
         dispatch({ type: DisclosureActionTypes.Show });
         onToggle?.(true, event);

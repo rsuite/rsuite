@@ -81,10 +81,10 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   disabledDate?: DisabledDateFunction;
 
   /** Called when the option is selected */
-  onSelect?: (date: Date, event?: React.SyntheticEvent<HTMLElement>) => void;
+  onSelect?: (date: Date, event?: React.SyntheticEvent) => void;
 
   /** Called after clicking the OK button */
-  onOk?: (date: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
+  onOk?: (date: ValueType, event: React.SyntheticEvent) => void;
 
   /** Called when clean */
   onClean?: (event: React.MouseEvent) => void;
@@ -304,7 +304,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   );
 
   const handleValueUpdate = useCallback(
-    (event: React.SyntheticEvent<any>, nextSelectValue?: ValueType, closeOverlay = true) => {
+    (event: React.SyntheticEvent, nextSelectValue?: ValueType, closeOverlay = true) => {
       const nextValue = !isUndefined(nextSelectValue) ? nextSelectValue : selectValue;
 
       setSelectValue(nextValue || []);
@@ -353,7 +353,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   );
 
   const handleSelectValueChange = useCallback(
-    (date: Date, event: React.SyntheticEvent<any>) => {
+    (date: Date, event: React.SyntheticEvent) => {
       let nextSelectValue = Array.from(hoverValue) as ValueType;
       const hoverRangeValue = getHoverRangeValue(date);
       const noHoverRangeValid = hoverRangeValue.length !== 2;
@@ -463,14 +463,14 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    * Toolbar operation callback function
    */
   const handleShortcutPageDate = useCallback(
-    (value: ValueType, closeOverlay?: boolean, event?: React.SyntheticEvent<any>) => {
+    (value: ValueType, closeOverlay?: boolean, event?: React.SyntheticEvent) => {
       handleValueUpdate(event, value, closeOverlay);
     },
     [handleValueUpdate]
   );
 
   const handleOK = useCallback(
-    (event: React.SyntheticEvent<any>) => {
+    (event: React.SyntheticEvent) => {
       handleValueUpdate(event);
       onOk?.(selectValue, event);
     },

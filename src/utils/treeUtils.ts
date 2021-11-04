@@ -802,7 +802,7 @@ interface TreeSearchProps {
   searchKeyword: string;
   data: ItemDataType[];
   searchBy: (keyword, label, item) => boolean;
-  callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent<any>) => void;
+  callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent) => void;
 }
 
 /**
@@ -846,7 +846,7 @@ export function useTreeSearch(props: TreeSearchProps) {
     [filterVisibleData]
   );
 
-  const handleSearch = (searchKeyword: string, event: React.SyntheticEvent<any>) => {
+  const handleSearch = (searchKeyword: string, event: React.SyntheticEvent) => {
     const filteredData = filterVisibleData(data, searchKeyword);
     setFilteredData(filteredData);
     setSearchKeyword(searchKeyword);

@@ -16,7 +16,7 @@ export interface MenubarProps {
   ) => React.ReactElement;
 
   /** Callback triggered when an item is being activated */
-  onActivateItem?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  onActivateItem?: (event: React.SyntheticEvent) => void;
 }
 
 export default function Menubar({ vertical = false, children, onActivateItem }: MenubarProps) {

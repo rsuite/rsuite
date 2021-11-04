@@ -9,7 +9,7 @@ export interface CheckboxGroupContextValue {
   disabled?: boolean;
   readOnly?: boolean;
   plaintext?: boolean;
-  onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
+  onChange?: (value: any, checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const CheckboxGroupContext = React.createContext<CheckboxGroupContextValue>({});
