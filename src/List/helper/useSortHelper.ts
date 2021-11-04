@@ -314,7 +314,16 @@ const useSortHelper = (config: SortConfig) => {
         mouseDownEvent.nativeEvent
       );
     },
-    [autoScroll, getOrderedItems, onSort, onSortEnd, onSortMove, onSortStart, transitionDuration]
+    [
+      autoScroll,
+      getOrderedItems,
+      isMounted,
+      onSort,
+      onSortEnd,
+      onSortMove,
+      onSortStart,
+      transitionDuration
+    ]
   );
 
   /**
