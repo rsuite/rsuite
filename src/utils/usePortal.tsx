@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import helper from '../DOMHelper';
+import canUseDOM from 'dom-lib/canUseDOM';
 
 interface PortalProps {
   id?: string;
@@ -9,7 +9,7 @@ interface PortalProps {
 
 function usePortal(props: PortalProps = {}) {
   const { id, container } = props;
-  const rootElemRef = useRef<Element | HTMLElement>(helper.canUseDOM ? document.body : null);
+  const rootElemRef = useRef<Element | HTMLElement>(canUseDOM ? document.body : null);
 
   useEffect(() => {
     const containerElement = typeof container === 'function' ? container() : container;

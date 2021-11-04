@@ -1,5 +1,7 @@
 import { useEffect, useCallback } from 'react';
-import helper from '../DOMHelper';
+import contains from 'dom-lib/contains';
+import ownerDocument from 'dom-lib/ownerDocument';
+import on from 'dom-lib/on';
 import { getDOMNode, KEY_VALUES } from './';
 
 function isLeftClickEvent(event: React.MouseEvent) {
@@ -48,12 +50,12 @@ function useRootClose(
       const overlayElement = getDOMNode(overlayTarget);
 
       // Check if the clicked element is a trigger.
-      if (triggerElement && helper.contains(triggerElement, event.target)) {
+      if (triggerElement && contains(triggerElement, event.target)) {
         return;
       }
 
       // Check if the clicked element is a overlay.
-      if (overlayElement && helper.contains(overlayElement, event.target)) {
+      if (overlayElement && contains(overlayElement, event.target)) {
         return;
       }
 
@@ -71,9 +73,9 @@ function useRootClose(
 
     if (disabled || !currentTarget) return;
 
-    const doc = helper.ownerDocument(currentTarget);
-    const onDocumentMouseDownListener = helper.on(doc, 'mousedown', handleDocumentMouseDown, true);
-    const onDocumentKeyupListener = helper.on(doc, 'keyup', handleDocumentKeyUp);
+    const doc = ownerDocument(currentTarget);
+    const onDocumentMouseDownListener = on(doc, 'mousedown', handleDocumentMouseDown, true);
+    const onDocumentKeyupListener = on(doc, 'keyup', handleDocumentKeyUp);
 
     return () => {
       onDocumentMouseDownListener?.off();

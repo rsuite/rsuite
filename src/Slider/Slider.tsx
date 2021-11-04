@@ -1,6 +1,8 @@
 import React, { useCallback, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { getWidth, getHeight, getOffset } from 'dom-lib';
+import getWidth from 'dom-lib/getWidth';
+import getHeight from 'dom-lib/getHeight';
+import getOffset from 'dom-lib/getOffset';
 import ProgressBar from './ProgressBar';
 import Handle from './Handle';
 import Graduated from './Graduated';

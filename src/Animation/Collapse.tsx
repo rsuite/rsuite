@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { getStyle, addStyle } from 'dom-lib';
+import getStyle from 'dom-lib/getStyle';
+import addStyle from 'dom-lib/addStyle';
 import get from 'lodash/get';
 import capitalize from 'lodash/capitalize';
 import Transition, { transitionPropTypes, TransitionProps } from './Transition';

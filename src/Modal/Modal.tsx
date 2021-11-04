@@ -1,6 +1,8 @@
 import React, { useRef, useMemo, useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
+import on from 'dom-lib/on';
+import getTransitionEnd from 'dom-lib/getTransitionEnd';
 import BaseModal, { BaseModalProps, modalPropTypes } from '../Overlay/Modal';
 import Bounce from '../Animation/Bounce';
 import { useClassNames, mergeRefs, SIZE } from '../utils';
@@ -10,7 +12,6 @@ import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
-import helper from '../DOMHelper';
 import { useBodyStyles } from './utils';
 import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import useUniqueId from '../utils/useUniqueId';
@@ -116,13 +117,9 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     // When the value of `backdrop` is `static`, a jitter animation will be added to the dialog when clicked.
     if (backdrop === 'static') {
       setShake(true);
-      transitionEndListener.current = helper.on(
-        dialogRef.current,
-        helper.animation.events().end,
-        () => {
-          setShake(false);
-        }
-      );
+      transitionEndListener.current = on(dialogRef.current, getTransitionEnd(), () => {
+        setShake(false);
+      });
     }
   }, [backdrop]);
 

@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
-import helper from '../DOMHelper';
+import getHeight from 'dom-lib/getHeight';
+import on from 'dom-lib/on';
 
 export const useBodyStyles = (
   ref: React.RefObject<HTMLElement>,
@@ -28,14 +29,14 @@ export const useBodyStyles = (
         const headerDOM = dialog.querySelector(`.${prefix('header')}`);
         const footerDOM = dialog.querySelector(`.${prefix('footer')}`);
 
-        headerHeight = headerDOM ? helper.getHeight(headerDOM) + headerHeight : headerHeight;
-        footerHeight = footerDOM ? helper.getHeight(footerDOM) + footerHeight : footerHeight;
+        headerHeight = headerDOM ? getHeight(headerDOM) + headerHeight : headerHeight;
+        footerHeight = footerDOM ? getHeight(footerDOM) + footerHeight : footerHeight;
 
         /**
          * Header height + Footer height + Dialog margin
          */
         const excludeHeight = headerHeight + footerHeight + (entering ? 70 : 60);
-        const bodyHeight = helper.getHeight(window) - excludeHeight;
+        const bodyHeight = getHeight(window) - excludeHeight;
         const maxHeight = scrollHeight >= bodyHeight ? bodyHeight : scrollHeight;
         styles.maxHeight = maxHeight;
       }
@@ -57,7 +58,7 @@ export const useBodyStyles = (
       if (overflow && !drawer) {
         updateBodyStyles(null, entering);
         contentElement.current = ref.current?.querySelector(`.${prefix('content')}`);
-        windowResizeListener.current = helper.on(window, 'resize', updateBodyStyles);
+        windowResizeListener.current = on(window, 'resize', updateBodyStyles);
         bindElementResize(contentElement.current, updateBodyStyles);
       }
     },

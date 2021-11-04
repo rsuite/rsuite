@@ -1,11 +1,9 @@
-import {
-  addClass,
-  removeClass,
-  addStyle,
-  getStyle,
-  getScrollbarSize,
-  isOverflowing
-} from 'dom-lib';
+import addClass from 'dom-lib/addClass';
+import removeClass from 'dom-lib/removeClass';
+import addStyle from 'dom-lib/addStyle';
+import getStyle from 'dom-lib/getStyle';
+import getScrollbarSize from 'dom-lib/getScrollbarSize';
+import isOverflowing from 'dom-lib/isOverflowing';
 
 function findIndexOf(arr: any[], cb: (d: any, i: number) => boolean) {
   let index = -1;

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
-import helper from '../DOMHelper';
 import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
 import { shallowEqual, useClassNames, mergeRefs, useCustom } from '../utils';
@@ -10,6 +9,9 @@ import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/c
 import { ValueType } from './Cascader';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+import getPosition from 'dom-lib/getPosition';
+import scrollTop from 'dom-lib/scrollTop';
+
 export interface DropdownMenuProps extends WithAsProps {
   disabledItemValues: ValueType[];
   activeItemValue?: ValueType;
@@ -75,9 +77,9 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
         }
 
         if (activeItem) {
-          const position = helper.getPosition(activeItem, column);
+          const position = getPosition(activeItem, column);
           // Let the active option scroll into view.
-          helper.scrollTop(column, position.top);
+          scrollTop(column, position.top);
         }
       });
     }, [prefix]);

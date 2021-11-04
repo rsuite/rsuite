@@ -1,4 +1,4 @@
-import { canUseDOM } from 'dom-lib';
+import canUseDOM from 'dom-lib/canUseDOM';
 
 export default function scrollIntoView(arg?: boolean | ScrollIntoViewOptions): void {
   if (!canUseDOM) {

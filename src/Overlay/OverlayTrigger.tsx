@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useImperativeHandle, useCallback } from 'react';
 import get from 'lodash/get';
 import isNil from 'lodash/isNil';
-import { contains } from 'dom-lib';
+import contains from 'dom-lib/contains';
 import Overlay, { OverlayProps } from './Overlay';
 import { createChainedFunction, usePortal, useControlled } from '../utils';
 import isOneOf from '../utils/isOneOf';

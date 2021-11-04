@@ -1,6 +1,6 @@
 import React from 'react';
 import PickerOverlay from '../PickerOverlay';
-import { getWidth } from 'dom-lib';
+import getWidth from 'dom-lib/getWidth';
 import { render } from '@testing-library/react';
 import * as utils from '../../utils';
 import useElementResize from '@test/stubs/useElementResize';
