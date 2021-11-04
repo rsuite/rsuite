@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS } from '../utils';
+import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS, useIsMounted } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import CloseButton from '../CloseButton';
 
@@ -46,8 +46,8 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
       ...rest
     } = props;
     const [display, setDisplay] = useState<DisplayType>('show');
-
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+    const isMounted = useIsMounted();
 
     // Timed close message
     const { clear } = useTimeout(onClose, duration, duration > 0);
@@ -60,10 +60,12 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
         clear();
 
         setTimeout(() => {
-          setDisplay('hide');
+          if (isMounted()) {
+            setDisplay('hide');
+          }
         }, 1000);
       },
-      [onClose, clear]
+      [onClose, clear, isMounted]
     );
 
     const renderHeader = useCallback(() => {

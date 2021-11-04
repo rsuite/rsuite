@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import Input from '../Input';
-import { useClassNames, useControlled, PLACEMENT, mergeRefs } from '../utils';
+import { useClassNames, useControlled, PLACEMENT, mergeRefs, useIsMounted } from '../utils';
 import { animationPropTypes } from '../Animation/utils';
 import {
   PickerToggleTrigger,
@@ -118,6 +118,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     const items = datalist?.filter(shouldDisplay(filterBy, value)) || [];
     const hasItems = items.length > 0;
     const overlayRef = useRef<HTMLDivElement>(null);
+    const isMounted = useIsMounted();
 
     // Used to hover the focuse item  when trigger `onKeydown`
     const {
@@ -181,9 +182,11 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     };
 
     const handleClose = useCallback(() => {
-      setFocus(false);
-      onClose?.();
-    }, [onClose]);
+      if (isMounted()) {
+        setFocus(false);
+        onClose?.();
+      }
+    }, [isMounted, onClose]);
 
     const handleOpen = useCallback(() => {
       setFocus(true);

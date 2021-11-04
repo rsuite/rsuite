@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS, STATUS } from '../utils';
+import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS, STATUS, useIsMounted } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import CloseButton from '../CloseButton';
 
@@ -52,9 +52,25 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
 
     const [display, setDisplay] = useState<DisplayType>('show');
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+    const isMounted = useIsMounted();
 
     // Timed close message
     const { clear } = useTimeout(onClose, duration, duration > 0);
+
+    const handleClose = useCallback(
+      (event: React.MouseEvent<HTMLButtonElement>) => {
+        setDisplay('hiding');
+        onClose?.(event);
+        clear();
+
+        setTimeout(() => {
+          if (isMounted()) {
+            setDisplay('hide');
+          }
+        }, 1000);
+      },
+      [clear, isMounted, onClose]
+    );
 
     if (display === 'hide') {
       return null;
@@ -64,16 +80,6 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
       className,
       withClassPrefix(type, display, { full, ['has-title']: header, ['has-icon']: showIcon })
     );
-
-    const handleClose = (event: React.MouseEvent<HTMLButtonElement>) => {
-      setDisplay('hiding');
-      onClose?.(event);
-      clear();
-
-      setTimeout(() => {
-        setDisplay('hide');
-      }, 1000);
-    };
 
     return (
       <Component role="alert" {...rest} ref={ref} className={classes}>
