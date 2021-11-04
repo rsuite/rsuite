@@ -13,8 +13,8 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
-    "rsuite": "^4.7.1",
-    "typescript": "~3.7.2"
+    "rsuite": "^5.1.0",
+    "typescript": "^4.4.4"
   },
   "scripts": {
     "start": "react-scripts start",
