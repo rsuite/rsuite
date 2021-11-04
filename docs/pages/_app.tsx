@@ -26,7 +26,7 @@ import {
   writeTheme
 } from '../utils/themeHelpers';
 import StyleHead from '../components/StyleHead';
-import { canUseDOM } from 'dom-lib';
+import canUseDOM from 'dom-lib/canUseDOM';
 import loadCssFile from '@/utils/loadCssFile';
 
 Router.events.on('routeChangeStart', url => {

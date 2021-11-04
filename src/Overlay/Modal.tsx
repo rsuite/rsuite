@@ -1,7 +1,10 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import helper from '../DOMHelper';
+import canUseDOM from 'dom-lib/canUseDOM';
+import contains from 'dom-lib/contains';
+import getContainer from 'dom-lib/getContainer';
+import on from 'dom-lib/on';
 import ModalManager from './ModalManager';
 import Fade from '../Animation/Fade';
 import { animationPropTypes } from '../Animation/utils';
@@ -151,8 +154,8 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
     );
 
     const checkForFocus = useCallback(() => {
-      if (helper.canUseDOM) {
-        lastFocus.current = helper.activeElement() as HTMLElement;
+      if (canUseDOM) {
+        lastFocus.current = document.activeElement as HTMLElement;
       }
     }, []);
 
@@ -172,14 +175,10 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
         return;
       }
 
-      const currentActiveElement = helper.activeElement();
+      const currentActiveElement = document.activeElement;
       const dialog = getDialogElement();
 
-      if (
-        dialog &&
-        dialog !== currentActiveElement &&
-        !helper.contains(dialog, currentActiveElement)
-      ) {
+      if (dialog && dialog !== currentActiveElement && !contains(dialog, currentActiveElement)) {
         dialog.focus();
       }
     }, [enforceFocus, getDialogElement, modal]);
@@ -203,11 +202,11 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
     const docusinListener = useRef<{ off: () => void }>();
     const handleOpen = useCallback(() => {
       const dialog = getDialogElement();
-      const containerElement = helper.getContainer(container, document.body);
+      const containerElement = getContainer(container, document.body);
       modal.add(containerElement, containerClassName);
 
-      documentKeyupListener.current = helper.on(document, 'keydown', handleDocumentKeyUp);
-      docusinListener.current = helper.on(document, 'focus', handleEnforceFocus, true);
+      documentKeyupListener.current = on(document, 'keydown', handleDocumentKeyUp);
+      docusinListener.current = on(document, 'focus', handleEnforceFocus, true);
       onOpen?.();
       checkForFocus();
 

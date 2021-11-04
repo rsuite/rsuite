@@ -44,7 +44,7 @@ export interface SidenavDropdownItemProps<T = any>
   expanded?: boolean;
 
   /** Select the callback function for the current option  */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent<HTMLElement>) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
 /**

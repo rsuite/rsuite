@@ -220,6 +220,7 @@ type DisabledDateFunction = (
 | size                 | enum: 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | 设置组件尺寸                                                                    |
 | toggleAs             | ElementType `('a')`                                     | 为组件自定义元素类型                                                            |
 | value                | ValueType                                               | 值 `受控`                                                                       |
+| caretAs              | ElementType                                             | 自定义右侧箭头图标的组件                                                        |
 
 ## Default
 

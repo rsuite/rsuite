@@ -101,6 +101,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | value                   | string                                                                                        | Selected value                                                            |
 | valueKey                | string `('value')`                                                                            | Tree data Structure Value property name                                   |
 | virtualized             | boolean                                                                                       | Whether using Virtualized List                                            |
+| caretAs                 | ElementType                                                                                   | Custom component for the caret icon                                       |
 
 ## Related components
 

@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import { Button } from 'rsuite';
 import './App.css';
-import 'rsuite/dist/styles/rsuite-default.css';
+import 'rsuite/dist/rsuite.css';
 
 function App() {
   return (
@@ -12,12 +12,7 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <Button
-          className="App-link"
-          href="https://rsuitejs.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Button className="App-link" href="https://rsuitejs.com" target="_blank">
           React Suite
         </Button>
       </header>

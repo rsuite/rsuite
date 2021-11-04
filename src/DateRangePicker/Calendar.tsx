@@ -24,7 +24,7 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   onChangeCalendarDate?: (index: number, date: Date) => void;
   onChangeCalendarTime?: (index: number, date: Date) => void;
   onMouseMove?: (date: Date) => void;
-  onSelect?: (date: Date, event?: React.SyntheticEvent<any>) => void;
+  onSelect?: (date: Date, event?: React.SyntheticEvent) => void;
   showOneCalendar?: boolean;
   showWeekNumbers?: boolean;
   value?: ValueType;

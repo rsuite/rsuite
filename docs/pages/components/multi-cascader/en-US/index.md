@@ -124,3 +124,4 @@ Learn more in [Accessibility](/guide/accessibility).
 | uncheckableItemValues | string[]                                                                               | Set the option value for the check box not to be rendered        |
 | value                 | string[]                                                                               | Specifies the values of the selected items(Controlled)           |
 | valueKey              | string `('value')`                                                                     | Set value key in data                                            |
+| caretAs               | ElementType                                                                            | Custom component for the caret icon                              |

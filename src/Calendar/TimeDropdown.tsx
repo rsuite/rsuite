@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { getPosition, scrollTop } from 'dom-lib';
+import getPosition from 'dom-lib/getPosition';
+import scrollTop from 'dom-lib/scrollTop';
 import partial from 'lodash/partial';
 import camelCase from 'lodash/camelCase';
 import isNumber from 'lodash/isNumber';

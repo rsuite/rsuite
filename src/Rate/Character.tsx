@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-import helper from '../DOMHelper';
+import contains from 'dom-lib/contains';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
@@ -19,7 +19,7 @@ interface CharacterProps extends WithAsProps {
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
-const getKey = (a, b) => (helper.contains(a, b) ? 'before' : 'after');
+const getKey = (a, b) => (contains(a, b) ? 'before' : 'after');
 
 const Character: RsRefForwardingComponent<'li', CharacterProps> = React.forwardRef(
   (props: CharacterProps, ref) => {

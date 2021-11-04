@@ -1,6 +1,6 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
-import { getOffset } from 'dom-lib';
+import getOffset from 'dom-lib/getOffset';
 import Affix from '../Affix';
 
 describe('Affix', () => {

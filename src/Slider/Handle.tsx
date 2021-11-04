@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { DOMMouseMoveTracker, addStyle, getWidth } from 'dom-lib';
+import DOMMouseMoveTracker from 'dom-lib/DOMMouseMoveTracker';
+import addStyle from 'dom-lib/addStyle';
+import getWidth from 'dom-lib/getWidth';
 import Tooltip from '../Tooltip';
 import { useClassNames, mergeRefs } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';

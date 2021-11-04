@@ -43,7 +43,7 @@ export interface PanelProps<T = string | number> extends WithAsProps, AnimationE
   panelRole?: string;
 
   /** callback function for the panel clicked */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;
+  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 
 const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(

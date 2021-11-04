@@ -1,6 +1,7 @@
 import React, { useRef, useCallback, useEffect } from 'react';
 import omit from 'lodash/omit';
-import { addStyle, getWidth } from 'dom-lib';
+import addStyle from 'dom-lib/addStyle';
+import getWidth from 'dom-lib/getWidth';
 import { getDOMNode, mergeRefs, useElementResize, useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { OverlayTriggerInstance } from '../Picker';

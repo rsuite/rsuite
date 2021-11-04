@@ -27,7 +27,7 @@ export interface DisclosureProps {
   hideOnClickOutside?: boolean;
 
   /** Callback when disclosure button is being activated to update the open state */
-  onToggle?: (open: boolean, event: React.SyntheticEvent<HTMLElement>) => void;
+  onToggle?: (open: boolean, event: React.SyntheticEvent) => void;
 }
 
 const initialDisclosureState: DisclosureState = {

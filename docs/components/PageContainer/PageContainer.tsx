@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Content as PageContent, Nav as PageNav } from '@rsuite/document-nav';
-import canUseDOM from 'dom-lib/lib/query/canUseDOM';
+import canUseDOM from 'dom-lib/canUseDOM';
 import { Row, Col } from 'rsuite';
 import AppContext from '../AppContext';
 import PageToolbar from '../PageToolbar';

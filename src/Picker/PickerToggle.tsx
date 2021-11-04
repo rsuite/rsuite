@@ -9,6 +9,7 @@ import Plaintext from '../Plaintext';
 import useToggleCaret from '../utils/useToggleCaret';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import MaskedInput from '../MaskedInput';
+import deprecatePropType from '../utils/deprecatePropType';
 
 type ValueType = string | number;
 
@@ -32,7 +33,14 @@ export interface PickerToggleProps extends ToggleButtonProps {
   onInputBlur?: (event: React.FocusEvent<HTMLElement>) => void;
   onInputFocus?: (event: React.FocusEvent<HTMLElement>) => void;
   placement?: TypeAttributes.Placement;
+  /**
+   * Custom caret component
+   * @deprecated Use `caretAs` instead
+   */
   caretComponent?: React.FC<IconProps>;
+
+  /** Custom caret component */
+  caretAs?: React.ElementType;
   onClean?: (event: React.MouseEvent) => void;
 }
 
@@ -68,6 +76,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       onBlur,
       placement,
       caretComponent,
+      caretAs = caretComponent,
       ...rest
     } = props;
 
@@ -147,7 +156,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
     );
 
     const ToggleCaret = useToggleCaret(placement);
-    const Caret = caretComponent ?? ToggleCaret;
+    const Caret = caretAs ?? ToggleCaret;
 
     if (plaintext) {
       return (
@@ -231,7 +240,9 @@ PickerToggle.propTypes = {
   active: PropTypes.bool,
   readOnly: PropTypes.bool,
   disabled: PropTypes.bool,
-  plaintext: PropTypes.bool
+  plaintext: PropTypes.bool,
+  caretComponent: deprecatePropType(PropTypes.elementType, 'Use `caretAs` instead.'),
+  caretAs: PropTypes.elementType
 };
 
 export default PickerToggle;

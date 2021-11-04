@@ -6,7 +6,7 @@ import Link from '@/components/Link';
 import AppContext from '../AppContext';
 import usePages from '@/utils/usePages';
 import debounce from 'lodash/debounce';
-import { scrollTop } from 'dom-lib';
+import scrollTop from 'dom-lib/scrollTop';
 import ExternalLinkSquare from '@rsuite/icons/legacy/ExternalLinkSquare';
 import BarsIcon from '@rsuite/icons/legacy/Bars';
 

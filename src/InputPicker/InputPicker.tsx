@@ -8,7 +8,7 @@ import clone from 'lodash/clone';
 import isArray from 'lodash/isArray';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
-import { getWidth } from 'dom-lib';
+import getWidth from 'dom-lib/getWidth';
 import shallowEqual from '../utils/shallowEqual';
 import { filterNodesOfTree } from '../utils/treeUtils';
 import Plaintext from '../Plaintext';
@@ -207,11 +207,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     );
 
     const handleSearchCallback = useCallback(
-      (
-        searchKeyword: string,
-        filteredData: InputItemDataType[],
-        event: React.SyntheticEvent<any>
-      ) => {
+      (searchKeyword: string, filteredData: InputItemDataType[], event: React.SyntheticEvent) => {
         // The first option after filtering is the focus.
         setFocusItemValue(
           disabledOptions ? searchKeyword : filteredData?.[0]?.[valueKey] || searchKeyword
@@ -299,7 +295,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     );
 
     const handleChange = useCallback(
-      (value: any, event: React.SyntheticEvent<any>) => {
+      (value: any, event: React.SyntheticEvent) => {
         onChange?.(value, event);
       },
       [onChange]
@@ -317,7 +313,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     );
 
     const handleSelect = useCallback(
-      (value: string | string[], item: InputItemDataType, event: React.SyntheticEvent<any>) => {
+      (value: string | string[], item: InputItemDataType, event: React.SyntheticEvent) => {
         onSelect?.(value, item, event);
 
         if (creatable && item.create) {
@@ -484,7 +480,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     );
 
     const handleClean = useCallback(
-      (event: React.SyntheticEvent<any>) => {
+      (event: React.SyntheticEvent) => {
         if (disabled || searchKeyword !== '') {
           return;
         }

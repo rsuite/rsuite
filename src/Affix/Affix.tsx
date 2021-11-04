@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getOffset } from 'dom-lib';
+import getOffset from 'dom-lib/getOffset';
 import { Offset, RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { mergeRefs, useClassNames, useElementResize, useEventListener } from '../utils';
 

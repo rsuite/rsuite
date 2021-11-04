@@ -45,7 +45,7 @@ export interface RadioProps<T = ValueType>
   children?: React.ReactNode;
 
   /** Callback function with value changed */
-  onChange?: (value: T, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
+  onChange?: (value: T, checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Radio = React.forwardRef((props: RadioProps, ref) => {
