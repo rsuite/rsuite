@@ -70,7 +70,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | labelKey           | string `('label')`                                                        | Set options to display the 'key' in 'data'                  |
 | listProps          | [ListProps][listprops]                                                    | List-related properties in `react-virtualized`              |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                  | Locale text                                                 |
-| maxHeight          | number `(320)`                                                            | Set the max height of the Dropdown                          |
+| menuMaxHeight      | number `(320)`                                                            | Set the max height of the Dropdown                          |
 | menuClassName      | string                                                                    | A css class to apply to the Menu DOM node.                  |
 | menuStyle          | CSSProperties                                                             | A style to apply to the Menu DOM node.                      |
 | onChange           | (value:string, event) => void                                             | callback function when value changes                        |
