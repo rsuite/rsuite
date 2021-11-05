@@ -78,4 +78,42 @@ describe('palette', () => {
       });
     });
   });
+
+  describe('Should work with rgb() colors', () => {
+    const primaryPalette = {
+      [50]: '#f2faff',
+      [100]: '#cce9ff',
+      [200]: '#a6d7ff',
+      [300]: '#80c4ff',
+      [400]: '#59afff',
+      [500]: '#3498ff',
+      [600]: '#2589f5',
+      [700]: '#1675e0',
+      [800]: '#0a5dc2',
+      [900]: '#004299'
+    };
+    const primaryColor = 'rgb(52, 152, 255)';
+
+    Object.entries(primaryPalette).forEach(([level, color]) => {
+      it(`@H${level} should equal ${color}`, () => {
+        return lessc
+          .render(
+            `
+.bg-yellow {
+  color: palette(@primary-color, ${level})
+}
+`,
+            {
+              globalVars: {
+                'primary-color': primaryColor
+              },
+              plugins: [palette]
+            }
+          )
+          .then(output => {
+            assert.match(output.css, new RegExp(`color: ${color}`));
+          });
+      });
+    });
+  });
 });
