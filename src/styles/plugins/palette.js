@@ -1353,7 +1353,16 @@ module.exports = {
      * @param colorNumber
      */
     functions.add('palette', function (color, colorNumber) {
-      const hsv = tinycolor(color.value).toHsv();
+      const {
+        rgb: [r, g, b],
+        alpha: a
+      } = color;
+      const hsv = tinycolor({
+        r,
+        g,
+        b,
+        a
+      }).toHsv();
       const index = COLOR_NUMBER_SET.indexOf('' + colorNumber.value);
       if (index === -1 || index === PRIMARY_INDEX) {
         return less.color(color.rgb);
