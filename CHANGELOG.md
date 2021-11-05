@@ -1,3 +1,16 @@
+# [5.2.0](https://github.com/rsuite/rsuite/compare/v5.1.0...v5.2.0) (2021-11-05)
+
+### Bug Fixes
+
+- **Button:** Add button radius variable ([#2106](https://github.com/rsuite/rsuite/issues/2106)) ([63a61c4](https://github.com/rsuite/rsuite/commit/63a61c4eede3b22c91eef126b72fc1afb280a18e))
+- **less:** palette function accepts rgb color ([#2107](https://github.com/rsuite/rsuite/issues/2107)) ([92c2dc5](https://github.com/rsuite/rsuite/commit/92c2dc5cf9273a26de189cee6e79b57740e17b49))
+- can't perform a React state update on an unmounted component ([#2105](https://github.com/rsuite/rsuite/issues/2105)) ([44439af](https://github.com/rsuite/rsuite/commit/44439afdfdf481887a78fbd86f527e29eafb1a78))
+- **dts:** remove redundant generics on SyntheticEvent ([#2099](https://github.com/rsuite/rsuite/issues/2099)) ([30ccd68](https://github.com/rsuite/rsuite/commit/30ccd685fb09092fb1fa693929cdba5d26967f96))
+- **fa_IR:** trim long text of days to shorter ones ([#2076](https://github.com/rsuite/rsuite/issues/2076)) ([a893b82](https://github.com/rsuite/rsuite/commit/a893b82b835f9268a0053ede64565c96e6110095))
+- **FormControl:** infer additional props from accepter ([#2084](https://github.com/rsuite/rsuite/issues/2084)) ([5d39fed](https://github.com/rsuite/rsuite/commit/5d39fed6e56418e85367df9dd5aeb7b49774380b))
+- **Input:** correct value argument type for onChange callback ([#2087](https://github.com/rsuite/rsuite/issues/2087)) ([7a4ff02](https://github.com/rsuite/rsuite/commit/7a4ff02e1e01b40f2e2bffea105181500848d2c9))
+- **Slider,RangeSlider:** reverse marks order in vertical orientation ([#2080](https://github.com/rsuite/rsuite/issues/2080)) ([07fdd09](https://github.com/rsuite/rsuite/commit/07fdd09bb504ea7e876e6e6b4da439a725f716a9))
+
 # [5.1.0](https://github.com/rsuite/rsuite/compare/v5.0.3...v5.1.0) (2021-10-29)
 
 ### Bug Fixes
