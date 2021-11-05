@@ -12,6 +12,7 @@ import {
   setTransitionDuration,
   setTranslate3d
 } from './utils';
+import { useIsMounted } from '../../utils';
 import useManager, { Collection } from './useManager';
 
 interface MovedItemInfo {
@@ -51,12 +52,15 @@ const useSortHelper = (config: SortConfig) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const pressTimer = useRef<any>();
   const { listItemRegister, getManagedItem, getOrderedItems } = useManager();
+  const isMounted = useIsMounted();
 
   /**
    * start dragging
    * */
   const handlePress = useCallback(
     (mouseDownEvent, targetNode, curManagedItem) => {
+      if (!isMounted()) return;
+
       const listItemBaseClassName = targetNode.classList[0]; // get list item base className
       const helperElementClass = `${listItemBaseClassName}-helper`;
       const holderElementClass = `${listItemBaseClassName}-holder`;
@@ -258,6 +262,7 @@ const useSortHelper = (config: SortConfig) => {
 
           // wait for animation
           setTimeout(() => {
+            if (!isMounted()) return;
             // Remove the helper from the DOM
             activeNodeHelper?.parentNode?.removeChild(activeNodeHelper);
             activeNodeHelper = null;
@@ -309,7 +314,16 @@ const useSortHelper = (config: SortConfig) => {
         mouseDownEvent.nativeEvent
       );
     },
-    [autoScroll, getOrderedItems, onSort, onSortEnd, onSortMove, onSortStart, transitionDuration]
+    [
+      autoScroll,
+      getOrderedItems,
+      isMounted,
+      onSort,
+      onSortEnd,
+      onSortMove,
+      onSortStart,
+      transitionDuration
+    ]
   );
 
   /**
