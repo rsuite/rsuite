@@ -9,7 +9,7 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-intl": "^2.7.1",
-    "rsuite": "^4.0.5"
+    "rsuite": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

@@ -1,31 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { IntlProvider } from 'react-intl';
-import { IntlProvider as RSIntlProvider, RadioGroup, Radio } from 'rsuite';
+import { CustomProvider, RadioGroup, Radio } from 'rsuite';
 
-import 'rsuite/lib/styles/index.less';
+import 'rsuite/styles/index.less';
 
-import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
-import enUS from 'rsuite/lib/IntlProvider/locales/en_US';
+import zhCN from 'rsuite/locales/zh_CN';
+import enUS from 'rsuite/locales/en_US';
 import locales from './locales';
 
 import App from './components/App';
 
 const rsuiteLocales = {
   zh: zhCN,
-  en: enUS
+  en: enUS,
 };
 
 class AppMain extends React.Component {
   constructor() {
     super();
     this.state = {
-      localeKey: 'zh'
+      localeKey: 'zh',
     };
   }
-  handleChange = value => {
+  handleChange = (value) => {
     this.setState({
-      localeKey: value
+      localeKey: value,
     });
   };
   render() {
@@ -39,9 +39,9 @@ class AppMain extends React.Component {
         </RadioGroup>
         <hr />
         <IntlProvider locale="en" messages={locales[localeKey]}>
-          <RSIntlProvider locale={rsuiteLocales[localeKey]}>
+          <CustomProvider locale={rsuiteLocales[localeKey]}>
             <App />
-          </RSIntlProvider>
+          </CustomProvider>
         </IntlProvider>
       </div>
     );
