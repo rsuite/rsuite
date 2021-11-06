@@ -33,6 +33,12 @@ describe('Container', () => {
     }, 0);
   });
 
+  it('Should have a `has-sidebar` className immediately', () => {
+    const instance = getDOMNode(<Container hasSidebar />);
+
+    expect(instance.className).to.contain('rs-container-has-sidebar');
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(
       <Container className="custom">
