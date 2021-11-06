@@ -78,7 +78,8 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Right-to-left][rsuite-doc-guide-rtl]
 - [Components][rsuite-components-overview]
 
-### Examples
+<details>
+<summary>More examples</summary>
 
 - [Management system][demo-admin]
 - [Use modularized][demo-modular-import]
@@ -96,6 +97,7 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Use in UmiJS][demo-umi-app]
 - [Use in Snowpack][demo-snowpack]
 - [Use in Vite][demo-vite]
+</details>
 
 ## Previous major versions
 
@@ -113,52 +115,9 @@ and security fixes are supported until 6.x is in progress.
 
 Detailed changes for each release are documented in the [release notes][release-notes].
 
-## Development
-
-### Test-Driven Development（TDD）
-
-1. Fork `https://github.com/rsuite/rsuite` this repo.
-
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-$ cd rsuite
-```
-
-2. Install it and run
-
-```bash
-$ npm i
-$ npm run tdd
-```
-
-3. Run a single component test case.
-
-```bash
-$ M=Button npm run tdd
-```
-
-### UI-Driven Development
-
-1. Fork `https://github.com/rsuite/rsuite` this repo.
-
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-```
-
-2. Install it and run
-
-```bash
-$ npm i
-$ npm run dev
-```
-
-3. Your show time. Open url http://127.0.0.1:3000/ in browser.
-
 ## Contribution
 
 Make sure you've read the [guidelines][contributing] before you start contributing.
-
-Editor preferences are available in the [.prettierrc][prettierrc] for easy use in common code editors. Read more and download plugins at https://prettier.io/.
 
 ## Supporting React Suite
 

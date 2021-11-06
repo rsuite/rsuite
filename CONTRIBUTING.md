@@ -4,6 +4,47 @@ Rsuite wants to get help from the community while providing a developer service.
 
 This article describes how you can help rsuite do a better job and contribute with your own strengths.
 
+## Development
+
+### Test-Driven Development（TDD）
+
+1. Fork `https://github.com/rsuite/rsuite` this repo.
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+$ cd rsuite
+```
+
+2. Install it and run
+
+```bash
+$ npm i
+$ npm run tdd
+```
+
+3. Run a single component test case.
+
+```bash
+$ M=Button npm run tdd
+```
+
+### UI-Driven Development
+
+1. Fork `https://github.com/rsuite/rsuite` this repo.
+
+```bash
+$ git clone git@github.com:<YOUR NAME>/rsuite.git
+```
+
+2. Install it and run
+
+```bash
+$ npm i
+$ npm run dev
+```
+
+3. Your show time. Open url http://127.0.0.1:3000/ in browser.
+
 ## Bug reports
 
 We uniformly collect bugs and state management through 'Github Issues'. If you find a bug, you can notify us by 'Github issues'.
@@ -19,7 +60,7 @@ We take every pull request seriously and will incorporate your code if it meets 
 
 You need to follow these procedures:
 
-* Fork the project, clone your fork.
+- Fork the project, clone your fork.
 
 ```bash
 git clone https://github.com/<your-username>/rsuite.git
@@ -27,7 +68,7 @@ git clone https://github.com/<your-username>/rsuite.git
 cd rsuite
 ```
 
-* Install project dependencies, executing at the project root:
+- Install project dependencies, executing at the project root:
 
 ```bash
 npm install
@@ -47,6 +88,6 @@ npm run test
 npm run lint
 ```
 
-* Open a Pull Request.
+- Open a Pull Request.
 
 Thank you for your participation!

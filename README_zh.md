@@ -69,7 +69,8 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [Right-to-left][rsuite-doc-guide-intl]
 - [组件][rsuite-components-overview]
 
-### 示例
+<details>
+<summary>更多的示例</summary>
 
 - [管理系统][demo-admin]
 - [模块化按需加载][demo-modular-import]
@@ -87,6 +88,7 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 - [在 UmiJS 中使用][demo-umi-app]
 - [在 Snowpack 中使用][demo-snowpack]
 - [在 Vite 中使用][demo-vite]
+</details>
 
 ## 历史版本
 
@@ -104,56 +106,9 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 
 每一个版本的详细变化记录在[Release Notes][release-notes]
 
-## 开发
-
-您可以通过 [Projects](https://github.com/rsuite/rsuite/projects) 查看我们的开发计划，同时希望您能参与其中。
-
-### 测试驱动开发（TDD）
-
-1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
-
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-$ cd rsuite
-```
-
-2. 安装并运行
-
-```bash
-$ npm i
-$ npm run tdd
-```
-
-3. 运行单个组件
-
-```bash
-$ M=Button npm run tdd
-```
-
-### UI 驱动开发
-
-1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
-
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-```
-
-2. 安装并运行
-
-```bash
-$ npm i
-$ npm run dev
-```
-
-3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3000/
-
-Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
-
 ## 贡献
 
 在开始之前，确保您已读[贡献指南][contributing]。
-
-编辑器的配置参考 [.prettierrc][prettierrc]， 下载编辑的插件 https://prettier.io/
 
 ## 支持 React Suite
 
