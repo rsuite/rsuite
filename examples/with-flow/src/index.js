@@ -2,28 +2,28 @@
 
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { Button } from 'rsuite';
+import Button from 'rsuite/Button';
 
 import 'rsuite/styles/index.less';
 
 type Props = {
-  text: string
+  text: string,
 };
 
 type State = {
-  count: number
+  count: number,
 };
 
 class CountButton extends React.Component<Props, State> {
   constructor() {
     super();
     this.state = {
-      count: 0
+      count: 0,
     };
   }
   handleClick = (event: SyntheticEvent<*>) => {
     this.setState({
-      count: this.state.count + 1
+      count: this.state.count + 1,
     });
   };
   render() {
