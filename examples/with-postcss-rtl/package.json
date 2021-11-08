@@ -8,7 +8,7 @@
   "dependencies": {
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "rsuite": "^4.2.1"
+    "rsuite": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
