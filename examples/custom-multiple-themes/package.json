@@ -54,7 +54,7 @@
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-hot-loader": "^4.0.0",
-    "rsuite": "^3.3.1",
+    "rsuite": "^5.1.0",
     "style-loader": "^0.20.3",
     "transform-loader": "^0.2.3",
     "url-loader": "^1.1.2",
