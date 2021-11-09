@@ -288,7 +288,6 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 | affixHeader              | boolean,number                                                                    | 将表头固定到页面上的指定位置                                 |
 | affixHorizontalScrollbar | boolean,number                                                                    | 将横向滚动条固定在页面底部的指定位置                         |
 | autoHeight               | boolean                                                                           | 自动高度                                                     |
-| bodyRef                  | Ref                                                                               | 表格主体部分上的 ref                                         |
 | bordered                 | boolean                                                                           | 表格边框                                                     |
 | cellBordered             | boolean                                                                           | 单元格边框                                                   |
 | data \*                  | object[]                                                                          | 表格数据                                                     |

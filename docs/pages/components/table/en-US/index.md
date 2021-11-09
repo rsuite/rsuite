@@ -292,7 +292,6 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 | affixHeader              | boolean,number                                                                    | Affix the table header to the specified location on the page                                  |
 | affixHorizontalScrollbar | boolean,number                                                                    | Affix the table horizontal scrollbar to the specified position on the page                    |
 | autoHeight               | boolean                                                                           | Automatic height                                                                              |
-| bodyRef                  | Ref                                                                               | A ref attached to the table body element                                                      |
 | bordered                 | boolean                                                                           | Show border                                                                                   |
 | cellBordered             | boolean                                                                           | Show cell border                                                                              |
 | data \*                  | object[]                                                                          | Table data                                                                                    |
