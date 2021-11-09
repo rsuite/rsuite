@@ -15,6 +15,7 @@ import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';
 import useInternalId from '../utils/useInternalId';
 import { DropdownActionType } from './DropdownState';
+import { useRenderDropdownItem } from './useRenderDropdownItem';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -143,37 +144,26 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       }
     }, [internalId, selected, dispatch]);
 
-    const renderDropdownItem = useCallback(
-      (ui: React.ReactElement) => {
-        if (Component === 'li') {
-          return ui;
-        }
-
-        return <li role="none presentation">{ui}</li>;
-      },
-      [Component]
-    );
+    const renderDropdownItem = useRenderDropdownItem(Component);
 
     if (sidenav?.expanded) {
       return <SidenavDropdownItem ref={ref} {...props} />;
     }
     if (divider) {
-      return renderDropdownItem(
-        <Component
-          ref={ref}
-          role="separator"
-          className={merge(prefix('divider'), className)}
-          {...restProps}
-        />
-      );
+      return renderDropdownItem({
+        ref,
+        role: 'separator',
+        className: merge(prefix('divider'), className),
+        ...restProps
+      });
     }
 
     if (panel) {
-      return renderDropdownItem(
-        <Component ref={ref} className={merge(prefix('panel'), className)} {...restProps}>
-          {children}
-        </Component>
-      );
+      return renderDropdownItem({
+        ref,
+        className: merge(prefix('panel'), className),
+        ...restProps
+      });
     }
 
     if (navbar) {
@@ -236,18 +226,19 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
             dataAttributes['data-event-key-type'] = typeof eventKey;
           }
 
-          return renderDropdownItem(
-            <Component
-              ref={mergeRefs(ref, menuitemRef)}
-              className={classes}
-              {...menuitem}
-              {...dataAttributes}
-              {...restProps}
-            >
-              {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-              {children}
-            </Component>
-          );
+          return renderDropdownItem({
+            ref: mergeRefs(ref, menuitemRef),
+            className: classes,
+            ...menuitem,
+            ...dataAttributes,
+            ...restProps,
+            children: (
+              <>
+                {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                {children}
+              </>
+            )
+          });
         }}
       </MenuItem>
     );
