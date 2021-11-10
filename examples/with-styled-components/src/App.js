@@ -1,10 +1,10 @@
 import React from 'react';
-import Button from 'rsuite/es/Button';
-import ButtonToolbar from 'rsuite/es/ButtonToolbar';
+import Button from 'rsuite/Button';
+import ButtonToolbar from 'rsuite/ButtonToolbar';
 import StyledButton from './StyledButton';
 
-import 'rsuite/es/ButtonToolbar/styles/index';
-import 'rsuite/es/button/styles/themes/default.less';
+import 'rsuite/ButtonToolbar/styles/index.less';
+import 'rsuite/button/styles/index.less';
 
 function App() {
   return (
