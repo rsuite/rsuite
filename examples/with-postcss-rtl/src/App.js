@@ -1,19 +1,19 @@
 import React from 'react';
-import Button from 'rsuite/es/Button';
-import ButtonToolbar from 'rsuite/es/ButtonToolbar';
-import Progress from 'rsuite/es/Progress';
-import Slider from 'rsuite/es/Slider';
-import IntlProvider from 'rsuite/es/IntlProvider';
+import Button from 'rsuite/Button';
+import ButtonToolbar from 'rsuite/ButtonToolbar';
+import Progress from 'rsuite/Progress';
+import Slider from 'rsuite/Slider';
+import CustomProvider from 'rsuite/CustomProvider';
 
 function App() {
   const [rtl, setRtl] = React.useState(false);
-  const setDirection = dir => {
+  const setDirection = (dir) => {
     document.dir = dir;
     setRtl(dir === 'rtl');
   };
   return (
     <div style={{ padding: 100 }}>
-      <IntlProvider rtl={rtl}>
+      <CustomProvider rtl={rtl}>
         <ButtonToolbar>
           <Progress.Line percent={30} status="active" />
           <hr />
@@ -35,7 +35,7 @@ function App() {
             Left to Right
           </Button>
         </ButtonToolbar>
-      </IntlProvider>
+      </CustomProvider>
     </div>
   );
 }
