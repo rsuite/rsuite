@@ -42,6 +42,10 @@ module.exports = {
     DEV: __DEV__ ? 1 : 0,
     VERSION: pkg.version
   },
+  eslint: {
+    // ESLint is ignored because it's already run in CI workflow
+    ignoreDuringBuilds: true
+  },
   /**
    *
    * @param {import('webpack').Configuration} config
