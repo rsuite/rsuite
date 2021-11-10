@@ -8,14 +8,14 @@
   "dependencies": {
     "react": "^16.3.2",
     "react-dom": "^16.5.2",
-    "rsuite": "^3.3.1"
+    "rsuite": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "babel-loader": "^8.0.0",
     "babel-preset-rsuite": "^0.1.1",
     "css-loader": "^1.0.0",
