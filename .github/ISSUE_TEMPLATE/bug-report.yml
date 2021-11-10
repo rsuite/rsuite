@@ -11,6 +11,10 @@ body:
       placeholder: 'For example: 17.0.0'
   - type: input
     attributes:
+      label: What version of TypeScript are you using (if any)?
+      placeholder: 'For example: 4.4.0'
+  - type: input
+    attributes:
       label: What browser are you using?
       placeholder: 'For example: Chrome, Safari'
   - type: textarea
