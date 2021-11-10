@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Color from 'color';
 import { Popover, Whisper } from 'rsuite';
 import Question2 from '@rsuite/icons/legacy/Question2';
-
-interface ColorType {
-  hex: string;
-  name: string;
-}
+import getPalette from '@/utils/getPalette';
 
 interface ColorPanelProps {
-  colors: ColorType[];
+  baseColor: string;
 }
 
 export default function ColorPanel(props: ColorPanelProps) {
-  const { colors } = props;
+  const { baseColor } = props;
+
+  const colors = useMemo(() => {
+    return getPalette(baseColor);
+  }, [baseColor]);
+
   return (
     <table className="panel-color">
       <thead>
@@ -26,7 +27,7 @@ export default function ColorPanel(props: ColorPanelProps) {
               </a>
             </Whisper>
           </th>
-          <th>Noraml</th>
+          <th>Normal</th>
           <th>Large</th>
         </tr>
       </thead>
