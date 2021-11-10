@@ -8,7 +8,7 @@ interface DataItemType {
 
   /**
    * The data of the child option corresponds to the `childrenKey` in the data.
-   * Properties owned by tree structure components, such as TreePicker, Casacder.
+   * Properties owned by tree structure components, such as TreePicker, Cascader.
    */
   children?: DataItemType[];
 
@@ -19,7 +19,7 @@ interface DataItemType {
 
   /**
    * The children under the current node are loading.
-   * Used for components that have cascading relationships and lazy loading of children. E.g. Casacder, MultiCascader
+   * Used for components that have cascading relationships and lazy loading of children. E.g. Cascader, MultiCascader
    */
   loading?: boolean;
 }
