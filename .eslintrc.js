@@ -36,5 +36,13 @@ module.exports = {
     react: {
       version: 'detect'
     }
-  }
+  },
+  overrides: [
+    {
+      files: ['*Spec.js'],
+      rules: {
+        'react/prop-types': 'off'
+      }
+    }
+  ]
 };

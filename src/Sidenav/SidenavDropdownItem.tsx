@@ -9,6 +9,7 @@ import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';
 import DropdownContext from '../Dropdown/DropdownContext';
+import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 
 export interface SidenavDropdownItemProps<T = any>
   extends WithAsProps,
@@ -105,45 +106,46 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
       onClick: createChainedFunction(handleClick, onClick)
     };
 
+    const renderDropdownItem = useRenderDropdownItem(Component);
+
     if (divider) {
-      return (
-        <Component
-          ref={ref}
-          role="separator"
-          style={style}
-          className={merge(prefix('divider'), className)}
-          {...rest}
-        />
-      );
+      return renderDropdownItem({
+        ref,
+        role: 'separator',
+        style,
+        className: merge(prefix('divider'), className),
+        ...rest
+      });
     }
 
     if (panel) {
-      return (
-        <Component
-          ref={ref}
-          role="none presentation"
-          style={style}
-          className={merge(prefix('panel'), className)}
-          {...rest}
-        >
-          {children}
-        </Component>
-      );
+      return renderDropdownItem({
+        ref,
+        role: 'none presentation',
+        style,
+        className: merge(prefix('panel'), className),
+        ...rest,
+        children
+      });
     }
 
-    return (
-      <SafeAnchor
-        ref={ref as any}
-        {...rest}
-        style={style}
-        className={classes}
-        aria-current={selected || undefined}
-        {...menuitemEventHandlers}
-      >
-        {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-        {children}
-        <Ripple />
-      </SafeAnchor>
+    return renderDropdownItem(
+      {
+        ref,
+        ...rest,
+        style,
+        className: classes,
+        'aria-current': selected || undefined,
+        ...menuitemEventHandlers,
+        children: (
+          <>
+            {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+            {children}
+            <Ripple />
+          </>
+        )
+      },
+      SafeAnchor
     );
   });
 

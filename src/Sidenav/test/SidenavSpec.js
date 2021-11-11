@@ -69,6 +69,26 @@ describe('<Sidenav>', () => {
       userEvent.click(getByText('Dropdown'));
       expect(getByText('Dropdown Item')).to.be.visible;
     });
+
+    describe('<Dropdown.Item>', () => {
+      it('Should render custom component defined by `as`', () => {
+        const Link = ({ to, ...props }) => <a href={to} {...props} />;
+
+        const { getByTestId } = render(
+          <Sidenav>
+            <Nav>
+              <Dropdown title="3">
+                <Dropdown.Item as={Link} to="/about" data-testid="link">
+                  About
+                </Dropdown.Item>
+              </Dropdown>
+            </Nav>
+          </Sidenav>
+        );
+
+        expect(getByTestId('link')).to.have.attr('href', '/about');
+      });
+    });
   });
 
   it('Should call onOpenChange callback', done => {
