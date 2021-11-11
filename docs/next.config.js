@@ -177,11 +177,12 @@ module.exports = {
     };
 
     // If we are building docs with local rsuite from src (local development and review builds),
-    // we should target `react` and `react-dom` imports to root node_modules
+    // we should stick `react` and `react-dom` imports to docs/node_modules
+    // preventing "more than one copy of React" error
     if (__USE_SRC__) {
       Object.assign(config.resolve.alias, {
-        react: path.resolve(__dirname, '../node_modules/react'),
-        'react-dom': path.resolve(__dirname, '../node_modules/react-dom')
+        react: path.resolve(__dirname, './node_modules/react'),
+        'react-dom': path.resolve(__dirname, './node_modules/react-dom')
       });
     }
 
