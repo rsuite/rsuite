@@ -1,3 +1,11 @@
+## [5.2.1](https://github.com/rsuite/rsuite/compare/v5.2.0...v5.2.1) (2021-11-12)
+
+### Bug Fixes
+
+- **CheckTree:** root node indeterminate state error ([#2124](https://github.com/rsuite/rsuite/issues/2124)) ([9dac0bc](https://github.com/rsuite/rsuite/commit/9dac0bc0e51b58b46aa85dac8a0348a9d73b2503))
+- **Sidenav:** remove underline on hovered SidenavItem ([#2118](https://github.com/rsuite/rsuite/issues/2118)) ([56f7c3a](https://github.com/rsuite/rsuite/commit/56f7c3ad0f7ab31c7d5aef2fe2cde1661024f034))
+- **Sidenav:** sidenav dropdown item accept as prop ([#2120](https://github.com/rsuite/rsuite/issues/2120)) ([5386999](https://github.com/rsuite/rsuite/commit/538699962dfd46faf41bb377833b0dcd06112039))
+
 # [5.2.0](https://github.com/rsuite/rsuite/compare/v5.1.0...v5.2.0) (2021-11-05)
 
 ### Bug Fixes
