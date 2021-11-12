@@ -33,15 +33,21 @@ export function isEveryChildChecked(nodes: TreeNodesType, parent: TreeNodeType):
   return children.every(child => nodes[child.refKey].check);
 }
 
-export function isSomeChildChecked(nodes: TreeNodesType, parent: TreeNodeType): boolean {
+export function isSomeChildChecked(
+  nodes: TreeNodesType,
+  parent: TreeNodeType,
+  childrenKey: string
+): boolean {
   if (isNil(nodes[parent.refKey])) {
     return false;
   }
   const children = getChildrenByFlattenNodes(nodes, parent);
-  if (!children.length) {
-    return nodes[parent.refKey].check;
-  }
-  return children.some(child => nodes[child.refKey].check);
+  return children.some(child => {
+    if (child?.[childrenKey]?.length > 0) {
+      return isSomeChildChecked(nodes, child, childrenKey);
+    }
+    return nodes[child.refKey].check;
+  });
 }
 
 export function isSomeNodeHasChildren(data: any[], childrenKey: string): boolean {
@@ -178,7 +184,7 @@ export function getNodeCheckState({ nodes, node, cascade, childrenKey }: any): C
     return CHECK_STATE.CHECK;
   }
 
-  if (isSomeChildChecked(nodes, node)) {
+  if (isSomeChildChecked(nodes, node, childrenKey)) {
     nodes[node.refKey].checkAll = false;
     return CHECK_STATE.INDETERMINATE;
   }

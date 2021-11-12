@@ -601,4 +601,10 @@ describe('CheckTreePicker', () => {
     const node = instance.overlay.querySelector('.rs-check-tree-node');
     assert.equal(node.style.height, '28px');
   });
+
+  it('Should display indeterminate state when only one child node selected', () => {
+    const instance = getInstance(<CheckTreePicker open defaultExpandAll data={data} />);
+    ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-0-1-0"] input'));
+    assert.equal(instance.overlay.querySelectorAll('.rs-checkbox-indeterminate').length, 1);
+  });
 });
