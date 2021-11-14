@@ -36,8 +36,8 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
   disabled?: boolean;
   activeKey?: T;
   trigger?: 'hover' | 'click';
-  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
-  onToggle?: (eventKey: T, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
+  onToggle?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
 /**
@@ -58,156 +58,154 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
  *   </Dropdown.Menu>
  * </Dropdown>
  */
-const DropdownMenu = React.forwardRef(
-  (
-    props: DropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>,
-    ref
-  ) => {
-    const {
-      onToggle,
-      eventKey,
-      title,
-      activeKey,
-      onSelect,
-      classPrefix = 'dropdown-menu',
-      children,
-      ...rest
-    } = props;
+const DropdownMenu = React.forwardRef<
+  HTMLElement,
+  DropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
+>((props, ref) => {
+  const {
+    onToggle,
+    eventKey,
+    title,
+    activeKey,
+    onSelect,
+    classPrefix = 'dropdown-menu',
+    children,
+    ...rest
+  } = props;
 
-    const dropdown = useContext(DropdownContext);
-    const sidenav = useContext(SidenavContext);
-    const { rtl } = useCustom('DropdownMenu');
+  const dropdown = useContext(DropdownContext);
+  const sidenav = useContext(SidenavContext);
+  const { rtl } = useCustom('DropdownMenu');
 
-    const handleToggleSubmenu = useCallback(
-      (_: boolean, event: React.SyntheticEvent) => {
-        onToggle?.(eventKey, event);
-      },
-      [eventKey, onToggle]
-    );
-    const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const handleToggleSubmenu = useCallback(
+    (_: boolean, event: React.SyntheticEvent) => {
+      onToggle?.(eventKey, event);
+    },
+    [eventKey, onToggle]
+  );
+  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
 
-    const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
-      useClassNames('dropdown-menu');
+  const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
+    useClassNames('dropdown-menu');
 
-    const {
-      merge: mergeItemClassNames,
-      withClassPrefix: withItemClassPrefix,
-      prefix: prefixItemClassName
-    } = useClassNames('dropdown-item');
+  const {
+    merge: mergeItemClassNames,
+    withClassPrefix: withItemClassPrefix,
+    prefix: prefixItemClassName
+  } = useClassNames('dropdown-item');
 
-    // <Dropdown.Menu> is used outside of <Dropdown>
-    // renders a vertical `menubar`
-    if (!dropdown) {
-      const classes = merge(props.className, withClassPrefix());
-
-      return (
-        <DropdownContext.Provider value={{ activeKey, onSelect }}>
-          <Menubar
-            vertical
-            onActivateItem={event => {
-              const { eventKey, eventKeyType } = (event.target as HTMLElement).dataset;
-
-              // Only cast number type for now
-              const eventKeyToEmit = eventKeyType === 'number' ? Number(eventKey) : eventKey;
-              onSelect?.(eventKeyToEmit as any, event);
-            }}
-          >
-            {(menubar, menubarRef) => (
-              <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest}>
-                {children}
-              </ul>
-            )}
-          </Menubar>
-        </DropdownContext.Provider>
-      );
-    }
-
-    if (sidenav?.expanded) {
-      return <SidenavDropdownMenu {...(omit(props, 'classPrefix') as any)} />;
-    }
-
-    // Parent menu exists. This is a submenu.
-    // Should render a `menuitem` that controls this submenu.
-    const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
-
-    const Icon = rtl ? AngleLeft : AngleRight;
+  // <Dropdown.Menu> is used outside of <Dropdown>
+  // renders a vertical `menubar`
+  if (!dropdown) {
+    const classes = merge(props.className, withClassPrefix());
 
     return (
-      <Menu
-        openMenuOn={['mouseover', 'click']}
-        renderMenuButton={({ open, ...menuButtonProps }, buttonRef) => (
-          <MenuItem disabled={disabled}>
-            {({ selected, active, ...menuitem }, menuitemRef) => {
-              const classes = mergeItemClassNames(
-                className,
-                prefixItemClassName(`pull-${rtl ? 'left' : 'right'}`),
-                prefixItemClassName`toggle`,
-                // prefixItemClassName`submenu`,
-                withItemClassPrefix({
-                  'with-icon': icon,
-                  open,
-                  active: selected,
-                  disabled,
-                  focus: active
-                })
-              );
+      <DropdownContext.Provider value={{ activeKey, onSelect }}>
+        <Menubar
+          vertical
+          onActivateItem={event => {
+            const { eventKey, eventKeyType } = (event.target as HTMLElement).dataset;
 
-              return (
-                <div
-                  ref={mergeRefs(buttonRef, menuitemRef as any)}
-                  className={classes}
-                  data-event-key={eventKey}
-                  data-event-key-type={typeof eventKey}
-                  {...(menuitem as any)}
-                  {...omit(menuButtonProps, ['role'])}
-                >
-                  {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-                  {title}
-                  <Icon className={prefix`toggle-icon`} />
-                </div>
-              );
-            }}
-          </MenuItem>
-        )}
-        renderMenuPopup={({ open, ...popupProps }, popupRef) => {
-          const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
-
-          return (
-            <ul
-              ref={popupRef}
-              className={menuClassName}
-              hidden={!open}
-              {...popupProps}
-              {...menuProps}
-            >
+            // Only cast number type for now
+            const eventKeyToEmit = eventKeyType === 'number' ? Number(eventKey) : eventKey;
+            onSelect?.(eventKeyToEmit as any, event);
+          }}
+        >
+          {(menubar, menubarRef: React.Ref<HTMLElement>) => (
+            <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest}>
               {children}
             </ul>
-          );
-        }}
-        onToggleMenu={handleToggleSubmenu}
-      >
-        {({ open, ...menuContainer }, menuContainerRef) => {
-          const classes = mergeItemClassNames(
-            className,
-            withItemClassPrefix({
-              disabled,
-              open,
-              submenu: true
-              // focus: hasFocus
-            })
-          );
-          return (
-            <li
-              ref={mergeRefs(ref, menuContainerRef as any)}
-              className={classes}
-              {...(menuContainer as any)}
-            />
-          );
-        }}
-      </Menu>
+          )}
+        </Menubar>
+      </DropdownContext.Provider>
     );
   }
-);
+
+  if (sidenav?.expanded) {
+    return <SidenavDropdownMenu {...(omit(props, 'classPrefix') as any)} />;
+  }
+
+  // Parent menu exists. This is a submenu.
+  // Should render a `menuitem` that controls this submenu.
+  const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
+
+  const Icon = rtl ? AngleLeft : AngleRight;
+
+  return (
+    <Menu
+      openMenuOn={['mouseover', 'click']}
+      renderMenuButton={({ open, ...menuButtonProps }, buttonRef) => (
+        <MenuItem disabled={disabled}>
+          {({ selected, active, ...menuitem }, menuitemRef) => {
+            const classes = mergeItemClassNames(
+              className,
+              prefixItemClassName(`pull-${rtl ? 'left' : 'right'}`),
+              prefixItemClassName`toggle`,
+              // prefixItemClassName`submenu`,
+              withItemClassPrefix({
+                'with-icon': icon,
+                open,
+                active: selected,
+                disabled,
+                focus: active
+              })
+            );
+
+            return (
+              <div
+                ref={mergeRefs(buttonRef, menuitemRef as any)}
+                className={classes}
+                data-event-key={eventKey}
+                data-event-key-type={typeof eventKey}
+                {...(menuitem as any)}
+                {...omit(menuButtonProps, ['role'])}
+              >
+                {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                {title}
+                <Icon className={prefix`toggle-icon`} />
+              </div>
+            );
+          }}
+        </MenuItem>
+      )}
+      renderMenuPopup={({ open, ...popupProps }, popupRef) => {
+        const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+
+        return (
+          <ul
+            ref={popupRef}
+            className={menuClassName}
+            hidden={!open}
+            {...popupProps}
+            {...menuProps}
+          >
+            {children}
+          </ul>
+        );
+      }}
+      onToggleMenu={handleToggleSubmenu}
+    >
+      {({ open, ...menuContainer }, menuContainerRef) => {
+        const classes = mergeItemClassNames(
+          className,
+          withItemClassPrefix({
+            disabled,
+            open,
+            submenu: true
+            // focus: hasFocus
+          })
+        );
+        return (
+          <li
+            ref={mergeRefs(ref, menuContainerRef as any)}
+            className={classes}
+            {...(menuContainer as any)}
+          />
+        );
+      }}
+    </Menu>
+  );
+});
 
 DropdownMenu.displayName = 'Dropdown.Menu';
 DropdownMenu.propTypes = {

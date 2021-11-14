@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import isNil from 'lodash/isNil';
 import useUniqueId from '../utils/useUniqueId';
 import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
 
@@ -17,7 +18,7 @@ export interface MenuItemProps {
   ) => React.ReactElement;
 
   /** Callback when menuitem is being activated */
-  onActivate?: (event: React.SyntheticEvent) => void;
+  onActivate?: React.MouseEventHandler;
 }
 
 export interface MenuitemRenderProps {
@@ -29,19 +30,24 @@ export interface MenuitemRenderProps {
  * Headless ARIA `menuitem`
  */
 function MenuItem(props: MenuItemProps) {
-  const { children, selected, disabled, onActivate } = props;
+  const { children, selected = false, disabled = false, onActivate } = props;
 
-  const menuitemRef = useRef<HTMLLIElement>();
+  const menuitemRef = useRef<HTMLLIElement>(null);
   const menuitemId = useUniqueId('menuitem-');
 
   const menu = useContext(MenuContext);
-  // fixme make sure <MenuItem> is used inside a <Menu>
-  const [menuState, dispatch] = menu ?? [];
+
+  if (!menu) {
+    throw new Error('<MenuItem> must be rendered within a <Menu>');
+  }
+
+  const [menuState, dispatch] = menu;
 
   // Whether this menuitem has focus (indicated by `aria-activedescendant` from parent menu)
   const hasFocus =
-    menuState?.items[menuState?.activeItemIndex]?.element === menuitemRef.current &&
-    !!menuitemRef.current;
+    !isNil(menuitemRef.current) &&
+    !isNil(menuState.activeItemIndex) &&
+    menuState.items[menuState.activeItemIndex].element === menuitemRef.current;
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLLIElement>) => {
@@ -57,20 +63,25 @@ function MenuItem(props: MenuItemProps) {
   // Gain/release focus on mousedown in `menubar`
 
   const handleMouseDown = useCallback(() => {
-    dispatch({
-      type: MenuActionTypes.MoveFocus,
-      to: MoveFocusTo.Specific,
-      id: menuitemRef.current.id
-    });
+    if (!isNil(menuitemRef.current)) {
+      dispatch({
+        type: MenuActionTypes.MoveFocus,
+        to: MoveFocusTo.Specific,
+        id: menuitemRef.current.id
+      });
+    }
   }, [dispatch]);
 
   // Gain/release focus on mouseenter/mouseleave in `menu`
   const handleMouseMove = useCallback(() => {
-    dispatch({
-      type: MenuActionTypes.MoveFocus,
-      to: MoveFocusTo.Specific,
-      id: menuitemRef.current.id
-    });
+    // todo Should we use event.target instead of menuitemRef.current?
+    if (!isNil(menuitemRef.current)) {
+      dispatch({
+        type: MenuActionTypes.MoveFocus,
+        to: MoveFocusTo.Specific,
+        id: menuitemRef.current.id
+      });
+    }
   }, [dispatch]);
 
   const handleMouseLeave = useCallback(() => {
@@ -81,15 +92,16 @@ function MenuItem(props: MenuItemProps) {
   }, [dispatch]);
 
   useEffect(() => {
-    const menuitemElement = menuitemRef.current;
+    const menuitemElement = menuitemRef.current!;
 
-    dispatch?.({
+    dispatch({
       type: MenuActionTypes.RegisterItem,
       element: menuitemElement,
       props: { disabled }
     });
+
     return () => {
-      dispatch?.({ type: MenuActionTypes.UnregisterItem, id: menuitemElement.id });
+      dispatch({ type: MenuActionTypes.UnregisterItem, id: menuitemElement.id });
     };
   }, [menuitemRef, disabled, dispatch]);
 

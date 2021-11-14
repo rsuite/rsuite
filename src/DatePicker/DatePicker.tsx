@@ -178,10 +178,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const [inputState, setInputState] = useState<InputState>();
     const { calendarState, reset, openMonth, openTime } = useCalendarState();
     const [active, setActive] = useState<boolean>(false);
-    const triggerRef = useRef<OverlayTriggerInstance>();
-    const rootRef = useRef<HTMLDivElement>();
-    const targetRef = useRef<HTMLButtonElement>();
-    const overlayRef = useRef<HTMLDivElement>();
+    const triggerRef = useRef<OverlayTriggerInstance>(null);
+    const rootRef = useRef<HTMLDivElement>(null);
+    const targetRef = useRef<HTMLButtonElement>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
 
     usePublicMethods(ref, { rootRef, triggerRef, overlayRef, targetRef });
 

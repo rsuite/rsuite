@@ -46,14 +46,16 @@ export default function ajaxUpload(options: Options) {
   } = options;
 
   const xhr = new XMLHttpRequest();
-  let sendableData = null;
+  let sendableData: FormData | File;
 
   xhr.open('POST', url, true);
 
   if (!disableMultipart) {
     sendableData = new FormData();
     sendableData.append(name, file, file.name);
-    Object.keys(data).forEach(key => sendableData.append(key, data[key]));
+    for (const key in data) {
+      sendableData.append(key, data[key]);
+    }
   } else {
     sendableData = file;
   }

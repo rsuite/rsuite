@@ -58,7 +58,7 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
       vertical,
       size = 'md',
       color,
-      allowHalf,
+      allowHalf = false,
       value: valueProp,
       defaultValue = 0,
       cleanable = true,

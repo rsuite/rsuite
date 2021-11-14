@@ -96,14 +96,14 @@ const InputAutosize = React.forwardRef(
       tabIndex
     } = props;
 
-    const rootRef = useRef();
-    const inputRef = useRef();
-    const sizerRef = useRef();
-    const placeholderRef = useRef();
+    const rootRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const sizerRef = useRef<HTMLDivElement>(null);
+    const placeholderRef = useRef<HTMLDivElement>(null);
 
     useImperativeHandle(ref, () => ({
-      root: rootRef.current,
-      input: inputRef.current
+      root: rootRef.current!,
+      input: inputRef.current!
     }));
 
     const sizerValue = [defaultValue, value, ''].reduce((previousValue, currentValue) => {
@@ -127,12 +127,12 @@ const InputAutosize = React.forwardRef(
       }
 
       const input = inputRef.current;
-      const inputStyles: CSSStyleDeclaration = input && window.getComputedStyle(input);
+      const inputStyles: CSSStyleDeclaration | null = input && window.getComputedStyle(input);
       if (!inputStyles) {
         return;
       }
 
-      copyStyles(inputStyles, sizerRef.current);
+      copyStyles(inputStyles, sizerRef.current!);
       if (placeholderRef.current) {
         copyStyles(inputStyles, placeholderRef.current);
       }

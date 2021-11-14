@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useRef } from 'react';
 import PropTypes from 'prop-types';
+import isNil from 'lodash/isNil';
 import MenuContext, { MenuActionTypes, MenuContextProps, MoveFocusTo } from './MenuContext';
 import { KEY_VALUES, useCustom } from '../utils';
 import useUniqueId from '../utils/useUniqueId';
@@ -66,8 +67,8 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
     onToggleMenu
   } = props;
 
-  const buttonElementRef = useRef<HTMLButtonElement>();
-  const menuElementRef = useRef<HTMLUListElement>();
+  const buttonElementRef = useRef<HTMLButtonElement>(null);
+  const menuElementRef = useRef<HTMLUListElement>(null);
 
   const parentMenu = useContext(MenuContext);
   const isSubmenu = !!parentMenu;
@@ -77,7 +78,9 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
 
   const { rtl } = useCustom('Menu');
 
-  const activeItem = items[activeItemIndex]?.element;
+  const activeItem: HTMLElement | null = isNil(activeItemIndex)
+    ? null
+    : items[activeItemIndex]?.element;
 
   const menuFocus = useFocus(menuElementRef);
 
@@ -112,7 +115,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
       onToggleMenu?.(false, event);
 
       if (returnFocusToButton) {
-        buttonElementRef.current.focus({ preventScroll: true });
+        buttonElementRef.current?.focus({ preventScroll: true });
       }
     },
     [dispatch, onToggleMenu, buttonElementRef]
@@ -133,8 +136,8 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
     enabled: open,
     isOutside: event => {
       return (
-        !buttonElementRef.current.contains(event.target as HTMLElement) &&
-        !menuElementRef.current.contains(event.target as HTMLElement)
+        !buttonElementRef.current?.contains(event.target as HTMLElement) &&
+        !menuElementRef.current?.contains(event.target as HTMLElement)
       );
     },
     // fixme if clicking on a focusable element, don't move focus to menu button
@@ -386,6 +389,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
     menuElementRef
   );
 
+  // fixme Wrong children here
   const menuElement = customMenuPopup ?? (
     <ul ref={menuElementRef} {...menuProps} hidden={!open}>
       {children}
@@ -410,7 +414,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
     [disabled, closeMenu]
   );
 
-  const rootElementRef = useRef<HTMLDivElement>();
+  const rootElementRef = useRef<HTMLDivElement>(null);
 
   const handleContainerBlur = useCallback(
     (event: React.FocusEvent) => {

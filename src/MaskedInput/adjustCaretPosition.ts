@@ -9,8 +9,8 @@ export default function adjustCaretPosition({
   rawValue,
   placeholderChar,
   placeholder,
-  indexesOfPipedChars = defaultArray,
-  caretTrapIndexes = defaultArray
+  indexesOfPipedChars = defaultArray as string[],
+  caretTrapIndexes = defaultArray as number[]
 }) {
   if (currentCaretPosition === 0 || !rawValue.length) {
     return 0;

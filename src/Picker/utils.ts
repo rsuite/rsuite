@@ -1,6 +1,7 @@
 import React, { useState, useImperativeHandle, useCallback } from 'react';
 import kebabCase from 'lodash/kebabCase';
 import trim from 'lodash/trim';
+import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
@@ -56,7 +57,7 @@ export function shouldDisplay(label: React.ReactNode, searchKeyword: string) {
 
 interface PickerClassNameProps {
   name?: string;
-  classPrefix?: string;
+  classPrefix: string;
   className?: string;
   placement?: TypeAttributes.Placement;
   appearance?: 'default' | 'subtle';
@@ -167,7 +168,7 @@ export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
 }
 
 interface FocusItemValueProps {
-  target: HTMLElement | (() => HTMLElement);
+  target: HTMLElement | null | (() => HTMLElement | null);
   data?: any[];
   valueKey?: string;
   focusableQueryKey?: string;
@@ -181,8 +182,8 @@ interface FocusItemValueProps {
  * @param defaultFocusItemValue
  * @param props
  */
-export const useFocusItemValue = (
-  defaultFocusItemValue: number | string | readonly string[],
+export const useFocusItemValue = <T extends number | string>(
+  defaultFocusItemValue: T | undefined,
   props: FocusItemValueProps
 ) => {
   const {
@@ -194,9 +195,9 @@ export const useFocusItemValue = (
     rtl,
     callback
   } = props;
-  const [focusItemValue, setFocusItemValue] = useState<any>(defaultFocusItemValue);
+  const [focusItemValue, setFocusItemValue] = useState<T | null | undefined>(defaultFocusItemValue);
   const [layer, setLayer] = useState(defaultLayer);
-  const [keys, setKeys] = useState([]);
+  const [keys, setKeys] = useState<Array<string | undefined>>([]);
 
   /**
    * Get the elements visible in all options.
@@ -208,9 +209,9 @@ export const useFocusItemValue = (
     const menu = isFunction(target) ? target() : target;
 
     let currentKeys = keys;
-    if (currentKeys.length === 0) {
-      currentKeys = Array.from(menu?.querySelectorAll(focusableQueryKey))?.map(
-        (item: HTMLDivElement) => item?.dataset?.key
+    if (currentKeys.length === 0 && !isNil(menu)) {
+      currentKeys = Array.from(menu.querySelectorAll<HTMLElement>(focusableQueryKey)).map(
+        item => item.dataset?.key
       );
       setKeys(currentKeys);
     }
@@ -277,8 +278,8 @@ export const useFocusItemValue = (
       const subMenu = menu?.querySelector(`[data-layer="${nextLayer}"]`);
 
       if (subMenu) {
-        return Array.from(subMenu.querySelectorAll(focusableQueryKey))?.map(
-          (item: HTMLDivElement) => item?.dataset?.key
+        return Array.from(subMenu.querySelectorAll<HTMLElement>(focusableQueryKey))?.map(
+          item => item.dataset?.key
         );
       }
 
@@ -295,7 +296,7 @@ export const useFocusItemValue = (
       if (nextKeys) {
         setKeys(nextKeys);
         setLayer(nextLayer);
-        setFocusItemValue(nextKeys[0]);
+        setFocusItemValue(nextKeys[0] as T);
         callback?.(nextKeys[0], event);
       }
     },
@@ -348,7 +349,7 @@ export const useFocusItemValue = (
 
 interface ToggleKeyDownEventProps {
   toggle?: boolean;
-  triggerRef?: React.RefObject<any>;
+  triggerRef: React.RefObject<any>;
   targetRef: React.RefObject<any>;
   overlayRef?: React.RefObject<any>;
   searchInputRef?: React.RefObject<any>;
@@ -466,7 +467,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 interface SearchProps {
   labelKey: string;
   data: ItemDataType[];
-  searchBy: (keyword, label, item) => boolean;
+  searchBy?: (keyword, label, item) => boolean;
   callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent) => void;
 }
 
@@ -526,9 +527,9 @@ export function useSearch(props: SearchProps) {
 }
 
 interface Refs {
-  triggerRef?: React.RefObject<OverlayTriggerInstance>;
+  triggerRef: React.RefObject<OverlayTriggerInstance>;
   rootRef?: React.RefObject<HTMLElement>;
-  overlayRef?: React.RefObject<HTMLElement>;
+  overlayRef: React.RefObject<HTMLElement>;
   targetRef?: React.RefObject<HTMLElement>;
 }
 
@@ -567,7 +568,7 @@ export function usePublicMethods(
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useImperativeHandle(ref, () => ({
       get root() {
-        return rootRef?.current ? rootRef?.current : triggerRef.current?.root;
+        return rootRef?.current || triggerRef.current?.root;
       },
       get overlay() {
         return overlayRef.current;

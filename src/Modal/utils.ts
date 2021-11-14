@@ -10,7 +10,7 @@ export const useBodyStyles = (
   const [bodyStyles, setBodyStyles] = useState({});
   const { overflow, drawer, prefix } = options;
   const windowResizeListener = useRef<any>();
-  const contentElement = useRef();
+  const contentElement = useRef<HTMLElement | null>(null);
 
   const updateBodyStyles = useCallback(
     (_event?: EventInit, entering?: boolean) => {
@@ -56,8 +56,8 @@ export const useBodyStyles = (
   const onChangeBodyStyles = useCallback(
     (entering?: boolean) => {
       if (overflow && !drawer) {
-        updateBodyStyles(null, entering);
-        contentElement.current = ref.current?.querySelector(`.${prefix('content')}`);
+        updateBodyStyles(undefined, entering);
+        contentElement.current = ref.current?.querySelector(`.${prefix('content')}`)!;
         windowResizeListener.current = on(window, 'resize', updateBodyStyles);
         bindElementResize(contentElement.current, updateBodyStyles);
       }

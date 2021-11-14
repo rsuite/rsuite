@@ -94,7 +94,7 @@ export function getNodeParents(node: any, parentKey = 'parent', valueKey?: strin
  * @param valueKey
  */
 export function getNodeParentKeys(nodes: TreeNodesType, node: TreeNodeType, valueKey: string) {
-  const parentKeys = [];
+  const parentKeys: TreeNodeType[] = [];
   const traverse = (node: TreeNodeType) => {
     if (node?.parent) {
       traverse(nodes[node.parent.refKey]);
@@ -133,8 +133,8 @@ export function getDefaultExpandItemValues(
   const { valueKey, defaultExpandAll, childrenKey, defaultExpandItemValues = [] } = props;
   if (defaultExpandAll) {
     return flattenTree(data, childrenKey)
-      .filter(item => Array.isArray(item[childrenKey]) && item[childrenKey].length > 0)
-      .map(item => item[valueKey]);
+      .filter(item => Array.isArray(item[childrenKey!]) && item[childrenKey!].length > 0)
+      .map(item => item[valueKey!]);
   }
   return defaultExpandItemValues;
 }
@@ -260,7 +260,7 @@ export function createUpdateTreeDataFunction(params: any, { valueKey, childrenKe
 }
 
 export function findNodeOfTree(data, check) {
-  const findNode = (nodes = []) => {
+  const findNode = (nodes: readonly TreeNodeType[] = []) => {
     for (let i = 0; i < nodes.length; i += 1) {
       const item = nodes[i];
       if (isArray(item.children)) {
@@ -282,8 +282,8 @@ export function findNodeOfTree(data, check) {
 }
 
 export function filterNodesOfTree(data, check) {
-  const findNodes = (nodes = []) => {
-    const nextNodes = [];
+  const findNodes = (nodes: readonly TreeNodeType[] = []) => {
+    const nextNodes: TreeNodeType[] = [];
     for (let i = 0; i < nodes.length; i += 1) {
       if (isArray(nodes[i].children)) {
         const nextChildren = findNodes(nodes[i].children);
@@ -320,19 +320,19 @@ export const getFocusableItems = (
   isSearching?: boolean
 ) => {
   const { disabledItemValues, valueKey, childrenKey, expandItemValues } = props;
-  const items = [];
+  const items: TreeNodeType[] = [];
   const loop = (nodes: any[]) => {
     nodes.forEach((node: any) => {
-      const disabled = disabledItemValues.some(disabledItem =>
-        shallowEqual(disabledItem, node[valueKey])
+      const disabled = disabledItemValues!.some(disabledItem =>
+        shallowEqual(disabledItem, node[valueKey!])
       );
       if (!disabled && node.visible) {
         items.push(node);
       }
       // always expand when searching
-      const expand = isSearching ? true : expandItemValues.includes(node[valueKey]);
-      if (node[childrenKey] && expand) {
-        loop(node[childrenKey]);
+      const expand = isSearching ? true : expandItemValues!.includes(node[valueKey!]);
+      if (node[childrenKey!] && expand) {
+        loop(node[childrenKey!]);
       }
     });
   };
@@ -453,7 +453,7 @@ export const focusPreviousItem = ({
 export interface ArrowHandlerProps {
   focusItem: TreeNodeType;
   expand: boolean;
-  childrenKey?: string;
+  childrenKey: string;
   onExpand: (focusItem: TreeNodeType) => void;
   onFocusItem: () => void;
 }
@@ -508,8 +508,11 @@ export function rightArrowHandler({
  * @param value - activeItem value
  * @param valueKey
  */
-export const getScrollToIndex = (nodes: TreeNodeType[], value: string | number, valueKey: string) =>
-  nodes.filter(n => n.visible).findIndex(item => item[valueKey] === value);
+export const getScrollToIndex = (
+  nodes: readonly TreeNodeType[],
+  value: string | number,
+  valueKey: string
+) => nodes.filter(n => n.visible).findIndex(item => item[valueKey] === value);
 
 /**
  * when searching, expand state always return true
@@ -520,18 +523,23 @@ export function getExpandWhenSearching(searchKeyword: string, expand: boolean) {
   return isSearching(searchKeyword) ? true : expand;
 }
 
-export function getTreeActiveNode(nodes: TreeNodesType, value: number | string, valueKey: string) {
-  let activeNode = null;
-  if (!isUndefined(value)) {
-    Object.keys(nodes).forEach(refKey => {
-      if (shallowEqual(nodes[refKey][valueKey], value)) {
-        activeNode = nodes[refKey];
-      }
-    });
+function getTreeActiveNode<T extends number | string | undefined>(
+  nodes: TreeNodesType,
+  value: T,
+  valueKey: string
+): T extends undefined ? undefined : TreeNodeType | undefined;
+function getTreeActiveNode(nodes, value, valueKey) {
+  if (isUndefined(value)) {
+    return undefined;
   }
-
-  return activeNode;
+  for (const refKey in nodes) {
+    if (shallowEqual(nodes[refKey][valueKey], value)) {
+      return nodes[refKey];
+    }
+  }
 }
+
+export { getTreeActiveNode };
 
 /**
  * toggle tree node
@@ -573,13 +581,13 @@ export function getChildrenByFlattenNodes(nodes: TreeNodesType, parent: TreeNode
 
 export function useTreeDrag() {
   // current dragging node
-  const dragNode = useRef(null);
+  const dragNode = useRef<ItemDataType | null>(null);
   const [dragOverNodeKey, setDragOverNodeKey] = useState(null);
   // drag node and it's children nodes key
   const [dragNodeKeys, setDragNodeKeys] = useState([]);
-  const [dropNodePosition, setDropNodePosition] = useState<TREE_NODE_DROP_POSITION>(null);
+  const [dropNodePosition, setDropNodePosition] = useState<TREE_NODE_DROP_POSITION | null>(null);
 
-  const setDragNode = (node: ItemDataType) => {
+  const setDragNode = (node: ItemDataType | null) => {
     dragNode.current = node;
   };
   return {
@@ -646,7 +654,6 @@ export function useFlattenTreeData({
           layer,
           [labelKey]: node[labelKey],
           [valueKey]: node[valueKey],
-          refKey,
           uncheckable: uncheckableItemValues.some((value: any) =>
             shallowEqual(node[valueKey], value)
           ),
@@ -665,7 +672,7 @@ export function useFlattenTreeData({
 
   const serializeListOnlyParent = useCallback(
     (nodes: TreeNodesType, key: string) => {
-      const list = [];
+      const list: TreeNodeType[] = [];
 
       Object.keys(nodes).forEach((refKey: string) => {
         const currentNode = nodes[refKey];
@@ -799,9 +806,9 @@ export function useTreeNodeRefs() {
 interface TreeSearchProps {
   labelKey: string;
   childrenKey: string;
-  searchKeyword: string;
+  searchKeyword?: string;
   data: ItemDataType[];
-  searchBy: (keyword, label, item) => boolean;
+  searchBy?: (keyword, label, item) => boolean;
   callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent) => void;
 }
 
@@ -809,7 +816,7 @@ interface TreeSearchProps {
  * A hook that handles tree search filter options
  * @param props
  */
-export function useTreeSearch(props: TreeSearchProps) {
+export function useTreeSearch<T extends HTMLElement = HTMLInputElement>(props: TreeSearchProps) {
   const { labelKey, childrenKey, searchKeyword, data, searchBy, callback } = props;
 
   const filterVisibleData = useCallback(
@@ -836,8 +843,10 @@ export function useTreeSearch(props: TreeSearchProps) {
   );
 
   // Use search keywords to filter options.
-  const [searchKeywordState, setSearchKeyword] = useState(searchKeyword ?? '');
-  const [filteredData, setFilteredData] = useState(filterVisibleData(data, searchKeywordState));
+  const [searchKeywordState, setSearchKeyword] = useState(() => searchKeyword ?? '');
+  const [filteredData, setFilteredData] = useState(() =>
+    filterVisibleData(data, searchKeywordState)
+  );
 
   const handleSetFilteredData = useCallback(
     (data: ItemDataType[], searchKeyword: string) => {
@@ -846,7 +855,7 @@ export function useTreeSearch(props: TreeSearchProps) {
     [filterVisibleData]
   );
 
-  const handleSearch = (searchKeyword: string, event: React.SyntheticEvent) => {
+  const handleSearch = (searchKeyword: string, event: React.ChangeEvent<T>) => {
     const filteredData = filterVisibleData(data, searchKeyword);
     setFilteredData(filteredData);
     setSearchKeyword(searchKeyword);
@@ -909,7 +918,7 @@ export interface FocusToTreeNodeProps {
   virtualized: boolean;
   container: HTMLDivElement;
   list: ListInstance;
-  formattedNodes: TreeNodesType[];
+  formattedNodes: TreeNodeType[];
 }
 
 /**
@@ -929,7 +938,7 @@ export function focusToActiveTreeNode({
 
   if (virtualized && activeNode) {
     const scrollIndex = getScrollToIndex(formattedNodes, activeNode?.[valueKey], valueKey);
-    list.scrollToRow(scrollIndex);
+    list.scrollToRow?.(scrollIndex);
     return;
   }
 

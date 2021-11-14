@@ -21,15 +21,15 @@ type PickKeys<T> = {
 };
 
 export type Locale = PickKeys<typeof defaultLocale>;
-export type CommonLocale = PickKeys<typeof defaultLocale.common>;
+export type CommonLocale = typeof defaultLocale.common;
 export type CalendarLocale = PickKeys<typeof defaultLocale.Calendar>;
 export type PlaintextLocale = PickKeys<typeof defaultLocale.Plaintext>;
 export type PaginationLocale = PickKeys<typeof defaultLocale.Pagination>;
 export type TableLocale = CommonLocale;
 export type DatePickerLocale = PickKeys<typeof defaultLocale.DatePicker>;
 export type DateRangePickerLocale = PickKeys<typeof defaultLocale.DateRangePicker>;
-export type PickerLocale = PickKeys<typeof defaultLocale.Picker> & CommonLocale;
-export type InputPickerLocale = PickerLocale & PickKeys<typeof defaultLocale.InputPicker>;
+export type PickerLocale = typeof defaultLocale.Picker & CommonLocale;
+export type InputPickerLocale = PickerLocale & typeof defaultLocale.InputPicker;
 export type UploaderLocale = PickKeys<typeof defaultLocale.Uploader>;
 export type CloseButtonLocale = PickKeys<typeof defaultLocale.CloseButton>;
 export type BreadcrumbLocale = PickKeys<typeof defaultLocale.Breadcrumb>;

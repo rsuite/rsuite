@@ -1,25 +1,31 @@
 import React from 'react';
-import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
-import { getDOMNode } from '@test/testUtils';
+import userEvent from '@testing-library/user-event';
 
+import Dropdown from '../Dropdown';
 import DropdownItem from '../DropdownItem';
 import User from '@rsuite/icons/legacy/User';
 
 describe('<Dropdown.Item>', () => {
-  it('Should render element with role="menuitem"', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<DropdownItem>{title}</DropdownItem>);
+  it('Should render element with role="menuitem" and given content', () => {
+    const content = 'Test';
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem data-testid="item">{content}</DropdownItem>
+      </Dropdown>
+    );
 
-    assert.equal(instance.getAttribute('role'), 'menuitem', 'role');
-    assert.equal(instance.textContent, title);
+    expect(getByTestId('item')).to.have.attr('role', 'menuitem');
+    expect(getByTestId('item')).to.have.text(content);
   });
 
   it('Should render custom element inside a <li>', () => {
     const { getByTestId } = render(
-      <DropdownItem as="a" data-testid="dropdown-item">
-        Link
-      </DropdownItem>
+      <Dropdown>
+        <DropdownItem as="a" data-testid="dropdown-item">
+          Link
+        </DropdownItem>
+      </Dropdown>
     );
 
     const element = getByTestId('dropdown-item');
@@ -29,71 +35,128 @@ describe('<Dropdown.Item>', () => {
   });
 
   it('Should render a divider', () => {
-    const instance = getDOMNode(<DropdownItem divider />);
-    assert.include(instance.className, 'rs-dropdown-item-divider');
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem divider data-testid="item" />
+      </Dropdown>
+    );
+
+    expect(getByTestId('item')).to.have.class('rs-dropdown-item-divider');
   });
 
   it('Should render a panel', () => {
-    const instance = getDOMNode(<DropdownItem panel />);
-    assert.include(instance.className, 'rs-dropdown-item-panel');
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem panel data-testid="item" />
+      </Dropdown>
+    );
+
+    expect(getByTestId('item')).to.have.class('rs-dropdown-item-panel');
   });
 
   it('Should be active', () => {
-    const instance = getDOMNode(<DropdownItem active />);
-    assert.include(instance.className, 'rs-dropdown-item-active');
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem active data-testid="item" />
+      </Dropdown>
+    );
+
+    expect(getByTestId('item')).to.have.class('rs-dropdown-item-active');
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<DropdownItem disabled />);
-    assert.include(instance.className, 'rs-dropdown-item-disabled');
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem disabled data-testid="item" />
+      </Dropdown>
+    );
+
+    expect(getByTestId('item')).to.have.class('rs-dropdown-item-disabled');
   });
 
   it('Should render a icon', () => {
-    const instance = getDOMNode(<DropdownItem icon={<User />} />);
-    assert.ok(instance.querySelector('.rs-icon'));
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem icon={<User data-testid="icon" />} data-testid="item" />
+      </Dropdown>
+    );
+
+    expect(getByTestId('item')).to.contain(getByTestId('icon'));
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {
     const onSelectSpy = sinon.spy();
 
-    const instance = getDOMNode(
-      <DropdownItem onSelect={onSelectSpy} eventKey="ABC">
-        Title
-      </DropdownItem>
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem onSelect={onSelectSpy} eventKey="ABC" data-testid="item">
+          Title
+        </DropdownItem>
+      </Dropdown>
     );
-    act(() => {
-      Simulate.click(instance);
-    });
+
+    userEvent.click(getByTestId('item'));
 
     expect(onSelectSpy).to.have.been.calledWith('ABC');
   });
 
-  it('Should call onClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<DropdownItem onClick={doneOp}>Title</DropdownItem>);
-    ReactTestUtils.Simulate.click(instance);
+  it('Should call onClick callback', () => {
+    const onClickSpy = sinon.spy();
+
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem onClick={onClickSpy} data-testid="item">
+          Title
+        </DropdownItem>
+      </Dropdown>
+    );
+
+    userEvent.click(getByTestId('item'));
+
+    expect(onClickSpy).to.have.been.called;
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<DropdownItem className="custom" />);
-    assert.include(instance.className, 'custom');
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem className="custom" data-testid="item" />
+      </Dropdown>
+    );
+
+    expect(getByTestId('item')).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<DropdownItem style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
+
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem style={{ fontSize }} data-testid="item" />
+      </Dropdown>
+    );
+
+    expect(getByTestId('item')).to.have.style('fontSize', fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<DropdownItem classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem classPrefix="custom-prefix" data-testid="item" />
+      </Dropdown>
+    );
+
+    expect(getByTestId('item').className).to.match(/\bcustom-prefix\b/);
   });
 
   it('Should accept a custom `id`', () => {
-    const menuitem = getDOMNode(<DropdownItem id="custom-id">Menu item</DropdownItem>);
-    assert.equal(menuitem.getAttribute('id'), 'custom-id', 'id');
+    const id = 'custom-id';
+
+    const { getByTestId } = render(
+      <Dropdown>
+        <DropdownItem id={id} data-testid="item" />
+      </Dropdown>
+    );
+
+    expect(getByTestId('item')).to.have.id(id);
   });
 });

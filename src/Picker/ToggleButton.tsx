@@ -3,11 +3,9 @@ import Button, { ButtonProps } from '../Button';
 
 export type ToggleButtonProps = ButtonProps;
 
-const ToggleButton = React.forwardRef(
-  (props: ToggleButtonProps, ref: React.RefObject<HTMLDivElement>) => {
-    return <Button {...props} ref={ref} as="div" ripple={false} />;
-  }
-);
+const ToggleButton = React.forwardRef<HTMLDivElement, ToggleButtonProps>((props, ref) => {
+  return <Button {...props} ref={ref} as="div" ripple={false} />;
+});
 
 ToggleButton.displayName = 'ToggleButton';
 

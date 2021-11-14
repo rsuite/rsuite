@@ -6,7 +6,7 @@ import SelectPicker from '../SelectPicker';
 import Divider from '../Divider';
 import Input from '../Input';
 import { tplTransform, useClassNames, useCustom, useControlled } from '../utils';
-import { RsRefForwardingComponent } from '../@types/common';
+import { RsRefForwardingComponent, OnChangeCallback, TypeAttributes } from '../@types/common';
 import { PaginationLocale } from '../locales';
 
 type LayoutType = 'total' | '-' | 'pager' | '|' | 'limit' | 'skip';
@@ -31,13 +31,23 @@ export interface PaginationGroupProps extends PaginationProps {
   onChangeLimit?: (limit: number) => void;
 }
 
-const LimitPicker = (props: Partial<PaginationGroupProps> & { prefix: any }) => {
+interface LimitPicker {
+  disabled?: boolean | ((eventKey: number | string) => boolean);
+  limitOptions: number[];
+  locale: PaginationLocale;
+  limit: number;
+  onChangeLimit: OnChangeCallback<number>;
+  size?: TypeAttributes.Size;
+  prefix: (input: string) => string;
+}
+
+const LimitPicker = (props: LimitPicker) => {
   const { disabled, limitOptions, locale, limit, onChangeLimit, size, prefix } = props;
-  const disabledPicker = typeof disabled === 'function' ? disabled('picker') : disabled;
-  const formatlimitOptions = limitOptions.map(item => {
+  const disabledPicker = typeof disabled === 'function' ? disabled('picker') : Boolean(disabled);
+  const formatlimitOptions = limitOptions!.map(item => {
     return {
       value: item,
-      label: tplTransform(locale.limit, item)
+      label: tplTransform(locale!.limit!, item)
     };
   });
 
@@ -50,7 +60,7 @@ const LimitPicker = (props: Partial<PaginationGroupProps> & { prefix: any }) => 
         placement="topStart"
         data={formatlimitOptions}
         value={limit}
-        onChange={onChangeLimit}
+        onChange={onChangeLimit as any} // fixme don't use any
         menuStyle={{ minWidth: 'auto' }}
         disabled={disabledPicker}
       />
@@ -138,7 +148,7 @@ const PaginationGroup: RsRefForwardingComponent<'div', PaginationGroupProps> = R
                 maxButtons={maxButtons}
                 pages={pages}
                 disabled={disabled}
-                onSelect={onChangePage}
+                onSelect={onChangePage as any} // fixme don't use any
                 activePage={activePage}
                 {...rest}
               />
@@ -146,14 +156,14 @@ const PaginationGroup: RsRefForwardingComponent<'div', PaginationGroupProps> = R
           } else if (key === 'total') {
             return (
               <div key={onlyKey} className={prefix('total')}>
-                {tplTransform(locale.total, total)}
+                {tplTransform(locale.total!, total)}
               </div>
             );
           } else if (key === 'skip') {
             return (
               <div key={onlyKey} className={classNames(prefix('skip'))}>
                 {tplTransform(
-                  locale.skip,
+                  locale.skip!,
                   <Input
                     size={size}
                     onBlur={handleInputBlur}

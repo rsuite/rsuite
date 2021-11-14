@@ -2,7 +2,7 @@ export const SIZE = ['lg', 'md', 'sm', 'xs'];
 export const STATUS = ['success', 'warning', 'error', 'info'];
 export const COLOR = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'];
 
-export const PLACEMENT_4 = ['top', 'bottom', 'right', 'left'];
+export const PLACEMENT_4 = ['top', 'bottom', 'right', 'left'] as const;
 export const PLACEMENT_8 = [
   'bottomStart',
   'bottomEnd',
@@ -12,7 +12,7 @@ export const PLACEMENT_8 = [
   'rightStart',
   'leftEnd',
   'rightEnd'
-];
+] as const;
 export const PLACEMENT_AUTO = [
   'auto',
   'autoVertical',
@@ -21,9 +21,9 @@ export const PLACEMENT_AUTO = [
   'autoHorizontal',
   'autoHorizontalStart',
   'autoHorizontalEnd'
-];
+] as const;
 
-export const PLACEMENT = [].concat(PLACEMENT_4, PLACEMENT_8, PLACEMENT_AUTO);
+export const PLACEMENT = [...PLACEMENT_4, ...PLACEMENT_8, ...PLACEMENT_AUTO] as const;
 
 /**
  *  Check Tree Node State

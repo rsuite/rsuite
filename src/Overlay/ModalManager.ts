@@ -1,3 +1,4 @@
+import React from 'react';
 import addClass from 'dom-lib/addClass';
 import removeClass from 'dom-lib/removeClass';
 import addStyle from 'dom-lib/addStyle';
@@ -21,6 +22,15 @@ function findContainer(data, modal) {
   return findIndexOf(data, d => d.modals.indexOf(modal) !== -1);
 }
 
+export type ModalElements = { dialog: HTMLElement | null; backdrop: HTMLElement | null };
+
+type ModalData = {
+  modals: ModalElements[];
+  classes: string[];
+  style: React.CSSProperties;
+  overflowing: boolean;
+};
+
 class ModalManager {
   constructor(hideSiblingNodes = true) {
     this.hideSiblingNodes = hideSiblingNodes;
@@ -29,12 +39,12 @@ class ModalManager {
     this.data = [];
   }
 
-  hideSiblingNodes = null;
-  modals = [];
-  containers = [];
-  data = [];
+  hideSiblingNodes!: boolean;
+  modals: ModalElements[] = [];
+  containers: HTMLElement[] = [];
+  data: ModalData[] = [];
 
-  add(modal: any, container: any, className?: string) {
+  add(modal: ModalElements, container: HTMLElement, className?: string) {
     let modalIndex = this.modals.indexOf(modal);
     const containerIndex = this.containers.indexOf(container);
 

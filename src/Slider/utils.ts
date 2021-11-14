@@ -1,6 +1,11 @@
 export const precisionMath = value => parseFloat(value.toFixed(10));
 
-export const checkValue = (value: number, min: number, max: number) => {
+function checkValue<T extends number | undefined>(
+  value: T,
+  min: number,
+  max: number
+): T extends undefined ? undefined : number;
+function checkValue(value, min, max) {
   if (typeof value === 'undefined') {
     return value;
   }
@@ -14,4 +19,6 @@ export const checkValue = (value: number, min: number, max: number) => {
   }
 
   return value;
-};
+}
+
+export { checkValue };

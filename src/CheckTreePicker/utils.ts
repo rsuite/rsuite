@@ -5,7 +5,7 @@ import { getChildrenByFlattenNodes } from '../utils/treeUtils';
 
 export interface TreeNodeType {
   uncheckable?: boolean;
-  refKey?: string;
+  refKey: string;
   check?: boolean;
   parent?: TreeNodeType;
   checkAll?: boolean;
@@ -23,12 +23,12 @@ export interface TreeNodesType {
 }
 
 export function isEveryChildChecked(nodes: TreeNodesType, parent: TreeNodeType): boolean {
-  if (isNil(nodes[parent.refKey])) {
+  if (isNil(parent.refKey) || isNil(nodes[parent.refKey])) {
     return false;
   }
   const children = getChildrenByFlattenNodes(nodes, parent);
   if (!children.length) {
-    return nodes[parent.refKey].check;
+    return nodes[parent.refKey].check ?? false;
   }
   return children.every(child => nodes[child.refKey].check);
 }
@@ -64,7 +64,7 @@ export function isAllSiblingNodeUncheckable(
   uncheckableItemValues: (string | number)[],
   valueKey: string
 ): boolean {
-  const list = [];
+  const list: TreeNodeType[] = [];
   const parentNodeRefkey = node.parent ? node.parent.refKey : '';
 
   Object.keys(nodes).forEach((refKey: string) => {
@@ -87,7 +87,7 @@ export function isEveryFirstLevelNodeUncheckable(
   uncheckableItemValues: (string | number)[],
   valueKey: string
 ) {
-  const list = [];
+  const list: TreeNodeType[] = [];
   Object.keys(nodes).forEach((refKey: string) => {
     const curNode = nodes[refKey];
     if (!curNode.parent) {
@@ -104,7 +104,7 @@ export function isEveryFirstLevelNodeUncheckable(
  */
 export function isNodeUncheckable(node: any, props: Partial<CheckTreePickerProps>) {
   const { uncheckableItemValues = [], valueKey } = props;
-  return uncheckableItemValues.some((value: any) => shallowEqual(node[valueKey], value));
+  return uncheckableItemValues.some((value: any) => shallowEqual(node[valueKey!], value));
 }
 
 export function getFormattedTree(
@@ -125,8 +125,8 @@ export function getFormattedTree(
       formatted.uncheckable = curNode.uncheckable;
       formatted.parent = curNode.parent;
       formatted.checkState = checkState;
-      if (node[childrenKey]?.length > 0) {
-        formatted[childrenKey] = getFormattedTree(formatted[childrenKey], nodes, props);
+      if (node[childrenKey!]?.length > 0) {
+        formatted[childrenKey!] = getFormattedTree(formatted[childrenKey!], nodes, props);
       }
     }
 
@@ -143,7 +143,9 @@ export function getDisabledState(
   if (isNil(nodes[node.refKey])) {
     return false;
   }
-  return disabledItemValues.some((value: any) => shallowEqual(nodes[node.refKey][valueKey], value));
+  return disabledItemValues.some((value: any) =>
+    shallowEqual(nodes[node.refKey][valueKey!], value)
+  );
 }
 
 export function getCheckTreePickerDefaultValue(value: any[], uncheckableItemValues: any[]) {
@@ -159,7 +161,7 @@ export function getSelectedItems(
   value: (string | number)[],
   valueKey: string
 ) {
-  const checkItems = [];
+  const checkItems: TreeNodeType[] = [];
   Object.keys(nodes).map((refKey: string) => {
     const node = nodes[refKey];
     if (value.some((value: any) => shallowEqual(node[valueKey], value))) {

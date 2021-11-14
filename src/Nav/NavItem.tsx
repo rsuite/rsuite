@@ -37,7 +37,7 @@ export interface NavItemProps<T = string>
   href?: string;
 
   /** Select the callback function that the event triggers. */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
 /**

@@ -4,7 +4,7 @@ import Ripple from '../Ripple';
 import { isIE11, useClassNames } from '../utils';
 import { UploaderLocale } from '../locales';
 export interface UploadTriggerProps {
-  as: React.ElementType | string;
+  as?: React.ElementType;
   name?: string;
   multiple?: boolean;
   disabled?: boolean;
@@ -49,9 +49,9 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
     ...rest
   } = props;
 
-  const rootRef = useRef<HTMLDivElement>();
+  const rootRef = useRef<HTMLDivElement>(null);
   const [dragOver, setDragOver] = useState(false);
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const classes = merge(
     className,
@@ -63,7 +63,7 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
   }, []);
 
   const handleClearInput = useCallback(() => {
-    inputRef.current.value = '';
+    inputRef.current!.value = '';
   }, []);
 
   const handleDragEnter = useCallback(

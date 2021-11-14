@@ -13,4 +13,4 @@ export const isIE11 = () =>
   window.navigator.userAgent.indexOf('rv:11.0') > -1;
 
 // Edge 20+
-export const isEdge = () => canUseDOM && !isIE() && !!window.styleMedia;
+export const isEdge = () => canUseDOM && !isIE() && 'styleMedia' in window;

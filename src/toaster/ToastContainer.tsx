@@ -36,11 +36,11 @@ export interface NodeProps extends WithAsProps {
 interface MessageType {
   key?: string;
   visible?: boolean;
-  node?: React.DetailedReactHTMLElement<NodeProps, HTMLDivElement>;
+  node: React.ReactElement<NodeProps>;
 }
 
 interface ToastContainerComponent extends RsRefForwardingComponent<'div', ToastContainerProps> {
-  getInstance?: (
+  getInstance: (
     props: ToastContainerProps
   ) => [React.RefObject<ToastContainerInstance>, () => void];
 }
@@ -49,9 +49,9 @@ const useMessages = () => {
   const [messages, setMessages] = useState<MessageType[]>([]);
 
   const getKey = useCallback(
-    (key: string) => {
+    (key?: string) => {
       if (typeof key === 'undefined' && messages.length) {
-        key = messages[messages.length - 1].key;
+        return messages[messages.length - 1].key;
       }
       return key;
     },
@@ -153,7 +153,7 @@ const ToastContainer: ToastContainerComponent = React.forwardRef(
       </Component>
     );
   }
-);
+) as any;
 
 ToastContainer.getInstance = (props: ToastContainerProps) => {
   const { container, ...rest } = props;

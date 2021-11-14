@@ -5,7 +5,7 @@ export const transformValueToCharacterMap = (
   max: number,
   allowHalf: boolean
 ): CharacterType[] => {
-  const characterMap = [];
+  const characterMap: CharacterType[] = [];
   for (let i = 0; i < max; i++) {
     if (i < value) {
       if (allowHalf && i + 1 > value) {

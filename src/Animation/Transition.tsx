@@ -71,6 +71,8 @@ export const transitionPropTypes = {
   enteringClassName: PropTypes.string
 };
 
+type EventToken = { off: () => void };
+
 class Transition extends React.Component<TransitionProps, TransitionState> {
   static propTypes = transitionPropTypes;
   static displayName = 'Transition';
@@ -78,10 +80,10 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     timeout: 1000
   };
 
-  animationEventListener = null;
+  animationEventListener: EventToken | null = null;
   instanceElement = null;
-  nextCallback: any = null;
-  needsUpdate = null;
+  nextCallback: React.AnimationEventHandler | null = null;
+  needsUpdate: boolean | null = null;
   childRef: React.RefObject<any>;
 
   constructor(props: TransitionProps) {
@@ -168,13 +170,13 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       this.animationEventListener = on(
         node,
         animation ? getAnimationEnd() : getTransitionEnd(),
-        this.nextCallback
+        this.nextCallback!
       );
       if (timeout !== null) {
-        setTimeout(this.nextCallback, timeout);
+        setTimeout(this.nextCallback!, timeout);
       }
     } else {
-      setTimeout(this.nextCallback, 0);
+      setTimeout(this.nextCallback!, 0);
     }
   }
 

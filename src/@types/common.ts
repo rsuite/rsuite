@@ -57,7 +57,7 @@ export interface PickerBaseProps<LocaleType = any> extends WithAsProps, Animatio
   id?: string;
 
   /** Custom locale */
-  locale?: LocaleType;
+  locale?: Partial<LocaleType>;
 
   /** A picker can have different appearances. */
   appearance?: PickerAppearance;
@@ -230,3 +230,5 @@ export interface Offset {
   width?: number;
   height?: number;
 }
+
+export type OnChangeCallback<T, E = React.SyntheticEvent> = (value: T, event: E) => void;

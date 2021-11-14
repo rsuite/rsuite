@@ -76,8 +76,8 @@ const DropdownMenu = React.forwardRef(
     const classes = merge(className, withClassPrefix('items', { grouped: group }));
 
     const styles = { ...style, maxHeight };
-    const menuBodyContainerRef = useRef<HTMLDivElement>();
-    const [foldedGroupKeys, setFoldedGroupKeys] = useState([]);
+    const menuBodyContainerRef = useRef<HTMLDivElement>(null);
+    const [foldedGroupKeys, setFoldedGroupKeys] = useState<string[]>([]);
 
     const handleGroupTitleClick = useCallback(
       (key: string, event: React.MouseEvent) => {
@@ -109,7 +109,7 @@ const DropdownMenu = React.forwardRef(
     };
 
     useEffect(() => {
-      const container = menuBodyContainerRef.current;
+      const container = menuBodyContainerRef.current!;
       let activeItem = container.querySelector(`.${prefix('item-focus')}`);
 
       if (!activeItem) {
@@ -120,7 +120,7 @@ const DropdownMenu = React.forwardRef(
         return;
       }
 
-      const position = getPosition(activeItem as HTMLElement, container);
+      const position = getPosition(activeItem as HTMLElement, container)!;
       const sTop = scrollTop(container);
       const sHeight = getHeight(container);
       if (sTop > position.top) {
@@ -201,7 +201,7 @@ const DropdownMenu = React.forwardRef(
 
     return (
       <div
-        role={!useVirtualized ? 'listbox' : null}
+        role={!useVirtualized ? 'listbox' : undefined}
         {...rest}
         className={classes}
         ref={mergeRefs(menuBodyContainerRef, ref)}
@@ -213,7 +213,7 @@ const DropdownMenu = React.forwardRef(
               <List
                 role="listbox"
                 containerRole={''}
-                aria-readonly={null}
+                aria-readonly={undefined}
                 width={width}
                 height={height || maxHeight}
                 scrollToIndex={findIndex(data, item => item[valueKey] === activeItemValues?.[0])}
@@ -233,9 +233,9 @@ const DropdownMenu = React.forwardRef(
 );
 
 export const dropdownMenuPropTypes = {
-  classPrefix: PropTypes.string,
+  classPrefix: PropTypes.string.isRequired,
   className: PropTypes.string,
-  dropdownMenuItemAs: PropTypes.elementType,
+  dropdownMenuItemAs: PropTypes.elementType.isRequired,
   dropdownMenuItemClassPrefix: PropTypes.string,
   data: PropTypes.array,
   group: PropTypes.bool,

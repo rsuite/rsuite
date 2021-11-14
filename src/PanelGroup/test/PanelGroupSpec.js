@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import PanelGroup from '../PanelGroup';
 import Panel from '../../Panel';
 import { getDOMNode } from '@test/testUtils';
@@ -46,6 +47,18 @@ describe('PanelGroup', () => {
       </PanelGroup>
     );
     ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-panel-header')[1]);
+  });
+
+  it('Should call `onSelect` with undefined when click on Panel without eventKey', () => {
+    const onSelectSpy = sinon.spy();
+    const { getByText } = render(
+      <PanelGroup accordion onSelect={onSelectSpy}>
+        <Panel header="Click me">111</Panel>
+      </PanelGroup>
+    );
+
+    userEvent.click(getByText('Click me'));
+    expect(onSelectSpy).to.have.been.calledWith(undefined);
   });
 
   it('Should have a custom className', () => {

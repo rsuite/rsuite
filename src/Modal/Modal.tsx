@@ -74,7 +74,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     animationProps,
     animationTimeout = 300,
     overflow = true,
-    drawer,
+    drawer = false,
     onClose,
     onEntered,
     onEntering,
@@ -90,7 +90,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   const { merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, prefix(size, { full }));
 
-  const dialogRef = useRef<HTMLElement>();
+  const dialogRef = useRef<HTMLElement>(null);
   const transitionEndListener = useRef<{ off: () => void }>();
 
   // The style of the Modal body will be updated with the size of the window or container.
@@ -117,14 +117,14 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     // When the value of `backdrop` is `static`, a jitter animation will be added to the dialog when clicked.
     if (backdrop === 'static') {
       setShake(true);
-      transitionEndListener.current = on(dialogRef.current, getTransitionEnd(), () => {
+      transitionEndListener.current = on(dialogRef.current!, getTransitionEnd(), () => {
         setShake(false);
       });
     }
   }, [backdrop]);
 
   const handleExited = useCallback(
-    (node?: Element | Text) => {
+    (node?: Element | Text | null) => {
       onExited?.(node);
       onDestroyEvents();
       transitionEndListener.current?.off();
@@ -133,7 +133,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   );
 
   const handleEntered = useCallback(
-    (node?: Element | Text) => {
+    (node?: Element | Text | null) => {
       onEntered?.(node);
       onChangeBodyStyles();
     },
@@ -141,7 +141,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   );
 
   const handleEntering = useCallback(
-    (node?: Element | Text) => {
+    (node?: Element | Text | null) => {
       onEntering?.(node);
       onChangeBodyStyles(true);
     },

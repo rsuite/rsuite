@@ -35,7 +35,7 @@ export interface UploaderInstance {
 
 export interface UploaderProps extends WithAsProps {
   /** Uploading URL */
-  action?: string;
+  action: string;
 
   /** File types that can be accepted. See input accept Attribute */
   accept?: string;
@@ -96,7 +96,7 @@ export interface UploaderProps extends WithAsProps {
   maxPreviewFileSize?: number;
 
   /** You can use a custom element for this component */
-  toggleAs?: React.ElementType | string;
+  toggleAs?: React.ElementType;
 
   /** Removable list file  */
   removable?: boolean;
@@ -132,23 +132,13 @@ export interface UploaderProps extends WithAsProps {
   onPreview?: (file: FileType, event: React.SyntheticEvent) => void;
 
   /** Upload callback function with erro */
-  onError?: (status: any, file: FileType, event: React.SyntheticEvent, xhr: XMLHttpRequest) => void;
+  onError?: (status: any, file: FileType, event: ProgressEvent, xhr: XMLHttpRequest) => void;
 
   /** callback function after successful upload */
-  onSuccess?: (
-    response: any,
-    file: FileType,
-    event: React.SyntheticEvent,
-    xhr: XMLHttpRequest
-  ) => void;
+  onSuccess?: (response: any, file: FileType, event: ProgressEvent, xhr: XMLHttpRequest) => void;
 
   /** Callback functions that upload progress change */
-  onProgress?: (
-    percent: number,
-    file: FileType,
-    event: React.SyntheticEvent,
-    xhr: XMLHttpRequest
-  ) => void;
+  onProgress?: (percent: number, file: FileType, event: ProgressEvent, xhr: XMLHttpRequest) => void;
 
   /** In the file list, click the callback function to delete a file */
   onRemove?: (file: FileType) => void;
@@ -189,12 +179,11 @@ const createFile = (file: FileType) => {
   };
 };
 
-interface ActionType {
-  type: 'push' | 'remove' | 'updateFile' | 'init';
-  files?: FileType[];
-  fileKey?: string;
-  file?: FileType;
-}
+type ActionType =
+  | { type: 'push'; files: FileType[] }
+  | { type: 'remove'; fileKey: string | number }
+  | { type: 'updateFile'; file: FileType }
+  | { type: 'init'; files: FileType[] };
 
 function fileListReducer(files: FileType[], action: ActionType) {
   switch (action.type) {
@@ -226,10 +215,10 @@ function fileListReducer(files: FileType[], action: ActionType) {
 }
 
 const useFileList = (
-  defaultFileList = []
-): [React.RefObject<FileType[]>, (action: ActionType, callback?) => void] => {
+  defaultFileList: FileType[] = []
+): [React.MutableRefObject<FileType[]>, (action: ActionType, callback?) => void] => {
   const fileListRef = useRef<FileType[]>(defaultFileList.map(createFile));
-  const fileListUpdateCallback = useRef<(v: FileType[]) => void>();
+  const fileListUpdateCallback = useRef<((v: FileType[]) => void) | null>();
 
   const [fileList, dispatch] = useReducer(fileListReducer, fileListRef.current);
   fileListRef.current = fileList;
@@ -319,7 +308,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * Clear the value in input.
    */
   const cleanInputValue = useCallback(() => {
-    trigger.current.clearInput();
+    trigger.current!.clearInput();
   }, []);
 
   /**
@@ -330,7 +319,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * @param xhr
    */
   const handleAjaxUploadSuccess = useCallback(
-    (file: FileType, response: any, event: React.SyntheticEvent, xhr: XMLHttpRequest) => {
+    (file: FileType, response: any, event: ProgressEvent, xhr: XMLHttpRequest) => {
       const nextFile: FileType = {
         ...file,
         status: 'finished',
@@ -350,7 +339,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * @param xhr
    */
   const handleAjaxUploadError = useCallback(
-    (file: FileType, status: any, event: React.SyntheticEvent, xhr: XMLHttpRequest) => {
+    (file: FileType, status: any, event: ProgressEvent, xhr: XMLHttpRequest) => {
       const nextFile: FileType = {
         ...file,
         status: 'error'
@@ -369,7 +358,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * @param xhr
    */
   const handleAjaxUploadProgress = useCallback(
-    (file: FileType, percent: number, event: React.SyntheticEvent, xhr: XMLHttpRequest) => {
+    (file: FileType, percent: number, event: ProgressEvent, xhr: XMLHttpRequest) => {
       const nextFile: FileType = {
         ...file,
         status: 'uploading',
@@ -395,7 +384,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
         data,
         withCredentials,
         disableMultipart,
-        file: file.blobFile,
+        file: file.blobFile!,
         url: action,
         onError: handleAjaxUploadError.bind(null, file),
         onSuccess: handleAjaxUploadSuccess.bind(null, file),
@@ -403,7 +392,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
       });
 
       updateFileStatus({ ...file, status: 'uploading' });
-      xhrs.current[file.fileKey] = xhr;
+      xhrs.current[file.fileKey!] = xhr;
       onUpload?.(file, uploadData, xhr);
     },
     [
@@ -483,7 +472,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
     upload();
   };
 
-  const handleRemoveFile = (fileKey: string) => {
+  const handleRemoveFile = (fileKey: string | number) => {
     const file: any = find(fileList.current, f => f.fileKey === fileKey);
     const nextFileList = fileList.current.filter(f => f.fileKey !== fileKey);
 
@@ -581,7 +570,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
 
 Uploader.displayName = 'Uploader';
 Uploader.propTypes = {
-  action: PropTypes.string,
+  action: PropTypes.string.isRequired,
   accept: PropTypes.string,
   autoUpload: PropTypes.bool,
   children: PropTypes.node,

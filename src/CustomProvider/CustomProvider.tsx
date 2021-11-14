@@ -5,7 +5,7 @@ import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 
 export interface CustomValue<T = Locale> {
   /** Language configuration */
-  locale?: T;
+  locale: T;
 
   /** Support right-to-left */
   rtl?: boolean;
@@ -23,7 +23,7 @@ export interface CustomValue<T = Locale> {
    *  }
    *
    * */
-  formatDate?: (date: Date | string | number, format?: string) => string;
+  formatDate?: (date: Date | number, format: string) => string;
 
   /**
    * Return the date parsed from string using the given format string.

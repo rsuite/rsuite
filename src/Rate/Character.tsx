@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { isNil } from 'lodash';
 import contains from 'dom-lib/contains';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -38,8 +39,8 @@ const Character: RsRefForwardingComponent<'li', CharacterProps> = React.forwardR
     } = props;
 
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const beforeRef = useRef<HTMLDivElement>();
-    const classes = merge(className, withClassPrefix(characterStatus[status]));
+    const beforeRef = useRef<HTMLDivElement>(null);
+    const classes = merge(className, withClassPrefix(!isNil(status) && characterStatus[status]));
 
     const handleMouseMove = useCallback(
       (event: React.MouseEvent) => {

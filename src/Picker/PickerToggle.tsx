@@ -74,13 +74,13 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       onClean,
       onFocus,
       onBlur,
-      placement,
+      placement = 'bottomStart',
       caretComponent,
       caretAs = caretComponent,
       ...rest
     } = props;
 
-    const inputRef = useRef<HTMLInputElement>();
+    const inputRef = useRef<HTMLInputElement>(null);
     const [activeState, setActive] = useState(false);
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const getInputValue = useCallback(
@@ -106,7 +106,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
         setActive(true);
         onFocus?.(event);
         if (input) {
-          inputRef.current.focus();
+          inputRef.current!.focus();
         }
       },
       [input, onFocus]
@@ -208,7 +208,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
         {children ? (
           <span
             className={prefix(hasValue ? 'value' : 'placeholder')}
-            aria-placeholder={typeof children === 'string' ? children : null}
+            aria-placeholder={typeof children === 'string' ? children : undefined}
           >
             {children}
           </span>

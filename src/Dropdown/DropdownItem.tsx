@@ -108,7 +108,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 
     const handleClickNavbarDropdownItem = useCallback(
       (event: React.SyntheticEvent) => {
-        dispatchDisclosure({ type: DisclosureActionTypes.Hide });
+        dispatchDisclosure?.({ type: DisclosureActionTypes.Hide });
         handleSelectItem?.(event);
       },
       [dispatchDisclosure, handleSelectItem]

@@ -45,7 +45,7 @@ export interface OverlayTriggerProps extends StandardProps, AnimationEventProps 
   containerPadding?: number;
 
   /** display element */
-  speaker?: React.ReactElement | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
+  speaker: React.ReactElement | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
 
   /** Prevent floating element overflow */
   preventOverflow?: boolean;
@@ -60,7 +60,7 @@ export interface OverlayTriggerProps extends StandardProps, AnimationEventProps 
   enterable?: boolean;
 
   /** For the monitored component, the event will be bound to this component. */
-  children?: React.ReactElement | ((props: any, ref) => React.ReactElement);
+  children: React.ReactElement | ((props: any, ref) => React.ReactElement);
 
   /** Whether to allow clicking document to close the overlay */
   rootClose?: boolean;
@@ -78,22 +78,22 @@ export interface OverlayTriggerProps extends StandardProps, AnimationEventProps 
   controlId?: string;
 
   /** Lose Focus callback function */
-  onBlur?: () => void;
+  onBlur?: React.FocusEventHandler;
 
   /** Click on the callback function */
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler;
 
   /** RightClick on the callback function */
   onContextMenu?: React.MouseEventHandler;
 
   /** Callback function to get focus */
-  onFocus?: () => void;
+  onFocus?: React.FocusEventHandler;
 
   /** Mouse leave callback function */
-  onMouseOut?: () => void;
+  onMouseOut?: React.MouseEventHandler;
 
   /** Mouse over callback function */
-  onMouseOver?: () => void;
+  onMouseOver?: React.MouseEventHandler;
 
   /** Callback fired when open component */
   onOpen?: () => void;
@@ -124,9 +124,9 @@ function onMouseEventHandler(
 
 export interface OverlayTriggerInstance {
   root: Element;
-  updatePosition?: () => void;
-  open?: () => void;
-  close?: () => void;
+  updatePosition: () => void;
+  open: () => void;
+  close: () => void;
 }
 
 const defaultTrigger = ['hover', 'focus'];
@@ -168,8 +168,8 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   // Delay the timer to close/open the overlay
   // When the cursor moves from the trigger to the overlay, the overlay will be closed.
   // In order to keep the overlay open, a timer is used to delay the closing.
-  const delayOpenTimer = useRef<ReturnType<typeof setTimeout>>();
-  const delayCloseTimer = useRef<ReturnType<typeof setTimeout>>();
+  const delayOpenTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const delayCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const delayOpen = isNil(delayOpenProp) ? delay : delayOpenProp;
   const delayClose = isNil(delayCloseProp) ? delay : delayCloseProp;
@@ -182,8 +182,12 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
 
   useEffect(() => {
     return () => {
-      clearTimeout(delayOpenTimer.current);
-      clearTimeout(delayCloseTimer.current);
+      if (!isNil(delayOpenTimer.current)) {
+        clearTimeout(delayOpenTimer.current);
+      }
+      if (!isNil(delayCloseTimer.current)) {
+        clearTimeout(delayCloseTimer.current);
+      }
     };
   }, []);
 
@@ -288,8 +292,10 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
     }
 
     delayCloseTimer.current = setTimeout(() => {
-      clearTimeout(delayCloseTimer.current);
-      delayCloseTimer.current = null;
+      if (!isNil(delayCloseTimer.current)) {
+        clearTimeout(delayCloseTimer.current);
+        delayCloseTimer.current = null;
+      }
       handleCloseWhenLeave();
     }, 200);
   }, [enterable, open, handleClose, handleCloseWhenLeave]);
@@ -333,8 +339,8 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
     }
 
     if (isOneOf('hover', trigger)) {
-      let onMouseOverListener = null;
-      let onMouseOutListener = null;
+      let onMouseOverListener: React.MouseEventHandler | null = null;
+      let onMouseOutListener: React.MouseEventHandler | null = null;
 
       if (trigger !== 'none') {
         onMouseOverListener = e => onMouseEventHandler(handleDelayedOpen, e);
@@ -351,7 +357,7 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   }
 
   const renderOverlay = () => {
-    const overlayProps: OverlayProps = {
+    const overlayProps: Omit<OverlayProps, 'children'> = {
       ...rest,
       rootClose,
       triggerTarget: triggerRef,
