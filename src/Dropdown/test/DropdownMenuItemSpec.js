@@ -33,9 +33,15 @@ describe('<Dropdown.Item>', () => {
     assert.include(instance.className, 'rs-dropdown-item-divider');
   });
 
-  it('Should render a panel', () => {
-    const instance = getDOMNode(<DropdownItem panel />);
-    assert.include(instance.className, 'rs-dropdown-item-panel');
+  it('Should render a panel with given content', () => {
+    const content = 'Signed in as Foobar';
+    const { getByTestId } = render(
+      <DropdownItem panel data-testid="dropdown-item">
+        {content}
+      </DropdownItem>
+    );
+    expect(getByTestId('dropdown-item')).to.have.class('rs-dropdown-item-panel');
+    expect(getByTestId('dropdown-item')).to.have.text(content);
   });
 
   it('Should be active', () => {
