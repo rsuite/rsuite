@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
-import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
 import getHeight from 'dom-lib/getHeight';
 import on from 'dom-lib/on';
+import ResizeObserver from 'resize-observer-polyfill';
 
 export const useBodyStyles = (
   ref: React.RefObject<HTMLElement>,
@@ -11,6 +11,7 @@ export const useBodyStyles = (
   const { overflow, drawer, prefix } = options;
   const windowResizeListener = useRef<any>();
   const contentElement = useRef();
+  const contentElementResizeObserver = useRef<ResizeObserver>();
 
   const updateBodyStyles = useCallback(
     (_event?: EventInit, entering?: boolean) => {
@@ -48,9 +49,7 @@ export const useBodyStyles = (
 
   const onDestroyEvents = useCallback(() => {
     windowResizeListener.current?.off?.();
-    if (contentElement.current) {
-      unbindElementResize(contentElement.current);
-    }
+    contentElementResizeObserver.current?.disconnect();
   }, []);
 
   const onChangeBodyStyles = useCallback(
@@ -59,7 +58,9 @@ export const useBodyStyles = (
         updateBodyStyles(null, entering);
         contentElement.current = ref.current?.querySelector(`.${prefix('content')}`);
         windowResizeListener.current = on(window, 'resize', updateBodyStyles);
-        bindElementResize(contentElement.current, updateBodyStyles);
+
+        contentElementResizeObserver.current = new ResizeObserver(() => updateBodyStyles());
+        contentElementResizeObserver.current.observe(contentElement.current);
       }
     },
     [drawer, overflow, prefix, ref, updateBodyStyles]

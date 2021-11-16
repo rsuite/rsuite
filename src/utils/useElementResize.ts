@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import bindElementResize, { unbind } from 'element-resize-event';
+import { useEffect, useRef } from 'react';
+import ResizeObserver from 'resize-observer-polyfill';
 
 /**
  * Attach the event handler directly to the specified DOM element,
@@ -9,13 +9,19 @@ import bindElementResize, { unbind } from 'element-resize-event';
  * @param listener An event handler
  */
 export default function useElementResize(
-  eventTarget: EventTarget | (() => EventTarget),
-  listener: EventListenerOrEventListenerObject
+  eventTarget: Element | (() => Element),
+  listener: ResizeObserverCallback
 ) {
+  const resizeObserver = useRef<ResizeObserver>();
+
   useEffect(() => {
     const target = typeof eventTarget === 'function' ? eventTarget() : eventTarget;
-    bindElementResize(target, listener);
 
-    return () => unbind(target);
+    resizeObserver.current = new ResizeObserver(listener);
+    resizeObserver.current.observe(target);
+
+    return () => {
+      resizeObserver.current?.disconnect();
+    };
   }, [eventTarget, listener]);
 }
