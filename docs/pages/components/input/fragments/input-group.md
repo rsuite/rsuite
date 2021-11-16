@@ -33,13 +33,13 @@ const instance = (
     <InputGroup style={styles}>
       <Input />
       <InputGroup.Addon>
-        <Search />
+        <SearchIcon />
       </InputGroup.Addon>
     </InputGroup>
 
     <InputGroup style={styles}>
       <InputGroup.Addon>
-        <Avatar />
+        <AvatarIcon />
       </InputGroup.Addon>
       <Input />
     </InputGroup>

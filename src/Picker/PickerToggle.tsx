@@ -8,7 +8,7 @@ import { RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
 import useToggleCaret from '../utils/useToggleCaret';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import MaskedInput from '../MaskedInput';
+import TextMask from '../MaskedInput/TextMask';
 import deprecatePropType from '../utils/deprecatePropType';
 
 type ValueType = string | number;
@@ -187,7 +187,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
         // The debounce is set to 200 to solve the flicker caused by the switch between input and div.
         onBlur={!disabled ? debounce(handleBlur, 200) : null}
       >
-        <MaskedInput
+        <TextMask
           mask={inputMask}
           value={Array.isArray(inputValue) ? inputValue.toString() : inputValue}
           onBlur={handleInputBlur}
