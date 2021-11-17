@@ -1,5 +1,9 @@
 import ajaxUpload from '../ajaxUpload';
 
+afterEach(() => {
+  sinon.restore();
+});
+
 describe('[utils] ajaxUpload', () => {
   it('Should upload a FormData', () => {
     const file = new File(['foo'], 'foo.txt');
@@ -38,6 +42,8 @@ describe('[utils] ajaxUpload', () => {
   });
 
   it('Should time out', done => {
+    sinon.useFakeXMLHttpRequest();
+    const clock = sinon.useFakeTimers();
     const file = new File(['foo'], 'foo.txt');
     ajaxUpload({
       file,
@@ -52,5 +58,6 @@ describe('[utils] ajaxUpload', () => {
         }
       }
     });
+    clock.tick(1000);
   });
 });
