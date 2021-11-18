@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import ResizeObserver from 'resize-observer-polyfill';
+import { ResizeObserver } from '@juggle/resize-observer';
 
 /**
  * Attach the event handler directly to the specified DOM element,
