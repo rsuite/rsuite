@@ -62,7 +62,7 @@
     "prop-types": "^15.7.2",
     "react-virtualized": "^9.22.3",
     "resize-observer-polyfill": "^1.5.1",
-    "rsuite-table": "^5.0.3",
+    "rsuite-table": "^5.1.0",
     "schema-typed": "^2.0.2"
   },
   "peerDependencies": {
