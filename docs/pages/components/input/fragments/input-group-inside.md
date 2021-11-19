@@ -12,7 +12,7 @@ const instance = (
       <Input />
       <InputGroup.Addon>
         <Whisper placement="top" speaker={<Tooltip> Help information</Tooltip>}>
-          <Info />
+          <InfoIcon />
         </Whisper>
       </InputGroup.Addon>
     </InputGroup>
@@ -20,14 +20,14 @@ const instance = (
     <InputGroup inside style={styles}>
       <Input />
       <InputGroup.Button>
-        <Search />
+        <SearchIcon />
       </InputGroup.Button>
     </InputGroup>
 
     <InputGroup inside style={styles}>
       <Input />
       <InputGroup.Addon>
-        <Search />
+        <SearchIcon />
       </InputGroup.Addon>
     </InputGroup>
 
@@ -45,7 +45,7 @@ const instance = (
 
     <InputGroup inside style={styles}>
       <InputGroup.Addon>
-        <Avatar />
+        <AvatarIcon />
       </InputGroup.Addon>
       <Input />
     </InputGroup>

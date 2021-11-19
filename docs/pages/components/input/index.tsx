@@ -1,29 +1,46 @@
 import React from 'react';
-import { Input, InputNumber, InputGroup, Whisper, Tooltip, Grid, Row, Col } from 'rsuite';
+import {
+  Input,
+  InputGroup,
+  Whisper,
+  Tooltip,
+  Grid,
+  Row,
+  Col,
+  MaskedInput,
+  SelectPicker,
+  ButtonToolbar,
+  Toggle,
+  FlexboxGrid
+} from 'rsuite';
 import DefaultPage from '@/components/Page';
-import Search from '@rsuite/icons/Search';
-import Info from '@rsuite/icons/legacy/Info';
-import Avatar from '@rsuite/icons/legacy/Avatar';
-import Eye from '@rsuite/icons/legacy/Eye';
-import EyeSlash from '@rsuite/icons/legacy/EyeSlash';
+import SearchIcon from '@rsuite/icons/Search';
+import InfoIcon from '@rsuite/icons/legacy/Info';
+import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+import EyeIcon from '@rsuite/icons/legacy/Eye';
+import EyeSlashIcon from '@rsuite/icons/legacy/EyeSlash';
 
 export default function Page() {
   return (
     <DefaultPage
       dependencies={{
         Input,
-        InputNumber,
         InputGroup,
         Whisper,
         Tooltip,
         Grid,
         Row,
         Col,
-        Search,
-        Info,
-        Avatar,
-        Eye,
-        EyeSlash
+        SearchIcon,
+        InfoIcon,
+        AvatarIcon,
+        EyeIcon,
+        EyeSlashIcon,
+        MaskedInput,
+        SelectPicker,
+        ButtonToolbar,
+        Toggle,
+        FlexboxGrid
       }}
     />
   );

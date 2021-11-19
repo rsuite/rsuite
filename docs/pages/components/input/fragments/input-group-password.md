@@ -15,7 +15,7 @@ const App = () => {
     <InputGroup inside style={styles}>
       <Input type={visible ? 'text' : 'password'} />
       <InputGroup.Button onClick={handleChange}>
-        {visible ? <Eye /> : <EyeSlash />}
+        {visible ? <EyeIcon /> : <EyeSlashIcon />}
       </InputGroup.Button>
     </InputGroup>
   );
