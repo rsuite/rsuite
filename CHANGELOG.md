@@ -1,3 +1,15 @@
+## [5.2.2](https://github.com/rsuite/rsuite/compare/v5.2.1...v5.2.2) (2021-11-19)
+
+### Bug Fixes
+
+- **Dropdown:** dropdown item panel not rendering content ([#2128](https://github.com/rsuite/rsuite/issues/2128)) ([6631500](https://github.com/rsuite/rsuite/commit/6631500c74b0305026931a6379980fda9b587c6e))
+- **IconButton:** primary icon button with text wrong bg ([#2141](https://github.com/rsuite/rsuite/issues/2141)) ([fde0cd4](https://github.com/rsuite/rsuite/commit/fde0cd4bce84c8f5d054d1722e9dfa61de49a7fa))
+- **PanelGroup:** missing border for nested panels ([#2142](https://github.com/rsuite/rsuite/issues/2142)) ([225821f](https://github.com/rsuite/rsuite/commit/225821f2cdeba8637d70f4626f02ae1acd93eb24))
+
+### Performance Improvements
+
+- **resize:** improve the rerender performance of components after resize ([#2135](https://github.com/rsuite/rsuite/issues/2135)) ([71648ab](https://github.com/rsuite/rsuite/commit/71648ab061f7b4057675de2d0a6e08f2f8a70a61))
+
 ## [5.2.1](https://github.com/rsuite/rsuite/compare/v5.2.0...v5.2.1) (2021-11-12)
 
 ### Bug Fixes
