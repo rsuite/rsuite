@@ -44,7 +44,9 @@ const instance = (
     </ButtonToolbar>
 
     <ButtonToolbar>
-      <IconButton icon={<SearchIcon />}>Component</IconButton>
+      <IconButton appearance="primary" color="green" icon={<SearchIcon />}>
+        Component
+      </IconButton>
       <IconButton icon={<AddOutlineIcon />}>Add</IconButton>
 
       <IconButton icon={<PlusIcon />}>Add</IconButton>
