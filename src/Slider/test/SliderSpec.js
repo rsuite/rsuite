@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Slider from '../Slider';
@@ -110,14 +111,6 @@ describe('Slider', () => {
     assert.include(handle.className, 'active');
   });
 
-  it('Should be plaintext', () => {
-    const instance = getDOMNode(<Slider plaintext />);
-
-    assert.include(instance.className, 'rs-plaintext');
-    assert.equal(instance.textContent, 'Not selected');
-    assert.notInclude(instance.className, 'rs-slider');
-  });
-
   it('Should call `onChange` callback', done => {
     const instance = getDOMNode(<Slider onChange={() => done()} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-slider-bar'));
@@ -133,5 +126,27 @@ describe('Slider', () => {
     assert.equal(input.getAttribute('aria-valuemax'), 100);
     assert.equal(input.getAttribute('aria-valuemin'), 10);
     assert.equal(input.getAttribute('aria-orientation'), 'horizontal');
+  });
+
+  describe('Plain text', () => {
+    it('Should render input value', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <Slider value={1} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('1');
+    });
+
+    it('Should render "Not selected" if value is empty', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <Slider value={null} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Not selected');
+    });
   });
 });
