@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
 
@@ -401,6 +402,27 @@ describe('CheckPicker', () => {
   it('Should call onClose callback by key="Tab"', done => {
     const instance = getInstance(<CheckPicker data={data} onClose={done} defaultOpen />);
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Tab' });
+  });
+
+  describe('Plain text', () => {
+    it("Should render selected options' labels (comma-separated) and selected options count", () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <CheckPicker data={data} value={['Eugenia', 'Kariane']} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Eugenia,Kariane2');
+    });
+    it('Should render "Not selected" if value is empty', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <CheckPicker data={data} value={[]} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Not selected');
+    });
   });
 
   describe('ref testing', () => {
