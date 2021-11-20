@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
 
 import InputNumber from '../InputNumber';
@@ -174,8 +175,25 @@ describe('InputNumber', () => {
     assert.include(instance.className, 'custom-prefix');
   });
 
-  it('Should be plaintext', () => {
-    const instance = getDOMNode(<InputNumber plaintext />);
-    assert.include(instance.className, 'rs-plaintext');
+  describe('Plain text', () => {
+    it('Should render input value', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <InputNumber value={1} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('1');
+    });
+
+    it('Should render "Unfilled" if value is empty', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <InputNumber value={null} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Unfilled');
+    });
   });
 });
