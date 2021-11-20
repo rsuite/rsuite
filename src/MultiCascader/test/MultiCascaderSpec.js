@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { act } from '@testing-library/react';
-import { getDOMNode, getInstance, render } from '@test/testUtils';
+import { act, render } from '@testing-library/react';
+import { getDOMNode, getInstance } from '@test/testUtils';
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
 
@@ -414,5 +414,26 @@ describe('MultiCascader', () => {
     ReactTestUtils.Simulate.change(input);
     assert.equal(instance.overlay.querySelectorAll('.rs-picker-cascader-row').length, 3);
     assert.ok(onSearchSpy.calledOnce);
+  });
+
+  describe('Plain text', () => {
+    it("Should render selected options' labels (comma-separated) and selected options count", () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <MultiCascader data={items} value={['abc', 'abcde-1']} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('abc,abcde-12');
+    });
+    it('Should render "Not selected" if value is empty', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <MultiCascader data={items} value={[]} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Not selected');
+    });
   });
 });
