@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
@@ -58,5 +59,27 @@ describe('Input', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Input classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  describe('Plain text', () => {
+    it('Should render input value', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <Input value="Haha" plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Haha');
+    });
+
+    it('Should render "Unfilled" if value is empty', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <Input value="" plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Unfilled');
+    });
   });
 });
