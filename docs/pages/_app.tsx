@@ -138,12 +138,12 @@ function App({ Component, pageProps }: AppProps) {
       </RSIntlProvider>
       {language === 'zh' ? (
         <span className="global-banner">
-          🎉 v5 测试版已经发布! 前往
+          🎉 v5 版本已经发布! 前往
           <a href="https://next.rsuitejs.com/guide/v5-features/"> v5 文档</a>开始使用.
         </span>
       ) : (
         <span className="global-banner">
-          🎉 v5 beta is out! Head to the{' '}
+          🎉 v5 is released! Head to the{' '}
           <a href="https://next.rsuitejs.com/guide/v5-features/">v5 documentation</a> to get
           started.
         </span>
