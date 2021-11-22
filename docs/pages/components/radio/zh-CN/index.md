@@ -57,7 +57,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#radiobutton
 
 ### `<RadioGroup>`
 
-| 性名称       | 类型`(默认值)`                | 描述               |
+| 属性名称     | 类型`(默认值)`                | 描述               |
 | ------------ | ----------------------------- | ------------------ |
 | appearance   | enum: 'default', 'picker'     | 设置外观           |
 | defaultValue | string                        | 默认值             |

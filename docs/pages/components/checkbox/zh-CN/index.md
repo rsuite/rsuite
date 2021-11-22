@@ -67,7 +67,7 @@ type ValueType = string | number;
 
 ### `<CheckboxGroup>`
 
-| 性名称       | 类型 `(默认值)`                    | 描述               |
+| 属性名称     | 类型 `(默认值)`                    | 描述               |
 | ------------ | ---------------------------------- | ------------------ |
 | defaultValue | ValueType[]                        | 默认值             |
 | inline       | boolean                            | 内联布局           |
