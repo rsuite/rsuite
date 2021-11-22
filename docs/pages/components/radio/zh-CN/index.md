@@ -33,7 +33,7 @@ import { Radio, RadioGroup } from 'rsuite';
 
 ### `<RadioGroup>`
 
-| 性名称       | 类型`(默认值)`                                 | 描述               |
+| 属性名称     | 类型`(默认值)`                                 | 描述               |
 | ------------ | ---------------------------------------------- | ------------------ |
 | appearance   | enum: 'default', 'picker'                      | 设置外观           |
 | defaultValue | any                                            | 默认值             |
