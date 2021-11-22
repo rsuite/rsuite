@@ -35,7 +35,7 @@ import { Checkbox, CheckboxGroup } from 'rsuite';
 
 ### `<CheckboxGroup>`
 
-| 性名称       | 类型 `(默认值)`           | 描述               |
+| 属性名称     | 类型 `(默认值)`           | 描述               |
 | ------------ | ------------------------- | ------------------ |
 | defaultValue | Array                     | 默认值             |
 | inline       | boolean                   | 内联布局           |
