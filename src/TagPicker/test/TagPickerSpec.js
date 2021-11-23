@@ -453,5 +453,10 @@ describe('TagPicker', () => {
     assert.equal(instance2.target.textContent, 'Not selected');
     assert.equal(instance3.target.textContent, '-');
     assert.equal(instance4.target.textContent, 'Eugenia');
+
+    assert.equal(instance1.target.style.marginLeft, '-6px');
+    assert.isEmpty(instance2.target.style.marginLeft);
+    assert.isEmpty(instance3.target.style.marginLeft);
+    assert.equal(instance4.target.style.marginLeft, '-6px');
   });
 });
