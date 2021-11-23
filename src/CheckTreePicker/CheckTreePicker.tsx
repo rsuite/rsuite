@@ -155,20 +155,20 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   } = props;
 
   const { inline } = useContext(TreeContext);
-  const triggerRef = useRef<OverlayTriggerInstance>();
-  const targetRef = useRef<HTMLButtonElement>();
-  const listRef = useRef<ListInstance>();
-  const overlayRef = useRef<HTMLDivElement>();
-  const searchInputRef = useRef<HTMLInputElement>();
-  const treeViewRef = useRef<HTMLDivElement>();
+  const triggerRef = useRef<OverlayTriggerInstance>(null);
+  const targetRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<ListInstance>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const treeViewRef = useRef<HTMLDivElement>(null);
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
   const [active, setActive] = useState(false);
-  const [activeNode, setActiveNode] = useState(null);
+  const [activeNode, setActiveNode] = useState<TreeNodeType | null>(null);
   const { prefix, merge } = useClassNames(classPrefix);
   const { prefix: checkTreePrefix, withClassPrefix: withCheckTreeClassPrefix } =
     useClassNames('check-tree');
 
-  const [value, setValue, isControlled] = useControlled<ValueType>(controlledValue, defaultValue);
+  const [value, setValue, isControlled] = useControlled(controlledValue, defaultValue);
   const {
     data: treeData,
     setData: setTreeData,
@@ -217,9 +217,9 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       callback: (
         searchKeyword: string,
         _filterData: TreeNodeType[],
-        event: React.KeyboardEvent<HTMLInputElement>
+        event: React.SyntheticEvent
       ) => {
-        onSearch?.(searchKeyword, event);
+        onSearch?.(searchKeyword, event as React.KeyboardEvent<HTMLInputElement>);
       }
     });
 
@@ -231,20 +231,17 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
    */
   const getFormattedNodes = useCallback(
     (render?: any) => {
-      let formattedNodes = [];
       if (virtualized) {
-        formattedNodes = formatVirtualizedTreeData(flattenNodes, filteredData, expandItemValues, {
+        return formatVirtualizedTreeData(flattenNodes, filteredData, expandItemValues, {
           cascade,
           searchKeyword: searchKeywordState
         }).filter(item => item.visible);
-      } else {
-        formattedNodes = getFormattedTree(filteredData, flattenNodes, {
-          childrenKey,
-          cascade
-        }).map(node => render?.(node, 1));
       }
 
-      return formattedNodes;
+      return getFormattedTree(filteredData, flattenNodes, {
+        childrenKey,
+        cascade
+      }).map(node => render?.(node, 1));
     },
     [
       searchKeywordState,
@@ -288,12 +285,12 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const focusActiveNode = useCallback(() => {
     focusToActiveTreeNode({
-      list: listRef.current,
+      list: listRef.current!,
       valueKey,
       selector: `.${checkTreePrefix('node-active')}`,
       activeNode,
-      virtualized,
-      container: treeViewRef.current,
+      virtualized: virtualized!,
+      container: treeViewRef.current!,
       formattedNodes: getFormattedNodes()
     });
   }, [checkTreePrefix, activeNode, getFormattedNodes, valueKey, virtualized]);
@@ -334,7 +331,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const toggleUpChecked = useCallback(
     (nodes: TreeNodesType, node: TreeNodeType, checked: boolean) => {
-      const currentNode = nodes[node.refKey];
+      const currentNode = nodes[node.refKey!];
       if (cascade) {
         if (!checked) {
           currentNode.check = checked;
@@ -358,7 +355,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const toggleDownChecked = useCallback(
     (nodes: TreeNodesType, node: TreeNodeType, isChecked: boolean) => {
-      const currentNode = nodes[node.refKey];
+      const currentNode = nodes[node.refKey!];
       currentNode.check = isChecked;
 
       if (!currentNode[childrenKey] || !currentNode[childrenKey].length || !cascade) {
@@ -397,7 +394,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         return;
       }
 
-      const selectedValues = toggleChecked(node, !flattenNodes[node.refKey].check);
+      const selectedValues = toggleChecked(node, !flattenNodes[node.refKey!].check);
       if (!isControlled) {
         unSerializeList({
           nodes: flattenNodes,
@@ -564,11 +561,13 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   );
 
   const handleLeftArrow = useCallback(() => {
+    if (isNil(focusItemValue)) return;
     const focusItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
     leftArrowHandler({
       focusItem,
       expand: expandItemValues.includes(focusItem?.[valueKey]),
       onExpand: handleExpand,
+      childrenKey,
       onFocusItem: () => {
         setFocusItemValue(focusItem?.parent?.[valueKey]);
         focusTreeNode(
@@ -585,10 +584,12 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     focusItemValue,
     handleExpand,
     treeNodesRefs,
-    valueKey
+    valueKey,
+    childrenKey
   ]);
 
   const handleRightArrow = useCallback(() => {
+    if (isNil(focusItemValue)) return;
     const focusItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
 
     rightArrowHandler({
@@ -612,6 +613,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const selectActiveItem = useCallback(
     (event: React.KeyboardEvent<any>) => {
+      if (isNil(focusItemValue)) return;
       const activeItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
       if (
         !isNodeUncheckable(activeItem, { uncheckableItemValues, valueKey }) &&
@@ -694,7 +696,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       const nodes = children || [];
       return (
         <div className={childrenClass} key={node[valueKey]}>
-          <CheckTreeNode {...nodeProps} ref={ref => saveTreeNodeRef(refKey, ref)} />
+          <CheckTreeNode {...nodeProps} ref={ref => saveTreeNodeRef(ref, refKey)} />
           <div className={checkTreePrefix('children')}>
             {nodes.map(child => renderNode(child, layer))}
           </div>
@@ -705,7 +707,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     return (
       <CheckTreeNode
         key={node[valueKey]}
-        ref={ref => saveTreeNodeRef(refKey, ref)}
+        ref={ref => saveTreeNodeRef(ref, refKey)}
         {...nodeProps}
       />
     );
@@ -730,7 +732,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           <CheckTreeNode
             style={style}
             key={key}
-            ref={ref => saveTreeNodeRef(refKey, ref)}
+            ref={ref => saveTreeNodeRef(ref, refKey)}
             {...nodeProps}
           />
         )

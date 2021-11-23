@@ -26,13 +26,13 @@ const defaultNodeKeys = {
   childrenKey: 'children'
 };
 
-export function createConcatChildrenFunction(
+export function createConcatChildrenFunction<T = any>(
   node: any,
   nodeValue?: any,
   nodeKeys: NodeKeys = defaultNodeKeys
 ) {
   const { valueKey, childrenKey } = nodeKeys;
-  return (data: any[], children: any[]): any[] => {
+  return (data: T[], children: T[]): T[] => {
     if (nodeValue) {
       node = findNodeOfTree(data, item => nodeValue === item[valueKey]);
     }

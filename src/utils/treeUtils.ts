@@ -97,7 +97,7 @@ export function getNodeParentKeys(nodes: TreeNodesType, node: TreeNodeType, valu
   const parentKeys: TreeNodeType[] = [];
   const traverse = (node: TreeNodeType) => {
     if (node?.parent) {
-      traverse(nodes[node.parent.refKey]);
+      traverse(nodes[node.parent.refKey!]);
       parentKeys.push(node?.parent?.[valueKey]);
     }
   };
@@ -396,7 +396,7 @@ export const focusTreeNode = (refKey: string, treeNodeRefs: any, selector: strin
 };
 
 export interface FocusPrevOrNextProps {
-  focusItemValue: string | number;
+  focusItemValue: string | number | null;
   focusableItems: any[];
   treeNodesRefs: any;
   selector: string;
@@ -552,7 +552,7 @@ export function toggleExpand({ node, isExpand, expandItemValues, valueKey }: any
   } else {
     newExpandItemValues.delete(node[valueKey]);
   }
-  return Array.from(newExpandItemValues);
+  return Array.from(newExpandItemValues) as ItemDataType[];
 }
 
 export function getTreeNodeTitle(label: any) {
@@ -570,12 +570,12 @@ export function getTreeNodeTitle(label: any) {
  * @param parent
  */
 export function getChildrenByFlattenNodes(nodes: TreeNodesType, parent: TreeNodeType) {
-  if (isNil(nodes[parent.refKey])) {
+  if (!isNil(parent.refKey) && isNil(nodes[parent.refKey])) {
     return [];
   }
   return Object.values(nodes).filter(
     (item: TreeNodeType) =>
-      item?.parent?.refKey === parent.refKey && !nodes[item.refKey].uncheckable
+      item?.parent?.refKey === parent.refKey && !nodes[item.refKey!].uncheckable
   );
 }
 
@@ -584,7 +584,7 @@ export function useTreeDrag() {
   const dragNode = useRef<ItemDataType | null>(null);
   const [dragOverNodeKey, setDragOverNodeKey] = useState(null);
   // drag node and it's children nodes key
-  const [dragNodeKeys, setDragNodeKeys] = useState([]);
+  const [dragNodeKeys, setDragNodeKeys] = useState<(number | string)[]>([]);
   const [dropNodePosition, setDropNodePosition] = useState<TREE_NODE_DROP_POSITION | null>(null);
 
   const setDragNode = (node: ItemDataType | null) => {
@@ -672,12 +672,12 @@ export function useFlattenTreeData({
 
   const serializeListOnlyParent = useCallback(
     (nodes: TreeNodesType, key: string) => {
-      const list: TreeNodeType[] = [];
+      const list: (string | number)[] = [];
 
       Object.keys(nodes).forEach((refKey: string) => {
         const currentNode = nodes[refKey];
-        if (currentNode.parent) {
-          const parentNode = nodes[currentNode.parent?.refKey];
+        if (!isNil(currentNode.parent) && !isNil(currentNode.parent.refKey)) {
+          const parentNode = nodes[currentNode.parent.refKey];
           if (currentNode[key]) {
             if (!parentNode?.checkAll) {
               list.push(nodes[refKey][valueKey]);
@@ -704,7 +704,7 @@ export function useFlattenTreeData({
       // Reset values to false
       Object.keys(nodes).forEach((refKey: string) => {
         const node = nodes[refKey];
-        if (cascade && node.parent) {
+        if (cascade && !isNil(node.parent) && !isNil(node.parent.refKey)) {
           node[key] = nodes[node.parent.refKey][key];
         } else {
           node[key] = false;
@@ -730,7 +730,7 @@ export function useFlattenTreeData({
       cascade?: boolean;
       searchKeyword?: string;
     }
-  ) => {
+  ): TreeNodeType[] => {
     const { cascade, searchKeyword } = options;
     return flattenTree(data, childrenKey, (node: any) => {
       let formatted = {};
@@ -791,8 +791,8 @@ export function useFlattenTreeData({
 export function useTreeNodeRefs() {
   const treeNodeRefs = useRef({});
 
-  const saveTreeNodeRef = (refKey: string, ref: React.Ref<any>) => {
-    if (refKey) {
+  const saveTreeNodeRef = (ref: React.Ref<any>, refKey?: string) => {
+    if (!isNil(refKey)) {
       treeNodeRefs.current[refKey] = ref;
     }
   };

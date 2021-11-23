@@ -5,7 +5,7 @@ import { getChildrenByFlattenNodes } from '../utils/treeUtils';
 
 export interface TreeNodeType {
   uncheckable?: boolean;
-  refKey: string;
+  refKey?: string;
   check?: boolean;
   parent?: TreeNodeType;
   checkAll?: boolean;
@@ -16,6 +16,8 @@ export interface TreeNodeType {
   value?: string | number;
   groupBy?: string;
   children?: TreeNodeType[];
+  hasChildren?: boolean;
+  checkState?: CheckStateType;
 }
 
 export interface TreeNodesType {
@@ -30,7 +32,7 @@ export function isEveryChildChecked(nodes: TreeNodesType, parent: TreeNodeType):
   if (!children.length) {
     return nodes[parent.refKey].check ?? false;
   }
-  return children.every(child => nodes[child.refKey].check);
+  return children.every(child => !isNil(child.refKey) && nodes[child.refKey].check);
 }
 
 export function isSomeChildChecked(
@@ -38,7 +40,7 @@ export function isSomeChildChecked(
   parent: TreeNodeType,
   childrenKey: string
 ): boolean {
-  if (isNil(nodes[parent.refKey])) {
+  if (!isNil(parent.refKey) && isNil(nodes[parent.refKey])) {
     return false;
   }
   const children = getChildrenByFlattenNodes(nodes, parent);
@@ -46,7 +48,7 @@ export function isSomeChildChecked(
     if (child?.[childrenKey]?.length > 0) {
       return isSomeChildChecked(nodes, child, childrenKey);
     }
-    return nodes[child.refKey].check;
+    return !isNil(child.refKey) && nodes[child.refKey].check;
   });
 }
 
@@ -65,13 +67,13 @@ export function isAllSiblingNodeUncheckable(
   valueKey: string
 ): boolean {
   const list: TreeNodeType[] = [];
-  const parentNodeRefkey = node.parent ? node.parent.refKey : '';
+  const parentNodeRefKey = node.parent ? node.parent.refKey : '';
 
   Object.keys(nodes).forEach((refKey: string) => {
     const curNode = nodes[refKey];
     if (isNil(node.parent) && isNil(curNode.parent)) {
       list.push(curNode);
-    } else if (curNode.parent?.refKey === parentNodeRefkey) {
+    } else if (curNode.parent?.refKey === parentNodeRefKey) {
       list.push(curNode);
     }
   });
@@ -140,11 +142,11 @@ export function getDisabledState(
   props: Partial<CheckTreePickerProps>
 ) {
   const { disabledItemValues = [], valueKey } = props;
-  if (isNil(nodes[node.refKey])) {
+  if (!isNil(node.refKey) && isNil(nodes[node.refKey])) {
     return false;
   }
   return disabledItemValues.some((value: any) =>
-    shallowEqual(nodes[node.refKey][valueKey!], value)
+    shallowEqual(nodes[node.refKey!][valueKey!], value)
   );
 }
 
