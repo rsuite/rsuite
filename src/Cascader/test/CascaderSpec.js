@@ -456,4 +456,26 @@ describe('Cascader', () => {
     assert.equal(overlay.querySelectorAll('.rs-picker-cascader-menu-item').length, 1);
     assert.equal(overlay.querySelector('.rs-picker-cascader-menu-item').textContent, 'test');
   });
+
+  describe('Plain text', () => {
+    it('Should render full path (separated by delimiter) of selected data', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <Cascader data={items} value="3-1" plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('3 / 3-1');
+    });
+
+    it('Should render "Not selected" if value is empty', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <Cascader data={items} value={null} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Not selected');
+    });
+  });
 });

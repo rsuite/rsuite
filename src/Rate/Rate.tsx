@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import isNil from 'lodash/isNil';
 import Star from '@rsuite/icons/legacy/Star';
 
 import { useClassNames, useControlled, shallowEqualArray, SIZE, KEY_VALUES } from '../utils';
@@ -173,7 +174,9 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
 
     if (plaintext) {
       return (
-        <Plaintext localeKey="notSelected" className={className}>{`${value}(${max})`}</Plaintext>
+        <Plaintext localeKey="notSelected" className={className}>
+          {!isNil(value) ? `${value}(${max})` : null}
+        </Plaintext>
       );
     }
 

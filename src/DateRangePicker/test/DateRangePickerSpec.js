@@ -1,5 +1,6 @@
 import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
+import { render } from '@testing-library/react';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
 import {
   addDays,
@@ -499,5 +500,31 @@ describe('DateRangePicker', () => {
     assert.isTrue(onChangeSpy.calledOnce);
     assert.equal(format(onChangeSpy.firstCall.firstArg[0], 'dd/MM/yyyy'), '09/10/2020');
     assert.equal(format(onChangeSpy.firstCall.firstArg[1], 'dd/MM/yyyy'), '09/11/2021');
+  });
+
+  describe('Plain text', () => {
+    it('Should render formatted date range', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <DateRangePicker
+            value={[new Date(2019, 3, 1), new Date(2019, 3, 2)]}
+            format="MM/dd/yyyy"
+            plaintext
+          />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('04/01/2019 ~ 04/02/2019');
+    });
+
+    it('Should render "Not selected" if value is empty', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <DateRangePicker value={null} format="MM/dd/yyyy" plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Not selected');
+    });
   });
 });

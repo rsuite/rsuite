@@ -1,7 +1,8 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
 import { format, isSameDay, parseISO } from '../../utils/dateUtils';
-import { getDOMNode, getInstance, render } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 import DatePicker from '../DatePicker';
 
 describe('DatePicker ', () => {
@@ -542,5 +543,27 @@ describe('DatePicker ', () => {
     assert.equal(meridian.textContent, 'PM');
     ReactTestUtils.Simulate.click(meridian);
     assert.equal(meridian.textContent, 'AM');
+  });
+
+  describe('Plain text', () => {
+    it('Should render formatted date', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <DatePicker value={new Date(2019, 3, 1)} format="MM/dd/yyyy" plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('04/01/2019');
+    });
+
+    it('Should render "Not selected" if value is empty', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <DatePicker value={null} format="MM/dd/yyyy" plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Not selected');
+    });
   });
 });
