@@ -1,81 +1,21 @@
 # Use in Next.js
 
-Next.js gives you the best developer experience with all the features you need for production: hybrid static & server rendering, TypeScript support, smart bundling, route pre-fetching, and more.
+Import rsuite style in your `_app.js` (or `_app.tsx`).
 
-## Install and Initialization
+```jsx
+import 'rsuite/dist/rsuite.min.css';
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
 
-```bash
-$ npx create-next-app
+function MyApp({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
+}
+export default MyApp;
 ```
 
-If you use npm 5.1 or earlier, you cannot use npx. Execute the following command instead:
+> **_NOTE:_** The order of the `import`s matters! In case there are conflicting styles, the second `import` is applied.
 
-```
-$ npm install -g create-next-app
-$ create-next-app
-```
-
-Then execute
-
-```bash
-$ yarn dev
-```
-
-Open the browser at `http://localhost:3000/`. It renders a header saying "Welcome to Next.js!" on the page.
-
-## next.config.js
-
-Next.js does not support [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less) in versions 10 and 11. We need to compile less style files through the less-loader of webpack.
-
-Installation devDependencies:
-
-```
-$ yarn add webpack less less-loader css-loader mini-css-extract-plugin --dev
-```
-
-Refer to the following configuration:
-
-```js
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-module.exports = {
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.(le|c)ss$/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        {
-          loader: 'css-loader'
-        },
-        {
-          loader: 'less-loader',
-          options: {
-            sourceMap: true,
-            lessOptions: {
-              javascriptEnabled: true
-            }
-          }
-        }
-      ]
-    });
-
-    config.plugins.push(
-      new MiniCssExtractPlugin({
-        filename: 'static/css/[name].css',
-        chunkFilename: 'static/css/[contenthash].css'
-      })
-    );
-
-    return config;
-  }
-};
-```
-
-## Use rsuite
-
-```
-$ yarn add rsuite
-```
+If you wish to apply the styles only in parts of the app in which you use rsuite, you can do so as well.
 
 Then edit the `./pages/index.js` file and change it to:
 
@@ -83,7 +23,6 @@ Then edit the `./pages/index.js` file and change it to:
 import React from 'react';
 import Head from 'next/head';
 import { Button } from 'rsuite';
-import 'rsuite/styles/index.less';
 
 const Home = () => (
   <div>
@@ -122,17 +61,9 @@ const Home = () => (
 export default Home;
 ```
 
-Then re-execute
-
-```bash
-$ yarn dev
-```
-
-Open the browser and visit `http://localhost:3000/`, you can see the application of React Suite page, and then start your development journey.
-
 ## Navigation component and Link combination
 
-There are some navigation components in the rsuite component, such as `Dropdown`, `Nav`, `Breadcrumb`, which are used in conjunction with the `Link` component of `Next.js` to use the `renderItem` method.
+There are some navigation components in the rsuite component, such as `Dropdown`, `Nav`, `Breadcrumb`, which are used in conjunction with the `Link` component of `Next.js` to use the `as` prop.
 
 ```jsx
 import Link from 'next/link';
@@ -161,6 +92,57 @@ return () => {
   );
 };
 ```
+
+## Using Less
+
+Next.js has droped the support for [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less) in versions 10 and 11 and only supports [Sass](https://sass-lang.com/) (`*.scss` file extention) as CSS pre-processor.
+So if you want to use Less to customize rsuite styles, you have to
+setup Less support for your Next.js project.
+
+First, install needed webpack loaders and plugins.
+
+```
+$ npm i -D less less-loader css-loader mini-css-extract-plugin
+```
+
+Then update your webpack config in `next.config.js`:
+
+```js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.(le|c)ss$/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader'
+        },
+        {
+          loader: 'less-loader',
+          options: {
+            sourceMap: true
+          }
+        }
+      ]
+    });
+
+    config.plugins.push(
+      new MiniCssExtractPlugin({
+        filename: 'static/css/[name].css',
+        chunkFilename: 'static/css/[contenthash].css'
+      })
+    );
+
+    return config;
+  }
+};
+```
+
+> **_NOTE:_** By customizing webpack config for stylesheets, you have disabled [built-in Next CSS and SASS support](https://nextjs.org/docs/basic-features/built-in-css-support) of Next.js.
+> Thus if you want to use Less and Sass at the same time,
+> you have to setup Sass support in webpack config yourself.
 
 ## Examples
 
