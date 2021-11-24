@@ -9,13 +9,21 @@ export interface SelectedElementProps {
   countable: boolean;
   cascade?: boolean;
   locale?: PickerLocale;
-  childrenKey: string;
+  childrenKey?: string;
   prefix: (name: string) => string;
 }
 
 const SelectedElement = (props: SelectedElementProps) => {
-  const { selectedItems, prefix, valueKey, labelKey, childrenKey, countable, cascade, locale } =
-    props;
+  const {
+    selectedItems,
+    prefix,
+    valueKey,
+    labelKey,
+    childrenKey = 'children',
+    countable,
+    cascade,
+    locale
+  } = props;
 
   const count = selectedItems.length;
   let title = '';

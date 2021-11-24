@@ -183,7 +183,6 @@ UploadTrigger.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
-  as: PropTypes.elementType,
   draggable: PropTypes.bool,
   onDragEnter: PropTypes.func,
   onDragLeave: PropTypes.func,

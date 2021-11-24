@@ -57,7 +57,7 @@ export const useBodyStyles = (
     (entering?: boolean) => {
       if (overflow && !drawer) {
         updateBodyStyles(undefined, entering);
-        contentElement.current = ref.current?.querySelector(`.${prefix('content')}`)!;
+        contentElement.current = ref.current!.querySelector(`.${prefix('content')}`)!;
         windowResizeListener.current = on(window, 'resize', updateBodyStyles);
         bindElementResize(contentElement.current, updateBodyStyles);
       }

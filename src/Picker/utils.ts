@@ -183,7 +183,7 @@ interface FocusItemValueProps {
  * @param props
  */
 export const useFocusItemValue = <T extends number | string>(
-  defaultFocusItemValue: T | undefined,
+  defaultFocusItemValue: T | null | undefined,
   props: FocusItemValueProps
 ) => {
   const {

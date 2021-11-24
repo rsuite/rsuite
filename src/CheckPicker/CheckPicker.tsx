@@ -42,6 +42,7 @@ import {
 
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import { SelectProps } from '../SelectPicker';
+import { TreeNodeType } from '../CheckTreePicker/utils';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T = ValueType>
@@ -106,12 +107,12 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const triggerRef = useRef<OverlayTriggerInstance>();
-    const targetRef = useRef<HTMLButtonElement>();
-    const overlayRef = useRef<HTMLDivElement>();
-    const searchInputRef = useRef<HTMLInputElement>();
+    const triggerRef = useRef<OverlayTriggerInstance>(null);
+    const targetRef = useRef<HTMLButtonElement>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
-    const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue || []);
+    const [value, setValue] = useControlled(valueProp, defaultValue || []);
 
     // Used to hover the focuse item  when trigger `onKeydown`
     const {
@@ -147,14 +148,14 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
 
     // A list of shortcut options.
     // when opened again, the selected options are displayed at the top.
-    const [stickyItems, setStickyItems] = useState([]);
+    const [stickyItems, setStickyItems] = useState<ItemDataType[]>([]);
 
     const initStickyItems = () => {
       if (!sticky) {
         return;
       }
 
-      let nextStickyItems = [];
+      let nextStickyItems: ItemDataType[] = [];
       if (data && value.length) {
         nextStickyItems = data.filter(item => {
           return value.some(v => v === item[valueKey]);
@@ -298,7 +299,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       const classes = merge(className, menuClassName, prefix('check-menu'));
       const styles = { ...menuStyle, left, top };
       let items = filteredData;
-      let filteredStickyItems = [];
+      let filteredStickyItems: TreeNodeType[] = [];
 
       if (stickyItems) {
         filteredStickyItems = filterNodesOfTree(stickyItems, item => checkShouldDisplay(item));
@@ -316,7 +317,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
 
       const menu =
         items.length || filteredStickyItems.length ? (
-          <DropdownMenu
+          <DropdownMenu<true>
             id={id ? `${id}-listbox` : undefined}
             listProps={listProps}
             disabledItemValues={disabledItemValues}

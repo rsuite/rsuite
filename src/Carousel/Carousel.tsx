@@ -21,7 +21,7 @@ export interface CarouselProps extends WithAsProps {
   onSelect: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
 
   /** Callback fired when a slide transition starts */
-  onSlideStart?: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSlideStart?: (index: number, event?: React.ChangeEvent<HTMLInputElement>) => void;
 
   /** Callback fired when a slide transition ends */
   onSlideEnd?: (index: number, event: React.TransitionEvent<HTMLDivElement>) => void;
@@ -47,7 +47,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
     const { rtl } = useCustom('Carousel');
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const count = ReactChildren.count(children as React.ReactChildren);
-    const labels = [];
+    const labels: React.ReactElement[] = [];
     const vertical = placement === 'left' || placement === 'right';
     const lengthKey = vertical ? 'height' : 'width';
 
@@ -69,7 +69,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const activeIndex = +event.target.value;
-      handleSlide(activeIndex);
+      handleSlide(activeIndex, event);
       onSelect?.(activeIndex, event);
     };
 
@@ -86,8 +86,8 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
 
     const uniqueId = useMemo(() => guid(), []);
     const items = React.Children.map(
-      children,
-      (child: React.DetailedReactHTMLElement<any, HTMLElement>, index) => {
+      children as React.ReactElement[],
+      (child: React.ReactElement, index) => {
         if (!child) {
           return;
         }

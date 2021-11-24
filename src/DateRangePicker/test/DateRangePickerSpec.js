@@ -296,6 +296,7 @@ describe('DateRangePicker', () => {
     ReactTestUtils.Simulate.click(day);
     ReactTestUtils.Simulate.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
+    console.log(onOkSpy.args[0][0]);
     assert.ok(isSameDay(startOfWeek(new Date('08/01/2021')), onOkSpy.args[0][0][0]));
     assert.ok(isSameDay(endOfWeek(new Date('08/07/2021')), onOkSpy.args[0][0][1]));
   });

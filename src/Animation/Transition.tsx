@@ -81,8 +81,11 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
   };
 
   animationEventListener: EventToken | null = null;
-  instanceElement = null;
-  nextCallback: React.AnimationEventHandler | null = null;
+  instanceElement: HTMLElement | null = null;
+  nextCallback: {
+    (event?: React.AnimationEvent): void;
+    cancel: () => any;
+  } | null = null;
   needsUpdate: boolean | null = null;
   childRef: React.RefObject<any>;
 
@@ -160,7 +163,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     this.instanceElement = null;
   }
 
-  onTransitionEnd(node: HTMLElement, handler: React.AnimationEventHandler) {
+  onTransitionEnd(node: HTMLElement, handler: (event?: React.AnimationEvent) => void) {
     this.setNextCallback(handler);
 
     this.animationEventListener?.off();
@@ -180,10 +183,10 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     }
   }
 
-  setNextCallback(callback: React.AnimationEventHandler) {
+  setNextCallback(callback: (event?: React.AnimationEvent) => void) {
     let active = true;
 
-    this.nextCallback = (event?: React.AnimationEvent) => {
+    this.nextCallback = ((event?: React.AnimationEvent) => {
       if (!active) {
         return;
       }
@@ -200,15 +203,15 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       callback(event);
       active = false;
       this.nextCallback = null;
-    };
+    }) as any;
 
-    this.nextCallback.cancel = () => {
+    this.nextCallback!.cancel = () => {
       active = false;
     };
 
-    return this.nextCallback;
+    return this.nextCallback!;
   }
-  getChildElement() {
+  getChildElement(): HTMLElement {
     if (this.childRef.current) {
       return getDOMNode(this.childRef.current);
     }
@@ -261,9 +264,10 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
     }
   }
 
-  safeSetState(nextState: TransitionState, callback: React.AnimationEventHandler) {
+  safeSetState(nextState: TransitionState, callback: (event?: React.AnimationEvent) => void) {
     if (this.instanceElement) {
-      this.setState(nextState, this.setNextCallback(callback));
+      const nextCallback = this.setNextCallback(callback);
+      this.setState(nextState, () => nextCallback());
     }
   }
 

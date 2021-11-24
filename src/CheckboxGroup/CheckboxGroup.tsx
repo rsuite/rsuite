@@ -39,7 +39,7 @@ const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React
 
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ inline }));
-    const [value, setValue, isControlled] = useControlled<ValueType[]>(valueProp, defaultValue);
+    const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
 
     const handleChange = useCallback(
       (itemValue: any, itemChecked: boolean, event: React.SyntheticEvent) => {

@@ -19,13 +19,13 @@ export interface AffixProps extends WithAsProps {
  * Get the layout size and offset of the mount element
  */
 function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
-  const [offset, setOffset] = useState<Offset>(null);
+  const [offset, setOffset] = useState<Offset | null>(null);
   const updateOffset = useCallback(() => {
-    setOffset(getOffset(mountRef.current));
+    setOffset(getOffset(mountRef.current!));
   }, [mountRef]);
 
   // Update after the element size changes
-  useElementResize(() => mountRef.current, updateOffset);
+  useElementResize(() => mountRef.current!, updateOffset);
 
   // Initialize after the first render
   useEffect(updateOffset, [updateOffset]);
@@ -38,7 +38,7 @@ function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
  * @param container
  */
 function useContainerOffset(container) {
-  const [offset, setOffset] = useState<Offset>(null);
+  const [offset, setOffset] = useState<Offset | null>(null);
 
   useEffect(() => {
     const node = typeof container === 'function' ? container() : container;
@@ -54,7 +54,7 @@ function useContainerOffset(container) {
  * @param containerOffset
  * @param props
  */
-function useFixed(offset: Offset, containerOffset: Offset, props: AffixProps) {
+function useFixed(offset: Offset | null, containerOffset: Offset | null, props: AffixProps) {
   const { top, onChange } = props;
   const [fixed, setFixed] = useState<boolean>(false);
 
@@ -65,12 +65,13 @@ function useFixed(offset: Offset, containerOffset: Offset, props: AffixProps) {
     const scrollY = window.scrollY || window.pageYOffset;
 
     // When the scroll distance exceeds the element's top value, it is fixed.
-    let nextFixed = scrollY - (offset.top - top) >= 0;
+    let nextFixed = scrollY - (Number(offset.top) - Number(top)) >= 0;
 
     // If the current element is specified in the container,
     // add to determine whether the current container is in the window range.
     if (containerOffset) {
-      nextFixed = nextFixed && scrollY < containerOffset.top + containerOffset.height;
+      nextFixed =
+        nextFixed && scrollY < Number(containerOffset.top) + Number(containerOffset.height);
     }
 
     if (nextFixed !== fixed) {
@@ -108,7 +109,7 @@ const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef(
       [withClassPrefix()]: fixed
     });
 
-    const placeholderStyles = fixed ? { width: offset.width, height: offset.height } : undefined;
+    const placeholderStyles = fixed ? { width: offset?.width, height: offset?.height } : undefined;
     const fixedStyles: React.CSSProperties = {
       position: 'fixed',
       top,
@@ -117,7 +118,7 @@ const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef(
       zIndex: 10
     };
 
-    const affixStyles = fixed ? fixedStyles : null;
+    const affixStyles = fixed ? fixedStyles : undefined;
 
     return (
       <Component {...rest} ref={mergeRefs(mountRef, ref)}>

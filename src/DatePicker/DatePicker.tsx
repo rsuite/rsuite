@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import isNil from 'lodash/isNil';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
@@ -43,7 +44,7 @@ export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
     FormControlBaseProps<Date> {
   /** Configure shortcut options */
-  ranges?: RangeType[];
+  ranges?: RangeType<Date>[];
 
   /** Calendar panel default presentation date and time */
   calendarDefaultDate?: Date;
@@ -173,7 +174,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     );
     const { merge, prefix } = useClassNames(classPrefix);
 
-    const [value, setValue] = useControlled<Date>(valueProp, defaultValue);
+    const [value, setValue] = useControlled(valueProp, defaultValue);
     const { calendarDate, setCalendarDate } = useCalendarDate(valueProp, calendarDefaultDate);
     const [inputState, setInputState] = useState<InputState>();
     const { calendarState, reset, openMonth, openTime } = useCalendarState();
@@ -261,7 +262,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const updateValue = useCallback(
       (event: React.SyntheticEvent, nextPageDate?: Date | null, closeOverlay = true) => {
-        const nextValue: Date = typeof nextPageDate !== 'undefined' ? nextPageDate : calendarDate;
+        const nextValue: Date = !isNil(nextPageDate) ? nextPageDate : calendarDate;
 
         setCalendarDate(nextValue || new Date());
         setValue(nextValue);
@@ -282,7 +283,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * The callback triggered after the date in the shortcut area is clicked.
      */
     const handleShortcutPageDate = useCallback(
-      (value: Date, closeOverlay?: boolean, event?: React.SyntheticEvent) => {
+      (value: Date, closeOverlay: boolean, event: React.SyntheticEvent) => {
         updateValue(event, value, closeOverlay);
         handleDateChange(value, event);
       },
@@ -372,7 +373,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [formatStr, handleDateChange, oneTap, calendarDate, setCalendarDate, updateValue]
     );
 
-    const disabledDate = useCallback((date?: Date) => disabledDateProp?.(date), [disabledDateProp]);
+    const disabledDate = useCallback(
+      (date: Date): boolean => disabledDateProp?.(date) ?? false,
+      [disabledDateProp]
+    );
 
     /**
      * Callback after the input box value is changed.
@@ -437,7 +441,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     // Check whether the time is within the time range of the shortcut option in the toolbar.
     const disabledToolbarHandle = useCallback(
-      (date?: Date): boolean => {
+      (date: Date): boolean => {
         const allowDate = disabledDateProp?.(date) ?? false;
         const allowTime = DateUtils.disabledTime(props, date);
 
@@ -455,7 +459,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           ),
           disabledOrHiddenTimeFunc =>
             (next: number, date: Date): boolean =>
-              disabledOrHiddenTimeFunc(next, date)
+              disabledOrHiddenTimeFunc?.(next, date) ?? false
         ),
       [props]
     );

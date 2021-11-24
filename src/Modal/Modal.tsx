@@ -124,7 +124,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   }, [backdrop]);
 
   const handleExited = useCallback(
-    (node?: Element | Text | null) => {
+    (node: HTMLElement) => {
       onExited?.(node);
       onDestroyEvents();
       transitionEndListener.current?.off();
@@ -133,7 +133,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   );
 
   const handleEntered = useCallback(
-    (node?: Element | Text | null) => {
+    (node: HTMLElement) => {
       onEntered?.(node);
       onChangeBodyStyles();
     },
@@ -141,7 +141,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   );
 
   const handleEntering = useCallback(
-    (node?: Element | Text | null) => {
+    (node: HTMLElement) => {
       onEntering?.(node);
       onChangeBodyStyles(true);
     },

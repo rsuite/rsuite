@@ -60,10 +60,10 @@ const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps
     [onExpand]
   );
 
-  const items = [];
+  const items: React.ReactElement[] = [];
   const count = React.Children.count(children);
   if (count) {
-    React.Children.forEach(children, (item, index) => {
+    React.Children.forEach(children as React.ReactElement[], (item, index) => {
       items.push(item);
       if (index < count - 1) {
         items.push(renderSeparator(index));

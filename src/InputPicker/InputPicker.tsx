@@ -646,7 +646,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       const classes = merge(className, menuClassName, prefix(menuClassPrefix));
       const styles = { ...menuStyle, left, top };
 
-      let items = filterNodesOfTree(getAllData(), checkShouldDisplay);
+      let items: ItemDataType[] = filterNodesOfTree(getAllData(), checkShouldDisplay);
 
       if (creatable && searchKeyword && !items.find(item => item[valueKey] === searchKeyword)) {
         items = [...items, createOption(searchKeyword)];

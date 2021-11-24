@@ -600,7 +600,6 @@ Uploader.propTypes = {
   onRemove: PropTypes.func,
   maxPreviewFileSize: PropTypes.number,
   style: PropTypes.object,
-  toggleAs: PropTypes.elementType,
   renderFileInfo: PropTypes.func,
   renderThumbnail: PropTypes.func,
   removable: PropTypes.bool,

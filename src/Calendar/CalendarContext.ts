@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { CalendarContextValue } from './types';
 
-const CalendarContext = React.createContext<CalendarContextValue>(null);
+const CalendarContext = React.createContext<CalendarContextValue>({} as any);
 
 export default CalendarContext;
 

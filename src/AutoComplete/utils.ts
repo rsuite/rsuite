@@ -20,7 +20,7 @@ export function transformData(data: any[]) {
 }
 
 export const shouldDisplay = (
-  filterBy: (value: string, item: ItemDataType) => boolean,
+  filterBy: ((value: string, item: ItemDataType) => boolean) | undefined,
   value: any
 ) => {
   return (item: any) => {
