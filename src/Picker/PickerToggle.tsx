@@ -106,7 +106,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
         setActive(true);
         onFocus?.(event);
         if (input) {
-          inputRef.current.focus();
+          inputRef.current?.focus();
         }
       },
       [input, onFocus]
