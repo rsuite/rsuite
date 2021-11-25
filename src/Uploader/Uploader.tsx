@@ -215,7 +215,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
 
   handleAjaxUploadError = (
     file: FileType,
-    status: object,
+    response: object,
     event: React.SyntheticEvent<any>,
     xhr: XMLHttpRequest
   ) => {
@@ -224,7 +224,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
       status: 'error'
     };
     this.updateFileList(nextFile, () => {
-      this.props.onError?.(status, nextFile, event, xhr);
+      this.props.onError?.(response, nextFile, event, xhr);
     });
   };
 
@@ -284,7 +284,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
       fileList: nextFileList
     };
 
-    if (nextFile.progress) {
+    if (nextFile.progress || nextFile.status === 'error') {
       const { fileMap } = this.state;
 
       fileMap[nextFile.fileKey] = {
