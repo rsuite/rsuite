@@ -1,3 +1,15 @@
+## [5.2.3](https://github.com/rsuite/rsuite/compare/v5.2.2...v5.2.3) (2021-11-26)
+
+### Bug Fixes
+
+- **useElementResize:** fix ResizeObserver being created repeatedly ([#2161](https://github.com/rsuite/rsuite/issues/2161)) ([32e2fa7](https://github.com/rsuite/rsuite/commit/32e2fa76a396945498f198d176b630ac09a4e20d))
+- focus handler ([#2154](https://github.com/rsuite/rsuite/issues/2154)) ([3b17fbc](https://github.com/rsuite/rsuite/commit/3b17fbcae6da59ca58788c6b3aa60d79692dffa1))
+- **TagPicker:** fix tag misplacement in plaintext mode ([#2152](https://github.com/rsuite/rsuite/issues/2152)) ([6d32c71](https://github.com/rsuite/rsuite/commit/6d32c714e1b9be743d57b3ae4f1622d006e0f52c))
+
+### Performance Improvements
+
+- **Menu:** prevent uneccesary re-render when mouseove on menuitems ([#2148](https://github.com/rsuite/rsuite/issues/2148)) ([dc06498](https://github.com/rsuite/rsuite/commit/dc0649822fd68964281f44c4ec2daf84953edc63))
+
 ## [5.2.2](https://github.com/rsuite/rsuite/compare/v5.2.1...v5.2.2) (2021-11-19)
 
 ### Bug Fixes
