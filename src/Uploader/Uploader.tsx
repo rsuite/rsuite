@@ -284,7 +284,7 @@ class Uploader extends React.Component<UploaderProps, UploaderState> {
       fileList: nextFileList
     };
 
-    if (nextFile.progress) {
+    if (nextFile.progress || nextFile.status === 'error') {
       const { fileMap } = this.state;
 
       fileMap[nextFile.fileKey] = {
