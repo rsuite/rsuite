@@ -15,10 +15,11 @@ export default function useElementResize(
   const resizeObserver = useRef<ResizeObserver>();
 
   useEffect(() => {
-    const target = typeof eventTarget === 'function' ? eventTarget() : eventTarget;
-
-    resizeObserver.current = new ResizeObserver(listener);
-    resizeObserver.current.observe(target);
+    if (!resizeObserver.current) {
+      const target = typeof eventTarget === 'function' ? eventTarget() : eventTarget;
+      resizeObserver.current = new ResizeObserver(listener);
+      resizeObserver.current.observe(target);
+    }
 
     return () => {
       resizeObserver.current?.disconnect();
