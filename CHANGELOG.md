@@ -1,3 +1,13 @@
+<a name="4.10.5"></a>
+## [4.10.5](https://github.com/rsuite/rsuite/compare/v4.10.4...v4.10.5) (2021-11-26)
+
+
+### Bug Fixes
+
+* **Uploader:** uploader fileMap is not updated when status is error ([#2158](https://github.com/rsuite/rsuite/issues/2158)) ([7d80b55](https://github.com/rsuite/rsuite/commit/7d80b55))
+
+
+
 <a name="4.10.4"></a>
 ## [4.10.4](https://github.com/rsuite/rsuite/compare/4.10.3...4.10.4) (2021-10-22)
 
