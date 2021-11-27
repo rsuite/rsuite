@@ -162,6 +162,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       return renderDropdownItem({
         ref,
         className: merge(prefix('panel'), className),
+        children,
         ...restProps
       });
     }

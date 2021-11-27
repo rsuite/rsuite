@@ -44,14 +44,15 @@ describe('<Dropdown.Item>', () => {
     expect(getByTestId('item')).to.have.class('rs-dropdown-item-divider');
   });
 
-  it('Should render a panel', () => {
+  it('Should render a panel with given content', () => {
+    const content = 'Signed in as Foobar';
     const { getByTestId } = render(
-      <Dropdown>
-        <DropdownItem panel data-testid="item" />
-      </Dropdown>
+      <DropdownItem panel data-testid="dropdown-item">
+        {content}
+      </DropdownItem>
     );
-
-    expect(getByTestId('item')).to.have.class('rs-dropdown-item-panel');
+    expect(getByTestId('dropdown-item')).to.have.class('rs-dropdown-item-panel');
+    expect(getByTestId('dropdown-item')).to.have.text(content);
   });
 
   it('Should be active', () => {

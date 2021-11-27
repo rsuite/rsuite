@@ -315,7 +315,7 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 | rowExpandedHeight        | number `(100)`                                                                    | 设置可展开区域的高度                                         |
 | rowHeight                | (rowData:object) => number, number`(46)`                                          | 行高                                                         |
 | rowKey                   | string `('key')`                                                                  | 每一个行对应的 `data` 中的唯一 `key`                         |
-| shouldUpdateScroll       | boolean`(true)`                                                                   | 数据更新后更新滚动条位置                                     |
+| shouldUpdateScroll       | boolean,(event)=>({x,y}) `(true)`                                                 | 使用返回值来判断在 Table 尺寸更新后是否更新滚动              |
 | showHeader               | boolean `(true)`                                                                  | 显示表头                                                     |
 | sortColumn               | string                                                                            | 排序列名称                                                   |
 | sortType                 | enum: 'desc', 'asc'                                                               | 排序类型（受控）                                             |

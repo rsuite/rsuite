@@ -349,4 +349,25 @@ describe('SelectPicker', () => {
       assert.equal(document.activeElement, pickerRef.current.overlay.querySelector('input'));
     });
   });
+
+  describe('Plain text', () => {
+    it("Should render selected option's label", () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <SelectPicker data={data} value="Eugenia" plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Eugenia');
+    });
+    it('Should render "Not selected" if value is empty', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <SelectPicker data={data} value={null} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Not selected');
+    });
+  });
 });

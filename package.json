@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "5.2.1",
+  "version": "5.2.3",
   "description": "A suite of react components",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.8.4",
+    "@juggle/resize-observer": "^3.3.1",
     "@rsuite/icons": "^1.0.2",
     "@types/chai": "^4.2.18",
     "@types/lodash": "^4.14.134",
@@ -58,11 +59,10 @@
     "classnames": "^2.3.1",
     "date-fns": "^2.13.0",
     "dom-lib": "^3.0.0",
-    "element-resize-event": "^3.0.6",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react-virtualized": "^9.22.3",
-    "rsuite-table": "^5.0.3",
+    "rsuite-table": "^5.2.1",
     "schema-typed": "^2.0.2"
   },
   "peerDependencies": {

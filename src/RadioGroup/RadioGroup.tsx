@@ -79,7 +79,7 @@ const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwa
     return (
       <RadioContext.Provider value={contextValue}>
         {plaintext ? (
-          <Plaintext ref={ref} localeKey="notSelected">
+          <Plaintext ref={ref} localeKey="notSelected" {...rest}>
             {value ? children : null}
           </Plaintext>
         ) : (

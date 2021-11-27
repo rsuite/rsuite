@@ -203,4 +203,26 @@ describe('Rate', () => {
 
     assert.equal(ref.current.root.querySelectorAll('[aria-checked="false"]').length, 5);
   });
+
+  describe('Plain text', () => {
+    it('Should render current value and max value', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <Rate value={1} max={5} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('1(5)');
+    });
+
+    it('Should render "Not selected" if value is empty', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <Rate value={null} max={5} plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Not selected');
+    });
+  });
 });

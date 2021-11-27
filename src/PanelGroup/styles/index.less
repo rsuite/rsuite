@@ -14,21 +14,21 @@
   }
 
   // Panel in Panel group haven't border.
-  .rs-panel {
+  > .rs-panel {
     border: none;
-  }
 
-  // Draw a split line for panel
-  .rs-panel + .rs-panel {
-    position: relative;
+    // Draw a split line for panel
+    & + .rs-panel {
+      position: relative;
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      border-top: 1px solid var(--rs-border-primary);
-      left: 20px;
-      right: 20px;
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        border-top: 1px solid var(--rs-border-primary);
+        left: 20px;
+        right: 20px;
+      }
     }
   }
 }

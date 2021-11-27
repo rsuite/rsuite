@@ -1,81 +1,19 @@
 # 在 Next.js 中使用
 
-Next.js 是一个轻量级的 React 服务端渲染应用框架。
+在你的 `_app.js` (或 `_app.tsx`) 中引入 rsuite 的样式。
 
-## 初始化一个项目
+```jsx
+import 'rsuite/dist/rsuite.min.css';
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
 
-```bash
-$ npx create-next-app
+function MyApp({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
+}
+export default MyApp;
 ```
 
-如果您使用 npm 5.1 或更早版本，您不能使用 npx。执行以下命令代替：
-
-```
-$ npm install -g create-next-app
-$ create-next-app
-```
-
-然后执行
-
-```bash
-$ yarn dev
-```
-
-浏览器打开 `http://localhost:3000/`，当您看到 `Welcome to Next.js!` 页面就是安装成功了。
-
-## 配置 next.config.js
-
-Next.js 在 10，11 版本中不支持 [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less), 我们需要通过 webpack 的 less-loader 来编译 less 样式文件。
-
-安装依赖:
-
-```
-$ yarn add webpack less less-loader css-loader mini-css-extract-plugin --dev
-```
-
-参考以下配置:
-
-```js
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-module.exports = {
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.(le|c)ss$/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        {
-          loader: 'css-loader'
-        },
-        {
-          loader: 'less-loader',
-          options: {
-            sourceMap: true,
-            lessOptions: {
-              javascriptEnabled: true
-            }
-          }
-        }
-      ]
-    });
-
-    config.plugins.push(
-      new MiniCssExtractPlugin({
-        filename: 'static/css/[name].css',
-        chunkFilename: 'static/css/[contenthash].css'
-      })
-    );
-
-    return config;
-  }
-};
-```
-
-### 使用 rsuite
-
-```
-$ yarn add rsuite
-```
+> **_注意:_** 引入样式的顺序很重要！当有样式冲突时，后引入的样式会覆盖先引入的样式。
 
 然后编辑`./pages/index.js` 文件，修改为:
 
@@ -122,17 +60,9 @@ const Home = () => (
 export default Home;
 ```
 
-然后重新执行
-
-```bash
-$ yarn dev
-```
-
-在浏览器中访问 `http://localhost:3000/`，就可以看到应用 React Suite 的页面了，接下来就开始您的开发之旅。
-
 ## 导航组件与 Link 组合
 
-在 rsuite 组件中有一些导航组件，比如 `Dropdown`、`Nav`、`Breadcrumb`，在与 `Next.js` 的 `Link`组件组合使用的时候，需要用到 `renderItem` 方法。
+在 rsuite 组件中有一些导航组件，比如 `Dropdown`、`Nav`、`Breadcrumb`，在与 `Next.js` 的 `Link`组件组合使用的时候，需要用到 `as` 属性
 
 ```jsx
 import Link from 'next/link';
@@ -161,6 +91,55 @@ return () => {
   );
 };
 ```
+
+## 使用 Less
+
+Next.js 在版本 10、11 中已移除了对 [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less) 的支持，仅支持 [Sass](https://sass-lang.com/) 作为 CSS 预处理器。
+因此，如果你需要使用 Less 来自定义 rsuite 样式，你需要为你的 Next.js 项目添加 Less 支持。
+
+首先，安装所需的 webpack loader 和插件。
+
+```
+$ npm i -D less less-loader css-loader mini-css-extract-plugin
+```
+
+接着，在 `next.config.js` 中更新 webpack 配置。
+
+```js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.(le|c)ss$/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader'
+        },
+        {
+          loader: 'less-loader',
+          options: {
+            sourceMap: true
+          }
+        }
+      ]
+    });
+
+    config.plugins.push(
+      new MiniCssExtractPlugin({
+        filename: 'static/css/[name].css',
+        chunkFilename: 'static/css/[contenthash].css'
+      })
+    );
+
+    return config;
+  }
+};
+```
+
+> **_注意:_** 自定义与样式表有关的 webpack 配置会停用 Next.js [内建的 CSS 与 Sass 支持](https://nextjs.org/docs/basic-features/built-in-css-support)。
+> 因此，如果你同时需要使用 Less 和 Sass，你必须自己设置 webpack 来支持 Sass。
 
 ## 示例
 

@@ -17,7 +17,6 @@ module.exports = {
   parserOptions: {},
   plugins: ['@typescript-eslint', 'react'],
   rules: {
-    quotes: [ERROR, 'single'],
     semi: [ERROR, 'always'],
     'space-infix-ops': ERROR,
     'prefer-spread': ERROR,

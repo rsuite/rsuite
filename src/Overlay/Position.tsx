@@ -6,7 +6,6 @@ import React, {
   useCallback,
   useImperativeHandle
 } from 'react';
-import bindElementResize from 'element-resize-event';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import getContainer from 'dom-lib/getContainer';
@@ -15,6 +14,7 @@ import removeClass from 'dom-lib/removeClass';
 import on from 'dom-lib/on';
 import addClass from 'dom-lib/addClass';
 import addStyle from 'dom-lib/addStyle';
+import { ResizeObserver } from '@juggle/resize-observer';
 import isElement from '../DOMHelper/isElement';
 import positionUtils, { PositionType } from './positionUtils';
 import { getDOMNode } from '../utils';
@@ -48,8 +48,11 @@ const usePosition = (
     container,
     triggerTarget
   } = props;
+
   const containerRef = useRef<Element | null>(null);
   const lastTargetRef = useRef<Element | null>(null);
+  const overlayResizeObserver = useRef<ResizeObserver>();
+
   const defaultPosition = {
     positionLeft: 0,
     positionTop: 0,
@@ -132,13 +135,15 @@ const usePosition = (
 
     if (overlay) {
       // Update the position when the size of the overlay changes
-      bindElementResize(overlay, () => updatePosition(true, true));
+      overlayResizeObserver.current = new ResizeObserver(() => updatePosition(true, true));
+      overlayResizeObserver.current.observe(overlay);
     }
 
     return () => {
       lastTargetRef.current = null;
       containerScrollListener?.off();
       resizeListener?.off();
+      overlayResizeObserver.current?.disconnect();
     };
   }, [preventOverflow, ref, updatePosition]);
 

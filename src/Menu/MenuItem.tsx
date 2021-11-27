@@ -63,7 +63,7 @@ function MenuItem(props: MenuItemProps) {
   // Gain/release focus on mousedown in `menubar`
 
   const handleMouseDown = useCallback(() => {
-    if (!isNil(menuitemRef.current)) {
+    if (!isNil(menuitemRef.current) && !hasFocus) {
       dispatch({
         type: MenuActionTypes.MoveFocus,
         to: MoveFocusTo.Specific,
@@ -74,15 +74,14 @@ function MenuItem(props: MenuItemProps) {
 
   // Gain/release focus on mouseenter/mouseleave in `menu`
   const handleMouseMove = useCallback(() => {
-    // todo Should we use event.target instead of menuitemRef.current?
-    if (!isNil(menuitemRef.current)) {
+    if (!isNil(menuitemRef.current) && !hasFocus) {
       dispatch({
         type: MenuActionTypes.MoveFocus,
         to: MoveFocusTo.Specific,
         id: menuitemRef.current.id
       });
     }
-  }, [dispatch]);
+  }, [hasFocus, dispatch]);
 
   const handleMouseLeave = useCallback(() => {
     dispatch({

@@ -741,7 +741,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       // TagPicker has -6px margin-left on the plaintext wrapper
       // for fixing margin-left on tags from 2nd line on
-      if (multi) {
+      if (multi && hasValue) {
         plaintextProps.style = {
           marginLeft: -6
         };

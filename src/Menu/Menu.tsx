@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from 'react';
+import React, { useCallback, useContext, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import MenuContext, { MenuActionTypes, MenuContextProps, MoveFocusTo } from './MenuContext';
@@ -82,7 +82,7 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
     ? null
     : items[activeItemIndex]?.element;
 
-  const menuFocus = useFocus(menuElementRef);
+  const { grab: grabFocus } = useFocus(menuElementRef);
 
   const openMenu = useCallback(
     (event: React.SyntheticEvent) => {
@@ -98,9 +98,9 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
       }
       onToggleMenu?.(true, event);
 
-      menuFocus.grab();
+      grabFocus();
     },
-    [dispatch, onToggleMenu, menuFocus]
+    [dispatch, onToggleMenu, grabFocus]
   );
 
   const closeMenu = useCallback(
@@ -206,44 +206,54 @@ function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
     },
     [open, disabled, openMenu]
   );
+  const buttonEventHandlers: React.ButtonHTMLAttributes<HTMLButtonElement> = useMemo(() => {
+    const buttonEventHandlers: React.ButtonHTMLAttributes<HTMLButtonElement> = {
+      onKeyDown: handleButtonKeydown
+    };
 
-  const buttonEventHandlers: React.ButtonHTMLAttributes<HTMLButtonElement> = {
-    onKeyDown: handleButtonKeydown
-  };
+    /**
+     * Bind event of trigger,
+     * not used in  in the expanded state of '<Sidenav>'
+     */
+    if (openMenuOn?.includes('click')) {
+      buttonEventHandlers.onClick = handleButtonClick;
+    }
 
-  /**
-   * Bind event of trigger,
-   * not used in  in the expanded state of '<Sidenav>'
-   */
-  if (openMenuOn?.includes('click')) {
-    buttonEventHandlers.onClick = handleButtonClick;
-  }
+    if (openMenuOn?.includes('contextmenu')) {
+      buttonEventHandlers.onContextMenu = handleButtonContextMenu;
+    }
 
-  if (openMenuOn?.includes('contextmenu')) {
-    buttonEventHandlers.onContextMenu = handleButtonContextMenu;
-  }
+    return buttonEventHandlers;
+  }, [openMenuOn, handleButtonKeydown, handleButtonClick, handleButtonContextMenu]);
 
   const buttonId = useUniqueId('menubutton-');
   const menuId = useUniqueId('menu-');
 
-  // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-14
-  const buttonAriaAttributes: React.ButtonHTMLAttributes<HTMLButtonElement> = {
-    role: 'button',
-    'aria-haspopup': 'menu' as const,
-    'aria-expanded': open || undefined, // it's recommend to remove aria-expanded when menu is hidden
-    'aria-controls': menuId
-  };
+  const buttonAriaAttributes: React.ButtonHTMLAttributes<HTMLButtonElement> = useMemo(() => {
+    // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#wai-aria-roles-states-and-properties-14
+    return {
+      role: 'button',
+      'aria-haspopup': 'menu' as const,
+      'aria-expanded': open || undefined, // it's recommend to remove aria-expanded when menu is hidden
+      'aria-controls': menuId
+    };
+  }, [open, menuId]);
 
-  const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> & MenuButtonRenderProps = {
-    id: buttonId,
-    ...buttonAriaAttributes,
-    ...buttonEventHandlers,
+  const buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement> & MenuButtonRenderProps =
+    useMemo(() => {
+      return {
+        id: buttonId,
+        ...buttonAriaAttributes,
+        ...buttonEventHandlers,
 
-    // render props
-    open
-  };
+        // render props
+        open
+      };
+    }, [buttonId, buttonAriaAttributes, buttonEventHandlers, open]);
 
-  const customMenuButton = renderMenuButton?.(buttonProps, buttonElementRef);
+  const customMenuButton = useMemo(() => {
+    return renderMenuButton?.(buttonProps, buttonElementRef);
+  }, [renderMenuButton, buttonProps, buttonElementRef]);
 
   const buttonElement = customMenuButton ?? (
     <button ref={buttonElementRef} {...buttonProps}>
