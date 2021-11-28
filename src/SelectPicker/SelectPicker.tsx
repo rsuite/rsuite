@@ -282,23 +282,45 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    let hasValue = !!activeItem || (!isNil(value) && isFunction(renderValue));
+    let hasValue = !isNil(value);
 
     const { prefix, merge } = useClassNames(classPrefix);
 
-    let selectedElement: React.ReactNode = placeholder;
+    const renderToggle = () => {
+      let selectedElement: React.ReactNode;
 
-    if (activeItem?.[labelKey]) {
-      selectedElement = activeItem[labelKey];
-    }
-
-    if (!isNil(value) && isFunction(renderValue)) {
-      selectedElement = renderValue(value, activeItem!, selectedElement);
-      // If renderValue returns null or undefined, hasValue is false.
-      if (isNil(selectedElement)) {
-        hasValue = false;
+      if (activeItem?.[labelKey]) {
+        selectedElement = activeItem[labelKey];
       }
-    }
+
+      if (!isNil(value) && isFunction(renderValue)) {
+        selectedElement = renderValue(value, activeItem!, selectedElement);
+        // If renderValue returns null or undefined, hasValue is false.
+        if (isNil(selectedElement)) {
+          hasValue = false;
+        }
+      }
+
+      return (
+        <PickerToggle
+          {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
+          id={id}
+          ref={targetRef}
+          appearance={appearance}
+          onClean={createChainedFunction(handleClean, onClean)}
+          onKeyDown={onPickerKeyDown}
+          as={toggleAs}
+          disabled={disabled}
+          cleanable={cleanable && !disabled}
+          hasValue={hasValue}
+          inputValue={value}
+          active={active}
+          placement={placement}
+        >
+          {hasValue ? selectedElement ?? value : placeholder ?? locale?.placeholder}
+        </PickerToggle>
+      );
+    };
 
     const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
@@ -381,23 +403,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
         speaker={renderDropdownMenu}
       >
         <Component className={classes} style={style}>
-          <PickerToggle
-            {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-            id={id}
-            ref={targetRef}
-            appearance={appearance}
-            onClean={createChainedFunction(handleClean, onClean)}
-            onKeyDown={onPickerKeyDown}
-            as={toggleAs}
-            disabled={disabled}
-            cleanable={cleanable && !disabled}
-            hasValue={hasValue}
-            inputValue={value}
-            active={active}
-            placement={placement}
-          >
-            {selectedElement || locale?.placeholder}
-          </PickerToggle>
+          {renderToggle()}
         </Component>
       </PickerToggleTrigger>
     );

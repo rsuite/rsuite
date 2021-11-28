@@ -150,9 +150,10 @@ describe('SelectPicker', () => {
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
-  it('Should render a placeholder when value error', () => {
-    const instance = getDOMNode(<SelectPicker value={2} placeholder={'test'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
+  it('Should render given value even if no matching options exist in data', () => {
+    const { getByRole } = render(<SelectPicker data={data} value="Alien" />);
+
+    expect(getByRole('combobox')).to.have.text('Alien');
   });
 
   it('Should call `onChange` callback with correct value', done => {
@@ -320,25 +321,32 @@ describe('SelectPicker', () => {
     assert.ok(list[0].textContent, 'Louisa');
   });
 
-  it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<SelectPicker value="Test" renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<SelectPicker value="Test" renderValue={() => null} />);
-    const instance3 = getDOMNode(<SelectPicker value="Test" renderValue={() => undefined} />);
+  it('Should render custom dom returned from `renderValue`', () => {
+    const renderValueSpy = sinon.spy(() => '1');
 
-    assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+    const { getByRole } = render(
+      <SelectPicker data={data} value="Eugenia" renderValue={renderValueSpy} />
+    );
 
-    assert.include(instance1.className, 'rs-picker-has-value');
-    assert.notInclude(instance2.className, 'rs-picker-has-value');
-    assert.notInclude(instance3.className, 'rs-picker-has-value');
+    expect(renderValueSpy).to.have.been.calledWith('Eugenia');
+    expect(getByRole('combobox')).to.have.text('1');
+  });
+
+  it('Should display placeholder if `renderValue` returns nil', () => {
+    const { getByRole, rerender } = render(
+      <SelectPicker data={data} value="Eugenia" renderValue={() => null} />
+    );
+    expect(getByRole('combobox')).to.have.text('Select');
+
+    rerender(<SelectPicker data={data} value="Eugenia" renderValue={() => undefined} />);
+    expect(getByRole('combobox')).to.have.text('Select');
   });
 
   it('Children should not be selected', () => {
     const data = [{ value: 1, label: 'A', children: [{ value: 2, label: 'B' }] }];
-    const instance = getDOMNode(<SelectPicker data={data} value={2} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
-    assert.notInclude(instance.className, 'rs-picker-has-value');
+    const { getByRole } = render(<SelectPicker data={data} value={2} />);
+
+    expect(getByRole('combobox')).not.to.have.text('B');
   });
 
   it('Should focus the search box', () => {
