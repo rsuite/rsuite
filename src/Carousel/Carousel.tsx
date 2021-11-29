@@ -18,7 +18,7 @@ export interface CarouselProps extends WithAsProps {
   shape?: 'dot' | 'bar';
 
   /** Callback fired when the active item changes */
-  onSelect: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSelect?: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
 
   /** Callback fired when a slide transition starts */
   onSlideStart?: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
