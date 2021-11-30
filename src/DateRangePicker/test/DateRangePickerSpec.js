@@ -502,6 +502,62 @@ describe('DateRangePicker', () => {
     assert.equal(format(onChangeSpy.firstCall.firstArg[1], 'dd/MM/yyyy'), '09/11/2021');
   });
 
+  it('Should be show meridian', () => {
+    const instance = getInstance(
+      <DateRangePicker
+        value={[parseISO('2017-08-14 13:00:00'), parseISO('2017-09-14 13:00:00')]}
+        format="dd MMM yyyy hh:mm:ss a"
+        defaultOpen
+        showMeridian
+      />
+    );
+    const picker = instance.overlay;
+
+    assert.equal(picker.querySelector('.rs-calendar-header-meridian').textContent, 'PM');
+    assert.equal(picker.querySelector('.rs-calendar-header-title-time').textContent, '01:00:00');
+    assert.equal(
+      picker.querySelector('.rs-calendar-time-dropdown-column').querySelectorAll('li').length,
+      12
+    );
+    assert.equal(picker.querySelector('.rs-calendar-time-dropdown-column li').textContent, '12');
+  });
+
+  it('Should keep AM PM unchanged', () => {
+    const instance = getInstance(
+      <DateRangePicker
+        value={[parseISO('2017-08-14 13:00:00'), parseISO('2017-09-14 13:00:00')]}
+        format="hh:mm:ss a"
+        defaultOpen
+        showMeridian
+      />
+    );
+
+    const picker = instance.overlay;
+
+    assert.equal(picker.querySelector('.rs-calendar-header-title-time').textContent, '01:00:00');
+
+    ReactTestUtils.Simulate.click(picker.querySelector('.rs-calendar-time-dropdown-cell'));
+
+    assert.equal(picker.querySelector('.rs-calendar-header-meridian').textContent, 'PM');
+    assert.equal(picker.querySelector('.rs-calendar-header-title-time').textContent, '12:00:00');
+  });
+
+  it('Should change AM/PM ', () => {
+    const instance = getInstance(
+      <DateRangePicker
+        value={[parseISO('2017-08-14 13:00:00'), parseISO('2017-09-14 13:00:00')]}
+        format="hh:mm:ss a"
+        defaultOpen
+        showMeridian
+      />
+    );
+
+    const meridian = instance.overlay.querySelector('.rs-calendar-header-meridian');
+    assert.equal(meridian.textContent, 'PM');
+    ReactTestUtils.Simulate.click(meridian);
+    assert.equal(meridian.textContent, 'AM');
+  });
+
   describe('Plain text', () => {
     it('Should render formatted date range', () => {
       const { getByTestId } = render(
