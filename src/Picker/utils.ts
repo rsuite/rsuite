@@ -591,7 +591,11 @@ export function usePublicMethods(ref, parmas: PickerDependentParameters) {
       },
       get list() {
         if (!listRef?.current) {
-          throw new Error('The list is not found, please set `virtualized` for the component.');
+          throw new Error(`
+            The list is not found.
+            1.Please set virtualized for the component.
+            2.Please confirm whether the picker is open.
+          `);
         }
         return listRef?.current;
       },
