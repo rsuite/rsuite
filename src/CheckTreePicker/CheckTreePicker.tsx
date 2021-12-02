@@ -491,7 +491,14 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ]
   );
 
-  usePublicMethods(ref, { triggerRef, overlayRef, targetRef }, inline);
+  usePublicMethods(ref, {
+    rootRef: inline ? treeViewRef : null,
+    triggerRef,
+    overlayRef,
+    targetRef,
+    listRef,
+    inline
+  });
 
   const handleClean = useCallback(
     (event: React.SyntheticEvent) => {
@@ -762,7 +769,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     return (
       <div
         id={id ? `${id}-listbox` : undefined}
-        ref={inline ? mergeRefs(treeViewRef, ref as any) : treeViewRef}
+        ref={treeViewRef}
         role="tree"
         aria-multiselectable
         className={classes}

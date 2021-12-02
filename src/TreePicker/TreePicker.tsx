@@ -526,7 +526,14 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     targetRef.current?.focus();
   }, [activeNode, setSearchKeyword, valueKey]);
 
-  usePublicMethods(ref, { triggerRef, overlayRef, targetRef }, inline);
+  usePublicMethods(ref, {
+    rootRef: inline ? treeViewRef : null,
+    triggerRef,
+    overlayRef,
+    targetRef,
+    listRef,
+    inline
+  });
 
   const handleFocusItem = useCallback(
     (key: string) => {
@@ -771,7 +778,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       <div
         role="tree"
         id={id ? `${id}-listbox` : undefined}
-        ref={inline ? mergeRefs(treeViewRef, ref as any) : treeViewRef}
+        ref={treeViewRef}
         className={classes}
         style={styles}
         onKeyDown={inline ? handleTreeKeyDown : undefined}

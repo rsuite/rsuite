@@ -15,6 +15,7 @@ import {
   placementPolyfill
 } from '../utils';
 import { TypeAttributes, ItemDataType } from '../@types/common';
+import { ListInstance } from './VirtualizedList';
 
 interface NodeKeys {
   valueKey: string;
@@ -525,32 +526,31 @@ export function useSearch(props: SearchProps) {
   };
 }
 
-interface Refs {
+interface PickerDependentParameters {
   triggerRef?: React.RefObject<OverlayTriggerInstance>;
-  rootRef?: React.RefObject<HTMLElement>;
+  rootRef?: React.RefObject<any>;
   overlayRef?: React.RefObject<HTMLElement>;
   targetRef?: React.RefObject<HTMLElement>;
+  listRef?: React.RefObject<ListInstance>;
+  inline?: boolean;
+}
+
+interface PickerInstance {
+  root?: Element;
+  list?: ListInstance;
+  overlay?: Element;
+  target?: Element;
+  updatePosition?: () => void;
+  open?: () => void;
+  close?: () => void;
 }
 
 /**
  * A hook of the exposed method of Picker
- *
- * {
- *   root: Element;
- *   overlay: Element;
- *   target?: Element;
- *   updatePosition:() => void;
- *   open:() => void;
- *   close:() => void;
- * }
- * @param ref
- * @param params
  */
-export function usePublicMethods(
-  ref,
-  { triggerRef, overlayRef, targetRef, rootRef }: Refs,
-  disabled?: boolean
-) {
+export function usePublicMethods(ref, parmas: PickerDependentParameters) {
+  const { triggerRef, overlayRef, targetRef, rootRef, listRef, inline } = parmas;
+
   const handleOpen = useCallback(() => {
     triggerRef.current?.open();
   }, [triggerRef]);
@@ -563,9 +563,23 @@ export function usePublicMethods(
     triggerRef.current?.updatePosition();
   }, [triggerRef]);
 
-  if (!disabled) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, (): PickerInstance => {
+    // Tree and CheckTree
+    if (inline) {
+      return {
+        get root() {
+          return rootRef?.current ? rootRef?.current : triggerRef.current?.root;
+        },
+        get list() {
+          if (!listRef?.current) {
+            throw new Error('The list is not found, please set `virtualized` for the component.');
+          }
+          return listRef?.current;
+        }
+      };
+    }
+
+    return {
       get root() {
         return rootRef?.current ? rootRef?.current : triggerRef.current?.root;
       },
@@ -575,9 +589,15 @@ export function usePublicMethods(
       get target() {
         return targetRef?.current;
       },
+      get list() {
+        if (!listRef?.current) {
+          throw new Error('The list is not found, please set `virtualized` for the component.');
+        }
+        return listRef?.current;
+      },
       updatePosition: handleUpdatePosition,
       open: handleOpen,
       close: handleClose
-    }));
-  }
+    };
+  });
 }
