@@ -8,7 +8,7 @@ import on from 'dom-lib/on';
 import ModalManager from './ModalManager';
 import Fade from '../Animation/Fade';
 import { animationPropTypes } from '../Animation/utils';
-import { mergeRefs, getDOMNode, usePortal, createChainedFunction, useWillUnmount } from '../utils';
+import { mergeRefs, usePortal, createChainedFunction, useWillUnmount } from '../utils';
 import { WithAsProps, AnimationEventProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface BaseModalProps extends WithAsProps, AnimationEventProps {
@@ -82,6 +82,12 @@ const useModalManager = () => {
   const modal = useRef({ dialog: null, backdrop: null });
 
   return {
+    get dialog() {
+      return modal.current?.dialog;
+    },
+    get backdrop() {
+      return modal.current?.backdrop;
+    },
     add: (containerElement: Element, containerClassName?: string) =>
       modalManager.add(modal.current, containerElement, containerClassName),
     remove: () => modalManager.remove(modal.current),
@@ -140,7 +146,6 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
 
     const mountModal = open || (Transition && !exited);
 
-    const rootRef = useRef<HTMLElement>();
     const lastFocus = useRef<HTMLElement>();
 
     const handleDocumentKeyUp = useCallback(
@@ -166,22 +171,18 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
       }
     }, []);
 
-    const getDialogElement = useCallback(() => {
-      return getDOMNode(rootRef.current) as HTMLElement;
-    }, []);
-
     const handleEnforceFocus = useCallback(() => {
       if (!enforceFocus || !modal.isTopModal()) {
         return;
       }
 
       const currentActiveElement = document.activeElement;
-      const dialog = getDialogElement();
+      const dialog = modal.dialog;
 
       if (dialog && dialog !== currentActiveElement && !contains(dialog, currentActiveElement)) {
         dialog.focus();
       }
-    }, [enforceFocus, getDialogElement, modal]);
+    }, [enforceFocus, modal]);
 
     const handleBackdropClick = useCallback(
       (event: React.MouseEvent) => {
@@ -201,7 +202,6 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
     const documentKeyupListener = useRef<{ off: () => void }>();
     const docusinListener = useRef<{ off: () => void }>();
     const handleOpen = useCallback(() => {
-      const dialog = getDialogElement();
       const containerElement = getContainer(container, document.body);
       modal.add(containerElement, containerClassName);
 
@@ -211,14 +211,13 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
       checkForFocus();
 
       if (autoFocus) {
-        dialog?.focus();
+        modal.dialog?.focus();
       }
     }, [
       autoFocus,
       checkForFocus,
       container,
       containerClassName,
-      getDialogElement,
       handleDocumentKeyUp,
       handleEnforceFocus,
       modal,
