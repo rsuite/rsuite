@@ -508,4 +508,31 @@ describe('TreePicker', () => {
     const node = instance.overlay.querySelector('.rs-tree-node');
     assert.equal(node.style.height, '28px');
   });
+
+  it('Should catch the not set virtualized exception', () => {
+    expect(() => {
+      const ref = React.createRef();
+      render(<TreePicker data={data} ref={ref} />);
+      ref.current.list;
+    }).to.throw(Error);
+  });
+
+  it('Should scroll the list by `scrollToRow`', () => {
+    const onScrollSpy = sinon.spy();
+    const ref = React.createRef();
+    render(
+      <TreePicker
+        data={data}
+        ref={ref}
+        virtualized
+        style={{ height: 30 }}
+        open
+        listProps={{
+          onScroll: onScrollSpy
+        }}
+      />
+    );
+    ref.current.list.scrollToRow(2);
+    assert.isTrue(onScrollSpy.calledOnce);
+  });
 });

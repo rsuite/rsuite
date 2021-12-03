@@ -1,5 +1,5 @@
 import React from 'react';
-import { getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import CheckTree from '../index';
 
 const data = [
@@ -29,9 +29,9 @@ const data = [
   }
 ];
 
-describe('Tree', () => {
+describe('CheckTree', () => {
   it('Should render a multi-selectable tree', () => {
-    const instance = getInstance(<CheckTree data={data} />);
+    const instance = getDOMNode(<CheckTree data={data} />);
 
     assert.include(instance.className, 'rs-check-tree');
     assert.equal(instance.getAttribute('role'), 'tree');
