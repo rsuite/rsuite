@@ -19,7 +19,6 @@
     "build": "npm run build:gulp && npm run dist && npm run build:types",
     "build:gulp": "gulp build --gulpfile scripts/gulpfile.js",
     "build:types": "npx tsc --emitDeclarationOnly --outDir lib/cjs && npx tsc --emitDeclarationOnly --outDir lib/esm",
-    "build:docs": "npm run build --prefix docs",
     "postbuild": "mocha test/validateBuilds.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "dist:analyze": "ANALYZE=true webpack --mode production --progress",
