@@ -10,7 +10,20 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { DatePickerLocale } from '../locales';
 import { DATERANGE_DISABLED_TARGET } from '../utils';
 
-type OmitCalendarCoreTypes = 'disabledDate' | 'onSelect' | 'onMouseMove' | 'calendarDate';
+type OmitCalendarCoreTypes =
+  | 'disabledDate'
+  | 'onSelect'
+  | 'onMouseMove'
+  | 'calendarDate'
+  | 'onToggleMeridian';
+
+/**
+ * Omit the time in the date, which is used to compare and judge the date.
+ * eg: isAfter/isBefore
+ */
+function omitTime(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
 
 export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, OmitCalendarCoreTypes> {
   calendarDate?: ValueType;
@@ -23,6 +36,7 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   locale?: DatePickerLocale;
   onChangeCalendarDate?: (index: number, date: Date) => void;
   onChangeCalendarTime?: (index: number, date: Date) => void;
+  onToggleMeridian: (index: number, event: React.MouseEvent) => void;
   onMouseMove?: (date: Date) => void;
   onSelect?: (date: Date, event?: React.SyntheticEvent) => void;
   showOneCalendar?: boolean;
@@ -41,6 +55,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       limitEndYear,
       onChangeCalendarDate,
       onChangeCalendarTime,
+      onToggleMeridian,
       showOneCalendar,
       value = [],
       ...rest
@@ -76,6 +91,13 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       [index, onChangeCalendarTime]
     );
 
+    const handleToggleMeridian = useCallback(
+      (event: React.MouseEvent) => {
+        onToggleMeridian(index, event);
+      },
+      [index, onToggleMeridian]
+    );
+
     const toggleMonthDropdown = useCallback(() => {
       setCalendarState(
         calendarState === CalendarState.DROP_MONTH ? undefined : CalendarState.DROP_MONTH
@@ -104,22 +126,32 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
     }, [getCalendarDate, onMoveBackward]);
 
     const disabledBackward = useCallback(() => {
-      const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
-
+      // Do not disable the Backward button on the first calendar.
       if (index === 0) {
         return false;
       }
+
+      const startDate = setDate(addMonths(calendarDate[0], 1), 1);
+      const endDate = setDate(omitTime(calendarDate[1]), 1);
+      const after = isAfter(endDate, startDate);
 
       return !after;
     }, [calendarDate, index]);
 
     const disabledForward = useCallback(() => {
-      if (showOneCalendar) return false;
-      const after = isAfter(setDate(calendarDate[1], 1), setDate(addMonths(calendarDate[0], 1), 1));
+      // If only one calendar is displayed, do not disable
+      if (showOneCalendar) {
+        return false;
+      }
 
+      // Do not disable the Forward button on the second calendar.
       if (index === 1) {
         return false;
       }
+
+      const startDate = setDate(addMonths(omitTime(calendarDate[0]), 1), 1);
+      const endDate = setDate(omitTime(calendarDate[1]), 1);
+      const after = isAfter(endDate, startDate);
 
       return !after;
     }, [calendarDate, index, showOneCalendar]);
@@ -164,6 +196,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
         onMoveForward={handleMoveForward}
         onToggleMonthDropdown={toggleMonthDropdown}
         onToggleTimeDropdown={toggleTimeDropdown}
+        onToggleMeridian={handleToggleMeridian}
         calendarDate={getCalendarDate()}
         ref={ref}
       />

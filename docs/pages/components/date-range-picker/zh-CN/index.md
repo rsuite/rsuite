@@ -182,6 +182,7 @@ type DisabledDateFunction = (
 | -------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | appearance           | enum: 'default' &#124; 'subtle' `('default')`           | 设置外观                                                                        |
 | block                | boolean                                                 | 堵塞整行                                                                        |
+| caretAs              | ElementType                                             | 自定义右侧箭头图标的组件                                                        |
 | character            | string `(' ~ ')`                                        | 两个日期之间的分隔符                                                            |
 | cleanable            | boolean `(true)`                                        | 可以清除选择值                                                                  |
 | container            | HTMLElement &#124; (() => HTMLElement)                  | 设置渲染的容器                                                                  |
@@ -215,12 +216,12 @@ type DisabledDateFunction = (
 | preventOverflow      | boolean                                                 | 防止浮动元素溢出                                                                |
 | ranges               | Range `(Ranges)`                                        | 快捷项配置，默认 `今天`,`昨天`，`最近 7 天`                                     |
 | renderValue          | (value: ValueType, format: string) => ReactNode         | 自定义被选中的选项                                                              |
+| showMeridian         | boolean                                                 | 显示 12 小时制的时间格式                                                        |
 | showOneCalendar      | boolen                                                  | 显示一个日历                                                                    |
 | showWeekNumbers      | boolean                                                 | 显示周数量                                                                      |
 | size                 | enum: 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | 设置组件尺寸                                                                    |
 | toggleAs             | ElementType `('a')`                                     | 为组件自定义元素类型                                                            |
 | value                | ValueType                                               | 值 `受控`                                                                       |
-| caretAs              | ElementType                                             | 自定义右侧箭头图标的组件                                                        |
 
 ## Default
 

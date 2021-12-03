@@ -71,6 +71,9 @@ export interface DateRangePickerProps extends PickerBaseProps, FormControlBasePr
   /** Show only one calendar select */
   showOneCalendar?: boolean;
 
+  /** Meridian format */
+  showMeridian?: boolean;
+
   /** Set default date for calendar */
   defaultCalendarValue?: ValueType;
 
@@ -145,8 +148,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     renderValue,
     showOneCalendar = false,
     showWeekNumbers,
+    showMeridian,
     style,
-
     toggleAs,
     value: valueProp,
     onChange,
@@ -460,6 +463,29 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   );
 
   /**
+   * The callback triggered when PM/AM is switched.
+   */
+  const handleToggleMeridian = useCallback(
+    (index: number) => {
+      const next = Array.from(calendarDate) as ValueType;
+
+      const clonedDate = new Date(next[index].valueOf());
+      const hours = DateUtils.getHours(clonedDate);
+      const nextHours = hours >= 12 ? hours - 12 : hours + 12;
+
+      next[index] = DateUtils.setHours(clonedDate, nextHours);
+
+      setCalendarDate(next);
+
+      // If the value already exists, update the value again.
+      if (selectValue.length === 2) {
+        setSelectValue(next);
+      }
+    },
+    [calendarDate, selectValue]
+  );
+
+  /**
    * Toolbar operation callback function
    */
   const handleShortcutPageDate = useCallback(
@@ -657,10 +683,12 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       showOneCalendar,
       showWeekNumbers,
       value: selectValue,
+      showMeridian,
       onChangeCalendarDate: handleChangeCalendarDate,
       onChangeCalendarTime: handleChangeCalendarTime,
       onMouseMove: handleMouseMove,
-      onSelect: handleSelectValueChange
+      onSelect: handleSelectValueChange,
+      onToggleMeridian: handleToggleMeridian
     };
 
     return (
@@ -775,11 +803,12 @@ DateRangePicker.propTypes = {
   isoWeek: PropTypes.bool,
   oneTap: PropTypes.bool,
   limitEndYear: PropTypes.number,
-  showWeekNumbers: PropTypes.bool,
   onChange: PropTypes.func,
   onOk: PropTypes.func,
   disabledDate: PropTypes.func,
   onSelect: PropTypes.func,
+  showWeekNumbers: PropTypes.bool,
+  showMeridian: PropTypes.bool,
   showOneCalendar: PropTypes.bool
 };
 

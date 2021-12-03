@@ -14,7 +14,7 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 <!--{include:`basic.md`}-->
 
-### Date time or time
+### Date Time or Time
 
 <!--{include:`format-date-time.md`}-->
 
@@ -50,7 +50,7 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 <!--{include:`show-only-calendar.md`}-->
 
-### Disabled and read only
+### Disabled and Readonly
 
 <!--{include:`disabled.md`}-->
 
@@ -180,6 +180,7 @@ type DisabledDateFunction = (
 | -------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 | appearance           | enum: 'default' &#124; 'subtle' `('default')`           | Set picker appearence                                                                |
 | block                | boolean                                                 | Blocking an entire row                                                               |
+| caretAs              | ElementType                                             | Custom component for the caret icon                                                  |
 | character            | string `(' ~ ')`                                        | The character that separates two dates                                               |
 | cleanable            | boolean `(true)`                                        | Whether the selected value can be cleared                                            |
 | container            | HTMLElement &#124; (() => HTMLElement)                  | Sets the rendering container                                                         |
@@ -212,12 +213,12 @@ type DisabledDateFunction = (
 | preventOverflow      | boolean                                                 | Prevent floating element overflow                                                    |
 | ranges               | Range[] `(Ranges)`                                      | Whortcut config，defeult: `Today`,`Yesterday`，`Last 7 days`                         |
 | renderValue          | (value: ValueType, format: string) => ReactNode         | Custom render selected date range                                                    |
+| showMeridian         | boolean                                                 | Display hours in 12 format                                                           |
 | showOneCalendar      | boolen                                                  | Whether to show only one calendar                                                    |
 | showWeekNumbers      | boolean                                                 | Whether to show week numbers                                                         |
 | size                 | enum: 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | A picker can have different sizes                                                    |
 | toggleAs             | ElementType `('a')`                                     | You can use a custom element for this component                                      |
 | value                | ValueType                                               | Value (Controlled)                                                                   |
-| caretAs              | ElementType                                             | Custom component for the caret icon                                                  |
 
 ## Default
 
