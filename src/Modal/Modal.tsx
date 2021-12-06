@@ -2,7 +2,7 @@ import React, { useRef, useMemo, useState, useEffect, useCallback } from 'react'
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import on from 'dom-lib/on';
-import getTransitionEnd from 'dom-lib/getTransitionEnd';
+import getAnimationEnd from 'dom-lib/getAnimationEnd';
 import BaseModal, { BaseModalProps, modalPropTypes } from '../Overlay/Modal';
 import Bounce from '../Animation/Bounce';
 import { useClassNames, mergeRefs, SIZE } from '../utils';
@@ -117,9 +117,12 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     // When the value of `backdrop` is `static`, a jitter animation will be added to the dialog when clicked.
     if (backdrop === 'static') {
       setShake(true);
-      transitionEndListener.current = on(dialogRef.current, getTransitionEnd(), () => {
-        setShake(false);
-      });
+      if (!transitionEndListener.current) {
+        //fix: https://github.com/rsuite/rsuite/blob/a93d13c14fb20cc58204babe3331d3c3da3fe1fd/src/Modal/styles/index.less#L59
+        transitionEndListener.current = on(dialogRef.current, getAnimationEnd(), () => {
+          setShake(false);
+        });
+      }
     }
   }, [backdrop]);
 
@@ -128,6 +131,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
       onExited?.(node);
       onDestroyEvents();
       transitionEndListener.current?.off();
+      transitionEndListener.current = null;
     },
     [onDestroyEvents, onExited]
   );
