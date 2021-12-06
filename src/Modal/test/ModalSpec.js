@@ -111,6 +111,62 @@ describe('Modal', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
+  it('Should call onOpen callback', () => {
+    const onOpenSpy = sinon.spy();
+    const ref = React.createRef();
+    const App = React.forwardRef((props, ref) => {
+      const [open, setOpen] = React.useState(false);
+      React.useImperativeHandle(ref, () => ({
+        openModal: () => {
+          setOpen(true);
+        }
+      }));
+
+      return (
+        <Modal {...props} onOpen={onOpenSpy} open={open}>
+          <Modal.Header />
+        </Modal>
+      );
+    });
+
+    render(<App ref={ref} />);
+
+    ref.current.openModal();
+    assert.ok(onOpenSpy.calledOnce);
+  });
+
+  it('Should focus Modal When opened', () => {
+    const onOpenSpy = sinon.spy();
+
+    const App = React.forwardRef((props, ref) => {
+      const [open, setOpen] = React.useState(false);
+      const modalRef = React.useRef();
+      React.useImperativeHandle(ref, () => ({
+        get dialog() {
+          return modalRef.current;
+        },
+        openModal: () => {
+          setOpen(true);
+        }
+      }));
+
+      return (
+        <Modal {...props} ref={modalRef} onOpen={onOpenSpy} open={open}>
+          <Modal.Header />
+        </Modal>
+      );
+    });
+
+    const ref = React.createRef();
+
+    render(<App ref={ref} />);
+
+    ref.current.openModal();
+
+    assert.ok(onOpenSpy.calledOnce);
+    assert.equal(document.activeElement, ref.current.dialog);
+  });
+
   describe('a11y', () => {
     it('Should render an ARIA dialog with given title as its accessible name', () => {
       const title = 'Attention';
