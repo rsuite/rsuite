@@ -195,9 +195,6 @@ describe('Modal', () => {
         </Modal>
       );
       focusableContainer.focus();
-
-      assert.equal(document.activeElement, focusableContainer);
-
       focusableContainer.dispatchEvent(new FocusEvent('focus'));
 
       assert.equal(document.activeElement, ref.current);
@@ -211,9 +208,6 @@ describe('Modal', () => {
         </Modal>
       );
       focusableContainer.focus();
-
-      assert.equal(document.activeElement, focusableContainer);
-
       focusableContainer.dispatchEvent(new FocusEvent('focus'));
 
       assert.equal(document.activeElement, focusableContainer);
