@@ -12,48 +12,45 @@ describe('Modal', () => {
         <p>message</p>
       </Modal>
     );
-
     assert.equal(instance.querySelectorAll('p').length, 1);
   });
 
-  it('Should close the modal when the modal dialog is clicked', done => {
-    const doneOp = () => {
-      done();
-    };
-
-    const instance = getInstance(<Modal open onClose={doneOp} />);
+  it('Should close the modal when the modal dialog is clicked', () => {
+    const onCloseSpy = sinon.spy();
+    const instance = getInstance(<Modal open onClose={onCloseSpy} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-modal-backdrop'));
+
+    assert.isTrue(onCloseSpy.calledOnce);
   });
 
   it('Should not close the modal when the "static" dialog is clicked', () => {
     const onCloseSpy = sinon.spy();
     const instance = getInstance(<Modal open onClose={onCloseSpy} backdrop="static" />);
-    ReactTestUtils.Simulate.click(instance);
-
-    assert.ok(!onCloseSpy.calledOnce);
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-modal-backdrop'));
+    assert.isFalse(onCloseSpy.calledOnce);
   });
 
   it('Should be automatic height', () => {
     const instance = getInstance(
-      <Modal className="custom" overflow open>
+      <Modal overflow open>
         <Modal.Body style={{ height: 2000 }} />
       </Modal>
     );
-    assert.ok(instance.querySelector('.rs-modal-body').style.overflow, 'auto');
+    assert.equal(instance.querySelector('.rs-modal-body').style.overflow, 'auto');
   });
 
-  it('Should call onClose callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onClose callback', () => {
+    const onCloseSpy = sinon.spy();
     const instance = getInstance(
-      <Modal className="custom" open onClose={doneOp}>
+      <Modal open onClose={onCloseSpy}>
         <Modal.Header />
       </Modal>
     );
     const closeButton = instance.querySelector('.rs-modal-header-close');
     ReactTestUtils.Simulate.click(closeButton);
+
+    assert.isTrue(onCloseSpy.calledOnce);
   });
 
   it('Should call onExited callback', done => {
@@ -78,13 +75,7 @@ describe('Modal', () => {
       }
       render() {
         return (
-          <Modal
-            className="custom"
-            ref={ref}
-            open={this.state.open}
-            onClose={this.handleClose}
-            onExited={doneOp}
-          >
+          <Modal ref={ref} open={this.state.open} onClose={this.handleClose} onExited={doneOp}>
             <Modal.Header />
           </Modal>
         );
@@ -97,7 +88,7 @@ describe('Modal', () => {
 
   it('Should have a custom className', () => {
     const instance = getInstance(<Modal className="custom" open />);
-    assert.ok(instance.querySelector('.custom'));
+    assert.isNotNull(instance.querySelector('.custom'));
   });
 
   it('Should have a custom style', () => {
@@ -108,7 +99,7 @@ describe('Modal', () => {
 
   it('Should have a custom className prefix', () => {
     const instance = getInstance(<Modal classPrefix="custom-prefix" open />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    assert.isNotNull(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should call onOpen callback', () => {
@@ -135,36 +126,98 @@ describe('Modal', () => {
     assert.ok(onOpenSpy.calledOnce);
   });
 
-  it('Should focus Modal When opened', () => {
-    const onOpenSpy = sinon.spy();
+  it('Should call onClose callback by Esc', () => {
+    const onCloseSpy = sinon.spy();
+    render(
+      <Modal open onClose={onCloseSpy}>
+        <Modal.Header />
+      </Modal>
+    );
 
-    const App = React.forwardRef((props, ref) => {
-      const [open, setOpen] = React.useState(false);
-      const modalRef = React.useRef();
-      React.useImperativeHandle(ref, () => ({
-        get dialog() {
-          return modalRef.current;
-        },
-        openModal: () => {
-          setOpen(true);
-        }
-      }));
+    const event = new KeyboardEvent('keydown', { key: 'Escape' });
+    document.dispatchEvent(event);
+    assert.isTrue(onCloseSpy.calledOnce);
+  });
 
-      return (
-        <Modal {...props} ref={modalRef} onOpen={onOpenSpy} open={open}>
-          <Modal.Header />
-        </Modal>
-      );
+  describe('Focused state', () => {
+    let focusableContainer = null;
+
+    beforeEach(() => {
+      focusableContainer = document.createElement('div');
+      focusableContainer.tabIndex = 0;
+      document.body.appendChild(focusableContainer);
+      focusableContainer.focus();
     });
 
-    const ref = React.createRef();
+    afterEach(() => {
+      document.body.removeChild(focusableContainer);
+    });
 
-    render(<App ref={ref} />);
+    it('Should focus on the Modal when it is opened', () => {
+      const onOpenSpy = sinon.spy();
 
-    ref.current.openModal();
+      const App = React.forwardRef((props, ref) => {
+        const [open, setOpen] = React.useState(false);
+        const modalRef = React.useRef();
+        React.useImperativeHandle(ref, () => ({
+          get dialog() {
+            return modalRef.current;
+          },
+          openModal: () => {
+            setOpen(true);
+          }
+        }));
 
-    assert.ok(onOpenSpy.calledOnce);
-    assert.equal(document.activeElement, ref.current.dialog);
+        return (
+          <Modal {...props} ref={modalRef} onOpen={onOpenSpy} open={open}>
+            <Modal.Header />
+          </Modal>
+        );
+      });
+
+      const ref = React.createRef();
+
+      render(<App ref={ref} />);
+
+      assert.equal(document.activeElement, focusableContainer);
+
+      ref.current.openModal();
+
+      assert.isTrue(onOpenSpy.calledOnce);
+      assert.equal(document.activeElement, ref.current.dialog);
+    });
+
+    it('Should be forced to focus on Modal', () => {
+      const ref = React.createRef();
+      render(
+        <Modal ref={ref} open backdrop={false} enforceFocus>
+          test
+        </Modal>
+      );
+      focusableContainer.focus();
+
+      assert.equal(document.activeElement, focusableContainer);
+
+      focusableContainer.dispatchEvent(new FocusEvent('focus'));
+
+      assert.equal(document.activeElement, ref.current);
+    });
+
+    it('Should be focused on container outside of Modal', () => {
+      const ref = React.createRef();
+      render(
+        <Modal ref={ref} open backdrop={false} enforceFocus={false}>
+          test
+        </Modal>
+      );
+      focusableContainer.focus();
+
+      assert.equal(document.activeElement, focusableContainer);
+
+      focusableContainer.dispatchEvent(new FocusEvent('focus'));
+
+      assert.equal(document.activeElement, focusableContainer);
+    });
   });
 
   describe('a11y', () => {
