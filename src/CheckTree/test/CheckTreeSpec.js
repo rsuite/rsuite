@@ -37,4 +37,15 @@ describe('CheckTree', () => {
     assert.equal(instance.getAttribute('role'), 'tree');
     assert.equal(instance.getAttribute('aria-multiselectable'), 'true');
   });
+
+  it('Should show indent line', () => {
+    const instance = getDOMNode(<CheckTree data={data} showIndentLine />);
+
+    const lines = instance.querySelectorAll('.rs-check-tree-indent-line');
+
+    assert.isNotNull(instance.querySelector('.rs-check-tree-indent-line'));
+    assert.equal(lines.length, 2);
+    assert.equal(lines[0].style.left, '44px');
+    assert.equal(lines[1].style.left, '28px');
+  });
 });

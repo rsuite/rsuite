@@ -12,6 +12,10 @@
 
 <!--{include:`basic.md`}-->
 
+### 显示缩进线
+
+<!--{include:`show-indent-line.md`}-->
+
 ### 可拖拽
 
 <!--{include:`draggable.md`}-->
@@ -55,6 +59,7 @@
 | renderTreeIcon          | (nodeData:DataItemType) => ReactNode                                                          | 自定义渲染 图标                                                                 |
 | renderTreeNode          | (nodeData:DataItemType) => ReactNode                                                          | 自定义渲染 tree 节点                                                            |
 | searchKeyword           | string                                                                                        | (受控)搜索关键词                                                                |
+| showIndentLine 、       | boolean                                                                                       | 是否显示缩进线                                                                  |
 | value                   | string                                                                                        | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                            | tree 数据结构 value 属性名称                                                    |
 | virtualized             | boolean                                                                                       | 是否开启虚拟列表                                                                |
