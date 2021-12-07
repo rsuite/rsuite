@@ -123,7 +123,7 @@ function onMouseEventHandler(
 }
 
 export interface OverlayTriggerInstance {
-  root: Element;
+  root: HTMLElement;
   updatePosition: () => void;
   open: () => void;
   close: () => void;

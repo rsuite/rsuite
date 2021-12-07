@@ -1,3 +1,13 @@
+## [5.2.4](https://github.com/rsuite/rsuite/compare/v5.2.3...v5.2.4) (2021-12-03)
+
+### Bug Fixes
+
+- **Carousel:** make onSelect prop optional ([#2170](https://github.com/rsuite/rsuite/issues/2170)) ([c4d7a63](https://github.com/rsuite/rsuite/commit/c4d7a63f4ec71ebb05d92b04bd26ebe547609dd0))
+- **DateRangePicker:** fix DateRangePicker cannot switch am/pm ([#2171](https://github.com/rsuite/rsuite/issues/2171)) ([4c55db9](https://github.com/rsuite/rsuite/commit/4c55db9a3a96927589d4366ece1f329c011ccb0f))
+- **pickers:** fix custom input in Picker cannot be focused ([#2176](https://github.com/rsuite/rsuite/issues/2176)) ([8a94bd6](https://github.com/rsuite/rsuite/commit/8a94bd6f9640995e017716fe69b68912c55e4c86))
+- **Table:** fix the column of grouping cannot be centered ([#2168](https://github.com/rsuite/rsuite/issues/2168)) ([4fbe460](https://github.com/rsuite/rsuite/commit/4fbe460da4e9744eee8589233b305b7e15295e41))
+- **tree:** expose methods for tree that can scroll the list ([#2178](https://github.com/rsuite/rsuite/issues/2178)) ([0a6f9ee](https://github.com/rsuite/rsuite/commit/0a6f9ee57ed33477472f2ad41c06d5242d3d62d5))
+
 ## [5.2.3](https://github.com/rsuite/rsuite/compare/v5.2.2...v5.2.3) (2021-11-26)
 
 ### Bug Fixes

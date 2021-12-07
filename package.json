@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "5.2.3",
+  "version": "5.2.4",
   "description": "A suite of react components",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -19,7 +19,6 @@
     "build": "npm run build:gulp && npm run dist && npm run build:types",
     "build:gulp": "gulp build --gulpfile scripts/gulpfile.js",
     "build:types": "npx tsc --emitDeclarationOnly --outDir lib/cjs && npx tsc --emitDeclarationOnly --outDir lib/esm",
-    "build:docs": "npm run build --prefix docs",
     "postbuild": "mocha test/validateBuilds.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "dist:analyze": "ANALYZE=true webpack --mode production --progress",
@@ -62,7 +61,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react-virtualized": "^9.22.3",
-    "rsuite-table": "^5.2.1",
+    "rsuite-table": "^5.2.2",
     "schema-typed": "^2.0.2"
   },
   "peerDependencies": {

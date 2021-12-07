@@ -2,9 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
-
-import Dropdown from '../SelectPicker';
 import SelectPicker from '../SelectPicker';
+import Input from '../../Input';
 import Button from '../../Button';
 
 const data = [
@@ -27,7 +26,7 @@ const data = [
 
 describe('SelectPicker', () => {
   it('Should clean selected default value', () => {
-    const instance = getDOMNode(<Dropdown defaultOpen data={data} defaultValue={'Eugenia'} />);
+    const instance = getDOMNode(<SelectPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
     expect(instance.querySelector('.rs-picker-toggle-placeholder').textContent).to.equal('Select');
@@ -40,7 +39,7 @@ describe('SelectPicker', () => {
   });
 
   it('Should not clean selected value', () => {
-    const instance = getDOMNode(<Dropdown defaultOpen data={data} value={'Eugenia'} />);
+    const instance = getDOMNode(<SelectPicker defaultOpen data={data} value={'Eugenia'} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
     expect(instance.querySelector('.rs-picker-toggle-value').textContent).to.equal('Eugenia');
@@ -48,28 +47,28 @@ describe('SelectPicker', () => {
 
   it('Should output a dropdown', () => {
     const Title = 'Title';
-    const instance = getDOMNode(<Dropdown>{Title}</Dropdown>);
+    const instance = getDOMNode(<SelectPicker>{Title}</SelectPicker>);
     assert.ok(instance.className.match(/\bpicker-select\b/));
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<Dropdown disabled />);
+    const instance = getDOMNode(<SelectPicker disabled />);
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
   it('Should output a button', () => {
-    const instance = getDOMNode(<Dropdown toggleAs="button" />);
+    const instance = getDOMNode(<SelectPicker toggleAs="button" />);
     assert.ok(instance.querySelector('button'));
   });
 
   it('Should be block', () => {
-    const instance = getDOMNode(<Dropdown block />);
+    const instance = getDOMNode(<SelectPicker block />);
     assert.ok(instance.className.match(/\bblock\b/));
   });
 
   it('Should active item by `value`', () => {
     const value = 'Louisa';
-    const instance = getInstance(<Dropdown defaultOpen data={data} value={value} />);
+    const instance = getInstance(<SelectPicker defaultOpen data={data} value={value} />);
 
     assert.equal(instance.root.querySelector('.rs-picker-toggle-value').textContent, value);
     assert.equal(
@@ -80,7 +79,7 @@ describe('SelectPicker', () => {
 
   it('Should active item by `defaultValue`', () => {
     const value = 'Louisa';
-    const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={value} />);
+    const instance = getInstance(<SelectPicker defaultOpen data={data} defaultValue={value} />);
     assert.equal(instance.root.querySelector('.rs-picker-toggle-value').textContent, value);
     assert.equal(
       instance.overlay.querySelector('.rs-picker-select-menu-item-active').textContent,
@@ -89,19 +88,19 @@ describe('SelectPicker', () => {
   });
 
   it('Should render a group', () => {
-    const instance = getInstance(<Dropdown defaultOpen groupBy="role" data={data} />);
+    const instance = getInstance(<SelectPicker defaultOpen groupBy="role" data={data} />);
     assert.ok(instance.overlay.querySelector('.rs-picker-menu-group'));
   });
 
   it('Should have a placeholder', () => {
-    const instance = getDOMNode(<Dropdown className="custom" placeholder="test" />);
+    const instance = getDOMNode(<SelectPicker className="custom" placeholder="test" />);
 
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
   it('Allow `label` to be an empty string', () => {
     const instance = getInstance(
-      <Dropdown placeholder="test" data={[{ label: '', value: '1' }]} value={'1'} defaultOpen />
+      <SelectPicker placeholder="test" data={[{ label: '', value: '1' }]} value={'1'} defaultOpen />
     );
     const menu = instance.overlay.querySelector('.rs-picker-select-menu-item-active');
     assert.equal(menu.textContent, '');
@@ -109,7 +108,7 @@ describe('SelectPicker', () => {
 
   it('Should render value by `renderValue`', () => {
     const instance = getDOMNode(
-      <Dropdown
+      <SelectPicker
         className="custom"
         placeholder="test"
         data={[{ label: 'foo', value: 'bar' }]}
@@ -126,16 +125,20 @@ describe('SelectPicker', () => {
 
     // Valid value
     const instance = getDOMNode(
-      <Dropdown renderValue={v => [v, placeholder]} data={[{ value: 1, label: '1' }]} value={1} />
+      <SelectPicker
+        renderValue={v => [v, placeholder]}
+        data={[{ value: 1, label: '1' }]}
+        value={1}
+      />
     );
 
     // Invalid value
     const instance2 = getDOMNode(
-      <Dropdown renderValue={v => [v, placeholder]} data={[]} value={2} />
+      <SelectPicker renderValue={v => [v, placeholder]} data={[]} value={2} />
     );
 
     // Invalid value
-    const instance3 = getDOMNode(<Dropdown renderValue={v => [v, placeholder]} value={''} />);
+    const instance3 = getDOMNode(<SelectPicker renderValue={v => [v, placeholder]} value={''} />);
 
     assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, `1${placeholder}`);
     assert.equal(instance2.querySelector('.rs-picker-toggle-value').textContent, `2${placeholder}`);
@@ -143,12 +146,12 @@ describe('SelectPicker', () => {
   });
 
   it('Should not be call renderValue()', () => {
-    const instance = getDOMNode(<Dropdown renderValue={() => 'value'} />);
+    const instance = getDOMNode(<SelectPicker renderValue={() => 'value'} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should render a placeholder when value error', () => {
-    const instance = getDOMNode(<Dropdown value={2} placeholder={'test'} />);
+    const instance = getDOMNode(<SelectPicker value={2} placeholder={'test'} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
@@ -161,7 +164,7 @@ describe('SelectPicker', () => {
         done(err);
       }
     };
-    const instance = getInstance(<Dropdown defaultOpen onChange={doneOp} data={data} />);
+    const instance = getInstance(<SelectPicker defaultOpen onChange={doneOp} data={data} />);
 
     ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-picker-select-menu-item'));
   });
@@ -170,19 +173,21 @@ describe('SelectPicker', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(<Dropdown data={data} defaultValue={'Eugenia'} onClean={doneOp} />);
+    const instance = getDOMNode(
+      <SelectPicker data={data} defaultValue={'Eugenia'} onClean={doneOp} />
+    );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
   it('Should not output a search bar', () => {
-    const instance = getInstance(<Dropdown searchable={false} defaultOpen data={data} />);
+    const instance = getInstance(<SelectPicker searchable={false} defaultOpen data={data} />);
 
     assert.ok(!instance.overlay.querySelector('.rs-picker-search-bar-input'));
   });
 
   it('Should output a clean button', () => {
-    const instance = getDOMNode(<Dropdown data={data} defaultValue={'Louisa'} />);
+    const instance = getDOMNode(<SelectPicker data={data} defaultValue={'Louisa'} />);
     assert.ok(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
@@ -195,7 +200,7 @@ describe('SelectPicker', () => {
         done(err);
       }
     };
-    const instance = getInstance(<Dropdown defaultOpen onSearch={doneOp} data={data} />);
+    const instance = getInstance(<SelectPicker defaultOpen onSearch={doneOp} data={data} />);
     const input = instance.overlay.querySelector('.rs-picker-search-bar-input');
 
     input.value = 'a';
@@ -214,7 +219,7 @@ describe('SelectPicker', () => {
       }
     };
     const instance = getInstance(
-      <Dropdown defaultOpen data={data} onSelect={doneOp} defaultValue={'Kariane'} />
+      <SelectPicker defaultOpen data={data} onSelect={doneOp} defaultValue={'Kariane'} />
     );
 
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
@@ -225,7 +230,7 @@ describe('SelectPicker', () => {
     const doneOp = () => {
       done();
     };
-    const picker = getInstance(<Dropdown onOpen={doneOp} data={data} />);
+    const picker = getInstance(<SelectPicker onOpen={doneOp} data={data} />);
     picker.open();
   });
 
@@ -233,12 +238,12 @@ describe('SelectPicker', () => {
     const doneOp = () => {
       done();
     };
-    const picker = getInstance(<Dropdown defaultOpen onClose={doneOp} data={data} />);
+    const picker = getInstance(<SelectPicker defaultOpen onClose={doneOp} data={data} />);
     picker.close();
   });
 
   it('Should focus item by key=ArrowDown ', () => {
-    const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={'Eugenia'} />);
+    const instance = getInstance(<SelectPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
 
     assert.equal(
@@ -248,7 +253,7 @@ describe('SelectPicker', () => {
   });
 
   it('Should focus item by key=ArrowUp ', () => {
-    const instance = getInstance(<Dropdown defaultOpen data={data} defaultValue={'Kariane'} />);
+    const instance = getInstance(<SelectPicker defaultOpen data={data} defaultValue={'Kariane'} />);
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
     assert.equal(
       instance.overlay.querySelector('.rs-picker-select-menu-item-focus').textContent,
@@ -261,7 +266,7 @@ describe('SelectPicker', () => {
       done();
     };
     const instance = getInstance(
-      <Dropdown defaultOpen data={data} onChange={doneOp} defaultValue={'Kariane'} />
+      <SelectPicker defaultOpen data={data} onChange={doneOp} defaultValue={'Kariane'} />
     );
 
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
@@ -271,7 +276,7 @@ describe('SelectPicker', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getInstance(<Dropdown defaultOpen data={data} onBlur={doneOp} />);
+    const instance = getInstance(<SelectPicker defaultOpen data={data} onBlur={doneOp} />);
     ReactTestUtils.Simulate.blur(instance.target);
   });
 
@@ -279,35 +284,35 @@ describe('SelectPicker', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getInstance(<Dropdown defaultOpen data={data} onFocus={doneOp} />);
+    const instance = getInstance(<SelectPicker defaultOpen data={data} onFocus={doneOp} />);
     ReactTestUtils.Simulate.focus(instance.target);
   });
 
   it('Should have a custom className', () => {
-    const instance = getInstance(<Dropdown className="custom" defaultOpen data={data} />);
+    const instance = getInstance(<SelectPicker className="custom" defaultOpen data={data} />);
     assert.include(instance.root.className, 'custom');
     expect(instance.overlay.className).to.not.include('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Dropdown style={{ fontSize }} />);
+    const instance = getDOMNode(<SelectPicker style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Dropdown classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<SelectPicker classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should render a button by toggleAs={Button}', () => {
-    const instance = getDOMNode(<Dropdown open data={data} toggleAs={Button} />);
+    const instance = getDOMNode(<SelectPicker open data={data} toggleAs={Button} />);
     assert.ok(instance.querySelector('.rs-btn'));
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
     const instance = getInstance(
-      <Dropdown defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
+      <SelectPicker defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
     );
     const list = instance.overlay.querySelectorAll('.rs-picker-select-menu-item');
 
@@ -316,9 +321,9 @@ describe('SelectPicker', () => {
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<Dropdown value="Test" renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<Dropdown value="Test" renderValue={() => null} />);
-    const instance3 = getDOMNode(<Dropdown value="Test" renderValue={() => undefined} />);
+    const instance1 = getDOMNode(<SelectPicker value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<SelectPicker value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(<SelectPicker value="Test" renderValue={() => undefined} />);
 
     assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
     assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
@@ -331,23 +336,44 @@ describe('SelectPicker', () => {
 
   it('Children should not be selected', () => {
     const data = [{ value: 1, label: 'A', children: [{ value: 2, label: 'B' }] }];
-    const instance = getDOMNode(<Dropdown data={data} value={2} />);
+    const instance = getDOMNode(<SelectPicker data={data} value={2} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
     assert.notInclude(instance.className, 'rs-picker-has-value');
   });
 
   it('Should focus the search box', () => {
     const pickerRef = React.createRef();
-    render(<Dropdown ref={pickerRef} data={data} />);
+    const inputRef = React.createRef();
+
+    render(
+      <SelectPicker
+        ref={pickerRef}
+        data={data}
+        renderExtraFooter={() => <Input ref={inputRef} />}
+      />
+    );
+
+    const target = pickerRef.current.target;
 
     ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.click(pickerRef.current.target);
+      ReactTestUtils.Simulate.click(target);
     });
 
     ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.keyDown(pickerRef.current.target, { key: 'a' });
-      assert.equal(document.activeElement, pickerRef.current.overlay.querySelector('input'));
+      // https://codesandbox.io/s/silent-voice-6kzx7
+      inputRef.current.focus();
+      ReactTestUtils.Simulate.keyDown(inputRef.current, { key: 'a' });
     });
+    assert.equal(document.activeElement, inputRef.current);
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.keyDown(target, { key: 'a' });
+    });
+
+    assert.equal(
+      document.activeElement,
+      pickerRef.current.overlay.querySelector('.rs-picker-search-bar-input')
+    );
   });
 
   describe('Plain text', () => {

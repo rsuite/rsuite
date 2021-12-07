@@ -16,6 +16,7 @@ import {
   placementPolyfill
 } from '../utils';
 import { TypeAttributes, ItemDataType } from '../@types/common';
+import { ListInstance } from './VirtualizedList';
 
 interface NodeKeys {
   valueKey: string;
@@ -435,7 +436,11 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
         // The search box gets focus when typing characters and numbers.
         if (event.key.length === 1 && /\w/.test(event.key)) {
-          searchInputRef?.current?.focus();
+          // Exclude Input
+          // eg: <SelectPicker renderExtraFooter={() => <Input />} />
+          if ((event.target as HTMLInputElement)?.tagName !== 'INPUT') {
+            searchInputRef?.current?.focus();
+          }
         }
       }
 
@@ -526,59 +531,82 @@ export function useSearch(props: SearchProps) {
   };
 }
 
-interface Refs {
-  triggerRef: React.RefObject<OverlayTriggerInstance>;
+interface PickerDependentParameters {
+  triggerRef?: React.RefObject<OverlayTriggerInstance>;
   rootRef?: React.RefObject<HTMLElement>;
-  overlayRef: React.RefObject<HTMLElement>;
+  overlayRef?: React.RefObject<HTMLElement>;
   targetRef?: React.RefObject<HTMLElement>;
+  listRef?: React.RefObject<ListInstance>;
+  inline?: boolean;
+}
+
+interface PickerInstance {
+  root: HTMLElement | null;
+  list?: ListInstance;
+  overlay?: HTMLElement | null;
+  target?: HTMLElement | null;
+  updatePosition?: () => void;
+  open?: () => void;
+  close?: () => void;
 }
 
 /**
  * A hook of the exposed method of Picker
- *
- * {
- *   root: Element;
- *   overlay: Element;
- *   target?: Element;
- *   updatePosition:() => void;
- *   open:() => void;
- *   close:() => void;
- * }
- * @param ref
- * @param params
  */
-export function usePublicMethods(
-  ref,
-  { triggerRef, overlayRef, targetRef, rootRef }: Refs,
-  disabled?: boolean
-) {
+export function usePublicMethods(ref, parmas: PickerDependentParameters) {
+  const { triggerRef, overlayRef, targetRef, rootRef, listRef, inline } = parmas;
+
   const handleOpen = useCallback(() => {
-    triggerRef.current?.open();
+    triggerRef?.current?.open();
   }, [triggerRef]);
 
   const handleClose = useCallback(() => {
-    triggerRef.current?.close();
+    triggerRef?.current?.close();
   }, [triggerRef]);
 
   const handleUpdatePosition = useCallback(() => {
-    triggerRef.current?.updatePosition();
+    triggerRef?.current?.updatePosition();
   }, [triggerRef]);
 
-  if (!disabled) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, (): PickerInstance => {
+    // Tree and CheckTree
+    if (inline) {
+      return {
+        get root() {
+          return rootRef?.current ? rootRef?.current : triggerRef?.current?.root ?? null;
+        },
+        get list() {
+          if (!listRef?.current) {
+            throw new Error('The list is not found, please set `virtualized` for the component.');
+          }
+          return listRef?.current;
+        }
+      };
+    }
+
+    return {
       get root() {
-        return rootRef?.current || triggerRef.current?.root;
+        return (rootRef?.current || triggerRef?.current?.root) ?? null;
       },
       get overlay() {
-        return overlayRef.current;
+        return overlayRef?.current ?? null;
       },
       get target() {
-        return targetRef?.current;
+        return targetRef?.current ?? null;
+      },
+      get list() {
+        if (!listRef?.current) {
+          throw new Error(`
+            The list is not found.
+            1.Please set virtualized for the component.
+            2.Please confirm whether the picker is open.
+          `);
+        }
+        return listRef?.current;
       },
       updatePosition: handleUpdatePosition,
       open: handleOpen,
       close: handleClose
-    }));
-  }
+    };
+  });
 }
