@@ -24,7 +24,7 @@ const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProp
       children,
       icon,
       noCaret,
-      placement,
+      placement = 'bottomStart',
       ...rest
     } = props;
 

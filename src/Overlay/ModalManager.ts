@@ -1,3 +1,4 @@
+import React from 'react';
 import addClass from 'dom-lib/addClass';
 import removeClass from 'dom-lib/removeClass';
 import addStyle from 'dom-lib/addStyle';
@@ -40,6 +41,7 @@ class ModalManager {
   data: ContainerState[] = [];
 
   add(modal: ModalInstance, container: HTMLElement, className?: string) {
+    
     let modalIndex = this.modals.indexOf(modal);
     const containerIndex = this.containers.indexOf(container);
 

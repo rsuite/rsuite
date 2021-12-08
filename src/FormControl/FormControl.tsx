@@ -53,7 +53,7 @@ export interface FormControlProps<P = any, ValueType = any>
 interface FormControlComponent extends React.FC<FormControlProps> {
   <Accepter extends React.ElementType = typeof Input>(
     props: FormControlProps & { accepter?: Accepter } & React.ComponentPropsWithRef<Accepter>
-  ): React.ReactElement;
+  ): React.ReactElement | null;
 }
 
 const FormControl: FormControlComponent = React.forwardRef((props: FormControlProps, ref) => {
@@ -133,15 +133,15 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     const nextFormValue = { ...formValue, [name]: value };
 
     if (checkAsync) {
-      return model.checkForFieldAsync(name, nextFormValue).then(checkResult => {
+      return model?.checkForFieldAsync(name, nextFormValue).then(checkResult => {
         return callbackEvents(checkResult);
       });
     }
 
-    return Promise.resolve(callbackEvents(model.checkForField(name, nextFormValue)));
+    return Promise.resolve(callbackEvents(model?.checkForField(name, nextFormValue)));
   };
 
-  let messageNode = null;
+  let messageNode: React.ReactNode | null = null;
 
   if (!isUndefined(errorMessage)) {
     messageNode = errorMessage;

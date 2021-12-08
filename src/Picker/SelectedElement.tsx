@@ -14,8 +14,16 @@ export interface SelectedElementProps {
 }
 
 const SelectedElement = (props: SelectedElementProps) => {
-  const { selectedItems, prefix, valueKey, labelKey, childrenKey, countable, cascade, locale } =
-    props;
+  const {
+    selectedItems,
+    prefix,
+    valueKey,
+    labelKey,
+    childrenKey = 'children',
+    countable,
+    cascade,
+    locale
+  } = props;
 
   const count = selectedItems.length;
   let title = '';
@@ -43,7 +51,7 @@ const SelectedElement = (props: SelectedElementProps) => {
             <React.Fragment key={item[valueKey]}>
               <span className={prefix('value-item')}>
                 {item[labelKey]}
-                {checkAll ? ` (${locale.checkAll})` : ''}
+                {checkAll ? ` (${locale!.checkAll})` : ''}
               </span>
               {index === count - 1 ? null : <span className={prefix('value-separator')}>,</span>}
             </React.Fragment>

@@ -1,6 +1,7 @@
 import React, { useState, useImperativeHandle, useCallback } from 'react';
 import kebabCase from 'lodash/kebabCase';
 import trim from 'lodash/trim';
+import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
@@ -26,13 +27,13 @@ const defaultNodeKeys = {
   childrenKey: 'children'
 };
 
-export function createConcatChildrenFunction(
+export function createConcatChildrenFunction<T = any>(
   node: any,
   nodeValue?: any,
   nodeKeys: NodeKeys = defaultNodeKeys
 ) {
   const { valueKey, childrenKey } = nodeKeys;
-  return (data: any[], children: any[]): any[] => {
+  return (data: T[], children: T[]): T[] => {
     if (nodeValue) {
       node = findNodeOfTree(data, item => nodeValue === item[valueKey]);
     }
@@ -57,7 +58,7 @@ export function shouldDisplay(label: React.ReactNode, searchKeyword: string) {
 
 interface PickerClassNameProps {
   name?: string;
-  classPrefix?: string;
+  classPrefix: string;
   className?: string;
   placement?: TypeAttributes.Placement;
   appearance?: 'default' | 'subtle';
@@ -168,7 +169,7 @@ export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
 }
 
 interface FocusItemValueProps {
-  target: HTMLElement | (() => HTMLElement);
+  target: HTMLElement | null | (() => HTMLElement | null);
   data?: any[];
   valueKey?: string;
   focusableQueryKey?: string;
@@ -182,8 +183,8 @@ interface FocusItemValueProps {
  * @param defaultFocusItemValue
  * @param props
  */
-export const useFocusItemValue = (
-  defaultFocusItemValue: number | string | readonly string[],
+export const useFocusItemValue = <T extends number | string>(
+  defaultFocusItemValue: T | null | undefined,
   props: FocusItemValueProps
 ) => {
   const {
@@ -195,9 +196,9 @@ export const useFocusItemValue = (
     rtl,
     callback
   } = props;
-  const [focusItemValue, setFocusItemValue] = useState<any>(defaultFocusItemValue);
+  const [focusItemValue, setFocusItemValue] = useState<T | null | undefined>(defaultFocusItemValue);
   const [layer, setLayer] = useState(defaultLayer);
-  const [keys, setKeys] = useState([]);
+  const [keys, setKeys] = useState<Array<string | undefined>>([]);
 
   /**
    * Get the elements visible in all options.
@@ -209,9 +210,9 @@ export const useFocusItemValue = (
     const menu = isFunction(target) ? target() : target;
 
     let currentKeys = keys;
-    if (currentKeys.length === 0) {
-      currentKeys = Array.from(menu?.querySelectorAll(focusableQueryKey))?.map(
-        (item: HTMLDivElement) => item?.dataset?.key
+    if (currentKeys.length === 0 && !isNil(menu)) {
+      currentKeys = Array.from(menu.querySelectorAll<HTMLElement>(focusableQueryKey)).map(
+        item => item.dataset?.key
       );
       setKeys(currentKeys);
     }
@@ -278,8 +279,8 @@ export const useFocusItemValue = (
       const subMenu = menu?.querySelector(`[data-layer="${nextLayer}"]`);
 
       if (subMenu) {
-        return Array.from(subMenu.querySelectorAll(focusableQueryKey))?.map(
-          (item: HTMLDivElement) => item?.dataset?.key
+        return Array.from(subMenu.querySelectorAll<HTMLElement>(focusableQueryKey))?.map(
+          item => item.dataset?.key
         );
       }
 
@@ -296,7 +297,7 @@ export const useFocusItemValue = (
       if (nextKeys) {
         setKeys(nextKeys);
         setLayer(nextLayer);
-        setFocusItemValue(nextKeys[0]);
+        setFocusItemValue(nextKeys[0] as T);
         callback?.(nextKeys[0], event);
       }
     },
@@ -349,7 +350,7 @@ export const useFocusItemValue = (
 
 interface ToggleKeyDownEventProps {
   toggle?: boolean;
-  triggerRef?: React.RefObject<any>;
+  triggerRef: React.RefObject<any>;
   targetRef: React.RefObject<any>;
   overlayRef?: React.RefObject<any>;
   searchInputRef?: React.RefObject<any>;
@@ -438,7 +439,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
           // Exclude Input
           // eg: <SelectPicker renderExtraFooter={() => <Input />} />
           if ((event.target as HTMLInputElement)?.tagName !== 'INPUT') {
-            searchInputRef.current?.focus();
+            searchInputRef?.current?.focus();
           }
         }
       }
@@ -471,7 +472,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 interface SearchProps {
   labelKey: string;
   data: ItemDataType[];
-  searchBy: (keyword, label, item) => boolean;
+  searchBy?: (keyword, label, item) => boolean;
   callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent) => void;
 }
 
@@ -532,7 +533,7 @@ export function useSearch(props: SearchProps) {
 
 interface PickerDependentParameters {
   triggerRef?: React.RefObject<OverlayTriggerInstance>;
-  rootRef?: React.RefObject<any>;
+  rootRef?: React.RefObject<HTMLElement>;
   overlayRef?: React.RefObject<HTMLElement>;
   targetRef?: React.RefObject<HTMLElement>;
   listRef?: React.RefObject<ListInstance>;
@@ -540,10 +541,10 @@ interface PickerDependentParameters {
 }
 
 interface PickerInstance {
-  root?: Element;
+  root: HTMLElement | null;
   list?: ListInstance;
-  overlay?: Element;
-  target?: Element;
+  overlay?: HTMLElement | null;
+  target?: HTMLElement | null;
   updatePosition?: () => void;
   open?: () => void;
   close?: () => void;
@@ -556,15 +557,15 @@ export function usePublicMethods(ref, parmas: PickerDependentParameters) {
   const { triggerRef, overlayRef, targetRef, rootRef, listRef, inline } = parmas;
 
   const handleOpen = useCallback(() => {
-    triggerRef.current?.open();
+    triggerRef?.current?.open();
   }, [triggerRef]);
 
   const handleClose = useCallback(() => {
-    triggerRef.current?.close();
+    triggerRef?.current?.close();
   }, [triggerRef]);
 
   const handleUpdatePosition = useCallback(() => {
-    triggerRef.current?.updatePosition();
+    triggerRef?.current?.updatePosition();
   }, [triggerRef]);
 
   useImperativeHandle(ref, (): PickerInstance => {
@@ -572,7 +573,7 @@ export function usePublicMethods(ref, parmas: PickerDependentParameters) {
     if (inline) {
       return {
         get root() {
-          return rootRef?.current ? rootRef?.current : triggerRef.current?.root;
+          return rootRef?.current ? rootRef?.current : triggerRef?.current?.root ?? null;
         },
         get list() {
           if (!listRef?.current) {
@@ -585,13 +586,13 @@ export function usePublicMethods(ref, parmas: PickerDependentParameters) {
 
     return {
       get root() {
-        return rootRef?.current ? rootRef?.current : triggerRef.current?.root;
+        return (rootRef?.current || triggerRef?.current?.root) ?? null;
       },
       get overlay() {
-        return overlayRef.current;
+        return overlayRef?.current ?? null;
       },
       get target() {
-        return targetRef?.current;
+        return targetRef?.current ?? null;
       },
       get list() {
         if (!listRef?.current) {

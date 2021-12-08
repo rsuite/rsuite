@@ -1,11 +1,12 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import isNil from 'lodash/isNil';
 import canUseDOM from 'dom-lib/canUseDOM';
 import contains from 'dom-lib/contains';
 import getContainer from 'dom-lib/getContainer';
 import on from 'dom-lib/on';
-import ModalManager from './ModalManager';
+import ModalManager, { ModalElements } from './ModalManager';
 import Fade from '../Animation/Fade';
 import { animationPropTypes } from '../Animation/utils';
 import { mergeRefs, usePortal, createChainedFunction, useWillUnmount, KEY_VALUES } from '../utils';
@@ -65,7 +66,7 @@ interface ModalProps extends BaseModalProps {
   containerClassName?: string;
   backdropTransitionTimeout?: number;
   dialogTransitionTimeout?: number;
-  transition: React.ElementType;
+  transition?: React.ElementType;
   onEsc?: React.KeyboardEventHandler;
   onBackdropClick?: React.MouseEventHandler;
 }
@@ -79,7 +80,7 @@ function getManager() {
 
 const useModalManager = () => {
   const modalManager = getManager();
-  const modal = useRef({ dialog: null, backdrop: null });
+  const modal = useRef<ModalElements>({ dialog: null, backdrop: null });
 
   return {
     get dialog() {
@@ -240,89 +241,155 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
       handleOpen();
     }, [open, handleOpen]);
 
-    useEffect(() => {
-      if (!exited) {
+
+    if (
+      dialog &&
+      dialog !== currentActiveElement &&
+      (isNil(currentActiveElement) || !contains(dialog, currentActiveElement))
+    ) {
+      dialog.focus();
+    }
+  }, [enforceFocus, getDialogElement, modal]);
+
+  const handleBackdropClick = useCallback(
+    (event: React.MouseEvent) => {
+      if (event.target !== event.currentTarget) {
         return;
       }
-      handleClose();
-    }, [exited, handleClose]);
 
-    useWillUnmount(() => {
-      handleClose();
-    });
+      onBackdropClick?.(event);
 
-    const handleExited = useCallback(() => {
-      setExited(true);
-    }, []);
-
-    if (!mountModal) {
-      return null;
-    }
-
-    const renderBackdrop = () => {
-      const backdropPorps = {
-        style: backdropStyle,
-        onClick: handleBackdropClick
-      };
-
-      if (Transition) {
-        return (
-          <Fade transitionAppear in={open} timeout={backdropTransitionTimeout}>
-            {(fadeProps, ref) => {
-              const { className, ...rest } = fadeProps;
-              return (
-                <div
-                  aria-hidden
-                  {...rest}
-                  {...backdropPorps}
-                  ref={mergeRefs(modal.setBackdropRef, ref)}
-                  className={classNames(backdropClassName, className)}
-                />
-              );
-            }}
-          </Fade>
-        );
+      if (backdrop === true) {
+        onClose?.(event);
       }
+    },
+    [backdrop, onBackdropClick, onClose]
+  );
 
-      return <div aria-hidden {...backdropPorps} className={backdropClassName} />;
+  const documentKeyupListener = useRef<{ off: () => void }>();
+  const docusinListener = useRef<{ off: () => void }>();
+  const handleOpen = useCallback(() => {
+    const dialog = getDialogElement();
+    // fixme getContainer() typing mistake
+    const containerElement = getContainer(container!, document.body) as HTMLElement;
+    modal.add(containerElement, containerClassName);
+
+    documentKeyupListener.current = on(document, 'keydown', handleDocumentKeyUp);
+    docusinListener.current = on(document, 'focus', handleEnforceFocus, true);
+    onOpen?.();
+    checkForFocus();
+
+    if (autoFocus) {
+      dialog?.focus();
+    }
+  }, [
+    autoFocus,
+    checkForFocus,
+    container,
+    containerClassName,
+    getDialogElement,
+    handleDocumentKeyUp,
+    handleEnforceFocus,
+    modal,
+    onOpen
+  ]);
+
+  const handleClose = useCallback(() => {
+    modal.remove();
+    documentKeyupListener.current?.off();
+    docusinListener.current?.off();
+    restoreLastFocus();
+  }, [modal, restoreLastFocus]);
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    handleOpen();
+  }, [open, handleOpen]);
+
+  useEffect(() => {
+    if (!exited) {
+      return;
+    }
+    handleClose();
+  }, [exited, handleClose]);
+
+  useWillUnmount(() => {
+    handleClose();
+  });
+
+  const handleExited = useCallback(() => {
+    setExited(true);
+  }, []);
+
+  if (!mountModal) {
+    return null;
+  }
+
+  const renderBackdrop = () => {
+    const backdropPorps = {
+      style: backdropStyle,
+      onClick: handleBackdropClick
     };
 
-    const dialogElement = Transition ? (
-      <Transition
-        {...animationProps}
-        transitionAppear
-        unmountOnExit
-        in={open}
-        timeout={dialogTransitionTimeout}
-        onExit={onExit}
-        onExiting={onExiting}
-        onExited={createChainedFunction(handleExited, onExited)}
-        onEnter={onEnter}
-        onEntering={onEntering}
-        onEntered={onEntered}
-      >
-        {children}
-      </Transition>
-    ) : (
-      children
-    );
+    if (Transition) {
+      return (
+        <Fade transitionAppear in={open} timeout={backdropTransitionTimeout}>
+          {(fadeProps, ref) => {
+            const { className, ...rest } = fadeProps;
+            return (
+              <div
+                aria-hidden
+                {...rest}
+                {...backdropPorps}
+                ref={mergeRefs(modal.setBackdropRef, ref)}
+                className={classNames(backdropClassName, className)}
+              />
+            );
+          }}
+        </Fade>
+      );
+    }
 
-    return (
-      <Portal>
-        <Component
-          {...rest}
-          ref={mergeRefs(modal.setDialogRef, ref)}
-          style={style}
-          className={className}
-          tabIndex={-1}
-        >
-          {backdrop && renderBackdrop()}
-          {dialogElement}
-        </Component>
-      </Portal>
-    );
-  }
-);
+    return <div aria-hidden {...backdropPorps} className={backdropClassName} />;
+  };
+
+  const dialogElement = Transition ? (
+    <Transition
+      {...animationProps}
+      transitionAppear
+      unmountOnExit
+      in={open}
+      timeout={dialogTransitionTimeout}
+      onExit={onExit}
+      onExiting={onExiting}
+      onExited={createChainedFunction(handleExited, onExited)}
+      onEnter={onEnter}
+      onEntering={onEntering}
+      onEntered={onEntered}
+    >
+      {children}
+    </Transition>
+  ) : (
+    children
+  );
+
+  return (
+    <Portal>
+      <Component
+        {...rest}
+        ref={mergeRefs(modal.setDialogRef, ref)}
+        style={style}
+        className={className}
+        tabIndex={-1}
+      >
+        {backdrop && renderBackdrop()}
+        {dialogElement}
+      </Component>
+    </Portal>
+  );
+});
 
 export const modalPropTypes = {
   as: PropTypes.elementType,

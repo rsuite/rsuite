@@ -5,11 +5,11 @@ import { CascaderProps } from './Cascader';
 import { ItemDataType } from '../@types/common';
 import { findNodeOfTree } from '../utils/treeUtils';
 
-export function getColumnsAndPaths(data, value, options) {
+export function getColumnsAndPaths<T extends ItemDataType>(data: T[], value, options) {
   const { childrenKey, valueKey, isAttachChildren } = options;
   const columns: ItemDataType[][] = [];
-  const paths = [];
-  const findNode = items => {
+  const paths: T[] = [];
+  const findNode = (items: T[]): { items: T[]; active: T } | null => {
     for (let i = 0; i < items.length; i += 1) {
       const children = items[i][childrenKey];
 

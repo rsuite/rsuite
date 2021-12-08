@@ -39,7 +39,7 @@ import { ItemDataType, FormControlPickerProps } from '../@types/common';
 
 export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>
-  extends FormControlPickerProps<T, PickerLocale, ItemDataType> {
+  extends FormControlPickerProps<T | null, PickerLocale, ItemDataType> {
   /** Sets the width of the menu */
   menuWidth?: number;
 
@@ -139,11 +139,11 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   const [active, setActive] = useState(false);
   const [flattenData, setFlattenData] = useState<ItemDataType[]>(flattenTree(data, childrenKey));
 
-  const triggerRef = useRef<OverlayTriggerInstance>();
-  const overlayRef = useRef<HTMLDivElement>();
-  const targetRef = useRef<HTMLButtonElement>();
-  const searchInputRef = useRef<HTMLInputElement>();
-  const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
+  const triggerRef = useRef<OverlayTriggerInstance>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const targetRef = useRef<HTMLButtonElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [value, setValue] = useControlled(valueProp, defaultValue);
 
   const {
     selectedPaths,
@@ -194,8 +194,8 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   );
 
   const getSearchResult = useCallback(
-    (keyword?: string) => {
-      const items = [];
+    (keyword?: string): ItemDataType[] => {
+      const items: ItemDataType[] = [];
       const result = flattenData.filter(item => {
         if (item[childrenKey]) {
           return false;
@@ -243,13 +243,13 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
       setSearchKeyword(value);
       onSearch?.(value, event);
-      if (items?.[0]) {
-        setFocusItemValue(items?.[0]);
+      if (items.length > 0) {
+        setFocusItemValue(items[0][valueKey]);
         setLayer(0);
         setKeys([]);
       }
     },
-    [getSearchResult, onSearch, setFocusItemValue, setKeys, setLayer]
+    [getSearchResult, onSearch, setFocusItemValue, setKeys, setLayer, valueKey]
   );
 
   const handleEntered = useCallback(() => {
@@ -295,7 +295,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
         }
 
         if (!shallowEqual(value, focusItemValue)) {
-          onChange?.(focusItemValue, event);
+          onChange?.(focusItemValue ?? null, event);
         }
         handleClose();
       }
@@ -403,7 +403,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     setValueToPaths(nodes);
     enforceUpdate(nextValue);
 
-    onSelect?.(node, null, event);
+    onSelect?.(node, nodes, event);
     onChange?.(nextValue, event);
   };
 
@@ -412,7 +412,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     const nodes = getNodeParents(item);
     nodes.push(item);
     const formattedNodes = nodes.map(node => {
-      const labelElements = [];
+      const labelElements: React.ReactElement[] = [];
       const a = node[labelKey].split(regx);
       const b = node[labelKey].match(regx);
 
@@ -585,7 +585,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
           hasValue={hasValue}
           active={active}
           placement={placement}
-          inputValue={value}
+          inputValue={value ?? ''}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>

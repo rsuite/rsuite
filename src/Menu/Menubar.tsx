@@ -1,5 +1,6 @@
 // Headless ARIA `menubar`
 import React, { useCallback, useRef } from 'react';
+import isNil from 'lodash/isNil';
 import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
 import { KEY_VALUES, useCustom } from '../utils';
 import { isFocusEntering, isFocusLeaving } from '../utils/events';
@@ -23,7 +24,7 @@ export default function Menubar({ vertical = false, children, onActivateItem }: 
   const menubar = useMenu({ role: 'menubar' });
   const [{ items, activeItemIndex }, dispatch] = menubar;
 
-  const menubarElementRef = useRef<HTMLUListElement>();
+  const menubarElementRef = useRef<HTMLUListElement>(null);
 
   const onFocus = useCallback(
     (event: React.FocusEvent) => {
@@ -51,7 +52,9 @@ export default function Menubar({ vertical = false, children, onActivateItem }: 
 
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLUListElement>) => {
-      const activeItem = items[activeItemIndex];
+      const activeItemElement: HTMLElement | null = isNil(activeItemIndex)
+        ? null
+        : items[activeItemIndex].element;
       switch (true) {
         case !vertical && !rtl && event.key === KEY_VALUES.RIGHT:
         case !vertical && rtl && event.key === KEY_VALUES.LEFT:
@@ -92,17 +95,17 @@ export default function Menubar({ vertical = false, children, onActivateItem }: 
         case !vertical && event.key === KEY_VALUES.DOWN:
         case vertical && !rtl && event.key === KEY_VALUES.RIGHT:
         case vertical && rtl && event.key === KEY_VALUES.LEFT:
-          if (activeItem?.element.getAttribute('aria-haspopup') === 'menu') {
+          if (activeItemElement?.getAttribute('aria-haspopup') === 'menu') {
             event.preventDefault();
             event.stopPropagation();
-            activeItem.element.click();
+            activeItemElement.click();
           }
           break;
         case event.key === KEY_VALUES.ENTER:
         case event.key === KEY_VALUES.SPACE:
           event.preventDefault();
           event.stopPropagation();
-          activeItem?.element.click();
+          activeItemElement?.click();
           break;
       }
     },
@@ -130,7 +133,9 @@ export default function Menubar({ vertical = false, children, onActivateItem }: 
           onBlur,
           onKeyDown,
           onClick,
-          'aria-activedescendant': items[activeItemIndex]?.element.id,
+          'aria-activedescendant': isNil(activeItemIndex)
+            ? undefined
+            : items[activeItemIndex].element.id,
           'aria-orientation': vertical ? 'vertical' : undefined // implicitly set 'horizontal'
         },
         menubarElementRef

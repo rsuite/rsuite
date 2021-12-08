@@ -21,7 +21,7 @@ export interface FormContextValue<
 }
 
 export const FormContext = React.createContext<FormContextValue>({});
-export const FormValueContext = React.createContext<Record<string, any>>({});
+export const FormValueContext = React.createContext<Record<string, any> | undefined>({});
 export const FormPlaintextContext = React.createContext<boolean>(false);
 
 export default FormContext;

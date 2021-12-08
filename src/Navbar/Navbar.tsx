@@ -5,7 +5,7 @@ import NavbarBrand from './NavbarBrand';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export const NavbarContext = React.createContext<boolean>(null);
+export const NavbarContext = React.createContext<boolean>(false);
 
 type AppearanceType = 'default' | 'inverse' | 'subtle';
 

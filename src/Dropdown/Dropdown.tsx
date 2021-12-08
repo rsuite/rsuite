@@ -4,7 +4,7 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import DropdownMenu from './DropdownMenu';
 import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../utils';
-import { SidenavContext, SidenavContextType } from '../Sidenav/Sidenav';
+import { SidenavContext } from '../Sidenav/Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
@@ -82,7 +82,7 @@ export interface DropdownProps<T = any>
   onToggle?: (open?: boolean) => void;
 
   /** Selected callback function */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
 export interface DropdownComponent extends RsRefForwardingComponent<'div', DropdownProps> {
@@ -95,7 +95,7 @@ export interface DropdownComponent extends RsRefForwardingComponent<'div', Dropd
  * When used inside <Sidenav>, renders a <TreeviewRootItem>;
  * Otherwise renders a <MenuRoot>
  */
-const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref) => {
+const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: DropdownProps, ref) => {
   const { activeKey, onSelect: onSelectProp, ...rest } = props;
 
   const {
@@ -121,7 +121,7 @@ const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref)
   const { onSelect: onSelectFromNav } = useContext(NavContext);
 
   const emitSelect = useCallback(
-    (eventKey: string, event: React.SyntheticEvent) => {
+    (eventKey: string | undefined, event: React.SyntheticEvent) => {
       onSelectProp?.(eventKey, event);
 
       // If <Dropdown> is inside <Nav>, also trigger `onSelect` on <Nav>
@@ -158,7 +158,7 @@ const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref)
 
   const parentMenu = useContext(MenuContext);
 
-  const sidenav = useContext<SidenavContextType>(SidenavContext);
+  const sidenav = useContext(SidenavContext);
   const navbar = useContext(NavbarContext);
 
   const [{ items }, dispatch] = useReducer(reducer, initialState);
@@ -185,7 +185,7 @@ const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref)
     return (
       <DropdownContext.Provider value={dropdownContextValue}>
         <Disclosure hideOnClickOutside>
-          {({ open }, containerRef) => {
+          {({ open }, containerRef: React.Ref<HTMLElement>) => {
             const classes = merge(
               className,
               withClassPrefix({
@@ -309,7 +309,7 @@ const Dropdown: DropdownComponent = React.forwardRef((props: DropdownProps, ref)
           }
         }}
       >
-        {({ open, ...menuContainer }, menuContainerRef) => {
+        {({ open, ...menuContainer }, menuContainerRef: React.Ref<HTMLElement>) => {
           const classes = merge(
             className,
             withClassPrefix({

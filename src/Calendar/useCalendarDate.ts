@@ -1,13 +1,13 @@
 import { useState, useCallback, useRef } from 'react';
 import { useUpdateEffect } from '../utils';
 
-const useCalendarDate = (value: Date, defaultDate: Date) => {
+const useCalendarDate = (value: Date | undefined, defaultDate: Date | undefined) => {
   const valueRef = useRef(value);
 
   const [calendarDate, setValue] = useState<Date>(value ?? defaultDate ?? new Date());
 
   const setCalendarDate = useCallback(
-    (date: Date) => {
+    (date: Date | undefined) => {
       if (date && date?.valueOf() !== calendarDate?.valueOf()) {
         setValue(date);
       }

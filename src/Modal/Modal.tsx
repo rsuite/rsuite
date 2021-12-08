@@ -74,7 +74,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     animationProps,
     animationTimeout = 300,
     overflow = true,
-    drawer,
+    drawer = false,
     onClose,
     onEntered,
     onEntering,
@@ -90,7 +90,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   const { merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, prefix(size, { full }));
 
-  const dialogRef = useRef<HTMLElement>();
+  const dialogRef = useRef<HTMLElement>(null);
   const transitionEndListener = useRef<{ off: () => void }>();
 
   // The style of the Modal body will be updated with the size of the window or container.
@@ -127,7 +127,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   }, [backdrop]);
 
   const handleExited = useCallback(
-    (node?: Element | Text) => {
+    (node: HTMLElement) => {
       onExited?.(node);
       onDestroyEvents();
       transitionEndListener.current?.off();
@@ -137,7 +137,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   );
 
   const handleEntered = useCallback(
-    (node?: Element | Text) => {
+    (node: HTMLElement) => {
       onEntered?.(node);
       onChangeBodyStyles();
     },
@@ -145,7 +145,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   );
 
   const handleEntering = useCallback(
-    (node?: Element | Text) => {
+    (node: HTMLElement) => {
       onEntering?.(node);
       onChangeBodyStyles(true);
     },

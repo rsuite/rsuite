@@ -4,7 +4,7 @@ import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface MarkProps extends WithAsProps {
-  mark?: number;
+  mark: number;
   last?: boolean;
   renderMark?: (mark: number) => React.ReactNode;
 }

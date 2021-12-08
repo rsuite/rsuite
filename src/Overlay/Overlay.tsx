@@ -8,7 +8,7 @@ import Fade from '../Animation/Fade';
 
 export interface OverlayProps extends AnimationEventProps {
   container?: HTMLElement | (() => HTMLElement);
-  children?: React.ReactElement | ((props: any, ref) => React.ReactElement);
+  children: React.ReactElement | ((props: any, ref) => React.ReactElement);
   childrenProps?: React.HTMLAttributes<HTMLElement>;
   className?: string;
   containerPadding?: number;
@@ -18,7 +18,7 @@ export interface OverlayProps extends AnimationEventProps {
   rootClose?: boolean;
   transition?: React.ElementType;
   triggerTarget?: React.RefObject<any>;
-  onClose?: () => void;
+  onClose?: React.ReactEventHandler;
 }
 
 export const overlayPropTypes = {
@@ -64,7 +64,7 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
   } = props;
 
   const [exited, setExited] = useState(!open);
-  const overlayTarget = useRef();
+  const overlayTarget = useRef(null);
 
   if (open) {
     if (exited) setExited(false);
@@ -88,7 +88,7 @@ const Overlay = React.forwardRef((props: OverlayProps, ref) => {
     return null;
   }
 
-  const positionProps: PositionProps = {
+  const positionProps: Omit<PositionProps, 'children'> = {
     container,
     containerPadding,
     triggerTarget,

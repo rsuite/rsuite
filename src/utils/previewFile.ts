@@ -13,7 +13,7 @@ export function isImage(file) {
   return MIME.includes(file?.type);
 }
 
-export default (file: File, callback: (result: string | ArrayBuffer) => void) => {
+export default (file: File, callback: (result: string | ArrayBuffer | null) => void) => {
   if (!isImage(file)) {
     return callback(null);
   }

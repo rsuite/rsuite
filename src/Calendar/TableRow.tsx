@@ -47,9 +47,9 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
 
     const renderDays = () => {
       const formatStr = locale?.formattedDayPattern || 'yyyy-MM-dd';
-      const days = [];
+      const days: React.ReactElement[] = [];
       const [selectedStartDate, selectedEndDate] = dateRange || [];
-      const [hoverStartDate, hoverEndDate] = hoverRangeValue || [];
+      const [hoverStartDate, hoverEndDate] = hoverRangeValue ?? [];
       const isRangeSelectionMode = typeof dateRange !== 'undefined';
       const todayDate = new Date();
 

@@ -44,12 +44,8 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
 
       switch (action.to) {
         case MoveFocusTo.Next:
-          for (
-            let i = nextActiveItemIndex === null ? 0 : activeItemIndex + 1;
-            i < items.length;
-            i++
-          ) {
-            if (!items[i].props.disabled) {
+          for (let i = activeItemIndex === null ? 0 : activeItemIndex + 1; i < items.length; i++) {
+            if (!items[i].props?.disabled) {
               nextActiveItemIndex = i;
               break;
             }
@@ -57,11 +53,11 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
           break;
         case MoveFocusTo.Prev:
           for (
-            let i = nextActiveItemIndex === null ? items.length - 1 : activeItemIndex - 1;
+            let i = activeItemIndex === null ? items.length - 1 : activeItemIndex - 1;
             i >= 0;
             i--
           ) {
-            if (!items[i].props.disabled) {
+            if (!items[i].props?.disabled) {
               nextActiveItemIndex = i;
               break;
             }
@@ -69,7 +65,7 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
           break;
         case MoveFocusTo.First:
           for (let i = 0; i < items.length; i++) {
-            if (!items[i].props.disabled) {
+            if (!items[i].props?.disabled) {
               nextActiveItemIndex = i;
               break;
             }
@@ -77,7 +73,7 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
           break;
         case MoveFocusTo.Last:
           for (let i = items.length - 1; i >= 0; i--) {
-            if (!items[i].props.disabled) {
+            if (!items[i].props?.disabled) {
               nextActiveItemIndex = i;
               break;
             }
@@ -85,7 +81,7 @@ export function menuReducer(state: MenuState, action: MenuAction): MenuState {
           break;
         case MoveFocusTo.Specific:
           for (let i = 0; i < items.length; i++) {
-            if (items[i].element.id === action.id && !items[i].props.disabled) {
+            if (items[i].element.id === action.id && !items[i].props?.disabled) {
               nextActiveItemIndex = i;
               break;
             }

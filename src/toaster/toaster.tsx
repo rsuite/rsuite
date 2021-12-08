@@ -54,17 +54,17 @@ const toaster: Toaster = (message: React.ReactNode) => toaster.push(message);
 toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => {
   let container = getContainer(options.placement);
   if (!container) {
-    container = createContainer(options.placement, options);
+    container = createContainer(options.placement ?? '', options);
   }
-  return container.current.push(message);
+  return container.current!.push(message);
 };
 
 toaster.remove = (key: string) => {
-  containers.forEach(c => c.current.remove(key));
+  containers.forEach(c => c.current!.remove(key));
 };
 
 toaster.clear = () => {
-  containers.forEach(c => c.current.clear());
+  containers.forEach(c => c.current!.clear());
 };
 
 export default toaster;

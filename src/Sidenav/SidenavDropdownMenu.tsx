@@ -65,7 +65,14 @@ const SidenavDropdownMenu: RsRefForwardingComponent<'li', SidenavDropdownMenuPro
     const { rtl } = useCustom('DropdownMenu');
 
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-    const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = useContext(SidenavContext);
+    const sidenavContext = useContext(SidenavContext);
+
+    if (!sidenavContext) {
+      throw new Error(
+        '<SidenavDropdownMenu> component is not supposed to be used standalone. Use <Dropdown.Item> inside <Sidenav> instead.'
+      );
+    }
+    const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = sidenavContext;
 
     const handleClick = useCallback(
       (event: React.MouseEvent<HTMLElement>) => {

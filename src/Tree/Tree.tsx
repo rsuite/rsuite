@@ -88,7 +88,7 @@ export interface TreeBaseProps<ValueType = string | number, ItemDataType = Recor
   onExpand?: (
     expandItemValues: ItemDataType[],
     activeNode: ItemDataType,
-    concat: (data: ItemDataType[], children: React.ReactNode) => ItemDataType[]
+    concat: (data: ItemDataType[], children: ItemDataType[]) => ItemDataType[]
   ) => void;
 
   /** Callback function after selecting tree node */

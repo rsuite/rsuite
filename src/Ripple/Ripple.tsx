@@ -11,7 +11,7 @@ export interface RippleProps extends WithAsProps {
 }
 
 const getPosition = (target: HTMLElement, event: React.MouseEvent) => {
-  const offset = getOffset(target);
+  const offset = getOffset(target)!;
   const offsetX = (event.pageX || 0) - offset.left;
   const offsetY = (event.pageY || 0) - offset.top;
 
@@ -31,7 +31,7 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
   const { as: Component = 'span', className, classPrefix = 'ripple', onMouseDown, ...rest } = props;
   const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, prefix('pond'));
-  const triggerRef = useRef<HTMLElement>();
+  const triggerRef = useRef<HTMLElement>(null);
   const [rippling, setRippling] = useState(false);
   const [position, setPosition] = useState<React.CSSProperties>();
 
@@ -41,7 +41,7 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
 
   const handleMouseDown = useCallback(
     (event: React.MouseEvent) => {
-      const position = getPosition(triggerRef.current, event);
+      const position = getPosition(triggerRef.current!, event);
       setRippling(true);
       setPosition(position);
       onMouseDown?.(position, event);
@@ -50,7 +50,7 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
   );
 
   useEffect(() => {
-    const parentNode = triggerRef.current.parentNode as HTMLElement;
+    const parentNode = triggerRef.current!.parentNode as HTMLElement;
     const mousedownListener = on(parentNode, 'mousedown', handleMouseDown);
     return () => {
       mousedownListener?.off();

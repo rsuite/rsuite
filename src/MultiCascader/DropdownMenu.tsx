@@ -12,15 +12,15 @@ import { ValueType } from './MultiCascader';
 
 export interface DropdownMenuProps extends WithAsProps {
   disabledItemValues: ValueType;
-  value?: ValueType;
+  value: ValueType;
   childrenKey: string;
   valueKey: string;
   labelKey: string;
-  menuWidth: number;
-  menuHeight: number | string;
+  menuWidth?: number;
+  menuHeight?: number | string;
   cascade?: boolean;
   cascadeData: ItemDataType[][];
-  cascadePaths: ItemDataType[];
+  cascadePaths?: ItemDataType[];
   uncheckableItemValues: ValueType;
   renderMenuItem?: (itemLabel: React.MouseEventHandler, item: ItemDataType) => React.ReactNode;
   renderMenu?: (
@@ -66,13 +66,13 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       ...rest
     } = props;
 
-    const { merge, prefix } = useClassNames(classPrefix);
+    const { merge, prefix } = useClassNames(classPrefix!);
     const classes = merge(className, prefix('items'));
     const rtl = useCustom('DropdownMenu');
 
     const getCascadePaths = useCallback(
       (layer: number, node: ItemDataType) => {
-        const paths = [];
+        const paths: ItemDataType[] = [];
 
         for (let i = 0; i < cascadeData.length && i < layer; i += 1) {
           if (i < layer - 1 && cascadePaths) {

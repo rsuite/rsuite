@@ -59,8 +59,8 @@ export function getEdgeOffset(
 
   // Get the actual offsetTop / offsetLeft value, no matter how deep the node is nested
   const nodeOffset = {
-    left: offset.left + node.offsetLeft,
-    top: offset.top + node.offsetTop
+    left: offset.left! + node.offsetLeft,
+    top: offset.top! + node.offsetTop
   };
   if (node.parentNode === parent) {
     return nodeOffset;

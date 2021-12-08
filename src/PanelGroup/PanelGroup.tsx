@@ -21,13 +21,13 @@ export interface PanelGroupProps<T = KeyType> extends WithAsProps {
   children?: React.ReactNode;
 
   /** Toggles the callback function for the expand panel */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
 interface PanelGroupContext {
   accordion?: boolean;
   activeKey?: KeyType;
-  onGroupSelect?: (activeKey: KeyType, event: React.MouseEvent) => void;
+  onGroupSelect?: (activeKey: KeyType | undefined, event: React.MouseEvent) => void;
 }
 
 export const PanelGroupContext = React.createContext<PanelGroupContext>({});
@@ -56,7 +56,7 @@ const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
   );
 
   const handleSelect = useCallback(
-    (activeKey: KeyType, event: React.MouseEvent) => {
+    (activeKey: KeyType | undefined, event: React.MouseEvent) => {
       setActiveKey(activeKey);
       onSelect?.(activeKey, event);
     },

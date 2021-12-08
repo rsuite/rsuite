@@ -11,9 +11,9 @@ export interface ItemType extends ItemDataType {
 }
 
 interface ItemKeys {
-  valueKey?: string;
-  labelKey?: string;
-  childrenKey?: string;
+  valueKey: string;
+  labelKey: string;
+  childrenKey: string;
 }
 
 /**
@@ -21,7 +21,7 @@ interface ItemKeys {
  * @param node
  */
 export const getParents = (node: ItemType) => {
-  let parents = [];
+  let parents: ItemType[] = [];
 
   if (!node.parent) {
     return parents;
@@ -39,7 +39,11 @@ export const getParents = (node: ItemType) => {
  * @param value
  * @param itemKeys
  */
-export const isSomeChildChecked = (node: ItemDataType, value: ValueType, itemKeys: ItemKeys) => {
+export const isSomeChildChecked = (
+  node: ItemDataType,
+  value: ValueType,
+  itemKeys: Omit<ItemKeys, 'labelKey'>
+) => {
   const { childrenKey, valueKey } = itemKeys;
   if (!node[childrenKey] || !value) {
     return false;
@@ -62,7 +66,11 @@ export const isSomeChildChecked = (node: ItemDataType, value: ValueType, itemKey
  * @param value
  * @param itemKeys
  */
-export const isSomeParentChecked = (node: ItemDataType, value: ValueType, itemKeys: ItemKeys) => {
+export const isSomeParentChecked = (
+  node: ItemDataType,
+  value: ValueType,
+  itemKeys: Pick<ItemKeys, 'valueKey'>
+) => {
   const { valueKey } = itemKeys;
   if (!value) {
     return false;
@@ -79,14 +87,14 @@ export const isSomeParentChecked = (node: ItemDataType, value: ValueType, itemKe
   return false;
 };
 
-export const getOtherItemValuesByUnselectChild = (
+export const getOtherItemValuesByUnselectChild = <T>(
   itemNode: ItemType,
   value: any,
-  itemKeys: ItemKeys
-) => {
+  itemKeys: Omit<ItemKeys, 'labelKey'>
+): T[] => {
   const { valueKey, childrenKey } = itemKeys;
-  const parentValues = [];
-  const itemValues = [];
+  const parentValues: T[] = [];
+  const itemValues: T[] = [];
 
   // Find the parent node of the current node by value
   function findParent(item) {
@@ -132,9 +140,13 @@ export const getOtherItemValuesByUnselectChild = (
 /**
  * Remove the values of all children.
  */
-export const removeAllChildrenValue = (value: ValueType, item: ItemType, itemKeys: ItemKeys) => {
+export const removeAllChildrenValue = <T>(
+  value: T[],
+  item: ItemType,
+  itemKeys: Omit<ItemKeys, 'labelKey'>
+): T[] | undefined => {
   const { valueKey, childrenKey } = itemKeys;
-  let removedValue = [];
+  let removedValue: T[] = [];
   if (!item[childrenKey]) {
     return;
   }
@@ -214,7 +226,10 @@ export function useColumnData(flattenData: ItemType[]) {
  * @param props
  * @param flattenData
  */
-export function useCascadeValue(props: Partial<MultiCascaderProps>, flattenData: ItemType[]) {
+export function useCascadeValue<T>(
+  props: Partial<MultiCascaderProps<T[]>> & ItemKeys,
+  flattenData: ItemType[]
+) {
   const { valueKey, childrenKey, uncheckableItemValues, cascade, value: valueProp } = props;
 
   /**
@@ -222,7 +237,7 @@ export function useCascadeValue(props: Partial<MultiCascaderProps>, flattenData:
    */
   const getChildrenValue = useCallback(
     (item: ItemType) => {
-      let values = [];
+      let values: T[] = [];
 
       if (!item[childrenKey]) {
         return values;
@@ -241,32 +256,32 @@ export function useCascadeValue(props: Partial<MultiCascaderProps>, flattenData:
   );
 
   const splitValue = useCallback(
-    (item: ItemType, checked: boolean, value: ValueType) => {
+    (item: ItemType, checked: boolean, value: T[]) => {
       const itemValue = item[valueKey];
       const childrenValue = getChildrenValue(item);
       const parents = getParents(item);
 
       let nextValue = [...value];
-      let removedValue = [];
+      let removedValue: T[] = [];
 
       if (checked) {
         nextValue.push(itemValue);
 
         // Delete all values under the current node
         removedValue = removedValue.concat(
-          removeAllChildrenValue(nextValue, item, { valueKey, childrenKey })
+          removeAllChildrenValue(nextValue, item, { valueKey, childrenKey })!
         );
 
         // Traverse all ancestor nodes of the current node
         // Then determine whether all the child nodes of these nodes are selected, and then they themselves must be selected
         for (let i = 0; i < parents.length; i++) {
           // Whether the parent node can be selected
-          const isCheckableParent = !uncheckableItemValues.some(v => v === parents[i][valueKey]);
+          const isCheckableParent = !uncheckableItemValues!.some(v => v === parents[i][valueKey]);
 
           if (isCheckableParent) {
             const isCheckAll = parents[i][childrenKey]
               // Filter out options that are marked as not selectable
-              .filter(n => !uncheckableItemValues.some(v => v === n[valueKey]))
+              .filter(n => !uncheckableItemValues!.some(v => v === n[valueKey]))
               // Check if all nodes are selected
               .every(n => nextValue.some(v => v === n[valueKey]));
 
@@ -276,7 +291,7 @@ export function useCascadeValue(props: Partial<MultiCascaderProps>, flattenData:
 
               // Delete all values under the parent node
               removedValue = removedValue.concat(
-                removeAllChildrenValue(nextValue, parents[i], { valueKey, childrenKey })
+                removeAllChildrenValue(nextValue, parents[i], { valueKey, childrenKey })!
               );
             }
           }
@@ -298,8 +313,8 @@ export function useCascadeValue(props: Partial<MultiCascaderProps>, flattenData:
         });
       }
 
-      const uniqValue: ValueType = uniq(nextValue);
-      const uniqRemovedValue: ValueType = uniq(removedValue);
+      const uniqValue: T[] = uniq(nextValue);
+      const uniqRemovedValue: T[] = uniq(removedValue);
 
       return {
         value: uniqValue,
@@ -310,13 +325,13 @@ export function useCascadeValue(props: Partial<MultiCascaderProps>, flattenData:
   );
 
   const transformValue = useCallback(
-    (value: ValueType = []) => {
+    (value: T[] = []) => {
       if (!cascade) {
         return value;
       }
 
-      let tempRemovedValue = [];
-      let nextValue = [];
+      let tempRemovedValue: T[] = [];
+      let nextValue: T[] = [];
 
       for (let i = 0; i < value.length; i++) {
         // If the value in the current value is already in the deleted list, it will not be processed
@@ -324,7 +339,7 @@ export function useCascadeValue(props: Partial<MultiCascaderProps>, flattenData:
           continue;
         }
 
-        const item: ItemType = flattenData.find(v => v[valueKey] === value[i]);
+        const item: ItemType | undefined = flattenData.find(v => v[valueKey] === value[i]);
         if (!item) {
           continue;
         }
@@ -338,7 +353,7 @@ export function useCascadeValue(props: Partial<MultiCascaderProps>, flattenData:
       // Finally traverse all nextValue, and delete if its parent node is also nextValue
       return nextValue.filter(v => {
         const item = flattenData.find(n => n[valueKey] === v);
-        if (item?.parent && nextValue.some(v => v === item.parent[valueKey])) {
+        if (item?.parent && nextValue.some(v => v === item.parent![valueKey])) {
           return false;
         }
         return true;
@@ -347,7 +362,7 @@ export function useCascadeValue(props: Partial<MultiCascaderProps>, flattenData:
     [cascade, flattenData, splitValue, valueKey]
   );
 
-  const [value, setValue] = useState<ValueType>(transformValue(valueProp) || []);
+  const [value, setValue] = useState<T[]>(transformValue(valueProp) || []);
 
   useEffect(() => {
     // Update value when valueProp is updated.

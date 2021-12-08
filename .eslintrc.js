@@ -29,7 +29,8 @@ module.exports = {
     '@typescript-eslint/explicit-member-accessibility': OFF,
     '@typescript-eslint/no-namespace': OFF,
     '@typescript-eslint/explicit-module-boundary-types': OFF,
-    'react/display-name': OFF
+    'react/display-name': OFF,
+    'react/prop-types': OFF
   },
   settings: {
     react: {
