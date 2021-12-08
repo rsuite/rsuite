@@ -149,14 +149,10 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
       aria-disabled={disabled}
     >
       <div className={prefix('checker')}>
-        {children ? (
-          <label title={title}>
-            {input}
-            {children}
-          </label>
-        ) : (
-          input
-        )}
+        <label title={title}>
+          {input}
+          {children}
+        </label>
       </div>
     </Component>
   );
