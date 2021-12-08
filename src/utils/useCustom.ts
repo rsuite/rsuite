@@ -41,13 +41,13 @@ function useCustom<T = any>(keys: string | string[], overrideLocale?): CustomVal
       format(date, formatStr, {
         locale: locale?.Calendar?.dateLocale
       }),
-    [locale.Calendar.dateLocale]
+    [locale.Calendar?.dateLocale]
   );
 
   const defaultParseDate = useCallback(
     (dateString: string, formatString: string) =>
       parse(dateString, formatString, new Date(), { locale: locale?.Calendar?.dateLocale }),
-    [locale.Calendar.dateLocale]
+    [locale.Calendar?.dateLocale]
   );
 
   return {

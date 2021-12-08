@@ -179,10 +179,10 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     // The path after cascading data selection.
     const [selectedPaths, setSelectedPaths] = useState<ItemDataType[]>();
 
-    const triggerRef = useRef<OverlayTriggerInstance>();
-    const overlayRef = useRef<HTMLDivElement>();
-    const targetRef = useRef<HTMLDivElement>();
-    const searchInputRef = useRef<HTMLInputElement>();
+    const triggerRef = useRef<OverlayTriggerInstance>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
+    const targetRef = useRef<HTMLDivElement>(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
 
     usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
@@ -220,7 +220,8 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
      * 1.Have a value and the value is valid.
      * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
      */
-    let hasValue = selectedItems.length > 0 || (valueProp?.length > 0 && isFunction(renderValue));
+    let hasValue =
+      selectedItems.length > 0 || (Number(valueProp?.length) > 0 && isFunction(renderValue));
 
     const { prefix, merge } = useClassNames(classPrefix);
 
@@ -347,7 +348,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     );
 
     const getSearchResult = useCallback(() => {
-      const items = [];
+      const items: ItemDataType[] = [];
       const result = flattenData.filter(item => {
         if (uncheckableItemValues.some(value => item[valueKey] === value)) {
           return false;
@@ -373,7 +374,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     const renderSearchRow = (item: ItemDataType, key: number) => {
       const nodes = getNodeParents(item);
       const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
-      const labelElements = [];
+      const labelElements: React.ReactNode[] = [];
 
       const a = item[labelKey].split(regx);
       const b = item[labelKey].match(regx);
@@ -523,7 +524,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
     if (hasValue && isFunction(renderValue)) {
       selectedElement = renderValue(
-        value.length ? value : valueProp,
+        value.length ? value : valueProp ?? [],
         selectedItems,
         selectedElement
       );

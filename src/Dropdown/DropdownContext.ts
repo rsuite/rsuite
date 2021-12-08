@@ -3,7 +3,7 @@ import { DropdownAction } from './DropdownState';
 
 export interface DropdownContextProps {
   activeKey?: string;
-  onSelect: (eventKey: string, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: string | undefined, event: React.SyntheticEvent) => void;
   hasSelectedItem?: boolean;
   dispatch?: Dispatch<DropdownAction>;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default function reactToString(element) {
-  const nodes = [];
+export default function reactToString(element: React.ReactElement): string[] {
+  const nodes: string[] = [];
   const recursion = elmt => {
     React.Children.forEach(elmt.props.children, child => {
       if (React.isValidElement(child)) {

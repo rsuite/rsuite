@@ -33,22 +33,22 @@ export interface RsRefForwardingComponent<T extends React.ElementType, P = unkno
 
 export interface AnimationEventProps {
   /** Callback fired before the Modal transitions in */
-  onEnter?: (node?: null | Element | Text) => void;
+  onEnter?: (node: HTMLElement) => void;
 
   /** Callback fired as the Modal begins to transition in */
-  onEntering?: (node?: null | Element | Text) => void;
+  onEntering?: (node: HTMLElement) => void;
 
   /** Callback fired after the Modal finishes transitioning in */
-  onEntered?: (node?: null | Element | Text) => void;
+  onEntered?: (node: HTMLElement) => void;
 
   /** Callback fired right before the Modal transitions out */
-  onExit?: (node?: null | Element | Text) => void;
+  onExit?: (node: HTMLElement) => void;
 
   /** Callback fired as the Modal begins to transition out */
-  onExiting?: (node?: null | Element | Text) => void;
+  onExiting?: (node: HTMLElement) => void;
 
   /** Callback fired after the Modal finishes transitioning out */
-  onExited?: (node?: null | Element | Text) => void;
+  onExited?: (node: HTMLElement) => void;
 }
 
 export type PickerAppearance = 'default' | 'subtle';
@@ -57,7 +57,7 @@ export interface PickerBaseProps<LocaleType = any> extends WithAsProps, Animatio
   id?: string;
 
   /** Custom locale */
-  locale?: LocaleType;
+  locale?: Partial<LocaleType>;
 
   /** A picker can have different appearances. */
   appearance?: PickerAppearance;
@@ -170,7 +170,7 @@ export interface FormControlPickerProps<
   childrenKey?: string;
 
   /** Disabled items */
-  disabledItemValues?: ToArray<ValueType>;
+  disabledItemValues?: ToArray<NonNullable<ValueType>>;
 
   /** Initial value */
   defaultValue?: ValueType;
@@ -230,3 +230,5 @@ export interface Offset {
   width?: number;
   height?: number;
 }
+
+export type OnChangeCallback<T, E = React.SyntheticEvent> = (value: T, event: E) => void;

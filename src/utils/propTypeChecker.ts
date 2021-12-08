@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
+import PropTypes, { Requireable, Validator } from 'prop-types';
 
 const ANONYMOUS = '';
 
-function createChainableTypeChecker(validate) {
-  function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
+function createChainableTypeChecker<T>(validate): Requireable<T> {
+  function checkType(isRequired, props, propName, componentName, location, propFullName) {
     componentName = componentName || ANONYMOUS;
     propFullName = propFullName || propName;
 
@@ -30,19 +30,26 @@ function createChainableTypeChecker(validate) {
       }
       return null;
     } else {
-      return validate(props, propName, componentName, location, propFullName, secret);
+      return validate(props, propName, componentName, location, propFullName);
     }
   }
 
-  const chainedCheckType = checkType.bind(null, false);
-  chainedCheckType.isRequired = checkType.bind(null, true);
+  const chainedCheckType: Requireable<T> = Object.assign(checkType.bind(null, false), {
+    isRequired: checkType.bind(null, true)
+  });
 
   return chainedCheckType;
 }
 
-export function tupleType(...types) {
-  return createChainableTypeChecker(
-    (props, propName, componentName, location, propFullName, secret) => {
+type ExtractValue<T extends ReadonlyArray<Validator<any>>> = {
+  [K in keyof T]: T[K] extends Validator<infer V> ? V : never;
+};
+
+export function tupleType<T extends readonly Validator<any>[]>(
+  ...types: T
+): Requireable<ExtractValue<T>> {
+  return createChainableTypeChecker<ExtractValue<T>>(
+    (props, propName, componentName, location, propFullName) => {
       const value = props[propName];
       if (!location) {
         location = 'prop';
@@ -67,7 +74,7 @@ export function tupleType(...types) {
         );
       }
       for (let i = 0; i < value.length; ++i) {
-        const error = types[i](value, i, componentName, 'element', `${propFullName}[${i}]`, secret);
+        const error = types[i](value, String(i), componentName, 'element', `${propFullName}[${i}]`);
         if (error) {
           return error;
         }

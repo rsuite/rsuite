@@ -6,10 +6,10 @@ export type Collection = string | number;
 
 export interface ManagedItem {
   node: HTMLElement;
-  edgeOffset: Offset;
+  edgeOffset: Offset | null;
   info: {
     collection: Collection;
-    index: number;
+    index?: number;
     disabled?: boolean;
   };
 }
@@ -39,7 +39,7 @@ const useManager = () => {
   const getOrderedItems = useCallback(collection => {
     return collection != null
       ? [...collectionMapRef.current[collection]].sort(
-          (nodeInfo1, nodeInfo2) => nodeInfo1.info.index - nodeInfo2.info.index
+          (nodeInfo1, nodeInfo2) => Number(nodeInfo1.info.index) - Number(nodeInfo2.info.index)
         )
       : [];
   }, []);

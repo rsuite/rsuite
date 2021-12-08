@@ -3,10 +3,12 @@ import { DATERANGE_DISABLED_TARGET } from '../utils/constants';
 
 export type ValueType = [Date?, Date?];
 
+export type DateRange = [Date, Date];
+
 export interface RangeType {
   label: React.ReactNode;
   closeOverlay?: boolean;
-  value: ValueType | ((value?: ValueType) => ValueType);
+  value: DateRange | ((value?: ValueType) => DateRange);
 }
 
 export type DisabledDateFunction = (

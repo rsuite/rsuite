@@ -36,7 +36,7 @@ const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInp
         value={value}
         defaultValue={defaultValue}
         data={data}
-        placement={null}
+        placement={undefined}
         creatable
         ref={ref}
       />

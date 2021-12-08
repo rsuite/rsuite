@@ -32,7 +32,7 @@ export interface NavProps<T = any>
   activeKey?: T;
 
   /** Callback function triggered after selection */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
 interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {

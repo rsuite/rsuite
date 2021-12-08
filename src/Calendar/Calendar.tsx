@@ -38,7 +38,7 @@ export interface CalendarProps
   disabledSeconds?: (second: number, date: Date) => boolean;
 
   /** Format str */
-  format?: string;
+  format: string;
 
   /** Hidden hours */
   hideHours?: (hour: number, date: Date) => boolean;
@@ -50,7 +50,7 @@ export interface CalendarProps
   hideSeconds?: (second: number, date: Date) => boolean;
 
   /** The value that mouse hover on in range selection */
-  hoverRangeValue?: Date[];
+  hoverRangeValue?: [Date, Date];
 
   /** Is it in the same month as today */
   inSameMonth?: (date: Date) => boolean;
@@ -62,7 +62,7 @@ export interface CalendarProps
   limitEndYear?: number;
 
   /** Custom locale */
-  locale?: CalendarLocale;
+  locale: CalendarLocale;
 
   /** Callback after the date has changed */
   onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;
@@ -80,7 +80,7 @@ export interface CalendarProps
   onMoveForward?: (nextPageDate: Date) => void;
 
   /** Callback fired before the date selected */
-  onSelect?: (date: Date, event: React.MouseEvent<HTMLDivElement>) => void;
+  onSelect?: (date: Date, event: React.MouseEvent) => void;
 
   /** Date displayed on the current page */
   calendarDate: Date;
@@ -108,7 +108,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       format,
       hoverRangeValue,
       inSameMonth,
-      isoWeek,
+      isoWeek = false,
       limitEndYear,
       locale,
       onChangePageDate,
@@ -130,7 +130,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       ...rest
     } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const isDisabledDate = (date: Date) => disabledDate?.(date);
+    const isDisabledDate = (date: Date) => disabledDate?.(date) ?? false;
     const isTimeDisabled = (date: Date) => DateUtils.disabledTime(props, date);
     const handleMoveForward = useCallback(() => {
       onMoveForward?.(DateUtils.addMonths(calendarDate, 1));

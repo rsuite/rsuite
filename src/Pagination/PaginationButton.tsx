@@ -4,11 +4,11 @@ import Ripple from '../Ripple';
 import { useClassNames, createChainedFunction } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-export interface PaginationButtonProps
+export interface PaginationButtonProps<T = number | string>
   extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLUListElement>, 'onSelect'> {
+    Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onSelect'> {
   /** The value of the current option */
-  eventKey?: number | string;
+  eventKey: T;
 
   /** Called when the button is clicked. */
   onClick?: React.MouseEventHandler;
@@ -23,7 +23,7 @@ export interface PaginationButtonProps
   children?: React.ReactNode;
 
   /** Select the callback function for the current option  */
-  onSelect?: (eventKey: number | string, event: React.MouseEvent) => void;
+  onSelect?: (eventKey: T, event: React.MouseEvent) => void;
 }
 
 const PaginationButton: RsRefForwardingComponent<'button', PaginationButtonProps> =

@@ -215,8 +215,8 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
    */
   const checkAsync = useCallback(() => {
     const formValue = getFormValue() || {};
-    const promises = [];
-    const keys = [];
+    const promises: Promise<CheckResult>[] = [];
+    const keys: string[] = [];
 
     Object.keys(model.spec).forEach(key => {
       keys.push(key);
@@ -343,7 +343,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     [onChange, getFormValue]
   );
 
-  const rootRef = useRef();
+  const rootRef = useRef<HTMLFormElement>(null);
   const formContextValue = useMemo(
     () => ({
       model,

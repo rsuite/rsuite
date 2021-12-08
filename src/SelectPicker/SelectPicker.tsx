@@ -143,12 +143,12 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const triggerRef = useRef<OverlayTriggerInstance>();
-    const targetRef = useRef<HTMLButtonElement>();
-    const overlayRef = useRef<HTMLDivElement>();
-    const searchInputRef = useRef<HTMLInputElement>();
+    const triggerRef = useRef<OverlayTriggerInstance>(null);
+    const targetRef = useRef<HTMLButtonElement>(null);
+    const overlayRef = useRef<HTMLDivElement>(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
-    const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
+    const [value, setValue] = useControlled(valueProp, defaultValue);
 
     // Used to hover the focus item  when trigger `onKeydown`
     const {
@@ -211,7 +211,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
         }
 
         // Find active `MenuItem` by `value`
-        const focusItem = data.find(item => shallowEqual(item[valueKey], focusItemValue));
+        const focusItem = data.find(item => shallowEqual(item[valueKey], focusItemValue))!;
 
         setValue(focusItemValue);
         handleSelect(focusItemValue, focusItem, event);
@@ -293,7 +293,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     }
 
     if (!isNil(value) && isFunction(renderValue)) {
-      selectedElement = renderValue(value, activeItem, selectedElement);
+      selectedElement = renderValue(value, activeItem!, selectedElement);
       // If renderValue returns null or undefined, hasValue is false.
       if (isNil(selectedElement)) {
         hasValue = false;

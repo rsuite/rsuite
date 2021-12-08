@@ -37,11 +37,11 @@ const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = R
 
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix('grid', { active }));
-    const colItems = [];
+    const colItems: React.ReactElement[] = [];
     const firstRowItemWidth = Math.random() * 30 + 30;
     const itemWidth = firstRowItemWidth / 2;
     for (let i = 0; i < columns; i++) {
-      const rowItems = [];
+      const rowItems: React.ReactElement[] = [];
       for (let j = 0; j < rows; j++) {
         let widthPercent = Math.random() * 50 + 10; // when first column
         if (i > 0) {
@@ -54,7 +54,7 @@ const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = R
             style={{
               width: `${widthPercent}%`,
               height: rowHeight,
-              marginTop: j > 0 ? rowMargin : null
+              marginTop: j > 0 ? rowMargin : undefined
             }}
           />
         );

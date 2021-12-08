@@ -78,11 +78,11 @@ const scrollTo = (time: Time, row: HTMLDivElement) => {
   }
 
   Object.entries(time).forEach(([type, value]: [string, number]) => {
-    const container: Element = row.querySelector(`[data-type="${type}"]`);
+    const container = row.querySelector(`[data-type="${type}"]`);
     const node = container?.querySelector(`[data-key="${type}-${value}"]`);
 
     if (node && container) {
-      const { top } = getPosition(node, container);
+      const { top } = getPosition(node, container)!;
       scrollTopAnimation(container, top, scrollTop(container) !== 0);
     }
   });
@@ -95,7 +95,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
       className,
       classPrefix = 'calendar-time-dropdown',
       show,
-      showMeridian,
+      showMeridian = false,
       ...rest
     } = props;
     const { locale, format, date, onChangePageTime: onSelect } = useCalendarContext();
@@ -104,7 +104,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
     useEffect(() => {
       const time = getTime({ format, date, showMeridian });
       // The currently selected time scrolls to the visible range.
-      show && scrollTo(time, rowRef.current);
+      show && scrollTo(time, rowRef.current!);
     }, [date, format, show, showMeridian]);
 
     const handleClick = (type: TimeType, d: number, event: React.MouseEvent) => {
@@ -135,7 +135,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
         return null;
       }
       const { start, end } = getRanges(showMeridian)[type];
-      const items = [];
+      const items: React.ReactElement[] = [];
       const hideFunc = props[camelCase(`hide_${type}`)];
       const disabledFunc = props[camelCase(`disabled_${type}`)];
 
@@ -154,7 +154,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
                 className={itemClasses}
                 tabIndex={-1}
                 data-key={`${type}-${i}`}
-                onClick={!disabled ? partial(handleClick, type, i) : null}
+                onClick={!disabled ? partial(handleClick, type, i) : undefined}
               >
                 {showMeridian && type === 'hours' && i === 0 ? '12' : i}
               </a>

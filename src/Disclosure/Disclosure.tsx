@@ -58,13 +58,13 @@ function Disclosure(props: DisclosureProps) {
     open: defaultOpen
   });
 
-  const containerElementRef = useRef<HTMLElement>();
+  const containerElementRef = useRef<HTMLElement>(null);
 
   const open = openProp ?? openState;
 
   useClickOutside({
     enabled: hideOnClickOutside,
-    isOutside: event => !containerElementRef.current.contains(event.target as HTMLElement),
+    isOutside: event => !containerElementRef.current?.contains(event.target as HTMLElement),
     handle: () => dispatch({ type: DisclosureActionTypes.Hide })
   });
 

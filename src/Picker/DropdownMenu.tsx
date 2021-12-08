@@ -15,7 +15,7 @@ import DropdownMenuGroup from './DropdownMenuGroup';
 import { KEY_GROUP, KEY_GROUP_TITLE } from '../utils/getDataGroupBy';
 import { StandardProps, ItemDataType } from '../@types/common';
 
-export interface DropdownMenuProps
+export interface DropdownMenuProps<Multiple = false>
   extends StandardProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   classPrefix: string;
@@ -41,201 +41,208 @@ export interface DropdownMenuProps
   /** Custom selected option */
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
   renderMenuGroup?: (title: React.ReactNode, item: any) => React.ReactNode;
-  onSelect?: (value: any, item: any, event: React.MouseEvent, checked?: boolean) => void;
+  onSelect?: Multiple extends true
+    ? (value: any, item: any, event: React.MouseEvent, checked: boolean) => void
+    : Multiple extends false
+    ? (value: any, item: any, event: React.MouseEvent) => void
+    : any;
   onGroupTitleClick?: (event: React.MouseEvent) => void;
 }
 
-const DropdownMenu = React.forwardRef(
-  (props: DropdownMenuProps, ref: React.Ref<HTMLDivElement>) => {
-    const {
-      data = [],
-      group,
-      maxHeight = 320,
-      activeItemValues = [],
-      disabledItemValues = [],
-      classPrefix = 'dropdown-menu',
-      valueKey = 'value',
-      labelKey = 'label',
-      virtualized,
-      listProps,
-      className,
-      style,
-      focusItemValue,
-      dropdownMenuItemClassPrefix,
-      dropdownMenuItemAs: DropdownMenuItem,
-      rowHeight = 36,
-      rowGroupHeight = 48,
-      renderMenuGroup,
-      renderMenuItem,
-      onGroupTitleClick,
-      onSelect,
-      ...rest
-    } = props;
+export type DropdownMenuComponent = React.ForwardRefExoticComponent<DropdownMenuProps> & {
+  <Multiple = false>(props: DropdownMenuProps<Multiple>): React.ReactElement | null;
+};
 
-    const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix('items', { grouped: group }));
+const DropdownMenu: DropdownMenuComponent = React.forwardRef<
+  HTMLDivElement,
+  DropdownMenuProps<any>
+>((props, ref) => {
+  const {
+    data = [],
+    group,
+    maxHeight = 320,
+    activeItemValues = [],
+    disabledItemValues = [],
+    classPrefix = 'dropdown-menu',
+    valueKey = 'value',
+    labelKey = 'label',
+    virtualized,
+    listProps,
+    className,
+    style,
+    focusItemValue,
+    dropdownMenuItemClassPrefix,
+    dropdownMenuItemAs: DropdownMenuItem,
+    rowHeight = 36,
+    rowGroupHeight = 48,
+    renderMenuGroup,
+    renderMenuItem,
+    onGroupTitleClick,
+    onSelect,
+    ...rest
+  } = props;
 
-    const styles = { ...style, maxHeight };
-    const menuBodyContainerRef = useRef<HTMLDivElement>();
-    const [foldedGroupKeys, setFoldedGroupKeys] = useState([]);
+  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix('items', { grouped: group }));
 
-    const handleGroupTitleClick = useCallback(
-      (key: string, event: React.MouseEvent) => {
-        const nextGroupKeys = foldedGroupKeys.filter(item => item !== key);
-        if (nextGroupKeys.length === foldedGroupKeys.length) {
-          nextGroupKeys.push(key);
-        }
-        setFoldedGroupKeys(nextGroupKeys);
-        onGroupTitleClick?.(event);
-      },
-      [onGroupTitleClick, foldedGroupKeys]
-    );
+  const styles = { ...style, maxHeight };
+  const menuBodyContainerRef = useRef<HTMLDivElement>(null);
+  const [foldedGroupKeys, setFoldedGroupKeys] = useState<string[]>([]);
 
-    const handleSelect = useCallback(
-      (item: any, value: any, event: React.MouseEvent, checked?: boolean) => {
-        onSelect?.(value, item, event, checked);
-      },
-      [onSelect]
-    );
-
-    const getRowHeight = (list: any[], { index }) => {
-      const item = list[index];
-
-      if (group && item[KEY_GROUP] && index !== 0) {
-        return rowGroupHeight;
+  const handleGroupTitleClick = useCallback(
+    (key: string, event: React.MouseEvent) => {
+      const nextGroupKeys = foldedGroupKeys.filter(item => item !== key);
+      if (nextGroupKeys.length === foldedGroupKeys.length) {
+        nextGroupKeys.push(key);
       }
+      setFoldedGroupKeys(nextGroupKeys);
+      onGroupTitleClick?.(event);
+    },
+    [onGroupTitleClick, foldedGroupKeys]
+  );
 
-      return rowHeight;
-    };
+  const handleSelect = useCallback(
+    (item: any, value: any, event: React.MouseEvent, checked?: boolean) => {
+      onSelect?.(value, item, event, checked);
+    },
+    [onSelect]
+  );
 
-    useEffect(() => {
-      const container = menuBodyContainerRef.current;
-      let activeItem = container.querySelector(`.${prefix('item-focus')}`);
+  const getRowHeight = (list: any[], { index }) => {
+    const item = list[index];
 
-      if (!activeItem) {
-        activeItem = container.querySelector(`.${prefix('item-active')}`);
-      }
+    if (group && item[KEY_GROUP] && index !== 0) {
+      return rowGroupHeight;
+    }
 
-      if (!activeItem) {
-        return;
-      }
+    return rowHeight;
+  };
 
-      const position = getPosition(activeItem as HTMLElement, container);
-      const sTop = scrollTop(container);
-      const sHeight = getHeight(container);
-      if (sTop > position.top) {
-        scrollTop(container, Math.max(0, position.top - 20));
-      } else if (position.top > sTop + sHeight) {
-        scrollTop(container, Math.max(0, position.top - sHeight + 32));
-      }
-    }, [focusItemValue, menuBodyContainerRef, prefix]);
+  useEffect(() => {
+    const container = menuBodyContainerRef.current!;
+    let activeItem = container.querySelector(`.${prefix('item-focus')}`);
 
-    const renderItem = (
-      list: any[],
-      { index, style }: { index: number; style?: React.CSSProperties }
-    ) => {
-      const item = list[index];
-      const value = item[valueKey];
-      const label = item[labelKey];
+    if (!activeItem) {
+      activeItem = container.querySelector(`.${prefix('item-active')}`);
+    }
 
-      if (isUndefined(label) && !item[KEY_GROUP]) {
-        throw Error(`labelKey "${labelKey}" is not defined in "data" : ${index}`);
-      }
+    if (!activeItem) {
+      return;
+    }
 
-      // Use `value` in keys when If `value` is string or number
-      const itemKey = isString(value) || isNumber(value) ? value : index;
+    const position = getPosition(activeItem as HTMLElement, container)!;
+    const sTop = scrollTop(container);
+    const sHeight = getHeight(container);
+    if (sTop > position.top) {
+      scrollTop(container, Math.max(0, position.top - 20));
+    } else if (position.top > sTop + sHeight) {
+      scrollTop(container, Math.max(0, position.top - sHeight + 32));
+    }
+  }, [focusItemValue, menuBodyContainerRef, prefix]);
 
-      /**
-       * Render <DropdownMenuGroup>
-       * when if `group` is enabled
-       */
-      if (group && item[KEY_GROUP]) {
-        const groupValue = item[KEY_GROUP_TITLE];
-        // TODO: grouped options should be owned by group
-        return (
-          <DropdownMenuGroup
-            style={style}
-            classPrefix={'picker-menu-group'}
-            className={classNames({
-              folded: foldedGroupKeys.some(key => key === groupValue)
-            })}
-            key={`group-${groupValue}`}
-            onClick={handleGroupTitleClick.bind(null, groupValue)}
-          >
-            {renderMenuGroup ? renderMenuGroup(groupValue, item) : groupValue}
-          </DropdownMenuGroup>
-        );
-      } else if (isUndefined(value) && !isUndefined(item[KEY_GROUP])) {
-        throw Error(`valueKey "${valueKey}" is not defined in "data" : ${index} `);
-      }
+  const renderItem = (
+    list: any[],
+    { index, style }: { index: number; style?: React.CSSProperties }
+  ) => {
+    const item = list[index];
+    const value = item[valueKey];
+    const label = item[labelKey];
 
-      const disabled = disabledItemValues?.some(disabledValue =>
-        shallowEqual(disabledValue, value)
-      );
-      const active = activeItemValues?.some(v => shallowEqual(v, value));
-      const focus = !isUndefined(focusItemValue) && shallowEqual(focusItemValue, value);
+    if (isUndefined(label) && !item[KEY_GROUP]) {
+      throw Error(`labelKey "${labelKey}" is not defined in "data" : ${index}`);
+    }
 
+    // Use `value` in keys when If `value` is string or number
+    const itemKey = isString(value) || isNumber(value) ? value : index;
+
+    /**
+     * Render <DropdownMenuGroup>
+     * when if `group` is enabled
+     */
+    if (group && item[KEY_GROUP]) {
+      const groupValue = item[KEY_GROUP_TITLE];
+      // TODO: grouped options should be owned by group
       return (
-        <DropdownMenuItem
+        <DropdownMenuGroup
           style={style}
-          key={itemKey}
-          disabled={disabled}
-          active={active}
-          focus={focus}
-          value={value}
-          classPrefix={dropdownMenuItemClassPrefix}
-          onSelect={handleSelect.bind(null, item)}
+          classPrefix={'picker-menu-group'}
+          className={classNames({
+            folded: foldedGroupKeys.some(key => key === groupValue)
+          })}
+          key={`group-${groupValue}`}
+          onClick={handleGroupTitleClick.bind(null, groupValue)}
         >
-          {renderMenuItem ? renderMenuItem(label, item) : label}
-        </DropdownMenuItem>
+          {renderMenuGroup ? renderMenuGroup(groupValue, item) : groupValue}
+        </DropdownMenuGroup>
       );
-    };
+    } else if (isUndefined(value) && !isUndefined(item[KEY_GROUP])) {
+      throw Error(`valueKey "${valueKey}" is not defined in "data" : ${index} `);
+    }
 
-    const filteredItems = group
-      ? data.filter(item => !foldedGroupKeys?.some(key => key === item.parent?.[KEY_GROUP_TITLE]))
-      : data;
-    const rowCount = filteredItems.length;
-
-    // Check whether the height of the data exceeds the height of the container.
-    const useVirtualized = virtualized && rowCount * rowHeight > maxHeight;
+    const disabled = disabledItemValues?.some(disabledValue => shallowEqual(disabledValue, value));
+    const active = activeItemValues?.some(v => shallowEqual(v, value));
+    const focus = !isUndefined(focusItemValue) && shallowEqual(focusItemValue, value);
 
     return (
-      <div
-        role={!useVirtualized ? 'listbox' : null}
-        {...rest}
-        className={classes}
-        ref={mergeRefs(menuBodyContainerRef, ref)}
-        style={styles}
+      <DropdownMenuItem
+        style={style}
+        key={itemKey}
+        disabled={disabled}
+        active={active}
+        focus={focus}
+        value={value}
+        classPrefix={dropdownMenuItemClassPrefix}
+        onSelect={handleSelect.bind(null, item)}
       >
-        {useVirtualized ? (
-          <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
-            {({ height, width }) => (
-              <List
-                role="listbox"
-                containerRole={''}
-                aria-readonly={null}
-                width={width}
-                height={height || maxHeight}
-                scrollToIndex={findIndex(data, item => item[valueKey] === activeItemValues?.[0])}
-                rowCount={rowCount}
-                rowHeight={getRowHeight.bind(this, filteredItems)}
-                rowRenderer={renderItem.bind(null, filteredItems)}
-                {...listProps}
-              />
-            )}
-          </AutoSizer>
-        ) : (
-          filteredItems.map((_item, index: number) => renderItem(filteredItems, { index }))
-        )}
-      </div>
+        {renderMenuItem ? renderMenuItem(label, item) : label}
+      </DropdownMenuItem>
     );
-  }
-);
+  };
+
+  const filteredItems = group
+    ? data.filter(item => !foldedGroupKeys?.some(key => key === item.parent?.[KEY_GROUP_TITLE]))
+    : data;
+  const rowCount = filteredItems.length;
+
+  // Check whether the height of the data exceeds the height of the container.
+  const useVirtualized = virtualized && rowCount * rowHeight > maxHeight;
+
+  return (
+    <div
+      role={!useVirtualized ? 'listbox' : undefined}
+      {...rest}
+      className={classes}
+      ref={mergeRefs(menuBodyContainerRef, ref)}
+      style={styles}
+    >
+      {useVirtualized ? (
+        <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
+          {({ height, width }) => (
+            <List
+              role="listbox"
+              containerRole={''}
+              aria-readonly={undefined}
+              width={width}
+              height={height || maxHeight}
+              scrollToIndex={findIndex(data, item => item[valueKey] === activeItemValues?.[0])}
+              rowCount={rowCount}
+              rowHeight={getRowHeight.bind(this, filteredItems)}
+              rowRenderer={renderItem.bind(null, filteredItems)}
+              {...listProps}
+            />
+          )}
+        </AutoSizer>
+      ) : (
+        filteredItems.map((_item, index: number) => renderItem(filteredItems, { index }))
+      )}
+    </div>
+  );
+});
 
 export const dropdownMenuPropTypes = {
-  classPrefix: PropTypes.string,
+  classPrefix: PropTypes.string.isRequired,
   className: PropTypes.string,
-  dropdownMenuItemAs: PropTypes.elementType,
+  dropdownMenuItemAs: PropTypes.elementType.isRequired,
   dropdownMenuItemClassPrefix: PropTypes.string,
   data: PropTypes.array,
   group: PropTypes.bool,

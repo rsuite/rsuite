@@ -21,7 +21,7 @@ const Plaintext = React.forwardRef((props: PlaintextProps, ref) => {
     classPrefix = 'plaintext',
     className,
     children,
-    localeKey,
+    localeKey = '',
     placeholder = locale[localeKey],
     ...rest
   } = props;

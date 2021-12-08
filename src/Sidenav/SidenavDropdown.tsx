@@ -100,13 +100,21 @@ const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = Re
     ...rest
   } = props;
 
-  const { openKeys = [], onOpenChange } = useContext(SidenavContext);
-  const { hasSelectedItem } = useContext(DropdownContext);
+  const sidenavContext = useContext(SidenavContext);
+  const dropdownContext = useContext(DropdownContext);
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
 
   const internalId = useInternalId('SidenavDropdown');
   const uniqueKey = eventKey ?? internalId;
+
+  if (!sidenavContext || !dropdownContext) {
+    throw new Error(
+      '<SidenavDropdown> component is not supposed to be used standalone. Use <Dropdown> inside <Sidenav> instead.'
+    );
+  }
+  const { openKeys = [], onOpenChange } = sidenavContext;
+  const { hasSelectedItem } = dropdownContext;
 
   const handleToggleDisclosure = useCallback(
     (open: boolean, event: React.SyntheticEvent) => {
@@ -141,7 +149,7 @@ const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = Re
 
         return (
           <Component
-            ref={mergeRefs(ref, containerRef)}
+            ref={mergeRefs(ref, containerRef as any)}
             style={style}
             className={classes}
             {...rest}

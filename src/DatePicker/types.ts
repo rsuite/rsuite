@@ -2,12 +2,12 @@ import { ReactNode } from 'react';
 
 export type ToolbarValue = Date | [Date?, Date?];
 
-export interface RangeType {
+export interface RangeType<T> {
   label: ReactNode;
   closeOverlay?: boolean;
-  value: ToolbarValue | ((value: ToolbarValue) => ToolbarValue);
+  value: T | ((value: T) => T);
 }
 
-export interface InnerRange extends Omit<RangeType, 'value'> {
-  value: ToolbarValue;
+export interface InnerRange<T> extends Omit<RangeType<T>, 'value'> {
+  value: T;
 }

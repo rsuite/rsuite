@@ -106,7 +106,9 @@ describe('<Nav.Item>', () => {
   it('Should render a tooltip when used inside a collapsed <Sidenav>', async () => {
     const { getByTestId } = render(
       <Sidenav expanded={false}>
-        <NavItem data-testid="nav-item">item</NavItem>
+        <Nav>
+          <NavItem data-testid="nav-item">item</NavItem>
+        </Nav>
       </Sidenav>
     );
 

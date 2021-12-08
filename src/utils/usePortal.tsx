@@ -9,7 +9,7 @@ interface PortalProps {
 
 function usePortal(props: PortalProps = {}) {
   const { id, container } = props;
-  const rootElemRef = useRef<Element | HTMLElement>(canUseDOM ? document.body : null);
+  const rootElemRef = useRef<HTMLElement | null>(canUseDOM ? document.body : null);
 
   useEffect(() => {
     const containerElement = typeof container === 'function' ? container() : container;
@@ -20,7 +20,7 @@ function usePortal(props: PortalProps = {}) {
     // Parent is either a new root or the existing dom element
     const parentElement = containerElement || existingParent || document.body;
 
-    rootElemRef.current = parentElement;
+    rootElemRef.current = parentElement as HTMLElement;
   }, [rootElemRef, container, id]);
 
   const Portal: React.FC<any> = useCallback(

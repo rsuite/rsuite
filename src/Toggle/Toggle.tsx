@@ -62,7 +62,7 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
     onChange,
     ...rest
   } = props;
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
   const [checked, setChecked] = useControlled(checkedProp, defaultChecked);
   const { locale } = useCustom<ToggleLocale>('Toggle', localeProp);
 

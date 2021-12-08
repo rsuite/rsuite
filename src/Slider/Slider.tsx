@@ -69,7 +69,7 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
   renderMark?: (mark: number) => React.ReactNode;
 
   /** Customize the content of the rendered Tooltip. */
-  renderTooltip?: (value: number) => React.ReactNode;
+  renderTooltip?: (value: number | undefined) => React.ReactNode;
 
   /** Accepts a function which returns a string value that provides a user-friendly name for the current value of the slider. */
   getAriaValueText?: (value: number, eventKey?: 'start' | 'end') => string;
@@ -136,7 +136,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     ...rest
   } = props;
 
-  const barRef = useRef<HTMLDivElement>();
+  const barRef = useRef<HTMLDivElement>(null);
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
   const { rtl } = useCustom('Slider');
 
@@ -154,13 +154,13 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
    * Returns a valid value that does not exceed the specified range of values.
    */
   const getValidValue = useCallback(
-    (value: number) => {
+    (value: number | undefined) => {
       return checkValue(value, min, max);
     },
     [max, min]
   );
 
-  const [value, setValue] = useControlled(getValidValue(valueProp), getValidValue(defaultValue));
+  const [value, setValue] = useControlled(getValidValue(valueProp), getValidValue(defaultValue)!);
   const count = useMemo(() => precisionMath((max - min) / step), [max, min, step]);
 
   // Get the height of the progress bar
@@ -194,7 +194,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
    */
   const getValueByPosition = useCallback(
     (event: React.MouseEvent) => {
-      const barOffset = getOffset(barRef.current);
+      const barOffset = getOffset(barRef.current!)!;
       const offset = vertical
         ? barOffset.top + barOffset.height - event.pageY
         : event.pageX - barOffset.left;
@@ -213,7 +213,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
       if (disabled || readOnly) {
         return;
       }
-      const nextValue = getValidValue(getValueByPosition(event));
+      const nextValue: number = getValidValue(getValueByPosition(event))!;
       setValue(nextValue);
       onChange?.(nextValue, event);
     },
@@ -228,7 +228,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
       if (disabled || readOnly) {
         return;
       }
-      const nextValue = getValidValue(getValueByPosition(event));
+      const nextValue: number = getValidValue(getValueByPosition(event))!;
 
       onChangeCommitted?.(nextValue, event);
     },
@@ -314,7 +314,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
           onDragMove={handleChangeValue}
           onKeyDown={handleKeyDown}
           onDragEnd={handleChangeCommitted}
-          tabIndex={disabled || readOnly ? null : 0}
+          tabIndex={disabled || readOnly ? undefined : 0}
           aria-orientation={vertical ? 'vertical' : 'horizontal'}
           aria-valuenow={value}
           aria-disabled={disabled}

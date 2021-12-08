@@ -17,7 +17,7 @@ import {
 export interface CheckTreeNodeProps extends WithAsProps {
   rtl?: boolean;
   label?: any;
-  layer?: number;
+  layer: number;
   value?: any;
   focus?: boolean;
   style?: React.CSSProperties;

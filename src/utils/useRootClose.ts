@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import contains from 'dom-lib/contains';
 import ownerDocument from 'dom-lib/ownerDocument';
 import on from 'dom-lib/on';
@@ -32,11 +32,11 @@ interface Options {
  * @todo Allow different behaviors based on whether clicked element is focusable
  */
 function useRootClose(
-  onRootClose: (e: Event) => void,
+  onRootClose: React.ReactEventHandler | undefined,
   { disabled, triggerTarget, overlayTarget, listenEscape = true }: Options
 ) {
   const handleDocumentKeyUp = useCallback(
-    (event: KeyboardEvent) => {
+    (event: React.KeyboardEvent) => {
       if (listenEscape && event.key === KEY_VALUES.ESC) {
         onRootClose?.(event);
       }

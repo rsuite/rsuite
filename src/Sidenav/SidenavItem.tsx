@@ -27,7 +27,7 @@ export interface SidenavItemProps<T = any>
   eventKey?: T;
 
   /** Selected callback function */
-  onSelect?: (eventKey: T, event: React.MouseEvent<HTMLElement>) => void;
+  onSelect?: (eventKey: T, event: React.MouseEvent) => void;
 
   divider?: boolean;
 
@@ -57,14 +57,20 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
 
   const sidenav = useContext(SidenavContext);
 
+  if (!sidenav) {
+    throw new Error(
+      '<SidenavItem> component is not supposed to be used standalone. Use <Nav.Item> inside <Sidenav> instead.'
+    );
+  }
+
   const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
   const selected = activeProp ?? (!isNil(eventKey) && shallowEqual(activeKey, eventKey));
 
-  const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleClick = useCallback<React.MouseEventHandler<HTMLElement>>(
+    event => {
       if (disabled) return;
 
       onSelect?.(eventKey, event);
