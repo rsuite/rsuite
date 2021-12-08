@@ -1,12 +1,11 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import isNil from 'lodash/isNil';
 import canUseDOM from 'dom-lib/canUseDOM';
 import contains from 'dom-lib/contains';
 import getContainer from 'dom-lib/getContainer';
 import on from 'dom-lib/on';
-import ModalManager, { ModalElements } from './ModalManager';
+import ModalManager, { ModalInstance } from './ModalManager';
 import Fade from '../Animation/Fade';
 import { animationPropTypes } from '../Animation/utils';
 import { mergeRefs, usePortal, createChainedFunction, useWillUnmount, KEY_VALUES } from '../utils';
@@ -80,7 +79,7 @@ function getManager() {
 
 const useModalManager = () => {
   const modalManager = getManager();
-  const modal = useRef<ModalElements>({ dialog: null, backdrop: null });
+  const modal = useRef<ModalInstance>({ dialog: null, backdrop: null });
 
   return {
     get dialog() {
@@ -99,157 +98,84 @@ const useModalManager = () => {
   };
 };
 
-const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
-  (props: ModalProps, ref) => {
-    const {
-      as: Component = 'div',
-      children,
-      transition: Transition,
-      dialogTransitionTimeout,
-      style,
-      className,
-      container,
-      animationProps,
-      containerClassName,
-      keyboard = true,
-      enforceFocus = true,
-      backdrop = true,
-      backdropTransitionTimeout,
-      backdropStyle,
-      backdropClassName,
-      open,
-      autoFocus = true,
-      onBackdropClick,
-      onEsc,
-      onExit,
-      onExiting,
-      onExited,
-      onEnter,
-      onEntering,
-      onEntered,
-      onClose,
-      onOpen,
-      ...rest
-    } = props;
+const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
+  HTMLDivElement,
+  ModalProps
+>((props, ref) => {
+  const {
+    as: Component = 'div',
+    children,
+    transition: Transition,
+    dialogTransitionTimeout,
+    style,
+    className,
+    container,
+    animationProps,
+    containerClassName,
+    keyboard = true,
+    enforceFocus = true,
+    backdrop = true,
+    backdropTransitionTimeout,
+    backdropStyle,
+    backdropClassName,
+    open,
+    autoFocus = true,
+    onBackdropClick,
+    onEsc,
+    onExit,
+    onExiting,
+    onExited,
+    onEnter,
+    onEntering,
+    onEntered,
+    onClose,
+    onOpen,
+    ...rest
+  } = props;
 
-    const [exited, setExited] = useState(!open);
-    const { Portal } = usePortal({ container });
-    const modal = useModalManager();
+  const [exited, setExited] = useState(!open);
+  const { Portal } = usePortal({ container });
+  const modal = useModalManager();
 
-    if (open) {
-      if (exited) setExited(false);
-    } else if (!Transition && !exited) {
-      setExited(true);
+  if (open) {
+    if (exited) setExited(false);
+  } else if (!Transition && !exited) {
+    setExited(true);
+  }
+
+  const mountModal = open || (Transition && !exited);
+
+  const lastFocus = useRef<HTMLElement | null>(null);
+
+  const handleDocumentKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      if (keyboard && event.key === KEY_VALUES.ESC && modal.isTopModal()) {
+        onEsc?.(event);
+        onClose?.(event);
+      }
+    },
+    [keyboard, modal, onEsc, onClose]
+  );
+
+  const restoreLastFocus = useCallback(() => {
+    if (lastFocus.current) {
+      lastFocus.current.focus?.();
+      lastFocus.current = null;
+    }
+  }, []);
+
+  const handleEnforceFocus = useCallback(() => {
+    if (!enforceFocus || !modal.isTopModal()) {
+      return;
     }
 
-    const mountModal = open || (Transition && !exited);
+    const currentActiveElement = document.activeElement as HTMLElement;
+    const dialog = modal.dialog;
 
-    const lastFocus = useRef<HTMLElement>();
-
-    const handleDocumentKeyDown = useCallback(
-      (event: React.KeyboardEvent) => {
-        if (keyboard && event.key === KEY_VALUES.ESC && modal.isTopModal()) {
-          onEsc?.(event);
-          onClose?.(event);
-        }
-      },
-      [keyboard, modal, onEsc, onClose]
-    );
-
-    const restoreLastFocus = useCallback(() => {
-      if (lastFocus.current) {
-        lastFocus.current.focus?.();
-        lastFocus.current = null;
-      }
-    }, []);
-
-    const handleEnforceFocus = useCallback(() => {
-      if (!enforceFocus || !modal.isTopModal()) {
-        return;
-      }
-
-      const currentActiveElement = document.activeElement;
-      const dialog = modal.dialog;
-
-      if (dialog && dialog !== currentActiveElement && !contains(dialog, currentActiveElement)) {
-        dialog.focus();
-      }
-    }, [enforceFocus, modal]);
-
-    const handleBackdropClick = useCallback(
-      (event: React.MouseEvent) => {
-        if (event.target !== event.currentTarget) {
-          return;
-        }
-
-        onBackdropClick?.(event);
-
-        if (backdrop === true) {
-          onClose?.(event);
-        }
-      },
-      [backdrop, onBackdropClick, onClose]
-    );
-
-    const documentKeyDownListener = useRef<{ off: () => void }>();
-    const documentFocusListener = useRef<{ off: () => void }>();
-
-    const handleOpen = useCallback(() => {
-      const containerElement = getContainer(container, document.body) as HTMLElement;
-      modal.add(containerElement, containerClassName);
-
-      if (!documentKeyDownListener.current) {
-        documentKeyDownListener.current = on(document, 'keydown', handleDocumentKeyDown);
-      }
-
-      if (!documentFocusListener.current) {
-        documentFocusListener.current = on(document, 'focus', handleEnforceFocus, true);
-      }
-
-      if (canUseDOM) {
-        lastFocus.current = document.activeElement as HTMLElement;
-      }
-
-      if (autoFocus) {
-        modal.dialog?.focus();
-      }
-
-      onOpen?.();
-    }, [
-      autoFocus,
-      container,
-      containerClassName,
-      handleDocumentKeyDown,
-      handleEnforceFocus,
-      modal,
-      onOpen
-    ]);
-
-    const handleClose = useCallback(() => {
-      modal.remove();
-      documentKeyDownListener.current?.off();
-      documentKeyDownListener.current = null;
-      documentFocusListener.current?.off();
-      documentFocusListener.current = null;
-      restoreLastFocus();
-    }, [modal, restoreLastFocus]);
-
-    useEffect(() => {
-      if (!open) {
-        return;
-      }
-      handleOpen();
-    }, [open, handleOpen]);
-
-
-    if (
-      dialog &&
-      dialog !== currentActiveElement &&
-      (isNil(currentActiveElement) || !contains(dialog, currentActiveElement))
-    ) {
+    if (dialog && dialog !== currentActiveElement && !contains(dialog, currentActiveElement)) {
       dialog.focus();
     }
-  }, [enforceFocus, getDialogElement, modal]);
+  }, [enforceFocus, modal]);
 
   const handleBackdropClick = useCallback(
     (event: React.MouseEvent) => {
@@ -266,29 +192,38 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
     [backdrop, onBackdropClick, onClose]
   );
 
-  const documentKeyupListener = useRef<{ off: () => void }>();
-  const docusinListener = useRef<{ off: () => void }>();
+  const documentKeyDownListener = useRef<{ off: () => void } | null>();
+  const documentFocusListener = useRef<{ off: () => void } | null>();
+
   const handleOpen = useCallback(() => {
-    const dialog = getDialogElement();
-    // fixme getContainer() typing mistake
-    const containerElement = getContainer(container!, document.body) as HTMLElement;
+    const containerElement = getContainer(
+      container as Element | (() => Element),
+      document.body
+    ) as HTMLElement;
     modal.add(containerElement, containerClassName);
 
-    documentKeyupListener.current = on(document, 'keydown', handleDocumentKeyUp);
-    docusinListener.current = on(document, 'focus', handleEnforceFocus, true);
-    onOpen?.();
-    checkForFocus();
+    if (!documentKeyDownListener.current) {
+      documentKeyDownListener.current = on(document, 'keydown', handleDocumentKeyDown);
+    }
+
+    if (!documentFocusListener.current) {
+      documentFocusListener.current = on(document, 'focus', handleEnforceFocus, true);
+    }
+
+    if (canUseDOM) {
+      lastFocus.current = document.activeElement as HTMLElement;
+    }
 
     if (autoFocus) {
-      dialog?.focus();
+      modal.dialog?.focus();
     }
+
+    onOpen?.();
   }, [
     autoFocus,
-    checkForFocus,
     container,
     containerClassName,
-    getDialogElement,
-    handleDocumentKeyUp,
+    handleDocumentKeyDown,
     handleEnforceFocus,
     modal,
     onOpen
@@ -296,8 +231,10 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
 
   const handleClose = useCallback(() => {
     modal.remove();
-    documentKeyupListener.current?.off();
-    docusinListener.current?.off();
+    documentKeyDownListener.current?.off();
+    documentKeyDownListener.current = null;
+    documentFocusListener.current?.off();
+    documentFocusListener.current = null;
     restoreLastFocus();
   }, [modal, restoreLastFocus]);
 
@@ -379,7 +316,7 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef(
     <Portal>
       <Component
         {...rest}
-        ref={mergeRefs(modal.setDialogRef, ref)}
+        ref={mergeRefs(modal.setDialogRef, ref as any)}
         style={style}
         className={className}
         tabIndex={-1}

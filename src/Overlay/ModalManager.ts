@@ -5,11 +5,10 @@ import addStyle from 'dom-lib/addStyle';
 import getStyle from 'dom-lib/getStyle';
 import getScrollbarSize from 'dom-lib/getScrollbarSize';
 import isOverflowing from 'dom-lib/isOverflowing';
-import React from 'react';
 
 export interface ModalInstance {
-  dialog: Element;
-  backdrop: Element;
+  dialog: HTMLElement | null;
+  backdrop: HTMLElement | null;
 }
 
 export interface ContainerState {
@@ -41,7 +40,6 @@ class ModalManager {
   data: ContainerState[] = [];
 
   add(modal: ModalInstance, container: HTMLElement, className?: string) {
-    
     let modalIndex = this.modals.indexOf(modal);
     const containerIndex = this.containers.indexOf(container);
 
