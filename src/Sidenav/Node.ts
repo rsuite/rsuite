@@ -4,13 +4,13 @@
  * Ref: https://developer.mozilla.org/zh-CN/docs/Web/API/Node
  */
 export class Node {
-  id: string = null;
+  id: string | null = null;
   nodeValue: string | null = null;
   parent: string | null = null;
   parentNode: Node | null = null;
   childNodes: Node[] = [];
 
-  element: HTMLElement;
+  element!: HTMLElement;
 
   appendChild(newChild: Node) {
     newChild.parentNode = this;

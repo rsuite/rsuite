@@ -58,12 +58,12 @@ export interface InputPickerContextProps {
   multi?: boolean;
 
   /** Tag related props. */
-  tagProps?: TagProps;
+  tagProps: TagProps;
 
   /**
    * Set the trigger for creating tags. only valid when creatable
    */
-  trigger?: TriggerType | TriggerType[];
+  trigger: TriggerType | TriggerType[];
 
   /**
    * No overlay provides options
@@ -71,7 +71,10 @@ export interface InputPickerContextProps {
   disabledOptions?: boolean;
 }
 
-export const InputPickerContext = React.createContext<InputPickerContextProps>({});
+export const InputPickerContext = React.createContext<InputPickerContextProps>({
+  tagProps: {},
+  trigger: 'Enter'
+});
 
 interface InputItemDataType extends ItemDataType {
   create?: boolean;
@@ -112,7 +115,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       readOnly,
       plaintext,
       defaultValue,
-      defaultOpen,
+      defaultOpen = false,
       disabledItemValues = [],
       locale: overrideLocale,
       toggleAs,
@@ -163,25 +166,25 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
     }
 
-    const overlayRef = useRef<HTMLDivElement>();
-    const targetRef = useRef<HTMLButtonElement>();
-    const triggerRef = useRef<OverlayTriggerInstance>();
+    const overlayRef = useRef<HTMLDivElement>(null);
+    const targetRef = useRef<HTMLButtonElement>(null);
+    const triggerRef = useRef<OverlayTriggerInstance>(null);
     const inputRef = useRef<any>();
     const { locale } = useCustom<InputPickerLocale>(['Picker', 'InputPicker'], overrideLocale);
 
     const { prefix, merge } = useClassNames(classPrefix);
     const [uncontrolledData, setData] = useState(controlledData);
     const [maxWidth, setMaxWidth] = useState(100);
-    const [newData, setNewData] = useState([]);
+    const [newData, setNewData] = useState<InputItemDataType[]>([]);
     const [uncontrolledOpen, setOpen] = useState(defaultOpen);
     const open = isUndefined(controlledOpen) ? uncontrolledOpen : controlledOpen;
 
     const getAllData = useCallback(
-      () => [].concat(uncontrolledData, newData),
+      () => ([] as ItemDataType[]).concat(uncontrolledData, newData),
       [uncontrolledData, newData]
     );
     const getAllDataAndCache = useCallback(
-      () => [].concat(getAllData(), cacheData),
+      () => ([] as ItemDataType[]).concat(getAllData(), cacheData),
       [getAllData, cacheData]
     );
 
@@ -202,7 +205,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       {
         data: getAllDataAndCache(),
         valueKey,
-        target: () => overlayRef.current
+        target: () => overlayRef.current!
       }
     );
 
@@ -435,7 +438,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         setValue(focusItemValue);
         setSearchKeyword('');
 
-        handleSelect(focusItemValue, focusItem, event);
+        handleSelect(focusItemValue, focusItem!, event);
         handleChange(focusItemValue, event);
         handleClose();
       },
@@ -504,8 +507,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const events = {
       onMenuPressBackspace: multi ? removeLastItem : handleClean,
       onMenuKeyDown: onKeyDown,
-      onMenuPressEnter: null,
-      onKeyDown: null
+      onMenuPressEnter: undefined as React.ReactEventHandler | undefined,
+      onKeyDown: undefined as React.ReactEventHandler | undefined
     };
 
     const handleKeyPress = useCallback(
@@ -575,7 +578,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const renderDropdownMenuItem = (label: React.ReactNode, item: InputItemDataType) => {
       // 'Create option "{0}"' =>  Create option "xxxxx"
       const newLabel = item.create ? (
-        <span>{tplTransform(locale?.createOption, label)}</span>
+        <span>{tplTransform(locale.createOption, label)}</span>
       ) : (
         label
       );
@@ -591,7 +594,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       let itemNode = dataItem.itemNode;
 
       if (!isNil(value) && isFunction(renderValue)) {
-        itemNode = renderValue(value, dataItem.activeItem, itemNode);
+        itemNode = renderValue(value, dataItem.activeItem!, itemNode);
       }
 
       return { isValid: dataItem.isValid, itemNode };
@@ -604,7 +607,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       const { closable = true, onClose, ...tagRest } = tagProps;
       const tags = value || [];
-      const items = [];
+      const items: (ItemDataType | undefined)[] = [];
 
       const tagElements = tags
         .map(tag => {
@@ -643,7 +646,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       const classes = merge(className, menuClassName, prefix(menuClassPrefix));
       const styles = { ...menuStyle, left, top };
 
-      let items = filterNodesOfTree(getAllData(), checkShouldDisplay);
+      let items: ItemDataType[] = filterNodesOfTree(getAllData(), checkShouldDisplay);
 
       if (creatable && searchKeyword && !items.find(item => item[valueKey] === searchKeyword)) {
         items = [...items, createOption(searchKeyword)];
@@ -675,7 +678,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           maxHeight={menuMaxHeight}
           data={items}
           group={!isUndefined(groupBy)}
-          onSelect={multi ? handleCheckTag : handleSelectItem}
+          onSelect={multi ? handleCheckTag : (handleSelectItem as any)} // fixme don't use any
           renderMenuGroup={renderMenuGroup}
           renderMenuItem={renderDropdownMenuItem}
           virtualized={virtualized}
@@ -779,7 +782,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             plaintext={plaintext}
             ref={targetRef}
             as={toggleAs}
-            tabIndex={null}
+            tabIndex={undefined}
             onClean={handleClean}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}

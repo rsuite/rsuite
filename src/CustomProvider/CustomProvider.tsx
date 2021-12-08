@@ -5,10 +5,10 @@ import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 
 export interface CustomValue<T = Locale> {
   /** Language configuration */
-  locale?: T;
+  locale: T;
 
   /** Support right-to-left */
-  rtl?: boolean;
+  rtl: boolean;
 
   /**
    * Return the formatted date string in the given format. The result may vary by locale.
@@ -23,7 +23,7 @@ export interface CustomValue<T = Locale> {
    *  }
    *
    * */
-  formatDate?: (date: Date | string | number, format?: string) => string;
+  formatDate: (date: Date | number, format: string) => string;
 
   /**
    * Return the date parsed from string using the given format string.
@@ -38,10 +38,10 @@ export interface CustomValue<T = Locale> {
    *  }
    *
    * */
-  parseDate?: (dateString: string, formatString: string) => Date;
+  parseDate: (dateString: string, formatString: string) => Date;
 }
 
-export interface CustomProviderProps<T = Locale> extends CustomValue<T> {
+export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>> {
   /** Supported themes */
   theme?: 'light' | 'dark' | 'high-contrast';
 

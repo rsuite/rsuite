@@ -13,3 +13,19 @@ export type ReplaceProps<Inner extends React.ElementType, P> = Omit<
   P
 > &
   P;
+
+/**
+ * Prepend arguments to function
+ * Useful for prepend `newValue` arg to native `onChange` callbacks
+ *
+ * @see https://stackoverflow.com/a/69668215
+ * @example
+ *
+ * type SomeFunc = (a: string, b: number, c: someCustomType) => number;
+ * type SomeFuncAltered = PrependParameters<SomeFunc, [d: number]>;
+ * // SomeFuncAltered = (d: number, a:string, b:number, c:someCustomType) => number;
+ */
+export type PrependParameters<
+  TFunction extends (...args: any) => any,
+  TParameters extends [...args: any]
+> = (...args: [...TParameters, ...Parameters<TFunction>]) => ReturnType<TFunction>;

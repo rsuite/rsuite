@@ -75,7 +75,7 @@ function decimals(...values: number[]) {
  * @param value
  * @param max
  */
-function disableMaxValue(value: number | string, max: number) {
+function disableMaxValue(value: number | string | undefined, max: number) {
   if (!isNil(value)) {
     return +value >= max;
   }
@@ -87,7 +87,7 @@ function disableMaxValue(value: number | string, max: number) {
  * @param value
  * @param min
  */
-function disableMinValue(value: number | string, min: number) {
+function disableMinValue(value: number | string | undefined, min: number) {
   if (!isNil(value)) {
     return +value <= min;
   }
@@ -117,9 +117,11 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     ...restProps
   } = props;
 
-  const [value, setValue] = useControlled<number | string>(valueProp, defaultValue);
-  const [disabledUpButton, setDisabledUpButton] = useState<boolean>(disableMaxValue(value, max));
-  const [disabledDownButton, setDisabledDownButton] = useState<boolean>(
+  const [value, setValue] = useControlled(valueProp, defaultValue);
+  const [disabledUpButton, setDisabledUpButton] = useState<boolean>(() =>
+    disableMaxValue(value, max)
+  );
+  const [disabledDownButton, setDisabledDownButton] = useState<boolean>(() =>
     disableMinValue(value, min)
   );
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
@@ -129,7 +131,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const inputRef = useRef();
 
   const handleChangeValue = useCallback(
-    (currentValue: number | string, event?: React.SyntheticEvent) => {
+    (currentValue: number | string, event: React.SyntheticEvent) => {
       if (currentValue !== value) {
         // Disable the up button when the value is greater than the maximum value.
         setDisabledUpButton(disableMaxValue(currentValue, max));
@@ -197,7 +199,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   );
 
   const handleChange = useCallback(
-    (value: any, event: React.SyntheticEvent) => {
+    (value: any, event: React.ChangeEvent<HTMLInputElement>) => {
       if (!/^-?(?:\d+)?(\.)?\d*$/.test(value) && value !== '') {
         return;
       }
@@ -207,7 +209,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   );
 
   const handleBlur = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: React.FocusEvent<HTMLInputElement>) => {
       const targetValue = Number.parseFloat(event.target?.value);
       handleChangeValue(getSafeValue(targetValue), event);
     },

@@ -4,8 +4,9 @@ import { setTimingMargin } from '../DateRangePicker/utils';
 import { subDays } from '../utils/dateUtils';
 import { InnerRange, RangeType } from './types';
 import { CalendarState } from '../Calendar';
+import { DateRange } from '../DateRangePicker/types';
 
-export function getDefaultRanges(date: Date | Date[]): InnerRange[] {
+export function getDefaultRanges<T extends Date | DateRange>(date: T): InnerRange<T>[] {
   const todayDate = new Date();
 
   /**
@@ -52,8 +53,8 @@ export function getDefaultRanges(date: Date | Date[]): InnerRange[] {
 }
 
 const generateRangesIterator =
-  ({ calendarDate }: Pick<ToolbarProps, 'calendarDate'>) =>
-  ({ value, ...rest }: RangeType): InnerRange => {
+  <T extends Date | DateRange>({ calendarDate }: Pick<ToolbarProps<T>, 'calendarDate'>) =>
+  ({ value, ...rest }: RangeType<T>): InnerRange<T> => {
     value = typeof value === 'function' ? value(calendarDate) : value;
     return {
       value,
@@ -66,10 +67,10 @@ const generateRangesIterator =
  * @param ranges
  * @param calendarDate
  */
-export const getRanges = ({
+export const getRanges = <T extends Date | DateRange>({
   ranges,
   calendarDate
-}: Pick<ToolbarProps, 'ranges' | 'calendarDate'>): InnerRange[] => {
+}: Pick<ToolbarProps<T>, 'ranges' | 'calendarDate'>): InnerRange<T>[] => {
   return typeof ranges === 'undefined'
     ? getDefaultRanges(calendarDate)
     : ranges.map(generateRangesIterator({ calendarDate }));

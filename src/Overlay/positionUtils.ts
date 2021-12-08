@@ -52,7 +52,7 @@ function getContainerDimensions(containerNode: HTMLElement): Dimensions {
     scrollY = scrollTop(ownerDocument(containerNode).documentElement) || scrollTop(containerNode);
     scrollX = scrollLeft(ownerDocument(containerNode).documentElement) || scrollLeft(containerNode);
   } else {
-    ({ width, height } = getOffset(containerNode));
+    ({ width, height } = getOffset(containerNode)!);
     scrollY = scrollTop(containerNode);
     scrollX = scrollLeft(containerNode);
   }
@@ -183,8 +183,8 @@ export default (props: UtilProps) => {
 
     // Calculate the position of the overlay
     calcOverlayPosition(overlayNode, target, container): PositionType {
-      const childOffset = this.getPosition(target, container);
-      const { height: overlayHeight, width: overlayWidth } = getOffset(overlayNode);
+      const childOffset = this.getPosition(target, container)!;
+      const { height: overlayHeight, width: overlayWidth } = getOffset(overlayNode)!;
       const { top, left } = childOffset;
 
       let nextPlacement = placement;

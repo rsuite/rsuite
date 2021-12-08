@@ -10,7 +10,7 @@ export interface SafeAnchorProps extends WithAsProps, React.HTMLAttributes<HTMLE
   disabled?: boolean;
 }
 
-function isTrivialHref(href: string) {
+function isTrivialHref(href: string | undefined) {
   return !href || href.trim() === '#';
 }
 

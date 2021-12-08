@@ -23,12 +23,12 @@ import { useUpdateEffect } from '../utils';
 
 export interface PositionChildProps {
   className: string;
-  left: number;
-  top: number;
+  left?: number;
+  top?: number;
 }
 
 export interface PositionProps {
-  children?: (props: PositionChildProps, ref) => React.ReactElement;
+  children: (props: PositionChildProps, ref) => React.ReactElement;
   className?: string;
   container?: HTMLElement | (() => HTMLElement);
   containerPadding?: number;
@@ -43,13 +43,14 @@ const usePosition = (
 ): [PositionType, (placementChanged?: any) => void] => {
   const {
     placement = 'right',
-    preventOverflow,
+    preventOverflow = false,
     containerPadding = 0,
     container,
     triggerTarget
   } = props;
-  const containerRef = useRef<Element>();
-  const lastTargetRef = useRef<Element>();
+
+  const containerRef = useRef<Element | null>(null);
+  const lastTargetRef = useRef<Element | null>(null);
   const overlayResizeObserver = useRef<ResizeObserver>();
 
   const defaultPosition = {
@@ -91,9 +92,10 @@ const usePosition = (
       }
 
       const overlay = getDOMNode(ref.current);
+      // fixme dom-lib getContainer incorrect type
       const containerElement = getContainer(
-        typeof container === 'function' ? container() : container,
-        ownerDocument(ref.current).body
+        typeof container === 'function' ? container() : container ?? (null as any),
+        ownerDocument(ref.current!).body
       );
 
       const posi = utils.calcOverlayPosition(overlay, targetElement, containerElement);
@@ -101,7 +103,9 @@ const usePosition = (
       if (forceUpdateDOM && overlay) {
         const preClassName = overlay?.className?.match(/(placement-\S+)/)?.[0];
         removeClass(overlay, preClassName);
-        addClass(overlay, posi.positionClassName);
+        if (posi.positionClassName) {
+          addClass(overlay, posi.positionClassName);
+        }
         addStyle(overlay, { left: `${posi.positionLeft}px`, top: `${posi.positionTop}px` });
       } else {
         setPosition(posi);
@@ -155,7 +159,7 @@ export interface PositionInstance {
 
 const Position = React.forwardRef((props: PositionProps, ref) => {
   const { children, className } = props;
-  const childRef = React.useRef();
+  const childRef = React.useRef<HTMLElement | null>(null);
 
   const [position, updatePosition] = usePosition(props, childRef);
   const { positionClassName, arrowOffsetLeft, arrowOffsetTop, positionLeft, positionTop } =
@@ -186,7 +190,7 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
 Position.displayName = 'Position';
 Position.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.func,
+  children: PropTypes.func.isRequired,
   container: PropTypes.oneOfType([PropTypes.func, PropTypes.any]),
   containerPadding: PropTypes.number,
   placement: PropTypes.any,

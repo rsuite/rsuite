@@ -63,7 +63,7 @@ export interface PaginationProps extends WithAsProps {
   size?: TypeAttributes.Size;
 
   /** callback function for pagination clicked */
-  onSelect?: (eventKey: number, event: React.MouseEvent) => void;
+  onSelect?: (eventKey: string | number, event: React.MouseEvent) => void;
 }
 
 const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwardRef(
@@ -150,7 +150,7 @@ const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwa
     };
 
     const renderPageButtons = () => {
-      const pageButtons = [];
+      const pageButtons: React.ReactElement[] = [];
       let startPage;
       let endPage;
       let hasHiddenPagesAfter;

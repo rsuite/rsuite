@@ -1,10 +1,14 @@
-import { RangeType, ValueType } from './types';
+import { DateRange, RangeType } from './types';
 import { DateUtils } from '../utils';
 
 export const setTimingMargin = (date, way = 'left'): Date =>
   way === 'right' ? DateUtils.endOfDay(date) : DateUtils.startOfDay(date);
 
-export function getCalendarDate({ value }: { value?: ValueType }): ValueType {
+export function getCalendarDate({
+  value
+}: {
+  value: [] | [Date] | [Date, Date] | null;
+}): DateRange {
   // Update calendarDate if the value is not null
   value = value ?? [];
   if (value[0] && value[1]) {
@@ -41,25 +45,28 @@ export const getDefaultRanges = (): RangeType[] => {
   ];
 };
 
-export const isSameRange = (source: ValueType, dest: ValueType, format: string) => {
-  let result =
-    DateUtils.isSameDay(source?.[0], dest?.[0]) && DateUtils.isSameDay(source?.[1], dest?.[1]);
+export const isSameRange = (source: DateRange | null, dest: DateRange | null, format: string) => {
+  // If both are null, reguard as same
+  if (null === source && null === dest) return true;
+  // If only one is null, regard as different
+  if (null === source || null === dest) return false;
+
+  let result = DateUtils.isSameDay(source[0], dest[0]) && DateUtils.isSameDay(source[1], dest[1]);
 
   if (DateUtils.shouldTime(format)) {
     result &&=
-      DateUtils.isSameSecond(source?.[0], dest?.[0]) &&
-      DateUtils.isSameSecond(source?.[1], dest?.[1]);
+      DateUtils.isSameSecond(source[0], dest[0]) && DateUtils.isSameSecond(source[1], dest[1]);
   }
 
   return result;
 };
 
-export const getMonthHoverRange = (date: Date): ValueType => [
+export const getMonthHoverRange = (date: Date): DateRange => [
   DateUtils.startOfMonth(date),
   DateUtils.endOfMonth(date)
 ];
 
-export const getWeekHoverRange = (isoWeek: boolean, date: Date): ValueType => {
+export const getWeekHoverRange = (isoWeek: boolean, date: Date): DateRange => {
   if (isoWeek) {
     // set to the first day of this week according to ISO 8601, 12:00 am
     return [DateUtils.startOfISOWeek(date), DateUtils.endOfISOWeek(date)];

@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Panel from '../Panel';
-import { getDOMNode, render } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 
 describe('Panel', () => {
   it('Should render a panel', () => {
@@ -47,14 +49,24 @@ describe('Panel', () => {
     assert.equal(instance.querySelector('.rs-panel-body').getAttribute('role'), 'button');
   });
 
-  it('Should call onSelect callback', () => {
-    const onSelectSpy = sinon.spy();
-    const instance = getDOMNode(
-      <Panel collapsible onSelect={onSelectSpy} eventKey={12} header={'abc'} />
-    );
+  describe('Collapsible - `collapsible=true`', () => {
+    it('Should call onSelect callback with correct `eventKey`', () => {
+      const onSelectSpy = sinon.spy();
+      const instance = getDOMNode(
+        <Panel collapsible onSelect={onSelectSpy} eventKey={12} header={'abc'} />
+      );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-panel-header'));
-    expect(onSelectSpy).to.have.been.calledWith(12);
+      ReactTestUtils.Simulate.click(instance.querySelector('.rs-panel-header'));
+      expect(onSelectSpy).to.have.been.calledWith(12);
+    });
+
+    it('Should call onSelect callback with undefined if `eventKey` is not specified', () => {
+      const onSelectSpy = sinon.spy();
+      const { getByText } = render(<Panel collapsible onSelect={onSelectSpy} header={'abc'} />);
+
+      userEvent.click(getByText('abc'));
+      expect(onSelectSpy).to.have.been.calledWith(undefined);
+    });
   });
 
   it('Should pass transition callbacks to Collapse', done => {

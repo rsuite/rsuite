@@ -33,7 +33,7 @@ export default function conformToMask(
     previousConformedValue = '',
     placeholderChar = defaultPlaceholderChar,
     placeholder = convertMaskToPlaceholder(mask, placeholderChar),
-    currentCaretPosition,
+    currentCaretPosition = 0,
     keepCharPositions
   } = config;
 
@@ -126,7 +126,7 @@ export default function conformToMask(
         // or we find at least one character that we can map.
         while (rawValueArr.length > 0) {
           // Let's retrieve the first user character in the queue of characters we have left
-          const { char: rawValueChar, isNew } = rawValueArr.shift();
+          const { char: rawValueChar, isNew } = rawValueArr.shift()!;
 
           // If the character we got from the user input is a placeholder character (which happens
           // regularly because user input could be something like (540) 90_-____, which includes
@@ -161,7 +161,7 @@ export default function conformToMask(
               // `9`, to the first available placeholder position, but then, there are no more spots available for the
               // `4` and `2`. So, we discard them and end up with a conformed value of `92__`.
               const rawValueArrLength = rawValueArr.length;
-              let indexOfNextAvailablePlaceholderChar = null;
+              let indexOfNextAvailablePlaceholderChar: number | null = null;
 
               // Let's loop through the remaining raw value characters. We are looking for either a suitable spot, ie,
               // a placeholder character or a non-suitable spot, ie, a non-placeholder character that is not new.
@@ -228,7 +228,7 @@ export default function conformToMask(
   // That's why the logic below finds the last filled placeholder character, and removes everything
   // from that point on.
   if (suppressGuide && isAddition === false) {
-    let indexOfLastFilledPlaceholderChar = null;
+    let indexOfLastFilledPlaceholderChar: number | null = null;
 
     // Find the last filled placeholder position and substring from there
     for (let i = 0; i < conformedValue.length; i++) {

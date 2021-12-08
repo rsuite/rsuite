@@ -3,17 +3,17 @@ import { render } from '@testing-library/react';
 import Menu from '../Menu';
 import MenuItem from '../MenuItem';
 
-afterEach(() => {
-  sinon.restore();
-});
-
 function renderMenuItem(ui) {
   return render(
-    <Menu>
-      {(containerProps, containerRef) => (
-        <div ref={containerRef} {...containerProps} data-testid="container">
+    <Menu
+      renderMenuPopup={(props, ref) => (
+        <ul ref={ref} {...props}>
           {ui}
-        </div>
+        </ul>
+      )}
+    >
+      {(containerProps, containerRef) => (
+        <div ref={containerRef} {...containerProps} data-testid="container"></div>
       )}
     </Menu>
   );
@@ -21,7 +21,7 @@ function renderMenuItem(ui) {
 
 describe('<MenuItem>', () => {
   it('Should not be active when activeDecsendant is empty', () => {
-    const renderPropSpy = sinon.spy(() => null);
+    const renderPropSpy = sinon.spy((props, ref) => <li ref={ref} {...props}></li>);
 
     renderMenuItem(<MenuItem>{renderPropSpy}</MenuItem>);
 

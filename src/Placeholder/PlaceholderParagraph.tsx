@@ -38,7 +38,7 @@ const PlaceholderParagraph: RsRefForwardingComponent<'div', PlaceholderParagraph
     const graphShape = graph === true ? 'square' : graph;
 
     const rowElements = useMemo(() => {
-      const rowArr = [];
+      const rowArr: React.ReactElement[] = [];
 
       for (let i = 0; i < rows; i++) {
         const styles = {

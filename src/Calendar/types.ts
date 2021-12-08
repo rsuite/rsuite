@@ -6,9 +6,9 @@ export interface CalendarInnerContextValue {
   dateRange?: Date[];
   disabledDate?: (date: Date, selectRangeValue?: Date[], type?: string) => boolean;
   format?: string;
-  hoverRangeValue?: Date[];
+  hoverRangeValue?: [Date, Date];
   inSameMonth?: (date: Date) => boolean;
-  isoWeek?: boolean;
+  isoWeek: boolean;
   onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;
   onChangePageTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
   onMouseMove?: (date: Date) => void;

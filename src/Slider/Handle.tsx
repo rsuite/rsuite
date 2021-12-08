@@ -15,7 +15,7 @@ export interface HandleProps extends WithAsProps, React.HTMLAttributes<HTMLDivEl
   rtl?: boolean;
   position?: number;
   value?: number;
-  renderTooltip?: (value: number) => React.ReactNode;
+  renderTooltip?: (value: number | undefined) => React.ReactNode;
   onDragMove?: (event: React.DragEvent, dataset?: DOMStringMap) => void;
   onDragStart?: (event: React.MouseEvent) => void;
   onDragEnd?: (event: React.MouseEvent, dataset?: DOMStringMap) => void;
@@ -50,15 +50,15 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
     } = props;
     const [active, setActive] = useState(false);
 
-    const rootRef = useRef<HTMLDivElement>();
+    const rootRef = useRef<HTMLDivElement>(null);
     const horizontalKey = rtl ? 'right' : 'left';
     const direction = vertical ? 'bottom' : horizontalKey;
     const styles = { ...style, [direction]: `${position}%` };
     const { merge, prefix } = useClassNames(classPrefix);
     const handleClasses = merge(className, prefix('handle'), { active });
 
-    const tooltipRef = useRef();
-    const mouseMoveTracker = useRef<DOMMouseMoveTracker>();
+    const tooltipRef = useRef<HTMLDivElement>(null);
+    const mouseMoveTracker = useRef<DOMMouseMoveTracker | null>();
 
     const releaseMouseMoves = useCallback(() => {
       mouseMoveTracker.current?.releaseMouseMoves();
@@ -77,7 +77,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
     const handleDragMove = useCallback(
       (_deltaX: number, _deltaY: number, event: React.DragEvent) => {
         if (mouseMoveTracker.current?.isDragging()) {
-          onDragMove?.(event, rootRef.current.dataset);
+          onDragMove?.(event, rootRef.current?.dataset);
           setTooltipPosition();
         }
       },
@@ -88,7 +88,7 @@ const Handle: RsRefForwardingComponent<'div', HandleProps> = React.forwardRef(
       (event: React.MouseEvent) => {
         setActive(false);
         releaseMouseMoves();
-        onDragEnd?.(event, rootRef.current.dataset);
+        onDragEnd?.(event, rootRef.current?.dataset);
       },
       [onDragEnd, releaseMouseMoves]
     );

@@ -8,12 +8,12 @@ import Plaintext from '../Plaintext';
 export interface RadioContextProps {
   inline?: boolean;
   name?: string;
-  value?: ValueType;
+  value?: ValueType | null;
   controlled?: boolean;
   disabled?: boolean;
   readOnly?: boolean;
   plaintext?: boolean;
-  onChange?: (value: ValueType, event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (value: ValueType | undefined, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface RadioGroupProps<T = ValueType> extends WithAsProps, FormControlBaseProps<T> {
@@ -55,9 +55,9 @@ const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwa
     const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
 
     const handleChange = useCallback(
-      (nextValue: ValueType, event: React.ChangeEvent<HTMLInputElement>) => {
+      (nextValue: ValueType | undefined, event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(nextValue);
-        onChange?.(nextValue, event);
+        onChange?.(nextValue ?? '', event);
       },
       [onChange, setValue]
     );

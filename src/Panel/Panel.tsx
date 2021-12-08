@@ -43,7 +43,7 @@ export interface PanelProps<T = string | number> extends WithAsProps, AnimationE
   panelRole?: string;
 
   /** callback function for the panel clicked */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
 const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
@@ -74,7 +74,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       ...rest
     } = props;
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const [expandedState, setExpanded] = useControlled<boolean>(expandedProp, defaultExpanded);
+    const [expandedState, setExpanded] = useControlled(expandedProp, defaultExpanded);
     const { accordion, activeKey, onGroupSelect } = useContext(PanelGroupContext) || {};
 
     let collapsible = collapsibleProp;
@@ -146,7 +146,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
           <>
             <AngleDownIcon rotate={expanded ? 180 : 0} />
             <span className={prefix('title')} role="presentation">
-              <span className={expanded ? null : 'collapsed'}>{header}</span>
+              <span className={expanded ? undefined : 'collapsed'}>{header}</span>
             </span>
           </>
         ) : (
@@ -160,7 +160,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       return (
         <div
           role={headerRole}
-          aria-controls={collapsible && id ? `${id}` : null}
+          aria-controls={collapsible && id ? `${id}` : undefined}
           aria-expanded={expanded}
           className={prefix('header')}
           onClick={collapsible ? handleSelect : undefined}

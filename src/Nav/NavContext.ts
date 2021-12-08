@@ -3,7 +3,7 @@ import noop from 'lodash/noop';
 
 export interface NavContextProps {
   activeKey: string | null;
-  onSelect: (eventKey: string, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: string | undefined, event: React.SyntheticEvent) => void;
 }
 
 const NavContext = React.createContext<NavContextProps>({

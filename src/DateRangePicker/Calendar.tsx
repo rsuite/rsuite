@@ -5,7 +5,7 @@ import CalendarCore, {
   CalendarProps as CalendarCoreProps,
   CalendarState
 } from '../Calendar/Calendar';
-import { ValueType } from './types';
+import { DateRange } from './types';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { DatePickerLocale } from '../locales';
 import { DATERANGE_DISABLED_TARGET } from '../utils';
@@ -15,6 +15,8 @@ type OmitCalendarCoreTypes =
   | 'onSelect'
   | 'onMouseMove'
   | 'calendarDate'
+  | 'format'
+  | 'locale'
   | 'onToggleMeridian';
 
 /**
@@ -26,10 +28,14 @@ function omitTime(date: Date) {
 }
 
 export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, OmitCalendarCoreTypes> {
-  calendarDate?: ValueType;
-  disabledDate?: (date: Date, selectValue: ValueType, type: string) => boolean;
+  calendarDate?: DateRange;
+  disabledDate?: (
+    date: Date,
+    selectValue: [] | [Date] | [Date, Date],
+    type: DATERANGE_DISABLED_TARGET
+  ) => boolean;
   format?: string;
-  hoverRangeValue?: ValueType;
+  hoverRangeValue?: DateRange;
   index: number;
   isoWeek?: boolean;
   limitEndYear?: number;
@@ -38,10 +44,10 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   onChangeCalendarTime?: (index: number, date: Date) => void;
   onToggleMeridian: (index: number, event: React.MouseEvent) => void;
   onMouseMove?: (date: Date) => void;
-  onSelect?: (date: Date, event?: React.SyntheticEvent) => void;
+  onSelect?: (date: Date, event: React.SyntheticEvent) => void;
   showOneCalendar?: boolean;
   showWeekNumbers?: boolean;
-  value?: ValueType;
+  value?: [] | [Date] | [Date, Date];
 }
 
 const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
@@ -86,7 +92,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
 
     const handleChangePageTime = useCallback(
       (nextPageDate: Date) => {
-        onChangeCalendarTime(index, nextPageDate);
+        onChangeCalendarTime?.(index, nextPageDate);
       },
       [index, onChangeCalendarTime]
     );

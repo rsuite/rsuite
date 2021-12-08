@@ -57,7 +57,7 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
     };
 
     const getTimeFormat = useCallback(() => {
-      const timeFormat = [];
+      const timeFormat: string[] = [];
 
       if (!format) {
         return '';

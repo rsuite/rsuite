@@ -113,7 +113,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     } = props;
 
     const datalist = transformData(data);
-    const [value, setValue] = useControlled<ValueType>(valueProp, defaultValue);
+    const [value, setValue] = useControlled(valueProp, defaultValue);
     const [focus, setFocus] = useState(false);
     const items = datalist?.filter(shouldDisplay(filterBy, value)) || [];
     const hasItems = items.length > 0;
@@ -131,7 +131,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       target: () => overlayRef.current
     });
 
-    const handleKeyDownEvent = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const handleKeyDownEvent = (event: React.KeyboardEvent) => {
       if (!overlayRef.current) {
         return;
       }
@@ -225,7 +225,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ disabled }));
-    const triggerRef = useRef<OverlayTriggerInstance>();
+    const triggerRef = useRef<OverlayTriggerInstance>(null);
 
     usePublicMethods(ref, { triggerRef, overlayRef });
 

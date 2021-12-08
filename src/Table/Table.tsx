@@ -27,7 +27,7 @@ interface TableComponent
   ColumnGroup: typeof ColumnGroup;
 }
 
-const Table: TableComponent = React.forwardRef((props: TableProps, ref: React.RefObject<any>) => {
+const Table: TableComponent = React.forwardRef<any, TableProps>((props, ref) => {
   const { locale: localeProp, loadAnimation = true, ...rest } = props;
   const { locale, rtl } = useCustom('Table', localeProp);
 

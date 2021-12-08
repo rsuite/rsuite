@@ -36,18 +36,18 @@ export interface SidenavProps<T = string> extends WithAsProps {
    * Select the callback function for the menu
    * @deprecated Use <Sidenav onSelect> instead
    */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
-export const SidenavContext = React.createContext<SidenavContextType>(null);
+export const SidenavContext = React.createContext<SidenavContextType | null>(null);
 
 export interface SidenavContextType<T = string> {
   openKeys: T[];
-  activeKey: T;
+  activeKey: T | null;
   sidenav: boolean;
   expanded: boolean;
   onOpenChange: (eventKey: T, event: React.SyntheticEvent) => void;
-  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
+  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
 export interface SidenavComponent extends RsRefForwardingComponent<'div', SidenavProps> {
@@ -56,6 +56,8 @@ export interface SidenavComponent extends RsRefForwardingComponent<'div', Sidena
   Toggle: typeof SidenavToggle;
 }
 
+const emptyArray = [];
+
 const Sidenav: SidenavComponent = React.forwardRef((props: SidenavProps, ref) => {
   const {
     as: Component = 'nav',
@@ -63,8 +65,8 @@ const Sidenav: SidenavComponent = React.forwardRef((props: SidenavProps, ref) =>
     classPrefix = 'sidenav',
     appearance = 'default',
     expanded = true,
-    activeKey,
-    defaultOpenKeys,
+    activeKey = null,
+    defaultOpenKeys = emptyArray,
     openKeys: openKeysProp,
     onSelect,
     onOpenChange,
@@ -76,7 +78,7 @@ const Sidenav: SidenavComponent = React.forwardRef((props: SidenavProps, ref) =>
   const classes = merge(className, withClassPrefix(appearance));
 
   const handleOpenChange = useCallback(
-    (eventKey: any, event: React.MouseEvent) => {
+    (eventKey: any, event: React.SyntheticEvent) => {
       const find = key => shallowEqual(key, eventKey);
       const nextOpenKeys = [...openKeys];
 

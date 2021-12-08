@@ -6,11 +6,11 @@ import Mark from './Mark';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface GraduatedProps extends WithAsProps {
-  step?: number;
-  min?: number;
-  max?: number;
-  count?: number;
-  value?: number | number[];
+  step: number;
+  min: number;
+  max: number;
+  count: number;
+  value: number | number[];
   renderMark?: (mark: number) => React.ReactNode;
 }
 
@@ -28,7 +28,7 @@ const Graduated: RsRefForwardingComponent<'div', GraduatedProps> = React.forward
       renderMark
     } = props;
     const { merge, prefix } = useClassNames(classPrefix);
-    const activeIndexs = [];
+    const activeIndexs: number[] = [];
 
     let startIndex = 0;
     let endIndex = 0;
@@ -45,7 +45,7 @@ const Graduated: RsRefForwardingComponent<'div', GraduatedProps> = React.forward
       activeIndexs.push(precisionMath(Math.ceil(((value - min) / (max - min)) * count)));
     }
 
-    const graduatedItems = [];
+    const graduatedItems: React.ReactElement[] = [];
 
     for (let i = 0; i < count; i += 1) {
       const classes = prefix({

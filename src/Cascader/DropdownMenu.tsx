@@ -12,16 +12,17 @@ import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
 
-export interface DropdownMenuProps extends WithAsProps {
+export interface DropdownMenuProps extends Omit<WithAsProps, 'classPrefix'> {
+  classPrefix: string;
   disabledItemValues: ValueType[];
-  activeItemValue?: ValueType;
+  activeItemValue?: ValueType | null;
   childrenKey: string;
   cascadeData: ItemDataType[][];
   cascadePaths: ItemDataType[];
   valueKey: string;
   labelKey: string;
-  menuWidth: number;
-  menuHeight: number | string;
+  menuWidth?: number;
+  menuHeight?: number | string;
   renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
   renderMenu?: (
     items: ItemDataType[],
@@ -77,7 +78,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
         }
 
         if (activeItem) {
-          const position = getPosition(activeItem, column);
+          const position = getPosition(activeItem, column)!;
           // Let the active option scroll into view.
           scrollTop(column, position.top);
         }
@@ -86,7 +87,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
     const getCascadePaths = useCallback(
       (layer: number, node: ItemDataType) => {
-        const paths = [];
+        const paths: ItemDataType[] = [];
 
         for (let i = 0; i < cascadeData.length && i < layer; i += 1) {
           if (i < layer - 1 && cascadePaths) {

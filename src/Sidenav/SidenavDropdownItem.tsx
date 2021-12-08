@@ -71,9 +71,16 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
       ...rest
     } = props;
 
-    const { activeKey, onSelect: onSidenavSelect } = useContext(SidenavContext);
-    const nav = useContext(NavContext);
+    const sidenavContext = useContext(SidenavContext);
     const dropdown = useContext(DropdownContext);
+
+    if (!sidenavContext || !dropdown) {
+      throw new Error(
+        '<SidenavDropdownItem> component is not supposed to be used standalone. Use <Dropdown.Item> within <Sidenav> instead.'
+      );
+    }
+    const { activeKey, onSelect: onSidenavSelect } = sidenavContext;
+    const nav = useContext(NavContext);
 
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
@@ -96,7 +103,7 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
         if (disabled) return;
 
         onSelect?.(eventKey, event);
-        dropdown?.onSelect(eventKey, event);
+        dropdown.onSelect?.(eventKey, event);
         onSidenavSelect?.(eventKey, event);
       },
       [disabled, onSelect, onSidenavSelect, eventKey, dropdown]

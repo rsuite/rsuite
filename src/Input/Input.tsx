@@ -10,6 +10,7 @@ import {
   TypeAttributes,
   FormControlBaseProps
 } from '../@types/common';
+import { PrependParameters } from '../@types/utils';
 
 export interface LocaleType {
   unfilled: string;
@@ -18,7 +19,7 @@ export interface LocaleType {
 export interface InputProps
   extends WithAsProps,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'size'>,
-    FormControlBaseProps {
+    Omit<FormControlBaseProps, 'onChange'> {
   /** The HTML input type */
   type?: string;
 
@@ -31,7 +32,7 @@ export interface InputProps
   /** Ref of input element */
   inputRef?: React.Ref<any>;
 
-  onChange?: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: PrependParameters<React.ChangeEventHandler<HTMLInputElement>, [value: string]>;
 
   /** Called on press enter */
   onPressEnter?: React.KeyboardEventHandler<HTMLInputElement>;

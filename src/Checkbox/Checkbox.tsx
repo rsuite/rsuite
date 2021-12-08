@@ -49,7 +49,11 @@ export interface CheckboxProps<V = ValueType> extends WithAsProps {
   name?: string;
 
   /** Called when the user attempts to change the checked state. */
-  onChange?: (value: V, checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (
+    value: V | undefined,
+    checked: boolean,
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void;
 
   /** Called when the checkbox or label is clicked. */
   onClick?: (event: React.SyntheticEvent) => void;
@@ -103,7 +107,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       return controlledChecked;
     }, [controlledChecked, groupValue, value]);
 
-    const [checked, setChecked] = useControlled<boolean>(isChecked(), defaultChecked);
+    const [checked, setChecked] = useControlled(isChecked(), defaultChecked);
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ inline, indeterminate, disabled, checked }));
     const [htmlInputProps, restProps] = partitionHTMLProps(rest);

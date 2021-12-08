@@ -31,11 +31,11 @@ const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivE
 
   const { bordered, register, size } = useContext(ListContext);
   const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const listItemRef = useRef(null);
+  const listItemRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const { unregister } = register({
-      node: listItemRef.current,
+      node: listItemRef.current!,
       edgeOffset: null,
       info: { collection, disabled, index }
     });
@@ -49,7 +49,7 @@ const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivE
       role="listitem"
       aria-disabled={disabled}
       {...rest}
-      ref={mergeRefs(listItemRef, ref)}
+      ref={mergeRefs(listItemRef as any, ref)}
       className={classes}
     >
       {children}

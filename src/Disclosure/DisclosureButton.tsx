@@ -1,6 +1,7 @@
-import React, { useCallback, useContext, useRef } from 'react';
-import DisclosureContext, { DisclosureActionTypes } from './DisclosureContext';
+import React, { useCallback, useRef } from 'react';
+import { DisclosureActionTypes } from './DisclosureContext';
 import { KEY_VALUES } from '../utils';
+import useDisclosureContext from './useDisclosureContext';
 
 export interface DisclosureButtonRenderProps {
   open: boolean;
@@ -16,9 +17,9 @@ export interface DisclosureButtonProps {
 function DisclosureButton(props: DisclosureButtonProps) {
   const { children } = props;
 
-  const buttonRef = useRef<HTMLButtonElement>();
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const [{ open }, dispatch, { onToggle }] = useContext(DisclosureContext);
+  const [{ open }, dispatch, { onToggle }] = useDisclosureContext(DisclosureButton.displayName);
 
   const toggle = useCallback(
     (event: React.SyntheticEvent) => {

@@ -30,9 +30,9 @@ export function convertMaskToPlaceholder(
 }
 
 export function processCaretTraps(mask) {
-  const indexes = [];
+  const indexes: number[] = [];
 
-  let indexOfCaretTrap;
+  let indexOfCaretTrap: number;
 
   while (((indexOfCaretTrap = mask.indexOf(strCaretTrap)), indexOfCaretTrap !== -1)) {
     indexes.push(indexOfCaretTrap);
