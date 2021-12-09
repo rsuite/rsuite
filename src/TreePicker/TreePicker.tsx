@@ -912,7 +912,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
     // 当用户进行搜索时，hasChildren的判断要变成判断是否存在 visible 为 true 的子节点
     const visibleChildren =
       _.isUndefined(searchKeyword) || searchKeyword.length === 0
-        ? !!children
+        ? !!children.length
         : hasVisibleChildren(node, childrenKey);
 
     const nodeProps = {
