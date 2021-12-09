@@ -3,36 +3,7 @@
 ```js
 const instance = (
   <div>
-    <AvatarGroup gap={6}>
-      <Avatar
-        size="lg"
-        circle
-        src="https://avatars.githubusercontent.com/u/12592949"
-        alt="@SevenOutman"
-      />
-      <Avatar
-        size="md"
-        circle
-        src="https://avatars.githubusercontent.com/u/12592949"
-        alt="@SevenOutman"
-      />
-      <Avatar
-        size="sm"
-        circle
-        src="https://avatars.githubusercontent.com/u/12592949"
-        alt="@SevenOutman"
-      />
-      <Avatar
-        size="xs"
-        circle
-        src="https://avatars.githubusercontent.com/u/12592949"
-        alt="@SevenOutman"
-      />
-    </AvatarGroup>
-
-    <hr />
-
-    <AvatarGroup size="xs">
+    <AvatarGroup stack>
       <Avatar circle src="https://avatars.githubusercontent.com/u/12592949" alt="@superman66" />
       <Avatar circle src="https://avatars.githubusercontent.com/u/8225666" alt="@SevenOutman" />
       <Avatar circle src="https://avatars.githubusercontent.com/u/15609339" alt="@hiyangguo" />
@@ -43,6 +14,18 @@ const instance = (
       <Avatar circle src="https://avatars.githubusercontent.com/u/10924138" alt="@zmhawk" />
       <Avatar circle src="https://avatars.githubusercontent.com/u/2797600" alt="@posebear1990" />
       <Avatar circle src="https://avatars.githubusercontent.com/u/23637144" alt="@Sleaf" />
+    </AvatarGroup>
+
+    <hr />
+    <AvatarGroup stack>
+      <Avatar circle src="https://avatars.githubusercontent.com/u/12592949" alt="@superman66" />
+      <Avatar circle src="https://avatars.githubusercontent.com/u/8225666" alt="@SevenOutman" />
+      <Avatar circle src="https://avatars.githubusercontent.com/u/15609339" alt="@hiyangguo" />
+      <Avatar circle src="https://avatars.githubusercontent.com/u/14308293" alt="@MarvelSQ" />
+      <Avatar circle src="https://avatars.githubusercontent.com/u/1203827" alt="@simonguo" />
+      <Avatar circle style={{ background: '#111' }}>
+        +4
+      </Avatar>
     </AvatarGroup>
   </div>
 );

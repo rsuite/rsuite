@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { AvatarGroupContext } from '../AvatarGroup/AvatarGroup';
 
 export interface AvatarProps extends WithAsProps {
   /** A avatar can have different sizes */
@@ -41,7 +42,7 @@ const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
     const {
       classPrefix = 'avatar',
       as: Component = 'div',
-      size,
+      size: sizeProp,
       className,
       children,
       src,
@@ -53,13 +54,9 @@ const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
       ...rest
     } = props;
 
+    const { size } = useContext(AvatarGroupContext);
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-    const classes = merge(
-      className,
-      withClassPrefix(size, {
-        circle
-      })
-    );
+    const classes = merge(className, withClassPrefix(sizeProp || size, { circle }));
 
     return (
       <Component {...rest} ref={ref} className={classes}>

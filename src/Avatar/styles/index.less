@@ -9,6 +9,8 @@
   align-items: center;
   border-radius: 4px;
   overflow: hidden;
+  position: relative;
+
   .avatar-md();
 
   & > .rs-icon {
@@ -16,8 +18,6 @@
   }
 
   &-image {
-    position: relative;
-
     &::before {
       content: attr(alt);
       position: absolute;

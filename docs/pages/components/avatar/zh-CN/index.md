@@ -12,17 +12,17 @@
 
 <!--{include:`basic.md`}-->
 
-### 文字
+### 字符头像
 
-您可以使用 `style` 来改变 `<Avatar>` 的背景色和文字颜色。
+You can create an avatar component containing simple characters, and change the background color and text color of `<Avatar>` by using `style`.
 
 <!--{include:`text.md`}-->
 
-### 图标
+### 图标头像
 
 <!--{include:`icon.md`}-->
 
-### 图片
+### 图片头像
 
 您可以为 `<Avatar>` 设置 `alt` 以确保当图片加载失败时，依然可以显示文字版本的头像
 
@@ -32,7 +32,11 @@
 
 <!--{include:`size.md`}-->
 
-### 徽标
+### 堆积的头像组
+
+<!--{include:`stack.md`}-->
+
+### 带有徽标的头像
 
 <!--{include:`badge.md`}-->
 
@@ -51,3 +55,11 @@
 | sizes       | string                                            | img 元素的 sizes 属性。                                 |
 | src         | string                                            | img 元素的 src 属性, 设置头像图片地址。                 |
 | srcSet      | string                                            | img 元素的 srcSet 属性。 使用此属性进行响应式图像显示。 |
+
+### `<AvatarGroup>`
+
+| 属性名称 | 类型`(默认值)`                           | 描述                       |
+| -------- | ---------------------------------------- | -------------------------- |
+| size     | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' | 为一组的头像设置尺寸       |
+| spacing  | number                                   | 为一组的头像设置间距       |
+| stack    | boolean                                  | 把一组头像以堆栈的方式显示 |
