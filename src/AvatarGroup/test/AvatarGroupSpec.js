@@ -19,6 +19,7 @@ describe('AvatarGroup', () => {
       <AvatarGroup spacing={10}>
         <Avatar>A</Avatar>
         <Avatar>B</Avatar>
+        {[<Avatar key={1}>C</Avatar>, <Avatar key={2}>D</Avatar>]}
       </AvatarGroup>
     );
 
@@ -26,6 +27,8 @@ describe('AvatarGroup', () => {
 
     assert.equal(avatars[0].style.marginRight, '10px');
     assert.equal(avatars[1].style.marginRight, '10px');
+    assert.equal(avatars[2].style.marginRight, '10px');
+    assert.equal(avatars[3].style.marginRight, '10px');
   });
 
   it('Should be stack', () => {
