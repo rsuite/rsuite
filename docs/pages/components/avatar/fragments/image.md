@@ -2,7 +2,7 @@
 
 ```js
 const instance = (
-  <AvatarGroup gap={6}>
+  <AvatarGroup spacing={6}>
     <Avatar circle src="https://avatars.githubusercontent.com/u/12592949" alt="@superman66" />
     <Avatar circle src="https://avatars.githubusercontent.com/u/8225666" alt="@SevenOutman" />
     <Avatar circle src="https://avatars.githubusercontent.com/u/15609339" alt="@hiyangguo" />

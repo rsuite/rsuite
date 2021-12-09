@@ -3,7 +3,7 @@
 ```js
 const instance = (
   <div>
-    <AvatarGroup gap={6}>
+    <AvatarGroup spacing={6}>
       <Avatar
         size="lg"
         circle

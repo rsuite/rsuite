@@ -2,7 +2,7 @@
 
 ```js
 const instance = (
-  <AvatarGroup gap={6}>
+  <AvatarGroup spacing={6}>
     <Avatar>
       <User />
     </Avatar>

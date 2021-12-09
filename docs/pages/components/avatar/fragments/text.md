@@ -2,7 +2,7 @@
 
 ```js
 const instance = (
-  <AvatarGroup gap={6}>
+  <AvatarGroup spacing={6}>
     <Avatar style={{ background: '#000' }}>R</Avatar>
     <Avatar style={{ background: '#7B1FA2' }}>Suite</Avatar>
     <Avatar style={{ background: '#004299' }}>👍</Avatar>
