@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
+import ButtonGroupContext from './ButtonGroupContext';
 
 export interface ButtonGroupProps extends WithAsProps {
   /** Display block buttongroups */
@@ -46,9 +47,11 @@ const ButtonGroup: RsRefForwardingComponent<'div', ButtonGroupProps> = React.for
     const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));
 
     return (
-      <Component {...rest} role={role} ref={ref} className={classes}>
-        {children}
-      </Component>
+      <ButtonGroupContext.Provider value={{ size }}>
+        <Component {...rest} role={role} ref={ref} className={classes}>
+          {children}
+        </Component>
+      </ButtonGroupContext.Provider>
     );
   }
 );
