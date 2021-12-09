@@ -183,7 +183,7 @@ interface FocusItemValueProps {
  * @param defaultFocusItemValue
  * @param props
  */
-export const useFocusItemValue = <T extends number | string>(
+export const useFocusItemValue = <T>(
   defaultFocusItemValue: T | null | undefined,
   props: FocusItemValueProps
 ) => {
@@ -198,7 +198,7 @@ export const useFocusItemValue = <T extends number | string>(
   } = props;
   const [focusItemValue, setFocusItemValue] = useState<T | null | undefined>(defaultFocusItemValue);
   const [layer, setLayer] = useState(defaultLayer);
-  const [keys, setKeys] = useState<Array<string | undefined>>([]);
+  const [keys, setKeys] = useState<any[]>([]);
 
   /**
    * Get the elements visible in all options.
@@ -279,9 +279,9 @@ export const useFocusItemValue = <T extends number | string>(
       const subMenu = menu?.querySelector(`[data-layer="${nextLayer}"]`);
 
       if (subMenu) {
-        return Array.from(subMenu.querySelectorAll<HTMLElement>(focusableQueryKey))?.map(
-          item => item.dataset?.key
-        );
+        return Array.from(subMenu.querySelectorAll<HTMLElement>(focusableQueryKey))?.map<
+          T | undefined
+        >(item => item.dataset?.key as any);
       }
 
       return null;
@@ -297,7 +297,7 @@ export const useFocusItemValue = <T extends number | string>(
       if (nextKeys) {
         setKeys(nextKeys);
         setLayer(nextLayer);
-        setFocusItemValue(nextKeys[0] as T);
+        setFocusItemValue(nextKeys[0]);
         callback?.(nextKeys[0], event);
       }
     },

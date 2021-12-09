@@ -13,7 +13,8 @@ export const pickerPropTypes = {
   containerPadding: PropTypes.number,
   container: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   disabled: PropTypes.bool,
-  toggleAs: PropTypes.elementType,
+  // PropTypes.elementType conflictin with React.ElementType
+  // toggleAs: PropTypes.elementType,
   menuClassName: PropTypes.string,
   menuStyle: PropTypes.object,
   placeholder: PropTypes.node,
@@ -30,12 +31,12 @@ export const pickerPropTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   onClean: PropTypes.func,
-  listProps: PropTypes.object
+  listProps: PropTypes.any
 };
 
 export const listPickerPropTypes = {
   ...pickerPropTypes,
-  data: PropTypes.array,
+  data: PropTypes.array.isRequired,
   valueKey: PropTypes.string,
   labelKey: PropTypes.string,
   childrenKey: PropTypes.string,

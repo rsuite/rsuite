@@ -215,12 +215,12 @@ export interface SVGIcon {
   id: string;
 }
 
-export interface ItemDataType extends Record<string, any> {
+export interface ItemDataType<T = number | string> extends Record<string, any> {
   label?: string | React.ReactNode;
-  value?: string | number;
+  value?: T;
   groupBy?: string;
-  parent?: ItemDataType;
-  children?: ItemDataType[];
+  parent?: ItemDataType<T>;
+  children?: ItemDataType<T>[];
   loading?: boolean;
 }
 
