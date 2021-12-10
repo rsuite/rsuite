@@ -141,9 +141,17 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const [_formValue, setFormValue] = useState(formDefaultValue);
   const [_formError, setFormError] = useState(formError || {});
 
+  const formValueRef = useRef(formValue);
+
+  formValueRef.current = formValue;
+
+  const _formValueRef = useRef(_formValue);
+
+  _formValueRef.current = _formValue;
+
   const getFormValue = useCallback(() => {
-    return isUndefined(formValue) ? _formValue : formValue;
-  }, [_formValue, formValue]);
+    return isUndefined(formValueRef.current) ? _formValueRef.current : formValueRef.current;
+  }, []);
 
   const getFormError = useCallback(() => {
     return isUndefined(formError) ? _formError : formError;
