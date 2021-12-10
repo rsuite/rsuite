@@ -465,7 +465,7 @@
     "id": "avatar",
     "name": "Avatar",
     "title": "头像",
-    "components": ["Avatar"],
+    "components": ["Avatar", "AvatarGroup"],
     "designHash": {
       "default": "76",
       "dark": "74"

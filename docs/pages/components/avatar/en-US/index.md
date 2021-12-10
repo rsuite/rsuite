@@ -12,27 +12,31 @@ Used to display an avatar or brand.
 
 <!--{include:`basic.md`}-->
 
-### Text
+### Character avatar
 
 You can change the `<Avatar>` background color and font color by `style`;
 
 <!--{include:`text.md`}-->
 
-### With Icon
+### Icon avatars
 
 <!--{include:`icon.md`}-->
 
-### Image avatar
+### Image avatars
 
 You can set `alt` for `<Avatar>` , it make sure avatar show pure text avatar when image load failed.
 
 <!--{include:`image.md`}-->
 
-### Size
+### Sizes
 
 <!--{include:`size.md`}-->
 
-### Badge
+### Stacked avatars
+
+<!--{include:`stack.md`}-->
+
+### With badge
 
 <!--{include:`badge.md`}-->
 
@@ -51,3 +55,11 @@ You can set `alt` for `<Avatar>` , it make sure avatar show pure text avatar whe
 | sizes       | string                                            | The `sizes` attribute for the `img` element.                                                   |
 | src         | string                                            | The `src` attribute for the `img` element.                                                     |
 | srcSet      | string                                            | The `srcSet` attribute for the `img` element. Use this attribute for responsive image display. |
+
+### `<AvatarGroup>`
+
+| Property | Type`(Default)`                          | Description                    |
+| -------- | ---------------------------------------- | ------------------------------ |
+| size     | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' | Set the size of all avatars    |
+| spacing  | number                                   | Set the spacing of the avatars |
+| stack    | boolean                                  | Render all avatars as stacks   |

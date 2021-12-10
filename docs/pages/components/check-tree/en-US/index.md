@@ -18,6 +18,10 @@ The cascade attribute can set whether or not CheckTree can consider the cascade 
 
 <!--{include:`cascade.md`}-->
 
+### Show Indent Lines
+
+<!--{include:`show-indent-line.md`}-->
+
 ### Custom options
 
 <!--{include:`custom.md`}-->

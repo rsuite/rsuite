@@ -87,6 +87,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     disabled = disabledContext,
     onChange,
     onBlur,
+    defaultValue,
     ...rest
   } = props;
 
@@ -176,7 +177,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
         name={name}
         onChange={handleFieldChange}
         onBlur={handleFieldBlur}
-        defaultValue={formDefaultValue[name]}
+        defaultValue={defaultValue ?? formDefaultValue[name]}
         value={val}
       />
 

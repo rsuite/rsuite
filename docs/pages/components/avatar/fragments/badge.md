@@ -2,19 +2,15 @@
 
 ```js
 const instance = (
-  <div className="avatar-group">
+  <AvatarGroup>
     <Badge>
-      <Avatar>
-        <Icon as={AvatarIcon} />
-      </Avatar>
+      <Avatar src="https://avatars.githubusercontent.com/u/12592949" alt="@superman66" />
     </Badge>
 
     <Badge content="20">
-      <Avatar>
-        <Icon as={AvatarIcon} />
-      </Avatar>
+      <Avatar src="https://avatars.githubusercontent.com/u/8225666" alt="@SevenOutman" />
     </Badge>
-  </div>
+  </AvatarGroup>
 );
 
 ReactDOM.render(instance);

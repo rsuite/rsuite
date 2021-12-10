@@ -118,6 +118,36 @@ describe('FormControl', () => {
     assert.equal(instance.querySelector('input').value, '');
   });
 
+  it('Should render correctly form default value when set', () => {
+    const mockValue = 'value';
+    const instance = getDOMNode(
+      <Form formDefaultValue={{ name: mockValue }}>
+        <FormControl name="name" />
+      </Form>
+    );
+    assert.equal(instance.querySelector('input').value, mockValue);
+  });
+
+  it('Should render correctly default value when explicitly set and form default is not set', () => {
+    const mockValue = 'value';
+    const instance = getDOMNode(
+      <Form formDefaultValue={null}>
+        <FormControl name="name" defaultValue={mockValue} />
+      </Form>
+    );
+    assert.equal(instance.querySelector('input').value, mockValue);
+  });
+
+  it('Should render correctly default value when explicitly set over form default', () => {
+    const mockValue = 'value';
+    const instance = getDOMNode(
+      <Form formDefaultValue={{ name: 'another value' }}>
+        <FormControl name="name" defaultValue={mockValue} />
+      </Form>
+    );
+    assert.equal(instance.querySelector('input').value, mockValue);
+  });
+
   it('Should render correctly when form error was null', () => {
     const instance = getDOMNode(
       <Form formError={null}>

@@ -116,4 +116,15 @@ describe('Tree', () => {
     ref.current.list.scrollToRow(2);
     assert.isTrue(onScrollSpy.calledOnce);
   });
+
+  it('Should show indent line', () => {
+    const instance = getDOMNode(<Tree data={data} showIndentLine />);
+
+    const lines = instance.querySelectorAll('.rs-tree-indent-line');
+
+    assert.isNotNull(instance.querySelector('.rs-tree-indent-line'));
+    assert.equal(lines.length, 2);
+    assert.equal(lines[0].style.left, '44px');
+    assert.equal(lines[1].style.left, '28px');
+  });
 });

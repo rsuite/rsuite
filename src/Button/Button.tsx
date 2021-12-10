@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { ButtonGroupContext } from '../ButtonGroup';
 import SafeAnchor from '../SafeAnchor';
 import Ripple from '../Ripple';
 import { isOneOf, useClassNames } from '../utils';
@@ -54,10 +55,14 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
       disabled,
       loading,
       ripple = true,
-      size,
+      size: sizeProp,
       type: typeProp,
       ...rest
     } = props;
+
+    const buttonGroup = useContext(ButtonGroupContext);
+
+    const size = sizeProp ?? buttonGroup?.size;
 
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
     const classes = merge(

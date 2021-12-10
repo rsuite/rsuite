@@ -202,12 +202,22 @@
 // node children
 .rs-tree-node-children {
   > .rs-tree-children {
+    position: relative;
     display: none;
 
     .rs-tree-open& {
       display: block;
     }
   }
+}
+
+.rs-tree-indent-line {
+  height: 100%;
+  width: 1px;
+  position: absolute;
+  top: 0;
+  margin-left: -13px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .rs-picker-menu {

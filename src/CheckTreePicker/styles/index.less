@@ -59,7 +59,10 @@
       &::before {
         content: '';
         position: absolute;
-        width: (@picker-tree-arrow-down-width+ @picker-tree-arrow-down-gap + 30px); // checkbox-spacing = 30
+        width: (
+          @picker-tree-arrow-down-width + @picker-tree-arrow-down-gap + 30px
+        ); // checkbox-spacing = 30
+
         height: 100%;
         top: 0;
         margin-left: -58px; // 10px + 36px + 12px
@@ -141,12 +144,22 @@
 // node children
 .rs-check-tree-node-children {
   > .rs-check-tree-children {
+    position: relative;
     display: none;
 
     .rs-check-tree-open& {
       display: block;
     }
   }
+}
+
+.rs-check-tree-indent-line {
+  height: 100%;
+  width: 1px;
+  position: absolute;
+  top: 0;
+  margin-left: -13px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .rs-picker-menu {

@@ -46,7 +46,7 @@ const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps
 
   const renderSeparator = (key: number) => {
     return (
-      <span key={key} aria-hidden className={prefix`separator`}>
+      <span key={`breadcrumb-separator-${key}`} aria-hidden className={prefix`separator`}>
         {separator}
       </span>
     );

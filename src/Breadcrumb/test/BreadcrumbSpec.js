@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import Breadcrumb from '../Breadcrumb';
+
+afterEach(() => {
+  sinon.restore();
+});
 
 describe('Breadcrumb', () => {
   it('Should apply id to the wrapper nav element', () => {
@@ -99,5 +104,25 @@ describe('Breadcrumb', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Breadcrumb classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
+  });
+
+  it('Should not get "children with the same key" warning when generating items with array.map', () => {
+    sinon.spy(console, 'error');
+
+    const items = [{ text: 'Home', href: '/' }, { text: 'Current Page' }];
+
+    render(
+      <Breadcrumb>
+        {items.map((item, index) => (
+          <Breadcrumb.Item key={index} href={item.href} active={!item.href}>
+            {item.text}
+          </Breadcrumb.Item>
+        ))}
+      </Breadcrumb>
+    );
+
+    expect(console.error).not.to.have.been.calledWith(
+      sinon.match(/Warning: Encountered two children with the same key/)
+    );
   });
 });

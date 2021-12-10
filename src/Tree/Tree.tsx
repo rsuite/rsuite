@@ -63,6 +63,9 @@ export interface TreeBaseProps<ValueType = string | number, ItemDataType = Recor
   /** Whether display search input box */
   searchable?: boolean;
 
+  /** Display an auxiliary line when the tree node is indented. */
+  showIndentLine?: boolean;
+
   /** Whether using virtualized list */
   virtualized?: boolean;
 
