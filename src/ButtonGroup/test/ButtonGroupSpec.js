@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import ButtonGroup from '../ButtonGroup';
 import Button from '../../Button';
@@ -10,9 +11,23 @@ describe('ButtonGroup', () => {
     assert.ok(instance.className.match(/\bbtn-group\b/));
   });
 
-  it('Should add size', () => {
-    const instance = getDOMNode(<ButtonGroup size="lg" />);
-    assert.ok(instance.className.match(/\bbtn-group-lg\b/));
+  context('Sizes', () => {
+    it('Should add size', () => {
+      const instance = getDOMNode(<ButtonGroup size="lg" />);
+      assert.ok(instance.className.match(/\bbtn-group-lg\b/));
+    });
+
+    ['lg', 'md', 'sm', 'xs'].forEach(size => {
+      it(`Should apply ${size} size on child <Button>s`, () => {
+        const { getByTestId } = render(
+          <ButtonGroup size={size}>
+            <Button data-testid="button">Button</Button>
+          </ButtonGroup>
+        );
+
+        expect(getByTestId('button')).to.have.class(`rs-btn-${size}`);
+      });
+    });
   });
 
   it('Should add vertical variation', () => {
