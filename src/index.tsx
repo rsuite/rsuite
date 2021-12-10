@@ -45,9 +45,6 @@ export type { LoaderProps } from './Loader';
 export { default as SafeAnchor } from './SafeAnchor';
 export type { SafeAnchorProps } from './SafeAnchor';
 
-export { default as Divider } from './Divider';
-export type { DividerProps } from './Divider';
-
 export { default as Placeholder } from './Placeholder';
 export type {
   PlaceholderGraphProps,
@@ -248,6 +245,12 @@ export type { SidebarProps } from './Sidebar';
 
 export { default as Footer } from './Footer';
 export type { FooterProps } from './Footer';
+
+export { default as Divider } from './Divider';
+export type { DividerProps } from './Divider';
+
+export { default as Stack } from './Stack';
+export type { StackProps } from './Stack';
 
 // Utils
 
