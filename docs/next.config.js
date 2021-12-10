@@ -187,9 +187,6 @@ module.exports = {
       });
     }
 
-    console.log(VERCEL_ENV);
-    console.dir(config.resolve.alias);
-
     return config;
   },
   typescript: {
