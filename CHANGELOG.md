@@ -1,3 +1,18 @@
+# [5.3.0](https://github.com/rsuite/rsuite/compare/5.2.4...5.3.0) (2021-12-10)
+
+### Bug Fixes
+
+- **Breadcrumb:** avoid separator key conflict with item key ([#2186](https://github.com/rsuite/rsuite/issues/2186)) ([428529a](https://github.com/rsuite/rsuite/commit/428529afb4f1c746ccebe06db3dd10438be8aa31))
+- **Button:** apply size from parent ButtonGroup ([#2194](https://github.com/rsuite/rsuite/issues/2194)) ([85e9a21](https://github.com/rsuite/rsuite/commit/85e9a21d5cbc5c4fd4e92d591a8fe0cce5f43a15))
+- **dts:** fix declaration errors in typescript strict mode ([#2130](https://github.com/rsuite/rsuite/issues/2130)) ([c31f080](https://github.com/rsuite/rsuite/commit/c31f080ea290d8420df77b406c29b89be44bef01))
+- **Modal:** fix Modal not focused when opened ([#2180](https://github.com/rsuite/rsuite/issues/2180)) ([383ea12](https://github.com/rsuite/rsuite/commit/383ea129b315590700301ef823e7a24309e8237b))
+
+### Features
+
+- **AvatarGroup:** add support for AvatarGroup ([#2195](https://github.com/rsuite/rsuite/issues/2195)) ([2647bea](https://github.com/rsuite/rsuite/commit/2647bea5fcbe7148049ed5b6fa3118e86971572e))
+- **FormControl:** allow explicit default value ([#2182](https://github.com/rsuite/rsuite/issues/2182)) ([691ee38](https://github.com/rsuite/rsuite/commit/691ee3807d567a379b3e82195d2b2d303449a466))
+- **Tree,CheckTree:** support showIndentLine on <Tree> and <CheckTree> ([#2181](https://github.com/rsuite/rsuite/issues/2181)) ([720768e](https://github.com/rsuite/rsuite/commit/720768e7ac89752f11b5387f76b1e5e36c54221d))
+
 ## [5.2.4](https://github.com/rsuite/rsuite/compare/v5.2.3...v5.2.4) (2021-12-03)
 
 ### Bug Fixes
