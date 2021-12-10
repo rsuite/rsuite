@@ -2,14 +2,16 @@
 
 ```js
 const instance = (
-  <div className="avatar-group">
+  <AvatarGroup spacing={6}>
     <Avatar>
       <User />
     </Avatar>
     <Avatar>
       <Icon as={AvatarIcon} />
     </Avatar>
-  </div>
+    <Avatar>🙂</Avatar>
+    <Avatar>👍</Avatar>
+  </AvatarGroup>
 );
 
 ReactDOM.render(instance);

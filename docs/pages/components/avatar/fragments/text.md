@@ -2,11 +2,21 @@
 
 ```js
 const instance = (
-  <div className="avatar-group">
-    <Avatar>RS</Avatar>
-    <Avatar style={{ background: '#7B1FA2' }}>RS</Avatar>
-    <Avatar style={{ background: '#edfae1', color: '#4caf50' }}>RS</Avatar>
-  </div>
+  <AvatarGroup spacing={6}>
+    <Avatar style={{ background: '#000' }}>R</Avatar>
+    <Avatar style={{ background: '#7B1FA2' }}>Suite</Avatar>
+    <Avatar style={{ background: '#004299' }}>👍</Avatar>
+
+    <Avatar circle style={{ background: '#000' }}>
+      R
+    </Avatar>
+    <Avatar circle style={{ background: '#7B1FA2' }}>
+      Suite
+    </Avatar>
+    <Avatar circle style={{ background: '#004299' }}>
+      👍
+    </Avatar>
+  </AvatarGroup>
 );
 
 ReactDOM.render(instance);
