@@ -181,10 +181,14 @@ module.exports = {
     // preventing "more than one copy of React" error
     if (__USE_SRC__) {
       Object.assign(config.resolve.alias, {
+        rsuite: path.resolve(__dirname, '../src'),
         react: path.resolve(__dirname, './node_modules/react'),
         'react-dom': path.resolve(__dirname, './node_modules/react-dom')
       });
     }
+
+    console.log(VERCEL_ENV);
+    console.dir(config.resolve.alias);
 
     return config;
   },
