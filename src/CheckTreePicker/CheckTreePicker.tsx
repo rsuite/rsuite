@@ -6,6 +6,7 @@ import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/Virtualiz
 import CheckTreeNode from './CheckTreeNode';
 import TreeContext from '../Tree/TreeContext';
 import { PickerLocale } from '../locales';
+import { getTreeNodeIndent } from '../utils/treeUtils';
 import {
   createChainedFunction,
   useCustom,
@@ -110,6 +111,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     searchBy,
     toggleAs,
     searchKeyword,
+    showIndentLine,
     locale: overrideLocale,
     cascade = true,
     disabled,
@@ -706,6 +708,12 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           <CheckTreeNode {...nodeProps} ref={ref => saveTreeNodeRef(ref, refKey)} />
           <div className={checkTreePrefix('children')}>
             {nodes.map(child => renderNode(child, layer))}
+            {showIndentLine && (
+              <span
+                className={checkTreePrefix('indent-line')}
+                style={getTreeNodeIndent(rtl, layer - 1, true)}
+              />
+            )}
           </div>
         </div>
       );

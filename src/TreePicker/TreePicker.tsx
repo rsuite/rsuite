@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
 import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/VirtualizedList';
 import TreeNode from './TreeNode';
+import { getTreeNodeIndent } from '../utils/treeUtils';
 import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
@@ -110,6 +111,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     data = emptyArray,
     appearance = 'default',
     style,
+    showIndentLine,
     value: controlledValue,
     locale: overrideLocale,
     height = 360,
@@ -704,17 +706,25 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
     if (nodeProps.hasChildren) {
       layer += 1;
+
       const openClass = treePrefix('open');
       const childrenClass = merge(treePrefix('node-children'), {
         [openClass]: expand && visibleChildren
       });
 
       const nodes = children || [];
+
       return (
         <div className={childrenClass} key={node[valueKey]}>
           <TreeNode {...nodeProps} ref={ref => saveTreeNodeRef(ref, node.refKey)} />
           <div className={treePrefix('children')}>
             {nodes.map((child, i) => renderNode(child, i, layer))}
+            {showIndentLine && (
+              <span
+                className={treePrefix('indent-line')}
+                style={getTreeNodeIndent(rtl, layer - 1, true)}
+              />
+            )}
           </div>
         </div>
       );

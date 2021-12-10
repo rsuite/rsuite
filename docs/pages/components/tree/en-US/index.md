@@ -12,6 +12,10 @@
 
 <!--{include:`basic.md`}-->
 
+### Show Indent Lines
+
+<!--{include:`show-indent-line.md`}-->
+
 ### Draggable
 
 <!--{include:`draggable.md`}-->
@@ -55,6 +59,7 @@
 | renderTreeIcon          | (nodeData:DataItemType) => ReactNode                                                           | Custom Render icon                                                        |
 | renderTreeNode          | (nodeData:DataItemType) => ReactNode                                                           | Custom Render tree Node                                                   |
 | searchKeyword           | string                                                                                         | searchKeyword (Controlled)                                                |
+| showIndentLine          | boolean                                                                                        | Whether to show indent line                                               |
 | value                   | string                                                                                         | Selected value                                                            |
 | valueKey                | string `('value')`                                                                             | Tree data Structure Value property name                                   |
 | virtualized             | boolean                                                                                        | Whether using Virtualized List                                            |

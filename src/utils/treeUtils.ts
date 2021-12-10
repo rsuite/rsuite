@@ -9,6 +9,7 @@ import { TreePickerProps } from '../TreePicker/TreePicker';
 import { shouldDisplay } from '../Picker';
 import reactToString from './reactToString';
 import { ListInstance } from '../Picker/VirtualizedList';
+import { TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from './constants';
 
 type PartialTreeProps = Partial<TreePickerProps | CheckTreePickerProps>;
 
@@ -952,4 +953,19 @@ export function focusToActiveTreeNode({
 
 export function isSearching(searchKeyword?: string) {
   return !isEmpty(searchKeyword);
+}
+
+export function getTreeNodeIndent(rtl, layer, absolute = false) {
+  // layer start from 1
+  const offset = layer * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
+
+  if (absolute) {
+    return {
+      [rtl ? 'right' : 'left']: offset
+    };
+  }
+
+  return {
+    [rtl ? 'paddingRight' : 'paddingLeft']: offset
+  };
 }

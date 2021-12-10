@@ -5,7 +5,8 @@ import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 import Spinner from '@rsuite/icons/legacy/Spinner';
 import TreeContext from '../Tree/TreeContext';
 import reactToString from '../utils/reactToString';
-import { useClassNames, TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from '../utils';
+import { useClassNames } from '../utils';
+import { getTreeNodeIndent } from '../utils/treeUtils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface TreeNodeProps extends WithAsProps {
@@ -239,12 +240,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       withClassPrefix({ disabled, active, 'text-muted': disabled, focus })
     );
 
-    // layer start from 1
-    const padding = (layer - 1) * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
-    const styles = {
-      ...style,
-      [rtl ? 'paddingRight' : 'paddingLeft']: padding
-    };
+    const styles = { ...style, ...getTreeNodeIndent(rtl, layer - 1) };
 
     return visible ? (
       <Component

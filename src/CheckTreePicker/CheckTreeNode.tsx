@@ -2,17 +2,10 @@ import React, { forwardRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 import Spinner from '@rsuite/icons/legacy/Spinner';
-
 import DropdownMenuCheckItem from '../Picker/DropdownMenuCheckItem';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import {
-  useClassNames,
-  CHECK_STATE,
-  CheckStateType,
-  TREE_NODE_PADDING,
-  TREE_NODE_ROOT_PADDING,
-  reactToString
-} from '../utils';
+import { getTreeNodeIndent } from '../utils/treeUtils';
+import { useClassNames, CHECK_STATE, CheckStateType, reactToString } from '../utils';
 
 export interface CheckTreeNodeProps extends WithAsProps {
   rtl?: boolean;
@@ -182,9 +175,8 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
       })
     );
 
-    // layer start from 1
-    const padding = (layer - 1) * TREE_NODE_PADDING + TREE_NODE_ROOT_PADDING;
-    const styles = { ...style, [rtl ? 'paddingRight' : 'paddingLeft']: padding };
+    const styles = { ...style, ...getTreeNodeIndent(rtl, layer - 1) };
+
     return visible ? (
       <Component
         role="treeitem"
