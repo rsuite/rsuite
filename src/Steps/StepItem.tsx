@@ -7,7 +7,9 @@ import { useClassNames } from '../utils';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
-const STEP_STATUS_ICON = {
+const STEP_STATUS_ICON: {
+  [key in NonNullable<StepItemProps['status']>]: React.ReactElement | null;
+} = {
   finish: <Check />,
   wait: null,
   process: null,
@@ -60,7 +62,7 @@ const StepItem: RsRefForwardingComponent<'div', StepItemProps> = React.forwardRe
 
     let iconNode = (
       <span className={prefix('icon', `icon-${status}`)}>
-        {status ? STEP_STATUS_ICON[status] : stepNumber}
+        {status ? STEP_STATUS_ICON[status] ?? stepNumber : stepNumber}
       </span>
     );
 
