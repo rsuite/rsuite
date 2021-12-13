@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import StepItem from '../StepItem';
 import User from '@rsuite/icons/legacy/User';
@@ -28,6 +29,16 @@ describe('StepItem', () => {
   it('Should output a number ', () => {
     const instance = getDOMNode(<StepItem stepNumber={10} />);
     assert.equal(instance.textContent, '10');
+  });
+
+  ['wait', 'process'].forEach(status => {
+    it(`Should render stepNumber when status is "${status}"`, () => {
+      const { getByTestId } = render(
+        <StepItem stepNumber={2} status={status} data-testid="item" />
+      );
+
+      expect(getByTestId('item')).to.have.text('2');
+    });
   });
 
   it('Should render description ', () => {
