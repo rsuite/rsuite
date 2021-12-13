@@ -2,9 +2,9 @@
 
 ```js
 const App = () => {
-  const [alignItems, setAlignItems] = React.useState('center');
-  const [justifyContent, setJustifyContent] = React.useState('center');
   const [direction, setDirection] = React.useState('row');
+  const [justifyContent, setJustifyContent] = React.useState('flex-start');
+  const [alignItems, setAlignItems] = React.useState('flex-start');
 
   return (
     <div>
@@ -14,11 +14,10 @@ const App = () => {
         alignItems={alignItems}
         justifyContent={justifyContent}
       >
-        <Button>Item 1</Button>
-        <Button>Item 2</Button>
-        <Button>Item 3</Button>
-        <Button>Item 4</Button>
-        <Button>Item 5</Button>
+        <Button size="lg">Item 1</Button>
+        <Button size="md">Item 2</Button>
+        <Button size="sm">Item 3</Button>
+        <Button size="xs">Item 4</Button>
       </Stack>
       <hr />
 
