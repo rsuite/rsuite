@@ -6,44 +6,47 @@ This article describes how you can help rsuite do a better job and contribute wi
 
 ## Development
 
-### Test-Driven Development（TDD）
+Fork this repo to your namespace and clone to your local machine.
 
-1. Fork `https://github.com/rsuite/rsuite` this repo.
+    $ git clone git@github.com:<YOUR NAME>/rsuite.git
+    $ cd rsuite
 
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-$ cd rsuite
-```
+We need to keep our `package-lock.json` file as `lockfileVersion: 1`, so we recommend using npm CLI earlier than v7.
+If you use `nvm` to manage your Node.js versions,
+simply run `nvm use` in the root direcotry.
 
-2. Install it and run
+    $ nvm use
+    Found '/home/rsuite/.nvmrc' with version <14>
+    Now using node v14.18.1 (npm v6.14.15)
 
-```bash
-$ npm i
-$ npm run tdd
-```
+It's still ok if you have to use npm CLI >= v7,
+but keep in mind not to commit `package-lock.json` changes.
 
-3. Run a single component test case.
+Install dependencies in root directory and `docs/` directory.
 
-```bash
-$ M=Button npm run tdd
-```
+    $ npm i && npm i --prefix docs
 
-### UI-Driven Development
+Now you can start the development server by running `npm run dev` in `docs/` directory. It's serving at http://127.0.0.1:3000/ by default.
 
-1. Fork `https://github.com/rsuite/rsuite` this repo.
+    $ npm run dev --prefix docs
 
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-```
+### Testing
 
-2. Install it and run
+Most of the time while you're making changes,
+you should make sure you're not breaking the tests.
+To run and watch unit tests, you can run `npm run tdd` in root directory.
 
-```bash
-$ npm i
-$ npm run dev
-```
+    $ npm run tdd
 
-3. Your show time. Open url http://127.0.0.1:3000/ in browser.
+And it's possible to run only tests in a specific component using an `M` environment variable.
+
+    # only run tests in src/Button directory
+    $ M=Button npm run tdd
+
+It's also possible to run tests in several different components as `M` accepts any glob pattern.
+
+    # run tests in src/Button and src/ButtonGroup directories
+    $ M={Button,ButtonGroup} npm run tdd
 
 ## Bug reports
 
