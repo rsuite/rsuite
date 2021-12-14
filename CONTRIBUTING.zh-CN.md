@@ -1,51 +1,51 @@
-# Contributing to RSUITE
+# 参与贡献到 RSUITE
 
 RSUITE 在提供给开发者服务的同时也希望能得到社区的帮助。本篇文章介绍您如何帮助 RSUITE 做的更好，贡献自己的一份力量。
 
 ## 开发
 
-您可以通过 [Projects](https://github.com/rsuite/rsuite/projects) 查看我们的开发计划，同时希望您能参与其中。
+Fork 此仓库到你的命名空间并克隆至本地机器。
 
-### 测试驱动开发（TDD）
+    $ git clone git@github.com:<YOUR NAME>/rsuite.git
+    $ cd rsuite
 
-1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
+我们需要保持 `package-lock.json` 的版本为 `lockfileVersion: 1`，
+所以我们建议使用 npm CLI 早于 v7 的版本。
+如果你使用 `nvm` 来管理你的 Node.js 版本，
+只需在项目根目录中运行 `nvm use` 命令。
 
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-$ cd rsuite
-```
+    $ nvm use
+    Found '/home/rsuite/.nvmrc' with version <14>
+    Now using node v14.18.1 (npm v6.14.15)
 
-2. 安装并运行
+你也不是不可以使用 npm CLI >= v7 的版本，
+但是请不要提交 `package-lock.json` 的变更。
 
-```bash
-$ npm i
-$ npm run tdd
-```
+在根目录和 `docs/` 目录中安装依赖。
 
-3. 运行单个组件
+    $ npm i && npm i --prefix docs
 
-```bash
-$ M=Button npm run tdd
-```
+现在你可以在 `docs/` 目录中运行 `npm run dev` 来启动开发服务器。
+它默认运行在 http://127.0.0.1:3000/ 。
 
-### UI 驱动开发
+    $ npm run dev --prefix docs
 
-1. Fork `https://github.com/rsuite/rsuite` 这个仓库。
+### 测试
 
-```bash
-$ git clone git@github.com:<YOUR NAME>/rsuite.git
-```
+多数时候，你都应当确保你的变更没有破坏测试。
+在根目录中执行 `npm run tdd` 来运行单元测试脚本。
 
-2. 安装并运行
+    $ npm run tdd
 
-```bash
-$ npm i
-$ npm run dev
-```
+你也可以通过设置环境变量 `M` 来仅运行一个指定组件下的单元测试。
 
-3. 您可以开始访问了， 在浏览器输入 http://127.0.0.1:3000/
+    # only run tests in src/Button directory
+    $ M=Button npm run tdd
 
-Gitee 用户访问地址: https://gitee.com/rsuite/rsuite
+或者多个指定组件下的单元测试。`M` 支持任意 glob 模式。
+
+    # run tests in src/Button and src/ButtonGroup directories
+    $ M={Button,ButtonGroup} npm run tdd
 
 ## Bug 反馈
 
