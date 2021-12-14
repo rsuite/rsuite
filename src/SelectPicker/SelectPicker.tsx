@@ -32,14 +32,13 @@ import {
   OverlayTriggerInstance,
   PositionChildProps,
   listPickerPropTypes,
-  PickerComponent
+  PickerInstance
 } from '../Picker';
 
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 import { ListProps } from 'react-virtualized/dist/commonjs/List';
 
-export type ValueType = number | string;
-export interface SelectProps<T = ValueType> {
+export interface SelectProps<T> {
   /** Set group condition key in data */
   groupBy?: string;
 
@@ -90,14 +89,20 @@ export interface SelectProps<T = ValueType> {
   onClean?: (event: React.SyntheticEvent) => void;
 }
 
-export interface SelectPickerProps<T = ValueType>
-  extends FormControlPickerProps<T, PickerLocale, ItemDataType>,
+export interface SelectPickerProps<T>
+  extends FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
     SelectProps<T> {}
 
 const emptyArray = [];
 
-const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
-  (props: SelectPickerProps, ref) => {
+export interface SelectPickerComponent {
+  <T>(props: SelectPickerProps<T>): JSX.Element | null;
+  displayName?: string;
+  propTypes?: React.WeakValidationMap<SelectPickerProps<any>>;
+}
+
+const SelectPicker = React.forwardRef(
+  <T extends number | string>(props: SelectPickerProps<T>, ref: React.Ref<PickerInstance>) => {
     const {
       as: Component = 'div',
       appearance = 'default',
@@ -148,7 +153,11 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
     const overlayRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
-    const [value, setValue] = useControlled(valueProp, defaultValue);
+    const [value, setValue] = useControlled(valueProp, defaultValue) as [
+      T | null | undefined,
+      (value: React.SetStateAction<T | null>) => void,
+      boolean
+    ];
 
     // Used to hover the focus item  when trigger `onKeydown`
     const {
@@ -392,7 +401,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
             disabled={disabled}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
-            inputValue={value}
+            inputValue={value ?? ''}
             active={active}
             placement={placement}
           >
@@ -402,7 +411,7 @@ const SelectPicker: PickerComponent<SelectPickerProps> = React.forwardRef(
       </PickerToggleTrigger>
     );
   }
-);
+) as SelectPickerComponent;
 
 SelectPicker.displayName = 'SelectPicker';
 SelectPicker.propTypes = {
