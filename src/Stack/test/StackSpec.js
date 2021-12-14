@@ -16,9 +16,15 @@ describe('Stack', () => {
   });
 
   it('Should have a gap style', () => {
-    const { getByTestId } = render(<Stack data-testid="test" spacing={10}></Stack>);
+    const { getByTestId } = render(
+      <Stack data-testid="test" spacing={10}>
+        <i />
+      </Stack>
+    );
 
     assert.equal(getByTestId('test').style.gap, '10px');
+    assert.isEmpty(getByTestId('test').children[0].style.marginRight);
+    assert.isEmpty(getByTestId('test').children[0].style.marginBottom);
   });
 
   it('Should have a align-items style', () => {

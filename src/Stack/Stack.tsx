@@ -72,7 +72,7 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
     <Component {...rest} ref={ref} className={classes} style={styles}>
       {React.Children.map(children as React.ReactElement[], (child, index) => {
         const childNode = (
-          <div className={prefix('item')} style={isSupportGridGap ? itemStyles : undefined}>
+          <div className={prefix('item')} style={!isSupportGridGap ? itemStyles : undefined}>
             {child}
           </div>
         );
