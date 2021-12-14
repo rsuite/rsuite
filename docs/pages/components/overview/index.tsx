@@ -2,11 +2,11 @@ import React from 'react';
 import usePages from '@/utils/usePages';
 import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
-import { ButtonGroup, Button } from 'rsuite';
-import ListIcon from '@rsuite/icons/List';
-import TableColumnIcon from '@rsuite/icons/TableColumn';
+import { ButtonGroup, IconButton } from 'rsuite';
 import CategorizedList from './CategorizedList';
 import SortedList from './SortedList';
+
+import { FaSortAlphaUp, FaList } from 'react-icons/fa';
 
 export default function Page() {
   const { language } = React.useContext(AppContext);
@@ -21,12 +21,16 @@ export default function Page() {
     <DefaultPage>
       <div className="component-overview">
         <ButtonGroup>
-          <Button active={type === 'category'} onClick={() => setType('category')}>
-            <ListIcon />
-          </Button>
-          <Button active={type === 'sorted'} onClick={() => setType('sorted')}>
-            <TableColumnIcon />
-          </Button>
+          <IconButton
+            icon={<FaList />}
+            active={type === 'category'}
+            onClick={() => setType('category')}
+          ></IconButton>
+          <IconButton
+            icon={<FaSortAlphaUp />}
+            active={type === 'sorted'}
+            onClick={() => setType('sorted')}
+          ></IconButton>
         </ButtonGroup>
         {type === 'category' ? (
           <CategorizedList components={components} language={language} />
