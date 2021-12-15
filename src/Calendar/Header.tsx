@@ -125,7 +125,7 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
     );
 
     return (
-      <Component role="row" {...rest} ref={ref} className={classes}>
+      <Component {...rest} ref={ref} className={classes}>
         {hasMonth && monthToolbar}
         {showTime && (
           <div className={prefix('time-toolbar')}>

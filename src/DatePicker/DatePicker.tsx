@@ -135,6 +135,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       cleanable = true,
       defaultValue,
       disabled,
+      // todo Not consistent with locale.formatDayPattern
       format: formatStr = 'yyyy-MM-dd',
       isoWeek,
       limitEndYear = 1000,
@@ -499,6 +500,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       const styles = { left, top };
       return (
         <PickerOverlay
+          role="dialog"
           className={classes}
           ref={mergeRefs(overlayRef, speakerRef)}
           style={styles}
@@ -581,6 +583,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             placement={placement}
             disabled={disabled}
             caretComponent={caretComponent}
+            aria-haspopup="dialog"
           >
             {renderDate()}
           </PickerToggle>

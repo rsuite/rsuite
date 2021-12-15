@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import partial from 'lodash/partial';
-import { DateUtils, useClassNames, DATERANGE_DISABLED_TARGET } from '../utils';
+import { DateUtils, useClassNames, DATERANGE_DISABLED_TARGET, useCustom } from '../utils';
 import { useCalendarContext } from './CalendarContext';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
@@ -22,16 +22,16 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
       date: selected = new Date(),
       dateRange,
       disabledDate,
-      formatDate,
       hoverRangeValue,
       inSameMonth,
       isoWeek,
       onMouseMove,
       onSelect,
       renderCell,
-      locale,
+      locale: overrideLocale,
       showWeekNumbers
     } = useCalendarContext();
+    const { locale, formatDate } = useCustom('Calendar', overrideLocale);
     const { prefix, merge } = useClassNames(classPrefix);
 
     const handleSelect = useCallback(
@@ -46,7 +46,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
     );
 
     const renderDays = () => {
-      const formatStr = locale?.formattedDayPattern || 'yyyy-MM-dd';
+      const formatStr = locale.formattedDayPattern;
       const days: React.ReactElement[] = [];
       const [selectedStartDate, selectedEndDate] = dateRange || [];
       const [hoverStartDate, hoverEndDate] = hoverRangeValue ?? [];
@@ -62,7 +62,9 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
           !unSameMonth && selectedStartDate && DateUtils.isSameDay(thisDate, selectedStartDate);
         const isEndSelected =
           !unSameMonth && selectedEndDate && DateUtils.isSameDay(thisDate, selectedEndDate);
-        const isSelected = isStartSelected || isEndSelected;
+        const isSelected = isRangeSelectionMode
+          ? isStartSelected || isEndSelected
+          : DateUtils.isSameDay(thisDate, selected);
 
         let inRange = false;
         // for Selected
@@ -100,9 +102,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
         const classes = prefix('cell', {
           'cell-un-same-month': unSameMonth,
           'cell-is-today': isToday,
-          'cell-selected': isRangeSelectionMode
-            ? isSelected
-            : DateUtils.isSameDay(thisDate, selected),
+          'cell-selected': isSelected,
           'cell-selected-start': isStartSelected,
           'cell-selected-end': isEndSelected,
           'cell-in-range': !unSameMonth && inRange,
@@ -113,7 +113,13 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
           ? formatDate(thisDate, formatStr)
           : DateUtils.format(thisDate, formatStr);
         days.push(
-          <div role="cell" key={title} className={classes}>
+          <div
+            role="gridcell"
+            key={title}
+            aria-label={title}
+            aria-selected={isSelected || undefined}
+            className={classes}
+          >
             <div
               role="button"
               className={prefix('cell-content')}
@@ -136,7 +142,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
     return (
       <Component {...rest} ref={ref} role="row" className={classes}>
         {showWeekNumbers && (
-          <div className={prefix('cell-week-number')} role="cell">
+          <div className={prefix('cell-week-number')} role="rowheader">
             {DateUtils.format(weekendDate, isoWeek ? 'I' : 'w')}
           </div>
         )}
