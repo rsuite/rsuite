@@ -50,6 +50,7 @@ class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
   lastFocus = null;
   onDocumentKeyupListener = null;
   onFocusinListener = null;
+  _isMounted = null;
 
   constructor(props: BaseModalProps) {
     super(props);
@@ -59,6 +60,7 @@ class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
     this.dialogRef = React.createRef();
   }
   componentDidMount() {
+    this._isMounted = true;
     if (this.props.show) {
       this.onShow();
     }
@@ -94,6 +96,8 @@ class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
 
   componentWillUnmount() {
     const { show, transition } = this.props;
+
+    this._isMounted = false;
 
     if (show || (transition && !this.state.exited)) {
       this.onHide();
@@ -173,14 +177,28 @@ class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
   enforceFocus = () => {
     const { enforceFocus } = this.props;
 
-    if (!enforceFocus || !this.isTopModal()) {
+    if (!enforceFocus || !this._isMounted || !this.isTopModal()) {
       return;
     }
 
-    const active = activeElement(ownerDocument(this));
+    const currentActiveElement = activeElement(ownerDocument(this));
     const modal = this.getDialogElement();
 
-    if (modal && modal !== active && !contains(modal, active)) {
+    if (modal && modal !== currentActiveElement && !contains(modal, currentActiveElement)) {
+      modal.focus();
+    }
+  };
+
+  handlePortalRendered = () => {
+    if (!this.props.autoFocus) {
+      return;
+    }
+
+    const modal = this.getDialogElement();
+    const currentActiveElement = activeElement(ownerDocument(this));
+
+    if (modal && modal !== currentActiveElement && !contains(modal, currentActiveElement)) {
+      this.lastFocus = currentActiveElement;
       modal.focus();
     }
   };
@@ -268,7 +286,11 @@ class BaseModal extends React.Component<BaseModalProps, BaseModalState> {
     }
 
     return (
-      <Portal ref={this.setMountNodeRef} container={container}>
+      <Portal
+        ref={this.setMountNodeRef}
+        container={container}
+        onRendered={this.handlePortalRendered}
+      >
         <div ref={this.modalNodeRef} role={rest.role} style={style} className={className}>
           {backdrop && this.renderBackdrop()}
           <RefHolder ref={this.dialogRef}>{dialog}</RefHolder>
