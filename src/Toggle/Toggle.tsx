@@ -73,7 +73,7 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (disabled || readOnly) {
+      if (disabled || readOnly || loading) {
         return;
       }
       const { checked } = e.target;
@@ -81,7 +81,7 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
       setChecked(checked);
       onChange?.(checked, e);
     },
-    [disabled, readOnly, setChecked, onChange]
+    [disabled, readOnly, loading, setChecked, onChange]
   );
 
   if (plaintext) {
