@@ -44,6 +44,10 @@ const App = () => {
               <Form.ControlLabel>Textarea</Form.ControlLabel>
               <Form.Control rows={5} name="textarea" accepter={Textarea} />
             </Form.Group>
+            <Form.Group controlId="select-10">
+              <Form.ControlLabel>SelectPicker</Form.ControlLabel>
+              <Form.Control name="select" data={pickerData} accepter={SelectPicker} />
+            </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>

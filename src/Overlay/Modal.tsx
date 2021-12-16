@@ -16,6 +16,7 @@ import {
   KEY_VALUES
 } from '../utils';
 import { WithAsProps, AnimationEventProps, RsRefForwardingComponent } from '../@types/common';
+import OverlayContext from './OverlayContext';
 
 export interface BaseModalProps extends WithAsProps, AnimationEventProps {
   /** Animation-related properties */
@@ -167,17 +168,27 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
     }
   }, []);
 
+  /**
+   * Determines if the currently focused element is inside the dialog,
+   * and if not, returns the focus to the dialog.
+   *
+   */
+  const handleFocusDialog = useEventCallback((onBeforeFocusCallback?: () => void) => {
+    const currentActiveElement = document.activeElement as HTMLElement;
+    const dialog = modal.dialog;
+
+    if (dialog && currentActiveElement && !contains(dialog, currentActiveElement)) {
+      onBeforeFocusCallback?.();
+      dialog.focus();
+    }
+  });
+
   const handleEnforceFocus = useEventCallback(() => {
     if (!enforceFocus || !modal.isTopModal()) {
       return;
     }
 
-    const currentActiveElement = document.activeElement as HTMLElement;
-    const dialog = modal.dialog;
-
-    if (dialog && dialog !== currentActiveElement && !contains(dialog, currentActiveElement)) {
-      dialog.focus();
-    }
+    handleFocusDialog();
   });
 
   const handleBackdropClick = useEventCallback((event: React.MouseEvent) => {
@@ -211,12 +222,9 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
     }
 
     if (autoFocus) {
-      const currentActiveElement = document.activeElement as HTMLElement;
-
-      if (modal.dialog && currentActiveElement && !contains(modal.dialog, currentActiveElement)) {
-        lastFocus.current = currentActiveElement;
-        modal.dialog.focus();
-      }
+      handleFocusDialog(() => {
+        lastFocus.current = document.activeElement as HTMLElement;
+      });
     }
 
     onOpen?.();
@@ -307,18 +315,26 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
   );
 
   return (
-    <Portal>
-      <Component
-        {...rest}
-        ref={mergeRefs(modal.setDialogRef, ref as any)}
-        style={style}
-        className={className}
-        tabIndex={-1}
-      >
-        {backdrop && renderBackdrop()}
-        {dialogElement}
-      </Component>
-    </Portal>
+    <OverlayContext.Provider
+      value={{
+        overlayContainer: () => {
+          return modal.dialog;
+        }
+      }}
+    >
+      <Portal>
+        <Component
+          {...rest}
+          ref={mergeRefs(modal.setDialogRef, ref as any)}
+          style={style}
+          className={className}
+          tabIndex={-1}
+        >
+          {backdrop && renderBackdrop()}
+          {dialogElement}
+        </Component>
+      </Portal>
+    </OverlayContext.Provider>
   );
 });
 
