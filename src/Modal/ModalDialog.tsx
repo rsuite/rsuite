@@ -53,6 +53,7 @@ class ModalDialog extends React.Component<ModalDialogProps> {
         {...props}
         title={null}
         role="dialog"
+        tabIndex={-1}
         ref={mergeRefs(this.bindHtmlRef, dialogRef)}
         className={classNames(classPrefix, className)}
         style={modalStyle}

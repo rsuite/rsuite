@@ -124,4 +124,9 @@ describe('Modal', () => {
     const instance = getInstance(<Modal classPrefix="custom-prefix" show />);
     assert.ok(instance.dialogElement.className.match(/\bcustom-prefix\b/));
   });
+
+  it('Should be forced to focus on Modal', () => {
+    const instance = getInstance(<Modal className="custom" show />);
+    assert.equal(instance.dialogElement, document.activeElement);
+  });
 });
