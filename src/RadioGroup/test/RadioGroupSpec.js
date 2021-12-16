@@ -217,6 +217,6 @@ describe('RadioGroup', () => {
         </Radio>
       </RadioGroup>
     );
-    assert.ok(instance.querySelectorAll('.rs-radio-disabled').length === 4);
+    assert.equal(instance.querySelectorAll('.rs-radio-disabled').length, 4);
   });
 });
