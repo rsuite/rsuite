@@ -79,7 +79,7 @@
     "id": "tooltip",
     "name": "Tooltip",
     "title": "文字提示",
-    "components": ["Tooltip", "Whisper"],
+    "components": ["Tooltip"],
     "designHash": {
       "default": "9",
       "dark": "9"
@@ -89,7 +89,7 @@
     "id": "popover",
     "name": "Popover",
     "title": "弹出框",
-    "components": ["Popover", "Whisper"],
+    "components": ["Popover"],
     "designHash": {
       "default": "10",
       "dark": "10"
