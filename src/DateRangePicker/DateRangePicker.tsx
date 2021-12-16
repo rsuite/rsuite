@@ -784,7 +784,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           hasValue={hasValue}
           active={isPickerToggleActive}
           placement={placement}
-          caretComponent={IconCalendar}
+          caretAs={IconCalendar}
           disabled={disabled}
         >
           {getDisplayString(value)}

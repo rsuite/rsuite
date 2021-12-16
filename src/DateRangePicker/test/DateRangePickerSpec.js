@@ -34,6 +34,10 @@ function setTimePickerValue(picker, calendarIndex, { hours, minutes, seconds }) 
   );
 }
 
+afterEach(() => {
+  sinon.restore();
+});
+
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
     const instance = getDOMNode(<DateRangePicker />);
@@ -603,5 +607,15 @@ describe('DateRangePicker', () => {
 
       expect(getByTestId('content')).to.have.text('Not selected');
     });
+  });
+
+  it('Should not get warned about deprecated `caretComponent` prop', () => {
+    sinon.spy(console, 'warn');
+
+    render(<DateRangePicker />);
+
+    expect(console.warn).not.to.have.been.calledWith(
+      sinon.match(/"caretComponent" property of "PickerToggle" has been deprecated/)
+    );
   });
 });
