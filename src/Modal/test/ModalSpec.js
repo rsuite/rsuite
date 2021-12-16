@@ -212,6 +212,12 @@ describe('Modal', () => {
 
       assert.equal(document.activeElement, focusableContainer);
     });
+
+    it('Should only call onOpen once', () => {
+      const onOpenSpy = sinon.spy();
+      render(<Modal open onOpen={onOpenSpy}></Modal>);
+      assert.equal(onOpenSpy.callCount, 1);
+    });
   });
 
   describe('a11y', () => {
