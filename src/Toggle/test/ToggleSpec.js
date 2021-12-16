@@ -88,6 +88,17 @@ describe('Toggle', () => {
 
       expect(onChangeSpy).not.to.have.been.called;
     });
+
+    it('Should not call `onChange` callback when loading', () => {
+      const onChangeSpy = sinon.spy();
+
+      const { getByTestId } = render(
+        <Toggle loading onChange={onChangeSpy} data-testid="toggle" />
+      );
+      userEvent.click(getByTestId('toggle'));
+
+      expect(onChangeSpy).not.to.have.been.called;
+    });
   });
 
   it('Should have a custom className', () => {
