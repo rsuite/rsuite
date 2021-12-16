@@ -206,4 +206,17 @@ describe('RadioGroup', () => {
       expect(getByTestId('radio-group')).to.have.text('Not selected');
     });
   });
+  it('Should render all radios disabled', () => {
+    const instance = getDOMNode(
+      <RadioGroup disabled>
+        <Radio value={1}>Test1</Radio>
+        <Radio value={2}>Test2</Radio>
+        <Radio value={3}>Test3</Radio>
+        <Radio value={4} disabled={false}>
+          Test4
+        </Radio>
+      </RadioGroup>
+    );
+    assert.ok(instance.querySelectorAll('.rs-radio-disabled').length === 4);
+  });
 });

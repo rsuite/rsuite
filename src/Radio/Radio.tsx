@@ -75,7 +75,7 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
     tabIndex = 0,
     inputRef,
     inputProps,
-    disabled = disabledContext,
+    disabled: propsDisabled = disabledContext,
     readOnly = readOnlyContext,
     plaintext = plaintextContext,
     inline = inlineContext,
@@ -85,6 +85,8 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
     onClick,
     ...rest
   } = props;
+
+  const disabled = disabledContext || propsDisabled;
 
   const [checked, setChecked] = useControlled(
     typeof groupValue !== 'undefined' ? groupValue === value : checkedProp,
