@@ -30,6 +30,12 @@
 
   [type='radio'] {
     opacity: 0;
+    // bring to foreground
+    position: absolute;
+    z-index: 1;
+    width: @radio-width-height;
+    height: @radio-width-height;
+    cursor: pointer;
   }
 
   &::before,
