@@ -37,17 +37,17 @@ import {
   OverlayTriggerInstance,
   PositionChildProps,
   listPickerPropTypes,
-  PickerComponent
+  PickerInstance
 } from '../Picker';
 
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
-import { SelectProps } from '../SelectPicker';
+import type { MultipleSelectProps } from '../SelectPicker';
 import { TreeNodeType } from '../CheckTreePicker/utils';
 
 export type ValueType = (number | string)[];
-export interface CheckPickerProps<T = ValueType>
-  extends FormControlPickerProps<T, PickerLocale, ItemDataType>,
-    SelectProps<T> {
+export interface CheckPickerProps<T>
+  extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>>,
+    MultipleSelectProps<T> {
   /** Top the selected option in the options */
   sticky?: boolean;
 
@@ -57,8 +57,14 @@ export interface CheckPickerProps<T = ValueType>
 
 const emptyArray = [];
 
-const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
-  (props: CheckPickerProps, ref) => {
+export interface CheckPickerComponent {
+  <T>(props: CheckPickerProps<T>): JSX.Element | null;
+  displayName?: string;
+  propTypes?: React.WeakValidationMap<CheckPickerProps<any>>;
+}
+
+const CheckPicker: CheckPickerComponent = React.forwardRef(
+  <T extends number | string>(props: CheckPickerProps<T>, ref: React.Ref<PickerInstance>) => {
     const {
       as: Component = 'div',
       appearance = 'default',
@@ -166,7 +172,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
     };
 
     const handleChangeValue = useCallback(
-      (value: ValueType, event: React.SyntheticEvent) => {
+      (value: T[], event: React.SyntheticEvent) => {
         onChange?.(value, event);
       },
       [onChange]
@@ -405,7 +411,7 @@ const CheckPicker: PickerComponent<CheckPickerProps> = React.forwardRef(
       </PickerToggleTrigger>
     );
   }
-);
+) as CheckPickerComponent;
 
 CheckPicker.displayName = 'CheckPicker';
 CheckPicker.propTypes = {
