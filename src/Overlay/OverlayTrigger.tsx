@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useImperativeHandle, useCallback } from 'react';
+import React, { useRef, useEffect, useImperativeHandle, useCallback, useContext } from 'react';
 import get from 'lodash/get';
 import isNil from 'lodash/isNil';
 import contains from 'dom-lib/contains';
@@ -8,6 +8,7 @@ import isOneOf from '../utils/isOneOf';
 import { AnimationEventProps, StandardProps, TypeAttributes } from '../@types/common';
 import { PositionInstance } from './Position';
 import { isUndefined } from 'lodash';
+import OverlayContext from './OverlayContext';
 
 export type OverlayTriggerType = 'click' | 'hover' | 'focus' | 'active' | 'contextMenu' | 'none';
 
@@ -132,9 +133,10 @@ export interface OverlayTriggerInstance {
 const defaultTrigger = ['hover', 'focus'];
 
 const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
+  const { overlayContainer } = useContext(OverlayContext);
   const {
     children,
-    container,
+    container = overlayContainer,
     controlId,
     defaultOpen,
     trigger = defaultTrigger,
@@ -160,7 +162,6 @@ const OverlayTrigger = React.forwardRef((props: OverlayTriggerProps, ref) => {
   } = props;
 
   const { Portal } = usePortal({ container });
-
   const triggerRef = useRef();
   const overlayRef = useRef<PositionInstance>();
   const [open, setOpen] = useControlled(openProp, defaultOpen);
