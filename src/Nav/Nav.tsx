@@ -89,6 +89,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     return (
       <NavContext.Provider
         value={{
+          withinNav: true,
           activeKey,
           onSelect: onSelectProp ?? onSelectFromSidenav
         }}
@@ -107,6 +108,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     return (
       <NavContext.Provider
         value={{
+          withinNav: true,
           activeKey,
           onSelect: onSelectProp ?? onSelectFromSidenav
         }}
@@ -124,6 +126,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
   return (
     <NavContext.Provider
       value={{
+        withinNav: true,
         activeKey,
         onSelect: onSelectProp ?? onSelectFromSidenav
       }}
