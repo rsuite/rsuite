@@ -15,7 +15,7 @@
 
 ### 默认
 
-<!--{include:`basic.md`}-->
+<!--{include:`basic.js`}-->
 
 ### 外观
 

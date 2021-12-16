@@ -15,7 +15,7 @@ Commonly used operating buttons, button combinations, button layouts.
 
 ### Default
 
-<!--{include:`basic.md`}-->
+<!--{include:`basic.js`}-->
 
 ### Appearance
 

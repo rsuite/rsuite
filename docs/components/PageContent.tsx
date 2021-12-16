@@ -25,6 +25,7 @@ const babelOptions = {
 };
 
 interface CustomCodeViewProps {
+  type: 'md' | 'js';
   className?: string;
   height?: number;
   dependencies?: any;
@@ -151,13 +152,15 @@ const PageContent = (props: PageContentProps) => {
       {fragments.map((item, index) => {
         const result = item.match(/include:`(\S+)`(\|(\d+)\|)?/);
         // Import sample code
-        const codeName = result?.[1];
+        const codeName: string = result?.[1];
         const height = result?.[3];
 
         if (codeName) {
+          const match = codeName.match(/\.(.+?)$/);
           return (
             <CustomCodeView
               key={index}
+              type={match![1] as 'md' | 'js'}
               height={height ? parseInt(height) : undefined}
               source={require(`../pages${pathname}/fragments/${codeName}`)}
               dependencies={dependencies}

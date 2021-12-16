@@ -113,30 +113,37 @@ module.exports = {
       ]
     });
 
-    config.module.rules.push({
-      test: /\.md$/,
-      use: [
-        {
-          loader: 'html-loader'
-        },
-        {
-          loader: 'markdown-loader',
-          options: {
-            pedantic: true,
-            renderer: markdownRenderer([
-              'javascript',
-              'bash',
-              'xml',
-              'css',
-              'less',
-              'json',
-              'diff',
-              'typescript'
-            ])
+    config.module.rules.push(
+      {
+        test: /\.js$/,
+        include: [/fragments/],
+        type: 'asset/source'
+      },
+      {
+        test: /\.md$/,
+        use: [
+          {
+            loader: 'html-loader'
+          },
+          {
+            loader: 'markdown-loader',
+            options: {
+              pedantic: true,
+              renderer: markdownRenderer([
+                'javascript',
+                'bash',
+                'xml',
+                'css',
+                'less',
+                'json',
+                'diff',
+                'typescript'
+              ])
+            }
           }
-        }
-      ]
-    });
+        ]
+      }
+    );
 
     /**
      * @see https://github.com/vercel/next.js/blob/0bcc6943ae7a8c3c7d1865b4ae090edafe417c7c/packages/next/build/webpack/config/blocks/css/index.ts#L311
