@@ -162,7 +162,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     renderExtraFooter,
     renderMenu,
     renderValue,
-    renderDragNode,
     ...rest
   } = props;
   const triggerRef = useRef<OverlayTriggerInstance>(null);
@@ -172,7 +171,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const searchInputRef = useRef<HTMLInputElement>(null);
   const treeViewRef = useRef<HTMLDivElement>(null);
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
-  const { inline, dragNodeRef } = useContext(TreeContext);
+  const { inline } = useContext(TreeContext);
 
   const [value, setValue, isControlled] = useControlled(controlledValue, defaultValue);
   const {
@@ -287,13 +286,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   useEffect(() => {
     setSearchKeyword(searchKeyword ?? '');
   }, [searchKeyword, setSearchKeyword]);
-
-  useEffect(() => {
-    if (dragNodeRef) {
-      dragNodeRef.current = treeViewRef.current?.querySelector(`.${treePrefix('drag-node-mover')}`);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const getDropData = useCallback(
     (nodeData: any) => {
@@ -765,17 +757,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       );
     };
 
-  const renderDefaultDragNode = () => {
-    if (draggable && !isNil(dragNode)) {
-      let dragNodeContent = dragNode?.[labelKey];
-      if (isFunction(renderDragNode)) {
-        dragNodeContent = renderDragNode(dragNode);
-      }
-      return <span className={treePrefix('drag-node-mover')}>{dragNodeContent}</span>;
-    }
-    return null;
-  };
-
   const renderTree = () => {
     const classes = withTreeClassPrefix({
       [className ?? '']: inline,
@@ -816,7 +797,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
             formattedNodes
           )}
         </div>
-        {renderDefaultDragNode()}
       </div>
     );
   };
