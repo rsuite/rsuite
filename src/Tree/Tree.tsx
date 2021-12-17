@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import TreePicker from '../TreePicker';
 import TreeContext from './TreeContext';
 import { StandardProps, ItemDataType, RsRefForwardingComponent } from '../@types/common';
@@ -51,8 +51,6 @@ export interface TreeDragProps<ItemDataType = Record<string, any>> {
 
   /** Called when node drop */
   onDrop?: (dropData: DropData<ItemDataType>, e: React.DragEvent) => void;
-
-  renderDragNode?: (dragNode: ItemDataType) => React.ReactNode;
 }
 
 export interface TreeBaseProps<ValueType = string | number, ItemDataType = Record<string, any>>
@@ -146,9 +144,8 @@ export interface TreeProps<ValueType = string | number>
 
 const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
   (props: TreeProps, ref: React.Ref<any>) => {
-    const dragNodeRef = useRef();
     return (
-      <TreeContext.Provider value={{ inline: true, dragNodeRef }}>
+      <TreeContext.Provider value={{ inline: true }}>
         <TreePicker ref={ref} {...props} />
       </TreeContext.Provider>
     );

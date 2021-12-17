@@ -55,7 +55,6 @@
 | onDrop                  | (dropData:DropDataType, event) => void                                                         | Called when node drop                                                     |
 | onExpand                | (expandItemValues: any [], activeNode: DataItemType, concat:(data, children) => Array) => void | Callback When tree node is displayed                                      |
 | onSelect                | (activeNode:DataItemType, value, event) => void                                                | Callback function after selecting tree node                               |
-| renderDragNode          | (nodeData:DataItemType) => ReactNode                                                           | Custom Render drag node when draggable is true                            |
 | renderTreeIcon          | (nodeData:DataItemType) => ReactNode                                                           | Custom Render icon                                                        |
 | renderTreeNode          | (nodeData:DataItemType) => ReactNode                                                           | Custom Render tree Node                                                   |
 | searchKeyword           | string                                                                                         | searchKeyword (Controlled)                                                |

@@ -55,11 +55,10 @@
 | onDrop                  | (dropData:DropDataType, event) => void                                                        | drop 回调                                                                       |
 | onExpand                | (expandItemValues: any [], activeNode:DataItemType, concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
 | onSelect                | (activeNode:DataItemType, value, event) => void                                               | 选择树节点后的回调函数                                                          |
-| renderDragNode          | (nodeData:DataItemType) => ReactNode                                                          | 当 draggable 为 true 时，自定义渲染拖拽节点                                     |
 | renderTreeIcon          | (nodeData:DataItemType) => ReactNode                                                          | 自定义渲染 图标                                                                 |
 | renderTreeNode          | (nodeData:DataItemType) => ReactNode                                                          | 自定义渲染 tree 节点                                                            |
 | searchKeyword           | string                                                                                        | (受控)搜索关键词                                                                |
-| showIndentLine 、       | boolean                                                                                       | 是否显示缩进线                                                                  |
+| showIndentLine          | boolean                                                                                       | 是否显示缩进线                                                                  |
 | value                   | string                                                                                        | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                            | tree 数据结构 value 属性名称                                                    |
 | virtualized             | boolean                                                                                       | 是否开启虚拟列表                                                                |

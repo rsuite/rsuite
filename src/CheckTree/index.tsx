@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { FormControlPickerProps, RsRefForwardingComponent } from '../@types/common';
 import CheckTreePicker, { ValueType } from '../CheckTreePicker';
 
@@ -14,9 +14,8 @@ export interface CheckTreeProps
 
 const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forwardRef(
   (props: CheckTreeProps, ref: React.Ref<any>) => {
-    const dragNodeRef = useRef();
     return (
-      <TreeContext.Provider value={{ inline: true, dragNodeRef }}>
+      <TreeContext.Provider value={{ inline: true }}>
         <CheckTreePicker ref={ref} {...props} />
       </TreeContext.Provider>
     );
