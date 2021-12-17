@@ -1,3 +1,27 @@
+# [5.4.0](https://github.com/rsuite/rsuite/compare/v5.3.0...v5.4.0) (2021-12-17)
+
+### Bug Fixes
+
+- **DatePicker,DateRangePicker:** suppress depreated caretComponent warning ([#2233](https://github.com/rsuite/rsuite/issues/2233)) ([3a79d48](https://github.com/rsuite/rsuite/commit/3a79d486268ff31ad6a620dfc17165c3be259219))
+- **DateRangePicker:** fix selecting ending date not working ([#2217](https://github.com/rsuite/rsuite/issues/2217)) ([2136aa3](https://github.com/rsuite/rsuite/commit/2136aa3327f914a910fb5805b2d11a036e0f6601))
+- **Modal:** fix Modal focus being reset on re-rendering ([#2208](https://github.com/rsuite/rsuite/issues/2208)) ([a931b06](https://github.com/rsuite/rsuite/commit/a931b06942e7fc011ab77e70b105f5790a33e55b))
+- **Nav:** fix incorrect Dropdown button background ([#2227](https://github.com/rsuite/rsuite/issues/2227)) ([421de83](https://github.com/rsuite/rsuite/commit/421de838ed13694254cc6a178d0369e12b666202))
+- **Navbar:** fix icon style in Navbar items ([#2229](https://github.com/rsuite/rsuite/issues/2229)) ([560df61](https://github.com/rsuite/rsuite/commit/560df61a44c0338b153b2c09a50e946c207c684a))
+- **Overlay:** overlay is rendered inside Modal by default ([#2230](https://github.com/rsuite/rsuite/issues/2230)) ([4fac628](https://github.com/rsuite/rsuite/commit/4fac628e23e41db097ec63c2ac348a7345f3ee31))
+- **Radio:** fix unclickable without children ([#2190](https://github.com/rsuite/rsuite/issues/2190)) ([cef5946](https://github.com/rsuite/rsuite/commit/cef59463e281d6aa6b4b9576204d16eed58087c8))
+- **SelectPicker:** fix onChange argument type ([#2193](https://github.com/rsuite/rsuite/issues/2193)) ([db0efa9](https://github.com/rsuite/rsuite/commit/db0efa94ad33de5d02bfd81e926cf622c40ecce7))
+- **Steps:** step item not rendering number ([#2202](https://github.com/rsuite/rsuite/issues/2202)) ([413880b](https://github.com/rsuite/rsuite/commit/413880be99972d8a58d5f0a0c9b6b08017ad33a2))
+- **Toggle:** fix Toggle is still clickable in loading state ([#2219](https://github.com/rsuite/rsuite/issues/2219)) ([e5661fd](https://github.com/rsuite/rsuite/commit/e5661fdb4ef659527ca97c2ea2231b4025e904d3))
+- **Tree:** remove dragNode Element when drag node ([#2185](https://github.com/rsuite/rsuite/issues/2185)) ([#2237](https://github.com/rsuite/rsuite/issues/2237)) ([f6e959f](https://github.com/rsuite/rsuite/commit/f6e959f4aa24f0fa87b5fa1bbc6e1aa775fecd2b))
+
+### Features
+
+- **Stack:** add Stack support to the layout ([#2199](https://github.com/rsuite/rsuite/issues/2199)) ([1ac132e](https://github.com/rsuite/rsuite/commit/1ac132e0fc98a6739dee07d9e6281202530d80fa))
+
+### Performance Improvements
+
+- **CheckPicker:** infer value and onChange types from data prop ([#2228](https://github.com/rsuite/rsuite/issues/2228)) ([eb4f9a8](https://github.com/rsuite/rsuite/commit/eb4f9a8f4c84cf30b3521532d95f4dc2490d0699))
+
 # [5.3.0](https://github.com/rsuite/rsuite/compare/5.2.4...5.3.0) (2021-12-10)
 
 ### Bug Fixes
