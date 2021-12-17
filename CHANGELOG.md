@@ -1,3 +1,14 @@
+<a name="4.10.6"></a>
+## [4.10.6](https://github.com/rsuite/rsuite/compare/v4.10.5...v4.10.6) (2021-12-17)
+
+
+### Bug Fixes
+
+* **Modal:** fix Modal not focused when opened ([#2221](https://github.com/rsuite/rsuite/issues/2221)) ([25cf056](https://github.com/rsuite/rsuite/commit/25cf056))
+* **Table:** bump rsuite-table 3.16.0 ([#2232](https://github.com/rsuite/rsuite/issues/2232)) ([ff6ae0f](https://github.com/rsuite/rsuite/commit/ff6ae0f))
+
+
+
 <a name="4.10.5"></a>
 ## [4.10.5](https://github.com/rsuite/rsuite/compare/v4.10.4...v4.10.5) (2021-11-26)
 
