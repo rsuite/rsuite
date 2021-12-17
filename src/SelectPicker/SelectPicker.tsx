@@ -89,6 +89,15 @@ export interface SelectProps<T> {
   onClean?: (event: React.SyntheticEvent) => void;
 }
 
+export interface MultipleSelectProps<T> extends Omit<SelectProps<T>, 'renderValue'> {
+  /** Custom render selected items */
+  renderValue?: (
+    value: T[],
+    item: ItemDataType<T>[],
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
+}
+
 export interface SelectPickerProps<T>
   extends FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
     SelectProps<T> {}
