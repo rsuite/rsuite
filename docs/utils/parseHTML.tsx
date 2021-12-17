@@ -1,5 +1,5 @@
-const titleRegExp = /<span class="page-heading-text">(.*)<\/span>[\r\n]/;
-const descriptionRegExp = /<p>(.*)<\/p>[\r\n]/;
+const titleRegExp = /<span class="page-heading-text">(.+?)<\/span>/;
+const descriptionRegExp = /<p>(.+?)<\/p>/;
 const codeRegExp = /<!--start-code-->[\s\S]*<!--end-code-->/;
 
 export function getTitle(markdown: string): string {

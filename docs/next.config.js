@@ -117,12 +117,15 @@ module.exports = {
       test: /\.md$/,
       use: [
         {
-          loader: 'html-loader'
+          loader: 'html-loader',
+          options: {
+            sources: false,
+            esModule: false
+          }
         },
         {
           loader: 'markdown-loader',
           options: {
-            pedantic: true,
             renderer: markdownRenderer([
               'javascript',
               'bash',
