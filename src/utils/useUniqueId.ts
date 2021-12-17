@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useEffect, useState } from 'react';
 import uniqueId from 'lodash/uniqueId';
 
 /**
@@ -7,11 +7,14 @@ import uniqueId from 'lodash/uniqueId';
  * @param idProp If id is provided, it will be used instead of generating a new one
  */
 export default function useUniqueId(prefix: string, idProp?: string) {
-  const idRef = useRef<string>();
+  const [idState, setIDState] = useState<string>('');
 
-  if (!idRef.current) {
-    idRef.current = uniqueId(prefix);
-  }
+  useEffect(() => {
+    if (!idState) {
+      setIDState(uniqueId(prefix));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  return idProp ?? idRef.current;
+  return idProp ?? idState;
 }
