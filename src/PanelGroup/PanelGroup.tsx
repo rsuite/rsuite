@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useControlled } from '../utils';
 import { WithAsProps } from '../@types/common';
@@ -63,11 +63,14 @@ const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
     [onSelect, setActiveKey]
   );
 
+  const contextValue = useMemo(
+    () => ({ accordion, activeKey, onGroupSelect: handleSelect }),
+    [accordion, activeKey, handleSelect]
+  );
+
   return (
     <Component {...rest} ref={ref} role={accordion ? 'tablist' : undefined} className={classes}>
-      <PanelGroupContext.Provider value={{ accordion, activeKey, onGroupSelect: handleSelect }}>
-        {children}
-      </PanelGroupContext.Provider>
+      <PanelGroupContext.Provider value={contextValue}>{children}</PanelGroupContext.Provider>
     </Component>
   );
 });
