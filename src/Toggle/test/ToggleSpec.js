@@ -46,7 +46,7 @@ describe('Toggle', () => {
       userEvent.click(getByTestId('toggle'));
       expect(onChangeSpy).to.have.been.calledWith(true);
 
-      rerender(<Toggle checked onChange={onChangeSpy} data-testid="toggle" />);
+      rerender(<Toggle defaultChecked onChange={onChangeSpy} data-testid="toggle" />);
       userEvent.click(getByTestId('toggle'));
       expect(onChangeSpy).to.have.been.calledWith(false);
     });
@@ -61,7 +61,7 @@ describe('Toggle', () => {
       userEvent.keyboard('{space}');
       expect(onChangeSpy).to.have.been.calledWith(true);
 
-      rerender(<Toggle checked onChange={onChangeSpy} data-testid="toggle" />);
+      rerender(<Toggle defaultChecked onChange={onChangeSpy} data-testid="toggle" />);
       getByRole('switch').focus();
       userEvent.keyboard('{space}');
       expect(onChangeSpy).to.have.been.calledWith(false);
