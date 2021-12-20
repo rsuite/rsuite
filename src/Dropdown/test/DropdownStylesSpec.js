@@ -34,4 +34,10 @@ describe('Dropdown styles', () => {
 
     expect(getByRole('button')).to.have.style('backgroundColor', getGrayScale('B050'));
   });
+
+  it('Should have 12px right padding given `noCaret=true`', () => {
+    const { getByRole } = render(<Dropdown title="Dropdown" noCaret />);
+
+    expect(getByRole('button')).to.have.style('paddingRight', '12px');
+  });
 });
