@@ -130,7 +130,10 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       ...rest
     } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const isDisabledDate = (date: Date) => disabledDate?.(date) ?? false;
+    const isDisabledDate = useCallback(
+      (date: Date) => disabledDate?.(date) ?? false,
+      [disabledDate]
+    );
     const isTimeDisabled = (date: Date) => DateUtils.disabledTime(props, date);
     const handleMoveForward = useCallback(() => {
       onMoveForward?.(DateUtils.addMonths(calendarDate, 1));
