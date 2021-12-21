@@ -17,3 +17,29 @@ JSON.stringify = function (subject, ...args) {
   }
   return stringify.call(this, subject, ...args);
 }.bind(JSON);
+
+// Throw errors when a `console.error` or `console.warn` happens
+// by overriding the functions
+['error', 'warn'].forEach(type => {
+  console[type] = message => {
+    if (message.indexOf('Warning:') === 0) {
+      throw new Error(message);
+    }
+  };
+});
+
+let pendingError = null;
+
+window.addEventListener('error', event => {
+  pendingError = event.error;
+});
+window.addEventListener('unhandledrejection', event => {
+  pendingError = event.reason;
+});
+
+// Ensure that uncaught exceptions between tests result in the tests failing.
+afterEach(() => {
+  if (pendingError) {
+    throw pendingError;
+  }
+});
