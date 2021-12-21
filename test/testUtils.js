@@ -12,7 +12,12 @@ export const globalKey = 'rs';
 const DEFAULT_PRIMARY_COLOR = '#3498ff';
 const DARK_PRIMARY_COLOR = '#34c3ff';
 
-export const getDefaultPalette = () => getPalette(DEFAULT_PRIMARY_COLOR);
+export const getDefaultPalette = key => {
+  if (!key) {
+    return getPalette(DEFAULT_PRIMARY_COLOR);
+  }
+  return getDefaultPalette()[key];
+};
 export const getDarkPalette = () => getPalette(DARK_PRIMARY_COLOR);
 
 /**
