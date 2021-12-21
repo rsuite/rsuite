@@ -93,7 +93,8 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
       <input
         ref={inputRef}
         type="checkbox"
-        checked={checked}
+        checked={checkedProp}
+        defaultChecked={defaultChecked}
         disabled={disabled}
         readOnly={readOnly}
         onChange={handleInputChange}
