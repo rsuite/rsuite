@@ -11,7 +11,7 @@ export const useBodyStyles = (
   const { overflow, drawer, prefix } = options;
   const windowResizeListener = useRef<any>();
   const contentElement = useRef<HTMLElement | null>(null);
-  const contentElementResizeObserver = useRef<ResizeObserver>();
+  const contentElementResizeObserver = useRef<ResizeObserver | null>();
 
   const updateBodyStyles = useCallback(
     (_event?: EventInit, entering?: boolean) => {
@@ -50,25 +50,34 @@ export const useBodyStyles = (
   const onDestroyEvents = useCallback(() => {
     windowResizeListener.current?.off?.();
     contentElementResizeObserver.current?.disconnect();
+    windowResizeListener.current = null;
+    contentElementResizeObserver.current = null;
   }, []);
 
   const onChangeBodyStyles = useCallback(
     (entering?: boolean) => {
-      if (overflow && !drawer) {
+      if (overflow && !drawer && ref.current) {
         updateBodyStyles(undefined, entering);
-        contentElement.current = ref.current!.querySelector(`.${prefix('content')}`)!;
-        windowResizeListener.current = on(window, 'resize', updateBodyStyles);
 
-        contentElementResizeObserver.current = new ResizeObserver(() => updateBodyStyles());
-        contentElementResizeObserver.current.observe(contentElement.current);
+        contentElement.current = ref.current.querySelector(`.${prefix('content')}`);
+
+        if (!windowResizeListener.current) {
+          windowResizeListener.current = on(window, 'resize', updateBodyStyles);
+        }
+
+        if (contentElement.current && !contentElementResizeObserver.current) {
+          contentElementResizeObserver.current = new ResizeObserver(() => updateBodyStyles());
+          contentElementResizeObserver.current.observe(contentElement.current);
+        }
       }
     },
     [drawer, overflow, prefix, ref, updateBodyStyles]
   );
 
   useEffect(() => {
-    onDestroyEvents();
-  }, [onDestroyEvents]);
+    return onDestroyEvents;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return [overflow ? bodyStyles : {}, onChangeBodyStyles, onDestroyEvents];
 };
