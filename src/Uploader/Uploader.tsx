@@ -226,6 +226,9 @@ const useFileList = (
   useEffect(() => {
     fileListUpdateCallback.current?.(fileList);
     fileListUpdateCallback.current = null;
+    return () => {
+      fileListUpdateCallback.current = null;
+    };
   }, [fileList]);
 
   const dispatchCallback = useCallback((action: ActionType, callback) => {

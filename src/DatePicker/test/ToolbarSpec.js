@@ -4,9 +4,9 @@ import { getDOMNode } from '@test/testUtils';
 
 import Toolbar from '../Toolbar';
 
-describe('Toolbar', () => {
+describe('DatePicker - Toolbar', () => {
   it('Should render a div with `rs-picker-toolbar` class', () => {
-    const instance = getDOMNode(<Toolbar />);
+    const instance = getDOMNode(<Toolbar calendarDate={new Date()} />);
 
     assert.equal(instance.nodeName, 'DIV');
     assert.include(instance.className, 'rs-picker-toolbar');
@@ -15,6 +15,7 @@ describe('Toolbar', () => {
   it('Should render a custom option', () => {
     const instance = getDOMNode(
       <Toolbar
+        calendarDate={new Date()}
         ranges={[
           {
             label: <div className="btn-today">today</div>,
@@ -29,41 +30,43 @@ describe('Toolbar', () => {
 
   it('Should call `onOk` callback', () => {
     const onOkSpy = sinon.spy();
-    const instance = getDOMNode(<Toolbar onOk={onOkSpy} />);
+    const instance = getDOMNode(<Toolbar calendarDate={new Date()} onOk={onOkSpy} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toolbar-right .rs-btn'));
     assert.isTrue(onOkSpy.calledOnce);
   });
 
   it('Should call `onClickShortcut` callback', () => {
     const onClickShortcutSpy = sinon.spy();
-    const instance = getDOMNode(<Toolbar onClickShortcut={onClickShortcutSpy} />);
+    const instance = getDOMNode(
+      <Toolbar calendarDate={new Date()} onClickShortcut={onClickShortcutSpy} />
+    );
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toolbar-ranges button'));
     assert.isTrue(onClickShortcutSpy.calledOnce);
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<Toolbar className="custom" />);
+    const instance = getDOMNode(<Toolbar calendarDate={new Date()} className="custom" />);
     assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Toolbar style={{ fontSize }} />);
+    const instance = getDOMNode(<Toolbar calendarDate={new Date()} style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Toolbar classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<Toolbar calendarDate={new Date()} classPrefix="custom-prefix" />);
     assert.include(instance.className, 'custom-prefix');
   });
 
   it('Should not render the ok button', () => {
-    const instance = getDOMNode(<Toolbar hideOkBtn />);
+    const instance = getDOMNode(<Toolbar calendarDate={new Date()} hideOkBtn />);
     assert.isNull(instance.querySelector('.rs-picker-toolbar-right button'));
   });
 
   it('Should not render any elements', () => {
-    const instance = getDOMNode(<Toolbar hideOkBtn ranges={[]} />);
+    const instance = getDOMNode(<Toolbar calendarDate={new Date()} hideOkBtn ranges={[]} />);
     assert.isNull(instance);
   });
 });

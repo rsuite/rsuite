@@ -6,7 +6,7 @@ import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
 
-describe('<Navbar>', () => {
+describe('Navbar', () => {
   it('Should render a navbar', () => {
     const instance = getDOMNode(<Navbar />);
     assert.include(instance.className, 'rs-navbar');

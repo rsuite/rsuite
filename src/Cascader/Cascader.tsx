@@ -253,11 +253,19 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
   );
 
   const handleEntered = useCallback(() => {
+    if (!targetRef.current) {
+      return;
+    }
+
     onOpen?.();
     setActive(true);
   }, [onOpen]);
 
   const handleExited = useCallback(() => {
+    if (!targetRef.current) {
+      return;
+    }
+
     onClose?.();
     setActive(false);
     setSearchKeyword('');
@@ -269,7 +277,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   const handleClean = useCallback(
     (event: React.SyntheticEvent) => {
-      if (disabled) {
+      if (disabled || !targetRef.current) {
         return;
       }
 
@@ -349,7 +357,9 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
         children.then((data: ItemDataType[]) => {
           node.loading = false;
           node[childrenKey] = data;
-          addColumn(data, cascadePaths.length);
+          if (targetRef.current) {
+            addColumn(data, cascadePaths.length);
+          }
         });
       } else {
         node.loading = false;

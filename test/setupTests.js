@@ -21,9 +21,10 @@ JSON.stringify = function (subject, ...args) {
 // Throw errors when a `console.error` or `console.warn` happens
 // by overriding the functions
 ['error', 'warn'].forEach(type => {
-  console[type] = message => {
-    if (message.indexOf('Warning:') === 0) {
-      throw new Error(message);
+  console[type] = (...args) => {
+    console.log(args);
+    if (args[0].indexOf('Warning') === 0) {
+      throw new Error(args);
     }
   };
 });

@@ -7,7 +7,7 @@ import '../styles/index.less';
 describe('Uploader styles', () => {
   it('Should render the correct styles', () => {
     const ref = React.createRef();
-    render(<Uploader ref={ref} />);
+    render(<Uploader action="" ref={ref} />);
 
     const button = ref.current.root.querySelector('.rs-uploader-trigger-btn');
     assert.equal(

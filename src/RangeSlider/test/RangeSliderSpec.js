@@ -16,7 +16,7 @@ describe('RangeSlider', () => {
   });
 
   it('Should render 2 handles ', () => {
-    const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} />);
+    const instance = getDOMNode(<RangeSlider value={[10, 50]} />);
     assert.equal(instance.querySelectorAll('.rs-slider-handle').length, 2);
   });
 

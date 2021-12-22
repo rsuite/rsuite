@@ -11,7 +11,7 @@ import { WithAsProps } from '../@types/common';
 
 export interface UploadFileItemProps extends WithAsProps {
   file: FileType;
-  listType: 'text' | 'picture-text' | 'picture';
+  listType?: 'text' | 'picture-text' | 'picture';
   disabled?: boolean;
   className?: string;
   maxPreviewFileSize?: number;
@@ -291,7 +291,7 @@ UploadFileItem.displayName = 'UploadFileItem';
 UploadFileItem.propTypes = {
   locale: PropTypes.any,
   file: PropTypes.object.isRequired,
-  listType: PropTypes.oneOf(['text', 'picture-text', 'picture'] as const).isRequired,
+  listType: PropTypes.oneOf(['text', 'picture-text', 'picture'] as const),
   disabled: PropTypes.bool,
   className: PropTypes.string,
   maxPreviewFileSize: PropTypes.number,

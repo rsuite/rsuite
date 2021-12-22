@@ -32,13 +32,13 @@ const items = [
 
 describe('MultiCascader', () => {
   it('Should output a dropdown', () => {
-    const instance = getDOMNode(<MultiCascader>Title</MultiCascader>);
+    const instance = getDOMNode(<MultiCascader data={[]}>Title</MultiCascader>);
 
     assert.ok(instance.className.match(/\bpicker-cascader\b/));
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<MultiCascader />);
+    const instance = getDOMNode(<MultiCascader data={[]} />);
 
     expect(instance).to.have.class('rs-picker-default');
   });
@@ -92,13 +92,13 @@ describe('MultiCascader', () => {
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<MultiCascader disabled />);
+    const instance = getDOMNode(<MultiCascader data={[]} disabled />);
 
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
   it('Should be inline', () => {
-    const instance = getInstance(<MultiCascader inline />);
+    const instance = getInstance(<MultiCascader data={[]} inline />);
 
     assert.ok(instance.overlay.className.match(/\brs-picker-inline\b/));
     assert.ok(instance.overlay.querySelector('.rs-picker-cascader-menu-items'));
@@ -106,18 +106,18 @@ describe('MultiCascader', () => {
 
   it('Should output a placeholder', () => {
     const placeholder = 'foobar';
-    const instance = getDOMNode(<MultiCascader placeholder={placeholder} />);
+    const instance = getDOMNode(<MultiCascader data={[]} placeholder={placeholder} />);
 
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, placeholder);
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<MultiCascader toggleAs="button" />);
+    const instance = getInstance(<MultiCascader data={[]} toggleAs="button" />);
     assert.ok(instance.root.querySelector('button'));
   });
 
   it('Should be block', () => {
-    const instance = getDOMNode(<MultiCascader block />);
+    const instance = getDOMNode(<MultiCascader data={[]} block />);
 
     assert.ok(instance.className.match(/\bblock\b/));
   });
@@ -130,7 +130,7 @@ describe('MultiCascader', () => {
 
     assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, placeholder);
 
-    const instance2 = getDOMNode(<MultiCascader renderValue={() => placeholder} />);
+    const instance2 = getDOMNode(<MultiCascader data={[]} renderValue={() => placeholder} />);
     assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
@@ -156,7 +156,7 @@ describe('MultiCascader', () => {
   });
 
   it('Should not be call renderValue()', () => {
-    const instance = getDOMNode(<MultiCascader renderValue={() => 'value'} />);
+    const instance = getDOMNode(<MultiCascader data={[]} renderValue={() => 'value'} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
@@ -246,18 +246,18 @@ describe('MultiCascader', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<MultiCascader className="custom" />);
+    const instance = getDOMNode(<MultiCascader data={[]} className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<MultiCascader style={{ fontSize }} />);
+    const instance = getDOMNode(<MultiCascader data={[]} style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<MultiCascader classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<MultiCascader data={[]} classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
@@ -267,9 +267,15 @@ describe('MultiCascader', () => {
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<MultiCascader value={['Test']} renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<MultiCascader value={['Test']} renderValue={() => null} />);
-    const instance3 = getDOMNode(<MultiCascader value={['Test']} renderValue={() => undefined} />);
+    const instance1 = getDOMNode(
+      <MultiCascader data={[]} value={['Test']} renderValue={() => '1'} />
+    );
+    const instance2 = getDOMNode(
+      <MultiCascader data={[]} value={['Test']} renderValue={() => null} />
+    );
+    const instance3 = getDOMNode(
+      <MultiCascader data={[]} value={['Test']} renderValue={() => undefined} />
+    );
 
     assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
     assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');

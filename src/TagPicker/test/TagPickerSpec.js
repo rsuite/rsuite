@@ -43,7 +43,7 @@ describe('TagPicker', () => {
 
   it('Should output a TagPicker', () => {
     const Title = 'Title';
-    const instance = getDOMNode(<TagPicker>{Title}</TagPicker>);
+    const instance = getDOMNode(<TagPicker data={[]}>{Title}</TagPicker>);
     assert.include(instance.className, 'rs-picker-tag');
   });
 
@@ -55,12 +55,12 @@ describe('TagPicker', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<TagPicker toggleAs="button" />);
+    const instance = getInstance(<TagPicker data={[]} toggleAs="button" />);
     assert.ok(instance.root.querySelector('button'));
   });
 
   it('Should be block', () => {
-    const instance = getDOMNode(<TagPicker block />);
+    const instance = getDOMNode(<TagPicker data={[]} block />);
     assert.ok(instance.className.match(/\bblock\b/));
   });
 
@@ -86,7 +86,7 @@ describe('TagPicker', () => {
   });
 
   it('Should have a placeholder', () => {
-    const instance = getDOMNode(<TagPicker className="custom" placeholder="test" />);
+    const instance = getDOMNode(<TagPicker data={[]} className="custom" placeholder="test" />);
 
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
@@ -150,7 +150,7 @@ describe('TagPicker', () => {
   });
 
   it('Should render a placeholder when value error', () => {
-    const instance = getDOMNode(<TagPicker value={[2]} placeholder={'test'} />);
+    const instance = getDOMNode(<TagPicker data={[]} value={[2]} placeholder={'test'} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
@@ -207,7 +207,7 @@ describe('TagPicker', () => {
         done(err);
       }
     };
-    const instance = getDOMNode(<TagPicker defaultOpen onSearch={doneOp} />);
+    const instance = getDOMNode(<TagPicker data={[]} defaultOpen onSearch={doneOp} />);
     const input = instance.querySelector('.rs-picker-search-input input');
     input.value = 'a';
 
@@ -270,18 +270,18 @@ describe('TagPicker', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<TagPicker className="custom" defaultOpen />);
+    const instance = getDOMNode(<TagPicker data={[]} className="custom" defaultOpen />);
     assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<TagPicker style={{ fontSize }} />);
+    const instance = getDOMNode(<TagPicker data={[]} style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<TagPicker classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<TagPicker data={[]} classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
@@ -336,14 +336,16 @@ describe('TagPicker', () => {
   });
 
   it('Should not be call renderValue()', () => {
-    const instance = getDOMNode(<TagPicker renderValue={() => 'value'} />);
+    const instance = getDOMNode(<TagPicker data={[]} renderValue={() => 'value'} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<TagPicker value={['Test']} renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<TagPicker value={['Test']} renderValue={() => null} />);
-    const instance3 = getDOMNode(<TagPicker value={['Test']} renderValue={() => undefined} />);
+    const instance1 = getDOMNode(<TagPicker data={[]} value={['Test']} renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<TagPicker data={[]} value={['Test']} renderValue={() => null} />);
+    const instance3 = getDOMNode(
+      <TagPicker data={[]} value={['Test']} renderValue={() => undefined} />
+    );
 
     assert.equal(instance1.querySelector('.rs-picker-tag-wrapper').textContent, '1');
     assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
@@ -362,7 +364,7 @@ describe('TagPicker', () => {
   });
 
   it('Should set a tabindex for input', () => {
-    const instance = getDOMNode(<TagPicker tabIndex={10} />);
+    const instance = getDOMNode(<TagPicker data={[]} tabIndex={10} />);
     assert.equal(instance.querySelector('input[type="text"]').getAttribute('tabindex'), '10');
   });
 

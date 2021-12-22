@@ -251,8 +251,11 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
             children.then((data: ItemDataType[]) => {
               node.loading = false;
               node[childrenKey] = data;
-              addFlattenData(data, node);
-              addColumn(data, cascadePaths.length);
+
+              if (targetRef.current) {
+                addFlattenData(data, node);
+                addColumn(data, cascadePaths.length);
+              }
             });
           } else {
             node.loading = false;
@@ -294,7 +297,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
     const handleClean = useCallback(
       (event: React.SyntheticEvent) => {
-        if (disabled) {
+        if (disabled || !targetRef.current) {
           return;
         }
 

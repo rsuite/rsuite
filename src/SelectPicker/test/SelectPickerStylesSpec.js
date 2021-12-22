@@ -26,7 +26,7 @@ const data = [
 describe('SelectPicker styles', () => {
   it('Default select picker should render correct toggle styles', () => {
     const instanceRef = React.createRef();
-    render(<SelectPicker ref={instanceRef} open />);
+    render(<SelectPicker data={[]} ref={instanceRef} open />);
 
     const pickerNoneDom = document.body.querySelector('.rs-picker-none');
     inChrome &&
@@ -45,7 +45,7 @@ describe('SelectPicker styles', () => {
 
   it('Subtle select picker should render correct toggle styles', () => {
     const instanceRef = React.createRef();
-    render(<SelectPicker appearance="subtle" ref={instanceRef} />);
+    render(<SelectPicker data={[]} appearance="subtle" ref={instanceRef} />);
 
     inChrome &&
       assert.equal(getStyle(instanceRef.current.target, 'borderWidth'), '0px', 'Toggle border');
@@ -122,7 +122,7 @@ describe('SelectPicker styles', () => {
 
   it('Disabled select picker should render correct toggle styles', () => {
     const ref = React.createRef();
-    render(<SelectPicker disabled ref={ref} />);
+    render(<SelectPicker data={[]} disabled ref={ref} />);
     const defaultDom = ref.current.root;
     assert.equal(getStyle(defaultDom, 'opacity'), 0.3);
     assert.equal(
@@ -131,7 +131,7 @@ describe('SelectPicker styles', () => {
     );
 
     const ref2 = React.createRef();
-    render(<SelectPicker appearance="subtle" disabled ref={ref2} />);
+    render(<SelectPicker data={[]} appearance="subtle" disabled ref={ref2} />);
     assert.equal(
       getStyle(ref2.current.root.querySelector('.rs-picker-toggle'), 'backgroundColor'),
       toRGB('#0000')
