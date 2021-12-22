@@ -1,7 +1,6 @@
 // Headless Disclosure
 // Ref: https://w3c.github.io/aria-practices/#disclosure
-
-import React, { useMemo, useReducer, useRef } from 'react';
+import React, { useMemo, useReducer, useRef, useCallback } from 'react';
 import DisclosureContext, {
   DisclosureAction,
   DisclosureActionTypes,
@@ -12,7 +11,10 @@ import DisclosureButton from './DisclosureButton';
 import DisclosureContent from './DisclosureContent';
 import useClickOutside from '../utils/useClickOutside';
 
-export interface DisclosureRenderProps {
+export type DisclosureTrigger = 'click' | 'mouseover';
+
+export interface DisclosureRenderProps
+  extends Pick<React.HTMLAttributes<HTMLElement>, 'onMouseOver' | 'onMouseOut'> {
   open: boolean;
 }
 
@@ -28,6 +30,8 @@ export interface DisclosureProps {
 
   /** Callback when disclosure button is being activated to update the open state */
   onToggle?: (open: boolean, event: React.SyntheticEvent) => void;
+
+  trigger?: DisclosureTrigger[];
 }
 
 const initialDisclosureState: DisclosureState = {
@@ -44,13 +48,19 @@ function disclosureReducer(state: DisclosureState, action: DisclosureAction): Di
   return state;
 }
 
-function Disclosure(props: DisclosureProps) {
+export interface DisclosureComponent extends React.FC<DisclosureProps> {
+  Button: typeof DisclosureButton;
+  Content: typeof DisclosureContent;
+}
+
+const Disclosure: DisclosureComponent = React.memo((props: DisclosureProps) => {
   const {
     children,
     open: openProp,
     defaultOpen = false,
     hideOnClickOutside = false,
-    onToggle
+    onToggle,
+    trigger = ['click']
   } = props;
 
   const [{ open: openState }, dispatch] = useReducer(disclosureReducer, {
@@ -68,16 +78,46 @@ function Disclosure(props: DisclosureProps) {
     handle: () => dispatch({ type: DisclosureActionTypes.Hide })
   });
 
+  const onMouseOver = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      if (!open) {
+        dispatch({ type: DisclosureActionTypes.Show });
+        onToggle?.(true, event);
+      }
+    },
+    [open, dispatch, onToggle]
+  );
+  const onMouseOut = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      if (open) {
+        dispatch({ type: DisclosureActionTypes.Hide });
+        onToggle?.(false, event);
+      }
+    },
+    [open, dispatch, onToggle]
+  );
+
   const context = useMemo<DisclosureContextProps>(() => {
-    return [{ open }, dispatch, { onToggle }];
-  }, [open, dispatch, onToggle]);
+    return [{ open }, dispatch, { onToggle, trigger }];
+  }, [open, dispatch, onToggle, trigger]);
+
+  const renderProps = useMemo(() => {
+    const renderProps: DisclosureRenderProps = { open };
+
+    if (trigger.includes('mouseover')) {
+      renderProps.onMouseOver = onMouseOver;
+      renderProps.onMouseOut = onMouseOut;
+    }
+
+    return renderProps;
+  }, [open, trigger, onMouseOver, onMouseOut]);
 
   return (
     <DisclosureContext.Provider value={context}>
-      {children({ open }, containerElementRef)}
+      {children(renderProps, containerElementRef)}
     </DisclosureContext.Provider>
   );
-}
+}) as any;
 
 Disclosure.Button = DisclosureButton;
 Disclosure.Content = DisclosureContent;

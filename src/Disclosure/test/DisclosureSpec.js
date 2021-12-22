@@ -1,5 +1,6 @@
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Disclosure from '../Disclosure';
 
 describe('<Disclosure>', () => {
@@ -110,7 +111,38 @@ describe('<Disclosure>', () => {
     expect(onToggleSpy).to.have.been.calledWith(true);
   });
 
-  describe('Keyboard interaction', function () {
+  it('Should be toggled by mouseover/mouseout given `trigger=[mouseover]`', () => {
+    const { getByTestId } = render(
+      <Disclosure trigger={['mouseover']}>
+        {(props, ref) => (
+          <div ref={ref} {...props}>
+            <Disclosure.Button>
+              {props => (
+                <button data-testid="button" {...props}>
+                  Button
+                </button>
+              )}
+            </Disclosure.Button>
+            <Disclosure.Content>
+              {({ open, ...props }) => (
+                <div data-testid="content" hidden={!open} {...props}>
+                  Content
+                </div>
+              )}
+            </Disclosure.Content>
+          </div>
+        )}
+      </Disclosure>
+    );
+
+    userEvent.hover(getByTestId('button'));
+    expect(getByTestId('content')).to.be.visible;
+
+    userEvent.unhover(getByTestId('button'));
+    expect(getByTestId('content')).not.to.be.visible;
+  });
+
+  context('Keyboard interaction', function () {
     it('Enter: activates the disclosure control and toggles the visibility of the disclosure content.', () => {
       const { getByTestId } = render(
         <Disclosure>
