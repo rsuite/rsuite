@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useCustom } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -32,10 +32,11 @@ const AvatarGroup: RsRefForwardingComponent<'div', AvatarGroupProps> = React.for
     const { rtl } = useCustom('AvatarGroup');
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ stack }));
+    const contextValue = useMemo(() => ({ size }), [size]);
 
     return (
       <Component {...rest} ref={ref} className={classes}>
-        <AvatarGroupContext.Provider value={{ size }}>
+        <AvatarGroupContext.Provider value={contextValue}>
           {spacing
             ? React.Children.map(children as React.ReactElement[], child => {
                 return React.cloneElement(child, {

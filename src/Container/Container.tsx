@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps } from '../@types/common';
@@ -21,9 +21,10 @@ const Container = React.forwardRef((props: ContainerProps, ref: React.Ref<HTMLDi
   const [hasSidebar, setHasSidebar] = useState(false);
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix({ 'has-sidebar': hasSidebar }));
+  const contextValue = useMemo(() => ({ setHasSidebar }), [setHasSidebar]);
 
   return (
-    <ContainerContext.Provider value={{ setHasSidebar }}>
+    <ContainerContext.Provider value={contextValue}>
       <Component {...rest} ref={ref} className={classes}>
         {children}
       </Component>

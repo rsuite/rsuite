@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import contains from 'dom-lib/contains';
@@ -262,6 +262,15 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
     setExited(true);
   }, []);
 
+  const contextValue = useMemo(
+    () => ({
+      overlayContainer: () => {
+        return modal.dialog;
+      }
+    }),
+    [modal.dialog]
+  );
+
   if (!mountModal) {
     return null;
   }
@@ -315,13 +324,7 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
   );
 
   return (
-    <OverlayContext.Provider
-      value={{
-        overlayContainer: () => {
-          return modal.dialog;
-        }
-      }}
-    >
+    <OverlayContext.Provider value={contextValue}>
       <Portal>
         <Component
           {...rest}

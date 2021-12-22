@@ -68,12 +68,12 @@ function Disclosure(props: DisclosureProps) {
     handle: () => dispatch({ type: DisclosureActionTypes.Hide })
   });
 
-  const context = useMemo<DisclosureContextProps>(() => {
+  const contextValue = useMemo<DisclosureContextProps>(() => {
     return [{ open }, dispatch, { onToggle }];
   }, [open, dispatch, onToggle]);
 
   return (
-    <DisclosureContext.Provider value={context}>
+    <DisclosureContext.Provider value={contextValue}>
       {children({ open }, containerElementRef)}
     </DisclosureContext.Provider>
   );

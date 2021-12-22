@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useCallback } from 'react';
+import React, { HTMLAttributes, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import MonthDropdown from './MonthDropdown';
@@ -130,7 +130,10 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       ...rest
     } = props;
     const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const isDisabledDate = (date: Date) => disabledDate?.(date) ?? false;
+    const isDisabledDate = useCallback(
+      (date: Date) => disabledDate?.(date) ?? false,
+      [disabledDate]
+    );
     const isTimeDisabled = (date: Date) => DateUtils.disabledTime(props, date);
     const handleMoveForward = useCallback(() => {
       onMoveForward?.(DateUtils.addMonths(calendarDate, 1));
@@ -167,23 +170,43 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       })
     );
     const timeDropdownProps = pick(rest, DateUtils.calendarOnlyProps);
-    const contextValue = {
-      date: calendarDate,
-      dateRange,
-      disabledDate: isDisabledDate,
-      format,
-      hoverRangeValue,
-      inSameMonth: inSameMonth ?? inSameThisMonthDate,
-      isoWeek,
-      locale,
-      onChangePageDate,
-      onChangePageTime,
-      onMouseMove,
-      onSelect,
-      renderCell,
-      showWeekNumbers,
-      inline
-    };
+    const contextValue = useMemo(
+      () => ({
+        date: calendarDate,
+        dateRange,
+        disabledDate: isDisabledDate,
+        format,
+        hoverRangeValue,
+        inSameMonth: inSameMonth ?? inSameThisMonthDate,
+        isoWeek,
+        locale,
+        onChangePageDate,
+        onChangePageTime,
+        onMouseMove,
+        onSelect,
+        renderCell,
+        showWeekNumbers,
+        inline
+      }),
+      [
+        calendarDate,
+        dateRange,
+        format,
+        hoverRangeValue,
+        inSameMonth,
+        inSameThisMonthDate,
+        inline,
+        isDisabledDate,
+        isoWeek,
+        locale,
+        onChangePageDate,
+        onChangePageTime,
+        onMouseMove,
+        onSelect,
+        renderCell,
+        showWeekNumbers
+      ]
+    );
     return (
       <CalendarProvider value={contextValue}>
         <Component

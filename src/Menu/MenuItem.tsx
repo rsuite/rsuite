@@ -70,7 +70,7 @@ function MenuItem(props: MenuItemProps) {
         id: menuitemRef.current.id
       });
     }
-  }, [dispatch]);
+  }, [dispatch, hasFocus]);
 
   // Gain/release focus on mouseenter/mouseleave in `menu`
   const handleMouseMove = useCallback(() => {
