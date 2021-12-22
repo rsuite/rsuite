@@ -2,8 +2,8 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, screen } from '@testing-library/react';
 import { getInstance } from '@test/testUtils';
-
 import Modal from '../Modal';
+import SelectPicker from '../../SelectPicker';
 
 describe('Modal', () => {
   it('Should render the modal content', () => {
@@ -139,6 +139,20 @@ describe('Modal', () => {
     assert.isTrue(onCloseSpy.calledOnce);
   });
 
+  it('Should be rendered inside Modal', () => {
+    const ref = React.createRef();
+
+    const { getByRole } = render(
+      <Modal open ref={ref}>
+        <Modal.Body>
+          <SelectPicker open data={[{ value: 1, label: 1 }]} />
+        </Modal.Body>
+      </Modal>
+    );
+
+    assert.isNotEmpty(getByRole('listbox'));
+  });
+
   describe('Focused state', () => {
     let focusableContainer = null;
 
@@ -211,6 +225,12 @@ describe('Modal', () => {
       focusableContainer.dispatchEvent(new FocusEvent('focus'));
 
       assert.equal(document.activeElement, focusableContainer);
+    });
+
+    it('Should only call onOpen once', () => {
+      const onOpenSpy = sinon.spy();
+      render(<Modal open onOpen={onOpenSpy}></Modal>);
+      assert.equal(onOpenSpy.callCount, 1);
     });
   });
 

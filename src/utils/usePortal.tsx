@@ -4,7 +4,7 @@ import canUseDOM from 'dom-lib/canUseDOM';
 
 interface PortalProps {
   id?: string;
-  container?: HTMLElement | (() => HTMLElement);
+  container?: HTMLElement | (() => HTMLElement | null) | null;
 }
 
 function usePortal(props: PortalProps = {}) {

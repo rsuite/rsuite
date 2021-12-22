@@ -1,15 +1,22 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import canUseDOM from 'dom-lib/canUseDOM';
 import contains from 'dom-lib/contains';
 import getContainer from 'dom-lib/getContainer';
 import on from 'dom-lib/on';
 import ModalManager, { ModalInstance } from './ModalManager';
 import Fade from '../Animation/Fade';
 import { animationPropTypes } from '../Animation/utils';
-import { mergeRefs, usePortal, createChainedFunction, useWillUnmount, KEY_VALUES } from '../utils';
+import {
+  mergeRefs,
+  usePortal,
+  createChainedFunction,
+  useWillUnmount,
+  useEventCallback,
+  KEY_VALUES
+} from '../utils';
 import { WithAsProps, AnimationEventProps, RsRefForwardingComponent } from '../@types/common';
+import OverlayContext from './OverlayContext';
 
 export interface BaseModalProps extends WithAsProps, AnimationEventProps {
   /** Animation-related properties */
@@ -147,15 +154,12 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
 
   const lastFocus = useRef<HTMLElement | null>(null);
 
-  const handleDocumentKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
-      if (keyboard && event.key === KEY_VALUES.ESC && modal.isTopModal()) {
-        onEsc?.(event);
-        onClose?.(event);
-      }
-    },
-    [keyboard, modal, onEsc, onClose]
-  );
+  const handleDocumentKeyDown = useEventCallback((event: React.KeyboardEvent) => {
+    if (keyboard && event.key === KEY_VALUES.ESC && modal.isTopModal()) {
+      onEsc?.(event);
+      onClose?.(event);
+    }
+  });
 
   const restoreLastFocus = useCallback(() => {
     if (lastFocus.current) {
@@ -164,38 +168,45 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
     }
   }, []);
 
-  const handleEnforceFocus = useCallback(() => {
+  /**
+   * Determines if the currently focused element is inside the dialog,
+   * and if not, returns the focus to the dialog.
+   *
+   */
+  const handleFocusDialog = useEventCallback((onBeforeFocusCallback?: () => void) => {
+    const currentActiveElement = document.activeElement as HTMLElement;
+    const dialog = modal.dialog;
+
+    if (dialog && currentActiveElement && !contains(dialog, currentActiveElement)) {
+      onBeforeFocusCallback?.();
+      dialog.focus();
+    }
+  });
+
+  const handleEnforceFocus = useEventCallback(() => {
     if (!enforceFocus || !modal.isTopModal()) {
       return;
     }
 
-    const currentActiveElement = document.activeElement as HTMLElement;
-    const dialog = modal.dialog;
+    handleFocusDialog();
+  });
 
-    if (dialog && dialog !== currentActiveElement && !contains(dialog, currentActiveElement)) {
-      dialog.focus();
+  const handleBackdropClick = useEventCallback((event: React.MouseEvent) => {
+    if (event.target !== event.currentTarget) {
+      return;
     }
-  }, [enforceFocus, modal]);
 
-  const handleBackdropClick = useCallback(
-    (event: React.MouseEvent) => {
-      if (event.target !== event.currentTarget) {
-        return;
-      }
+    onBackdropClick?.(event);
 
-      onBackdropClick?.(event);
-
-      if (backdrop === true) {
-        onClose?.(event);
-      }
-    },
-    [backdrop, onBackdropClick, onClose]
-  );
+    if (backdrop === true) {
+      onClose?.(event);
+    }
+  });
 
   const documentKeyDownListener = useRef<{ off: () => void } | null>();
   const documentFocusListener = useRef<{ off: () => void } | null>();
 
-  const handleOpen = useCallback(() => {
+  const handleOpen = useEventCallback(() => {
     const containerElement = getContainer(
       container as Element | (() => Element),
       document.body
@@ -210,38 +221,29 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
       documentFocusListener.current = on(document, 'focus', handleEnforceFocus, true);
     }
 
-    if (canUseDOM) {
-      lastFocus.current = document.activeElement as HTMLElement;
-    }
-
     if (autoFocus) {
-      modal.dialog?.focus();
+      handleFocusDialog(() => {
+        lastFocus.current = document.activeElement as HTMLElement;
+      });
     }
 
     onOpen?.();
-  }, [
-    autoFocus,
-    container,
-    containerClassName,
-    handleDocumentKeyDown,
-    handleEnforceFocus,
-    modal,
-    onOpen
-  ]);
+  });
 
-  const handleClose = useCallback(() => {
+  const handleClose = useEventCallback(() => {
     modal.remove();
     documentKeyDownListener.current?.off();
     documentKeyDownListener.current = null;
     documentFocusListener.current?.off();
     documentFocusListener.current = null;
     restoreLastFocus();
-  }, [modal, restoreLastFocus]);
+  });
 
   useEffect(() => {
     if (!open) {
       return;
     }
+
     handleOpen();
   }, [open, handleOpen]);
 
@@ -313,18 +315,26 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
   );
 
   return (
-    <Portal>
-      <Component
-        {...rest}
-        ref={mergeRefs(modal.setDialogRef, ref as any)}
-        style={style}
-        className={className}
-        tabIndex={-1}
-      >
-        {backdrop && renderBackdrop()}
-        {dialogElement}
-      </Component>
-    </Portal>
+    <OverlayContext.Provider
+      value={{
+        overlayContainer: () => {
+          return modal.dialog;
+        }
+      }}
+    >
+      <Portal>
+        <Component
+          {...rest}
+          ref={mergeRefs(modal.setDialogRef, ref as any)}
+          style={style}
+          className={className}
+          tabIndex={-1}
+        >
+          {backdrop && renderBackdrop()}
+          {dialogElement}
+        </Component>
+      </Portal>
+    </OverlayContext.Provider>
   );
 });
 

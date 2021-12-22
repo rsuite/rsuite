@@ -1,6 +1,7 @@
 import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
 import {
   addDays,
@@ -32,6 +33,10 @@ function setTimePickerValue(picker, calendarIndex, { hours, minutes, seconds }) 
     picker.querySelector(generateTimeItem(calendarIndex, 'seconds', seconds + 1))
   );
 }
+
+afterEach(() => {
+  sinon.restore();
+});
 
 describe('DateRangePicker', () => {
   it('Should render a div with "rs-picker-daterange" class', () => {
@@ -276,6 +281,18 @@ describe('DateRangePicker', () => {
 
     const root = getInstance(<DateRangePicker style={{ fontSize }} />).root;
     assert.equal(root.style.fontSize, fontSize);
+  });
+
+  it('Should select a date range by clicking starting date and ending date', () => {
+    const { getByRole } = render(
+      <DateRangePicker open value={[parseISO('2019-09-10'), parseISO('2019-10-10')]} />
+    );
+
+    userEvent.click(getByRole('button', { name: '01 Sep 2019' }));
+    userEvent.click(getByRole('button', { name: '24 Sep 2019' }));
+
+    expect(getByRole('gridcell', { name: '01 Sep 2019', selected: true })).to.exist;
+    expect(getByRole('gridcell', { name: '24 Sep 2019', selected: true })).to.exist;
   });
 
   it('Should select a whole week', () => {
@@ -583,5 +600,15 @@ describe('DateRangePicker', () => {
 
       expect(getByTestId('content')).to.have.text('Not selected');
     });
+  });
+
+  it('Should not get warned about deprecated `caretComponent` prop', () => {
+    sinon.spy(console, 'warn');
+
+    render(<DateRangePicker />);
+
+    expect(console.warn).not.to.have.been.calledWith(
+      sinon.match(/"caretComponent" property of "PickerToggle" has been deprecated/)
+    );
   });
 });

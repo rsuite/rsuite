@@ -540,7 +540,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       return renderValue?.(value, formatStr) ?? formatDate(value, formatStr);
     }, [formatStr, formatDate, placeholder, renderValue, value]);
 
-    const caretComponent = useMemo(
+    const caretAs = useMemo(
       () => (DateUtils.shouldOnlyTime(formatStr) ? IconClockO : IconCalendar),
       [formatStr]
     );
@@ -582,7 +582,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             active={active}
             placement={placement}
             disabled={disabled}
-            caretComponent={caretComponent}
+            caretAs={caretAs}
             aria-haspopup="dialog"
           >
             {renderDate()}

@@ -1,13 +1,14 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Position, { PositionProps } from './Position';
 import { TypeAttributes, AnimationEventProps } from '../@types/common';
 import { mergeRefs, useRootClose } from '../utils';
 import Fade from '../Animation/Fade';
+import OverlayContext from './OverlayContext';
 
 export interface OverlayProps extends AnimationEventProps {
-  container?: HTMLElement | (() => HTMLElement);
+  container?: HTMLElement | (() => HTMLElement | null) | null;
   children: React.ReactElement | ((props: any, ref) => React.ReactElement);
   childrenProps?: React.HTMLAttributes<HTMLElement>;
   className?: string;
@@ -43,8 +44,9 @@ export const overlayPropTypes = {
 };
 
 const Overlay = React.forwardRef((props: OverlayProps, ref) => {
+  const { overlayContainer } = useContext(OverlayContext);
   const {
-    container,
+    container = overlayContainer,
     containerPadding,
     placement,
     rootClose,

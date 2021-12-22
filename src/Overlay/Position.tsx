@@ -30,7 +30,7 @@ export interface PositionChildProps {
 export interface PositionProps {
   children: (props: PositionChildProps, ref) => React.ReactElement;
   className?: string;
-  container?: HTMLElement | (() => HTMLElement);
+  container?: HTMLElement | (() => HTMLElement | null) | null;
   containerPadding?: number;
   placement?: TypeAttributes.Placement;
   preventOverflow?: boolean;

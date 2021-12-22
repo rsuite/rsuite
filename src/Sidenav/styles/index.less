@@ -378,6 +378,7 @@
     .rs-dropdown .rs-dropdown-toggle,
     .rs-dropdown-item,
     .rs-dropdown-item-submenu > .rs-dropdown-menu-toggle {
+      white-space: nowrap;
       text-overflow: clip;
     }
   }
@@ -436,7 +437,6 @@
 
 .rs-sidenav-default.rs-sidenav-collapse-in,
 .rs-sidenav-default.rs-sidenav-collapsing {
-  .rs-dropdown-item:not(.rs-dropdown-item-submenu),
   .rs-dropdown-item > .rs-dropdown-menu-toggle,
   .rs-dropdown-item > .rs-dropdown-item-toggle {
     color: var(--rs-sidenav-default-text);
@@ -543,6 +543,7 @@
 
   // Active
   .rs-sidenav-item.rs-sidenav-item-active,
+  .rs-dropdown-item.rs-dropdown-item-active,
   .rs-dropdown.rs-dropdown-selected-within .rs-dropdown-toggle {
     color: var(--rs-sidenav-subtle-selected-text);
   }
@@ -559,7 +560,6 @@
 
 .rs-sidenav-subtle.rs-sidenav-collapse-in,
 .rs-sidenav-subtle.rs-sidenav-collapsing {
-  .rs-dropdown-item:not(.rs-dropdown-item-submenu),
   .rs-dropdown-item > .rs-dropdown-menu-toggle,
   .rs-dropdown-item > .rs-dropdown-item-toggle {
     color: var(--rs-sidenav-subtle-text);

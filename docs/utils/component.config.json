@@ -31,16 +31,6 @@
     }
   },
   {
-    "id": "divider",
-    "name": "Divider",
-    "title": "分割线",
-    "components": ["Divider"],
-    "designHash": {
-      "default": "22",
-      "dark": "22"
-    }
-  },
-  {
     "id": "icon",
     "name": "Icons",
     "title": "图标"
@@ -89,7 +79,7 @@
     "id": "tooltip",
     "name": "Tooltip",
     "title": "文字提示",
-    "components": ["Tooltip", "Whisper"],
+    "components": ["Tooltip"],
     "designHash": {
       "default": "9",
       "dark": "9"
@@ -99,7 +89,7 @@
     "id": "popover",
     "name": "Popover",
     "title": "弹出框",
-    "components": ["Popover", "Whisper"],
+    "components": ["Popover"],
     "designHash": {
       "default": "10",
       "dark": "10"
@@ -220,6 +210,16 @@
     "components": ["Container", "Header", "Footer", "Content", "Sidebar"]
   },
   {
+    "id": "divider",
+    "name": "Divider",
+    "title": "分割线",
+    "components": ["Divider"],
+    "designHash": {
+      "default": "22",
+      "dark": "22"
+    }
+  },
+  {
     "id": "flexbox-grid",
     "name": "FlexboxGrid",
     "title": "弹性栅格",
@@ -230,6 +230,12 @@
     "name": "Grid",
     "title": "栅格",
     "components": ["Grid", "Row", "Col"]
+  },
+  {
+    "id": "stack",
+    "name": "Stack",
+    "title": "堆叠",
+    "components": ["Stack"]
   },
   {
     "group": true,

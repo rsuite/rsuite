@@ -6,6 +6,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import useToggleCaret from '../utils/useToggleCaret';
 import { SidenavContext } from '../Sidenav/Sidenav';
+import NavContext from '../Nav/NavContext';
 
 export interface DropdownToggleProps extends WithAsProps {
   icon?: React.ReactElement<IconProps>;
@@ -29,6 +30,7 @@ const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProp
     } = props;
 
     const sidenav = useContext(SidenavContext);
+    const { withinNav } = useContext(NavContext);
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
 
@@ -38,7 +40,12 @@ const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProp
     const Caret = useToggleCaret(inSidenav ? 'bottomStart' : placement);
 
     const toggle = (
-      <Component {...rest} ref={ref} className={classes}>
+      <Component
+        appearance={withinNav ? 'subtle' : undefined}
+        {...rest}
+        ref={ref}
+        className={classes}
+      >
         {icon &&
           React.cloneElement(icon, {
             className: prefix('icon')

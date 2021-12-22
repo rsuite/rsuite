@@ -20,7 +20,7 @@ const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
       <Component {...rest} ref={ref} className={classes}>
         <Table
           rows={DateUtils.getMonthView(thisMonthDate, isoWeek)}
-          aria-label={formatDate(thisMonthDate, locale.formattedMonthPattern ?? 'MMM yyyy')}
+          aria-label={formatDate(thisMonthDate, locale.formattedMonthPattern)}
         />
       </Component>
     );

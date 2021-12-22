@@ -365,6 +365,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     [getHoverRangeValue, hoverRange]
   );
 
+  /**
+   * Callback for selecting a date cell in the calendar grid
+   */
   const handleSelectDate = useCallback(
     (date: Date, event: React.SyntheticEvent) => {
       let nextSelectDates: SelectedDatesState = hoverDateRange ?? [];
@@ -410,7 +413,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         nextSelectDates.reverse();
       }
 
-      setHoverDateRange(nextSelectDates.length === 2 ? nextSelectDates : null);
+      setHoverDateRange(
+        nextSelectDates.length === 2 ? nextSelectDates : [nextSelectDates[0]!, nextSelectDates[0]!]
+      );
       setSelectedDates(nextSelectDates);
       updateCalendarDate(nextSelectDates);
       onSelect?.(date, event);
@@ -779,7 +784,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           hasValue={hasValue}
           active={isPickerToggleActive}
           placement={placement}
-          caretComponent={IconCalendar}
+          caretAs={IconCalendar}
           disabled={disabled}
         >
           {getDisplayString(value)}

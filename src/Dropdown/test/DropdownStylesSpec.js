@@ -1,9 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Dropdown from '../index';
-import { getStyle, inChrome } from '@test/testUtils';
+import { getStyle, inChrome, getGrayScale } from '@test/testUtils';
+import Dropdown from '../Dropdown';
 
-import '../../Button/styles/index.less';
 import '../styles/index.less';
 
 describe('Dropdown styles', () => {
@@ -28,5 +27,17 @@ describe('Dropdown styles', () => {
       toggleDom.querySelector('[aria-label="angle down"]'),
       'Dropdown toggle button caret content'
     );
+  });
+
+  it('Should render a Button in default appearance', () => {
+    const { getByRole } = render(<Dropdown title="Dropdown" />);
+
+    expect(getByRole('button')).to.have.style('backgroundColor', getGrayScale('B050'));
+  });
+
+  it('Should have 12px right padding given `noCaret=true`', () => {
+    const { getByRole } = render(<Dropdown title="Dropdown" noCaret />);
+
+    expect(getByRole('button')).to.have.style('paddingRight', '12px');
   });
 });

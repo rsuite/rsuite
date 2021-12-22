@@ -46,7 +46,7 @@ describe('Toggle', () => {
       userEvent.click(getByTestId('toggle'));
       expect(onChangeSpy).to.have.been.calledWith(true);
 
-      rerender(<Toggle checked onChange={onChangeSpy} data-testid="toggle" />);
+      rerender(<Toggle defaultChecked onChange={onChangeSpy} data-testid="toggle" />);
       userEvent.click(getByTestId('toggle'));
       expect(onChangeSpy).to.have.been.calledWith(false);
     });
@@ -61,7 +61,7 @@ describe('Toggle', () => {
       userEvent.keyboard('{space}');
       expect(onChangeSpy).to.have.been.calledWith(true);
 
-      rerender(<Toggle checked onChange={onChangeSpy} data-testid="toggle" />);
+      rerender(<Toggle defaultChecked onChange={onChangeSpy} data-testid="toggle" />);
       getByRole('switch').focus();
       userEvent.keyboard('{space}');
       expect(onChangeSpy).to.have.been.calledWith(false);
@@ -83,6 +83,17 @@ describe('Toggle', () => {
 
       const { getByTestId } = render(
         <Toggle readOnly onChange={onChangeSpy} data-testid="toggle" />
+      );
+      userEvent.click(getByTestId('toggle'));
+
+      expect(onChangeSpy).not.to.have.been.called;
+    });
+
+    it('Should not call `onChange` callback when loading', () => {
+      const onChangeSpy = sinon.spy();
+
+      const { getByTestId } = render(
+        <Toggle loading onChange={onChangeSpy} data-testid="toggle" />
       );
       userEvent.click(getByTestId('toggle'));
 
