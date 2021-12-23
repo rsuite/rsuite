@@ -326,6 +326,7 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
   return (
     <OverlayContext.Provider value={contextValue}>
       <Portal>
+        {backdrop && renderBackdrop()}
         <Component
           {...rest}
           ref={mergeRefs(modal.setDialogRef, ref as any)}
@@ -333,7 +334,6 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
           className={className}
           tabIndex={-1}
         >
-          {backdrop && renderBackdrop()}
           {dialogElement}
         </Component>
       </Portal>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { getInstance } from '@test/testUtils';
 import Modal from '../Modal';
 import SelectPicker from '../../SelectPicker';
@@ -17,17 +17,31 @@ describe('Modal', () => {
 
   it('Should close the modal when the modal dialog is clicked', () => {
     const onCloseSpy = sinon.spy();
-    const instance = getInstance(<Modal open onClose={onCloseSpy} />);
+    const { getByTestId } = render(<Modal data-testid="wrapper" open onClose={onCloseSpy} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-modal-backdrop'));
+    fireEvent.click(getByTestId('wrapper'));
 
     assert.isTrue(onCloseSpy.calledOnce);
   });
 
   it('Should not close the modal when the "static" dialog is clicked', () => {
     const onCloseSpy = sinon.spy();
-    const instance = getInstance(<Modal open onClose={onCloseSpy} backdrop="static" />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-modal-backdrop'));
+    const { getByTestId } = render(
+      <Modal data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />
+    );
+
+    fireEvent.click(getByTestId('wrapper'));
+
+    assert.isFalse(onCloseSpy.calledOnce);
+  });
+
+  it('Should not close the modal when clicking inside the dialog', () => {
+    const onCloseSpy = sinon.spy();
+    const { getByRole } = render(<Modal open onClose={onCloseSpy} />);
+
+    fireEvent.click(getByRole('dialog'));
+    fireEvent.click(getByRole('document'));
+
     assert.isFalse(onCloseSpy.calledOnce);
   });
 

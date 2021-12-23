@@ -5,6 +5,27 @@
 // Modals
 // --------------------------------------------------
 
+// Modal background
+.rs-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: @zindex-modal - 1;
+  background-color: var(--rs-bg-backdrop);
+
+  // Fade for backdrop
+  &.rs-anim-fade {
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+  }
+
+  &.rs-anim-in {
+    opacity: 1;
+  }
+}
+
 // Kill the scroll on the body
 .rs-modal-open {
   overflow: hidden;
@@ -15,9 +36,9 @@
   overflow: auto;
   z-index: @zindex-modal;
   top: 0;
-  bottom: 0;
-  right: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 // Container that the modal scrolls within
@@ -69,26 +90,6 @@
   outline: 0;
   box-shadow: var(--rs-modal-shadow);
   padding: @modal-content-padding;
-}
-
-// Modal background
-.rs-modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background-color: var(--rs-bg-backdrop);
-
-  // Fade for backdrop
-  &.rs-anim-fade {
-    opacity: 0;
-    transition: opacity 0.3s ease-in;
-  }
-
-  &.rs-anim-in {
-    opacity: 1;
-  }
 }
 
 // Modal header

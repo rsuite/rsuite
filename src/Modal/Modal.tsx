@@ -1,11 +1,11 @@
-import React, { useRef, useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useMemo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import on from 'dom-lib/on';
 import getAnimationEnd from 'dom-lib/getAnimationEnd';
 import BaseModal, { BaseModalProps, modalPropTypes } from '../Overlay/Modal';
 import Bounce from '../Animation/Bounce';
-import { useClassNames, mergeRefs, SIZE } from '../utils';
+import { useClassNames, mergeRefs, SIZE, useWillUnmount } from '../utils';
 import ModalDialog, { modalDialogPropTypes } from './ModalDialog';
 import { ModalContext, ModalContextProps } from './ModalContext';
 import ModalBody from './ModalBody';
@@ -85,17 +85,21 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     'aria-describedby': ariaDescribedby,
     ...rest
   } = props;
+
   const inClass = { in: open && !animation };
   const { merge, prefix } = useClassNames(classPrefix);
+  const [shake, setShake] = useState(false);
   const classes = merge(className, prefix(size, { full }));
   const dialogRef = useRef<HTMLElement>(null);
   const transitionEndListener = useRef<{ off: () => void } | null>();
+
   // The style of the Modal body will be updated with the size of the window or container.
   const [bodyStyles, onChangeBodyStyles, onDestroyEvents] = useBodyStyles(dialogRef, {
     overflow,
     drawer,
     prefix
   });
+
   const dialogId = useUniqueId('dialog-', idProp);
   const modalContextValue = useMemo<ModalContextProps>(
     () => ({
@@ -106,19 +110,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     }),
     [dialogId, onClose, bodyStyles, drawer]
   );
-  const [shake, setShake] = useState(false);
-  const handleBackdropClick = useCallback(() => {
-    // When the value of `backdrop` is `static`, a jitter animation will be added to the dialog when clicked.
-    if (backdrop === 'static') {
-      setShake(true);
-      if (!transitionEndListener.current && dialogRef.current) {
-        //fix: https://github.com/rsuite/rsuite/blob/a93d13c14fb20cc58204babe3331d3c3da3fe1fd/src/Modal/styles/index.less#L59
-        transitionEndListener.current = on(dialogRef.current, getAnimationEnd(), () => {
-          setShake(false);
-        });
-      }
-    }
-  }, [backdrop]);
+
   const handleExited = useCallback(
     (node: HTMLElement) => {
       onExited?.(node);
@@ -128,6 +120,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     },
     [onDestroyEvents, onExited]
   );
+
   const handleEntered = useCallback(
     (node: HTMLElement) => {
       onEntered?.(node);
@@ -135,6 +128,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     },
     [onChangeBodyStyles, onEntered]
   );
+
   const handleEntering = useCallback(
     (node: HTMLElement) => {
       onEntering?.(node);
@@ -142,9 +136,50 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     },
     [onChangeBodyStyles, onEntering]
   );
-  useEffect(() => {
+
+  const handleBackdropClick = useCallback(
+    e => {
+      if (e.target !== e.currentTarget) {
+        return;
+      }
+
+      // When the value of `backdrop` is `static`, a jitter animation will be added to the dialog when clicked.
+      if (backdrop === 'static') {
+        setShake(true);
+        if (!transitionEndListener.current && dialogRef.current) {
+          //fix: https://github.com/rsuite/rsuite/blob/a93d13c14fb20cc58204babe3331d3c3da3fe1fd/src/Modal/styles/index.less#L59
+          transitionEndListener.current = on(dialogRef.current, getAnimationEnd(), () => {
+            setShake(false);
+          });
+        }
+        return;
+      }
+
+      onClose?.(e);
+    },
+    [backdrop, onClose]
+  );
+
+  const handleClick = useCallback(
+    e => {
+      if (dialogRef.current && e.target !== dialogRef.current) {
+        handleBackdropClick(e);
+        return;
+      }
+
+      if (e.target !== e.currentTarget) {
+        return;
+      }
+
+      onClose?.(e);
+    },
+    [handleBackdropClick, onClose]
+  );
+
+  useWillUnmount(() => {
     transitionEndListener.current?.off();
-  }, []);
+  });
+
   return (
     <ModalContext.Provider value={modalContextValue}>
       <BaseModal
@@ -153,7 +188,6 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
         backdrop={backdrop}
         open={open}
         onClose={onClose}
-        onBackdropClick={handleBackdropClick}
         className={prefix`wrapper`}
         onEntered={handleEntered}
         onEntering={handleEntering}
@@ -164,6 +198,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
         animationProps={animationProps}
         dialogTransitionTimeout={animationTimeout}
         backdropTransitionTimeout={150}
+        onClick={backdrop ? handleClick : undefined}
       >
         {(transitionProps, transitionRef) => {
           const { className: transitionClassName, ...transitionRest } = transitionProps;
