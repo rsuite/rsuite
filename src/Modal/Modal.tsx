@@ -164,16 +164,9 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     e => {
       if (dialogRef.current && e.target !== dialogRef.current) {
         handleBackdropClick(e);
-        return;
       }
-
-      if (e.target !== e.currentTarget) {
-        return;
-      }
-
-      onClose?.(e);
     },
-    [handleBackdropClick, onClose]
+    [handleBackdropClick]
   );
 
   useWillUnmount(() => {
