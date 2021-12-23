@@ -260,7 +260,7 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 
 ### 可拖拽(与 react-dnd 组合)
 
-https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
+https://codesandbox.io/s/rsuite5-table-with-react-dnd-16o4n
 
 ## 无障碍设计
 
@@ -309,8 +309,9 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 | onSortColumn             | (dataKey:string, sortType:string) => void                                         | 点击排序列的回调函数，返回 `sortColumn`, `sortType` 这两个值 |
 | renderEmpty              | (info: ReactNode) => ReactNode                                                    | 自定义渲染数据为空的状态                                     |
 | renderLoading            | (loading: ReactNode) => ReactNode                                                 | 自定义渲染数据加载中的状态                                   |
+| renderRow                | (children?: ReactNode, rowData?: RowDataType) => ReactNode                        | 自定义渲染行                                                 |
 | renderRowExpanded        | (rowDate?: Object) => ReactNode                                                   | 自定义可以展开区域的内容                                     |
-| renderTreeToggle         | (icon:node, rowData:object, expanded:boolean) => node                             | 树形表格，在展开节点的回调函数                               |
+| renderTreeToggle         | (icon:node, rowData:object, expanded:boolean) => ReactNode                        | 树形表格，在展开节点的回调函数                               |
 | rowClassName             | string , (rowData:object) => string                                               | 为行自定义 className                                         |
 | rowExpandedHeight        | number `(100)`                                                                    | 设置可展开区域的高度                                         |
 | rowHeight                | (rowData:object) => number, number`(46)`                                          | 行高                                                         |
