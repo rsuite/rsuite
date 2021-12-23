@@ -1,3 +1,17 @@
+## [5.4.1](https://github.com/rsuite/rsuite/compare/v5.4.0...v5.4.1) (2021-12-23)
+
+### Bug Fixes
+
+- **Dropdown:** reduce padding in noCaret variant ([#2236](https://github.com/rsuite/rsuite/issues/2236)) ([682f883](https://github.com/rsuite/rsuite/commit/682f8830601d784452c10729a369ebe91057eddb))
+- **Sidenav:** fix missing highlight on selected dropdown items ([#2216](https://github.com/rsuite/rsuite/issues/2216)) ([8f79d4a](https://github.com/rsuite/rsuite/commit/8f79d4a8aafb123f75f420a3adf3f680386aae68))
+- **Sidenav:** prevent text wrapping when collapsing ([#2245](https://github.com/rsuite/rsuite/issues/2245)) ([4094233](https://github.com/rsuite/rsuite/commit/409423360a5226c8a0e11bbeecea0a4316c5c8e0))
+- **Toggle:** dismiss uncontrolled input warning ([#2243](https://github.com/rsuite/rsuite/issues/2243)) ([c4737d5](https://github.com/rsuite/rsuite/commit/c4737d5af2fabf88312c7ee2b84d4e9139e743f1))
+
+### Performance Improvements
+
+- **Context:** use `useMemo` to memozie the values returned to the Context Provider ([#2244](https://github.com/rsuite/rsuite/issues/2244)) ([d25a719](https://github.com/rsuite/rsuite/commit/d25a71920d38bceefcf100248173121d54be8313))
+- **DatePicker:** improve date grid a11y ([#2220](https://github.com/rsuite/rsuite/issues/2220)) ([655178e](https://github.com/rsuite/rsuite/commit/655178e05afe5e4b4619bda3a222dc753766e13b))
+
 # [5.4.0](https://github.com/rsuite/rsuite/compare/v5.3.0...v5.4.0) (2021-12-17)
 
 ### Bug Fixes
