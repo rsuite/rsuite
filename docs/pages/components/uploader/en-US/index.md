@@ -1,6 +1,6 @@
 # Uploader
 
-`<Uploader>`
+Upload files by clicking or drag-and-drop, it supports previewing the uploaded image.
 
 ## Import
 
