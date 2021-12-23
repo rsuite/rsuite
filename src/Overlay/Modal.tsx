@@ -74,6 +74,8 @@ interface ModalProps extends BaseModalProps {
   dialogTransitionTimeout?: number;
   transition?: React.ElementType;
   onEsc?: React.KeyboardEventHandler;
+
+  // @deprecated
   onBackdropClick?: React.MouseEventHandler;
 }
 
@@ -127,7 +129,6 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
     backdropClassName,
     open,
     autoFocus = true,
-    onBackdropClick,
     onEsc,
     onExit,
     onExiting,
@@ -189,18 +190,6 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
     }
 
     handleFocusDialog();
-  });
-
-  const handleBackdropClick = useEventCallback((event: React.MouseEvent) => {
-    if (event.target !== event.currentTarget) {
-      return;
-    }
-
-    onBackdropClick?.(event);
-
-    if (backdrop === true) {
-      onClose?.(event);
-    }
   });
 
   const documentKeyDownListener = useRef<{ off: () => void } | null>();
@@ -276,11 +265,6 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
   }
 
   const renderBackdrop = () => {
-    const backdropPorps = {
-      style: backdropStyle,
-      onClick: handleBackdropClick
-    };
-
     if (Transition) {
       return (
         <Fade transitionAppear in={open} timeout={backdropTransitionTimeout}>
@@ -290,7 +274,7 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
               <div
                 aria-hidden
                 {...rest}
-                {...backdropPorps}
+                style={backdropStyle}
                 ref={mergeRefs(modal.setBackdropRef, ref)}
                 className={classNames(backdropClassName, className)}
               />
@@ -300,7 +284,7 @@ const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
       );
     }
 
-    return <div aria-hidden {...backdropPorps} className={backdropClassName} />;
+    return <div aria-hidden style={backdropStyle} className={backdropClassName} />;
   };
 
   const dialogElement = Transition ? (
@@ -367,8 +351,7 @@ Modal.propTypes = {
   dialogTransitionTimeout: PropTypes.number,
   backdropTransitionTimeout: PropTypes.number,
   transition: PropTypes.any,
-  onEsc: PropTypes.func,
-  onBackdropClick: PropTypes.func
+  onEsc: PropTypes.func
 };
 
 export default Modal;
