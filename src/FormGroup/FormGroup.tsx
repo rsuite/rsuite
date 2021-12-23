@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -25,9 +25,10 @@ const FormGroup: RsRefForwardingComponent<'div', FormGroupProps> = React.forward
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
+    const contextValue = useMemo(() => ({ controlId }), [controlId]);
 
     return (
-      <FormGroupContext.Provider value={{ controlId }}>
+      <FormGroupContext.Provider value={contextValue}>
         <Component {...rest} ref={ref} className={classes} role="group" />
       </FormGroupContext.Provider>
     );

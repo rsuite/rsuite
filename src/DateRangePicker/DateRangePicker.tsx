@@ -274,7 +274,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
       return isPlaintext ? '' : placeholder || rangeFormatStr;
     },
-    [character, formatDate, formatStr, placeholder, rangeFormatStr, renderValue, value]
+    [character, formatDate, formatStr, placeholder, rangeFormatStr, renderValue]
   );
 
   /**
@@ -325,7 +325,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         handleCloseDropdown();
       }
     },
-    [formatStr, handleCloseDropdown, onChange, selectedDates, setValue, value]
+    [formatStr, handleCloseDropdown, onChange, setValue, value]
   );
 
   /**
@@ -362,7 +362,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         setHoverDateRange(nextHoverDateRange);
       }
     },
-    [getHoverRangeValue, hoverRange]
+    [getHoverRangeValue]
   );
 
   /**

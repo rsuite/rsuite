@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FormControlPickerProps, RsRefForwardingComponent } from '../@types/common';
 import CheckTreePicker, { ValueType } from '../CheckTreePicker';
 
@@ -14,8 +14,9 @@ export interface CheckTreeProps
 
 const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forwardRef(
   (props: CheckTreeProps, ref: React.Ref<any>) => {
+    const contextValue = useMemo(() => ({ inline: true }), []);
     return (
-      <TreeContext.Provider value={{ inline: true }}>
+      <TreeContext.Provider value={contextValue}>
         <CheckTreePicker ref={ref} {...props} />
       </TreeContext.Provider>
     );

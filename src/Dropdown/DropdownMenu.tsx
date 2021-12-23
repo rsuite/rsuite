@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import omit from 'lodash/omit';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
@@ -97,13 +97,15 @@ const DropdownMenu = React.forwardRef<
     prefix: prefixItemClassName
   } = useClassNames('dropdown-item');
 
+  const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
+
   // <Dropdown.Menu> is used outside of <Dropdown>
   // renders a vertical `menubar`
   if (!dropdown) {
     const classes = merge(props.className, withClassPrefix());
 
     return (
-      <DropdownContext.Provider value={{ activeKey, onSelect }}>
+      <DropdownContext.Provider value={contextValue}>
         <Menubar
           vertical
           onActivateItem={event => {

@@ -97,7 +97,7 @@ const Disclosure: DisclosureComponent = React.memo((props: DisclosureProps) => {
     [open, dispatch, onToggle]
   );
 
-  const context = useMemo<DisclosureContextProps>(() => {
+  const contextValue = useMemo<DisclosureContextProps>(() => {
     return [{ open }, dispatch, { onToggle, trigger }];
   }, [open, dispatch, onToggle, trigger]);
 
@@ -113,7 +113,7 @@ const Disclosure: DisclosureComponent = React.memo((props: DisclosureProps) => {
   }, [open, trigger, onMouseOver, onMouseOut]);
 
   return (
-    <DisclosureContext.Provider value={context}>
+    <DisclosureContext.Provider value={contextValue}>
       {children(renderProps, containerElementRef)}
     </DisclosureContext.Provider>
   );
