@@ -6,6 +6,10 @@ import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
 
+afterEach(() => {
+  sinon.restore();
+});
+
 describe('<Navbar>', () => {
   it('Should render a navbar', () => {
     const instance = getDOMNode(<Navbar />);
@@ -75,6 +79,24 @@ describe('<Navbar>', () => {
       expect(getByText('Submenu item')).not.to.be.visible;
       userEvent.hover(getByText('Submenu'));
       expect(getByText('Submenu item')).to.be.visible;
+    });
+
+    it('Should not get validateDOMNesting warning', () => {
+      sinon.spy(console, 'error');
+
+      const { debug, getByText } = render(
+        <Navbar>
+          <Nav>
+            <Dropdown title="Menu">
+              <Dropdown.Menu title="Submenu">
+                <Dropdown.Item>Submenu item</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Nav>
+        </Navbar>
+      );
+
+      expect(console.error).not.to.have.been.calledWith(sinon.match(/Warning: validateDOMNesting/));
     });
 
     it('Should close <Dropdown> when clicking an item', () => {
