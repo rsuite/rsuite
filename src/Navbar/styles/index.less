@@ -1,4 +1,5 @@
 @import '../../styles/common';
+@import '../../Dropdown/styles/index';
 
 // NavBar
 // --------------------------------------------------
@@ -97,7 +98,13 @@
   margin: 0 !important;
 }
 
-// DropDown
+.rs-navbar-item.rs-navbar-item-active {
+  .high-contrast-mode({
+    text-decoration: underline;
+  });
+}
+
+// Dropdown
 .rs-navbar-nav > .rs-dropdown .rs-dropdown-toggle {
   &:extend(.rs-navbar-item);
 
@@ -117,10 +124,10 @@
   }
 }
 
-.rs-navbar-item.rs-navbar-item-active {
-  .high-contrast-mode({
-    text-decoration: underline;
-  });
+.rs-navbar .rs-dropdown-item {
+  &:hover {
+    .menuitem-active();
+  }
 }
 
 // Default Navbar
