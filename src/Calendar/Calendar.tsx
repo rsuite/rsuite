@@ -211,7 +211,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       <CalendarProvider value={contextValue}>
         <Component
           {...DateUtils.omitHideDisabledProps<Partial<CalendarProps>>(rest)}
-          role="table"
           className={calendarClasses}
           ref={ref}
         >

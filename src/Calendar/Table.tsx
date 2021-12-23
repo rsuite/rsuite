@@ -22,7 +22,7 @@ const Table: RsRefForwardingComponent<'div', TableProps> = React.forwardRef(
     const classes = merge(className, withClassPrefix());
 
     return (
-      <Component role="table" {...rest} ref={ref} className={classes}>
+      <Component role="grid" {...rest} ref={ref} className={classes}>
         <TableHeaderRow />
         {rows.map((week, index) => (
           <TableRow key={index} weekendDate={week} />
