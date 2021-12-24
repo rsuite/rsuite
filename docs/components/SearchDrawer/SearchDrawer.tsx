@@ -9,8 +9,16 @@ interface SearchDrawerProps {
   onClose?: () => void;
 }
 
+function getIndexName(key: string) {
+  const keyMap = {
+    zh: 'rsuite-zh-CN',
+    en: 'rsuite-en-US'
+  };
+  return keyMap[key];
+}
+
 function createAlgoliaClient(language: string) {
-  const indexKey = `rsuite-${language}`;
+  const indexKey = getIndexName(language);
   const client = algoliasearch('PTK5IGAK3K', 'dd3a62fc583bb0749dafa15cc61588bf');
   return client.initIndex(indexKey);
 }

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import NavItem from './NavItem';
 import Dropdown from '../Dropdown';
@@ -84,16 +84,18 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     sidenav || {};
 
   const activeKey = activeKeyProp ?? activeKeyFromSidenav;
+  const contextValue = useMemo(
+    () => ({
+      withinNav: true,
+      activeKey,
+      onSelect: onSelectProp ?? onSelectFromSidenav
+    }),
+    [activeKey, onSelectFromSidenav, onSelectProp]
+  );
 
   if (sidenav?.expanded) {
     return (
-      <NavContext.Provider
-        value={{
-          withinNav: true,
-          activeKey,
-          onSelect: onSelectProp ?? onSelectFromSidenav
-        }}
-      >
+      <NavContext.Provider value={contextValue}>
         <ul ref={ref as any} className={classes} {...rest}>
           {children}
         </ul>
@@ -106,13 +108,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
   // If inside a collapsed <Sidenav>, render an ARIA `menubar` (vertical)
   if (sidenav) {
     return (
-      <NavContext.Provider
-        value={{
-          withinNav: true,
-          activeKey,
-          onSelect: onSelectProp ?? onSelectFromSidenav
-        }}
-      >
+      <NavContext.Provider value={contextValue}>
         <Menubar vertical={!!sidenav}>
           {(menubar, ref) => (
             <Component ref={ref} {...rest} className={classes} {...menubar}>
@@ -124,13 +120,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     );
   }
   return (
-    <NavContext.Provider
-      value={{
-        withinNav: true,
-        activeKey,
-        onSelect: onSelectProp ?? onSelectFromSidenav
-      }}
-    >
+    <NavContext.Provider value={contextValue}>
       <Component {...rest} ref={menubarRef} className={classes}>
         {children}
         {hasWaterline && <div className={prefix('bar')} />}

@@ -18,11 +18,22 @@ async function getIndices(locale) {
       resolve(__dirname, `../pages/components/${item.id}/${locale}/index.md`),
       'utf8'
     );
-    const text = doc.match(/(?<=#[\S\ ]+\n\n)[\S\ ]+/gi);
+    let text = doc.match(/(?<=#[\S\ ]+\n\n)[\S\ ]+/gi);
+
     let content = '';
 
     if (Array.isArray(text)) {
-      content = text[0];
+      text = text.filter(t => {
+        // Filter out the sample code.
+        if (t.match(/<!--{(\S+)}-->/) || t.indexOf('```') >= 0) {
+          return false;
+        } else if (t.indexOf('#') >= 0 || t.indexOf('| ') >= 0 || t.indexOf('- ') >= 0) {
+          return false;
+        }
+        return true;
+      });
+
+      content = text.join('\n');
     }
 
     indices.push({

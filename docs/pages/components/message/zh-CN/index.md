@@ -30,6 +30,8 @@
 
 ### 与 toaster 组合
 
+一种包含 Alert 的消息类型
+
 <!--{include:`with-toaster.md`}-->
 
 ## Props & Methods

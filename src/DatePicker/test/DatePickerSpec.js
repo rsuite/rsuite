@@ -4,8 +4,9 @@ import ReactTestUtils, { act } from 'react-dom/test-utils';
 import { format, isSameDay, parseISO } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import DatePicker from '../DatePicker';
+import { DateUtils } from '../../utils';
 
-describe('DatePicker ', () => {
+describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
     const instance = getDOMNode(<DatePicker />);
     assert.equal(instance.nodeName, 'DIV');
@@ -66,6 +67,27 @@ describe('DatePicker ', () => {
   it('Should output a date', () => {
     const instance = getDOMNode(<DatePicker value={parseISO('2017-08-14')} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, '2017-08-14');
+  });
+
+  it('Should open a dialog containing grid view of dates in a month', () => {
+    const { getByRole } = render(<DatePicker defaultOpen />);
+    expect(getByRole('dialog')).to.be.visible.and.to.contain(getByRole('grid'));
+  });
+
+  it('Should be possible to specify initial month with `calendarDefaultDate`', () => {
+    const { getByRole } = render(
+      <DatePicker defaultOpen calendarDefaultDate={new Date('12/15/2021')} />
+    );
+
+    expect(getByRole('grid', { name: 'Dec 2021' })).to.exist;
+
+    Array.from({ length: 31 }).forEach((_, index) => {
+      expect(getByRole('grid', { name: 'Dec 2021' })).to.contain(
+        getByRole('gridcell', {
+          name: DateUtils.format(new Date(`12/${index + 1}/2021`), 'dd MMM yyyy')
+        })
+      );
+    });
   });
 
   it('Should get panel container ref', function () {
@@ -458,32 +480,12 @@ describe('DatePicker ', () => {
     assert.equal(days[2].textContent, '1');
   });
 
-  it('Should be a controlled value', () => {
-    const instanceRef = React.createRef();
-    const App = React.forwardRef((props, ref) => {
-      const [value, setValue] = React.useState(new Date('6/10/2021'));
-      const pickerRef = React.useRef();
-      React.useImperativeHandle(ref, () => ({
-        picker: pickerRef.current,
-        setDate: date => {
-          setValue(date);
-        }
-      }));
-      return <DatePicker value={value} open ref={pickerRef} format="yyyy-MM-dd" />;
-    });
+  it('Should accept controlled value', () => {
+    const { getByRole } = render(<DatePicker value={new Date('7/11/2021')} open />);
 
-    render(<App ref={instanceRef} />);
-
-    act(() => {
-      instanceRef.current.setDate(new Date('7/11/2021'));
-    });
-
-    const picker = instanceRef.current.picker;
-
-    assert.equal(picker.root.querySelector('.rs-picker-toggle-value').textContent, '2021-07-11');
-    assert.equal(
-      picker.overlay.querySelector('.rs-calendar-header-title').textContent,
-      '11 Jul 2021'
+    expect(getByRole('combobox')).to.have.text('2021-07-11');
+    expect(getByRole('grid', { name: 'Jul 2021' })).to.contain(
+      getByRole('gridcell', { name: '11 Jul 2021', selected: true })
     );
   });
 
@@ -543,6 +545,20 @@ describe('DatePicker ', () => {
     assert.equal(meridian.textContent, 'PM');
     ReactTestUtils.Simulate.click(meridian);
     assert.equal(meridian.textContent, 'AM');
+  });
+
+  it('Should render week numbers given `showWeekNumbers=true`', () => {
+    const { getByRole } = render(
+      <DatePicker defaultOpen calendarDefaultDate={new Date('12/15/2021')} showWeekNumbers />
+    );
+
+    [49, 50, 51, 52, 1, 2].forEach(weekOrder => {
+      expect(getByRole('grid', { name: 'Dec 2021' })).to.contain(
+        getByRole('rowheader', {
+          name: `${weekOrder}`
+        })
+      );
+    });
   });
 
   describe('Plain text', () => {

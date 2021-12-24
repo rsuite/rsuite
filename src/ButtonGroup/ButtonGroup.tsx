@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
@@ -45,9 +45,10 @@ const ButtonGroup: RsRefForwardingComponent<'div', ButtonGroupProps> = React.for
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(size, { block, vertical, justified }));
+    const contextValue = useMemo(() => ({ size }), [size]);
 
     return (
-      <ButtonGroupContext.Provider value={{ size }}>
+      <ButtonGroupContext.Provider value={contextValue}>
         <Component {...rest} role={role} ref={ref} className={classes}>
           {children}
         </Component>

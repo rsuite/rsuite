@@ -1,6 +1,9 @@
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Disclosure from '../Disclosure';
+import useDisclosureContext from '../useDisclosureContext';
+import { DisclosureActionTypes } from '../DisclosureContext';
 
 describe('<Disclosure>', () => {
   it('Should render a Disclosure', () => {
@@ -110,7 +113,108 @@ describe('<Disclosure>', () => {
     expect(onToggleSpy).to.have.been.calledWith(true);
   });
 
-  describe('Keyboard interaction', function () {
+  it('Should be toggled by mouseover/mouseout given `trigger=[mouseover]`', () => {
+    const { getByTestId } = render(
+      <Disclosure trigger={['mouseover']}>
+        {(props, ref) => (
+          <div ref={ref} {...props}>
+            <Disclosure.Button>
+              {props => (
+                <button data-testid="button" {...props}>
+                  Button
+                </button>
+              )}
+            </Disclosure.Button>
+            <Disclosure.Content>
+              {({ open, ...props }) => (
+                <div data-testid="content" hidden={!open} {...props}>
+                  Content
+                </div>
+              )}
+            </Disclosure.Content>
+          </div>
+        )}
+      </Disclosure>
+    );
+
+    userEvent.hover(getByTestId('button'));
+    expect(getByTestId('content')).to.be.visible;
+
+    userEvent.unhover(getByTestId('button'));
+    expect(getByTestId('content')).not.to.be.visible;
+  });
+
+  context('Nested disclosures', () => {
+    it('Should close parent disclosure when descendants are dispatching with `cascade: true`', () => {
+      const ChildDisclosureContent = () => {
+        const [, dispatch] = useDisclosureContext();
+        return (
+          <button
+            onClick={() =>
+              dispatch({
+                type: DisclosureActionTypes.Hide,
+                cascade: true
+              })
+            }
+          >
+            Close all disclosures
+          </button>
+        );
+      };
+
+      const { getByText, getByTestId } = render(
+        <Disclosure>
+          {() => (
+            <>
+              <Disclosure.Button>
+                {(props, ref) => (
+                  <button ref={ref} {...props}>
+                    Open parent disclosure
+                  </button>
+                )}
+              </Disclosure.Button>
+              <Disclosure.Content>
+                {({ open, ...props }, ref) => (
+                  <div ref={ref} {...props} hidden={!open} data-testid="parent-content">
+                    <Disclosure>
+                      {() => (
+                        <>
+                          <Disclosure.Button>
+                            {(props, ref) => (
+                              <button ref={ref} {...props}>
+                                Open child disclosure
+                              </button>
+                            )}
+                          </Disclosure.Button>
+                          <Disclosure.Content>
+                            {({ open, ...props }, ref) => (
+                              <div ref={ref} {...props} hidden={!open}>
+                                <ChildDisclosureContent />
+                              </div>
+                            )}
+                          </Disclosure.Content>
+                        </>
+                      )}
+                    </Disclosure>
+                  </div>
+                )}
+              </Disclosure.Content>
+            </>
+          )}
+        </Disclosure>
+      );
+
+      userEvent.click(getByText('Open parent disclosure'));
+
+      userEvent.click(getByText('Open child disclosure'));
+
+      userEvent.click(getByText('Close all disclosures'));
+
+      expect(getByTestId('parent-content')).not.to.be.visible;
+    });
+  });
+
+  context('Keyboard interaction', function () {
     it('Enter: activates the disclosure control and toggles the visibility of the disclosure content.', () => {
       const { getByTestId } = render(
         <Disclosure>

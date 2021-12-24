@@ -284,22 +284,15 @@ describe('DateRangePicker', () => {
   });
 
   it('Should select a date range by clicking starting date and ending date', () => {
-    const { getByRole, getAllByRole } = render(
+    const { getByRole } = render(
       <DateRangePicker open value={[parseISO('2019-09-10'), parseISO('2019-10-10')]} />
     );
 
     userEvent.click(getByRole('button', { name: '01 Sep 2019' }));
     userEvent.click(getByRole('button', { name: '24 Sep 2019' }));
 
-    // todo should use gridcell role
-    // fixme should assert on aria-selected attribute
-    expect(
-      // fixme should use within to avoid ambigious query
-      getAllByRole('button', { name: '01 Sep 2019' })[1].closest('[role="cell"]')
-    ).to.have.class('rs-calendar-table-cell-selected');
-    expect(getByRole('button', { name: '24 Sep 2019' }).closest('[role="cell"]')).to.have.class(
-      'rs-calendar-table-cell-selected'
-    );
+    expect(getByRole('gridcell', { name: '01 Sep 2019', selected: true })).to.exist;
+    expect(getByRole('gridcell', { name: '24 Sep 2019', selected: true })).to.exist;
   });
 
   it('Should select a whole week', () => {

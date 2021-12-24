@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import omit from 'lodash/omit';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
@@ -11,8 +11,10 @@ import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import useCustom from '../utils/useCustom';
 import DropdownContext from './DropdownContext';
+import { NavbarContext } from '../Navbar';
 import Menubar from '../Menu/Menubar';
 import SidenavDropdownMenu from '../Sidenav/SidenavDropdownMenu';
+import Disclosure from '../Disclosure';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
@@ -75,6 +77,7 @@ const DropdownMenu = React.forwardRef<
 
   const dropdown = useContext(DropdownContext);
   const sidenav = useContext(SidenavContext);
+  const withinNavbar = Boolean(useContext(NavbarContext));
   const { rtl } = useCustom('DropdownMenu');
 
   const handleToggleSubmenu = useCallback(
@@ -94,13 +97,15 @@ const DropdownMenu = React.forwardRef<
     prefix: prefixItemClassName
   } = useClassNames('dropdown-item');
 
+  const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
+
   // <Dropdown.Menu> is used outside of <Dropdown>
   // renders a vertical `menubar`
   if (!dropdown) {
     const classes = merge(props.className, withClassPrefix());
 
     return (
-      <DropdownContext.Provider value={{ activeKey, onSelect }}>
+      <DropdownContext.Provider value={contextValue}>
         <Menubar
           vertical
           onActivateItem={event => {
@@ -120,7 +125,6 @@ const DropdownMenu = React.forwardRef<
       </DropdownContext.Provider>
     );
   }
-
   if (sidenav?.expanded) {
     return <SidenavDropdownMenu {...(omit(props, 'classPrefix') as any)} />;
   }
@@ -130,6 +134,76 @@ const DropdownMenu = React.forwardRef<
   const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
 
   const Icon = rtl ? AngleLeft : AngleRight;
+
+  // Renders a disclosure when used within <Navbar>
+  if (withinNavbar) {
+    return (
+      <Disclosure hideOnClickOutside trigger={['click', 'mouseover']}>
+        {({ open, ...props }, containerRef: React.Ref<HTMLElement>) => {
+          const classes = mergeItemClassNames(
+            className,
+            withItemClassPrefix({
+              disabled,
+              open,
+              submenu: true
+              // focus: hasFocus
+            })
+          );
+          return (
+            <li ref={mergeRefs(ref, containerRef)} className={classes} {...props}>
+              <Disclosure.Button>
+                {({ open, ...buttonProps }, buttonRef: React.Ref<HTMLElement>) => {
+                  const classes = mergeItemClassNames(
+                    className,
+                    prefixItemClassName(`pull-${rtl ? 'left' : 'right'}`),
+                    prefixItemClassName`toggle`,
+                    // prefixItemClassName`submenu`,
+                    withItemClassPrefix({
+                      'with-icon': icon,
+                      open,
+                      // active: selected,
+                      disabled
+                      // focus: active
+                    })
+                  );
+
+                  return (
+                    <div
+                      ref={mergeRefs(buttonRef, buttonRef as any)}
+                      className={classes}
+                      data-event-key={eventKey}
+                      data-event-key-type={typeof eventKey}
+                      {...buttonProps}
+                    >
+                      {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                      {title}
+                      <Icon className={prefix`toggle-icon`} />
+                    </div>
+                  );
+                }}
+              </Disclosure.Button>
+              <Disclosure.Content>
+                {({ open }, elementRef) => {
+                  const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+
+                  return (
+                    <ul
+                      ref={elementRef as any}
+                      className={menuClassName}
+                      hidden={!open}
+                      {...menuProps}
+                    >
+                      {children}
+                    </ul>
+                  );
+                }}
+              </Disclosure.Content>
+            </li>
+          );
+        }}
+      </Disclosure>
+    );
+  }
 
   return (
     <Menu

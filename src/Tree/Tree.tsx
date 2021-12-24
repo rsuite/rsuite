@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import TreePicker from '../TreePicker';
 import TreeContext from './TreeContext';
 import { StandardProps, ItemDataType, RsRefForwardingComponent } from '../@types/common';
@@ -144,8 +144,10 @@ export interface TreeProps<ValueType = string | number>
 
 const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
   (props: TreeProps, ref: React.Ref<any>) => {
+    const contextValue = useMemo(() => ({ inline: true }), []);
+
     return (
-      <TreeContext.Provider value={{ inline: true }}>
+      <TreeContext.Provider value={contextValue}>
         <TreePicker ref={ref} {...props} />
       </TreeContext.Provider>
     );
