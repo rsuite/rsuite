@@ -15,7 +15,7 @@ import DropdownToggle from './DropdownToggle';
 import MenuContext from '../Menu/MenuContext';
 import MenuItem from '../Menu/MenuItem';
 import kebabCase from 'lodash/kebabCase';
-import { NavbarContext } from '../Navbar/Navbar';
+import { NavbarContext } from '../Navbar';
 import Disclosure from '../Disclosure/Disclosure';
 import SidenavDropdown from '../Sidenav/SidenavDropdown';
 import NavContext from '../Nav/NavContext';

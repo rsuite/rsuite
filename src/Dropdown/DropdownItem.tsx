@@ -11,7 +11,6 @@ import { createChainedFunction, mergeRefs, shallowEqual, useClassNames } from '.
 import { NavbarContext } from '../Navbar/Navbar';
 import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 import DisclosureContext, { DisclosureActionTypes } from '../Disclosure/DisclosureContext';
-import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';
 import useInternalId from '../utils/useInternalId';
 import { DropdownActionType } from './DropdownState';
@@ -108,7 +107,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 
     const handleClickNavbarDropdownItem = useCallback(
       (event: React.SyntheticEvent) => {
-        dispatchDisclosure?.({ type: DisclosureActionTypes.Hide });
+        dispatchDisclosure?.({ type: DisclosureActionTypes.Hide, cascade: true });
         handleSelectItem?.(event);
       },
       [dispatchDisclosure, handleSelectItem]
@@ -186,22 +185,20 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       if (!isNil(eventKey) && typeof eventKey !== 'string') {
         dataAttributes['data-event-key-type'] = typeof eventKey;
       }
-      return (
-        <li>
-          <SafeAnchor
-            ref={ref}
-            className={classes}
-            aria-current={selected || undefined}
-            {...dataAttributes}
-            {...restProps}
-            as={Component}
-            onClick={createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick)}
-          >
+      return renderDropdownItem({
+        ref,
+        className: classes,
+        'aria-current': selected || undefined,
+        ...dataAttributes,
+        ...restProps,
+        onClick: createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick),
+        children: (
+          <>
             {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
             {children}
-          </SafeAnchor>
-        </li>
-      );
+          </>
+        )
+      });
     }
 
     return (

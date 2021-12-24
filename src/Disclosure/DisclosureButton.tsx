@@ -9,15 +9,15 @@ export interface DisclosureButtonRenderProps {
 
 export interface DisclosureButtonProps {
   children: (
-    props: React.ButtonHTMLAttributes<HTMLButtonElement> & DisclosureButtonRenderProps,
-    ref: React.Ref<HTMLButtonElement>
-  ) => React.ReactElement<React.HTMLAttributes<HTMLButtonElement>>;
+    props: React.HTMLAttributes<HTMLElement> & DisclosureButtonRenderProps,
+    ref: React.Ref<HTMLElement>
+  ) => React.ReactElement<React.HTMLAttributes<HTMLElement>>;
 }
 
 function DisclosureButton(props: DisclosureButtonProps) {
   const { children } = props;
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLElement>(null);
 
   const [{ open }, dispatch, { onToggle }] = useDisclosureContext(DisclosureButton.displayName);
 
