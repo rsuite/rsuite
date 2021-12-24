@@ -1,3 +1,11 @@
+## [5.4.2](https://github.com/rsuite/rsuite/compare/v5.4.1...v5.4.2) (2021-12-24)
+
+### Bug Fixes
+
+- **Affix:** fix unupdated position after window size change ([#2256](https://github.com/rsuite/rsuite/issues/2256)) ([61c7b27](https://github.com/rsuite/rsuite/commit/61c7b279f136ae44b9470046344cd6e163d02589))
+- **Modal:** improve the mouse scrolling experience on Modal ([#2254](https://github.com/rsuite/rsuite/issues/2254)) ([137d57e](https://github.com/rsuite/rsuite/commit/137d57ef1e79ca0055b3af8d6cd5cff2a9c4ef55))
+- **Navbar:** fix dropdown submenu throwing error ([#2250](https://github.com/rsuite/rsuite/issues/2250)) ([875130d](https://github.com/rsuite/rsuite/commit/875130d342f58e4078babe428913640e0b2faa04))
+
 ## [5.4.1](https://github.com/rsuite/rsuite/compare/v5.4.0...v5.4.1) (2021-12-23)
 
 ### Bug Fixes
