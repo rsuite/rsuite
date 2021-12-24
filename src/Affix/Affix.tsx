@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import getOffset from 'dom-lib/getOffset';
 import { Offset, RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { mergeRefs, useClassNames, useElementResize, useEventListener } from '../utils';
+import { mergeRefs, useClassNames, useElementResize, useEventListener, useMount } from '../utils';
 
 export interface AffixProps extends WithAsProps {
   /** Distance from top */
@@ -20,6 +20,7 @@ export interface AffixProps extends WithAsProps {
  */
 function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
   const [offset, setOffset] = useState<Offset | null>(null);
+
   const updateOffset = useCallback(() => {
     setOffset(getOffset(mountRef.current!));
   }, [mountRef]);
@@ -28,7 +29,10 @@ function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
   useElementResize(() => mountRef.current!, updateOffset);
 
   // Initialize after the first render
-  useEffect(updateOffset, [updateOffset]);
+  useMount(updateOffset);
+
+  // Update after window size changes
+  useEventListener(window, 'resize', updateOffset, false);
 
   return offset;
 }
