@@ -10,7 +10,9 @@ export enum DisclosureActionTypes {
   Hide
 }
 
-export type DisclosureAction = { type: DisclosureActionTypes };
+export type DisclosureAction =
+  | { type: DisclosureActionTypes.Show }
+  | { type: DisclosureActionTypes.Hide; cascade?: boolean };
 
 export type DisclosureContextProps = [
   DisclosureState,

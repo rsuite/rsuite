@@ -2,6 +2,8 @@ import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Disclosure from '../Disclosure';
+import useDisclosureContext from '../useDisclosureContext';
+import { DisclosureActionTypes } from '../DisclosureContext';
 
 describe('<Disclosure>', () => {
   it('Should render a Disclosure', () => {
@@ -140,6 +142,76 @@ describe('<Disclosure>', () => {
 
     userEvent.unhover(getByTestId('button'));
     expect(getByTestId('content')).not.to.be.visible;
+  });
+
+  context('Nested disclosures', () => {
+    it('Should close parent disclosure when descendants are dispatching with `cascade: true`', () => {
+      const ChildDisclosureContent = () => {
+        const [, dispatch] = useDisclosureContext();
+        return (
+          <button
+            onClick={() =>
+              dispatch({
+                type: DisclosureActionTypes.Hide,
+                cascade: true
+              })
+            }
+          >
+            Close all disclosures
+          </button>
+        );
+      };
+
+      const { getByText, getByTestId } = render(
+        <Disclosure>
+          {() => (
+            <>
+              <Disclosure.Button>
+                {(props, ref) => (
+                  <button ref={ref} {...props}>
+                    Open parent disclosure
+                  </button>
+                )}
+              </Disclosure.Button>
+              <Disclosure.Content>
+                {({ open, ...props }, ref) => (
+                  <div ref={ref} {...props} hidden={!open} data-testid="parent-content">
+                    <Disclosure>
+                      {() => (
+                        <>
+                          <Disclosure.Button>
+                            {(props, ref) => (
+                              <button ref={ref} {...props}>
+                                Open child disclosure
+                              </button>
+                            )}
+                          </Disclosure.Button>
+                          <Disclosure.Content>
+                            {({ open, ...props }, ref) => (
+                              <div ref={ref} {...props} hidden={!open}>
+                                <ChildDisclosureContent />
+                              </div>
+                            )}
+                          </Disclosure.Content>
+                        </>
+                      )}
+                    </Disclosure>
+                  </div>
+                )}
+              </Disclosure.Content>
+            </>
+          )}
+        </Disclosure>
+      );
+
+      userEvent.click(getByText('Open parent disclosure'));
+
+      userEvent.click(getByText('Open child disclosure'));
+
+      userEvent.click(getByText('Close all disclosures'));
+
+      expect(getByTestId('parent-content')).not.to.be.visible;
+    });
   });
 
   context('Keyboard interaction', function () {

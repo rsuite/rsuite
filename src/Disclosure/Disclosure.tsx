@@ -1,6 +1,6 @@
 // Headless Disclosure
 // Ref: https://w3c.github.io/aria-practices/#disclosure
-import React, { useMemo, useReducer, useRef, useCallback } from 'react';
+import React, { useMemo, useReducer, useRef, useCallback, useContext } from 'react';
 import DisclosureContext, {
   DisclosureAction,
   DisclosureActionTypes,
@@ -31,6 +31,7 @@ export interface DisclosureProps {
   /** Callback when disclosure button is being activated to update the open state */
   onToggle?: (open: boolean, event: React.SyntheticEvent) => void;
 
+  /** What mouse events should disclosure reacts to */
   trigger?: DisclosureTrigger[];
 }
 
@@ -62,6 +63,8 @@ const Disclosure: DisclosureComponent = React.memo((props: DisclosureProps) => {
     onToggle,
     trigger = ['click']
   } = props;
+
+  const parentDisclosure = useContext(DisclosureContext);
 
   const [{ open: openState }, dispatch] = useReducer(disclosureReducer, {
     ...initialDisclosureState,
@@ -98,8 +101,16 @@ const Disclosure: DisclosureComponent = React.memo((props: DisclosureProps) => {
   );
 
   const contextValue = useMemo<DisclosureContextProps>(() => {
-    return [{ open }, dispatch, { onToggle, trigger }];
-  }, [open, dispatch, onToggle, trigger]);
+    const cascadeDispatch = (action: DisclosureAction) => {
+      const result = dispatch(action);
+      if ('cascade' in action) {
+        parentDisclosure?.[1](action);
+      }
+      return result;
+    };
+
+    return [{ open }, cascadeDispatch, { onToggle, trigger }];
+  }, [parentDisclosure, open, dispatch, onToggle, trigger]);
 
   const renderProps = useMemo(() => {
     const renderProps: DisclosureRenderProps = { open };

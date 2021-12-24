@@ -84,7 +84,7 @@ describe('<Navbar>', () => {
     it('Should not get validateDOMNesting warning', () => {
       sinon.spy(console, 'error');
 
-      const { debug, getByText } = render(
+      render(
         <Navbar>
           <Nav>
             <Dropdown title="Menu">
@@ -115,6 +115,29 @@ describe('<Navbar>', () => {
 
       userEvent.click(getByText('Company'));
       expect(getByText('Company')).not.to.be.visible;
+    });
+
+    it('Should close dropdown when a submenu item is clicked', () => {
+      const { getByText } = render(
+        <Navbar>
+          <Nav>
+            <Dropdown title="Menu">
+              <Dropdown.Menu title="Submenu">
+                <Dropdown.Item>Submenu item</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Nav>
+        </Navbar>
+      );
+
+      // Opens the disclosure
+      userEvent.click(getByText('Menu'));
+
+      expect(getByText('Submenu item')).not.to.be.visible;
+      userEvent.hover(getByText('Submenu'));
+      userEvent.click(getByText('Submenu item'));
+
+      expect(getByText('Submenu')).not.to.be.visible;
     });
 
     it('Should highlight <Dropdown.Item> matching <Nav> `activeKey`', () => {
