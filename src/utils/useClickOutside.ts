@@ -17,10 +17,6 @@ export default function useClickOutside({
   useEffect(() => {
     isOutsideRef.current = isOutside;
     handleRef.current = handle;
-    return () => {
-      isOutsideRef.current = null;
-      handleRef.current = null;
-    };
   }, [isOutside, handle]);
 
   useEffect(() => {

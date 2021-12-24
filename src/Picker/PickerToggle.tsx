@@ -116,7 +116,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       (event: React.FocusEvent<HTMLElement>) => {
         if (inputRef.current && document.activeElement !== inputRef.current) {
           setActive(false);
-          inputRef.current?.blur();
+          inputRef.current.blur();
         }
         onBlur?.(event);
       },

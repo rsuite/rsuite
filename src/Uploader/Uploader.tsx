@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import find from 'lodash/find';
 import FileItem from './UploadFileItem';
 import UploadTrigger, { UploadTriggerInstance } from './UploadTrigger';
-import { ajaxUpload, useClassNames, useCustom, guid } from '../utils';
+import { ajaxUpload, useClassNames, useCustom, guid, useWillUnmount } from '../utils';
 import { WithAsProps } from '../@types/common';
 import Plaintext from '../Plaintext';
 import { UploaderLocale } from '../locales';
@@ -226,10 +226,11 @@ const useFileList = (
   useEffect(() => {
     fileListUpdateCallback.current?.(fileList);
     fileListUpdateCallback.current = null;
-    return () => {
-      fileListUpdateCallback.current = null;
-    };
   }, [fileList]);
+
+  useWillUnmount(() => {
+    fileListUpdateCallback.current = null;
+  });
 
   const dispatchCallback = useCallback((action: ActionType, callback) => {
     dispatch(action);
