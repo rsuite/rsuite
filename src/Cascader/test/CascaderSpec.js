@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import Cascader from '../Cascader';
 import Button from '../../Button';
@@ -413,19 +413,23 @@ describe('Cascader', () => {
   });
 
   describe('ref testing', () => {
-    it('Should control the open and close of picker', () => {
-      const onEnterSpy = sinon.spy();
-      const onExitSpy = sinon.spy();
+    it('Should control the open and close of picker', async () => {
+      const onOpenSpy = sinon.spy();
+      const onCloseSpy = sinon.spy();
 
       const instance = getInstance(
-        <Cascader onEnter={onEnterSpy} onExit={onExitSpy} data={items} />
+        <Cascader onOpen={onOpenSpy} onClose={onCloseSpy} data={items} />
       );
 
       instance.open();
-      assert.isTrue(onEnterSpy.calledOnce);
+      await waitFor(() => {
+        assert.isTrue(onOpenSpy.calledOnce);
+      });
 
       instance.close();
-      assert.isTrue(onExitSpy.calledOnce);
+      await waitFor(() => {
+        assert.isTrue(onCloseSpy.calledOnce);
+      });
     });
   });
 
