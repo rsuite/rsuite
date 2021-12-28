@@ -83,7 +83,9 @@
   }
 
   &:focus-visible {
-    .focus-ring();
+    // Navbar is usually placed by the top edge of the page
+    // thus use an inset focus ring to prevent overflow clipping
+    .focus-ring(inset);
 
     .high-contrast-mode({
       .focus-ring(slim-inset);

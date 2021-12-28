@@ -110,6 +110,12 @@
     width: 100%;
     white-space: normal;
 
+    // Sidenav is usually placed by the left/right edge of the page
+    // thus use an inset focus ring to prevent overflow clipping
+    &:focus {
+      .focus-ring(inset);
+    }
+
     > .rs-icon:not(.rs-dropdown-toggle-caret) {
       font-size: @sidenav-level1-item-font-size;
       margin-right: @sidenav-icon-spacing;

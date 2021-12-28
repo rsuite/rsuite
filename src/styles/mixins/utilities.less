@@ -140,6 +140,7 @@
 .focus-ring(slim) {
   .focus-ring();
 
+  outline-width: 2px;
   outline-offset: 0;
 }
 
@@ -150,7 +151,9 @@
 }
 
 .focus-ring(slim-inset) {
-  box-shadow: inset var(--rs-state-focus-shadow-slim);
+  .focus-ring(inset);
+
+  outline-width: 2px;
 }
 
 .focus-ring(outline) {
