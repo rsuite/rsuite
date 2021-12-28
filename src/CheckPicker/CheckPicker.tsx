@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback, Ref } from 'react';
 import PropTypes from 'prop-types';
 import clone from 'lodash/clone';
 import isUndefined from 'lodash/isUndefined';
@@ -58,12 +58,16 @@ export interface CheckPickerProps<T>
 const emptyArray = [];
 
 export interface CheckPickerComponent {
-  <T>(props: CheckPickerProps<T>): JSX.Element | null;
+  <T>(
+    props: CheckPickerProps<T> & {
+      ref?: Ref<PickerInstance>;
+    }
+  ): JSX.Element | null;
   displayName?: string;
   propTypes?: React.WeakValidationMap<CheckPickerProps<any>>;
 }
 
-const CheckPicker: CheckPickerComponent = React.forwardRef(
+const CheckPicker = React.forwardRef(
   <T extends number | string>(props: CheckPickerProps<T>, ref: React.Ref<PickerInstance>) => {
     const {
       as: Component = 'div',

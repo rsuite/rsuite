@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useState, useCallback, useEffect, Ref } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import isUndefined from 'lodash/isUndefined';
@@ -105,7 +105,11 @@ export interface SelectPickerProps<T>
 const emptyArray = [];
 
 export interface SelectPickerComponent {
-  <T>(props: SelectPickerProps<T>): JSX.Element | null;
+  <T>(
+    props: SelectPickerProps<T> & {
+      ref?: Ref<PickerInstance>;
+    }
+  ): JSX.Element | null;
   displayName?: string;
   propTypes?: React.WeakValidationMap<SelectPickerProps<any>>;
 }

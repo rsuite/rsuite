@@ -1,5 +1,6 @@
 import React from 'react';
 import { expectType } from 'ts-expect';
+import { PickerInstance } from '../../Picker';
 import SelectPicker from '../SelectPicker';
 
 // Infer value and onChange types from data
@@ -26,3 +27,7 @@ const stringValuedData = [{ label: 'One', value: 'One' }];
     expectType<string>(newValue);
   }}
 />;
+
+const pickerRef = React.createRef<PickerInstance>();
+
+<SelectPicker ref={pickerRef} data={[]} />;
