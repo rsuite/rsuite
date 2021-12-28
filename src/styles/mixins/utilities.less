@@ -129,15 +129,24 @@
 
 // Useful when appending the ring into an existing :focus rule
 .focus-ring() {
-  box-shadow: var(--rs-state-focus-shadow);
+  outline: 3px solid var(--rs-color-focus-ring);
+  // box-shadow: var(--rs-state-focus-shadow);
+
+  .high-contrast-mode({
+    outline-offset: 2px;
+  });
 }
 
 .focus-ring(slim) {
-  box-shadow: var(--rs-state-focus-shadow-slim);
+  .focus-ring();
+
+  outline-offset: 0;
 }
 
 .focus-ring(inset) {
-  box-shadow: inset var(--rs-state-focus-shadow);
+  .focus-ring();
+  outline-offset: -3px;
+  // box-shadow: inset var(--rs-state-focus-shadow);
 }
 
 .focus-ring(slim-inset) {
