@@ -102,4 +102,4 @@ Learn more in [Accessibility](/guide/accessibility).
 | virtualized        | boolean                                                                | Whether using Virtualized List                              |
 
 [listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
-[tagprops]: https://rsuitejs.com/en/components/tag#Props
+[tagprops]: https://rsuitejs.com/components/tag#Props

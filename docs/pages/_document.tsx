@@ -18,6 +18,7 @@ class MyDocument extends Document<DocumentProps> {
       <Html lang={userLanguage}>
         <Head>
           <script type="text/javascript" src="/js/babel.min.js"></script>
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha" />
         </Head>
         <body>
           <Main />

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { Whisper, Tooltip, Button, IconButton } from 'rsuite';
 import classNames from 'classnames';
 import { isMobile } from 'react-device-detect';
 import Logo from '../Logo';
 import * as SvgIcons from '@/components/SvgIcons';
-import SearchDrawer from '../SearchDrawer';
 import AppContext from '../AppContext';
 import Link from '@/components/Link';
 import { useRouter } from 'next/router';
@@ -12,6 +12,7 @@ import { Icon } from '@rsuite/icons';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import Github from '@rsuite/icons/legacy/Github';
+import { DocSearchModal, useDocSearchKeyboardEvents } from '@docsearch/react';
 
 interface ButtonWithTooltipProps {
   children: React.ReactNode;
@@ -83,15 +84,56 @@ function getNavItems(messages) {
 }
 
 export default function TopLevelNav(props: TopLevelNavProps) {
-  const { children, showSubmenu, hideToggle } = props;
+  const { children, showSubmenu, hideToggle, onToggleMenu: onToggleMenuProp } = props;
   const router = useRouter();
-  const [search, setSearch] = React.useState<boolean>();
-  const onToggleMenu = (_event, show?: boolean) => {
-    props?.onToggleMenu?.(show);
-  };
-  const { messages } = React.useContext(AppContext);
+
+  const [searchModalOpen, setSearchModalOpen] = React.useState<boolean>(false);
+  const [initialQuery, setInitialQuery] = React.useState(undefined);
+  const searchButtonRef = React.useRef(null);
+
+  const onToggleMenu = useCallback(
+    (_event, show?: boolean) => {
+      onToggleMenuProp?.(show);
+    },
+    [onToggleMenuProp]
+  );
+  const { messages, language } = React.useContext(AppContext);
 
   const navItems = getNavItems(messages);
+
+  const onOpen = () => {
+    setSearchModalOpen(true);
+  };
+
+  const onClose = () => {
+    setSearchModalOpen(false);
+  };
+
+  const onInput = useCallback(
+    event => {
+      setSearchModalOpen(true);
+      setInitialQuery(event.key);
+    },
+    [setSearchModalOpen, setInitialQuery]
+  );
+
+  useDocSearchKeyboardEvents({
+    isOpen: searchModalOpen,
+    onOpen,
+    onClose,
+    onInput,
+    searchButtonRef
+  });
+
+  const searchParameters = useMemo(() => {
+    return { facetFilters: [`lang:${language}`] };
+  }, [language]);
+
+  const navigator = {
+    navigate({ itemUrl }: { itemUrl: string }) {
+      router.push(itemUrl);
+    }
+  };
 
   return (
     <div className="top-level-nav">
@@ -116,9 +158,8 @@ export default function TopLevelNav(props: TopLevelNavProps) {
         <SearchButton
           className="visible-xs"
           tip={messages?.common?.search}
-          onClick={() => {
-            setSearch(true);
-          }}
+          ref={searchButtonRef}
+          onClick={onOpen}
         />
         {navItems.map(item => (
           <ButtonWithTooltip
@@ -152,22 +193,25 @@ export default function TopLevelNav(props: TopLevelNavProps) {
         >
           <Github style={{ fontSize: 20 }} />
         </ButtonWithTooltip>
-        <SearchButton
-          className="hidden-xs"
-          tip={messages?.common?.search}
-          onClick={() => {
-            setSearch(true);
-          }}
-        />
+        <SearchButton className="hidden-xs" tip={messages?.common?.search} onClick={onOpen} />
       </div>
       <div className="top-level-nav-footer"></div>
       {children}
-      <SearchDrawer
-        show={search}
-        onClose={() => {
-          setSearch(false);
-        }}
-      />
+
+      {searchModalOpen &&
+        createPortal(
+          <DocSearchModal
+            appId="FS7O6PO8BY"
+            indexName="rsuitejs"
+            apiKey="ea7cf5ab3e88bea1526aad7b15e74a09"
+            initialQuery={initialQuery}
+            onClose={onClose}
+            initialScrollY={typeof window !== 'undefined' ? window.scrollY : undefined}
+            searchParameters={searchParameters}
+            navigator={navigator}
+          />,
+          document.body
+        )}
     </div>
   );
 }
