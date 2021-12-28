@@ -73,8 +73,6 @@
 .rs-navbar-brand,
 .rs-navbar-item,
 .rs-navbar-nav > .rs-dropdown-item {
-  outline: 0;
-
   &,
   &:hover,
   &:focus,
@@ -109,6 +107,11 @@
 // Dropdown
 .rs-navbar-nav > .rs-dropdown .rs-dropdown-toggle {
   &:extend(.rs-navbar-item);
+
+  &:focus,
+  &:focus-visible {
+    &:extend(.rs-navbar-item:focus-visible);
+  }
 
   padding-right: @navbar-item-padding-x+ @dropdown-caret-width+ @dropdown-caret-padding;
 

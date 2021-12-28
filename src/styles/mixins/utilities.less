@@ -122,7 +122,7 @@
 
 // Useful when adding focus ring to an element
 .with-focus-ring() {
-  &:focus {
+  &:focus-visible {
     .focus-ring();
   }
 }
@@ -146,8 +146,8 @@
 
 .focus-ring(inset) {
   .focus-ring();
+
   outline-offset: -3px;
-  // box-shadow: inset var(--rs-state-focus-shadow);
 }
 
 .focus-ring(slim-inset) {
