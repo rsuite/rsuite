@@ -263,7 +263,7 @@ If you want the cell to wrap, you just need to set `wordWrap`
 
 ### Draggable(with react-dnd)
 
-https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
+https://codesandbox.io/s/rsuite5-table-with-react-dnd-16o4n
 
 ## Accessibility
 
@@ -313,8 +313,9 @@ https://codesandbox.io/s/rsuite-table-with-react-dnd-m06cm
 | onSortColumn             | (dataKey:string, sortType:string) => void                                         | Click the callback function of the sort sequence to return the value `sortColumn`, `sortType`                          |
 | renderEmpty              | (info: ReactNode) => ReactNode                                                    | Customized data is empty display content                                                                               |
 | renderLoading            | (loading: ReactNode) => ReactNode                                                 | Customize the display content in the data load                                                                         |
+| renderRow                | (children?: ReactNode, rowData?: RowDataType) => ReactNode                        | Custom row element                                                                                                     |
 | renderRowExpanded        | (rowDate?: Object) => ReactNode                                                   | Customize what you can do to expand a zone                                                                             |
-| renderTreeToggle         | (icon:node, rowData:object, expanded:boolean) => node                             | Tree table, the callback function in the expanded node                                                                 |
+| renderTreeToggle         | (icon:node, rowData:object, expanded:boolean) => ReactNode                        | Tree table, the callback function in the expanded node                                                                 |
 | rowClassName             | string , (rowData:object) => string                                               | Add an optional extra class name to row                                                                                |
 | rowExpandedHeight        | number `(100)`                                                                    | Set the height of an expandable area                                                                                   |
 | rowHeight                | (rowData:object) => number, number`(46)`                                          | Row height                                                                                                             |
