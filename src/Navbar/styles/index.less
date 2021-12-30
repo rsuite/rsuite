@@ -73,8 +73,6 @@
 .rs-navbar-brand,
 .rs-navbar-item,
 .rs-navbar-nav > .rs-dropdown-item {
-  outline: 0;
-
   &,
   &:hover,
   &:focus,
@@ -83,7 +81,9 @@
   }
 
   &:focus-visible {
-    .focus-ring();
+    // Navbar is usually placed by the top edge of the page
+    // thus use an inset focus ring to prevent overflow clipping
+    .focus-ring(inset);
 
     .high-contrast-mode({
       .focus-ring(slim-inset);
@@ -107,6 +107,11 @@
 // Dropdown
 .rs-navbar-nav > .rs-dropdown .rs-dropdown-toggle {
   &:extend(.rs-navbar-item);
+
+  &:focus,
+  &:focus-visible {
+    &:extend(.rs-navbar-item:focus-visible);
+  }
 
   padding-right: @navbar-item-padding-x+ @dropdown-caret-width+ @dropdown-caret-padding;
 

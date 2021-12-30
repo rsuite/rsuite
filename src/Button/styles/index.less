@@ -14,7 +14,6 @@
   text-align: center;
   vertical-align: middle;
   cursor: pointer;
-  outline: 0 !important;
   white-space: nowrap;
   transition: @btn-transition;
   // Reset border style in all browser
@@ -31,10 +30,7 @@
 
   .rs-btn-md();
 
-  &:focus {
-    outline: 0;
-    box-shadow: var(--rs-state-focus-shadow);
-  }
+  .with-focus-ring();
 
   .button-activated({
     color: var(--rs-btn-default-hover-text);
