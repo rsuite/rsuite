@@ -1,3 +1,10 @@
+## [5.4.3](https://github.com/rsuite/rsuite/compare/v5.4.2...v5.4.3) (2021-12-30)
+
+### Bug Fixes
+
+- **Drawer:** fix Drawer cannot be closed when backdrop is clicked ([#2259](https://github.com/rsuite/rsuite/issues/2259)) ([a49ee03](https://github.com/rsuite/rsuite/commit/a49ee03db33c11db30597221ca61ce6daa088c4b))
+- **Picker:** add ref to PickerComponentProps ([#2261](https://github.com/rsuite/rsuite/issues/2261)) ([6e3e6c5](https://github.com/rsuite/rsuite/commit/6e3e6c57932af142dc1a74da6b7fffb57ae628ca))
+
 ## [5.4.2](https://github.com/rsuite/rsuite/compare/v5.4.1...v5.4.2) (2021-12-24)
 
 ### Bug Fixes
