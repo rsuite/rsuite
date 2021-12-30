@@ -1,4 +1,5 @@
 import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 
 import Drawer from '../Drawer';
@@ -45,5 +46,25 @@ describe('Drawer', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Drawer classPrefix="custom-prefix" open />);
     assert.isNotNull(instance.querySelector('.rs-custom-prefix'));
+  });
+
+  it('Should close the drawer when the backdrop is clicked', () => {
+    const onCloseSpy = sinon.spy();
+    const { getByTestId } = render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} />);
+
+    fireEvent.click(getByTestId('wrapper'));
+
+    assert.isTrue(onCloseSpy.calledOnce);
+  });
+
+  it('Should not close the drawer when the "static" drawer is clicked', () => {
+    const onCloseSpy = sinon.spy();
+    const { getByTestId } = render(
+      <Drawer data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />
+    );
+
+    fireEvent.click(getByTestId('wrapper'));
+
+    assert.isFalse(onCloseSpy.calledOnce);
   });
 });
