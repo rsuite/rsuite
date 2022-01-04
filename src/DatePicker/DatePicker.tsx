@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import isNil from 'lodash/isNil';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
@@ -42,7 +41,7 @@ export type { RangeType } from './Toolbar';
 
 export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
-    FormControlBaseProps<Date> {
+    FormControlBaseProps<Date | null> {
   /** Configure shortcut options */
   ranges?: RangeType<Date>[];
 
@@ -263,12 +262,13 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const updateValue = useCallback(
       (event: React.SyntheticEvent, nextPageDate?: Date | null, closeOverlay = true) => {
-        const nextValue: Date = !isNil(nextPageDate) ? nextPageDate : calendarDate;
+        const nextValue: Date | null =
+          typeof nextPageDate !== 'undefined' ? nextPageDate : calendarDate;
 
         setCalendarDate(nextValue || new Date());
         setValue(nextValue);
 
-        if (nextValue !== value || !DateUtils.isSameDay(nextValue, value)) {
+        if (nextValue !== value) {
           onChange?.(nextValue, event);
         }
 
