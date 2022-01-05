@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ButtonToolbar, Tooltip, Whisper, Popover, Dropdown, IconButton } from 'rsuite';
 import * as SvgIcons from '@/components/SvgIcons';
 import canUseDOM from 'dom-lib/canUseDOM';
@@ -32,10 +32,16 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
     onChangeDirection
   } = React.useContext(AppContext);
 
+  const [show, setShow] = React.useState(false);
+
+  useEffect(() => {
+    setShow(canUseDOM);
+  }, []);
+
   const DirectionIcon = props =>
     direction === 'rtl' ? <SvgIcons.Rtl {...props} /> : <SvgIcons.Ltr {...props} />;
 
-  return (
+  return show ? (
     <ButtonToolbar className="page-toolbar">
       <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.changeLanguage}</Tooltip>}>
         <LanguageButton />
@@ -99,7 +105,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
         <IconButton size="sm" appearance="subtle" icon={<Icon as={SvgIcons.More} />} />
       </Whisper>
     </ButtonToolbar>
-  );
+  ) : null;
 }
 
 export default PageToolbar;
