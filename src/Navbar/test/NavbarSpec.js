@@ -5,6 +5,8 @@ import { getDOMNode } from '@test/testUtils';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
+import Whisper from '../../Whisper';
+import Tooltip from '../../Tooltip';
 
 afterEach(() => {
   sinon.restore();
@@ -175,6 +177,31 @@ describe('Navbar', () => {
 
       userEvent.click(getByTestId('dropdown-item'));
       expect(onSelectSpy).to.have.been.calledWith('2-1', sinon.match.any);
+    });
+  });
+
+  context('Issue #2263', () => {
+    it('Should render Tooltip at correct position', () => {
+      // @see https://codesandbox.io/s/tooltip-in-navbar-94gxk
+      const { getByTestId } = render(
+        <Navbar>
+          {/* pullRight makes the bug more obvious */}
+          <Nav pullRight>
+            <Whisper
+              open
+              trigger="hover"
+              placement="bottom"
+              speaker={<Tooltip data-testid="tooltip">Tooltip</Tooltip>}
+            >
+              <Nav.Item>Test</Nav.Item>
+            </Whisper>
+          </Nav>
+        </Navbar>
+      );
+
+      const tooltip = getByTestId('tooltip');
+
+      expect(tooltip).not.to.have.style('left', '0px').and.not.to.have.style('top', '0px');
     });
   });
 });
