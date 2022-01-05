@@ -115,7 +115,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
     }
 
     if (navbar) {
-      return <NavbarItem {...props} />;
+      return <NavbarItem ref={ref} {...props} />;
     }
 
     return (
