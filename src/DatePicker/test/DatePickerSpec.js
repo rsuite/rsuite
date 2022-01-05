@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
 import { format, isSameDay, parseISO } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
@@ -88,6 +89,17 @@ describe('DatePicker', () => {
         })
       );
     });
+  });
+
+  it('Should update value to be `null` when "clear" button is clicked', () => {
+    const onChangeSpy = sinon.spy();
+    const { getByRole } = render(
+      <DatePicker value={new Date(2021, 0, 4)} onChange={onChangeSpy} cleanable />
+    );
+
+    userEvent.click(getByRole('button', { name: /clear/i }));
+
+    expect(onChangeSpy).to.have.been.calledWith(null);
   });
 
   it('Should get panel container ref', function () {
