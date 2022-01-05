@@ -119,7 +119,12 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
   };
 
   useEffect(() => {
-    const container = menuBodyContainerRef.current!;
+    const container = menuBodyContainerRef.current;
+
+    if (!container) {
+      return;
+    }
+
     let activeItem = container.querySelector(`.${prefix('item-focus')}`);
 
     if (!activeItem) {

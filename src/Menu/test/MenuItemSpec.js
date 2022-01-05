@@ -12,14 +12,17 @@ function renderMenuItem(ui) {
         </ul>
       )}
     >
-      {(containerProps, containerRef) => (
-        <div ref={containerRef} {...containerProps} data-testid="container"></div>
-      )}
+      {(containerProps, containerRef) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { children, ...rest } = containerProps;
+
+        return <div ref={containerRef} {...rest} data-testid="container" />;
+      }}
     </Menu>
   );
 }
 
-describe('<MenuItem>', () => {
+describe('Menu - MenuItem', () => {
   it('Should not be active when activeDecsendant is empty', () => {
     const renderPropSpy = sinon.spy((props, ref) => <li ref={ref} {...props}></li>);
 

@@ -6,7 +6,7 @@ import Calendar from '../Calendar';
 
 describe('Calendar', () => {
   it('Should render a div with `calendar` class', () => {
-    const instance = getDOMNode(<Calendar calendarDate={new Date()} />);
+    const instance = getDOMNode(<Calendar calendarDate={new Date(2021, 11, 24)} />);
 
     assert.equal(instance.nodeName, 'DIV');
     assert.ok(instance.className.match(/\bcalendar\b/));
@@ -30,7 +30,7 @@ describe('Calendar', () => {
     };
 
     const instance = getDOMNode(
-      <Calendar format="yyyy-MM-dd" calendarDate={new Date()} onSelect={doneOp} />
+      <Calendar format="yyyy-MM-dd" calendarDate={new Date(2021, 11, 24)} onSelect={doneOp} />
     );
     ReactTestUtils.Simulate.click(
       instance.querySelector('.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content')
@@ -38,18 +38,24 @@ describe('Calendar', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<Calendar className="custom" calendarDate={new Date()} />);
+    const instance = getDOMNode(
+      <Calendar className="custom" calendarDate={new Date(2021, 11, 24)} />
+    );
     assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Calendar style={{ fontSize }} calendarDate={new Date()} />);
+    const instance = getDOMNode(
+      <Calendar style={{ fontSize }} calendarDate={new Date(2021, 11, 24)} />
+    );
     assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Calendar classPrefix="custom-prefix" calendarDate={new Date()} />);
+    const instance = getDOMNode(
+      <Calendar classPrefix="custom-prefix" calendarDate={new Date(2021, 11, 24)} />
+    );
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

@@ -25,7 +25,7 @@ describe('CustomProvider', () => {
     const node = getDOMNode(
       <div>
         <CustomProvider locale={zhCN}>
-          <TreePicker />
+          <TreePicker data={[]} />
           <CheckTreePicker data={[]} />
         </CustomProvider>
       </div>

@@ -335,8 +335,8 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 RangeSlider.displayName = 'RangeSlider';
 RangeSlider.propTypes = {
   ...sliderPropTypes,
-  value: tupleType(PropTypes.number.isRequired, PropTypes.number.isRequired),
-  defaultValue: tupleType(PropTypes.number.isRequired, PropTypes.number.isRequired)
+  value: tupleType<Range>(PropTypes.number.isRequired, PropTypes.number.isRequired),
+  defaultValue: tupleType<Range>(PropTypes.number.isRequired, PropTypes.number.isRequired)
 };
 
 export default RangeSlider;

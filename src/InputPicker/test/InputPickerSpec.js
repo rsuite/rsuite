@@ -33,7 +33,7 @@ describe('InputPicker', () => {
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<InputPicker />);
+    const instance = getDOMNode(<InputPicker data={[]} />);
 
     expect(instance).to.have.class('rs-picker-default');
   });
@@ -46,13 +46,13 @@ describe('InputPicker', () => {
   });
 
   it('Should output a dropdown', () => {
-    const instance = getDOMNode(<InputPicker />);
+    const instance = getDOMNode(<InputPicker data={[]} />);
 
     assert.ok(instance.className.match(/\bpicker-input\b/));
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<InputPicker disabled />);
+    const instance = getDOMNode(<InputPicker data={[]} disabled />);
 
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
@@ -77,8 +77,8 @@ describe('InputPicker', () => {
 
     render(
       <div>
-        <InputPicker ref={input1Ref} />
-        <InputPicker ref={input2Ref} readOnly />
+        <InputPicker data={[]} ref={input1Ref} />
+        <InputPicker data={[]} ref={input2Ref} readOnly />
       </div>
     );
 
@@ -97,12 +97,12 @@ describe('InputPicker', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getDOMNode(<InputPicker toggleAs="button" />);
+    const instance = getDOMNode(<InputPicker data={[]} toggleAs="button" />);
     assert.ok(instance.querySelector('button'));
   });
 
   it('Should be block', () => {
-    const instance = getDOMNode(<InputPicker block />);
+    const instance = getDOMNode(<InputPicker data={[]} block />);
     assert.ok(instance.className.match(/\bblock\b/));
   });
 
@@ -134,7 +134,7 @@ describe('InputPicker', () => {
   });
 
   it('Should have a placeholder', () => {
-    const instance = getDOMNode(<InputPicker className="custom" placeholder="test" />);
+    const instance = getDOMNode(<InputPicker data={[]} className="custom" placeholder="test" />);
 
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
@@ -182,12 +182,12 @@ describe('InputPicker', () => {
   });
 
   it('Should not be call renderValue()', () => {
-    const instance = getDOMNode(<InputPicker renderValue={() => 'value'} />);
+    const instance = getDOMNode(<InputPicker data={[]} renderValue={() => 'value'} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should render a placeholder when value error', () => {
-    const instance = getDOMNode(<InputPicker value={2} placeholder={'test'} />);
+    const instance = getDOMNode(<InputPicker data={[]} value={2} placeholder={'test'} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
@@ -257,7 +257,7 @@ describe('InputPicker', () => {
         done(err);
       }
     };
-    const instance = getDOMNode(<InputPicker defaultOpen onSearch={doneOp} />);
+    const instance = getDOMNode(<InputPicker data={[]} defaultOpen onSearch={doneOp} />);
 
     const input = instance.querySelector('.rs-picker-search-input');
     input.value = 'a';
@@ -316,7 +316,7 @@ describe('InputPicker', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(<InputPicker onBlur={doneOp} />);
+    const instance = getDOMNode(<InputPicker data={[]} onBlur={doneOp} />);
     ReactTestUtils.Simulate.blur(instance.querySelector('.rs-picker-search-input'));
   });
 
@@ -324,23 +324,23 @@ describe('InputPicker', () => {
     const doneOp = () => {
       done();
     };
-    const instance = getDOMNode(<InputPicker onFocus={doneOp} />);
+    const instance = getDOMNode(<InputPicker data={[]} onFocus={doneOp} />);
     ReactTestUtils.Simulate.focus(instance.querySelector('.rs-picker-search-input'));
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<InputPicker className="custom" defaultOpen />);
+    const instance = getDOMNode(<InputPicker data={[]} className="custom" defaultOpen />);
     assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<InputPicker style={{ fontSize }} />);
+    const instance = getDOMNode(<InputPicker data={[]} style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<InputPicker classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<InputPicker data={[]} classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
@@ -360,9 +360,11 @@ describe('InputPicker', () => {
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<InputPicker value="Test" renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<InputPicker value="Test" renderValue={() => null} />);
-    const instance3 = getDOMNode(<InputPicker value="Test" renderValue={() => undefined} />);
+    const instance1 = getDOMNode(<InputPicker data={[]} value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<InputPicker data={[]} value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(
+      <InputPicker data={[]} value="Test" renderValue={() => undefined} />
+    );
 
     assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
     assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
@@ -381,7 +383,7 @@ describe('InputPicker', () => {
   });
 
   it('Should set a tabindex for input', () => {
-    const instance = getDOMNode(<InputPicker tabIndex={10} />);
+    const instance = getDOMNode(<InputPicker data={[]} tabIndex={10} />);
     assert.equal(instance.querySelector('.rs-picker-search-input').getAttribute('tabindex'), '10');
   });
 

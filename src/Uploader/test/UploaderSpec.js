@@ -30,7 +30,7 @@ describe('Uploader', () => {
         url: 'https://user-images.githubusercontent.com/1203827/47638792-92414e00-db9a-11e8-89c2-f8f430a23cd3.png'
       }
     ];
-    const instance = getDOMNode(<Uploader fileList={fileList} fileListVisible={false} />);
+    const instance = getDOMNode(<Uploader action="" fileList={fileList} fileListVisible={false} />);
     assert.ok(!instance.querySelector('.rs-uploader-file-items'));
   });
 

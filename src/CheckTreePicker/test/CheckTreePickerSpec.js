@@ -45,7 +45,7 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<CheckTreePicker />);
+    const instance = getDOMNode(<CheckTreePicker data={[]} />);
 
     expect(instance).to.have.class('rs-picker-default');
   });
@@ -159,10 +159,14 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<CheckTreePicker value={['test']} renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<CheckTreePicker value={['test']} renderValue={() => null} />);
+    const instance1 = getDOMNode(
+      <CheckTreePicker data={[]} value={['test']} renderValue={() => '1'} />
+    );
+    const instance2 = getDOMNode(
+      <CheckTreePicker data={[]} value={['test']} renderValue={() => null} />
+    );
     const instance3 = getDOMNode(
-      <CheckTreePicker value={['test']} renderValue={() => undefined} />
+      <CheckTreePicker data={[]} value={['test']} renderValue={() => undefined} />
     );
 
     assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');

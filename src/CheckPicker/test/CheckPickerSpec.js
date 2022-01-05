@@ -41,7 +41,7 @@ describe('CheckPicker', () => {
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<CheckPicker />);
+    const instance = getDOMNode(<CheckPicker data={[]} />);
 
     expect(instance).to.have.class('rs-picker-default');
   });
@@ -55,35 +55,35 @@ describe('CheckPicker', () => {
 
   it('Should output a dropdown', () => {
     const Title = 'Title';
-    const instance = getDOMNode(<CheckPicker>{Title}</CheckPicker>);
+    const instance = getDOMNode(<CheckPicker data={[]}>{Title}</CheckPicker>);
 
     assert.ok(instance.className.match(/\bpicker-check\b/));
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<CheckPicker toggleAs="button" />);
+    const instance = getInstance(<CheckPicker data={[]} toggleAs="button" />);
     assert.ok(instance.root.querySelector('button'));
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<CheckPicker disabled />);
+    const instance = getDOMNode(<CheckPicker data={[]} disabled />);
 
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
   it('Should be block', () => {
-    const instance = getDOMNode(<CheckPicker block />);
+    const instance = getDOMNode(<CheckPicker data={[]} block />);
 
     assert.ok(instance.className.match(/\bblock\b/));
   });
 
   it('Should be readOnly', () => {
-    const instance = getDOMNode(<CheckPicker readOnly />);
+    const instance = getDOMNode(<CheckPicker data={[]} readOnly />);
     assert.include(instance.className, 'rs-picker-read-only');
   });
 
   it('Should be plaintext', () => {
-    const instance = getDOMNode(<CheckPicker plaintext />);
+    const instance = getDOMNode(<CheckPicker data={[]} plaintext />);
     assert.include(instance.className, 'rs-picker-plaintext');
   });
 
@@ -107,7 +107,7 @@ describe('CheckPicker', () => {
   });
 
   it('Should have a placeholder', () => {
-    const instance = getDOMNode(<CheckPicker className="custom" placeholder="test" />);
+    const instance = getDOMNode(<CheckPicker data={[]} className="custom" placeholder="test" />);
 
     assert.equal(instance.querySelector(placeholderClassName).textContent, 'test');
   });
@@ -302,7 +302,7 @@ describe('CheckPicker', () => {
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<CheckPicker style={{ fontSize }} />);
+    const instance = getDOMNode(<CheckPicker data={[]} style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
@@ -320,7 +320,7 @@ describe('CheckPicker', () => {
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<CheckPicker classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<CheckPicker data={[]} classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
@@ -364,14 +364,16 @@ describe('CheckPicker', () => {
   });
 
   it('Should not be call renderValue()', () => {
-    const instance = getDOMNode(<CheckPicker renderValue={() => 'value'} />);
+    const instance = getDOMNode(<CheckPicker data={[]} renderValue={() => 'value'} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<CheckPicker value="Test" renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<CheckPicker value="Test" renderValue={() => null} />);
-    const instance3 = getDOMNode(<CheckPicker value="Test" renderValue={() => undefined} />);
+    const instance1 = getDOMNode(<CheckPicker data={[]} value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<CheckPicker data={[]} value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(
+      <CheckPicker data={[]} value="Test" renderValue={() => undefined} />
+    );
 
     assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
     assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');

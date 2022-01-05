@@ -39,7 +39,7 @@ describe('TreePicker', () => {
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<TreePicker />);
+    const instance = getDOMNode(<TreePicker data={[]} />);
 
     expect(instance).to.have.class('rs-picker-default');
   });
@@ -144,9 +144,11 @@ describe('TreePicker', () => {
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<TreePicker value="Test" renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<TreePicker value="Test" renderValue={() => null} />);
-    const instance3 = getDOMNode(<TreePicker value="Test" renderValue={() => undefined} />);
+    const instance1 = getDOMNode(<TreePicker data={[]} value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<TreePicker data={[]} value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(
+      <TreePicker data={[]} value="Test" renderValue={() => undefined} />
+    );
 
     assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
     assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');

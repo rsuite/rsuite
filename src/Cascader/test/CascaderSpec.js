@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import Cascader from '../Cascader';
 import Button from '../../Button';
@@ -33,43 +33,43 @@ const items = [
 describe('Cascader', () => {
   it('Should output a picker', () => {
     const Title = 'Title';
-    const instance = getDOMNode(<Cascader>{Title}</Cascader>);
+    const instance = getDOMNode(<Cascader data={[]}>{Title}</Cascader>);
 
     assert.ok(instance.className.match(/\bpicker-cascader\b/));
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<Cascader />);
+    const instance = getDOMNode(<Cascader data={[]} />);
 
     expect(instance).to.have.class('rs-picker-default');
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<Cascader disabled />);
+    const instance = getDOMNode(<Cascader data={[]} disabled />);
 
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
   it('Should be inline', () => {
-    const instance = getInstance(<Cascader inline />);
+    const instance = getInstance(<Cascader data={[]} inline />);
     assert.ok(instance.overlay.className.match(/\brs-picker-inline\b/));
     assert.ok(instance.overlay.querySelector('.rs-picker-cascader-menu-items'));
   });
 
   it('Should output a placeholder', () => {
     const placeholder = 'foobar';
-    const instance = getDOMNode(<Cascader placeholder={placeholder} />);
+    const instance = getDOMNode(<Cascader data={[]} placeholder={placeholder} />);
 
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, placeholder);
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<Cascader toggleAs="button" />);
+    const instance = getInstance(<Cascader data={[]} toggleAs="button" />);
     assert.ok(instance.root.querySelector('button'));
   });
 
   it('Should be block', () => {
-    const instance = getDOMNode(<Cascader block />);
+    const instance = getDOMNode(<Cascader data={[]} block />);
 
     assert.ok(instance.className.match(/\bblock\b/));
   });
@@ -88,7 +88,9 @@ describe('Cascader', () => {
     );
 
     // Invalid value
-    const instance3 = getDOMNode(<Cascader renderValue={v => [v, placeholder]} value={''} />);
+    const instance3 = getDOMNode(
+      <Cascader data={[]} renderValue={v => [v, placeholder]} value={''} />
+    );
 
     assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, `1${placeholder}`);
     assert.equal(instance2.querySelector('.rs-picker-toggle-value').textContent, `2${placeholder}`);
@@ -96,12 +98,12 @@ describe('Cascader', () => {
   });
 
   it('Should not be call renderValue()', () => {
-    const instance = getDOMNode(<Cascader renderValue={() => 'value'} />);
+    const instance = getDOMNode(<Cascader data={[]} renderValue={() => 'value'} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
   });
 
   it('Should render a placeholder when value error', () => {
-    const instance = getDOMNode(<Cascader value={2} placeholder={'test'} />);
+    const instance = getDOMNode(<Cascader data={[]} value={2} placeholder={'test'} />);
     assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
   });
 
@@ -207,18 +209,18 @@ describe('Cascader', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<Cascader className="custom" />);
+    const instance = getDOMNode(<Cascader data={[]} className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Cascader style={{ fontSize }} />);
+    const instance = getDOMNode(<Cascader data={[]} style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Cascader classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<Cascader data={[]} classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
@@ -272,9 +274,9 @@ describe('Cascader', () => {
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<Cascader value="Test" renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<Cascader value="Test" renderValue={() => null} />);
-    const instance3 = getDOMNode(<Cascader value="Test" renderValue={() => undefined} />);
+    const instance1 = getDOMNode(<Cascader data={[]} value="Test" renderValue={() => '1'} />);
+    const instance2 = getDOMNode(<Cascader data={[]} value="Test" renderValue={() => null} />);
+    const instance3 = getDOMNode(<Cascader data={[]} value="Test" renderValue={() => undefined} />);
 
     assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
     assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
@@ -411,23 +413,23 @@ describe('Cascader', () => {
   });
 
   describe('ref testing', () => {
-    it('Should call onOpen', done => {
-      const doneOp = () => {
-        done();
-      };
+    it('Should control the open and close of picker', async () => {
+      const onOpenSpy = sinon.spy();
+      const onCloseSpy = sinon.spy();
 
-      const instance = getInstance(<Cascader onOpen={doneOp} data={items} />);
+      const instance = getInstance(
+        <Cascader onOpen={onOpenSpy} onClose={onCloseSpy} data={items} />
+      );
+
       instance.open();
-    });
+      await waitFor(() => {
+        assert.isTrue(onOpenSpy.calledOnce);
+      });
 
-    it('Should call onClose', done => {
-      const doneOp = () => {
-        done();
-      };
-
-      const instance = getInstance(<Cascader onClose={doneOp} data={items} />);
-      instance.open();
       instance.close();
+      await waitFor(() => {
+        assert.isTrue(onCloseSpy.calledOnce);
+      });
     });
   });
 

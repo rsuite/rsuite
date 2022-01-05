@@ -11,8 +11,8 @@ export default function useClickOutside({
   isOutside,
   handle
 }: UseClickOutsideOptions) {
-  const isOutsideRef = useRef(isOutside);
-  const handleRef = useRef(handle);
+  const isOutsideRef = useRef<((event: MouseEvent) => boolean) | null>(isOutside);
+  const handleRef = useRef<((event: MouseEvent) => void) | null>(handle);
 
   useEffect(() => {
     isOutsideRef.current = isOutside;
@@ -22,8 +22,8 @@ export default function useClickOutside({
   useEffect(() => {
     if (enabled) {
       const eventHandler = (event: MouseEvent) => {
-        if (isOutsideRef.current(event)) {
-          handleRef.current(event);
+        if (isOutsideRef.current?.(event)) {
+          handleRef.current?.(event);
         }
       };
       window.addEventListener('mousedown', eventHandler);

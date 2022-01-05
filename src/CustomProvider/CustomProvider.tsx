@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getClassNamePrefix, prefix } from '../utils/prefix';
 import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
@@ -61,7 +61,7 @@ const CustomProvider = (props: CustomProviderProps) => {
 
   const value = React.useMemo(() => ({ classPrefix, theme, ...rest }), [classPrefix, theme, rest]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (canUseDOM && theme) {
       addClass(document.body, prefix(classPrefix, `theme-${theme}`));
 

@@ -45,6 +45,7 @@ describe('picker -  DropdownMenu', () => {
   it('Should output a item group ', () => {
     const instance = getDOMNode(
       <DropdownMenu
+        classPrefix={classPrefix}
         data={getDataGroupBy(items, 'groupKey')}
         group
         dropdownMenuItemAs={DropdownMenuItem}

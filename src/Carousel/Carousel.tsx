@@ -1,7 +1,7 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useClassNames, useCustom, guid, ReactChildren, useTimeout } from '../utils';
+import { useClassNames, useCustom, guid, ReactChildren, useTimeout, mergeRefs } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface CarouselProps extends WithAsProps {
@@ -53,8 +53,13 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [lastIndex, setLastIndex] = useState(0);
+    const rootRef = useRef<HTMLDivElement>(null);
 
     const handleSlide = (nextActiveIndex?: number, event?: React.ChangeEvent<HTMLInputElement>) => {
+      if (!rootRef.current) {
+        return;
+      }
+
       clear();
       const index = nextActiveIndex ?? activeIndex + 1;
 
@@ -129,7 +134,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
     const showMask = count > 1 && activeIndex === 0 && activeIndex !== lastIndex;
 
     return (
-      <Component {...rest} ref={ref} className={classes}>
+      <Component {...rest} ref={mergeRefs(ref, rootRef)} className={classes}>
         <div className={prefix('content')}>
           <div
             className={prefix('slider')}
