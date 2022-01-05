@@ -22,35 +22,31 @@ interface ButtonWithTooltipProps {
   [key: string]: any;
 }
 
-function ButtonWithTooltip({
-  children,
-  as = 'a',
-  tip,
-  className,
-  ...props
-}: ButtonWithTooltipProps) {
-  const btn = (
-    <Button {...props} size="lg" className={classNames('icon-btn-circle', className)} as={as}>
-      {children}
-    </Button>
-  );
-  if (isMobile) {
-    return btn;
+const ButtonWithTooltip = React.forwardRef(
+  ({ children, as = 'a', tip, className, ...props }: ButtonWithTooltipProps, ref) => {
+    const btn = (
+      <Button {...props} size="lg" className={classNames('icon-btn-circle', className)} as={as}>
+        {children}
+      </Button>
+    );
+    if (isMobile) {
+      return btn;
+    }
+    return (
+      <Whisper ref={ref} speaker={<Tooltip>{tip}</Tooltip>} placement="right" trigger="hover">
+        {btn}
+      </Whisper>
+    );
   }
-  return (
-    <Whisper speaker={<Tooltip>{tip}</Tooltip>} placement="right" trigger="hover">
-      {btn}
-    </Whisper>
-  );
-}
+);
 
-function SearchButton({ tip, ...rest }: any) {
+const SearchButton = React.forwardRef(({ tip, ...rest }: any, ref) => {
   return (
-    <ButtonWithTooltip tip={tip} {...rest}>
+    <ButtonWithTooltip tip={tip} {...rest} ref={ref}>
       <Icon as={() => <SvgIcons.Search />} style={{ fontSize: 20 }} />
     </ButtonWithTooltip>
   );
-}
+});
 
 interface TopLevelNavProps {
   onToggleMenu?: (show: boolean) => void;
@@ -83,7 +79,7 @@ function getNavItems(messages) {
   ];
 }
 
-export default function TopLevelNav(props: TopLevelNavProps) {
+const TopLevelNav = React.forwardRef((props: TopLevelNavProps, ref: React.Ref<HTMLDivElement>) => {
   const { children, showSubmenu, hideToggle, onToggleMenu: onToggleMenuProp } = props;
   const router = useRouter();
 
@@ -136,7 +132,7 @@ export default function TopLevelNav(props: TopLevelNavProps) {
   };
 
   return (
-    <div className="top-level-nav">
+    <div className="top-level-nav" ref={ref}>
       {!hideToggle && (
         <IconButton
           circle
@@ -214,4 +210,6 @@ export default function TopLevelNav(props: TopLevelNavProps) {
         )}
     </div>
   );
-}
+});
+
+export default TopLevelNav;
