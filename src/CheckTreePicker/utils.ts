@@ -53,7 +53,7 @@ export function isSomeChildChecked(
 }
 
 export function isSomeNodeHasChildren(data: any[], childrenKey: string): boolean {
-  return data.some((node: TreeNodeType) => node[childrenKey]);
+  return data.some((node: TreeNodeType) => Array.isArray(node[childrenKey]));
 }
 
 /**

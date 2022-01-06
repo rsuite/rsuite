@@ -39,4 +39,11 @@ describe('CheckTreePicker styles', () => {
     const itemLabel = document.body.querySelector('.rs-check-tree .rs-checkbox-checker label');
     assert.equal(getStyle(itemLabel, 'padding'), '8px 12px 8px 58px');
   });
+
+  itChrome('Should render the correct styles when data has only one level structure', () => {
+    const instanceRef = React.createRef();
+    render(<CheckTreePicker data={[{ value: 1, label: 1 }]} ref={instanceRef} open />);
+    const itemLabel = document.body.querySelector('.rs-check-tree .rs-checkbox-checker label');
+    assert.equal(getStyle(itemLabel, 'padding'), '8px 12px 8px 34px');
+  });
 });
