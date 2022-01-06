@@ -37,33 +37,55 @@
     margin: 0 !important;
   }
 
+  // <Dropdown> within <Sidenav>
+  > .rs-dropdown {
+    // Submenu toggle
+    .rs-dropdown-item-toggle {
+      display: block;
+      width: 100%;
+      text-align: start;
+      background: none;
+      padding-left: @sidenav-level2-retract;
+      padding-right: (@sidenav-padding-horizontal + @sidenav-dropdown-toggle-caret-width);
+      position: relative;
+
+      &:focus {
+        outline: 0;
+      }
+
+      &:focus-visible {
+        .focus-ring(inset);
+
+        .high-contrast-mode({
+          .focus-ring(slim-inset);
+        });
+
+        z-index: 1;
+      }
+
+      // Submenu toggle icon
+      &-icon {
+        position: absolute;
+        right: @sidenav-padding-horizontal;
+        top: @sidenav-children-padding-vertical;
+        width: auto;
+        height: @sidenav-dropdown-toggle-caret-width;
+        transform: rotate(90deg);
+      }
+    }
+
+    // Expanded submenu toggle icon
+    .rs-dropdown-item-expand .rs-dropdown-item-toggle-icon {
+      transform: rotate(270deg);
+    }
+  }
+
   .high-contrast-mode({
     .rs-dropdown-toggle,
     .rs-dropdown-menu {
       border: none;
     }
   });
-
-  .rs-dropdown-item-toggle {
-    display: block;
-    width: 100%;
-    text-align: start;
-    background: none;
-
-    &:focus {
-      outline: 0;
-    }
-
-    &:focus-visible {
-      .focus-ring(inset);
-
-      .high-contrast-mode({
-        .focus-ring(slim-inset);
-      });
-
-      z-index: 1;
-    }
-  }
 
   .rs-sidenav-item:focus-visible {
     .focus-ring(inset);
@@ -225,32 +247,17 @@
       transform: rotate(180deg);
     }
 
-    .rs-dropdown-item.rs-dropdown-item-expand
-      > .rs-dropdown-item-toggle
-      > .rs-dropdown-item-toggle-icon {
-      transform: rotate(270deg);
+    // Dropdown menu
+    .rs-dropdown-menu {
+      .reset-sidenav-dropdown-menu();
     }
 
-    // Dropdown menu
-    > .rs-dropdown-menu {
-      .reset-sidenav-dropdown-menu();
+    // Submenu
+    .rs-dropdown-item-submenu {
+      padding: 0;
 
-      // Submenu
-      .rs-dropdown-item-submenu {
-        padding: 0;
-
-        > .rs-dropdown-menu-toggle {
-          display: block;
-          padding-right: (@sidenav-padding-horizontal + @sidenav-dropdown-toggle-caret-width);
-        }
-
-        > .rs-dropdown-menu {
-          .reset-sidenav-dropdown-menu();
-        }
-
-        &:hover {
-          background-color: transparent;
-        }
+      &:hover {
+        background-color: transparent;
       }
     }
   }
@@ -283,21 +290,6 @@
   // @warn Here we can only use absolute positioning because of the limitations of using <Dropdown/> component.
 
   .rs-dropdown-item-submenu {
-    > .rs-dropdown-item-toggle {
-      padding-left: @sidenav-level2-retract;
-      padding-right: (@sidenav-padding-horizontal + @sidenav-dropdown-toggle-caret-width);
-      position: relative;
-
-      > .rs-dropdown-item-toggle-icon {
-        position: absolute;
-        right: @sidenav-padding-horizontal;
-        top: @sidenav-children-padding-vertical;
-        width: auto;
-        height: @sidenav-dropdown-toggle-caret-width;
-        transform: rotate(90deg);
-      }
-    }
-
     > .rs-dropdown-item-menu-icon {
       padding-top: @sidenav-children-padding-vertical;
       padding-bottom: @sidenav-children-padding-vertical;

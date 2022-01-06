@@ -43,7 +43,7 @@ module.exports = {
     'value-no-vendor-prefix': true,
     // Limit the number of composite selectors in a selector.
     // TODO consider narrowing this limit
-    'selector-max-compound-selectors': 5,
+    'selector-max-compound-selectors': 4,
     // Limit the number of ID selectors in a selector.
     'selector-max-id': 1,
     // Limit the number of universal selectors in a selector.
