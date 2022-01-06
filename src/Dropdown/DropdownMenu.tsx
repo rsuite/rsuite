@@ -155,7 +155,7 @@ const DropdownMenu = React.forwardRef<
                 {({ open, ...buttonProps }, buttonRef: React.Ref<HTMLElement>) => {
                   const classes = mergeItemClassNames(
                     className,
-                    prefixItemClassName(`pull-${rtl ? 'left' : 'right'}`),
+                    // prefixItemClassName(`pull-${rtl ? 'left' : 'right'}`),
                     prefixItemClassName`toggle`,
                     // prefixItemClassName`submenu`,
                     withItemClassPrefix({
@@ -213,7 +213,7 @@ const DropdownMenu = React.forwardRef<
           {({ selected, active, ...menuitem }, menuitemRef) => {
             const classes = mergeItemClassNames(
               className,
-              prefixItemClassName(`pull-${rtl ? 'left' : 'right'}`),
+              // prefixItemClassName(`pull-${rtl ? 'left' : 'right'}`),
               prefixItemClassName`toggle`,
               // prefixItemClassName`submenu`,
               withItemClassPrefix({
