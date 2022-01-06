@@ -146,7 +146,6 @@ const DropdownMenu = React.forwardRef<
               disabled,
               open,
               submenu: true
-              // focus: hasFocus
             })
           );
           return (
@@ -155,15 +154,11 @@ const DropdownMenu = React.forwardRef<
                 {({ open, ...buttonProps }, buttonRef: React.Ref<HTMLElement>) => {
                   const classes = mergeItemClassNames(
                     className,
-                    // prefixItemClassName(`pull-${rtl ? 'left' : 'right'}`),
                     prefixItemClassName`toggle`,
-                    // prefixItemClassName`submenu`,
                     withItemClassPrefix({
                       'with-icon': icon,
                       open,
-                      // active: selected,
                       disabled
-                      // focus: active
                     })
                   );
 
@@ -213,9 +208,7 @@ const DropdownMenu = React.forwardRef<
           {({ selected, active, ...menuitem }, menuitemRef) => {
             const classes = mergeItemClassNames(
               className,
-              // prefixItemClassName(`pull-${rtl ? 'left' : 'right'}`),
               prefixItemClassName`toggle`,
-              // prefixItemClassName`submenu`,
               withItemClassPrefix({
                 'with-icon': icon,
                 open,
@@ -266,7 +259,6 @@ const DropdownMenu = React.forwardRef<
             disabled,
             open,
             submenu: true
-            // focus: hasFocus
           })
         );
         return (
