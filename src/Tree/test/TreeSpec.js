@@ -91,6 +91,24 @@ describe('Tree', () => {
     assert.equal(onDragEndSpy.firstCall.firstArg.value, 'Master');
   });
 
+  it('Should call `onDrop` callback without exception', () => {
+    expect(() => {
+      const onDropSpy = sinon.spy();
+      const instance = getDOMNode(
+        <Tree data={data} onDrop={onDropSpy} draggable defaultExpandAll />
+      );
+      const dragTreeNode = instance.querySelector('span[data-key="0-0-0"]');
+      const dropTreeNode = instance.querySelector('span[data-key="0-0-1"]');
+
+      Simulate.dragStart(dragTreeNode);
+      Simulate.drop(dropTreeNode);
+      assert.isTrue(onDropSpy.calledOnce);
+      const { dragNode } = onDropSpy.firstCall.firstArg;
+      // make sure dragNode hasn't cyclic object
+      JSON.stringify(dragNode);
+    }).to.not.throw();
+  });
+
   it('Should catch the not set virtualized exception', () => {
     expect(() => {
       const ref = React.createRef();
