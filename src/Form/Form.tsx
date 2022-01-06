@@ -225,15 +225,20 @@ class Form extends React.Component<FormProps, FormState> {
   };
 
   handleFieldChange = (name: string, value: any, event: React.SyntheticEvent<any>) => {
-    const formValue = this.getFormValue();
-    const nextFormValue = {
-      ...formValue,
-      [name]: value
-    };
-    this.setState({
-      formValue: nextFormValue
-    });
-    this.props.onChange?.(nextFormValue, event);
+    this.setState(
+      (state, props) => {
+        const formValue = _.isUndefined(props.formValue) ? state.formValue : props.formValue;
+        return {
+          formValue: {
+            ...formValue,
+            [name]: value
+          }
+        };
+      },
+      () => {
+        this.props.onChange?.(this.state.formValue, event);
+      }
+    );
   };
 
   getFormContextValue() {
