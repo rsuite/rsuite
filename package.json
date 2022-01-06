@@ -5,6 +5,9 @@
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "typings": "lib/esm/index.d.ts",
+  "engines": {
+    "npm": "<7.0.0"
+  },
   "directories": {
     "lib": "cjs/"
   },
