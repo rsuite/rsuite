@@ -34,7 +34,7 @@
   text-align: left;
   margin: 0 0 4px 0;
 
-  > .rs-tree-node-label {
+  &-label {
     position: relative;
     margin: 0;
     //text gap
@@ -44,7 +44,7 @@
     font-size: @picker-tree-node-font-size;
     line-height: @picker-tree-node-line-height;
 
-    > .rs-tree-node-label-content {
+    &-content {
       padding: @custom-picker-tree-node-padding-vertical @picker-tree-node-padding-horizontal
         @custom-picker-tree-node-padding-vertical @picker-tree-arrow-down-gap;
       display: inline-block;
@@ -59,7 +59,7 @@
     }
   }
 
-  &&-active > .rs-tree-node-label > .rs-tree-node-label-content {
+  &-active &-label-content {
     .picker-item-active();
 
     color: var(--rs-text-link);
