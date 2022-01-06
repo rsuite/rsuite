@@ -1,3 +1,12 @@
+## [5.4.4](https://github.com/rsuite/rsuite/compare/v5.4.3...v5.4.4) (2022-01-06)
+
+### Bug Fixes
+
+- **CheckTreePicker:** fix root node style incorrect ([#2279](https://github.com/rsuite/rsuite/issues/2279)) ([c09226e](https://github.com/rsuite/rsuite/commit/c09226e141f7881b11fe5594d802974f49e789a9))
+- **DatePicker:** fix clear button not working ([#2273](https://github.com/rsuite/rsuite/issues/2273)) ([649362a](https://github.com/rsuite/rsuite/commit/649362aa697a292af28c5ec666e4337a7bd449c7))
+- **Dropdown:** wrong submenu placement in RTL direction ([#2280](https://github.com/rsuite/rsuite/issues/2280)) ([c3735c3](https://github.com/rsuite/rsuite/commit/c3735c335d5a8ca6e9954af1e5b77c453b5bd4d2))
+- **Navbar:** fix Whisper on Nav.Item within Navbar wrong positioning ([#2274](https://github.com/rsuite/rsuite/issues/2274)) ([bd0f5e3](https://github.com/rsuite/rsuite/commit/bd0f5e316e6bb910d9a41e43770b4d1a61528d9f)), closes [#2263](https://github.com/rsuite/rsuite/issues/2263)
+
 ## [5.4.3](https://github.com/rsuite/rsuite/compare/v5.4.2...v5.4.3) (2021-12-30)
 
 ### Bug Fixes
