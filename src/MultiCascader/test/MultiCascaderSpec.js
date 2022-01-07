@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { act, render } from '@testing-library/react';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, getStyle } from '@test/testUtils';
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
 
@@ -47,6 +47,8 @@ describe('MultiCascader', () => {
     const instance = getDOMNode(<MultiCascader data={items} value={['abcde-1', 'abcde-2']} />);
 
     assert.equal(instance.querySelector('.rs-picker-value-count').textContent, '1');
+    assert.include(instance.className, 'rs-picker-countable');
+    assert.equal(getStyle(instance.querySelector('.rs-picker-toggle-value'), 'display'), 'flex');
   });
 
   it('Should not render number', () => {
