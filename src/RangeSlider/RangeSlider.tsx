@@ -13,7 +13,12 @@ import { SliderProps } from '../Slider';
 import { tupleType } from '../utils/propTypeChecker';
 
 export type Range = [number, number];
-export type RangeSliderProps = SliderProps<Range>;
+export type RangeSliderProps = SliderProps<Range> & {
+  /**
+   * Add constraint to validate before onChange is dispatched
+   */
+  constraint?: (range: Range) => boolean;
+};
 
 type HandleKey = 'start' | 'end';
 
@@ -32,6 +37,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     as: Component = 'div',
     barClassName,
     className,
+    constraint,
     defaultValue = defaultDefaultValue,
     graduated,
     progress = true,
@@ -171,12 +177,29 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   );
 
   /**
+   * Whether a range is valid against given constraint (if any)
+   * Should check before every `setValue` calls
+   */
+  const isRangeMatchingConstraint = useCallback(
+    (range: Range) => {
+      // If no constraint is defined, any range is valid
+      if (!constraint) return true;
+
+      return constraint(range);
+    },
+    [constraint]
+  );
+
+  /**
    * Callback function that is fired when the mousemove is triggered
    */
   const handleDragMove = useEventCallback((event: React.MouseEvent, dataset: HandleDataset) => {
     const nextValue = getNextValue(event, dataset);
-    setValue(nextValue);
-    onChange?.(nextValue, event);
+
+    if (isRangeMatchingConstraint(nextValue)) {
+      setValue(nextValue);
+      onChange?.(nextValue, event);
+    }
   });
 
   /**
@@ -185,10 +208,13 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   const handleChangeCommitted = useCallback(
     (event: React.MouseEvent, dataset?: DOMStringMap) => {
       const nextValue = getNextValue(event, dataset! as HandleDataset);
-      setValue(nextValue);
-      onChangeCommitted?.(nextValue, event);
+
+      if (isRangeMatchingConstraint(nextValue)) {
+        setValue(nextValue);
+        onChangeCommitted?.(nextValue, event);
+      }
     },
-    [getNextValue, onChangeCommitted, setValue]
+    [getNextValue, onChangeCommitted, isRangeMatchingConstraint, setValue]
   );
 
   const handleKeyDown = useCallback(
@@ -229,10 +255,12 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
       // Prevent scroll of the page
       event.preventDefault();
 
-      setValue(nextValue);
-      onChange?.(nextValue, event);
+      if (isRangeMatchingConstraint(nextValue)) {
+        setValue(nextValue);
+        onChange?.(nextValue, event);
+      }
     },
-    [max, min, onChange, rtl, setValue, step, value]
+    [max, min, onChange, rtl, isRangeMatchingConstraint, setValue, step, value]
   );
 
   const handleClick = useCallback(
@@ -253,10 +281,20 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 
       const nextValue = getValidValue([start, end].sort() as Range);
 
-      setValue(nextValue);
-      onChange?.(nextValue, event);
+      if (isRangeMatchingConstraint(nextValue)) {
+        setValue(nextValue);
+        onChange?.(nextValue, event);
+      }
     },
-    [disabled, getValidValue, getValueByPosition, onChange, setValue, value]
+    [
+      disabled,
+      getValidValue,
+      getValueByPosition,
+      isRangeMatchingConstraint,
+      onChange,
+      setValue,
+      value
+    ]
   );
 
   const handleProps = useMemo(

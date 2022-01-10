@@ -1,4 +1,5 @@
 import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import RangeSlider from '../RangeSlider';
@@ -45,6 +46,16 @@ describe('RangeSlider', () => {
 
     assert.equal(onChangeSpy.firstCall.firstArg[0], 0);
     assert.equal(onChangeSpy.firstCall.firstArg[1], 50);
+  });
+
+  it('Should not call onChange when next value does not match given constraint', async () => {
+    const onChange = sinon.spy();
+    const { container } = render(
+      <RangeSlider defaultValue={[10, 50]} onChange={onChange} constraint={() => false} />
+    );
+
+    fireEvent.click(container.querySelector('.rs-slider-progress-bar'));
+    expect(onChange).not.to.have.been.called;
   });
 
   it('Should render custom title', () => {
