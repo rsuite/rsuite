@@ -207,7 +207,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
    */
   const handleChangeCommitted = useCallback(
     (event: React.MouseEvent, dataset?: DOMStringMap) => {
-      const nextValue = getNextValue(event, dataset! as HandleDataset);
+      const nextValue = getNextValue(event, dataset as HandleDataset);
 
       if (isRangeMatchingConstraint(nextValue)) {
         setValue(nextValue);

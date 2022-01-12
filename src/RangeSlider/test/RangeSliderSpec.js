@@ -48,13 +48,29 @@ describe('RangeSlider', () => {
     assert.equal(onChangeSpy.firstCall.firstArg[1], 50);
   });
 
+  it('Should respond to keyboard event', async () => {
+    const onChange = sinon.spy();
+    const { getAllByRole } = render(<RangeSlider value={[10, 50]} onChange={onChange} />);
+
+    // FIXME Should dispatch event on [role=slider] directly
+    fireEvent.keyDown(getAllByRole('slider')[0].closest('.rs-slider-handle'), {
+      key: 'ArrowRight'
+    });
+    expect(onChange).to.have.been.calledWith([11, 50]);
+  });
+
   it('Should not call onChange when next value does not match given constraint', async () => {
     const onChange = sinon.spy();
-    const { container } = render(
-      <RangeSlider defaultValue={[10, 50]} onChange={onChange} constraint={() => false} />
+    const { getAllByRole, container } = render(
+      <RangeSlider value={[10, 50]} onChange={onChange} constraint={() => false} />
     );
 
     fireEvent.click(container.querySelector('.rs-slider-progress-bar'));
+    expect(onChange).not.to.have.been.called;
+
+    fireEvent.keyDown(getAllByRole('slider')[0].closest('.rs-slider-handle'), {
+      key: 'ArrowRight'
+    });
     expect(onChange).not.to.have.been.called;
   });
 
