@@ -45,9 +45,12 @@
       width: 100%;
       text-align: start;
       background: none;
-      padding-left: @sidenav-level2-retract;
       padding-right: (@sidenav-padding-horizontal + @sidenav-dropdown-toggle-caret-width);
       position: relative;
+
+      .rs-sidenav-collapse-in & {
+        padding-left: @sidenav-level2-retract;
+      }
 
       &:focus {
         outline: 0;
