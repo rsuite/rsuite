@@ -8,7 +8,13 @@ import InputGroup from '../InputGroup/InputGroup';
 import InputGroupAddon from '../InputGroup/InputGroupAddon';
 import Input from '../Input';
 import Button from '../Button';
-import { partitionHTMLProps, createChainedFunction, useClassNames, useControlled } from '../utils';
+import {
+  partitionHTMLProps,
+  createChainedFunction,
+  useClassNames,
+  useControlled,
+  KEY_VALUES
+} from '../utils';
 import { WithAsProps, TypeAttributes, FormControlBaseProps } from '../@types/common';
 
 export interface InputNumberProps<T = number | string>
@@ -109,13 +115,16 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     postfix,
     step = 1,
     buttonAppearance = 'subtle',
-    min = -Infinity,
-    max = Infinity,
+    min: minProp,
+    max: maxProp,
     scrollable = true,
     onChange,
     onWheel,
     ...restProps
   } = props;
+
+  const min = minProp ?? -Infinity;
+  const max = maxProp ?? Infinity;
 
   const [value, setValue] = useControlled(valueProp, defaultValue);
   const [disabledUpButton, setDisabledUpButton] = useState<boolean>(() =>
@@ -179,6 +188,34 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     [getSafeValue, handleChangeValue, step, value]
   );
 
+  const handleKeyDown = useCallback(
+    (event: React.KeyboardEvent) => {
+      switch (event.key) {
+        case KEY_VALUES.UP:
+          event.preventDefault();
+          handlePlus(event);
+          break;
+        case KEY_VALUES.DOWN:
+          event.preventDefault();
+          handleMinus(event);
+          break;
+        case KEY_VALUES.HOME:
+          if (typeof minProp !== 'undefined') {
+            event.preventDefault();
+            handleChangeValue(getSafeValue(minProp), event);
+          }
+          break;
+        case KEY_VALUES.END:
+          if (typeof maxProp !== 'undefined') {
+            event.preventDefault();
+            handleChangeValue(getSafeValue(maxProp), event);
+          }
+          break;
+      }
+    },
+    [handlePlus, handleMinus, minProp, maxProp, handleChangeValue, getSafeValue]
+  );
+
   const handleWheel = useCallback(
     (event: React.WheelEvent<HTMLInputElement>) => {
       if (!disabled && !readOnly && event.target === document.activeElement) {
@@ -229,7 +266,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const input = (
     <Input
       {...(htmlInputProps as Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>)}
-      type="text"
+      type="number"
       autoComplete="off"
       step={step}
       inputRef={inputRef}
@@ -240,6 +277,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
       readOnly={readOnly}
       plaintext={plaintext}
       ref={plaintext ? (ref as any) : undefined}
+      onKeyDown={handleKeyDown}
     />
   );
 
