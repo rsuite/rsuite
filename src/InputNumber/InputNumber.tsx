@@ -12,7 +12,16 @@ import { partitionHTMLProps, createChainedFunction, useClassNames, useControlled
 import { WithAsProps, TypeAttributes, FormControlBaseProps } from '../@types/common';
 
 export interface InputNumberProps<T = number | string>
-  extends WithAsProps,
+  extends Omit<
+      React.InputHTMLAttributes<HTMLInputElement>,
+      | 'value'
+      | 'defaultValue'
+      | 'onChange'
+      | 'size'
+      // RDFa attributes
+      | 'prefix'
+    >,
+    WithAsProps,
     FormControlBaseProps<T> {
   /** Button can have different appearances */
   buttonAppearance?: TypeAttributes.Appearance;
