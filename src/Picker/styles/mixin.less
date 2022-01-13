@@ -265,7 +265,8 @@
     line-height: @line-height;
   }
 
-  .rs-picker-input.rs-picker-tag & ~ .rs-picker-tag-wrapper {
+  // FIXME Bad design. Should not set search input styles in a mixin that is used in picker buttons.
+  .rs-picker-tag & ~ .rs-picker-tag-wrapper {
     padding-bottom: @padding-vertical - 3px;
 
     .rs-tag {
@@ -278,7 +279,7 @@
       font-size: @font-size;
     }
 
-    .rs-picker-search-input input {
+    input {
       height: @line-height * @font-size - 2px;
     }
   }
