@@ -1,3 +1,21 @@
+# [5.5.0](https://github.com/rsuite/rsuite/compare/v5.4.4...v5.5.0) (2022-01-13)
+
+### Bug Fixes
+
+- **Dropdown:** infer toggleAs component props ([#2299](https://github.com/rsuite/rsuite/issues/2299)) ([84611cc](https://github.com/rsuite/rsuite/commit/84611cc6f88e1d9cd712bc3f08be559d0a146ba0))
+- **InputNumber:** inherit html input attributes ([#2298](https://github.com/rsuite/rsuite/issues/2298)) ([d7622ee](https://github.com/rsuite/rsuite/commit/d7622eed72b36ed15e91f606027d2e540391bdc7))
+- **MultiCascader:** fix not rendering the count of selected values ([#2289](https://github.com/rsuite/rsuite/issues/2289)) ([324e90c](https://github.com/rsuite/rsuite/commit/324e90c8499adf58cb25083fd5c99fe98eb9ecba))
+- **Tree:** fix dragNode has cyclic object ([#2281](https://github.com/rsuite/rsuite/issues/2281)) ([26cbaf2](https://github.com/rsuite/rsuite/commit/26cbaf2fd92ab562174e19cf55388c01fe22143a)), closes [#2268](https://github.com/rsuite/rsuite/issues/2268)
+
+### Features
+
+- **InputNumber:** support keyboard interaction ([#2294](https://github.com/rsuite/rsuite/issues/2294)) ([46993e2](https://github.com/rsuite/rsuite/commit/46993e235ca3d3ee8b6faa16a5fa11a8ed544e3b))
+- **RangeSlider:** add `constraint` prop ([#2291](https://github.com/rsuite/rsuite/issues/2291)) ([a2d38a8](https://github.com/rsuite/rsuite/commit/a2d38a8efe4f85c28ce1f4ee79a89eda1e1cf7b0))
+
+### Performance Improvements
+
+- **styles:** simplify compound selectors over 4 levels ([#2282](https://github.com/rsuite/rsuite/issues/2282)) ([304e8da](https://github.com/rsuite/rsuite/commit/304e8da0c2057d148bbad36674aba33382439949))
+
 ## [5.4.4](https://github.com/rsuite/rsuite/compare/v5.4.3...v5.4.4) (2022-01-06)
 
 ### Bug Fixes
