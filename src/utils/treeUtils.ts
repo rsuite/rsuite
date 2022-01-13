@@ -227,6 +227,7 @@ export function createUpdateTreeDataFunction(params: any, { valueKey, childrenKe
   return function (tree: any[]) {
     const data = [...tree];
     const { dragNode, dropNode, dropNodePosition } = params;
+    const cloneDragNode = { ...dragNode };
     removeDragNode(data, params, { valueKey, childrenKey });
     const updateTree = (items: any[]) => {
       for (let index = 0; index < items.length; index += 1) {
@@ -236,15 +237,15 @@ export function createUpdateTreeDataFunction(params: any, { valueKey, childrenKe
           // drag to node inside
           if (dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER) {
             item[childrenKey] = isNil(item[childrenKey]) ? [] : item[childrenKey];
-            item[childrenKey].push(dragNode);
+            item[childrenKey].push(cloneDragNode);
             break;
           } else if (dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER_TOP) {
             // drag to top of node
-            items.splice(index, 0, dragNode);
+            items.splice(index, 0, cloneDragNode);
             break;
           } else if (dropNodePosition === TREE_NODE_DROP_POSITION.DRAG_OVER_BOTTOM) {
             // drag to bottom of node
-            items.splice(index + 1, 0, dragNode);
+            items.splice(index + 1, 0, cloneDragNode);
             break;
           }
         }
