@@ -20,6 +20,7 @@ import Disclosure from '../Disclosure/Disclosure';
 import SidenavDropdown from '../Sidenav/SidenavDropdown';
 import NavContext from '../Nav/NavContext';
 import { initialState, reducer } from './DropdownState';
+import Button from '../Button';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -86,6 +87,15 @@ export interface DropdownProps<T = any>
 }
 
 export interface DropdownComponent extends RsRefForwardingComponent<'div', DropdownProps> {
+  // Infer toggleAs props
+  <ToggleAs extends React.ElementType = typeof Button>(
+    props: DropdownProps & {
+      ref?: React.Ref<any>;
+      toggleAs?: ToggleAs;
+    } & React.ComponentProps<ToggleAs>,
+    context: any
+  ): JSX.Element | null;
+
   Item: typeof DropdownItem;
   Menu: typeof DropdownMenu;
 }

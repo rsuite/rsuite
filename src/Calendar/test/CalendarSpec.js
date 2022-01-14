@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, fireEvent } from '@testing-library/react';
 import { parseISO } from '../../utils/dateUtils';
 import { getDOMNode } from '@test/testUtils';
 import Calendar from '../Calendar';
@@ -24,17 +24,15 @@ describe('Calendar', () => {
     );
   });
 
-  it('Should call `onSelect` callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onSelect` callback with the date being clicked', () => {
+    const onSelect = sinon.spy();
 
-    const instance = getDOMNode(
-      <Calendar format="yyyy-MM-dd" calendarDate={new Date(2021, 11, 24)} onSelect={doneOp} />
+    const { getByRole } = render(
+      <Calendar format="yyyy-MM-dd" calendarDate={new Date(2021, 11, 24)} onSelect={onSelect} />
     );
-    ReactTestUtils.Simulate.click(
-      instance.querySelector('.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content')
-    );
+
+    fireEvent.click(getByRole('button', { name: '24 Dec 2021' }));
+    expect(onSelect).to.have.been.calledWith(new Date(2021, 11, 24));
   });
 
   it('Should have a custom className', () => {

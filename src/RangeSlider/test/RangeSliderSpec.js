@@ -1,4 +1,5 @@
 import React from 'react';
+import { render, fireEvent } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import RangeSlider from '../RangeSlider';
@@ -45,6 +46,32 @@ describe('RangeSlider', () => {
 
     assert.equal(onChangeSpy.firstCall.firstArg[0], 0);
     assert.equal(onChangeSpy.firstCall.firstArg[1], 50);
+  });
+
+  it('Should respond to keyboard event', async () => {
+    const onChange = sinon.spy();
+    const { getAllByRole } = render(<RangeSlider value={[10, 50]} onChange={onChange} />);
+
+    // FIXME Should dispatch event on [role=slider] directly
+    fireEvent.keyDown(getAllByRole('slider')[0].closest('.rs-slider-handle'), {
+      key: 'ArrowRight'
+    });
+    expect(onChange).to.have.been.calledWith([11, 50]);
+  });
+
+  it('Should not call onChange when next value does not match given constraint', async () => {
+    const onChange = sinon.spy();
+    const { getAllByRole, container } = render(
+      <RangeSlider value={[10, 50]} onChange={onChange} constraint={() => false} />
+    );
+
+    fireEvent.click(container.querySelector('.rs-slider-progress-bar'));
+    expect(onChange).not.to.have.been.called;
+
+    fireEvent.keyDown(getAllByRole('slider')[0].closest('.rs-slider-handle'), {
+      key: 'ArrowRight'
+    });
+    expect(onChange).not.to.have.been.called;
   });
 
   it('Should render custom title', () => {

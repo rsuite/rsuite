@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
 
 import InputNumber from '../InputNumber';
@@ -194,6 +194,59 @@ describe('InputNumber', () => {
       );
 
       expect(getByTestId('content')).to.have.text('Unfilled');
+    });
+  });
+
+  // @see https://www.w3.org/TR/wai-aria-practices-1.2/#spinbutton
+  describe('a11y', () => {
+    it('Should render an ARIA spinbutton', () => {
+      const { getByRole } = render(<InputNumber value={0} />);
+
+      expect(getByRole('spinbutton')).to.exist;
+    });
+
+    describe('Keyboard interaction', () => {
+      it('Should increase the value when ArrowUp is pressed', () => {
+        const onChange = sinon.spy();
+        const { getByRole } = render(<InputNumber value={0} onChange={onChange} />);
+
+        fireEvent.keyDown(getByRole('spinbutton'), { key: 'ArrowUp' });
+        expect(onChange).to.have.been.calledWith('1');
+      });
+
+      it('Should increase the value when ArrowDown is pressed', () => {
+        const onChange = sinon.spy();
+        const { getByRole } = render(<InputNumber value={0} onChange={onChange} />);
+
+        fireEvent.keyDown(getByRole('spinbutton'), { key: 'ArrowDown' });
+        expect(onChange).to.have.been.calledWith('-1');
+      });
+
+      it('Should set the value to minimum (if specified) when Home is pressed', () => {
+        const onChange = sinon.spy();
+        const { getByRole, rerender } = render(<InputNumber value={10} onChange={onChange} />);
+
+        fireEvent.keyDown(getByRole('spinbutton'), { key: 'Home' });
+        expect(onChange).not.to.have.been.called;
+
+        rerender(<InputNumber value={10} min={0} onChange={onChange} />);
+
+        fireEvent.keyDown(getByRole('spinbutton'), { key: 'Home' });
+        expect(onChange).to.have.been.calledWith('0');
+      });
+
+      it('Should set the value to maximum (if specified) when End is pressed', () => {
+        const onChange = sinon.spy();
+        const { getByRole, rerender } = render(<InputNumber value={10} onChange={onChange} />);
+
+        fireEvent.keyDown(getByRole('spinbutton'), { key: 'End' });
+        expect(onChange).not.to.have.been.called;
+
+        rerender(<InputNumber value={10} max={100} onChange={onChange} />);
+
+        fireEvent.keyDown(getByRole('spinbutton'), { key: 'End' });
+        expect(onChange).to.have.been.calledWith('100');
+      });
     });
   });
 });

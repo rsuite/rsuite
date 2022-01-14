@@ -30,7 +30,7 @@ const data = [
   }
 ];
 
-describe('CheckTree styles', () => {
+describe('Tree styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
     render(<Tree virtualized={false} data={data} ref={instanceRef} />);

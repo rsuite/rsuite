@@ -1,6 +1,7 @@
 @import '../../styles/common';
-@import '../../Picker/styles/mixin';
+@import '../../Picker/styles/index';
 @import '../../TreePicker/styles/mixin';
+@import '../../Checkbox/styles/index';
 
 // **Check Tree Picker
 // **----------------------
@@ -23,31 +24,9 @@
       }
     }
   }
-}
 
-.rs-check-tree-node {
-  position: relative;
-  font-size: @picker-tree-node-font-size;
-  line-height: @picker-tree-node-line-height;
-
-  &-label {
-    .rs-check-item {
-      display: inline-block;
-
-      .rs-picker-menu & {
-        display: block;
-      }
-    }
-
-    &:focus .rs-check-item .rs-checkbox-checker > label {
-      .picker-item-hover();
-    }
-
-    .rs-check-item.rs-checkbox-checked .rs-checkbox-checker > label {
-      .picker-item-active();
-    }
-
-    .rs-check-item .rs-checkbox-checker > label {
+  .rs-check-item .rs-checkbox-checker {
+    > label {
       text-align: left;
       position: relative;
       margin: 0;
@@ -67,37 +46,59 @@
         top: 0;
         margin-left: -58px; // 10px + 36px + 12px
       }
+    }
 
-      .rs-checkbox-wrapper {
-        left: (@checkbox-sense-width + 10px);
-      }
+    .rs-checkbox-wrapper {
+      left: (@checkbox-sense-width + 10px);
+    }
+  }
+}
 
-      // Only has the first level
-      .rs-check-tree-without-children & {
-        padding-left: 34px; //text gap + checkbox space
+// Only has the first level
+.rs-check-tree-without-children .rs-check-item .rs-checkbox-checker {
+  > label {
+    padding-left: 34px; //text gap + checkbox space
 
-        &::before {
-          width: 28px;
-          margin-left: -36px;
-        }
-
-        .rs-checkbox-wrapper {
-          left: 0;
-        }
-      }
+    &::before {
+      width: 28px;
+      margin-left: -36px;
     }
   }
 
-  // Uncheckable state
-  &-all-uncheckable > .rs-check-tree-node-label {
-    .rs-check-item .rs-checkbox-checker > label {
-      padding-left: 22px; // 10px + 12px
+  .rs-checkbox-wrapper {
+    left: 0;
+  }
+}
 
-      &::before {
-        width: 14px;
-        margin-left: 0;
-        left: 0;
-      }
+.rs-check-tree-node {
+  position: relative;
+  font-size: @picker-tree-node-font-size;
+  line-height: @picker-tree-node-line-height;
+
+  .rs-check-item {
+    display: inline-block;
+
+    .rs-picker-menu & {
+      display: block;
+    }
+  }
+
+  &:focus .rs-check-item .rs-checkbox-checker > label {
+    .picker-item-hover();
+  }
+
+  .rs-check-item.rs-checkbox-checked .rs-checkbox-checker > label {
+    .picker-item-active();
+  }
+
+  // Uncheckable state
+  &-all-uncheckable > .rs-check-item .rs-checkbox-checker > label {
+    padding-left: 22px; // 10px + 12px
+
+    &::before {
+      width: 14px;
+      margin-left: 0;
+      left: 0;
     }
   }
 }
