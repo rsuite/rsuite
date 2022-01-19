@@ -137,7 +137,7 @@
 
     // Sidenav is usually placed by the left/right edge of the page
     // thus use an inset focus ring to prevent overflow clipping
-    &:focus {
+    &:focus-visible {
       .focus-ring(inset);
     }
 
@@ -337,7 +337,7 @@
     // supplement padding
     padding-left: @sidenav-default-width;
 
-    &:focus {
+    &:focus-visible {
       .focus-ring();
 
       .high-contrast-mode({
