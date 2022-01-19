@@ -574,6 +574,14 @@ describe('DateRangePicker', () => {
     assert.equal(meridian.textContent, 'AM');
   });
 
+  it('Should be optional for all months', () => {
+    const instance = getInstance(<DateRangePicker format="yyyy-MM" defaultOpen />);
+    const disabledCells = instance.overlay.querySelectorAll(
+      '.rs-calendar-month-dropdown-cell.disabled'
+    );
+    assert.equal(disabledCells.length, 0);
+  });
+
   describe('Plain text', () => {
     it('Should render formatted date range', () => {
       const { getByTestId } = render(
