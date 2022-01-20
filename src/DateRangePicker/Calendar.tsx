@@ -163,25 +163,8 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
     }, [calendarDate, index, showOneCalendar]);
 
     const disabledMonth = useCallback(
-      (date: Date) => {
-        let after: boolean;
-
-        if (disabledDate?.(date, value, DATERANGE_DISABLED_TARGET.CALENDAR)) {
-          return true;
-        }
-        if (showOneCalendar) return false;
-
-        if (index === 1) {
-          after = isAfter(date, calendarDate[0]);
-
-          return !after;
-        }
-
-        after = isAfter(calendarDate[1], date);
-
-        return !after;
-      },
-      [calendarDate, disabledDate, index, showOneCalendar, value]
+      (date: Date) => disabledDate?.(date, value, DATERANGE_DISABLED_TARGET.CALENDAR),
+      [disabledDate, value]
     );
 
     return (
