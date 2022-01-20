@@ -412,6 +412,52 @@ describe('Cascader', () => {
     });
   });
 
+  it('Should show search items with parentSelectable', () => {
+    const items = [
+      {
+        value: 't',
+        label: 't'
+      },
+      {
+        value: 'h',
+        label: 'h'
+      },
+      {
+        value: 'g',
+        label: 'g',
+        children: [
+          {
+            value: 'g-m',
+            label: 'g-m'
+          },
+          {
+            value: 'g-b',
+            label: 'g-b'
+          }
+        ]
+      }
+    ];
+
+    const cascaderRef = React.createRef();
+
+    render(<Cascader ref={cascaderRef} defaultOpen data={items} parentSelectable />);
+
+    ReactTestUtils.act(() => {
+      const input = cascaderRef.current.overlay.querySelector('.rs-picker-search-bar-input');
+
+      ReactTestUtils.Simulate.focus(input);
+
+      input.value = 'g';
+      ReactTestUtils.Simulate.change(input);
+    });
+
+    ReactTestUtils.act(() => {
+      const searchResult = cascaderRef.current.overlay.querySelectorAll('.rs-picker-cascader-row');
+
+      assert.equal(searchResult.length, 3);
+    });
+  });
+
   describe('ref testing', () => {
     it('Should control the open and close of picker', async () => {
       const onOpenSpy = sinon.spy();
