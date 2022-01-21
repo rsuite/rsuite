@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
+import UserEvent from '@testing-library/user-event';
 import ReactTestUtils from 'react-dom/test-utils';
 import Cascader from '../Cascader';
 import Button from '../../Button';
@@ -442,20 +443,13 @@ describe('Cascader', () => {
 
     render(<Cascader ref={cascaderRef} defaultOpen data={items} parentSelectable />);
 
-    ReactTestUtils.act(() => {
-      const input = cascaderRef.current.overlay.querySelector('.rs-picker-search-bar-input');
+    const input = cascaderRef.current.overlay.querySelector('.rs-picker-search-bar-input');
 
-      ReactTestUtils.Simulate.focus(input);
+    UserEvent.type(input, 'g');
 
-      input.value = 'g';
-      ReactTestUtils.Simulate.change(input);
-    });
+    const searchResult = cascaderRef.current.overlay.querySelectorAll('.rs-picker-cascader-row');
 
-    ReactTestUtils.act(() => {
-      const searchResult = cascaderRef.current.overlay.querySelectorAll('.rs-picker-cascader-row');
-
-      assert.equal(searchResult.length, 3);
-    });
+    assert.equal(searchResult.length, 3);
   });
 
   describe('ref testing', () => {
