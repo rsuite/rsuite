@@ -94,6 +94,7 @@ cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
 | Property       | Type`(default)`                              | Description                                                                      |
 | -------------- | -------------------------------------------- | -------------------------------------------------------------------------------- |
 | accepter       | React.ElementType `(Input)`                  | Proxied components                                                               |
+| checkAsync     | boolean                                      | Asynchronous check value                                                         |
 | checkTrigger   | enum: 'change','blur','none'                 | The data validation trigger type, and it wiill overrides the setting on `<Form>` |
 | classPrefix    | string `('form-control')`                    | The prefix of the component CSS class                                            |
 | errorMessage   | React.Node                                   | Show error messages                                                              |
