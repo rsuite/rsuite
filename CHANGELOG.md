@@ -1,3 +1,16 @@
+## [5.5.1](https://github.com/rsuite/rsuite/compare/v5.5.0...v5.5.1) (2022-01-21)
+
+### Bug Fixes
+
+- **Carousel:** add a flex-wrap property on toolbar buttons ([#2302](https://github.com/rsuite/rsuite/issues/2302)) ([a9a9113](https://github.com/rsuite/rsuite/commit/a9a911378c4aaeba43233dd3acdc05913a9bf6ae))
+- **CheckTreePicker:** fix CheckTreePicker label style ([#2304](https://github.com/rsuite/rsuite/issues/2304)) ([07eb5ac](https://github.com/rsuite/rsuite/commit/07eb5acd4e8283529619ad2b4d6003b0c4f8614d))
+- **DateRangePicker:** fix month not selectable on calendar ([#2312](https://github.com/rsuite/rsuite/issues/2312)) ([5199845](https://github.com/rsuite/rsuite/commit/5199845ee435e923c807da5e0813f4ba06a86798))
+- **Sidenav:** hide focus ring when interacting with mouse ([#2311](https://github.com/rsuite/rsuite/issues/2311)) ([9413bc9](https://github.com/rsuite/rsuite/commit/9413bc9a48fb8a3f915cc811b3392ba4e65b0b70))
+
+### Performance Improvements
+
+- Responsive for small screen ([#2293](https://github.com/rsuite/rsuite/issues/2293)) ([cadc42e](https://github.com/rsuite/rsuite/commit/cadc42e39baee174ff7d5577ea933cb471ef5bd0))
+
 # [5.5.0](https://github.com/rsuite/rsuite/compare/v5.4.4...v5.5.0) (2022-01-13)
 
 ### Bug Fixes
