@@ -91,17 +91,19 @@ function MenuItem(props: MenuItemProps) {
   }, [dispatch]);
 
   useEffect(() => {
-    const menuitemElement = menuitemRef.current!;
+    const menuitemElement = menuitemRef.current;
 
-    dispatch({
-      type: MenuActionTypes.RegisterItem,
-      element: menuitemElement,
-      props: { disabled }
-    });
+    if (menuitemElement) {
+      dispatch({
+        type: MenuActionTypes.RegisterItem,
+        element: menuitemElement,
+        props: { disabled }
+      });
 
-    return () => {
-      dispatch({ type: MenuActionTypes.UnregisterItem, id: menuitemElement.id });
-    };
+      return () => {
+        dispatch({ type: MenuActionTypes.UnregisterItem, id: menuitemElement.id });
+      };
+    }
   }, [menuitemRef, disabled, dispatch]);
 
   const menuitemProps: React.LiHTMLAttributes<HTMLLIElement> & MenuitemRenderProps = {

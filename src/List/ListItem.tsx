@@ -34,12 +34,14 @@ const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivE
   const listItemRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const { unregister } = register({
-      node: listItemRef.current!,
-      edgeOffset: null,
-      info: { collection, disabled, index }
-    });
-    return unregister;
+    if (listItemRef.current) {
+      const { unregister } = register({
+        node: listItemRef.current,
+        edgeOffset: null,
+        info: { collection, disabled, index }
+      });
+      return unregister;
+    }
   }, [collection, disabled, index, register]);
 
   const classes = merge(className, withClassPrefix(size, { disabled, bordered }));

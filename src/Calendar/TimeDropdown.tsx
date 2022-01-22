@@ -82,8 +82,11 @@ const scrollTo = (time: Time, row: HTMLDivElement) => {
     const node = container?.querySelector(`[data-key="${type}-${value}"]`);
 
     if (node && container) {
-      const { top } = getPosition(node, container)!;
-      scrollTopAnimation(container, top, scrollTop(container) !== 0);
+      const position = getPosition(node, container);
+
+      if (position) {
+        scrollTopAnimation(container, position.top, scrollTop(container) !== 0);
+      }
     }
   });
 };
@@ -104,7 +107,9 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
     useEffect(() => {
       const time = getTime({ format, date, showMeridian });
       // The currently selected time scrolls to the visible range.
-      show && scrollTo(time, rowRef.current!);
+      if (show && rowRef.current) {
+        scrollTo(time, rowRef.current);
+      }
     }, [date, format, show, showMeridian]);
 
     const handleClick = (type: TimeType, d: number, event: React.MouseEvent) => {

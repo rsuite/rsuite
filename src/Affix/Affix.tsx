@@ -22,6 +22,7 @@ function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
   const [offset, setOffset] = useState<Offset | null>(null);
 
   const updateOffset = useCallback(() => {
+    // FIXME upgrade dom-lib
     setOffset(getOffset(mountRef.current!));
   }, [mountRef]);
 

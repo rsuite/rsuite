@@ -63,7 +63,9 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
   }, []);
 
   const handleClearInput = useCallback(() => {
-    inputRef.current!.value = '';
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
   }, []);
 
   const handleDragEnter = useCallback(

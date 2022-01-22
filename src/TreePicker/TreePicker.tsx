@@ -134,10 +134,10 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     valueKey = 'value',
     childrenKey = 'children',
     draggable,
-    defaultExpandAll,
+    defaultExpandAll = false,
     disabledItemValues = emptyArray,
     expandItemValues: controlledExpandItemValues,
-    defaultExpandItemValues,
+    defaultExpandItemValues = emptyArray,
     id,
     listProps,
     getChildren,
@@ -257,15 +257,17 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   );
 
   const focusActiveNode = useCallback(() => {
-    focusToActiveTreeNode({
-      list: listRef.current!,
-      valueKey,
-      selector: `.${treePrefix('node-active')}`,
-      activeNode,
-      virtualized,
-      container: treeViewRef.current!,
-      formattedNodes: getFormattedNodes()
-    });
+    if (listRef.current) {
+      focusToActiveTreeNode({
+        list: listRef.current,
+        valueKey,
+        selector: `.${treePrefix('node-active')}`,
+        activeNode,
+        virtualized,
+        container: treeViewRef.current,
+        formattedNodes: getFormattedNodes()
+      });
+    }
   }, [treePrefix, activeNode, getFormattedNodes, valueKey, virtualized]);
 
   useEffect(() => {

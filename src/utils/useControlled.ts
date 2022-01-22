@@ -25,7 +25,7 @@ function useControlled(controlledValue, defaultValue) {
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
 
   // If it is controlled, this directly returns the attribute value.
-  const value = controlledRef.current ? controlledValue! : uncontrolledValue;
+  const value = controlledRef.current ? controlledValue : uncontrolledValue;
 
   const setValue = useCallback(
     nextValue => {

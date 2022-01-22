@@ -132,7 +132,10 @@ const InputAutosize = React.forwardRef(
         return;
       }
 
-      copyStyles(inputStyles, sizerRef.current!);
+      if (sizerRef.current) {
+        copyStyles(inputStyles, sizerRef.current);
+      }
+
       if (placeholderRef.current) {
         copyStyles(inputStyles, placeholderRef.current);
       }
