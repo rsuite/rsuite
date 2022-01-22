@@ -58,7 +58,7 @@ const PickerOverlay: RsRefForwardingComponent<'div', PickerOverlayProps> = React
     }, [target, placement]);
 
     useElementResize(
-      useCallback(() => overlayRef.current!, []),
+      useCallback(() => overlayRef.current, []),
       handleResize
     );
     useEffect(() => {

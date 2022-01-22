@@ -26,7 +26,7 @@ function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
   }, [mountRef]);
 
   // Update after the element size changes
-  useElementResize(() => mountRef.current!, updateOffset);
+  useElementResize(() => mountRef.current, updateOffset);
 
   // Initialize after the first render
   useMount(updateOffset);
