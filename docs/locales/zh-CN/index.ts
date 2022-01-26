@@ -44,7 +44,8 @@ export default {
     shareTwitter: '分享到 Twitter',
     accessibility: '无障碍设计',
     composition: '组件封装',
-    examples: '示例项目'
+    examples: '示例项目',
+    searchComponents: '搜索组件'
   },
   resourcesDesign: {
     defaultHeader: '组件设计 - 默认主题',
