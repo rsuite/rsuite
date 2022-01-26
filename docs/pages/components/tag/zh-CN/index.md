@@ -28,10 +28,11 @@
 
 ### `<Tag>`
 
-| 属性名称    | 类型`(默认值)`        | 描述                   |
-| ----------- | --------------------- | ---------------------- |
-| children \* | ReactNode             | 组件的内容             |
-| classPrefix | string `('tag')`      | 组件 CSS 类的前缀      |
-| closable    | boolean               |
-| as          | ElementType `('div')` | 为组件自定义元素类型   |
-| onClose     | (event) => void       | 点击关闭按钮的回调函数 |
+| 属性名称    | 类型`(默认值)`                          | 描述                   |
+| ----------- | --------------------------------------- | ---------------------- |
+| children \* | ReactNode                               | 组件的内容             |
+| classPrefix | string `('tag')`                        | 组件 CSS 类的前缀      |
+| closable    | boolean                                 |                        |
+| as          | ElementType `('div')`                   | 为组件自定义元素类型   |
+| onClose     | (event) => void                         | 点击关闭按钮的回调函数 |
+| size        | enum: 'sm'&#124;'md'&#124;'lg' `('md')` | 标签尺寸               |
