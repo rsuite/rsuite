@@ -75,7 +75,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
                 as="a"
                 icon={<Edit2 />}
                 target="_blank"
-                href={`https://github.com/rsuite/rsuite/edit/master/docs/pages${routerId}${localePath}/index.md`}
+                href={`https://github.com/rsuite/rsuite/edit/main/docs/pages${routerId}${localePath}/index.md`}
               >
                 {messages?.common?.edit}
               </Dropdown.Item>
