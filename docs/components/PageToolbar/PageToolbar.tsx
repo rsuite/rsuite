@@ -10,6 +10,7 @@ import Edit2 from '@rsuite/icons/legacy/Edit2';
 import Bug from '@rsuite/icons/legacy/Bug';
 import Twitter from '@rsuite/icons/legacy/Twitter';
 import { SwitchTheme } from './SwitchTheme';
+import packageJson from '../../package.json';
 
 const MenuPopover = React.forwardRef(function MenuPopover({ children, ...rest }: any, ref) {
   return (
@@ -18,6 +19,7 @@ const MenuPopover = React.forwardRef(function MenuPopover({ children, ...rest }:
     </Popover>
   );
 });
+
 interface PageToolbarProps {
   designHash?: any;
   routerId?: string;
@@ -34,6 +36,27 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
 
   const [show, setShow] = React.useState(false);
 
+  const versions = [
+    {
+      id: 'v4',
+      name: messages?.common?.v4,
+      target: '_blank',
+      url: 'https://v4.rsuitejs.com/'
+    },
+    {
+      id: 'v3',
+      name: messages?.common?.v3,
+      target: '_blank',
+      url: 'https://v3.rsuitejs.com/'
+    },
+    {
+      id: 'v2',
+      name: messages?.common?.v2,
+      target: '_blank',
+      url: 'https://v2.rsuitejs.com/'
+    }
+  ];
+
   useEffect(() => {
     setShow(canUseDOM);
   }, []);
@@ -43,6 +66,13 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
 
   return show ? (
     <ButtonToolbar className="page-toolbar">
+      <Dropdown title={packageJson.version} size="sm">
+        {versions.map(version => (
+          <Dropdown.Item key={version.id} as="a" href={version.url} target={version.target}>
+            {version.name}
+          </Dropdown.Item>
+        ))}
+      </Dropdown>
       <Whisper placement="bottom" speaker={<Tooltip>{messages?.common?.changeLanguage}</Tooltip>}>
         <LanguageButton />
       </Whisper>

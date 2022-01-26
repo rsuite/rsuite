@@ -76,24 +76,6 @@ export default function usePages(): Menu[] {
           name: messages?.common?.modularized
         },
         {
-          id: 'v4',
-          name: messages?.common?.v4,
-          target: '_blank',
-          url: 'https://v4.rsuitejs.com/'
-        },
-        {
-          id: 'v3',
-          name: messages?.common?.v3,
-          target: '_blank',
-          url: 'https://v3.rsuitejs.com/'
-        },
-        {
-          id: 'v2',
-          name: messages?.common?.v2,
-          target: '_blank',
-          url: 'https://v2.rsuitejs.com/'
-        },
-        {
           id: 'logs',
           name: messages?.common?.changeLog,
           target: '_blank',
