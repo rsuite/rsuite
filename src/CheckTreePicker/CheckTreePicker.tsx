@@ -292,7 +292,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         valueKey,
         selector: `.${checkTreePrefix('node-active')}`,
         activeNode,
-        virtualized: virtualized,
+        virtualized,
         container: treeViewRef.current,
         formattedNodes: getFormattedNodes()
       });
