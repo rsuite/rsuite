@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, waitFor } from '@testing-library/react';
+import UserEvent from '@testing-library/user-event';
 import ReactTestUtils from 'react-dom/test-utils';
 import Cascader from '../Cascader';
 import Button from '../../Button';
@@ -410,6 +411,45 @@ describe('Cascader', () => {
 
       assert.equal(searchResult.length, 2);
     });
+  });
+
+  it('Should show search items with parentSelectable', () => {
+    const items = [
+      {
+        value: 't',
+        label: 't'
+      },
+      {
+        value: 'h',
+        label: 'h'
+      },
+      {
+        value: 'g',
+        label: 'g',
+        children: [
+          {
+            value: 'g-m',
+            label: 'g-m'
+          },
+          {
+            value: 'g-b',
+            label: 'g-b'
+          }
+        ]
+      }
+    ];
+
+    const cascaderRef = React.createRef();
+
+    render(<Cascader ref={cascaderRef} defaultOpen data={items} parentSelectable />);
+
+    const input = cascaderRef.current.overlay.querySelector('.rs-picker-search-bar-input');
+
+    UserEvent.type(input, 'g');
+
+    const searchResult = cascaderRef.current.overlay.querySelectorAll('.rs-picker-cascader-row');
+
+    assert.equal(searchResult.length, 3);
   });
 
   describe('ref testing', () => {

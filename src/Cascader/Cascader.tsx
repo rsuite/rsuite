@@ -197,7 +197,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     (keyword?: string): ItemDataType[] => {
       const items: ItemDataType[] = [];
       const result = flattenData.filter(item => {
-        if (item[childrenKey]) {
+        if (!parentSelectable && item[childrenKey]) {
           return false;
         }
         return someKeyword(item, keyword);
@@ -213,7 +213,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
       }
       return items;
     },
-    [childrenKey, flattenData, someKeyword]
+    [childrenKey, flattenData, someKeyword, parentSelectable]
   );
 
   // Used to hover the focuse item  when trigger `onKeydown`
