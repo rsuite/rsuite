@@ -20,20 +20,12 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
     {
       id: 'v4',
       name: messages?.common?.v4,
-      target: '_blank',
       url: 'https://v4.rsuitejs.com/'
     },
     {
       id: 'v3',
       name: messages?.common?.v3,
-      target: '_blank',
       url: 'https://v3.rsuitejs.com/'
-    },
-    {
-      id: 'v2',
-      name: messages?.common?.v2,
-      target: '_blank',
-      url: 'https://v2.rsuitejs.com/'
     }
   ];
 
@@ -45,7 +37,7 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
     <ButtonToolbar className="page-toolbar">
       <Dropdown title={packageJson.version} size="sm">
         {versions.map(version => (
-          <Dropdown.Item key={version.id} as="a" href={version.url} target={version.target}>
+          <Dropdown.Item key={version.id} as="a" href={version.url}>
             {version.name}
           </Dropdown.Item>
         ))}
