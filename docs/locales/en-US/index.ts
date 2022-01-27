@@ -45,7 +45,12 @@ export default {
     shareTwitter: 'Share on Twitter',
     accessibility: 'Accessibility',
     composition: 'Composition',
-    examples: 'Example Projects'
+    examples: 'Example Projects',
+    searchComponents: 'Search in components',
+    theme: 'Theme',
+    light: 'Light',
+    dark: 'Dark',
+    highContrast: 'High contrast'
   },
   resourcesDesign: {
     defaultHeader: 'Design - Light theme',
