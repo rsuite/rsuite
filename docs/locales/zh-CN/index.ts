@@ -45,7 +45,11 @@ export default {
     accessibility: '无障碍设计',
     composition: '组件封装',
     examples: '示例项目',
-    searchComponents: '搜索组件'
+    searchComponents: '搜索组件',
+    theme: '主题',
+    light: '亮色',
+    dark: '暗色',
+    highContrast: '高对比'
   },
   resourcesDesign: {
     defaultHeader: '组件设计 - 默认主题',

@@ -46,7 +46,11 @@ export default {
     accessibility: 'Accessibility',
     composition: 'Composition',
     examples: 'Example Projects',
-    searchComponents: 'Search in components'
+    searchComponents: 'Search in components',
+    theme: 'Theme',
+    light: 'Light',
+    dark: 'Dark',
+    highContrast: 'High contrast'
   },
   resourcesDesign: {
     defaultHeader: 'Design - Light theme',

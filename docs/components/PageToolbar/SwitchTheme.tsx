@@ -1,49 +1,61 @@
 import React, { useContext } from 'react';
-import { CustomProviderProps, Dropdown, IconButton, Popover, Whisper } from 'rsuite';
+import { CustomProviderProps, RadioGroup, Radio } from 'rsuite';
 import { Icon } from '@rsuite/icons';
 import { Light, Dark, HighContrast } from '@/components/SvgIcons';
 import AppContext from '@/components/AppContext';
 
-export function SwitchTheme() {
+interface SwitchThemeProps {
+  onClose: () => void;
+}
+
+export function SwitchTheme({ onClose }: SwitchThemeProps) {
   const {
     theme: [themeName],
+    messages,
     onChangeTheme
   } = useContext(AppContext);
 
-  const ThemeIcon =
+  const themesConfig = [
     {
-      light: Light,
-      dark: Dark,
-      'high-contrast': HighContrast
-    }[themeName] ?? Light;
+      value: 'light',
+      name: messages.common.light,
+      icon: Light
+    },
+    {
+      value: 'dark',
+      name: messages.common.dark,
+      icon: Dark
+    },
+    {
+      value: 'high-contrast',
+      name: messages.common.highContrast,
+      icon: HighContrast
+    }
+  ];
+
+  const handleChangeTheme = (value: CustomProviderProps['theme']) => {
+    onChangeTheme(value);
+    onClose();
+  };
 
   return (
-    <Whisper
-      trigger="click"
-      placement="bottomEnd"
-      speaker={({ onClose, left, top, className }, ref) => (
-        <Popover ref={ref} className={className} style={{ left, top }} full>
-          <Dropdown.Menu
-            activeKey={themeName}
-            onSelect={eventKey => {
-              onChangeTheme(eventKey as CustomProviderProps['theme']);
-              onClose();
-            }}
+    <RadioGroup className="theme-switch" value={themeName} onChange={handleChangeTheme}>
+      <p>{messages.common.theme}</p>
+
+      {themesConfig.map(item => (
+        <div className="theme-item" key={item.value}>
+          <div
+            className="item-name"
+            tabIndex={-1}
+            role="button"
+            onClick={() => handleChangeTheme(item.value as CustomProviderProps['theme'])}
           >
-            <Dropdown.Item eventKey="light" icon={<Icon as={Light} />}>
-              Light
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="dark" icon={<Icon as={Dark} />}>
-              Dark
-            </Dropdown.Item>
-            <Dropdown.Item eventKey="high-contrast" icon={<Icon as={HighContrast} />}>
-              High contrast
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Popover>
-      )}
-    >
-      <IconButton appearance="subtle" size="sm" icon={<Icon as={ThemeIcon} />} />
-    </Whisper>
+            <Icon as={item.icon} />
+            {item.name}
+          </div>
+          <Radio value={item.value} />
+        </div>
+      ))}
+    </RadioGroup>
   );
 }
