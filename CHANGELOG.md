@@ -1,3 +1,9 @@
+## [5.5.2](https://github.com/rsuite/rsuite/compare/v5.5.1...v5.5.2) (2022-01-27)
+
+### Features
+
+- **Cascader:** add parent node in serach result while parentSelectable ([#2313](https://github.com/rsuite/rsuite/issues/2313)) ([e677bb6](https://github.com/rsuite/rsuite/commit/e677bb6b75d0cc26dafedc8e5326d413969c2867))
+
 ## [5.5.1](https://github.com/rsuite/rsuite/compare/v5.5.0...v5.5.1) (2022-01-21)
 
 ### Bug Fixes
