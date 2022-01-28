@@ -115,6 +115,15 @@ class InputNumber extends React.Component<InputNumberProps, InputNumberState> {
       this.inputWheelListener.off();
     }
   }
+  componentDidUpdate(prevProps: InputNumberProps) {
+    const { value: preValue } = prevProps;
+    const { value: currentValue } = this.props;
+    if (preValue !== currentValue) {
+      this.setState({
+        value: currentValue
+      });
+    }
+  }
 
   bindInputRef = ref => {
     this.input = ref;

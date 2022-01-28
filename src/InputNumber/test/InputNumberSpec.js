@@ -149,4 +149,29 @@ describe('InputNumber', () => {
     const instance = getDOMNode(<InputNumber classPrefix="custom-prefix" />);
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
+  it('should be change correct value when reset value', () => {
+    let refValue = 0;
+    const Wrapper = React.forwardRef((props, ref) => {
+      const [value, setValue] = React.useState(refValue);
+      const reset = () => {
+        setValue(null);
+      };
+      refValue = value;
+      return (
+        <div ref={ref}>
+          <InputNumber value={value} onChange={setValue} />
+          <button id="reset" onClick={reset}>
+            reset
+          </button>
+        </div>
+      );
+    });
+    const instance = getDOMNode(<Wrapper />);
+    const resetBtn = instance.querySelector('#reset');
+    ReactTestUtils.Simulate.change(instance.querySelector('.rs-input'), { target: { value: 1 } });
+    ReactTestUtils.Simulate.click(resetBtn);
+    ReactTestUtils.Simulate.change(instance.querySelector('.rs-input'), { target: { value: 1 } });
+
+    assert.equal(refValue, 1);
+  });
 });
