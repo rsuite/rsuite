@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import InputNumber from '../InputNumber';
