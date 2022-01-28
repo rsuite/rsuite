@@ -168,10 +168,8 @@ describe('InputNumber', () => {
     });
     const instance = getDOMNode(<Wrapper />);
     const resetBtn = instance.querySelector('#reset');
-    // @ts-ignore
     ReactTestUtils.Simulate.change(instance.querySelector('.rs-input'), { target: { value: 1 } });
     ReactTestUtils.Simulate.click(resetBtn);
-    // @ts-ignore
     ReactTestUtils.Simulate.change(instance.querySelector('.rs-input'), { target: { value: 1 } });
 
     assert.equal(refValue, 1);
