@@ -1,3 +1,13 @@
+<a name="4.10.7"></a>
+## [4.10.7](https://github.com/rsuite/rsuite/compare/v4.10.6...v4.10.7) (2022-01-28)
+
+
+### Bug Fixes
+
+* fix inputNumber uncontrolled ([#2331](https://github.com/rsuite/rsuite/issues/2331)) ([fe4a742](https://github.com/rsuite/rsuite/commit/fe4a742))
+
+
+
 <a name="4.10.6"></a>
 ## [4.10.6](https://github.com/rsuite/rsuite/compare/v4.10.5...v4.10.6) (2021-12-17)
 
