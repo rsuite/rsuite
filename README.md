@@ -147,7 +147,7 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [rsuite-design]: https://rsuitejs.com/design/default
 [live-preview-on-codesandbox]: https://codesandbox.io/s/rsuite-template-5vq6zo2z5l
 [rsuite-doc-guide]: https://rsuitejs.com/en/guide/introduction
-[rsuite-doc-guide-themes]: https://rsuitejs.com/en/guide/themes
+[rsuite-doc-guide-themes]: https://rsuitejs.com/en/guide/customization
 [rsuite-doc-guide-intl]: https://rsuitejs.com/en/guide/intl
 [rsuite-doc-guide-rtl]: https://rsuitejs.com/en/guide/rtl
 [rsuite-components-overview]: https://rsuitejs.com/en/components/overview
