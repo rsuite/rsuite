@@ -205,7 +205,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       {
         data: getAllDataAndCache(),
         valueKey,
-        target: () => overlayRef.current!
+        target: () => overlayRef.current
       }
     );
 
@@ -432,13 +432,16 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         const allData = getAllData();
         let focusItem = allData.find(item => shallowEqual(item[valueKey], focusItemValue));
 
+        // FIXME Bad state flow
         if (!focusItem && focusItemValue === searchKeyword) {
           focusItem = createOption(searchKeyword);
         }
         setValue(focusItemValue);
         setSearchKeyword('');
 
-        handleSelect(focusItemValue, focusItem!, event);
+        if (focusItem) {
+          handleSelect(focusItemValue, focusItem, event);
+        }
         handleChange(focusItemValue, event);
         handleClose();
       },

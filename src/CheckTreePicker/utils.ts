@@ -104,15 +104,18 @@ export function isEveryFirstLevelNodeUncheckable(
  * get node uncheckable state
  * @param {*} node
  */
-export function isNodeUncheckable(node: any, props: Partial<CheckTreePickerProps>) {
+export function isNodeUncheckable(
+  node: any,
+  props: Required<Pick<CheckTreePickerProps, 'uncheckableItemValues' | 'valueKey'>>
+) {
   const { uncheckableItemValues = [], valueKey } = props;
-  return uncheckableItemValues.some((value: any) => shallowEqual(node[valueKey!], value));
+  return uncheckableItemValues.some((value: any) => shallowEqual(node[valueKey], value));
 }
 
 export function getFormattedTree(
   data: any[],
   nodes: TreeNodesType,
-  props: Partial<CheckTreePickerProps>
+  props: Required<Pick<CheckTreePickerProps, 'childrenKey' | 'cascade'>>
 ) {
   const { childrenKey, cascade } = props;
   return data.map((node: any) => {
@@ -127,8 +130,8 @@ export function getFormattedTree(
       formatted.uncheckable = curNode.uncheckable;
       formatted.parent = curNode.parent;
       formatted.checkState = checkState;
-      if (node[childrenKey!]?.length > 0) {
-        formatted[childrenKey!] = getFormattedTree(formatted[childrenKey!], nodes, props);
+      if (node[childrenKey]?.length > 0) {
+        formatted[childrenKey] = getFormattedTree(formatted[childrenKey], nodes, props);
       }
     }
 
@@ -139,14 +142,14 @@ export function getFormattedTree(
 export function getDisabledState(
   nodes: TreeNodesType,
   node: TreeNodeType,
-  props: Partial<CheckTreePickerProps>
+  props: Required<Pick<CheckTreePickerProps, 'disabledItemValues' | 'valueKey'>>
 ) {
   const { disabledItemValues = [], valueKey } = props;
   if (!isNil(node.refKey) && isNil(nodes[node.refKey])) {
     return false;
   }
   return disabledItemValues.some((value: any) =>
-    shallowEqual(nodes[node.refKey!][valueKey!], value)
+    shallowEqual(nodes[node.refKey!][valueKey], value)
   );
 }
 

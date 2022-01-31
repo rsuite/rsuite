@@ -22,11 +22,12 @@ function useOffset(mountRef: React.RefObject<HTMLDivElement>) {
   const [offset, setOffset] = useState<Offset | null>(null);
 
   const updateOffset = useCallback(() => {
+    // FIXME upgrade dom-lib
     setOffset(getOffset(mountRef.current!));
   }, [mountRef]);
 
   // Update after the element size changes
-  useElementResize(() => mountRef.current!, updateOffset);
+  useElementResize(() => mountRef.current, updateOffset);
 
   // Initialize after the first render
   useMount(updateOffset);

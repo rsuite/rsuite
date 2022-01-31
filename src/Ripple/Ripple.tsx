@@ -41,20 +41,24 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
 
   const handleMouseDown = useCallback(
     (event: React.MouseEvent) => {
-      const position = getPosition(triggerRef.current!, event);
-      setRippling(true);
-      setPosition(position);
-      onMouseDown?.(position, event);
+      if (triggerRef.current) {
+        const position = getPosition(triggerRef.current, event);
+        setRippling(true);
+        setPosition(position);
+        onMouseDown?.(position, event);
+      }
     },
     [onMouseDown]
   );
 
   useEffect(() => {
-    const parentNode = triggerRef.current!.parentNode as HTMLElement;
-    const mousedownListener = on(parentNode, 'mousedown', handleMouseDown);
-    return () => {
-      mousedownListener?.off();
-    };
+    const parentNode = triggerRef.current?.parentNode;
+    if (parentNode) {
+      const mousedownListener = on(parentNode, 'mousedown', handleMouseDown);
+      return () => {
+        mousedownListener?.off();
+      };
+    }
   }, [handleMouseDown]);
 
   return (

@@ -126,16 +126,18 @@ export function compareArray(a: any[], b: any[]) {
 
 export function getDefaultExpandItemValues(
   data: ItemDataType[],
-  props: Pick<
-    TreePickerProps,
-    'defaultExpandAll' | 'valueKey' | 'childrenKey' | 'defaultExpandItemValues'
+  props: Required<
+    Pick<
+      TreePickerProps,
+      'defaultExpandAll' | 'valueKey' | 'childrenKey' | 'defaultExpandItemValues'
+    >
   >
 ) {
   const { valueKey, defaultExpandAll, childrenKey, defaultExpandItemValues = [] } = props;
   if (defaultExpandAll) {
     return flattenTree(data, childrenKey)
-      .filter(item => Array.isArray(item[childrenKey!]) && item[childrenKey!].length > 0)
-      .map(item => item[valueKey!]);
+      .filter(item => Array.isArray(item[childrenKey]) && item[childrenKey].length > 0)
+      .map(item => item[valueKey]);
   }
   return defaultExpandItemValues;
 }
@@ -318,23 +320,25 @@ export function filterNodesOfTree(data, check) {
  */
 export const getFocusableItems = (
   filteredData: ItemDataType[],
-  props: PartialTreeProps,
+  props: Required<
+    Pick<PartialTreeProps, 'disabledItemValues' | 'valueKey' | 'childrenKey' | 'expandItemValues'>
+  >,
   isSearching?: boolean
 ) => {
   const { disabledItemValues, valueKey, childrenKey, expandItemValues } = props;
   const items: TreeNodeType[] = [];
   const loop = (nodes: any[]) => {
     nodes.forEach((node: any) => {
-      const disabled = disabledItemValues!.some(disabledItem =>
-        shallowEqual(disabledItem, node[valueKey!])
+      const disabled = disabledItemValues.some(disabledItem =>
+        shallowEqual(disabledItem, node[valueKey])
       );
       if (!disabled && node.visible) {
         items.push(node);
       }
       // always expand when searching
-      const expand = isSearching ? true : expandItemValues!.includes(node[valueKey!]);
-      if (node[childrenKey!] && expand) {
-        loop(node[childrenKey!]);
+      const expand = isSearching ? true : expandItemValues.includes(node[valueKey]);
+      if (node[childrenKey] && expand) {
+        loop(node[childrenKey]);
       }
     });
   };
@@ -918,7 +922,7 @@ export interface FocusToTreeNodeProps {
   valueKey: string;
   activeNode: any;
   virtualized: boolean;
-  container: HTMLDivElement;
+  container: HTMLElement | null;
   list: ListInstance;
   formattedNodes: TreeNodeType[];
 }

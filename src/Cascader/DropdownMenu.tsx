@@ -78,9 +78,9 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
         }
 
         if (activeItem) {
-          const position = getPosition(activeItem, column)!;
+          const position = getPosition(activeItem, column);
           // Let the active option scroll into view.
-          scrollTop(column, position.top);
+          scrollTop(column, position?.top);
         }
       });
     }, [prefix]);

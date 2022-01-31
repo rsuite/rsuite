@@ -44,10 +44,10 @@ interface LimitPicker {
 const LimitPicker = (props: LimitPicker) => {
   const { disabled, limitOptions, locale, limit, onChangeLimit, size, prefix } = props;
   const disabledPicker = typeof disabled === 'function' ? disabled('picker') : Boolean(disabled);
-  const formatlimitOptions = limitOptions!.map(item => {
+  const formatlimitOptions = limitOptions.map(item => {
     return {
       value: item,
-      label: tplTransform(locale!.limit!, item)
+      label: tplTransform(locale.limit!, item)
     };
   });
 

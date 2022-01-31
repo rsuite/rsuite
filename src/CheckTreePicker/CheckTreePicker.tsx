@@ -122,14 +122,14 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     placeholder,
     value: controlledValue,
     defaultValue = emptyArray,
-    defaultExpandAll,
+    defaultExpandAll = false,
     disabledItemValues = emptyArray,
     expandItemValues: controlledExpandItemValues,
-    defaultExpandItemValues,
+    defaultExpandItemValues = emptyArray,
     height = 360,
     menuStyle,
     searchable = true,
-    virtualized,
+    virtualized = false,
     className,
     classPrefix = 'picker',
     menuClassName,
@@ -286,15 +286,17 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   };
 
   const focusActiveNode = useCallback(() => {
-    focusToActiveTreeNode({
-      list: listRef.current!,
-      valueKey,
-      selector: `.${checkTreePrefix('node-active')}`,
-      activeNode,
-      virtualized: virtualized!,
-      container: treeViewRef.current!,
-      formattedNodes: getFormattedNodes()
-    });
+    if (listRef.current) {
+      focusToActiveTreeNode({
+        list: listRef.current,
+        valueKey,
+        selector: `.${checkTreePrefix('node-active')}`,
+        activeNode,
+        virtualized,
+        container: treeViewRef.current,
+        formattedNodes: getFormattedNodes()
+      });
+    }
   }, [checkTreePrefix, activeNode, getFormattedNodes, valueKey, virtualized]);
 
   useEffect(() => {

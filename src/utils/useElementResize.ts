@@ -9,7 +9,7 @@ import { ResizeObserver } from '@juggle/resize-observer';
  * @param listener An event handler
  */
 export default function useElementResize(
-  eventTarget: Element | (() => Element),
+  eventTarget: Element | null | (() => Element | null),
   listener: ResizeObserverCallback
 ) {
   const resizeObserver = useRef<ResizeObserver>();
@@ -17,8 +17,11 @@ export default function useElementResize(
   useEffect(() => {
     if (!resizeObserver.current) {
       const target = typeof eventTarget === 'function' ? eventTarget() : eventTarget;
-      resizeObserver.current = new ResizeObserver(listener);
-      resizeObserver.current.observe(target);
+
+      if (target) {
+        resizeObserver.current = new ResizeObserver(listener);
+        resizeObserver.current.observe(target);
+      }
     }
 
     return () => {

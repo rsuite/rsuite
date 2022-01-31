@@ -312,7 +312,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * Clear the value in input.
    */
   const cleanInputValue = useCallback(() => {
-    trigger.current!.clearInput();
+    trigger.current?.clearInput();
   }, []);
 
   /**

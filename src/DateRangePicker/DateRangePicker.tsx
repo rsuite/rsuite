@@ -341,14 +341,14 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       // and waiting for user to select the second date to complete the selection.
       if (!hasDoneSelect.current) {
         // If `hoverRange` is set, you need to change the value of hoverDateRange according to the rules
-        if (!isNil(nextHoverDateRange)) {
+        if (!isNil(nextHoverDateRange) && !isNil(selectRangeValueRef.current)) {
           let nextSelectedDates: DateRange = [
-            selectRangeValueRef.current![0],
+            selectRangeValueRef.current[0],
             nextHoverDateRange[1]
           ];
 
-          if (DateUtils.isBefore(nextHoverDateRange[0], selectRangeValueRef.current![0])) {
-            nextSelectedDates = [nextHoverDateRange[0], selectRangeValueRef.current![1]];
+          if (DateUtils.isBefore(nextHoverDateRange[0], selectRangeValueRef.current[0])) {
+            nextSelectedDates = [nextHoverDateRange[0], selectRangeValueRef.current[1]];
           }
           setSelectedDates(nextSelectedDates);
         } else {
@@ -414,7 +414,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       }
 
       setHoverDateRange(
-        nextSelectDates.length === 2 ? nextSelectDates : [nextSelectDates[0]!, nextSelectDates[0]!]
+        nextSelectDates.length === 2
+          ? nextSelectDates
+          : [nextSelectDates[0] as Date, nextSelectDates[0] as Date]
       );
       setSelectedDates(nextSelectDates);
       updateCalendarDate(nextSelectDates);
