@@ -113,7 +113,7 @@ RSUITE is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [rsuite-design]: https://rsuitejs.com/design/default
 [live-preview-on-codesandbox]: https://codesandbox.io/s/mo7jxvr9x9?from-embed
 [rsuite-doc-guide]: https://rsuitejs.com/guide/introduction
-[rsuite-doc-guide-themes]: https://rsuitejs.com/guide/themes
+[rsuite-doc-guide-themes]: https://rsuitejs.com/guide/customization
 [rsuite-doc-guide-intl]: https://rsuitejs.com/guide/intl
 [rsuite-components-overview]: https://rsuitejs.com/components/overview
 [release-notes]: https://github.com/rsuite/rsuite/releases

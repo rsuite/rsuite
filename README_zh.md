@@ -140,7 +140,7 @@ React Suite 基于 [MIT licensed][license] 发布。
 [rsuite-design]: https://rsuitejs.com/design/default
 [live-preview-on-codesandbox]: https://codesandbox.io/s/rsuite-template-5vq6zo2z5l
 [rsuite-doc-guide]: https://rsuitejs.com/guide/introduction
-[rsuite-doc-guide-themes]: https://rsuitejs.com/guide/themes
+[rsuite-doc-guide-themes]: https://rsuitejs.com/guide/customization
 [rsuite-doc-guide-intl]: https://rsuitejs.com/guide/intl
 [rsuite-doc-guide-intl]: https://rsuitejs.com/en/guide/intl
 [rsuite-components-overview]: https://rsuitejs.com/components/overview
