@@ -91,4 +91,17 @@ describe('Carousel', () => {
 
     ReactTestUtils.Simulate.transitionEnd(instance.querySelector('.rs-carousel-slider'));
   });
+
+  it('Should initialize with the passed index position', () => {
+    const instance = getDOMNode(
+      <Carousel index={2}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+      </Carousel>
+    );
+
+    assert.equal(instance.querySelector('[aria-hidden=false]').textContent, '3');
+  });
 });

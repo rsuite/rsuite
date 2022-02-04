@@ -12,6 +12,10 @@
 
 <!--{include:`basic.md`}-->
 
+### 初始指数
+
+<!--{include:`position.md`}-->
+
 ### 外观
 
 <!--{include:`appearance.md`}-->
@@ -27,6 +31,7 @@
 | 属性名称     | 类型`(默认值)`                                         | 描述                       |
 | ------------ | ------------------------------------------------------ | -------------------------- |
 | as           | ElementType `('div')`                                  | 自定义元素类型             |
+| index        | number (`0`)                                           | 初始活动元素索引           |
 | autoplay     | boolean                                                | 自动轮播                   |
 | children     | ReactNode                                              | 轮播的元素                 |
 | classPrefix  | string `('carousel')`                                  | 组件 CSS 类的前缀          |

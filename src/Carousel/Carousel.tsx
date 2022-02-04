@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef } from 'react';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { useClassNames, useCustom, guid, ReactChildren, useTimeout, mergeRefs } from '../utils';
@@ -17,7 +17,10 @@ export interface CarouselProps extends WithAsProps {
   /** Button shape */
   shape?: 'dot' | 'bar';
 
-  /** Callback fired when the active item changes */
+  /** Active element index */
+  index?: number;
+
+  /** Callback fired when the active item manually changes */
   onSelect?: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
 
   /** Callback fired when a slide transition starts */
@@ -38,6 +41,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
       shape = 'dot',
       autoplay,
       autoplayInterval = 4000,
+      index = 0,
       onSelect,
       onSlideStart,
       onSlideEnd,
@@ -51,26 +55,38 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
     const vertical = placement === 'left' || placement === 'right';
     const lengthKey = vertical ? 'height' : 'width';
 
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [activeIndex, setActiveIndex] = useState(index);
     const [lastIndex, setLastIndex] = useState(0);
+    const [inputActiveIndex, setInputActiveIndex] = useState(index);
     const rootRef = useRef<HTMLDivElement>(null);
 
-    const handleSlide = (nextActiveIndex?: number, event?: React.ChangeEvent<HTMLInputElement>) => {
-      if (!rootRef.current) {
-        return;
-      }
+    // Set a timer for automatic playback.
+    // `autoplay` needs to be cast to boolean type to avoid undefined parameters.
+    const { clear, reset } = useTimeout(
+      () => handleSlide(),
+      autoplayInterval,
+      !!autoplay && count > 1
+    );
 
-      clear();
-      const index = nextActiveIndex ?? activeIndex + 1;
+    const handleSlide = useCallback(
+      (nextActiveIndex?: number, event?: React.ChangeEvent<HTMLInputElement>) => {
+        if (!rootRef.current) {
+          return;
+        }
 
-      // When index is greater than count, start from 1 again.
-      const nextIndex = index % count;
+        clear();
+        const index = nextActiveIndex ?? activeIndex + 1;
 
-      setActiveIndex(nextIndex);
-      onSlideStart?.(nextIndex, event);
-      setLastIndex(nextActiveIndex == null ? activeIndex : nextIndex);
-      reset();
-    };
+        // When index is greater than count, start from 1 again.
+        const nextIndex = index % count;
+
+        setActiveIndex(nextIndex);
+        onSlideStart?.(nextIndex, event);
+        setLastIndex(nextActiveIndex == null ? activeIndex : nextIndex);
+        reset();
+      },
+      [activeIndex, count, clear, onSlideStart, reset]
+    );
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const activeIndex = +event.target.value;
@@ -85,9 +101,14 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
       [activeIndex, onSlideEnd]
     );
 
-    // Set a timer for automatic playback.
-    // `autoplay` needs to be cast to boolean type to avoid undefined parameters.
-    const { clear, reset } = useTimeout(handleSlide, autoplayInterval, !!autoplay && count > 1);
+    useEffect(() => {
+      if (inputActiveIndex !== index) {
+        setInputActiveIndex(index);
+        if (index >= 0 && index !== activeIndex) {
+          handleSlide(index);
+        }
+      }
+    }, [index, inputActiveIndex, activeIndex, handleSlide, setInputActiveIndex]);
 
     const uniqueId = useMemo(() => guid(), []);
     const items = React.Children.map(
@@ -174,6 +195,7 @@ Carousel.propTypes = {
   autoplayInterval: PropTypes.number,
   placement: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
   shape: PropTypes.oneOf(['dot', 'bar']),
+  index: PropTypes.number,
   onSelect: PropTypes.func,
   onSlideStart: PropTypes.func,
   onSlideEnd: PropTypes.func

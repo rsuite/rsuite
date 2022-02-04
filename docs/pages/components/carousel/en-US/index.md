@@ -12,6 +12,10 @@ Display a set of elements in a carousel
 
 <!--{include:`basic.md`}-->
 
+### Initial index
+
+<!--{include:`position.md`}-->
+
 ### Appearance
 
 <!--{include:`appearance.md`}-->
@@ -27,6 +31,7 @@ Display a set of elements in a carousel
 | Property         | Type `(Default)`                                       | Description                                    |
 | ---------------- | ------------------------------------------------------ | ---------------------------------------------- |
 | as               | ElementType `('div')`                                  | Custom element type                            |
+| index            | number (`0`)                                           | Initial active element index                   |
 | autoplay         | boolean                                                | Automatic carousel element.                    |
 | autoplayInterval | number (`4000`)                                        | Delay in ms until navigating to the next item. |
 | children         | ReactNode                                              | Carousel elements                              |
