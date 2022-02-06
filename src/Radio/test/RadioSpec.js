@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-
-import Radio from '../Radio';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
+import Radio from '../Radio';
 
 describe('Radio', () => {
+  testStandardProps(<Radio />);
+
   it('Should render a radio', () => {
     const instance = getDOMNode(<Radio>Test</Radio>);
     assert.equal(instance.querySelectorAll('input[type="radio"]').length, 1);
@@ -113,21 +115,5 @@ describe('Radio', () => {
     );
 
     ReactTestUtils.Simulate.change(instance.querySelector('input'));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Radio className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Radio style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Radio classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

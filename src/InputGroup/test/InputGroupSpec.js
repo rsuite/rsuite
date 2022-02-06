@@ -1,9 +1,12 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import InputGroup from '../InputGroup';
 import Input from '../../Input/Input';
 
 describe('InputGroup', () => {
+  testStandardProps(<InputGroup />);
+
   it('Should render a container', () => {
     const title = 'Test';
     const instance = getDOMNode(<InputGroup>{title}</InputGroup>);
@@ -56,27 +59,5 @@ describe('InputGroup', () => {
       </InputGroup>
     );
     assert.ok(instance.querySelector('.rs-input-group-btn'));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<InputGroup className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<InputGroup style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    let instance = getDOMNode(<InputGroup style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<InputGroup classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

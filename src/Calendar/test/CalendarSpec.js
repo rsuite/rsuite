@@ -2,9 +2,12 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import { parseISO } from '../../utils/dateUtils';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Calendar from '../Calendar';
 
 describe('Calendar', () => {
+  testStandardProps(<Calendar />);
+
   it('Should render a div with `calendar` class', () => {
     const instance = getDOMNode(<Calendar calendarDate={new Date(2021, 11, 24)} />);
 
@@ -33,27 +36,5 @@ describe('Calendar', () => {
 
     fireEvent.click(getByRole('button', { name: '24 Dec 2021' }));
     expect(onSelect).to.have.been.calledWith(new Date(2021, 11, 24));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(
-      <Calendar className="custom" calendarDate={new Date(2021, 11, 24)} />
-    );
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(
-      <Calendar style={{ fontSize }} calendarDate={new Date(2021, 11, 24)} />
-    );
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(
-      <Calendar classPrefix="custom-prefix" calendarDate={new Date(2021, 11, 24)} />
-    );
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

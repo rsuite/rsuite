@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
-import Checkbox from '../Checkbox';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
+import Checkbox from '../Checkbox';
 
 describe('Checkbox', () => {
+  testStandardProps(<Checkbox />);
+
   it('Should render a checkbox', () => {
     const instance = getDOMNode(<Checkbox>Test</Checkbox>);
     assert.equal(instance.querySelectorAll('input[type="checkbox"]').length, 1);
@@ -125,22 +128,6 @@ describe('Checkbox', () => {
     );
 
     ReactTestUtils.Simulate.change(instance.querySelector('input'));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Checkbox className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Checkbox style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Checkbox classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   describe('Plain text', () => {

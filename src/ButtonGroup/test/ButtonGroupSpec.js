@@ -1,10 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import ButtonGroup from '../ButtonGroup';
 import Button from '../../Button';
 
 describe('ButtonGroup', () => {
+  testStandardProps(<ButtonGroup />);
+
   it('Should output a button group', () => {
     const instance = getDOMNode(<ButtonGroup />);
     assert.equal(instance.nodeName, 'DIV');
@@ -49,11 +52,6 @@ describe('ButtonGroup', () => {
     assert.ok(instance.className.match(/\bbtn-group-justified\b/));
   });
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<ButtonGroup className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
   it('Should render 2 <button>', () => {
     const instance = getDOMNode(
       <ButtonGroup>
@@ -62,16 +60,5 @@ describe('ButtonGroup', () => {
       </ButtonGroup>
     );
     assert.equal(instance.querySelectorAll('button').length, 2);
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<ButtonGroup style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<ButtonGroup classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

@@ -1,8 +1,11 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import ProgressLine from '../ProgressLine';
 
 describe('Progress - Line', () => {
+  testStandardProps(<ProgressLine />);
+
   it('Should render a Line', () => {
     const instance = getDOMNode(<ProgressLine />);
     assert.ok(instance.className.match(/\brs-progress-line\b/));
@@ -39,22 +42,6 @@ describe('Progress - Line', () => {
   it('Should render a status', () => {
     const instance = getDOMNode(<ProgressLine status="success" />);
     assert.ok(instance.className.match(/\brs-progress-line-success\b/));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<ProgressLine className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<ProgressLine style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<ProgressLine classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should be vertical', () => {

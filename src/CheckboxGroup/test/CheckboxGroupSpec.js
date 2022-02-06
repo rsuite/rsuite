@@ -2,12 +2,15 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 
 import CheckboxGroup from '../CheckboxGroup';
 import Checkbox from '../../Checkbox';
 import { globalKey } from '../../utils/prefix';
 
 describe('CheckboxGroup', () => {
+  testStandardProps(<CheckboxGroup />);
+
   it('Should render a checkbox group', () => {
     const instance = getDOMNode(
       <CheckboxGroup>
@@ -131,22 +134,6 @@ describe('CheckboxGroup', () => {
 
     const checkboxs = instance.querySelectorAll(`.${globalKey}checkbox`);
     ReactTestUtils.Simulate.change(checkboxs[2].querySelector('input'));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<CheckboxGroup className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<CheckboxGroup style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<CheckboxGroup classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   describe('Plain text', () => {

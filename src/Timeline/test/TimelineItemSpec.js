@@ -1,9 +1,11 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
-
+import { testStandardProps } from '@test/commonCases';
 import TimelineItem from '../TimelineItem';
 
 describe('TimelineItem', () => {
+  testStandardProps(<TimelineItem />);
+
   it('Should output a TimelineItem', () => {
     const instance = getDOMNode(<TimelineItem />);
     assert.equal(instance.className, 'rs-timeline-item');
@@ -25,21 +27,5 @@ describe('TimelineItem', () => {
   it('Should output the last item', () => {
     const instance = getDOMNode(<TimelineItem last />);
     assert.ok(instance.className.match(/\brs-timeline-item-last\b/));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<TimelineItem className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<TimelineItem style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<TimelineItem classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

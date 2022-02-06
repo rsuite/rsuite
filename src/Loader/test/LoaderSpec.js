@@ -1,8 +1,11 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Loader from '../Loader';
 
 describe('Loader', () => {
+  testStandardProps(<Loader />);
+
   it('Should render a Loader', () => {
     let instance = getDOMNode(<Loader />);
     assert.include(instance.className, 'rs-loader');
@@ -36,21 +39,5 @@ describe('Loader', () => {
   it('Should have a size', () => {
     let instance = getDOMNode(<Loader size="lg" />);
     assert.include(instance.className, 'rs-loader-lg');
-  });
-
-  it('Should have a custom className', () => {
-    let instance = getDOMNode(<Loader className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    let instance = getDOMNode(<Loader style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Loader classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

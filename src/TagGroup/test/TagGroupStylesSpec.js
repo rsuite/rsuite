@@ -1,7 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import TagGroup from '../index';
 import { getStyle, itChrome } from '@test/testUtils';
+import TagGroup from '../TagGroup';
+
+import '../../Tag/styles/index.less';
 
 describe('TagGroup styles', () => {
   itChrome('Should render the correct styles', () => {

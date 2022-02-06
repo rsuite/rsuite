@@ -2,10 +2,13 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Panel from '../Panel';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
+import Panel from '../Panel';
 
 describe('Panel', () => {
+  testStandardProps(<Panel />);
+
   it('Should render a panel', () => {
     const title = 'Test';
     const instance = getDOMNode(<Panel>{title}</Panel>);
@@ -103,21 +106,5 @@ describe('Panel', () => {
 
     title = ref.current.querySelector('.rs-panel-title');
     ReactTestUtils.Simulate.click(title.firstChild);
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Panel className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Panel style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Panel classPrefix="custom-prefix" />);
-    assert.include(instance.className, 'custom-prefix');
   });
 });

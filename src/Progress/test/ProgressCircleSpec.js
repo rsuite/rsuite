@@ -1,8 +1,13 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import ProgressCircle from '../ProgressCircle';
 
 describe('Progress - Circle', () => {
+  testStandardProps(<ProgressCircle />, {
+    customClassName: false
+  });
+
   it('Should render a Circle', () => {
     const instance = getDOMNode(<ProgressCircle />);
     assert.ok(instance.className.match(/\brs-progress-circle\b/));
@@ -46,22 +51,6 @@ describe('Progress - Circle', () => {
       instance.querySelector('.rs-progress-stroke').getAttribute('stroke-linecap'),
       'butt'
     );
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<ProgressCircle className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<ProgressCircle style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<ProgressCircle classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should render start position by `gapPosition`', () => {

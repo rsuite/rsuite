@@ -1,8 +1,11 @@
 import React from 'react';
-import Avatar from '../Avatar';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
+import Avatar from '../Avatar';
 
 describe('Avatar', () => {
+  testStandardProps(<Avatar />);
+
   it('Should render avatar', () => {
     const content = 'RS';
     const instance = getDOMNode(<Avatar>{content}</Avatar>);
@@ -56,16 +59,5 @@ describe('Avatar', () => {
   it('Should apply size class', () => {
     const instance = getDOMNode(<Avatar size="lg">RS</Avatar>);
     assert.include(instance.className, 'rs-avatar-lg');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Avatar style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Avatar classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

@@ -1,9 +1,12 @@
 import React from 'react';
+import { render } from '@testing-library/react';
+import { testStandardProps } from '@test/commonCases';
 import AvatarGroup from '../AvatarGroup';
 import Avatar from '../../Avatar';
-import { render } from '@testing-library/react';
 
 describe('AvatarGroup', () => {
+  testStandardProps(<AvatarGroup />);
+
   it('Should change the size of all avatars', () => {
     const { getByTestId } = render(
       <AvatarGroup size="xs" data-testid="group">
@@ -36,16 +39,5 @@ describe('AvatarGroup', () => {
   it('Should be stack', () => {
     const { getByTestId } = render(<AvatarGroup stack data-testid="group" />);
     assert.include(getByTestId('group').className, 'rs-avatar-group-stack');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const { getByTestId } = render(<AvatarGroup style={{ fontSize }} data-testid="group" />);
-    assert.equal(getByTestId('group').style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const { getByTestId } = render(<AvatarGroup classPrefix="custom-prefix" data-testid="group" />);
-    assert.include(getByTestId('group').className, 'custom-prefix');
   });
 });

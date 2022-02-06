@@ -1,8 +1,11 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Divider from '../Divider';
 
 describe('Divider', () => {
+  testStandardProps(<Divider />);
+
   it('Should render a Divider', () => {
     const instance = getDOMNode(<Divider />);
     const classes = instance.className;
@@ -22,21 +25,5 @@ describe('Divider', () => {
     const instance = getDOMNode(<Divider>abc</Divider>);
     const classes = instance.className;
     assert.include(classes, 'rs-divider-with-text');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Divider className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Divider style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Divider classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

@@ -1,9 +1,12 @@
 import React from 'react';
-import Notification from '../Notification';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import ReactTestUtils from 'react-dom/test-utils';
+import Notification from '../Notification';
 
 describe('Notification', () => {
+  testStandardProps(<Notification />);
+
   it('Should output a notification', () => {
     const instance = getDOMNode(<Notification />);
     assert.ok(instance.className.match(/\brs-notification\b/));
@@ -29,22 +32,6 @@ describe('Notification', () => {
   it('Should have a header', () => {
     const instance = getDOMNode(<Notification header="header" />);
     assert.equal(instance.querySelector('.rs-notification-title').textContent, 'header');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Notification className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Notification style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Notification classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should call onClose callback', done => {

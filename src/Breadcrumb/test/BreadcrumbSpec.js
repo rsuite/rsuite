@@ -2,6 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Breadcrumb from '../Breadcrumb';
 
 afterEach(() => {
@@ -9,6 +10,8 @@ afterEach(() => {
 });
 
 describe('Breadcrumb', () => {
+  testStandardProps(<Breadcrumb />);
+
   it('Should apply id to the wrapper nav element', () => {
     const instance = getDOMNode(<Breadcrumb id="custom-id" />);
 
@@ -19,15 +22,6 @@ describe('Breadcrumb', () => {
   it('Should have breadcrumb class', () => {
     const instance = getInstance(<Breadcrumb />);
     assert.include(instance.className, 'breadcrumb');
-  });
-
-  it('Should have custom classes', () => {
-    const instance = getDOMNode(<Breadcrumb className="custom-one custom-two" />);
-    const classes = instance.className;
-
-    assert.include(classes, 'breadcrumb');
-    assert.include(classes, 'custom-one');
-    assert.include(classes, 'custom-two');
   });
 
   it('Should automatically collapse if there are more than 5 items', () => {
@@ -88,22 +82,6 @@ describe('Breadcrumb', () => {
     assert.equal(instance.childNodes[1].className, 'rs-breadcrumb-separator');
     assert.equal(instance.childNodes[1].tagName, 'SPAN');
     assert.equal(instance.childNodes[1].textContent, '-');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Breadcrumb className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Breadcrumb style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Breadcrumb classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should not get "children with the same key" warning when generating items with array.map', () => {

@@ -136,7 +136,7 @@ describe('<Dropdown.Item>', () => {
       </Dropdown>
     );
 
-    expect(getByTestId('item')).to.have.style('fontSize', fontSize);
+    expect(getByTestId('item')).to.have.style('font-size', fontSize);
   });
 
   it('Should have a custom className prefix', () => {

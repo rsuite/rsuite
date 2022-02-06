@@ -1,11 +1,14 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Nav from '../Nav';
 import Dropdown from '../../Dropdown';
 
 describe('<Nav>', () => {
+  testStandardProps(<Nav />);
+
   it('Should render a nav', () => {
     const title = 'Test';
     const instance = getDOMNode(<Nav>{title}</Nav>);
@@ -53,22 +56,6 @@ describe('<Nav>', () => {
       </Nav>
     );
     assert.ok(instance.querySelectorAll('a')[1].className.match(/\bnav-item-active\b/));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Nav className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Nav style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Nav classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should call onSelect callback with correct arguments', () => {

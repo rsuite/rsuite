@@ -1,8 +1,12 @@
 import React from 'react';
-import List from '../List';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
+import List from '../List';
+import ListItem from '../ListItem';
 
 describe('ListItem', () => {
+  testStandardProps(<ListItem />);
+
   it('Should render a ListItem', () => {
     const domNode = getDOMNode(
       <List>
@@ -21,24 +25,5 @@ describe('ListItem', () => {
       </List>
     );
     assert.include(domNode.firstChild.className, 'rs-list-item-disabled');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const domNode = getDOMNode(
-      <List>
-        <List.Item index={1} style={{ fontSize }} />
-      </List>
-    );
-    assert.equal(domNode.firstChild.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const domNode = getDOMNode(
-      <List>
-        <List.Item index={1} classPrefix="custom-prefix" />
-      </List>
-    );
-    assert.include(domNode.firstChild.className, 'custom-prefix');
   });
 });
