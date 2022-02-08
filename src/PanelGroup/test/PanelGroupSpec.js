@@ -2,11 +2,14 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import PanelGroup from '../PanelGroup';
 import Panel from '../../Panel';
-import { getDOMNode } from '@test/testUtils';
 
 describe('PanelGroup', () => {
+  testStandardProps(<PanelGroup />);
+
   it('Should render a PanelGroup', () => {
     const title = 'Test';
     const instance = getDOMNode(<PanelGroup>{title}</PanelGroup>);
@@ -59,21 +62,5 @@ describe('PanelGroup', () => {
 
     userEvent.click(getByText('Click me'));
     expect(onSelectSpy).to.have.been.calledWith(undefined);
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<PanelGroup className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<PanelGroup style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<PanelGroup classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

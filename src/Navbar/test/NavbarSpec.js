@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
@@ -13,6 +14,8 @@ afterEach(() => {
 });
 
 describe('Navbar', () => {
+  testStandardProps(<Navbar />);
+
   it('Should render a navbar', () => {
     const instance = getDOMNode(<Navbar />);
     assert.include(instance.className, 'rs-navbar');
@@ -25,22 +28,6 @@ describe('Navbar', () => {
       </Navbar>
     );
     assert.ok(instance.querySelector('.rs-nav.rs-navbar-nav'));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Navbar className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Navbar style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Navbar classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   context('Use <Dropdown> within <Navbar>', () => {

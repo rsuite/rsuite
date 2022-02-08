@@ -1,8 +1,11 @@
 import React from 'react';
-import Badge from '../Badge';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
+import Badge from '../Badge';
 
 describe('Badge', () => {
+  testStandardProps(<Badge />);
+
   it('Should render independent', () => {
     const instance = getDOMNode(<Badge />);
     assert.include(instance.className, 'rs-badge-independent');

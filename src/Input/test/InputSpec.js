@@ -2,10 +2,13 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 
 import Input from '../Input';
 
 describe('Input', () => {
+  testStandardProps(<Input />);
+
   it('Should render a input', () => {
     const domNode = getDOMNode(<Input />);
     assert.include(domNode.className, 'rs-input');
@@ -43,22 +46,6 @@ describe('Input', () => {
   it('Should set size', () => {
     const instance = getDOMNode(<Input size="lg" />);
     assert.include(instance.className, 'rs-input-lg');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Input className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Input style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Input classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   describe('Plain text', () => {

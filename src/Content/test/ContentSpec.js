@@ -1,29 +1,16 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Content from '../Content';
 
 describe('Content', () => {
+  testStandardProps(<Content />);
+
   it('Should render a Content', () => {
     const title = 'Test';
     const instance = getDOMNode(<Content>{title}</Content>);
 
     assert.equal(instance.className, 'rs-content');
     assert.equal(instance.textContent, title);
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Content className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Content style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Content classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

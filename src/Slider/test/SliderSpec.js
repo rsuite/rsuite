@@ -2,9 +2,12 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Slider from '../Slider';
 
 describe('Slider', () => {
+  testStandardProps(<Slider />);
+
   it('Should render a Slider', () => {
     const instance = getDOMNode(<Slider />);
     assert.equal(instance.className, 'rs-slider');
@@ -55,22 +58,6 @@ describe('Slider', () => {
   it('Should render custom title', () => {
     const instance = getDOMNode(<Slider tooltip={false} handleTitle={'test'} />);
     assert.equal(instance.textContent, 'test');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Slider className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Slider style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Slider classPrefix="custom-prefix" />);
-    assert.include(instance.className, 'custom-prefix');
   });
 
   it('Should handle keyboard operations', () => {

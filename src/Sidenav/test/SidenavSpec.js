@@ -1,17 +1,19 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
 import { getByTestId, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { getDOMNode } from '@test/testUtils';
-
+import { testStandardProps } from '@test/commonCases';
 import Sidenav from '../Sidenav';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
-import userEvent from '@testing-library/user-event';
 
 describe('<Sidenav>', () => {
   afterEach(() => {
     sinon.restore();
   });
+
+  testStandardProps(<Sidenav />);
 
   it('Should render a navigation', () => {
     const instance = getDOMNode(<Sidenav />);
@@ -170,22 +172,6 @@ describe('<Sidenav>', () => {
     });
 
     expect(instance.querySelector('.rs-dropdown-header')).not.to.be.null;
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Sidenav className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Sidenav style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Sidenav classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should set `aria-selected=true` on the item indicated by `activeKey`', () => {

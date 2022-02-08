@@ -1,8 +1,11 @@
 import React from 'react';
-import Stack from '../Stack';
 import { render } from '@testing-library/react';
+import { testStandardProps } from '@test/commonCases';
+import Stack from '../Stack';
 
 describe('Stack', () => {
+  testStandardProps(<Stack />);
+
   it('Should output a stack', () => {
     const { getByTestId } = render(<Stack data-testid="test"></Stack>);
 
@@ -54,16 +57,5 @@ describe('Stack', () => {
 
     assert.equal(getByTestId('test').children.length, 3);
     assert.equal(getByTestId('test').children[1].textContent, '|');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const { getByTestId } = render(<Stack style={{ fontSize }} data-testid="test" />);
-    assert.equal(getByTestId('test').style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const { getByTestId } = render(<Stack classPrefix="custom-prefix" data-testid="test" />);
-    assert.include(getByTestId('test').className, 'custom-prefix');
   });
 });

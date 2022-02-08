@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Message from '../Message';
 
 describe('Message', () => {
+  testStandardProps(<Message />);
+
   it('Should render a Message', () => {
     const instance = getDOMNode(<Message />);
     assert.include(instance.className, 'rs-message');
@@ -48,21 +51,5 @@ describe('Message', () => {
     const instance = getDOMNode(<Message closable onClose={doneOp} />);
     const closeButton = instance.querySelector('.rs-btn-close');
     ReactTestUtils.Simulate.click(closeButton);
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Message className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Message style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Message classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

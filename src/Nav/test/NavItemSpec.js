@@ -3,12 +3,14 @@ import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getByTestId, screen } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
-
+import { testStandardProps } from '@test/commonCases';
 import NavItem from '../NavItem';
 import Sidenav from '../../Sidenav';
 import Nav from '../Nav';
 
 describe('<Nav.Item>', () => {
+  testStandardProps(<NavItem />);
+
   it('Should render a <a>', () => {
     let title = 'Test';
     let instance = getDOMNode(<NavItem>{title}</NavItem>);
@@ -85,22 +87,6 @@ describe('<Nav.Item>', () => {
     let instance = getDOMNode(<NavItem onClick={onHideSpy} disabled />);
     ReactTestUtils.Simulate.click(instance);
     assert.ok(!onHideSpy.calledOnce);
-  });
-
-  it('Should have a custom className', () => {
-    let instance = getDOMNode(<NavItem className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    let instance = getDOMNode(<NavItem style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<NavItem classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should render a tooltip when used inside a collapsed <Sidenav>', async () => {

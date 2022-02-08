@@ -1,9 +1,13 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Breadcrumb from '../Breadcrumb';
+import BreadcrumbItem from '../BreadcrumbItem';
 
 describe('Breadcrumb.Item', () => {
+  testStandardProps(<BreadcrumbItem />);
+
   it('Should render `a` as inner element when is not active', () => {
     const instance = getDOMNode(<Breadcrumb.Item href="#">Crumb</Breadcrumb.Item>);
 
@@ -27,16 +31,6 @@ describe('Breadcrumb.Item', () => {
 
     assert.ok(instance);
     assert.notOk(instance.hasAttribute('href'));
-  });
-
-  it('Should add custom classes onto `li` wrapper element', () => {
-    const instance = getDOMNode(
-      <Breadcrumb.Item className="custom-one custom-two">Active Crumb</Breadcrumb.Item>
-    );
-
-    const classes = instance.className;
-    assert.include(classes, 'custom-one');
-    assert.include(classes, 'custom-two');
   });
 
   it('Should spread additional props onto inner element', done => {
@@ -87,21 +81,5 @@ describe('Breadcrumb.Item', () => {
       </Breadcrumb.Item>
     );
     assert.equal(instance.target, '_blank');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Breadcrumb.Item className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    let instance = getDOMNode(<Breadcrumb.Item style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Breadcrumb.Item classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

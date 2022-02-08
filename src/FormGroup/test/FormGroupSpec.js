@@ -1,32 +1,18 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
-
+import { testStandardProps } from '@test/commonCases';
 import FormGroup from '../FormGroup';
 import Input from '../../Input';
 import FormControlLabel from '../../FormControlLabel';
 
 describe('FormGroup', () => {
+  testStandardProps(<FormGroup />);
+
   it('Should render a FormGroup', () => {
     let title = 'Test';
     let instance = getDOMNode(<FormGroup>{title}</FormGroup>);
     assert.equal(instance.className, 'rs-form-group');
     assert.equal(instance.innerHTML, title);
-  });
-
-  it('Should have a custom className', () => {
-    let instance = getDOMNode(<FormGroup className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    let instance = getDOMNode(<FormGroup style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<FormGroup classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should be assigned a controlId', () => {

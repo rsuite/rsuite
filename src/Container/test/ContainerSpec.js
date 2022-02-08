@@ -1,10 +1,12 @@
 import React from 'react';
-
+import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Container from '../Container';
 import Sidebar from '../../Sidebar';
-import { getDOMNode } from '@test/testUtils';
 
 describe('Container', () => {
+  testStandardProps(<Container />);
+
   it('Should render a Container', () => {
     const title = 'Test';
     const instance = getDOMNode(
@@ -31,29 +33,5 @@ describe('Container', () => {
     setTimeout(() => {
       assert.include(instance.className, 'rs-container-has-sidebar');
     }, 0);
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(
-      <Container className="custom">
-        <span />
-      </Container>
-    );
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(
-      <Container style={{ fontSize }}>
-        <span />
-      </Container>
-    );
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Container classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

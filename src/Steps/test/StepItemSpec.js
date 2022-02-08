@@ -1,10 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import StepItem from '../StepItem';
 import User from '@rsuite/icons/legacy/User';
 
 describe('StepItem', () => {
+  testStandardProps(<StepItem />);
+
   it('Should render a StepItem', () => {
     const instance = getDOMNode(<StepItem />);
     assert.equal(instance.className, 'rs-steps-item');
@@ -49,21 +52,5 @@ describe('StepItem', () => {
   it('Should render title ', () => {
     const instance = getDOMNode(<StepItem title={'test'} />);
     assert.equal(instance.textContent, 'test');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<StepItem className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<StepItem style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<StepItem classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

@@ -25,8 +25,8 @@ describe('Navbar styles', () => {
       );
 
       expect(getByTestId('icon'))
-        .to.have.style('fontSize', '16px')
-        .and.to.have.style('marginRight', '5px');
+        .to.have.style('font-size', '16px')
+        .and.to.have.style('margin-right', '5px');
     });
   });
 });

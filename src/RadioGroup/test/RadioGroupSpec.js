@@ -2,11 +2,13 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
-
+import { testStandardProps } from '@test/commonCases';
 import RadioGroup from '../RadioGroup';
 import Radio from '../../Radio';
 
 describe('RadioGroup', () => {
+  testStandardProps(<RadioGroup />);
+
   it('Should render a radio group', () => {
     const instance = getDOMNode(
       <RadioGroup>
@@ -156,22 +158,6 @@ describe('RadioGroup', () => {
       </RadioGroup>
     );
     assert.equal(instance.querySelector('.rs-radio-checked').textContent, 'false');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<RadioGroup className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<RadioGroup style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<RadioGroup classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should apply appearance', () => {

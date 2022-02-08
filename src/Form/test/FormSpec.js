@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import _isNil from 'lodash/isNil';
 import _omit from 'lodash/omit';
 import { getDOMNode, getInstance } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 
 import Form from '../Form';
 import FormControl from '../../FormControl';
@@ -33,6 +34,8 @@ const modelAsync = Schema.Model({
 });
 
 describe('Form', () => {
+  testStandardProps(<Form />);
+
   it('Should render a Form', () => {
     let title = 'Test';
     let instance = getDOMNode(<Form>{title}</Form>);
@@ -475,22 +478,6 @@ describe('Form', () => {
       </Form>
     );
     ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
-  });
-
-  it('Should have a custom className', () => {
-    let instance = getDOMNode(<Form className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    let instance = getDOMNode(<Form style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Form classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   /*** checkAsync */

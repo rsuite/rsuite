@@ -2,9 +2,12 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import RangeSlider from '../RangeSlider';
 
 describe('RangeSlider', () => {
+  testStandardProps(<RangeSlider />);
+
   it('Should render a RangeSlider', () => {
     const instance = getDOMNode(<RangeSlider />);
     assert.equal(instance.className, 'rs-slider');
@@ -77,22 +80,6 @@ describe('RangeSlider', () => {
   it('Should render custom title', () => {
     const instance = getDOMNode(<RangeSlider tooltip={false} handleTitle={'test'} />);
     assert.equal(instance.querySelector('.rs-slider-handle').textContent, 'test');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<RangeSlider className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<RangeSlider style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<RangeSlider classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should handle keyboard operations', () => {

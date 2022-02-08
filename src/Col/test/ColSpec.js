@@ -1,8 +1,11 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Col from '../Col';
 
 describe('Col', () => {
+  testStandardProps(<Col />);
+
   it('Should render a Col', () => {
     const title = 'Test';
     const instance = getDOMNode(<Col md={1}>{title}</Col>);
@@ -60,21 +63,5 @@ describe('Col', () => {
     assert.include(classes, 'rs-hidden-sm');
     assert.include(classes, 'rs-hidden-md');
     assert.include(classes, 'rs-hidden-lg');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Col className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Col style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Col classPrefix="custom-prefix" md={1} />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

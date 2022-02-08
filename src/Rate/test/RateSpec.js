@@ -2,11 +2,14 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import CameraRetro from '@rsuite/icons/legacy/CameraRetro';
 import Star from '@rsuite/icons/legacy/Star';
 import Rate from '../Rate';
 
 describe('Rate', () => {
+  testStandardProps(<Rate />);
+
   it('Should render a default Rate', () => {
     const instance = getDOMNode(<Rate />);
     assert.equal(instance.querySelectorAll('li.rs-rate-character-empty').length, 5);
@@ -157,22 +160,6 @@ describe('Rate', () => {
   it('Should be vertical', () => {
     const instance = getDOMNode(<Rate defaultValue={1.5} vertical allowHalf />);
     assert.ok(instance.querySelectorAll('.rs-rate-character-vertical').length);
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Rate className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Rate style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Rate classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should update characterMap when value is updated', () => {

@@ -32,12 +32,12 @@ describe('Dropdown styles', () => {
   it('Should render a Button in default appearance', () => {
     const { getByRole } = render(<Dropdown title="Dropdown" />);
 
-    expect(getByRole('button')).to.have.style('backgroundColor', getGrayScale('B050'));
+    expect(getByRole('button')).to.have.style('background-color', getGrayScale('B050'));
   });
 
   it('Should have 12px right padding given `noCaret=true`', () => {
     const { getByRole } = render(<Dropdown title="Dropdown" noCaret />);
 
-    expect(getByRole('button')).to.have.style('paddingRight', '12px');
+    expect(getByRole('button')).to.have.style('padding-right', '12px');
   });
 });

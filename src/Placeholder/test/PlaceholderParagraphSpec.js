@@ -1,24 +1,16 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import PlaceholderParagraph from '../PlaceholderParagraph';
 
 describe('PlaceholderParagraph', () => {
+  testStandardProps(<PlaceholderParagraph />);
+
   it('Should render a PlaceholderParagraph', () => {
     const instance = getDOMNode(<PlaceholderParagraph />);
 
     assert.equal(instance.tagName, 'DIV');
     assert.equal(instance.className, 'rs-placeholder rs-placeholder-paragraph');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<PlaceholderParagraph style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<PlaceholderParagraph classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should render 5 rows', () => {

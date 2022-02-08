@@ -1,11 +1,13 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
-
-import InputNumber from '../InputNumber';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
+import InputNumber from '../InputNumber';
 
 describe('InputNumber', () => {
+  testStandardProps(<InputNumber />);
+
   it('Should render a input', () => {
     const domNode = getDOMNode(<InputNumber />);
     assert.include(domNode.className, 'rs-input-number');
@@ -157,22 +159,6 @@ describe('InputNumber', () => {
     };
     const instance = getDOMNode(<InputNumber onFocus={doneOp} />);
     ReactTestUtils.Simulate.focus(instance.querySelector('.rs-input'));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<InputNumber className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<InputNumber style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<InputNumber classPrefix="custom-prefix" />);
-    assert.include(instance.className, 'custom-prefix');
   });
 
   describe('Plain text', () => {
