@@ -2,7 +2,7 @@
 
 ```js
 const instance = (
-  <Carousel index={2} className="custom-slider">
+  <Carousel activeIndex={2} className="custom-slider">
     <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=1" height="250" />
     <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=2" height="250" />
     <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=3" height="250" />

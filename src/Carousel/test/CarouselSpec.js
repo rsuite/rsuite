@@ -94,7 +94,7 @@ describe('Carousel', () => {
 
   it('Should initialize with the passed index position', () => {
     const instance = getDOMNode(
-      <Carousel index={2}>
+      <Carousel activeIndex={2}>
         <div>1</div>
         <div>2</div>
         <div>3</div>

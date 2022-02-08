@@ -18,7 +18,7 @@ export interface CarouselProps extends WithAsProps {
   shape?: 'dot' | 'bar';
 
   /** Active element index */
-  index?: number;
+  activeIndex?: number;
 
   /** Callback fired when the active item manually changes */
   onSelect?: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -41,7 +41,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
       shape = 'dot',
       autoplay,
       autoplayInterval = 4000,
-      index = 0,
+      activeIndex = 0,
       onSelect,
       onSlideStart,
       onSlideEnd,
@@ -55,9 +55,9 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
     const vertical = placement === 'left' || placement === 'right';
     const lengthKey = vertical ? 'height' : 'width';
 
-    const [activeIndex, setActiveIndex] = useState(index);
+    const [currentIndex, setCurrentIndex] = useState(activeIndex);
     const [lastIndex, setLastIndex] = useState(0);
-    const [inputActiveIndex, setInputActiveIndex] = useState(index);
+    const [inputActiveIndex, setInputActiveIndex] = useState(activeIndex);
     const rootRef = useRef<HTMLDivElement>(null);
 
     // Set a timer for automatic playback.
@@ -75,17 +75,17 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
         }
 
         clear();
-        const index = nextActiveIndex ?? activeIndex + 1;
+        const index = nextActiveIndex ?? currentIndex + 1;
 
         // When index is greater than count, start from 1 again.
         const nextIndex = index % count;
 
-        setActiveIndex(nextIndex);
+        setCurrentIndex(nextIndex);
         onSlideStart?.(nextIndex, event);
-        setLastIndex(nextActiveIndex == null ? activeIndex : nextIndex);
+        setLastIndex(nextActiveIndex == null ? currentIndex : nextIndex);
         reset();
       },
-      [activeIndex, count, clear, onSlideStart, reset]
+      [currentIndex, count, clear, onSlideStart, reset]
     );
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,19 +96,19 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
 
     const handleTransitionEnd = useCallback(
       (event: React.TransitionEvent<HTMLDivElement>) => {
-        onSlideEnd?.(activeIndex, event);
+        onSlideEnd?.(currentIndex, event);
       },
-      [activeIndex, onSlideEnd]
+      [currentIndex, onSlideEnd]
     );
 
     useEffect(() => {
-      if (inputActiveIndex !== index) {
-        setInputActiveIndex(index);
-        if (index >= 0 && index !== activeIndex) {
-          handleSlide(index);
+      if (inputActiveIndex !== activeIndex) {
+        setInputActiveIndex(activeIndex);
+        if (activeIndex >= 0 && activeIndex !== currentIndex) {
+          handleSlide(activeIndex);
         }
       }
-    }, [index, inputActiveIndex, activeIndex, handleSlide, setInputActiveIndex]);
+    }, [activeIndex, inputActiveIndex, currentIndex, handleSlide, setInputActiveIndex]);
 
     const uniqueId = useMemo(() => guid(), []);
     const items = React.Children.map(
@@ -126,7 +126,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
               type="radio"
               onChange={handleChange}
               value={index}
-              checked={activeIndex === index}
+              checked={currentIndex === index}
             />
             <label htmlFor={inputKey} className={prefix('label')} />
           </li>
@@ -134,7 +134,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
 
         return React.cloneElement(child, {
           key: `slider-item${index}`,
-          'aria-hidden': activeIndex !== index,
+          'aria-hidden': currentIndex !== index,
           style: { ...child.props.style, [lengthKey]: `${100 / count}%` },
           className: classNames(prefix('slider-item'), child.props.className)
         });
@@ -145,14 +145,14 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
 
     const positiveOrder = vertical || !rtl;
     const sign = positiveOrder ? '-' : '';
-    const activeRatio = `${sign}${(100 / count) * activeIndex}%`;
+    const activeRatio = `${sign}${(100 / count) * currentIndex}%`;
     const sliderStyles = {
       [lengthKey]: `${count * 100}%`,
       transform: vertical
         ? `translate3d(0, ${activeRatio} ,0)`
         : `translate3d(${activeRatio}, 0 ,0)`
     };
-    const showMask = count > 1 && activeIndex === 0 && activeIndex !== lastIndex;
+    const showMask = count > 1 && currentIndex === 0 && currentIndex !== lastIndex;
 
     return (
       <Component {...rest} ref={mergeRefs(ref, rootRef)} className={classes}>
@@ -195,7 +195,7 @@ Carousel.propTypes = {
   autoplayInterval: PropTypes.number,
   placement: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
   shape: PropTypes.oneOf(['dot', 'bar']),
-  index: PropTypes.number,
+  activeIndex: PropTypes.number,
   onSelect: PropTypes.func,
   onSlideStart: PropTypes.func,
   onSlideEnd: PropTypes.func
