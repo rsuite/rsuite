@@ -1,7 +1,15 @@
-import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useClassNames, useCustom, guid, ReactChildren, useTimeout, mergeRefs } from '../utils';
+import {
+  useClassNames,
+  useCustom,
+  guid,
+  ReactChildren,
+  useTimeout,
+  mergeRefs,
+  useControlled
+} from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface CarouselProps extends WithAsProps {
@@ -19,6 +27,9 @@ export interface CarouselProps extends WithAsProps {
 
   /** Active element index */
   activeIndex?: number;
+
+  /** Defaul initial index */
+  defaultActiveIndex?: number;
 
   /** Callback fired when the active item manually changes */
   onSelect?: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -41,7 +52,8 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
       shape = 'dot',
       autoplay,
       autoplayInterval = 4000,
-      activeIndex = 0,
+      activeIndex: activeIndexProp,
+      defaultActiveIndex = 0,
       onSelect,
       onSlideStart,
       onSlideEnd,
@@ -55,9 +67,8 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
     const vertical = placement === 'left' || placement === 'right';
     const lengthKey = vertical ? 'height' : 'width';
 
-    const [currentIndex, setCurrentIndex] = useState(activeIndex);
+    const [activeIndex, setActiveIndex] = useControlled(activeIndexProp, defaultActiveIndex);
     const [lastIndex, setLastIndex] = useState(0);
-    const [inputActiveIndex, setInputActiveIndex] = useState(activeIndex);
     const rootRef = useRef<HTMLDivElement>(null);
 
     // Set a timer for automatic playback.
@@ -75,17 +86,17 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
         }
 
         clear();
-        const index = nextActiveIndex ?? currentIndex + 1;
+        const index = nextActiveIndex ?? activeIndex + 1;
 
         // When index is greater than count, start from 1 again.
         const nextIndex = index % count;
 
-        setCurrentIndex(nextIndex);
+        setActiveIndex(nextIndex);
         onSlideStart?.(nextIndex, event);
-        setLastIndex(nextActiveIndex == null ? currentIndex : nextIndex);
+        setLastIndex(nextActiveIndex == null ? activeIndex : nextIndex);
         reset();
       },
-      [currentIndex, count, clear, onSlideStart, reset]
+      [activeIndex, count, setActiveIndex, clear, onSlideStart, reset]
     );
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,19 +107,10 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
 
     const handleTransitionEnd = useCallback(
       (event: React.TransitionEvent<HTMLDivElement>) => {
-        onSlideEnd?.(currentIndex, event);
+        onSlideEnd?.(activeIndex, event);
       },
-      [currentIndex, onSlideEnd]
+      [activeIndex, onSlideEnd]
     );
-
-    useEffect(() => {
-      if (inputActiveIndex !== activeIndex) {
-        setInputActiveIndex(activeIndex);
-        if (activeIndex >= 0 && activeIndex !== currentIndex) {
-          handleSlide(activeIndex);
-        }
-      }
-    }, [activeIndex, inputActiveIndex, currentIndex, handleSlide, setInputActiveIndex]);
 
     const uniqueId = useMemo(() => guid(), []);
     const items = React.Children.map(
@@ -126,7 +128,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
               type="radio"
               onChange={handleChange}
               value={index}
-              checked={currentIndex === index}
+              checked={activeIndex === index}
             />
             <label htmlFor={inputKey} className={prefix('label')} />
           </li>
@@ -134,7 +136,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
 
         return React.cloneElement(child, {
           key: `slider-item${index}`,
-          'aria-hidden': currentIndex !== index,
+          'aria-hidden': activeIndex !== index,
           style: { ...child.props.style, [lengthKey]: `${100 / count}%` },
           className: classNames(prefix('slider-item'), child.props.className)
         });
@@ -145,14 +147,14 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
 
     const positiveOrder = vertical || !rtl;
     const sign = positiveOrder ? '-' : '';
-    const activeRatio = `${sign}${(100 / count) * currentIndex}%`;
+    const activeRatio = `${sign}${(100 / count) * activeIndex}%`;
     const sliderStyles = {
       [lengthKey]: `${count * 100}%`,
       transform: vertical
         ? `translate3d(0, ${activeRatio} ,0)`
         : `translate3d(${activeRatio}, 0 ,0)`
     };
-    const showMask = count > 1 && currentIndex === 0 && currentIndex !== lastIndex;
+    const showMask = count > 1 && activeIndex === 0 && activeIndex !== lastIndex;
 
     return (
       <Component {...rest} ref={mergeRefs(ref, rootRef)} className={classes}>
@@ -191,11 +193,12 @@ Carousel.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
+  activeIndex: PropTypes.number,
+  defaultActiveIndex: PropTypes.number,
   autoplay: PropTypes.bool,
   autoplayInterval: PropTypes.number,
   placement: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
   shape: PropTypes.oneOf(['dot', 'bar']),
-  activeIndex: PropTypes.number,
   onSelect: PropTypes.func,
   onSlideStart: PropTypes.func,
   onSlideEnd: PropTypes.func

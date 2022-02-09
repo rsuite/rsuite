@@ -92,9 +92,9 @@ describe('Carousel', () => {
     ReactTestUtils.Simulate.transitionEnd(instance.querySelector('.rs-carousel-slider'));
   });
 
-  it('Should initialize with the passed index position', () => {
+  it('Should initialize with the default index position', () => {
     const instance = getDOMNode(
-      <Carousel activeIndex={2}>
+      <Carousel defaultActiveIndex={2}>
         <div>1</div>
         <div>2</div>
         <div>3</div>
