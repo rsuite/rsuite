@@ -12,7 +12,7 @@
 
 <!--{include:`basic.md`}-->
 
-### 受控指数
+### 受控的幻灯片
 
 <!--{include:`position.md`}-->
 
@@ -31,7 +31,7 @@
 | 属性名称     | 类型`(默认值)`                                         | 描述                       |
 | ------------ | ------------------------------------------------------ | -------------------------- |
 | as           | ElementType `('div')`                                  | 自定义元素类型             |
-| activeIndex  | number (`0`)                                           | 活性元素指数               |
+| activeIndex  | number (`0`)                                           | 控制当前可见幻灯片               |
 | autoplay     | boolean                                                | 自动轮播                   |
 | children     | ReactNode                                              | 轮播的元素                 |
 | classPrefix  | string `('carousel')`                                  | 组件 CSS 类的前缀          |

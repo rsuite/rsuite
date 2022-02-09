@@ -31,7 +31,7 @@ Display a set of elements in a carousel
 | Property         | Type `(Default)`                                       | Description                                    |
 | ---------------- | ------------------------------------------------------ | ---------------------------------------------- |
 | as               | ElementType `('div')`                                  | Custom element type                            |
-| activeIndex      | number (`0`)                                           | Active element index                           |
+| activeIndex      | number (`0`)                                           | Controls the current visible slide                           |
 | autoplay         | boolean                                                | Automatic carousel element.                    |
 | autoplayInterval | number (`4000`)                                        | Delay in ms until navigating to the next item. |
 | children         | ReactNode                                              | Carousel elements                              |
