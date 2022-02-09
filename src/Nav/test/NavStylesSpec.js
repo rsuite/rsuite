@@ -22,6 +22,6 @@ describe('Nav styles', () => {
       </Nav>
     );
 
-    expect(getByRole('button')).to.have.style('backgroundColor', 'rgba(0, 0, 0, 0)');
+    expect(getByRole('button')).to.have.style('background-color', 'rgba(0, 0, 0, 0)');
   });
 });

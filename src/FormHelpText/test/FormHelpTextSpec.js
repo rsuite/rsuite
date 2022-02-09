@@ -1,9 +1,11 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import FormHelpText from '../FormHelpText';
-import { assert } from 'chai';
 
 describe('FormHelpText', () => {
+  testStandardProps(<FormHelpText />);
+
   it('Should render a FormHelpText', () => {
     const title = 'Test';
     const instance = getDOMNode(<FormHelpText>{title}</FormHelpText>);
@@ -22,21 +24,5 @@ describe('FormHelpText', () => {
     const id = 'Test';
     const instance = getDOMNode(<FormHelpText htmlFor={id} />);
     assert.ok(instance.getAttribute('for'), id);
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<FormHelpText className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<FormHelpText style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<FormHelpText classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

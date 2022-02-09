@@ -1,8 +1,11 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import Steps from '../Steps';
 
 describe('Steps', () => {
+  testStandardProps(<Steps />);
+
   it('Should render a Steps', () => {
     const instance = getDOMNode(<Steps />);
     assert.equal(instance.className, 'rs-steps rs-steps-horizontal');
@@ -48,21 +51,5 @@ describe('Steps', () => {
   it('Should be small', () => {
     const instance = getDOMNode(<Steps small />);
     assert.ok(instance.className.match(/\brs-steps-small\b/));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Steps className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Steps style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Steps classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

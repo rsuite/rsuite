@@ -3,9 +3,12 @@ import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { parseISO } from '../../utils/dateUtils';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import CalendarPanel from '../CalendarPanel';
 
 describe('Calendar - Panel', () => {
+  testStandardProps(<CalendarPanel />);
+
   it('Should render a div with `calendar` class', () => {
     const instance = getDOMNode(<CalendarPanel />);
 
@@ -57,22 +60,6 @@ describe('Calendar - Panel', () => {
     ReactTestUtils.Simulate.click(
       instance.querySelector('.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content')
     );
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<CalendarPanel className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<CalendarPanel style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<CalendarPanel classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should be a controlled value', done => {

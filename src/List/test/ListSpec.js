@@ -1,24 +1,16 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
-import List from '../List';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
+import List from '../List';
 
 describe('List', () => {
+  testStandardProps(<List />);
+
   it('Should render a List', () => {
     const domNode = getDOMNode(<List />);
     assert.include(domNode.className, 'rs-list');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const domNode = getDOMNode(<List style={{ fontSize }} />);
-    assert.equal(domNode.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const domNode = getDOMNode(<List classPrefix="custom-prefix" />);
-    assert.ok(domNode.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should be bordered', () => {

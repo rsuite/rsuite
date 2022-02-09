@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import Button from '../Button';
 import { getDOMNode, getInstance } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
+import Button from '../Button';
 
 describe('Button', () => {
+  testStandardProps(<Button />);
+
   it('Should output a button', () => {
     const instance = getDOMNode(<Button>Title</Button>);
     assert.equal(instance.textContent, 'Title');
@@ -89,22 +92,6 @@ describe('Button', () => {
   it('Should be active', () => {
     const instance = getDOMNode(<Button active>Title</Button>);
     assert.ok(instance.className.match(/\bactive\b/));
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Button className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Button style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Button classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should have a correct role', () => {

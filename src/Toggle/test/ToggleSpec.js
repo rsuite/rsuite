@@ -1,11 +1,13 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import Toggle from '../Toggle';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
+import Toggle from '../Toggle';
 
 describe('Toggle', () => {
+  testStandardProps(<Toggle />);
+
   it('Should output a toggle', () => {
     const instance = getDOMNode(<Toggle />);
     assert.equal(instance.className, 'rs-toggle');
@@ -99,22 +101,6 @@ describe('Toggle', () => {
 
       expect(onChangeSpy).not.to.have.been.called;
     });
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Toggle className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Toggle style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Toggle classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   describe('Loading', () => {

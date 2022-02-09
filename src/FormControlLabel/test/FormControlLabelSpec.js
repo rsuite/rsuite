@@ -1,9 +1,12 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import FormControlLabel from '../FormControlLabel';
 import FormGroup from '../../FormGroup';
 
 describe('FormControlLabel', () => {
+  testStandardProps(<FormControlLabel />);
+
   it('Should render a FormControlLabel', () => {
     let title = 'Test';
     let instance = getDOMNode(<FormControlLabel>{title}</FormControlLabel>);
@@ -19,21 +22,5 @@ describe('FormControlLabel', () => {
       </FormGroup>
     );
     assert.equal(instance.children[0].getAttribute('for'), 'test');
-  });
-
-  it('Should have a custom className', () => {
-    let instance = getDOMNode(<FormControlLabel className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    let instance = getDOMNode(<FormControlLabel style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<FormControlLabel classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });
