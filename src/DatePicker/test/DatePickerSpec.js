@@ -449,7 +449,7 @@ describe('DatePicker', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should call onChange after setting oneTap', () => {
+  it('Should call onChange after setting oneTap and clicking date', () => {
     const onChangeSpy = sinon.spy();
 
     const instance = getInstance(<DatePicker onChange={onChangeSpy} oneTap defaultOpen />);
@@ -459,6 +459,20 @@ describe('DatePicker', () => {
     );
 
     ReactTestUtils.Simulate.click(today);
+    assert.isTrue(isSameDay(onChangeSpy.firstCall.firstArg, new Date()));
+  });
+
+  it('Should call onChange after setting oneTap and clicking month', () => {
+    const onChangeSpy = sinon.spy();
+    const instance = getInstance(
+      <DatePicker onChange={onChangeSpy} format="yyyy-MM" oneTap defaultOpen />
+    );
+
+    const activeMonth = instance.overlay.querySelector(
+      '.rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content'
+    );
+
+    ReactTestUtils.Simulate.click(activeMonth);
     assert.isTrue(isSameDay(onChangeSpy.firstCall.firstArg, new Date()));
   });
 
