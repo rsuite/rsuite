@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import Carousel from '../Carousel';
 
