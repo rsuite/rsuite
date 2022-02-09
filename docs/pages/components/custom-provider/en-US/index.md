@@ -35,7 +35,7 @@ return (
 import { CustomProvider } from 'rsuite';
 
 return (
-  <CustomProvider themes="dark">
+  <CustomProvider theme="dark">
     <App />
   </CustomProvider>
 );
