@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
+import { render } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import Carousel from '../Carousel';
 
@@ -77,5 +78,47 @@ describe('Carousel', () => {
     );
 
     ReactTestUtils.Simulate.transitionEnd(instance.querySelector('.rs-carousel-slider'));
+  });
+
+  it('Should initialize with the default index position', () => {
+    const instance = getDOMNode(
+      <Carousel defaultActiveIndex={2}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+      </Carousel>
+    );
+
+    assert.equal(instance.querySelector('[aria-hidden=false]').textContent, '3');
+  });
+
+  it('Should handle active index dynamically', () => {
+    const ref = React.createRef();
+    const App = React.forwardRef((props, ref) => {
+      const [index, setIndex] = React.useState(1);
+      React.useImperativeHandle(ref, () => ({
+        setIndex: newIndex => {
+          setIndex(newIndex);
+        }
+      }));
+
+      return (
+        <Carousel activeIndex={index}>
+          <div>1</div>
+          <div>2</div>
+          <div>3</div>
+          <div>4</div>
+        </Carousel>
+      );
+    });
+
+    const { container } = render(<App ref={ref} />);
+
+    assert.equal(container.querySelector('[aria-hidden=false]').textContent, '2');
+
+    ref.current.setIndex(3);
+
+    assert.equal(container.querySelector('[aria-hidden=false]').textContent, '4');
   });
 });

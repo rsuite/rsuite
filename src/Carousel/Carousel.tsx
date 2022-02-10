@@ -1,7 +1,15 @@
 import React, { useState, useMemo, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { useClassNames, useCustom, guid, ReactChildren, useTimeout, mergeRefs } from '../utils';
+import {
+  useClassNames,
+  useCustom,
+  guid,
+  ReactChildren,
+  useTimeout,
+  mergeRefs,
+  useControlled
+} from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface CarouselProps extends WithAsProps {
@@ -17,7 +25,13 @@ export interface CarouselProps extends WithAsProps {
   /** Button shape */
   shape?: 'dot' | 'bar';
 
-  /** Callback fired when the active item changes */
+  /** Active element index */
+  activeIndex?: number;
+
+  /** Defaul initial index */
+  defaultActiveIndex?: number;
+
+  /** Callback fired when the active item manually changes */
   onSelect?: (index: number, event: React.ChangeEvent<HTMLInputElement>) => void;
 
   /** Callback fired when a slide transition starts */
@@ -38,6 +52,8 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
       shape = 'dot',
       autoplay,
       autoplayInterval = 4000,
+      activeIndex: activeIndexProp,
+      defaultActiveIndex = 0,
       onSelect,
       onSlideStart,
       onSlideEnd,
@@ -51,26 +67,37 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
     const vertical = placement === 'left' || placement === 'right';
     const lengthKey = vertical ? 'height' : 'width';
 
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [activeIndex, setActiveIndex] = useControlled(activeIndexProp, defaultActiveIndex);
     const [lastIndex, setLastIndex] = useState(0);
     const rootRef = useRef<HTMLDivElement>(null);
 
-    const handleSlide = (nextActiveIndex?: number, event?: React.ChangeEvent<HTMLInputElement>) => {
-      if (!rootRef.current) {
-        return;
-      }
+    // Set a timer for automatic playback.
+    // `autoplay` needs to be cast to boolean type to avoid undefined parameters.
+    const { clear, reset } = useTimeout(
+      () => handleSlide(),
+      autoplayInterval,
+      !!autoplay && count > 1
+    );
 
-      clear();
-      const index = nextActiveIndex ?? activeIndex + 1;
+    const handleSlide = useCallback(
+      (nextActiveIndex?: number, event?: React.ChangeEvent<HTMLInputElement>) => {
+        if (!rootRef.current) {
+          return;
+        }
 
-      // When index is greater than count, start from 1 again.
-      const nextIndex = index % count;
+        clear();
+        const index = nextActiveIndex ?? activeIndex + 1;
 
-      setActiveIndex(nextIndex);
-      onSlideStart?.(nextIndex, event);
-      setLastIndex(nextActiveIndex == null ? activeIndex : nextIndex);
-      reset();
-    };
+        // When index is greater than count, start from 1 again.
+        const nextIndex = index % count;
+
+        setActiveIndex(nextIndex);
+        onSlideStart?.(nextIndex, event);
+        setLastIndex(nextActiveIndex == null ? activeIndex : nextIndex);
+        reset();
+      },
+      [activeIndex, count, setActiveIndex, clear, onSlideStart, reset]
+    );
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const activeIndex = +event.target.value;
@@ -84,10 +111,6 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
       },
       [activeIndex, onSlideEnd]
     );
-
-    // Set a timer for automatic playback.
-    // `autoplay` needs to be cast to boolean type to avoid undefined parameters.
-    const { clear, reset } = useTimeout(handleSlide, autoplayInterval, !!autoplay && count > 1);
 
     const uniqueId = useMemo(() => guid(), []);
     const items = React.Children.map(
@@ -170,6 +193,8 @@ Carousel.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
+  activeIndex: PropTypes.number,
+  defaultActiveIndex: PropTypes.number,
   autoplay: PropTypes.bool,
   autoplayInterval: PropTypes.number,
   placement: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
