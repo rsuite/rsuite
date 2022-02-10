@@ -1,7 +1,13 @@
 <!--start-code-->
 
 ```js
-const instance = <DatePicker oneTap style={{ width: 200 }} />;
+const instance = (
+  <div>
+    <DatePicker oneTap style={{ width: 200 }} />
+    <hr />
+    <DatePicker oneTap format="yyyy-MM" style={{ width: 200 }} />
+  </div>
+);
 ReactDOM.render(instance);
 ```
 

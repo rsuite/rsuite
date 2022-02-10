@@ -224,18 +224,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     );
 
     /**
-     *  A callback triggered when the date on the calendar changes.
-     */
-    const handleChangePageDate = useCallback(
-      (nextPageDate: Date) => {
-        setCalendarDate(nextPageDate);
-        reset();
-        handleDateChange(nextPageDate);
-      },
-      [handleDateChange, reset, setCalendarDate]
-    );
-
-    /**
      *  A callback triggered when the time on the calendar changes.
      */
     const handleChangePageTime = useCallback(
@@ -372,6 +360,25 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         }
       },
       [formatStr, handleDateChange, oneTap, calendarDate, setCalendarDate, updateValue]
+    );
+
+    /**
+     *  A callback triggered when the date on the calendar changes.
+     */
+    const handleChangePageDate = useCallback(
+      (nextPageDate: Date, event: React.MouseEvent) => {
+        setCalendarDate(nextPageDate);
+        reset();
+        handleDateChange(nextPageDate);
+
+        // Show only the calendar month panel. formatStr = 'yyyy-MM'
+        const onlyShowMonth = DateUtils.shouldMonth(formatStr) && !DateUtils.shouldDate(formatStr);
+
+        if (oneTap && onlyShowMonth) {
+          updateValue(event, nextPageDate);
+        }
+      },
+      [formatStr, handleDateChange, oneTap, reset, setCalendarDate, updateValue]
     );
 
     const disabledDate = useCallback(
