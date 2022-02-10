@@ -1,3 +1,14 @@
+# [5.6.0](https://github.com/rsuite/rsuite/compare/v5.5.2...v5.6.0) (2022-02-10)
+
+### Bug Fixes
+
+- **DatePicker:** fixed oneTap to work in month view ([#2342](https://github.com/rsuite/rsuite/issues/2342)) ([d5368cd](https://github.com/rsuite/rsuite/commit/d5368cdfb2a6386bfb509a6316520e450f35f2b4))
+- handle some null value branch ([#2323](https://github.com/rsuite/rsuite/issues/2323)) ([3ffd1d9](https://github.com/rsuite/rsuite/commit/3ffd1d966d5fd7f0a4f42bb8b08bf0cb65955fef))
+
+### Features
+
+- **Carousel:** Expose active index ([#2338](https://github.com/rsuite/rsuite/issues/2338)) ([beac483](https://github.com/rsuite/rsuite/commit/beac48395c9fc7c30efb3f49f81e8969cd3ee71d))
+
 ## [5.5.2](https://github.com/rsuite/rsuite/compare/v5.5.1...v5.5.2) (2022-01-27)
 
 ### Features
