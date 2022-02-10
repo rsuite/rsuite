@@ -12,7 +12,7 @@ interface ButtonProps {
   [key: string]: any;
 }
 
-const LanguageButton = React.forwardRef((props: ButtonProps, ref) => {
+const LanguageButton = React.forwardRef((props: ButtonProps, ref: React.Ref<HTMLElement>) => {
   const router = useRouter();
   const { language, onChangeLanguage } = React.useContext(AppContext);
   const { className, ...rest } = props;
