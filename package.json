@@ -57,11 +57,11 @@
     "@types/react-virtualized": "^9.21.11",
     "classnames": "^2.3.1",
     "date-fns": "^2.13.0",
-    "dom-lib": "^3.0.0",
+    "dom-lib": "^3.1.2",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react-virtualized": "^9.22.3",
-    "rsuite-table": "^5.3.2",
+    "rsuite-table": "^5.3.3",
     "schema-typed": "^2.0.2"
   },
   "peerDependencies": {
