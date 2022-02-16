@@ -26,7 +26,7 @@ Our component only processes the `prop` defined in its `propTypes`, all unproces
 ```jsx
 return (
   <>
-    <Input tabIndex={1} onFoucs={e => console.log(e)} />
+    <Input tabIndex={1} onFocus={e => console.log(e)} />
   </>
 );
 ```
