@@ -5,6 +5,7 @@ import {
   PositionChildProps
 } from './PickerToggleTrigger';
 
+import { PickerToggleProps } from './PickerToggle';
 import { PickerInstance, PickerComponent } from './types';
 
 export { default as DropdownMenu } from './DropdownMenu';
@@ -18,6 +19,12 @@ export { default as SearchBar } from './SearchBar';
 export { default as SelectedElement } from './SelectedElement';
 export { pickTriggerPropKeys, omitTriggerPropKeys };
 
-export type { OverlayTriggerInstance, PositionChildProps, PickerInstance, PickerComponent };
+export type {
+  OverlayTriggerInstance,
+  PositionChildProps,
+  PickerInstance,
+  PickerComponent,
+  PickerToggleProps
+};
 export * from './utils';
 export * from './propTypes';
