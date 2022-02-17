@@ -47,7 +47,7 @@ const LimitPicker = (props: LimitPicker) => {
   const formatlimitOptions = limitOptions.map(item => {
     return {
       value: item,
-      label: tplTransform(locale.limit!, item)
+      label: locale.limit && tplTransform(locale.limit, item)
     };
   });
 
@@ -156,20 +156,21 @@ const PaginationGroup: RsRefForwardingComponent<'div', PaginationGroupProps> = R
           } else if (key === 'total') {
             return (
               <div key={onlyKey} className={prefix('total')}>
-                {tplTransform(locale.total!, total)}
+                {locale.total && tplTransform(locale.total, total)}
               </div>
             );
           } else if (key === 'skip') {
             return (
               <div key={onlyKey} className={classNames(prefix('skip'))}>
-                {tplTransform(
-                  locale.skip!,
-                  <Input
-                    size={size}
-                    onBlur={handleInputBlur}
-                    onPressEnter={handleInputPressEnter}
-                  />
-                )}
+                {locale.skip &&
+                  tplTransform(
+                    locale.skip,
+                    <Input
+                      size={size}
+                      onBlur={handleInputBlur}
+                      onPressEnter={handleInputPressEnter}
+                    />
+                  )}
               </div>
             );
           } else if (key === 'limit') {

@@ -97,8 +97,8 @@ export function getNodeParents(node: any, parentKey = 'parent', valueKey?: strin
 export function getNodeParentKeys(nodes: TreeNodesType, node: TreeNodeType, valueKey: string) {
   const parentKeys: TreeNodeType[] = [];
   const traverse = (node: TreeNodeType) => {
-    if (node?.parent) {
-      traverse(nodes[node.parent.refKey!]);
+    if (node?.parent?.refKey) {
+      traverse(nodes[node.parent.refKey]);
       parentKeys.push(node?.parent?.[valueKey]);
     }
   };
@@ -581,7 +581,7 @@ export function getChildrenByFlattenNodes(nodes: TreeNodesType, parent: TreeNode
   }
   return Object.values(nodes).filter(
     (item: TreeNodeType) =>
-      item?.parent?.refKey === parent.refKey && !nodes[item.refKey!].uncheckable
+      item?.parent?.refKey === parent.refKey && item.refKey && !nodes[item.refKey].uncheckable
   );
 }
 

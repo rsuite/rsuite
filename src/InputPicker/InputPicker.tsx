@@ -597,7 +597,11 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       let itemNode = dataItem.itemNode;
 
       if (!isNil(value) && isFunction(renderValue)) {
-        itemNode = renderValue(value, dataItem.activeItem!, itemNode);
+        itemNode = renderValue(
+          value,
+          dataItem.activeItem as ItemDataType<string | number>,
+          itemNode
+        );
       }
 
       return { isValid: dataItem.isValid, itemNode };

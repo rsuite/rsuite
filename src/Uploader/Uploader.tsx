@@ -388,7 +388,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
         data,
         withCredentials,
         disableMultipart,
-        file: file.blobFile!,
+        file: file.blobFile as File,
         url: action,
         onError: handleAjaxUploadError.bind(null, file),
         onSuccess: handleAjaxUploadSuccess.bind(null, file),
@@ -396,7 +396,11 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
       });
 
       updateFileStatus({ ...file, status: 'uploading' });
-      xhrs.current[file.fileKey!] = xhr;
+
+      if (file.fileKey) {
+        xhrs.current[file.fileKey] = xhr;
+      }
+
       onUpload?.(file, uploadData, xhr);
     },
     [

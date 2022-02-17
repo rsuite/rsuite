@@ -51,7 +51,7 @@ const SelectedElement = (props: SelectedElementProps) => {
             <React.Fragment key={item[valueKey]}>
               <span className={prefix('value-item')}>
                 {item[labelKey]}
-                {checkAll ? ` (${locale!.checkAll})` : ''}
+                {checkAll && locale?.checkAll ? ` (${locale.checkAll})` : ''}
               </span>
               {index === count - 1 ? null : <span className={prefix('value-separator')}>,</span>}
             </React.Fragment>

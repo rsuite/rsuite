@@ -225,10 +225,10 @@ export interface ItemDataType<T = number | string> extends Record<string, any> {
 }
 
 export interface Offset {
-  top?: number;
-  left?: number;
-  width?: number;
-  height?: number;
+  top: number;
+  left: number;
+  width: number;
+  height: number;
 }
 
 export type OnChangeCallback<T, E = React.SyntheticEvent> = (value: T, event: E) => void;

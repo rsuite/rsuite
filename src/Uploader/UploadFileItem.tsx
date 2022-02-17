@@ -119,7 +119,7 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
       if (disabled) {
         return;
       }
-      onCancel?.(file.fileKey!, event);
+      onCancel?.(file.fileKey as number | string, event);
     },
     [disabled, file.fileKey, onCancel]
   );

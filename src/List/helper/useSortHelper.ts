@@ -1,6 +1,5 @@
 import on from 'dom-lib/on';
 import { MouseEventHandler, useCallback, useRef, useState } from 'react';
-import { Offset } from '../../@types/common';
 import AutoScroller from './AutoScroller';
 import {
   Axis,
@@ -12,6 +11,7 @@ import {
   setTransitionDuration,
   setTranslate3d
 } from './utils';
+import type { EdgeOffset } from './utils';
 import { useIsMounted } from '../../utils';
 import useManager, { Collection, ManagedItem } from './useManager';
 
@@ -66,7 +66,7 @@ const useSortHelper = (config: SortConfig) => {
       const holderElementClass = `${listItemBaseClassName}-holder`;
 
       // data
-      const containerElement = containerRef.current!;
+      const containerElement = containerRef.current as HTMLDivElement;
       const activeNode = curManagedItem.node;
       const activeNodeOldIndex = curManagedItem.info.index ?? 0;
       let activeNodeNextIndex: number = curManagedItem.info.index ?? 0;
@@ -79,9 +79,9 @@ const useSortHelper = (config: SortConfig) => {
         x: scrollContainer.scrollLeft,
         y: scrollContainer.scrollTop
       };
-      const autoScroller = new AutoScroller(scrollContainer, (offset: Offset) => {
-        activeNodeHolderTranslate.x! += offset.left!;
-        activeNodeHolderTranslate.y! += offset.top!;
+      const autoScroller = new AutoScroller(scrollContainer, (offset: EdgeOffset) => {
+        activeNodeHolderTranslate.x += offset.left as number;
+        activeNodeHolderTranslate.y += offset.top as number;
       });
 
       const activeNodeBoundingClientRect = activeNode.getBoundingClientRect();
@@ -99,15 +99,15 @@ const useSortHelper = (config: SortConfig) => {
       activeNode.classList.add(holderElementClass);
       document.body.appendChild(activeNodeHelper);
 
-      const getContainerScrollDelta = (): Offset => ({
-        left: scrollContainer.scrollLeft - initScroll.x!,
-        top: scrollContainer.scrollTop - initScroll.y!
+      const getContainerScrollDelta = (): EdgeOffset => ({
+        left: scrollContainer.scrollLeft - initScroll.x,
+        top: scrollContainer.scrollTop - initScroll.y
       });
       const getHolderTranslate = (): Axis =>
         animatedNodesOffset.reduce(
           (acc, item) => ({
-            x: acc.x! + item.x!,
-            y: acc.y! + item.y!
+            x: acc.x + item.x,
+            y: acc.y + item.y
           }),
           { x: 0, y: 0 }
         );
@@ -128,12 +128,17 @@ const useSortHelper = (config: SortConfig) => {
             x: offset.x - mouseDownEvent.pageX,
             y: offset.y - mouseDownEvent.pageY
           };
-          setTranslate3d(activeNodeHelper!, activeNodeHolderTranslate);
+
+          if (activeNodeHelper) {
+            setTranslate3d(activeNodeHelper, activeNodeHolderTranslate);
+          }
+
           // animate
           activeNodeNextIndex = -1;
           const listItemManagerRefs = getOrderedItems(curManagedItem.info.collection);
-          const sortingOffsetY =
-            activeNodeOffsetEdge.top! + activeNodeHolderTranslate.y! + containerScrollDelta.top!;
+          const aTop = activeNodeOffsetEdge.top || 0;
+          const cTop = containerScrollDelta.top || 0;
+          const sortingOffsetY = aTop + activeNodeHolderTranslate.y + cTop;
           const activeNodeHeight = parseFloat(activeNodeStyle.height) || 0;
 
           for (let i = 0, len = listItemManagerRefs.length; i < len; i++) {
@@ -168,10 +173,12 @@ const useSortHelper = (config: SortConfig) => {
               continue;
             }
 
+            const curEdgeOffsetTop = curEdgeOffset.top || 0;
+
             if (
               prvNode &&
               currentNodeIndex > activeNodeOldIndex &&
-              sortingOffsetY + offsetY >= curEdgeOffset.top!
+              sortingOffsetY + offsetY >= curEdgeOffsetTop
             ) {
               translate.y = -activeNodeHeight;
               animatedNodesOffset[currentNodeIndex] = {
@@ -182,7 +189,7 @@ const useSortHelper = (config: SortConfig) => {
             } else if (
               nextNode &&
               currentNodeIndex < activeNodeOldIndex &&
-              sortingOffsetY <= curEdgeOffset.top! + offsetY
+              sortingOffsetY <= curEdgeOffsetTop + offsetY
             ) {
               translate.y = activeNodeHeight;
               animatedNodesOffset[currentNodeIndex] = {
@@ -217,6 +224,7 @@ const useSortHelper = (config: SortConfig) => {
               height: activeNodeBoundingClientRect.height,
               translate: activeNodeHolderTranslate,
               maxTranslate: {
+                x: 0,
                 y:
                   containerBoundingRect.top +
                   containerBoundingRect.height -
@@ -224,6 +232,7 @@ const useSortHelper = (config: SortConfig) => {
                   activeNodeBoundingClientRect.height / 2
               },
               minTranslate: {
+                x: 0,
                 y:
                   containerBoundingRect.top -
                   activeNodeBoundingClientRect.top -
@@ -254,11 +263,14 @@ const useSortHelper = (config: SortConfig) => {
 
           const holderTranslate = getHolderTranslate();
           const containerScrollDelta = getContainerScrollDelta();
-          setTranslate3d(activeNodeHelper!, {
-            x: holderTranslate.x! - containerScrollDelta.left!,
-            y: holderTranslate.y! - containerScrollDelta.top!
-          });
-          setTransitionDuration(activeNodeHelper!, transitionDuration);
+
+          if (activeNodeHelper) {
+            setTranslate3d(activeNodeHelper, {
+              x: holderTranslate.x - (containerScrollDelta.left || 0),
+              y: holderTranslate.y - (containerScrollDelta.top || 0)
+            });
+            setTransitionDuration(activeNodeHelper, transitionDuration);
+          }
 
           // wait for animation
           setTimeout(() => {
@@ -332,8 +344,10 @@ const useSortHelper = (config: SortConfig) => {
   const handleStart: MouseEventHandler = useCallback(
     mouseDownEvent => {
       const triggeredNode = mouseDownEvent.target as HTMLElement;
-      const targetNode = closestNode(triggeredNode, el => Boolean(getManagedItem(el)));
-      const curManagedItem = getManagedItem(targetNode!)!;
+      const targetNode = closestNode(triggeredNode, el =>
+        Boolean(getManagedItem(el))
+      ) as HTMLElement;
+      const curManagedItem = getManagedItem(targetNode) as ManagedItem;
       if (
         // is not secondary button pressed
         mouseDownEvent.button !== 2 &&

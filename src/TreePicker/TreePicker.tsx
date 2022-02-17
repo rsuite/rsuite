@@ -59,7 +59,7 @@ import {
   useToggleKeyDownEvent
 } from '../Picker';
 
-import { TreeDragProps, TreeBaseProps } from '../Tree/Tree';
+import { TreeDragProps, TreeBaseProps, DropData } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 import TreeContext from '../Tree/TreeContext';
@@ -294,11 +294,11 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       const options = { valueKey, childrenKey };
       return {
         /** draggingNode */
-        dragNode: dragNode!,
+        dragNode,
         /** dropNode */
         dropNode: nodeData,
         /** dragAndDrop Position type */
-        dropNodePosition: dropNodePosition!,
+        dropNodePosition,
         createUpdateDataFunction: createUpdateTreeDataFunction(
           {
             dragNode,
@@ -489,7 +489,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       if (dragNodeKeys.some(d => shallowEqual(d, nodeData[valueKey]))) {
         console.error('Cannot drag a node to itself and its children');
       } else {
-        const dropData = getDropData(nodeData);
+        const dropData = getDropData(nodeData) as DropData<Record<string, any>>;
         onDrop?.(dropData, event);
       }
       setDragNode(null);
@@ -842,8 +842,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   if (hasValidValue) {
     const node = activeNode ?? {};
     selectedElement = node[labelKey];
-    if (isFunction(renderValue)) {
-      selectedElement = renderValue(value!, node, selectedElement);
+    if (isFunction(renderValue) && value) {
+      selectedElement = renderValue(value, node, selectedElement);
       if (isNil(selectedElement)) {
         hasValidValue = false;
       }

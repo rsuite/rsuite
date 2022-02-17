@@ -165,21 +165,24 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
 
   onTransitionEnd(node: HTMLElement, handler: (event?: React.AnimationEvent) => void) {
     this.setNextCallback(handler);
-
     this.animationEventListener?.off();
+
+    if (!this.nextCallback) {
+      return;
+    }
 
     if (node) {
       const { timeout, animation } = this.props;
       this.animationEventListener = on(
         node,
         animation ? getAnimationEnd() : getTransitionEnd(),
-        this.nextCallback!
+        this.nextCallback
       );
       if (timeout !== null) {
-        setTimeout(this.nextCallback!, timeout);
+        setTimeout(this.nextCallback, timeout);
       }
     } else {
-      setTimeout(this.nextCallback!, 0);
+      setTimeout(this.nextCallback, 0);
     }
   }
 
@@ -205,11 +208,13 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
       this.nextCallback = null;
     }) as any;
 
-    this.nextCallback!.cancel = () => {
-      active = false;
-    };
+    if (this.nextCallback) {
+      this.nextCallback.cancel = () => {
+        active = false;
+      };
+    }
 
-    return this.nextCallback!;
+    return this.nextCallback;
   }
   getChildElement(): HTMLElement {
     if (this.childRef.current) {
@@ -267,7 +272,7 @@ class Transition extends React.Component<TransitionProps, TransitionState> {
   safeSetState(nextState: TransitionState, callback: (event?: React.AnimationEvent) => void) {
     if (this.instanceElement) {
       const nextCallback = this.setNextCallback(callback);
-      this.setState(nextState, () => nextCallback());
+      this.setState(nextState, () => nextCallback?.());
     }
   }
 

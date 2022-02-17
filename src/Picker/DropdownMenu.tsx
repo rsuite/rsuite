@@ -13,7 +13,7 @@ import shallowEqual from '../utils/shallowEqual';
 import { mergeRefs, useClassNames } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
 import { KEY_GROUP, KEY_GROUP_TITLE } from '../utils/getDataGroupBy';
-import { StandardProps, ItemDataType } from '../@types/common';
+import { StandardProps, ItemDataType, Offset } from '../@types/common';
 
 export interface DropdownMenuProps<Multiple = false>
   extends StandardProps,
@@ -135,7 +135,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
       return;
     }
 
-    const position = getPosition(activeItem, container)!;
+    const position = getPosition(activeItem, container) as Offset;
     const sTop = scrollTop(container);
     const sHeight = getHeight(container);
     if (sTop > position.top) {

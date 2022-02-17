@@ -148,8 +148,9 @@ export function getDisabledState(
   if (!isNil(node.refKey) && isNil(nodes[node.refKey])) {
     return false;
   }
-  return disabledItemValues.some((value: any) =>
-    shallowEqual(nodes[node.refKey!][valueKey], value)
+
+  return disabledItemValues.some(
+    (value: any) => node.refKey && shallowEqual(nodes[node.refKey][valueKey], value)
   );
 }
 

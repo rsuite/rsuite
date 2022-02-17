@@ -102,8 +102,8 @@ const InputAutosize = React.forwardRef(
     const placeholderRef = useRef<HTMLDivElement>(null);
 
     useImperativeHandle(ref, () => ({
-      root: rootRef.current!,
-      input: inputRef.current!
+      root: rootRef.current as HTMLDivElement,
+      input: inputRef.current as HTMLInputElement
     }));
 
     const sizerValue = [defaultValue, value, ''].reduce((previousValue, currentValue) => {

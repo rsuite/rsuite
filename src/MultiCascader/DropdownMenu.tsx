@@ -46,7 +46,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
   (props: DropdownMenuProps, ref) => {
     const {
       as: Component = 'div',
-      classPrefix,
+      classPrefix = 'menu',
       className,
       cascade,
       cascadeData = emptyArray,
@@ -66,7 +66,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       ...rest
     } = props;
 
-    const { merge, prefix } = useClassNames(classPrefix!);
+    const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('items'));
     const rtl = useCustom('DropdownMenu');
 
