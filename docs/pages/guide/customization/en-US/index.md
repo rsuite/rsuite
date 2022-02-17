@@ -19,9 +19,7 @@ Sets the primary color.
 @primary-color: #00bcd4;
 ```
 
-After you configure the theme base color, a set of swatches (`@H050` - `@H900`, H is Hue) reference is generated: [constants.less](rsuite-theme-pallete).
-
-Now go to the [palette](/resources/palette) to select the appropriate color or upload your own Logo to preview.
+After you configure the theme base color, a set of swatches (`@H050` - `@H900`, H is Hue) reference is generated: [light.less][light.less].
 
 #### Dark mode
 
@@ -166,7 +164,7 @@ If you use [`create-react-app`][cra] to create a project, you can modify it with
 [rardp]: https://www.npmjs.com/package/react-app-rewire-define-plugin
 [less]: http://lesscss.org/
 [modify variables]: http://lesscss.org/usage/#using-less-in-the-browser-modify-variables
-[rsuite-theme-pallete]: https://github.com/rsuite/rsuite/blob/master/src/styles/constants.less#L32
+[light.less]: https://github.com/rsuite/rsuite/blob/main/src/styles/colors/light.less
 [issue]: https://github.com/rsuite/rsuite/issues/new?template=bug_report.md
 [variables.less]: https://github.com/rsuite/rsuite/blob/master/src/styles/variables.less
 [use-with-create-app]: /en/guide/use-with-create-react-app#Customize%20Theme
