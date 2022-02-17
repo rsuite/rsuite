@@ -9,25 +9,35 @@ export interface UseTimeoutFnReturn {
  * A timer hook
  * @param fn Timer callback function
  * @param ms Milliseconds of the timer
- * @param open Whether to open the timer
+ * @param enabled Whether to open the timer
  */
-function useTimeout(fn: (() => void) | undefined, ms = 0, open = true): UseTimeoutFnReturn {
+function useTimeout(fn: (() => void) | undefined, ms = 0, enabled = true): UseTimeoutFnReturn {
   const timeout = useRef<ReturnType<typeof setTimeout>>();
+  const callback = useRef(fn);
 
   const clear = useCallback(() => {
     timeout.current && clearTimeout(timeout.current);
   }, []);
 
   const set = useCallback(() => {
-    if (open) {
-      timeout.current = setTimeout(() => fn?.(), ms);
+    timeout.current && clearTimeout(timeout.current);
+    if (enabled) {
+      timeout.current = setTimeout(() => {
+        callback.current?.();
+      }, ms);
     }
-  }, [ms, fn, open]);
+  }, [ms, enabled]);
+
+  // update ref when function changes
+  useEffect(() => {
+    callback.current = fn;
+  }, [fn]);
 
   useEffect(() => {
     set();
+
     return clear;
-  }, [fn, ms, open, clear, set]);
+  }, [ms, enabled, set, clear]);
 
   return { clear, reset: set };
 }
