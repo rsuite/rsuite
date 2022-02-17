@@ -130,8 +130,10 @@ If you like React Suite, you can show your support by either
 This project exists thanks to all the people who contribute.
 
 <a href="https://github.com/rsuite/rsuite/graphs/contributors" target="_blank">
-  <img src="https://opencollective.com/rsuite/contributors.svg?width=890" />
+  <img src="https://contrib.rocks/image?repo=rsuite/rsuite" />
 </a>
+
+[![opencollective-now][opencollective-svg]][opencollective-home]
 
 ## License
 

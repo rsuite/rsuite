@@ -26,7 +26,7 @@ return (
 ```jsx
 return (
   <>
-    <Input tabIndex={1} onFoucs={e => console.log(e)} />
+    <Input tabIndex={1} onFocus={e => console.log(e)} />
   </>
 );
 ```

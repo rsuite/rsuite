@@ -121,8 +121,10 @@ ReactDOM.render(<Button>Button</Button>, mountNode);
 这个项目的存在归功于所有贡献者。
 
 <a href="https://github.com/rsuite/rsuite/graphs/contributors" target="_blank">
-  <img src="https://opencollective.com/rsuite/contributors.svg?width=890" />
+  <img src="https://contrib.rocks/image?repo=rsuite/rsuite" />
 </a>
+
+[![opencollective-now][opencollective-svg]][opencollective-home]
 
 国内交流群, 添加 React Suite 小助手，备注 rsuite， 邀请入群。
 
