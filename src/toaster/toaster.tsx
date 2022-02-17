@@ -9,7 +9,7 @@ export interface Toaster {
    * @param message
    * @param options
    */
-  push(message: React.ReactNode, options?: ToastContainerProps): string;
+  push(message: React.ReactNode, options?: ToastContainerProps): string | undefined;
 
   /**
    * Remove a message by key
@@ -56,15 +56,15 @@ toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => 
   if (!container) {
     container = createContainer(options.placement ?? '', options);
   }
-  return container.current!.push(message);
+  return container.current?.push(message);
 };
 
 toaster.remove = (key: string) => {
-  containers.forEach(c => c.current!.remove(key));
+  containers.forEach(c => c.current?.remove(key));
 };
 
 toaster.clear = () => {
-  containers.forEach(c => c.current!.clear());
+  containers.forEach(c => c.current?.clear());
 };
 
 export default toaster;

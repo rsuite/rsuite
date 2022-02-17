@@ -1,5 +1,5 @@
-import React from 'react';
-import { screen } from '@testing-library/react';
+import React, { useEffect } from 'react';
+import { screen, render } from '@testing-library/react';
 import toaster from '../toaster';
 
 const element = document.createElement('div');
@@ -82,5 +82,18 @@ describe('toaster', () => {
 
     clock.tick(400);
     expect(screen.queryByTestId('message')).not.to.exist;
+  });
+
+  it('Should not throw errors when push() is called via useEffect', () => {
+    function MyComponent() {
+      useEffect(() => {
+        toaster.push(<div>Hi toaster!</div>);
+      }, []);
+
+      return <div>My component</div>;
+    }
+
+    expect(() => render(<MyComponent />)).not.to.throw();
+    expect(screen.getByText('Hi toaster!')).to.exist;
   });
 });
