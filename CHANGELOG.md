@@ -1,3 +1,12 @@
+## [5.6.1](https://github.com/rsuite/rsuite/compare/v5.6.0...v5.6.1) (2022-02-17)
+
+### Bug Fixes
+
+- **caretAs:** fix DatePicker and DateRangePicker cannot replace caret ([#2360](https://github.com/rsuite/rsuite/issues/2360)) ([1e619b2](https://github.com/rsuite/rsuite/commit/1e619b2ef7abc58a93f6d6d4fc78ffea07761c81))
+- **IconButton:** infer addtional props from as prop ([#2343](https://github.com/rsuite/rsuite/issues/2343)) ([3b6c25c](https://github.com/rsuite/rsuite/commit/3b6c25c103ed33a86baa47b8c757462da7ae8c4c))
+- **Toaster:** code breaks when toaster is in a useEffect ([#2353](https://github.com/rsuite/rsuite/issues/2353)) ([d083fe2](https://github.com/rsuite/rsuite/commit/d083fe27013659cbc45196b7ead9ff5863404fb8)), closes [#2336](https://github.com/rsuite/rsuite/issues/2336)
+- **useTimeout:** fix callback not being called after timeout ([#2349](https://github.com/rsuite/rsuite/issues/2349)) ([e82a12a](https://github.com/rsuite/rsuite/commit/e82a12aa2929cf66e7a3c6d70008c5bedb4ab128))
+
 # [5.6.0](https://github.com/rsuite/rsuite/compare/v5.5.2...v5.6.0) (2022-02-10)
 
 ### Bug Fixes
