@@ -19,7 +19,7 @@ React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定
 @primary-color: #00bcd4;
 ```
 
-配置主题基色以后，会生成一组色板（`@H050` - `@H900`， H 是 Hue 的缩写 ）参考: [constants.less][rsuite-theme-pallete]。现在就去[调色板](/resources/palette)选择适合的颜色或上传自己的 Logo 进行预览。
+配置主题基色以后，会生成一组色板（`@H050` - `@H900`， H 是 Hue 的缩写 ）参考: [light.less][light.less]。现在就去[调色板](/resources/palette)选择适合的颜色或上传自己的 Logo 进行预览。
 
 #### 深色模式
 
@@ -165,7 +165,7 @@ module.exports = merge(
 [rardp]: https://www.npmjs.com/package/react-app-rewire-define-plugin
 [less]: http://lesscss.org/
 [modify variables]: http://lesscss.org/usage/#using-less-in-the-browser-modify-variables
-[rsuite-theme-pallete]: https://github.com/rsuite/rsuite/blob/master/src/styles/constants.less#L32
+[rsuite-theme-pallete]: https://github.com/rsuite/rsuite/blob/main/src/styles/colors/light.less
 [issue]: https://github.com/rsuite/rsuite/issues/new?template=bug_report.md
 [variables.less]: https://github.com/rsuite/rsuite/blob/master/src/styles/variables.less
 [use-with-create-app]: /guide/use-with-create-react-app#定制主题
