@@ -21,7 +21,8 @@ import {
   PositionChildProps,
   usePickerClassName,
   usePublicMethods,
-  useToggleKeyDownEvent
+  useToggleKeyDownEvent,
+  PickerToggleProps
 } from '../Picker';
 import {
   createChainedFunction,
@@ -50,7 +51,8 @@ type SelectedDatesState = [] | [Date] | [Date, Date];
 
 export interface DateRangePickerProps
   extends PickerBaseProps,
-    FormControlBaseProps<DateRange | null> {
+    FormControlBaseProps<DateRange | null>,
+    Pick<PickerToggleProps, 'caretAs' | 'readOnly' | 'plaintext'> {
   /** Configure shortcut options */
   ranges?: RangeType[];
 
@@ -155,6 +157,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     showMeridian,
     style,
     toggleAs,
+    caretAs,
     value: valueProp,
     onChange,
     onClean,
@@ -786,8 +789,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           hasValue={hasValue}
           active={isPickerToggleActive}
           placement={placement}
-          caretAs={IconCalendar}
           disabled={disabled}
+          caretAs={caretAs || IconCalendar}
         >
           {getDisplayString(value)}
         </PickerToggle>

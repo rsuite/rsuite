@@ -17,6 +17,7 @@ import {
 } from '../../utils/dateUtils';
 import DateRangePicker from '../DateRangePicker';
 import { isSameRange } from '../utils';
+import GearIcon from '@rsuite/icons/Gear';
 
 function setTimePickerValue(picker, calendarIndex, { hours, minutes, seconds }) {
   function generateTimeItem(calendarIndex, type, index) {
@@ -616,5 +617,11 @@ describe('DateRangePicker', () => {
     expect(console.warn).not.to.have.been.calledWith(
       sinon.match(/"caretComponent" property of "PickerToggle" has been deprecated/)
     );
+  });
+
+  it('Should render a custom caret', () => {
+    const { getByLabelText } = render(<DateRangePicker caretAs={GearIcon} />);
+
+    expect(getByLabelText('gear')).to.have.class('rs-icon');
   });
 });

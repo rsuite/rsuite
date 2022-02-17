@@ -7,6 +7,8 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import DatePicker from '../DatePicker';
 import { DateUtils } from '../../utils';
 
+import GearIcon from '@rsuite/icons/Gear';
+
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
     const instance = getDOMNode(<DatePicker />);
@@ -606,6 +608,12 @@ describe('DatePicker', () => {
       );
 
       expect(getByTestId('content')).to.have.text('Not selected');
+    });
+
+    it('Should render a custom caret', () => {
+      const { getByLabelText } = render(<DatePicker caretAs={GearIcon} />);
+
+      expect(getByLabelText('gear')).to.have.class('rs-icon');
     });
   });
 });

@@ -30,7 +30,8 @@ import {
   PositionChildProps,
   usePickerClassName,
   usePublicMethods,
-  useToggleKeyDownEvent
+  useToggleKeyDownEvent,
+  PickerToggleProps
 } from '../Picker';
 
 import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
@@ -41,7 +42,8 @@ export type { RangeType } from './Toolbar';
 
 export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
-    FormControlBaseProps<Date | null> {
+    FormControlBaseProps<Date | null>,
+    Pick<PickerToggleProps, 'caretAs' | 'readOnly' | 'plaintext'> {
   /** Configure shortcut options */
   ranges?: RangeType<Date>[];
 
@@ -150,6 +152,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       showWeekNumbers,
       style,
       toggleAs,
+      caretAs: caretAsProp,
       disabledDate: disabledDateProp,
       renderValue,
       onChange,
@@ -548,8 +551,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     }, [formatStr, formatDate, placeholder, renderValue, value]);
 
     const caretAs = useMemo(
-      () => (DateUtils.shouldOnlyTime(formatStr) ? IconClockO : IconCalendar),
-      [formatStr]
+      () => caretAsProp || (DateUtils.shouldOnlyTime(formatStr) ? IconClockO : IconCalendar),
+      [caretAsProp, formatStr]
     );
 
     return (
