@@ -21,8 +21,6 @@ Sets the primary color.
 
 After you configure the theme base color, a set of swatches (`@H050` - `@H900`, H is Hue) reference is generated: [light.less][light.less].
 
-Now go to the [palette](/resources/palette) to select the appropriate color or upload your own Logo to preview.
-
 #### Dark mode
 
 If you want to also customize the built-in dark mode, you can use `@primary-color-dark` variable.
