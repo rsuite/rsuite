@@ -92,10 +92,9 @@ const usePosition = (
       }
 
       const overlay = getDOMNode(ref.current);
-      // fixme dom-lib getContainer incorrect type
       const containerElement = getContainer(
         typeof container === 'function' ? container() : container ?? (null as any),
-        ownerDocument(ref.current!).body
+        ownerDocument(ref.current).body
       );
 
       const posi = utils.calcOverlayPosition(overlay, targetElement, containerElement);

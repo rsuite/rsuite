@@ -269,19 +269,19 @@ export function useCascadeValue<T>(
 
         // Delete all values under the current node
         removedValue = removedValue.concat(
-          removeAllChildrenValue(nextValue, item, { valueKey, childrenKey })!
+          removeAllChildrenValue(nextValue, item, { valueKey, childrenKey }) || []
         );
 
         // Traverse all ancestor nodes of the current node
         // Then determine whether all the child nodes of these nodes are selected, and then they themselves must be selected
         for (let i = 0; i < parents.length; i++) {
           // Whether the parent node can be selected
-          const isCheckableParent = !uncheckableItemValues!.some(v => v === parents[i][valueKey]);
+          const isCheckableParent = !uncheckableItemValues?.some(v => v === parents[i][valueKey]);
 
           if (isCheckableParent) {
             const isCheckAll = parents[i][childrenKey]
               // Filter out options that are marked as not selectable
-              .filter(n => !uncheckableItemValues!.some(v => v === n[valueKey]))
+              .filter(n => !uncheckableItemValues?.some(v => v === n[valueKey]))
               // Check if all nodes are selected
               .every(n => nextValue.some(v => v === n[valueKey]));
 
@@ -291,7 +291,7 @@ export function useCascadeValue<T>(
 
               // Delete all values under the parent node
               removedValue = removedValue.concat(
-                removeAllChildrenValue(nextValue, parents[i], { valueKey, childrenKey })!
+                removeAllChildrenValue(nextValue, parents[i], { valueKey, childrenKey }) || []
               );
             }
           }
@@ -353,7 +353,7 @@ export function useCascadeValue<T>(
       // Finally traverse all nextValue, and delete if its parent node is also nextValue
       return nextValue.filter(v => {
         const item = flattenData.find(n => n[valueKey] === v);
-        if (item?.parent && nextValue.some(v => v === item.parent![valueKey])) {
+        if (item?.parent && nextValue.some(v => v === item.parent && item.parent[valueKey])) {
           return false;
         }
         return true;

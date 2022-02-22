@@ -233,7 +233,9 @@ const SelectPicker = React.forwardRef(
         }
 
         // Find active `MenuItem` by `value`
-        const focusItem = data.find(item => shallowEqual(item[valueKey], focusItemValue))!;
+        const focusItem = data.find(item =>
+          shallowEqual(item[valueKey], focusItemValue)
+        ) as ItemDataType;
 
         setValue(focusItemValue);
         handleSelect(focusItemValue, focusItem, event);
@@ -315,7 +317,7 @@ const SelectPicker = React.forwardRef(
     }
 
     if (!isNil(value) && isFunction(renderValue)) {
-      selectedElement = renderValue(value, activeItem!, selectedElement);
+      selectedElement = renderValue(value, activeItem as ItemDataType, selectedElement);
       // If renderValue returns null or undefined, hasValue is false.
       if (isNil(selectedElement)) {
         hasValue = false;

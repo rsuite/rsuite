@@ -4,14 +4,14 @@ import getOffset from 'dom-lib/getOffset';
 import on from 'dom-lib/on';
 import Transition from '../Animation/Transition';
 import { mergeRefs, useClassNames } from '../utils';
-import { WithAsProps } from '../@types/common';
+import { Offset, WithAsProps } from '../@types/common';
 
 export interface RippleProps extends WithAsProps {
   onMouseDown?: (position: any, event: React.MouseEvent) => void;
 }
 
 const getPosition = (target: HTMLElement, event: React.MouseEvent) => {
-  const offset = getOffset(target)!;
+  const offset = getOffset(target) as Offset;
   const offsetX = (event.pageX || 0) - offset.left;
   const offsetY = (event.pageY || 0) - offset.top;
 

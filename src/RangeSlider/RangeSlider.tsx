@@ -11,6 +11,7 @@ import Graduated from '../Slider/Graduated';
 import { precisionMath, checkValue } from '../Slider/utils';
 import { SliderProps } from '../Slider';
 import { tupleType } from '../utils/propTypeChecker';
+import { Offset } from '../@types/common';
 
 export type Range = [number, number];
 export type RangeSliderProps = SliderProps<Range> & {
@@ -125,7 +126,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 
   const getValueByPosition = useCallback(
     (event: React.MouseEvent) => {
-      const barOffset = getOffset(barRef.current as HTMLElement)!;
+      const barOffset = getOffset(barRef.current as HTMLElement) as Offset;
       const offset = vertical
         ? barOffset.top + barOffset.height - event.pageY
         : event.pageX - barOffset.left;

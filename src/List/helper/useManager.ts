@@ -1,12 +1,11 @@
 import { useCallback, useRef } from 'react';
 import _ from 'lodash';
-import { Offset } from '../../@types/common';
-
+import type { EdgeOffset } from './utils';
 export type Collection = string | number;
 
 export interface ManagedItem {
   node: HTMLElement;
-  edgeOffset: Offset | null;
+  edgeOffset: Partial<EdgeOffset> | null;
   info: {
     collection: Collection;
     index?: number;

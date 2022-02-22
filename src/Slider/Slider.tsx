@@ -8,7 +8,7 @@ import Handle from './Handle';
 import Graduated from './Graduated';
 import { useClassNames, useControlled, useCustom } from '../utils';
 import { precisionMath, checkValue } from './utils';
-import { WithAsProps, FormControlBaseProps } from '../@types/common';
+import { WithAsProps, FormControlBaseProps, Offset } from '../@types/common';
 import Plaintext from '../Plaintext';
 
 export interface LocaleType {
@@ -160,7 +160,10 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     [max, min]
   );
 
-  const [value, setValue] = useControlled(getValidValue(valueProp), getValidValue(defaultValue)!);
+  const [value, setValue] = useControlled(
+    getValidValue(valueProp),
+    getValidValue(defaultValue) as number
+  );
   const count = useMemo(() => precisionMath((max - min) / step), [max, min, step]);
 
   // Get the height of the progress bar
@@ -194,7 +197,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
    */
   const getValueByPosition = useCallback(
     (event: React.MouseEvent) => {
-      const barOffset = getOffset(barRef.current!)!;
+      const barOffset = getOffset(barRef.current) as Offset;
       const offset = vertical
         ? barOffset.top + barOffset.height - event.pageY
         : event.pageX - barOffset.left;
@@ -213,7 +216,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
       if (disabled || readOnly) {
         return;
       }
-      const nextValue: number = getValidValue(getValueByPosition(event))!;
+      const nextValue = getValidValue(getValueByPosition(event)) as number;
       setValue(nextValue);
       onChange?.(nextValue, event);
     },
@@ -228,7 +231,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
       if (disabled || readOnly) {
         return;
       }
-      const nextValue: number = getValidValue(getValueByPosition(event))!;
+      const nextValue = getValidValue(getValueByPosition(event)) as number;
 
       onChangeCommitted?.(nextValue, event);
     },

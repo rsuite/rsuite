@@ -335,8 +335,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const toggleUpChecked = useCallback(
     (nodes: TreeNodesType, node: TreeNodeType, checked: boolean) => {
-      const currentNode = nodes[node.refKey!];
-      if (cascade) {
+      const currentNode = node.refKey ? nodes[node.refKey] : null;
+      if (cascade && currentNode) {
         if (!checked) {
           currentNode.check = checked;
           currentNode.checkAll = checked;
@@ -359,7 +359,12 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const toggleDownChecked = useCallback(
     (nodes: TreeNodesType, node: TreeNodeType, isChecked: boolean) => {
-      const currentNode = nodes[node.refKey!];
+      const currentNode = node.refKey ? nodes[node.refKey] : null;
+
+      if (!currentNode) {
+        return;
+      }
+
       currentNode.check = isChecked;
 
       if (!currentNode[childrenKey] || !currentNode[childrenKey].length || !cascade) {
@@ -394,11 +399,14 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const handleSelect = useCallback(
     (node: TreeNodeType, event: React.SyntheticEvent) => {
-      if (!node) {
+      const currentNode = node.refKey ? flattenNodes[node.refKey] : null;
+
+      if (!node || !currentNode) {
         return;
       }
 
-      const selectedValues = toggleChecked(node, !flattenNodes[node.refKey!].check);
+      const selectedValues = toggleChecked(node, !currentNode.check);
+
       if (!isControlled) {
         unSerializeList({
           nodes: flattenNodes,
