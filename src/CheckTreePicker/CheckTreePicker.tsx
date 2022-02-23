@@ -234,7 +234,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   }
 
   updateDataChange(prevState: CheckTreePickerState) {
-    const { searchKeyword, expandItemValues } = this.state;
+    const { searchKeyword } = this.state;
     const { data = [], childrenKey } = this.props;
 
     if (prevState.data !== data) {
@@ -242,8 +242,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       this.nodes = {};
       this.flattenNodes(nextData);
       this.unserializeLists({
-        check: this.getValue(),
-        expand: expandItemValues
+        check: this.getValue()
       });
 
       this.setState({

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -566,5 +566,46 @@ describe('CheckTreePicker', () => {
       ref.current.picker.treeViewRef.current.querySelectorAll('.rs-checkbox-inner').length,
       4
     );
+  });
+  it('Should expand when has props defaultExpandAll and data change', () => {
+    const Wrapper = React.forwardRef((props, ref) => {
+      const nextData = [
+        {
+          label: 'Fujian',
+          value: 3,
+          children: [
+            {
+              label: 'Fuzhou',
+              value: 36
+            }
+          ]
+        },
+        {
+          label: 'Guangdong',
+          value: 4,
+          children: [
+            {
+              label: 'Guangzhou',
+              value: 45
+            }
+          ]
+        }
+      ];
+      const [willChangeData, setData] = useState(data);
+      const handleClick = () => {
+        setData(nextData);
+      };
+      return (
+        <div ref={ref}>
+          <button onClick={handleClick} className="change-data">
+            change data
+          </button>
+          <CheckTreePicker inline defaultExpandAll data={willChangeData} />
+        </div>
+      );
+    });
+    const instance = getDOMNode(<Wrapper />);
+    ReactTestUtils.Simulate.click(instance.querySelector('.change-data'));
+    expect(instance.querySelectorAll('.rs-check-tree-open').length).to.equal(2);
   });
 });
