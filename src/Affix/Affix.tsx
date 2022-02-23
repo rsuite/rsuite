@@ -117,7 +117,6 @@ const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef(
     const fixedStyles: React.CSSProperties = {
       position: 'fixed',
       top,
-      left: offset?.left,
       width: offset?.width,
       zIndex: 10
     };
