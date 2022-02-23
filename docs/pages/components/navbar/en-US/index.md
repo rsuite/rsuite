@@ -28,8 +28,8 @@ For navigation at the top of the page.
 
 ### `<Navbar>`
 
-| Property    | Type `(Default)`                                  | Description                                          |
-| ----------- | ------------------------------------------------- | ---------------------------------------------------- |
-| as          | ElementType `('div')`                             | You can use a custom element type for this component |
-| appearance  | enum: 'default', 'inverse', 'subtle'`('default')` | The appearance of the navigation bar                 |
-| classPrefix | string `('navbar')`                               | The prefix of the component CSS class                |
+| Property    | Type `(Default)`                                        | Description                                          |
+| ----------- | ------------------------------------------------------- | ---------------------------------------------------- |
+| as          | ElementType `('div')`                                   | You can use a custom element type for this component |
+| appearance  | 'default' &#124; 'inverse' &#124; 'subtle'`('default')` | The appearance of the navigation bar                 |
+| classPrefix | string `('navbar')`                                     | The prefix of the component CSS class                |

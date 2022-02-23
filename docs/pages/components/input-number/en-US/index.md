@@ -57,6 +57,6 @@ limits: 10 - 100
 | postfix      | ReactNode                                         | Sets the element displayed on the right side of the component. |
 | prefix       | ReactNode                                         | Sets the element displayed to the left of the component.       |
 | scrollable   | boolean `(true)`                                  | Whether the value can be changed through the wheel event.      |
-| size         | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' `('md')` | An input can have different sizes.                             |
+| size         | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | An input can have different sizes.                             |
 | step         | number `(1)`                                      | The value of each step. can be decimal.                        |
 | value        | number                                            | Value (Controlled).                                            |

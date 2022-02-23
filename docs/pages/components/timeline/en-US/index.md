@@ -32,13 +32,13 @@ Vertical display timeline.
 
 ### `<Timeline>`
 
-| Property    | Type `(Default)`                                          | Description                                          |
-| ----------- | --------------------------------------------------------- | ---------------------------------------------------- |
-| align       | enum: 'left' &#124; 'right' &#124; 'alternate' `('left')` | Timeline content alignment                           |
-| children \* | Timeline.Item[]                                           | The content of the component                         |
-| classPrefix | string `('timeline')`                                     | The prefix of the component CSS class                |
-| as          | ElementType `('ul')`                                      | You can use a custom element type for this component |
-| endless     | boolean                                                   | Timeline endless                                     |
+| Property    | Type `(Default)`                                    | Description                                          |
+| ----------- | --------------------------------------------------- | ---------------------------------------------------- |
+| align       | 'left' &#124; 'right' &#124; 'alternate' `('left')` | Timeline content alignment                           |
+| children \* | Timeline.Item[]                                     | The content of the component                         |
+| classPrefix | string `('timeline')`                               | The prefix of the component CSS class                |
+| as          | ElementType `('ul')`                                | You can use a custom element type for this component |
+| endless     | boolean                                             | Timeline endless                                     |
 
 ### `<Timeline.Item>`
 

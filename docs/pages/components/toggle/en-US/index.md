@@ -57,5 +57,5 @@ Can be set by the `checkedchildren`, `uncheckedchildren` two properties, respect
 | loading           | boolean                                 | Whether to show a spinner indicating checked state is being fetched/updated |
 | locale            | [ToggleLocaleType](/guide/i18n/#toggle) | Locale text                                                                 |
 | onChange          | (checked: boolean, event) => void       | Callback function when state changes                                        |
-| size              | enum: 'lg' &#124; 'md' &#124; 'sm'      | Toggle size                                                                 |
+| size              | 'lg' &#124; 'md' &#124; 'sm'            | Toggle size                                                                 |
 | unCheckedChildren | ReactNode                               | Unselected display content                                                  |

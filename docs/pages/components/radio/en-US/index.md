@@ -59,7 +59,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#radiobutton
 
 | Property     | Type `(Default)`              | Description                                  |
 | ------------ | ----------------------------- | -------------------------------------------- |
-| appearance   | enum: 'default', 'picker'     | A radio group can have different appearances |
+| appearance   | 'default' &#124; 'picker'     | A radio group can have different appearances |
 | defaultValue | string                        | Default value                                |
 | inline       | boolean                       | Inline layout                                |
 | name         | string                        | Name to use for form                         |

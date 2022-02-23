@@ -59,7 +59,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#radiobutton
 
 | 属性名称     | 类型`(默认值)`                | 描述               |
 | ------------ | ----------------------------- | ------------------ |
-| appearance   | enum: 'default', 'picker'     | 设置外观           |
+| appearance   | 'default' &#124; 'picker'     | 设置外观           |
 | defaultValue | string                        | 默认值             |
 | inline       | boolean                       | 内联布局           |
 | name         | string                        | 用于表单对应的名称 |

@@ -32,13 +32,13 @@
 
 ### `<Timeline>`
 
-| 属性名称    | 类型`(默认值)`                                            | 描述                 |
-| ----------- | --------------------------------------------------------- | -------------------- |
-| align       | enum: 'left' &#124; 'right' &#124; 'alternate' `('left')` | 时间轴内容的对齐方式 |
-| as          | ElementType `('ul')`                                      | 为组件自定义元素类型 |
-| children \* | Timeline.Item[]                                           | 组件的内容           |
-| classPrefix | string `('timeline')`                                     | 组件 CSS 类的前缀    |
-| endless     | boolean                                                   | 时间轴无止境的       |
+| 属性名称    | 类型`(默认值)`                                      | 描述                 |
+| ----------- | --------------------------------------------------- | -------------------- |
+| align       | 'left' &#124; 'right' &#124; 'alternate' `('left')` | 时间轴内容的对齐方式 |
+| as          | ElementType `('ul')`                                | 为组件自定义元素类型 |
+| children \* | Timeline.Item[]                                     | 组件的内容           |
+| classPrefix | string `('timeline')`                               | 组件 CSS 类的前缀    |
+| endless     | boolean                                             | 时间轴无止境的       |
 
 ### `<Timeline.Item>`
 

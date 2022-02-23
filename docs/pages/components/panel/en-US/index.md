@@ -61,25 +61,25 @@ Only one panel can be expanded.
 
 ### `<Panel>`
 
-| Property        | Type `(Default)`   | Description                               |
-| --------------- | ------------------ | ----------------------------------------- |
-| bodyFill        | boolean            | Content area filled with containers       |
-| bordered        | boolean            | Show border                               |
-| shaded          | boolean            | With shadow                               |
-| classPrefix     | string `('panel')` | The prefix of the component CSS class     |
-| collapsible     | boolean            | Whether it is a collapsible panel         |
-| defaultExpanded | boolean            | Expand by default                         |
-| eventKey        | any                | The event key corresponding to the panel. |
-| expanded        | boolean            | Expand the Panel.                         |
-| header          | ReactNode          | The head displays information.            |
-| id              | string or number   | ID                                        |
+| Property        | Type `(Default)`     | Description                               |
+| --------------- | -------------------- | ----------------------------------------- |
+| bodyFill        | boolean              | Content area filled with containers       |
+| bordered        | boolean              | Show border                               |
+| shaded          | boolean              | With shadow                               |
+| classPrefix     | string `('panel')`   | The prefix of the component CSS class     |
+| collapsible     | boolean              | Whether it is a collapsible panel         |
+| defaultExpanded | boolean              | Expand by default                         |
+| eventKey        | string               | The event key corresponding to the panel. |
+| expanded        | boolean              | Expand the Panel.                         |
+| header          | ReactNode            | The head displays information.            |
+| id              | string &#124; number | ID                                        |
 
 ### `<PanelGroup>`
 
-| Property         | Type `(Default)`                               | Description                                                  |
-| ---------------- | ---------------------------------------------- | ------------------------------------------------------------ |
-| accordion        | boolean                                        | Whether it is a collapsible panel.                           |
-| activeKey        | any                                            | Expand the Panel, corresponding to the 'Panel' of 'eventkey' |
-| classPrefix      | string                                         | The prefix of the component CSS class                        |
-| defaultActiveKey | any                                            | The default expansion panel.                                 |
-| onSelect         | (eventKey: any, event: SyntheticEvent) => void | Toggles the callback function for the expand panel           |
+| Property         | Type `(Default)`                  | Description                                                  |
+| ---------------- | --------------------------------- | ------------------------------------------------------------ |
+| accordion        | boolean                           | Whether it is a collapsible panel.                           |
+| activeKey        | string                            | Expand the Panel, corresponding to the 'Panel' of 'eventkey' |
+| classPrefix      | string                            | The prefix of the component CSS class                        |
+| defaultActiveKey | string                            | The default expansion panel.                                 |
+| onSelect         | (eventKey: string, event) => void | Toggles the callback function for the expand panel           |

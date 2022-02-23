@@ -81,7 +81,7 @@ When set to true, the Modal will display the background when it is opened. Click
 | Property          | Type `(Default)`                                  | Description                                                                                                                                                                            |
 | ----------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | autoFocus         | boolean `(true)`                                  | When set to true, the Modal is opened and is automatically focused on its own, accessible to screen readers                                                                            |
-| backdrop          | unions: boolean, 'static'                         | When set to true, the Modal will display the background when it is opened. Clicking on the background will close the Modal. If you do not want to close the Modal, set it to 'static'. |
+| backdrop          | unions: boolean &#124; 'static'                   | When set to true, the Modal will display the background when it is opened. Clicking on the background will close the Modal. If you do not want to close the Modal, set it to 'static'. |
 | backdropClassName | string                                            | Add an optional extra class name to .modal-backdrop It could end up looking like class="modal-backdrop foo-modal-backdrop in".                                                         |
 | classPrefix       | string `('modal')`                                | The prefix of the component CSS class                                                                                                                                                  |
 | dialogAs          | ElementType `(ModalDialog)`                       | You can use a custom element type for Dialog                                                                                                                                           |
@@ -99,16 +99,16 @@ When set to true, the Modal will display the background when it is opened. Click
 | onOpen            | () => void                                        | Callback fired when Modal display                                                                                                                                                      |
 | open \*           | boolean                                           | Show Modal                                                                                                                                                                             |
 | overflow          | boolean `(true)`                                  | Automatically sets the height when the body content is too long.                                                                                                                       |
-| size              | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' `('md')` | Set Modal size                                                                                                                                                                         |
+| size              | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | Set Modal size                                                                                                                                                                         |
 
 ### `<Modal.Header>`
 
-| Property    | Type `(Default)`                           | Description                                     |
-| ----------- | ------------------------------------------ | ----------------------------------------------- |
-| as          | ElementType `('div')`                      | You can use a custom element for this component |
-| classPrefix | string `('modal-header')`                  | The prefix of the component CSS class           |
-| closeButton | boolean `(true)`                           | Display close button                            |
-| onClose     | (event: SyntheticEvent&lt;any&gt;) => void | Called when Modal is hidden                     |
+| Property    | Type `(Default)`          | Description                                     |
+| ----------- | ------------------------- | ----------------------------------------------- |
+| as          | ElementType `('div')`     | You can use a custom element for this component |
+| classPrefix | string `('modal-header')` | The prefix of the component CSS class           |
+| closeButton | boolean `(true)`          | Display close button                            |
+| onClose     | (event) => void           | Called when Modal is hidden                     |
 
 ### `<Modal.Title>`
 

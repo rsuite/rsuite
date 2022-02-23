@@ -93,24 +93,21 @@ The buttons are laid out horizontally in the button set and are equally wide.
 
 ## Props
 
-<!--{include:(_common/types/appearance.md)}-->
-<!--{include:(_common/types/color.md)}-->
-
 ### `<Button>`
 
-| Property    | Type `(Default)`                                  | Description                                                    |
-| ----------- | ------------------------------------------------- | -------------------------------------------------------------- |
-| active      | boolean                                           | A button can show it is currently the active user selection    |
-| appearance  | Appearance `('default')`                          | A button can have different appearances                        |
-| as          | ElementType `('button')`                          | You can use a custom element for this component                |
-| block       | boolean                                           | Spans the full width of the Button parent                      |
-| children \* | ReactNode                                         | Primary content                                                |
-| classPrefix | string `('btn')`                                  | The prefix of the component CSS class                          |
-| color       | Color                                             | A button can have different colors                             |
-| disabled    | boolean                                           | A button can show it is currently unable to be interacted with |
-| href        | string                                            | Providing a `href` will render an `a` element                  |
-| loading     | boolean                                           | A button can show a loading indicator                          |
-| size        | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' `('md')` | A button can have different sizes                              |
+| Property    | Type `(Default)`                                     | Description                                                    |
+| ----------- | ---------------------------------------------------- | -------------------------------------------------------------- |
+| active      | boolean                                              | A button can show it is currently the active user selection    |
+| appearance  | [Appearance](#code-ts-appearance-code) `('default')` | A button can have different appearances                        |
+| as          | ElementType `('button')`                             | You can use a custom element for this component                |
+| block       | boolean                                              | Spans the full width of the Button parent                      |
+| children \* | ReactNode                                            | Primary content                                                |
+| classPrefix | string `('btn')`                                     | The prefix of the component CSS class                          |
+| color       | [Color](#code-ts-color-code)                         | A button can have different colors                             |
+| disabled    | boolean                                              | A button can show it is currently unable to be interacted with |
+| href        | string                                               | Providing a `href` will render an `a` element                  |
+| loading     | boolean                                              | A button can show a loading indicator                          |
+| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`    | A button can have different sizes                              |
 
 ### `<IconButton>`
 
@@ -130,5 +127,8 @@ The buttons are laid out horizontally in the button set and are equally wide.
 | block       | boolean                                           | Display block buttongroups            |
 | classPrefix | string `('btn-group')`                            | The prefix of the component CSS class |
 | justified   | boolean                                           | Horizontal constant width layout      |
-| size        | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' `('md')` | Set button size                       |
+| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | Set button size                       |
 | vertical    | boolean                                           | Vertical layouts of button            |
+
+<!--{include:(_common/types/appearance.md)}-->
+<!--{include:(_common/types/color.md)}-->

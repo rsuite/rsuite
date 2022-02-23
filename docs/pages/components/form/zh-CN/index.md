@@ -99,20 +99,20 @@
 
 ### `<Form>`
 
-| 名称             | 类型 `(默认值)`                                         | 描述                                               |
-| ---------------- | ------------------------------------------------------- | -------------------------------------------------- |
-| checkTrigger     | enum: 'change','blur','none' `('change')`               | 触发表单校验的类型                                 |
-| classPrefix      | string `('form')`                                       | 组件 CSS 类的前缀                                  |
-| errorFromContext | boolean `(true)`                                        | Form.Control 中的错误提醒默认从 Context 获取       |
-| fluid            | boolean                                                 | 让表单中的 Input 100% 撑满容器，只在垂直布局中有效 |
-| formDefaultValue | object                                                  | 表单的初始默认值 `非受控组件`                      |
-| formError        | object                                                  | 表单错误信息                                       |
-| formValue        | object                                                  | 表单的值 `受控组件`                                |
-| layout           | enum: 'horizontal', 'vertical', 'inline' `('vertical')` | 设置表单内的元素左右两栏布局                       |
-| model            | Schema                                                  | SchemaModel 对象                                   |
-| onChange         | (formValue:object, event:object) => void                | 数据改变后的回调函数                               |
-| onCheck          | (formError:object) => void                              | 数据校验的回调函数                                 |
-| onError          | (formError:object) => void                              | 校验出错的回调函数                                 |
+| 名称             | 类型 `(默认值)`                                               | 描述                                               |
+| ---------------- | ------------------------------------------------------------- | -------------------------------------------------- |
+| checkTrigger     | 'change' &#124; 'blur' &#124; 'none' `('change')`             | 触发表单校验的类型                                 |
+| classPrefix      | string `('form')`                                             | 组件 CSS 类的前缀                                  |
+| errorFromContext | boolean `(true)`                                              | Form.Control 中的错误提醒默认从 Context 获取       |
+| fluid            | boolean                                                       | 让表单中的 Input 100% 撑满容器，只在垂直布局中有效 |
+| formDefaultValue | object                                                        | 表单的初始默认值 `非受控组件`                      |
+| formError        | object                                                        | 表单错误信息                                       |
+| formValue        | object                                                        | 表单的值 `受控组件`                                |
+| layout           | 'horizontal' &#124; 'vertical' &#124; 'inline' `('vertical')` | 设置表单内的元素左右两栏布局                       |
+| model            | Schema                                                        | SchemaModel 对象                                   |
+| onChange         | (formValue: object, event) => void                            | 数据改变后的回调函数                               |
+| onCheck          | (formError: object) => void                                   | 数据校验的回调函数                                 |
+| onError          | (formError: object) => void                                   | 校验出错的回调函数                                 |
 
 ### Form methods
 
@@ -157,17 +157,17 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 
 ### `<Form.Control>`
 
-| 名称           | 类型`(默认值)`                    | 描述                                       |
-| -------------- | --------------------------------- | ------------------------------------------ |
-| accepter       | ElementType `(Input)`             | 受代理的组件                               |
-| checkAsync     | boolean                           | 异步数据校验                               |
-| checkTrigger   | enum: 'change','blur','none'      | 数据校验的触发类型,会覆盖 `<Form>`上的设置 |
-| classPrefix    | string `('form-control')`         | 组件 CSS 类的前缀                          |
-| errorMessage   | ReactNode                         | 显示错误信息                               |
-| errorPlacement | enum: Placement `('bottomStart')` | 错误信息显示位置                           |
-| name \*        | string                            | 表单元素名称                               |
-| readOnly       | boolean                           | 使控件为只读                               |
-| plaintext      | boolean                           | 使控件为纯文本                             |
+| 名称           | 类型`(默认值)`                                        | 描述                                       |
+| -------------- | ----------------------------------------------------- | ------------------------------------------ |
+| accepter       | ElementType `(Input)`                                 | 受代理的组件                               |
+| checkAsync     | boolean                                               | 异步数据校验                               |
+| checkTrigger   | 'change' &#124; 'blur' &#124; 'none'                  | 数据校验的触发类型,会覆盖 `<Form>`上的设置 |
+| classPrefix    | string `('form-control')`                             | 组件 CSS 类的前缀                          |
+| errorMessage   | ReactNode                                             | 显示错误信息                               |
+| errorPlacement | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置                           |
+| name \*        | string                                                | 表单元素名称                               |
+| readOnly       | boolean                                               | 使控件为只读                               |
+| plaintext      | boolean                                               | 使控件为纯文本                             |
 
 ### `<Form.Group>`
 
@@ -193,20 +193,10 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 
 ### `<Form.ErrorMessage>`
 
-| 属性名称    | 类型`(默认值)`                    | 描述              |
-| ----------- | --------------------------------- | ----------------- |
-| classPrefix | string `('form-error-message')`   | 组件 CSS 类的前缀 |
-| show        | boolean                           | 是否显示错误信息  |
-| placement   | enum: Placement `('bottomStart')` | 错误信息显示位置  |
+| 属性名称    | 类型`(默认值)`                                        | 描述              |
+| ----------- | ----------------------------------------------------- | ----------------- |
+| classPrefix | string `('form-error-message')`                       | 组件 CSS 类的前缀 |
+| show        | boolean                                               | 是否显示错误信息  |
+| placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置  |
 
-```js
-type Placement =
-  | 'bottomStart'
-  | 'bottomEnd'
-  | 'topStart'
-  | 'topEnd'
-  | 'leftStart'
-  | 'rightStart'
-  | 'leftEnd'
-  | 'rightEnd';
-```
+<!--{include:(_common/types/placement8.md)}-->

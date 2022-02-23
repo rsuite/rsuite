@@ -89,28 +89,25 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 
 ## Props
 
-<!--{include:(_common/types/placement8.md)}-->
-<!--{include:(_common/types/trigger.md)}-->
-
 ### `<Dropdown>`
 
-| Property        | Type`(default)`                   | Description                                                                             |
-| --------------- | --------------------------------- | --------------------------------------------------------------------------------------- |
-| activeKey       | string                            | The option to activate the state, corresponding to the `eventkey` in the Dropdown.item. |
-| classPrefix     | string `('dropdown')`             | The prefix of the component CSS class                                                   |
-| disabled        | boolean                           | Whether or not component is disabled                                                    |
-| icon            | Element&lt;typeof Icon&gt;        | Set the icon                                                                            |
-| menuStyle       | CSSProperties                     | The style of the menu.                                                                  |
-| onClose         | () => void                        | The callback function that the menu closes                                              |
-| onOpen          | () => void                        | Menu Pop-up callback function                                                           |
-| onSelect        | (eventKey: string, event) => void | Selected callback function                                                              |
-| onToggle        | (open?: boolean) => void          | Callback function for menu state switching.                                             |
-| placement       | Placement `('bottomStart')`       | The placement of Menu                                                                   |
-| renderToggle    | (props, ref) => any;              | Custom Toggle                                                                           |
-| title           | ReactNode                         | Menu defaults to display content.                                                       |
-| toggleAs        | ElementType `(Button)`            | You can use a custom element for this component                                         |
-| toggleClassName | string                            | A css class to apply to the Toggle DOM node                                             |
-| trigger         | Trigger `('click')`               | Triggering events                                                                       |
+| Property        | Type`(default)`                                        | Description                                                                             |
+| --------------- | ------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| activeKey       | string                                                 | The option to activate the state, corresponding to the `eventkey` in the Dropdown.item. |
+| classPrefix     | string `('dropdown')`                                  | The prefix of the component CSS class                                                   |
+| disabled        | boolean                                                | Whether or not component is disabled                                                    |
+| icon            | Element&lt;typeof Icon&gt;                             | Set the icon                                                                            |
+| menuStyle       | CSSProperties                                          | The style of the menu.                                                                  |
+| onClose         | () => void                                             | The callback function that the menu closes                                              |
+| onOpen          | () => void                                             | Menu Pop-up callback function                                                           |
+| onSelect        | (eventKey: string, event) => void                      | Selected callback function                                                              |
+| onToggle        | (open?: boolean) => void                               | Callback function for menu state switching.                                             |
+| placement       | [Placement](#code-ts-placement-code) `('bottomStart')` | The placement of Menu                                                                   |
+| renderToggle    | (props, ref) => any;                                   | Custom Toggle                                                                           |
+| title           | ReactNode                                              | Menu defaults to display content.                                                       |
+| toggleAs        | ElementType `(Button)`                                 | You can use a custom element for this component                                         |
+| toggleClassName | string                                                 | A css class to apply to the Toggle DOM node                                             |
+| trigger         | [Trigger](#code-ts-trigger-code) `('click')`           | Triggering events                                                                       |
 
 ### `<Dropdown.Item>`
 
@@ -133,3 +130,6 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 | -------- | -------------------------- | ----------------------------- |
 | icon     | Element&lt;typeof Icon&gt; | Set the icon                  |
 | title    | string                     | Define the title as a submenu |
+
+<!--{include:(_common/types/placement8.md)}-->
+<!--{include:(_common/types/trigger.md)}-->

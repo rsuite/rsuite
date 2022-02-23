@@ -89,28 +89,25 @@
 
 ## Props
 
-<!--{include:(_common/types/placement8.md)}-->
-<!--{include:(_common/types/trigger.md)}-->
-
 ### `<Dropdown>`
 
-| 属性名称        | 类型 `(默认值)`                   | 描述                                             |
-| --------------- | --------------------------------- | ------------------------------------------------ |
-| activeKey       | string                            | 激活状态的选项，对应 Dropdown.Item 中的 eventKey |
-| classPrefix     | string `('dropdown')`             | 组件 CSS 类的前缀                                |
-| disabled        | boolean                           | 禁用组件                                         |
-| icon            | Element&lt;typeof Icon&gt;        | 设置图标                                         |
-| menuStyle       | CSSProperties                     | 菜单样式                                         |
-| onClose         | () => void                        | 菜单关闭的回调函数                               |
-| onOpen          | () => void                        | 菜单弹出的回调函数                               |
-| onSelect        | (eventKey: string, event) => void | 选择后的回调函数                                 |
-| onToggle        | (open?: boolean) => void          | 菜单状态切换的回调函数                           |
-| placement       | Placement `('bottomStart')`       | 菜单显示位置                                     |
-| renderToggle    | (props, ref) => any;              | 自定义 Toggle                                    |
-| title           | ReactNode                         | 菜单默认显示内容                                 |
-| toggleAs        | ElementType `(Button)`            | 为组件自定义元素类型                             |
-| toggleClassName | string                            | 设置 Toggle 的 className                         |
-| trigger         | Trigger `('click')`               | 触发事件                                         |
+| 属性名称        | 类型 `(默认值)`                                        | 描述                                             |
+| --------------- | ------------------------------------------------------ | ------------------------------------------------ |
+| activeKey       | string                                                 | 激活状态的选项，对应 Dropdown.Item 中的 eventKey |
+| classPrefix     | string `('dropdown')`                                  | 组件 CSS 类的前缀                                |
+| disabled        | boolean                                                | 禁用组件                                         |
+| icon            | Element&lt;typeof Icon&gt;                             | 设置图标                                         |
+| menuStyle       | CSSProperties                                          | 菜单样式                                         |
+| onClose         | () => void                                             | 菜单关闭的回调函数                               |
+| onOpen          | () => void                                             | 菜单弹出的回调函数                               |
+| onSelect        | (eventKey: string, event) => void                      | 选择后的回调函数                                 |
+| onToggle        | (open?: boolean) => void                               | 菜单状态切换的回调函数                           |
+| placement       | [Placement](#code-ts-placement-code) `('bottomStart')` | 菜单显示位置                                     |
+| renderToggle    | (props, ref) => any;                                   | 自定义 Toggle                                    |
+| title           | ReactNode                                              | 菜单默认显示内容                                 |
+| toggleAs        | ElementType `(Button)`                                 | 为组件自定义元素类型                             |
+| toggleClassName | string                                                 | 设置 Toggle 的 className                         |
+| trigger         | [Trigger](#code-ts-trigger-code) `('click')`           | 触发事件                                         |
 
 ### `<Dropdown.Item>`
 
@@ -133,3 +130,6 @@
 | -------- | -------------------------- | ------------------ |
 | icon     | Element&lt;typeof Icon&gt; | 设置图标           |
 | title    | string                     | 作为子菜单定义标题 |
+
+<!--{include:(_common/types/placement8.md)}-->
+<!--{include:(_common/types/trigger.md)}-->

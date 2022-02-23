@@ -32,14 +32,14 @@ Used for buttons, numbers or status markers next to icons.
 
 ## Props
 
-<!--{include:(_common/types/color.md)}-->
-
 ### `<Badge>`
 
-| Property    | Type`(Default)`    | Description                                                |
-| ----------- | ------------------ | ---------------------------------------------------------- |
-| children    | ReactNode          | Be wrapped component                                       |
-| classPrefix | string `('badge')` | The prefix of the component CSS class                      |
-| content     | ReactNode          | Content info                                               |
-| color       | Color              | A indicator can have different colors                      |
-| maxCount    | number`(99)`       | Max count number（Only valid if `content` is type number） |
+| Property    | Type`(Default)`              | Description                                                |
+| ----------- | ---------------------------- | ---------------------------------------------------------- |
+| children    | ReactNode                    | Be wrapped component                                       |
+| classPrefix | string `('badge')`           | The prefix of the component CSS class                      |
+| content     | ReactNode                    | Content info                                               |
+| color       | [Color](#code-ts-color-code) | A indicator can have different colors                      |
+| maxCount    | number`(99)`                 | Max count number（Only valid if `content` is type number） |
+
+<!--{include:(_common/types/color.md)}-->

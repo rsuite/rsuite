@@ -81,7 +81,7 @@
 | 属性名称          | 类型 `(默认值)`                                   | 描述                                                                                                 |
 | ----------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | autoFocus         | boolean `(true)`                                  | 当设置为 true, Modal 被打开是自动焦点移到其自身,辅助屏幕阅读器容易访问                               |
-| backdrop          | unions: boolean, 'static'                         | 当设置为 true，Modal 打开时会显示背景，点击背景会关闭 Modal，如果不想关闭 Modal，可以设置为 'static' |
+| backdrop          | unions: boolean &#124; 'static'                   | 当设置为 true，Modal 打开时会显示背景，点击背景会关闭 Modal，如果不想关闭 Modal，可以设置为 'static' |
 | backdropClassName | string                                            | 应用于 backdrop DOM 节点的 css class                                                                 |
 | classPrefix       | string `('modal')`                                | 组件 CSS 类的前缀                                                                                    |
 | dialogAs          | ElementType `(ModalDialog)`                       | 以对 Dialog 使用自定义元素类型                                                                       |
@@ -99,15 +99,15 @@
 | onOpen            | () => void                                        | 显示时的回调函数                                                                                     |
 | open \*           | boolean                                           | 显示 Modal                                                                                           |
 | overflow          | boolean `(true)`                                  | body 内容过长时自动设置高度                                                                          |
-| size              | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' `('md')` | Modal 尺寸                                                                                           |
+| size              | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | Modal 尺寸                                                                                           |
 
 ### `<Modal.Header>`
 
-| 属性名称    | 类型 `(默认值 )`                           | 描述                        |
-| ----------- | ------------------------------------------ | --------------------------- |
-| classPrefix | string `('modal-header')`                  | 组件 CSS 类的前缀           |
-| closeButton | boolean `(true)`                           | 当设置为 true, 显示关闭按钮 |
-| onClose     | (event: SyntheticEvent&lt;any&gt;) => void | 点击关闭按钮的回调函数      |
+| 属性名称    | 类型 `(默认值 )`          | 描述                        |
+| ----------- | ------------------------- | --------------------------- |
+| classPrefix | string `('modal-header')` | 组件 CSS 类的前缀           |
+| closeButton | boolean `(true)`          | 当设置为 true, 显示关闭按钮 |
+| onClose     | (event) => void           | 点击关闭按钮的回调函数      |
 
 ### `<Modal.Title>`
 

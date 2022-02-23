@@ -57,5 +57,5 @@
 | loading           | boolean                                    | 是否展示一个圈圈表示选中状态正在获取/更新 |
 | locale            | [ToggleLocaleType](/zh/guide/i18n/#toggle) | 本地化的文本                              |
 | onChange          | (checked: boolean, event) => void          | 状态改变时的回调函数                      |
-| size              | enum: 'lg' &#124; 'md' &#124; 'sm'         | 开关尺寸                                  |
+| size              | 'lg' &#124; 'md' &#124; 'sm'               | 开关尺寸                                  |
 | unCheckedChildren | ReactNode                                  | 非选中显示的内容                          |

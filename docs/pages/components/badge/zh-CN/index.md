@@ -32,14 +32,14 @@
 
 ## Props
 
-<!--{include:(_common/types/color.md)}-->
-
 ### `<Badge>`
 
-| 属性名称    | 类型`(默认值)`     | 描述                                            |
-| ----------- | ------------------ | ----------------------------------------------- |
-| children    | ReactNode          | 包裹的组件                                      |
-| classPrefix | string `('badge')` | 组件 CSS 类的前缀                               |
-| content     | ReactNode          | 内容                                            |
-| color       | Color              | 设置颜色                                        |
-| maxCount    | number`(99)`       | 最大计数（仅当 `content` 为 number 类型时有效） |
+| 属性名称    | 类型`(默认值)`               | 描述                                            |
+| ----------- | ---------------------------- | ----------------------------------------------- |
+| children    | ReactNode                    | 包裹的组件                                      |
+| classPrefix | string `('badge')`           | 组件 CSS 类的前缀                               |
+| content     | ReactNode                    | 内容                                            |
+| color       | [Color](#code-ts-color-code) | 设置颜色                                        |
+| maxCount    | number`(99)`                 | 最大计数（仅当 `content` 为 number 类型时有效） |
+
+<!--{include:(_common/types/color.md)}-->

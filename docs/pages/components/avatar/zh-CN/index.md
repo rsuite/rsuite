@@ -51,7 +51,7 @@ You can create an avatar component containing simple characters, and change the 
 | circle      | boolean                                           | 以圆形显示                                              |
 | classPrefix | string `('avatar')`                               | 组件 CSS 类的前缀                                       |
 | imgProps    | object                                            | 如果该组件用于显示图像，则应用于`img`元素的属性。       |
-| size        | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' `('md')` | 设置头像尺寸                                            |
+| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | 设置头像尺寸                                            |
 | sizes       | string                                            | img 元素的 sizes 属性。                                 |
 | src         | string                                            | img 元素的 src 属性, 设置头像图片地址。                 |
 | srcSet      | string                                            | img 元素的 srcSet 属性。 使用此属性进行响应式图像显示。 |

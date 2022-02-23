@@ -1,6 +1,5 @@
 # 从 v3 升级到 v4
 
-
 升级到 V4 有些破坏性的变更，需要做一些调整。
 
 ## 1.样式文件引入的目录变更
@@ -76,7 +75,7 @@ TreePicker 组件与 CheckTreePicker 组件废弃了 expandAll 属性，同时�
 ## 5.CheckTreePicker onSelect 方法参数变更
 
 ```diff
-- onSelect (activeNode:DataItemType, layer:number, values:string[]) => void
+- onSelect (activeNode:ItemDataType, layer:number, values:string[]) => void
 + onSelect (activeNode: any, value: any, event) => void;
 ```
 
