@@ -1,3 +1,10 @@
+## [5.6.2](https://github.com/rsuite/rsuite/compare/v5.6.1...v5.6.2) (2022-02-24)
+
+### Bug Fixes
+
+- **Affix:** fix left offset not update after position change ([#2370](https://github.com/rsuite/rsuite/issues/2370)) ([eba3536](https://github.com/rsuite/rsuite/commit/eba353685f4892e1143b8c249ac956b2522a2993))
+- **typescript:** remove not-null assertion operator ([#2359](https://github.com/rsuite/rsuite/issues/2359)) ([5c07293](https://github.com/rsuite/rsuite/commit/5c07293f5c9c2d4deee768be17e8cea840868708))
+
 ## [5.6.1](https://github.com/rsuite/rsuite/compare/v5.6.0...v5.6.1) (2022-02-17)
 
 ### Bug Fixes
