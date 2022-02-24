@@ -41,9 +41,9 @@ Learn more in [Accessibility](/guide/accessibility).
 | Property     | Type`(Default)`                                              | Description                                             |
 | ------------ | ------------------------------------------------------------ | ------------------------------------------------------- |
 | defaultValue | string[]                                                     | Default values of the selected items                    |
-| disabled     | boolean                                                      | Whether disabled component                               |
+| disabled     | boolean                                                      | Whether disabled component                              |
 | onChange     | (value:string[], event) => void                              | Callback fired when value change                        |
 | onClean      | (event) => void                                              | Callback fired when value clean                         |
-| size         | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' `('md')`            | A picker can have different sizes                       |
+| size         | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`            | A picker can have different sizes                       |
 | trigger      | 'Enter' &#124; 'Space' &#124; 'Comma' `(['Enter', 'Space'])` | Set the trigger for creating tags                       |
 | value        | string[]                                                     | Specifies the values of the selected items (Controlled) |

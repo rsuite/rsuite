@@ -1,3 +1,5 @@
+### `ts:Range`
+
 ```ts
 interface Range {
   label: React.ReactNode;

@@ -1,3 +1,5 @@
+### `ts:Placement`
+
 ```ts
 type Placement =
   | 'bottomStart'

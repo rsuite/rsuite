@@ -45,32 +45,34 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#checkbox
 
 ## Props
 
-```ts
-type ValueType = string | number;
-```
-
 ### `<Checkbox>`
 
-| Property       | Type `(default)`                                    | Description                                                             |
-| -------------- | --------------------------------------------------- | ----------------------------------------------------------------------- |
-| checked        | boolean                                             | Specifies whether the checkbox is selected                              |
-| defaultChecked | boolean                                             | Specifies the initial state: whether or not the checkbox is selected    |
-| disabled       | boolean                                             | Whether disabled                                                        |
-| id             | ElementType                                         | Custom element type for the component                                   |
-| indeterminate  | boolean                                             | When being a checkbox , setting styles after the child part is selected |
-| inline         | boolean                                             | Inline layout                                                           |
-| inputRef       | Ref                                                 | Ref of input element                                                    |
-| name           | string                                              | Used for the name of the form                                           |
-| onChange       | (value: ValueType, checked: boolean, event) => void | Callback fired when checkbox is triggered and state changes             |
-| title          | string                                              | HTML title                                                              |
-| value          | ValueType                                           | Correspond to the value of CheckboxGroup, determine whether to select   |
+| Property       | Type `(default)`                                                                | Description                                                             |
+| -------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| checked        | boolean                                                                         | Specifies whether the checkbox is selected                              |
+| defaultChecked | boolean                                                                         | Specifies the initial state: whether or not the checkbox is selected    |
+| disabled       | boolean                                                                         | Whether disabled                                                        |
+| id             | ElementType                                                                     | Custom element type for the component                                   |
+| indeterminate  | boolean                                                                         | When being a checkbox , setting styles after the child part is selected |
+| inline         | boolean                                                                         | Inline layout                                                           |
+| inputRef       | Ref                                                                             | Ref of input element                                                    |
+| name           | string                                                                          | Used for the name of the form                                           |
+| onChange       | (value: [ValueType](#code-ts-value-type-code), checked: boolean, event) => void | Callback fired when checkbox is triggered and state changes             |
+| title          | string                                                                          | HTML title                                                              |
+| value          | [ValueType](#code-ts-value-type-code)                                           | Correspond to the value of CheckboxGroup, determine whether to select   |
 
 ### `<CheckboxGroup>`
 
-| Property     | Type `(default)`                   | Description                                                 |
-| ------------ | ---------------------------------- | ----------------------------------------------------------- |
-| defaultValue | ValueType[]                        | Default value                                               |
-| inline       | boolean                            | Inline layout                                               |
-| name         | string                             | Used for the name of the form                               |
-| onChange     | (value:ValueType[], event) => void | Callback fired when checkbox is triggered and state changes |
-| value        | ValueType[]                        | Value of checked box (Controlled)                           |
+| Property     | Type `(default)`                                               | Description                                                 |
+| ------------ | -------------------------------------------------------------- | ----------------------------------------------------------- |
+| defaultValue | [ValueType](#code-ts-value-type-code)[]                        | Default value                                               |
+| inline       | boolean                                                        | Inline layout                                               |
+| name         | string                                                         | Used for the name of the form                               |
+| onChange     | (value:[ValueType](#code-ts-value-type-code)[], event) => void | Callback fired when checkbox is triggered and state changes |
+| value        | [ValueType](#code-ts-value-type-code)[]                        | Value of checked box (Controlled)                           |
+
+### `ts:ValueType`
+
+```ts
+type ValueType = string | number;
+```

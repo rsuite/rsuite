@@ -57,6 +57,6 @@
 | postfix      | ReactNode                                         | 后缀                         |
 | prefix       | ReactNode                                         | 前缀                         |
 | scrollable   | boolean `(true)`                                  | 是否可以通过鼠标滚动更新值   |
-| size         | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' `('md')` | 设置输入框尺寸               |
+| size         | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | 设置输入框尺寸               |
 | step         | number `(1)`                                      | 每次改变步数，可以为小数     |
 | value        | number                                            | 设置值 `受控`                |

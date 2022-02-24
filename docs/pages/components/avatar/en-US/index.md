@@ -51,7 +51,7 @@ You can set `alt` for `<Avatar>` , it make sure avatar show pure text avatar whe
 | circle      | boolean                                           | Render a circle avatar                                                                         |
 | classPrefix | string `('avatar')`                               | The prefix of the component CSS class                                                          |
 | imgProps    | object                                            | Attributes applied to the `img` element if the component is used to display an image.          |
-| size        | enum: 'lg'&#124;'md'&#124;'sm'&#124;'xs' `('md')` | Size of avatar                                                                                 |
+| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | Size of avatar                                                                                 |
 | sizes       | string                                            | The `sizes` attribute for the `img` element.                                                   |
 | src         | string                                            | The `src` attribute for the `img` element.                                                     |
 | srcSet      | string                                            | The `srcSet` attribute for the `img` element. Use this attribute for responsive image display. |

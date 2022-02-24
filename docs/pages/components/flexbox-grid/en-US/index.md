@@ -34,12 +34,12 @@ Responsiveness can be achieved by combining with the `<Col>` component.
 
 ### `<FlexboxGrid>`
 
-| Property    | Type`(default)`                                                              | Description                                     |
-| ----------- | ---------------------------------------------------------------------------- | ----------------------------------------------- |
-| align       | enum: 'top' , 'middle' , 'bottom' `('top')`                                  | align                                           |
-| as          | ElementType `('div')`                                                        | You can use a custom element for this component |
-| classPrefix | string `('flex-box-grid')`                                                   | The prefix of the component CSS class           |
-| justify     | enum : 'start', 'end', 'center', 'space-around', 'space-between' `('start')` | horizontal arrangement                          |
+| Property    | Type`(default)`                                                                               | Description                                     |
+| ----------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| align       | 'top' &#124; 'middle' &#124; 'bottom' `('top')`                                               | align                                           |
+| as          | ElementType `('div')`                                                                         | You can use a custom element for this component |
+| classPrefix | string `('flex-box-grid')`                                                                    | The prefix of the component CSS class           |
+| justify     | 'start' &#124; 'end' &#124; 'center' &#124; 'space-around' &#124; 'space-between' `('start')` | horizontal arrangement                          |
 
 ### `<FlexboxGrid.Item>`
 

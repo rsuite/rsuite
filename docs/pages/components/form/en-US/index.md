@@ -99,20 +99,20 @@ HTML:
 
 ### `<Form>`
 
-| Property         | Type `(default)`                                        | Description                                                                                                |
-| ---------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| checkTrigger     | enum: 'change','blur','none' `('change')`               | Trigger the type of form validation                                                                        |
-| classPrefix      | string `('form')`                                       | The prefix of the component CSS class                                                                      |
-| errorFromContext | boolean `(true)`                                        | Error reminders in Form.Control are defaulted from Context                                                 |
-| fluid            | boolean                                                 | The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts |
-| formDefaultValue | object                                                  | Default value of form                                                                                      |
-| formError        | object                                                  | Error message of form                                                                                      |
-| formValue        | object                                                  | Value of form (Controlled)                                                                                 |
-| layout           | enum: 'horizontal', 'vertical', 'inline' `('vertical')` | Set the left and right columns of the layout of the elements within the form                               |
-| model            | Schema                                                  | SchemaModel object                                                                                         |
-| onChange         | (formValue:object, event:object) => void                | Callback fired when data changing                                                                          |
-| onCheck          | (formError:object) => void                              | Callback fired when data cheking                                                                           |
-| onError          | (formError:object) => void                              | Callback fired when error checking                                                                         |
+| Property         | Type `(default)`                                              | Description                                                                                                |
+| ---------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| checkTrigger     | 'change' &#124; 'blur' &#124; 'none' `('change')`             | Trigger the type of form validation                                                                        |
+| classPrefix      | string `('form')`                                             | The prefix of the component CSS class                                                                      |
+| errorFromContext | boolean `(true)`                                              | Error reminders in Form.Control are defaulted from Context                                                 |
+| fluid            | boolean                                                       | The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts |
+| formDefaultValue | object                                                        | Default value of form                                                                                      |
+| formError        | object                                                        | Error message of form                                                                                      |
+| formValue        | object                                                        | Value of form (Controlled)                                                                                 |
+| layout           | 'horizontal' &#124; 'vertical' &#124; 'inline' `('vertical')` | Set the left and right columns of the layout of the elements within the form                               |
+| model            | Schema                                                        | SchemaModel object                                                                                         |
+| onChange         | (formValue: object, event) => void                            | Callback fired when data changing                                                                          |
+| onCheck          | (formError: object) => void                                   | Callback fired when data cheking                                                                           |
+| onError          | (formError: object) => void                                   | Callback fired when error checking                                                                         |
 
 ### Form methods
 
@@ -169,17 +169,17 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 
 ### `<Form.Control>`
 
-| Property       | Type`(default)`                   | Description                                                                      |
-| -------------- | --------------------------------- | -------------------------------------------------------------------------------- |
-| accepter       | ElementType `(Input)`             | Proxied components                                                               |
-| checkAsync     | boolean                           | Asynchronous check value                                                         |
-| checkTrigger   | enum: 'change','blur','none'      | The data validation trigger type, and it wiill overrides the setting on `<Form>` |
-| classPrefix    | string `('form-control')`         | The prefix of the component CSS class                                            |
-| errorMessage   | ReactNode                         | Show error messages                                                              |
-| errorPlacement | enum: Placement `('bottomStart')` | The placement of error messages                                                  |
-| name \*        | string                            | The name of form-control                                                         |
-| plaintext      | boolean                           | Make the control plaintext                                                       |
-| readOnly       | boolean                           | Make the control readonly                                                        |
+| Property       | Type`(default)`                                       | Description                                                                      |
+| -------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------- |
+| accepter       | ElementType `(Input)`                                 | Proxied components                                                               |
+| checkAsync     | boolean                                               | Asynchronous check value                                                         |
+| checkTrigger   | 'change' &#124; 'blur' &#124; 'none'                  | The data validation trigger type, and it wiill overrides the setting on `<Form>` |
+| classPrefix    | string `('form-control')`                             | The prefix of the component CSS class                                            |
+| errorMessage   | ReactNode                                             | Show error messages                                                              |
+| errorPlacement | [Placement](#code-ts-placement-code)`('bottomStart')` | The placement of error messages                                                  |
+| name \*        | string                                                | The name of form-control                                                         |
+| plaintext      | boolean                                               | Make the control plaintext                                                       |
+| readOnly       | boolean                                               | Make the control readonly                                                        |
 
 ### `<Form.Group>`
 
@@ -205,20 +205,10 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 
 ### `<Form.ErrorMessage>`
 
-| Property    | Type`(default)`                   | Description                           |
-| ----------- | --------------------------------- | ------------------------------------- |
-| classPrefix | string `('form-error-message')`   | The prefix of the component CSS class |
-| show        | boolean                           | Whether to display error message      |
-| placement   | enum: Placement `('bottomStart')` | The placement of error messages       |
+| Property    | Type`(default)`                                       | Description                           |
+| ----------- | ----------------------------------------------------- | ------------------------------------- |
+| classPrefix | string `('form-error-message')`                       | The prefix of the component CSS class |
+| show        | boolean                                               | Whether to display error message      |
+| placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | The placement of error messages       |
 
-```js
-type Placement =
-  | 'bottomStart'
-  | 'bottomEnd'
-  | 'topStart'
-  | 'topEnd'
-  | 'leftStart'
-  | 'rightStart'
-  | 'leftEnd'
-  | 'rightEnd';
-```
+<!--{include:(_common/types/placement8.md)}-->

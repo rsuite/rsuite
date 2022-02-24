@@ -1,5 +1,7 @@
+### `ts:ItemDataType`
+
 ```ts
-interface DataItemType {
+interface ItemDataType {
   /** The value of the option corresponds to the `valueKey` in the data. **/
   value: string;
 
@@ -10,7 +12,7 @@ interface DataItemType {
    * The data of the child option corresponds to the `childrenKey` in the data.
    * Properties owned by tree structure components, such as TreePicker, Cascader.
    */
-  children?: DataItemType[];
+  children?: ItemDataType[];
 
   /**
    * Properties of grouping functional components, such as CheckPicker, InputPicker

@@ -28,6 +28,7 @@ import {
 import StyleHead from '../components/StyleHead';
 import canUseDOM from 'dom-lib/canUseDOM';
 import loadCssFile from '@/utils/loadCssFile';
+import TypedPrompt from '@/components/TypedPrompt';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
@@ -162,6 +163,7 @@ function App({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </AppContext.Provider>
         </Grid>
+        <TypedPrompt />
       </CustomProvider>
     </React.StrictMode>
   );

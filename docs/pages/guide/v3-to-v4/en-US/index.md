@@ -75,7 +75,7 @@ The `TreePicker` and the `CheckTreePicker` deprecated the `expandAll` property a
 ## 5.CheckTreePicker onSelect method parameter change
 
 ```diff
-- onSelect (activeNode:DataItemType, layer:number, values:string[]) => void
+- onSelect (activeNode:ItemDataType, layer:number, values:string[]) => void
 + onSelect (activeNode: any, value: any, event) => void;
 ```
 

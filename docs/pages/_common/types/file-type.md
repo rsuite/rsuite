@@ -1,3 +1,5 @@
+### `ts:FileType`
+
 ```ts
 interface FileType {
   /** File Name */
