@@ -1,3 +1,13 @@
+<a name="4.10.8"></a>
+## [4.10.8](https://github.com/rsuite/rsuite/compare/v4.10.7...v4.10.8) (2022-02-24)
+
+
+### Bug Fixes
+
+* **CheckTreePicker:** fix CheckTreePicker replacement data expand failure ([#2372](https://github.com/rsuite/rsuite/issues/2372)) ([91e9215](https://github.com/rsuite/rsuite/commit/91e9215))
+
+
+
 <a name="4.10.7"></a>
 ## [4.10.7](https://github.com/rsuite/rsuite/compare/v4.10.6...v4.10.7) (2022-01-28)
 
