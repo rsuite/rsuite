@@ -86,6 +86,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | onOpen                  | () => void                                                                                         | Callback fired when open component                                        |
 | onSearch                | (searchKeyword:string, event) => void                                                              | Callback fired when search                                                |
 | onSelect                | (item:[ItemDataType][item], value:string, event) => void                                           | Callback fired when tree node is selected                                 |
+| open                    | boolean                                                                                            | Whether open the component                                                |
 | placeholder             | ReactNode `('Select')`                                                                             | Setting placeholders                                                      |
 | placement               | [Placement](#code-ts-placement-code) `('bottomStart')`                                             | Placement of component                                                    |
 | preventOverflow         | boolean                                                                                            | Prevent floating element overflow                                         |
