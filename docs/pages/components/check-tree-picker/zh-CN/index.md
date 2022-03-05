@@ -86,6 +86,7 @@
 | onOpen                  | () => void                                                                                         | 展开的回调函数                                                                  |
 | onSearch                | (searchKeyword:string, event)=void                                                                 | 搜索回调函数                                                                    |
 | onSelect                | (item:[ItemDataType][item],value:string, event) => void                                            | 选择树节点后的回调函数                                                          |
+| open                    | boolean                                                                                            | 是否打开                                                                        |
 | placeholder             | ReactNode `('Select')`                                                                             | 占位符                                                                          |
 | placement               | [Placement](#code-ts-placement-code) `('bottomStart')`                                             | 打开位置                                                                        |
 | preventOverflow         | boolean                                                                                            | 防止浮动元素溢出                                                                |

@@ -97,6 +97,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | onOpen             | () => void                                                                                      | Open callback function                                      |
 | onSearch           | (searchKeyword: string, event) => void                                                          | callback function for Search                                |
 | onSelect           | (value: [ValueType][value], item: [ItemDataType][item], event) => void                          | option is clicked after the selected callback function      |
+| open               | boolean                                                                                         | Whether open the component                                  |
 | placeholder        | ReactNode `('Select')`                                                                          | Setting placeholders                                        |
 | placement          | [Placement](#code-ts-placement-code)`('bottomStart')`                                           | The placement of component                                  |
 | preventOverflow    | boolean                                                                                         | Prevent floating element overflow                           |
