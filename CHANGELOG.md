@@ -1,3 +1,5 @@
+## [5.6.3](https://github.com/rsuite/rsuite/compare/v5.6.2...v5.6.3) (2022-03-05)
+
 ## [5.6.2](https://github.com/rsuite/rsuite/compare/v5.6.1...v5.6.2) (2022-02-24)
 
 ### Bug Fixes
