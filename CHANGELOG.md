@@ -1,3 +1,10 @@
+## [5.6.4](https://github.com/rsuite/rsuite/compare/v5.6.3...v5.6.4) (2022-03-10)
+
+### Bug Fixes
+
+- **CheckTree:** fix missing type definition [#2388](https://github.com/rsuite/rsuite/issues/2388) ([#2391](https://github.com/rsuite/rsuite/issues/2391)) ([0fe4e9f](https://github.com/rsuite/rsuite/commit/0fe4e9f34d7f07354541f4d23b0278cd1d892c2e))
+- **Sidenav:** remove underline from focused sidenav item ([#2387](https://github.com/rsuite/rsuite/issues/2387)) ([a22f569](https://github.com/rsuite/rsuite/commit/a22f569a8c3f2b71513af20b4be6607cd1825783))
+
 ## [5.6.3](https://github.com/rsuite/rsuite/compare/v5.6.2...v5.6.3) (2022-03-05)
 
 ## [5.6.2](https://github.com/rsuite/rsuite/compare/v5.6.1...v5.6.2) (2022-02-24)
