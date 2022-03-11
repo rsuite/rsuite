@@ -1,3 +1,12 @@
+## [4.10.9](https://github.com/rsuite/rsuite/compare/v4.10.8...v4.10.9) (2022-03-11)
+
+
+### Bug Fixes
+
+* fix when use Fragment for table,the fixed columns fail ([#2394](https://github.com/rsuite/rsuite/issues/2394)) ([8f5660b](https://github.com/rsuite/rsuite/commit/8f5660b1f39c0cce1e99b3a7f0b5fb15daa2f643))
+
+
+
 <a name="4.10.8"></a>
 ## [4.10.8](https://github.com/rsuite/rsuite/compare/v4.10.7...v4.10.8) (2022-02-24)
 
