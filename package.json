@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.8.4",
+    "@mongez/reinforcements": "^1.0.22",
     "@juggle/resize-observer": "^3.3.1",
     "@rsuite/icons": "^1.0.2",
     "@types/chai": "^4.2.18",
