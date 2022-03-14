@@ -1,7 +1,6 @@
 import getDataGroupBy, { KEY_GROUP } from '../getDataGroupBy';
 
 describe('[utils] getDataGroupBy', () => {
-  console.log('TESTING>>>>>');
   it('Should be grouped by title', () => {
     const items = [
       {
