@@ -1,4 +1,4 @@
-import { Obj } from '@mongez/reinforcements';
+import _ from 'lodash';
 import { flattenTree } from '../utils/treeUtils';
 
 const hasSymbol = typeof Symbol === 'function';
@@ -14,7 +14,7 @@ export default function getDataGroupBy(data: any[] = [], key: string, sort): any
     // i.e groupBy="country.name" as country will be a nested object
     // to the item and the name will be nested key to the country object
     // can be used with values in arrays, i.e groupBy="addresses.0.country.name"
-    const groupByValue: any = Obj.get(item, key, '');
+    const groupByValue: any = _.get(item, key, '');
 
     if (!tempData[groupByValue]) {
       tempData[groupByValue] = [];
