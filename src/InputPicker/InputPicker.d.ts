@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 import { FormControlPickerProps } from '../@types/common';
-import { SelectProps } from '../SelectPicker/SelectPicker.d';
+import { BaseSelectProps } from '../SelectPicker/SelectPicker.d';
 import { TagProps } from '../Tag/Tag.d';
 
-export interface InputPickerProps extends FormControlPickerProps<any>, SelectProps<any> {
+export interface InputPickerProps extends FormControlPickerProps<any>, BaseSelectProps {
   /** Settings can create new options */
   creatable?: boolean;
 

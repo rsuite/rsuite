@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { FormControlPickerProps } from '../@types/common';
-import { SelectProps } from '../SelectPicker/SelectPicker.d';
+import { FormControlPickerProps, ItemDataType } from '../@types/common';
+import { BaseSelectProps } from '../SelectPicker/SelectPicker.d';
 import { TagProps } from '../Tag/Tag.d';
 
-export interface TagPickerProps extends FormControlPickerProps, SelectProps<any[]> {
+export interface TagPickerProps extends FormControlPickerProps, BaseSelectProps {
   /** Option to cache value when searching asynchronously */
   cacheData?: any[];
 
@@ -16,6 +16,13 @@ export interface TagPickerProps extends FormControlPickerProps, SelectProps<any[
    * https://github.com/rsuite/rsuite/blob/master/src/Tag/Tag.d.ts
    */
   tagProps?: TagProps;
+
+  /** Custom render selected items */
+  renderValue?: (
+    value: any[],
+    item: ItemDataType[],
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
 }
 
 declare const TagPicker: React.ComponentType<TagPickerProps>;
