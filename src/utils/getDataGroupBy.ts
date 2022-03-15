@@ -5,7 +5,7 @@ const hasSymbol = typeof Symbol === 'function';
 export const KEY_GROUP = hasSymbol ? Symbol('_$grouped') : '_$grouped';
 export const KEY_GROUP_TITLE = 'groupTitle';
 
-export default function getDataGroupBy(data: any[] = [], key: string, sort): any[] {
+export default function getDataGroupBy(data: any[] = [], key: string, sort?): any[] {
   const tempData: { [key: string]: any[] } = {};
   const isSort = typeof sort === 'function';
 

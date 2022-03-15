@@ -60,9 +60,9 @@ describe('[utils] getDataGroupBy', () => {
 
     assert.equal(groups[0].groupTitle, 'Egypt');
     assert.equal(groups[0][KEY_GROUP], true);
-    assert.equal(groups[1].groupTitle, 'USA');
-    assert.equal(groups[1][KEY_GROUP], true);
-    assert.equal(groups.length, 2);
+    assert.equal(groups[3].groupTitle, 'USA');
+    assert.equal(groups[3][KEY_GROUP], true);
+    assert.equal(groups.length, 6);
   });
 
   it('Should be grouped by title and sorted', () => {
