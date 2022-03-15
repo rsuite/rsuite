@@ -300,6 +300,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
       {input}
       <span className={prefix('btn-group-vertical')}>
         <Button
+          tabIndex={-1}
           appearance={buttonAppearance}
           className={prefix('touchspin-up')}
           onClick={handlePlus}
@@ -308,6 +309,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           <AngleUpIcon />
         </Button>
         <Button
+          tabIndex={-1}
           appearance={buttonAppearance}
           className={prefix('touchspin-down')}
           onClick={handleMinus}
