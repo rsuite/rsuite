@@ -20,6 +20,51 @@ describe('[utils] getDataGroupBy', () => {
     assert.equal(groups.length, 3);
   });
 
+  it('Should be grouped by country.name Using dot.notation syntax', () => {
+    const items = [
+      {
+        label: 'Cairo',
+        value: '1',
+        country: {
+          id: '1',
+          name: 'Egypt'
+        }
+      },
+      {
+        label: 'Alexandria',
+        value: '2',
+        country: {
+          id: '1',
+          name: 'Egypt'
+        }
+      },
+      {
+        label: 'New York',
+        value: '3',
+        country: {
+          id: '2',
+          name: 'USA'
+        }
+      },
+      {
+        label: 'Washington',
+        value: '4',
+        country: {
+          id: '2',
+          name: 'USA'
+        }
+      }
+    ];
+
+    const groups = getDataGroupBy(items, 'country.name');
+
+    assert.equal(groups[0].groupTitle, 'Egypt');
+    assert.equal(groups[0][KEY_GROUP], true);
+    assert.equal(groups[3].groupTitle, 'USA');
+    assert.equal(groups[3][KEY_GROUP], true);
+    assert.equal(groups.length, 6);
+  });
+
   it('Should be grouped by title and sorted', () => {
     const items = [
       {
