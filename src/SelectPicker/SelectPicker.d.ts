@@ -46,7 +46,7 @@ export interface BaseSelectProps {
   /** Custom search rules. */
   searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
 }
-interface SelectProps<ValueType> extends BaseSelectProps {
+export interface SelectProps<ValueType> extends BaseSelectProps {
   /** Custom render selected items */
   renderValue?: (
     value: ValueType,
