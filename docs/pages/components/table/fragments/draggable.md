@@ -27,7 +27,8 @@ function DraggableHeaderCell({ children, onDrag, id, ...rest }) {
   });
 
   const [{ isDragging }, drag] = useDrag({
-    item: { id, type: ItemTypes.COLUMN },
+    item: { id },
+    type: ItemTypes.COLUMN,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -67,7 +68,8 @@ function DraggableCell({ children, onDrag, id, rowData, ...rest }) {
   });
 
   const [{ isDragging }, drag] = useDrag({
-    item: { id: rowData.id, type: ItemTypes.ROW },
+    item: { id: rowData.id },
+    type: ItemTypes.ROW,
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
