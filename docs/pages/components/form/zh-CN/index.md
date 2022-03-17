@@ -103,6 +103,7 @@
 | ---------------- | ------------------------------------------------------------- | -------------------------------------------------- |
 | checkTrigger     | 'change' &#124; 'blur' &#124; 'none' `('change')`             | 触发表单校验的类型                                 |
 | classPrefix      | string `('form')`                                             | 组件 CSS 类的前缀                                  |
+| disabled         | boolean `(false)`                                             | 禁用表单                                           |
 | errorFromContext | boolean `(true)`                                              | Form.Control 中的错误提醒默认从 Context 获取       |
 | fluid            | boolean                                                       | 让表单中的 Input 100% 撑满容器，只在垂直布局中有效 |
 | formDefaultValue | object                                                        | 表单的初始默认值 `非受控组件`                      |
@@ -113,6 +114,8 @@
 | onChange         | (formValue: object, event) => void                            | 数据改变后的回调函数                               |
 | onCheck          | (formError: object) => void                                   | 数据校验的回调函数                                 |
 | onError          | (formError: object) => void                                   | 校验出错的回调函数                                 |
+| plaintext        | boolean `(false)`                                             | 表单显示为纯文本                                   |
+| readOnly         | boolean `(false)`                                             | 只读表单                                           |
 
 ### Form methods
 
