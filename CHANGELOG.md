@@ -1,3 +1,9 @@
+## [5.6.5](https://github.com/rsuite/rsuite/compare/v5.6.4...v5.6.5) (2022-03-17)
+
+### Features
+
+- **Pickers:** `groupBy` supports dot notation ([#2397](https://github.com/rsuite/rsuite/issues/2397)) ([2ba7c0b](https://github.com/rsuite/rsuite/commit/2ba7c0b622c68b2fc526aa7ad2feaa8e73767e9c))
+
 ## [5.6.4](https://github.com/rsuite/rsuite/compare/v5.6.3...v5.6.4) (2022-03-10)
 
 ### Bug Fixes
