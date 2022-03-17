@@ -103,6 +103,7 @@ HTML:
 | ---------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | checkTrigger     | 'change' &#124; 'blur' &#124; 'none' `('change')`             | Trigger the type of form validation                                                                        |
 | classPrefix      | string `('form')`                                             | The prefix of the component CSS class                                                                      |
+| disabled         | boolean `(false)`                                             | Disable the form                                                                                           |
 | errorFromContext | boolean `(true)`                                              | Error reminders in Form.Control are defaulted from Context                                                 |
 | fluid            | boolean                                                       | The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts |
 | formDefaultValue | object                                                        | Default value of form                                                                                      |
@@ -113,6 +114,8 @@ HTML:
 | onChange         | (formValue: object, event) => void                            | Callback fired when data changing                                                                          |
 | onCheck          | (formError: object) => void                                   | Callback fired when data cheking                                                                           |
 | onError          | (formError: object) => void                                   | Callback fired when error checking                                                                         |
+| plaintext        | boolean `(false)`                                             | Render the form as plain text 本                                                                           |
+| readOnly         | boolean `(false)`                                             | Make the form readonly                                                                                     |
 
 ### Form methods
 
