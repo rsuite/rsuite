@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -189,6 +190,18 @@ describe('InputNumber', () => {
       const { getByRole } = render(<InputNumber value={0} />);
 
       expect(getByRole('spinbutton')).to.exist;
+    });
+
+    it('Should not have focusable elements other than the input', () => {
+      const { container } = render(<InputNumber value={0} />);
+
+      // Move focus to the input
+      userEvent.tab();
+
+      // Move focus out
+      userEvent.tab();
+
+      expect(container).not.to.contain(document.activeElement);
     });
 
     describe('Keyboard interaction', () => {
