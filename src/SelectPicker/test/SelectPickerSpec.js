@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
 
@@ -33,6 +34,18 @@ const data = [
     role: 'Master'
   }
 ];
+
+let container;
+
+beforeEach(() => {
+  container = document.createElement('div');
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  document.body.removeChild(container);
+  container = null;
+});
 
 describe('SelectPicker', () => {
   it('Should clean selected default value', () => {
@@ -325,27 +338,56 @@ describe('SelectPicker', () => {
     assert.ok(list[0].innerText, 'Louisa');
   });
 
-  it('Search should be reset when controlled and should be turned off', () => {
+  it.only('SearchWord should be reset when controlled and triggered off', done => {
     let searchRef = '';
+    let onClose = null;
+    const promise = new Promise(resolve => {
+      onClose = resolve;
+    });
     const Wrapper = React.forwardRef((props, ref) => {
       const [search, setSearch] = useState(searchRef);
       searchRef = search;
+      const handleSearch = value => {
+        setSearch(value);
+      };
+      const handleClose = () => {
+        onClose();
+      };
       return (
-        <div ref={ref}>
+        <div>
           <button id="exit">exit</button>
-          <Dropdown onSearch={setSearch} data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
+          <Dropdown
+            search={search}
+            ref={ref}
+            defaultOpen
+            onClose={handleClose}
+            onSearch={handleSearch}
+            data={data}
+          />
         </div>
       );
     });
     Wrapper.displayName = 'WrapperSelectPicker';
-    const instance = getInstance(<Wrapper />);
-    const searchbox = getDOMNode(instance.searchBarContainerRef.current);
-    const input = searchbox.querySelector(searchInputClassName);
-    const exit = searchbox.querySelector('#exit');
+    ReactTestUtils.act(() => {
+      ReactDOM.render(<Wrapper />, container);
+    });
 
-    ReactTestUtils.Simulate.change(input, { target: { value: 'a' } });
+    const exit = container?.querySelector('#exit');
+    const input = document.querySelector(searchInputClassName);
+    // change search
+    input.value = 'a';
+    ReactTestUtils.Simulate.change(input);
     assert.equal(searchRef, 'a');
-    ReactTestUtils.Simulate.click(exit);
-    assert.equal(searchRef, '1');
+
+    ReactTestUtils.act(() => {
+      // close select
+      // ReactTestUtils can't trigger document click event
+      exit.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+
+    promise.then(() => {
+      assert.equal(searchRef, '');
+      done();
+    });
   });
 });
