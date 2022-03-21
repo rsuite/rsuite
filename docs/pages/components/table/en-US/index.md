@@ -263,7 +263,8 @@ If you want the cell to wrap, you just need to set `wordWrap`
 
 ### Draggable(with react-dnd)
 
-https://codesandbox.io/s/rsuite5-table-with-react-dnd-16o4n
+- [Use with react-dnd v10](https://codesandbox.io/s/rsuite5-table-with-react-dnd-16o4n)
+- [Use with react-dnd v15](https://codesandbox.io/s/rsuite5-table-with-react-dnd15-ttrsck)
 
 ## Accessibility
 
