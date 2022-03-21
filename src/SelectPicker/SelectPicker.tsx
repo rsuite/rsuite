@@ -282,7 +282,7 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
       searchKeyword: '',
       active: false
     });
-
+    this.props.onSearch?.('');
     this.props.onClose?.();
   };
 

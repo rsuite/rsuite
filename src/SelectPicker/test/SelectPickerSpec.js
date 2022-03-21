@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
 
@@ -323,5 +323,29 @@ describe('SelectPicker', () => {
     const list = getDOMNode(instance.menuContainerRef.current).querySelectorAll('a');
     assert.equal(list.length, 1);
     assert.ok(list[0].innerText, 'Louisa');
+  });
+
+  it('Search should be reset when controlled and should be turned off', () => {
+    let searchRef = '';
+    const Wrapper = React.forwardRef((props, ref) => {
+      const [search, setSearch] = useState(searchRef);
+      searchRef = search;
+      return (
+        <div ref={ref}>
+          <button id="exit">exit</button>
+          <Dropdown onSearch={setSearch} data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
+        </div>
+      );
+    });
+    Wrapper.displayName = 'WrapperSelectPicker';
+    const instance = getInstance(<Wrapper />);
+    const searchbox = getDOMNode(instance.searchBarContainerRef.current);
+    const input = searchbox.querySelector(searchInputClassName);
+    const exit = searchbox.querySelector('#exit');
+
+    ReactTestUtils.Simulate.change(input, { target: { value: 'a' } });
+    assert.equal(searchRef, 'a');
+    ReactTestUtils.Simulate.click(exit);
+    assert.equal(searchRef, '1');
   });
 });
