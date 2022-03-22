@@ -1,3 +1,13 @@
+<a name="4.10.10"></a>
+## [4.10.10](https://github.com/rsuite/rsuite/compare/v4.10.9...v4.10.10) (2022-03-22)
+
+
+### Bug Fixes
+
+* fix SelectPicker when search is controlled and exit Dropdown without resetting external search ([#2409](https://github.com/rsuite/rsuite/issues/2409)) ([309ebe5](https://github.com/rsuite/rsuite/commit/309ebe5))
+
+
+
 ## [4.10.9](https://github.com/rsuite/rsuite/compare/v4.10.8...v4.10.9) (2022-03-11)
 
 
