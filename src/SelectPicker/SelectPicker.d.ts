@@ -36,7 +36,7 @@ export interface SelectProps<ValueType = any> {
   onGroupTitleClick?: (event: React.SyntheticEvent<any>) => void;
 
   /** Called when searching */
-  onSearch?: (searchKeyword: string, event: React.SyntheticEvent<any>) => void;
+  onSearch?: (searchKeyword: string, event?: React.SyntheticEvent<any>) => void;
 
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent<any>) => void;
