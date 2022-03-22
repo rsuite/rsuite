@@ -338,7 +338,7 @@ describe('SelectPicker', () => {
     assert.ok(list[0].innerText, 'Louisa');
   });
 
-  it.only('SearchWord should be reset when controlled and triggered off', done => {
+  it('SearchWord should be reset when controlled and triggered off', done => {
     let searchRef = '';
     let onClose = null;
     const promise = new Promise(resolve => {
