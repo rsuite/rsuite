@@ -106,16 +106,7 @@ const DropdownMenu = React.forwardRef<
 
     return (
       <DropdownContext.Provider value={contextValue}>
-        <Menubar
-          vertical
-          onActivateItem={event => {
-            const { eventKey, eventKeyType } = (event.target as HTMLElement).dataset;
-
-            // Only cast number type for now
-            const eventKeyToEmit = eventKeyType === 'number' ? Number(eventKey) : eventKey;
-            onSelect?.(eventKeyToEmit as any, event);
-          }}
-        >
+        <Menubar vertical>
           {(menubar, menubarRef: React.Ref<HTMLElement>) => (
             <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest}>
               {children}
