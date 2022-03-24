@@ -234,6 +234,25 @@ describe('<Dropdown.Menu>', () => {
     assert.isNotNull(instance.querySelector('.rs-dropdown-item-submenu'));
   });
 
+  it('Should highlight menu item when hover', () => {
+    const instance = getDOMNode(
+      <DropdownMenu>
+        <DropdownItem>1</DropdownItem>
+        <DropdownItem>2</DropdownItem>
+        <DropdownItem>3</DropdownItem>
+        <DropdownItem>4</DropdownItem>
+      </DropdownMenu>
+    );
+
+    const menuItem = instance.querySelector('.rs-dropdown-item');
+
+    act(() => {
+      Simulate.mouseOver(menuItem);
+    });
+
+    expect(menuItem.getAttribute('class')).to.be.eq('rs-dropdown-item rs-dropdown-item-focus');
+  });
+
   it('Should call onSelect callback with correct `eventKey`', () => {
     const onSelectSpy = sinon.spy();
 
