@@ -256,10 +256,7 @@ describe('<Dropdown.Menu>', () => {
     );
 
     act(() => {
-      const menuItem = getByTestId('item-1');
-      Simulate.click(menuItem, {
-        bubbles: true
-      });
+      userEvent.click(getByTestId('item-1'));
     });
 
     expect(selectedValues.length).to.be.eq(1);
