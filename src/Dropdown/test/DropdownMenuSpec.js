@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
@@ -237,20 +237,27 @@ describe('<Dropdown.Menu>', () => {
   it('Should call onSelect callback with correct `eventKey` once', () => {
     const selectedValues = [];
 
-    const instance = getDOMNode(
+    const { getByTestId } = render(
       <DropdownMenu
         onSelect={eventKey => {
           selectedValues.push(eventKey);
         }}
       >
-        <DropdownItem eventKey={1}>1</DropdownItem>
-        <DropdownItem eventKey={2}>2</DropdownItem>
-        <DropdownItem eventKey={3}>3</DropdownItem>
+        <DropdownItem data-testid="item-1" eventKey={1}>
+          1
+        </DropdownItem>
+        <DropdownItem data-testid="item-2" eventKey={2}>
+          2
+        </DropdownItem>
+        <DropdownItem data-testid="item-3" eventKey={3}>
+          3
+        </DropdownItem>
       </DropdownMenu>
     );
 
     act(() => {
-      Simulate.click(instance.querySelectorAll('[role^="menuitem"]')[2], {
+      const menuItem = getByTestId('item-1');
+      Simulate.click(menuItem, {
         bubbles: true
       });
     });
