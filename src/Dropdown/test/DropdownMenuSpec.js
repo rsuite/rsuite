@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
-import { fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
@@ -235,22 +235,22 @@ describe('<Dropdown.Menu>', () => {
   });
 
   it('Should highlight menu item when hover', () => {
-    const instance = getDOMNode(
+    const { getByTestId } = render(
       <DropdownMenu>
-        <DropdownItem>1</DropdownItem>
-        <DropdownItem>2</DropdownItem>
-        <DropdownItem>3</DropdownItem>
-        <DropdownItem>4</DropdownItem>
+        <DropdownItem data-testid="item-1">1</DropdownItem>
+        <DropdownItem data-testid="item-2">2</DropdownItem>
+        <DropdownItem data-testid="item-3">3</DropdownItem>
+        <DropdownItem data-testid="item-4">4</DropdownItem>
       </DropdownMenu>
     );
 
-    const menuItem = instance.querySelector('.rs-dropdown-item');
+    const menuItem = getByTestId('item-1');
 
     act(() => {
       Simulate.mouseOver(menuItem);
     });
 
-    expect(menuItem.getAttribute('class')).to.be.eq('rs-dropdown-item rs-dropdown-item-focus');
+    expect(menuItem).to.have.attr('class', 'rs-dropdown-item rs-dropdown-item-focus');
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {
