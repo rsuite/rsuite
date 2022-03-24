@@ -250,7 +250,7 @@ describe('<Dropdown.Menu>', () => {
       Simulate.mouseOver(menuItem);
     });
 
-    expect(menuItem).to.have.attr('class', 'rs-dropdown-item rs-dropdown-item-focus');
+    expect(menuItem).to.have.class('rs-dropdown-item-focus');
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {
