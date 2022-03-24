@@ -234,7 +234,7 @@ describe('<Dropdown.Menu>', () => {
     assert.isNotNull(instance.querySelector('.rs-dropdown-item-submenu'));
   });
 
-  it('Should call onSelect callback with correct `eventKey` once', () => {
+  it('Should call Dropdown.Menu onSelect callback once', () => {
     const onSelectSpy = sinon.spy();
 
     const { getByTestId } = render(
@@ -251,9 +251,7 @@ describe('<Dropdown.Menu>', () => {
       </DropdownMenu>
     );
 
-    act(() => {
-      userEvent.click(getByTestId('item-1'));
-    });
+    userEvent.click(getByTestId('item-1'));
 
     expect(onSelectSpy.callCount).to.be.eq(1);
   });
