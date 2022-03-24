@@ -247,7 +247,7 @@ describe('<Dropdown.Menu>', () => {
     const menuItem = getByTestId('item-1');
 
     act(() => {
-      Simulate.mouseOver(menuItem);
+      userEvent.hover(menuItem);
     });
 
     expect(menuItem).to.have.class('rs-dropdown-item-focus');
