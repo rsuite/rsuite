@@ -1,3 +1,10 @@
+## [5.6.6](https://github.com/rsuite/rsuite/compare/v5.6.5...v5.6.6) (2022-03-24)
+
+### Bug Fixes
+
+- **InputNumber:** make plus/minus buttons unfocusable ([#2398](https://github.com/rsuite/rsuite/issues/2398)) ([ab4c721](https://github.com/rsuite/rsuite/commit/ab4c7218f20fd6aa6f4bad7818d403a3b6fd68df))
+- **Uploader:** expose missing public types ([#2404](https://github.com/rsuite/rsuite/issues/2404)) ([5b1791f](https://github.com/rsuite/rsuite/commit/5b1791f0f0b23a230d03772178e9069bc16c8aa9))
+
 ## [5.6.5](https://github.com/rsuite/rsuite/compare/v5.6.4...v5.6.5) (2022-03-17)
 
 ### Features
