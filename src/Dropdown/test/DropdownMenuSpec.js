@@ -252,6 +252,23 @@ describe('<Dropdown.Menu>', () => {
     expect(onSelectSpy.callCount).to.be.eq(1);
   });
 
+  it('Should highlight menu item when hover', () => {
+    const { getByTestId } = render(
+      <DropdownMenu>
+        <DropdownItem data-testid="item-1">1</DropdownItem>
+        <DropdownItem>2</DropdownItem>
+        <DropdownItem>3</DropdownItem>
+        <DropdownItem>4</DropdownItem>
+      </DropdownMenu>
+    );
+
+    const menuItem = getByTestId('item-1');
+
+    userEvent.hover(menuItem);
+
+    expect(menuItem).to.have.class('rs-dropdown-item-focus');
+  });
+
   it('Should call onSelect callback with correct `eventKey`', () => {
     const onSelectSpy = sinon.spy();
 
