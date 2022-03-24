@@ -235,14 +235,10 @@ describe('<Dropdown.Menu>', () => {
   });
 
   it('Should call onSelect callback with correct `eventKey` once', () => {
-    const selectedValues = [];
+    const onSelectSpy = sinon.spy();
 
     const { getByTestId } = render(
-      <DropdownMenu
-        onSelect={eventKey => {
-          selectedValues.push(eventKey);
-        }}
-      >
+      <DropdownMenu onSelect={onSelectSpy}>
         <DropdownItem data-testid="item-1" eventKey={1}>
           1
         </DropdownItem>
@@ -259,7 +255,7 @@ describe('<Dropdown.Menu>', () => {
       userEvent.click(getByTestId('item-1'));
     });
 
-    expect(selectedValues.length).to.be.eq(1);
+    expect(onSelectSpy.callCount).to.be.eq(1);
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {
