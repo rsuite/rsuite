@@ -238,17 +238,15 @@ describe('<Dropdown.Menu>', () => {
     const { getByTestId } = render(
       <DropdownMenu>
         <DropdownItem data-testid="item-1">1</DropdownItem>
-        <DropdownItem data-testid="item-2">2</DropdownItem>
-        <DropdownItem data-testid="item-3">3</DropdownItem>
-        <DropdownItem data-testid="item-4">4</DropdownItem>
+        <DropdownItem>2</DropdownItem>
+        <DropdownItem>3</DropdownItem>
+        <DropdownItem>4</DropdownItem>
       </DropdownMenu>
     );
 
     const menuItem = getByTestId('item-1');
 
-    act(() => {
-      userEvent.hover(menuItem);
-    });
+    userEvent.hover(menuItem);
 
     expect(menuItem).to.have.class('rs-dropdown-item-focus');
   });
