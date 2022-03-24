@@ -234,6 +234,30 @@ describe('<Dropdown.Menu>', () => {
     assert.isNotNull(instance.querySelector('.rs-dropdown-item-submenu'));
   });
 
+  it('Should call onSelect callback with correct `eventKey` once', () => {
+    const selectedValues = [];
+
+    const instance = getDOMNode(
+      <DropdownMenu
+        onSelect={eventKey => {
+          selectedValues.push(eventKey);
+        }}
+      >
+        <DropdownItem eventKey={1}>1</DropdownItem>
+        <DropdownItem eventKey={2}>2</DropdownItem>
+        <DropdownItem eventKey={3}>3</DropdownItem>
+      </DropdownMenu>
+    );
+
+    act(() => {
+      Simulate.click(instance.querySelectorAll('[role^="menuitem"]')[2], {
+        bubbles: true
+      });
+    });
+
+    expect(selectedValues.length).to.be.eq(1);
+  });
+
   it('Should call onSelect callback with correct `eventKey`', () => {
     const onSelectSpy = sinon.spy();
 
