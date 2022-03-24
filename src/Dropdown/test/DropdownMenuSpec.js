@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
@@ -232,6 +232,24 @@ describe('<Dropdown.Menu>', () => {
     );
 
     assert.isNotNull(instance.querySelector('.rs-dropdown-item-submenu'));
+  });
+
+  it('Should call Dropdown.Menu onSelect callback only once', () => {
+    const onSelectSpy = sinon.spy();
+
+    const { getByTestId } = render(
+      <DropdownMenu onSelect={onSelectSpy}>
+        <DropdownItem data-testid="item-1" eventKey={1}>
+          1
+        </DropdownItem>
+        <DropdownItem eventKey={2}>2</DropdownItem>
+        <DropdownItem eventKey={3}>3</DropdownItem>
+      </DropdownMenu>
+    );
+
+    userEvent.click(getByTestId('item-1'));
+
+    expect(onSelectSpy.callCount).to.be.eq(1);
   });
 
   it('Should highlight menu item when hover', () => {
