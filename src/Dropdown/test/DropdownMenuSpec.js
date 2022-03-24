@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
-import { fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
@@ -232,6 +232,23 @@ describe('<Dropdown.Menu>', () => {
     );
 
     assert.isNotNull(instance.querySelector('.rs-dropdown-item-submenu'));
+  });
+
+  it('Should highlight menu item when hover', () => {
+    const { getByTestId } = render(
+      <DropdownMenu>
+        <DropdownItem data-testid="item-1">1</DropdownItem>
+        <DropdownItem>2</DropdownItem>
+        <DropdownItem>3</DropdownItem>
+        <DropdownItem>4</DropdownItem>
+      </DropdownMenu>
+    );
+
+    const menuItem = getByTestId('item-1');
+
+    userEvent.hover(menuItem);
+
+    expect(menuItem).to.have.class('rs-dropdown-item-focus');
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {
