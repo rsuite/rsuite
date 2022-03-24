@@ -234,7 +234,7 @@ describe('<Dropdown.Menu>', () => {
     assert.isNotNull(instance.querySelector('.rs-dropdown-item-submenu'));
   });
 
-  it('Should call Dropdown.Menu onSelect callback once', () => {
+  it('Should call Dropdown.Menu onSelect callback only once', () => {
     const onSelectSpy = sinon.spy();
 
     const { getByTestId } = render(
@@ -242,12 +242,8 @@ describe('<Dropdown.Menu>', () => {
         <DropdownItem data-testid="item-1" eventKey={1}>
           1
         </DropdownItem>
-        <DropdownItem data-testid="item-2" eventKey={2}>
-          2
-        </DropdownItem>
-        <DropdownItem data-testid="item-3" eventKey={3}>
-          3
-        </DropdownItem>
+        <DropdownItem eventKey={2}>2</DropdownItem>
+        <DropdownItem eventKey={3}>3</DropdownItem>
       </DropdownMenu>
     );
 
