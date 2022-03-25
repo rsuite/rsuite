@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useControlled, partitionHTMLProps, useClassNames, TypeChecker } from '../utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
@@ -64,16 +64,16 @@ export interface CheckboxProps<V = ValueType> extends WithAsProps {
 
 const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRef(
   (props: CheckboxProps, ref) => {
+    const checkboxGroupContext = useContext(CheckboxGroupContext);
+
     const {
       inline: inlineContext,
       name: nameContext,
       disabled: disabledContext,
       readOnly: readOnlyContext,
       plaintext: plaintextContext,
-      value: groupValue,
-      controlled,
       onChange: onGroupChange
-    } = useContext(CheckboxGroupContext);
+    } = checkboxGroupContext ?? {};
 
     const {
       as: Component = 'div',
@@ -82,7 +82,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       children,
       classPrefix = 'checkbox',
       checkable = true,
-      defaultChecked,
+      defaultChecked = false,
       title,
       inputRef,
       inputProps,
@@ -100,17 +100,28 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       ...rest
     } = props;
 
-    const isChecked = useCallback(() => {
-      if (typeof groupValue !== 'undefined' && typeof value !== 'undefined') {
-        return groupValue.some(i => i === value);
-      }
-      return controlledChecked;
-    }, [controlledChecked, groupValue, value]);
+    const [selfChecked, setSelfChecked, selfControlled] = useControlled(
+      controlledChecked,
+      defaultChecked
+    );
 
-    const [checked, setChecked] = useControlled(isChecked(), defaultChecked);
+    // Either <Checkbox> is checked itself or by parent <CheckboxGroup>
+    const checked = useMemo(() => {
+      if (!checkboxGroupContext) {
+        return selfChecked;
+      }
+
+      // fixme value from group should not be nullable
+      return checkboxGroupContext.value?.some(checkedValue => checkedValue === value) ?? false;
+    }, [checkboxGroupContext, selfChecked, value]);
+
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ inline, indeterminate, disabled, checked }));
     const [htmlInputProps, restProps] = partitionHTMLProps(rest);
+
+    // If <Checkbox> is within a <CheckboxGroup>, it's bound to be controlled
+    // because its checked state is inferred from group's value, not retrieved from the DOM
+    const controlled = checkboxGroupContext ? true : selfControlled;
 
     if (typeof controlled !== 'undefined') {
       // In uncontrolled situations, use defaultChecked instead of checked
@@ -119,17 +130,17 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
 
     const handleChange = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
-        const nextChecked = !checked;
+        const nextChecked = !event.target.checked;
 
         if (disabled || readOnly) {
           return;
         }
 
-        setChecked(nextChecked);
+        setSelfChecked(nextChecked);
         onChange?.(value, nextChecked, event);
         onGroupChange?.(value, nextChecked, event);
       },
-      [checked, disabled, readOnly, setChecked, onChange, value, onGroupChange]
+      [disabled, readOnly, setSelfChecked, onChange, value, onGroupChange]
     );
 
     if (plaintext) {

@@ -12,4 +12,6 @@ export interface CheckboxGroupContextValue {
   onChange?: (value: any, checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const CheckboxGroupContext = React.createContext<CheckboxGroupContextValue>({});
+export const CheckboxGroupContext = React.createContext<CheckboxGroupContextValue | undefined>(
+  void 0
+);
