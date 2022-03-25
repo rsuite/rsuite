@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-dom/test-utils';
 import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
@@ -338,14 +338,15 @@ describe('SelectPicker', () => {
     assert.ok(list[0].innerText, 'Louisa');
   });
 
-  it.only('SearchWord should be reset when controlled and triggered off', done => {
+  it('SearchWord should be reset when controlled and triggered off', done => {
     let searchRef = '';
     let onClose = null;
     const promise = new Promise(resolve => {
       onClose = resolve;
     });
-    const Wrapper = React.forwardRef((props, ref) => {
+    const Wrapper = () => {
       const [search, setSearch] = useState(searchRef);
+      const containerRef = useRef();
       searchRef = search;
       const handleSearch = value => {
         setSearch(value);
@@ -354,11 +355,11 @@ describe('SelectPicker', () => {
         onClose();
       };
       return (
-        <div>
+        <div ref={containerRef}>
           <button id="exit">exit</button>
           <Dropdown
+            container={() => containerRef.current}
             search={search}
-            ref={ref}
             defaultOpen
             onClose={handleClose}
             onSearch={handleSearch}
@@ -366,14 +367,15 @@ describe('SelectPicker', () => {
           />
         </div>
       );
-    });
+    };
     Wrapper.displayName = 'WrapperSelectPicker';
     ReactTestUtils.act(() => {
       ReactDOM.render(<Wrapper />, container);
     });
 
     const exit = container?.querySelector('#exit');
-    const input = document.querySelector(searchInputClassName);
+    const input = container.querySelector(searchInputClassName);
+
     // change search
     input.value = 'a';
     ReactTestUtils.Simulate.change(input);
