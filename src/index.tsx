@@ -102,7 +102,8 @@ export type {
   FormErrorMessageProps,
   FormControlLabelProps,
   FormHelpTextProps,
-  FormControlProps
+  FormControlProps,
+  useFormClassNames
 } from './Form';
 
 export { default as Input } from './Input';
