@@ -35,9 +35,21 @@ describe('Checkbox', () => {
     assert.ok(instance.className.match(/\bcheckbox-checked\b/));
   });
 
+  it('Should have the underlying input checked', () => {
+    const { getByLabelText } = render(<Checkbox checked>Test</Checkbox>);
+
+    expect(getByLabelText('Test')).to.be.checked;
+  });
+
   it('Should be defaultChecked', () => {
     const instance = getDOMNode(<Checkbox defaultChecked>Test</Checkbox>);
     assert.ok(instance.className.match(/\bcheckbox-checked\b/));
+  });
+
+  it('Should have the underlying input checked by default', () => {
+    const { getByLabelText } = render(<Checkbox defaultChecked>Test</Checkbox>);
+
+    expect(getByLabelText('Test')).to.be.checked;
   });
 
   it('Should have a `Test` value', () => {
