@@ -5,5 +5,6 @@ export type { FormErrorMessageProps } from '../FormErrorMessage';
 export type { FormControlLabelProps } from '../FormControlLabel';
 export type { FormHelpTextProps } from '../FormHelpText';
 export type { FormControlProps } from '../FormControl';
+export * from './useFormClassNames';
 
 export default Form;

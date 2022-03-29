@@ -95,7 +95,7 @@ export type { StepsProps, StepItemProps } from './Steps';
 export { default as Toggle } from './Toggle';
 export type { ToggleProps } from './Toggle';
 
-export { default as Form } from './Form';
+export { default as Form, useFormClassNames } from './Form';
 export type {
   FormProps,
   FormGroupProps,

@@ -4,7 +4,6 @@ import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
 import { Schema, SchemaModel } from 'schema-typed';
 import type { CheckResult } from 'schema-typed';
-import { useClassNames } from '../utils';
 import FormContext, { FormValueContext } from './FormContext';
 import FormControl from '../FormControl';
 import FormControlLabel from '../FormControlLabel';
@@ -12,6 +11,7 @@ import FormErrorMessage from '../FormErrorMessage';
 import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
+import { useFormClassNames } from './useFormClassNames';
 
 export interface FormProps<
   T = Record<string, any>,
@@ -129,15 +129,16 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     ...rest
   } = props;
 
-  const { withClassPrefix, merge } = useClassNames(classPrefix);
-  const classes = merge(
+  const classes = useFormClassNames({
+    classPrefix,
     className,
-    withClassPrefix(layout, fluid && layout === 'vertical' ? 'fluid' : 'fixed-width', {
-      readonly: readOnly,
-      disabled,
-      plaintext
-    })
-  );
+    fluid,
+    layout,
+    readOnly,
+    plaintext,
+    disabled
+  });
+
   const [_formValue, setFormValue] = useState(formDefaultValue);
   const [_formError, setFormError] = useState(formError || {});
 
