@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useControlled, useCustom } from '../utils';
+import { partitionHTMLProps, useClassNames, useControlled, useCustom } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import Plaintext from '../Plaintext';
 import { ToggleLocale } from '../locales';
@@ -71,6 +71,8 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
   const inner = checked ? checkedChildren : unCheckedChildren;
   const label = checked ? locale.on : locale.off;
 
+  const [htmlInputProps, restProps] = partitionHTMLProps(rest);
+
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (disabled || readOnly || loading) {
@@ -89,8 +91,9 @@ const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
   }
 
   return (
-    <label ref={ref} className={classes} {...rest}>
+    <label ref={ref} className={classes} {...restProps}>
       <input
+        {...htmlInputProps}
         ref={inputRef}
         type="checkbox"
         checked={checkedProp}
