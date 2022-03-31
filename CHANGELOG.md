@@ -1,3 +1,15 @@
+# [5.7.0](https://github.com/rsuite/rsuite/compare/v5.6.6...v5.7.0) (2022-03-31)
+
+### Bug Fixes
+
+- **Checkbox:** set checked attribute on underlying input ([#2419](https://github.com/rsuite/rsuite/issues/2419)) ([5ded872](https://github.com/rsuite/rsuite/commit/5ded8720c70c1fe4aee3941a81c0d7ec3b0c7423))
+- **Dropdown:** Fix menu item hover highlight ([#2415](https://github.com/rsuite/rsuite/issues/2415)) ([59453cc](https://github.com/rsuite/rsuite/commit/59453cc0c3c6f648b2797c48473c22104e579b4a))
+- **Dropdown:** Fixed Triggering onSelect twice on Dropdown Menu ([#2414](https://github.com/rsuite/rsuite/issues/2414)) ([e09eee5](https://github.com/rsuite/rsuite/commit/e09eee5f6dac88816ecbf8d20f3bb1b78f4afa71))
+
+### Features
+
+- **Form:** export useFormClassNames hook ([#2420](https://github.com/rsuite/rsuite/issues/2420)) ([7e2bb85](https://github.com/rsuite/rsuite/commit/7e2bb8548103117a2df004f367fbde6609fcc216))
+
 ## [5.6.6](https://github.com/rsuite/rsuite/compare/v5.6.5...v5.6.6) (2022-03-24)
 
 ### Bug Fixes
