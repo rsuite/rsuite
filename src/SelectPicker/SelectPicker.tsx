@@ -290,7 +290,7 @@ const SelectPicker = React.forwardRef(
       setActive(false);
       onSearch?.('');
       onClose?.();
-    }, [onClose, setSearchKeyword]);
+    }, [onClose, setSearchKeyword, onSearch]);
 
     const handleEntered = useCallback(() => {
       setActive(true);
