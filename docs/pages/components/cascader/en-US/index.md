@@ -107,6 +107,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | renderExtraFooter  | () => ReactNode                                                                                                  | custom render extra footer                                       |
 | renderMenu         | (items: [ItemDataType][item][], menu: ReactNode, parentNode?: [ItemDataType][item], layer?: number) => ReactNode | Customizing the Rendering Menu list                              |
 | renderMenuItem     | (label: ReactNode,item: [ItemDataType][item]) => ReactNode                                                       | Custom render menu items                                         |
+| renderSearchItem   | (label:ReactNode, item: [ItemDataType][item]) => ReactNode                                                       | Custom render search result items                                |
 | renderValue        | (value: string, selectedPaths: [ItemDataType][item][], selectedElement:ReactNode) => ReactNode                   | Custom render selected items                                     |
 | searchable         | boolean `(true)`                                                                                                 | Whether you can search for options.                              |
 | size               | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                                                | A picker can have different sizes                                |

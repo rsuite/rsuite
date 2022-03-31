@@ -452,6 +452,35 @@ describe('Cascader', () => {
     assert.equal(searchResult.length, 3);
   });
 
+  it('Should show search items rendered by renderSearchItem', () => {
+    const items = [
+      {
+        label: 'test',
+        value: 'test'
+      }
+    ];
+    const cascaderRef = React.createRef();
+
+    render(
+      <Cascader
+        ref={cascaderRef}
+        defaultOpen
+        data={items}
+        renderSearchItem={label => <div className="test-item">{label}</div>}
+      />
+    );
+
+    const input = cascaderRef.current.overlay.querySelector('.rs-picker-search-bar-input');
+
+    UserEvent.type(input, 't');
+
+    const searchResult = cascaderRef.current.overlay.querySelector(
+      '.rs-picker-cascader-row .test-item'
+    );
+
+    assert.equal(searchResult.textContent, 'test');
+  });
+
   describe('ref testing', () => {
     it('Should control the open and close of picker', async () => {
       const onOpenSpy = sinon.spy();

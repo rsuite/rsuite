@@ -66,6 +66,9 @@ export interface CascaderProps<T = ValueType>
   /** Custom render menu items */
   renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
 
+  /** Custom render search items */
+  renderSearchItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
+
   /** Custom render selected items */
   renderValue?: (
     value: T,
@@ -120,6 +123,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
     placement = 'bottomStart',
     id,
     renderMenuItem,
+    renderSearchItem,
     renderValue,
     renderMenu,
     renderExtraFooter,
@@ -436,7 +440,10 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
           );
         }
       }
-      return { ...node, [labelKey]: labelElements };
+      return {
+        ...node,
+        [labelKey]: labelElements
+      };
     });
 
     const disabled = disabledItemValues.some(value =>
@@ -446,6 +453,12 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
       'cascader-row-disabled': disabled,
       'cascader-row-focus': item[valueKey] === focusItemValue
     });
+
+    const label = formattedNodes.map((node, index) => (
+      <span key={`col-${index}`} className={prefix('cascader-col')}>
+        {node[labelKey]}
+      </span>
+    ));
 
     return (
       <div
@@ -459,11 +472,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
           }
         }}
       >
-        {formattedNodes.map((node, index) => (
-          <span key={`col-${index}`} className={prefix('cascader-col')}>
-            {node[labelKey]}
-          </span>
-        ))}
+        {renderSearchItem ? renderSearchItem(label, item) : label}
       </div>
     );
   };
@@ -615,6 +624,7 @@ Cascader.propTypes = {
   onSearch: PropTypes.func,
   cleanable: PropTypes.bool,
   renderMenuItem: PropTypes.func,
+  renderSearchItem: PropTypes.func,
   menuWidth: PropTypes.number,
   menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   searchable: PropTypes.bool,
