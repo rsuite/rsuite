@@ -130,7 +130,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
 
     const handleChange = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
-        const nextChecked = !event.target.checked;
+        const nextChecked = event.target.checked;
 
         if (disabled || readOnly) {
           return;

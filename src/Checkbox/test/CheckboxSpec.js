@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Checkbox from '../Checkbox';
@@ -65,23 +66,28 @@ describe('Checkbox', () => {
     assert.equal(input.tagName, 'INPUT');
   });
 
-  it('Should call onChange callback with correct value', done => {
-    const value = 'Test';
-    const doneOp = data => {
-      try {
-        assert.equal(data, value);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onChange callback with correct value and checked state', () => {
+    const onChange = sinon.spy();
 
-    const instance = getDOMNode(
-      <Checkbox onChange={doneOp} value={value}>
-        Title
+    const { getByLabelText, rerender } = render(
+      <Checkbox onChange={onChange} value="Test">
+        Checkbox
       </Checkbox>
     );
-    ReactTestUtils.Simulate.change(instance.querySelector('input'));
+
+    userEvent.click(getByLabelText('Checkbox'));
+
+    expect(onChange).to.have.been.calledWith('Test', true);
+
+    rerender(
+      <Checkbox onChange={onChange} value="Test" defaultChecked>
+        Checkbox
+      </Checkbox>
+    );
+
+    userEvent.click(getByLabelText('Checkbox'));
+
+    expect(onChange).to.have.been.calledWith('Test', false);
   });
 
   it('Should call onClick callback', done => {
@@ -106,40 +112,6 @@ describe('Checkbox', () => {
     };
     const instance = getDOMNode(<Checkbox onFocus={doneOp} />);
     ReactTestUtils.Simulate.focus(instance.querySelector('input'));
-  });
-
-  it('Should be checked with change', done => {
-    const doneOp = (value, checked) => {
-      try {
-        assert.isTrue(checked);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-
-    const instance = getDOMNode(<Checkbox onChange={doneOp}>Title</Checkbox>);
-
-    ReactTestUtils.Simulate.change(instance.querySelector('input'));
-  });
-
-  it('Should be unchecked with change', done => {
-    const doneOp = (value, checked) => {
-      try {
-        assert.isFalse(checked);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-
-    const instance = getDOMNode(
-      <Checkbox onChange={doneOp} checked>
-        Title
-      </Checkbox>
-    );
-
-    ReactTestUtils.Simulate.change(instance.querySelector('input'));
   });
 
   describe('Plain text', () => {

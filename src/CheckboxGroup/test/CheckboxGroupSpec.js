@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -120,27 +121,20 @@ describe('CheckboxGroup', () => {
     expect(getByLabelText('Checkbox 4')).to.be.checked;
   });
 
-  it('Should call onChange callback with correct value', done => {
-    const instance = getDOMNode(
-      <CheckboxGroup
-        onChange={value => {
-          try {
-            assert.deepEqual(value, [3]);
-            done();
-          } catch (err) {
-            done(err);
-          }
-        }}
-      >
-        <Checkbox value={1}>Test1</Checkbox>
-        <Checkbox value={2}>Test2</Checkbox>
-        <Checkbox value={3}>Test2</Checkbox>
-        <Checkbox value={4}>Test2</Checkbox>
+  it('Should call onChange callback with correct value', () => {
+    const onChange = sinon.spy();
+    const { getByLabelText } = render(
+      <CheckboxGroup onChange={onChange}>
+        <Checkbox value={1}>Option 1</Checkbox>
+        <Checkbox value={2}>Option 2</Checkbox>
+        <Checkbox value={3}>Option 3</Checkbox>
+        <Checkbox value={4}>Option 4</Checkbox>
       </CheckboxGroup>
     );
 
-    const checkboxs = instance.querySelectorAll(`.${globalKey}checkbox`);
-    ReactTestUtils.Simulate.change(checkboxs[2].querySelector('input'));
+    userEvent.click(getByLabelText('Option 3'));
+
+    expect(onChange).to.have.been.calledWith([3]);
   });
 
   it('Should call onChange callback', done => {

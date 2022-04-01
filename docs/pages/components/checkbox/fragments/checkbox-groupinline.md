@@ -3,10 +3,12 @@
 ```js
 const instance = (
   <CheckboxGroup inline name="checkboxList">
-    <Checkbox>Item A</Checkbox>
-    <Checkbox>Item B</Checkbox>
-    <Checkbox>Item C</Checkbox>
-    <Checkbox disabled>Item D</Checkbox>
+    <Checkbox value="A">Item A</Checkbox>
+    <Checkbox value="B">Item B</Checkbox>
+    <Checkbox value="C">Item C</Checkbox>
+    <Checkbox value="D" disabled>
+      Item D
+    </Checkbox>
   </CheckboxGroup>
 );
 
