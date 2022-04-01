@@ -25,7 +25,7 @@ export interface DropdownMenuCheckItemProps extends WithAsProps {
 const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckItemProps> =
   React.forwardRef((props: DropdownMenuCheckItemProps, ref) => {
     const {
-      active,
+      active = false,
       as: Component = 'div',
       checkboxAs: CheckboxItem = Checkbox,
       classPrefix = 'check-item',

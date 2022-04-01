@@ -70,6 +70,22 @@ describe('CheckboxGroup', () => {
     assert.ok(checkboxs[3].className.match(checked));
   });
 
+  it('Should have underlying inputs checked when set value', () => {
+    const { getByLabelText } = render(
+      <CheckboxGroup value={[2, 4, '1']}>
+        <Checkbox value={1}>Checkbox 1</Checkbox>
+        <Checkbox value={2}>Checkbox 2</Checkbox>
+        <Checkbox value={3}>Checkbox 3</Checkbox>
+        <Checkbox value={4}>Checkbox 4</Checkbox>
+      </CheckboxGroup>
+    );
+
+    expect(getByLabelText('Checkbox 1')).not.to.be.checked;
+    expect(getByLabelText('Checkbox 2')).to.be.checked;
+    expect(getByLabelText('Checkbox 3')).not.to.be.checked;
+    expect(getByLabelText('Checkbox 4')).to.be.checked;
+  });
+
   it('Should be checked when set defaultValue', () => {
     const instance = getDOMNode(
       <CheckboxGroup defaultValue={[2, 4, '1']}>
@@ -86,6 +102,22 @@ describe('CheckboxGroup', () => {
     assert.ok(!checkboxs[2].className.match(checked));
     assert.ok(checkboxs[1].className.match(checked));
     assert.ok(checkboxs[3].className.match(checked));
+  });
+
+  it('Should have underlying inputs checked by default when set value', () => {
+    const { getByLabelText } = render(
+      <CheckboxGroup defaultValue={[2, 4, '1']}>
+        <Checkbox value={1}>Checkbox 1</Checkbox>
+        <Checkbox value={2}>Checkbox 2</Checkbox>
+        <Checkbox value={3}>Checkbox 3</Checkbox>
+        <Checkbox value={4}>Checkbox 4</Checkbox>
+      </CheckboxGroup>
+    );
+
+    expect(getByLabelText('Checkbox 1')).not.to.be.checked;
+    expect(getByLabelText('Checkbox 2')).to.be.checked;
+    expect(getByLabelText('Checkbox 3')).not.to.be.checked;
+    expect(getByLabelText('Checkbox 4')).to.be.checked;
   });
 
   it('Should call onChange callback with correct value', done => {
