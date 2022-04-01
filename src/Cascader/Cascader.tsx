@@ -67,7 +67,7 @@ export interface CascaderProps<T = ValueType>
   renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
 
   /** Custom render search items */
-  renderSearchItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
+  renderSearchItem?: (itemLabel: React.ReactNode, items: ItemDataType[]) => React.ReactNode;
 
   /** Custom render selected items */
   renderValue?: (
@@ -472,7 +472,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
           }
         }}
       >
-        {renderSearchItem ? renderSearchItem(label, item) : label}
+        {renderSearchItem ? renderSearchItem(label, nodes) : label}
       </div>
     );
   };
