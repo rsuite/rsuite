@@ -280,7 +280,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
         end = v;
       }
 
-      const nextValue = getValidValue([start, end].sort() as Range);
+      const nextValue = getValidValue([start, end].sort((a, b) => a - b) as Range);
 
       if (isRangeMatchingConstraint(nextValue)) {
         setValue(nextValue);
