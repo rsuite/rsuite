@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import ReactTestUtils from 'react-dom/test-utils';
 import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
 
@@ -164,14 +165,16 @@ describe('CheckPicker', () => {
     assert.equal(instance.querySelector(placeholderClassName).textContent, 'test');
   });
 
-  it('Should call `onChange` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getInstance(
-      <CheckPicker defaultOpen onChange={doneOp} data={[{ label: '1', value: '1' }]} />
+  it('Should call `onChange` callback with correct value', () => {
+    const onChange = sinon.spy();
+    const { getByText } = render(
+      <CheckPicker defaultOpen onChange={onChange} data={[{ label: 'Option 1', value: '1' }]} />
     );
-    ReactTestUtils.Simulate.change(instance.overlay.querySelectorAll('input')[1]);
+
+    userEvent.click(getByText('Option 1'));
+
+    expect(onChange).to.have.been.calledOnce;
+    expect(onChange.getCall(0).args[0]).to.eql(['1']);
   });
 
   it('Should call `onClean` callback', done => {

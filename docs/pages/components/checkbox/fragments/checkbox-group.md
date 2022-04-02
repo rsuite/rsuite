@@ -4,11 +4,13 @@
 const instance = (
   <CheckboxGroup name="checkboxList">
     <p>Group1</p>
-    <Checkbox>Item A</Checkbox>
-    <Checkbox>Item B</Checkbox>
+    <Checkbox value="A">Item A</Checkbox>
+    <Checkbox value="B">Item B</Checkbox>
     <p>Group2</p>
-    <Checkbox>Item C</Checkbox>
-    <Checkbox disabled>Item D</Checkbox>
+    <Checkbox value="C">Item C</Checkbox>
+    <Checkbox value="D" disabled>
+      Item D
+    </Checkbox>
   </CheckboxGroup>
 );
 ReactDOM.render(instance);
