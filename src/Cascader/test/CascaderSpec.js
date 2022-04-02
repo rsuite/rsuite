@@ -455,18 +455,28 @@ describe('Cascader', () => {
   it('Should show search items rendered by renderSearchItem', () => {
     const items = [
       {
-        label: 'test',
-        value: 'test'
+        label: 'parent',
+        value: 'parent',
+        children: [
+          {
+            label: 'test',
+            value: 'test'
+          }
+        ]
       }
     ];
     const cascaderRef = React.createRef();
+    let searchItems = null;
 
     render(
       <Cascader
         ref={cascaderRef}
         defaultOpen
         data={items}
-        renderSearchItem={label => <div className="test-item">{label}</div>}
+        renderSearchItem={(label, items) => {
+          searchItems = items;
+          return <div className="test-item">{label}</div>;
+        }}
       />
     );
 
@@ -478,7 +488,11 @@ describe('Cascader', () => {
       '.rs-picker-cascader-row .test-item'
     );
 
-    assert.equal(searchResult.textContent, 'test');
+    assert.equal(searchItems.length, 2);
+    assert.deepInclude(searchItems, items[0]);
+
+    assert.deepInclude(searchItems, items[0].children[0]);
+    assert.equal(searchResult.textContent, 'parenttest');
   });
 
   describe('ref testing', () => {
