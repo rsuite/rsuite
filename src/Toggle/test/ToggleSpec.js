@@ -53,6 +53,28 @@ describe('Toggle', () => {
       expect(onChangeSpy).to.have.been.calledWith(false);
     });
 
+    it('Should emit ChangeEvent with correct target name, type and checked state', () => {
+      const onChange = sinon.spy();
+
+      const { getByTestId, rerender } = render(
+        <Toggle name="toggle" onChange={onChange} data-testid="toggle" />
+      );
+      userEvent.click(getByTestId('toggle'));
+
+      let event = onChange.getCall(0).args[1];
+      expect(event.target).to.have.property('name', 'toggle');
+      expect(event.target).to.have.property('type', 'checkbox');
+      expect(event.target).to.have.property('checked', true);
+
+      rerender(<Toggle name="toggle" defaultChecked onChange={onChange} data-testid="toggle" />);
+      userEvent.click(getByTestId('toggle'));
+
+      event = onChange.getCall(1).args[1];
+      expect(event.target).to.have.property('name', 'toggle');
+      expect(event.target).to.have.property('type', 'checkbox');
+      expect(event.target).to.have.property('checked', false);
+    });
+
     it('Should toggle with the Space key', () => {
       const onChangeSpy = sinon.spy();
 
