@@ -1,3 +1,9 @@
+## [5.7.1](https://github.com/rsuite/rsuite/compare/v5.7.0...v5.7.1) (2022-04-02)
+
+### Bug Fixes
+
+- **Checkbox:** correct checked state in onChange callback ([#2430](https://github.com/rsuite/rsuite/issues/2430)) ([c6819f9](https://github.com/rsuite/rsuite/commit/c6819f98fe33e197376ecd1e301eaa471c6c2178))
+
 # [5.7.0](https://github.com/rsuite/rsuite/compare/v5.6.6...v5.7.0) (2022-03-31)
 
 ### Bug Fixes
