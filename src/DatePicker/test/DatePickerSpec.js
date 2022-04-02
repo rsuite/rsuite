@@ -478,6 +478,26 @@ describe('DatePicker', () => {
     assert.isTrue(isSameDay(onChangeSpy.firstCall.firstArg, new Date()));
   });
 
+  it('Should call onChange after setting oneTap and clicking time', () => {
+    const onChangeSpy = sinon.spy();
+    const instance = getInstance(
+      <DatePicker onChange={onChangeSpy} format="hh:mm aa" oneTap defaultOpen />
+    );
+
+    const timeMemus = instance.overlay.querySelectorAll('.rs-calendar-time-dropdown-column');
+    const hourCell = timeMemus[0].querySelector('.rs-calendar-time-dropdown-cell');
+    const minuteCell = timeMemus[1].querySelector('.rs-calendar-time-dropdown-cell');
+    const input = instance.target.querySelector('input');
+
+    assert.equal(input.value, '');
+
+    userEvent.click(hourCell);
+    userEvent.click(minuteCell);
+
+    assert.equal(input.value, '12:00 AM');
+    assert.equal(format(onChangeSpy.secondCall.firstArg, 'hh:mm aa'), '12:00 AM');
+  });
+
   it('Should be show meridian', () => {
     const instance = getInstance(
       <DatePicker

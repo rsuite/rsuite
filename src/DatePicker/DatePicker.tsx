@@ -226,17 +226,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [onChangeCalendarDate, onSelect]
     );
 
-    /**
-     *  A callback triggered when the time on the calendar changes.
-     */
-    const handleChangePageTime = useCallback(
-      (nextPageTime: Date) => {
-        setCalendarDate(nextPageTime);
-        handleDateChange(nextPageTime);
-      },
-      [handleDateChange, setCalendarDate]
-    );
-
     const handleClose = useCallback(() => {
       triggerRef.current?.close?.();
     }, []);
@@ -382,6 +371,21 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         }
       },
       [formatStr, handleDateChange, oneTap, reset, setCalendarDate, updateValue]
+    );
+
+    /**
+     *  A callback triggered when the time on the calendar changes.
+     */
+    const handleChangePageTime = useCallback(
+      (nextPageTime: Date, event: React.MouseEvent) => {
+        setCalendarDate(nextPageTime);
+        handleDateChange(nextPageTime);
+
+        if (oneTap) {
+          updateValue(event, nextPageTime, false);
+        }
+      },
+      [handleDateChange, oneTap, setCalendarDate, updateValue]
     );
 
     const disabledDate = useCallback(
