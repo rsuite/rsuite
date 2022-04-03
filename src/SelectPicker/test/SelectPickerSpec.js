@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { render, cleanup, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import SelectPicker from '../SelectPicker';
@@ -23,10 +23,6 @@ const data = [
     role: 'Master'
   }
 ];
-
-afterEach(() => {
-  cleanup();
-});
 
 describe('SelectPicker', () => {
   it('Should clean selected default value', () => {
