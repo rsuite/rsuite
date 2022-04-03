@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import React from 'react';
+import { render, fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import SelectPicker from '../SelectPicker';
@@ -400,53 +400,24 @@ describe('SelectPicker', () => {
       expect(getByTestId('content')).to.have.text('Not selected');
     });
   });
-  it('SearchWord should be reset when controlled and triggered off', done => {
-    let searchRef = '';
-    let onClose = null;
-    const promise = new Promise(resolve => {
-      onClose = resolve;
-    });
+  it('SearchWord should be reset when controlled and triggered off', async () => {
+    const handleSearch = sinon.spy();
     const Wrapper = () => {
-      const [search, setSearch] = useState(searchRef);
-      const containerRef = useRef();
-      searchRef = search;
-      const handleSearch = value => {
-        setSearch(value);
-      };
-      const handleClose = () => {
-        onClose();
-      };
-      const container = () => containerRef.current;
       return (
-        <div ref={containerRef}>
+        <>
           <button id="exit">exit</button>
-          <SelectPicker
-            container={container}
-            search={search}
-            defaultOpen
-            onClose={handleClose}
-            onSearch={handleSearch}
-            data={data}
-          />
-        </div>
+          <SelectPicker container={container} defaultOpen onSearch={handleSearch} data={data} />
+        </>
       );
     };
     Wrapper.displayName = 'WrapperSelectPicker';
-    const { container } = render(<Wrapper />);
-
-    const exit = container?.querySelector('#exit');
-    const input = container.querySelector('.rs-picker-search-bar-input');
-
-    // change search
-    fireEvent.change(input, { target: { value: 'a' } });
-    assert.equal(searchRef, 'a');
+    let { container } = render(<Wrapper />);
+    const exit = container.querySelector('#exit');
 
     // close select
     fireEvent.mouseDown(exit, { bubbles: true });
+    await waitForElementToBeRemoved(document.querySelector('.rs-picker-search-bar-input'));
 
-    promise.then(() => {
-      assert.equal(searchRef, '');
-      done();
-    });
+    assert.isTrue(handleSearch.calledOnce);
   });
 });
