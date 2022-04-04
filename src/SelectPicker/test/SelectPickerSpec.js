@@ -400,7 +400,7 @@ describe('SelectPicker', () => {
       expect(getByTestId('content')).to.have.text('Not selected');
     });
   });
-  it('SearchWord should be reset when controlled and triggered off', async () => {
+  it('Should call onSearch when closed', async () => {
     const handleSearch = sinon.spy();
     const Wrapper = () => {
       return (
