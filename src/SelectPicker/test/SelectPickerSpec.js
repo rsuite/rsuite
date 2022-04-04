@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import SelectPicker from '../SelectPicker';
@@ -402,22 +402,20 @@ describe('SelectPicker', () => {
   });
   it('Should call onSearch when closed', async () => {
     const handleSearch = sinon.spy();
-    const Wrapper = () => {
-      return (
-        <>
-          <button id="exit">exit</button>
-          <SelectPicker container={container} defaultOpen onSearch={handleSearch} data={data} />
-        </>
-      );
-    };
-    Wrapper.displayName = 'WrapperSelectPicker';
-    let { container } = render(<Wrapper />);
+    const handleClose = sinon.spy();
+    let { container } = render(
+      <>
+        <button id="exit">exit</button>
+        <SelectPicker onClose={handleClose} defaultOpen onSearch={handleSearch} data={data} />
+      </>
+    );
     const exit = container.querySelector('#exit');
 
     // close select
     fireEvent.mouseDown(exit, { bubbles: true });
-    await waitForElementToBeRemoved(document.querySelector('.rs-picker-search-bar-input'));
+    await waitFor(() => assert.isTrue(handleClose.calledOnce));
 
     assert.isTrue(handleSearch.calledOnce);
+    assert.equal(handleSearch.args[0][0], '');
   });
 });
