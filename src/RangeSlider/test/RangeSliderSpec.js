@@ -5,6 +5,8 @@ import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import RangeSlider from '../RangeSlider';
 
+import '../../Slider/styles/index.less';
+
 describe('RangeSlider', () => {
   testStandardProps(<RangeSlider />);
 
@@ -142,5 +144,30 @@ describe('RangeSlider', () => {
     assert.equal(input[1].getAttribute('aria-valuemax'), 100);
     assert.equal(input[1].getAttribute('aria-valuemin'), 10);
     assert.equal(input[1].getAttribute('aria-orientation'), 'horizontal');
+  });
+
+  it('Should be reversed start and end values', () => {
+    const onChangeSpy = sinon.spy();
+    const instance = getDOMNode(
+      <RangeSlider
+        style={{ height: 100 }}
+        defaultValue={[10, 50]}
+        onChange={onChangeSpy}
+        vertical
+      />
+    );
+
+    const sliderBar = instance.querySelector('.rs-slider-bar');
+
+    ReactTestUtils.Simulate.click(sliderBar, { pageX: 0, pageY: 80 });
+    ReactTestUtils.Simulate.click(sliderBar, { pageX: 0, pageY: 0 });
+
+    assert.deepEqual(onChangeSpy.firstCall.firstArg, [20, 50]);
+
+    /**
+     * fix: https://github.com/rsuite/rsuite/issues/2425
+     * Error thrown before fix: expected [ 100, 20 ] to deeply equal [ 20, 100 ]
+     */
+    assert.deepEqual(onChangeSpy.secondCall.firstArg, [20, 100]);
   });
 });
