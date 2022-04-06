@@ -413,9 +413,9 @@ describe('SelectPicker', () => {
 
     // close select
     fireEvent.mouseDown(exit, { bubbles: true });
-    await waitFor(() => assert.isTrue(handleClose.calledOnce));
-
-    assert.isTrue(handleSearch.calledOnce);
-    assert.equal(handleSearch.args[0][0], '');
+    await waitFor(() => {
+      assert.isTrue(handleSearch.calledOnce);
+      assert.equal(handleSearch.args[0][0], '');
+    });
   });
 });
