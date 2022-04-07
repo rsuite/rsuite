@@ -1,3 +1,16 @@
+# [5.8.0](https://github.com/rsuite/rsuite/compare/v5.7.1...v5.8.0) (2022-04-07)
+
+### Bug Fixes
+
+- **RangeSlider:** fix RangeSlider progress bar misalignment ([#2435](https://github.com/rsuite/rsuite/issues/2435)) ([e612ee3](https://github.com/rsuite/rsuite/commit/e612ee3b6bb97217ad08744c6b57b47e21397944))
+- **SelectPicker:** call onSearch with empty string when closed ([#2411](https://github.com/rsuite/rsuite/issues/2411)) ([c6e5d54](https://github.com/rsuite/rsuite/commit/c6e5d54bdda0cdc61b65fbed78518ccef5d7672f))
+- **Toggle:** add missing properties to onChange event target ([#2422](https://github.com/rsuite/rsuite/issues/2422)) ([5d1d5a2](https://github.com/rsuite/rsuite/commit/5d1d5a29a03f642c88aa66851163c9bb20d69684))
+
+### Features
+
+- **Cascader:** add `renderSearchItem` for customizing search result ([#2427](https://github.com/rsuite/rsuite/issues/2427)) ([e1b1dbd](https://github.com/rsuite/rsuite/commit/e1b1dbd2fd6cde10dfb1e041d9483b6748a0855f))
+- **DateRangePicker:** export type definition ([#2434](https://github.com/rsuite/rsuite/issues/2434)) ([76e4bc3](https://github.com/rsuite/rsuite/commit/76e4bc38e8e939ae6ffbcf5bc154281b4ec9360c))
+
 ## [5.7.1](https://github.com/rsuite/rsuite/compare/v5.7.0...v5.7.1) (2022-04-02)
 
 ### Bug Fixes
