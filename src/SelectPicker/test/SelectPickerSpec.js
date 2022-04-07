@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import SelectPicker from '../SelectPicker';
@@ -398,6 +398,24 @@ describe('SelectPicker', () => {
       );
 
       expect(getByTestId('content')).to.have.text('Not selected');
+    });
+  });
+  it('Should call onSearch when closed', async () => {
+    const handleSearch = sinon.spy();
+    const handleClose = sinon.spy();
+    let { container } = render(
+      <>
+        <button id="exit">exit</button>
+        <SelectPicker onClose={handleClose} defaultOpen onSearch={handleSearch} data={data} />
+      </>
+    );
+    const exit = container.querySelector('#exit');
+
+    // close select
+    fireEvent.mouseDown(exit, { bubbles: true });
+    await waitFor(() => {
+      assert.isTrue(handleSearch.calledOnce);
+      assert.equal(handleSearch.args[0][0], '');
     });
   });
 });

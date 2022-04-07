@@ -83,7 +83,7 @@ export interface SelectProps<T> {
   onGroupTitleClick?: (event: React.SyntheticEvent) => void;
 
   /** Called when searching */
-  onSearch?: (searchKeyword: string, event: React.SyntheticEvent) => void;
+  onSearch?: (searchKeyword: string, event?: React.SyntheticEvent) => void;
 
   /** Called when clean */
   onClean?: (event: React.SyntheticEvent) => void;
@@ -288,8 +288,9 @@ const SelectPicker = React.forwardRef(
     const handleExited = useCallback(() => {
       setSearchKeyword('');
       setActive(false);
+      onSearch?.('');
       onClose?.();
-    }, [onClose, setSearchKeyword]);
+    }, [onClose, setSearchKeyword, onSearch]);
 
     const handleEntered = useCallback(() => {
       setActive(true);
