@@ -108,6 +108,7 @@
 | renderExtraFooter  | () => ReactNode                                                                               | 自定义页脚内容                       |
 | renderMenu         | (children: object[], menu:ReactNode, parentNode?: object, layer?: number) => ReactNode        | 自定义渲染菜单列表                   |
 | renderMenuItem     | (label:ReactNode, item: [ItemDataType][item]) => ReactNode                                    | 自定义选项                           |
+| renderSearchItem   | (label:ReactNode, items: [ItemDataType][item][]) => ReactNode                                 | 自定义渲染搜索结果选项               |
 | renderValue        | (value:string, selectedPaths: [ItemDataType][item][], selectedElement:ReactNode) => ReactNode | 自定义被选中的选项                   |
 | searchable         | boolean `(true)`                                                                              | 可以搜索                             |
 | size               | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                             | 设置组件尺寸                         |
