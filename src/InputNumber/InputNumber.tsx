@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
@@ -90,7 +90,7 @@ function decimals(...values: number[]) {
  * @param value
  * @param max
  */
-function disableMaxValue(value: number | string | undefined, max: number) {
+function valueReachesMax(value: number | string | undefined, max: number) {
   if (!isNil(value)) {
     return +value >= max;
   }
@@ -102,7 +102,7 @@ function disableMaxValue(value: number | string | undefined, max: number) {
  * @param value
  * @param min
  */
-function disableMinValue(value: number | string | undefined, min: number) {
+function valueReachesMin(value: number | string | undefined, min: number) {
   if (!isNil(value)) {
     return +value <= min;
   }
@@ -136,12 +136,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const max = maxProp ?? Infinity;
 
   const [value, setValue] = useControlled(valueProp, defaultValue);
-  const [disabledUpButton, setDisabledUpButton] = useState<boolean>(() =>
-    disableMaxValue(value, max)
-  );
-  const [disabledDownButton, setDisabledDownButton] = useState<boolean>(() =>
-    disableMinValue(value, min)
-  );
+
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
 
@@ -151,16 +146,11 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const handleChangeValue = useCallback(
     (currentValue: number | string, event: React.SyntheticEvent) => {
       if (currentValue !== value) {
-        // Disable the up button when the value is greater than the maximum value.
-        setDisabledUpButton(disableMaxValue(currentValue, max));
-
-        // Disable the down button when the value is greater than the minimum value.
-        setDisabledDownButton(disableMinValue(currentValue, min));
         setValue(currentValue);
         onChange?.(currentValue, event);
       }
     },
-    [max, min, onChange, setValue, value]
+    [onChange, setValue, value]
   );
 
   const getSafeValue = useCallback(
@@ -180,7 +170,8 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     [max, min]
   );
 
-  const handlePlus = useCallback(
+  // Increment value by step
+  const handleStepUp = useCallback(
     (event: React.SyntheticEvent) => {
       const val = +(value || 0);
       const bit = decimals(val, step);
@@ -188,7 +179,9 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     },
     [getSafeValue, handleChangeValue, step, value]
   );
-  const handleMinus = useCallback(
+
+  // Decrement value by step
+  const handleStepDown = useCallback(
     (event: React.SyntheticEvent) => {
       const val = +(value || 0);
       const bit = decimals(val, step);
@@ -197,16 +190,22 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     [getSafeValue, handleChangeValue, step, value]
   );
 
+  // Disables step up/down button when
+  // - InputNumber is disabled/readonly
+  // - value reaches max/min limits
+  const stepUpDisabled = disabled || readOnly || valueReachesMax(value, max);
+  const stepDownDisabled = disabled || readOnly || valueReachesMin(value, min);
+
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
       switch (event.key) {
         case KEY_VALUES.UP:
           event.preventDefault();
-          handlePlus(event);
+          handleStepUp(event);
           break;
         case KEY_VALUES.DOWN:
           event.preventDefault();
-          handleMinus(event);
+          handleStepDown(event);
           break;
         case KEY_VALUES.HOME:
           if (typeof minProp !== 'undefined') {
@@ -222,7 +221,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           break;
       }
     },
-    [handlePlus, handleMinus, minProp, maxProp, handleChangeValue, getSafeValue]
+    [handleStepUp, handleStepDown, minProp, maxProp, handleChangeValue, getSafeValue]
   );
 
   const handleWheel = useCallback(
@@ -232,16 +231,16 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
         const delta: number = event['wheelDelta'] || -event.deltaY || -event?.detail;
 
         if (delta > 0) {
-          handleMinus(event);
+          handleStepDown(event);
         }
         if (delta < 0) {
-          handlePlus(event);
+          handleStepUp(event);
         }
       }
 
       onWheel?.(event);
     },
-    [disabled, handleMinus, handlePlus, onWheel, readOnly]
+    [disabled, handleStepDown, handleStepUp, onWheel, readOnly]
   );
 
   const handleChange = useCallback(
@@ -303,8 +302,9 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           tabIndex={-1}
           appearance={buttonAppearance}
           className={prefix('touchspin-up')}
-          onClick={handlePlus}
-          disabled={disabledUpButton || disabled || readOnly}
+          onClick={handleStepUp}
+          disabled={stepUpDisabled}
+          aria-label="Increment"
         >
           <AngleUpIcon />
         </Button>
@@ -312,8 +312,9 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
           tabIndex={-1}
           appearance={buttonAppearance}
           className={prefix('touchspin-down')}
-          onClick={handleMinus}
-          disabled={disabledDownButton || disabled || readOnly}
+          onClick={handleStepDown}
+          disabled={stepDownDisabled}
+          aria-label="Decrement"
         >
           <AngleDownIcon />
         </Button>
