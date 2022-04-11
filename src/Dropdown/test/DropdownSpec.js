@@ -62,6 +62,24 @@ describe('<Dropdown>', () => {
     expect(getByRole('menu')).to.be.visible;
   });
 
+  it('Should display/hide menu according to controlled `open` prop', () => {
+    const { getByRole, queryByRole, rerender } = render(
+      <Dropdown title="Menu" open>
+        <Dropdown.Item>Item 1</Dropdown.Item>
+      </Dropdown>
+    );
+
+    expect(getByRole('menu')).to.be.visible;
+
+    rerender(
+      <Dropdown title="Menu" open={false}>
+        <Dropdown.Item>Item 1</Dropdown.Item>
+      </Dropdown>
+    );
+
+    expect(queryByRole('menu')).not.to.exist;
+  });
+
   it('Should toggle the menu on mouseEnter/mouseLeave button given trigger "hover"', () => {
     const { root, button, menu } = renderDropdown(
       <Dropdown trigger="hover">

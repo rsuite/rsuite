@@ -60,8 +60,7 @@ export interface DropdownProps<T = any>
   noCaret?: boolean;
 
   /**
-   * Open the menu and control it
-   * @deprecated
+   * Controlled open state
    */
   open?: boolean;
   /**
@@ -123,6 +122,7 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
     placement = 'bottomStart',
     toggleAs,
     toggleClassName,
+    open,
     defaultOpen,
     classPrefix = 'dropdown',
     className,
@@ -293,6 +293,7 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
   return (
     <DropdownContext.Provider value={dropdownContextValue}>
       <Menu
+        open={open}
         defaultOpen={defaultOpen}
         menuButtonText={title}
         renderMenuButton={renderMenuButton}

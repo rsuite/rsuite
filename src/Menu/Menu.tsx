@@ -16,6 +16,11 @@ export interface MenuProps {
    */
   defaultOpen?: boolean;
 
+  /**
+   * Controlled open state
+   */
+  open?: boolean;
+
   disabled?: boolean;
 
   children: (
@@ -66,6 +71,7 @@ function Menu({
   children,
   openMenuOn = defaultOpenMenuOn,
   defaultOpen = false,
+  open: openProp,
   menuButtonText,
   renderMenuButton,
   renderMenuPopup,
@@ -78,7 +84,10 @@ function Menu({
   const isSubmenu = !!parentMenu;
 
   const menu = useMenu({ open: defaultOpen });
-  const [{ open, items, activeItemIndex }, dispatch] = menu;
+  const [{ open: openState, items, activeItemIndex }, dispatch] = menu;
+
+  const openControlled = typeof openProp !== 'undefined';
+  const open = openControlled ? openProp : openState;
 
   const { rtl } = useCustom('Menu');
 
