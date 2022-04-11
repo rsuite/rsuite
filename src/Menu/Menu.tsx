@@ -11,6 +11,11 @@ import { isFocusLeaving } from '../utils/events';
 import { isFocusableElement } from '../utils/dom';
 
 export interface MenuProps {
+  /**
+   * Whether dropdown is initially open
+   */
+  defaultOpen?: boolean;
+
   disabled?: boolean;
 
   children: (
@@ -29,7 +34,7 @@ export interface MenuProps {
     ref: React.Ref<HTMLUListElement>
   ) => React.ReactElement<React.HTMLAttributes<HTMLUListElement>>;
 
-  openMenuOn?: MenuButtonTrigger[];
+  openMenuOn?: readonly MenuButtonTrigger[];
   onToggleMenu?: (open: boolean, event: React.SyntheticEvent) => void;
 }
 
@@ -51,29 +56,28 @@ export interface MenuHandle {
   dispatch: MenuContextProps[1];
 }
 
-const defaultOpenMenuOn = ['click'];
+const defaultOpenMenuOn = ['click'] as const;
 
 /**
  * Headless ARIA `menu`
  */
-function Menu(props: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
-  const {
-    disabled,
-    children,
-    openMenuOn = defaultOpenMenuOn,
-    menuButtonText,
-    renderMenuButton,
-    renderMenuPopup,
-    onToggleMenu
-  } = props;
-
+function Menu({
+  disabled,
+  children,
+  openMenuOn = defaultOpenMenuOn,
+  defaultOpen = false,
+  menuButtonText,
+  renderMenuButton,
+  renderMenuPopup,
+  onToggleMenu
+}: MenuProps & React.HTMLAttributes<HTMLUListElement>) {
   const buttonElementRef = useRef<HTMLButtonElement>(null);
   const menuElementRef = useRef<HTMLUListElement>(null);
 
   const parentMenu = useContext(MenuContext);
   const isSubmenu = !!parentMenu;
 
-  const menu = useMenu();
+  const menu = useMenu({ open: defaultOpen });
   const [{ open, items, activeItemIndex }, dispatch] = menu;
 
   const { rtl } = useCustom('Menu');

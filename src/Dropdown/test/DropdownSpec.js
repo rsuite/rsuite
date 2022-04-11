@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { getDOMNode } from '@test/testUtils';
 import Dropdown from '../Dropdown';
 import Button from '../../Button';
@@ -30,41 +32,34 @@ function renderDropdown(ui) {
 
 describe('<Dropdown>', () => {
   it('Should render a button that controls a popup menu', () => {
-    const instance = getDOMNode(
+    const { getByRole } = render(
       <Dropdown title="Menu">
-        <Dropdown.Item>1</Dropdown.Item>
-        <Dropdown.Item>2</Dropdown.Item>
-        {null}
-        <div>abc</div>
+        <Dropdown.Item>Item 1</Dropdown.Item>
       </Dropdown>
     );
 
-    const button = instance.querySelector('[role="button"]');
-    expect(button, 'The button').not.to.be.null;
-    expect(button.textContent, 'Button text').to.equal('Menu');
-    assert.equal(button.getAttribute('aria-haspopup'), 'menu', 'The button controls a popup menu');
-
-    const menu = instance.querySelector('[role="menu"]');
-
-    assert.isTrue(menu.hidden, 'The menu is closed initially.');
+    expect(getByRole('button')).to.have.text('Menu').and.to.have.attr('aria-haspopup', 'menu');
   });
 
   it('Should open the menu when button is clicked', () => {
-    const instance = getDOMNode(
-      <Dropdown>
+    const { getByRole } = render(
+      <Dropdown title="Menu">
         <Dropdown.Item>Item 1</Dropdown.Item>
-        <Dropdown.Item>Item 2</Dropdown.Item>
-        <Dropdown.Item>Item 3</Dropdown.Item>
       </Dropdown>
     );
-    const button = instance.querySelector('[role="button"]');
-    ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.click(button);
-    });
+    userEvent.click(getByRole('button', { name: 'Menu' }));
 
-    const menu = instance.querySelector('[role="menu"]');
+    expect(getByRole('menu')).to.be.visible;
+  });
 
-    assert.isFalse(menu.hidden, 'The menu is opened');
+  it('Should open menu initially when defaultOpen=true', () => {
+    const { getByRole } = render(
+      <Dropdown title="Menu" defaultOpen>
+        <Dropdown.Item>Item 1</Dropdown.Item>
+      </Dropdown>
+    );
+
+    expect(getByRole('menu')).to.be.visible;
   });
 
   it('Should toggle the menu on mouseEnter/mouseLeave button given trigger "hover"', () => {

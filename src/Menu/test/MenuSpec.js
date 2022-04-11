@@ -8,6 +8,28 @@ afterEach(() => {
 });
 
 describe('<Menu>', () => {
+  it('Should open menu initially when defaultOpen=true', () => {
+    const { getByRole } = render(
+      <Menu
+        defaultOpen
+        renderMenuButton={(buttonProps, buttonRef) => (
+          <button ref={buttonRef} {...buttonProps} data-testid="button">
+            Button
+          </button>
+        )}
+        renderMenuPopup={({ open, ...popupProps }, popupRef) => (
+          <ul ref={popupRef} {...popupProps} hidden={!open} data-testid="menu" />
+        )}
+      >
+        {(containerProps, containerRef) => (
+          <div ref={containerRef} {...containerProps} data-testid="container" />
+        )}
+      </Menu>
+    );
+
+    expect(getByRole('menu')).to.be.visible;
+  });
+
   it('Closes menu and moves focus to button when clicking outside', () => {
     const { getByTestId } = render(
       <div data-testid="div">
