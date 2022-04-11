@@ -267,6 +267,10 @@ describe('<Dropdown.Menu>', () => {
     userEvent.hover(menuItem);
 
     expect(menuItem).to.have.class('rs-dropdown-item-focus');
+
+    userEvent.unhover(menuItem);
+
+    expect(menuItem).not.to.have.class('rs-dropdown-item-focus');
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {
