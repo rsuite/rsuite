@@ -55,7 +55,6 @@ export interface RadioProps<T = ValueType>
 const Radio = React.forwardRef((props: RadioProps, ref) => {
   const {
     value: groupValue,
-    controlled,
     inline: inlineContext,
     name: nameContext,
     disabled: disabledContext,
@@ -108,11 +107,6 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
     [disabled, onChange, onGroupChange, readOnly, setChecked, value]
   );
 
-  if (typeof controlled !== 'undefined') {
-    // In uncontrolled situations, use defaultChecked instead of checked
-    htmlInputProps[controlled ? 'checked' : 'defaultChecked'] = checked;
-  }
-
   const input = (
     <span className={prefix('wrapper')}>
       <input
@@ -125,6 +119,7 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
         tabIndex={tabIndex}
         disabled={disabled}
         onChange={handleChange}
+        checked={checked}
         onClick={useCallback(event => event.stopPropagation(), [])}
       />
       <span className={prefix('inner')} aria-hidden />
