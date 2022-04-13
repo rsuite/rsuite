@@ -32,14 +32,14 @@ import {
   OverlayTriggerInstance,
   PositionChildProps,
   listPickerPropTypes,
-  PickerComponent
+  PickerInstance
 } from '../Picker';
 
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 
 export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>
-  extends FormControlPickerProps<T | null, PickerLocale, ItemDataType> {
+  extends FormControlPickerProps<T | null, PickerLocale, ItemDataType<T>> {
   /** Sets the width of the menu */
   menuWidth?: number;
 
@@ -93,9 +93,19 @@ export interface CascaderProps<T = ValueType>
   getChildren?: (node: ItemDataType) => ItemDataType[] | Promise<ItemDataType[]>;
 }
 
+export interface CascaderComponent {
+  <T>(
+    props: CascaderProps<T> & {
+      ref?: React.Ref<PickerInstance>;
+    }
+  ): JSX.Element | null;
+  displayName?: string;
+  propTypes?: React.WeakValidationMap<CascaderProps<any>>;
+}
+
 const emptyArray = [];
 
-const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: CascaderProps, ref) => {
+const Cascader = React.forwardRef(<T extends number | string>(props: CascaderProps<T>, ref) => {
   const {
     as: Component = 'div',
     data = emptyArray,
@@ -141,13 +151,17 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
 
   // Use component active state to support keyboard events.
   const [active, setActive] = useState(false);
-  const [flattenData, setFlattenData] = useState<ItemDataType[]>(flattenTree(data, childrenKey));
+  const [flattenData, setFlattenData] = useState<ItemDataType<T>[]>(flattenTree(data, childrenKey));
 
   const triggerRef = useRef<OverlayTriggerInstance>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLButtonElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const [value, setValue] = useControlled(valueProp, defaultValue);
+  const [value, setValue] = useControlled(valueProp, defaultValue) as [
+    T | null | undefined,
+    (value: React.SetStateAction<T | null>) => void,
+    boolean
+  ];
 
   const {
     selectedPaths,
@@ -300,7 +314,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
       const isLeafNode = focusItem && !focusItem[childrenKey];
 
       if (isLeafNode) {
-        setValue(focusItemValue);
+        setValue(focusItemValue as T | null);
         setValueToPaths(selectedPaths);
         if (selectedPaths.length) {
           setLayer(selectedPaths.length - 1);
@@ -611,7 +625,7 @@ const Cascader: PickerComponent<CascaderProps> = React.forwardRef((props: Cascad
       </Component>
     </PickerToggleTrigger>
   );
-});
+}) as CascaderComponent;
 
 Cascader.displayName = 'Cascader';
 Cascader.propTypes = {
