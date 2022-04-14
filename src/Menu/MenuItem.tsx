@@ -129,6 +129,7 @@ function MenuItem(props: MenuItemProps) {
   if (menuState?.role === 'menubar') {
     menuitemProps.onMouseDown = handleMouseDown;
     menuitemProps.onMouseOver = handleMouseMove;
+    menuitemProps.onMouseLeave = handleMouseLeave;
   }
 
   return children(menuitemProps, menuitemRef);
