@@ -59,32 +59,51 @@ describe('InputNumber', () => {
     assert.ok(instance.querySelector('.rs-input-group-addon i'));
   });
 
-  it('Should call onChange callback when click up button', () => {
-    const onChangeSpy = sinon.spy();
-    const instance = getDOMNode(<InputNumber onChange={onChangeSpy} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-input-number-touchspin-up'));
-    assert.isTrue(onChangeSpy.calledOnce);
+  it('Should render increment/decrement buttons', () => {
+    const { getByRole } = render(<InputNumber />);
+
+    expect(getByRole('button', { name: /increment/i })).to.exist;
+    expect(getByRole('button', { name: /decrement/i })).to.exist;
   });
 
-  it('Should call onChange callback when click down button', () => {
-    const onChangeSpy = sinon.spy();
-    const instance = getDOMNode(<InputNumber onChange={onChangeSpy} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-input-number-touchspin-down'));
-    assert.isTrue(onChangeSpy.calledOnce);
+  it('Should call onChange callback with incremented value when increment button is clicked', () => {
+    const onChange = sinon.spy();
+    const { getByRole } = render(<InputNumber value={0} step={5} onChange={onChange} />);
+
+    userEvent.click(getByRole('button', { name: /increment/i }));
+
+    // fixme '5' or 5?
+    expect(onChange).to.have.been.calledWith('5');
   });
 
-  it('Should return min value  when click up button', () => {
-    const onChangeSpy = sinon.spy();
-    const instance = getDOMNode(<InputNumber onChange={onChangeSpy} min={10} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-input-number-touchspin-up'));
-    assert.equal(onChangeSpy.firstCall.firstArg, 10);
+  it('Should call onChange callback with decremented value when decrement button is clicked', () => {
+    const onChange = sinon.spy();
+    const { getByRole } = render(<InputNumber value={0} step={5} onChange={onChange} />);
+
+    userEvent.click(getByRole('button', { name: /decrement/i }));
+
+    // fixme '-5' or -5?
+    expect(onChange).to.have.been.calledWith('-5');
   });
 
-  it('Should return max value  when click up button', () => {
-    const onChangeSpy = sinon.spy();
-    const instance = getDOMNode(<InputNumber onChange={onChangeSpy} defaultValue={100} max={10} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-input-number-touchspin-down'));
-    assert.equal(onChangeSpy.firstCall.firstArg, 10);
+  it('Should call onChange callback with min value when increment button is clicked but initial value underflows', () => {
+    const onChange = sinon.spy();
+    const { getByRole } = render(<InputNumber value={0} min={10} onChange={onChange} />);
+
+    userEvent.click(getByRole('button', { name: /increment/i }));
+
+    // fixme '10' or 10?
+    expect(onChange).to.have.been.calledWith('10');
+  });
+
+  it('Should call onChange callback with max value when decrement button is clicked but initial value overflows', () => {
+    const onChange = sinon.spy();
+    const { getByRole } = render(<InputNumber value={100} max={10} onChange={onChange} />);
+
+    userEvent.click(getByRole('button', { name: /decrement/i }));
+
+    // fixme '10' or 10?
+    expect(onChange).to.have.been.calledWith('10');
   });
 
   it('Should call onChange callback when onblur', () => {
