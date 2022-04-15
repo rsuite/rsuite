@@ -1,3 +1,10 @@
+## [5.8.1](https://github.com/rsuite/rsuite/compare/v5.8.0...v5.8.1) (2022-04-15)
+
+### Bug Fixes
+
+- **Cascader:** infer value and onChange types from data ([#2449](https://github.com/rsuite/rsuite/issues/2449)) ([2a8ef48](https://github.com/rsuite/rsuite/commit/2a8ef481e49dec2570868982e0dbbba808efbc03))
+- **Dropdown.Menu:** de-highlight item when mouse leaving ([#2443](https://github.com/rsuite/rsuite/issues/2443)) ([0d7b963](https://github.com/rsuite/rsuite/commit/0d7b96350b79a41557d1a7b67140c9654755194e))
+
 # [5.8.0](https://github.com/rsuite/rsuite/compare/v5.7.1...v5.8.0) (2022-04-07)
 
 ### Bug Fixes
