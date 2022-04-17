@@ -14,15 +14,6 @@ describe('Drawer', () => {
     assert.isNotNull(instance.querySelectorAll('.rs-drawer.rs-drawer-right'));
   });
 
-  it('Should be full', () => {
-    const instance = getDOMNode(
-      <Drawer full open>
-        <p>message</p>
-      </Drawer>
-    );
-    assert.isNotNull(instance.querySelectorAll('.rs-drawer.rs-drawer-full'));
-  });
-
   it('Should have a `top` className for placement', () => {
     const instance = getDOMNode(
       <Drawer open placement="top">
@@ -69,7 +60,7 @@ describe('Drawer', () => {
   });
 
   describe('Size variants', () => {
-    const sizes = ['lg', 'md', 'sm', 'xs'];
+    const sizes = ['lg', 'md', 'sm', 'xs', 'full'];
 
     sizes.forEach(size => {
       const expectedClassName = `rs-drawer-${size}`;
@@ -79,6 +70,18 @@ describe('Drawer', () => {
 
         expect(screen.getByRole('dialog')).to.have.class(expectedClassName);
       });
+    });
+
+    // Remove this case when full prop is dropped
+    it('[Deprecated] Should have .rs-drawer-full class when full=true', () => {
+      sinon.spy(console, 'warn');
+      render(<Drawer open full></Drawer>);
+
+      expect(screen.getByRole('dialog')).to.have.class('rs-drawer-full');
+
+      expect(console.warn).to.have.been.calledWith(
+        '"full" property of "Modal" has been deprecated.\nUse size="full" instead.'
+      );
     });
   });
 });

@@ -28,7 +28,7 @@ describe('Modal styles', () => {
 
   it('Should have correct margin-x: 60px in `full` size', () => {
     const instanceRef = React.createRef();
-    render(<Modal ref={instanceRef} open full />);
+    render(<Modal ref={instanceRef} open size="full" />);
     const dom = instanceRef.current;
     const dialog = dom.querySelector('.rs-modal-dialog');
     const { left, right } = dialog.getBoundingClientRect();

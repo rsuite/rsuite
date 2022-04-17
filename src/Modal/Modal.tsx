@@ -5,7 +5,7 @@ import on from 'dom-lib/on';
 import getAnimationEnd from 'dom-lib/getAnimationEnd';
 import BaseModal, { BaseModalProps, modalPropTypes } from '../Overlay/Modal';
 import Bounce from '../Animation/Bounce';
-import { useClassNames, mergeRefs, SIZE, useWillUnmount } from '../utils';
+import { useClassNames, mergeRefs, useWillUnmount } from '../utils';
 import ModalDialog, { modalDialogPropTypes } from './ModalDialog';
 import { ModalContext, ModalContextProps } from './ModalContext';
 import ModalBody from './ModalBody';
@@ -15,6 +15,11 @@ import ModalFooter from './ModalFooter';
 import { useBodyStyles } from './utils';
 import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import useUniqueId from '../utils/useUniqueId';
+import deprecatePropType from '../utils/deprecatePropType';
+
+export type ModalSize = TypeAttributes.Size | 'full';
+
+const modalSizes: readonly ModalSize[] = ['xs', 'sm', 'md', 'lg', 'full'];
 
 export interface ModalProps
   extends BaseModalProps,
@@ -23,7 +28,7 @@ export interface ModalProps
       'role' | 'id' | 'aria-labelledby' | 'aria-describedby'
     > {
   /** A modal can have different sizes */
-  size?: TypeAttributes.Size;
+  size?: ModalSize;
 
   /** Set the duration of the animation */
   animationTimeout?: number;
@@ -37,7 +42,10 @@ export interface ModalProps
   /** CSS style applied to dialog DOM nodes */
   dialogStyle?: React.CSSProperties;
 
-  /** Full screen */
+  /**
+   * Full screen
+   * @deprecated Use size="full" instead.
+   */
   full?: boolean;
 
   /** You can use a custom element type for Dialog */
@@ -229,10 +237,10 @@ Modal.propTypes = {
   animationTimeout: PropTypes.number,
   classPrefix: PropTypes.string,
   dialogClassName: PropTypes.string,
-  size: PropTypes.oneOf(SIZE),
+  size: PropTypes.oneOf(modalSizes),
   dialogStyle: PropTypes.object,
   dialogAs: PropTypes.elementType,
-  full: PropTypes.bool,
+  full: deprecatePropType(PropTypes.bool, 'Use size="full" instead.'),
   overflow: PropTypes.bool,
   drawer: PropTypes.bool
 };

@@ -249,7 +249,7 @@ describe('Modal', () => {
   });
 
   describe('Size variants', () => {
-    const sizes = ['lg', 'md', 'sm', 'xs'];
+    const sizes = ['lg', 'md', 'sm', 'xs', 'full'];
 
     sizes.forEach(size => {
       const expectedClassName = `rs-modal-${size}`;
@@ -259,6 +259,18 @@ describe('Modal', () => {
 
         expect(screen.getByRole('dialog')).to.have.class(expectedClassName);
       });
+    });
+
+    // Remove this case when full prop is dropped
+    it('[Deprecated] Should have .rs-modal-full class when full=true', () => {
+      sinon.spy(console, 'warn');
+      render(<Modal open full></Modal>);
+
+      expect(screen.getByRole('dialog')).to.have.class('rs-modal-full');
+
+      expect(console.warn).to.have.been.calledWith(
+        '"full" property of "Modal" has been deprecated.\nUse size="full" instead.'
+      );
     });
   });
 
