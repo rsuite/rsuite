@@ -19,7 +19,7 @@ export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLEleme
   /** A button can have different colors */
   color?: TypeAttributes.Color;
 
-  /** Format button to appear inside a content bloc */
+  /** Format button to appear inside a content block */
   block?: boolean;
 
   /** Providing a `href` will render an `<a>` element, _styled_ as a button */
