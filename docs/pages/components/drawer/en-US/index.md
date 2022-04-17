@@ -24,10 +24,6 @@ A panel that slides out from the edge of the page can replace Modal to present m
 
 <!--{include:`size.md`}-->
 
-### Fullpage
-
-<!--{include:`full.md`}-->
-
 ## Props
 
 ### `<Drawer>`

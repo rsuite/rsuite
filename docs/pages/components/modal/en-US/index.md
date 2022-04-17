@@ -29,10 +29,6 @@ When set to true, the Modal will display the background when it is opened. Click
 
 <!--{include:`size.md`}-->
 
-### Full
-
-<!--{include:`full.md`}-->
-
 ### Overflow
 
 <!--{include:`overflow.md`}-->

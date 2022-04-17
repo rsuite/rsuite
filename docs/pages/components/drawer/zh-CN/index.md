@@ -24,10 +24,6 @@
 
 <!--{include:`size.md`}-->
 
-### 全屏
-
-<!--{include:`full.md`}-->
-
 ## Props
 
 ### `<Drawer>`

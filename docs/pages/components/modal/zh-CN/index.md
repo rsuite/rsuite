@@ -29,10 +29,6 @@
 
 <!--{include:`size.md`}-->
 
-### 全屏
-
-<!--{include:`full.md`}-->
-
 ### 溢出
 
 <!--{include:`overflow.md`}-->

@@ -25,6 +25,9 @@ const App = () => {
         <Button size="lg" onClick={() => handleOpen('lg')}>
           Large
         </Button>
+        <Button size="lg" onClick={() => handleOpen('full')}>
+          Full page
+        </Button>
       </ButtonToolbar>
       <Modal size={size} open={open} onClose={handleClose}>
         <Modal.Header>
@@ -34,11 +37,11 @@ const App = () => {
           <Paragraph />
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleClose} appearance="primary">
-            Ok
-          </Button>
           <Button onClick={handleClose} appearance="subtle">
             Cancel
+          </Button>
+          <Button onClick={handleClose} appearance="primary">
+            Ok
           </Button>
         </Modal.Footer>
       </Modal>
