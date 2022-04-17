@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 
 import Drawer from '../Drawer';
@@ -66,5 +66,19 @@ describe('Drawer', () => {
     fireEvent.click(getByTestId('wrapper'));
 
     assert.isFalse(onCloseSpy.calledOnce);
+  });
+
+  describe('Size variants', () => {
+    const sizes = ['lg', 'md', 'sm', 'xs'];
+
+    sizes.forEach(size => {
+      const expectedClassName = `rs-drawer-${size}`;
+
+      it(`Should have .${expectedClassName} class when size=${size}`, () => {
+        render(<Drawer open size={size}></Drawer>);
+
+        expect(screen.getByRole('dialog')).to.have.class(expectedClassName);
+      });
+    });
   });
 });

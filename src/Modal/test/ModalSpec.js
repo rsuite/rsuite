@@ -248,6 +248,20 @@ describe('Modal', () => {
     });
   });
 
+  describe('Size variants', () => {
+    const sizes = ['lg', 'md', 'sm', 'xs'];
+
+    sizes.forEach(size => {
+      const expectedClassName = `rs-modal-${size}`;
+
+      it(`Should have .${expectedClassName} class when size=${size}`, () => {
+        render(<Modal open size={size}></Modal>);
+
+        expect(screen.getByRole('dialog')).to.have.class(expectedClassName);
+      });
+    });
+  });
+
   describe('a11y', () => {
     it('Should render an ARIA dialog with given title as its accessible name', () => {
       const title = 'Attention';
