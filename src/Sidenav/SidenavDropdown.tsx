@@ -68,7 +68,7 @@ export interface SidenavDropdownProps<T = any>
   onOpen?: () => void;
 
   /** Callback function for menu state switching */
-  onToggle?: (open?: boolean) => void;
+  onToggle?: (open: boolean) => void;
 }
 
 const SidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> = React.forwardRef<

@@ -64,9 +64,7 @@ export interface NavDropdownItemProps<T = any>
 }
 
 /**
- * The <Dropdown.Item> API
- * When used inside <Sidenav>, renders a <TreeviewItem>
- * Otherwise renders a <MenuItem>
+ * @private
  */
 const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = React.forwardRef(
   (props: NavDropdownItemProps, ref: React.Ref<any>) => {

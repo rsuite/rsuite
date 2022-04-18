@@ -173,7 +173,7 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
   // Deprecate <Dropdown> within <Nav> usage
   // in favor of <Nav.Menu> API
   if (withinNav) {
-    warnOnce('Usage of <Dropdown> within <Nav> is deprecated. Replace with <Nav.Dropdown>');
+    warnOnce('Usage of <Dropdown> within <Nav> is deprecated. Replace with <Nav.Menu>');
 
     return <NavDropdown ref={ref} {...props} />;
   }

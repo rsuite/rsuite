@@ -17,7 +17,7 @@ import SidenavDropdownMenu from '../Sidenav/SidenavDropdownMenu';
 import Disclosure from '../Disclosure';
 import NavContext from './NavContext';
 
-export interface NavDropdownMenuProps<T = string> extends StandardProps {
+export interface NavDropdownMenuProps<T = any> extends StandardProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
@@ -38,28 +38,12 @@ export interface NavDropdownMenuProps<T = string> extends StandardProps {
   active?: boolean;
   disabled?: boolean;
   activeKey?: T;
-  trigger?: 'hover' | 'click';
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
-  onToggle?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
+  onToggle?: (open: boolean, eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
 /**
- * The <Dropdown.Menu> API
- *
- * @description
- * Note the difference between this component and <Menu> component:
- * <Menu> is used for ARIA menu control logic and is used internally only.
- * This component is only used for supporting submenu syntax and is
- * assigned to Dropdown.Menu
- *
- * @example
- *
- * <Dropdown>
- *   <Dropdown.Item>Item 1</Dropdown.Item>
- *   <Dropdown.Menu title="Submenu">
- *     <Dropdown.Item>Sub item</Dropdown.Item>
- *   </Dropdown.Menu>
- * </Dropdown>
+ * @private
  */
 const NavDropdownMenu = React.forwardRef<
   HTMLElement,
@@ -88,8 +72,8 @@ const NavDropdownMenu = React.forwardRef<
   const { rtl } = useCustom('DropdownMenu');
 
   const handleToggleSubmenu = useCallback(
-    (_: boolean, event: React.SyntheticEvent) => {
-      onToggle?.(eventKey, event);
+    (open: boolean, event: React.SyntheticEvent) => {
+      onToggle?.(open, eventKey, event);
     },
     [eventKey, onToggle]
   );
@@ -282,7 +266,6 @@ NavDropdownMenu.propTypes = {
   pullLeft: PropTypes.bool,
   title: PropTypes.node,
   open: PropTypes.bool,
-  trigger: PropTypes.oneOf(['click', 'hover']),
   eventKey: PropTypes.any,
   expanded: PropTypes.bool,
   collapsible: PropTypes.bool,

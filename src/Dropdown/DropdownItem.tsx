@@ -129,7 +129,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 
     if (withinNav) {
       warnOnce(
-        'Usage of <Dropdown.Item> within <Nav> is deprecated. Replace with <Nav.Dropdown.Item>'
+        'Usage of <Dropdown.Item> within <Nav> is deprecated. Replace with <Nav.Item> within <Nav.Menu>.'
       );
 
       return <NavDropdownItem ref={ref} {...props} />;

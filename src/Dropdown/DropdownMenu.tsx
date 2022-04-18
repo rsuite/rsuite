@@ -103,7 +103,7 @@ const DropdownMenu = React.forwardRef<
       'Usage of <Dropdown.Menu> within <Nav> is deprecated. Replace with <Nav.Dropdown.Menu>'
     );
 
-    return <NavDropdownMenu ref={ref} {...props} />;
+    return <NavDropdownMenu ref={ref} {...(props as any)} />;
   }
 
   // <Dropdown.Menu> is used outside of <Dropdown>

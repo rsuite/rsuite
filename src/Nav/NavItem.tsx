@@ -11,6 +11,8 @@ import NavContext from './NavContext';
 import { NavbarContext } from '../Navbar/Navbar';
 import SidenavItem from '../Sidenav/SidenavItem';
 import NavbarItem from '../Navbar/NavbarItem';
+import DropdownContext from '../Dropdown/DropdownContext';
+import NavDropdownItem from './NavDropdownItem';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -42,6 +44,8 @@ export interface NavItemProps<T = string>
 
 /**
  * The <Nav.Item> API
+ * When used as direct child of <Nav>, render the NavItem
+ * When used within a <Nav.Menu>, render the NavDropdownItem
  */
 const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<any>) => {
@@ -61,6 +65,8 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       onSelect: onSelectProp,
       ...rest
     } = props;
+
+    const dropdown = useContext(DropdownContext);
 
     const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
 
@@ -89,6 +95,10 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       },
       [disabled, emitSelect, onClick]
     );
+
+    if (dropdown) {
+      return <NavDropdownItem ref={ref} {...props} />;
+    }
 
     if (sidenav) {
       return <SidenavItem {...props} />;

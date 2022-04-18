@@ -1,7 +1,6 @@
 import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import NavItem from './NavItem';
-import Dropdown from '../Dropdown';
 import { useClassNames } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
@@ -10,6 +9,9 @@ import NavContext from './NavContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
 import Menubar from '../Menu/Menubar';
 import NavDropdown from './NavDropdown';
+import NavMenu from './NavMenu';
+import deprecateComponent from '../utils/deprecateComponent';
+import NavDropdownItem from './NavDropdownItem';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -37,8 +39,12 @@ export interface NavProps<T = any>
 }
 
 interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
-  Dropdown: typeof Dropdown;
+  /**
+   * @deprecated Use <Nav.Menu> instead.
+   */
+  Dropdown: typeof NavDropdown;
   Item: typeof NavItem;
+  Menu: typeof NavMenu;
 }
 
 const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
@@ -130,8 +136,12 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
   );
 }) as unknown as NavComponent;
 
-Nav.Dropdown = NavDropdown;
+const DeprecatedNavDropdown = deprecateComponent(NavDropdown, 'Use <Nav.Menu> instead.');
+DeprecatedNavDropdown.Item = deprecateComponent(NavDropdownItem, 'Use <Nav.Item> instead');
+
+Nav.Dropdown = DeprecatedNavDropdown;
 Nav.Item = NavItem;
+Nav.Menu = NavMenu;
 
 Nav.displayName = 'Nav';
 Nav.propTypes = {

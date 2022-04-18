@@ -36,7 +36,7 @@ export interface NavDropdownProps<T = any>
   activeKey?: T;
 
   /** Triggering events */
-  trigger?: NavDropdownTrigger | NavDropdownTrigger[];
+  trigger?: NavDropdownTrigger | readonly NavDropdownTrigger[];
 
   /** The placement of Menu */
   placement?: TypeAttributes.Placement8;
@@ -80,7 +80,7 @@ export interface NavDropdownProps<T = any>
   onOpen?: () => void;
 
   /** Callback function for menu state switching */
-  onToggle?: (open?: boolean) => void;
+  onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 
   /** Selected callback function */
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
@@ -101,9 +101,7 @@ export interface NavDropdownComponent extends RsRefForwardingComponent<'div', Na
 }
 
 /**
- * The <Dropdown> API
- * When used inside <Sidenav>, renders a <TreeviewRootItem>;
- * Otherwise renders a <MenuRoot>
+ * @private
  */
 const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
   (props: NavDropdownProps, ref) => {
@@ -165,7 +163,7 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
       };
 
       if (!Array.isArray(trigger)) {
-        return [triggerMap[trigger]];
+        return [triggerMap[trigger as NavDropdownTrigger]];
       }
 
       return trigger.map(t => triggerMap[t]);
@@ -315,7 +313,7 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
             );
           }}
           onToggleMenu={(open, event) => {
-            onToggle?.(open);
+            onToggle?.(open, eventKey, event);
             sidenav?.onOpenChange(eventKey, event);
             if (open) {
               onOpen?.();
