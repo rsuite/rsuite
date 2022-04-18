@@ -9,6 +9,7 @@ import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import NavContext from './NavContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
 import Menubar from '../Menu/Menubar';
+import NavDropdown from './NavDropdown';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -129,7 +130,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
   );
 }) as unknown as NavComponent;
 
-Nav.Dropdown = Dropdown;
+Nav.Dropdown = NavDropdown;
 Nav.Item = NavItem;
 
 Nav.displayName = 'Nav';

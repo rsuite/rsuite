@@ -66,11 +66,11 @@ describe('<Nav>', () => {
           Nav item
         </Nav.Item>
 
-        <Dropdown title="Dropdown">
-          <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+        <Nav.Dropdown title="Dropdown">
+          <Nav.Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
             Dropdown item
-          </Dropdown.Item>
-        </Dropdown>
+          </Nav.Dropdown.Item>
+        </Nav.Dropdown>
       </Nav>
     );
 
@@ -79,20 +79,20 @@ describe('<Nav>', () => {
 
     onSelectSpy.resetHistory();
     userEvent.click(getByTestId('dropdown-item'));
-    expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
+    expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
       '2-1',
       sinon.match.any
     );
   });
 
-  it('Should highlight <Dropdown.Item> with `activeKey`', () => {
+  it('Should highlight <Nav.Dropdown.Item> with `activeKey`', () => {
     const { getByTestId } = render(
       <Nav activeKey="2-1">
-        <Dropdown title="Dropdown">
-          <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+        <Nav.Dropdown title="Dropdown">
+          <Nav.Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
             Dropdown item
-          </Dropdown.Item>
-        </Dropdown>
+          </Nav.Dropdown.Item>
+        </Nav.Dropdown>
       </Nav>
     );
 
@@ -102,13 +102,68 @@ describe('<Nav>', () => {
   it('Should work with Dropdown', () => {
     const instance = getDOMNode(
       <Nav>
-        <Nav.Item>Nav item</Nav.Item>
-        <Dropdown title="Dropdown">
-          <Dropdown.Item>Dropdown item</Dropdown.Item>
-        </Dropdown>
+        <Nav.Dropdown title="Dropdown">
+          <Nav.Dropdown.Item>Dropdown item</Nav.Dropdown.Item>
+        </Nav.Dropdown>
       </Nav>
     );
 
     expect(instance.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
+  });
+
+  describe('[Deprecated] Usage of <Dropdown> within <Nav>', () => {
+    it('Should call onSelect callback with correct arguments', () => {
+      const onSelectSpy = sinon.spy();
+      const { getByTestId } = render(
+        <Nav onSelect={onSelectSpy}>
+          <Nav.Item eventKey="1" data-testid="item">
+            Nav item
+          </Nav.Item>
+
+          <Dropdown title="Dropdown">
+            <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+              Dropdown item
+            </Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      );
+
+      userEvent.click(getByTestId('item'));
+      expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+
+      onSelectSpy.resetHistory();
+      userEvent.click(getByTestId('dropdown-item'));
+      expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
+        '2-1',
+        sinon.match.any
+      );
+    });
+
+    it('Should highlight <Dropdown.Item> with `activeKey`', () => {
+      const { getByTestId } = render(
+        <Nav activeKey="2-1">
+          <Dropdown title="Dropdown">
+            <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+              Dropdown item
+            </Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      );
+
+      expect(getByTestId('dropdown-item').getAttribute('aria-checked')).to.equal('true');
+    });
+
+    it('Should work with Dropdown', () => {
+      const instance = getDOMNode(
+        <Nav>
+          <Nav.Item>Nav item</Nav.Item>
+          <Dropdown title="Dropdown">
+            <Dropdown.Item>Dropdown item</Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      );
+
+      expect(instance.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
+    });
   });
 });

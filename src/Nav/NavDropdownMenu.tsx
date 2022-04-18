@@ -6,16 +6,18 @@ import { mergeRefs, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
+import { SidenavContext } from '../Sidenav/Sidenav';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import useCustom from '../utils/useCustom';
-import DropdownContext from './DropdownContext';
+import DropdownContext from '../Dropdown/DropdownContext';
+import { NavbarContext } from '../Navbar';
 import Menubar from '../Menu/Menubar';
-import NavContext from '../Nav/NavContext';
-import warnOnce from '../utils/warnOnce';
-import NavDropdownMenu from '../Nav/NavDropdownMenu';
+import SidenavDropdownMenu from '../Sidenav/SidenavDropdownMenu';
+import Disclosure from '../Disclosure';
+import NavContext from './NavContext';
 
-export interface DropdownMenuProps<T = string> extends StandardProps {
+export interface NavDropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
@@ -59,9 +61,9 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
  *   </Dropdown.Menu>
  * </Dropdown>
  */
-const DropdownMenu = React.forwardRef<
+const NavDropdownMenu = React.forwardRef<
   HTMLElement,
-  DropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
+  NavDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
 >((props, ref) => {
   const {
     onToggle,
@@ -76,7 +78,13 @@ const DropdownMenu = React.forwardRef<
 
   const { withinNav } = useContext(NavContext);
 
+  if (!withinNav) {
+    throw new Error('<Nav.Dropdown.Menu> should be used within a <Nav> component.');
+  }
+
   const dropdown = useContext(DropdownContext);
+  const sidenav = useContext(SidenavContext);
+  const withinNavbar = Boolean(useContext(NavbarContext));
   const { rtl } = useCustom('DropdownMenu');
 
   const handleToggleSubmenu = useCallback(
@@ -98,14 +106,6 @@ const DropdownMenu = React.forwardRef<
 
   const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
 
-  if (withinNav) {
-    warnOnce(
-      'Usage of <Dropdown.Menu> within <Nav> is deprecated. Replace with <Nav.Dropdown.Menu>'
-    );
-
-    return <NavDropdownMenu ref={ref} {...props} />;
-  }
-
   // <Dropdown.Menu> is used outside of <Dropdown>
   // renders a vertical `menubar`
   if (!dropdown) {
@@ -123,12 +123,80 @@ const DropdownMenu = React.forwardRef<
       </DropdownContext.Provider>
     );
   }
+  if (sidenav?.expanded) {
+    return <SidenavDropdownMenu {...(omit(props, 'classPrefix') as any)} />;
+  }
 
   // Parent menu exists. This is a submenu.
   // Should render a `menuitem` that controls this submenu.
   const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
 
   const Icon = rtl ? AngleLeft : AngleRight;
+
+  // Renders a disclosure when used within <Navbar>
+  if (withinNavbar) {
+    return (
+      <Disclosure hideOnClickOutside trigger={['click', 'mouseover']}>
+        {({ open, ...props }, containerRef: React.Ref<HTMLElement>) => {
+          const classes = mergeItemClassNames(
+            className,
+            withItemClassPrefix({
+              disabled,
+              open,
+              submenu: true
+            })
+          );
+          return (
+            <li ref={mergeRefs(ref, containerRef)} className={classes} {...props}>
+              <Disclosure.Button>
+                {({ open, ...buttonProps }, buttonRef: React.Ref<HTMLElement>) => {
+                  const classes = mergeItemClassNames(
+                    className,
+                    prefixItemClassName`toggle`,
+                    withItemClassPrefix({
+                      'with-icon': icon,
+                      open,
+                      disabled
+                    })
+                  );
+
+                  return (
+                    <div
+                      ref={mergeRefs(buttonRef, buttonRef as any)}
+                      className={classes}
+                      data-event-key={eventKey}
+                      data-event-key-type={typeof eventKey}
+                      {...buttonProps}
+                    >
+                      {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                      {title}
+                      <Icon className={prefix`toggle-icon`} />
+                    </div>
+                  );
+                }}
+              </Disclosure.Button>
+              <Disclosure.Content>
+                {({ open }, elementRef) => {
+                  const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+
+                  return (
+                    <ul
+                      ref={elementRef as any}
+                      className={menuClassName}
+                      hidden={!open}
+                      {...menuProps}
+                    >
+                      {children}
+                    </ul>
+                  );
+                }}
+              </Disclosure.Content>
+            </li>
+          );
+        }}
+      </Disclosure>
+    );
+  }
 
   return (
     <Menu
@@ -203,8 +271,8 @@ const DropdownMenu = React.forwardRef<
   );
 });
 
-DropdownMenu.displayName = 'Dropdown.Menu';
-DropdownMenu.propTypes = {
+NavDropdownMenu.displayName = 'Nav.Dropdown.Menu';
+NavDropdownMenu.propTypes = {
   active: PropTypes.bool,
   activeKey: PropTypes.any,
   className: PropTypes.string,
@@ -222,4 +290,4 @@ DropdownMenu.propTypes = {
   onToggle: PropTypes.func
 };
 
-export default DropdownMenu;
+export default NavDropdownMenu;

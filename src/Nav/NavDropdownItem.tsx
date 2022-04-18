@@ -2,19 +2,21 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import React, { useCallback, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
+import { SidenavContext } from '../Sidenav/Sidenav';
 import deprecatePropType from '../utils/deprecatePropType';
 import MenuItem from '../Menu/MenuItem';
-import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
-import { mergeRefs, shallowEqual, useClassNames } from '../utils';
-import NavContext from '../Nav/NavContext';
+import { createChainedFunction, mergeRefs, shallowEqual, useClassNames } from '../utils';
+import { NavbarContext } from '../Navbar/Navbar';
+import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
+import DisclosureContext, { DisclosureActionTypes } from '../Disclosure/DisclosureContext';
+import NavContext from './NavContext';
 import useInternalId from '../utils/useInternalId';
-import { DropdownActionType } from './DropdownState';
-import { useRenderDropdownItem } from './useRenderDropdownItem';
-import warnOnce from '../utils/warnOnce';
-import NavDropdownItem from '../Nav/NavDropdownItem';
+import DropdownContext from '../Dropdown/DropdownContext';
+import { DropdownActionType } from '../Dropdown/DropdownState';
+import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 
-export interface DropdownMenuItemProps<T = any>
+export interface NavDropdownItemProps<T = any>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
   /** Active the current option */
@@ -66,8 +68,8 @@ export interface DropdownMenuItemProps<T = any>
  * When used inside <Sidenav>, renders a <TreeviewItem>
  * Otherwise renders a <MenuItem>
  */
-const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.forwardRef(
-  (props: DropdownMenuItemProps, ref: React.Ref<any>) => {
+const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = React.forwardRef(
+  (props: NavDropdownItemProps, ref: React.Ref<any>) => {
     const {
       classPrefix = 'dropdown-item',
       className,
@@ -85,7 +87,12 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 
     const internalId = useInternalId('DropdownItem');
 
-    const { withinNav } = useContext(NavContext);
+    const nav = useContext(NavContext);
+
+    if (!nav.withinNav) {
+      throw new Error('<Nav.Dropdown.Item> should be used within a <Nav> component.');
+    }
+
     const dropdown = useContext(DropdownContext);
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
@@ -97,8 +104,24 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
       [onSelect, eventKey, dropdown]
     );
 
+    const sidenav = useContext(SidenavContext);
+    const navbar = useContext(NavbarContext);
+    const disclosure = useContext(DisclosureContext);
+
+    const [, dispatchDisclosure] = disclosure ?? [];
+
+    const handleClickNavbarDropdownItem = useCallback(
+      (event: React.SyntheticEvent) => {
+        dispatchDisclosure?.({ type: DisclosureActionTypes.Hide, cascade: true });
+        handleSelectItem?.(event);
+      },
+      [dispatchDisclosure, handleSelectItem]
+    );
+
     const selected =
-      activeProp || (!isNil(eventKey) && shallowEqual(dropdown?.activeKey, eventKey));
+      activeProp ||
+      (!isNil(eventKey) &&
+        (shallowEqual(dropdown?.activeKey, eventKey) || shallowEqual(nav?.activeKey, eventKey)));
 
     const dispatch = dropdown?.dispatch;
 
@@ -127,14 +150,9 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 
     const renderDropdownItem = useRenderDropdownItem(Component);
 
-    if (withinNav) {
-      warnOnce(
-        'Usage of <Dropdown.Item> within <Nav> is deprecated. Replace with <Nav.Dropdown.Item>'
-      );
-
-      return <NavDropdownItem ref={ref} {...props} />;
+    if (sidenav?.expanded) {
+      return <SidenavDropdownItem ref={ref} {...props} />;
     }
-
     if (divider) {
       return renderDropdownItem({
         ref,
@@ -150,6 +168,41 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
         className: merge(prefix('panel'), className),
         children,
         ...restProps
+      });
+    }
+
+    if (navbar) {
+      const classes = merge(
+        className,
+        withClassPrefix({
+          'with-icon': icon,
+          disabled,
+          divider,
+          panel,
+          active: selected
+        })
+      );
+
+      const dataAttributes: { [key: string]: any } = {
+        'data-event-key': eventKey
+      };
+
+      if (!isNil(eventKey) && typeof eventKey !== 'string') {
+        dataAttributes['data-event-key-type'] = typeof eventKey;
+      }
+      return renderDropdownItem({
+        ref,
+        className: classes,
+        'aria-current': selected || undefined,
+        ...dataAttributes,
+        ...restProps,
+        onClick: createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick),
+        children: (
+          <>
+            {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+            {children}
+          </>
+        )
       });
     }
 
@@ -195,8 +248,8 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
   }
 );
 
-DropdownItem.displayName = 'Dropdown.Item';
-DropdownItem.propTypes = {
+NavDropdownItem.displayName = 'Nav.Dropdown.Item';
+NavDropdownItem.propTypes = {
   as: PropTypes.elementType,
   divider: PropTypes.bool,
   panel: PropTypes.bool,
@@ -217,4 +270,4 @@ DropdownItem.propTypes = {
   tabIndex: PropTypes.number
 };
 
-export default DropdownItem;
+export default NavDropdownItem;
