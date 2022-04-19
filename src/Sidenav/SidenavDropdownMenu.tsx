@@ -1,165 +1,213 @@
-import React, { useCallback, useContext } from 'react';
-import isNil from 'lodash/isNil';
+import React, { useCallback, useContext, useMemo } from 'react';
 import omit from 'lodash/omit';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import { createChainedFunction, useClassNames } from '../utils';
+import Menu from '../Menu/Menu';
+import MenuItem from '../Menu/MenuItem';
+import { mergeRefs, useClassNames } from '../utils';
+import PropTypes from 'prop-types';
+import { StandardProps } from '../@types/common';
+import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from './Sidenav';
-import useCustom from '../utils/useCustom';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
-import PropTypes from 'prop-types';
-import { IconProps } from '@rsuite/icons/lib/Icon';
-import SidenavDropdownCollapse from './SidenavDropdownCollapse';
-import Ripple from '../Ripple';
-import Disclosure from '../Disclosure/Disclosure';
+import useCustom from '../utils/useCustom';
+import DropdownContext from '../Dropdown/DropdownContext';
+import Menubar from '../Menu/Menubar';
+import ExpandedSidenavDropdownMenu from './ExpandedSidenavDropdownMenu';
+import NavContext from '../Nav/NavContext';
 
-export interface SidenavDropdownMenuProps<T = any>
-  extends WithAsProps,
-    Omit<React.HTMLAttributes<HTMLLIElement>, 'title' | 'onSelect'> {
-  /** Primary content */
-  children?: React.ReactNode;
+export interface SidenavDropdownMenuProps<T = any> extends StandardProps {
+  /** Define the title as a submenu */
+  title?: React.ReactNode;
 
-  /** You can use a custom element for this component */
-  as?: React.ElementType;
+  /** The submenu expands from the left and defaults to the right */
+  pullLeft?: boolean;
 
-  /** Disable the current option */
-  disabled?: boolean;
-
-  /** The value of the current option */
+  /**
+   *  Only used for setting the default expand state when it's a submenu.
+   */
   eventKey?: T;
 
   /** Set the icon */
   icon?: React.ReactElement<IconProps>;
 
-  /** Whether the submenu is expanded, used in Sidenav. */
+  open?: boolean;
+  collapsible?: boolean;
   expanded?: boolean;
-
-  /** Select the callback function for the current option  */
-  onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
-
-  title?: React.ReactNode;
+  active?: boolean;
+  disabled?: boolean;
+  activeKey?: T;
+  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
+  onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 }
 
 /**
- * Tree View Node
- * @see https://www.w3.org/TR/wai-aria-practices-1.2/#TreeView
+ * @private
  */
-const SidenavDropdownMenu: RsRefForwardingComponent<'li', SidenavDropdownMenuProps> =
-  React.forwardRef<HTMLLIElement, SidenavDropdownMenuProps>((props, ref) => {
-    const {
-      as: Component = 'li',
-      children,
-      disabled,
-      className,
-      style,
-      classPrefix = 'dropdown-item',
-      tabIndex,
-      icon,
-      title,
-      eventKey,
-      onClick,
-      onSelect,
-      ...rest
-    } = props;
+const SidenavDropdownMenu = React.forwardRef<
+  HTMLElement,
+  SidenavDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
+>((props, ref) => {
+  const {
+    onToggle,
+    eventKey,
+    title,
+    activeKey,
+    onSelect,
+    classPrefix = 'dropdown-menu',
+    children,
+    ...rest
+  } = props;
 
-    const { rtl } = useCustom('DropdownMenu');
+  const { withinNav } = useContext(NavContext);
 
-    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-    const sidenavContext = useContext(SidenavContext);
+  if (!withinNav) {
+    throw new Error('<Nav.Dropdown.Menu> should be used within a <Nav> component.');
+  }
 
-    if (!sidenavContext) {
-      throw new Error(
-        '<SidenavDropdownMenu> component is not supposed to be used standalone. Use <Dropdown.Item> inside <Sidenav> instead.'
-      );
-    }
-    const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = sidenavContext;
+  const dropdown = useContext(DropdownContext);
+  const sidenav = useContext(SidenavContext);
 
-    const handleClick = useCallback(
-      (event: React.MouseEvent<HTMLElement>) => {
-        if (disabled) return;
-        onSelect?.(eventKey, event);
-        onSidenavSelect?.(eventKey, event);
-      },
-      [disabled, onSelect, onSidenavSelect, eventKey]
-    );
+  if (!sidenav) {
+    throw new Error('<Sidenav.Dropdown.Menu> should be used within a <Sidenav> component.');
+  }
 
-    const menuitemEventHandlers: React.LiHTMLAttributes<HTMLLIElement> = {
-      onClick: createChainedFunction(handleClick, onClick)
-    };
+  const { rtl } = useCustom('DropdownMenu');
 
-    const Icon = rtl ? AngleLeft : AngleRight;
+  const handleToggleSubmenu = useCallback(
+    (open: boolean, event: React.SyntheticEvent) => {
+      onToggle?.(open, eventKey, event);
+    },
+    [eventKey, onToggle]
+  );
+  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+
+  const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
+    useClassNames('dropdown-menu');
+
+  const {
+    merge: mergeItemClassNames,
+    withClassPrefix: withItemClassPrefix,
+    prefix: prefixItemClassName
+  } = useClassNames('dropdown-item');
+
+  const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
+
+  // <Dropdown.Menu> is used outside of <Dropdown>
+  // renders a vertical `menubar`
+  if (!dropdown) {
+    const classes = merge(props.className, withClassPrefix());
 
     return (
-      <Disclosure
-        open={!isNil(eventKey) && openKeys.includes(eventKey)}
-        onToggle={(_, event) => onOpenChange?.(eventKey, event)}
-      >
-        {({ open }) => {
-          const classes = merge(
-            className,
-            prefix('submenu'),
-            prefix(`pull-${rtl ? 'left' : 'right'}`),
-            prefix(open ? 'expand' : 'collapse'),
-            withClassPrefix({
-              'with-icon': icon,
-              // open,
-              disabled
-            })
-          );
-          return (
-            <Component
-              ref={ref}
-              {...rest}
-              tabIndex={disabled ? -1 : tabIndex}
-              style={style}
-              className={classes}
-              {...menuitemEventHandlers}
-            >
-              <Disclosure.Button>
-                {buttonProps => {
-                  return (
-                    <button
-                      className={prefix`toggle`}
-                      onClick={handleClick}
-                      {...omit(buttonProps, ['open'])}
-                    >
-                      {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-                      {title}
-                      <Icon className={prefix`toggle-icon`} />
-                      <Ripple />
-                    </button>
-                  );
-                }}
-              </Disclosure.Button>
-              <Disclosure.Content>
-                {({ open }) => {
-                  return <SidenavDropdownCollapse open={open}>{children}</SidenavDropdownCollapse>;
-                }}
-              </Disclosure.Content>
-            </Component>
-          );
-        }}
-      </Disclosure>
+      <DropdownContext.Provider value={contextValue}>
+        <Menubar vertical>
+          {(menubar, menubarRef: React.Ref<HTMLElement>) => (
+            <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest}>
+              {children}
+            </ul>
+          )}
+        </Menubar>
+      </DropdownContext.Provider>
     );
-  });
+  }
+  if (sidenav.expanded) {
+    return <ExpandedSidenavDropdownMenu ref={ref} {...(omit(props, 'classPrefix') as any)} />;
+  }
 
-SidenavDropdownMenu.displayName = 'Sidenav.Dropdown.Menu';
+  // Parent menu exists. This is a submenu.
+  // Should render a `menuitem` that controls this submenu.
+  const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
+
+  const Icon = rtl ? AngleLeft : AngleRight;
+
+  return (
+    <Menu
+      openMenuOn={['mouseover', 'click']}
+      renderMenuButton={({ open, ...menuButtonProps }, buttonRef) => (
+        <MenuItem disabled={disabled}>
+          {({ selected, active, ...menuitem }, menuitemRef) => {
+            const classes = mergeItemClassNames(
+              className,
+              prefixItemClassName`toggle`,
+              withItemClassPrefix({
+                'with-icon': icon,
+                open,
+                active: selected,
+                disabled,
+                focus: active
+              })
+            );
+
+            return (
+              <div
+                ref={mergeRefs(buttonRef, menuitemRef as any)}
+                className={classes}
+                data-event-key={eventKey}
+                data-event-key-type={typeof eventKey}
+                {...(menuitem as any)}
+                {...omit(menuButtonProps, ['role'])}
+              >
+                {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                {title}
+                <Icon className={prefix`toggle-icon`} />
+              </div>
+            );
+          }}
+        </MenuItem>
+      )}
+      renderMenuPopup={({ open, ...popupProps }, popupRef) => {
+        const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
+
+        return (
+          <ul
+            ref={popupRef}
+            className={menuClassName}
+            hidden={!open}
+            {...popupProps}
+            {...menuProps}
+          >
+            {children}
+          </ul>
+        );
+      }}
+      onToggleMenu={handleToggleSubmenu}
+    >
+      {({ open, ...menuContainer }, menuContainerRef) => {
+        const classes = mergeItemClassNames(
+          className,
+          withItemClassPrefix({
+            disabled,
+            open,
+            submenu: true
+          })
+        );
+        return (
+          <li
+            ref={mergeRefs(ref, menuContainerRef as any)}
+            className={classes}
+            {...(menuContainer as any)}
+          />
+        );
+      }}
+    </Menu>
+  );
+});
+
+SidenavDropdownMenu.displayName = 'Nav.Dropdown.Menu';
 SidenavDropdownMenu.propTypes = {
-  as: PropTypes.elementType,
-  expanded: PropTypes.bool,
-  disabled: PropTypes.bool,
-  onSelect: PropTypes.func,
-  onClick: PropTypes.func,
-  icon: PropTypes.node,
-  eventKey: PropTypes.any,
+  active: PropTypes.bool,
+  activeKey: PropTypes.any,
   className: PropTypes.string,
-  style: PropTypes.object,
   children: PropTypes.node,
+  icon: PropTypes.any,
   classPrefix: PropTypes.string,
-  tabIndex: PropTypes.number,
+  pullLeft: PropTypes.bool,
   title: PropTypes.node,
-  onMouseOver: PropTypes.func,
-  onMouseOut: PropTypes.func
+  open: PropTypes.bool,
+  eventKey: PropTypes.any,
+  expanded: PropTypes.bool,
+  collapsible: PropTypes.bool,
+  onSelect: PropTypes.func,
+  onToggle: PropTypes.func
 };
 
 export default SidenavDropdownMenu;

@@ -11,9 +11,9 @@ import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import useCustom from '../utils/useCustom';
 import DropdownContext from './DropdownContext';
 import Menubar from '../Menu/Menubar';
+import Nav from '../Nav';
 import NavContext from '../Nav/NavContext';
 import warnOnce from '../utils/warnOnce';
-import NavDropdownMenu from '../Nav/NavDropdownMenu';
 
 export interface DropdownMenuProps<T = string> extends StandardProps {
   /** Define the title as a submenu */
@@ -99,11 +99,9 @@ const DropdownMenu = React.forwardRef<
   const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
 
   if (withinNav) {
-    warnOnce(
-      'Usage of <Dropdown.Menu> within <Nav> is deprecated. Replace with <Nav.Dropdown.Menu>'
-    );
+    warnOnce('Usage of <Dropdown.Menu> within <Nav> is deprecated. Replace with <Nav.Menu>');
 
-    return <NavDropdownMenu ref={ref} {...(props as any)} />;
+    return <Nav.Menu ref={ref} {...(props as any)} />;
   }
 
   // <Dropdown.Menu> is used outside of <Dropdown>

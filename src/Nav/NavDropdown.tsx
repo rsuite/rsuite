@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../utils';
-import { SidenavContext } from '../Sidenav/Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
@@ -14,13 +13,10 @@ import Menu, { MenuButtonTrigger } from '../Menu/Menu';
 import MenuContext from '../Menu/MenuContext';
 import MenuItem from '../Menu/MenuItem';
 import kebabCase from 'lodash/kebabCase';
-import { NavbarContext } from '../Navbar';
-import SidenavDropdown from '../Sidenav/SidenavDropdown';
 import NavContext from './NavContext';
 import Button from '../Button';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
-import NavbarDropdown from '../Navbar/NavbarDropdown';
 
 export type NavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavDropdownProps<T = any>
@@ -181,22 +177,6 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
       return { activeKey, onSelect: emitSelect, hasSelectedItem, dispatch };
     }, [activeKey, emitSelect, hasSelectedItem, dispatch]);
 
-    const sidenav = useContext(SidenavContext);
-    const navbar = useContext(NavbarContext);
-
-    // Render a disclosure when inside expanded <Sidenav>
-    if (sidenav?.expanded) {
-      return (
-        <DropdownContext.Provider value={dropdownContextValue}>
-          <SidenavDropdown ref={ref} {...rest} />
-        </DropdownContext.Provider>
-      );
-    }
-
-    if (navbar) {
-      return <NavbarDropdown ref={ref} {...props} />;
-    }
-
     let renderMenuButton = (menuButtonProps, menuButtonRef) => (
       <DropdownToggle
         ref={menuButtonRef}
@@ -246,7 +226,7 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
           renderMenuPopup={({ open, ...popupProps }, popupRef) => {
             const menuClassName = mergeMenuClassName(className, withMenuClassPrefix({}));
             // When inside a collapsed <Sidenav>, render a header in menu
-            const showHeader = !!sidenav;
+            const showHeader = false;
 
             return (
               <ul
@@ -263,7 +243,6 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
           }}
           onToggleMenu={(open, event) => {
             onToggle?.(open, eventKey, event);
-            sidenav?.onOpenChange(eventKey, event);
             if (open) {
               onOpen?.();
             } else {

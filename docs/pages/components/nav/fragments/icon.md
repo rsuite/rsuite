@@ -7,12 +7,12 @@ const instance = (
     <Nav.Item icon={<GithubAlt />}>github</Nav.Item>
     <Nav.Item icon={<Circle />}>amazon</Nav.Item>
     <Nav.Item icon={<Chrome />}>chrome</Nav.Item>
-    <Nav.Dropdown icon={<EllipsisH />} title="more...">
-      <Nav.Dropdown.Item icon={<Dropbox />}>dropbox</Nav.Dropdown.Item>
-      <Nav.Dropdown.Item icon={<Firefox />}>firefox</Nav.Dropdown.Item>
-      <Nav.Dropdown.Item icon={<Gitlab />}>gitlab</Nav.Dropdown.Item>
-      <Nav.Dropdown.Item icon={<Linux />}>linux</Nav.Dropdown.Item>
-    </Nav.Dropdown>
+    <Nav.Menu icon={<EllipsisH />} title="more...">
+      <Nav.Item icon={<Dropbox />}>dropbox</Nav.Item>
+      <Nav.Item icon={<Firefox />}>firefox</Nav.Item>
+      <Nav.Item icon={<Gitlab />}>gitlab</Nav.Item>
+      <Nav.Item icon={<Linux />}>linux</Nav.Item>
+    </Nav.Menu>
   </Nav>
 );
 ReactDOM.render(instance);

@@ -15,10 +15,10 @@ import MenuContext from '../Menu/MenuContext';
 import MenuItem from '../Menu/MenuItem';
 import kebabCase from 'lodash/kebabCase';
 import NavContext from '../Nav/NavContext';
-import NavDropdown from '../Nav/NavDropdown';
 import { initialState, reducer } from './DropdownState';
 import Button from '../Button';
 import warnOnce from '../utils/warnOnce';
+import Nav from '../Nav';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -175,7 +175,7 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
   if (withinNav) {
     warnOnce('Usage of <Dropdown> within <Nav> is deprecated. Replace with <Nav.Menu>');
 
-    return <NavDropdown ref={ref} {...props} />;
+    return <Nav.Menu ref={ref} {...props} />;
   }
 
   let renderMenuButton = (menuButtonProps, menuButtonRef) => (

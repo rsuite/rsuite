@@ -12,7 +12,7 @@ import useInternalId from '../utils/useInternalId';
 import { DropdownActionType } from './DropdownState';
 import { useRenderDropdownItem } from './useRenderDropdownItem';
 import warnOnce from '../utils/warnOnce';
-import NavDropdownItem from '../Nav/NavDropdownItem';
+import Nav from '../Nav';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -132,7 +132,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
         'Usage of <Dropdown.Item> within <Nav> is deprecated. Replace with <Nav.Item> within <Nav.Menu>.'
       );
 
-      return <NavDropdownItem ref={ref} {...props} />;
+      return <Nav.Item ref={ref} {...props} />;
     }
 
     if (divider) {

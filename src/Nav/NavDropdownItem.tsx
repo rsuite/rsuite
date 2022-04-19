@@ -2,19 +2,15 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import React, { useCallback, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import { SidenavContext } from '../Sidenav/Sidenav';
 import deprecatePropType from '../utils/deprecatePropType';
 import MenuItem from '../Menu/MenuItem';
 import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';
-import { NavbarContext } from '../Navbar/Navbar';
-import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 import NavContext from './NavContext';
 import useInternalId from '../utils/useInternalId';
 import DropdownContext from '../Dropdown/DropdownContext';
 import { DropdownActionType } from '../Dropdown/DropdownState';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
-import NavbarDropdownItem from '../Navbar/NavbarDropdownItem';
 
 export interface NavDropdownItemProps<T = any>
   extends WithAsProps,
@@ -102,9 +98,6 @@ const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = Re
       [onSelect, eventKey, dropdown]
     );
 
-    const sidenav = useContext(SidenavContext);
-    const navbar = useContext(NavbarContext);
-
     const selected =
       activeProp ||
       (!isNil(eventKey) &&
@@ -137,13 +130,6 @@ const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = Re
 
     const renderDropdownItem = useRenderDropdownItem(Component);
 
-    if (navbar) {
-      return <NavbarDropdownItem ref={ref} {...props} />;
-    }
-
-    if (sidenav?.expanded) {
-      return <SidenavDropdownItem ref={ref} {...props} />;
-    }
     if (divider) {
       return renderDropdownItem({
         ref,

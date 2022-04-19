@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useContext } from 'react';
 import omit from 'lodash/omit';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
@@ -6,15 +6,9 @@ import { mergeRefs, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import { SidenavContext } from '../Sidenav/Sidenav';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import useCustom from '../utils/useCustom';
-import DropdownContext from '../Dropdown/DropdownContext';
-import { NavbarContext } from '../Navbar';
-import NavbarDropdownMenu from '../Navbar/NavbarDropdownMenu';
-import Menubar from '../Menu/Menubar';
-import SidenavDropdownMenu from '../Sidenav/SidenavDropdownMenu';
 import NavContext from './NavContext';
 
 export interface NavDropdownMenuProps<T = any> extends StandardProps {
@@ -37,8 +31,6 @@ export interface NavDropdownMenuProps<T = any> extends StandardProps {
   expanded?: boolean;
   active?: boolean;
   disabled?: boolean;
-  activeKey?: T;
-  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
   onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 }
 
@@ -49,16 +41,7 @@ const NavDropdownMenu = React.forwardRef<
   HTMLElement,
   NavDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
 >((props, ref) => {
-  const {
-    onToggle,
-    eventKey,
-    title,
-    activeKey,
-    onSelect,
-    classPrefix = 'dropdown-menu',
-    children,
-    ...rest
-  } = props;
+  const { onToggle, eventKey, title, classPrefix = 'dropdown-menu', children, ...rest } = props;
 
   const { withinNav } = useContext(NavContext);
 
@@ -66,9 +49,6 @@ const NavDropdownMenu = React.forwardRef<
     throw new Error('<Nav.Dropdown.Menu> should be used within a <Nav> component.');
   }
 
-  const dropdown = useContext(DropdownContext);
-  const sidenav = useContext(SidenavContext);
-  const withinNavbar = Boolean(useContext(NavbarContext));
   const { rtl } = useCustom('DropdownMenu');
 
   const handleToggleSubmenu = useCallback(
@@ -77,7 +57,7 @@ const NavDropdownMenu = React.forwardRef<
     },
     [eventKey, onToggle]
   );
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix } = useClassNames(classPrefix);
 
   const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
     useClassNames('dropdown-menu');
@@ -88,39 +68,11 @@ const NavDropdownMenu = React.forwardRef<
     prefix: prefixItemClassName
   } = useClassNames('dropdown-item');
 
-  const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
-
-  // <Dropdown.Menu> is used outside of <Dropdown>
-  // renders a vertical `menubar`
-  if (!dropdown) {
-    const classes = merge(props.className, withClassPrefix());
-
-    return (
-      <DropdownContext.Provider value={contextValue}>
-        <Menubar vertical>
-          {(menubar, menubarRef: React.Ref<HTMLElement>) => (
-            <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest}>
-              {children}
-            </ul>
-          )}
-        </Menubar>
-      </DropdownContext.Provider>
-    );
-  }
-  if (sidenav?.expanded) {
-    return <SidenavDropdownMenu {...(omit(props, 'classPrefix') as any)} />;
-  }
-
   // Parent menu exists. This is a submenu.
   // Should render a `menuitem` that controls this submenu.
   const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
 
   const Icon = rtl ? AngleLeft : AngleRight;
-
-  // Renders a disclosure when used within <Navbar>
-  if (withinNavbar) {
-    return <NavbarDropdownMenu ref={ref} {...props} />;
-  }
 
   return (
     <Menu
@@ -198,7 +150,6 @@ const NavDropdownMenu = React.forwardRef<
 NavDropdownMenu.displayName = 'Nav.Dropdown.Menu';
 NavDropdownMenu.propTypes = {
   active: PropTypes.bool,
-  activeKey: PropTypes.any,
   className: PropTypes.string,
   children: PropTypes.node,
   icon: PropTypes.any,
@@ -209,7 +160,6 @@ NavDropdownMenu.propTypes = {
   eventKey: PropTypes.any,
   expanded: PropTypes.bool,
   collapsible: PropTypes.bool,
-  onSelect: PropTypes.func,
   onToggle: PropTypes.func
 };
 
