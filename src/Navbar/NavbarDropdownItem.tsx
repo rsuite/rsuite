@@ -2,21 +2,18 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import React, { useCallback, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import { SidenavContext } from '../Sidenav/Sidenav';
 import deprecatePropType from '../utils/deprecatePropType';
-import MenuItem from '../Menu/MenuItem';
 import isNil from 'lodash/isNil';
-import { mergeRefs, shallowEqual, useClassNames } from '../utils';
-import { NavbarContext } from '../Navbar/Navbar';
-import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
-import NavContext from './NavContext';
+import { createChainedFunction, shallowEqual, useClassNames } from '../utils';
+import { NavbarContext } from './Navbar';
+import DisclosureContext, { DisclosureActionTypes } from '../Disclosure/DisclosureContext';
 import useInternalId from '../utils/useInternalId';
 import DropdownContext from '../Dropdown/DropdownContext';
 import { DropdownActionType } from '../Dropdown/DropdownState';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
-import NavbarDropdownItem from '../Navbar/NavbarDropdownItem';
+import NavContext from '../Nav/NavContext';
 
-export interface NavDropdownItemProps<T = any>
+export interface NavbarDropdownItemProps<T = any>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
   /** Active the current option */
@@ -66,8 +63,8 @@ export interface NavDropdownItemProps<T = any>
 /**
  * @private
  */
-const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = React.forwardRef(
-  (props: NavDropdownItemProps, ref: React.Ref<any>) => {
+const NavbarDropdownItem: RsRefForwardingComponent<'li', NavbarDropdownItemProps> =
+  React.forwardRef((props: NavbarDropdownItemProps, ref: React.Ref<any>) => {
     const {
       classPrefix = 'dropdown-item',
       className,
@@ -85,10 +82,11 @@ const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = Re
 
     const internalId = useInternalId('DropdownItem');
 
+    const navbar = useContext(NavbarContext);
     const nav = useContext(NavContext);
 
-    if (!nav.withinNav) {
-      throw new Error('<Nav.Dropdown.Item> should be used within a <Nav> component.');
+    if (!navbar) {
+      throw new Error('<Navbar.Dropdown.Item> should be used within a <Navbar> component.');
     }
 
     const dropdown = useContext(DropdownContext);
@@ -101,9 +99,17 @@ const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = Re
       },
       [onSelect, eventKey, dropdown]
     );
+    const disclosure = useContext(DisclosureContext);
 
-    const sidenav = useContext(SidenavContext);
-    const navbar = useContext(NavbarContext);
+    const [, dispatchDisclosure] = disclosure ?? [];
+
+    const handleClickNavbarDropdownItem = useCallback(
+      (event: React.SyntheticEvent) => {
+        dispatchDisclosure?.({ type: DisclosureActionTypes.Hide, cascade: true });
+        handleSelectItem?.(event);
+      },
+      [dispatchDisclosure, handleSelectItem]
+    );
 
     const selected =
       activeProp ||
@@ -137,13 +143,6 @@ const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = Re
 
     const renderDropdownItem = useRenderDropdownItem(Component);
 
-    if (navbar) {
-      return <NavbarDropdownItem ref={ref} {...props} />;
-    }
-
-    if (sidenav?.expanded) {
-      return <SidenavDropdownItem ref={ref} {...props} />;
-    }
     if (divider) {
       return renderDropdownItem({
         ref,
@@ -161,50 +160,43 @@ const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = Re
         ...restProps
       });
     }
-    return (
-      <MenuItem selected={selected} disabled={disabled} onActivate={handleSelectItem}>
-        {({ selected, active, ...menuitem }, menuitemRef) => {
-          const classes = merge(
-            className,
-            withClassPrefix({
-              'with-icon': icon,
-              active: selected,
-              disabled,
-              focus: active,
-              divider,
-              panel
-            })
-          );
 
-          const dataAttributes: { [key: string]: any } = {
-            'data-event-key': eventKey
-          };
-
-          if (!isNil(eventKey) && typeof eventKey !== 'string') {
-            dataAttributes['data-event-key-type'] = typeof eventKey;
-          }
-
-          return renderDropdownItem({
-            ref: mergeRefs(ref, menuitemRef),
-            className: classes,
-            ...menuitem,
-            ...dataAttributes,
-            ...restProps,
-            children: (
-              <>
-                {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
-                {children}
-              </>
-            )
-          });
-        }}
-      </MenuItem>
+    const classes = merge(
+      className,
+      withClassPrefix({
+        'with-icon': icon,
+        disabled,
+        divider,
+        panel,
+        active: selected
+      })
     );
-  }
-);
 
-NavDropdownItem.displayName = 'Nav.Dropdown.Item';
-NavDropdownItem.propTypes = {
+    const dataAttributes: { [key: string]: any } = {
+      'data-event-key': eventKey
+    };
+
+    if (!isNil(eventKey) && typeof eventKey !== 'string') {
+      dataAttributes['data-event-key-type'] = typeof eventKey;
+    }
+    return renderDropdownItem({
+      ref,
+      className: classes,
+      'aria-current': selected || undefined,
+      ...dataAttributes,
+      ...restProps,
+      onClick: createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick),
+      children: (
+        <>
+          {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+          {children}
+        </>
+      )
+    });
+  });
+
+NavbarDropdownItem.displayName = 'Navbar.Dropdown.Item';
+NavbarDropdownItem.propTypes = {
   as: PropTypes.elementType,
   divider: PropTypes.bool,
   panel: PropTypes.bool,
@@ -225,4 +217,4 @@ NavDropdownItem.propTypes = {
   tabIndex: PropTypes.number
 };
 
-export default NavDropdownItem;
+export default NavbarDropdownItem;

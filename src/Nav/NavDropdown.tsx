@@ -15,12 +15,12 @@ import MenuContext from '../Menu/MenuContext';
 import MenuItem from '../Menu/MenuItem';
 import kebabCase from 'lodash/kebabCase';
 import { NavbarContext } from '../Navbar';
-import Disclosure from '../Disclosure/Disclosure';
 import SidenavDropdown from '../Sidenav/SidenavDropdown';
 import NavContext from './NavContext';
 import Button from '../Button';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
+import NavbarDropdown from '../Navbar/NavbarDropdown';
 
 export type NavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavDropdownProps<T = any>
@@ -171,9 +171,6 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
 
     const parentMenu = useContext(MenuContext);
 
-    const sidenav = useContext(SidenavContext);
-    const navbar = useContext(NavbarContext);
-
     const [{ items }, dispatch] = useReducer(reducer, initialState);
 
     const hasSelectedItem = useMemo(() => {
@@ -184,6 +181,9 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
       return { activeKey, onSelect: emitSelect, hasSelectedItem, dispatch };
     }, [activeKey, emitSelect, hasSelectedItem, dispatch]);
 
+    const sidenav = useContext(SidenavContext);
+    const navbar = useContext(NavbarContext);
+
     // Render a disclosure when inside expanded <Sidenav>
     if (sidenav?.expanded) {
       return (
@@ -193,59 +193,8 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
       );
     }
 
-    // Renders a disclosure when used inside <Navbar>
     if (navbar) {
-      return (
-        <DropdownContext.Provider value={dropdownContextValue}>
-          <Disclosure hideOnClickOutside>
-            {({ open }, containerRef: React.Ref<HTMLElement>) => {
-              const classes = merge(
-                className,
-                withClassPrefix({
-                  [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
-                  disabled,
-                  open
-                  // focus: hasFocus
-                })
-              );
-              return (
-                <Component ref={mergeRefs(ref, containerRef)} className={classes} style={style}>
-                  <Disclosure.Button>
-                    {(buttonProps, buttonRef) => (
-                      <DropdownToggle
-                        ref={buttonRef}
-                        as={toggleAs}
-                        className={toggleClassName}
-                        placement={placement}
-                        disabled={disabled}
-                        {...omit(buttonProps, ['open'])}
-                        {...toggleProps}
-                      >
-                        {title}
-                      </DropdownToggle>
-                    )}
-                  </Disclosure.Button>
-                  <Disclosure.Content>
-                    {({ open }, elementRef) => {
-                      const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
-                      return (
-                        <ul
-                          ref={elementRef as any}
-                          className={menuClassName}
-                          style={menuStyle}
-                          hidden={!open}
-                        >
-                          {children}
-                        </ul>
-                      );
-                    }}
-                  </Disclosure.Content>
-                </Component>
-              );
-            }}
-          </Disclosure>
-        </DropdownContext.Provider>
-      );
+      return <NavbarDropdown ref={ref} {...props} />;
     }
 
     let renderMenuButton = (menuButtonProps, menuButtonRef) => (

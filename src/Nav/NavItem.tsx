@@ -100,6 +100,10 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       return <NavDropdownItem ref={ref} {...props} />;
     }
 
+    if (navbar) {
+      return <NavbarItem ref={ref} {...props} />;
+    }
+
     if (sidenav) {
       return <SidenavItem {...props} />;
     }
@@ -122,10 +126,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
           {children}
         </div>
       );
-    }
-
-    if (navbar) {
-      return <NavbarItem ref={ref} {...props} />;
     }
 
     return (
