@@ -83,7 +83,7 @@
 | dialogAs          | ElementType `(ModalDialog)`                                     | 以对 Dialog 使用自定义元素类型                                                                       |
 | dialogClassName   | string                                                          | 应用于 Dialog DOM 节点的 css class                                                                   |
 | enforceFocus      | boolean `(true)`                                                | 当设置为 true, Modal 将防止焦点在打开时离开,辅助屏幕阅读器容易访问                                   |
-| full              | boolean                                                         | **已废弃。使用 size="full" 代替。** 撑满全屏                                                         |
+| ~~full~~              | boolean                                                         | 已废弃，使用 size="full" 代替。撑满全屏                                                         |
 | keyboard          | boolean `(true)`                                                | 按下 esc 键时关闭 Modal                                                                              |
 | onClose           | () => void                                                      | 隐藏时的回调函数                                                                                     |
 | onEnter           | () => void                                                      | 显示前动画过渡的回调函数                                                                             |
