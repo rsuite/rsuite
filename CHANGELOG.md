@@ -1,3 +1,9 @@
+# [5.9.0](https://github.com/rsuite/rsuite/compare/v5.8.1...v5.9.0) (2022-04-21)
+
+### Features
+
+- **Dropdown:** add `open` and `defaultOpen` props ([#2442](https://github.com/rsuite/rsuite/issues/2442)) ([ab13d63](https://github.com/rsuite/rsuite/commit/ab13d6368676c19f8a4fb041e84a423b1a810914))
+
 ## [5.8.1](https://github.com/rsuite/rsuite/compare/v5.8.0...v5.8.1) (2022-04-15)
 
 ### Bug Fixes
