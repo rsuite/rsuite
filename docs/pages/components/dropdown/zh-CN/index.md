@@ -95,6 +95,7 @@
 | --------------- | ------------------------------------------------------ | ------------------------------------------------ |
 | activeKey       | string                                                 | 激活状态的选项，对应 Dropdown.Item 中的 eventKey |
 | classPrefix     | string `('dropdown')`                                  | 组件 CSS 类的前缀                                |
+| defaultOpen     | boolean `(false)`                                      | 菜单是否初始开启                                 |
 | disabled        | boolean                                                | 禁用组件                                         |
 | icon            | Element&lt;typeof Icon&gt;                             | 设置图标                                         |
 | menuStyle       | CSSProperties                                          | 菜单样式                                         |
@@ -102,6 +103,7 @@
 | onOpen          | () => void                                             | 菜单弹出的回调函数                               |
 | onSelect        | (eventKey: string, event) => void                      | 选择后的回调函数                                 |
 | onToggle        | (open?: boolean) => void                               | 菜单状态切换的回调函数                           |
+| open            | boolean                                                | 菜单是否开启 (受控)                              |
 | placement       | [Placement](#code-ts-placement-code) `('bottomStart')` | 菜单显示位置                                     |
 | renderToggle    | (props, ref) => any;                                   | 自定义 Toggle                                    |
 | title           | ReactNode                                              | 菜单默认显示内容                                 |
