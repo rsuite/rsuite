@@ -35,7 +35,7 @@
 | backdropClassName | string                                                 | 为背景设置一个自定义 className                                                                          |
 | classPrefix       | string `('drawer')`                                    | 组件 CSS 类的前缀                                                                                       |
 | enforceFocus      | boolean `(true)`                                       | 当设置为 true, Drawer 将防止焦点在打开时离开,辅助屏幕阅读器容易访问                                     |
-| full              | boolean                                                | **已废弃。使用 size="full" 代替。** 撑满全屏                                                            |
+| ~~full~~              | boolean                                                | 已废弃，使用 size="full" 代替。 撑满全屏                                                            |
 | keyboard          | boolean                                                | 按下 esc 键时关闭 Drawer                                                                                |
 | onEnter           | () => void                                             | 显示前动画过渡的回调函数                                                                                |
 | onEntered         | () => void                                             | 显示后动画过渡的回调函数                                                                                |
