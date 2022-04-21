@@ -6,6 +6,7 @@ import Form from '../../Form';
 import FormControl from '../FormControl';
 import FormGroup from '../../FormGroup';
 import Schema from '../../Schema';
+import Input from '../../Input';
 
 describe('FormControl', () => {
   it('Should output a input', () => {
@@ -252,5 +253,26 @@ describe('FormControl', () => {
     fireEvent.click(container.querySelector('#unmount'));
     assert.deepEqual(refValue, { email: '' });
     assert.deepEqual(refError, {});
+  });
+
+
+  it('The value should be passed using valuePropsName, when using valuePropName', () => {
+    let valueRef = null;
+    const valuePropName = 'valueName';
+    const WrapperInput = props => {
+      const { [valuePropName]: value, ...reset } = props;
+      valueRef = value;
+      return <Input value={value} {...reset} />;
+    };
+    const formVale = {
+      name1: '1'
+    };
+
+    render(
+      <Form formValue={formVale}>
+        <FormControl accepter={WrapperInput} name="name1" valuePropName={valuePropName} />
+      </Form>
+    );
+    expect(valueRef).to.equal(formVale.name1);
   });
 });

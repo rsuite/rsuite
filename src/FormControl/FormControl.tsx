@@ -52,6 +52,9 @@ export interface FormControlProps<P = any, ValueType = any>
 
   /** Remove field value and error message when component is unmounted  */
   shouldResetWithUnmount?: boolean;
+  
+  /** Property name of the value of the child node  */
+  valuePropName?: string;
 }
 
 interface FormControlComponent extends React.FC<FormControlProps> {
@@ -95,6 +98,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     onBlur,
     defaultValue,
     shouldResetWithUnmount = false,
+    valuePropName = 'value',
     ...rest
   } = props;
 
@@ -176,6 +180,10 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   const fieldHasError = Boolean(messageNode);
   const ariaErrormessage = fieldHasError && controlId ? `${controlId}-error-message` : undefined;
 
+  const valueProp = {
+    [valuePropName]: val
+  };
+
   return (
     <Component className={classes} ref={ref}>
       <AccepterComponent
@@ -192,7 +200,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
         onChange={handleFieldChange}
         onBlur={handleFieldBlur}
         defaultValue={defaultValue ?? formDefaultValue[name]}
-        value={val}
+        {...valueProp}
       />
 
       <FormErrorMessage
