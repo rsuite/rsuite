@@ -42,13 +42,14 @@ const defaultColumns = [
 ];
 
 const App = () => {
-  const data = fakeData.filter((v, i) => i < 10);
+  const data = fakeData.filter((v, i) => i < 20);
   const [loading, setLoading] = React.useState(false);
   const [compact, setCompact] = React.useState(true);
   const [bordered, setBordered] = React.useState(true);
   const [noData, setNoData] = React.useState(false);
   const [showHeader, setShowHeader] = React.useState(true);
-  const [autoHeight, setAutoHeight] = React.useState(false);
+  const [autoHeight, setAutoHeight] = React.useState(true);
+  const [fillHeight, setFillHeight] = React.useState(false);
   const [hover, setHover] = React.useState(true);
   const [columnKeys, setColumnKeys] = React.useState(defaultColumns.map(column => column.key));
 
@@ -128,9 +129,20 @@ const App = () => {
             onChange={setAutoHeight}
           />
         </span>
+
+        <span>
+          Fill Height：
+          <Toggle
+            checkedChildren="On"
+            unCheckedChildren="Off"
+            checked={fillHeight}
+            onChange={setFillHeight}
+          />
+        </span>
       </div>
       <hr />
-      Columns：<TagPicker
+      Columns：
+      <TagPicker
         data={defaultColumns}
         labelKey="label"
         valueKey="key"
@@ -139,28 +151,31 @@ const App = () => {
         cleanable={false}
       />
       <hr />
-      <Table
-        loading={loading}
-        height={300}
-        hover={hover}
-        showHeader={showHeader}
-        autoHeight={autoHeight}
-        data={noData ? [] : data}
-        bordered={bordered}
-        cellBordered={bordered}
-        headerHeight={compact ? 30 : 40}
-        rowHeight={compact ? 30 : 46}
-      >
-        {columns.map(column => {
-          const { key, label, ...rest } = column;
-          return (
-            <Column {...rest} key={key}>
-              <CustomHeaderCell>{label}</CustomHeaderCell>
-              <CustomCell dataKey={key} />
-            </Column>
-          );
-        })}
-      </Table>
+      <div style={{ border: '1px solid #ddd', height: autoHeight ? 'auto' : 400 }}>
+        <Table
+          loading={loading}
+          height={300}
+          hover={hover}
+          fillHeight={fillHeight}
+          showHeader={showHeader}
+          autoHeight={autoHeight}
+          data={noData ? [] : data}
+          bordered={bordered}
+          cellBordered={bordered}
+          headerHeight={compact ? 30 : 40}
+          rowHeight={compact ? 30 : 46}
+        >
+          {columns.map(column => {
+            const { key, label, ...rest } = column;
+            return (
+              <Column {...rest} key={key}>
+                <CustomHeaderCell>{label}</CustomHeaderCell>
+                <CustomCell dataKey={key} />
+              </Column>
+            );
+          })}
+        </Table>
+      </div>
     </div>
   );
 };

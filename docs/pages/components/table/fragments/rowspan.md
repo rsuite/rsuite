@@ -8,7 +8,11 @@
 
 const App = () => {
   return (
-    <Table bordered cellBordered autoHeight data={fakeMergeCellsData} hover={false}>
+    <Table bordered cellBordered autoHeight data={fakeMergeCellsData}>
+      <Column width={80} fixed>
+        <HeaderCell>Id</HeaderCell>
+        <Cell dataKey="id" />
+      </Column>
       <Column
         width={200}
         verticalAlign="middle"
@@ -41,9 +45,14 @@ const App = () => {
         <Cell dataKey="lastName" />
       </Column>
 
-      <Column width={200} flexGrow={1}>
+      <Column width={200}>
         <HeaderCell>Company Name</HeaderCell>
         <Cell dataKey="companyName" />
+      </Column>
+
+      <Column width={80} fixed="right">
+        <HeaderCell>Edit</HeaderCell>
+        <Cell>Edit</Cell>
       </Column>
     </Table>
   );
