@@ -248,6 +248,32 @@ describe('Modal', () => {
     });
   });
 
+  describe('Size variants', () => {
+    const sizes = ['lg', 'md', 'sm', 'xs', 'full'];
+
+    sizes.forEach(size => {
+      const expectedClassName = `rs-modal-${size}`;
+
+      it(`Should have .${expectedClassName} class when size=${size}`, () => {
+        render(<Modal open size={size}></Modal>);
+
+        expect(screen.getByRole('dialog')).to.have.class(expectedClassName);
+      });
+    });
+
+    // Remove this case when full prop is dropped
+    it('[Deprecated] Should have .rs-modal-full class when full=true', () => {
+      sinon.spy(console, 'warn');
+      render(<Modal open full></Modal>);
+
+      expect(screen.getByRole('dialog')).to.have.class('rs-modal-full');
+
+      expect(console.warn).to.have.been.calledWith(
+        '"full" property of "Modal" has been deprecated.\nUse size="full" instead.'
+      );
+    });
+  });
+
   describe('a11y', () => {
     it('Should render an ARIA dialog with given title as its accessible name', () => {
       const title = 'Attention';
