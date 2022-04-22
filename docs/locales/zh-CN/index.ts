@@ -49,7 +49,10 @@ export default {
     theme: '主题',
     light: '亮色',
     dark: '暗色',
-    highContrast: '高对比'
+    highContrast: '高对比',
+    showTheSource: '展示代码',
+    transparentBackground: '背景透明',
+    seeTheSourceOnGitHub: '查看源码'
   },
   resourcesDesign: {
     defaultHeader: '组件设计 - 默认主题',
