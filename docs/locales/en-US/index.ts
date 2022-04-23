@@ -50,7 +50,10 @@ export default {
     theme: 'Theme',
     light: 'Light',
     dark: 'Dark',
-    highContrast: 'High contrast'
+    highContrast: 'High contrast',
+    showTheSource: 'Show the source',
+    transparentBackground: 'Transparent background',
+    seeTheSourceOnGitHub: 'See the source on GitHub'
   },
   resourcesDesign: {
     defaultHeader: 'Design - Light theme',

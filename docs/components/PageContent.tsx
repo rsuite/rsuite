@@ -36,7 +36,7 @@ interface CustomCodeViewProps {
 
 const CustomCodeView = (props: CustomCodeViewProps) => {
   const { dependencies, source, height = 100, path, onLoaded, ...rest } = props;
-  const { styleLoaded } = React.useContext(AppContext);
+  const { styleLoaded, messages } = React.useContext(AppContext);
   const viewRef = React.useRef();
 
   const renderPlaceholder = React.useCallback(() => {
@@ -72,10 +72,16 @@ const CustomCodeView = (props: CustomCodeViewProps) => {
           renderToolbar={(CodeButton: React.ReactElement) => {
             return (
               <React.Fragment>
-                <Whisper placement="top" speaker={<Tooltip>Show the source</Tooltip>}>
+                <Whisper
+                  placement="top"
+                  speaker={<Tooltip>{messages.common.showTheSource}</Tooltip>}
+                >
                   {CodeButton}
                 </Whisper>{' '}
-                <Whisper placement="top" speaker={<Tooltip>Transparent background</Tooltip>}>
+                <Whisper
+                  placement="top"
+                  speaker={<Tooltip>{messages.common.transparentBackground}</Tooltip>}
+                >
                   <IconButton
                     onClick={handleChangeTransparent}
                     appearance="subtle"
@@ -83,8 +89,11 @@ const CustomCodeView = (props: CustomCodeViewProps) => {
                     circle
                     size="xs"
                   />
-                </Whisper>
-                <Whisper placement="top" speaker={<Tooltip>See the source on GitHub</Tooltip>}>
+                </Whisper>{' '}
+                <Whisper
+                  placement="top"
+                  speaker={<Tooltip>{messages.common.seeTheSourceOnGitHub}</Tooltip>}
+                >
                   <IconButton
                     appearance="subtle"
                     icon={<Github />}
