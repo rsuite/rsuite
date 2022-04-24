@@ -57,7 +57,7 @@ Form Check needs to be used `<Form>`, `<Form.Control>` and `Schema` 。
 
 - `<Form>` To define a form, you can set `formValue` and `model` for the form, and `model` is the data model created by `Schema.Model`.
 - `<Form.Control>` Define a Filed that corresponds to the `key` of the `Schema.Model` object via the `name` property. For detailed reference: Custom Form Components.
-- `Schema.Model` Define a data model, using the reference [schema](/components/schema).
+- `Schema.Model` Define a data model, using the reference [schema](https://github.com/rsuite/schema-typed#schema-typed).
 - Custom trigger check: `<Form>` instance provides `check` and `checkForField` methods, used to trigger form checksum field validation
 
 <!--{include:`form-check.md`}-->
