@@ -53,7 +53,7 @@ export interface FormProps<
   errorFromContext?: boolean;
 
   /** Callback fired when data changing */
-  onChange?: (formValue: T, event: React.SyntheticEvent) => void;
+  onChange?: (formValue: T, event?: React.SyntheticEvent) => void;
 
   /** Callback fired when error checking */
   onError?: (formError: E) => void;
@@ -295,6 +295,24 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     resetErrors
   }));
 
+  const removeFieldError = useCallback(
+    (name: string) => {
+      const formError = omit(getFormError(), [name]);
+      setFormError(formError);
+      onCheck?.(formError);
+    },
+    [getFormError, onCheck]
+  );
+
+  const removeFieldValue = useCallback(
+    (name: string) => {
+      const formValue = omit(getFormValue(), [name]);
+      setFormValue(formValue);
+      onChange?.(formValue);
+    },
+    [getFormValue, onChange]
+  );
+
   const handleSubmit = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       if (disabled || readOnly || plaintext) {
@@ -324,11 +342,9 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
 
   const handleFieldSuccess = useCallback(
     (name: string) => {
-      const formError = omit(getFormError(), [name]);
-      setFormError(formError);
-      onCheck?.(formError);
+      removeFieldError(name);
     },
-    [onCheck, getFormError]
+    [removeFieldError]
   );
 
   const handleFieldChange = useCallback(
@@ -355,6 +371,8 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       plaintext,
       disabled,
       formError: getFormError(),
+      removeFieldValue,
+      removeFieldError,
       onFieldChange: handleFieldChange,
       onFieldError: handleFieldError,
       onFieldSuccess: handleFieldSuccess
@@ -368,6 +386,8 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       plaintext,
       disabled,
       getFormError,
+      removeFieldValue,
+      removeFieldError,
       handleFieldChange,
       handleFieldError,
       handleFieldSuccess

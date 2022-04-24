@@ -7,6 +7,7 @@ import { useClassNames } from '../utils';
 import { TypeAttributes, FormControlBaseProps, WithAsProps } from '../@types/common';
 import FormContext, { FormValueContext } from '../Form/FormContext';
 import { FormGroupContext } from '../FormGroup/FormGroup';
+import useUnmountRemove from './useUnmountRemove';
 
 /**
  * Props that FormControl passes to its accepter
@@ -48,6 +49,9 @@ export interface FormControlProps<P = any, ValueType = any>
 
   /** Asynchronous check value */
   checkAsync?: boolean;
+
+  /** when unMount remove value and error  */
+  unMountRemove?: boolean;
 }
 
 interface FormControlComponent extends React.FC<FormControlProps> {
@@ -64,6 +68,8 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     errorFromContext,
     formDefaultValue = {},
     formError,
+    removeFieldValue,
+    removeFieldError,
     onFieldChange,
     onFieldError,
     onFieldSuccess,
@@ -88,6 +94,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     onChange,
     onBlur,
     defaultValue,
+    unMountRemove = false,
     ...rest
   } = props;
 
@@ -99,6 +106,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
       And need to update React to 16.6.0 +.
     `);
   }
+  useUnmountRemove(unMountRemove, name, removeFieldValue, removeFieldError);
 
   const trigger = checkTrigger || contextCheckTrigger;
   const formValue = useContext(FormValueContext);

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
-
+import { render, fireEvent } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import Form from '../../Form';
 import FormControl from '../FormControl';
 import FormGroup from '../../FormGroup';
+import Schema from '../../Schema';
 
 describe('FormControl', () => {
   it('Should output a input', () => {
@@ -203,5 +203,54 @@ describe('FormControl', () => {
 
     expect(alert).to.exist;
     expect(input).to.have.attr('aria-errormessage', alert.getAttribute('id'));
+  });
+
+  it('Should remove value and error when unMountRemove is true', () => {
+    let refValue = { username: '', email: '' };
+    let refError = {};
+    const model = Schema.Model({
+      username: Schema.Types.StringType().maxLength(2, 'The length cannot exceed 2')
+    });
+    const Wrapper = () => {
+      const [value, setValue] = useState(refValue);
+      const [error, setError] = useState(refError);
+      const [show, setShow] = useState(true);
+      const handleChange = v => {
+        refValue = v;
+        setValue(v);
+      };
+      const handleError = e => {
+        refError = e;
+        setError(e);
+      };
+      const handleUnMount = () => {
+        setShow(false);
+      };
+      return (
+        <>
+          <button onClick={handleUnMount} id="unmount">
+            unmount
+          </button>
+          <Form
+            model={model}
+            onChange={handleChange}
+            onCheck={handleError}
+            formError={error}
+            formValue={value}
+          >
+            {show && <FormControl id="username" name="username" unMountRemove />}
+            <FormControl id="email" name="email" />
+          </Form>
+        </>
+      );
+    };
+    const { container } = render(<Wrapper />);
+
+    fireEvent.change(container.querySelector('#username'), { target: { value: 'test' } });
+    assert.deepEqual(refValue, { username: 'test', email: '' });
+    assert.deepEqual(refError, { username: 'The length cannot exceed 2' });
+    fireEvent.click(container.querySelector('#unmount'));
+    assert.deepEqual(refValue, { email: '' });
+    assert.deepEqual(refError, {});
   });
 });

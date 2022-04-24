@@ -15,6 +15,8 @@ export interface FormContextValue<
   plaintext?: boolean;
   disabled?: boolean;
   formError?: E;
+  removeFieldValue?: (name: string) => void;
+  removeFieldError?: (name: string) => void;
   onFieldChange?: (name: string, value: any, event: React.SyntheticEvent) => void;
   onFieldError?: (name: string, errorMessage: string) => void;
   onFieldSuccess?: (name: string) => void;
