@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import Input from '../Input';
@@ -7,7 +7,7 @@ import { useClassNames } from '../utils';
 import { TypeAttributes, FormControlBaseProps, WithAsProps } from '../@types/common';
 import FormContext, { FormValueContext } from '../Form/FormContext';
 import { FormGroupContext } from '../FormGroup/FormGroup';
-import useUnmountRemove from './useUnmountRemove';
+import { useWillUnmount } from '../utils';
 
 /**
  * Props that FormControl passes to its accepter
@@ -106,7 +106,14 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
       And need to update React to 16.6.0 +.
     `);
   }
-  useUnmountRemove(shouldResetWithUnmount, name, removeFieldValue, removeFieldError);
+  const handleUnmountReset = useCallback(() => {
+    if (shouldResetWithUnmount && removeFieldValue && removeFieldError) {
+      removeFieldValue(name);
+      removeFieldError(name);
+    }
+  }, [name, removeFieldError, removeFieldValue, shouldResetWithUnmount]);
+
+  useWillUnmount(handleUnmountReset);
 
   const trigger = checkTrigger || contextCheckTrigger;
   const formValue = useContext(FormValueContext);
