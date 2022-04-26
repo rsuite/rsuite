@@ -238,7 +238,7 @@ describe('FormControl', () => {
             formError={error}
             formValue={value}
           >
-            {show && <FormControl id="username" name="username" unMountRemove />}
+            {show && <FormControl id="username" name="username" shouldResetWithUnmount />}
             <FormControl id="email" name="email" />
           </Form>
         </>

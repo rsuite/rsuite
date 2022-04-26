@@ -160,17 +160,18 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 
 ### `<Form.Control>`
 
-| 名称           | 类型`(默认值)`                                        | 描述                                       |
-| -------------- | ----------------------------------------------------- | ------------------------------------------ |
-| accepter       | ElementType `(Input)`                                 | 受代理的组件                               |
-| checkAsync     | boolean                                               | 异步数据校验                               |
-| checkTrigger   | 'change' &#124; 'blur' &#124; 'none'                  | 数据校验的触发类型,会覆盖 `<Form>`上的设置 |
-| classPrefix    | string `('form-control')`                             | 组件 CSS 类的前缀                          |
-| errorMessage   | ReactNode                                             | 显示错误信息                               |
-| errorPlacement | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置                           |
-| name \*        | string                                                | 表单元素名称                               |
-| readOnly       | boolean                                               | 使控件为只读                               |
-| plaintext      | boolean                                               | 使控件为纯文本                             |
+| 名称                   | 类型`(默认值)`                                        | 描述                                       |
+| ---------------------- | ----------------------------------------------------- | ------------------------------------------ |
+| accepter               | ElementType `(Input)`                                 | 受代理的组件                               |
+| checkAsync             | boolean                                               | 异步数据校验                               |
+| checkTrigger           | 'change' &#124; 'blur' &#124; 'none'                  | 数据校验的触发类型,会覆盖 `<Form>`上的设置 |
+| classPrefix            | string `('form-control')`                             | 组件 CSS 类的前缀                          |
+| errorMessage           | ReactNode                                             | 显示错误信息                               |
+| errorPlacement         | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置                           |
+| name \*                | string                                                | 表单元素名称                               |
+| readOnly               | boolean                                               | 使控件为只读                               |
+| plaintext              | boolean                                               | 使控件为纯文本                             |
+| shouldResetWithUnmount | boolean`('false')`                                    | 卸载组件时删除字段值和错误消息             |
 
 ### `<Form.Group>`
 

@@ -50,8 +50,8 @@ export interface FormControlProps<P = any, ValueType = any>
   /** Asynchronous check value */
   checkAsync?: boolean;
 
-  /** when unMount remove value and error  */
-  unMountRemove?: boolean;
+  /** Remove field value and error message when component is unmounted  */
+  shouldResetWithUnmount?: boolean;
 }
 
 interface FormControlComponent extends React.FC<FormControlProps> {
@@ -94,7 +94,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     onChange,
     onBlur,
     defaultValue,
-    unMountRemove = false,
+    shouldResetWithUnmount = false,
     ...rest
   } = props;
 
@@ -106,7 +106,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
       And need to update React to 16.6.0 +.
     `);
   }
-  useUnmountRemove(unMountRemove, name, removeFieldValue, removeFieldError);
+  useUnmountRemove(shouldResetWithUnmount, name, removeFieldValue, removeFieldError);
 
   const trigger = checkTrigger || contextCheckTrigger;
   const formValue = useContext(FormValueContext);
