@@ -34,8 +34,6 @@ export default function Head(props: HeadProps) {
       <meta property="og:ttl" content="604800" />
       <link rel="shortcut icon" href="/favicon.ico" />
 
-      {/* Import CSS for nprogress */}
-      <link rel="stylesheet" type="text/css" href="/css/nprogress.css" />
       {children}
     </NextHead>
   );

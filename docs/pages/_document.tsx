@@ -19,6 +19,8 @@ class MyDocument extends Document<DocumentProps> {
         <Head>
           <script type="text/javascript" src="/js/babel.min.js"></script>
           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha" />
+          {/* Import CSS for nprogress */}
+          <link rel="stylesheet" type="text/css" href="/css/nprogress.css" />
         </Head>
         <body>
           <Main />
