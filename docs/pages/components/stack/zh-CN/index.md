@@ -16,6 +16,10 @@
 
  <!--{include:`divider.md`}-->
 
+### 间距
+
+ <!--{include:`space.md`}-->
+
 ### 换行
 
  <!--{include:`wrap.md`}-->
