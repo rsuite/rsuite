@@ -16,6 +16,10 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 
  <!--{include:`divider.md`}-->
 
+### Space
+
+ <!--{include:`space.md`}-->
+
 ### Wrap
 
  <!--{include:`wrap.md`}-->
