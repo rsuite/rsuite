@@ -1,3 +1,9 @@
+# [5.10.0](https://github.com/rsuite/rsuite/compare/v5.9.0...v5.10.0) (2022-04-28)
+
+### Features
+
+- **FormControl:** support `shouldResetWithUnmount` on `<FormControl>` ([#2468](https://github.com/rsuite/rsuite/issues/2468)) ([69dee5e](https://github.com/rsuite/rsuite/commit/69dee5ece1c20bdc1e1f42429e93150afb7995d8))
+
 # [5.9.0](https://github.com/rsuite/rsuite/compare/v5.8.1...v5.9.0) (2022-04-21)
 
 ### Features
