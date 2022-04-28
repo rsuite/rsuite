@@ -52,7 +52,7 @@ export interface FormControlProps<P = any, ValueType = any>
 
   /** Remove field value and error message when component is unmounted  */
   shouldResetWithUnmount?: boolean;
-  
+
   /** Property name of the value of the child node  */
   valuePropName?: string;
 }

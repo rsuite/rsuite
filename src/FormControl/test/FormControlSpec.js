@@ -255,7 +255,6 @@ describe('FormControl', () => {
     assert.deepEqual(refError, {});
   });
 
-
   it('The value should be passed using valuePropsName, when using valuePropName', () => {
     let valueRef = null;
     const valuePropName = 'valueName';
