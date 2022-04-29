@@ -98,6 +98,8 @@ const DropdownMenu = React.forwardRef<
 
   const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
 
+  // If rendered within a <Nav>
+  // Suggest <Nav.Menu>
   if (withinNav) {
     warnOnce('Usage of <Dropdown.Menu> within <Nav> is deprecated. Replace with <Nav.Menu>');
 

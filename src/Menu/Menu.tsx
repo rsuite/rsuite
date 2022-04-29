@@ -65,6 +65,7 @@ const defaultOpenMenuOn = ['click'] as const;
 
 /**
  * Headless ARIA `menu`
+ * @private
  */
 function Menu({
   disabled,

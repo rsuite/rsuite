@@ -28,6 +28,7 @@ export interface MenuitemRenderProps {
 
 /**
  * Headless ARIA `menuitem`
+ * @private
  */
 function MenuItem(props: MenuItemProps) {
   const { children, selected = false, disabled = false, onActivate } = props;

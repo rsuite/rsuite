@@ -4,16 +4,16 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getByTestId, screen } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
-import NavItem from '../NavItem';
-import Sidenav from '../../Sidenav';
 import Nav from '../Nav';
+import Navbar from '../../Navbar';
+import Sidenav from '../../Sidenav';
 
 describe('<Nav.Item>', () => {
-  testStandardProps(<NavItem />);
+  testStandardProps(<Nav.Item />);
 
   it('Should render a <a>', () => {
     let title = 'Test';
-    let instance = getDOMNode(<NavItem>{title}</NavItem>);
+    let instance = getDOMNode(<Nav.Item>{title}</Nav.Item>);
     assert.equal(instance.tagName, 'A');
     assert.equal(instance.textContent, title);
   });
@@ -29,7 +29,7 @@ describe('<Nav.Item>', () => {
       }
     };
 
-    let instance = getDOMNode(<NavItem onSelect={doneOp} eventKey={key} />);
+    let instance = getDOMNode(<Nav.Item onSelect={doneOp} eventKey={key} />);
     ReactTestUtils.Simulate.click(instance);
   });
 
@@ -37,46 +37,24 @@ describe('<Nav.Item>', () => {
     let doneOp = () => {
       done();
     };
-    let instance = getDOMNode(<NavItem onSelect={doneOp} />);
+    let instance = getDOMNode(<Nav.Item onSelect={doneOp} />);
     ReactTestUtils.Simulate.click(instance);
   });
 
-  it('Should render a separator', () => {
-    let instance = getDOMNode(
-      <Sidenav>
-        <Nav>
-          <NavItem divider data-testid="nav-item" />
-        </Nav>
-      </Sidenav>
-    );
-    assert.include(getByTestId(instance, 'nav-item').className, 'rs-sidenav-item-divider');
-  });
-
-  it('Should render a panel', () => {
-    let instance = getDOMNode(
-      <Sidenav>
-        <Nav>
-          <NavItem panel data-testid="nav-item" />
-        </Nav>
-      </Sidenav>
-    );
-    assert.include(getByTestId(instance, 'nav-item').className, 'rs-sidenav-item-panel');
-  });
-
   it('Should be active', () => {
-    let instance = getDOMNode(<NavItem active />);
+    let instance = getDOMNode(<Nav.Item active />);
     assert.include(instance.className, 'rs-nav-item-active');
   });
 
   it('Should be disabled', () => {
-    let instance = getDOMNode(<NavItem disabled />);
+    let instance = getDOMNode(<Nav.Item disabled />);
     assert.include(instance.className, 'rs-nav-item-disabled');
   });
 
   it('Should not call onSelect callback when the `NavItem` is disabled', () => {
     const onHideSpy = sinon.spy();
 
-    let instance = getDOMNode(<NavItem onSelect={onHideSpy} disabled />);
+    let instance = getDOMNode(<Nav.Item onSelect={onHideSpy} disabled />);
     ReactTestUtils.Simulate.click(instance);
     assert.ok(!onHideSpy.calledOnce);
   });
@@ -84,24 +62,73 @@ describe('<Nav.Item>', () => {
   it('Should not call onClick callback when the `NavItem` is disabled', () => {
     const onHideSpy = sinon.spy();
 
-    let instance = getDOMNode(<NavItem onClick={onHideSpy} disabled />);
+    let instance = getDOMNode(<Nav.Item onClick={onHideSpy} disabled />);
     ReactTestUtils.Simulate.click(instance);
     assert.ok(!onHideSpy.calledOnce);
   });
 
-  it('Should render a tooltip when used inside a collapsed <Sidenav>', async () => {
-    const { getByTestId } = render(
-      <Sidenav expanded={false}>
-        <Nav>
-          <NavItem data-testid="nav-item">item</NavItem>
-        </Nav>
-      </Sidenav>
-    );
+  context('Within <Navbar>', () => {
+    it('Should render a navbar item with given content', () => {
+      const { getByText } = render(
+        <Navbar>
+          <Nav>
+            <Nav.Item>Item</Nav.Item>
+          </Nav>
+        </Navbar>
+      );
 
-    ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.focus(getByTestId('nav-item'));
+      expect(getByText('Item')).to.exist;
+    });
+  });
+
+  context('Within <Sidenav>', () => {
+    it('Should render a sidenav item with given content', () => {
+      const { getByText } = render(
+        <Sidenav>
+          <Nav>
+            <Nav.Item>Item</Nav.Item>
+          </Nav>
+        </Sidenav>
+      );
+
+      expect(getByText('Item')).to.exist;
+    });
+    it('Should render a separator', () => {
+      let instance = getDOMNode(
+        <Sidenav>
+          <Nav>
+            <Nav.Item divider data-testid="nav-item" />
+          </Nav>
+        </Sidenav>
+      );
+      assert.include(getByTestId(instance, 'nav-item').className, 'rs-sidenav-item-divider');
     });
 
-    expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;
+    it('Should render a panel', () => {
+      let instance = getDOMNode(
+        <Sidenav>
+          <Nav>
+            <Nav.Item panel data-testid="nav-item" />
+          </Nav>
+        </Sidenav>
+      );
+      assert.include(getByTestId(instance, 'nav-item').className, 'rs-sidenav-item-panel');
+    });
+
+    it('Should render a tooltip when used inside a collapsed <Sidenav>', async () => {
+      const { getByTestId } = render(
+        <Sidenav expanded={false}>
+          <Nav>
+            <Nav.Item data-testid="nav-item">item</Nav.Item>
+          </Nav>
+        </Sidenav>
+      );
+
+      ReactTestUtils.act(() => {
+        ReactTestUtils.Simulate.focus(getByTestId('nav-item'));
+      });
+
+      expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;
+    });
   });
 });
