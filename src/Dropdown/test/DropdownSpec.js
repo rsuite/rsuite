@@ -859,7 +859,21 @@ describe('<Dropdown>', () => {
     assert.equal(button.textContent, 'new');
   });
 
-  describe('[Deprecated] Usage within <Nav>', () => {
+  context('[Deprecated] Usage within <Nav>', () => {
+    it('Should warn deprecation message', () => {
+      sinon.spy(console, 'warn');
+
+      render(
+        <Nav>
+          <Dropdown title="Dropdown"></Dropdown>
+        </Nav>
+      );
+
+      expect(console.warn).to.have.been.calledWith(
+        'Usage of <Dropdown> within <Nav> is deprecated. Replace with <Nav.Menu>'
+      );
+    });
+
     it('Should render a As Component', () => {
       const AsComponent = React.forwardRef((_, ref) => <div ref={ref}>As Component</div>);
       const instance = getDOMNode(

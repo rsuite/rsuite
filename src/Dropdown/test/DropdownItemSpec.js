@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import Dropdown from '../Dropdown';
 import DropdownItem from '../DropdownItem';
 import User from '@rsuite/icons/legacy/User';
+import Nav from '../../Nav';
 
 describe('<Dropdown.Item>', () => {
   it('Should render element with role="menuitem" and given content', () => {
@@ -159,5 +160,23 @@ describe('<Dropdown.Item>', () => {
     );
 
     expect(getByTestId('item')).to.have.id(id);
+  });
+
+  context('[Deprecated] Within <Nav>', () => {
+    it('Should warn deprecation message', () => {
+      sinon.spy(console, 'warn');
+
+      render(
+        <Nav>
+          <Dropdown title="Dropdown">
+            <Dropdown.Item>Dropdown item</Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      );
+
+      expect(console.warn).to.have.been.calledWith(
+        'Usage of <Dropdown.Item> within <Nav> is deprecated. Replace with <Nav.Item> within <Nav.Menu>.'
+      );
+    });
   });
 });

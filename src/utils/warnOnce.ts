@@ -12,3 +12,9 @@ export default function warnOnce(message: string) {
     warned[message] = true;
   }
 }
+
+warnOnce._resetWarned = () => {
+  for (const message in warned) {
+    delete warned[message];
+  }
+};
