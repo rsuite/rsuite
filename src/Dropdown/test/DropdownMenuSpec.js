@@ -294,6 +294,21 @@ describe('<Dropdown.Menu>', () => {
     expect(onSelectSpy).to.have.been.calledWith(3);
   });
 
+  it('Should not move visual focus to first item when focus on an focusable element within', () => {
+    const { getByTestId } = render(
+      <DropdownMenu data-testid="menu">
+        <DropdownItem panel>
+          <input data-testid="input" />
+        </DropdownItem>
+        <DropdownItem data-testid="item1">Item 1</DropdownItem>
+      </DropdownMenu>
+    );
+
+    fireEvent.focus(getByTestId('input'), { bubbles: true });
+
+    expect(getByTestId('menu')).not.to.have.attr('aria-activedescendant');
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<DropdownMenu className="custom" />);
     assert.include(instance.className, 'custom');

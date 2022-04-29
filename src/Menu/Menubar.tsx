@@ -5,6 +5,7 @@ import MenuContext, { MenuActionTypes, MoveFocusTo } from './MenuContext';
 import { KEY_VALUES, useCustom } from '../utils';
 import { isFocusEntering, isFocusLeaving } from '../utils/events';
 import useMenu from './useMenu';
+import { isFocusableElement } from '../utils/dom';
 
 export interface MenubarProps {
   /** Whether menubar is arranged in vertical form, defaults to false */
@@ -29,7 +30,11 @@ export default function Menubar({ vertical = false, children, onActivateItem }: 
   const onFocus = useCallback(
     (event: React.FocusEvent) => {
       // Focus moves inside Menubar
-      if (isFocusEntering(event)) {
+      if (
+        isFocusEntering(event) &&
+        // Skip if focus is moving to a focusable element within this menu
+        !(event.target !== event.currentTarget && isFocusableElement(event.target))
+      ) {
         if (activeItemIndex === null) {
           dispatch({ type: MenuActionTypes.MoveFocus, to: MoveFocusTo.First });
         }
