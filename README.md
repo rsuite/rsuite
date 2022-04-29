@@ -99,6 +99,10 @@ You can go through [full documentation][rsuite-doc-guide] or start with followin
 - [Use in Vite][demo-vite]
 </details>
 
+<a href="https://vercel.com?utm_source=rsuite&utm_campaign=oss" target="_blank">
+  <img src="https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg" alt="Vercel banner" />
+</a>
+
 ## Previous major versions
 
 The previous major version 4.x will no longer receive new features,
