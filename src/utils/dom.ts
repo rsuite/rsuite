@@ -22,7 +22,7 @@ const focusableSelector = [
   )
   .join(',');
 
-export function isFocusableElement(element: HTMLElement) {
+export function isFocusableElement(element: Element) {
   if (element === document.body) return false;
 
   return element.matches(focusableSelector);
