@@ -22,6 +22,6 @@ describe('ButtonToolbar styles', () => {
         <Button>Title</Button>
       </ButtonToolbar>
     );
-    assert.equal(getStyle(getDOMNode(instanceRef.current).children[1], 'marginLeft'), '5px');
+    assert.equal(getStyle(getDOMNode(instanceRef.current).children[1], 'marginLeft'), '10px');
   });
 });
