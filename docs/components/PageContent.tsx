@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
+import { Divider, IconButton, Tooltip, Whisper, Placeholder, Footer } from 'rsuite';
 import canUseDOM from 'dom-lib/canUseDOM';
 import toggleClass from 'dom-lib/toggleClass';
 import { Markdown } from 'react-markdown-reader';
@@ -18,6 +18,7 @@ import Github from '@rsuite/icons/legacy/Github';
 import { Icon } from '@rsuite/icons';
 import { Transparent as TransparentIcon } from './SvgIcons';
 import { useCallback } from 'react';
+import { VercelBanner } from './VercelBanner';
 
 const babelOptions = {
   presets: ['env', 'stage-1', 'react'],
@@ -189,6 +190,11 @@ const PageContent = (props: PageContentProps) => {
       })}
 
       {children}
+
+      <Divider />
+      <Footer>
+        <VercelBanner />
+      </Footer>
     </PageContainer>
   );
 };
