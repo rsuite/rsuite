@@ -309,6 +309,29 @@ describe('<Dropdown.Menu>', () => {
     expect(getByTestId('menu')).not.to.have.attr('aria-activedescendant');
   });
 
+  it('Should not throw error when items are unmounted and keydown event is triggered', () => {
+    const { getByTestId, rerender } = render(
+      <DropdownMenu data-testid="menu">
+        <DropdownItem panel>
+          <input data-testid="input" />
+        </DropdownItem>
+        <DropdownItem data-testid="item1">Item 1</DropdownItem>
+      </DropdownMenu>
+    );
+
+    fireEvent.focus(getByTestId('input'), { bubbles: true });
+
+    rerender(
+      <DropdownMenu data-testid="menu">
+        <DropdownItem panel>
+          <input data-testid="input" />
+        </DropdownItem>
+      </DropdownMenu>
+    );
+
+    userEvent.type(getByTestId('input'), 'f');
+  });
+
   it('Should have a custom className', () => {
     const instance = getDOMNode(<DropdownMenu className="custom" />);
     assert.include(instance.className, 'custom');

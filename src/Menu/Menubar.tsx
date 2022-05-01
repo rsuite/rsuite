@@ -59,7 +59,7 @@ export default function Menubar({ vertical = false, children, onActivateItem }: 
     (event: React.KeyboardEvent<HTMLUListElement>) => {
       const activeItemElement: HTMLElement | null = isNil(activeItemIndex)
         ? null
-        : items[activeItemIndex].element;
+        : items[activeItemIndex]?.element ?? null;
       switch (true) {
         case !vertical && !rtl && event.key === KEY_VALUES.RIGHT:
         case !vertical && rtl && event.key === KEY_VALUES.LEFT:
@@ -140,7 +140,7 @@ export default function Menubar({ vertical = false, children, onActivateItem }: 
           onClick,
           'aria-activedescendant': isNil(activeItemIndex)
             ? undefined
-            : items[activeItemIndex].element.id,
+            : items[activeItemIndex]?.element.id,
           'aria-orientation': vertical ? 'vertical' : undefined // implicitly set 'horizontal'
         },
         menubarElementRef
