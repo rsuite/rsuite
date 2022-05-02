@@ -83,7 +83,7 @@ const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = Re
 
     const nav = useContext(NavContext);
 
-    if (!nav.withinNav) {
+    if (!nav) {
       throw new Error('<Nav.Dropdown.Item> should be used within a <Nav> component.');
     }
 

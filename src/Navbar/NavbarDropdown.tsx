@@ -12,7 +12,7 @@ import kebabCase from 'lodash/kebabCase';
 import { NavbarContext } from '.';
 import Disclosure from '../Disclosure/Disclosure';
 import Button from '../Button';
-import NavContext from '../Nav/NavContext';
+import NavContext, { NavContextProps } from '../Nav/NavContext';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
 
@@ -124,7 +124,7 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
       throw new Error('<Navbar.Dropdown> should be used within a <Navbar> component.');
     }
 
-    const { onSelect: onSelectFromNav } = useContext(NavContext);
+    const { onSelect: onSelectFromNav } = useContext(NavContext) as NavContextProps;
 
     const emitSelect = useCallback(
       (eventKey: string | undefined, event: React.SyntheticEvent) => {

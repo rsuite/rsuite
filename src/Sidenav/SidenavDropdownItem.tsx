@@ -85,7 +85,7 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
 
     const nav = useContext(NavContext);
 
-    if (!nav.withinNav) {
+    if (!nav) {
       throw new Error('<Nav.Dropdown.Item> should be used within a <Nav> component.');
     }
 

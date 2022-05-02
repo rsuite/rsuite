@@ -56,9 +56,9 @@ const NavbarDropdownMenu = React.forwardRef<
     ...rest
   } = props;
 
-  const { withinNav } = useContext(NavContext);
+  const nav = useContext(NavContext);
 
-  if (!withinNav) {
+  if (!nav) {
     throw new Error('<Nav.Dropdown.Menu> should be used within a <Nav> component.');
   }
 

@@ -132,11 +132,13 @@ const SidenavDropdown: SidenavDropdownComponent = React.forwardRef<HTMLElement>(
       throw new Error('<Sidenav.Dropdown> should be used within a <Sidenav> component.');
     }
 
-    const { withinNav, onSelect: onSelectFromNav } = useContext(NavContext);
+    const nav = useContext(NavContext);
 
-    if (!withinNav) {
+    if (!nav) {
       throw new Error('<Nav.Dropdown> should be used within a <Nav> component.');
     }
+
+    const { onSelect: onSelectFromNav } = nav;
 
     const emitSelect = useCallback(
       (eventKey: string | undefined, event: React.SyntheticEvent) => {

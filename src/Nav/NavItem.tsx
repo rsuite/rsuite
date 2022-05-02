@@ -70,7 +70,13 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
 
     const dropdown = useContext(DropdownContext);
 
-    const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
+    const nav = useContext(NavContext);
+
+    if (!nav) {
+      throw new Error('<Nav.Item> must be rendered within a <Nav> component.');
+    }
+
+    const { activeKey, onSelect: onSelectFromNav } = nav;
 
     const active = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
 

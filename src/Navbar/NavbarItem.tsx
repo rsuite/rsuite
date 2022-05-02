@@ -6,7 +6,7 @@ import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { shallowEqual, useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import NavContext from '../Nav/NavContext';
+import NavContext, { NavContextProps } from '../Nav/NavContext';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -30,6 +30,9 @@ export interface NavItemProps<T = string>
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
+/**
+ * @private
+ */
 const NavbarItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<any>) => {
     const {
@@ -47,7 +50,7 @@ const NavbarItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef
       ...rest
     } = props;
 
-    const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
+    const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext) as NavContextProps;
 
     const active = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
 

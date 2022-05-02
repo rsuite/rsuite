@@ -30,7 +30,7 @@ const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProp
     } = props;
 
     const sidenav = useContext(SidenavContext);
-    const { withinNav } = useContext(NavContext);
+    const nav = useContext(NavContext);
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
 
@@ -40,12 +40,7 @@ const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProp
     const Caret = useToggleCaret(inSidenav ? 'bottomStart' : placement);
 
     const toggle = (
-      <Component
-        appearance={withinNav ? 'subtle' : undefined}
-        {...rest}
-        ref={ref}
-        className={classes}
-      >
+      <Component appearance={nav ? 'subtle' : undefined} {...rest} ref={ref} className={classes}>
         {icon &&
           React.cloneElement(icon, {
             className: prefix('icon')

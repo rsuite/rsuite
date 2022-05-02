@@ -85,7 +85,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 
     const internalId = useInternalId('DropdownItem');
 
-    const { withinNav } = useContext(NavContext);
+    const nav = useContext(NavContext);
     const dropdown = useContext(DropdownContext);
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
@@ -127,7 +127,9 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 
     const renderDropdownItem = useRenderDropdownItem(Component);
 
-    if (withinNav) {
+    // If using <Dropdown.Item> within <Nav>
+    // Suggest <Nav.Item>
+    if (nav) {
       warnOnce(
         'Usage of <Dropdown.Item> within <Nav> is deprecated. Replace with <Nav.Item> within <Nav.Menu>.'
       );

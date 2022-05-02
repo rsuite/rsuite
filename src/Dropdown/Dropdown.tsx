@@ -128,7 +128,7 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
     ...toggleProps
   } = rest;
 
-  const { withinNav } = useContext(NavContext);
+  const nav = useContext(NavContext);
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
 
@@ -165,7 +165,7 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
 
   // Deprecate <Dropdown> within <Nav> usage
   // in favor of <Nav.Menu> API
-  if (withinNav) {
+  if (nav) {
     warnOnce('Usage of <Dropdown> within <Nav> is deprecated. Replace with <Nav.Menu>');
 
     return <Nav.Menu ref={ref} {...props} />;

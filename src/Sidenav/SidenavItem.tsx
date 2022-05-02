@@ -6,7 +6,7 @@ import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
-import NavContext from '../Nav/NavContext';
+import NavContext, { NavContextProps } from '../Nav/NavContext';
 import MenuItem from '../Menu/MenuItem';
 import omit from 'lodash/omit';
 import { SidenavContext } from './Sidenav';
@@ -34,6 +34,9 @@ export interface SidenavItemProps<T = any>
   panel?: boolean;
 }
 
+/**
+ * @private
+ */
 const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forwardRef<
   HTMLLIElement,
   SidenavItemProps
@@ -63,7 +66,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
     );
   }
 
-  const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
+  const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext) as NavContextProps;
 
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 

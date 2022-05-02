@@ -74,7 +74,7 @@ const DropdownMenu = React.forwardRef<
     ...rest
   } = props;
 
-  const { withinNav } = useContext(NavContext);
+  const nav = useContext(NavContext);
 
   const dropdown = useContext(DropdownContext);
   const { rtl } = useCustom('DropdownMenu');
@@ -100,7 +100,7 @@ const DropdownMenu = React.forwardRef<
 
   // If rendered within a <Nav>
   // Suggest <Nav.Menu>
-  if (withinNav) {
+  if (nav) {
     warnOnce('Usage of <Dropdown.Menu> within <Nav> is deprecated. Replace with <Nav.Menu>');
 
     return <Nav.Menu ref={ref} {...(props as any)} />;

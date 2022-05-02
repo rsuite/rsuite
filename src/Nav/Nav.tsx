@@ -5,7 +5,7 @@ import { useClassNames } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import NavContext from './NavContext';
+import NavContext, { NavContextProps } from './NavContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
 import Menubar from '../Menu/Menubar';
 import NavDropdown from './NavDropdown';
@@ -91,9 +91,8 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     sidenav || {};
 
   const activeKey = activeKeyProp ?? activeKeyFromSidenav;
-  const contextValue = useMemo(
+  const contextValue = useMemo<NavContextProps>(
     () => ({
-      withinNav: true,
       activeKey,
       onSelect: onSelectProp ?? onSelectFromSidenav
     }),
