@@ -11,8 +11,6 @@ import DropdownItem from './DropdownItem';
 import DropdownContext, { DropdownContextProps } from './DropdownContext';
 import Menu, { MenuButtonTrigger } from '../Menu/Menu';
 import DropdownToggle from './DropdownToggle';
-import MenuContext from '../Menu/MenuContext';
-import MenuItem from '../Menu/MenuItem';
 import kebabCase from 'lodash/kebabCase';
 import NavContext from '../Nav/NavContext';
 import { initialState, reducer } from './DropdownState';
@@ -137,9 +135,6 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
   const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
     useClassNames('dropdown-menu');
 
-  const { withClassPrefix: withNavItemClassPrefix, merge: mergeNavItemClassNames } =
-    useClassNames('nav-item');
-
   const menuButtonTriggers = useMemo<MenuButtonTrigger[] | undefined>(() => {
     if (!trigger) {
       return undefined;
@@ -157,8 +152,6 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
 
     return trigger.map(t => triggerMap[t]);
   }, [trigger]);
-
-  const parentMenu = useContext(MenuContext);
 
   const [{ items }, dispatch] = useReducer(reducer, initialState);
 
@@ -178,7 +171,7 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
     return <Nav.Menu ref={ref} {...props} />;
   }
 
-  let renderMenuButton = (menuButtonProps, menuButtonRef) => (
+  const renderMenuButton = (menuButtonProps, menuButtonRef) => (
     <DropdownToggle
       ref={menuButtonRef}
       as={toggleAs}
@@ -191,32 +184,6 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
       {title}
     </DropdownToggle>
   );
-
-  if (parentMenu) {
-    renderMenuButton = (menuButtonProps, buttonRef) => (
-      <MenuItem disabled={disabled}>
-        {({ active, ...menuitemProps }, menuitemRef) => {
-          return (
-            <DropdownToggle
-              ref={mergeRefs(buttonRef, menuitemRef)}
-              as={toggleAs}
-              className={mergeNavItemClassNames(
-                toggleClassName,
-                withNavItemClassPrefix({
-                  focus: active
-                })
-              )}
-              {...menuButtonProps}
-              {...omit(menuitemProps, ['onClick'])}
-              {...omit(toggleProps, 'data-testid')}
-            >
-              {title}
-            </DropdownToggle>
-          );
-        }}
-      </MenuItem>
-    );
-  }
 
   return (
     <DropdownContext.Provider value={dropdownContextValue}>
@@ -257,7 +224,6 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
               [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
               disabled,
               open,
-              submenu: !!parentMenu,
               'selected-within': hasSelectedItem
             })
           );
