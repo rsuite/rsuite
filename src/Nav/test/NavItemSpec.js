@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, getByTestId, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getByTestId, screen } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Nav from '../Nav';
@@ -9,62 +9,82 @@ import Navbar from '../../Navbar';
 import Sidenav from '../../Sidenav';
 
 describe('<Nav.Item>', () => {
-  testStandardProps(<Nav.Item />);
+  testStandardProps(<Nav.Item />, { renderOptions: { wrapper: Nav } });
 
   it('Should render a <a>', () => {
     let title = 'Test';
-    let instance = getDOMNode(<Nav.Item>{title}</Nav.Item>);
+    const { getByTestId } = render(<Nav.Item data-testid="item">{title}</Nav.Item>, {
+      wrapper: Nav
+    });
+
+    const instance = getByTestId('item');
+
     assert.equal(instance.tagName, 'A');
     assert.equal(instance.textContent, title);
   });
 
-  it('Should call onSelect callback with correct eventKey', done => {
-    let key = 'Test';
-    let doneOp = eventKey => {
-      try {
-        assert.equal(eventKey, key);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onSelect callback with correct eventKey', () => {
+    const onSelect = sinon.spy();
+    const eventKey = 'Test';
 
-    let instance = getDOMNode(<Nav.Item onSelect={doneOp} eventKey={key} />);
-    ReactTestUtils.Simulate.click(instance);
+    const { getByTestId } = render(
+      <Nav.Item onSelect={onSelect} eventKey={eventKey} data-testid="item" />,
+      {
+        wrapper: Nav
+      }
+    );
+
+    userEvent.click(getByTestId('item'));
+
+    expect(onSelect).to.have.been.calledWith(eventKey);
   });
 
-  it('Should call onClick callback', done => {
-    let doneOp = () => {
-      done();
-    };
-    let instance = getDOMNode(<Nav.Item onSelect={doneOp} />);
-    ReactTestUtils.Simulate.click(instance);
+  it('Should call onClick callback', () => {
+    const onClick = sinon.spy();
+
+    const { getByTestId } = render(<Nav.Item onClick={onClick} data-testid="item" />, {
+      wrapper: Nav
+    });
+
+    userEvent.click(getByTestId('item'));
+
+    expect(onClick).to.have.been.called;
   });
 
   it('Should be active', () => {
-    let instance = getDOMNode(<Nav.Item active />);
-    assert.include(instance.className, 'rs-nav-item-active');
+    const { getByTestId } = render(<Nav.Item active data-testid="item" />, { wrapper: Nav });
+
+    expect(getByTestId('item')).to.have.class('rs-nav-item-active');
   });
 
   it('Should be disabled', () => {
-    let instance = getDOMNode(<Nav.Item disabled />);
-    assert.include(instance.className, 'rs-nav-item-disabled');
+    const { getByTestId } = render(<Nav.Item disabled data-testid="item" />, { wrapper: Nav });
+
+    expect(getByTestId('item')).to.have.class('rs-nav-item-disabled');
   });
 
   it('Should not call onSelect callback when the `NavItem` is disabled', () => {
-    const onHideSpy = sinon.spy();
+    const onSelect = sinon.spy();
 
-    let instance = getDOMNode(<Nav.Item onSelect={onHideSpy} disabled />);
-    ReactTestUtils.Simulate.click(instance);
-    assert.ok(!onHideSpy.calledOnce);
+    const { getByTestId } = render(<Nav.Item onSelect={onSelect} disabled data-testid="item" />, {
+      wrapper: Nav
+    });
+
+    fireEvent.click(getByTestId('item'));
+
+    expect(onSelect).not.to.have.been.called;
   });
 
   it('Should not call onClick callback when the `NavItem` is disabled', () => {
-    const onHideSpy = sinon.spy();
+    const onClick = sinon.spy();
 
-    let instance = getDOMNode(<Nav.Item onClick={onHideSpy} disabled />);
-    ReactTestUtils.Simulate.click(instance);
-    assert.ok(!onHideSpy.calledOnce);
+    const { getByTestId } = render(<Nav.Item onClick={onClick} disabled data-testid="item" />, {
+      wrapper: Nav
+    });
+
+    fireEvent.click(getByTestId('item'));
+
+    expect(onClick).not.to.have.been.called;
   });
 
   context('Within <Navbar>', () => {
