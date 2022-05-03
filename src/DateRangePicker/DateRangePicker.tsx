@@ -100,6 +100,9 @@ export interface DateRangePickerProps
 
   /** Custom render value */
   renderValue?: (value: DateRange, format: string) => React.ReactNode;
+
+  /** Custom render for calendar title */
+  renderTitle?: (date: Date) => React.ReactNode;
 }
 
 export interface DateRangePicker extends PickerComponent<DateRangePickerProps> {
@@ -168,6 +171,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     onOk,
     onOpen,
     onSelect,
+    renderTitle,
     ...rest
   } = props;
   const { merge, prefix } = useClassNames(classPrefix);
@@ -705,7 +709,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       onChangeCalendarTime: handleChangeCalendarTime,
       onMouseMove: handleMouseMove,
       onSelect: handleSelectDate,
-      onToggleMeridian: handleToggleMeridian
+      onToggleMeridian: handleToggleMeridian,
+      renderTitle
     };
 
     return (
