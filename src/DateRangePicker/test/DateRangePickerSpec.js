@@ -640,7 +640,7 @@ describe('DateRangePicker', () => {
 
     const [firstTitle, secondTitle] = getAllByTestId('calendar-title');
 
-    expect(firstTitle.innerText).to.equal('1 - 2022');
-    expect(secondTitle.innerText).to.equal('2 - 2022');
+    expect(firstTitle).to.have.text('1 - 2022');
+    expect(secondTitle).to.have.text('2 - 2022');
   });
 });
