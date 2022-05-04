@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, { useCallback, useContext } from 'react';
 import omit from 'lodash/omit';
 import Menu from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
@@ -10,8 +10,6 @@ import { SidenavContext } from './Sidenav';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import useCustom from '../utils/useCustom';
-import DropdownContext from '../Dropdown/DropdownContext';
-import Menubar from '../Menu/Menubar';
 import ExpandedSidenavDropdownMenu from './ExpandedSidenavDropdownMenu';
 import NavContext from '../Nav/NavContext';
 
@@ -36,39 +34,34 @@ export interface SidenavDropdownMenuProps<T = any> extends StandardProps {
   active?: boolean;
   disabled?: boolean;
   activeKey?: T;
-  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
   onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 }
 
 /**
- * @private
+ * @private this component is not supposed to be used directly
+ *          Instead it's rendered by a <Nav.Menu> within a <Sidenav>
+ *
+ * <Sidenav>
+ *   <Nav>
+ *     <Nav.Menu>
+ *       <Nav.Menu></Nav.Menu> -> This submenu will render <SidenavDropdownMenu> component
+ *     </Nav.Menu>
+ *   </Nav>
+ * </Sidenav>
  */
 const SidenavDropdownMenu = React.forwardRef<
   HTMLElement,
   SidenavDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
 >((props, ref) => {
-  const {
-    onToggle,
-    eventKey,
-    title,
-    activeKey,
-    onSelect,
-    classPrefix = 'dropdown-menu',
-    children,
-    ...rest
-  } = props;
+  const { onToggle, eventKey, title, classPrefix = 'dropdown-menu', children, ...rest } = props;
 
+  const sidenav = useContext(SidenavContext);
   const nav = useContext(NavContext);
 
-  if (!nav) {
-    throw new Error('<Nav.Dropdown.Menu> should be used within a <Nav> component.');
-  }
-
-  const dropdown = useContext(DropdownContext);
-  const sidenav = useContext(SidenavContext);
-
-  if (!sidenav) {
-    throw new Error('<Sidenav.Dropdown.Menu> should be used within a <Sidenav> component.');
+  if (!sidenav || !nav) {
+    throw new Error(
+      '<Sidenav.Dropdown.Menu> must be rendered within a <Nav> within a <Sidenav> component.'
+    );
   }
 
   const { rtl } = useCustom('DropdownMenu');
@@ -79,7 +72,7 @@ const SidenavDropdownMenu = React.forwardRef<
     },
     [eventKey, onToggle]
   );
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix } = useClassNames(classPrefix);
 
   const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
     useClassNames('dropdown-menu');
@@ -90,25 +83,6 @@ const SidenavDropdownMenu = React.forwardRef<
     prefix: prefixItemClassName
   } = useClassNames('dropdown-item');
 
-  const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
-
-  // <Dropdown.Menu> is used outside of <Dropdown>
-  // renders a vertical `menubar`
-  if (!dropdown) {
-    const classes = merge(props.className, withClassPrefix());
-
-    return (
-      <DropdownContext.Provider value={contextValue}>
-        <Menubar vertical>
-          {(menubar, menubarRef: React.Ref<HTMLElement>) => (
-            <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest}>
-              {children}
-            </ul>
-          )}
-        </Menubar>
-      </DropdownContext.Provider>
-    );
-  }
   if (sidenav.expanded) {
     return <ExpandedSidenavDropdownMenu ref={ref} {...(omit(props, 'classPrefix') as any)} />;
   }
@@ -206,7 +180,6 @@ SidenavDropdownMenu.propTypes = {
   eventKey: PropTypes.any,
   expanded: PropTypes.bool,
   collapsible: PropTypes.bool,
-  onSelect: PropTypes.func,
   onToggle: PropTypes.func
 };
 
