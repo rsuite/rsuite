@@ -21,6 +21,28 @@ describe('<Nav.Menu>', () => {
     expect(getByText('Menu item')).to.be.visible;
   });
 
+  context('Within another <Nav.Menu>', () => {
+    it('Should render a menu item that opens a submenu when hovered ', () => {
+      const { getByText } = render(
+        <Nav.Menu title="Menu">
+          <Nav.Menu title="Submenu">
+            <Nav.Item>Submenu item</Nav.Item>
+          </Nav.Menu>
+        </Nav.Menu>,
+        {
+          wrapper: Nav
+        }
+      );
+
+      userEvent.click(getByText('Menu'));
+
+      expect(getByText('Submenu')).to.exist;
+
+      userEvent.hover(getByText('Submenu'));
+      expect(getByText('Submenu item')).to.be.visible;
+    });
+  });
+
   context('Within <Navbar>', () => {
     it('Should render a navbar item with given title text that shows more items when clicked', () => {
       const { getByText } = render(
