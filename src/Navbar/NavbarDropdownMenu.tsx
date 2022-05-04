@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import omit from 'lodash/omit';
 import { mergeRefs, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
@@ -7,9 +7,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import useCustom from '../utils/useCustom';
-import DropdownContext from '../Dropdown/DropdownContext';
 import { NavbarContext } from '.';
-import Menubar from '../Menu/Menubar';
 import Disclosure from '../Disclosure';
 import NavContext from '../Nav/NavContext';
 
@@ -34,39 +32,41 @@ export interface NavbarDropdownMenuProps<T = any> extends StandardProps {
   active?: boolean;
   disabled?: boolean;
   activeKey?: T;
-  onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
   onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 }
 
 /**
- * @private
+ * @private this component is not supposed to be used directly
+ *          Instead it's rendered by a <Nav.Menu> within a <Navbar>
+ *
+ * <Navbar>
+ *   <Nav>
+ *     <Nav.Menu>
+ *       <Nav.Menu title="menu"> -> This submenu will render <NavbarDropdownMenu> component
+ *       </Nav.Menu>
+ *     </Nav.Menu>
+ *   </Nav>
+ * </Navbar>
  */
 const NavbarDropdownMenu = React.forwardRef<
   HTMLElement,
   NavbarDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
 >((props, ref) => {
-  const {
-    onToggle,
-    eventKey,
-    title,
-    activeKey,
-    onSelect,
-    classPrefix = 'dropdown-menu',
-    children,
-    ...rest
-  } = props;
+  const { onToggle, eventKey, title, classPrefix = 'dropdown-menu', children, ...rest } = props;
 
+  const navbar = useContext(NavbarContext);
   const nav = useContext(NavContext);
 
-  if (!nav) {
-    throw new Error('<Nav.Dropdown.Menu> should be used within a <Nav> component.');
+  // Renders a disclosure when used within <Navbar>
+  if (!navbar || !nav) {
+    throw new Error(
+      '<Navbar.Dropdown.Menu> must be rendered within a <Nav> within a <Navbar> component.'
+    );
   }
 
-  const dropdown = useContext(DropdownContext);
-  const withinNavbar = Boolean(useContext(NavbarContext));
   const { rtl } = useCustom('DropdownMenu');
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { prefix } = useClassNames(classPrefix);
 
   const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
     useClassNames('dropdown-menu');
@@ -77,36 +77,11 @@ const NavbarDropdownMenu = React.forwardRef<
     prefix: prefixItemClassName
   } = useClassNames('dropdown-item');
 
-  const contextValue = useMemo(() => ({ activeKey, onSelect }), [activeKey, onSelect]);
-
-  // <Dropdown.Menu> is used outside of <Dropdown>
-  // renders a vertical `menubar`
-  if (!dropdown) {
-    const classes = merge(props.className, withClassPrefix());
-
-    return (
-      <DropdownContext.Provider value={contextValue}>
-        <Menubar vertical>
-          {(menubar, menubarRef: React.Ref<HTMLElement>) => (
-            <ul ref={mergeRefs(menubarRef, ref)} className={classes} {...menubar} {...rest}>
-              {children}
-            </ul>
-          )}
-        </Menubar>
-      </DropdownContext.Provider>
-    );
-  }
-
   // Parent menu exists. This is a submenu.
   // Should render a `menuitem` that controls this submenu.
   const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
 
   const Icon = rtl ? AngleLeft : AngleRight;
-
-  // Renders a disclosure when used within <Navbar>
-  if (!withinNavbar) {
-    throw new Error('<Navbar.Dropdown.Menu> should be used within a <Navbar> component.');
-  }
 
   return (
     <Disclosure
@@ -189,7 +164,6 @@ NavbarDropdownMenu.propTypes = {
   eventKey: PropTypes.any,
   expanded: PropTypes.bool,
   collapsible: PropTypes.bool,
-  onSelect: PropTypes.func,
   onToggle: PropTypes.func
 };
 
