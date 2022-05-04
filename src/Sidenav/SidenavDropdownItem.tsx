@@ -62,7 +62,16 @@ export interface SidenavDropdownItemProps<T = any>
 }
 
 /**
- * @private
+ * @private this component is not supposed to be used directly
+ *          Instead it's rendered by a <Nav.Item> within a <Sidenav>
+ *
+ * <Sidenav>
+ *   <Nav>
+ *     <Nav.Menu>
+ *       <Nav.Item></Nav.Item> -> This will render <SidenavDropdownItem> component
+ *     </Nav.Menu>
+ *   </Nav>
+ * </Sidenav>
  */
 const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemProps> =
   React.forwardRef((props: SidenavDropdownItemProps, ref: React.Ref<any>) => {
@@ -83,10 +92,13 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
 
     const internalId = useInternalId('DropdownItem');
 
+    const sidenav = useContext(SidenavContext);
     const nav = useContext(NavContext);
 
-    if (!nav) {
-      throw new Error('<Nav.Dropdown.Item> should be used within a <Nav> component.');
+    if (!sidenav || !nav) {
+      throw new Error(
+        '<Sidenav.Dropdown.Item> must be used within a <Nav> within a <Sidenav> component.'
+      );
     }
 
     const dropdown = useContext(DropdownContext);
@@ -99,12 +111,6 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
       },
       [onSelect, eventKey, dropdown]
     );
-
-    const sidenav = useContext(SidenavContext);
-
-    if (!sidenav) {
-      throw new Error('<Sidenav.Dropdown.Menu> should be used within a <Sidenav> component.');
-    }
 
     const selected =
       activeProp ||
