@@ -624,4 +624,23 @@ describe('DateRangePicker', () => {
 
     expect(getByLabelText('gear')).to.have.class('rs-icon');
   });
+
+  it('Should render a custom calendar title', () => {
+    const { getAllByTestId } = render(
+      <DateRangePicker
+        value={[new Date(2022, 1, 1), new Date(2022, 2, 2)]}
+        open
+        renderTitle={date => (
+          <span data-testid="calendar-title">
+            {date.getMonth()} - {date.getFullYear()}
+          </span>
+        )}
+      />
+    );
+
+    const [firstTitle, secondTitle] = getAllByTestId('calendar-title');
+
+    expect(firstTitle).to.have.text('1 - 2022');
+    expect(secondTitle).to.have.text('2 - 2022');
+  });
 });
