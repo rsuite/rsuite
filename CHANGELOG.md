@@ -1,3 +1,15 @@
+# [5.11.0](https://github.com/rsuite/rsuite/compare/v5.10.0...v5.11.0) (2022-05-05)
+
+### Bug Fixes
+
+- **ButtonToolbar:** change item gap to 10px ([#2475](https://github.com/rsuite/rsuite/issues/2475)) ([d97810a](https://github.com/rsuite/rsuite/commit/d97810ab4cd401b27be929569ce85bff0f498498))
+- **Dropdown.Menu:** fix expected highlight item when focus moving in ([#2477](https://github.com/rsuite/rsuite/issues/2477)) ([b9fdea5](https://github.com/rsuite/rsuite/commit/b9fdea5d57ce76ddc80f5e9776feab02e4ebfacd))
+- **Menubar:** fix unhandled nullish value ([#2478](https://github.com/rsuite/rsuite/issues/2478)) ([10d515d](https://github.com/rsuite/rsuite/commit/10d515d06dd08f2b93e5d7dbd3be7b1114185cab))
+
+### Features
+
+- **DateRangePicker:** expose calendars renderTitle ([#2480](https://github.com/rsuite/rsuite/issues/2480)) ([4461e09](https://github.com/rsuite/rsuite/commit/4461e09ec3917f379b5df213db16cedade6f39e1))
+
 # [5.10.0](https://github.com/rsuite/rsuite/compare/v5.9.0...v5.10.0) (2022-04-28)
 
 ### Features
