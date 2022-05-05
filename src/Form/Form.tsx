@@ -12,6 +12,7 @@ import FormGroup from '../FormGroup';
 import FormHelpText from '../FormHelpText';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import { useFormClassNames } from './useFormClassNames';
+import useSchemaModel from './useSchemaModel';
 
 export interface FormProps<
   T = Record<string, any>,
@@ -116,7 +117,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     formError,
     fluid,
     layout = 'vertical',
-    model = SchemaModel({}),
+    model: parentModel = SchemaModel({}),
     readOnly,
     plaintext,
     className,
@@ -128,6 +129,8 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     onChange,
     ...rest
   } = props;
+
+  const [generatorModel, registerModel] = useSchemaModel(parentModel);
 
   const classes = useFormClassNames({
     classPrefix,
@@ -160,6 +163,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       const formValue = getFormValue() || {};
       const formError = {};
       let errorCount = 0;
+      const model = generatorModel();
 
       Object.keys(model.spec).forEach(key => {
         const checkResult = model.checkForField(key, formValue);
@@ -180,7 +184,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
 
       return true;
     },
-    [onCheck, onError, model, getFormValue]
+    [getFormValue, generatorModel, onCheck, onError]
   );
 
   /**
@@ -191,6 +195,8 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const checkForField = useCallback(
     (fieldName: string, callback?: (checkResult: any) => void) => {
       const formValue = getFormValue() || {};
+      const model = generatorModel();
+
       const checkResult = model.checkForField(fieldName, formValue);
 
       const formError = {
@@ -208,7 +214,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
 
       return !checkResult.hasError;
     },
-    [model, getFormValue, getFormError, onCheck, onError]
+    [getFormValue, generatorModel, getFormError, onCheck, onError]
   );
 
   /**
@@ -218,6 +224,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     const formValue = getFormValue() || {};
     const promises: Promise<CheckResult>[] = [];
     const keys: string[] = [];
+    const model = generatorModel();
 
     Object.keys(model.spec).forEach(key => {
       keys.push(key);
@@ -244,7 +251,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
 
       return { hasError: errorCount > 0, formError };
     });
-  }, [model, getFormValue, onCheck, onError]);
+  }, [getFormValue, generatorModel, onCheck, onError]);
 
   /**
    * Asynchronously check form fields and return Promise
@@ -253,6 +260,8 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const checkForFieldAsync = useCallback(
     (fieldName: string) => {
       const formValue = getFormValue() || {};
+      const model = generatorModel();
+
       return model.checkForFieldAsync(fieldName, formValue).then(checkResult => {
         const formError = { ...getFormError(), [fieldName]: checkResult.errorMessage };
 
@@ -266,7 +275,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
         return checkResult;
       });
     },
-    [model, getFormValue, getFormError, onCheck, onError]
+    [getFormValue, generatorModel, getFormError, onCheck, onError]
   );
 
   const cleanErrors = useCallback(() => {
@@ -363,7 +372,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const rootRef = useRef<HTMLFormElement>(null);
   const formContextValue = useMemo(
     () => ({
-      model,
+      generatorModel,
       checkTrigger,
       formDefaultValue,
       errorFromContext,
@@ -373,12 +382,13 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       formError: getFormError(),
       removeFieldValue,
       removeFieldError,
+      registerModel,
       onFieldChange: handleFieldChange,
       onFieldError: handleFieldError,
       onFieldSuccess: handleFieldSuccess
     }),
     [
-      model,
+      generatorModel,
       checkTrigger,
       formDefaultValue,
       errorFromContext,
@@ -388,6 +398,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       getFormError,
       removeFieldValue,
       removeFieldError,
+      registerModel,
       handleFieldChange,
       handleFieldError,
       handleFieldSuccess

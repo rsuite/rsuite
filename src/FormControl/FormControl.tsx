@@ -8,6 +8,8 @@ import { TypeAttributes, FormControlBaseProps, WithAsProps } from '../@types/com
 import FormContext, { FormValueContext } from '../Form/FormContext';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { useWillUnmount } from '../utils';
+import useRegisterModel from './useRegisterModel';
+import type { CheckType } from 'schema-typed';
 
 /**
  * Props that FormControl passes to its accepter
@@ -52,6 +54,9 @@ export interface FormControlProps<P = any, ValueType = any>
 
   /** Remove field value and error message when component is unmounted  */
   shouldResetWithUnmount?: boolean;
+
+  /** Validation rule */
+  rule?: CheckType<unknown, any>;
 }
 
 interface FormControlComponent extends React.FC<FormControlProps> {
@@ -70,10 +75,11 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     formError,
     removeFieldValue,
     removeFieldError,
+    registerModel,
     onFieldChange,
     onFieldError,
     onFieldSuccess,
-    model,
+    generatorModel,
     checkTrigger: contextCheckTrigger
   } = useContext(FormContext);
 
@@ -95,6 +101,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     onBlur,
     defaultValue,
     shouldResetWithUnmount = false,
+    rule,
     ...rest
   } = props;
 
@@ -106,6 +113,8 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
       And need to update React to 16.6.0 +.
     `);
   }
+
+  useRegisterModel(registerModel!, name, rule);
 
   useWillUnmount(() => {
     if (shouldResetWithUnmount) {
@@ -146,7 +155,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     };
 
     const nextFormValue = { ...formValue, [name]: value };
-
+    const model = generatorModel?.();
     if (checkAsync) {
       return model?.checkForFieldAsync(name, nextFormValue).then(checkResult => {
         return callbackEvents(checkResult);

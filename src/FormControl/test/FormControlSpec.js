@@ -253,4 +253,18 @@ describe('FormControl', () => {
     assert.deepEqual(refValue, { email: '' });
     assert.deepEqual(refError, {});
   });
+  it("should check the field's rule", () => {
+    const formRef = React.createRef();
+    render(
+      <Form
+        ref={formRef}
+        onError={forError => {
+          assert.deepEqual(forError, { items: 'require' });
+        }}
+      >
+        <FormControl name="items" rule={Schema.Types.StringType().isRequired('require')} />
+      </Form>
+    );
+    formRef.current.check();
+  });
 });

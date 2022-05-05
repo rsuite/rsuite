@@ -1,13 +1,13 @@
 import React from 'react';
-import { Schema } from 'schema-typed';
 import { TypeAttributes } from '../@types/common';
-
+import type { Schema } from 'schema-typed';
+import type { RegisterFieldRuleType } from './useSchemaModel';
 export interface FormContextValue<
   T = Record<string, any>,
   errorMsgType = any,
   E = { [P in keyof T]?: errorMsgType }
 > {
-  model?: Schema;
+  generatorModel?: () => Schema;
   checkTrigger?: TypeAttributes.CheckTrigger;
   formDefaultValue?: T;
   errorFromContext?: boolean;
@@ -17,6 +17,7 @@ export interface FormContextValue<
   formError?: E;
   removeFieldValue?: (name: string) => void;
   removeFieldError?: (name: string) => void;
+  registerModel?: (name: string, subType: RegisterFieldRuleType) => () => void;
   onFieldChange?: (name: string, value: any, event: React.SyntheticEvent) => void;
   onFieldError?: (name: string, errorMessage: string) => void;
   onFieldSuccess?: (name: string) => void;
