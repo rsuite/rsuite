@@ -1,10 +1,10 @@
 import { useRef, useEffect } from 'react';
-import type { RegisterFieldRuleType } from '../Form/useSchemaModel';
+import type { FieldRuleType } from '../Form/useSchemaModel';
 import type { CheckType } from 'schema-typed';
 
 function useRegisterModel(
-  register: (n: string, r: RegisterFieldRuleType) => () => void,
   name: string,
+  register: (n: string, r: FieldRuleType) => () => void,
   rule?: CheckType<unknown, any>
 ) {
   const refRule = useRef(rule);

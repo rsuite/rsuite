@@ -3,31 +3,42 @@ import { useRef, useCallback } from 'react';
 import type { MutableRefObject } from 'react';
 import type { CheckType, Schema } from 'schema-typed';
 
-export type RegisterFieldRuleType = MutableRefObject<CheckType<unknown, any> | undefined>;
+export type FieldRuleType = MutableRefObject<CheckType<unknown, any> | undefined>;
+type RealFieldRuleType = MutableRefObject<CheckType<unknown, any>>;
+
+interface RuleInfoType {
+  name: string;
+  fieldRule: FieldRuleType;
+}
+interface RealRuleInfoType extends RuleInfoType {
+  fieldRule: RealFieldRuleType;
+}
 
 function useSchemaModel(parentModel: Schema) {
-  const subModelRef = useRef<{ name: string; fieldRule: RegisterFieldRuleType }[]>([]);
+  const subRulesRef = useRef<RuleInfoType[]>([]);
 
-  const registerModel = useCallback((name: string, fieldRule: RegisterFieldRuleType) => {
-    subModelRef.current.push({ name, fieldRule });
+  const registerModel = useCallback((name: string, fieldRule: FieldRuleType) => {
+    subRulesRef.current.push({ name, fieldRule });
     let isRegister = true;
     return () => {
       if (!isRegister) {
         return;
       }
       isRegister = false;
-      const index = subModelRef.current.findIndex(v => v.name === name);
-      subModelRef.current.splice(index, 1);
+      const index = subRulesRef.current.findIndex(v => v.name === name);
+      subRulesRef.current.splice(index, 1);
     };
   }, []);
 
   const generatorModel = useCallback(() => {
+    const realSubRules = subRulesRef.current.filter<RealRuleInfoType>((v): v is RealRuleInfoType =>
+      Boolean(v.fieldRule.current)
+    );
     return SchemaModel.combine(
       parentModel,
       SchemaModel(
-        subModelRef.current
-          .filter(({ fieldRule }) => Boolean(fieldRule.current))
-          .map(({ name, fieldRule }) => ({ [name]: fieldRule.current! }))
+        realSubRules
+          .map(({ name, fieldRule }) => ({ [name]: fieldRule.current }))
           .reduce((a, b) => Object.assign(a, b), {})
       )
     );

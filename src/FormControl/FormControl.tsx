@@ -114,7 +114,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     `);
   }
 
-  useRegisterModel(registerModel!, name, rule);
+  useRegisterModel(name, registerModel, rule);
 
   useWillUnmount(() => {
     if (shouldResetWithUnmount) {
@@ -155,7 +155,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     };
 
     const nextFormValue = { ...formValue, [name]: value };
-    const model = generatorModel?.();
+    const model = generatorModel();
     if (checkAsync) {
       return model?.checkForFieldAsync(name, nextFormValue).then(checkResult => {
         return callbackEvents(checkResult);
