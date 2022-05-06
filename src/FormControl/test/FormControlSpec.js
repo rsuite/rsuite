@@ -253,6 +253,7 @@ describe('FormControl', () => {
     assert.deepEqual(refValue, { email: '' });
     assert.deepEqual(refError, {});
   });
+
   it("should check the field's rule", () => {
     const formRef = React.createRef();
     render(
@@ -266,5 +267,75 @@ describe('FormControl', () => {
       </Form>
     );
     formRef.current.check();
+  });
+
+  it('Should not validate fields unmounted with rule', () => {
+    const formRef = React.createRef();
+    let errorRef = null;
+    function Wrapper() {
+      const [show, setShow] = useState(true);
+      return (
+        <>
+          <button
+            onClick={() => {
+              setShow(false);
+            }}
+          >
+            hidden
+          </button>
+          <Form
+            ref={formRef}
+            onError={forError => {
+              errorRef = forError;
+            }}
+          >
+            <FormControl name="user" rule={Schema.Types.StringType().isRequired('require')} />
+            {show && (
+              <FormControl name="password" rule={Schema.Types.StringType().isRequired('require')} />
+            )}
+          </Form>
+        </>
+      );
+    }
+    const { container } = render(<Wrapper />);
+    formRef.current.check();
+    assert.deepEqual(errorRef, { user: 'require', password: 'require' });
+    fireEvent.click(container.querySelector('button'));
+    formRef.current.check();
+    assert.deepEqual(errorRef, { user: 'require' });
+  });
+
+  it("Should validate accurately,when field's rule is dynamic", () => {
+    const formRef = React.createRef();
+    let errorRef = null;
+    function Wrapper() {
+      const [rule, setRule] = useState(Schema.Types.StringType().isRequired('require'));
+      return (
+        <>
+          <button
+            onClick={() => {
+              setRule(Schema.Types.StringType().isRequired('second require'));
+            }}
+          >
+            setRule
+          </button>
+          <Form
+            ref={formRef}
+            onError={forError => {
+              errorRef = forError;
+            }}
+          >
+            <FormControl name="user" rule={rule} />
+          </Form>
+        </>
+      );
+    }
+
+    const { container } = render(<Wrapper />);
+    formRef.current.check();
+    assert.deepEqual(errorRef, { user: 'require' });
+    fireEvent.click(container.querySelector('button'));
+    formRef.current.check();
+    assert.deepEqual(errorRef, { user: 'second require' });
   });
 });

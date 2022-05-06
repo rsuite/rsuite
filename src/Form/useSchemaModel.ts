@@ -8,7 +8,7 @@ export type RegisterFieldRuleType = MutableRefObject<CheckType<unknown, any> | u
 function useSchemaModel(parentModel: Schema) {
   const subModelRef = useRef<{ name: string; fieldRule: RegisterFieldRuleType }[]>([]);
 
-  const registerModel = (name: string, fieldRule: RegisterFieldRuleType) => {
+  const registerModel = useCallback((name: string, fieldRule: RegisterFieldRuleType) => {
     subModelRef.current.push({ name, fieldRule });
     let isRegister = true;
     return () => {
@@ -17,9 +17,9 @@ function useSchemaModel(parentModel: Schema) {
       }
       isRegister = false;
       const index = subModelRef.current.findIndex(v => v.name === name);
-      subModelRef.current = subModelRef.current.splice(index, 1);
+      subModelRef.current.splice(index, 1);
     };
-  };
+  }, []);
 
   const generatorModel = useCallback(() => {
     return SchemaModel.combine(
