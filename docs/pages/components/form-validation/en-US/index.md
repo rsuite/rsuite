@@ -62,6 +62,16 @@ Form Check needs to be used `<Form>`, `<Form.Control>` and `Schema` 。
 
 <!--{include:`form-check.md`}-->
 
+### Field level Verification rules
+
+When there are more and more Fields, huge `model` codes or files are generated. And since in the definition at the top level, it is not flexible enough(ex: If a new Field is added or a Field is deleted, Normally you also need to manipulate the `model` at the top level)
+
+At this time, the verification rules of the Field level may be a better choice. It adds it when the component is mounted, and delete it when the component is unmounted.
+
+- `<Form.Control>` supports adding verification rule for the current Field via the `rule` attribute.
+
+<!--{include:`form-control-rule.md`}-->
+
 ### Asynchronous check
 
 Under certain conditions, we need to perform asynchronous verification on the data, such as verifying whether the username is duplicated. The following example will illustrate the processing of asynchronous verification.
