@@ -14,7 +14,7 @@ interface RealRuleInfoType extends RuleInfoType {
   fieldRule: RealFieldRuleType;
 }
 
-function useSchemaModel(parentModel: Schema) {
+function useSchemaModel(formModel: Schema) {
   const subRulesRef = useRef<RuleInfoType[]>([]);
 
   const registerModel = useCallback((name: string, fieldRule: FieldRuleType) => {
@@ -30,21 +30,21 @@ function useSchemaModel(parentModel: Schema) {
     };
   }, []);
 
-  const generatorModel = useCallback(() => {
+  const getCombinedModel = useCallback(() => {
     const realSubRules = subRulesRef.current.filter<RealRuleInfoType>((v): v is RealRuleInfoType =>
       Boolean(v.fieldRule.current)
     );
     return SchemaModel.combine(
-      parentModel,
+      formModel,
       SchemaModel(
         realSubRules
           .map(({ name, fieldRule }) => ({ [name]: fieldRule.current }))
           .reduce((a, b) => Object.assign(a, b), {})
       )
     );
-  }, [parentModel]);
+  }, [formModel]);
 
-  return [generatorModel, registerModel] as const;
+  return [getCombinedModel, registerModel] as const;
 }
 
 export default useSchemaModel;

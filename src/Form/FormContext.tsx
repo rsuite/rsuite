@@ -8,7 +8,7 @@ interface TrulyFormContextValue<
   errorMsgType = any,
   E = { [P in keyof T]?: errorMsgType }
 > {
-  generatorModel: () => Schema;
+  getCombinedModel: () => Schema;
   formError: E;
   removeFieldValue: (name: string) => void;
   removeFieldError: (name: string) => void;

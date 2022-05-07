@@ -117,7 +117,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     formError,
     fluid,
     layout = 'vertical',
-    model: parentModel = SchemaModel({}),
+    model: formModel = SchemaModel({}),
     readOnly,
     plaintext,
     className,
@@ -130,7 +130,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     ...rest
   } = props;
 
-  const [generatorModel, registerModel] = useSchemaModel(parentModel);
+  const [getCombinedModel, registerModel] = useSchemaModel(formModel);
 
   const classes = useFormClassNames({
     classPrefix,
@@ -163,7 +163,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       const formValue = getFormValue() || {};
       const formError = {};
       let errorCount = 0;
-      const model = generatorModel();
+      const model = getCombinedModel();
 
       Object.keys(model.spec).forEach(key => {
         const checkResult = model.checkForField(key, formValue);
@@ -184,7 +184,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
 
       return true;
     },
-    [getFormValue, generatorModel, onCheck, onError]
+    [getFormValue, getCombinedModel, onCheck, onError]
   );
 
   /**
@@ -195,7 +195,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const checkForField = useCallback(
     (fieldName: string, callback?: (checkResult: any) => void) => {
       const formValue = getFormValue() || {};
-      const model = generatorModel();
+      const model = getCombinedModel();
 
       const checkResult = model.checkForField(fieldName, formValue);
 
@@ -214,7 +214,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
 
       return !checkResult.hasError;
     },
-    [getFormValue, generatorModel, getFormError, onCheck, onError]
+    [getFormValue, getCombinedModel, getFormError, onCheck, onError]
   );
 
   /**
@@ -224,7 +224,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     const formValue = getFormValue() || {};
     const promises: Promise<CheckResult>[] = [];
     const keys: string[] = [];
-    const model = generatorModel();
+    const model = getCombinedModel();
 
     Object.keys(model.spec).forEach(key => {
       keys.push(key);
@@ -251,7 +251,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
 
       return { hasError: errorCount > 0, formError };
     });
-  }, [getFormValue, generatorModel, onCheck, onError]);
+  }, [getFormValue, getCombinedModel, onCheck, onError]);
 
   /**
    * Asynchronously check form fields and return Promise
@@ -260,7 +260,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const checkForFieldAsync = useCallback(
     (fieldName: string) => {
       const formValue = getFormValue() || {};
-      const model = generatorModel();
+      const model = getCombinedModel();
 
       return model.checkForFieldAsync(fieldName, formValue).then(checkResult => {
         const formError = { ...getFormError(), [fieldName]: checkResult.errorMessage };
@@ -275,7 +275,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
         return checkResult;
       });
     },
-    [getFormValue, generatorModel, getFormError, onCheck, onError]
+    [getFormValue, getCombinedModel, getFormError, onCheck, onError]
   );
 
   const cleanErrors = useCallback(() => {
@@ -372,7 +372,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
   const rootRef = useRef<HTMLFormElement>(null);
   const formContextValue = useMemo(
     () => ({
-      generatorModel,
+      getCombinedModel,
       checkTrigger,
       formDefaultValue,
       errorFromContext,
@@ -388,7 +388,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       onFieldSuccess: handleFieldSuccess
     }),
     [
-      generatorModel,
+      getCombinedModel,
       checkTrigger,
       formDefaultValue,
       errorFromContext,

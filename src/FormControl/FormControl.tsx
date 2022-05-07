@@ -79,7 +79,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     onFieldChange,
     onFieldError,
     onFieldSuccess,
-    generatorModel,
+    getCombinedModel,
     checkTrigger: contextCheckTrigger
   } = useContext(FormContext);
 
@@ -155,7 +155,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     };
 
     const nextFormValue = { ...formValue, [name]: value };
-    const model = generatorModel();
+    const model = getCombinedModel();
     if (checkAsync) {
       return model?.checkForFieldAsync(name, nextFormValue).then(checkResult => {
         return callbackEvents(checkResult);
