@@ -254,87 +254,113 @@ describe('FormControl', () => {
     assert.deepEqual(refError, {});
   });
 
-  it("should check the field's rule", () => {
-    const formRef = React.createRef();
-    const handleError = sinon.spy();
+  describe('rule', () => {
+    it("should check the field's rule", () => {
+      const formRef = React.createRef();
+      const handleError = sinon.spy();
 
-    render(
-      <Form ref={formRef} onError={handleError}>
-        <FormControl name="items" rule={Schema.Types.StringType().isRequired('require')} />
-      </Form>
-    );
-    formRef.current.check();
-    assert.equal(handleError.callCount, 1);
-    assert.deepEqual(handleError.firstCall.firstArg, { items: 'require' });
-  });
-
-  it('Should not validate fields unmounted with rule', () => {
-    const formRef = React.createRef();
-    const handleError = sinon.spy();
-
-    function Wrapper() {
-      const [show, setShow] = useState(true);
-      return (
-        <>
-          <button
-            onClick={() => {
-              setShow(false);
-            }}
-          >
-            hidden
-          </button>
-          <Form ref={formRef} onError={handleError}>
-            <FormControl name="user" rule={Schema.Types.StringType().isRequired('require')} />
-            {show && (
-              <FormControl name="password" rule={Schema.Types.StringType().isRequired('require')} />
-            )}
-          </Form>
-        </>
+      render(
+        <Form ref={formRef} onError={handleError}>
+          <FormControl name="items" rule={Schema.Types.StringType().isRequired('require')} />
+        </Form>
       );
-    }
-    const { container } = render(<Wrapper />);
+      formRef.current.check();
+      assert.equal(handleError.callCount, 1);
+      assert.deepEqual(handleError.firstCall.firstArg, { items: 'require' });
+    });
 
-    formRef.current.check();
-    assert.equal(handleError.callCount, 1);
-    assert.deepEqual(handleError.firstCall.firstArg, { user: 'require', password: 'require' });
+    it('Should not validate fields unmounted with rule', () => {
+      const formRef = React.createRef();
+      const handleError = sinon.spy();
 
-    fireEvent.click(container.querySelector('button'));
-    formRef.current.check();
-    assert.equal(handleError.callCount, 2);
-    assert.deepEqual(handleError.secondCall.firstArg, { user: 'require' });
-  });
+      function Wrapper() {
+        const [show, setShow] = useState(true);
+        return (
+          <>
+            <button
+              onClick={() => {
+                setShow(false);
+              }}
+            >
+              hidden
+            </button>
+            <Form ref={formRef} onError={handleError}>
+              <FormControl name="user" rule={Schema.Types.StringType().isRequired('require')} />
+              {show && (
+                <FormControl
+                  name="password"
+                  rule={Schema.Types.StringType().isRequired('require')}
+                />
+              )}
+            </Form>
+          </>
+        );
+      }
+      const { container } = render(<Wrapper />);
 
-  it("Should validate accurately,when field's rule is dynamic", () => {
-    const formRef = React.createRef();
-    const handleError = sinon.spy();
+      formRef.current.check();
+      assert.equal(handleError.callCount, 1);
+      assert.deepEqual(handleError.firstCall.firstArg, { user: 'require', password: 'require' });
 
-    function Wrapper() {
-      const [rule, setRule] = useState(Schema.Types.StringType().isRequired('require'));
-      return (
-        <>
-          <button
-            onClick={() => {
-              setRule(Schema.Types.StringType().isRequired('second require'));
-            }}
-          >
-            setRule
-          </button>
-          <Form ref={formRef} onError={handleError}>
-            <FormControl name="user" rule={rule} />
+      fireEvent.click(container.querySelector('button'));
+      formRef.current.check();
+      assert.equal(handleError.callCount, 2);
+      assert.deepEqual(handleError.secondCall.firstArg, { user: 'require' });
+    });
+
+    it("Should validate accurately,when field's rule is dynamic", () => {
+      const formRef = React.createRef();
+      const handleError = sinon.spy();
+
+      function Wrapper() {
+        const [rule, setRule] = useState(Schema.Types.StringType().isRequired('require'));
+        return (
+          <>
+            <button
+              onClick={() => {
+                setRule(Schema.Types.StringType().isRequired('second require'));
+              }}
+            >
+              setRule
+            </button>
+            <Form ref={formRef} onError={handleError}>
+              <FormControl name="user" rule={rule} />
+            </Form>
+          </>
+        );
+      }
+
+      const { container } = render(<Wrapper />);
+
+      formRef.current.check();
+      assert.equal(handleError.callCount, 1);
+      assert.deepEqual(handleError.firstCall.firstArg, { user: 'require' });
+
+      fireEvent.click(container.querySelector('button'));
+      formRef.current.check();
+      assert.equal(handleError.callCount, 2);
+      assert.deepEqual(handleError.secondCall.firstArg, { user: 'second require' });
+    });
+
+    it("Should use the field's rule when both model and field have same name rule", () => {
+      const formRef = React.createRef();
+      const handleError = sinon.spy();
+
+      function Wrapper() {
+        const model = Schema.Model({
+          user: Schema.Types.StringType().isRequired('form require')
+        });
+        return (
+          <Form ref={formRef} model={model} onError={handleError}>
+            <FormControl name="user" rule={Schema.Types.StringType().isRequired('field require')} />
           </Form>
-        </>
-      );
-    }
+        );
+      }
+      render(<Wrapper />);
 
-    const { container } = render(<Wrapper />);
-
-    formRef.current.check();
-    assert.equal(handleError.callCount, 1);
-    assert.deepEqual(handleError.firstCall.firstArg, { user: 'require' });
-
-    fireEvent.click(container.querySelector('button'));
-    formRef.current.check();
-    assert.equal(handleError.callCount, 2);
-    assert.deepEqual(handleError.secondCall.firstArg, { user: 'second require' });
+      formRef.current.check();
+      assert.equal(handleError.callCount, 1);
+      assert.equal(handleError.firstCall.firstArg.user, 'field require');
+    });
   });
 });
