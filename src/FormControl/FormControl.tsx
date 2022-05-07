@@ -75,7 +75,8 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     formError,
     removeFieldValue,
     removeFieldError,
-    registerModel,
+    pushFieldRule,
+    removeFieldRule,
     onFieldChange,
     onFieldError,
     onFieldSuccess,
@@ -114,7 +115,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     `);
   }
 
-  useRegisterModel(name, registerModel, rule);
+  useRegisterModel(name, pushFieldRule, removeFieldRule, rule);
 
   useWillUnmount(() => {
     if (shouldResetWithUnmount) {

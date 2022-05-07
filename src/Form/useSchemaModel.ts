@@ -17,17 +17,13 @@ interface RealRuleInfoType extends RuleInfoType {
 function useSchemaModel(formModel: Schema) {
   const subRulesRef = useRef<RuleInfoType[]>([]);
 
-  const registerModel = useCallback((name: string, fieldRule: FieldRuleType) => {
+  const pushFieldRule = useCallback((name: string, fieldRule: FieldRuleType) => {
     subRulesRef.current.push({ name, fieldRule });
-    let isRegister = true;
-    return () => {
-      if (!isRegister) {
-        return;
-      }
-      isRegister = false;
-      const index = subRulesRef.current.findIndex(v => v.name === name);
-      subRulesRef.current.splice(index, 1);
-    };
+  }, []);
+
+  const removeFieldRule = useCallback((name: string) => {
+    const index = subRulesRef.current.findIndex(v => v.name === name);
+    subRulesRef.current.splice(index, 1);
   }, []);
 
   const getCombinedModel = useCallback(() => {
@@ -44,7 +40,7 @@ function useSchemaModel(formModel: Schema) {
     );
   }, [formModel]);
 
-  return [getCombinedModel, registerModel] as const;
+  return { getCombinedModel, pushFieldRule, removeFieldRule };
 }
 
 export default useSchemaModel;

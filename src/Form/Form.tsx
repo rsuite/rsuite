@@ -130,7 +130,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
     ...rest
   } = props;
 
-  const [getCombinedModel, registerModel] = useSchemaModel(formModel);
+  const { getCombinedModel, pushFieldRule, removeFieldRule } = useSchemaModel(formModel);
 
   const classes = useFormClassNames({
     classPrefix,
@@ -382,7 +382,8 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       formError: getFormError(),
       removeFieldValue,
       removeFieldError,
-      registerModel,
+      pushFieldRule,
+      removeFieldRule,
       onFieldChange: handleFieldChange,
       onFieldError: handleFieldError,
       onFieldSuccess: handleFieldSuccess
@@ -398,7 +399,8 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
       getFormError,
       removeFieldValue,
       removeFieldError,
-      registerModel,
+      pushFieldRule,
+      removeFieldRule,
       handleFieldChange,
       handleFieldError,
       handleFieldSuccess

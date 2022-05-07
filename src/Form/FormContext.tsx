@@ -12,7 +12,8 @@ interface TrulyFormContextValue<
   formError: E;
   removeFieldValue: (name: string) => void;
   removeFieldError: (name: string) => void;
-  registerModel: (name: string, subType: FieldRuleType) => () => void;
+  pushFieldRule: (name: string, fieldRule: FieldRuleType) => void;
+  removeFieldRule: (name: string) => void;
   onFieldChange: (name: string, value: any, event: React.SyntheticEvent) => void;
   onFieldError: (name: string, errorMessage: string) => void;
   onFieldSuccess: (name: string) => void;
