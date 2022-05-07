@@ -256,22 +256,22 @@ describe('FormControl', () => {
 
   it("should check the field's rule", () => {
     const formRef = React.createRef();
+    const handleError = sinon.spy();
+
     render(
-      <Form
-        ref={formRef}
-        onError={forError => {
-          assert.deepEqual(forError, { items: 'require' });
-        }}
-      >
+      <Form ref={formRef} onError={handleError}>
         <FormControl name="items" rule={Schema.Types.StringType().isRequired('require')} />
       </Form>
     );
     formRef.current.check();
+    assert.equal(handleError.callCount, 1);
+    assert.deepEqual(handleError.firstCall.firstArg, { items: 'require' });
   });
 
   it('Should not validate fields unmounted with rule', () => {
     const formRef = React.createRef();
-    let errorRef = null;
+    const handleError = sinon.spy();
+
     function Wrapper() {
       const [show, setShow] = useState(true);
       return (
@@ -283,12 +283,7 @@ describe('FormControl', () => {
           >
             hidden
           </button>
-          <Form
-            ref={formRef}
-            onError={forError => {
-              errorRef = forError;
-            }}
-          >
+          <Form ref={formRef} onError={handleError}>
             <FormControl name="user" rule={Schema.Types.StringType().isRequired('require')} />
             {show && (
               <FormControl name="password" rule={Schema.Types.StringType().isRequired('require')} />
@@ -298,16 +293,21 @@ describe('FormControl', () => {
       );
     }
     const { container } = render(<Wrapper />);
+
     formRef.current.check();
-    assert.deepEqual(errorRef, { user: 'require', password: 'require' });
+    assert.equal(handleError.callCount, 1);
+    assert.deepEqual(handleError.firstCall.firstArg, { user: 'require', password: 'require' });
+
     fireEvent.click(container.querySelector('button'));
     formRef.current.check();
-    assert.deepEqual(errorRef, { user: 'require' });
+    assert.equal(handleError.callCount, 2);
+    assert.deepEqual(handleError.secondCall.firstArg, { user: 'require' });
   });
 
   it("Should validate accurately,when field's rule is dynamic", () => {
     const formRef = React.createRef();
-    let errorRef = null;
+    const handleError = sinon.spy();
+
     function Wrapper() {
       const [rule, setRule] = useState(Schema.Types.StringType().isRequired('require'));
       return (
@@ -319,12 +319,7 @@ describe('FormControl', () => {
           >
             setRule
           </button>
-          <Form
-            ref={formRef}
-            onError={forError => {
-              errorRef = forError;
-            }}
-          >
+          <Form ref={formRef} onError={handleError}>
             <FormControl name="user" rule={rule} />
           </Form>
         </>
@@ -332,10 +327,14 @@ describe('FormControl', () => {
     }
 
     const { container } = render(<Wrapper />);
+
     formRef.current.check();
-    assert.deepEqual(errorRef, { user: 'require' });
+    assert.equal(handleError.callCount, 1);
+    assert.deepEqual(handleError.firstCall.firstArg, { user: 'require' });
+
     fireEvent.click(container.querySelector('button'));
     formRef.current.check();
-    assert.deepEqual(errorRef, { user: 'second require' });
+    assert.equal(handleError.callCount, 2);
+    assert.deepEqual(handleError.secondCall.firstArg, { user: 'second require' });
   });
 });
