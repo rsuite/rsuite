@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Button from '../Button';
+import { render } from '@testing-library/react';
 
 describe('Button', () => {
   testStandardProps(<Button />);
@@ -46,9 +47,16 @@ describe('Button', () => {
   });
 
   it('Should be loading', () => {
-    const instance = getInstance(<Button loading>Title</Button>);
-    assert.include(instance.className, 'rs-btn-loading');
-    assert.ok(instance.querySelector('.rs-btn-spin'));
+    const { getByTestId } = render(
+      <Button loading data-testid="button">
+        Title
+      </Button>
+    );
+
+    expect(getByTestId('button'))
+      .to.have.class('rs-btn-loading')
+      .and.to.have.attr('aria-busy', 'true');
+    expect(getByTestId('button').querySelector('.rs-btn-spin')).to.exist;
   });
 
   it('Should be disabled link', () => {

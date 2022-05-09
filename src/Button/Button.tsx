@@ -82,6 +82,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
           aria-disabled={disabled}
           disabled={disabled}
           className={classes}
+          aria-busy={loading || undefined}
         >
           {loading && spin}
           {children}
@@ -103,6 +104,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
         disabled={disabled}
         aria-disabled={disabled}
         className={classes}
+        aria-busy={loading || undefined}
       >
         {loading && spin}
         {children}
