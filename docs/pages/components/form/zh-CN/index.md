@@ -169,10 +169,10 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 | errorMessage           | ReactNode                                             | 显示错误信息                                                                                                              |
 | errorPlacement         | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置                                                                                                          |
 | name \*                | string                                                | 表单元素名称                                                                                                              |
-| readOnly               | boolean                                               | 使控件为只读                                                                                                              |
 | plaintext              | boolean                                               | 使控件为纯文本                                                                                                            |
-| shouldResetWithUnmount | boolean`('false')`                                    | 卸载组件时删除字段值和错误消息                                                                                            |
+| readOnly               | boolean                                               | 使控件为只读                                                                                                              |
 | rule                   | checkType                                             | 当前字段的校验规则，如果与`<Form>`的`model`冲突，以当前为准，[示例](/zh/components/form-validation/#field-级别的校验规则) |
+| shouldResetWithUnmount | boolean`('false')`                                    | 卸载组件时删除字段值和错误消息                                                                                            |
 
 ### `<Form.Group>`
 
@@ -201,7 +201,7 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 | 属性名称    | 类型`(默认值)`                                        | 描述              |
 | ----------- | ----------------------------------------------------- | ----------------- |
 | classPrefix | string `('form-error-message')`                       | 组件 CSS 类的前缀 |
-| show        | boolean                                               | 是否显示错误信息  |
 | placement   | [Placement](#code-ts-placement-code)`('bottomStart')` | 错误信息显示位置  |
+| show        | boolean                                               | 是否显示错误信息  |
 
 <!--{include:(_common/types/placement8.md)}-->
