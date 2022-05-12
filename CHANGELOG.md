@@ -1,3 +1,9 @@
+# [5.12.0](https://github.com/rsuite/rsuite/compare/v5.11.0...v5.12.0) (2022-05-12)
+
+### Features
+
+- **Form.Control:** add `rule` prop ([#2482](https://github.com/rsuite/rsuite/issues/2482)) ([d1917df](https://github.com/rsuite/rsuite/commit/d1917dfcb9474236f756551fa8908edc85e37197))
+
 # [5.11.0](https://github.com/rsuite/rsuite/compare/v5.10.0...v5.11.0) (2022-05-05)
 
 ### Bug Fixes
