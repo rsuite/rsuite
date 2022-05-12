@@ -11,17 +11,6 @@ Fork this repo to your namespace and clone to your local machine.
     $ git clone git@github.com:<YOUR NAME>/rsuite.git
     $ cd rsuite
 
-We need to keep our `package-lock.json` file as `lockfileVersion: 1`, so we recommend using npm CLI earlier than v7.
-If you use `nvm` to manage your Node.js versions,
-simply run `nvm use` in the root direcotry.
-
-    $ nvm use
-    Found '/home/rsuite/.nvmrc' with version <14>
-    Now using node v14.18.1 (npm v6.14.15)
-
-It's still ok if you have to use npm CLI >= v7,
-but keep in mind not to commit `package-lock.json` changes.
-
 Install dependencies in root directory and `docs/` directory.
 
     $ npm i && npm i --prefix docs
