@@ -3,9 +3,9 @@
 ```js
 const instance = (
   <div style={{ width: 240 }}>
-    <Sidenav defaultOpenKeys={['3', '4']} activeKey="1">
+    <Sidenav defaultOpenKeys={['3', '4']}>
       <Sidenav.Body>
-        <Nav>
+        <Nav activeKey="1">
           <Nav.Item eventKey="1" icon={<Dashboard />}>
             Dashboard
           </Nav.Item>

@@ -13,14 +13,9 @@ const App = () => {
         unCheckedChildren="Collapse"
       />
       <hr />
-      <Sidenav
-        expanded={expanded}
-        defaultOpenKeys={['3', '4']}
-        activeKey={activeKey}
-        onSelect={setActiveKey}
-      >
+      <Sidenav expanded={expanded} defaultOpenKeys={['3', '4']}>
         <Sidenav.Body>
-          <Nav>
+          <Nav activeKey={activeKey} onSelect={setActiveKey}>
             <Nav.Item eventKey="1" icon={<Dashboard />}>
               Dashboard
             </Nav.Item>
