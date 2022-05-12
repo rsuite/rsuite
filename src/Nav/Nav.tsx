@@ -12,6 +12,7 @@ import NavDropdown from './NavDropdown';
 import NavMenu from './NavMenu';
 import deprecateComponent from '../utils/deprecateComponent';
 import NavDropdownItem from './NavDropdownItem';
+import NavDropdownMenu from './NavDropdownMenu';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -135,8 +136,18 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
   );
 }) as unknown as NavComponent;
 
-const DeprecatedNavDropdown = deprecateComponent(NavDropdown, 'Use <Nav.Menu> instead.');
-DeprecatedNavDropdown.Item = deprecateComponent(NavDropdownItem, 'Use <Nav.Item> instead');
+const DeprecatedNavDropdown = deprecateComponent(
+  NavDropdown,
+  '<Nav.Dropdown> is deprecated, use <Nav.Menu> instead.'
+);
+DeprecatedNavDropdown.Menu = deprecateComponent(
+  NavDropdownMenu,
+  '<Nav.Dropdown.Menu> is deprecated, use <Nav.Menu> instead'
+);
+DeprecatedNavDropdown.Item = deprecateComponent(
+  NavDropdownItem,
+  '<Nav.Dropdown.Item> is deprecated, use <Nav.Item> instead'
+);
 
 Nav.Dropdown = DeprecatedNavDropdown;
 Nav.Item = NavItem;

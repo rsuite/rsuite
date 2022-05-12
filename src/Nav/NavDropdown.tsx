@@ -90,7 +90,13 @@ export interface NavDropdownComponent extends RsRefForwardingComponent<'div', Na
     context: any
   ): JSX.Element | null;
 
+  /**
+   * @deprecated Use <Nav.Item> instead.
+   */
   Item: typeof NavDropdownItem;
+  /**
+   * @deprecated Use <Nav.Menu> instead.
+   */
   Menu: typeof NavDropdownMenu;
 }
 

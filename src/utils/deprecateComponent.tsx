@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import warnOnce from './warnOnce';
 
 /**
  * HOC for display a deprecation message from a deprecated component
@@ -11,9 +12,7 @@ export default function deprecateComponent<
   const componentDisplayName = Component.displayName ?? Component.name;
 
   const Deprecated = React.forwardRef((props: any, ref: any) => {
-    useEffect(() => {
-      console.warn(message);
-    }, []);
+    warnOnce(message);
 
     return <Component ref={ref} {...props} />;
   });
