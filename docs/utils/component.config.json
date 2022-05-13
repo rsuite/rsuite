@@ -151,7 +151,7 @@
     "id": "nav",
     "name": "Nav",
     "title": "导航",
-    "components": ["Nav", "Nav.Item", "Nav.Dropdown"],
+    "components": ["Nav", "Nav.Item", "Nav.Menu"],
     "designHash": {
       "default": "28",
       "dark": "28"
