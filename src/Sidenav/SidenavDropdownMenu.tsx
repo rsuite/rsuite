@@ -166,7 +166,7 @@ const SidenavDropdownMenu = React.forwardRef<
   );
 });
 
-SidenavDropdownMenu.displayName = 'Nav.Dropdown.Menu';
+SidenavDropdownMenu.displayName = 'Sidenav.Dropdown.Menu';
 SidenavDropdownMenu.propTypes = {
   active: PropTypes.bool,
   activeKey: PropTypes.any,

@@ -287,7 +287,7 @@ const SidenavDropdown: SidenavDropdownComponent = React.forwardRef<HTMLElement>(
 SidenavDropdown.Item = NavDropdownItem;
 SidenavDropdown.Menu = NavDropdownMenu;
 
-SidenavDropdown.displayName = 'Nav.Dropdown';
+SidenavDropdown.displayName = 'Sidenav.Dropdown';
 SidenavDropdown.propTypes = {
   activeKey: PropTypes.any,
   classPrefix: PropTypes.string,

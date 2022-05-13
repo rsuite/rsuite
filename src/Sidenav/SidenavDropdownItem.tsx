@@ -206,7 +206,7 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
     );
   });
 
-SidenavDropdownItem.displayName = 'Nav.Dropdown.Item';
+SidenavDropdownItem.displayName = 'Sidenav.Dropdown.Item';
 SidenavDropdownItem.propTypes = {
   as: PropTypes.elementType,
   divider: PropTypes.bool,
