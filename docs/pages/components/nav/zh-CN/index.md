@@ -88,6 +88,8 @@
 | icon        | Element&lt;typeof Icon&gt;        | 设置图标               |
 | onSelect    | (eventKey: string, event) => void | 选择事件触发的回调函数 |
 
-### `<Nav.Dropdown>`
+### `<Nav.Menu>`
 
-- [继承 Dropdown 组件](/zh/components/dropdown#Props)
+| 属性名称 | 类型      | 描述                   |
+| -------- | --------- | ---------------------- |
+| title    | ReactNode | 展开子菜单的菜单项内容 |

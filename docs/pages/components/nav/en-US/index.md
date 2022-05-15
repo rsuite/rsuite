@@ -84,6 +84,8 @@ Provides a list of various forms of navigation menus, which can be landscape and
 | icon        | Element&lt;typeof Icon&gt;        | Sets the icon for the component                       |
 | onSelect    | (eventKey: string, event) => void | Select the callback function that the event triggers. |
 
-### `<Nav.Dropdown>`
+### `<Nav.Menu>`
 
-- [Extend the Dropdown component](/components/dropdown#Props)
+| 属性名称 | 类型      | 描述                                            |
+| -------- | --------- | ----------------------------------------------- |
+| title    | ReactNode | Content of the menu item that opens the submenu |
