@@ -54,6 +54,14 @@ export interface SidenavDropdownItemProps<T = any>
  */
 const ExpandedSidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemProps> =
   React.forwardRef<HTMLLIElement, SidenavDropdownItemProps>((props, ref) => {
+    const sidenavContext = useContext(SidenavContext);
+    const dropdown = useContext(DropdownContext);
+
+    if (!sidenavContext || !dropdown) {
+      throw new Error(
+        '<SidenavDropdownItem> component is not supposed to be used standalone. Use <Nav.Item> within <Sidenav> instead.'
+      );
+    }
     const {
       as: Component = 'li',
       active: activeProp,
@@ -71,14 +79,6 @@ const ExpandedSidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdow
       ...rest
     } = props;
 
-    const sidenavContext = useContext(SidenavContext);
-    const dropdown = useContext(DropdownContext);
-
-    if (!sidenavContext || !dropdown) {
-      throw new Error(
-        '<SidenavDropdownItem> component is not supposed to be used standalone. Use <Dropdown.Item> within <Sidenav> instead.'
-      );
-    }
     const { activeKey, onSelect: onSidenavSelect } = sidenavContext;
     const nav = useContext(NavContext);
 

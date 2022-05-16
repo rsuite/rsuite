@@ -53,8 +53,6 @@ const SidenavDropdownMenu = React.forwardRef<
   HTMLElement,
   SidenavDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
 >((props, ref) => {
-  const { onToggle, eventKey, title, classPrefix = 'dropdown-menu', children, ...rest } = props;
-
   const sidenav = useContext(SidenavContext);
   const nav = useContext(NavContext);
 
@@ -63,6 +61,8 @@ const SidenavDropdownMenu = React.forwardRef<
       '<Sidenav.Dropdown.Menu> must be rendered within a <Nav> within a <Sidenav> component.'
     );
   }
+
+  const { onToggle, eventKey, title, classPrefix = 'dropdown-menu', children, ...rest } = props;
 
   const { rtl } = useCustom('DropdownMenu');
 

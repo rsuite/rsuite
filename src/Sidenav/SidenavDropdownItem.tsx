@@ -75,6 +75,15 @@ export interface SidenavDropdownItemProps<T = any>
  */
 const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemProps> =
   React.forwardRef((props: SidenavDropdownItemProps, ref: React.Ref<any>) => {
+    const sidenav = useContext(SidenavContext);
+    const nav = useContext(NavContext);
+
+    if (!sidenav || !nav) {
+      throw new Error(
+        '<Sidenav.Dropdown.Item> must be used within a <Nav> within a <Sidenav> component.'
+      );
+    }
+
     const {
       classPrefix = 'dropdown-item',
       className,
@@ -91,15 +100,6 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
     } = props;
 
     const internalId = useInternalId('DropdownItem');
-
-    const sidenav = useContext(SidenavContext);
-    const nav = useContext(NavContext);
-
-    if (!sidenav || !nav) {
-      throw new Error(
-        '<Sidenav.Dropdown.Item> must be used within a <Nav> within a <Sidenav> component.'
-      );
-    }
 
     const dropdown = useContext(DropdownContext);
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);

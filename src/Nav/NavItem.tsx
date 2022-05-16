@@ -43,6 +43,12 @@ export interface NavItemProps<T = string>
  */
 const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<any>) => {
+    const nav = useContext(NavContext);
+
+    if (!nav) {
+      throw new Error('<Nav.Item> must be rendered within a <Nav> component.');
+    }
+
     const {
       as: Component = SafeAnchor,
       active: activeProp,
@@ -59,12 +65,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       onSelect: onSelectProp,
       ...rest
     } = props;
-
-    const nav = useContext(NavContext);
-
-    if (!nav) {
-      throw new Error('<Nav.Item> must be rendered within a <Nav> component.');
-    }
 
     const { activeKey, onSelect: onSelectFromNav } = nav;
 

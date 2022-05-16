@@ -64,6 +64,12 @@ export interface NavDropdownItemProps<T = any>
  */
 const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = React.forwardRef(
   (props: NavDropdownItemProps, ref: React.Ref<any>) => {
+    const nav = useContext(NavContext);
+
+    if (!nav) {
+      throw new Error('<Nav.Dropdown.Item> should be used within a <Nav> component.');
+    }
+
     const {
       classPrefix = 'dropdown-item',
       className,
@@ -80,12 +86,6 @@ const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = Re
     } = props;
 
     const internalId = useInternalId('DropdownItem');
-
-    const nav = useContext(NavContext);
-
-    if (!nav) {
-      throw new Error('<Nav.Dropdown.Item> should be used within a <Nav> component.');
-    }
 
     const dropdown = useContext(DropdownContext);
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);

@@ -161,14 +161,13 @@ Nav.Dropdown = DeprecatedNavDropdown;
  * When used within a <Nav.Menu>, render the NavDropdownItem
  */
 Nav.Item = React.forwardRef((props: NavItemProps, ref: React.Ref<any>) => {
-  const dropdown = useContext(DropdownContext);
-
   const nav = useContext(NavContext);
 
   if (!nav) {
     throw new Error('<Nav.Item> must be rendered within a <Nav> component.');
   }
 
+  const dropdown = useContext(DropdownContext);
   const navbar = useContext(NavbarContext);
   const sidenav = useContext(SidenavContext);
 

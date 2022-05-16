@@ -110,9 +110,15 @@ export interface NavDropdownComponent extends RsRefForwardingComponent<'div', Na
  */
 const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
   (props: NavDropdownProps, ref) => {
-    const { activeKey, onSelect: onSelectProp, ...rest } = props;
+    const nav = useContext(NavContext);
+
+    if (!nav) {
+      throw new Error('<Nav.Dropdown> should be used within a <Nav> component.');
+    }
 
     const {
+      activeKey,
+      onSelect: onSelectProp,
       as: Component = 'div',
       title,
       onClose,
@@ -130,13 +136,7 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
       menuStyle,
       style,
       ...toggleProps
-    } = rest;
-
-    const nav = useContext(NavContext);
-
-    if (!nav) {
-      throw new Error('<Nav.Dropdown> should be used within a <Nav> component.');
-    }
+    } = props;
 
     const { onSelect: onSelectFromNav } = nav;
 

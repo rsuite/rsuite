@@ -111,6 +111,14 @@ export interface SidenavDropdownComponent
  */
 const SidenavDropdown: SidenavDropdownComponent = React.forwardRef<HTMLElement>(
   (props: NavDropdownProps, ref) => {
+    const sidenav = useContext(SidenavContext);
+    const nav = useContext(NavContext);
+
+    if (!sidenav || !nav) {
+      throw new Error(
+        '<Sidenav.Dropdown> must be rendered within a <Nav> component within a <Sidenav> component.'
+      );
+    }
     const { activeKey, onSelect: onSelectProp, ...rest } = props;
 
     const {
@@ -132,15 +140,6 @@ const SidenavDropdown: SidenavDropdownComponent = React.forwardRef<HTMLElement>(
       style,
       ...toggleProps
     } = rest;
-
-    const sidenav = useContext(SidenavContext);
-    const nav = useContext(NavContext);
-
-    if (!sidenav || !nav) {
-      throw new Error(
-        '<Sidenav.Dropdown> must be rendered within a <Nav> component within a <Sidenav> component.'
-      );
-    }
 
     const { onSelect: onSelectFromNav } = nav;
 

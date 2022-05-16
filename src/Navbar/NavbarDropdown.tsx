@@ -97,9 +97,15 @@ export interface NavbarDropdownComponent
  */
 const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
   (props: NavbarDropdownProps, ref) => {
-    const { activeKey, onSelect: onSelectProp, ...rest } = props;
+    const navbar = useContext(NavbarContext);
+
+    if (!navbar) {
+      throw new Error('<Navbar.Dropdown> should be used within a <Navbar> component.');
+    }
 
     const {
+      activeKey,
+      onSelect: onSelectProp,
       as: Component = 'div',
       title,
       onClose,
@@ -116,13 +122,7 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
       menuStyle,
       style,
       ...toggleProps
-    } = rest;
-
-    const navbar = useContext(NavbarContext);
-
-    if (!navbar) {
-      throw new Error('<Navbar.Dropdown> should be used within a <Navbar> component.');
-    }
+    } = props;
 
     const { onSelect: onSelectFromNav } = useContext(NavContext) as NavContextProps;
 

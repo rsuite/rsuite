@@ -46,6 +46,13 @@ export interface SidenavDropdownMenuProps<T = any>
  */
 const ExpandedSidenavDropdownMenu: RsRefForwardingComponent<'li', SidenavDropdownMenuProps> =
   React.forwardRef<HTMLLIElement, SidenavDropdownMenuProps>((props, ref) => {
+    const sidenavContext = useContext(SidenavContext);
+
+    if (!sidenavContext) {
+      throw new Error(
+        '<SidenavDropdownMenu> component is not supposed to be used standalone. Use <Nav.Menu> inside <Sidenav> instead.'
+      );
+    }
     const {
       as: Component = 'li',
       children,
@@ -65,13 +72,6 @@ const ExpandedSidenavDropdownMenu: RsRefForwardingComponent<'li', SidenavDropdow
     const { rtl } = useCustom('DropdownMenu');
 
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-    const sidenavContext = useContext(SidenavContext);
-
-    if (!sidenavContext) {
-      throw new Error(
-        '<SidenavDropdownMenu> component is not supposed to be used standalone. Use <Dropdown.Item> inside <Sidenav> instead.'
-      );
-    }
     const { openKeys = [], onOpenChange, onSelect: onSidenavSelect } = sidenavContext;
 
     const handleClick = useCallback(

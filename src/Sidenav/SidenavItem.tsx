@@ -41,6 +41,14 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
   HTMLLIElement,
   SidenavItemProps
 >((props: SidenavItemProps, ref) => {
+  const sidenav = useContext(SidenavContext);
+
+  if (!sidenav) {
+    throw new Error(
+      '<SidenavItem> component is not supposed to be used standalone. Use <Nav.Item> inside <Sidenav> instead.'
+    );
+  }
+
   const {
     as: Component = SafeAnchor,
     active: activeProp,
@@ -57,14 +65,6 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
     panel,
     ...rest
   } = props;
-
-  const sidenav = useContext(SidenavContext);
-
-  if (!sidenav) {
-    throw new Error(
-      '<SidenavItem> component is not supposed to be used standalone. Use <Nav.Item> inside <Sidenav> instead.'
-    );
-  }
 
   const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext) as NavContextProps;
 

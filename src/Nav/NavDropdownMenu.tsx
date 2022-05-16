@@ -41,13 +41,13 @@ const NavDropdownMenu = React.forwardRef<
   HTMLElement,
   NavDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
 >((props, ref) => {
-  const { onToggle, eventKey, title, classPrefix = 'dropdown-menu', children, ...rest } = props;
-
   const nav = useContext(NavContext);
 
   if (!nav) {
     throw new Error('<Nav.Dropdown.Menu> should be used within a <Nav> component.');
   }
+
+  const { onToggle, eventKey, title, classPrefix = 'dropdown-menu', children, ...rest } = props;
 
   const { rtl } = useCustom('DropdownMenu');
 
