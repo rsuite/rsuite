@@ -8,7 +8,6 @@ import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import DropdownContext, { DropdownContextProps } from '../Dropdown/DropdownContext';
-import DropdownToggle from '../Dropdown/DropdownToggle';
 import { initialState, reducer } from '../Dropdown/DropdownState';
 import Menu, { MenuButtonTrigger } from '../Menu/Menu';
 import MenuItem from '../Menu/MenuItem';
@@ -18,6 +17,7 @@ import Button from '../Button';
 import NavContext from '../Nav/NavContext';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
+import SidenavDropdownToggle from './SidenavDropdownToggle';
 
 export type SidenavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavDropdownProps<T = any>
@@ -203,7 +203,7 @@ const SidenavDropdown: SidenavDropdownComponent = React.forwardRef<HTMLElement>(
       <MenuItem disabled={disabled}>
         {({ active, ...menuitemProps }, menuitemRef) => {
           return (
-            <DropdownToggle
+            <SidenavDropdownToggle
               ref={mergeRefs(buttonRef, menuitemRef)}
               as={toggleAs}
               className={mergeNavItemClassNames(
@@ -217,7 +217,7 @@ const SidenavDropdown: SidenavDropdownComponent = React.forwardRef<HTMLElement>(
               {...omit(toggleProps, 'data-testid')}
             >
               {title}
-            </DropdownToggle>
+            </SidenavDropdownToggle>
           );
         }}
       </MenuItem>

@@ -2,7 +2,6 @@ import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import omit from 'lodash/omit';
-import DropdownToggle from '../Dropdown/DropdownToggle';
 import { useClassNames, placementPolyfill, PLACEMENT_8, mergeRefs } from '../utils';
 import { SidenavContext } from './Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -12,6 +11,7 @@ import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Disclosure from '../Disclosure/Disclosure';
 import DropdownContext from '../Dropdown/DropdownContext';
 import useInternalId from '../utils/useInternalId';
+import SidenavDropdownToggle from './SidenavDropdownToggle';
 
 export interface SidenavDropdownProps<T = any>
   extends WithAsProps,
@@ -155,7 +155,7 @@ const ExpandedSidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownPro
             >
               <Disclosure.Button>
                 {(buttonProps, buttonRef) => (
-                  <DropdownToggle
+                  <SidenavDropdownToggle
                     ref={buttonRef}
                     as={toggleAs}
                     noCaret={noCaret}
@@ -166,7 +166,7 @@ const ExpandedSidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownPro
                     {...omit(buttonProps, ['open'])}
                   >
                     {title}
-                  </DropdownToggle>
+                  </SidenavDropdownToggle>
                 )}
               </Disclosure.Button>
               <Disclosure.Content>

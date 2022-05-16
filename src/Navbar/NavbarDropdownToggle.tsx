@@ -1,57 +1,55 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import Button from '../Button';
 import { useClassNames } from '../utils';
-import { IconProps } from '@rsuite/icons/lib/Icon';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
-import useToggleCaret from '../utils/useToggleCaret';
+import NavbarItem from './NavbarItem';
 
-export interface DropdownToggleProps extends WithAsProps {
-  icon?: React.ReactElement<IconProps>;
+export interface NavbarDropdownToggleProps extends WithAsProps {
   noCaret?: boolean;
   renderToggle?: (props: WithAsProps, ref: React.Ref<any>) => any;
   placement?: TypeAttributes.Placement8;
 }
 
-const DropdownToggle: RsRefForwardingComponent<typeof Button, DropdownToggleProps> =
-  React.forwardRef((props: DropdownToggleProps, ref) => {
+/**
+ * @private this component is not supposed to be used directly
+ *          Instead it's rendered by a <Nav.Menu> call
+ *
+ * <Nav>
+ *   <Nav.Menu> -> This will render <NavDropdown> component that renders a <NavDropdownToggle>
+ *   </Nav.Menu>
+ * </Nav>
+ */
+const NavbarDropdownToggle: RsRefForwardingComponent<typeof Button, NavbarDropdownToggleProps> =
+  React.forwardRef((props: NavbarDropdownToggleProps, ref) => {
     const {
-      as: Component = Button,
+      as: Component = NavbarItem,
       className,
-      classPrefix = 'dropdown-toggle',
+      classPrefix = 'navbar-item',
       renderToggle,
       children,
-      icon,
       noCaret,
-      placement = 'bottomStart',
       ...rest
     } = props;
 
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
 
-    // Caret icon is down by default, when Dropdown is used in Sidenav.
-    const Caret = useToggleCaret(placement);
-
     const toggle = (
       <Component {...rest} ref={ref} className={classes}>
-        {icon &&
-          React.cloneElement(icon, {
-            className: prefix('icon')
-          })}
         {children}
-        {noCaret ? null : <Caret className={prefix('caret')} />}
+        {!noCaret && <ArrowDownLineIcon className={prefix('caret')} />}
       </Component>
     );
 
     return renderToggle ? renderToggle(rest, ref) : toggle;
   });
 
-DropdownToggle.displayName = 'DropdownToggle';
-DropdownToggle.propTypes = {
+NavbarDropdownToggle.displayName = 'Navbar.Dropdown.Toggle';
+NavbarDropdownToggle.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-  icon: PropTypes.node,
   classPrefix: PropTypes.string,
   noCaret: PropTypes.bool,
   as: PropTypes.elementType,
@@ -68,4 +66,4 @@ DropdownToggle.propTypes = {
   ])
 };
 
-export default DropdownToggle;
+export default NavbarDropdownToggle;

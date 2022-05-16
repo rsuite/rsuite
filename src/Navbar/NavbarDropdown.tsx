@@ -6,7 +6,6 @@ import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import DropdownContext, { DropdownContextProps } from '../Dropdown/DropdownContext';
-import DropdownToggle from '../Dropdown/DropdownToggle';
 import { initialState, reducer } from '../Dropdown/DropdownState';
 import kebabCase from 'lodash/kebabCase';
 import { NavbarContext } from '.';
@@ -15,6 +14,7 @@ import Button from '../Button';
 import NavContext, { NavContextProps } from '../Nav/NavContext';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
+import NavbarDropdownToggle from './NavbarDropdownToggle';
 
 export type NavbarDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavbarDropdownProps<T = any>
@@ -177,7 +177,7 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
               <Component ref={mergeRefs(ref, containerRef)} className={classes} style={style}>
                 <Disclosure.Button>
                   {(buttonProps, buttonRef) => (
-                    <DropdownToggle
+                    <NavbarDropdownToggle
                       ref={buttonRef}
                       as={toggleAs}
                       className={toggleClassName}
@@ -187,7 +187,7 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
                       {...toggleProps}
                     >
                       {title}
-                    </DropdownToggle>
+                    </NavbarDropdownToggle>
                   )}
                 </Disclosure.Button>
                 <Disclosure.Content>

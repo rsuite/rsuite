@@ -4,10 +4,8 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import DropdownContext, { DropdownContextProps } from '../Dropdown/DropdownContext';
-import DropdownToggle from '../Dropdown/DropdownToggle';
 import { initialState, reducer } from '../Dropdown/DropdownState';
 import Menu, { MenuButtonTrigger } from '../Menu/Menu';
 import kebabCase from 'lodash/kebabCase';
@@ -15,6 +13,7 @@ import NavContext from './NavContext';
 import Button from '../Button';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
+import NavDropdownToggle, { NavDropdownToggleProps } from './NavDropdownToggle';
 
 export type NavDropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface NavDropdownProps<T = any>
@@ -24,7 +23,7 @@ export interface NavDropdownProps<T = any>
   title?: React.ReactNode;
 
   /** Set the icon */
-  icon?: React.ReactElement<IconProps>;
+  icon?: NavDropdownToggleProps['icon'];
 
   /** The option to activate the state, corresponding to the eventkey in the Dropdown.item */
   activeKey?: T;
@@ -185,7 +184,7 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
     }, [activeKey, emitSelect, hasSelectedItem, dispatch]);
 
     const renderMenuButton = (menuButtonProps, menuButtonRef) => (
-      <DropdownToggle
+      <NavDropdownToggle
         ref={menuButtonRef}
         as={toggleAs}
         className={toggleClassName}
@@ -195,7 +194,7 @@ const NavDropdown: NavDropdownComponent = React.forwardRef<HTMLElement>(
         {...omit(toggleProps, ['data-testid'])}
       >
         {title}
-      </DropdownToggle>
+      </NavDropdownToggle>
     );
 
     return (

@@ -68,11 +68,12 @@
 
       // Submenu toggle icon
       &-icon {
+        font-size: @sidenav-item-caret-size;
         position: absolute;
         right: @sidenav-padding-horizontal;
         top: @sidenav-children-padding-vertical;
-        width: auto;
-        height: @sidenav-dropdown-toggle-caret-width;
+        // width: auto;
+        // height: @sidenav-dropdown-toggle-caret-width;
         transform: rotate(90deg);
       }
     }
@@ -115,6 +116,7 @@
     padding-right: (@sidenav-padding-horizontal + @sidenav-dropdown-toggle-caret-width);
 
     .rs-dropdown-toggle-caret {
+      font-size: @sidenav-item-caret-size;
       right: @sidenav-padding-horizontal;
       top: @sidenav-padding-vertical;
 

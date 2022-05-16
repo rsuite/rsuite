@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import NavItem from './NavItem';
+import NavItem, { NavItemProps } from './NavItem';
 import { useClassNames } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
@@ -13,6 +13,11 @@ import NavMenu from './NavMenu';
 import deprecateComponent from '../utils/deprecateComponent';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
+import DropdownContext from '../Dropdown/DropdownContext';
+import NavbarDropdownItem from '../Navbar/NavbarDropdownItem';
+import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
+import NavbarItem from '../Navbar/NavbarItem';
+import SidenavItem from '../Sidenav/SidenavItem';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -150,7 +155,46 @@ DeprecatedNavDropdown.Item = deprecateComponent(
 );
 
 Nav.Dropdown = DeprecatedNavDropdown;
-Nav.Item = NavItem;
+/**
+ * The <Nav.Item> API
+ * When used as direct child of <Nav>, render the NavItem
+ * When used within a <Nav.Menu>, render the NavDropdownItem
+ */
+Nav.Item = React.forwardRef((props: NavItemProps, ref: React.Ref<any>) => {
+  const dropdown = useContext(DropdownContext);
+
+  const nav = useContext(NavContext);
+
+  if (!nav) {
+    throw new Error('<Nav.Item> must be rendered within a <Nav> component.');
+  }
+
+  const navbar = useContext(NavbarContext);
+  const sidenav = useContext(SidenavContext);
+
+  if (dropdown) {
+    if (navbar) {
+      return <NavbarDropdownItem ref={ref} {...props} />;
+    }
+
+    if (sidenav) {
+      return <SidenavDropdownItem ref={ref} {...props} />;
+    }
+
+    return <NavDropdownItem ref={ref} {...props} />;
+  }
+
+  if (navbar) {
+    return <NavbarItem ref={ref} {...props} />;
+  }
+
+  if (sidenav) {
+    return <SidenavItem ref={ref} {...props} />;
+  }
+
+  return <NavItem ref={ref} {...props} />;
+});
+
 Nav.Menu = NavMenu;
 
 Nav.displayName = 'Nav';

@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from './Sidenav';
-import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
-import AngleRight from '@rsuite/icons/legacy/AngleRight';
+import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
+import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
 import useCustom from '../utils/useCustom';
 import ExpandedSidenavDropdownMenu from './ExpandedSidenavDropdownMenu';
 import NavContext from '../Nav/NavContext';
@@ -91,7 +91,7 @@ const SidenavDropdownMenu = React.forwardRef<
   // Should render a `menuitem` that controls this submenu.
   const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
 
-  const Icon = rtl ? AngleLeft : AngleRight;
+  const Icon = rtl ? ArrowLeftLine : ArrowRightLine;
 
   return (
     <Menu

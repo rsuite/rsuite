@@ -6,15 +6,7 @@ import SafeAnchor from '../SafeAnchor';
 import { shallowEqual, useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import DropdownContext from '../Dropdown/DropdownContext';
 import NavContext from './NavContext';
-import NavDropdownItem from './NavDropdownItem';
-import { NavbarContext } from '../Navbar/Navbar';
-import NavbarItem from '../Navbar/NavbarItem';
-import NavbarDropdownItem from '../Navbar/NavbarDropdownItem';
-import { SidenavContext } from '../Sidenav/Sidenav';
-import SidenavItem from '../Sidenav/SidenavItem';
-import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -68,8 +60,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const dropdown = useContext(DropdownContext);
-
     const nav = useContext(NavContext);
 
     if (!nav) {
@@ -101,28 +91,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       [disabled, emitSelect, onClick]
     );
 
-    const navbar = useContext(NavbarContext);
-    const sidenav = useContext(SidenavContext);
-
-    if (dropdown) {
-      if (navbar) {
-        return <NavbarDropdownItem ref={ref} {...props} />;
-      }
-
-      if (sidenav) {
-        return <SidenavDropdownItem ref={ref} {...props} />;
-      }
-      return <NavDropdownItem ref={ref} {...props} />;
-    }
-
-    if (navbar) {
-      return <NavbarItem ref={ref} {...props} />;
-    }
-
-    if (sidenav) {
-      return <SidenavItem ref={ref} {...props} />;
-    }
-
     if (divider) {
       return (
         <div
@@ -153,7 +121,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
         style={style}
         aria-selected={active || undefined}
       >
-        {icon}
+        {icon && React.cloneElement(icon, { className: prefix('icon') })}
         {children}
         <Ripple />
       </Component>

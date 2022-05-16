@@ -43,4 +43,6 @@ const NavMenu = React.forwardRef((props: NavMenuProps, ref: React.Ref<any>) => {
   return <NavDropdownMenu ref={ref} {...props} />;
 });
 
+NavMenu.displayName = 'Nav.Menu';
+
 export default NavMenu;

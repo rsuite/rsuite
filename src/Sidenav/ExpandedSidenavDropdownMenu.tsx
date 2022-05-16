@@ -5,8 +5,8 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { createChainedFunction, useClassNames } from '../utils';
 import { SidenavContext } from './Sidenav';
 import useCustom from '../utils/useCustom';
-import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
-import AngleRight from '@rsuite/icons/legacy/AngleRight';
+import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
+import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
@@ -87,7 +87,7 @@ const ExpandedSidenavDropdownMenu: RsRefForwardingComponent<'li', SidenavDropdow
       onClick: createChainedFunction(handleClick, onClick)
     };
 
-    const Icon = rtl ? AngleLeft : AngleRight;
+    const Icon = rtl ? ArrowLeftLine : ArrowRightLine;
 
     return (
       <Disclosure
