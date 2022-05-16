@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface NavContextProps {
-  activeKey: string | null;
+  activeKey: string | undefined;
   onSelect?: (eventKey: string | undefined, event: React.SyntheticEvent) => void;
 }
 

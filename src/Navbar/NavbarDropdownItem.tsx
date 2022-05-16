@@ -1,5 +1,5 @@
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
@@ -7,9 +7,6 @@ import isNil from 'lodash/isNil';
 import { createChainedFunction, shallowEqual, useClassNames } from '../utils';
 import { NavbarContext } from './Navbar';
 import DisclosureContext, { DisclosureActionTypes } from '../Disclosure/DisclosureContext';
-import useInternalId from '../utils/useInternalId';
-import DropdownContext from '../Dropdown/DropdownContext';
-import { DropdownActionType } from '../Dropdown/DropdownState';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 import NavContext from '../Nav/NavContext';
 
@@ -66,9 +63,12 @@ export interface NavbarDropdownItemProps<T = any>
 const NavbarDropdownItem: RsRefForwardingComponent<'li', NavbarDropdownItemProps> =
   React.forwardRef((props: NavbarDropdownItemProps, ref: React.Ref<any>) => {
     const navbar = useContext(NavbarContext);
+    const nav = useContext(NavContext);
 
-    if (!navbar) {
-      throw new Error('<Navbar.Dropdown.Item> should be used within a <Navbar> component.');
+    if (!navbar || !nav) {
+      throw new Error(
+        '<Navbar.Dropdown.Item> must be rendered within a <Nav> component within a <Navbar> component.'
+      );
     }
 
     const {
@@ -86,18 +86,14 @@ const NavbarDropdownItem: RsRefForwardingComponent<'li', NavbarDropdownItemProps
       ...restProps
     } = props;
 
-    const internalId = useInternalId('DropdownItem');
-
-    const nav = useContext(NavContext);
-    const dropdown = useContext(DropdownContext);
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
     const handleSelectItem = useCallback(
       (event: React.SyntheticEvent) => {
         onSelect?.(eventKey, event);
-        dropdown?.onSelect?.(eventKey, event);
+        nav.onSelect?.(eventKey, event);
       },
-      [onSelect, eventKey, dropdown]
+      [onSelect, eventKey, nav]
     );
     const disclosure = useContext(DisclosureContext);
 
@@ -111,35 +107,7 @@ const NavbarDropdownItem: RsRefForwardingComponent<'li', NavbarDropdownItemProps
       [dispatchDisclosure, handleSelectItem]
     );
 
-    const selected =
-      activeProp ||
-      (!isNil(eventKey) &&
-        (shallowEqual(dropdown?.activeKey, eventKey) || shallowEqual(nav?.activeKey, eventKey)));
-
-    const dispatch = dropdown?.dispatch;
-
-    useEffect(() => {
-      if (dispatch) {
-        dispatch({
-          type: DropdownActionType.RegisterItem,
-          payload: {
-            id: internalId,
-            props: {
-              selected
-            }
-          }
-        });
-
-        return () => {
-          dispatch({
-            type: DropdownActionType.UnregisterItem,
-            payload: {
-              id: internalId
-            }
-          });
-        };
-      }
-    }, [internalId, selected, dispatch]);
+    const selected = activeProp || (!isNil(eventKey) && shallowEqual(nav.activeKey, eventKey));
 
     const renderDropdownItem = useRenderDropdownItem(Component);
 

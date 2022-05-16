@@ -9,11 +9,10 @@ import NavContext, { NavContextProps } from './NavContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
 import Menubar from '../Menu/Menubar';
 import NavDropdown from './NavDropdown';
-import NavMenu from './NavMenu';
+import NavMenu, { NavMenuContext } from './NavMenu';
 import deprecateComponent from '../utils/deprecateComponent';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
-import DropdownContext from '../Dropdown/DropdownContext';
 import NavbarDropdownItem from '../Navbar/NavbarDropdownItem';
 import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 import NavbarItem from '../Navbar/NavbarItem';
@@ -167,11 +166,11 @@ Nav.Item = React.forwardRef((props: NavItemProps, ref: React.Ref<any>) => {
     throw new Error('<Nav.Item> must be rendered within a <Nav> component.');
   }
 
-  const dropdown = useContext(DropdownContext);
+  const parentNavMenu = useContext(NavMenuContext);
   const navbar = useContext(NavbarContext);
   const sidenav = useContext(SidenavContext);
 
-  if (dropdown) {
+  if (parentNavMenu) {
     if (navbar) {
       return <NavbarDropdownItem ref={ref} {...props} />;
     }

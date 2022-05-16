@@ -1,5 +1,5 @@
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
@@ -7,9 +7,6 @@ import MenuItem from '../Menu/MenuItem';
 import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';
 import NavContext from './NavContext';
-import useInternalId from '../utils/useInternalId';
-import DropdownContext from '../Dropdown/DropdownContext';
-import { DropdownActionType } from '../Dropdown/DropdownState';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 
 export interface NavDropdownItemProps<T = any>
@@ -38,9 +35,6 @@ export interface NavDropdownItemProps<T = any>
 
   /** Set the icon */
   icon?: React.ReactElement<IconProps>;
-
-  /** The submenu that this menuitem controls (if exists) */
-  submenu?: React.ReactElement;
 
   /**
    * The sub-level menu appears from the right side by default, and when `pullLeft` is set, it appears from the left.
@@ -85,48 +79,19 @@ const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = Re
       ...restProps
     } = props;
 
-    const internalId = useInternalId('DropdownItem');
+    const { activeKey, onSelect: onSelectFromNav } = nav;
 
-    const dropdown = useContext(DropdownContext);
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+
+    const selected = activeProp || (!isNil(eventKey) && shallowEqual(activeKey, eventKey));
 
     const handleSelectItem = useCallback(
       (event: React.SyntheticEvent) => {
         onSelect?.(eventKey, event);
-        dropdown?.onSelect?.(eventKey, event);
+        onSelectFromNav?.(eventKey, event);
       },
-      [onSelect, eventKey, dropdown]
+      [onSelect, eventKey, onSelectFromNav]
     );
-
-    const selected =
-      activeProp ||
-      (!isNil(eventKey) &&
-        (shallowEqual(dropdown?.activeKey, eventKey) || shallowEqual(nav?.activeKey, eventKey)));
-
-    const dispatch = dropdown?.dispatch;
-
-    useEffect(() => {
-      if (dispatch) {
-        dispatch({
-          type: DropdownActionType.RegisterItem,
-          payload: {
-            id: internalId,
-            props: {
-              selected
-            }
-          }
-        });
-
-        return () => {
-          dispatch({
-            type: DropdownActionType.UnregisterItem,
-            payload: {
-              id: internalId
-            }
-          });
-        };
-      }
-    }, [internalId, selected, dispatch]);
 
     const renderDropdownItem = useRenderDropdownItem(Component);
 
@@ -199,7 +164,6 @@ NavDropdownItem.propTypes = {
   active: PropTypes.bool,
   disabled: PropTypes.bool,
   pullLeft: deprecatePropType(PropTypes.bool),
-  submenu: PropTypes.element,
   onSelect: PropTypes.func,
   onClick: PropTypes.func,
   icon: PropTypes.node,
