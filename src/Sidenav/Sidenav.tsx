@@ -34,7 +34,7 @@ export interface SidenavProps<T = string> extends WithAsProps {
 
   /**
    * Select the callback function for the menu
-   * @deprecated Use <Sidenav onSelect> instead
+   * @deprecated Use <Nav onSelect> instead
    */
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
@@ -43,10 +43,16 @@ export const SidenavContext = React.createContext<SidenavContextType | null>(nul
 
 export interface SidenavContextType<T = string> {
   openKeys: T[];
-  activeKey: T | null;
+  /**
+   * @deprecated Use activeKey from NavContext instead
+   */
+  activeKey: T | undefined;
   sidenav: boolean;
   expanded: boolean;
   onOpenChange: (eventKey: T, event: React.SyntheticEvent) => void;
+  /**
+   * @deprecated Use onSelect from NavContext instead
+   */
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
@@ -65,7 +71,7 @@ const Sidenav: SidenavComponent = React.forwardRef((props: SidenavProps, ref) =>
     classPrefix = 'sidenav',
     appearance = 'default',
     expanded = true,
-    activeKey = null,
+    activeKey,
     defaultOpenKeys = emptyArray,
     openKeys: openKeysProp,
     onSelect,

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import NavItem, { NavItemProps } from './NavItem';
 import { useClassNames } from '../utils';
@@ -9,7 +9,7 @@ import NavContext, { NavContextProps } from './NavContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
 import Menubar from '../Menu/Menubar';
 import NavDropdown from './NavDropdown';
-import NavMenu, { NavMenuContext } from './NavMenu';
+import NavMenu, { NavMenuActionType, NavMenuContext } from './NavMenu';
 import deprecateComponent from '../utils/deprecateComponent';
 import NavDropdownItem from './NavDropdownItem';
 import NavDropdownMenu from './NavDropdownMenu';
@@ -17,6 +17,7 @@ import NavbarDropdownItem from '../Navbar/NavbarDropdownItem';
 import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 import NavbarItem from '../Navbar/NavbarItem';
 import SidenavItem from '../Sidenav/SidenavItem';
+import useInternalId from '../utils/useInternalId';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -170,6 +171,31 @@ Nav.Item = React.forwardRef((props: NavItemProps, ref: React.Ref<any>) => {
   const navbar = useContext(NavbarContext);
   const sidenav = useContext(SidenavContext);
 
+  const [, dispatch] = parentNavMenu ?? [];
+  const _id = useInternalId('Nav.Item');
+
+  useEffect(() => {
+    if (dispatch) {
+      dispatch({
+        type: NavMenuActionType.RegisterItem,
+        payload: {
+          _id,
+          eventKey: props.eventKey,
+          active: props.active ?? false
+        }
+      });
+
+      return () => {
+        dispatch({
+          type: NavMenuActionType.UnregisterItem,
+          payload: {
+            _id
+          }
+        });
+      };
+    }
+  }, [dispatch, _id, props.eventKey, props.active]);
+
   if (parentNavMenu) {
     if (navbar) {
       return <NavbarDropdownItem ref={ref} {...props} />;
@@ -192,6 +218,7 @@ Nav.Item = React.forwardRef((props: NavItemProps, ref: React.Ref<any>) => {
 
   return <NavItem ref={ref} {...props} />;
 });
+Nav.Item.displayName = 'Nav.Item';
 
 Nav.Menu = NavMenu;
 

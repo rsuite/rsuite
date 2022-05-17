@@ -9,9 +9,10 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
 import Disclosure from '../Disclosure/Disclosure';
-import DropdownContext from '../Dropdown/DropdownContext';
 import useInternalId from '../utils/useInternalId';
 import SidenavDropdownToggle from './SidenavDropdownToggle';
+import { NavMenuContext } from '../Nav/NavMenu';
+import NavContext from '../Nav/NavContext';
 
 export interface SidenavDropdownProps<T = any>
   extends WithAsProps,
@@ -21,9 +22,6 @@ export interface SidenavDropdownProps<T = any>
 
   /** Set the icon */
   icon?: React.ReactElement<IconProps>;
-
-  /** The option to activate the state, corresponding to the eventkey in the Dropdown.item */
-  activeKey?: T;
 
   /** The placement of Menu */
   placement?: TypeAttributes.Placement8;
@@ -73,13 +71,16 @@ export interface SidenavDropdownProps<T = any>
 
 const ExpandedSidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownProps> =
   React.forwardRef<HTMLLIElement, SidenavDropdownProps>((props: SidenavDropdownProps, ref) => {
-    const sidenavContext = useContext(SidenavContext);
-    const dropdownContext = useContext(DropdownContext);
-    if (!sidenavContext || !dropdownContext) {
+    const sidenav = useContext(SidenavContext);
+    const nav = useContext(NavContext);
+    const navMenu = useContext(NavMenuContext);
+
+    if (!sidenav || !nav || !navMenu) {
       throw new Error(
         '<SidenavDropdown> component is not supposed to be used standalone. Use <Nav.Menu> inside <Sidenav> instead.'
       );
     }
+
     const {
       as: Component = 'div',
       title,
@@ -87,7 +88,7 @@ const ExpandedSidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownPro
       className,
       menuStyle,
       disabled,
-      /* eslint-disable @typescript-eslint/no-unused-vars */
+      /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
       renderTitle,
       renderToggle,
       classPrefix = 'dropdown',
@@ -110,8 +111,15 @@ const ExpandedSidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownPro
     const internalId = useInternalId('SidenavDropdown');
     const uniqueKey = eventKey ?? internalId;
 
-    const { openKeys = [], onOpenChange } = sidenavContext;
-    const { hasSelectedItem } = dropdownContext;
+    const { openKeys = [], onOpenChange } = sidenav;
+
+    const [{ items }] = navMenu;
+
+    const hasSelectedItems =
+      // has items that is active indicated by <Nav activeKey>
+      (nav.activeKey && items.some(item => item.eventKey === nav.activeKey)) ||
+      // has items that is active indicated by <Nav.Item active>
+      items.some(item => item.active);
 
     const handleToggleDisclosure = useCallback(
       (open: boolean, event: React.SyntheticEvent) => {
@@ -139,7 +147,7 @@ const ExpandedSidenavDropdown: RsRefForwardingComponent<'li', SidenavDropdownPro
               [`placement-${kebabCase(placementPolyfill(placement))}`]: placement,
               [open ? 'expand' : 'collapse']: true,
               disabled,
-              'selected-within': hasSelectedItem,
+              'selected-within': hasSelectedItems,
               'no-caret': noCaret
             })
           );

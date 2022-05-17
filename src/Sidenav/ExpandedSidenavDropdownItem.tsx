@@ -8,7 +8,6 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';
-import DropdownContext from '../Dropdown/DropdownContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 
 export interface SidenavDropdownItemProps<T = any>
@@ -38,9 +37,6 @@ export interface SidenavDropdownItemProps<T = any>
   /** Set the icon */
   icon?: React.ReactElement<IconProps>;
 
-  /** The submenu that this menuitem controls (if exists) */
-  submenu?: React.ReactElement;
-
   /** Whether the submenu is expanded, used in Sidenav. */
   expanded?: boolean;
 
@@ -54,10 +50,10 @@ export interface SidenavDropdownItemProps<T = any>
  */
 const ExpandedSidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemProps> =
   React.forwardRef<HTMLLIElement, SidenavDropdownItemProps>((props, ref) => {
-    const sidenavContext = useContext(SidenavContext);
-    const dropdown = useContext(DropdownContext);
+    const sidenav = useContext(SidenavContext);
+    const nav = useContext(NavContext);
 
-    if (!sidenavContext || !dropdown) {
+    if (!sidenav || !nav) {
       throw new Error(
         '<SidenavDropdownItem> component is not supposed to be used standalone. Use <Nav.Item> within <Sidenav> instead.'
       );
@@ -79,15 +75,12 @@ const ExpandedSidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdow
       ...rest
     } = props;
 
-    const { activeKey, onSelect: onSidenavSelect } = sidenavContext;
-    const nav = useContext(NavContext);
-
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
     const selected =
       activeProp ??
       (!isNil(eventKey) &&
-        (shallowEqual(eventKey, activeKey) || shallowEqual(nav?.activeKey, eventKey)));
+        (shallowEqual(eventKey, sidenav.activeKey) || shallowEqual(nav.activeKey, eventKey)));
 
     const classes = merge(
       className,
@@ -103,10 +96,10 @@ const ExpandedSidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdow
         if (disabled) return;
 
         onSelect?.(eventKey, event);
-        dropdown.onSelect?.(eventKey, event);
-        onSidenavSelect?.(eventKey, event);
+        nav.onSelect?.(eventKey, event);
+        sidenav.onSelect?.(eventKey, event);
       },
-      [disabled, onSelect, onSidenavSelect, eventKey, dropdown]
+      [disabled, onSelect, sidenav, eventKey, nav]
     );
 
     const menuitemEventHandlers: React.HTMLAttributes<HTMLElement> = {

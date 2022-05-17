@@ -105,7 +105,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
                   {...triggerProps}
                   {...menuitem}
                 >
-                  {icon}
+                  {icon && React.cloneElement(icon, { className: prefix('icon') })}
                   {children}
                   <Ripple />
                 </Component>
@@ -155,7 +155,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
       data-event-key={eventKey}
       {...rest}
     >
-      {icon}
+      {icon && React.cloneElement(icon, { className: prefix('icon') })}
       {children}
       <Ripple />
     </Component>

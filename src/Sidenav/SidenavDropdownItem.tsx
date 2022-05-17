@@ -1,5 +1,5 @@
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from './Sidenav';
@@ -7,12 +7,9 @@ import deprecatePropType from '../utils/deprecatePropType';
 import MenuItem from '../Menu/MenuItem';
 import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';
-import ExpandedSidenavDropdownItem from './ExpandedSidenavDropdownItem';
 import NavContext from '../Nav/NavContext';
-import useInternalId from '../utils/useInternalId';
-import DropdownContext from '../Dropdown/DropdownContext';
-import { DropdownActionType } from '../Dropdown/DropdownState';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
+import ExpandedSidenavDropdownItem from './ExpandedSidenavDropdownItem';
 
 export interface SidenavDropdownItemProps<T = any>
   extends WithAsProps,
@@ -99,48 +96,17 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
       ...restProps
     } = props;
 
-    const internalId = useInternalId('DropdownItem');
-
-    const dropdown = useContext(DropdownContext);
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
 
     const handleSelectItem = useCallback(
       (event: React.SyntheticEvent) => {
         onSelect?.(eventKey, event);
-        dropdown?.onSelect?.(eventKey, event);
+        nav.onSelect?.(eventKey, event);
       },
-      [onSelect, eventKey, dropdown]
+      [onSelect, eventKey, nav]
     );
 
-    const selected =
-      activeProp ||
-      (!isNil(eventKey) &&
-        (shallowEqual(dropdown?.activeKey, eventKey) || shallowEqual(nav?.activeKey, eventKey)));
-
-    const dispatch = dropdown?.dispatch;
-
-    useEffect(() => {
-      if (dispatch) {
-        dispatch({
-          type: DropdownActionType.RegisterItem,
-          payload: {
-            id: internalId,
-            props: {
-              selected
-            }
-          }
-        });
-
-        return () => {
-          dispatch({
-            type: DropdownActionType.UnregisterItem,
-            payload: {
-              id: internalId
-            }
-          });
-        };
-      }
-    }, [internalId, selected, dispatch]);
+    const selected = activeProp || (!isNil(eventKey) && shallowEqual(nav?.activeKey, eventKey));
 
     const renderDropdownItem = useRenderDropdownItem(Component);
 
