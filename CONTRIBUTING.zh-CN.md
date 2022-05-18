@@ -9,18 +9,6 @@ Fork 此仓库到你的命名空间并克隆至本地机器。
     $ git clone git@github.com:<YOUR NAME>/rsuite.git
     $ cd rsuite
 
-我们需要保持 `package-lock.json` 的版本为 `lockfileVersion: 1`，
-所以我们建议使用 npm CLI 早于 v7 的版本。
-如果你使用 `nvm` 来管理你的 Node.js 版本，
-只需在项目根目录中运行 `nvm use` 命令。
-
-    $ nvm use
-    Found '/home/rsuite/.nvmrc' with version <14>
-    Now using node v14.18.1 (npm v6.14.15)
-
-你也不是不可以使用 npm CLI >= v7 的版本，
-但是请不要提交 `package-lock.json` 的变更。
-
 在根目录和 `docs/` 目录中安装依赖。
 
     $ npm i && npm i --prefix docs
