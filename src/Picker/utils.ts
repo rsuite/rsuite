@@ -1,7 +1,6 @@
 import React, { useState, useImperativeHandle, useCallback } from 'react';
 import kebabCase from 'lodash/kebabCase';
 import trim from 'lodash/trim';
-import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
@@ -207,24 +206,29 @@ export const useFocusItemValue = <T>(
     if (!target) {
       return [];
     }
-    const menu = isFunction(target) ? target() : target;
 
     let currentKeys = keys;
-    if (currentKeys.length === 0 && !isNil(menu)) {
-      currentKeys = Array.from(menu.querySelectorAll<HTMLElement>(focusableQueryKey)).map(
-        item => item.dataset?.key
-      );
-      setKeys(currentKeys);
-    }
 
-    if (currentKeys.length === 0) {
-      return [];
+    if (layer < 1) {
+      const popup = isFunction(target) ? target() : target;
+
+      const rootMenu = popup?.querySelector<HTMLElement>('[data-layer="0"]');
+
+      if (rootMenu) {
+        currentKeys = Array.from(
+          rootMenu.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []
+        ).map(item => item.dataset?.key);
+      } else {
+        currentKeys = Array.from(popup?.querySelectorAll<HTMLElement>(focusableQueryKey) ?? []).map(
+          item => item.dataset?.key
+        );
+      }
     }
 
     // 1. It is necessary to traverse the `keys` instead of `data` here to preserve the order of the array.
     // 2. The values ​​in `keys` are all string, so the corresponding value of `data` should also be converted to string
     return currentKeys.map(key => find(data, i => `${i[valueKey]}` === key));
-  }, [data, focusableQueryKey, keys, target, valueKey]);
+  }, [data, focusableQueryKey, keys, target, valueKey, layer]);
 
   /**
    * Get the index of the focus item.
