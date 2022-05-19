@@ -18,7 +18,7 @@ export type DisclosureContextProps = [
   DisclosureState,
   Dispatch<DisclosureAction>,
   {
-    trigger: DisclosureTrigger[];
+    trigger: readonly DisclosureTrigger[];
     onToggle?: (open: boolean, event: React.SyntheticEvent) => void;
   }
 ];

@@ -859,16 +859,32 @@ describe('<Dropdown>', () => {
     assert.equal(button.textContent, 'new');
   });
 
-  it('Should render a As Component', () => {
-    const AsComponent = React.forwardRef((_, ref) => <div ref={ref}>As Component</div>);
-    const instance = getDOMNode(
-      <Nav>
-        <Dropdown title="">
-          <Dropdown.Item as={AsComponent}>item-1</Dropdown.Item>
-        </Dropdown>
-      </Nav>
-    );
-    ReactTestUtils.Simulate.click(instance.querySelector('[role="button"]'));
-    assert.equal(instance.textContent, 'As Component');
+  context('[Deprecated] Usage within <Nav>', () => {
+    it('Should warn deprecation message', () => {
+      sinon.spy(console, 'warn');
+
+      render(
+        <Nav>
+          <Dropdown title="Dropdown"></Dropdown>
+        </Nav>
+      );
+
+      expect(console.warn).to.have.been.calledWith(
+        'Usage of <Dropdown> within <Nav> is deprecated. Replace with <Nav.Menu>'
+      );
+    });
+
+    it('Should render a As Component', () => {
+      const AsComponent = React.forwardRef((_, ref) => <div ref={ref}>As Component</div>);
+      const instance = getDOMNode(
+        <Nav>
+          <Dropdown title="">
+            <Dropdown.Item as={AsComponent}>item-1</Dropdown.Item>
+          </Dropdown>
+        </Nav>
+      );
+      ReactTestUtils.Simulate.click(instance.querySelector('[role="button"]'));
+      assert.equal(instance.textContent, 'As Component');
+    });
   });
 });

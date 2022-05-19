@@ -11,11 +11,11 @@ const NavBarInstance = ({ onSelect, activeKey, ...props }) => {
         </Nav.Item>
         <Nav.Item eventKey="2">News</Nav.Item>
         <Nav.Item eventKey="3">Products</Nav.Item>
-        <Dropdown title="About">
-          <Dropdown.Item eventKey="4">Company</Dropdown.Item>
-          <Dropdown.Item eventKey="5">Team</Dropdown.Item>
-          <Dropdown.Item eventKey="6">Contact</Dropdown.Item>
-        </Dropdown>
+        <Nav.Menu title="About">
+          <Nav.Item eventKey="4">Company</Nav.Item>
+          <Nav.Item eventKey="5">Team</Nav.Item>
+          <Nav.Item eventKey="6">Contact</Nav.Item>
+        </Nav.Menu>
       </Nav>
       <Nav pullRight>
         <Nav.Item icon={<Cog />}>Settings</Nav.Item>

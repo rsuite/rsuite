@@ -6,14 +6,12 @@ import { mergeRefs, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import { SidenavContext } from './Sidenav';
-import ArrowLeftLine from '@rsuite/icons/ArrowLeftLine';
-import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
+import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
+import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import useCustom from '../utils/useCustom';
-import ExpandedSidenavDropdownMenu from './ExpandedSidenavDropdownMenu';
-import NavContext from '../Nav/NavContext';
+import NavContext from './NavContext';
 
-export interface SidenavDropdownMenuProps<T = any> extends StandardProps {
+export interface NavDropdownMenuProps<T = any> extends StandardProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
@@ -33,33 +31,20 @@ export interface SidenavDropdownMenuProps<T = any> extends StandardProps {
   expanded?: boolean;
   active?: boolean;
   disabled?: boolean;
-  activeKey?: T;
   onToggle?: (open: boolean, eventKey?: T | undefined, event?: React.SyntheticEvent) => void;
 }
 
 /**
- * @private this component is not supposed to be used directly
- *          Instead it's rendered by a <Nav.Menu> within a <Sidenav>
- *
- * <Sidenav>
- *   <Nav>
- *     <Nav.Menu>
- *       <Nav.Menu></Nav.Menu> -> This submenu will render <SidenavDropdownMenu> component
- *     </Nav.Menu>
- *   </Nav>
- * </Sidenav>
+ * @private
  */
-const SidenavDropdownMenu = React.forwardRef<
+const NavDropdownMenu = React.forwardRef<
   HTMLElement,
-  SidenavDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
+  NavDropdownMenuProps & Omit<React.HTMLAttributes<HTMLUListElement>, 'title' | 'onSelect'>
 >((props, ref) => {
-  const sidenav = useContext(SidenavContext);
   const nav = useContext(NavContext);
 
-  if (!sidenav || !nav) {
-    throw new Error(
-      '<Sidenav.Dropdown.Menu> must be rendered within a <Nav> within a <Sidenav> component.'
-    );
+  if (!nav) {
+    throw new Error('<Nav.Dropdown.Menu> should be used within a <Nav> component.');
   }
 
   const { onToggle, eventKey, title, classPrefix = 'dropdown-menu', children, ...rest } = props;
@@ -83,15 +68,11 @@ const SidenavDropdownMenu = React.forwardRef<
     prefix: prefixItemClassName
   } = useClassNames('dropdown-item');
 
-  if (sidenav.expanded) {
-    return <ExpandedSidenavDropdownMenu ref={ref} {...(omit(props, 'classPrefix') as any)} />;
-  }
-
   // Parent menu exists. This is a submenu.
   // Should render a `menuitem` that controls this submenu.
   const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
 
-  const Icon = rtl ? ArrowLeftLine : ArrowRightLine;
+  const Icon = rtl ? AngleLeft : AngleRight;
 
   return (
     <Menu
@@ -166,10 +147,9 @@ const SidenavDropdownMenu = React.forwardRef<
   );
 });
 
-SidenavDropdownMenu.displayName = 'Sidenav.Dropdown.Menu';
-SidenavDropdownMenu.propTypes = {
+NavDropdownMenu.displayName = 'Nav.Dropdown.Menu';
+NavDropdownMenu.propTypes = {
   active: PropTypes.bool,
-  activeKey: PropTypes.any,
   className: PropTypes.string,
   children: PropTypes.node,
   icon: PropTypes.any,
@@ -183,4 +163,4 @@ SidenavDropdownMenu.propTypes = {
   onToggle: PropTypes.func
 };
 
-export default SidenavDropdownMenu;
+export default NavDropdownMenu;

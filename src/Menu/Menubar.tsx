@@ -21,6 +21,9 @@ export interface MenubarProps {
   onActivateItem?: (event: React.SyntheticEvent) => void;
 }
 
+/**
+ * @private
+ */
 export default function Menubar({ vertical = false, children, onActivateItem }: MenubarProps) {
   const menubar = useMenu({ role: 'menubar' });
   const [{ items, activeItemIndex }, dispatch] = menubar;

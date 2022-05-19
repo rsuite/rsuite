@@ -24,17 +24,17 @@ const NavToggle = ({ expand, onChange }) => {
     <Navbar appearance="subtle" className="nav-toggle">
       <Navbar.Body>
         <Nav>
-          <Dropdown
+          <Nav.Menu
             placement="topStart"
             trigger="click"
             renderTitle={children => {
               return <Cog style={iconStyles} />;
             }}
           >
-            <Dropdown.Item>Help</Dropdown.Item>
-            <Dropdown.Item>Settings</Dropdown.Item>
-            <Dropdown.Item>Sign out</Dropdown.Item>
-          </Dropdown>
+            <Nav.Item>Help</Nav.Item>
+            <Nav.Item>Settings</Nav.Item>
+            <Nav.Item>Sign out</Nav.Item>
+          </Nav.Menu>
         </Nav>
 
         <Nav pullRight>
@@ -72,32 +72,32 @@ const Page = () => {
                 <Nav.Item eventKey="2" icon={<Group />}>
                   User Group
                 </Nav.Item>
-                <Dropdown
+                <Nav.Menu
                   eventKey="3"
                   trigger="hover"
                   title="Advanced"
                   icon={<Magic />}
                   placement="rightStart"
                 >
-                  <Dropdown.Item eventKey="3-1">Geo</Dropdown.Item>
-                  <Dropdown.Item eventKey="3-2">Devices</Dropdown.Item>
-                  <Dropdown.Item eventKey="3-3">Brand</Dropdown.Item>
-                  <Dropdown.Item eventKey="3-4">Loyalty</Dropdown.Item>
-                  <Dropdown.Item eventKey="3-5">Visit Depth</Dropdown.Item>
-                </Dropdown>
-                <Dropdown
+                  <Nav.Item eventKey="3-1">Geo</Nav.Item>
+                  <Nav.Item eventKey="3-2">Devices</Nav.Item>
+                  <Nav.Item eventKey="3-3">Brand</Nav.Item>
+                  <Nav.Item eventKey="3-4">Loyalty</Nav.Item>
+                  <Nav.Item eventKey="3-5">Visit Depth</Nav.Item>
+                </Nav.Menu>
+                <Nav.Menu
                   eventKey="4"
                   trigger="hover"
                   title="Settings"
                   icon={<GearCircle />}
                   placement="rightStart"
                 >
-                  <Dropdown.Item eventKey="4-1">Applications</Dropdown.Item>
-                  <Dropdown.Item eventKey="4-2">Websites</Dropdown.Item>
-                  <Dropdown.Item eventKey="4-3">Channels</Dropdown.Item>
-                  <Dropdown.Item eventKey="4-4">Tags</Dropdown.Item>
-                  <Dropdown.Item eventKey="4-5">Versions</Dropdown.Item>
-                </Dropdown>
+                  <Nav.Item eventKey="4-1">Applications</Nav.Item>
+                  <Nav.Item eventKey="4-2">Websites</Nav.Item>
+                  <Nav.Item eventKey="4-3">Channels</Nav.Item>
+                  <Nav.Item eventKey="4-4">Tags</Nav.Item>
+                  <Nav.Item eventKey="4-5">Versions</Nav.Item>
+                </Nav.Menu>
               </Nav>
             </Sidenav.Body>
           </Sidenav>

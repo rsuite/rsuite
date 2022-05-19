@@ -32,7 +32,7 @@ export interface DisclosureProps {
   onToggle?: (open: boolean, event: React.SyntheticEvent) => void;
 
   /** What mouse events should disclosure reacts to */
-  trigger?: DisclosureTrigger[];
+  trigger?: readonly DisclosureTrigger[];
 }
 
 const initialDisclosureState: DisclosureState = {

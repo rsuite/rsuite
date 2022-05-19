@@ -1,14 +1,23 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import NavItem from './NavItem';
-import Dropdown from '../Dropdown';
+import NavItem, { NavItemProps } from './NavItem';
 import { useClassNames } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import NavContext from './NavContext';
+import NavContext, { NavContextProps } from './NavContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
 import Menubar from '../Menu/Menubar';
+import NavDropdown from './NavDropdown';
+import NavMenu, { NavMenuActionType, NavMenuContext } from './NavMenu';
+import deprecateComponent from '../utils/deprecateComponent';
+import NavDropdownItem from './NavDropdownItem';
+import NavDropdownMenu from './NavDropdownMenu';
+import NavbarDropdownItem from '../Navbar/NavbarDropdownItem';
+import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
+import NavbarItem from '../Navbar/NavbarItem';
+import SidenavItem from '../Sidenav/SidenavItem';
+import useInternalId from '../utils/useInternalId';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -36,8 +45,12 @@ export interface NavProps<T = any>
 }
 
 interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
-  Dropdown: typeof Dropdown;
+  /**
+   * @deprecated Use <Nav.Menu> instead.
+   */
+  Dropdown: typeof NavDropdown;
   Item: typeof NavItem;
+  Menu: typeof NavMenu;
 }
 
 const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
@@ -84,9 +97,8 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     sidenav || {};
 
   const activeKey = activeKeyProp ?? activeKeyFromSidenav;
-  const contextValue = useMemo(
+  const contextValue = useMemo<NavContextProps>(
     () => ({
-      withinNav: true,
       activeKey,
       onSelect: onSelectProp ?? onSelectFromSidenav
     }),
@@ -129,8 +141,86 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
   );
 }) as unknown as NavComponent;
 
-Nav.Dropdown = Dropdown;
-Nav.Item = NavItem;
+const DeprecatedNavDropdown = deprecateComponent(
+  NavDropdown,
+  '<Nav.Dropdown> is deprecated, use <Nav.Menu> instead.'
+);
+DeprecatedNavDropdown.Menu = deprecateComponent(
+  NavDropdownMenu,
+  '<Nav.Dropdown.Menu> is deprecated, use <Nav.Menu> instead'
+);
+DeprecatedNavDropdown.Item = deprecateComponent(
+  NavDropdownItem,
+  '<Nav.Dropdown.Item> is deprecated, use <Nav.Item> instead'
+);
+
+Nav.Dropdown = DeprecatedNavDropdown;
+/**
+ * The <Nav.Item> API
+ * When used as direct child of <Nav>, render the NavItem
+ * When used within a <Nav.Menu>, render the NavDropdownItem
+ */
+Nav.Item = React.forwardRef((props: NavItemProps, ref: React.Ref<any>) => {
+  const nav = useContext(NavContext);
+
+  if (!nav) {
+    throw new Error('<Nav.Item> must be rendered within a <Nav> component.');
+  }
+
+  const parentNavMenu = useContext(NavMenuContext);
+  const navbar = useContext(NavbarContext);
+  const sidenav = useContext(SidenavContext);
+
+  const [, dispatch] = parentNavMenu ?? [];
+  const _id = useInternalId('Nav.Item');
+
+  useEffect(() => {
+    if (dispatch) {
+      dispatch({
+        type: NavMenuActionType.RegisterItem,
+        payload: {
+          _id,
+          eventKey: props.eventKey,
+          active: props.active ?? false
+        }
+      });
+
+      return () => {
+        dispatch({
+          type: NavMenuActionType.UnregisterItem,
+          payload: {
+            _id
+          }
+        });
+      };
+    }
+  }, [dispatch, _id, props.eventKey, props.active]);
+
+  if (parentNavMenu) {
+    if (navbar) {
+      return <NavbarDropdownItem ref={ref} {...props} />;
+    }
+
+    if (sidenav) {
+      return <SidenavDropdownItem ref={ref} {...props} />;
+    }
+
+    return <NavDropdownItem ref={ref} {...props} />;
+  }
+
+  if (navbar) {
+    return <NavbarItem ref={ref} {...props} />;
+  }
+
+  if (sidenav) {
+    return <SidenavItem ref={ref} {...props} />;
+  }
+
+  return <NavItem ref={ref} {...props} />;
+});
+Nav.Item.displayName = 'Nav.Item';
+
+Nav.Menu = NavMenu;
 
 Nav.displayName = 'Nav';
 Nav.propTypes = {

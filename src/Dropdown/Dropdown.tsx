@@ -1,10 +1,9 @@
-import React, { useCallback, useContext, useMemo, useReducer } from 'react';
+import React, { useContext, useMemo, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import DropdownMenu from './DropdownMenu';
 import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../utils';
-import { SidenavContext } from '../Sidenav/Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
@@ -12,15 +11,12 @@ import DropdownItem from './DropdownItem';
 import DropdownContext, { DropdownContextProps } from './DropdownContext';
 import Menu, { MenuButtonTrigger } from '../Menu/Menu';
 import DropdownToggle from './DropdownToggle';
-import MenuContext from '../Menu/MenuContext';
-import MenuItem from '../Menu/MenuItem';
 import kebabCase from 'lodash/kebabCase';
-import { NavbarContext } from '../Navbar';
-import Disclosure from '../Disclosure/Disclosure';
-import SidenavDropdown from '../Sidenav/SidenavDropdown';
 import NavContext from '../Nav/NavContext';
 import { initialState, reducer } from './DropdownState';
 import Button from '../Button';
+import warnOnce from '../utils/warnOnce';
+import Nav from '../Nav';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -109,7 +105,7 @@ export interface DropdownComponent extends RsRefForwardingComponent<'div', Dropd
  * Otherwise renders a <MenuRoot>
  */
 const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: DropdownProps, ref) => {
-  const { activeKey, onSelect: onSelectProp, ...rest } = props;
+  const { activeKey, onSelect, ...rest } = props;
 
   const {
     as: Component = 'div',
@@ -117,7 +113,6 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
     onClose,
     onOpen,
     onToggle,
-    eventKey,
     trigger = 'click',
     placement = 'bottomStart',
     toggleAs,
@@ -133,25 +128,12 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
     ...toggleProps
   } = rest;
 
-  const { onSelect: onSelectFromNav } = useContext(NavContext);
+  const nav = useContext(NavContext);
 
-  const emitSelect = useCallback(
-    (eventKey: string | undefined, event: React.SyntheticEvent) => {
-      onSelectProp?.(eventKey, event);
-
-      // If <Dropdown> is inside <Nav>, also trigger `onSelect` on <Nav>
-      onSelectFromNav?.(eventKey, event);
-    },
-    [onSelectProp, onSelectFromNav]
-  );
-
-  const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+  const { merge, withClassPrefix } = useClassNames(classPrefix);
 
   const { withClassPrefix: withMenuClassPrefix, merge: mergeMenuClassName } =
     useClassNames('dropdown-menu');
-
-  const { withClassPrefix: withNavItemClassPrefix, merge: mergeNavItemClassNames } =
-    useClassNames('nav-item');
 
   const menuButtonTriggers = useMemo<MenuButtonTrigger[] | undefined>(() => {
     if (!trigger) {
@@ -171,11 +153,6 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
     return trigger.map(t => triggerMap[t]);
   }, [trigger]);
 
-  const parentMenu = useContext(MenuContext);
-
-  const sidenav = useContext(SidenavContext);
-  const navbar = useContext(NavbarContext);
-
   const [{ items }, dispatch] = useReducer(reducer, initialState);
 
   const hasSelectedItem = useMemo(() => {
@@ -183,74 +160,18 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
   }, [items]);
 
   const dropdownContextValue = useMemo<DropdownContextProps>(() => {
-    return { activeKey, onSelect: emitSelect, hasSelectedItem, dispatch };
-  }, [activeKey, emitSelect, hasSelectedItem, dispatch]);
+    return { activeKey, onSelect, hasSelectedItem, dispatch };
+  }, [activeKey, onSelect, hasSelectedItem, dispatch]);
 
-  // Render a disclosure when inside expanded <Sidenav>
-  if (sidenav?.expanded) {
-    return (
-      <DropdownContext.Provider value={dropdownContextValue}>
-        <SidenavDropdown ref={ref} {...rest} />
-      </DropdownContext.Provider>
-    );
+  // Deprecate <Dropdown> within <Nav> usage
+  // in favor of <Nav.Menu> API
+  if (nav) {
+    warnOnce('Usage of <Dropdown> within <Nav> is deprecated. Replace with <Nav.Menu>');
+
+    return <Nav.Menu ref={ref} {...props} />;
   }
 
-  // Renders a disclosure when used inside <Navbar>
-  if (navbar) {
-    return (
-      <DropdownContext.Provider value={dropdownContextValue}>
-        <Disclosure hideOnClickOutside>
-          {({ open }, containerRef: React.Ref<HTMLElement>) => {
-            const classes = merge(
-              className,
-              withClassPrefix({
-                [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
-                disabled,
-                open
-                // focus: hasFocus
-              })
-            );
-            return (
-              <Component ref={mergeRefs(ref, containerRef)} className={classes} style={style}>
-                <Disclosure.Button>
-                  {(buttonProps, buttonRef) => (
-                    <DropdownToggle
-                      ref={buttonRef}
-                      as={toggleAs}
-                      className={toggleClassName}
-                      placement={placement}
-                      disabled={disabled}
-                      {...omit(buttonProps, ['open'])}
-                      {...toggleProps}
-                    >
-                      {title}
-                    </DropdownToggle>
-                  )}
-                </Disclosure.Button>
-                <Disclosure.Content>
-                  {({ open }, elementRef) => {
-                    const menuClassName = mergeMenuClassName(className, withMenuClassPrefix());
-                    return (
-                      <ul
-                        ref={elementRef as any}
-                        className={menuClassName}
-                        style={menuStyle}
-                        hidden={!open}
-                      >
-                        {children}
-                      </ul>
-                    );
-                  }}
-                </Disclosure.Content>
-              </Component>
-            );
-          }}
-        </Disclosure>
-      </DropdownContext.Provider>
-    );
-  }
-
-  let renderMenuButton = (menuButtonProps, menuButtonRef) => (
+  const renderMenuButton = (menuButtonProps, menuButtonRef) => (
     <DropdownToggle
       ref={menuButtonRef}
       as={toggleAs}
@@ -264,32 +185,6 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
     </DropdownToggle>
   );
 
-  if (parentMenu) {
-    renderMenuButton = (menuButtonProps, buttonRef) => (
-      <MenuItem disabled={disabled}>
-        {({ active, ...menuitemProps }, menuitemRef) => {
-          return (
-            <DropdownToggle
-              ref={mergeRefs(buttonRef, menuitemRef)}
-              as={toggleAs}
-              className={mergeNavItemClassNames(
-                toggleClassName,
-                withNavItemClassPrefix({
-                  focus: active
-                })
-              )}
-              {...menuButtonProps}
-              {...omit(menuitemProps, ['onClick'])}
-              {...omit(toggleProps, 'data-testid')}
-            >
-              {title}
-            </DropdownToggle>
-          );
-        }}
-      </MenuItem>
-    );
-  }
-
   return (
     <DropdownContext.Provider value={dropdownContextValue}>
       <Menu
@@ -300,8 +195,6 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
         openMenuOn={menuButtonTriggers}
         renderMenuPopup={({ open, ...popupProps }, popupRef) => {
           const menuClassName = mergeMenuClassName(className, withMenuClassPrefix({}));
-          // When inside a collapsed <Sidenav>, render a header in menu
-          const showHeader = !!sidenav;
 
           return (
             <ul
@@ -311,14 +204,12 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
               hidden={!open}
               {...popupProps}
             >
-              {showHeader && <div className={prefix('header')}>{title}</div>}
               {children}
             </ul>
           );
         }}
-        onToggleMenu={(open, event) => {
+        onToggleMenu={open => {
           onToggle?.(open);
-          sidenav?.onOpenChange(eventKey, event);
           if (open) {
             onOpen?.();
           } else {
@@ -333,7 +224,6 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
               [`placement-${kebabCase(placementPolyfill(placement))}`]: !!placement,
               disabled,
               open,
-              submenu: !!parentMenu,
               'selected-within': hasSelectedItem
             })
           );

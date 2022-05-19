@@ -273,41 +273,43 @@ describe('<Sidenav>', () => {
     );
   });
 
-  it('Should add "selected-within" className on <Dropdown> when some item inside is selected', () => {
+  it('Should add "selected-within" className on <Nav.Menu> when some item inside is selected', () => {
     const { getByTestId } = render(
       <Sidenav>
         <Nav activeKey="2-1">
-          <Dropdown title="Dropdown 1" data-testid="dropdown-1">
-            <Dropdown.Item eventKey="2-1">Active by activeKey from Nav</Dropdown.Item>
-          </Dropdown>
+          <Nav.Menu title="Dropdown 1" data-testid="dropdown-1">
+            <Nav.Item eventKey="2-1">Active by activeKey from Nav</Nav.Item>
+          </Nav.Menu>
 
-          <Dropdown title="Dropdown 2" data-testid="dropdown-2">
-            <Dropdown.Item active>Active by active prop</Dropdown.Item>
-          </Dropdown>
+          <Nav.Menu title="Dropdown 2" data-testid="dropdown-2">
+            <Nav.Item active>Active by active prop</Nav.Item>
+          </Nav.Menu>
         </Nav>
       </Sidenav>
     );
 
-    expect(getByTestId('dropdown-1').className).to.include('selected-within');
-    expect(getByTestId('dropdown-2').className).to.include('selected-within');
+    expect(getByTestId('dropdown-1')).to.have.class(/selected-within/);
+    expect(getByTestId('dropdown-2')).to.have.class(/selected-within/);
   });
 
-  it('(Collapsed) Should add "selected-within" className on <Dropdown> when some item inside is selected', () => {
-    const { getByTestId } = render(
-      <Sidenav expanded={false}>
-        <Nav activeKey="2-1">
-          <Dropdown title="Dropdown 1" data-testid="dropdown-1">
-            <Dropdown.Item eventKey="2-1">Active by activeKey from Nav</Dropdown.Item>
-          </Dropdown>
+  describe('Collapsed', () => {
+    it('Should add "selected-within" className on <Dropdown> when some item inside is selected', () => {
+      const { getByTestId } = render(
+        <Sidenav expanded={false}>
+          <Nav activeKey="2-1">
+            <Nav.Menu title="Dropdown 1" data-testid="dropdown-1">
+              <Nav.Item eventKey="2-1">Active by activeKey from Nav</Nav.Item>
+            </Nav.Menu>
 
-          <Dropdown title="Dropdown 2" data-testid="dropdown-2">
-            <Dropdown.Item active>Active by active prop</Dropdown.Item>
-          </Dropdown>
-        </Nav>
-      </Sidenav>
-    );
+            <Nav.Menu title="Dropdown 2" data-testid="dropdown-2">
+              <Nav.Item active>Active by active prop</Nav.Item>
+            </Nav.Menu>
+          </Nav>
+        </Sidenav>
+      );
 
-    expect(getByTestId('dropdown-1').className).to.include('selected-within');
-    expect(getByTestId('dropdown-2').className).to.include('selected-within');
+      expect(getByTestId('dropdown-1').className).to.include('selected-within');
+      expect(getByTestId('dropdown-2').className).to.include('selected-within');
+    });
   });
 });

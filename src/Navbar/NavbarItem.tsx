@@ -6,9 +6,9 @@ import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { shallowEqual, useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
-import NavContext from '../Nav/NavContext';
+import NavContext, { NavContextProps } from '../Nav/NavContext';
 
-export interface NavItemProps<T = string>
+export interface NavbarItemProps<T = string>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
   /** Activation status */
@@ -30,8 +30,11 @@ export interface NavItemProps<T = string>
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
-const NavbarItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
-  (props: NavItemProps, ref: React.Ref<any>) => {
+/**
+ * @private
+ */
+const NavbarItem: RsRefForwardingComponent<'a', NavbarItemProps> = React.forwardRef(
+  (props: NavbarItemProps, ref: React.Ref<any>) => {
     const {
       as: Component = SafeAnchor,
       active: activeProp,
@@ -47,7 +50,7 @@ const NavbarItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef
       ...rest
     } = props;
 
-    const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
+    const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext) as NavContextProps;
 
     const active = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
 
@@ -59,7 +62,7 @@ const NavbarItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef
       [eventKey, onSelectProp, onSelectFromNav]
     );
 
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
+    const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active, disabled }));
 
     const handleClick = useCallback(
@@ -81,7 +84,7 @@ const NavbarItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef
         onClick={handleClick}
         style={style}
       >
-        {icon}
+        {icon && React.cloneElement(icon, { className: prefix('icon') })}
         {children}
         <Ripple />
       </Component>

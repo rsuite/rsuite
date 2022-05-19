@@ -6,11 +6,7 @@ import SafeAnchor from '../SafeAnchor';
 import { shallowEqual, useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import { SidenavContext } from '../Sidenav/Sidenav';
 import NavContext from './NavContext';
-import { NavbarContext } from '../Navbar/Navbar';
-import SidenavItem from '../Sidenav/SidenavItem';
-import NavbarItem from '../Navbar/NavbarItem';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -42,9 +38,17 @@ export interface NavItemProps<T = string>
 
 /**
  * The <Nav.Item> API
+ * When used as direct child of <Nav>, render the NavItem
+ * When used within a <Nav.Menu>, render the NavDropdownItem
  */
 const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<any>) => {
+    const nav = useContext(NavContext);
+
+    if (!nav) {
+      throw new Error('<Nav.Item> must be rendered within a <Nav> component.');
+    }
+
     const {
       as: Component = SafeAnchor,
       active: activeProp,
@@ -62,7 +66,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext);
+    const { activeKey, onSelect: onSelectFromNav } = nav;
 
     const active = activeProp ?? (!isNil(eventKey) && shallowEqual(eventKey, activeKey));
 
@@ -73,9 +77,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       },
       [eventKey, onSelectProp, onSelectFromNav]
     );
-
-    const navbar = useContext(NavbarContext);
-    const sidenav = useContext(SidenavContext);
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ active, disabled }));
@@ -89,10 +90,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       },
       [disabled, emitSelect, onClick]
     );
-
-    if (sidenav) {
-      return <SidenavItem {...props} />;
-    }
 
     if (divider) {
       return (
@@ -114,10 +111,6 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
       );
     }
 
-    if (navbar) {
-      return <NavbarItem ref={ref} {...props} />;
-    }
-
     return (
       <Component
         ref={ref}
@@ -128,7 +121,7 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
         style={style}
         aria-selected={active || undefined}
       >
-        {icon}
+        {icon && React.cloneElement(icon, { className: prefix('icon') })}
         {children}
         <Ripple />
       </Component>

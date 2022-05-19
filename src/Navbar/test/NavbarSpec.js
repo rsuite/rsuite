@@ -30,7 +30,7 @@ describe('Navbar', () => {
     assert.ok(instance.querySelector('.rs-nav.rs-navbar-nav'));
   });
 
-  context('Use <Dropdown> within <Navbar>', () => {
+  context('[Deprecated] Use <Dropdown> within <Navbar>', () => {
     it('Should render <Dropdown> as a disclosure containing a list of items', () => {
       const { getByText } = render(
         <Navbar>

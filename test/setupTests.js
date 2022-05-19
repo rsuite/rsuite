@@ -1,4 +1,4 @@
-import deprecatePropType from '../src/utils/deprecatePropType';
+import warnOnce from '../src/utils/warnOnce';
 import './chai-assertions.js';
 
 /**
@@ -47,5 +47,5 @@ afterEach(() => {
     throw pendingError;
   }
 
-  deprecatePropType._resetWarned();
+  warnOnce._resetWarned();
 });

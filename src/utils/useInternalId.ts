@@ -4,11 +4,11 @@ import uniqueId from 'lodash/uniqueId';
 /**
  * Used for generating unique ID for DOM elements
  */
-export default function useInternalId(prefix?: string) {
+export default function useInternalId(namespace?: string) {
   const idRef = useRef<string>();
 
   if (!idRef.current) {
-    idRef.current = uniqueId(`internal://${prefix}`);
+    idRef.current = uniqueId(`internal://${namespace}`);
   }
 
   useDebugValue(idRef.current);

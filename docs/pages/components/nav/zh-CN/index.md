@@ -88,6 +88,13 @@
 | icon        | Element&lt;typeof Icon&gt;        | 设置图标               |
 | onSelect    | (eventKey: string, event) => void | 选择事件触发的回调函数 |
 
-### `<Nav.Dropdown>`
+### `<Nav.Menu>`
 
-- [继承 Dropdown 组件](/zh/components/dropdown#Props)
+| 属性名称 | 类型                                                 | 描述                  |
+| -------- | ---------------------------------------------------- | --------------------- |
+| icon     | ReactElement                                         | 展开菜单的导航项图标  |
+| noCaret  | boolean `(false)`                                    | 是否隐藏小箭头图标    |
+| onClose  | (event: React.SyntheticEvent) => void                | 菜单关闭时的回调      |
+| onOpen   | (event: React.SyntheticEvent) => void                | 菜单开启时的回调      |
+| onToggle | (open: boolean, event: React.SyntheticEvent) => void | 菜单开启/关闭时的回调 |
+| title    | ReactNode                                            | 展开菜单的导航项内容  |

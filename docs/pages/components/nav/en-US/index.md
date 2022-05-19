@@ -84,6 +84,13 @@ Provides a list of various forms of navigation menus, which can be landscape and
 | icon        | Element&lt;typeof Icon&gt;        | Sets the icon for the component                       |
 | onSelect    | (eventKey: string, event) => void | Select the callback function that the event triggers. |
 
-### `<Nav.Dropdown>`
+### `<Nav.Menu>`
 
-- [Extend the Dropdown component](/components/dropdown#Props)
+| Property | Type `(Default)`                                     | Description                             |
+| -------- | ---------------------------------------------------- | --------------------------------------- |
+| title    | ReactNode                                            | Content of the item that opens the menu |
+| icon     | ReactElement                                         | Icon of the item that opens the menu    |
+| onClose  | (event: React.SyntheticEvent) => void                | Callback when menu closes               |
+| onOpen   | (event: React.SyntheticEvent) => void                | Callback when menu opens                |
+| onToggle | (open: boolean, event: React.SyntheticEvent) => void | Callback when menu opens/closes         |
+| noCaret  | boolean `(false)`                                    | Whether to hide the caret icon          |
