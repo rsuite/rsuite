@@ -124,11 +124,13 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
         <DropdownMenuItem
           classPrefix="picker-cascader-menu-item"
           as={'li'}
+          role="treeitem"
           key={`${layer}-${onlyKey}`}
           disabled={disabled}
           active={!isUndefined(activeItemValue) && shallowEqual(activeItemValue, value)}
           focus={focus}
           value={value}
+          aria-owns={node.children ? 'treeitem-' + value + '-children' : undefined}
           className={children ? prefix('has-children') : undefined}
           onSelect={(_value, event) => handleSelect(layer, node, event)}
         >
@@ -139,10 +141,17 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
     };
 
     const styles = { width: cascadeData.length * menuWidth };
+
     const cascadeNodes = cascadeData.map((children, layer) => {
       const onlyKey = `${layer}_${children.length}`;
+
+      const parentNode = cascadePaths[layer - 1];
+
       const menu = (
-        <ul role="listbox">
+        <ul
+          role={layer === 0 ? 'none presentation' : 'group'}
+          id={parentNode ? 'treeitem-' + parentNode[valueKey] + '-children' : undefined}
+        >
           {children.map((item, index) =>
             renderCascadeNode(
               item,
@@ -154,7 +163,6 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
         </ul>
       );
 
-      const parentNode = cascadePaths[layer - 1];
       return (
         <div
           key={onlyKey}
@@ -169,7 +177,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
     });
 
     return (
-      <Component {...rest} ref={mergeRefs(rootRef, ref)} className={classes}>
+      <Component role="tree" {...rest} ref={mergeRefs(rootRef, ref)} className={classes}>
         <div style={styles}>{cascadeNodes}</div>
       </Component>
     );
