@@ -1,3 +1,13 @@
+# [5.13.0](https://github.com/rsuite/rsuite/compare/v5.12.0...v5.13.0) (2022-05-19)
+
+### Bug Fixes
+
+- **listbox:** fix broken keyboard navigation after filtering ([#2491](https://github.com/rsuite/rsuite/issues/2491)) ([329623a](https://github.com/rsuite/rsuite/commit/329623a21e8d551db3e634894ddcbb3658b1579d))
+
+### Performance Improvements
+
+- **Cascader:** apply tree view pattern ([#2492](https://github.com/rsuite/rsuite/issues/2492)) ([f3a5808](https://github.com/rsuite/rsuite/commit/f3a5808eb60cc4f5250cce908322a702a91a9d96))
+
 # [5.12.0](https://github.com/rsuite/rsuite/compare/v5.11.0...v5.12.0) (2022-05-12)
 
 ### Features
