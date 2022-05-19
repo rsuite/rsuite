@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { getClassNamePrefix, prefix } from '../utils/prefix';
 import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
+import { MessageProps } from '../Message';
 
 export interface CustomValue<T = Locale> {
   /** Language configuration */
@@ -41,12 +42,27 @@ export interface CustomValue<T = Locale> {
   parseDate: (dateString: string, formatString: string) => Date;
 }
 
+export interface ComponentOverrides {
+  Message?: {
+    defaultProps?: Partial<MessageProps>;
+  };
+}
+
 export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>> {
   /** Supported themes */
   theme?: 'light' | 'dark' | 'high-contrast';
 
   /** The prefix of the component CSS class */
   classPrefix?: string;
+
+  /**
+   * Override component defaults
+   *
+   * NOTICE: This prop is still under development, and should not be considered production-ready
+   *         until it's mentioned in the official documentation.
+   *         It's available now as a preview only for extremly narrow use cases.
+   */
+  PREVIEW_components?: ComponentOverrides;
 
   /** Primary content */
   children?: React.ReactNode;
