@@ -5,6 +5,7 @@ import SafeAnchor from '../SafeAnchor';
 import Ripple from '../Ripple';
 import { isOneOf, useClassNames } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { useProps } from '../CustomProvider/useProps';
 
 export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
   /** A button can have different appearances. */
@@ -58,7 +59,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
       size: sizeProp,
       type: typeProp,
       ...rest
-    } = props;
+    } = useProps('Button', props);
 
     const buttonGroup = useContext(ButtonGroupContext);
 

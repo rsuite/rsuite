@@ -3,6 +3,7 @@ import { getClassNamePrefix, prefix } from '../utils/prefix';
 import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import { MessageProps } from '../Message';
+import { ButtonProps } from '../Button';
 
 export interface CustomValue<T = Locale> {
   /** Language configuration */
@@ -42,10 +43,13 @@ export interface CustomValue<T = Locale> {
   parseDate: (dateString: string, formatString: string) => Date;
 }
 
+type ComponentOverride<P> = {
+  defaultProps?: Partial<P>;
+};
+
 export interface ComponentOverrides {
-  Message?: {
-    defaultProps?: Partial<MessageProps>;
-  };
+  Button?: ComponentOverride<ButtonProps>;
+  Message?: ComponentOverride<MessageProps>;
 }
 
 export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>> {
