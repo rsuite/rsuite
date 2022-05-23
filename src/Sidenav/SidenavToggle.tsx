@@ -26,7 +26,7 @@ const SidenavToggle: RsRefForwardingComponent<'div', SidenavToggleProps> = React
     } = props;
     const { merge, withClassPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ collapsed: !expanded }));
-    const Icon = expanded ? AngleRight : AngleLeft;
+    const Icon = expanded ? AngleLeft : AngleRight;
 
     const handleToggle = (event: React.MouseEvent) => {
       onToggle?.(!expanded, event);
