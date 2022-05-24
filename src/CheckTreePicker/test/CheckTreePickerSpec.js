@@ -5,6 +5,7 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '../../utils';
 import { assert } from 'chai';
+import { originMockData, changedMockData } from './mocks';
 
 const itemFocusClassName = '.rs-check-tree-node-focus';
 const itemExpandedClassName = '.rs-check-tree-node-expanded';
@@ -610,5 +611,41 @@ describe('CheckTreePicker', () => {
     const instance = getInstance(<CheckTreePicker open defaultExpandAll data={data} />);
     ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-0-1-0"] input'));
     assert.equal(instance.overlay.querySelectorAll('.rs-checkbox-indeterminate').length, 1);
+  });
+
+  it('Should not has duplicated key when data changed', () => {
+    const TestApp = React.forwardRef((props, ref) => {
+      const pickerRef = React.useRef();
+      const [treeData, setTreeData] = React.useState(originMockData);
+      React.useImperativeHandle(ref, () => {
+        return {
+          picker: pickerRef.current,
+          setTreeData
+        };
+      });
+      return <CheckTreePicker ref={pickerRef} {...props} data={treeData} open />;
+    });
+
+    TestApp.displayName = 'TestApp';
+
+    let checkItems = [];
+    const mockRenderValue = (values, checkedItems, selectedElement) => {
+      checkItems = checkedItems;
+      return selectedElement;
+    };
+    const ref = React.createRef();
+    render(<TestApp ref={ref} renderValue={mockRenderValue} />);
+
+    ReactTestUtils.act(() => {
+      ref.current.setTreeData(changedMockData);
+    });
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.change(
+        ref.current.picker.overlay.querySelector('div[data-key="0-0-1"] input')
+      );
+    });
+
+    assert.equal(checkItems.length, 1);
   });
 });
