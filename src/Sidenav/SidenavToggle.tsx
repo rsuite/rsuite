@@ -24,7 +24,7 @@ const SidenavToggle: RsRefForwardingComponent<'div', SidenavToggleProps> = React
       onToggle,
       ...rest
     } = props;
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ collapsed: !expanded }));
     const Icon = expanded ? AngleLeft : AngleRight;
 
@@ -34,13 +34,13 @@ const SidenavToggle: RsRefForwardingComponent<'div', SidenavToggleProps> = React
 
     return (
       <Component {...rest} ref={ref} className={classes}>
-        <IconButton appearance="default" icon={<Icon />} onClick={handleToggle} />
+        <IconButton icon={<Icon />} className={prefix('button')} onClick={handleToggle} />
       </Component>
     );
   }
 );
 
-SidenavToggle.displayName = 'SidenavToggle';
+SidenavToggle.displayName = 'Sidenav.Toggle';
 SidenavToggle.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,

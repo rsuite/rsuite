@@ -12,6 +12,8 @@
 .rs-sidenav {
   transition: width @sidenav-collapse-transition-config;
   width: @sidenav-default-width;
+  display: flex;
+  flex-direction: column;
 }
 
 .rs-sidenav-nav {
@@ -182,6 +184,22 @@
     .focus-ring(slim-inset);
 
     z-index: 2;
+  }
+}
+
+// TODO Consider rename as sidenav-footer
+.rs-sidenav-toggle {
+  height: @sidenav-footer-height;
+  border-top: 1px solid;
+  margin-top: auto;
+
+  &-button {
+    float: right;
+    width: @sidenav-compact-width;
+    height: 100%;
+    border: none;
+    border-radius: 0;
+    color: inherit;
   }
 }
 
@@ -414,12 +432,14 @@
   color: var(--rs-sidenav-default-text);
 
   .rs-sidenav-item,
-  .rs-dropdown-toggle {
+  .rs-dropdown-toggle,
+  .rs-sidenav-toggle-button {
     background-color: var(--rs-sidenav-default-bg);
   }
 
   .rs-sidenav-item:hover,
   .rs-dropdown .rs-dropdown-toggle:hover,
+  .rs-sidenav-toggle-button:hover,
   .rs-dropdown.rs-dropdown-open .rs-dropdown-toggle {
     background-color: var(--rs-sidenav-default-hover-bg);
     color: var(--rs-sidenav-default-hover-text);
@@ -429,6 +449,10 @@
   .rs-dropdown-item.rs-dropdown-item-active,
   .rs-dropdown.rs-dropdown-selected-within .rs-sidenav-item-icon {
     color: var(--rs-sidenav-default-selected-text);
+  }
+
+  .rs-sidenav-toggle {
+    border-top-color: var(--rs-sidenav-default-footer-border);
   }
 
   // Collapsed
@@ -480,6 +504,7 @@
 
   .rs-sidenav-item,
   .rs-dropdown .rs-dropdown-toggle,
+  .rs-sidenav-toggle-button,
   .rs-dropdown-item-submenu:hover > .rs-dropdown-item-toggle {
     background-color: var(--rs-sidenav-inverse-bg);
 
@@ -491,7 +516,8 @@
 
   .rs-dropdown-item,
   .rs-dropdown-item > .rs-dropdown-menu-toggle,
-  .rs-dropdown-item > .rs-dropdown-item-toggle {
+  .rs-dropdown-item > .rs-dropdown-item-toggle,
+  .rs-sidenav-toggle-button {
     color: var(--rs-sidenav-inverse-text);
 
     &:hover,
@@ -527,6 +553,10 @@
   .rs-dropdown-item.rs-dropdown-item-active {
     background-color: var(--rs-sidenav-inverse-selected-bg);
   }
+
+  .rs-sidenav-toggle {
+    border-top-color: var(--rs-sidenav-inverse-footer-border);
+  }
 }
 
 // Subtle Sidenav
@@ -535,7 +565,8 @@
   color: var(--rs-sidenav-subtle-text);
 
   .rs-sidenav-item,
-  .rs-dropdown .rs-dropdown-toggle {
+  .rs-dropdown .rs-dropdown-toggle,
+  .rs-sidenav-toggle-button {
     background-color: transparent;
 
     &:hover,
@@ -559,6 +590,10 @@
     &:focus {
       background-color: var(--rs-sidenav-subtle-hover-bg);
     }
+  }
+
+  .rs-sidenav-toggle {
+    border-top-color: var(--rs-sidenav-subtle-footer-border);
   }
 }
 

@@ -400,9 +400,11 @@
 @sidenav-padding-horizontal:            20px;
 @sidenav-collapse-in-width:             100%;
 @sidenav-default-width:                 56px;
+@sidenav-compact-width:                 @sidenav-default-width; // TODO Replace sidenav-default-width
 @sidenav-item-height:                   (@sidenav-padding-vertical * 2 + @line-height-computed);
 @sidenav-menu-max-height:               (@sidenav-item-height * 40);
 @sidenav-menu-animation-time:           1.5s;
+@sidenav-footer-height:                 @sidenav-item-height; // Footer is same height as a sidenav item
 @sidenav-level1-item-font-size:         @font-size-large;
 @sidenav-level1-item-line-height:       unit((@line-height-computed / @font-size-large));
 @sidenav-icon-spacing:                  20px;
