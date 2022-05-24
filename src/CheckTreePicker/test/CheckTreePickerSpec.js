@@ -616,17 +616,13 @@ describe('CheckTreePicker', () => {
   it('Should not has duplicated key when data changed', () => {
     const TestApp = React.forwardRef((props, ref) => {
       const pickerRef = React.useRef();
-      const [treeData, setTreeData] = React.useState(originMockData);
       React.useImperativeHandle(ref, () => {
         return {
-          picker: pickerRef.current,
-          setTreeData
+          picker: pickerRef.current
         };
       });
-      return <CheckTreePicker ref={pickerRef} {...props} data={treeData} open />;
+      return <CheckTreePicker ref={pickerRef} {...props} open />;
     });
-
-    TestApp.displayName = 'TestApp';
 
     let checkItems = [];
     const mockRenderValue = (values, checkedItems, selectedElement) => {
@@ -634,11 +630,11 @@ describe('CheckTreePicker', () => {
       return selectedElement;
     };
     const ref = React.createRef();
-    render(<TestApp ref={ref} renderValue={mockRenderValue} />);
+    const { rerender } = render(
+      <TestApp ref={ref} data={originMockData} renderValue={mockRenderValue} />
+    );
 
-    ReactTestUtils.act(() => {
-      ref.current.setTreeData(changedMockData);
-    });
+    rerender(<TestApp ref={ref} data={changedMockData} renderValue={mockRenderValue} />);
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.change(
