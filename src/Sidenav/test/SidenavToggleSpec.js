@@ -1,22 +1,47 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { testStandardProps } from '@test/commonCases';
 import SidenavToggle from '../SidenavToggle';
+import Sidenav from '../Sidenav';
 
-describe('SidenavToggle', () => {
-  testStandardProps(<SidenavToggle />);
-
-  it('Should render a toggle', () => {
-    const instance = getDOMNode(<SidenavToggle />);
-    assert.include(instance.className, 'rs-sidenav-toggle');
+describe('Sidenav.Toggle', () => {
+  testStandardProps(<SidenavToggle />, {
+    renderOptions: {
+      wrapper: Sidenav
+    }
   });
 
-  it('Should call onToggle callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<SidenavToggle onToggle={doneOp} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-btn-icon'));
+  it('Should have rs-sidenav-toggle className', () => {
+    const { getByTestId } = render(<SidenavToggle data-testid="toggle" />, { wrapper: Sidenav });
+
+    expect(getByTestId('toggle')).to.have.class('rs-sidenav-toggle');
+  });
+
+  it('Should render a "Collapse" button when Sidenav is expanded', () => {
+    const { getByRole } = render(<SidenavToggle />, {
+      wrapper: ({ children }) => <Sidenav expanded>{children}</Sidenav>
+    });
+
+    expect(getByRole('button', { name: 'Collapse' })).to.exist;
+  });
+
+  it('Should render an "Expand" button when Sidenav is collapsed', () => {
+    const { getByRole } = render(<SidenavToggle />, {
+      wrapper: ({ children }) => <Sidenav expanded={false}>{children}</Sidenav>
+    });
+
+    expect(getByRole('button', { name: 'Expand' })).to.exist;
+  });
+
+  it('Should call onToggle callback', () => {
+    const onToggle = sinon.spy();
+    const { getByRole } = render(<SidenavToggle onToggle={onToggle} />, {
+      wrapper: Sidenav
+    });
+
+    userEvent.click(getByRole('button', { name: 'Collapse' }));
+
+    expect(onToggle).to.have.been.calledWith(false);
   });
 });
