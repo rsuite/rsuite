@@ -12,7 +12,7 @@ export { default as ButtonGroup } from './ButtonGroup';
 export type { ButtonGroupProps } from './ButtonGroup';
 
 export { default as Whisper } from './Whisper';
-export type { WhisperProps } from './Whisper';
+export type { WhisperProps, WhisperInstance } from './Whisper';
 
 export { default as Tooltip } from './Tooltip';
 export type { TooltipProps } from './Tooltip';
