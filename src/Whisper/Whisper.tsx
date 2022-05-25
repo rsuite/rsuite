@@ -1,18 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import OverlayTrigger from '../Overlay/OverlayTrigger';
+import OverlayTrigger, { OverlayTriggerInstance } from '../Overlay/OverlayTrigger';
 import { createChainedFunction, placementPolyfill, PLACEMENT } from '../utils';
 import { CustomConsumer } from '../CustomProvider';
 import { OverlayTriggerProps } from '../Overlay/OverlayTrigger';
 
 export type WhisperProps = OverlayTriggerProps;
 
-export interface WhisperInstance extends React.Component<WhisperProps> {
-  open: (delay?: number) => void;
-  close: (delay?: number) => void;
-}
+export type WhisperInstance = OverlayTriggerInstance;
 
-const Whisper = React.forwardRef((props: WhisperProps, ref) => {
+const Whisper = React.forwardRef((props: WhisperProps, ref: React.Ref<WhisperInstance>) => {
   const {
     onOpen,
     onClose,
