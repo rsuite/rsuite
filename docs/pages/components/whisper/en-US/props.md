@@ -38,6 +38,18 @@ type Trigger =
 
 ### Whisper methods
 
+Whisper methods are available via `ref` on Whisper component.
+
+```jsx
+const whisperRef = useRef();
+
+<Whisper ref={whisperRef} {...}>
+  ...
+</Whisper>
+```
+
+Available methods include
+
 - open
 
 Open a overlay.
