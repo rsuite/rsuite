@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { Whisper, Tooltip, Button, IconButton } from 'rsuite';
+import { Whisper, WhisperInstance, Tooltip, Button, IconButton } from 'rsuite';
 import classNames from 'classnames';
 import { isMobile } from 'react-device-detect';
 import Logo from '../Logo';
@@ -23,7 +23,10 @@ interface ButtonWithTooltipProps {
 }
 
 const ButtonWithTooltip = React.forwardRef(
-  ({ children, as = 'a', tip, className, ...props }: ButtonWithTooltipProps, ref) => {
+  (
+    { children, as = 'a', tip, className, ...props }: ButtonWithTooltipProps,
+    ref: React.Ref<WhisperInstance>
+  ) => {
     const btn = (
       <Button {...props} size="lg" className={classNames('icon-btn-circle', className)} as={as}>
         {children}

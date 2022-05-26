@@ -38,6 +38,18 @@ type Trigger =
 
 ### Whisper methods
 
+Whisper 上的方法可以通过 `ref` 获得。
+
+```jsx
+const whisperRef = useRef();
+
+<Whisper ref={whisperRef} {...}>
+  ...
+</Whisper>
+```
+
+可用的方法包括
+
 - open
 
 打开一个浮层
