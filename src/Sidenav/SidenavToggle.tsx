@@ -40,7 +40,7 @@ const SidenavToggle: RsRefForwardingComponent<'div', SidenavToggleProps> = React
     // if `expanded` prop is provided, it takes priority
     const expanded = DEPRECATED_expanded ?? sidenav.expanded;
 
-    const { merge, withClassPrefix } = useClassNames(classPrefix);
+    const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ collapsed: !expanded }));
     const Icon = expanded ? AngleLeft : AngleRight;
 
@@ -51,8 +51,8 @@ const SidenavToggle: RsRefForwardingComponent<'div', SidenavToggleProps> = React
     return (
       <Component {...rest} ref={ref} className={classes}>
         <IconButton
-          appearance="default"
           icon={<Icon />}
+          className={prefix('button')}
           onClick={handleToggle}
           aria-label={expanded ? 'Collapse' : 'Expand'}
         />

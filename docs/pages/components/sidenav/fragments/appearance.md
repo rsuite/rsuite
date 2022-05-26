@@ -40,6 +40,7 @@ const MySidenav = ({ appearance, ...props }) => {
             </Nav.Menu>
           </Nav>
         </Sidenav.Body>
+        <Sidenav.Toggle />
       </Sidenav>
     </div>
   );
