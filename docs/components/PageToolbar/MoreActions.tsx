@@ -83,7 +83,9 @@ export function MoreActions({ designHash, routerId }: MoreActionsProps) {
               icon={<Bug />}
               as="a"
               target="_blank"
-              href={'https://github.com/rsuite/rsuite/issues/new?template=bug_report.md'}
+              href={
+                'https://github.com/rsuite/rsuite/issues/new?assignees=&labels=&template=bug-report.yml'
+              }
             >
               {messages?.common?.newIssues}
             </Dropdown.Item>
