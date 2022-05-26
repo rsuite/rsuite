@@ -145,7 +145,7 @@ describe('<Nav.Item>', () => {
       );
 
       ReactTestUtils.act(() => {
-        ReactTestUtils.Simulate.focus(getByTestId('nav-item'));
+        ReactTestUtils.Simulate.mouseOver(getByTestId('nav-item'));
       });
 
       expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;
