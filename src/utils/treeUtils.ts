@@ -643,7 +643,7 @@ export function useFlattenTreeData({
     dispatch(Object.create(null));
   }, [dispatch]);
 
-  const { current: flattenNodes = {} } = useRef<TreeNodesType>({});
+  const flattenNodes = useRef<TreeNodesType>({});
 
   const flattenTreeData = useCallback(
     (treeData: TreeNodeType[], ref: string, parent?: TreeNodeType, layer = 1) => {
@@ -655,8 +655,7 @@ export function useFlattenTreeData({
         const refKey = `${ref}-${index}`;
 
         node.refKey = refKey;
-
-        flattenNodes[refKey] = {
+        flattenNodes.current[refKey] = {
           layer,
           [labelKey]: node[labelKey],
           [valueKey]: node[valueKey],
@@ -666,14 +665,14 @@ export function useFlattenTreeData({
           ...node
         };
         if (parent) {
-          flattenNodes[refKey].parent = omit(parent, 'parent', 'children');
+          flattenNodes.current[refKey].parent = omit(parent, 'parent', 'children');
         }
         flattenTreeData(node[childrenKey], refKey, node, layer + 1);
       });
 
-      callback?.(flattenNodes);
+      callback?.(flattenNodes.current);
     },
-    [childrenKey, valueKey, labelKey, callback, uncheckableItemValues, flattenNodes]
+    [childrenKey, valueKey, labelKey, callback, uncheckableItemValues]
   );
 
   const serializeListOnlyParent = useCallback(
@@ -778,12 +777,14 @@ export function useFlattenTreeData({
   };
 
   useEffect(() => {
+    // when data is changed, should clear the flattenNodes, avoid duplicate keys
+    flattenNodes.current = {};
     flattenTreeData(data, '0');
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
     forceUpdate,
-    flattenNodes,
+    flattenNodes: flattenNodes.current,
     flattenTreeData,
     serializeListOnlyParent,
     unSerializeList,
