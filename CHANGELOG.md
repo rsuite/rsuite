@@ -1,3 +1,17 @@
+## [5.13.1](https://github.com/rsuite/rsuite/compare/v5.13.0...v5.13.1) (2022-05-27)
+
+### Bug Fixes
+
+- **CheckTreePicker:** fix duplicated key when data changed ([#2486](https://github.com/rsuite/rsuite/issues/2486)) ([#2500](https://github.com/rsuite/rsuite/issues/2500)) ([d155719](https://github.com/rsuite/rsuite/commit/d155719a9ae9d9cec119a0c33281c628379b4a78))
+- **Sidenav:** correct Sidenav.Toggle styles ([#2497](https://github.com/rsuite/rsuite/issues/2497)) ([b3168e4](https://github.com/rsuite/rsuite/commit/b3168e426c3a2caad1689e9e9d3babf1d76022b8))
+- **Sidenav:** correct subtle Sidenav item hover styles ([#2498](https://github.com/rsuite/rsuite/issues/2498)) ([2d853ee](https://github.com/rsuite/rsuite/commit/2d853ee8419a3283683bbf897442b9bc789b5a2a))
+- **Sidenav:** fix Sidenav.Toggle icon direction ([#2495](https://github.com/rsuite/rsuite/issues/2495)) ([c490632](https://github.com/rsuite/rsuite/commit/c490632cc613807ff27124140b4250fc132aa8b2))
+- **Whisper:** correct type declarations for ref ([856877a](https://github.com/rsuite/rsuite/commit/856877aec5a20710b94f6ddf241be76ecd34c88d))
+
+### Features
+
+- export WhisperInstance ([1c4eb5f](https://github.com/rsuite/rsuite/commit/1c4eb5ffbb6b5e69987436c03cc133f39c245866))
+
 # [5.13.0](https://github.com/rsuite/rsuite/compare/v5.12.0...v5.13.0) (2022-05-19)
 
 ### Bug Fixes
