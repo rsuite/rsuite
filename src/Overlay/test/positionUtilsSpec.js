@@ -1,4 +1,5 @@
 import positionUtils from '../positionUtils';
+
 /**
  * @type {HTMLDivElement}
  */
@@ -16,6 +17,12 @@ const targetMarginLeft = 20;
 
 const targetPositionTop = targetTop + targetMarginTop;
 const targetPositionLeft = targetLeft + targetMarginLeft;
+
+const cursorPositionTop = 30;
+const cursorPositionLeft = 30;
+const cursorPositionWidth = 10;
+const cursorPositionHeight = 10;
+
 beforeEach(() => {
   container = document.createElement('div');
   container.style.position = 'absolute';
@@ -270,5 +277,23 @@ describe('Overlay - positionUtils', () => {
     assert.equal(positon.positionLeft, targetPositionLeft + targetWidth);
     assert.equal(positon.positionTop, targetPositionTop - targetHeight / 2);
     assert.equal(positon.positionClassName, 'placement-right');
+  });
+
+  it('Should get relative position to `left` of `cursorPosition`', () => {
+    const utils = positionUtils({ placement: 'left' });
+    const overlayWidth = 20;
+    const overlayHeight = 20;
+    const overlay = createElementToContainer(overlayWidth, overlayHeight);
+    const cursorPosition = {
+      top: cursorPositionTop,
+      left: cursorPositionLeft,
+      width: cursorPositionWidth,
+      height: cursorPositionHeight
+    };
+    const positon = utils.calcOverlayPosition(overlay, target, container, cursorPosition);
+
+    assert.equal(positon.positionLeft, cursorPositionLeft - overlayWidth);
+    assert.equal(positon.positionTop, cursorPositionTop - targetHeight / 2);
+    assert.equal(positon.positionClassName, 'placement-left');
   });
 });

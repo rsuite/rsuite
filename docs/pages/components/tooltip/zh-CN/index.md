@@ -55,6 +55,12 @@
 
 <!--{include:`arrow.md`}-->
 
+### 跟随光标
+
+您可以通过设置 `followCursor` 属性为 `true` 来让 `Tooltip` 跟随光标移动。
+
+<!--{include:`follow-cursor.md`}-->
+
 ## Props
 
 <!--{include:(_common/types/placement-all.md)}-->

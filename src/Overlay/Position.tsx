@@ -18,7 +18,7 @@ import { ResizeObserver } from '@juggle/resize-observer';
 import isElement from '../DOMHelper/isElement';
 import positionUtils, { PositionType } from './positionUtils';
 import { getDOMNode } from '../utils';
-import { TypeAttributes } from '../@types/common';
+import { CursorPosition, TypeAttributes } from '../@types/common';
 import { useUpdateEffect } from '../utils';
 
 export interface PositionChildProps {
@@ -35,6 +35,8 @@ export interface PositionProps {
   placement?: TypeAttributes.Placement;
   preventOverflow?: boolean;
   triggerTarget?: React.RefObject<any>;
+  followCursor?: boolean;
+  cursorPosition?: CursorPosition | null;
 }
 
 const usePosition = (
@@ -46,7 +48,9 @@ const usePosition = (
     preventOverflow = false,
     containerPadding = 0,
     container,
-    triggerTarget
+    triggerTarget,
+    followCursor,
+    cursorPosition
   } = props;
 
   const containerRef = useRef<Element | null>(null);
@@ -95,9 +99,14 @@ const usePosition = (
       const containerElement = getContainer(
         typeof container === 'function' ? container() : container ?? (null as any),
         ownerDocument(ref.current).body
-      );
+      ) as HTMLElement;
 
-      const posi = utils.calcOverlayPosition(overlay, targetElement, containerElement);
+      const posi = utils.calcOverlayPosition(
+        overlay,
+        targetElement,
+        containerElement,
+        followCursor ? cursorPosition : undefined
+      );
 
       if (forceUpdateDOM && overlay) {
         const preClassName = overlay?.className?.match(/(placement-\S+)/)?.[0];
@@ -113,7 +122,7 @@ const usePosition = (
       containerRef.current = containerElement;
       lastTargetRef.current = targetElement;
     },
-    [container, ref, triggerTarget, utils]
+    [container, ref, triggerTarget, utils, followCursor, cursorPosition]
   );
 
   useEffect(() => {
@@ -157,7 +166,7 @@ export interface PositionInstance {
 }
 
 const Position = React.forwardRef((props: PositionProps, ref) => {
-  const { children, className } = props;
+  const { children, className, followCursor, cursorPosition } = props;
   const childRef = React.useRef<HTMLElement | null>(null);
 
   const [position, updatePosition] = usePosition(props, childRef);
@@ -170,6 +179,11 @@ const Position = React.forwardRef((props: PositionProps, ref) => {
     },
     updatePosition
   }));
+
+  useEffect(() => {
+    if (!followCursor || !cursorPosition) return;
+    updatePosition();
+  }, [followCursor, cursorPosition, updatePosition]);
 
   if (typeof children === 'function') {
     const childProps = {

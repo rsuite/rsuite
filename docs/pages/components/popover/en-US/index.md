@@ -50,6 +50,12 @@ You can hide arrow indicator by setting `arrow` props to `false`;
 
 <!--{include:`arrow.md`}-->
 
+### Follow cursor
+
+You can enable the `Tooltip` to follow the cursor by setting `followCursor={true}`.
+
+<!--{include:`follow-cursor.md`}-->
+
 ## Props
 
 <!--{include:(_common/types/placement-all.md)}-->

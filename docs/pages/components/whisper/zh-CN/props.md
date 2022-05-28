@@ -35,6 +35,7 @@ type Trigger =
 | preventOverflow | boolean                                   | 防止浮动元素溢出                                                          |
 | speaker \*      | Tooltip &#124;Popover &#124; ReactElement | 展示的元素                                                                |
 | trigger         | Trigger `(['hover','focus'])`             | 触发事件,可以通过数组配置多事件                                           |
+| followCursor    | boolean                                   | 是否启用光标跟随                                                          |
 
 ### Whisper methods
 

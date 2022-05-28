@@ -45,7 +45,11 @@ Whisper.propTypes = {
   /**
    * Prevent floating element overflow
    */
-  preventOverflow: PropTypes.bool
+  preventOverflow: PropTypes.bool,
+  /**
+   * Whether enable speaker follow cursor
+   */
+  followCursor: PropTypes.bool
 };
 
 export default Whisper;

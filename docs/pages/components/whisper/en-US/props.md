@@ -35,6 +35,7 @@ type Trigger =
 | preventOverflow | boolean                                   | Prevent floating element overflow                                                                            |
 | speaker \*      | Tooltip &#124;Popover &#124; ReactElement | Displayed component                                                                                          |
 | trigger         | Trigger `(['hover','focus'])`             | Triggering events                                                                                            |
+| followCursor    | boolean                                   | Whether enable `speaker` to follow the cursor                                                                |
 
 ### Whisper methods
 
