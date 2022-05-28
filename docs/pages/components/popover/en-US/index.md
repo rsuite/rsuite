@@ -44,6 +44,12 @@ Positioned popover components in scrolling container
 
 <!--{include:`with-dropdown.md`}-->
 
+### Hide arrow indicator
+
+You can hide arrow indicator by setting `arrow` props to `false`;
+
+<!--{include:`arrow.md`}-->
+
 ## Props
 
 <!--{include:(_common/types/placement-all.md)}-->
@@ -56,5 +62,6 @@ Positioned popover components in scrolling container
 | classPrefix | string `('popover')` | The prefix of the component CSS class. |
 | title       | ReactNode            | The title of the component.            |
 | visible     | boolean              | The component is visible by default.   |
+| arrow       | boolean `(true)`     | Wheather show the arrow indicator      |
 
 <!--{include:(components/whisper/en-US/props.md)}-->

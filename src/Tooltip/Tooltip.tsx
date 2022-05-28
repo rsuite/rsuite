@@ -12,6 +12,9 @@ export interface TooltipProps extends WithAsProps {
 
   /** Primary content */
   children?: React.ReactNode;
+
+  /** Wheather show the arrow indicator */
+  arrow?: boolean;
 }
 
 const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
@@ -23,11 +26,17 @@ const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
       children,
       style,
       visible,
+      arrow = true,
       ...rest
     } = props;
 
     const { merge, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+    const classes = merge(
+      className,
+      withClassPrefix({
+        arrow
+      })
+    );
     const styles = {
       opacity: visible ? 1 : undefined,
       ...style
@@ -47,7 +56,8 @@ Tooltip.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   style: PropTypes.object,
-  children: PropTypes.node
+  children: PropTypes.node,
+  arrow: PropTypes.bool
 };
 
 export default Tooltip;

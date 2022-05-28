@@ -49,6 +49,12 @@ Elements with the disabled attribute aren’t interactive, meaning users cannot 
 
 <!--{include:`disabled-elements.md`}-->
 
+### Hide arrow indicator
+
+You can hide arrow indicator by setting `arrow` props to `false`;
+
+<!--{include:`arrow.md`}-->
+
 ## Props
 
 <!--{include:(_common/types/placement-all.md)}-->
@@ -60,5 +66,6 @@ Elements with the disabled attribute aren’t interactive, meaning users cannot 
 | children \* | ReactNode            | The content of the component.         |
 | classPrefix | string `('tooltip')` | The prefix of the component CSS class |
 | visible     | boolean              | The component is visible by default   |
+| arrow       | boolean `(true)`     | Wheather show the arrow indicator     |
 
 <!--{include:(components/whisper/en-US/props.md)}-->

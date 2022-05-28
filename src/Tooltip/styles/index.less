@@ -31,8 +31,8 @@
   }
 
   // Arrows
-  &::before,
-  &::after {
+  &-arrow::before,
+  &-arrow::after {
     content: ' ';
     display: block;
     position: absolute;
@@ -42,14 +42,14 @@
     border-style: solid;
   }
 
-  &::before {
+  &-arrow::before {
     display: none;
   }
 
   .high-contrast-mode({
     border: 1px solid var(--rs-border-primary);
 
-    &::before {
+    &-arrow::before {
       display: block;
     }
   });

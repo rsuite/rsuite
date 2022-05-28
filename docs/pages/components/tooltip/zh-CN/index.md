@@ -49,18 +49,23 @@
 
 <!--{include:`disabled-elements.md`}-->
 
+### 隐藏箭头
+
+您可以通过设置 `arrow` 属性为 `false` 隐藏箭头指示器。
+
+<!--{include:`arrow.md`}-->
+
 ## Props
 
 <!--{include:(_common/types/placement-all.md)}-->
 
-## Props
-
 ### `<Tooltip>`
 
-| 属性名称    | 类型 `(默认值)`      | 描述              |
-| ----------- | -------------------- | ----------------- |
-| children \* | ReactNode            | 组件的内容        |
-| classPrefix | string `('tooltip')` | 组件 CSS 类的前缀 |
-| visible     | boolean              | 组件默认可见的    |
+| 属性名称    | 类型 `(默认值)`      | 描述               |
+| ----------- | -------------------- | ------------------ |
+| children \* | ReactNode            | 组件的内容         |
+| classPrefix | string `('tooltip')` | 组件 CSS 类的前缀  |
+| visible     | boolean              | 组件默认可见的     |
+| arrow       | boolean `(true)`     | 是否显示箭头指示器 |
 
 <!--{include:(components/whisper/zh-CN/props.md)}-->
