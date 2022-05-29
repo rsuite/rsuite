@@ -5,11 +5,7 @@ const instance = (
   <Whisper
     placement="top"
     trigger="click"
-    speaker={
-      <Tooltip arrow={false}>
-        This is a ToolTip for simple text hints. It can replace the title property
-      </Tooltip>
-    }
+    speaker={<Tooltip arrow={false}>This is a Tooltip without arrow indicator</Tooltip>}
   >
     <Button>Click</Button>
   </Whisper>

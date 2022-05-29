@@ -19,6 +19,7 @@ type Trigger =
 | delayClose      | number                                    | Delay close time (ms) Time                                                                                   |
 | delayOpen       | number                                    | Delay open time (ms) Time                                                                                    |
 | enterable       | boolean                                   | Whether mouse is allowed to enter the floating layer of popover,when the value of `trigger` is set to`hover` |
+| followCursor    | boolean                                   | Whether enable `speaker` to follow the cursor                                                                |
 | full            | boolean                                   | The content full the container                                                                               |
 | onBlur          | () => void                                | Lose Focus callback function                                                                                 |
 | onClick         | () => void                                | Click on the callback function                                                                               |
@@ -35,7 +36,6 @@ type Trigger =
 | preventOverflow | boolean                                   | Prevent floating element overflow                                                                            |
 | speaker \*      | Tooltip &#124;Popover &#124; ReactElement | Displayed component                                                                                          |
 | trigger         | Trigger `(['hover','focus'])`             | Triggering events                                                                                            |
-| followCursor    | boolean                                   | Whether enable `speaker` to follow the cursor                                                                |
 
 ### Whisper methods
 

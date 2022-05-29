@@ -52,7 +52,7 @@
 
 ### 跟随光标
 
-您可以通过设置 `followCursor` 属性为 `true` 来让 `Tooltip` 跟随光标移动。
+您可以通过设置 `followCursor` 属性为 `true` 来让 `Popover` 跟随光标移动。
 
 <!--{include:`follow-cursor.md`}-->
 
@@ -62,10 +62,10 @@
 
 | 属性名称    | 类型                 | 描述               |
 | ----------- | -------------------- | ------------------ |
+| arrow       | boolean `(true)`     | 是否显示箭头指示器 |
 | children \* | ReactNode            | 组件的内容         |
 | classPrefix | string `('popover')` | 组件 CSS 类的前缀  |
 | title       | ReactNode            | 标题               |
 | visible     | boolean              | 组件默认可见的     |
-| arrow       | boolean `(true)`     | 是否显示箭头指示器 |
 
 <!--{include:(components/whisper/zh-CN/props.md)}-->

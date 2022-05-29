@@ -7,13 +7,13 @@ export interface TooltipProps extends WithAsProps {
   /** Dispaly placement */
   placement?: TypeAttributes.Placement;
 
-  /** Wheather visible */
+  /** Whether visible */
   visible?: boolean;
 
   /** Primary content */
   children?: React.ReactNode;
 
-  /** Wheather show the arrow indicator */
+  /** Whether show the arrow indicator */
   arrow?: boolean;
 }
 

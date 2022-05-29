@@ -13,7 +13,7 @@ export interface PopoverProps extends WithAsProps {
   /** The content full the container */
   full?: boolean;
 
-  /** Wheather show the arrow indicator */
+  /** Whether show the arrow indicator */
   arrow?: boolean;
 }
 

@@ -52,7 +52,7 @@ You can hide arrow indicator by setting `arrow` props to `false`;
 
 ### Follow cursor
 
-You can enable the `Tooltip` to follow the cursor by setting `followCursor={true}`.
+You can enable the `Popover` to follow the cursor by setting `followCursor={true}`.
 
 <!--{include:`follow-cursor.md`}-->
 
@@ -64,10 +64,10 @@ You can enable the `Tooltip` to follow the cursor by setting `followCursor={true
 
 | Property    | Type `(Default)`     | Description                            |
 | ----------- | -------------------- | -------------------------------------- |
+| arrow       | boolean `(true)`     | Whether show the arrow indicator       |
 | children \* | ReactNode            | The content of the component.          |
 | classPrefix | string `('popover')` | The prefix of the component CSS class. |
 | title       | ReactNode            | The title of the component.            |
 | visible     | boolean              | The component is visible by default.   |
-| arrow       | boolean `(true)`     | Wheather show the arrow indicator      |
 
 <!--{include:(components/whisper/en-US/props.md)}-->

@@ -69,9 +69,9 @@ You can enable the `Tooltip` to follow the cursor by setting `followCursor={true
 
 | Property    | Type `(Default)`     | Description                           |
 | ----------- | -------------------- | ------------------------------------- |
+| arrow       | boolean `(true)`     | Whether show the arrow indicator      |
 | children \* | ReactNode            | The content of the component.         |
 | classPrefix | string `('tooltip')` | The prefix of the component CSS class |
 | visible     | boolean              | The component is visible by default   |
-| arrow       | boolean `(true)`     | Wheather show the arrow indicator     |
 
 <!--{include:(components/whisper/en-US/props.md)}-->

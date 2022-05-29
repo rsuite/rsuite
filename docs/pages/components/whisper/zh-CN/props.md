@@ -19,6 +19,7 @@ type Trigger =
 | delayClose      | number                                    | 延迟关闭时间 (ms)                                                         |
 | delayOpen       | number                                    | 延迟打开时间 (ms)                                                         |
 | enterable       | boolean                                   | 当 `trigger` 值为 `hover`时候，鼠标是否可进入提示框浮层中                 |
+| followCursor    | boolean                                   | 是否启用光标跟随                                                          |
 | full            | boolean                                   | 撑满容器                                                                  |
 | onBlur          | () => void                                | 失去焦点回调函数                                                          |
 | onClick         | () => void                                | 点击的回调函数                                                            |
@@ -35,7 +36,6 @@ type Trigger =
 | preventOverflow | boolean                                   | 防止浮动元素溢出                                                          |
 | speaker \*      | Tooltip &#124;Popover &#124; ReactElement | 展示的元素                                                                |
 | trigger         | Trigger `(['hover','focus'])`             | 触发事件,可以通过数组配置多事件                                           |
-| followCursor    | boolean                                   | 是否启用光标跟随                                                          |
 
 ### Whisper methods
 
