@@ -12,6 +12,12 @@ describe('Popover', () => {
     assert.equal(instance.tagName, 'DIV');
     assert.equal(instance.className, 'rs-popover');
     assert.equal(instance.textContent, title);
+    assert.equal(instance.querySelectorAll('.rs-popover-arrow').length, 1);
+  });
+
+  it('Popover should without arrow', () => {
+    const instance = getDOMNode(<Popover arrow={false}>Test</Popover>);
+    assert.equal(instance.querySelectorAll('.rs-popover-arrow').length, 0);
   });
 
   it('Should be full', () => {

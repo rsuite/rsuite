@@ -1,11 +1,23 @@
-import React, { useRef, useEffect, useImperativeHandle, useCallback, useContext } from 'react';
+import React, {
+  useRef,
+  useEffect,
+  useImperativeHandle,
+  useCallback,
+  useContext,
+  useState
+} from 'react';
 import get from 'lodash/get';
 import isNil from 'lodash/isNil';
 import contains from 'dom-lib/contains';
 import Overlay, { OverlayProps } from './Overlay';
 import { createChainedFunction, usePortal, useControlled } from '../utils';
 import isOneOf from '../utils/isOneOf';
-import { AnimationEventProps, StandardProps, TypeAttributes } from '../@types/common';
+import {
+  AnimationEventProps,
+  CursorPosition,
+  StandardProps,
+  TypeAttributes
+} from '../@types/common';
 import { PositionInstance } from './Position';
 import { isUndefined } from 'lodash';
 import OverlayContext from './OverlayContext';
@@ -96,11 +108,17 @@ export interface OverlayTriggerProps extends StandardProps, AnimationEventProps 
   /** Mouse over callback function */
   onMouseOver?: React.MouseEventHandler;
 
+  /** Mouse move callback function */
+  onMouseMove?: React.MouseEventHandler;
+
   /** Callback fired when open component */
   onOpen?: () => void;
 
   /** Callback fired when close component */
   onClose?: () => void;
+
+  /** Whether speaker to follow the cursor */
+  followCursor?: boolean;
 }
 
 /**
@@ -154,11 +172,14 @@ const OverlayTrigger = React.forwardRef(
       rootClose = true,
       onClick,
       onMouseOver,
+      onMouseMove,
       onMouseOut,
       onContextMenu,
       onFocus,
       onBlur,
       onClose,
+      followCursor,
+      onExited,
       ...rest
     } = props;
 
@@ -166,6 +187,7 @@ const OverlayTrigger = React.forwardRef(
     const triggerRef = useRef();
     const overlayRef = useRef<PositionInstance>();
     const [open, setOpen] = useControlled(openProp, defaultOpen);
+    const [cursorPosition, setCursorPosition] = useState<CursorPosition | null>(null);
 
     // Delay the timer to close/open the overlay
     // When the cursor moves from the trigger to the overlay, the overlay will be closed.
@@ -222,6 +244,10 @@ const OverlayTrigger = React.forwardRef(
       },
       [delayClose, setOpen]
     );
+
+    const handleExited = useCallback(() => {
+      setCursorPosition(null);
+    }, []);
 
     useImperativeHandle(ref, () => ({
       get root() {
@@ -317,11 +343,31 @@ const OverlayTrigger = React.forwardRef(
       }
     }, [handleCloseWhenLeave, trigger]);
 
+    const handledMoveOverlay = useCallback(
+      (event: React.MouseEvent<Element, MouseEvent>) => {
+        setCursorPosition(() => ({
+          top: event.pageY,
+          left: event.pageX,
+          clientTop: event.clientX,
+          clientLeft: event.clientY
+        }));
+      },
+      [open]
+    );
+
     const preventDefault = useCallback((event: React.MouseEvent<Element, MouseEvent>) => {
       event.preventDefault();
     }, []);
 
-    const triggerEvents = { onClick, onContextMenu, onMouseOver, onMouseOut, onFocus, onBlur };
+    const triggerEvents = {
+      onClick,
+      onContextMenu,
+      onMouseOver,
+      onMouseOut,
+      onFocus,
+      onBlur,
+      onMouseMove
+    };
 
     if (!disabled && !readOnly && !plaintext) {
       if (isOneOf('click', trigger)) {
@@ -356,6 +402,10 @@ const OverlayTrigger = React.forwardRef(
         triggerEvents.onFocus = createChainedFunction(handleDelayedOpen, onFocus);
         triggerEvents.onBlur = createChainedFunction(handleDelayedClose, onBlur);
       }
+
+      if (trigger !== 'none') {
+        triggerEvents.onMouseMove = createChainedFunction(handledMoveOverlay, onMouseMove);
+      }
     }
 
     const renderOverlay = () => {
@@ -364,6 +414,7 @@ const OverlayTrigger = React.forwardRef(
         rootClose,
         triggerTarget: triggerRef,
         onClose: trigger !== 'none' ? createChainedFunction(handleClose, onClose) : undefined,
+        onExited: createChainedFunction(followCursor ? handleExited : undefined, onExited),
         placement,
         container,
         open
@@ -382,7 +433,13 @@ const OverlayTrigger = React.forwardRef(
       }
 
       return (
-        <Overlay {...overlayProps} ref={overlayRef} childrenProps={speakerProps}>
+        <Overlay
+          {...overlayProps}
+          ref={overlayRef}
+          childrenProps={speakerProps}
+          followCursor={followCursor}
+          cursorPosition={cursorPosition}
+        >
           {typeof speaker === 'function'
             ? (props, ref) => {
                 return speaker({ ...props, onClose: handleClose }, ref);

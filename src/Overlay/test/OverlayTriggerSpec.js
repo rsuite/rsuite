@@ -152,4 +152,17 @@ describe('OverlayTrigger', () => {
 
     ReactTestUtils.Simulate.mouseOut(whisper);
   });
+
+  it('Should call onMouseMove callback', () => {
+    const onMouseMove = sinon.spy();
+
+    const whisper = getDOMNode(
+      <OverlayTrigger onMouseMove={onMouseMove} speaker={<Tooltip />}>
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    ReactTestUtils.Simulate.mouseMove(whisper);
+    assert.isTrue(onMouseMove.called);
+  });
 });

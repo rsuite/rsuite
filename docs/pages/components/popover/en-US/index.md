@@ -44,6 +44,18 @@ Positioned popover components in scrolling container
 
 <!--{include:`with-dropdown.md`}-->
 
+### Hide arrow indicator
+
+You can hide arrow indicator by setting `arrow` props to `false`;
+
+<!--{include:`arrow.md`}-->
+
+### Follow cursor
+
+You can enable the `Popover` to follow the cursor by setting `followCursor={true}`.
+
+<!--{include:`follow-cursor.md`}-->
+
 ## Props
 
 <!--{include:(_common/types/placement-all.md)}-->
@@ -52,6 +64,7 @@ Positioned popover components in scrolling container
 
 | Property    | Type `(Default)`     | Description                            |
 | ----------- | -------------------- | -------------------------------------- |
+| arrow       | boolean `(true)`     | Whether show the arrow indicator       |
 | children \* | ReactNode            | The content of the component.          |
 | classPrefix | string `('popover')` | The prefix of the component CSS class. |
 | title       | ReactNode            | The title of the component.            |

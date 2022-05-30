@@ -7,7 +7,9 @@ import scrollTop from 'dom-lib/scrollTop';
 import scrollLeft from 'dom-lib/scrollLeft';
 import getPosition from 'dom-lib/getPosition';
 
-import { TypeAttributes } from '../@types/common';
+import { CursorPosition, TypeAttributes } from '../@types/common';
+import getStyle from 'dom-lib/getStyle';
+import nodeName from 'dom-lib/nodeName';
 
 type Offset = {
   top: number;
@@ -138,9 +140,58 @@ export default (props: UtilProps) => {
   }
 
   return {
-    getPosition(target, container) {
+    getPosition(target: HTMLElement, container: HTMLElement) {
       const offset =
         container.tagName === 'BODY' ? getOffset(target) : getPosition(target, container, false);
+      return offset;
+    },
+
+    getCursorOffsetPosition(
+      target: HTMLElement,
+      container: HTMLElement,
+      cursorPosition: CursorPosition
+    ): Offset {
+      const { left, top, clientLeft, clientTop } = cursorPosition;
+
+      const offset = {
+        left,
+        top,
+        width: 10,
+        height: 10
+      };
+
+      if (getStyle(target, 'position') === 'fixed') {
+        offset.left = clientLeft;
+        offset.top = clientTop;
+        return offset;
+      }
+
+      if (container.tagName === 'BODY') {
+        return offset;
+      }
+
+      const containerOffset = {
+        top: 0,
+        left: 0
+      };
+
+      if (nodeName(container) !== 'html') {
+        const nextParentOffset = getOffset(container);
+
+        if (nextParentOffset) {
+          containerOffset.top = nextParentOffset.top;
+          containerOffset.left = nextParentOffset.left;
+        }
+      }
+
+      containerOffset.top +=
+        parseInt(getStyle(container, 'borderTopWidth') as string, 10) - scrollTop(container) || 0;
+      containerOffset.left +=
+        parseInt(getStyle(container, 'borderLeftWidth') as string, 10) - scrollLeft(container) || 0;
+
+      offset.left = left - containerOffset.left;
+      offset.top = top - containerOffset.top;
+
       return offset;
     },
 
@@ -189,8 +240,15 @@ export default (props: UtilProps) => {
     },
 
     // Calculate the position of the overlay
-    calcOverlayPosition(overlayNode, target, container): PositionType {
-      const childOffset = this.getPosition(target, container) as Offset;
+    calcOverlayPosition(
+      overlayNode: HTMLElement,
+      target: HTMLElement,
+      container: HTMLElement,
+      cursorPosition?: CursorPosition | null
+    ): PositionType {
+      const childOffset: Offset = cursorPosition
+        ? this.getCursorOffsetPosition(target, container, cursorPosition)
+        : (this.getPosition(target, container) as Offset);
       const { height: overlayHeight, width: overlayWidth } = getOffset(overlayNode) as Offset;
       const { top, left } = childOffset;
 
