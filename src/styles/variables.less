@@ -23,17 +23,25 @@
 // Media queries breakpoints
 // Define the breakpoints at which your layout will change, adapting to different screen sizes.
 
-// Extra small screen / phone
-// @screen-xs
-@screen-phone:        480px;
+// Small screen / phone
+// @screen-sm
+@screen-sm:      576px;
 
 // Medium screen / desktop
 // @screen-md
-@screen-desktop:      992px;
+@screen-md:      768px;
 
 // Large screen / wide desktop
 // @screen-lg
-@screen-lg-desktop:   1200px;
+@screen-lg:      992px;
+
+// Extra large devices / extra wide desktop
+// @screen-xl
+@screen-xl:      1200px;
+
+// Extra extra large devices / ultra wide desktop
+// @screen-xxl
+@screen-xxl:     1400px;
 
 
 // Grid system
@@ -48,16 +56,24 @@
 // Define the maximum width of `.container` for different screen sizes.
 
 // Small screen / phone / tablet
-@container-phone:         (480px + @grid-gutter-width);
-@container-sm:            @container-phone;
+@container-phone:                      (540px + @grid-gutter-width);
+@container-sm:                         @container-phone;
 
 // Medium screen / desktop
-@container-desktop:       (940px + @grid-gutter-width);
-@container-md:            @container-desktop;
+@container-desktop:                    (720px + @grid-gutter-width);
+@container-md:                         @container-desktop;
 
 // Large screen / wide desktop
-@container-large-desktop: (1140px + @grid-gutter-width);
-@container-lg:            @container-large-desktop;
+@container-large-desktop:              (960px + @grid-gutter-width);
+@container-lg:                         @container-large-desktop;
+
+// Extra large devices / ultra wide desktop
+@container-extra-large-desktop:        (1140px + @grid-gutter-width);
+@container-xl:                         @container-large-desktop;
+
+// Extra large devices / ultra wide desktop
+@container-extra-extra-large-desktop:  (1320px + @grid-gutter-width);
+@container-xxl:                        @container-large-desktop;
 
 // Color system
 
