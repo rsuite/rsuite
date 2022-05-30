@@ -74,8 +74,11 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       ...rest
     } = props;
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const [expandedState, setExpanded] = useControlled(expandedProp, defaultExpanded);
     const { accordion, activeKey, onGroupSelect } = useContext(PanelGroupContext) || {};
+    const [expandedState, setExpanded] = useControlled(
+      expandedProp,
+      defaultExpanded || (typeof activeKey !== 'undefined' && activeKey === eventKey)
+    );
 
     let collapsible = collapsibleProp;
     let headerRole = headerRoleProp;
@@ -84,7 +87,11 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
     if (accordion) {
       collapsible = true;
       headerRole = 'button';
-      expanded = typeof activeKey !== 'undefined' ? activeKey === eventKey : expanded;
+
+      // Collapses all inactive panels.
+      if (typeof activeKey !== 'undefined' && activeKey !== eventKey) {
+        expanded = false;
+      }
     }
 
     const handleSelect = useCallback(
