@@ -20,8 +20,8 @@
   list-style: none;
   padding: 0;
 
-  > .rs-sidenav-item,
-  > .rs-dropdown .rs-dropdown-toggle,
+  .rs-sidenav-item,
+  .rs-dropdown-toggle,
   .rs-dropdown-item,
   .rs-dropdown-item-toggle {
     padding: @sidenav-padding-vertical @sidenav-padding-horizontal;
@@ -562,13 +562,13 @@
 // Subtle Sidenav
 .rs-sidenav-subtle {
   background-color: transparent;
-  color: var(--rs-sidenav-subtle-text);
 
   .rs-sidenav-item,
-  .rs-dropdown .rs-dropdown-toggle,
-  .rs-dropdown .rs-dropdown-item:not(.rs-dropdown-item-submenu),
+  .rs-dropdown-toggle,
+  .rs-dropdown-item,
   .rs-sidenav-toggle-button {
     background-color: transparent;
+    color: var(--rs-sidenav-subtle-text);
 
     &:hover,
     &:focus-visible {
@@ -605,7 +605,7 @@
     color: var(--rs-sidenav-subtle-text);
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       background-color: var(--rs-sidenav-subtle-hover-bg);
       color: var(--rs-sidenav-subtle-hover-text);
     }
@@ -622,8 +622,6 @@
 .rs-sidenav-subtle.rs-sidenav-collapse-out {
   // Set active Level1 style
   .rs-dropdown.rs-dropdown-selected-within .rs-dropdown-toggle {
-    color: var(--rs-sidenav-subtle-text);
-
     &:hover {
       background-color: var(--rs-sidenav-subtle-hover-bg);
     }
