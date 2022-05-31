@@ -63,4 +63,28 @@ describe('PanelGroup', () => {
     userEvent.click(getByText('Click me'));
     expect(onSelectSpy).to.have.been.calledWith(undefined);
   });
+
+  it('Should be a collapsible panel with accordion', () => {
+    const { getByText, container } = render(
+      <PanelGroup accordion defaultActiveKey={1}>
+        <Panel header="header-1" eventKey={1}>
+          body-1
+        </Panel>
+        <Panel header="header-2" eventKey={2}>
+          body-2
+        </Panel>
+      </PanelGroup>
+    );
+
+    // Expand the first panel by default
+    assert.equal(container.querySelector('.rs-panel-in .rs-panel-body').textContent, 'body-1');
+
+    // Expand the second panel
+    userEvent.click(getByText('header-2'));
+    assert.equal(container.querySelector('.rs-panel-in .rs-panel-body').textContent, 'body-2');
+
+    // Collapse the second panel
+    userEvent.click(getByText('header-2'));
+    assert.isNull(container.querySelector('.rs-panel-in .rs-panel-body'));
+  });
 });
