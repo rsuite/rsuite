@@ -1,0 +1,52 @@
+name: Weekly release
+
+on:
+  schedule:
+    # Run at 18:00 UTC+8 every Thursday
+    - cron: '0 10 * * 4'
+  push:
+    branches:
+      - 'main'
+      - 'ci/ship'
+
+jobs:
+  prepare:
+    name: 'Prepare release'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Install dependencies
+        run: npm install
+      - name: Create release PR (dry)
+        if: ${{ github.event_name == 'push' && github.ref_name == 'ci/ship' }}
+        run: npx shipjs prepare --dry-run
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create release PR
+        if: ${{ github.event_name == 'schedule' && github.ref_name == 'main' }}
+        run: npx shipjs prepare
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  trigger:
+    name: 'Trigger release'
+    if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies
+        run: npm install
+      - name: 🚢 Ship release
+        run: npx shipjs trigger
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

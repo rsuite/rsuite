@@ -155,6 +155,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-test-renderer": "^17.0.2",
+    "shipjs": "^0.24.2",
     "sinon": "^11.1.1",
     "sinon-chai": "^3.7.0",
     "style-loader": "^0.20.3",
