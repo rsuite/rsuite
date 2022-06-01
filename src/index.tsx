@@ -61,7 +61,7 @@ export type { AvatarProps } from './Avatar';
 export { default as AvatarGroup } from './AvatarGroup';
 export type { AvatarGroupProps } from './AvatarGroup';
 
-export { default as toaster } from './toaster';
+export { default as toaster, useToaster } from './toaster';
 export type { Toaster } from './toaster';
 
 // Nav

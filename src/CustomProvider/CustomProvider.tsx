@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { getClassNamePrefix, prefix } from '../utils/prefix';
 import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
+import ToastContainer, { ToastContainerInstance, toastPlacements } from '../toaster/ToastContainer';
+import { usePortal } from '../utils';
 
 export interface CustomValue<T = Locale> {
   /** Language configuration */
@@ -39,6 +41,11 @@ export interface CustomValue<T = Locale> {
    *
    * */
   parseDate: (dateString: string, formatString: string) => Date;
+
+  /**
+   * A Map of toast containers
+   */
+  toasters?: React.MutableRefObject<Map<string, ToastContainerInstance>>;
 }
 
 export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>> {
@@ -50,16 +57,30 @@ export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>>
 
   /** Primary content */
   children?: React.ReactNode;
+
+  /** Sets a container for toast rendering */
+  toastContainer?: HTMLElement | (() => HTMLElement | null) | null;
 }
 
 const CustomContext = React.createContext<CustomProviderProps>({});
 const { Consumer, Provider } = CustomContext;
 const themes = ['light', 'dark', 'high-contrast'];
 
-const CustomProvider = (props: CustomProviderProps) => {
-  const { children, classPrefix = getClassNamePrefix(), theme, ...rest } = props;
+const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
+  const {
+    children,
+    classPrefix = getClassNamePrefix(),
+    theme,
+    toastContainer: container,
+    ...rest
+  } = props;
+  const toasters = React.useRef(new Map<string, ToastContainerInstance>());
+  const { Portal } = usePortal({ container });
 
-  const value = React.useMemo(() => ({ classPrefix, theme, ...rest }), [classPrefix, theme, rest]);
+  const value = React.useMemo(
+    () => ({ classPrefix, theme, toasters, ...rest }),
+    [classPrefix, theme, rest]
+  );
 
   useEffect(() => {
     if (canUseDOM && theme) {
@@ -74,7 +95,23 @@ const CustomProvider = (props: CustomProviderProps) => {
     }
   }, [classPrefix, theme]);
 
-  return <Provider value={value}>{children}</Provider>;
+  return (
+    <Provider value={value}>
+      {children}
+
+      <Portal>
+        {toastPlacements.map(placement => (
+          <ToastContainer
+            key={placement}
+            placement={placement}
+            ref={ref => {
+              toasters.current.set(placement, ref);
+            }}
+          />
+        ))}
+      </Portal>
+    </Provider>
+  );
 };
 
 export { CustomContext, Consumer as CustomConsumer };

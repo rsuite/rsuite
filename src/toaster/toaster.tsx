@@ -1,7 +1,6 @@
 import React from 'react';
 import ToastContainer, { ToastContainerProps, ToastContainerInstance } from './ToastContainer';
 
-export type PlacementType = 'topStart' | 'topEnd' | 'bottomStart' | 'bottomEnd';
 export interface Toaster {
   /**
    * Add a message to the container.
