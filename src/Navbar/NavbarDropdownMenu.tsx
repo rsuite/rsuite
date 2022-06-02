@@ -10,13 +10,26 @@ import useCustom from '../utils/useCustom';
 import { NavbarContext } from '.';
 import Disclosure from '../Disclosure';
 import NavContext from '../Nav/NavContext';
+import deprecatePropType from '../utils/deprecatePropType';
 
 export interface NavbarDropdownMenuProps<T = any> extends StandardProps {
   /** Define the title as a submenu */
   title?: React.ReactNode;
 
-  /** The submenu expands from the left and defaults to the right */
+  /**
+   * The submenu expands from the left and defaults to the right
+   * @deprecated Use openDirection="start" instead.
+   */
   pullLeft?: boolean;
+
+  /**
+   * Direction that the sub-menu open towards
+   * - start: towards the head of the reading direction (right by default, left in RTL)
+   * - end: towards the end of the reading direction (left by default, right in RTL)
+   *
+   * @default 'end'
+   */
+  openDirection?: 'start' | 'end';
 
   /**
    *  Only used for setting the default expand state when it's a submenu.
@@ -61,7 +74,15 @@ const NavbarDropdownMenu = React.forwardRef<
     );
   }
 
-  const { onToggle, eventKey, title, classPrefix = 'dropdown-menu', children, ...rest } = props;
+  const {
+    onToggle,
+    eventKey,
+    title,
+    classPrefix = 'dropdown-menu',
+    children,
+    openDirection = 'end',
+    ...rest
+  } = props;
 
   const { rtl } = useCustom('DropdownMenu');
 
@@ -135,6 +156,7 @@ const NavbarDropdownMenu = React.forwardRef<
                     ref={elementRef as any}
                     className={menuClassName}
                     hidden={!open}
+                    data-direction={openDirection}
                     {...menuProps}
                   >
                     {children}
@@ -157,7 +179,8 @@ NavbarDropdownMenu.propTypes = {
   children: PropTypes.node,
   icon: PropTypes.any,
   classPrefix: PropTypes.string,
-  pullLeft: PropTypes.bool,
+  pullLeft: deprecatePropType(PropTypes.bool, 'Use openDirection="start" instead.'),
+  openDirection: PropTypes.oneOf(['start', 'end']),
   title: PropTypes.node,
   open: PropTypes.bool,
   eventKey: PropTypes.any,
