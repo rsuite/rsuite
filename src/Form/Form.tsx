@@ -71,31 +71,31 @@ export interface FormInstance<
   errorMsg = string,
   E = { [P in keyof T]?: errorMsg }
 > {
-  root: React.FormHTMLAttributes<HTMLFormElement>;
+  root: HTMLFormElement | null;
 
   /** Verify form data */
-  check?: (callback?: (formError: E) => void) => boolean;
+  check: (callback?: (formError: E) => void) => boolean;
 
   /** Asynchronously check form data */
-  checkAsync?: () => Promise<any>;
+  checkAsync: () => Promise<any>;
 
   /** Check the data field */
-  checkForField?: (
+  checkForField: (
     fieldName: keyof T,
     callback?: (checkResult: CheckResult<errorMsg>) => void
   ) => boolean;
 
   /** Asynchronous verification as a data field */
-  checkForFieldAsync?: (fieldName: keyof T) => Promise<CheckResult>;
+  checkForFieldAsync: (fieldName: keyof T) => Promise<CheckResult>;
 
   /** Clear all error messages */
-  cleanErrors?: (callback?: () => void) => void;
+  cleanErrors: (callback?: () => void) => void;
 
   /** Clear the error message of the specified field */
-  cleanErrorForField?: (fieldName: keyof E, callback?: () => void) => void;
+  cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 
   /** All error messages are reset, and an initial value can be set */
-  resetErrors?: (formError: E, callback?: () => void) => void;
+  resetErrors: (formError: E, callback?: () => void) => void;
 }
 
 export interface FormComponent
@@ -107,7 +107,7 @@ export interface FormComponent
   HelpText: typeof FormHelpText;
 }
 
-const Form: FormComponent = React.forwardRef((props: FormProps, ref) => {
+const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<FormInstance>) => {
   const {
     checkTrigger = 'change',
     classPrefix = 'form',

@@ -98,6 +98,7 @@ export type { ToggleProps } from './Toggle';
 export { default as Form, useFormClassNames } from './Form';
 export type {
   FormProps,
+  FormInstance,
   FormGroupProps,
   FormErrorMessageProps,
   FormControlLabelProps,
