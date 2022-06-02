@@ -11,7 +11,10 @@ const instance = (
       <Nav.Menu title="About">
         <Nav.Item>Company</Nav.Item>
         <Nav.Item>Team</Nav.Item>
-        <Nav.Item>Contact</Nav.Item>
+        <Nav.Menu title="Contact">
+          <Nav.Item>Via email</Nav.Item>
+          <Nav.Item>Via telephone</Nav.Item>
+        </Nav.Menu>
       </Nav.Menu>
     </Nav>
     <Nav pullRight>
