@@ -64,10 +64,6 @@ export interface BaseModalProps extends WithAsProps, AnimationEventProps {
 
   /** Called when Modal is closed */
   onClose?: (event: React.SyntheticEvent) => void;
-}
-
-interface ModalProps extends BaseModalProps {
-  children: (props, ref) => React.ReactElement;
   container?: HTMLElement | (() => HTMLElement);
   containerClassName?: string;
   backdropTransitionTimeout?: number;
@@ -107,9 +103,9 @@ const useModalManager = () => {
   };
 };
 
-const Modal: RsRefForwardingComponent<'div', ModalProps> = React.forwardRef<
+const Modal: RsRefForwardingComponent<'div', BaseModalProps> = React.forwardRef<
   HTMLDivElement,
-  ModalProps
+  BaseModalProps
 >((props, ref) => {
   const {
     as: Component = 'div',
