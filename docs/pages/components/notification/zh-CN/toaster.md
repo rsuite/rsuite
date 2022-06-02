@@ -1,4 +1,14 @@
-### toaster
+### useToaster
+
+```ts
+import { useToaster } from 'rsuite';
+
+return () => {
+  const toaster = useToaster();
+
+  ...
+};
+```
 
 #### toaster.push
 

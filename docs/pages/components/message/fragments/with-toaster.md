@@ -1,11 +1,17 @@
 <!--start-code-->
 
 ```js
+/**
+ * import { useToaster } from 'rsuite';
+ */
+
 const App = () => {
   const [type, setType] = React.useState('info');
   const [placement, setPlacement] = React.useState('topCenter');
+  const toaster = useToaster();
+
   const message = (
-    <Message showIcon type={type} >
+    <Message showIcon type={type}>
       {type}: The message appears on the {placement}.
     </Message>
   );

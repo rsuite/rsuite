@@ -1,7 +1,7 @@
 ```js
-import { Notification, toaster } from 'rsuite';
+import { Notification, useToaster } from 'rsuite';
 
 // or
 import Notification from 'rsuite/Notification';
-import toaster from 'rsuite/toaster';
+import { useToaster } from 'rsuite/toaster';
 ```

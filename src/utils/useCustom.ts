@@ -16,19 +16,24 @@ const getDefaultRTL = () =>
  * A hook to get custom configuration of `<CustomProvider>`
  * @param keys
  */
-function useCustom<T = any>(keys: string | string[], overrideLocale?): CustomValue<T> {
+function useCustom<T = any>(keys?: string | string[], overrideLocale?): CustomValue<T> {
   const {
     locale = defaultLocale,
     rtl = getDefaultRTL(),
     formatDate,
-    parseDate
+    parseDate,
+    toasters
   } = useContext(CustomContext);
 
   let componentLocale: T = {
     // Public part locale
     ...locale?.common,
     // Part of the locale of the component itself
-    ...(typeof keys === 'string' ? locale?.[keys] : mergeObject(keys.map(key => locale?.[key])))
+    ...(typeof keys === 'string'
+      ? locale?.[keys]
+      : typeof keys === 'object'
+      ? mergeObject(keys.map(key => locale?.[key]))
+      : {})
   };
 
   // Component custom locale
@@ -53,6 +58,7 @@ function useCustom<T = any>(keys: string | string[], overrideLocale?): CustomVal
   return {
     locale: componentLocale,
     rtl,
+    toasters,
     formatDate: formatDate || defaultFormatDate,
     parseDate: parseDate || defaultParseDate
   };
