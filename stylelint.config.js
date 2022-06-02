@@ -1,9 +1,11 @@
 module.exports = {
   extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
+  customSyntax: 'postcss-less',
   rules: {
     // Overwrite stylelint-config-standard rules
     // ----------------------------------
-
+    // IE 11 does not seem to support percentage format
+    'alpha-value-notation': 'number',
     // Don't check if there is a whitespace after the function.
     // Style-lint can't distinguish less mixin or css function. Disable this check item directly here.
     'function-whitespace-after': null,
@@ -18,6 +20,18 @@ module.exports = {
     'at-rule-no-vendor-prefix': true,
     // fix less detached ruleset
     'at-rule-no-unknown': null,
+    // IE 11 does not support modern css notation
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/rgb#browser_compatibility
+    'color-function-notation': 'legacy',
+    // Allow using Less-specific functions
+    'function-no-unknown': [
+      true,
+      {
+        ignoreFunctions: ['floor']
+      }
+    ],
+    // Allow placing @import at-rule in style blocks (Less-specific syntax)
+    'no-invalid-position-at-import-rule': null,
     // Specify an allowed-list of attributes and units allowed in the declaration.
     'declaration-property-unit-allowed-list': {
       'font-size': ['px', 'em', '%'],
