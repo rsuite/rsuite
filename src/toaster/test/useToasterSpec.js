@@ -6,9 +6,6 @@ import CustomProvider from '../../CustomProvider';
 import Uploader from '../../Uploader';
 import zhCN from '../../locales/zh_CN';
 
-const element = document.createElement('div');
-document.body.appendChild(element);
-
 afterEach(() => {
   sinon.restore();
 });
@@ -28,17 +25,21 @@ describe('useToaster', () => {
   it('Should render 2 containers', () => {
     const toaster = renderHook(() => useToaster()).result.current;
 
-    toaster.push(<div>topEnd</div>, {
-      container: element,
+    toaster.push(<div data-testid="msg-top-end">topEnd</div>, {
       placement: 'topEnd'
     });
-    toaster.push(<div>bottomEnd</div>, {
-      container: element,
+    toaster.push(<div data-testid="msg-bottom-end">bottomEnd</div>, {
       placement: 'bottomEnd'
     });
 
-    assert.exists(element.querySelector('.rs-toast-container.rs-toast-container-top-end'));
-    assert.exists(element.querySelector('.rs-toast-container.rs-toast-container-bottom-end'));
+    assert.equal(
+      screen.queryByTestId('msg-top-end').parentNode.className,
+      'rs-toast-container rs-toast-container-top-end'
+    );
+    assert.equal(
+      screen.queryByTestId('msg-bottom-end').parentNode.className,
+      'rs-toast-container rs-toast-container-bottom-end'
+    );
   });
 
   it('Should remove a message', () => {
@@ -77,7 +78,7 @@ describe('useToaster', () => {
       const toaster = useToaster();
       React.useEffect(() => {
         toaster.push(
-          <div data-testid="msg-1">
+          <div data-testid="msg-with-uploader">
             <Uploader action="/" />
           </div>
         );
@@ -91,7 +92,9 @@ describe('useToaster', () => {
       </CustomProvider>
     );
 
-    const uploaderBtn = screen.getByTestId('msg-1').querySelector('.rs-uploader-trigger-btn');
+    const uploaderBtn = screen
+      .getByTestId('msg-with-uploader')
+      .querySelector('.rs-uploader-trigger-btn');
     assert.equal(uploaderBtn.textContent, '上传');
   });
 });
