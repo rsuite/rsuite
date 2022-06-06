@@ -3,7 +3,6 @@
 ```js
 // import Sidenav from 'rsuite/Sidenav';
 // import Nav from 'rsuite/Nav';
-// import Dropdown from 'rsuite/Dropdown';
 
 const styles = {
   width: 240,
@@ -11,12 +10,17 @@ const styles = {
   marginRight: 10
 };
 
-const MySidenav = ({ appearance, ...props }) => {
+const MySidenav = ({ appearance, openKeys, expanded, onOpenChange, onExpand, ...navProps }) => {
   return (
     <div style={styles}>
-      <Sidenav appearance={appearance} defaultOpenKeys={['3', '4']}>
+      <Sidenav
+        appearance={appearance}
+        expanded={expanded}
+        openKeys={openKeys}
+        onOpenChange={onOpenChange}
+      >
         <Sidenav.Body>
-          <Nav {...props}>
+          <Nav {...navProps}>
             <Nav.Item eventKey="1" active icon={<Dashboard />}>
               Dashboard
             </Nav.Item>
@@ -40,7 +44,7 @@ const MySidenav = ({ appearance, ...props }) => {
             </Nav.Menu>
           </Nav>
         </Sidenav.Body>
-        <Sidenav.Toggle />
+        <Sidenav.Toggle expanded={expanded} onToggle={onExpand} />
       </Sidenav>
     </div>
   );
@@ -49,6 +53,8 @@ const MySidenav = ({ appearance, ...props }) => {
 const App = () => {
   const [activeKey, setActiveKey] = React.useState('1');
   const [openKeys, setOpenKeys] = React.useState(['3', '4']);
+  const [expanded, setExpand] = React.useState(true);
+
   return (
     <div className="nav-wrapper">
       <MySidenav
@@ -56,12 +62,16 @@ const App = () => {
         openKeys={openKeys}
         onSelect={setActiveKey}
         onOpenChange={setOpenKeys}
+        expanded={expanded}
+        onExpand={setExpand}
       />
       <MySidenav
         activeKey={activeKey}
         openKeys={openKeys}
         onOpenChange={setOpenKeys}
         onSelect={setActiveKey}
+        expanded={expanded}
+        onExpand={setExpand}
         appearance="inverse"
       />
       <MySidenav
@@ -69,6 +79,8 @@ const App = () => {
         openKeys={openKeys}
         onOpenChange={setOpenKeys}
         onSelect={setActiveKey}
+        expanded={expanded}
+        onExpand={setExpand}
         appearance="subtle"
       />
     </div>
