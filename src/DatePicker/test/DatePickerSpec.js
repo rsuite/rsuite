@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import enGB from 'date-fns/locale/en-GB';
 import ReactTestUtils, { act } from 'react-dom/test-utils';
 import { format, isSameDay, parseISO } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
@@ -78,16 +79,18 @@ describe('DatePicker', () => {
   });
 
   it('Should be possible to specify initial month with `calendarDefaultDate`', () => {
-    const { getByRole } = render(
-      <DatePicker defaultOpen calendarDefaultDate={new Date('12/15/2021')} />
-    );
+    const date = new Date('12/15/2021');
+    const { getByRole } = render(<DatePicker defaultOpen calendarDefaultDate={date} />);
 
-    expect(getByRole('grid', { name: 'Dec 2021' })).to.exist;
+    // Dec 2021
+    const month = DateUtils.format(date, 'MMM yyyy', { locale: enGB });
+
+    expect(getByRole('grid', { name: month })).to.exist;
 
     Array.from({ length: 31 }).forEach((_, index) => {
-      expect(getByRole('grid', { name: 'Dec 2021' })).to.contain(
+      expect(getByRole('grid', { name: month })).to.contain(
         getByRole('gridcell', {
-          name: DateUtils.format(new Date(`12/${index + 1}/2021`), 'dd MMM yyyy')
+          name: DateUtils.format(new Date(`12/${index + 1}/2021`), 'dd MMM yyyy', { locale: enGB })
         })
       );
     });
