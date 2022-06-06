@@ -24,7 +24,7 @@
 
 <!--{include:`with-toaster.md`}-->
 
-## Props & Methods
+## Props & Hooks
 
 ### `<Notification>`
 

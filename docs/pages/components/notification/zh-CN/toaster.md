@@ -1,5 +1,7 @@
 ### useToaster
 
+useToaster 是一个用于创建和管理 Toast 的 React Hook。
+
 ```ts
 import { useToaster } from 'rsuite';
 

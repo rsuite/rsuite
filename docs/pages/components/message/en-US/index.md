@@ -34,7 +34,7 @@ A message type that contains an Alert
 
 <!--{include:`with-toaster.md`}-->
 
-## Props & Methods
+## Props & Hooks
 
 ### `<Message>`
 
