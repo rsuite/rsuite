@@ -44,7 +44,7 @@ const MySidenav = ({ appearance, openKeys, expanded, onOpenChange, onExpand, ...
             </Nav.Menu>
           </Nav>
         </Sidenav.Body>
-        <Sidenav.Toggle expanded={expanded} onToggle={onExpand} />
+        <Sidenav.Toggle onToggle={onExpand} />
       </Sidenav>
     </div>
   );
