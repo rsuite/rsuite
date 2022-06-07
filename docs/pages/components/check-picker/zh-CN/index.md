@@ -85,6 +85,7 @@
 | classPrefix        | string `('picker')`                                                               | 组件 CSS 类的前缀                      |
 | cleanable          | boolean `(true)`                                                                  | 可以清除                               |
 | container          | HTMLElement &#124; (() => HTMLElement)                                            | 设置渲染的容器                         |
+| countable          | boolean `(true)`                                                                  | 是否显示选中条目的数量                 |
 | data \*            | [ItemDataType][item][]                                                            | 组件数据                               |
 | defaultValue       | [ValueType][value]                                                                | 设置默认值 `非受控`                    |
 | disabled           | boolean                                                                           | 禁用组件                               |
