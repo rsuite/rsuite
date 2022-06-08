@@ -11,8 +11,10 @@ export interface PopoverProps extends WithAsProps {
   visible?: boolean;
 
   /** The content full the container */
-
   full?: boolean;
+
+  /** Whether show the arrow indicator */
+  arrow?: boolean;
 }
 
 const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
@@ -26,6 +28,7 @@ const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
       visible,
       className,
       full,
+      arrow = true,
       ...rest
     } = props;
 
@@ -40,7 +43,7 @@ const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
 
     return (
       <Component role="dialog" {...rest} ref={ref} className={classes} style={styles}>
-        <div className={prefix`arrow`} aria-hidden />
+        {arrow && <div className={prefix`arrow`} aria-hidden />}
         {title && <h3 className={prefix`title`}>{title}</h3>}
         <div className={prefix`content`}>{children}</div>
       </Component>
@@ -57,6 +60,7 @@ Popover.propTypes = {
   style: PropTypes.object,
   visible: PropTypes.bool,
   className: PropTypes.string,
-  full: PropTypes.bool
+  full: PropTypes.bool,
+  arrow: PropTypes.bool
 };
 export default Popover;

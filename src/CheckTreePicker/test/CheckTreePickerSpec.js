@@ -5,36 +5,10 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '../../utils';
 import { assert } from 'chai';
+import { data, originMockData, changedMockData } from './mocks';
 
 const itemFocusClassName = '.rs-check-tree-node-focus';
 const itemExpandedClassName = '.rs-check-tree-node-expanded';
-
-const data = [
-  {
-    label: 'Master',
-    value: 'Master',
-    children: [
-      {
-        label: 'tester0',
-        value: 'tester0'
-      },
-      {
-        label: 'tester1',
-        value: 'tester1',
-        children: [
-          {
-            label: 'tester2',
-            value: 'tester2'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    label: 'Disabled node',
-    value: 'disabled'
-  }
-];
 
 describe('CheckTreePicker', () => {
   it('Should render default value', () => {
@@ -498,50 +472,40 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should fold all the node when toggle master node', () => {
-    const TestApp = React.forwardRef((props, ref) => {
-      const pickerRef = React.useRef();
-      const [expandItemValues, setExpandItemValues] = React.useState(['Master']);
-      React.useImperativeHandle(ref, () => {
-        return {
-          picker: pickerRef.current,
-          setExpandItemValues
-        };
-      });
-      return (
-        <CheckTreePicker
-          ref={pickerRef}
-          {...props}
-          data={data}
-          open
-          expandItemValues={expandItemValues}
-        />
-      );
-    });
-
-    TestApp.displayName = 'TestApp';
-
-    let expandItemValues = [];
+    let expandItemValues = ['Master'];
     const mockOnExpand = values => {
       expandItemValues = values;
     };
     const ref = React.createRef();
-    render(<TestApp ref={ref} onExpand={mockOnExpand} />);
+    const { rerender } = render(
+      <CheckTreePicker
+        ref={ref}
+        data={data}
+        open
+        expandItemValues={expandItemValues}
+        onExpand={mockOnExpand}
+      />
+    );
 
-    assert.ok(ref.current.picker.overlay.querySelector('.rs-check-tree-node-expanded'));
+    assert.ok(ref.current.overlay.querySelector('.rs-check-tree-node-expanded'));
 
     ReactTestUtils.act(() => {
       ReactTestUtils.Simulate.click(
-        ref.current.picker.overlay.querySelector(
-          'div[data-ref="0-0"]  > .rs-check-tree-node-expand-icon'
-        )
+        ref.current.overlay.querySelector('div[data-ref="0-0"]  > .rs-check-tree-node-expand-icon')
       );
     });
 
-    ReactTestUtils.act(() => {
-      ref.current.setExpandItemValues(expandItemValues);
-    });
+    rerender(
+      <CheckTreePicker
+        ref={ref}
+        data={data}
+        open
+        expandItemValues={expandItemValues}
+        onExpand={mockOnExpand}
+      />
+    );
 
-    assert.ok(!ref.current.picker.overlay.querySelector('.rs-check-tree-node-expanded'));
+    assert.ok(!ref.current.overlay.querySelector('.rs-check-tree-node-expanded'));
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
@@ -610,5 +574,29 @@ describe('CheckTreePicker', () => {
     const instance = getInstance(<CheckTreePicker open defaultExpandAll data={data} />);
     ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-0-1-0"] input'));
     assert.equal(instance.overlay.querySelectorAll('.rs-checkbox-indeterminate').length, 1);
+  });
+
+  it('Should not has duplicated key when data changed', () => {
+    let checkItems = [];
+    const mockRenderValue = (values, checkedItems, selectedElement) => {
+      checkItems = checkedItems;
+      return selectedElement;
+    };
+    const ref = React.createRef();
+    const { rerender } = render(
+      <CheckTreePicker ref={ref} open data={originMockData} renderValue={mockRenderValue} />
+    );
+
+    rerender(
+      <CheckTreePicker open ref={ref} data={changedMockData} renderValue={mockRenderValue} />
+    );
+
+    ReactTestUtils.act(() => {
+      ReactTestUtils.Simulate.change(
+        ref.current.overlay.querySelector('div[data-key="0-0-1"] input')
+      );
+    });
+
+    assert.equal(checkItems.length, 1);
   });
 });

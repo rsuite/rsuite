@@ -1,8 +1,47 @@
-@import '../colors/light';
-
 // see https://rsuitejs.com/design/default
 & {
-  @import (multiple) 'common';
+  // Gray levels
+  --rs-gray-50: @B050;
+  --rs-gray-100: @B100;
+  --rs-gray-200: @B200;
+  --rs-gray-300: @B300;
+  --rs-gray-400: @B400;
+  --rs-gray-500: @B500;
+  --rs-gray-600: @B600;
+  --rs-gray-700: @B700;
+  --rs-gray-800: @B800;
+  --rs-gray-900: @B900;
+
+  // Highlight levels
+  --rs-primary-50: @H050;
+  --rs-primary-100: @H100;
+  --rs-primary-200: @H200;
+  --rs-primary-300: @H300;
+  --rs-primary-400: @H400;
+  --rs-primary-500: @H500;
+  --rs-primary-600: @H600;
+  --rs-primary-700: @H700;
+  --rs-primary-800: @H800;
+  --rs-primary-900: @H900;
+
+  // Spectrum levels
+  each(@spectrum, .(@color-name) {
+    @color: @@color-name;
+    @color-name-50: ~'@{color-name}-50';
+    --rs-@{color-name}-50: @@color-name-50;
+
+    each(range(9), {
+      @level: @{index}00;
+      @color-name-level: ~'@{color-name}-@{level}';
+      --rs-@{color-name}-@{level}: @@color-name-level;
+    });
+  });
+
+  // Stateful colors
+  --rs-state-success: @green;
+  --rs-state-info: @blue;
+  --rs-state-warning: @yellow;
+  --rs-state-error: @red;
 
   // Reset
   --rs-body: @B000;
@@ -120,8 +159,8 @@
 
   // Dropdown
   --rs-dropdown-divider: @B200;
-  --rs-dropdown-item-bg-hover: @H050;
-  --rs-dropdown-item-bg-active: fade(@H050, 50);
+  --rs-dropdown-item-bg-hover: fade(@H100, 50%);
+  --rs-dropdown-item-bg-active: @H050;
   --rs-dropdown-item-text-active: @H700;
   --rs-dropdown-header-text: @B500;
   --rs-dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
@@ -174,15 +213,18 @@
   --rs-sidenav-default-selected-text: @H700;
   --rs-sidenav-default-hover-bg: @B200;
   --rs-sidenav-default-hover-text: @B800;
+  --rs-sidenav-default-footer-border: @B200;
   --rs-sidenav-inverse-bg: @H500;
   --rs-sidenav-inverse-text: #fff;
   --rs-sidenav-inverse-selected-bg: @H700;
   --rs-sidenav-inverse-hover-bg: @H600;
+  --rs-sidenav-inverse-footer-border: @H600;
   --rs-sidenav-subtle-bg: #fff;
   --rs-sidenav-subtle-text: @B600;
   --rs-sidenav-subtle-selected-text: @H700;
   --rs-sidenav-subtle-hover-bg: @B050;
   --rs-sidenav-subtle-hover-text: @B800;
+  --rs-sidenav-subtle-footer-border: @B200;
 
   // Input
   --rs-input-bg: @B000;

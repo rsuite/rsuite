@@ -1,12 +1,20 @@
 <!--start-code-->
 
 ```js
+/**
+ * import { useToaster } from 'rsuite';
+ */
+
 const App = () => {
   const [type, setType] = React.useState('info');
   const [placement, setPlacement] = React.useState('topStart');
+  const toaster = useToaster();
+
   const message = (
     <Notification type={type} header={type} closable>
       <Paragraph width={320} rows={3} />
+      <hr />
+      <Uploader />
     </Notification>
   );
 

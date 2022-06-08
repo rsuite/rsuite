@@ -7,7 +7,7 @@ import { ToggleLocale } from '../locales';
 import Loader from '../Loader';
 
 export interface ToggleProps extends WithAsProps {
-  /** Wheather to disabled toggle */
+  /** Whether to disabled toggle */
   disabled?: boolean;
 
   /** Render the control as plain text */

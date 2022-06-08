@@ -232,3 +232,10 @@ export interface Offset {
 }
 
 export type OnChangeCallback<T, E = React.SyntheticEvent> = (value: T, event: E) => void;
+
+export type CursorPosition = {
+  top: number;
+  left: number;
+  clientTop: number;
+  clientLeft: number;
+};

@@ -1,3 +1,52 @@
+# [5.14.0](https://github.com/rsuite/rsuite/compare/v5.13.1...v5.14.0) (2022-06-02)
+
+### Bug Fixes
+
+- **Button:** remove underline when hovered ([#2516](https://github.com/rsuite/rsuite/issues/2516)) ([8bbb10d](https://github.com/rsuite/rsuite/commit/8bbb10db425dadd4110db60b8b7066d8f97bab54))
+- **Dropdown:** fix vertical alignment of submenus ([#2524](https://github.com/rsuite/rsuite/issues/2524)) ([7c0ef52](https://github.com/rsuite/rsuite/commit/7c0ef52e9c7f57abfd97814725f5b3b82cc5dd70))
+- **Form:** make FormInstance methods non-nullable ([#2521](https://github.com/rsuite/rsuite/issues/2521)) ([225af8a](https://github.com/rsuite/rsuite/commit/225af8a9abdffaf76101f28e3690b7ede6a16139))
+- **Modal:** expose missing props ([#2522](https://github.com/rsuite/rsuite/issues/2522)) ([2ed7040](https://github.com/rsuite/rsuite/commit/2ed704002d03cec1478de879b08c0d3e7fd2dcf1))
+- **Panel:** fix accordion not collapsible expanded panel ([#2514](https://github.com/rsuite/rsuite/issues/2514)) ([10c80f2](https://github.com/rsuite/rsuite/commit/10c80f26622e2f5b8c2e81731b66e2276d5622c4))
+- **Sidenav:** display tooltip when hovering collapsed Sidenav item ([#2504](https://github.com/rsuite/rsuite/issues/2504)) ([d1238eb](https://github.com/rsuite/rsuite/commit/d1238ebb22e2458a780846903e042de72c1d8143))
+- **Sidenav:** remove subtle item bg when focused by mouse ([#2511](https://github.com/rsuite/rsuite/issues/2511)) ([819461c](https://github.com/rsuite/rsuite/commit/819461c918e809fa397fe3dc6146510a9ffb1bd2))
+- **Table:** fix elements in merged cells being occluded ([#2513](https://github.com/rsuite/rsuite/issues/2513)) ([22e5467](https://github.com/rsuite/rsuite/commit/22e54671cbeb3e63d8480469c3d53744732308f2))
+
+### Features
+
+- **grid:** synchronize all grid size and breakpoint with bootstrap5 ([e8d2d37](https://github.com/rsuite/rsuite/commit/e8d2d372e2280336482de648d9619607b9cb1798))
+- **Nav.Menu:** add `openDirection` prop ([#2523](https://github.com/rsuite/rsuite/issues/2523)) ([bd824ac](https://github.com/rsuite/rsuite/commit/bd824ac9359cc5cebb848424d8045986e32c6462))
+- **toaster:** add support for useToaster ([#2518](https://github.com/rsuite/rsuite/issues/2518)) ([75cb960](https://github.com/rsuite/rsuite/commit/75cb9601b56fbdc64a09b9bbc93aaf2b22b715c4))
+- **Tooltip,Popover:** add arrow props to hide arrow indicator ([48d876f](https://github.com/rsuite/rsuite/commit/48d876f7d2211f5e9cb1db7e8f552152821e05ac))
+- **Tooltip,Popover:** add followCursor props to enable speaker follow cursor ([e3bf75d](https://github.com/rsuite/rsuite/commit/e3bf75d4e4c537bf677c404fce84b76266531630))
+
+### Performance Improvements
+
+- **Dropdown:** improve contrast of active Dropdown item background color ([#2510](https://github.com/rsuite/rsuite/issues/2510)) ([35a418a](https://github.com/rsuite/rsuite/commit/35a418ae5f2104e6ac56ebe5c91d426025fce94a))
+
+## [5.13.1](https://github.com/rsuite/rsuite/compare/v5.13.0...v5.13.1) (2022-05-27)
+
+### Bug Fixes
+
+- **CheckTreePicker:** fix duplicated key when data changed ([#2486](https://github.com/rsuite/rsuite/issues/2486)) ([#2500](https://github.com/rsuite/rsuite/issues/2500)) ([d155719](https://github.com/rsuite/rsuite/commit/d155719a9ae9d9cec119a0c33281c628379b4a78))
+- **Sidenav:** correct Sidenav.Toggle styles ([#2497](https://github.com/rsuite/rsuite/issues/2497)) ([b3168e4](https://github.com/rsuite/rsuite/commit/b3168e426c3a2caad1689e9e9d3babf1d76022b8))
+- **Sidenav:** correct subtle Sidenav item hover styles ([#2498](https://github.com/rsuite/rsuite/issues/2498)) ([2d853ee](https://github.com/rsuite/rsuite/commit/2d853ee8419a3283683bbf897442b9bc789b5a2a))
+- **Sidenav:** fix Sidenav.Toggle icon direction ([#2495](https://github.com/rsuite/rsuite/issues/2495)) ([c490632](https://github.com/rsuite/rsuite/commit/c490632cc613807ff27124140b4250fc132aa8b2))
+- **Whisper:** correct type declarations for ref ([856877a](https://github.com/rsuite/rsuite/commit/856877aec5a20710b94f6ddf241be76ecd34c88d))
+
+### Features
+
+- export WhisperInstance ([1c4eb5f](https://github.com/rsuite/rsuite/commit/1c4eb5ffbb6b5e69987436c03cc133f39c245866))
+
+# [5.13.0](https://github.com/rsuite/rsuite/compare/v5.12.0...v5.13.0) (2022-05-19)
+
+### Bug Fixes
+
+- **listbox:** fix broken keyboard navigation after filtering ([#2491](https://github.com/rsuite/rsuite/issues/2491)) ([329623a](https://github.com/rsuite/rsuite/commit/329623a21e8d551db3e634894ddcbb3658b1579d))
+
+### Performance Improvements
+
+- **Cascader:** apply tree view pattern ([#2492](https://github.com/rsuite/rsuite/issues/2492)) ([f3a5808](https://github.com/rsuite/rsuite/commit/f3a5808eb60cc4f5250cce908322a702a91a9d96))
+
 # [5.12.0](https://github.com/rsuite/rsuite/compare/v5.11.0...v5.12.0) (2022-05-12)
 
 ### Features

@@ -19,6 +19,7 @@ type Trigger =
 | delayClose      | number                                    | Delay close time (ms) Time                                                                                   |
 | delayOpen       | number                                    | Delay open time (ms) Time                                                                                    |
 | enterable       | boolean                                   | Whether mouse is allowed to enter the floating layer of popover,when the value of `trigger` is set to`hover` |
+| followCursor    | boolean                                   | Whether enable `speaker` to follow the cursor                                                                |
 | full            | boolean                                   | The content full the container                                                                               |
 | onBlur          | () => void                                | Lose Focus callback function                                                                                 |
 | onClick         | () => void                                | Click on the callback function                                                                               |
@@ -37,6 +38,18 @@ type Trigger =
 | trigger         | Trigger `(['hover','focus'])`             | Triggering events                                                                                            |
 
 ### Whisper methods
+
+Whisper methods are available via `ref` on Whisper component.
+
+```jsx
+const whisperRef = useRef();
+
+<Whisper ref={whisperRef} {...}>
+  ...
+</Whisper>
+```
+
+Available methods include
 
 - open
 

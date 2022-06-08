@@ -1,7 +1,7 @@
 ```js
-import { Message, toaster } from 'rsuite';
+import { Message, useToaster } from 'rsuite';
 
 // or
 import Message from 'rsuite/Message';
-import toaster from 'rsuite/toaster';
+import { useToaster } from 'rsuite/toaster';
 ```

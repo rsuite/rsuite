@@ -14,6 +14,15 @@ export type PlacementType =
   | 'bottomStart'
   | 'bottomEnd';
 
+export const toastPlacements: PlacementType[] = [
+  'topCenter',
+  'bottomCenter',
+  'topStart',
+  'topEnd',
+  'bottomStart',
+  'bottomEnd'
+];
+
 export interface ToastContainerProps extends WithAsProps {
   /** The placement of the message box */
   placement?: PlacementType;

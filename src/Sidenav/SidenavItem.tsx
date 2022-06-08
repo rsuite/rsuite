@@ -1,7 +1,7 @@
 import React, { useContext, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import { useClassNames, shallowEqual, mergeRefs, appendTooltip } from '../utils';
+import { useClassNames, shallowEqual, mergeRefs, createChainedFunction } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import Ripple from '../Ripple';
@@ -10,6 +10,8 @@ import NavContext, { NavContextProps } from '../Nav/NavContext';
 import MenuItem from '../Menu/MenuItem';
 import omit from 'lodash/omit';
 import { SidenavContext } from './Sidenav';
+import Whisper from '../Whisper';
+import Tooltip from '../Tooltip';
 
 export interface SidenavItemProps<T = any>
   extends WithAsProps,
@@ -32,6 +34,11 @@ export interface SidenavItemProps<T = any>
   divider?: boolean;
 
   panel?: boolean;
+
+  /**
+   * Content of the tooltip
+   */
+  tooltip?: React.ReactNode;
 }
 
 /**
@@ -63,6 +70,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
     onSelect,
     divider,
     panel,
+    tooltip = children,
     ...rest
   } = props;
 
@@ -85,16 +93,16 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
 
   if (!sidenav.expanded) {
     return (
-      <MenuItem selected={selected} disabled={disabled} onActivate={handleClick}>
-        {({ selected, active, ...menuitem }, menuitemRef) => {
-          const classes = merge(
-            className,
-            withClassPrefix({ focus: active, active: selected, disabled })
-          );
+      <Whisper trigger="hover" speaker={<Tooltip>{tooltip}</Tooltip>} placement="right">
+        {(triggerProps, triggerRef) => (
+          <MenuItem selected={selected} disabled={disabled} onActivate={handleClick}>
+            {({ selected, active, ...menuitem }, menuitemRef) => {
+              const classes = merge(
+                className,
+                withClassPrefix({ focus: active, active: selected, disabled })
+              );
 
-          // Show tooltip when inside a collapse <Sidenav>
-          return appendTooltip({
-            children: (triggerProps, triggerRef) => {
+              // Show tooltip when inside a collapse <Sidenav>
               return (
                 <Component
                   ref={mergeRefs(mergeRefs(ref, menuitemRef), triggerRef as any)}
@@ -104,18 +112,21 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
                   {...omit(rest, ['divider', 'panel'])}
                   {...triggerProps}
                   {...menuitem}
+                  onMouseOver={createChainedFunction(
+                    menuitem.onMouseOver,
+                    triggerProps.onMouseOver
+                  )}
+                  onMouseOut={createChainedFunction(menuitem.onMouseOut, triggerProps.onMouseOut)}
                 >
                   {icon && React.cloneElement(icon, { className: prefix('icon') })}
                   {children}
                   <Ripple />
                 </Component>
               );
-            },
-            message: children,
-            placement: 'right'
-          });
-        }}
-      </MenuItem>
+            }}
+          </MenuItem>
+        )}
+      </Whisper>
     );
   }
 

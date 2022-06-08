@@ -94,8 +94,8 @@
   font-size: @font-size-base;
   text-align: left; // Ensures proper alignment if parent has it changed (e.g., modal footer)
   background-color: var(--rs-bg-overlay);
-  border-radius: @border-radius;
-  padding: @border-radius 0;
+  border-radius: @dropdown-menu-radius;
+  padding: @dropdown-menu-padding-y 0;
   outline: 0;
 
   &:focus-visible {
@@ -202,7 +202,7 @@
 
     > .rs-dropdown-menu {
       position: absolute;
-      top: 0;
+      top: -@dropdown-menu-padding-y;
     }
   }
 
@@ -223,6 +223,11 @@
 
   .rs-dropdown-menu {
     left: 100%;
+
+    &[data-direction='start'] {
+      left: unset;
+      right: 100%;
+    }
   }
 
   // Open

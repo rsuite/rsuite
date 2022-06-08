@@ -1,21 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
-import { useClassNames, SIZE } from '../utils';
+import { useClassNames, COLUMN_SIZE } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface ColProps extends WithAsProps {
-  /** The number of columns you wish to span for Extra small devices Phones (< 480px) */
+  /** The number of columns you wish to span for Extra small devices Phones (< 576px) */
   xs?: number;
 
-  /** The number of columns you wish to span for Small devices Tablets (≥ 480px) */
+  /** The number of columns you wish to span for Small devices Tablets (≥ 576px) */
   sm?: number;
 
-  /** The number of columns you wish to span for Medium devices Desktops (≥ 992px) */
+  /** The number of columns you wish to span for Medium devices Desktops (≥ 768px) */
   md?: number;
 
-  /** The number of columns you wish to span for Large devices Desktops (≥ 1200px) */
+  /** The number of columns you wish to span for Large devices Desktops (≥ 992px) */
   lg?: number;
+
+  /** The number of columns you wish to span for Extra Large devices Desktops (≥ 1200px) */
+  xl?: number;
+
+  /** The number of columns you wish to span for Ultra Large devices Desktops (≥ 1400px) */
+  xxl?: number;
 
   /** Move columns to the right for Extra small devices Phones */
   xsOffset?: number;
@@ -26,8 +32,14 @@ export interface ColProps extends WithAsProps {
   /** Move columns to the right for Medium devices Desktops */
   mdOffset?: number;
 
-  /** Move columns to the right for Medium devices Desktops */
+  /** Move columns to the right for Large devices Desktops */
   lgOffset?: number;
+
+  /** Move columns to the right for Extra large devices Desktops */
+  xlOffset?: number;
+
+  /** Move columns to the right for Ultra large devices Desktops */
+  xxlOffset?: number;
 
   /** Change the order of grid columns to the right for Extra small devices Phones */
   xsPush?: number;
@@ -41,6 +53,12 @@ export interface ColProps extends WithAsProps {
   /** Change the order of grid columns to the right for Large devices Desktops */
   lgPush?: number;
 
+  /** Change the order of grid columns to the right for Extra large devices Desktops */
+  xlPush?: number;
+
+  /** Change the order of grid columns to the right for Ultra large devices Desktops */
+  xxlPush?: number;
+
   /** Change the order of grid columns to the left for Extra small devices Phones */
   xsPull?: number;
 
@@ -53,6 +71,12 @@ export interface ColProps extends WithAsProps {
   /** Change the order of grid columns to the left for Large devices Desktops */
   lgPull?: number;
 
+  /** Change the order of grid columns to the left for Extra large devices Desktops */
+  xlPull?: number;
+
+  /** Change the order of grid columns to the left for Ultra large devices Desktops */
+  xxlPull?: number;
+
   /** Hide column on Extra small devices Phones */
   xsHidden?: boolean;
 
@@ -64,6 +88,12 @@ export interface ColProps extends WithAsProps {
 
   /** Hide column on Large devices Desktops */
   lgHidden?: boolean;
+
+  /** Hide column on Extra large devices Desktops */
+  xlHidden?: boolean;
+
+  /** Hide column on Ultra large devices Desktops */
+  xxlHidden?: boolean;
 }
 
 const Col: RsRefForwardingComponent<'div', ColProps> = React.forwardRef((props: ColProps, ref) => {
@@ -77,7 +107,7 @@ const Col: RsRefForwardingComponent<'div', ColProps> = React.forwardRef((props: 
     return rest[key];
   };
 
-  SIZE.forEach(size => {
+  COLUMN_SIZE.forEach(size => {
     const col = getPropValue(size);
     const hidden = getPropValue(`${size}Hidden`);
     const offset = getPropValue(`${size}Offset`);
@@ -106,11 +136,15 @@ Col.propTypes = {
   sm: PropTypes.number,
   md: PropTypes.number,
   lg: PropTypes.number,
+  xl: PropTypes.number,
+  xxl: PropTypes.number,
 
   xsOffset: PropTypes.number,
   smOffset: PropTypes.number,
   mdOffset: PropTypes.number,
   lgOffset: PropTypes.number,
+  xlOffset: PropTypes.number,
+  xxlOffset: PropTypes.number,
 
   xsPush: PropTypes.number,
   smPush: PropTypes.number,
@@ -120,11 +154,15 @@ Col.propTypes = {
   smPull: PropTypes.number,
   mdPull: PropTypes.number,
   lgPull: PropTypes.number,
+  xlPull: PropTypes.number,
+  xxlPull: PropTypes.number,
 
   xsHidden: PropTypes.bool,
   smHidden: PropTypes.bool,
   mdHidden: PropTypes.bool,
   lgHidden: PropTypes.bool,
+  xlHidden: PropTypes.bool,
+  xxlHidden: PropTypes.bool,
 
   as: PropTypes.elementType
 };

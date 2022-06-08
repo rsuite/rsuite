@@ -166,7 +166,7 @@ module.exports = merge(
 [less]: http://lesscss.org/
 [modify variables]: http://lesscss.org/usage/#using-less-in-the-browser-modify-variables
 [rsuite-theme-pallete]: https://github.com/rsuite/rsuite/blob/main/src/styles/colors/light.less
-[issue]: https://github.com/rsuite/rsuite/issues/new?template=bug_report.md
+[issue]: https://github.com/rsuite/rsuite/issues/new?assignees=&labels=&template=bug-report.yml
 [variables.less]: https://github.com/rsuite/rsuite/blob/master/src/styles/variables.less
 [use-with-create-app]: /guide/use-with-create-react-app#定制主题
 [webpack-multiple-themes-compile]: https://github.com/rsuite/webpack-multiple-themes-compile

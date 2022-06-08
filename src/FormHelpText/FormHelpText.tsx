@@ -13,7 +13,7 @@ export interface FormHelpTextProps extends WithAsProps {
 }
 
 const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.forwardRef(
-  (props: FormHelpTextProps, ref) => {
+  (props: FormHelpTextProps, ref: React.Ref<any>) => {
     const {
       as: Component = 'span',
       classPrefix = 'form-help-text',

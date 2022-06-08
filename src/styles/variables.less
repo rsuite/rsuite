@@ -2,6 +2,9 @@
 // All variables declared in this file is supposed to be customizable by the user
 // This file is ignored by prettier for better alignment
 // See .prettierignore
+@import 'colors/light.less';
+@import 'colors/dark.less';
+@import 'colors/high-contrast.less';
 
 // Controls
 
@@ -23,17 +26,25 @@
 // Media queries breakpoints
 // Define the breakpoints at which your layout will change, adapting to different screen sizes.
 
-// Extra small screen / phone
-// @screen-xs
-@screen-phone:        480px;
+// Small screen / phone
+// @screen-sm
+@screen-sm:      576px;
 
 // Medium screen / desktop
 // @screen-md
-@screen-desktop:      992px;
+@screen-md:      768px;
 
 // Large screen / wide desktop
 // @screen-lg
-@screen-lg-desktop:   1200px;
+@screen-lg:      992px;
+
+// Extra large devices / extra wide desktop
+// @screen-xl
+@screen-xl:      1200px;
+
+// Extra extra large devices / ultra wide desktop
+// @screen-xxl
+@screen-xxl:     1400px;
 
 
 // Grid system
@@ -48,16 +59,24 @@
 // Define the maximum width of `.container` for different screen sizes.
 
 // Small screen / phone / tablet
-@container-phone:         (480px + @grid-gutter-width);
-@container-sm:            @container-phone;
+@container-phone:                      (540px + @grid-gutter-width);
+@container-sm:                         @container-phone;
 
 // Medium screen / desktop
-@container-desktop:       (940px + @grid-gutter-width);
-@container-md:            @container-desktop;
+@container-desktop:                    (720px + @grid-gutter-width);
+@container-md:                         @container-desktop;
 
 // Large screen / wide desktop
-@container-large-desktop: (1140px + @grid-gutter-width);
-@container-lg:            @container-large-desktop;
+@container-large-desktop:              (960px + @grid-gutter-width);
+@container-lg:                         @container-large-desktop;
+
+// Extra large devices / ultra wide desktop
+@container-extra-large-desktop:        (1140px + @grid-gutter-width);
+@container-xl:                         @container-large-desktop;
+
+// Extra large devices / ultra wide desktop
+@container-extra-extra-large-desktop:  (1320px + @grid-gutter-width);
+@container-xxl:                        @container-large-desktop;
 
 // Color system
 
@@ -199,7 +218,6 @@
 @table-header-sort-wrapper-margin-left: 5px;
 
 @table-column-resize-spanner-width:                 3px;
-@table-column-resize-spanner-gap-width:             3px;
 @table-column-resize-spanner-triangle-side-length:  3px;
 
 @table-body-content-padding-vertical:   13px; // @deprecated use @table-cell-padding-y instead
@@ -323,6 +341,9 @@
 @dropdown-divider-bg:         @divider-border-color;
 @dropdown-shadow:             0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
 
+@dropdown-menu-radius:              @border-radius;
+@dropdown-menu-padding-y:           @dropdown-menu-radius;
+
 @dropdown-item-padding-vertical:    8px; // @deprecated use @dropdown-item-padding-y instead
 @dropdown-item-padding-horizontal:  12px; // @deprecated use @dropdown-item-padding-x instead
 
@@ -400,9 +421,11 @@
 @sidenav-padding-horizontal:            20px;
 @sidenav-collapse-in-width:             100%;
 @sidenav-default-width:                 56px;
+@sidenav-compact-width:                 @sidenav-default-width; // TODO Replace sidenav-default-width
 @sidenav-item-height:                   (@sidenav-padding-vertical * 2 + @line-height-computed);
 @sidenav-menu-max-height:               (@sidenav-item-height * 40);
 @sidenav-menu-animation-time:           1.5s;
+@sidenav-footer-height:                 @sidenav-item-height; // Footer is same height as a sidenav item
 @sidenav-level1-item-font-size:         @font-size-large;
 @sidenav-level1-item-line-height:       unit((@line-height-computed / @font-size-large));
 @sidenav-icon-spacing:                  20px;

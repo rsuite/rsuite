@@ -37,7 +37,7 @@ const SidenavDropdownToggle: RsRefForwardingComponent<typeof Button, SidenavDrop
     const classes = merge(className, withClassPrefix({ 'no-caret': noCaret }));
 
     const toggle = (
-      <Component {...rest} ref={ref} className={classes}>
+      <Component {...rest} ref={ref} className={classes} tooltip={children}>
         {children}
         {!noCaret && <ArrowDownLineIcon className={prefix('caret')} />}
       </Component>

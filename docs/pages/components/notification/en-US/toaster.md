@@ -1,4 +1,16 @@
-### `toaster`
+### useToaster
+
+useToaster is a React Hook for creating and managing Toasts.
+
+```ts
+import { useToaster } from 'rsuite';
+
+return () => {
+  const toaster = useToaster();
+
+  ...
+};
+```
 
 #### toaster.push
 
