@@ -198,6 +198,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | size                 | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                | A picker can have different sizes                                                    |
 | toggleAs             | ElementType `('a')`                                                              | You can use a custom element for this component                                      |
 | value                | [ValueType](#code-ts-value-type-code)                                            | Value (Controlled)                                                                   |
+| renderTitle          | (date: Date) => React.ReactNode                                                  | Custom render for month's title                                                      |
 
 <!--{include:(_common/types/placement.md)}-->
 <!--{include:(_common/types/range.md)}-->

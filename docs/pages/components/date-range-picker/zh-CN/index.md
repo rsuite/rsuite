@@ -201,6 +201,7 @@ combine(...) => boolean
 | size                 | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                | 设置组件尺寸                                                                    |
 | toggleAs             | ElementType `('a')`                                                              | 为组件自定义元素类型                                                            |
 | value                | [ValueType](#code-ts-value-type-code)                                            | 值 `受控`                                                                       |
+| renderTitle          | (date: Date) => React.ReactNode                                                  |                                                                                 |
 
 <!--{include:(_common/types/placement.md)}-->
 <!--{include:(_common/types/range.md)}-->
