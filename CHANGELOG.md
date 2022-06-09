@@ -1,3 +1,9 @@
+# [5.15.0](https://github.com/rsuite/rsuite/compare/v5.14.0...v5.15.0) (2022-06-09)
+
+### Features
+
+- **less:** expose primary palette variables ([#2532](https://github.com/rsuite/rsuite/issues/2532)) ([b1d187d](https://github.com/rsuite/rsuite/commit/b1d187da0f831a31d87f0e73ab28216d86394327))
+
 # [5.14.0](https://github.com/rsuite/rsuite/compare/v5.13.1...v5.14.0) (2022-06-02)
 
 ### Bug Fixes
