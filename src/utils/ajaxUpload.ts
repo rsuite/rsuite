@@ -12,6 +12,7 @@ interface Options {
   headers?: any;
   file: File;
   url: string;
+  method?: string;
   onError: (status: ErrorStatus, event: ProgressEvent, xhr: XMLHttpRequest) => void;
   onSuccess: (response: any, event: ProgressEvent, xhr: XMLHttpRequest) => void;
   onProgress: (percent: number, event: ProgressEvent, xhr: XMLHttpRequest) => void;
@@ -36,6 +37,7 @@ export default function ajaxUpload(options: Options) {
     timeout,
     headers = {},
     data = {},
+    method = 'POST',
     onError,
     onSuccess,
     onProgress,
@@ -48,7 +50,7 @@ export default function ajaxUpload(options: Options) {
   const xhr = new XMLHttpRequest();
   let sendableData: FormData | File;
 
-  xhr.open('POST', url, true);
+  xhr.open(method, url, true);
 
   if (!disableMultipart) {
     sendableData = new FormData();
