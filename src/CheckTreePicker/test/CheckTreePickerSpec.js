@@ -567,45 +567,65 @@ describe('CheckTreePicker', () => {
       4
     );
   });
-  it('Should expand when has props defaultExpandAll and data change', () => {
-    const Wrapper = React.forwardRef((props, ref) => {
-      const nextData = [
-        {
-          label: 'Fujian',
-          value: 3,
-          children: [
-            {
-              label: 'Fuzhou',
-              value: 36
-            }
-          ]
-        },
-        {
-          label: 'Guangdong',
-          value: 4,
-          children: [
-            {
-              label: 'Guangzhou',
-              value: 45
-            }
-          ]
-        }
-      ];
-      const [willChangeData, setData] = useState(data);
-      const handleClick = () => {
-        setData(nextData);
+
+  describe('data change', () => {
+    const renderStart = () => {
+      const containerRef = React.createRef();
+      const Wrapper = () => {
+        const nextData = [
+          {
+            label: 'Fujian',
+            value: 3,
+            children: [
+              {
+                label: 'Fuzhou',
+                value: 36
+              }
+            ]
+          },
+          {
+            label: 'Guangdong',
+            value: 4,
+            children: [
+              {
+                label: 'Guangzhou',
+                value: 45
+              }
+            ]
+          }
+        ];
+        const [willChangeData, setData] = useState(data);
+        const handleClick = () => {
+          setData(nextData);
+        };
+        return (
+          <div ref={containerRef}>
+            <button onClick={handleClick} className="change-data">
+              change data
+            </button>
+            <CheckTreePicker inline defaultExpandAll data={willChangeData} />
+          </div>
+        );
       };
-      return (
-        <div ref={ref}>
-          <button onClick={handleClick} className="change-data">
-            change data
-          </button>
-          <CheckTreePicker inline defaultExpandAll data={willChangeData} />
-        </div>
-      );
+      ReactTestUtils.act(() => {
+        ReactDOM.render(<Wrapper />, container);
+      });
+      return containerRef.current;
+    };
+
+    it('Should expand when has props defaultExpandAll', () => {
+      const container = renderStart();
+      ReactTestUtils.Simulate.click(container.querySelector('.change-data'));
+      expect(container.querySelectorAll('.rs-check-tree-open').length).to.equal(2);
     });
-    const instance = getDOMNode(<Wrapper />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.change-data'));
-    expect(instance.querySelectorAll('.rs-check-tree-open').length).to.equal(2);
+
+    it('Should be all closed, when click close icon', () => {
+      const container = renderStart();
+      ReactTestUtils.Simulate.click(container.querySelector('.change-data'));
+      container.querySelectorAll('.rs-check-tree-node-expand-icon').forEach(element => {
+        ReactTestUtils.Simulate.click(element);
+      });
+      expect(container.querySelectorAll('.rs-check-tree-open').length).to.equal(0);
+    });
   });
 });

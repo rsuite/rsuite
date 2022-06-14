@@ -144,7 +144,8 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
         check: nextValue,
         expand: nextExpandItemValues
       },
-      props
+      props,
+      true
     );
 
     this.state = {
@@ -582,7 +583,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     return list;
   }
 
-  unserializeLists(lists: any, nextProps: CheckTreePickerProps = this.props) {
+  unserializeLists(lists: any, nextProps: CheckTreePickerProps = this.props, initial = false) {
     const { valueKey, cascade, uncheckableItemValues = [] } = nextProps;
     const expandAll = getExpandAll(nextProps);
     // Reset values to false
@@ -613,7 +614,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
               }
             });
           } else {
-            this.nodes[refKey][listKey] = expandAll;
+            this.nodes[refKey][listKey] = initial ? expandAll : false;
           }
         }
       });

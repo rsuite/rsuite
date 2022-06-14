@@ -20,6 +20,7 @@ const webpackConfig = {
       '@test': path.resolve(__dirname, './test')
     }
   },
+  devtool:'inline-source-map',
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
