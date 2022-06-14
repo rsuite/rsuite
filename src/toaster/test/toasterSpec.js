@@ -16,6 +16,7 @@ describe('toaster', () => {
     });
 
     const message = element.querySelector('#msg-1');
+
     assert.include(message.className, 'rs-toast-fade-entered');
     assert.equal(message.textContent, 'abc');
   });

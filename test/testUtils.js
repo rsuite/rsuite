@@ -1,8 +1,10 @@
 /* eslint-disable react/no-find-dom-node */
 
 import React from 'react';
-import ReactDOM, { findDOMNode, unmountComponentAtNode } from 'react-dom';
+import * as ReactDOM from 'react-dom';
+import * as ReactDOMClient from 'react-dom/client';
 import * as ReactTestUtils from 'react-dom/test-utils';
+import { act } from '@testing-library/react';
 import getPalette from './getPalette';
 import tinycolor from 'tinycolor2';
 import getStyle from 'dom-lib/getStyle';
@@ -11,6 +13,7 @@ export { getStyle };
 export const globalKey = 'rs';
 const DEFAULT_PRIMARY_COLOR = '#3498ff';
 const DARK_PRIMARY_COLOR = '#34c3ff';
+const majorVersion = parseInt(React.version);
 
 export const getDefaultPalette = key => {
   if (!key) {
@@ -66,6 +69,14 @@ const mountedContainers = new Set();
 export function render(children) {
   const container = createTestContainer();
 
+  if (majorVersion >= 18) {
+    const root = ReactDOMClient.createRoot(container);
+
+    root.render(children);
+
+    return container;
+  }
+
   ReactDOM.render(children, container);
 
   return container;
@@ -82,8 +93,8 @@ afterEach(() => {
 // maybe one day we'll expose this (perhaps even as a utility returned by render).
 // but let's wait until someone asks for it.
 function cleanupAtContainer(container) {
-  ReactTestUtils.act(() => {
-    unmountComponentAtNode(container);
+  act(() => {
+    //ReactDOM.unmountComponentAtNode(container);
   });
   if (container.parentNode === document.body) {
     document.body.removeChild(container);
@@ -99,7 +110,7 @@ export function getInstance(children, waitForDidMount = true) {
 
     if (waitForDidMount) {
       // Use act() to make sure componentDidMount/useEffect is done
-      ReactTestUtils.act(() => {
+      act(() => {
         /**
          * https://stackoverflow.com/questions/36682241/testing-functional-components-with-renderintodocument
          */
@@ -115,7 +126,7 @@ export function getInstance(children, waitForDidMount = true) {
 
   // Only use renderIntoDocument on class components
   if (waitForDidMount) {
-    ReactTestUtils.act(() => {
+    act(() => {
       instance = ReactTestUtils.renderIntoDocument(children);
     });
   } else {
@@ -138,7 +149,7 @@ export function getDOMNode(children, waitForDidMount = true) {
   }
 
   if (ReactTestUtils.isCompositeComponent(children)) {
-    return findDOMNode(children);
+    return ReactDOM.findDOMNode(children);
   }
 
   const instance = getInstance(children, waitForDidMount);

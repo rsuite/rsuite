@@ -33,7 +33,9 @@
     "test:component": "cross-env NODE_ENV=coverage RUN_ENV=test karma start --single-run",
     "test:less": "mocha test/testLessPlugins.js",
     "prepare": "husky install",
-    "version": "npm run changelog && git add -A"
+    "version": "npm run changelog && git add -A",
+    "install:react-17": "npm i --no-save --legacy-peer-deps react@17 react-dom@17 @types/react@17 @types/react-dom@17",
+    "install:react-18": "npm i --no-save --legacy-peer-deps react@18 react-dom@18 @types/react@18 @types/react-dom@18 @testing-library/react@13 @testing-library/react-hooks@8 @testing-library/user-event@14"
   },
   "keywords": [
     "react",

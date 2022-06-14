@@ -55,6 +55,9 @@ toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => 
   if (!container) {
     container = createContainer(options.placement ?? '', options);
   }
+
+  console.log('options', container);
+
   return container.current?.push(message);
 };
 

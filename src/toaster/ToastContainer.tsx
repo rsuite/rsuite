@@ -1,9 +1,8 @@
 import React, { useState, useImperativeHandle, useRef, useCallback } from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import Transition from '../Animation/Transition';
-import { useClassNames, guid, createChainedFunction } from '../utils';
+import { useClassNames, guid, createChainedFunction, render } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export type PlacementType =
@@ -121,6 +120,9 @@ const ToastContainer: ToastContainerComponent = React.forwardRef(
       placement = 'topCenter',
       ...rest
     } = props;
+
+    console.log(placement, 'rest');
+
     const { withClassPrefix, merge, rootPrefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(kebabCase(placement)));
     const { push, clear, remove, messages } = useMessages();
@@ -168,24 +170,14 @@ ToastContainer.getInstance = (props: ToastContainerProps) => {
   const { container, ...rest } = props;
 
   const containerRef = React.createRef<ToastContainerInstance>();
-  const mountElement = document.createElement('div');
+  const containerElement =
+    (typeof container === 'function' ? container() : container) || document.body;
 
-  const containerElement = typeof container === 'function' ? container() : container;
+  const { unmount } = render(<ToastContainer {...rest} ref={containerRef} />, containerElement);
 
-  //  Parent is document.body or the existing dom element
-  const parentElement = containerElement || document.body;
+  console.log(containerRef, 'containerRef');
 
-  // Add the detached element to the parent
-  parentElement.appendChild(mountElement);
-
-  function destroy() {
-    unmountComponentAtNode(mountElement);
-    parentElement.removeChild(mountElement);
-  }
-
-  render(<ToastContainer {...rest} ref={containerRef} />, mountElement);
-
-  return [containerRef, destroy];
+  return [containerRef, unmount];
 };
 
 ToastContainer.displayName = 'ToastContainer';
