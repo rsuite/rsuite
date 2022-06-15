@@ -191,6 +191,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | placement            | [Placement](#code-ts-placement-code) `('bottomStart')`                           | The placement of component                                                           |
 | preventOverflow      | boolean                                                                          | Prevent floating element overflow                                                    |
 | ranges               | [Range](#code-ts-range-code)[] ([Ranges](#code-ts-ranges-code))                  | Whortcut config，defeult: `Today`,`Yesterday`，`Last 7 days`                         |
+| renderTitle          | (date: Date) => React.ReactNode                                                  | Custom render for month's title                                                      |
 | renderValue          | (value: [ValueType](#code-ts-value-type-code), format: string) => ReactNode      | Custom render selected date range                                                    |
 | showMeridian         | boolean                                                                          | Display hours in 12 format                                                           |
 | showOneCalendar      | boolen                                                                           | Whether to show only one calendar                                                    |
