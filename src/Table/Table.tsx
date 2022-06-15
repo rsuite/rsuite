@@ -8,15 +8,15 @@ export interface TableInstance extends React.Component<TableProps> {
   scrollLeft: (left: number) => void;
 }
 
-export interface CellProps extends StandardProps {
+export interface CellProps<T = any> extends StandardProps {
   /** Data binding key, but also a sort of key */
-  dataKey?: string;
+  dataKey?: string | keyof T;
 
   /** Row Number */
   rowIndex?: number;
 
   /** Row Data */
-  rowData?: any;
+  rowData?: T;
 }
 
 interface TableComponent
