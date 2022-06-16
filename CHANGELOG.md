@@ -1,3 +1,9 @@
+## [5.15.1](https://github.com/rsuite/rsuite/compare/v5.15.0...v5.15.1) (2022-06-16)
+
+### Features
+
+- **Uploader:** support `method` on `<Uploader>` ([#2541](https://github.com/rsuite/rsuite/issues/2541)) ([d3b821a](https://github.com/rsuite/rsuite/commit/d3b821a8f2acbd3162ec965ffdbaac07af23a727))
+
 # [5.15.0](https://github.com/rsuite/rsuite/compare/v5.14.0...v5.15.0) (2022-06-09)
 
 ### Features
