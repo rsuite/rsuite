@@ -43,6 +43,11 @@ module.exports = config => {
       'test/setupTests.js': ['webpack'],
       'src/**/*Spec.js': ['webpack']
     },
+    client: {
+      mocha: {
+        timeout: 10000 // default 2000
+      }
+    },
     webpack: require('./webpack.karma.js'),
     webpackMiddleware: {
       noInfo: true
