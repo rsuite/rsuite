@@ -160,6 +160,7 @@ const OverlayTrigger = React.forwardRef(
       defaultOpen,
       trigger = defaultTrigger,
       disabled,
+      followCursor,
       readOnly,
       plaintext,
       open: openProp,
@@ -178,7 +179,6 @@ const OverlayTrigger = React.forwardRef(
       onFocus,
       onBlur,
       onClose,
-      followCursor,
       onExited,
       ...rest
     } = props;
@@ -343,17 +343,14 @@ const OverlayTrigger = React.forwardRef(
       }
     }, [handleCloseWhenLeave, trigger]);
 
-    const handledMoveOverlay = useCallback(
-      (event: React.MouseEvent<Element, MouseEvent>) => {
-        setCursorPosition(() => ({
-          top: event.pageY,
-          left: event.pageX,
-          clientTop: event.clientX,
-          clientLeft: event.clientY
-        }));
-      },
-      [open]
-    );
+    const handledMoveOverlay = useCallback((event: React.MouseEvent<Element, MouseEvent>) => {
+      setCursorPosition(() => ({
+        top: event.pageY,
+        left: event.pageX,
+        clientTop: event.clientX,
+        clientLeft: event.clientY
+      }));
+    }, []);
 
     const preventDefault = useCallback((event: React.MouseEvent<Element, MouseEvent>) => {
       event.preventDefault();
