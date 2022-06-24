@@ -18,7 +18,7 @@ import {
   StandardProps,
   TypeAttributes
 } from '../@types/common';
-import { PositionInstance } from './Position';
+import { PositionChildProps, PositionInstance } from './Position';
 import { isUndefined } from 'lodash';
 import OverlayContext from './OverlayContext';
 
@@ -58,7 +58,15 @@ export interface OverlayTriggerProps extends StandardProps, AnimationEventProps 
   containerPadding?: number;
 
   /** display element */
-  speaker: React.ReactElement | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
+  speaker:
+    | React.ReactElement
+    | ((
+        props: PositionChildProps &
+          Pick<React.HTMLAttributes<HTMLElement>, 'id' | 'onMouseEnter' | 'onMouseLeave'> & {
+            onClose: (delay?: number) => NodeJS.Timeout | void;
+          },
+        ref: React.RefCallback<HTMLElement>
+      ) => React.ReactElement);
 
   /** Prevent floating element overflow */
   preventOverflow?: boolean;
@@ -417,7 +425,10 @@ const OverlayTrigger = React.forwardRef(
         open
       };
 
-      const speakerProps: React.HTMLAttributes<HTMLElement> = {
+      const speakerProps: Pick<
+        React.HTMLAttributes<HTMLElement>,
+        'id' | 'onMouseEnter' | 'onMouseLeave'
+      > = {
         id: controlId
       };
 

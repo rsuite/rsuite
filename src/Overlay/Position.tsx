@@ -25,10 +25,12 @@ export interface PositionChildProps {
   className: string;
   left?: number;
   top?: number;
+  arrowOffsetLeft?: number;
+  arrowOffsetTop?: number;
 }
 
 export interface PositionProps {
-  children: (props: PositionChildProps, ref) => React.ReactElement;
+  children: (props: PositionChildProps, ref: React.RefObject<HTMLElement>) => React.ReactElement;
   className?: string;
   container?: HTMLElement | (() => HTMLElement | null) | null;
   containerPadding?: number;
@@ -60,8 +62,8 @@ const usePosition = (
   const defaultPosition = {
     positionLeft: 0,
     positionTop: 0,
-    arrowOffsetLeft: null,
-    arrowOffsetTop: null
+    arrowOffsetLeft: undefined,
+    arrowOffsetTop: undefined
   };
   const [position, setPosition] = useState<PositionType>(defaultPosition);
   const utils = useMemo(
@@ -167,7 +169,7 @@ export interface PositionInstance {
 
 const Position = React.forwardRef((props: PositionProps, ref) => {
   const { children, className, followCursor, cursorPosition } = props;
-  const childRef = React.useRef<HTMLElement | null>(null);
+  const childRef = React.useRef<HTMLElement>(null);
 
   const [position, updatePosition] = usePosition(props, childRef);
   const { positionClassName, arrowOffsetLeft, arrowOffsetTop, positionLeft, positionTop } =
