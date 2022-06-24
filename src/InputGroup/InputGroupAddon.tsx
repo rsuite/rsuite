@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import { WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export interface InputGroupAddonProps extends WithAsProps, React.HTMLAttributes<HTMLSpanElement> {
   /** An Input group addon can show that it is disabled */
   disabled?: boolean;
 }
 
-const InputGroupAddon = React.forwardRef(
+const InputGroupAddon: RsRefForwardingComponent<'span', InputGroupAddonProps> = React.forwardRef(
   (props: InputGroupAddonProps, ref: React.Ref<HTMLSpanElement>) => {
     const {
       as: Component = 'span',
