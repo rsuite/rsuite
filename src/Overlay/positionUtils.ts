@@ -21,8 +21,8 @@ type Offset = {
 export interface PositionType {
   positionLeft?: number;
   positionTop?: number;
-  arrowOffsetLeft?: null | number;
-  arrowOffsetTop?: null | number;
+  arrowOffsetLeft?: number;
+  arrowOffsetTop?: number;
   positionClassName?: string;
 }
 
