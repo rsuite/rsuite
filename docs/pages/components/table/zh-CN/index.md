@@ -289,8 +289,8 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 
 | 属性名称                 | 类型 `(默认值)`                                                                   | 描述                                                            |
 | ------------------------ | --------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| affixHeader              | boolean,number                                                                    | 将表头固定到页面上的指定位置                                    |
-| affixHorizontalScrollbar | boolean,number                                                                    | 将横向滚动条固定在页面底部的指定位置                            |
+| affixHeader              | boolean &#124; number                                                             | 将表头固定到页面上的指定位置                                    |
+| affixHorizontalScrollbar | boolean &#124; number                                                             | 将横向滚动条固定在页面底部的指定位置                            |
 | autoHeight               | boolean                                                                           | 表格高度会根据数据行数自动展开，不会出现垂直滚动条              |
 | bordered                 | boolean                                                                           | 表格边框                                                        |
 | cellBordered             | boolean                                                                           | 单元格边框                                                      |
@@ -317,17 +317,17 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 | renderRow                | (children?: ReactNode, rowData?: RowDataType) => ReactNode                        | 自定义渲染行                                                    |
 | renderRowExpanded        | (rowDate?: Object) => ReactNode                                                   | 自定义可以展开区域的内容                                        |
 | renderTreeToggle         | (icon:node, rowData:object, expanded:boolean) => ReactNode                        | 树形表格，在展开节点的回调函数                                  |
-| rowClassName             | string , (rowData:object) => string                                               | 为行自定义 className                                            |
+| rowClassName             | string &#124; (rowData:object) => string                                          | 为行自定义 className                                            |
 | rowExpandedHeight        | number `(100)`                                                                    | 设置可展开区域的高度                                            |
 | rowHeight                | (rowData:object) => number, number`(46)`                                          | 行高                                                            |
 | rowKey                   | string `('key')`                                                                  | 每一个行对应的 `data` 中的唯一 `key`                            |
-| shouldUpdateScroll       | boolean,(event)=>({x,y}) `(true)`                                                 | 使用返回值来判断在 Table 尺寸更新后是否更新滚动                 |
+| shouldUpdateScroll       | boolean &#124; (event)=>({x,y}) `(true)`                                          | 使用返回值来判断在 Table 尺寸更新后是否更新滚动                 |
 | showHeader               | boolean `(true)`                                                                  | 显示表头                                                        |
 | sortColumn               | string                                                                            | 排序列名称                                                      |
 | sortType                 | 'desc' &#124; 'asc'                                                               | 排序类型（受控）                                                |
 | virtualized              | boolean                                                                           | 呈现大表格数据                                                  |
 | width                    | number                                                                            | 宽度                                                            |
-| wordWrap                 | boolean                                                                           | 单元格自动换行                                                  |
+| wordWrap                 | boolean &#124; 'break-all' &#124; 'break-word' &#124; 'keep-all'                  | 是否在文本溢出其内容框时自动换行                                |
 
 ### Table methods
 

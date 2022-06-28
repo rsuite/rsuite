@@ -10,7 +10,7 @@ const App = () => {
   const data = fakeData.filter((v, i) => i < 4);
   return (
     <Table
-      wordWrap
+      wordWrap="break-word"
       height={400}
       data={data}
       onRowClick={data => {
