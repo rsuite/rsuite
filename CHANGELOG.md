@@ -1,3 +1,11 @@
+## [5.15.2](https://github.com/rsuite/rsuite/compare/v5.15.1...v5.15.2) (2022-06-30)
+
+### Bug Fixes
+
+- **DateRangePicker:** fix Ok button not clickable ([#2564](https://github.com/rsuite/rsuite/issues/2564)) ([f80f94d](https://github.com/rsuite/rsuite/commit/f80f94db2a1c9c7738c3fc514e24c8ceb7b50d9b))
+- **InputGroup.Addon:** extend props from as element ([#2559](https://github.com/rsuite/rsuite/issues/2559)) ([d0c947c](https://github.com/rsuite/rsuite/commit/d0c947c7a6ea5fd3ed95a71b573c957be4d5f009))
+- **Whisper:** specify speaker function argument types ([#2558](https://github.com/rsuite/rsuite/issues/2558)) ([6dda5c6](https://github.com/rsuite/rsuite/commit/6dda5c61d6f833174a576d814ce27287c92ed33f))
+
 ## [5.15.1](https://github.com/rsuite/rsuite/compare/v5.15.0...v5.15.1) (2022-06-16)
 
 ### Features
