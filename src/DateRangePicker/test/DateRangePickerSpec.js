@@ -643,4 +643,23 @@ describe('DateRangePicker', () => {
     expect(firstTitle).to.have.text('1 - 2022');
     expect(secondTitle).to.have.text('2 - 2022');
   });
+
+  it('Should cancel the Ok button disable when the shortcut button is clicked', () => {
+    const { getByRole } = render(
+      <DateRangePicker
+        open
+        defaultCalendarValue={[parseISO('2022-05-01'), parseISO('2022-06-01')]}
+      />
+    );
+
+    const btnDay = getByRole('button', { name: '02 May 2022' });
+    const btnShortcutToday = getByRole('button', { name: 'Last 7 Days' });
+    const btnOk = getByRole('button', { name: 'OK' });
+
+    userEvent.click(btnDay);
+    assert.isTrue(btnOk.disabled);
+
+    userEvent.click(btnShortcutToday);
+    assert.isFalse(btnOk.disabled);
+  });
 });
