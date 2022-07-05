@@ -12,6 +12,10 @@ Used for multiple data selection, support grouping.
 
 <!--{include:`basic.md`}-->
 
+### With a label
+
+<!--{include:`with-label.md`}-->
+
 ### Appearance
 
 <!--{include:`appearance.md`}-->
@@ -91,6 +95,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | disabled           | boolean                                                                                            | Whether disabled component                                  |
 | disabledItemValues | [ValueType][value]                                                                                 | Disable item by value                                       |
 | groupBy            | string                                                                                             | Set group condition key in data                             |
+| label              | ReactNode                                                                                          | A label displayed at the beginning of toggle button         |
 | labelKey           | string `('label')`                                                                                 | Set label key in data                                       |
 | listProps          | [ListProps][listprops]                                                                             | List-related properties in `react-virtualized`              |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                                           | Locale text                                                 |

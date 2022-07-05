@@ -42,6 +42,7 @@ export interface PickerToggleProps extends ToggleButtonProps {
   /** Custom caret component */
   caretAs?: React.ElementType;
   onClean?: (event: React.MouseEvent) => void;
+  label?: React.ReactNode;
 }
 
 const defaultInputMask = [];
@@ -77,6 +78,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       placement = 'bottomStart',
       caretComponent,
       caretAs = caretComponent,
+      label,
       ...rest
     } = props;
 
@@ -204,12 +206,12 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
           placeholder={inputPlaceholder}
           render={(ref, props) => <input ref={mergeRefs(inputRef, ref)} {...props} />}
         />
-
         {children ? (
           <span
             className={prefix(hasValue ? 'value' : 'placeholder')}
             aria-placeholder={typeof children === 'string' ? children : undefined}
           >
+            {label && <span className={prefix('label')}>{label}: </span>}
             {children}
           </span>
         ) : null}
