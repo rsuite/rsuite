@@ -38,10 +38,10 @@
     width: 100%;
     background-color: var(--rs-carousel-bg);
     top: 0;
-    animation: moveLeftHalf @carousel-animation-duration ease forwards;
+    animation: move-left-half @carousel-animation-duration ease forwards;
 
     &-vertical {
-      animation: moveLeftHalf-vertical @carousel-animation-duration ease forwards;
+      animation: move-left-half-vertical @carousel-animation-duration ease forwards;
     }
   }
 
@@ -170,7 +170,7 @@
     right: @carousel-toolbar-wrapper-margin;
   }
 
-  @keyframes moveLeftHalf {
+  @keyframes move-left-half {
     0% {
       transform: none;
     }
@@ -180,7 +180,7 @@
     }
   }
 
-  @keyframes moveLeftHalf-vertical {
+  @keyframes move-left-half-vertical {
     0% {
       transform: none;
     }

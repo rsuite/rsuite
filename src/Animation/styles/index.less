@@ -12,27 +12,27 @@
 }
 
 .rs-anim-right {
-  .slide-animation-setting(slideInRight, slideOutRight);
+  .slide-animation-setting(slide-in-right, slide-out-right);
 }
 
 .rs-anim-left {
-  .slide-animation-setting(slideInLeft, slideOutLeft);
+  .slide-animation-setting(slide-in-left, slide-out-left);
 }
 
 .rs-anim-top {
-  .slide-animation-setting(slideInTop, slideOutTop);
+  .slide-animation-setting(slide-in-top, slide-out-top);
 }
 
 .rs-anim-bottom {
-  .slide-animation-setting(slideInBottom, slideOutBottom);
+  .slide-animation-setting(slide-in-bottom, slide-out-bottom);
 }
 
 // Bounce
 .rs-anim-bounce-in {
-  animation-name: bounceIn;
+  animation-name: bounce-in;
   .animation-common(cubic-bezier(0.68, -0.55, 0.27, 1.55)); // Ease in out
 
-  @keyframes bounceIn {
+  @keyframes bounce-in {
     from {
       opacity: 0;
       transform: scale(0.8);
@@ -46,10 +46,10 @@
 }
 
 .rs-anim-bounce-out {
-  animation-name: bounceOut;
+  animation-name: bounce-out;
   .animation-common(cubic-bezier(0.4, 0, 1, 1)); //Fast out
 
-  @keyframes bounceOut {
+  @keyframes bounce-out {
     from {
       opacity: 1;
       transform: scale(1);

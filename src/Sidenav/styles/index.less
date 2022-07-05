@@ -387,7 +387,7 @@
   // Folded text animation setting
   .rs-sidenav-item-text,
   .rs-dropdown-toggle > span {
-    animation: sideNavFoldedText @sidenav-collapse-transition-config forwards;
+    animation: side-nav-folded-text @sidenav-collapse-transition-config forwards;
   }
 }
 
@@ -418,7 +418,7 @@
     }
 
     .rs-dropdown-item {
-      animation: sideNavFoldedText @sidenav-collapse-transition-config;
+      animation: side-nav-folded-text @sidenav-collapse-transition-config;
     }
   }
 }
@@ -632,7 +632,7 @@
   }
 }
 
-@keyframes sideNavFoldedText {
+@keyframes side-nav-folded-text {
   0% {
     max-width: 200px;
     opacity: 0.8;
