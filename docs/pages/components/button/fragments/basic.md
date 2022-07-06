@@ -1,8 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = <Button>Default</Button>;
-ReactDOM.render(instance);
+import { Button } from 'rsuite';
+
+ReactDOM.render(<Button>Default</Button>);
 ```
 
 <!--end-code-->
