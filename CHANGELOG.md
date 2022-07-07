@@ -1,3 +1,9 @@
+# [5.16.0](https://github.com/rsuite/rsuite/compare/v5.15.2...v5.16.0) (2022-07-07)
+
+### Features
+
+- **SelectPicker,CheckPicker:** add label prop ([#2572](https://github.com/rsuite/rsuite/issues/2572)) ([d00f442](https://github.com/rsuite/rsuite/commit/d00f442c46eb5edbb13d127b23f1c2eda6cf60d7))
+
 ## [5.15.2](https://github.com/rsuite/rsuite/compare/v5.15.1...v5.15.2) (2022-06-30)
 
 ### Bug Fixes
