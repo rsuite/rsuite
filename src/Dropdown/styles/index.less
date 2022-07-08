@@ -155,7 +155,6 @@
   &&-focus {
     .menuitem-active();
   }
-
   &:focus {
     outline: 0;
   }
@@ -235,7 +234,7 @@
   &.rs-dropdown-item-open > .rs-dropdown-menu {
     //use display table to fix-content
     display: table;
-    animation-name: slide-up-in;
+    animation-name: slideUpIn;
     animation-play-state: running;
   }
 }
@@ -331,7 +330,7 @@
 }
 
 // Opacity not working in Safari,so remove .
-@keyframes slide-up-in {
+@keyframes slideUpIn {
   0% {
     transform-origin: 0% 0%;
     transform: scaleY(0.8);
