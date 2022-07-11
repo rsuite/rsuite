@@ -15,7 +15,7 @@ export default function Logo({ width, height, className = '' }: LogoProps) {
   return (
     <div
       style={style}
-      className={`rsuite-logo logo-animated logo-animated-delay-half-seconds bounceIn ${className} `}
+      className={`rsuite-logo logo-animated logo-animated-delay-half-seconds bounce-in ${className} `}
     >
       <svg
         viewBox="0 0 120 138"
