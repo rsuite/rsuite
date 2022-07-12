@@ -32,7 +32,8 @@ import {
   OverlayTriggerInstance,
   PositionChildProps,
   listPickerPropTypes,
-  PickerInstance
+  PickerInstance,
+  PickerToggleProps
 } from '../Picker';
 
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
@@ -100,7 +101,8 @@ export interface MultipleSelectProps<T> extends Omit<SelectProps<T>, 'renderValu
 
 export interface SelectPickerProps<T>
   extends FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
-    SelectProps<T> {}
+    SelectProps<T>,
+    Pick<PickerToggleProps, 'label'> {}
 
 const emptyArray = [];
 

@@ -31,3 +31,6 @@ const stringValuedData = [{ label: 'One', value: 'One' }];
 const pickerRef = React.createRef<PickerInstance>();
 
 <SelectPicker ref={pickerRef} data={[]} />;
+
+// With a label
+<SelectPicker label="User" data={[]} />;
