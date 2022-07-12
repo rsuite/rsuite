@@ -35,3 +35,6 @@ const stringValuedData = [{ label: 'One', value: 'One' }];
 const pickerRef = React.createRef<PickerInstance>();
 
 <CheckPicker ref={pickerRef} data={[]} />;
+
+// With a label
+<CheckPicker label="User" data={[]} />;
