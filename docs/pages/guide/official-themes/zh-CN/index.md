@@ -6,8 +6,11 @@ React Suite 官方默认提供了以下 3 种主题，您只需要简单的配�
 - `dark`: 深色主题。 通常叫它夜间模式 🌘，在弱光环境下调暗色调，缓解视疲劳。
 - `high-contrast`: 高对比度主题。 它会使用更少的、相互对比的颜色，以使界面更易使用。这对于有光敏或对比度问题的用户，以及在弱光环境下会有帮助。
 
+<!-- webpackIgnore: true -->
 <img src="/images/themes/light-themes@2x.png" width="259" alt="light"/>
+<!-- webpackIgnore: true -->
 <img src="/images/themes/dark-themes@2x.png" width="259" alt="dark" />
+<!-- webpackIgnore: true -->
 <img src="/images/themes/high-contrast-themes@2x.png" width="259" alt="high contrast"/>
 
 ---

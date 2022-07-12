@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { Divider, IconButton, Tooltip, Whisper, Placeholder, Footer } from 'rsuite';
 import canUseDOM from 'dom-lib/canUseDOM';
 import toggleClass from 'dom-lib/toggleClass';
-import { Markdown } from 'react-markdown-reader';
+import { MarkdownRenderer, CodeViewProps } from 'react-code-view';
 import AppContext from './AppContext';
 import PageContainer from './PageContainer';
 import Head from './Head';
@@ -13,17 +12,11 @@ import Paragraph from './Paragraph';
 import components from '../utils/component.config.json';
 import { getTitle, getDescription } from '../utils/parseHTML';
 import scrollIntoView from '../utils/scrollIntoView';
-import { CodeViewProps } from './CodeView';
 import Github from '@rsuite/icons/legacy/Github';
 import { Icon } from '@rsuite/icons';
 import { Transparent as TransparentIcon } from './SvgIcons';
 import { useCallback } from 'react';
 import { VercelBanner } from './VercelBanner';
-
-const babelOptions = {
-  presets: ['env', 'stage-1', 'react'],
-  plugins: ['transform-class-properties']
-};
 
 interface CustomCodeViewProps {
   className?: string;
@@ -65,10 +58,11 @@ const CustomCodeView = (props: CustomCodeViewProps) => {
         <CodeView
           {...rest}
           style={{ minHeight: height }}
-          source={source}
           theme="dark"
-          babelOptions={babelOptions}
-          buttonClassName="rs-btn-subtle rs-btn-icon-circle"
+          editor={{
+            classPrefix: 'rs',
+            buttonClassName: 'rs-btn-subtle rs-btn-icon-circle'
+          }}
           dependencies={{ ...dependencies, Paragraph, Divider }}
           renderToolbar={(CodeButton: React.ReactElement) => {
             return (
@@ -107,18 +101,13 @@ const CustomCodeView = (props: CustomCodeViewProps) => {
               </React.Fragment>
             );
           }}
-        />
+        >
+          {source}
+        </CodeView>
       </div>
     );
   }
   return renderPlaceholder();
-};
-
-CustomCodeView.propTypes = {
-  height: PropTypes.number,
-  dependencies: PropTypes.object,
-  source: PropTypes.string,
-  onLoaded: PropTypes.func
 };
 
 export interface PageContentProps {
@@ -141,7 +130,7 @@ const PageContent = (props: PageContentProps) => {
   const id = pathname.match(new RegExp(`\/${category}\/(\\S*)`))?.[1];
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const context = require(`../pages${pathname}${localePath}/index.md`);
+  const context = require(`../pages${pathname}${localePath}/index.md`).default;
   const title = getTitle(context);
   const description = getDescription(context);
   const pageHead = <Head title={title} description={description} />;
@@ -183,10 +172,17 @@ const PageContent = (props: PageContentProps) => {
         const markdownFile = item.match(/include:\((\S+)\)/)?.[1];
 
         if (markdownFile) {
-          return <Markdown key={index}>{require(`../pages/${markdownFile}`)}</Markdown>;
+          return (
+            <MarkdownRenderer key={index}>
+              {
+                // eslint-disable-next-line @typescript-eslint/no-var-requires
+                require(`../pages/${markdownFile}`)?.default
+              }
+            </MarkdownRenderer>
+          );
         }
 
-        return <Markdown key={index}>{item}</Markdown>;
+        return <MarkdownRenderer key={index}>{item}</MarkdownRenderer>;
       })}
 
       {children}

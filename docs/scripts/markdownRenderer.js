@@ -1,4 +1,5 @@
-const markdown = require('react-markdown-reader');
+/* eslint-disable @typescript-eslint/no-var-requires */
+const markdownRenderer = require('react-code-view/webpack-md-loader/renderer');
 const kebabCase = require('lodash/kebabCase');
 
 function getId(text) {
@@ -9,7 +10,7 @@ function getId(text) {
 }
 
 module.exports = function renderer(languages) {
-  const renderer = markdown.renderer(languages);
+  const renderer = markdownRenderer(languages);
   // Rewrite heading parsing for PageNav navigation
   renderer.heading = function (text, level) {
     var id = getId(text);

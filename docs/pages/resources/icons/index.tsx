@@ -1,6 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'rsuite';
-import { Markdown } from 'react-markdown-reader';
+import { MarkdownRenderer } from 'react-code-view';
 import AppContext from '@/components/AppContext';
 import IconList from '@/components/IconList';
 import DefaultPage from '@/components/Page';
@@ -12,7 +12,7 @@ export default function Page() {
       <IconList />
       <Row>
         <Col md={24}>
-          <Markdown>{require(`.${localePath}/footer.md`)}</Markdown>
+          <MarkdownRenderer>{require(`.${localePath}/footer.md`)}</MarkdownRenderer>
         </Col>
       </Row>
     </DefaultPage>

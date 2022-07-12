@@ -117,22 +117,26 @@ module.exports = {
       test: /\.md$/,
       use: [
         {
-          loader: 'html-loader'
-        },
-        {
-          loader: 'markdown-loader',
+          loader: 'react-code-view/webpack-md-loader',
           options: {
-            pedantic: true,
-            renderer: markdownRenderer([
-              'javascript',
-              'bash',
-              'xml',
-              'css',
-              'less',
-              'json',
-              'diff',
-              'typescript'
-            ])
+            htmlOptions: {
+              // HTML Loader options
+              // See https://github.com/webpack-contrib/html-loader#options
+            },
+            markedOptions: {
+              renderer: markdownRenderer([
+                'javascript',
+                'bash',
+                'xml',
+                'css',
+                'less',
+                'json',
+                'diff',
+                'typescript'
+              ])
+              // Pass options to marked
+              // See https://marked.js.org/using_advanced#options
+            }
           }
         }
       ]
