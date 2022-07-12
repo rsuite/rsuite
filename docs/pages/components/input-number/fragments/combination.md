@@ -22,6 +22,12 @@ const App = () => {
         <InputNumber className={'custom-input-number'} value={value} onChange={setValue} />
         <InputGroup.Button onClick={handlePlus}>+</InputGroup.Button>
       </InputGroup>
+      <hr />
+      <InputGroup>
+        <InputNumber />
+        <InputGroup.Addon>~</InputGroup.Addon>
+        <InputNumber />
+      </InputGroup>
     </div>
   );
 };
