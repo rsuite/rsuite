@@ -30,7 +30,11 @@
 
   &:not(.rs-input-group-disabled).rs-input-group-focus,
   &:focus-within {
-    box-shadow: var(--rs-state-focus-shadow);
+    .focus-ring();
+  }
+
+  & & {
+    outline: none !important;
   }
 
   .rs-input-number,
@@ -39,7 +43,7 @@
   .rs-picker-date .rs-picker-toggle {
     border: none;
     border-radius: 0;
-    box-shadow: none;
+    outline: none;
   }
 
   // Reset border
@@ -47,7 +51,7 @@
     .rs-input {
       border: none;
       border-radius: 0;
-      box-shadow: none;
+      outline: none;
     }
 
     .rs-input-number:not(:last-child) .rs-input-number {
@@ -144,7 +148,7 @@
       .reset-inside-input-group-btn-size(base);
 
       &:focus {
-        box-shadow: none;
+        outline: none;
       }
 
       // reset border radius
