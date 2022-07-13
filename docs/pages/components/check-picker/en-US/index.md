@@ -12,6 +12,10 @@ Used for multiple data selection, support grouping.
 
 <!--{include:`basic.md`}-->
 
+### With a label
+
+<!--{include:`with-label.md`}-->
+
 ### Appearance
 
 <!--{include:`appearance.md`}-->
@@ -85,11 +89,13 @@ Learn more in [Accessibility](/guide/accessibility).
 | classPrefix        | string `('picker')`                                                                                | The prefix of the component CSS class                       |
 | cleanable          | boolean `(true)`                                                                                   | Whether the selected value can be cleared                   |
 | container          | HTMLElement &#124; (() => HTMLElement)                                                             | Sets the rendering container                                |
+| countable          | boolean `(true)`                                                                                   | Whether display selected items count                        |
 | data \*            | [ItemDataType][item][]                                                                             | The data of component                                       |
 | defaultValue       | [ValueType][value]                                                                                 | Default values of the selected items                        |
 | disabled           | boolean                                                                                            | Whether disabled component                                  |
 | disabledItemValues | [ValueType][value]                                                                                 | Disable item by value                                       |
 | groupBy            | string                                                                                             | Set group condition key in data                             |
+| label              | ReactNode                                                                                          | A label displayed at the beginning of toggle button         |
 | labelKey           | string `('label')`                                                                                 | Set label key in data                                       |
 | listProps          | [ListProps][listprops]                                                                             | List-related properties in `react-virtualized`              |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                                           | Locale text                                                 |

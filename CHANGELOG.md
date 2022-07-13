@@ -1,3 +1,29 @@
+# [5.16.0](https://github.com/rsuite/rsuite/compare/v5.15.2...v5.16.0) (2022-07-07)
+
+### Features
+
+- **SelectPicker,CheckPicker:** add label prop ([#2572](https://github.com/rsuite/rsuite/issues/2572)) ([d00f442](https://github.com/rsuite/rsuite/commit/d00f442c46eb5edbb13d127b23f1c2eda6cf60d7))
+
+## [5.15.2](https://github.com/rsuite/rsuite/compare/v5.15.1...v5.15.2) (2022-06-30)
+
+### Bug Fixes
+
+- **DateRangePicker:** fix Ok button not clickable ([#2564](https://github.com/rsuite/rsuite/issues/2564)) ([f80f94d](https://github.com/rsuite/rsuite/commit/f80f94db2a1c9c7738c3fc514e24c8ceb7b50d9b))
+- **InputGroup.Addon:** extend props from as element ([#2559](https://github.com/rsuite/rsuite/issues/2559)) ([d0c947c](https://github.com/rsuite/rsuite/commit/d0c947c7a6ea5fd3ed95a71b573c957be4d5f009))
+- **Whisper:** specify speaker function argument types ([#2558](https://github.com/rsuite/rsuite/issues/2558)) ([6dda5c6](https://github.com/rsuite/rsuite/commit/6dda5c61d6f833174a576d814ce27287c92ed33f))
+
+## [5.15.1](https://github.com/rsuite/rsuite/compare/v5.15.0...v5.15.1) (2022-06-16)
+
+### Features
+
+- **Uploader:** support `method` on `<Uploader>` ([#2541](https://github.com/rsuite/rsuite/issues/2541)) ([d3b821a](https://github.com/rsuite/rsuite/commit/d3b821a8f2acbd3162ec965ffdbaac07af23a727))
+
+# [5.15.0](https://github.com/rsuite/rsuite/compare/v5.14.0...v5.15.0) (2022-06-09)
+
+### Features
+
+- **less:** expose primary palette variables ([#2532](https://github.com/rsuite/rsuite/issues/2532)) ([b1d187d](https://github.com/rsuite/rsuite/commit/b1d187da0f831a31d87f0e73ab28216d86394327))
+
 # [5.14.0](https://github.com/rsuite/rsuite/compare/v5.13.1...v5.14.0) (2022-06-02)
 
 ### Bug Fixes

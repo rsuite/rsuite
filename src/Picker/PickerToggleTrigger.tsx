@@ -2,6 +2,7 @@ import React from 'react';
 import pick from 'lodash/pick';
 import OverlayTrigger, {
   OverlayTriggerInstance,
+  OverlayTriggerProps,
   OverlayTriggerType
 } from '../Overlay/OverlayTrigger';
 import { PositionChildProps } from '../Overlay/Position';
@@ -12,13 +13,13 @@ import { TypeAttributes, AnimationEventProps } from '../@types/common';
 export type { OverlayTriggerInstance, PositionChildProps };
 
 export interface PickerToggleTriggerProps
-  extends Omit<AnimationEventProps, 'onEntering' | 'onExiting'> {
+  extends Omit<AnimationEventProps, 'onEntering' | 'onExiting'>,
+    Pick<OverlayTriggerProps, 'speaker'> {
   placement?: TypeAttributes.Placement;
   pickerProps: any;
   open?: boolean;
   trigger?: OverlayTriggerType | OverlayTriggerType[];
   children: React.ReactElement | ((props: any, ref) => React.ReactElement);
-  speaker: React.ReactElement | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
 }
 
 export const omitTriggerPropKeys = [

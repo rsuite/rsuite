@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import SelectPicker from '../SelectPicker';
@@ -378,6 +378,20 @@ describe('SelectPicker', () => {
       document.activeElement,
       pickerRef.current.overlay.querySelector('.rs-picker-search-bar-input')
     );
+  });
+
+  describe('With a label', () => {
+    it('Should render a label before placeholder', () => {
+      render(<SelectPicker label="User" data={[]} data-testid="picker" />);
+
+      expect(screen.getByTestId('picker')).to.have.text('User: Select');
+    });
+
+    it('Should render a label before selected value', () => {
+      render(<SelectPicker label="User" data={data} value="Eugenia" data-testid="picker" />);
+
+      expect(screen.getByTestId('picker')).to.have.text('User: Eugenia');
+    });
   });
 
   describe('Plain text', () => {

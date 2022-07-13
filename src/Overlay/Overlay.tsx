@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useContext } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import Position, { PositionProps } from './Position';
+import Position, { PositionChildProps, PositionProps } from './Position';
 import { TypeAttributes, AnimationEventProps, CursorPosition } from '../@types/common';
 import { mergeRefs, useRootClose } from '../utils';
 import Fade from '../Animation/Fade';
@@ -9,7 +9,12 @@ import OverlayContext from './OverlayContext';
 
 export interface OverlayProps extends AnimationEventProps {
   container?: HTMLElement | (() => HTMLElement | null) | null;
-  children: React.ReactElement | ((props: any, ref) => React.ReactElement);
+  children:
+    | React.ReactElement
+    | ((
+        props: PositionChildProps & React.HTMLAttributes<HTMLElement>,
+        ref: React.RefCallback<HTMLElement>
+      ) => React.ReactElement);
   childrenProps?: React.HTMLAttributes<HTMLElement>;
   className?: string;
   containerPadding?: number;

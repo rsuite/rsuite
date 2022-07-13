@@ -12,6 +12,10 @@
 
 <!--{include:`basic.md`}-->
 
+### 具有标签
+
+<!--{include:`with-label.md`}-->
+
 ### 外观
 
 <!--{include:`appearance.md`}-->
@@ -85,11 +89,13 @@
 | classPrefix        | string `('picker')`                                                               | 组件 CSS 类的前缀                      |
 | cleanable          | boolean `(true)`                                                                  | 可以清除                               |
 | container          | HTMLElement &#124; (() => HTMLElement)                                            | 设置渲染的容器                         |
+| countable          | boolean `(true)`                                                                  | 是否显示选中条目的数量                 |
 | data \*            | [ItemDataType][item][]                                                            | 组件数据                               |
 | defaultValue       | [ValueType][value]                                                                | 设置默认值 `非受控`                    |
 | disabled           | boolean                                                                           | 禁用组件                               |
 | disabledItemValues | [ValueType][value]                                                                | 禁用选项                               |
 | groupBy            | string                                                                            | 设置分组条件在 `data` 中的 `key`       |
+| label              | ReactNode                                                                         | 在按钮开头显示的标签                   |
 | labelKey           | string `('label')`                                                                | 设置选项显示内容在 `data` 中的 `key`   |
 | listProps          | [ListProps][listprops]                                                            | `react-virtualized` 中 List 的相关属性 |
 | locale             | [PickerLocaleType](/zh/guide/i18n/#pickers)                                       | 本地化的文本                           |

@@ -27,7 +27,7 @@ module.exports = {
     'function-no-unknown': [
       true,
       {
-        ignoreFunctions: ['floor']
+        ignoreFunctions: ['fade', 'floor', 'lighten']
       }
     ],
 

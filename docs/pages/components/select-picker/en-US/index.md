@@ -12,6 +12,10 @@ For a single data selection, support grouping.
 
 <!--{include:`basic.md`}-->
 
+### With a label
+
+<!--{include:`with-label.md`}-->
+
 ### Appearance
 
 <!--{include:`appearance.md`}-->
@@ -78,6 +82,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | disabled           | boolean                                                                                         | Whether or not component is disabled                        |
 | disabledItemValues | [ValueType][value][]                                                                            | Disable optional                                            |
 | groupBy            | string                                                                                          | Set grouping criteria 'key' in 'data'                       |
+| label              | ReactNode                                                                                       | A label displayed at the beginning of toggle button         |
 | labelKey           | string `('label')`                                                                              | Set options to display the 'key' in 'data'                  |
 | listProps          | [ListProps][listprops]                                                                          | List-related properties in `react-virtualized`              |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                                        | Locale text                                                 |

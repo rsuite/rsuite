@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ReactTestUtils from 'react-dom/test-utils';
 import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
@@ -407,6 +407,22 @@ describe('CheckPicker', () => {
   it('Should call onClose callback by key="Tab"', done => {
     const instance = getInstance(<CheckPicker data={data} onClose={done} defaultOpen />);
     ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Tab' });
+  });
+
+  describe('With a label', () => {
+    it('Should render a label before placeholder', () => {
+      render(<CheckPicker label="User" data={[]} data-testid="picker" />);
+
+      expect(screen.getByTestId('picker')).to.have.text('User: Select');
+    });
+
+    it('Should render a label before selected value', () => {
+      render(
+        <CheckPicker label="User" data={data} value={['Eugenia', 'Kariane']} data-testid="picker" />
+      );
+
+      expect(screen.getByTestId('picker')).to.have.text('User: Eugenia,Kariane2');
+    });
   });
 
   describe('Plain text', () => {

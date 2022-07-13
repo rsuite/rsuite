@@ -39,6 +39,12 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['*.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off'
+      }
+    },
+    {
       files: ['*Spec.js'],
       rules: {
         'react/prop-types': 'off'

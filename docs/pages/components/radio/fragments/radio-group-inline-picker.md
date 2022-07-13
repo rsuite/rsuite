@@ -24,7 +24,7 @@ const instance = (
     <RadioGroup name="radioList" inline appearance="picker" defaultValue="A">
       <span style={styles.radioGroupLabel}>Status: </span>
       <Radio value="A">All</Radio>
-      <Radio value="B">Enbaled</Radio>
+      <Radio value="B">Enabled</Radio>
       <Radio value="C">Disabled</Radio>
     </RadioGroup>
   </Form.Group>

@@ -515,6 +515,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   const handleShortcutPageDate = useCallback(
     (value: DateRange, closeOverlay = false, event: React.SyntheticEvent) => {
       handleValueUpdate(event, value, closeOverlay);
+
+      // End unfinished selections.
+      hasDoneSelect.current = true;
     },
     [handleValueUpdate]
   );
