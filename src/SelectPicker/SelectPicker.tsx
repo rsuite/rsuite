@@ -102,7 +102,7 @@ export interface MultipleSelectProps<T> extends Omit<SelectProps<T>, 'renderValu
 export interface SelectPickerProps<T>
   extends FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
     SelectProps<T>,
-    Pick<PickerToggleProps, 'label'> {}
+    Pick<PickerToggleProps, 'caretAs' | 'label'> {}
 
 const emptyArray = [];
 
