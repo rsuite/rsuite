@@ -8,7 +8,10 @@ export interface Toaster {
    * @param message
    * @param options
    */
-  push(message: React.ReactNode, options?: ToastContainerProps): string | undefined;
+  push(
+    message: React.ReactNode,
+    options?: ToastContainerProps
+  ): string | undefined | Promise<string | undefined>;
 
   /**
    * Remove a message by key
@@ -30,8 +33,8 @@ const containers = new Map<string, React.RefObject<ToastContainerInstance>>();
  * @param containerId
  * @param options
  */
-function createContainer(containerId: string, props: ToastContainerProps) {
-  const [container] = ToastContainer.getInstance(props);
+async function createContainer(containerId: string, props: ToastContainerProps) {
+  const [container] = await ToastContainer.getInstance(props);
   containers.set(containerId || defaultContainerId, container);
 
   return container;
@@ -51,14 +54,16 @@ function getContainer(containerId?: string) {
 const toaster: Toaster = (message: React.ReactNode) => toaster.push(message);
 
 toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => {
-  let container = getContainer(options.placement);
-  if (!container) {
-    container = createContainer(options.placement ?? '', options);
+  const containerId = options?.placement;
+  const container = getContainer(containerId);
+
+  if (container?.current) {
+    return container.current.push(message);
   }
 
-  console.log('options', container);
-
-  return container.current?.push(message);
+  return createContainer(containerId ?? '', options).then(ref => {
+    return ref.current?.push(message);
+  });
 };
 
 toaster.remove = (key: string) => {
