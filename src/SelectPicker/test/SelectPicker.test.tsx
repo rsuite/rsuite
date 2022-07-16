@@ -12,7 +12,7 @@ const numberValuedData = [{ label: 'One', value: 1 }];
 <SelectPicker
   data={numberValuedData}
   onChange={newValue => {
-    expectType<number>(newValue);
+    expectType<number | null>(newValue);
   }}
 />;
 
@@ -24,7 +24,7 @@ const stringValuedData = [{ label: 'One', value: 'One' }];
 <SelectPicker
   data={stringValuedData}
   onChange={newValue => {
-    expectType<string>(newValue);
+    expectType<string | null>(newValue);
   }}
 />;
 
@@ -34,3 +34,21 @@ const pickerRef = React.createRef<PickerInstance>();
 
 // With a label
 <SelectPicker label="User" data={[]} />;
+
+type SortDirection = 'asc' | 'desc';
+<SelectPicker<SortDirection>
+  data={[
+    {
+      label: 'Ascending',
+      value: 'asc'
+    },
+    {
+      label: 'Descending',
+      value: 'desc'
+    }
+  ]}
+  value="asc"
+  onChange={value => {
+    expectType<SortDirection | null>(value);
+  }}
+/>;

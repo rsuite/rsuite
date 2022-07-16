@@ -100,9 +100,21 @@ export interface MultipleSelectProps<T> extends Omit<SelectProps<T>, 'renderValu
 }
 
 export interface SelectPickerProps<T>
-  extends FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
+  extends Omit<
+      FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
+      'value' | 'defaultValue' | 'onChange'
+    >,
     SelectProps<T>,
-    Pick<PickerToggleProps, 'caretAs' | 'label'> {}
+    Pick<PickerToggleProps, 'caretAs' | 'label'> {
+  /** Initial value */
+  defaultValue?: T;
+
+  /** Current value of the component. Creates a controlled component */
+  value?: T | null;
+
+  /** Called after the value has been changed */
+  onChange?: (value: T | null, event: React.SyntheticEvent) => void;
+}
 
 const emptyArray = [];
 
