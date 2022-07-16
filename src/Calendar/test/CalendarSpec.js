@@ -34,10 +34,10 @@ describe('Calendar', () => {
       <Calendar format="yyyy-MM-dd" calendarDate={new Date(2021, 11, 24)} onSelect={onSelect} />
     );
 
-    expect(getByRole('button', { name: '24' })).to.exist;
+    expect(getByRole('gridcell', { name: '24 Dec 2021' })).to.exist;
 
     act(() => {
-      fireEvent.click(getByRole('button', { name: '24' }));
+      fireEvent.click(getByRole('gridcell', { name: '24 Dec 2021' }).firstChild);
     });
 
     expect(onSelect).to.have.been.calledWith(new Date(2021, 11, 24));
