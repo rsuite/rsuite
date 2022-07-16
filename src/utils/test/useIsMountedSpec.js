@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks/dom';
+import { renderHook } from '@test/testUtils';
 import useIsMounted from '../useIsMounted';
 
 describe('[utils] useIsMounted', () => {

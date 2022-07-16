@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -45,7 +45,7 @@ describe('Navbar', () => {
       expect(getByText('Company')).not.to.be.visible;
 
       // Clicking the button opens the disclosure
-      userEvent.click(getByText('About'));
+      fireEvent.click(getByText('About'));
       expect(getByText('Company')).to.be.visible;
     });
 
@@ -63,7 +63,7 @@ describe('Navbar', () => {
       );
 
       // Opens the disclosure
-      userEvent.click(getByText('Menu'));
+      fireEvent.click(getByText('Menu'));
 
       expect(getByText('Submenu item')).not.to.be.visible;
       userEvent.hover(getByText('Submenu'));
@@ -160,9 +160,9 @@ describe('Navbar', () => {
       );
 
       // Opens the dropdown
-      userEvent.click(getByTestId('dropdown'));
+      fireEvent.click(getByTestId('dropdown'));
 
-      userEvent.click(getByTestId('dropdown-item'));
+      fireEvent.click(getByTestId('dropdown-item'));
       expect(onSelectSpy).to.have.been.calledWith('2-1', sinon.match.any);
     });
   });

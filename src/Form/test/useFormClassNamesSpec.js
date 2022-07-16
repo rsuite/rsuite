@@ -1,5 +1,4 @@
-// @ts-check
-import { renderHook } from '@testing-library/react-hooks/dom';
+import { renderHook } from '@test/testUtils';
 import { useFormClassNames } from '../useFormClassNames';
 
 describe('useFormClassNames', () => {

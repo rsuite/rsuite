@@ -1,8 +1,8 @@
 import React from 'react';
-import ReactTestUtils, { act } from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import MultiCascader from '../MultiCascader';
+import { fireEvent, act } from '@testing-library/react';
 
 const classPrefix = 'rs-picker-cascader-menu';
 
@@ -100,7 +100,7 @@ describe('MultiCascader -  DropdownMenu', () => {
 
     const instance = getInstance(<MultiCascader defaultOpen data={items} onSelect={doneOp} />);
 
-    ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('.rs-checkbox')[1]);
+    fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[1]);
   });
 
   it('Should call onSelect callback 2 count', () => {
@@ -115,10 +115,10 @@ describe('MultiCascader -  DropdownMenu', () => {
     );
 
     act(() => {
-      ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('.rs-checkbox')[0]);
+      fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[0]);
     });
     act(() => {
-      ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('.rs-checkbox')[2]);
+      fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[2]);
     });
     assert.equal(onSelectSpy.callCount, 2);
   });
@@ -134,7 +134,7 @@ describe('MultiCascader -  DropdownMenu', () => {
       />
     );
 
-    ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('.rs-checkbox')[1]);
+    fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[1]);
     assert.ok(onSelectSpy.notCalled);
   });
 

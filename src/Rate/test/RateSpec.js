@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -24,7 +24,7 @@ describe('Rate', () => {
     const ref = React.createRef();
     render(<Rate defaultValue={1} ref={ref} />);
 
-    ReactTestUtils.act(() => {
+    act(() => {
       ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-rate-character-full'));
     });
 
@@ -113,13 +113,13 @@ describe('Rate', () => {
     const ref = React.createRef();
     render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />);
 
-    ReactTestUtils.act(() => {
+    act(() => {
       ReactTestUtils.Simulate.mouseMove(
         ref.current.querySelectorAll('.rs-rate-character-before')[2]
       );
     });
 
-    ReactTestUtils.act(() => {
+    act(() => {
       ReactTestUtils.Simulate.click(ref.current.querySelectorAll('.rs-rate-character')[2]);
     });
   });
@@ -138,19 +138,19 @@ describe('Rate', () => {
 
     render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />);
 
-    ReactTestUtils.act(() => {
+    act(() => {
       ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[1], {
         key: 'ArrowRight'
       });
     });
 
-    ReactTestUtils.act(() => {
+    act(() => {
       ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[2], {
         key: 'ArrowRight'
       });
     });
 
-    ReactTestUtils.act(() => {
+    act(() => {
       ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[2], {
         key: 'Enter'
       });
@@ -184,7 +184,7 @@ describe('Rate', () => {
       '2'
     );
 
-    ReactTestUtils.act(() => {
+    act(() => {
       ref.current.setValue(0);
     });
 

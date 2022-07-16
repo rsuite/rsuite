@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, fireEvent, act } from '@testing-library/react';
+import { Simulate } from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import RangeSlider from '../RangeSlider';
@@ -47,7 +47,7 @@ describe('RangeSlider', () => {
   it('Should call onChange callback', () => {
     const onChangeSpy = sinon.spy();
     const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} onChange={onChangeSpy} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-slider-progress-bar'));
+    fireEvent.click(instance.querySelector('.rs-slider-progress-bar'));
 
     assert.equal(onChangeSpy.firstCall.firstArg[0], 0);
     assert.equal(onChangeSpy.firstCall.firstArg[1], 50);
@@ -91,22 +91,22 @@ describe('RangeSlider', () => {
 
     assert.equal(input.value, '10');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowUp' });
+    fireEvent.keyDown(handle, { key: 'ArrowUp' });
     assert.equal(input.value, '11');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowRight' });
+    fireEvent.keyDown(handle, { key: 'ArrowRight' });
     assert.equal(input.value, '12');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowDown' });
+    fireEvent.keyDown(handle, { key: 'ArrowDown' });
     assert.equal(input.value, '11');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowLeft' });
+    fireEvent.keyDown(handle, { key: 'ArrowLeft' });
     assert.equal(input.value, '10');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'Home' });
+    fireEvent.keyDown(handle, { key: 'Home' });
     assert.equal(input.value, '0');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'End' });
+    fireEvent.keyDown(handle, { key: 'End' });
     assert.equal(input.value, '100');
   });
 
@@ -116,7 +116,7 @@ describe('RangeSlider', () => {
     const instance = getDOMNode(<RangeSlider onChangeCommitted={() => done()} />);
 
     const handle = instance.querySelector('.rs-slider-handle');
-    ReactTestUtils.Simulate.mouseDown(handle);
+    fireEvent.mouseDown(handle);
     handle.dispatchEvent(mousemoveEvent);
     handle.dispatchEvent(mouseupEvent);
 
@@ -125,7 +125,7 @@ describe('RangeSlider', () => {
 
   it('Should call `onChange` callback', done => {
     const instance = getDOMNode(<RangeSlider onChange={() => done()} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-slider-bar'));
+    fireEvent.click(instance.querySelector('.rs-slider-bar'));
   });
 
   it('Should output an `input` stored value', () => {
@@ -159,8 +159,13 @@ describe('RangeSlider', () => {
 
     const sliderBar = instance.querySelector('.rs-slider-bar');
 
-    ReactTestUtils.Simulate.click(sliderBar, { pageX: 0, pageY: 80 });
-    ReactTestUtils.Simulate.click(sliderBar, { pageX: 0, pageY: 0 });
+    act(() => {
+      Simulate.click(sliderBar, { pageX: 0, pageY: 80 });
+    });
+
+    act(() => {
+      Simulate.click(sliderBar, { pageX: 0, pageY: 0 });
+    });
 
     assert.deepEqual(onChangeSpy.firstCall.firstArg, [20, 50]);
 

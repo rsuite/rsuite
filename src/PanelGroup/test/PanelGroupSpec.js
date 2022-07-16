@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import PanelGroup from '../PanelGroup';
@@ -60,7 +59,7 @@ describe('PanelGroup', () => {
       </PanelGroup>
     );
 
-    userEvent.click(getByText('Click me'));
+    fireEvent.click(getByText('Click me'));
     expect(onSelectSpy).to.have.been.calledWith(undefined);
   });
 
@@ -80,11 +79,11 @@ describe('PanelGroup', () => {
     assert.equal(container.querySelector('.rs-panel-in .rs-panel-body').textContent, 'body-1');
 
     // Expand the second panel
-    userEvent.click(getByText('header-2'));
+    fireEvent.click(getByText('header-2'));
     assert.equal(container.querySelector('.rs-panel-in .rs-panel-body').textContent, 'body-2');
 
     // Collapse the second panel
-    userEvent.click(getByText('header-2'));
+    fireEvent.click(getByText('header-2'));
     assert.isNull(container.querySelector('.rs-panel-in .rs-panel-body'));
   });
 });

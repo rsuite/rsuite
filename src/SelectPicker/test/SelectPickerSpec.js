@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import SelectPicker from '../SelectPicker';
 import Input from '../../Input';
@@ -28,7 +27,7 @@ describe('SelectPicker', () => {
   it('Should clean selected default value', () => {
     const instance = getDOMNode(<SelectPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
     expect(instance.querySelector('.rs-picker-toggle-placeholder').textContent).to.equal('Select');
   });
 
@@ -41,7 +40,7 @@ describe('SelectPicker', () => {
   it('Should not clean selected value', () => {
     const instance = getDOMNode(<SelectPicker defaultOpen data={data} value={'Eugenia'} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
     expect(instance.querySelector('.rs-picker-toggle-value').textContent).to.equal('Eugenia');
   });
 
@@ -168,7 +167,7 @@ describe('SelectPicker', () => {
     };
     const instance = getInstance(<SelectPicker defaultOpen onChange={doneOp} data={data} />);
 
-    ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-picker-select-menu-item'));
+    fireEvent.click(instance.overlay.querySelector('.rs-picker-select-menu-item'));
   });
 
   it('Should call `onClean` callback', done => {
@@ -179,7 +178,7 @@ describe('SelectPicker', () => {
       <SelectPicker data={data} defaultValue={'Eugenia'} onClean={doneOp} />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
   });
 
   it('Should not output a search bar', () => {
@@ -205,9 +204,7 @@ describe('SelectPicker', () => {
     const instance = getInstance(<SelectPicker defaultOpen onSearch={doneOp} data={data} />);
     const input = instance.overlay.querySelector('.rs-picker-search-bar-input');
 
-    input.value = 'a';
-
-    ReactTestUtils.Simulate.change(input);
+    fireEvent.change(input, { target: { value: 'a' } });
   });
 
   it('Should call `onSelect` with correct args by key=Enter ', done => {
@@ -224,8 +221,8 @@ describe('SelectPicker', () => {
       <SelectPicker defaultOpen data={data} onSelect={doneOp} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.target, { key: 'Enter' });
   });
 
   it('Should call `onOpen` callback', done => {
@@ -246,7 +243,7 @@ describe('SelectPicker', () => {
 
   it('Should focus item by key=ArrowDown ', () => {
     const instance = getInstance(<SelectPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
 
     assert.equal(
       instance.overlay.querySelector('.rs-picker-select-menu-item-focus').textContent,
@@ -256,7 +253,7 @@ describe('SelectPicker', () => {
 
   it('Should focus item by key=ArrowUp ', () => {
     const instance = getInstance(<SelectPicker defaultOpen data={data} defaultValue={'Kariane'} />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
+    fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
     assert.equal(
       instance.overlay.querySelector('.rs-picker-select-menu-item-focus').textContent,
       'Eugenia'
@@ -271,7 +268,7 @@ describe('SelectPicker', () => {
       <SelectPicker defaultOpen data={data} onChange={doneOp} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(instance.target, { key: 'Enter' });
   });
 
   it('Should call onBlur callback', done => {
@@ -279,7 +276,7 @@ describe('SelectPicker', () => {
       done();
     };
     const instance = getInstance(<SelectPicker defaultOpen data={data} onBlur={doneOp} />);
-    ReactTestUtils.Simulate.blur(instance.target);
+    fireEvent.blur(instance.target);
   });
 
   it('Should call onFocus callback', done => {
@@ -287,7 +284,7 @@ describe('SelectPicker', () => {
       done();
     };
     const instance = getInstance(<SelectPicker defaultOpen data={data} onFocus={doneOp} />);
-    ReactTestUtils.Simulate.focus(instance.target);
+    fireEvent.focus(instance.target);
   });
 
   it('Should have a custom className', () => {
@@ -359,19 +356,19 @@ describe('SelectPicker', () => {
 
     const target = pickerRef.current.target;
 
-    ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.click(target);
+    act(() => {
+      fireEvent.click(target);
     });
 
-    ReactTestUtils.act(() => {
+    act(() => {
       // https://codesandbox.io/s/silent-voice-6kzx7
       inputRef.current.focus();
-      ReactTestUtils.Simulate.keyDown(inputRef.current, { key: 'a' });
+      fireEvent.keyDown(inputRef.current, { key: 'a' });
     });
     assert.equal(document.activeElement, inputRef.current);
 
-    ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.keyDown(target, { key: 'a' });
+    act(() => {
+      fireEvent.keyDown(target, { key: 'a' });
     });
 
     assert.equal(

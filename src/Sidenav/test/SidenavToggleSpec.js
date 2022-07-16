@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import SidenavToggle from '../SidenavToggle';
 import Sidenav from '../Sidenav';
@@ -40,7 +39,7 @@ describe('Sidenav.Toggle', () => {
       wrapper: Sidenav
     });
 
-    userEvent.click(getByRole('button', { name: 'Collapse' }));
+    fireEvent.click(getByRole('button', { name: 'Collapse' }));
 
     expect(onToggle).to.have.been.calledWith(false);
   });

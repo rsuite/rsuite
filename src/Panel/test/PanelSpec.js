@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Panel from '../Panel';
@@ -67,7 +66,7 @@ describe('Panel', () => {
       const onSelectSpy = sinon.spy();
       const { getByText } = render(<Panel collapsible onSelect={onSelectSpy} header={'abc'} />);
 
-      userEvent.click(getByText('abc'));
+      fireEvent.click(getByText('abc'));
       expect(onSelectSpy).to.have.been.calledWith(undefined);
     });
   });

@@ -1,7 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-
+import { fireEvent, render } from '@testing-library/react';
 import Dropdown from '../Dropdown';
 import DropdownItem from '../DropdownItem';
 import User from '@rsuite/icons/legacy/User';
@@ -97,7 +95,7 @@ describe('<Dropdown.Item>', () => {
       </Dropdown>
     );
 
-    userEvent.click(getByTestId('item'));
+    fireEvent.click(getByTestId('item'));
 
     expect(onSelectSpy).to.have.been.calledWith('ABC');
   });
@@ -113,7 +111,7 @@ describe('<Dropdown.Item>', () => {
       </Dropdown>
     );
 
-    userEvent.click(getByTestId('item'));
+    fireEvent.click(getByTestId('item'));
 
     expect(onClickSpy).to.have.been.called;
   });

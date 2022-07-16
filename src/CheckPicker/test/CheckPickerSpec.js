@@ -1,7 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
 
 import CheckPicker from '../CheckPicker';
@@ -37,7 +35,10 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />
     );
-    ReactTestUtils.Simulate.click(instance.root.querySelector(cleanClassName));
+    act(() => {
+      fireEvent.click(instance.root.querySelector(cleanClassName));
+    });
+
     expect(instance.root.querySelector(placeholderClassName).textContent).to.equal('Select');
   });
 
@@ -50,7 +51,7 @@ describe('CheckPicker', () => {
   it('Should not clean selected value', () => {
     const instance = getDOMNode(<CheckPicker defaultOpen data={data} value={['Eugenia']} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelector(cleanClassName));
+    fireEvent.click(instance.querySelector(cleanClassName));
     expect(instance.querySelector(valueClassName).textContent).to.equal('Eugenia');
   });
 
@@ -171,59 +172,74 @@ describe('CheckPicker', () => {
       <CheckPicker defaultOpen onChange={onChange} data={[{ label: 'Option 1', value: '1' }]} />
     );
 
-    userEvent.click(getByText('Option 1'));
+    fireEvent.click(getByText('Option 1'));
 
     expect(onChange).to.have.been.calledOnce;
     expect(onChange.getCall(0).args[0]).to.eql(['1']);
   });
 
-  it('Should call `onClean` callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onClean` callback', () => {
+    const onCleanSpy = sinon.spy();
     const instance = getDOMNode(
-      <CheckPicker data={data} defaultValue={['Eugenia']} onClean={doneOp} />
+      <CheckPicker data={data} defaultValue={['Eugenia']} onClean={onCleanSpy} />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+    act(() => {
+      fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    });
+
+    expect(onCleanSpy).to.have.been.calledOnce;
   });
 
-  it('Should call `onClean` callback by key="Backspace" ', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getInstance(<CheckPicker data={data} onClean={doneOp} defaultOpen />);
+  it('Should call `onClean` callback by key="Backspace" ', () => {
+    const onCleanSpy = sinon.spy();
+    const instance = getInstance(<CheckPicker data={data} onClean={onCleanSpy} defaultOpen />);
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Backspace' });
+    act(() => {
+      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    });
+
+    act(() => {
+      fireEvent.keyDown(instance.target, { key: 'Enter' });
+    });
+
+    act(() => {
+      fireEvent.keyDown(instance.target, { key: 'Backspace' });
+    });
+
+    expect(onCleanSpy).to.have.been.called;
   });
 
-  it('Should call `onClean` callback by key="Backspace" on overlay ', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getInstance(<CheckPicker data={data} onClean={doneOp} defaultOpen />);
+  it('Should call `onClean` callback by key="Backspace" on overlay ', () => {
+    const onCleanSpy = sinon.spy();
+    const instance = getInstance(<CheckPicker data={data} onClean={onCleanSpy} defaultOpen />);
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Enter' });
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Backspace' });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.overlay, { key: 'Enter' });
+    fireEvent.keyDown(instance.overlay, { key: 'Backspace' });
+
+    expect(onCleanSpy).to.have.been.called;
   });
 
-  it('Should call `onOpen` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const picker = getInstance(<CheckPicker onOpen={doneOp} data={data} />);
+  it('Should call `onOpen` callback', async () => {
+    const onOpenSpy = sinon.spy();
+    const picker = getInstance(<CheckPicker onOpen={onOpenSpy} data={data} />);
+
     picker.open();
+
+    await waitFor(() => {
+      expect(onOpenSpy).to.have.been.called;
+    });
   });
 
-  it('Should call `onClose` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const picker = getInstance(<CheckPicker defaultOpen onClose={doneOp} data={data} />);
+  it('Should call `onClose` callback', async () => {
+    const onCloseSpy = sinon.spy();
+    const picker = getInstance(<CheckPicker defaultOpen onClose={onCloseSpy} data={data} />);
     picker.close();
+
+    await waitFor(() => {
+      expect(onCloseSpy).to.have.been.called;
+    });
   });
 
   it('Should output a clean button', () => {
@@ -236,9 +252,11 @@ describe('CheckPicker', () => {
       <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    act(() => {
+      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    });
 
-    assert.equal(instance.overlay.querySelector(itemFocusClassName).textContent, 'Kariane');
+    expect(instance.overlay.querySelector(itemFocusClassName)).to.text('Kariane');
   });
 
   it('Should focus item by key=ArrowUp ', () => {
@@ -246,67 +264,81 @@ describe('CheckPicker', () => {
       <CheckPicker defaultOpen data={data} defaultValue={['Kariane']} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
+    act(() => {
+      fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
+    });
 
-    assert.equal(instance.overlay.querySelector(itemFocusClassName).textContent, 'Eugenia');
+    expect(instance.overlay.querySelector(itemFocusClassName)).to.text('Eugenia');
   });
 
-  it('Should call `onChange` by key=Enter ', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onChange` by key=Enter ', () => {
+    const onChangeSpy = sinon.spy();
     const instance = getInstance(
-      <CheckPicker defaultOpen data={data} onChange={doneOp} defaultValue={['Kariane']} />
+      <CheckPicker defaultOpen data={data} onChange={onChangeSpy} defaultValue={['Kariane']} />
     );
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
+
+    fireEvent.keyDown(instance.target, { key: 'Enter' });
+
+    expect(onChangeSpy).to.have.been.calledOnce;
   });
 
-  it('Should call `onSelect` by key=Enter ', done => {
-    const doneOp = (value, item) => {
-      try {
-        assert.lengthOf(value, 2);
-        assert.equal(item.value, 'Louisa');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call `onSelect` by key=Enter ', async () => {
+    const onSelectSpy = sinon.spy();
     const instance = getInstance(
-      <CheckPicker defaultOpen data={data} onSelect={doneOp} defaultValue={['Kariane']} />
+      <CheckPicker defaultOpen data={data} onSelect={onSelectSpy} defaultValue={['Kariane']} />
     );
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
+
+    act(() => {
+      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    });
+    act(() => {
+      fireEvent.keyDown(instance.target, { key: 'Enter' });
+    });
+
+    expect(onSelectSpy).to.have.been.calledOnce;
+    expect(onSelectSpy.firstCall.firstArg).to.eql(['Kariane', 'Louisa']);
+    expect(onSelectSpy.firstCall.args[1].value).to.equal('Louisa');
   });
 
-  it('Should call onBlur callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getInstance(<CheckPicker data={data} onBlur={doneOp} />);
+  it('Should call onBlur callback', async () => {
+    const onBlurSpy = sinon.spy();
+    const instance = getInstance(<CheckPicker data={data} onBlur={onBlurSpy} />);
 
-    ReactTestUtils.Simulate.blur(instance.target);
+    act(() => {
+      fireEvent.blur(instance.target);
+    });
+
+    await waitFor(() => {
+      expect(onBlurSpy).to.have.been.calledOnce;
+    });
   });
 
-  it('Should call onFocus callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getInstance(<CheckPicker data={data} onFocus={doneOp} />);
-    ReactTestUtils.Simulate.focus(instance.target);
+  it('Should call onFocus callback', async () => {
+    const onFocusSpy = sinon.spy();
+    const instance = getInstance(<CheckPicker data={data} onFocus={onFocusSpy} />);
+
+    act(() => {
+      fireEvent.focus(instance.target);
+    });
+
+    await waitFor(() => {
+      expect(onFocusSpy).to.have.been.calledOnce;
+    });
   });
 
   it('Should have a custom className', () => {
     const instance = getInstance(
       <CheckPicker className="custom" defaultOpen data={[{ label: '', value: '1' }]} />
     );
-    assert.include(instance.root.className, 'custom');
+
+    expect(instance.root.className).to.include('custom');
     expect(instance.overlay.className).to.not.include('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = getDOMNode(<CheckPicker data={[]} style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
+    expect(instance.style.fontSize).to.equal(fontSize);
   });
 
   it('Allow `label` to be an empty string', () => {
@@ -319,12 +351,13 @@ describe('CheckPicker', () => {
       />
     );
     const checkbox = instance.overlay.querySelector('.rs-checkbox-checked');
-    assert.equal(checkbox.textContent, '');
+    expect(checkbox).to.text('');
   });
 
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<CheckPicker data={[]} classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+
+    expect(instance.className).to.contain('custom-prefix');
   });
 
   it('Should be sticky', () => {
@@ -334,7 +367,7 @@ describe('CheckPicker', () => {
 
     const menu = instance.overlay.querySelector('.rs-checkbox');
 
-    assert.equal(menu.textContent, 'Kariane');
+    expect(menu).to.text('Kariane');
   });
 
   it('Should be render selected options be sticky', () => {
@@ -348,13 +381,12 @@ describe('CheckPicker', () => {
       />
     );
 
-    const count = instance.overlay.querySelectorAll('.rs-checkbox-checked').length;
-    assert.equal(count, 3);
+    expect(instance.overlay.querySelectorAll('.rs-checkbox-checked')).to.length(3);
   });
 
   it('Should render a button by toggleAs={Button}', () => {
     const instance = getInstance(<CheckPicker open data={data} toggleAs={Button} />);
-    assert.ok(instance.root.querySelector('.rs-btn'));
+    expect(instance.root.querySelector('.rs-btn')).to.exist;
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
@@ -362,13 +394,15 @@ describe('CheckPicker', () => {
       <CheckPicker defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
     );
     const list = instance.overlay.querySelectorAll('.rs-check-item');
-    assert.equal(list.length, 1);
-    assert.ok(list[0].textContent, 'Louisa');
+
+    expect(list).to.length(1);
+    expect(list[0]).to.text('Louisa');
   });
 
   it('Should not be call renderValue()', () => {
     const instance = getDOMNode(<CheckPicker data={[]} renderValue={() => 'value'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+
+    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
   });
 
   it('Should call renderValue', () => {
@@ -378,13 +412,13 @@ describe('CheckPicker', () => {
       <CheckPicker data={[]} value="Test" renderValue={() => undefined} />
     );
 
-    assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+    expect(instance1.querySelector('.rs-picker-toggle-value')).to.text('1');
+    expect(instance2.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
+    expect(instance3.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
 
-    assert.include(instance1.className, 'rs-picker-has-value');
-    assert.notInclude(instance2.className, 'rs-picker-has-value');
-    assert.notInclude(instance3.className, 'rs-picker-has-value');
+    expect(instance1.className).to.include('rs-picker-has-value');
+    expect(instance2.className).to.not.include('rs-picker-has-value');
+    expect(instance3.className).to.not.include('rs-picker-has-value');
   });
 
   it('Should not call `onClean` callback on Input ', () => {
@@ -392,21 +426,28 @@ describe('CheckPicker', () => {
     const instance = getInstance(<CheckPicker data={data} onClean={onCleanSpy} defaultOpen />);
     const input = instance.overlay.querySelector('.rs-picker-search-bar-input');
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
-    ReactTestUtils.Simulate.keyDown(input, { key: 'Backspace' });
+    act(() => {
+      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    });
 
-    assert.isTrue(onCleanSpy.notCalled);
+    act(() => {
+      fireEvent.keyDown(instance.target, { key: 'Enter' });
+    });
+    act(() => {
+      fireEvent.keyDown(input, { key: 'Backspace' });
+    });
+
+    expect(onCleanSpy).to.not.have.been.called;
   });
 
   it('Should call onClose callback by key="Escape"', done => {
     const instance = getInstance(<CheckPicker data={data} onClose={done} defaultOpen />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Escape' });
+    fireEvent.keyDown(instance.target, { key: 'Escape' });
   });
 
   it('Should call onClose callback by key="Tab"', done => {
     const instance = getInstance(<CheckPicker data={data} onClose={done} defaultOpen />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Tab' });
+    fireEvent.keyDown(instance.target, { key: 'Tab' });
   });
 
   describe('With a label', () => {
@@ -447,23 +488,34 @@ describe('CheckPicker', () => {
   });
 
   describe('ref testing', () => {
-    it('Should call onOpen', done => {
-      const doneOp = () => {
-        done();
-      };
+    it('Should call onOpen', async () => {
+      const onOpenSpy = sinon.spy();
 
-      const instance = getInstance(<CheckPicker onOpen={doneOp} data={data} />);
-      instance.open();
+      const instance = getInstance(<CheckPicker onOpen={onOpenSpy} data={data} />);
+
+      act(() => {
+        instance.open();
+      });
+      await waitFor(() => {
+        expect(onOpenSpy).to.have.been.calledOnce;
+      });
     });
 
-    it('Should call onClose', done => {
-      const doneOp = () => {
-        done();
-      };
+    it('Should call onClose', async () => {
+      const onCloseSpy = sinon.spy();
 
-      const instance = getInstance(<CheckPicker onClose={doneOp} data={data} />);
-      instance.open();
-      instance.close();
+      const instance = getInstance(<CheckPicker onClose={onCloseSpy} data={data} />);
+
+      act(() => {
+        instance.open();
+      });
+      act(() => {
+        instance.close();
+      });
+
+      await waitFor(() => {
+        expect(onCloseSpy).to.have.been.calledOnce;
+      });
     });
   });
 });

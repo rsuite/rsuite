@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -132,7 +131,7 @@ describe('CheckboxGroup', () => {
       </CheckboxGroup>
     );
 
-    userEvent.click(getByLabelText('Option 3'));
+    fireEvent.click(getByLabelText('Option 3'));
 
     expect(onChange).to.have.been.calledWith([3]);
   });

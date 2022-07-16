@@ -1,6 +1,7 @@
-import { renderHook, act } from '@testing-library/react-hooks/dom';
+import { act } from '@testing-library/react';
 import useCalendarDate from '../useCalendarDate';
 import format from 'date-fns/format';
+import { renderHook } from '@test/testUtils';
 
 describe('useCalendarDate', () => {
   it('Should return controlled date', () => {

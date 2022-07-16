@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, act } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
@@ -63,8 +62,8 @@ describe('<Dropdown.Menu>', () => {
       const menubar = getDOMNode(ui);
 
       if (focusAfterRender) {
-        ReactTestUtils.act(() => {
-          ReactTestUtils.Simulate.focus(menubar);
+        act(() => {
+          fireEvent.focus(menubar);
         });
       }
 
@@ -107,7 +106,7 @@ describe('<Dropdown.Menu>', () => {
         );
 
         act(() => {
-          Simulate.keyDown(menubar, { key: 'ArrowDown' });
+          fireEvent.keyDown(menubar, { key: 'ArrowDown' });
         });
 
         expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
@@ -124,11 +123,11 @@ describe('<Dropdown.Menu>', () => {
         );
 
         act(() => {
-          Simulate.keyDown(menubar, { key: 'ArrowDown' });
+          fireEvent.keyDown(menubar, { key: 'ArrowDown' });
         });
 
         act(() => {
-          Simulate.keyDown(menubar, { key: 'ArrowUp' });
+          fireEvent.keyDown(menubar, { key: 'ArrowUp' });
         });
 
         expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
@@ -146,7 +145,7 @@ describe('<Dropdown.Menu>', () => {
         );
 
         act(() => {
-          Simulate.keyDown(menubar, { key: 'End' });
+          fireEvent.keyDown(menubar, { key: 'End' });
         });
 
         expect(menubar.getAttribute('aria-activedescendant')).to.equal('last-item');
@@ -164,11 +163,11 @@ describe('<Dropdown.Menu>', () => {
         );
 
         act(() => {
-          Simulate.keyDown(menubar, { key: 'End' });
+          fireEvent.keyDown(menubar, { key: 'End' });
         });
 
         act(() => {
-          Simulate.keyDown(menubar, { key: 'Home' });
+          fireEvent.keyDown(menubar, { key: 'Home' });
         });
 
         expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
@@ -189,7 +188,7 @@ describe('<Dropdown.Menu>', () => {
         );
 
         act(() => {
-          Simulate.keyDown(menubar, { key: 'Enter' });
+          fireEvent.keyDown(menubar, { key: 'Enter' });
         });
 
         expect(onSelectItemSpy).to.have.been.called;
@@ -211,7 +210,7 @@ describe('<Dropdown.Menu>', () => {
         );
 
         act(() => {
-          Simulate.keyDown(menubar, { key: ' ' });
+          fireEvent.keyDown(menubar, { key: ' ' });
         });
 
         expect(onSelectItemSpy).to.have.been.called;
@@ -247,7 +246,7 @@ describe('<Dropdown.Menu>', () => {
       </DropdownMenu>
     );
 
-    userEvent.click(getByTestId('item-1'));
+    fireEvent.click(getByTestId('item-1'));
 
     expect(onSelectSpy.callCount).to.be.eq(1);
   });
@@ -285,7 +284,7 @@ describe('<Dropdown.Menu>', () => {
     );
 
     act(() => {
-      Simulate.click(instance.querySelectorAll('[role^="menuitem"]')[2], {
+      fireEvent.click(instance.querySelectorAll('[role^="menuitem"]')[2], {
         bubbles: true
       });
     });

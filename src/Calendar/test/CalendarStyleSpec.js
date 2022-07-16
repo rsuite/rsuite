@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, act, fireEvent } from '@testing-library/react';
 import Calendar from '../CalendarPanel';
 import {
   getDefaultPalette,
@@ -9,7 +9,6 @@ import {
   itChrome,
   toRGB
 } from '@test/testUtils';
-import ReactTestUtils from 'react-dom/test-utils';
 
 import '../styles/index.less';
 import { CalendarState } from '../Calendar';
@@ -63,7 +62,10 @@ describe('Calendar styles', () => {
     const dom = getDOMNode(instanceRef.current);
 
     const dateTitleDom = dom.querySelector('.rs-calendar-header-title-date');
-    dateTitleDom.click();
+    act(() => {
+      dateTitleDom.click();
+    });
+
     const headerBackward = dom.querySelector('.rs-calendar-header-backward');
     const headerForward = dom.querySelector('.rs-calendar-header-backward');
     const monthDropDown = dom.querySelector('.rs-calendar-month-dropdown');
@@ -112,8 +114,11 @@ describe('Calendar styles', () => {
     render(<Calendar calendarState={CalendarState.DROP_MONTH} bordered ref={instanceRef} />);
     const dom = instanceRef.current;
 
-    // click month dropdown button
-    ReactTestUtils.Simulate.click(dom.querySelector('.rs-calendar-header-title-date'));
+    act(() => {
+      // click month dropdown button
+      fireEvent.click(dom.querySelector('.rs-calendar-header-title-date'));
+    });
+
     const dropdownRowDom = dom.querySelector('.rs-calendar-month-dropdown-row');
 
     assert.equal(

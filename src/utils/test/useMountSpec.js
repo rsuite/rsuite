@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks/dom';
+import { renderHook } from '@test/testUtils';
 import useMount from '../useMount';
 
 describe('[utils] useMount', () => {

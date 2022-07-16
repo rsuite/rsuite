@@ -1,5 +1,5 @@
-import { act, renderHook } from '@testing-library/react-hooks/dom';
-
+import { act } from '@testing-library/react';
+import { renderHook } from '@test/testUtils';
 import useTimeout from '../useTimeout';
 
 afterEach(() => {

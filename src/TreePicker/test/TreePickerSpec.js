@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, Simulate } from 'react-dom/test-utils';
+import { act, fireEvent } from '@testing-library/react';
 import { getDOMNode, getInstance, render } from '@test/testUtils';
 import TreePicker from '../TreePicker';
 import { KEY_VALUES } from '../../utils';
@@ -47,7 +47,7 @@ describe('TreePicker', () => {
   it('Should clean selected value', () => {
     const instance = getDOMNode(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
 
-    Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
     expect(instance.querySelector('.rs-picker-toggle').textContent).to.equal('Select');
   });
 
@@ -89,7 +89,7 @@ describe('TreePicker', () => {
       <TreePicker open cascade={false} data={data} value={['Master']} />
     );
 
-    Simulate.click(
+    fireEvent.click(
       instance.overlay.querySelector('div[data-ref="0-0"]  > .rs-tree-node-expand-icon')
     );
     assert.equal(instance.overlay.querySelectorAll('.rs-tree-open').length, 1);
@@ -170,7 +170,7 @@ describe('TreePicker', () => {
     const onChangeSpy = sinon.spy();
     const instance = getInstance(<TreePicker open onChange={onChangeSpy} data={data} />);
 
-    Simulate.click(instance.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.click(instance.overlay.querySelector('span[data-key="0-0"]'));
     assert.isTrue(onChangeSpy.calledOnce);
   });
 
@@ -180,7 +180,7 @@ describe('TreePicker', () => {
       <TreePicker defaultOpen data={data} defaultValue={'tester0'} onClean={onCleanSpy} />
     );
 
-    Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
     assert.isTrue(onCleanSpy.calledOnce);
   });
 
@@ -188,7 +188,7 @@ describe('TreePicker', () => {
     const onOpenSpy = sinon.spy();
     const instance = getDOMNode(<TreePicker onOpen={onOpenSpy} data={data} />);
 
-    Simulate.click(instance.querySelector('.rs-picker-toggle'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle'));
     assert.isTrue(onOpenSpy.calledOnce);
   });
 
@@ -196,14 +196,14 @@ describe('TreePicker', () => {
     const onCloseSpy = sinon.spy();
     const instance = getDOMNode(<TreePicker onClose={onCloseSpy} data={data} />);
 
-    Simulate.click(instance.querySelector('.rs-picker-toggle'));
-    Simulate.click(instance.querySelector('.rs-picker-toggle'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle'));
     assert.isTrue(onCloseSpy.calledOnce);
   });
 
   it('Should focus item by keyCode=40', () => {
     const instance = getInstance(<TreePicker open data={data} defaultExpandAll value="tester1" />);
-    Simulate.keyDown(instance.target, { key: KEY_VALUES.DOWN });
+    fireEvent.keyDown(instance.target, { key: KEY_VALUES.DOWN });
 
     assert.equal(instance.overlay.querySelector('.rs-tree-node-focus').textContent, 'Master');
   });
@@ -211,8 +211,8 @@ describe('TreePicker', () => {
   it('Should focus item by keyCode=38 ', () => {
     const instance = getInstance(<TreePicker open data={data} defaultExpandAll value="tester1" />);
 
-    Simulate.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
-    Simulate.keyDown(instance.target, { key: KEY_VALUES.UP });
+    fireEvent.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
+    fireEvent.keyDown(instance.target, { key: KEY_VALUES.UP });
     assert.equal(instance.overlay.querySelector('.rs-tree-node-focus').textContent, 'tester0');
   });
 
@@ -223,7 +223,7 @@ describe('TreePicker', () => {
     const instance = getInstance(
       <TreePicker defaultOpen data={data} onChange={doneOp} defaultExpandAll />
     );
-    Simulate.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
+    fireEvent.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
   });
 
   /**
@@ -232,8 +232,8 @@ describe('TreePicker', () => {
   it('Should fold children node by keyCode=37', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
-    Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
+    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
     assert.equal(
       tree.overlay.querySelectorAll('div[data-ref="0-0"] > .rs-tree-node-expanded').length,
       0
@@ -246,8 +246,8 @@ describe('TreePicker', () => {
   it('Should change nothing when trigger on root node by keyCode=37', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
-    Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
+    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
     assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'Master');
 
     assert.equal(
@@ -262,8 +262,8 @@ describe('TreePicker', () => {
   it('Should focus on parentNode when trigger on leaf node by keyCode=37', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
-    Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
+    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
     assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'Master');
   });
 
@@ -273,8 +273,8 @@ describe('TreePicker', () => {
   it('Should fold children node by keyCode=39', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
-    Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
+    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
     assert.equal(
       tree.overlay.querySelectorAll('div[data-ref="0-0"] > .rs-tree-node-expanded').length,
       1
@@ -287,8 +287,8 @@ describe('TreePicker', () => {
   it('Should change nothing when trigger on leaf node by keyCode=39', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0-0"]'));
-    Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
+    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0-0"]'));
+    fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
     assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'tester0');
   });
 
@@ -298,8 +298,8 @@ describe('TreePicker', () => {
   it('Should focus on first child node when node expanded by keyCode=39', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
-    Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
+    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
     assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'tester0');
   });
 
@@ -352,7 +352,7 @@ describe('TreePicker', () => {
     });
 
     act(() => {
-      Simulate.click(
+      fireEvent.click(
         ref.current.overlay.querySelector('div[data-ref="0-1"]  > .rs-tree-node-expand-icon')
       );
     });
@@ -440,7 +440,7 @@ describe('TreePicker', () => {
     assert.ok(ref.current.picker.overlay.querySelector('.rs-tree-node-expanded'));
 
     act(() => {
-      Simulate.click(
+      fireEvent.click(
         ref.current.picker.overlay.querySelector('div[data-ref="0-0"]  > .rs-tree-node-expand-icon')
       );
     });
@@ -472,17 +472,17 @@ describe('TreePicker', () => {
     );
 
     const searchBar = instance.overlay.querySelector('.rs-picker-search-bar-input');
-    Simulate.change(searchBar, {
+    fireEvent.keyDown(searchBar, {
       target: { value: 'Master' }
     });
 
     searchBar.focus();
-    Simulate.keyDown(searchBar, {
+    fireEvent.keyDown(searchBar, {
       key: KEY_VALUES.BACKSPACE
     });
     assert.equal(instance.root.querySelector('.rs-picker-toggle-value').textContent, 'Master');
 
-    Simulate.keyDown(instance.overlay, {
+    fireEvent.keyDown(instance.overlay, {
       key: KEY_VALUES.BACKSPACE
     });
 
@@ -492,14 +492,15 @@ describe('TreePicker', () => {
   it('Should display the search result when in virtualized mode', () => {
     const instance = getInstance(<TreePicker open virtualized data={data} />);
 
-    assert.equal(instance.overlay.querySelectorAll('.rs-tree-node').length, 2);
+    expect(instance.overlay.querySelectorAll('.rs-tree-node')).to.length(2);
 
     const searchBar = instance.overlay.querySelector('.rs-picker-search-bar-input');
-    Simulate.change(searchBar, {
-      target: { value: 'test' }
+
+    act(() => {
+      fireEvent.change(searchBar, { target: { value: 'test' } });
     });
 
-    assert.equal(instance.overlay.querySelectorAll('.rs-tree-node').length, 4);
+    expect(instance.overlay.querySelectorAll('.rs-tree-node')).to.length(4);
   });
 
   it('Should to reset the option height', () => {
@@ -522,19 +523,26 @@ describe('TreePicker', () => {
   it('Should scroll the list by `scrollToRow`', () => {
     const onScrollSpy = sinon.spy();
     const ref = React.createRef();
-    render(
-      <TreePicker
-        data={data}
-        ref={ref}
-        virtualized
-        style={{ height: 30 }}
-        open
-        listProps={{
-          onScroll: onScrollSpy
-        }}
-      />
-    );
-    ref.current.list.scrollToRow(2);
-    assert.isTrue(onScrollSpy.calledOnce);
+
+    act(() => {
+      render(
+        <TreePicker
+          data={data}
+          ref={ref}
+          virtualized
+          style={{ height: 30 }}
+          open
+          listProps={{
+            onScroll: onScrollSpy
+          }}
+        />
+      );
+    });
+
+    act(() => {
+      ref.current.list.scrollToRow(2);
+    });
+
+    expect(onScrollSpy).to.be.calledOnce;
   });
 });
