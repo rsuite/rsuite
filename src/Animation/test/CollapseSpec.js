@@ -10,17 +10,19 @@ describe('Animation.Collapse', () => {
         <div>test</div>
       </Collapse>
     );
-    assert.include(instance.className, 'rs-anim-collapse-horizontal');
+
+    expect(instance.className).to.include('rs-anim-collapse-horizontal');
 
     const instance2 = getDOMNode(
       <Collapse in dimension={() => 'width'}>
         <div>test</div>
       </Collapse>
     );
-    assert.include(instance2.className, 'rs-anim-collapse-horizontal');
+
+    expect(instance2.className).to.include('rs-anim-collapse-horizontal');
   });
 
-  it('Should set a dimension value at onExit of the transition', () => {
+  it('Should set a dimension value at onExit of the transition', async () => {
     const onExitSpy = sinon.spy();
     const collapseRef = React.createRef();
 
@@ -36,7 +38,10 @@ describe('Animation.Collapse', () => {
         <Collapse
           ref={collapseRef}
           in={show}
-          onExit={onExitSpy}
+          onExit={() => {
+            expect(getDOMNode(collapseRef.current).style.height).to.equal('50px');
+            onExitSpy();
+          }}
           getDimensionValue={() => {
             return 50;
           }}
@@ -55,9 +60,7 @@ describe('Animation.Collapse', () => {
     });
 
     expect(getDOMNode(collapseRef.current).className).to.contain('rs-anim-collapsing');
+    expect(getDOMNode(collapseRef.current).style.height).to.equal('0px');
     expect(onExitSpy).to.called;
-
-    // fixme: wait for the transition to finish
-    // expect(getDOMNode(collapseRef.current).style.height).to.equal('50px');
   });
 });
