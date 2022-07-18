@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, fireEvent, act, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
+import { Simulate } from 'react-dom/test-utils';
 import { testStandardProps } from '@test/commonCases';
 import Nav from '../Nav';
 import Navbar from '../../Navbar';
@@ -10,34 +10,32 @@ describe('<Nav.Item>', () => {
   testStandardProps(<Nav.Item />, { renderOptions: { wrapper: Nav } });
 
   it('Should render a <a>', () => {
-    let title = 'Test';
-    const { getByTestId } = render(<Nav.Item data-testid="item">{title}</Nav.Item>, {
+    const { getByTestId } = render(<Nav.Item data-testid="item">Test</Nav.Item>, {
       wrapper: Nav
     });
 
     const instance = getByTestId('item');
 
-    assert.equal(instance.tagName, 'A');
-    assert.equal(instance.textContent, title);
+    expect(instance.tagName).to.equal('A');
+    expect(instance).to.text('Test');
   });
 
   it('Should call onSelect callback with correct eventKey', async () => {
     const onSelect = sinon.spy();
-    const eventKey = 'Test';
 
     const { getByTestId } = render(
-      <Nav.Item onSelect={onSelect} eventKey={eventKey} data-testid="item" />,
+      <Nav.Item onSelect={onSelect} eventKey={'Test'} data-testid="item" />,
       {
         wrapper: Nav
       }
     );
 
     act(() => {
-      userEvent.click(getByTestId('item'));
+      fireEvent.click(getByTestId('item'));
     });
 
     await waitFor(() => {
-      expect(onSelect).to.have.been.calledWith(eventKey);
+      expect(onSelect).to.have.been.calledWith('Test');
     });
   });
 
@@ -49,7 +47,7 @@ describe('<Nav.Item>', () => {
     });
 
     act(() => {
-      userEvent.click(getByTestId('item'));
+      fireEvent.click(getByTestId('item'));
     });
 
     await waitFor(() => {
@@ -145,20 +143,21 @@ describe('<Nav.Item>', () => {
     });
 
     it('Should render a tooltip when used inside a collapsed <Sidenav>', async () => {
+      const onMouseOverSpy = sinon.spy();
       const { getByTestId } = render(
         <Sidenav expanded={false}>
-          <Nav>
+          <Nav onMouseOver={onMouseOverSpy}>
             <Nav.Item data-testid="nav-item">item</Nav.Item>
           </Nav>
         </Sidenav>
       );
 
       act(() => {
-        fireEvent.click(getByTestId('nav-item'));
+        Simulate.mouseOver(getByTestId('nav-item'));
       });
 
-      // fixme: Error: Unable to find role="tooltip"
-      // expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;
+      expect(onMouseOverSpy).to.have.been.called;
+      expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;
     });
   });
 });
