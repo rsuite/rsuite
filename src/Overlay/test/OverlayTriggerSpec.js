@@ -4,7 +4,7 @@ import { getDOMNode } from '@test/testUtils';
 
 import OverlayTrigger from '../OverlayTrigger';
 import Tooltip from '../../Tooltip';
-import { act } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 
 describe('OverlayTrigger', () => {
   it('Should create Whisper element', () => {
@@ -193,5 +193,40 @@ describe('OverlayTrigger', () => {
     });
 
     expect(count.current).to.equal(1);
+  });
+
+  it('Should overlay follow the cursor', () => {
+    const onMouseMove = sinon.spy();
+    const count = React.createRef(0);
+
+    const MyButton = React.forwardRef((props, ref) => {
+      count.current += 1;
+      return (
+        <button {...props} ref={ref}>
+          {count.current}
+        </button>
+      );
+    });
+
+    const { getByRole } = render(
+      <OverlayTrigger onMouseMove={onMouseMove} trigger="hover" followCursor speaker={<Tooltip />}>
+        <MyButton />
+      </OverlayTrigger>
+    );
+
+    expect(count.current).to.equal(1);
+
+    act(() => {
+      ReactTestUtils.Simulate.mouseOver(getByRole('button'));
+      ReactTestUtils.Simulate.mouseMove(getByRole('button'), {
+        pageY: 10,
+        pageX: 10,
+        clientX: 10,
+        clientY: 10
+      });
+    });
+
+    expect(count.current).to.equal(2);
+    expect(getByRole('tooltip').style).to.have.property('left', '10px');
   });
 });
