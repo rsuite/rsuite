@@ -1,114 +1,16 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
+
 import { useRouter } from 'next/router';
-import { Divider, IconButton, Tooltip, Whisper, Placeholder, Footer } from 'rsuite';
-import canUseDOM from 'dom-lib/canUseDOM';
-import toggleClass from 'dom-lib/toggleClass';
-import { MarkdownRenderer, CodeViewProps } from 'react-code-view';
+import { Divider, Footer } from 'rsuite';
+import { MarkdownRenderer } from 'react-code-view';
 import AppContext from './AppContext';
 import PageContainer from './PageContainer';
 import Head from './Head';
-import Paragraph from './Paragraph';
 import components from '../utils/component.config.json';
 import { getTitle, getDescription } from '../utils/parseHTML';
 import scrollIntoView from '../utils/scrollIntoView';
-import Github from '@rsuite/icons/legacy/Github';
-import { Icon } from '@rsuite/icons';
-import { Transparent as TransparentIcon } from './SvgIcons';
-import { useCallback } from 'react';
 import { VercelBanner } from './VercelBanner';
-
-interface CustomCodeViewProps {
-  className?: string;
-  height?: number;
-  dependencies?: any;
-  source?: any;
-  onLoaded?: () => void;
-  path: string;
-  renderToolbar?: (showCodeButton: React.ReactNode) => React.ReactNode;
-}
-
-const CustomCodeView = (props: CustomCodeViewProps) => {
-  const { dependencies, source, height = 100, path, onLoaded, ...rest } = props;
-  const { styleLoaded, messages } = React.useContext(AppContext);
-  const viewRef = React.useRef();
-
-  const renderPlaceholder = React.useCallback(() => {
-    return <Placeholder.Graph height={height} />;
-  }, [height]);
-
-  const handleChangeTransparent = useCallback(() => {
-    toggleClass(viewRef.current, 'rs-code-transparent');
-  }, []);
-
-  if (canUseDOM && source && styleLoaded) {
-    const CodeView: React.ComponentType<CodeViewProps> = dynamic(
-      () =>
-        import('./CodeView').then(Component => {
-          onLoaded?.();
-          return Component;
-        }),
-      {
-        loading: renderPlaceholder
-      }
-    );
-
-    return (
-      <div ref={viewRef} className="rs-code-view">
-        <CodeView
-          {...rest}
-          style={{ minHeight: height }}
-          theme="dark"
-          editor={{
-            classPrefix: 'rs',
-            buttonClassName: 'rs-btn-subtle rs-btn-icon-circle'
-          }}
-          dependencies={{ ...dependencies, Paragraph, Divider }}
-          renderToolbar={(CodeButton: React.ReactElement) => {
-            return (
-              <React.Fragment>
-                <Whisper
-                  placement="top"
-                  speaker={<Tooltip>{messages.common.showTheSource}</Tooltip>}
-                >
-                  {CodeButton}
-                </Whisper>{' '}
-                <Whisper
-                  placement="top"
-                  speaker={<Tooltip>{messages.common.transparentBackground}</Tooltip>}
-                >
-                  <IconButton
-                    onClick={handleChangeTransparent}
-                    appearance="subtle"
-                    icon={<Icon as={TransparentIcon} />}
-                    circle
-                    size="xs"
-                  />
-                </Whisper>{' '}
-                <Whisper
-                  placement="top"
-                  speaker={<Tooltip>{messages.common.seeTheSourceOnGitHub}</Tooltip>}
-                >
-                  <IconButton
-                    appearance="subtle"
-                    icon={<Github />}
-                    circle
-                    size="xs"
-                    target="_blank"
-                    href={path}
-                  />
-                </Whisper>
-              </React.Fragment>
-            );
-          }}
-        >
-          {source}
-        </CodeView>
-      </div>
-    );
-  }
-  return renderPlaceholder();
-};
+import CustomCodeView from './CodeView';
 
 export interface PageContentProps {
   id?: string;
@@ -161,9 +63,6 @@ const PageContent = (props: PageContentProps) => {
               source={require(`../pages${pathname}/fragments/${codeName}`)}
               dependencies={dependencies}
               path={`https://github.com/rsuite/rsuite/tree/master/docs/pages${pathname}/fragments/${codeName}`}
-              onLoaded={() => {
-                scrollIntoView();
-              }}
             />
           );
         }
