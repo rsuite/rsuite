@@ -408,7 +408,7 @@ const OverlayTrigger = React.forwardRef(
         triggerEvents.onBlur = createChainedFunction(handleDelayedClose, onBlur);
       }
 
-      if (trigger !== 'none') {
+      if (trigger !== 'none' && followCursor) {
         triggerEvents.onMouseMove = createChainedFunction(handledMoveOverlay, onMouseMove);
       }
     }

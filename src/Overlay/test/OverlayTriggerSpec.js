@@ -4,6 +4,7 @@ import { getDOMNode } from '@test/testUtils';
 
 import OverlayTrigger from '../OverlayTrigger';
 import Tooltip from '../../Tooltip';
+import { act } from '@testing-library/react';
 
 describe('OverlayTrigger', () => {
   it('Should create Whisper element', () => {
@@ -163,6 +164,34 @@ describe('OverlayTrigger', () => {
     );
 
     ReactTestUtils.Simulate.mouseMove(whisper);
-    assert.isTrue(onMouseMove.called);
+    expect(onMouseMove).to.calledOnce;
+  });
+
+  it('Should not be rendered repeatedly', () => {
+    const onMouseMove = sinon.spy();
+    const count = React.createRef(0);
+
+    const MyButton = React.forwardRef((props, ref) => {
+      count.current += 1;
+      return (
+        <button {...props} ref={ref}>
+          {count.current}
+        </button>
+      );
+    });
+
+    const whisper = getDOMNode(
+      <OverlayTrigger onMouseMove={onMouseMove} speaker={<Tooltip />}>
+        <MyButton />
+      </OverlayTrigger>
+    );
+
+    expect(count.current).to.equal(1);
+
+    act(() => {
+      ReactTestUtils.Simulate.mouseMove(whisper);
+    });
+
+    expect(count.current).to.equal(1);
   });
 });
