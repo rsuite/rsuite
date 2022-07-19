@@ -14,7 +14,7 @@ const App = () => {
     <Notification type={type} header={type} closable>
       <Paragraph width={320} rows={3} />
       <hr />
-      <Uploader />
+      <Uploader action="#" />
     </Notification>
   );
 
