@@ -33,7 +33,8 @@ import {
   PositionChildProps,
   listPickerPropTypes,
   PickerComponent,
-  useToggleKeyDownEvent
+  useToggleKeyDownEvent,
+  PickerToggleProps
 } from '../Picker';
 
 import {
@@ -77,7 +78,8 @@ import { maxTreeHeight } from '../TreePicker/TreePicker';
 export type ValueType = (string | number)[];
 export interface CheckTreePickerProps<T = ValueType>
   extends TreeBaseProps<T, ItemDataType>,
-    FormControlPickerProps<T, PickerLocale, ItemDataType> {
+    FormControlPickerProps<T, PickerLocale, ItemDataType>,
+    Pick<PickerToggleProps, 'caretAs'> {
   /** Tree node cascade */
   cascade?: boolean;
 
