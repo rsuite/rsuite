@@ -19,6 +19,7 @@ interface CustomCodeViewProps {
   dependencies?: any;
   source?: any;
   path: string;
+  files: { name: string; content: string }[];
   renderToolbar?: (showCodeButton: React.ReactNode) => React.ReactNode;
 }
 
@@ -35,16 +36,24 @@ const CircleIconButton = React.forwardRef(({ icon, ...rest }: any, ref: React.Re
 ));
 
 const CodeView = (props: CustomCodeViewProps) => {
-  const { dependencies, source, height = 100, path, ...rest } = props;
+  const { dependencies, source, height = 100, path, files, ...rest } = props;
   const { styleLoaded, messages } = React.useContext(AppContext);
   const [code, setCode] = React.useState('');
   const viewRef = React.useRef();
 
-  const setRenderCode = useCallback(code => {
-    setCode(
-      `import React from 'react';\nimport ReactDOM from 'react-dom';\nimport "./styles.css";\n${code}`
-    );
-  }, []);
+  const setRenderCode = useCallback(
+    code => {
+      const deps = [
+        `import React from 'react';`,
+        `import ReactDOM from 'react-dom';`,
+        `import './styles.css';`,
+        ...files?.map(file => `import './${file.name}';`)
+      ];
+
+      setCode(`${deps.join('\n')}\n${code}`);
+    },
+    [files]
+  );
 
   const renderPlaceholder = useCallback(() => {
     return <Placeholder.Graph height={height} />;
@@ -55,16 +64,22 @@ const CodeView = (props: CustomCodeViewProps) => {
   }, []);
 
   const openStackBlitz = useCallback(() => {
+    const depsFiles = {};
+
+    files?.forEach(file => {
+      depsFiles[file.name] = file.content;
+    });
+
     const project: Project = {
       title: 'rsuite example',
       description: 'Example from rsuitejs.com',
       template: 'create-react-app',
       dependencies: codeDependencies,
-      files: { 'index.js': code, 'index.html': html, 'styles.css': css }
+      files: { 'index.js': code, 'index.html': html, 'styles.css': css, ...depsFiles }
     };
 
     stackBlitzSDK.openProject(project);
-  }, [code]);
+  }, [code, files]);
 
   const withWhisper = useCallback(
     ({ children, i18nKey }) => (
@@ -83,7 +98,7 @@ const CodeView = (props: CustomCodeViewProps) => {
     { i18nKey: 'showTheSource' },
     {
       children: (
-        <CodeSandbox key="codeSandbox" code={code}>
+        <CodeSandbox key="codeSandbox" code={code} files={files}>
           {withWhisper({
             children: <CircleIconButton icon={CodesandboxIcon} />,
             i18nKey: 'openCodeSandbox'

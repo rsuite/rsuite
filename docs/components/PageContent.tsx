@@ -20,10 +20,11 @@ export interface PageContentProps {
   tabExamples?: any[];
   children?: React.ReactNode;
   hidePageNav?: boolean;
+  files: { name: string; content: string }[];
 }
 
 const PageContent = (props: PageContentProps) => {
-  const { category = 'components', dependencies, children, hidePageNav } = props;
+  const { category = 'components', dependencies, children, hidePageNav, files } = props;
   const { localePath } = React.useContext(AppContext);
 
   const router = useRouter();
@@ -59,6 +60,7 @@ const PageContent = (props: PageContentProps) => {
           return (
             <CustomCodeView
               key={index}
+              files={files}
               height={height ? parseInt(height) : undefined}
               source={require(`../pages${pathname}/fragments/${codeName}`)}
               dependencies={dependencies}

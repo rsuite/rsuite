@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const Panel = React.forwardRef(({ ...props }, ref) => (
+import { Animation, Button } from 'rsuite';
+
+const Panel = React.forwardRef((props, ref) => (
   <div
     {...props}
     ref={ref}
@@ -21,7 +23,7 @@ const App = () => {
   const [show, setShow] = React.useState(true);
   const [placement, setPlacement] = React.useState('right');
 
-  const handleToggle = placement => {
+  const onChange = placement => {
     setShow(!show);
     setPlacement(placement);
   };
@@ -29,10 +31,10 @@ const App = () => {
   return (
     <div className="row">
       <ButtonToolbar>
-        <Button onClick={() => handleToggle('left')}>Slide Left</Button>
-        <Button onClick={() => handleToggle('right')}>Slide Right</Button>
-        <Button onClick={() => handleToggle('top')}>Slide Top</Button>
-        <Button onClick={() => handleToggle('bottom')}>Slide Bottom</Button>
+        <Button onClick={() => onChange('left')}>Slide Left</Button>
+        <Button onClick={() => onChange('right')}>Slide Right</Button>
+        <Button onClick={() => onChange('top')}>Slide Top</Button>
+        <Button onClick={() => onChange('bottom')}>Slide Bottom</Button>
       </ButtonToolbar>
       <hr />
       <Animation.Slide in={show} placement={placement}>
@@ -42,7 +44,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

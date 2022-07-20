@@ -9,8 +9,19 @@ function compress(string) {
     .replace(/=+$/, ``); // Remove ending '='
 }
 
-const CodeSandbox = props => {
-  const { code, children } = props;
+interface CodeSandboxProps {
+  code?: string;
+  children?: React.ReactNode;
+  files?: { name: string; content: string }[];
+}
+
+const CodeSandbox = (props: CodeSandboxProps) => {
+  const { code, children, files } = props;
+  const depsFiles = {};
+
+  files?.forEach(file => {
+    depsFiles[file.name] = { content: file.content };
+  });
 
   const parameters = {
     files: {
@@ -21,7 +32,8 @@ const CodeSandbox = props => {
       },
       'index.js': { content: code },
       'index.html': { content: html },
-      'styles.css': { content: css }
+      'styles.css': { content: css },
+      ...depsFiles
     }
   };
 
