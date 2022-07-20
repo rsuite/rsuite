@@ -2,6 +2,7 @@ import { isNil, isUndefined } from 'lodash';
 import { CheckTreePickerProps } from './CheckTreePicker';
 import { shallowEqual, CHECK_STATE, CheckStateType } from '../utils';
 import { getChildrenByFlattenNodes } from '../utils/treeUtils';
+import { attachParent } from '../utils/attachParent';
 
 export interface TreeNodeType {
   uncheckable?: boolean;
@@ -128,7 +129,7 @@ export function getFormattedTree(
       formatted.check = curNode.check;
       formatted.expand = curNode.expand;
       formatted.uncheckable = curNode.uncheckable;
-      formatted.parent = curNode.parent;
+      attachParent(formatted, curNode.parent);
       formatted.checkState = checkState;
       if (node[childrenKey]?.length > 0) {
         formatted[childrenKey] = getFormattedTree(formatted[childrenKey], nodes, props);

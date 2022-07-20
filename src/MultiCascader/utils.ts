@@ -5,6 +5,7 @@ import slice from 'lodash/slice';
 import { MultiCascaderProps, ValueType } from './MultiCascader';
 import { ItemDataType } from '../@types/common';
 import { flattenTree } from '../utils/treeUtils';
+import { attachParent } from '../utils/attachParent';
 
 export interface ItemType extends ItemDataType {
   parent?: ItemType;
@@ -171,8 +172,7 @@ export function useFlattenData(data: ItemDataType[], itemKeys: ItemKeys) {
   const addFlattenData = useCallback(
     (children: ItemDataType[], parent: ItemDataType) => {
       const nodes = children.map(child => {
-        child.parent = parent;
-        return child;
+        return attachParent(child, parent);
       });
 
       parent[childrenKey] = nodes;
