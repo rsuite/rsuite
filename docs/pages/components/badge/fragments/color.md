@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Badge } from 'rsuite';
+
+const App = () => (
+  <>
     <Badge color="red">Red</Badge>
     <Badge color="orange">Orange</Badge>
     <Badge color="yellow">Yellow</Badge>
@@ -20,9 +22,10 @@ const instance = (
     <Badge color="violet" />
     <Badge color="blue" content="99+" />
     <Badge color="violet" content="NEW" />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
