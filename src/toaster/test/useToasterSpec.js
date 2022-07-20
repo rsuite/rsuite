@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
+import { screen, render, act, fireEvent } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks/dom';
 import useToaster from '../useToaster';
 import CustomProvider from '../../CustomProvider';
@@ -76,25 +76,30 @@ describe('useToaster', () => {
   it('Should be localized on components rendered via toaster', () => {
     const App = () => {
       const toaster = useToaster();
-      React.useEffect(() => {
-        toaster.push(
-          <div data-testid="msg-with-uploader">
-            <Uploader action="/" />
-          </div>
-        );
-      });
-      return null;
+
+      const handleClick = () => {
+        toaster.push(<Uploader action="/" />);
+      };
+
+      return (
+        <div>
+          <button data-testid="btn" onClick={handleClick}>
+            click
+          </button>
+        </div>
+      );
     };
 
-    render(
+    const { getByTestId, getByText } = render(
       <CustomProvider locale={zhCN}>
         <App />
       </CustomProvider>
     );
 
-    const uploaderBtn = screen
-      .getByTestId('msg-with-uploader')
-      .querySelector('.rs-uploader-trigger-btn');
-    assert.equal(uploaderBtn.textContent, '上传');
+    act(() => {
+      fireEvent.click(getByTestId('btn'));
+    });
+
+    expect(getByText('上传')).to.exist;
   });
 });

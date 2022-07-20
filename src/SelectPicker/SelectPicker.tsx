@@ -105,7 +105,7 @@ export interface SelectPickerProps<T>
       'value' | 'defaultValue' | 'onChange'
     >,
     SelectProps<T>,
-    Pick<PickerToggleProps, 'label'> {
+    Pick<PickerToggleProps, 'caretAs' | 'label'> {
   /** Initial value */
   defaultValue?: T;
 

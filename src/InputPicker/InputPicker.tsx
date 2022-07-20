@@ -42,7 +42,8 @@ import {
   OverlayTriggerInstance,
   PositionChildProps,
   PickerComponent,
-  listPickerPropTypes
+  listPickerPropTypes,
+  PickerToggleProps
 } from '../Picker';
 
 import Tag, { TagProps } from '../Tag';
@@ -83,7 +84,8 @@ interface InputItemDataType extends ItemDataType {
 export type ValueType = any;
 export interface InputPickerProps<T = ValueType>
   extends FormControlPickerProps<T, InputPickerLocale, InputItemDataType>,
-    SelectProps<T> {
+    SelectProps<T>,
+    Pick<PickerToggleProps, 'caretAs'> {
   tabIndex?: number;
 
   /** Settings can create new options */

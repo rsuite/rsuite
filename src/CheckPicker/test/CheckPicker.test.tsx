@@ -38,3 +38,5 @@ const pickerRef = React.createRef<PickerInstance>();
 
 // With a label
 <CheckPicker label="User" data={[]} />;
+
+<CheckPicker caretAs={() => <div />} data={[]} />;

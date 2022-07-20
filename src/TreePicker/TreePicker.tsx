@@ -56,7 +56,8 @@ import {
   omitTriggerPropKeys,
   PositionChildProps,
   PickerComponent,
-  useToggleKeyDownEvent
+  useToggleKeyDownEvent,
+  PickerToggleProps
 } from '../Picker';
 
 import { TreeDragProps, TreeBaseProps, DropData } from '../Tree/Tree';
@@ -70,7 +71,8 @@ export const maxTreeHeight = 320;
 export interface TreePickerProps<T = number | string>
   extends TreeBaseProps<T, ItemDataType>,
     TreeDragProps,
-    FormControlPickerProps<T, PickerLocale, ItemDataType> {
+    FormControlPickerProps<T, PickerLocale, ItemDataType>,
+    Pick<PickerToggleProps, 'caretAs'> {
   /** The height of Dropdown */
   height?: number;
 
