@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { AvatarGroup, Avatar } from 'rsuite';
+
+const App = () => (
+  <>
     <AvatarGroup spacing={6}>
       <Avatar
         size="lg"
@@ -44,10 +46,10 @@ const instance = (
       <Avatar circle src="https://avatars.githubusercontent.com/u/2797600" alt="@posebear1990" />
       <Avatar circle src="https://avatars.githubusercontent.com/u/23637144" alt="@Sleaf" />
     </AvatarGroup>
-  </div>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
