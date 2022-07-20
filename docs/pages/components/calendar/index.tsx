@@ -1,13 +1,15 @@
 import React from 'react';
-import * as dateFns from 'date-fns';
+
 import { Calendar, Button, Tag, Popover, Whisper, Badge } from 'rsuite';
 import DefaultPage from '@/components/Page';
+import files from './files';
 
 export default function Page() {
   return (
     <DefaultPage
       examples={['basic', 'compact']}
-      dependencies={{ dateFns, Calendar, Button, Tag, Popover, Whisper, Badge }}
+      dependencies={{ Calendar, Button, Tag, Popover, Whisper, Badge }}
+      sandboxFiles={files}
     />
   );
 }

@@ -12,14 +12,15 @@ function compress(string) {
 interface CodeSandboxProps {
   code?: string;
   children?: React.ReactNode;
-  files?: { name: string; content: string }[];
+  sandboxFiles?: { name: string; content: string }[];
+  sandboxDependencies?: any;
 }
 
 const CodeSandbox = (props: CodeSandboxProps) => {
-  const { code, children, files } = props;
+  const { code, children, sandboxFiles, sandboxDependencies } = props;
   const depsFiles = {};
 
-  files?.forEach(file => {
+  sandboxFiles?.forEach(file => {
     depsFiles[file.name] = { content: file.content };
   });
 
@@ -27,7 +28,8 @@ const CodeSandbox = (props: CodeSandboxProps) => {
     files: {
       'package.json': {
         content: {
-          dependencies
+          dependencies,
+          ...sandboxDependencies
         }
       },
       'index.js': { content: code },
