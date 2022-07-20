@@ -91,7 +91,6 @@ const CodeView = (props: CustomCodeViewProps) => {
         </CodeSandbox>
       )
     },
-
     {
       icon: <Icon as={StackBlitzIcon} />,
       i18nKey: 'openStackBlitz',
@@ -110,36 +109,43 @@ const CodeView = (props: CustomCodeViewProps) => {
     }
   ];
 
+  const renderToolbar = (showCodeButton: React.ReactElement) => {
+    return (
+      <>
+        {tools.map((item, index) => {
+          const { i18nKey, children, ...rest } = item;
+
+          // Wait for code to import before showing CodeSandbox and StackBlitz buttons
+          if ((index === 1 || index === 2) && !code) {
+            return null;
+          }
+
+          if (children) {
+            return children;
+          } else if (index === 0) {
+            return withWhisper({ children: showCodeButton, i18nKey });
+          }
+          return withWhisper({
+            children: <IconButton appearance="subtle" circle size="xs" {...rest} />,
+            i18nKey
+          });
+        })}
+      </>
+    );
+  };
+
   if (canUseDOM && source && styleLoaded) {
     return (
-      <div ref={viewRef} className="rs-code-view">
-        <ReactCodeView
-          {...rest}
-          style={{ minHeight: height }}
-          dependencies={{ ...dependencies, Paragraph, Divider }}
-          beforeCompile={setRenderCode}
-          renderToolbar={(CodeButton: React.ReactElement) => {
-            return (
-              <>
-                {tools.map((item, index) => {
-                  const { i18nKey, children, ...rest } = item;
-                  if (children) {
-                    return children;
-                  } else if (index === 0) {
-                    return withWhisper({ children: CodeButton, i18nKey });
-                  }
-                  return withWhisper({
-                    children: <IconButton appearance="subtle" circle size="xs" {...rest} />,
-                    i18nKey
-                  });
-                })}
-              </>
-            );
-          }}
-        >
-          {source}
-        </ReactCodeView>
-      </div>
+      <ReactCodeView
+        {...rest}
+        ref={viewRef}
+        style={{ minHeight: height }}
+        dependencies={{ ...dependencies, Paragraph, Divider }}
+        beforeCompile={setRenderCode}
+        renderToolbar={renderToolbar}
+      >
+        {source}
+      </ReactCodeView>
     );
   }
   return renderPlaceholder();

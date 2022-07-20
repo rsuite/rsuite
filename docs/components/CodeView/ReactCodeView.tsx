@@ -6,10 +6,11 @@ const editorProps = {
   buttonClassName: 'rs-btn-subtle rs-btn-icon-circle rs-btn-icon'
 };
 
-export default React.memo((props: any) => {
+export default React.forwardRef((props: any, ref) => {
   return (
     <ReactCodeView
       {...props}
+      ref={ref}
       theme="dark"
       editor={editorProps}
       afterCompile={(code: string) => {
