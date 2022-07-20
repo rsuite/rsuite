@@ -1,3 +1,10 @@
+## [5.16.1](https://github.com/rsuite/rsuite/compare/v5.16.0...v5.16.1) (2022-07-15)
+
+### Bug Fixes
+
+- **InputNumber:** fix unexpected focus ring when used within an InputGroup ([#2585](https://github.com/rsuite/rsuite/issues/2585)) ([6f76b57](https://github.com/rsuite/rsuite/commit/6f76b5752bca2e11639d7fe34dd927dd84c98f73))
+- **SelectPicker,CheckPicker:** add missing label prop declaration ([#2586](https://github.com/rsuite/rsuite/issues/2586)) ([e1a8cfe](https://github.com/rsuite/rsuite/commit/e1a8cfe32223ec210ac9a5ff793b973d4bcac131))
+
 # [5.16.0](https://github.com/rsuite/rsuite/compare/v5.15.2...v5.16.0) (2022-07-07)
 
 ### Features

@@ -36,7 +36,7 @@ type CalendarLocaleType = {
 ### Pagination
 
 ```ts
-type PaginationLocaleType = {
+type PaginationLocale = {
   more?: string;
   prev?: string;
   next?: string;
