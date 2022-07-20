@@ -1,32 +1,33 @@
 <!--start-code-->
 
 ```js
-function createNode() {
+import { Cascader } from 'rsuite';
+
+const fetchNodes = id =>
+  new Promise(resolve => {
+    setTimeout(() => {
+      resolve(mockData());
+    }, 500);
+  });
+
+const createNode = () => {
   const hasChildren = Math.random() > 0.2;
   return {
     label: `Node ${(Math.random() * 1e18).toString(36).slice(0, 3).toUpperCase()}`,
     value: Math.random() * 1e18,
     children: hasChildren ? [] : null
   };
-}
+};
 
-function createChildren() {
+const mockData = () => {
   const children = [];
   for (let i = 0; i < Math.random() * 10; i++) {
     children.push(createNode());
   }
   return children;
-}
+};
 
-function fetchNodes(id) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(createChildren());
-    }, 500);
-  });
-}
-
-const defaultData = createChildren();
+const data = mockData();
 
 const App = () => {
   const [value, setValue] = React.useState();
@@ -38,29 +39,22 @@ const App = () => {
         onChange={setValue}
         placeholder="Select"
         style={{ width: 224 }}
-        data={defaultData}
+        data={data}
         getChildren={node => {
           return fetchNodes(node.id);
         }}
-        /**
-         *  Set the status of data loading.
         renderMenu={(children, menu, parentNode) => {
           if (parentNode && parentNode.loading) {
-            return (
-              <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-                Loading...
-              </p>
-            );
+            return <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>Loading...</p>;
           }
           return menu;
         }}
-        */
       />
     </div>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

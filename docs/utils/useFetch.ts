@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'isomorphic-fetch';
 
 const useFetch = (url: string, options?: any) => {
@@ -6,7 +6,7 @@ const useFetch = (url: string, options?: any) => {
   const [response, setResponse] = React.useState(defaultValue);
   const [error, setError] = React.useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await fetch(url, rest);
@@ -17,6 +17,7 @@ const useFetch = (url: string, options?: any) => {
       }
     };
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
   return { response, error };
 };
