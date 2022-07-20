@@ -20,7 +20,7 @@ export interface PageContentProps {
   tabExamples?: any[];
   children?: React.ReactNode;
   hidePageNav?: boolean;
-  files: { name: string; content: string }[];
+  files?: { name: string; content: string }[];
 }
 
 const PageContent = (props: PageContentProps) => {

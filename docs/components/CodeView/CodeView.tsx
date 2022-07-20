@@ -43,12 +43,15 @@ const CodeView = (props: CustomCodeViewProps) => {
 
   const setRenderCode = useCallback(
     code => {
-      const deps = [
+      let deps = [
         `import React from 'react';`,
         `import ReactDOM from 'react-dom';`,
-        `import './styles.css';`,
-        ...files?.map(file => `import './${file.name}';`)
+        `import './styles.css';`
       ];
+
+      if (files) {
+        deps = deps.concat(files.map(file => `import './${file.name}';`));
+      }
 
       setCode(`${deps.join('\n')}\n${code}`);
     },
