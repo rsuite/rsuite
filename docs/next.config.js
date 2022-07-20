@@ -227,5 +227,6 @@ module.exports = {
     maxInactiveAge: 120 * 1e3, // default 25s
     // Number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 3 // default 2
-  }
+  },
+  pageExtensions: ['tsx']
 };
