@@ -26,6 +26,8 @@ Should automatically collapse if there are more than 5 items. Use `maxItems` to 
 
 <!--{include:`with-router.md`}-->
 
+> [ Used with `Link` in React Router](/guide/composition/#react-router-dom)
+
 ### Accessibility
 
 WAI-ARIA:https://www.w3.org/TR/wai-aria-practices/#breadcrumb

@@ -26,6 +26,8 @@
 
 <!--{include:`with-router.md`}-->
 
+> [与 React Router 中的 Link 组合](/zh/guide/composition/#react-router-dom)
+
 ### 无障碍设计
 
 WAI-ARIA:https://www.w3.org/TR/wai-aria-practices/#breadcrumb
