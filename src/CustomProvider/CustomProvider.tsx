@@ -75,7 +75,7 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
     ...rest
   } = props;
   const toasters = React.useRef(new Map<string, ToastContainerInstance>());
-  const { Portal } = usePortal({ container });
+  const { Portal } = usePortal({ container, waitMount: true });
 
   const value = React.useMemo(
     () => ({ classPrefix, theme, toasters, ...rest }),
@@ -98,17 +98,18 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
   return (
     <Provider value={value}>
       {children}
-
       <Portal>
-        {toastPlacements.map(placement => (
-          <ToastContainer
-            key={placement}
-            placement={placement}
-            ref={ref => {
-              toasters.current.set(placement, ref);
-            }}
-          />
-        ))}
+        <div className="rs-toast-provider">
+          {toastPlacements.map(placement => (
+            <ToastContainer
+              key={placement}
+              placement={placement}
+              ref={ref => {
+                toasters.current.set(placement, ref);
+              }}
+            />
+          ))}
+        </div>
       </Portal>
     </Provider>
   );
