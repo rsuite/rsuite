@@ -1,12 +1,32 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { CheckTree } from 'rsuite';
 
-const CascadeDemo = () => {
+function mockTreeData(depth, length) {
+  const data = [];
+  const mock = (list, parentValue, layer = 0) => {
+    Array.from({ length }).forEach((_, index) => {
+      const value = parentValue ? `${parentValue}-${index + 1}` : `${index + 1}`;
+      const children = [];
+      const row = { label: `Layer ${layer + 1}`, value };
+
+      list.push(row);
+
+      if (layer < depth - 1) {
+        row.children = children;
+        mock(children, value, layer + 1);
+      }
+    });
+  };
+
+  mock(data);
+
+  return data;
+}
+const data = mockTreeData(3, 2);
+
+const App = () => {
   const [cascade, setCascade] = useState(false);
   return (
     <div>
@@ -23,7 +43,7 @@ const CascadeDemo = () => {
   );
 };
 
-ReactDOM.render(<CascadeDemo />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

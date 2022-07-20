@@ -8,7 +8,7 @@
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 
