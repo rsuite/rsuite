@@ -52,3 +52,5 @@ type SortDirection = 'asc' | 'desc';
     expectType<SortDirection | null>(value);
   }}
 />;
+
+<SelectPicker caretAs={() => <div />} data={[]} />;
