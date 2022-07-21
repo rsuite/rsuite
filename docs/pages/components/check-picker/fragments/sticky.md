@@ -4,7 +4,7 @@
 import { CheckPicker } from 'rsuite';
 
 const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
-  item => ({ label: item, value: item })
+  item => ({ label: item, value: item, role: Math.random() > 0.5 ? 'Owner' : 'Guest' })
 );
 
 const App = () => (

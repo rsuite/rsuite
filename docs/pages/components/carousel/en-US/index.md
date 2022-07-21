@@ -8,7 +8,7 @@ Display a set of elements in a carousel
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

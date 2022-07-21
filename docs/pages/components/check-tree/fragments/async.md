@@ -21,8 +21,8 @@ const mockData = () => {
 };
 
 const App = () => {
-  const [value, setValue] = useState([]);
-  const [data, setData] = useState(mockData());
+  const [value, setValue] = React.useState([]);
+  const [data, setData] = React.useState(mockData());
 
   const fetchChildrenData = activeNode => {
     return new Promise(resolve => {

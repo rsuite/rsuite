@@ -8,7 +8,7 @@ Components such as navigation, buttons, etc. can be fixed in the visible range. 
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

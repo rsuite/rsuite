@@ -8,7 +8,7 @@ Single selection of data with hierarchical relationship structure.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

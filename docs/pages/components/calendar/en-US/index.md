@@ -8,7 +8,7 @@ A component that displays data by calendar
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

@@ -8,7 +8,7 @@ Used for multiple data selection, support grouping.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

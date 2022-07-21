@@ -14,7 +14,7 @@ export default React.forwardRef((props: any, ref) => {
       theme="dark"
       editor={editorProps}
       afterCompile={(code: string) => {
-        return code.replace(/import\ [\w\,\{\}\ ]+\ from\ ?["'@/\w-]+;/gi, '');
+        return code.replace(/import\ [\w\,\{\}\ ]+\ from\ ?[\."'@/\w-]+;/gi, '');
       }}
     />
   );

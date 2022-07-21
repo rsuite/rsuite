@@ -10,18 +10,15 @@ import components from '../utils/component.config.json';
 import { getTitle, getDescription } from '../utils/parseHTML';
 import scrollIntoView from '../utils/scrollIntoView';
 import { VercelBanner } from './VercelBanner';
-import CustomCodeView from './CodeView';
+import CustomCodeView, { CustomCodeViewProps } from './CodeView';
 
-export interface PageContentProps {
+export interface PageContentProps extends CustomCodeViewProps {
   id?: string;
   category?: string;
   examples?: string[];
-  dependencies?: any;
   tabExamples?: any[];
   children?: React.ReactNode;
   hidePageNav?: boolean;
-  sandboxFiles?: { name: string; content: string }[];
-  sandboxDependencies?: any;
 }
 
 const PageContent = (props: PageContentProps) => {

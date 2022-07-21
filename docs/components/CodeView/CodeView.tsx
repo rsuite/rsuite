@@ -13,13 +13,13 @@ import ReactCodeView from './ReactCodeView';
 import CodeSandbox from './CodeSandbox';
 import { html, css, dependencies as codeDependencies } from './utils';
 
-interface CustomCodeViewProps {
+export interface CustomCodeViewProps {
   className?: string;
   height?: number;
   dependencies?: any;
   source?: any;
-  path: string;
-  sandboxFiles?: { name: string; content: string }[];
+  path?: string;
+  sandboxFiles?: { name: string; content: string; import?: boolean }[];
   sandboxDependencies?: any;
   renderToolbar?: (showCodeButton: React.ReactNode) => React.ReactNode;
 }
@@ -59,7 +59,11 @@ const CodeView = (props: CustomCodeViewProps) => {
       ];
 
       if (sandboxFiles) {
-        deps = deps.concat(sandboxFiles.map(file => `import './${file.name}';`));
+        deps = deps.concat(
+          sandboxFiles
+            .map(file => (file.import ? `import './${file.name}';` : null))
+            .filter(Boolean)
+        );
       }
 
       setCode(`${deps.join('\n')}\n${code}`);

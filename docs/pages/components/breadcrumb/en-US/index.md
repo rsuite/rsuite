@@ -8,7 +8,7 @@ Used to display the current page path and quickly return to the history page.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 
