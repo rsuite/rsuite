@@ -1,14 +1,16 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { DateRangePicker } from 'rsuite';
+
+const App = () => (
+  <>
     <DateRangePicker appearance="default" placeholder="Default" style={{ width: 230 }} />
     <hr />
     <DateRangePicker appearance="subtle" placeholder="Subtle" style={{ width: 230 }} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
