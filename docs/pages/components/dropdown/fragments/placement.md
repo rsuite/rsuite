@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Dropdown } from 'rsuite';
+
 const items = [
   <Dropdown.Item key={1}>New File</Dropdown.Item>,
   <Dropdown.Item key={2}>New File with Current Profile</Dropdown.Item>,
@@ -11,7 +13,7 @@ const items = [
   <Dropdown.Item key={7}>About</Dropdown.Item>
 ];
 
-const instance = (
+const App = () => (
   <table className="placement-table">
     <tbody>
       <tr>
@@ -73,7 +75,7 @@ const instance = (
     </tbody>
   </table>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

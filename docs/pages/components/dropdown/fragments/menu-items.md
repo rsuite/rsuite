@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Dropdown } from 'rsuite';
+
+const App = () => (
   <Dropdown.Menu
     style={{
       width: 200,
@@ -17,7 +19,7 @@ const instance = (
     <Dropdown.Item>About</Dropdown.Item>
   </Dropdown.Menu>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
