@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { ButtonToolbar, Button } from 'rsuite';
+
 const App = () => {
   const nodeRef = React.useRef();
   return (
@@ -35,7 +37,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

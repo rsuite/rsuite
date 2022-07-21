@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { ButtonToolbar, Button } from 'rsuite';
+
 const App = () => {
   const [html, setHtml] = React.useState('<div class="view"></div>');
   const containerRef = React.useRef();
@@ -54,7 +56,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
