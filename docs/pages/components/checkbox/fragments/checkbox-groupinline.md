@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Checkbox, CheckboxGroup } from 'rsuite';
+
+const App = () => (
   <CheckboxGroup inline name="checkboxList">
     <Checkbox value="A">Item A</Checkbox>
     <Checkbox value="B">Item B</Checkbox>
@@ -12,7 +14,7 @@ const instance = (
   </CheckboxGroup>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

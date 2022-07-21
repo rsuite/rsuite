@@ -1,6 +1,7 @@
 const files = [
   {
     name: 'animation.css',
+    import: true,
     content: `@keyframes zoomIn {
   from {
     opacity: 0;

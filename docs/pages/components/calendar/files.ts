@@ -1,6 +1,7 @@
 const files = [
   {
     name: 'calendar.css',
+    import: true,
     content: `.calendar-todo-list {
   text-align: left;
   padding: 0;
