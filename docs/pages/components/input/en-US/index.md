@@ -14,7 +14,7 @@ Instead of HTML native controls, input, textarea.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

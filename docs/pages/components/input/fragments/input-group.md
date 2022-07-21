@@ -1,6 +1,10 @@
 <!--start-code-->
 
 ```js
+import { Input, InputGroup } from 'rsuite';
+import SearchIcon from '@rsuite/icons/Search';
+import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+
 const styles = {
   width: 300,
   marginBottom: 10

@@ -1,8 +1,14 @@
 <!--start-code-->
 
 ```js
-const instance = <Input placeholder="Default Input" />;
-ReactDOM.render(instance);
+import { Input } from 'rsuite';
+
+const App = () => (
+  <>
+    <Input placeholder="Default Input" />
+  </>
+);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
