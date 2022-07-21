@@ -7,10 +7,10 @@ import * as faAddressBook from '@fortawesome/free-regular-svg-icons/faAddressBoo
 <!--start-code-->
 
 ```js
-// import { Icon } from '@rsuite/icons';
-// import * as faCamera from '@fortawesome/free-solid-svg-icons/faCamera';
-// import * as faReact from '@fortawesome/free-brands-svg-icons/faReact';
-// import * as faAddressBook from '@fortawesome/free-regular-svg-icons/faAddressBook';
+import { Icon } from '@rsuite/icons';
+import * as faCamera from '@fortawesome/free-solid-svg-icons/faCamera';
+import * as faReact from '@fortawesome/free-brands-svg-icons/faReact';
+import * as faAddressBook from '@fortawesome/free-regular-svg-icons/faAddressBook';
 
 const FaSvgIcon = ({ faIcon, ...rest }) => {
   const { width, height, svgPathData } = faIcon;
@@ -21,7 +21,7 @@ const FaSvgIcon = ({ faIcon, ...rest }) => {
   );
 };
 
-const instance = (
+const App = () => (
   <div className="icon-example-list">
     <Icon as={FaSvgIcon} faIcon={faCamera} />
     <Icon as={FaSvgIcon} faIcon={faReact} style={{ color: '#61dafb' }} />
@@ -29,7 +29,7 @@ const instance = (
   </div>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
