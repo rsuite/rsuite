@@ -19,22 +19,24 @@ import {
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
-import Logo from '@/components/Logo';
-import Home from '@rsuite/icons/legacy/Home';
-import Cog from '@rsuite/icons/legacy/Cog';
-import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
-import AngleRight from '@rsuite/icons/legacy/AngleRight';
-import LogoAnalytics from '@rsuite/icons/legacy/LogoAnalytics';
-import Dashboard from '@rsuite/icons/Dashboard';
-import Group from '@rsuite/icons/legacy/Group';
-import Magic from '@rsuite/icons/legacy/Magic';
-import GearCircle from '@rsuite/icons/legacy/GearCircle';
+
+import MagicIcon from '@rsuite/icons/legacy/Magic';
+import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
+import DashboardIcon from '@rsuite/icons/Dashboard';
+import GroupIcon from '@rsuite/icons/legacy/Group';
+
+import HomeIcon from '@rsuite/icons/legacy/Home';
+import CogIcon from '@rsuite/icons/legacy/Cog';
+import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
+import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+
+import files from './files';
 
 export default function Page() {
   return (
     <DefaultPage
+      sandboxFiles={files}
       dependencies={{
-        Logo,
         Divider,
         IconButton,
         Button,
@@ -51,15 +53,14 @@ export default function Page() {
         Form,
         ButtonToolbar,
         Navbar,
-        Home,
-        Cog,
-        AngleLeft,
-        AngleRight,
-        LogoAnalytics,
-        Dashboard,
-        Group,
-        Magic,
-        GearCircle
+        HomeIcon,
+        CogIcon,
+        AngleLeftIcon,
+        AngleRightIcon,
+        DashboardIcon,
+        GroupIcon,
+        MagicIcon,
+        GearCircleIcon
       }}
     />
   );

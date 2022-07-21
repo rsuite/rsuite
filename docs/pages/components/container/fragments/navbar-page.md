@@ -1,7 +1,11 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Container, Header, Content, Footer, Navbar, Nav } from 'rsuite';
+import HomeIcon from '@rsuite/icons/legacy/Home';
+import CogIcon from '@rsuite/icons/legacy/Cog';
+
+const App = () => (
   <div className="show-fake-browser navbar-page">
     <Container>
       <Header>
@@ -11,7 +15,7 @@ const instance = (
           </Navbar.Header>
           <Navbar.Body>
             <Nav>
-              <Nav.Item icon={<Home />}>Home</Nav.Item>
+              <Nav.Item icon={<HomeIcon />}>Home</Nav.Item>
               <Nav.Item>News</Nav.Item>
               <Nav.Item>Products</Nav.Item>
               <Nav.Menu title="About">
@@ -21,7 +25,7 @@ const instance = (
               </Nav.Menu>
             </Nav>
             <Nav pullRight>
-              <Nav.Item icon={<Cog />}>Settings</Nav.Item>
+              <Nav.Item icon={<CogIcon />}>Settings</Nav.Item>
             </Nav>
           </Navbar.Body>
         </Navbar>
@@ -31,7 +35,7 @@ const instance = (
     </Container>
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
