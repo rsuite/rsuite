@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { DatePicker } from 'rsuite';
+
+const App = () => (
   <DatePicker
     format="yyyy-MM-dd HH:mm:ss"
     ranges={[
@@ -14,7 +16,7 @@ const instance = (
   />
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,9 +1,16 @@
 import React from 'react';
-import * as dateFns from 'date-fns';
 import { DatePicker, Button, InputGroup, Input } from 'rsuite';
+import addDays from 'date-fns/addDays';
+import subDays from 'date-fns/subDays';
+import isBefore from 'date-fns/isBefore';
 
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
-  return <DefaultPage dependencies={{ DatePicker, Button, InputGroup, dateFns, Input }} />;
+  return (
+    <DefaultPage
+      dependencies={{ DatePicker, Button, InputGroup, Input, addDays, subDays, isBefore }}
+      sandboxDependencies={{ 'date-fns': '^2.13.0' }}
+    />
+  );
 }

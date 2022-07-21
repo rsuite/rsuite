@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { DatePicker } from 'rsuite';
+
 const ranges = [
   {
     label: 'Now',
@@ -8,7 +10,7 @@ const ranges = [
   }
 ];
 const App = () => (
-  <div>
+  <>
     <DatePicker
       format="dd MMM yyyy hh:mm:ss aa"
       showMeridian
@@ -17,10 +19,10 @@ const App = () => (
     />
     <hr />
     <DatePicker format="hh:mm:ss aa" showMeridian ranges={ranges} style={{ width: 260 }} />
-  </div>
+  </>
 );
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

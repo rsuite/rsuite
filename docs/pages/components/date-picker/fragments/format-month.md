@@ -1,11 +1,15 @@
 <!--start-code-->
 
 ```js
-const DatePickerInstance = props => (
-  <DatePicker format="yyyy-MM" ranges={[]} style={{ width: 200 }} />
+import { DatePicker } from 'rsuite';
+
+const App = () => (
+  <>
+    <DatePicker format="yyyy-MM" ranges={[]} style={{ width: 200 }} />
+  </>
 );
 
-ReactDOM.render(<DatePickerInstance />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

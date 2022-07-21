@@ -1,14 +1,17 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { DatePicker } from 'rsuite';
+
+const App = () => (
+  <>
     <DatePicker oneTap style={{ width: 200 }} />
     <hr />
     <DatePicker oneTap format="yyyy-MM" style={{ width: 200 }} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
