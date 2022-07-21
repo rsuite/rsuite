@@ -1,13 +1,18 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
+import { MultiCascader } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const instance = <MultiCascader data={data} style={{ width: 224 }} />;
-ReactDOM.render(instance);
+const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+
+const App = () => (
+  <>
+    <MultiCascader data={data} style={{ width: 224 }} />
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
