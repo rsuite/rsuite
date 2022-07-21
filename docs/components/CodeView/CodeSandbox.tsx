@@ -28,8 +28,10 @@ const CodeSandbox = (props: CodeSandboxProps) => {
     files: {
       'package.json': {
         content: {
-          dependencies,
-          ...sandboxDependencies
+          dependencies: {
+            ...dependencies,
+            ...sandboxDependencies
+          }
         }
       },
       'index.js': { content: code },
