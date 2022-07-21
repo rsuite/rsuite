@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-import { ButtonToolbar, Button } from 'rsuite';
+import { ButtonToolbar, Button, DOMHelper } from 'rsuite';
+
+const { on, off } = DOMHelper;
 
 const App = () => {
   const btnRef = React.useRef();

@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-import { ButtonToolbar, Button } from 'rsuite';
+import { ButtonToolbar, Button, DOMHelper } from 'rsuite';
+
+const { addClass, removeClass, toggleClass, hasClass } = DOMHelper;
 
 const App = () => {
   const [html, setHtml] = React.useState('<div class="view"></div>');

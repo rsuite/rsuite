@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-import { ButtonToolbar, Button } from 'rsuite';
+import { ButtonToolbar, Button, DOMHelper } from 'rsuite';
+
+const { scrollTop } = DOMHelper;
 
 const App = () => {
   return (

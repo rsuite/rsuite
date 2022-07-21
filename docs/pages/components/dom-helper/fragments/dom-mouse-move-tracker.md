@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-import { Button } from 'rsuite';
+import { Button, DOMHelper } from 'rsuite';
+
+const { DOMMouseMoveTracker } = DOMHelper;
 
 const App = () => {
   const [left, setLeft] = React.useState(0);
