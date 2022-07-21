@@ -1,6 +1,13 @@
 <!--start-code-->
 
 ```js
+import { Form, Button, Input, Modal } from 'rsuite';
+
+const selectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(item => ({
+  label: item,
+  value: item
+}));
+
 const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
 const App = () => {
@@ -19,7 +26,7 @@ const App = () => {
     setOpen(true);
   };
   return (
-    <div>
+    <>
       <Modal open={open} onClose={handleClose} size="xs">
         <Modal.Header>
           <Modal.Title>New User</Modal.Title>
@@ -46,7 +53,7 @@ const App = () => {
             </Form.Group>
             <Form.Group controlId="select-10">
               <Form.ControlLabel>SelectPicker</Form.ControlLabel>
-              <Form.Control name="select" data={pickerData} accepter={SelectPicker} />
+              <Form.Control name="select" data={selectData} accepter={SelectPicker} />
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -60,11 +67,11 @@ const App = () => {
         </Modal.Footer>
       </Modal>
       <Button onClick={handleOpen}>New User</Button>
-    </div>
+    </>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

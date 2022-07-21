@@ -29,12 +29,16 @@ import {
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
-import useFetchData from '@/utils/useFetchData';
-import Avatar from '@rsuite/icons/legacy/Avatar';
+import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+
+import { mockTreeData, mockTreeDataToString } from '@/utils/mock';
+
+const mockfile = {
+  name: 'mock.js',
+  content: mockTreeDataToString
+};
 
 export default function Page() {
-  const { response: data } = useFetchData('province-simplified');
-  const { response: pickerData } = useFetchData('users-role');
   return (
     <DefaultPage
       dependencies={{
@@ -59,15 +63,15 @@ export default function Page() {
         DateRangePicker,
         TagPicker,
         InputPicker,
-        pickerData,
         Cascader,
         MultiCascader,
         Message,
-        data,
         Rate,
         Uploader,
-        Avatar
+        mockTreeData,
+        AvatarIcon
       }}
+      sandboxFiles={[mockfile]}
     />
   );
 }

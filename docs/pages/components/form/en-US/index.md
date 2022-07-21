@@ -17,7 +17,7 @@ A set of components and models that process form data.
 
 ---
 
-### Default
+### Basic
 
 The default is the vertical layout
 
