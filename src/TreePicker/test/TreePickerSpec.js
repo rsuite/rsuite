@@ -537,4 +537,23 @@ describe('TreePicker', () => {
     ref.current.list.scrollToRow(2);
     assert.isTrue(onScrollSpy.calledOnce);
   });
+
+  it('Should item able to stringfy', () => {
+    const onSelectSpy = sinon.spy();
+    const renderTreeNodeSpy = sinon.spy();
+
+    const instance = getInstance(
+      <TreePicker
+        defaultOpen
+        data={data}
+        onSelect={onSelectSpy}
+        renderTreeNode={renderTreeNodeSpy}
+      />
+    );
+    Simulate.click(instance.overlay.querySelector('span[data-key="0-0"]'));
+
+    assert.doesNotThrow(() => JSON.stringify(data[0]));
+    assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[0]));
+    assert.doesNotThrow(() => JSON.stringify(renderTreeNodeSpy.firstCall.args[0]));
+  });
 });

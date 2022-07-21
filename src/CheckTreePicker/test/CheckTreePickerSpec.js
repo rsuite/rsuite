@@ -599,4 +599,23 @@ describe('CheckTreePicker', () => {
 
     assert.equal(checkItems.length, 1);
   });
+
+  it('Should item able to stringfy', () => {
+    const onSelectSpy = sinon.spy();
+    const renderTreeNodeSpy = sinon.spy();
+
+    const instance = getInstance(
+      <CheckTreePicker
+        defaultOpen
+        data={data}
+        onSelect={onSelectSpy}
+        renderTreeNode={renderTreeNodeSpy}
+      />
+    );
+    ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-0"] input'));
+
+    assert.doesNotThrow(() => JSON.stringify(data[0]));
+    assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[0]));
+    assert.doesNotThrow(() => JSON.stringify(renderTreeNodeSpy.firstCall.args[0]));
+  });
 });
