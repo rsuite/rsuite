@@ -1,16 +1,19 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Divider } from 'rsuite';
+
+const App = () => (
+  <>
     <a>Edit</a>
     <Divider vertical />
     <a>Update</a>
     <Divider vertical />
     <a>Save</a>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

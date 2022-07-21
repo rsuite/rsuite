@@ -8,7 +8,7 @@ Divider are used to group content horizontally or vertically.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 
