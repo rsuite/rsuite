@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-const instance = (
+const App = () => (
   <div>
     <h1>Heading level 1</h1>
     <h2>Heading level 2</h2>
@@ -16,7 +16,7 @@ const instance = (
     </hgroup>
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
