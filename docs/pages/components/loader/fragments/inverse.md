@@ -1,12 +1,14 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div id="loaderInverseWrapper" style={{ height: 200 }}>
+import { Loader } from 'rsuite';
+
+const App = () => (
+  <div style={{ height: 200, background: '#000' }}>
     <Loader inverse center content="loading..." />
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,8 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = <Loader />;
-ReactDOM.render(instance);
+import { Loader } from 'rsuite';
+
+const App = () => (
+  <>
+    <Loader />
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
