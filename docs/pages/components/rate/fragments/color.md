@@ -1,11 +1,10 @@
 <!--start-code-->
 
 ```js
-/**
- * import { Rate } from 'rsuite'
- */
-const instance = (
-  <div>
+import { Rate } from 'rsuite';
+
+const App = () => (
+  <>
     <div>
       <Rate defaultValue={5} color="red" />
     </div>
@@ -27,10 +26,10 @@ const instance = (
     <div>
       <Rate defaultValue={5} color="violet" />
     </div>
-  </div>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
