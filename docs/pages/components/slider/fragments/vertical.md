@@ -1,7 +1,9 @@
 <!-- start-code -->
 
 ```js
-const VerticalSlider = () => {
+import { Slider, RangeSlider, Row, Col } from 'rsuite';
+
+const App = () => {
   const style = { height: 400 };
   return (
     <Row>
@@ -50,7 +52,7 @@ const VerticalSlider = () => {
     </Row>
   );
 };
-ReactDOM.render(<VerticalSlider />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!-- end-code -->

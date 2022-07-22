@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Slider, RangeSlider } from 'rsuite';
+
+const App = () => (
+  <>
     <Slider
       progress
       defaultValue={50}
@@ -12,9 +14,10 @@ const instance = (
     />
     <hr />
     <RangeSlider defaultValue={[10, 50]} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
