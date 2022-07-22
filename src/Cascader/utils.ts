@@ -4,6 +4,7 @@ import { shallowEqual, useUpdateEffect } from '../utils';
 import { CascaderProps } from './Cascader';
 import { ItemDataType } from '../@types/common';
 import { findNodeOfTree } from '../utils/treeUtils';
+import { attachParent } from '../utils/attachParent';
 
 export function getColumnsAndPaths<T extends ItemDataType>(data: T[], value, options) {
   const { childrenKey, valueKey, isAttachChildren } = options;
@@ -19,7 +20,7 @@ export function getColumnsAndPaths<T extends ItemDataType>(data: T[], value, opt
         const node = findNode(children);
 
         if (node) {
-          columns.push(children.map(item => ({ ...item, parent: items[i] })));
+          columns.push(children.map(item => attachParent(item, items[i])));
           paths.push(node.active);
 
           return { items, active: items[i] };

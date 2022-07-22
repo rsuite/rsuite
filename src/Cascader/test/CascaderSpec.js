@@ -556,4 +556,24 @@ describe('Cascader', () => {
       expect(getByTestId('content')).to.have.text('Not selected');
     });
   });
+
+  it('Should item able to stringfy', () => {
+    const onSelectSpy = sinon.spy();
+    const renderMenuItemSpy = sinon.spy();
+
+    const instance = getInstance(
+      <Cascader
+        defaultOpen
+        data={items}
+        onSelect={onSelectSpy}
+        renderMenuItem={renderMenuItemSpy}
+      />
+    );
+    const checkbox = instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[2];
+    ReactTestUtils.Simulate.click(checkbox);
+
+    assert.doesNotThrow(() => JSON.stringify(items[2]));
+    assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[1]));
+    assert.doesNotThrow(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1]));
+  });
 });

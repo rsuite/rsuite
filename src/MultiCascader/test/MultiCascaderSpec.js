@@ -337,6 +337,26 @@ describe('MultiCascader', () => {
     assert.equal(onSelectSpy.firstCall.lastArg.target, checkbox);
   });
 
+  it('Should item able to stringfy', () => {
+    const onSelectSpy = sinon.spy();
+    const renderMenuItemSpy = sinon.spy();
+
+    const instance = getInstance(
+      <MultiCascader
+        defaultOpen
+        data={items}
+        onSelect={onSelectSpy}
+        renderMenuItem={renderMenuItemSpy}
+      />
+    );
+    const checkbox = instance.overlay.querySelectorAll('.rs-checkbox')[2];
+    ReactTestUtils.Simulate.click(checkbox);
+
+    assert.doesNotThrow(() => JSON.stringify(items[2]));
+    assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[1]));
+    assert.doesNotThrow(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1]));
+  });
+
   it('Should call onCheck callback ', () => {
     const onCheckSpy = sinon.spy();
     const instance = getInstance(<MultiCascader data={items} defaultOpen onCheck={onCheckSpy} />);

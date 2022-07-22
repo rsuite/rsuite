@@ -10,6 +10,7 @@ import { shouldDisplay } from '../Picker';
 import reactToString from './reactToString';
 import { ListInstance } from '../Picker/VirtualizedList';
 import { TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from './constants';
+import { attachParent } from './attachParent';
 
 type PartialTreeProps = Partial<TreePickerProps | CheckTreePickerProps>;
 
@@ -51,9 +52,8 @@ export function flattenTree(
 
     data.forEach((item: any, index: number) => {
       const node: any = typeof executor === 'function' ? executor(item, index) : item;
-      node.parent = parent;
 
-      flattenData.push({ ...node });
+      flattenData.push(attachParent(node, parent));
 
       if (item[childrenKey]) {
         traverse(item[childrenKey], item);
