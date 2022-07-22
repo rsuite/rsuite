@@ -8,7 +8,7 @@ Used to display a set of data
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`default.md`}-->
 
