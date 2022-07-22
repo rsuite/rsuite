@@ -56,7 +56,7 @@ const App = () => {
   const [expanded, setExpand] = React.useState(true);
 
   return (
-    <div className="nav-wrapper">
+    <>
       <MySidenav
         activeKey={activeKey}
         openKeys={openKeys}
@@ -83,7 +83,7 @@ const App = () => {
         onExpand={setExpand}
         appearance="subtle"
       />
-    </div>
+    </>
   );
 };
 ReactDOM.render(<App />);

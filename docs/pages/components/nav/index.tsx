@@ -18,8 +18,7 @@ import MoreIcon from '@rsuite/icons/More';
 import StarIcon from '@rsuite/icons/legacy/Star';
 
 const sandboxDependencies = {
-  '@rsuite/responsive-nav': 'latest',
-  next: '^12.1.0'
+  '@rsuite/responsive-nav': 'latest'
 };
 
 export default function Page() {

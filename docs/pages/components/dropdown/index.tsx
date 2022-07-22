@@ -10,10 +10,6 @@ import FileDownloadIcon from '@rsuite/icons/FileDownload';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 import PlusIcon from '@rsuite/icons/Plus';
 
-const sandboxDependencies = {
-  next: '^12.1.0'
-};
-
 export default function Page() {
   return (
     <DefaultPage
@@ -33,7 +29,6 @@ export default function Page() {
         Whisper,
         Link
       }}
-      sandboxDependencies={sandboxDependencies}
     />
   );
 }
