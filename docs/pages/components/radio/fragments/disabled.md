@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Radio } from 'rsuite';
+
+const App = () => (
+  <>
     <label>Disabled:</label>
     <Radio disabled> Radio</Radio>
     <Radio checked disabled>
@@ -22,9 +24,10 @@ const instance = (
     <Radio checked plaintext>
       Checked Radio
     </Radio>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

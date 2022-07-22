@@ -8,7 +8,7 @@ Radio buttons allow the user to select one option from a set.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 
