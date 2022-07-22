@@ -656,10 +656,13 @@ describe('CheckTreePicker', () => {
         renderTreeNode={renderTreeNodeSpy}
       />
     );
-    ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-0"] input'));
 
-    assert.doesNotThrow(() => JSON.stringify(data[0]));
-    assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[0]));
-    assert.doesNotThrow(() => JSON.stringify(renderTreeNodeSpy.firstCall.args[0]));
+    fireEvent.click(instance.overlay.querySelector('div[data-key="0-0"] input'));
+
+    expect(onSelectSpy).to.called;
+    expect(renderTreeNodeSpy).to.called;
+    expect(() => JSON.stringify(data[0])).not.to.throw();
+    expect(() => JSON.stringify(onSelectSpy.firstCall.args[0])).not.to.throw();
+    expect(() => JSON.stringify(renderTreeNodeSpy.firstCall.args[0])).not.to.throw();
   });
 });

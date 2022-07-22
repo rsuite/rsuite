@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
-import { getDOMNode, getInstance, getStyle } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
 
@@ -45,9 +45,8 @@ describe('MultiCascader', () => {
   it('Should render number', () => {
     const instance = getDOMNode(<MultiCascader data={items} value={['abcde-1', 'abcde-2']} />);
 
-    assert.equal(instance.querySelector('.rs-picker-value-count').textContent, '1');
-    assert.include(instance.className, 'rs-picker-countable');
-    assert.equal(getStyle(instance.querySelector('.rs-picker-toggle-value'), 'display'), 'flex');
+    expect(instance.querySelector('.rs-picker-value-count')).to.text('1');
+    expect(instance.className).to.include('rs-picker-countable');
   });
 
   it('Should not render number', () => {
@@ -350,11 +349,14 @@ describe('MultiCascader', () => {
       />
     );
     const checkbox = instance.overlay.querySelectorAll('.rs-checkbox')[2];
-    ReactTestUtils.Simulate.click(checkbox);
 
-    assert.doesNotThrow(() => JSON.stringify(items[2]));
-    assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[1]));
-    assert.doesNotThrow(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1]));
+    fireEvent.click(checkbox);
+
+    expect(onSelectSpy).to.called;
+    expect(renderMenuItemSpy).to.called;
+    expect(() => JSON.stringify(items[2])).to.not.throw();
+    expect(() => JSON.stringify(onSelectSpy.firstCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1])).to.not.throw();
   });
 
   it('Should call onCheck callback ', () => {

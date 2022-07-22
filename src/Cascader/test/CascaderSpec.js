@@ -570,10 +570,13 @@ describe('Cascader', () => {
       />
     );
     const checkbox = instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[2];
-    ReactTestUtils.Simulate.click(checkbox);
 
-    assert.doesNotThrow(() => JSON.stringify(items[2]));
-    assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[1]));
-    assert.doesNotThrow(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1]));
+    fireEvent.click(checkbox);
+
+    expect(onSelectSpy).to.called;
+    expect(renderMenuItemSpy).to.called;
+    expect(() => JSON.stringify(items[2])).to.not.throw();
+    expect(() => JSON.stringify(onSelectSpy.firstCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1])).to.not.throw();
   });
 });

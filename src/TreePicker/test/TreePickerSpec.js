@@ -558,10 +558,12 @@ describe('TreePicker', () => {
         renderTreeNode={renderTreeNodeSpy}
       />
     );
-    Simulate.click(instance.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.click(instance.overlay.querySelector('span[data-key="0-0"]'));
 
-    assert.doesNotThrow(() => JSON.stringify(data[0]));
-    assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[0]));
-    assert.doesNotThrow(() => JSON.stringify(renderTreeNodeSpy.firstCall.args[0]));
+    expect(onSelectSpy).to.called;
+    expect(renderTreeNodeSpy).to.called;
+    expect(() => JSON.stringify(data[0])).not.to.throw();
+    expect(() => JSON.stringify(onSelectSpy.firstCall.args[0])).not.to.throw();
+    expect(() => JSON.stringify(renderTreeNodeSpy.firstCall.args[0])).not.to.throw();
   });
 });
