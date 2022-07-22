@@ -1,15 +1,17 @@
 <!--start-code-->
 
 ```js
+import { Notification, Placeholder } from 'rsuite';
+
 const Message = React.forwardRef(({ type, ...rest }, ref) => {
   return (
     <Notification ref={ref} {...rest} type={type} header={type}>
-      <Paragraph width={320} rows={3} />
+      <Placeholder.Paragraph style={{ width: 320 }} rows={3} />
     </Notification>
   );
 });
 
-const instance = (
+const App = () => (
   <div>
     <Message type="info" />
     <hr />
@@ -20,7 +22,7 @@ const instance = (
     <Message type="error" />
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
