@@ -8,7 +8,7 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 
@@ -46,6 +46,8 @@ Provides a list of various forms of navigation menus, which can be landscape and
 ### Used with `Link` in `next/link`
 
 <!--{include:`with-router.md`}-->
+
+> [ Used with `Link` in React Router](/guide/composition/#react-router-dom)
 
 ### Responsive
 
