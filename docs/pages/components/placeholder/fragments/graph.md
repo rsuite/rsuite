@@ -1,9 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = <Placeholder.Graph active />;
+import { Placeholder } from 'rsuite';
 
-ReactDOM.render(instance);
+const App = () => (
+  <>
+    <Placeholder.Graph active />
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
