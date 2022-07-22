@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Popover } from 'rsuite';
+
+const App = () => (
   <div style={{ height: 100, position: 'relative' }}>
     <Popover title="Title" visible>
       <p>This is a defalut Popover </p>
@@ -9,7 +11,8 @@ const instance = (
     </Popover>
   </div>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

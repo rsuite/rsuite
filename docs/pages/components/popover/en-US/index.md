@@ -9,7 +9,7 @@ When the mouse clicks/moves in, the pop-up pop-up box is used to display more co
 
 <!--{include:(components/popover/fragments/import.md)}-->
 
-## Examples
+## Basic
 
 ### Default
 
