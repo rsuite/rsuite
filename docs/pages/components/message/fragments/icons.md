@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Message } from 'rsuite';
+
+const App = () => (
+  <>
     <Message showIcon type="info">
       Informational
     </Message>
@@ -31,9 +33,10 @@ const instance = (
     <Message showIcon type="error" header="Error">
       This is an error message about copywriting.
     </Message>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
