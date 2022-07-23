@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Stack, Button } from 'rsuite';
+
 const App = () => {
   return (
     <Stack divider={<Divider vertical />}>
@@ -10,7 +12,8 @@ const App = () => {
     </Stack>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
