@@ -1,13 +1,13 @@
 <!--start-code-->
 
 ```js
-/**
- * import fakeData from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
- */
+import { Table, Pagination } from 'rsuite';
+import { mockUsers } from './mock';
+
+const { Column, HeaderCell, Cell } = Table;
+const defaultData = mockUsers(100);
 
 const App = () => {
-  const [loading, setLoading] = React.useState(false);
   const [limit, setLimit] = React.useState(10);
   const [page, setPage] = React.useState(1);
 
@@ -16,7 +16,7 @@ const App = () => {
     setLimit(dataKey);
   };
 
-  const data = fakeData.filter((v, i) => {
+  const data = defaultData.filter((v, i) => {
     const start = limit * (page - 1);
     const end = start + limit;
     return i >= start && i < end;
@@ -24,7 +24,7 @@ const App = () => {
 
   return (
     <div>
-      <Table height={420} data={data} loading={loading}>
+      <Table height={420} data={data}>
         <Column width={50} align="center" fixed>
           <HeaderCell>Id</HeaderCell>
           <Cell dataKey="id" />
@@ -45,8 +45,8 @@ const App = () => {
           <Cell dataKey="city" />
         </Column>
         <Column width={200} flexGrow={1}>
-          <HeaderCell>Company Name</HeaderCell>
-          <Cell dataKey="companyName" />
+          <HeaderCell>Email</HeaderCell>
+          <Cell dataKey="email" />
         </Column>
       </Table>
       <div style={{ padding: 20 }}>
@@ -60,8 +60,8 @@ const App = () => {
           maxButtons={5}
           size="xs"
           layout={['total', '-', 'limit', '|', 'pager', 'skip']}
-          total={fakeData.length}
-          limitOptions={[10, 20]}
+          total={defaultData.length}
+          limitOptions={[10, 30, 50]}
           limit={limit}
           activePage={page}
           onChangePage={setPage}
@@ -72,7 +72,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

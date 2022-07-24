@@ -1,15 +1,14 @@
 <!--start-code-->
 
 ```js
-/**
- * import fakeData from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
- */
+import { Table, Toggle, TagPicker } from 'rsuite';
+import { mockUsers } from './mock';
+
+const { Column, HeaderCell, Cell } = Table;
+const data = mockUsers(10);
 
 const CompactCell = props => <Cell {...props} style={{ padding: 4 }} />;
-const CompactHeaderCell = props => (
-  <HeaderCell {...props} style={{ padding: 4, backgroundColor: '#3498ff', color: '#fff' }} />
-);
+const CompactHeaderCell = props => <HeaderCell {...props} style={{ padding: 4 }} />;
 
 const defaultColumns = [
   {
@@ -29,20 +28,20 @@ const defaultColumns = [
     label: 'Last Name',
     width: 123
   },
+
   {
-    key: 'city',
-    label: 'City',
+    key: 'gender',
+    label: 'Gender',
     width: 200
   },
   {
-    key: 'street',
-    label: 'Street',
+    key: 'city',
+    label: 'City',
     flexGrow: 1
   }
 ];
 
 const App = () => {
-  const data = fakeData.filter((v, i) => i < 20);
   const [loading, setLoading] = React.useState(false);
   const [compact, setCompact] = React.useState(true);
   const [bordered, setBordered] = React.useState(true);
@@ -151,7 +150,7 @@ const App = () => {
         cleanable={false}
       />
       <hr />
-      <div style={{ border: '1px solid #ddd', height: autoHeight ? 'auto' : 400 }}>
+      <div style={{ height: autoHeight ? 'auto' : 400 }}>
         <Table
           loading={loading}
           height={300}
@@ -180,7 +179,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

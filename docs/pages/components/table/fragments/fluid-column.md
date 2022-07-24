@@ -1,13 +1,13 @@
 <!--start-code-->
 
 ```js
-/**
- * import fakeData from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
- */
+import { Table } from 'rsuite';
+import { mockUsers } from './mock';
+
+const { Column, HeaderCell, Cell } = Table;
+const data = mockUsers(8);
 
 const App = () => {
-  const data = fakeData.filter((v, i) => i < 8);
   return (
     <Table
       height={420}
@@ -35,15 +35,15 @@ const App = () => {
 
       <Column flexGrow={2}>
         <HeaderCell>
-          Company Name <code>flexGrow={2}</code>
+          Email <code>flexGrow={2}</code>
         </HeaderCell>
-        <Cell dataKey="companyName" />
+        <Cell dataKey="email" />
       </Column>
     </Table>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

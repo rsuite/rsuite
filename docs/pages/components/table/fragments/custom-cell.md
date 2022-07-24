@@ -1,6 +1,13 @@
 <!--start-code-->
 
 ```js
+import { Table, Popover, Whisper, Checkbox, Dropdown, IconButton, Divider } from 'rsuite';
+import MoreIcon from '@rsuite/icons/legacy/More';
+import { mockUsers } from './mock';
+
+const { Column, HeaderCell, Cell } = Table;
+const data = mockUsers(5);
+
 const NameCell = ({ rowData, dataKey, ...props }) => {
   const speaker = (
     <Popover title="Description">
@@ -41,7 +48,10 @@ const ImageCell = ({ rowData, dataKey, ...props }) => (
         display: 'inline-block'
       }}
     >
-      <img src={rowData[dataKey]} width="40" />
+      <img
+        src={`https://via.placeholder.com/40x40/3498ff/FFFFFF?text=${rowData.firstName[0]}`}
+        width="40"
+      />
     </div>
   </Cell>
 );
@@ -83,16 +93,12 @@ const ActionCell = ({ rowData, dataKey, ...props }) => {
   }
   return (
     <Cell {...props} className="link-group">
-      <IconButton appearance="subtle" onClick={handleAction} icon={<Edit2 />} />
-      <Divider vertical />
       <Whisper placement="autoVerticalStart" trigger="click" speaker={renderMenu}>
-        <IconButton appearance="subtle" icon={<More />} />
+        <IconButton appearance="subtle" icon={<MoreIcon />} />
       </Whisper>
     </Cell>
   );
 };
-
-const data = fakeData.filter((v, i) => i < 5);
 
 const App = () => {
   const [checkedKeys, setCheckedKeys] = React.useState([]);
@@ -146,15 +152,17 @@ const App = () => {
         <Cell>{rowData => <a href={`mailto:${rowData.email}`}>{rowData.email}</a>}</Cell>
       </Column>
 
-      <Column width={200}>
-        <HeaderCell>Action</HeaderCell>
+      <Column width={120}>
+        <HeaderCell>
+          <MoreIcon />
+        </HeaderCell>
         <ActionCell dataKey="id" />
       </Column>
     </Table>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
