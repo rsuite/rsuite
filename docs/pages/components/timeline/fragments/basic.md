@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Timeline } from 'rsuite';
+
+const App = () => (
   <Timeline>
     <Timeline.Item>16:27:41 Your order starts processing</Timeline.Item>
     <Timeline.Item>16:28:43 Your order to be ready for delivery</Timeline.Item>
@@ -11,7 +13,7 @@ const instance = (
   </Timeline>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
