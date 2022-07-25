@@ -19,27 +19,31 @@ import zh_CN from 'rsuite/locales/zh_CN';
 import zh_TW from 'rsuite/locales/zh_TW';
 import fa_IR from 'rsuite/locales/fa_IR';
 
-const locales = [
-  { key: 'ar_EG', value: ar_EG },
-  { key: 'da_DK', value: da_DK },
-  { key: 'de_DE', value: de_DE },
-  { key: 'en_GB', value: en_GB },
-  { key: 'en_US', value: en_US },
-  { key: 'es_AR', value: es_AR },
-  { key: 'es_ES', value: es_ES },
-  { key: 'fa_IR', value: fa_IR },
-  { key: 'fi_FI', value: fi_FI },
-  { key: 'it_IT', value: it_IT },
-  { key: 'ko_KR', value: ko_KR },
-  { key: 'pt_BR', value: pt_BR },
-  { key: 'ru_RU', value: ru_RU },
-  { key: 'sv_SE', value: sv_SE },
-  { key: 'zh_CN', value: zh_CN },
-  { key: 'zh_TW', value: zh_TW }
-];
-
 export default function Page() {
   return (
-    <DefaultPage dependencies={{ CustomProvider, Calendar, SelectPicker, DatePicker, locales }} />
+    <DefaultPage
+      dependencies={{
+        CustomProvider,
+        Calendar,
+        SelectPicker,
+        DatePicker,
+        ar_EG,
+        da_DK,
+        de_DE,
+        en_GB,
+        en_US,
+        es_AR,
+        es_ES,
+        fi_FI,
+        it_IT,
+        ko_KR,
+        pt_BR,
+        ru_RU,
+        sv_SE,
+        zh_CN,
+        zh_TW,
+        fa_IR
+      }}
+    />
   );
 }

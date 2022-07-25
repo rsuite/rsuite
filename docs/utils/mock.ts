@@ -150,7 +150,7 @@ export const mockTreeDataToString = `export function mockTreeData(options){
   return data;
 }`;
 
-export const mockUsersString = `export function mockUsers(length: number) {
+export const mockUsersString = `export function mockUsers(length) {
   const emails = [
     'yahoo.com',
     'gmail.com',
