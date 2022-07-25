@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-const App = (
+const App = () => (
   <div>
     <p>
       This is the first paragraph of text. This is the first paragraph of text. This is the first

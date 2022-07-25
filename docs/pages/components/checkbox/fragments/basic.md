@@ -3,7 +3,7 @@
 ```js
 import { Checkbox } from 'rsuite';
 
-const App = (
+const App = () => (
   <>
     <Checkbox />
     <Checkbox> Default</Checkbox>

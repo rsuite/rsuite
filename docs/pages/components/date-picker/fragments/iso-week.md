@@ -8,7 +8,7 @@ const App = () => (
     <DatePicker isoWeek style={{ width: 200 }} />
   </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
