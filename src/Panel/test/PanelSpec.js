@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -72,39 +72,38 @@ describe('Panel', () => {
     });
   });
 
-  it('Should pass transition callbacks to Collapse', done => {
-    let count = 0;
-    const increment = () => {
-      count += 1;
-    };
-    const ref = React.createRef();
-    let title;
+  it('Should pass transition callbacks to Collapse', async () => {
+    const onEnter = sinon.spy();
+    const onEntering = sinon.spy();
+    const onEntered = sinon.spy();
+    const onExit = sinon.spy();
+    const onExiting = sinon.spy();
+    const onExited = sinon.spy();
+
     render(
       <Panel
         collapsible
         defaultExpanded={false}
         header="Click me"
-        onExit={increment}
-        onExiting={increment}
-        onExited={() => {
-          increment();
-          if (count === 6) {
-            done();
-          }
-        }}
-        onEnter={increment}
-        onEntering={increment}
-        onEntered={() => {
-          increment();
-          ReactTestUtils.Simulate.click(title.firstChild);
-        }}
-        ref={ref}
+        onEnter={onEnter}
+        onEntering={onEntering}
+        onEntered={onEntered}
+        onExit={onExit}
+        onExiting={onExiting}
+        onExited={onExited}
       >
         Panel content
       </Panel>
     );
 
-    title = ref.current.querySelector('.rs-panel-title');
-    ReactTestUtils.Simulate.click(title.firstChild);
+    userEvent.click(screen.getByText('Click me'));
+    await waitFor(() => expect(onEnter).to.have.been.called);
+    await waitFor(() => expect(onEntering).to.have.been.called);
+    await waitFor(() => expect(onEntered).to.have.been.called);
+
+    userEvent.click(screen.getByText('Click me'));
+    await waitFor(() => expect(onExit).to.have.been.called);
+    await waitFor(() => expect(onExiting).to.have.been.called);
+    await waitFor(() => expect(onExited).to.have.been.called);
   });
 });
