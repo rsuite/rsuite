@@ -1,12 +1,20 @@
 import React from 'react';
-import { Tree, Button, InputNumber, Panel } from 'rsuite';
-
-const { useState } = React;
-
 import DefaultPage from '@/components/Page';
-import useFetchData from '@/utils/useFetchData';
+import { Tree, Button, InputNumber, Panel } from 'rsuite';
+import { mockTreeData, mockTreeDataToString } from '@/utils/mock';
+import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
+
+const mockfile = {
+  name: 'mock.js',
+  content: mockTreeDataToString
+};
 
 export default function Page() {
-  const { response: data } = useFetchData('city-simplified');
-  return <DefaultPage dependencies={{ useState, Button, InputNumber, Tree, data, Panel }} />;
+  return (
+    <DefaultPage
+      dependencies={{ Button, InputNumber, Tree, Panel, FolderFillIcon, PageIcon, mockTreeData }}
+      sandboxFiles={[mockfile]}
+    />
+  );
 }
