@@ -1,6 +1,9 @@
 <!--start-code-->
 
 ```js
+import { TagPicker } from 'rsuite';
+import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+
 const useUsers = (defaultUsers = []) => {
   const [users, setUsers] = React.useState(defaultUsers);
   const [loading, setLoading] = React.useState(false);
@@ -42,7 +45,7 @@ const App = () => {
         if (loading) {
           return (
             <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>
-              <Spinner spin /> Loading...
+              <SpinnerIcon spin /> Loading...
             </p>
           );
         }
@@ -52,7 +55,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
