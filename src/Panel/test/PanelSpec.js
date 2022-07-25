@@ -70,6 +70,16 @@ describe('Panel', () => {
       userEvent.click(getByText('abc'));
       expect(onSelectSpy).to.have.been.calledWith(undefined);
     });
+
+    it('Should not hide caret icon when header prop is passed an element', () => {
+      render(
+        <Panel header={<span>Panel title</span>} bordered collapsible>
+          Panel content
+        </Panel>
+      );
+
+      expect(screen.getByTestId('caret icon')).to.exist;
+    });
   });
 
   it('Should pass transition callbacks to Collapse', async () => {
