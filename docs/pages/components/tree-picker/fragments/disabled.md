@@ -1,34 +1,36 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { TreePicker } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const instance = (
+const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+
+const App = () => (
   <div>
     <label>Disabled: </label>
-    <TreePicker disabled data={data} defaultValue={24} style={{ width: 246 }} />
-    <label style={{ marginLeft: 10 }}>Disabled option: </label>
+    <TreePicker disabled data={data} defaultValue={'1-1'} style={{ width: 246 }} />
+    <hr />
+    <label>Disabled option: </label>
     <TreePicker
       defaultExpandAll
       data={data}
-      defaultValue={24}
-      disabledItemValues={[2]}
+      defaultValue={'1-1'}
+      disabledItemValues={['1-1-1', '2']}
       style={{ width: 246 }}
     />
 
     <hr />
     <label>Read only: </label>
-    <TreePicker readOnly data={data} defaultValue={24} style={{ width: 246 }} />
+    <TreePicker readOnly data={data} defaultValue={'1-1'} style={{ width: 246 }} />
 
     <hr />
     <label>Plaintext: </label>
-    <TreePicker plaintext data={data} defaultValue={24} style={{ width: 246 }} />
+    <TreePicker plaintext data={data} defaultValue={'1-1'} style={{ width: 246 }} />
   </div>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

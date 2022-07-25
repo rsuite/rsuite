@@ -1,13 +1,18 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { TreePicker } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const instance = <TreePicker defaultExpandAll data={data} style={{ width: 246 }} />;
-ReactDOM.render(instance);
+const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+
+const App = () => (
+  <>
+    <TreePicker defaultExpandAll data={data} style={{ width: 246 }} />
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
