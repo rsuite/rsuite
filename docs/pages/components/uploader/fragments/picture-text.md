@@ -1,11 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <Uploader listType="picture-text" action="//jsonplaceholder.typicode.com/posts/" />
+import { Uploader } from 'rsuite';
+
+const App = () => (
+  <>
+    <Uploader listType="picture-text" action="//jsonplaceholder.typicode.com/posts/" />
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
