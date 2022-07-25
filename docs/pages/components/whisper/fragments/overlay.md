@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Whisper, Button } from 'rsuite';
+
 const Overlay = React.forwardRef(({ style, onClose, ...rest }, ref) => {
   const styles = {
     ...style,
