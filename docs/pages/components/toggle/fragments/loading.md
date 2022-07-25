@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Toggle } from 'rsuite';
+
 function AsyncToggle(props) {
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,14 +19,15 @@ function AsyncToggle(props) {
   return <Toggle loading={loading} checked={checked} onChange={toggle} {...props} />;
 }
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <label>Loading: </label>
     <AsyncToggle />
     <AsyncToggle checkedChildren="Enable" unCheckedChildren="Disabled" />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
