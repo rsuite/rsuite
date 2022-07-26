@@ -18,12 +18,9 @@ const App = () => (
           value: [new Date(), new Date()]
         },
         {
-          label: 'Tomorrow',
-          value: [addDays(new Date(), 1), addDays(new Date(), 1)]
-        },
-        {
-          label: 'Last 7 days',
-          value: [subDays(new Date(), 6), new Date()]
+          label: 'Last 7 days ( closeOverlay:false )',
+          value: [subDays(new Date(), 6), new Date()],
+          closeOverlay: false
         }
       ]}
     />
