@@ -53,7 +53,7 @@ export interface DateRangePickerProps
   extends PickerBaseProps,
     FormControlBaseProps<DateRange | null>,
     Pick<PickerToggleProps, 'caretAs' | 'readOnly' | 'plaintext'> {
-  /** Configure shortcut options */
+  /** Predefined date ranges */
   ranges?: RangeType[];
 
   /** Format date */

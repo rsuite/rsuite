@@ -89,7 +89,7 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
             if (disabled) {
               return;
             }
-            onClickShortcut?.(value, closeOverlay ?? false, event);
+            onClickShortcut?.(value, closeOverlay !== false ? true : false, event);
           };
 
           return (

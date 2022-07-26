@@ -139,7 +139,7 @@ Used to combine multiple conditions
 combine(...) => boolean
 ```
 
-### Custom Shortcut Options
+### Predefined Date Ranges
 
 <!--{include:`custom-shortcut-options.md`}-->
 
@@ -155,50 +155,50 @@ Learn more in [Accessibility](/guide/accessibility).
 
 ### `<DateRangePicker>`
 
-| Property             | Type`(default)`                                                                  | Description                                                                          |
-| -------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| appearance           | 'default' &#124; 'subtle' `('default')`                                          | Set picker appearence                                                                |
-| block                | boolean                                                                          | Blocking an entire row                                                               |
-| caretAs              | ElementType                                                                      | Custom component for the caret icon                                                  |
-| character            | string `(' ~ ')`                                                                 | The character that separates two dates                                               |
-| cleanable            | boolean `(true)`                                                                 | Whether the selected value can be cleared                                            |
-| container            | HTMLElement &#124; (() => HTMLElement)                                           | Sets the rendering container                                                         |
-| defaultCalendarValue | [ValueType](#code-ts-value-type-code)                                            | Default calendar panel date                                                          |
-| defaultOpen          | boolean                                                                          | Default value of open property                                                       |
-| defaultValue         | [ValueType](#code-ts-value-type-code)                                            | Default value                                                                        |
-| disabled             | boolean                                                                          | Whether disabled the component                                                       |
-| disabledDate         | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | Disabled data                                                                        |
-| format               | string `('yyyy-MM-dd')`                                                          | Format date [refer to date-fns format](https://date-fns.org/v2.24.0/docs/format)     |
-| hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | The date range that will be selected when you click on the date                      |
-| isoWeek              | boolean                                                                          | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day |
-| limitEndYear         | number `(1000)`                                                                  | Sets the lower limit of the available year relative to the current selection date    |
-| locale               | [CalendarLocaleType](/guide/i18n/#calendar)                                      | Locale text                                                                          |
-| onChange             | (value: [ValueType](#code-ts-value-type-code)) => void                           | Callback fired when value changed                                                    |
-| onClean              | (event) => void                                                                  | Callback fired when value clean                                                      |
-| onClose              | () => void                                                                       | Callback fired when close component                                                  |
-| onEnter              | () => void                                                                       | Callback fired before the overlay transitions in                                     |
-| onEntered            | () => void                                                                       | Callback fired after the overlay finishes transitioning in                           |
-| onEntering           | () => void                                                                       | Callback fired as the overlay begins to transition in                                |
-| onExit               | () => void                                                                       | Callback fired right before the overlay transitions out                              |
-| onExited             | () => void                                                                       | Callback fired after the overlay finishes transitioning out                          |
-| onExiting            | () => void                                                                       | Callback fired as the overlay begins to transition out                               |
-| onOk                 | (value: [ValueType](#code-ts-value-type-code)) => void                           | Callback fired when clicked OK button                                                |
-| onOpen               | () => void                                                                       | Callback fired when open component                                                   |
-| onSelect             | (date:Date) => void                                                              | Callback fired when date is selected                                                 |
-| oneTap               | boolean                                                                          | Whether to click once on selected date range，Can be used with hoverRange            |
-| open                 | boolean                                                                          | whether open the component                                                           |
-| placeholder          | string                                                                           | Setting placeholders                                                                 |
-| placement            | [Placement](#code-ts-placement-code) `('bottomStart')`                           | The placement of component                                                           |
-| preventOverflow      | boolean                                                                          | Prevent floating element overflow                                                    |
-| ranges               | [Range](#code-ts-range-code)[] ([Ranges](#code-ts-ranges-code))                  | Whortcut config，defeult: `Today`,`Yesterday`，`Last 7 days`                         |
-| renderTitle          | (date: Date) => React.ReactNode                                                  | Custom render for month's title                                                      |
-| renderValue          | (value: [ValueType](#code-ts-value-type-code), format: string) => ReactNode      | Custom render selected date range                                                    |
-| showMeridian         | boolean                                                                          | Display hours in 12 format                                                           |
-| showOneCalendar      | boolen                                                                           | Whether to show only one calendar                                                    |
-| showWeekNumbers      | boolean                                                                          | Whether to show week numbers                                                         |
-| size                 | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                | A picker can have different sizes                                                    |
-| toggleAs             | ElementType `('a')`                                                              | You can use a custom element for this component                                      |
-| value                | [ValueType](#code-ts-value-type-code)                                            | Value (Controlled)                                                                   |
+| Property             | Type`(default)`                                                                  | Description                                                                                      |
+| -------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| appearance           | 'default' &#124; 'subtle' `('default')`                                          | Set picker appearence                                                                            |
+| block                | boolean                                                                          | Blocking an entire row                                                                           |
+| caretAs              | ElementType                                                                      | Custom component for the caret icon                                                              |
+| character            | string `(' ~ ')`                                                                 | The character that separates two dates                                                           |
+| cleanable            | boolean `(true)`                                                                 | Whether the selected value can be cleared                                                        |
+| container            | HTMLElement &#124; (() => HTMLElement)                                           | Sets the rendering container                                                                     |
+| defaultCalendarValue | [ValueType](#code-ts-value-type-code)                                            | Default calendar panel date                                                                      |
+| defaultOpen          | boolean                                                                          | Default value of open property                                                                   |
+| defaultValue         | [ValueType](#code-ts-value-type-code)                                            | Default value                                                                                    |
+| disabled             | boolean                                                                          | Whether disabled the component                                                                   |
+| disabledDate         | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | Disabled data                                                                                    |
+| format               | string `('yyyy-MM-dd')`                                                          | Format date [refer to date-fns format](https://date-fns.org/v2.24.0/docs/format)                 |
+| hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | The date range that will be selected when you click on the date                                  |
+| isoWeek              | boolean                                                                          | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day             |
+| limitEndYear         | number `(1000)`                                                                  | Sets the lower limit of the available year relative to the current selection date                |
+| locale               | [CalendarLocaleType](/guide/i18n/#calendar)                                      | Locale text                                                                                      |
+| onChange             | (value: [ValueType](#code-ts-value-type-code)) => void                           | Callback fired when value changed                                                                |
+| onClean              | (event) => void                                                                  | Callback fired when value clean                                                                  |
+| onClose              | () => void                                                                       | Callback fired when close component                                                              |
+| onEnter              | () => void                                                                       | Callback fired before the overlay transitions in                                                 |
+| onEntered            | () => void                                                                       | Callback fired after the overlay finishes transitioning in                                       |
+| onEntering           | () => void                                                                       | Callback fired as the overlay begins to transition in                                            |
+| onExit               | () => void                                                                       | Callback fired right before the overlay transitions out                                          |
+| onExited             | () => void                                                                       | Callback fired after the overlay finishes transitioning out                                      |
+| onExiting            | () => void                                                                       | Callback fired as the overlay begins to transition out                                           |
+| onOk                 | (value: [ValueType](#code-ts-value-type-code)) => void                           | Callback fired when clicked OK button                                                            |
+| onOpen               | () => void                                                                       | Callback fired when open component                                                               |
+| onSelect             | (date:Date) => void                                                              | Callback fired when date is selected                                                             |
+| oneTap               | boolean                                                                          | Whether to click once on selected date range，Can be used with hoverRange                        |
+| open                 | boolean                                                                          | whether open the component                                                                       |
+| placeholder          | string                                                                           | Setting placeholders                                                                             |
+| placement            | [Placement](#code-ts-placement-code) `('bottomStart')`                           | The placement of component                                                                       |
+| preventOverflow      | boolean                                                                          | Prevent floating element overflow                                                                |
+| ranges               | [Range](#code-ts-range-code)[] ([Ranges](#code-ts-ranges-code))                  | Set predefined date ranges the user can select from. Defeult: `Today`,`Yesterday`，`Last 7 days` |
+| renderTitle          | (date: Date) => React.ReactNode                                                  | Custom render for month's title                                                                  |
+| renderValue          | (value: [ValueType](#code-ts-value-type-code), format: string) => ReactNode      | Custom render selected date range                                                                |
+| showMeridian         | boolean                                                                          | Display hours in 12 format                                                                       |
+| showOneCalendar      | boolen                                                                           | Whether to show only one calendar                                                                |
+| showWeekNumbers      | boolean                                                                          | Whether to show week numbers                                                                     |
+| size                 | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                | A picker can have different sizes                                                                |
+| toggleAs             | ElementType `('a')`                                                              | You can use a custom element for this component                                                  |
+| value                | [ValueType](#code-ts-value-type-code)                                            | Value (Controlled)                                                                               |
 
 <!--{include:(_common/types/placement.md)}-->
 <!--{include:(_common/types/range.md)}-->

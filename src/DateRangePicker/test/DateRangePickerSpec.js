@@ -1,8 +1,8 @@
 import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ReactTestUtils, { act } from 'react-dom/test-utils';
+import ReactTestUtils from 'react-dom/test-utils';
 import {
   addDays,
   endOfMonth,
@@ -661,5 +661,57 @@ describe('DateRangePicker', () => {
 
     userEvent.click(btnShortcutToday);
     assert.isFalse(btnOk.disabled);
+  });
+
+  it('Should close picker after predefined range is clicked', async () => {
+    const onCloseSpy = sinon.spy();
+    const onChangeSpy = sinon.spy();
+
+    const { getByRole } = render(
+      <DateRangePicker
+        defaultOpen
+        ranges={[
+          {
+            label: 'Yesterday',
+            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
+          }
+        ]}
+        onChange={onChangeSpy}
+        onClose={onCloseSpy}
+      />
+    );
+
+    userEvent.click(getByRole('button', { name: 'Yesterday' }));
+
+    await waitFor(() => {
+      expect(onCloseSpy).to.calledOnce;
+      expect(onChangeSpy).to.calledOnce;
+    });
+  });
+
+  it('Should not close picker', async () => {
+    const onCloseSpy = sinon.spy();
+    const onChangeSpy = sinon.spy();
+
+    const { getByRole } = render(
+      <DateRangePicker
+        defaultOpen
+        ranges={[
+          {
+            label: 'Yesterday',
+            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
+          }
+        ]}
+        onChange={onChangeSpy}
+        onClose={onCloseSpy}
+      />
+    );
+
+    userEvent.click(getByRole('button', { name: 'Yesterday' }));
+
+    await waitFor(() => {
+      expect(onCloseSpy).to.not.called;
+      expect(onChangeSpy).to.calledOnce;
+    });
   });
 });
