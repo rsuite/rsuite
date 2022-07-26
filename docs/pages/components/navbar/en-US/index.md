@@ -12,7 +12,7 @@ For navigation at the top of the page.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

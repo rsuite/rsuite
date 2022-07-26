@@ -1,19 +1,19 @@
 <!--start-code-->
 
 ```js
-const styles = {
-  lineHeight: '200px'
-};
+import { Uploader } from 'rsuite';
 
 const App = () => {
   return (
     <Uploader action="//jsonplaceholder.typicode.com/posts/" draggable>
-      <div style={styles}>Click or Drag files to this area to upload</div>
+      <div style={{ height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <span>Click or Drag files to this area to upload</span>
+      </div>
     </Uploader>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

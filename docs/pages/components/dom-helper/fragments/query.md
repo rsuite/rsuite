@@ -1,6 +1,10 @@
 <!--start-code-->
 
 ```js
+import { ButtonToolbar, Button, DOMHelper } from 'rsuite';
+
+const { getOffset, getOffsetParent, getPosition } = DOMHelper;
+
 const App = () => {
   const nodeRef = React.useRef();
   return (
@@ -35,7 +39,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

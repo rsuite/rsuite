@@ -1,12 +1,15 @@
 <!--start-code-->
 
 ```js
+import { Tooltip, Whisper, Button, ButtonToolbar } from 'rsuite';
+
 const tooltip = (
   <Tooltip>
     This is a help <i>tooltip</i> .
   </Tooltip>
 );
-const instance = (
+
+const App = () => (
   <ButtonToolbar>
     <Whisper placement="top" controlId="control-id-click" trigger="click" speaker={tooltip}>
       <Button>Click</Button>
@@ -30,7 +33,8 @@ const instance = (
     </Whisper>
   </ButtonToolbar>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

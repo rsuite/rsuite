@@ -1,27 +1,24 @@
 <!--start-code-->
 
 ```js
-const {
-  allowedMaxDays,
-  allowedDays,
-  allowedRange,
-  beforeToday,
-  afterToday,
-  combine
-} = DateRangePicker;
+import { DateRangePicker } from 'rsuite';
+import isAfter from 'date-fns/isAfter';
+
+const { allowedMaxDays, allowedDays, allowedRange, beforeToday, afterToday, combine } =
+  DateRangePicker;
 
 const Label = props => {
   return <label style={{ display: 'block', marginTop: 10 }} {...props} />;
 };
 
-const instance = (
+const App = () => (
   <div className="field">
     <Label>Disabled: </Label>
     <DateRangePicker disabled />
 
     <br />
     <Label>Custom disabled </Label>
-    <DateRangePicker disabledDate={date => dateFns.isAfter(date, new Date())} />
+    <DateRangePicker disabledDate={date => isAfter(date, new Date())} />
 
     <br />
     <Label>Allow maximum selection for 7 days, other dates are disabled.</Label>
@@ -60,7 +57,7 @@ const instance = (
   </div>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

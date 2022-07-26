@@ -8,7 +8,7 @@ Steps is a navigation bar that guides users through the steps of a task.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

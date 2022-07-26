@@ -1,13 +1,17 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { DatePicker } from 'rsuite';
+import addDays from 'date-fns/addDays';
+import subDays from 'date-fns/subDays';
+
+const App = () => (
   <div className="field">
     <DatePicker
       ranges={[
         {
           label: 'yesterday',
-          value: dateFns.addDays(new Date(), -1)
+          value: addDays(new Date(), -1)
         },
         {
           label: 'today',
@@ -17,7 +21,7 @@ const instance = (
           label: 'Prev Day',
           closeOverlay: false,
           value: date => {
-            return dateFns.subDays(date, 1);
+            return subDays(date, 1);
           }
         }
       ]}
@@ -26,7 +30,7 @@ const instance = (
   </div>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,10 +1,11 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { CheckPicker } from 'rsuite';
+
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
+);
 
 const CustomCheckPicker = ({ placement, ...rest }) => (
   <CheckPicker
@@ -16,8 +17,8 @@ const CustomCheckPicker = ({ placement, ...rest }) => (
   />
 );
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <table className="placement-table">
       <tbody>
         <tr>
@@ -70,9 +71,9 @@ const instance = (
     <hr />
     <CustomCheckPicker placement="autoHorizontalStart" style={{ width: 200 }} />{' '}
     <CustomCheckPicker placement="autoHorizontalEnd" style={{ width: 200 }} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

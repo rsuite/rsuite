@@ -1,8 +1,14 @@
 <!--start-code-->
 
 ```js
-const instance = <DatePicker isoWeek style={{ width: 200 }} />;
-ReactDOM.render(instance);
+import { DatePicker } from 'rsuite';
+
+const App = () => (
+  <>
+    <DatePicker isoWeek style={{ width: 200 }} />
+  </>
+);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

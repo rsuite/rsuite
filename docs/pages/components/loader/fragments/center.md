@@ -1,12 +1,16 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <Paragraph rows={8}>
+import { Loader, Placeholder } from 'rsuite';
+
+const App = () => (
+  <div>
+    <Placeholder.Paragraph rows={8} />
     <Loader center content="loading" />
-  </Paragraph>
+  </div>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

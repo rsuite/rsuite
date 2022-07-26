@@ -1,14 +1,17 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Slider } from 'rsuite';
+
+const App = () => (
+  <>
     <Slider style={{ width: 200 }} />
     <hr />
     <Slider style={{ height: 200 }} vertical />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

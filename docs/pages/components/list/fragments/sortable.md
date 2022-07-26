@@ -1,13 +1,17 @@
 <!--start-code-->
 
 ```js
-function ListDemo() {
-  const [data, setData] = React.useState([
-    { text: 'Roses are red' },
-    { text: 'Violets are blue' },
-    { text: 'Sugar is sweet' },
-    { text: 'And so are you' }
-  ]);
+import { List } from 'rsuite';
+
+const defaultData = [
+  { text: 'Roses are red' },
+  { text: 'Violets are blue' },
+  { text: 'Sugar is sweet' },
+  { text: 'And so are you' }
+];
+
+const App = () => {
+  const [data, setData] = React.useState(defaultData);
 
   const handleSortEnd = ({ oldIndex, newIndex }) =>
     setData(prvData => {
@@ -26,8 +30,9 @@ function ListDemo() {
       ))}
     </List>
   );
-}
-ReactDOM.render(<ListDemo />);
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

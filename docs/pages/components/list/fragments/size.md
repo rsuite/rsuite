@@ -1,10 +1,12 @@
 <!--start-code-->
 
 ```js
+import { List } from 'rsuite';
+
 const data = ['Roses are red', 'Violets are blue', 'Sugar is sweet', 'And so are you'];
 
-ReactDOM.render(
-  <div>
+const App = () => (
+  <>
     <Panel header="Small" bordered>
       <List size="sm">
         {data.map((item, index) => (
@@ -34,8 +36,10 @@ ReactDOM.render(
         ))}
       </List>
     </Panel>
-  </div>
+  </>
 );
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

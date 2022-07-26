@@ -1,12 +1,14 @@
 <!--start-code-->
 
 ```js
+import { DatePicker } from 'rsuite';
+
 const CustomDatePicker = ({ placement }) => (
   <DatePicker placement={placement} placeholder={placement} />
 );
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <table className="placement-table">
       <tbody>
         <tr>
@@ -59,9 +61,10 @@ const instance = (
     <hr />
     <CustomDatePicker placement="autoHorizontalStart" />{' '}
     <CustomDatePicker placement="autoHorizontalEnd" />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

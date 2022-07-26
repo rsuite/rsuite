@@ -1,12 +1,13 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { InputPicker } from 'rsuite';
 
-const instance = (
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
+);
+
+const App = () => (
   <InputPicker
     data={data}
     groupBy="role"
@@ -38,7 +39,8 @@ const instance = (
     }}
   />
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,21 +1,22 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
+import { MultiCascader, Button } from 'rsuite';
+import { mockTreeData } from './mock';
 
+const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
 const styles = { width: 224, display: 'block', marginBottom: 10 };
-const instance = (
-  <div>
+
+const App = () => (
+  <>
     <MultiCascader toggleAs={Button} size="lg" placeholder="Large" data={data} style={styles} />
     <MultiCascader toggleAs={Button} size="md" placeholder="Medium" data={data} style={styles} />
     <MultiCascader toggleAs={Button} size="sm" placeholder="Small" data={data} style={styles} />
     <MultiCascader toggleAs={Button} size="xs" placeholder="Xsmall" data={data} style={styles} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

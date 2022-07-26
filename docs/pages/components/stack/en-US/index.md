@@ -8,7 +8,7 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 
 ## Examples
 
-### Default
+### Basic
 
  <!--{include:`basic.md`}-->
 

@@ -1,12 +1,19 @@
 <!--start-code-->
 
 ```js
-/**
- * import { Tag, TagPicker } from 'rsuite';
- * import data from https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { TagPicker, Tag } from 'rsuite';
+import UserIcon from '@rsuite/icons/legacy/User';
+import GroupIcon from '@rsuite/icons/legacy/Group';
 
-const instance = (
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({
+    label: item,
+    value: item,
+    role: Math.random() > 0.5 ? 'Owner' : 'Guest'
+  })
+);
+
+const App = () => (
   <TagPicker
     data={data}
     groupBy="role"
@@ -14,28 +21,28 @@ const instance = (
     block
     renderMenuItem={(label, item) => {
       return (
-        <div>
-          <User /> {label}
-        </div>
+        <>
+          <UserIcon /> {label}
+        </>
       );
     }}
     renderMenuGroup={(label, item) => {
       return (
-        <div>
-          <Group /> {label} - ({item.children.length})
-        </div>
+        <>
+          <GroupIcon /> {label} - ({item.children.length})
+        </>
       );
     }}
     renderValue={(values, items, tags) => {
       return values.map((tag, index) => (
         <Tag key={index}>
-          <User /> {tag}
+          <UserIcon /> {tag}
         </Tag>
       ));
     }}
   />
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

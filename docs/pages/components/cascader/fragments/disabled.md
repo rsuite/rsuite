@@ -1,13 +1,13 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
+import { Cascader } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const instance = (
-  <div>
+const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+
+const App = () => (
+  <>
     <label>Disabled: </label>
     <Cascader disabled defaultValue="1-1" data={data} style={{ widht: 224 }} />
 
@@ -25,9 +25,9 @@ const instance = (
     <hr />
     <label>Plaintext: </label>
     <Cascader plaintext defaultValue="1-1" data={data} style={{ widht: 224 }} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

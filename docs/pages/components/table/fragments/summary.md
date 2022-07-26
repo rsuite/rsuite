@@ -1,13 +1,13 @@
 <!--start-code-->
 
 ```js
-/**
- * import fakeData from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
- */
+import { Table } from 'rsuite';
+import { mockUsers } from './mock';
+
+const { Column, HeaderCell, Cell } = Table;
+const data = mockUsers(5);
 
 const thousands = value => `${value}`.replace(/(?=(?!(\b))(\d{3})+$)/g, '$1,');
-
 const NumberCell = ({ rowData, dataKey, ...props }) => (
   <Cell {...props}>{thousands(rowData[dataKey])}</Cell>
 );
@@ -26,8 +26,6 @@ const HeaderSummary = ({ title, summary }) => (
   </div>
 );
 
-const data = fakeData.filter((v, i) => i < 5);
-
 const App = () => {
   let stars = 0;
   let followers = 0;
@@ -39,7 +37,7 @@ const App = () => {
   return (
     <Table height={300} headerHeight={80} data={data}>
       <Column width={160}>
-        <HeaderCell>First Name</HeaderCell>
+        <HeaderCell>Name</HeaderCell>
         <Cell dataKey="firstName" />
       </Column>
 
@@ -60,7 +58,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

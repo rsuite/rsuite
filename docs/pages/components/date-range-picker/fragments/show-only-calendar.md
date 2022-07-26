@@ -1,8 +1,14 @@
 <!--start-code-->
 
 ```js
-const instance = <DateRangePicker showOneCalendar />;
-ReactDOM.render(instance);
+import { DateRangePicker } from 'rsuite';
+
+const App = () => (
+  <>
+    <DateRangePicker showOneCalendar />
+  </>
+);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

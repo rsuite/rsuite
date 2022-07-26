@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Dropdown } from 'rsuite';
+
+const App = () => (
   <Dropdown title="GitHub">
     <Dropdown.Item panel style={{ padding: 10, width: 160 }}>
       <p>Signed in as</p>
@@ -17,7 +19,8 @@ const instance = (
     <Dropdown.Item>Sign out</Dropdown.Item>
   </Dropdown>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

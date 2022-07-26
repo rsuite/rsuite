@@ -8,7 +8,7 @@ Check boxes are usually used in groups. Allow users to select one or more values
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

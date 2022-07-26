@@ -1,6 +1,10 @@
 <!--start-code-->
 
 ```js
+import { Input, InputGroup } from 'rsuite';
+import EyeIcon from '@rsuite/icons/legacy/Eye';
+import EyeSlashIcon from '@rsuite/icons/legacy/EyeSlash';
+
 const styles = {
   width: 300
 };
@@ -21,7 +25,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

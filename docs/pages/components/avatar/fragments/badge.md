@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { AvatarGroup, Badge, Avatar } from 'rsuite';
+
+const App = () => (
   <AvatarGroup>
     <Badge>
       <Avatar src="https://avatars.githubusercontent.com/u/12592949" alt="@superman66" />
@@ -13,7 +15,7 @@ const instance = (
   </AvatarGroup>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

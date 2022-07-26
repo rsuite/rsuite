@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Popover, Whisper, Button } from 'rsuite';
+
+const App = () => (
   <Whisper
     placement="top"
     trigger="click"
@@ -11,7 +13,7 @@ const instance = (
   </Whisper>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

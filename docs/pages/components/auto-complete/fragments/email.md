@@ -1,9 +1,7 @@
 <!--start-code-->
 
 ```js
-/**
- * import { AutoComplete } from 'rsuite';
- */
+import { AutoComplete } from 'rsuite';
 
 const suffixes = ['@gmail.com', '@sina.com.cn', '@163.com', '@qq.com'];
 
@@ -26,7 +24,7 @@ const App = () => {
   return <AutoComplete data={data} placeholder="Email" onChange={handleChange} />;
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

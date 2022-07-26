@@ -1,14 +1,17 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
-    <Toggle size="lg" checkedChildren="Open" unCheckedChildren="Close" />
+import { Toggle } from 'rsuite';
+import CheckIcon from '@rsuite/icons/Check';
+import CloseIcon from '@rsuite/icons/Close';
 
+const App = () => (
+  <>
+    <Toggle size="lg" checkedChildren="Open" unCheckedChildren="Close" />
     <Toggle checkedChildren={<CheckIcon />} unCheckedChildren={<CloseIcon />} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

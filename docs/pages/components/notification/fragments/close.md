@@ -1,17 +1,20 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div className="notification-container">
+import { Notification, Placeholder } from 'rsuite';
+
+const App = () => (
+  <>
     <Notification closable type="info">
-      <Paragraph width={320} rows={3} />
+      <Placeholder.Paragraph style={{ width: 320 }} rows={3} />
     </Notification>
+    <hr />
     <Notification closable type="info" header="Informational">
-      <Paragraph width={320} rows={3} />
+      <Placeholder.Paragraph style={{ width: 320 }} rows={3} />
     </Notification>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

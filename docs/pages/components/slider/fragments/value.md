@@ -1,6 +1,8 @@
 <!-- start-code -->
 
 ```js
+import { Slider, RangeSlider, Row, Col, InputGroup, InputNumber } from 'rsuite';
+
 function Example1() {
   const [value, setValue] = React.useState(0);
   return (
@@ -113,17 +115,17 @@ function Example3() {
   );
 }
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <Example1 />
     <hr />
     <Example2 />
     <hr />
     <Example3 />
-  </div>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!-- end-code -->

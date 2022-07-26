@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { DatePicker } from 'rsuite';
+
+const App = () => (
   <div style={{ width: 300 }}>
     <p>type="date"</p>
     <Input type="date" />
@@ -13,7 +15,7 @@ const instance = (
     <Input type="time" />
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

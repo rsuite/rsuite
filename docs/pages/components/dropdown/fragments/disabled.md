@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Dropdown, ButtonToolbar } from 'rsuite';
+
+const App = () => (
   <ButtonToolbar>
     <Dropdown title="Disabled" disabled>
       <Dropdown.Item>Item A</Dropdown.Item>
@@ -15,7 +17,8 @@ const instance = (
     </Dropdown>
   </ButtonToolbar>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

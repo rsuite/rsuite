@@ -1,14 +1,16 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Loader } from 'rsuite';
+
+const App = () => (
+  <>
     <Loader content="Loading..." />
     <hr />
     <Loader content="vertical Loading..." vertical />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

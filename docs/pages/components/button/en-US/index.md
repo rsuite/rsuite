@@ -13,7 +13,7 @@ Commonly used operating buttons, button combinations, button layouts.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

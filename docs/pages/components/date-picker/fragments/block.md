@@ -1,8 +1,14 @@
 <!--start-code-->
 
 ```js
-const instance = <DatePicker block />;
-ReactDOM.render(instance);
+import { DatePicker } from 'rsuite';
+
+const App = () => (
+  <>
+    <DatePicker block />
+  </>
+);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

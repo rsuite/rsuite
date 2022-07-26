@@ -1,10 +1,25 @@
 <!--start-code-->
 
 ```js
-const CustomSearchIcon = props => <SvgIcons.Search {...props} />;
+import { IconButton, ButtonToolbar, ButtonGroup } from 'rsuite';
 
-const instance = (
-  <div>
+import AlignLeftIcon from '@rsuite/icons/legacy/AlignLeft';
+import AlignCenterIcon from '@rsuite/icons/legacy/AlignCenter';
+import AlignRightIcon from '@rsuite/icons/legacy/AlignRight';
+import AlignJustifyIcon from '@rsuite/icons/legacy/AlignJustify';
+import StarIcon from '@rsuite/icons/legacy/Star';
+import FacebookOfficialIcon from '@rsuite/icons/legacy/FacebookOfficial';
+import GooglePlusCircleIcon from '@rsuite/icons/legacy/GooglePlusCircle';
+import TwitterIcon from '@rsuite/icons/legacy/Twitter';
+import LinkedinIcon from '@rsuite/icons/legacy/Linkedin';
+import PauseIcon from '@rsuite/icons/legacy/Pause';
+import PlayIcon from '@rsuite/icons/legacy/Play';
+import SearchIcon from '@rsuite/icons/Search';
+import AddOutlineIcon from '@rsuite/icons/AddOutline';
+import PlusIcon from '@rsuite/icons/Plus';
+
+const App = () => (
+  <>
     <ButtonToolbar>
       <IconButton icon={<StarIcon />} />
       <IconButton icon={<StarIcon />} appearance="primary" />
@@ -18,13 +33,13 @@ const instance = (
 
     <ButtonToolbar>
       <IconButton size="lg" icon={<StarIcon />} />
-      <IconButton size="lg" icon={<Icon as={CustomSearchIcon} />} />
+      <IconButton size="lg" icon={<SearchIcon />} />
       <IconButton size="md" icon={<StarIcon />} />
-      <IconButton size="md" icon={<Icon as={CustomSearchIcon} />} />
+      <IconButton size="md" icon={<SearchIcon />} />
       <IconButton size="sm" icon={<StarIcon />} />
-      <IconButton size="sm" icon={<Icon as={CustomSearchIcon} />} />
+      <IconButton size="sm" icon={<SearchIcon />} />
       <IconButton size="xs" icon={<StarIcon />} />
-      <IconButton size="xs" icon={<Icon as={CustomSearchIcon} />} />
+      <IconButton size="xs" icon={<SearchIcon />} />
     </ButtonToolbar>
 
     <ButtonToolbar>
@@ -51,9 +66,9 @@ const instance = (
 
       <IconButton icon={<PlusIcon />}>Add</IconButton>
     </ButtonToolbar>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

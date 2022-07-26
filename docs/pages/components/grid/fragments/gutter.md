@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Grid, Row, Col } from 'rsuite';
+
+const App = () => (
   <Grid fluid>
     <Row gutter={16}>
       <Col xs={4}>
@@ -25,7 +27,8 @@ const instance = (
     </Row>
   </Grid>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

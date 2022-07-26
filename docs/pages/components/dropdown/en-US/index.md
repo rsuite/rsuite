@@ -12,7 +12,7 @@ A drop-down menu is a navigation that uses selectpicker if you want to select a 
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 
@@ -86,6 +86,8 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 ### Used with `next/link`
 
 <!--{include:`with-router.md`}-->
+
+> [ Used with `Link` in React Router](/guide/composition/#react-router-dom)
 
 ## Props
 

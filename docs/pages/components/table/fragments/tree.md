@@ -1,10 +1,19 @@
 <!--start-code-->
 
 ```js
-/**
- * import fakeTreeData from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/tree-data.json
- */
+import { Table } from 'rsuite';
+import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import { mockTreeData } from './mock';
+
+const { Column, HeaderCell, Cell } = Table;
+const data = mockTreeData({
+  limits: [2, 3, 3],
+  labels: layer => `Layer ${layer + 1}`,
+  getRowData: () => ({
+    stars: Math.floor(Math.random() * 10000),
+    followers: Math.floor(Math.random() * 10000)
+  })
+});
 
 const App = () => {
   return (
@@ -13,9 +22,9 @@ const App = () => {
       defaultExpandAllRows
       bordered
       cellBordered
-      rowKey="id"
+      rowKey="value"
       height={400}
-      data={fakeTreeData}
+      data={data}
       /** shouldUpdateScroll: whether to update the scroll bar after data update **/
       shouldUpdateScroll={false}
       onExpandChange={(isOpen, rowData) => {
@@ -23,30 +32,30 @@ const App = () => {
       }}
       renderTreeToggle={(icon, rowData) => {
         if (rowData.children && rowData.children.length === 0) {
-          return <Spinner spin />;
+          return <SpinnerIcon spin />;
         }
         return icon;
       }}
     >
       <Column flexGrow={1}>
         <HeaderCell>Label</HeaderCell>
-        <Cell dataKey="labelName" />
+        <Cell dataKey="label" />
       </Column>
 
       <Column width={100}>
-        <HeaderCell>Status</HeaderCell>
-        <Cell dataKey="status" />
+        <HeaderCell>Stars</HeaderCell>
+        <Cell dataKey="stars" />
       </Column>
 
       <Column width={100}>
-        <HeaderCell>Count</HeaderCell>
-        <Cell dataKey="count" />
+        <HeaderCell>Followers</HeaderCell>
+        <Cell dataKey="followers" />
       </Column>
     </Table>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

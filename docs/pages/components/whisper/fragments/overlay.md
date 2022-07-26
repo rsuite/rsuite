@@ -1,10 +1,12 @@
 <!--start-code-->
 
 ```js
+import { Whisper, Button } from 'rsuite';
+
 const Overlay = React.forwardRef(({ style, onClose, ...rest }, ref) => {
   const styles = {
     ...style,
-    color:'#000',
+    color: '#000',
     background: '#fff',
     width: 200,
     padding: 10,
@@ -35,7 +37,7 @@ const App = () => (
   </Whisper>
 );
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,16 +1,20 @@
 <!--start-code-->
 
 ```js
-function ListDemo() {
-  const [data, setData] = React.useState([
-    { text: 'collection0 item0', collection: 0 },
-    { text: 'collection0 item1', collection: 0 },
-    { text: 'collection1 item0', collection: 1 },
-    { text: 'collection1 item1', collection: 1 },
-    { text: 'collection2 item0', collection: 2 },
-    { text: 'collection2 item1', collection: 2 },
-    { text: "I'm last one.", collection: 3, disabled: true }
-  ]);
+import { List } from 'rsuite';
+
+const defaultData = [
+  { text: 'collection0 item0', collection: 0 },
+  { text: 'collection0 item1', collection: 0 },
+  { text: 'collection1 item0', collection: 1 },
+  { text: 'collection1 item1', collection: 1 },
+  { text: 'collection2 item0', collection: 2 },
+  { text: 'collection2 item1', collection: 2 },
+  { text: "I'm last one.", collection: 3, disabled: true }
+];
+
+const App = () => {
+  const [data, setData] = React.useState(defaultData);
 
   const handleSortEnd = ({ oldIndex, newIndex }) =>
     setData(prvData => {
@@ -29,8 +33,9 @@ function ListDemo() {
       ))}
     </List>
   );
-}
-ReactDOM.render(<ListDemo />);
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

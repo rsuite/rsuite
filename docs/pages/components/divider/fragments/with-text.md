@@ -1,14 +1,16 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
-    <Paragraph type="media" />
+import { Divider, Placeholder } from 'rsuite';
+
+const App = () => (
+  <>
+    <Placeholder.Paragraph type="media" />
     <Divider>Divider</Divider>
-    <Paragraph type="media" />
-  </div>
+    <Placeholder.Paragraph type="media" />
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

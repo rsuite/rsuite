@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { DatePicker } from 'rsuite';
+
 const App = () => (
   <div className="field only-date">
     <DatePicker
@@ -25,7 +27,7 @@ const App = () => (
   </div>
 );
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

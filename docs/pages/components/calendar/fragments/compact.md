@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
+import { Calendar, Badge } from 'rsuite';
+
 function getTodoList(date) {
-  const day = dateFns.getDate(date);
+  const day = date.getDate();
 
   switch (day) {
     case 10:
@@ -24,22 +26,23 @@ function getTodoList(date) {
   }
 }
 
-function renderCell(date) {
-  const list = getTodoList(date);
+const App = () => {
+  function renderCell(date) {
+    const list = getTodoList(date);
 
-  if (list.length) {
-    return <Badge className="calendar-todo-item-badge" />;
+    if (list.length) {
+      return <Badge className="calendar-todo-item-badge" />;
+    }
+
+    return null;
   }
-
-  return null;
-}
-
-const instance = (
-  <div style={{ width: 280 }}>
-    <Calendar compact bordered renderCell={renderCell} />{' '}
-  </div>
-);
-ReactDOM.render(instance);
+  return (
+    <div style={{ width: 280 }}>
+      <Calendar compact bordered renderCell={renderCell} />{' '}
+    </div>
+  );
+};
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

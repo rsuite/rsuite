@@ -8,7 +8,7 @@ Grid layout component implemented via CSS Flexbox, providing 24 grids.
 
 ## Examples
 
-### Default
+### Basic
 
  <!--{include:`basic.md`}-->
 

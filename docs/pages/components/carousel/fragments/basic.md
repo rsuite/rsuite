@@ -1,7 +1,8 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Carousel } from 'rsuite';
+const App = () => (
   <Carousel className="custom-slider">
     <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=1" height="250" />
     <img src="https://via.placeholder.com/600x250/8f8e94/FFFFFF?text=2" height="250" />
@@ -11,7 +12,7 @@ const instance = (
   </Carousel>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Checkbox, CheckboxGroup } from 'rsuite';
+
 const data = ['A', 'B', 'C', 'D'];
 
 const App = () => {
@@ -30,7 +32,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

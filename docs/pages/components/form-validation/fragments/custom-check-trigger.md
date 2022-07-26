@@ -1,11 +1,20 @@
 <!--start-code-->
 
 ```js
-const model = Schema.Model({
-  name: Schema.Types.StringType()
-    .isEmail('Please enter a valid email address.')
-    .isRequired('This field is required.')
-});
+import { Form, Button, RadioGroup, Radio, Schema, Panel, FlexboxGrid } from 'rsuite';
+import JSONTree from 'react-json-tree';
+
+const JSONView = ({ formValue, formError }) => (
+  <div style={{ marginBottom: 10 }}>
+    <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
+      <JSONTree data={formValue} />
+    </Panel>
+
+    <Panel className="json-tree-wrapper" header={<p>formError</p>}>
+      <JSONTree data={formError} />
+    </Panel>
+  </div>
+);
 
 const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;
@@ -16,6 +25,12 @@ const Field = React.forwardRef((props, ref) => {
       <Form.HelpText>{message}</Form.HelpText>
     </Form.Group>
   );
+});
+
+const model = Schema.Model({
+  name: Schema.Types.StringType()
+    .isEmail('Please enter a valid email address.')
+    .isRequired('This field is required.')
 });
 
 const styles = {
@@ -80,7 +95,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

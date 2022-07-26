@@ -1,17 +1,18 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { SelectPicker } from 'rsuite';
+
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
+);
 
 const CustomSelectPicker = ({ placement }) => (
   <SelectPicker data={data} placement={placement} placeholder={placement} />
 );
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <table className="placement-table">
       <tbody>
         <tr>
@@ -64,9 +65,10 @@ const instance = (
     <hr />
     <CustomSelectPicker placement="autoHorizontalStart" />{' '}
     <CustomSelectPicker placement="autoHorizontalEnd" />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

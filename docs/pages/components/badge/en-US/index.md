@@ -8,7 +8,7 @@ Used for buttons, numbers or status markers next to icons.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

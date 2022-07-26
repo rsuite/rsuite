@@ -1,7 +1,9 @@
 import React from 'react';
-import { Grid, Button, Row, Col } from 'rsuite';
+import { Grid, Row, Col } from 'rsuite';
 import DefaultPage from '@/components/Page';
 
+import files from './files';
+
 export default function Page() {
-  return <DefaultPage dependencies={{ Grid, Button, Row, Col }} />;
+  return <DefaultPage dependencies={{ Grid, Row, Col }} sandboxFiles={files} />;
 }

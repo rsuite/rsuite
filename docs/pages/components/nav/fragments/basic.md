@@ -1,16 +1,20 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Nav } from 'rsuite';
+import HomeIcon from '@rsuite/icons/legacy/Home';
+
+const App = () => (
   <Nav>
-    <Nav.Item icon={<Home />}>Home</Nav.Item>
+    <Nav.Item icon={<HomeIcon />}>Home</Nav.Item>
     <Nav.Item>News</Nav.Item>
     <Nav.Item>Solutions</Nav.Item>
     <Nav.Item>Products</Nav.Item>
     <Nav.Item>About</Nav.Item>
   </Nav>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

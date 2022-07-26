@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Popover, Whisper, Button, Dropdown } from 'rsuite';
+
 const MenuPopover = React.forwardRef(({ onSelect, ...rest }, ref) => (
   <Popover ref={ref} {...rest} full>
     <Dropdown.Menu onSelect={onSelect}>
@@ -15,7 +17,7 @@ const MenuPopover = React.forwardRef(({ onSelect, ...rest }, ref) => (
   </Popover>
 ));
 
-const WithDropdown = () => {
+const App = () => {
   const ref = React.useRef();
   function handleSelectMenu(eventKey, event) {
     console.log(eventKey);
@@ -34,7 +36,7 @@ const WithDropdown = () => {
   );
 };
 
-ReactDOM.render(<WithDropdown />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

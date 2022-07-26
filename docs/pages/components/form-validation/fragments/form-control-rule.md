@@ -1,7 +1,11 @@
 <!--start-code-->
 
-```javascript
+```js
+import { Form, Button, Schema, Panel } from 'rsuite';
+
 const nameRule = Schema.Types.StringType().isRequired('This field is required.');
+const emailRule = Schema.Types.StringType().isEmail('Please enter a valid email address.');
+
 function UsernameField() {
   return (
     <Form.Group controlId="name">
@@ -11,7 +15,6 @@ function UsernameField() {
   );
 }
 
-const emailRule = Schema.Types.StringType().isEmail('Please enter a valid email address.');
 function EmailField() {
   return (
     <Form.Group controlId="email">
@@ -33,7 +36,7 @@ function App() {
   );
 }
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

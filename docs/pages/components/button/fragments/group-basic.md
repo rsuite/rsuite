@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Button, ButtonToolbar, ButtonGroup } from 'rsuite';
+
 const CustomButtonGroup = ({ appearance }) => (
   <ButtonToolbar>
     <ButtonGroup>
@@ -11,16 +13,17 @@ const CustomButtonGroup = ({ appearance }) => (
   </ButtonToolbar>
 );
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <CustomButtonGroup />
     <CustomButtonGroup appearance="primary" />
     <CustomButtonGroup appearance="link" />
     <CustomButtonGroup appearance="subtle" />
     <CustomButtonGroup appearance="ghost" />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

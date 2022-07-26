@@ -8,7 +8,7 @@ For a single data selection, support grouping.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

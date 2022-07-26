@@ -2,16 +2,13 @@
 
 A content panel that supports folding panels. The Panel can have all the ' Data Display ' components and can be used as a container for the form.
 
-- `<Panel>`
-- `<PanelGroup>`
-
 ## Usage
 
 <!--{include:(components/panel/fragments/import.md)}-->
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

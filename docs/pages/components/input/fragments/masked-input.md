@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { FlexboxGrid, SelectPicker, Toggle, MaskedInput } from 'rsuite';
+
 const options = [
   {
     name: 'Date',
@@ -96,7 +98,7 @@ const App = () => {
   const [showMask, setShowMask] = React.useState(false);
 
   return (
-    <div>
+    <>
       <Row
         label="Mask"
         control={
@@ -163,10 +165,11 @@ const App = () => {
         style={{ width: 300 }}
         onChange={setValue}
       />
-    </div>
+    </>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

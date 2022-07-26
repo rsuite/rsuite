@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Progress, ButtonGroup, Button, Row, Col } from 'rsuite';
+
 const App = () => {
   const [percent, setPercent] = React.useState(30);
 
@@ -18,7 +20,7 @@ const App = () => {
   const color = percent === 100 ? '#52c41a' : '#3385ff';
 
   return (
-    <div>
+    <>
       <ButtonGroup>
         <Button onClick={decline}>-</Button>
         <Button onClick={increase}>+</Button>
@@ -35,10 +37,11 @@ const App = () => {
           </div>
         </Col>
       </Row>
-    </div>
+    </>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

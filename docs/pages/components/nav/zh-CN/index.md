@@ -51,6 +51,8 @@
 
 <!--{include:`with-router.md`}-->
 
+> [与 React Router 中的 Link 组合](/zh/guide/composition/#react-router-dom)
+
 ### 扩展：响应式
 
 <!--{include:`responsive-nav.md`}-->

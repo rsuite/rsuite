@@ -8,7 +8,7 @@ A component that provides state during data loading.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

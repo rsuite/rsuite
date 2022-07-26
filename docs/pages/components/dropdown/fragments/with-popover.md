@@ -23,7 +23,7 @@ const renderSpeaker = ({ onClose, left, top, className, ...rest }, ref) => {
   );
 };
 
-const WithPopover = () => {
+const App = () => {
   return (
     <Whisper placement="bottomStart" trigger="click" speaker={renderSpeaker}>
       <Button>File</Button>
@@ -31,7 +31,7 @@ const WithPopover = () => {
   );
 };
 
-ReactDOM.render(<WithPopover />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

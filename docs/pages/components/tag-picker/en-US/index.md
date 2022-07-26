@@ -8,7 +8,7 @@ Multi-select by tag and support new options
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

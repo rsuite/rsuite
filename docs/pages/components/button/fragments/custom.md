@@ -1,7 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Button, ButtonToolbar } from 'rsuite';
+import FacebookOfficialIcon from '@rsuite/icons/legacy/FacebookOfficial';
+import GooglePlusCircleIcon from '@rsuite/icons/legacy/GooglePlusCircle';
+import TwitterIcon from '@rsuite/icons/legacy/Twitter';
+import LinkedinIcon from '@rsuite/icons/legacy/Linkedin';
+import WechatIcon from '@rsuite/icons/legacy/Wechat';
+import WeiboIcon from '@rsuite/icons/legacy/Weibo';
+
+const App = () => (
   <ButtonToolbar>
     <Button color="blue" appearance="primary">
       <FacebookOfficialIcon /> Facebook
@@ -23,7 +31,8 @@ const instance = (
     </Button>
   </ButtonToolbar>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
