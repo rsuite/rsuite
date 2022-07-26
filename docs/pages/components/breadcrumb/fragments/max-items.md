@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Breadcrumb } from 'rsuite';
+
+const App = () => (
   <Breadcrumb
     maxItems={5}
     onExpand={() => {
@@ -16,7 +18,8 @@ const instance = (
     <Breadcrumb.Item>Item F</Breadcrumb.Item>
   </Breadcrumb>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

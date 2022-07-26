@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-var instance = (
-  <div>
+import { Form, Button } from 'rsuite';
+
+const App = () => (
+  <>
     <Form layout="inline">
       <Form.Group controlId="username-7">
         <Form.ControlLabel>Username</Form.ControlLabel>
@@ -32,9 +34,9 @@ var instance = (
 
       <Button>Login</Button>
     </Form>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

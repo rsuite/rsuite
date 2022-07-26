@@ -1,12 +1,12 @@
 <!--start-code-->
 
 ```js
-/**
- * import fakeData from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
- */
+import { Table } from 'rsuite';
+import { mockUsers } from './mock';
 
-const data = fakeData.filter((v, i) => i < 8);
+const { Column, HeaderCell, Cell } = Table;
+const data = mockUsers(8);
+
 const App = () => {
   const [sortColumn, setSortColumn] = React.useState();
   const [sortType, setSortType] = React.useState();
@@ -50,9 +50,6 @@ const App = () => {
       sortType={sortType}
       onSortColumn={handleSortColumn}
       loading={loading}
-      onRowClick={data => {
-        console.log(data);
-      }}
     >
       <Column width={70} align="center" fixed sortable>
         <HeaderCell>Id</HeaderCell>
@@ -64,25 +61,25 @@ const App = () => {
         <Cell dataKey="firstName" />
       </Column>
 
-      <Column width={130} sortable>
-        <HeaderCell>Last Name</HeaderCell>
-        <Cell dataKey="lastName" />
+      <Column width={100} sortable>
+        <HeaderCell>Gender</HeaderCell>
+        <Cell dataKey="gender" />
+      </Column>
+
+      <Column width={100} sortable>
+        <HeaderCell>Age</HeaderCell>
+        <Cell dataKey="age" />
       </Column>
 
       <Column width={200} sortable>
-        <HeaderCell>City</HeaderCell>
-        <Cell dataKey="city" />
-      </Column>
-
-      <Column width={200}>
-        <HeaderCell>Company Name</HeaderCell>
-        <Cell dataKey="companyName" />
+        <HeaderCell>Email</HeaderCell>
+        <Cell dataKey="email" />
       </Column>
     </Table>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

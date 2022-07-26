@@ -1,13 +1,18 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { TagPicker } from 'rsuite';
 
-const instance = (
-  <div>
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({
+    label: item,
+    value: item,
+    role: Math.random() > 0.5 ? 'Owner' : 'Guest'
+  })
+);
+
+const App = () => (
+  <>
     <TagPicker data={data} groupBy="role" style={{ width: 300 }} />
     <hr />
     <p>Sort:</p>
@@ -27,7 +32,7 @@ const instance = (
       }}
       style={{ width: 300 }}
     />
-  </div>
+  </>
 );
 
 function compare(a, b) {
@@ -42,7 +47,8 @@ function compare(a, b) {
   }
   return 0;
 }
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,7 +1,20 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import {
+  Container,
+  Header,
+  Content,
+  Footer,
+  Form,
+  ButtonToolbar,
+  Button,
+  Navbar,
+  Panel,
+  FlexboxGrid
+} from 'rsuite';
+
+const App = () => (
   <div className="show-fake-browser login-page">
     <Container>
       <Header>
@@ -39,7 +52,7 @@ const instance = (
     </Container>
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

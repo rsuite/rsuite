@@ -1,13 +1,16 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Radio } from 'rsuite';
+
+const App = () => (
+  <>
     <Radio> Radio</Radio>
     <Radio checked> Checked Radio</Radio>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

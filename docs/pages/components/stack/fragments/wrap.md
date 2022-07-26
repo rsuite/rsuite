@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Stack } from 'rsuite';
+
 const App = () => {
   return (
     <Stack wrap spacing={6}>
@@ -30,7 +32,8 @@ const App = () => {
     </Stack>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,25 +1,26 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { CheckTreePicker, Button } from 'rsuite';
+import LocationIcon from '@rsuite/icons/Location';
+import { mockTreeData } from './mock';
 
-const instance = (
+const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+
+const App = () => (
   <CheckTreePicker
     defaultExpandAll
     data={data}
     style={{ width: 280 }}
     placeholder={
       <span>
-        <i className="rs-icon rs-icon-map-marker" /> Select region
+        <LocationIcon /> Select region
       </span>
     }
     renderTreeNode={nodeData => {
       return (
         <span>
-          <i className="rs-icon rs-icon-map-marker" /> {nodeData.label}
+          <LocationIcon /> {nodeData.label}
         </span>
       );
     }}
@@ -27,15 +28,16 @@ const instance = (
       return (
         <span>
           <span style={{ color: '#575757' }}>
-            <i className="rs-icon rs-icon-map-marker" /> Region :
-          </span>{' '}
+            <LocationIcon /> Region :
+          </span>
           {checkedItems.map(item => item.label).join(' , ')}
         </span>
       );
     }}
   />
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

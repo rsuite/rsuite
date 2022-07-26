@@ -1,14 +1,17 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Toggle } from 'rsuite';
+
+const App = () => (
+  <>
     <Toggle size="lg" />
     <Toggle size="md" />
     <Toggle size="sm" />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

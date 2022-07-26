@@ -1,13 +1,18 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { CheckPicker } from 'rsuite';
 
-const instance = <CheckPicker label="User" data={data} style={{ width: 224 }} />;
-ReactDOM.render(instance);
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
+);
+
+const App = () => (
+  <>
+    <CheckPicker label="User" data={data} style={{ width: 224 }} />
+  </>
+);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

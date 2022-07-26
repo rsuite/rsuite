@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
+import { Calendar, Whisper, Popover, Badge } from 'rsuite';
+
 function getTodoList(date) {
-  const day = dateFns.getDate(date);
+  const day = date.getDate();
 
   switch (day) {
     case 10:
@@ -24,49 +26,52 @@ function getTodoList(date) {
   }
 }
 
-function renderCell(date) {
-  const list = getTodoList(date);
-  const displayList = list.filter((item, index) => index < 2);
+const App = () => {
+  function renderCell(date) {
+    const list = getTodoList(date);
+    const displayList = list.filter((item, index) => index < 2);
 
-  if (list.length) {
-    const moreCount = list.length - displayList.length;
-    const moreItem = (
-      <li>
-        <Whisper
-          placement="top"
-          trigger="click"
-          speaker={
-            <Popover>
-              {list.map((item, index) => (
-                <p key={index}>
-                  <b>{item.time}</b> - {item.title}
-                </p>
-              ))}
-            </Popover>
-          }
-        >
-          <a>{moreCount} more</a>
-        </Whisper>
-      </li>
-    );
+    if (list.length) {
+      const moreCount = list.length - displayList.length;
+      const moreItem = (
+        <li>
+          <Whisper
+            placement="top"
+            trigger="click"
+            speaker={
+              <Popover>
+                {list.map((item, index) => (
+                  <p key={index}>
+                    <b>{item.time}</b> - {item.title}
+                  </p>
+                ))}
+              </Popover>
+            }
+          >
+            <a>{moreCount} more</a>
+          </Whisper>
+        </li>
+      );
 
-    return (
-      <ul className="calendar-todo-list">
-        {displayList.map((item, index) => (
-          <li key={index}>
-            <Badge /> <b>{item.time}</b> - {item.title}
-          </li>
-        ))}
-        {moreCount ? moreItem : null}
-      </ul>
-    );
+      return (
+        <ul className="calendar-todo-list">
+          {displayList.map((item, index) => (
+            <li key={index}>
+              <Badge /> <b>{item.time}</b> - {item.title}
+            </li>
+          ))}
+          {moreCount ? moreItem : null}
+        </ul>
+      );
+    }
+
+    return null;
   }
 
-  return null;
-}
+  return <Calendar bordered renderCell={renderCell} />;
+};
 
-const instance = <Calendar bordered renderCell={renderCell} />;
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

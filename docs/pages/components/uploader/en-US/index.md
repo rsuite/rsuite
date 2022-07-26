@@ -8,7 +8,7 @@ Upload files by clicking or drag-and-drop, it supports previewing the uploaded i
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

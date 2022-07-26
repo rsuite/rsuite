@@ -1,57 +1,32 @@
 <!--start-code-->
 
 ```js
-/**
- * import { Rate } from 'rsuite'
- * import { Icon } from '@rsuite/icons';
- * import HeartIcon from '@rsuite/icons/legacy/Heart';
- * import * as SvgIcons from '@/components/SvgIcons'; // SvgIcons is external resources.
- *
- * <style>
- *   .rs-icon.fill-color use{
- *       fill: currentColor;
- *   }
- * </style>
- */
+import { Rate } from 'rsuite';
+import { Icon } from '@rsuite/icons';
+import HeartIcon from '@rsuite/icons/legacy/Heart';
+
 const App = () => {
   const [value, setValue] = React.useState(2.5);
-  const handleChange = value => {
-    setValue(value);
-  };
+
   return (
-    <div>
+    <>
       <div>
-        <Rate
-          allowHalf
-          value={value}
-          character={<HeartIcon />}
-          color="red"
-          onChange={handleChange}
-        />
+        <Rate allowHalf value={value} character={<HeartIcon />} color="red" onChange={setValue} />
       </div>
       <div>
-        <Rate allowHalf value={value} character="鼎" color="blue" onChange={handleChange} />
+        <Rate allowHalf value={value} character="鼎" color="blue" onChange={setValue} />
       </div>
       <div>
-        <Rate allowHalf value={value} character="A" onChange={handleChange} />
+        <Rate allowHalf value={value} character="A" onChange={setValue} />
       </div>
       <div>
-        <Rate allowHalf value={value} character="👍" onChange={handleChange} />
+        <Rate allowHalf value={value} character="👍" onChange={setValue} />
       </div>
-      <div>
-        <Rate
-          allowHalf
-          value={value}
-          vertical
-          character={<Icon className="fill-color" as={SvgIcons.Dark} />}
-          onChange={handleChange}
-        />
-      </div>
-    </div>
+    </>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

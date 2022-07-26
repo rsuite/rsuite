@@ -2,9 +2,6 @@
 
 一个内容面板， 支持折叠面板。Panel 中可以放所有 `Data Display` 组件，可以作为表单的容器。
 
-- `<Panel>` 面板
-- `<PanelGroup>` 面板组
-
 ## 获取组件
 
 <!--{include:(components/panel/fragments/import.md)}-->

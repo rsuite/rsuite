@@ -1,42 +1,49 @@
 <!--start-code-->
 
 ```js
-const AsyncExample = () => {
-  const [data, setData] = useState([
-    {
-      label: 'Parent Node',
-      value: '0',
-      children: []
-    }
-  ]);
+import { Tree } from 'rsuite';
+
+const createNode = () => {
+  const hasChildren = Math.random() > 0.2;
+  return {
+    label: `Node ${(Math.random() * 1e18).toString(36).slice(0, 3).toUpperCase()}`,
+    value: Math.random() * 1e18,
+    children: hasChildren ? [] : null
+  };
+};
+
+const mockData = () => {
+  const children = [];
+  for (let i = 0; i < Math.random() * 5; i++) {
+    children.push(createNode());
+  }
+  return children;
+};
+
+const App = () => {
+  const [value, setValue] = React.useState([]);
+  const [data, setData] = React.useState(mockData());
+
+  const fetchChildrenData = activeNode => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(mockData());
+      }, 1000);
+    });
+  };
 
   return (
     <Tree
       data={data}
       style={{ width: 280 }}
-      getChildren={activeNode =>
-        new Promise(resolve => {
-          setTimeout(() => {
-            resolve([
-              {
-                label: 'Child Node',
-                value: `${activeNode.refKey}-0`,
-                children: []
-              },
-              {
-                label: 'Child Node',
-                value: `${activeNode.refKey}-1`,
-                children: []
-              }
-            ]);
-          }, 1000);
-        })
-      }
+      value={value}
+      onChange={value => setValue(value)}
+      getChildren={fetchChildrenData}
     />
   );
 };
 
-ReactDOM.render(<AsyncExample />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

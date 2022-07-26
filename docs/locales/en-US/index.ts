@@ -53,7 +53,9 @@ export default {
     highContrast: 'High contrast',
     showTheSource: 'Show the source',
     transparentBackground: 'Transparent background',
-    seeTheSourceOnGitHub: 'See the source on GitHub'
+    seeTheSourceOnGitHub: 'See the source on GitHub',
+    openCodeSandbox: 'Open in CodeSandbox',
+    openStackBlitz: 'Open in StackBlitz'
   },
   resourcesDesign: {
     defaultHeader: 'Design - Light theme',

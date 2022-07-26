@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { FlexboxGrid, Col } from 'rsuite';
+
+const App = () => (
   <div className="show-grid">
     <FlexboxGrid justify="space-around">
       <FlexboxGrid.Item as={Col} colspan={24} md={6}>
@@ -16,7 +18,8 @@ const instance = (
     </FlexboxGrid>
   </div>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

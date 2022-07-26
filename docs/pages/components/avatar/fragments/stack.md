@@ -1,6 +1,7 @@
 <!--start-code-->
 
 ```js
+import { AvatarGroup, Avatar } from 'rsuite';
 const users = [
   { avatar: 'https://avatars.githubusercontent.com/u/12592949', name: 'superman66' },
   { avatar: 'https://avatars.githubusercontent.com/u/8225666', name: 'SevenOutman' },
@@ -16,8 +17,8 @@ const users = [
 
 const max = 4;
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <AvatarGroup stack>
       {users.map(user => (
         <Avatar circle key={user.name} src={user.avatar} alt={user.name} />
@@ -36,10 +37,10 @@ const instance = (
         +{users.length - max}
       </Avatar>
     </AvatarGroup>
-  </div>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

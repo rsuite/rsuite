@@ -8,7 +8,7 @@ Used to display an avatar or brand.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

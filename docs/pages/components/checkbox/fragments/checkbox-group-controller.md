@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Checkbox, CheckboxGroup } from 'rsuite';
+
 const App = () => {
   const [value, setValue] = React.useState(['A', 'C']);
   return (
@@ -22,7 +24,8 @@ const App = () => {
     </CheckboxGroup>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

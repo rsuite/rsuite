@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { TagInput } from 'rsuite';
+
+const App = () => (
+  <>
     <label>Disabled: </label>
     <TagInput
       disabled
@@ -27,9 +29,10 @@ const instance = (
       style={{ width: 300 }}
       menuStyle={{ width: 300 }}
     />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,10 +1,10 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/main/docs/public/data/en/city-simplified.json
- */
+import { Tree, Panel, InputNumber, Button } from 'rsuite';
+import { mockTreeData } from './mock';
+
+const data = mockTreeData({ limits: [2, 3, 3], labels: layer => `Layer ${layer + 1}` });
 
 const App = () => {
   const treeRef = React.useRef();
@@ -29,7 +29,7 @@ const App = () => {
     </div>
   );
 };
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

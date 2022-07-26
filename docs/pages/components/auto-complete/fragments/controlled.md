@@ -1,9 +1,7 @@
 <!--start-code-->
 
 ```js
-/**
- * import { AutoComplete } from 'rsuite';
- */
+import { AutoComplete } from 'rsuite';
 
 const data = [
   'HYPER Advertiser',
@@ -19,7 +17,7 @@ const App = () => {
   return <AutoComplete data={data} value={value} onChange={setValue} />;
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

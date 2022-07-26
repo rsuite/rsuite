@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Carousel } from 'rsuite';
+
 const App = () => {
   const [activeIndex, setActiveIndex] = React.useState(2);
   return (
@@ -20,7 +22,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

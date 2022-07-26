@@ -1,21 +1,23 @@
-
 <!--start-code-->
 
 ```js
-const instance = (
+import { PanelGroup, Panel, Placeholder } from 'rsuite';
+
+const App = () => (
   <PanelGroup accordion bordered>
     <Panel header="Panel 1" defaultExpanded>
-      <Paragraph />
+      <Placeholder.Paragraph />
     </Panel>
     <Panel header="Panel 2">
-      <Paragraph />
+      <Placeholder.Paragraph />
     </Panel>
     <Panel header="Panel 3">
-      <Paragraph />
+      <Placeholder.Paragraph />
     </Panel>
   </PanelGroup>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,14 +1,13 @@
 <!--start-code-->
 
 ```js
-const styles = {
-  marginBottom: 50,
-};
+import { Nav } from 'rsuite';
+import HomeIcon from '@rsuite/icons/legacy/Home';
 
-const CustomNav = ({ active, onSelect, ...props }) => {
+const Navbar = ({ active, onSelect, ...props }) => {
   return (
-    <Nav {...props} activeKey={active} onSelect={onSelect} style={styles}>
-      <Nav.Item eventKey="home" icon={<Home />}>
+    <Nav {...props} activeKey={active} onSelect={onSelect} style={{ marginBottom: 50 }}>
+      <Nav.Item eventKey="home" icon={<HomeIcon />}>
         Home
       </Nav.Item>
       <Nav.Item eventKey="news">News</Nav.Item>
@@ -19,20 +18,21 @@ const CustomNav = ({ active, onSelect, ...props }) => {
   );
 };
 
-const Demo = () => {
+const App = () => {
   const [active, setActive] = React.useState('home');
+
   return (
-    <div>
-      <CustomNav active={active} onSelect={setActive} />
-      <CustomNav appearance="tabs" active={active} onSelect={setActive} />
-      <CustomNav appearance="tabs" reversed active={active} onSelect={setActive} />
-      <CustomNav appearance="subtle" active={active} onSelect={setActive} />
-      <CustomNav appearance="subtle" reversed active={active} onSelect={setActive} />
-    </div>
+    <>
+      <Navbar active={active} onSelect={setActive} />
+      <Navbar appearance="tabs" active={active} onSelect={setActive} />
+      <Navbar appearance="tabs" reversed active={active} onSelect={setActive} />
+      <Navbar appearance="subtle" active={active} onSelect={setActive} />
+      <Navbar appearance="subtle" reversed active={active} onSelect={setActive} />
+    </>
   );
 };
 
-ReactDOM.render(<Demo />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

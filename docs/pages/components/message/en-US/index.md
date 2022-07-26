@@ -8,7 +8,7 @@ Used to show important tips on a page.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

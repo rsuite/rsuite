@@ -5,6 +5,10 @@ import ResponsiveNav from '@rsuite/responsive-nav';
 <!--start-code-->
 
 ```js
+import { Button } from 'rsuite';
+import ResponsiveNav from '@rsuite/responsive-nav';
+import MoreIcon from '@rsuite/icons/More';
+
 const defaultItems = [
   { eventKey: 'A', label: 'Item A' },
   { eventKey: 'B', label: 'Item B' },
@@ -23,11 +27,11 @@ const App = () => {
   const [items, setItems] = React.useState(defaultItems);
 
   return (
-    <div>
+    <>
       <ResponsiveNav
         removable
         appearance="tabs"
-        moreText={<More />}
+        moreText={<MoreIcon />}
         moreProps={{ noCaret: true }}
         activeKey={activeKey}
         onSelect={setActiveKey}
@@ -61,10 +65,10 @@ const App = () => {
       >
         New Item
       </Button>
-    </div>
+    </>
   );
 };
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

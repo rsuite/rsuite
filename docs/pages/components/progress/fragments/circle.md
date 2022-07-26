@@ -1,14 +1,16 @@
 <!--start-code-->
 
 ```js
+import { Progress } from 'rsuite';
+
 const style = {
   width: 120,
   display: 'inline-block',
   marginRight: 10
 };
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <div style={style}>
       <Progress.Circle />
     </div>
@@ -24,9 +26,10 @@ const instance = (
     <div style={style}>
       <Progress.Circle percent={30} showInfo={false} />
     </div>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

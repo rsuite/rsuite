@@ -1,16 +1,21 @@
 <!--start-code-->
 
 ```js
+import { Breadcrumb } from 'rsuite';
+import Link from 'next/link';
+
 const NavLink = React.forwardRef((props, ref) => {
-  const { href, as, ...rest } = props;
+  const { href, as, children, ...rest } = props;
   return (
     <Link href={href} as={as}>
-      <a ref={ref} {...rest} />
+      <a ref={ref} {...rest}>
+        {children}
+      </a>
     </Link>
   );
 });
 
-const instance = (
+const App = () => (
   <Breadcrumb>
     <Breadcrumb.Item as={NavLink} href="/">
       Home
@@ -21,7 +26,7 @@ const instance = (
     <Breadcrumb.Item active>Breadcrumb</Breadcrumb.Item>
   </Breadcrumb>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

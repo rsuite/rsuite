@@ -10,7 +10,7 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

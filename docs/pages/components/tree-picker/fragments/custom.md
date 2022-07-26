@@ -1,12 +1,13 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { TreePicker } from 'rsuite';
+import LocationIcon from '@rsuite/icons/Location';
+import { mockTreeData } from './mock';
 
-const instance = (
+const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+
+const App = () => (
   <TreePicker
     defaultExpandAll
     data={data}
@@ -14,21 +15,26 @@ const instance = (
     renderTreeNode={nodeData => {
       return (
         <span>
-          <i className="rs-icon rs-icon-map-marker" /> {nodeData.label}
+          <LocationIcon /> {nodeData.label}
         </span>
       );
     }}
-    placeholder="Select region"
+    placeholder={
+      <span>
+        <LocationIcon /> Select region
+      </span>
+    }
     renderValue={(value, item, selectedElement) => {
       return (
         <span>
-          <i className="rs-icon rs-icon-map-marker" /> {item.label}
+          <LocationIcon /> {item.label}
         </span>
       );
     }}
   />
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

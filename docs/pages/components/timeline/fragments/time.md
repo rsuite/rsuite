@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Timeline, Grid, Row, Col } from 'rsuite';
+
 const TimelineWithTime = ({ align }) => (
   <Timeline align={align}>
     <Timeline.Item time="November 5, 2019 16:27">Your order starts processing</Timeline.Item>
@@ -11,7 +13,7 @@ const TimelineWithTime = ({ align }) => (
   </Timeline>
 );
 
-const instance = (
+const App = () => (
   <Grid fluid>
     <Row>
       <Col xs={8}>
@@ -27,7 +29,7 @@ const instance = (
   </Grid>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

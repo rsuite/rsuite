@@ -1,32 +1,22 @@
 <!--start-code-->
 
 ```js
-class Demo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: []
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
+import { Uploader } from 'rsuite';
 
-  handleChange(value) {
-    this.setState({ value });
-  }
-  render() {
-    return (
-      <div>
-        <Uploader
-          fileList={this.state.value}
-          action="//jsonplaceholder.typicode.com/posts/"
-          onChange={this.handleChange}
-        />
-      </div>
-    );
-  }
-}
+const App = () => {
+  const [value, setValue] = React.useState([]);
+  return (
+    <>
+      <Uploader
+        fileList={value}
+        action="//jsonplaceholder.typicode.com/posts/"
+        onChange={setValue}
+      />
+    </>
+  );
+};
 
-ReactDOM.render(<Demo />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

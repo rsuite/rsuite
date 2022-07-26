@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Stack, Slider, Input, Button } from 'rsuite';
+
 const App = () => {
   const [size, setSize] = React.useState(6);
 
@@ -19,7 +21,8 @@ const App = () => {
     </Stack>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

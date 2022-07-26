@@ -8,7 +8,7 @@ CheckTreePicker are supported in multiple selectors for multiple selection of co
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

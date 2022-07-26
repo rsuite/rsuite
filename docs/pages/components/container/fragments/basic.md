@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Container, Header, Content, Footer, Sidebar } from 'rsuite';
+
+const App = () => (
   <div className="show-container">
     <Container>
       <Header>Header</Header>
@@ -37,7 +39,7 @@ const instance = (
     </Container>
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

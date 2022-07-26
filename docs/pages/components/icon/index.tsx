@@ -9,13 +9,14 @@ import PieChartIcon from '@rsuite/icons/PieChart';
 import * as faCamera from '@fortawesome/free-solid-svg-icons/faCamera';
 import * as faReact from '@fortawesome/free-brands-svg-icons/faReact';
 import * as faAddressBook from '@fortawesome/free-regular-svg-icons/faAddressBook';
+import { FaCamera, FaReact, FaAddressBook, FaSpinner } from 'react-icons/fa';
 
-import {
-  FaCamera as FaCameraIcon,
-  FaReact as FaReactIcon,
-  FaAddressBook as FaAddressBookIcon,
-  FaSpinner as FaSpinnerIcon
-} from 'react-icons/fa';
+const sandboxDependencies = {
+  '@fortawesome/free-brands-svg-icons': '^5.15.1',
+  '@fortawesome/free-regular-svg-icons': '^5.15.1',
+  '@fortawesome/free-solid-svg-icons': '^5.15.1',
+  'react-icons': '^4.2.0'
+};
 
 export default function Page() {
   return (
@@ -30,11 +31,12 @@ export default function Page() {
         faReact,
         faAddressBook,
         PieChartIcon,
-        FaCameraIcon,
-        FaSpinnerIcon,
-        FaReactIcon,
-        FaAddressBookIcon
+        FaCamera,
+        FaReact,
+        FaAddressBook,
+        FaSpinner
       }}
+      sandboxDependencies={sandboxDependencies}
     />
   );
 }

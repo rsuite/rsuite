@@ -3,19 +3,20 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
+import { Cascader, Button } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const instance = (
-  <div>
+const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+
+const App = () => (
+  <>
     <Cascader data={data} toggleAs={Button} />
     <hr />
     <Cascader data={data} block toggleAs={Button} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

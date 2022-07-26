@@ -1,9 +1,7 @@
 <!--start-code-->
 
 ```js
-/**
- * import { AutoComplete } from 'rsuite';
- */
+import { AutoComplete } from 'rsuite';
 
 const data = [
   'HYPER Advertiser',
@@ -13,7 +11,7 @@ const data = [
   'HYPER Ad Serving',
   'HYPER Data Discovery'
 ];
-const instance = (
+const App = () => (
   <div>
     <label>Disabled:</label>
     <AutoComplete data={data} disabled defaultValue="HYPER Web Analytics" />
@@ -26,7 +24,7 @@ const instance = (
   </div>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

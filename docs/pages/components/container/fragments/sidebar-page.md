@@ -1,6 +1,15 @@
 <!--start-code-->
 
 ```js
+import { Container, Header, Sidebar, Sidenav, Content, Navbar, Nav } from 'rsuite';
+import CogIcon from '@rsuite/icons/legacy/Cog';
+import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
+import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
+import DashboardIcon from '@rsuite/icons/Dashboard';
+import GroupIcon from '@rsuite/icons/legacy/Group';
+import MagicIcon from '@rsuite/icons/legacy/Magic';
+
 const headerStyles = {
   padding: 18,
   fontSize: 16,
@@ -28,7 +37,7 @@ const NavToggle = ({ expand, onChange }) => {
             placement="topStart"
             trigger="click"
             renderTitle={children => {
-              return <Cog style={iconStyles} />;
+              return <CogIcon style={iconStyles} />;
             }}
           >
             <Nav.Item>Help</Nav.Item>
@@ -39,7 +48,7 @@ const NavToggle = ({ expand, onChange }) => {
 
         <Nav pullRight>
           <Nav.Item onClick={onChange} style={{ width: 56, textAlign: 'center' }}>
-            {expand ? <AngleLeft /> : <AngleRight />}
+            {expand ? <AngleLeftIcon /> : <AngleRightIcon />}
           </Nav.Item>
         </Nav>
       </Navbar.Body>
@@ -47,7 +56,7 @@ const NavToggle = ({ expand, onChange }) => {
   );
 };
 
-const Page = () => {
+const App = () => {
   const [expand, setExpand] = React.useState(true);
   return (
     <div className="show-fake-browser sidebar-page">
@@ -59,24 +68,23 @@ const Page = () => {
         >
           <Sidenav.Header>
             <div style={headerStyles}>
-              <LogoAnalytics style={{ fontSize: 20 }} />
               <span style={{ marginLeft: 12 }}> BRAND</span>
             </div>
           </Sidenav.Header>
           <Sidenav expanded={expand} defaultOpenKeys={['3']} appearance="subtle">
             <Sidenav.Body>
               <Nav>
-                <Nav.Item eventKey="1" active icon={<Dashboard />}>
+                <Nav.Item eventKey="1" active icon={<DashboardIcon />}>
                   Dashboard
                 </Nav.Item>
-                <Nav.Item eventKey="2" icon={<Group />}>
+                <Nav.Item eventKey="2" icon={<GroupIcon />}>
                   User Group
                 </Nav.Item>
                 <Nav.Menu
                   eventKey="3"
                   trigger="hover"
                   title="Advanced"
-                  icon={<Magic />}
+                  icon={<MagicIcon />}
                   placement="rightStart"
                 >
                   <Nav.Item eventKey="3-1">Geo</Nav.Item>
@@ -89,7 +97,7 @@ const Page = () => {
                   eventKey="4"
                   trigger="hover"
                   title="Settings"
-                  icon={<GearCircle />}
+                  icon={<GearCircleIcon />}
                   placement="rightStart"
                 >
                   <Nav.Item eventKey="4-1">Applications</Nav.Item>
@@ -115,7 +123,7 @@ const Page = () => {
   );
 };
 
-ReactDOM.render(<Page />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

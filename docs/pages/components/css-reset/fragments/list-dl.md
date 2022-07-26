@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-const instance = (
+const App = () => (
   <dl>
     <dt>Name:</dt>
     <dd>React Suite</dd>
@@ -13,7 +13,7 @@ const instance = (
     <dd>Blue</dd>
   </dl>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

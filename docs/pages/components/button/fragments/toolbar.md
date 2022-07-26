@@ -1,8 +1,21 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Button, ButtonToolbar, ButtonGroup, IconButton } from 'rsuite';
+import FileTextIcon from '@rsuite/icons/legacy/FileText';
+import SaveIcon from '@rsuite/icons/legacy/Save';
+import BoldIcon from '@rsuite/icons/legacy/Bold';
+import ItalicIcon from '@rsuite/icons/legacy/Italic';
+import UnderlineIcon from '@rsuite/icons/legacy/Underline';
+import StrikethroughIcon from '@rsuite/icons/legacy/Strikethrough';
+import AlignLeftIcon from '@rsuite/icons/legacy/AlignLeft';
+import AlignCenterIcon from '@rsuite/icons/legacy/AlignCenter';
+import AlignRightIcon from '@rsuite/icons/legacy/AlignRight';
+import AlignJustifyIcon from '@rsuite/icons/legacy/AlignJustify';
+import LinkIcon from '@rsuite/icons/legacy/Link';
+
+const App = () => (
+  <>
     <ButtonToolbar>
       <Button>Prev</Button>
       <ButtonGroup>
@@ -31,10 +44,10 @@ const instance = (
       </ButtonGroup>
       <IconButton icon={<LinkIcon />} />
     </ButtonToolbar>
-  </div>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

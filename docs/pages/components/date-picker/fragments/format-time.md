@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const DatePickerInstance = props => (
+import { DatePicker } from 'rsuite';
+
+const App = () => (
   <div className="field">
     <p>Show time</p>
     <DatePicker format="HH:mm:ss" ranges={[]} style={{ width: 260 }} />
@@ -10,7 +12,7 @@ const DatePickerInstance = props => (
   </div>
 );
 
-ReactDOM.render(<DatePickerInstance />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

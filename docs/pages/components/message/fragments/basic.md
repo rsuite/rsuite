@@ -1,8 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = <Message>Informational</Message>;
-ReactDOM.render(instance);
+import { Message } from 'rsuite';
+
+const App = () => (
+  <>
+    <Message>Informational</Message>
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,6 +1,10 @@
 <!--start-code-->
 
 ```js
+import { Button, DOMHelper } from 'rsuite';
+
+const { DOMMouseMoveTracker } = DOMHelper;
+
 const App = () => {
   const [left, setLeft] = React.useState(0);
   const [top, setTop] = React.useState(0);
@@ -41,7 +45,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,7 +1,10 @@
 <!--start-code-->
 
 ```js
-const MyLink = React.forwardRef((props, ref) => {
+import { Nav } from 'rsuite';
+import Link from 'next/link';
+
+const NavLink = React.forwardRef((props, ref) => {
   const { href, as, ...rest } = props;
   return (
     <Link href={href} as={as}>
@@ -10,23 +13,24 @@ const MyLink = React.forwardRef((props, ref) => {
   );
 });
 
-const instance = (
+const App = () => (
   <Nav>
-    <Nav.Item as={MyLink} href="/">
+    <Nav.Item as={NavLink} href="/">
       Home
     </Nav.Item>
-    <Nav.Item as={MyLink} href="/guide/introduction">
+    <Nav.Item as={NavLink} href="/guide/introduction">
       Guide
     </Nav.Item>
-    <Nav.Item as={MyLink} href="/components/overview">
+    <Nav.Item as={NavLink} href="/components/overview">
       Components
     </Nav.Item>
-    <Nav.Item as={MyLink} href="/resources/palette">
+    <Nav.Item as={NavLink} href="/resources/palette">
       Resources
     </Nav.Item>
   </Nav>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

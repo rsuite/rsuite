@@ -1,21 +1,24 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { TagPicker } from 'rsuite';
+
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
+);
 
 const styles = { width: 300, display: 'block', marginBottom: 10 };
-const instance = (
-  <div>
+
+const App = () => (
+  <>
     <TagPicker size="lg" placeholder="Large" data={data} style={styles} />
     <TagPicker size="md" placeholder="Medium" data={data} style={styles} />
     <TagPicker size="sm" placeholder="Small" data={data} style={styles} />
     <TagPicker size="xs" placeholder="Xsmall" data={data} style={styles} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

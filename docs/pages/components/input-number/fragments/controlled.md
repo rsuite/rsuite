@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { InputNumber } from 'rsuite';
+
 const App = () => {
   const [value, setValue] = React.useState(0.01);
 
@@ -11,7 +13,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

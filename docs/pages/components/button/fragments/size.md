@@ -1,8 +1,11 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Button, ButtonToolbar, ButtonGroup, IconButton } from 'rsuite';
+import StarIcon from '@rsuite/icons/legacy/Star';
+
+const App = () => (
+  <>
     <ButtonToolbar>
       <Button size="lg">Large</Button>
       <Button size="md">Medium</Button>
@@ -42,9 +45,9 @@ const instance = (
         <Button>Right</Button>
       </ButtonGroup>
     </ButtonToolbar>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

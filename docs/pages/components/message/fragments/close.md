@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Message } from 'rsuite';
+
+const App = () => (
+  <>
     <Message closable type="info">
       Informational
     </Message>
@@ -10,9 +12,10 @@ const instance = (
       Detailed description and advices about successful copywriting.
       <a href="#">This is a Link.</a>
     </Message>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

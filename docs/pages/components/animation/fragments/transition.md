@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Animation, Button } from 'rsuite';
+
 const Panel = React.forwardRef(({ ...props }, ref) => (
   <div
     {...props}
@@ -18,11 +20,11 @@ const Panel = React.forwardRef(({ ...props }, ref) => (
 
 const App = () => {
   const [show, setShow] = React.useState(true);
-  const handleToggle = () => setShow(!show);
+  const onChange = () => setShow(!show);
 
   return (
     <div className="row">
-      <Button onClick={handleToggle}>toggle</Button>
+      <Button onClick={onChange}>transition</Button>
       <hr />
       <Animation.Transition
         exitedClassName="custom-exited"
@@ -55,57 +57,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
-
-/**
-@keyframes zoomIn {
-  from {
-    opacity: 0;
-    transform: scale3d(0.3, 0.3, 0.3);
-  }
-
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes zoomOut {
-  from {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0;
-    transform: scale3d(0.3, 0.3, 0.3);
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-.custom-exiting,
-.custom-entering {
-  animation: .3s linear;
-  animation-fill-mode: forwards;
-}
-
-.custom-exiting {
-  animation-name: zoomOut;
-}
-
-.custom-entering {
-  animation-name: zoomIn;
-}
-
-.custom-entered {
-  opacity: 1;
-}
-
-.custom-exited {
-  opacity: 0;
-}
-**/
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

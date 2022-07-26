@@ -1,14 +1,16 @@
 <!--start-code-->
 
 ```js
+import { Steps } from 'rsuite';
+
 const styles = {
   width: '200px',
   display: 'inline-table',
   verticalAlign: 'top'
 };
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <Steps current={1} vertical style={styles}>
       <Steps.Item title="Finished" />
       <Steps.Item title="In progress" />
@@ -22,9 +24,10 @@ const instance = (
       <Steps.Item title="Waiting" description="Description" />
       <Steps.Item title="Waiting" description="Description" />
     </Steps>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

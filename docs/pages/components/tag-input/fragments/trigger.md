@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { TagInput } from 'rsuite';
+
+const App = () => (
+  <>
     <TagInput
       trigger={'Enter'}
       placeholder="Enter"
@@ -42,9 +44,10 @@ const instance = (
         console.log(value, item);
       }}
     />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

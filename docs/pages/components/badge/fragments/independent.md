@@ -1,19 +1,18 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Badge } from 'rsuite';
+
+const App = () => (
+  <>
     <Badge />
-
     <Badge style={{ background: '#4caf50' }} />
-
     <Badge content="99+" />
-
     <Badge content="NEW" />
-  </div>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

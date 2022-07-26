@@ -1,10 +1,10 @@
 import React from 'react';
 import { Sidenav, Nav, Button, Toggle } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import Dashboard from '@rsuite/icons/legacy/Dashboard';
-import Group from '@rsuite/icons/legacy/Group';
-import Magic from '@rsuite/icons/legacy/Magic';
-import GearCircle from '@rsuite/icons/legacy/GearCircle';
+import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
+import GroupIcon from '@rsuite/icons/legacy/Group';
+import MagicIcon from '@rsuite/icons/legacy/Magic';
+import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
 
 export default function Page() {
   return (
@@ -14,10 +14,10 @@ export default function Page() {
         Nav,
         Button,
         Toggle,
-        Dashboard,
-        Group,
-        Magic,
-        GearCircle
+        DashboardIcon,
+        GroupIcon,
+        MagicIcon,
+        GearCircleIcon
       }}
     />
   );

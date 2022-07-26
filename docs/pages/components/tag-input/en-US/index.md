@@ -8,7 +8,7 @@ The enhancement of Input supports input tags and management tags.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

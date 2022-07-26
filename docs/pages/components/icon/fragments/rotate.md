@@ -1,9 +1,9 @@
 <!--start-code-->
 
 ```js
-// import PieChartIcon from '@rsuite/icons/PieChartIcon';
+import PieChartIcon from '@rsuite/icons/PieChart';
 
-const instance = (
+const App = () => (
   <div className="icon-example-list">
     <PieChartIcon style={{ fontSize: '2em' }} />
     <PieChartIcon rotate={90} style={{ fontSize: '2em' }} />
@@ -13,7 +13,8 @@ const instance = (
     <PieChartIcon flip="vertical" style={{ fontSize: '2em' }} />
   </div>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

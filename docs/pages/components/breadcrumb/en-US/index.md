@@ -8,7 +8,7 @@ Used to display the current page path and quickly return to the history page.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 
@@ -25,6 +25,8 @@ Should automatically collapse if there are more than 5 items. Use `maxItems` to 
 ### Used with `Link` in `next/link`
 
 <!--{include:`with-router.md`}-->
+
+> [ Used with `Link` in React Router](/guide/composition/#react-router-dom)
 
 ### Accessibility
 

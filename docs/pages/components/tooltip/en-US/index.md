@@ -11,7 +11,7 @@ A text tip for secondary, which replaces the default title property of an HTML e
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

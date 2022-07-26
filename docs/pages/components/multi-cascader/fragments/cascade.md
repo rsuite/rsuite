@@ -1,6 +1,11 @@
 <!--start-code-->
 
 ```js
+import { MultiCascader, Toggle } from 'rsuite';
+import { mockTreeData } from './mock';
+
+const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+
 const App = () => {
   const [cascade, setCascade] = React.useState(true);
   const [value, setValue] = React.useState([]);
@@ -24,7 +29,8 @@ const App = () => {
     </div>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

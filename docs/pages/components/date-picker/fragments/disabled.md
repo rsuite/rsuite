@@ -1,21 +1,24 @@
 <!--start-code-->
 
 ```js
+import { DatePicker } from 'rsuite';
+import isBefore from 'date-fns/isBefore';
+
 const Label = props => {
   return <label style={{ width: 120, display: 'inline-block', marginTop: 10 }} {...props} />;
 };
 
-const instance = (
+const App = () => (
   <div className="field">
     <Label>Disabled: </Label>
     <DatePicker disabled style={{ width: 200 }} />
     <br />
     <Label>Disabled date: </Label>
-    <DatePicker disabledDate={date => dateFns.isBefore(date, new Date())} style={{ width: 200 }} />
+    <DatePicker disabledDate={date => isBefore(date, new Date())} style={{ width: 200 }} />
     <br />
     <Label>Disabled month: </Label>
     <DatePicker
-      disabledDate={date => dateFns.isBefore(date, new Date())}
+      disabledDate={date => isBefore(date, new Date())}
       format="yyyy-MM"
       style={{ width: 200 }}
     />
@@ -51,7 +54,7 @@ const instance = (
   </div>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

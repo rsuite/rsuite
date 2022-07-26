@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Slider } from 'rsuite';
+
+const App = () => (
+  <>
     <label>Disabled: </label>
     <Slider disabled defaultValue={50} min={0} step={10} max={100} graduated progress />
     <hr />
@@ -12,9 +14,10 @@ const instance = (
     <hr />
     <label>Plaintext: </label>
     <Slider plaintext defaultValue={50} min={0} step={10} max={100} graduated progress />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

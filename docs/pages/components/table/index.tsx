@@ -11,39 +11,33 @@ import {
   Checkbox,
   Dropdown,
   Pagination,
-  TagPicker
+  TagPicker,
+  Tag
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
-import useFetchData from '@/utils/useFetchData';
-import Edit2 from '@rsuite/icons/legacy/Edit2';
-import More from '@rsuite/icons/legacy/More';
-import MehO from '@rsuite/icons/legacy/MehO';
-import FrownO from '@rsuite/icons/legacy/FrownO';
-import SmileO from '@rsuite/icons/legacy/SmileO';
-import Arrows from '@rsuite/icons/legacy/Arrows';
-import MinusSquareO from '@rsuite/icons/legacy/MinusSquareO';
-import PlusSquareO from '@rsuite/icons/legacy/PlusSquareO';
-import Spinner from '@rsuite/icons/legacy/Spinner';
+
+import MoreIcon from '@rsuite/icons/legacy/More';
+
+import MinusSquareIcon from '@rsuite/icons/legacy/MinusSquareO';
+import PlusSquareIcon from '@rsuite/icons/legacy/PlusSquareO';
+import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import { mockUsers, mockTreeData, mockUsersString, mockTreeDataToString } from '@/utils/mock';
 
 const { HeaderCell, Cell, Column, ColumnGroup } = Table;
 
-export default function Page() {
-  const { response: fakeData } = useFetchData('users');
-  const { response: fakeTreeData } = useFetchData('tree-data');
-  const { response: fakeLargeData } = useFetchData('large-data');
-  const { response: fakeMergeCellsData } = useFetchData('users-merge-cells');
+const mockfile = {
+  name: 'mock.js',
+  content: `${mockTreeDataToString}\n\n${mockUsersString}`
+};
 
+export default function Page() {
   return (
     <DefaultPage
       dependencies={{
         Nav,
         Checkbox,
         Toggle,
-        fakeData,
-        fakeTreeData,
-        fakeMergeCellsData,
-        fakeLargeData,
         Popover,
         Whisper,
         Divider,
@@ -55,18 +49,17 @@ export default function Page() {
         Column,
         Dropdown,
         ColumnGroup,
-        Edit2,
-        More,
-        MehO,
-        FrownO,
-        SmileO,
-        Arrows,
-        MinusSquareO,
-        PlusSquareO,
-        Spinner,
+        MoreIcon,
+        MinusSquareIcon,
+        PlusSquareIcon,
+        SpinnerIcon,
         Pagination,
-        TagPicker
+        TagPicker,
+        Tag,
+        mockTreeData,
+        mockUsers
       }}
+      sandboxFiles={[mockfile]}
     />
   );
 }

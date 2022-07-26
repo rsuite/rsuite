@@ -1,22 +1,23 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
+import { Cascader } from 'rsuite';
+import TagIcon from '@rsuite/icons/Tag';
+import { mockTreeData } from './mock';
 
-const headers = ['Province', 'City', 'District'];
-const instance = (
+const headers = ['Provincial', 'County', 'Town'];
+const data = mockTreeData({ limits: [2, 3, 3], labels: headers });
+
+const App = () => (
   <Cascader
     data={data}
     style={{ width: 224 }}
-    menuWidth={220}
+    menuWidth={160}
     renderMenuItem={(label, item) => {
       return (
-        <div>
+        <>
           <TagIcon /> {label}
-        </div>
+        </>
       );
     }}
     renderMenu={(children, menu, parentNode, layer) => {
@@ -41,7 +42,8 @@ const instance = (
     }}
   />
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

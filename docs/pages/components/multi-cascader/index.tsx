@@ -1,12 +1,15 @@
 import React from 'react';
 import { MultiCascader, Button, Toggle, RadioGroup, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import PreventOverflowContainer from '@/components/PreventOverflowContainer';
-import useFetchData from '@/utils/useFetchData';
-import TagIcon from '@rsuite/icons/Tag';
+import LocationIcon from '@rsuite/icons/Location';
+import { mockTreeData, mockTreeDataToString } from '@/utils/mock';
+
+const mockfile = {
+  name: 'mock.js',
+  content: mockTreeDataToString
+};
 
 export default function Page() {
-  const { response: data } = useFetchData('province-simplified');
   return (
     <DefaultPage
       dependencies={{
@@ -15,10 +18,10 @@ export default function Page() {
         Toggle,
         RadioGroup,
         Radio,
-        TagIcon,
-        PreventOverflowContainer,
-        data
+        LocationIcon,
+        mockTreeData
       }}
+      sandboxFiles={[mockfile]}
     />
   );
 }

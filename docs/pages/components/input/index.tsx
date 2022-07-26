@@ -14,6 +14,7 @@ import {
   FlexboxGrid
 } from 'rsuite';
 import DefaultPage from '@/components/Page';
+
 import SearchIcon from '@rsuite/icons/Search';
 import InfoIcon from '@rsuite/icons/legacy/Info';
 import AvatarIcon from '@rsuite/icons/legacy/Avatar';

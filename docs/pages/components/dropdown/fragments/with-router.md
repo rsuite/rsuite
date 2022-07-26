@@ -1,11 +1,8 @@
 <!--start-code-->
 
 ```js
-/** 
-
+import { Dropdown } from 'rsuite';
 import Link from 'next/link';
-
-*/
 
 const MyLink = React.forwardRef((props, ref) => {
   const { href, as, ...rest } = props;
@@ -16,7 +13,7 @@ const MyLink = React.forwardRef((props, ref) => {
   );
 });
 
-const instance = (
+const App = () => (
   <Dropdown title="Menu">
     <Dropdown.Item as={MyLink} href="/guide/introduction">
       Guide
@@ -29,7 +26,7 @@ const instance = (
     </Dropdown.Item>
   </Dropdown>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

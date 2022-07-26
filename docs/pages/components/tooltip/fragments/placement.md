@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Tooltip, Whisper, Button } from 'rsuite';
+
 const CustomComponent = ({ placement }) => (
   <Whisper
     trigger="click"
@@ -14,8 +16,8 @@ const CustomComponent = ({ placement }) => (
   </Whisper>
 );
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <table className="placement-table" cellSpacing={5}>
       <tbody>
         <tr>
@@ -92,9 +94,10 @@ const instance = (
     <CustomComponent placement="autoHorizontal" />
     <CustomComponent placement="autoHorizontalStart" />
     <CustomComponent placement="autoHorizontalEnd" />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

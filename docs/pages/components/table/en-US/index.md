@@ -14,9 +14,9 @@ A table displays rows of data.
 
 ## Examples
 
-### Fixed Column
+### Basic
 
-<!--{include:`default.md`}-->
+<!--{include:`basic.md`}-->
 
 ### Appearance
 

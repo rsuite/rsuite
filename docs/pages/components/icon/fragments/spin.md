@@ -1,8 +1,8 @@
 <!--start-code-->
 
 ```js
-// import GearIcon from '@rsuite/icons/Gear';
-// import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import GearIcon from '@rsuite/icons/Gear';
+import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 
 const App = () => (
   <div className="icon-example-list">
@@ -10,7 +10,8 @@ const App = () => (
     <SpinnerIcon pulse style={{ fontSize: '2em' }} />
   </div>
 );
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
