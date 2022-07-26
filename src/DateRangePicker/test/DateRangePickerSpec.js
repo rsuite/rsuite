@@ -677,7 +677,7 @@ describe('DateRangePicker', () => {
           }
         ]}
         onChange={onChangeSpy}
-        onClose={onCloseSpy}
+        onExit={onCloseSpy}
       />
     );
 
@@ -699,19 +699,22 @@ describe('DateRangePicker', () => {
         ranges={[
           {
             label: 'Yesterday',
-            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
+            value: [addDays(new Date(), -1), addDays(new Date(), -1)],
+            closeOverlay: false
           }
         ]}
         onChange={onChangeSpy}
-        onClose={onCloseSpy}
+        onExit={onCloseSpy}
       />
     );
 
-    userEvent.click(getByRole('button', { name: 'Yesterday' }));
+    act(() => {
+      userEvent.click(getByRole('button', { name: 'Yesterday' }));
+    });
 
     await waitFor(() => {
-      expect(onCloseSpy).to.not.called;
       expect(onChangeSpy).to.calledOnce;
+      expect(onCloseSpy).to.not.called;
     });
   });
 });
