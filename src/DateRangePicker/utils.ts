@@ -5,15 +5,24 @@ export const setTimingMargin = (date, way = 'left'): Date =>
   way === 'right' ? DateUtils.endOfDay(date) : DateUtils.startOfDay(date);
 
 export function getCalendarDate({
-  value
+  value,
+  calendarKey = 'start'
 }: {
   value: [] | [Date] | [Date, Date] | null;
+  calendarKey?: 'start' | 'end';
 }): DateRange {
   // Update calendarDate if the value is not null
   value = value ?? [];
+
   if (value[0] && value[1]) {
-    const sameMonth = DateUtils.isSameMonth(value[0], value[1]);
-    return [value[0], sameMonth ? DateUtils.addMonths(value[1], 1) : value[1]];
+    const startMonth = DateUtils.getMonth(value[0]);
+    const endMonth = DateUtils.getMonth(value[1]);
+
+    if (calendarKey === 'start') {
+      return [value[0], startMonth >= endMonth ? DateUtils.addMonths(value[0], 1) : value[1]];
+    } else if (calendarKey === 'end') {
+      return [startMonth >= endMonth ? DateUtils.addMonths(value[1], -1) : value[0], value[1]];
+    }
 
     // If only the start date
   } else if (value[0]) {
