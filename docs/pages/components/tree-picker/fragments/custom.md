@@ -2,10 +2,17 @@
 
 ```js
 import { TreePicker } from 'rsuite';
-import LocationIcon from '@rsuite/icons/Location';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import AdminIcon from '@rsuite/icons/Admin';
 import { mockTreeData } from './mock';
 
-const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
 
 const App = () => (
   <TreePicker
@@ -15,19 +22,19 @@ const App = () => (
     renderTreeNode={nodeData => {
       return (
         <span>
-          <LocationIcon /> {nodeData.label}
+          <AdminIcon /> {nodeData.label}
         </span>
       );
     }}
     placeholder={
       <span>
-        <LocationIcon /> Select region
+        <PeoplesIcon /> Select
       </span>
     }
     renderValue={(value, item, selectedElement) => {
       return (
         <span>
-          <LocationIcon /> {item.label}
+          <PeoplesIcon /> {item.label}
         </span>
       );
     }}

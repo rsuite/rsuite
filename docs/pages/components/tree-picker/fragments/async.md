@@ -1,37 +1,17 @@
 <!--start-code-->
 
 ```js
-import { CheckTreePicker } from 'rsuite';
+import { TreePicker } from 'rsuite';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
+import { mockAsyncData } from './mock';
 
-const createNode = () => {
-  const hasChildren = Math.random() > 0.2;
-  return {
-    label: `Node ${(Math.random() * 1e18).toString(36).slice(0, 3).toUpperCase()}`,
-    value: Math.random() * 1e18,
-    children: hasChildren ? [] : null
-  };
-};
-
-const mockData = () => {
-  const children = [];
-  for (let i = 0; i < Math.random() * 5; i++) {
-    children.push(createNode());
-  }
-  return children;
-};
+const [getNodes, fetchNodes] = mockAsyncData();
 
 const App = () => {
   const [value, setValue] = React.useState();
   const [data, setData] = React.useState([]);
-
-  const fetchChildrenData = activeNode => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(mockData());
-      }, 1000);
-    });
-  };
 
   return (
     <TreePicker
@@ -39,10 +19,18 @@ const App = () => {
       style={{ width: 280 }}
       value={value}
       onChange={value => setValue(value)}
+      getChildren={fetchNodes}
       onOpen={() => {
         if (data.length === 0) {
-          setTimeout(() => setData(mockData()), 1000);
+          setTimeout(() => setData(getNodes(5)), 1000);
         }
+      }}
+      renderTreeNode={item => {
+        return (
+          <>
+            {item.children ? <FolderFillIcon /> : <PageIcon />} {item.label}
+          </>
+        );
       }}
       renderMenu={menu => {
         if (data.length === 0) {
@@ -54,7 +42,6 @@ const App = () => {
         }
         return menu;
       }}
-      getChildren={fetchChildrenData}
     />
   );
 };

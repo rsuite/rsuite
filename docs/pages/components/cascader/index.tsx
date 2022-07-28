@@ -1,12 +1,25 @@
 import React from 'react';
 import { Cascader, Button, RadioGroup, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import TagIcon from '@rsuite/icons/Tag';
-import { mockTreeData, mockTreeDataToString } from '@/utils/mock';
+import AdminIcon from '@rsuite/icons/Admin';
+import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
+
+import {
+  mockTreeData,
+  mockTreeDataToString,
+  mockAsyncData,
+  importFakerString,
+  mockAsyncDataString
+} from '@/utils/mock';
 
 const mockfile = {
   name: 'mock.js',
-  content: mockTreeDataToString
+  content: [importFakerString, mockTreeDataToString, mockAsyncDataString].join('\n')
+};
+
+const sandboxDependencies = {
+  '@faker-js/faker': 'latest'
 };
 
 export default function Page() {
@@ -17,9 +30,13 @@ export default function Page() {
         Button,
         RadioGroup,
         Radio,
-        TagIcon,
+        AdminIcon,
+        FolderFillIcon,
+        PageIcon,
+        mockAsyncData,
         mockTreeData
       }}
+      sandboxDependencies={sandboxDependencies}
       sandboxFiles={[mockfile]}
     />
   );

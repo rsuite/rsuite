@@ -1,16 +1,17 @@
 import { faker } from '@faker-js/faker/locale/en';
-import { ItemDataType } from '../../src/@types/common';
+
+export const importFakerString = `import { faker } from '@faker-js/faker/locale/en';`;
 
 export function mockTreeData(options: {
   limits: number[];
   labels: string | string[] | ((layer: number, value: string, faker) => string);
-  getRowData?: (layer: number, value: string) => ItemDataType;
-}): ItemDataType[] {
+  getRowData?: (layer: number, value: string) => any[];
+}) {
   const { limits, labels, getRowData } = options;
   const depth = limits.length;
 
   const data = [];
-  const mock = (list: ItemDataType[], parentValue?: string, layer = 0) => {
+  const mock = (list, parentValue?: string, layer = 0) => {
     const length = limits[layer];
 
     Array.from({ length }).forEach((_, index) => {
@@ -18,7 +19,7 @@ export function mockTreeData(options: {
       const children = [];
       const label = Array.isArray(labels) ? labels[layer] : labels;
 
-      let row: ItemDataType = {
+      let row: any = {
         label: typeof label === 'function' ? label(layer, value, faker) : label + ' ' + value,
         value
       };
@@ -56,7 +57,7 @@ export const mockTreeDataToString = `export function mockTreeData(options){
       const children = [];
       const label = Array.isArray(labels) ? labels[layer] : labels;
       let row = {
-        label: typeof label === 'function' ? label(layer, value) : label + ' ' + value,
+        label: typeof label === 'function' ? label(layer, value, faker) : label + ' ' + value,
         value
       };
 
@@ -128,8 +129,6 @@ export function mockUsers(length: number) {
   });
 }
 
-export const importFakerString = `import { faker } from '@faker-js/faker/locale/en';`;
-
 export const mockUsersString = `export function mockUsers(length) {
   const createRowData = rowIndex => {
     const firstName = faker.name.firstName();
@@ -176,4 +175,67 @@ export const mockUsersString = `export function mockUsers(length) {
     return createRowData(index);
   });
 }
+`;
+
+export const mockAsyncData = (sort = true) => {
+  const createNode = () => {
+    const hasChildren = Math.random() > 0.5;
+    const label = (hasChildren ? 'Folder' : 'File') + ' ' + faker.word.noun(5);
+
+    return {
+      label,
+      value: Math.random() * 1e18,
+      children: hasChildren ? [] : null
+    };
+  };
+
+  const getNodes = length => {
+    const list = [];
+    for (let i = 0; i < length; i++) {
+      list.push(createNode());
+    }
+
+    return sort ? list.sort((a, b) => (b.children ? 1 : 0) - (a.children ? 1 : 0)) : list;
+  };
+
+  const fetchNodes = () => {
+    return new Promise(resolve => {
+      setTimeout(() => resolve(getNodes(Math.random() * 10)), 500);
+    });
+  };
+
+  return [getNodes, fetchNodes];
+};
+
+export const mockAsyncDataString = `export const mockAsyncData = (sort = true) => {
+  const createNode = () => {
+    const hasChildren = Math.random() > 0.5;
+    const label = (hasChildren ? 'Folder' : 'File') + ' ' + faker.word.noun(5);
+
+    return {
+      label,
+      value: Math.random() * 1e18,
+      children: hasChildren ? [] : null
+    };
+  };
+
+  const getNodes = length => {
+    const list = [];
+    for (let i = 0; i < length; i++) {
+      list.push(createNode());
+    }
+    return sort ? list.sort((a, b) => (b.children ? 1 : 0) - (a.children ? 1 : 0)) : list;
+  };
+
+  const fetchNodes = length => {
+    return new Promise(resolve => {
+      setTimeout(
+        () => resolve(getNodes(typeof length === 'number' ? length : Math.random() * 10)),
+        500
+      );
+    });
+  };
+
+  return [getNodes, fetchNodes];
+};
 `;

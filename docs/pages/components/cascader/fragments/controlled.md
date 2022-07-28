@@ -4,7 +4,13 @@
 import { Cascader } from 'rsuite';
 import { mockTreeData } from './mock';
 
-const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
 
 const App = () => {
   const [value, setValue] = React.useState('1-2-2');

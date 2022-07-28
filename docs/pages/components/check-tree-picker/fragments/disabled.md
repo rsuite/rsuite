@@ -4,18 +4,24 @@
 import { CheckTreePicker } from 'rsuite';
 import { mockTreeData } from './mock';
 
-const data = mockTreeData({ limits: [1, 2, 2], labels: ['Provincial', 'County', 'Town'] });
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
 
-const Label = props => {
-  return <label style={{ width: 120, display: 'inline-block', marginTop: 10 }} {...props} />;
-};
+const ControlLabel = ({ children }) => (
+  <label style={{ width: 130, display: 'inline-block' }}>{children}</label>
+);
 
 const App = () => (
   <>
-    <Label>Disabled: </Label>
+    <ControlLabel>Disabled: </ControlLabel>
     <CheckTreePicker disabled data={data} defaultValue={[24]} style={{ width: 220 }} />
-    <br />
-    <Label>Disabled option: </Label>
+    <hr />
+    <ControlLabel>Disabled option: </ControlLabel>
     <CheckTreePicker
       defaultExpandAll
       data={data}
@@ -23,8 +29,8 @@ const App = () => (
       defaultValue={[24]}
       style={{ width: 220 }}
     />
-    <br />
-    <Label>Uncheckable: </Label>
+    <hr />
+    <ControlLabel>Uncheckable: </ControlLabel>
     <CheckTreePicker
       defaultExpandAll
       data={data}
@@ -34,10 +40,10 @@ const App = () => (
     />
 
     <hr />
-    <Label>Read only: </Label>
+    <ControlLabel>Read only: </ControlLabel>
     <CheckTreePicker readOnly data={data} defaultValue={[24]} style={{ width: 220 }} />
     <hr />
-    <Label>Plaintext: </Label>
+    <ControlLabel>Plaintext: </ControlLabel>
     <CheckTreePicker plaintext data={data} defaultValue={[24]} style={{ width: 220 }} />
   </>
 );

@@ -2,35 +2,15 @@
 
 ```js
 import { Tree } from 'rsuite';
+import { mockAsyncData } from './mock';
+import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
 
-const createNode = () => {
-  const hasChildren = Math.random() > 0.2;
-  return {
-    label: `Node ${(Math.random() * 1e18).toString(36).slice(0, 3).toUpperCase()}`,
-    value: Math.random() * 1e18,
-    children: hasChildren ? [] : null
-  };
-};
-
-const mockData = () => {
-  const children = [];
-  for (let i = 0; i < Math.random() * 5; i++) {
-    children.push(createNode());
-  }
-  return children;
-};
+const [getNodes, fetchNodes] = mockAsyncData();
+const data = getNodes(5);
 
 const App = () => {
   const [value, setValue] = React.useState([]);
-  const [data, setData] = React.useState(mockData());
-
-  const fetchChildrenData = activeNode => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(mockData());
-      }, 1000);
-    });
-  };
 
   return (
     <Tree
@@ -38,7 +18,14 @@ const App = () => {
       style={{ width: 280 }}
       value={value}
       onChange={value => setValue(value)}
-      getChildren={fetchChildrenData}
+      getChildren={fetchNodes}
+      renderTreeNode={node => {
+        return (
+          <>
+            {node.children ? <FolderFillIcon /> : <PageIcon />} {node.label}
+          </>
+        );
+      }}
     />
   );
 };

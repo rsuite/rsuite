@@ -157,10 +157,11 @@ const App = () => (
   <Tree
     data={data}
     showIndentLine
-    renderTreeNode={nodeData => {
+    defaultExpandItemValues={['node_modules', 'node_modules-rsuite']}
+    renderTreeNode={node => {
       return (
         <>
-          {nodeData.children ? <FolderFillIcon /> : <PageIcon />} {nodeData.label}
+          {node.children ? <FolderFillIcon /> : <PageIcon />} {node.label}
         </>
       );
     }}

@@ -4,7 +4,13 @@
 import { CheckTreePicker } from 'rsuite';
 import { mockTreeData } from './mock';
 
-const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
 
 const styles = { width: 280, display: 'block', marginBottom: 10 };
 const App = () => (
