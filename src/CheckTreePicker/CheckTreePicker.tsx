@@ -702,7 +702,18 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         ? !!children
         : hasVisibleChildren(node, childrenKey);
     const nodeProps = {
-      ...getTreeNodeProps({ ...node, expand }, layer),
+      ...getTreeNodeProps(
+        {
+          ...node,
+          /**
+           * spread operator dont copy enumerable properties
+           * so we need to copy them manually
+           */
+          parent: node.parent,
+          expand
+        },
+        layer
+      ),
       hasChildren: visibleChildren
     };
 
