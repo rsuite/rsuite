@@ -1,3 +1,17 @@
+## [5.16.2](https://github.com/rsuite/rsuite/compare/v5.16.1...v5.16.2) (2022-07-28)
+
+### Bug Fixes
+
+- **CustomProvider:** fix warnings caused by server-side rendering ([#2599](https://github.com/rsuite/rsuite/issues/2599)) ([ea05efb](https://github.com/rsuite/rsuite/commit/ea05efba3c53bf7e04ea4caa7b378a762b85af93))
+- **DateRangePicker:** improved experience for date range selection ([#2618](https://github.com/rsuite/rsuite/issues/2618)) ([225fc08](https://github.com/rsuite/rsuite/commit/225fc08e21d43c41d92c1514f67c05eb660bf9dd))
+- **focus:** fix outline style for form components when focused ([#2601](https://github.com/rsuite/rsuite/issues/2601)) ([0e2f9df](https://github.com/rsuite/rsuite/commit/0e2f9dffe5e882fc56727eb8ba8901aaf1b7d7b3))
+- **OverlayTrigger:** fix invalid rendering without followCursor ([#2600](https://github.com/rsuite/rsuite/issues/2600)) ([08abc8e](https://github.com/rsuite/rsuite/commit/08abc8e825af55d8334a6e6057d4f5582a3197ac))
+- **Panel:** allow custom header in collapsible panels ([#2611](https://github.com/rsuite/rsuite/issues/2611)) ([6372d44](https://github.com/rsuite/rsuite/commit/6372d441235b5b65036c257608098df01f93bf6d))
+- **Picker:** add missing caretAs prop declaration ([#2592](https://github.com/rsuite/rsuite/issues/2592)) ([faabba4](https://github.com/rsuite/rsuite/commit/faabba4b32d82f819b5c5431c3d7040798db1765))
+- **Picker:** fix style dependency ([#2612](https://github.com/rsuite/rsuite/issues/2612)) ([0b5b1d6](https://github.com/rsuite/rsuite/commit/0b5b1d60909a069c317f069e9ab235da70eb4aa3))
+- **SelectPicker:** make controlled value nullable ([#2591](https://github.com/rsuite/rsuite/issues/2591)) ([6619a75](https://github.com/rsuite/rsuite/commit/6619a75eca9eabf9bf08dd84dee78f1df0e094ca))
+- **treelike:** fix data item stringify throw error ([#2606](https://github.com/rsuite/rsuite/issues/2606)) ([3a586d2](https://github.com/rsuite/rsuite/commit/3a586d28e075b5bdd95d8df948ce4887570fab1d))
+
 ## [5.16.1](https://github.com/rsuite/rsuite/compare/v5.16.0...v5.16.1) (2022-07-15)
 
 ### Bug Fixes
