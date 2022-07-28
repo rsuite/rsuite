@@ -2,8 +2,8 @@
 
 ```js
 import { Table, Tag } from 'rsuite';
-import MinusSquareIcon from '@rsuite/icons/legacy/MinusSquareO';
-import PlusSquareIcon from '@rsuite/icons/legacy/PlusSquareO';
+import CollaspedOutlineIcon from '@rsuite/icons/CollaspedOutline';
+import ExpandOutlineIcon from '@rsuite/icons/ExpandOutline';
 import { mockUsers } from './mock';
 
 const { Column, HeaderCell, Cell } = Table;
@@ -11,18 +11,17 @@ const data = mockUsers(5);
 const rowKey = 'id';
 
 const ExpandCell = ({ rowData, dataKey, expandedRowKeys, onChange, ...props }) => (
-  <Cell {...props}>
+  <Cell {...props} style={{ padding: 5 }}>
     <IconButton
-      size="xs"
       appearance="subtle"
       onClick={() => {
         onChange(rowData);
       }}
       icon={
         expandedRowKeys.some(key => key === rowData[rowKey]) ? (
-          <MinusSquareIcon />
+          <CollaspedOutlineIcon />
         ) : (
-          <PlusSquareIcon />
+          <ExpandOutlineIcon />
         )
       }
     />
@@ -41,15 +40,10 @@ const renderRowExpanded = rowData => {
           background: '#eee'
         }}
       >
-        <img
-          src={`https://via.placeholder.com/40x40/3498ff/FFFFFF?text=${rowData.firstName[0]}`}
-          style={{ width: 60 }}
-        />
+        <img src={rowData.avatar} style={{ width: 60 }} />
       </div>
       <p>Email: {rowData.email}</p>
-      <p>
-        Hobbies: <Tag>{rowData.hobby}</Tag>
-      </p>
+      <p>Phone: {rowData.phone}</p>
     </div>
   );
 };

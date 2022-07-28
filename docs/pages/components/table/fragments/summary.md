@@ -38,19 +38,19 @@ const App = () => {
     <Table height={300} headerHeight={80} data={data}>
       <Column width={160}>
         <HeaderCell>Name</HeaderCell>
-        <Cell dataKey="firstName" />
+        <Cell dataKey="name" />
       </Column>
 
       <Column width={200} align="right">
         <HeaderCell>
-          <HeaderSummary title="Stars" summary={stars} />
+          <HeaderSummary title="⭐️ Stars" summary={stars} />
         </HeaderCell>
         <NumberCell dataKey="stars" />
       </Column>
 
       <Column width={200} align="right">
         <HeaderCell>
-          <HeaderSummary title="Followers" summary={followers} />
+          <HeaderSummary title="❤️ Followers" summary={followers} />
         </HeaderCell>
         <NumberCell dataKey="followers" />
       </Column>

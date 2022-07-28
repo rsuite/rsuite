@@ -31,43 +31,7 @@
 
 <!--{include:`virtualized.md`}-->
 
-### 可调整列宽
-
-<!--{include:`resizable.md`}-->
-
-把鼠标移动到列分割线的时候，会显示出一个蓝色的移动手柄，点击不松开并左右拖动就可以调整列的宽度。
-
-要支持该功能，需要在 `Column` 设置一个 `resizable` 属性。
-
-### 流体列宽
-
-<!--{include:`fluid-column.md`}-->
-
-如果需要把某列设置为自动宽度，需要配置 `flexGrow` 属性。 `flexGrow` 是 `number` 类型。会按照所有 `flexGrow` 总和比例撑满 `<Table>` 剩下的宽度。
-
-> 注意: 设置 `flexGrow` 以后，就不能设置 `width` 和 `resizable` 属性。 可以通过 `minWidth` 设置一个最小宽度
-
-```html
-<Column flexGrow="{1}">
-  <HeaderCell>City <code>flexGrow={1}</code></HeaderCell>
-  <Cell dataKey="city" />
-</Column>
-
-<Column flexGrow="{2}">
-  <HeaderCell>Company Name <code>flexGrow={2}</code></HeaderCell>
-  <Cell dataKey="companyName" />
-</Column>
-
-...
-```
-
-### 自动换行
-
-<!--{include:`word-wrap.md`}-->
-
-如果想让单元格自动换行，只需要设置 `wordWrap`。
-
-### 自定义列
+### 自定义单元格
 
 <!--{include:`custom-cell.md`}-->
 
@@ -108,14 +72,55 @@ const ImageCell = ({ rowData, dataKey, ...props }) => (
 如果在实际应用中需要根据数据内容来定义行高，可以使用以下方式
 
 ```js
-const rowHeight = rowData => {
-  if (rowData && rowData.firstName === 'Janis') {
-    return 60;
-  }
-  return 46;
-};
-<Table rowHeight={rowHeight}>...</Table>;
+return (
+  <Table
+    rowHeight={rowData => {
+      if (rowData?.tags.length > 4) {
+        return 80;
+      }
+      return 40;
+    }}
+  >
+    ...
+  </Table>
+);
 ```
+
+### 可调整列宽
+
+<!--{include:`resizable.md`}-->
+
+把鼠标移动到列分割线的时候，会显示出一个蓝色的移动手柄，点击不松开并左右拖动就可以调整列的宽度。
+
+要支持该功能，需要在 `Column` 设置一个 `resizable` 属性。
+
+### 流体列宽
+
+<!--{include:`fluid-column.md`}-->
+
+如果需要把某列设置为自动宽度，需要配置 `flexGrow` 属性。 `flexGrow` 是 `number` 类型。会按照所有 `flexGrow` 总和比例撑满 `<Table>` 剩下的宽度。
+
+> 注意: 设置 `flexGrow` 以后，就不能设置 `width` 和 `resizable` 属性。 可以通过 `minWidth` 设置一个最小宽度
+
+```html
+<Column flexGrow="{1}">
+  <HeaderCell>City <code>flexGrow={1}</code></HeaderCell>
+  <Cell dataKey="city" />
+</Column>
+
+<Column flexGrow="{2}">
+  <HeaderCell>Company Name <code>flexGrow={2}</code></HeaderCell>
+  <Cell dataKey="companyName" />
+</Column>
+
+...
+```
+
+### 自动换行
+
+<!--{include:`word-wrap.md`}-->
+
+如果想让单元格自动换行，只需要设置 `wordWrap`。
 
 ### 排序
 

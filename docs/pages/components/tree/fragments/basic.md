@@ -10,7 +10,7 @@ const App = () => {
   const treeRef = React.useRef();
   const [index, setIndex] = React.useState(1);
   return (
-    <div bordered>
+    <div>
       <Panel bordered>
         <Tree data={data} ref={treeRef} defaultExpandAll virtualized />
       </Panel>

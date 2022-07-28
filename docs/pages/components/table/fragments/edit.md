@@ -7,7 +7,7 @@ import { mockUsers } from './mock';
 const { Column, HeaderCell, Cell } = Table;
 const defaultData = mockUsers(8);
 
-const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
+const EditableCell = ({ rowData, dataKey, onChange, ...props }) => {
   const editing = rowData.status === 'EDIT';
   return (
     <Cell {...props} className={editing ? 'table-content-editing' : ''}>
@@ -32,7 +32,7 @@ const ActionCell = ({ rowData, dataKey, onClick, ...props }) => {
       <Button
         appearance="link"
         onClick={() => {
-          onClick && onClick(rowData.id);
+          onClick(rowData.id);
         }}
       >
         {rowData.status === 'EDIT' ? 'Save' : 'Edit'}
@@ -40,6 +40,7 @@ const ActionCell = ({ rowData, dataKey, onClick, ...props }) => {
     </Cell>
   );
 };
+
 const App = () => {
   const [data, setData] = React.useState(defaultData);
 
@@ -59,17 +60,17 @@ const App = () => {
     <Table height={420} data={data}>
       <Column width={200}>
         <HeaderCell>First Name</HeaderCell>
-        <EditCell dataKey="firstName" onChange={handleChange} />
+        <EditableCell dataKey="firstName" onChange={handleChange} />
       </Column>
 
       <Column width={200}>
         <HeaderCell>Last Name</HeaderCell>
-        <EditCell dataKey="lastName" onChange={handleChange} />
+        <EditableCell dataKey="lastName" onChange={handleChange} />
       </Column>
 
       <Column width={300}>
         <HeaderCell>Email</HeaderCell>
-        <EditCell dataKey="email" onChange={handleChange} />
+        <EditableCell dataKey="email" onChange={handleChange} />
       </Column>
 
       <Column flexGrow={1}>

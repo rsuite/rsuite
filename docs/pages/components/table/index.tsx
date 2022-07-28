@@ -12,23 +12,33 @@ import {
   Dropdown,
   Pagination,
   TagPicker,
-  Tag
+  Tag,
+  Progress
 } from 'rsuite';
-
+import { faker } from '@faker-js/faker/locale/en';
 import DefaultPage from '@/components/Page';
 
 import MoreIcon from '@rsuite/icons/legacy/More';
-
-import MinusSquareIcon from '@rsuite/icons/legacy/MinusSquareO';
-import PlusSquareIcon from '@rsuite/icons/legacy/PlusSquareO';
+import CollaspedOutlineIcon from '@rsuite/icons/CollaspedOutline';
+import ExpandOutlineIcon from '@rsuite/icons/ExpandOutline';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
-import { mockUsers, mockTreeData, mockUsersString, mockTreeDataToString } from '@/utils/mock';
+import {
+  mockUsers,
+  mockTreeData,
+  mockUsersString,
+  mockTreeDataToString,
+  importFakerString
+} from '@/utils/mock';
 
 const { HeaderCell, Cell, Column, ColumnGroup } = Table;
 
 const mockfile = {
   name: 'mock.js',
-  content: `${mockTreeDataToString}\n\n${mockUsersString}`
+  content: [importFakerString, mockUsersString, mockTreeDataToString].join('\n')
+};
+
+const sandboxDependencies = {
+  '@faker-js/faker': 'latest'
 };
 
 export default function Page() {
@@ -50,15 +60,18 @@ export default function Page() {
         Dropdown,
         ColumnGroup,
         MoreIcon,
-        MinusSquareIcon,
-        PlusSquareIcon,
+        CollaspedOutlineIcon,
+        ExpandOutlineIcon,
         SpinnerIcon,
         Pagination,
         TagPicker,
         Tag,
+        Progress,
+        faker,
         mockTreeData,
         mockUsers
       }}
+      sandboxDependencies={sandboxDependencies}
       sandboxFiles={[mockfile]}
     />
   );
