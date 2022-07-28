@@ -36,7 +36,7 @@ export interface DropdownMenuProps<Multiple = false>
   virtualized?: boolean;
 
   // https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
-  listProps?: ListProps;
+  listProps?: Partial<ListProps>;
 
   /** Custom selected option */
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
