@@ -1,6 +1,9 @@
 <!--start-code-->
 
 ```js
+import { Form, InputGroup, Input, Toggle, SelectPicker } from 'rsuite';
+import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+
 const errorPlacementData = [
   { label: 'bottomStart', value: 'bottomStart' },
   { label: 'bottomEnd', value: 'bottomEnd' },
@@ -22,7 +25,7 @@ const App = () => {
   const errorMessage = errorVisible ? 'This field is required' : null;
 
   return (
-    <div>
+    <>
       <Form>
         <Form.Group controlId={'input-2'}>
           <Form.Control
@@ -41,7 +44,7 @@ const App = () => {
               errorPlacement={errorPlacement}
             />
             <InputGroup.Addon>
-              <Avatar />
+              <AvatarIcon />
             </InputGroup.Addon>
           </InputGroup>
         </Form.Group>
@@ -66,11 +69,11 @@ const App = () => {
         cleanable={false}
         onChange={setErrorPlacement}
       />
-    </div>
+    </>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

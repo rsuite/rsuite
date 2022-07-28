@@ -1,10 +1,8 @@
 <!--start-code-->
 
 ```js
-/**
-  import { Popover, Dropdown, IconButton } from 'rsuite';
-  import ArrowDownIcon from '@rsuite/icons/ArrowDown';
-*/
+import { ButtonGroup, Button, Whisper, Popover, Dropdown, IconButton } from 'rsuite';
+import ArrowDownIcon from '@rsuite/icons/ArrowDown';
 
 const options = ['Create a merge commit', 'Squash and merge', 'Rebase and merge'];
 
@@ -40,7 +38,8 @@ const App = () => {
     </ButtonGroup>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

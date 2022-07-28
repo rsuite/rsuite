@@ -1,10 +1,13 @@
 <!--start-code-->
 
 ```js
+import { Pagination } from 'rsuite';
+
 const App = () => {
   const [activePage, setActivePage] = React.useState(5);
+
   return (
-    <div>
+    <>
       <Pagination
         prev
         last
@@ -52,10 +55,11 @@ const App = () => {
         activePage={activePage}
         onChangePage={setActivePage}
       />
-    </div>
+    </>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

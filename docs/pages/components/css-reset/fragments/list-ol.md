@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-const instance = (
+const App = () => (
   <div>
     <p>Simple example:</p>
     <ol>
@@ -33,7 +33,7 @@ const instance = (
     </ol>
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

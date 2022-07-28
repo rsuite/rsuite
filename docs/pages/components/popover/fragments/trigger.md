@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Popover, Whisper, Button, ButtonToolbar } from 'rsuite';
+
 const speaker = (
   <Popover title="Title">
     <p>This is a default Popover </p>
@@ -63,7 +65,7 @@ const App = () => (
   </div>
 );
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

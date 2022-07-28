@@ -1,12 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { InputNumber } from 'rsuite';
+
+const App = () => (
   <div style={{ width: 160 }}>
     <InputNumber defaultValue={10} max={100} min={10} />
   </div>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

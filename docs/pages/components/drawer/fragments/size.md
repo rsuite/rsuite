@@ -1,6 +1,12 @@
 <!--start-code-->
 
 ```js
+import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, IconButton, Placeholder } from 'rsuite';
+import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
+import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
+import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
+
 const styles = {
   radioGroupLabel: {
     padding: '8px 12px',
@@ -19,7 +25,7 @@ const App = () => {
     setPlacement(key);
   };
   return (
-    <div>
+    <>
       <RadioGroup inline appearance="picker" value={size} onChange={setSize}>
         <span style={styles.radioGroupLabel}>Size: </span>
         <Radio value="full">Full page</Radio>
@@ -55,14 +61,14 @@ const App = () => {
           </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
-          <Paragraph rows={8} />
+          <Placeholder.Paragraph rows={8} />
         </Drawer.Body>
       </Drawer>
-    </div>
+    </>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

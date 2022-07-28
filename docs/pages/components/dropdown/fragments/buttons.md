@@ -1,11 +1,9 @@
 <!--start-code-->
 
 ```js
-/**
-  import { Popover, Dropdown, ButtonToolbar, IconButton } from 'rsuite';
-  import ArrowDownIcon from '@rsuite/icons/ArrowDown';
-  import PlusIcon from '@rsuite/icons/Plus';
-*/
+import { Dropdown, ButtonToolbar, Popover, IconButton } from 'rsuite';
+import ArrowDownIcon from '@rsuite/icons/ArrowDown';
+import PlusIcon from '@rsuite/icons/Plus';
 
 const renderMenu = ({ onClose, left, top, className }, ref) => {
   const handleSelect = eventKey => {
@@ -49,7 +47,8 @@ const App = () => (
     </ButtonGroup>
   </ButtonToolbar>
 );
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,6 +1,10 @@
 <!--start-code-->
 
 ```js
+import { ButtonToolbar, Button, DOMHelper } from 'rsuite';
+
+const { on, off } = DOMHelper;
+
 const App = () => {
   const btnRef = React.useRef();
   const listenerRef = React.useRef();
@@ -12,7 +16,7 @@ const App = () => {
       });
     }
   };
-  
+
   const handleOffEvent = () => {
     if (listenerRef.current) {
       listenerRef.current.off();
@@ -33,7 +37,8 @@ const App = () => {
     </div>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

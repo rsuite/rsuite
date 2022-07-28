@@ -1,13 +1,15 @@
 <!--start-code-->
 
 ```js
-const message = (
+import { Notification, Placeholder } from 'rsuite';
+
+const App = () => (
   <Notification>
-    <Paragraph width={320} rows={3} />
+    <Placeholder.Paragraph style={{ width: 320 }} rows={3} />
   </Notification>
 );
 
-ReactDOM.render(message);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

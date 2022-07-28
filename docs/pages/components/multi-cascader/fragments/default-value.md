@@ -1,12 +1,18 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
+import { MultiCascader } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const instance = (
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
+
+const App = () => (
   <div>
     <p>Cascade:</p>
     <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} />
@@ -15,7 +21,8 @@ const instance = (
     <MultiCascader data={data} defaultValue={['1-1', '1-2', '2']} cascade={false} />
   </div>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

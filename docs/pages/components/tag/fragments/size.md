@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { TagGroup, Tag } from 'rsuite';
+
+const App = () => (
   <TagGroup>
     <Tag size="lg">Large</Tag>
     <Tag size="md">Medium</Tag>
@@ -9,7 +11,7 @@ const instance = (
   </TagGroup>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

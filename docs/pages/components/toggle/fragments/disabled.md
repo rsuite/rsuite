@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Toggle } from 'rsuite';
+
+const App = () => (
+  <>
     <label>Disabled: </label>
     <Toggle disabled />
     <Toggle disabled checkedChildren="Enable" unCheckedChildren="Disabled" />
@@ -17,9 +19,10 @@ const instance = (
     <Toggle plaintext />
     <Toggle plaintext checkedChildren="Enable" unCheckedChildren="Disabled" />
     <Toggle plaintext defaultChecked checkedChildren="Enable" unCheckedChildren="Disabled" />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,13 +1,18 @@
 <!--start-code-->
 
 ```js
+import { Input, InputGroup, Whisper, Tooltip } from 'rsuite';
+import SearchIcon from '@rsuite/icons/Search';
+import InfoIcon from '@rsuite/icons/legacy/Info';
+import AvatarIcon from '@rsuite/icons/legacy/Avatar';
+
 const styles = {
   width: 300,
   marginBottom: 10
 };
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <InputGroup inside style={styles}>
       <Input />
       <InputGroup.Addon>
@@ -49,10 +54,10 @@ const instance = (
       </InputGroup.Addon>
       <Input />
     </InputGroup>
-  </div>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-// import PieChartIcon from '@rsuite/icons/PieChartIcon';
+import PieChartIcon from '@rsuite/icons/PieChart';
 
 const ChartIcon = ({ color }) => (
   <PieChartIcon style={{ color, marginRight: 10, fontSize: '2em' }} />
@@ -16,7 +16,8 @@ const App = () => (
     <ChartIcon color="#f5a623" />
   </div>
 );
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,13 +1,23 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
+import { Cascader } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const instance = <Cascader data={data} parentSelectable style={{ width: 224 }} />;
-ReactDOM.render(instance);
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
+
+const App = () => (
+  <>
+    <Cascader data={data} parentSelectable style={{ width: 224 }} />
+  </>
+);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

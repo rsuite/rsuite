@@ -1,23 +1,43 @@
 import React from 'react';
 import { Cascader, Button, RadioGroup, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import PreventOverflowContainer from '@/components/PreventOverflowContainer';
-import useFetchData from '@/utils/useFetchData';
-import TagIcon from '@rsuite/icons/Tag';
+import AdminIcon from '@rsuite/icons/Admin';
+import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
+
+import {
+  mockTreeData,
+  mockTreeDataToString,
+  mockAsyncData,
+  importFakerString,
+  mockAsyncDataString
+} from '@/utils/mock';
+
+const mockfile = {
+  name: 'mock.js',
+  content: [importFakerString, mockTreeDataToString, mockAsyncDataString].join('\n')
+};
+
+const sandboxDependencies = {
+  '@faker-js/faker': 'latest'
+};
 
 export default function Page() {
-  const { response: data } = useFetchData('province-simplified');
   return (
     <DefaultPage
       dependencies={{
-        data,
         Cascader,
         Button,
         RadioGroup,
         Radio,
-        TagIcon,
-        PreventOverflowContainer
+        AdminIcon,
+        FolderFillIcon,
+        PageIcon,
+        mockAsyncData,
+        mockTreeData
       }}
+      sandboxDependencies={sandboxDependencies}
+      sandboxFiles={[mockfile]}
     />
   );
 }

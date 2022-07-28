@@ -1,19 +1,21 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { SelectPicker } from 'rsuite';
 
-const instance = (
-  <div>
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
+);
+
+const App = () => (
+  <>
     <SelectPicker data={data} appearance="default" placeholder="Default" style={{ width: 224 }} />
     <hr />
     <SelectPicker data={data} appearance="subtle" placeholder="Subtle" style={{ width: 224 }} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

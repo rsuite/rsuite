@@ -1,6 +1,9 @@
 <!--start-code-->
 
 ```js
+import { Pagination } from 'rsuite';
+import Link from 'next/link';
+
 const NavLink = React.forwardRef((props, ref) => {
   const { href, active, eventKey, as, ...rest } = props;
   return (
@@ -20,7 +23,8 @@ const App = () => {
 
   return <Pagination linkAs={NavLink} total={100} limit={10} activePage={activePage} />;
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,11 +1,9 @@
 <!--start-code-->
 
 ```js
-/**
- * import { AutoComplete, InputGroup } from 'rsuite';
- * import SearchIcon from '@rsuite/icons/Search';
- * import MemberIcon from '@rsuite/icons/Member';
- */
+import { AutoComplete, InputGroup } from 'rsuite';
+import SearchIcon from '@rsuite/icons/Search';
+import MemberIcon from '@rsuite/icons/Member';
 
 const styles = {
   width: 300,
@@ -21,8 +19,8 @@ const data = [
   'HYPER Data Discovery'
 ];
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <InputGroup style={styles}>
       <AutoComplete data={data} />
       <InputGroup.Button>
@@ -50,10 +48,10 @@ const instance = (
       </InputGroup.Addon>
       <AutoComplete data={data} />
     </InputGroup>
-  </div>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

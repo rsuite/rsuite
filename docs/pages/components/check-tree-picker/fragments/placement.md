@@ -1,10 +1,16 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { CheckTreePicker } from 'rsuite';
+import { mockTreeData } from './mock';
+
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
 
 const CustomTreePicker = ({ placement, ...rest }) => (
   <CheckTreePicker
@@ -18,8 +24,8 @@ const CustomTreePicker = ({ placement, ...rest }) => (
   />
 );
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <table className="placement-table">
       <tbody>
         <tr>
@@ -72,9 +78,9 @@ const instance = (
     <hr />
     <CustomTreePicker placement="autoHorizontalStart" style={{ width: 200 }} />{' '}
     <CustomTreePicker placement="autoHorizontalEnd" style={{ width: 200 }} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

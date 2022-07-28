@@ -1,8 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = <TagInput style={{ width: 300 }} />;
-ReactDOM.render(instance);
+import { TagInput } from 'rsuite';
+
+const App = () => (
+  <>
+    <TagInput style={{ width: 300 }} />
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

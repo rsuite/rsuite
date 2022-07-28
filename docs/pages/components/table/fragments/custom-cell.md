@@ -1,20 +1,27 @@
 <!--start-code-->
 
 ```js
+import { Table, Popover, Whisper, Checkbox, Dropdown, IconButton, Progress } from 'rsuite';
+import MoreIcon from '@rsuite/icons/legacy/More';
+import { mockUsers } from './mock';
+
+const { Column, HeaderCell, Cell } = Table;
+const data = mockUsers(8);
+
 const NameCell = ({ rowData, dataKey, ...props }) => {
   const speaker = (
     <Popover title="Description">
       <p>
-        <b>Name:</b> {`${rowData.firstName} ${rowData.lastName}`}{' '}
+        <b>Name:</b> {rowData.name}
       </p>
       <p>
-        <b>Email:</b> {rowData.email}{' '}
+        <b>Gender:</b> {rowData.gender}
       </p>
       <p>
-        <b>Company:</b> {rowData.companyName}{' '}
+        <b>City:</b> {rowData.city}
       </p>
       <p>
-        <b>Sentence:</b> {rowData.sentence}{' '}
+        <b>Street:</b> {rowData.street}
       </p>
     </Popover>
   );
@@ -22,7 +29,7 @@ const NameCell = ({ rowData, dataKey, ...props }) => {
   return (
     <Cell {...props}>
       <Whisper placement="top" speaker={speaker}>
-        <a>{rowData[dataKey].toLocaleString()}</a>
+        <a>{rowData[dataKey]}</a>
       </Whisper>
     </Cell>
   );
@@ -35,13 +42,13 @@ const ImageCell = ({ rowData, dataKey, ...props }) => (
         width: 40,
         height: 40,
         background: '#f5f5f5',
-        borderRadius: 20,
+        borderRadius: 6,
         marginTop: 2,
         overflow: 'hidden',
         display: 'inline-block'
       }}
     >
-      <img src={rowData[dataKey]} width="40" />
+      <img src={rowData.avatar} width="40" />
     </div>
   </Cell>
 );
@@ -67,32 +74,25 @@ const renderMenu = ({ onClose, left, top, className }, ref) => {
   return (
     <Popover ref={ref} className={className} style={{ left, top }} full>
       <Dropdown.Menu onSelect={handleSelect}>
-        <Dropdown.Item eventKey={3}>Download As...</Dropdown.Item>
-        <Dropdown.Item eventKey={4}>Export PDF</Dropdown.Item>
-        <Dropdown.Item eventKey={5}>Export HTML</Dropdown.Item>
-        <Dropdown.Item eventKey={6}>Settings</Dropdown.Item>
-        <Dropdown.Item eventKey={7}>About</Dropdown.Item>
+        <Dropdown.Item eventKey={1}>Follow</Dropdown.Item>
+        <Dropdown.Item eventKey={2}>Sponsor</Dropdown.Item>
+        <Dropdown.Item eventKey={3}>Add to friends</Dropdown.Item>
+        <Dropdown.Item eventKey={4}>View Profile</Dropdown.Item>
+        <Dropdown.Item eventKey={5}>Block</Dropdown.Item>
       </Dropdown.Menu>
     </Popover>
   );
 };
 
 const ActionCell = ({ rowData, dataKey, ...props }) => {
-  function handleAction() {
-    alert(`id:${rowData[dataKey]}`);
-  }
   return (
     <Cell {...props} className="link-group">
-      <IconButton appearance="subtle" onClick={handleAction} icon={<Edit2 />} />
-      <Divider vertical />
       <Whisper placement="autoVerticalStart" trigger="click" speaker={renderMenu}>
-        <IconButton appearance="subtle" icon={<More />} />
+        <IconButton appearance="subtle" icon={<MoreIcon />} />
       </Whisper>
     </Cell>
   );
 };
-
-const data = fakeData.filter((v, i) => i < 5);
 
 const App = () => {
   const [checkedKeys, setCheckedKeys] = React.useState([]);
@@ -137,24 +137,42 @@ const App = () => {
       </Column>
 
       <Column width={160}>
-        <HeaderCell>First Name</HeaderCell>
-        <NameCell dataKey="firstName" />
+        <HeaderCell>Name</HeaderCell>
+        <NameCell dataKey="name" />
       </Column>
 
-      <Column width={300}>
-        <HeaderCell>Email</HeaderCell>
-        <Cell>{rowData => <a href={`mailto:${rowData.email}`}>{rowData.email}</a>}</Cell>
+      <Column width={230}>
+        <HeaderCell>Skill Proficiency</HeaderCell>
+        <Cell style={{ padding: '10px 0' }}>
+          {rowData => <Progress percent={rowData.progress} showInfo={false} />}
+        </Cell>
       </Column>
 
-      <Column width={200}>
-        <HeaderCell>Action</HeaderCell>
+      <Column width={100}>
+        <HeaderCell>Rating</HeaderCell>
+        <Cell>
+          {rowData =>
+            Array.from({ length: rowData.rating }).map((_, i) => <span key={i}>⭐️</span>)
+          }
+        </Cell>
+      </Column>
+
+      <Column width={100}>
+        <HeaderCell>Income</HeaderCell>
+        <Cell>{rowData => `$${rowData.amount}`}</Cell>
+      </Column>
+
+      <Column width={120}>
+        <HeaderCell>
+          <MoreIcon />
+        </HeaderCell>
         <ActionCell dataKey="id" />
       </Column>
     </Table>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

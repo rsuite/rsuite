@@ -8,7 +8,7 @@ Tag for categorizing or markup.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

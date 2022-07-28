@@ -52,7 +52,9 @@ export default {
     highContrast: '高对比',
     showTheSource: '展示代码',
     transparentBackground: '背景透明',
-    seeTheSourceOnGitHub: '查看源码'
+    seeTheSourceOnGitHub: '查看源码',
+    openCodeSandbox: '在 CodeSandbox 中打开',
+    openStackBlitz: '在  StackBlitz 中打开'
   },
   resourcesDesign: {
     defaultHeader: '组件设计 - 默认主题',

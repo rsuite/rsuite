@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { TagGroup, Tag } from 'rsuite';
+
+const App = () => (
   <TagGroup>
     <Tag color="red">Red</Tag>
     <Tag color="orange">Orange</Tag>
@@ -13,7 +15,7 @@ const instance = (
   </TagGroup>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

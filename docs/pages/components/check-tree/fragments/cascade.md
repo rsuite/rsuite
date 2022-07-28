@@ -1,13 +1,19 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { CheckTree } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const CascadeDemo = () => {
-  const [cascade, setCascade] = useState(false);
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
+
+const App = () => {
+  const [cascade, setCascade] = React.useState(false);
   return (
     <div>
       Cascade:{' '}
@@ -23,7 +29,7 @@ const CascadeDemo = () => {
   );
 };
 
-ReactDOM.render(<CascadeDemo />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

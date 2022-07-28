@@ -8,7 +8,7 @@ Vertical display timeline.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

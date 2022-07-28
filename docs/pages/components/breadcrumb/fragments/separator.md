@@ -1,6 +1,10 @@
 <!--start-code-->
 
 ```js
+import { Breadcrumb } from 'rsuite';
+import Link from 'next/link';
+import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+
 const NavLink = React.forwardRef((props, ref) => {
   const { href, as, ...rest } = props;
   return (
@@ -22,14 +26,14 @@ const MyBreadcrumb = ({ separator }) => (
   </Breadcrumb>
 );
 
-const instance = (
-  <div>
+const App = () => (
+  <>
     <MyBreadcrumb separator={'-'} />
     <MyBreadcrumb separator={'>'} />
-    <MyBreadcrumb separator={<AngleRight />} />
-  </div>
+    <MyBreadcrumb separator={<AngleRightIcon />} />
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

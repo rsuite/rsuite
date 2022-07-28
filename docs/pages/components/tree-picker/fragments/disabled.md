@@ -1,34 +1,46 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { TreePicker } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const instance = (
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
+
+const ControlLabel = ({ children }) => (
+  <label style={{ width: 130, display: 'inline-block' }}>{children}</label>
+);
+
+const App = () => (
   <div>
-    <label>Disabled: </label>
-    <TreePicker disabled data={data} defaultValue={24} style={{ width: 246 }} />
-    <label style={{ marginLeft: 10 }}>Disabled option: </label>
+    <ControlLabel>Disabled: </ControlLabel>
+    <TreePicker disabled data={data} defaultValue={'1-1'} style={{ width: 246 }} />
+    <hr />
+    <ControlLabel>Disabled option: </ControlLabel>
     <TreePicker
       defaultExpandAll
       data={data}
-      defaultValue={24}
-      disabledItemValues={[2]}
+      defaultValue={'1-1'}
+      disabledItemValues={['1-1-1', '2']}
       style={{ width: 246 }}
     />
 
     <hr />
-    <label>Read only: </label>
-    <TreePicker readOnly data={data} defaultValue={24} style={{ width: 246 }} />
+    <ControlLabel>Read only: </ControlLabel>
+    <TreePicker readOnly data={data} defaultValue={'1-1'} style={{ width: 246 }} />
 
     <hr />
-    <label>Plaintext: </label>
-    <TreePicker plaintext data={data} defaultValue={24} style={{ width: 246 }} />
+    <ControlLabel>Plaintext: </ControlLabel>
+    <TreePicker plaintext data={data} defaultValue={'1-1'} style={{ width: 246 }} />
   </div>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

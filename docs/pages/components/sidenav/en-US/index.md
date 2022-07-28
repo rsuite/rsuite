@@ -12,7 +12,7 @@ An encapsulation of the Nav for the sidebar of the page.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

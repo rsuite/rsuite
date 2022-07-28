@@ -11,39 +11,43 @@ import {
   Checkbox,
   Dropdown,
   Pagination,
-  TagPicker
+  TagPicker,
+  Tag,
+  Progress
 } from 'rsuite';
-
+import { faker } from '@faker-js/faker/locale/en';
 import DefaultPage from '@/components/Page';
-import useFetchData from '@/utils/useFetchData';
-import Edit2 from '@rsuite/icons/legacy/Edit2';
-import More from '@rsuite/icons/legacy/More';
-import MehO from '@rsuite/icons/legacy/MehO';
-import FrownO from '@rsuite/icons/legacy/FrownO';
-import SmileO from '@rsuite/icons/legacy/SmileO';
-import Arrows from '@rsuite/icons/legacy/Arrows';
-import MinusSquareO from '@rsuite/icons/legacy/MinusSquareO';
-import PlusSquareO from '@rsuite/icons/legacy/PlusSquareO';
-import Spinner from '@rsuite/icons/legacy/Spinner';
+
+import MoreIcon from '@rsuite/icons/legacy/More';
+import CollaspedOutlineIcon from '@rsuite/icons/CollaspedOutline';
+import ExpandOutlineIcon from '@rsuite/icons/ExpandOutline';
+import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import {
+  mockUsers,
+  mockTreeData,
+  mockUsersString,
+  mockTreeDataToString,
+  importFakerString
+} from '@/utils/mock';
 
 const { HeaderCell, Cell, Column, ColumnGroup } = Table;
 
-export default function Page() {
-  const { response: fakeData } = useFetchData('users');
-  const { response: fakeTreeData } = useFetchData('tree-data');
-  const { response: fakeLargeData } = useFetchData('large-data');
-  const { response: fakeMergeCellsData } = useFetchData('users-merge-cells');
+const mockfile = {
+  name: 'mock.js',
+  content: [importFakerString, mockUsersString, mockTreeDataToString].join('\n')
+};
 
+const sandboxDependencies = {
+  '@faker-js/faker': 'latest'
+};
+
+export default function Page() {
   return (
     <DefaultPage
       dependencies={{
         Nav,
         Checkbox,
         Toggle,
-        fakeData,
-        fakeTreeData,
-        fakeMergeCellsData,
-        fakeLargeData,
         Popover,
         Whisper,
         Divider,
@@ -55,18 +59,20 @@ export default function Page() {
         Column,
         Dropdown,
         ColumnGroup,
-        Edit2,
-        More,
-        MehO,
-        FrownO,
-        SmileO,
-        Arrows,
-        MinusSquareO,
-        PlusSquareO,
-        Spinner,
+        MoreIcon,
+        CollaspedOutlineIcon,
+        ExpandOutlineIcon,
+        SpinnerIcon,
         Pagination,
-        TagPicker
+        TagPicker,
+        Tag,
+        Progress,
+        faker,
+        mockTreeData,
+        mockUsers
       }}
+      sandboxDependencies={sandboxDependencies}
+      sandboxFiles={[mockfile]}
     />
   );
 }

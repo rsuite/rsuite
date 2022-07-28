@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Radio, RadioGroup, Form } from 'rsuite';
+
+const App = () => (
   <Form.Group controlId="radioList">
     <RadioGroup name="radioList" inline>
       <Radio value="A">Item A</Radio>
@@ -13,7 +15,8 @@ const instance = (
     </RadioGroup>
   </Form.Group>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

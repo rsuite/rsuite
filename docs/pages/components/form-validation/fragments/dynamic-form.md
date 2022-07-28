@@ -1,12 +1,33 @@
 <!--start-code-->
 
 ```js
-/**
- import { Schema, Form, FlexboxGrid, ButtonGroup, IconButton } from 'rsuite';
- import PlusIcon from '@rsuite/icons/Plus';
- import MinusIcon from '@rsuite/icons/Minus';
+import {
+  Form,
+  Button,
+  ButtonGroup,
+  Schema,
+  InputNumber,
+  Panel,
+  Input,
+  FlexboxGrid,
+  IconButton
+} from 'rsuite';
+import PlusIcon from '@rsuite/icons/Plus';
+import MinusIcon from '@rsuite/icons/Minus';
+import JSONTree from 'react-json-tree';
 
- */
+const JSONView = ({ formValue, formError }) => (
+  <div style={{ marginBottom: 10 }}>
+    <Panel className="json-tree-wrapper" header={<p>formValue</p>}>
+      <JSONTree data={formValue} />
+    </Panel>
+
+    <Panel className="json-tree-wrapper" header={<p>formError</p>}>
+      <JSONTree data={formError} />
+    </Panel>
+  </div>
+);
+
 const { ArrayType, StringType, NumberType, ObjectType } = Schema.Types;
 const model = Schema.Model({
   orderId: StringType().minLength(6, 'Minimum 6 characters required').isRequired('Required.'),
@@ -152,7 +173,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

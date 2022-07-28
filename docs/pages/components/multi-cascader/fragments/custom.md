@@ -1,12 +1,21 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
-const headers = ['Province', 'City', 'District'];
-const instance = (
+import { MultiCascader } from 'rsuite';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import AdminIcon from '@rsuite/icons/Admin';
+import { mockTreeData } from './mock';
+
+const headers = ['Job Area', 'Job Type', 'Name'];
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
+
+const App = () => (
   <MultiCascader
     data={data}
     block
@@ -14,7 +23,7 @@ const instance = (
     renderMenuItem={(label, item) => {
       return (
         <div>
-          <TagIcon /> {label}
+          <AdminIcon /> {label}
         </div>
       );
     }}
@@ -37,20 +46,21 @@ const instance = (
     }}
     placeholder={
       <span>
-        <TagIcon /> Location
+        <PeoplesIcon /> Location
       </span>
     }
     renderValue={(value, selectedItems, selectedElement) => (
       <span>
         <span style={{ color: '#575757' }}>
-          <TagIcon /> Location :
+          <PeoplesIcon /> Location :
         </span>{' '}
         {selectedItems.map(item => item.label).join(' , ')}
       </span>
     )}
   />
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

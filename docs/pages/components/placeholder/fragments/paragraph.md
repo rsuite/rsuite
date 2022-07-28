@@ -1,9 +1,12 @@
 <!--start-code-->
 
 ```js
+import { Placeholder } from 'rsuite';
+
 const { Paragraph } = Placeholder;
-const instance = (
-  <div>
+
+const App = () => (
+  <>
     <p>Default:</p>
     <Paragraph style={{ marginTop: 30 }} />
     <hr />
@@ -14,10 +17,10 @@ const instance = (
     <hr />
     <p>You can also customize the number of lines, spacing, etc.:</p>
     <Paragraph style={{ marginTop: 30 }} rows={5} graph="image" active />
-  </div>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

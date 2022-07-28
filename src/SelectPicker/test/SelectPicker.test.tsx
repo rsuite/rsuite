@@ -54,3 +54,6 @@ type SortDirection = 'asc' | 'desc';
 />;
 
 <SelectPicker caretAs={() => <div />} data={[]} />;
+
+// Override the default value of listProps.
+<SelectPicker data={[]} virtualized listProps={{ rowHeight: 70 }} />;

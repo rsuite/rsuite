@@ -1,9 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = <Pagination disabled total={100} limit={10} activePage={1} prev last next first />;
+import { Pagination } from 'rsuite';
 
-ReactDOM.render(instance);
+const App = () => (
+  <>
+    <Pagination disabled total={100} limit={10} activePage={1} prev last next first />
+  </>
+);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

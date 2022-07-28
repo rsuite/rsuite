@@ -1,12 +1,13 @@
 <!--start-code-->
 
 ```js
-/**
- * import fakeData from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
- */
+import { Table } from 'rsuite';
+import { mockUsers } from './mock';
 
-export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
+const { Column, HeaderCell, Cell } = Table;
+const defaultData = mockUsers(8);
+
+const EditableCell = ({ rowData, dataKey, onChange, ...props }) => {
   const editing = rowData.status === 'EDIT';
   return (
     <Cell {...props} className={editing ? 'table-content-editing' : ''}>
@@ -31,7 +32,7 @@ const ActionCell = ({ rowData, dataKey, onClick, ...props }) => {
       <Button
         appearance="link"
         onClick={() => {
-          onClick && onClick(rowData.id);
+          onClick(rowData.id);
         }}
       >
         {rowData.status === 'EDIT' ? 'Save' : 'Edit'}
@@ -39,8 +40,10 @@ const ActionCell = ({ rowData, dataKey, onClick, ...props }) => {
     </Cell>
   );
 };
+
 const App = () => {
-  const [data, setData] = React.useState(fakeData.filter((v, i) => i < 8));
+  const [data, setData] = React.useState(defaultData);
+
   const handleChange = (id, key, value) => {
     const nextData = Object.assign([], data);
     nextData.find(item => item.id === id)[key] = value;
@@ -57,28 +60,28 @@ const App = () => {
     <Table height={420} data={data}>
       <Column width={200}>
         <HeaderCell>First Name</HeaderCell>
-        <EditCell dataKey="firstName" onChange={handleChange} />
+        <EditableCell dataKey="firstName" onChange={handleChange} />
       </Column>
 
       <Column width={200}>
         <HeaderCell>Last Name</HeaderCell>
-        <EditCell dataKey="lastName" onChange={handleChange} />
+        <EditableCell dataKey="lastName" onChange={handleChange} />
       </Column>
 
       <Column width={300}>
         <HeaderCell>Email</HeaderCell>
-        <EditCell dataKey="email" onChange={handleChange} />
+        <EditableCell dataKey="email" onChange={handleChange} />
       </Column>
 
       <Column flexGrow={1}>
-        <HeaderCell>Action</HeaderCell>
+        <HeaderCell>...</HeaderCell>
         <ActionCell dataKey="id" onClick={handleEditState} />
       </Column>
     </Table>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

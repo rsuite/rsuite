@@ -1,6 +1,12 @@
 <!--start-code-->
 
 ```js
+import { Sidenav, Nav } from 'rsuite';
+import DashboardIcon from '@rsuite/icons/legacy/Dashboard';
+import GroupIcon from '@rsuite/icons/legacy/Group';
+import MagicIcon from '@rsuite/icons/legacy/Magic';
+import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
+
 const panelStyles = {
   padding: '15px 20px',
   color: '#aaa'
@@ -13,7 +19,7 @@ const headerStyles = {
   color: ' #fff'
 };
 
-const instance = (
+const App = () => (
   <div style={{ width: 240 }}>
     <Sidenav defaultOpenKeys={['3', '4']}>
       <Sidenav.Header>
@@ -21,13 +27,13 @@ const instance = (
       </Sidenav.Header>
       <Sidenav.Body>
         <Nav>
-          <Nav.Item eventKey="1" active icon={<Dashboard />}>
+          <Nav.Item eventKey="1" active icon={<DashboardIcon />}>
             Dashboard
           </Nav.Item>
-          <Nav.Item eventKey="2" icon={<Group />}>
+          <Nav.Item eventKey="2" icon={<GroupIcon />}>
             User Group
           </Nav.Item>
-          <Nav.Menu eventKey="3" title="Advanced" icon={<Magic />}>
+          <Nav.Menu eventKey="3" title="Advanced" icon={<MagicIcon />}>
             <Nav.Item divider />
             <Nav.Item panel style={panelStyles}>
               Reports
@@ -53,7 +59,7 @@ const instance = (
     </Sidenav>
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

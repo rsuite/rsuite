@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Popover, Whisper, Button, Toggle } from 'rsuite';
+
 const DefaultPopover = React.forwardRef(({ content, ...props }, ref) => {
   return (
     <Popover ref={ref} title="Title" {...props}>
@@ -134,7 +136,8 @@ const App = () => {
     </div>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

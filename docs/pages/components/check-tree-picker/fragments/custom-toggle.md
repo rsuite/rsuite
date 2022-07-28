@@ -1,19 +1,25 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { CheckTreePicker, Button } from 'rsuite';
+import { mockTreeData } from './mock';
 
-const instance = (
-  <div>
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
+
+const App = () => (
+  <>
     <CheckTreePicker data={data} style={{ width: 280 }} toggleAs={Button} />
     <hr />
     <CheckTreePicker data={data} block style={{ width: 280 }} toggleAs={Button} />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

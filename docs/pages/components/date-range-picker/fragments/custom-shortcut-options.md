@@ -1,13 +1,17 @@
 <!--start-code-->
 
 ```js
-const DateRangePickerCustomToolbar = props => (
+import { DateRangePicker } from 'rsuite';
+import subDays from 'date-fns/subDays';
+import addDays from 'date-fns/addDays';
+
+const App = () => (
   <div className="field">
     <DateRangePicker
       ranges={[
         {
           label: 'Yesterday',
-          value: [dateFns.addDays(new Date(), -1), dateFns.addDays(new Date(), -1)]
+          value: [addDays(new Date(), -1), addDays(new Date(), -1)]
         },
         {
           label: 'Today',
@@ -15,18 +19,18 @@ const DateRangePickerCustomToolbar = props => (
         },
         {
           label: 'Tomorrow',
-          value: [dateFns.addDays(new Date(), 1), dateFns.addDays(new Date(), 1)]
+          value: [addDays(new Date(), 1), addDays(new Date(), 1)]
         },
         {
           label: 'Last 7 days',
-          value: [dateFns.subDays(new Date(), 6), new Date()]
+          value: [subDays(new Date(), 6), new Date()]
         }
       ]}
     />
   </div>
 );
 
-ReactDOM.render(<DateRangePickerCustomToolbar />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

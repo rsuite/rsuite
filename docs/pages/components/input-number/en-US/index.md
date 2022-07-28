@@ -8,7 +8,7 @@ An input component that can only enter numbers.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

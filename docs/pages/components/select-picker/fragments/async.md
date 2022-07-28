@@ -1,13 +1,12 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- * 
- * import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
- * 
- */
+import { SelectPicker } from 'rsuite';
+import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
+);
 
 const App = () => {
   const [items, setItems] = React.useState([]);
@@ -39,7 +38,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

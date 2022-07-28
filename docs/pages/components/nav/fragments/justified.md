@@ -1,10 +1,12 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Nav } from 'rsuite';
+
+const App = () => (
+  <>
     <Nav justified>
-      <Nav.Item active icon={<Home />}>
+      <Nav.Item active icon={<HomeIcon />}>
         Home
       </Nav.Item>
       <Nav.Item>News</Nav.Item>
@@ -14,7 +16,7 @@ const instance = (
     </Nav>
     <br />
     <Nav appearance="tabs" justified>
-      <Nav.Item active icon={<Home />}>
+      <Nav.Item active icon={<HomeIcon />}>
         Home
       </Nav.Item>
       <Nav.Item>News</Nav.Item>
@@ -24,7 +26,7 @@ const instance = (
     </Nav>
     <br />
     <Nav appearance="subtle" justified>
-      <Nav.Item active icon={<Home />}>
+      <Nav.Item active icon={<HomeIcon />}>
         Home
       </Nav.Item>
       <Nav.Item>News</Nav.Item>
@@ -32,9 +34,10 @@ const instance = (
       <Nav.Item>Products</Nav.Item>
       <Nav.Item>About</Nav.Item>
     </Nav>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

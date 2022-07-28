@@ -1,22 +1,29 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/province-simplified.json
- */
+import { Cascader } from 'rsuite';
+import AdminIcon from '@rsuite/icons/Admin';
+import { mockTreeData } from './mock';
 
-const headers = ['Province', 'City', 'District'];
-const instance = (
+const headers = ['Job Area', 'Job Type', 'Name'];
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
+
+const App = () => (
   <Cascader
     data={data}
     style={{ width: 224 }}
-    menuWidth={220}
+    menuWidth={160}
     renderMenuItem={(label, item) => {
       return (
-        <div>
-          <TagIcon /> {label}
-        </div>
+        <>
+          <AdminIcon /> {label}
+        </>
       );
     }}
     renderMenu={(children, menu, parentNode, layer) => {
@@ -41,7 +48,8 @@ const instance = (
     }}
   />
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

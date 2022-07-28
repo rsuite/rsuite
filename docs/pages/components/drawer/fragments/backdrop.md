@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, Placeholder } from 'rsuite';
+
 const styles = {
   radioGroupLabel: {
     padding: '8px 12px',
@@ -12,7 +14,7 @@ const App = () => {
   const [backdrop, setBackdrop] = React.useState('static');
   const [open, setOpen] = React.useState(false);
   return (
-    <div>
+    <>
       <RadioGroup
         name="radioList"
         appearance="picker"
@@ -41,14 +43,14 @@ const App = () => {
           </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
-          <Paragraph />
+          <Placeholder.Paragraph />
         </Drawer.Body>
       </Drawer>
-    </div>
+    </>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

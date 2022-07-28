@@ -1,12 +1,13 @@
 <!--start-code-->
 
 ```js
-const styles = { width: 100 };
+import { Nav, Row, Col } from 'rsuite';
+import HomeIcon from '@rsuite/icons/legacy/Home';
 
 const CustomNav = ({ active, onSelect, ...props }) => {
   return (
-    <Nav {...props} vertical activeKey={active} onSelect={onSelect} style={styles}>
-      <Nav.Item eventKey="home" icon={<Home />}>
+    <Nav {...props} vertical activeKey={active} onSelect={onSelect} style={{ width: 100 }}>
+      <Nav.Item eventKey="home" icon={<HomeIcon />}>
         Home
       </Nav.Item>
       <Nav.Item eventKey="news">News</Nav.Item>
@@ -17,7 +18,7 @@ const CustomNav = ({ active, onSelect, ...props }) => {
   );
 };
 
-const Demo = () => {
+const App = () => {
   const [active, setActive] = React.useState('home');
 
   return (
@@ -42,7 +43,7 @@ const Demo = () => {
   );
 };
 
-ReactDOM.render(<Demo />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

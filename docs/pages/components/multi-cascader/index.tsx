@@ -1,12 +1,26 @@
 import React from 'react';
 import { MultiCascader, Button, Toggle, RadioGroup, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import PreventOverflowContainer from '@/components/PreventOverflowContainer';
-import useFetchData from '@/utils/useFetchData';
-import TagIcon from '@rsuite/icons/Tag';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import AdminIcon from '@rsuite/icons/Admin';
+import {
+  importFakerString,
+  mockTreeData,
+  mockTreeDataToString,
+  mockAsyncData,
+  mockAsyncDataString
+} from '@/utils/mock';
+
+const sandboxDependencies = {
+  '@faker-js/faker': 'latest'
+};
+
+const mockfile = {
+  name: 'mock.js',
+  content: [importFakerString, mockTreeDataToString, mockAsyncDataString].join('\n')
+};
 
 export default function Page() {
-  const { response: data } = useFetchData('province-simplified');
   return (
     <DefaultPage
       dependencies={{
@@ -15,10 +29,13 @@ export default function Page() {
         Toggle,
         RadioGroup,
         Radio,
-        TagIcon,
-        PreventOverflowContainer,
-        data
+        PeoplesIcon,
+        AdminIcon,
+        mockAsyncData,
+        mockTreeData
       }}
+      sandboxDependencies={sandboxDependencies}
+      sandboxFiles={[mockfile]}
     />
   );
 }

@@ -1,17 +1,20 @@
 <!--start-code-->
 
 ```js
+import { TagGroup, Tag, Input, IconButton } from 'rsuite';
+import PlusIcon from '@rsuite/icons/Plus';
+
 const App = () => {
   const [tags, setTags] = React.useState(['javascript', 'css', 'react']);
   const [typing, setTyping] = React.useState(false);
   const [inputValue, setInputValue] = React.useState('');
 
-  const handleTagRemove = (tag) => {
-    const nextTags = tags.filter((item) => item !== tag);
+  const removeTag = tag => {
+    const nextTags = tags.filter(item => item !== tag);
     setTags(nextTags);
   };
 
-  const handleInputConfirm = () => {
+  const addTag = () => {
     const nextTags = inputValue ? [...tags, inputValue] : tags;
     setTags(nextTags);
     setTyping(false);
@@ -31,8 +34,8 @@ const App = () => {
           style={{ width: 70 }}
           value={inputValue}
           onChange={setInputValue}
-          onBlur={handleInputConfirm}
-          onPressEnter={handleInputConfirm}
+          onBlur={addTag}
+          onPressEnter={addTag}
         />
       );
     }
@@ -41,7 +44,7 @@ const App = () => {
       <IconButton
         className="tag-add-btn"
         onClick={handleButtonClick}
-        icon={<Plus />}
+        icon={<PlusIcon />}
         appearance="ghost"
         size="xs"
       />
@@ -50,7 +53,7 @@ const App = () => {
   return (
     <TagGroup>
       {tags.map((item, index) => (
-        <Tag key={index} closable onClose={() => handleTagRemove(item)}>
+        <Tag key={index} closable onClose={() => removeTag(item)}>
           {item}
         </Tag>
       ))}
@@ -59,17 +62,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
-
-/**
- * css
- *
-  .tag-input,
-  .tag-add-btn {
-    display: inline-block;
-    margin-left: 10px;
-  }
-*/
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

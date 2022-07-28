@@ -10,7 +10,7 @@ To select or input a date or time
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

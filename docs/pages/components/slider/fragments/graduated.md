@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Slider } from 'rsuite';
+
+const App = () => (
   <div style={{ padding: 20 }}>
     <Slider defaultValue={50} min={10} step={10} max={100} graduated />
 
@@ -37,7 +39,8 @@ const instance = (
     />
   </div>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,8 +1,7 @@
-
 <!--start-code-->
 
 ```js
-const instance = (
+const App = () => (
   <div>
     <p>You can reach Michael at:</p>
     <p>
@@ -17,7 +16,7 @@ const instance = (
     <hr />
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

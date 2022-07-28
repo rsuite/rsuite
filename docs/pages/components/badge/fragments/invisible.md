@@ -1,20 +1,23 @@
 <!--start-code-->
 
 ```js
+import { Badge, Button, Toggle } from 'rsuite';
+
 const App = () => {
   const [content, setContent] = React.useState(true);
+
   return (
-    <div>
+    <>
       <Badge content={content}>
         <Button>新消息</Button>
       </Badge>
       <hr />
       <Toggle checked={content} onChange={setContent} />
-    </div>
+    </>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

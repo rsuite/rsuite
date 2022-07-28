@@ -1,6 +1,12 @@
 <!--start-code-->
 
 ```js
+import { Drawer, ButtonToolbar, Button, IconButton, Placeholder } from 'rsuite';
+import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
+import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
+import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
+import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
+
 const App = () => {
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState();
@@ -37,14 +43,14 @@ const App = () => {
           </Drawer.Actions>
         </Drawer.Header>
         <Drawer.Body>
-          <Paragraph rows={8} />
+          <Placeholder.Paragraph rows={8} />
         </Drawer.Body>
       </Drawer>
     </div>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Form } from 'rsuite';
+
+const App = () => (
   <Form>
     <Form.Group controlId="email-5">
       <Form.Control name="email" placeholder="Email" />
@@ -15,7 +17,7 @@ const instance = (
   </Form>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

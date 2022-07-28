@@ -1,13 +1,13 @@
 <!--start-code-->
 
 ```js
-/**
- * import fakeData from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users.json
- */
+import { Table } from 'rsuite';
+import { mockUsers } from './mock';
+
+const { Column, HeaderCell, Cell } = Table;
+const data = mockUsers(10);
 
 const App = () => {
-  const data = fakeData.filter((v, i) => i < 10);
   return (
     <Table
       height={420}
@@ -38,38 +38,30 @@ const App = () => {
         <Cell dataKey="city" />
       </Column>
 
-      <Column width={200} resizable>
-        <HeaderCell>Company Name</HeaderCell>
-        <Cell dataKey="companyName" />
+      <Column width={100}>
+        <HeaderCell>Gender</HeaderCell>
+        <Cell dataKey="gender" />
       </Column>
-      <Column width={200} resizable>
-        <HeaderCell>Company Name</HeaderCell>
-        <Cell dataKey="companyName" />
+
+      <Column width={100}>
+        <HeaderCell>Age</HeaderCell>
+        <Cell dataKey="age" />
       </Column>
-      <Column width={200} resizable>
-        <HeaderCell>Company Name</HeaderCell>
-        <Cell dataKey="companyName" />
+
+      <Column width={150}>
+        <HeaderCell>Postcode</HeaderCell>
+        <Cell dataKey="postcode" />
       </Column>
-      <Column width={200} resizable>
-        <HeaderCell>Company Name</HeaderCell>
-        <Cell dataKey="companyName" />
-      </Column>
-      <Column width={200} resizable>
-        <HeaderCell>Company Name</HeaderCell>
-        <Cell dataKey="companyName" />
-      </Column>
-      <Column width={200} resizable>
-        <HeaderCell>Company Name</HeaderCell>
-        <Cell dataKey="companyName" />
-      </Column>
-      <Column width={200} resizable>
-        <HeaderCell>Company Name</HeaderCell>
-        <Cell dataKey="companyName" />
+
+      <Column width={300}>
+        <HeaderCell>Email</HeaderCell>
+        <Cell dataKey="email" />
       </Column>
     </Table>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

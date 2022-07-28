@@ -1,6 +1,17 @@
 <!--start-code-->
 
 ```js
+import { MultiCascader, Toggle } from 'rsuite';
+import { mockTreeData } from './mock';
+
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
+
 const App = () => {
   const [cascade, setCascade] = React.useState(true);
   const [value, setValue] = React.useState([]);
@@ -24,7 +35,8 @@ const App = () => {
     </div>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

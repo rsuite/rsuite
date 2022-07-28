@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Steps, Panel, Placeholder, ButtonGroup, Button } from 'rsuite';
+
 const App = () => {
   const [step, setStep] = React.useState(0);
   const onChange = nextStep => {
@@ -20,7 +22,7 @@ const App = () => {
       </Steps>
       <hr />
       <Panel header={`Step: ${step + 1}`}>
-        <Paragraph />
+        <Placeholder.Paragraph />
       </Panel>
       <hr />
       <ButtonGroup>
@@ -35,7 +37,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

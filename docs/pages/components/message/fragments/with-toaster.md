@@ -1,9 +1,7 @@
 <!--start-code-->
 
 ```js
-/**
- * import { useToaster } from 'rsuite';
- */
+import { Message, useToaster, ButtonToolbar, SelectPicker, Button } from 'rsuite';
 
 const App = () => {
   const [type, setType] = React.useState('info');
@@ -55,7 +53,7 @@ const App = () => {
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

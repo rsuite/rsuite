@@ -1,29 +1,29 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/users-role.json
- */
+import { TagPicker } from 'rsuite';
 
-const instance = (
-  <div>
+const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
+  item => ({ label: item, value: item })
+);
+
+const App = () => (
+  <>
     <label>Disabled: </label>
     <TagPicker
       disabled
       data={data}
-      placeholder="-"
-      defaultValue={['Julius']}
+      defaultValue={['Eugenia']}
       style={{ width: 300 }}
       menuStyle={{ width: 300 }}
     />
+    <hr />
 
-    <label style={{ marginLeft: 10 }}>Disabled option: </label>
+    <label>Disabled option: </label>
     <TagPicker
       data={data}
-      placeholder="-"
-      defaultValue={['Julius']}
-      disabledItemValues={['Eugenia', 'Travon', 'Vincenza']}
+      defaultValue={['Eugenia']}
+      disabledItemValues={['Bryan', 'Linda', 'Nancy']}
       style={{ width: 300 }}
       menuStyle={{ width: 300 }}
     />
@@ -32,8 +32,7 @@ const instance = (
     <TagPicker
       readOnly
       data={data}
-      placeholder="-"
-      defaultValue={['Julius']}
+      defaultValue={['Eugenia']}
       style={{ width: 300 }}
       menuStyle={{ width: 300 }}
     />
@@ -42,14 +41,14 @@ const instance = (
     <TagPicker
       plaintext
       data={data}
-      placeholder="-"
-      defaultValue={['Julius']}
+      defaultValue={['Eugenia']}
       style={{ width: 300 }}
       menuStyle={{ width: 300 }}
     />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

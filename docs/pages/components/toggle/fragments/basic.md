@@ -1,13 +1,16 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Toggle } from 'rsuite';
+
+const App = () => (
+  <>
     <Toggle />
     <Toggle defaultChecked />
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

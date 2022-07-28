@@ -8,7 +8,7 @@ Single item selector with text box input.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

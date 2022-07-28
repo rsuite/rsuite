@@ -1,9 +1,11 @@
 <!--start-code-->
 
 ```js
+import { Form, Input, ButtonToolbar, Button } from 'rsuite';
+
 const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
-const instance = (
+const App = () => (
   <Form layout="horizontal">
     <Form.Group controlId="name-6">
       <Form.ControlLabel>Username</Form.ControlLabel>
@@ -31,7 +33,8 @@ const instance = (
     </Form.Group>
   </Form>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

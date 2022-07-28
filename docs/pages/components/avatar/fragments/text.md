@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { AvatarGroup, Avatar } from 'rsuite';
+
+const App = () => (
   <AvatarGroup spacing={6}>
     <Avatar style={{ background: '#000' }}>R</Avatar>
     <Avatar style={{ background: '#7B1FA2' }}>Suite</Avatar>
@@ -19,7 +21,7 @@ const instance = (
   </AvatarGroup>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

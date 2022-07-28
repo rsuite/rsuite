@@ -1,12 +1,40 @@
 import React from 'react';
-import { Tree, Button, InputNumber, Panel } from 'rsuite';
-
-const { useState } = React;
-
 import DefaultPage from '@/components/Page';
-import useFetchData from '@/utils/useFetchData';
+import { Tree, Button, InputNumber, Panel } from 'rsuite';
+import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
+import {
+  importFakerString,
+  mockTreeData,
+  mockTreeDataToString,
+  mockAsyncData,
+  mockAsyncDataString
+} from '@/utils/mock';
+
+const mockfile = {
+  name: 'mock.js',
+  content: [importFakerString, mockTreeDataToString, mockAsyncDataString].join('\n')
+};
+
+const sandboxDependencies = {
+  '@faker-js/faker': 'latest'
+};
 
 export default function Page() {
-  const { response: data } = useFetchData('city-simplified');
-  return <DefaultPage dependencies={{ useState, Button, InputNumber, Tree, data, Panel }} />;
+  return (
+    <DefaultPage
+      dependencies={{
+        Button,
+        InputNumber,
+        Tree,
+        Panel,
+        FolderFillIcon,
+        PageIcon,
+        mockTreeData,
+        mockAsyncData
+      }}
+      sandboxDependencies={sandboxDependencies}
+      sandboxFiles={[mockfile]}
+    />
+  );
 }

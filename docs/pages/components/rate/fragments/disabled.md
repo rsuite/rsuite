@@ -1,11 +1,10 @@
 <!--start-code-->
 
 ```js
-/**
- * import { Rate } from 'rsuite'
- */
-const instance = (
-  <div>
+import { Rate } from 'rsuite';
+
+const App = () => (
+  <>
     <label>Disabled: </label>
     <Rate disabled defaultValue={2.5} allowHalf />
 
@@ -16,10 +15,10 @@ const instance = (
     <hr />
     <label>Plaintext: </label>
     <Rate plaintext defaultValue={2.5} allowHalf />
-  </div>
+  </>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

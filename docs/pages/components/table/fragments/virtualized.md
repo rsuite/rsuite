@@ -1,16 +1,15 @@
 <!--start-code-->
 
 ```js
+import { Table } from 'rsuite';
+import { mockUsers } from './mock';
+
+const { Column, HeaderCell, Cell } = Table;
+const data = mockUsers(1000);
+
 const App = () => {
   return (
-    <Table
-      virtualized
-      height={400}
-      data={fakeLargeData}
-      onRowClick={data => {
-        console.log(data);
-      }}
-    >
+    <Table virtualized height={400} data={data}>
       <Column width={70} align="center" fixed>
         <HeaderCell>Id</HeaderCell>
         <Cell dataKey="id" />
@@ -26,24 +25,30 @@ const App = () => {
         <Cell dataKey="lastName" />
       </Column>
 
+      <Column width={100}>
+        <HeaderCell>Gender</HeaderCell>
+        <Cell dataKey="gender" />
+      </Column>
+
+      <Column width={100}>
+        <HeaderCell>Age</HeaderCell>
+        <Cell dataKey="age" />
+      </Column>
+
       <Column width={200}>
         <HeaderCell>City</HeaderCell>
         <Cell dataKey="city" />
       </Column>
 
       <Column width={200}>
-        <HeaderCell>Street</HeaderCell>
-        <Cell dataKey="street" />
-      </Column>
-
-      <Column width={200}>
-        <HeaderCell>Company Name</HeaderCell>
-        <Cell dataKey="companyName" />
+        <HeaderCell>Email</HeaderCell>
+        <Cell dataKey="email" />
       </Column>
     </Table>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

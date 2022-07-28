@@ -1,8 +1,10 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
+import { Checkbox } from 'rsuite';
+
+const App = () => (
+  <>
     <label>Disabled: </label>
     <Checkbox disabled> Default</Checkbox>
     <Checkbox defaultChecked disabled>
@@ -20,9 +22,10 @@ const instance = (
     <Checkbox defaultChecked plaintext>
       Checked
     </Checkbox>
-  </div>
+  </>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

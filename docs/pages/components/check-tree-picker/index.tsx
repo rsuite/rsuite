@@ -1,13 +1,41 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CheckTreePicker, Button, Toggle } from 'rsuite';
-import Spinner from '@rsuite/icons/legacy/Spinner';
-
+import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import AdminIcon from '@rsuite/icons/Admin';
 import DefaultPage from '@/components/Page';
-import useFetchData from '@/utils/useFetchData';
+import {
+  importFakerString,
+  mockTreeData,
+  mockTreeDataToString,
+  mockAsyncData,
+  mockAsyncDataString
+} from '@/utils/mock';
+
+const mockfile = {
+  name: 'mock.js',
+  content: [importFakerString, mockTreeDataToString, mockAsyncDataString].join('\n')
+};
+
+const sandboxDependencies = {
+  '@faker-js/faker': 'latest'
+};
 
 export default function Page() {
-  const { response: data } = useFetchData('city-simplified');
   return (
-    <DefaultPage dependencies={{ data, CheckTreePicker, Button, Toggle, useState, Spinner }} />
+    <DefaultPage
+      dependencies={{
+        CheckTreePicker,
+        Button,
+        Toggle,
+        SpinnerIcon,
+        PeoplesIcon,
+        AdminIcon,
+        mockTreeData,
+        mockAsyncData
+      }}
+      sandboxDependencies={sandboxDependencies}
+      sandboxFiles={[mockfile]}
+    />
   );
 }

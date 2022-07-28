@@ -1,13 +1,15 @@
 <!--start-code-->
 
 ```js
+import { Stack, Button, Panel, RadioGroup, Radio } from 'rsuite';
+
 const App = () => {
   const [direction, setDirection] = React.useState('row');
   const [justifyContent, setJustifyContent] = React.useState('flex-start');
   const [alignItems, setAlignItems] = React.useState('flex-start');
 
   return (
-    <div>
+    <>
       <Stack
         spacing={6}
         direction={direction}
@@ -53,10 +55,11 @@ const App = () => {
           </RadioGroup>
         </Stack>
       </Panel>
-    </div>
+    </>
   );
 };
-ReactDOM.render(<App />);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

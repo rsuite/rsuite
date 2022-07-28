@@ -1,13 +1,15 @@
 <!--start-code-->
 
 ```js
-/**
- * import { Rate } from 'rsuite'
- */
+import { Rate } from 'rsuite';
 
-const instance = <Rate defaultValue={2.5} allowHalf />;
+const App = () => (
+  <>
+    <Rate defaultValue={2.5} allowHalf />
+  </>
+);
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

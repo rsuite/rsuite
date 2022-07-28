@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { Progress } from 'rsuite';
+
+const App = () => (
   <div className="line-vertical-wrapper" style={{ height: 500 }}>
     <Progress.Line vertical />
     <Progress.Line vertical percent={30} strokeColor="#ffc107" />
@@ -12,7 +14,7 @@ const instance = (
   </div>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

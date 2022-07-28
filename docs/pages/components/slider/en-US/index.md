@@ -11,7 +11,7 @@ A Slider component for displaying current value
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

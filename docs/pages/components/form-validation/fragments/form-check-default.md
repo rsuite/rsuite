@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const { StringType, NumberType } = Schema.Types;
+import { Form, Button, ButtonToolbar, Schema, Panel } from 'rsuite';
+
+const { StringType } = Schema.Types;
 const model = Schema.Model({
   name: StringType().isRequired('This field is required.'),
   email: StringType()
@@ -31,7 +33,7 @@ function App() {
     </Form>
   );
 }
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

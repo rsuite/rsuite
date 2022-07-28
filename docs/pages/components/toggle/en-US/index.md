@@ -8,7 +8,7 @@ Used to select between two values.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

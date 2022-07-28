@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-const instance = (
+const App = () => (
   <div>
     <p>
       This is the first paragraph of text. This is the first paragraph of text. This is the first
@@ -38,7 +38,7 @@ const instance = (
     </p>
   </div>
 );
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

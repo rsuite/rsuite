@@ -1,6 +1,8 @@
 <!--start-code-->
 
 ```js
+import { Modal, ButtonToolbar, Button, Loader, Placeholder } from 'rsuite';
+
 const App = () => {
   const [open, setOpen] = React.useState(false);
   const [rows, setRows] = React.useState(0);
@@ -12,7 +14,7 @@ const App = () => {
   };
 
   return (
-    <div className="modal-container">
+    <>
       <ButtonToolbar>
         <Button onClick={handleOpen}>Open</Button>
       </ButtonToolbar>
@@ -30,7 +32,7 @@ const App = () => {
         </Modal.Header>
         <Modal.Body>
           {rows ? (
-            <Paragraph rows={rows} />
+            <Placeholder.Paragraph rows={rows} />
           ) : (
             <div style={{ textAlign: 'center' }}>
               <Loader size="md" />
@@ -46,11 +48,11 @@ const App = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

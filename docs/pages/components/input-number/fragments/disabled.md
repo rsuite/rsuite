@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-const instance = (
+import { InputNumber } from 'rsuite';
+
+const App = () => (
   <div style={{ width: 160 }}>
     <label>Disabled:</label>
     <InputNumber disabled defaultValue={10} />
@@ -14,7 +16,8 @@ const instance = (
     <InputNumber plaintext defaultValue={10} />
   </div>
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

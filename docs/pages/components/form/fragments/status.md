@@ -1,6 +1,36 @@
 <!--start-code-->
 
 ```js
+import {
+  Form,
+  Button,
+  ButtonToolbar,
+  RadioGroup,
+  Radio,
+  Checkbox,
+  CheckboxGroup,
+  Slider,
+  DatePicker,
+  DateRangePicker,
+  CheckPicker,
+  SelectPicker,
+  TagPicker,
+  InputPicker,
+  Cascader,
+  MultiCascader,
+  Rate,
+  Uploader,
+  Panel
+} from 'rsuite';
+
+import { mockTreeData } from './mock';
+
+const treeData = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+const selectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(item => ({
+  label: item,
+  value: item
+}));
+
 const styles = {
   radioGroupLabel: {
     padding: '8px 12px',
@@ -33,47 +63,16 @@ const initFormValue = {
   slider: 10,
   datePicker: new Date(),
   dateRangePicker: [new Date(), new Date()],
-  checkPicker: [
-    'Eugenia',
-    'Kariane',
-    'Louisa',
-    'Marty',
-    'Kenya',
-    'Hal',
-    'Julius',
-    'Travon',
-    'Vincenza',
-    'Dominic',
-    'Pearlie',
-    'Tyrel',
-    'Jaylen',
-    'Rogelio'
-  ],
-  selectPicker: 'Louisa',
-  tagPicker: [
-    'Eugenia',
-    'Kariane',
-    'Louisa',
-    'Marty',
-    'Kenya',
-    'Hal',
-    'Julius',
-    'Travon',
-    'Vincenza',
-    'Dominic',
-    'Pearlie',
-    'Tyrel',
-    'Jaylen',
-    'Rogelio'
-  ],
-  inputPicker: 'Rogelio',
-  cascader: '1-1-5',
-  multiCascader: ['1-1-4', '1-1-5'],
+  checkPicker: ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'],
+  selectPicker: 'Eugenia',
+  tagPicker: ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'],
+  inputPicker: 'Eugenia',
+  cascader: '1-1-2',
+  multiCascader: ['1-1-2', '1-1-3'],
   rate: 2
 };
 
 const App = () => {
-  const cascaderData = data;
   const [formValue, setFormValue] = React.useState(initFormValue);
   const [status, setStatus] = React.useState('disabled');
   const disabled = status === 'disabled';
@@ -153,32 +152,32 @@ const App = () => {
 
         <Form.Group controlId="checkPicker">
           <Form.ControlLabel>CheckPicker:</Form.ControlLabel>
-          <Form.Control name="checkPicker" accepter={CheckPicker} data={pickerData} />
+          <Form.Control name="checkPicker" accepter={CheckPicker} data={selectData} />
         </Form.Group>
 
         <Form.Group controlId="selectPicker">
           <Form.ControlLabel>SelectPicker:</Form.ControlLabel>
-          <Form.Control name="selectPicker" accepter={SelectPicker} data={pickerData} />
+          <Form.Control name="selectPicker" accepter={SelectPicker} data={selectData} />
         </Form.Group>
 
         <Form.Group controlId="tagPicker">
           <Form.ControlLabel>TagPicker:</Form.ControlLabel>
-          <Form.Control name="tagPicker" accepter={TagPicker} data={pickerData} />
+          <Form.Control name="tagPicker" accepter={TagPicker} data={selectData} />
         </Form.Group>
 
         <Form.Group controlId="inputPicker">
           <Form.ControlLabel>InputPicker:</Form.ControlLabel>
-          <Form.Control name="inputPicker" accepter={InputPicker} data={pickerData} />
+          <Form.Control name="inputPicker" accepter={InputPicker} data={selectData} />
         </Form.Group>
 
         <Form.Group controlId="cascader">
           <Form.ControlLabel>Cascader:</Form.ControlLabel>
-          <Form.Control name="cascader" accepter={Cascader} data={cascaderData} />
+          <Form.Control name="cascader" accepter={Cascader} data={treeData} />
         </Form.Group>
 
         <Form.Group controlId="multiCascader">
           <Form.ControlLabel>MultiCascader:</Form.ControlLabel>
-          <Form.Control name="multiCascader" accepter={MultiCascader} data={cascaderData} />
+          <Form.Control name="multiCascader" accepter={MultiCascader} data={treeData} />
         </Form.Group>
 
         <Form.Group controlId="rate">
@@ -188,14 +187,14 @@ const App = () => {
 
         <Form.Group controlId="uploader">
           <Form.ControlLabel>Uploader:</Form.ControlLabel>
-          <Form.Control name="uploader" accepter={Uploader} />
+          <Form.Control name="uploader" accepter={Uploader} action="#" />
         </Form.Group>
       </Form>
     </Panel>
   );
 };
 
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

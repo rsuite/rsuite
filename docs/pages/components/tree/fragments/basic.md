@@ -1,16 +1,22 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/main/docs/public/data/en/city-simplified.json
- */
+import { Tree, Panel, InputNumber, Button } from 'rsuite';
+import { mockTreeData } from './mock';
+
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
 
 const App = () => {
   const treeRef = React.useRef();
   const [index, setIndex] = React.useState(1);
   return (
-    <div bordered>
+    <div>
       <Panel bordered>
         <Tree data={data} ref={treeRef} defaultExpandAll virtualized />
       </Panel>
@@ -29,7 +35,7 @@ const App = () => {
     </div>
   );
 };
-ReactDOM.render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

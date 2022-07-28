@@ -1,25 +1,33 @@
 <!--start-code-->
 
 ```js
-/**
- * import data from
- * https://github.com/rsuite/rsuite/blob/master/docs/public/data/city-simplified.json
- */
+import { CheckTree } from 'rsuite';
+import PageIcon from '@rsuite/icons/Page';
+import { mockTreeData } from './mock';
 
-const instance = (
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
+
+const App = () => (
   <CheckTree
     data={data}
     defaultExpandAll
-    renderTreeNode={(nodeData) => {
+    renderTreeNode={nodeData => {
       return (
         <span>
-          <MapMarker /> {nodeData.label}
+          <PageIcon /> {nodeData.label}
         </span>
       );
     }}
   />
 );
-ReactDOM.render(instance);
+
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->

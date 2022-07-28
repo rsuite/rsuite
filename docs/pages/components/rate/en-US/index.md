@@ -8,7 +8,7 @@ A rating indicates user interest in content.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}}-->
 

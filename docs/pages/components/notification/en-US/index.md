@@ -8,7 +8,7 @@ Used for system notifications. Generally used to push messages.
 
 ## Examples
 
-### Default
+### Basic
 
 <!--{include:`basic.md`}-->
 

@@ -1,15 +1,15 @@
 <!--start-code-->
 
 ```js
-const instance = (
-  <div>
-    <Badge>
-      <Button>New Message</Button>
-    </Badge>
-  </div>
+import { Badge, Button } from 'rsuite';
+
+const App = () => (
+  <Badge>
+    <Button>New Message</Button>
+  </Badge>
 );
 
-ReactDOM.render(instance);
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
