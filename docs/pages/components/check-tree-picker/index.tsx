@@ -1,13 +1,24 @@
 import React from 'react';
 import { CheckTreePicker, Button, Toggle } from 'rsuite';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
-import LocationIcon from '@rsuite/icons/Location';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import AdminIcon from '@rsuite/icons/Admin';
 import DefaultPage from '@/components/Page';
-import { mockTreeData, mockTreeDataToString } from '@/utils/mock';
+import {
+  importFakerString,
+  mockTreeData,
+  mockTreeDataToString,
+  mockAsyncData,
+  mockAsyncDataString
+} from '@/utils/mock';
 
 const mockfile = {
   name: 'mock.js',
-  content: mockTreeDataToString
+  content: [importFakerString, mockTreeDataToString, mockAsyncDataString].join('\n')
+};
+
+const sandboxDependencies = {
+  '@faker-js/faker': 'latest'
 };
 
 export default function Page() {
@@ -18,9 +29,12 @@ export default function Page() {
         Button,
         Toggle,
         SpinnerIcon,
-        LocationIcon,
-        mockTreeData
+        PeoplesIcon,
+        AdminIcon,
+        mockTreeData,
+        mockAsyncData
       }}
+      sandboxDependencies={sandboxDependencies}
       sandboxFiles={[mockfile]}
     />
   );

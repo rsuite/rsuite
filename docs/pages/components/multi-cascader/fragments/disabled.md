@@ -4,21 +4,31 @@
 import { MultiCascader } from 'rsuite';
 import { mockTreeData } from './mock';
 
-const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
+
+const ControlLabel = ({ children }) => (
+  <label style={{ width: 130, display: 'inline-block' }}>{children}</label>
+);
 
 const App = () => (
   <>
-    <label>Disabled: </label>
+    <ControlLabel>Disabled: </ControlLabel>
     <MultiCascader disabled defaultValue={['1-1']} data={data} style={{ width: 224 }} />
-
-    <label style={{ marginLeft: 10 }}>Disabled option: </label>
+    <hr />
+    <ControlLabel>Disabled option: </ControlLabel>
     <MultiCascader data={data} disabledItemValues={['1', '2-1']} style={{ width: 224 }} />
     <hr />
-    <label>Read only: </label>
+    <ControlLabel>Read only: </ControlLabel>
     <MultiCascader readOnly defaultValue={['1-1']} data={data} style={{ width: 224 }} />
 
     <hr />
-    <label>Plaintext: </label>
+    <ControlLabel>Plaintext: </ControlLabel>
     <MultiCascader plaintext defaultValue={['1-1']} data={data} style={{ width: 224 }} />
   </>
 );

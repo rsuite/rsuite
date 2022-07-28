@@ -4,14 +4,24 @@
 import { TreePicker } from 'rsuite';
 import { mockTreeData } from './mock';
 
-const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
+
+const ControlLabel = ({ children }) => (
+  <label style={{ width: 130, display: 'inline-block' }}>{children}</label>
+);
 
 const App = () => (
   <div>
-    <label>Disabled: </label>
+    <ControlLabel>Disabled: </ControlLabel>
     <TreePicker disabled data={data} defaultValue={'1-1'} style={{ width: 246 }} />
     <hr />
-    <label>Disabled option: </label>
+    <ControlLabel>Disabled option: </ControlLabel>
     <TreePicker
       defaultExpandAll
       data={data}
@@ -21,11 +31,11 @@ const App = () => (
     />
 
     <hr />
-    <label>Read only: </label>
+    <ControlLabel>Read only: </ControlLabel>
     <TreePicker readOnly data={data} defaultValue={'1-1'} style={{ width: 246 }} />
 
     <hr />
-    <label>Plaintext: </label>
+    <ControlLabel>Plaintext: </ControlLabel>
     <TreePicker plaintext data={data} defaultValue={'1-1'} style={{ width: 246 }} />
   </div>
 );

@@ -2,11 +2,17 @@
 
 ```js
 import { Cascader } from 'rsuite';
-import TagIcon from '@rsuite/icons/Tag';
+import AdminIcon from '@rsuite/icons/Admin';
 import { mockTreeData } from './mock';
 
-const headers = ['Provincial', 'County', 'Town'];
-const data = mockTreeData({ limits: [2, 3, 3], labels: headers });
+const headers = ['Job Area', 'Job Type', 'Name'];
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
 
 const App = () => (
   <Cascader
@@ -16,7 +22,7 @@ const App = () => (
     renderMenuItem={(label, item) => {
       return (
         <>
-          <TagIcon /> {label}
+          <AdminIcon /> {label}
         </>
       );
     }}

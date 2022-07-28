@@ -2,10 +2,17 @@
 
 ```js
 import { CheckTreePicker, Button } from 'rsuite';
-import LocationIcon from '@rsuite/icons/Location';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import AdminIcon from '@rsuite/icons/Admin';
 import { mockTreeData } from './mock';
 
-const data = mockTreeData({ limits: [2, 3, 3], labels: ['Provincial', 'County', 'Town'] });
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
 
 const App = () => (
   <CheckTreePicker
@@ -14,13 +21,13 @@ const App = () => (
     style={{ width: 280 }}
     placeholder={
       <span>
-        <LocationIcon /> Select region
+        <PeoplesIcon /> Select
       </span>
     }
     renderTreeNode={nodeData => {
       return (
         <span>
-          <LocationIcon /> {nodeData.label}
+          <AdminIcon /> {nodeData.label}
         </span>
       );
     }}
@@ -28,7 +35,7 @@ const App = () => (
       return (
         <span>
           <span style={{ color: '#575757' }}>
-            <LocationIcon /> Region :
+            <PeoplesIcon /> Peoples:{' '}
           </span>
           {checkedItems.map(item => item.label).join(' , ')}
         </span>

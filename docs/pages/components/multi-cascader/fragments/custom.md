@@ -2,11 +2,18 @@
 
 ```js
 import { MultiCascader } from 'rsuite';
-import LocationIcon from '@rsuite/icons/Location';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import AdminIcon from '@rsuite/icons/Admin';
 import { mockTreeData } from './mock';
 
-const headers = ['Province', 'City', 'District'];
-const data = mockTreeData({ limits: [2, 3, 3], labels: headers });
+const headers = ['Job Area', 'Job Type', 'Name'];
+const data = mockTreeData({
+  limits: [3, 3, 4],
+  labels: (layer, value, faker) => {
+    const methodName = ['jobArea', 'jobType', 'firstName'];
+    return faker.name[methodName[layer]]();
+  }
+});
 
 const App = () => (
   <MultiCascader
@@ -16,7 +23,7 @@ const App = () => (
     renderMenuItem={(label, item) => {
       return (
         <div>
-          <LocationIcon /> {label}
+          <AdminIcon /> {label}
         </div>
       );
     }}
@@ -39,13 +46,13 @@ const App = () => (
     }}
     placeholder={
       <span>
-        <LocationIcon /> Location
+        <PeoplesIcon /> Location
       </span>
     }
     renderValue={(value, selectedItems, selectedElement) => (
       <span>
         <span style={{ color: '#575757' }}>
-          <LocationIcon /> Location :
+          <PeoplesIcon /> Location :
         </span>{' '}
         {selectedItems.map(item => item.label).join(' , ')}
       </span>

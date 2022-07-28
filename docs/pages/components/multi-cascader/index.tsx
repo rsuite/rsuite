@@ -1,12 +1,23 @@
 import React from 'react';
 import { MultiCascader, Button, Toggle, RadioGroup, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
-import LocationIcon from '@rsuite/icons/Location';
-import { mockTreeData, mockTreeDataToString } from '@/utils/mock';
+import PeoplesIcon from '@rsuite/icons/Peoples';
+import AdminIcon from '@rsuite/icons/Admin';
+import {
+  importFakerString,
+  mockTreeData,
+  mockTreeDataToString,
+  mockAsyncData,
+  mockAsyncDataString
+} from '@/utils/mock';
+
+const sandboxDependencies = {
+  '@faker-js/faker': 'latest'
+};
 
 const mockfile = {
   name: 'mock.js',
-  content: mockTreeDataToString
+  content: [importFakerString, mockTreeDataToString, mockAsyncDataString].join('\n')
 };
 
 export default function Page() {
@@ -18,9 +29,12 @@ export default function Page() {
         Toggle,
         RadioGroup,
         Radio,
-        LocationIcon,
+        PeoplesIcon,
+        AdminIcon,
+        mockAsyncData,
         mockTreeData
       }}
+      sandboxDependencies={sandboxDependencies}
       sandboxFiles={[mockfile]}
     />
   );
