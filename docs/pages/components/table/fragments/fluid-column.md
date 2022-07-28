@@ -12,18 +12,22 @@ const App = () => {
     <Table
       height={420}
       data={data}
+      bordered
+      cellBordered
       onSortColumn={(sortColumn, sortType) => {
         console.log(sortColumn, sortType);
       }}
     >
-      <Column width={50} align="center" fixed>
+      <Column width={50} align="center">
         <HeaderCell>Id</HeaderCell>
         <Cell dataKey="id" />
       </Column>
 
-      <Column width={100} fixed>
-        <HeaderCell>First Name</HeaderCell>
-        <Cell dataKey="firstName" />
+      <Column flexGrow={2}>
+        <HeaderCell>
+          Name <code>flexGrow={2}</code>
+        </HeaderCell>
+        <Cell dataKey="name" />
       </Column>
 
       <Column flexGrow={1}>
@@ -33,10 +37,8 @@ const App = () => {
         <Cell dataKey="city" />
       </Column>
 
-      <Column flexGrow={2}>
-        <HeaderCell>
-          Email <code>flexGrow={2}</code>
-        </HeaderCell>
+      <Column width={200}>
+        <HeaderCell>Email</HeaderCell>
         <Cell dataKey="email" />
       </Column>
     </Table>

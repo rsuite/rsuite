@@ -57,8 +57,8 @@ const App = () => {
       </Column>
 
       <Column width={130} fixed sortable>
-        <HeaderCell>First Name</HeaderCell>
-        <Cell dataKey="firstName" />
+        <HeaderCell>Name</HeaderCell>
+        <Cell dataKey="name" />
       </Column>
 
       <Column width={100} sortable>

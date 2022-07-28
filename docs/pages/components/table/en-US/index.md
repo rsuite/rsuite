@@ -31,36 +31,6 @@ Support `virtualized`, effectively render large tabular data.
 
 <!--{include:`virtualized.md`}-->
 
-### Resizable
-
-<!--{include:`resizable.md`}-->
-
-Move the mouse to the column split line, will display a blue move handle, click Not to loosen and drag left and right to adjust the width of the column.
-
-To support this feature, you need to set a `resizable` attribute in `Column`.
-
-### Fluid
-
-<!--{include:`fluid-column.md`}-->
-
-If you need to set a column to automatic width, you need to configure the `flexGrow` property. `flexGrow` is a `number` type. Will fill the `Table` remaining width according to the sum of all `flexGrow`.
-
-> Note: After setting `flexGrow`, you cannot set the `width` and `resizable` properties. You can set a minimum width by `minwidth`.
-
-```html
-<Column flexGrow="{1}">
-  <HeaderCell>City <code>flexGrow={1}</code></HeaderCell>
-  <Cell dataKey="city" />
-</Column>
-
-<Column flexGrow="{2}">
-  <HeaderCell>Company Name <code>flexGrow={2}</code></HeaderCell>
-  <Cell dataKey="companyName" />
-</Column>
-
-...
-```
-
 ### Custom Cell
 
 <!--{include:`custom-cell.md`}-->
@@ -104,13 +74,48 @@ Use:
 If you need to define row heights based on the content of your data in practical applications, you can use the following methods:
 
 ```js
-const rowHeight = rowData => {
-  if (rowData && rowData.firstName === 'Janis') {
-    return 60;
-  }
-  return 46;
-};
-<Table rowHeight={rowHeight}>...</Table>;
+return (
+  <Table
+    rowHeight={rowData => {
+      if (rowData?.tags.length > 4) {
+        return 80;
+      }
+      return 40;
+    }}
+  >
+    ...
+  </Table>
+);
+```
+
+### Resizable
+
+<!--{include:`resizable.md`}-->
+
+Move the mouse to the column split line, will display a blue move handle, click Not to loosen and drag left and right to adjust the width of the column.
+
+To support this feature, you need to set a `resizable` attribute in `Column`.
+
+### Fluid
+
+<!--{include:`fluid-column.md`}-->
+
+If you need to set a column to automatic width, you need to configure the `flexGrow` property. `flexGrow` is a `number` type. Will fill the `Table` remaining width according to the sum of all `flexGrow`.
+
+> Note: After setting `flexGrow`, you cannot set the `width` and `resizable` properties. You can set a minimum width by `minwidth`.
+
+```html
+<Column flexGrow="{1}">
+  <HeaderCell>City <code>flexGrow={1}</code></HeaderCell>
+  <Cell dataKey="city" />
+</Column>
+
+<Column flexGrow="{2}">
+  <HeaderCell>Company Name <code>flexGrow={2}</code></HeaderCell>
+  <Cell dataKey="companyName" />
+</Column>
+
+...
 ```
 
 ### Sort
