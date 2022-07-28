@@ -706,7 +706,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         {
           ...node,
           /**
-           * spread operator dont copy enumerable properties
+           * spread operator dont copy unenumerable properties
            * so we need to copy them manually
            */
           parent: node.parent,
