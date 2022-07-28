@@ -36,8 +36,8 @@ import {
   PickerToggleProps
 } from '../Picker';
 
+import { ListProps } from '../Picker/VirtualizedList';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
-import { ListProps } from 'react-virtualized/dist/commonjs/List';
 
 export interface SelectProps<T> {
   /** Set group condition key in data */
@@ -53,7 +53,7 @@ export interface SelectProps<T> {
    * List-related properties in `react-virtualized`
    * https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
    */
-  listProps?: ListProps;
+  listProps?: Partial<ListProps>;
 
   /** Custom search rules. */
   searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
