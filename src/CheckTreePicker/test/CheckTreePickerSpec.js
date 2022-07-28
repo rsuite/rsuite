@@ -618,4 +618,18 @@ describe('CheckTreePicker', () => {
     assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[0]));
     assert.doesNotThrow(() => JSON.stringify(renderTreeNodeSpy.firstCall.args[0]));
   });
+
+  it('Should children can be removed', () => {
+    const onChangeSpy = sinon.spy();
+    const instance = getInstance(
+      <CheckTreePicker defaultOpen data={data} onChange={onChangeSpy} />
+    );
+
+    ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-0"] input'));
+    ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-0-0"] input'));
+
+    expect(onChangeSpy.callCount).to.equal(2);
+    expect(onChangeSpy.firstCall.args[0]).to.include('Master');
+    expect(onChangeSpy.secondCall.args[0]).to.include('tester1');
+  });
 });
