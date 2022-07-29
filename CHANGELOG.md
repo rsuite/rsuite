@@ -1,3 +1,10 @@
+## [5.16.3](https://github.com/rsuite/rsuite/compare/v5.16.2...v5.16.3) (2022-07-29)
+
+### Bug Fixes
+
+- **DateRangePicker:** fix predefined `ranges` cannot close picker ([#2614](https://github.com/rsuite/rsuite/issues/2614)) ([7773899](https://github.com/rsuite/rsuite/commit/7773899d5cda5ce53d556be85abc76f23166fc28))
+- **listProps:** fix properties in listProps to be optional ([#2622](https://github.com/rsuite/rsuite/issues/2622)) ([650abbd](https://github.com/rsuite/rsuite/commit/650abbdd7b1073fb1a5a3d3ca761127ac2dcdd08))
+
 ## [5.16.2](https://github.com/rsuite/rsuite/compare/v5.16.1...v5.16.2) (2022-07-28)
 
 ### Bug Fixes
