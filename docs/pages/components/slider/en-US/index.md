@@ -104,6 +104,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | onChangeCommitted | (value: number, event) => void; | Callback function that is fired when the mouseup is triggered    |
 | progress          | boolean                         | Show sliding progress bar                                        |
 | renderMark        | (mark: number) => ReactNode     | Customize labels on the render ruler                             |
+| renderTooltip     | (value: number ) => ReactNode   | Customize the content of the rendered Tooltip                    |
 | step              | number`(1)`                     | Slide the value of one step                                      |
 | tooltip           | boolean`(true)`                 | Whether to show `Tooltip` when sliding                           |
 | value             | number                          | Value (Controlled)                                               |
@@ -128,6 +129,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | onChangeCommitted | (value: [number,number], event) => void;               | Callback function that is fired when the mouseup is triggered                                                        |
 | progress          | boolean                                                | Show sliding progress bar                                                                                            |
 | renderMark        | (mark: number) => ReactNode                            | Customize labels on the render ruler                                                                                 |
+| renderTooltip     | (value: number ) => ReactNode                          | Customize the content of the rendered Tooltip                                                                        |
 | step              | number`(1)`                                            | Slide the value of one step                                                                                          |
 | tooltip           | boolean`(true)`                                        | Whether to show `Tooltip` when sliding                                                                               |
 | value             | [number,number]                                        | Value (Controlled)                                                                                                   |
