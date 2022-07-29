@@ -44,7 +44,7 @@ export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
     FormControlBaseProps<Date | null>,
     Pick<PickerToggleProps, 'caretAs' | 'readOnly' | 'plaintext'> {
-  /** Configure shortcut options */
+  /** Predefined date Ranges */
   ranges?: RangeType<Date>[];
 
   /** Calendar panel default presentation date and time */
