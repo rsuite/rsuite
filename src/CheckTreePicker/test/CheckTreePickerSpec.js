@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
@@ -621,12 +621,19 @@ describe('CheckTreePicker', () => {
 
   it('Should children can be removed', () => {
     const onChangeSpy = sinon.spy();
-    const instance = getInstance(
-      <CheckTreePicker defaultOpen data={data} onChange={onChangeSpy} />
-    );
+    const screen = render(<CheckTreePicker defaultOpen data={data} onChange={onChangeSpy} />);
 
-    ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-0"] input'));
-    ReactTestUtils.Simulate.change(instance.overlay.querySelector('div[data-key="0-0-0"] input'));
+    fireEvent.click(screen.getByText('Master'), {
+      target: {
+        checked: true
+      }
+    });
+
+    fireEvent.click(screen.getByText('tester0'), {
+      target: {
+        checked: false
+      }
+    });
 
     expect(onChangeSpy.callCount).to.equal(2);
     expect(onChangeSpy.firstCall.args[0]).to.include('Master');
