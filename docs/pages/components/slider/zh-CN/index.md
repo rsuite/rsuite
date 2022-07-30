@@ -102,6 +102,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | onChangeCommitted | (value: number, event) => void; | 在 mouseup 事件触发后，同时数据发生改变的回调 |
 | progress          | boolean                         | 显示滑动的进度条                              |
 | renderMark        | (mark: number) => ReactNode     | 自定义渲染标尺上的标签                        |
+| renderTooltip     | (value: number ) => ReactNode   | 自定义渲染 Tooltip 的内容                     |
 | step              | number`(1)`                     | 滑动一步的值                                  |
 | tooltip           | boolean`(true)`                 | 滑动时候，是否显示 tooltip                    |
 | value             | number                          | 值（受控）                                    |
@@ -126,6 +127,7 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#slider
 | onChangeCommitted | (value: [number,number], event) => void;               | 在 mouseup 事件触发后，同时数据发生改变的回调                              |
 | progress          | boolean                                                | 显示滑动的进度条                                                           |
 | renderMark        | (mark: number) => ReactNode                            | 自定义渲染标尺上的标签                                                     |
+| renderTooltip     | (value: number ) => ReactNode                          | 自定义渲染 Tooltip 的内容                                                  |
 | step              | number`(1)`                                            | 滑动一步的值                                                               |
 | tooltip           | boolean`(true)`                                        | 滑动时候，是否显示 tooltip                                                 |
 | value             | [number,number]                                        | 值（受控）                                                                 |
