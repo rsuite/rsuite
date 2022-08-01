@@ -10,24 +10,22 @@ const App = () => (
     <Container>
       <Header>
         <Navbar appearance="inverse">
-          <Navbar.Header>
-            <a className="navbar-brand logo">BRAND</a>
-          </Navbar.Header>
-          <Navbar.Body>
-            <Nav>
-              <Nav.Item icon={<HomeIcon />}>Home</Nav.Item>
-              <Nav.Item>News</Nav.Item>
-              <Nav.Item>Products</Nav.Item>
-              <Nav.Menu title="About">
-                <Nav.Item>Company</Nav.Item>
-                <Nav.Item>Team</Nav.Item>
-                <Nav.Item>Contact</Nav.Item>
-              </Nav.Menu>
-            </Nav>
-            <Nav pullRight>
-              <Nav.Item icon={<CogIcon />}>Settings</Nav.Item>
-            </Nav>
-          </Navbar.Body>
+          <Navbar.Brand>
+            <a style={{ color: '#fff' }}>Brand</a>
+          </Navbar.Brand>
+          <Nav>
+            <Nav.Item icon={<HomeIcon />}>Home</Nav.Item>
+            <Nav.Item>News</Nav.Item>
+            <Nav.Item>Products</Nav.Item>
+            <Nav.Menu title="About">
+              <Nav.Item>Company</Nav.Item>
+              <Nav.Item>Team</Nav.Item>
+              <Nav.Item>Contact</Nav.Item>
+            </Nav.Menu>
+          </Nav>
+          <Nav pullRight>
+            <Nav.Item icon={<CogIcon />}>Settings</Nav.Item>
+          </Nav>
         </Navbar>
       </Header>
       <Content>Content</Content>

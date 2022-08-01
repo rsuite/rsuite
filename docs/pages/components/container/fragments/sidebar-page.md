@@ -20,38 +20,27 @@ const headerStyles = {
   overflow: 'hidden'
 };
 
-const iconStyles = {
-  width: 56,
-  height: 56,
-  padding: 18,
-  lineHeight: '56px',
-  textAlign: 'center'
-};
-
 const NavToggle = ({ expand, onChange }) => {
   return (
     <Navbar appearance="subtle" className="nav-toggle">
-      <Navbar.Body>
-        <Nav>
-          <Nav.Menu
-            placement="topStart"
-            trigger="click"
-            renderTitle={children => {
-              return <CogIcon style={iconStyles} />;
-            }}
-          >
-            <Nav.Item>Help</Nav.Item>
-            <Nav.Item>Settings</Nav.Item>
-            <Nav.Item>Sign out</Nav.Item>
-          </Nav.Menu>
-        </Nav>
+      <Nav>
+        <Nav.Menu
+          noCaret
+          placement="topStart"
+          trigger="click"
+          title={<CogIcon style={{ width: 20, height: 20 }} size="sm" />}
+        >
+          <Nav.Item>Help</Nav.Item>
+          <Nav.Item>Settings</Nav.Item>
+          <Nav.Item>Sign out</Nav.Item>
+        </Nav.Menu>
+      </Nav>
 
-        <Nav pullRight>
-          <Nav.Item onClick={onChange} style={{ width: 56, textAlign: 'center' }}>
-            {expand ? <AngleLeftIcon /> : <AngleRightIcon />}
-          </Nav.Item>
-        </Nav>
-      </Navbar.Body>
+      <Nav pullRight>
+        <Nav.Item onClick={onChange} style={{ width: 56, textAlign: 'center' }}>
+          {expand ? <AngleLeftIcon /> : <AngleRightIcon />}
+        </Nav.Item>
+      </Nav>
     </Navbar>
   );
 };

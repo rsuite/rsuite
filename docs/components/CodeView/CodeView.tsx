@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Divider, IconButton, Tooltip, Whisper, Placeholder } from 'rsuite';
 import canUseDOM from 'dom-lib/canUseDOM';
 import toggleClass from 'dom-lib/toggleClass';
@@ -110,65 +110,73 @@ const CodeView = (props: CustomCodeViewProps) => {
     [messages.common]
   );
 
-  const tools = [
-    { i18nKey: 'showTheSource' },
-    {
-      children: (
-        <CodeSandbox
-          key="codeSandbox"
-          code={code}
-          sandboxFiles={sandboxFiles}
-          sandboxDependencies={sandboxDependencies}
-        >
-          {withWhisper({
-            children: <CircleIconButton icon={CodesandboxIcon} />,
-            i18nKey: 'openCodeSandbox'
+  const tools = useMemo(
+    () => [
+      { i18nKey: 'showTheSource' },
+      {
+        children: (
+          <CodeSandbox
+            key="codeSandbox"
+            code={code}
+            sandboxFiles={sandboxFiles}
+            sandboxDependencies={sandboxDependencies}
+          >
+            {withWhisper({
+              children: <CircleIconButton icon={CodesandboxIcon} />,
+              i18nKey: 'openCodeSandbox'
+            })}
+          </CodeSandbox>
+        )
+      },
+      {
+        icon: <Icon as={StackBlitzIcon} />,
+        i18nKey: 'openStackBlitz',
+        onClick: openStackBlitz
+      },
+      {
+        icon: <Icon as={TransparentIcon} style={{ fontSize: 15 }} />,
+        i18nKey: 'transparentBackground',
+        onClick: changeTransparent
+      },
+      {
+        icon: <Icon as={GithubIcon} />,
+        i18nKey: 'seeTheSourceOnGitHub',
+        href: path,
+        target: '_blank'
+      }
+    ],
+    [changeTransparent, code, openStackBlitz, path, sandboxDependencies, sandboxFiles, withWhisper]
+  );
+
+  const renderToolbar = useCallback(
+    (showCodeButton: React.ReactElement) => {
+      return (
+        <>
+          {tools.map((item, index) => {
+            const { i18nKey, children, ...rest } = item;
+
+            // Wait for code to import before showing CodeSandbox and StackBlitz buttons
+            if ((index === 1 || index === 2) && !code) {
+              return null;
+            }
+
+            if (children) {
+              return children;
+            } else if (index === 0) {
+              return withWhisper({ children: showCodeButton, i18nKey });
+            }
+            return withWhisper({
+              children: <IconButton appearance="subtle" circle size="xs" {...rest} />,
+              i18nKey
+            });
           })}
-        </CodeSandbox>
-      )
+        </>
+      );
     },
-    {
-      icon: <Icon as={StackBlitzIcon} />,
-      i18nKey: 'openStackBlitz',
-      onClick: openStackBlitz
-    },
-    {
-      icon: <Icon as={TransparentIcon} style={{ fontSize: 15 }} />,
-      i18nKey: 'transparentBackground',
-      onClick: changeTransparent
-    },
-    {
-      icon: <Icon as={GithubIcon} />,
-      i18nKey: 'seeTheSourceOnGitHub',
-      href: path,
-      target: '_blank'
-    }
-  ];
+    [code, tools, withWhisper]
+  );
 
-  const renderToolbar = (showCodeButton: React.ReactElement) => {
-    return (
-      <>
-        {tools.map((item, index) => {
-          const { i18nKey, children, ...rest } = item;
-
-          // Wait for code to import before showing CodeSandbox and StackBlitz buttons
-          if ((index === 1 || index === 2) && !code) {
-            return null;
-          }
-
-          if (children) {
-            return children;
-          } else if (index === 0) {
-            return withWhisper({ children: showCodeButton, i18nKey });
-          }
-          return withWhisper({
-            children: <IconButton appearance="subtle" circle size="xs" {...rest} />,
-            i18nKey
-          });
-        })}
-      </>
-    );
-  };
+  const deps = useMemo(() => ({ ...dependencies, Paragraph, Divider }), []);
 
   if (canUseDOM && source && styleLoaded) {
     return (
@@ -176,7 +184,7 @@ const CodeView = (props: CustomCodeViewProps) => {
         {...rest}
         ref={viewRef}
         style={{ minHeight: height }}
-        dependencies={{ ...dependencies, Paragraph, Divider }}
+        dependencies={deps}
         beforeCompile={setRenderCode}
         renderToolbar={renderToolbar}
       >

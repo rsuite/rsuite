@@ -30,8 +30,6 @@ import {
   importFakerString
 } from '@/utils/mock';
 
-const { HeaderCell, Cell, Column, ColumnGroup } = Table;
-
 const mockfile = {
   name: 'mock.js',
   content: [importFakerString, mockUsersString, mockTreeDataToString].join('\n')
@@ -54,11 +52,7 @@ export default function Page() {
         IconButton,
         Table,
         Button,
-        HeaderCell,
-        Cell,
-        Column,
         Dropdown,
-        ColumnGroup,
         MoreIcon,
         CollaspedOutlineIcon,
         ExpandOutlineIcon,
