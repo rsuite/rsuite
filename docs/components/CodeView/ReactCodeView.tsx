@@ -6,6 +6,10 @@ const editorProps = {
   buttonClassName: 'rs-btn-subtle rs-btn-icon-circle rs-btn-icon'
 };
 
+const afterCompile = (code: string) => {
+  return code.replace(/import\ [\*\w\,\{\}\ \n]+\ from\ ?[\."'@/\w-]+;/gi, '');
+};
+
 export default React.forwardRef((props: any, ref) => {
   return (
     <ReactCodeView
@@ -13,9 +17,7 @@ export default React.forwardRef((props: any, ref) => {
       ref={ref}
       theme="dark"
       editor={editorProps}
-      afterCompile={(code: string) => {
-        return code.replace(/import\ [\*\w\,\{\}\ \n]+\ from\ ?[\."'@/\w-]+;/gi, '');
-      }}
+      afterCompile={afterCompile}
     />
   );
 });
