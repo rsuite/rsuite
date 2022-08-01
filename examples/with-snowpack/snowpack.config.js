@@ -1,11 +1,10 @@
 const PORT = 3000;
 
-/** @type {import('snowpack').CommandOptions } */
+/** @type {import("snowpack").SnowpackUserConfig } */
 module.exports = {
   mount: {
-    public: '/',
-    src: '/assets',
-    'node_modules/rsuite/lib/styles/fonts': { url: '/assets', static: true }
+    public: { url: '/', static: true },
+    src: { url: '/assets' }
   },
   plugins: [
     '@snowpack/plugin-react-refresh',
@@ -19,7 +18,7 @@ module.exports = {
   // server
   devOptions: {
     port: PORT
-  },
+  }
   // proxy config
   // routes: []
 };
