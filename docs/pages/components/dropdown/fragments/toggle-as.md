@@ -14,7 +14,8 @@ const SizeDropdown = props => (
     <Dropdown.Item>About</Dropdown.Item>
   </Dropdown>
 );
-const instance = (
+
+const App = () => (
   <ButtonToolbar>
     <SizeDropdown title="Large" size="lg" />
     <SizeDropdown title="Medium" size="md" />

@@ -10,7 +10,7 @@ const styles = {
   marginBottom: 10
 };
 
-const instance = (
+const App = () => (
   <div>
     <InputGroup style={styles}>
       <InputGroup.Addon> @</InputGroup.Addon>
