@@ -467,6 +467,8 @@ describe('DatePicker', () => {
       fireEvent.focus(input);
     });
 
+    console.log('onFocusSpy: ', onFocusSpy.args[0][0].target);
+
     expect(onFocusSpy).to.have.been.calledOnce;
     expect(getByRole('combobox')).to.have.class('rs-picker-toggle-active');
   });
