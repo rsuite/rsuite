@@ -25,7 +25,9 @@ export interface PickerToggleProps extends ToggleButtonProps {
   readOnly?: boolean;
   plaintext?: boolean;
   tabIndex?: number;
-  input?: boolean;
+
+  // Renders an input and is editable
+  editable?: boolean;
   inputPlaceholder?: string;
   inputMask?: (string | RegExp)[];
   onInputChange?: (value: string, event: React.ChangeEvent) => void;
@@ -64,7 +66,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       tabIndex = 0,
       id,
       value,
-      input,
+      editable,
       inputPlaceholder,
       inputValue: inputValueProp,
       inputMask = defaultInputMask,
@@ -83,6 +85,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
     } = props;
 
     const inputRef = useRef<HTMLInputElement>(null);
+    const comboboxRef = useRef<HTMLDivElement>(null);
     const [activeState, setActive] = useState(false);
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const getInputValue = useCallback(
@@ -97,8 +100,10 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
     const [inputValue, setInputValue] = useState(getInputValue);
 
     useEffect(() => {
-      const value = getInputValue();
-      setInputValue(value);
+      if (comboboxRef.current) {
+        const value = getInputValue();
+        setInputValue(value);
+      }
     }, [getInputValue]);
 
     const classes = merge(className, withClassPrefix({ active: activeProp || activeState }));
@@ -106,23 +111,39 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
     const handleFocus = useCallback(
       (event: React.FocusEvent<HTMLElement>) => {
         setActive(true);
-        onFocus?.(event);
-        if (input) {
-          inputRef.current?.focus();
+
+        if (editable) {
+          // Avoid firing the onFocus event twice when DatePicker and DateRangePicker allow keyboard input.
+          if (event.target === inputRef.current) {
+            onFocus?.(event);
+          }
+
+          // Force the input to be focused and editable.
+          if (document.activeElement !== inputRef.current) {
+            // TODO: Please fix `Shift + Tab` not focusing the previous focusable element.
+            inputRef.current?.focus();
+          }
+        } else {
+          onFocus?.(event);
         }
       },
-      [input, onFocus]
+      [editable, onFocus]
     );
 
     const handleBlur = useCallback(
       (event: React.FocusEvent<HTMLElement>) => {
-        if (inputRef.current && document.activeElement !== inputRef.current) {
+        if (inputRef.current && !editable) {
           setActive(false);
-          inputRef.current.blur();
         }
+
+        // When activeElement is an input, it remains active.
+        if (editable && inputRef.current && document.activeElement !== inputRef.current) {
+          setActive(false);
+        }
+
         onBlur?.(event);
       },
-      [onBlur]
+      [editable, onBlur]
     );
 
     const handleInputBlur = (event: React.FocusEvent<HTMLElement>) => {
@@ -134,9 +155,11 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       (event: React.MouseEvent<HTMLSpanElement>) => {
         event.stopPropagation();
         onClean?.(event);
-        setActive(false);
+
+        // When the value is cleared, the current component is still in focus.
+        editable ? inputRef.current?.focus() : comboboxRef.current?.focus();
       },
-      [onClean]
+      [editable, onClean]
     );
 
     const handleInputChange = useCallback(
@@ -150,11 +173,22 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
 
     const handleInputKeyDown = useCallback(
       (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (input && event.key === KEY_VALUES.ENTER) {
+        if (editable && event.key === KEY_VALUES.ENTER) {
           onInputPressEnter?.(event);
         }
       },
-      [onInputPressEnter, input]
+      [onInputPressEnter, editable]
+    );
+
+    const renderInput = useCallback(
+      (ref, props) => (
+        <input
+          ref={mergeRefs(inputRef, ref)}
+          style={{ pointerEvents: editable ? undefined : 'none' }}
+          {...props}
+        />
+      ),
+      [editable]
     );
 
     const ToggleCaret = useToggleCaret(placement);
@@ -171,7 +205,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
     const showCleanButton = cleanableProp && hasValue && !readOnly;
 
     // When the component is read-only or disabled, the input is not interactive.
-    const inputFocused = readOnly || disabled ? false : input && activeState;
+    const inputFocused = readOnly || disabled ? false : editable && activeState;
 
     return (
       <Component
@@ -181,7 +215,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
         aria-disabled={disabled}
         aria-owns={id ? `${id}-listbox` : undefined}
         {...rest}
-        ref={ref}
+        ref={mergeRefs(comboboxRef, ref)}
         disabled={disabled}
         tabIndex={disabled ? undefined : tabIndex}
         className={classes}
@@ -204,7 +238,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
           tabIndex={-1}
           className={prefix('textbox', { 'read-only': !inputFocused })}
           placeholder={inputPlaceholder}
-          render={(ref, props) => <input ref={mergeRefs(inputRef, ref)} {...props} />}
+          render={renderInput}
         />
         {children ? (
           <span

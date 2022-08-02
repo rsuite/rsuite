@@ -1,6 +1,6 @@
 import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
-import { render, act, waitFor } from '@testing-library/react';
+import { render, act, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ReactTestUtils from 'react-dom/test-utils';
 import {
@@ -716,5 +716,15 @@ describe('DateRangePicker', () => {
       expect(onChangeSpy).to.calledOnce;
       expect(onCloseSpy).to.not.called;
     });
+  });
+
+  it('Should call onFocus callback', () => {
+    const onFocusSpy = sinon.spy();
+    const { getByRole } = render(<DateRangePicker onFocus={onFocusSpy} />);
+    const input = getByRole('combobox').querySelector('input');
+
+    fireEvent.focus(input);
+
+    expect(onFocusSpy).to.have.been.calledOnce;
   });
 });

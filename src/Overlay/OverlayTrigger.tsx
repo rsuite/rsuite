@@ -4,7 +4,8 @@ import React, {
   useImperativeHandle,
   useCallback,
   useContext,
-  useState
+  useState,
+  useMemo
 } from 'react';
 import get from 'lodash/get';
 import isNil from 'lodash/isNil';
@@ -364,54 +365,83 @@ const OverlayTrigger = React.forwardRef(
       event.preventDefault();
     }, []);
 
-    const triggerEvents = {
-      onClick,
-      onContextMenu,
-      onMouseOver,
-      onMouseOut,
-      onFocus,
-      onBlur,
-      onMouseMove
-    };
+    const triggerEvents = useMemo(() => {
+      // Pass events by props
+      const events = {
+        onClick,
+        onContextMenu,
+        onMouseOver,
+        onMouseOut,
+        onFocus,
+        onBlur,
+        onMouseMove
+      };
 
-    if (!disabled && !readOnly && !plaintext) {
+      // When trigger is disabled, no predefined event listeners are added.
+      if (disabled || readOnly || plaintext || trigger === 'none') {
+        return events;
+      }
+
+      // Get the cursor position through onMouseMove.
+      // https://rsuitejs.com/components/tooltip/#follow-cursor
+      if (followCursor) {
+        events.onMouseMove = createChainedFunction(handledMoveOverlay, onMouseMove);
+      }
+
+      // The `click` event is usually used in `toggle` scenarios.
+      // The first click will open and the second click will close.
       if (isOneOf('click', trigger)) {
-        triggerEvents.onClick = createChainedFunction(handleOpenState, triggerEvents.onClick);
+        events.onClick = createChainedFunction(handleOpenState, events.onClick);
+        return events;
       }
 
-      if (isOneOf('contextMenu', trigger)) {
-        triggerEvents.onContextMenu = createChainedFunction(
-          preventDefault,
-          handleOpenState,
-          triggerEvents.onContextMenu
-        );
-      }
-
+      // The difference between it and the click event is that it does not trigger the close.
       if (isOneOf('active', trigger)) {
-        triggerEvents.onClick = createChainedFunction(handleDelayedOpen, triggerEvents.onClick);
+        events.onClick = createChainedFunction(handleDelayedOpen, events.onClick);
+        return events;
       }
 
       if (isOneOf('hover', trigger)) {
-        let onMouseOverListener: React.MouseEventHandler | null = null;
-        let onMouseOutListener: React.MouseEventHandler | null = null;
+        const onMouseOverListener = e => onMouseEventHandler(handleDelayedOpen, e);
+        const onMouseOutListener = e => onMouseEventHandler(handleDelayedClose, e);
 
-        if (trigger !== 'none') {
-          onMouseOverListener = e => onMouseEventHandler(handleDelayedOpen, e);
-          onMouseOutListener = e => onMouseEventHandler(handleDelayedClose, e);
-        }
-        triggerEvents.onMouseOver = createChainedFunction(onMouseOverListener, onMouseOver);
-        triggerEvents.onMouseOut = createChainedFunction(onMouseOutListener, onMouseOut);
+        events.onMouseOver = createChainedFunction(onMouseOverListener, events.onMouseOver);
+        events.onMouseOut = createChainedFunction(onMouseOutListener, events.onMouseOut);
       }
 
       if (isOneOf('focus', trigger)) {
-        triggerEvents.onFocus = createChainedFunction(handleDelayedOpen, onFocus);
-        triggerEvents.onBlur = createChainedFunction(handleDelayedClose, onBlur);
+        events.onFocus = createChainedFunction(handleDelayedOpen, events.onFocus);
+        events.onBlur = createChainedFunction(handleDelayedClose, events.onBlur);
       }
 
-      if (trigger !== 'none' && followCursor) {
-        triggerEvents.onMouseMove = createChainedFunction(handledMoveOverlay, onMouseMove);
+      if (isOneOf('contextMenu', trigger)) {
+        events.onContextMenu = createChainedFunction(
+          preventDefault,
+          handleOpenState,
+          events.onContextMenu
+        );
       }
-    }
+
+      return events;
+    }, [
+      disabled,
+      followCursor,
+      handleDelayedClose,
+      handleDelayedOpen,
+      handleOpenState,
+      handledMoveOverlay,
+      onBlur,
+      onClick,
+      onContextMenu,
+      onFocus,
+      onMouseMove,
+      onMouseOut,
+      onMouseOver,
+      plaintext,
+      preventDefault,
+      readOnly,
+      trigger
+    ]);
 
     const renderOverlay = () => {
       const overlayProps: Omit<OverlayProps, 'children'> = {

@@ -785,7 +785,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           as={toggleAs}
           ref={targetRef}
           appearance={appearance}
-          input
+          editable
           inputMask={DateUtils.getDateMask(rangeFormatStr)}
           inputValue={value ? (getDisplayString(value, true) as string) : ''}
           inputPlaceholder={
