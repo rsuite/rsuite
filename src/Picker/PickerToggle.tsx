@@ -62,11 +62,11 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       readOnly,
       plaintext,
       hasValue,
+      editable,
       cleanable: cleanableProp,
-      tabIndex = 0,
+      tabIndex: tabIndexProp = editable ? -1 : 0,
       id,
       value,
-      editable,
       inputPlaceholder,
       inputValue: inputValueProp,
       inputMask = defaultInputMask,
@@ -119,8 +119,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
           }
 
           // Force the input to be focused and editable.
-          if (document.activeElement !== inputRef.current) {
-            // TODO: Please fix `Shift + Tab` not focusing the previous focusable element.
+          if (document.activeElement === comboboxRef.current) {
             inputRef.current?.focus();
           }
         } else {
@@ -207,6 +206,8 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
     // When the component is read-only or disabled, the input is not interactive.
     const inputFocused = readOnly || disabled ? false : editable && activeState;
 
+    const tabIndex = disabled ? undefined : tabIndexProp;
+
     return (
       <Component
         role="combobox"
@@ -217,7 +218,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
         {...rest}
         ref={mergeRefs(comboboxRef, ref)}
         disabled={disabled}
-        tabIndex={disabled ? undefined : tabIndex}
+        tabIndex={tabIndex}
         className={classes}
         onFocus={!disabled ? handleFocus : null}
         // The debounce is set to 200 to solve the flicker caused by the switch between input and div.
@@ -235,7 +236,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
           readOnly={!inputFocused}
           disabled={disabled}
           aria-controls={id ? `${id}-listbox` : undefined}
-          tabIndex={-1}
+          tabIndex={editable ? 0 : -1}
           className={prefix('textbox', { 'read-only': !inputFocused })}
           placeholder={inputPlaceholder}
           render={renderInput}

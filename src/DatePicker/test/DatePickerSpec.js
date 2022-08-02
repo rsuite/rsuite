@@ -467,8 +467,6 @@ describe('DatePicker', () => {
       fireEvent.focus(input);
     });
 
-    console.log('onFocusSpy: ', onFocusSpy.args[0][0].target);
-
     expect(onFocusSpy).to.have.been.calledOnce;
     expect(getByRole('combobox')).to.have.class('rs-picker-toggle-active');
   });
@@ -642,5 +640,23 @@ describe('DatePicker', () => {
 
       expect(getByLabelText('gear')).to.have.class('rs-icon');
     });
+  });
+
+  it('Should switch to the previous or next element via the tab key', () => {
+    render(
+      <>
+        <DatePicker data-testid="picker-1" value={new Date('2022-01-01')} />
+        <DatePicker data-testid="picker-2" value={new Date('2022-01-02')} />
+      </>
+    );
+
+    userEvent.tab();
+    expect(document.activeElement).to.value('2022-01-01');
+
+    userEvent.tab();
+    expect(document.activeElement).to.value('2022-01-02');
+
+    userEvent.tab({ shift: true });
+    expect(document.activeElement).to.value('2022-01-01');
   });
 });
