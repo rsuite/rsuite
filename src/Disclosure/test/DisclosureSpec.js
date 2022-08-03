@@ -137,10 +137,10 @@ describe('<Disclosure>', () => {
       </Disclosure>
     );
 
-    userEvent.hover(getByTestId('button'));
+    fireEvent.mouseOver(getByTestId('button'));
     expect(getByTestId('content')).to.be.visible;
 
-    userEvent.unhover(getByTestId('button'));
+    fireEvent.mouseOut(getByTestId('button'));
     expect(getByTestId('content')).not.to.be.visible;
   });
 

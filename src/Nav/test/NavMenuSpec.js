@@ -3,7 +3,6 @@ import { render, act, fireEvent } from '@testing-library/react';
 import Nav from '../Nav';
 import Navbar from '../../Navbar';
 import Sidenav from '../../Sidenav';
-import userEvent from '@testing-library/user-event';
 
 describe('<Nav.Menu>', () => {
   it('Should render a nav item with given title text that shows more items when clicked', () => {
@@ -44,7 +43,7 @@ describe('<Nav.Menu>', () => {
       expect(getByText('Submenu')).to.exist;
 
       act(() => {
-        userEvent.hover(getByText('Submenu'));
+        fireEvent.mouseOver(getByText('Submenu'));
       });
 
       expect(getByText('Submenu item')).to.be.visible;

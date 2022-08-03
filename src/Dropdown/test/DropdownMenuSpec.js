@@ -263,11 +263,11 @@ describe('<Dropdown.Menu>', () => {
 
     const menuItem = getByTestId('item-1');
 
-    userEvent.hover(menuItem);
+    fireEvent.mouseOver(menuItem);
 
     expect(menuItem).to.have.class('rs-dropdown-item-focus');
 
-    userEvent.unhover(menuItem);
+    fireEvent.mouseOut(menuItem);
 
     expect(menuItem).not.to.have.class('rs-dropdown-item-focus');
   });
