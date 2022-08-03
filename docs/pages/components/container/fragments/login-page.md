@@ -19,9 +19,9 @@ const App = () => (
     <Container>
       <Header>
         <Navbar appearance="inverse">
-          <Navbar.Header>
-            <a className="navbar-brand logo">Brand</a>
-          </Navbar.Header>
+          <Navbar.Brand>
+            <a style={{ color: '#fff' }}>Brand</a>
+          </Navbar.Brand>
         </Navbar>
       </Header>
       <Content>

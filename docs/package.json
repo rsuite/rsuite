@@ -39,7 +39,7 @@
     "lz-string": "^1.4.4",
     "nprogress": "^0.2.0",
     "react": "^17.0.1",
-    "react-code-view": "^2.0.0",
+    "react-code-view": "^2.2.0",
     "react-color": "^2.18.0",
     "react-device-detect": "^1.11.14",
     "react-dom": "^17.0.1",

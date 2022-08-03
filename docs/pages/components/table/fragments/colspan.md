@@ -2,7 +2,7 @@
 
 ```js
 import { Table } from 'rsuite';
-const { Column, HeaderCell, Cell } = Table;
+const { Column, ColumnGroup, HeaderCell, Cell } = Table;
 
 const data = [
   {

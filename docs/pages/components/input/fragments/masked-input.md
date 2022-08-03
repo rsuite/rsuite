@@ -82,7 +82,7 @@ const placeholderChars = [
   }
 ];
 
-const Row = ({ label, control, ...rest }) => (
+const ControlRow = ({ label, control, ...rest }) => (
   <FlexboxGrid {...rest} style={{ marginBottom: 10 }} align="middle">
     <FlexboxGrid.Item colspan={6}>{label}: </FlexboxGrid.Item>
     <FlexboxGrid.Item colspan={18}>{control}</FlexboxGrid.Item>
@@ -99,7 +99,7 @@ const App = () => {
 
   return (
     <>
-      <Row
+      <ControlRow
         label="Mask"
         control={
           <SelectPicker
@@ -116,7 +116,7 @@ const App = () => {
           />
         }
       />
-      <Row
+      <ControlRow
         label="Placeholder character"
         control={
           <SelectPicker
@@ -129,14 +129,14 @@ const App = () => {
         }
       />
 
-      <Row label="Guide" control={<Toggle checked={guide} onChange={setGuide} />} />
+      <ControlRow label="Guide" control={<Toggle checked={guide} onChange={setGuide} />} />
 
-      <Row
+      <ControlRow
         label="Keep character positions"
         control={<Toggle checked={keepCharPositions} onChange={setKeepCharPositions} />}
       />
 
-      <Row
+      <ControlRow
         label="Show mask"
         control={
           <Toggle
