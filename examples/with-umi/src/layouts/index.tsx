@@ -1,15 +1,17 @@
+import React, { useState } from 'react';
 import { Container, Content, Nav, Sidebar, Sidenav } from 'rsuite';
 import { Link, Outlet } from 'umi';
 
 import style from './index.less';
 
 export default function Layout() {
+  const [activeKey, setActiveKey] = useState('1');
   return (
     <Container>
       <Sidebar>
         <Sidenav>
           <Sidenav.Body className={style.sidenavBody}>
-            <Nav activeKey="1">
+            <Nav activeKey={activeKey} onSelect={setActiveKey}>
               <Nav.Item eventKey="1" as={Link} to="/">
                 Home
               </Nav.Item>
