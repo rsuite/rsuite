@@ -7,12 +7,18 @@ import DefaultPage from '@/components/Page';
 
 export default function Page() {
   const { localePath } = React.useContext(AppContext);
+
   return (
     <DefaultPage>
       <IconList />
       <Row>
         <Col md={24}>
-          <MarkdownRenderer>{require(`.${localePath}/footer.md`)}</MarkdownRenderer>
+          <MarkdownRenderer>
+            {
+              // eslint-disable-next-line @typescript-eslint/no-var-requires
+              require(`.${localePath}/footer.md`)?.default
+            }
+          </MarkdownRenderer>
         </Col>
       </Row>
     </DefaultPage>

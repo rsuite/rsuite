@@ -66,5 +66,9 @@ export default {
     figmaDescription: 'Open source library that can be used directly on Figma.',
     sketchHeader: 'Sketch Symbols',
     sketchDescription: 'Provide symbols imported by Sketch.'
+  },
+  resourcesIcons: {
+    searchNoResults: 'No results for',
+    tryOther: 'Try using the following icons:'
   }
 };
