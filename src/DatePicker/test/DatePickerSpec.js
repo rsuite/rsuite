@@ -240,13 +240,8 @@ describe('DatePicker', () => {
     const onCleanSpy = sinon.spy();
     const { getByRole } = render(<DatePicker defaultValue={new Date()} onClean={onCleanSpy} />);
 
-    act(() => {
-      fireEvent.focus(getByRole('combobox'));
-    });
-
-    act(() => {
-      fireEvent.click(getByRole('button', { name: /clear/i }));
-    });
+    fireEvent.focus(getByRole('combobox'));
+    fireEvent.click(getByRole('button', { name: /clear/i }));
 
     expect(onCleanSpy).to.calledOnce;
     expect(getByRole('combobox')).to.have.class('rs-picker-toggle-active');
@@ -463,9 +458,7 @@ describe('DatePicker', () => {
     const { getByRole } = render(<DatePicker onFocus={onFocusSpy} defaultValue={new Date()} />);
     const input = getByRole('combobox').querySelector('input');
 
-    act(() => {
-      fireEvent.focus(input);
-    });
+    fireEvent.focus(input);
 
     expect(onFocusSpy).to.have.been.calledOnce;
     expect(getByRole('combobox')).to.have.class('rs-picker-toggle-active');
