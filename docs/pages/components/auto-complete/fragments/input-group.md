@@ -23,14 +23,14 @@ const App = () => (
   <>
     <InputGroup style={styles}>
       <AutoComplete data={data} />
-      <InputGroup.Button>
+      <InputGroup.Button tabIndex={-1}>
         <SearchIcon />
       </InputGroup.Button>
     </InputGroup>
 
     <InputGroup inside style={styles}>
       <AutoComplete data={data} />
-      <InputGroup.Button>
+      <InputGroup.Button tabIndex={-1}>
         <SearchIcon />
       </InputGroup.Button>
     </InputGroup>
