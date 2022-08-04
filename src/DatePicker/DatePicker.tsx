@@ -576,7 +576,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             as={toggleAs}
             ref={targetRef}
             appearance={appearance}
-            input
+            editable
             inputValue={value ? formatDate(value, formatStr) : ''}
             inputPlaceholder={
               typeof placeholder === 'string' && placeholder ? placeholder : formatStr
