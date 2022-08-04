@@ -53,7 +53,7 @@ function IconList() {
       return (
         <div className="rs-col-md-24">
           <p className="icon-list-no-results-title">
-            {messages?.resourcesIcons.searchNoResults} &quot;<strong>{keyword}</strong>&ldquo;
+            {messages?.resourcesIcons.searchNoResults} &quot;<strong>{keyword}</strong>&quot;
           </p>
           <hr />
           <p className="icon-list-no-results-help">{messages?.resourcesIcons.tryOther}</p>
