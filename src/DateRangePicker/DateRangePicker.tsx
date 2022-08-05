@@ -226,9 +226,31 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    */
   const updateCalendarDateRange = useCallback(
     (value: SelectedDatesState | null, calendarKey?: 'start' | 'end') => {
-      setCalendarDate(getCalendarDate({ value, calendarKey }));
+      let nextValue = value;
+
+      const { shouldTime, getHours, getMinutes, getSeconds, set } = DateUtils;
+
+      if (
+        shouldTime(formatStr) &&
+        calendarKey === undefined &&
+        value?.length === 1 &&
+        defaultCalendarValue?.length === 2
+      ) {
+        const calendarEndDate = calendarDate?.[1] || defaultCalendarValue[1];
+        const startDate = value[0];
+
+        // When updating the start date, the time of the end date should keep the time set by the user by default.
+        const endDate = set(addMonths(startDate, 1), {
+          hours: getHours(calendarEndDate),
+          minutes: getMinutes(calendarEndDate),
+          seconds: getSeconds(calendarEndDate)
+        });
+
+        nextValue = [startDate, endDate];
+      }
+      setCalendarDate(getCalendarDate({ value: nextValue, calendarKey }));
     },
-    []
+    [calendarDate, defaultCalendarValue, formatStr]
   );
 
   // if valueProp changed then update selectValue/hoverValue
@@ -606,9 +628,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         isSameMonth(startDate, endData) ? addMonths(endData, 1) : endData
       ];
     } else {
-      nextCalendarDate = getCalendarDate({
-        value: defaultCalendarValue ?? null
-      });
+      // Reset the date on the calendar to the default date
+      nextCalendarDate = getCalendarDate({ value: defaultCalendarValue ?? null });
     }
 
     setSelectedDates(value ?? []);

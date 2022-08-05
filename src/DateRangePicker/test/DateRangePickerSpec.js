@@ -727,4 +727,25 @@ describe('DateRangePicker', () => {
 
     expect(onFocusSpy).to.have.been.calledOnce;
   });
+
+  it('Should leave time unchanged when defaultCalendarValue is set', () => {
+    const onSelectSpy = sinon.spy();
+    const { getByRole } = render(
+      <DateRangePicker
+        open
+        format="yyyy-MM-dd HH:mm:ss"
+        onSelect={onSelectSpy}
+        defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
+      />
+    );
+
+    expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+    expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+
+    fireEvent.click(getByRole('gridcell', { name: '07 Feb 2022' }).firstChild);
+
+    expect(onSelectSpy).to.have.been.calledOnce;
+    expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+    expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+  });
 });

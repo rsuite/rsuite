@@ -43,6 +43,7 @@ export { default as startOfWeek } from 'date-fns/startOfWeek';
 export { default as subDays } from 'date-fns/subDays';
 export { default as isMatch } from 'date-fns/isMatch';
 export { default as isValid } from 'date-fns/isValid';
+export { default as set } from 'date-fns/set';
 
 const disabledTimeProps = ['disabledHours', 'disabledMinutes', 'disabledSeconds'];
 const hideTimeProps = ['hideHours', 'hideMinutes', 'hideSeconds'];
