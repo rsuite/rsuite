@@ -819,4 +819,14 @@ describe('DateRangePicker', () => {
       expect(onCloseSpy).to.not.called;
     });
   });
+
+  it('Should call onFocus callback', () => {
+    const onFocusSpy = sinon.spy();
+    const { getByRole } = render(<DateRangePicker onFocus={onFocusSpy} />);
+    const input = getByRole('combobox').querySelector('input');
+
+    fireEvent.focus(input);
+
+    expect(onFocusSpy).to.have.been.calledOnce;
+  });
 });

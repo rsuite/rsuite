@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import enGB from 'date-fns/locale/en-GB';
 import ReactTestUtils from 'react-dom/test-utils';
 import { format, isSameDay, parseISO } from '../../utils/dateUtils';
@@ -221,10 +222,22 @@ describe('DatePicker', () => {
 
   it('Should call `onClean` callback', () => {
     const onCleanSpy = sinon.spy();
-    const instance = getDOMNode(<DatePicker defaultValue={new Date()} onClean={onCleanSpy} />);
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    const { getByRole } = render(<DatePicker defaultValue={new Date()} onClean={onCleanSpy} />);
+
+    fireEvent.click(getByRole('button', { name: /clear/i }));
 
     expect(onCleanSpy).to.calledOnce;
+  });
+
+  it('Should remain active after clearing the value', () => {
+    const onCleanSpy = sinon.spy();
+    const { getByRole } = render(<DatePicker defaultValue={new Date()} onClean={onCleanSpy} />);
+
+    fireEvent.focus(getByRole('combobox'));
+    fireEvent.click(getByRole('button', { name: /clear/i }));
+
+    expect(onCleanSpy).to.calledOnce;
+    expect(getByRole('combobox')).to.have.class('rs-picker-toggle-active');
   });
 
   it('Should call `onSelect` callback', () => {
@@ -420,25 +433,27 @@ describe('DatePicker', () => {
     fireEvent.click(instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn'));
   });
 
-  it('Should call onBlur callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<DatePicker onBlur={doneOp} />);
+  it('Should call onBlur callback', async () => {
+    const onBlurSpy = sinon.spy();
+    const { getByRole } = render(<DatePicker onBlur={onBlurSpy} />);
 
-    const toggle = instance.querySelector('.rs-picker-toggle');
+    fireEvent.blur(getByRole('combobox'));
 
-    ReactTestUtils.Simulate.blur(toggle);
+    await waitFor(() => {
+      expect(onBlurSpy).to.have.been.calledOnce;
+      expect(getByRole('combobox')).to.not.have.class('rs-picker-toggle-active');
+    });
   });
 
-  it('Should call onFocus callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<DatePicker onFocus={doneOp} />);
-    const toggle = instance.querySelector('.rs-picker-toggle');
+  it('Should call onFocus callback', () => {
+    const onFocusSpy = sinon.spy();
+    const { getByRole } = render(<DatePicker onFocus={onFocusSpy} defaultValue={new Date()} />);
+    const input = getByRole('combobox').querySelector('input');
 
-    ReactTestUtils.Simulate.focus(toggle);
+    fireEvent.focus(input);
+
+    expect(onFocusSpy).to.have.been.calledOnce;
+    expect(getByRole('combobox')).to.have.class('rs-picker-toggle-active');
   });
 
   it('Should have a custom className prefix', () => {
@@ -620,5 +635,23 @@ describe('DatePicker', () => {
 
       expect(getByLabelText('gear')).to.have.class('rs-icon');
     });
+  });
+
+  it('Should switch to the previous or next element via the tab key', () => {
+    render(
+      <>
+        <DatePicker data-testid="picker-1" value={new Date('2022-01-01')} />
+        <DatePicker data-testid="picker-2" value={new Date('2022-01-02')} />
+      </>
+    );
+
+    userEvent.tab();
+    expect(document.activeElement).to.value('2022-01-01');
+
+    userEvent.tab();
+    expect(document.activeElement).to.value('2022-01-02');
+
+    userEvent.tab({ shift: true });
+    expect(document.activeElement).to.value('2022-01-01');
   });
 });

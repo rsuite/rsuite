@@ -1,47 +1,13 @@
-import reactRefresh from '@vitejs/plugin-react-refresh';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 const PORT = 3000;
 
-/**@type {import('vite').UserConfig} */
-const publicConfig = {
-  plugins: [reactRefresh()],
-  css: {
-    preprocessorOptions: {
-      less: {
-        javascriptEnabled: true
-      }
-    }
-  },
-  build: {
-    assetsInlineLimit: 8 * 1024,
-    outDir: 'build',
-    assetsDir: 'assets',
-    sourcemap: 'inline'
+// If you want to run directly in the rsuite project, you need to delete the postcss.config.js file in the root directory
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000
   }
-};
-
-export default ({ command, mode }) => {
-  if (command === 'serve') {
-    /**@type {import('vite').UserConfig} */
-    return {
-      ...publicConfig,
-      define: {
-        'process.env.RUN_ENV': JSON.stringify(''),
-        'process.env.NODE_ENV': JSON.stringify('development')
-      },
-      server: {
-        port: PORT
-        // proxy
-      }
-    };
-  } else {
-    /**@type {import('vite').UserConfig} */
-    return {
-      ...publicConfig,
-      define: {
-        'process.env.RUN_ENV': JSON.stringify(''),
-        'process.env.NODE_ENV': JSON.stringify('product')
-      }
-    };
-  }
-};
+});

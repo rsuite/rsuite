@@ -1,3 +1,9 @@
+## [5.16.4](https://github.com/rsuite/rsuite/compare/v5.16.3...v5.16.4) (2022-08-04)
+
+### Bug Fixes
+
+- **DatePicker:** fix issues with focus event ([#2636](https://github.com/rsuite/rsuite/issues/2636)) ([76b68aa](https://github.com/rsuite/rsuite/commit/76b68aa79dd129a210238517c279fe41b0da89ac))
+
 ## [5.16.3](https://github.com/rsuite/rsuite/compare/v5.16.2...v5.16.3) (2022-07-29)
 
 ### Bug Fixes
