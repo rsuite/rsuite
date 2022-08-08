@@ -4,17 +4,29 @@
 import { AutoComplete } from 'rsuite';
 
 const data = [
-  'HYPER Advertiser',
-  'HYPER Web Analytics',
-  'HYPER Video Analytics',
-  'HYPER DMP 中文',
-  'HYPER Ad Serving',
-  'HYPER Data Discovery'
+  'Eugenia',
+  'Bryan',
+  'Linda',
+  'Nancy',
+  'Lloyd',
+  'Alice',
+  'Julia',
+  'Albert',
+  'Louisa',
+  'Lester',
+  'Lola',
+  'Lydia',
+  'Hal',
+  'Hannah',
+  'Harriet',
+  'Hattie',
+  'Hazel',
+  'Hilda'
 ];
 
 const App = () => {
   const [value, setValue] = React.useState('');
-  return <AutoComplete data={data} value={value} onChange={setValue} />;
+  return <AutoComplete data={data} value={value} onChange={setValue} style={{ width: 224 }} />;
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));

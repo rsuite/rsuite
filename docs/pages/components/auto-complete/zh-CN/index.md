@@ -12,7 +12,7 @@
 
 <!--{include:`basic.md`}-->
 
-### 自动补齐
+### 自动补齐后缀
 
 <!--{include:`email.md`}-->
 

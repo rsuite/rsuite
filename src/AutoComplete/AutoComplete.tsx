@@ -31,7 +31,7 @@ export type ValueType = string;
 
 export interface AutoCompleteProps<T = ValueType>
   extends WithAsProps,
-    FormControlPickerProps<T, any, ItemDataType> {
+    FormControlPickerProps<T, any, ItemDataType | string> {
   /** Additional classes for menu */
   menuClassName?: string;
 
@@ -46,6 +46,9 @@ export interface AutoCompleteProps<T = ValueType>
 
   /** Placeholder text */
   placeholder?: string;
+
+  /** The width of the menu will automatically follow the width of the input box */
+  menuAutoWidth?: boolean;
 
   /** Custom filter function to determine whether the item will be displayed */
   filterBy?: (value: string, item: ItemDataType) => boolean;
@@ -92,6 +95,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       selectOnEnter = true,
       classPrefix = 'auto-complete',
       defaultValue = '',
+      menuAutoWidth = true,
       data,
       value: valueProp,
       open,
@@ -254,6 +258,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
           className={className}
           onKeyDown={handleKeyDownEvent}
           target={triggerRef}
+          autoWidth={menuAutoWidth}
         >
           {renderMenu ? renderMenu(menu) : menu}
         </PickerOverlay>
@@ -298,6 +303,7 @@ AutoComplete.propTypes = {
   defaultValue: PropTypes.string,
   className: PropTypes.string,
   menuClassName: PropTypes.string,
+  menuAutoWidth: PropTypes.bool,
   placement: PropTypes.oneOf(PLACEMENT),
   onFocus: PropTypes.func,
   onMenuFocus: PropTypes.func,
