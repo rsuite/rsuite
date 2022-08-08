@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import AutoComplete from '../AutoComplete';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
@@ -259,5 +260,21 @@ describe('AutoComplete', () => {
     );
 
     assert.equal(instance4.overlay.querySelectorAll('[role="option"]').length, 1);
+  });
+
+  it('Should set minimum width for listbox', () => {
+    const { getByRole } = render(
+      <AutoComplete
+        data={['item1', 'item2', 'item3']}
+        defaultValue="item"
+        open
+        menuAutoWidth
+        style={{ width: 100 }}
+      />
+    );
+
+    const listbox = getByRole('listbox');
+
+    expect(listbox.parentNode.style.minWidth).to.equal('100px');
   });
 });

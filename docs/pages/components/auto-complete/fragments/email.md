@@ -21,7 +21,9 @@ const App = () => {
     setData(nextData);
   };
 
-  return <AutoComplete data={data} placeholder="Email" onChange={handleChange} />;
+  return (
+    <AutoComplete data={data} placeholder="Email" onChange={handleChange} style={{ width: 224 }} />
+  );
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
