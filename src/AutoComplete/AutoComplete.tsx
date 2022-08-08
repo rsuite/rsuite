@@ -31,7 +31,7 @@ export type ValueType = string;
 
 export interface AutoCompleteProps<T = ValueType>
   extends WithAsProps,
-    FormControlPickerProps<T, any, ItemDataType> {
+    FormControlPickerProps<T, any, ItemDataType | string> {
   /** Additional classes for menu */
   menuClassName?: string;
 
