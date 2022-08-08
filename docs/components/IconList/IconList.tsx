@@ -1,8 +1,10 @@
-import React from 'react';
-import { Input, Modal, Button, FlexboxGrid } from 'rsuite';
+import React, { useCallback, useState, useContext } from 'react';
+import { Input, Modal, Button, FlexboxGrid, InputGroup } from 'rsuite';
+import SearchIcon from '@rsuite/icons/Search';
+import Link from '@/components/Link';
 import IconItem from './IconItem';
 import AppContext from '@/components/AppContext';
-import allIconMeta from '@rsuite/icons/meta.json';
+import iconList from '@rsuite/icons/meta.json';
 import * as Icons from '@rsuite/icons';
 
 interface IconMeta {
@@ -21,41 +23,55 @@ const parseIconByCategory = (obj, conf) => {
   return obj;
 };
 
-const notLegacy = ({ categoryName }) => categoryName !== 'legacy';
-
-const iconMeta: IconMeta[] = allIconMeta.filter(notLegacy);
-
-const NoneDom = () => <div className="rs-col-md-24">Null</div>;
+const usableIconList: IconMeta[] = iconList.filter(({ categoryName }) => categoryName !== 'legacy');
 
 function IconList() {
-  const [icons, setIcons] = React.useState<IconMeta[]>(iconMeta);
-  const { messages } = React.useContext(AppContext);
-  const [iconName, setIconName] = React.useState('');
-  const [showIcon, setShowIcon] = React.useState(false);
+  const { messages } = useContext(AppContext);
+  const [iconName, setIconName] = useState('');
+  const [showIcon, setShowIcon] = useState(false);
+  const [keyword, setKeyword] = useState('');
 
-  const handleSelect = React.useCallback((name, event) => {
-    console.log(name, event);
+  const handleSelect = useCallback(name => {
     setIconName(name);
     setShowIcon(true);
   }, []);
 
-  const handleClose = React.useCallback(() => {
+  const handleClose = useCallback(() => {
     setShowIcon(false);
   }, []);
 
-  const onSearch = React.useCallback(key => {
-    const upperCaseKey = key.toUpperCase();
-    setIcons(
-      iconMeta.filter(({ categoryName, componentName }: IconMeta) => {
-        return (
-          categoryName.toLocaleUpperCase().includes(upperCaseKey) ||
-          componentName.toLocaleUpperCase().includes(upperCaseKey)
-        );
-      })
-    );
-  }, []);
+  const renderIconList = useCallback(() => {
+    const key = keyword.toUpperCase();
+    const icons = usableIconList.filter(({ categoryName, componentName }: IconMeta) => {
+      return (
+        categoryName.toLocaleUpperCase().includes(key) ||
+        componentName.toLocaleUpperCase().includes(key)
+      );
+    });
 
-  const renderIcon = React.useCallback(() => {
+    if (icons.length === 0) {
+      return (
+        <div className="rs-col-md-24">
+          <p className="icon-list-no-results-title">
+            {messages?.resourcesIcons.searchNoResults} &quot;<strong>{keyword}</strong>&quot;
+          </p>
+          <hr />
+          <p className="icon-list-no-results-help">{messages?.resourcesIcons.tryOther}</p>
+          <ul>
+            <li>
+              <Link href="/components/icon/#font-awesome-icons">Font awesome icons</Link>
+            </li>
+            <li>
+              <Link href="/components/icon/#react-icons">React Icons</Link>
+            </li>
+            <li>
+              <Link href="/components/icon/#iconfont-icons">Iconfont Icons</Link>
+            </li>
+          </ul>
+        </div>
+      );
+    }
+
     const nextIcons = icons.reduce<{ [key: string]: IconMeta[] }>(parseIconByCategory, {});
     return Object.keys(nextIcons)
       .sort((a, b) => a.localeCompare(b))
@@ -76,20 +92,19 @@ function IconList() {
           </React.Fragment>
         );
       });
-  }, [icons, handleSelect]);
+  }, [handleSelect, keyword, messages]);
 
   const IconComponent = iconName ? Icons[iconName] : null;
 
   return (
     <div className="icon-list-wrap">
-      <Input
-        size="lg"
-        className="icon-search-input"
-        type="text"
-        placeholder={messages?.common.searchIcon}
-        onChange={onSearch}
-      />
-      <div className="row icon-item-list">{icons.length > 0 ? renderIcon() : <NoneDom />}</div>
+      <InputGroup inside size="lg" className="icon-search-input">
+        <Input type="text" placeholder={messages?.common.searchIcon} onChange={setKeyword} />
+        <InputGroup.Addon>
+          <SearchIcon />
+        </InputGroup.Addon>
+      </InputGroup>
+      <div className="row icon-item-list">{renderIconList()}</div>
       <Modal open={showIcon} onClose={handleClose}>
         <Modal.Header>
           <Modal.Title>{iconName}</Modal.Title>

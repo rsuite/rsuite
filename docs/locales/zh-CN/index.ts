@@ -65,5 +65,9 @@ export default {
     figmaDescription: '可以直接在 Figma 平台使用的开源组件包',
     sketchHeader: 'Sketch 组件包',
     sketchDescription: '提供给 Sketch 导入的组件包'
+  },
+  resourcesIcons: {
+    searchNoResults: '没有搜索结果',
+    tryOther: '尝试使用以下图标库:'
   }
 };
