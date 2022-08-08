@@ -12,7 +12,7 @@ Autocomplete function of input field.
 
 <!--{include:`basic.md`}-->
 
-### Autocomplete
+### Autocomplete suffix
 
 <!--{include:`email.md`}-->
 

@@ -11,12 +11,24 @@ const styles = {
 };
 
 const data = [
-  'HYPER Advertiser',
-  'HYPER Web Analytics',
-  'HYPER Video Analytics',
-  'HYPER DMP',
-  'HYPER Ad Serving',
-  'HYPER Data Discovery'
+  'Eugenia',
+  'Bryan',
+  'Linda',
+  'Nancy',
+  'Lloyd',
+  'Alice',
+  'Julia',
+  'Albert',
+  'Louisa',
+  'Lester',
+  'Lola',
+  'Lydia',
+  'Hal',
+  'Hannah',
+  'Harriet',
+  'Hattie',
+  'Hazel',
+  'Hilda'
 ];
 
 const App = () => (
