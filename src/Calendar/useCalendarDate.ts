@@ -15,6 +15,10 @@ const useCalendarDate = (value: Date | null | undefined, defaultDate: Date | und
     [calendarDate]
   );
 
+  const resetCalendarDate = useCallback(() => {
+    setValue(value ?? defaultDate ?? new Date());
+  }, [defaultDate, value]);
+
   useUpdateEffect(() => {
     if (value?.valueOf() !== valueRef.current?.valueOf()) {
       setCalendarDate(value ?? new Date());
@@ -22,7 +26,7 @@ const useCalendarDate = (value: Date | null | undefined, defaultDate: Date | und
     }
   }, [value]);
 
-  return { calendarDate, setCalendarDate };
+  return { calendarDate, setCalendarDate, resetCalendarDate };
 };
 
 export default useCalendarDate;

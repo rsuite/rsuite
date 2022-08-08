@@ -652,4 +652,32 @@ describe('DatePicker', () => {
     userEvent.tab({ shift: true });
     expect(document.activeElement).to.value('2022-01-01');
   });
+
+  it('Should reset to default time after clicking clear button', () => {
+    const onChangeSpy = sinon.spy();
+    const { getByRole } = render(
+      <DatePicker
+        open
+        calendarDefaultDate={new Date('2022-02-02 00:00:00')}
+        onChange={onChangeSpy}
+        format="yyyy-MM-dd HH:mm:ss"
+        ranges={[
+          {
+            label: 'custom-day',
+            value: new Date('2022-02-02 12:00:00')
+          }
+        ]}
+      />
+    );
+
+    userEvent.click(getByRole('button', { name: 'custom-day' }));
+
+    expect(isSameDay(onChangeSpy.getCall(0).args[0], new Date('2022-02-02'))).to.be.true;
+    expect(getByRole('button', { name: '12:00:00' })).to.exist;
+
+    userEvent.click(getByRole('button', { name: /clear/i }));
+
+    expect(onChangeSpy).to.have.been.calledWith(null);
+    expect(getByRole('button', { name: '00:00:00' })).to.exist;
+  });
 });
