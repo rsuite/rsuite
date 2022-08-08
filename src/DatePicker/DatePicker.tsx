@@ -178,7 +178,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const { merge, prefix } = useClassNames(classPrefix);
 
     const [value, setValue] = useControlled(valueProp, defaultValue);
-    const { calendarDate, setCalendarDate } = useCalendarDate(valueProp, calendarDefaultDate);
+    const { calendarDate, setCalendarDate, resetCalendarDate } = useCalendarDate(
+      valueProp,
+      calendarDefaultDate
+    );
     const [inputState, setInputState] = useState<InputState>();
     const { calendarState, reset, openMonth, openTime } = useCalendarState();
     const [active, setActive] = useState<boolean>(false);
@@ -324,10 +327,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      */
     const handleClean = useCallback(
       (event: React.SyntheticEvent) => {
-        setCalendarDate(new Date());
         updateValue(event, null);
+        resetCalendarDate();
       },
-      [setCalendarDate, updateValue]
+      [resetCalendarDate, updateValue]
     );
 
     /**
