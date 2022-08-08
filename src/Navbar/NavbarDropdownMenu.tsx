@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import omit from 'lodash/omit';
-import { mergeRefs, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
+import omit from 'lodash/omit';
+import isNil from 'lodash/isNil';
 import { StandardProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
-import useCustom from '../utils/useCustom';
+import { mergeRefs, useClassNames, useCustom } from '../utils';
 import { NavbarContext } from '.';
 import Disclosure from '../Disclosure';
 import NavContext from '../Nav/NavContext';
@@ -106,7 +106,7 @@ const NavbarDropdownMenu = React.forwardRef<
   return (
     <Disclosure
       hideOnClickOutside
-      trigger={['click', 'mouseover']}
+      trigger={['click', 'hover']}
       onToggle={(open, event) => onToggle?.(open, undefined, event)}
     >
       {({ open, ...props }, containerRef: React.Ref<HTMLElement>) => {
@@ -132,12 +132,19 @@ const NavbarDropdownMenu = React.forwardRef<
                   })
                 );
 
+                const dataAttributes: { [key: string]: any } = {
+                  'data-event-key': eventKey
+                };
+
+                if (!isNil(eventKey) && typeof eventKey !== 'string') {
+                  dataAttributes['data-event-key-type'] = typeof eventKey;
+                }
+
                 return (
                   <div
                     ref={mergeRefs(buttonRef, buttonRef as any)}
                     className={classes}
-                    data-event-key={eventKey}
-                    data-event-key-type={typeof eventKey}
+                    {...dataAttributes}
                     {...buttonProps}
                   >
                     {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}

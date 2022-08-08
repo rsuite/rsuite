@@ -11,10 +11,10 @@ import DisclosureButton from './DisclosureButton';
 import DisclosureContent from './DisclosureContent';
 import useClickOutside from '../utils/useClickOutside';
 
-export type DisclosureTrigger = 'click' | 'mouseover';
+export type DisclosureTrigger = 'click' | 'hover';
 
 export interface DisclosureRenderProps
-  extends Pick<React.HTMLAttributes<HTMLElement>, 'onMouseOver' | 'onMouseOut'> {
+  extends Pick<React.HTMLAttributes<HTMLElement>, 'onMouseEnter' | 'onMouseLeave'> {
   open: boolean;
 }
 
@@ -81,7 +81,7 @@ const Disclosure: DisclosureComponent = React.memo((props: DisclosureProps) => {
     handle: () => dispatch({ type: DisclosureActionTypes.Hide })
   });
 
-  const onMouseOver = useCallback(
+  const onMouseEnter = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
       if (!open) {
         dispatch({ type: DisclosureActionTypes.Show });
@@ -90,7 +90,7 @@ const Disclosure: DisclosureComponent = React.memo((props: DisclosureProps) => {
     },
     [open, dispatch, onToggle]
   );
-  const onMouseOut = useCallback(
+  const onMouseLeave = useCallback(
     (event: React.MouseEvent<HTMLElement>) => {
       if (open) {
         dispatch({ type: DisclosureActionTypes.Hide });
@@ -115,13 +115,13 @@ const Disclosure: DisclosureComponent = React.memo((props: DisclosureProps) => {
   const renderProps = useMemo(() => {
     const renderProps: DisclosureRenderProps = { open };
 
-    if (trigger.includes('mouseover')) {
-      renderProps.onMouseOver = onMouseOver;
-      renderProps.onMouseOut = onMouseOut;
+    if (trigger.includes('hover')) {
+      renderProps.onMouseEnter = onMouseEnter;
+      renderProps.onMouseLeave = onMouseLeave;
     }
 
     return renderProps;
-  }, [open, trigger, onMouseOver, onMouseOut]);
+  }, [open, trigger, onMouseEnter, onMouseLeave]);
 
   return (
     <DisclosureContext.Provider value={contextValue}>
