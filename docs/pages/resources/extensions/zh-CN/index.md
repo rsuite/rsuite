@@ -14,7 +14,10 @@
 | [@rsuite/document-nav][document-nav]           | ![npm][npm-document-nav]      | [文档][document-nav-docs]      | 基于 HTML 标题（h1-h6）标签自动生成文档导航。                                         |
 | [@rsuite/timezone-picker][timezone-picker]     | ![npm][npm-timezone-picker]   | [文档][timezone-picker-docs]   | 基于 `rsuite` UI 的时区选择器。                                                       |
 | [rsuite-color-picker][color-picker]            | ![npm][npm-color-picker]      | [文档][color-picker-docs]      | 一个颜色选择器 `ColorPicker`, 可以在 `rsuite` 中使用。 [@cXiaof][color-picker-author] |
+| [@rsuite/formik][rsuite/formik]                | ![npm][npm-formik]            | [document][formik-docs]        | Formik 兼容的 React Suite 表单组件                                                    |
 
+[rsuite/formik]: https://github.com/rsuite/formik
+[formik-docs]: https://github.com/rsuite/formik#rsuiteformik
 [schema-form]: https://github.com/rsuite/schema-form
 [schema-form-docs]: https://rsuite.github.io/schema-form/
 [charts]: https://github.com/rsuite/charts
@@ -40,3 +43,4 @@
 [npm-document-nav]: https://badge.fury.io/js/@rsuite%2Fdocument-nav.svg
 [npm-timezone-picker]: https://badge.fury.io/js/@rsuite%2Ftimezone-picker.svg
 [npm-color-picker]: https://badge.fury.io/js/rsuite-color-picker.svg
+[npm-formik]: https://badge.fury.io/js/@rsuite%2Fformik.svg
