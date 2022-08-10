@@ -7,8 +7,9 @@ import {
 
 import { PickerToggleProps } from './PickerToggle';
 import { PickerInstance, PickerComponent } from './types';
+import { DropdownMenuProps } from './DropdownMenu';
 
-export { default as DropdownMenu, DropdownMenuProps } from './DropdownMenu';
+export { default as DropdownMenu } from './DropdownMenu';
 export { default as DropdownMenuCheckItem } from './DropdownMenuCheckItem';
 export { default as DropdownMenuGroup } from './DropdownMenuGroup';
 export { default as DropdownMenuItem } from './DropdownMenuItem';
@@ -24,7 +25,8 @@ export type {
   PositionChildProps,
   PickerInstance,
   PickerComponent,
-  PickerToggleProps
+  PickerToggleProps,
+  DropdownMenuProps
 };
 export * from './utils';
 export * from './propTypes';
