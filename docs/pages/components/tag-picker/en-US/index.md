@@ -61,7 +61,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | disabledItemValues | string[]                                                                       | Disable item by value                                       |
 | groupBy            | string                                                                         | Set group condition key in data                             |
 | labelKey           | string `('label')`                                                             | Set label key in data                                       |
-| listProps          | [ListProps][listprops]                                                         | List-related properties in `react-virtualized`              |
+| listProps          | [ListProps][listprops]                                                         | List-related properties in `react-virtuoso`                 |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                       | Locale text                                                 |
 | menuMaxHeight      | number `(320)`                                                                 | The max height of Dropdown                                  |
 | menuClassName      | string                                                                         | A css class to apply to the Menu DOM node.                  |
@@ -102,6 +102,6 @@ Learn more in [Accessibility](/guide/accessibility).
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->
 
-[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
+[listprops]: https://virtuoso.dev/virtuoso-api-reference/#virtuoso-properties
 [tagprops]: https://rsuitejs.com/components/tag#Props
 [item]: #code-ts-item-data-type-code

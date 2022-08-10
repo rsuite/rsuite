@@ -49,7 +49,7 @@
 | getChildren             | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item]&gt;                              | 异步加载节点数据                                                                |
 | height                  | number `(360px)`                                                                                 | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
 | labelKey                | string `('label')`                                                                               | tree 数据结构 label 属性名称                                                    |
-| listProps               | [ListProps][listprops]                                                                           | `react-virtualized` 中 List 的相关属性                                          |
+| listProps               | [ListProps][listprops]                                                                           | `react-virtuoso` 中 List 的相关属性                                             |
 | onChange                | (values:string[]) => void                                                                        | 数据改变的回调函数                                                              |
 | onExpand                | (expandItemValues: any [], item: [ItemDataType][item], concat:(data, children) => Array) => void | 树节点展示时的回调                                                              |
 | onSelect                | (item: [ItemDataType][item],value:any, event) => void                                            | 选择树节点后的回调函数                                                          |
@@ -69,5 +69,5 @@
 - [`<TreePicker>`](/zh/components/tree-picker) 选择器组件，树形单项选择器。
 - [`<CheckTreePicker>`](/zh/components/check-tree-picker) 选择器组件，在 TreePicker 节点上支持 Checkbox，用于多选 。
 
-[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
+[listprops]: https://virtuoso.dev/virtuoso-api-reference/#virtuoso-properties
 [item]: #code-ts-item-data-type-code

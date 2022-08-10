@@ -503,47 +503,12 @@ describe('TreePicker', () => {
     expect(instance.overlay.querySelectorAll('.rs-tree-node')).to.length(4);
   });
 
-  it('Should to reset the option height', () => {
-    const instance = getInstance(
-      <TreePicker open virtualized data={data} listProps={{ rowHeight: 28 }} />
-    );
-
-    const node = instance.overlay.querySelector('.rs-tree-node');
-    assert.equal(node.style.height, '28px');
-  });
-
   it('Should catch the not set virtualized exception', () => {
     expect(() => {
       const ref = React.createRef();
       render(<TreePicker data={data} ref={ref} />);
       ref.current.list;
     }).to.throw(Error);
-  });
-
-  it('Should scroll the list by `scrollToRow`', () => {
-    const onScrollSpy = sinon.spy();
-    const ref = React.createRef();
-
-    act(() => {
-      render(
-        <TreePicker
-          data={data}
-          ref={ref}
-          virtualized
-          style={{ height: 30 }}
-          open
-          listProps={{
-            onScroll: onScrollSpy
-          }}
-        />
-      );
-    });
-
-    act(() => {
-      ref.current.list.scrollToRow(2);
-    });
-
-    expect(onScrollSpy).to.be.calledOnce;
   });
 
   it('Should item able to stringfy', () => {

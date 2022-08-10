@@ -590,28 +590,15 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should display the search result when in virtualized mode', () => {
-    const instance = getInstance(<CheckTreePicker open virtualized data={data} />);
+    const { getByRole } = render(<CheckTreePicker open virtualized data={data} />);
 
-    assert.equal(instance.overlay.querySelectorAll('.rs-check-tree-node').length, 2);
+    expect(getByRole('tree').querySelectorAll('.rs-check-tree-node')).to.be.lengthOf(2);
 
-    const searchBar = instance.overlay.querySelector('.rs-picker-search-bar-input');
+    const searchBar = getByRole('searchbox').querySelector('.rs-picker-search-bar-input');
 
-    act(() => {
-      Simulate.change(searchBar, {
-        target: { value: 'test' }
-      });
-    });
+    fireEvent.change(searchBar, { target: { value: 'test' } });
 
-    assert.equal(instance.overlay.querySelectorAll('.rs-check-tree-node').length, 4);
-  });
-
-  it('Should to reset the option height', () => {
-    const instance = getInstance(
-      <CheckTreePicker open virtualized data={data} listProps={{ rowHeight: 28 }} />
-    );
-
-    const node = instance.overlay.querySelector('.rs-check-tree-node');
-    assert.equal(node.style.height, '28px');
+    expect(getByRole('tree').querySelectorAll('.rs-check-tree-node')).to.be.lengthOf(4);
   });
 
   it('Should display indeterminate state when only one child node selected', () => {

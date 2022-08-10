@@ -476,16 +476,19 @@ describe('DatePicker', () => {
 
   it('Should call onChange after setting oneTap and clicking month', () => {
     const onChangeSpy = sinon.spy();
-    const instance = getInstance(
-      <DatePicker onChange={onChangeSpy} format="yyyy-MM" oneTap defaultOpen />
+    const { getByRole } = render(
+      <DatePicker
+        onChange={onChangeSpy}
+        format="yyyy-MM"
+        oneTap
+        defaultOpen
+        value={new Date(1900, 1, 1)}
+      />
     );
 
-    const activeMonth = instance.overlay.querySelector(
-      '.rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content'
-    );
+    fireEvent.click(getByRole('menu').querySelector('.rs-calendar-month-dropdown-cell-active'));
 
-    ReactTestUtils.Simulate.click(activeMonth);
-    assert.isTrue(isSameDay(onChangeSpy.firstCall.firstArg, new Date()));
+    expect(isSameDay(onChangeSpy.firstCall.firstArg, new Date(1900, 1, 1))).to.be.true;
   });
 
   it('Should be show meridian', () => {

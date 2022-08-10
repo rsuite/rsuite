@@ -14,7 +14,13 @@ describe('Calendar-MonthDropdown', () => {
           date: new Date()
         }}
       >
-        <MonthDropdown show ref={ref} />
+        <MonthDropdown
+          show
+          ref={ref}
+          listProps={{
+            initialItemCount: 8
+          }}
+        />
       </CalendarContext.Provider>
     );
     assert.equal(ref.current.querySelectorAll('.rs-calendar-month-dropdown-year').length, 8);
@@ -27,7 +33,13 @@ describe('Calendar-MonthDropdown', () => {
     const ref = React.createRef();
     render(
       <CalendarContext.Provider value={{ onChangePageDate, date: new Date() }}>
-        <MonthDropdown show ref={ref} />
+        <MonthDropdown
+          show
+          ref={ref}
+          listProps={{
+            initialItemCount: 8
+          }}
+        />
       </CalendarContext.Provider>
     );
     ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-calendar-month-dropdown-cell'));
@@ -39,10 +51,15 @@ describe('Calendar-MonthDropdown', () => {
       <CalendarContext.Provider value={{ date: new Date(2019, 8, 1) }}>
         <MonthDropdown
           show
+          limitStartYear={5}
+          limitEndYear={5}
           disabledMonth={d => {
             const today = new Date(2019, 8, 6);
             const d2 = new Date(today.getTime() - 240 * 60 * 60 * 1000);
             return d.getTime() > today.getTime() || d.getTime() < d2.getTime();
+          }}
+          listProps={{
+            initialItemCount: 11
           }}
           ref={ref}
         />

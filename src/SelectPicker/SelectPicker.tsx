@@ -17,6 +17,7 @@ import {
 } from '../utils';
 import {
   DropdownMenu,
+  DropdownMenuProps,
   DropdownMenuItem,
   PickerToggle,
   PickerToggleTrigger,
@@ -36,7 +37,6 @@ import {
   PickerToggleProps
 } from '../Picker';
 
-import { ListProps } from '../Picker/VirtualizedList';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 export interface SelectProps<T> {
@@ -49,11 +49,7 @@ export interface SelectProps<T> {
   /** Whether using virtualized list */
   virtualized?: boolean;
 
-  /**
-   * List-related properties in `react-virtualized`
-   * https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
-   */
-  listProps?: Partial<ListProps>;
+  listProps?: DropdownMenuProps['listProps'];
 
   /** Custom search rules. */
   searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;

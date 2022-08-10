@@ -25,11 +25,10 @@ const App = () => {
         <InputNumber value={index} onChange={setIndex} style={{ width: 100, marginRight: 10 }} />
         <Button
           onClick={() => {
-            // https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#scrolltorow-index-number
-            treeRef.current.list.scrollToRow(index);
+            treeRef.current.list.scrollToIndex(parseInt(index, 10));
           }}
         >
-          scrollToRow
+          scrollToIndex
         </Button>
       </div>
     </div>

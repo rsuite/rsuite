@@ -25,7 +25,7 @@ describe('DateRangePicker - Calendar', () => {
     expect(instance.querySelector('.rs-calendar-header-title')).to.text('2017-08');
   });
 
-  it('Should call `onChangeCalendarDate` callback', () => {
+  it('Should call `onChangeCalendarDate` callback by click backward', () => {
     const onChangeCalendarDateSpy = sinon.spy();
     const instance = getDOMNode(
       <Calendar
@@ -40,7 +40,7 @@ describe('DateRangePicker - Calendar', () => {
     expect(onChangeCalendarDateSpy).to.have.been.called;
   });
 
-  it('Should call `onChangeCalendarDate` callback', () => {
+  it('Should call `onChangeCalendarDate` callback by click forward', () => {
     const onChangeCalendarDateSpy = sinon.spy();
     const instance = getDOMNode(
       <Calendar
@@ -54,7 +54,7 @@ describe('DateRangePicker - Calendar', () => {
     expect(onChangeCalendarDateSpy).to.have.been.called;
   });
 
-  it('Should call `onChangeCalendarDate` callback', () => {
+  it('Should call `onChangeCalendarDate` callback by click month', () => {
     const onChangeCalendarDateSpy = sinon.spy();
     const instance = getDOMNode(
       <Calendar

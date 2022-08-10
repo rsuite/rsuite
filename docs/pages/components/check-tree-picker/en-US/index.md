@@ -69,7 +69,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | getChildren             | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item]&gt;                                | load node children data asynchronously                                    |
 | height                  | number `(360px)`                                                                                   | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                                 | set label key in data                                                     |
-| listProps               | [ListProps][listprops]                                                                             | List-related properties in `react-virtualized`                            |
+| listProps               | [ListProps][listprops]                                                                             | List-related properties in `react-virtuoso`                               |
 | locale                  | [PickerLocaleType](/guide/i18n/#pickers)                                                           | Locale text                                                               |
 | menuClassName           | string                                                                                             | className for Menu                                                        |
 | menuStyle               | CSSProperties                                                                                      | style for Menu                                                            |
@@ -114,5 +114,5 @@ Learn more in [Accessibility](/guide/accessibility).
 - [`<Tree>`](/components/tree)
 - [`<TreePicker>`](/components/tree-picker)
 
-[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
+[listprops]: https://virtuoso.dev/virtuoso-api-reference/#virtuoso-properties
 [item]: #code-ts-item-data-type-code

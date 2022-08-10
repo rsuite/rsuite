@@ -5,6 +5,7 @@ import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
+import { VirtualizedListHandle } from '../Picker/VirtualizedList';
 import { OverlayTriggerInstance } from './PickerToggleTrigger';
 import { findNodeOfTree, filterNodesOfTree } from '../utils/treeUtils';
 import {
@@ -15,7 +16,6 @@ import {
   placementPolyfill
 } from '../utils';
 import { TypeAttributes, ItemDataType } from '../@types/common';
-import { ListInstance } from './VirtualizedList';
 
 interface NodeKeys {
   valueKey: string;
@@ -540,13 +540,13 @@ interface PickerDependentParameters {
   rootRef?: React.RefObject<HTMLElement>;
   overlayRef?: React.RefObject<HTMLElement>;
   targetRef?: React.RefObject<HTMLElement>;
-  listRef?: React.RefObject<ListInstance>;
+  listRef?: React.RefObject<VirtualizedListHandle>;
   inline?: boolean;
 }
 
 interface PickerInstance {
   root: HTMLElement | null;
-  list?: ListInstance;
+  list?: VirtualizedListHandle;
   overlay?: HTMLElement | null;
   target?: HTMLElement | null;
   updatePosition?: () => void;

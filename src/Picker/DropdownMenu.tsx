@@ -8,7 +8,7 @@ import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
 import getHeight from 'dom-lib/getHeight';
 import classNames from 'classnames';
-import { List, AutoSizer, ListProps } from './VirtualizedList';
+import VirtualizedList, { VirtualizedListProps } from '../Picker/VirtualizedList';
 import shallowEqual from '../utils/shallowEqual';
 import { mergeRefs, useClassNames } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
@@ -35,8 +35,8 @@ export interface DropdownMenuProps<Multiple = false>
   rowGroupHeight?: number;
   virtualized?: boolean;
 
-  // https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
-  listProps?: Partial<ListProps>;
+  // https://virtuoso.dev/virtuoso-api-reference/#virtuoso-properties
+  listProps?: Partial<VirtualizedListProps>;
 
   /** Custom selected option */
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
@@ -85,7 +85,6 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix('items', { grouped: group }));
 
-  const styles = { ...style, maxHeight };
   const menuBodyContainerRef = useRef<HTMLDivElement>(null);
   const [foldedGroupKeys, setFoldedGroupKeys] = useState<string[]>([]);
 
@@ -108,15 +107,21 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
     [onSelect]
   );
 
-  const getRowHeight = (list: any[], { index }) => {
-    const item = list[index];
+  const setItemSize = useCallback(
+    (el: HTMLElement, dimension: any) => {
+      if (dimension === 'height' || dimension === 'offsetHeight') {
+        const role = (el.firstChild as HTMLElement)?.getAttribute('role');
+        return role === 'group' ? rowGroupHeight : rowHeight;
+      }
 
-    if (group && item[KEY_GROUP] && index !== 0) {
-      return rowGroupHeight;
-    }
-
-    return rowHeight;
-  };
+      try {
+        return Math.round(el.getBoundingClientRect()[dimension]);
+      } catch (e) {
+        throw new Error(`Virtuoso itemSize: ${el} does not have getBoundingClientRect`);
+      }
+    },
+    [rowGroupHeight, rowHeight]
+  );
 
   useEffect(() => {
     const container = menuBodyContainerRef.current;
@@ -145,11 +150,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
     }
   }, [focusItemValue, menuBodyContainerRef, prefix]);
 
-  const renderItem = (
-    list: any[],
-    { index, style }: { index: number; style?: React.CSSProperties }
-  ) => {
-    const item = list[index];
+  const renderItem = (index: number, item: any) => {
     const value = item[valueKey];
     const label = item[labelKey];
 
@@ -169,7 +170,6 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
       // TODO: grouped options should be owned by group
       return (
         <DropdownMenuGroup
-          style={style}
           classPrefix={'picker-menu-group'}
           className={classNames({
             folded: foldedGroupKeys.some(key => key === groupValue)
@@ -190,7 +190,6 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
 
     return (
       <DropdownMenuItem
-        style={style}
         key={itemKey}
         disabled={disabled}
         active={active}
@@ -212,33 +211,27 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
   // Check whether the height of the data exceeds the height of the container.
   const useVirtualized = virtualized && rowCount * rowHeight > maxHeight;
 
+  const initialIndex = findIndex(filteredItems, item => item[valueKey] === activeItemValues?.[0]);
+
   return (
     <div
-      role={!useVirtualized ? 'listbox' : undefined}
+      role="listbox"
       {...rest}
       className={classes}
       ref={mergeRefs(menuBodyContainerRef, ref)}
-      style={styles}
+      style={{ ...style, maxHeight }}
     >
       {useVirtualized ? (
-        <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
-          {({ height, width }) => (
-            <List
-              role="listbox"
-              containerRole={''}
-              aria-readonly={undefined}
-              width={width}
-              height={height || maxHeight}
-              scrollToIndex={findIndex(data, item => item[valueKey] === activeItemValues?.[0])}
-              rowCount={rowCount}
-              rowHeight={getRowHeight.bind(this, filteredItems)}
-              rowRenderer={renderItem.bind(null, filteredItems)}
-              {...listProps}
-            />
-          )}
-        </AutoSizer>
+        <VirtualizedList
+          style={{ height: maxHeight }}
+          initialTopMostItemIndex={initialIndex > -1 ? initialIndex : 0}
+          data={filteredItems}
+          itemContent={renderItem}
+          itemSize={setItemSize}
+          {...listProps}
+        />
       ) : (
-        filteredItems.map((_item, index: number) => renderItem(filteredItems, { index }))
+        filteredItems.map((item, index) => renderItem(index, item))
       )}
     </div>
   );

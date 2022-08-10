@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { intersection, isUndefined, omit, isArray, isNil, clone, isEmpty } from 'lodash';
+import { VirtualizedListHandle } from '../Picker/VirtualizedList';
 import shallowEqualArray from '../utils/shallowEqualArray';
 import { TreeNodeType, TreeNodesType, getNodeCheckState } from '../CheckTreePicker/utils';
 import { TREE_NODE_DROP_POSITION, shallowEqual } from '../utils';
@@ -8,7 +9,6 @@ import { ItemDataType } from '../@types/common';
 import { TreePickerProps } from '../TreePicker/TreePicker';
 import { shouldDisplay } from '../Picker';
 import reactToString from './reactToString';
-import { ListInstance } from '../Picker/VirtualizedList';
 import { TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from './constants';
 import { attachParent } from './attachParent';
 
@@ -738,7 +738,9 @@ export function useFlattenTreeData({
   ): TreeNodeType[] => {
     const { cascade, searchKeyword } = options;
     return flattenTree(data, childrenKey, (node: any) => {
-      let formatted = {};
+      let formatted = {
+        visible: true
+      };
       const curNode = nodes?.[node.refKey];
       const parentKeys = getNodeParentKeys(nodes, curNode, valueKey);
       /**
@@ -924,7 +926,7 @@ export interface FocusToTreeNodeProps {
   activeNode: any;
   virtualized: boolean;
   container: HTMLElement | null;
-  list: ListInstance;
+  list: VirtualizedListHandle;
   formattedNodes: TreeNodeType[];
 }
 
@@ -945,7 +947,7 @@ export function focusToActiveTreeNode({
 
   if (virtualized && activeNode) {
     const scrollIndex = getScrollToIndex(formattedNodes, activeNode?.[valueKey], valueKey);
-    list.scrollToRow?.(scrollIndex);
+    list.scrollToIndex?.(scrollIndex);
     return;
   }
 

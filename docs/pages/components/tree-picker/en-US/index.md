@@ -67,7 +67,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | getChildren             | (node: [ItemDataType][item]) => Promise&lt;[ItemDataType][item]&gt;                               | load node children data asynchronously                                    |
 | height                  | number `(360px)`                                                                                  | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                                | Tree data structure Label property name                                   |
-| listProps               | [ListProps][listprops]                                                                            | List-related properties in `react-virtualized`                            |
+| listProps               | [ListProps][listprops]                                                                            | List-related properties in `react-virtuoso`                               |
 | locale                  | [PickerLocaleType](/guide/i18n/#pickers)                                                          | Locale text                                                               |
 | menuClassName           | string                                                                                            | A css class to apply to the Menu DOM node                                 |
 | menuStyle               | CSSProperties                                                                                     | style for Menu                                                            |
@@ -109,5 +109,5 @@ Learn more in [Accessibility](/guide/accessibility).
 - [`<Tree>`](/components/tree) Used to show a tree-structured data.
 - [`<CheckTree>`](/components/check-tree) Used to show a tree-structured data while supporting Checkbox selection.
 
-[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
+[listprops]: https://virtuoso.dev/virtuoso-api-reference/#virtuoso-properties
 [item]: #code-ts-item-data-type-code

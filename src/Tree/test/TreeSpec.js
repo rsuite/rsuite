@@ -116,9 +116,10 @@ describe('Tree', () => {
     }).to.throw('The list is not found, please set `virtualized` for the component.');
   });
 
-  it('Should scroll the list by `scrollToRow`', () => {
+  it('Should be virtualized', () => {
     const onScrollSpy = sinon.spy();
     const ref = React.createRef();
+
     render(
       <Tree
         data={data}
@@ -126,12 +127,13 @@ describe('Tree', () => {
         virtualized
         style={{ height: 30 }}
         listProps={{
+          initialItemCount: 2,
           onScroll: onScrollSpy
         }}
       />
     );
-    ref.current.list.scrollToRow(2);
-    assert.isTrue(onScrollSpy.calledOnce);
+
+    expect(ref.current.root.querySelectorAll('[data-index]')).to.have.lengthOf(2);
   });
 
   it('Should show indent line', () => {

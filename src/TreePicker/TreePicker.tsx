@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
-import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/VirtualizedList';
+import VirtualizedList, { VirtualizedListHandle } from '../Picker/VirtualizedList';
 import TreeNode from './TreeNode';
 import { getTreeNodeIndent } from '../utils/treeUtils';
 import { PickerLocale } from '../locales';
@@ -64,9 +64,6 @@ import { TreeDragProps, TreeBaseProps, DropData } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 import TreeContext from '../Tree/TreeContext';
-
-// default value for virtualized
-export const maxTreeHeight = 320;
 
 export interface TreePickerProps<T = number | string>
   extends TreeBaseProps<T, ItemDataType>,
@@ -168,7 +165,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   } = props;
   const triggerRef = useRef<OverlayTriggerInstance>(null);
   const targetRef = useRef<HTMLButtonElement>(null);
-  const listRef = useRef<ListInstance>(null);
+  const listRef = useRef<VirtualizedListHandle>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const treeViewRef = useRef<HTMLDivElement>(null);
@@ -205,6 +202,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       forceUpdate();
     }
   });
+
   const { prefix, merge } = useClassNames(classPrefix);
   const { prefix: treePrefix, withClassPrefix: withTreeClassPrefix } = useClassNames('tree');
 
@@ -734,32 +732,29 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     );
   };
 
-  const renderVirtualListNode =
-    (nodes: any[]) =>
-    ({ key, index, style }: ListRowProps) => {
-      const node = nodes[index];
-      const { layer, visible } = node;
+  const renderVirtualListNode = (_index: number, node: ItemDataType = {}) => {
+    const { layer, visible } = node;
 
-      const expand = getExpandWhenSearching(
-        searchKeywordState,
-        expandItemValues.includes(node[valueKey])
-      );
-      if (!node.visible) {
-        return null;
-      }
+    if (typeof layer !== 'number') {
+      return null;
+    }
 
-      const nodeProps = {
-        ...getTreeNodeProps({ ...node, expand }, layer),
-        style,
-        hasChildren: node.hasChildren
-      };
+    const expand = getExpandWhenSearching(
+      searchKeywordState,
+      expandItemValues.includes(node[valueKey])
+    );
+    if (!node.visible) {
+      return null;
+    }
 
-      return (
-        visible && (
-          <TreeNode ref={ref => saveTreeNodeRef(ref, node.refKey)} key={key} {...nodeProps} />
-        )
-      );
+    const nodeProps = {
+      ...getTreeNodeProps({ ...node, expand }, layer),
+      style,
+      hasChildren: node.hasChildren
     };
+
+    return visible && <TreeNode ref={ref => saveTreeNodeRef(ref, node.refKey)} {...nodeProps} />;
+  };
 
   const renderTree = () => {
     const classes = withTreeClassPrefix({
@@ -778,29 +773,18 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         style={styles}
         onKeyDown={inline ? handleTreeKeyDown : undefined}
       >
-        <div className={treePrefix('nodes')}>
-          {virtualized ? (
-            <AutoSizer
-              defaultHeight={inline ? height : maxTreeHeight}
-              style={{ width: 'auto', height: 'auto' }}
-            >
-              {({ height, width }) => (
-                <List
-                  ref={listRef}
-                  width={width}
-                  height={height}
-                  rowHeight={36}
-                  rowCount={formattedNodes.length}
-                  rowRenderer={renderVirtualListNode(formattedNodes)}
-                  scrollToAlignment="center"
-                  {...listProps}
-                />
-              )}
-            </AutoSizer>
-          ) : (
-            formattedNodes
-          )}
-        </div>
+        {virtualized ? (
+          <VirtualizedList
+            ref={listRef}
+            className={treePrefix('nodes')}
+            style={{ height: '100%' }}
+            data={formattedNodes}
+            itemContent={renderVirtualListNode}
+            {...listProps}
+          />
+        ) : (
+          <div className={treePrefix('nodes')}>{formattedNodes}</div>
+        )}
       </div>
     );
   };

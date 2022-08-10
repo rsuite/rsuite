@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback, useContext } from 'rea
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
-import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/VirtualizedList';
+import VirtualizedList, { VirtualizedListHandle } from '../Picker/VirtualizedList';
 import CheckTreeNode from './CheckTreeNode';
 import TreeContext from '../Tree/TreeContext';
 import { PickerLocale } from '../locales';
@@ -73,7 +73,6 @@ import {
 
 import { TreeBaseProps } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
-import { maxTreeHeight } from '../TreePicker/TreePicker';
 
 export type ValueType = (string | number)[];
 export interface CheckTreePickerProps<T = ValueType>
@@ -161,7 +160,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   const { inline } = useContext(TreeContext);
   const triggerRef = useRef<OverlayTriggerInstance>(null);
   const targetRef = useRef<HTMLButtonElement>(null);
-  const listRef = useRef<ListInstance>(null);
+  const listRef = useRef<VirtualizedListHandle>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const treeViewRef = useRef<HTMLDivElement>(null);
@@ -751,31 +750,28 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     );
   };
 
-  const renderVirtualListNode =
-    (nodes: any[]) =>
-    ({ key, index, style }: ListRowProps) => {
-      const node = nodes[index];
-      const { layer, refKey, visible } = node;
-      const expand = getExpandWhenSearching(
-        searchKeywordState,
-        expandItemValues.includes(node[valueKey])
-      );
-      const nodeProps = {
-        ...getTreeNodeProps({ ...node, expand }, layer),
-        hasChildren: node.hasChildren
-      };
+  const renderVirtualListNode = (_index: number, node: ItemDataType) => {
+    const { layer, refKey, visible } = node;
 
-      return (
-        visible && (
-          <CheckTreeNode
-            style={style}
-            key={key}
-            ref={ref => saveTreeNodeRef(ref, refKey)}
-            {...nodeProps}
-          />
-        )
-      );
+    if (typeof layer !== 'number') {
+      return null;
+    }
+
+    const expand = getExpandWhenSearching(
+      searchKeywordState,
+      expandItemValues.includes(node[valueKey])
+    );
+    const nodeProps = {
+      ...getTreeNodeProps({ ...node, expand }, layer),
+      hasChildren: node.hasChildren
     };
+
+    return (
+      visible && (
+        <CheckTreeNode style={style} ref={ref => saveTreeNodeRef(ref, refKey)} {...nodeProps} />
+      )
+    );
+  };
 
   const renderCheckTree = () => {
     const classes = withCheckTreeClassPrefix({
@@ -799,6 +795,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     });
 
     const styles = inline ? { height, ...style } : {};
+
     return (
       <div
         id={id ? `${id}-listbox` : undefined}
@@ -810,29 +807,18 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         onScroll={onScroll}
         onKeyDown={inline ? handleTreeKeydown : undefined}
       >
-        <div className={treeNodesClass}>
-          {virtualized ? (
-            <AutoSizer
-              defaultHeight={inline ? height : maxTreeHeight}
-              style={{ width: 'auto', height: 'auto' }}
-            >
-              {({ height, width }) => (
-                <List
-                  ref={listRef}
-                  width={width}
-                  height={height}
-                  rowHeight={36}
-                  rowCount={formattedNodes.length}
-                  rowRenderer={renderVirtualListNode(formattedNodes)}
-                  scrollToAlignment="center"
-                  {...listProps}
-                />
-              )}
-            </AutoSizer>
-          ) : (
-            formattedNodes
-          )}
-        </div>
+        {virtualized ? (
+          <VirtualizedList
+            ref={listRef}
+            className={treeNodesClass}
+            style={{ height: '100%' }}
+            data={formattedNodes}
+            itemContent={renderVirtualListNode}
+            {...listProps}
+          />
+        ) : (
+          <div className={treeNodesClass}>{formattedNodes}</div>
+        )}
       </div>
     );
   };

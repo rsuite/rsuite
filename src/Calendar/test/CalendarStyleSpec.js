@@ -58,7 +58,7 @@ describe('Calendar styles', () => {
 
   it('Click date title button should render correct styles', () => {
     const instanceRef = React.createRef();
-    render(<Calendar ref={instanceRef} />);
+    render(<Calendar ref={instanceRef} value={new Date(1, 12, 30)} />);
     const dom = getDOMNode(instanceRef.current);
 
     const dateTitleDom = dom.querySelector('.rs-calendar-header-title-date');

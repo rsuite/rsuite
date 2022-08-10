@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-
+import { fireEvent } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
@@ -130,7 +129,7 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-dropdown-menu-item')[1]);
+    fireEvent.click(instance.querySelectorAll('.rs-dropdown-menu-item')[1]);
   });
 
   it('Should call onGroupTitleClick callback', done => {
@@ -147,7 +146,7 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-menu-group'));
+    fireEvent.click(instance.querySelector('.rs-picker-menu-group'));
   });
 
   it('Should render custom item', () => {
@@ -225,21 +224,5 @@ describe('picker -  DropdownMenu', () => {
     );
 
     assert.equal(instance.querySelectorAll('[data-key="1"]').length, 1);
-  });
-
-  it('Should to reset the option height', () => {
-    const instance = getDOMNode(
-      <DropdownMenu
-        data={items}
-        maxHeight={50}
-        dropdownMenuItemAs={DropdownMenuItem}
-        classPrefix={classPrefix}
-        virtualized
-        listProps={{ rowHeight: 28 }}
-      />
-    );
-
-    const option = instance.querySelector('[role="option"]');
-    assert.equal(option.style.height, '28px');
   });
 });
