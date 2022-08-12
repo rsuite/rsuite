@@ -123,7 +123,7 @@ describe('DateRangePicker', () => {
     );
   });
 
-  it('Should select date time successfully', () => {
+  it.only('Should select date time successfully', () => {
     const defaultValue = [new Date(2019, 10, 11, 0, 0, 0), new Date(2019, 11, 11, 0, 0, 0)];
     const template = 'dd MMM yyyy HH:mm:ss';
     const onOkSpy = sinon.spy();
@@ -156,6 +156,7 @@ describe('DateRangePicker', () => {
     // press ok button
     ReactTestUtils.Simulate.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
+    expect(onOkSpy).to.have.been.called;
     assert.ok(
       isSameRange(
         [new Date(2019, 10, 11, 6, 6, 6), new Date(2019, 11, 11, 9, 9, 9)],
