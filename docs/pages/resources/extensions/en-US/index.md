@@ -14,7 +14,10 @@ In the product development process, components that meet the specified business 
 | [@rsuite/document-nav][document-nav]           | ![npm][npm-document-nav]      | [document][document-nav-docs]      | Document navigation is automatically generated based on the HTML title (h1-h6) tag.               |
 | [@rsuite/timezone-picker][timezone-picker]     | ![npm][npm-timezone-picker]   | [document][timezone-picker-docs]   | Time zone selector based on `rsuite` UI.                                                          |
 | [rsuite-color-picker][color-picker]            | ![npm][npm-color-picker]      | [document][color-picker-docs]      | Package a color picker extension that can select color for rsuite. [@cXiaof][color-picker-author] |
+| [@rsuite/formik][rsuite/formik]                | ![npm][npm-formik]            | [document][formik-docs]            | Formik-compatible React Suite form components                                                     |
 
+[rsuite/formik]: https://github.com/rsuite/formik
+[formik-docs]: https://github.com/rsuite/formik#rsuiteformik
 [schema-form]: https://github.com/rsuite/schema-form
 [schema-form-docs]: https://rsuite.github.io/schema-form/
 [charts]: https://github.com/rsuite/charts
@@ -40,3 +43,4 @@ In the product development process, components that meet the specified business 
 [npm-document-nav]: https://badge.fury.io/js/@rsuite%2Fdocument-nav.svg
 [npm-timezone-picker]: https://badge.fury.io/js/@rsuite%2Ftimezone-picker.svg
 [npm-color-picker]: https://badge.fury.io/js/rsuite-color-picker.svg
+[npm-formik]: https://badge.fury.io/js/@rsuite%2Fformik.svg

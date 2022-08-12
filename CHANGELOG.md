@@ -1,3 +1,11 @@
+## [5.16.5](https://github.com/rsuite/rsuite/compare/v5.16.4...v5.16.5) (2022-08-11)
+
+### Bug Fixes
+
+- **AutoComplete:** fix `listbox` not keeping the same width as `input` ([#2645](https://github.com/rsuite/rsuite/issues/2645)) ([ad09288](https://github.com/rsuite/rsuite/commit/ad09288e0fc38f964524466a79ca25532dc221f8))
+- **AutoComplete:** fix missing definition of string in datatype ([#2644](https://github.com/rsuite/rsuite/issues/2644)) ([528e291](https://github.com/rsuite/rsuite/commit/528e29154d188d928e3d93853f5ed0673b932b4a))
+- **DateRangePicker:** fix default time not working ([#2642](https://github.com/rsuite/rsuite/issues/2642)) ([915de28](https://github.com/rsuite/rsuite/commit/915de2820af418195e7f9a6ed228c1b05362d633))
+
 ## [5.16.4](https://github.com/rsuite/rsuite/compare/v5.16.3...v5.16.4) (2022-08-04)
 
 ### Bug Fixes
