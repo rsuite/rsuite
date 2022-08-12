@@ -1,6 +1,5 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
-import { getDOMNode } from '@test/testUtils';
+import { fireEvent, render } from '@testing-library/react';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
 import getDataGroupBy from '../../utils/getDataGroupBy';
@@ -27,22 +26,23 @@ const items = [
 
 describe('picker -  DropdownMenu', () => {
   it('Should output a `dropdown-menu-items` ', () => {
-    const instance = getDOMNode(
+    const { getByRole } = render(
       <DropdownMenu classPrefix={classPrefix} dropdownMenuItemAs={DropdownMenuItem} />
     );
-    assert.ok(instance.className.match(/\brs-dropdown-menu-items\b/));
+
+    expect(getByRole('listbox')).to.has.class('rs-dropdown-menu-items');
   });
 
   it('Should output 3 `menu-item` ', () => {
-    const instance = getDOMNode(
+    const { getAllByRole } = render(
       <DropdownMenu data={items} classPrefix={classPrefix} dropdownMenuItemAs={DropdownMenuItem} />
     );
 
-    assert.equal(instance.querySelectorAll('.rs-dropdown-menu-item').length, 3);
+    expect(getAllByRole('option')).to.have.lengthOf(3);
   });
 
   it('Should output a item group ', () => {
-    const instance = getDOMNode(
+    const { getAllByRole } = render(
       <DropdownMenu
         classPrefix={classPrefix}
         data={getDataGroupBy(items, 'groupKey')}
@@ -51,11 +51,11 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    assert.ok(instance.querySelector('.rs-picker-menu-group'));
+    expect(getAllByRole('group')).to.have.lengthOf(1);
   });
 
   it('Should be active item for value of `c', () => {
-    const instance = getDOMNode(
+    const { getByRole } = render(
       <DropdownMenu
         data={items}
         group
@@ -65,11 +65,11 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    assert.equal(instance.querySelector('.rs-dropdown-menu-item-active').textContent, 'c');
+    expect(getByRole('option', { selected: true })).to.text('c');
   });
 
   it('Should have a maxHeight', () => {
-    const instance = getDOMNode(
+    const { getByRole } = render(
       <DropdownMenu
         className="custom"
         maxHeight={200}
@@ -77,7 +77,8 @@ describe('picker -  DropdownMenu', () => {
         dropdownMenuItemAs={DropdownMenuItem}
       />
     );
-    assert.ok(instance.style.maxHeight, '200px');
+
+    expect(getByRole('listbox')).to.has.style('max-height', '200px');
   });
 
   it('Should output 3 `menu-item` ', () => {
@@ -96,7 +97,7 @@ describe('picker -  DropdownMenu', () => {
       }
     ];
 
-    const instance = getDOMNode(
+    const { getAllByRole } = render(
       <DropdownMenu
         labelKey="myLabel"
         valueKey="myValue"
@@ -106,51 +107,46 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    assert.equal(instance.querySelectorAll('.rs-dropdown-menu-item').length, 3);
+    expect(getAllByRole('option')).to.have.lengthOf(3);
   });
 
-  it('Should call onSelect callback with correct value', done => {
-    const doneOp = value => {
-      try {
-        assert.equal(value, 'b');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onSelect callback with correct value', () => {
+    const onSelectSpy = sinon.spy();
 
-    const instance = getDOMNode(
+    const { getAllByRole } = render(
       <DropdownMenu
         data={items}
         group
-        onSelect={doneOp}
+        onSelect={onSelectSpy}
         classPrefix={classPrefix}
         dropdownMenuItemAs={DropdownMenuItem}
       />
     );
 
-    fireEvent.click(instance.querySelectorAll('.rs-dropdown-menu-item')[1]);
+    fireEvent.click(getAllByRole('option')[1]);
+
+    expect(onSelectSpy).to.be.calledWith('b');
   });
 
-  it('Should call onGroupTitleClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(
+  it('Should call onGroupTitleClick callback', () => {
+    const onGroupTitleClickSpy = sinon.spy();
+    const { getByRole } = render(
       <DropdownMenu
         group
         data={getDataGroupBy(items, 'groupKey')}
-        onGroupTitleClick={doneOp}
+        onGroupTitleClick={onGroupTitleClickSpy}
         classPrefix={classPrefix}
         dropdownMenuItemAs={DropdownMenuItem}
       />
     );
 
-    fireEvent.click(instance.querySelector('.rs-picker-menu-group'));
+    fireEvent.click(getByRole('group'));
+
+    expect(onGroupTitleClickSpy).to.be.calledOnce;
   });
 
   it('Should render custom item', () => {
-    const instance = getDOMNode(
+    const { getByRole } = render(
       <DropdownMenu
         group
         classPrefix={classPrefix}
@@ -159,11 +155,12 @@ describe('picker -  DropdownMenu', () => {
         dropdownMenuItemAs={DropdownMenuItem}
       />
     );
-    assert.equal(instance.querySelectorAll('.rs-dropdown-menu-item i').length, 3);
+
+    expect(getByRole('listbox').querySelectorAll('i')).to.have.lengthOf(3);
   });
 
   it('Should render custom group ', () => {
-    const instance = getDOMNode(
+    const { getByRole } = render(
       <DropdownMenu
         group
         classPrefix={classPrefix}
@@ -172,37 +169,40 @@ describe('picker -  DropdownMenu', () => {
         dropdownMenuItemAs={DropdownMenuItem}
       />
     );
-    assert.equal(instance.querySelectorAll('.rs-picker-menu-group i').length, 1);
+
+    expect(getByRole('listbox').querySelectorAll('.rs-picker-menu-group i')).to.have.lengthOf(1);
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(
+    const { getByRole } = render(
       <DropdownMenu
         className="custom"
         classPrefix={classPrefix}
         dropdownMenuItemAs={DropdownMenuItem}
       />
     );
-    assert.ok(instance.className.match(/\bcustom\b/));
+
+    expect(getByRole('listbox')).to.has.class('custom');
   });
 
   it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(
+    const { getByRole } = render(
       <DropdownMenu
-        style={{ fontSize }}
+        style={{ fontSize: 12 }}
         classPrefix={classPrefix}
         dropdownMenuItemAs={DropdownMenuItem}
       />
     );
-    assert.equal(instance.style.fontSize, fontSize);
+
+    expect(getByRole('listbox')).to.has.style('font-size', '12px');
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(
+    const { getByRole } = render(
       <DropdownMenu dropdownMenuItemAs={DropdownMenuItem} classPrefix="custom-prefix" />
     );
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+
+    expect(getByRole('listbox')).to.has.class('rs-custom-prefix');
   });
 
   it('Should have a unique key on each option', () => {
@@ -212,7 +212,7 @@ describe('picker -  DropdownMenu', () => {
       groupValue: i + 1
     }));
 
-    const instance = getDOMNode(
+    const { getByRole } = render(
       <DropdownMenu
         group
         data={getDataGroupBy(mockData, 'groupValue')}
@@ -223,6 +223,6 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    assert.equal(instance.querySelectorAll('[data-key="1"]').length, 1);
+    getByRole('option', { name: 'TEST1' }).dataset.key.should.equal('1');
   });
 });
