@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useCallback } from 'react';
+import getStyle from 'dom-lib/getStyle';
 import { mergeRefs, useElementResize, useMount } from '../utils';
 
 export interface Size {
@@ -69,7 +70,7 @@ const AutoSizer = React.forwardRef<HTMLDivElement, AutoSizerProps>((props, ref) 
       const offsetHeight = parentNode.offsetHeight || 0;
       const offsetWidth = parentNode.offsetWidth || 0;
 
-      const style = window.getComputedStyle(parentNode) || {};
+      const style = getStyle(parentNode) as CSSStyleDeclaration;
       const paddingLeft = parseInt(style.paddingLeft, 10) || 0;
       const paddingRight = parseInt(style.paddingRight, 10) || 0;
       const paddingTop = parseInt(style.paddingTop, 10) || 0;
