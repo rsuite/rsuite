@@ -12,7 +12,7 @@ const data = Array.from({ length: 10000 }).map((_, index) => {
 
 const App = () => (
   <>
-    <SelectPicker data={data} style={{ width: 224 }} />
+    <SelectPicker data={data} style={{ width: 224 }} virtualized />
   </>
 );
 
