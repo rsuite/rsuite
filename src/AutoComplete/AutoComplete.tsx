@@ -14,7 +14,7 @@ import {
   usePublicMethods,
   pickTriggerPropKeys,
   PositionChildProps,
-  OverlayTriggerInstance,
+  OverlayTriggerHandle,
   PickerComponent
 } from '../Picker';
 
@@ -229,7 +229,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ disabled }));
-    const triggerRef = useRef<OverlayTriggerInstance>(null);
+    const triggerRef = useRef<OverlayTriggerHandle>(null);
 
     usePublicMethods(ref, { triggerRef, overlayRef });
 

@@ -63,7 +63,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('items'));
     const rootRef = useRef<HTMLDivElement>();
-    const rtl = useCustom('DropdownMenu');
+    const { rtl } = useCustom('DropdownMenu');
 
     useEffect(() => {
       const columns = rootRef.current?.querySelectorAll('[data-type="column"]') || [];
@@ -118,7 +118,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
-      const Icon = node.loading ? SpinnerIcon : rtl ? AngleRightIcon : AngleLeftIcon;
+      const Icon = node.loading ? SpinnerIcon : rtl ? AngleLeftIcon : AngleRightIcon;
 
       return (
         <DropdownMenuItem

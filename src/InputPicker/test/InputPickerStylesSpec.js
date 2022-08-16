@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import InputPicker from '../index';
 import Button from '../../Button';
-import { getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
+import { getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -23,8 +23,6 @@ const data = [
     role: 'Master'
   }
 ];
-
-const { H500 } = getDefaultPalette();
 
 describe('InputPicker styles', () => {
   it('Should render correct toggle styles', () => {
@@ -68,26 +66,6 @@ describe('InputPicker styles', () => {
     render(<InputPicker toggleAs={Button} size="xs" ref={instanceRef} data={data} />);
     const dom = instanceRef.current.root;
     assert.equal(getStyle(dom, 'height'), '24px', 'Toggle height');
-  });
-
-  it('Should render correct toggle styles when open', done => {
-    const instanceRef = React.createRef();
-    let dom;
-    render(
-      <InputPicker
-        ref={instanceRef}
-        data={data}
-        onOpen={() => {
-          inChrome &&
-            assert.equal(getStyle(dom, 'border'), `1px solid ${H500}`, 'Picker active border');
-          done();
-        }}
-        // For the test set transition to none.
-        style={{ transition: 'none' }}
-      />
-    );
-    dom = instanceRef.current.root;
-    instanceRef.current.open();
   });
 
   it('Should have correct height when disabled', () => {

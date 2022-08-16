@@ -74,6 +74,10 @@ Customize a select all function.
 
 <!--{include:`controlled.md`}-->
 
+### Virtualize Long Lists
+
+<!--{include:`virtualized.md`}-->
+
 ## Accessibility
 
 Learn more in [Accessibility](/guide/accessibility).
@@ -97,7 +101,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | groupBy            | string                                                                                             | Set group condition key in data                             |
 | label              | ReactNode                                                                                          | A label displayed at the beginning of toggle button         |
 | labelKey           | string `('label')`                                                                                 | Set label key in data                                       |
-| listProps          | [ListProps][listprops]                                                                             | List-related properties in `react-virtualized`              |
+| listProps          | [ListProps][listprops]                                                                             | Properties of virtualized lists                             |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                                           | Locale text                                                 |
 | menuMaxHeight      | number `(320)`                                                                                     | The max height of Dropdown                                  |
 | menuClassName      | string                                                                                             | A css class to apply to the Menu DOM node.                  |
@@ -135,10 +139,9 @@ Learn more in [Accessibility](/guide/accessibility).
 | virtualized        | boolean                                                                                            | Whether using Virtualized List                              |
 | caretAs            | ElementType                                                                                        | Custom component for the caret icon                         |
 
-[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
-
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->
+<!--{include:(_common/types/list-props.md)}-->
 
 ### `ts:ValueType`
 
@@ -148,3 +151,4 @@ type ValueType = (string | number)[];
 
 [item]: #code-ts-item-data-type-code
 [value]: #code-ts-value-type-code
+[listprops]: #code-ts-list-props-code

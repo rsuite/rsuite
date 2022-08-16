@@ -5,7 +5,7 @@ import isFunction from 'lodash/isFunction';
 import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
-import { OverlayTriggerInstance } from './PickerToggleTrigger';
+import { OverlayTriggerHandle } from './PickerToggleTrigger';
 import { findNodeOfTree, filterNodesOfTree } from '../utils/treeUtils';
 import {
   KEY_VALUES,
@@ -15,12 +15,14 @@ import {
   placementPolyfill
 } from '../utils';
 import { TypeAttributes, ItemDataType } from '../@types/common';
-import { ListInstance } from './VirtualizedList';
+import type { ListHandle } from '../Windowing';
+import type { PickerHandle } from './types';
 
-interface NodeKeys {
+export interface NodeKeys {
   valueKey: string;
   childrenKey: string;
 }
+
 const defaultNodeKeys = {
   valueKey: 'value',
   childrenKey: 'children'
@@ -55,7 +57,7 @@ export function shouldDisplay(label: React.ReactNode, searchKeyword: string) {
   return false;
 }
 
-interface PickerClassNameProps {
+export interface PickerClassNameProps {
   name?: string;
   classPrefix: string;
   className?: string;
@@ -113,7 +115,7 @@ export function usePickerClassName(props: PickerClassNameProps): [string, string
   return [classes, usedClassNamePropKeys];
 }
 
-interface EventsProps {
+export interface EventsProps {
   down?: React.KeyboardEventHandler;
   up?: React.KeyboardEventHandler;
   enter?: React.KeyboardEventHandler;
@@ -167,7 +169,7 @@ export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
   }
 }
 
-interface FocusItemValueProps {
+export interface FocusItemValueProps {
   target: HTMLElement | null | (() => HTMLElement | null);
   data?: any[];
   valueKey?: string;
@@ -352,7 +354,7 @@ export const useFocusItemValue = <T>(
   };
 };
 
-interface ToggleKeyDownEventProps {
+export interface ToggleKeyDownEventProps {
   toggle?: boolean;
   triggerRef: React.RefObject<any>;
   targetRef: React.RefObject<any>;
@@ -473,7 +475,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   return onToggle;
 };
 
-interface SearchProps {
+export interface SearchProps {
   labelKey: string;
   data: ItemDataType[];
   searchBy?: (keyword, label, item) => boolean;
@@ -535,23 +537,13 @@ export function useSearch(props: SearchProps) {
   };
 }
 
-interface PickerDependentParameters {
-  triggerRef?: React.RefObject<OverlayTriggerInstance>;
+export interface PickerDependentParameters {
+  triggerRef?: React.RefObject<OverlayTriggerHandle>;
   rootRef?: React.RefObject<HTMLElement>;
   overlayRef?: React.RefObject<HTMLElement>;
   targetRef?: React.RefObject<HTMLElement>;
-  listRef?: React.RefObject<ListInstance>;
+  listRef?: React.RefObject<ListHandle>;
   inline?: boolean;
-}
-
-interface PickerInstance {
-  root: HTMLElement | null;
-  list?: ListInstance;
-  overlay?: HTMLElement | null;
-  target?: HTMLElement | null;
-  updatePosition?: () => void;
-  open?: () => void;
-  close?: () => void;
 }
 
 /**
@@ -572,7 +564,7 @@ export function usePublicMethods(ref, parmas: PickerDependentParameters) {
     triggerRef?.current?.updatePosition();
   }, [triggerRef]);
 
-  useImperativeHandle(ref, (): PickerInstance => {
+  useImperativeHandle(ref, (): PickerHandle => {
     // Tree and CheckTree
     if (inline) {
       return {
@@ -593,6 +585,10 @@ export function usePublicMethods(ref, parmas: PickerDependentParameters) {
         return (rootRef?.current || triggerRef?.current?.root) ?? null;
       },
       get overlay() {
+        if (!overlayRef?.current) {
+          throw new Error('The overlay is not found. Please confirm whether the picker is open.');
+        }
+
         return overlayRef?.current ?? null;
       },
       get target() {

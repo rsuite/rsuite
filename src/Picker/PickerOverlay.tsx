@@ -4,7 +4,7 @@ import addStyle from 'dom-lib/addStyle';
 import getWidth from 'dom-lib/getWidth';
 import { getDOMNode, mergeRefs, useElementResize, useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { OverlayTriggerInstance } from '../Picker';
+import { OverlayTriggerHandle } from '../Picker';
 
 const omitProps = [
   'placement',
@@ -32,7 +32,7 @@ export interface PickerOverlayProps extends WithAsProps {
   placement?: string;
   autoWidth?: boolean;
   children?: React.ReactNode;
-  target?: React.RefObject<OverlayTriggerInstance>;
+  target?: React.RefObject<OverlayTriggerHandle>;
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 

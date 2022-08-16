@@ -11,7 +11,7 @@ import Toolbar from '../DatePicker/Toolbar';
 import { DateRangePickerLocale } from '../locales';
 import {
   omitTriggerPropKeys,
-  OverlayTriggerInstance,
+  OverlayTriggerHandle,
   PickerComponent,
   PickerOverlay,
   pickerPropTypes,
@@ -264,7 +264,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   const rootRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLButtonElement>(null);
-  const triggerRef = useRef<OverlayTriggerInstance>(null);
+  const triggerRef = useRef<OverlayTriggerHandle>(null);
 
   const handleCloseDropdown = useCallback(() => {
     triggerRef.current?.close?.();
