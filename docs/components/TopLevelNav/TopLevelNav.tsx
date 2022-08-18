@@ -76,7 +76,7 @@ function getNavItems(messages) {
     {
       key: 'resources',
       tip: messages?.common?.resources,
-      to: '/resources/icons',
+      to: '/resources/templates',
       icon: <Icon as={() => <SvgIcons.Ecology />} />
     }
   ];
