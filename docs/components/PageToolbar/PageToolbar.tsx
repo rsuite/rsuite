@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { ButtonToolbar, Tooltip, Whisper, Dropdown } from 'rsuite';
+import { ButtonToolbar, Tooltip, Whisper, Dropdown, IconButton } from 'rsuite';
 import canUseDOM from 'dom-lib/canUseDOM';
 import AppContext from '../AppContext';
 import LanguageButton from '../LanguageButton';
 import packageJson from '../../package.json';
 import { MoreActions } from './MoreActions';
+import HeartIcon from '@rsuite/icons/legacy/HeartO';
 
 interface PageToolbarProps {
   designHash?: any;
@@ -35,6 +36,12 @@ function PageToolbar({ designHash, routerId }: PageToolbarProps) {
 
   return show ? (
     <ButtonToolbar className="page-toolbar">
+      <IconButton
+        size="sm"
+        icon={<HeartIcon color="red" />}
+        href="https://opencollective.com/rsuite"
+        target="_blank"
+      />
       <Dropdown title={packageJson.version} size="sm">
         {versions.map(version => (
           <Dropdown.Item key={version.id} as="a" href={version.url}>
