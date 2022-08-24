@@ -7,8 +7,9 @@ export type DateRange = [Date, Date];
 
 export interface RangeType {
   label: React.ReactNode;
-  closeOverlay?: boolean;
   value: DateRange | ((value?: ValueType) => DateRange);
+  closeOverlay?: boolean;
+  placement?: 'bottom' | 'left';
 }
 
 export type DisabledDateFunction = (

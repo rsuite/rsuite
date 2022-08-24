@@ -1,27 +1,47 @@
-import React, { ReactNode, useCallback, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button';
-import { useClassNames, useUpdateEffect } from '../utils';
-import { StandardProps } from '../@types/common';
-import { getDefaultRanges, getRanges } from './utils';
-import { InnerRange, RangeType } from './types';
-import { CalendarLocale } from '../locales';
+import { useClassNames } from '../utils';
+import PredefinedRanges, { PredefinedRangesProps } from './PredefinedRanges';
+import Stack from '../Stack';
 
 export type { RangeType } from './types';
 
-export interface ToolbarProps<T = any, Shortcut = T> extends StandardProps {
+export interface ToolbarProps<T = any, Shortcut = T> extends PredefinedRangesProps<T, Shortcut> {
   hideOkBtn?: boolean;
-  locale?: CalendarLocale;
-  calendarDate: T;
-  ranges?: RangeType<Shortcut>[];
   disabledOkBtn?: (value: T) => boolean;
-  disabledShortcut?: (value: T) => boolean;
   onOk?: (event: React.MouseEvent) => void;
-  onClickShortcut?: (value: Shortcut, closeOverlay: boolean, event: React.MouseEvent) => void;
 }
 
 type ToolbarComponent = React.ForwardRefExoticComponent<ToolbarProps> & {
   <T = any, Shortcut = T>(props: ToolbarProps<T, Shortcut>): React.ReactElement | null;
+};
+
+interface SubmitButtonProps {
+  calendarDate: any;
+  children: React.ReactNode;
+  hide?: boolean;
+  disabledOkBtn?: (value: any) => boolean;
+  onOk?: (event: React.MouseEvent) => void;
+}
+
+const SubmitButton = ({ hide, disabledOkBtn, calendarDate, onOk, children }: SubmitButtonProps) => {
+  if (hide) {
+    return null;
+  }
+
+  const disabled = disabledOkBtn?.(calendarDate);
+
+  return (
+    <Button
+      appearance="primary"
+      size="sm"
+      disabled={disabled}
+      onClick={disabled ? undefined : onOk}
+    >
+      {children}
+    </Button>
+  );
 };
 
 /**
@@ -37,76 +57,46 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
     onOk,
     onClickShortcut,
     calendarDate,
-    ranges: rangesProp,
+    ranges,
     locale,
     ...rest
   } = props;
-  const [ranges, setRanges] = useState<InnerRange<any>[]>(getRanges(props));
+
   const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
 
-  useUpdateEffect(() => {
-    setRanges(getRanges({ ranges: rangesProp, calendarDate }));
-  }, [calendarDate, rangesProp]);
-
-  const hasLocaleKey = useCallback(
-    (key: ReactNode) => getDefaultRanges(calendarDate).some(item => item.label === key),
-    [calendarDate]
-  );
-
-  const renderOkButton = useCallback(() => {
-    if (hideOkBtn) {
-      return null;
-    }
-
-    const disabled = disabledOkBtn?.(calendarDate);
-
-    return (
-      <div className={prefix('right')}>
-        <Button
-          appearance="primary"
-          size="sm"
-          disabled={disabled}
-          onClick={disabled ? undefined : onOk}
-        >
-          {locale?.ok}
-        </Button>
-      </div>
-    );
-  }, [disabledOkBtn, hideOkBtn, locale, onOk, calendarDate, prefix]);
-
-  if (hideOkBtn && ranges.length === 0) {
+  if (hideOkBtn && ranges?.length === 0) {
     return null;
   }
 
   const classes = merge(className, withClassPrefix());
+
   return (
-    <div {...rest} ref={ref} className={classes}>
-      <div className={prefix('ranges')}>
-        {ranges.map(({ value, closeOverlay, label }, index: number) => {
-          const disabled = disabledShortcut?.(value);
-
-          const handleClickShortcut = (event: React.MouseEvent) => {
-            if (disabled) {
-              return;
-            }
-            onClickShortcut?.(value, closeOverlay !== false ? true : false, event);
-          };
-
-          return (
-            <Button
-              appearance="link"
-              size="sm"
-              key={index}
-              disabled={disabled}
-              onClick={handleClickShortcut}
-            >
-              {hasLocaleKey(label) && typeof label === 'string' ? locale?.[label] : label}
-            </Button>
-          );
-        })}
+    <Stack
+      ref={ref}
+      className={classes}
+      justifyContent="space-between"
+      alignItems="flex-start"
+      {...rest}
+    >
+      <PredefinedRanges
+        className={prefix('ranges')}
+        ranges={ranges}
+        calendarDate={calendarDate}
+        locale={locale}
+        disabledShortcut={disabledShortcut}
+        onClickShortcut={onClickShortcut}
+      />
+      <div className={prefix('right')}>
+        <SubmitButton
+          disabledOkBtn={disabledOkBtn}
+          hide={hideOkBtn}
+          calendarDate={calendarDate}
+          onOk={onOk}
+        >
+          {locale?.ok}
+        </SubmitButton>
       </div>
-      {renderOkButton()}
-    </div>
+    </Stack>
   );
 });
 
