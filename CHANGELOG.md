@@ -1,3 +1,15 @@
+<a name="4.11.0"></a>
+# [4.11.0](https://github.com/rsuite/rsuite/compare/v4.10.10...v4.11.0) (2022-08-24)
+
+
+### Bug Fixes
+
+* **CheckTreePicker:**  when data changes Cannot close ([#2543](https://github.com/rsuite/rsuite/issues/2543)) ([ee247d1](https://github.com/rsuite/rsuite/commit/ee247d1))
+* delete test case only ([#2410](https://github.com/rsuite/rsuite/issues/2410)) ([e0d9c9e](https://github.com/rsuite/rsuite/commit/e0d9c9e))
+* **SelectPicker:** fix renderValue prop declaration ([#2399](https://github.com/rsuite/rsuite/issues/2399)) ([0914942](https://github.com/rsuite/rsuite/commit/0914942))
+
+
+
 <a name="4.10.10"></a>
 ## [4.10.10](https://github.com/rsuite/rsuite/compare/v4.10.9...v4.10.10) (2022-03-22)
 
