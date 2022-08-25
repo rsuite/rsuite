@@ -20,6 +20,10 @@
 
 <!--{include:`shaded.md`}-->
 
+### 带操作按钮
+
+<!--{include:`with-action.md`}-->
+
 ### 没有标题
 
 <!--{include:`no-header.md`}-->

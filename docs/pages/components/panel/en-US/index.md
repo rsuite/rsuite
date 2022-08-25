@@ -20,6 +20,10 @@ A content panel that supports folding panels. The Panel can have all the ' Data 
 
 <!--{include:`shaded.md`}-->
 
+### With action button
+
+<!--{include:`with-action.md`}-->
+
 ### No header
 
 <!--{include:`no-header.md`}-->
