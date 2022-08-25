@@ -275,7 +275,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     <Input
       {...(htmlInputProps as Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>)}
       type="number"
-      autoComplete="off"
+      autoComplete={htmlInputProps?.pattern ? 'hidden' : 'off'}
       step={step}
       inputRef={inputRef}
       onChange={handleChange}
