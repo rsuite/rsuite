@@ -10,6 +10,7 @@ export default {
     design: 'Design',
     components: 'Components',
     resources: 'Resources & Tools',
+    templates: 'Templates',
     designResources: 'Design Resources',
     introduction: 'Introduction',
     usage: 'Quick Start',

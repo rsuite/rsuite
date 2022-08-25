@@ -95,6 +95,10 @@ export default function usePages(): Menu[] {
       icon: <Icon as={() => <SvgIcons.Ecology />} style={{ fontSize: 20 }} />,
       children: [
         {
+          id: 'templates',
+          name: messages?.common?.templates
+        },
+        {
           id: 'icons',
           name: messages?.common?.icons
         },
