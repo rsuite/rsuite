@@ -61,6 +61,9 @@ export interface DateRangePickerProps
   /** Format date */
   format?: string;
 
+  /** Rendered as an input, the date can be entered via the keyboard */
+  editable?: boolean;
+
   /** The date range that will be selected when you click on the date */
   hoverRange?: 'week' | 'month' | ((date: Date) => DateRange);
 
@@ -139,6 +142,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     classPrefix = 'picker',
     className,
     appearance = 'default',
+    editable = true,
     cleanable = true,
     character = ' ~ ',
     defaultCalendarValue,
@@ -833,7 +837,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           as={toggleAs}
           ref={targetRef}
           appearance={appearance}
-          editable
+          editable={editable}
           inputMask={DateUtils.getDateMask(rangeFormatStr)}
           inputValue={value ? (getDisplayString(value, true) as string) : ''}
           inputPlaceholder={

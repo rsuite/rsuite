@@ -50,6 +50,9 @@ export interface DatePickerProps
   /** Calendar panel default presentation date and time */
   calendarDefaultDate?: Date;
 
+  /** Rendered as an input, the date can be entered via the keyboard */
+  editable?: boolean;
+
   /** Format date */
   format?: string;
 
@@ -134,6 +137,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       classPrefix = 'picker',
       calendarDefaultDate,
       cleanable = true,
+      editable = true,
       defaultValue,
       disabled,
       // todo Not consistent with locale.formatDayPattern
@@ -579,7 +583,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             as={toggleAs}
             ref={targetRef}
             appearance={appearance}
-            editable
+            editable={editable}
             inputValue={value ? formatDate(value, formatStr) : ''}
             inputPlaceholder={
               typeof placeholder === 'string' && placeholder ? placeholder : formatStr
