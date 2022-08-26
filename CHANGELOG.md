@@ -1,3 +1,9 @@
+# [5.17.0](https://github.com/rsuite/rsuite/compare/v5.16.6...v5.17.0) (2022-08-26)
+
+### Features
+
+- **DateRangePicker:** supports placing predefined ranges on the left ([#2670](https://github.com/rsuite/rsuite/issues/2670)) ([8df4a61](https://github.com/rsuite/rsuite/commit/8df4a61d3b81e6054369197ff44e1416ea1aefbb))
+
 ## [5.16.6](https://github.com/rsuite/rsuite/compare/v5.16.5...v5.16.6) (2022-08-18)
 
 ### Bug Fixes
