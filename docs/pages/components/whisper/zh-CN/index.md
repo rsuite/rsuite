@@ -15,3 +15,4 @@
 ## Props
 
 <!--{include:(components/whisper/zh-CN/props.md)}-->
+<!--{include:(_common/types/placement-all.md)}-->
