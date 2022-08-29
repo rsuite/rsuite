@@ -2,7 +2,7 @@
 
 To select or input a date or time
 
-> When you need to select a date range, it is recommended to use [`<DateRangePicker>`](/components/date-range-picker)
+> When you need to select a date range, it is recommended to use [DateRangePicker](/components/date-range-picker).
 
 ## Usage
 
