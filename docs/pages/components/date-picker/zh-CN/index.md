@@ -2,7 +2,7 @@
 
 时间选择器，可以选择日期和时间。
 
-> 当需要选择日期范围，推荐使用 [`<DateRangePicker>`](/zh/components/date-range-picker)
+> 当需要选择日期范围，推荐使用 [DateRangePicker](/zh/components/date-range-picker)。
 
 ## 获取组件
 
