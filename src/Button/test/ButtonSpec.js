@@ -3,6 +3,8 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Button from '../Button';
+import { render } from '@testing-library/react';
+import CustomProvider from '../../CustomProvider';
 
 describe('Button', () => {
   testStandardProps(<Button />);
@@ -103,5 +105,25 @@ describe('Button', () => {
     assert.equal(instance.nodeName, 'SPAN');
 
     assert.equal(instance2.getAttribute('role'), 'combobox');
+  });
+
+  it('Should be customizable via CustomProvider', () => {
+    const { getByTestId } = render(<Button data-testid="button">Ghost button</Button>, {
+      wrapper: ({ children }) => (
+        <CustomProvider
+          PREVIEW_components={{
+            Button: {
+              defaultProps: {
+                appearance: 'ghost'
+              }
+            }
+          }}
+        >
+          {children}
+        </CustomProvider>
+      )
+    });
+
+    expect(getByTestId('button')).to.have.class('rs-btn-ghost');
   });
 });

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS, STATUS, useIsMounted } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import CloseButton from '../CloseButton';
+import { useProps } from '../CustomProvider/useProps';
 
 export interface MessageProps extends WithAsProps {
   /** The type of the message box. */
@@ -48,7 +49,7 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
       showIcon,
       onClose,
       ...rest
-    } = props;
+    } = useProps('Message', props);
 
     const [display, setDisplay] = useState<DisplayType>('show');
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
