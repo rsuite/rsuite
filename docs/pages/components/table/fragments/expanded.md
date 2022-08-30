@@ -72,6 +72,7 @@ const App = () => {
 
   return (
     <Table
+      shouldUpdateScroll={false} // Prevent the scrollbar from scrolling to the top after the table content area height changes.
       height={300}
       data={data}
       rowKey={rowKey}

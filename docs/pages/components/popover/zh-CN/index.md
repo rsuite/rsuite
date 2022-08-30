@@ -69,3 +69,4 @@
 | visible     | boolean              | 组件默认可见的     |
 
 <!--{include:(components/whisper/zh-CN/props.md)}-->
+<!--{include:(_common/types/placement-all.md)}-->

@@ -2,7 +2,7 @@
 
 Used to quickly select a date range
 
-If `<DateRangePicker>` does not satisfy the business scenario in which you select the time range, you can use two [`DatePicker`](/components/date-picker#Selection range) combinations.
+If `<DateRangePicker>` does not satisfy the business scenario in which you select the time range, you can use two [DatePicker](/components/date-picker/#selection-range) combinations.
 
 ## Import
 

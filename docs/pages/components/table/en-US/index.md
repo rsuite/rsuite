@@ -182,6 +182,18 @@ const data = [
 - `onExpandChange:(expanded:boolean,rowData:object) => void`: To open/close a node's callback function.
 - `treeCol` is an attribute on `<Table.Column>`, you can specify that the column is displayed as a tree.
 
+When customizing the cell, it should be noted that if it is a tree table, then `rowData` needs to be passed to the `Cell` of the rendering tree, because it will be used inside the `Cell` to record the state of the node. [#issue/2666](https://github.com/rsuite/rsuite/issues/2666)
+
+```js
+const CustomCell = ({ rowData, ...rest }) => {
+  return (
+    <Cell rowData={rowData} {...rest}>
+      {rowData.name}
+    </Cell>
+  );
+};
+```
+
 ### Expandable
 
 <!--{include:`expanded.md`}-->

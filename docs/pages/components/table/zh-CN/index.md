@@ -184,6 +184,18 @@ const data = [
 - `onExpandChange:(expanded:boolean,rowData:object) => void` 展开/关闭节点的回调函数
 - `treeCol` 是 `<Table.Column>` 上的属性，可以指定该列显示为树形。
 
+当自定义单元格的时候，需要注意，如果是树形表格，那么需要将 `rowData` 传递给渲染树的 `Cell`，因为在 `Cell` 内部将使用它来记录节点的状态。[#issue/2666](https://github.com/rsuite/rsuite/issues/2666)
+
+```js
+const CustomCell = ({ rowData, ...rest }) => {
+  return (
+    <Cell rowData={rowData} {...rest}>
+      {rowData.name}
+    </Cell>
+  );
+};
+```
+
 ### 可展开
 
 <!--{include:`expanded.md`}-->
