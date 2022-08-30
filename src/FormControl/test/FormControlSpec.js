@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import Form from '../../Form';
 import FormControl from '../FormControl';
@@ -79,14 +79,14 @@ describe('FormControl', () => {
     ReactTestUtils.Simulate.blur(instance.querySelector('input'));
   });
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(
+  it('Should apply custom className to accepter component', () => {
+    render(
       <Form>
-        <FormControl className="custom" name="username" />
+        <FormControl className="custom" name="username" data-testid="input" />
       </Form>
     );
 
-    assert.include(instance.querySelector('.rs-form-control').className, 'custom');
+    expect(screen.getByTestId('input')).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {

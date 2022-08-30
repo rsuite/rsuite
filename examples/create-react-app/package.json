@@ -9,11 +9,11 @@
     "customize-cra": "^1.0.0-alpha.0",
     "less": "^3.11.1",
     "less-loader": "^6.0.0",
-    "react": "^16.13.1",
+    "react": "^17.0.1",
     "react-app-rewired": "^2.1.6",
-    "react-dom": "^16.13.1",
+    "react-dom": "^17.0.1",
     "react-scripts": "3.4.1",
-    "rsuite": "^5.1.0"
+    "rsuite": "^5.16.6"
   },
   "scripts": {
     "start": "react-app-rewired start",

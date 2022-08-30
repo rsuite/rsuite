@@ -1,3 +1,17 @@
+# [5.17.0](https://github.com/rsuite/rsuite/compare/v5.16.6...v5.17.0) (2022-08-26)
+
+### Features
+
+- **DateRangePicker:** supports placing predefined ranges on the left ([#2670](https://github.com/rsuite/rsuite/issues/2670)) ([8df4a61](https://github.com/rsuite/rsuite/commit/8df4a61d3b81e6054369197ff44e1416ea1aefbb))
+
+## [5.16.6](https://github.com/rsuite/rsuite/compare/v5.16.5...v5.16.6) (2022-08-18)
+
+### Bug Fixes
+
+- **Button:** use [@cursor-disabled](https://github.com/cursor-disabled) intead of hardcoded cursor ([#2658](https://github.com/rsuite/rsuite/issues/2658)) ([5731762](https://github.com/rsuite/rsuite/commit/57317622eb2d65e94e0a8bb962512232cc4dfd3d))
+- **DatePicker,DateRangePicker:** display month name as title of month calendar view ([#2660](https://github.com/rsuite/rsuite/issues/2660)) ([1e812ef](https://github.com/rsuite/rsuite/commit/1e812ef7510ea7b82beda7c058bd07080db198f5))
+- **Form.Control:** apply className to accepter component ([#2662](https://github.com/rsuite/rsuite/issues/2662)) ([a164d28](https://github.com/rsuite/rsuite/commit/a164d287acfe8be2f98080e3b7eb15971f47809f))
+
 ## [5.16.5](https://github.com/rsuite/rsuite/compare/v5.16.4...v5.16.5) (2022-08-11)
 
 ### Bug Fixes

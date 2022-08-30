@@ -88,7 +88,6 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     as: Component = 'div',
     accepter: AccepterComponent = Input,
     classPrefix = 'form-control',
-    className,
     checkAsync,
     checkTrigger,
     errorPlacement = 'bottomStart',
@@ -128,8 +127,8 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   const formValue = useContext(FormValueContext);
   const val = isUndefined(value) ? formValue?.[name] : value;
 
-  const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
-  const classes = merge(className, withClassPrefix('wrapper'));
+  const { withClassPrefix, prefix } = useClassNames(classPrefix);
+  const classes = withClassPrefix('wrapper');
 
   const handleFieldChange = (value: any, event: React.SyntheticEvent) => {
     handleFieldCheck(value, trigger === 'change');

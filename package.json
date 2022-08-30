@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "5.16.5",
+  "version": "5.17.0",
   "description": "A suite of react components",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -64,7 +64,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.8.1",
     "react-window": "^1.8.7",
-    "rsuite-table": "^5.6.0",
+    "rsuite-table": "^5.7.0",
     "schema-typed": "^2.0.3"
   },
   "peerDependencies": {

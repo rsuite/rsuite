@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import './App.css';
 
-// import default style
-import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
+/** Import all styles **/
+// import 'rsuite/styles/index.less';   // or 'rsuite/dist/rsuite.min.css'
+
+/** Import styles on demand */
+import 'rsuite/Button/styles/index.less';
+import 'rsuite/ButtonToolbar/styles/index.less';
 
 /**
  * Support personalized configurations such as localization, Right to Left, and themes

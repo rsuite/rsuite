@@ -77,14 +77,12 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
     }, [format, showMeridian]);
 
     const getDateFormat = useCallback(() => {
-      if (showDate) {
-        return locale?.formattedDayPattern || 'yyyy-MM-dd';
-      } else if (showMonth) {
+      if (showMonth) {
         return locale?.formattedMonthPattern || 'yyyy-MM';
       }
 
       return 'yyyy';
-    }, [locale, showDate, showMonth]);
+    }, [locale, showMonth]);
 
     const renderTitle = useCallback(
       () =>

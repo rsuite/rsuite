@@ -8,6 +8,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormControlBaseProps, PickerBaseProps } from '../@types/common';
 import { FormattedDate } from '../CustomProvider';
 import Toolbar from '../DatePicker/Toolbar';
+import PredefinedRanges from '../DatePicker/PredefinedRanges';
+import Stack from '../Stack';
 import { DateRangePickerLocale } from '../locales';
 import {
   omitTriggerPropKeys,
@@ -540,12 +542,18 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    */
   const handleShortcutPageDate = useCallback(
     (value: DateRange, closeOverlay = false, event: React.SyntheticEvent) => {
-      handleValueUpdate(event, value, closeOverlay);
+      updateCalendarDateRange(value);
+
+      if (closeOverlay) {
+        handleValueUpdate(event, value, closeOverlay);
+      } else {
+        setSelectedDates(value ?? []);
+      }
 
       // End unfinished selections.
       hasDoneSelect.current = true;
     },
-    [handleValueUpdate]
+    [handleValueUpdate, updateCalendarDateRange]
   );
 
   const handleOK = useCallback(
@@ -742,29 +750,48 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
     return (
       <PickerOverlay
+        role="dialog"
         className={classes}
         ref={mergeRefs(overlayRef, speakerRef)}
         target={triggerRef}
         style={styles}
       >
         <div className={panelClasses}>
-          <div className={prefix('daterange-content')}>
-            <div className={prefix('daterange-header')}>{getDisplayString(selectedDates)}</div>
-            <div className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}>
-              <Calendar index={0} {...calendarProps} />
-              {!showOneCalendar && <Calendar index={1} {...calendarProps} />}
-            </div>
-          </div>
-          <Toolbar<SelectedDatesState, DateRange>
-            locale={locale}
-            calendarDate={selectedDates}
-            disabledOkBtn={disabledOkButton}
-            disabledShortcut={disabledShortcutButton}
-            hideOkBtn={oneTap}
-            onOk={handleOK}
-            onClickShortcut={handleShortcutPageDate}
-            ranges={ranges}
-          />
+          <Stack alignItems="flex-start">
+            <PredefinedRanges
+              direction="column"
+              spacing={0}
+              className={prefix('daterange-predefined')}
+              ranges={ranges?.filter(range => range?.placement === 'left') || []}
+              calendarDate={calendarDate}
+              locale={locale}
+              disabledShortcut={disabledShortcutButton}
+              onClickShortcut={handleShortcutPageDate}
+            />
+            <>
+              <div className={prefix('daterange-content')}>
+                <div className={prefix('daterange-header')}>{getDisplayString(selectedDates)}</div>
+                <div
+                  className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}
+                >
+                  <Calendar index={0} {...calendarProps} />
+                  {!showOneCalendar && <Calendar index={1} {...calendarProps} />}
+                </div>
+              </div>
+              <Toolbar<SelectedDatesState, DateRange>
+                locale={locale}
+                calendarDate={selectedDates}
+                disabledOkBtn={disabledOkButton}
+                disabledShortcut={disabledShortcutButton}
+                hideOkBtn={oneTap}
+                onOk={handleOK}
+                onClickShortcut={handleShortcutPageDate}
+                ranges={ranges?.filter(
+                  range => range?.placement === 'bottom' || range?.placement === undefined
+                )}
+              />
+            </>
+          </Stack>
         </div>
       </PickerOverlay>
     );

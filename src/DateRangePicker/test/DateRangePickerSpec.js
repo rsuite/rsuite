@@ -794,6 +794,7 @@ describe('DateRangePicker', () => {
   it('Should not close picker', async () => {
     const onCloseSpy = sinon.spy();
     const onChangeSpy = sinon.spy();
+    const yesterday = addDays(new Date(), -1);
 
     const { getByRole } = render(
       <DateRangePicker
@@ -801,7 +802,7 @@ describe('DateRangePicker', () => {
         ranges={[
           {
             label: 'Yesterday',
-            value: [addDays(new Date(), -1), addDays(new Date(), -1)],
+            value: [yesterday, yesterday],
             closeOverlay: false
           }
         ]}
@@ -810,12 +811,14 @@ describe('DateRangePicker', () => {
       />
     );
 
-    act(() => {
-      userEvent.click(getByRole('button', { name: 'Yesterday' }));
-    });
+    fireEvent.click(getByRole('button', { name: 'Yesterday' }));
+
+    expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.text(
+      `${format(yesterday, 'yyyy-MM-dd')} ~ ${format(yesterday, 'yyyy-MM-dd')}`
+    );
 
     await waitFor(() => {
-      expect(onChangeSpy).to.calledOnce;
+      expect(onChangeSpy).to.not.called;
       expect(onCloseSpy).to.not.called;
     });
   });
@@ -849,5 +852,32 @@ describe('DateRangePicker', () => {
     expect(onSelectSpy).to.have.been.calledOnce;
     expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
     expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+  });
+
+  it('Should render ranges on the left', () => {
+    const onCloseSpy = sinon.spy();
+    const onChangeSpy = sinon.spy();
+    const yesterday = addDays(new Date(), -1);
+
+    const { getByRole } = render(
+      <DateRangePicker
+        defaultOpen
+        ranges={[
+          {
+            label: 'Yesterday',
+            value: [yesterday, yesterday],
+            placement: 'left'
+          }
+        ]}
+        onChange={onChangeSpy}
+        onExit={onCloseSpy}
+      />
+    );
+
+    expect(
+      getByRole('dialog').querySelector('.rs-picker-daterange-predefined').firstChild.firstChild
+    ).to.equal(getByRole('button', { name: 'Yesterday' }));
+
+    expect(getByRole('dialog').querySelector('.rs-picker-toolbar-ranges button')).to.not.exist;
   });
 });
