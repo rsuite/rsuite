@@ -58,8 +58,6 @@ You can enable the `Popover` to follow the cursor by setting `followCursor={true
 
 ## Props
 
-<!--{include:(_common/types/placement-all.md)}-->
-
 ### `<Popover>`
 
 | Property    | Type `(Default)`     | Description                            |
@@ -71,3 +69,4 @@ You can enable the `Popover` to follow the cursor by setting `followCursor={true
 | visible     | boolean              | The component is visible by default.   |
 
 <!--{include:(components/whisper/en-US/props.md)}-->
+<!--{include:(_common/types/placement-all.md)}-->
