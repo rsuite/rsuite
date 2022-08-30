@@ -105,6 +105,7 @@ const App = () => {
           <SelectPicker
             defaultValue={option.name}
             cleanable={false}
+            searchable={false}
             data={options}
             labelKey="name"
             valueKey="name"
@@ -122,6 +123,7 @@ const App = () => {
           <SelectPicker
             value={placeholderChar}
             cleanable={false}
+            searchable={false}
             data={placeholderChars}
             onChange={setPlaceholderChar}
             style={{ width: 200 }}
