@@ -1,6 +1,6 @@
 import React from 'react';
 import DefaultPage from '@/components/Page';
-import { Tree, Button, InputNumber, Panel } from 'rsuite';
+import { Tree, Button, InputNumber, Panel, SelectPicker, Stack } from 'rsuite';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import {
@@ -30,6 +30,8 @@ export default function Page() {
         Panel,
         FolderFillIcon,
         PageIcon,
+        SelectPicker,
+        Stack,
         mockTreeData,
         mockAsyncData
       }}

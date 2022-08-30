@@ -21,7 +21,7 @@ import {
 
 import {
   PickerOverlay,
-  OverlayTriggerInstance,
+  OverlayTriggerHandle,
   pickerPropTypes,
   PickerToggle,
   PickerToggleTrigger,
@@ -185,7 +185,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const [inputState, setInputState] = useState<InputState>();
     const { calendarState, reset, openMonth, openTime } = useCalendarState();
     const [active, setActive] = useState<boolean>(false);
-    const triggerRef = useRef<OverlayTriggerInstance>(null);
+    const triggerRef = useRef<OverlayTriggerHandle>(null);
     const rootRef = useRef<HTMLDivElement>(null);
     const targetRef = useRef<HTMLButtonElement>(null);
     const overlayRef = useRef<HTMLDivElement>(null);

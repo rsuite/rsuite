@@ -35,11 +35,10 @@ describe('CheckPicker', () => {
     const instance = getInstance(
       <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />
     );
-    act(() => {
-      fireEvent.click(instance.root.querySelector(cleanClassName));
-    });
 
-    expect(instance.root.querySelector(placeholderClassName).textContent).to.equal('Select');
+    fireEvent.click(instance.root.querySelector(cleanClassName));
+
+    expect(instance.root.querySelector(placeholderClassName)).to.text('Select');
   });
 
   it('Should have "default" appearance by default', () => {
@@ -52,66 +51,70 @@ describe('CheckPicker', () => {
     const instance = getDOMNode(<CheckPicker defaultOpen data={data} value={['Eugenia']} />);
 
     fireEvent.click(instance.querySelector(cleanClassName));
-    expect(instance.querySelector(valueClassName).textContent).to.equal('Eugenia');
+    expect(instance.querySelector(valueClassName)).to.text('Eugenia');
   });
 
   it('Should output a dropdown', () => {
     const Title = 'Title';
     const instance = getDOMNode(<CheckPicker data={[]}>{Title}</CheckPicker>);
 
-    assert.ok(instance.className.match(/\bpicker-check\b/));
+    expect(instance).to.have.class('rs-picker-check');
   });
 
   it('Should output a button', () => {
     const instance = getInstance(<CheckPicker data={[]} toggleAs="button" />);
-    assert.ok(instance.root.querySelector('button'));
+    expect(instance.root.querySelector('button')).to.be.exist;
   });
 
   it('Should be disabled', () => {
     const instance = getDOMNode(<CheckPicker data={[]} disabled />);
 
-    assert.ok(instance.className.match(/\bdisabled\b/));
+    expect(instance).to.have.class('rs-picker-disabled');
   });
 
   it('Should be block', () => {
     const instance = getDOMNode(<CheckPicker data={[]} block />);
 
-    assert.ok(instance.className.match(/\bblock\b/));
+    expect(instance).to.have.class('rs-picker-block');
   });
 
   it('Should be readOnly', () => {
     const instance = getDOMNode(<CheckPicker data={[]} readOnly />);
-    assert.include(instance.className, 'rs-picker-read-only');
+
+    expect(instance).to.have.class('rs-picker-read-only');
   });
 
   it('Should be plaintext', () => {
     const instance = getDOMNode(<CheckPicker data={[]} plaintext />);
-    assert.include(instance.className, 'rs-picker-plaintext');
+    expect(instance).to.have.class('rs-picker-plaintext');
   });
 
   it('Should active item by `value`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<CheckPicker defaultOpen data={data} value={value} />);
-    assert.equal(instance.root.querySelector(valueClassName).textContent, 'Louisa');
-    assert.equal(instance.overlay.querySelector(itemActiveClassName).textContent, value);
+
+    expect(instance.root.querySelector(valueClassName)).to.text('Louisa');
+    expect(instance.overlay.querySelector(itemActiveClassName)).to.text('Louisa');
   });
 
   it('Should active item by `defaultValue`', () => {
     const value = ['Louisa'];
     const instance = getInstance(<CheckPicker defaultOpen data={data} defaultValue={value} />);
-    assert.equal(instance.root.querySelector(valueClassName).textContent, 'Louisa');
-    assert.equal(instance.overlay.querySelector(itemActiveClassName).textContent, value);
+
+    expect(instance.root.querySelector(valueClassName)).to.text('Louisa');
+    expect(instance.overlay.querySelector(itemActiveClassName)).to.text('Louisa');
   });
 
   it('Should render a group', () => {
     const instance = getInstance(<CheckPicker defaultOpen groupBy="role" data={data} />);
-    assert.ok(instance.overlay.querySelector('.rs-picker-menu-group'));
+
+    expect(instance.overlay.querySelector('.rs-picker-menu-group')).to.exist;
   });
 
   it('Should have a placeholder', () => {
     const instance = getDOMNode(<CheckPicker data={[]} className="custom" placeholder="test" />);
 
-    assert.equal(instance.querySelector(placeholderClassName).textContent, 'test');
+    expect(instance.querySelector(placeholderClassName)).to.text('test');
   });
 
   it('Should render value by `renderValue`', () => {
@@ -127,7 +130,7 @@ describe('CheckPicker', () => {
       />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, '1,2');
+    expect(instance.querySelector('.rs-picker-toggle-value')).to.text('1,2');
   });
 
   it('Should output a value by renderValue()', () => {
@@ -147,8 +150,8 @@ describe('CheckPicker', () => {
       <CheckPicker renderValue={v => [v, placeholder]} data={[]} value={[2]} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, `1${placeholder}`);
-    assert.equal(instance2.querySelector('.rs-picker-toggle-value').textContent, `2${placeholder}`);
+    expect(instance.querySelector('.rs-picker-toggle-value')).to.text(`1${placeholder}`);
+    expect(instance2.querySelector('.rs-picker-toggle-value')).to.text(`2${placeholder}`);
   });
 
   it('Should render a placeholder when value error', () => {
@@ -163,7 +166,7 @@ describe('CheckPicker', () => {
       />
     );
 
-    assert.equal(instance.querySelector(placeholderClassName).textContent, 'test');
+    expect(instance.querySelector(placeholderClassName)).to.text('test');
   });
 
   it('Should call `onChange` callback with correct value', () => {
@@ -184,9 +187,7 @@ describe('CheckPicker', () => {
       <CheckPicker data={data} defaultValue={['Eugenia']} onClean={onCleanSpy} />
     );
 
-    act(() => {
-      fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
-    });
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
 
     expect(onCleanSpy).to.have.been.calledOnce;
   });
@@ -195,17 +196,9 @@ describe('CheckPicker', () => {
     const onCleanSpy = sinon.spy();
     const instance = getInstance(<CheckPicker data={data} onClean={onCleanSpy} defaultOpen />);
 
-    act(() => {
-      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-    });
-
-    act(() => {
-      fireEvent.keyDown(instance.target, { key: 'Enter' });
-    });
-
-    act(() => {
-      fireEvent.keyDown(instance.target, { key: 'Backspace' });
-    });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(instance.target, { key: 'Backspace' });
 
     expect(onCleanSpy).to.have.been.called;
   });
@@ -244,7 +237,8 @@ describe('CheckPicker', () => {
 
   it('Should output a clean button', () => {
     const instance = getDOMNode(<CheckPicker data={data} defaultValue={['Louisa']} />);
-    assert.ok(instance.querySelector(cleanClassName));
+
+    expect(instance.querySelector(cleanClassName)).to.exist;
   });
 
   it('Should focus item by key=ArrowDown ', () => {
@@ -252,9 +246,7 @@ describe('CheckPicker', () => {
       <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />
     );
 
-    act(() => {
-      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-    });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
 
     expect(instance.overlay.querySelector(itemFocusClassName)).to.text('Kariane');
   });
@@ -264,9 +256,7 @@ describe('CheckPicker', () => {
       <CheckPicker defaultOpen data={data} defaultValue={['Kariane']} />
     );
 
-    act(() => {
-      fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
-    });
+    fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
 
     expect(instance.overlay.querySelector(itemFocusClassName)).to.text('Eugenia');
   });
@@ -288,12 +278,8 @@ describe('CheckPicker', () => {
       <CheckPicker defaultOpen data={data} onSelect={onSelectSpy} defaultValue={['Kariane']} />
     );
 
-    act(() => {
-      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-    });
-    act(() => {
-      fireEvent.keyDown(instance.target, { key: 'Enter' });
-    });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.target, { key: 'Enter' });
 
     expect(onSelectSpy).to.have.been.calledOnce;
     expect(onSelectSpy.firstCall.firstArg).to.eql(['Kariane', 'Louisa']);
@@ -304,9 +290,7 @@ describe('CheckPicker', () => {
     const onBlurSpy = sinon.spy();
     const instance = getInstance(<CheckPicker data={data} onBlur={onBlurSpy} />);
 
-    act(() => {
-      fireEvent.blur(instance.target);
-    });
+    fireEvent.blur(instance.target);
 
     await waitFor(() => {
       expect(onBlurSpy).to.have.been.calledOnce;
@@ -317,9 +301,7 @@ describe('CheckPicker', () => {
     const onFocusSpy = sinon.spy();
     const instance = getInstance(<CheckPicker data={data} onFocus={onFocusSpy} />);
 
-    act(() => {
-      fireEvent.focus(instance.target);
-    });
+    fireEvent.focus(instance.target);
 
     await waitFor(() => {
       expect(onFocusSpy).to.have.been.calledOnce;
@@ -336,9 +318,9 @@ describe('CheckPicker', () => {
   });
 
   it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<CheckPicker data={[]} style={{ fontSize }} />);
-    expect(instance.style.fontSize).to.equal(fontSize);
+    const instance = getDOMNode(<CheckPicker data={[]} style={{ fontSize: 12 }} />);
+
+    expect(instance).to.have.style('font-size', '12px');
   });
 
   it('Allow `label` to be an empty string', () => {
@@ -426,16 +408,9 @@ describe('CheckPicker', () => {
     const instance = getInstance(<CheckPicker data={data} onClean={onCleanSpy} defaultOpen />);
     const input = instance.overlay.querySelector('.rs-picker-search-bar-input');
 
-    act(() => {
-      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-    });
-
-    act(() => {
-      fireEvent.keyDown(instance.target, { key: 'Enter' });
-    });
-    act(() => {
-      fireEvent.keyDown(input, { key: 'Backspace' });
-    });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(input, { key: 'Backspace' });
 
     expect(onCleanSpy).to.not.have.been.called;
   });
@@ -490,7 +465,6 @@ describe('CheckPicker', () => {
   describe('ref testing', () => {
     it('Should call onOpen', async () => {
       const onOpenSpy = sinon.spy();
-
       const instance = getInstance(<CheckPicker onOpen={onOpenSpy} data={data} />);
 
       act(() => {
@@ -516,6 +490,19 @@ describe('CheckPicker', () => {
       await waitFor(() => {
         expect(onCloseSpy).to.have.been.calledOnce;
       });
+    });
+
+    it('Should get public objects and methods', () => {
+      const instance = getInstance(<CheckPicker data={data} open virtualized />);
+
+      expect(instance.root).to.exist;
+      expect(instance.target).to.exist;
+      expect(instance.updatePosition).to.instanceOf(Function);
+      expect(instance.open).to.instanceOf(Function);
+      expect(instance.close).to.instanceOf(Function);
+
+      expect(instance.overlay).to.exist;
+      expect(instance.list).to.exist;
     });
   });
 });

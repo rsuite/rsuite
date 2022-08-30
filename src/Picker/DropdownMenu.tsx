@@ -8,9 +8,16 @@ import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
 import getHeight from 'dom-lib/getHeight';
 import classNames from 'classnames';
-import { List, AutoSizer, ListProps } from './VirtualizedList';
+import {
+  List,
+  AutoSizer,
+  ListProps,
+  ListHandle,
+  VariableSizeList,
+  ListChildComponentProps
+} from '../Windowing';
 import shallowEqual from '../utils/shallowEqual';
-import { mergeRefs, useClassNames } from '../utils';
+import { mergeRefs, useClassNames, useMount } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
 import { KEY_GROUP, KEY_GROUP_TITLE } from '../utils/getDataGroupBy';
 import { StandardProps, ItemDataType, Offset } from '../@types/common';
@@ -34,9 +41,8 @@ export interface DropdownMenuProps<Multiple = false>
   rowHeight?: number;
   rowGroupHeight?: number;
   virtualized?: boolean;
-
-  // https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
   listProps?: Partial<ListProps>;
+  listRef?: React.Ref<ListHandle>;
 
   /** Custom selected option */
   renderMenuItem?: (itemLabel: React.ReactNode, item: any) => React.ReactNode;
@@ -68,6 +74,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
     labelKey = 'label',
     virtualized,
     listProps,
+    listRef: virtualizedListRef,
     className,
     style,
     focusItemValue,
@@ -85,8 +92,9 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix('items', { grouped: group }));
 
-  const styles = { ...style, maxHeight };
   const menuBodyContainerRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<ListHandle>(null);
+
   const [foldedGroupKeys, setFoldedGroupKeys] = useState<string[]>([]);
 
   const handleGroupTitleClick = useCallback(
@@ -108,7 +116,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
     [onSelect]
   );
 
-  const getRowHeight = (list: any[], { index }) => {
+  const getRowHeight = (list: any[], index) => {
     const item = list[index];
 
     if (group && item[KEY_GROUP] && index !== 0) {
@@ -145,11 +153,13 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
     }
   }, [focusItemValue, menuBodyContainerRef, prefix]);
 
-  const renderItem = (
-    list: any[],
-    { index, style }: { index: number; style?: React.CSSProperties }
-  ) => {
-    const item = list[index];
+  const renderItem = ({
+    index = 0,
+    style,
+    data,
+    item: itemData
+  }: Partial<ListChildComponentProps> & { item?: any }) => {
+    const item = itemData || data[index];
     const value = item[valueKey];
     const label = item[labelKey];
 
@@ -209,36 +219,38 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
     : data;
   const rowCount = filteredItems.length;
 
-  // Check whether the height of the data exceeds the height of the container.
-  const useVirtualized = virtualized && rowCount * rowHeight > maxHeight;
+  useMount(() => {
+    const itemIndex = findIndex(filteredItems, item => item[valueKey] === activeItemValues?.[0]);
+    listRef.current?.scrollToItem?.(itemIndex);
+  });
 
   return (
     <div
-      role={!useVirtualized ? 'listbox' : undefined}
+      role="listbox"
       {...rest}
       className={classes}
       ref={mergeRefs(menuBodyContainerRef, ref)}
-      style={styles}
+      style={{ ...style, maxHeight }}
     >
-      {useVirtualized ? (
+      {virtualized ? (
         <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
           {({ height, width }) => (
             <List
-              role="listbox"
-              containerRole={''}
-              aria-readonly={undefined}
+              as={VariableSizeList}
+              ref={mergeRefs(listRef, virtualizedListRef)}
               width={width}
               height={height || maxHeight}
-              scrollToIndex={findIndex(data, item => item[valueKey] === activeItemValues?.[0])}
-              rowCount={rowCount}
-              rowHeight={getRowHeight.bind(this, filteredItems)}
-              rowRenderer={renderItem.bind(null, filteredItems)}
+              itemCount={rowCount}
+              itemData={filteredItems}
+              itemSize={getRowHeight.bind(this, filteredItems)}
               {...listProps}
-            />
+            >
+              {renderItem}
+            </List>
           )}
         </AutoSizer>
       ) : (
-        filteredItems.map((_item, index: number) => renderItem(filteredItems, { index }))
+        filteredItems.map((item, index: number) => renderItem({ index, item }))
       )}
     </div>
   );

@@ -39,7 +39,7 @@ import {
   useToggleKeyDownEvent,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
-  OverlayTriggerInstance,
+  OverlayTriggerHandle,
   PositionChildProps,
   PickerComponent,
   listPickerPropTypes,
@@ -51,6 +51,7 @@ import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import { SelectProps } from '../SelectPicker';
 import InputAutosize from './InputAutosize';
 import InputSearch from './InputSearch';
+import { ListHandle } from '../Windowing';
 
 export type TriggerType = 'Enter' | 'Space' | 'Comma';
 
@@ -170,8 +171,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const overlayRef = useRef<HTMLDivElement>(null);
     const targetRef = useRef<HTMLButtonElement>(null);
-    const triggerRef = useRef<OverlayTriggerInstance>(null);
+    const triggerRef = useRef<OverlayTriggerHandle>(null);
     const inputRef = useRef<any>();
+    const listRef = useRef<ListHandle>(null);
     const { locale } = useCustom<InputPickerLocale>(['Picker', 'InputPicker'], overrideLocale);
 
     const { prefix, merge } = useClassNames(classPrefix);
@@ -463,7 +465,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ]
     );
 
-    usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
+    usePublicMethods(ref, { triggerRef, overlayRef, targetRef, listRef });
 
     /**
      * Remove the last item, after pressing the back key on the keyboard.
@@ -676,6 +678,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         <DropdownMenu
           id={id ? `${id}-listbox` : undefined}
           listProps={listProps}
+          listRef={listRef}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
           labelKey={labelKey}

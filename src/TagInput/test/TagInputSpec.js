@@ -64,9 +64,9 @@ describe('TagInput', () => {
     fireEvent.change(input, { target: { value: 'a' } });
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    assert.equal(picker.querySelectorAll('.rs-tag').length, 2);
-    assert.equal(picker.querySelectorAll('.rs-tag')[0].textContent, 'abc');
-    assert.equal(picker.querySelectorAll('.rs-tag')[1].textContent, 'a');
+    expect(picker.querySelectorAll('.rs-tag')).to.lengthOf(2);
+    expect(picker.querySelectorAll('.rs-tag')[0]).to.text('abc');
+    expect(picker.querySelectorAll('.rs-tag')[1]).to.text('a');
   });
 
   it('Should render 2 tags by value', () => {
@@ -75,9 +75,9 @@ describe('TagInput', () => {
     render(<TagInput ref={inputRef} value={['abc', '123']} />);
     const picker = inputRef.current.root;
 
-    assert.equal(picker.querySelectorAll('.rs-tag').length, 2);
-    assert.equal(picker.querySelectorAll('.rs-tag')[0].textContent, 'abc');
-    assert.equal(picker.querySelectorAll('.rs-tag')[1].textContent, '123');
+    expect(picker.querySelectorAll('.rs-tag')).to.lengthOf(2);
+    expect(picker.querySelectorAll('.rs-tag')[0]).to.text('abc');
+    expect(picker.querySelectorAll('.rs-tag')[1]).to.text('123');
   });
 
   it('Should render 2 tags by defaultValue', () => {
@@ -86,9 +86,9 @@ describe('TagInput', () => {
     render(<TagInput ref={inputRef} defaultValue={['abc', '123']} />);
     const picker = inputRef.current.root;
 
-    assert.equal(picker.querySelectorAll('.rs-tag').length, 2);
-    assert.equal(picker.querySelectorAll('.rs-tag')[0].textContent, 'abc');
-    assert.equal(picker.querySelectorAll('.rs-tag')[1].textContent, '123');
+    expect(picker.querySelectorAll('.rs-tag')).to.lengthOf(2);
+    expect(picker.querySelectorAll('.rs-tag')[0]).to.text('abc');
+    expect(picker.querySelectorAll('.rs-tag')[1]).to.text('123');
   });
 
   it('Should create a label only through `Enter`', () => {
@@ -105,10 +105,10 @@ describe('TagInput', () => {
     fireEvent.keyDown(input, { key: ' ' });
     fireEvent.keyDown(input, { key: 'Comma' });
 
-    assert.isTrue(onCreateSpy.notCalled);
+    expect(onCreateSpy).to.not.called;
 
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    assert.isTrue(onCreateSpy.calledOnce);
+    expect(onCreateSpy).to.calledOnce;
   });
 });

@@ -1,9 +1,11 @@
 import { RsRefForwardingComponent } from '../@types/common';
+import type { ListHandle } from '../Windowing';
 
-export interface PickerInstance {
-  root?: Element;
-  overlay?: Element;
-  target?: HTMLElement;
+export interface PickerHandle {
+  root: HTMLElement | null;
+  list?: ListHandle;
+  overlay?: HTMLElement | null;
+  target?: HTMLElement | null;
   updatePosition?: () => void;
   open?: () => void;
   close?: () => void;
@@ -11,5 +13,5 @@ export interface PickerInstance {
 
 export type PickerComponent<P> = RsRefForwardingComponent<
   'div',
-  P & { ref?: React.Ref<PickerInstance> }
+  P & { ref?: React.Ref<PickerHandle> }
 >;

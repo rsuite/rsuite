@@ -42,7 +42,7 @@
 | getChildren             | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item] &gt;                               | load node children data asynchronously                                    |
 | height                  | number `(360px)`                                                                                   | Height of tree. When `virtualize` is true, you can set the height of tree |
 | labelKey                | string `('label')`                                                                                 | Tree data structure Label property name                                   |
-| listProps               | [ListProps][listprops]                                                                             | List-related properties in `react-virtualized`                            |
+| listProps               | [ListProps][listprops]                                                                             | Properties of virtualized lists.                                          |
 | onChange                | (value:string) => void                                                                             | Callback function for data change                                         |
 | onDragEnd               | (item: [ItemDataType][item], event) => void                                                        | Called when node drag end                                                 |
 | onDragEnter             | (item: [ItemDataType][item], event) => void                                                        | Called when node drag enter                                               |
@@ -61,6 +61,7 @@
 | virtualized             | boolean                                                                                            | Whether using Virtualized List                                            |
 
 <!--{include:(_common/types/item-data-type.md)}-->
+<!--{include:(_common/types/list-props.md)}-->
 <!--{include:(components/tree/fragments/drop-data-type.md)}-->
 
 ## Related components
@@ -69,5 +70,5 @@
 - [`<TreePicker>`](/components/tree-picker) Used to show a tree-structured data.
 - [`<CheckTreePicker>`](/components/check-tree-picker) Used to show a tree-structured data while supporting Checkbox selection.
 
-[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
+[listprops]: #code-ts-list-props-code
 [item]: #code-ts-item-data-type-code
