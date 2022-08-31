@@ -6,15 +6,15 @@ For many applications, React has already done a lot of work on performance, and 
 
 Among the components provided by React Suite, Table, SelectPicker, CheckPicker, TreePicker, CheckTreePicker, Tree and other components support a technique known "windowing". If your app uses them, just add a `virtualized` attribute to the component when using it. The following will demonstrate through the SelectPicker and Table components.
 
-<!--{include:<components/select-picker/fragments/virtualized.md>}-->
-<!--{include:<components/table/fragments/virtualized.md>}-->
+<!--{include:`select-picker-virtualized.md`}-->
+<!--{include:`table-virtualized.md`}-->
 
 ## Infinite Loader
 
 To avoid loading too much data the first time, it can be designed to fetch data instantly as the user scrolls down.
 
-<!--{include:<components/select-picker/fragments/infinite-loader.md>}-->
-<!--{include:<components/table/fragments/infinite-loader.md>}-->
+<!--{include:`select-picker-infinite-loader.md`}-->
+<!--{include:`table-infinite-loader.md`}-->
 
 ## Other Optimizing Performance
 

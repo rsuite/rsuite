@@ -6,15 +6,15 @@
 
 在 React Suite 提供的组件中，Table、SelectPicker、CheckPicker、TreePicker、CheckTreePicker、Tree 等组件都支持“虚拟滚动”技术。如果您的应用使用了它们，只需要在使用组件时为它添加一个 `virtualized` 属性。 以下将通过 SelectPicker, Table 组件的虚拟滚动技术来演示。
 
-<!--{include:<components/select-picker/fragments/virtualized.md>}-->
-<!--{include:<components/table/fragments/virtualized.md>}-->
+<!--{include:`select-picker-virtualized.md`}-->
+<!--{include:`table-virtualized.md`}-->
 
 ## 无限滚动加载数据
 
 为了避免首次载入过多的数据，可以在用户向下滚动时即时获取数据。
 
-<!--{include:<components/select-picker/fragments/infinite-loader.md>}-->
-<!--{include:<components/table/fragments/infinite-loader.md>}-->
+<!--{include:`select-picker-infinite-loader.md`}-->
+<!--{include:`table-infinite-loader.md`}-->
 
 ## 其他性能优化
 
