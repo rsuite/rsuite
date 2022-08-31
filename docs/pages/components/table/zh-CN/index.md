@@ -278,6 +278,10 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 
 <!--{include:`affix-horizontal-scrollbar.md`}-->
 
+### 无限滚动加载
+
+<!--{include:`infinite-loader.md`}-->
+
 ### 可拖拽(与 react-dnd 组合)
 
 - [Use with react-dnd v10](https://codesandbox.io/s/rsuite5-table-with-react-dnd-16o4n)

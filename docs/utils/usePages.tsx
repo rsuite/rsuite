@@ -43,6 +43,7 @@ export default function usePages(): Menu[] {
           id: 'composition',
           name: messages?.common?.composition
         },
+
         {
           id: 'official-themes',
           name: messages?.common?.officialThemes
@@ -51,6 +52,7 @@ export default function usePages(): Menu[] {
           id: 'customization',
           name: messages?.common?.customization
         },
+
         {
           id: 'accessibility',
           name: messages?.common?.accessibility
@@ -70,6 +72,10 @@ export default function usePages(): Menu[] {
         {
           id: 'use-next-app',
           name: messages?.common?.useNextApp
+        },
+        {
+          id: 'performance',
+          name: messages?.common?.performance
         },
         {
           id: 'modularized',

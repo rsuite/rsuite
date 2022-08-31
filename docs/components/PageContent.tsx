@@ -56,21 +56,33 @@ const PageContent = (props: PageContentProps) => {
     <PageContainer designHash={designHash} routerId={pathname} hidePageNav={hidePageNav}>
       {pageHead}
       {fragments.map((item, index) => {
+        const extResult = item.match(/include:\<(\S+)\>(\|(\d+)\|)?/);
+        const extSource = extResult?.[1];
+
         const result = item.match(/include:`(\S+)`(\|(\d+)\|)?/);
+
         // Import sample code
-        const codeName = result?.[1];
+        const fileName = result?.[1];
         const height = result?.[3];
 
-        if (codeName) {
+        if (fileName || extSource) {
+          const source = extSource
+            ? require(`../pages/${extSource}`)
+            : require(`../pages${pathname}/fragments/${fileName}`);
+
+          const path =
+            'https://github.com/rsuite/rsuite/tree/master/docs/pages' +
+            (extSource ? `/${extSource}` : `${pathname}/fragments/${fileName}`);
+
           return (
             <CustomCodeView
               key={index}
               sandboxFiles={sandboxFiles}
               sandboxDependencies={sandboxDependencies}
               height={height ? parseInt(height) : undefined}
-              source={require(`../pages${pathname}/fragments/${codeName}`)}
+              source={source}
               dependencies={dependencies}
-              path={`https://github.com/rsuite/rsuite/tree/master/docs/pages${pathname}/fragments/${codeName}`}
+              path={path}
             />
           );
         }
