@@ -1,3 +1,13 @@
+## [5.17.1](https://github.com/rsuite/rsuite/compare/v5.17.0...v5.17.1) (2022-09-01)
+
+### Bug Fixes
+
+- **InputGroup:** fix icons not being vertically centered within the input ([#2680](https://github.com/rsuite/rsuite/issues/2680)) ([b10a050](https://github.com/rsuite/rsuite/commit/b10a050fb52f6fbc23e2cc308d57d67a515596e7))
+
+### Features
+
+- **DatePicker,DateRangePicker:** support to disable keyboard input ([#2673](https://github.com/rsuite/rsuite/issues/2673)) ([01ec4a8](https://github.com/rsuite/rsuite/commit/01ec4a8587d72842f0ae2d76ee51715e9bf7c6c2))
+
 # [5.17.0](https://github.com/rsuite/rsuite/compare/v5.16.6...v5.17.0) (2022-08-26)
 
 ### Features
