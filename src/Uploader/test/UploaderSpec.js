@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Uploader from '../Uploader';
@@ -127,5 +128,17 @@ describe('Uploader', () => {
     const removeBtn = instance.root.querySelector('.rs-uploader-file-item-btn-remove');
     ReactTestUtils.Simulate.click(removeBtn);
     assert.ok(onRemoveSpy.calledOnce);
+  });
+
+  it('Should apply appearance', () => {
+    const { getByRole } = render(<Uploader action="" appearance="primary" color="red" />);
+
+    expect(getByRole('button')).to.have.class('rs-btn-primary');
+    expect(getByRole('button')).to.have.class('rs-btn-red');
+  });
+
+  it('Should apply size class', () => {
+    const { getByRole } = render(<Uploader action="" size="lg" />);
+    expect(getByRole('button')).to.have.class('rs-btn-lg');
   });
 });

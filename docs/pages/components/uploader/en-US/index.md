@@ -56,6 +56,8 @@ Upload files by clicking or drag-and-drop, it supports previewing the uploaded i
 
 ### `<Uploader>`
 
+Extends the props of the [Button](/components/button/) component.
+
 | Property           | Type `(Default)`                                                                                                             | Description                                                                                                                                                                      |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | accept             | string                                                                                                                       | File types that can be accepted. See [HTML attribute: accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept) Attribute                                     |

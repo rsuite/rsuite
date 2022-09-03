@@ -1,9 +1,9 @@
 import React, { useCallback, useRef, useState, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
-import Ripple from '../Ripple';
 import { isIE11, useClassNames } from '../utils';
 import { UploaderLocale } from '../locales';
-export interface UploadTriggerProps {
+import Button, { ButtonProps } from '../Button';
+export interface UploadTriggerProps extends ButtonProps {
   as?: React.ElementType;
   name?: string;
   multiple?: boolean;
@@ -25,8 +25,6 @@ export interface UploadTriggerProps {
 export interface UploadTriggerInstance {
   clearInput: () => void;
 }
-
-const Button = props => <button {...props} type="button" />;
 
 const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
   const {
@@ -150,10 +148,7 @@ const UploadTrigger = React.forwardRef((props: UploadTriggerProps, ref) => {
   const trigger = children ? (
     React.cloneElement(React.Children.only(children as any), buttonProps)
   ) : (
-    <Component {...buttonProps}>
-      {locale?.upload}
-      <Ripple />
-    </Component>
+    <Component {...buttonProps}>{locale?.upload}</Component>
   );
 
   return (
