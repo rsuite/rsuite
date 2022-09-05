@@ -281,6 +281,10 @@ If you want the cell to wrap, you just need to set `wordWrap`
 
 <!--{include:`affix-horizontal-scrollbar.md`}-->
 
+### Infinite Loader
+
+<!--{include:`infinite-loader.md`}-->
+
 ### Draggable(with react-dnd)
 
 - [Use with react-dnd v10](https://codesandbox.io/s/rsuite5-table-with-react-dnd-16o4n)

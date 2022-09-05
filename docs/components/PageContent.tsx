@@ -57,20 +57,25 @@ const PageContent = (props: PageContentProps) => {
       {pageHead}
       {fragments.map((item, index) => {
         const result = item.match(/include:`(\S+)`(\|(\d+)\|)?/);
+
         // Import sample code
-        const codeName = result?.[1];
+        const fileName = result?.[1];
         const height = result?.[3];
 
-        if (codeName) {
+        if (fileName) {
+          const path =
+            'https://github.com/rsuite/rsuite/tree/master/docs/pages' +
+            `${pathname}/fragments/${fileName}`;
+
           return (
             <CustomCodeView
               key={index}
               sandboxFiles={sandboxFiles}
               sandboxDependencies={sandboxDependencies}
               height={height ? parseInt(height) : undefined}
-              source={require(`../pages${pathname}/fragments/${codeName}`)}
+              source={require(`../pages${pathname}/fragments/${fileName}`)}
               dependencies={dependencies}
-              path={`https://github.com/rsuite/rsuite/tree/master/docs/pages${pathname}/fragments/${codeName}`}
+              path={path}
             />
           );
         }

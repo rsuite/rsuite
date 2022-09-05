@@ -66,6 +66,10 @@ For a single data selection, support grouping.
 
 <!--{include:`virtualized.md`}-->
 
+### Infinite loader
+
+<!--{include:`infinite-loader.md`}-->
+
 ## Accessibility
 
 Learn more in [Accessibility](/guide/accessibility).

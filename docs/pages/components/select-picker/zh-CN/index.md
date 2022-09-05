@@ -66,6 +66,10 @@
 
 <!--{include:`virtualized.md`}-->
 
+### 无限加载
+
+<!--{include:`infinite-loader.md`}-->
+
 ## 无障碍设计
 
 了解更多有关[无障碍设计](/zh/guide/accessibility)的信息。

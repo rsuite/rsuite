@@ -46,6 +46,7 @@ export default {
     shareTwitter: 'Share on Twitter',
     accessibility: 'Accessibility',
     composition: 'Composition',
+    performance: 'Optimizing Performance',
     examples: 'Example Projects',
     searchComponents: 'Search in components',
     theme: 'Theme',
