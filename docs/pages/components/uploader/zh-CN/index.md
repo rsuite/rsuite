@@ -93,7 +93,7 @@
 | shouldQueueUpdate  | (fileList: [FileType][file][], newFile: [FileType][file][] &#124; [FileType][file]) => boolean &#124; Promise&lt;boolean&gt; | 允许更新队列。在选择文件后，更新上传文件队列前的校验函数，返回 false 则不更新                                                 |
 | shouldUpload       | (file: [FileType][file]) => boolean &#124; Promise&lt;boolean&gt;                                                            | 允许上传文件。在文件上传前的的校验函数，返回 false 则不上传                                                                   |
 | timeout            | number                                                                                                                       | 设置上传超时                                                                                                                  |
-| toggleAs           | ElementType `('button')`                                                                                                     | 为组件自定义元素类型                                                                                                          |
+| toggleAs           | ElementType ([Button](/zh/components/button/))                                                                               | 为组件自定义元素类型                                                                                                          |
 | withCredentials    | boolean                                                                                                                      | 上传请求时是否携带 cookie                                                                                                     |
 
 <!--{include:(_common/types/file-type.md)}-->
