@@ -139,7 +139,6 @@ const useSortHelper = (config: SortConfig) => {
           const aTop = activeNodeOffsetEdge.top || 0;
           const cTop = containerScrollDelta.top || 0;
           const sortingOffsetY = aTop + activeNodeHolderTranslate.y + cTop;
-          const activeNodeHeight = parseFloat(activeNodeStyle.height) || 0;
 
           for (let i = 0, len = listItemManagerRefs.length; i < len; i++) {
             const currentNode = listItemManagerRefs[i].node;
@@ -180,10 +179,13 @@ const useSortHelper = (config: SortConfig) => {
               currentNodeIndex > activeNodeOldIndex &&
               sortingOffsetY + offsetY >= curEdgeOffsetTop
             ) {
-              translate.y = -activeNodeHeight;
+              const yOffset = (prvNode.edgeOffset?.top || 0) - curEdgeOffsetTop;
+
+              translate.y = yOffset;
+
               animatedNodesOffset[currentNodeIndex] = {
                 x: 0,
-                y: currentNode.offsetHeight
+                y: -yOffset
               };
               activeNodeNextIndex = currentNodeIndex;
             } else if (
@@ -191,10 +193,12 @@ const useSortHelper = (config: SortConfig) => {
               currentNodeIndex < activeNodeOldIndex &&
               sortingOffsetY <= curEdgeOffsetTop + offsetY
             ) {
-              translate.y = activeNodeHeight;
+              const yOffset = (nextNode.edgeOffset?.top || 0) - curEdgeOffsetTop;
+
+              translate.y = yOffset;
               animatedNodesOffset[currentNodeIndex] = {
                 x: 0,
-                y: -currentNode.offsetHeight
+                y: -yOffset
               };
               if (activeNodeNextIndex === -1) {
                 activeNodeNextIndex = currentNodeIndex;
