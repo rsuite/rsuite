@@ -34,12 +34,18 @@ export default () => {
       imgUrl: '/images/templates/admin-template-1.png',
       viewUrl: 'https://rsuite-admin-template.vercel.app/',
       sourceUrl: 'https://github.com/rsuite/rsuite-admin-template'
+    },
+    {
+      name: 'PMP Template',
+      imgUrl: '/images/templates/project-management-template.png',
+      viewUrl: 'https://rsuite-project-template.vercel.app/',
+      sourceUrl: 'https://github.com/rsuite/rsuite-project-template'
     }
   ];
 
   return (
     <Page hidePageNav>
-      <Row>
+      <Row gutter={20}>
         {resources.map((item, index) => {
           return (
             <Col md={12} sm={12} xs={24} key={index}>
