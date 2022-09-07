@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Form, ButtonToolbar, Button, Input } from 'rsuite';
+import { Form, ButtonToolbar, Button, Input, InputGroup, InputNumber } from 'rsuite';
 
 const Textarea = React.forwardRef((props, ref) => <Input {...props} as="textarea" ref={ref} />);
 
@@ -24,6 +24,17 @@ const App = () => (
     <Form.Group controlId="textarea-1">
       <Form.ControlLabel>Textarea</Form.ControlLabel>
       <Form.Control rows={5} name="textarea" accepter={Textarea} />
+    </Form.Group>
+    <Form.Group controlId="input-group">
+      <Form.ControlLabel>Input Group</Form.ControlLabel>
+      <InputGroup>
+        <InputGroup.Addon> @</InputGroup.Addon>
+        <Form.Control name="input-group" />
+      </InputGroup>
+    </Form.Group>
+    <Form.Group>
+      <Form.ControlLabel>InputNumber</Form.ControlLabel>
+      <Form.Control name="numder" accepter={InputNumber} />
     </Form.Group>
     <Form.Group>
       <ButtonToolbar>

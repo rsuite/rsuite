@@ -2,11 +2,17 @@
 @import '../../Form/styles/mixin';
 
 // Full container.
-.rs-form-fluid .rs-form-control-wrapper {
-  width: 100%;
+.rs-form-fluid {
+  .rs-form-control-wrapper {
+    width: 100%;
 
-  > .rs-input-number,
-  > .rs-input {
+    > .rs-input-number,
+    > .rs-input {
+      width: 100%;
+    }
+  }
+
+  &.rs-form-vertical .rs-form-group .rs-input-group {
     width: 100%;
   }
 }
