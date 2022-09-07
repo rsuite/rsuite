@@ -36,6 +36,12 @@
 
 <!--{include:`collection.md`}-->
 
+#### 固定项
+
+> 基于`分组排序`，列表中的项在排序时固定位置
+
+<!--{include:`sort-fixed.md`}-->
+
 ### 自定义列表
 
 <!--{include:`custom.md`}-->
