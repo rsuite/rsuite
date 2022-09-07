@@ -45,6 +45,9 @@ export type SortConfig = {
   onSort?(payload?: MovedItemInfo, event?: MouseEvent): void;
 };
 
+const helperElementClass = 'rs-list-item-helper';
+const holderElementClass = 'rs-list-item-holder';
+
 const useSortHelper = (config: SortConfig) => {
   const { autoScroll, pressDelay, transitionDuration, onSort, onSortEnd, onSortMove, onSortStart } =
     config;
@@ -58,13 +61,8 @@ const useSortHelper = (config: SortConfig) => {
    * start dragging
    * */
   const handlePress = useCallback(
-    (mouseDownEvent, targetNode, curManagedItem: ManagedItem) => {
+    (mouseDownEvent, _targetNode, curManagedItem: ManagedItem) => {
       if (!isMounted()) return;
-
-      const listItemBaseClassName = targetNode.classList[0]; // get list item base className
-      const helperElementClass = `${listItemBaseClassName}-helper`;
-      const holderElementClass = `${listItemBaseClassName}-holder`;
-
       // data
       const containerElement = containerRef.current as HTMLDivElement;
       const activeNode = curManagedItem.node;
