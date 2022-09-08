@@ -36,6 +36,12 @@ Used to display a set of data
 
 <!--{include:`collection.md`}-->
 
+#### Fixed Item Sort
+
+> based on `collection`, Item can fixed during sort order.
+
+<!--{include:`sort-fixed.md`}-->
+
 ### Custom
 
 <!--{include:`custom.md`}-->
