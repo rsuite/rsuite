@@ -333,8 +333,8 @@ describe('<Dropdown.Menu>', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<DropdownMenu className="custom" />);
-    assert.include(instance.className, 'custom');
+    const { getByTestId } = render(<DropdownMenu className="custom" data-testid="menu" />);
+    expect(getByTestId('menu')).to.have.class('custom').and.to.have.class('rs-dropdown-menu');
   });
 
   it('Should have a custom style', () => {
