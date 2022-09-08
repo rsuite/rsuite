@@ -56,6 +56,8 @@ Upload files by clicking or drag-and-drop, it supports previewing the uploaded i
 
 ### `<Uploader>`
 
+Extends the props of the [Button](/components/button/) component.
+
 | Property           | Type `(Default)`                                                                                                             | Description                                                                                                                                                                      |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | accept             | string                                                                                                                       | File types that can be accepted. See [HTML attribute: accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept) Attribute                                     |
@@ -91,7 +93,7 @@ Upload files by clicking or drag-and-drop, it supports previewing the uploaded i
 | shouldQueueUpdate  | (fileList: [FileType][file][], newFile: [FileType][file][] &#124; [FileType][file]) => boolean &#124; Promise&lt;boolean&gt; | Allow the queue to be updated. After you select a file, update the checksum function before the upload file queue, and return false to not update                                |
 | shouldUpload       | (file:[FileType][file] ) => boolean &#124; Promise&lt;boolean&gt;                                                            | Allow uploading of files. Check function before file upload, return false without uploading                                                                                      |
 | timeout            | number                                                                                                                       | Set upload timeout                                                                                                                                                               |
-| toggleAs           | ElementType `('button')`                                                                                                     | You can use a custom element for this component                                                                                                                                  |
+| toggleAs           | ElementType ([Button](/components/button/))                                                                                  | You can use a custom element for this component                                                                                                                                  |
 | withCredentials    | boolean                                                                                                                      | Whether to carry cookies when uploading requests                                                                                                                                 |
 
 <!--{include:(_common/types/file-type.md)}-->
