@@ -79,6 +79,7 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
       {...rest}
     >
       <PredefinedRanges
+        wrap
         className={prefix('ranges')}
         ranges={ranges}
         calendarDate={calendarDate}

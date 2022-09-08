@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 
 import Toolbar from '../Toolbar';
@@ -76,5 +77,10 @@ describe('DatePicker - Toolbar', () => {
       <Toolbar calendarDate={new Date(2021, 11, 24)} hideOkBtn ranges={[]} />
     );
     assert.isNull(instance);
+  });
+
+  it('Should be wrap in ranges', () => {
+    const { container } = render(<Toolbar calendarDate={new Date()} />);
+    expect(container.querySelector('.rs-picker-toolbar-ranges')).to.have.style('flex-wrap', 'wrap');
   });
 });
