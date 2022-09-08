@@ -107,6 +107,26 @@ const predefinedBottomRanges = [
   {
     label: 'Last 30 days',
     value: [subDays(new Date(), 29), new Date()]
+  },
+  {
+    label: 'This month',
+    value: [startOfMonth(new Date()), new Date()]
+  },
+  {
+    label: 'Last month',
+    value: [startOfMonth(addMonths(new Date(), -1)), endOfMonth(addMonths(new Date(), -1))]
+  },
+  {
+    label: 'This year',
+    value: [new Date(new Date().getFullYear(), 0, 1), new Date()]
+  },
+  {
+    label: 'Last year',
+    value: [new Date(new Date().getFullYear() - 1, 0, 1), new Date(new Date().getFullYear(), 0, 0)]
+  },
+  {
+    label: 'All time',
+    value: [new Date(new Date().getFullYear() - 1, 0, 1), new Date()]
   }
 ];
 
