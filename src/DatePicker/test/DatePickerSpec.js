@@ -682,4 +682,25 @@ describe('DatePicker', () => {
     expect(onChangeSpy).to.have.been.calledWith(null);
     expect(getByRole('button', { name: '00:00:00' })).to.exist;
   });
+
+  it('Should be controllable for keyboard input', () => {
+    const { getByTestId } = render(
+      <>
+        <DatePicker data-testid="picker-1" />
+        <DatePicker data-testid="picker-2" editable={false} />
+      </>
+    );
+
+    const picker1 = getByTestId('picker-1').querySelector('input');
+    const picker2 = getByTestId('picker-2').querySelector('input');
+
+    expect(picker1).to.have.attribute('readonly');
+    expect(picker2).to.have.attribute('readonly');
+
+    fireEvent.focus(picker1);
+    expect(picker1).to.not.have.attribute('readonly');
+
+    fireEvent.focus(picker2);
+    expect(picker2).to.have.attribute('readonly');
+  });
 });

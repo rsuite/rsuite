@@ -70,6 +70,7 @@ const DropdownMenu = React.forwardRef<
     activeKey,
     onSelect,
     classPrefix = 'dropdown-menu',
+    className,
     children,
     ...rest
   } = props;
@@ -109,7 +110,7 @@ const DropdownMenu = React.forwardRef<
   // <Dropdown.Menu> is used outside of <Dropdown>
   // renders a vertical `menubar`
   if (!dropdown) {
-    const classes = merge(props.className, withClassPrefix());
+    const classes = merge(className, withClassPrefix());
 
     return (
       <DropdownContext.Provider value={contextValue}>
@@ -126,7 +127,7 @@ const DropdownMenu = React.forwardRef<
 
   // Parent menu exists. This is a submenu.
   // Should render a `menuitem` that controls this submenu.
-  const { icon, className, disabled, ...menuProps } = omit(rest, ['trigger']);
+  const { icon, disabled, ...menuProps } = omit(rest, ['trigger']);
 
   const Icon = rtl ? AngleLeft : AngleRight;
 

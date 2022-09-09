@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useImperativeHandle, useReducer, useEffect 
 import PropTypes from 'prop-types';
 import find from 'lodash/find';
 import FileItem from './UploadFileItem';
-import UploadTrigger, { UploadTriggerInstance } from './UploadTrigger';
+import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
 import { ajaxUpload, useClassNames, useCustom, guid, useWillUnmount } from '../utils';
 import { WithAsProps } from '../@types/common';
 import Plaintext from '../Plaintext';
@@ -33,7 +33,9 @@ export interface UploaderInstance {
   start: (file?: FileType) => void;
 }
 
-export interface UploaderProps extends WithAsProps {
+export interface UploaderProps
+  extends WithAsProps,
+    Omit<UploadTriggerProps, 'onChange' | 'onError' | 'onProgress'> {
   /** Uploading URL */
   action: string;
 

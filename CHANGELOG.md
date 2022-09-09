@@ -1,3 +1,29 @@
+# [5.18.0](https://github.com/rsuite/rsuite/compare/v5.17.1...v5.18.0) (2022-09-08)
+
+### Bug Fixes
+
+- **CheckTreePicker:** fix uncheckable style errors ([#2695](https://github.com/rsuite/rsuite/issues/2695)) ([b47a048](https://github.com/rsuite/rsuite/commit/b47a048f358ca187079ec049340288c72c8999bd))
+- **DateRangePicker:** fix predefined range and OK button conflict ([#2701](https://github.com/rsuite/rsuite/issues/2701)) ([e538d57](https://github.com/rsuite/rsuite/commit/e538d57e209548f2ca9c9b1f937e275181ae97d9))
+- **Dropdown.Menu:** fix custom className overriding rsuite classNames ([#2703](https://github.com/rsuite/rsuite/issues/2703)) ([db1a4db](https://github.com/rsuite/rsuite/commit/db1a4dbf5ddd7cbd4765e91f76bc4c4f8eb598c2))
+- **FormControl:** fix InputGroup not filling the container when fluid ([#2689](https://github.com/rsuite/rsuite/issues/2689)) ([d7b5550](https://github.com/rsuite/rsuite/commit/d7b55506d9810fd854c4ebe60c99a36e9fb9545e))
+- **Input:** fix missing focus ring when mouse hover ([#2702](https://github.com/rsuite/rsuite/issues/2702)) ([f548514](https://github.com/rsuite/rsuite/commit/f548514ed93945d27903190627d03380874d8f1a))
+- **List:** fix helper/holder classname ([#2697](https://github.com/rsuite/rsuite/issues/2697)) ([cd2c42d](https://github.com/rsuite/rsuite/commit/cd2c42d4e3fc9659e3936bec26117cc79882420c))
+
+### Features
+
+- **List:** allow sort with non-adjacent collection ([#2690](https://github.com/rsuite/rsuite/issues/2690)) ([24cfffb](https://github.com/rsuite/rsuite/commit/24cfffb32253e5da463807768318be22bc647ceb))
+- **Uploader:** add support for Button properties on Uploader ([#2688](https://github.com/rsuite/rsuite/issues/2688)) ([6c07781](https://github.com/rsuite/rsuite/commit/6c07781c13a1d46a9220511cd046d668ce593122))
+
+## [5.17.1](https://github.com/rsuite/rsuite/compare/v5.17.0...v5.17.1) (2022-09-01)
+
+### Bug Fixes
+
+- **InputGroup:** fix icons not being vertically centered within the input ([#2680](https://github.com/rsuite/rsuite/issues/2680)) ([b10a050](https://github.com/rsuite/rsuite/commit/b10a050fb52f6fbc23e2cc308d57d67a515596e7))
+
+### Features
+
+- **DatePicker,DateRangePicker:** support to disable keyboard input ([#2673](https://github.com/rsuite/rsuite/issues/2673)) ([01ec4a8](https://github.com/rsuite/rsuite/commit/01ec4a8587d72842f0ae2d76ee51715e9bf7c6c2))
+
 # [5.17.0](https://github.com/rsuite/rsuite/compare/v5.16.6...v5.17.0) (2022-08-26)
 
 ### Features

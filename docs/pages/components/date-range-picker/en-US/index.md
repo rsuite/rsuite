@@ -139,6 +139,12 @@ Used to combine multiple conditions
 combine(...) => boolean
 ```
 
+### Disable input
+
+`DateRangePicker` allows date and time input via keyboard by default, if you wish to disable it, you can disable editing by setting `editable={false}`.
+
+<!--{include:`editable.md`}-->
+
 ### Predefined Date Ranges
 
 <!--{include:`custom-shortcut-options.md`}-->
@@ -168,6 +174,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | defaultValue         | [ValueType](#code-ts-value-type-code)                                            | Default value                                                                                    |
 | disabled             | boolean                                                                          | Whether disabled the component                                                                   |
 | disabledDate         | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | Disabled data                                                                                    |
+| editable             | boolean `(true)`                                                                 | Rendered as an input, the date can be entered via the keyboard                                   |
 | format               | string `('yyyy-MM-dd')`                                                          | Format date [refer to date-fns format](https://date-fns.org/v2.24.0/docs/format)                 |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | The date range that will be selected when you click on the date                                  |
 | isoWeek              | boolean                                                                          | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day             |
@@ -190,7 +197,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | placeholder          | string                                                                           | Setting placeholders                                                                             |
 | placement            | [Placement](#code-ts-placement-code) `('bottomStart')`                           | The placement of component                                                                       |
 | preventOverflow      | boolean                                                                          | Prevent floating element overflow                                                                |
-| ranges               | [Range](#code-ts-range-code)[] ([Ranges](#code-ts-ranges-code))                  | Set predefined date ranges the user can select from. Defeult: `Today`,`Yesterday`，`Last 7 days` |
+| ranges               | [Range](#code-ts-range-code)[](<[Ranges](#code-ts-ranges-code)>)                 | Set predefined date ranges the user can select from. Defeult: `Today`,`Yesterday`，`Last 7 days` |
 | renderTitle          | (date: Date) => React.ReactNode                                                  | Custom render for month's title                                                                  |
 | renderValue          | (value: [ValueType](#code-ts-value-type-code), format: string) => ReactNode      | Custom render selected date range                                                                |
 | showMeridian         | boolean                                                                          | Display hours in 12 format                                                                       |

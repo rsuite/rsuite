@@ -880,4 +880,25 @@ describe('DateRangePicker', () => {
 
     expect(getByRole('dialog').querySelector('.rs-picker-toolbar-ranges button')).to.not.exist;
   });
+
+  it('Should be controllable for keyboard input', () => {
+    const { getByTestId } = render(
+      <>
+        <DateRangePicker data-testid="picker-1" />
+        <DateRangePicker data-testid="picker-2" editable={false} />
+      </>
+    );
+
+    const picker1 = getByTestId('picker-1').querySelector('input');
+    const picker2 = getByTestId('picker-2').querySelector('input');
+
+    expect(picker1).to.have.attribute('readonly');
+    expect(picker2).to.have.attribute('readonly');
+
+    fireEvent.focus(picker1);
+    expect(picker1).to.not.have.attribute('readonly');
+
+    fireEvent.focus(picker2);
+    expect(picker2).to.have.attribute('readonly');
+  });
 });
