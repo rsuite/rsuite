@@ -71,5 +71,17 @@ export default {
   resourcesIcons: {
     searchNoResults: 'No results for',
     tryOther: 'Try using the following icons:'
+  },
+  extensions: {
+    '@rsuite/charts': 'A set of charts based on rsuite and echarts.',
+    '@rsuite/schema-form': 'Form generation and validation based on schema-typed and rsuite.',
+    '@rsuite/responsive-nav': 'A responsive navigation component.',
+    '@rsuite/react-frame': 'Management system layout framework based on rsuite UI.',
+    '@rsuite/multi-date-picker': 'A date picker that can select multiple dates.',
+    '@rsuite/document-nav':
+      'Document navigation is automatically generated based on the HTML title (h1-h6) tag.',
+    '@rsuite/timezone-picker': 'Time zone selector based on rsuite UI. ',
+    'rsuite-color-picker': 'Package a color picker extension that can select color for rsuite.',
+    '@rsuite/formik': 'Formik-compatible React Suite form components'
   }
 };
