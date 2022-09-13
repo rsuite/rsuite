@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Nav from '../Nav';
 import { getDOMNode, getStyle } from '@test/testUtils';
 
@@ -23,5 +23,20 @@ describe('Nav styles', () => {
     );
 
     expect(getByRole('button')).to.have.style('background-color', 'rgba(0, 0, 0, 0)');
+  });
+
+  describe('Issue #2678', () => {
+    it('Height of <Nav.Menu> should be consistent with that of <Nav.Item> (36px)', () => {
+      render(
+        <Nav>
+          <Nav.Item>Item A</Nav.Item>
+          <Nav.Menu title="Item-B" data-testid="menu">
+            <Nav.Item>Item B-A</Nav.Item>
+          </Nav.Menu>
+        </Nav>
+      );
+
+      expect(screen.getByTestId('menu')).to.have.style('height', '36px');
+    });
   });
 });
