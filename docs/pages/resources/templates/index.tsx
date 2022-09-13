@@ -27,22 +27,22 @@ const Card = (props: CardProps) => {
   );
 };
 
-export default () => {
-  const resources = [
-    {
-      name: 'Admin Template',
-      imgUrl: '/images/templates/admin-template-1.png',
-      viewUrl: 'https://rsuite-admin-template.vercel.app/',
-      sourceUrl: 'https://github.com/rsuite/rsuite-admin-template'
-    },
-    {
-      name: 'PMP Template',
-      imgUrl: '/images/templates/project-management-template.png',
-      viewUrl: 'https://rsuite-project-template.vercel.app/',
-      sourceUrl: 'https://github.com/rsuite/rsuite-project-template'
-    }
-  ];
+const resources = [
+  {
+    name: 'Admin Template',
+    imgUrl: '/images/templates/admin-template-1.png',
+    viewUrl: 'https://rsuite-admin-template.vercel.app/',
+    sourceUrl: 'https://github.com/rsuite/rsuite-admin-template'
+  },
+  {
+    name: 'PMP Template',
+    imgUrl: '/images/templates/project-management-template.png',
+    viewUrl: 'https://rsuite-project-template.vercel.app/',
+    sourceUrl: 'https://github.com/rsuite/rsuite-project-template'
+  }
+];
 
+export default () => {
   return (
     <Page hidePageNav>
       <Row gutter={20}>
