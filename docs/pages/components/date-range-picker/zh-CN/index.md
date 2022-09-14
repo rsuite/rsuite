@@ -200,8 +200,8 @@ combine(...) => boolean
 | placeholder          | string                                                                           | 没有值时候默认显示内容                                                          |
 | placement            | [Placement](#code-ts-placement-code) `('bottomStart')`                           | 显示位置                                                                        |
 | preventOverflow      | boolean                                                                          | 防止浮动元素溢出                                                                |
-| ranges               | [Range](#code-ts-range-code)[](<[Ranges](#code-ts-ranges-code)>)                 | 快捷项配置，默认 `今天`,`昨天`，`最近 7 天`                                     |
-| renderTitle          | (date: Date) => React.ReactNode                                                  | 自定义渲染日历面板上的月份标题                                                  |
+| ranges               | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code))                  | 快捷项配置，默认 `今天`,`昨天`，`最近 7 天`                                     |
+| renderTitle          | (date: Date) => ReactNode                                                        | 自定义渲染日历面板上的月份标题                                                  |
 | renderValue          | (value: [ValueType](#code-ts-value-type-code), format: string) => ReactNode      | 自定义被选中的选项                                                              |
 | showMeridian         | boolean                                                                          | 显示 12 小时制的时间格式                                                        |
 | showOneCalendar      | boolen                                                                           | 显示一个日历                                                                    |

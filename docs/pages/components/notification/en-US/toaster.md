@@ -27,7 +27,7 @@ interface ToastContainerProps{
   container?: HTMLElement | (() => HTMLElement);
 }
 
-toaster.push(message: React.ReactNode, options?: ToastContainerProps): string;
+toaster.push(message: ReactNode, options?: ToastContainerProps): string;
 ```
 
 e.g:
