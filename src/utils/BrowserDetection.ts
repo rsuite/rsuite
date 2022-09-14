@@ -17,8 +17,8 @@ export const isEdge = () => canUseDOM && !isIE() && 'styleMedia' in window;
 
 export const getChromeVersion = () => {
   if (canUseDOM) {
-    const match = window.navigator.userAgent.match(/Chrome\/([0-9]+)\./);
-    return match ? parseFloat(match[1]) : false;
+    const match = window.navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./); 
+    return match ? parseFloat(match[2]) : false;
   }
 
   return false;
