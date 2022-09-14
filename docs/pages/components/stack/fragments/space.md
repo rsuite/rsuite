@@ -10,7 +10,7 @@ const App = () => {
     <Stack direction="column" spacing={20} alignItems="flex-start">
       <Stack spacing={12}>
         Spacing:
-        <Slider style={{ width: 300 }} onChange={value => setSize(value)} />
+        <Slider defaultValue={6} style={{ width: 300 }} onChange={value => setSize(value)} />
       </Stack>
       <Stack spacing={size}>
         Label:
