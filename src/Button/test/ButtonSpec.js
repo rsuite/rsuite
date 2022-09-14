@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Button from '../Button';
@@ -103,5 +104,13 @@ describe('Button', () => {
     assert.equal(instance.nodeName, 'SPAN');
 
     assert.equal(instance2.getAttribute('role'), 'combobox');
+  });
+
+  it('Should access the underlying <button> element via `ref` attribute', () => {
+    const buttonRef = React.createRef();
+
+    render(<Button ref={buttonRef}>Text</Button>);
+
+    expect(buttonRef.current).to.have.tagName('button');
   });
 });
