@@ -17,7 +17,7 @@ export const isEdge = () => canUseDOM && !isIE() && 'styleMedia' in window;
 
 export const getChromeVersion = () => {
   if (canUseDOM) {
-    const match = window.navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./); 
+    const match = window.navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
     return match ? parseFloat(match[2]) : false;
   }
 
@@ -26,9 +26,7 @@ export const getChromeVersion = () => {
 
 export const getSafariVersion = () => {
   if (canUseDOM) {
-    const match =
-      !!window.navigator.userAgent.match(/Safari\//) &&
-      window.navigator.userAgent.match(/Version\/([0-9]+)\./);
+    const match = window.navigator.userAgent.match(/Version\/([\d\.]+).*Safari/);
     return match ? parseFloat(match[1]) : false;
   }
   return false;
