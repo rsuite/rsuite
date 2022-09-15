@@ -19,7 +19,7 @@
     "bs-rsuite-ui-react": "^1.2.2",
     "react": "16.4.2",
     "react-dom": "16.4.2",
-    "reason-react": "^0.8.0"
+    "reason-react": "^0.9.1"
   },
   "devDependencies": {
     "bs-platform": "^8.0.3",
