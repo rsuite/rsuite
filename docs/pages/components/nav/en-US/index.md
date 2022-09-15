@@ -86,12 +86,12 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 ### `<Nav.Menu>`
 
-| Property      | Type `(Default)`                                     | Description                                                    |
-| ------------- | ---------------------------------------------------- | -------------------------------------------------------------- |
-| icon          | ReactElement                                         | Icon of the item that opens the menu                           |
-| noCaret       | boolean `(false)`                                    | Whether to hide the caret icon                                 |
-| onClose       | (event: React.SyntheticEvent) => void                | Callback when menu closes                                      |
-| onOpen        | (event: React.SyntheticEvent) => void                | Callback when menu opens                                       |
-| onToggle      | (open: boolean, event: React.SyntheticEvent) => void | Callback when menu opens/closes                                |
-| openDirection | "start"&#124;"end" `("end")`                         | Direction that menu opens towards (only available on submenus) |
-| title         | ReactNode                                            | Content of the item that opens the menu                        |
+| Property      | Type `(Default)`                               | Description                                                    |
+| ------------- | ---------------------------------------------- | -------------------------------------------------------------- |
+| icon          | ReactElement                                   | Icon of the item that opens the menu                           |
+| noCaret       | boolean `(false)`                              | Whether to hide the caret icon                                 |
+| onClose       | (event: SyntheticEvent) => void                | Callback when menu closes                                      |
+| onOpen        | (event: SyntheticEvent) => void                | Callback when menu opens                                       |
+| onToggle      | (open: boolean, event: SyntheticEvent) => void | Callback when menu opens/closes                                |
+| openDirection | "start"&#124;"end" `("end")`                   | Direction that menu opens towards (only available on submenus) |
+| title         | ReactNode                                      | Content of the item that opens the menu                        |
