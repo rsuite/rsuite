@@ -15,6 +15,9 @@ export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLEle
 
   /* disable drag */
   disabled?: boolean;
+
+  /* Size of list item */
+  size?: 'lg' | 'md' | 'sm';
 }
 
 const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivElement>) => {
@@ -26,10 +29,12 @@ const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivE
     collection = 0,
     disabled,
     index,
+    size: sizeProp,
     ...rest
   } = props;
 
-  const { bordered, register, size } = useContext(ListContext);
+  const { bordered, register, size: parentSize } = useContext(ListContext);
+  const size = sizeProp || parentSize;
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const listItemRef = useRef<HTMLElement>(null);
 
