@@ -1,9 +1,10 @@
-import CalendarPanel from './CalendarPanel';
-import Calendar, { CalendarState } from './Calendar';
+import Calendar from './Calendar';
+import CalendarContainer from './CalendarContainer';
+import { CalendarState } from './useCalendarState';
 import CalendarContext from './CalendarContext';
 import { CalendarContextValue } from './types';
 
-export { Calendar, CalendarContext, CalendarState };
+export { CalendarContainer, CalendarContext, CalendarState };
 export type { CalendarContextValue };
-export type { CalendarPanelProps } from './CalendarPanel';
-export default CalendarPanel;
+export type { CalendarProps } from './Calendar';
+export default Calendar;

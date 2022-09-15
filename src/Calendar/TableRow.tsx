@@ -152,7 +152,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
   }
 );
 
-TableRow.displayName = 'TableRow';
+TableRow.displayName = 'CalendarTableRow';
 TableRow.propTypes = {
   weekendDate: PropTypes.instanceOf(Date),
   className: PropTypes.string,
