@@ -323,14 +323,14 @@ describe('DatePicker', () => {
       ReactTestUtils.Simulate.click(time);
     });
 
-    assert.isNotNull(instance.overlay.querySelector('.rs-calendar-show-time-dropdown'));
+    assert.isNotNull(instance.overlay.querySelector('.rs-calendar-time-view'));
     assert.isTrue(onToggleTimeDropdownSpy.calledOnce);
 
     act(() => {
       ReactTestUtils.Simulate.click(time);
     });
 
-    assert.isNull(instance.overlay.querySelector('.rs-calendar-show-time-dropdown'));
+    assert.isNull(instance.overlay.querySelector('.rs-calendar-time-view'));
     assert.isTrue(onToggleTimeDropdownSpy.calledTwice);
   });
 

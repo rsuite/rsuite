@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Calendar from '../CalendarPanel';
+import Calendar from '../Calendar';
 import {
   getDefaultPalette,
   getDOMNode,
@@ -9,10 +9,9 @@ import {
   itChrome,
   toRGB
 } from '@test/testUtils';
-import ReactTestUtils from 'react-dom/test-utils';
 
 import '../styles/index.less';
-import { CalendarState } from '../Calendar';
+import { CalendarState } from '../useCalendarState';
 
 const { H500, H700 } = getDefaultPalette();
 
@@ -108,19 +107,13 @@ describe('Calendar styles', () => {
   });
 
   itChrome('Should be bordered on month row', () => {
-    const instanceRef = React.createRef();
-    render(<Calendar calendarState={CalendarState.DROP_MONTH} bordered ref={instanceRef} />);
-    const dom = instanceRef.current;
-
-    // click month dropdown button
-    ReactTestUtils.Simulate.click(dom.querySelector('.rs-calendar-header-title-date'));
-    const dropdownRowDom = dom.querySelector('.rs-calendar-month-dropdown-row');
-
-    assert.equal(
-      getStyle(dropdownRowDom, 'borderBottom'),
-      `1px dotted ${toRGB('#e5e5ea')}`,
-      'DropdownRow border'
+    const { getByTestId } = render(
+      <Calendar defaultState={CalendarState.MONTH} bordered data-testid="body" />
     );
+
+    const row = getByTestId('body').querySelector('.rs-calendar-month-dropdown-row');
+
+    expect(getStyle(row, 'borderBottom')).to.equal(`1px dotted ${toRGB('#e5e5ea')}`);
   });
 
   it('Should render compact calendar', () => {

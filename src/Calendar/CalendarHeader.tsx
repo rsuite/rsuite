@@ -9,25 +9,28 @@ import { FormattedDate } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { useCalendarContext } from './CalendarContext';
 
-export interface HeaderProps extends WithAsProps {
+export interface CalendarHeaderProps {
   disabledBackward?: boolean;
   disabledForward?: boolean;
-  showDate?: boolean;
   showMeridian?: boolean;
+  onToggleMeridian?: (event: React.MouseEvent) => void;
+  renderTitle?: (date: Date) => React.ReactNode;
+  renderToolbar?: (date: Date) => React.ReactNode;
+}
+
+interface CalendarHeaderPrivateProps extends CalendarHeaderProps, WithAsProps {
+  showDate?: boolean;
   showMonth?: boolean;
   showTime?: boolean;
   disabledTime?: (date: Date) => boolean;
   onMoveBackward?: () => void;
   onMoveForward?: () => void;
-  onToggleMeridian?: (event: React.MouseEvent) => void;
   onToggleMonthDropdown?: (event: React.MouseEvent) => void;
   onToggleTimeDropdown?: (event: React.MouseEvent) => void;
-  renderTitle?: (date: Date) => React.ReactNode;
-  renderToolbar?: (date: Date) => React.ReactNode;
 }
 
-const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
-  (props: HeaderProps, ref) => {
+const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps> =
+  React.forwardRef((props, ref) => {
     const {
       as: Component = 'div',
       className,
@@ -142,11 +145,10 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
         {renderToolbar?.(date)}
       </Component>
     );
-  }
-);
+  });
 
-Header.displayName = 'Header';
-Header.propTypes = {
+CalendarHeader.displayName = 'CalendarHeader';
+CalendarHeader.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   disabledBackward: PropTypes.bool,
@@ -165,4 +167,4 @@ Header.propTypes = {
   showTime: PropTypes.bool
 };
 
-export default Header;
+export default CalendarHeader;

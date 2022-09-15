@@ -1,8 +1,17 @@
-import { DateRange, RangeType } from './types';
-import { DateUtils } from '../utils';
-
-export const setTimingMargin = (date, way = 'left'): Date =>
-  way === 'right' ? DateUtils.endOfDay(date) : DateUtils.startOfDay(date);
+import { DateRange } from './types';
+import {
+  addMonths,
+  getMonth,
+  isSameDay,
+  shouldRenderTime,
+  isSameSecond,
+  startOfMonth,
+  endOfMonth,
+  startOfISOWeek,
+  endOfISOWeek,
+  startOfWeek,
+  endOfWeek
+} from '../utils/dateUtils';
 
 export function getCalendarDate({
   value,
@@ -15,44 +24,23 @@ export function getCalendarDate({
   value = value ?? [];
 
   if (value[0] && value[1]) {
-    const startMonth = DateUtils.getMonth(value[0]);
-    const endMonth = DateUtils.getMonth(value[1]);
+    const startMonth = getMonth(value[0]);
+    const endMonth = getMonth(value[1]);
 
     if (calendarKey === 'start') {
-      return [value[0], startMonth >= endMonth ? DateUtils.addMonths(value[0], 1) : value[1]];
+      return [value[0], startMonth >= endMonth ? addMonths(value[0], 1) : value[1]];
     } else if (calendarKey === 'end') {
-      return [startMonth >= endMonth ? DateUtils.addMonths(value[1], -1) : value[0], value[1]];
+      return [startMonth >= endMonth ? addMonths(value[1], -1) : value[0], value[1]];
     }
 
     // If only the start date
   } else if (value[0]) {
-    return [value[0], DateUtils.addMonths(value[0], 1)];
+    return [value[0], addMonths(value[0], 1)];
   }
 
   const todayDate = new Date();
-  return [todayDate, DateUtils.addMonths(todayDate, 1)];
+  return [todayDate, addMonths(todayDate, 1)];
 }
-
-export const getDefaultRanges = (): RangeType[] => {
-  const todayDate = new Date();
-  return [
-    {
-      label: 'today',
-      value: [setTimingMargin(todayDate), setTimingMargin(todayDate, 'right')]
-    },
-    {
-      label: 'yesterday',
-      value: [
-        setTimingMargin(DateUtils.addDays(todayDate, -1)),
-        setTimingMargin(DateUtils.addDays(todayDate, -1), 'right')
-      ]
-    },
-    {
-      label: 'last7Days',
-      value: [setTimingMargin(DateUtils.subDays(todayDate, 6)), setTimingMargin(todayDate, 'right')]
-    }
-  ];
-};
 
 export const isSameRange = (source: DateRange | null, dest: DateRange | null, format: string) => {
   // If both are null, reguard as same
@@ -60,26 +48,22 @@ export const isSameRange = (source: DateRange | null, dest: DateRange | null, fo
   // If only one is null, regard as different
   if (null === source || null === dest) return false;
 
-  let result = DateUtils.isSameDay(source[0], dest[0]) && DateUtils.isSameDay(source[1], dest[1]);
+  let result = isSameDay(source[0], dest[0]) && isSameDay(source[1], dest[1]);
 
-  if (DateUtils.shouldTime(format)) {
-    result &&=
-      DateUtils.isSameSecond(source[0], dest[0]) && DateUtils.isSameSecond(source[1], dest[1]);
+  if (shouldRenderTime(format)) {
+    result &&= isSameSecond(source[0], dest[0]) && isSameSecond(source[1], dest[1]);
   }
 
   return result;
 };
 
-export const getMonthHoverRange = (date: Date): DateRange => [
-  DateUtils.startOfMonth(date),
-  DateUtils.endOfMonth(date)
-];
+export const getMonthHoverRange = (date: Date): DateRange => [startOfMonth(date), endOfMonth(date)];
 
 export const getWeekHoverRange = (isoWeek: boolean, date: Date): DateRange => {
   if (isoWeek) {
     // set to the first day of this week according to ISO 8601, 12:00 am
-    return [DateUtils.startOfISOWeek(date), DateUtils.endOfISOWeek(date)];
+    return [startOfISOWeek(date), endOfISOWeek(date)];
   }
 
-  return [DateUtils.startOfWeek(date), DateUtils.endOfWeek(date)];
+  return [startOfWeek(date), endOfWeek(date)];
 };

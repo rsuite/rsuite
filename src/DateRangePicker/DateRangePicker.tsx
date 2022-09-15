@@ -35,17 +35,11 @@ import {
   useControlled,
   useCustom
 } from '../utils';
-import { addMonths, compareAsc, isSameMonth } from '../utils/dateUtils';
+import { addMonths, compareAsc, isSameMonth, startOfDay, endOfDay } from '../utils/dateUtils';
 import Calendar from './Calendar';
 import * as disabledDateUtils from './disabledDateUtils';
 import { DisabledDateFunction, RangeType, DateRange } from './types';
-import {
-  getCalendarDate,
-  getMonthHoverRange,
-  getWeekHoverRange,
-  isSameRange,
-  setTimingMargin
-} from './utils';
+import { getCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
 
 type InputState = 'Typing' | 'Error' | 'Initial';
 
@@ -234,10 +228,10 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     (value: SelectedDatesState | null, calendarKey?: 'start' | 'end') => {
       let nextValue = value;
 
-      const { shouldTime, getHours, getMinutes, getSeconds, set } = DateUtils;
+      const { shouldRenderTime, getHours, getMinutes, getSeconds, set } = DateUtils;
 
       if (
-        shouldTime(formatStr) &&
+        shouldRenderTime(formatStr) &&
         calendarKey === undefined &&
         value?.length === 1 &&
         defaultCalendarValue?.length === 2
@@ -416,9 +410,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       if (hasDoneSelect.current && oneTap) {
         handleValueUpdate(
           event,
-          noHoverRangeValid
-            ? [setTimingMargin(date), setTimingMargin(date, 'right')]
-            : hoverRangeValue
+          noHoverRangeValid ? [startOfDay(date), endOfDay(date)] : hoverRangeValue
         );
         hasDoneSelect.current = false;
         return;

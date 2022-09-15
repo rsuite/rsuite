@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
-import Header from '../Header';
+import Header from '../CalendarHeader';
 import CalendarContext from '../CalendarContext';
 
 describe('Calendar-Header', () => {

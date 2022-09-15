@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { addMonths, isSameMonth } from '../utils/dateUtils';
-import CalendarCore, {
-  CalendarProps as CalendarCoreProps,
-  CalendarState
-} from '../Calendar/Calendar';
+import CalendarCore, { CalendarProps as CalendarCoreProps } from '../Calendar/CalendarContainer';
 import { DateRange } from './types';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { DatePickerLocale } from '../locales';
@@ -56,7 +53,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       value = [],
       ...rest
     } = props;
-    const [calendarState, setCalendarState] = useState<CalendarState>();
 
     const onMoveForward = useCallback(
       (nextPageDate: Date) => {
@@ -75,7 +71,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
     const handleChangePageDate = useCallback(
       (nextPageDate: Date) => {
         onChangeCalendarDate?.(index, nextPageDate);
-        setCalendarState(undefined);
       },
       [index, onChangeCalendarDate]
     );
@@ -93,18 +88,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       },
       [index, onToggleMeridian]
     );
-
-    const toggleMonthDropdown = useCallback(() => {
-      setCalendarState(
-        calendarState === CalendarState.DROP_MONTH ? undefined : CalendarState.DROP_MONTH
-      );
-    }, [calendarState]);
-
-    const toggleTimeDropdown = useCallback(() => {
-      setCalendarState(
-        calendarState === CalendarState.DROP_TIME ? undefined : CalendarState.DROP_TIME
-      );
-    }, [calendarState]);
 
     const inSameMonth = useCallback(
       (date: Date) => isSameMonth(date, calendarDate[index]),
@@ -130,7 +113,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       <Component
         {...rest}
         format={format}
-        calendarState={calendarState}
         dateRange={value}
         disabledDate={disabledMonth}
         inSameMonth={inSameMonth}
@@ -140,8 +122,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
         onChangePageTime={handleChangePageTime}
         onMoveBackward={handleMoveBackward}
         onMoveForward={handleMoveForward}
-        onToggleMonthDropdown={toggleMonthDropdown}
-        onToggleTimeDropdown={toggleTimeDropdown}
         onToggleMeridian={handleToggleMeridian}
         calendarDate={getCalendarDate()}
         ref={ref}

@@ -216,7 +216,7 @@ export { default as List } from './List';
 export type { ListProps, ListItemProps } from './List';
 
 export { default as Calendar } from './Calendar';
-export type { CalendarPanelProps as CalendarProps } from './Calendar';
+export type { CalendarProps } from './Calendar';
 
 export { default as Carousel } from './Carousel';
 export type { CarouselProps } from './Carousel';

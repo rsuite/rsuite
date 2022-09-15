@@ -5,11 +5,11 @@ import Table from './Table';
 import { useCalendarContext } from './CalendarContext';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
-export type ViewProps = WithAsProps;
+export type CalendarBodyProps = WithAsProps;
 
-const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
-  (props: ViewProps, ref) => {
-    const { as: Component = 'div', className, classPrefix = 'calendar-view', ...rest } = props;
+const CalendarBody: RsRefForwardingComponent<'div', CalendarBodyProps> = React.forwardRef(
+  (props, ref) => {
+    const { as: Component = 'div', className, classPrefix = 'calendar-body', ...rest } = props;
     const { date = new Date(), isoWeek, locale: overrideLocale } = useCalendarContext();
     const { locale, formatDate } = useCustom('Calendar', overrideLocale);
     const thisMonthDate = DateUtils.setDate(date, 1);
@@ -27,11 +27,11 @@ const View: RsRefForwardingComponent<'div', ViewProps> = React.forwardRef(
   }
 );
 
-View.displayName = 'View';
-View.propTypes = {
+CalendarBody.displayName = 'CalendarBody';
+CalendarBody.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,
   classPrefix: PropTypes.string
 };
 
-export default View;
+export default CalendarBody;
