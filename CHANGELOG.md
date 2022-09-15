@@ -1,3 +1,15 @@
+## [5.18.1](https://github.com/rsuite/rsuite/compare/v5.18.0...v5.18.1) (2022-09-15)
+
+### Bug Fixes
+
+- **Nav:** fix incorrect height of <Nav.Menu>, fix [#2678](https://github.com/rsuite/rsuite/issues/2678) ([#2716](https://github.com/rsuite/rsuite/issues/2716)) ([8cefc64](https://github.com/rsuite/rsuite/commit/8cefc64ecfc6614bff4842b193f515064f0b5e3b))
+- **Stack:** fix spacing compat for chrome under 84 ([#2718](https://github.com/rsuite/rsuite/issues/2718)) ([a75b6a6](https://github.com/rsuite/rsuite/commit/a75b6a6b8cf0e2aa11abfde6205ddba57f458414))
+
+### Features
+
+- **Calendar:** add a button to collapse the month and time view ([#2722](https://github.com/rsuite/rsuite/issues/2722)) ([b49bfaf](https://github.com/rsuite/rsuite/commit/b49bfaf5b553d1d13c17ba07951306147091ee44))
+- **List:** add size prop to ListItem ([#2714](https://github.com/rsuite/rsuite/issues/2714)) ([ed3b023](https://github.com/rsuite/rsuite/commit/ed3b02305ef603d2d1b60bedd849f6c946ef7127))
+
 # [5.18.0](https://github.com/rsuite/rsuite/compare/v5.17.1...v5.18.0) (2022-09-08)
 
 ### Bug Fixes
