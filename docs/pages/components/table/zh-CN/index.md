@@ -400,10 +400,10 @@ scrollLeft: (left: number) => void;
 
 ### `<Table.HeaderCell>`
 
-| 属性名称       | 类型 `(默认值)`                                      | 描述                         |
-| -------------- | ---------------------------------------------------- | ---------------------------- |
-| children       | React.ReactNode                                      | 表格列标题显示内容           |
-| renderSortIcon | (sortType?: 'desc' &#124; 'asc' ) => React.ReactNode | 在列头上的自定义渲染排序图标 |
+| 属性名称       | 类型 `(默认值)`                                | 描述                         |
+| -------------- | ---------------------------------------------- | ---------------------------- |
+| children       | ReactNode                                      | 表格列标题显示内容           |
+| renderSortIcon | (sortType?: 'desc' &#124; 'asc' ) => ReactNode | 在列头上的自定义渲染排序图标 |
 
 ### `<Table.Cell>`
 

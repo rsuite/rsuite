@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useCustom, isIE } from '../utils';
+import { useClassNames, useCustom, isSupportFlexGap } from '../utils';
 import { WithAsProps } from '../@types/common';
 
 export interface StackProps extends WithAsProps {
@@ -50,7 +50,7 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
   const { rtl } = useCustom('Stack');
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
-  const isSupportGridGap = !isIE();
+  const isSupportGridGap = isSupportFlexGap();
 
   const count = React.Children.count(children);
   const gridGap = Array.isArray(spacing) ? spacing : [spacing, 0];

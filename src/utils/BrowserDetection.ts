@@ -14,3 +14,45 @@ export const isIE11 = () =>
 
 // Edge 20+
 export const isEdge = () => canUseDOM && !isIE() && 'styleMedia' in window;
+
+export const getChromeVersion = () => {
+  if (canUseDOM) {
+    const match = window.navigator.userAgent.match(/Chrom(e|ium)\/([\d\.]+)\./);
+    return match ? parseFloat(match[2]) : false;
+  }
+
+  return false;
+};
+
+export const getSafariVersion = () => {
+  if (canUseDOM) {
+    const match = window.navigator.userAgent.match(/Version\/([\d\.]+).*Safari/);
+    return match ? parseFloat(match[1]) : false;
+  }
+  return false;
+};
+
+/**
+ * flexbox-gap compatibility
+ * @see https://caniuse.com/flexbox-gap
+ */
+export const isSupportFlexGap = () => {
+  if (isIE()) {
+    return false;
+  }
+  const chromeVersion = getChromeVersion();
+  const safariVersion = getSafariVersion();
+
+  // edge consider as chrome
+  if (chromeVersion) {
+    // flex-gap is support in Chrome 84+
+    return chromeVersion >= 84;
+  }
+
+  if (safariVersion) {
+    // flex-gap is support in Safari 14.1+
+    return safariVersion >= 14.1;
+  }
+
+  return true;
+};

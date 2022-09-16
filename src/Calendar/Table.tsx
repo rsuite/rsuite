@@ -32,7 +32,7 @@ const Table: RsRefForwardingComponent<'div', TableProps> = React.forwardRef(
   }
 );
 
-Table.displayName = 'Table';
+Table.displayName = 'CalendarTable';
 Table.propTypes = {
   rows: PropTypes.array,
   className: PropTypes.string,

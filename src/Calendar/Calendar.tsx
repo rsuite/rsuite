@@ -1,283 +1,136 @@
-import React, { HTMLAttributes, useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import pick from 'lodash/pick';
-import MonthDropdown from './MonthDropdown';
-import TimeDropdown from './TimeDropdown';
-import View from './View';
-import Header, { HeaderProps } from './Header';
-import { useClassNames, DateUtils, composeFunctions } from '../utils';
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import Calendar from './CalendarContainer';
 import { CalendarLocale } from '../locales';
-import { CalendarProvider } from './CalendarContext';
+import Button from '../Button';
+import { FormattedDate } from '../CustomProvider';
+import { useClassNames, useCustom } from '../utils';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import useCalendarDate from './useCalendarDate';
 
-export enum CalendarState {
-  'DROP_TIME' = 'DROP_TIME',
-  'DROP_MONTH' = 'DROP_MONTH'
-}
+export interface CalendarProps extends WithAsProps {
+  /** Controlled value */
+  value?: Date;
 
-export interface CalendarProps
-  extends WithAsProps,
-    Omit<HTMLAttributes<HTMLDivElement>, 'onSelect' | 'onChange' | 'onMouseMove'>,
-    Omit<HeaderProps, 'onMoveForward' | 'onMoveBackward' | 'showDate' | 'showTime' | 'showMonth'> {
-  /** The status of the calendar display: day, month, time. */
-  calendarState?: CalendarState;
+  /** Default value  */
+  defaultValue?: Date;
 
-  /** The panel render based on date range */
-  dateRange?: Date[];
-
-  /** Disabled date */
-  disabledDate?: (date: Date) => boolean;
-
-  /** Disabled hours */
-  disabledHours?: (hour: number, date: Date) => boolean;
-
-  /** Disabled minutes */
-  disabledMinutes?: (minute: number, date: Date) => boolean;
-
-  /** Hidden seconds */
-  disabledSeconds?: (second: number, date: Date) => boolean;
-
-  /** Format str */
-  format: string;
-
-  /** Hidden hours */
-  hideHours?: (hour: number, date: Date) => boolean;
-
-  /** Hidden minutes */
-  hideMinutes?: (minute: number, date: Date) => boolean;
-
-  /** Hidden seconds */
-  hideSeconds?: (second: number, date: Date) => boolean;
-
-  /** The value that mouse hover on in range selection */
-  hoverRangeValue?: [Date, Date];
-
-  /** Is it in the same month as today */
-  inSameMonth?: (date: Date) => boolean;
-
-  /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
+  /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day  */
   isoWeek?: boolean;
 
-  /** Limit showing how many years in the future */
-  limitEndYear?: number;
+  /** Display a compact calendar   */
+  compact?: boolean;
+
+  /** Show border   */
+  bordered?: boolean;
 
   /** Custom locale */
-  locale: CalendarLocale;
+  locale?: CalendarLocale;
 
-  /** Callback after the date has changed */
-  onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;
-
-  /** Callback after the time has changed */
-  onChangePageTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
-
-  /** Callback after mouse enter other date cell */
-  onMouseMove?: (date: Date) => void;
-
-  /** Switch to the callback triggered after the previous month. */
-  onMoveBackward?: (nextPageDate: Date) => void;
-
-  /** Switch to the callback triggered after the next month. */
-  onMoveForward?: (nextPageDate: Date) => void;
+  /**  Callback fired before the value changed  */
+  onChange?: (date: Date) => void;
 
   /** Callback fired before the date selected */
-  onSelect?: (date: Date, event: React.MouseEvent) => void;
+  onSelect?: (date: Date) => void;
 
-  /** Date displayed on the current page */
-  calendarDate: Date;
-
-  /** Custom rendering cell*/
+  /** Custom render calendar cells  */
   renderCell?: (date: Date) => React.ReactNode;
-
-  /** Whether to show week numbers */
-  showWeekNumbers?: boolean;
-
-  inline?: boolean;
 }
 
-const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRef(
+const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = React.forwardRef(
   (props: CalendarProps, ref) => {
     const {
-      as: Component = 'div',
+      as: Component = Calendar,
+      bordered,
       className,
       classPrefix = 'calendar',
-      calendarState,
-      dateRange,
-      disabledBackward,
-      disabledDate,
-      disabledForward,
-      format,
-      hoverRangeValue,
-      inSameMonth,
-      isoWeek = false,
-      limitEndYear,
-      locale,
-      onChangePageDate,
-      onChangePageTime,
-      onMouseMove,
-      onMoveBackward,
-      onMoveForward,
+      compact,
+      defaultValue = new Date(),
+      isoWeek,
+      locale: overrideLocale,
+      onChange,
       onSelect,
-      onToggleMeridian,
-      onToggleMonthDropdown,
-      onToggleTimeDropdown,
-      calendarDate,
       renderCell,
-      renderTitle,
-      renderToolbar,
-      showMeridian,
-      showWeekNumbers,
-      inline,
+      value,
       ...rest
     } = props;
-    const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const isDisabledDate = useCallback(
-      (date: Date) => disabledDate?.(date) ?? false,
-      [disabledDate]
-    );
-    const isTimeDisabled = (date: Date) => DateUtils.disabledTime(props, date);
-    const handleMoveForward = useCallback(() => {
-      onMoveForward?.(DateUtils.addMonths(calendarDate, 1));
-    }, [onMoveForward, calendarDate]);
 
-    const handleMoveBackward = useCallback(() => {
-      onMoveBackward?.(DateUtils.addMonths(calendarDate, -1));
-    }, [onMoveBackward, calendarDate]);
+    const { calendarDate, setCalendarDate } = useCalendarDate(value, defaultValue);
+    const { locale } = useCustom('Calendar', overrideLocale);
 
-    const showDate = DateUtils.shouldDate(format);
-    const showTime = DateUtils.shouldTime(format);
-    const showMonth = DateUtils.shouldMonth(format);
-
-    const onlyShowTime = showTime && !showDate && !showMonth;
-    const onlyShowMonth = showMonth && !showDate && !showTime;
-    const dropTime = calendarState === CalendarState.DROP_TIME || onlyShowTime;
-    const dropMonth = calendarState === CalendarState.DROP_MONTH || onlyShowMonth;
-
-    const inSameThisMonthDate = useCallback(
-      (date: Date) =>
-        composeFunctions(
-          d => DateUtils.setDate(d, 1),
-          d => DateUtils.isSameMonth(d, date)
-        )(date),
-      []
+    const handleChange = useCallback(
+      (nextValue: Date) => {
+        setCalendarDate(nextValue);
+        onChange?.(nextValue);
+      },
+      [setCalendarDate, onChange]
     );
 
-    const calendarClasses = merge(
-      className,
-      withClassPrefix({
-        'show-time-dropdown': dropTime,
-        'show-month-dropdown': dropMonth,
-        'show-week-numbers': showWeekNumbers
-      })
+    const handleClickToday = useCallback(() => {
+      handleChange(new Date());
+    }, [handleChange]);
+
+    const handleSelect = useCallback(
+      (nextValue: Date) => {
+        onSelect?.(nextValue);
+        handleChange(nextValue);
+      },
+      [handleChange, onSelect]
     );
-    const timeDropdownProps = pick(rest, DateUtils.calendarOnlyProps);
-    const contextValue = useMemo(
-      () => ({
-        date: calendarDate,
-        dateRange,
-        disabledDate: isDisabledDate,
-        format,
-        hoverRangeValue,
-        inSameMonth: inSameMonth ?? inSameThisMonthDate,
-        isoWeek,
-        locale,
-        onChangePageDate,
-        onChangePageTime,
-        onMouseMove,
-        onSelect,
-        renderCell,
-        showWeekNumbers,
-        inline
-      }),
-      [
-        calendarDate,
-        dateRange,
-        format,
-        hoverRangeValue,
-        inSameMonth,
-        inSameThisMonthDate,
-        inline,
-        isDisabledDate,
-        isoWeek,
-        locale,
-        onChangePageDate,
-        onChangePageTime,
-        onMouseMove,
-        onSelect,
-        renderCell,
-        showWeekNumbers
-      ]
+
+    const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+
+    const renderToolbar = useCallback(
+      () => (
+        <Button className={prefix('btn-today')} size="sm" onClick={handleClickToday}>
+          {locale.today || 'Today'}
+        </Button>
+      ),
+      [handleClickToday, locale.today, prefix]
     );
+
+    const customRenderCell = useCallback((date: Date) => renderCell?.(date), [renderCell]);
+
+    const classes = merge(className, withClassPrefix('panel', { bordered, compact }));
+
     return (
-      <CalendarProvider value={contextValue}>
-        <Component
-          {...DateUtils.omitHideDisabledProps<Partial<CalendarProps>>(rest)}
-          className={calendarClasses}
-          ref={ref}
-        >
-          <Header
-            showMonth={showMonth}
-            showDate={showDate}
-            showTime={showTime}
-            showMeridian={showMeridian}
-            disabledTime={isTimeDisabled}
-            onMoveForward={handleMoveForward}
-            onMoveBackward={handleMoveBackward}
-            onToggleMonthDropdown={onToggleMonthDropdown}
-            onToggleTimeDropdown={onToggleTimeDropdown}
-            onToggleMeridian={onToggleMeridian}
-            renderTitle={renderTitle}
-            renderToolbar={renderToolbar}
-            disabledBackward={disabledBackward}
-            disabledForward={disabledForward}
-          />
-          {showDate && <View />}
-          {showMonth && (
-            <MonthDropdown
-              show={dropMonth}
-              limitEndYear={limitEndYear}
-              disabledMonth={isDisabledDate}
-            />
-          )}
-          {showTime && (
-            <TimeDropdown {...timeDropdownProps} show={dropTime} showMeridian={showMeridian} />
-          )}
-        </Component>
-      </CalendarProvider>
+      <Component
+        {...rest}
+        inline
+        className={classes}
+        ref={ref}
+        isoWeek={isoWeek}
+        format="yyyy-MM-dd"
+        calendarDate={calendarDate}
+        limitEndYear={1000}
+        locale={locale}
+        renderTitle={date => (
+          <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
+        )}
+        renderToolbar={renderToolbar}
+        renderCell={customRenderCell}
+        onMoveForward={handleChange}
+        onMoveBackward={handleChange}
+        onChangePageDate={handleChange}
+        onSelect={handleSelect}
+      />
     );
   }
 );
 
-Calendar.displayName = 'Calendar';
-Calendar.propTypes = {
-  calendarState: PropTypes.oneOf(Object.values(CalendarState)),
+CalendarPanel.displayName = 'CalendarPanel';
+CalendarPanel.propTypes = {
+  value: PropTypes.instanceOf(Date),
+  defaultValue: PropTypes.instanceOf(Date),
+  isoWeek: PropTypes.bool,
+  compact: PropTypes.bool,
+  bordered: PropTypes.bool,
+  locale: PropTypes.object,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
-  disabledDate: PropTypes.func,
-  disabledHours: PropTypes.func,
-  disabledMinutes: PropTypes.func,
-  disabledSeconds: PropTypes.func,
-  format: PropTypes.string,
-  hideHours: PropTypes.func,
-  hideMinutes: PropTypes.func,
-  hideSeconds: PropTypes.func,
-  inSameMonth: PropTypes.func,
-  isoWeek: PropTypes.bool,
-  limitEndYear: PropTypes.number,
-  locale: PropTypes.object,
-  onChangePageDate: PropTypes.func,
-  onChangePageTime: PropTypes.func,
-  onMoveBackward: PropTypes.func,
-  onMoveForward: PropTypes.func,
+  onChange: PropTypes.func,
   onSelect: PropTypes.func,
-  onToggleMeridian: PropTypes.func,
-  onToggleMonthDropdown: PropTypes.func,
-  onToggleTimeDropdown: PropTypes.func,
-  calendarDate: PropTypes.instanceOf(Date),
-  renderCell: PropTypes.func,
-  renderTitle: PropTypes.func,
-  renderToolbar: PropTypes.func,
-  showMeridian: PropTypes.bool,
-  showWeekNumbers: PropTypes.bool
+  renderCell: PropTypes.func
 };
 
-export default Calendar;
+export default CalendarPanel;

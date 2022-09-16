@@ -91,7 +91,17 @@
 
 <!--{include:`justified.md`}-->
 
-## Props
+## 访问 DOM
+
+`Button` 组件所渲染的 `<button>` 元素可通过 `ref` 属性访问。
+
+```tsx
+function App() {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  return <Button ref={buttonRef}>Text</Button>;
+}
+```
 
 ## Props
 

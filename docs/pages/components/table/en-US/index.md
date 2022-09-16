@@ -404,10 +404,10 @@ scrollLeft: (left: number) => void;
 
 ### `<Table.HeaderCell>`
 
-| Property       | Type `(Default)`                                     | Description                                  |
-| -------------- | ---------------------------------------------------- | -------------------------------------------- |
-| children       | React.ReactNode                                      | The table column header displays the content |
-| renderSortIcon | (sortType?: 'desc' &#124; 'asc' ) => React.ReactNode | Custom render sort icons on column headers   |
+| Property       | Type `(Default)`                               | Description                                  |
+| -------------- | ---------------------------------------------- | -------------------------------------------- |
+| children       | ReactNode                                      | The table column header displays the content |
+| renderSortIcon | (sortType?: 'desc' &#124; 'asc' ) => ReactNode | Custom render sort icons on column headers   |
 
 ### `<Table.Cell>`
 

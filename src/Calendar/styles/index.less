@@ -42,8 +42,8 @@
     float: none !important;
   }
 
-  &-panel&-show-month-dropdown &-header-forward,
-  &-panel&-show-month-dropdown &-header-backward {
+  &-panel&-month-view &-header-forward,
+  &-panel&-month-view &-header-backward {
     display: inline-block;
     visibility: hidden;
     pointer-events: none;
@@ -53,12 +53,12 @@
     width: auto !important;
   }
 
-  &-panel&-show-month-dropdown &-header-month-toolbar {
+  &-panel&-month-view &-header-month-toolbar {
     padding-left: 0;
     padding-right: 0;
   }
 
-  &-panel &-show-month-dropdown {
+  &-panel &-month-view {
     padding-left: 0;
     padding-right: 0;
   }
@@ -141,13 +141,32 @@
   &-panel&-compact &-table-row:not(&-table-header-row) &-table-cell-content {
     height: @calendar-panel-compact-cell-height;
   }
+
+  &-btn-close {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 14px;
+    padding: 0;
+    border: 0;
+    display: flex;
+    justify-content: center;
+    background: var(--rs-bg-overlay);
+    z-index: 1;
+  }
+
+  &-panel &-btn-close {
+    bottom: 11px;
+    margin: 0 20px;
+  }
 }
 
 // DatePicker
 // ----------------------
 
 // Show month dropdown
-.rs-calendar-show-month-dropdown {
+.rs-calendar-month-view {
   .rs-calendar-header-month-toolbar {
     padding-left: 24px;
     padding-right: 24px;
@@ -173,7 +192,7 @@
 }
 
 // Show time dropdown
-.rs-calendar-show-time-dropdown {
+.rs-calendar-time-view {
   .rs-calendar-header-title-time {
     .picker-calendar-title-show();
 
@@ -322,7 +341,7 @@
 
 /* rtl:end:ignore */
 
-.rs-calendar-view {
+.rs-calendar-body {
   padding: @calendar-picker-view-padding-top @calendar-picker-padding @calendar-picker-padding;
 }
 
@@ -440,11 +459,11 @@
   overflow: hidden;
   z-index: @zindex-date-range-picker-table-cell-content;
 
-  .rs-calendar-show-month-dropdown & {
+  .rs-calendar-month-view & {
     display: block;
   }
 
-  .rs-calendar-show-month-dropdown &-content {
+  .rs-calendar-month-view &-content {
     animation: 0.3s linear slideDown;
   }
 
@@ -527,11 +546,11 @@
   overflow: hidden;
   z-index: @zindex-date-range-picker-table-cell-content;
 
-  .rs-calendar-show-time-dropdown & {
+  .rs-calendar-time-view & {
     display: block;
   }
 
-  .rs-calendar-show-time-dropdown &-content {
+  .rs-calendar-time-view &-content {
     animation: 0.3s linear slideDown;
   }
 

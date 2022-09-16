@@ -317,14 +317,14 @@ describe('DatePicker', () => {
       fireEvent.click(time);
     });
 
-    assert.isNotNull(instance.overlay.querySelector('.rs-calendar-show-time-dropdown'));
+    assert.isNotNull(instance.overlay.querySelector('.rs-calendar-time-view'));
     assert.isTrue(onToggleTimeDropdownSpy.calledOnce);
 
     act(() => {
       fireEvent.click(time);
     });
 
-    expect(instance.overlay.querySelector('.rs-calendar-show-time-dropdown')).to.not.exist;
+    expect(instance.overlay.querySelector('.rs-calendar-time-view')).to.not.exist;
     expect(onToggleTimeDropdownSpy).to.calledTwice;
   });
 

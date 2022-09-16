@@ -34,7 +34,7 @@ const TableHeaderRow: RsRefForwardingComponent<'div', TableHeaderRowProps> = Rea
   }
 );
 
-TableHeaderRow.displayName = 'TableHeaderRow';
+TableHeaderRow.displayName = 'CalendarTableHeaderRow';
 TableHeaderRow.propTypes = {
   as: PropTypes.elementType,
   className: PropTypes.string,

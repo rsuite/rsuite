@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { parseISO } from '../../utils/dateUtils';
-import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Calendar from '../Calendar';
 
@@ -9,37 +8,85 @@ describe('Calendar', () => {
   testStandardProps(<Calendar />);
 
   it('Should render a div with `calendar` class', () => {
-    const instance = getDOMNode(<Calendar calendarDate={new Date(2021, 11, 24)} />);
+    const { getByTestId } = render(<Calendar data-testid="calendar" />);
 
-    expect(instance.nodeName).to.equal('DIV');
-    expect(instance.className).to.contain('rs-calendar');
+    expect(getByTestId('calendar')).to.have.class('rs-calendar');
+  });
+
+  it('Should be compact', () => {
+    const { getByTestId } = render(<Calendar compact data-testid="calendar" />);
+
+    expect(getByTestId('calendar')).to.have.class('rs-calendar-compact');
+  });
+
+  it('Should be rendered custom elements', () => {
+    const { getByTestId } = render(
+      <Calendar
+        data-testid="calendar"
+        defaultValue={parseISO('2018-07-01')}
+        renderCell={() => {
+          return <i className="text">test</i>;
+        }}
+      />
+    );
+
+    expect(getByTestId('calendar').querySelectorAll('.text')).to.length(42);
+  });
+
+  it('Should be bordered', () => {
+    const { getByTestId } = render(<Calendar bordered data-testid="calendar" />);
+
+    expect(getByTestId('calendar')).to.have.class('rs-calendar-bordered');
   });
 
   it('Should output valid one day', () => {
-    const instance = getDOMNode(
-      <Calendar format="yyyy-MM-dd" calendarDate={parseISO('2018-07-01')} />
+    const { getAllByRole } = render(
+      <Calendar format="yyyy-MM-dd" defaultValue={parseISO('2018-07-01')} />
     );
 
-    expect(
-      instance
-        .querySelectorAll('.rs-calendar-table-row')[1]
-        .querySelector('.rs-calendar-table-cell-content').textContent
-    ).to.equal('1');
+    expect(getAllByRole('row')[1].querySelector('.rs-calendar-table-cell-content')).to.text('1');
   });
 
-  it('Should call `onSelect` callback with the date being clicked', () => {
-    const onSelect = sinon.spy();
-
-    const { getByRole } = render(
-      <Calendar format="yyyy-MM-dd" calendarDate={new Date(2021, 11, 24)} onSelect={onSelect} />
+  it('Should call `onSelect` callback', () => {
+    const onSelectSpy = sinon.spy();
+    const { getByTestId } = render(
+      <Calendar format="yyyy-MM-dd" onSelect={onSelectSpy} data-testid="calendar" />
     );
 
-    expect(getByRole('gridcell', { name: '24 Dec 2021' })).to.exist;
+    fireEvent.click(
+      getByTestId('calendar').querySelector(
+        '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
+      )
+    );
 
-    act(() => {
-      fireEvent.click(getByRole('gridcell', { name: '24 Dec 2021' }).firstChild);
+    expect(onSelectSpy).to.have.been.calledOnce;
+  });
+
+  it('Should be a controlled value', async () => {
+    const ref = React.createRef();
+    const App = React.forwardRef((props, ref) => {
+      const [value, setValue] = React.useState(new Date('6/10/2021'));
+      const calendarRef = React.useRef();
+
+      React.useImperativeHandle(ref, () => ({
+        calendar: calendarRef.current,
+        setDate: date => {
+          setValue(date);
+        }
+      }));
+      return <Calendar value={value} ref={calendarRef} format="yyyy-MM-dd" />;
     });
 
-    expect(onSelect).to.have.been.calledWith(new Date(2021, 11, 24));
+    render(<App ref={ref} />);
+
+    const calendar = ref.current.calendar;
+
+    expect(calendar.querySelector('.rs-calendar-header-title')).text('Jun 2021');
+
+    ref.current.setDate(new Date('7/11/2021'));
+
+    await waitFor(() => {
+      expect(calendar.querySelector('.rs-calendar-header-title')).text('Jul 2021');
+    });
   });
 });
