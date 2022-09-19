@@ -75,29 +75,35 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
 
   return (
     <Component {...rest} ref={ref} className={classes} style={styles}>
-      {React.Children.map(children as React.ReactElement[], (child, index) => {
-        const childNode =
-          child.type !== StackItem ? (
-            <StackItem
-              className={prefix('item')}
-              style={!isSupportGridGap ? itemStyles : undefined}
-            >
-              {child}
-            </StackItem>
-          ) : (
-            React.cloneElement(child, {
-              className: merge(prefix('item'), child.props.className),
-              style: !isSupportGridGap
-                ? {
-                    ...itemStyles,
-                    ...child.props.style
-                  }
-                : child.props.style
-            })
-          );
+      {
+        /*
+         * toArray remove undefined, null and boolean
+         */
+        (React.Children.toArray(children) as React.ReactElement[]).map((child, index) => {
+          const childNode =
+            child.type !== StackItem ? (
+              <StackItem
+                key={index}
+                className={prefix('item')}
+                style={!isSupportGridGap ? itemStyles : undefined}
+              >
+                {child}
+              </StackItem>
+            ) : (
+              React.cloneElement(child, {
+                className: merge(prefix('item'), child.props.className),
+                style: !isSupportGridGap
+                  ? {
+                      ...itemStyles,
+                      ...child.props.style
+                    }
+                  : child.props.style
+              })
+            );
 
-        return [childNode, index < count - 1 ? divider : null];
-      })}
+          return [childNode, index < count - 1 ? divider : null];
+        })
+      }
     </Component>
   );
 }) as unknown as StackComponent;
