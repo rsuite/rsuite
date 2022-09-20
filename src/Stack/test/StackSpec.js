@@ -70,6 +70,6 @@ describe('Stack', () => {
       </Stack>
     );
 
-    expect(getByTestId('test').children.length).to.equal(4);
+    expect(getByTestId('test').children).to.length(4);
   });
 });
