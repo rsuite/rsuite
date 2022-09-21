@@ -5,7 +5,7 @@
 Download the example
 
 ```shell script
-curl https://codeload.github.com/rsuite/rsuite/tar.gz/master | tar -xz --strip=2 rsuite-master/examples/with-preact
+curl https://codeload.github.com/rsuite/rsuite/tar.gz/main | tar -xz --strip=2 rsuite-main/examples/with-preact
 cd with-preact
 ```
 
