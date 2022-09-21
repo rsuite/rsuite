@@ -42,6 +42,10 @@ The cascade attribute can set whether or not CheckTreePicker can consider the ca
 
 <!--{include:`async.md`}-->
 
+### Extra footer
+
+<!--{include:`extra-footer.md`}-->
+
 ## Accessibility
 
 Learn more in [Accessibility](/guide/accessibility).

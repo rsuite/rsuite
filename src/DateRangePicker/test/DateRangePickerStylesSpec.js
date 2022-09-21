@@ -7,19 +7,16 @@ import getWidth from 'dom-lib/getWidth';
 import '../styles/index.less';
 
 describe('DateRangePicker styles', () => {
-  it('Should render the correct styles', call => {
-    const instanceRef = React.createRef();
-    render(<DateRangePicker ref={instanceRef} open />);
+  it('Should render the correct styles', () => {
+    const { getByLabelText } = render(<DateRangePicker open />);
 
-    const toggleDom = instanceRef.current.target;
-    assert.isNotNull(toggleDom.querySelector('[aria-label="calendar"]'));
-    call();
+    expect(getByLabelText('calendar').tagName).to.equal('svg');
   });
 
   it('Should keep size in `block` mode', function () {
     const instance = getInstance(<DateRangePicker block defaultOpen />);
 
-    assert.ok(instance.root.className.includes('rs-picker-block'));
-    assert.equal(getWidth(instance.overlay), 492);
+    expect(instance.root).to.have.class('rs-picker-block');
+    expect(getWidth(instance.overlay)).to.equal(492);
   });
 });

@@ -73,7 +73,6 @@ import {
 
 import { TreeBaseProps } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
-import { maxTreeHeight } from '../TreePicker/TreePicker';
 
 export type ValueType = (string | number)[];
 export interface CheckTreePickerProps<T = ValueType>
@@ -129,6 +128,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     expandItemValues: controlledExpandItemValues,
     defaultExpandItemValues = emptyArray,
     height = 360,
+    menuMaxHeight = 320,
     menuStyle,
     searchable = true,
     virtualized = false,
@@ -813,7 +813,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         <div className={treeNodesClass}>
           {virtualized ? (
             <AutoSizer
-              defaultHeight={inline ? height : maxTreeHeight}
+              defaultHeight={inline ? height : menuMaxHeight}
               style={{ width: 'auto', height: 'auto' }}
             >
               {({ height, width }) => (
@@ -841,13 +841,12 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     const { left, top, className } = positionProps;
     const classes = classNames(className, menuClassName, prefix('check-tree-menu'));
     const mergedMenuStyle = { ...menuStyle, left, top };
-    const styles = virtualized ? { height, ...mergedMenuStyle } : { ...mergedMenuStyle };
 
     return (
       <PickerOverlay
         autoWidth={menuAutoWidth}
         className={classes}
-        style={styles}
+        style={mergedMenuStyle}
         ref={mergeRefs(overlayRef, speakerRef)}
         onKeyDown={onPickerKeydown}
         target={triggerRef}
