@@ -384,13 +384,13 @@ describe('SelectPicker', () => {
     it('Should render a label before placeholder', () => {
       render(<SelectPicker label="User" data={[]} data-testid="picker" />);
 
-      expect(screen.getByTestId('picker')).to.have.text('User: Select');
+      expect(screen.getByTestId('picker')).to.have.text('UserSelect');
     });
 
     it('Should render a label before selected value', () => {
       render(<SelectPicker label="User" data={data} value="Eugenia" data-testid="picker" />);
 
-      expect(screen.getByTestId('picker')).to.have.text('User: Eugenia');
+      expect(screen.getByTestId('picker')).to.have.text('UserEugenia');
     });
   });
 
