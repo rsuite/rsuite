@@ -246,7 +246,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
             className={prefix(hasValue ? 'value' : 'placeholder')}
             aria-placeholder={typeof children === 'string' ? children : undefined}
           >
-            {label && <span className={prefix('label')}>{label}: </span>}
+            {label && <span className={prefix('label')}>{label}</span>}
             {children}
           </span>
         ) : null}
