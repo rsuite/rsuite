@@ -10,7 +10,7 @@ import NavContext, { NavContextProps } from '../Nav/NavContext';
 import MenuItem from '../Menu/MenuItem';
 import omit from 'lodash/omit';
 import { SidenavContext } from './Sidenav';
-import Whisper from '../Whisper';
+import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../Tooltip';
 
 export interface SidenavItemProps<T = any>
@@ -75,15 +75,14 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
   } = props;
 
   const { activeKey, onSelect: onSelectFromNav } = useContext(NavContext) as NavContextProps;
-
   const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
-
   const selected = activeProp ?? (!isNil(eventKey) && shallowEqual(activeKey, eventKey));
+  const whisperRef = React.useRef<WhisperInstance>(null);
 
   const handleClick = useCallback<React.MouseEventHandler<HTMLElement>>(
     event => {
       if (disabled) return;
-
+      whisperRef.current?.close();
       onSelect?.(eventKey, event);
       onSelectFromNav?.(eventKey, event);
       onClick?.(event);
@@ -93,7 +92,12 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
 
   if (!sidenav.expanded) {
     return (
-      <Whisper trigger="hover" speaker={<Tooltip>{tooltip}</Tooltip>} placement="right">
+      <Whisper
+        trigger="hover"
+        speaker={<Tooltip>{tooltip}</Tooltip>}
+        placement="right"
+        ref={whisperRef}
+      >
         {(triggerProps, triggerRef) => (
           <MenuItem selected={selected} disabled={disabled} onActivate={handleClick}>
             {({ selected, active, ...menuitem }, menuitemRef) => {
