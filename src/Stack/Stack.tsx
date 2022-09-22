@@ -57,7 +57,6 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
   const classes = merge(className, withClassPrefix());
   const isSupportGridGap = isSupportFlexGap();
 
-  const count = React.Children.count(children);
   const gridGap = Array.isArray(spacing) ? spacing : [spacing, 0];
   const itemStyles: React.CSSProperties = {
     [rtl ? 'marginLeft' : 'marginRight']: gridGap[0],
@@ -73,12 +72,20 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
     ...style
   };
 
+  /*
+   * toArray remove undefined, null and boolean
+   */
+  const filterChildren = React.Children.toArray(children);
+
+  const count = filterChildren.length;
+
   return (
     <Component {...rest} ref={ref} className={classes} style={styles}>
-      {React.Children.map(children as React.ReactElement[], (child, index) => {
+      {React.Children.map(filterChildren as React.ReactElement[], (child, index) => {
         const childNode =
           child.type !== StackItem ? (
             <StackItem
+              key={index}
               className={prefix('item')}
               style={!isSupportGridGap ? itemStyles : undefined}
             >

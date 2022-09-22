@@ -58,4 +58,18 @@ describe('Stack', () => {
     assert.equal(getByTestId('test').children.length, 3);
     assert.equal(getByTestId('test').children[1].textContent, '|');
   });
+
+  it('Should not render empty child', () => {
+    const { getByTestId } = render(
+      <Stack data-testid="test">
+        {0}
+        {null}
+        {false}
+        {''}
+        {[1, 2]}
+      </Stack>
+    );
+
+    expect(getByTestId('test').children).to.length(4);
+  });
 });
