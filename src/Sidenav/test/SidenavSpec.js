@@ -325,7 +325,7 @@ describe('<Sidenav>', () => {
 
       Simulate.mouseOver(getByRole('menuitem', { name: 'Dropdown 1' }));
 
-      expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.be.visible;
+      expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.be.exist;
       expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.have.class('rs-anim-in');
 
       Simulate.click(getByRole('menuitem', { name: 'Dropdown 1' }));
