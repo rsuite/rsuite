@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { getDOMNode } from '@test/testUtils';
 import Dropdown from '../Dropdown';
@@ -285,14 +285,44 @@ describe('<Dropdown>', () => {
 
   it('Should not call onToggle callback when set disabled', () => {
     const onToggleSpy = sinon.spy();
-    const instance = getDOMNode(
+    const { getByRole } = render(
       <Dropdown onToggle={onToggleSpy} disabled>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-dropdown-toggle'));
-    assert.ok(!onToggleSpy.calledOnce);
+
+    fireEvent.click(getByRole('button'));
+
+    expect(onToggleSpy).to.have.not.been.called;
+  });
+
+  it('Should not call onToggle callback when set disabled and hover', () => {
+    const onToggleSpy = sinon.spy();
+    const { getByRole } = render(
+      <Dropdown onToggle={onToggleSpy} disabled trigger="hover">
+        <Dropdown.Item eventKey={1}>1</Dropdown.Item>
+        <Dropdown.Item eventKey={2}>2</Dropdown.Item>
+      </Dropdown>
+    );
+
+    fireEvent.mouseEnter(getByRole('button'));
+
+    expect(onToggleSpy).to.have.not.been.called;
+  });
+
+  it('Should not call onToggle callback when set disabled and contextMenu', () => {
+    const onToggleSpy = sinon.spy();
+    const { getByRole } = render(
+      <Dropdown onToggle={onToggleSpy} disabled trigger="contextMenu">
+        <Dropdown.Item eventKey={1}>1</Dropdown.Item>
+        <Dropdown.Item eventKey={2}>2</Dropdown.Item>
+      </Dropdown>
+    );
+
+    fireEvent.contextMenu(getByRole('button'));
+
+    expect(onToggleSpy).to.have.not.been.called;
   });
 
   it('Should have a custom style in Menu', () => {
