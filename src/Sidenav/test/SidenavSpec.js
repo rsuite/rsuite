@@ -311,5 +311,26 @@ describe('<Sidenav>', () => {
       expect(getByTestId('dropdown-1').className).to.include('selected-within');
       expect(getByTestId('dropdown-2').className).to.include('selected-within');
     });
+
+    it('Should close the tooltip on click', () => {
+      const { getByRole } = render(
+        <Sidenav expanded={false}>
+          <Nav>
+            <Nav.Menu title="Dropdown 1" eventKey="1" data-testid="dropdown-1">
+              <Nav.Item eventKey="1-1">item 1-1</Nav.Item>
+            </Nav.Menu>
+          </Nav>
+        </Sidenav>
+      );
+
+      Simulate.mouseOver(getByRole('menuitem', { name: 'Dropdown 1' }));
+
+      expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.be.exist;
+      expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.have.class('rs-anim-in');
+
+      Simulate.click(getByRole('menuitem', { name: 'Dropdown 1' }));
+
+      expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.not.have.class('rs-anim-in');
+    });
   });
 });
