@@ -1,6 +1,6 @@
 import { isNil, isUndefined } from 'lodash';
-import { CheckTreePickerProps } from './CheckTreePicker';
-import { shallowEqual, CHECK_STATE, CheckStateType } from '../utils';
+import { CheckTreePickerProps, ValueType } from './CheckTreePicker';
+import { CHECK_STATE, CheckStateType } from '../utils';
 import { getChildrenByFlattenNodes } from '../utils/treeUtils';
 import { attachParent } from '../utils/attachParent';
 
@@ -110,7 +110,7 @@ export function isNodeUncheckable(
   props: Required<Pick<CheckTreePickerProps, 'uncheckableItemValues' | 'valueKey'>>
 ) {
   const { uncheckableItemValues = [], valueKey } = props;
-  return uncheckableItemValues.some((value: any) => shallowEqual(node[valueKey], value));
+  return uncheckableItemValues.some((value: any) => node[valueKey] === value);
 }
 
 export function getFormattedTree(
@@ -151,7 +151,7 @@ export function getDisabledState(
   }
 
   return disabledItemValues.some(
-    (value: any) => node.refKey && shallowEqual(nodes[node.refKey][valueKey], value)
+    (value: any) => node.refKey && nodes[node.refKey][valueKey] === value
   );
 }
 
@@ -163,19 +163,8 @@ export function getCheckTreePickerDefaultValue(value: any[], uncheckableItemValu
   return [];
 }
 
-export function getSelectedItems(
-  nodes: TreeNodesType,
-  value: (string | number)[],
-  valueKey: string
-) {
-  const checkItems: TreeNodeType[] = [];
-  Object.keys(nodes).map((refKey: string) => {
-    const node = nodes[refKey];
-    if (value.some((value: any) => shallowEqual(node[valueKey], value))) {
-      checkItems.push(node);
-    }
-  });
-  return checkItems;
+export function getSelectedItems(nodes: TreeNodesType, values: ValueType, valueKey: string) {
+  return Object.values(nodes).filter((node: TreeNodeType) => values.includes(node[valueKey]));
 }
 
 export function getNodeCheckState({ nodes, node, cascade, childrenKey }: any): CheckStateType {

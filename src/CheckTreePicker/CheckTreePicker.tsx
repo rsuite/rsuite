@@ -13,8 +13,7 @@ import {
   useClassNames,
   useControlled,
   KEY_VALUES,
-  mergeRefs,
-  shallowEqual
+  mergeRefs
 } from '../utils';
 
 import {
@@ -266,10 +265,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       value: node[valueKey],
       label: node[labelKey],
       layer,
-      focus: shallowEqual(focusItemValue, node[valueKey]),
+      focus: focusItemValue === node[valueKey],
       expand: node.expand,
       visible: node.visible,
-      loading: loadingNodeValues.some(item => shallowEqual(item, node[valueKey])),
+      loading: loadingNodeValues.some(item => item === node[valueKey]),
       disabled: getDisabledState(flattenNodes, node, { disabledItemValues, valueKey }),
       nodeData: node,
       checkState: node.checkState,
@@ -441,10 +440,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   );
 
   const hasValue = () => {
-    const selectedValues = Object.keys(flattenNodes)
-      .map((refKey: string) => flattenNodes[refKey][valueKey])
-      .filter((item: any) => value.some(v => shallowEqual(v, item)));
-    return !!selectedValues.length;
+    const selectedValues = getSelectedItems(flattenNodes, value, 'valueKey');
+    return selectedValues.length > 0;
   };
 
   const handleOpen = useCallback(() => {
