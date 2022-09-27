@@ -1,7 +1,7 @@
 import { isNil, isUndefined } from 'lodash';
 import { CheckTreePickerProps, ValueType } from './CheckTreePicker';
 import { CHECK_STATE, CheckStateType } from '../utils';
-import { getChildrenByFlattenNodes } from '../utils/treeUtils';
+import { getChildrenByFlattenNodes, getNodeFormattedRefKey } from '../utils/treeUtils';
 import { attachParent } from '../utils/attachParent';
 
 export interface TreeNodeType {
@@ -163,8 +163,16 @@ export function getCheckTreePickerDefaultValue(value: any[], uncheckableItemValu
   return [];
 }
 
-export function getSelectedItems(nodes: TreeNodesType, values: ValueType, valueKey: string) {
-  return Object.values(nodes).filter((node: TreeNodeType) => values.includes(node[valueKey]));
+export function getSelectedItems(nodes: TreeNodesType, values: ValueType) {
+  const checkedItems: TreeNodeType[] = [];
+  values.forEach(value => {
+    const refKey = getNodeFormattedRefKey(value);
+    const node = nodes[refKey];
+    if (!isNil(node)) {
+      checkedItems.push(node);
+    }
+  });
+  return checkedItems;
 }
 
 export function getNodeCheckState({ nodes, node, cascade, childrenKey }: any): CheckStateType {

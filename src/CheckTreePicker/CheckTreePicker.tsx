@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
@@ -439,11 +439,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ]
   );
 
-  const hasValue = () => {
-    const selectedValues = getSelectedItems(flattenNodes, value, 'valueKey');
-    return selectedValues.length > 0;
-  };
-
   const handleOpen = useCallback(() => {
     triggerRef.current?.open?.();
     setFocusItemValue(activeNode?.[valueKey]);
@@ -703,7 +698,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         {
           ...node,
           /**
-           * spread operator dont copy unenumerable properties
+           * spread operator don't copy unenumerable properties
            * so we need to copy them manually
            */
           parent: node.parent,
@@ -863,13 +858,13 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     );
   };
 
+  const selectedItems = useMemo(() => getSelectedItems(flattenNodes, value), [flattenNodes, value]);
   /**
    * 1.Have a value and the value is valid.
    * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
    */
-  let hasValidValue = hasValue() || (value.length > 0 && isFunction(renderValue));
+  let hasValidValue = selectedItems.length > 0 || (value.length > 0 && isFunction(renderValue));
   let selectedElement: React.ReactNode = placeholder;
-  const selectedItems = getSelectedItems(flattenNodes, value, valueKey);
 
   if (hasValidValue) {
     selectedElement = (
