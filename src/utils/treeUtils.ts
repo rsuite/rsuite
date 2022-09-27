@@ -656,7 +656,8 @@ export function useFlattenTreeData({
         /**
          * because the value of the node's type is string or number,
          * so it can used as the key of the object directly
-         * to avoid number value is converted to string, we used `String_` or `Number_` prefix
+         * to avoid number value is converted to string. 1 and '1' will be convert to '1'
+         *  we used `String_` or `Number_` prefix
          */
         const refKey = getNodeFormattedRefKey(value);
         node.refKey = refKey;
@@ -686,8 +687,8 @@ export function useFlattenTreeData({
 
       Object.keys(nodes).forEach((refKey: string) => {
         const currentNode = nodes[refKey];
-        if (!isNil(currentNode.parent) && !isNil(currentNode.parent[valueKey])) {
-          const parentNode = nodes[currentNode.parent[valueKey]];
+        if (!isNil(currentNode.parent) && !isNil(currentNode.parent.refKey)) {
+          const parentNode = nodes[currentNode.parent.refKey];
           if (currentNode[key]) {
             if (!parentNode?.checkAll) {
               list.push(nodes[refKey][valueKey]);
