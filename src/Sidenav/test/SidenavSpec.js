@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
-import { fireEvent, getByTestId, render } from '@testing-library/react';
+import { fireEvent, getByTestId, render, waitFor } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Sidenav from '../Sidenav';
@@ -311,7 +311,7 @@ describe('<Sidenav>', () => {
       expect(getByTestId('dropdown-2').className).to.include('selected-within');
     });
 
-    it('Should close the tooltip on click', () => {
+    it('Should close the tooltip on click', async () => {
       const { getByRole } = render(
         <Sidenav expanded={false}>
           <Nav>
@@ -324,12 +324,16 @@ describe('<Sidenav>', () => {
 
       Simulate.mouseOver(getByRole('menuitem', { name: 'Dropdown 1' }));
 
-      expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.be.exist;
-      expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.have.class('rs-anim-in');
+      await waitFor(() => {
+        expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.be.exist;
+        expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.have.class('rs-anim-in');
+      });
 
       Simulate.click(getByRole('menuitem', { name: 'Dropdown 1' }));
 
-      expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.not.have.class('rs-anim-in');
+      await waitFor(() => {
+        expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.not.have.class('rs-anim-in');
+      });
     });
   });
 });
