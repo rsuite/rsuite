@@ -192,6 +192,7 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
         defaultOpen={defaultOpen}
         menuButtonText={title}
         renderMenuButton={renderMenuButton}
+        disabled={disabled}
         openMenuOn={menuButtonTriggers}
         renderMenuPopup={({ open, ...popupProps }, popupRef) => {
           const menuClassName = mergeMenuClassName(className, withMenuClassPrefix({}));

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useCustom, isSupportFlexGap } from '../utils';
-import { WithAsProps } from '../@types/common';
+import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
+import StackItem from './StackItem';
 
 export interface StackProps extends WithAsProps {
   /**
@@ -31,6 +32,10 @@ export interface StackProps extends WithAsProps {
   wrap?: boolean;
 }
 
+export interface StackComponent extends RsRefForwardingComponent<'div', StackProps> {
+  Item: typeof StackItem;
+}
+
 const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement>) => {
   const {
     as: Component = 'div',
@@ -52,7 +57,6 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
   const classes = merge(className, withClassPrefix());
   const isSupportGridGap = isSupportFlexGap();
 
-  const count = React.Children.count(children);
   const gridGap = Array.isArray(spacing) ? spacing : [spacing, 0];
   const itemStyles: React.CSSProperties = {
     [rtl ? 'marginLeft' : 'marginRight']: gridGap[0],
@@ -68,20 +72,44 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
     ...style
   };
 
+  /*
+   * toArray remove undefined, null and boolean
+   */
+  const filterChildren = React.Children.toArray(children);
+
+  const count = filterChildren.length;
+
   return (
     <Component {...rest} ref={ref} className={classes} style={styles}>
-      {React.Children.map(children as React.ReactElement[], (child, index) => {
-        const childNode = (
-          <div className={prefix('item')} style={!isSupportGridGap ? itemStyles : undefined}>
-            {child}
-          </div>
-        );
+      {React.Children.map(filterChildren as React.ReactElement[], (child, index) => {
+        const childNode =
+          child.type !== StackItem ? (
+            <StackItem
+              key={index}
+              className={prefix('item')}
+              style={!isSupportGridGap ? itemStyles : undefined}
+            >
+              {child}
+            </StackItem>
+          ) : (
+            React.cloneElement(child, {
+              className: merge(prefix('item'), child.props.className),
+              style: !isSupportGridGap
+                ? {
+                    ...itemStyles,
+                    ...child.props.style
+                  }
+                : child.props.style
+            })
+          );
 
         return [childNode, index < count - 1 ? divider : null];
       })}
     </Component>
   );
-});
+}) as unknown as StackComponent;
+
+Stack.Item = StackItem;
 
 Stack.displayName = 'Stack';
 Stack.propTypes = {

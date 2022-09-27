@@ -429,7 +429,7 @@ describe('CheckPicker', () => {
     it('Should render a label before placeholder', () => {
       render(<CheckPicker label="User" data={[]} data-testid="picker" />);
 
-      expect(screen.getByTestId('picker')).to.have.text('User: Select');
+      expect(screen.getByTestId('picker')).to.have.text('UserSelect');
     });
 
     it('Should render a label before selected value', () => {
@@ -437,7 +437,7 @@ describe('CheckPicker', () => {
         <CheckPicker label="User" data={data} value={['Eugenia', 'Kariane']} data-testid="picker" />
       );
 
-      expect(screen.getByTestId('picker')).to.have.text('User: Eugenia,Kariane2');
+      expect(screen.getByTestId('picker')).to.have.text('UserEugenia,Kariane2');
     });
   });
 

@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { Button } from 'rsuite';
 import Navbar from '../components/navbar';
 
-import 'rsuite/lib/styles/index.less';
+import 'rsuite/styles/index.less';
 
 const Home = () => (
   <div>

@@ -1,3 +1,16 @@
+# [5.19.0](https://github.com/rsuite/rsuite/compare/v5.18.1...v5.19.0) (2022-09-23)
+
+### Bug Fixes
+
+- **CheckPicker,SelectPicker:** fix inconsistent label spacing ([#2739](https://github.com/rsuite/rsuite/issues/2739)) ([2441d7e](https://github.com/rsuite/rsuite/commit/2441d7efa20e92f11b3266ca2434a9529b31ecb4))
+- **Dropdown:** fix `disabled` not working when trigger is set to hover or contextMenu ([#2740](https://github.com/rsuite/rsuite/issues/2740)) ([147821c](https://github.com/rsuite/rsuite/commit/147821c54ef7814820a91edb79e0923c99ab6d0b))
+- **Sidenav:** fix tooltip blocking menu items ([#2747](https://github.com/rsuite/rsuite/issues/2747)) ([d3568e1](https://github.com/rsuite/rsuite/commit/d3568e18fc5951340951a49c2ac121a786763dd9))
+- **Stack:** filter children that should not be rendered ([#2732](https://github.com/rsuite/rsuite/issues/2732)) ([23c283f](https://github.com/rsuite/rsuite/commit/23c283f26da8ed9db4f4975c79b7cfe916f82903))
+
+### Features
+
+- **Stack:** add `Item` to adjust single child ([#2730](https://github.com/rsuite/rsuite/issues/2730)) ([5af6256](https://github.com/rsuite/rsuite/commit/5af625690be33c54def844db3bcf6aa47cc72eed))
+
 ## [5.18.1](https://github.com/rsuite/rsuite/compare/v5.18.0...v5.18.1) (2022-09-15)
 
 ### Bug Fixes

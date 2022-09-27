@@ -11,15 +11,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.10.5",
-    "@babel/preset-env": "^7.10.4",
-    "@babel/preset-react": "^7.10.4",
-    "parcel-bundler": "^1.12.4",
-    "parcel-plugin-less-js-enabled": "^1.0.2"
+    "@parcel/transformer-less": "^2.7.0",
+    "parcel": "^2.7.0",
+    "process": "^0.11.10"
   },
   "dependencies": {
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "rsuite": "^4.8.0"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rsuite": "^5.18.1"
   }
 }

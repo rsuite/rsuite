@@ -9,7 +9,7 @@
     "start": "npm run dev"
   },
   "dependencies": {
-    "rsuite": "^5.16.3",
+    "rsuite": "^5.17.1",
     "umi": "^4.0.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
