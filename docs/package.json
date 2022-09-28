@@ -44,7 +44,7 @@
     "react-device-detect": "^1.11.14",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0",
-    "react-json-tree": "^0.15.0",
+    "react-json-tree": "^0.17.0",
     "react-text-mask": "^5.4.3",
     "rsuite": "^5.19.0",
     "svg-sprite-loader": "^4.1.6",
