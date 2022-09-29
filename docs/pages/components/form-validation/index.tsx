@@ -30,11 +30,11 @@ import MinusIcon from '@rsuite/icons/Minus';
 import files from './files';
 
 const JSONTree = loadable(() => import('react-json-tree'));
-const MaskedInput = loadable(() => import('react-text-mask'));
+const Select = loadable(() => import('react-select'));
 
 const sandboxDependencies = {
   'react-json-tree': '^0.15.0',
-  'react-text-mask': '^5.4.3'
+  'react-select': '^5.4.0'
 };
 
 export default function Page() {
@@ -56,7 +56,7 @@ export default function Page() {
         Panel,
         Radio,
         JSONTree,
-        MaskedInput,
+        Select,
         Slider,
         DatePicker,
         Message,
