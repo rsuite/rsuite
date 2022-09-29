@@ -23,7 +23,6 @@ import {
   getExpandWhenSearching,
   getNodeParents,
   shouldShowNodeByExpanded,
-  getVirtualLisHeight,
   treeDeprecatedWarning,
   hasVisibleChildren,
   compareArray,
@@ -97,6 +96,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   };
   static defaultProps = {
     ...listPickerDefaultProps,
+    height: defaultHeight,
     searchable: true,
     menuAutoWidth: true,
     locale: {
@@ -163,7 +163,10 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       nextState.selectedValue = value;
     }
 
-    if (compareArray(expandItemValues, prevState.expandItemValues)) {
+    if (
+      compareArray(expandItemValues, prevState.expandItemValues) &&
+      Array.isArray(expandItemValues)
+    ) {
       nextState.expandItemValues = expandItemValues;
     }
 
@@ -249,7 +252,10 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
   updateExpandItemValuesChange(prevState: TreePickerState) {
     const { expandItemValues } = this.props;
-    if (compareArray(expandItemValues, prevState.expandItemValues)) {
+    if (
+      compareArray(expandItemValues, prevState.expandItemValues) &&
+      Array.isArray(expandItemValues)
+    ) {
       this.unserializeLists('expand', expandItemValues);
 
       this.setState({
@@ -858,27 +864,23 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
   renderDropdownMenu() {
     const {
-      height = defaultHeight,
       searchable,
       searchKeyword,
       renderExtraFooter,
       locale,
       renderMenu,
       menuStyle,
-      virtualized,
       menuClassName,
       menuAutoWidth
     } = this.props;
     const keyword = !_.isUndefined(searchKeyword) ? searchKeyword : this.state.searchKeyword;
     const classes = classNames(menuClassName, this.addPrefix('tree-menu'));
 
-    const styles = virtualized ? { height, ...menuStyle } : menuStyle;
-
     return (
       <MenuWrapper
         autoWidth={menuAutoWidth}
         className={classes}
-        style={styles}
+        style={menuStyle}
         ref={this.menuRef}
         getToggleInstance={this.getToggleInstance}
         getPositionInstance={this.getPositionInstance}
@@ -977,7 +979,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
   renderTree() {
     const { filterData } = this.state;
-    const { height, className, inline, style, locale, virtualized, searchable } = this.props;
+    const { height, className, inline, style, locale, virtualized } = this.props;
 
     const layer = 0;
 
@@ -999,30 +1001,32 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       }
     }
 
-    // 当未定义 height 且 设置了 virtualized 为 true，treeHeight 设置默认高度
-    const treeHeight = _.isUndefined(height) && virtualized ? defaultHeight : height;
+    // The height of virtualized tree should be subtract the value of paddingBottom
+    const treeHeight = height - 12;
     const treeWidth = _.isUndefined(style?.width) ? defaultWidth : style.width;
-    const styles = inline ? { height: treeHeight, ...style } : {};
-
-    const listHeight = getVirtualLisHeight(inline, searchable, treeHeight);
+    const listStyles = inline ? { height, ...style } : style;
 
     return (
       <React.Fragment>
         <div
           ref={this.treeViewRef}
           className={classes}
-          style={styles}
+          style={listStyles}
           onKeyDown={this.handleKeyDown}
         >
           <div className={this.addTreePrefix('nodes')}>
             {virtualized ? (
-              <AutoSizer defaultHeight={listHeight} defaultWidth={treeWidth}>
+              <AutoSizer
+                defaultHeight={treeHeight}
+                defaultWidth={treeWidth}
+                style={{ width: 'auto', height: 'auto' }}
+              >
                 {({ height, width }) => (
                   <List
                     ref={this.listRef}
                     width={width || treeWidth}
-                    height={height || listHeight}
-                    rowHeight={38}
+                    height={height}
+                    rowHeight={36}
                     rowCount={nodes.length}
                     rowRenderer={this.measureRowRenderer(nodes)}
                   />

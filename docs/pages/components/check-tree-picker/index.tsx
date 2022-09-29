@@ -17,6 +17,7 @@ export default function Page() {
         'disabled',
         'custom',
         'async',
+        'extra-footer',
         'virtualized'
       ]}
       dependencies={{ data, CheckTreePicker, Button, Icon, Toggle }}

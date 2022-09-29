@@ -6,13 +6,12 @@ import { TREE_NODE_DROP_POSITION } from '../constants';
 import { TreePickerProps } from '../TreePicker/TreePicker.d';
 import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker.d';
 
-const SEARCH_BAR_HEIGHT = 48;
-const MENU_PADDING = 12;
 // Tree Node 之间的 间隔
 const TREE_NODE_GAP = 4;
 
 /**
- * 判断当前节点是否应该显示
+ * Whether current node is visible
+ * when all the parents of the current node is expanded, the current node should be visible
  * @param {*} expandItemValues
  * @param {*} parentKeys
  */
@@ -78,16 +77,6 @@ export function getNodeParents(node: object, parentKey = 'parent', valueKey?: st
   traverse(node);
 
   return parents;
-}
-
-/**
- * 获取 VirtualList 的高度
- * @param {*} inline
- * @param {*} height
- */
-export function getVirtualLisHeight(inline: boolean, searchable: boolean, height = 0) {
-  const searchBarHeight = searchable ? SEARCH_BAR_HEIGHT : 0;
-  return inline ? height - MENU_PADDING * 2 : height - searchBarHeight - MENU_PADDING * 2;
 }
 
 /**
