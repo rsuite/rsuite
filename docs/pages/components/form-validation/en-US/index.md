@@ -93,7 +93,7 @@ All Data Entry-related components can be used in forms such as `Checkbox`, `Sele
 
 ### Third-Party Libraries
 
-Take [text-mask](https://github.com/text-mask/text-mask) as an example:
+Sometimes you need to customize form components or be compatible with third-party components. For example [react-select](https://github.com/JedWatson/react-select).
 
 <!--{include:`custom-third-party-libraries.md`}-->
 

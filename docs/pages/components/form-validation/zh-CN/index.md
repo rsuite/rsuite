@@ -95,7 +95,7 @@ return (
 
 ### 与第三方 input 库的整合
 
-有时候需要额外开发自定义的表单输入组件或者兼容第三方组件，例如 [react-text-mask](https://github.com/text-mask/text-mask)。
+有时候需要额外开发自定义的表单输入组件或者兼容第三方组件，例如 [react-select](https://github.com/JedWatson/react-select)。
 
 <!--{include:`custom-third-party-libraries.md`}-->
 
