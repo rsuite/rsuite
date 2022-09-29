@@ -1,3 +1,13 @@
+<a name="4.11.1"></a>
+## [4.11.1](https://github.com/rsuite/rsuite/compare/v4.11.0...v4.11.1) (2022-09-29)
+
+
+### Bug Fixes
+
+* **TreePicker, CheckTreePicker:** fix problems when setting the virtualized prop ([#2778](https://github.com/rsuite/rsuite/issues/2778)) ([1e8f495](https://github.com/rsuite/rsuite/commit/1e8f495)), closes [#2759](https://github.com/rsuite/rsuite/issues/2759)
+
+
+
 <a name="4.11.0"></a>
 # [4.11.0](https://github.com/rsuite/rsuite/compare/v4.10.10...v4.11.0) (2022-08-24)
 
