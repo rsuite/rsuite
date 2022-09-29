@@ -428,4 +428,9 @@ describe('TreePicker', () => {
       1
     );
   });
+
+  it('should render all nodes when set virtualized and defaultExpandAll', () => {
+    const instance = mount(<TreePicker data={data} open virtualized defaultExpandAll />);
+    assert.equal(instance.find('.rs-tree-node').length, 5);
+  });
 });

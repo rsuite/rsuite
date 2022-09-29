@@ -163,7 +163,10 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
       nextState.selectedValue = value;
     }
 
-    if (compareArray(expandItemValues, prevState.expandItemValues)) {
+    if (
+      compareArray(expandItemValues, prevState.expandItemValues) &&
+      Array.isArray(expandItemValues)
+    ) {
       nextState.expandItemValues = expandItemValues;
     }
 
@@ -249,7 +252,10 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
   updateExpandItemValuesChange(prevState: TreePickerState) {
     const { expandItemValues } = this.props;
-    if (compareArray(expandItemValues, prevState.expandItemValues)) {
+    if (
+      compareArray(expandItemValues, prevState.expandItemValues) &&
+      Array.isArray(expandItemValues)
+    ) {
       this.unserializeLists('expand', expandItemValues);
 
       this.setState({
