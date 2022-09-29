@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import _isNil from 'lodash/isNil';
@@ -638,5 +638,48 @@ describe('Form', () => {
     ReactTestUtils.act(() => {
       formRef.current.check();
     });
+  });
+
+  it('Should accepter onChange effect current field', () => {
+    const Accepter = ({ value, onChange }) => {
+      const handleClick = useCallback(() => {
+        onChange(value + 1);
+      }, []);
+      return (
+        <div>
+          {value}
+          <button aria-label="add btn" onClick={handleClick}>
+            +
+          </button>
+        </div>
+      );
+    };
+
+    const App = () => {
+      const [value, setValue] = React.useState({
+        name: '',
+        age: 0
+      });
+      return (
+        <Form formValue={value} onChange={setValue}>
+          <FormControl name="name" aria-label="name" />
+          <FormControl name="age" accepter={Accepter} />
+        </Form>
+      );
+    };
+
+    const { getByLabelText } = render(<App />);
+
+    ReactTestUtils.Simulate.change(getByLabelText('name'), {
+      target: {
+        value: 'abc'
+      }
+    });
+
+    assert.isTrue(getByLabelText('name').value === 'abc');
+
+    ReactTestUtils.Simulate.click(getByLabelText('add btn'));
+
+    assert.isTrue(getByLabelText('name').value === 'abc');
   });
 });
