@@ -68,7 +68,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('items'));
-    const rtl = useCustom('DropdownMenu');
+    const { rtl } = useCustom('DropdownMenu');
 
     const getCascadePaths = useCallback(
       (layer: number, node: ItemDataType) => {
@@ -113,7 +113,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
-      const Icon = node.loading ? SpinnerIcon : rtl ? AngleRightIcon : AngleLeftIcon;
+      const Icon = node.loading ? SpinnerIcon : rtl ? AngleLeftIcon : AngleRightIcon;
       let active = value.some(v => v === nodeValue);
 
       if (cascade) {

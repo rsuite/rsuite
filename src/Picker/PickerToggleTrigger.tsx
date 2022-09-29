@@ -1,7 +1,7 @@
 import React from 'react';
 import pick from 'lodash/pick';
 import OverlayTrigger, {
-  OverlayTriggerInstance,
+  OverlayTriggerHandle,
   OverlayTriggerProps,
   OverlayTriggerType
 } from '../Overlay/OverlayTrigger';
@@ -10,7 +10,7 @@ import { placementPolyfill } from '../utils';
 import { CustomConsumer } from '../CustomProvider';
 import { TypeAttributes, AnimationEventProps } from '../@types/common';
 
-export type { OverlayTriggerInstance, PositionChildProps };
+export type { OverlayTriggerHandle, PositionChildProps };
 
 export interface PickerToggleTriggerProps
   extends Omit<AnimationEventProps, 'onEntering' | 'onExiting'>,

@@ -113,9 +113,9 @@ describe('<Disclosure>', () => {
     expect(onToggleSpy).to.have.been.calledWith(true);
   });
 
-  it('Should be toggled by mouseover/mouseout given `trigger=[mouseover]`', () => {
+  it('Should be toggled by mouseEnter/mouseLeave given `trigger=[hover]`', () => {
     const { getByTestId } = render(
-      <Disclosure trigger={['mouseover']}>
+      <Disclosure trigger={['hover']}>
         {(props, ref) => (
           <div ref={ref} {...props}>
             <Disclosure.Button>
@@ -137,10 +137,10 @@ describe('<Disclosure>', () => {
       </Disclosure>
     );
 
-    userEvent.hover(getByTestId('button'));
+    fireEvent.mouseEnter(getByTestId('button'));
     expect(getByTestId('content')).to.be.visible;
 
-    userEvent.unhover(getByTestId('button'));
+    fireEvent.mouseLeave(getByTestId('button'));
     expect(getByTestId('content')).not.to.be.visible;
   });
 

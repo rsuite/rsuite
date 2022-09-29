@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, fireEvent } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Checkbox from '../Checkbox';
@@ -75,7 +74,7 @@ describe('Checkbox', () => {
       </Checkbox>
     );
 
-    userEvent.click(getByLabelText('Checkbox'));
+    fireEvent.click(getByLabelText('Checkbox'));
 
     expect(onChange).to.have.been.calledWith('Test', true);
 
@@ -85,7 +84,7 @@ describe('Checkbox', () => {
       </Checkbox>
     );
 
-    userEvent.click(getByLabelText('Checkbox'));
+    fireEvent.click(getByLabelText('Checkbox'));
 
     expect(onChange).to.have.been.calledWith('Test', false);
   });

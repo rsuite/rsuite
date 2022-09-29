@@ -102,7 +102,7 @@ describe('DatePicker', () => {
       <DatePicker value={new Date(2021, 0, 4)} onChange={onChangeSpy} cleanable />
     );
 
-    userEvent.click(getByRole('button', { name: /clear/i }));
+    fireEvent.click(getByRole('button', { name: /clear/i }));
 
     expect(onChangeSpy).to.have.been.calledWith(null);
   });
@@ -116,11 +116,9 @@ describe('DatePicker', () => {
     const onChangeSpy = sinon.spy();
     const instance = getInstance(<DatePicker onChange={onChangeSpy} defaultOpen />);
 
-    ReactTestUtils.Simulate.click(
-      instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn')
-    );
+    fireEvent.click(instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
-    assert.isTrue(onChangeSpy.calledOnce);
+    expect(onChangeSpy).to.calledOnce;
   });
 
   it('Should call `onChange` callback when click shortcut', () => {
@@ -129,9 +127,10 @@ describe('DatePicker', () => {
     const instance = getInstance(<DatePicker onChange={onChangeSpy} defaultOpen />);
     const today = instance.overlay.querySelector('.rs-picker-toolbar-ranges button');
 
-    ReactTestUtils.Simulate.click(today);
+    fireEvent.click(today);
 
-    assert.isTrue(isSameDay(onChangeSpy.firstCall.firstArg, new Date()));
+    expect(onChangeSpy).to.calledOnce;
+    expect(isSameDay(onChangeSpy.firstCall.firstArg, new Date())).to.true;
   });
 
   it('Should call `onChange` callback when input change and blur', () => {
@@ -141,11 +140,11 @@ describe('DatePicker', () => {
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     act(() => {
-      input.value = '01/10/2021';
-      ReactTestUtils.Simulate.change(input);
+      fireEvent.change(input, { target: { value: '01102021' } });
     });
+
     act(() => {
-      ReactTestUtils.Simulate.blur(input);
+      fireEvent.blur(input);
     });
 
     assert.isTrue(onChangeSpy.calledOnce);
@@ -159,33 +158,30 @@ describe('DatePicker', () => {
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     act(() => {
-      input.value = '01/10/2021';
-      ReactTestUtils.Simulate.change(input);
+      fireEvent.change(input, { target: { value: '01/10/2021' } });
     });
     act(() => {
-      ReactTestUtils.Simulate.keyDown(input, { key: 'Enter' });
+      fireEvent.keyDown(input, { key: 'Enter' });
     });
 
-    assert.isTrue(onChangeSpy.calledOnce);
-    assert.equal(format(onChangeSpy.firstCall.firstArg, 'dd/MM/yyyy'), '01/10/2021');
+    expect(onChangeSpy).to.calledOnce;
+    expect(format(onChangeSpy.firstCall.firstArg, 'dd/MM/yyyy')).to.equal('01/10/2021');
   });
 
   it('Should be prompted for an error date', () => {
     const instance = getInstance(<DatePicker />);
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
-    input.value = 'abc';
-    ReactTestUtils.Simulate.change(input);
+    fireEvent.change(input, { target: { value: 'abc' } });
 
-    assert.isNotNull(instance.root.querySelector('.rs-picker-error'));
+    expect(instance.root.querySelector('.rs-picker-error')).to.exist;
   });
 
   it('Should be prompted for an error date by isValid', () => {
     const instance = getInstance(<DatePicker />);
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
-    input.value = '2021-00-00';
-    ReactTestUtils.Simulate.change(input);
+    fireEvent.change(input, { target: { value: '2021-00-00' } });
 
     assert.isNotNull(instance.root.querySelector('.rs-picker-error'));
   });
@@ -200,13 +196,11 @@ describe('DatePicker', () => {
     );
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
-    input.value = '2021-10-02';
-    ReactTestUtils.Simulate.change(input);
+    fireEvent.change(input, { target: { value: '2021-10-02' } });
 
     assert.isNull(instance.root.querySelector('.rs-picker-error'));
 
-    input.value = '2021-10-01';
-    ReactTestUtils.Simulate.change(input);
+    fireEvent.change(input, { target: { value: '2021-10-01' } });
 
     assert.isNotNull(instance.root.querySelector('.rs-picker-error'));
   });
@@ -216,12 +210,11 @@ describe('DatePicker', () => {
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     act(() => {
-      input.value = '10:00:00';
-      ReactTestUtils.Simulate.change(input);
+      fireEvent.change(input, { target: { value: '10:00:00' } });
     });
 
     act(() => {
-      ReactTestUtils.Simulate.blur(input);
+      fireEvent.blur(input);
     });
 
     assert.equal(instance.root.querySelector('.rs-picker-toggle-value').textContent, '10:00:00');
@@ -250,35 +243,36 @@ describe('DatePicker', () => {
   it('Should call `onSelect` callback', () => {
     const onSelectSpy = sinon.spy();
     const instance = getInstance(<DatePicker onSelect={onSelectSpy} defaultOpen />);
-    ReactTestUtils.Simulate.click(
+    fireEvent.click(
       instance.overlay.querySelector(
         '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
       )
     );
-    assert.isTrue(onSelectSpy.calledOnce);
+    expect(onSelectSpy).to.calledOnce;
   });
 
   it('Should call `onOk` callback', () => {
     const onOkSpy = sinon.spy();
     const instance = getInstance(<DatePicker onOk={onOkSpy} defaultOpen />);
-    ReactTestUtils.Simulate.click(
-      instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn')
-    );
-    assert.isTrue(onOkSpy.calledOnce);
+    fireEvent.click(instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn'));
+
+    expect(onOkSpy).to.calledOnce;
   });
 
   it('Should call `onNextMonth` callback', () => {
     const onNextMonthSpy = sinon.spy();
     const instance = getInstance(<DatePicker onNextMonth={onNextMonthSpy} defaultOpen />);
-    ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-calendar-header-forward'));
-    assert.isTrue(onNextMonthSpy.calledOnce);
+    fireEvent.click(instance.overlay.querySelector('.rs-calendar-header-forward'));
+
+    expect(onNextMonthSpy).to.calledOnce;
   });
 
   it('Should call `onPrevMonth` callback', () => {
     const onPrevMonthSpy = sinon.spy();
     const instance = getInstance(<DatePicker onPrevMonth={onPrevMonthSpy} defaultOpen />);
-    ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-calendar-header-backward'));
-    assert.isTrue(onPrevMonthSpy.calledOnce);
+    fireEvent.click(instance.overlay.querySelector('.rs-calendar-header-backward'));
+
+    expect(onPrevMonthSpy).to.calledOnce;
   });
 
   it('Should call `onToggleMonthDropdown` callback when click title', () => {
@@ -294,18 +288,18 @@ describe('DatePicker', () => {
     const month = instance.overlay.querySelector('.rs-calendar-header-title-date');
 
     act(() => {
-      ReactTestUtils.Simulate.click(month);
+      fireEvent.click(month);
     });
 
     assert.isNotNull(instance.overlay.querySelector('.rs-calendar-month-dropdown.show'));
     assert.isTrue(onToggleMonthDropdownSpy.calledOnce);
 
     act(() => {
-      ReactTestUtils.Simulate.click(month);
+      fireEvent.click(month);
     });
 
-    assert.isNull(instance.overlay.querySelector('.rs-calendar-month-dropdown.show'));
-    assert.isTrue(onToggleMonthDropdownSpy.calledTwice);
+    expect(instance.overlay.querySelector('.rs-calendar-month-dropdown.show')).to.not.exist;
+    expect(onToggleMonthDropdownSpy).to.calledTwice;
   });
 
   it('Should call `onToggleTimeDropdown` callback when click time', () => {
@@ -320,18 +314,18 @@ describe('DatePicker', () => {
     const time = instance.overlay.querySelector('.rs-calendar-header-title-time');
 
     act(() => {
-      ReactTestUtils.Simulate.click(time);
+      fireEvent.click(time);
     });
 
     assert.isNotNull(instance.overlay.querySelector('.rs-calendar-time-view'));
     assert.isTrue(onToggleTimeDropdownSpy.calledOnce);
 
     act(() => {
-      ReactTestUtils.Simulate.click(time);
+      fireEvent.click(time);
     });
 
-    assert.isNull(instance.overlay.querySelector('.rs-calendar-time-view'));
-    assert.isTrue(onToggleTimeDropdownSpy.calledTwice);
+    expect(instance.overlay.querySelector('.rs-calendar-time-view')).to.not.exist;
+    expect(onToggleTimeDropdownSpy).to.calledTwice;
   });
 
   it('Should have a custom className', () => {
@@ -435,10 +429,8 @@ describe('DatePicker', () => {
       '.rs-calendar-table-cell .rs-calendar-table-cell-content'
     );
 
-    ReactTestUtils.Simulate.click(allCells[allCells.length - 1]);
-    ReactTestUtils.Simulate.click(
-      instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn')
-    );
+    fireEvent.click(allCells[allCells.length - 1]);
+    fireEvent.click(instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn'));
   });
 
   it('Should call onBlur callback', async () => {
@@ -552,9 +544,14 @@ describe('DatePicker', () => {
     render(<App ref={instanceRef} />);
 
     const picker = instanceRef.current.picker.root;
-    assert.equal(picker.querySelector('.rs-picker-toggle-value').textContent, '2021-06-10');
-    instanceRef.current.setDate(null);
-    assert.equal(picker.querySelector('.rs-picker-toggle-placeholder').textContent, 'yyyy-MM-dd');
+
+    expect(picker.querySelector('.rs-picker-toggle-value')).to.have.text('2021-06-10');
+
+    act(() => {
+      instanceRef.current.setDate(null);
+    });
+
+    expect(picker.querySelector('.rs-picker-toggle-placeholder')).to.have.text('yyyy-MM-dd');
   });
 
   it('Should keep AM PM unchanged', () => {
@@ -569,12 +566,12 @@ describe('DatePicker', () => {
 
     const picker = instance.overlay;
 
-    assert.equal(picker.querySelector('.rs-calendar-header-title-time').textContent, '01:00:00');
+    expect(picker.querySelector('.rs-calendar-header-title-time')).to.have.text('01:00:00');
 
-    ReactTestUtils.Simulate.click(picker.querySelector('.rs-calendar-time-dropdown-cell'));
+    fireEvent.click(picker.querySelector('.rs-calendar-time-dropdown-cell'));
 
-    assert.equal(picker.querySelector('.rs-calendar-header-meridian').textContent, 'PM');
-    assert.equal(picker.querySelector('.rs-calendar-header-title-time').textContent, '12:00:00');
+    expect(picker.querySelector('.rs-calendar-header-meridian')).to.have.text('PM');
+    expect(picker.querySelector('.rs-calendar-header-title-time')).to.have.text('12:00:00');
   });
 
   it('Should change AM/PM ', () => {
@@ -588,9 +585,14 @@ describe('DatePicker', () => {
     );
 
     const meridian = instance.overlay.querySelector('.rs-calendar-header-meridian');
-    assert.equal(meridian.textContent, 'PM');
-    ReactTestUtils.Simulate.click(meridian);
-    assert.equal(meridian.textContent, 'AM');
+
+    expect(meridian).to.have.text('PM');
+
+    act(() => {
+      fireEvent.click(meridian);
+    });
+
+    expect(meridian).to.have.text('AM');
   });
 
   it('Should render week numbers given `showWeekNumbers=true`', () => {

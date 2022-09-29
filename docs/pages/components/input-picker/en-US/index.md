@@ -65,7 +65,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | disabledItemValues | string[]                                                                          | Disable optional                                            |
 | groupBy            | string                                                                            | Set grouping criteria 'key' in 'data'                       |
 | labelKey           | string `('label')`                                                                | Set options to display the 'key' in 'data'                  |
-| listProps          | [ListProps][listprops]                                                            | List-related properties in `react-virtualized`              |
+| listProps          | [ListProps][listprops]                                                            | Properties of virtualized lists.                            |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                          | Locale text                                                 |
 | menuMaxHeight      | number `(320)`                                                                    | Set the max height of the Dropdown                          |
 | menuClassName      | string                                                                            | A css class to apply to the Menu DOM node.                  |
@@ -103,9 +103,9 @@ Learn more in [Accessibility](/guide/accessibility).
 | virtualized        | boolean                                                                           | Whether using Virtualized List                              |
 | caretAs            | ElementType                                                                       | Custom component for the caret icon                         |
 
-[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
-
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->
+<!--{include:(_common/types/list-props.md)}-->
 
 [item]: #code-ts-item-data-type-code
+[listprops]: #code-ts-list-props-code

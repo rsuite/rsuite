@@ -1,7 +1,6 @@
 import React from 'react';
-import { Simulate } from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import Tree from '../Tree';
 
 const data = [
@@ -44,7 +43,7 @@ describe('Tree', () => {
     const instance = getDOMNode(<Tree data={data} onDragStart={onDragStartSpy} draggable />);
     const treeNode = instance.querySelector('.rs-tree-node');
 
-    Simulate.dragStart(treeNode);
+    fireEvent.dragStart(treeNode);
 
     assert.isTrue(onDragStartSpy.calledOnce);
     assert.isNotNull(treeNode.querySelector('.rs-tree-node-dragging'));
@@ -56,7 +55,7 @@ describe('Tree', () => {
     const instance = getDOMNode(<Tree data={data} onDragEnter={onDragEnterSpy} draggable />);
     const treeNode = instance.querySelector('.rs-tree-node');
 
-    Simulate.dragEnter(treeNode);
+    fireEvent.dragEnter(treeNode);
     assert.isTrue(onDragEnterSpy.calledOnce);
     assert.equal(onDragEnterSpy.firstCall.firstArg.value, 'Master');
   });
@@ -66,7 +65,7 @@ describe('Tree', () => {
     const instance = getDOMNode(<Tree data={data} onDragOver={onDragOverSpy} draggable />);
     const treeNode = instance.querySelector('.rs-tree-node');
 
-    Simulate.dragOver(treeNode);
+    fireEvent.dragOver(treeNode);
     assert.isTrue(onDragOverSpy.calledOnce);
     assert.equal(onDragOverSpy.firstCall.firstArg.value, 'Master');
   });
@@ -76,7 +75,7 @@ describe('Tree', () => {
     const instance = getDOMNode(<Tree data={data} onDragLeave={onDragLeaveSpy} draggable />);
     const treeNode = instance.querySelector('.rs-tree-node');
 
-    Simulate.dragLeave(treeNode);
+    fireEvent.dragLeave(treeNode);
     assert.isTrue(onDragLeaveSpy.calledOnce);
     assert.equal(onDragLeaveSpy.firstCall.firstArg.value, 'Master');
   });
@@ -86,7 +85,7 @@ describe('Tree', () => {
     const instance = getDOMNode(<Tree data={data} onDragEnd={onDragEndSpy} draggable />);
     const treeNode = instance.querySelector('.rs-tree-node');
 
-    Simulate.dragEnd(treeNode);
+    fireEvent.dragEnd(treeNode);
     assert.isTrue(onDragEndSpy.calledOnce);
     assert.equal(onDragEndSpy.firstCall.firstArg.value, 'Master');
   });
@@ -100,8 +99,8 @@ describe('Tree', () => {
       const dragTreeNode = instance.querySelector('span[data-key="0-0-0"]');
       const dropTreeNode = instance.querySelector('span[data-key="0-0-1"]');
 
-      Simulate.dragStart(dragTreeNode);
-      Simulate.drop(dropTreeNode);
+      fireEvent.dragStart(dragTreeNode);
+      fireEvent.drop(dropTreeNode);
       assert.isTrue(onDropSpy.calledOnce);
       const { dragNode } = onDropSpy.firstCall.firstArg;
       // make sure dragNode hasn't cyclic object

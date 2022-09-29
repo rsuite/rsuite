@@ -1,17 +1,18 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { getInstance } from '@test/testUtils';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import { getDOMNode } from '@test/testUtils';
 import Modal from '../Modal';
 import SelectPicker from '../../SelectPicker';
 
 describe('Modal', () => {
   it('Should render the modal content', () => {
-    const instance = getInstance(
+    const instance = getDOMNode(
       <Modal open>
         <p>message</p>
       </Modal>
     );
+
     assert.equal(instance.querySelectorAll('p').length, 1);
   });
 
@@ -46,7 +47,7 @@ describe('Modal', () => {
   });
 
   it('Should be automatic height', () => {
-    const instance = getInstance(
+    const instance = getDOMNode(
       <Modal overflow open>
         <Modal.Body style={{ height: 2000 }} />
       </Modal>
@@ -56,7 +57,7 @@ describe('Modal', () => {
 
   it('Should call onClose callback', () => {
     const onCloseSpy = sinon.spy();
-    const instance = getInstance(
+    const instance = getDOMNode(
       <Modal open onClose={onCloseSpy}>
         <Modal.Header />
       </Modal>
@@ -67,52 +68,41 @@ describe('Modal', () => {
     assert.isTrue(onCloseSpy.calledOnce);
   });
 
-  it('Should call onExited callback', done => {
-    const doneOp = () => {
-      done();
+  it('Should call onExited callback', async () => {
+    const onExitedSpy = sinon.spy();
+    const App = () => {
+      const [open, setOpen] = React.useState(true);
+      return (
+        <Modal open={open} onClose={() => setOpen(false)} onExited={onExitedSpy}>
+          <Modal.Header />
+        </Modal>
+      );
     };
 
-    const ref = React.createRef();
+    const { getByRole } = render(<App />);
 
-    class Demo extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = {
-          open: true
-        };
-        this.handleClose = this.handleClose.bind(this);
-      }
-      handleClose() {
-        this.setState({
-          open: false
-        });
-      }
-      render() {
-        return (
-          <Modal ref={ref} open={this.state.open} onClose={this.handleClose} onExited={doneOp}>
-            <Modal.Header />
-          </Modal>
-        );
-      }
-    }
-    getInstance(<Demo />);
-    const closeButton = ref.current.querySelector('.rs-modal-header-close');
-    ReactTestUtils.Simulate.click(closeButton);
+    act(() => {
+      fireEvent.click(getByRole('button', { name: 'Close' }));
+    });
+
+    await waitFor(() => {
+      expect(onExitedSpy).to.have.been.calledOnce;
+    });
   });
 
   it('Should have a custom className', () => {
-    const instance = getInstance(<Modal className="custom" open />);
+    const instance = getDOMNode(<Modal className="custom" open />);
     assert.isNotNull(instance.querySelector('.custom'));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getInstance(<Modal style={{ fontSize }} open />);
+    const instance = getDOMNode(<Modal style={{ fontSize }} open />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getInstance(<Modal classPrefix="custom-prefix" open />);
+    const instance = getDOMNode(<Modal classPrefix="custom-prefix" open />);
     assert.isNotNull(instance.className.match(/\bcustom-prefix\b/));
   });
 
@@ -136,8 +126,11 @@ describe('Modal', () => {
 
     render(<App ref={ref} />);
 
-    ref.current.openModal();
-    assert.ok(onOpenSpy.calledOnce);
+    act(() => {
+      ref.current.openModal();
+    });
+
+    expect(onOpenSpy).to.have.been.calledOnce;
   });
 
   it('Should call onClose callback by Esc', () => {
@@ -209,7 +202,9 @@ describe('Modal', () => {
 
       assert.equal(document.activeElement, focusableContainer);
 
-      ref.current.openModal();
+      act(() => {
+        ref.current.openModal();
+      });
 
       assert.isTrue(onOpenSpy.calledOnce);
       assert.equal(document.activeElement, ref.current.dialog);

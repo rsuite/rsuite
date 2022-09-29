@@ -1,12 +1,12 @@
 import {
   pickTriggerPropKeys,
   omitTriggerPropKeys,
-  OverlayTriggerInstance,
+  OverlayTriggerHandle,
   PositionChildProps
 } from './PickerToggleTrigger';
 
 import { PickerToggleProps } from './PickerToggle';
-import { PickerInstance, PickerComponent } from './types';
+import { PickerHandle, PickerComponent } from './types';
 
 export { default as DropdownMenu } from './DropdownMenu';
 export { default as DropdownMenuCheckItem } from './DropdownMenuCheckItem';
@@ -20,9 +20,9 @@ export { default as SelectedElement } from './SelectedElement';
 export { pickTriggerPropKeys, omitTriggerPropKeys };
 
 export type {
-  OverlayTriggerInstance,
+  OverlayTriggerHandle,
   PositionChildProps,
-  PickerInstance,
+  PickerHandle,
   PickerComponent,
   PickerToggleProps
 };

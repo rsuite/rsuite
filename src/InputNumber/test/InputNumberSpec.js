@@ -1,7 +1,6 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ReactTestUtils, { act } from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import InputNumber from '../InputNumber';
@@ -70,7 +69,7 @@ describe('InputNumber', () => {
     const onChange = sinon.spy();
     const { getByRole } = render(<InputNumber value={0} step={5} onChange={onChange} />);
 
-    userEvent.click(getByRole('button', { name: /increment/i }));
+    fireEvent.click(getByRole('button', { name: /increment/i }));
 
     // fixme '5' or 5?
     expect(onChange).to.have.been.calledWith('5');
@@ -80,7 +79,7 @@ describe('InputNumber', () => {
     const onChange = sinon.spy();
     const { getByRole } = render(<InputNumber value={0} step={5} onChange={onChange} />);
 
-    userEvent.click(getByRole('button', { name: /decrement/i }));
+    fireEvent.click(getByRole('button', { name: /decrement/i }));
 
     // fixme '-5' or -5?
     expect(onChange).to.have.been.calledWith('-5');
@@ -90,7 +89,7 @@ describe('InputNumber', () => {
     const onChange = sinon.spy();
     const { getByRole } = render(<InputNumber value={0} min={10} onChange={onChange} />);
 
-    userEvent.click(getByRole('button', { name: /increment/i }));
+    fireEvent.click(getByRole('button', { name: /increment/i }));
 
     // fixme '10' or 10?
     expect(onChange).to.have.been.calledWith('10');
@@ -100,7 +99,7 @@ describe('InputNumber', () => {
     const onChange = sinon.spy();
     const { getByRole } = render(<InputNumber value={100} max={10} onChange={onChange} />);
 
-    userEvent.click(getByRole('button', { name: /decrement/i }));
+    fireEvent.click(getByRole('button', { name: /decrement/i }));
 
     // fixme '10' or 10?
     expect(onChange).to.have.been.calledWith('10');
@@ -110,8 +109,8 @@ describe('InputNumber', () => {
     const onChangeSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onChange={onChangeSpy} />);
     const input = instance.querySelector('.rs-input');
-    input.value = 2;
-    ReactTestUtils.Simulate.blur(input);
+
+    fireEvent.blur(input, { target: { value: 2 } });
     assert.isTrue(onChangeSpy.calledOnce);
   });
 
@@ -152,33 +151,35 @@ describe('InputNumber', () => {
     const onChnageSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onChange={onChnageSpy} value={2} />);
     const input = instance.querySelector('.rs-input');
-    ReactTestUtils.Simulate.change(input);
-    assert.ok(onChnageSpy.calledOnce);
+
+    fireEvent.change(input, { target: { value: 3 } });
+
+    expect(onChnageSpy).to.have.been.calledWith('3');
   });
 
   it('Should not call onChange callback when is not control component', () => {
     const onChnageSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onChange={onChnageSpy} />);
     const input = instance.querySelector('.rs-input');
-    ReactTestUtils.Simulate.change(input);
 
-    assert.ok(onChnageSpy.calledOnce);
+    fireEvent.change(input, { target: { value: 3 } });
+
+    expect(onChnageSpy).to.called;
   });
 
-  it('Should call onBlur callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<InputNumber onBlur={doneOp} />);
-    ReactTestUtils.Simulate.blur(instance.querySelector('.rs-input'));
+  it('Should call onBlur callback', () => {
+    const onBlurSpy = sinon.spy();
+    const instance = getDOMNode(<InputNumber onBlur={onBlurSpy} />);
+    fireEvent.blur(instance.querySelector('.rs-input'));
+
+    expect(onBlurSpy).to.called;
   });
 
-  it('Should call onFocus callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<InputNumber onFocus={doneOp} />);
-    ReactTestUtils.Simulate.focus(instance.querySelector('.rs-input'));
+  it('Should call onFocus callback', () => {
+    const onFocusSpy = sinon.spy();
+    const instance = getDOMNode(<InputNumber onFocus={onFocusSpy} />);
+    fireEvent.focus(instance.querySelector('.rs-input'));
+    expect(onFocusSpy).to.called;
   });
 
   describe('Plain text', () => {

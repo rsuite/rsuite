@@ -1,12 +1,12 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
-
 import ModalBody from '../ModalBody';
 
 describe('ModalBody', () => {
   it('Should render a modal body', () => {
     const title = 'Test';
     const instance = getDOMNode(<ModalBody>{title}</ModalBody>);
+
     assert.equal(instance.className, 'rs-modal-body');
     assert.equal(instance.innerHTML, title);
   });

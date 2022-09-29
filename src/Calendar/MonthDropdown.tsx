@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { AutoSizer, List } from '../Picker/VirtualizedList';
+import { AutoSizer, FixedSizeList, ListChildComponentProps } from '../Windowing';
 import { DateUtils, useClassNames } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
@@ -8,6 +8,7 @@ import { useCalendarContext } from './CalendarContext';
 
 export interface MonthDropdownProps extends WithAsProps {
   show?: boolean;
+  limitStartYear?: number;
   limitEndYear?: number;
   height?: number;
   width?: number;
@@ -36,25 +37,13 @@ export interface RowProps {
 
 const monthMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-/**
- * Set the row height.
- * Add 1px to the first and last lines.
- */
-function getRowHeight(count: number) {
-  return ({ index }) => {
-    if (index === 0 || count - 1 === index) {
-      return 75 + 1;
-    }
-    return 75;
-  };
-}
-
 const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React.forwardRef(
   (props: MonthDropdownProps, ref) => {
     const {
       as: Component = 'div',
       className,
       classPrefix = 'calendar-month-dropdown',
+      limitStartYear,
       limitEndYear = 5,
       show,
       height: defaultHeight = 221,
@@ -65,11 +54,14 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
 
     const { date = new Date() } = useCalendarContext();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
+    const thisYear = DateUtils.getYear(new Date());
+    const startYear = limitStartYear ? thisYear - limitStartYear : 1900;
 
-    const getRowCount = useCallback(
-      () => DateUtils.getYear(new Date()) + limitEndYear,
-      [limitEndYear]
-    );
+    const rowCount = useMemo(() => {
+      const endYear = thisYear + limitEndYear;
+
+      return endYear - startYear;
+    }, [limitEndYear, startYear, thisYear]);
 
     const isMonthDisabled = useCallback(
       (year, month) => {
@@ -90,21 +82,20 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       [disabledMonth]
     );
 
-    const rowRenderer = ({ index, key, style }: RowProps) => {
+    const rowRenderer = ({ index, style }: ListChildComponentProps) => {
       const selectedMonth = DateUtils.getMonth(date);
       const selectedYear = DateUtils.getYear(date);
-      const year = index + 1;
+      const year = startYear + index;
       const isSelectedYear = year === selectedYear;
-      const count = getRowCount();
       const titleClassName = prefix('year', { 'year-active': isSelectedYear });
 
       const rowClassName = merge(prefix('row'), {
         'first-row': index === 0,
-        'last-row': index === count - 1
+        'last-row': index === rowCount - 1
       });
 
       return (
-        <div className={rowClassName} role="row" key={key} style={style}>
+        <div className={rowClassName} role="row" style={style}>
           <div className={titleClassName} role="rowheader">
             {year}
           </div>
@@ -125,8 +116,10 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       );
     };
 
-    const count = getRowCount();
     const classes = merge(className, withClassPrefix(), { show });
+    const itemSize = 75;
+    const initialItemIndex = DateUtils.getYear(date) - startYear;
+    const initialScrollOffset = itemSize * initialItemIndex;
 
     return (
       <Component role="menu" {...rest} ref={ref} className={classes}>
@@ -135,15 +128,16 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
             {show && (
               <AutoSizer defaultHeight={defaultHeight} defaultWidth={defaultWidth}>
                 {({ height, width }) => (
-                  <List
+                  <FixedSizeList
                     className={prefix('row-wrapper')}
                     width={width || defaultWidth}
                     height={height || defaultHeight}
-                    rowHeight={getRowHeight(count)}
-                    rowCount={count}
-                    scrollToIndex={DateUtils.getYear(date)}
-                    rowRenderer={rowRenderer}
-                  />
+                    itemSize={itemSize}
+                    itemCount={rowCount}
+                    initialScrollOffset={initialScrollOffset}
+                  >
+                    {rowRenderer}
+                  </FixedSizeList>
                 )}
               </AutoSizer>
             )}

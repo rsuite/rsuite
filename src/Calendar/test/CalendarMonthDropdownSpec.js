@@ -1,41 +1,42 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
+import { fireEvent, render } from '@testing-library/react';
 import MonthDropdown from '../MonthDropdown';
 import CalendarContext from '../CalendarContext';
 
 describe('Calendar-MonthDropdown', () => {
   it('Should output year and month ', () => {
-    const ref = React.createRef();
-    render(
+    const { getAllByRole } = render(
       <CalendarContext.Provider
         value={{
           date: new Date()
         }}
       >
-        <MonthDropdown show ref={ref} />
+        <MonthDropdown show />
       </CalendarContext.Provider>
     );
-    assert.equal(ref.current.querySelectorAll('.rs-calendar-month-dropdown-year').length, 8);
+
+    expect(getAllByRole('rowheader', { hidden: true })).to.be.lengthOf(7);
+    expect(getAllByRole('gridcell', { hidden: true })).to.be.lengthOf(7);
+    expect(getAllByRole('gridcell', { hidden: true })[0].childNodes).to.be.lengthOf(12);
   });
 
-  it('Should call `onChangePageDate` callback ', done => {
-    const onChangePageDate = () => {
-      done();
-    };
-    const ref = React.createRef();
-    render(
-      <CalendarContext.Provider value={{ onChangePageDate, date: new Date() }}>
-        <MonthDropdown show ref={ref} />
+  it('Should call `onChangePageDate` callback ', () => {
+    const onChangePageDateSpy = sinon.spy();
+    const { getByRole } = render(
+      <CalendarContext.Provider value={{ onChangePageDate: onChangePageDateSpy, date: new Date() }}>
+        <MonthDropdown show />
       </CalendarContext.Provider>
     );
-    ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-calendar-month-dropdown-cell'));
+
+    fireEvent.click(
+      getByRole('menu', { hidden: true }).querySelector('.rs-calendar-month-dropdown-cell')
+    );
+
+    expect(onChangePageDateSpy).to.be.calledOnce;
   });
 
   it('Should disable month', () => {
-    const ref = React.createRef();
-    render(
+    const { getByRole } = render(
       <CalendarContext.Provider value={{ date: new Date(2019, 8, 1) }}>
         <MonthDropdown
           show
@@ -44,37 +45,33 @@ describe('Calendar-MonthDropdown', () => {
             const d2 = new Date(today.getTime() - 240 * 60 * 60 * 1000);
             return d.getTime() > today.getTime() || d.getTime() < d2.getTime();
           }}
-          ref={ref}
         />
       </CalendarContext.Provider>
     );
 
-    const cells = ref.current
+    const cells = getByRole('menu', { hidden: true })
       .querySelector('.rs-calendar-month-dropdown-year-active')
       .parentNode.querySelectorAll('.rs-calendar-month-dropdown-cell');
 
-    assert.include(cells[6].className, 'disabled');
-    assert.equal(cells[7].className, 'rs-calendar-month-dropdown-cell');
-    assert.equal(
-      cells[8].className,
-      'rs-calendar-month-dropdown-cell rs-calendar-month-dropdown-cell-active'
-    );
-    assert.include(cells[9].className, 'disabled');
+    expect(cells[6]).to.have.class('disabled');
+    expect(cells[7]).to.have.class('rs-calendar-month-dropdown-cell');
+    expect(cells[8]).to.have.class('rs-calendar-month-dropdown-cell-active');
+    expect(cells[9]).to.have.class('disabled');
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<MonthDropdown className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
+    const { getByRole } = render(<MonthDropdown className="custom" />);
+    expect(getByRole('menu', { hidden: true })).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<MonthDropdown style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
+    const { getByRole } = render(<MonthDropdown style={{ fontSize: 12 }} />);
+
+    expect(getByRole('menu', { hidden: true })).to.have.style('font-size', '12px');
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<MonthDropdown classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    const { getByRole } = render(<MonthDropdown classPrefix="custom-prefix" />);
+    expect(getByRole('menu', { hidden: true })).to.have.class('rs-custom-prefix');
   });
 });

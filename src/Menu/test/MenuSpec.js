@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Menu from '../Menu';
 
@@ -72,7 +72,7 @@ describe('<Menu>', () => {
     expect(queryByRole('menu')).not.to.exist;
   });
 
-  it('Closes menu and moves focus to button when clicking outside', () => {
+  it('Closes menu and moves focus to button when clicking outside', async () => {
     const { getByTestId } = render(
       <div data-testid="div">
         <Menu
@@ -95,16 +95,26 @@ describe('<Menu>', () => {
     const button = getByTestId('button');
     const menu = getByTestId('menu');
 
-    fireEvent.click(button);
-    expect(menu).to.be.visible;
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    await waitFor(() => {
+      expect(menu).to.be.visible;
+    });
 
     sinon.spy(button, 'focus');
 
-    userEvent.click(getByTestId('div'));
-    expect(menu).not.to.be.visible;
-    expect(button.focus).to.have.been.called;
+    act(() => {
+      userEvent.click(getByTestId('div'));
+    });
+
+    await waitFor(() => {
+      expect(menu).not.to.be.visible;
+      expect(button.focus).to.have.been.called;
+    });
   });
-  it('Closes menu but dont move focus to button when clicking on a focusable element outside', () => {
+  it('Closes menu but dont move focus to button when clicking on a focusable element outside', async () => {
     const { getByTestId } = render(
       <div>
         <Menu
@@ -128,14 +138,24 @@ describe('<Menu>', () => {
     const button = getByTestId('button');
     const menu = getByTestId('menu');
 
-    fireEvent.click(button);
-    expect(menu).to.be.visible;
+    act(() => {
+      fireEvent.click(button);
+    });
+
+    await waitFor(() => {
+      expect(menu).to.be.visible;
+    });
 
     sinon.spy(button, 'focus');
 
-    userEvent.click(getByTestId('outside-button'));
-    expect(menu).not.to.be.visible;
-    expect(button.focus).not.to.have.been.called;
+    act(() => {
+      userEvent.click(getByTestId('outside-button'));
+    });
+
+    await waitFor(() => {
+      expect(menu).not.to.be.visible;
+      expect(button.focus).not.to.have.been.called;
+    });
   });
   it('Closes menu when focus is moving outside of menu', () => {
     const { getByTestId } = render(

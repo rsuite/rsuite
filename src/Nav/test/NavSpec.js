@@ -1,7 +1,6 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
-import { render } from '@testing-library/react';
+import { render, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Nav from '../Nav';
 import Dropdown from '../../Dropdown';
@@ -10,55 +9,51 @@ describe('<Nav>', () => {
   testStandardProps(<Nav />);
 
   it('Should render a nav', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<Nav>{title}</Nav>);
-    const node = instance;
-    assert.ok(node.className.match(/\bnav\b/));
-    assert.equal(node.textContent, title);
+    const { getByTestId } = render(<Nav data-testid="nav">Test</Nav>);
+
+    expect(getByTestId('nav').className).to.contain('nav');
+    expect(getByTestId('nav')).to.text('Test');
   });
 
   it('Should have a `nav-tabs` className', () => {
-    const instance = getDOMNode(<Nav appearance="tabs" />);
-    assert.ok(instance.className.match(/\bnav-tabs\b/));
+    const { getByTestId } = render(<Nav data-testid="nav" appearance="tabs" />);
+
+    expect(getByTestId('nav').className).to.contain('nav-tabs');
   });
 
   it('Should have a `nav-justified` className', () => {
-    const instance = getDOMNode(<Nav justified />);
-    assert.ok(instance.className.match(/\bnav-justified\b/));
+    const { getByTestId } = render(<Nav data-testid="nav" justified />);
+    expect(getByTestId('nav').className).to.contain('nav-justified');
   });
 
   it('Should have a `navbar-right` className', () => {
-    const instance = getDOMNode(<Nav pullRight />);
-    assert.ok(instance.className.match(/\bnavbar-right\b/));
-  });
+    const { getByTestId } = render(<Nav data-testid="nav" pullRight />);
 
-  it('Should have a `navbar-right` className', () => {
-    const instance = getDOMNode(<Nav pullRight />);
-    assert.ok(instance.className.match(/\bnavbar-right\b/));
+    expect(getByTestId('nav').className).to.contain('navbar-right');
   });
 
   it('Should be selected second option when activeKey = 2 ', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Nav activeKey={2}>
         <Nav.Item eventKey={1}>1</Nav.Item>
         <Nav.Item eventKey={2}>2</Nav.Item>
       </Nav>
     );
 
-    assert.ok(instance.querySelectorAll('a')[1].className.match(/\bnav-item-active\b/));
+    expect(container.querySelectorAll('a')[1].className).to.contain('nav-item-active');
   });
 
   it('Should be selected second option when activeKey = `{ key: 2, value: 2 }` ', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Nav activeKey={{ key: 2, value: 2 }}>
         <Nav.Item eventKey={{ key: 1, value: 1 }}>1</Nav.Item>
         <Nav.Item eventKey={{ key: 2, value: 2 }}>2</Nav.Item>
       </Nav>
     );
-    assert.ok(instance.querySelectorAll('a')[1].className.match(/\bnav-item-active\b/));
+    expect(container.querySelectorAll('a')[1].className).to.contain('nav-item-active');
   });
 
-  it('Should call onSelect callback with correct arguments', () => {
+  it('Should call onSelect callback with correct arguments', async () => {
     const onSelectSpy = sinon.spy();
     const { getByTestId } = render(
       <Nav onSelect={onSelectSpy}>
@@ -74,15 +69,25 @@ describe('<Nav>', () => {
       </Nav>
     );
 
-    userEvent.click(getByTestId('item'));
-    expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+    act(() => {
+      userEvent.click(getByTestId('item'));
+    });
 
-    onSelectSpy.resetHistory();
-    userEvent.click(getByTestId('dropdown-item'));
-    expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
-      '2-1',
-      sinon.match.any
-    );
+    await waitFor(() => {
+      expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+    });
+
+    act(() => {
+      onSelectSpy.resetHistory();
+      userEvent.click(getByTestId('dropdown-item'));
+    });
+
+    await waitFor(() => {
+      expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
+        '2-1',
+        sinon.match.any
+      );
+    });
   });
 
   it('Should highlight <Nav.Dropdown.Item> with `activeKey`', () => {
@@ -100,7 +105,7 @@ describe('<Nav>', () => {
   });
 
   it('Should work with Dropdown', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Nav>
         <Nav.Menu title="Dropdown">
           <Nav.Item>Dropdown item</Nav.Item>
@@ -108,11 +113,11 @@ describe('<Nav>', () => {
       </Nav>
     );
 
-    expect(instance.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
+    expect(container.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
   });
 
   describe('[Deprecated] Legacy Nav.Dropdown API', () => {
-    it('Should call onSelect callback with correct arguments', () => {
+    it('Should call onSelect callback with correct arguments', async () => {
       const onSelectSpy = sinon.spy();
       const { getByTestId } = render(
         <Nav onSelect={onSelectSpy}>
@@ -128,15 +133,25 @@ describe('<Nav>', () => {
         </Nav>
       );
 
-      userEvent.click(getByTestId('item'));
-      expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+      act(() => {
+        userEvent.click(getByTestId('item'));
+      });
 
-      onSelectSpy.resetHistory();
-      userEvent.click(getByTestId('dropdown-item'));
-      expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
-        '2-1',
-        sinon.match.any
-      );
+      await waitFor(() => {
+        expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+      });
+
+      act(() => {
+        onSelectSpy.resetHistory();
+        userEvent.click(getByTestId('dropdown-item'));
+      });
+
+      await waitFor(() => {
+        expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
+          '2-1',
+          sinon.match.any
+        );
+      });
     });
 
     it('Should highlight <Nav.Dropdown.Item> with `activeKey`', () => {
@@ -154,7 +169,7 @@ describe('<Nav>', () => {
     });
 
     it('Should work with Dropdown', () => {
-      const instance = getDOMNode(
+      const { container } = render(
         <Nav>
           <Nav.Dropdown title="Dropdown">
             <Nav.Dropdown.Item>Dropdown item</Nav.Dropdown.Item>
@@ -162,12 +177,12 @@ describe('<Nav>', () => {
         </Nav>
       );
 
-      expect(instance.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
+      expect(container.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
     });
   });
 
   describe('[Deprecated] Usage of <Dropdown> within <Nav>', () => {
-    it('Should call onSelect callback with correct arguments', () => {
+    it('Should call onSelect callback with correct arguments', async () => {
       const onSelectSpy = sinon.spy();
       const { getByTestId } = render(
         <Nav onSelect={onSelectSpy}>
@@ -183,15 +198,25 @@ describe('<Nav>', () => {
         </Nav>
       );
 
-      userEvent.click(getByTestId('item'));
-      expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+      act(() => {
+        userEvent.click(getByTestId('item'));
+      });
 
-      onSelectSpy.resetHistory();
-      userEvent.click(getByTestId('dropdown-item'));
-      expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
-        '2-1',
-        sinon.match.any
-      );
+      await waitFor(() => {
+        expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+      });
+
+      act(() => {
+        onSelectSpy.resetHistory();
+        userEvent.click(getByTestId('dropdown-item'));
+      });
+
+      await waitFor(() => {
+        expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
+          '2-1',
+          sinon.match.any
+        );
+      });
     });
 
     it('Should highlight <Dropdown.Item> with `activeKey`', () => {
@@ -209,7 +234,7 @@ describe('<Nav>', () => {
     });
 
     it('Should work with Dropdown', () => {
-      const instance = getDOMNode(
+      const { container } = render(
         <Nav>
           <Nav.Item>Nav item</Nav.Item>
           <Dropdown title="Dropdown">
@@ -218,7 +243,7 @@ describe('<Nav>', () => {
         </Nav>
       );
 
-      expect(instance.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
+      expect(container.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
     });
   });
 });

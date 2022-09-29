@@ -63,7 +63,7 @@
 | disabledItemValues | string[]                                                                         | 禁用选项                                   |
 | groupBy            | string                                                                           | 设置分组条件在 `data` 中的 `key`           |
 | labelKey           | string `('label')`                                                               | 设置选项显示内容在 `data` 中的 `key`       |
-| listProps          | [ListProps][listprops]                                                           | `react-virtualized` 中 List 的相关属性     |
+| listProps          | [ListProps][listprops]                                                           | 虚拟化长列表的相关属性                     |
 | menuMaxHeight      | number `(320)`                                                                   | 设置 Dropdown 的最大高度                   |
 | menuClassName      | string                                                                           | 应用于菜单 DOM 节点的 css class            |
 | menuStyle          | CSSProperties                                                                    | 应用于菜单 DOM 节点的 style                |
@@ -102,7 +102,8 @@
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->
+<!--{include:(_common/types/list-props.md)}-->
 
-[listprops]: https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
+[listprops]: #code-ts-list-props-code
 [tagprops]: https://rsuitejs.com/components/tag#Props
 [item]: #code-ts-item-data-type-code

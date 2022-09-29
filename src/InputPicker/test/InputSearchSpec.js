@@ -29,10 +29,10 @@ describe('InputPicker - InputSearch', () => {
   });
 
   it('Should have a InputAutosize', () => {
-    const instance = getDOMNode(<InputSearch as={InputAutosize} />, false);
-    assert.ok(instance.querySelector('.rs-picker-search-input'));
-    assert.ok(instance.querySelector('.rs-picker-search-input input'));
-    assert.equal(instance.querySelector('.rs-picker-search-input input').style.width, '1px');
+    const instance = getDOMNode(<InputSearch as={InputAutosize} />);
+
+    expect(instance.querySelector('.rs-picker-search-input')).to.exist;
+    expect(instance.querySelector('.rs-picker-search-input input')).to.exist;
   });
 
   it('Should call onChange callback', done => {

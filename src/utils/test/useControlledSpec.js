@@ -1,4 +1,6 @@
-import { renderHook, act } from '@testing-library/react-hooks/dom';
+import { act } from '@testing-library/react';
+import { renderHook } from '@test/testUtils';
+
 import useControlled from '../useControlled';
 
 describe('[utils] useControlled', () => {

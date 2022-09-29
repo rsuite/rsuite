@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
-import { render } from '@testing-library/react';
+import { render, act, waitFor, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import Carousel from '../Carousel';
 
@@ -10,7 +10,7 @@ describe('Carousel', () => {
 
   it('Should button be displayed on the right', () => {
     const instance = getDOMNode(<Carousel placement="right" />);
-    assert.ok(instance.className.match(/\bcarousel-placement-right\b/));
+    expect(instance.className).to.contain('carousel-placement-right');
   });
 
   it('Should render 2 subitems', () => {
@@ -21,63 +21,89 @@ describe('Carousel', () => {
         <img />
       </Carousel>
     );
-    assert.equal(instance.querySelector('.rs-carousel-slider').childNodes.length, 2);
-    assert.equal(instance.querySelectorAll('.rs-carousel-label-wrapper').length, 2);
+
+    expect(instance.querySelector('.rs-carousel-slider').childNodes.length).to.equal(2);
+    expect(instance.querySelectorAll('.rs-carousel-label-wrapper').length).to.equal(2);
   });
 
   it('Should button be displayed as a bar', () => {
     const instance = getDOMNode(<Carousel shape="bar" />);
-    assert.ok(instance.className.match(/\bcarousel-shape-bar\b/));
+    expect(instance.className).to.contain('carousel-shape-bar');
   });
 
-  it('Should be autoplay', done => {
+  it('Should be autoplay', async () => {
     const style = { height: 20 };
+    const onSlideStartSpy = sinon.spy();
     getDOMNode(
       <Carousel
         autoplay
         autoplayInterval={500}
-        onSlideStart={() => done()}
+        onSlideStart={onSlideStartSpy}
         style={{ width: 200, height: 20 }}
       >
         <div style={style}>1</div>
         <div style={style}>2</div>
       </Carousel>
     );
+
+    await waitFor(() => {
+      expect(onSlideStartSpy).to.called;
+    });
   });
 
-  it('Should call `onSlideStart` callback', done => {
+  it('Should call `onSlideStart` callback', async () => {
+    const onSlideStartSpy = sinon.spy();
     const instance = getDOMNode(
-      <Carousel onSlideStart={() => done()}>
+      <Carousel onSlideStart={onSlideStartSpy}>
         <div>1</div>
         <div>2</div>
       </Carousel>
     );
 
     const input = instance.querySelectorAll('.rs-carousel-label-wrapper')[1].querySelector('input');
-    ReactTestUtils.Simulate.change(input);
+
+    fireEvent.click(input);
+
+    await waitFor(() => {
+      expect(onSlideStartSpy).to.called;
+    });
   });
 
-  it('Should call `onSelect` callback', done => {
+  it('Should call `onSelect` callback', async () => {
+    const onSelectSpy = sinon.spy();
     const instance = getDOMNode(
-      <Carousel onSelect={() => done()}>
+      <Carousel onSelect={onSelectSpy}>
         <div>1</div>
         <div>2</div>
       </Carousel>
     );
 
     const input = instance.querySelectorAll('.rs-carousel-label-wrapper')[1].querySelector('input');
-    ReactTestUtils.Simulate.change(input);
+
+    act(() => {
+      Simulate.change(input);
+    });
+
+    await waitFor(() => {
+      expect(onSelectSpy).to.called;
+    });
   });
 
-  it('Should call `onSlideEnd` callback', done => {
+  it('Should call `onSlideEnd` callback', async () => {
+    const onSlideEndSpy = sinon.spy();
+
     const instance = getDOMNode(
-      <Carousel onSlideEnd={() => done()}>
+      <Carousel onSlideEnd={onSlideEndSpy}>
         <div>1</div>
         <div>2</div>
       </Carousel>
     );
 
-    ReactTestUtils.Simulate.transitionEnd(instance.querySelector('.rs-carousel-slider'));
+    Simulate.transitionEnd(instance.querySelector('.rs-carousel-slider'));
+
+    await waitFor(() => {
+      expect(onSlideEndSpy).to.called;
+    });
   });
 
   it('Should initialize with the default index position', () => {
@@ -89,8 +115,7 @@ describe('Carousel', () => {
         <div>4</div>
       </Carousel>
     );
-
-    assert.equal(instance.querySelector('[aria-hidden=false]').textContent, '3');
+    expect(instance.querySelector('[aria-hidden=false]').textContent).to.equal('3');
   });
 
   it('Should handle active index dynamically', () => {
@@ -115,10 +140,12 @@ describe('Carousel', () => {
 
     const { container } = render(<App ref={ref} />);
 
-    assert.equal(container.querySelector('[aria-hidden=false]').textContent, '2');
+    expect(container.querySelector('[aria-hidden=false]').textContent).to.equal('2');
 
-    ref.current.setIndex(3);
+    act(() => {
+      ref.current.setIndex(3);
+    });
 
-    assert.equal(container.querySelector('[aria-hidden=false]').textContent, '4');
+    expect(container.querySelector('[aria-hidden=false]').textContent).to.equal('4');
   });
 });

@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render } from '@testing-library/react';
 
 import Toggle from '../PickerToggle';
 import { getDOMNode } from '@test/testUtils';
@@ -49,7 +48,7 @@ describe('<PickerToggle>', () => {
         </Toggle>
       );
 
-      userEvent.click(getByRole('button', { name: /clear/i }));
+      fireEvent.click(getByRole('button', { name: /clear/i }));
 
       expect(onCleanSpy).to.have.been.called;
     });

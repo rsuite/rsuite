@@ -17,12 +17,7 @@ describe('Form control styles', () => {
     const dom = getDOMNode(instanceRef.current);
     const inputDom = dom.querySelector('.rs-input');
 
-    assert.equal(getStyle(dom, 'position'), 'relative', 'FormControl wrapper position');
-    inChrome &&
-      assert.equal(
-        getStyle(inputDom, 'border'),
-        `1px solid ${toRGB('#e5e5ea')}`,
-        'FormControl wrapper position'
-      );
+    assert.equal(getStyle(dom, 'position'), 'relative');
+    inChrome && assert.equal(getStyle(inputDom, 'border'), `1px solid ${toRGB('#e5e5ea')}`);
   });
 });

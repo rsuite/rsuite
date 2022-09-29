@@ -13,7 +13,8 @@ import {
   Pagination,
   TagPicker,
   Tag,
-  Progress
+  Progress,
+  Loader
 } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
 import DefaultPage from '@/components/Page';
@@ -62,6 +63,7 @@ export default function Page() {
         Tag,
         Progress,
         faker,
+        Loader,
         mockTreeData,
         mockUsers
       }}
