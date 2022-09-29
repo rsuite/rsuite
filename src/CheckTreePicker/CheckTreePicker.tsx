@@ -50,7 +50,6 @@ import {
   shouldShowNodeByExpanded,
   flattenTree,
   getNodeParents,
-  getVirtualLisHeight,
   hasVisibleChildren,
   treeDeprecatedWarning,
   getExpandItemValues,
@@ -111,6 +110,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
   };
   static defaultProps = {
     ...listPickerDefaultProps,
+    height: defaultHeight,
     cascade: true,
     countable: true,
     searchable: true,
@@ -904,12 +904,10 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
   renderDropdownMenu() {
     const {
-      height = defaultHeight,
       locale,
       menuStyle,
       searchable,
       renderMenu,
-      virtualized,
       searchKeyword,
       renderExtraFooter,
       menuClassName,
@@ -919,13 +917,12 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     const keyword = !_.isUndefined(searchKeyword) ? searchKeyword : this.state.searchKeyword;
     const classes = classNames(menuClassName, this.addPrefix('check-tree-menu'));
     const menu = this.renderCheckTree();
-    const styles = virtualized ? { height, ...menuStyle } : menuStyle;
 
     return (
       <MenuWrapper
         autoWidth={menuAutoWidth}
         className={classes}
-        style={styles}
+        style={menuStyle}
         ref={this.menuRef}
         getToggleInstance={this.getToggleInstance}
         getPositionInstance={this.getPositionInstance}
@@ -1078,16 +1075,7 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
 
   renderCheckTree() {
     const { filterData, isSomeNodeHasChildren } = this.state;
-    const {
-      inline,
-      style,
-      height,
-      className,
-      onScroll,
-      locale,
-      virtualized,
-      searchable
-    } = this.props;
+    const { inline, style, height, className, onScroll, locale, virtualized } = this.props;
 
     // 树节点的层级
     const layer = 0;
@@ -1097,7 +1085,6 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
     });
 
     let formattedNodes = [];
-
     if (!virtualized) {
       formattedNodes = getFormattedTree(filterData, this.nodes, this.props).map(node =>
         this.renderNode(node, layer)
@@ -1113,31 +1100,34 @@ class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePic
       }
     }
 
-    // 当未定义 height 且 设置了 virtualized 为 true，treeHeight 设置默认高度
-    const treeHeight = _.isUndefined(height) && virtualized ? defaultHeight : height;
+    // The height of virtualized tree should be subtract the value of paddingBottom
+    const treeHeight = height - 12;
     const treeWidth = _.isUndefined(style?.width) ? defaultWidth : style.width;
-    const styles = inline ? { height: treeHeight, ...style } : {};
+    const listStyles = inline ? { height: height, ...style } : style;
 
     const treeNodesClass = classNames(this.addTreePrefix('nodes'), {
       [this.addTreePrefix('all-uncheckable')]: getEveryFisrtLevelNodeUncheckable(this.nodes)
     });
-    const listHeight = getVirtualLisHeight(inline, searchable, treeHeight);
     return (
       <div
         ref={this.treeViewRef}
         className={classes}
-        style={styles}
+        style={listStyles}
         onScroll={onScroll}
         onKeyDown={this.handleKeyDown}
       >
         <div className={treeNodesClass}>
           {virtualized ? (
-            <AutoSizer defaultHeight={listHeight} defaultWidth={treeWidth}>
+            <AutoSizer
+              defaultHeight={treeHeight}
+              defaultWidth={treeWidth}
+              style={{ width: 'auto', height: 'auto' }}
+            >
               {({ height, width }) => (
                 <List
                   ref={this.listRef}
                   width={width || treeWidth}
-                  height={height || listHeight}
+                  height={height}
                   rowHeight={36}
                   rowCount={formattedNodes.length}
                   rowRenderer={this.measureRowRenderer(formattedNodes)}

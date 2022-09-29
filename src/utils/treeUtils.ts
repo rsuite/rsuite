@@ -81,16 +81,6 @@ export function getNodeParents(node: object, parentKey = 'parent', valueKey?: st
 }
 
 /**
- * 获取 VirtualList 的高度
- * @param {*} inline
- * @param {*} height
- */
-export function getVirtualLisHeight(inline: boolean, searchable: boolean, height = 0) {
-  const searchBarHeight = searchable ? SEARCH_BAR_HEIGHT : 0;
-  return inline ? height - MENU_PADDING * 2 : height - searchBarHeight - MENU_PADDING * 2;
-}
-
-/**
  * 判断节点是否存在可见的子节点。
  * @param node
  */

@@ -16,6 +16,7 @@ export default function Page() {
         'searchable',
         'custom',
         'async',
+        'extra-footer',
         'virtualized'
       ]}
       dependencies={{ TreePicker, Button, Icon, data }}
