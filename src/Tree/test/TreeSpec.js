@@ -97,8 +97,8 @@ describe('Tree', () => {
       const instance = getDOMNode(
         <Tree data={data} onDrop={onDropSpy} draggable defaultExpandAll />
       );
-      const dragTreeNode = instance.querySelector('span[data-key="0-0-0"]');
-      const dropTreeNode = instance.querySelector('span[data-key="0-0-1"]');
+      const dragTreeNode = instance.querySelector('span[data-key="String_tester0"]');
+      const dropTreeNode = instance.querySelector('span[data-key="String_tester1"]');
 
       Simulate.dragStart(dragTreeNode);
       Simulate.drop(dropTreeNode);
