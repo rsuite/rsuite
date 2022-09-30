@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./*"],
+      "rsuite": ["../src"],
+      "rsuite/*": ["../src/*"],
+      "react": ["./node_modules/@types/react"]
+    },
+    "incremental": true
+  }
+}
