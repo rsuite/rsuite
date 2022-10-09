@@ -715,20 +715,16 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should remove all value when click clean button and value is unControlled', () => {
-    const ref = React.createRef();
-    render(<CheckTreePicker ref={ref} defaultOpen data={data} defaultValue={['Master']} />);
+    render(<CheckTreePicker defaultOpen data={data} defaultValue={['Master']} />);
 
     fireEvent.click(screen.getByLabelText('Clear'));
-    expect(ref.current.target.querySelector('.rs-picker-toggle-value')).to.equal(null);
+    expect(screen.getByRole('combobox')).to.text('Select');
   });
 
   it('Should persist value when click clean button and value is controlled', () => {
-    const ref = React.createRef();
-    render(<CheckTreePicker ref={ref} defaultOpen data={data} value={['Master']} />);
+    render(<CheckTreePicker defaultOpen data={data} value={['Master']} />);
 
     fireEvent.click(screen.getByLabelText('Clear'));
-    expect(
-      ref.current.target.querySelector('.rs-picker-toggle-value .rs-picker-value-item').textContent
-    ).to.equal('Master (All)');
+    expect(screen.getByRole('combobox')).to.text('Master (All)1');
   });
 });

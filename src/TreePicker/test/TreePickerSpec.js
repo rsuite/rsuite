@@ -1,7 +1,6 @@
 import React from 'react';
 import { render as testRender, fireEvent, screen } from '@testing-library/react';
 import { act, Simulate } from 'react-dom/test-utils';
-import { fireEvent, render as rtlRender } from '@testing-library/react';
 import { getDOMNode, getInstance, render } from '@test/testUtils';
 import TreePicker from '../TreePicker';
 import { KEY_VALUES } from '../../utils';
@@ -584,22 +583,16 @@ describe('TreePicker', () => {
   });
 
   it('Should remove all value when click clean button and value is unControlled', () => {
-    const ref = React.createRef();
-    const screen = testRender(
-      <TreePicker ref={ref} defaultOpen data={data} defaultValue={'Master'} />
-    );
+    testRender(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
 
     fireEvent.click(screen.getByLabelText('Clear'));
-    expect(ref.current.target.querySelector('.rs-picker-toggle-value')).to.equal(null);
+    expect(screen.getByRole('combobox')).to.text('Select');
   });
 
   it('Should persist value when click clean button and value is controlled', () => {
-    const ref = React.createRef();
-    const screen = rtlRender(<TreePicker ref={ref} defaultOpen data={data} value={'Master'} />);
+    testRender(<TreePicker defaultOpen data={data} value={'Master'} />);
 
     fireEvent.click(screen.getByLabelText('Clear'));
-    expect(ref.current.target.querySelector('.rs-picker-toggle-value').textContent).to.equal(
-      'Master'
-    );
+    expect(screen.getByRole('combobox')).to.text('Master');
   });
 });
