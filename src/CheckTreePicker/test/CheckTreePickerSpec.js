@@ -713,4 +713,22 @@ describe('CheckTreePicker', () => {
     });
     expect(screen.getByRole('combobox')).to.have.text('Master (All)1');
   });
+
+  it('Should remove all value when click clean button and value is unControlled', () => {
+    const ref = React.createRef();
+    render(<CheckTreePicker ref={ref} defaultOpen data={data} defaultValue={['Master']} />);
+
+    fireEvent.click(screen.getByLabelText('Clear'));
+    expect(ref.current.target.querySelector('.rs-picker-toggle-value')).to.equal(null);
+  });
+
+  it('Should persist value when click clean button and value is controlled', () => {
+    const ref = React.createRef();
+    render(<CheckTreePicker ref={ref} defaultOpen data={data} value={['Master']} />);
+
+    fireEvent.click(screen.getByLabelText('Clear'));
+    expect(
+      ref.current.target.querySelector('.rs-picker-toggle-value .rs-picker-value-item').textContent
+    ).to.equal('Master (All)');
+  });
 });

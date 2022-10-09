@@ -512,16 +512,18 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       }
 
       setActiveNode(null);
-      setValue([]);
       setFocusItemValue(null);
 
-      unSerializeList({
-        nodes: flattenNodes,
-        key: 'check',
-        value: [],
-        cascade,
-        uncheckableItemValues
-      });
+      if (!isControlled) {
+        setValue([]);
+        unSerializeList({
+          nodes: flattenNodes,
+          key: 'check',
+          value: [],
+          cascade,
+          uncheckableItemValues
+        });
+      }
 
       onChange?.([], event);
     },
@@ -533,7 +535,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       onChange,
       setValue,
       unSerializeList,
-      uncheckableItemValues
+      uncheckableItemValues,
+      isControlled
     ]
   );
 
