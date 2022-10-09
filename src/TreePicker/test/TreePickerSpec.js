@@ -90,7 +90,7 @@ describe('TreePicker', () => {
     );
 
     Simulate.click(
-      instance.overlay.querySelector('div[data-ref="0-0"]  > .rs-tree-node-expand-icon')
+      instance.overlay.querySelector('div[data-ref="String_Master"]  > .rs-tree-node-expand-icon')
     );
     assert.equal(instance.overlay.querySelectorAll('.rs-tree-open').length, 1);
   });
@@ -170,7 +170,7 @@ describe('TreePicker', () => {
     const onChangeSpy = sinon.spy();
     const instance = getInstance(<TreePicker open onChange={onChangeSpy} data={data} />);
 
-    Simulate.click(instance.overlay.querySelector('span[data-key="0-0"]'));
+    Simulate.click(instance.overlay.querySelector('span[data-key="String_Master"]'));
     assert.isTrue(onChangeSpy.calledOnce);
   });
 
@@ -211,7 +211,7 @@ describe('TreePicker', () => {
   it('Should focus item by keyCode=38 ', () => {
     const instance = getInstance(<TreePicker open data={data} defaultExpandAll value="tester1" />);
 
-    Simulate.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
+    Simulate.click(instance.overlay.querySelector('span[data-key="String_tester1"]'));
     Simulate.keyDown(instance.target, { key: KEY_VALUES.UP });
     assert.equal(instance.overlay.querySelector('.rs-tree-node-focus').textContent, 'tester0');
   });
@@ -223,7 +223,7 @@ describe('TreePicker', () => {
     const instance = getInstance(
       <TreePicker defaultOpen data={data} onChange={doneOp} defaultExpandAll />
     );
-    Simulate.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
+    Simulate.click(instance.overlay.querySelector('span[data-key="String_tester1"]'));
   });
 
   /**
@@ -232,7 +232,7 @@ describe('TreePicker', () => {
   it('Should fold children node by keyCode=37', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    Simulate.click(tree.overlay.querySelector('span[data-key="String_Master"]'));
     Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
     assert.equal(
       tree.overlay.querySelectorAll('div[data-ref="0-0"] > .rs-tree-node-expanded').length,
@@ -246,12 +246,13 @@ describe('TreePicker', () => {
   it('Should change nothing when trigger on root node by keyCode=37', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    Simulate.click(tree.overlay.querySelector('span[data-key="String_Master"]'));
     Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
     assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'Master');
 
     assert.equal(
-      tree.overlay.querySelectorAll('div[data-ref="0-0"] > .rs-tree-node-expanded').length,
+      tree.overlay.querySelectorAll('div[data-ref="String_Master"] > .rs-tree-node-expanded')
+        .length,
       0
     );
   });
@@ -262,7 +263,7 @@ describe('TreePicker', () => {
   it('Should focus on parentNode when trigger on leaf node by keyCode=37', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    Simulate.click(tree.overlay.querySelector('span[data-key="String_Master"]'));
     Simulate.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
     assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'Master');
   });
@@ -273,10 +274,11 @@ describe('TreePicker', () => {
   it('Should fold children node by keyCode=39', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    Simulate.click(tree.overlay.querySelector('span[data-key="String_Master"]'));
     Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
     assert.equal(
-      tree.overlay.querySelectorAll('div[data-ref="0-0"] > .rs-tree-node-expanded').length,
+      tree.overlay.querySelectorAll('div[data-ref="String_Master"] > .rs-tree-node-expanded')
+        .length,
       1
     );
   });
@@ -287,7 +289,7 @@ describe('TreePicker', () => {
   it('Should change nothing when trigger on leaf node by keyCode=39', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0-0"]'));
+    Simulate.click(tree.overlay.querySelector('span[data-key="String_tester0"]'));
     Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
     assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'tester0');
   });
@@ -298,7 +300,7 @@ describe('TreePicker', () => {
   it('Should focus on first child node when node expanded by keyCode=39', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    Simulate.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    Simulate.click(tree.overlay.querySelector('span[data-key="String_Master"]'));
     Simulate.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
     assert.equal(tree.overlay.querySelector('.rs-tree-node-focus').textContent, 'tester0');
   });
@@ -353,11 +355,13 @@ describe('TreePicker', () => {
 
     act(() => {
       Simulate.click(
-        ref.current.overlay.querySelector('div[data-ref="0-1"]  > .rs-tree-node-expand-icon')
+        ref.current.overlay.querySelector(
+          'div[data-ref="String_async"]  > .rs-tree-node-expand-icon'
+        )
       );
     });
 
-    assert.ok(ref.current.overlay.querySelector('[data-key="0-1-0"]'));
+    assert.ok(ref.current.overlay.querySelector('[data-key="String_children1"]'));
   });
 
   it('Should render one node when searchKeyword is `M`', () => {
@@ -441,7 +445,9 @@ describe('TreePicker', () => {
 
     act(() => {
       Simulate.click(
-        ref.current.picker.overlay.querySelector('div[data-ref="0-0"]  > .rs-tree-node-expand-icon')
+        ref.current.picker.overlay.querySelector(
+          'div[data-ref="String_Master"]  > .rs-tree-node-expand-icon'
+        )
       );
     });
 
@@ -550,7 +556,7 @@ describe('TreePicker', () => {
         renderTreeNode={renderTreeNodeSpy}
       />
     );
-    Simulate.click(instance.overlay.querySelector('span[data-key="0-0"]'));
+    Simulate.click(instance.overlay.querySelector('span[data-key="String_Master"]'));
 
     assert.doesNotThrow(() => JSON.stringify(data[0]));
     assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[0]));
