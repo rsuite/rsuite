@@ -77,6 +77,14 @@ export function usePaths(props: CascaderProps) {
   }
 
   /**
+   * Remove subsequent columns of the specified column
+   * @param index
+   */
+  function romoveColumnByIndex(index: number) {
+    setColumnData([...slice(columnData, 0, index)]);
+  }
+
+  /**
    * Enforce update of columns and paths.
    * @param nextValue  Selected value
    * @param isAttachChildren  Whether to attach the children of the selected node.
@@ -109,6 +117,7 @@ export function usePaths(props: CascaderProps) {
     setValueToPaths,
     setColumnData,
     setSelectedPaths,
-    addColumn
+    addColumn,
+    romoveColumnByIndex
   };
 }

@@ -208,6 +208,14 @@ export function useColumnData(flattenData: ItemType[]) {
     setColumnData([...slice(columnData, 0, index), column]);
   }
 
+  /**
+   * Remove subsequent columns of the specified column
+   * @param index
+   */
+  function romoveColumnByIndex(index: number) {
+    setColumnData([...slice(columnData, 0, index)]);
+  }
+
   function enforceUpdateColumnData(nextData: ItemDataType[]) {
     const nextFlattenData = flattenTree(nextData);
     setColumnData([nextFlattenData.filter(item => !item.parent)]);
@@ -216,6 +224,7 @@ export function useColumnData(flattenData: ItemType[]) {
   return {
     columnData,
     addColumn,
+    romoveColumnByIndex,
     setColumnData,
     enforceUpdateColumnData
   };

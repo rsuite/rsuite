@@ -1,30 +1,30 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { act, render } from '@testing-library/react';
-import { getDOMNode, getInstance, getStyle } from '@test/testUtils';
+import { act, fireEvent, render } from '@testing-library/react';
+import { getDOMNode, getInstance } from '@test/testUtils';
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
 
 const items = [
   {
-    value: 'abc',
-    label: 'abc'
+    value: '1',
+    label: '1'
   },
   {
-    value: 'abcd',
-    label: 'abcd'
+    value: '2',
+    label: '2'
   },
   {
-    value: 'abcde',
-    label: 'abcde',
+    value: '3',
+    label: '3',
     children: [
       {
-        value: 'abcde-1',
-        label: 'abcde-1'
+        value: '3-1',
+        label: '3-1'
       },
       {
-        value: 'abcde-2',
-        label: 'abcde-2'
+        value: '3-2',
+        label: '3-2'
       }
     ]
   }
@@ -44,53 +44,46 @@ describe('MultiCascader', () => {
   });
 
   it('Should render number', () => {
-    const instance = getDOMNode(<MultiCascader data={items} value={['abcde-1', 'abcde-2']} />);
+    const instance = getDOMNode(<MultiCascader data={items} value={['3-1', '3-2']} />);
 
     assert.equal(instance.querySelector('.rs-picker-value-count').textContent, '1');
     assert.include(instance.className, 'rs-picker-countable');
-    assert.equal(getStyle(instance.querySelector('.rs-picker-toggle-value'), 'display'), 'flex');
   });
 
   it('Should not render number', () => {
     const instance = getDOMNode(
-      <MultiCascader data={items} value={['abcde-1', 'abcde-2']} countable={false} />
+      <MultiCascader data={items} value={['3-1', '3-2']} countable={false} />
     );
 
     assert.isNull(instance.querySelector('.rs-picker-value-count'));
   });
 
   it('Should render the parent node by children value', () => {
-    const instance = getDOMNode(<MultiCascader data={items} value={['abcde-1', 'abcde-2']} />);
+    const instance = getDOMNode(<MultiCascader data={items} value={['3-1', '3-2']} />);
 
-    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, 'abcde (All)');
+    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, '3 (All)');
   });
 
   it('Should render the parent node by children defaultValue', () => {
-    const instance = getDOMNode(
-      <MultiCascader data={items} defaultValue={['abcde-1', 'abcde-2']} />
-    );
+    const instance = getDOMNode(<MultiCascader data={items} defaultValue={['3-1', '3-2']} />);
 
-    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, 'abcde (All)');
+    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, '3 (All)');
   });
 
   it('Should render the parent node by children value', () => {
     const instance = getDOMNode(
-      <MultiCascader data={items} value={['abcde-1']} uncheckableItemValues={['abcde-2']} />
+      <MultiCascader data={items} value={['3-1']} uncheckableItemValues={['3-2']} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, 'abcde (All)');
+    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, '3 (All)');
   });
 
   it('Should render the children nodes', () => {
     const instance = getDOMNode(
-      <MultiCascader
-        data={items}
-        value={['abcde-1', 'abcde-2']}
-        uncheckableItemValues={['abcde']}
-      />
+      <MultiCascader data={items} value={['3-1', '3-2']} uncheckableItemValues={['3']} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, 'abcde-1,abcde-2');
+    assert.equal(instance.querySelector('.rs-picker-value-list').textContent, '3-1,3-2');
   });
 
   it('Should be disabled', () => {
@@ -127,7 +120,7 @@ describe('MultiCascader', () => {
   it('Should output a placeholder by renderValue()', () => {
     const placeholder = 'foobar';
     const instance = getDOMNode(
-      <MultiCascader renderValue={() => placeholder} data={items} value={['abc']} />
+      <MultiCascader renderValue={() => placeholder} data={items} value={['1']} />
     );
 
     assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, placeholder);
@@ -178,13 +171,13 @@ describe('MultiCascader', () => {
   });
 
   it('Should be active by value', () => {
-    const value = ['abcd'];
+    const value = ['2'];
     const instance = getInstance(<MultiCascader defaultOpen data={items} value={value} />);
     assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').textContent, value);
   });
 
   it('Should be active by defaultValue', () => {
-    const value = ['abcd'];
+    const value = ['2'];
     const instance = getInstance(<MultiCascader defaultOpen data={items} defaultValue={value} />);
     assert.equal(instance.overlay.querySelector('.rs-checkbox-checked').textContent, value);
   });
@@ -203,13 +196,13 @@ describe('MultiCascader', () => {
     const menu = instance.overlay.querySelector('.rs-checkbox-wrapper');
 
     ReactTestUtils.Simulate.click(menu);
-    assert.equal(onChangeSpy.firstCall.firstArg[0], 'abc');
+    assert.equal(onChangeSpy.firstCall.firstArg[0], '1');
   });
 
   it('Should call `onClean` callback', () => {
     const onCleanSpy = sinon.spy();
     const instance = getDOMNode(
-      <MultiCascader data={items} defaultValue={['abc']} onClean={onCleanSpy} />
+      <MultiCascader data={items} defaultValue={['1']} onClean={onCleanSpy} />
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
@@ -235,7 +228,7 @@ describe('MultiCascader', () => {
   it('Should clean selected default value', () => {
     const ref = React.createRef();
     act(() => {
-      render(<MultiCascader ref={ref} defaultOpen data={items} defaultValue={['abcde-1']} />);
+      render(<MultiCascader ref={ref} defaultOpen data={items} defaultValue={['3-1']} />);
     });
 
     const target = ref.current.root;
@@ -290,7 +283,7 @@ describe('MultiCascader', () => {
 
   it('Should update value', () => {
     const TestApp = React.forwardRef((props, ref) => {
-      const [value, setValue] = React.useState(['abc']);
+      const [value, setValue] = React.useState(['1']);
       const pickerRef = React.useRef();
       React.useImperativeHandle(ref, () => ({
         picker: pickerRef.current,
@@ -310,7 +303,7 @@ describe('MultiCascader', () => {
     });
     const target = ref.current.picker.root;
 
-    assert.equal(target.querySelector('.rs-picker-value-list').textContent, 'abc');
+    assert.equal(target.querySelector('.rs-picker-value-list').textContent, '1');
 
     act(() => {
       ref.current.setValue([]);
@@ -326,8 +319,8 @@ describe('MultiCascader', () => {
     const checkbox = instance.overlay.querySelectorAll('.rs-checkbox')[1];
     ReactTestUtils.Simulate.click(checkbox);
 
-    assert.equal(onSelectSpy.firstCall.firstArg.value, 'abcd');
-    assert.equal(onSelectSpy.firstCall.args[1][0].value, 'abcd');
+    assert.equal(onSelectSpy.firstCall.firstArg.value, '2');
+    assert.equal(onSelectSpy.firstCall.args[1][0].value, '2');
     assert.equal(onSelectSpy.firstCall.lastArg.target, checkbox);
   });
 
@@ -358,8 +351,8 @@ describe('MultiCascader', () => {
 
     ReactTestUtils.Simulate.click(checkbox);
 
-    assert.equal(onCheckSpy.firstCall.firstArg[0], 'abc');
-    assert.equal(onCheckSpy.firstCall.args[1].value, 'abc');
+    assert.equal(onCheckSpy.firstCall.firstArg[0], '1');
+    assert.equal(onCheckSpy.firstCall.args[1].value, '1');
     assert.isTrue(onCheckSpy.firstCall.args[2]);
     assert.equal(onCheckSpy.firstCall.lastArg.target, checkbox);
   });
@@ -437,22 +430,38 @@ describe('MultiCascader', () => {
     const onSearchSpy = sinon.spy();
     const instance = getInstance(<MultiCascader data={items} defaultOpen onSearch={onSearchSpy} />);
     const input = instance.overlay.querySelector('.rs-picker-search-bar-input');
-    input.value = 'abcde';
+    input.value = '3';
 
     ReactTestUtils.Simulate.change(input);
     assert.equal(instance.overlay.querySelectorAll('.rs-picker-cascader-row').length, 3);
     assert.ok(onSearchSpy.calledOnce);
   });
 
+  it('Should update the subcolumn when the leaf node is clicked', () => {
+    const { queryAllByRole, getByRole } = render(<MultiCascader data={items} open />);
+
+    expect(queryAllByRole('listbox')).to.length(1);
+
+    // Click on a node that has child nodes
+    fireEvent.click(getByRole('checkbox', { name: '3' }).parentNode);
+
+    expect(queryAllByRole('listbox')).to.length(2);
+
+    // Click on the leaf node
+    fireEvent.click(getByRole('checkbox', { name: '1' }).parentNode);
+
+    expect(queryAllByRole('listbox')).to.length(1);
+  });
+
   describe('Plain text', () => {
     it("Should render selected options' labels (comma-separated) and selected options count", () => {
       const { getByTestId } = render(
         <div data-testid="content">
-          <MultiCascader data={items} value={['abc', 'abcde-1']} plaintext />
+          <MultiCascader data={items} value={['1', '3-1']} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('abc,abcde-12');
+      expect(getByTestId('content')).to.have.text('1,3-12');
     });
     it('Should render "Not selected" if value is empty', () => {
       const { getByTestId } = render(
