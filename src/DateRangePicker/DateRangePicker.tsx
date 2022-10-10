@@ -744,6 +744,11 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       renderTitle
     };
 
+    const sideRanges = ranges?.filter(range => range?.placement === 'left') || [];
+    const bottomRanges = ranges?.filter(
+      range => range?.placement === 'bottom' || range?.placement === undefined
+    );
+
     return (
       <PickerOverlay
         role="dialog"
@@ -754,16 +759,19 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       >
         <div className={panelClasses}>
           <Stack alignItems="flex-start">
-            <PredefinedRanges
-              direction="column"
-              spacing={0}
-              className={prefix('daterange-predefined')}
-              ranges={ranges?.filter(range => range?.placement === 'left') || []}
-              calendarDate={calendarDate}
-              locale={locale}
-              disabledShortcut={disabledShortcutButton}
-              onClickShortcut={handleShortcutPageDate}
-            />
+            {sideRanges.length > 0 && (
+              <PredefinedRanges
+                direction="column"
+                spacing={0}
+                className={prefix('daterange-predefined')}
+                ranges={sideRanges}
+                calendarDate={calendarDate}
+                locale={locale}
+                disabledShortcut={disabledShortcutButton}
+                onClickShortcut={handleShortcutPageDate}
+              />
+            )}
+
             <>
               <div className={prefix('daterange-content')}>
                 <div className={prefix('daterange-header')}>{getDisplayString(selectedDates)}</div>
@@ -782,9 +790,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
                 hideOkBtn={oneTap}
                 onOk={handleOK}
                 onClickShortcut={handleShortcutPageDate}
-                ranges={ranges?.filter(
-                  range => range?.placement === 'bottom' || range?.placement === undefined
-                )}
+                ranges={bottomRanges}
               />
             </>
           </Stack>

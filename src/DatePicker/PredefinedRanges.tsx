@@ -35,6 +35,10 @@ const PredefinedRanges = React.forwardRef<HTMLDivElement, PredefinedRangesProps>
     [calendarDate]
   );
 
+  if (ranges.length === 0) {
+    return null;
+  }
+
   return (
     <Stack className={className} ref={ref} alignItems="flex-start" spacing={4} {...rest}>
       {ranges.map(({ value, closeOverlay, label, ...rest }, index: number) => {
