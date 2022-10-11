@@ -507,7 +507,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     (event: React.SyntheticEvent) => {
       const target = event.target as Element;
       // exclude searchBar
-      if (target.matches('div[role="searchbox"] > input')) {
+      if (target.matches('div[role="searchbox"] > input') || disabled || !cleanable) {
         return;
       }
 
@@ -525,7 +525,16 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
       onChange?.([], event);
     },
-    [cascade, flattenNodes, onChange, setValue, unSerializeList, uncheckableItemValues]
+    [
+      cascade,
+      cleanable,
+      disabled,
+      flattenNodes,
+      onChange,
+      setValue,
+      unSerializeList,
+      uncheckableItemValues
+    ]
   );
 
   const handleFocusItem = useCallback(

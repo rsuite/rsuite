@@ -1,4 +1,5 @@
 import React from 'react';
+import { render as testRender, fireEvent, screen } from '@testing-library/react';
 import { act, Simulate } from 'react-dom/test-utils';
 import { getDOMNode, getInstance, render } from '@test/testUtils';
 import TreePicker from '../TreePicker';
@@ -561,5 +562,23 @@ describe('TreePicker', () => {
     assert.doesNotThrow(() => JSON.stringify(data[0]));
     assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[0]));
     assert.doesNotThrow(() => JSON.stringify(renderTreeNodeSpy.firstCall.args[0]));
+  });
+
+  it('Should not clean values when setting disabled=true', () => {
+    testRender(<TreePicker open value={data[0].value} disabled data={data} />);
+    fireEvent.keyDown(screen.getByRole('combobox'), {
+      key: 'Backspace',
+      code: 'Backspace'
+    });
+    expect(screen.getByRole('combobox')).to.have.text('Master');
+  });
+
+  it('Should not clean values when setting cleanable=false', () => {
+    testRender(<TreePicker open value={data[0].value} data={data} />);
+    fireEvent.keyDown(screen.getByRole('combobox'), {
+      key: 'Backspace',
+      code: 'Backspace'
+    });
+    expect(screen.getByRole('combobox')).to.have.text('Master');
   });
 });

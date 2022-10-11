@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
@@ -694,5 +694,23 @@ describe('CheckTreePicker', () => {
     expect(onChangeSpy.callCount).to.equal(2);
     expect(onChangeSpy.firstCall.args[0]).to.include('Master');
     expect(onChangeSpy.secondCall.args[0]).to.include('tester1');
+  });
+
+  it('Should not clean values when setting disabled=true', () => {
+    render(<CheckTreePicker open value={[data[0].value]} disabled data={data} />);
+    fireEvent.keyDown(screen.getByRole('combobox'), {
+      key: 'Backspace',
+      code: 'Backspace'
+    });
+    expect(screen.getByRole('combobox')).to.have.text('Master (All)1');
+  });
+
+  it('Should not clean values when setting cleanable=false', () => {
+    render(<CheckTreePicker open value={[data[0].value]} data={data} />);
+    fireEvent.keyDown(screen.getByRole('combobox'), {
+      key: 'Backspace',
+      code: 'Backspace'
+    });
+    expect(screen.getByRole('combobox')).to.have.text('Master (All)1');
   });
 });
