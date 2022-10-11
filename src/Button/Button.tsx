@@ -39,6 +39,9 @@ export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLEleme
 
   /** Defines HTML button type attribute */
   type?: 'button' | 'reset' | 'submit';
+  
+  /** Shorthand for children */
+  content?: React.ReactNode;
 }
 
 const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef(
@@ -52,6 +55,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
       children,
       classPrefix = 'btn',
       color,
+      content,
       disabled,
       loading,
       ripple = true,
@@ -84,7 +88,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
           className={classes}
         >
           {loading && spin}
-          {children}
+          {content ?? children}
           {rippleElement}
         </SafeAnchor>
       );
@@ -105,7 +109,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
         className={classes}
       >
         {loading && spin}
-        {children}
+        {content ?? children}
         {rippleElement}
       </Component>
     );
@@ -120,6 +124,7 @@ Button.propTypes = {
   block: PropTypes.bool,
   children: PropTypes.node,
   color: PropTypes.oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']),
+  content: PropTypes.node,
   disabled: PropTypes.bool,
   href: PropTypes.string,
   loading: PropTypes.bool,
