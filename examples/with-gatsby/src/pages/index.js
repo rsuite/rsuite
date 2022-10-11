@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "gatsby"
 import { Button } from "rsuite"
-import "rsuite/src/styles/themes/default/index.less"
+import "rsuite/styles/index.less"
 
 import Layout from "../components/layout"
 import Image from "../components/image"
