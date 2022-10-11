@@ -1,9 +1,9 @@
-import React from "react";
-import Head from "next/head";
-import { Button } from "rsuite";
-import "rsuite/lib/styles/index.less";
+import React from 'react';
+import Head from 'next/head';
+import { Button } from 'rsuite';
+import 'rsuite/styles/index.less';
 
-import style from "./style.less";
+import style from './style.module.less';
 
 const Home = () => (
   <div>
@@ -14,8 +14,7 @@ const Home = () => (
     <div className="hero">
       <h1 className="title">Welcome to React Suite</h1>
       <p className="description">
-        A suite of React components, intimate UI design, and a friendly
-        development experience.
+        A suite of React components, intimate UI design, and a friendly development experience.
         <br />
       </p>
       <hr />
