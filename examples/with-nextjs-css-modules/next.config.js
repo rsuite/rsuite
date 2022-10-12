@@ -1,12 +1,33 @@
-const withLessExcludeRSuite = require("./next-less.config.js");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-module.exports = withLessExcludeRSuite({
-  cssModules: true,
-  cssLoaderOptions: {
-    importLoaders: 1,
-    localIdentName: "[local]_[hash:base64:5]"
-  },
-  lessLoaderOptions: {
-    javascriptEnabled: true
+module.exports = {
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.(le|c)ss$/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader'
+        },
+        {
+          loader: 'less-loader',
+          options: {
+            sourceMap: true,
+            lessOptions: {
+              javascriptEnabled: true
+            }
+          }
+        }
+      ]
+    });
+
+    config.plugins.push(
+      new MiniCssExtractPlugin({
+        filename: 'static/css/[name].css',
+        chunkFilename: 'static/css/[contenthash].css'
+      })
+    );
+
+    return config;
   }
-});
+};
