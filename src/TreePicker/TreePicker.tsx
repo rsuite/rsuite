@@ -65,9 +65,6 @@ import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 import TreeContext from '../Tree/TreeContext';
 
-// default value for virtualized
-export const maxTreeHeight = 320;
-
 export interface TreePickerProps<T = number | string>
   extends TreeBaseProps<T, ItemDataType>,
     TreeDragProps,
@@ -117,11 +114,12 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     value: controlledValue,
     locale: overrideLocale,
     height = 360,
+    menuMaxHeight = 320,
+    menuStyle,
     className,
     disabled,
     placement = 'bottomStart',
     cleanable = true,
-    menuStyle,
     searchable = true,
     virtualized = false,
     classPrefix = 'picker',
@@ -783,7 +781,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         <div className={treePrefix('nodes')}>
           {virtualized ? (
             <AutoSizer
-              defaultHeight={inline ? height : maxTreeHeight}
+              defaultHeight={inline ? height : menuMaxHeight}
               style={{ width: 'auto', height: 'auto' }}
             >
               {({ height, width }) => (
@@ -811,13 +809,12 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     const { left, top, className } = positionProps;
     const classes = merge(className, menuClassName, prefix('tree-menu'));
     const mergedMenuStyle = { ...menuStyle, left, top };
-    const styles = virtualized ? { height, ...mergedMenuStyle } : { ...mergedMenuStyle };
 
     return (
       <PickerOverlay
         autoWidth={menuAutoWidth}
         className={classes}
-        style={styles}
+        style={mergedMenuStyle}
         ref={mergeRefs(overlayRef, speakerRef)}
         onKeyDown={onPickerKeydown}
         target={triggerRef}

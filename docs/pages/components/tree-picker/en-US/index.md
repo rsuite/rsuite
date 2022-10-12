@@ -40,6 +40,10 @@
 
 <!--{include:`async.md`}-->
 
+### Extra footer
+
+<!--{include:`extra-footer.md`}-->
+
 ## Accessibility
 
 Learn more in [Accessibility](/guide/accessibility).

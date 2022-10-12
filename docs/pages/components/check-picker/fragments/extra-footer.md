@@ -44,7 +44,6 @@ const App = () => {
         renderExtraFooter={() => (
           <div style={footerStyles}>
             <Checkbox
-              inline
               indeterminate={value.length > 0 && value.length < allValue.length}
               checked={value.length === allValue.length}
               onChange={handleCheckAll}

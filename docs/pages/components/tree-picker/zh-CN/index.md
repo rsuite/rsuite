@@ -40,6 +40,10 @@
 
 <!--{include:`async.md`}-->
 
+### 自定义页脚
+
+<!--{include:`extra-footer.md`}-->
+
 ## 无障碍设计
 
 了解更多有关[无障碍设计](/zh/guide/accessibility)的信息。
