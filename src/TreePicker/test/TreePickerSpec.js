@@ -581,4 +581,18 @@ describe('TreePicker', () => {
     });
     expect(screen.getByRole('combobox')).to.have.text('Master');
   });
+
+  it('Should remove all value when click clean button and value is unControlled', () => {
+    testRender(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
+
+    fireEvent.click(screen.getByLabelText('Clear'));
+    expect(screen.getByRole('combobox')).to.text('Select');
+  });
+
+  it('Should persist value when click clean button and value is controlled', () => {
+    testRender(<TreePicker defaultOpen data={data} value={'Master'} />);
+
+    fireEvent.click(screen.getByLabelText('Clear'));
+    expect(screen.getByRole('combobox')).to.text('Master');
+  });
 });

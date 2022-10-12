@@ -713,4 +713,18 @@ describe('CheckTreePicker', () => {
     });
     expect(screen.getByRole('combobox')).to.have.text('Master (All)1');
   });
+
+  it('Should remove all value when click clean button and value is unControlled', () => {
+    render(<CheckTreePicker defaultOpen data={data} defaultValue={['Master']} />);
+
+    fireEvent.click(screen.getByLabelText('Clear'));
+    expect(screen.getByRole('combobox')).to.text('Select');
+  });
+
+  it('Should persist value when click clean button and value is controlled', () => {
+    render(<CheckTreePicker defaultOpen data={data} value={['Master']} />);
+
+    fireEvent.click(screen.getByLabelText('Clear'));
+    expect(screen.getByRole('combobox')).to.text('Master (All)1');
+  });
 });

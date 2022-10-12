@@ -635,10 +635,12 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       if (target.matches('div[role="searchbox"] > input') || disabled || !cleanable) {
         return;
       }
-      setValue(null);
+      if (!isControlled) {
+        setValue(null);
+      }
       onChange?.(nullValue, event);
     },
-    [cleanable, disabled, onChange, setValue]
+    [cleanable, disabled, onChange, setValue, isControlled]
   );
 
   const onPickerKeydown = useToggleKeyDownEvent({
