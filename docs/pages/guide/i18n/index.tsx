@@ -18,6 +18,7 @@ import sv_SE from 'rsuite/locales/sv_SE';
 import zh_CN from 'rsuite/locales/zh_CN';
 import zh_TW from 'rsuite/locales/zh_TW';
 import fa_IR from 'rsuite/locales/fa_IR';
+import fr_FR from 'rsuite/locales/fr_FR';
 
 export default function Page() {
   return (
@@ -42,7 +43,8 @@ export default function Page() {
         sv_SE,
         zh_CN,
         zh_TW,
-        fa_IR
+        fa_IR,
+        fr_FR
       }}
     />
   );
