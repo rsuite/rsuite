@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import TreePicker from '../TreePicker';
 import { KEY_VALUES } from '../../utils';
@@ -91,7 +91,7 @@ describe('TreePicker', () => {
     );
 
     fireEvent.click(
-      instance.overlay.querySelector('div[data-ref="0-0"]  > .rs-tree-node-expand-icon')
+      instance.overlay.querySelector('div[data-ref="String_Master"]  > .rs-tree-node-expand-icon')
     );
 
     expect(instance.overlay.querySelectorAll('.rs-tree-open')).to.lengthOf(1);
@@ -176,7 +176,7 @@ describe('TreePicker', () => {
     const onChangeSpy = sinon.spy();
     const instance = getInstance(<TreePicker open onChange={onChangeSpy} data={data} />);
 
-    fireEvent.click(instance.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.click(instance.overlay.querySelector('span[data-key="String_Master"]'));
 
     expect(onChangeSpy).to.calledOnce;
   });
@@ -223,7 +223,7 @@ describe('TreePicker', () => {
   it('Should focus item by key=ArrowUp', async () => {
     const instance = getInstance(<TreePicker open data={data} defaultExpandAll value="tester1" />);
 
-    fireEvent.click(instance.overlay.querySelector('span[data-key="0-0-1"]'));
+    fireEvent.click(instance.overlay.querySelector('span[data-key="String_tester1"]'));
     fireEvent.keyDown(instance.target, { key: KEY_VALUES.UP });
 
     await waitFor(() => {
@@ -237,10 +237,11 @@ describe('TreePicker', () => {
   it('Should fold children node by key=ArrowLeft', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.click(tree.overlay.querySelector('span[data-key="String_Master"]'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
 
-    expect(tree.overlay.querySelector(`div[data-ref="0-0"] > .rs-tree-node-expanded`)).to.not.exist;
+    expect(tree.overlay.querySelector(`div[data-ref="String_Master"] > .rs-tree-node-expanded`)).to
+      .not.exist;
   });
 
   /**
@@ -249,11 +250,12 @@ describe('TreePicker', () => {
   it('Should change nothing when trigger on root node by key=ArrowLeft', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.click(tree.overlay.querySelector('span[data-key="String_Master"]'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
 
     expect(tree.overlay.querySelector('.rs-tree-node-focus')).to.text('Master');
-    expect(tree.overlay.querySelector(`div[data-ref="0-0"] > .rs-tree-node-expanded`)).to.not.exist;
+    expect(tree.overlay.querySelector(`div[data-ref="String_Master"] > .rs-tree-node-expanded`)).to
+      .not.exist;
   });
 
   /**
@@ -262,7 +264,7 @@ describe('TreePicker', () => {
   it('Should focus on parentNode when trigger on leaf node by key=ArrowLeft', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.click(tree.overlay.querySelector('span[data-key="String_Master"]'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
     expect(tree.overlay.querySelector('.rs-tree-node-focus')).to.text('Master');
   });
@@ -273,11 +275,11 @@ describe('TreePicker', () => {
   it('Should fold children node by key=ArrowRight', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} />);
 
-    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.click(tree.overlay.querySelector('span[data-key="String_Master"]'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
 
     expect(
-      tree.overlay.querySelectorAll(`div[data-ref="0-0"] > .rs-tree-node-expanded`)
+      tree.overlay.querySelectorAll(`div[data-ref="String_Master"] > .rs-tree-node-expanded`)
     ).to.lengthOf(1);
   });
 
@@ -287,7 +289,7 @@ describe('TreePicker', () => {
   it('Should change nothing when trigger on leaf node by key=ArrowRight', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0-0"]'));
+    fireEvent.click(tree.overlay.querySelector('span[data-key="String_tester0"]'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
 
     expect(tree.overlay.querySelector('.rs-tree-node-focus')).to.text('tester0');
@@ -299,7 +301,7 @@ describe('TreePicker', () => {
   it('Should focus on first child node when node expanded by key=ArrowRight', () => {
     const tree = getInstance(<TreePicker defaultOpen data={data} defaultExpandAll />);
 
-    fireEvent.click(tree.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.click(tree.overlay.querySelector('span[data-key="String_Master"]'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
 
     expect(tree.overlay.querySelector('.rs-tree-node-focus')).to.text('tester0');
@@ -351,10 +353,10 @@ describe('TreePicker', () => {
     );
 
     fireEvent.click(
-      ref.current.overlay.querySelector('div[data-ref="0-1"]  > .rs-tree-node-expand-icon')
+      ref.current.overlay.querySelector('div[data-ref="String_async"]  > .rs-tree-node-expand-icon')
     );
 
-    expect(ref.current.overlay.querySelector('[data-key="0-1-0"]')).to.exist;
+    expect(ref.current.overlay.querySelector('[data-key="String_children1"]')).to.exist;
   });
 
   it('Should render one node when searchKeyword is `M`', () => {
@@ -423,7 +425,9 @@ describe('TreePicker', () => {
     expect(ref.current.picker.overlay.querySelector('.rs-tree-node-expanded')).to.exist;
 
     fireEvent.click(
-      ref.current.picker.overlay.querySelector('div[data-ref="0-0"]  > .rs-tree-node-expand-icon')
+      ref.current.picker.overlay.querySelector(
+        'div[data-ref="String_Master"]  > .rs-tree-node-expand-icon'
+      )
     );
 
     act(() => {
@@ -533,7 +537,7 @@ describe('TreePicker', () => {
         renderTreeNode={renderTreeNodeSpy}
       />
     );
-    fireEvent.click(instance.overlay.querySelector('span[data-key="0-0"]'));
+    fireEvent.click(instance.overlay.querySelector('span[data-key="String_Master"]'));
 
     expect(onSelectSpy).to.called;
     expect(renderTreeNodeSpy).to.called;
@@ -584,5 +588,37 @@ describe('TreePicker', () => {
       expect(instance.overlay).to.exist;
       expect(instance.list).to.exist;
     });
+  });
+
+  it('Should not clean values when setting disabled=true', () => {
+    render(<TreePicker open value={data[0].value} disabled data={data} />);
+    fireEvent.keyDown(screen.getByRole('combobox'), {
+      key: 'Backspace',
+      code: 'Backspace'
+    });
+    expect(screen.getByRole('combobox')).to.have.text('Master');
+  });
+
+  it('Should not clean values when setting cleanable=false', () => {
+    render(<TreePicker open value={data[0].value} data={data} />);
+    fireEvent.keyDown(screen.getByRole('combobox'), {
+      key: 'Backspace',
+      code: 'Backspace'
+    });
+    expect(screen.getByRole('combobox')).to.have.text('Master');
+  });
+
+  it('Should remove all value when click clean button and value is unControlled', () => {
+    render(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
+
+    fireEvent.click(screen.getByLabelText('Clear'));
+    expect(screen.getByRole('combobox')).to.text('Select');
+  });
+
+  it('Should persist value when click clean button and value is controlled', () => {
+    render(<TreePicker defaultOpen data={data} value={'Master'} />);
+
+    fireEvent.click(screen.getByLabelText('Clear'));
+    expect(screen.getByRole('combobox')).to.text('Master');
   });
 });

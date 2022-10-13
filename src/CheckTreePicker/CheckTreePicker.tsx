@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
@@ -13,8 +13,7 @@ import {
   useClassNames,
   useControlled,
   KEY_VALUES,
-  mergeRefs,
-  shallowEqual
+  mergeRefs
 } from '../utils';
 
 import {
@@ -73,7 +72,6 @@ import {
 
 import { TreeBaseProps } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
-import { maxTreeHeight } from '../TreePicker/TreePicker';
 
 export type ValueType = (string | number)[];
 export interface CheckTreePickerProps<T = ValueType>
@@ -130,6 +128,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     expandItemValues: controlledExpandItemValues,
     defaultExpandItemValues = emptyArray,
     height = 360,
+    menuMaxHeight = 320,
     menuStyle,
     searchable = true,
     virtualized = false,
@@ -267,10 +266,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       value: node[valueKey],
       label: node[labelKey],
       layer,
-      focus: shallowEqual(focusItemValue, node[valueKey]),
+      focus: focusItemValue === node[valueKey],
       expand: node.expand,
       visible: node.visible,
-      loading: loadingNodeValues.some(item => shallowEqual(item, node[valueKey])),
+      loading: loadingNodeValues.some(item => item === node[valueKey]),
       disabled: getDisabledState(flattenNodes, node, { disabledItemValues, valueKey }),
       nodeData: node,
       checkState: node.checkState,
@@ -441,13 +440,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ]
   );
 
-  const hasValue = () => {
-    const selectedValues = Object.keys(flattenNodes)
-      .map((refKey: string) => flattenNodes[refKey][valueKey])
-      .filter((item: any) => value.some(v => shallowEqual(v, item)));
-    return !!selectedValues.length;
-  };
-
   const handleOpen = useCallback(() => {
     triggerRef.current?.open?.();
     setFocusItemValue(activeNode?.[valueKey]);
@@ -516,25 +508,37 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     (event: React.SyntheticEvent) => {
       const target = event.target as Element;
       // exclude searchBar
-      if (target.matches('div[role="searchbox"] > input')) {
+      if (target.matches('div[role="searchbox"] > input') || disabled || !cleanable) {
         return;
       }
 
       setActiveNode(null);
-      setValue([]);
       setFocusItemValue(null);
 
-      unSerializeList({
-        nodes: flattenNodes,
-        key: 'check',
-        value: [],
-        cascade,
-        uncheckableItemValues
-      });
+      if (!isControlled) {
+        setValue([]);
+        unSerializeList({
+          nodes: flattenNodes,
+          key: 'check',
+          value: [],
+          cascade,
+          uncheckableItemValues
+        });
+      }
 
       onChange?.([], event);
     },
-    [cascade, flattenNodes, onChange, setValue, unSerializeList, uncheckableItemValues]
+    [
+      cascade,
+      cleanable,
+      disabled,
+      flattenNodes,
+      onChange,
+      setValue,
+      unSerializeList,
+      uncheckableItemValues,
+      isControlled
+    ]
   );
 
   const handleFocusItem = useCallback(
@@ -707,7 +711,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         {
           ...node,
           /**
-           * spread operator dont copy unenumerable properties
+           * spread operator don't copy unenumerable properties
            * so we need to copy them manually
            */
           parent: node.parent,
@@ -759,8 +763,19 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       searchKeywordState,
       expandItemValues.includes(node[valueKey])
     );
+
     const nodeProps = {
-      ...getTreeNodeProps({ ...node, expand }, layer),
+      ...getTreeNodeProps(
+        {
+          ...node,
+          /**
+           * spread operator don't copy unenumerable properties
+           * so we need to copy them manually
+           */ parent: node.parent,
+          expand
+        },
+        layer
+      ),
       hasChildren: node.hasChildren
     };
 
@@ -807,7 +822,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         <div className={treeNodesClass}>
           {virtualized ? (
             <AutoSizer
-              defaultHeight={inline ? height : maxTreeHeight}
+              defaultHeight={inline ? height : menuMaxHeight}
               style={{ width: 'auto', height: 'auto' }}
             >
               {({ height, width }) => (
@@ -836,13 +851,12 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     const { left, top, className } = positionProps;
     const classes = classNames(className, menuClassName, prefix('check-tree-menu'));
     const mergedMenuStyle = { ...menuStyle, left, top };
-    const styles = virtualized ? { height, ...mergedMenuStyle } : { ...mergedMenuStyle };
 
     return (
       <PickerOverlay
         autoWidth={menuAutoWidth}
         className={classes}
-        style={styles}
+        style={mergedMenuStyle}
         ref={mergeRefs(overlayRef, speakerRef)}
         onKeyDown={onPickerKeydown}
         target={triggerRef}
@@ -861,13 +875,13 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     );
   };
 
+  const selectedItems = useMemo(() => getSelectedItems(flattenNodes, value), [flattenNodes, value]);
   /**
    * 1.Have a value and the value is valid.
    * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
    */
-  let hasValidValue = hasValue() || (value.length > 0 && isFunction(renderValue));
+  let hasValidValue = selectedItems.length > 0 || (value.length > 0 && isFunction(renderValue));
   let selectedElement: React.ReactNode = placeholder;
-  const selectedItems = getSelectedItems(flattenNodes, value, valueKey);
 
   if (hasValidValue) {
     selectedElement = (

@@ -25,7 +25,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "with_electron"
+            "name": "with-electron"
           }
         },
         {
@@ -52,9 +52,12 @@
               "config": "./webpack.renderer.config.js",
               "entryPoints": [
                 {
-                  "html": "./src/index.html",
-                  "js": "./src/renderer.js",
-                  "name": "main_window"
+                  "html": "./src/renderer/home/index.html",
+                  "js": "./src/renderer/home/renderer.js",
+                  "name": "home",
+                  "preload": {
+                    "js": "./src/renderer/home/preload.js"
+                  }
                 }
               ]
             }
@@ -64,30 +67,30 @@
     }
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
-    "@babel/preset-react": "^7.9.4",
-    "@electron-forge/cli": "^6.0.0-beta.51",
-    "@electron-forge/maker-deb": "^6.0.0-beta.51",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.51",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.51",
-    "@electron-forge/maker-zip": "^6.0.0-beta.51",
-    "@electron-forge/plugin-webpack": "^6.0.0-beta.51",
-    "@marshallofsound/webpack-asset-relocator-loader": "^0.5.0",
-    "babel-loader": "^8.1.0",
-    "babel-preset-rsuite": "^4.0.1",
-    "css-loader": "^3.5.3",
-    "electron": ">=9.4.0",
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.3",
+    "@babel/preset-react": "^7.18.6",
+    "@electron-forge/cli": "^6.0.0-beta.66",
+    "@electron-forge/maker-deb": "^6.0.0-beta.66",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.66",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.66",
+    "@electron-forge/maker-zip": "^6.0.0-beta.66",
+    "@electron-forge/plugin-webpack": "^6.0.0-beta.66",
+    "@vercel/webpack-asset-relocator-loader": "^1.7.3",
+    "babel-loader": "^8.2.5",
+    "css-loader": "^6.7.1",
+    "css-minimizer-webpack-plugin": "^4.1.0",
+    "electron": "21.0.1",
     "less": "^3.11.1",
     "less-loader": "^6.1.0",
-    "mini-css-extract-plugin": "^0.9.0",
-    "node-loader": "^0.6.0",
-    "style-loader": "^0.23.1"
+    "mini-css-extract-plugin": "^2.6.1",
+    "node-loader": "^2.0.0",
+    "style-loader": "^3.3.1"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "rsuite": "^4.5.0"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "rsuite": "^5.19.0"
   }
 }

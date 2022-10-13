@@ -579,4 +579,18 @@ describe('Cascader', () => {
     expect(() => JSON.stringify(onSelectSpy.firstCall.args[1])).to.not.throw();
     expect(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1])).to.not.throw();
   });
+
+  it('Should update the subcolumn when the leaf node is clicked', () => {
+    const { getByRole } = render(<Cascader data={items} open />);
+
+    expect(getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(1);
+
+    // Click on a node that has child nodes
+    fireEvent.click(getByRole('treeitem', { name: '3' }));
+    expect(getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(2);
+
+    // Click on the leaf node
+    fireEvent.click(getByRole('treeitem', { name: '1' }));
+    expect(getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(1);
+  });
 });

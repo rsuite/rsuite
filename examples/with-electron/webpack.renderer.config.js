@@ -27,13 +27,5 @@ module.exports = {
   module: {
     rules
   },
-  plugins: [
-    new MiniCssExtractPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-      }
-    }),
-    new webpack.ProgressPlugin({ profile: false })
-  ]
+  plugins: [new MiniCssExtractPlugin(), new webpack.ProgressPlugin({ profile: false })]
 };

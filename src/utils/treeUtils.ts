@@ -646,14 +646,20 @@ export function useFlattenTreeData({
   const flattenNodes = useRef<TreeNodesType>({});
 
   const flattenTreeData = useCallback(
-    (treeData: TreeNodeType[], ref: string, parent?: TreeNodeType, layer = 1) => {
+    (treeData: TreeNodeType[], parent?: TreeNodeType, layer = 1) => {
       if (!Array.isArray(treeData) || treeData.length === 0) {
         return [];
       }
 
-      treeData.map((node, index) => {
-        const refKey = `${ref}-${index}`;
-
+      treeData.map(node => {
+        const value = node[valueKey];
+        /**
+         * because the value of the node's type is string or number,
+         * so it can used as the key of the object directly
+         * to avoid number value is converted to string. 1 and '1' will be convert to '1'
+         *  we used `String_` or `Number_` prefix
+         */
+        const refKey = getNodeFormattedRefKey(value);
         node.refKey = refKey;
         flattenNodes.current[refKey] = {
           layer,
@@ -667,7 +673,7 @@ export function useFlattenTreeData({
         if (parent) {
           flattenNodes.current[refKey].parent = omit(parent, 'parent', 'children');
         }
-        flattenTreeData(node[childrenKey], refKey, node, layer + 1);
+        flattenTreeData(node[childrenKey], node, layer + 1);
       });
 
       callback?.(flattenNodes.current);
@@ -779,7 +785,7 @@ export function useFlattenTreeData({
   useEffect(() => {
     // when data is changed, should clear the flattenNodes, avoid duplicate keys
     flattenNodes.current = {};
-    flattenTreeData(data, '0');
+    flattenTreeData(data);
   }, [data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return {
@@ -974,4 +980,13 @@ export function getTreeNodeIndent(rtl, layer, absolute = false) {
   return {
     [rtl ? 'paddingRight' : 'paddingLeft']: offset
   };
+}
+
+/**
+ * according to the value type to get the formatted valueKey of the node
+ * @param value
+ * @returns
+ */
+export function getNodeFormattedRefKey(value: string | number) {
+  return `${typeof value === 'number' ? 'Number_' : 'String_'}${value}`;
 }

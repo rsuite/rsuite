@@ -79,7 +79,9 @@ describe('CheckTreePicker', () => {
     );
 
     fireEvent.click(
-      instance.overlay.querySelector('div[data-ref="0-0"]  > .rs-check-tree-node-expand-icon')
+      instance.overlay.querySelector(
+        'div[data-ref="String_Master"]  > .rs-check-tree-node-expand-icon'
+      )
     );
 
     expect(instance.overlay.querySelectorAll('.rs-check-tree-open')).to.lengthOf(1);
@@ -167,7 +169,7 @@ describe('CheckTreePicker', () => {
     const onChangeSpy = sinon.spy();
     const instance = getInstance(<CheckTreePicker open onChange={onChangeSpy} data={data} />);
 
-    fireEvent.click(instance.overlay.querySelector('div[data-key="0-0"] input'));
+    fireEvent.click(instance.overlay.querySelector('div[data-key="String_Master"] input'));
 
     expect(onChangeSpy).to.have.been.calledWith(['Master']);
   });
@@ -214,7 +216,7 @@ describe('CheckTreePicker', () => {
   it('Should focus item by key=ArrowUp ', async () => {
     const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
-    fireEvent.click(tree.overlay.querySelector('div[data-key="0-0-1"] input'));
+    fireEvent.click(tree.overlay.querySelector('div[data-key="String_tester1"] input'));
     fireEvent.keyDown(tree.target, { key: KEY_VALUES.UP });
 
     await waitFor(() => {
@@ -228,11 +230,12 @@ describe('CheckTreePicker', () => {
   it('Should fold children node by key=ArrowLeft', () => {
     const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
-    fireEvent.click(tree.overlay.querySelector('div[data-key="0-0"] input'));
+    fireEvent.click(tree.overlay.querySelector('div[data-key="String_Master"] input'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
 
-    expect(tree.overlay.querySelector(`div[data-ref="0-0"] > .rs-check-tree-node-expanded`)).to.not
-      .exist;
+    expect(
+      tree.overlay.querySelector(`div[data-ref="String_Master"] > .rs-check-tree-node-expanded`)
+    ).to.not.exist;
   });
 
   /**
@@ -241,12 +244,13 @@ describe('CheckTreePicker', () => {
   it('Should change nothing when trigger on root node by key=ArrowLeft', () => {
     const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
-    fireEvent.click(tree.overlay.querySelector('div[data-key="0-0"] input'));
+    fireEvent.click(tree.overlay.querySelector('div[data-key="String_Master"] input'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
 
     expect(tree.overlay.querySelector('.rs-check-tree-node-focus')).to.text('Master');
-    expect(tree.overlay.querySelector(`div[data-ref="0-0"] > .rs-check-tree-node-expanded`)).to.not
-      .exist;
+    expect(
+      tree.overlay.querySelector(`div[data-ref="String_Master"] > .rs-check-tree-node-expanded`)
+    ).to.not.exist;
   });
 
   /**
@@ -255,7 +259,7 @@ describe('CheckTreePicker', () => {
   it('Should focus on parentNode when trigger on leaf node by key=ArrowLeft', () => {
     const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
-    fireEvent.click(tree.overlay.querySelector('div[data-key="0-0"] input'));
+    fireEvent.click(tree.overlay.querySelector('div[data-key="String_tester0"] input'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.LEFT });
 
     expect(tree.overlay.querySelector('.rs-check-tree-node-focus')).to.text('Master');
@@ -264,14 +268,15 @@ describe('CheckTreePicker', () => {
   /**
    * When focus is on a closed node, opens the node; focus does not move.
    */
+
   it('Should fold children node by key=ArrowRight', () => {
     const tree = getInstance(<CheckTreePicker defaultOpen data={data} />);
 
-    fireEvent.click(tree.overlay.querySelector('div[data-key="0-0"] input'));
+    fireEvent.click(tree.overlay.querySelector('div[data-key="String_Master"] input'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
 
     expect(
-      tree.overlay.querySelectorAll(`div[data-ref="0-0"] > .rs-check-tree-node-expanded`)
+      tree.overlay.querySelectorAll(`div[data-ref="String_Master"] > .rs-check-tree-node-expanded`)
     ).to.lengthOf(1);
   });
 
@@ -281,7 +286,7 @@ describe('CheckTreePicker', () => {
   it('Should change nothing when trigger on leaf node key=ArrowRight', () => {
     const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
-    fireEvent.click(tree.overlay.querySelector('div[data-key="0-0-0"] input'));
+    fireEvent.click(tree.overlay.querySelector('div[data-key="String_tester0"] input'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
 
     expect(tree.overlay.querySelector('.rs-check-tree-node-focus')).to.text('tester0');
@@ -293,7 +298,7 @@ describe('CheckTreePicker', () => {
   it('Should focus on first child node when node expanded by keyCode=39', () => {
     const tree = getInstance(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
-    fireEvent.click(tree.overlay.querySelector('div[data-key="0-0"] input'));
+    fireEvent.click(tree.overlay.querySelector('div[data-key="String_Master"] input'));
     fireEvent.keyDown(tree.overlay, { key: KEY_VALUES.RIGHT });
 
     expect(tree.overlay.querySelector('.rs-check-tree-node-focus')).to.text('tester0');
@@ -349,10 +354,12 @@ describe('CheckTreePicker', () => {
     );
 
     fireEvent.click(
-      ref.current.overlay.querySelector('div[data-ref="0-1"]  > .rs-check-tree-node-expand-icon')
+      ref.current.overlay.querySelector(
+        'div[data-ref="String_async"]  > .rs-check-tree-node-expand-icon'
+      )
     );
 
-    expect(ref.current.overlay.querySelector('[data-key="0-1-0"]')).to.exist;
+    expect(ref.current.overlay.querySelector('[data-key="String_children1"]')).to.exist;
   });
 
   it('Should trigger onChange and return correctly value', () => {
@@ -408,7 +415,7 @@ describe('CheckTreePicker', () => {
       />
     );
 
-    fireEvent.click(instance.overlay.querySelector('div[data-key="0-1-0"] input'));
+    fireEvent.click(instance.overlay.querySelector('div[data-key="String_2-1"] input'));
     expect(mockOnChange).to.have.been.calledWith(expectedValue);
   });
 
@@ -477,7 +484,9 @@ describe('CheckTreePicker', () => {
     expect(ref.current.overlay.querySelector('.rs-check-tree-node-expanded')).to.exist;
 
     fireEvent.click(
-      ref.current.overlay.querySelector('div[data-ref="0-0"]  > .rs-check-tree-node-expand-icon')
+      ref.current.overlay.querySelector(
+        'div[data-ref="String_Master"]  > .rs-check-tree-node-expand-icon'
+      )
     );
 
     rerender(
@@ -554,7 +563,7 @@ describe('CheckTreePicker', () => {
   it('Should display indeterminate state when only one child node selected', () => {
     const instance = getInstance(<CheckTreePicker open defaultExpandAll data={data} />);
 
-    fireEvent.click(instance.overlay.querySelector('div[data-key="0-0-1-0"] input'));
+    fireEvent.click(instance.overlay.querySelector('div[data-key="String_tester2"] input'));
 
     expect(instance.overlay.querySelectorAll('.rs-checkbox-indeterminate')).to.lengthOf(1);
   });
@@ -574,12 +583,12 @@ describe('CheckTreePicker', () => {
       <CheckTreePicker open ref={ref} data={changedMockData} renderValue={mockRenderValue} />
     );
 
-    fireEvent.click(ref.current.overlay.querySelector('div[data-key="0-0-1"] input'));
+    fireEvent.click(ref.current.overlay.querySelector('div[data-key="String_node-1"] input'));
 
     expect(checkItems).to.lengthOf(1);
   });
 
-  it('Should item able to stringfy', () => {
+  it('Should item able to stringify', () => {
     const onSelectSpy = sinon.spy();
     const renderTreeNodeSpy = sinon.spy();
 
@@ -592,7 +601,7 @@ describe('CheckTreePicker', () => {
       />
     );
 
-    fireEvent.click(instance.overlay.querySelector('div[data-key="0-0"] input'));
+    fireEvent.click(instance.overlay.querySelector('div[data-key="String_Master"] input'));
 
     expect(onSelectSpy).to.called;
     expect(renderTreeNodeSpy).to.called;
@@ -655,5 +664,66 @@ describe('CheckTreePicker', () => {
       expect(instance.overlay).to.exist;
       expect(instance.list).to.exist;
     });
+  });
+
+  it('Should children can be removed when setting virtualized', () => {
+    const onChangeSpy = sinon.spy();
+    const screen = render(
+      <CheckTreePicker open virtualized defaultExpandAll data={data} onChange={onChangeSpy} />
+    );
+
+    fireEvent.click(screen.getByText('Master'), {
+      target: {
+        checked: true
+      }
+    });
+
+    fireEvent.click(screen.getByText('tester0'), {
+      target: {
+        checked: false
+      }
+    });
+
+    expect(onChangeSpy.callCount).to.equal(2);
+    expect(onChangeSpy.firstCall.args[0]).to.include('Master');
+    expect(onChangeSpy.secondCall.args[0]).to.include('tester1');
+  });
+
+  it('Should not clean values when setting disabled=true', () => {
+    const { getByRole } = render(
+      <CheckTreePicker open value={[data[0].value]} disabled data={data} />
+    );
+    fireEvent.keyDown(getByRole('combobox'), {
+      key: 'Backspace',
+      code: 'Backspace'
+    });
+    expect(getByRole('combobox')).to.have.text('Master (All)1');
+  });
+
+  it('Should not clean values when setting cleanable=false', () => {
+    const { getByRole } = render(<CheckTreePicker open value={[data[0].value]} data={data} />);
+    fireEvent.keyDown(getByRole('combobox'), {
+      key: 'Backspace',
+      code: 'Backspace'
+    });
+    expect(getByRole('combobox')).to.have.text('Master (All)1');
+  });
+
+  it('Should remove all value when click clean button and value is unControlled', () => {
+    const { getByLabelText, getByRole } = render(
+      <CheckTreePicker defaultOpen data={data} defaultValue={['Master']} />
+    );
+
+    fireEvent.click(getByLabelText('Clear'));
+    expect(getByRole('combobox')).to.text('Select');
+  });
+
+  it('Should persist value when click clean button and value is controlled', () => {
+    const { getByLabelText, getByRole } = render(
+      <CheckTreePicker defaultOpen data={data} value={['Master']} />
+    );
+
+    fireEvent.click(getByLabelText('Clear'));
+    expect(getByRole('combobox')).to.text('Master (All)1');
   });
 });

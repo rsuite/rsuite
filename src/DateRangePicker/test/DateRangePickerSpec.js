@@ -901,4 +901,14 @@ describe('DateRangePicker', () => {
     fireEvent.focus(picker2);
     expect(picker2).to.have.attribute('readonly');
   });
+
+  it('Should not render the ranges element', () => {
+    const { getByRole } = render(<DateRangePicker open ranges={[]} />);
+
+    expect(getByRole('dialog').querySelector('.rs-picker-toolbar-ranges')).to.not.exist;
+    expect(getByRole('dialog').querySelector('.rs-picker-daterange-predefined')).to.not.exist;
+
+    // A flex layout toolbar should render two children so that the ok button appears on the right
+    expect(getByRole('dialog').querySelector('.rs-picker-toolbar').childNodes).to.have.length(2);
+  });
 });

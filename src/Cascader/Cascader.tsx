@@ -168,6 +168,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     valueToPaths,
     columnData,
     addColumn,
+    romoveColumnByIndex,
     setValueToPaths,
     setColumnData,
     setSelectedPaths,
@@ -360,10 +361,11 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     isLeafNode: boolean,
     event: React.MouseEvent
   ) => {
-    const nextValue = node[valueKey];
-
     onSelect?.(node, cascadePaths, event);
     setSelectedPaths(cascadePaths);
+
+    const nextValue = node[valueKey];
+    const columnIndex = cascadePaths.length;
 
     // Lazy load node's children
     if (typeof getChildren === 'function' && node[childrenKey]?.length === 0) {
@@ -376,16 +378,19 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
           node.loading = false;
           node[childrenKey] = data;
           if (targetRef.current) {
-            addColumn(data, cascadePaths.length);
+            addColumn(data, columnIndex);
           }
         });
       } else {
         node.loading = false;
         node[childrenKey] = children;
-        addColumn(children as ItemDataType[], cascadePaths.length);
+        addColumn(children as ItemDataType[], columnIndex);
       }
     } else if (node[childrenKey]?.length) {
-      addColumn(node[childrenKey], cascadePaths.length);
+      addColumn(node[childrenKey], columnIndex);
+    } else {
+      // Removes subsequent columns of the current column when the clicked node is a leaf node.
+      romoveColumnByIndex(columnIndex);
     }
 
     if (isLeafNode) {
