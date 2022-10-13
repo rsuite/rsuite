@@ -1,3 +1,22 @@
+## [5.19.1](https://github.com/rsuite/rsuite/compare/v5.19.0...v5.19.1) (2022-10-13)
+
+### Bug Fixes
+
+- **Cascader,MultiCascader:** fix sub-columns not being removed when a leaf node is selected ([#2792](https://github.com/rsuite/rsuite/issues/2792)) ([619c7de](https://github.com/rsuite/rsuite/commit/619c7debfca63a58622a1ae4a4776544bebf3405))
+- **CheckTreePicker:** fix children node can't uncheck when setting virtualized ([#2782](https://github.com/rsuite/rsuite/issues/2782)) ([#2783](https://github.com/rsuite/rsuite/issues/2783)) ([50f7b89](https://github.com/rsuite/rsuite/commit/50f7b89dbe1a2b59c212e021e1bc42c50e9ebb37))
+- **DateRangePicker:** fix predefined range affecting calendar height ([#2794](https://github.com/rsuite/rsuite/issues/2794)) ([957ce4e](https://github.com/rsuite/rsuite/commit/957ce4e197355ecbb9a0aea6cb6c5906ab1e1a2a))
+- **TreePicker, CheckTreePicker:** ignore backspace when setting cleanable=false or disabled=true ([#2798](https://github.com/rsuite/rsuite/issues/2798)) ([eefe0eb](https://github.com/rsuite/rsuite/commit/eefe0ebc396ee1764243a1e2c8ec432dc6ce39a5))
+- **TreePicker,CheckTreePicker:** fix `renderExtraFooter` causing the … ([#2745](https://github.com/rsuite/rsuite/issues/2745)) ([d7279d1](https://github.com/rsuite/rsuite/commit/d7279d14877e4b3b0ac74abdfeb56836b3a07780)), closes [#2758](https://github.com/rsuite/rsuite/issues/2758)
+- **TreePicker,CheckTreePicker:** fix value being cleared internally when value is controlled ([#2788](https://github.com/rsuite/rsuite/issues/2788)) ([4521a27](https://github.com/rsuite/rsuite/commit/4521a2730a7311b7fe095d85e39966a1d56f5d9d)), closes [#2784](https://github.com/rsuite/rsuite/issues/2784)
+
+### Features
+
+- **i18n:** add fr_FR locale ([#2735](https://github.com/rsuite/rsuite/issues/2735)) ([087cfc8](https://github.com/rsuite/rsuite/commit/087cfc885252d764864e075b086f5d980f94db94))
+
+### Performance Improvements
+
+- **CheckTreePicker:** improve performance when using large data ([#2767](https://github.com/rsuite/rsuite/issues/2767)) ([651a8a1](https://github.com/rsuite/rsuite/commit/651a8a1ebb0bf1c1e07e1541ca1f0a61a96a3df4))
+
 # [5.19.0](https://github.com/rsuite/rsuite/compare/v5.18.1...v5.19.0) (2022-09-23)
 
 ### Bug Fixes
