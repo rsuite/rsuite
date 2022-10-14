@@ -34,7 +34,10 @@
 
 <!--{include:`block.md`}-->
 
-### 加载中
+### 加载中状态
+
+当选择器处于加载中状态时，会显示一个旋转效果作为提示。
+在加载中状态时，点击选择器不会展开选项菜单。
 
 <!--{include:`loading.md`}-->
 
@@ -102,6 +105,7 @@
 | label              | ReactNode                                                                         | 在按钮开头显示的标签                   |
 | labelKey           | string `('label')`                                                                | 设置选项显示内容在 `data` 中的 `key`   |
 | listProps          | [ListProps][listprops]                                                            | `react-virtualized` 中 List 的相关属性 |
+| loading            | boolean `(false)`                                                                 | 是否显示一个加载中状态指示器           |
 | locale             | [PickerLocaleType](/zh/guide/i18n/#pickers)                                       | 本地化的文本                           |
 | menuMaxHeight      | number `(320)`                                                                    | 设置 Dropdown 的最大高度               |
 | menuClassName      | string                                                                            | 应用于菜单 DOM 节点的 css class        |
