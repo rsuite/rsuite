@@ -539,6 +539,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         ref={triggerRef}
         placement={placement}
         onEntered={createChainedFunction(handleEntered, onEntered)}
+        onExit={() => resetCalendarDate()}
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderDropdownMenu}
       >

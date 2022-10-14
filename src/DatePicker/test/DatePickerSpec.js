@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act, waitFor } from '@testing-library/react';
+import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import enGB from 'date-fns/locale/en-GB';
 import ReactTestUtils from 'react-dom/test-utils';
@@ -411,6 +411,33 @@ describe('DatePicker', () => {
     const instance = getInstance(<DatePicker onClose={doneOp} defaultOpen />);
     ReactTestUtils.Simulate.click(
       instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn')
+    );
+  });
+
+  it('Should reset unsaved selected date after closing calendar panel', async () => {
+    const pickerRef = React.createRef();
+    render(
+      <>
+        <div data-testid="outside">Outside</div>
+        <DatePicker ref={pickerRef} defaultOpen value={new Date(2022, 9, 14)} />
+      </>
+    );
+
+    // Select a date
+    userEvent.click(screen.getByTitle('13 Oct 2022'));
+    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).to.have.attr(
+      'aria-selected',
+      'true'
+    );
+
+    // Close the calendar panel without clicking "OK"
+    userEvent.click(screen.getByTestId('outside'));
+
+    // Open the calendar panel again and the selection should be reset
+    userEvent.click(screen.getByRole('combobox'));
+    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).not.to.have.attr(
+      'aria-selected',
+      'true'
     );
   });
 
