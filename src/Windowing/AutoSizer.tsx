@@ -87,13 +87,8 @@ const AutoSizer = React.forwardRef<HTMLDivElement, AutoSizerProps>((props, ref) 
     }
   }, [disableHeight, disableWidth, getParentNode, height, onResize, width]);
 
-  useMount(() => {
-    if (getParentNode()) {
-      handleResize();
-    }
-  });
-
-  useElementResize(getParentNode, handleResize);
+  useMount(handleResize);
+  useElementResize(getParentNode(), handleResize);
 
   const outerStyle: React.CSSProperties = { overflow: 'visible' };
   const childParams: Size = { width: 0, height: 0 };
