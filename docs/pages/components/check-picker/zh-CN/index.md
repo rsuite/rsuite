@@ -34,6 +34,10 @@
 
 <!--{include:`block.md`}-->
 
+### 加载中
+
+<!--{include:`loading.md`}-->
+
 ### 分组
 
 <!--{include:`group.md`}-->

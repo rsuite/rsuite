@@ -28,6 +28,10 @@ For a single data selection, support grouping.
 
 <!--{include:`block.md`}-->
 
+### Loading
+
+<!--{include:`loading.md`}-->
+
 ### Group
 
 <!--{include:`group.md`}-->

@@ -34,6 +34,10 @@ Set the `sticky` property to put the selected in the options to the top.
 
 <!--{include:`block.md`}-->
 
+### Loading
+
+<!--{include:`loading.md`}-->
+
 ### Group
 
 <!--{include:`group.md`}-->

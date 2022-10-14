@@ -425,6 +425,29 @@ describe('CheckPicker', () => {
     });
   });
 
+  describe('Loading state', () => {
+    it('Should display a spinner when loading=true', () => {
+      render(<CheckPicker data={data} loading />);
+
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should display label and spinner when label is specified', () => {
+      render(<CheckPicker label="User" data={data} loading />);
+
+      expect(screen.getByRole('combobox')).to.have.text('User');
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should not open menu on click when loading=true', () => {
+      render(<CheckPicker data={data} loading />);
+
+      userEvent.click(screen.getByRole('combobox'));
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+  });
+
   describe('Plain text', () => {
     it("Should render selected options' labels (comma-separated) and selected options count", () => {
       const { getByTestId } = render(
