@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@babel/runtime-corejs2": "^7.18.9",
+    "@babel/runtime-corejs2": "^7.19.2",
     "@docsearch/react": "^3.2.1",
     "@fortawesome/free-brands-svg-icons": "^5.15.1",
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
