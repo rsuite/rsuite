@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import CheckPicker from '../index';
 import { getStyle, inChrome } from '@test/testUtils';
 
@@ -31,5 +31,21 @@ describe('CheckPicker styles', () => {
       '.rs-picker-check-menu-items .rs-checkbox-checker label'
     );
     inChrome && assert.equal(getStyle(menuItemLabel, 'padding'), '8px 12px 8px 38px');
+  });
+
+  it('Should change the width of the virtualized list', done => {
+    const { getByRole } = render(
+      <CheckPicker
+        data={data}
+        style={{ width: 400 }}
+        virtualized
+        onOpen={() => {
+          expect(getByRole('listbox').firstChild.firstChild).to.style('width', '400px');
+          done();
+        }}
+      />
+    );
+
+    fireEvent.click(getByRole('combobox'));
   });
 });
