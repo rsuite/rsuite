@@ -441,6 +441,28 @@ describe('DatePicker', () => {
     );
   });
 
+  it('Should not reset saved selected date after closing calendar panel', async () => {
+    const pickerRef = React.createRef();
+    render(<DatePicker ref={pickerRef} defaultOpen value={new Date(2022, 9, 14)} />);
+
+    // Select a date
+    userEvent.click(screen.getByTitle('13 Oct 2022'));
+    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).to.have.attr(
+      'aria-selected',
+      'true'
+    );
+
+    // Close the calendar panel without clicking "OK"
+    userEvent.click(screen.getByRole('button', { name: 'OK' }));
+
+    // Open the calendar panel again and the selection should be reset
+    userEvent.click(screen.getByRole('combobox'));
+    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).to.have.attr(
+      'aria-selected',
+      'true'
+    );
+  });
+
   it('Should not change for the value  when it is controlled', done => {
     const doneOp = () => {
       try {

@@ -35,6 +35,7 @@ import {
 } from '../Picker';
 
 import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
+import { OverlayCloseCause } from '../Overlay/OverlayTrigger';
 
 export type { RangeType } from './Toolbar';
 
@@ -538,8 +539,14 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={triggerRef}
         placement={placement}
+        onClose={cause => {
+          // Unless overlay is closing on user clicking "OK" button,
+          // reset the selected date on calendar panel
+          if (cause !== OverlayCloseCause.ImperativeHandle) {
+            resetCalendarDate();
+          }
+        }}
         onEntered={createChainedFunction(handleEntered, onEntered)}
-        onExit={() => resetCalendarDate()}
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderDropdownMenu}
       >
