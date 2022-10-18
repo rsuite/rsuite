@@ -34,6 +34,13 @@ Set the `sticky` property to put the selected in the options to the top.
 
 <!--{include:`block.md`}-->
 
+### Loading state
+
+When the picker is loading, a spinner is displayed to indicate the loading state.
+Clicking a loading picker won't open its options menu.
+
+<!--{include:`loading.md`}-->
+
 ### Group
 
 <!--{include:`group.md`}-->
@@ -98,6 +105,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | label              | ReactNode                                                                                          | A label displayed at the beginning of toggle button         |
 | labelKey           | string `('label')`                                                                                 | Set label key in data                                       |
 | listProps          | [ListProps][listprops]                                                                             | List-related properties in `react-virtualized`              |
+| loading            | boolean `(false)`                                                                                  | Whether to display a loading state indicator                |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                                           | Locale text                                                 |
 | menuMaxHeight      | number `(320)`                                                                                     | The max height of Dropdown                                  |
 | menuClassName      | string                                                                                             | A css class to apply to the Menu DOM node.                  |
