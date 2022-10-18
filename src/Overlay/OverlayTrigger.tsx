@@ -124,10 +124,20 @@ export interface OverlayTriggerProps extends StandardProps, AnimationEventProps 
   onOpen?: () => void;
 
   /** Callback fired when close component */
-  onClose?: () => void;
+  onClose?: (cause?: OverlayCloseCause) => void;
 
   /** Whether speaker to follow the cursor */
   followCursor?: boolean;
+}
+
+/**
+ * The reason that triggers closing of an overlay
+ * - Clicking outside of the overlay
+ * - Direct invocation of triggerRef.current.close()
+ */
+export enum OverlayCloseCause {
+  ClickOutside,
+  ImperativeHandle
 }
 
 /**
@@ -240,16 +250,18 @@ const OverlayTrigger = React.forwardRef(
     );
 
     const handleClose = useCallback(
-      (delay?: number) => {
+      (delay?: number, callback?: () => void) => {
         const ms = isUndefined(delay) ? delayClose : delay;
 
         if (ms && typeof ms === 'number') {
           return (delayCloseTimer.current = setTimeout(() => {
             delayCloseTimer.current = null;
             setOpen(false);
+            callback?.();
           }, ms));
         }
         setOpen(false);
+        callback?.();
       },
       [delayClose, setOpen]
     );
@@ -266,7 +278,8 @@ const OverlayTrigger = React.forwardRef(
         return overlayRef.current?.child;
       },
       open: handleOpen,
-      close: handleClose,
+      close: (delay?: number) =>
+        handleClose(delay, () => onClose?.(OverlayCloseCause.ImperativeHandle)),
       updatePosition: () => {
         overlayRef.current?.updatePosition?.();
       }
@@ -448,7 +461,13 @@ const OverlayTrigger = React.forwardRef(
         ...rest,
         rootClose,
         triggerTarget: triggerRef,
-        onClose: trigger !== 'none' ? createChainedFunction(handleClose, onClose) : undefined,
+        onClose:
+          trigger !== 'none'
+            ? createChainedFunction(
+                handleClose,
+                () => onClose?.(OverlayCloseCause.ClickOutside) as any
+              )
+            : undefined,
         onExited: createChainedFunction(followCursor ? handleExited : undefined, onExited),
         placement,
         container,
