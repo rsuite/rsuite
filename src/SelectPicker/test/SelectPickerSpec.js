@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import SelectPicker from '../SelectPicker';
 import Input from '../../Input';
@@ -74,7 +73,7 @@ describe('SelectPicker', () => {
     it('Should not open menu on click when loading=true', () => {
       render(<SelectPicker data={data} loading />);
 
-      userEvent.click(screen.getByRole('combobox'));
+      fireEvent.click(screen.getByRole('combobox'));
 
       expect(screen.queryByRole('listbox')).not.to.exist;
     });

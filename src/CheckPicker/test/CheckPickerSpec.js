@@ -458,7 +458,7 @@ describe('CheckPicker', () => {
     it('Should not open menu on click when loading=true', () => {
       render(<CheckPicker data={data} loading />);
 
-      userEvent.click(screen.getByRole('combobox'));
+      fireEvent.click(screen.getByRole('combobox'));
 
       expect(screen.queryByRole('listbox')).not.to.exist;
     });
