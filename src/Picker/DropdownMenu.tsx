@@ -238,7 +238,6 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
             <List
               as={VariableSizeList}
               ref={mergeRefs(listRef, virtualizedListRef)}
-              //width={width}
               height={height || maxHeight}
               itemCount={rowCount}
               itemData={filteredItems}
