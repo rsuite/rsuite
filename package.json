@@ -49,7 +49,7 @@
     "url": "git@github.com:rsuite/rsuite.git"
   },
   "dependencies": {
-    "@babel/runtime": "^7.18.9",
+    "@babel/runtime": "^7.19.0",
     "@juggle/resize-observer": "^3.4.0",
     "@rsuite/icons": "^1.0.2",
     "@types/chai": "^4.3.3",
