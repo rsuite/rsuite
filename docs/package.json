@@ -28,7 +28,7 @@
     "@loadable/component": "^5.14.1",
     "@rsuite/document-nav": "^1.0.15",
     "@rsuite/icons": "^1.0.2",
-    "@rsuite/responsive-nav": "^5.0.0",
+    "@rsuite/responsive-nav": "^5.0.1",
     "@sentry/browser": "^5.30.0",
     "@stackblitz/sdk": "^1.8.0",
     "classnames": "^2.2.6",
