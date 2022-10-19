@@ -234,11 +234,11 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
     >
       {virtualized ? (
         <AutoSizer defaultHeight={maxHeight} style={{ width: 'auto', height: 'auto' }}>
-          {({ height, width }) => (
+          {({ height }) => (
             <List
               as={VariableSizeList}
               ref={mergeRefs(listRef, virtualizedListRef)}
-              width={width}
+              //width={width}
               height={height || maxHeight}
               itemCount={rowCount}
               itemData={filteredItems}

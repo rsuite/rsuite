@@ -825,10 +825,9 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
               defaultHeight={inline ? height : menuMaxHeight}
               style={{ width: 'auto', height: 'auto' }}
             >
-              {({ height, width }) => (
+              {({ height }) => (
                 <List
                   ref={listRef}
-                  width={width}
                   height={height}
                   itemSize={itemSize}
                   itemCount={formattedNodes.length}

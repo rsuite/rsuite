@@ -779,10 +779,9 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
               defaultHeight={inline ? height : menuMaxHeight}
               style={{ width: 'auto', height: 'auto' }}
             >
-              {({ height, width }) => (
+              {({ height }) => (
                 <List
                   ref={listRef}
-                  width={width}
                   height={height}
                   itemSize={itemSize}
                   itemCount={formattedNodes.length}
