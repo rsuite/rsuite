@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import SelectPicker from '../SelectPicker';
 import Input from '../../Input';
@@ -54,6 +55,29 @@ describe('SelectPicker', () => {
     const instance = getDOMNode(<SelectPicker data={[]} disabled />);
 
     expect(instance).to.have.class('rs-picker-disabled');
+  });
+
+  describe('Loading state', () => {
+    it('Should display a spinner when loading=true', () => {
+      render(<SelectPicker data={data} loading />);
+
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should display label and spinner when label is specified', () => {
+      render(<SelectPicker label="User" data={data} loading />);
+
+      expect(screen.getByRole('combobox')).to.have.text('User');
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should not open menu on click when loading=true', () => {
+      render(<SelectPicker data={data} loading />);
+
+      userEvent.click(screen.getByRole('combobox'));
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
   });
 
   it('Should output a button', () => {

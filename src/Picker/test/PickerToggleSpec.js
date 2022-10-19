@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import Toggle from '../PickerToggle';
 import { getDOMNode } from '@test/testUtils';
@@ -51,6 +52,20 @@ describe('<PickerToggle>', () => {
       fireEvent.click(getByRole('button', { name: /clear/i }));
 
       expect(onCleanSpy).to.have.been.called;
+    });
+  });
+
+  describe('Loading state', () => {
+    it('Should not apply active state on clicking when loading=true', () => {
+      render(
+        <Toggle loading data-testid="toggle">
+          Text
+        </Toggle>
+      );
+
+      userEvent.click(screen.getByTestId('toggle'));
+
+      expect(screen.getByTestId('toggle')).not.to.have.class('rs-picker-toggle-active');
     });
   });
 

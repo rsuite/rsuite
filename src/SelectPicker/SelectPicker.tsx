@@ -44,6 +44,9 @@ export interface SelectProps<T> {
   /** Set group condition key in data */
   groupBy?: string;
 
+  /** Whether to display an loading indicator on toggle button */
+  loading?: boolean;
+
   /** Whether dispaly search input box */
   searchable?: boolean;
 

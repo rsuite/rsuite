@@ -14,7 +14,7 @@ export type { OverlayTriggerHandle, PositionChildProps };
 
 export interface PickerToggleTriggerProps
   extends Omit<AnimationEventProps, 'onEntering' | 'onExiting'>,
-    Pick<OverlayTriggerProps, 'speaker'> {
+    Pick<OverlayTriggerProps, 'speaker' | 'onClose'> {
   placement?: TypeAttributes.Placement;
   pickerProps: any;
   open?: boolean;
@@ -37,18 +37,27 @@ export const omitTriggerPropKeys = [
   'preventOverflow'
 ];
 
-export const pickTriggerPropKeys = [...omitTriggerPropKeys, 'disabled', 'plaintext', 'readOnly'];
+export const pickTriggerPropKeys = [
+  ...omitTriggerPropKeys,
+  'disabled',
+  'plaintext',
+  'readOnly',
+  'loading'
+];
 
 const PickerToggleTrigger = React.forwardRef(
   (props: PickerToggleTriggerProps, ref: React.Ref<any>) => {
     const { pickerProps, speaker, placement, trigger = 'click', ...rest } = props;
+
+    const pickerTriggerProps = pick(pickerProps, pickTriggerPropKeys);
 
     return (
       <CustomConsumer>
         {context => (
           <OverlayTrigger
             {...rest}
-            {...pick(pickerProps, pickTriggerPropKeys)}
+            {...pickerTriggerProps}
+            disabled={pickerTriggerProps.disabled || pickerTriggerProps.loading}
             ref={ref}
             trigger={trigger}
             placement={placementPolyfill(placement, context?.rtl)}

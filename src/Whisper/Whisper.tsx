@@ -28,7 +28,7 @@ const Whisper = React.forwardRef((props: WhisperProps, ref: React.Ref<WhisperIns
           preventOverflow={preventOverflow}
           placement={placementPolyfill(placement, context?.rtl)}
           onEntered={createChainedFunction(onOpen, onEntered)}
-          onExited={createChainedFunction(onClose, onExited)}
+          onExited={createChainedFunction(onClose as any, onExited)}
         />
       )}
     </CustomConsumer>
