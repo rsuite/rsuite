@@ -205,16 +205,16 @@ describe('FormControl', () => {
     expect(input).to.have.attr('aria-errormessage', alert.getAttribute('id'));
   });
 
-  it('Should remove value and error when unMountRemove is true', () => {
+  it('Should remove value and error when shouldResetWithUnmount is true', () => {
     let refValue = { username: '', email: '' };
     let refError = {};
     const model = Schema.Model({
-      username: Schema.Types.StringType().maxLength(2, 'The length cannot exceed 2')
+      username: Schema.Types.StringType().maxLength(2, 'The length cannot exceed 2'),
+      email: Schema.Types.StringType().maxLength(2, 'The length cannot exceed 2')
     });
     const Wrapper = () => {
       const [value, setValue] = useState(refValue);
       const [error, setError] = useState(refError);
-      const [show, setShow] = useState(true);
       const handleChange = v => {
         refValue = v;
         setValue(v);
@@ -223,14 +223,10 @@ describe('FormControl', () => {
         refError = e;
         setError(e);
       };
-      const handleUnMount = () => {
-        setShow(false);
-      };
+
+      const { email } = value;
       return (
         <>
-          <button onClick={handleUnMount} id="unmount">
-            unmount
-          </button>
           <Form
             model={model}
             onChange={handleChange}
@@ -238,20 +234,19 @@ describe('FormControl', () => {
             formError={error}
             formValue={value}
           >
-            {show && <FormControl id="username" name="username" shouldResetWithUnmount />}
+            {email || <FormControl id="username" name="username" shouldResetWithUnmount />}
             <FormControl id="email" name="email" />
           </Form>
         </>
       );
     };
     const { container } = render(<Wrapper />);
-
-    fireEvent.change(container.querySelector('#username'), { target: { value: 'test' } });
-    assert.deepEqual(refValue, { username: 'test', email: '' });
+    fireEvent.change(container.querySelector('#username'), { target: { value: 'username' } });
+    assert.deepEqual(refValue, { username: 'username', email: '' });
     assert.deepEqual(refError, { username: 'The length cannot exceed 2' });
-    fireEvent.click(container.querySelector('#unmount'));
-    assert.deepEqual(refValue, { email: '' });
-    assert.deepEqual(refError, {});
+    fireEvent.change(container.querySelector('#email'), { target: { value: 'email' } });
+    assert.deepEqual(refValue, { email: 'email' });
+    assert.deepEqual(refError, { email: 'The length cannot exceed 2' });
   });
 
   describe('rule', () => {

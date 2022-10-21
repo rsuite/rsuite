@@ -1,6 +1,5 @@
-import React, { useMemo, useCallback, useState, useImperativeHandle, useRef } from 'react';
+import React, { useMemo, useCallback, useImperativeHandle, useRef } from 'react';
 import PropTypes from 'prop-types';
-import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
 import { Schema, SchemaModel } from 'schema-typed';
 import type { CheckResult } from 'schema-typed';
@@ -13,6 +12,7 @@ import FormHelpText from '../FormHelpText';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import { useFormClassNames } from './useFormClassNames';
 import useSchemaModel from './useSchemaModel';
+import { useControlled } from '../utils';
 
 export interface FormProps<
   T = Record<string, any>,
@@ -142,16 +142,14 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     disabled
   });
 
-  const [_formValue, setFormValue] = useState(formDefaultValue);
-  const [_formError, setFormError] = useState(formError || {});
+  const [realFormValue, setFormValue] = useControlled(formValue, formDefaultValue);
+  const [realFormError, setFormError] = useControlled(formError, {});
 
-  const getFormValue = useCallback(() => {
-    return isUndefined(formValue) ? _formValue : formValue;
-  }, [_formValue, formValue]);
+  const realFormValueRef = useRef(realFormValue);
+  realFormValueRef.current = realFormValue;
 
-  const getFormError = useCallback(() => {
-    return isUndefined(formError) ? _formError : formError;
-  }, [formError, _formError]);
+  const realFormErrorRef = useRef(realFormError);
+  realFormErrorRef.current = realFormError;
 
   /**
    * Validate the form data and return a boolean.
@@ -160,7 +158,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
    */
   const check = useCallback(
     (callback?: (formError: any) => void) => {
-      const formValue = getFormValue() || {};
+      const formValue = realFormValue || {};
       const formError = {};
       let errorCount = 0;
       const model = getCombinedModel();
@@ -184,7 +182,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
 
       return true;
     },
-    [getFormValue, getCombinedModel, onCheck, onError]
+    [realFormValue, getCombinedModel, setFormError, onCheck, onError]
   );
 
   /**
@@ -194,13 +192,13 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
    */
   const checkForField = useCallback(
     (fieldName: string, callback?: (checkResult: any) => void) => {
-      const formValue = getFormValue() || {};
+      const formValue = realFormValue || {};
       const model = getCombinedModel();
 
       const checkResult = model.checkForField(fieldName, formValue);
 
       const formError = {
-        ...getFormError(),
+        ...realFormError,
         [fieldName]: checkResult?.errorMessage || checkResult
       };
 
@@ -214,14 +212,14 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
 
       return !checkResult.hasError;
     },
-    [getFormValue, getCombinedModel, getFormError, onCheck, onError]
+    [realFormValue, getCombinedModel, realFormError, setFormError, onCheck, onError]
   );
 
   /**
    * Check form data asynchronously and return a Promise
    */
   const checkAsync = useCallback(() => {
-    const formValue = getFormValue() || {};
+    const formValue = realFormValue || {};
     const promises: Promise<CheckResult>[] = [];
     const keys: string[] = [];
     const model = getCombinedModel();
@@ -251,7 +249,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
 
       return { hasError: errorCount > 0, formError };
     });
-  }, [getFormValue, getCombinedModel, onCheck, onError]);
+  }, [realFormValue, getCombinedModel, onCheck, setFormError, onError]);
 
   /**
    * Asynchronously check form fields and return Promise
@@ -259,11 +257,11 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
    */
   const checkForFieldAsync = useCallback(
     (fieldName: string) => {
-      const formValue = getFormValue() || {};
+      const formValue = realFormValue || {};
       const model = getCombinedModel();
 
       return model.checkForFieldAsync(fieldName, formValue).then(checkResult => {
-        const formError = { ...getFormError(), [fieldName]: checkResult.errorMessage };
+        const formError = { ...realFormError, [fieldName]: checkResult.errorMessage };
 
         onCheck?.(formError);
         setFormError(formError);
@@ -275,23 +273,26 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
         return checkResult;
       });
     },
-    [getFormValue, getCombinedModel, getFormError, onCheck, onError]
+    [realFormValue, getCombinedModel, realFormError, onCheck, setFormError, onError]
   );
 
   const cleanErrors = useCallback(() => {
     setFormError({});
-  }, []);
+  }, [setFormError]);
 
   const cleanErrorForField = useCallback(
     (fieldName: string) => {
-      setFormError(omit(_formError, [fieldName]));
+      setFormError(omit(realFormError, [fieldName]));
     },
-    [_formError]
+    [realFormError, setFormError]
   );
 
-  const resetErrors = useCallback((formError: any = {}) => {
-    setFormError(formError);
-  }, []);
+  const resetErrors = useCallback(
+    (formError: any = {}) => {
+      setFormError(formError);
+    },
+    [setFormError]
+  );
 
   useImperativeHandle(ref, () => ({
     root: rootRef.current,
@@ -306,20 +307,28 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
 
   const removeFieldError = useCallback(
     (name: string) => {
-      const formError = omit(getFormError(), [name]);
+      /**
+       * when this function is called when the children component is unmount, it's an old render frame
+       * so use Ref to get future error
+       */
+      const formError = omit(realFormErrorRef.current, [name]);
       setFormError(formError);
       onCheck?.(formError);
     },
-    [getFormError, onCheck]
+    [onCheck, setFormError]
   );
 
   const removeFieldValue = useCallback(
     (name: string) => {
-      const formValue = omit(getFormValue(), [name]);
+      /**
+       * when this function is called when the children component is unmount, it's an old render frame
+       * so use Ref to get future value
+       */
+      const formValue = omit(realFormValueRef.current, [name]);
       setFormValue(formValue);
       onChange?.(formValue);
     },
-    [getFormValue, onChange]
+    [onChange, setFormValue]
   );
 
   const handleSubmit = useCallback(
@@ -339,14 +348,14 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
   const handleFieldError = useCallback(
     (name: string, errorMessage: React.ReactNode) => {
       const formError = {
-        ...getFormError(),
+        ...realFormError,
         [name]: errorMessage
       };
       setFormError(formError);
       onError?.(formError);
       onCheck?.(formError);
     },
-    [onError, onCheck, getFormError]
+    [realFormError, setFormError, onError, onCheck]
   );
 
   const handleFieldSuccess = useCallback(
@@ -358,7 +367,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
 
   const handleFieldChange = useCallback(
     (name: string, value: any, event: React.SyntheticEvent) => {
-      const formValue = getFormValue();
+      const formValue = realFormValue;
       const nextFormValue = {
         ...formValue,
         [name]: value
@@ -366,7 +375,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
       setFormValue(nextFormValue);
       onChange?.(nextFormValue, event);
     },
-    [onChange, getFormValue]
+    [realFormValue, setFormValue, onChange]
   );
 
   const rootRef = useRef<HTMLFormElement>(null);
@@ -379,7 +388,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
       readOnly,
       plaintext,
       disabled,
-      formError: getFormError(),
+      formError: realFormError,
       removeFieldValue,
       removeFieldError,
       pushFieldRule,
@@ -396,7 +405,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
       readOnly,
       plaintext,
       disabled,
-      getFormError,
+      realFormError,
       removeFieldValue,
       removeFieldError,
       pushFieldRule,
