@@ -63,7 +63,6 @@ export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>>
 }
 
 const CustomContext = React.createContext<CustomProviderProps>({});
-const { Consumer, Provider } = CustomContext;
 const themes = ['light', 'dark', 'high-contrast'];
 
 const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
@@ -96,7 +95,7 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
   }, [classPrefix, theme]);
 
   return (
-    <Provider value={value}>
+    <CustomContext.Provider value={value}>
       {children}
       <Portal>
         <div className="rs-toast-provider">
@@ -111,10 +110,10 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
           ))}
         </div>
       </Portal>
-    </Provider>
+    </CustomContext.Provider>
   );
 };
 
-export { CustomContext, Consumer as CustomConsumer };
+export { CustomContext };
 
 export default CustomProvider;
