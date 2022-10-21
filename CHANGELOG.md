@@ -1,3 +1,14 @@
+# [5.20.0](https://github.com/rsuite/rsuite/compare/v5.19.1...v5.20.0) (2022-10-21)
+
+### Bug Fixes
+
+- **DatePicker:** reset calendar selection after closing picker menu ([#2807](https://github.com/rsuite/rsuite/issues/2807)) ([1ef91a8](https://github.com/rsuite/rsuite/commit/1ef91a846fc6d99c7479e96994aa50da2af9ef9e))
+- **Form.Control:** when shouldResetWithUnmount should remove value and error ([#2802](https://github.com/rsuite/rsuite/issues/2802)) ([f8d108a](https://github.com/rsuite/rsuite/commit/f8d108aed3e94811491be63e3373008d12e83b60))
+
+### Features
+
+- **SelectPicker,CheckPicker:** add `loading` prop ([#2808](https://github.com/rsuite/rsuite/issues/2808)) ([3a5e5d5](https://github.com/rsuite/rsuite/commit/3a5e5d5d4b891373c8a05ec4d642103f75920f10))
+
 ## [5.19.1](https://github.com/rsuite/rsuite/compare/v5.19.0...v5.19.1) (2022-10-13)
 
 ### Bug Fixes
