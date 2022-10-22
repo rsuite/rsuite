@@ -3,7 +3,6 @@ import { render, fireEvent } from '@testing-library/react';
 import CheckPicker from '../index';
 import { getStyle, inChrome } from '@test/testUtils';
 import getWidth from 'dom-lib/getWidth';
-
 import '../styles/index.less';
 
 const data = [
