@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import OverlayTrigger, { OverlayTriggerInstance } from '../Overlay/OverlayTrigger';
 import { createChainedFunction, placementPolyfill, PLACEMENT } from '../utils';
-import { CustomConsumer } from '../CustomProvider';
+import { CustomContext } from '../CustomProvider';
 import { OverlayTriggerProps } from '../Overlay/OverlayTrigger';
 
 export type WhisperProps = OverlayTriggerProps;
@@ -19,19 +19,17 @@ const Whisper = React.forwardRef((props: WhisperProps, ref: React.Ref<WhisperIns
     preventOverflow,
     ...rest
   } = props;
+
+  const context = useContext(CustomContext);
   return (
-    <CustomConsumer>
-      {context => (
-        <OverlayTrigger
-          {...rest}
-          ref={ref}
-          preventOverflow={preventOverflow}
-          placement={placementPolyfill(placement, context?.rtl)}
-          onEntered={createChainedFunction(onOpen, onEntered)}
-          onExited={createChainedFunction(onClose as any, onExited)}
-        />
-      )}
-    </CustomConsumer>
+    <OverlayTrigger
+      {...rest}
+      ref={ref}
+      preventOverflow={preventOverflow}
+      placement={placementPolyfill(placement, context?.rtl)}
+      onEntered={createChainedFunction(onOpen, onEntered)}
+      onExited={createChainedFunction(onClose as any, onExited)}
+    />
   );
 });
 

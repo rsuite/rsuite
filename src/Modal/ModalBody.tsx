@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { ModalContext } from './ModalContext';
@@ -21,26 +21,22 @@ const ModalBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forward
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
 
+    const context = useContext(ModalContext);
+
+    const bodyStyles = context?.getBodyStyles?.();
     return (
-      <ModalContext.Consumer>
-        {context => {
-          const bodyStyles = context?.getBodyStyles?.();
-          return (
-            <Component {...rest} ref={ref} style={{ ...bodyStyles, ...style }} className={classes}>
-              {context?.isDrawer && (
-                <IconButton
-                  icon={<Close />}
-                  appearance="subtle"
-                  size="sm"
-                  className={prefix('close')}
-                  onClick={context?.onModalClose}
-                />
-              )}
-              {children}
-            </Component>
-          );
-        }}
-      </ModalContext.Consumer>
+      <Component {...rest} ref={ref} style={{ ...bodyStyles, ...style }} className={classes}>
+        {context?.isDrawer && (
+          <IconButton
+            icon={<Close />}
+            appearance="subtle"
+            size="sm"
+            className={prefix('close')}
+            onClick={context?.onModalClose}
+          />
+        )}
+        {children}
+      </Component>
     );
   }
 );
