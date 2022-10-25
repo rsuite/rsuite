@@ -23,18 +23,12 @@ $ yarn add rsuite
 以下是一个简单的例子，使用一个默认按钮组件。
 
 ```jsx
-import React from 'react';
-import ReactDOM from 'react-dom';
 import { Button } from 'rsuite';
-
-// import default style
 import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
 
 function App() {
-  return <Button>Hello World</Button>;
+  return <Button appearance="primary">Hello World</Button>;
 }
-
-ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 ## 在线示例

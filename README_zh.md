@@ -50,11 +50,13 @@ npm i rsuite --save
 
 这里有一个简单的示例：
 
-```js
+```jsx
 import { Button } from 'rsuite';
 import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
 
-ReactDOM.render(<Button>Button</Button>, mountNode);
+function App() {
+  return <Button appearance="primary">Hello World</Button>;
+}
 ```
 
 您可以在 [CodeSandbox][live-preview-on-codesandbox] 上查看该示例。
