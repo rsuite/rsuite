@@ -15,15 +15,6 @@
 
   &.rs-tree-virtualized {
     overflow: hidden;
-
-    /* stylelint-disable-next-line */ // This class name provide by Virtualized.
-    .ReactVirtualized__Grid.ReactVirtualized__List {
-      padding: 0 @picker-menu-padding @picker-menu-padding 0;
-
-      &:focus {
-        outline: none;
-      }
-    }
   }
 }
 
@@ -241,15 +232,5 @@
   right: 0;
   padding-right: inherit;
 }
-
-/* stylelint-disable */
-[dir='rtl']
-  .ReactVirtualized__Grid__innerScrollContainer
-  .rs-tree-node
-  > .rs-tree-node-label::before {
-  display: none;
-}
-
-/* stylelint-enable */
 
 /* rtl:end:ignore */
