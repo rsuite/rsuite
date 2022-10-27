@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
@@ -34,7 +33,7 @@ describe('MultiCascader', () => {
   it('Should output a dropdown', () => {
     const instance = getDOMNode(<MultiCascader data={[]}>Title</MultiCascader>);
 
-    assert.ok(instance.className.match(/\bpicker-cascader\b/));
+    expect(instance.className).to.contain('picker-cascader');
   });
 
   it('Should have "default" appearance by default', () => {
@@ -46,8 +45,8 @@ describe('MultiCascader', () => {
   it('Should render number', () => {
     const instance = getDOMNode(<MultiCascader data={items} value={['3-1', '3-2']} />);
 
-    assert.equal(instance.querySelector('.rs-picker-value-count').textContent, '1');
-    assert.include(instance.className, 'rs-picker-countable');
+    expect(instance.querySelector('.rs-picker-value-count')).to.text('1');
+    expect(instance.className).to.include('rs-picker-countable');
   });
 
   it('Should not render number', () => {
@@ -92,11 +91,13 @@ describe('MultiCascader', () => {
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
-  it('Should be inline', () => {
+  it('Should be inline', async () => {
     const instance = getInstance(<MultiCascader data={[]} inline />);
 
-    assert.ok(instance.overlay.className.match(/\brs-picker-inline\b/));
-    assert.ok(instance.overlay.querySelector('.rs-picker-cascader-menu-items'));
+    await waitFor(() => {
+      assert.ok(instance.overlay.className.match(/\brs-picker-inline\b/));
+      assert.ok(instance.overlay.querySelector('.rs-picker-cascader-menu-items'));
+    });
   });
 
   it('Should output a placeholder', () => {
@@ -186,7 +187,7 @@ describe('MultiCascader', () => {
     const onSelectSpy = sinon.spy();
     const instance = getInstance(<MultiCascader data={items} defaultOpen onSelect={onSelectSpy} />);
 
-    ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-checkbox'));
+    fireEvent.click(instance.overlay.querySelector('.rs-checkbox'));
     assert.ok(onSelectSpy.calledOnce);
   });
 
@@ -195,7 +196,7 @@ describe('MultiCascader', () => {
     const instance = getInstance(<MultiCascader data={items} defaultOpen onChange={onChangeSpy} />);
     const menu = instance.overlay.querySelector('.rs-checkbox-wrapper');
 
-    ReactTestUtils.Simulate.click(menu);
+    fireEvent.click(menu);
     assert.equal(onChangeSpy.firstCall.firstArg[0], '1');
   });
 
@@ -205,7 +206,7 @@ describe('MultiCascader', () => {
       <MultiCascader data={items} defaultValue={['1']} onClean={onCleanSpy} />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
     assert.ok(onCleanSpy.calledOnce);
   });
 
@@ -213,7 +214,10 @@ describe('MultiCascader', () => {
     const onOpenSpy = sinon.spy();
     const picker = getInstance(<MultiCascader onOpen={onOpenSpy} data={items} />);
 
-    picker.open();
+    act(() => {
+      picker.open();
+    });
+
     assert.ok(onOpenSpy.calledOnce);
   });
 
@@ -221,7 +225,9 @@ describe('MultiCascader', () => {
     const onCloseSpy = sinon.spy();
     const picker = getInstance(<MultiCascader defaultOpen onClose={onCloseSpy} data={items} />);
 
-    picker.close();
+    act(() => {
+      picker.close();
+    });
     assert.ok(onCloseSpy.calledOnce);
   });
 
@@ -234,7 +240,7 @@ describe('MultiCascader', () => {
     const target = ref.current.root;
 
     act(() => {
-      ReactTestUtils.Simulate.click(target.querySelector('.rs-picker-toggle-clean'));
+      fireEvent.click(target.querySelector('.rs-picker-toggle-clean'));
     });
 
     assert.equal(target.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
@@ -317,7 +323,7 @@ describe('MultiCascader', () => {
 
     const instance = getInstance(<MultiCascader defaultOpen data={items} onSelect={onSelectSpy} />);
     const checkbox = instance.overlay.querySelectorAll('.rs-checkbox')[1];
-    ReactTestUtils.Simulate.click(checkbox);
+    fireEvent.click(checkbox);
 
     assert.equal(onSelectSpy.firstCall.firstArg.value, '2');
     assert.equal(onSelectSpy.firstCall.args[1][0].value, '2');
@@ -337,11 +343,14 @@ describe('MultiCascader', () => {
       />
     );
     const checkbox = instance.overlay.querySelectorAll('.rs-checkbox')[2];
-    ReactTestUtils.Simulate.click(checkbox);
 
-    assert.doesNotThrow(() => JSON.stringify(items[2]));
-    assert.doesNotThrow(() => JSON.stringify(onSelectSpy.firstCall.args[1]));
-    assert.doesNotThrow(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1]));
+    fireEvent.click(checkbox);
+
+    expect(onSelectSpy).to.called;
+    expect(renderMenuItemSpy).to.called;
+    expect(() => JSON.stringify(items[2])).to.not.throw();
+    expect(() => JSON.stringify(onSelectSpy.firstCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1])).to.not.throw();
   });
 
   it('Should call onCheck callback ', () => {
@@ -349,7 +358,7 @@ describe('MultiCascader', () => {
     const instance = getInstance(<MultiCascader data={items} defaultOpen onCheck={onCheckSpy} />);
     const checkbox = instance.overlay.querySelector('.rs-checkbox-wrapper');
 
-    ReactTestUtils.Simulate.click(checkbox);
+    fireEvent.click(checkbox);
 
     assert.equal(onCheckSpy.firstCall.firstArg[0], '1');
     assert.equal(onCheckSpy.firstCall.args[1].value, '1');
@@ -368,21 +377,23 @@ describe('MultiCascader', () => {
 
       return <MultiCascader {...props} ref={pickerRef} data={data} open />;
     });
+
     const ref = React.createRef();
+
     act(() => {
       render(<TestApp ref={ref} />);
     });
 
     const overlay = ref.current.picker.overlay;
 
-    assert.equal(overlay.querySelectorAll('.rs-check-item').length, 0);
+    expect(overlay.querySelectorAll('.rs-check-item')).to.length(0);
 
     act(() => {
       ref.current.setData([{ label: 'test', value: 1 }]);
     });
 
-    assert.equal(overlay.querySelectorAll('.rs-check-item').length, 1);
-    assert.equal(overlay.querySelector('.rs-check-item').textContent, 'test');
+    expect(overlay.querySelectorAll('.rs-check-item')).to.length(1);
+    expect(overlay.querySelector('.rs-check-item')).to.text('test');
   });
 
   it('Should children be loaded lazily', () => {
@@ -396,11 +407,11 @@ describe('MultiCascader', () => {
       />
     );
 
-    ReactTestUtils.Simulate.click(
+    fireEvent.click(
       instance.overlay.querySelector('.rs-picker-cascader-menu-has-children .rs-check-item')
     );
 
-    assert.equal(instance.overlay.querySelectorAll('.rs-check-item')[1].textContent, '2');
+    expect(instance.overlay.querySelectorAll('.rs-check-item')[1]).to.text('2');
   });
 
   it('Should present an asyn loading state', () => {
@@ -420,19 +431,20 @@ describe('MultiCascader', () => {
       />
     );
 
-    ReactTestUtils.Simulate.click(
+    fireEvent.click(
       instance.overlay.querySelector('.rs-picker-cascader-menu-has-children .rs-check-item')
     );
-    assert.ok(instance.overlay.querySelector('.rs-icon.rs-icon-spin'));
+
+    expect(instance.overlay.querySelector('.rs-icon.rs-icon-spin')).to.exist;
   });
 
   it('Should call `onSearch` callback ', () => {
     const onSearchSpy = sinon.spy();
     const instance = getInstance(<MultiCascader data={items} defaultOpen onSearch={onSearchSpy} />);
     const input = instance.overlay.querySelector('.rs-picker-search-bar-input');
-    input.value = '3';
 
-    ReactTestUtils.Simulate.change(input);
+    fireEvent.change(input, { target: { value: '3' } });
+
     assert.equal(instance.overlay.querySelectorAll('.rs-picker-cascader-row').length, 3);
     assert.ok(onSearchSpy.calledOnce);
   });

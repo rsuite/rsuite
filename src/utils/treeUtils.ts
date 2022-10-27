@@ -8,7 +8,7 @@ import { ItemDataType } from '../@types/common';
 import { TreePickerProps } from '../TreePicker/TreePicker';
 import { shouldDisplay } from '../Picker';
 import reactToString from './reactToString';
-import { ListInstance } from '../Picker/VirtualizedList';
+import { ListHandle } from '../Windowing';
 import { TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from './constants';
 import { attachParent } from './attachParent';
 
@@ -930,7 +930,7 @@ export interface FocusToTreeNodeProps {
   activeNode: any;
   virtualized: boolean;
   container: HTMLElement | null;
-  list: ListInstance;
+  list: ListHandle;
   formattedNodes: TreeNodeType[];
 }
 

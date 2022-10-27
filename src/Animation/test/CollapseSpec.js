@@ -1,5 +1,5 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
+import { act } from '@testing-library/react';
 import Collapse from '../Collapse';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
@@ -10,20 +10,25 @@ describe('Animation.Collapse', () => {
         <div>test</div>
       </Collapse>
     );
-    assert.include(instance.className, 'rs-anim-collapse-horizontal');
+
+    expect(instance.className).to.include('rs-anim-collapse-horizontal');
 
     const instance2 = getDOMNode(
       <Collapse in dimension={() => 'width'}>
         <div>test</div>
       </Collapse>
     );
-    assert.include(instance2.className, 'rs-anim-collapse-horizontal');
+
+    expect(instance2.className).to.include('rs-anim-collapse-horizontal');
   });
 
-  it('Should set a dimension value at onExit of the transition', done => {
+  it('Should set a dimension value at onExit of the transition', async () => {
+    const onExitSpy = sinon.spy();
+    const collapseRef = React.createRef();
+
     const App = React.forwardRef((props, ref) => {
       const [show, setShow] = React.useState(true);
-      const collapseRef = React.useRef();
+
       React.useImperativeHandle(ref, () => {
         return {
           hide: () => setShow(false)
@@ -34,13 +39,8 @@ describe('Animation.Collapse', () => {
           ref={collapseRef}
           in={show}
           onExit={() => {
-            try {
-              // eslint-disable-next-line react/no-find-dom-node
-              assert.equal(findDOMNode(collapseRef.current).style.height, '50px');
-              done();
-            } catch (err) {
-              done(err);
-            }
+            expect(getDOMNode(collapseRef.current).style.height).to.equal('50px');
+            onExitSpy();
           }}
           getDimensionValue={() => {
             return 50;
@@ -53,7 +53,14 @@ describe('Animation.Collapse', () => {
 
     const instance = getInstance(<App />);
 
-    instance.hide();
-    assert.include(instance.className, 'rs-collapse-horizontal');
+    expect(getDOMNode(collapseRef.current).className).to.contain('rs-anim-collapse');
+
+    act(() => {
+      instance.hide();
+    });
+
+    expect(getDOMNode(collapseRef.current).className).to.contain('rs-anim-collapsing');
+    expect(getDOMNode(collapseRef.current).style.height).to.equal('0px');
+    expect(onExitSpy).to.called;
   });
 });

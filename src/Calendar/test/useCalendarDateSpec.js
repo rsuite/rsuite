@@ -1,6 +1,7 @@
-import { renderHook } from '@testing-library/react-hooks/dom';
 import useCalendarDate from '../useCalendarDate';
 import format from 'date-fns/format';
+import { act } from '@testing-library/react';
+import { renderHook } from '@test/testUtils';
 
 describe('useCalendarDate', () => {
   it('Should return controlled date', () => {
@@ -33,7 +34,9 @@ describe('useCalendarDate', () => {
 
     expect(format(result.current.calendarDate, 'yyyy-MM-dd')).to.equal('2021-07-01');
 
-    result.current.setCalendarDate(new Date('09/01/2021'));
+    act(() => {
+      result.current.setCalendarDate(new Date('09/01/2021'));
+    });
 
     expect(format(result.current.calendarDate, 'yyyy-MM-dd')).to.equal('2021-09-01');
   });
@@ -43,11 +46,15 @@ describe('useCalendarDate', () => {
       useCalendarDate(undefined, new Date('08/04/2022 00:00:10'))
     );
 
-    result.current.setCalendarDate(new Date('09/01/2021'));
+    act(() => {
+      result.current.setCalendarDate(new Date('09/01/2021'));
+    });
 
     expect(format(result.current.calendarDate, 'yyyy-MM-dd')).to.equal('2021-09-01');
 
-    result.current.resetCalendarDate();
+    act(() => {
+      result.current.resetCalendarDate();
+    });
 
     expect(format(result.current.calendarDate, 'yyyy-MM-dd HH:mm:ss')).to.equal(
       '2022-08-04 00:00:10'

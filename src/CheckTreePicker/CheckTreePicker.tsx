@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useCallback, useContext, useMemo } 
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
-import { List, AutoSizer, ListInstance, ListRowProps } from '../Picker/VirtualizedList';
+import { List, AutoSizer, ListHandle, ListChildComponentProps } from '../Windowing';
 import CheckTreeNode from './CheckTreeNode';
 import TreeContext from '../Tree/TreeContext';
 import { PickerLocale } from '../locales';
@@ -26,7 +26,7 @@ import {
   createConcatChildrenFunction,
   usePickerClassName,
   usePublicMethods,
-  OverlayTriggerInstance,
+  OverlayTriggerHandle,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
@@ -99,6 +99,7 @@ export interface CheckTreePickerProps<T = ValueType>
 }
 
 const emptyArray = [];
+const itemSize = () => 36;
 
 const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef((props, ref) => {
   const {
@@ -158,9 +159,9 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   } = props;
 
   const { inline } = useContext(TreeContext);
-  const triggerRef = useRef<OverlayTriggerInstance>(null);
+  const triggerRef = useRef<OverlayTriggerHandle>(null);
   const targetRef = useRef<HTMLButtonElement>(null);
-  const listRef = useRef<ListInstance>(null);
+  const listRef = useRef<ListHandle>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const treeViewRef = useRef<HTMLDivElement>(null);
@@ -755,41 +756,35 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     );
   };
 
-  const renderVirtualListNode =
-    (nodes: any[]) =>
-    ({ key, index, style }: ListRowProps) => {
-      const node = nodes[index];
-      const { layer, refKey, visible } = node;
-      const expand = getExpandWhenSearching(
-        searchKeywordState,
-        expandItemValues.includes(node[valueKey])
-      );
-      const nodeProps = {
-        ...getTreeNodeProps(
-          {
-            ...node,
-            /**
-             * spread operator don't copy unenumerable properties
-             * so we need to copy them manually
-             */ parent: node.parent,
-            expand
-          },
-          layer
-        ),
-        hasChildren: node.hasChildren
-      };
+  const renderVirtualListNode = ({ index, style, data }: ListChildComponentProps) => {
+    const node = data[index];
+    const { layer, refKey, visible } = node;
+    const expand = getExpandWhenSearching(
+      searchKeywordState,
+      expandItemValues.includes(node[valueKey])
+    );
 
-      return (
-        visible && (
-          <CheckTreeNode
-            style={style}
-            key={key}
-            ref={ref => saveTreeNodeRef(ref, refKey)}
-            {...nodeProps}
-          />
-        )
-      );
+    const nodeProps = {
+      ...getTreeNodeProps(
+        {
+          ...node,
+          /**
+           * spread operator don't copy unenumerable properties
+           * so we need to copy them manually
+           */ parent: node.parent,
+          expand
+        },
+        layer
+      ),
+      hasChildren: node.hasChildren
     };
+
+    return (
+      visible && (
+        <CheckTreeNode style={style} ref={ref => saveTreeNodeRef(ref, refKey)} {...nodeProps} />
+      )
+    );
+  };
 
   const renderCheckTree = () => {
     const classes = withCheckTreeClassPrefix({
@@ -830,17 +825,17 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
               defaultHeight={inline ? height : menuMaxHeight}
               style={{ width: 'auto', height: 'auto' }}
             >
-              {({ height, width }) => (
+              {({ height }) => (
                 <List
                   ref={listRef}
-                  width={width}
                   height={height}
-                  rowHeight={36}
-                  rowCount={formattedNodes.length}
-                  rowRenderer={renderVirtualListNode(formattedNodes)}
-                  scrollToAlignment="center"
+                  itemSize={itemSize}
+                  itemCount={formattedNodes.length}
+                  itemData={formattedNodes}
                   {...listProps}
-                />
+                >
+                  {renderVirtualListNode}
+                </List>
               )}
             </AutoSizer>
           ) : (

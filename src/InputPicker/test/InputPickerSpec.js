@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, fireEvent } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import InputPicker from '../InputPicker';
@@ -28,8 +27,8 @@ describe('InputPicker', () => {
   it('Should clean selected default value', () => {
     const instance = getDOMNode(<InputPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
-    expect(instance.querySelector('.rs-picker-toggle-placeholder').textContent).to.equal('Select');
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
   });
 
   it('Should have "default" appearance by default', () => {
@@ -41,20 +40,21 @@ describe('InputPicker', () => {
   it('Should not clean selected value', () => {
     const instance = getDOMNode(<InputPicker defaultOpen data={data} value={'Eugenia'} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
-    expect(instance.querySelector('.rs-picker-toggle-value').textContent).to.equal('Eugenia');
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+
+    expect(instance.querySelector('.rs-picker-toggle-value')).to.text('Eugenia');
   });
 
   it('Should output a dropdown', () => {
     const instance = getDOMNode(<InputPicker data={[]} />);
 
-    assert.ok(instance.className.match(/\bpicker-input\b/));
+    expect(instance).to.have.class('rs-picker-input');
   });
 
   it('Should be disabled', () => {
     const instance = getDOMNode(<InputPicker data={[]} disabled />);
 
-    assert.ok(instance.className.match(/\bdisabled\b/));
+    expect(instance).to.have.class('rs-picker-disabled');
   });
 
   it('Should be plaintext', () => {
@@ -65,10 +65,10 @@ describe('InputPicker', () => {
       <InputPicker plaintext data={data} placeholder="-" value={'Eugenia'} />
     );
 
-    assert.equal(instance1.target.textContent, 'Eugenia');
-    assert.equal(instance2.target.textContent, 'Not selected');
-    assert.equal(instance3.target.textContent, '-');
-    assert.equal(instance4.target.textContent, 'Eugenia');
+    expect(instance1.target).to.text('Eugenia');
+    expect(instance2.target).to.text('Not selected');
+    expect(instance3.target).to.text('-');
+    expect(instance4.target).to.text('Eugenia');
   });
 
   it('Should be readOnly', () => {
@@ -82,49 +82,42 @@ describe('InputPicker', () => {
       </div>
     );
 
-    ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.focus(
-        input1Ref.current.root.querySelector('.rs-picker-search-input')
-      );
-      ReactTestUtils.Simulate.focus(
-        input2Ref.current.root.querySelector('.rs-picker-search-input')
-      );
-    });
+    fireEvent.focus(input1Ref.current.root.querySelector('.rs-picker-search-input'));
+    fireEvent.focus(input2Ref.current.root.querySelector('.rs-picker-search-input'));
 
-    assert.ok(input1Ref.current.overlay);
-    assert.ok(input2Ref.current.root.querySelector('input[readonly]'));
-    assert.equal(input2Ref.current.overlay, undefined);
+    expect(input1Ref.current.overlay).to.exist;
+    expect(input2Ref.current.root.querySelector('input[readonly]')).to.exist;
+    expect(() => {
+      input2Ref.current.overlay;
+    }).to.throw('The overlay is not found. Please confirm whether the picker is open.');
   });
 
   it('Should output a button', () => {
     const instance = getDOMNode(<InputPicker data={[]} toggleAs="button" />);
-    assert.ok(instance.querySelector('button'));
+
+    expect(instance.querySelector('button')).to.exist;
   });
 
   it('Should be block', () => {
     const instance = getDOMNode(<InputPicker data={[]} block />);
-    assert.ok(instance.className.match(/\bblock\b/));
+
+    expect(instance).to.have.class('rs-picker-block');
   });
 
   it('Should active item by `value`', () => {
     const value = 'Louisa';
     const instance = getInstance(<InputPicker defaultOpen data={data} value={value} />);
 
-    assert.equal(instance.root.querySelector('.rs-picker-toggle-value').textContent, value);
-    assert.equal(
-      instance.overlay.querySelector('.rs-picker-select-menu-item-active').textContent,
-      value
-    );
+    expect(instance.root.querySelector('.rs-picker-toggle-value')).to.text('Louisa');
+    expect(instance.overlay.querySelector('.rs-picker-select-menu-item-active')).to.text('Louisa');
   });
 
   it('Should active item by `defaultValue`', () => {
     const value = 'Louisa';
     const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={value} />);
-    assert.equal(instance.root.querySelector('.rs-picker-toggle-value').textContent, value);
-    assert.equal(
-      instance.overlay.querySelector('.rs-picker-select-menu-item-active').textContent,
-      value
-    );
+
+    expect(instance.root.querySelector('.rs-picker-toggle-value')).to.text('Louisa');
+    expect(instance.overlay.querySelector('.rs-picker-select-menu-item-active')).to.text('Louisa');
   });
 
   it('Should render a group', () => {
@@ -136,7 +129,7 @@ describe('InputPicker', () => {
   it('Should have a placeholder', () => {
     const instance = getDOMNode(<InputPicker data={[]} className="custom" placeholder="test" />);
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
+    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('test');
   });
 
   it('Allow `label` to be an empty string', () => {
@@ -144,7 +137,8 @@ describe('InputPicker', () => {
       <InputPicker placeholder="test" data={[{ label: '', value: '1' }]} value={'1'} defaultOpen />
     );
     const menuContainer = instance.overlay.querySelector('.rs-picker-select-menu-item-active');
-    assert.equal(menuContainer.textContent, '');
+
+    expect(menuContainer).to.text('');
   });
 
   it('Should render value by `renderValue`', () => {
@@ -157,7 +151,8 @@ describe('InputPicker', () => {
         renderValue={(value, item) => `${item.label}-${value}`}
       />
     );
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, 'foo-bar');
+
+    expect(instance.querySelector('.rs-picker-toggle-value')).to.text('foo-bar');
   });
 
   it('Should output a value by renderValue()', () => {
@@ -177,177 +172,144 @@ describe('InputPicker', () => {
       <InputPicker renderValue={v => [v, placeholder]} data={[]} value={2} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, `1${placeholder}`);
-    assert.equal(instance2.querySelector('.rs-picker-toggle-value').textContent, `2${placeholder}`);
+    expect(instance.querySelector('.rs-picker-toggle-value')).to.text(`1${placeholder}`);
+    expect(instance2.querySelector('.rs-picker-toggle-value')).to.text(`2${placeholder}`);
   });
 
   it('Should not be call renderValue()', () => {
     const instance = getDOMNode(<InputPicker data={[]} renderValue={() => 'value'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+
+    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
   });
 
   it('Should render a placeholder when value error', () => {
     const instance = getDOMNode(<InputPicker data={[]} value={2} placeholder={'test'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
+
+    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('test');
   });
 
-  it('Should call `onChange` callback with correct value', done => {
-    const doneOp = data => {
-      try {
-        assert.equal(data, 'Eugenia');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-    const instance = getInstance(<InputPicker defaultOpen onChange={doneOp} data={data} />);
+  it('Should call `onChange` callback with correct value', () => {
+    const onChangeSpy = sinon.spy();
+    const instance = getInstance(<InputPicker defaultOpen onChange={onChangeSpy} data={data} />);
 
-    ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-picker-select-menu-item'));
+    fireEvent.click(instance.overlay.querySelector('.rs-picker-select-menu-item'));
+
+    expect(onChangeSpy).to.calledOnceWith('Eugenia');
   });
 
-  it('Should call `onClean` callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onClean` callback', () => {
+    const onCleanSpy = sinon.spy();
     const instance = getDOMNode(
-      <InputPicker data={data} defaultValue={'Eugenia'} onClean={doneOp} />
+      <InputPicker data={data} defaultValue={'Eugenia'} onClean={onCleanSpy} />
     );
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+
+    expect(onCleanSpy).to.calledOnce;
   });
 
-  it('Should call `onClean` callback by keyDown', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onClean` callback by keyDown', () => {
+    const onCleanSpy = sinon.spy();
     const instance = getInstance(
-      <InputPicker data={data} defaultOpen defaultValue={'Eugenia'} onClean={doneOp} />
+      <InputPicker data={data} defaultOpen defaultValue={'Eugenia'} onClean={onCleanSpy} />
     );
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Backspace' });
+    fireEvent.keyDown(instance.target, { key: 'Backspace' });
+
+    expect(onCleanSpy).to.calledOnce;
   });
 
-  it('Should call `onSelect` with correct args by key=Enter ', done => {
-    const doneOp = (value, item) => {
-      try {
-        assert.equal(value, 'Louisa');
-        assert.equal(item.value, 'Louisa');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call `onSelect` with correct args by key=Enter ', () => {
+    const onSelectSpy = sinon.spy();
     const instance = getInstance(
-      <InputPicker defaultOpen data={data} onSelect={doneOp} defaultValue={'Kariane'} />
+      <InputPicker defaultOpen data={data} onSelect={onSelectSpy} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.target, { key: 'Enter' });
+
+    expect(onSelectSpy).to.calledOnceWith('Louisa');
   });
 
   it('Should output a clean button', () => {
     const instance = getDOMNode(<InputPicker data={data} defaultValue={'Louisa'} />);
-    assert.ok(instance.querySelector('.rs-picker-toggle-clean'));
+
+    expect(instance.querySelector('.rs-picker-toggle-clean')).to.exist;
   });
 
-  it('Should call `onSearch` callback with correct search keyword', done => {
-    const doneOp = key => {
-      try {
-        assert.equal(key, 'a');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-    const instance = getDOMNode(<InputPicker data={[]} defaultOpen onSearch={doneOp} />);
+  it('Should call `onSearch` callback with correct search keyword', () => {
+    const onSearchSpy = sinon.spy();
+    const instance = getDOMNode(<InputPicker data={[]} defaultOpen onSearch={onSearchSpy} />);
 
     const input = instance.querySelector('.rs-picker-search-input');
-    input.value = 'a';
 
-    ReactTestUtils.Simulate.change(input);
-  });
+    fireEvent.change(input, { target: { value: 'a' } });
 
-  it('Should call `onOpen` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const picker = getInstance(<InputPicker onOpen={doneOp} data={data} />);
-    picker.open();
-  });
-
-  it('Should call `onClose` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const picker = getInstance(<InputPicker defaultOpen onClose={doneOp} data={data} />);
-    picker.close();
+    expect(onSearchSpy).to.calledOnce;
+    expect(onSearchSpy).to.calledWith('a');
   });
 
   it('Should focus item by key=ArrowDown ', () => {
     const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
 
-    assert.equal(
-      instance.overlay.querySelector('.rs-picker-select-menu-item-focus').textContent,
-      'Kariane'
-    );
+    expect(instance.overlay.querySelector('.rs-picker-select-menu-item-focus')).to.text('Kariane');
   });
 
   it('Should focus item by key=ArrowUp ', () => {
     const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={'Kariane'} />);
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'ArrowUp' });
+    fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
 
-    assert.equal(
-      instance.overlay.querySelector('.rs-picker-select-menu-item-focus').textContent,
-      'Eugenia'
-    );
+    expect(instance.overlay.querySelector('.rs-picker-select-menu-item-focus')).to.text('Eugenia');
   });
 
-  it('Should call `onChange` by key=Enter ', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onChange` by key=Enter ', () => {
+    const onChangeSpy = sinon.spy();
     const instance = getInstance(
-      <InputPicker defaultOpen data={data} onChange={doneOp} defaultValue={'Kariane'} />
+      <InputPicker defaultOpen data={data} onChange={onChangeSpy} defaultValue={'Kariane'} />
     );
 
-    ReactTestUtils.Simulate.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(instance.target, { key: 'Enter' });
+
+    expect(onChangeSpy).to.calledOnce;
   });
 
-  it('Should call onBlur callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<InputPicker data={[]} onBlur={doneOp} />);
-    ReactTestUtils.Simulate.blur(instance.querySelector('.rs-picker-search-input'));
+  it('Should call onBlur callback', () => {
+    const onBlurSpy = sinon.spy();
+    const instance = getDOMNode(<InputPicker data={[]} onBlur={onBlurSpy} />);
+    fireEvent.blur(instance.querySelector('.rs-picker-search-input'));
+
+    expect(onBlurSpy).to.calledOnce;
   });
 
-  it('Should call onFocus callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<InputPicker data={[]} onFocus={doneOp} />);
-    ReactTestUtils.Simulate.focus(instance.querySelector('.rs-picker-search-input'));
+  it('Should call onFocus callback', () => {
+    const onFocusSpy = sinon.spy();
+    const instance = getDOMNode(<InputPicker data={[]} onFocus={onFocusSpy} />);
+    fireEvent.focus(instance.querySelector('.rs-picker-search-input'));
+
+    expect(onFocusSpy).to.called;
   });
 
   it('Should have a custom className', () => {
     const instance = getDOMNode(<InputPicker data={[]} className="custom" defaultOpen />);
-    assert.include(instance.className, 'custom');
+
+    expect(instance).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<InputPicker data={[]} style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
+    const instance = getDOMNode(<InputPicker data={[]} style={{ fontSize: 12 }} />);
+
+    expect(instance).to.have.style('font-size', '12px');
   });
 
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<InputPicker data={[]} classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+
+    expect(instance).to.have.class('rs-custom-prefix');
   });
 
   it('Should render a button by toggleAs={Button}', () => {
     const instance = getDOMNode(<InputPicker open data={data} toggleAs={Button} />);
 
-    assert.ok(instance.querySelector('.rs-btn'));
+    expect(instance.querySelector('.rs-btn')).to.exist;
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
@@ -355,8 +317,9 @@ describe('InputPicker', () => {
       <InputPicker defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
     );
     const list = instance.overlay.querySelectorAll('.rs-picker-select-menu-item');
-    assert.equal(list.length, 1);
-    assert.ok(list[0].textContent, 'Louisa');
+
+    expect(list).to.be.lengthOf(1);
+    expect(list[0]).to.text('Louisa');
   });
 
   it('Should call renderValue', () => {
@@ -366,51 +329,57 @@ describe('InputPicker', () => {
       <InputPicker data={[]} value="Test" renderValue={() => undefined} />
     );
 
-    assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+    expect(instance2.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
+    expect(instance3.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
 
-    assert.include(instance1.className, 'rs-picker-has-value');
-    assert.notInclude(instance2.className, 'rs-picker-has-value');
-    assert.notInclude(instance3.className, 'rs-picker-has-value');
+    expect(instance1).to.have.class('rs-picker-has-value');
+    expect(instance2).to.not.have.class('rs-picker-has-value');
+    expect(instance3).to.not.have.class('rs-picker-has-value');
   });
 
   it('Children should not be selected', () => {
     const data = [{ value: 1, label: 'A', children: [{ value: 2, label: 'B' }] }];
     const instance = getDOMNode(<InputPicker data={data} value={2} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
-    assert.notInclude(instance.className, 'rs-picker-has-value');
+
+    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
+    expect(instance).to.not.have.class('rs-picker-has-value');
   });
 
   it('Should set a tabindex for input', () => {
     const instance = getDOMNode(<InputPicker data={[]} tabIndex={10} />);
-    assert.equal(instance.querySelector('.rs-picker-search-input').getAttribute('tabindex'), '10');
+
+    expect(instance.querySelector('.rs-picker-search-input')).to.have.attribute('tabindex', '10');
   });
 
-  it('Should call `onCreate` callback with correct value', done => {
-    const doneOp = value => {
-      try {
-        assert.equal(value, 'abc');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-
+  it('Should call `onCreate` callback with correct value', () => {
     const inputRef = React.createRef();
 
-    render(<InputPicker ref={inputRef} defaultOpen data={data} onCreate={doneOp} creatable />);
+    const onCreateSpy = sinon.spy();
+    render(<InputPicker ref={inputRef} defaultOpen data={data} onCreate={onCreateSpy} creatable />);
 
-    ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.focus(inputRef.current.root);
-      const input = inputRef.current.root.querySelector('.rs-picker-search-input');
-      input.value = 'abc';
-      ReactTestUtils.Simulate.change(input);
-    });
+    fireEvent.focus(inputRef.current.root);
 
-    ReactTestUtils.act(() => {
-      const input = inputRef.current.root.querySelector('.rs-picker-search-input');
-      ReactTestUtils.Simulate.keyDown(input, { key: 'Enter' });
+    const input = inputRef.current.root.querySelector('.rs-picker-search-input');
+
+    fireEvent.change(input, { target: { value: 'abc' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(onCreateSpy).to.calledOnce;
+    expect(onCreateSpy).to.calledWith('abc');
+  });
+
+  describe('ref testing', () => {
+    it('Should get public objects and methods', () => {
+      const instance = getInstance(<InputPicker data={data} open virtualized />);
+
+      expect(instance.root).to.exist;
+      expect(instance.target).to.exist;
+      expect(instance.updatePosition).to.instanceOf(Function);
+      expect(instance.open).to.instanceOf(Function);
+      expect(instance.close).to.instanceOf(Function);
+
+      expect(instance.overlay).to.exist;
+      expect(instance.list).to.exist;
     });
   });
 });

@@ -1,8 +1,6 @@
 import React from 'react';
-import { render, getByTestId, screen, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
+import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
+import { Simulate } from 'react-dom/test-utils';
 import { testStandardProps } from '@test/commonCases';
 import Nav from '../Nav';
 import Navbar from '../../Navbar';
@@ -12,43 +10,49 @@ describe('<Nav.Item>', () => {
   testStandardProps(<Nav.Item />, { renderOptions: { wrapper: Nav } });
 
   it('Should render a <a>', () => {
-    let title = 'Test';
-    const { getByTestId } = render(<Nav.Item data-testid="item">{title}</Nav.Item>, {
+    const { getByTestId } = render(<Nav.Item data-testid="item">Test</Nav.Item>, {
       wrapper: Nav
     });
 
     const instance = getByTestId('item');
 
-    assert.equal(instance.tagName, 'A');
-    assert.equal(instance.textContent, title);
+    expect(instance.tagName).to.equal('A');
+    expect(instance).to.text('Test');
   });
 
-  it('Should call onSelect callback with correct eventKey', () => {
+  it('Should call onSelect callback with correct eventKey', async () => {
     const onSelect = sinon.spy();
-    const eventKey = 'Test';
 
     const { getByTestId } = render(
-      <Nav.Item onSelect={onSelect} eventKey={eventKey} data-testid="item" />,
+      <Nav.Item onSelect={onSelect} eventKey={'Test'} data-testid="item" />,
       {
         wrapper: Nav
       }
     );
 
-    userEvent.click(getByTestId('item'));
+    act(() => {
+      fireEvent.click(getByTestId('item'));
+    });
 
-    expect(onSelect).to.have.been.calledWith(eventKey);
+    await waitFor(() => {
+      expect(onSelect).to.have.been.calledWith('Test');
+    });
   });
 
-  it('Should call onClick callback', () => {
+  it('Should call onClick callback', async () => {
     const onClick = sinon.spy();
 
     const { getByTestId } = render(<Nav.Item onClick={onClick} data-testid="item" />, {
       wrapper: Nav
     });
 
-    userEvent.click(getByTestId('item'));
+    act(() => {
+      fireEvent.click(getByTestId('item'));
+    });
 
-    expect(onClick).to.have.been.called;
+    await waitFor(() => {
+      expect(onClick).to.have.been.called;
+    });
   });
 
   it('Should be active', () => {
@@ -113,41 +117,46 @@ describe('<Nav.Item>', () => {
 
       expect(getByText('Item')).to.exist;
     });
+
     it('Should render a separator', () => {
-      let instance = getDOMNode(
+      const { getByTestId } = render(
         <Sidenav>
           <Nav>
             <Nav.Item divider data-testid="nav-item" />
           </Nav>
         </Sidenav>
       );
-      assert.include(getByTestId(instance, 'nav-item').className, 'rs-sidenav-item-divider');
+
+      expect(getByTestId('nav-item').className).to.include('rs-sidenav-item-divider');
     });
 
     it('Should render a panel', () => {
-      let instance = getDOMNode(
+      const { getByTestId } = render(
         <Sidenav>
           <Nav>
             <Nav.Item panel data-testid="nav-item" />
           </Nav>
         </Sidenav>
       );
-      assert.include(getByTestId(instance, 'nav-item').className, 'rs-sidenav-item-panel');
+
+      expect(getByTestId('nav-item').className).to.include('rs-sidenav-item-panel');
     });
 
     it('Should render a tooltip when used inside a collapsed <Sidenav>', async () => {
+      const onMouseOverSpy = sinon.spy();
       const { getByTestId } = render(
         <Sidenav expanded={false}>
-          <Nav>
+          <Nav onMouseOver={onMouseOverSpy}>
             <Nav.Item data-testid="nav-item">item</Nav.Item>
           </Nav>
         </Sidenav>
       );
 
-      ReactTestUtils.act(() => {
-        ReactTestUtils.Simulate.mouseOver(getByTestId('nav-item'));
+      act(() => {
+        Simulate.mouseOver(getByTestId('nav-item'));
       });
 
+      expect(onMouseOverSpy).to.have.been.called;
       expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;
     });
   });

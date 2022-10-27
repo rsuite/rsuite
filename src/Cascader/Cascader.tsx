@@ -29,10 +29,10 @@ import {
   useFocusItemValue,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
-  OverlayTriggerInstance,
+  OverlayTriggerHandle,
   PositionChildProps,
   listPickerPropTypes,
-  PickerInstance
+  PickerHandle
 } from '../Picker';
 
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
@@ -96,7 +96,7 @@ export interface CascaderProps<T = ValueType>
 export interface CascaderComponent {
   <T>(
     props: CascaderProps<T> & {
-      ref?: React.Ref<PickerInstance>;
+      ref?: React.Ref<PickerHandle>;
     }
   ): JSX.Element | null;
   displayName?: string;
@@ -153,7 +153,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
   const [active, setActive] = useState(false);
   const [flattenData, setFlattenData] = useState<ItemDataType<T>[]>(flattenTree(data, childrenKey));
 
-  const triggerRef = useRef<OverlayTriggerInstance>(null);
+  const triggerRef = useRef<OverlayTriggerHandle>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLButtonElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);

@@ -236,7 +236,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
               <span className={prefix('label')}>{label}</span>
             </Stack.Item>
           )}
-          <Stack.Item grow={1}>
+          <Stack.Item grow={1} style={{ overflow: 'hidden' }}>
             {loading ? (
               <Loader style={{ display: 'block', padding: '1px 0' }} data-testid="spinner" />
             ) : (

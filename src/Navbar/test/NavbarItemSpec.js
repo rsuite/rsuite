@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 import NavbarItem from '../NavbarItem';
 import Navbar from '../Navbar';
@@ -52,7 +52,7 @@ describe('<NavbarItem> - <Nav.Item> inside <Navbar>', () => {
       }
     );
 
-    userEvent.click(getByTestId('navbar-item'));
+    fireEvent.click(getByTestId('navbar-item'));
     expect(onSelectSpy).to.have.been.calledWith(eventKey);
   });
 

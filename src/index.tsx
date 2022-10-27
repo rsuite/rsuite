@@ -291,3 +291,5 @@ export type {
   BreadcrumbLocale,
   ToggleLocale
 } from './locales';
+
+export type { PickerHandle } from './Picker';

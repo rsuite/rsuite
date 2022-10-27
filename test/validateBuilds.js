@@ -27,7 +27,8 @@ const unstyledComponents = [
   'Tree',
   'Col',
   'TagGroup',
-  'MaskedInput'
+  'MaskedInput',
+  'Windowing'
 ];
 
 const styledComponents = components.filter(i => !unstyledComponents.includes(i));

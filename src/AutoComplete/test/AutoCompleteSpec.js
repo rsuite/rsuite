@@ -1,153 +1,136 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
 import AutoComplete from '../AutoComplete';
 import { getDOMNode, getInstance } from '@test/testUtils';
+import { render, fireEvent } from '@testing-library/react';
 
 describe('AutoComplete', () => {
   it('Should render input', () => {
     const instance = getDOMNode(<AutoComplete />);
-    assert.ok(instance.querySelector('input'));
+
+    expect(instance.querySelector('input')).to.exist;
   });
 
   it('Should render 2 `option` when set `open` and `defaultValue`', () => {
     const instance = getInstance(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" />);
-    assert.equal(instance.overlay.querySelectorAll('[role="option"]').length, 2);
+    expect(instance.overlay.querySelectorAll('[role="option"]')).to.length(2);
   });
 
   it('Should be a `top-end` for placement', () => {
     const instance = getInstance(<AutoComplete open placement="topEnd" />);
-    const classes = instance.overlay.className;
-    assert.include(classes, 'placement-top-end');
+    expect(instance.overlay.className).to.contain('placement-top-end');
   });
 
   it('Should be disabled', () => {
     const instance = getDOMNode(<AutoComplete disabled />);
-    assert.include(instance.className, 'rs-auto-complete-disabled');
+    expect(instance).to.have.class('rs-auto-complete-disabled');
   });
 
-  it('Should call onSelect callback with correct args', done => {
-    const doneOp = (value, item) => {
-      try {
-        assert.equal(value, 'a');
-        assert.equal(item.value, 'a');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onSelect callback with correct args', () => {
+    const onSelectSpy = sinon.spy();
     const instance = getInstance(
-      <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={doneOp} />
+      <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={onSelectSpy} />
     );
-    ReactTestUtils.Simulate.click(instance.overlay.querySelectorAll('.rs-auto-complete-item')[0]);
+    fireEvent.click(instance.overlay.querySelectorAll('.rs-auto-complete-item')[0]);
+
+    expect(onSelectSpy).to.be.calledOnce;
+    expect(onSelectSpy).to.be.calledWith('a', { value: 'a', label: 'a' });
   });
 
-  it('Should call onChange callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<AutoComplete onChange={doneOp} />);
+  it('Should call onChange callback', () => {
+    const onChangeSpy = sinon.spy();
+
+    const instance = getDOMNode(<AutoComplete onChange={onChangeSpy} />);
     const input = instance.querySelector('input');
 
-    input.value = 'a';
-
-    ReactTestUtils.Simulate.change(input);
+    fireEvent.change(input, { target: { value: 'a' } });
+    expect(onChangeSpy).to.be.calledOnce;
+    expect(onChangeSpy).to.be.calledWith('a');
   });
 
-  it('Should call onFocus callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<AutoComplete onFocus={doneOp} />);
+  it('Should call onFocus callback', () => {
+    const onFocusSpy = sinon.spy();
+    const instance = getDOMNode(<AutoComplete onFocus={onFocusSpy} />);
     const input = instance.querySelector('input');
-    ReactTestUtils.Simulate.focus(input);
+    fireEvent.focus(input);
+    expect(onFocusSpy).to.be.calledOnce;
   });
 
-  it('Should call onBlur callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<AutoComplete onBlur={doneOp} />);
+  it('Should call onBlur callback', () => {
+    const onBlurSpy = sinon.spy();
+
+    const instance = getDOMNode(<AutoComplete onBlur={onBlurSpy} />);
     const input = instance.querySelector('input');
-    ReactTestUtils.Simulate.blur(input);
+    fireEvent.blur(input);
+    expect(onBlurSpy).to.be.calledOnce;
   });
 
-  it('Should call onKeyDown callback on input', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<AutoComplete onKeyDown={doneOp} data={['a', 'b', 'ab']} open />);
+  it('Should call onKeyDown callback on input', () => {
+    const onKeyDownSpy = sinon.spy();
+
+    const instance = getDOMNode(
+      <AutoComplete onKeyDown={onKeyDownSpy} data={['a', 'b', 'ab']} open />
+    );
     const input = instance.querySelector('input');
-    ReactTestUtils.Simulate.keyDown(input);
+    fireEvent.keyDown(input);
+    expect(onKeyDownSpy).to.be.calledOnce;
   });
 
-  it('Should call onKeyDown callback on menu', done => {
-    const doneOp = () => {
-      done();
-    };
-
+  it('Should call onKeyDown callback on menu', () => {
+    const onKeyDownSpy = sinon.spy();
     const instance = getInstance(
-      <AutoComplete defaultValue="a" onKeyDown={doneOp} data={['a', 'b']} open />
+      <AutoComplete defaultValue="a" onKeyDown={onKeyDownSpy} data={['a', 'b']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay);
+    fireEvent.keyDown(instance.overlay);
+
+    expect(onKeyDownSpy).to.be.calledOnce;
   });
 
-  it('Should call onMenuFocus callback when key=ArrowDown', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onMenuFocus callback when key=ArrowDown', () => {
+    const onMenuFocusSpy = sinon.spy();
 
     const instance = getInstance(
-      <AutoComplete defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
+      <AutoComplete defaultValue="a" onMenuFocus={onMenuFocusSpy} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay, {
+    fireEvent.keyDown(instance.overlay, {
       key: 'ArrowDown'
     });
+
+    expect(onMenuFocusSpy).to.be.calledOnce;
   });
 
-  it('Should call onMenuFocus callback when key=ArrowUp', done => {
-    let i = 0;
-    const doneOp = () => {
-      i++;
-      if (i === 2) {
-        done();
-      }
-    };
-
+  it('Should call onMenuFocus callback when key=ArrowUp', () => {
+    const onMenuFocusSpy = sinon.spy();
     const instance = getInstance(
-      <AutoComplete defaultValue="a" onMenuFocus={doneOp} data={['a', 'ab', 'ac']} open />
+      <AutoComplete defaultValue="a" onMenuFocus={onMenuFocusSpy} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowDown' });
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowUp' });
+    fireEvent.keyDown(instance.overlay, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.overlay, { key: 'ArrowUp' });
+
+    expect(onMenuFocusSpy).to.be.calledTwice;
   });
 
-  it('Should call onChange callback when key=Enter', done => {
-    const doneOp = () => {
-      done();
-    };
-
+  it('Should call onChange callback when key=Enter', () => {
+    const onChangeSpy = sinon.spy();
     const instance = getInstance(
-      <AutoComplete defaultValue="a" onChange={doneOp} data={['a', 'ab', 'ac']} open />
+      <AutoComplete defaultValue="a" onChange={onChangeSpy} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowDown' });
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Enter' });
+
+    fireEvent.keyDown(instance.overlay, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.overlay, { key: 'Enter' });
+    expect(onChangeSpy).to.be.calledOnce;
   });
 
-  it('Should call onSelect callback with selected item when key=Enter', done => {
-    const doneOp = value => {
-      try {
-        assert.equal(value, 'ab');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onSelect callback with selected item when key=Enter', () => {
+    const onSelectSpy = sinon.spy();
 
     const instance = getInstance(
-      <AutoComplete defaultValue="a" onSelect={doneOp} data={['a', 'ab', 'ac']} open />
+      <AutoComplete defaultValue="a" onSelect={onSelectSpy} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowDown' });
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Enter' });
+    fireEvent.keyDown(instance.overlay, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.overlay, { key: 'Enter' });
+
+    expect(onSelectSpy).to.be.calledOnce;
+    expect(onSelectSpy).to.be.calledWith('ab', { value: 'ab', label: 'ab' });
   });
 
   it('Shouldn‘t call onSelect nor onChange callback on Enter pressed if selectOnEnter=false', () => {
@@ -163,30 +146,27 @@ describe('AutoComplete', () => {
         open
       />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowDown' });
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'ArrowUp' });
+    fireEvent.keyDown(instance.overlay, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.overlay, { key: 'ArrowUp' });
 
-    assert.ok(!onSelectSpy.calledOnce);
+    expect(onSelectSpy).to.be.not.called;
   });
 
-  it('Should call onClose callback when key=Escape', done => {
-    const doneOp = () => {
-      done();
-    };
-
+  it('Should call onClose callback when key=Escape', () => {
+    const onCloseSpy = sinon.spy();
     const instance = getInstance(
-      <AutoComplete defaultValue="a" onClose={doneOp} data={['a', 'ab', 'ac']} open />
+      <AutoComplete defaultValue="a" onClose={onCloseSpy} data={['a', 'ab', 'ac']} open />
     );
-    ReactTestUtils.Simulate.keyDown(instance.overlay, { key: 'Escape' });
+    fireEvent.keyDown(instance.overlay, { key: 'Escape' });
+    expect(onCloseSpy).to.be.calledOnce;
   });
 
-  it('Should call onBlur callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<AutoComplete data={['a', 'b', 'ab']} onBlur={doneOp} />);
+  it('Should call onBlur callback', () => {
+    const onBlurSpy = sinon.spy();
+    const instance = getDOMNode(<AutoComplete data={['a', 'b', 'ab']} onBlur={onBlurSpy} />);
     const input = instance.querySelector('input');
-    ReactTestUtils.Simulate.blur(input);
+    fireEvent.blur(input);
+    expect(onBlurSpy).to.be.calledOnce;
   });
 
   it('Should render a icon in li', () => {
@@ -199,7 +179,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(instance.overlay.querySelectorAll('.rs-auto-complete-item .icon').length, 2);
+    expect(instance.overlay.querySelectorAll('.rs-auto-complete-item .icon')).to.length(2);
   });
 
   it('Should have a custom className', () => {
@@ -211,18 +191,19 @@ describe('AutoComplete', () => {
     const instance = getInstance(
       <AutoComplete menuClassName="custom" data={['a', 'b', 'ab']} open />
     );
-    assert.include(instance.overlay.querySelector('[role="listbox"]').className, 'custom');
+
+    expect(instance.overlay.querySelector('[role="listbox"]').className).to.include('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = getDOMNode(<AutoComplete style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
+    expect(instance.style.fontSize).to.equal(fontSize);
   });
 
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<AutoComplete classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    expect(instance.className).to.include('custom-prefix');
   });
 
   it('Should have a custom filter function', () => {
@@ -230,13 +211,13 @@ describe('AutoComplete', () => {
       <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => true} />
     );
 
-    assert.equal(instance1.overlay.querySelectorAll('[role="option"]').length, 3);
+    expect(instance1.overlay.querySelectorAll('[role="option"]')).to.length(3);
 
     const instance2 = getInstance(
       <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => false} />
     );
 
-    assert.equal(instance2.overlay.querySelectorAll('[role="option"]').length, 0);
+    expect(instance2.overlay.querySelectorAll('[role="option"]')).to.length(0);
 
     const instance3 = getInstance(
       <AutoComplete
@@ -248,7 +229,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(instance3.overlay.querySelectorAll('[role="option"]').length, 3);
+    expect(instance3.overlay.querySelectorAll('[role="option"]')).to.length(3);
 
     const instance4 = getInstance(
       <AutoComplete
@@ -259,7 +240,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    assert.equal(instance4.overlay.querySelectorAll('[role="option"]').length, 1);
+    expect(instance4.overlay.querySelectorAll('[role="option"]')).to.length(1);
   });
 
   it('Should set minimum width for listbox', () => {

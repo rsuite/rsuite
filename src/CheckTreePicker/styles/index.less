@@ -14,15 +14,6 @@
 
   &.rs-check-tree-virtualized {
     overflow: hidden;
-
-    /* stylelint-disable-next-line */ // **This class name provide by Virtualized.
-    .ReactVirtualized__Grid.ReactVirtualized__List {
-      padding: 0 @picker-menu-padding @picker-menu-padding 0;
-
-      &:focus {
-        outline: none;
-      }
-    }
   }
 
   .rs-check-item .rs-checkbox-checker {
@@ -178,10 +169,6 @@
   .rs-check-tree {
     padding: 0 @picker-menu-padding @picker-menu-padding 0;
 
-    &.rs-check-tree-virtualized {
-      padding: 0;
-    }
-
     &-node > .rs-check-tree-node-label .rs-check-tree-node-text-wrapper {
       .ellipsis();
 
@@ -196,18 +183,6 @@
 [dir='rtl'] .rs-check-tree-node-expand-icon-wrapper {
   right: 0;
   padding-right: inherit;
-}
-
-/* stylelint-disable-next-line */
-.rs-check-tree {
-  /* stylelint-disable-next-line */
-  &-node > &-node-label .rs-check-item .rs-checkbox-checker > label::before {
-    /* stylelint-disable-next-line */
-    [dir='rtl'] .ReactVirtualized__Grid__innerScrollContainer & {
-      padding-right: inherit;
-      right: 46px;
-    }
-  }
 }
 
 /* rtl:end:ignore */

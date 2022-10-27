@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, act, fireEvent, waitFor } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Whisper from '../Whisper';
@@ -13,7 +12,8 @@ describe('Whisper', () => {
         <button type="button">button</button>
       </Whisper>
     );
-    assert.equal(instance.nodeName, 'BUTTON');
+
+    expect(instance.nodeName).to.equal('BUTTON');
   });
 
   it('Should maintain overlay classname when trigger click', () => {
@@ -22,8 +22,9 @@ describe('Whisper', () => {
         <button>button</button>
       </Whisper>
     );
-    ReactTestUtils.Simulate.click(whisper);
-    assert.equal(document.getElementsByClassName('test-whisper').length, 1);
+    fireEvent.click(whisper);
+
+    expect(document.getElementsByClassName('test-whisper')).to.length(1);
   });
 
   it('Should maintain overlay classname when trigger focus', () => {
@@ -33,8 +34,8 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    ReactTestUtils.Simulate.focus(whisper);
-    assert.equal(document.getElementsByClassName('test-whisper').length, 1);
+    fireEvent.focus(whisper);
+    expect(document.getElementsByClassName('test-whisper')).to.length(1);
   });
 
   it('Should call onClick callback', done => {
@@ -48,7 +49,7 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    ReactTestUtils.Simulate.click(whisper);
+    fireEvent.click(whisper);
   });
 
   it('Should call onOpen callback', done => {
@@ -62,7 +63,7 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    ReactTestUtils.Simulate.click(whisper);
+    fireEvent.click(whisper);
   });
 
   it('Should call onOpen callback by open()', done => {
@@ -89,7 +90,7 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    ReactTestUtils.Simulate.click(whisper);
+    fireEvent.click(whisper);
   });
 
   it('Should call onEntered callback', done => {
@@ -103,7 +104,7 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    ReactTestUtils.Simulate.click(whisper);
+    fireEvent.click(whisper);
   });
 
   it('Should call onClose callback', done => {
@@ -117,8 +118,8 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    ReactTestUtils.Simulate.click(whisper);
-    ReactTestUtils.Simulate.click(whisper);
+    fireEvent.click(whisper);
+    fireEvent.click(whisper);
   });
 
   it('Should call onExited callback', done => {
@@ -132,49 +133,56 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    ReactTestUtils.Simulate.click(whisper);
-    ReactTestUtils.Simulate.click(whisper);
+    fireEvent.click(whisper);
+    fireEvent.click(whisper);
   });
 
-  it('Should pass transition callbacks to Transition', done => {
-    let count = 0;
-    const increment = () => {
-      count += 1;
-    };
+  it('Should pass transition callbacks to Transition', async () => {
+    const onExitSpy = sinon.spy();
+    const onExitingSpy = sinon.spy();
+    const onExitedSpy = sinon.spy();
+    const onEnterSpy = sinon.spy();
+    const onEnteringSpy = sinon.spy();
+    const onEnteredSpy = sinon.spy();
 
-    const whisper = getDOMNode(
+    const { getByTestId } = render(
       <Whisper
         trigger="click"
         speaker={<Tooltip>test</Tooltip>}
-        onExit={increment}
-        onExiting={increment}
-        onExited={() => {
-          increment();
-          if (count === 6) {
-            done();
-          }
-        }}
-        onEnter={increment}
-        onEntering={increment}
-        onEntered={() => {
-          increment();
-          ReactTestUtils.Simulate.click(whisper);
-        }}
+        onExit={onExitSpy}
+        onExiting={onExitingSpy}
+        onExited={onExitedSpy}
+        onEnter={onEnterSpy}
+        onEntering={onEnteringSpy}
+        onEntered={onEnteredSpy}
       >
-        <button>button</button>
+        <button data-testid="btn">button</button>
       </Whisper>
     );
 
-    ReactTestUtils.Simulate.click(whisper);
+    act(() => {
+      fireEvent.click(getByTestId('btn'));
+    });
+
+    await waitFor(() => {
+      expect(onEnterSpy).to.called;
+      expect(onEnteringSpy).to.called;
+      expect(onEnteredSpy).to.called;
+    });
+
+    act(() => {
+      fireEvent.click(getByTestId('btn'));
+    });
+
+    await waitFor(() => {
+      expect(onExitSpy).to.called;
+      expect(onExitingSpy).to.called;
+      expect(onExitedSpy).to.called;
+    });
   });
 
-  it('Should Overlay be closed, after call onClose', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should Overlay be closed, after call onClose', async () => {
     const ref = React.createRef();
-    const btnRef = React.createRef();
-    // eslint-disable-next-line react/prop-types
     const Overlay = React.forwardRef(({ style, onClose, ...rest }, ref) => {
       return (
         <div {...rest} style={style} ref={ref}>
@@ -183,12 +191,12 @@ describe('Whisper', () => {
       );
     });
 
-    Overlay.displayName = 'Overlay';
+    const onExitedSpy = sinon.spy();
 
     render(
       <Whisper
         ref={ref}
-        onExited={doneOp}
+        onExited={onExitedSpy}
         trigger="click"
         speaker={(props, ref) => {
           const { className, left, top, onClose } = props;
@@ -197,15 +205,19 @@ describe('Whisper', () => {
           );
         }}
       >
-        <button ref={btnRef}>button</button>
+        <button>button</button>
       </Whisper>
     );
-    ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.click(ref.current.root);
+    act(() => {
+      fireEvent.click(ref.current.root);
     });
 
-    ReactTestUtils.act(() => {
-      ReactTestUtils.Simulate.click(ref.current.overlay.querySelector('button'));
+    act(() => {
+      fireEvent.click(ref.current.overlay.querySelector('button'));
+    });
+
+    await waitFor(() => {
+      expect(onExitedSpy).to.called;
     });
   });
 });

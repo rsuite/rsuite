@@ -29,15 +29,16 @@ import {
   useToggleKeyDownEvent,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
-  OverlayTriggerInstance,
+  OverlayTriggerHandle,
   PositionChildProps,
   listPickerPropTypes,
-  PickerInstance,
+  PickerHandle,
   PickerToggleProps
 } from '../Picker';
 
-import { ListProps } from '../Picker/VirtualizedList';
+import { ListProps } from '../Windowing';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
+import { ListHandle } from '../Windowing';
 
 export interface SelectProps<T> {
   /** Set group condition key in data */
@@ -53,8 +54,7 @@ export interface SelectProps<T> {
   virtualized?: boolean;
 
   /**
-   * List-related properties in `react-virtualized`
-   * https://github.com/bvaughn/react-virtualized/blob/master/docs/List.md#prop-types
+   * Virtualized List Props
    */
   listProps?: Partial<ListProps>;
 
@@ -124,7 +124,7 @@ const emptyArray = [];
 export interface SelectPickerComponent {
   <T>(
     props: SelectPickerProps<T> & {
-      ref?: Ref<PickerInstance>;
+      ref?: Ref<PickerHandle>;
     }
   ): JSX.Element | null;
   displayName?: string;
@@ -132,7 +132,7 @@ export interface SelectPickerComponent {
 }
 
 const SelectPicker = React.forwardRef(
-  <T extends number | string>(props: SelectPickerProps<T>, ref: React.Ref<PickerInstance>) => {
+  <T extends number | string>(props: SelectPickerProps<T>, ref: React.Ref<PickerHandle>) => {
     const {
       as: Component = 'div',
       appearance = 'default',
@@ -178,10 +178,11 @@ const SelectPicker = React.forwardRef(
       ...rest
     } = props;
 
-    const triggerRef = useRef<OverlayTriggerInstance>(null);
+    const triggerRef = useRef<OverlayTriggerHandle>(null);
     const targetRef = useRef<HTMLButtonElement>(null);
     const overlayRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLInputElement>(null);
+    const listRef = useRef<ListHandle>(null);
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled(valueProp, defaultValue) as [
       T | null | undefined,
@@ -315,7 +316,7 @@ const SelectPicker = React.forwardRef(
       onOpen?.();
     }, [onOpen, setFocusItemValue, value]);
 
-    usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
+    usePublicMethods(ref, { triggerRef, overlayRef, targetRef, listRef });
 
     // Find active `MenuItem` by `value`
     const activeItem = data.find(item => shallowEqual(item[valueKey], value));
@@ -359,6 +360,7 @@ const SelectPicker = React.forwardRef(
         <DropdownMenu
           id={id ? `${id}-listbox` : undefined}
           listProps={listProps}
+          listRef={listRef}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
           labelKey={labelKey}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+
 import userEvent from '@testing-library/user-event';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -45,11 +46,11 @@ describe('Toggle', () => {
       const { getByTestId, rerender } = render(
         <Toggle onChange={onChangeSpy} data-testid="toggle" />
       );
-      userEvent.click(getByTestId('toggle'));
+      fireEvent.click(getByTestId('toggle'));
       expect(onChangeSpy).to.have.been.calledWith(true);
 
       rerender(<Toggle defaultChecked onChange={onChangeSpy} data-testid="toggle" />);
-      userEvent.click(getByTestId('toggle'));
+      fireEvent.click(getByTestId('toggle'));
       expect(onChangeSpy).to.have.been.calledWith(false);
     });
 
@@ -59,7 +60,7 @@ describe('Toggle', () => {
       const { getByTestId, rerender } = render(
         <Toggle name="toggle" onChange={onChange} data-testid="toggle" />
       );
-      userEvent.click(getByTestId('toggle'));
+      fireEvent.click(getByTestId('toggle'));
 
       let event = onChange.getCall(0).args[1];
       expect(event.target).to.have.property('name', 'toggle');
@@ -67,7 +68,7 @@ describe('Toggle', () => {
       expect(event.target).to.have.property('checked', true);
 
       rerender(<Toggle name="toggle" defaultChecked onChange={onChange} data-testid="toggle" />);
-      userEvent.click(getByTestId('toggle'));
+      fireEvent.click(getByTestId('toggle'));
 
       event = onChange.getCall(1).args[1];
       expect(event.target).to.have.property('name', 'toggle');
@@ -75,20 +76,27 @@ describe('Toggle', () => {
       expect(event.target).to.have.property('checked', false);
     });
 
-    it('Should toggle with the Space key', () => {
+    it('Should toggle with the Space key', async () => {
       const onChangeSpy = sinon.spy();
 
       const { getByRole, rerender } = render(
         <Toggle onChange={onChangeSpy} data-testid="toggle" />
       );
       getByRole('switch').focus();
-      userEvent.keyboard('{space}');
-      expect(onChangeSpy).to.have.been.calledWith(true);
+      userEvent.keyboard(' ');
+
+      await waitFor(() => {
+        expect(onChangeSpy).to.have.been.calledWith(true);
+      });
 
       rerender(<Toggle defaultChecked onChange={onChangeSpy} data-testid="toggle" />);
+
       getByRole('switch').focus();
-      userEvent.keyboard('{space}');
-      expect(onChangeSpy).to.have.been.calledWith(false);
+      userEvent.keyboard(' ');
+
+      await waitFor(() => {
+        expect(onChangeSpy).to.have.been.calledWith(false);
+      });
     });
 
     it('Should not call `onChange` callback when disabled', () => {

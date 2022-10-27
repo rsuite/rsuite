@@ -33,7 +33,9 @@ const data = [
 describe('Tree styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
+
     render(<Tree virtualized={false} data={data} ref={instanceRef} />);
+
     const itemLabel = instanceRef.current.root.querySelector('.rs-tree .rs-tree-node-label');
     inChrome && assert.equal(getStyle(itemLabel, 'padding'), '0px 0px 0px 16px');
   });

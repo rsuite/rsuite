@@ -36,7 +36,7 @@ describe('CalendarContainer', () => {
         onSelect={onSelect}
       />
     );
-    fireEvent.click(getByRole('button', { name: '24 Dec 2021' }));
+    fireEvent.click(getByRole('gridcell', { name: '24 Dec 2021' }).firstChild);
 
     expect(onSelect).to.have.been.calledWith(new Date(2021, 11, 24));
   });

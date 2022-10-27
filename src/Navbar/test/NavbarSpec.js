@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Navbar from '../Navbar';
@@ -45,7 +44,7 @@ describe('Navbar', () => {
       expect(getByText('Company')).not.to.be.visible;
 
       // Clicking the button opens the disclosure
-      userEvent.click(getByText('About'));
+      fireEvent.click(getByText('About'));
       expect(getByText('Company')).to.be.visible;
     });
 
@@ -63,10 +62,10 @@ describe('Navbar', () => {
       );
 
       // Opens the disclosure
-      userEvent.click(getByText('Menu'));
+      fireEvent.click(getByText('Menu'));
 
       expect(getByText('Submenu item')).not.to.be.visible;
-      userEvent.hover(getByText('Submenu'));
+      fireEvent.mouseOver(getByText('Submenu'));
       expect(getByText('Submenu item')).to.be.visible;
     });
 
@@ -100,9 +99,9 @@ describe('Navbar', () => {
       );
 
       // Opens the disclosure
-      userEvent.click(getByText('About'));
+      fireEvent.click(getByText('About'));
 
-      userEvent.click(getByText('Company'));
+      fireEvent.click(getByText('Company'));
       expect(getByText('Company')).not.to.be.visible;
     });
 
@@ -120,11 +119,11 @@ describe('Navbar', () => {
       );
 
       // Opens the disclosure
-      userEvent.click(getByText('Menu'));
+      fireEvent.click(getByText('Menu'));
 
       expect(getByText('Submenu item')).not.to.be.visible;
-      userEvent.hover(getByText('Submenu'));
-      userEvent.click(getByText('Submenu item'));
+      fireEvent.mouseOver(getByText('Submenu'));
+      fireEvent.click(getByText('Submenu item'));
 
       expect(getByText('Submenu')).not.to.be.visible;
     });
@@ -160,9 +159,9 @@ describe('Navbar', () => {
       );
 
       // Opens the dropdown
-      userEvent.click(getByTestId('dropdown'));
+      fireEvent.click(getByTestId('dropdown'));
 
-      userEvent.click(getByTestId('dropdown-item'));
+      fireEvent.click(getByTestId('dropdown-item'));
       expect(onSelectSpy).to.have.been.calledWith('2-1', sinon.match.any);
     });
   });

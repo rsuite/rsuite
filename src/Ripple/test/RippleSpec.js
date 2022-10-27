@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, act } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import Ripple from '../Ripple';
 
@@ -21,7 +20,7 @@ describe('Ripple', () => {
       </div>
     );
 
-    ReactTestUtils.act(() => {
+    act(() => {
       const event = new Event('mousedown');
       ref.current.dispatchEvent(event);
     });

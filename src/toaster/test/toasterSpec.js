@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { screen, render } from '@testing-library/react';
+import { screen, render, waitFor } from '@testing-library/react';
 import toaster from '../toaster';
 
 const element = document.createElement('div');
@@ -10,78 +10,91 @@ afterEach(() => {
 });
 
 describe('toaster', () => {
-  it('Should push a message', () => {
-    toaster.push(<div id="msg-1">abc</div>, {
-      container: element
-    });
+  it('Should push a message', async () => {
+    toaster.push(<div data-testid="msg-1">abc</div>);
 
-    const message = element.querySelector('#msg-1');
-    assert.include(message.className, 'rs-toast-fade-entered');
-    assert.equal(message.textContent, 'abc');
+    await waitFor(() => {
+      const message = screen.queryByTestId('msg-1');
+      expect(message.className).to.include('rs-toast-fade-entered');
+      expect(message.textContent).to.equal('abc');
+    });
   });
 
-  it('Should render 2 containers', () => {
-    toaster.push(<div id="msg-1">topEnd</div>, {
+  it('Should render 2 containers', async () => {
+    toaster.push(<div>topEnd</div>, {
       container: element,
       placement: 'topEnd'
     });
-    toaster.push(<div id="msg-2">bottomEnd</div>, {
+
+    await waitFor(() => {
+      expect(element.querySelector('.rs-toast-container.rs-toast-container-top-end')).to.exist;
+    });
+
+    toaster.push(<div>bottomEnd</div>, {
       container: element,
       placement: 'bottomEnd'
     });
 
-    assert.ok(element.querySelector('.rs-toast-container.rs-toast-container-top-end'));
-    assert.ok(element.querySelector('.rs-toast-container.rs-toast-container-bottom-end'));
+    await waitFor(() => {
+      expect(element.querySelector('.rs-toast-container.rs-toast-container-bottom-end')).to.exist;
+    });
   });
 
-  it('Should remove a message', () => {
-    const clock = sinon.useFakeTimers();
+  it('Should remove a message', async () => {
+    const key = await toaster.push(<div data-testid="message">abc</div>, {
+      container: element
+    });
 
-    const key = toaster.push(
-      <div id="msg-2" data-testid="message">
-        abc
-      </div>,
-      {
-        container: element
-      }
-    );
-
-    const message = element.querySelector('#msg-2');
-    assert.include(message.className, 'rs-toast-fade-entered');
+    await waitFor(() => {
+      const message = screen.queryByTestId('message');
+      expect(message.className).to.contain('rs-toast-fade-entered');
+    });
 
     toaster.remove(key);
-    assert.include(element.querySelector('#msg-2').className, 'rs-toast-fade-exiting');
 
-    clock.tick(400);
-    expect(screen.queryByTestId('message')).not.to.exist;
+    await waitFor(() => {
+      expect(screen.queryByTestId('message').className).to.contain('rs-toast-fade-exiting');
+    });
+
+    await waitFor(
+      () => {
+        expect(screen.queryByTestId('message')).not.to.exist;
+      },
+      { timeout: 500 }
+    );
   });
 
-  it('Should clear all message', () => {
-    const clock = sinon.useFakeTimers();
-    toaster.push(
-      <div className="message" data-testid="message">
+  it('Should clear all message', async () => {
+    await toaster.push(
+      <div className="message" data-testid="message1">
         123
-      </div>,
-      {
-        container: element
-      }
+      </div>
     );
 
-    toaster.push(
-      <div className="message" data-testid="message">
+    await toaster.push(
+      <div className="message" data-testid="message2">
         456
-      </div>,
-      {
-        container: element
-      }
+      </div>
     );
 
-    assert.equal(element.querySelectorAll('.message').length, 2);
-    toaster.clear();
-    assert.equal(element.querySelectorAll('.message.rs-toast-fade-exiting').length, 2);
+    await waitFor(() => {
+      expect(screen.queryByTestId('message1')).to.exist;
+      expect(screen.queryByTestId('message2')).to.exist;
+    });
 
-    clock.tick(400);
-    expect(screen.queryByTestId('message')).not.to.exist;
+    toaster.clear();
+    await waitFor(() => {
+      expect(screen.queryByTestId('message1').className).to.contain('rs-toast-fade-exiting');
+      expect(screen.queryByTestId('message2').className).to.contain('rs-toast-fade-exiting');
+    });
+
+    await waitFor(
+      () => {
+        expect(screen.queryByTestId('message1')).not.to.exist;
+        expect(screen.queryByTestId('message2')).not.to.exist;
+      },
+      { timeout: 500 }
+    );
   });
 
   it('Should not throw errors when push() is called via useEffect', () => {

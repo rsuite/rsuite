@@ -1,3 +1,4 @@
+import React from 'react';
 import { Container, Content, Header } from 'rsuite';
 
 import yayJpg from '../assets/yay.jpg';

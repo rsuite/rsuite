@@ -160,7 +160,7 @@ function onMouseEventHandler(
   }
 }
 
-export interface OverlayTriggerInstance {
+export interface OverlayTriggerHandle {
   root: HTMLElement | undefined;
   updatePosition: () => void;
   open: (delay?: number) => void;
@@ -170,7 +170,7 @@ export interface OverlayTriggerInstance {
 const defaultTrigger = ['hover', 'focus'];
 
 const OverlayTrigger = React.forwardRef(
-  (props: OverlayTriggerProps, ref: React.Ref<OverlayTriggerInstance>) => {
+  (props: OverlayTriggerProps, ref: React.Ref<OverlayTriggerHandle>) => {
     const { overlayContainer } = useContext(OverlayContext);
     const {
       children,

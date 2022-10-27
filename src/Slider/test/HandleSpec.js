@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { fireEvent, act, waitFor } from '@testing-library/react';
 import { getDOMNode, render } from '@test/testUtils';
 import Handle from '../Handle';
 
@@ -8,32 +8,43 @@ describe('Slider - Handle', () => {
     const onDragStartSpy = sinon.spy();
     const instance = getDOMNode(<Handle onDragStart={onDragStartSpy} />);
 
-    ReactTestUtils.Simulate.mouseDown(instance);
+    fireEvent.mouseDown(instance);
 
-    assert.include(instance.className, 'active');
-    assert.ok(onDragStartSpy.calledOnce);
+    expect(instance.className).to.contain('active');
+    expect(onDragStartSpy).to.called;
   });
 
-  it('Should call `onDragMove` callback', done => {
-    const onDragMove = () => done();
+  it('Should call `onDragMove` callback', async () => {
+    const onDragMoveSpy = sinon.spy();
 
     const ref = React.createRef();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
 
-    render(<Handle ref={ref} onDragMove={onDragMove} />);
+    act(() => {
+      render(<Handle ref={ref} onDragMove={onDragMoveSpy} />);
+    });
 
-    ReactTestUtils.Simulate.mouseDown(ref.current);
-    ref.current.dispatchEvent(mousemoveEvent);
+    act(() => {
+      fireEvent.mouseDown(ref.current);
+    });
 
-    assert.include(ref.current.className, 'active');
+    act(() => {
+      ref.current.dispatchEvent(mousemoveEvent);
+    });
+
+    await waitFor(() => {
+      expect(ref.current.className).to.contain('active');
+      expect(onDragMoveSpy).to.called;
+    });
   });
 
   it('Should show tooltip', () => {
     const instance = getDOMNode(<Handle tooltip value={10} />);
 
-    assert.isEmpty(instance.querySelector('.rs-tooltip').style.left);
+    expect(instance.querySelector('.rs-tooltip').style.left).to.empty;
 
-    ReactTestUtils.Simulate.mouseEnter(instance);
-    assert.isNotEmpty(instance.querySelector('.rs-tooltip').style.left);
+    fireEvent.mouseEnter(instance);
+
+    expect(instance.querySelector('.rs-tooltip').style.left).to.not.empty;
   });
 });

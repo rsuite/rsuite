@@ -1,26 +1,30 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import PickerOverlay from '../PickerOverlay';
-import { getDOMNode } from '@test/testUtils';
 
 describe('PickerOverlay', () => {
   it('Should render a menu', () => {
-    const instance = getDOMNode(<PickerOverlay />);
-    assert.ok(instance.className.match(/\bpicker-menu\b/));
+    const { getByTestId } = render(<PickerOverlay data-testid="overlay" />);
+    expect(getByTestId('overlay').className).to.contain('picker-menu');
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<PickerOverlay className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
+    const { getByTestId } = render(<PickerOverlay data-testid="overlay" className="custom" />);
+    expect(getByTestId('overlay').className).to.contain('custom');
   });
 
   it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<PickerOverlay style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
+    const { getByTestId } = render(
+      <PickerOverlay data-testid="overlay" style={{ fontSize: 12 }} />
+    );
+
+    expect(getByTestId('overlay').style.fontSize).to.equal('12px');
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<PickerOverlay classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    const { getByTestId } = render(
+      <PickerOverlay data-testid="overlay" classPrefix="custom-prefix" />
+    );
+    expect(getByTestId('overlay').className).to.contain('custom-prefix');
   });
 });

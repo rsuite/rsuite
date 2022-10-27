@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import Calendar from '../Calendar';
 import {
   getDefaultPalette,
@@ -62,7 +62,10 @@ describe('Calendar styles', () => {
     const dom = getDOMNode(instanceRef.current);
 
     const dateTitleDom = dom.querySelector('.rs-calendar-header-title-date');
-    dateTitleDom.click();
+    act(() => {
+      dateTitleDom.click();
+    });
+
     const headerBackward = dom.querySelector('.rs-calendar-header-backward');
     const headerForward = dom.querySelector('.rs-calendar-header-backward');
     const monthDropDown = dom.querySelector('.rs-calendar-month-dropdown');

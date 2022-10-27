@@ -25,6 +25,7 @@ jobs:
     strategy:
       matrix:
         browser: [ChromeCi, Firefox]
+        react: ['React17', 'React18']
 
     steps:
       - uses: actions/checkout@v2
@@ -44,13 +45,24 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
+      
       - name: Install dependencies
-        run: npm ci
+        run: npm install
+
+      - name: install react 17
+        if: ${{ matrix.react == 'React17' }}
+        run: npm run install:react-17
+
+      - name: install react 18
+        if: ${{ matrix.react == 'React18' }}
+        run: npm run install:react-18
+
       - name: Run headless tests
         run: xvfb-run --auto-servernum npm test
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
+          
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:

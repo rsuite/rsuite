@@ -1,10 +1,10 @@
 import React from 'react';
 import { screen, render, act, fireEvent } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks/dom';
 import useToaster from '../useToaster';
 import CustomProvider from '../../CustomProvider';
 import Uploader from '../../Uploader';
 import zhCN from '../../locales/zh_CN';
+import { renderHook } from '@test/testUtils';
 
 afterEach(() => {
   sinon.restore();
@@ -12,65 +12,77 @@ afterEach(() => {
 
 describe('useToaster', () => {
   it('Should push a message', () => {
-    const toaster = renderHook(() => useToaster()).result.current;
+    const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
 
-    toaster.push(<div data-testid="msg-1">message</div>);
+    act(() => {
+      toaster.push(<div data-testid="msg-1">message</div>);
+    });
 
     const message = screen.queryByTestId('msg-1');
 
-    assert.include(message.className, 'rs-toast-fade-entered');
-    assert.equal(message.textContent, 'message');
+    expect(message.className).to.contain('rs-toast-fade-entered');
+    expect(message.textContent).to.equal('message');
   });
 
   it('Should render 2 containers', () => {
-    const toaster = renderHook(() => useToaster()).result.current;
+    const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
 
-    toaster.push(<div data-testid="msg-top-end">topEnd</div>, {
-      placement: 'topEnd'
-    });
-    toaster.push(<div data-testid="msg-bottom-end">bottomEnd</div>, {
-      placement: 'bottomEnd'
+    act(() => {
+      toaster.push(<div data-testid="msg-top-end">topEnd</div>, {
+        placement: 'topEnd'
+      });
+      toaster.push(<div data-testid="msg-bottom-end">bottomEnd</div>, {
+        placement: 'bottomEnd'
+      });
     });
 
-    assert.equal(
-      screen.queryByTestId('msg-top-end').parentNode.className,
+    expect(screen.queryByTestId('msg-top-end').parentNode.className).to.equal(
       'rs-toast-container rs-toast-container-top-end'
     );
-    assert.equal(
-      screen.queryByTestId('msg-bottom-end').parentNode.className,
+    expect(screen.queryByTestId('msg-bottom-end').parentNode.className).to.equal(
       'rs-toast-container rs-toast-container-bottom-end'
     );
   });
 
   it('Should remove a message', () => {
-    const toaster = renderHook(() => useToaster()).result.current;
+    const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
     const clock = sinon.useFakeTimers();
 
-    const key = toaster.push(<div data-testid="message">abc</div>);
+    let key;
+    act(() => {
+      key = toaster.push(<div data-testid="message">abc</div>);
+    });
 
     const message = screen.queryByTestId('message');
-    assert.include(message.className, 'rs-toast-fade-entered');
+    expect(message.className).to.contain('rs-toast-fade-entered');
 
-    toaster.remove(key);
-    assert.include(message.className, 'rs-toast-fade-exiting');
+    act(() => {
+      toaster.remove(key);
+      clock.tick(400);
+    });
 
-    clock.tick(400);
-    assert.notExists(screen.queryByTestId('message'));
+    expect(screen.queryByTestId('message')).not.to.exist;
   });
 
   it('Should clear all message', () => {
-    const toaster = renderHook(() => useToaster()).result.current;
+    const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
     const clock = sinon.useFakeTimers();
-    toaster.push(<div data-testid="msg-3">3</div>);
-    toaster.push(<div data-testid="msg-4">4</div>);
 
-    assert.exists(screen.queryByTestId('msg-3'));
-    assert.exists(screen.queryByTestId('msg-4'));
-    toaster.clear();
+    act(() => {
+      toaster.push(<div data-testid="msg-3">3</div>);
+      toaster.push(<div data-testid="msg-4">4</div>);
+    });
 
-    clock.tick(400);
-    assert.notExists(screen.queryByTestId('msg-3'));
-    assert.notExists(screen.queryByTestId('msg-4'));
+    expect(screen.queryByTestId('msg-3')).to.exist;
+    expect(screen.queryByTestId('msg-4')).to.exist;
+
+    act(() => {
+      toaster.clear();
+      clock.tick(400);
+    });
+
+    expect(screen.queryByTestId('msg-3')).to.not.exist;
+    expect(screen.queryByTestId('msg-4')).to.not.exist;
   });
 
   it('Should be localized on components rendered via toaster', () => {

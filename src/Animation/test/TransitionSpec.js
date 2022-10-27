@@ -1,6 +1,7 @@
 import React from 'react';
 import Transition from '../Transition';
 import { getDOMNode, getInstance } from '@test/testUtils';
+import { act, waitFor } from '@testing-library/react';
 
 describe('Animation', () => {
   it('Should output enteredClassName', () => {
@@ -9,7 +10,8 @@ describe('Animation', () => {
         <div>test</div>
       </Transition>
     );
-    assert.equal(instance.className, 'class-in');
+
+    expect(instance.className).to.equal('class-in');
   });
 
   it('Should outout enteredClassName by function children', () => {
@@ -18,17 +20,18 @@ describe('Animation', () => {
         {props => <div {...props}>test</div>}
       </Transition>
     );
-    assert.equal(instance.className, 'class-in');
+    expect(instance.className).to.equal('class-in');
   });
 
   it('Should outout exitedClassName by function children', () => {
     const instance = getDOMNode(
       <Transition exitedClassName="class-out">{props => <div {...props}>test</div>}</Transition>
     );
-    assert.equal(instance.className, 'class-out');
+    expect(instance.className).to.equal('class-out');
   });
 
-  it('Should be transitionAppear', done => {
+  it('Should be transitionAppear', async () => {
+    const onEnteredSpy = sinon.spy();
     const instance = getDOMNode(
       <Transition
         transitionAppear
@@ -36,33 +39,23 @@ describe('Animation', () => {
         timeout={100}
         exitedClassName="class-out"
         enteredClassName="class-in"
-        onEntered={() => {
-          try {
-            assert.equal(instance.className, 'class-in');
-            done();
-          } catch (err) {
-            done(err);
-          }
-        }}
+        onEntered={onEnteredSpy}
       >
         {props => <div {...props}>test</div>}
       </Transition>
     );
+
+    expect(onEnteredSpy).to.not.be.called;
+
+    await waitFor(() => {
+      assert.equal(instance.className, 'class-in');
+    });
   });
 
-  it('Should call onEnter/onEntering/onEntered callback', done => {
-    const actions = {};
-    const promises = [
-      new Promise(resolve => {
-        actions.onEnter = resolve;
-      }),
-      new Promise(resolve => {
-        actions.onEntering = resolve;
-      }),
-      new Promise(resolve => {
-        actions.onEntered = resolve;
-      })
-    ];
+  it('Should call onEnter/onEntering/onEntered callback', async () => {
+    const onEnterSpy = sinon.spy();
+    const onEnteringSpy = sinon.spy();
+    const onEnteredSpy = sinon.spy();
 
     getInstance(
       <Transition
@@ -71,52 +64,47 @@ describe('Animation', () => {
         timeout={100}
         exitedClassName="class-out"
         enteredClassName="class-in"
-        onEnter={actions.onEnter}
-        onEntering={actions.onEntering}
-        onEntered={actions.onEntered}
+        onEnter={onEnterSpy}
+        onEntering={onEnteringSpy}
+        onEntered={onEnteredSpy}
       >
         {props => <div {...props}>test</div>}
       </Transition>
     );
 
-    Promise.all(promises).then(() => {
-      done();
+    await waitFor(() => {
+      expect(onEnterSpy).to.be.called;
+      expect(onEnteringSpy).to.be.called;
+      expect(onEnteredSpy).to.be.called;
     });
   });
 
-  it('Should call onExit/onExiting/onExited callback', done => {
-    const ref = React.createRef();
-    const actions = {};
-    const promises = [
-      new Promise(resolve => {
-        actions.onExit = resolve;
-      }),
-      new Promise(resolve => {
-        actions.onExiting = resolve;
-      }),
-      new Promise(resolve => {
-        actions.onExited = resolve;
-      })
-    ];
+  it('Should call onExit/onExiting/onExited callback', async () => {
+    const onExitSpy = sinon.spy();
+    const onExitingSpy = sinon.spy();
+    const onExitedSpy = sinon.spy();
 
-    getInstance(
+    const instance = getInstance(
       <Transition
         timeout={100}
         exitedClassName="class-out"
         enteredClassName="class-in"
-        onExit={actions.onExit}
-        onExiting={actions.onExiting}
-        onExited={actions.onExited}
-        ref={ref}
+        onExit={onExitSpy}
+        onExiting={onExitingSpy}
+        onExited={onExitedSpy}
       >
         {props => <div {...props}>test</div>}
       </Transition>
     );
 
-    ref.current.performExit();
+    act(() => {
+      instance.performExit();
+    });
 
-    Promise.all(promises).then(() => {
-      done();
+    await waitFor(() => {
+      expect(onExitSpy).to.be.called;
+      expect(onExitingSpy).to.be.called;
+      expect(onExitedSpy).to.be.called;
     });
   });
 });

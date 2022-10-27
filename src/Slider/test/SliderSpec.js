@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, fireEvent } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Slider from '../Slider';
@@ -66,22 +65,22 @@ describe('Slider', () => {
     const input = instance.querySelector('input[type="range"]');
     assert.equal(input.value, '10');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowUp' });
+    fireEvent.keyDown(handle, { key: 'ArrowUp' });
     assert.equal(input.value, '11');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowRight' });
+    fireEvent.keyDown(handle, { key: 'ArrowRight' });
     assert.equal(input.value, '12');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowDown' });
+    fireEvent.keyDown(handle, { key: 'ArrowDown' });
     assert.equal(input.value, '11');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'ArrowLeft' });
+    fireEvent.keyDown(handle, { key: 'ArrowLeft' });
     assert.equal(input.value, '10');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'Home' });
+    fireEvent.keyDown(handle, { key: 'Home' });
     assert.equal(input.value, '0');
 
-    ReactTestUtils.Simulate.keyDown(handle, { key: 'End' });
+    fireEvent.keyDown(handle, { key: 'End' });
     assert.equal(input.value, '100');
   });
 
@@ -91,7 +90,7 @@ describe('Slider', () => {
     const instance = getDOMNode(<Slider onChangeCommitted={() => done()} />);
 
     const handle = instance.querySelector('.rs-slider-handle');
-    ReactTestUtils.Simulate.mouseDown(handle);
+    fireEvent.mouseDown(handle);
     handle.dispatchEvent(mousemoveEvent);
     handle.dispatchEvent(mouseupEvent);
 
@@ -100,7 +99,7 @@ describe('Slider', () => {
 
   it('Should call `onChange` callback', done => {
     const instance = getDOMNode(<Slider onChange={() => done()} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-slider-bar'));
+    fireEvent.click(instance.querySelector('.rs-slider-bar'));
   });
 
   it('Should output an `input` stored value', () => {

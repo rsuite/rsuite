@@ -1,8 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
-import _isNil from 'lodash/isNil';
-import _omit from 'lodash/omit';
+import { render, fireEvent, act, waitFor } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 
@@ -199,277 +196,121 @@ describe('Form', () => {
     });
   });
 
-  it('Should call onChange callback with correct form values', done => {
+  it('Should call onChange callback with correct form values', () => {
     const values = {
       name: 'abc'
     };
 
-    const doneOp = v => {
-      try {
-        assert.deepEqual(v, values);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+    const onChangeSpy = sinon.spy();
+
     const instance = getDOMNode(
-      <Form formDefaultValue={values} onChange={doneOp}>
+      <Form formDefaultValue={values} onChange={onChangeSpy}>
         <FormControl name="name" />
       </Form>
     );
-    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
-  });
-
-  it('Should clear error', done => {
-    const tip = 'This field is required.';
-    const curModel = Schema.Model({
-      name1: Schema.Types.StringType().isRequired(tip),
-      name2: Schema.Types.StringType().isRequired(tip),
-      name3: Schema.Types.StringType().isRequired(tip),
-      number: Schema.Types.StringType().isRequired(tip)
+    act(() => {
+      fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
     });
 
-    const formRef = React.createRef();
-    class Demo extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = {
-          formValue: {
-            name1: '',
-            name2: '',
-            name3: '',
-            number: '123'
-          },
-          formError: {}
-        };
-      }
-
-      handleChangeNum = () => {
-        this.setState(({ formValue, formError }) => ({
-          formValue: {
-            ...formValue,
-            name1: 'abc@qq.com',
-            name2: 'abc@qq.com',
-            name3: 'abc@qq.com'
-          },
-          formError: _omit(formError, ['name1', 'name2', 'name3'])
-        }));
-      };
-
-      result = true;
-      count = 0;
-      handleChange = formError =>
-        this.setState({ formError }, () => {
-          const { formValue, formError } = this.state;
-          switch (++this.count) {
-            case 1:
-              this.result =
-                this.result &&
-                formValue.name1 === '' &&
-                !_isNil(formError.name1) &&
-                formValue.name2 === '' &&
-                _isNil(formError.name2) &&
-                formValue.name3 === '' &&
-                _isNil(formError.name3);
-              break;
-            case 2:
-              this.result =
-                this.result &&
-                formValue.name1 === '' &&
-                !_isNil(formError.name1) &&
-                formValue.name2 === '' &&
-                !_isNil(formError.name2) &&
-                formValue.name3 === '' &&
-                _isNil(formError.name3);
-              break;
-            case 3:
-              this.result =
-                this.result &&
-                formValue.name1 === '' &&
-                !_isNil(formError.name1) &&
-                formValue.name2 === '' &&
-                !_isNil(formError.name2) &&
-                formValue.name3 === '' &&
-                !_isNil(formError.name3);
-              break;
-            case 4:
-              this.result =
-                this.result &&
-                formValue.name1 === 'abc@qq.com' &&
-                _isNil(formError.name1) &&
-                formValue.name2 === 'abc@qq.com' &&
-                _isNil(formError.name2) &&
-                formValue.name3 === 'abc@qq.com' &&
-                _isNil(formError.name3);
-              try {
-                assert.isTrue(this.result);
-                done();
-              } catch (err) {
-                done(err);
-              }
-          }
-        });
-
-      render() {
-        const { formValue, formError } = this.state;
-        return (
-          <Form
-            ref={formRef}
-            model={curModel}
-            formValue={formValue}
-            formError={formError}
-            onChange={formValue => this.setState({ formValue })}
-            onCheck={this.handleChange}
-          >
-            <FormControl name="name1" />
-            <FormControl name="name2" />
-            <FormControl name="name3" />
-            <FormControl name="number" onChange={this.handleChangeNum} />
-          </Form>
-        );
-      }
-    }
-
-    getInstance(<Demo />);
-
-    const element = formRef.current.root;
-    ReactTestUtils.Simulate.change(element.querySelector('input[name="name1"]'));
-    ReactTestUtils.Simulate.change(element.querySelector('input[name="name2"]'));
-    ReactTestUtils.Simulate.change(element.querySelector('input[name="name3"]'));
-    ReactTestUtils.Simulate.change(element.querySelector('input[name="number"]'));
+    expect(onChangeSpy).to.be.called;
+    expect(onChangeSpy).to.be.calledWith({ name: 'abcd' });
   });
 
-  it('Should call onError callback', done => {
+  it('Should call onError callback', () => {
     const values = {
       name: 'abc'
     };
-
-    const doneOp = v => {
-      try {
-        assert.equal(v.name, checkEmail);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+    const onErrorSpy = sinon.spy();
     const instance = getDOMNode(
-      <Form formDefaultValue={values} onError={doneOp} model={model}>
+      <Form formDefaultValue={values} onError={onErrorSpy} model={model}>
         <FormControl name="name" />
       </Form>
     );
-    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
+
+    fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
+
+    expect(onErrorSpy).to.be.called;
+    expect(onErrorSpy).to.be.calledWith({ name: checkEmail });
   });
 
-  it('Should not call onError callback', done => {
-    let isValid = true;
+  it('Should not call onError callback', () => {
     const values = {
       name: 'abc@ddd.com'
     };
 
-    const doneOp = () => {
-      isValid = false;
-    };
-
-    setTimeout(() => {
-      if (isValid) {
-        done();
-      }
-    }, 10);
-
+    const onErrorSpy = sinon.spy();
     const instance = getDOMNode(
-      <Form formDefaultValue={values} onError={doneOp} model={model}>
+      <Form formDefaultValue={values} onError={onErrorSpy} model={model}>
         <FormControl name="name" />
       </Form>
     );
-    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
+    fireEvent.change(instance.querySelector('input[name="name"]'), {
+      target: { value: 'abcd@ddd.com' }
+    });
+
+    expect(onErrorSpy).to.be.not.called;
   });
 
-  it('Should call onCheck callback', done => {
+  it('Should call onCheck callback', () => {
     const values = {
       name: 'abc'
     };
 
-    const doneOp = v => {
-      try {
-        assert.typeOf(v.name, 'undefined');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+    const onCheckSpy = sinon.spy();
     const instance = getDOMNode(
-      <Form formDefaultValue={values} onCheck={doneOp}>
+      <Form formDefaultValue={values} onCheck={onCheckSpy}>
         <FormControl name="name" />
       </Form>
     );
-    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
+    fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
+    expect(onCheckSpy).to.be.called;
+    expect(onCheckSpy).to.be.calledWith({});
   });
 
-  it('Should call onCheck callback when blur', done => {
+  it('Should call onCheck callback when blur', () => {
     const values = {
       name: 'abc'
     };
 
-    const doneOp = v => {
-      try {
-        assert.typeOf(v.name, 'undefined');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+    const onCheckSpy = sinon.spy();
     const instance = getDOMNode(
-      <Form formDefaultValue={values} onCheck={doneOp} checkTrigger="blur">
+      <Form formDefaultValue={values} onCheck={onCheckSpy} checkTrigger="blur">
         <FormControl name="name" />
       </Form>
     );
-    ReactTestUtils.Simulate.blur(instance.querySelector('input[name="name"]'));
+    fireEvent.blur(instance.querySelector('input[name="name"]'));
+
+    expect(onCheckSpy).to.be.called;
+    expect(onCheckSpy).to.be.calledWith({});
   });
 
-  it('Should not call onCheck callback when checkTrigger is null', done => {
-    let isValid = true;
+  it('Should not call onCheck callback when checkTrigger is null', () => {
     const values = {
       name: 'abc'
     };
 
-    const doneOp = () => {
-      isValid = false;
-    };
-
-    setTimeout(() => {
-      if (isValid) {
-        done();
-      }
-    }, 10);
-
+    const onCheckSpy = sinon.spy();
     const instance = getDOMNode(
-      <Form formDefaultValue={values} onCheck={doneOp} checkTrigger={null}>
+      <Form formDefaultValue={values} onCheck={onCheckSpy} checkTrigger={null}>
         <FormControl name="name" />
       </Form>
     );
-    ReactTestUtils.Simulate.blur(instance.querySelector('input[name="name"]'));
-    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
+    fireEvent.blur(instance.querySelector('input[name="name"]'));
+    fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
+
+    expect(onCheckSpy).to.be.not.called;
   });
 
-  it('Should call onCheck callback', done => {
+  it('Should call onCheck callback', () => {
     const values = {
       name: 'abc'
     };
 
-    const doneOp = v => {
-      try {
-        assert.deepEqual(v, {
-          email: 'email is null'
-        });
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+    const onCheckSpy = sinon.spy();
     const instance = getDOMNode(
       <Form
         formDefaultValue={values}
-        onCheck={doneOp}
+        onCheck={onCheckSpy}
         formError={{
           email: 'email is null'
         }}
@@ -477,33 +318,33 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
+    fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
+
+    expect(onCheckSpy).to.be.called;
+    expect(onCheckSpy).to.be.calledWith({ email: 'email is null' });
   });
 
-  /*** checkAsync */
-  it('Should call onError callback by checkAsync', done => {
+  it('Should call onError callback by checkAsync', async () => {
     const values = {
       name: 'abc'
     };
-    const doneOp = v => {
-      try {
-        assert.deepEqual(v, {
-          name: 'Duplicate name'
-        });
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+
+    const onErrorSpy = sinon.spy();
     const instance = getDOMNode(
-      <Form formDefaultValue={values} onError={doneOp} model={modelAsync}>
+      <Form formDefaultValue={values} onError={onErrorSpy} model={modelAsync}>
         <FormControl name="name" checkAsync />
       </Form>
     );
-    ReactTestUtils.Simulate.change(instance.querySelector('input[name="name"]'));
+
+    fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
+
+    await waitFor(() => {
+      expect(onErrorSpy).to.be.called;
+      expect(onErrorSpy).to.be.calledWith({ name: 'Duplicate name' });
+    });
   });
 
-  it('Check status should be fired on checkAsync ', done => {
+  it('Check status should be fired on checkAsync ', async () => {
     const values = {
       name: 'abc'
     };
@@ -512,17 +353,12 @@ describe('Form', () => {
         <FormControl name="name" checkAsync />
       </Form>
     );
-    instance.checkAsync().then(result => {
-      try {
-        assert.isTrue(result.hasError);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    });
+    const result = await instance.checkAsync();
+
+    expect(result.hasError).to.be.true;
   });
 
-  it('Check status should be fired on checkForFieldAsync', done => {
+  it('Check status should be fired on checkForFieldAsync', async () => {
     const values = {
       name: 'abc'
     };
@@ -531,17 +367,12 @@ describe('Form', () => {
         <FormControl name="name" checkAsync />
       </Form>
     );
-    instance.checkForFieldAsync('name').then(result => {
-      try {
-        assert.isTrue(result.hasError);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    });
+    const result = await instance.checkForFieldAsync('name');
+
+    expect(result.hasError).to.be.true;
   });
 
-  it('Should support complex inspections by onChange', done => {
+  it('Should support complex inspections by onChange', () => {
     const model = Schema.Model({
       items: Schema.Types.ArrayType().of(
         Schema.Types.ObjectType().shape({
@@ -551,7 +382,6 @@ describe('Form', () => {
       )
     });
 
-    // eslint-disable-next-line react/prop-types
     const Field = ({ onChange }) => {
       const handleChange = () => {
         onChange([{ field1: '', field2: '' }]);
@@ -563,34 +393,32 @@ describe('Form', () => {
       items: []
     };
 
-    const doneOp = error => {
-      const item = error.items.array[0].object;
-      try {
-        assert.isTrue(error.items.hasError);
-        assert.deepEqual(item, {
-          field1: {
-            hasError: true,
-            errorMessage: 'error1'
-          },
-          field2: {
-            hasError: true,
-            errorMessage: 'error2'
-          }
-        });
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+    const onErrorSpy = sinon.spy();
     const instance = getDOMNode(
-      <Form formDefaultValue={values} onError={doneOp} model={model}>
+      <Form formDefaultValue={values} onError={onErrorSpy} model={model}>
         <FormControl name="items" accepter={Field} />
       </Form>
     );
-    ReactTestUtils.Simulate.change(instance.querySelector('input[name="items"]'));
+    fireEvent.change(instance.querySelector('input[name="items"]'), { target: { value: 'abcd' } });
+
+    expect(onErrorSpy).to.be.called;
+    expect(onErrorSpy).to.be.calledWith({
+      items: {
+        hasError: true,
+        array: [
+          {
+            hasError: true,
+            object: {
+              field1: { hasError: true, errorMessage: 'error1' },
+              field2: { hasError: true, errorMessage: 'error2' }
+            }
+          }
+        ]
+      }
+    });
   });
 
-  it('Should support complex inspections by check method ', done => {
+  it('Should support complex inspections by check method ', () => {
     const model = Schema.Model({
       items: Schema.Types.ArrayType().of(
         Schema.Types.ObjectType().shape({
@@ -608,35 +436,33 @@ describe('Form', () => {
       items: [{ field1: '', field2: '' }]
     };
 
-    const doneOp = error => {
-      const item = error.items.array[0].object;
-      try {
-        assert.isTrue(error.items.hasError);
-        assert.deepEqual(item, {
-          field1: {
-            hasError: true,
-            errorMessage: 'error1'
-          },
-          field2: {
-            hasError: true,
-            errorMessage: 'error2'
-          }
-        });
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-
     const formRef = React.createRef();
+    const onErrorSpy = sinon.spy();
 
     render(
-      <Form formDefaultValue={values} onError={doneOp} model={model} ref={formRef}>
+      <Form formDefaultValue={values} onError={onErrorSpy} model={model} ref={formRef}>
         <FormControl name="items" accepter={Field} />
       </Form>
     );
-    ReactTestUtils.act(() => {
+
+    act(() => {
       formRef.current.check();
+    });
+
+    expect(onErrorSpy).to.be.called;
+    expect(onErrorSpy).to.be.calledWith({
+      items: {
+        hasError: true,
+        array: [
+          {
+            hasError: true,
+            object: {
+              field1: { hasError: true, errorMessage: 'error1' },
+              field2: { hasError: true, errorMessage: 'error2' }
+            }
+          }
+        ]
+      }
     });
   });
 });
