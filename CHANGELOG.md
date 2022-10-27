@@ -1,3 +1,13 @@
+# [5.21.0](https://github.com/rsuite/rsuite/compare/v5.20.0...v5.21.0) (2022-10-27)
+
+### Bug Fixes
+
+- **DateRangePicker:** fix end time will change with the start time ([#2841](https://github.com/rsuite/rsuite/issues/2841)) ([7fb38dd](https://github.com/rsuite/rsuite/commit/7fb38dd6aaf84e018d4f3e06882fb92dfa20e5bd))
+
+### Features
+
+- support React 18 ([#2595](https://github.com/rsuite/rsuite/issues/2595)) ([a071214](https://github.com/rsuite/rsuite/commit/a071214e4cffb2f9607887e776a52af42aed58cb)), closes [#2646](https://github.com/rsuite/rsuite/issues/2646) [#2661](https://github.com/rsuite/rsuite/issues/2661) [#2681](https://github.com/rsuite/rsuite/issues/2681) [#2776](https://github.com/rsuite/rsuite/issues/2776) [#2806](https://github.com/rsuite/rsuite/issues/2806) [#2826](https://github.com/rsuite/rsuite/issues/2826) [#2825](https://github.com/rsuite/rsuite/issues/2825)
+
 # [5.20.0](https://github.com/rsuite/rsuite/compare/v5.19.1...v5.20.0) (2022-10-21)
 
 ### Bug Fixes
