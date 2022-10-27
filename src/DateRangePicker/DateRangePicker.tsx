@@ -225,19 +225,14 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    * If params `value` is not passed, it defaults to [new Date(), addMonth(new Date(), 1)].
    */
   const updateCalendarDateRange = useCallback(
-    (value: SelectedDatesState | null, calendarKey?: 'start' | 'end') => {
-      let nextValue = value;
+    (selectedDate: SelectedDatesState | null, calendarKey?: 'start' | 'end') => {
+      let nextValue = selectedDate;
 
       const { shouldRenderTime, getHours, getMinutes, getSeconds, set } = DateUtils;
 
-      if (
-        shouldRenderTime(formatStr) &&
-        calendarKey === undefined &&
-        value?.length === 1 &&
-        defaultCalendarValue?.length === 2
-      ) {
-        const calendarEndDate = calendarDate?.[1] || defaultCalendarValue[1];
-        const startDate = value[0];
+      if (shouldRenderTime(formatStr) && calendarKey === undefined && selectedDate?.length === 1) {
+        const calendarEndDate = calendarDate?.[1] || defaultCalendarValue?.[1];
+        const startDate = selectedDate[0];
 
         // When updating the start date, the time of the end date should keep the time set by the user by default.
         const endDate = set(addMonths(startDate, 1), {
