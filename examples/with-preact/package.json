@@ -27,7 +27,7 @@
     "sirv-cli": "1.0.3"
   },
   "dependencies": {
-    "preact": "^10.3.2",
+    "preact": "^10.11.1",
     "preact-render-to-string": "^5.1.4",
     "preact-router": "^3.2.1",
     "rsuite": "^5.19.0"
