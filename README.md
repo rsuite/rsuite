@@ -59,11 +59,13 @@ yarn add rsuite
 
 Here's a simple example
 
-```js
+```jsx
 import { Button } from 'rsuite';
 import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
 
-ReactDOM.render(<Button>Button</Button>, mountNode);
+function App() {
+  return <Button appearance="primary">Hello World</Button>;
+}
 ```
 
 [**Live preview on CodeSandbox**][live-preview-on-codesandbox]
