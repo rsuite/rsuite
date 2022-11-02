@@ -30,10 +30,10 @@ describe('AvatarGroup', () => {
 
     const avatars = getByTestId('group').querySelectorAll('.rs-avatar');
 
-    assert.equal(avatars[0].style.marginRight, '10px');
-    assert.equal(avatars[1].style.marginRight, '10px');
-    assert.equal(avatars[2].style.marginRight, '10px');
-    assert.equal(avatars[3].style.marginRight, '10px');
+    assert.equal((avatars[0] as HTMLElement).style.marginRight, '10px');
+    assert.equal((avatars[1] as HTMLElement).style.marginRight, '10px');
+    assert.equal((avatars[2] as HTMLElement).style.marginRight, '10px');
+    assert.equal((avatars[3] as HTMLElement).style.marginRight, '10px');
   });
 
   it('Should be stack', () => {
