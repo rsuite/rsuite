@@ -86,7 +86,7 @@ The calendar panel can be displayed in ISO standard via the ʻisoWeek` property 
 
 <!--{include:`custom.md`}-->
 
-Clicking "The day before" in the example does not close the picker layer because the `closeOverlay:boolean` property is configured. This propperty is used to set whether to close the picker layer after clicking the shortcut item. The default value is `true`.
+Clicking "The day before" in the example does not close the picker layer because the `closeOverlay:boolean` property is configured. This property is used to set whether to close the picker layer after clicking the shortcut item. The default value is `true`.
 
 ### Controlled
 
