@@ -19,9 +19,12 @@ describe('useCalendarDate', () => {
   });
 
   it('Should update calendarDate when value is updated', () => {
-    const { result, rerender } = renderHook(({ initialValue }) => useCalendarDate(initialValue), {
-      initialProps: { initialValue: new Date('07/01/2021') }
-    });
+    const { result, rerender } = renderHook(
+      ({ initialValue }) => useCalendarDate(initialValue, new Date(2022, 10, 2)),
+      {
+        initialProps: { initialValue: new Date('07/01/2021') }
+      }
+    );
     expect(format(result.current.calendarDate, 'yyyy-MM-dd')).to.equal('2021-07-01');
 
     rerender({ initialValue: new Date('09/01/2021') });
@@ -30,7 +33,9 @@ describe('useCalendarDate', () => {
   });
 
   it('Should update calendarDate by `setCalendarDate`', () => {
-    const { result } = renderHook(() => useCalendarDate(new Date('07/01/2021')));
+    const { result } = renderHook(() =>
+      useCalendarDate(new Date('07/01/2021'), new Date(2022, 10, 2))
+    );
 
     expect(format(result.current.calendarDate, 'yyyy-MM-dd')).to.equal('2021-07-01');
 

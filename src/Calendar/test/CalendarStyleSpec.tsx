@@ -21,7 +21,7 @@ describe('Calendar styles', () => {
     render(<Calendar ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
 
-    const monthToolbarDom = dom.querySelector('.rs-calendar-header-month-toolbar');
+    const monthToolbarDom = dom.querySelector('.rs-calendar-header-month-toolbar') as HTMLElement;
     assert.equal(getStyle(monthToolbarDom, 'float'), 'left');
     assert.equal(getStyle(monthToolbarDom, 'display'), 'block');
     assert.equal(getStyle(monthToolbarDom, 'textAlign'), 'center');
@@ -32,7 +32,7 @@ describe('Calendar styles', () => {
     render(<Calendar ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
 
-    const todayButtonDom = dom.querySelector('.rs-calendar-btn-today');
+    const todayButtonDom = dom.querySelector('.rs-calendar-btn-today') as HTMLElement;
     assert.equal(getStyle(todayButtonDom, 'backgroundColor'), toRGB('#f7f7fa'));
     inChrome && assert.equal(getStyle(todayButtonDom, 'padding'), '5px 10px');
   });
@@ -44,7 +44,7 @@ describe('Calendar styles', () => {
 
     const selectedDom = dom.querySelector(
       '.rs-calendar-table-cell-selected .rs-calendar-table-cell-content'
-    );
+    ) as HTMLElement;
     const contentDom = selectedDom.children[0];
     inChrome &&
       assert.equal(
@@ -61,18 +61,20 @@ describe('Calendar styles', () => {
     render(<Calendar ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
 
-    const dateTitleDom = dom.querySelector('.rs-calendar-header-title-date');
+    const dateTitleDom = dom.querySelector('.rs-calendar-header-title-date') as HTMLElement;
     act(() => {
       dateTitleDom.click();
     });
 
-    const headerBackward = dom.querySelector('.rs-calendar-header-backward');
-    const headerForward = dom.querySelector('.rs-calendar-header-backward');
-    const monthDropDown = dom.querySelector('.rs-calendar-month-dropdown');
-    const yearActiveDom = dom.querySelector('.rs-calendar-month-dropdown-year-active');
+    const headerBackward = dom.querySelector('.rs-calendar-header-backward') as HTMLElement;
+    const headerForward = dom.querySelector('.rs-calendar-header-backward') as HTMLElement;
+    const monthDropDown = dom.querySelector('.rs-calendar-month-dropdown') as HTMLElement;
+    const yearActiveDom = dom.querySelector(
+      '.rs-calendar-month-dropdown-year-active'
+    ) as HTMLElement;
     const dropdownActiveCellDom = dom.querySelector(
       '.rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content'
-    );
+    ) as HTMLElement;
     assert.equal(
       getStyle(headerBackward, 'visibility'),
       'hidden',
@@ -101,7 +103,7 @@ describe('Calendar styles', () => {
     const instanceRef = React.createRef();
     render(<Calendar bordered ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
-    const tableCellDom = dom.querySelector('.rs-calendar-table-cell');
+    const tableCellDom = dom.querySelector('.rs-calendar-table-cell') as HTMLElement;
     assert.equal(
       getStyle(tableCellDom, 'borderBottom'),
       `1px solid ${toRGB('#f2f2f5')}`,
@@ -114,7 +116,7 @@ describe('Calendar styles', () => {
       <Calendar defaultState={CalendarState.MONTH} bordered data-testid="body" />
     );
 
-    const row = getByTestId('body').querySelector('.rs-calendar-month-dropdown-row');
+    const row = getByTestId('body').querySelector('.rs-calendar-month-dropdown-row') as HTMLElement;
 
     expect(getStyle(row, 'borderBottom')).to.equal(`1px dotted ${toRGB('#e5e5ea')}`);
   });
@@ -124,7 +126,7 @@ describe('Calendar styles', () => {
     render(<Calendar compact ref={instanceRef} />);
     const tableCellContentDom = getDOMNode(instanceRef.current).querySelector(
       '.rs-calendar-table-row:not(.rs-calendar-table-header-row) .rs-calendar-table-cell-content'
-    );
+    ) as HTMLElement;
     assert.equal(getStyle(tableCellContentDom, 'height'), '50px');
   });
 });

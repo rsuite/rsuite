@@ -29,12 +29,14 @@ describe('Calendar-TableHeaderRow', () => {
   });
 
   it('Should render an empty cell for a week number column', () => {
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
-      <CalendarContext.Provider value={{ showWeekNumbers: true }}>
+      <CalendarContext.Provider
+        value={{ showWeekNumbers: true, date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+      >
         <TableHeaderRow ref={ref} />
       </CalendarContext.Provider>
     );
-    assert.equal(ref.current.childNodes.length, 8);
+    assert.equal((ref.current as HTMLDivElement).childNodes.length, 8);
   });
 });

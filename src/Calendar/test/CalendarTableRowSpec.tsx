@@ -17,7 +17,7 @@ describe('Calendar-TableRow', () => {
     const instance = getDOMNode(<TableRow />);
 
     assert.equal(
-      instance.querySelector('.rs-calendar-table-cell-is-today').textContent,
+      (instance.querySelector('.rs-calendar-table-cell-is-today') as HTMLElement).textContent,
       getDate(new Date()) + ''
     );
   });
@@ -26,14 +26,18 @@ describe('Calendar-TableRow', () => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
-      <CalendarContext.Provider value={{ onSelect: doneOp }}>
+      <CalendarContext.Provider
+        value={{ onSelect: doneOp, date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+      >
         <TableRow ref={ref} />
       </CalendarContext.Provider>
     );
     ReactTestUtils.Simulate.click(
-      ref.current.querySelector('.rs-calendar-table-cell .rs-calendar-table-cell-content')
+      (ref.current as HTMLDivElement).querySelector(
+        '.rs-calendar-table-cell .rs-calendar-table-cell-content'
+      ) as HTMLElement
     );
   });
 
@@ -54,27 +58,44 @@ describe('Calendar-TableRow', () => {
   });
 
   it('Should render a week number', () => {
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
-      <CalendarContext.Provider value={{ showWeekNumbers: true }}>
+      <CalendarContext.Provider
+        value={{ showWeekNumbers: true, date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+      >
         <TableRow ref={ref} />
       </CalendarContext.Provider>
     );
     assert.equal(
-      ref.current.querySelector('.rs-calendar-table-cell-week-number').textContent,
+      (
+        (ref.current as HTMLDivElement).querySelector(
+          '.rs-calendar-table-cell-week-number'
+        ) as HTMLElement
+      ).textContent,
       format(new Date(), 'w')
     );
   });
 
   it('Should render a ISO week number', () => {
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
-      <CalendarContext.Provider value={{ showWeekNumbers: true, isoWeek: true }}>
+      <CalendarContext.Provider
+        value={{
+          showWeekNumbers: true,
+          isoWeek: true,
+          date: new Date(2022, 10, 2),
+          locale: {}
+        }}
+      >
         <TableRow ref={ref} />
       </CalendarContext.Provider>
     );
     assert.equal(
-      ref.current.querySelector('.rs-calendar-table-cell-week-number').textContent,
+      (
+        (ref.current as HTMLDivElement).querySelector(
+          '.rs-calendar-table-cell-week-number'
+        ) as HTMLElement
+      ).textContent,
       format(new Date(), 'I')
     );
   });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
+import sinon from 'sinon';
 import MonthDropdown from '../MonthDropdown';
 import CalendarContext from '../CalendarContext';
 
@@ -8,7 +9,9 @@ describe('Calendar-MonthDropdown', () => {
     const { getAllByRole } = render(
       <CalendarContext.Provider
         value={{
-          date: new Date()
+          date: new Date(),
+          locale: {},
+          isoWeek: false
         }}
       >
         <MonthDropdown show />
@@ -23,13 +26,22 @@ describe('Calendar-MonthDropdown', () => {
   it('Should call `onChangePageDate` callback ', () => {
     const onChangePageDateSpy = sinon.spy();
     const { getByRole } = render(
-      <CalendarContext.Provider value={{ onChangePageDate: onChangePageDateSpy, date: new Date() }}>
+      <CalendarContext.Provider
+        value={{
+          onChangePageDate: onChangePageDateSpy,
+          date: new Date(),
+          locale: {},
+          isoWeek: false
+        }}
+      >
         <MonthDropdown show />
       </CalendarContext.Provider>
     );
 
     fireEvent.click(
-      getByRole('menu', { hidden: true }).querySelector('.rs-calendar-month-dropdown-cell')
+      getByRole('menu', { hidden: true }).querySelector(
+        '.rs-calendar-month-dropdown-cell'
+      ) as HTMLElement
     );
 
     expect(onChangePageDateSpy).to.be.calledOnce;
@@ -37,7 +49,7 @@ describe('Calendar-MonthDropdown', () => {
 
   it('Should disable month', () => {
     const { getByRole } = render(
-      <CalendarContext.Provider value={{ date: new Date(2019, 8, 1) }}>
+      <CalendarContext.Provider value={{ date: new Date(2019, 8, 1), locale: {}, isoWeek: false }}>
         <MonthDropdown
           show
           disabledMonth={d => {
@@ -49,9 +61,13 @@ describe('Calendar-MonthDropdown', () => {
       </CalendarContext.Provider>
     );
 
-    const cells = getByRole('menu', { hidden: true })
-      .querySelector('.rs-calendar-month-dropdown-year-active')
-      .parentNode.querySelectorAll('.rs-calendar-month-dropdown-cell');
+    const cells = (
+      (
+        getByRole('menu', { hidden: true }).querySelector(
+          '.rs-calendar-month-dropdown-year-active'
+        ) as HTMLElement
+      ).parentNode as HTMLElement
+    ).querySelectorAll('.rs-calendar-month-dropdown-cell');
 
     expect(cells[6]).to.have.class('disabled');
     expect(cells[7]).to.have.class('rs-calendar-month-dropdown-cell');

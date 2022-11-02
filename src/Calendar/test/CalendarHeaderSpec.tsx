@@ -8,7 +8,7 @@ import CalendarContext from '../CalendarContext';
 
 describe('Calendar-Header', () => {
   it('Should render a div with "calendar-header" class', () => {
-    const instance = getDOMNode(<Header date={new Date()} />);
+    const instance = getDOMNode(<Header />);
 
     assert.equal(instance.nodeName, 'DIV');
     assert.ok(instance.className.match(/\bcalendar-header\b/));
@@ -21,7 +21,9 @@ describe('Calendar-Header', () => {
 
     const instance = getDOMNode(<Header showMonth onMoveForward={doneOp} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-forward'));
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-calendar-header-forward') as HTMLElement
+    );
   });
 
   it('Should call `onMoveBackward` callback', done => {
@@ -30,7 +32,9 @@ describe('Calendar-Header', () => {
     };
     const instance = getDOMNode(<Header showMonth onMoveBackward={doneOp} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-backward'));
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-calendar-header-backward') as HTMLElement
+    );
   });
 
   it('Should call `onToggleMonthDropdown` callback', done => {
@@ -40,22 +44,28 @@ describe('Calendar-Header', () => {
 
     const instance = getDOMNode(<Header showMonth onToggleMonthDropdown={doneOp} />);
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-calendar-header-title-date'));
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-calendar-header-title-date') as HTMLElement
+    );
   });
 
   it('Should call `onToggleTimeDropdown` callback', done => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
 
     render(
-      <CalendarContext.Provider value={{ date: new Date(), format: 'HH:mm:ss' }}>
+      <CalendarContext.Provider
+        value={{ date: new Date(), format: 'HH:mm:ss', locale: {}, isoWeek: false }}
+      >
         <Header showTime onToggleTimeDropdown={doneOp} ref={ref} />
       </CalendarContext.Provider>
     );
 
-    ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-calendar-header-title-time'));
+    ReactTestUtils.Simulate.click(
+      (ref.current as HTMLDivElement).querySelector('.rs-calendar-header-title-time') as HTMLElement
+    );
   });
 
   it('Should have a custom className', () => {

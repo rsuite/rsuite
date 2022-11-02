@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import { parseISO } from '../../utils/dateUtils';
 import { testStandardProps } from '@test/commonCases';
 import Calendar from '../Calendar';
@@ -56,15 +57,19 @@ describe('Calendar', () => {
     fireEvent.click(
       getByTestId('calendar').querySelector(
         '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
-      )
+      ) as HTMLElement
     );
 
     expect(onSelectSpy).to.have.been.calledOnce;
   });
 
   it('Should be a controlled value', async () => {
-    const ref = React.createRef();
-    const App = React.forwardRef((props, ref) => {
+    type AppInstance = {
+      calendar: HTMLDivElement;
+      setDate: (date: Date) => void;
+    };
+    const ref = React.createRef<AppInstance>();
+    const App = React.forwardRef((_props, ref) => {
       const [value, setValue] = React.useState(new Date('6/10/2021'));
       const calendarRef = React.useRef();
 
@@ -79,11 +84,11 @@ describe('Calendar', () => {
 
     render(<App ref={ref} />);
 
-    const calendar = ref.current.calendar;
+    const calendar = (ref.current as AppInstance).calendar;
 
     expect(calendar.querySelector('.rs-calendar-header-title')).text('Jun 2021');
 
-    ref.current.setDate(new Date('7/11/2021'));
+    (ref.current as AppInstance).setDate(new Date('7/11/2021'));
 
     await waitFor(() => {
       expect(calendar.querySelector('.rs-calendar-header-title')).text('Jul 2021');

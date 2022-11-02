@@ -14,56 +14,77 @@ describe('Calendar - TimeDropdown', () => {
   });
 
   it('Should render 3 column', () => {
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
-      <CalendarContext.Provider value={{ format: 'HH:mm:ss' }}>
+      <CalendarContext.Provider
+        value={{ format: 'HH:mm:ss', date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+      >
         <TimeDropdown ref={ref} />
       </CalendarContext.Provider>
     );
 
-    assert.equal(ref.current.querySelectorAll('.rs-calendar-time-dropdown-column').length, 3);
+    assert.equal(
+      (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
+      3
+    );
   });
 
   it('Should render 2 column', () => {
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
-      <CalendarContext.Provider value={{ format: 'HH:mm' }}>
+      <CalendarContext.Provider
+        value={{ format: 'HH:mm', date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+      >
         <TimeDropdown ref={ref} />
       </CalendarContext.Provider>
     );
 
-    assert.equal(ref.current.querySelectorAll('.rs-calendar-time-dropdown-column').length, 2);
+    assert.equal(
+      (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
+      2
+    );
   });
 
   it('Should render 1 column', () => {
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
-      <CalendarContext.Provider value={{ format: 'HH' }}>
+      <CalendarContext.Provider
+        value={{ format: 'HH', date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+      >
         <TimeDropdown ref={ref} />
       </CalendarContext.Provider>
     );
 
-    assert.equal(ref.current.querySelectorAll('.rs-calendar-time-dropdown-column').length, 1);
+    assert.equal(
+      (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
+      1
+    );
   });
 
   it('Should call `onSelect` callback', done => {
     const onChangePageTime = () => {
       done();
     };
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
-      <CalendarContext.Provider value={{ onChangePageTime, date: new Date(), format: 'HH' }}>
+      <CalendarContext.Provider
+        value={{ onChangePageTime, date: new Date(), format: 'HH', locale: {}, isoWeek: false }}
+      >
         <TimeDropdown ref={ref} />
       </CalendarContext.Provider>
     );
 
-    ReactTestUtils.Simulate.click(ref.current.querySelector('[data-key="hours-1"]'));
+    ReactTestUtils.Simulate.click(
+      (ref.current as HTMLDivElement).querySelector('[data-key="hours-1"]') as HTMLElement
+    );
   });
 
   it('Should be disabled', () => {
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
-      <CalendarContext.Provider value={{ format: 'HH' }}>
+      <CalendarContext.Provider
+        value={{ format: 'HH', date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+      >
         <TimeDropdown
           disabledHours={h => {
             return h > 10;
@@ -74,15 +95,18 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     assert.equal(
-      ref.current.querySelectorAll('.rs-calendar-time-dropdown-cell-disabled').length,
+      (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-cell-disabled')
+        .length,
       23 - 10
     );
   });
 
   it('Should be hide', () => {
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
-      <CalendarContext.Provider value={{ format: 'HH' }}>
+      <CalendarContext.Provider
+        value={{ format: 'HH', date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+      >
         <TimeDropdown
           hideHours={h => {
             return h > 10;
@@ -92,7 +116,7 @@ describe('Calendar - TimeDropdown', () => {
       </CalendarContext.Provider>
     );
 
-    assert.equal(ref.current.querySelectorAll('li').length, 11);
+    assert.equal((ref.current as HTMLDivElement).querySelectorAll('li').length, 11);
   });
 
   it('Should have a custom className', () => {

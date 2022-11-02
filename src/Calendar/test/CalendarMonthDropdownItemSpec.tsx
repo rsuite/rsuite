@@ -8,7 +8,7 @@ import CalendarContext from '../CalendarContext';
 
 describe('Calendar-MonthDropdownItem', () => {
   it('Should output a  `1` ', () => {
-    const instance = getDOMNode(<MonthDropdownItem month={1} date={new Date()} />);
+    const instance = getDOMNode(<MonthDropdownItem month={1} />);
 
     assert.equal(instance.nodeName, 'DIV');
     assert.equal(instance.textContent, '1');
@@ -23,24 +23,26 @@ describe('Calendar-MonthDropdownItem', () => {
         done(err);
       }
     };
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
-      <CalendarContext.Provider value={{ date: new Date(), onChangePageDate }}>
+      <CalendarContext.Provider
+        value={{ date: new Date(), onChangePageDate, locale: {}, isoWeek: false }}
+      >
         <MonthDropdownItem month={1} year={2017} ref={ref} />
       </CalendarContext.Provider>
     );
 
-    ReactTestUtils.Simulate.click(ref.current);
+    ReactTestUtils.Simulate.click(ref.current as HTMLDivElement);
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<MonthDropdownItem className="custom" date={new Date()} />);
+    const instance = getDOMNode(<MonthDropdownItem className="custom" />);
     assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<MonthDropdownItem style={{ fontSize }} date={new Date()} />);
+    const instance = getDOMNode(<MonthDropdownItem style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
