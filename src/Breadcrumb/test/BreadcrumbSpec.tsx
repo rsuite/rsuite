@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
+import sinon from 'sinon';
 import Breadcrumb from '../Breadcrumb';
 
 afterEach(() => {
@@ -67,7 +68,7 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    assert.equal(instance.childNodes[1].className, 'rs-breadcrumb-separator');
+    assert.equal((instance.childNodes[1] as HTMLElement).className, 'rs-breadcrumb-separator');
     assert.equal(instance.childNodes[1].textContent, '/');
   });
 
@@ -79,8 +80,8 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    assert.equal(instance.childNodes[1].className, 'rs-breadcrumb-separator');
-    assert.equal(instance.childNodes[1].tagName, 'SPAN');
+    assert.equal((instance.childNodes[1] as HTMLElement).className, 'rs-breadcrumb-separator');
+    assert.equal((instance.childNodes[1] as HTMLElement).tagName, 'SPAN');
     assert.equal(instance.childNodes[1].textContent, '-');
   });
 

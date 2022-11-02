@@ -7,9 +7,9 @@ import '../styles/index.less';
 
 describe('Breadcrumb styles', () => {
   itChrome('Should render correct padding', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLOListElement>();
 
     render(<Breadcrumb ref={instanceRef} />);
-    assert.equal(getStyle(instanceRef.current, 'padding'), '0px');
+    assert.equal(getStyle(instanceRef.current as HTMLElement, 'padding'), '0px');
   });
 });
