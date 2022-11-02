@@ -4,11 +4,12 @@ import ButtonGroup from '../ButtonGroup';
 import Button from '../../Button';
 import { getDOMNode, getStyle, itChrome } from '@test/testUtils';
 
+import '../../Button/styles/index.less';
 import '../styles/index.less';
 
 describe('Button Group styles', () => {
   it('Should render the correct width', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(
       <ButtonGroup justified ref={instanceRef}>
         <Button>Text</Button>
@@ -21,7 +22,7 @@ describe('Button Group styles', () => {
   });
 
   itChrome('Should render the correct padding', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(
       <ButtonGroup size="lg" ref={instanceRef}>
         <Button>Text</Button>

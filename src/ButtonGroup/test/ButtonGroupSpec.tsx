@@ -20,7 +20,7 @@ describe('ButtonGroup', () => {
       assert.ok(instance.className.match(/\bbtn-group-lg\b/));
     });
 
-    ['lg', 'md', 'sm', 'xs'].forEach(size => {
+    (['lg', 'md', 'sm', 'xs'] as const).forEach(size => {
       it(`Should apply ${size} size on child <Button>s`, () => {
         const { getByTestId } = render(
           <ButtonGroup size={size}>
