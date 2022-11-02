@@ -125,7 +125,7 @@ describe('DatePicker', () => {
     const onChangeSpy = sinon.spy();
 
     const instance = getInstance(<DatePicker onChange={onChangeSpy} defaultOpen />);
-    const today = instance.overlay.querySelector('.rs-picker-toolbar-ranges button');
+    const today = instance.overlay.querySelector('.rs-picker-toolbar button');
 
     fireEvent.click(today);
 
