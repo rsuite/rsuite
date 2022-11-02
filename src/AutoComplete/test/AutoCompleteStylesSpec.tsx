@@ -5,14 +5,17 @@ import AutoComplete from '../index';
 import { getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
+import { PickerHandle } from '../../Picker';
 
 const { H100 } = getDefaultPalette();
 
 describe('AutoComplete styles', () => {
   it('Input should render the correct styles', () => {
-    const instanceRef = React.createRef();
-    render(<AutoComplete ref={instanceRef} />);
-    const dom = instanceRef.current.root.querySelector('input');
+    const instanceRef = React.createRef<PickerHandle>();
+    render(<AutoComplete ref={instanceRef} data={[]} />);
+    const dom = ((instanceRef.current as PickerHandle).root as HTMLElement).querySelector(
+      'input'
+    ) as HTMLInputElement;
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'AutoComplete background-color');
     // @description Can't get border-radius value in other browser except chrome
     inChrome &&
@@ -22,13 +25,15 @@ describe('AutoComplete styles', () => {
   });
 
   it('Should the correct styles when set `open` and `defaultValue`', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<PickerHandle>();
     render(<AutoComplete ref={instanceRef} data={['a', 'b', 'ab']} open defaultValue="a" />);
-    const dom = instanceRef.current.root.querySelector('input');
-    const focusItemDom = document.querySelector('.rs-auto-complete-item-focus');
+    const dom = ((instanceRef.current as PickerHandle).root as HTMLElement).querySelector(
+      'input'
+    ) as HTMLInputElement;
+    const focusItemDom = document.querySelector('.rs-auto-complete-item-focus') as HTMLElement;
     const unFocusItemDom = document.querySelector(
       '.rs-auto-complete-item:not(.rs-auto-complete-item-focus)'
-    );
+    ) as HTMLElement;
     assert.equal(
       getStyle(focusItemDom, 'backgroundColor'),
       tinycolor(H100).setAlpha(0.5).toRgbString(),
@@ -43,9 +48,11 @@ describe('AutoComplete styles', () => {
   });
 
   it('Disabled should render the correct styles', () => {
-    const instanceRef = React.createRef();
-    render(<AutoComplete ref={instanceRef} disabled />);
-    const dom = instanceRef.current.root.querySelector('input');
+    const instanceRef = React.createRef<PickerHandle>();
+    render(<AutoComplete ref={instanceRef} data={[]} disabled />);
+    const dom = ((instanceRef.current as PickerHandle).root as HTMLElement).querySelector(
+      'input'
+    ) as HTMLInputElement;
     assert.equal(
       getStyle(dom, 'backgroundColor'),
       toRGB('#f7f7fa'),

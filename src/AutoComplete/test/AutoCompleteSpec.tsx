@@ -2,10 +2,13 @@ import React from 'react';
 import AutoComplete from '../AutoComplete';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { render, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
+
+const data = ['item1', 'item2'];
 
 describe('AutoComplete', () => {
   it('Should render input', () => {
-    const instance = getDOMNode(<AutoComplete />);
+    const instance = getDOMNode(<AutoComplete data={data} />);
 
     expect(instance.querySelector('input')).to.exist;
   });
@@ -16,12 +19,12 @@ describe('AutoComplete', () => {
   });
 
   it('Should be a `top-end` for placement', () => {
-    const instance = getInstance(<AutoComplete open placement="topEnd" />);
+    const instance = getInstance(<AutoComplete data={data} open placement="topEnd" />);
     expect(instance.overlay.className).to.contain('placement-top-end');
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<AutoComplete disabled />);
+    const instance = getDOMNode(<AutoComplete data={data} disabled />);
     expect(instance).to.have.class('rs-auto-complete-disabled');
   });
 
@@ -39,8 +42,8 @@ describe('AutoComplete', () => {
   it('Should call onChange callback', () => {
     const onChangeSpy = sinon.spy();
 
-    const instance = getDOMNode(<AutoComplete onChange={onChangeSpy} />);
-    const input = instance.querySelector('input');
+    const instance = getDOMNode(<AutoComplete data={data} onChange={onChangeSpy} />);
+    const input = instance.querySelector('input') as HTMLInputElement;
 
     fireEvent.change(input, { target: { value: 'a' } });
     expect(onChangeSpy).to.be.calledOnce;
@@ -49,8 +52,8 @@ describe('AutoComplete', () => {
 
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
-    const instance = getDOMNode(<AutoComplete onFocus={onFocusSpy} />);
-    const input = instance.querySelector('input');
+    const instance = getDOMNode(<AutoComplete data={data} onFocus={onFocusSpy} />);
+    const input = instance.querySelector('input') as HTMLInputElement;
     fireEvent.focus(input);
     expect(onFocusSpy).to.be.calledOnce;
   });
@@ -58,8 +61,8 @@ describe('AutoComplete', () => {
   it('Should call onBlur callback', () => {
     const onBlurSpy = sinon.spy();
 
-    const instance = getDOMNode(<AutoComplete onBlur={onBlurSpy} />);
-    const input = instance.querySelector('input');
+    const instance = getDOMNode(<AutoComplete data={data} onBlur={onBlurSpy} />);
+    const input = instance.querySelector('input') as HTMLInputElement;
     fireEvent.blur(input);
     expect(onBlurSpy).to.be.calledOnce;
   });
@@ -70,7 +73,7 @@ describe('AutoComplete', () => {
     const instance = getDOMNode(
       <AutoComplete onKeyDown={onKeyDownSpy} data={['a', 'b', 'ab']} open />
     );
-    const input = instance.querySelector('input');
+    const input = instance.querySelector('input') as HTMLInputElement;
     fireEvent.keyDown(input);
     expect(onKeyDownSpy).to.be.calledOnce;
   });
@@ -164,7 +167,7 @@ describe('AutoComplete', () => {
   it('Should call onBlur callback', () => {
     const onBlurSpy = sinon.spy();
     const instance = getDOMNode(<AutoComplete data={['a', 'b', 'ab']} onBlur={onBlurSpy} />);
-    const input = instance.querySelector('input');
+    const input = instance.querySelector('input') as HTMLInputElement;
     fireEvent.blur(input);
     expect(onBlurSpy).to.be.calledOnce;
   });
@@ -183,7 +186,7 @@ describe('AutoComplete', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<AutoComplete className="custom" />);
+    const instance = getDOMNode(<AutoComplete data={data} className="custom" />);
     assert.include(instance.className, 'custom');
   });
 
@@ -197,12 +200,12 @@ describe('AutoComplete', () => {
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<AutoComplete style={{ fontSize }} />);
+    const instance = getDOMNode(<AutoComplete data={data} style={{ fontSize }} />);
     expect(instance.style.fontSize).to.equal(fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<AutoComplete classPrefix="custom-prefix" />);
+    const instance = getDOMNode(<AutoComplete data={data} classPrefix="custom-prefix" />);
     expect(instance.className).to.include('custom-prefix');
   });
 
@@ -236,7 +239,7 @@ describe('AutoComplete', () => {
         data={['a', 'b', 'ab']}
         open
         defaultValue="a"
-        filterBy={(_, item) => item.label && item.label.length >= 2}
+        filterBy={(_, item) => Boolean(item.label) && (item.label as string).length >= 2}
       />
     );
 
@@ -256,6 +259,6 @@ describe('AutoComplete', () => {
 
     const listbox = getByRole('listbox');
 
-    expect(listbox.parentNode.style.minWidth).to.equal('100px');
+    expect((listbox.parentNode as HTMLElement).style.minWidth).to.equal('100px');
   });
 });
