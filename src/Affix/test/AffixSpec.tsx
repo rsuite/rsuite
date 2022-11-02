@@ -1,5 +1,6 @@
 import React from 'react';
 import { act } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import getOffset from 'dom-lib/getOffset';
 import Affix from '../Affix';
@@ -16,8 +17,8 @@ describe('Affix', () => {
   });
 
   it('Should call onChange callback', () => {
-    const buttonRef = React.createRef();
-    const affixRef = React.createRef();
+    const buttonRef = React.createRef<HTMLButtonElement>();
+    const affixRef = React.createRef<HTMLDivElement>();
 
     const onChangeSpy = sinon.spy();
 
@@ -30,7 +31,7 @@ describe('Affix', () => {
       </div>
     );
 
-    const top = getOffset(buttonRef.current).top;
+    const top = getOffset(buttonRef.current)?.top;
 
     act(() => {
       window.scrollTo({ top });
@@ -42,7 +43,7 @@ describe('Affix', () => {
     const affixDOM = getDOMNode(affixRef.current);
 
     expect(affixDOM.children[0].className).to.contain('rs-affix');
-    expect(affixDOM.children[0].style.position).to.equal('fixed');
+    expect((affixDOM.children[0] as HTMLElement).style.position).to.equal('fixed');
   });
 
   it('Should have a custom style', () => {
