@@ -1,12 +1,13 @@
 import React from 'react';
 import { act } from '@testing-library/react';
-import Collapse from '../Collapse';
+import sinon from 'sinon';
+import Collapse, { DIMENSION } from '../Collapse';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 describe('Animation.Collapse', () => {
   it('Should be horizontal', () => {
     const instance = getDOMNode(
-      <Collapse in dimension="width">
+      <Collapse in dimension={DIMENSION.WIDTH}>
         <div>test</div>
       </Collapse>
     );
@@ -14,7 +15,7 @@ describe('Animation.Collapse', () => {
     expect(instance.className).to.include('rs-anim-collapse-horizontal');
 
     const instance2 = getDOMNode(
-      <Collapse in dimension={() => 'width'}>
+      <Collapse in dimension={() => DIMENSION.WIDTH}>
         <div>test</div>
       </Collapse>
     );
@@ -26,7 +27,7 @@ describe('Animation.Collapse', () => {
     const onExitSpy = sinon.spy();
     const collapseRef = React.createRef();
 
-    const App = React.forwardRef((props, ref) => {
+    const App = React.forwardRef((_props, ref) => {
       const [show, setShow] = React.useState(true);
 
       React.useImperativeHandle(ref, () => {

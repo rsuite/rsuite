@@ -2,6 +2,7 @@ import React from 'react';
 import Transition from '../Transition';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { act, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 
 describe('Animation', () => {
   it('Should output enteredClassName', () => {
