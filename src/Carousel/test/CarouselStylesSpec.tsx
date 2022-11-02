@@ -7,7 +7,7 @@ import '../styles/index.less';
 
 describe('Carousel styles', () => {
   it('Should render correct style ', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(<Carousel ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#8e8e93'), 'Carousel background-color');

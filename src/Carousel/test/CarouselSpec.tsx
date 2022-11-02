@@ -1,5 +1,6 @@
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { render, act, waitFor, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
@@ -22,7 +23,9 @@ describe('Carousel', () => {
       </Carousel>
     );
 
-    expect(instance.querySelector('.rs-carousel-slider').childNodes.length).to.equal(2);
+    expect(
+      (instance.querySelector('.rs-carousel-slider') as HTMLElement).childNodes.length
+    ).to.equal(2);
     expect(instance.querySelectorAll('.rs-carousel-label-wrapper').length).to.equal(2);
   });
 
@@ -60,7 +63,9 @@ describe('Carousel', () => {
       </Carousel>
     );
 
-    const input = instance.querySelectorAll('.rs-carousel-label-wrapper')[1].querySelector('input');
+    const input = instance
+      .querySelectorAll('.rs-carousel-label-wrapper')[1]
+      .querySelector('input') as HTMLInputElement;
 
     fireEvent.click(input);
 
@@ -78,7 +83,9 @@ describe('Carousel', () => {
       </Carousel>
     );
 
-    const input = instance.querySelectorAll('.rs-carousel-label-wrapper')[1].querySelector('input');
+    const input = instance
+      .querySelectorAll('.rs-carousel-label-wrapper')[1]
+      .querySelector('input') as HTMLInputElement;
 
     act(() => {
       Simulate.change(input);
@@ -99,7 +106,7 @@ describe('Carousel', () => {
       </Carousel>
     );
 
-    Simulate.transitionEnd(instance.querySelector('.rs-carousel-slider'));
+    Simulate.transitionEnd(instance.querySelector('.rs-carousel-slider') as HTMLElement);
 
     await waitFor(() => {
       expect(onSlideEndSpy).to.called;
@@ -115,12 +122,17 @@ describe('Carousel', () => {
         <div>4</div>
       </Carousel>
     );
-    expect(instance.querySelector('[aria-hidden=false]').textContent).to.equal('3');
+    expect((instance.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
+      '3'
+    );
   });
 
   it('Should handle active index dynamically', () => {
-    const ref = React.createRef();
-    const App = React.forwardRef((props, ref) => {
+    type AppInstance = {
+      setIndex: (newIndex: number) => void;
+    };
+    const ref = React.createRef<AppInstance>();
+    const App = React.forwardRef((_props, ref) => {
       const [index, setIndex] = React.useState(1);
       React.useImperativeHandle(ref, () => ({
         setIndex: newIndex => {
@@ -140,12 +152,16 @@ describe('Carousel', () => {
 
     const { container } = render(<App ref={ref} />);
 
-    expect(container.querySelector('[aria-hidden=false]').textContent).to.equal('2');
+    expect((container.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
+      '2'
+    );
 
     act(() => {
-      ref.current.setIndex(3);
+      (ref.current as AppInstance).setIndex(3);
     });
 
-    expect(container.querySelector('[aria-hidden=false]').textContent).to.equal('4');
+    expect((container.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
+      '4'
+    );
   });
 });
