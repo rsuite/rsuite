@@ -732,6 +732,38 @@ describe('DatePicker', () => {
     expect(getByRole('button', { name: '00:00:00' })).to.exist;
   });
 
+  it('Should render range buttons for bottom and left placements', () => {
+    const onChangeSpy = sinon.spy();
+    const { getByRole } = render(
+      <DatePicker
+        open
+        calendarDefaultDate={new Date('2022-02-02 00:00:00')}
+        onChange={onChangeSpy}
+        format="yyyy-MM-dd HH:mm:ss"
+        ranges={[
+          {
+            label: 'Left Placement',
+            value: new Date('2022-02-01 12:00:00'),
+            placement: 'left'
+          },
+          {
+            label: 'Bottom Placement',
+            value: new Date('2022-02-02 12:00:00'),
+            placement: 'bottom'
+          },
+          {
+            label: 'Default Placement',
+            value: new Date('2022-02-03 12:00:00')
+          }
+        ]}
+      />
+    );
+
+    expect(getByRole('button', { name: 'Left Placement' })).to.exist;
+    expect(getByRole('button', { name: 'Bottom Placement' })).to.exist;
+    expect(getByRole('button', { name: 'Default Placement' })).to.exist;
+  });
+
   it('Should be controllable for keyboard input', () => {
     const { getByTestId } = render(
       <>
