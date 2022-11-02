@@ -13,10 +13,10 @@ module.exports = config => {
   const { env } = process;
   const { M, F } = env;
 
-  let testFile = 'src/**/*Spec.js';
+  let testFile = 'src/**/*Spec.{js,tsx}';
 
   if (M) {
-    testFile = `src/${M}/test/*Spec.js`;
+    testFile = `src/${M}/test/*Spec.{js,tsx}`;
   } else if (F) {
     testFile = F;
   }
@@ -41,7 +41,7 @@ module.exports = config => {
     logLevel: config.LOG_INFO,
     preprocessors: {
       'test/setupTests.js': ['webpack'],
-      'src/**/*Spec.js': ['webpack']
+      'src/**/*Spec.{js,tsx}': ['webpack']
     },
     client: {
       mocha: {

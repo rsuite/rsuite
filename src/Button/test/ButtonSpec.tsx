@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Button from '../Button';
@@ -41,7 +42,7 @@ describe('Button', () => {
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<Button disabled>Title</Button>);
+    const instance = getDOMNode(<Button disabled>Title</Button>) as HTMLButtonElement;
 
     assert.ok(instance.disabled);
   });
@@ -107,7 +108,7 @@ describe('Button', () => {
   });
 
   it('Should access the underlying <button> element via `ref` attribute', () => {
-    const buttonRef = React.createRef();
+    const buttonRef = React.createRef<HTMLButtonElement>();
 
     render(<Button ref={buttonRef}>Text</Button>);
 

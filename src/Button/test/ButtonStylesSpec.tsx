@@ -10,7 +10,7 @@ const { H500, H700, H900 } = getDefaultPalette();
 
 describe('Button styles', () => {
   it('Default button should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLButtonElement>();
     render(<Button ref={instanceRef}>Title</Button>);
     assert.equal(
       getStyle(getDOMNode(instanceRef.current), 'backgroundColor'),
@@ -25,7 +25,7 @@ describe('Button styles', () => {
   });
 
   it('Primary button should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLButtonElement>();
     render(
       <Button appearance="primary" ref={instanceRef}>
         Title
@@ -44,7 +44,7 @@ describe('Button styles', () => {
   });
 
   it('Link button should render the correct font color', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLButtonElement>();
     render(
       <Button appearance="link" ref={instanceRef}>
         Title
@@ -54,7 +54,7 @@ describe('Button styles', () => {
   });
 
   it('Subtle button should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLButtonElement>();
     render(
       <Button appearance="subtle" ref={instanceRef}>
         Title
@@ -73,7 +73,7 @@ describe('Button styles', () => {
   });
 
   it('Ghost button should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLButtonElement>();
     render(
       <Button appearance="ghost" ref={instanceRef}>
         Title
@@ -83,7 +83,7 @@ describe('Button styles', () => {
   });
 
   itChrome('Button should render the correct padding', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(
       <ButtonToolbar ref={instanceRef}>
         <Button size="lg">Large</Button>
@@ -105,7 +105,7 @@ describe('Button styles', () => {
 
   describe('Colorful buttons', () => {
     it('Primary button should render the correct color', () => {
-      const instanceRef = React.createRef();
+      const instanceRef = React.createRef<HTMLButtonElement>();
       render(
         <Button color="red" appearance="primary" ref={instanceRef}>
           Red
@@ -121,7 +121,7 @@ describe('Button styles', () => {
     });
 
     it('Subtle button should render the correct styles', () => {
-      const instanceRef = React.createRef();
+      const instanceRef = React.createRef<HTMLButtonElement>();
       render(
         <Button color="red" appearance="subtle" ref={instanceRef}>
           Red
@@ -141,7 +141,7 @@ describe('Button styles', () => {
   });
 
   it('Button should render the correct display', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLButtonElement>();
     render(
       <Button block ref={instanceRef}>
         Tittle
@@ -152,7 +152,7 @@ describe('Button styles', () => {
   });
 
   it('Disabled button should render the correct opacity', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(
       <ButtonToolbar ref={instanceRef}>
         <Button appearance="default" disabled>
@@ -187,7 +187,7 @@ describe('Button styles', () => {
   });
 
   it('Default button should render the correct styles when set active', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLButtonElement>();
     render(
       <Button ref={instanceRef} active>
         Title
@@ -206,7 +206,7 @@ describe('Button styles', () => {
   });
 
   it('Primary button should render the correct styles when set active', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLButtonElement>();
     render(
       <Button appearance="primary" ref={instanceRef} active>
         Title
@@ -225,7 +225,7 @@ describe('Button styles', () => {
   });
 
   it('Link button should render the correct font color when set active', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLButtonElement>();
     render(
       <Button appearance="link" ref={instanceRef} active>
         Title
@@ -235,7 +235,7 @@ describe('Button styles', () => {
   });
 
   it('Subtle button should render the correct styles when set active', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLButtonElement>();
     render(
       <Button appearance="subtle" ref={instanceRef} active>
         Title
@@ -254,7 +254,7 @@ describe('Button styles', () => {
   });
 
   it('Ghost button should render the correct styles when set active', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLButtonElement>();
     render(
       <Button appearance="ghost" ref={instanceRef} active>
         Title
