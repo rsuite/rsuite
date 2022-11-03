@@ -13,12 +13,12 @@ describe('CustomProvider', () => {
     const node = getDOMNode(
       <div>
         <CustomProvider locale={zhCN}>
-          <Pagination pages={2} activePage={1} first last next prev />
+          <Pagination pages={2} activePage={1} first last next prev total={0} />
         </CustomProvider>
       </div>
     );
 
-    assert.equal(node.querySelectorAll('.rs-pagination-btn')[0].title, '第一页');
+    assert.equal((node.querySelectorAll('.rs-pagination-btn')[0] as HTMLElement).title, '第一页');
   });
 
   it('Should render correct placeholder', () => {
@@ -43,7 +43,10 @@ describe('CustomProvider', () => {
         </CustomProvider>
       </div>
     );
-    assert.equal(node.querySelector('.rs-calendar-header-title').textContent, 'мая, 2021');
+    assert.equal(
+      (node.querySelector('.rs-calendar-header-title') as HTMLElement).textContent,
+      'мая, 2021'
+    );
   });
 
   // TODO: This is a side-effect test, which will affect the style check test.
