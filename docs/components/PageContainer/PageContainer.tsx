@@ -35,7 +35,7 @@ export default function PageContainer(props: ContainerProps) {
   });
 
   return (
-    <Row {...rest} className={classes} key={ssrDone ? 'client' : 'server'}>
+    <Row {...rest} className={classes} data-key={ssrDone ? 'client' : 'server'}>
       <Col md={24} xs={24} sm={24} className="main-container">
         <PageContent>{children}</PageContent>
       </Col>
