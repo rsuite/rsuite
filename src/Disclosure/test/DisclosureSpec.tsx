@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Ref } from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import Disclosure from '../Disclosure';
 import useDisclosureContext from '../useDisclosureContext';
 import { DisclosureActionTypes } from '../DisclosureContext';
@@ -117,7 +118,7 @@ describe('<Disclosure>', () => {
     const { getByTestId } = render(
       <Disclosure trigger={['hover']}>
         {(props, ref) => (
-          <div ref={ref} {...props}>
+          <div ref={ref as Ref<HTMLDivElement>} {...props}>
             <Disclosure.Button>
               {props => (
                 <button data-testid="button" {...props}>
@@ -147,7 +148,7 @@ describe('<Disclosure>', () => {
   context('Nested disclosures', () => {
     it('Should close parent disclosure when descendants are dispatching with `cascade: true`', () => {
       const ChildDisclosureContent = () => {
-        const [, dispatch] = useDisclosureContext();
+        const [, dispatch] = useDisclosureContext('ChildDisclosureContent');
         return (
           <button
             onClick={() =>
@@ -168,27 +169,32 @@ describe('<Disclosure>', () => {
             <>
               <Disclosure.Button>
                 {(props, ref) => (
-                  <button ref={ref} {...props}>
+                  <button ref={ref as Ref<HTMLButtonElement>} {...props}>
                     Open parent disclosure
                   </button>
                 )}
               </Disclosure.Button>
               <Disclosure.Content>
                 {({ open, ...props }, ref) => (
-                  <div ref={ref} {...props} hidden={!open} data-testid="parent-content">
+                  <div
+                    ref={ref as Ref<HTMLDivElement>}
+                    {...props}
+                    hidden={!open}
+                    data-testid="parent-content"
+                  >
                     <Disclosure>
                       {() => (
                         <>
                           <Disclosure.Button>
                             {(props, ref) => (
-                              <button ref={ref} {...props}>
+                              <button ref={ref as Ref<HTMLButtonElement>} {...props}>
                                 Open child disclosure
                               </button>
                             )}
                           </Disclosure.Button>
                           <Disclosure.Content>
                             {({ open, ...props }, ref) => (
-                              <div ref={ref} {...props} hidden={!open}>
+                              <div ref={ref as Ref<HTMLDivElement>} {...props} hidden={!open}>
                                 <ChildDisclosureContent />
                               </div>
                             )}
