@@ -24,7 +24,7 @@ describe('Row', () => {
 
     assert.equal(instance.style.marginLeft, '-5px');
     assert.equal(instance.style.marginRight, '-5px');
-    assert.equal(instance.childNodes[0].style.paddingLeft, '5px');
-    assert.equal(instance.childNodes[0].style.paddingRight, '5px');
+    assert.equal((instance.childNodes[0] as HTMLElement).style.paddingLeft, '5px');
+    assert.equal((instance.childNodes[0] as HTMLElement).style.paddingRight, '5px');
   });
 });

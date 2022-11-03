@@ -6,7 +6,7 @@ import '../../Grid/styles/index.less';
 
 describe('Col styles', () => {
   itChrome('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(
       <Col ref={instanceRef} md={1}>
         Title
