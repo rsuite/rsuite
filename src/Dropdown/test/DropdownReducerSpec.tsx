@@ -3,7 +3,7 @@ import { DropdownActionType, reducer } from '../DropdownState';
 // Ref: https://redux.js.org/usage/writing-tests#reducers
 describe('DropdownState::reducer', () => {
   it('Should return empty items initially', () => {
-    expect(reducer(undefined, {})).to.eql({
+    expect(reducer(undefined, {} as any)).to.eql({
       items: []
     });
   });

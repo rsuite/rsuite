@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render, act } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
@@ -31,7 +32,7 @@ describe('<Dropdown.Menu>', () => {
       </Dropdown>
     );
 
-    const button = instance.querySelector('[role="button"]');
+    const button = instance.querySelector('[role="button"]') as HTMLElement;
 
     userEvent.click(button);
 
@@ -90,7 +91,7 @@ describe('<Dropdown.Menu>', () => {
       );
 
       act(() => {
-        fireEvent.mouseDown(menubar.querySelector('#second-item'));
+        fireEvent.mouseDown(menubar.querySelector('#second-item') as HTMLElement);
       });
 
       expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
@@ -276,6 +277,9 @@ describe('<Dropdown.Menu>', () => {
     const onSelectSpy = sinon.spy();
 
     const instance = getDOMNode(
+      // FIXME Correct activeKey type declaration
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       <DropdownMenu onSelect={onSelectSpy} activeKey={1}>
         <DropdownItem eventKey={1}>1</DropdownItem>
         <DropdownItem eventKey={2}>2</DropdownItem>

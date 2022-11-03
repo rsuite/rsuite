@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Ref } from 'react';
 import { fireEvent, render, act } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import Dropdown from '../Dropdown';
 import Button from '../../Button';
@@ -18,8 +19,8 @@ afterEach(() => {
 function renderDropdown(ui) {
   const instance = getDOMNode(ui);
 
-  const button = instance.querySelector('[role="button"]');
-  const menu = instance.querySelector('[role="menu"]');
+  const button = instance.querySelector('[role="button"]') as HTMLButtonElement;
+  const menu = instance.querySelector('[role="menu"]') as HTMLUListElement;
 
   return {
     root: instance,
@@ -154,18 +155,18 @@ describe('<Dropdown>', () => {
       </Dropdown>
     );
 
-    assert.equal(instance.querySelector('.rs-dropdown-toggle').textContent, 'abc');
+    assert.equal((instance.querySelector('.rs-dropdown-toggle') as HTMLElement).textContent, 'abc');
   });
 
   it('Should render custom component', () => {
     const instance = getDOMNode(<Dropdown toggleAs={'div'} />);
-    assert.equal(instance.querySelector('.rs-dropdown-toggle').tagName, 'DIV');
+    assert.equal((instance.querySelector('.rs-dropdown-toggle') as HTMLElement).tagName, 'DIV');
   });
 
   it('Should render a Button', () => {
     const instance = getDOMNode(<Dropdown toggleAs={Button} size="xs" appearance="link" />);
 
-    const toggle = instance.querySelector('.rs-dropdown-toggle');
+    const toggle = instance.querySelector('.rs-dropdown-toggle') as HTMLElement;
     assert.include(toggle.className, 'rs-btn-link');
     assert.include(toggle.className, 'rs-btn-xs');
     assert.equal(toggle.tagName, 'BUTTON');
@@ -201,7 +202,7 @@ describe('<Dropdown>', () => {
       </Dropdown>
     );
 
-    const button = instance.querySelector('[role="button"]');
+    const button = instance.querySelector('[role="button"]') as HTMLElement;
 
     // Open the menu
     act(() => {
@@ -209,9 +210,9 @@ describe('<Dropdown>', () => {
     });
 
     act(() => {
-      fireEvent.click(instance.querySelector('#menu-item'));
+      fireEvent.click(instance.querySelector('#menu-item') as HTMLElement);
     });
-    const menu = instance.querySelector('[role="menu"]');
+    const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
     expect(menu.hidden, 'Menu is closed').to.be.true;
   });
@@ -232,7 +233,7 @@ describe('<Dropdown>', () => {
     });
 
     act(() => {
-      fireEvent.click(root.querySelector('#submenu-item'));
+      fireEvent.click(root.querySelector('#submenu-item') as HTMLElement);
     });
 
     expect(menu.hidden, 'Menu is closed').to.be.true;
@@ -248,7 +249,7 @@ describe('<Dropdown>', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    fireEvent.click(instance.querySelector('.rs-dropdown-toggle'));
+    fireEvent.click(instance.querySelector('.rs-dropdown-toggle') as HTMLElement);
   });
 
   it('Should call onOpen callback', done => {
@@ -261,7 +262,7 @@ describe('<Dropdown>', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    fireEvent.click(instance.querySelector('.rs-dropdown-toggle'));
+    fireEvent.click(instance.querySelector('.rs-dropdown-toggle') as HTMLElement);
   });
 
   it('Should call onClose callback', done => {
@@ -274,7 +275,7 @@ describe('<Dropdown>', () => {
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    const btn = instance.querySelector('.rs-dropdown-toggle');
+    const btn = instance.querySelector('.rs-dropdown-toggle') as HTMLElement;
     fireEvent.click(btn);
     fireEvent.click(btn);
   });
@@ -324,7 +325,10 @@ describe('<Dropdown>', () => {
   it('Should have a custom style in Menu', () => {
     const fontSize = '12px';
     const instance = getDOMNode(<Dropdown menuStyle={{ fontSize }} />);
-    assert.equal(instance.querySelector('.rs-dropdown-menu').style.fontSize, fontSize);
+    assert.equal(
+      (instance.querySelector('.rs-dropdown-menu') as HTMLElement).style.fontSize,
+      fontSize
+    );
   });
 
   it('Should have a custom className', () => {
@@ -352,8 +356,8 @@ describe('<Dropdown>', () => {
     function renderDropdown(ui, openMenuAfterRendered = false) {
       const instance = getDOMNode(ui);
 
-      const button = instance.querySelector('[role="button"]');
-      const menu = instance.querySelector('[role="menu"]');
+      const button = instance.querySelector('[role="button"]') as HTMLElement;
+      const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
       if (openMenuAfterRendered) {
         // Open the menu
@@ -466,8 +470,8 @@ describe('<Dropdown>', () => {
                 </Dropdown.Menu>
               </Dropdown>
             );
-            const button = instance.querySelector('[role="button"]');
-            const menu = instance.querySelector('[role="menu"]');
+            const button = instance.querySelector('[role="button"]') as HTMLElement;
+            const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
             // Open the menu
             act(() => {
@@ -478,7 +482,7 @@ describe('<Dropdown>', () => {
               fireEvent.keyDown(menu, { key });
             });
 
-            const submenu = instance.querySelector('#submenu');
+            const submenu = instance.querySelector('#submenu') as HTMLElement;
 
             expect(!submenu.hidden, 'The submenu is opened').to.be.true;
             expect(submenu.getAttribute('aria-activedescendant'), 'Active item').to.equal(
@@ -493,8 +497,8 @@ describe('<Dropdown>', () => {
                 <Dropdown.Item onSelect={onSelectSpy}>Item 1</Dropdown.Item>
               </Dropdown>
             );
-            const button = instance.querySelector('[role="button"]');
-            const menu = instance.querySelector('[role="menu"]');
+            const button = instance.querySelector('[role="button"]') as HTMLElement;
+            const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
             // Open the menu
             act(() => {
@@ -573,8 +577,8 @@ describe('<Dropdown>', () => {
               <Dropdown.Item id="second-item">Item 2</Dropdown.Item>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]');
-          const menu = instance.querySelector('[role="menu"]');
+          const button = instance.querySelector('[role="button"]') as HTMLElement;
+          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
           act(() => {
@@ -641,8 +645,8 @@ describe('<Dropdown>', () => {
               </Dropdown.Menu>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]');
-          const menu = instance.querySelector('[role="menu"]');
+          const button = instance.querySelector('[role="button"]') as HTMLElement;
+          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
           act(() => {
@@ -653,7 +657,7 @@ describe('<Dropdown>', () => {
             fireEvent.keyDown(menu, { key: 'ArrowRight' });
           });
 
-          const submenu = instance.querySelector('#submenu');
+          const submenu = instance.querySelector('#submenu') as HTMLElement;
 
           expect(!submenu.hidden, 'The submenu is opened').to.be.true;
           expect(submenu.getAttribute('aria-activedescendant'), 'Active item').to.equal(
@@ -678,7 +682,10 @@ describe('<Dropdown>', () => {
 
         it('RTL: When focus is in a submenu of an item in a menu, closes the submenu and returns focus to the parent menuitem.', () => {
           sinon.stub(utils, 'useCustom').returns({
-            rtl: true
+            rtl: true,
+            locale: {},
+            formatDate: () => '',
+            parseDate: () => new Date()
           });
 
           const instance = getDOMNode(
@@ -688,8 +695,8 @@ describe('<Dropdown>', () => {
               </Dropdown.Menu>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]');
-          const menu = instance.querySelector('[role="menu"]');
+          const button = instance.querySelector('[role="button"]') as HTMLElement;
+          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
           act(() => {
@@ -701,7 +708,7 @@ describe('<Dropdown>', () => {
             fireEvent.keyDown(menu, { key: 'Enter' });
           });
 
-          const submenu = instance.querySelector('#submenu');
+          const submenu = instance.querySelector('#submenu') as HTMLElement;
 
           act(() => {
             fireEvent.keyDown(submenu, { key: 'ArrowRight' });
@@ -720,8 +727,8 @@ describe('<Dropdown>', () => {
               </Dropdown.Menu>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]');
-          const menu = instance.querySelector('[role="menu"]');
+          const button = instance.querySelector('[role="button"]') as HTMLElement;
+          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
           act(() => {
@@ -733,7 +740,7 @@ describe('<Dropdown>', () => {
             fireEvent.keyDown(menu, { key: 'Enter' });
           });
 
-          const submenu = instance.querySelector('#submenu');
+          const submenu = instance.querySelector('#submenu') as HTMLElement;
 
           act(() => {
             fireEvent.keyDown(submenu, { key: 'ArrowLeft' });
@@ -744,7 +751,10 @@ describe('<Dropdown>', () => {
 
         it('RTL: When focus is in a menu and on a menuitem that has a submenu, opens the submenu and places focus on its first item', () => {
           sinon.stub(utils, 'useCustom').returns({
-            rtl: true
+            rtl: true,
+            locale: {},
+            formatDate: () => '',
+            parseDate: () => new Date()
           });
           const instance = getDOMNode(
             <Dropdown>
@@ -753,8 +763,8 @@ describe('<Dropdown>', () => {
               </Dropdown.Menu>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]');
-          const menu = instance.querySelector('[role="menu"]');
+          const button = instance.querySelector('[role="button"]') as HTMLElement;
+          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
           act(() => {
@@ -765,7 +775,7 @@ describe('<Dropdown>', () => {
             fireEvent.keyDown(menu, { key: 'ArrowLeft' });
           });
 
-          const submenu = instance.querySelector('#submenu');
+          const submenu = instance.querySelector('#submenu') as HTMLElement;
 
           expect(!submenu.hidden, 'The submenu is opened').to.be.true;
           expect(submenu.getAttribute('aria-activedescendant'), 'Active item').to.equal(
@@ -775,7 +785,10 @@ describe('<Dropdown>', () => {
 
         it('RTL: When focus is in a menu and on a menuitem that does not has a submenu, do nothing', () => {
           sinon.stub(utils, 'useCustom').returns({
-            rtl: true
+            rtl: true,
+            locale: {},
+            formatDate: () => '',
+            parseDate: () => new Date()
           });
           const { menu } = renderDropdown(
             <Dropdown>
@@ -801,8 +814,8 @@ describe('<Dropdown>', () => {
               <Dropdown.Item id="last-item">Item 3</Dropdown.Item>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]');
-          const menu = instance.querySelector('[role="menu"]');
+          const button = instance.querySelector('[role="button"]') as HTMLElement;
+          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
           act(() => {
@@ -824,8 +837,8 @@ describe('<Dropdown>', () => {
               <Dropdown.Item id="last-item">Item 3</Dropdown.Item>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]');
-          const menu = instance.querySelector('[role="menu"]');
+          const button = instance.querySelector('[role="button"]') as HTMLElement;
+          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
           act(() => {
@@ -851,12 +864,12 @@ describe('<Dropdown>', () => {
             <Dropdown.Item>Item 3</Dropdown.Item>
           </Dropdown>
         );
-        const button = instance.querySelector('[role="button"]');
+        const button = instance.querySelector('[role="button"]') as HTMLElement;
         act(() => {
           fireEvent.click(button);
         });
 
-        const menu = instance.querySelector('[role="menu"]');
+        const menu = instance.querySelector('[role="menu"]') as HTMLElement;
         act(() => {
           fireEvent.keyDown(menu, { key: 'Escape' });
         });
@@ -881,7 +894,7 @@ describe('<Dropdown>', () => {
       </Dropdown>
     );
 
-    const button = instance.querySelector('[role="button"]');
+    const button = instance.querySelector('[role="button"]') as HTMLElement;
     assert.equal(button.textContent, 'new');
   });
 
@@ -901,7 +914,9 @@ describe('<Dropdown>', () => {
     });
 
     it('Should render a As Component', () => {
-      const AsComponent = React.forwardRef((_, ref) => <div ref={ref}>As Component</div>);
+      const AsComponent = React.forwardRef((_, ref) => (
+        <div ref={ref as Ref<HTMLDivElement>}>As Component</div>
+      ));
       const instance = getDOMNode(
         <Nav>
           <Dropdown title="">
@@ -909,7 +924,7 @@ describe('<Dropdown>', () => {
           </Dropdown>
         </Nav>
       );
-      fireEvent.click(instance.querySelector('[role="button"]'));
+      fireEvent.click(instance.querySelector('[role="button"]') as HTMLElement);
       assert.equal(instance.textContent, 'As Component');
     });
   });

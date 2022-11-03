@@ -14,8 +14,8 @@ describe('Dropdown styles', () => {
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    const dom = instanceRef.current;
-    const toggleDom = dom.querySelector('.rs-dropdown-toggle');
+    const dom = instanceRef.current as HTMLElement;
+    const toggleDom = dom.querySelector('.rs-dropdown-toggle') as HTMLElement;
     assert.equal(getStyle(dom, 'position'), 'relative', 'Dropdown  position');
     inChrome &&
       assert.equal(

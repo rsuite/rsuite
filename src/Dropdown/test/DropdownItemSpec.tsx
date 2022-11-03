@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
+import sinon from 'sinon';
 import Dropdown from '../Dropdown';
 import DropdownItem from '../DropdownItem';
 import User from '@rsuite/icons/legacy/User';
