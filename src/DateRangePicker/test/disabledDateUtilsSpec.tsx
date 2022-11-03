@@ -1,3 +1,4 @@
+import { DATERANGE_DISABLED_TARGET } from '../../utils/constants';
 import { parseISO } from '../../utils/dateUtils';
 import * as utils from '../disabledDateUtils';
 
@@ -6,11 +7,21 @@ describe('DateRangePicker - disabledDate - utils', () => {
     const func = utils.allowedMaxDays(5);
 
     assert.equal(
-      func(parseISO('2018-12-07'), [parseISO('2018-12-01'), null], false, 'CALENDAR'),
+      func(
+        parseISO('2018-12-07'),
+        [parseISO('2018-12-01'), null as Date | null as Date],
+        false,
+        DATERANGE_DISABLED_TARGET.CALENDAR
+      ),
       true
     );
     assert.equal(
-      func(parseISO('2018-12-04'), [parseISO('2018-12-01'), null], false, 'CALENDAR'),
+      func(
+        parseISO('2018-12-04'),
+        [parseISO('2018-12-01'), null as Date | null as Date],
+        false,
+        DATERANGE_DISABLED_TARGET.CALENDAR
+      ),
       false
     );
   });
@@ -19,15 +30,30 @@ describe('DateRangePicker - disabledDate - utils', () => {
     const func = utils.allowedDays(5);
 
     assert.equal(
-      func(parseISO('2018-12-06'), [parseISO('2018-12-01'), null], false, 'CALENDAR'),
+      func(
+        parseISO('2018-12-06'),
+        [parseISO('2018-12-01'), null as Date | null as Date],
+        false,
+        DATERANGE_DISABLED_TARGET.CALENDAR
+      ),
       true
     );
     assert.equal(
-      func(parseISO('2018-12-04'), [parseISO('2018-12-01'), null], false, 'CALENDAR'),
+      func(
+        parseISO('2018-12-04'),
+        [parseISO('2018-12-01'), null as Date | null as Date],
+        false,
+        DATERANGE_DISABLED_TARGET.CALENDAR
+      ),
       true
     );
     assert.equal(
-      func(parseISO('2018-12-05'), [parseISO('2018-12-01'), null], false, 'CALENDAR'),
+      func(
+        parseISO('2018-12-05'),
+        [parseISO('2018-12-01'), null as Date | null as Date],
+        false,
+        DATERANGE_DISABLED_TARGET.CALENDAR
+      ),
       false
     );
   });
@@ -61,15 +87,30 @@ describe('DateRangePicker - disabledDate - utils', () => {
     assert.equal(func(parseISO('2018-11-30')), false);
 
     assert.equal(
-      func(parseISO('2018-12-07'), [parseISO('2018-12-01'), null], false, 'CALENDAR'),
+      func(
+        parseISO('2018-12-07'),
+        [parseISO('2018-12-01'), null as Date | null as Date],
+        false,
+        DATERANGE_DISABLED_TARGET.CALENDAR
+      ),
       true
     );
     assert.equal(
-      func(parseISO('2018-11-26'), [parseISO('2018-12-01'), null], false, 'CALENDAR'),
+      func(
+        parseISO('2018-11-26'),
+        [parseISO('2018-12-01'), null as Date | null as Date],
+        false,
+        DATERANGE_DISABLED_TARGET.CALENDAR
+      ),
       true
     );
     assert.equal(
-      func(parseISO('2018-11-27'), [parseISO('2018-12-01'), null], false, 'CALENDAR'),
+      func(
+        parseISO('2018-11-27'),
+        [parseISO('2018-12-01'), null as Date | null as Date],
+        false,
+        DATERANGE_DISABLED_TARGET.CALENDAR
+      ),
       false
     );
   });

@@ -1,6 +1,7 @@
 import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
 import { render, act, fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 import {
   addDays,
@@ -112,7 +113,10 @@ describe('DateRangePicker', () => {
   });
 
   it('Should output custom value with time', () => {
-    const value = [new Date(2019, 10, 11, 1, 0, 0), new Date(2019, 10, 12, 1, 0, 0)];
+    const value = [new Date(2019, 10, 11, 1, 0, 0), new Date(2019, 10, 12, 1, 0, 0)] as [
+      Date,
+      Date
+    ];
     const template = 'MM/dd/yyyy hh:mm:ss';
     const instance = getInstance(<DateRangePicker value={value} format={template} />);
 
@@ -123,7 +127,10 @@ describe('DateRangePicker', () => {
   });
 
   it('Should select date time successfully', () => {
-    const defaultValue = [new Date(2019, 10, 11, 0, 0, 0), new Date(2019, 11, 11, 0, 0, 0)];
+    const defaultValue = [new Date(2019, 10, 11, 0, 0, 0), new Date(2019, 11, 11, 0, 0, 0)] as [
+      Date,
+      Date
+    ];
     const template = 'dd MMM yyyy HH:mm:ss';
     const onOkSpy = sinon.spy();
 
@@ -171,7 +178,8 @@ describe('DateRangePicker', () => {
     assert.ok(
       isSameRange(
         [new Date(2019, 10, 11, 6, 6, 6), new Date(2019, 11, 11, 9, 9, 9)],
-        onOkSpy.args[0][0]
+        onOkSpy.args[0][0],
+        'yyyy-MM-dd HH:mm:ss'
       )
     );
     assert.equal(
@@ -213,7 +221,8 @@ describe('DateRangePicker', () => {
     assert.ok(
       isSameRange(
         [new Date(2019, 10, 11, 6, 6, 6), new Date(2019, 11, 11, 9, 9, 9)],
-        onOkSpy.args[0][0]
+        onOkSpy.args[0][0],
+        'yyyy-MM-dd HH:mm:ss'
       )
     );
     assert.equal(
@@ -249,7 +258,7 @@ describe('DateRangePicker', () => {
     const instance = getDOMNode(<DateRangePicker onOpen={onOpenSpy} />);
 
     act(() => {
-      fireEvent.click(instance.querySelector('.rs-picker-toggle'));
+      fireEvent.click(instance.querySelector('.rs-picker-toggle') as HTMLElement);
     });
 
     await waitFor(() => {
@@ -313,13 +322,13 @@ describe('DateRangePicker', () => {
     );
 
     act(() => {
-      fireEvent.click(getByRole('gridcell', { name: '01 Sep 2019' }).firstChild);
+      fireEvent.click(getByRole('gridcell', { name: '01 Sep 2019' }).firstChild as HTMLElement);
     });
 
     expect(getByRole('gridcell', { name: '01 Sep 2019', selected: true })).to.exist;
 
     act(() => {
-      fireEvent.click(getByRole('gridcell', { name: '24 Sep 2019' }).firstChild);
+      fireEvent.click(getByRole('gridcell', { name: '24 Sep 2019' }).firstChild as HTMLElement);
     });
 
     expect(getByRole('gridcell', { name: '24 Sep 2019', selected: true })).to.exist;
@@ -826,7 +835,7 @@ describe('DateRangePicker', () => {
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
     const { getByRole } = render(<DateRangePicker onFocus={onFocusSpy} />);
-    const input = getByRole('combobox').querySelector('input');
+    const input = getByRole('combobox').querySelector('input') as HTMLInputElement;
 
     fireEvent.focus(input);
 
@@ -847,7 +856,7 @@ describe('DateRangePicker', () => {
     expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
     expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
 
-    fireEvent.click(getByRole('gridcell', { name: '07 Feb 2022' }).firstChild);
+    fireEvent.click(getByRole('gridcell', { name: '07 Feb 2022' }).firstChild as HTMLElement);
 
     expect(onSelectSpy).to.have.been.calledOnce;
     expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
@@ -868,7 +877,7 @@ describe('DateRangePicker', () => {
     expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
     expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
 
-    fireEvent.click(getByRole('gridcell', { name: '07 Feb 2022' }).firstChild);
+    fireEvent.click(getByRole('gridcell', { name: '07 Feb 2022' }).firstChild as HTMLElement);
 
     expect(onSelectSpy).to.have.been.calledOnce;
     expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
@@ -896,7 +905,10 @@ describe('DateRangePicker', () => {
     );
 
     expect(
-      getByRole('dialog').querySelector('.rs-picker-daterange-predefined').firstChild.firstChild
+      (
+        (getByRole('dialog').querySelector('.rs-picker-daterange-predefined') as HTMLElement)
+          .firstChild as HTMLElement
+      ).firstChild
     ).to.equal(getByRole('button', { name: 'Yesterday' }));
 
     expect(getByRole('dialog').querySelector('.rs-picker-toolbar-ranges button')).to.not.exist;
@@ -910,8 +922,8 @@ describe('DateRangePicker', () => {
       </>
     );
 
-    const picker1 = getByTestId('picker-1').querySelector('input');
-    const picker2 = getByTestId('picker-2').querySelector('input');
+    const picker1 = getByTestId('picker-1').querySelector('input') as HTMLInputElement;
+    const picker2 = getByTestId('picker-2').querySelector('input') as HTMLInputElement;
 
     expect(picker1).to.have.attribute('readonly');
     expect(picker2).to.have.attribute('readonly');
@@ -930,6 +942,8 @@ describe('DateRangePicker', () => {
     expect(getByRole('dialog').querySelector('.rs-picker-daterange-predefined')).to.not.exist;
 
     // A flex layout toolbar should render two children so that the ok button appears on the right
-    expect(getByRole('dialog').querySelector('.rs-picker-toolbar').childNodes).to.have.length(2);
+    expect(
+      (getByRole('dialog').querySelector('.rs-picker-toolbar') as HTMLElement).childNodes
+    ).to.have.length(2);
   });
 });

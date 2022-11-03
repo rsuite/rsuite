@@ -3,7 +3,7 @@ import { isSameMonth, getMonth } from '../../utils/dateUtils';
 
 describe('DateRangePicker - utils - getCalendarDate', () => {
   it('Should not be a date range of the same month', () => {
-    const value = [new Date(), new Date()];
+    const value = [new Date(), new Date()] as [Date, Date];
     const rangeDate = getCalendarDate({ value });
 
     expect(isSameMonth(value[0], value[1])).to.be.true;
@@ -11,7 +11,7 @@ describe('DateRangePicker - utils - getCalendarDate', () => {
   });
 
   it('Should end date plus one month', () => {
-    const value = [new Date(), new Date()];
+    const value = [new Date(), new Date()] as [Date, Date];
     const rangeDate = getCalendarDate({ value, calendarKey: 'start' });
 
     expect(getMonth(value[0])).to.be.equal(getMonth(rangeDate[0]));
@@ -20,7 +20,7 @@ describe('DateRangePicker - utils - getCalendarDate', () => {
   });
 
   it('Should start date minus one month', () => {
-    const value = [new Date(), new Date()];
+    const value = [new Date(), new Date()] as [Date, Date];
     const rangeDate = getCalendarDate({ value, calendarKey: 'end' });
 
     expect(getMonth(value[0])).to.not.be.equal(getMonth(rangeDate[0]));
@@ -29,7 +29,7 @@ describe('DateRangePicker - utils - getCalendarDate', () => {
   });
 
   it('Should be create end date from start date', () => {
-    const value = [new Date()];
+    const value = [new Date()] as Array<Date | undefined> as [Date, Date];
     const rangeDate = getCalendarDate({ value });
 
     expect(rangeDate[0]).to.instanceOf(Date);
@@ -38,7 +38,7 @@ describe('DateRangePicker - utils - getCalendarDate', () => {
   });
 
   it('Should create start and end dates by default', () => {
-    const value = [];
+    const value = [] as Array<Date | undefined> as [Date, Date];
     const rangeDate = getCalendarDate({ value });
 
     expect(rangeDate[0]).to.instanceOf(Date);
