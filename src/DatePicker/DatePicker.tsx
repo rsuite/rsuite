@@ -8,6 +8,8 @@ import IconClockO from '@rsuite/icons/legacy/ClockO';
 import CalendarContainer from '../Calendar/CalendarContainer';
 import useCalendarDate from '../Calendar/useCalendarDate';
 import Toolbar, { RangeType } from './Toolbar';
+import Stack from '../Stack';
+import PredefinedRanges from './PredefinedRanges';
 import { DatePickerLocale } from '../locales';
 import {
   composeFunctions,
@@ -482,6 +484,11 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       />
     );
 
+    const sideRanges = ranges?.filter(range => range?.placement === 'left') || [];
+    const bottomRanges =
+      ranges?.filter(range => range?.placement === 'bottom' || range?.placement === undefined) ||
+      [];
+
     const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
       const classes = merge(menuClassName, className, prefix('date-menu'));
@@ -494,17 +501,34 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           style={styles}
           target={triggerRef}
         >
-          {calendar}
-          <Toolbar
-            locale={locale}
-            ranges={ranges}
-            calendarDate={calendarDate}
-            disabledOkBtn={disabledToolbarHandle}
-            disabledShortcut={disabledToolbarHandle}
-            onClickShortcut={handleShortcutPageDate}
-            onOk={handleOK}
-            hideOkBtn={oneTap}
-          />
+          <Stack alignItems="flex-start">
+            {sideRanges.length > 0 && (
+              <PredefinedRanges
+                direction="column"
+                spacing={0}
+                className={prefix('date-predefined')}
+                ranges={sideRanges}
+                calendarDate={calendarDate}
+                locale={locale}
+                disabledShortcut={disabledToolbarHandle}
+                onClickShortcut={handleShortcutPageDate}
+              />
+            )}
+
+            <>
+              {calendar}
+              <Toolbar
+                locale={locale}
+                ranges={bottomRanges}
+                calendarDate={calendarDate}
+                disabledOkBtn={disabledToolbarHandle}
+                disabledShortcut={disabledToolbarHandle}
+                onClickShortcut={handleShortcutPageDate}
+                onOk={handleOK}
+                hideOkBtn={oneTap}
+              />
+            </>
+          </Stack>
         </PickerOverlay>
       );
     };
