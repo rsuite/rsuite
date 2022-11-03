@@ -8,21 +8,21 @@ const App = () => (
     <p>Date Time Range</p>
     <DateRangePicker
       format="yyyy-MM-dd HH:mm:ss"
-      defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
+      defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-05-01 23:59:59')]}
     />
 
     <p>Time Range</p>
     <DateRangePicker
       format="HH:mm:ss"
       ranges={[]}
-      defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
+      defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-05-01 23:59:59')]}
     />
 
     <p>Meridian format</p>
     <DateRangePicker
       format="yyyy-MM-dd hh:mm aa"
       showMeridian
-      defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
+      defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-05-01 23:59:59')]}
     />
   </div>
 );
