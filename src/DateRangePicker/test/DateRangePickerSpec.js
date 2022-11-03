@@ -888,7 +888,7 @@ describe('DateRangePicker', () => {
     expect(onSelectSpy).to.have.been.calledTwice;
     expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
     expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
-    expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.text(
+    expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
       '2022-02-07 00:00:00 ~ 2022-02-10 23:59:59'
     );
   });
