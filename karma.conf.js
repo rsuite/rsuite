@@ -15,10 +15,10 @@ module.exports = config => {
 
   // Weird pattern syntax but works
   // @see https://github.com/karma-runner/karma/issues/1532#issuecomment-127128326
-  let testFile = 'src/**/*Spec.+(js|tsx)';
+  let testFile = 'src/**/*Spec.+(js|ts|tsx)';
 
   if (M) {
-    testFile = `src/${M}/test/*Spec.+(js|tsx)`;
+    testFile = `src/${M}/test/*Spec.+(js|ts|tsx)`;
   } else if (F) {
     testFile = F;
   }
@@ -43,7 +43,7 @@ module.exports = config => {
     logLevel: config.LOG_INFO,
     preprocessors: {
       'test/setupTests.js': ['webpack'],
-      'src/**/*Spec.+(js|tsx)': ['webpack']
+      'src/**/*Spec.+(js|ts|tsx)': ['webpack']
     },
     client: {
       mocha: {
