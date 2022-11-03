@@ -96,6 +96,7 @@ export function mockUsers(length: number) {
     const postcode = faker.address.zipCode();
     const phone = faker.phone.number();
     const amount = faker.finance.amount(1000, 90000);
+    const company = faker.company.companyName();
 
     const age = Math.floor(Math.random() * 30) + 18;
     const stars = Math.floor(Math.random() * 10000);
@@ -120,7 +121,8 @@ export function mockUsers(length: number) {
       followers,
       rating,
       progress,
-      amount
+      amount,
+      company
     };
   };
 

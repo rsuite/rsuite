@@ -267,6 +267,12 @@ In some cases, you need to merge the relationships between columns to organize y
 
 <!--{include:`summary.md`}-->
 
+### Show full text of cells
+
+Displays the cut text in its entirety when hovering over the cell.
+
+<!--{include:`full-text.md`}-->
+
 ### Word Wrap
 
 <!--{include:`word-wrap.md`}-->
@@ -380,6 +386,7 @@ scrollLeft: (left: number) => void;
 | colSpan       | number                                           | Merges column cells to merge when the `dataKey` value for the merged column is `null` or `undefined`.       |
 | fixed         | boolean &#124; 'left' &#124; 'right'             | Fixed column                                                                                                |
 | flexGrow      | number                                           | Set the column width automatically adjusts, when set `flexGrow` cannot set `resizable` and `width` property |
+| fullText      | boolean                                          | Whether to display the full text of the cell content when the mouse is hovered                              |
 | minWidth      | number`(200)`                                    | When you use `flexGrow`, you can set a minimum width by `minwidth`                                          |
 | onResize      | (columnWidth?: number, dataKey?: string) => void | Callback after column width change                                                                          |
 | resizable     | boolean                                          | Customizable Resize Column width                                                                            |
