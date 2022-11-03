@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import enGB from 'date-fns/locale/en-GB';
 import ReactTestUtils from 'react-dom/test-utils';
 import { format, isSameDay, parseISO } from '../../utils/dateUtils';
@@ -9,6 +10,7 @@ import DatePicker from '../DatePicker';
 import { DateUtils } from '../../utils';
 
 import GearIcon from '@rsuite/icons/Gear';
+import { PickerHandle } from '../../Picker';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -41,7 +43,7 @@ describe('DatePicker', () => {
 
   it('Should output a button', () => {
     const instance = getDOMNode(<DatePicker toggleAs="button" />);
-    assert.equal(instance.querySelector('[role="combobox"]').tagName, 'BUTTON');
+    assert.equal((instance.querySelector('[role="combobox"]') as HTMLElement).tagName, 'BUTTON');
   });
 
   it('Should be block', () => {
@@ -52,7 +54,10 @@ describe('DatePicker', () => {
 
   it('Should output a date', () => {
     const instance = getDOMNode(<DatePicker defaultValue={parseISO('2017-08-14')} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, '2017-08-14');
+    assert.equal(
+      (instance.querySelector('.rs-picker-toggle-value') as HTMLElement).textContent,
+      '2017-08-14'
+    );
   });
 
   it('Should output custom value', () => {
@@ -65,12 +70,18 @@ describe('DatePicker', () => {
       />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, '08/14/2017');
+    assert.equal(
+      (instance.querySelector('.rs-picker-toggle-value') as HTMLElement).textContent,
+      '08/14/2017'
+    );
   });
 
   it('Should output a date', () => {
     const instance = getDOMNode(<DatePicker value={parseISO('2017-08-14')} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, '2017-08-14');
+    assert.equal(
+      (instance.querySelector('.rs-picker-toggle-value') as HTMLElement).textContent,
+      '2017-08-14'
+    );
   });
 
   it('Should open a dialog containing grid view of dates in a month', () => {
@@ -190,7 +201,7 @@ describe('DatePicker', () => {
     const instance = getInstance(
       <DatePicker
         disabledDate={value => {
-          return format(value, 'yyyy-MM-dd') === '2021-10-01';
+          return format(value as Date, 'yyyy-MM-dd') === '2021-10-01';
         }}
       />
     );
@@ -394,7 +405,7 @@ describe('DatePicker', () => {
     };
 
     const instance = getDOMNode(<DatePicker onOpen={doneOp} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('[role="combobox"]'));
+    ReactTestUtils.Simulate.click(instance.querySelector('[role="combobox"]') as HTMLElement);
   });
 
   it('Should call `onClose` callback', done => {
@@ -409,11 +420,10 @@ describe('DatePicker', () => {
   });
 
   it('Should reset unsaved selected date after closing calendar panel', async () => {
-    const pickerRef = React.createRef();
     render(
       <>
         <div data-testid="outside">Outside</div>
-        <DatePicker ref={pickerRef} defaultOpen value={new Date(2022, 9, 14)} />
+        <DatePicker defaultOpen value={new Date(2022, 9, 14)} />
       </>
     );
 
@@ -436,8 +446,7 @@ describe('DatePicker', () => {
   });
 
   it('Should not reset saved selected date after closing calendar panel', async () => {
-    const pickerRef = React.createRef();
-    render(<DatePicker ref={pickerRef} defaultOpen value={new Date(2022, 9, 14)} />);
+    render(<DatePicker defaultOpen value={new Date(2022, 9, 14)} />);
 
     // Select a date
     userEvent.click(screen.getByTitle('13 Oct 2022'));
@@ -497,7 +506,7 @@ describe('DatePicker', () => {
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
     const { getByRole } = render(<DatePicker onFocus={onFocusSpy} defaultValue={new Date()} />);
-    const input = getByRole('combobox').querySelector('input');
+    const input = getByRole('combobox').querySelector('input') as HTMLInputElement;
 
     fireEvent.focus(input);
 
@@ -577,27 +586,31 @@ describe('DatePicker', () => {
   });
 
   it('Should be a controlled value, null is allowed', () => {
+    type AppInstance = {
+      picker: PickerHandle;
+      setDate: (newDate: Date | null) => void;
+    };
     const instanceRef = React.createRef();
-    const App = React.forwardRef((props, ref) => {
+    const App = React.forwardRef((_props, ref) => {
       const [value, setValue] = React.useState(new Date('6/10/2021'));
-      const pickerRef = React.useRef();
+      const pickerRef = React.useRef<PickerHandle>(null);
       React.useImperativeHandle(ref, () => ({
         picker: pickerRef.current,
         setDate: date => {
           setValue(date);
         }
       }));
-      return <DatePicker value={value} open ref={pickerRef} format="yyyy-MM-dd" />;
+      return <DatePicker value={value} open ref={pickerRef as any} format="yyyy-MM-dd" />;
     });
 
     render(<App ref={instanceRef} />);
 
-    const picker = instanceRef.current.picker.root;
+    const picker = (instanceRef.current as AppInstance).picker.root as HTMLElement;
 
     expect(picker.querySelector('.rs-picker-toggle-value')).to.have.text('2021-06-10');
 
     act(() => {
-      instanceRef.current.setDate(null);
+      (instanceRef.current as AppInstance).setDate(null);
     });
 
     expect(picker.querySelector('.rs-picker-toggle-placeholder')).to.have.text('yyyy-MM-dd');
@@ -740,8 +753,8 @@ describe('DatePicker', () => {
       </>
     );
 
-    const picker1 = getByTestId('picker-1').querySelector('input');
-    const picker2 = getByTestId('picker-2').querySelector('input');
+    const picker1 = getByTestId('picker-1').querySelector('input') as HTMLInputElement;
+    const picker2 = getByTestId('picker-2').querySelector('input') as HTMLInputElement;
 
     expect(picker1).to.have.attribute('readonly');
     expect(picker2).to.have.attribute('readonly');
