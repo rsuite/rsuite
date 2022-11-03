@@ -7,7 +7,7 @@ import '../styles/index.less';
 
 describe('Sidebar styles', () => {
   itChrome('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(<Sidebar ref={instanceRef} className="rs-sidebar-collapse" />);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(
