@@ -1,9 +1,11 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '../../utils';
 import { data, originMockData, changedMockData } from './mocks';
+import { PickerHandle } from '../../Picker';
 
 describe('CheckTreePicker', () => {
   it('Should render default value', () => {
@@ -24,7 +26,7 @@ describe('CheckTreePicker', () => {
       <CheckTreePicker defaultOpen data={data} defaultValue={['Master']} />
     );
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
     expect(instance.querySelector('.rs-picker-toggle')).to.text('Select');
   });
 
@@ -180,7 +182,7 @@ describe('CheckTreePicker', () => {
       <CheckTreePicker defaultOpen data={data} defaultValue={['tester0']} onClean={onCleanSpy} />
     );
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
 
     expect(onCleanSpy).to.calledOnce;
   });
@@ -189,7 +191,7 @@ describe('CheckTreePicker', () => {
     const onOpenSpy = sinon.spy();
     const instance = getDOMNode(<CheckTreePicker onOpen={onOpenSpy} data={data} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle') as HTMLElement);
 
     expect(onOpenSpy).to.calledOnce;
   });
@@ -198,8 +200,8 @@ describe('CheckTreePicker', () => {
     const onCloseSpy = sinon.spy();
     const instance = getDOMNode(<CheckTreePicker onClose={onCloseSpy} data={data} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle'));
-    fireEvent.click(instance.querySelector('.rs-picker-toggle'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle') as HTMLElement);
+    fireEvent.click(instance.querySelector('.rs-picker-toggle') as HTMLElement);
 
     await waitFor(() => {
       expect(onCloseSpy).to.calledOnce;
@@ -335,7 +337,7 @@ describe('CheckTreePicker', () => {
       }
     ];
 
-    const ref = React.createRef();
+    const ref = React.createRef<PickerHandle>();
     render(
       <CheckTreePicker
         ref={ref}
@@ -354,12 +356,16 @@ describe('CheckTreePicker', () => {
     );
 
     fireEvent.click(
-      ref.current.overlay.querySelector(
+      ((ref.current as PickerHandle).overlay as HTMLElement).querySelector(
         'div[data-ref="String_async"]  > .rs-check-tree-node-expand-icon'
-      )
+      ) as HTMLElement
     );
 
-    expect(ref.current.overlay.querySelector('[data-key="String_children1"]')).to.exist;
+    expect(
+      ((ref.current as PickerHandle).overlay as HTMLElement).querySelector(
+        '[data-key="String_children1"]'
+      )
+    ).to.exist;
   });
 
   it('Should trigger onChange and return correctly value', () => {
@@ -470,7 +476,7 @@ describe('CheckTreePicker', () => {
     const mockOnExpand = values => {
       expandItemValues = values;
     };
-    const ref = React.createRef();
+    const ref = React.createRef<PickerHandle>();
     const { rerender } = render(
       <CheckTreePicker
         ref={ref}
@@ -481,12 +487,16 @@ describe('CheckTreePicker', () => {
       />
     );
 
-    expect(ref.current.overlay.querySelector('.rs-check-tree-node-expanded')).to.exist;
+    expect(
+      ((ref.current as PickerHandle).overlay as HTMLElement).querySelector(
+        '.rs-check-tree-node-expanded'
+      )
+    ).to.exist;
 
     fireEvent.click(
-      ref.current.overlay.querySelector(
+      ((ref.current as PickerHandle).overlay as HTMLElement).querySelector(
         'div[data-ref="String_Master"]  > .rs-check-tree-node-expand-icon'
-      )
+      ) as HTMLElement
     );
 
     rerender(
@@ -499,7 +509,11 @@ describe('CheckTreePicker', () => {
       />
     );
 
-    expect(ref.current.overlay.querySelector('.rs-check-tree-node-expanded')).to.not.exist;
+    expect(
+      ((ref.current as PickerHandle).overlay as HTMLElement).querySelector(
+        '.rs-check-tree-node-expanded'
+      )
+    ).to.not.exist;
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
@@ -508,7 +522,7 @@ describe('CheckTreePicker', () => {
         defaultOpen
         defaultExpandAll
         data={data}
-        searchBy={(a, b, c) => c.value === 'Master'}
+        searchBy={(_a, _b, c) => c.value === 'Master'}
       />
     );
     const list = getDOMNode(instance.overlay).querySelectorAll('.rs-check-tree-node');
@@ -570,11 +584,11 @@ describe('CheckTreePicker', () => {
 
   it('Should not has duplicated key when data changed', () => {
     let checkItems = [];
-    const mockRenderValue = (values, checkedItems, selectedElement) => {
+    const mockRenderValue = (_values, checkedItems, selectedElement) => {
       checkItems = checkedItems;
       return selectedElement;
     };
-    const ref = React.createRef();
+    const ref = React.createRef<PickerHandle>();
     const { rerender } = render(
       <CheckTreePicker ref={ref} open data={originMockData} renderValue={mockRenderValue} />
     );
@@ -583,7 +597,11 @@ describe('CheckTreePicker', () => {
       <CheckTreePicker open ref={ref} data={changedMockData} renderValue={mockRenderValue} />
     );
 
-    fireEvent.click(ref.current.overlay.querySelector('div[data-key="String_node-1"] input'));
+    fireEvent.click(
+      ((ref.current as PickerHandle).overlay as HTMLElement).querySelector(
+        'div[data-key="String_node-1"] input'
+      ) as HTMLInputElement
+    );
 
     expect(checkItems).to.lengthOf(1);
   });

@@ -32,9 +32,10 @@ const data = [
 
 describe('CheckTree styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
-    render(<CheckTree virtualized={false} data={data} ref={instanceRef} />);
-    const itemLabel = document.body.querySelector('.rs-check-tree .rs-check-tree-node');
+    render(<CheckTree virtualized={false} data={data} />);
+    const itemLabel = document.body.querySelector(
+      '.rs-check-tree .rs-check-tree-node'
+    ) as HTMLElement;
     inChrome && assert.equal(getStyle(itemLabel, 'padding'), '0px 0px 0px 12px');
   });
 });

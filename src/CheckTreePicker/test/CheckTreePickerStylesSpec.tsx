@@ -34,21 +34,22 @@ const data = [
 
 describe('CheckTreePicker styles', () => {
   itChrome('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
-    render(<CheckTreePicker data={data} ref={instanceRef} open />);
-    const itemLabel = document.body.querySelector('.rs-check-tree .rs-checkbox-checker label');
+    render(<CheckTreePicker data={data} open />);
+    const itemLabel = document.body.querySelector(
+      '.rs-check-tree .rs-checkbox-checker label'
+    ) as HTMLLabelElement;
     assert.equal(getStyle(itemLabel, 'padding'), '8px 12px 8px 50px');
   });
 
   itChrome('Should render the correct styles when data has only one level structure', () => {
-    const instanceRef = React.createRef();
-    render(<CheckTreePicker data={[{ value: 1, label: 1 }]} ref={instanceRef} open />);
-    const itemLabel = document.body.querySelector('.rs-check-tree .rs-checkbox-checker label');
+    render(<CheckTreePicker data={[{ value: 1, label: 1 }]} open />);
+    const itemLabel = document.body.querySelector(
+      '.rs-check-tree .rs-checkbox-checker label'
+    ) as HTMLLabelElement;
     assert.equal(getStyle(itemLabel, 'padding'), '8px 12px 8px 32px');
   });
 
   itChrome('Should render the correct styles when first level data is unchecked', () => {
-    const instanceRef = React.createRef();
     render(
       <CheckTreePicker
         data={[
@@ -56,11 +57,12 @@ describe('CheckTreePicker styles', () => {
           { value: 3, label: '3' }
         ]}
         uncheckableItemValues={[1, 3]}
-        ref={instanceRef}
         open
       />
     );
-    const itemLabel = document.body.querySelector('.rs-check-tree .rs-checkbox-checker label');
+    const itemLabel = document.body.querySelector(
+      '.rs-check-tree .rs-checkbox-checker label'
+    ) as HTMLLabelElement;
     assert.equal(getStyle(itemLabel, 'padding'), '8px 12px 8px 22px');
   });
 });

@@ -45,7 +45,7 @@ describe('CheckTree', () => {
 
     assert.isNotNull(instance.querySelector('.rs-check-tree-indent-line'));
     assert.equal(lines.length, 2);
-    assert.equal(lines[0].style.left, '44px');
-    assert.equal(lines[1].style.left, '28px');
+    assert.equal((lines[0] as HTMLElement).style.left, '44px');
+    assert.equal((lines[1] as HTMLElement).style.left, '28px');
   });
 });
