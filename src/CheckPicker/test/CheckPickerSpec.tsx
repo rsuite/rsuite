@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
 
 import CheckPicker from '../CheckPicker';
@@ -50,7 +51,7 @@ describe('CheckPicker', () => {
   it('Should not clean selected value', () => {
     const instance = getDOMNode(<CheckPicker defaultOpen data={data} value={['Eugenia']} />);
 
-    fireEvent.click(instance.querySelector(cleanClassName));
+    fireEvent.click(instance.querySelector(cleanClassName) as HTMLElement);
     expect(instance.querySelector(valueClassName)).to.text('Eugenia');
   });
 
@@ -187,7 +188,7 @@ describe('CheckPicker', () => {
       <CheckPicker data={data} defaultValue={['Eugenia']} onClean={onCleanSpy} />
     );
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
 
     expect(onCleanSpy).to.have.been.calledOnce;
   });
@@ -288,6 +289,9 @@ describe('CheckPicker', () => {
 
   it('Should call onBlur callback', async () => {
     const onBlurSpy = sinon.spy();
+    // FIXME Figure out whether CheckPicker actually has onBlur prop
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const instance = getInstance(<CheckPicker data={data} onBlur={onBlurSpy} />);
 
     fireEvent.blur(instance.target);
@@ -299,6 +303,9 @@ describe('CheckPicker', () => {
 
   it('Should call onFocus callback', async () => {
     const onFocusSpy = sinon.spy();
+    // FIXME Figure out whether CheckPicker actually has onFocus prop
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const instance = getInstance(<CheckPicker data={data} onFocus={onFocusSpy} />);
 
     fireEvent.focus(instance.target);
@@ -373,7 +380,7 @@ describe('CheckPicker', () => {
 
   it('Should render the specified menu content by `searchBy`', () => {
     const instance = getInstance(
-      <CheckPicker defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
+      <CheckPicker defaultOpen data={data} searchBy={(_a, _b, c) => c.value === 'Louisa'} />
     );
     const list = instance.overlay.querySelectorAll('.rs-check-item');
 
@@ -388,10 +395,14 @@ describe('CheckPicker', () => {
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<CheckPicker data={[]} value="Test" renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<CheckPicker data={[]} value="Test" renderValue={() => null} />);
+    const instance1 = getDOMNode(
+      <CheckPicker data={[]} value={['Test']} renderValue={() => '1'} />
+    );
+    const instance2 = getDOMNode(
+      <CheckPicker data={[]} value={['Test']} renderValue={() => null} />
+    );
     const instance3 = getDOMNode(
-      <CheckPicker data={[]} value="Test" renderValue={() => undefined} />
+      <CheckPicker data={[]} value={['Test']} renderValue={() => undefined} />
     );
 
     expect(instance1.querySelector('.rs-picker-toggle-value')).to.text('1');
