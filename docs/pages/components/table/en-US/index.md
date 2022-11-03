@@ -269,7 +269,7 @@ In some cases, you need to merge the relationships between columns to organize y
 
 ### Show full text of cells
 
-Displays the cut text in its entirety when hovering over the cell.
+Display the hidden text in its entirety when hovering over the cell.
 
 <!--{include:`full-text.md`}-->
 
