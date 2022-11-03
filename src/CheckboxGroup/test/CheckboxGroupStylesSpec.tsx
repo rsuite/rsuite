@@ -8,7 +8,7 @@ import '../styles/index.less';
 
 describe('CheckboxGroup styles', () => {
   it('Should render the correct margin', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(
       <CheckboxGroup inline ref={instanceRef}>
         <Checkbox />

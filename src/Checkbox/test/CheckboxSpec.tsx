@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Checkbox from '../Checkbox';
@@ -16,7 +17,7 @@ describe('Checkbox', () => {
   it('Should add title', () => {
     const title = 'Text';
     const instance = getDOMNode(<Checkbox title={title}>Test</Checkbox>);
-    assert.equal(instance.querySelector('label').title, title);
+    assert.equal((instance.querySelector('label') as HTMLLabelElement).title, title);
   });
 
   it('Should have checkbox-inline class', () => {
@@ -26,7 +27,7 @@ describe('Checkbox', () => {
 
   it('Should be disabled', () => {
     const instance = getDOMNode(<Checkbox disabled>Test</Checkbox>);
-    assert.ok(instance.querySelector('input').disabled);
+    assert.ok((instance.querySelector('input') as HTMLInputElement).disabled);
     assert.ok(instance.className.match(/\bcheckbox-disabled\b/));
   });
 
@@ -56,7 +57,7 @@ describe('Checkbox', () => {
     const value = 'Test';
     const instance = getDOMNode(<Checkbox defaultValue={value}>Test</Checkbox>);
 
-    assert.equal(instance.querySelector('input').value, value);
+    assert.equal((instance.querySelector('input') as HTMLInputElement).value, value);
   });
 
   it('Should support inputRef', () => {
@@ -94,7 +95,7 @@ describe('Checkbox', () => {
       done();
     };
     const instance = getDOMNode(<Checkbox onClick={doneOp}>Title</Checkbox>);
-    ReactTestUtils.Simulate.click(instance.querySelector('label'));
+    ReactTestUtils.Simulate.click(instance.querySelector('label') as HTMLLabelElement);
   });
 
   it('Should call onBlur callback', done => {
@@ -102,7 +103,7 @@ describe('Checkbox', () => {
       done();
     };
     const instance = getDOMNode(<Checkbox onBlur={doneOp} />);
-    ReactTestUtils.Simulate.blur(instance.querySelector('input'));
+    ReactTestUtils.Simulate.blur(instance.querySelector('input') as HTMLInputElement);
   });
 
   it('Should call onFocus callback', done => {
@@ -110,7 +111,7 @@ describe('Checkbox', () => {
       done();
     };
     const instance = getDOMNode(<Checkbox onFocus={doneOp} />);
-    ReactTestUtils.Simulate.focus(instance.querySelector('input'));
+    ReactTestUtils.Simulate.focus(instance.querySelector('input') as HTMLInputElement);
   });
 
   describe('Plain text', () => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 
@@ -158,7 +159,7 @@ describe('CheckboxGroup', () => {
     );
 
     const checkboxs = instance.querySelectorAll(`.${globalKey}checkbox`);
-    ReactTestUtils.Simulate.change(checkboxs[2].querySelector('input'));
+    ReactTestUtils.Simulate.change(checkboxs[2].querySelector('input') as HTMLInputElement);
   });
 
   describe('Plain text', () => {
