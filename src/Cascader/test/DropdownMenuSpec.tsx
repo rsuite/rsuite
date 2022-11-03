@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, act } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import Dropdown from '../Cascader';
@@ -31,7 +32,17 @@ const items = [
 
 describe('Cascader -  DropdownMenu', () => {
   it('Should output a `cascader-menu-items` ', () => {
-    const instance = getDOMNode(<DropdownMenu classPrefix="rs-picker-cascader-menu" />);
+    const instance = getDOMNode(
+      <DropdownMenu
+        classPrefix="rs-picker-cascader-menu"
+        disabledItemValues={[]}
+        childrenKey="children"
+        cascadeData={[]}
+        cascadePaths={[]}
+        valueKey="value"
+        labelKey="label"
+      />
+    );
 
     expect(instance.className).to.contain('cascader-menu-items');
   });
@@ -149,19 +160,51 @@ describe('Cascader -  DropdownMenu', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<DropdownMenu classPrefix="cascader" className="custom" />);
+    const instance = getDOMNode(
+      <DropdownMenu
+        classPrefix="cascader"
+        className="custom"
+        disabledItemValues={[]}
+        childrenKey="children"
+        cascadeData={[]}
+        cascadePaths={[]}
+        valueKey="value"
+        labelKey="label"
+      />
+    );
     expect(instance.className).to.contain('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<DropdownMenu classPrefix="cascader" style={{ fontSize }} />);
+    const instance = getDOMNode(
+      <DropdownMenu
+        classPrefix="cascader"
+        style={{ fontSize }}
+        disabledItemValues={[]}
+        childrenKey="children"
+        cascadeData={[]}
+        cascadePaths={[]}
+        valueKey="value"
+        labelKey="label"
+      />
+    );
 
     expect(instance.style.fontSize).to.equal(fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<DropdownMenu classPrefix="custom-prefix" />);
+    const instance = getDOMNode(
+      <DropdownMenu
+        classPrefix="custom-prefix"
+        disabledItemValues={[]}
+        childrenKey="children"
+        cascadeData={[]}
+        cascadePaths={[]}
+        valueKey="value"
+        labelKey="label"
+      />
+    );
     expect(instance.className).to.contain('custom-prefix');
   });
 });

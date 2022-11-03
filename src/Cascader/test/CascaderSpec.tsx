@@ -1,8 +1,10 @@
 import React from 'react';
 import { render, waitFor, fireEvent, act } from '@testing-library/react';
+import sinon from 'sinon';
 import Cascader from '../Cascader';
 import Button from '../../Button';
 import { getDOMNode, getInstance } from '@test/testUtils';
+import { PickerHandle } from '../../Picker';
 
 const items = [
   {
@@ -90,19 +92,34 @@ describe('Cascader', () => {
       <Cascader data={[]} renderValue={v => [v, placeholder]} value={''} />
     );
 
-    assert.equal(instance.querySelector('.rs-picker-toggle-value').textContent, `1${placeholder}`);
-    assert.equal(instance2.querySelector('.rs-picker-toggle-value').textContent, `2${placeholder}`);
-    assert.equal(instance3.querySelector('.rs-picker-toggle-value').textContent, placeholder);
+    assert.equal(
+      (instance.querySelector('.rs-picker-toggle-value') as HTMLElement).textContent,
+      `1${placeholder}`
+    );
+    assert.equal(
+      (instance2.querySelector('.rs-picker-toggle-value') as HTMLElement).textContent,
+      `2${placeholder}`
+    );
+    assert.equal(
+      (instance3.querySelector('.rs-picker-toggle-value') as HTMLElement).textContent,
+      placeholder
+    );
   });
 
   it('Should not be call renderValue()', () => {
     const instance = getDOMNode(<Cascader data={[]} renderValue={() => 'value'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+    assert.equal(
+      (instance.querySelector('.rs-picker-toggle-placeholder') as HTMLElement).textContent,
+      'Select'
+    );
   });
 
   it('Should render a placeholder when value error', () => {
     const instance = getDOMNode(<Cascader data={[]} value={2} placeholder={'test'} />);
-    assert.equal(instance.querySelector('.rs-picker-toggle-placeholder').textContent, 'test');
+    assert.equal(
+      (instance.querySelector('.rs-picker-toggle-placeholder') as HTMLElement).textContent,
+      'test'
+    );
   });
 
   it('Should be active by value', () => {
@@ -174,7 +191,7 @@ describe('Cascader', () => {
     };
     const instance = getDOMNode(<Cascader data={items} defaultValue={'3-1'} onClean={doneOp} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
   });
 
   it('Should call `onOpen` callback', done => {
@@ -197,10 +214,12 @@ describe('Cascader', () => {
     const instance = getDOMNode(<Cascader defaultOpen data={items} defaultValue={'3-1'} />);
 
     act(() => {
-      fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+      fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
     });
 
-    expect(instance.querySelector('.rs-picker-toggle-placeholder').textContent).to.equal('Select');
+    expect(
+      (instance.querySelector('.rs-picker-toggle-placeholder') as HTMLElement).textContent
+    ).to.equal('Select');
   });
 
   it('Should have a custom className', () => {
@@ -248,7 +267,7 @@ describe('Cascader', () => {
 
   it('Should present an asyn loading state', () => {
     function fetchNodes() {
-      return new Promise(resolve => {
+      return new Promise<{ label: string; value: string }[]>(resolve => {
         setTimeout(() => {
           resolve([{ label: '2', value: '2' }]);
         }, 500);
@@ -274,9 +293,18 @@ describe('Cascader', () => {
     const instance2 = getDOMNode(<Cascader data={[]} value="Test" renderValue={() => null} />);
     const instance3 = getDOMNode(<Cascader data={[]} value="Test" renderValue={() => undefined} />);
 
-    assert.equal(instance1.querySelector('.rs-picker-toggle-value').textContent, '1');
-    assert.equal(instance2.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
-    assert.equal(instance3.querySelector('.rs-picker-toggle-placeholder').textContent, 'Select');
+    assert.equal(
+      (instance1.querySelector('.rs-picker-toggle-value') as HTMLElement).textContent,
+      '1'
+    );
+    assert.equal(
+      (instance2.querySelector('.rs-picker-toggle-placeholder') as HTMLElement).textContent,
+      'Select'
+    );
+    assert.equal(
+      (instance3.querySelector('.rs-picker-toggle-placeholder') as HTMLElement).textContent,
+      'Select'
+    );
 
     assert.include(instance1.className, 'rs-picker-has-value');
     assert.notInclude(instance2.className, 'rs-picker-has-value');
@@ -284,9 +312,13 @@ describe('Cascader', () => {
   });
 
   it('Should update path', () => {
+    type AppInstance = {
+      picker: PickerHandle;
+      setValue: (newValue: string | null) => void;
+    };
     const TestApp = React.forwardRef((props, ref) => {
       const [value, setValue] = React.useState('2');
-      const pickerRef = React.useRef();
+      const pickerRef = React.useRef<PickerHandle>(null);
       React.useImperativeHandle(ref, () => ({
         picker: pickerRef.current,
         setValue
@@ -297,28 +329,40 @@ describe('Cascader', () => {
 
     TestApp.displayName = 'TestApp';
 
-    const ref = React.createRef();
+    const ref = React.createRef<AppInstance>();
 
     render(<TestApp ref={ref} />);
 
-    expect(ref.current.picker.root.querySelector('.rs-picker-toggle-value')).to.text('2');
     expect(
-      ref.current.picker.overlay.querySelector('.rs-picker-cascader-menu-item-active')
+      (((ref.current as AppInstance).picker as PickerHandle).root as HTMLElement).querySelector(
+        '.rs-picker-toggle-value'
+      )
+    ).to.text('2');
+    expect(
+      (((ref.current as AppInstance).picker as PickerHandle).overlay as HTMLElement).querySelector(
+        '.rs-picker-cascader-menu-item-active'
+      )
     ).to.text('2');
 
     act(() => {
-      ref.current.setValue(null);
+      (ref.current as AppInstance).setValue(null);
     });
 
-    expect(ref.current.picker.root.querySelector('.rs-picker-toggle-placeholder')).to.text(
-      'Select'
-    );
+    expect(
+      (((ref.current as AppInstance).picker as PickerHandle).root as HTMLElement).querySelector(
+        '.rs-picker-toggle-placeholder'
+      )
+    ).to.text('Select');
   });
 
   it('Should update columns', () => {
+    type AppInstance = {
+      picker: PickerHandle;
+      setData: (newData: { label: string; value: number }[]) => void;
+    };
     const TestApp = React.forwardRef((props, ref) => {
       const [data, setData] = React.useState([]);
-      const pickerRef = React.useRef();
+      const pickerRef = React.useRef<PickerHandle>(null);
       React.useImperativeHandle(ref, () => ({
         picker: pickerRef.current,
         setData
@@ -329,24 +373,30 @@ describe('Cascader', () => {
 
     TestApp.displayName = 'TestApp';
 
-    const ref = React.createRef();
+    const ref = React.createRef<AppInstance>();
     render(<TestApp ref={ref} />);
 
     expect(
-      ref.current.picker.overlay.querySelectorAll('.rs-picker-cascader-menu-item').length
+      ((ref.current as AppInstance).picker.overlay as HTMLElement).querySelectorAll(
+        '.rs-picker-cascader-menu-item'
+      ).length
     ).to.equal(0);
 
     act(() => {
-      ref.current.setData([{ label: 'test', value: 1 }]);
+      (ref.current as AppInstance).setData([{ label: 'test', value: 1 }]);
     });
 
     expect(
-      ref.current.picker.overlay.querySelectorAll('.rs-picker-cascader-menu-item').length
+      ((ref.current as AppInstance).picker.overlay as HTMLElement).querySelectorAll(
+        '.rs-picker-cascader-menu-item'
+      ).length
     ).to.equal(1);
 
-    expect(ref.current.picker.overlay.querySelector('.rs-picker-cascader-menu-item')).to.text(
-      'test'
-    );
+    expect(
+      ((ref.current as AppInstance).picker.overlay as HTMLElement).querySelector(
+        '.rs-picker-cascader-menu-item'
+      )
+    ).to.text('test');
   });
 
   it('Should show search items with childrenKey', () => {
@@ -378,7 +428,7 @@ describe('Cascader', () => {
       ]
     };
 
-    const cascaderRef = React.createRef();
+    const cascaderRef = React.createRef<PickerHandle>();
 
     render(
       <Cascader
@@ -390,13 +440,17 @@ describe('Cascader', () => {
     );
 
     act(() => {
-      const input = cascaderRef.current.overlay.querySelector('.rs-picker-search-bar-input');
+      const input = ((cascaderRef.current as PickerHandle).overlay as HTMLElement).querySelector(
+        '.rs-picker-search-bar-input'
+      ) as HTMLInputElement;
 
       fireEvent.focus(input);
       fireEvent.change(input, { target: { value: 'g' } });
     });
 
-    const searchResult = cascaderRef.current.overlay.querySelectorAll('.rs-picker-cascader-row');
+    const searchResult = (
+      (cascaderRef.current as PickerHandle).overlay as HTMLElement
+    ).querySelectorAll('.rs-picker-cascader-row');
 
     expect(searchResult.length).to.equal(2);
   });
@@ -427,17 +481,21 @@ describe('Cascader', () => {
       }
     ];
 
-    const cascaderRef = React.createRef();
+    const cascaderRef = React.createRef<PickerHandle>();
 
     render(<Cascader ref={cascaderRef} defaultOpen data={items} parentSelectable />);
 
-    const input = cascaderRef.current.overlay.querySelector('.rs-picker-search-bar-input');
+    const input = ((cascaderRef.current as PickerHandle).overlay as HTMLElement).querySelector(
+      '.rs-picker-search-bar-input'
+    ) as HTMLInputElement;
 
     act(() => {
       fireEvent.change(input, { target: { value: 'g' } });
     });
 
-    const searchResult = cascaderRef.current.overlay.querySelectorAll('.rs-picker-cascader-row');
+    const searchResult = (
+      (cascaderRef.current as PickerHandle).overlay as HTMLElement
+    ).querySelectorAll('.rs-picker-cascader-row');
 
     expect(searchResult.length).to.equal(3);
   });
@@ -455,8 +513,8 @@ describe('Cascader', () => {
         ]
       }
     ];
-    const cascaderRef = React.createRef();
-    let searchItems = null;
+    const cascaderRef = React.createRef<PickerHandle>();
+    let searchItems: unknown | null = null;
 
     render(
       <Cascader
@@ -470,15 +528,17 @@ describe('Cascader', () => {
       />
     );
 
-    const input = cascaderRef.current.overlay.querySelector('.rs-picker-search-bar-input');
+    const input = ((cascaderRef.current as PickerHandle).overlay as HTMLElement).querySelector(
+      '.rs-picker-search-bar-input'
+    ) as HTMLInputElement;
 
     act(() => {
       fireEvent.change(input, { target: { value: 't' } });
     });
 
-    const searchResult = cascaderRef.current.overlay.querySelector(
-      '.rs-picker-cascader-row .test-item'
-    );
+    const searchResult = (
+      (cascaderRef.current as PickerHandle).overlay as HTMLElement
+    ).querySelector('.rs-picker-cascader-row .test-item');
 
     expect(searchResult).to.exist;
     expect(searchItems).to.length(2);
@@ -510,9 +570,13 @@ describe('Cascader', () => {
   });
 
   it('Should update columns', () => {
+    type AppInstance = {
+      picker: PickerHandle;
+      setData: (newData: { label: string; value: number }[]) => void;
+    };
     const TestApp = React.forwardRef((props, ref) => {
       const [data, setData] = React.useState([]);
-      const pickerRef = React.useRef();
+      const pickerRef = React.useRef<PickerHandle>(null);
       React.useImperativeHandle(ref, () => ({
         setData,
         picker: pickerRef.current
@@ -523,12 +587,12 @@ describe('Cascader', () => {
     const ref = React.createRef();
     render(<TestApp ref={ref} />);
 
-    const overlay = ref.current.picker.overlay;
+    const overlay = (ref.current as AppInstance).picker.overlay as HTMLElement;
 
     expect(overlay.querySelectorAll('.rs-picker-cascader-menu-item')).to.length(0);
 
     act(() => {
-      ref.current.setData([{ label: 'test', value: 1 }]);
+      (ref.current as AppInstance).setData([{ label: 'test', value: 1 }]);
     });
 
     expect(overlay.querySelectorAll('.rs-picker-cascader-menu-item')).to.length(1);

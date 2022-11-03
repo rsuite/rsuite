@@ -24,13 +24,12 @@ const data = [
 
 describe('Cascader styles', () => {
   it('Should render the correct caret', () => {
-    const instanceRef = React.createRef();
-    render(<Cascader ref={instanceRef} data={data} menuClassName="rs-cascader-styles-test" open />);
+    render(<Cascader data={data} menuClassName="rs-cascader-styles-test" open />);
 
     const menuItemDom = document.body.querySelector(
       '.rs-cascader-styles-test .rs-picker-cascader-menu-item'
-    );
-    const caretDom = menuItemDom.querySelector('.rs-picker-cascader-menu-caret');
+    ) as HTMLElement;
+    const caretDom = menuItemDom.querySelector('.rs-picker-cascader-menu-caret') as HTMLElement;
     inChrome && assert.equal(getStyle(menuItemDom, 'padding'), '8px 28px 8px 12px');
     assert.equal(caretDom.getAttribute('aria-label'), 'angle right');
   });
