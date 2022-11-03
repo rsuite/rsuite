@@ -9,9 +9,14 @@ describe('Drawer styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef();
 
+    // FIXME Add missing `ref` delcaration for Drawer
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     render(<Drawer ref={instanceRef} open />);
 
-    const drawer = instanceRef.current.querySelector('.rs-drawer');
+    const drawer = (instanceRef.current as HTMLDivElement).querySelector(
+      '.rs-drawer'
+    ) as HTMLElement;
 
     assert.equal(getStyle(drawer, 'position'), 'fixed');
     assert.equal(getStyle(drawer, 'zIndex'), '1050');
@@ -20,9 +25,12 @@ describe('Drawer styles', () => {
 
   it('Should have a wrapper that fills the window', () => {
     const instanceRef = React.createRef();
+    // FIXME Add missing `ref` delcaration for Drawer
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     render(<Drawer ref={instanceRef} open />);
 
-    const wrapper = instanceRef.current;
+    const wrapper = instanceRef.current as HTMLDivElement;
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
 

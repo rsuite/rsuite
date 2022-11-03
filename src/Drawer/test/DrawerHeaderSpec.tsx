@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 
 import Drawer from '../Drawer';
@@ -21,7 +22,7 @@ describe('Drawer.Header', () => {
   it('Should call onClose callback', () => {
     const onCloseSpy = sinon.spy();
     const instance = getDOMNode(<Drawer.Header onClose={onCloseSpy} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-drawer-header-close'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-drawer-header-close') as HTMLElement);
     assert.isTrue(onCloseSpy.calledOnce);
   });
 

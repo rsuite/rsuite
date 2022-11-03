@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 
 import Drawer from '../Drawer';
@@ -31,7 +32,7 @@ describe('Drawer', () => {
   it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = getDOMNode(<Drawer style={{ fontSize }} open />);
-    assert.equal(instance.querySelector('.rs-drawer').style.fontSize, fontSize);
+    assert.equal((instance.querySelector('.rs-drawer') as HTMLElement).style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
@@ -60,7 +61,7 @@ describe('Drawer', () => {
   });
 
   describe('Size variants', () => {
-    const sizes = ['lg', 'md', 'sm', 'xs', 'full'];
+    const sizes = ['lg', 'md', 'sm', 'xs', 'full'] as const;
 
     sizes.forEach(size => {
       const expectedClassName = `rs-drawer-${size}`;
