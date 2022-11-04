@@ -1,6 +1,7 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import Menu from '../Menu';
 
 afterEach(() => {

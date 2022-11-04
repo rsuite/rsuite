@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import sinon from 'sinon';
 import Menu from '../Menu';
 import MenuItem from '../MenuItem';
 
