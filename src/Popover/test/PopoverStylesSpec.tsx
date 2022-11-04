@@ -9,13 +9,13 @@ import Button from '../../Button/index';
 
 describe('Popover styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(
       <Popover ref={instanceRef} visible>
         Text
       </Popover>
     );
-    const dom = instanceRef.current;
+    const dom = instanceRef.current as HTMLElement;
 
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'Popover background-color');
   });
@@ -35,9 +35,9 @@ describe('Popover styles', () => {
         <Button appearance="subtle">Test</Button>
       </Whisper>
     );
-    const dom = document.querySelector('.popover-top-start');
+    const dom = document.querySelector('.popover-top-start') as HTMLElement;
     assert.equal(getStyle(dom, 'marginTop'), '-8px', 'Popover margin value');
-    const arrowDom = dom.querySelector('.rs-popover-arrow');
+    const arrowDom = dom.querySelector('.rs-popover-arrow') as HTMLElement;
     assert.equal(getStyle(arrowDom, 'bottom'), '-6px', 'Popover arrow bottom value');
     assert.equal(getStyle(arrowDom, 'marginLeft'), '-6px', 'Popover arrow bottom value');
   });
