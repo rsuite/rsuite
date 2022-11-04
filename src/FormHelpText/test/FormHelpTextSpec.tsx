@@ -22,6 +22,10 @@ describe('FormHelpText', () => {
 
   it('Should have `for` in span ', () => {
     const id = 'Test';
+    // FIXME <span> does not support `for` attribute
+    //       See https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/for
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const instance = getDOMNode(<FormHelpText htmlFor={id} />);
     assert.ok(instance.getAttribute('for'), id);
   });

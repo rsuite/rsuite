@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, fireEvent, screen } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
-import Form from '../../Form';
+import Form, { FormInstance } from '../../Form';
 import FormControl from '../FormControl';
 import FormGroup from '../../FormGroup';
 import Schema from '../../Schema';
@@ -38,7 +39,7 @@ describe('FormControl', () => {
       </Form>
     );
 
-    ReactTestUtils.Simulate.change(instance.querySelector('input'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
   });
 
   it('Should be readOnly', () => {
@@ -76,7 +77,7 @@ describe('FormControl', () => {
       </Form>
     );
 
-    ReactTestUtils.Simulate.blur(instance.querySelector('input'));
+    ReactTestUtils.Simulate.blur(instance.querySelector('input') as HTMLInputElement);
   });
 
   it('Should apply custom className to accepter component', () => {
@@ -97,7 +98,7 @@ describe('FormControl', () => {
       </Form>
     );
 
-    assert.equal(instance.querySelector('input').style.fontSize, fontSize);
+    assert.equal((instance.querySelector('input') as HTMLInputElement).style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
@@ -106,16 +107,21 @@ describe('FormControl', () => {
         <FormControl classPrefix="custom-prefix" name="username" />
       </Form>
     );
-    assert.ok(instance.querySelector('div').className.match(/\bcustom-prefix\b/));
+    assert.ok(
+      (instance.querySelector('div') as HTMLDivElement).className.match(/\bcustom-prefix\b/)
+    );
   });
 
   it('Should render correctly when form value was null', () => {
     const instance = getDOMNode(
+      // FIXME `formValue` prop does not support `null` value
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       <Form formValue={null}>
         <FormControl name="name" />
       </Form>
     );
-    assert.equal(instance.querySelector('input').value, '');
+    assert.equal((instance.querySelector('input') as HTMLInputElement).value, '');
   });
 
   it('Should render correctly form default value when set', () => {
@@ -125,17 +131,20 @@ describe('FormControl', () => {
         <FormControl name="name" />
       </Form>
     );
-    assert.equal(instance.querySelector('input').value, mockValue);
+    assert.equal((instance.querySelector('input') as HTMLInputElement).value, mockValue);
   });
 
   it('Should render correctly default value when explicitly set and form default is not set', () => {
     const mockValue = 'value';
     const instance = getDOMNode(
+      // FIXME `formDefaultValue` prop does not support `null` value
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       <Form formDefaultValue={null}>
         <FormControl name="name" defaultValue={mockValue} />
       </Form>
     );
-    assert.equal(instance.querySelector('input').value, mockValue);
+    assert.equal((instance.querySelector('input') as HTMLInputElement).value, mockValue);
   });
 
   it('Should render correctly default value when explicitly set over form default', () => {
@@ -145,11 +154,14 @@ describe('FormControl', () => {
         <FormControl name="name" defaultValue={mockValue} />
       </Form>
     );
-    assert.equal(instance.querySelector('input').value, mockValue);
+    assert.equal((instance.querySelector('input') as HTMLInputElement).value, mockValue);
   });
 
   it('Should render correctly when form error was null', () => {
     const instance = getDOMNode(
+      // FIXME `formError` prop does not support `null` value
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       <Form formError={null}>
         <FormControl name="name" />
       </Form>
@@ -184,7 +196,10 @@ describe('FormControl', () => {
       </Form>
     );
 
-    assert.equal(instance.querySelector('.rs-form-control-message-wrapper').textContent, 'error2');
+    assert.equal(
+      (instance.querySelector('.rs-form-control-message-wrapper') as HTMLElement).textContent,
+      'error2'
+    );
   });
 
   it('Should be associated with ErrorMessage via aria-errormessage', () => {
@@ -202,7 +217,7 @@ describe('FormControl', () => {
     expect(input).to.have.attr('aria-invalid', 'true');
 
     expect(alert).to.exist;
-    expect(input).to.have.attr('aria-errormessage', alert.getAttribute('id'));
+    expect(input).to.have.attr('aria-errormessage', alert.getAttribute('id') as string);
   });
 
   it('Should remove value and error when shouldResetWithUnmount is true', () => {
@@ -241,17 +256,21 @@ describe('FormControl', () => {
       );
     };
     const { container } = render(<Wrapper />);
-    fireEvent.change(container.querySelector('#username'), { target: { value: 'username' } });
+    fireEvent.change(container.querySelector('#username') as HTMLInputElement, {
+      target: { value: 'username' }
+    });
     assert.deepEqual(refValue, { username: 'username', email: '' });
     assert.deepEqual(refError, { username: 'The length cannot exceed 2' });
-    fireEvent.change(container.querySelector('#email'), { target: { value: 'email' } });
-    assert.deepEqual(refValue, { email: 'email' });
+    fireEvent.change(container.querySelector('#email') as HTMLInputElement, {
+      target: { value: 'email' }
+    });
+    assert.deepEqual(refValue, { email: 'email' } as any);
     assert.deepEqual(refError, { email: 'The length cannot exceed 2' });
   });
 
   describe('rule', () => {
     it("should check the field's rule", () => {
-      const formRef = React.createRef();
+      const formRef = React.createRef<FormInstance>();
       const handleError = sinon.spy();
 
       render(
@@ -259,13 +278,13 @@ describe('FormControl', () => {
           <FormControl name="items" rule={Schema.Types.StringType().isRequired('require')} />
         </Form>
       );
-      formRef.current.check();
+      (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 1);
       assert.deepEqual(handleError.firstCall.firstArg, { items: 'require' });
     });
 
     it('Should not validate fields unmounted with rule', () => {
-      const formRef = React.createRef();
+      const formRef = React.createRef<FormInstance>();
       const handleError = sinon.spy();
 
       function Wrapper() {
@@ -293,18 +312,18 @@ describe('FormControl', () => {
       }
       const { container } = render(<Wrapper />);
 
-      formRef.current.check();
+      (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 1);
       assert.deepEqual(handleError.firstCall.firstArg, { user: 'require', password: 'require' });
 
-      fireEvent.click(container.querySelector('button'));
-      formRef.current.check();
+      fireEvent.click(container.querySelector('button') as HTMLElement);
+      (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 2);
       assert.deepEqual(handleError.secondCall.firstArg, { user: 'require' });
     });
 
     it("Should validate accurately,when field's rule is dynamic", () => {
-      const formRef = React.createRef();
+      const formRef = React.createRef<FormInstance>();
       const handleError = sinon.spy();
 
       function Wrapper() {
@@ -327,18 +346,18 @@ describe('FormControl', () => {
 
       const { container } = render(<Wrapper />);
 
-      formRef.current.check();
+      (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 1);
       assert.deepEqual(handleError.firstCall.firstArg, { user: 'require' });
 
-      fireEvent.click(container.querySelector('button'));
-      formRef.current.check();
+      fireEvent.click(container.querySelector('button') as HTMLElement);
+      (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 2);
       assert.deepEqual(handleError.secondCall.firstArg, { user: 'second require' });
     });
 
     it("Should use the field's rule when both model and field have same name rule", () => {
-      const formRef = React.createRef();
+      const formRef = React.createRef<FormInstance>();
       const handleError = sinon.spy();
 
       function Wrapper() {
@@ -353,7 +372,7 @@ describe('FormControl', () => {
       }
       render(<Wrapper />);
 
-      formRef.current.check();
+      (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 1);
       assert.equal(handleError.firstCall.firstArg.user, 'field require');
     });

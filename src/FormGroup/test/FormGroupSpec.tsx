@@ -9,14 +9,14 @@ describe('FormGroup', () => {
   testStandardProps(<FormGroup />);
 
   it('Should render a FormGroup', () => {
-    let title = 'Test';
-    let instance = getDOMNode(<FormGroup>{title}</FormGroup>);
+    const title = 'Test';
+    const instance = getDOMNode(<FormGroup>{title}</FormGroup>);
     assert.equal(instance.className, 'rs-form-group');
     assert.equal(instance.innerHTML, title);
   });
 
   it('Should be assigned a controlId', () => {
-    let instance = getDOMNode(
+    const instance = getDOMNode(
       <FormGroup controlId="name">
         <div>
           <FormControlLabel />
@@ -24,12 +24,18 @@ describe('FormGroup', () => {
         </div>
       </FormGroup>
     );
-    assert.equal(instance.querySelector('.rs-form-control-label').getAttribute('for'), 'name');
-    assert.equal(instance.querySelector('.rs-input').getAttribute('id'), 'name');
+    assert.equal(
+      (instance.querySelector('.rs-form-control-label') as HTMLLabelElement).getAttribute('for'),
+      'name'
+    );
+    assert.equal(
+      (instance.querySelector('.rs-input') as HTMLInputElement).getAttribute('id'),
+      'name'
+    );
   });
 
   it('Should use their own htmlFor and id', () => {
-    let instance = getDOMNode(
+    const instance = getDOMNode(
       <FormGroup controlId="name">
         <div>
           <FormControlLabel htmlFor="email" />
@@ -37,7 +43,13 @@ describe('FormGroup', () => {
         </div>
       </FormGroup>
     );
-    assert.equal(instance.querySelector('.rs-form-control-label').getAttribute('for'), 'email');
-    assert.equal(instance.querySelector('.rs-input').getAttribute('id'), 'email');
+    assert.equal(
+      (instance.querySelector('.rs-form-control-label') as HTMLLabelElement).getAttribute('for'),
+      'email'
+    );
+    assert.equal(
+      (instance.querySelector('.rs-input') as HTMLInputElement).getAttribute('id'),
+      'email'
+    );
   });
 });

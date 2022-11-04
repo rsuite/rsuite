@@ -7,7 +7,7 @@ import '../styles/index.less';
 
 describe('FormErrorMessage styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(
       <div className="rs-form-control-wrapper">
         <FormErrorMessage show ref={instanceRef}>
@@ -16,7 +16,7 @@ describe('FormErrorMessage styles', () => {
       </div>
     );
     const dom = getDOMNode(instanceRef.current);
-    const errorMessageDom = dom.querySelector('.rs-form-error-message');
+    const errorMessageDom = dom.querySelector('.rs-form-error-message') as HTMLElement;
     assert.equal(getStyle(errorMessageDom, 'color'), toRGB('#f44336'), 'FormErrorMessage color');
     assert.equal(
       getStyle(errorMessageDom, 'backgroundColor'),

@@ -8,15 +8,15 @@ describe('FormControlLabel', () => {
   testStandardProps(<FormControlLabel />);
 
   it('Should render a FormControlLabel', () => {
-    let title = 'Test';
-    let instance = getDOMNode(<FormControlLabel>{title}</FormControlLabel>);
+    const title = 'Test';
+    const instance = getDOMNode(<FormControlLabel>{title}</FormControlLabel>);
     assert.include(instance.className, 'form-control-label');
     assert.equal(instance.innerHTML, title);
     assert.equal(instance.tagName, 'LABEL');
   });
 
   it('Should have `for` in label when set controlId of FormGroup', () => {
-    let instance = getDOMNode(
+    const instance = getDOMNode(
       <FormGroup controlId="test">
         <FormControlLabel />
       </FormGroup>

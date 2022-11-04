@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, fireEvent, act, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 
-import Form from '../Form';
+import Form, { FormInstance } from '../Form';
 import FormControl from '../../FormControl';
 import Schema from '../../Schema';
 
@@ -18,6 +19,9 @@ const model = Schema.Model({
 });
 
 const modelAsync = Schema.Model({
+  // FIXME `.addRule()` doesn't support a callback returning Promise
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   name: Schema.Types.StringType().addRule(value => {
     return new Promise(resolve => {
       setTimeout(() => {
@@ -34,8 +38,8 @@ describe('Form', () => {
   testStandardProps(<Form />);
 
   it('Should render a Form', () => {
-    let title = 'Test';
-    let instance = getDOMNode(<Form>{title}</Form>);
+    const title = 'Test';
+    const instance = getDOMNode(<Form>{title}</Form>);
     assert.equal(instance.tagName, 'FORM');
     assert.equal(instance.innerHTML, title);
   });
@@ -63,8 +67,14 @@ describe('Form', () => {
         <FormControl name="email" />
       </Form>
     );
-    assert.equal(instance.querySelector('input[name="name"]').value, values.name);
-    assert.equal(instance.querySelector('input[name="email"]').value, values.email);
+    assert.equal(
+      (instance.querySelector('input[name="name"]') as HTMLInputElement).value,
+      values.name
+    );
+    assert.equal(
+      (instance.querySelector('input[name="email"]') as HTMLInputElement).value,
+      values.email
+    );
   });
 
   it('Should have a default values', () => {
@@ -78,8 +88,14 @@ describe('Form', () => {
         <FormControl name="email" />
       </Form>
     );
-    assert.equal(instance.querySelector('input[name="name"]').value, values.name);
-    assert.equal(instance.querySelector('input[name="email"]').value, values.email);
+    assert.equal(
+      (instance.querySelector('input[name="name"]') as HTMLInputElement).value,
+      values.name
+    );
+    assert.equal(
+      (instance.querySelector('input[name="email"]') as HTMLInputElement).value,
+      values.email
+    );
   });
 
   it('Should be `false` for check status', () => {
@@ -209,7 +225,9 @@ describe('Form', () => {
       </Form>
     );
     act(() => {
-      fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
+      fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
+        target: { value: 'abcd' }
+      });
     });
 
     expect(onChangeSpy).to.be.called;
@@ -227,7 +245,9 @@ describe('Form', () => {
       </Form>
     );
 
-    fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
+    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
+      target: { value: 'abcd' }
+    });
 
     expect(onErrorSpy).to.be.called;
     expect(onErrorSpy).to.be.calledWith({ name: checkEmail });
@@ -244,7 +264,7 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    fireEvent.change(instance.querySelector('input[name="name"]'), {
+    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
       target: { value: 'abcd@ddd.com' }
     });
 
@@ -262,7 +282,9 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
+    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
+      target: { value: 'abcd' }
+    });
     expect(onCheckSpy).to.be.called;
     expect(onCheckSpy).to.be.calledWith({});
   });
@@ -278,7 +300,7 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    fireEvent.blur(instance.querySelector('input[name="name"]'));
+    fireEvent.blur(instance.querySelector('input[name="name"]') as HTMLInputElement);
 
     expect(onCheckSpy).to.be.called;
     expect(onCheckSpy).to.be.calledWith({});
@@ -291,12 +313,17 @@ describe('Form', () => {
 
     const onCheckSpy = sinon.spy();
     const instance = getDOMNode(
+      // FIXME `checkTrigger` doesn't support `null` value
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       <Form formDefaultValue={values} onCheck={onCheckSpy} checkTrigger={null}>
         <FormControl name="name" />
       </Form>
     );
-    fireEvent.blur(instance.querySelector('input[name="name"]'));
-    fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
+    fireEvent.blur(instance.querySelector('input[name="name"]') as HTMLInputElement);
+    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
+      target: { value: 'abcd' }
+    });
 
     expect(onCheckSpy).to.be.not.called;
   });
@@ -318,7 +345,9 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
+    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
+      target: { value: 'abcd' }
+    });
 
     expect(onCheckSpy).to.be.called;
     expect(onCheckSpy).to.be.calledWith({ email: 'email is null' });
@@ -336,7 +365,9 @@ describe('Form', () => {
       </Form>
     );
 
-    fireEvent.change(instance.querySelector('input[name="name"]'), { target: { value: 'abcd' } });
+    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
+      target: { value: 'abcd' }
+    });
 
     await waitFor(() => {
       expect(onErrorSpy).to.be.called;
@@ -399,7 +430,9 @@ describe('Form', () => {
         <FormControl name="items" accepter={Field} />
       </Form>
     );
-    fireEvent.change(instance.querySelector('input[name="items"]'), { target: { value: 'abcd' } });
+    fireEvent.change(instance.querySelector('input[name="items"]') as HTMLInputElement, {
+      target: { value: 'abcd' }
+    });
 
     expect(onErrorSpy).to.be.called;
     expect(onErrorSpy).to.be.calledWith({
@@ -436,7 +469,7 @@ describe('Form', () => {
       items: [{ field1: '', field2: '' }]
     };
 
-    const formRef = React.createRef();
+    const formRef = React.createRef<FormInstance>();
     const onErrorSpy = sinon.spy();
 
     render(
@@ -446,7 +479,7 @@ describe('Form', () => {
     );
 
     act(() => {
-      formRef.current.check();
+      (formRef.current as FormInstance).check();
     });
 
     expect(onErrorSpy).to.be.called;
