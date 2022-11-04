@@ -65,7 +65,7 @@ function createElementToContainer(width, height) {
 
 describe('Overlay - positionUtils', () => {
   it('Should get the position of the element relative to the container', () => {
-    const utils = positionUtils({ placement: 'left' });
+    const utils = positionUtils({ placement: 'left', preventOverflow: false, padding: 0 });
     const positon = utils.getPosition(target, container);
 
     assert.deepEqual(positon, {
@@ -77,7 +77,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should not overflow the container', () => {
-    const utils = positionUtils({ placement: 'left', preventOverflow: true });
+    const utils = positionUtils({ placement: 'left', preventOverflow: true, padding: 0 });
     const overlayWidth = 40;
     const overlayHeight = 40;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -88,7 +88,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `left` of `target`', () => {
-    const utils = positionUtils({ placement: 'left' });
+    const utils = positionUtils({ placement: 'left', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -100,7 +100,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `leftStart` of `target`', () => {
-    const utils = positionUtils({ placement: 'leftStart' });
+    const utils = positionUtils({ placement: 'leftStart', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -112,7 +112,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `leftEnd` of `target`', () => {
-    const utils = positionUtils({ placement: 'leftEnd' });
+    const utils = positionUtils({ placement: 'leftEnd', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -124,7 +124,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `right` of `target`', () => {
-    const utils = positionUtils({ placement: 'right' });
+    const utils = positionUtils({ placement: 'right', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -136,7 +136,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `rightStart` of `target`', () => {
-    const utils = positionUtils({ placement: 'rightStart' });
+    const utils = positionUtils({ placement: 'rightStart', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -148,7 +148,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `rightEnd` of `target`', () => {
-    const utils = positionUtils({ placement: 'rightEnd' });
+    const utils = positionUtils({ placement: 'rightEnd', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -160,7 +160,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `top` of `target`', () => {
-    const utils = positionUtils({ placement: 'top' });
+    const utils = positionUtils({ placement: 'top', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -172,7 +172,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `topStart` of `target`', () => {
-    const utils = positionUtils({ placement: 'topStart' });
+    const utils = positionUtils({ placement: 'topStart', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -184,7 +184,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `topEnd` of `target`', () => {
-    const utils = positionUtils({ placement: 'topEnd' });
+    const utils = positionUtils({ placement: 'topEnd', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -196,7 +196,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `bottom` of `target`', () => {
-    const utils = positionUtils({ placement: 'bottom' });
+    const utils = positionUtils({ placement: 'bottom', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -208,7 +208,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `bottomStart` of `target`', () => {
-    const utils = positionUtils({ placement: 'bottomStart' });
+    const utils = positionUtils({ placement: 'bottomStart', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -220,7 +220,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `bottomEnd` of `target`', () => {
-    const utils = positionUtils({ placement: 'bottomEnd' });
+    const utils = positionUtils({ placement: 'bottomEnd', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -232,7 +232,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `auto` of `target`', () => {
-    const utils = positionUtils({ placement: 'auto' });
+    const utils = positionUtils({ placement: 'auto', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -244,7 +244,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `auto` of `target` in body', () => {
-    const utils = positionUtils({ placement: 'auto' });
+    const utils = positionUtils({ placement: 'auto', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -256,7 +256,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `autoVertical` of `target`', () => {
-    const utils = positionUtils({ placement: 'autoVertical' });
+    const utils = positionUtils({ placement: 'autoVertical', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -268,7 +268,11 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `autoHorizontal` of `target`', () => {
-    const utils = positionUtils({ placement: 'autoHorizontal' });
+    const utils = positionUtils({
+      placement: 'autoHorizontal',
+      preventOverflow: false,
+      padding: 0
+    });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -280,7 +284,7 @@ describe('Overlay - positionUtils', () => {
   });
 
   it('Should get relative position to `left` of `cursorPosition`', () => {
-    const utils = positionUtils({ placement: 'left' });
+    const utils = positionUtils({ placement: 'left', preventOverflow: false, padding: 0 });
     const overlayWidth = 20;
     const overlayHeight = 20;
     const overlay = createElementToContainer(overlayWidth, overlayHeight);
@@ -290,7 +294,7 @@ describe('Overlay - positionUtils', () => {
       width: cursorPositionWidth,
       height: cursorPositionHeight
     };
-    const positon = utils.calcOverlayPosition(overlay, target, container, cursorPosition);
+    const positon = utils.calcOverlayPosition(overlay, target, container, cursorPosition as any);
 
     assert.equal(positon.positionLeft, cursorPositionLeft - overlayWidth);
     assert.equal(positon.positionTop, cursorPositionTop - targetHeight / 2);

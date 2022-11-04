@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { Ref } from 'react';
 import { Simulate } from 'react-dom/test-utils';
 import { act, fireEvent, render } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import OverlayTrigger from '../OverlayTrigger';
 import Tooltip from '../../Tooltip';
@@ -172,12 +173,18 @@ describe('OverlayTrigger', () => {
 
   it('Should not be rendered repeatedly', () => {
     const onMouseMove = sinon.spy();
-    const count = React.createRef(0);
+    // FIXME `.createRef()` does not accept arguments
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const count = React.createRef<number>(0);
 
     const MyButton = React.forwardRef((props, ref) => {
+      // FIXME Ref is read-only
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       count.current += 1;
       return (
-        <button {...props} ref={ref}>
+        <button {...props} ref={ref as Ref<HTMLButtonElement>}>
           {count.current}
         </button>
       );
@@ -200,12 +207,18 @@ describe('OverlayTrigger', () => {
 
   it('Should overlay follow the cursor', () => {
     const onMouseMove = sinon.spy();
-    const count = React.createRef(0);
+    // FIXME `.createRef()` does not accept arguments
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const count = React.createRef<number>(0);
 
     const MyButton = React.forwardRef((props, ref) => {
+      // FIXME Ref is read-only
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       count.current += 1;
       return (
-        <button {...props} ref={ref}>
+        <button {...props} ref={ref as Ref<HTMLButtonElement>}>
           {count.current}
         </button>
       );
