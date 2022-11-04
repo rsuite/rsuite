@@ -49,15 +49,15 @@ describe('List', () => {
         <List.Item index={1} />
       </List>
     );
-    assert.include(domNode.firstChild.className, 'rs-list-item-md');
-    assert.include(domNodeSmall.firstChild.className, 'rs-list-item-sm');
-    assert.include(domNodeMedium.firstChild.className, 'rs-list-item-md');
-    assert.include(domNodeLarge.firstChild.className, 'rs-list-item-lg');
+    assert.include((domNode.firstChild as HTMLElement).className, 'rs-list-item-md');
+    assert.include((domNodeSmall.firstChild as HTMLElement).className, 'rs-list-item-sm');
+    assert.include((domNodeMedium.firstChild as HTMLElement).className, 'rs-list-item-md');
+    assert.include((domNodeLarge.firstChild as HTMLElement).className, 'rs-list-item-lg');
   });
 
   it('should call onSortStart', done => {
     const callback = () => done();
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
       <List ref={ref} sortable onSortStart={callback}>
         <List.Item index={1}>item1</List.Item>
@@ -65,13 +65,13 @@ describe('List', () => {
       </List>
     );
 
-    ReactTestUtils.Simulate.mouseDown(ref.current.firstChild);
+    ReactTestUtils.Simulate.mouseDown((ref.current as HTMLDivElement).firstChild as HTMLElement);
   });
 
   it('should call onSortMove', done => {
     const callback = () => done();
     const mousemoveEvent = new Event('mousemove', { bubbles: true });
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
       <List
         sortable
@@ -84,14 +84,14 @@ describe('List', () => {
       </List>
     );
 
-    ReactTestUtils.Simulate.mouseDown(ref.current.firstChild);
+    ReactTestUtils.Simulate.mouseDown((ref.current as HTMLDivElement).firstChild as HTMLElement);
   });
 
   it('should call onSortEnd & onSort', done => {
     let count = 0;
     const callback = () => ++count > 1 && done();
     const mouseupEvent = new Event('mouseup', { bubbles: true });
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
       <List
         sortable
@@ -105,6 +105,6 @@ describe('List', () => {
       </List>
     );
 
-    ReactTestUtils.Simulate.mouseDown(ref.current.firstChild);
+    ReactTestUtils.Simulate.mouseDown((ref.current as HTMLDivElement).firstChild as HTMLElement);
   });
 });

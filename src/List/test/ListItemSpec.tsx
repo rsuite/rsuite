@@ -14,7 +14,7 @@ describe('ListItem', () => {
         <List.Item index={1} />
       </List>
     );
-    assert.include(domNode.firstChild.className, 'rs-list-item');
+    assert.include((domNode.firstChild as HTMLElement).className, 'rs-list-item');
   });
 
   it('Should be disabled', () => {
@@ -25,7 +25,7 @@ describe('ListItem', () => {
         </List.Item>
       </List>
     );
-    assert.include(domNode.firstChild.className, 'rs-list-item-disabled');
+    assert.include((domNode.firstChild as HTMLElement).className, 'rs-list-item-disabled');
   });
 
   it('Should be different size', async () => {

@@ -12,7 +12,7 @@ describe('ListItem styles', () => {
         <List.Item index={1} />
       </List>
     );
-    const dom = document.querySelector('.rs-list-styles-test .rs-list-item');
+    const dom = document.querySelector('.rs-list-styles-test .rs-list-item') as HTMLElement;
     assert.equal(getStyle(dom, 'position'), 'relative', 'List item position');
   });
 });
