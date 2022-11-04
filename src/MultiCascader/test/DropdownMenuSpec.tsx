@@ -1,5 +1,6 @@
 import React from 'react';
 import { getDOMNode, getInstance } from '@test/testUtils';
+import sinon from 'sinon';
 import DropdownMenu from '../DropdownMenu';
 import MultiCascader from '../MultiCascader';
 import { fireEvent, act } from '@testing-library/react';
@@ -33,7 +34,18 @@ const items = [
 
 describe('MultiCascader -  DropdownMenu', () => {
   it('Should output a `cascader-menu-items` ', () => {
-    const instance = getDOMNode(<DropdownMenu classPrefix={classPrefix} />);
+    const instance = getDOMNode(
+      <DropdownMenu
+        classPrefix={classPrefix}
+        disabledItemValues={[]}
+        value={[]}
+        childrenKey="children"
+        labelKey="label"
+        valueKey="value"
+        cascadeData={[]}
+        uncheckableItemValues={[]}
+      />
+    );
 
     assert.ok(instance.className.match(/\bcascader-menu-items\b/));
   });
@@ -164,18 +176,53 @@ describe('MultiCascader -  DropdownMenu', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<DropdownMenu classPrefix="cascader" className="custom" />);
+    const instance = getDOMNode(
+      <DropdownMenu
+        classPrefix="cascader"
+        className="custom"
+        disabledItemValues={[]}
+        value={[]}
+        childrenKey="children"
+        labelKey="label"
+        valueKey="value"
+        cascadeData={[]}
+        uncheckableItemValues={[]}
+      />
+    );
     assert.ok(instance.className.match(/\bcustom\b/));
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<DropdownMenu classPrefix="cascader" style={{ fontSize }} />);
+    const instance = getDOMNode(
+      <DropdownMenu
+        classPrefix="cascader"
+        style={{ fontSize }}
+        disabledItemValues={[]}
+        value={[]}
+        childrenKey="children"
+        labelKey="label"
+        valueKey="value"
+        cascadeData={[]}
+        uncheckableItemValues={[]}
+      />
+    );
     assert.equal(instance.style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<DropdownMenu classPrefix="custom-prefix" />);
+    const instance = getDOMNode(
+      <DropdownMenu
+        classPrefix="custom-prefix"
+        disabledItemValues={[]}
+        value={[]}
+        childrenKey="children"
+        labelKey="label"
+        valueKey="value"
+        cascadeData={[]}
+        uncheckableItemValues={[]}
+      />
+    );
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

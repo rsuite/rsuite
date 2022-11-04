@@ -138,7 +138,7 @@ describe('MultiCascader - utils', () => {
   it('removeAllChildrenValue', () => {
     const item = _.get(data, '0'); // 四川  1
     const value = ['1', '1-3', '1-2'];
-    const removedValue = removeAllChildrenValue(value, item, itemKeys);
+    const removedValue = removeAllChildrenValue(value, item, itemKeys) as string[];
     assert.equal(removedValue.toString(), '1-2,1-3');
     assert.equal(value.toString(), '1');
   });
