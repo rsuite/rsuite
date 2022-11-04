@@ -23,7 +23,7 @@ describe('ModalHeader', () => {
       done();
     };
     const instance = getDOMNode(<ModalHeader onClose={doneOp} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-modal-header-close'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-modal-header-close') as HTMLElement);
   });
 
   it('Should have a custom className', () => {
