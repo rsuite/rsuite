@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import InputNumber from '../InputNumber';
@@ -30,7 +31,7 @@ describe('InputNumber', () => {
 
   it('Should render placeholder in input', () => {
     const instance = getDOMNode(<InputNumber placeholder="abc" />);
-    assert.equal(instance.querySelector('input').placeholder, 'abc');
+    assert.equal((instance.querySelector('input') as HTMLInputElement).placeholder, 'abc');
   });
 
   it('Should output a link button', () => {
@@ -108,7 +109,7 @@ describe('InputNumber', () => {
   it('Should call onChange callback when onblur', () => {
     const onChangeSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onChange={onChangeSpy} />);
-    const input = instance.querySelector('.rs-input');
+    const input = instance.querySelector('.rs-input') as HTMLInputElement;
 
     fireEvent.blur(input, { target: { value: 2 } });
     assert.isTrue(onChangeSpy.calledOnce);
@@ -117,7 +118,7 @@ describe('InputNumber', () => {
   it('Should call onChange callback when onwheel', () => {
     const onChangeSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onChange={onChangeSpy} />);
-    const input = instance.querySelector('.rs-input');
+    const input = instance.querySelector('.rs-input') as HTMLInputElement;
 
     act(() => {
       input.focus();
@@ -137,7 +138,7 @@ describe('InputNumber', () => {
   it('Should call onWheel callback', () => {
     const onWheelSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onWheel={onWheelSpy} />);
-    const input = instance.querySelector('.rs-input');
+    const input = instance.querySelector('.rs-input') as HTMLInputElement;
 
     act(() => {
       input.focus();
@@ -150,7 +151,7 @@ describe('InputNumber', () => {
   it('Should call onChange callback when is control component', () => {
     const onChnageSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onChange={onChnageSpy} value={2} />);
-    const input = instance.querySelector('.rs-input');
+    const input = instance.querySelector('.rs-input') as HTMLInputElement;
 
     fireEvent.change(input, { target: { value: 3 } });
 
@@ -160,7 +161,7 @@ describe('InputNumber', () => {
   it('Should not call onChange callback when is not control component', () => {
     const onChnageSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onChange={onChnageSpy} />);
-    const input = instance.querySelector('.rs-input');
+    const input = instance.querySelector('.rs-input') as HTMLInputElement;
 
     fireEvent.change(input, { target: { value: 3 } });
 
@@ -170,7 +171,7 @@ describe('InputNumber', () => {
   it('Should call onBlur callback', () => {
     const onBlurSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onBlur={onBlurSpy} />);
-    fireEvent.blur(instance.querySelector('.rs-input'));
+    fireEvent.blur(instance.querySelector('.rs-input') as HTMLInputElement);
 
     expect(onBlurSpy).to.called;
   });
@@ -178,7 +179,7 @@ describe('InputNumber', () => {
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onFocus={onFocusSpy} />);
-    fireEvent.focus(instance.querySelector('.rs-input'));
+    fireEvent.focus(instance.querySelector('.rs-input') as HTMLInputElement);
     expect(onFocusSpy).to.called;
   });
 
@@ -196,6 +197,9 @@ describe('InputNumber', () => {
     it('Should render "Unfilled" if value is empty', () => {
       const { getByTestId } = render(
         <div data-testid="content">
+          {/* FIXME `value` prop does not support `null` value */}
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-ignore */}
           <InputNumber value={null} plaintext />
         </div>
       );

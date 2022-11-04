@@ -7,7 +7,7 @@ import '../styles/index.less';
 
 describe('Input styles', () => {
   it('Input should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLInputElement>();
     render(<Input ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     inChrome &&

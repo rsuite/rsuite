@@ -15,7 +15,7 @@ describe('Input', () => {
   });
 
   it('Should be disabled', () => {
-    const domNode = getDOMNode(<Input disabled />);
+    const domNode = getDOMNode(<Input disabled />) as HTMLInputElement;
     assert.ok(domNode.disabled);
   });
 
