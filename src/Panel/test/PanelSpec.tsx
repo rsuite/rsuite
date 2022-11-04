@@ -2,6 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Panel from '../Panel';
@@ -39,17 +40,23 @@ describe('Panel', () => {
 
   it('Should render the custom header', () => {
     const instance = getDOMNode(<Panel header={<a>abc</a>} />);
-    assert.equal(instance.querySelector('a.rs-panel-title').textContent, 'abc');
+    assert.equal((instance.querySelector('a.rs-panel-title') as HTMLElement).textContent, 'abc');
   });
 
   it('Should have a role in header', () => {
     const instance = getDOMNode(<Panel headerRole="button" collapsible header={'abc'} />);
-    assert.equal(instance.querySelector('.rs-panel-header').getAttribute('role'), 'button');
+    assert.equal(
+      (instance.querySelector('.rs-panel-header') as HTMLElement).getAttribute('role'),
+      'button'
+    );
   });
 
   it('Should have a role in body', () => {
     const instance = getDOMNode(<Panel panelRole="button" collapsible />);
-    assert.equal(instance.querySelector('.rs-panel-body').getAttribute('role'), 'button');
+    assert.equal(
+      (instance.querySelector('.rs-panel-body') as HTMLElement).getAttribute('role'),
+      'button'
+    );
   });
 
   describe('Collapsible - `collapsible=true`', () => {
@@ -59,7 +66,7 @@ describe('Panel', () => {
         <Panel collapsible onSelect={onSelectSpy} eventKey={12} header={'abc'} />
       );
 
-      ReactTestUtils.Simulate.click(instance.querySelector('.rs-panel-header'));
+      ReactTestUtils.Simulate.click(instance.querySelector('.rs-panel-header') as HTMLElement);
       expect(onSelectSpy).to.have.been.calledWith(12);
     });
 

@@ -7,7 +7,7 @@ import '../styles/index.less';
 
 describe('Panel styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(<Panel ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     inChrome && assert.equal(getStyle(dom, 'borderRadius'), '6px', 'Panel border-radius');
@@ -15,7 +15,7 @@ describe('Panel styles', () => {
   });
 
   itChrome('Should render the correct border', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(<Panel ref={instanceRef} bordered />);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'border'), `1px solid ${toRGB('#e5e5ea')}`);

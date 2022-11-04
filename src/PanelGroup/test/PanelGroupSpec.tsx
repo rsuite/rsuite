@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { fireEvent, render } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import PanelGroup from '../PanelGroup';
@@ -76,11 +77,17 @@ describe('PanelGroup', () => {
     );
 
     // Expand the first panel by default
-    assert.equal(container.querySelector('.rs-panel-in .rs-panel-body').textContent, 'body-1');
+    assert.equal(
+      (container.querySelector('.rs-panel-in .rs-panel-body') as HTMLElement).textContent,
+      'body-1'
+    );
 
     // Expand the second panel
     fireEvent.click(getByText('header-2'));
-    assert.equal(container.querySelector('.rs-panel-in .rs-panel-body').textContent, 'body-2');
+    assert.equal(
+      (container.querySelector('.rs-panel-in .rs-panel-body') as HTMLElement).textContent,
+      'body-2'
+    );
 
     // Collapse the second panel
     fireEvent.click(getByText('header-2'));
