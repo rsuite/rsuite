@@ -21,7 +21,7 @@ describe('InputPicker - InputAutosize', () => {
       done();
     };
     const instance = getDOMNode(<InputAutosize onChange={doneOp} />);
-    ReactTestUtils.Simulate.change(instance.querySelector('input'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
   });
 
   it('Should have a placeholder', () => {

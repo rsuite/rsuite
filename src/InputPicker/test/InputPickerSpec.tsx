@@ -1,9 +1,11 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import InputPicker from '../InputPicker';
 import Button from '../../Button';
+import { PickerHandle } from '../../Picker';
 
 const data = [
   {
@@ -27,7 +29,7 @@ describe('InputPicker', () => {
   it('Should clean selected default value', () => {
     const instance = getDOMNode(<InputPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
     expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
   });
 
@@ -40,7 +42,7 @@ describe('InputPicker', () => {
   it('Should not clean selected value', () => {
     const instance = getDOMNode(<InputPicker defaultOpen data={data} value={'Eugenia'} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
 
     expect(instance.querySelector('.rs-picker-toggle-value')).to.text('Eugenia');
   });
@@ -72,8 +74,8 @@ describe('InputPicker', () => {
   });
 
   it('Should be readOnly', () => {
-    const input1Ref = React.createRef();
-    const input2Ref = React.createRef();
+    const input1Ref = React.createRef<PickerHandle>();
+    const input2Ref = React.createRef<PickerHandle>();
 
     render(
       <div>
@@ -82,13 +84,23 @@ describe('InputPicker', () => {
       </div>
     );
 
-    fireEvent.focus(input1Ref.current.root.querySelector('.rs-picker-search-input'));
-    fireEvent.focus(input2Ref.current.root.querySelector('.rs-picker-search-input'));
+    fireEvent.focus(
+      ((input1Ref.current as PickerHandle).root as HTMLElement).querySelector(
+        '.rs-picker-search-input'
+      ) as HTMLInputElement
+    );
+    fireEvent.focus(
+      ((input2Ref.current as PickerHandle).root as HTMLElement).querySelector(
+        '.rs-picker-search-input'
+      ) as HTMLInputElement
+    );
 
-    expect(input1Ref.current.overlay).to.exist;
-    expect(input2Ref.current.root.querySelector('input[readonly]')).to.exist;
+    expect((input1Ref.current as PickerHandle).overlay).to.exist;
+    expect(
+      ((input2Ref.current as PickerHandle).root as HTMLElement).querySelector('input[readonly]')
+    ).to.exist;
     expect(() => {
-      input2Ref.current.overlay;
+      (input2Ref.current as PickerHandle).overlay;
     }).to.throw('The overlay is not found. Please confirm whether the picker is open.');
   });
 
@@ -148,7 +160,7 @@ describe('InputPicker', () => {
         placeholder="test"
         data={[{ label: 'foo', value: 'bar' }]}
         value={'bar'}
-        renderValue={(value, item) => `${item.label}-${value}`}
+        renderValue={(value, item) => `${(item as any).label as string}-${value}`}
       />
     );
 
@@ -194,7 +206,7 @@ describe('InputPicker', () => {
 
     fireEvent.click(instance.overlay.querySelector('.rs-picker-select-menu-item'));
 
-    expect(onChangeSpy).to.calledOnceWith('Eugenia');
+    expect(onChangeSpy).to.have.been.calledWith('Eugenia');
   });
 
   it('Should call `onClean` callback', () => {
@@ -202,7 +214,7 @@ describe('InputPicker', () => {
     const instance = getDOMNode(
       <InputPicker data={data} defaultValue={'Eugenia'} onClean={onCleanSpy} />
     );
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
 
     expect(onCleanSpy).to.calledOnce;
   });
@@ -226,7 +238,7 @@ describe('InputPicker', () => {
     fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
     fireEvent.keyDown(instance.target, { key: 'Enter' });
 
-    expect(onSelectSpy).to.calledOnceWith('Louisa');
+    expect(onSelectSpy).to.have.been.calledWith('Louisa');
   });
 
   it('Should output a clean button', () => {
@@ -239,7 +251,7 @@ describe('InputPicker', () => {
     const onSearchSpy = sinon.spy();
     const instance = getDOMNode(<InputPicker data={[]} defaultOpen onSearch={onSearchSpy} />);
 
-    const input = instance.querySelector('.rs-picker-search-input');
+    const input = instance.querySelector('.rs-picker-search-input') as HTMLInputElement;
 
     fireEvent.change(input, { target: { value: 'a' } });
 
@@ -275,7 +287,7 @@ describe('InputPicker', () => {
   it('Should call onBlur callback', () => {
     const onBlurSpy = sinon.spy();
     const instance = getDOMNode(<InputPicker data={[]} onBlur={onBlurSpy} />);
-    fireEvent.blur(instance.querySelector('.rs-picker-search-input'));
+    fireEvent.blur(instance.querySelector('.rs-picker-search-input') as HTMLInputElement);
 
     expect(onBlurSpy).to.calledOnce;
   });
@@ -283,7 +295,7 @@ describe('InputPicker', () => {
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
     const instance = getDOMNode(<InputPicker data={[]} onFocus={onFocusSpy} />);
-    fireEvent.focus(instance.querySelector('.rs-picker-search-input'));
+    fireEvent.focus(instance.querySelector('.rs-picker-search-input') as HTMLInputElement);
 
     expect(onFocusSpy).to.called;
   });
@@ -314,7 +326,7 @@ describe('InputPicker', () => {
 
   it('Should render the specified menu content by `searchBy`', () => {
     const instance = getInstance(
-      <InputPicker defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
+      <InputPicker defaultOpen data={data} searchBy={(_a, _b, c) => c.value === 'Louisa'} />
     );
     const list = instance.overlay.querySelectorAll('.rs-picker-select-menu-item');
 
@@ -352,14 +364,16 @@ describe('InputPicker', () => {
   });
 
   it('Should call `onCreate` callback with correct value', () => {
-    const inputRef = React.createRef();
+    const inputRef = React.createRef<PickerHandle>();
 
     const onCreateSpy = sinon.spy();
     render(<InputPicker ref={inputRef} defaultOpen data={data} onCreate={onCreateSpy} creatable />);
 
-    fireEvent.focus(inputRef.current.root);
+    fireEvent.focus((inputRef.current as PickerHandle).root as HTMLElement);
 
-    const input = inputRef.current.root.querySelector('.rs-picker-search-input');
+    const input = ((inputRef.current as PickerHandle).root as HTMLElement).querySelector(
+      '.rs-picker-search-input'
+    ) as HTMLInputElement;
 
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: 'Enter' });

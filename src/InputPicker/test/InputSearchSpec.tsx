@@ -40,7 +40,7 @@ describe('InputPicker - InputSearch', () => {
       done();
     };
     const instance = getDOMNode(<InputSearch onChange={doneOp} />);
-    ReactTestUtils.Simulate.change(instance.querySelector('input'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
   });
 
   it('Should have a custom className prefix', () => {
