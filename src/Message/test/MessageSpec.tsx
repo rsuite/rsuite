@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
+import sinon from 'sinon';
 import { testStandardProps } from '@test/commonCases';
 import Message from '../Message';
 
@@ -52,7 +53,7 @@ describe('Message', () => {
   it('Should call onClose callback', () => {
     const onCloseSpy = sinon.spy();
     const { getByRole } = render(<Message closable onClose={onCloseSpy} />);
-    const closeButton = getByRole('alert').querySelector('.rs-btn-close');
+    const closeButton = getByRole('alert').querySelector('.rs-btn-close') as HTMLElement;
 
     fireEvent.click(closeButton);
 
