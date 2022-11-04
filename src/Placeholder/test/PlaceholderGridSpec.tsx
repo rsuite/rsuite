@@ -21,31 +21,37 @@ describe('PlaceholderGrid', () => {
   it('Should render 10 rows', () => {
     const instance = getDOMNode(<PlaceholderGrid rows={10} />);
 
-    assert.equal(instance.lastElementChild.children.length, 10);
+    assert.equal((instance.lastElementChild as HTMLElement).children.length, 10);
   });
 
   it('Height of rows should be 50px', () => {
     const instance = getDOMNode(<PlaceholderGrid rowHeight={50} />);
 
-    assert.equal(instance.lastElementChild.lastElementChild.style.height, '50px');
+    assert.equal(
+      ((instance.lastElementChild as HTMLElement).lastElementChild as HTMLElement).style.height,
+      '50px'
+    );
   });
 
   it('Should has a 50px gap between rows', () => {
     const instance = getDOMNode(<PlaceholderGrid rowMargin={50} />);
 
-    assert.equal(instance.lastElementChild.lastElementChild.style.marginTop, '50px');
+    assert.equal(
+      ((instance.lastElementChild as HTMLElement).lastElementChild as HTMLElement).style.marginTop,
+      '50px'
+    );
   });
 
   it('Should render nothing: rows=0', () => {
     const instance = getDOMNode(<PlaceholderGrid rows={0} />);
 
-    assert.equal(instance.lastElementChild.children.length, 0);
+    assert.equal((instance.lastElementChild as HTMLElement).children.length, 0);
   });
 
   it('Should render nothing: rows=-10', () => {
     const instance = getDOMNode(<PlaceholderGrid rows={-10} />);
 
-    assert.equal(instance.lastElementChild.children.length, 0);
+    assert.equal((instance.lastElementChild as HTMLElement).children.length, 0);
   });
 
   it('Should render nothing: columns=0', () => {

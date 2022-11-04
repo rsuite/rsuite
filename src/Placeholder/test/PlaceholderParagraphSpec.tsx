@@ -16,26 +16,32 @@ describe('PlaceholderParagraph', () => {
   it('Should render 5 rows', () => {
     const instance = getDOMNode(<PlaceholderParagraph rows={5} />);
 
-    assert.equal(instance.lastElementChild.children.length, 5);
+    assert.equal((instance.lastElementChild as HTMLElement).children.length, 5);
   });
 
   it('Height of rows should be 50px', () => {
     const instance = getDOMNode(<PlaceholderParagraph rowHeight={50} />);
 
-    assert.equal(instance.lastElementChild.lastElementChild.style.height, '50px');
+    assert.equal(
+      ((instance.lastElementChild as HTMLElement).lastElementChild as HTMLElement).style.height,
+      '50px'
+    );
   });
 
   it('Should has a 50px gap between rows', () => {
     const instance = getDOMNode(<PlaceholderParagraph rowMargin={50} />);
 
-    assert.equal(instance.lastElementChild.lastElementChild.style.marginTop, '50px');
+    assert.equal(
+      ((instance.lastElementChild as HTMLElement).lastElementChild as HTMLElement).style.marginTop,
+      '50px'
+    );
   });
 
   it('Should render graph', () => {
     const instance = getDOMNode(<PlaceholderParagraph graph />);
 
     assert.include(
-      Array.from(instance.firstElementChild.classList),
+      Array.from((instance.firstElementChild as HTMLElement).classList),
       'rs-placeholder-paragraph-graph'
     );
   });
@@ -44,7 +50,7 @@ describe('PlaceholderParagraph', () => {
     const instance = getDOMNode(<PlaceholderParagraph graph="circle" />);
 
     assert.include(
-      Array.from(instance.firstElementChild.classList),
+      Array.from((instance.firstElementChild as HTMLElement).classList),
       'rs-placeholder-paragraph-graph-circle'
     );
   });
@@ -53,7 +59,7 @@ describe('PlaceholderParagraph', () => {
     const instance = getDOMNode(<PlaceholderParagraph graph="image" />);
 
     assert.include(
-      Array.from(instance.firstElementChild.classList),
+      Array.from((instance.firstElementChild as HTMLElement).classList),
       'rs-placeholder-paragraph-graph-image'
     );
   });

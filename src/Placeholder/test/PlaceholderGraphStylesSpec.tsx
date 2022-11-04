@@ -7,7 +7,7 @@ import '../styles/index.less';
 
 describe('PlaceholderGraph styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(<PlaceholderGraph ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'display'), 'inline-block', 'PlaceholderGraph display');

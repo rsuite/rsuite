@@ -7,11 +7,13 @@ import '../styles/index.less';
 
 describe('PlaceholderGrid styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(<PlaceholderGrid ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
-    const theFirstColDom = dom.querySelector('.rs-placeholder-grid-col:first-child');
-    const theSecondColDom = dom.querySelector('.rs-placeholder-grid-col:nth-child(2)');
+    const theFirstColDom = dom.querySelector('.rs-placeholder-grid-col:first-child') as HTMLElement;
+    const theSecondColDom = dom.querySelector(
+      '.rs-placeholder-grid-col:nth-child(2)'
+    ) as HTMLElement;
     assert.equal(getStyle(dom, 'display'), 'flex', 'PlaceholderGrid display');
     assert.equal(
       getStyle(theFirstColDom, 'alignItems'),
