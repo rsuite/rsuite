@@ -31,7 +31,10 @@ describe('Notification', () => {
 
   it('Should have a header', () => {
     const instance = getDOMNode(<Notification header="header" />);
-    assert.equal(instance.querySelector('.rs-notification-title').textContent, 'header');
+    assert.equal(
+      (instance.querySelector('.rs-notification-title') as HTMLElement).textContent,
+      'header'
+    );
   });
 
   it('Should call onClose callback', done => {
@@ -39,7 +42,7 @@ describe('Notification', () => {
       done();
     };
     const instance = getDOMNode(<Notification closable onClose={doneOp} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-btn-close'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-btn-close') as HTMLElement);
   });
 
   it('Should call onClose callback by duration', done => {
