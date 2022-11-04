@@ -1,16 +1,16 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import Loader from '../index';
+import Loader from '../Loader';
 import { getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Loader styles', () => {
   it('Should render correct toggle styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(<Loader ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
-    const spinDom = dom.querySelector('.rs-loader-spin');
+    const spinDom = dom.querySelector('.rs-loader-spin') as HTMLElement;
 
     assert.equal(getStyle(dom, 'height'), '18px', 'Loader height');
     inChrome &&
