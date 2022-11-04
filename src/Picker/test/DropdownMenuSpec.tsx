@@ -66,7 +66,10 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    assert.equal(instance.querySelector('.rs-dropdown-menu-item-active').textContent, 'c');
+    assert.equal(
+      (instance.querySelector('.rs-dropdown-menu-item-active') as HTMLElement).textContent,
+      'c'
+    );
   });
 
   it('Should have a maxHeight', () => {
@@ -147,7 +150,7 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-menu-group'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-menu-group') as HTMLElement);
   });
 
   it('Should render custom item', () => {
@@ -239,7 +242,7 @@ describe('picker -  DropdownMenu', () => {
       />
     );
 
-    const option = instance.querySelector('[role="option"]');
+    const option = instance.querySelector('[role="option"]') as HTMLElement;
     assert.equal(option.style.height, '28px');
   });
 });

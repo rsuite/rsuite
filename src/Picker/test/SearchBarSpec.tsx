@@ -9,7 +9,7 @@ const searchInputClassName = '.rs-picker-search-bar-input';
 describe('SearchBar', () => {
   it('Should output a input', () => {
     const instance = getDOMNode(<SearchBar />);
-    assert.equal(instance.querySelector(searchInputClassName).tagName, 'INPUT');
+    assert.equal((instance.querySelector(searchInputClassName) as HTMLElement).tagName, 'INPUT');
     assert.ok(instance.className.match(/\bpicker-search-bar\b/));
   });
 
@@ -18,7 +18,7 @@ describe('SearchBar', () => {
       done();
     };
     const instance = getDOMNode(<SearchBar onChange={doneOp} />);
-    ReactTestUtils.Simulate.change(instance.querySelector(searchInputClassName));
+    ReactTestUtils.Simulate.change(instance.querySelector(searchInputClassName) as HTMLElement);
   });
 
   it('Should have a custom className', () => {
