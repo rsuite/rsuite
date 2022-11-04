@@ -215,7 +215,7 @@ describe('adjustCaretPosition', () => {
 
   describe('Guide mode', () => {
     dynamicTests(
-      _.filter(testParameters, testParameter => {
+      _.filter(testParameters, (testParameter: any) => {
         return !(
           _.isArray(testParameter.skips) && _.includes(testParameter.skips, 'adjustCaretPosition')
         );
@@ -237,7 +237,7 @@ describe('adjustCaretPosition', () => {
               guide: true,
               placeholderChar,
               currentCaretPosition: test.currentCaretPosition
-            })
+            } as any)
           ).to.equal(test.adjustedCaretPosition);
         }
       })
@@ -246,7 +246,7 @@ describe('adjustCaretPosition', () => {
 
   describe('No-guide mode', () => {
     dynamicTests(
-      _.filter(noGuideMode, testParameter => {
+      _.filter(noGuideMode, (testParameter: any) => {
         return !(
           _.isArray(testParameter.skips) && _.includes(testParameter.skips, 'adjustCaretPosition')
         );
@@ -267,7 +267,7 @@ describe('adjustCaretPosition', () => {
               guide: false,
               placeholderChar,
               currentCaretPosition: test.currentCaretPosition
-            })
+            } as any)
           ).to.equal(test.adjustedCaretPosition);
         }
       })
@@ -278,7 +278,7 @@ describe('adjustCaretPosition', () => {
     dynamicTests(
       _.filter(
         maskFunctionTests,
-        testParameter => !_.includes(testParameter.skips, 'adjustCaretPosition')
+        (testParameter: any) => !_.includes(testParameter.skips, 'adjustCaretPosition')
       ),
 
       test => ({
@@ -297,7 +297,7 @@ describe('adjustCaretPosition', () => {
               guide: false,
               placeholderChar,
               currentCaretPosition: test.currentCaretPosition
-            })
+            } as any)
           ).to.equal(test.adjustedCaretPosition);
         }
       })
@@ -308,7 +308,7 @@ describe('adjustCaretPosition', () => {
     dynamicTests(
       _.filter(
         caretTrapTests,
-        testParameter => !_.includes(testParameter.skips, 'adjustCaretPosition')
+        (testParameter: any) => !_.includes(testParameter.skips, 'adjustCaretPosition')
       ),
 
       test => ({
@@ -328,7 +328,7 @@ describe('adjustCaretPosition', () => {
               placeholderChar,
               currentCaretPosition: test.currentCaretPosition,
               caretTrapIndexes: test.caretTrapIndexes
-            })
+            } as any)
           ).to.equal(test.adjustedCaretPosition);
         }
       })
@@ -339,7 +339,7 @@ describe('adjustCaretPosition', () => {
     dynamicTests(
       _.filter(
         acceptedCharInMask,
-        testParameter => !_.includes(testParameter.skips, 'adjustCaretPosition')
+        (testParameter: any) => !_.includes(testParameter.skips, 'adjustCaretPosition')
       ),
 
       test => ({
@@ -360,7 +360,7 @@ describe('adjustCaretPosition', () => {
               placeholderChar,
               currentCaretPosition: test.currentCaretPosition,
               caretTrapIndexes: test.caretTrapIndexes
-            })
+            } as any)
           ).to.equal(test.adjustedCaretPosition);
         }
       })

@@ -1,10 +1,17 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, act } from '@testing-library/react';
-import TextMask from '../TextMask';
+import sinon from 'sinon';
+import TextMask, { TextMaskProps } from '../TextMask';
 import mergeRefs from '../../utils/mergeRefs';
 
-const TextMaskTest = React.forwardRef((props, ref) => {
+type TextMastTestInstance = {
+  input: HTMLInputElement;
+  updateValue: (newValue?: string | number) => void;
+  updateProps: (props: TextMaskProps) => void;
+};
+
+const TextMaskTest = React.forwardRef((props: TextMaskProps, ref) => {
   // eslint-disable-next-line react/prop-types
   const { value: valueProp, ...rest } = props;
   const [value, setValue] = React.useState(valueProp || '');
@@ -55,7 +62,7 @@ describe('TextMask', () => {
         guide={true}
       />
     );
-    expect(getByTestId('test').value).to.equal('');
+    expect((getByTestId('test') as HTMLInputElement).value).to.equal('');
   });
 
   it('renders correctly with an initial value', () => {
@@ -68,7 +75,7 @@ describe('TextMask', () => {
       />
     );
 
-    expect(getByTestId('test').value).to.equal('(123) ___-____');
+    expect((getByTestId('test') as HTMLInputElement).value).to.equal('(123) ___-____');
   });
 
   it('renders mask instead of empty string when showMask is true', () => {
@@ -80,7 +87,7 @@ describe('TextMask', () => {
         guide={true}
       />
     );
-    expect(getByTestId('test').value).to.equal('(___) ___-____');
+    expect((getByTestId('test') as HTMLInputElement).value).to.equal('(___) ___-____');
   });
 
   it('does not render mask instead of empty string when showMask is false', () => {
@@ -92,7 +99,7 @@ describe('TextMask', () => {
         guide={true}
       />
     );
-    expect(getByTestId('test').value).to.equal('');
+    expect((getByTestId('test') as HTMLInputElement).value).to.equal('');
   });
 
   it('does not render masked characters', () => {
@@ -105,11 +112,11 @@ describe('TextMask', () => {
       />
     );
 
-    expect(getByTestId('test').value).to.equal('(___) ___-____');
+    expect((getByTestId('test') as HTMLInputElement).value).to.equal('(___) ___-____');
   });
 
   it('does not allow masked characters', () => {
-    const inputRef = React.createRef();
+    const inputRef = React.createRef<TextMastTestInstance>();
 
     render(
       <TextMaskTest
@@ -119,18 +126,18 @@ describe('TextMask', () => {
       />
     );
 
-    expect(inputRef.current.input.value).to.equal('');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('');
 
     act(() => {
-      inputRef.current.updateValue();
+      (inputRef.current as TextMastTestInstance).updateValue();
     });
 
-    expect(inputRef.current.input.value).to.equal('');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('');
   });
 
   it('can be disabled by setting the mask to false', () => {
     const { getByTestId } = render(<TextMask data-testid="test" value="123abc" mask={false} />);
-    expect(getByTestId('test').value).to.equal('123abc');
+    expect((getByTestId('test') as HTMLInputElement).value).to.equal('123abc');
   });
 
   it('can call textMaskInputElement.update to update the inputElement.value', () => {
@@ -143,14 +150,14 @@ describe('TextMask', () => {
       />
     );
 
-    expect(inputRef.current.input.value).to.equal('');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('');
 
     act(() => {
-      inputRef.current.input.value = '12345';
-      ReactTestUtils.Simulate.change(inputRef.current.input);
+      (inputRef.current as TextMastTestInstance).input.value = '12345';
+      ReactTestUtils.Simulate.change((inputRef.current as TextMastTestInstance).input);
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) 45_-____');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) 45_-____');
   });
 
   it('can pass value to updateValue method', () => {
@@ -164,13 +171,13 @@ describe('TextMask', () => {
       />
     );
 
-    expect(inputRef.current.input.value).to.equal('(123) ___-____');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) ___-____');
 
     act(() => {
-      inputRef.current.updateValue('1234');
+      (inputRef.current as TextMastTestInstance).updateValue('1234');
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) 4__-____');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) 4__-____');
   });
 
   it('can pass textMaskConfig to updateValue method', () => {
@@ -178,16 +185,16 @@ describe('TextMask', () => {
 
     render(<TextMaskTest ref={inputRef} value="123" mask={false} />);
 
-    expect(inputRef.current.input.value).to.equal('123');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('123');
 
     act(() => {
-      inputRef.current.updateProps({
+      (inputRef.current as TextMastTestInstance).updateProps({
         value: '1234',
         mask: ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
       });
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) 4__-____');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) 4__-____');
   });
 
   it('accepts function as mask property', () => {
@@ -216,7 +223,7 @@ describe('TextMask', () => {
         }}
       />
     );
-    expect(getByTestId('test').value).to.equal('(123) 4__-____');
+    expect((getByTestId('test') as HTMLInputElement).value).to.equal('(123) 4__-____');
   });
 
   it('accepts pipe function', () => {
@@ -231,7 +238,7 @@ describe('TextMask', () => {
         }}
       />
     );
-    expect(getByTestId('test').value).to.equal('abc');
+    expect((getByTestId('test') as HTMLInputElement).value).to.equal('abc');
   });
 
   it('calls `onChange` when a change event is received', () => {
@@ -247,7 +254,9 @@ describe('TextMask', () => {
         guide={true}
       />
     );
-    ReactTestUtils.Simulate.change(getByTestId('test'), { target: { value: '123' } });
+    ReactTestUtils.Simulate.change(getByTestId('test'), {
+      target: { value: '123' } as any
+    });
     expect(onChangeSpy.callCount).to.equal(1);
   });
 
@@ -270,7 +279,7 @@ describe('TextMask', () => {
 
   // test fix for issues #230, #483, #778 etc.
   it('works correct in stateful Component', () => {
-    const inputRef = React.createRef();
+    const inputRef = React.createRef<TextMastTestInstance>();
 
     render(
       <TextMaskTest
@@ -282,23 +291,25 @@ describe('TextMask', () => {
     );
 
     // Initial value "1234" from StatefulComponent is masked correct
-    expect(inputRef.current.input.value).to.equal('(123) 4');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) 4');
 
     // Simulate deleting last char "4" from input
-    inputRef.current.input.value = '(123';
+    (inputRef.current as TextMastTestInstance).input.value = '(123';
 
     // Simulate onChange event with current value "(123"
-    ReactTestUtils.Simulate.change(inputRef.current.input, { target: { value: '(123' } });
+    ReactTestUtils.Simulate.change((inputRef.current as TextMastTestInstance).input, {
+      target: { value: '(123' } as any
+    });
 
     // Now we expect to see value "(123" instead of "(123) "
-    expect(inputRef.current.input.value).to.equal('(123');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123');
   });
 });
 
 // Test for issue #806
 describe('TextMask as controlled component', () => {
   it('works if value prop was changed', () => {
-    const inputRef = React.createRef();
+    const inputRef = React.createRef<TextMastTestInstance>();
 
     render(
       <TextMaskTest
@@ -312,22 +323,22 @@ describe('TextMask as controlled component', () => {
     );
 
     act(() => {
-      inputRef.current.updateValue('123');
+      (inputRef.current as TextMastTestInstance).updateValue('123');
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) ');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) ');
 
     act(() => {
-      inputRef.current.updateValue('12345678901234567890');
+      (inputRef.current as TextMastTestInstance).updateValue('12345678901234567890');
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) 456-7890');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) 456-7890');
 
     act(() => {
-      inputRef.current.updateValue('');
+      (inputRef.current as TextMastTestInstance).updateValue('');
     });
 
-    expect(inputRef.current.input.value).to.equal('');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('');
   });
 
   it('works if showMask prop was changed', () => {
@@ -345,9 +356,9 @@ describe('TextMask as controlled component', () => {
     );
 
     act(() => {
-      inputRef.current.updateProps({ showMask: true });
+      (inputRef.current as TextMastTestInstance).updateProps({ showMask: true });
     });
-    expect(inputRef.current.input.value).to.equal('(___) ___-____');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(___) ___-____');
   });
 
   it('works if guide prop was changed', () => {
@@ -365,18 +376,18 @@ describe('TextMask as controlled component', () => {
     );
 
     act(() => {
-      inputRef.current.updateValue(123);
+      (inputRef.current as TextMastTestInstance).updateValue(123);
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) ');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) ');
 
     act(() => {
-      inputRef.current.updateProps({
+      (inputRef.current as TextMastTestInstance).updateProps({
         guide: true
       });
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) ___-____');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) ___-____');
   });
 
   it('works if placeholderChar prop was changed', () => {
@@ -394,17 +405,17 @@ describe('TextMask as controlled component', () => {
     );
 
     act(() => {
-      inputRef.current.updateProps({ guide: true });
-      inputRef.current.updateValue('123');
+      (inputRef.current as TextMastTestInstance).updateProps({ guide: true });
+      (inputRef.current as TextMastTestInstance).updateValue('123');
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) ___-____');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) ___-____');
 
     act(() => {
-      inputRef.current.updateProps({ guide: true, placeholderChar: '*' });
+      (inputRef.current as TextMastTestInstance).updateProps({ guide: true, placeholderChar: '*' });
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) ***-****');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) ***-****');
   });
 
   it('works if mask as array prop was changed', () => {
@@ -422,18 +433,18 @@ describe('TextMask as controlled component', () => {
     );
 
     act(() => {
-      inputRef.current.updateValue('1234567890');
+      (inputRef.current as TextMastTestInstance).updateValue('1234567890');
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) 456-7890');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) 456-7890');
 
     act(() => {
-      inputRef.current.updateProps({
+      (inputRef.current as TextMastTestInstance).updateProps({
         mask: ['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]
       });
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) 456-78-90');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) 456-78-90');
   });
 
   it('works if mask as function prop was changed', () => {
@@ -451,18 +462,18 @@ describe('TextMask as controlled component', () => {
     );
 
     act(() => {
-      inputRef.current.updateValue('1234567890');
+      (inputRef.current as TextMastTestInstance).updateValue('1234567890');
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) 456-7890');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) 456-7890');
 
     act(() => {
-      inputRef.current.updateProps({
+      (inputRef.current as TextMastTestInstance).updateProps({
         mask: () => [/\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
       });
     });
 
-    expect(inputRef.current.input.value).to.equal('123 456-7890');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('123 456-7890');
   });
 
   it('works if pipe prop was changed', () => {
@@ -480,28 +491,29 @@ describe('TextMask as controlled component', () => {
     );
 
     act(() => {
-      inputRef.current.updateValue('1234567890');
+      (inputRef.current as TextMastTestInstance).updateValue('1234567890');
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) 456-7890');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) 456-7890');
 
     act(() => {
-      inputRef.current.updateProps({
-        pipe: conformedValue => ({
-          value: `Tel. ${conformedValue}`,
-          indexesOfPipedChars: [0, 1, 2, 3, 4]
-        })
+      (inputRef.current as TextMastTestInstance).updateProps({
+        pipe: conformedValue =>
+          ({
+            value: `Tel. ${conformedValue}`,
+            indexesOfPipedChars: [0, 1, 2, 3, 4]
+          } as any)
       });
     });
 
-    expect(inputRef.current.input.value).to.equal('Tel. (123) 456-7890');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('Tel. (123) 456-7890');
 
     act(() => {
-      inputRef.current.updateProps({
+      (inputRef.current as TextMastTestInstance).updateProps({
         pipe: undefined
       });
     });
 
-    expect(inputRef.current.input.value).to.equal('(123) 456-7890');
+    expect((inputRef.current as TextMastTestInstance).input.value).to.equal('(123) 456-7890');
   });
 });

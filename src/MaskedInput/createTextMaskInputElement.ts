@@ -10,7 +10,7 @@ const strObject = 'object';
 const isAndroid = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent);
 const defer = typeof requestAnimationFrame !== 'undefined' ? requestAnimationFrame : setTimeout;
 
-export default function createTextMaskInputElement(config) {
+export default function createTextMaskInputElement(config?) {
   // Anything that we will need to keep between `update` calls, we will store in this `state` object.
   const state = { previousConformedValue: undefined, previousPlaceholder: undefined };
 
@@ -21,7 +21,7 @@ export default function createTextMaskInputElement(config) {
     // The caller can send a `rawValue` to be conformed and set on the input element. However, the default use-case
     // is for this to be read from the `inputElement` directly.
     update(
-      rawValue,
+      rawValue?,
       {
         inputElement,
         mask: providedMask,

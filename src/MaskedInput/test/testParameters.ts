@@ -4,7 +4,7 @@ import { convertMaskToPlaceholder } from '../utilities';
 const alphabetic = /^[A-Z]+$/i;
 export const getLineNumber = () => {
   const err = new Error();
-  const stack = err['stack'];
+  const stack = err['stack'] as string;
   const stackLines = stack.split('\n');
   const calleeLine = stackLines[2];
   let lineNumber = 0;

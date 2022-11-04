@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import sinon from 'sinon';
 import conformToMask from '../conformToMask';
 import dynamicTests from './dynamicTests';
 import testParameters, { noGuideMode, acceptedCharInMask, escapedMaskChar } from './testParameters';
@@ -46,7 +47,7 @@ describe('conformToMask', () => {
   });
 
   it('passes the config to the mask function', () => {
-    const mask = (value, config) => {
+    const mask = (_value, config) => {
       expect(typeof config).to.equal('object');
       expect(config).to.deep.equal({
         currentCaretPosition: 2,
@@ -73,7 +74,7 @@ describe('conformToMask', () => {
 
   describe('Accepted character in mask', () => {
     dynamicTests(
-      _.filter(acceptedCharInMask, test => !test.skip),
+      _.filter(acceptedCharInMask, test => !(test as any).skip),
 
       test => ({
         description:
@@ -213,7 +214,7 @@ describe('conformToMask', () => {
     });
 
     it('passes the config to the mask function', () => {
-      const mask = (value, config) => {
+      const mask = (_value, config) => {
         expect(typeof config).to.equal('object');
         expect(config).to.deep.equal({
           currentCaretPosition: 2,

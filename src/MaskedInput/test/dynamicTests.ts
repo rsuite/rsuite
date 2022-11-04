@@ -6,7 +6,7 @@ export default function dynamicTests(arrayOfTests, generateTestDefinition) {
   arrayOfTests.forEach(function (test) {
     test = test || {};
 
-    var testDefinition = generateTestDefinition(test) || {};
+    const testDefinition = generateTestDefinition(test) || {};
 
     it(testDefinition.description, testDefinition.body);
   });

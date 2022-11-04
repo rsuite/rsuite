@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 import { render, act } from '@testing-library/react';
 
 import MaskedInput from '../MaskedInput';
@@ -23,7 +24,7 @@ describe('MaskedInput', () => {
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
       />
     );
-    expect(getByTestId('test').value).to.equal('(123) 45_-____');
+    expect((getByTestId('test') as HTMLInputElement).value).to.equal('(123) 45_-____');
   });
 
   it('Should call onChange callback', () => {
@@ -37,7 +38,7 @@ describe('MaskedInput', () => {
     );
 
     act(() => {
-      getByTestId('test').value = '12345';
+      (getByTestId('test') as HTMLInputElement).value = '12345';
       ReactTestUtils.Simulate.change(getByTestId('test'));
     });
 
