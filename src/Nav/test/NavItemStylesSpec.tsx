@@ -9,7 +9,7 @@ const { H700 } = getDefaultPalette();
 
 describe('NavItem styles', () => {
   it('Default NavItem should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLAnchorElement>();
     render(
       <Nav>
         <Nav.Item ref={instanceRef}>Text</Nav.Item>
@@ -21,7 +21,7 @@ describe('NavItem styles', () => {
   });
 
   it('Default NavItem should render the correct styles when active', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLAnchorElement>();
     render(
       <Nav>
         <Nav.Item ref={instanceRef} active>
@@ -34,7 +34,7 @@ describe('NavItem styles', () => {
   });
 
   it('Default NavItem should render the correct styles when disabled', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLAnchorElement>();
     render(
       <Nav>
         <Nav.Item ref={instanceRef} disabled>

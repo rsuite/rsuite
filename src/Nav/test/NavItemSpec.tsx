@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
+import sinon from 'sinon';
 import { Simulate } from 'react-dom/test-utils';
 import { testStandardProps } from '@test/commonCases';
 import Nav from '../Nav';

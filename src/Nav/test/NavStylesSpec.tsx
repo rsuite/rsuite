@@ -7,7 +7,7 @@ import '../styles/index.less';
 
 describe('Nav styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(<Nav ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'position'), 'relative', 'Nav position');

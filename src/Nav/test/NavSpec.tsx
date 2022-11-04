@@ -2,6 +2,7 @@ import React from 'react';
 import { testStandardProps } from '@test/commonCases';
 import { render, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import Nav from '../Nav';
 import Dropdown from '../../Dropdown';
 
@@ -35,8 +36,9 @@ describe('<Nav>', () => {
   it('Should be selected second option when activeKey = 2 ', () => {
     const { container } = render(
       <Nav activeKey={2}>
-        <Nav.Item eventKey={1}>1</Nav.Item>
-        <Nav.Item eventKey={2}>2</Nav.Item>
+        {/* FIXME Figure out whether `eventKey` accepts number */}
+        <Nav.Item eventKey={1 as any}>1</Nav.Item>
+        <Nav.Item eventKey={2 as any}>2</Nav.Item>
       </Nav>
     );
 
@@ -46,8 +48,8 @@ describe('<Nav>', () => {
   it('Should be selected second option when activeKey = `{ key: 2, value: 2 }` ', () => {
     const { container } = render(
       <Nav activeKey={{ key: 2, value: 2 }}>
-        <Nav.Item eventKey={{ key: 1, value: 1 }}>1</Nav.Item>
-        <Nav.Item eventKey={{ key: 2, value: 2 }}>2</Nav.Item>
+        <Nav.Item eventKey={{ key: 1, value: 1 } as any}>1</Nav.Item>
+        <Nav.Item eventKey={{ key: 2, value: 2 } as any}>2</Nav.Item>
       </Nav>
     );
     expect(container.querySelectorAll('a')[1].className).to.contain('nav-item-active');
