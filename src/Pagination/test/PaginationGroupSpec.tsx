@@ -74,13 +74,16 @@ describe('Pagination Group', () => {
         first={false}
       />
     );
-    assert.equal(instance.querySelector('.rs-pagination-btn-active').textContent, '2');
+    assert.equal(
+      (instance.querySelector('.rs-pagination-btn-active') as HTMLElement).textContent,
+      '2'
+    );
   });
 
   it('Should show total', () => {
     const instance = getDOMNode(<PaginationGroup layout={['total']} total={100} />);
     assert.equal(
-      instance.querySelector('.rs-pagination-group-total').textContent,
+      (instance.querySelector('.rs-pagination-group-total') as HTMLElement).textContent,
       'Total Rows: 100'
     );
   });
@@ -183,7 +186,7 @@ describe('Pagination Group', () => {
         boundaryLinks={true}
       />
     );
-    assert.equal(instance.querySelector('button:last-child').textContent, '10');
+    assert.equal((instance.querySelector('button:last-child') as HTMLElement).textContent, '10');
   });
 
   it('Should render a `more` icon', () => {

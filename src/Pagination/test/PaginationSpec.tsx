@@ -33,7 +33,10 @@ describe('Pagination', () => {
   it('Should be ellipsis', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} ellipsis={'abc'} />);
     assert.equal(instance.querySelectorAll('button').length, 3);
-    assert.equal(instance.querySelector('button.rs-pagination-btn-disabled').textContent, 'abc');
+    assert.equal(
+      (instance.querySelector('button.rs-pagination-btn-disabled') as HTMLElement).textContent,
+      'abc'
+    );
   });
 
   it('Should be disabled', () => {
@@ -80,12 +83,15 @@ describe('Pagination', () => {
 
   it('Should render boundary links', () => {
     const instance = getDOMNode(<Pagination pages={20} maxButtons={2} ellipsis boundaryLinks />);
-    assert.equal(instance.querySelector('button:last-child').textContent, '20');
+    assert.equal((instance.querySelector('button:last-child') as HTMLElement).textContent, '20');
   });
 
   it('Should active page 5', () => {
     const instance = getDOMNode(<Pagination pages={20} activePage={5} />);
-    assert.equal(instance.querySelector('button.rs-pagination-btn-active').textContent, '5');
+    assert.equal(
+      (instance.querySelector('button.rs-pagination-btn-active') as HTMLElement).textContent,
+      '5'
+    );
   });
 
   it('Should call onSelect callback with correct eventKey', done => {
@@ -104,7 +110,7 @@ describe('Pagination', () => {
   });
 
   it('Should apply size class', () => {
-    let instance = getDOMNode(<Pagination size="lg">Title</Pagination>);
+    const instance = getDOMNode(<Pagination size="lg">Title</Pagination>);
     assert.ok(instance.className.match(/\bpagination-lg\b/));
   });
 
