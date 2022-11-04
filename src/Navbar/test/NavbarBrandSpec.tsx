@@ -7,8 +7,11 @@ describe('NavbarBrand', () => {
   testStandardProps(<NavbarBrand />);
 
   it('Should render a link', () => {
-    let title = 'RSUITE';
-    let instance = getDOMNode(<NavbarBrand href="/">{title}</NavbarBrand>);
+    const title = 'RSUITE';
+    // FIXME NavbarBrand does not have `href` prop declaration
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const instance = getDOMNode(<NavbarBrand href="/">{title}</NavbarBrand>);
     assert.equal(instance.tagName, 'A');
     assert.equal(instance.getAttribute('href'), '/');
     assert.equal(instance.textContent, title);

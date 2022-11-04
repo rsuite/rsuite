@@ -1,4 +1,5 @@
 import React from 'react';
+import sinon, { SinonStub } from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 
 import NavbarBody from '../NavbarBody';
@@ -9,7 +10,7 @@ describe('NavbarBody (deprecated)', () => {
   });
 
   afterEach(() => {
-    console.warn.restore();
+    (console.warn as SinonStub).restore();
   });
 
   it('Should render a body', () => {
@@ -37,6 +38,6 @@ describe('NavbarBody (deprecated)', () => {
 
   it('Should warn deprecation message', () => {
     getDOMNode(<NavbarBody />);
-    assert.ok(/deprecated/i.test(console.warn.firstCall.args[0]));
+    assert.ok(/deprecated/i.test((console.warn as SinonStub).firstCall.args[0]));
   });
 });

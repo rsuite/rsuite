@@ -1,12 +1,13 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
+import sinon from 'sinon';
 
 import NavbarItem from '../NavbarItem';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import userEvent from '@testing-library/user-event';
 
-const wrapper = ({ children }) => (
+const wrapper: React.FC = ({ children }) => (
   <Navbar>
     <Nav>{children}</Nav>
   </Navbar>

@@ -8,7 +8,7 @@ import '../styles/index.less';
 
 describe('Navbar styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(<Navbar ref={instanceRef} />);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#f7f7fa'), 'NavBar background-color');

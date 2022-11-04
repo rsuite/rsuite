@@ -1,4 +1,5 @@
 import React from 'react';
+import sinon, { SinonStub } from 'sinon';
 import NavbarHeader from '../NavbarHeader';
 import { getDOMNode } from '@test/testUtils';
 
@@ -8,25 +9,25 @@ describe('NavbarHeader (deprecated)', () => {
   });
 
   afterEach(() => {
-    console.warn.restore();
+    (console.warn as SinonStub).restore();
   });
 
   it('Should render a header', () => {
-    let title = 'Test';
-    let instance = getDOMNode(<NavbarHeader>{title}</NavbarHeader>);
+    const title = 'Test';
+    const instance = getDOMNode(<NavbarHeader>{title}</NavbarHeader>);
     assert.equal(instance.tagName, 'DIV');
     assert.ok(instance.className.match(/\bnavbar-header\b/));
     assert.equal(instance.textContent, title);
   });
 
   it('Should have a custom className', () => {
-    let instance = getDOMNode(<NavbarHeader className="custom" />);
+    const instance = getDOMNode(<NavbarHeader className="custom" />);
     assert.include(instance.className, 'custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    let instance = getDOMNode(<NavbarHeader style={{ fontSize }} />);
+    const instance = getDOMNode(<NavbarHeader style={{ fontSize }} />);
     assert.equal(instance.style.fontSize, fontSize);
   });
 
@@ -37,6 +38,6 @@ describe('NavbarHeader (deprecated)', () => {
 
   it('Should warn deprecation message', () => {
     getDOMNode(<NavbarHeader />);
-    assert.ok(/deprecated/i.test(console.warn.firstCall.args[0]));
+    assert.ok(/deprecated/i.test((console.warn as SinonStub).firstCall.args[0]));
   });
 });
