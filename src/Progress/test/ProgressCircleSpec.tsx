@@ -21,14 +21,23 @@ describe('Progress - Circle', () => {
   it('Should have a width', () => {
     const instance = getDOMNode(<ProgressCircle trailWidth={0} percent={1} strokeWidth={10} />);
 
-    assert.equal(instance.querySelector('.rs-progress-trail').getAttribute('stroke-width'), '10');
-    assert.equal(instance.querySelector('.rs-progress-stroke').getAttribute('stroke-width'), '10');
+    assert.equal(
+      (instance.querySelector('.rs-progress-trail') as HTMLElement).getAttribute('stroke-width'),
+      '10'
+    );
+    assert.equal(
+      (instance.querySelector('.rs-progress-stroke') as HTMLElement).getAttribute('stroke-width'),
+      '10'
+    );
   });
 
   it('Should have a background color', () => {
     const instance = getDOMNode(<ProgressCircle strokeColor={'#ff0000'} />);
 
-    assert.equal(instance.querySelector('.rs-progress-stroke').style.stroke, 'rgb(255, 0, 0)');
+    assert.equal(
+      (instance.querySelector('.rs-progress-stroke') as HTMLElement).style.stroke,
+      'rgb(255, 0, 0)'
+    );
   });
 
   it('Should render info', () => {
@@ -48,7 +57,7 @@ describe('Progress - Circle', () => {
     const instance = getDOMNode(<ProgressCircle strokeLinecap="butt" />);
 
     assert.equal(
-      instance.querySelector('.rs-progress-stroke').getAttribute('stroke-linecap'),
+      (instance.querySelector('.rs-progress-stroke') as HTMLElement).getAttribute('stroke-linecap'),
       'butt'
     );
   });
@@ -60,22 +69,22 @@ describe('Progress - Circle', () => {
     const instance4 = getDOMNode(<ProgressCircle gapPosition="right" />);
 
     assert.equal(
-      instance1.querySelector('.rs-progress-trail').getAttribute('d'),
+      (instance1.querySelector('.rs-progress-trail') as HTMLElement).getAttribute('d'),
       'M 50,50 m 0,-47 a 47,47 0 1 1 0,94 a 47,47 0 1 1 0,-94'
     );
 
     assert.equal(
-      instance2.querySelector('.rs-progress-trail').getAttribute('d'),
+      (instance2.querySelector('.rs-progress-trail') as HTMLElement).getAttribute('d'),
       'M 50,50 m 0,47 a 47,47 0 1 1 0,-94 a 47,47 0 1 1 0,94'
     );
 
     assert.equal(
-      instance3.querySelector('.rs-progress-trail').getAttribute('d'),
+      (instance3.querySelector('.rs-progress-trail') as HTMLElement).getAttribute('d'),
       'M 50,50 m -47,0 a 47,47 0 1 1 94,0 a 47,47 0 1 1 -94,0'
     );
 
     assert.equal(
-      instance4.querySelector('.rs-progress-trail').getAttribute('d'),
+      (instance4.querySelector('.rs-progress-trail') as HTMLElement).getAttribute('d'),
       'M 50,50 m 47,0 a 47,47 0 1 1 -94,0 a 47,47 0 1 1 94,0'
     );
   });

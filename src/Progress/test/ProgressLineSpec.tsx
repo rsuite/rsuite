@@ -14,19 +14,25 @@ describe('Progress - Line', () => {
   it('Should have a percentage', () => {
     const instance = getDOMNode(<ProgressLine percent={10} />);
 
-    assert.equal(instance.querySelector('.rs-progress-line-bg').style.width, '10%');
+    assert.equal(
+      (instance.querySelector('.rs-progress-line-bg') as HTMLElement).style.width,
+      '10%'
+    );
     assert.equal(instance.textContent, '10%');
   });
 
   it('Should have a height', () => {
     const instance = getDOMNode(<ProgressLine strokeWidth={10} />);
-    assert.equal(instance.querySelector('.rs-progress-line-bg').style.height, '10px');
+    assert.equal(
+      (instance.querySelector('.rs-progress-line-bg') as HTMLElement).style.height,
+      '10px'
+    );
   });
 
   it('Should have a background color', () => {
     const instance = getDOMNode(<ProgressLine strokeColor={'#ff0000'} />);
     assert.equal(
-      instance.querySelector('.rs-progress-line-bg').style.backgroundColor,
+      (instance.querySelector('.rs-progress-line-bg') as HTMLElement).style.backgroundColor,
       'rgb(255, 0, 0)'
     );
   });
