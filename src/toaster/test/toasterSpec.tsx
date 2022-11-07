@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { screen, render, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import toaster from '../toaster';
 
 const element = document.createElement('div');
@@ -14,7 +15,7 @@ describe('toaster', () => {
     toaster.push(<div data-testid="msg-1">abc</div>);
 
     await waitFor(() => {
-      const message = screen.queryByTestId('msg-1');
+      const message = screen.queryByTestId('msg-1') as HTMLElement;
       expect(message.className).to.include('rs-toast-fade-entered');
       expect(message.textContent).to.equal('abc');
     });
@@ -41,19 +42,21 @@ describe('toaster', () => {
   });
 
   it('Should remove a message', async () => {
-    const key = await toaster.push(<div data-testid="message">abc</div>, {
+    const key = (await toaster.push(<div data-testid="message">abc</div>, {
       container: element
-    });
+    })) as string;
 
     await waitFor(() => {
-      const message = screen.queryByTestId('message');
+      const message = screen.queryByTestId('message') as HTMLElement;
       expect(message.className).to.contain('rs-toast-fade-entered');
     });
 
     toaster.remove(key);
 
     await waitFor(() => {
-      expect(screen.queryByTestId('message').className).to.contain('rs-toast-fade-exiting');
+      expect((screen.queryByTestId('message') as HTMLElement).className).to.contain(
+        'rs-toast-fade-exiting'
+      );
     });
 
     await waitFor(
@@ -84,8 +87,12 @@ describe('toaster', () => {
 
     toaster.clear();
     await waitFor(() => {
-      expect(screen.queryByTestId('message1').className).to.contain('rs-toast-fade-exiting');
-      expect(screen.queryByTestId('message2').className).to.contain('rs-toast-fade-exiting');
+      expect((screen.queryByTestId('message1') as HTMLElement).className).to.contain(
+        'rs-toast-fade-exiting'
+      );
+      expect((screen.queryByTestId('message2') as HTMLElement).className).to.contain(
+        'rs-toast-fade-exiting'
+      );
     });
 
     await waitFor(

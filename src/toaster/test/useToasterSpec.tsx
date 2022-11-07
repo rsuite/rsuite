@@ -1,5 +1,6 @@
 import React from 'react';
 import { screen, render, act, fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
 import useToaster from '../useToaster';
 import CustomProvider from '../../CustomProvider';
 import Uploader from '../../Uploader';
@@ -18,7 +19,7 @@ describe('useToaster', () => {
       toaster.push(<div data-testid="msg-1">message</div>);
     });
 
-    const message = screen.queryByTestId('msg-1');
+    const message = screen.queryByTestId('msg-1') as HTMLElement;
 
     expect(message.className).to.contain('rs-toast-fade-entered');
     expect(message.textContent).to.equal('message');
@@ -36,12 +37,12 @@ describe('useToaster', () => {
       });
     });
 
-    expect(screen.queryByTestId('msg-top-end').parentNode.className).to.equal(
-      'rs-toast-container rs-toast-container-top-end'
-    );
-    expect(screen.queryByTestId('msg-bottom-end').parentNode.className).to.equal(
-      'rs-toast-container rs-toast-container-bottom-end'
-    );
+    expect(
+      ((screen.queryByTestId('msg-top-end') as HTMLElement).parentNode as HTMLElement).className
+    ).to.equal('rs-toast-container rs-toast-container-top-end');
+    expect(
+      ((screen.queryByTestId('msg-bottom-end') as HTMLElement).parentNode as HTMLElement).className
+    ).to.equal('rs-toast-container rs-toast-container-bottom-end');
   });
 
   it('Should remove a message', () => {
@@ -53,7 +54,7 @@ describe('useToaster', () => {
       key = toaster.push(<div data-testid="message">abc</div>);
     });
 
-    const message = screen.queryByTestId('message');
+    const message = screen.queryByTestId('message') as HTMLElement;
     expect(message.className).to.contain('rs-toast-fade-entered');
 
     act(() => {
