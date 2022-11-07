@@ -26,7 +26,7 @@ describe('Table styles', () => {
         </Column>
       </Table>
     );
-    const dom = document.querySelector('.rs-table');
+    const dom = document.querySelector('.rs-table') as HTMLElement;
     // assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'Table background-color');
     assert.equal(getStyle(dom, 'position'), 'relative', 'Table position');
   });
