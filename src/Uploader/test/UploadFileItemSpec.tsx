@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import UploadFileItem, { formatSize } from '../UploadFileItem';
 
@@ -9,7 +10,7 @@ const file = {
   name: 'a',
   progress: 0,
   status: 'inited'
-};
+} as const;
 
 describe('UploadFileItem', () => {
   it('Should output a UploadFileItem', () => {
@@ -39,7 +40,9 @@ describe('UploadFileItem', () => {
   it('Should call `onCancel` callback', () => {
     const onCancelSpy = sinon.spy();
     const instance = getDOMNode(<UploadFileItem file={file} onCancel={onCancelSpy} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-btn-remove'));
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-uploader-file-item-btn-remove') as HTMLElement
+    );
 
     assert.ok(onCancelSpy.calledOnce);
   });
@@ -47,7 +50,9 @@ describe('UploadFileItem', () => {
   it('Should not call `onCancel` callback', () => {
     const onCancelSpy = sinon.spy();
     const instance = getDOMNode(<UploadFileItem file={file} onCancel={onCancelSpy} disabled />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-btn-remove'));
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-uploader-file-item-btn-remove') as HTMLElement
+    );
 
     assert.equal(onCancelSpy.calledOnce, false);
   });
@@ -62,7 +67,9 @@ describe('UploadFileItem', () => {
     const instance = getDOMNode(
       <UploadFileItem file={file} onPreview={onPreviewSpy} listType="picture-text" />
     );
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-title'));
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-uploader-file-item-title') as HTMLElement
+    );
     assert.ok(onPreviewSpy.calledOnce);
   });
 
@@ -71,7 +78,9 @@ describe('UploadFileItem', () => {
     const instance = getDOMNode(
       <UploadFileItem file={file} onPreview={onPreviewSpy} listType="picture-text" disabled />
     );
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-title'));
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-uploader-file-item-title') as HTMLElement
+    );
     assert.equal(onPreviewSpy.calledOnce, false);
   });
 
@@ -80,7 +89,9 @@ describe('UploadFileItem', () => {
     const instance = getDOMNode(
       <UploadFileItem file={{ ...file, status: 'error' }} onReupload={onReuploadSpy} />
     );
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-icon-reupload'));
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-uploader-file-item-icon-reupload') as HTMLElement
+    );
     assert.ok(onReuploadSpy.calledOnce);
   });
 
@@ -89,7 +100,9 @@ describe('UploadFileItem', () => {
     const instance = getDOMNode(
       <UploadFileItem file={{ ...file, status: 'error' }} onReupload={onReuploadSpy} disabled />
     );
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-uploader-file-item-icon-reupload'));
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-uploader-file-item-icon-reupload') as HTMLElement
+    );
     assert.equal(onReuploadSpy.calledOnce, false);
   });
 
@@ -108,7 +121,7 @@ describe('UploadFileItem', () => {
         }}
       />
     );
-    assert.include(instance.querySelector('.file-info').textContent, 'a');
+    assert.include((instance.querySelector('.file-info') as HTMLElement).textContent, 'a');
   });
 
   it('Should have a custom style', () => {
@@ -126,14 +139,23 @@ describe('UploadFileItem', () => {
     const instance = getDOMNode(<UploadFileItem file={{ ...file, status: 'uploading' }} />);
     const instance2 = getDOMNode(<UploadFileItem file={{ ...file, status: 'inited' }} />);
 
-    assert.equal(instance.querySelector('.rs-uploader-file-item-icon').tagName, 'I');
-    assert.equal(instance2.querySelector('.rs-uploader-file-item-icon').tagName, 'svg');
+    assert.equal(
+      (instance.querySelector('.rs-uploader-file-item-icon') as HTMLElement).tagName,
+      'I'
+    );
+    assert.equal(
+      (instance2.querySelector('.rs-uploader-file-item-icon') as HTMLElement).tagName,
+      'svg'
+    );
   });
 
   it('Should render an <i> tag, when the file status is uploading', () => {
-    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' };
+    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' } as const;
     const instance = getDOMNode(<UploadFileItem file={file} />);
-    assert.equal(instance.querySelector('.rs-uploader-file-item-size').textContent, '3B');
+    assert.equal(
+      (instance.querySelector('.rs-uploader-file-item-size') as HTMLElement).textContent,
+      '3B'
+    );
   });
 
   it('Should not render a default thumbnail', () => {
@@ -168,7 +190,7 @@ describe('UploadFileItem', () => {
         }}
       />
     );
-    const thumbnail = instance.querySelector('.rs-uploader-file-item-preview');
+    const thumbnail = instance.querySelector('.rs-uploader-file-item-preview') as HTMLElement;
 
     assert.include(thumbnail.textContent, 'custom-thumbnail');
   });
@@ -185,7 +207,9 @@ describe('UploadFileItem', () => {
     const instance = getDOMNode(<UploadFileItem file={file} listType="picture-text" />);
 
     await waitFor(() => {
-      const thumbnail = instance.querySelector('.rs-uploader-file-item-preview img');
+      const thumbnail = instance.querySelector(
+        '.rs-uploader-file-item-preview img'
+      ) as HTMLImageElement;
       assert.equal(thumbnail.src, 'data:image/png;base64,MTA=');
     });
   });

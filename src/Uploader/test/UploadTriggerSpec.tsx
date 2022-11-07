@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 
 import UploadTrigger from '../UploadTrigger';
@@ -27,7 +28,7 @@ describe('UploadTrigger', () => {
 
   it('Should render custom component', () => {
     const instance = getDOMNode(<UploadTrigger as={'a'} />);
-    assert.equal(instance.querySelector('.rs-uploader-trigger-btn').tagName, 'A');
+    assert.equal((instance.querySelector('.rs-uploader-trigger-btn') as HTMLElement).tagName, 'A');
   });
 
   it('Should call onChange callback', done => {
@@ -35,7 +36,7 @@ describe('UploadTrigger', () => {
       done();
     };
     const instance = getDOMNode(<UploadTrigger onChange={doneOp} />);
-    ReactTestUtils.Simulate.change(instance.querySelector('input'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLElement);
   });
 
   it('Should have a name', () => {
@@ -51,7 +52,7 @@ describe('UploadTrigger', () => {
   it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = getDOMNode(<UploadTrigger style={{ fontSize }} />);
-    assert.equal(instance.querySelector('button').style.fontSize, fontSize);
+    assert.equal((instance.querySelector('button') as HTMLElement).style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
@@ -62,7 +63,7 @@ describe('UploadTrigger', () => {
   it('Should call `onDragEnter` callback', () => {
     const onDragEnterSpy = sinon.spy();
     const instance = getDOMNode(<UploadTrigger draggable onDragEnter={onDragEnterSpy} />);
-    const button = instance.querySelector('button');
+    const button = instance.querySelector('button') as HTMLElement;
 
     ReactTestUtils.Simulate.dragEnter(button);
     assert.ok(onDragEnterSpy.calledOnce);
@@ -71,7 +72,7 @@ describe('UploadTrigger', () => {
   it('Should call `onDragOver` callback', () => {
     const onDragOverSpy = sinon.spy();
     const instance = getDOMNode(<UploadTrigger draggable onDragOver={onDragOverSpy} />);
-    const button = instance.querySelector('button');
+    const button = instance.querySelector('button') as HTMLElement;
 
     ReactTestUtils.Simulate.dragOver(button);
     assert.ok(onDragOverSpy.calledOnce);
@@ -80,7 +81,7 @@ describe('UploadTrigger', () => {
   it('Should call `onDragLeave` callback', () => {
     const onDragLeaveSpy = sinon.spy();
     const instance = getDOMNode(<UploadTrigger draggable onDragLeave={onDragLeaveSpy} />);
-    const button = instance.querySelector('button');
+    const button = instance.querySelector('button') as HTMLElement;
 
     ReactTestUtils.Simulate.dragLeave(button);
     assert.ok(onDragLeaveSpy.calledOnce);

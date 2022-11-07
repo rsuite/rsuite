@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Uploader from '../Uploader';
@@ -37,7 +38,10 @@ describe('Uploader', () => {
 
   it('Should render custom component', () => {
     const instance = getDOMNode(<Uploader action="" toggleAs={Button} appearance="link" />);
-    assert.equal(instance.querySelector('.rs-uploader-trigger-btn.rs-btn-link').tagName, 'BUTTON');
+    assert.equal(
+      (instance.querySelector('.rs-uploader-trigger-btn.rs-btn-link') as HTMLElement).tagName,
+      'BUTTON'
+    );
   });
 
   it('Should have a custom className', () => {
@@ -108,7 +112,7 @@ describe('Uploader', () => {
 
   it('Should call `onChange` callback', () => {
     const onUploadSpy = sinon.spy();
-    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'inited' };
+    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'inited' } as const;
 
     const instance = getInstance(
       <Uploader name="file" action="" onChange={onUploadSpy} defaultFileList={[file]} />
@@ -120,7 +124,7 @@ describe('Uploader', () => {
 
   it('Should call `onRemove` callback', () => {
     const onRemoveSpy = sinon.spy();
-    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' };
+    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' } as const;
 
     const instance = getInstance(
       <Uploader name="file" action="" onRemove={onRemoveSpy} defaultFileList={[file]} />
