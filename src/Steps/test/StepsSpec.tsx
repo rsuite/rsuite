@@ -27,7 +27,11 @@ describe('Steps', () => {
     );
 
     assert.equal(
-      instance.querySelector('.rs-steps-item-status-process .rs-steps-item-content').textContent,
+      (
+        instance.querySelector(
+          '.rs-steps-item-status-process .rs-steps-item-content'
+        ) as HTMLElement
+      ).textContent,
       'C'
     );
   });
@@ -43,7 +47,8 @@ describe('Steps', () => {
     );
 
     assert.equal(
-      instance.querySelector('.rs-steps-item-status-error .rs-steps-item-content').textContent,
+      (instance.querySelector('.rs-steps-item-status-error .rs-steps-item-content') as HTMLElement)
+        .textContent,
       'B'
     );
   });

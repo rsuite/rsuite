@@ -34,7 +34,7 @@ describe('StepItem', () => {
     assert.equal(instance.textContent, '10');
   });
 
-  ['wait', 'process'].forEach(status => {
+  (['wait', 'process'] as const).forEach(status => {
     it(`Should render stepNumber when status is "${status}"`, () => {
       const { getByTestId } = render(
         <StepItem stepNumber={2} status={status} data-testid="item" />
