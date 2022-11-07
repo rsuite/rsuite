@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { CSSProperties, Ref } from 'react';
 import { render, act, fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
-import Whisper from '../Whisper';
+import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../../Tooltip';
 
 describe('Whisper', () => {
@@ -182,14 +183,26 @@ describe('Whisper', () => {
   });
 
   it('Should Overlay be closed, after call onClose', async () => {
-    const ref = React.createRef();
-    const Overlay = React.forwardRef(({ style, onClose, ...rest }, ref) => {
-      return (
-        <div {...rest} style={style} ref={ref}>
-          <button onClick={onClose}>close</button>
-        </div>
-      );
-    });
+    const ref = React.createRef<WhisperInstance>();
+    const Overlay = React.forwardRef(
+      (
+        {
+          style,
+          onClose,
+          ...rest
+        }: { style: CSSProperties; onClose: () => void } & React.DetailedHTMLProps<
+          React.HTMLAttributes<HTMLDivElement>,
+          HTMLDivElement
+        >,
+        ref
+      ) => {
+        return (
+          <div {...rest} style={style} ref={ref as Ref<HTMLDivElement>}>
+            <button onClick={onClose}>close</button>
+          </div>
+        );
+      }
+    );
 
     const onExitedSpy = sinon.spy();
 
@@ -209,11 +222,16 @@ describe('Whisper', () => {
       </Whisper>
     );
     act(() => {
-      fireEvent.click(ref.current.root);
+      fireEvent.click((ref.current as WhisperInstance).root as HTMLElement);
     });
 
     act(() => {
-      fireEvent.click(ref.current.overlay.querySelector('button'));
+      fireEvent.click(
+        // FIXME WhisperInstance is missing `overlay` declaration
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        (ref.current as WhisperInstance).overlay.querySelector('button') as HTMLElement
+      );
     });
 
     await waitFor(() => {
