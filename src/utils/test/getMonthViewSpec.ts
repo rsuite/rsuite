@@ -1,8 +1,8 @@
-import { parseISO, format, getMonthView } from '../../utils/dateUtils';
+import { parseISO, format, getMonthView } from '../dateUtils';
 
 describe('[utils] getMonthView', () => {
   it('Sunday is the first day of the week.', () => {
-    const weeks = getMonthView(parseISO('2017-11-30'));
+    const weeks = getMonthView(parseISO('2017-11-30'), false);
     assert.equal(format(weeks[0], 'yyyy-MM-dd'), '2017-11-26');
   });
 

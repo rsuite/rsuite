@@ -52,7 +52,7 @@ describe('[utils] Tree utils', () => {
           }
         ]
       }
-    ];
+    ] as const;
 
     const stringItems = JSON.stringify(items);
 
@@ -63,8 +63,8 @@ describe('[utils] Tree utils', () => {
     assert.equal(items[2].children[0].value, 'vv-abc');
     assert.equal(nodes.length, 2);
     assert.equal(nodes[0].value, 'abcd');
-    assert.equal(nodes[1].children.length, 1);
-    assert.equal(nodes[1].children[0].value, 'vv-abcd');
+    assert.equal((nodes[1].children as any[]).length, 1);
+    assert.equal((nodes[1].children as any)[0].value, 'vv-abcd');
   });
 
   it('Should have a child', () => {
@@ -95,7 +95,7 @@ describe('[utils] Tree utils', () => {
     assert.equal(stringItems, JSON.stringify(items));
     assert.equal(nodes.length, 1);
     assert.equal(nodes[0].value, 'vvv');
-    assert.equal(nodes[0].children.length, 2);
-    assert.equal(nodes[0].children[1].value, 'vv-abcd');
+    assert.equal((nodes[0].children as any[]).length, 2);
+    assert.equal((nodes[0].children as any)[1].value, 'vv-abcd');
   });
 });

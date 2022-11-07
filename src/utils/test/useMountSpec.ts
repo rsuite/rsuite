@@ -1,3 +1,4 @@
+import sinon from 'sinon';
 import { renderHook } from '@test/testUtils';
 import useMount from '../useMount';
 

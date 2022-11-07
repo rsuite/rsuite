@@ -3,7 +3,7 @@ import useUniqueId from '../useUniqueId';
 
 describe('[utils] useUniqueId', () => {
   it('Should generate an Id', () => {
-    const { result } = renderHook(() => useUniqueId());
+    const { result } = renderHook(() => useUniqueId(''));
 
     expect(result.current).to.be.not.equal('');
   });

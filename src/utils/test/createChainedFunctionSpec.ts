@@ -12,7 +12,7 @@ describe('[utils] createChainedFunction', () => {
     function c() {
       i += 2;
     }
-    const d = createChainedFunction(a, b, undefined, null, c);
+    const d = createChainedFunction(a, b, undefined, null, c) as () => void;
     d();
     assert.equal(i, 4);
   });

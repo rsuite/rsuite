@@ -1,4 +1,5 @@
 import { act } from '@testing-library/react';
+import sinon from 'sinon';
 import { renderHook } from '@test/testUtils';
 import useTimeout from '../useTimeout';
 

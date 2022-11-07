@@ -5,7 +5,7 @@ import useControlled from '../useControlled';
 
 describe('[utils] useControlled', () => {
   it('Should return `controlled value`', () => {
-    const { result } = renderHook(() => useControlled('controlled value'));
+    const { result } = renderHook(() => useControlled('controlled value', undefined));
     const [value, , isControlled] = result.current;
     assert.equal(value, 'controlled value');
     assert.ok(isControlled);
@@ -33,8 +33,10 @@ describe('[utils] useControlled', () => {
   });
 
   it('Should works when controlled value change `undefined` to `actualValue`', () => {
-    let controlledValue;
-    const { result, rerender } = renderHook(() => useControlled(controlledValue));
+    // FIXME Use `renderHook` props
+    // eslint-disable-next-line prefer-const
+    let controlledValue: string | undefined;
+    const { result, rerender } = renderHook(() => useControlled(controlledValue, undefined));
     controlledValue = 'actualValue';
     rerender();
 

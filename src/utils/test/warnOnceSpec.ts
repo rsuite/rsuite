@@ -1,3 +1,4 @@
+import sinon from 'sinon';
 import warnOnce from '../warnOnce';
 
 describe('[utils] warnOnce', () => {

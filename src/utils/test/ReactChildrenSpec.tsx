@@ -4,7 +4,13 @@ import { getDOMNode } from '@test/testUtils';
 
 describe('[utils] ReactChildren', () => {
   it('Should count the number', () => {
+    // FIXME `.count()` may have wrong argument type declaration
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     assert.equal(ReactChildren.count(<div />), 1);
+    // FIXME `.count()` may have wrong argument type declaration
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     assert.equal(ReactChildren.count([<div key="1" />, <div key="2" />]), 2);
   });
 

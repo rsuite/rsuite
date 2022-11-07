@@ -2,7 +2,10 @@ import stringToObject from '../stringToObject';
 
 describe('[utils] stringToObject', () => {
   it('Should create an object', () => {
-    const obj = stringToObject('foo', 'value', 'label');
+    const obj = stringToObject('foo', 'value', 'label') as {
+      value: string;
+      label: string;
+    };
 
     assert.equal(obj.value, 'foo');
     assert.equal(obj.label, 'foo');
