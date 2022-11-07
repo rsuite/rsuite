@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
+import sinon from 'sinon';
 import { testStandardProps } from '@test/commonCases';
 import SidenavToggle from '../SidenavToggle';
 import Sidenav from '../Sidenav';

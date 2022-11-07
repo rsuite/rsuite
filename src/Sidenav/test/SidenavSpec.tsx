@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
 import { fireEvent, getByTestId, render, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Sidenav from '../Sidenav';
@@ -43,7 +44,7 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-sidenav-item'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-sidenav-item') as HTMLElement);
 
     expect(consoleWarnStub, 'Deprecation warning').to.have.been.calledWith(
       sinon.match(/onselect.+deprecated/i)
@@ -109,7 +110,7 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-dropdown-toggle'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-dropdown-toggle') as HTMLElement);
   });
 
   it('Should open the default menu', () => {
@@ -135,20 +136,23 @@ describe('<Sidenav>', () => {
       const menu = getByTestId(instance, `menu-${key}`);
 
       assert.ok(
-        menu.querySelector('[role="group"]').classList.contains('rs-dropdown-menu-collapse-in'),
+        (menu.querySelector('[role="group"]') as HTMLElement).classList.contains(
+          'rs-dropdown-menu-collapse-in'
+        ),
         `Menu ${key} has transition class`
       );
     });
 
     assert.ok(
-      instance.querySelector('.m-2-2').getAttribute('aria-expanded') !== 'true',
+      (instance.querySelector('.m-2-2') as HTMLElement).getAttribute('aria-expanded') !== 'true',
       'Menu 2-2 should not be open'
     );
     assert.ok(
-      instance
-        .querySelector('.m-2-2')
-        .querySelector('[role="group"]')
-        .classList.contains('rs-dropdown-menu-collapse-out'),
+      (
+        (instance.querySelector('.m-2-2') as HTMLElement).querySelector(
+          '[role="group"]'
+        ) as HTMLElement
+      ).classList.contains('rs-dropdown-menu-collapse-out'),
       'Menu 2-2 has transition class'
     );
   });
@@ -167,7 +171,7 @@ describe('<Sidenav>', () => {
     );
 
     act(() => {
-      Simulate.click(instance.querySelector('.m-1'));
+      Simulate.click(instance.querySelector('.m-1') as HTMLElement);
     });
 
     expect(instance.querySelector('.rs-dropdown-header')).not.to.be.null;
@@ -189,7 +193,9 @@ describe('<Sidenav>', () => {
     expect(consoleWarnStub, 'Deprecation warning').to.have.been.calledWith(
       sinon.match(/activekey.+deprecated/i)
     );
-    expect(instance.querySelector('#selected-item').getAttribute('aria-selected')).to.equal('true');
+    expect(
+      (instance.querySelector('#selected-item') as HTMLElement).getAttribute('aria-selected')
+    ).to.equal('true');
   });
 
   it('Should mark <Dropdown.Item> matching <Nav> `activeKey` as current', () => {
@@ -287,7 +293,13 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
+    // FIXME Upgrade chai-dom definition once this pr is merged https://github.com/DefinitelyTyped/DefinitelyTyped/pull/63125
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     expect(getByTestId('dropdown-1')).to.have.class(/selected-within/);
+    // FIXME Upgrade chai-dom definition once this pr is merged https://github.com/DefinitelyTyped/DefinitelyTyped/pull/63125
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     expect(getByTestId('dropdown-2')).to.have.class(/selected-within/);
   });
 

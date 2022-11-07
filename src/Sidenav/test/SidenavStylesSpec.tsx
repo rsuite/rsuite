@@ -10,7 +10,7 @@ import '../styles/index.less';
 describe('Sidenav styles', () => {
   context('Default', () => {
     it('Should render the correct styles', () => {
-      const instanceRef = React.createRef();
+      const instanceRef = React.createRef<HTMLDivElement>();
       render(<Sidenav ref={instanceRef} expanded={false} />);
       const dom = getDOMNode(instanceRef.current);
       assert.equal(getStyle(dom, 'width'), '56px', 'Sidenav width');
