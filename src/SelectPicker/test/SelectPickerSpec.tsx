@@ -1,9 +1,11 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import SelectPicker from '../SelectPicker';
 import Input from '../../Input';
 import Button from '../../Button';
+import { PickerHandle } from '../../Picker';
 
 const data = [
   {
@@ -27,7 +29,7 @@ describe('SelectPicker', () => {
   it('Should clean selected default value', () => {
     const instance = getDOMNode(<SelectPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
     expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
   });
 
@@ -40,7 +42,7 @@ describe('SelectPicker', () => {
   it('Should not clean selected value', () => {
     const instance = getDOMNode(<SelectPicker defaultOpen data={data} value={'Eugenia'} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
     expect(instance.querySelector('.rs-picker-toggle-value')).to.text('Eugenia');
   });
 
@@ -134,7 +136,9 @@ describe('SelectPicker', () => {
         placeholder="test"
         data={[{ label: 'foo', value: 'bar' }]}
         value={'bar'}
-        renderValue={(value, item, label) => `${label}-${item.value}`}
+        renderValue={(_value, item, label) =>
+          `${label}-${(item as { label: string; value: string }).value}`
+        }
       />
     );
 
@@ -186,7 +190,7 @@ describe('SelectPicker', () => {
 
     fireEvent.click(instance.overlay.querySelector('.rs-picker-select-menu-item'));
 
-    expect(onChangeSpy).to.calledOnceWith('Eugenia');
+    expect(onChangeSpy).to.have.been.calledWith('Eugenia');
   });
 
   it('Should call `onClean` callback', () => {
@@ -195,7 +199,7 @@ describe('SelectPicker', () => {
       <SelectPicker data={data} defaultValue={'Eugenia'} onClean={onCleanSpy} />
     );
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
 
     expect(onCleanSpy).to.calledOnce;
   });
@@ -219,7 +223,7 @@ describe('SelectPicker', () => {
 
     fireEvent.change(input, { target: { value: 'a' } });
 
-    expect(onSearchSpy).to.calledOnceWith('a');
+    expect(onSearchSpy).to.have.been.calledWith('a');
   });
 
   it('Should call `onSelect` with correct args by key=Enter ', () => {
@@ -231,7 +235,7 @@ describe('SelectPicker', () => {
     fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
     fireEvent.keyDown(instance.target, { key: 'Enter' });
 
-    expect(onSelectSpy).to.calledOnceWith('Louisa');
+    expect(onSelectSpy).to.have.been.calledWith('Louisa');
   });
 
   it('Should focus item by key=ArrowDown ', () => {
@@ -261,6 +265,9 @@ describe('SelectPicker', () => {
 
   it('Should call onBlur callback', async () => {
     const onBlurSpy = sinon.spy();
+    // FIXME SelectPicker does not have `onBlur` prop
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const instance = getInstance(<SelectPicker defaultOpen data={data} onBlur={onBlurSpy} />);
 
     fireEvent.blur(instance.target);
@@ -272,6 +279,9 @@ describe('SelectPicker', () => {
 
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
+    // FIXME SelectPicker does not have `onFocus` prop
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const instance = getInstance(<SelectPicker defaultOpen data={data} onFocus={onFocusSpy} />);
 
     fireEvent.focus(instance.target);
@@ -306,7 +316,7 @@ describe('SelectPicker', () => {
 
   it('Should render the specified menu content by `searchBy`', () => {
     const instance = getInstance(
-      <SelectPicker defaultOpen data={data} searchBy={(a, b, c) => c.value === 'Louisa'} />
+      <SelectPicker defaultOpen data={data} searchBy={(_a, _b, c) => c.value === 'Louisa'} />
     );
     const list = instance.overlay.querySelectorAll('.rs-picker-select-menu-item');
 
@@ -339,8 +349,8 @@ describe('SelectPicker', () => {
   });
 
   it('Should focus the search box', () => {
-    const pickerRef = React.createRef();
-    const inputRef = React.createRef();
+    const pickerRef = React.createRef<PickerHandle>();
+    const inputRef = React.createRef<HTMLInputElement>();
 
     render(
       <SelectPicker
@@ -350,21 +360,23 @@ describe('SelectPicker', () => {
       />
     );
 
-    const target = pickerRef.current.target;
+    const target = (pickerRef.current as PickerHandle).target;
 
-    fireEvent.click(target);
+    fireEvent.click(target as HTMLElement);
 
     // https://codesandbox.io/s/silent-voice-6kzx7
-    inputRef.current.focus();
-    fireEvent.keyDown(inputRef.current, { key: 'a' });
+    (inputRef.current as HTMLInputElement).focus();
+    fireEvent.keyDown(inputRef.current as HTMLInputElement, { key: 'a' });
 
     expect(inputRef.current).to.equal(document.activeElement);
 
-    fireEvent.keyDown(target, { key: 'a' });
+    fireEvent.keyDown(target as HTMLElement, { key: 'a' });
 
-    expect(pickerRef.current.overlay.querySelector('.rs-picker-search-bar-input')).to.equal(
-      document.activeElement
-    );
+    expect(
+      ((pickerRef.current as PickerHandle).overlay as HTMLElement).querySelector(
+        '.rs-picker-search-bar-input'
+      )
+    ).to.equal(document.activeElement);
   });
 
   describe('With a label', () => {
@@ -404,13 +416,13 @@ describe('SelectPicker', () => {
   it('Should call onSearch when closed', async () => {
     const onSearchSpy = sinon.spy();
     const handleClose = sinon.spy();
-    let { container } = render(
+    const { container } = render(
       <>
         <button id="exit">exit</button>
         <SelectPicker onClose={handleClose} defaultOpen onSearch={onSearchSpy} data={data} />
       </>
     );
-    const exit = container.querySelector('#exit');
+    const exit = container.querySelector('#exit') as HTMLElement;
 
     // close select
     fireEvent.mouseDown(exit, { bubbles: true });
