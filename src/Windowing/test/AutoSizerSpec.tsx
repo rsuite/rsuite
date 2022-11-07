@@ -36,7 +36,7 @@ describe('AutoSizer', () => {
       paddingRight,
       paddingTop,
       width
-    };
+    } as const;
 
     return (
       <div style={wrapperStyle}>
