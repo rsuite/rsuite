@@ -21,46 +21,64 @@ describe('Rate', () => {
   });
 
   it('Should allow clean full value', () => {
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLUListElement>();
     render(<Rate defaultValue={1} ref={ref} />);
 
     act(() => {
-      ReactTestUtils.Simulate.click(ref.current.querySelector('.rs-rate-character-full'));
+      ReactTestUtils.Simulate.click(
+        (ref.current as HTMLElement).querySelector('.rs-rate-character-full') as HTMLElement
+      );
     });
 
-    assert.equal(ref.current.querySelectorAll('.rs-rate-character-full').length, 0);
+    assert.equal(
+      (ref.current as HTMLElement).querySelectorAll('.rs-rate-character-full').length,
+      0
+    );
   });
 
   it('Should allow clean half value', () => {
     const instance = getDOMNode(<Rate defaultValue={0.5} allowHalf />);
-    ReactTestUtils.Simulate.mouseMove(instance.querySelector('.rs-rate-character-before'));
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-rate-character-before'));
+    ReactTestUtils.Simulate.mouseMove(
+      instance.querySelector('.rs-rate-character-before') as HTMLElement
+    );
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-rate-character-before') as HTMLElement
+    );
     assert.equal(instance.querySelectorAll('.rs-rate-character-full').length, 0);
   });
 
   it('Should cant clean value', () => {
     const instance = getDOMNode(<Rate defaultValue={0.5} allowHalf cleanable={false} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-rate-character-before'));
+    ReactTestUtils.Simulate.click(
+      instance.querySelector('.rs-rate-character-before') as HTMLElement
+    );
     assert.equal(instance.querySelectorAll('.rs-rate-character-half').length, 1);
   });
 
   it('Should render same value when click again after clean', () => {
     // half
     const instance1 = getDOMNode(<Rate defaultValue={0.5} allowHalf />);
-    ReactTestUtils.Simulate.click(instance1.querySelector('.rs-rate-character-before'));
-    ReactTestUtils.Simulate.click(instance1.querySelector('.rs-rate-character-before'));
+    ReactTestUtils.Simulate.click(
+      instance1.querySelector('.rs-rate-character-before') as HTMLElement
+    );
+    ReactTestUtils.Simulate.click(
+      instance1.querySelector('.rs-rate-character-before') as HTMLElement
+    );
     assert.equal(instance1.querySelectorAll('.rs-rate-character-half').length, 1);
 
     // full
     const instance2 = getDOMNode(<Rate defaultValue={1} />);
-    ReactTestUtils.Simulate.click(instance2.querySelector('.rs-rate-character'));
-    ReactTestUtils.Simulate.click(instance2.querySelector('.rs-rate-character'));
+    ReactTestUtils.Simulate.click(instance2.querySelector('.rs-rate-character') as HTMLElement);
+    ReactTestUtils.Simulate.click(instance2.querySelector('.rs-rate-character') as HTMLElement);
     assert.equal(instance2.querySelectorAll('.rs-rate-character-full').length, 1);
   });
 
   it('Should render A character', () => {
     const instance = getDOMNode(<Rate defaultValue={1} character="A" />);
-    assert.equal(instance.querySelector('.rs-rate-character-before').textContent, 'A');
+    assert.equal(
+      (instance.querySelector('.rs-rate-character-before') as HTMLElement).textContent,
+      'A'
+    );
   });
 
   it('Should render a custom character', () => {
@@ -110,17 +128,19 @@ describe('Rate', () => {
       }
     };
 
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLUListElement>();
     render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />);
 
     act(() => {
       ReactTestUtils.Simulate.mouseMove(
-        ref.current.querySelectorAll('.rs-rate-character-before')[2]
+        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character-before')[2]
       );
     });
 
     act(() => {
-      ReactTestUtils.Simulate.click(ref.current.querySelectorAll('.rs-rate-character')[2]);
+      ReactTestUtils.Simulate.click(
+        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2]
+      );
     });
   });
 
@@ -134,26 +154,35 @@ describe('Rate', () => {
       }
     };
 
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLUListElement>();
 
     render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />);
 
     act(() => {
-      ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[1], {
-        key: 'ArrowRight'
-      });
+      ReactTestUtils.Simulate.keyDown(
+        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[1],
+        {
+          key: 'ArrowRight'
+        }
+      );
     });
 
     act(() => {
-      ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[2], {
-        key: 'ArrowRight'
-      });
+      ReactTestUtils.Simulate.keyDown(
+        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2],
+        {
+          key: 'ArrowRight'
+        }
+      );
     });
 
     act(() => {
-      ReactTestUtils.Simulate.keyDown(ref.current.querySelectorAll('.rs-rate-character')[2], {
-        key: 'Enter'
-      });
+      ReactTestUtils.Simulate.keyDown(
+        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2],
+        {
+          key: 'Enter'
+        }
+      );
     });
   });
 
@@ -163,9 +192,13 @@ describe('Rate', () => {
   });
 
   it('Should update characterMap when value is updated', () => {
+    type TestAppInstance = {
+      root: HTMLElement;
+      setValue: (newValue: number) => void;
+    };
     const TestApp = React.forwardRef((props, ref) => {
       const [value, setValue] = React.useState(2);
-      const rootRef = React.useRef();
+      const rootRef = React.useRef<HTMLUListElement>(null);
       React.useImperativeHandle(ref, () => ({
         root: rootRef.current,
         setValue
@@ -176,19 +209,24 @@ describe('Rate', () => {
 
     TestApp.displayName = 'TestApp';
 
-    const ref = React.createRef();
+    const ref = React.createRef<TestAppInstance>();
     render(<TestApp ref={ref} />);
 
     assert.equal(
-      ref.current.root.querySelector('[aria-checked="true"]').getAttribute('aria-posinset'),
+      (
+        (ref.current as TestAppInstance).root.querySelector('[aria-checked="true"]') as HTMLElement
+      ).getAttribute('aria-posinset'),
       '2'
     );
 
     act(() => {
-      ref.current.setValue(0);
+      (ref.current as TestAppInstance).setValue(0);
     });
 
-    assert.equal(ref.current.root.querySelectorAll('[aria-checked="false"]').length, 5);
+    assert.equal(
+      (ref.current as TestAppInstance).root.querySelectorAll('[aria-checked="false"]').length,
+      5
+    );
   });
 
   describe('Plain text', () => {
@@ -205,6 +243,9 @@ describe('Rate', () => {
     it('Should render "Not selected" if value is empty', () => {
       const { getByTestId } = render(
         <div data-testid="content">
+          {/* FIXME `value` prop does not accept null as value */}
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-ignore */}
           <Rate value={null} max={5} plaintext />
         </div>
       );
