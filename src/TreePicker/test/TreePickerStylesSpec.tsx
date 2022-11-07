@@ -4,6 +4,7 @@ import { act } from '@testing-library/react';
 import { render, getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
+import { PickerHandle } from 'src/Picker';
 
 const data = [
   {
@@ -34,15 +35,15 @@ const data = [
 
 describe('TreePicker styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<PickerHandle>();
 
     act(() => {
       render(<TreePicker data={data} ref={instanceRef} open />);
     });
 
-    const pickerMenuDom = document.querySelector('.rs-picker-tree-menu');
-    const treeWrapperDom = pickerMenuDom.querySelector('.rs-tree');
-    const treeNodeDom = pickerMenuDom.querySelector('.rs-tree-node');
+    const pickerMenuDom = document.querySelector('.rs-picker-tree-menu') as HTMLElement;
+    const treeWrapperDom = pickerMenuDom.querySelector('.rs-tree') as HTMLElement;
+    const treeNodeDom = pickerMenuDom.querySelector('.rs-tree-node') as HTMLElement;
     inChrome &&
       assert.equal(
         getStyle(treeWrapperDom, 'padding'),

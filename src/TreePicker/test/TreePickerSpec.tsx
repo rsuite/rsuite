@@ -1,8 +1,11 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor, screen } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
-import TreePicker from '../TreePicker';
+import TreePicker, { TreePickerProps } from '../TreePicker';
 import { KEY_VALUES } from '../../utils';
+import { PickerHandle } from '../../Picker';
+import { ListHandle } from '../../Windowing';
 
 const data = [
   {
@@ -35,7 +38,9 @@ describe('TreePicker', () => {
   it('Should render default value', () => {
     const instance = getDOMNode(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
 
-    expect(instance.querySelector('.rs-picker-toggle-value').textContent).to.equal('Master');
+    expect((instance.querySelector('.rs-picker-toggle-value') as HTMLElement).textContent).to.equal(
+      'Master'
+    );
   });
 
   it('Should have "default" appearance by default', () => {
@@ -47,8 +52,10 @@ describe('TreePicker', () => {
   it('Should clean selected value', () => {
     const instance = getDOMNode(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
-    expect(instance.querySelector('.rs-picker-toggle').textContent).to.equal('Select');
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
+    expect((instance.querySelector('.rs-picker-toggle') as HTMLElement).textContent).to.equal(
+      'Select'
+    );
   });
 
   it('Should output a clean button', () => {
@@ -86,9 +93,7 @@ describe('TreePicker', () => {
   });
 
   it('Should expand children nodes', () => {
-    const instance = getInstance(
-      <TreePicker open cascade={false} data={data} value={['Master']} />
-    );
+    const instance = getInstance(<TreePicker open cascade={false} data={data} value="Master" />);
 
     fireEvent.click(
       instance.overlay.querySelector('div[data-ref="String_Master"]  > .rs-tree-node-expand-icon')
@@ -114,7 +119,7 @@ describe('TreePicker', () => {
           { label: '2', value: '2' }
         ]}
         value={'2'}
-        renderValue={(value, item) => `Selected: ${item.label}`}
+        renderValue={(_value, item) => `Selected: ${item.label}`}
       />
     );
 
@@ -135,6 +140,9 @@ describe('TreePicker', () => {
       <TreePicker
         placeholder={placeholder}
         data={[]}
+        // FIXME `value` prop does not accept null value
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         value={null}
         renderValue={v => [v, placeholder]}
       />
@@ -167,7 +175,7 @@ describe('TreePicker', () => {
   });
 
   it('Should render a placeholder when value error', () => {
-    const instance = getDOMNode(<TreePicker placeholder="test" data={data} value={['4']} />);
+    const instance = getDOMNode(<TreePicker placeholder="test" data={data} value="4" />);
 
     expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('test');
   });
@@ -187,7 +195,7 @@ describe('TreePicker', () => {
       <TreePicker defaultOpen data={data} defaultValue={'tester0'} onClean={onCleanSpy} />
     );
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
 
     expect(onCleanSpy).to.calledOnce;
   });
@@ -196,7 +204,7 @@ describe('TreePicker', () => {
     const onOpenSpy = sinon.spy();
     const instance = getDOMNode(<TreePicker onOpen={onOpenSpy} data={data} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle') as HTMLElement);
 
     expect(onOpenSpy).to.calledOnce;
   });
@@ -205,8 +213,8 @@ describe('TreePicker', () => {
     const onCloseSpy = sinon.spy();
     const instance = getDOMNode(<TreePicker onClose={onCloseSpy} data={data} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle'));
-    fireEvent.click(instance.querySelector('.rs-picker-toggle'));
+    fireEvent.click(instance.querySelector('.rs-picker-toggle') as HTMLElement);
+    fireEvent.click(instance.querySelector('.rs-picker-toggle') as HTMLElement);
 
     await waitFor(() => {
       expect(onCloseSpy).to.calledOnce;
@@ -334,7 +342,7 @@ describe('TreePicker', () => {
         children: []
       }
     ];
-    const ref = React.createRef();
+    const ref = React.createRef<PickerHandle>();
 
     render(
       <TreePicker
@@ -353,10 +361,16 @@ describe('TreePicker', () => {
     );
 
     fireEvent.click(
-      ref.current.overlay.querySelector('div[data-ref="String_async"]  > .rs-tree-node-expand-icon')
+      ((ref.current as PickerHandle).overlay as HTMLElement).querySelector(
+        'div[data-ref="String_async"]  > .rs-tree-node-expand-icon'
+      ) as HTMLElement
     );
 
-    expect(ref.current.overlay.querySelector('[data-key="String_children1"]')).to.exist;
+    expect(
+      ((ref.current as PickerHandle).overlay as HTMLElement).querySelector(
+        '[data-key="String_children1"]'
+      )
+    ).to.exist;
   });
 
   it('Should render one node when searchKeyword is `M`', () => {
@@ -385,6 +399,9 @@ describe('TreePicker', () => {
 
   it('Should render with expand master node', () => {
     const instance = getInstance(
+      // FIXME `expandItemValues` type may be wrong
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       <TreePicker defaultOpen data={data} expandItemValues={['Master']} />
     );
 
@@ -392,8 +409,12 @@ describe('TreePicker', () => {
   });
 
   it('Should fold all the node when toggle master node', () => {
-    const TestApp = React.forwardRef((props, ref) => {
-      const pickerRef = React.useRef();
+    type TestAppInstance = {
+      picker: PickerHandle;
+      setExpandItemValues: (values: string[]) => void;
+    };
+    const TestApp = React.forwardRef((props: Omit<TreePickerProps, 'data' | 'open'>, ref) => {
+      const pickerRef = React.useRef<PickerHandle>(null);
       const [expandItemValues, setExpandItemValues] = React.useState(['Master']);
       React.useImperativeHandle(ref, () => {
         return {
@@ -407,6 +428,9 @@ describe('TreePicker', () => {
           {...props}
           data={data}
           open
+          // FIXME `expandItemValues` type may be wrong
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           expandItemValues={expandItemValues}
         />
       );
@@ -418,23 +442,31 @@ describe('TreePicker', () => {
     const mockOnExpand = values => {
       expandItemValues = values;
     };
-    const ref = React.createRef();
+    const ref = React.createRef<TestAppInstance>();
 
     render(<TestApp ref={ref} onExpand={mockOnExpand} />);
 
-    expect(ref.current.picker.overlay.querySelector('.rs-tree-node-expanded')).to.exist;
+    expect(
+      ((ref.current as TestAppInstance).picker.overlay as HTMLElement).querySelector(
+        '.rs-tree-node-expanded'
+      )
+    ).to.exist;
 
     fireEvent.click(
-      ref.current.picker.overlay.querySelector(
+      ((ref.current as TestAppInstance).picker.overlay as HTMLElement).querySelector(
         'div[data-ref="String_Master"]  > .rs-tree-node-expand-icon'
-      )
+      ) as HTMLElement
     );
 
     act(() => {
-      ref.current.setExpandItemValues(expandItemValues);
+      (ref.current as TestAppInstance).setExpandItemValues(expandItemValues);
     });
 
-    expect(ref.current.picker.overlay.querySelector('.rs-tree-node-expanded')).to.not.exist;
+    expect(
+      ((ref.current as TestAppInstance).picker.overlay as HTMLElement).querySelector(
+        '.rs-tree-node-expanded'
+      )
+    ).to.not.exist;
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
@@ -443,7 +475,7 @@ describe('TreePicker', () => {
         defaultOpen
         defaultExpandAll
         data={data}
-        searchBy={(a, b, c) => c.value === 'Master'}
+        searchBy={(_a, _b, c) => c.value === 'Master'}
       />
     );
     const list = getDOMNode(instance.overlay).querySelectorAll('.rs-tree-node');
@@ -495,15 +527,15 @@ describe('TreePicker', () => {
 
   it('Should catch the not set virtualized exception', () => {
     expect(() => {
-      const ref = React.createRef();
+      const ref = React.createRef<PickerHandle>();
       render(<TreePicker data={data} ref={ref} />);
-      ref.current.list;
+      (ref.current as PickerHandle).list;
     }).to.throw(Error);
   });
 
   it('Should scroll the list by `scrollToRow`', () => {
     const onScrollSpy = sinon.spy();
-    const ref = React.createRef();
+    const ref = React.createRef<PickerHandle>();
 
     render(
       <TreePicker
@@ -519,7 +551,7 @@ describe('TreePicker', () => {
     );
 
     act(() => {
-      ref.current.list.scrollToRow(2);
+      ((ref.current as PickerHandle).list as ListHandle).scrollToRow?.(2);
     });
 
     expect(onScrollSpy).to.be.calledOnce;

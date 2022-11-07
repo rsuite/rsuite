@@ -1,11 +1,12 @@
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import TreeNode from '../TreeNode';
 
 describe('TreePicker - TreeNode', () => {
   it('Should render tree node', () => {
-    const instance = getDOMNode(<TreeNode layer={0} />);
+    const instance = getDOMNode(<TreeNode layer={0} visible nodeData={{}} />);
 
     assert.include(instance.className, 'rs-tree-node');
     assert.include(instance.getAttribute('role'), 'treeitem');
@@ -13,7 +14,9 @@ describe('TreePicker - TreeNode', () => {
 
   it('Should call `onDragStart` callback', () => {
     const onDragStartSpy = sinon.spy();
-    const instance = getDOMNode(<TreeNode layer={0} onDragStart={onDragStartSpy} nodeData={1} />);
+    const instance = getDOMNode(
+      <TreeNode layer={0} onDragStart={onDragStartSpy} nodeData={1} visible />
+    );
 
     Simulate.dragStart(instance);
 
@@ -23,7 +26,9 @@ describe('TreePicker - TreeNode', () => {
 
   it('Should call `onDragEnter` callback', () => {
     const onDragEnterSpy = sinon.spy();
-    const instance = getDOMNode(<TreeNode layer={0} onDragEnter={onDragEnterSpy} nodeData={1} />);
+    const instance = getDOMNode(
+      <TreeNode layer={0} onDragEnter={onDragEnterSpy} nodeData={1} visible />
+    );
 
     Simulate.dragEnter(instance);
 
@@ -33,7 +38,9 @@ describe('TreePicker - TreeNode', () => {
 
   it('Should call `onDragOver` callback', () => {
     const onDragOverSpy = sinon.spy();
-    const instance = getDOMNode(<TreeNode layer={0} onDragOver={onDragOverSpy} nodeData={1} />);
+    const instance = getDOMNode(
+      <TreeNode layer={0} onDragOver={onDragOverSpy} nodeData={1} visible />
+    );
 
     Simulate.dragOver(instance);
 
@@ -43,7 +50,9 @@ describe('TreePicker - TreeNode', () => {
 
   it('Should call `onDragEnd` callback', () => {
     const onDragEndSpy = sinon.spy();
-    const instance = getDOMNode(<TreeNode layer={0} onDragEnd={onDragEndSpy} nodeData={1} />);
+    const instance = getDOMNode(
+      <TreeNode layer={0} onDragEnd={onDragEndSpy} nodeData={1} visible />
+    );
 
     Simulate.dragEnd(instance);
 
