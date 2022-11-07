@@ -1,7 +1,10 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
 import { fireEvent, render } from '@testing-library/react';
+import sinon from 'sinon';
 import Tree from '../Tree';
+import { PickerHandle } from '../../Picker';
+import { ListHandle } from '../../Windowing';
 
 const data = [
   {
@@ -41,7 +44,7 @@ describe('Tree', () => {
   it('Should call `onDragStart` callback', () => {
     const onDragStartSpy = sinon.spy();
     const instance = getDOMNode(<Tree data={data} onDragStart={onDragStartSpy} draggable />);
-    const treeNode = instance.querySelector('.rs-tree-node');
+    const treeNode = instance.querySelector('.rs-tree-node') as HTMLElement;
 
     fireEvent.dragStart(treeNode);
 
@@ -53,7 +56,7 @@ describe('Tree', () => {
   it('Should call `onDragEnter` callback', () => {
     const onDragEnterSpy = sinon.spy();
     const instance = getDOMNode(<Tree data={data} onDragEnter={onDragEnterSpy} draggable />);
-    const treeNode = instance.querySelector('.rs-tree-node');
+    const treeNode = instance.querySelector('.rs-tree-node') as HTMLElement;
 
     fireEvent.dragEnter(treeNode);
     assert.isTrue(onDragEnterSpy.calledOnce);
@@ -63,7 +66,7 @@ describe('Tree', () => {
   it('Should call `onDragOver` callback', () => {
     const onDragOverSpy = sinon.spy();
     const instance = getDOMNode(<Tree data={data} onDragOver={onDragOverSpy} draggable />);
-    const treeNode = instance.querySelector('.rs-tree-node');
+    const treeNode = instance.querySelector('.rs-tree-node') as HTMLElement;
 
     fireEvent.dragOver(treeNode);
     assert.isTrue(onDragOverSpy.calledOnce);
@@ -73,7 +76,7 @@ describe('Tree', () => {
   it('Should call `onDragLeave` callback', () => {
     const onDragLeaveSpy = sinon.spy();
     const instance = getDOMNode(<Tree data={data} onDragLeave={onDragLeaveSpy} draggable />);
-    const treeNode = instance.querySelector('.rs-tree-node');
+    const treeNode = instance.querySelector('.rs-tree-node') as HTMLElement;
 
     fireEvent.dragLeave(treeNode);
     assert.isTrue(onDragLeaveSpy.calledOnce);
@@ -83,7 +86,7 @@ describe('Tree', () => {
   it('Should call `onDragEnd` callback', () => {
     const onDragEndSpy = sinon.spy();
     const instance = getDOMNode(<Tree data={data} onDragEnd={onDragEndSpy} draggable />);
-    const treeNode = instance.querySelector('.rs-tree-node');
+    const treeNode = instance.querySelector('.rs-tree-node') as HTMLElement;
 
     fireEvent.dragEnd(treeNode);
     assert.isTrue(onDragEndSpy.calledOnce);
@@ -96,8 +99,8 @@ describe('Tree', () => {
       const instance = getDOMNode(
         <Tree data={data} onDrop={onDropSpy} draggable defaultExpandAll />
       );
-      const dragTreeNode = instance.querySelector('span[data-key="String_tester0"]');
-      const dropTreeNode = instance.querySelector('span[data-key="String_tester1"]');
+      const dragTreeNode = instance.querySelector('span[data-key="String_tester0"]') as HTMLElement;
+      const dropTreeNode = instance.querySelector('span[data-key="String_tester1"]') as HTMLElement;
 
       fireEvent.dragStart(dragTreeNode);
       fireEvent.drop(dropTreeNode);
@@ -110,18 +113,24 @@ describe('Tree', () => {
 
   it('Should catch the not set virtualized exception', () => {
     expect(() => {
-      const ref = React.createRef();
+      const ref = React.createRef<PickerHandle>();
+      // FIXME `ref` should be type Ref<PickerHandle>
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       render(<Tree data={data} ref={ref} />);
-      ref.current.list;
+      (ref.current as PickerHandle).list;
     }).to.throw('The list is not found, please set `virtualized` for the component.');
   });
 
   it('Should scroll the list by `scrollToRow`', () => {
     const onScrollSpy = sinon.spy();
-    const ref = React.createRef();
+    const ref = React.createRef<PickerHandle>();
     render(
       <Tree
         data={data}
+        // FIXME `ref` should be type Ref<PickerHandle>
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         ref={ref}
         virtualized
         style={{ height: 30 }}
@@ -130,7 +139,7 @@ describe('Tree', () => {
         }}
       />
     );
-    ref.current.list.scrollToRow(2);
+    ((ref.current as PickerHandle).list as ListHandle).scrollToRow?.(2);
     assert.isTrue(onScrollSpy.calledOnce);
   });
 
@@ -141,7 +150,7 @@ describe('Tree', () => {
 
     assert.isNotNull(instance.querySelector('.rs-tree-indent-line'));
     assert.equal(lines.length, 2);
-    assert.equal(lines[0].style.left, '44px');
-    assert.equal(lines[1].style.left, '28px');
+    assert.equal((lines[0] as HTMLElement).style.left, '44px');
+    assert.equal((lines[1] as HTMLElement).style.left, '28px');
   });
 });
