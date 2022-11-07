@@ -7,9 +7,13 @@ import '../../Tag/styles/index.less';
 
 describe('TagGroup styles', () => {
   itChrome('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
 
     render(<TagGroup ref={instanceRef} />);
-    assert.equal(getStyle(instanceRef.current, 'margin'), '-10px 0px 0px -10px', 'TagGroup margin');
+    assert.equal(
+      getStyle(instanceRef.current as HTMLElement, 'margin'),
+      '-10px 0px 0px -10px',
+      'TagGroup margin'
+    );
   });
 });

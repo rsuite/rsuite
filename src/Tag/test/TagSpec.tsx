@@ -20,6 +20,6 @@ describe('Tag', () => {
         tag
       </Tag>
     );
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-tag-icon-close'));
+    ReactTestUtils.Simulate.click(instance.querySelector('.rs-tag-icon-close') as HTMLElement);
   });
 });

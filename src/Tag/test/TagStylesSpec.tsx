@@ -7,7 +7,7 @@ import '../styles/index.less';
 
 describe('Tag styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    const instanceRef = React.createRef<HTMLDivElement>();
     render(<Tag ref={instanceRef}>Text</Tag>);
     const dom = getDOMNode(instanceRef.current);
     assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#f7f7fa'), 'Tag background-color');
