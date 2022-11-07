@@ -15,7 +15,7 @@ describe('Radio', () => {
   it('Should add title', () => {
     const title = 'Text';
     const instance = getDOMNode(<Radio title={title}>Test</Radio>);
-    assert.equal(instance.querySelector('label').title, title);
+    assert.equal((instance.querySelector('label') as HTMLLabelElement).title, title);
   });
 
   it('Should have radio-inline class', () => {
@@ -25,7 +25,7 @@ describe('Radio', () => {
 
   it('Should be disabled', () => {
     const instance = getDOMNode(<Radio disabled>Test</Radio>);
-    assert.ok(instance.querySelector('input').disabled);
+    assert.ok((instance.querySelector('input') as HTMLInputElement).disabled);
     assert.ok(instance.className.match(/\bradio-disabled\b/));
   });
 
@@ -45,7 +45,7 @@ describe('Radio', () => {
     const value = 'Test';
     const instance = getDOMNode(<Radio defaultValue={value}>Test</Radio>);
 
-    assert.equal(instance.querySelector('input').value, value);
+    assert.equal((instance.querySelector('input') as HTMLInputElement).value, value);
   });
 
   it('Should support inputRef', () => {
@@ -60,7 +60,7 @@ describe('Radio', () => {
     };
 
     const instance = getDOMNode(<Radio onClick={doneOp}>Title</Radio>);
-    ReactTestUtils.Simulate.click(instance.querySelector('label'));
+    ReactTestUtils.Simulate.click(instance.querySelector('label') as HTMLLabelElement);
   });
 
   it('Should call onChange callback with correct value', done => {
@@ -79,7 +79,7 @@ describe('Radio', () => {
         Title
       </Radio>
     );
-    ReactTestUtils.Simulate.change(instance.querySelector('input'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
   });
 
   it('Should call onBlur callback', done => {
@@ -87,7 +87,7 @@ describe('Radio', () => {
       done();
     };
     const instance = getDOMNode(<Radio onBlur={doneOp} />);
-    ReactTestUtils.Simulate.blur(instance.querySelector('input'));
+    ReactTestUtils.Simulate.blur(instance.querySelector('input') as HTMLInputElement);
   });
 
   it('Should call onFocus callback', done => {
@@ -95,7 +95,7 @@ describe('Radio', () => {
       done();
     };
     const instance = getDOMNode(<Radio onFocus={doneOp} />);
-    ReactTestUtils.Simulate.focus(instance.querySelector('input'));
+    ReactTestUtils.Simulate.focus(instance.querySelector('input') as HTMLInputElement);
   });
 
   it('Should be checked with change', done => {
@@ -114,6 +114,6 @@ describe('Radio', () => {
       </Radio>
     );
 
-    ReactTestUtils.Simulate.change(instance.querySelector('input'));
+    ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
   });
 });

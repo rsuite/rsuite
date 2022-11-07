@@ -43,7 +43,7 @@ describe('RadioGroup', () => {
   });
 
   it('Should output a h1', () => {
-    let instance = getDOMNode(
+    const instance = getDOMNode(
       <RadioGroup inline>
         <h1>Group</h1>
         <Radio>Test1</Radio>
@@ -98,7 +98,7 @@ describe('RadioGroup', () => {
     );
 
     const radios = instance.querySelectorAll('.rs-radio');
-    ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
+    ReactTestUtils.Simulate.change(radios[2].querySelector('input') as HTMLInputElement);
   });
 
   it('Should call onChange callback', done => {
@@ -123,16 +123,16 @@ describe('RadioGroup', () => {
     );
 
     const radios = instance.querySelectorAll('.rs-radio');
-    ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
+    ReactTestUtils.Simulate.change(radios[2].querySelector('input') as HTMLInputElement);
   });
 
   it('Should call onChange callback with correct event target', done => {
     const instance = getDOMNode(
       <RadioGroup
         name="test"
-        onChange={(value, event) => {
+        onChange={(_value, event) => {
           try {
-            assert.equal(event.target.name, 'test');
+            assert.equal((event.target as HTMLInputElement).name, 'test');
             done();
           } catch (err) {
             done(err);
@@ -147,17 +147,26 @@ describe('RadioGroup', () => {
     );
 
     const radios = instance.querySelectorAll('.rs-radio');
-    ReactTestUtils.Simulate.change(radios[2].querySelector('input'));
+    ReactTestUtils.Simulate.change(radios[2].querySelector('input') as HTMLInputElement);
   });
 
   it('Should be selected as false', () => {
     const instance = getDOMNode(
+      // FIXME `value` prop does not accept boolean values
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       <RadioGroup value={false}>
+        {/* FIXME `value` prop does not accept boolean values */}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
         <Radio value={true}>true</Radio>
+        {/* FIXME `value` prop does not accept boolean values */}
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+        {/* @ts-ignore */}
         <Radio value={false}>false</Radio>
       </RadioGroup>
     );
-    assert.equal(instance.querySelector('.rs-radio-checked').textContent, 'false');
+    assert.equal((instance.querySelector('.rs-radio-checked') as HTMLElement).textContent, 'false');
   });
 
   it('Should apply appearance', () => {

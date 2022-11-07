@@ -9,7 +9,9 @@ describe('Radio styles', () => {
   itChrome('Should render the correct border', () => {
     const instanceRef = React.createRef();
     render(<Radio ref={instanceRef} />);
-    const innerDom = getDOMNode(instanceRef.current).querySelector('.rs-radio-inner');
+    const innerDom = getDOMNode(instanceRef.current).querySelector(
+      '.rs-radio-inner'
+    ) as HTMLElement;
     assert.equal(
       window.getComputedStyle(innerDom, '::before').border,
       `1px solid ${toRGB('#d9d9d9')}`
@@ -19,7 +21,9 @@ describe('Radio styles', () => {
   it('Should render checked style even in disabled state', () => {
     const instanceRef = React.createRef();
     render(<Radio ref={instanceRef} checked disabled />);
-    const innerDom = getDOMNode(instanceRef.current).querySelector('.rs-radio-inner');
+    const innerDom = getDOMNode(instanceRef.current).querySelector(
+      '.rs-radio-inner'
+    ) as HTMLElement;
     assert.equal(window.getComputedStyle(innerDom, '::before').backgroundColor, toRGB('#3498ff'));
   });
 });
