@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import SafeAnchor from '../SafeAnchor';
 
