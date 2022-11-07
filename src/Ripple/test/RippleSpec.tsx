@@ -13,7 +13,7 @@ describe('Ripple', () => {
     const doneOp = () => {
       done();
     };
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     render(
       <div ref={ref} style={{ width: 100, height: 100 }}>
         <Ripple onMouseDown={doneOp} />
@@ -22,7 +22,7 @@ describe('Ripple', () => {
 
     act(() => {
       const event = new Event('mousedown');
-      ref.current.dispatchEvent(event);
+      (ref.current as HTMLElement).dispatchEvent(event);
     });
   });
 
