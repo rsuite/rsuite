@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, act, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import { getDOMNode, render } from '@test/testUtils';
 import Handle from '../Handle';
 
@@ -17,7 +18,7 @@ describe('Slider - Handle', () => {
   it('Should call `onDragMove` callback', async () => {
     const onDragMoveSpy = sinon.spy();
 
-    const ref = React.createRef();
+    const ref = React.createRef<HTMLDivElement>();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
 
     act(() => {
@@ -25,15 +26,15 @@ describe('Slider - Handle', () => {
     });
 
     act(() => {
-      fireEvent.mouseDown(ref.current);
+      fireEvent.mouseDown(ref.current as HTMLElement);
     });
 
     act(() => {
-      ref.current.dispatchEvent(mousemoveEvent);
+      (ref.current as HTMLElement).dispatchEvent(mousemoveEvent);
     });
 
     await waitFor(() => {
-      expect(ref.current.className).to.contain('active');
+      expect((ref.current as HTMLElement).className).to.contain('active');
       expect(onDragMoveSpy).to.called;
     });
   });
@@ -41,10 +42,10 @@ describe('Slider - Handle', () => {
   it('Should show tooltip', () => {
     const instance = getDOMNode(<Handle tooltip value={10} />);
 
-    expect(instance.querySelector('.rs-tooltip').style.left).to.empty;
+    expect((instance.querySelector('.rs-tooltip') as HTMLElement).style.left).to.empty;
 
     fireEvent.mouseEnter(instance);
 
-    expect(instance.querySelector('.rs-tooltip').style.left).to.not.empty;
+    expect((instance.querySelector('.rs-tooltip') as HTMLElement).style.left).to.not.empty;
   });
 });

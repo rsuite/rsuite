@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import { Simulate } from 'react-dom/test-utils';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import RangeSlider from '../RangeSlider';
@@ -17,8 +18,14 @@ describe('RangeSlider', () => {
 
   it('Should have a progress ', () => {
     const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} />);
-    assert.equal(instance.querySelector('.rs-slider-progress-bar').style.width, '40%');
-    assert.equal(instance.querySelector('.rs-slider-progress-bar').style.left, '10%');
+    assert.equal(
+      (instance.querySelector('.rs-slider-progress-bar') as HTMLHtmlElement).style.width,
+      '40%'
+    );
+    assert.equal(
+      (instance.querySelector('.rs-slider-progress-bar') as HTMLElement).style.left,
+      '10%'
+    );
   });
 
   it('Should render 2 handles ', () => {
@@ -36,7 +43,10 @@ describe('RangeSlider', () => {
   it('Should be displayed vertically', () => {
     const instance = getDOMNode(<RangeSlider vertical />);
     assert.include(instance.className, 'rs-slider-vertical');
-    assert.equal(instance.querySelector('input').getAttribute('aria-orientation'), 'vertical');
+    assert.equal(
+      (instance.querySelector('input') as HTMLElement).getAttribute('aria-orientation'),
+      'vertical'
+    );
   });
 
   it('Should be disabled', () => {
@@ -47,7 +57,7 @@ describe('RangeSlider', () => {
   it('Should call onChange callback', () => {
     const onChangeSpy = sinon.spy();
     const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} onChange={onChangeSpy} />);
-    fireEvent.click(instance.querySelector('.rs-slider-progress-bar'));
+    fireEvent.click(instance.querySelector('.rs-slider-progress-bar') as HTMLElement);
 
     assert.equal(onChangeSpy.firstCall.firstArg[0], 0);
     assert.equal(onChangeSpy.firstCall.firstArg[1], 50);
@@ -58,7 +68,7 @@ describe('RangeSlider', () => {
     const { getAllByRole } = render(<RangeSlider value={[10, 50]} onChange={onChange} />);
 
     // FIXME Should dispatch event on [role=slider] directly
-    fireEvent.keyDown(getAllByRole('slider')[0].closest('.rs-slider-handle'), {
+    fireEvent.keyDown(getAllByRole('slider')[0].closest('.rs-slider-handle') as HTMLElement, {
       key: 'ArrowRight'
     });
     expect(onChange).to.have.been.calledWith([11, 50]);
@@ -70,10 +80,10 @@ describe('RangeSlider', () => {
       <RangeSlider value={[10, 50]} onChange={onChange} constraint={() => false} />
     );
 
-    fireEvent.click(container.querySelector('.rs-slider-progress-bar'));
+    fireEvent.click(container.querySelector('.rs-slider-progress-bar') as HTMLElement);
     expect(onChange).not.to.have.been.called;
 
-    fireEvent.keyDown(getAllByRole('slider')[0].closest('.rs-slider-handle'), {
+    fireEvent.keyDown(getAllByRole('slider')[0].closest('.rs-slider-handle') as HTMLElement, {
       key: 'ArrowRight'
     });
     expect(onChange).not.to.have.been.called;
@@ -81,13 +91,13 @@ describe('RangeSlider', () => {
 
   it('Should render custom title', () => {
     const instance = getDOMNode(<RangeSlider tooltip={false} handleTitle={'test'} />);
-    assert.equal(instance.querySelector('.rs-slider-handle').textContent, 'test');
+    assert.equal((instance.querySelector('.rs-slider-handle') as HTMLElement).textContent, 'test');
   });
 
   it('Should handle keyboard operations', () => {
     const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} />);
-    const handle = instance.querySelector('.rs-slider-handle');
-    const input = instance.querySelector('input[type="range"]');
+    const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
+    const input = instance.querySelector('input[type="range"]') as HTMLInputElement;
 
     assert.equal(input.value, '10');
 
@@ -115,7 +125,7 @@ describe('RangeSlider', () => {
     const mouseupEvent = new MouseEvent('mouseup', { bubbles: true });
     const instance = getDOMNode(<RangeSlider onChangeCommitted={() => done()} />);
 
-    const handle = instance.querySelector('.rs-slider-handle');
+    const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
     fireEvent.mouseDown(handle);
     handle.dispatchEvent(mousemoveEvent);
     handle.dispatchEvent(mouseupEvent);
@@ -125,24 +135,24 @@ describe('RangeSlider', () => {
 
   it('Should call `onChange` callback', done => {
     const instance = getDOMNode(<RangeSlider onChange={() => done()} />);
-    fireEvent.click(instance.querySelector('.rs-slider-bar'));
+    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
   });
 
   it('Should output an `input` stored value', () => {
     const instance = getDOMNode(<RangeSlider min={10} max={100} value={[20, 50]} />);
 
-    const input = instance.querySelectorAll('input[type="range"]');
+    const input = instance.querySelectorAll('input[type="range"]') as NodeListOf<HTMLInputElement>;
 
-    assert.equal(input[0].value, 20);
-    assert.equal(input[0].getAttribute('aria-valuenow'), 20);
-    assert.equal(input[0].getAttribute('aria-valuemax'), 100);
-    assert.equal(input[0].getAttribute('aria-valuemin'), 10);
+    assert.equal(input[0].value, '20');
+    assert.equal(input[0].getAttribute('aria-valuenow'), '20');
+    assert.equal(input[0].getAttribute('aria-valuemax'), '100');
+    assert.equal(input[0].getAttribute('aria-valuemin'), '10');
     assert.equal(input[0].getAttribute('aria-orientation'), 'horizontal');
 
-    assert.equal(input[1].value, 50);
-    assert.equal(input[1].getAttribute('aria-valuenow'), 50);
-    assert.equal(input[1].getAttribute('aria-valuemax'), 100);
-    assert.equal(input[1].getAttribute('aria-valuemin'), 10);
+    assert.equal(input[1].value, '50');
+    assert.equal(input[1].getAttribute('aria-valuenow'), '50');
+    assert.equal(input[1].getAttribute('aria-valuemax'), '100');
+    assert.equal(input[1].getAttribute('aria-valuemin'), '10');
     assert.equal(input[1].getAttribute('aria-orientation'), 'horizontal');
   });
 
@@ -157,7 +167,7 @@ describe('RangeSlider', () => {
       />
     );
 
-    const sliderBar = instance.querySelector('.rs-slider-bar');
+    const sliderBar = instance.querySelector('.rs-slider-bar') as HTMLElement;
 
     act(() => {
       Simulate.click(sliderBar, { pageX: 0, pageY: 80 });

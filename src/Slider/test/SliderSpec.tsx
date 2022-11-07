@@ -14,7 +14,10 @@ describe('Slider', () => {
 
   it('Should have a progress ', () => {
     const instance = getDOMNode(<Slider progress defaultValue={50} />);
-    assert.equal(instance.querySelector('.rs-slider-progress-bar').style.width, '50%');
+    assert.equal(
+      (instance.querySelector('.rs-slider-progress-bar') as HTMLElement).style.width,
+      '50%'
+    );
   });
 
   it('Should output the scale', () => {
@@ -27,7 +30,10 @@ describe('Slider', () => {
   it('Should be displayed vertically', () => {
     const instance = getDOMNode(<Slider vertical />);
     assert.include(instance.className, 'rs-slider-vertical');
-    assert.equal(instance.querySelector('input').getAttribute('aria-orientation'), 'vertical');
+    assert.equal(
+      (instance.querySelector('input') as HTMLElement).getAttribute('aria-orientation'),
+      'vertical'
+    );
   });
 
   it('Should be disabled', () => {
@@ -50,8 +56,8 @@ describe('Slider', () => {
 
     const marks = instance.querySelectorAll('.rs-slider-mark-content');
     assert.equal(marks[0].textContent, 'Single');
-    assert.equal(marks[1].textContent, 1);
-    assert.equal(marks[2].textContent, 2);
+    assert.equal(marks[1].textContent, '1');
+    assert.equal(marks[2].textContent, '2');
   });
 
   it('Should render custom title', () => {
@@ -61,8 +67,8 @@ describe('Slider', () => {
 
   it('Should handle keyboard operations', () => {
     const instance = getDOMNode(<Slider defaultValue={10} />);
-    const handle = instance.querySelector('.rs-slider-handle');
-    const input = instance.querySelector('input[type="range"]');
+    const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
+    const input = instance.querySelector('input[type="range"]') as HTMLInputElement;
     assert.equal(input.value, '10');
 
     fireEvent.keyDown(handle, { key: 'ArrowUp' });
@@ -89,7 +95,7 @@ describe('Slider', () => {
     const mouseupEvent = new MouseEvent('mouseup', { bubbles: true });
     const instance = getDOMNode(<Slider onChangeCommitted={() => done()} />);
 
-    const handle = instance.querySelector('.rs-slider-handle');
+    const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
     fireEvent.mouseDown(handle);
     handle.dispatchEvent(mousemoveEvent);
     handle.dispatchEvent(mouseupEvent);
@@ -99,18 +105,18 @@ describe('Slider', () => {
 
   it('Should call `onChange` callback', done => {
     const instance = getDOMNode(<Slider onChange={() => done()} />);
-    fireEvent.click(instance.querySelector('.rs-slider-bar'));
+    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
   });
 
   it('Should output an `input` stored value', () => {
     const instance = getDOMNode(<Slider min={10} max={100} value={20} />);
 
-    const input = instance.querySelector('input[type="range"]');
+    const input = instance.querySelector('input[type="range"]') as HTMLInputElement;
 
-    assert.equal(input.value, 20);
-    assert.equal(input.getAttribute('aria-valuenow'), 20);
-    assert.equal(input.getAttribute('aria-valuemax'), 100);
-    assert.equal(input.getAttribute('aria-valuemin'), 10);
+    assert.equal(input.value, '20');
+    assert.equal(input.getAttribute('aria-valuenow'), '20');
+    assert.equal(input.getAttribute('aria-valuemax'), '100');
+    assert.equal(input.getAttribute('aria-valuemin'), '10');
     assert.equal(input.getAttribute('aria-orientation'), 'horizontal');
   });
 
@@ -128,6 +134,9 @@ describe('Slider', () => {
     it('Should render "Not selected" if value is empty', () => {
       const { getByTestId } = render(
         <div data-testid="content">
+          {/* FIXME `value` prop does not accept null as value */}
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-ignore */}
           <Slider value={null} plaintext />
         </div>
       );
