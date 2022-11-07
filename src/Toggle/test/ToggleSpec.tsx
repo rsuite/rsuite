@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
-
 import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Toggle from '../Toggle';
@@ -58,6 +58,9 @@ describe('Toggle', () => {
       const onChange = sinon.spy();
 
       const { getByTestId, rerender } = render(
+        // FIXME Toggle does not have `name` prop
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         <Toggle name="toggle" onChange={onChange} data-testid="toggle" />
       );
       fireEvent.click(getByTestId('toggle'));
@@ -67,7 +70,12 @@ describe('Toggle', () => {
       expect(event.target).to.have.property('type', 'checkbox');
       expect(event.target).to.have.property('checked', true);
 
-      rerender(<Toggle name="toggle" defaultChecked onChange={onChange} data-testid="toggle" />);
+      rerender(
+        // FIXME Toggle does not have `name` prop
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        <Toggle name="toggle" defaultChecked onChange={onChange} data-testid="toggle" />
+      );
       fireEvent.click(getByTestId('toggle'));
 
       event = onChange.getCall(1).args[1];

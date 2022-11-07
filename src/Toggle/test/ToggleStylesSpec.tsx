@@ -8,7 +8,7 @@ describe('Toggle styles', () => {
   it('Should render the correct styles', () => {
     const dom = getDOMNode(<Toggle />);
     assert.equal(
-      getStyle(dom.querySelector('.rs-toggle-presentation'), 'backgroundColor'),
+      getStyle(dom.querySelector('.rs-toggle-presentation') as HTMLElement, 'backgroundColor'),
       toRGB('#d9d9d9'),
       'Toggle background-color'
     );
