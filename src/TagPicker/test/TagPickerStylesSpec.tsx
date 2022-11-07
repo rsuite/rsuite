@@ -28,7 +28,7 @@ describe('TagPicker styles', () => {
     render(<TagPicker data={data} open />);
     const itemLabel = document.body.querySelector(
       '.rs-picker-check-menu-items .rs-checkbox-checker label'
-    );
+    ) as HTMLElement;
     inChrome && assert.equal(getStyle(itemLabel, 'padding'), '8px 12px 8px 38px');
   });
 });
