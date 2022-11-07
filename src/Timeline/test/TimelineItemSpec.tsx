@@ -15,13 +15,19 @@ describe('TimelineItem', () => {
 
   it('Should render a dot', () => {
     const instance = getDOMNode(<TimelineItem dot={<i>test</i>} />);
-    assert.equal(instance.querySelector('.rs-timeline-item-custom-dot').textContent, 'test');
+    assert.equal(
+      (instance.querySelector('.rs-timeline-item-custom-dot') as HTMLElement).textContent,
+      'test'
+    );
   });
 
   it('Should render a time', () => {
     const time = '2019-10-21';
     const instance = getDOMNode(<TimelineItem time={time} />);
-    assert.equal(instance.querySelector('.rs-timeline-item-time').textContent, time);
+    assert.equal(
+      (instance.querySelector('.rs-timeline-item-time') as HTMLElement).textContent,
+      time
+    );
   });
 
   it('Should output the last item', () => {
