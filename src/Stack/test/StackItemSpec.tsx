@@ -12,7 +12,9 @@ describe('StackItem', () => {
       </Stack>
     );
     expect(screen.getByText('stack item').className).to.include('rs-stack-item');
-    expect(screen.getByText('stack item').parentNode.className).to.equal('rs-stack');
+    expect((screen.getByText('stack item').parentNode as HTMLElement).className).to.equal(
+      'rs-stack'
+    );
   });
 
   it('renders a StackItem with flex props', () => {

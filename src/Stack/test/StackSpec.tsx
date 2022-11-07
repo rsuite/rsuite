@@ -26,8 +26,8 @@ describe('Stack', () => {
     );
 
     assert.equal(getByTestId('test').style.gap, '10px');
-    assert.isEmpty(getByTestId('test').children[0].style.marginRight);
-    assert.isEmpty(getByTestId('test').children[0].style.marginBottom);
+    assert.isEmpty((getByTestId('test').children[0] as HTMLElement).style.marginRight);
+    assert.isEmpty((getByTestId('test').children[0] as HTMLElement).style.marginBottom);
   });
 
   it('Should have a align-items style', () => {
