@@ -19,7 +19,7 @@ describe('[utils] useControlled', () => {
   });
 
   it('Should works with `setValue`', () => {
-    const { result } = renderHook(() => useControlled(undefined, 'value'));
+    const { result } = renderHook(() => useControlled(undefined as string | undefined, 'value'));
     const [, setValue] = result.current;
     act(() => {
       setValue('changedValue');
