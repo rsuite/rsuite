@@ -47,12 +47,12 @@ describe('Calendar - TimeDropdown', () => {
   });
 
   it('Should call `onSelect` callback', done => {
-    const onChangePageTime = () => {
+    const onChangeTime = () => {
       done();
     };
     const ref = React.createRef();
     render(
-      <CalendarContext.Provider value={{ onChangePageTime, date: new Date(), format: 'HH' }}>
+      <CalendarContext.Provider value={{ onChangeTime, date: new Date(), format: 'HH' }}>
         <TimeDropdown ref={ref} />
       </CalendarContext.Provider>
     );

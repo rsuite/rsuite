@@ -679,32 +679,6 @@ describe('DateRangePicker', () => {
     expect(disabledCells).to.length(0);
   });
 
-  describe('Plain text', () => {
-    it('Should render formatted date range', () => {
-      const { getByTestId } = render(
-        <div data-testid="content">
-          <DateRangePicker
-            value={[new Date(2019, 3, 1), new Date(2019, 3, 2)]}
-            format="MM/dd/yyyy"
-            plaintext
-          />
-        </div>
-      );
-
-      expect(getByTestId('content')).to.have.text('04/01/2019 ~ 04/02/2019');
-    });
-
-    it('Should render "Not selected" if value is empty', () => {
-      const { getByTestId } = render(
-        <div data-testid="content">
-          <DateRangePicker value={null} format="MM/dd/yyyy" plaintext />
-        </div>
-      );
-
-      expect(getByTestId('content')).to.have.text('Not selected');
-    });
-  });
-
   it('Should not get warned about deprecated `caretComponent` prop', () => {
     sinon.spy(console, 'warn');
 
@@ -833,66 +807,6 @@ describe('DateRangePicker', () => {
     expect(onFocusSpy).to.have.been.calledOnce;
   });
 
-  it('Should the end time not change when the start date is clicked when defaultCalendarValue is set', () => {
-    const onSelectSpy = sinon.spy();
-    const { getByRole } = render(
-      <DateRangePicker
-        open
-        format="yyyy-MM-dd HH:mm:ss"
-        onSelect={onSelectSpy}
-        defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
-      />
-    );
-
-    expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-    expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
-
-    fireEvent.click(getByRole('gridcell', { name: '07 Feb 2022' }).firstChild);
-
-    expect(onSelectSpy).to.have.been.calledOnce;
-    expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-    expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
-
-    fireEvent.click(getByRole('gridcell', { name: '10 Feb 2022' }).firstChild);
-
-    expect(onSelectSpy).to.have.been.calledTwice;
-    expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-    expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
-    expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
-      '2022-02-07 00:00:00 ~ 2022-02-10 23:59:59'
-    );
-  });
-
-  it('Should the end time not change when the start date is clicked when controlled', () => {
-    const onSelectSpy = sinon.spy();
-    const { getByRole } = render(
-      <DateRangePicker
-        open
-        format="yyyy-MM-dd HH:mm:ss"
-        onSelect={onSelectSpy}
-        value={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
-      />
-    );
-
-    expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-    expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
-
-    fireEvent.click(getByRole('gridcell', { name: '07 Feb 2022' }).firstChild);
-
-    expect(onSelectSpy).to.have.been.calledOnce;
-    expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-    expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
-
-    fireEvent.click(getByRole('gridcell', { name: '10 Feb 2022' }).firstChild);
-
-    expect(onSelectSpy).to.have.been.calledTwice;
-    expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-    expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
-    expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
-      '2022-02-07 00:00:00 ~ 2022-02-10 23:59:59'
-    );
-  });
-
   it('Should render ranges on the left', () => {
     const onCloseSpy = sinon.spy();
     const onChangeSpy = sinon.spy();
@@ -949,5 +863,188 @@ describe('DateRangePicker', () => {
 
     // A flex layout toolbar should render two children so that the ok button appears on the right
     expect(getByRole('dialog').querySelector('.rs-picker-toolbar').childNodes).to.have.length(2);
+  });
+
+  describe('Plain text', () => {
+    it('Should render formatted date range', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <DateRangePicker
+            value={[new Date(2019, 3, 1), new Date(2019, 3, 2)]}
+            format="MM/dd/yyyy"
+            plaintext
+          />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('04/01/2019 ~ 04/02/2019');
+    });
+
+    it('Should render "Not selected" if value is empty', () => {
+      const { getByTestId } = render(
+        <div data-testid="content">
+          <DateRangePicker value={null} format="MM/dd/yyyy" plaintext />
+        </div>
+      );
+
+      expect(getByTestId('content')).to.have.text('Not selected');
+    });
+  });
+
+  describe('Time stability', () => {
+    it('Should the end time not change when the start date is clicked when defaultCalendarValue is set', () => {
+      const onSelectSpy = sinon.spy();
+      const { getByRole } = render(
+        <DateRangePicker
+          open
+          format="yyyy-MM-dd HH:mm:ss"
+          onSelect={onSelectSpy}
+          defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
+        />
+      );
+
+      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+
+      fireEvent.click(getByRole('gridcell', { name: '07 Feb 2022' }).firstChild);
+
+      expect(onSelectSpy).to.have.been.calledOnce;
+      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+
+      fireEvent.click(getByRole('gridcell', { name: '10 Feb 2022' }).firstChild);
+
+      expect(onSelectSpy).to.have.been.calledTwice;
+      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
+        '2022-02-07 00:00:00 ~ 2022-02-10 23:59:59'
+      );
+    });
+
+    it('Should the end time not change when the start date is clicked when controlled', () => {
+      const onSelectSpy = sinon.spy();
+      const { getByRole } = render(
+        <DateRangePicker
+          open
+          format="yyyy-MM-dd HH:mm:ss"
+          onSelect={onSelectSpy}
+          value={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
+        />
+      );
+
+      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+
+      fireEvent.click(getByRole('gridcell', { name: '07 Feb 2022' }).firstChild);
+
+      expect(onSelectSpy).to.have.been.calledOnce;
+      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+
+      fireEvent.click(getByRole('gridcell', { name: '10 Feb 2022' }).firstChild);
+
+      expect(onSelectSpy).to.have.been.calledTwice;
+      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
+        '2022-02-07 00:00:00 ~ 2022-02-10 23:59:59'
+      );
+    });
+
+    it('Should not change the start and end time when the month is changed', () => {
+      const { getByRole } = render(
+        <DateRangePicker
+          open
+          format="yyyy-MM-dd HH:mm:ss"
+          value={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
+        />
+      );
+
+      const headerDateTitles = getByRole('dialog').querySelectorAll(
+        '.rs-calendar-header-title-date'
+      );
+      const handerTimeTitles = getByRole('dialog').querySelectorAll(
+        '.rs-calendar-header-title-time'
+      );
+      const firstCalendarForwardButton = getByRole('dialog').querySelectorAll(
+        '.rs-calendar-header-forward'
+      )[0];
+
+      const secondCalendarBackwardButton = getByRole('dialog').querySelectorAll(
+        '.rs-calendar-header-backward'
+      )[1];
+
+      expect(handerTimeTitles[0]).to.have.text('00:00:00');
+      expect(handerTimeTitles[1]).to.have.text('23:59:59');
+      expect(headerDateTitles[0]).to.have.text('Feb 2022');
+      expect(headerDateTitles[1]).to.have.text('Mar 2022');
+
+      fireEvent.click(firstCalendarForwardButton);
+
+      expect(handerTimeTitles[0]).to.have.text('00:00:00');
+      expect(handerTimeTitles[1]).to.have.text('23:59:59');
+      expect(headerDateTitles[0]).to.have.text('Mar 2022');
+      expect(headerDateTitles[1]).to.have.text('Apr 2022');
+
+      fireEvent.click(secondCalendarBackwardButton);
+
+      expect(handerTimeTitles[0]).to.have.text('00:00:00');
+      expect(handerTimeTitles[1]).to.have.text('23:59:59');
+      expect(headerDateTitles[0]).to.have.text('Feb 2022');
+      expect(headerDateTitles[1]).to.have.text('Mar 2022');
+    });
+
+    it('Should not change the start and end time when clicking on the second calendar first', () => {
+      const onSelectSpy = sinon.spy();
+      const { getByRole } = render(
+        <DateRangePicker
+          open
+          format="yyyy-MM-dd HH:mm:ss"
+          onSelect={onSelectSpy}
+          value={[new Date('2022-02-01 00:00:00'), new Date('2022-03-01 23:59:59')]}
+        />
+      );
+
+      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+
+      fireEvent.click(getByRole('gridcell', { name: '20 Mar 2022' }).firstChild);
+
+      expect(onSelectSpy).to.have.been.calledOnce;
+      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+
+      fireEvent.click(getByRole('gridcell', { name: '21 Apr 2022' }).firstChild);
+
+      expect(onSelectSpy).to.have.been.calledTwice;
+      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
+        '2022-03-20 00:00:00 ~ 2022-04-21 23:59:59'
+      );
+    });
+
+    it('Should render the default datetime after clicking the clear button', () => {
+      const onCleanSpy = sinon.spy();
+      const { getByRole } = render(
+        <DateRangePicker
+          open
+          format="yyyy-MM-dd HH:mm:ss"
+          onClean={onCleanSpy}
+          defaultValue={[new Date('2022-02-01 01:01:01'), new Date('2022-03-01 02:02:02')]}
+          defaultCalendarValue={[new Date('2022-04-04 00:00:00'), new Date('2022-05-05 23:59:59')]}
+        />
+      );
+
+      expect(getByRole('button', { name: '01:01:01' })).to.be.visible;
+      expect(getByRole('button', { name: '02:02:02' })).to.be.visible;
+
+      fireEvent.click(getByRole('button', { name: 'Clear' }));
+
+      expect(onCleanSpy).to.have.been.calledOnce;
+      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+    });
   });
 });

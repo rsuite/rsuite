@@ -111,7 +111,7 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
         renderCell={customRenderCell}
         onMoveForward={handleChange}
         onMoveBackward={handleChange}
-        onChangePageDate={handleChange}
+        onChangeMonth={handleChange}
         onSelect={handleSelect}
       />
     );

@@ -237,7 +237,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     /**
      *  A callback triggered when the time on the calendar changes.
      */
-    const handleChangePageTime = useCallback(
+    const handleChangeTime = useCallback(
       (nextPageTime: Date) => {
         setCalendarDate(nextPageTime);
         handleDateChange(nextPageTime);
@@ -350,7 +350,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     /**
      *  A callback triggered when the date on the calendar changes.
      */
-    const handleChangePageDate = useCallback(
+    const handleChangeMonth = useCallback(
       (nextPageDate: Date, event: React.MouseEvent) => {
         setCalendarDate(nextPageDate);
         handleDateChange(nextPageDate);
@@ -478,8 +478,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         onSelect={handleSelect}
         onToggleMonthDropdown={onToggleMonthDropdown}
         onToggleTimeDropdown={onToggleTimeDropdown}
-        onChangePageDate={handleChangePageDate}
-        onChangePageTime={handleChangePageTime}
+        onChangeMonth={handleChangeMonth}
+        onChangeTime={handleChangeTime}
         onToggleMeridian={handleToggleMeridian}
       />
     );

@@ -80,10 +80,10 @@ export interface CalendarProps
   locale: CalendarLocale;
 
   /** Callback after the date has changed */
-  onChangePageDate?: (nextPageDate: Date, event: React.MouseEvent) => void;
+  onChangeMonth?: (nextPageDate: Date, event: React.MouseEvent) => void;
 
   /** Callback after the time has changed */
-  onChangePageTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
+  onChangeTime?: (nextPageTime: Date, event: React.MouseEvent) => void;
 
   /** Callback after mouse enter other date cell */
   onMouseMove?: (date: Date) => void;
@@ -124,8 +124,8 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       isoWeek = false,
       limitEndYear,
       locale,
-      onChangePageDate,
-      onChangePageTime,
+      onChangeMonth,
+      onChangeTime,
       onMouseMove,
       onMoveBackward,
       onMoveForward,
@@ -211,12 +211,12 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
     );
     const timeDropdownProps = pick(rest, calendarOnlyProps);
 
-    const handleChangePageDate = useCallback(
+    const handleChangeMonth = useCallback(
       (date: Date, event: React.MouseEvent) => {
         reset();
-        onChangePageDate?.(date, event);
+        onChangeMonth?.(date, event);
       },
-      [onChangePageDate, reset]
+      [onChangeMonth, reset]
     );
 
     const contextValue = useMemo(
@@ -229,8 +229,8 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         inSameMonth: inSameMonth ?? inSameThisMonthDate,
         isoWeek,
         locale,
-        onChangePageDate: handleChangePageDate,
-        onChangePageTime,
+        onChangeMonth: handleChangeMonth,
+        onChangeTime,
         onMouseMove,
         onSelect,
         renderCell,
@@ -241,7 +241,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         calendarDate,
         dateRange,
         format,
-        handleChangePageDate,
+        handleChangeMonth,
         hoverRangeValue,
         inSameMonth,
         inSameThisMonthDate,
@@ -249,7 +249,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         isDisabledDate,
         isoWeek,
         locale,
-        onChangePageTime,
+        onChangeTime,
         onMouseMove,
         onSelect,
         renderCell,
@@ -322,8 +322,8 @@ CalendarContainer.propTypes = {
   isoWeek: PropTypes.bool,
   limitEndYear: PropTypes.number,
   locale: PropTypes.object,
-  onChangePageDate: PropTypes.func,
-  onChangePageTime: PropTypes.func,
+  onChangeMonth: PropTypes.func,
+  onChangeTime: PropTypes.func,
   onMoveBackward: PropTypes.func,
   onMoveForward: PropTypes.func,
   onSelect: PropTypes.func,

@@ -5,6 +5,7 @@ import getDay from 'date-fns/getDay';
 import getMinutes from 'date-fns/getMinutes';
 import getSeconds from 'date-fns/getSeconds';
 import addDays from 'date-fns/addDays';
+import set from 'date-fns/set';
 
 export { default as addDays } from 'date-fns/addDays';
 export { default as addMonths } from 'date-fns/addMonths';
@@ -44,6 +45,7 @@ export { default as subDays } from 'date-fns/subDays';
 export { default as isMatch } from 'date-fns/isMatch';
 export { default as isValid } from 'date-fns/isValid';
 export { default as set } from 'date-fns/set';
+export { default as differenceInCalendarMonths } from 'date-fns/differenceInCalendarMonths';
 
 const disabledTimeProps = ['disabledHours', 'disabledMinutes', 'disabledSeconds'];
 const hideTimeProps = ['hideHours', 'hideMinutes', 'hideSeconds'];
@@ -134,4 +136,21 @@ export function getDateMask(formatStr: string) {
   return Array.from(formatStr).map(i => {
     return i.match(/[A-Za-z]/) ? /[\d|A-Za-z]/ : i;
   });
+}
+
+export function copyTime({ from, to }: { from: Date; to: Date }) {
+  return set(to, {
+    hours: getHours(from),
+    minutes: getMinutes(from),
+    seconds: getSeconds(from)
+  });
+}
+
+export function reverseDateRangeOmitTime(dateRange: [Date, Date]): [Date, Date] {
+  const [start, end] = dateRange;
+  if (start && end) {
+    return [copyTime({ from: start, to: end }), copyTime({ from: end, to: start })];
+  }
+
+  return dateRange;
 }

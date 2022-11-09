@@ -29,11 +29,11 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   isoWeek?: boolean;
   limitEndYear?: number;
   locale?: DatePickerLocale;
-  onChangeCalendarDate?: (index: number, date: Date) => void;
+  onChangeCalendarMonth?: (index: number, date: Date) => void;
   onChangeCalendarTime?: (index: number, date: Date) => void;
   onToggleMeridian: (index: number, event: React.MouseEvent) => void;
+  onSelect?: (index: number, date: Date, event: React.SyntheticEvent) => void;
   onMouseMove?: (date: Date) => void;
-  onSelect?: (date: Date, event: React.SyntheticEvent) => void;
   showWeekNumbers?: boolean;
   value?: [] | [Date] | [Date, Date];
 }
@@ -47,35 +47,43 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       disabledDate,
       index = 0,
       limitEndYear,
-      onChangeCalendarDate,
+      onChangeCalendarMonth,
       onChangeCalendarTime,
       onToggleMeridian,
+      onSelect,
       value = [],
       ...rest
     } = props;
 
     const onMoveForward = useCallback(
       (nextPageDate: Date) => {
-        onChangeCalendarDate?.(index, nextPageDate);
+        onChangeCalendarMonth?.(index, nextPageDate);
       },
-      [index, onChangeCalendarDate]
+      [index, onChangeCalendarMonth]
     );
 
     const onMoveBackward = useCallback(
       (nextPageDate: Date) => {
-        onChangeCalendarDate?.(index, nextPageDate);
+        onChangeCalendarMonth?.(index, nextPageDate);
       },
-      [index, onChangeCalendarDate]
+      [index, onChangeCalendarMonth]
     );
 
-    const handleChangePageDate = useCallback(
+    const handleSelect = useCallback(
+      (date: Date, event: React.SyntheticEvent) => {
+        onSelect?.(index, date, event);
+      },
+      [index, onSelect]
+    );
+
+    const handleChangeMonth = useCallback(
       (nextPageDate: Date) => {
-        onChangeCalendarDate?.(index, nextPageDate);
+        onChangeCalendarMonth?.(index, nextPageDate);
       },
-      [index, onChangeCalendarDate]
+      [index, onChangeCalendarMonth]
     );
 
-    const handleChangePageTime = useCallback(
+    const handleChangeTime = useCallback(
       (nextPageDate: Date) => {
         onChangeCalendarTime?.(index, nextPageDate);
       },
@@ -118,11 +126,12 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
         inSameMonth={inSameMonth}
         index={index}
         limitEndYear={limitEndYear}
-        onChangePageDate={handleChangePageDate}
-        onChangePageTime={handleChangePageTime}
+        onChangeMonth={handleChangeMonth}
+        onChangeTime={handleChangeTime}
         onMoveBackward={handleMoveBackward}
         onMoveForward={handleMoveForward}
         onToggleMeridian={handleToggleMeridian}
+        onSelect={handleSelect}
         calendarDate={getCalendarDate()}
         ref={ref}
       />
@@ -143,7 +152,7 @@ Calendar.propTypes = {
   disabledDate: PropTypes.func,
   onSelect: PropTypes.func,
   onMouseMove: PropTypes.func,
-  onChangeCalendarDate: PropTypes.func
+  onChangeCalendarMonth: PropTypes.func
 };
 
 export default Calendar;
