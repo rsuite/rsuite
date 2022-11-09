@@ -862,7 +862,7 @@ describe('DateRangePicker', () => {
     expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
     expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
 
-    fireEvent.click(getByRole('gridcell', { name: '10 Feb 2022' }).firstChild);
+    fireEvent.click(getByRole('gridcell', { name: '10 Feb 2022' }).firstChild as HTMLElement);
 
     expect(onSelectSpy).to.have.been.calledTwice;
     expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
@@ -892,7 +892,7 @@ describe('DateRangePicker', () => {
     expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
     expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
 
-    fireEvent.click(getByRole('gridcell', { name: '10 Feb 2022' }).firstChild);
+    fireEvent.click(getByRole('gridcell', { name: '10 Feb 2022' }).firstChild as HTMLElement);
 
     expect(onSelectSpy).to.have.been.calledTwice;
     expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
