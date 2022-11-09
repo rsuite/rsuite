@@ -1,3 +1,18 @@
+# [5.22.0](https://github.com/rsuite/rsuite/compare/v5.21.0...v5.22.0) (2022-11-03)
+
+### Bug Fixes
+
+- **DateRangePicker:** fix end time not using time on second calendar ([#2852](https://github.com/rsuite/rsuite/issues/2852)) ([b243567](https://github.com/rsuite/rsuite/commit/b243567520404b65bdb4d07d9a150f09730fd66e))
+- **Table:** remove transition on hover of table row ([#2858](https://github.com/rsuite/rsuite/issues/2858)) ([9d26226](https://github.com/rsuite/rsuite/commit/9d26226004b618e8acb7b4d0802b1c3757b0a8e6))
+
+### Features
+
+- **DatePicker:** allow ranges on left of calendar ([#2851](https://github.com/rsuite/rsuite/issues/2851)) ([ba2f7ee](https://github.com/rsuite/rsuite/commit/ba2f7ee1355ec70089557f4eab1614f53bfd6857)), closes [#2845](https://github.com/rsuite/rsuite/issues/2845)
+- **Table:** support for show full text when hovering over a cell ([#2862](https://github.com/rsuite/rsuite/issues/2862)) ([f8b7eeb](https://github.com/rsuite/rsuite/commit/f8b7eebd9b456c4d154695dcfc6c59ce0b82aeac))
+- **Table:** support for show full text when hovering over a cell ([#2862](https://github.com/rsuite/rsuite/issues/2862)) ([5528225](https://github.com/rsuite/rsuite/commit/5528225c432b6e909ce3ee0d82240070886e3811))
+- **Table:** support for show full text when hovering over a cell ([#2862](https://github.com/rsuite/rsuite/issues/2862)) ([fe2d769](https://github.com/rsuite/rsuite/commit/fe2d769a53549ec77f510b1d5075bb8c66511647))
+- **Table:** support for show full text when hovering over a cell ([#2862](https://github.com/rsuite/rsuite/issues/2862)) ([6c4cf18](https://github.com/rsuite/rsuite/commit/6c4cf18bb9001940cbdbc9c9464faf5783691dc6))
+
 # [5.21.0](https://github.com/rsuite/rsuite/compare/v5.20.0...v5.21.0) (2022-10-27)
 
 ### Bug Fixes

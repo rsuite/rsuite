@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "5.21.0",
+  "version": "5.22.0",
   "description": "A suite of react components",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -51,7 +51,7 @@
     "url": "git@github.com:rsuite/rsuite.git"
   },
   "dependencies": {
-    "@babel/runtime": "^7.19.0",
+    "@babel/runtime": "^7.19.4",
     "@juggle/resize-observer": "^3.4.0",
     "@rsuite/icons": "^1.0.2",
     "@types/chai": "^4.3.3",
@@ -64,7 +64,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.8.1",
     "react-window": "^1.8.7",
-    "rsuite-table": "^5.7.2",
+    "rsuite-table": "^5.8.0",
     "schema-typed": "^2.0.3"
   },
   "peerDependencies": {

@@ -28,8 +28,8 @@ import {
 import PlusIcon from '@rsuite/icons/Plus';
 import MinusIcon from '@rsuite/icons/Minus';
 import files from './files';
+import { JSONTree } from 'react-json-tree';
 
-const JSONTree = loadable(() => import('react-json-tree'));
 const Select = loadable(() => import('react-select'));
 
 const sandboxDependencies = {

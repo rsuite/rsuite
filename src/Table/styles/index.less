@@ -60,13 +60,6 @@
     box-shadow: none;
   }
 
-  // Added transition for hover
-  &-row,
-  &-cell-group,
-  &-cell {
-    transition: background-color 0.3s linear;
-  }
-
   &-hover &-row:not(&-row-header):hover,
   &-hover &-row:hover &-cell-group,
   &-hover &-row:hover &-cell {
@@ -212,6 +205,18 @@
 
     &-rowspan {
       border-bottom: 1px solid var(--rs-border-secondary) !important;
+    }
+  }
+
+  &-cell-full-text {
+    &:hover {
+      z-index: 1 !important;
+      width: auto !important;
+      box-shadow: inset @table-cell-hover-color 0px 0px 2px;
+
+      .rs-table-cell-content {
+        width: auto !important;
+      }
     }
   }
 

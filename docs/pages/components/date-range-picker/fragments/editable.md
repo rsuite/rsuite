@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { DatePicker, Stack } from 'rsuite';
+import { DateRangePicker } from 'rsuite';
 
 const App = () => (
   <>

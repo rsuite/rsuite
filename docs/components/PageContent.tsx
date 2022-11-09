@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 import { Divider, Footer } from 'rsuite';
@@ -19,6 +19,22 @@ export interface PageContentProps extends CustomCodeViewProps {
   tabExamples?: any[];
   children?: React.ReactNode;
   hidePageNav?: boolean;
+}
+
+function installCarbon() {
+  const subtitle = document.querySelector('h2');
+  const carbonadsJs = document.getElementById('_carbonads_js');
+
+  if (subtitle && !carbonadsJs) {
+    const adSpace = document.createElement('div');
+    const carbon = document.createElement('script');
+
+    carbon.src = 'https://cdn.carbonads.com/carbon.js?serve=CEAIL2JU&placement=rsuitejscom';
+    carbon.id = '_carbonads_js';
+    adSpace.appendChild(carbon);
+
+    subtitle.parentNode.insertBefore(adSpace, subtitle);
+  }
 }
 
 const PageContent = (props: PageContentProps) => {
@@ -48,8 +64,9 @@ const PageContent = (props: PageContentProps) => {
 
   const fragments = context.split(/<!--{(\S+)}-->/);
 
-  React.useEffect(() => {
+  useEffect(() => {
     scrollIntoView();
+    installCarbon();
   }, []);
 
   return (
