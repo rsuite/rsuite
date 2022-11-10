@@ -1046,5 +1046,33 @@ describe('DateRangePicker', () => {
       expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
       expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
     });
+
+    it('Should switch time from PM to AM', () => {
+      const { getByRole } = render(
+        <DateRangePicker
+          open
+          format="yyyy-MM-dd HH:mm:ss"
+          showMeridian
+          value={[new Date('2022-02-01 13:00:00'), new Date('2022-03-01 14:00:00')]}
+        />
+      );
+
+      const header = getByRole('dialog').querySelector('.rs-picker-daterange-header');
+      const switchButtons = getByRole('dialog').querySelectorAll('.rs-calendar-header-meridian');
+
+      expect(header).to.have.text('2022-02-01 13:00:00 ~ 2022-03-01 14:00:00');
+      expect(switchButtons[0]).to.have.text('PM');
+      expect(switchButtons[1]).to.have.text('PM');
+
+      fireEvent.click(switchButtons[0]);
+
+      expect(header).to.have.text('2022-02-01 01:00:00 ~ 2022-03-01 14:00:00');
+      expect(switchButtons[0]).to.have.text('AM');
+
+      fireEvent.click(switchButtons[1]);
+
+      expect(header).to.have.text('2022-02-01 01:00:00 ~ 2022-03-01 02:00:00');
+      expect(switchButtons[1]).to.have.text('AM');
+    });
   });
 });

@@ -1,6 +1,7 @@
 import pick from 'lodash/pick';
 import omitBy from 'lodash/omitBy';
 import getHours from 'date-fns/getHours';
+import setHours from 'date-fns/setHours';
 import getDay from 'date-fns/getDay';
 import getMinutes from 'date-fns/getMinutes';
 import getSeconds from 'date-fns/getSeconds';
@@ -138,6 +139,9 @@ export function getDateMask(formatStr: string) {
   });
 }
 
+/**
+ * Copy the time of one date to another
+ */
 export function copyTime({ from, to }: { from: Date; to: Date }) {
   return set(to, {
     hours: getHours(from),
@@ -146,6 +150,9 @@ export function copyTime({ from, to }: { from: Date; to: Date }) {
   });
 }
 
+/**
+ * Swap two dates without swapping the time.
+ */
 export function reverseDateRangeOmitTime(dateRange: [Date, Date]): [Date, Date] {
   const [start, end] = dateRange;
   if (start && end) {
@@ -154,3 +161,14 @@ export function reverseDateRangeOmitTime(dateRange: [Date, Date]): [Date, Date] 
 
   return dateRange;
 }
+
+/**
+ * Get the time with AM and PM reversed.
+ */
+export const getReversedTimeMeridian = (date: Date) => {
+  const clonedDate = new Date(date.valueOf());
+  const hours = getHours(clonedDate);
+  const nextHours = hours >= 12 ? hours - 12 : hours + 12;
+
+  return setHours(clonedDate, nextHours);
+};

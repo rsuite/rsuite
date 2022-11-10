@@ -44,7 +44,8 @@ import {
   shouldRenderTime,
   isAfter,
   copyTime,
-  reverseDateRangeOmitTime
+  reverseDateRangeOmitTime,
+  getReversedTimeMeridian
 } from '../utils/dateUtils';
 import Calendar from './Calendar';
 import * as disabledDateUtils from './disabledDateUtils';
@@ -555,19 +556,17 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    */
   const handleToggleMeridian = useCallback(
     (index: number) => {
-      const next = Array.from(calendarDate) as DateRange;
+      const nextCalendarDate = Array.from(calendarDate) as DateRange;
+      nextCalendarDate[index] = getReversedTimeMeridian(nextCalendarDate[index]);
 
-      const clonedDate = new Date(next[index].valueOf());
-      const hours = DateUtils.getHours(clonedDate);
-      const nextHours = hours >= 12 ? hours - 12 : hours + 12;
-
-      next[index] = DateUtils.setHours(clonedDate, nextHours);
-
-      setCalendarDate(next);
+      setCalendarDate(nextCalendarDate);
 
       // If the value already exists, update the value again.
       if (selectedDates.length === 2) {
-        setSelectedDates(next);
+        const nextSelectedDates = Array.from(selectedDates) as SelectedDatesState;
+        nextSelectedDates[index] = getReversedTimeMeridian(nextSelectedDates[index]);
+
+        setSelectedDates(nextSelectedDates);
       }
     },
     [calendarDate, selectedDates]
