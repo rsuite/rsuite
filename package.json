@@ -18,7 +18,7 @@
     "dist:pro": "webpack --mode production --progress",
     "build": "npm run build:gulp && npm run dist && npm run build:types",
     "build:gulp": "gulp build --gulpfile scripts/gulpfile.js",
-    "build:types": "npx tsc --emitDeclarationOnly --outDir lib/cjs && npx tsc --emitDeclarationOnly --outDir lib/esm",
+    "build:types": "tsc --project tsconfig.build.json --emitDeclarationOnly --outDir lib/cjs && tsc --project tsconfig.build.json --emitDeclarationOnly --outDir lib/esm",
     "postbuild": "mocha test/validateBuilds.js",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "bump-docs": "node scripts/bumpDocsVersion.js",
