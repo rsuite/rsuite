@@ -277,7 +277,7 @@ Display the hidden text in its entirety when hovering over the cell.
 
 <!--{include:`word-wrap.md`}-->
 
-If you want the cell to wrap, you just need to set `wordWrap`
+> ⚠️ We do not recommend using it with `wordWrap` and `virtualized`, because `virtualized` only achieves the best performance with a fixed line height. You can use the `fullText` property to solve the problem of not displaying the full text.
 
 ### Affix header & scrollbar
 
