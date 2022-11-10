@@ -34,6 +34,8 @@ describe('[utils] dateUtils', () => {
     it('Should not change the original date range', () => {
       const dateRange = [new Date('2022-01-01 12:00:00'), new Date('2022-12-10 18:59:59')];
 
+      reverseDateRangeOmitTime(dateRange);
+
       expect(format(dateRange[0], 'yyyy-MM-dd HH:mm:ss')).to.equal('2022-01-01 12:00:00');
       expect(format(dateRange[1], 'yyyy-MM-dd HH:mm:ss')).to.equal('2022-12-10 18:59:59');
     });
