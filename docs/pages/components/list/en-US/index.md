@@ -36,7 +36,7 @@ Used to display a set of data
 
 <!--{include:`collection.md`}-->
 
-#### Fixed Item Sort
+### Fixed Item Sort
 
 > based on `collection`, Item can fixed during sort order.
 
