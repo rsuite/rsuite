@@ -30,7 +30,7 @@
     "preact": "^10.11.1",
     "preact-render-to-string": "^5.2.5",
     "preact-router": "^3.2.1",
-    "rsuite": "^5.19.0"
+    "rsuite": "^5.19.1"
   },
   "jest": {
     "preset": "jest-preset-preact",
