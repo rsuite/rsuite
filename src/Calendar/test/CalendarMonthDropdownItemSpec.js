@@ -15,7 +15,7 @@ describe('Calendar-MonthDropdownItem', () => {
   });
 
   it('Should call `onSelect` callback with correct date', done => {
-    const onChangePageDate = date => {
+    const onChangeMonth = date => {
       try {
         assert.equal(format(date, 'yyyy-MM'), '2017-01');
         done();
@@ -25,7 +25,7 @@ describe('Calendar-MonthDropdownItem', () => {
     };
     const ref = React.createRef();
     render(
-      <CalendarContext.Provider value={{ date: new Date(), onChangePageDate }}>
+      <CalendarContext.Provider value={{ date: new Date(), onChangeMonth }}>
         <MonthDropdownItem month={1} year={2017} ref={ref} />
       </CalendarContext.Provider>
     );

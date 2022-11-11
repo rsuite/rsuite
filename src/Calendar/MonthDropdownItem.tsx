@@ -24,7 +24,7 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
       year,
       ...rest
     } = props;
-    const { date, onChangePageDate: onSelect } = useCalendarContext();
+    const { date, onChangeMonth: onSelect } = useCalendarContext();
 
     const handleClick = useCallback(
       (event: React.MouseEvent) => {

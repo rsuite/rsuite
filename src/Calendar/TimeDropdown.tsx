@@ -101,7 +101,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
       showMeridian = false,
       ...rest
     } = props;
-    const { locale, format, date, onChangePageTime: onSelect } = useCalendarContext();
+    const { locale, format, date, onChangeTime: onSelect } = useCalendarContext();
     const rowRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

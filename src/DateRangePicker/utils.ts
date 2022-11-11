@@ -1,7 +1,6 @@
 import { DateRange } from './types';
 import {
   addMonths,
-  getMonth,
   isSameDay,
   shouldRenderTime,
   isSameSecond,
@@ -10,10 +9,12 @@ import {
   startOfISOWeek,
   endOfISOWeek,
   startOfWeek,
-  endOfWeek
+  endOfWeek,
+  differenceInCalendarMonths,
+  copyTime
 } from '../utils/dateUtils';
 
-export function getCalendarDate({
+export function getSafeCalendarDate({
   value,
   calendarKey = 'start'
 }: {
@@ -24,13 +25,18 @@ export function getCalendarDate({
   value = value ?? [];
 
   if (value[0] && value[1]) {
-    const startMonth = getMonth(value[0]);
-    const endMonth = getMonth(value[1]);
+    const diffMonth = differenceInCalendarMonths(value[1], value[0]);
 
     if (calendarKey === 'start') {
-      return [value[0], startMonth >= endMonth ? addMonths(value[0], 1) : value[1]];
+      return [
+        value[0],
+        diffMonth <= 0 ? copyTime({ from: value[1], to: addMonths(value[0], 1) }) : value[1]
+      ];
     } else if (calendarKey === 'end') {
-      return [startMonth >= endMonth ? addMonths(value[1], -1) : value[0], value[1]];
+      return [
+        diffMonth <= 0 ? copyTime({ from: value[0], to: addMonths(value[1], -1) }) : value[0],
+        value[1]
+      ];
     }
 
     // If only the start date
