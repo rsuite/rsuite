@@ -1,5 +1,5 @@
-const isElement = (node: HTMLElement) => {
-  return node?.nodeType === 1 && typeof node?.nodeName === 'string';
+const isElement = (value: any): value is HTMLElement => {
+  return value?.nodeType === 1 && typeof value?.nodeName === 'string';
 };
 
 export default isElement;

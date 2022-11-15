@@ -22,6 +22,9 @@ const DEFAULT_PRIMARY_COLOR = '#3498ff';
 const DARK_PRIMARY_COLOR = '#34c3ff';
 const majorVersion = parseInt(React.version);
 
+/**
+ * @type {typeof import('@testing-library/react-hooks').renderHook}
+ */
 export const renderHook = majorVersion >= 18 ? react18RenderHook : react17RenderHook;
 
 console.log('React version:', React.version);
