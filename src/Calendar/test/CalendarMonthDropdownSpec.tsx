@@ -23,12 +23,12 @@ describe('Calendar-MonthDropdown', () => {
     expect(getAllByRole('gridcell', { hidden: true })[0].childNodes).to.be.lengthOf(12);
   });
 
-  it('Should call `onChangePageDate` callback ', () => {
-    const onChangePageDateSpy = sinon.spy();
+  it('Should call `onChangeMonth` callback ', () => {
+    const onChangeMonthSpy = sinon.spy();
     const { getByRole } = render(
       <CalendarContext.Provider
         value={{
-          onChangePageDate: onChangePageDateSpy,
+          onChangeMonth: onChangeMonthSpy,
           date: new Date(),
           locale: {},
           isoWeek: false
@@ -44,7 +44,7 @@ describe('Calendar-MonthDropdown', () => {
       ) as HTMLElement
     );
 
-    expect(onChangePageDateSpy).to.be.calledOnce;
+    expect(onChangeMonthSpy).to.be.calledOnce;
   });
 
   it('Should disable month', () => {

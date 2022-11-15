@@ -9,8 +9,8 @@
     "start": "npm run dev"
   },
   "dependencies": {
-    "rsuite": "^5.19.0",
-    "umi": "^4.0.24",
+    "rsuite": "^5.20.0",
+    "umi": "^4.0.25",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
   },

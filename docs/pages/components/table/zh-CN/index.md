@@ -126,7 +126,7 @@ return (
 
 <!--{include:`word-wrap.md`}-->
 
-如果想让单元格自动换行，只需要设置 `wordWrap`。
+> ⚠️ 我们不推荐和 `wordWrap` 和 `virtualized` 一起使用，因为 `virtualized` 只有在固定行高的情况下才能到达最好的性能。你可以使用 `fullText` 属性来解决文本无法展示完整的问题。
 
 ### 排序
 

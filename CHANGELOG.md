@@ -1,3 +1,9 @@
+## [5.22.1](https://github.com/rsuite/rsuite/compare/v5.22.0...v5.22.1) (2022-11-11)
+
+### Bug Fixes
+
+- **DateRangePicker:** fix time on calendar changing with date change ([#2884](https://github.com/rsuite/rsuite/issues/2884)) ([77529af](https://github.com/rsuite/rsuite/commit/77529af661eac3abec994f146c3c7262a85f2009))
+
 # [5.22.0](https://github.com/rsuite/rsuite/compare/v5.21.0...v5.22.0) (2022-11-03)
 
 ### Bug Fixes

@@ -8,7 +8,7 @@ import { parseISO } from '../../utils/dateUtils';
 describe('DateRangePicker - Calendar', () => {
   it('Should render a div with "rs-calendar" class', () => {
     const instance = getDOMNode(
-      <Calendar onChangeCalendarDate={() => 1} index={0} onToggleMeridian={() => void 0} />
+      <Calendar onChangeCalendarMonth={() => 1} index={0} onToggleMeridian={() => void 0} />
     );
 
     expect(instance.nodeName).to.equal('DIV');
@@ -20,7 +20,7 @@ describe('DateRangePicker - Calendar', () => {
       <Calendar
         calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
-        onChangeCalendarDate={() => 1}
+        onChangeCalendarMonth={() => 1}
         format="yyyy-MM"
         onToggleMeridian={() => void 0}
       />
@@ -29,44 +29,44 @@ describe('DateRangePicker - Calendar', () => {
     expect(instance.querySelector('.rs-calendar-header-title')).to.text('2017-08');
   });
 
-  it('Should call `onChangeCalendarDate` callback', () => {
-    const onChangeCalendarDateSpy = sinon.spy();
+  it('Should call `onChangeCalendarMonth` callback', () => {
+    const onChangeCalendarMonthSpy = sinon.spy();
     const instance = getDOMNode(
       <Calendar
         calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
-        onChangeCalendarDate={onChangeCalendarDateSpy}
+        onChangeCalendarMonth={onChangeCalendarMonthSpy}
         onToggleMeridian={() => void 0}
       />
     );
 
     fireEvent.click(instance.querySelector('.rs-calendar-header-backward') as HTMLElement);
 
-    expect(onChangeCalendarDateSpy).to.have.been.called;
+    expect(onChangeCalendarMonthSpy).to.have.been.called;
   });
 
-  it('Should call `onChangeCalendarDate` callback', () => {
-    const onChangeCalendarDateSpy = sinon.spy();
+  it('Should call `onChangeCalendarMonth` callback', () => {
+    const onChangeCalendarMonthSpy = sinon.spy();
     const instance = getDOMNode(
       <Calendar
         calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
-        onChangeCalendarDate={onChangeCalendarDateSpy}
+        onChangeCalendarMonth={onChangeCalendarMonthSpy}
         onToggleMeridian={() => void 0}
       />
     );
     fireEvent.click(instance.querySelector('.rs-calendar-header-forward') as HTMLElement);
 
-    expect(onChangeCalendarDateSpy).to.have.been.called;
+    expect(onChangeCalendarMonthSpy).to.have.been.called;
   });
 
-  it('Should call `onChangeCalendarDate` callback', () => {
-    const onChangeCalendarDateSpy = sinon.spy();
+  it('Should call `onChangeCalendarMonth` callback', () => {
+    const onChangeCalendarMonthSpy = sinon.spy();
     const instance = getDOMNode(
       <Calendar
         calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
-        onChangeCalendarDate={onChangeCalendarDateSpy}
+        onChangeCalendarMonth={onChangeCalendarMonthSpy}
         onToggleMeridian={() => void 0}
       />
     );
@@ -74,7 +74,7 @@ describe('DateRangePicker - Calendar', () => {
     fireEvent.click(instance.querySelector('.rs-calendar-header-title-date') as HTMLElement);
     fireEvent.click(instance.querySelector('.rs-calendar-month-dropdown-cell') as HTMLElement);
 
-    expect(onChangeCalendarDateSpy).to.have.been.called;
+    expect(onChangeCalendarMonthSpy).to.have.been.called;
   });
 
   it('Should have a custom className prefix', () => {

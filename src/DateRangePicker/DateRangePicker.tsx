@@ -35,11 +35,22 @@ import {
   useControlled,
   useCustom
 } from '../utils';
-import { addMonths, compareAsc, isSameMonth, startOfDay, endOfDay } from '../utils/dateUtils';
+import {
+  addMonths,
+  compareAsc,
+  isSameMonth,
+  startOfDay,
+  endOfDay,
+  shouldRenderTime,
+  isAfter,
+  copyTime,
+  reverseDateRangeOmitTime,
+  getReversedTimeMeridian
+} from '../utils/dateUtils';
 import Calendar from './Calendar';
 import * as disabledDateUtils from './disabledDateUtils';
 import { DisabledDateFunction, RangeType, DateRange } from './types';
-import { getCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
+import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
 
 type InputState = 'Typing' | 'Error' | 'Initial';
 
@@ -208,7 +219,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   // The displayed calendar panel is rendered based on this value.
   const [calendarDate, setCalendarDate] = useState<DateRange>(
-    getCalendarDate({ value: valueProp ?? defaultCalendarValue ?? null })
+    getSafeCalendarDate({ value: value ?? defaultCalendarValue ?? null })
   );
 
   const [inputState, setInputState] = useState<InputState>();
@@ -221,19 +232,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   const selectRangeValueRef = useRef<DateRange | null>(null);
 
   /**
-   * Get the time on the second calendar as the end of the date range.
+   * Get the time on the calendar.
    */
-  const getCalendarEndDatetime = useCallback(
-    (date: Date) => {
-      const { getHours, getMinutes, getSeconds, set } = DateUtils;
+  const getCalendarDatetime = useCallback(
+    (calendarKey: 'start' | 'end') => {
+      const index = calendarKey === 'start' ? 0 : 1;
 
-      const calendarEndDate = calendarDate?.[1] || defaultCalendarValue?.[1];
-
-      return set(date, {
-        hours: getHours(calendarEndDate),
-        minutes: getMinutes(calendarEndDate),
-        seconds: getSeconds(calendarEndDate)
-      });
+      return calendarDate?.[index] || defaultCalendarValue?.[index];
     },
     [calendarDate, defaultCalendarValue]
   );
@@ -243,20 +248,34 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    * If params `value` is not passed, it defaults to [new Date(), addMonth(new Date(), 1)].
    */
   const updateCalendarDateRange = useCallback(
-    (selectedDate: SelectedDatesState | null, calendarKey?: 'start' | 'end') => {
-      let nextValue = selectedDate;
-      const { shouldRenderTime } = DateUtils;
+    ({
+      dateRange,
+      calendarKey,
+      eventName
+    }: {
+      dateRange: SelectedDatesState | null;
+      calendarKey?: 'start' | 'end';
+      eventName?: 'changeTime' | 'changeDate' | 'changeMonth';
+    }) => {
+      let nextValue = dateRange;
 
-      if (shouldRenderTime(formatStr) && calendarKey === undefined && selectedDate?.length) {
-        const startDate = selectedDate[0];
-        const endDate = getCalendarEndDatetime(addMonths(startDate, 1));
+      // The time should remain the same when the dates in the date range are changed.
+      if (shouldRenderTime(formatStr) && dateRange?.length && eventName !== 'changeTime') {
+        const startDate = copyTime({ from: getCalendarDatetime('start'), to: dateRange[0] });
+        const endDate = copyTime({
+          from: getCalendarDatetime('end'),
+          to: dateRange.length === 1 ? addMonths(startDate, 1) : dateRange[1]
+        });
 
         nextValue = [startDate, endDate];
+      } else if (dateRange === null && typeof defaultCalendarValue !== 'undefined') {
+        // Make the calendar render the value of defaultCalendarValue after clearing the value.
+        nextValue = defaultCalendarValue;
       }
 
-      setCalendarDate(getCalendarDate({ value: nextValue, calendarKey }));
+      setCalendarDate(getSafeCalendarDate({ value: nextValue, calendarKey }));
     },
-    [getCalendarEndDatetime, formatStr]
+    [formatStr, defaultCalendarValue, getCalendarDatetime]
   );
 
   // if valueProp changed then update selectValue/hoverValue
@@ -335,13 +354,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         return null;
       }
 
-      const hoverValues: DateRange = hoverRangeFunc(date);
+      let hoverValues: DateRange = hoverRangeFunc(date);
       const isHoverRangeValid = hoverValues instanceof Array && hoverValues.length === 2;
       if (!isHoverRangeValid) {
         return null;
       }
-      if (DateUtils.isAfter(hoverValues[0], hoverValues[1])) {
-        hoverValues.reverse();
+      if (isAfter(hoverValues[0], hoverValues[1])) {
+        hoverValues = reverseDateRangeOmitTime(hoverValues);
       }
       return hoverValues;
     },
@@ -407,7 +426,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    * Callback for selecting a date cell in the calendar grid
    */
   const handleSelectDate = useCallback(
-    (date: Date, event: React.SyntheticEvent) => {
+    (index: number, date: Date, event: React.SyntheticEvent) => {
+      const calendarKey = index === 0 ? 'start' : 'end';
+
       let nextSelectDates: SelectedDatesState = hoverDateRange ?? [];
       const hoverRangeValue = getHoverRangeValue(date);
       const noHoverRangeValid = isNil(hoverRangeValue);
@@ -441,16 +462,17 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         }
       }
 
-      const { shouldRenderTime, isAfter } = DateUtils;
-
       if (nextSelectDates.length === 2) {
         // If user have completed the selection, then sort the selected dates.
         if (isAfter(nextSelectDates[0], nextSelectDates[1])) {
-          nextSelectDates.reverse();
+          nextSelectDates = reverseDateRangeOmitTime(nextSelectDates);
         }
 
         if (shouldRenderTime(formatStr)) {
-          nextSelectDates[1] = getCalendarEndDatetime(nextSelectDates[1]);
+          nextSelectDates = [
+            copyTime({ from: getCalendarDatetime('start'), to: nextSelectDates[0] }),
+            copyTime({ from: getCalendarDatetime('end'), to: nextSelectDates[1] })
+          ];
         }
 
         setHoverDateRange(nextSelectDates);
@@ -459,13 +481,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       }
 
       setSelectedDates(nextSelectDates);
-      updateCalendarDateRange(nextSelectDates);
+      updateCalendarDateRange({ dateRange: nextSelectDates, calendarKey, eventName: 'changeDate' });
       onSelect?.(date, event);
       hasDoneSelect.current = !hasDoneSelect.current;
     },
     [
       formatStr,
-      getCalendarEndDatetime,
+      getCalendarDatetime,
       getHoverRangeValue,
       handleValueUpdate,
       hoverDateRange,
@@ -488,38 +510,45 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     doneSelected && setHoverDateRange(null);
   }, [selectedDates]);
 
-  const updateSingleCalendarDate = useCallback(
+  const updateSingleCalendarMonth = useCallback(
     (index: number, date: Date) => {
+      const calendarKey = index === 0 ? 'start' : 'end';
       const nextCalendarDate = Array.from(calendarDate);
       nextCalendarDate[index] = date;
 
-      updateCalendarDateRange(nextCalendarDate as DateRange, index === 0 ? 'start' : 'end');
+      updateCalendarDateRange({
+        dateRange: nextCalendarDate as DateRange,
+        calendarKey,
+        eventName: 'changeMonth'
+      });
     },
     [calendarDate, updateCalendarDateRange]
   );
 
   const updateSingleCalendarTime = useCallback(
     (index: number, date: Date) => {
+      const calendarKey = index === 0 ? 'start' : 'end';
+      const nextCalendarDate = Array.from(calendarDate);
+      nextCalendarDate[index] = date;
+
+      updateCalendarDateRange({
+        dateRange: nextCalendarDate as DateRange,
+        calendarKey,
+        eventName: 'changeTime'
+      });
+
       setSelectedDates(prev => {
         const next: SelectedDatesState = [...prev];
-        const clonedDate = new Date(date.valueOf());
 
         // if next[index] is not empty, only update the time after aligning the year, month and day
-        if (next[index]) {
-          clonedDate.setFullYear(
-            next[index].getFullYear(),
-            next[index].getMonth(),
-            next[index].getDate()
-          );
-        }
-
-        next[index] = clonedDate;
+        next[index] = next[index]
+          ? copyTime({ from: date, to: next[index] })
+          : new Date(date.valueOf());
 
         return next;
       });
-      updateSingleCalendarDate(index, date);
     },
-    [updateSingleCalendarDate]
+    [calendarDate, updateCalendarDateRange]
   );
 
   /**
@@ -527,19 +556,17 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    */
   const handleToggleMeridian = useCallback(
     (index: number) => {
-      const next = Array.from(calendarDate) as DateRange;
+      const nextCalendarDate = Array.from(calendarDate) as DateRange;
+      nextCalendarDate[index] = getReversedTimeMeridian(nextCalendarDate[index]);
 
-      const clonedDate = new Date(next[index].valueOf());
-      const hours = DateUtils.getHours(clonedDate);
-      const nextHours = hours >= 12 ? hours - 12 : hours + 12;
-
-      next[index] = DateUtils.setHours(clonedDate, nextHours);
-
-      setCalendarDate(next);
+      setCalendarDate(nextCalendarDate);
 
       // If the value already exists, update the value again.
       if (selectedDates.length === 2) {
-        setSelectedDates(next);
+        const nextSelectedDates = Array.from(selectedDates) as SelectedDatesState;
+        nextSelectedDates[index] = getReversedTimeMeridian(nextSelectedDates[index]);
+
+        setSelectedDates(nextSelectedDates);
       }
     },
     [calendarDate, selectedDates]
@@ -550,7 +577,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    */
   const handleShortcutPageDate = useCallback(
     (value: DateRange, closeOverlay = false, event: React.SyntheticEvent) => {
-      updateCalendarDateRange(value);
+      updateCalendarDateRange({ dateRange: value });
 
       if (closeOverlay) {
         handleValueUpdate(event, value, closeOverlay);
@@ -574,7 +601,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const handleClean = useCallback(
     (event: React.MouseEvent) => {
-      updateCalendarDateRange(null);
+      updateCalendarDateRange({ dateRange: null });
       handleValueUpdate(event, null);
     },
     [handleValueUpdate, updateCalendarDateRange]
@@ -615,7 +642,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
       setHoverDateRange(selectValue);
       setSelectedDates(selectValue);
-      updateCalendarDateRange(selectValue);
+      updateCalendarDateRange({ dateRange: selectValue });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [character, rangeFormatStr, updateCalendarDateRange]
@@ -645,11 +672,11 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       ];
     } else {
       // Reset the date on the calendar to the default date
-      nextCalendarDate = getCalendarDate({ value: defaultCalendarValue ?? null });
+      nextCalendarDate = getSafeCalendarDate({ value: defaultCalendarValue ?? null });
     }
 
     setSelectedDates(value ?? []);
-    updateCalendarDateRange(nextCalendarDate);
+    updateCalendarDateRange({ dateRange: nextCalendarDate });
   }, [defaultCalendarValue, updateCalendarDateRange, setSelectedDates, value]);
 
   const handleEntered = useCallback(() => {
@@ -748,7 +775,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       showWeekNumbers,
       value: selectedDates,
       showMeridian,
-      onChangeCalendarDate: updateSingleCalendarDate,
+      onChangeCalendarMonth: updateSingleCalendarMonth,
       onChangeCalendarTime: updateSingleCalendarTime,
       onMouseMove: handleMouseMove,
       onSelect: handleSelectDate,
