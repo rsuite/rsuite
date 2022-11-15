@@ -256,8 +256,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       const hours = DateUtils.getHours(calendarDate);
       const nextHours = hours >= 12 ? hours - 12 : hours + 12;
       const nextDate = DateUtils.setHours(calendarDate, nextHours);
-      setCalendarDate(nextDate);
-    }, [calendarDate, setCalendarDate]);
+
+      handleChangeTime(nextDate);
+    }, [calendarDate, handleChangeTime]);
 
     const updateValue = useCallback(
       (event: React.SyntheticEvent, nextPageDate?: Date | null, closeOverlay = true) => {
