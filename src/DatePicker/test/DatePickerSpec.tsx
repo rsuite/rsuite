@@ -797,4 +797,29 @@ describe('DatePicker', () => {
     fireEvent.focus(picker2);
     expect(picker2).to.have.attribute('readonly');
   });
+
+  it('Should call onSelect when meridian toggled', () => {
+    const onSelectSpy = sinon.spy();
+
+    const instance = getInstance(
+      <DatePicker
+        value={parseISO('2017-08-14 13:00:00')}
+        format="hh:mm:ss a"
+        defaultOpen
+        showMeridian
+        onSelect={onSelectSpy}
+      />
+    );
+
+    const meridian = instance.overlay.querySelector('.rs-calendar-header-meridian');
+
+    expect(meridian).to.have.text('PM');
+
+    act(() => {
+      fireEvent.click(meridian);
+    });
+
+    expect(meridian).to.have.text('AM');
+    expect(onSelectSpy).to.have.been.calledWith(new Date('2017-08-14 01:00:00'));
+  });
 });
