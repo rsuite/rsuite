@@ -13,7 +13,11 @@
     "target": "esnext",
     "module": "esnext",
     "jsx": "react",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@test/*": ["./test/*"]
+    }
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

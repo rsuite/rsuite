@@ -7,7 +7,7 @@ export function isArray(value) {
 
 export default function conformToMask(
   rawValue = '',
-  mask: MaskType | MaskFunctionType = [],
+  mask: MaskType | MaskFunctionType | any = [],
   config: ConfigType = {}
 ) {
   if (!isArray(mask)) {
