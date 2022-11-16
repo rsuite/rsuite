@@ -6,7 +6,7 @@ const strCaretTrap = '[]';
 export const defaultPlaceholderChar = '_';
 
 export function convertMaskToPlaceholder(
-  mask: MaskType | MaskFunctionType = emptyArray,
+  mask: MaskType | MaskFunctionType | any = emptyArray,
   placeholderChar = defaultPlaceholderChar
 ) {
   if (!Array.isArray(mask)) {

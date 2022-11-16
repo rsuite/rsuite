@@ -22,7 +22,12 @@ const esmRoot = path.join(libRoot, 'esm');
 const cjsRoot = path.join(libRoot, 'cjs');
 const distRoot = path.join(libRoot, 'dist');
 const styleRoot = path.join(srcRoot, 'styles');
-const tsSources = [`${srcRoot}/**/*.tsx`, `${srcRoot}/**/*.ts`, `!${srcRoot}/**/*.d.ts`];
+const tsSources = [
+  `${srcRoot}/**/*.tsx`,
+  `${srcRoot}/**/*.ts`,
+  `!${srcRoot}/**/*.d.ts`,
+  `!${srcRoot}/**/test/*`
+];
 
 function clean(done) {
   del.sync([libRoot], { force: true });

@@ -13,9 +13,9 @@ interface Options {
   file: File;
   url: string;
   method?: string;
-  onError: (status: ErrorStatus, event: ProgressEvent, xhr: XMLHttpRequest) => void;
-  onSuccess: (response: any, event: ProgressEvent, xhr: XMLHttpRequest) => void;
-  onProgress: (percent: number, event: ProgressEvent, xhr: XMLHttpRequest) => void;
+  onError?: (status: ErrorStatus, event: ProgressEvent, xhr: XMLHttpRequest) => void;
+  onSuccess?: (response: any, event: ProgressEvent, xhr: XMLHttpRequest) => void;
+  onProgress?: (percent: number, event: ProgressEvent, xhr: XMLHttpRequest) => void;
 }
 
 function getResponse(xhr: XMLHttpRequest) {
