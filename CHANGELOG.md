@@ -1,3 +1,9 @@
+## [5.22.2](https://github.com/rsuite/rsuite/compare/v5.22.1...v5.22.2) (2022-11-17)
+
+### Bug Fixes
+
+- **DatePicker:** call onSelect when meridian toggled ([#2907](https://github.com/rsuite/rsuite/issues/2907)) ([9028097](https://github.com/rsuite/rsuite/commit/9028097c0049df152f83b14267c3ec30f6ae7fa9))
+
 ## [5.22.1](https://github.com/rsuite/rsuite/compare/v5.22.0...v5.22.1) (2022-11-11)
 
 ### Bug Fixes
