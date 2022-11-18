@@ -226,6 +226,11 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
 
   const handleWheel = useCallback(
     (event: React.WheelEvent<HTMLInputElement>) => {
+      if (!scrollable) {
+        event.preventDefault();
+        return;
+      }
+
       if (!disabled && !readOnly && event.target === document.activeElement) {
         event.preventDefault();
         const delta: number = event['wheelDelta'] || -event.deltaY || -event?.detail;
@@ -240,7 +245,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
 
       onWheel?.(event);
     },
-    [disabled, handleStepDown, handleStepUp, onWheel, readOnly]
+    [disabled, handleStepDown, handleStepUp, onWheel, readOnly, scrollable]
   );
 
   const handleChange = useCallback(
@@ -263,7 +268,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
 
   useEffect(() => {
     let wheelListener: ReturnType<typeof on>;
-    if (inputRef.current && scrollable) {
+    if (inputRef.current) {
       wheelListener = on(inputRef.current, 'wheel', handleWheel, { passive: false });
     }
     return () => {

@@ -148,6 +148,17 @@ describe('InputNumber', () => {
     assert.isTrue(onWheelSpy.calledOnce);
   });
 
+  it('Should not call onWheel callback', () => {
+    const onWheelSpy = sinon.spy();
+    const { container } = render(<InputNumber onWheel={onWheelSpy} scrollable={false} />);
+    const input = container.querySelector('.rs-input') as HTMLInputElement;
+
+    input.focus();
+    input.dispatchEvent(new WheelEvent('wheel', { deltaY: 10 }));
+
+    expect(onWheelSpy).not.to.have.been.called;
+  });
+
   it('Should call onChange callback when is control component', () => {
     const onChnageSpy = sinon.spy();
     const instance = getDOMNode(<InputNumber onChange={onChnageSpy} value={2} />);
