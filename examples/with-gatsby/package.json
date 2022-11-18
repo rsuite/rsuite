@@ -21,7 +21,7 @@
     "less": "^3.11.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "rsuite": "^5.20.0"
+    "rsuite": "^5.21.0"
   },
   "devDependencies": {
     "gatsby-plugin-less": "^6.24.0",
