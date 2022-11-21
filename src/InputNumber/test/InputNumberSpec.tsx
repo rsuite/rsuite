@@ -148,7 +148,7 @@ describe('InputNumber', () => {
     assert.isTrue(onWheelSpy.calledOnce);
   });
 
-  it('Should not call onWheel callback', () => {
+  it('Should not call onWheel callback when `scrollable` is false', () => {
     const onWheelSpy = sinon.spy();
     const { container } = render(<InputNumber onWheel={onWheelSpy} scrollable={false} />);
     const input = container.querySelector('.rs-input') as HTMLInputElement;
