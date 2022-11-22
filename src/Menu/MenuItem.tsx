@@ -48,7 +48,7 @@ function MenuItem(props: MenuItemProps) {
   const hasFocus =
     !isNil(menuitemRef.current) &&
     !isNil(menuState.activeItemIndex) &&
-    menuState.items[menuState.activeItemIndex].element === menuitemRef.current;
+    menuState.items[menuState.activeItemIndex]?.element === menuitemRef.current;
 
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLLIElement>) => {
