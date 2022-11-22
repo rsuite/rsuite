@@ -55,7 +55,7 @@
     "@juggle/resize-observer": "^3.4.0",
     "@rsuite/icons": "^1.0.2",
     "@types/chai": "^4.3.3",
-    "@types/lodash": "^4.14.184",
+    "@types/lodash": "^4.14.187",
     "@types/prop-types": "^15.7.5",
     "@types/react-window": "^1.8.5",
     "classnames": "^2.3.1",
