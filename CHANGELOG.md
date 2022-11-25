@@ -1,3 +1,15 @@
+# [5.23.0](https://github.com/rsuite/rsuite/compare/v5.22.2...v5.23.0) (2022-11-25)
+
+### Bug Fixes
+
+- **Dropdown:** fix error on deletion of last Dropdown.Item ([#2931](https://github.com/rsuite/rsuite/issues/2931)) ([8ed39e5](https://github.com/rsuite/rsuite/commit/8ed39e5673beb9224eded31096f5fa08297dfeed))
+- **InputNumber:** fix `scrollable` not working ([#2915](https://github.com/rsuite/rsuite/issues/2915)) ([c76589e](https://github.com/rsuite/rsuite/commit/c76589e57c4f01d5b410672b6b7f703a6dfd6deb))
+
+### Features
+
+- **locales:** add Turkish locale file ([#2933](https://github.com/rsuite/rsuite/issues/2933)) ([7277d09](https://github.com/rsuite/rsuite/commit/7277d09f6e2fde3e3e4ac0786f20dd2efaeb9062))
+- **locales:** added kk_KZ locale ([#2924](https://github.com/rsuite/rsuite/issues/2924)) ([779a65a](https://github.com/rsuite/rsuite/commit/779a65ad5c255b60a91959d7b9846346982009bb))
+
 ## [5.22.2](https://github.com/rsuite/rsuite/compare/v5.22.1...v5.22.2) (2022-11-17)
 
 ### Bug Fixes
