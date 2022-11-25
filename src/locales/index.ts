@@ -8,6 +8,7 @@ export { default as esAR } from './es_AR';
 export { default as esES } from './es_ES';
 export { default as fiFI } from './fi_FI';
 export { default as itIT } from './it_IT';
+export { default as kkKZ } from './kk_KZ';
 export { default as koKR } from './ko_KR';
 export { default as ptBR } from './pt_BR';
 export { default as ruRU } from './ru_RU';

@@ -11,6 +11,7 @@ import es_AR from 'rsuite/locales/es_AR';
 import es_ES from 'rsuite/locales/es_ES';
 import fi_FI from 'rsuite/locales/fi_FI';
 import it_IT from 'rsuite/locales/it_IT';
+import kk_KZ from 'rsuite/locales/kk_KZ';
 import ko_KR from 'rsuite/locales/ko_KR';
 import pt_BR from 'rsuite/locales/pt_BR';
 import ru_RU from 'rsuite/locales/ru_RU';
@@ -37,6 +38,7 @@ export default function Page() {
         es_ES,
         fi_FI,
         it_IT,
+        kk_KZ,
         ko_KR,
         pt_BR,
         ru_RU,
