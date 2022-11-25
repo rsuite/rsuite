@@ -107,28 +107,39 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
     );
 
     const handleChangeValue = useCallback(
-      (index: number, event: React.SyntheticEvent) => {
-        let nextValue = transformCharacterMapToValue(characterMap);
+      (value: number, event: React.SyntheticEvent) => {
+        setValue(value);
+        setCharacterMap(getCharacterMap(value));
+        onChange?.(value, event);
+      },
+      [getCharacterMap, onChange, setValue]
+    );
 
-        if (
-          cleanable &&
-          value === nextValue &&
-          getCharacterMap(value)[index] === characterMap[index]
-        ) {
+    /*  calculate the next value based on the index
+        (+1, because array-index starts at 0, while the characterMap-index starts with 1 (0 means "nothing selected")
+    */
+    const calculateNextValue = useCallback(
+      (index: number, key: string) => index + 1 + (allowHalf ? (key === 'before' ? -0.5 : 0) : 0),
+      [allowHalf]
+    );
+
+    const handleClick = useCallback(
+      (index: number, key: string, event: React.SyntheticEvent) => {
+        let nextValue = calculateNextValue(index, key);
+
+        if (cleanable && value === nextValue) {
           nextValue = 0;
         }
 
         if (nextValue !== value) {
-          setValue(nextValue);
-          setCharacterMap(getCharacterMap(nextValue));
-          onChange?.(nextValue, event);
+          handleChangeValue(nextValue, event);
         }
       },
-      [characterMap, cleanable, getCharacterMap, onChange, setValue, value]
+      [calculateNextValue, cleanable, value, handleChangeValue]
     );
 
-    const handleKeyDown = useCallback(
-      (index: number, event: React.KeyboardEvent) => {
+    const handleArrowKeyDown = useCallback(
+      (event: React.KeyboardEvent) => {
         const { key } = event;
         let nextValue = transformCharacterMapToValue(characterMap);
 
@@ -139,12 +150,38 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
         }
 
         setCharacterMap(getCharacterMap(nextValue));
+      },
+      [characterMap, max, allowHalf, setCharacterMap, getCharacterMap]
+    );
 
-        if (key === KEY_VALUES.ENTER) {
-          handleChangeValue(index, event);
+    const handleEnterKeyDown = useCallback(
+      (event: React.KeyboardEvent) => {
+        let nextValue = transformCharacterMapToValue(characterMap);
+
+        if (cleanable && value === nextValue) {
+          nextValue = 0;
+        }
+
+        if (nextValue !== value) {
+          handleChangeValue(nextValue, event);
         }
       },
-      [allowHalf, characterMap, getCharacterMap, handleChangeValue, max]
+      [characterMap, cleanable, value, handleChangeValue]
+    );
+
+    const handleKeyDown = useCallback(
+      (event: React.KeyboardEvent) => {
+        const { key } = event;
+
+        if (key === KEY_VALUES.RIGHT || key === KEY_VALUES.LEFT) {
+          handleArrowKeyDown(event);
+        }
+
+        if (key === KEY_VALUES.ENTER) {
+          handleEnterKeyDown(event);
+        }
+      },
+      [handleArrowKeyDown, handleEnterKeyDown]
     );
 
     const handleChangeCharacterMap = useCallback(
@@ -160,16 +197,10 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
           setCharacterMap(nextCharacterMap);
           onChangeActive?.(transformCharacterMapToValue(nextCharacterMap), event);
         }
+
+        return nextCharacterMap;
       },
       [allowHalf, characterMap, onChangeActive]
-    );
-
-    const handleClick = useCallback(
-      (index: number, key: string, event: React.MouseEvent) => {
-        handleChangeCharacterMap(index, key, event);
-        handleChangeValue(index, event);
-      },
-      [handleChangeCharacterMap, handleChangeValue]
     );
 
     if (plaintext) {
@@ -200,7 +231,7 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
             disabled={disabled || readOnly}
             vertical={vertical}
             onClick={(key, event) => handleClick(index, key, event)}
-            onKeyDown={event => handleKeyDown(index, event)}
+            onKeyDown={event => handleKeyDown(event)}
             onMouseMove={(key, event) => handleChangeCharacterMap(index, key, event)}
           >
             {renderCharacter ? renderCharacter(hoverValue, index) : character}
