@@ -35,6 +35,7 @@ return (
 | pt_BR  | Portuguese (Brazil) |
 | ru_RU  | Russian             |
 | sv_SE  | Swedish             |
+| tr_TR  | Turkish             |
 | zh_CN  | Simplified Chinese  |
 | zh_TW  | traditional Chinese |
 | fr_FR  | French              |

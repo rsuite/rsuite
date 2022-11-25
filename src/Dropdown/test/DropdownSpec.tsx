@@ -1,5 +1,5 @@
-import React, { Ref } from 'react';
-import { fireEvent, render, act } from '@testing-library/react';
+import React, { Ref, useState } from 'react';
+import { fireEvent, render, act, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import Dropdown from '../Dropdown';
@@ -7,6 +7,7 @@ import Button from '../../Button';
 import Nav from '../../Nav';
 import { KEY_VALUES } from '../../utils';
 import * as utils from '../../utils';
+import userEvent from '@testing-library/user-event';
 
 afterEach(() => {
   sinon.restore();
@@ -926,6 +927,45 @@ describe('<Dropdown>', () => {
       );
       fireEvent.click(instance.querySelector('[role="button"]') as HTMLElement);
       assert.equal(instance.textContent, 'As Component');
+    });
+  });
+
+  context('issue #2918', () => {
+    it('Should not throw when deleting the last item', () => {
+      const defaultMenuItems = [
+        'First Item',
+        'Second Item',
+        'Third Item',
+        'Fourth Item',
+        'Fifth Item'
+      ];
+      function App() {
+        const [menuItems, setMenuItems] = useState(defaultMenuItems);
+
+        const handleItemSelect = () => {
+          if (menuItems.length === 1) {
+            setMenuItems(defaultMenuItems);
+            return;
+          }
+
+          setMenuItems(menuItems.slice(0, -1));
+        };
+
+        return (
+          <div>
+            <Dropdown.Menu title="Dropdown">
+              {menuItems.map(item => (
+                <Dropdown.Item key={item} onSelect={handleItemSelect}>
+                  {item}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </div>
+        );
+      }
+
+      render(<App />);
+      userEvent.click(screen.getByText('Fifth Item'));
     });
   });
 });

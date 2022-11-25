@@ -11,10 +11,12 @@ import es_AR from 'rsuite/locales/es_AR';
 import es_ES from 'rsuite/locales/es_ES';
 import fi_FI from 'rsuite/locales/fi_FI';
 import it_IT from 'rsuite/locales/it_IT';
+import kk_KZ from 'rsuite/locales/kk_KZ';
 import ko_KR from 'rsuite/locales/ko_KR';
 import pt_BR from 'rsuite/locales/pt_BR';
 import ru_RU from 'rsuite/locales/ru_RU';
 import sv_SE from 'rsuite/locales/sv_SE';
+import tr_TR from 'rsuite/locales/tr_TR';
 import zh_CN from 'rsuite/locales/zh_CN';
 import zh_TW from 'rsuite/locales/zh_TW';
 import fa_IR from 'rsuite/locales/fa_IR';
@@ -37,10 +39,12 @@ export default function Page() {
         es_ES,
         fi_FI,
         it_IT,
+        kk_KZ,
         ko_KR,
         pt_BR,
         ru_RU,
         sv_SE,
+        tr_TR,
         zh_CN,
         zh_TW,
         fa_IR,

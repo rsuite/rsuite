@@ -35,6 +35,7 @@ return (
 | pt_BR    | 葡萄牙语(巴西)    |
 | ru_RU    | 俄罗斯语          |
 | sv_SE    | 瑞典语            |
+| tr_TR    | 土耳其语          |
 | zh_CN    | 简体中文          |
 | zh_TW    | 繁体中文          |
 | fr_FR    | 法语              |
