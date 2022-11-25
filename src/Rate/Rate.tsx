@@ -197,8 +197,6 @@ const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
           setCharacterMap(nextCharacterMap);
           onChangeActive?.(transformCharacterMapToValue(nextCharacterMap), event);
         }
-
-        return nextCharacterMap;
       },
       [allowHalf, characterMap, onChangeActive]
     );
