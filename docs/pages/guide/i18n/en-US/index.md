@@ -30,7 +30,9 @@ return (
 | es_ES  | Spanish (Spain)     |
 | fa_IR  | Persian (Iran)      |
 | fi_FI  | Finnish             |
+| fr_FR  | French              |
 | it_IT  | Italian             |
+| kk_KZ  | Kazakh              |
 | ko_KR  | Korean              |
 | pt_BR  | Portuguese (Brazil) |
 | ru_RU  | Russian             |
@@ -38,7 +40,6 @@ return (
 | tr_TR  | Turkish             |
 | zh_CN  | Simplified Chinese  |
 | zh_TW  | traditional Chinese |
-| fr_FR  | French              |
 
 ## Customize
 
