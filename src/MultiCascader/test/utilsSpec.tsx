@@ -1,5 +1,10 @@
 import _ from 'lodash';
-import { getOtherItemValuesByUnselectChild, removeAllChildrenValue } from '../utils';
+import {
+  getOtherItemValuesByUnselectChild,
+  removeAllChildrenValue,
+  useFlattenData
+} from '../utils';
+import { renderHook } from '@test/testUtils';
 
 const itemKeys = { childrenKey: 'children', labelKey: 'label', valueKey: 'value' };
 
@@ -110,6 +115,21 @@ const data = [
   }
 ];
 
+const itemKeys2 = { childrenKey: 'items', valueKey: 'value', labelKey: 'label' };
+
+const data2 = [
+  {
+    label: '四川',
+    value: '1',
+    items: [
+      {
+        value: '1-1',
+        label: '成都市'
+      }
+    ]
+  }
+];
+
 function setParent() {
   function loop(data, parent) {
     if (!_.isArray(data)) {
@@ -141,5 +161,10 @@ describe('MultiCascader - utils', () => {
     const removedValue = removeAllChildrenValue(value, item, itemKeys) as string[];
     assert.equal(removedValue.toString(), '1-2,1-3');
     assert.equal(value.toString(), '1');
+  });
+
+  it('useFlattenData when childrenKey is not "children"', () => {
+    const { result } = renderHook(() => useFlattenData(data2, itemKeys2));
+    assert.equal(result.current.flattenData.length, 2);
   });
 });

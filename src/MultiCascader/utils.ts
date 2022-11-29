@@ -167,7 +167,9 @@ export const removeAllChildrenValue = <T>(
  */
 export function useFlattenData(data: ItemDataType[], itemKeys: ItemKeys) {
   const { childrenKey } = itemKeys;
-  const [flattenData, setFlattenData] = useState<ItemDataType[]>(flattenTree(data));
+  const [flattenData, setFlattenData] = useState<ItemDataType[]>(
+    flattenTree(data, itemKeys.childrenKey)
+  );
 
   const addFlattenData = useCallback(
     (children: ItemDataType[], parent: ItemDataType) => {
@@ -183,8 +185,8 @@ export function useFlattenData(data: ItemDataType[], itemKeys: ItemKeys) {
   );
 
   useEffect(() => {
-    setFlattenData(flattenTree(data));
-  }, [data]);
+    setFlattenData(flattenTree(data, itemKeys.childrenKey));
+  }, [data, itemKeys.childrenKey]);
 
   return { addFlattenData, flattenData };
 }
