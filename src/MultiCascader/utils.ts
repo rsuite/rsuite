@@ -186,7 +186,7 @@ export function useFlattenData(data: ItemDataType[], itemKeys: ItemKeys) {
 
   useEffect(() => {
     setFlattenData(flattenTree(data, itemKeys.childrenKey));
-  }, [data]);
+  }, [data, itemKeys.childrenKey]);
 
   return { addFlattenData, flattenData };
 }
