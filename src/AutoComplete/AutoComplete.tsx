@@ -1,8 +1,16 @@
 import React, { useState, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
-import Input from '../Input';
-import { useClassNames, useControlled, PLACEMENT, mergeRefs, useIsMounted } from '../utils';
+import omit from 'lodash/omit';
+import Input, { InputProps } from '../Input';
+import {
+  useClassNames,
+  useControlled,
+  PLACEMENT,
+  mergeRefs,
+  useIsMounted,
+  partitionHTMLProps
+} from '../utils';
 import { animationPropTypes } from '../Animation/utils';
 import {
   PickerToggleTrigger,
@@ -230,6 +238,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ disabled }));
     const triggerRef = useRef<OverlayTriggerHandle>(null);
+    const [htmlInputProps, restProps] = partitionHTMLProps(omit(rest, pickTriggerPropKeys));
 
     usePublicMethods(ref, { triggerRef, overlayRef });
 
@@ -274,9 +283,9 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
         open={open || (focus && hasItems)}
         speaker={renderDropdownMenu}
       >
-        <Component className={classes} style={style}>
+        <Component className={classes} style={style} {...restProps}>
           <Input
-            {...rest}
+            {...(htmlInputProps as InputProps)}
             id={id}
             disabled={disabled}
             value={value}

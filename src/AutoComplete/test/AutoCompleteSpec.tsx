@@ -261,4 +261,22 @@ describe('AutoComplete', () => {
 
     expect((listbox.parentNode as HTMLElement).style.minWidth).to.equal('100px');
   });
+
+  it('Should not throw an error', () => {
+    const callback = sinon.spy();
+    expect(() => {
+      render(
+        <AutoComplete data={data} onExit={callback} onExiting={callback} onEnter={callback} />
+      );
+    }).to.not.throw();
+  });
+
+  it('Should only receive input attributes on `<input>`', () => {
+    const { getByTestId } = render(
+      <AutoComplete data={data} data-id={1} name="username" data-testid="test" />
+    );
+
+    expect(getByTestId('test')).to.be.attr('data-id', '1');
+    expect(getByTestId('test').querySelector('input')).to.be.attr('name', 'username');
+  });
 });
