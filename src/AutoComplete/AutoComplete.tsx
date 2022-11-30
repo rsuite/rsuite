@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
-import Input, { InputProps } from '../Input';
+import Input from '../Input';
 import {
   useClassNames,
   useControlled,
@@ -285,7 +285,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       >
         <Component className={classes} style={style} {...restProps}>
           <Input
-            {...(htmlInputProps as InputProps)}
+            {...(htmlInputProps as Omit<React.InputHTMLAttributes<any>, 'size'>)}
             id={id}
             disabled={disabled}
             value={value}
