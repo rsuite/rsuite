@@ -205,7 +205,7 @@ function isVisible(element: HTMLElement, container: HTMLElement, direction: 'top
   return bottom - height < containerBottom;
 }
 
-function scrollTo(container: HTMLElement, direction: 'top' | 'bottom', step = 36) {
+function scrollTo(container: HTMLElement, direction: 'top' | 'bottom', step: number) {
   const { scrollTop } = container;
   container.scrollTop = direction === 'top' ? scrollTop - step : scrollTop + step;
 }

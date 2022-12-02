@@ -5,6 +5,7 @@ import Cascader from '../Cascader';
 import Button from '../../Button';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { PickerHandle } from '../../Picker';
+import '../styles/index.less';
 
 const items = [
   {
@@ -656,5 +657,19 @@ describe('Cascader', () => {
     // Click on the leaf node
     fireEvent.click(getByRole('treeitem', { name: '1' }));
     expect(getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(1);
+  });
+
+  it('Should update scroll position when the focus is not within the viewport', () => {
+    const instance = getInstance(<Cascader defaultOpen data={items} menuHeight={72} />);
+
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+
+    expect(instance.overlay.querySelector('[data-type="column"]').scrollTop).to.equal(36);
+
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+
+    expect(instance.overlay.querySelector('[data-type="column"]').scrollTop).to.equal(0);
   });
 });

@@ -253,7 +253,7 @@ describe('CheckPicker', () => {
     expect(instance.overlay.querySelector(itemFocusClassName)).to.text('Kariane');
   });
 
-  it('Should update scroll position when the focus is not within the viewport', () => {
+  it('Should update scroll position when the focus is not within the viewport and key=ArrowDown', () => {
     const instance = getInstance(
       <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} menuMaxHeight={72} />
     );
@@ -266,10 +266,21 @@ describe('CheckPicker', () => {
     fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
 
     expect(instance.overlay.querySelector('[role="listbox"]').scrollTop).to.equal(0);
+  });
 
+  it('Should update scroll position when the focus is not within the viewport and key=ArrowUp', () => {
+    const instance = getInstance(
+      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} menuMaxHeight={72} />
+    );
+
+    fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
     fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
 
     expect(instance.overlay.querySelector('[role="listbox"]').scrollTop).to.equal(36);
+
+    fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
+
+    expect(instance.overlay.querySelector('[role="listbox"]').scrollTop).to.equal(0);
   });
 
   it('Should focus item by key=ArrowUp ', () => {
