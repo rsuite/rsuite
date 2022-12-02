@@ -1,3 +1,4 @@
+import { differenceInMonths } from 'date-fns';
 import { getSafeCalendarDate } from '../utils';
 import { isSameMonth, getMonth, format } from '../../utils/dateUtils';
 
@@ -16,7 +17,7 @@ describe('DateRangePicker - utils - getSafeCalendarDate', () => {
 
     expect(getMonth(value[0])).to.be.equal(getMonth(rangeDate[0]));
     expect(getMonth(value[1])).to.not.be.equal(getMonth(rangeDate[1]));
-    expect(getMonth(rangeDate[1]) - getMonth(rangeDate[0])).to.be.equal(1);
+    expect(differenceInMonths(rangeDate[1], rangeDate[0])).to.be.equal(1);
   });
 
   it('Should start date minus one month', () => {
@@ -25,7 +26,7 @@ describe('DateRangePicker - utils - getSafeCalendarDate', () => {
 
     expect(getMonth(value[0])).to.not.be.equal(getMonth(rangeDate[0]));
     expect(getMonth(value[1])).to.be.equal(getMonth(rangeDate[1]));
-    expect(getMonth(rangeDate[1]) - getMonth(rangeDate[0])).to.be.equal(1);
+    expect(differenceInMonths(rangeDate[1], rangeDate[0])).to.equal(1);
   });
 
   it('Should be create end date from start date', () => {
@@ -34,7 +35,7 @@ describe('DateRangePicker - utils - getSafeCalendarDate', () => {
 
     expect(rangeDate[0]).to.instanceOf(Date);
     expect(rangeDate[1]).to.instanceOf(Date);
-    expect(getMonth(rangeDate[1]) - getMonth(rangeDate[0])).to.be.equal(1);
+    expect(differenceInMonths(rangeDate[1], rangeDate[0])).to.be.equal(1);
   });
 
   it('Should create start and end dates by default', () => {
@@ -43,7 +44,7 @@ describe('DateRangePicker - utils - getSafeCalendarDate', () => {
 
     expect(rangeDate[0]).to.instanceOf(Date);
     expect(rangeDate[1]).to.instanceOf(Date);
-    expect(getMonth(rangeDate[1]) - getMonth(rangeDate[0])).to.be.equal(1);
+    expect(differenceInMonths(rangeDate[1], rangeDate[0])).to.be.equal(1);
   });
 
   it('Should change end month but not time', () => {
