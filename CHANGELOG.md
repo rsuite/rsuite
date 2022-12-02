@@ -1,3 +1,10 @@
+## [5.23.1](https://github.com/rsuite/rsuite/compare/v5.23.0...v5.23.1) (2022-12-02)
+
+### Bug Fixes
+
+- **AutoComplete:** fix animation props being passed on Input ([#2950](https://github.com/rsuite/rsuite/issues/2950)) ([4c21993](https://github.com/rsuite/rsuite/commit/4c21993531ef775e9b505d8d1d1fafce04e1b49b))
+- **MultiCascader:** fix unable to search for child items when `childKey` is set a value other than "children" ([#2926](https://github.com/rsuite/rsuite/issues/2926)) ([5d35f6c](https://github.com/rsuite/rsuite/commit/5d35f6c1639a49174274ccabf2edd3b40a388c32))
+
 # [5.23.0](https://github.com/rsuite/rsuite/compare/v5.22.2...v5.23.0) (2022-11-25)
 
 ### Bug Fixes
