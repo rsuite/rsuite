@@ -276,7 +276,7 @@ describe('AutoComplete', () => {
       <AutoComplete data={data} data-id={1} name="username" data-testid="test" />
     );
 
-    expect(getByTestId('test')).to.be.attr('data-id', '1');
-    expect(getByTestId('test').querySelector('input')).to.be.attr('name', 'username');
+    expect(getByTestId('test')).to.have.attribute('data-id', '1');
+    expect(getByTestId('test').querySelector('input')).to.have.attribute('name', 'username');
   });
 });
