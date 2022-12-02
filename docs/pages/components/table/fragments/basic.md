@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Table } from 'rsuite';
+import { Table, Button } from 'rsuite';
 import { mockUsers } from './mock';
 
 const { Column, HeaderCell, Cell } = Table;
@@ -53,11 +53,11 @@ const App = () => {
       <Column width={80} fixed="right">
         <HeaderCell>...</HeaderCell>
 
-        <Cell>
+        <Cell style={{ padding: '6px' }}>
           {rowData => (
-            <span>
-              <a onClick={() => alert(`id:${rowData.id}`)}> Edit </a>
-            </span>
+            <Button appearance="link" onClick={() => alert(`id:${rowData.id}`)}>
+              Edit
+            </Button>
           )}
         </Cell>
       </Column>
