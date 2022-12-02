@@ -17,6 +17,7 @@ import {
 import { TypeAttributes, ItemDataType } from '../@types/common';
 import type { ListHandle } from '../Windowing';
 import type { PickerHandle } from './types';
+import { getHeight } from 'dom-lib';
 
 export interface NodeKeys {
   valueKey: string;
@@ -180,6 +181,36 @@ export interface FocusItemValueProps {
 }
 
 /**
+ * Checks if the element has a vertical scrollbar.
+ */
+function hasVerticalScroll(element: HTMLElement) {
+  const { scrollHeight, clientHeight } = element;
+  return scrollHeight > clientHeight;
+}
+
+/**
+ * Checks if the element is within the visible area of the container
+ */
+function isVisible(element: HTMLElement, container: HTMLElement, direction: 'top' | 'bottom') {
+  if (!hasVerticalScroll(container)) {
+    return true;
+  }
+
+  const { top, bottom, height } = element.getBoundingClientRect();
+  const { top: containerTop, bottom: containerBottom } = container.getBoundingClientRect();
+
+  if (direction === 'top') {
+    return top + height > containerTop;
+  }
+  return bottom - height < containerBottom;
+}
+
+function scrollTo(container: HTMLElement, direction: 'top' | 'bottom', step = 36) {
+  const { scrollTop } = container;
+  container.scrollTop = direction === 'top' ? scrollTop - step : scrollTop + step;
+}
+
+/**
  * A hook that manages the focus state of the option.
  * @param defaultFocusItemValue
  * @param props
@@ -200,6 +231,20 @@ export const useFocusItemValue = <T>(
   const [focusItemValue, setFocusItemValue] = useState<T | null | undefined>(defaultFocusItemValue);
   const [layer, setLayer] = useState(defaultLayer);
   const [keys, setKeys] = useState<any[]>([]);
+
+  const getScrollContainer = useCallback(() => {
+    const menu = isFunction(target) ? target() : target;
+
+    // For Cascader and MutiCascader
+    const subMenu = menu?.querySelector(`[data-layer="${layer}"]`);
+
+    if (subMenu) {
+      return subMenu;
+    }
+
+    // For SelectPicker、CheckPicker、Autocomplete、InputPicker、TagPicker
+    return menu?.querySelector('[role="listbox"]');
+  }, [layer, target]);
 
   /**
    * Get the elements visible in all options.
@@ -250,33 +295,59 @@ export const useFocusItemValue = <T>(
     [focusItemValue, getFocusableMenuItems, valueKey]
   );
 
+  const scrollListItem = useCallback(
+    (direction: 'top' | 'bottom', itemValue: string, willOverflow: boolean) => {
+      const container = getScrollContainer() as HTMLElement;
+      const item = container?.querySelector<HTMLElement>(`[data-key="${itemValue}"]`);
+
+      if (willOverflow && container) {
+        const { scrollHeight, clientHeight } = container;
+        container.scrollTop = direction === 'top' ? scrollHeight - clientHeight : 0;
+        return;
+      }
+
+      if (item && container) {
+        if (!isVisible(item, container, direction)) {
+          const height = getHeight(item);
+
+          scrollTo(container, direction, height);
+        }
+      }
+    },
+    [getScrollContainer]
+  );
+
   const focusNextMenuItem = useCallback(
     (event: React.KeyboardEvent) => {
       findFocusItemIndex((items, index) => {
-        const nextIndex = index + 2 > items.length ? 0 : index + 1;
+        const willOverflow = index + 2 > items.length;
+        const nextIndex = willOverflow ? 0 : index + 1;
         const focusItem = items[nextIndex];
 
         if (!isUndefined(focusItem)) {
           setFocusItemValue(focusItem[valueKey]);
           callback?.(focusItem[valueKey], event);
+          scrollListItem('bottom', focusItem[valueKey], willOverflow);
         }
       });
     },
-    [callback, findFocusItemIndex, valueKey]
+    [callback, findFocusItemIndex, scrollListItem, valueKey]
   );
 
   const focusPrevMenuItem = useCallback(
     (event: React.KeyboardEvent) => {
       findFocusItemIndex((items, index) => {
-        const nextIndex = index === 0 ? items.length - 1 : index - 1;
+        const willOverflow = index === 0;
+        const nextIndex = willOverflow ? items.length - 1 : index - 1;
         const focusItem = items[nextIndex];
         if (!isUndefined(focusItem)) {
           setFocusItemValue(focusItem[valueKey]);
           callback?.(focusItem[valueKey], event);
+          scrollListItem('top', focusItem[valueKey], willOverflow);
         }
       });
     },
-    [callback, findFocusItemIndex, valueKey]
+    [callback, findFocusItemIndex, scrollListItem, valueKey]
   );
 
   const getSubMenuKeys = useCallback(

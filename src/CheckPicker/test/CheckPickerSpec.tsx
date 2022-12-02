@@ -5,6 +5,7 @@ import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
 
 import CheckPicker from '../CheckPicker';
 import Button from '../../Button';
+import '../styles/index.less';
 
 const namespace = `${globalKey}-picker`;
 const itemFocusClassName = '.rs-check-item-focus';
@@ -250,6 +251,25 @@ describe('CheckPicker', () => {
     fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
 
     expect(instance.overlay.querySelector(itemFocusClassName)).to.text('Kariane');
+  });
+
+  it('Should update scroll position when the focus is not within the viewport', () => {
+    const instance = getInstance(
+      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} menuMaxHeight={72} />
+    );
+
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+
+    expect(instance.overlay.querySelector('[role="listbox"]').scrollTop).to.equal(36);
+
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+
+    expect(instance.overlay.querySelector('[role="listbox"]').scrollTop).to.equal(0);
+
+    fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
+
+    expect(instance.overlay.querySelector('[role="listbox"]').scrollTop).to.equal(36);
   });
 
   it('Should focus item by key=ArrowUp ', () => {
