@@ -172,7 +172,7 @@ export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
 
 export interface FocusItemValueProps {
   target: HTMLElement | null | (() => HTMLElement | null);
-  data?: any[];
+  data?: readonly any[];
   valueKey?: string;
   focusableQueryKey?: string;
   defaultLayer?: number;
@@ -548,7 +548,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
 export interface SearchProps {
   labelKey: string;
-  data: ItemDataType[];
+  data: readonly Record<string, unknown>[];
   searchBy?: (keyword, label, item) => boolean;
   callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent) => void;
 }
@@ -581,7 +581,7 @@ export function useSearch(props: SearchProps) {
   );
 
   const updateFilteredData = useCallback(
-    (nextData: ItemDataType[]) => {
+    (nextData: readonly ItemDataType[]) => {
       setFilteredData(filterNodesOfTree(nextData, item => checkShouldDisplay(item)));
     },
     [checkShouldDisplay]

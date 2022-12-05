@@ -102,21 +102,24 @@ export interface MultipleSelectProps<T> extends Omit<SelectProps<T>, 'renderValu
   ) => React.ReactNode;
 }
 
-export interface SelectPickerProps<T>
+export interface SelectPickerProps<TValue, TDataItem = ItemDataType<TValue>>
   extends Omit<
-      FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
-      'value' | 'defaultValue' | 'onChange'
+      FormControlPickerProps<TValue, PickerLocale, ItemDataType<TValue>>,
+      'data' | 'value' | 'defaultValue' | 'onChange'
     >,
-    SelectProps<T>,
+    SelectProps<TValue>,
     Pick<PickerToggleProps, 'caretAs' | 'label'> {
+  /** The data of component */
+  data: readonly TDataItem[];
+
   /** Initial value */
-  defaultValue?: T;
+  defaultValue?: TValue;
 
   /** Current value of the component. Creates a controlled component */
-  value?: T | null;
+  value?: TValue | null;
 
   /** Called after the value has been changed */
-  onChange?: (value: T | null, event: React.SyntheticEvent) => void;
+  onChange?: (value: TValue | null, event: React.SyntheticEvent) => void;
 }
 
 const emptyArray = [];
@@ -132,7 +135,13 @@ export interface SelectPickerComponent {
 }
 
 const SelectPicker = React.forwardRef(
-  <T extends number | string>(props: SelectPickerProps<T>, ref: React.Ref<PickerHandle>) => {
+  <
+    TValue extends number | string,
+    TDataItem extends Record<string, unknown> = ItemDataType<TValue>
+  >(
+    props: SelectPickerProps<TValue, TDataItem>,
+    ref: React.Ref<PickerHandle>
+  ) => {
     const {
       as: Component = 'div',
       appearance = 'default',
@@ -185,8 +194,8 @@ const SelectPicker = React.forwardRef(
     const listRef = useRef<ListHandle>(null);
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled(valueProp, defaultValue) as [
-      T | null | undefined,
-      (value: React.SetStateAction<T | null>) => void,
+      TValue | null | undefined,
+      (value: React.SetStateAction<TValue | null>) => void,
       boolean
     ];
 
@@ -332,7 +341,7 @@ const SelectPicker = React.forwardRef(
     let selectedElement: React.ReactNode = placeholder;
 
     if (activeItem?.[labelKey]) {
-      selectedElement = activeItem[labelKey];
+      selectedElement = activeItem[labelKey] as React.ReactNode;
     }
 
     if (!isNil(value) && isFunction(renderValue)) {
