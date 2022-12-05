@@ -48,6 +48,19 @@ describe('<Nav.Menu>', () => {
 
       expect(getByText('Submenu item')).to.be.visible;
     });
+
+    it('Should render a nested submenu without a arrow icon', () => {
+      const { getByText } = render(
+        <Nav.Menu title="Menu">
+          <Nav.Menu title="Submenu" noCaret />
+        </Nav.Menu>,
+        {
+          wrapper: Nav
+        }
+      );
+
+      expect(getByText('Submenu').querySelector('.rs-dropdown-menu-toggle-icon')).to.not.exist;
+    });
   });
 
   context('Within <Navbar>', () => {

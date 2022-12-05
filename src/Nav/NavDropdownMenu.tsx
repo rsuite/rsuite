@@ -31,6 +31,9 @@ export interface NavDropdownMenuProps<T = any> extends StandardProps {
    */
   openDirection?: 'start' | 'end';
 
+  /** No caret variation */
+  noCaret?: boolean;
+
   /**
    *  Only used for setting the default expand state when it's a submenu.
    */
@@ -67,6 +70,7 @@ const NavDropdownMenu = React.forwardRef<
     classPrefix = 'dropdown-menu',
     children,
     openDirection = 'end',
+    noCaret,
     ...rest
   } = props;
 
@@ -124,7 +128,7 @@ const NavDropdownMenu = React.forwardRef<
               >
                 {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
                 {title}
-                <Icon className={prefix`toggle-icon`} />
+                {!noCaret && <Icon className={prefix`toggle-icon`} />}
               </div>
             );
           }}
@@ -178,6 +182,7 @@ NavDropdownMenu.propTypes = {
   classPrefix: PropTypes.string,
   pullLeft: deprecatePropType(PropTypes.bool, 'Use openDirection="start" instead.'),
   openDirection: PropTypes.oneOf(['start', 'end']),
+  noCaret: PropTypes.bool,
   title: PropTypes.node,
   open: PropTypes.bool,
   eventKey: PropTypes.any,
