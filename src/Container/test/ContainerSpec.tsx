@@ -1,6 +1,8 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
+import { waitFor } from '@testing-library/react';
+
 import Container from '../Container';
 import Sidebar from '../../Sidebar';
 
@@ -8,30 +10,33 @@ describe('Container', () => {
   testStandardProps(<Container />);
 
   it('Should render a Container', () => {
-    const title = 'Test';
     const instance = getDOMNode(
       <Container>
-        <span>{title}</span>
+        <span>test</span>
       </Container>
     );
-    assert.equal(instance.className, 'rs-container');
-    assert.equal(instance.textContent, title);
+
+    expect(instance).to.have.class('rs-container');
+    expect(instance).to.have.text('test');
   });
 
   it('Should render a Container when children is false', () => {
     const instance = getDOMNode(<Container>{false}</Container>);
-    assert.equal(instance.className, 'rs-container');
+
+    expect(instance).to.have.class('rs-container');
+    expect(instance).to.be.empty;
   });
 
-  it('Should have a `has-sidebar` className', () => {
+  // TODO: This is a temporary solution and will be deleted after the component style is updated.
+  it('Should have a `has-sidebar` className', async () => {
     const instance = getDOMNode(
       <Container>
         <Sidebar />
       </Container>
     );
-    // TODO: This is a temporary solution and will be deleted after the component style is updated.
-    setTimeout(() => {
-      assert.include(instance.className, 'rs-container-has-sidebar');
-    }, 0);
+
+    await waitFor(() => {
+      expect(instance).to.have.class('rs-container-has-sidebar');
+    });
   });
 });
