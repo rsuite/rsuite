@@ -83,20 +83,21 @@ describe('Button styles', () => {
   });
 
   itChrome('Button should render the correct padding', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(
-      <ButtonToolbar ref={instanceRef}>
+    const { getAllByRole } = render(
+      <ButtonToolbar>
         <Button size="lg">Large</Button>
         <Button size="md">Medium</Button>
         <Button size="sm">Small</Button>
         <Button size="xs">Xsmall</Button>
       </ButtonToolbar>
     );
-    const buttons = getDOMNode(instanceRef.current).children;
+    const buttons = getAllByRole('button');
+
     const lg = buttons[0];
     const md = buttons[1];
     const sm = buttons[2];
     const xs = buttons[3];
+
     assert.equal(getStyle(lg, 'padding'), '10px 16px', 'Large button padding');
     assert.equal(getStyle(md, 'padding'), '8px 12px', 'Middle button padding');
     assert.equal(getStyle(sm, 'padding'), '5px 10px', 'Small button padding');
@@ -152,9 +153,8 @@ describe('Button styles', () => {
   });
 
   it('Disabled button should render the correct opacity', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(
-      <ButtonToolbar ref={instanceRef}>
+    const { getAllByRole } = render(
+      <ButtonToolbar>
         <Button appearance="default" disabled>
           Default
         </Button>
@@ -172,7 +172,7 @@ describe('Button styles', () => {
         </Button>
       </ButtonToolbar>
     );
-    const buttons = getDOMNode(instanceRef.current).children;
+    const buttons = getAllByRole('button');
     const defaultButton = buttons[0];
     const primaryButton = buttons[1];
     const linkButton = buttons[2];
