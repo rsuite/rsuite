@@ -442,6 +442,7 @@ function Menu({
 
   const handleContainerBlur = useCallback(
     (event: React.FocusEvent) => {
+      /* istanbul ignore else */
       if (isFocusLeaving(event)) {
         closeMenu(event, false);
       }
