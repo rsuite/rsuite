@@ -63,8 +63,8 @@ describe('[utils] Tree utils', () => {
     assert.equal(items[2].children[0].value, 'vv-abc');
     assert.equal(nodes.length, 2);
     assert.equal(nodes[0].value, 'abcd');
-    assert.equal((nodes[1].children as any[]).length, 1);
-    assert.equal((nodes[1].children as any)[0].value, 'vv-abcd');
+    assert.equal((nodes[1] as any).children.length, 1);
+    assert.equal((nodes[1] as any).children[0].value, 'vv-abcd');
   });
 
   it('Should have a child', () => {

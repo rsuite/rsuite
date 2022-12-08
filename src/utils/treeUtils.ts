@@ -285,12 +285,19 @@ export function findNodeOfTree(data, check) {
   return findNode(data);
 }
 
-export function filterNodesOfTree(data, check) {
-  const findNodes = (nodes: readonly TreeNodeType[] = []) => {
-    const nextNodes: TreeNodeType[] = [];
+type HasChildren<T extends Record<string, unknown>> = T & {
+  children?: readonly HasChildren<T>[];
+};
+
+export function filterNodesOfTree<TItem extends HasChildren<Record<string, unknown>>>(
+  data: readonly TItem[],
+  check: (item: TItem) => boolean
+): TItem[] {
+  const findNodes = (nodes: readonly TItem[] = []) => {
+    const nextNodes: TItem[] = [];
     for (let i = 0; i < nodes.length; i += 1) {
       if (isArray(nodes[i].children)) {
-        const nextChildren = findNodes(nodes[i].children);
+        const nextChildren = findNodes(nodes[i].children as TItem[]);
         if (nextChildren.length) {
           const item = clone(nodes[i]);
           item.children = nextChildren;
