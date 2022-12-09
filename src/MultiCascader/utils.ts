@@ -17,12 +17,16 @@ interface ItemKeys {
   childrenKey: string;
 }
 
+type MayHasParent<T extends Record<string, unknown>> = T & {
+  parent?: MayHasParent<T>;
+};
+
 /**
  * Get all parents of a node
  * @param node
  */
-export const getParents = (node: ItemType) => {
-  let parents: ItemType[] = [];
+export const getParents = <T extends Record<string, unknown>>(node: MayHasParent<T>) => {
+  let parents: MayHasParent<T>[] = [];
 
   if (!node.parent) {
     return parents;
@@ -59,10 +63,6 @@ export const isSomeChildChecked = <T extends Record<string, unknown>>(
     }
     return false;
   });
-};
-
-type MayHasParent<T extends Record<string, unknown>> = T & {
-  parent?: MayHasParent<T>;
 };
 
 /**
