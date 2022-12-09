@@ -4,7 +4,6 @@ import shallowEqualArray from '../utils/shallowEqualArray';
 import { TreeNodeType, TreeNodesType, getNodeCheckState } from '../CheckTreePicker/utils';
 import { TREE_NODE_DROP_POSITION, shallowEqual } from '../utils';
 import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker';
-import { ItemDataType } from '../@types/common';
 import { TreePickerProps } from '../TreePicker/TreePicker';
 import { shouldDisplay } from '../Picker';
 import reactToString from './reactToString';
@@ -22,9 +21,9 @@ const TREE_NODE_GAP = 4;
  * @param {*} expandItemValues
  * @param {*} parentKeys
  */
-export function shouldShowNodeByParentExpanded(
-  expandItemValues: any[] = [],
-  parentKeys: any[] = []
+export function shouldShowNodeByParentExpanded<T>(
+  expandItemValues: T[] = [],
+  parentKeys: T[] = []
 ) {
   const intersectionKeys = intersection(expandItemValues, parentKeys);
   if (intersectionKeys.length === parentKeys.length) {
@@ -94,8 +93,8 @@ export function getNodeParents(node: any, parentKey = 'parent', valueKey?: strin
  * @param node
  * @param valueKey
  */
-export function getNodeParentKeys(nodes: TreeNodesType, node: TreeNodeType, valueKey: string) {
-  const parentKeys: TreeNodeType[] = [];
+export function getNodeParentKeys<T>(nodes: TreeNodesType, node: TreeNodeType, valueKey: string) {
+  const parentKeys: T[] = [];
   const traverse = (node: TreeNodeType) => {
     if (node?.parent?.refKey) {
       traverse(nodes[node.parent.refKey]);
@@ -604,15 +603,15 @@ export function getChildrenByFlattenNodes(nodes: TreeNodesType, parent: TreeNode
   );
 }
 
-export function useTreeDrag() {
+export function useTreeDrag<T>() {
   // current dragging node
-  const dragNode = useRef<ItemDataType | null>(null);
+  const dragNode = useRef<T | null>(null);
   const [dragOverNodeKey, setDragOverNodeKey] = useState(null);
   // drag node and it's children nodes key
   const [dragNodeKeys, setDragNodeKeys] = useState<(number | string)[]>([]);
   const [dropNodePosition, setDropNodePosition] = useState<TREE_NODE_DROP_POSITION | null>(null);
 
-  const setDragNode = (node: ItemDataType | null) => {
+  const setDragNode = (node: T | null) => {
     dragNode.current = node;
   };
   return {
@@ -755,7 +754,7 @@ export function useFlattenTreeData({
   const formatVirtualizedTreeData = (
     nodes: TreeNodesType,
     data: any[],
-    expandItemValues: ItemDataType[],
+    expandItemValues: unknown[],
     options: {
       cascade?: boolean;
       searchKeyword?: string;

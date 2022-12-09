@@ -232,7 +232,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     setDragOverNodeKey,
     setDragNode,
     setDropNodePosition
-  } = useTreeDrag();
+  } = useTreeDrag<ItemDataType>();
 
   const { treeNodesRefs, saveTreeNodeRef } = useTreeNodeRefs();
 
