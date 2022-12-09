@@ -1,4 +1,4 @@
-import { findNodeOfTree, filterNodesOfTree } from '../treeUtils';
+import { findNodeOfTree, filterNodesOfTree, toggleExpand } from '../treeUtils';
 
 describe('[utils] Tree utils', () => {
   it('Should find the valid node', () => {
@@ -97,5 +97,68 @@ describe('[utils] Tree utils', () => {
     assert.equal(nodes[0].value, 'vvv');
     assert.equal((nodes[0].children as any[]).length, 2);
     assert.equal((nodes[0].children as any)[1].value, 'vv-abcd');
+  });
+
+  describe('toggleExpand({ node, isExpand, expandItemValues, valueKey })', () => {
+    context('isExpand = true', () => {
+      it('Should add `node[valueKey]` if `expandItemValues` does not include it', () => {
+        const node = {
+          value: 2
+        };
+        const valueKey = 'value';
+        expect(
+          toggleExpand({
+            node,
+            valueKey,
+            expandItemValues: [1],
+            isExpand: true
+          })
+        ).to.eql([1, 2]);
+      });
+      it('Should return `expandItemValues` as is if it already includes `node[valueKey]`', () => {
+        const node = {
+          value: 2
+        };
+        const valueKey = 'value';
+        expect(
+          toggleExpand({
+            node,
+            valueKey,
+            expandItemValues: [1, 2],
+            isExpand: true
+          })
+        ).to.eql([1, 2]);
+      });
+    });
+    context('isExpand = false', () => {
+      it('Should remove `node[valueKey]` if `expandItemValues` includes it', () => {
+        const node = {
+          value: 2
+        };
+        const valueKey = 'value';
+        expect(
+          toggleExpand({
+            node,
+            valueKey,
+            expandItemValues: [1, 2],
+            isExpand: false
+          })
+        ).to.eql([1]);
+      });
+      it('Should return `expandItemValues` as is if it does not include `node[valueKey]`', () => {
+        const node = {
+          value: 2
+        };
+        const valueKey = 'value';
+        expect(
+          toggleExpand({
+            node,
+            valueKey,
+            expandItemValues: [1],
+            isExpand: false
+          })
+        ).to.eql([1]);
+      });
+    });
   });
 });

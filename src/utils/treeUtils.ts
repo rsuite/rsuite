@@ -39,12 +39,12 @@ export function shouldShowNodeByParentExpanded(
  * @param {*} childrenKey
  * @param {*} executor
  */
-export function flattenTree(
-  tree: any[],
+export function flattenTree<TItem>(
+  tree: TItem[],
   childrenKey = 'children',
   executor?: (node: any, index: number) => any
-) {
-  const flattenData: any[] = [];
+): TItem[] {
+  const flattenData: TItem[] = [];
   const traverse = (data: any[], parent: any | null) => {
     if (!isArray(data)) {
       return;
@@ -124,8 +124,8 @@ export function compareArray(a: any[], b: any[]) {
   return isArray(a) && isArray(b) && !shallowEqualArray(a, b);
 }
 
-export function getDefaultExpandItemValues(
-  data: ItemDataType[],
+export function getDefaultExpandItemValues<TItem>(
+  data: TItem[],
   props: Required<
     Pick<
       TreePickerProps,
@@ -325,15 +325,15 @@ export function filterNodesOfTree<TItem extends HasChildren<Record<string, unkno
  * @param isSearching - component is in Searching
  * @returns
  */
-export const getFocusableItems = (
-  filteredData: ItemDataType[],
+export const getFocusableItems = <TItem extends ItemDataType>(
+  filteredData: TItem[],
   props: Required<
     Pick<PartialTreeProps, 'disabledItemValues' | 'valueKey' | 'childrenKey' | 'expandItemValues'>
   >,
   isSearching?: boolean
-) => {
+): TItem[] => {
   const { disabledItemValues, valueKey, childrenKey, expandItemValues } = props;
-  const items: TreeNodeType[] = [];
+  const items: TItem[] = [];
   const loop = (nodes: any[]) => {
     nodes.forEach((node: any) => {
       const disabled = disabledItemValues.some(disabledItem =>
@@ -558,15 +558,27 @@ export { getTreeActiveNode };
  * toggle tree node
  * @param param0
  */
-export function toggleExpand({ node, isExpand, expandItemValues, valueKey }: any) {
-  const newExpandItemValues = new Set(expandItemValues);
+export function toggleExpand<T>({
+  node,
+  isExpand,
+  expandItemValues,
+  valueKey
+}: ToggleExpandOptions<T>): T[] {
+  const newExpandItemValues = new Set<T>(expandItemValues);
   if (isExpand) {
-    newExpandItemValues.add(node[valueKey]);
+    newExpandItemValues.add(node[valueKey] as T);
   } else {
-    newExpandItemValues.delete(node[valueKey]);
+    newExpandItemValues.delete(node[valueKey] as T);
   }
-  return Array.from(newExpandItemValues) as ItemDataType[];
+  return Array.from(newExpandItemValues);
 }
+
+type ToggleExpandOptions<T> = {
+  node: Record<string, unknown>;
+  isExpand: boolean;
+  expandItemValues: T[];
+  valueKey: string;
+};
 
 export function getTreeNodeTitle(label: any) {
   if (typeof label === 'string') {
