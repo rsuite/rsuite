@@ -197,18 +197,16 @@ export function useFlattenData<T>(data: T[], itemKeys: ItemKeys) {
  * A hook for column data
  * @param flattenData
  */
-export function useColumnData(flattenData: ItemType[]) {
+export function useColumnData<T extends MayHasParent<Record<string, unknown>>>(flattenData: T[]) {
   // The columns displayed in the cascading panel.
-  const [columnData, setColumnData] = useState<ItemDataType[][]>([
-    flattenData.filter(item => !item.parent)
-  ]);
+  const [columnData, setColumnData] = useState<T[][]>([flattenData.filter(item => !item.parent)]);
 
   /**
    * Add a list of options to the cascading panel. Used for lazy loading options.
    * @param column
    * @param index The index of the current column.
    */
-  function addColumn(column: ItemDataType[], index: number) {
+  function addColumn(column: T[], index: number) {
     setColumnData([...slice(columnData, 0, index), column]);
   }
 
@@ -220,7 +218,7 @@ export function useColumnData(flattenData: ItemType[]) {
     setColumnData([...slice(columnData, 0, index)]);
   }
 
-  function enforceUpdateColumnData(nextData: ItemDataType[]) {
+  function enforceUpdateColumnData(nextData: T[]) {
     const nextFlattenData = flattenTree(nextData);
     setColumnData([nextFlattenData.filter(item => !item.parent)]);
   }
