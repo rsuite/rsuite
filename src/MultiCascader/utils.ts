@@ -61,14 +61,18 @@ export const isSomeChildChecked = <T extends Record<string, unknown>>(
   });
 };
 
+type MayHasParent<T extends Record<string, unknown>> = T & {
+  parent?: MayHasParent<T>;
+};
+
 /**
  * Check if the parent is selected.
  * @param node
  * @param value
  * @param itemKeys
  */
-export const isSomeParentChecked = (
-  node: ItemDataType,
+export const isSomeParentChecked = <T extends Record<string, unknown>>(
+  node: MayHasParent<T>,
   value: ValueType,
   itemKeys: Pick<ItemKeys, 'valueKey'>
 ) => {
