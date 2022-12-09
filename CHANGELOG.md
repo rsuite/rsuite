@@ -1,3 +1,12 @@
+## [5.23.2](https://github.com/rsuite/rsuite/compare/v5.23.1...v5.23.2) (2022-12-09)
+
+### Bug Fixes
+
+- **Form.HelpText:** change font size to 12px ([#2968](https://github.com/rsuite/rsuite/issues/2968)) ([5c3898e](https://github.com/rsuite/rsuite/commit/5c3898ed2726beb81c09accd4d91963849d0dd31))
+- **Nav.Menu:** fix noCaret has No Effect on a Sub-menu ([#2960](https://github.com/rsuite/rsuite/issues/2960)) ([e51fb6b](https://github.com/rsuite/rsuite/commit/e51fb6b593f0221f2ac3288b55658d540db214f9))
+- **pickers:** the focused item should be within the container's viewport ([#2957](https://github.com/rsuite/rsuite/issues/2957)) ([cab5c63](https://github.com/rsuite/rsuite/commit/cab5c63ffde3963c72363adf00531ef3ab9d9e83))
+- **Tooltip:** should use the default text alignment ([#2965](https://github.com/rsuite/rsuite/issues/2965)) ([3280775](https://github.com/rsuite/rsuite/commit/3280775a699a3683b2c45b543fbd8e6576206142))
+
 ## [5.23.1](https://github.com/rsuite/rsuite/compare/v5.23.0...v5.23.1) (2022-12-02)
 
 ### Bug Fixes
