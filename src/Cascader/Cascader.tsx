@@ -357,7 +357,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
   const handleSelect = (
     node: ItemDataType,
-    cascadePaths: ItemDataType[],
+    cascadePaths: ItemDataType<T>[],
     isLeafNode: boolean,
     event: React.MouseEvent
   ) => {
@@ -378,13 +378,13 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
           node.loading = false;
           node[childrenKey] = data;
           if (targetRef.current) {
-            addColumn(data, columnIndex);
+            addColumn(data as ItemDataType<T>[], columnIndex);
           }
         });
       } else {
         node.loading = false;
         node[childrenKey] = children;
-        addColumn(children as ItemDataType[], columnIndex);
+        addColumn(children as ItemDataType<T>[], columnIndex);
       }
     } else if (node[childrenKey]?.length) {
       addColumn(node[childrenKey], columnIndex);
@@ -425,7 +425,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
    */
   const handleSearchRowSelect = (
     node: ItemDataType,
-    nodes: ItemDataType[],
+    nodes: ItemDataType<T>[],
     event: React.SyntheticEvent
   ) => {
     const nextValue = node[valueKey];
@@ -549,7 +549,8 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
             cascadeData={columnData}
             cascadePaths={selectedPaths}
             activeItemValue={value}
-            onSelect={handleSelect}
+            // FIXME make onSelect generic
+            onSelect={handleSelect as any}
             renderMenu={renderMenu}
             renderMenuItem={renderMenuItem}
           />
