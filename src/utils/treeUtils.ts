@@ -325,7 +325,7 @@ export function filterNodesOfTree<TItem extends HasChildren<Record<string, unkno
  * @param isSearching - component is in Searching
  * @returns
  */
-export const getFocusableItems = <TItem extends ItemDataType>(
+export const getFocusableItems = <TItem extends TreeNodeType>(
   filteredData: TItem[],
   props: Required<
     Pick<PartialTreeProps, 'disabledItemValues' | 'valueKey' | 'childrenKey' | 'expandItemValues'>
@@ -334,8 +334,8 @@ export const getFocusableItems = <TItem extends ItemDataType>(
 ): TItem[] => {
   const { disabledItemValues, valueKey, childrenKey, expandItemValues } = props;
   const items: TItem[] = [];
-  const loop = (nodes: any[]) => {
-    nodes.forEach((node: any) => {
+  const loop = (nodes: TItem[]) => {
+    nodes.forEach((node: TItem) => {
       const disabled = disabledItemValues.some(disabledItem =>
         shallowEqual(disabledItem, node[valueKey])
       );
