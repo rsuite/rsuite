@@ -169,14 +169,12 @@ export const removeAllChildrenValue = <T>(
  * A hook to flatten tree structure data
  * @param data
  */
-export function useFlattenData(data: ItemDataType[], itemKeys: ItemKeys) {
+export function useFlattenData<T>(data: T[], itemKeys: ItemKeys) {
   const { childrenKey } = itemKeys;
-  const [flattenData, setFlattenData] = useState<ItemDataType[]>(
-    flattenTree(data, itemKeys.childrenKey)
-  );
+  const [flattenData, setFlattenData] = useState<T[]>(flattenTree(data, itemKeys.childrenKey));
 
   const addFlattenData = useCallback(
-    (children: ItemDataType[], parent: ItemDataType) => {
+    (children: T[], parent: T) => {
       const nodes = children.map(child => {
         return attachParent(child, parent);
       });
