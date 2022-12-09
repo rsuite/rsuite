@@ -835,25 +835,25 @@ export function useTreeNodeRefs() {
   };
 }
 
-interface TreeSearchProps {
+interface TreeSearchProps<T> {
   labelKey: string;
   childrenKey: string;
   searchKeyword?: string;
-  data: ItemDataType[];
+  data: T[];
   searchBy?: (keyword, label, item) => boolean;
-  callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent) => void;
+  callback?: (keyword: string, data: T[], event: React.SyntheticEvent) => void;
 }
 
 /**
  * A hook that handles tree search filter options
  * @param props
  */
-export function useTreeSearch<T extends HTMLElement = HTMLInputElement>(props: TreeSearchProps) {
+export function useTreeSearch<T>(props: TreeSearchProps<T>) {
   const { labelKey, childrenKey, searchKeyword, data, searchBy, callback } = props;
 
   const filterVisibleData = useCallback(
-    (data: ItemDataType[], searchKeyword: string) => {
-      const setVisible = (nodes: ItemDataType[]) =>
+    (data: T[], searchKeyword: string) => {
+      const setVisible = (nodes: T[]) =>
         nodes.forEach((item: any) => {
           item.visible = searchBy
             ? searchBy(searchKeyword, item[labelKey], item)
@@ -881,13 +881,13 @@ export function useTreeSearch<T extends HTMLElement = HTMLInputElement>(props: T
   );
 
   const handleSetFilteredData = useCallback(
-    (data: ItemDataType[], searchKeyword: string) => {
+    (data: T[], searchKeyword: string) => {
       setFilteredData(filterVisibleData(data, searchKeyword));
     },
     [filterVisibleData]
   );
 
-  const handleSearch = (searchKeyword: string, event: React.ChangeEvent<T>) => {
+  const handleSearch = (searchKeyword: string, event: React.ChangeEvent) => {
     const filteredData = filterVisibleData(data, searchKeyword);
     setFilteredData(filteredData);
     setSearchKeyword(searchKeyword);
@@ -903,8 +903,8 @@ export function useTreeSearch<T extends HTMLElement = HTMLInputElement>(props: T
   };
 }
 
-export function useGetTreeNodeChildren(
-  treeData: ItemDataType[],
+export function useGetTreeNodeChildren<T extends Record<string, unknown>>(
+  treeData: T[],
   valueKey: string,
   childrenKey: string
 ) {
