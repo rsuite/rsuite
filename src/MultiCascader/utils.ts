@@ -40,8 +40,8 @@ export const getParents = (node: ItemType) => {
  * @param value
  * @param itemKeys
  */
-export const isSomeChildChecked = (
-  node: ItemDataType,
+export const isSomeChildChecked = <T extends Record<string, unknown>>(
+  node: T,
   value: ValueType,
   itemKeys: Omit<ItemKeys, 'labelKey'>
 ) => {
@@ -50,11 +50,11 @@ export const isSomeChildChecked = (
     return false;
   }
 
-  return node[childrenKey].some((child: ItemDataType) => {
+  return (node[childrenKey] as T[]).some(child => {
     if (value.some(n => n === child[valueKey])) {
       return true;
     }
-    if (child[childrenKey]?.length) {
+    if ((child[childrenKey] as T[] | undefined)?.length) {
       return isSomeChildChecked(child, value, itemKeys);
     }
     return false;
