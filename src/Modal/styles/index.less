@@ -3,6 +3,7 @@
 
 //
 // Modals
+// Figma: https://www.figma.com/file/uEq9QBplcKUYZrcWWA3RK2/NXT-UI?node-id=0%3A1348&t=H5h3Dd3AnJVgbAbz-4
 // --------------------------------------------------
 
 // Modal background
@@ -100,17 +101,16 @@
   padding-right: @line-height-computed;
 
   .rs-modal-header-close {
-    // button width the same to height
-    @padding-right: 4px;
-
     position: absolute;
     right: @modal-content-padding;
     top: @modal-content-padding;
     font-size: @modal-close-btn-size;
-    line-height: @modal-close-btn-line-height;
     color: @modal-close-btn-color;
-    width: @line-height-computed;
-    padding: 0 @padding-right;
+    padding: 0;
+
+    &:hover {
+      color: @modal-close-btn-hover-color;
+    }
   }
 }
 
