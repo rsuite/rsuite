@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import Stack, { StackProps } from '../Stack';
 
 export interface ButtonToolbarProps extends WithAsProps {
   /**
@@ -12,19 +13,22 @@ export interface ButtonToolbarProps extends WithAsProps {
   role?: string;
 }
 
-const ButtonToolbar: RsRefForwardingComponent<'div', ButtonToolbarProps> = React.forwardRef(
+const ButtonToolbar: RsRefForwardingComponent<typeof Stack, ButtonToolbarProps> = React.forwardRef(
   (props: ButtonToolbarProps, ref) => {
     const {
       className,
       classPrefix = 'btn-toolbar',
-      as: Component = 'div',
+      as: Component = Stack,
       role = 'toolbar',
       ...rest
     } = props;
 
+    const stackProps: StackProps | null =
+      Component === Stack ? { wrap: true, spacing: 10, childrenRenderMode: 'clone' } : null;
+
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
-    return <Component {...rest} role={role} ref={ref} className={classes} />;
+    return <Component {...stackProps} {...rest} role={role} ref={ref} className={classes} />;
   }
 );
 

@@ -30,6 +30,11 @@ export interface StackProps extends WithAsProps {
    * Define whether the children in the stack are forced onto one line or can wrap onto multiple lines
    */
   wrap?: boolean;
+
+  /**
+   * The render mode of the children.
+   */
+  childrenRenderMode?: 'clone' | 'wrap';
 }
 
 export interface StackComponent extends RsRefForwardingComponent<'div', StackProps> {
@@ -41,6 +46,7 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
     as: Component = 'div',
     alignItems = 'center',
     classPrefix = 'stack',
+    childrenRenderMode = 'wrap',
     className,
     children,
     direction,
@@ -55,12 +61,12 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
   const { rtl } = useCustom('Stack');
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
-  const isSupportGridGap = isSupportFlexGap();
+  const isSupportGap = isSupportFlexGap();
 
-  const gridGap = Array.isArray(spacing) ? spacing : [spacing, 0];
+  const flexGap = Array.isArray(spacing) ? spacing : [spacing, spacing];
   const itemStyles: React.CSSProperties = {
-    [rtl ? 'marginLeft' : 'marginRight']: gridGap[0],
-    marginBottom: gridGap[1]
+    [rtl ? 'marginLeft' : 'marginRight']: flexGap[0],
+    marginBottom: flexGap[1]
   };
 
   const styles = {
@@ -68,7 +74,7 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
     justifyContent,
     flexDirection: direction,
     flexWrap: wrap ? 'wrap' : undefined,
-    gap: isSupportGridGap ? spacing : undefined,
+    gap: isSupportGap ? spacing : undefined,
     ...style
   };
 
@@ -83,18 +89,18 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
     <Component {...rest} ref={ref} className={classes} style={styles}>
       {React.Children.map(filterChildren as React.ReactElement[], (child, index) => {
         const childNode =
-          child.type !== StackItem ? (
+          childrenRenderMode === 'wrap' && child.type !== StackItem ? (
             <StackItem
               key={index}
               className={prefix('item')}
-              style={!isSupportGridGap ? itemStyles : undefined}
+              style={!isSupportGap ? itemStyles : undefined}
             >
               {child}
             </StackItem>
           ) : (
             React.cloneElement(child, {
               className: merge(prefix('item'), child.props.className),
-              style: !isSupportGridGap
+              style: !isSupportGap
                 ? {
                     ...itemStyles,
                     ...child.props.style

@@ -9,13 +9,13 @@ describe('Stack', () => {
   it('Should output a stack', () => {
     const { getByTestId } = render(<Stack data-testid="test"></Stack>);
 
-    assert.equal(getByTestId('test').className, 'rs-stack');
+    expect(getByTestId('test')).to.have.class('rs-stack');
   });
 
   it('Should be wrap', () => {
     const { getByTestId } = render(<Stack data-testid="test" wrap></Stack>);
 
-    assert.equal(getByTestId('test').style.flexWrap, 'wrap');
+    expect(getByTestId('test')).to.have.style('flex-wrap', 'wrap');
   });
 
   it('Should have a gap style', () => {
@@ -25,9 +25,9 @@ describe('Stack', () => {
       </Stack>
     );
 
-    assert.equal(getByTestId('test').style.gap, '10px');
-    assert.isEmpty((getByTestId('test').children[0] as HTMLElement).style.marginRight);
-    assert.isEmpty((getByTestId('test').children[0] as HTMLElement).style.marginBottom);
+    expect(getByTestId('test')).to.style('gap', '10px');
+    expect((getByTestId('test').firstChild as HTMLElement).style.marginRight).to.be.empty;
+    expect((getByTestId('test').firstChild as HTMLElement).style.marginBottom).to.be.empty;
   });
 
   it('Should have a align-items style', () => {
@@ -39,12 +39,14 @@ describe('Stack', () => {
     const { getByTestId } = render(
       <Stack data-testid="test" justifyContent="space-around"></Stack>
     );
-    assert.equal(getByTestId('test').style.justifyContent, 'space-around');
+
+    expect(getByTestId('test')).to.have.style('justify-content', 'space-around');
   });
 
   it('Should be displayed in vertical columns', () => {
     const { getByTestId } = render(<Stack data-testid="test" direction="column"></Stack>);
-    assert.equal(getByTestId('test').style.flexDirection, 'column');
+
+    expect(getByTestId('test')).to.have.style('flex-direction', 'column');
   });
 
   it('Should have a divider', () => {
@@ -55,8 +57,8 @@ describe('Stack', () => {
       </Stack>
     );
 
-    assert.equal(getByTestId('test').children.length, 3);
-    assert.equal(getByTestId('test').children[1].textContent, '|');
+    expect(getByTestId('test').children).to.length(3);
+    expect(getByTestId('test').children[1].textContent).to.equal('|');
   });
 
   it('Should not render empty child', () => {
@@ -69,7 +71,28 @@ describe('Stack', () => {
         {[1, 2]}
       </Stack>
     );
-
     expect(getByTestId('test').children).to.length(4);
+  });
+
+  it('Should wrap children', () => {
+    const { getByTestId } = render(
+      <Stack data-testid="test">
+        <button />
+      </Stack>
+    );
+
+    expect(getByTestId('test').firstChild).to.tagName('DIV');
+    expect(getByTestId('test').firstChild).to.have.class('rs-stack-item');
+  });
+
+  it('Should clone children', () => {
+    const { getByTestId } = render(
+      <Stack data-testid="test" childrenRenderMode="clone">
+        <button />
+      </Stack>
+    );
+
+    expect(getByTestId('test').firstChild).to.tagName('BUTTON');
+    expect(getByTestId('test').firstChild).to.have.class('rs-stack-item');
   });
 });
