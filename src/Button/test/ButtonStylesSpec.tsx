@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Button from '../Button';
 import ButtonToolbar from '../../ButtonToolbar';
 import { getDOMNode, getDefaultPalette, toRGB, getStyle, itChrome } from '@test/testUtils';
@@ -83,7 +83,7 @@ describe('Button styles', () => {
   });
 
   itChrome('Button should render the correct padding', () => {
-    const { getAllByRole } = render(
+    render(
       <ButtonToolbar>
         <Button size="lg">Large</Button>
         <Button size="md">Medium</Button>
@@ -91,7 +91,7 @@ describe('Button styles', () => {
         <Button size="xs">Xsmall</Button>
       </ButtonToolbar>
     );
-    const buttons = getAllByRole('button');
+    const buttons = screen.getAllByRole('button');
 
     const lg = buttons[0];
     const md = buttons[1];
@@ -153,7 +153,7 @@ describe('Button styles', () => {
   });
 
   it('Disabled button should render the correct opacity', () => {
-    const { getAllByRole } = render(
+    render(
       <ButtonToolbar>
         <Button appearance="default" disabled>
           Default
@@ -172,7 +172,7 @@ describe('Button styles', () => {
         </Button>
       </ButtonToolbar>
     );
-    const buttons = getAllByRole('button');
+    const buttons = screen.getAllByRole('button');
     const defaultButton = buttons[0];
     const primaryButton = buttons[1];
     const linkButton = buttons[2];
