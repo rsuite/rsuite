@@ -17,6 +17,7 @@ import { initialState, reducer } from './DropdownState';
 import Button from '../Button';
 import warnOnce from '../utils/warnOnce';
 import Nav from '../Nav';
+import DropdownSeparator from './DropdownSeparator';
 
 export type DropdownTrigger = 'click' | 'hover' | 'contextMenu';
 export interface DropdownProps<T = any>
@@ -97,6 +98,7 @@ export interface DropdownComponent extends RsRefForwardingComponent<'div', Dropd
 
   Item: typeof DropdownItem;
   Menu: typeof DropdownMenu;
+  Separator: typeof DropdownSeparator;
 }
 
 /**
@@ -245,6 +247,7 @@ const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: Dropdo
 
 Dropdown.Item = DropdownItem;
 Dropdown.Menu = DropdownMenu;
+Dropdown.Separator = DropdownSeparator;
 
 Dropdown.displayName = 'Dropdown';
 Dropdown.propTypes = {
