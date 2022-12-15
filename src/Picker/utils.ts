@@ -14,7 +14,7 @@ import {
   reactToString,
   placementPolyfill
 } from '../utils';
-import { TypeAttributes, ItemDataType } from '../@types/common';
+import { TypeAttributes } from '../@types/common';
 import type { ListHandle } from '../Windowing';
 import type { PickerHandle } from './types';
 import { getHeight } from 'dom-lib';
@@ -546,18 +546,29 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   return onToggle;
 };
 
-export interface SearchProps {
+export interface SearchProps<TItem extends Record<string, unknown>, TLabel> {
   labelKey: string;
-  data: ItemDataType[];
-  searchBy?: (keyword, label, item) => boolean;
-  callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent) => void;
+  data: TItem[];
+  searchBy?: (keyword: string, label: TLabel, item: TItem) => boolean;
+  callback?: (keyword: string, data: TItem[], event: React.SyntheticEvent) => void;
 }
+
+type UseSearchResult<TItem extends Record<string, unknown>> = {
+  searchKeyword: string;
+  filteredData: TItem[];
+  updateFilteredData: (nextData: TItem[]) => void;
+  setSearchKeyword: (value: string) => void;
+  checkShouldDisplay: (item: TItem, keyword?: string) => boolean;
+  handleSearch: (searchKeyword: string, event: React.SyntheticEvent) => void;
+};
 
 /**
  * A hook that handles search filter options
  * @param props
  */
-export function useSearch(props: SearchProps) {
+export function useSearch<TItem extends Record<string, unknown>, TLabel>(
+  props: SearchProps<TItem, TLabel>
+): UseSearchResult<TItem> {
   const { labelKey, data, searchBy, callback } = props;
 
   // Use search keywords to filter options.
@@ -568,8 +579,8 @@ export function useSearch(props: SearchProps) {
    * @param {node} label
    */
   const checkShouldDisplay = useCallback(
-    (item: ItemDataType, keyword?: string) => {
-      const label = item?.[labelKey];
+    (item: TItem, keyword?: string) => {
+      const label = item?.[labelKey] as TLabel;
       const _keyword = isUndefined(keyword) ? searchKeyword : keyword;
 
       if (typeof searchBy === 'function') {
@@ -581,13 +592,13 @@ export function useSearch(props: SearchProps) {
   );
 
   const updateFilteredData = useCallback(
-    (nextData: ItemDataType[]) => {
+    (nextData: TItem[]) => {
       setFilteredData(filterNodesOfTree(nextData, item => checkShouldDisplay(item)));
     },
     [checkShouldDisplay]
   );
 
-  const [filteredData, setFilteredData] = useState(
+  const [filteredData, setFilteredData] = useState<TItem[]>(
     filterNodesOfTree(data, item => checkShouldDisplay(item))
   );
 
@@ -595,7 +606,7 @@ export function useSearch(props: SearchProps) {
     const filteredData = filterNodesOfTree(data, item => checkShouldDisplay(item, searchKeyword));
     setFilteredData(filteredData);
     setSearchKeyword(searchKeyword);
-    callback?.(searchKeyword, filteredData, event);
+    callback?.(searchKeyword, filteredData as TItem[], event);
   };
 
   return {

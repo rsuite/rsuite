@@ -1,18 +1,16 @@
 import { useState, useMemo } from 'react';
 import slice from 'lodash/slice';
 import { shallowEqual, useUpdateEffect } from '../utils';
-import { CascaderProps } from './Cascader';
-import { ItemDataType } from '../@types/common';
 import { findNodeOfTree } from '../utils/treeUtils';
 import { attachParent } from '../utils/attachParent';
 
-export function getColumnsAndPaths<T extends ItemDataType>(data: T[], value, options) {
+export function getColumnsAndPaths<T extends Record<string, unknown>>(data: T[], value, options) {
   const { childrenKey, valueKey, isAttachChildren } = options;
-  const columns: ItemDataType[][] = [];
+  const columns: T[][] = [];
   const paths: T[] = [];
   const findNode = (items: T[]): { items: T[]; active: T } | null => {
     for (let i = 0; i < items.length; i += 1) {
-      const children = items[i][childrenKey];
+      const children = items[i][childrenKey] as T[] | undefined;
 
       if (shallowEqual(items[i][valueKey], value)) {
         return { items, active: items[i] };
@@ -50,8 +48,15 @@ export function getColumnsAndPaths<T extends ItemDataType>(data: T[], value, opt
   return { columns, paths };
 }
 
-export function usePaths(props: CascaderProps) {
-  const { data, valueKey, childrenKey, value } = props;
+type UsePathsParams<T> = {
+  data: T[];
+  valueKey: string;
+  childrenKey: string;
+  value: unknown;
+};
+
+export function usePaths<T extends Record<string, unknown>>(params: UsePathsParams<T>) {
+  const { data, valueKey, childrenKey, value } = params;
 
   const { columns, paths } = useMemo(
     () => getColumnsAndPaths(data, value, { valueKey, childrenKey }),
@@ -62,17 +67,17 @@ export function usePaths(props: CascaderProps) {
   const [columnData, setColumnData] = useState(columns);
 
   // The path after cascading data selection.
-  const [selectedPaths, setSelectedPaths] = useState<ItemDataType[]>(paths);
+  const [selectedPaths, setSelectedPaths] = useState<T[]>(paths);
 
   // The path corresponding to the selected value.
-  const [valueToPaths, setValueToPaths] = useState<ItemDataType[]>(paths);
+  const [valueToPaths, setValueToPaths] = useState<T[]>(paths);
 
   /**
    * Add a list of options to the cascading panel. Used for lazy loading options.
    * @param column
    * @param index The index of the current column.
    */
-  function addColumn(column: ItemDataType[], index: number) {
+  function addColumn(column: T[], index: number) {
     setColumnData([...slice(columnData, 0, index), column]);
   }
 

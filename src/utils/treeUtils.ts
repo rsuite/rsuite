@@ -4,7 +4,6 @@ import shallowEqualArray from '../utils/shallowEqualArray';
 import { TreeNodeType, TreeNodesType, getNodeCheckState } from '../CheckTreePicker/utils';
 import { TREE_NODE_DROP_POSITION, shallowEqual } from '../utils';
 import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker';
-import { ItemDataType } from '../@types/common';
 import { TreePickerProps } from '../TreePicker/TreePicker';
 import { shouldDisplay } from '../Picker';
 import reactToString from './reactToString';
@@ -22,9 +21,9 @@ const TREE_NODE_GAP = 4;
  * @param {*} expandItemValues
  * @param {*} parentKeys
  */
-export function shouldShowNodeByParentExpanded(
-  expandItemValues: any[] = [],
-  parentKeys: any[] = []
+export function shouldShowNodeByParentExpanded<T>(
+  expandItemValues: T[] = [],
+  parentKeys: T[] = []
 ) {
   const intersectionKeys = intersection(expandItemValues, parentKeys);
   if (intersectionKeys.length === parentKeys.length) {
@@ -39,12 +38,12 @@ export function shouldShowNodeByParentExpanded(
  * @param {*} childrenKey
  * @param {*} executor
  */
-export function flattenTree(
-  tree: any[],
+export function flattenTree<TItem>(
+  tree: TItem[],
   childrenKey = 'children',
   executor?: (node: any, index: number) => any
-) {
-  const flattenData: any[] = [];
+): TItem[] {
+  const flattenData: TItem[] = [];
   const traverse = (data: any[], parent: any | null) => {
     if (!isArray(data)) {
       return;
@@ -94,8 +93,8 @@ export function getNodeParents(node: any, parentKey = 'parent', valueKey?: strin
  * @param node
  * @param valueKey
  */
-export function getNodeParentKeys(nodes: TreeNodesType, node: TreeNodeType, valueKey: string) {
-  const parentKeys: TreeNodeType[] = [];
+export function getNodeParentKeys<T>(nodes: TreeNodesType, node: TreeNodeType, valueKey: string) {
+  const parentKeys: T[] = [];
   const traverse = (node: TreeNodeType) => {
     if (node?.parent?.refKey) {
       traverse(nodes[node.parent.refKey]);
@@ -124,8 +123,8 @@ export function compareArray(a: any[], b: any[]) {
   return isArray(a) && isArray(b) && !shallowEqualArray(a, b);
 }
 
-export function getDefaultExpandItemValues(
-  data: ItemDataType[],
+export function getDefaultExpandItemValues<TItem>(
+  data: TItem[],
   props: Required<
     Pick<
       TreePickerProps,
@@ -285,12 +284,19 @@ export function findNodeOfTree(data, check) {
   return findNode(data);
 }
 
-export function filterNodesOfTree(data, check) {
-  const findNodes = (nodes: readonly TreeNodeType[] = []) => {
-    const nextNodes: TreeNodeType[] = [];
+type HasChildren<T extends Record<string, unknown>> = T & {
+  children?: readonly HasChildren<T>[];
+};
+
+export function filterNodesOfTree<TItem extends HasChildren<Record<string, unknown>>>(
+  data: readonly TItem[],
+  check: (item: TItem) => boolean
+): TItem[] {
+  const findNodes = (nodes: readonly TItem[] = []) => {
+    const nextNodes: TItem[] = [];
     for (let i = 0; i < nodes.length; i += 1) {
       if (isArray(nodes[i].children)) {
-        const nextChildren = findNodes(nodes[i].children);
+        const nextChildren = findNodes(nodes[i].children as TItem[]);
         if (nextChildren.length) {
           const item = clone(nodes[i]);
           item.children = nextChildren;
@@ -318,17 +324,17 @@ export function filterNodesOfTree(data, check) {
  * @param isSearching - component is in Searching
  * @returns
  */
-export const getFocusableItems = (
-  filteredData: ItemDataType[],
+export const getFocusableItems = <TItem extends TreeNodeType>(
+  filteredData: TItem[],
   props: Required<
     Pick<PartialTreeProps, 'disabledItemValues' | 'valueKey' | 'childrenKey' | 'expandItemValues'>
   >,
   isSearching?: boolean
-) => {
+): TItem[] => {
   const { disabledItemValues, valueKey, childrenKey, expandItemValues } = props;
-  const items: TreeNodeType[] = [];
-  const loop = (nodes: any[]) => {
-    nodes.forEach((node: any) => {
+  const items: TItem[] = [];
+  const loop = (nodes: TItem[]) => {
+    nodes.forEach((node: TItem) => {
       const disabled = disabledItemValues.some(disabledItem =>
         shallowEqual(disabledItem, node[valueKey])
       );
@@ -551,15 +557,27 @@ export { getTreeActiveNode };
  * toggle tree node
  * @param param0
  */
-export function toggleExpand({ node, isExpand, expandItemValues, valueKey }: any) {
-  const newExpandItemValues = new Set(expandItemValues);
+export function toggleExpand<T>({
+  node,
+  isExpand,
+  expandItemValues,
+  valueKey
+}: ToggleExpandOptions<T>): T[] {
+  const newExpandItemValues = new Set<T>(expandItemValues);
   if (isExpand) {
-    newExpandItemValues.add(node[valueKey]);
+    newExpandItemValues.add(node[valueKey] as T);
   } else {
-    newExpandItemValues.delete(node[valueKey]);
+    newExpandItemValues.delete(node[valueKey] as T);
   }
-  return Array.from(newExpandItemValues) as ItemDataType[];
+  return Array.from(newExpandItemValues);
 }
+
+type ToggleExpandOptions<T> = {
+  node: Record<string, unknown>;
+  isExpand: boolean;
+  expandItemValues: T[];
+  valueKey: string;
+};
 
 export function getTreeNodeTitle(label: any) {
   if (typeof label === 'string') {
@@ -585,15 +603,15 @@ export function getChildrenByFlattenNodes(nodes: TreeNodesType, parent: TreeNode
   );
 }
 
-export function useTreeDrag() {
+export function useTreeDrag<T>() {
   // current dragging node
-  const dragNode = useRef<ItemDataType | null>(null);
+  const dragNode = useRef<T | null>(null);
   const [dragOverNodeKey, setDragOverNodeKey] = useState(null);
   // drag node and it's children nodes key
   const [dragNodeKeys, setDragNodeKeys] = useState<(number | string)[]>([]);
   const [dropNodePosition, setDropNodePosition] = useState<TREE_NODE_DROP_POSITION | null>(null);
 
-  const setDragNode = (node: ItemDataType | null) => {
+  const setDragNode = (node: T | null) => {
     dragNode.current = node;
   };
   return {
@@ -736,7 +754,7 @@ export function useFlattenTreeData({
   const formatVirtualizedTreeData = (
     nodes: TreeNodesType,
     data: any[],
-    expandItemValues: ItemDataType[],
+    expandItemValues: unknown[],
     options: {
       cascade?: boolean;
       searchKeyword?: string;
@@ -816,25 +834,25 @@ export function useTreeNodeRefs() {
   };
 }
 
-interface TreeSearchProps {
+interface TreeSearchProps<T> {
   labelKey: string;
   childrenKey: string;
   searchKeyword?: string;
-  data: ItemDataType[];
+  data: T[];
   searchBy?: (keyword, label, item) => boolean;
-  callback?: (keyword: string, data: ItemDataType[], event: React.SyntheticEvent) => void;
+  callback?: (keyword: string, data: T[], event: React.SyntheticEvent) => void;
 }
 
 /**
  * A hook that handles tree search filter options
  * @param props
  */
-export function useTreeSearch<T extends HTMLElement = HTMLInputElement>(props: TreeSearchProps) {
+export function useTreeSearch<T>(props: TreeSearchProps<T>) {
   const { labelKey, childrenKey, searchKeyword, data, searchBy, callback } = props;
 
   const filterVisibleData = useCallback(
-    (data: ItemDataType[], searchKeyword: string) => {
-      const setVisible = (nodes: ItemDataType[]) =>
+    (data: T[], searchKeyword: string) => {
+      const setVisible = (nodes: T[]) =>
         nodes.forEach((item: any) => {
           item.visible = searchBy
             ? searchBy(searchKeyword, item[labelKey], item)
@@ -862,13 +880,13 @@ export function useTreeSearch<T extends HTMLElement = HTMLInputElement>(props: T
   );
 
   const handleSetFilteredData = useCallback(
-    (data: ItemDataType[], searchKeyword: string) => {
+    (data: T[], searchKeyword: string) => {
       setFilteredData(filterVisibleData(data, searchKeyword));
     },
     [filterVisibleData]
   );
 
-  const handleSearch = (searchKeyword: string, event: React.ChangeEvent<T>) => {
+  const handleSearch = (searchKeyword: string, event: React.ChangeEvent) => {
     const filteredData = filterVisibleData(data, searchKeyword);
     setFilteredData(filteredData);
     setSearchKeyword(searchKeyword);
@@ -884,8 +902,8 @@ export function useTreeSearch<T extends HTMLElement = HTMLInputElement>(props: T
   };
 }
 
-export function useGetTreeNodeChildren(
-  treeData: ItemDataType[],
+export function useGetTreeNodeChildren<T extends Record<string, unknown>>(
+  treeData: T[],
   valueKey: string,
   childrenKey: string
 ) {

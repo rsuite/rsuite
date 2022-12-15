@@ -17,12 +17,16 @@ interface ItemKeys {
   childrenKey: string;
 }
 
+type MayHasParent<T extends Record<string, unknown>> = T & {
+  parent?: MayHasParent<T>;
+};
+
 /**
  * Get all parents of a node
  * @param node
  */
-export const getParents = (node: ItemType) => {
-  let parents: ItemType[] = [];
+export const getParents = <T extends Record<string, unknown>>(node: MayHasParent<T>) => {
+  let parents: MayHasParent<T>[] = [];
 
   if (!node.parent) {
     return parents;
@@ -40,8 +44,8 @@ export const getParents = (node: ItemType) => {
  * @param value
  * @param itemKeys
  */
-export const isSomeChildChecked = (
-  node: ItemDataType,
+export const isSomeChildChecked = <T extends Record<string, unknown>>(
+  node: T,
   value: ValueType,
   itemKeys: Omit<ItemKeys, 'labelKey'>
 ) => {
@@ -50,11 +54,11 @@ export const isSomeChildChecked = (
     return false;
   }
 
-  return node[childrenKey].some((child: ItemDataType) => {
+  return (node[childrenKey] as T[]).some(child => {
     if (value.some(n => n === child[valueKey])) {
       return true;
     }
-    if (child[childrenKey]?.length) {
+    if ((child[childrenKey] as T[] | undefined)?.length) {
       return isSomeChildChecked(child, value, itemKeys);
     }
     return false;
@@ -67,8 +71,8 @@ export const isSomeChildChecked = (
  * @param value
  * @param itemKeys
  */
-export const isSomeParentChecked = (
-  node: ItemDataType,
+export const isSomeParentChecked = <T extends Record<string, unknown>>(
+  node: MayHasParent<T>,
   value: ValueType,
   itemKeys: Pick<ItemKeys, 'valueKey'>
 ) => {
@@ -165,14 +169,12 @@ export const removeAllChildrenValue = <T>(
  * A hook to flatten tree structure data
  * @param data
  */
-export function useFlattenData(data: ItemDataType[], itemKeys: ItemKeys) {
+export function useFlattenData<T>(data: T[], itemKeys: ItemKeys) {
   const { childrenKey } = itemKeys;
-  const [flattenData, setFlattenData] = useState<ItemDataType[]>(
-    flattenTree(data, itemKeys.childrenKey)
-  );
+  const [flattenData, setFlattenData] = useState<T[]>(flattenTree(data, itemKeys.childrenKey));
 
   const addFlattenData = useCallback(
-    (children: ItemDataType[], parent: ItemDataType) => {
+    (children: T[], parent: T) => {
       const nodes = children.map(child => {
         return attachParent(child, parent);
       });
@@ -195,18 +197,16 @@ export function useFlattenData(data: ItemDataType[], itemKeys: ItemKeys) {
  * A hook for column data
  * @param flattenData
  */
-export function useColumnData(flattenData: ItemType[]) {
+export function useColumnData<T extends MayHasParent<Record<string, unknown>>>(flattenData: T[]) {
   // The columns displayed in the cascading panel.
-  const [columnData, setColumnData] = useState<ItemDataType[][]>([
-    flattenData.filter(item => !item.parent)
-  ]);
+  const [columnData, setColumnData] = useState<T[][]>([flattenData.filter(item => !item.parent)]);
 
   /**
    * Add a list of options to the cascading panel. Used for lazy loading options.
    * @param column
    * @param index The index of the current column.
    */
-  function addColumn(column: ItemDataType[], index: number) {
+  function addColumn(column: T[], index: number) {
     setColumnData([...slice(columnData, 0, index), column]);
   }
 
@@ -218,7 +218,7 @@ export function useColumnData(flattenData: ItemType[]) {
     setColumnData([...slice(columnData, 0, index)]);
   }
 
-  function enforceUpdateColumnData(nextData: ItemDataType[]) {
+  function enforceUpdateColumnData(nextData: T[]) {
     const nextFlattenData = flattenTree(nextData);
     setColumnData([nextFlattenData.filter(item => !item.parent)]);
   }

@@ -316,7 +316,9 @@ const CheckPicker = React.forwardRef(
       let filteredStickyItems: TreeNodeType[] = [];
 
       if (stickyItems) {
-        filteredStickyItems = filterNodesOfTree(stickyItems, item => checkShouldDisplay(item));
+        filteredStickyItems = filterNodesOfTree(stickyItems as typeof data, item =>
+          checkShouldDisplay(item)
+        );
         items = filterNodesOfTree(data, item => {
           return checkShouldDisplay(item) && !stickyItems.some(v => v[valueKey] === item[valueKey]);
         });
