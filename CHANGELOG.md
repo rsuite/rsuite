@@ -1,3 +1,9 @@
+## [5.23.3](https://github.com/rsuite/rsuite/compare/v5.23.2...v5.23.3) (2022-12-16)
+
+### Bug Fixes
+
+- **Modal:** fix close button alignment and color ([#2973](https://github.com/rsuite/rsuite/issues/2973)) ([b1eb5b4](https://github.com/rsuite/rsuite/commit/b1eb5b406a29788290a704414cc5a19b115690c7))
+
 ## [5.23.2](https://github.com/rsuite/rsuite/compare/v5.23.1...v5.23.2) (2022-12-09)
 
 ### Bug Fixes
