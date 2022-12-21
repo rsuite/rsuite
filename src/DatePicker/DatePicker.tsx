@@ -7,6 +7,7 @@ import IconCalendar from '@rsuite/icons/legacy/Calendar';
 import IconClockO from '@rsuite/icons/legacy/ClockO';
 import CalendarContainer from '../Calendar/CalendarContainer';
 import useCalendarDate from '../Calendar/useCalendarDate';
+import { isEveryDateInMonth } from '../Calendar/MonthDropdown';
 import Toolbar, { RangeType } from './Toolbar';
 import Stack from '../Stack';
 import PredefinedRanges from './PredefinedRanges';
@@ -79,7 +80,11 @@ export interface DatePickerProps
   /** one tap to select */
   oneTap?: boolean;
 
-  /** Disabled date */
+  /**
+   * Whether to disable a date on the calendar view
+   *
+   * @returns date should be disabled (not selectable)
+   */
   disabledDate?: (date?: Date) => boolean;
 
   /** Disabled hours */
@@ -443,6 +448,27 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [disabledDateProp, props]
     );
 
+    /**
+     * Whether "OK" button is disabled
+     *
+     * - If format is date, disable ok button if selected date is disabled
+     * - If format is month, disable ok button if all dates in the month of selected date are disabled
+     */
+    const isOKButtonDisabled = useCallback(
+      (selectedDate: Date): boolean => {
+        if (DateUtils.shouldRenderMonth(formatStr) && !DateUtils.shouldRenderDate(formatStr)) {
+          return isEveryDateInMonth(
+            selectedDate.getFullYear(),
+            selectedDate.getMonth(),
+            disabledToolbarHandle
+          );
+        }
+
+        return disabledToolbarHandle(selectedDate);
+      },
+      [disabledToolbarHandle, formatStr]
+    );
+
     const calendarProps = useMemo(
       () =>
         mapValues(
@@ -522,7 +548,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 locale={locale}
                 ranges={bottomRanges}
                 calendarDate={calendarDate}
-                disabledOkBtn={disabledToolbarHandle}
+                disabledOkBtn={isOKButtonDisabled}
                 disabledShortcut={disabledToolbarHandle}
                 onClickShortcut={handleShortcutPageDate}
                 onOk={handleOK}

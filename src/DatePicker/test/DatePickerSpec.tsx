@@ -11,6 +11,7 @@ import { DateUtils } from '../../utils';
 
 import GearIcon from '@rsuite/icons/Gear';
 import { PickerHandle } from '../../Picker';
+import { isBefore } from 'date-fns';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -397,6 +398,31 @@ describe('DatePicker', () => {
       const month = instance.overlay.querySelector('.rs-calendar-month-dropdown-cell');
       ReactTestUtils.Simulate.click(month);
     });
+  });
+
+  it('Should be consistent whether a month can be selected and whether OK button is enabled when that month is selected', () => {
+    // Disable the dates before 2022-12-21
+    // Set value to 2022-11-20 (disabled)
+    // The month 2022-12 should be enabled because not all dates in that month are disabled
+    // The OK button should also be enabled because 2022-12 (currently selected) is selectable
+    render(
+      <DatePicker
+        defaultOpen
+        calendarDefaultDate={new Date(2022, 11, 20)}
+        disabledDate={date => isBefore(date as Date, new Date(2022, 11, 21))}
+        format="yyyy-MM"
+        defaultValue={new Date(2022, 11, 20)}
+      />
+    );
+
+    // TODO use a11y queries and matchers
+    expect(
+      // The currently selected month is 2022-12
+      document.querySelector(
+        '.rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content'
+      )
+    ).not.to.have.class('disabled');
+    expect(screen.getByRole('button', { name: 'OK' })).to.have.property('disabled', false);
   });
 
   it('Should call `onOpen` callback', done => {
