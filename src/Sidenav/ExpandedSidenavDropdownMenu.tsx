@@ -106,6 +106,11 @@ const ExpandedSidenavDropdownMenu: RsRefForwardingComponent<'li', SidenavDropdow
               disabled
             })
           );
+          const iconClasses = merge(
+            className,
+            prefix('toggle-icon'),
+            prefix(`${open ? 'expand' : 'collapse'}-icon`)
+          );
           return (
             <Component
               ref={ref}
@@ -125,7 +130,7 @@ const ExpandedSidenavDropdownMenu: RsRefForwardingComponent<'li', SidenavDropdow
                     >
                       {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
                       {title}
-                      <Icon className={prefix`toggle-icon`} />
+                      <Icon className={iconClasses} />
                       <Ripple />
                     </button>
                   );
