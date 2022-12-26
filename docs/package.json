@@ -47,7 +47,7 @@
     "rsuite": "^5.23.3",
     "svg-sprite-loader": "^6.0.11",
     "svgo": "^1.3.2",
-    "svgo-loader": "^2.2.1",
+    "svgo-loader": "^3.0.3",
     "tinycolor2": "^1.4.1"
   },
   "devDependencies": {
