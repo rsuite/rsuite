@@ -34,7 +34,8 @@ describe('<Dropdown.Item>', () => {
     expect(element.parentElement).to.have.tagName('LI');
   });
 
-  it('Should render a divider', () => {
+  it('[Deprecated] Should render a divider with deprecation message', () => {
+    const warn = sinon.spy(console, 'warn');
     const { getByTestId } = render(
       <Dropdown>
         <DropdownItem divider data-testid="item" />
@@ -42,6 +43,9 @@ describe('<Dropdown.Item>', () => {
     );
 
     expect(getByTestId('item')).to.have.class('rs-dropdown-item-divider');
+    expect(warn).to.have.been.calledWith(
+      '[rsuite] "divider" property of Dropdown.Item component has been deprecated.\nUse Dropdown.Separator component instead.'
+    );
   });
 
   it('Should render a panel with given content', () => {

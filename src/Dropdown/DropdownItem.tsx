@@ -2,7 +2,7 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import React, { useCallback, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import deprecatePropType from '../utils/deprecatePropType';
+import deprecatePropType, { deprecatePropTypeNew } from '../utils/deprecatePropType';
 import MenuItem from '../Menu/MenuItem';
 import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
@@ -13,6 +13,8 @@ import { DropdownActionType } from './DropdownState';
 import { useRenderDropdownItem } from './useRenderDropdownItem';
 import warnOnce from '../utils/warnOnce';
 import Nav from '../Nav';
+import DropdownSeparator, { DropdownSeparatorProps } from './DropdownSeparator';
+import _ from 'lodash';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -26,7 +28,11 @@ export interface DropdownMenuItemProps<T = any>
   /** You can use a custom element for this component */
   as?: React.ElementType;
 
-  /** Whether to display the divider */
+  /**
+   * Whether to display the divider
+   *
+   * @deprecated Use dedicated <Dropdown.Separator> component instead
+   */
   divider?: boolean;
 
   /** Disable the current option */
@@ -138,12 +144,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     }
 
     if (divider) {
-      return renderDropdownItem({
-        ref,
-        role: 'separator',
-        className: merge(prefix('divider'), className),
-        ...restProps
-      });
+      return <DropdownSeparator {...(_.pick(props, ['data-testid']) as DropdownSeparatorProps)} />;
     }
 
     if (panel) {
@@ -200,7 +201,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
 DropdownItem.displayName = 'Dropdown.Item';
 DropdownItem.propTypes = {
   as: PropTypes.elementType,
-  divider: PropTypes.bool,
+  divider: deprecatePropTypeNew(PropTypes.bool, 'Use Dropdown.Separator component instead.'),
   panel: PropTypes.bool,
   trigger: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['click', 'hover'])]),
   open: deprecatePropType(PropTypes.bool),

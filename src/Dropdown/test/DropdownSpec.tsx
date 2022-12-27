@@ -969,3 +969,9 @@ describe('<Dropdown>', () => {
     });
   });
 });
+
+describe('Member components', () => {
+  it('Should have <Dropdown.Separator> component', () => {
+    expect(() => render(<Dropdown.Separator />)).not.to.throw();
+  });
+});
