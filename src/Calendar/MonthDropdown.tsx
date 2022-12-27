@@ -37,6 +37,21 @@ export interface RowProps {
 
 const monthMap = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
+export function isEveryDateInMonth(
+  year: number,
+  month: number,
+  predicate: (date: Date) => boolean
+): boolean {
+  const days = DateUtils.getDaysInMonth(new Date(year, month));
+
+  for (let i = 1; i <= days; i++) {
+    if (!predicate(new Date(year, month, i))) {
+      return false;
+    }
+  }
+  return true;
+}
+
 const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React.forwardRef(
   (props: MonthDropdownProps, ref) => {
     const {
@@ -66,15 +81,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
     const isMonthDisabled = useCallback(
       (year, month) => {
         if (disabledMonth) {
-          const days = DateUtils.getDaysInMonth(new Date(year, month));
-
-          // If all dates in a month are disabled, disable the current month
-          for (let i = 1; i <= days; i++) {
-            if (!disabledMonth(new Date(year, month, i))) {
-              return false;
-            }
-          }
-          return true;
+          return isEveryDateInMonth(year, month, disabledMonth);
         }
 
         return false;
