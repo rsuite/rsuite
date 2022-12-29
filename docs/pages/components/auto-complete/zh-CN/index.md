@@ -16,6 +16,10 @@
 
 <!--{include:`email.md`}-->
 
+### 尺寸
+
+<!--{include:`size.md`}-->
+
 ### 自定义选项
 
 <!--{include:`render-item.md`}-->
@@ -57,6 +61,7 @@
 | renderMenu     | (menu:ReactNode) => ReactNode                                                      | 自定义渲染菜单列表                                                        |
 | renderMenuItem | (label:ReactNode, item: [ItemDataType](#code-ts-item-data-type-code)) => ReactNode | 自定义选项                                                                |
 | selectOnEnter  | boolean `(true)`                                                                   | 当设为 `false` 时，回车键不能作选值操作                                   |
+| size           | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs'                                           | 设置组件尺寸                                                              |
 | value          | string                                                                             | 设置值 `受控`                                                             |
 
 <!--{include:(_common/types/item-data-type.md)}-->
