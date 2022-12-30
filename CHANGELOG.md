@@ -1,3 +1,15 @@
+# [5.24.0](https://github.com/rsuite/rsuite/compare/v5.23.3...v5.24.0) (2022-12-30)
+
+### Bug Fixes
+
+- **AutoComplete:** fix AutoComplete size property not working ([#2990](https://github.com/rsuite/rsuite/issues/2990)) ([add665b](https://github.com/rsuite/rsuite/commit/add665b82b9d2cbd21e07576bf77f74e18991e21))
+- **DatePicker:** fix inconsistency between month selectable state and ok button clickable state ([#2984](https://github.com/rsuite/rsuite/issues/2984)) ([70e6aba](https://github.com/rsuite/rsuite/commit/70e6aba0b7a3216c9f8b59b033826e55bebac1a1))
+- **Sidenav:** fix Sidenav multilevel Nav.Menu arrow icon exception ([#2986](https://github.com/rsuite/rsuite/issues/2986)) ([87f6748](https://github.com/rsuite/rsuite/commit/87f67482b60eae4ed445246fe3e6ac9b0cad0385))
+
+### Features
+
+- **Dropdown:** add Dropdown.Separator component ([#2979](https://github.com/rsuite/rsuite/issues/2979)) ([db6fcbb](https://github.com/rsuite/rsuite/commit/db6fcbbd88961e3506f6b2d2146cf43717d1e1db))
+
 ## [5.23.3](https://github.com/rsuite/rsuite/compare/v5.23.2...v5.23.3) (2022-12-16)
 
 ### Bug Fixes
