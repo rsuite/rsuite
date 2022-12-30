@@ -16,6 +16,10 @@ Autocomplete function of input field.
 
 <!--{include:`email.md`}-->
 
+### Size
+
+<!--{include:`size.md`}-->
+
 ### Custom Render Item
 
 <!--{include:`render-item.md`}-->
@@ -57,6 +61,7 @@ Autocomplete function of input field.
 | renderMenu     | (menu:ReactNode) => ReactNode                                                      | Customizing the Rendering Menu list                                                         |
 | renderMenuItem | (label:ReactNode, item: [ItemDataType](#code-ts-item-data-type-code)) => ReactNode | Custom render menu items                                                                    |
 | selectOnEnter  | boolean `(true)`                                                                   | When set to `false`, the Enter key selection function is invalid                            |
+| size           | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs'                                           | A component can have different sizes                                                        |
 | value          | string                                                                             | Value (Controlled)                                                                          |
 
 <!--{include:(_common/types/item-data-type.md)}-->

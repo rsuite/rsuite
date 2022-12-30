@@ -49,6 +49,9 @@ export interface AutoCompleteProps<T = ValueType>
   /** When set to false, the Enter key selection function is invalid */
   selectOnEnter?: boolean;
 
+  /** A component can have different sizes */
+  size?: TypeAttributes.Size;
+
   /** Open the menu and control it */
   open?: boolean;
 
@@ -108,6 +111,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       value: valueProp,
       open,
       style,
+      size,
       menuClassName,
       id,
       renderMenu,
@@ -289,6 +293,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
             id={id}
             disabled={disabled}
             value={value}
+            size={size}
             onBlur={handleInputBlur}
             onFocus={handleInputFocus}
             onChange={handleChange}
@@ -323,6 +328,7 @@ AutoComplete.propTypes = {
   renderMenu: PropTypes.func,
   renderMenuItem: PropTypes.func,
   style: PropTypes.object,
+  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
   open: PropTypes.bool,
   selectOnEnter: PropTypes.bool,
   filterBy: PropTypes.func

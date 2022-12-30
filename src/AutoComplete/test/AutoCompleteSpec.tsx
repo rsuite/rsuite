@@ -279,4 +279,9 @@ describe('AutoComplete', () => {
     expect(getByTestId('test')).to.have.attribute('data-id', '1');
     expect(getByTestId('test').querySelector('input')).to.have.attribute('name', 'username');
   });
+
+  it('Should apply size class', () => {
+    const { getByTestId } = render(<AutoComplete size="lg" data={[]} data-testid="test" />);
+    expect(getByTestId('test').querySelector('input')).to.have.class('rs-input-lg');
+  });
 });
