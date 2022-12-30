@@ -348,4 +348,34 @@ describe('<Sidenav>', () => {
       });
     });
   });
+
+  describe('Expanded', () => {
+    it('Should add collapsed or expanded className on multilevel <Nav.Menu> when click on it', async () => {
+      const { getByText } = render(
+        <Sidenav defaultOpenKeys={['1', '1-1']}>
+          <Sidenav.Body>
+            <Nav>
+              <Nav.Menu eventKey="1" title="menu1">
+                <Nav.Menu eventKey="1-1" title="menu2">
+                  <Nav.Menu eventKey="1-1-1" title="menu3" />
+                </Nav.Menu>
+              </Nav.Menu>
+            </Nav>
+          </Sidenav.Body>
+        </Sidenav>
+      );
+
+      const menu = getByText('menu3');
+      expect(menu.querySelector('.rs-dropdown-item-toggle-icon')).to.have.class(
+        'rs-dropdown-item-collapse-icon'
+      );
+
+      // opens the menu
+      fireEvent.click(menu);
+
+      expect(menu.querySelector('.rs-dropdown-item-toggle-icon')).to.have.class(
+        'rs-dropdown-item-expand-icon'
+      );
+    });
+  });
 });
