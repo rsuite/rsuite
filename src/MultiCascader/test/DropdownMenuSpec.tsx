@@ -100,19 +100,14 @@ describe('MultiCascader -  DropdownMenu', () => {
     assert.equal(instance.overlay.querySelectorAll('li').length, 3);
   });
 
-  it('Should call onSelect callback with correct node value', done => {
-    const doneOp = node => {
-      try {
-        assert.equal(node.value, 'abcd');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onSelect callback with correct node value', () => {
+    const onSelect = sinon.spy();
 
-    const instance = getInstance(<MultiCascader defaultOpen data={items} onSelect={doneOp} />);
+    const instance = getInstance(<MultiCascader defaultOpen data={items} onSelect={onSelect} />);
 
     fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[1]);
+
+    expect(onSelect).to.have.been.calledWithMatch({ value: 'abcd' });
   });
 
   it('Should call onSelect callback 2 count', () => {
