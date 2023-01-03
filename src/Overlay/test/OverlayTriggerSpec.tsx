@@ -88,74 +88,70 @@ describe('OverlayTrigger', () => {
     assert.equal(document.getElementsByClassName('test-whisper_active').length, 1);
   });
 
-  it('Should call onClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onClick callback', () => {
+    const onClick = sinon.spy();
 
     const whisper = getDOMNode(
-      <OverlayTrigger onClick={doneOp} trigger="click" speaker={<Tooltip />}>
+      <OverlayTrigger onClick={onClick} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </OverlayTrigger>
     );
 
     fireEvent.click(whisper);
+
+    expect(onClick).to.have.been.calledOnce;
   });
 
-  it('Should call onContextMenu callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onContextMenu callback', () => {
+    const onContextMenu = sinon.spy();
 
     const whisper = getDOMNode(
-      <OverlayTrigger onContextMenu={doneOp} trigger="contextMenu" speaker={<Tooltip />}>
+      <OverlayTrigger onContextMenu={onContextMenu} trigger="contextMenu" speaker={<Tooltip />}>
         <button>button</button>
       </OverlayTrigger>
     );
 
     fireEvent.contextMenu(whisper);
+    expect(onContextMenu).to.have.been.calledOnce;
   });
 
-  it('Should call onFocus callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onFocus callback', () => {
+    const onFocus = sinon.spy();
 
     const whisper = getDOMNode(
-      <OverlayTrigger onFocus={doneOp} trigger="focus" speaker={<Tooltip />}>
+      <OverlayTrigger onFocus={onFocus} trigger="focus" speaker={<Tooltip />}>
         <button>button</button>
       </OverlayTrigger>
     );
 
     fireEvent.focus(whisper);
+    expect(onFocus).to.have.been.calledOnce;
   });
 
-  it('Should call onMouseOver callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onMouseOver callback', () => {
+    const onMouseOver = sinon.spy();
 
     const whisper = getDOMNode(
-      <OverlayTrigger onMouseOver={doneOp} trigger="hover" speaker={<Tooltip />}>
+      <OverlayTrigger onMouseOver={onMouseOver} trigger="hover" speaker={<Tooltip />}>
         <button>button</button>
       </OverlayTrigger>
     );
 
     fireEvent.mouseOver(whisper);
+    expect(onMouseOver).to.have.been.calledOnce;
   });
 
-  it('Should call onMouseOut callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onMouseOut callback', () => {
+    const onMouseOut = sinon.spy();
 
     const whisper = getDOMNode(
-      <OverlayTrigger onMouseOut={doneOp} trigger="hover" speaker={<Tooltip />}>
+      <OverlayTrigger onMouseOut={onMouseOut} trigger="hover" speaker={<Tooltip />}>
         <button>button</button>
       </OverlayTrigger>
     );
 
     fireEvent.mouseOut(whisper);
+    expect(onMouseOut).to.have.been.calledOnce;
   });
 
   it('Should call onMouseMove callback', () => {
