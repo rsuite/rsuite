@@ -3,6 +3,7 @@ import React, { Ref } from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import PaginationButton, { PaginationButtonProps } from '../PaginationButton';
+import Sinon from 'sinon';
 
 describe('PaginationButton', () => {
   it('Should render a <button>', () => {
@@ -22,25 +23,20 @@ describe('PaginationButton', () => {
     assert.ok(instance.className.match(/\bactive\b/));
   });
 
-  it('Should call onSelect callback with correct eventKey', done => {
-    const doneOp = eventKey => {
-      try {
-        assert.equal(eventKey, 10);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-    const instance = getDOMNode(<PaginationButton onSelect={doneOp} eventKey={10} />);
+  it('Should call onSelect callback with correct eventKey', () => {
+    const onSelect = Sinon.spy();
+    const instance = getDOMNode(<PaginationButton onSelect={onSelect} eventKey={10} />);
     ReactTestUtils.Simulate.click(instance);
+
+    expect(onSelect).to.have.been.calledWith(10);
   });
 
-  it('Should call onClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<PaginationButton onClick={doneOp} eventKey={10} />);
+  it('Should call onClick callback', () => {
+    const onClick = Sinon.spy();
+    const instance = getDOMNode(<PaginationButton onClick={onClick} eventKey={10} />);
     ReactTestUtils.Simulate.click(instance);
+
+    expect(onClick).to.have.been.calledOnce;
   });
 
   it('Custom elements can get the active prop', () => {
