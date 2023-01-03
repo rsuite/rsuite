@@ -5,6 +5,7 @@ import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Button from '../Button';
+import Sinon from 'sinon';
 
 describe('Button', () => {
   testStandardProps(<Button />);
@@ -33,12 +34,12 @@ describe('Button', () => {
     assert.equal(instance.getAttribute('href'), href);
   });
 
-  it('Should call onClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Button onClick={doneOp}>Title</Button>);
+  it('Should call onClick callback', () => {
+    const onClick = Sinon.spy();
+    const instance = getDOMNode(<Button onClick={onClick}>Title</Button>);
     ReactTestUtils.Simulate.click(instance);
+
+    expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should be disabled', () => {
