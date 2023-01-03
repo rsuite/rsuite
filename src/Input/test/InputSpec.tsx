@@ -5,6 +5,7 @@ import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 
 import Input from '../Input';
+import Sinon from 'sinon';
 
 describe('Input', () => {
   testStandardProps(<Input />);
@@ -19,28 +20,28 @@ describe('Input', () => {
     assert.ok(domNode.disabled);
   });
 
-  it('Should call onChange callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Input onChange={doneOp} />);
+  it('Should call onChange callback', () => {
+    const onChange = Sinon.spy();
+    const instance = getDOMNode(<Input onChange={onChange} />);
     ReactTestUtils.Simulate.change(instance);
+
+    expect(onChange).to.have.been.calledOnce;
   });
 
-  it('Should call onKeyDown callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Input onKeyDown={doneOp} />);
+  it('Should call onKeyDown callback', () => {
+    const onKeyDown = Sinon.spy();
+    const instance = getDOMNode(<Input onKeyDown={onKeyDown} />);
     ReactTestUtils.Simulate.keyDown(instance);
+
+    expect(onKeyDown).to.have.been.calledOnce;
   });
 
-  it('Should call onPressEnter callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Input onPressEnter={doneOp} />);
+  it('Should call onPressEnter callback', () => {
+    const onPressEnter = Sinon.spy();
+    const instance = getDOMNode(<Input onPressEnter={onPressEnter} />);
     ReactTestUtils.Simulate.keyDown(instance, { key: 'Enter' });
+
+    expect(onPressEnter).to.have.been.calledOnce;
   });
 
   it('Should set size', () => {
