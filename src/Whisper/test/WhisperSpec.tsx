@@ -39,103 +39,93 @@ describe('Whisper', () => {
     expect(document.getElementsByClassName('test-whisper')).to.length(1);
   });
 
-  it('Should call onClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
-
+  it('Should call onClick callback', () => {
+    const onClick = sinon.spy();
     const whisper = getDOMNode(
-      <Whisper onClick={doneOp} trigger="click" speaker={<Tooltip />}>
+      <Whisper onClick={onClick} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
     fireEvent.click(whisper);
+
+    expect(onClick).to.have.been.calledOnce;
   });
 
-  it('Should call onOpen callback', done => {
-    const doneOp = () => {
-      done();
-    };
-
+  it('Should call onOpen callback', async () => {
+    const onOpen = sinon.spy();
     const whisper = getDOMNode(
-      <Whisper onOpen={doneOp} trigger="click" speaker={<Tooltip />}>
+      <Whisper onOpen={onOpen} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
     fireEvent.click(whisper);
+
+    await waitFor(() => {
+      expect(onOpen).to.have.been.calledOnce;
+    });
   });
 
-  it('Should call onOpen callback by open()', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onOpen callback by open()', async () => {
+    const onOpen = sinon.spy();
     const instance = getInstance(
-      <Whisper onOpen={doneOp} trigger="none" speaker={<Tooltip />}>
+      <Whisper onOpen={onOpen} trigger="none" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
     instance.open();
+    await waitFor(() => {
+      expect(onOpen).to.have.been.calledOnce;
+    });
   });
 
-  it('Should call onOpen callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onEntered callback', async () => {
+    const onEntered = sinon.spy();
 
     const whisper = getDOMNode(
-      <Whisper onOpen={doneOp} trigger="click" speaker={<Tooltip />}>
+      <Whisper onEntered={onEntered} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
     fireEvent.click(whisper);
+    await waitFor(() => {
+      expect(onEntered).to.have.been.calledOnce;
+    });
   });
 
-  it('Should call onEntered callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onClose callback', async () => {
+    const onClose = sinon.spy();
 
     const whisper = getDOMNode(
-      <Whisper onEntered={doneOp} trigger="click" speaker={<Tooltip />}>
-        <button>button</button>
-      </Whisper>
-    );
-
-    fireEvent.click(whisper);
-  });
-
-  it('Should call onClose callback', done => {
-    const doneOp = () => {
-      done();
-    };
-
-    const whisper = getDOMNode(
-      <Whisper onClose={doneOp} trigger="click" speaker={<Tooltip />}>
+      <Whisper onClose={onClose} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
     fireEvent.click(whisper);
     fireEvent.click(whisper);
+    await waitFor(() => {
+      expect(onClose).to.have.been.calledOnce;
+    });
   });
 
-  it('Should call onExited callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onExited callback', async () => {
+    const onExited = sinon.spy();
 
     const whisper = getDOMNode(
-      <Whisper onExited={doneOp} trigger="click" speaker={<Tooltip />}>
+      <Whisper onExited={onExited} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
     fireEvent.click(whisper);
     fireEvent.click(whisper);
+    await waitFor(() => {
+      expect(onExited).to.have.been.calledOnce;
+    });
   });
 
   it('Should pass transition callbacks to Transition', async () => {
