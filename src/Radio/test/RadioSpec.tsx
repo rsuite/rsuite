@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Radio from '../Radio';
+import Sinon from 'sinon';
 
 describe('Radio', () => {
   testStandardProps(<Radio />);
@@ -54,66 +55,54 @@ describe('Radio', () => {
     assert.ok(input);
   });
 
-  it('Should call onClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onClick callback', () => {
+    const onClick = Sinon.spy();
 
-    const instance = getDOMNode(<Radio onClick={doneOp}>Title</Radio>);
+    const instance = getDOMNode(<Radio onClick={onClick}>Title</Radio>);
     ReactTestUtils.Simulate.click(instance.querySelector('label') as HTMLLabelElement);
+
+    expect(onClick).to.have.been.calledOnce;
   });
 
-  it('Should call onChange callback with correct value', done => {
+  it('Should call onChange callback with correct value', () => {
     const value = 'Test';
-    const doneOp = data => {
-      try {
-        assert.equal(data, value);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+    const onChange = Sinon.spy();
 
     const instance = getDOMNode(
-      <Radio onChange={doneOp} value={value}>
+      <Radio onChange={onChange} value={value}>
         Title
       </Radio>
     );
     ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
+
+    expect(onChange).to.have.been.calledWith(value);
   });
 
-  it('Should call onBlur callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Radio onBlur={doneOp} />);
+  it('Should call onBlur callback', () => {
+    const onBlur = Sinon.spy();
+    const instance = getDOMNode(<Radio onBlur={onBlur} />);
     ReactTestUtils.Simulate.blur(instance.querySelector('input') as HTMLInputElement);
+
+    expect(onBlur).to.have.been.calledOnce;
   });
 
-  it('Should call onFocus callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Radio onFocus={doneOp} />);
+  it('Should call onFocus callback', () => {
+    const onFocus = Sinon.spy();
+    const instance = getDOMNode(<Radio onFocus={onFocus} />);
     ReactTestUtils.Simulate.focus(instance.querySelector('input') as HTMLInputElement);
+
+    expect(onFocus).to.have.been.calledOnce;
   });
 
-  it('Should be checked with change', done => {
-    const doneOp = checked => {
-      try {
-        assert.equal(checked, '100');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-
+  it('Should be checked with change', () => {
+    const onChange = Sinon.spy();
     const instance = getDOMNode(
-      <Radio onChange={doneOp} value="100">
+      <Radio onChange={onChange} value="100">
         Title
       </Radio>
     );
 
     ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
+    expect(onChange).to.have.been.calledWith('100');
   });
 });
