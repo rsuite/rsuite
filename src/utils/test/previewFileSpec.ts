@@ -1,30 +1,31 @@
+import { waitFor } from '@testing-library/react';
+import Sinon from 'sinon';
 import previewFile from '../previewFile';
 
 describe('[utils] previewFile', () => {
-  it('Should output image base64 string', done => {
+  it('Should output image base64 string', async () => {
     const file = new File(['10'], 'image.png', {
       type: 'image/png'
     });
 
-    previewFile(file, result => {
-      if (result === 'data:image/png;base64,MTA=') {
-        done();
-      }
+    const callback = Sinon.spy();
+
+    previewFile(file, callback);
+
+    await waitFor(() => {
+      expect(callback).to.have.been.calledWith('data:image/png;base64,MTA=');
     });
   });
 
-  it('Should output null if file is not an image', done => {
+  it('Should output null if file is not an image', () => {
     const file = new File(['10'], 'image.png', {
       type: 'text/plain'
     });
 
-    previewFile(file, result => {
-      try {
-        assert.isNull(result);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    });
+    const callback = Sinon.spy();
+
+    previewFile(file, callback);
+
+    expect(callback).to.have.been.calledWith(null);
   });
 });

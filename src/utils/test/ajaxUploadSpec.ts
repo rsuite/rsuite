@@ -45,8 +45,9 @@ describe('[utils] ajaxUpload', () => {
     assert.ok(xhr.withCredentials);
   });
 
-  it('Should time out', done => {
+  it('Should time out', () => {
     sinon.useFakeXMLHttpRequest();
+    const onError = sinon.spy();
     const clock = sinon.useFakeTimers();
     const file = new File(['foo'], 'foo.txt');
     ajaxUpload({
@@ -54,15 +55,10 @@ describe('[utils] ajaxUpload', () => {
       file,
       url: '',
       timeout: 1,
-      onError: e => {
-        try {
-          assert.equal(e.type, 'timeout');
-          done();
-        } catch (err) {
-          done(err);
-        }
-      }
+      onError
     });
     clock.tick(1000);
+
+    expect(onError).to.have.been.calledWithMatch({ type: 'timeout' });
   });
 });
