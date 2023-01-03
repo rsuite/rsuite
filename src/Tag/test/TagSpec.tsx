@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Tag from '../Tag';
+import Sinon from 'sinon';
 
 describe('Tag', () => {
   testStandardProps(<Tag />);
@@ -11,15 +12,15 @@ describe('Tag', () => {
     assert.equal(instance.className, 'rs-tag rs-tag-md rs-tag-default');
   });
 
-  it('Should call onClose callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onClose callback', () => {
+    const onClose = Sinon.spy();
     const instance = getDOMNode(
-      <Tag closable onClose={doneOp}>
+      <Tag closable onClose={onClose}>
         tag
       </Tag>
     );
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-tag-icon-close') as HTMLElement);
+
+    expect(onClose).to.have.been.calledOnce;
   });
 });
