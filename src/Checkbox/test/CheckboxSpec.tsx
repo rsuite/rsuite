@@ -90,28 +90,28 @@ describe('Checkbox', () => {
     expect(onChange).to.have.been.calledWith('Test', false);
   });
 
-  it('Should call onClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Checkbox onClick={doneOp}>Title</Checkbox>);
+  it('Should call onClick callback', () => {
+    const onClick = sinon.spy();
+    const instance = getDOMNode(<Checkbox onClick={onClick}>Title</Checkbox>);
     ReactTestUtils.Simulate.click(instance.querySelector('label') as HTMLLabelElement);
+
+    expect(onClick).to.have.been.calledOnce;
   });
 
-  it('Should call onBlur callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Checkbox onBlur={doneOp} />);
+  it('Should call onBlur callback', () => {
+    const onBlur = sinon.spy();
+    const instance = getDOMNode(<Checkbox onBlur={onBlur} />);
     ReactTestUtils.Simulate.blur(instance.querySelector('input') as HTMLInputElement);
+
+    expect(onBlur).to.have.been.calledOnce;
   });
 
-  it('Should call onFocus callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Checkbox onFocus={doneOp} />);
+  it('Should call onFocus callback', () => {
+    const onFocus = sinon.spy();
+    const instance = getDOMNode(<Checkbox onFocus={onFocus} />);
     ReactTestUtils.Simulate.focus(instance.querySelector('input') as HTMLInputElement);
+
+    expect(onFocus).to.have.been.calledOnce;
   });
 
   describe('Plain text', () => {

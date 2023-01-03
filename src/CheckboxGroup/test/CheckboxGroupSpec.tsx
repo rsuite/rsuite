@@ -137,21 +137,15 @@ describe('CheckboxGroup', () => {
     expect(onChange).to.have.been.calledWith([3]);
   });
 
-  it('Should call onChange callback', done => {
-    let count = 0;
-
-    function onDone() {
-      count++;
-      if (count === 2) {
-        done();
-      }
-    }
+  it('Should call onChange callback', () => {
+    const onChange = sinon.spy();
+    const onGroupChange = sinon.spy();
 
     const instance = getDOMNode(
-      <CheckboxGroup onChange={onDone}>
+      <CheckboxGroup onChange={onGroupChange}>
         <Checkbox value={1}>Test1</Checkbox>
         <Checkbox value={2}>Test2</Checkbox>
-        <Checkbox value={3} onChange={onDone}>
+        <Checkbox value={3} onChange={onChange}>
           Test2
         </Checkbox>
         <Checkbox value={4}>Test2</Checkbox>
@@ -160,6 +154,9 @@ describe('CheckboxGroup', () => {
 
     const checkboxs = instance.querySelectorAll(`.${globalKey}checkbox`);
     ReactTestUtils.Simulate.change(checkboxs[2].querySelector('input') as HTMLInputElement);
+
+    expect(onChange).to.have.been.calledOnce;
+    expect(onGroupChange).to.have.been.calledOnce;
   });
 
   describe('Plain text', () => {
