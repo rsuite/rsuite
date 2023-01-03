@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import SearchBar from '../SearchBar';
 import { getDOMNode } from '@test/testUtils';
+import Sinon from 'sinon';
 
 const searchInputClassName = '.rs-picker-search-bar-input';
 
@@ -13,12 +14,12 @@ describe('SearchBar', () => {
     assert.ok(instance.className.match(/\bpicker-search-bar\b/));
   });
 
-  it('Should call `onChange` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<SearchBar onChange={doneOp} />);
+  it('Should call `onChange` callback', () => {
+    const onChange = Sinon.spy();
+    const instance = getDOMNode(<SearchBar onChange={onChange} />);
     ReactTestUtils.Simulate.change(instance.querySelector(searchInputClassName) as HTMLElement);
+
+    expect(onChange).to.have.been.calledOnce;
   });
 
   it('Should have a custom className', () => {

@@ -12,8 +12,9 @@ describe('PickerOverlay', () => {
     sinon.restore();
   });
 
-  it('Should update the position after the size is changed', done => {
+  it('Should update the position after the size is changed', () => {
     sinon.stub(utils, 'useElementResize').callsFake(useElementResize);
+    const updatePosition = sinon.spy();
     type AppInstance = {
       changeOverlaySize: () => void;
     };
@@ -34,9 +35,7 @@ describe('PickerOverlay', () => {
           () =>
             ({
               root: targetRef.current as HTMLButtonElement,
-              updatePosition: () => {
-                done();
-              }
+              updatePosition
             } as any)
         );
         return <button ref={targetRef} {...props} />;
@@ -65,9 +64,11 @@ describe('PickerOverlay', () => {
     render(<App ref={instanceRef} />);
 
     (instanceRef.current as AppInstance).changeOverlaySize();
+
+    expect(updatePosition).to.have.been.calledOnce;
   });
 
-  it('Should go to change the width according to the target', done => {
+  it('Should go to change the width according to the target', () => {
     const instanceRef = React.createRef<HTMLDivElement>();
 
     const Button = React.forwardRef(
@@ -83,10 +84,7 @@ describe('PickerOverlay', () => {
           ref,
           () =>
             ({
-              root: targetRef.current as HTMLButtonElement,
-              updatePosition: () => {
-                done();
-              }
+              root: targetRef.current as HTMLButtonElement
             } as any)
         );
         return <button ref={targetRef} {...props} />;
@@ -116,12 +114,10 @@ describe('PickerOverlay', () => {
     });
 
     render(<App ref={instanceRef} />);
-    if (
+    expect(
       getWidth(
         (instanceRef.current as HTMLDivElement).querySelector('.rs-picker-menu') as HTMLElement
-      ) === 200
-    ) {
-      done();
-    }
+      )
+    ).to.equal(200);
   });
 });

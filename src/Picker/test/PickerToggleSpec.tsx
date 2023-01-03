@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 
@@ -70,21 +70,27 @@ describe('<PickerToggle>', () => {
     });
   });
 
-  it('Should call onBlur callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Toggle onBlur={doneOp} />);
-    ReactTestUtils.Simulate.blur(instance);
+  it('Should call onBlur callback', async () => {
+    const onBlur = sinon.spy();
+    const instance = getDOMNode(<Toggle onBlur={onBlur} />);
+    act(() => {
+      ReactTestUtils.Simulate.blur(instance);
+    });
+
+    await waitFor(() => {
+      expect(onBlur).to.have.been.calledOnce;
+    });
   });
 
-  it('Should call onFocus callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Toggle onFocus={doneOp} />);
+  it('Should call onFocus callback', async () => {
+    const onFocus = sinon.spy();
+    const instance = getDOMNode(<Toggle onFocus={onFocus} />);
 
     ReactTestUtils.Simulate.focus(instance);
+
+    await waitFor(() => {
+      expect(onFocus).to.have.been.calledOnce;
+    });
   });
 
   it('Should have a custom className', () => {

@@ -5,6 +5,7 @@ import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
 import getDataGroupBy from '../../utils/getDataGroupBy';
+import Sinon from 'sinon';
 
 const classPrefix = 'dropdown-menu';
 
@@ -113,44 +114,38 @@ describe('picker -  DropdownMenu', () => {
     assert.equal(instance.querySelectorAll('.rs-dropdown-menu-item').length, 3);
   });
 
-  it('Should call onSelect callback with correct value', done => {
-    const doneOp = value => {
-      try {
-        assert.equal(value, 'b');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onSelect callback with correct value', () => {
+    const onSelect = Sinon.spy();
 
     const instance = getDOMNode(
       <DropdownMenu
         data={items}
         group
-        onSelect={doneOp}
+        onSelect={onSelect}
         classPrefix={classPrefix}
         dropdownMenuItemAs={DropdownMenuItem}
       />
     );
 
     ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-dropdown-menu-item')[1]);
+    expect(onSelect).to.have.been.calledWith('b');
   });
 
-  it('Should call onGroupTitleClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onGroupTitleClick callback', () => {
+    const onGroupTitleClick = Sinon.spy();
+
     const instance = getDOMNode(
       <DropdownMenu
         group
         data={getDataGroupBy(items, 'groupKey')}
-        onGroupTitleClick={doneOp}
+        onGroupTitleClick={onGroupTitleClick}
         classPrefix={classPrefix}
         dropdownMenuItemAs={DropdownMenuItem}
       />
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-picker-menu-group') as HTMLElement);
+    expect(onGroupTitleClick).to.have.been.calledOnce;
   });
 
   it('Should render custom item', () => {
