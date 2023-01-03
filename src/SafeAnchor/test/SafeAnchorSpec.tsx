@@ -13,20 +13,20 @@ describe('SafeAnchor', () => {
     assert.equal(instance.innerHTML, 'Title');
   });
 
-  it('Should call onClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<SafeAnchor onClick={doneOp} />);
+  it('Should call onClick callback', () => {
+    const onClick = sinon.spy();
+    const instance = getDOMNode(<SafeAnchor onClick={onClick} />);
     ReactTestUtils.Simulate.click(instance);
+
+    expect(onClick).to.have.been.calledOnce;
   });
 
-  it('Should call onClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<SafeAnchor onClick={doneOp} href="http://a.com" />);
+  it('Should call onClick callback', () => {
+    const onClick = sinon.spy();
+    const instance = getDOMNode(<SafeAnchor onClick={onClick} href="http://a.com" />);
     ReactTestUtils.Simulate.click(instance);
+
+    expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should not prevent the default value when href is provided', () => {
