@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import InputAutosize from '../InputAutosize';
 import InputSearch from '../InputSearch';
+import Sinon from 'sinon';
 
 describe('InputPicker - InputSearch', () => {
   it('Should render a div with `rs-picker-search` class', () => {
@@ -35,12 +36,12 @@ describe('InputPicker - InputSearch', () => {
     expect(instance.querySelector('.rs-picker-search-input input')).to.exist;
   });
 
-  it('Should call onChange callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<InputSearch onChange={doneOp} />);
+  it('Should call onChange callback', () => {
+    const onChange = Sinon.spy();
+    const instance = getDOMNode(<InputSearch onChange={onChange} />);
     ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
+
+    expect(onChange).to.have.been.calledOnce;
   });
 
   it('Should have a custom className prefix', () => {
