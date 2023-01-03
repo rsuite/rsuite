@@ -93,19 +93,13 @@ describe('Cascader -  DropdownMenu', () => {
     expect(instance.overlay.querySelectorAll('li')).to.length(3);
   });
 
-  it('Should call onSelect callback node value', done => {
-    const doneOp = node => {
-      try {
-        assert.equal(node.value, 'abcd');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-
-    const instance = getInstance(<Dropdown defaultOpen data={items} onSelect={doneOp} />);
+  it('Should call onSelect callback node value', () => {
+    const onSelect = sinon.spy();
+    const instance = getInstance(<Dropdown defaultOpen data={items} onSelect={onSelect} />);
 
     fireEvent.click(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]);
+
+    expect(onSelect).to.have.been.calledWith(sinon.match({ value: 'abcd' }));
   });
 
   it('Should call onSelect callback 2 count', () => {

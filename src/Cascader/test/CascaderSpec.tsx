@@ -6,6 +6,7 @@ import Button from '../../Button';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { PickerHandle } from '../../Picker';
 import '../styles/index.less';
+import Sinon from 'sinon';
 
 const items = [
   {
@@ -143,72 +144,63 @@ describe('Cascader', () => {
     );
   });
 
-  it('Should call onSelect callback with correct node value', done => {
-    const doneOp = node => {
-      try {
-        assert.equal(node.value, '2');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-    const instance = getInstance(<Cascader data={items} defaultOpen onSelect={doneOp} />);
+  it('Should call onSelect callback with correct node value', () => {
+    const onSelect = Sinon.spy();
+    const instance = getInstance(<Cascader data={items} defaultOpen onSelect={onSelect} />);
     fireEvent.click(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]);
+
+    expect(onSelect).to.have.been.calledWith(sinon.match({ value: '2' }));
   });
 
-  it('Should call onChange callback with correct value', done => {
-    const doneOp = value => {
-      try {
-        assert.equal(value, '2');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onChange callback with correct value', () => {
+    const onChange = sinon.spy();
 
-    const instance = getInstance(<Cascader data={items} defaultOpen onChange={doneOp} />);
+    const instance = getInstance(<Cascader data={items} defaultOpen onChange={onChange} />);
     fireEvent.click(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]);
+
+    expect(onChange).to.have.been.calledWith('2');
   });
 
-  it('Should call onChange callback by `parentSelectable`', done => {
-    const doneOp = value => {
-      try {
-        assert.equal(value, '3');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onChange callback by `parentSelectable`', () => {
+    const onChange = sinon.spy();
 
     const instance = getInstance(
-      <Cascader data={items} defaultOpen parentSelectable onChange={doneOp} />
+      <Cascader data={items} defaultOpen parentSelectable onChange={onChange} />
     );
     fireEvent.click(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[2]);
+    expect(onChange).to.have.been.calledWith('3');
   });
 
-  it('Should call onClean callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Cascader data={items} defaultValue={'3-1'} onClean={doneOp} />);
+  it('Should call onClean callback', () => {
+    const onClean = sinon.spy();
+    const instance = getDOMNode(<Cascader data={items} defaultValue={'3-1'} onClean={onClean} />);
 
     fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
+
+    expect(onClean).to.have.been.calledOnce;
   });
 
-  it('Should call `onOpen` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const picker = getInstance(<Cascader onOpen={doneOp} data={items} />);
-    picker.open();
+  it('Should call `onOpen` callback', async () => {
+    const onOpen = sinon.spy();
+    const picker = getInstance(<Cascader onOpen={onOpen} data={items} />);
+    act(() => {
+      picker.open();
+    });
+
+    await waitFor(() => {
+      expect(onOpen).to.have.been.calledOnce;
+    });
   });
 
-  it('Should call `onClose` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const picker = getInstance(<Cascader defaultOpen onClose={doneOp} data={items} />);
-    picker.close();
+  it('Should call `onClose` callback', async () => {
+    const onClose = sinon.spy();
+    const picker = getInstance(<Cascader defaultOpen onClose={onClose} data={items} />);
+    act(() => {
+      picker.close();
+    });
+    await waitFor(() => {
+      expect(onClose).to.have.been.calledOnce;
+    });
   });
 
   it('Should clean selected default value', () => {
