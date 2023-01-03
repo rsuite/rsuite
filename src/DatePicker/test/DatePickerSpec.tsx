@@ -351,43 +351,49 @@ describe('DatePicker', () => {
     assert.equal(instance.style.fontSize, fontSize);
   });
 
-  it('Should call `onChangeCalendarDate` callback when click backward', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onChangeCalendarDate` callback when click backward', () => {
+    const onChangeCalendarDate = sinon.spy();
 
-    const instance = getInstance(<DatePicker onChangeCalendarDate={doneOp} defaultOpen />);
+    const instance = getInstance(
+      <DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />
+    );
 
     ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-calendar-header-backward'));
+
+    expect(onChangeCalendarDate).to.have.been.calledOnce;
   });
 
-  it('Should call `onChangeCalendarDate` callback when click forward', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onChangeCalendarDate` callback when click forward', () => {
+    const onChangeCalendarDate = sinon.spy();
 
-    const instance = getInstance(<DatePicker onChangeCalendarDate={doneOp} defaultOpen />);
+    const instance = getInstance(
+      <DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />
+    );
     ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-calendar-header-forward'));
+
+    expect(onChangeCalendarDate).to.have.been.calledOnce;
   });
 
-  it('Should call `onChangeCalendarDate` callback when click today ', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onChangeCalendarDate` callback when click today ', () => {
+    const onChangeCalendarDate = sinon.spy();
 
-    const instance = getInstance(<DatePicker onChangeCalendarDate={doneOp} defaultOpen />);
+    const instance = getInstance(
+      <DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />
+    );
     const today = instance.overlay.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
     ReactTestUtils.Simulate.click(today);
+
+    expect(onChangeCalendarDate).to.have.been.calledOnce;
   });
 
-  it('Should call `onChangeCalendarDate` callback when click month ', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onChangeCalendarDate` callback when click month ', () => {
+    const onChangeCalendarDate = sinon.spy();
 
-    const instance = getInstance(<DatePicker onChangeCalendarDate={doneOp} defaultOpen />);
+    const instance = getInstance(
+      <DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />
+    );
 
     act(() => {
       const title = instance.overlay.querySelector('.rs-calendar-header-title-date');
@@ -398,6 +404,8 @@ describe('DatePicker', () => {
       const month = instance.overlay.querySelector('.rs-calendar-month-dropdown-cell');
       ReactTestUtils.Simulate.click(month);
     });
+
+    expect(onChangeCalendarDate).to.have.been.calledOnce;
   });
 
   it('Should be consistent whether a month can be selected and whether OK button is enabled when that month is selected', () => {
@@ -425,24 +433,27 @@ describe('DatePicker', () => {
     expect(screen.getByRole('button', { name: 'OK' })).to.have.property('disabled', false);
   });
 
-  it('Should call `onOpen` callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onOpen` callback', async () => {
+    const onOpen = sinon.spy();
 
-    const instance = getDOMNode(<DatePicker onOpen={doneOp} />);
+    const instance = getDOMNode(<DatePicker onOpen={onOpen} />);
     ReactTestUtils.Simulate.click(instance.querySelector('[role="combobox"]') as HTMLElement);
+
+    await waitFor(() => {
+      expect(onOpen).to.have.been.calledOnce;
+    });
   });
 
-  it('Should call `onClose` callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onClose` callback', async () => {
+    const onClose = sinon.spy();
 
-    const instance = getInstance(<DatePicker onClose={doneOp} defaultOpen />);
+    const instance = getInstance(<DatePicker onClose={onClose} defaultOpen />);
     ReactTestUtils.Simulate.click(
       instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn')
     );
+    await waitFor(() => {
+      expect(onClose).to.have.been.calledOnce;
+    });
   });
 
   it('Should reset unsaved selected date after closing calendar panel', async () => {
@@ -492,21 +503,11 @@ describe('DatePicker', () => {
     );
   });
 
-  it('Should not change for the value  when it is controlled', done => {
-    const doneOp = () => {
-      try {
-        assert.equal(
-          instance.target.querySelector('.rs-picker-toggle-value').textContent,
-          '2018-01-05'
-        );
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should not change for the value  when it is controlled', () => {
+    const onChange = sinon.spy();
 
     const instance = getInstance(
-      <DatePicker value={parseISO('2018-01-05')} onChange={doneOp} defaultOpen />
+      <DatePicker value={parseISO('2018-01-05')} onChange={onChange} defaultOpen />
     );
 
     const allCells = instance.overlay.querySelectorAll(
@@ -515,6 +516,9 @@ describe('DatePicker', () => {
 
     fireEvent.click(allCells[allCells.length - 1]);
     fireEvent.click(instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn'));
+
+    expect(onChange).to.have.been.calledOnce;
+    expect(instance.target.querySelector('.rs-picker-toggle-value')).to.have.text('2018-01-05');
   });
 
   it('Should call onBlur callback', async () => {
