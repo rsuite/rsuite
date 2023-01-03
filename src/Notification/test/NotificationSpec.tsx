@@ -3,6 +3,8 @@ import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import ReactTestUtils from 'react-dom/test-utils';
 import Notification from '../Notification';
+import Sinon from 'sinon';
+import { waitFor } from '@testing-library/react';
 
 describe('Notification', () => {
   testStandardProps(<Notification />);
@@ -37,18 +39,20 @@ describe('Notification', () => {
     );
   });
 
-  it('Should call onClose callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Notification closable onClose={doneOp} />);
+  it('Should call onClose callback', () => {
+    const onClose = Sinon.spy();
+    const instance = getDOMNode(<Notification closable onClose={onClose} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-btn-close') as HTMLElement);
+
+    expect(onClose).to.have.been.calledOnce;
   });
 
-  it('Should call onClose callback by duration', done => {
-    const doneOp = () => {
-      done();
-    };
-    getDOMNode(<Notification closable onClose={doneOp} duration={1} />);
+  it('Should call onClose callback by duration', async () => {
+    const onClose = Sinon.spy();
+    getDOMNode(<Notification closable onClose={onClose} duration={1} />);
+
+    await waitFor(() => {
+      expect(onClose).to.have.been.calledOnce;
+    });
   });
 });
