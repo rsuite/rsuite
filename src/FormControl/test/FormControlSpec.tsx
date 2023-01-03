@@ -29,17 +29,16 @@ describe('FormControl', () => {
     assert.ok(instance.querySelector('textarea'));
   });
 
-  it('Should call onChange callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onChange callback', () => {
+    const onChange = sinon.spy();
     const instance = getDOMNode(
       <Form>
-        <FormControl name="username" onChange={doneOp} />
+        <FormControl name="username" onChange={onChange} />
       </Form>
     );
 
     ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
+    expect(onChange).to.have.been.calledOnce;
   });
 
   it('Should be readOnly', () => {
@@ -52,32 +51,28 @@ describe('FormControl', () => {
     assert.ok(instance.querySelector('input[readonly]'));
   });
 
-  it('Should be readOnly on accepter', done => {
-    function Input(props) {
-      // eslint-disable-next-line react/prop-types
-      if (props && props.readOnly) {
-        done();
-      }
-      return <input {...props} />;
-    }
+  it('Should be readOnly on accepter', () => {
+    const Input = sinon.spy(props => <input {...props} />);
     getDOMNode(
       <Form readOnly>
         <FormControl name="username" accepter={Input} />
       </Form>
     );
+
+    expect(Input).to.have.been.calledWithMatch({ readOnly: true });
   });
 
-  it('Should call onBlur callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onBlur callback', () => {
+    const onBlur = sinon.spy();
     const instance = getDOMNode(
       <Form>
-        <FormControl name="username" onBlur={doneOp} />
+        <FormControl name="username" onBlur={onBlur} />
       </Form>
     );
 
     ReactTestUtils.Simulate.blur(instance.querySelector('input') as HTMLInputElement);
+
+    expect(onBlur).to.have.been.calledOnce;
   });
 
   it('Should apply custom className to accepter component', () => {
