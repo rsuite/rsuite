@@ -31,12 +31,12 @@ describe('UploadTrigger', () => {
     assert.equal((instance.querySelector('.rs-uploader-trigger-btn') as HTMLElement).tagName, 'A');
   });
 
-  it('Should call onChange callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<UploadTrigger onChange={doneOp} />);
+  it('Should call onChange callback', () => {
+    const onChange = sinon.spy();
+    const instance = getDOMNode(<UploadTrigger onChange={onChange} />);
     ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLElement);
+
+    expect(onChange).to.have.been.calledOnce;
   });
 
   it('Should have a name', () => {
