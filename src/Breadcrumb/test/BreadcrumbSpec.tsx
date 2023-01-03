@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import sinon from 'sinon';
 import Breadcrumb from '../Breadcrumb';
+import Sinon from 'sinon';
 
 afterEach(() => {
   sinon.restore();
@@ -41,13 +42,10 @@ describe('Breadcrumb', () => {
     assert.equal(instance.querySelectorAll('.rs-breadcrumb-item')[1].textContent, '...');
   });
 
-  it('Should call onExpand callback', done => {
+  it('Should call onExpand callback', () => {
+    const onExpand = Sinon.spy();
     const instance = getDOMNode(
-      <Breadcrumb
-        onExpand={() => {
-          done();
-        }}
-      >
+      <Breadcrumb onExpand={onExpand}>
         <Breadcrumb.Item>1</Breadcrumb.Item>
         <Breadcrumb.Item>2</Breadcrumb.Item>
         <Breadcrumb.Item>3</Breadcrumb.Item>
@@ -57,7 +55,11 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-breadcrumb-item')[1]);
+    act(() => {
+      ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-breadcrumb-item')[1]);
+    });
+
+    expect(onExpand).to.have.been.calledOnce;
   });
 
   it('Should have a default separator', () => {
