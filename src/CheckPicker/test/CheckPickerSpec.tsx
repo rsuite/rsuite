@@ -457,14 +457,24 @@ describe('CheckPicker', () => {
     expect(onCleanSpy).to.not.have.been.called;
   });
 
-  it('Should call onClose callback by key="Escape"', done => {
-    const instance = getInstance(<CheckPicker data={data} onClose={done} defaultOpen />);
+  it('Should call onClose callback by key="Escape"', async () => {
+    const onClose = sinon.spy();
+    const instance = getInstance(<CheckPicker data={data} onClose={onClose} defaultOpen />);
     fireEvent.keyDown(instance.target, { key: 'Escape' });
+
+    await waitFor(() => {
+      expect(onClose).to.have.been.calledOnce;
+    });
   });
 
-  it('Should call onClose callback by key="Tab"', done => {
-    const instance = getInstance(<CheckPicker data={data} onClose={done} defaultOpen />);
+  it('Should call onClose callback by key="Tab"', async () => {
+    const onClose = sinon.spy();
+    const instance = getInstance(<CheckPicker data={data} onClose={onClose} defaultOpen />);
     fireEvent.keyDown(instance.target, { key: 'Tab' });
+
+    await waitFor(() => {
+      expect(onClose).to.have.been.calledOnce;
+    });
   });
 
   describe('With a label', () => {
