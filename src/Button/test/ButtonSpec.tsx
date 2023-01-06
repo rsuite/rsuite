@@ -5,7 +5,6 @@ import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Button from '../Button';
-import Sinon from 'sinon';
 
 describe('Button', () => {
   testStandardProps(<Button />);
@@ -35,7 +34,7 @@ describe('Button', () => {
   });
 
   it('Should call onClick callback', () => {
-    const onClick = Sinon.spy();
+    const onClick = sinon.spy();
     const instance = getDOMNode(<Button onClick={onClick}>Title</Button>);
     ReactTestUtils.Simulate.click(instance);
 

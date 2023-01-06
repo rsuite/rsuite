@@ -5,7 +5,6 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import sinon from 'sinon';
 import Breadcrumb from '../Breadcrumb';
-import Sinon from 'sinon';
 
 afterEach(() => {
   sinon.restore();
@@ -43,7 +42,7 @@ describe('Breadcrumb', () => {
   });
 
   it('Should call onExpand callback', () => {
-    const onExpand = Sinon.spy();
+    const onExpand = sinon.spy();
     const instance = getDOMNode(
       <Breadcrumb onExpand={onExpand}>
         <Breadcrumb.Item>1</Breadcrumb.Item>

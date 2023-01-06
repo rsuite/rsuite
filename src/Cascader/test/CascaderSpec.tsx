@@ -6,7 +6,6 @@ import Button from '../../Button';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { PickerHandle } from '../../Picker';
 import '../styles/index.less';
-import Sinon from 'sinon';
 
 const items = [
   {
@@ -145,7 +144,7 @@ describe('Cascader', () => {
   });
 
   it('Should call onSelect callback with correct node value', () => {
-    const onSelect = Sinon.spy();
+    const onSelect = sinon.spy();
     const instance = getInstance(<Cascader data={items} defaultOpen onSelect={onSelect} />);
     fireEvent.click(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]);
 
