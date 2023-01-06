@@ -93,6 +93,15 @@ describe('Tree', () => {
     assert.equal(onDragEndSpy.firstCall.firstArg.value, 'Master');
   });
 
+  it('Should display drag Preview when dragging, and remove after drop', () => {
+    const { getByText } = render(<Tree data={data} draggable />);
+    const treeNode = getByText('tester1') as HTMLElement;
+    fireEvent.dragStart(treeNode);
+    assert.equal(document.querySelector('.rs-tree-drag-preview')?.textContent, 'tester1');
+    fireEvent.drop(treeNode);
+    assert.equal(document.querySelector('.rs-tree-drag-preview'), null);
+  });
+
   it('Should call `onDrop` callback without exception', () => {
     expect(() => {
       const onDropSpy = sinon.spy();
