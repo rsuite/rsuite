@@ -1,19 +1,20 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
+import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import NavbarBrand from '../NavbarBrand';
 
 describe('NavbarBrand', () => {
   testStandardProps(<NavbarBrand />);
 
-  it('Should render a link', () => {
-    const title = 'RSUITE';
-    // FIXME NavbarBrand does not have `href` prop declaration
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const instance = getDOMNode(<NavbarBrand href="/">{title}</NavbarBrand>);
-    assert.equal(instance.tagName, 'A');
-    assert.equal(instance.getAttribute('href'), '/');
-    assert.equal(instance.textContent, title);
+  it('Should render an <a> element with given href attribute', () => {
+    render(
+      <NavbarBrand href="/" data-testid="link">
+        RSUITE
+      </NavbarBrand>
+    );
+
+    expect(screen.getByTestId('link')).to.have.tagName('A');
+    expect(screen.getByTestId('link')).to.have.attr('href', '/');
+    expect(screen.getByTestId('link')).to.have.text('RSUITE');
   });
 });
