@@ -253,6 +253,6 @@ describe('OverlayTrigger', () => {
           <>button</>
         </OverlayTrigger>
       );
-    }).toHavaError('The OverlayTrigger component does not accept strings or Fragments as child.');
+    }).toHaveError('The OverlayTrigger component does not accept strings or Fragments as child.');
   });
 });

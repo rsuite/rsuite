@@ -59,7 +59,7 @@ chai.use((chai, { flag }) => {
 });
 
 chai.use((chaiAPI, utils) => {
-  chai.Assertion.addMethod('toHavaError', function toHavaError(expectedMessage) {
+  chai.Assertion.addMethod('toHaveError', function toHaveError(expectedMessage) {
     const callback = this._obj;
     let caughtError = null;
 
