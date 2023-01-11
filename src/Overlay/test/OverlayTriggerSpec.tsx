@@ -253,6 +253,8 @@ describe('OverlayTrigger', () => {
           <>button</>
         </OverlayTrigger>
       );
-    }).toHaveError('The OverlayTrigger component does not accept strings or Fragments as child.');
+    }).toHaveError(
+      '[rsuite]: The OverlayTrigger component does not accept strings or Fragments as child.'
+    );
   });
 });
