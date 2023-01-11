@@ -274,7 +274,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
         triggerRef.current?.updatePosition?.();
       },
-      [onSelect, getChildren, childrenKey, addFlattenData, addColumn, romoveColumnByIndex]
+      [onSelect, getChildren, childrenKey, inline, addFlattenData, addColumn, romoveColumnByIndex]
     );
 
     const handleCheck = useCallback(
