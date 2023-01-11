@@ -254,7 +254,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
               node.loading = false;
               node[childrenKey] = data;
 
-              if (targetRef.current) {
+              if (targetRef.current || inline) {
                 addFlattenData(data, node);
                 addColumn(data, columnIndex);
               }

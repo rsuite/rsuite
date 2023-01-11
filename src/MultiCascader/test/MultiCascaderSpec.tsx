@@ -472,6 +472,24 @@ describe('MultiCascader', () => {
     expect(instance.overlay.querySelectorAll('.rs-check-item')[1]).to.text('2');
   });
 
+  it('Should children be loaded lazily in inline mode', () => {
+    const instance = getInstance(
+      <MultiCascader
+        inline
+        data={[{ label: '1', value: '1', children: [] }]}
+        getChildren={() => {
+          return [{ label: '2', value: '2' }];
+        }}
+      />
+    );
+
+    fireEvent.click(
+      instance.overlay.querySelector('.rs-picker-cascader-menu-has-children .rs-check-item')
+    );
+
+    expect(instance.overlay.querySelectorAll('.rs-check-item')[1]).to.text('2');
+  });
+
   it('Should present an asyn loading state', () => {
     function fetchNodes() {
       return new Promise<{ label: string; value: string }[]>(resolve => {
