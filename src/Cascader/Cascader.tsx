@@ -168,7 +168,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     valueToPaths,
     columnData,
     addColumn,
-    romoveColumnByIndex,
+    removeColumnByIndex,
     setValueToPaths,
     setColumnData,
     setSelectedPaths,
@@ -390,7 +390,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
       addColumn(node[childrenKey], columnIndex);
     } else {
       // Removes subsequent columns of the current column when the clicked node is a leaf node.
-      romoveColumnByIndex(columnIndex);
+      removeColumnByIndex(columnIndex);
     }
 
     if (isLeafNode) {
