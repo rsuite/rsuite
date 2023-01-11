@@ -5,6 +5,7 @@ import { getDOMNode } from '@test/testUtils';
 
 import Header from '../CalendarHeader';
 import CalendarContext from '../CalendarContext';
+import Sinon from 'sinon';
 
 describe('Calendar-Header', () => {
   it('Should render a div with "calendar-header" class', () => {
@@ -14,58 +15,56 @@ describe('Calendar-Header', () => {
     assert.ok(instance.className.match(/\bcalendar-header\b/));
   });
 
-  it('Should call `onMoveForward` callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onMoveForward` callback', () => {
+    const onMoveForward = Sinon.spy();
 
-    const instance = getDOMNode(<Header showMonth onMoveForward={doneOp} />);
+    const instance = getDOMNode(<Header showMonth onMoveForward={onMoveForward} />);
 
     ReactTestUtils.Simulate.click(
       instance.querySelector('.rs-calendar-header-forward') as HTMLElement
     );
+
+    expect(onMoveForward).to.have.been.calledOnce;
   });
 
-  it('Should call `onMoveBackward` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Header showMonth onMoveBackward={doneOp} />);
+  it('Should call `onMoveBackward` callback', () => {
+    const onMoveBackward = Sinon.spy();
+
+    const instance = getDOMNode(<Header showMonth onMoveBackward={onMoveBackward} />);
 
     ReactTestUtils.Simulate.click(
       instance.querySelector('.rs-calendar-header-backward') as HTMLElement
     );
+    expect(onMoveBackward).to.have.been.calledOnce;
   });
 
-  it('Should call `onToggleMonthDropdown` callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onToggleMonthDropdown` callback', () => {
+    const onToggleMonthDropdown = Sinon.spy();
 
-    const instance = getDOMNode(<Header showMonth onToggleMonthDropdown={doneOp} />);
+    const instance = getDOMNode(<Header showMonth onToggleMonthDropdown={onToggleMonthDropdown} />);
 
     ReactTestUtils.Simulate.click(
       instance.querySelector('.rs-calendar-header-title-date') as HTMLElement
     );
+    expect(onToggleMonthDropdown).to.have.been.calledOnce;
   });
 
-  it('Should call `onToggleTimeDropdown` callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onToggleTimeDropdown` callback', () => {
+    const onToggleTimeDropdown = Sinon.spy();
     const ref = React.createRef<HTMLDivElement>();
 
     render(
       <CalendarContext.Provider
         value={{ date: new Date(), format: 'HH:mm:ss', locale: {}, isoWeek: false }}
       >
-        <Header showTime onToggleTimeDropdown={doneOp} ref={ref} />
+        <Header showTime onToggleTimeDropdown={onToggleTimeDropdown} ref={ref} />
       </CalendarContext.Provider>
     );
 
     ReactTestUtils.Simulate.click(
       (ref.current as HTMLDivElement).querySelector('.rs-calendar-header-title-time') as HTMLElement
     );
+    expect(onToggleTimeDropdown).to.have.been.calledOnce;
   });
 
   it('Should have a custom className', () => {

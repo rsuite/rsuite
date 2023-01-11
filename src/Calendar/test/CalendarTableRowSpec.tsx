@@ -5,6 +5,7 @@ import { getDOMNode } from '@test/testUtils';
 import TableRow from '../TableRow';
 import { getDate, format } from '../../utils/dateUtils';
 import CalendarContext from '../CalendarContext';
+import Sinon from 'sinon';
 
 describe('Calendar-TableRow', () => {
   it('Should render a div with `table-row` class', () => {
@@ -22,14 +23,12 @@ describe('Calendar-TableRow', () => {
     );
   });
 
-  it('Should call `onSelect` callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onSelect` callback', () => {
+    const onSelect = Sinon.spy();
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
-        value={{ onSelect: doneOp, date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
+        value={{ onSelect, date: new Date(2022, 10, 2), locale: {}, isoWeek: false }}
       >
         <TableRow ref={ref} />
       </CalendarContext.Provider>
@@ -39,6 +38,8 @@ describe('Calendar-TableRow', () => {
         '.rs-calendar-table-cell .rs-calendar-table-cell-content'
       ) as HTMLElement
     );
+
+    expect(onSelect).to.have.been.calledOnce;
   });
 
   it('Should have a custom className', () => {

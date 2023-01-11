@@ -6,6 +6,7 @@ import { testStandardProps } from '@test/commonCases';
 import CameraRetro from '@rsuite/icons/legacy/CameraRetro';
 import Star from '@rsuite/icons/legacy/Star';
 import Rate from '../Rate';
+import Sinon from 'sinon';
 
 describe('Rate', () => {
   testStandardProps(<Rate />);
@@ -118,18 +119,11 @@ describe('Rate', () => {
     assert.include(instance.className, 'rs-rate-lg');
   });
 
-  it('Should call onChange callback with correct value', done => {
-    const doneOp = value => {
-      try {
-        assert.equal(value, 3);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onChange callback with correct value', () => {
+    const onChange = Sinon.spy();
 
     const ref = React.createRef<HTMLUListElement>();
-    render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />);
+    render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
 
     act(() => {
       ReactTestUtils.Simulate.mouseMove(
@@ -142,21 +136,16 @@ describe('Rate', () => {
         (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2]
       );
     });
+
+    expect(onChange).to.have.been.calledWith(3);
   });
 
-  it('Should call onChange callback by KeyDown event', done => {
-    const doneOp = value => {
-      try {
-        assert.equal(value, 3);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onChange callback by KeyDown event', () => {
+    const onChange = Sinon.spy();
 
     const ref = React.createRef<HTMLUListElement>();
 
-    render(<Rate ref={ref} defaultValue={1} onChange={doneOp} />);
+    render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
 
     act(() => {
       ReactTestUtils.Simulate.keyDown(
@@ -184,6 +173,8 @@ describe('Rate', () => {
         }
       );
     });
+
+    expect(onChange).to.have.been.calledWith(3);
   });
 
   it('Should be vertical', () => {

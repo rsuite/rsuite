@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 
 import ModalHeader from '../ModalHeader';
+import Sinon from 'sinon';
 
 describe('ModalHeader', () => {
   it('Should render a modal header', () => {
@@ -18,12 +19,12 @@ describe('ModalHeader', () => {
     assert.ok(!instance.querySelector('button'));
   });
 
-  it('Should call onClose callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<ModalHeader onClose={doneOp} />);
+  it('Should call onClose callback', () => {
+    const onClose = Sinon.spy();
+    const instance = getDOMNode(<ModalHeader onClose={onClose} />);
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-modal-header-close') as HTMLElement);
+
+    expect(onClose).to.have.been.calledOnce;
   });
 
   it('Should have a custom className', () => {

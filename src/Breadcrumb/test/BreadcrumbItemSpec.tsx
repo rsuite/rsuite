@@ -4,6 +4,8 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Breadcrumb from '../Breadcrumb';
 import BreadcrumbItem from '../BreadcrumbItem';
+import Sinon from 'sinon';
+import { act } from '@testing-library/react';
 
 describe('Breadcrumb.Item', () => {
   testStandardProps(<BreadcrumbItem />);
@@ -33,18 +35,20 @@ describe('Breadcrumb.Item', () => {
     assert.notOk(instance.hasAttribute('href'));
   });
 
-  it('Should spread additional props onto inner element', done => {
-    const handleClick = () => {
-      done();
-    };
+  it('Should spread additional props onto inner element', () => {
+    const onClick = Sinon.spy();
 
     const instance = getDOMNode(
-      <Breadcrumb.Item href="#" onClick={handleClick}>
+      <Breadcrumb.Item href="#" onClick={onClick}>
         Crumb
       </Breadcrumb.Item>
     );
 
-    ReactTestUtils.Simulate.click(instance);
+    act(() => {
+      ReactTestUtils.Simulate.click(instance);
+    });
+
+    expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should apply id onto the anchor', () => {

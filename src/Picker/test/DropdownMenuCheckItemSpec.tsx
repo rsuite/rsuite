@@ -37,22 +37,20 @@ describe('picker - DropdownMenuCheckItem', () => {
     assert.include((instance.querySelector('.rs-checkbox') as HTMLElement).className, 'item-focus');
   });
 
-  it('Should call onSelect callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<DropdownMenuItem title="title" onSelect={doneOp} />);
+  it('Should call onSelect callback', () => {
+    const onSelect = sinon.spy();
+    const instance = getDOMNode(<DropdownMenuItem title="title" onSelect={onSelect} />);
 
     ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
+    expect(onSelect).to.have.been.calledOnce;
   });
 
-  it('Should call onKeyDown callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<DropdownMenuItem title="title" onKeyDown={doneOp} />);
+  it('Should call onKeyDown callback', () => {
+    const onKeyDown = sinon.spy();
+    const instance = getDOMNode(<DropdownMenuItem title="title" onKeyDown={onKeyDown} />);
 
     ReactTestUtils.Simulate.keyDown(instance.querySelector('input') as HTMLInputElement);
+    expect(onKeyDown).to.have.been.calledOnce;
   });
 
   it('Should call onCheck callback', () => {
@@ -69,13 +67,12 @@ describe('picker - DropdownMenuCheckItem', () => {
     assert.ok(onSelectSpy.calledOnce);
   });
 
-  it('Should call onSelectItem callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<DropdownMenuItem title="title" onSelectItem={doneOp} />);
+  it('Should call onSelectItem callback', () => {
+    const onSelectItem = sinon.spy();
+    const instance = getDOMNode(<DropdownMenuItem title="title" onSelectItem={onSelectItem} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-checkbox') as HTMLElement);
+    expect(onSelectItem).to.have.been.calledOnce;
   });
 
   it('Should have a role', () => {

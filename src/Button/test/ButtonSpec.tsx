@@ -33,12 +33,12 @@ describe('Button', () => {
     assert.equal(instance.getAttribute('href'), href);
   });
 
-  it('Should call onClick callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<Button onClick={doneOp}>Title</Button>);
+  it('Should call onClick callback', () => {
+    const onClick = sinon.spy();
+    const instance = getDOMNode(<Button onClick={onClick}>Title</Button>);
     ReactTestUtils.Simulate.click(instance);
+
+    expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should be disabled', () => {

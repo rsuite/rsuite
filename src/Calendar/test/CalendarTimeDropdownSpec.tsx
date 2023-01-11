@@ -4,6 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import TimeDropdown from '../TimeDropdown';
 import CalendarContext from '../CalendarContext';
+import Sinon from 'sinon';
 
 describe('Calendar - TimeDropdown', () => {
   it('Should render a div with `time-dropdown` class', () => {
@@ -61,10 +62,8 @@ describe('Calendar - TimeDropdown', () => {
     );
   });
 
-  it('Should call `onSelect` callback', done => {
-    const onChangeTime = () => {
-      done();
-    };
+  it('Should call `onChangeTime` callback', () => {
+    const onChangeTime = Sinon.spy();
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
@@ -77,6 +76,8 @@ describe('Calendar - TimeDropdown', () => {
     ReactTestUtils.Simulate.click(
       (ref.current as HTMLDivElement).querySelector('[data-key="hours-1"]') as HTMLElement
     );
+
+    expect(onChangeTime).to.have.been.calledOnce;
   });
 
   it('Should be disabled', () => {

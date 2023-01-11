@@ -5,6 +5,7 @@ import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import RadioGroup from '../RadioGroup';
 import Radio from '../../Radio';
+import Sinon from 'sinon';
 
 describe('RadioGroup', () => {
   testStandardProps(<RadioGroup />);
@@ -78,18 +79,10 @@ describe('RadioGroup', () => {
     assert.ok(radios[1].className.match(/\bradio-checked\b/));
   });
 
-  it('Should call onChange callback with correct value', done => {
+  it('Should call onChange callback with correct value', () => {
+    const onChange = Sinon.spy();
     const instance = getDOMNode(
-      <RadioGroup
-        onChange={value => {
-          try {
-            assert.equal(value, 3);
-            done();
-          } catch (err) {
-            done(err);
-          }
-        }}
-      >
+      <RadioGroup onChange={onChange}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
         <Radio value={3}>Test2</Radio>
@@ -99,23 +92,19 @@ describe('RadioGroup', () => {
 
     const radios = instance.querySelectorAll('.rs-radio');
     ReactTestUtils.Simulate.change(radios[2].querySelector('input') as HTMLInputElement);
+
+    expect(onChange).to.have.been.calledWith(3);
   });
 
-  it('Should call onChange callback', done => {
-    let count = 0;
-
-    function onDone() {
-      count++;
-      if (count === 2) {
-        done();
-      }
-    }
+  it('Should call onChange callback', () => {
+    const onChange = Sinon.spy();
+    const onGroupChange = Sinon.spy();
 
     const instance = getDOMNode(
-      <RadioGroup onChange={onDone}>
+      <RadioGroup onChange={onGroupChange}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
-        <Radio value={3} onChange={onDone}>
+        <Radio value={3} onChange={onChange}>
           Test2
         </Radio>
         <Radio value={4}>Test2</Radio>
@@ -124,21 +113,15 @@ describe('RadioGroup', () => {
 
     const radios = instance.querySelectorAll('.rs-radio');
     ReactTestUtils.Simulate.change(radios[2].querySelector('input') as HTMLInputElement);
+
+    expect(onChange).to.have.been.calledOnce;
+    expect(onGroupChange).to.have.been.calledOnce;
   });
 
-  it('Should call onChange callback with correct event target', done => {
+  it('Should call onChange callback with correct event target', () => {
+    const onChange = Sinon.spy();
     const instance = getDOMNode(
-      <RadioGroup
-        name="test"
-        onChange={(_value, event) => {
-          try {
-            assert.equal((event.target as HTMLInputElement).name, 'test');
-            done();
-          } catch (err) {
-            done(err);
-          }
-        }}
-      >
+      <RadioGroup name="test" onChange={onChange}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
         <Radio value={3}>Test2</Radio>
@@ -148,6 +131,15 @@ describe('RadioGroup', () => {
 
     const radios = instance.querySelectorAll('.rs-radio');
     ReactTestUtils.Simulate.change(radios[2].querySelector('input') as HTMLInputElement);
+
+    expect(onChange).to.have.been.calledWith(
+      3,
+      Sinon.match({
+        target: {
+          name: 'test'
+        }
+      })
+    );
   });
 
   it('Should be selected as false', () => {

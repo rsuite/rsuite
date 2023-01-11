@@ -279,12 +279,17 @@ describe('DateRangePicker', () => {
     });
   });
 
-  it('Should call `onClose` callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const picker = getInstance(<DateRangePicker defaultOpen onClose={doneOp} />);
-    picker.close();
+  it('Should call `onClose` callback', async () => {
+    const onClose = sinon.spy();
+    const picker = getInstance(<DateRangePicker defaultOpen onClose={onClose} />);
+
+    act(() => {
+      picker.close();
+    });
+
+    await waitFor(() => {
+      expect(onClose).to.have.been.calledOnce;
+    });
   });
 
   it('Should output a button', () => {

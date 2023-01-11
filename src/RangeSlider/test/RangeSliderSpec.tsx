@@ -120,22 +120,28 @@ describe('RangeSlider', () => {
     assert.equal(input.value, '100');
   });
 
-  it('Should call `onChangeCommitted` callback', done => {
+  it('Should call `onChangeCommitted` callback', async () => {
+    const onChangeCommitted = sinon.spy();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
     const mouseupEvent = new MouseEvent('mouseup', { bubbles: true });
-    const instance = getDOMNode(<RangeSlider onChangeCommitted={() => done()} />);
+    const instance = getDOMNode(<RangeSlider onChangeCommitted={onChangeCommitted} />);
 
     const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
     fireEvent.mouseDown(handle);
     handle.dispatchEvent(mousemoveEvent);
-    handle.dispatchEvent(mouseupEvent);
 
     assert.include(handle.className, 'active');
+
+    handle.dispatchEvent(mouseupEvent);
+    expect(onChangeCommitted).to.have.been.calledOnce;
   });
 
-  it('Should call `onChange` callback', done => {
-    const instance = getDOMNode(<RangeSlider onChange={() => done()} />);
+  it('Should call `onChange` callback', () => {
+    const onChange = sinon.spy();
+    const instance = getDOMNode(<RangeSlider onChange={onChange} />);
     fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+
+    expect(onChange).to.have.been.calledOnce;
   });
 
   it('Should output an `input` stored value', () => {

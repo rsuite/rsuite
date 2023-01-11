@@ -178,22 +178,17 @@ describe('<Dropdown>', () => {
     assert.ok(!instance.querySelector('.rs-dropdown-toggle-caret'));
   });
 
-  it('Should call onSelect callback with correct eventKey when clicking an item', done => {
-    const doneOp = eventKey => {
-      try {
-        assert.equal(eventKey, 2);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onSelect callback with correct eventKey when clicking an item', () => {
+    const onSelect = sinon.spy();
     const instance = getDOMNode(
-      <Dropdown onSelect={doneOp}>
+      <Dropdown onSelect={onSelect}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
     fireEvent.click(instance.querySelectorAll('.rs-dropdown-menu [role="menuitem"]')[1]);
+
+    expect(onSelect).to.have.been.calledWith(2);
   });
 
   it('Should close menu after clicking an item without submenu', () => {
@@ -240,38 +235,36 @@ describe('<Dropdown>', () => {
     expect(menu.hidden, 'Menu is closed').to.be.true;
   });
 
-  it('Should call onToggle callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onToggle callback', () => {
+    const onToggle = sinon.spy();
     const instance = getDOMNode(
-      <Dropdown onToggle={doneOp}>
+      <Dropdown onToggle={onToggle}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
     fireEvent.click(instance.querySelector('.rs-dropdown-toggle') as HTMLElement);
+
+    expect(onToggle).to.have.been.calledOnce;
   });
 
-  it('Should call onOpen callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onOpen callback', () => {
+    const onOpen = sinon.spy();
     const instance = getDOMNode(
-      <Dropdown onOpen={doneOp}>
+      <Dropdown onOpen={onOpen}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
     fireEvent.click(instance.querySelector('.rs-dropdown-toggle') as HTMLElement);
+
+    expect(onOpen).to.have.been.calledOnce;
   });
 
-  it('Should call onClose callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onClose callback', () => {
+    const onClose = sinon.spy();
     const instance = getDOMNode(
-      <Dropdown onClose={doneOp}>
+      <Dropdown onClose={onClose}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
@@ -279,6 +272,8 @@ describe('<Dropdown>', () => {
     const btn = instance.querySelector('.rs-dropdown-toggle') as HTMLElement;
     fireEvent.click(btn);
     fireEvent.click(btn);
+
+    expect(onClose).to.have.been.calledOnce;
   });
 
   it('Should not call onToggle callback when set disabled', () => {

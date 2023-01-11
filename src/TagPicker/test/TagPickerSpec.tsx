@@ -185,32 +185,31 @@ describe('TagPicker', () => {
     expect(onChangeSpy).to.calledOnce;
   });
 
-  it('Should call `onClean` callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onClean` callback', () => {
+    const onClean = sinon.spy();
     const instance = getDOMNode(
-      <TagPicker data={data} defaultValue={['Kariane']} onClean={doneOp} />
+      <TagPicker data={data} defaultValue={['Kariane']} onClean={onClean} />
     );
     fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
+
+    expect(onClean).to.have.been.calledOnce;
   });
 
-  it('Should call `onSelect` with correct args by key=Enter ', done => {
-    const doneOp = (value, item) => {
-      try {
-        assert.deepEqual(value, ['Kariane', 'Louisa']);
-        assert.equal(item.value, 'Louisa');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call `onSelect` with correct args by key=Enter ', () => {
+    const onSelect = sinon.spy();
     const instance = getDOMNode(
-      <TagPicker defaultOpen data={data} onSelect={doneOp} defaultValue={['Kariane']} />
+      <TagPicker defaultOpen data={data} onSelect={onSelect} defaultValue={['Kariane']} />
     );
 
     fireEvent.keyDown(instance, { key: 'ArrowDown' });
     fireEvent.keyDown(instance, { key: 'Enter' });
+
+    expect(onSelect).to.have.been.calledWith(
+      ['Kariane', 'Louisa'],
+      sinon.match({
+        value: 'Louisa'
+      })
+    );
   });
 
   it('Should output a clean button', () => {
@@ -218,19 +217,14 @@ describe('TagPicker', () => {
     assert.ok(instance.root.querySelector('.rs-picker-toggle-clean'));
   });
 
-  it('Should call `onSearch` callback with correct search keyword', done => {
-    const doneOp = key => {
-      try {
-        assert.equal(key, 'a');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-    const instance = getDOMNode(<TagPicker data={[]} defaultOpen onSearch={doneOp} />);
+  it('Should call `onSearch` callback with correct search keyword', () => {
+    const onSearch = sinon.spy();
+    const instance = getDOMNode(<TagPicker data={[]} defaultOpen onSearch={onSearch} />);
     const input = instance.querySelector('.rs-picker-search-input input') as HTMLElement;
 
     fireEvent.change(input, { target: { value: 'a' } });
+
+    expect(onSearch).to.have.been.calledWith('a');
   });
 
   it('Should focus item by key=ArrowDown ', () => {
@@ -245,47 +239,47 @@ describe('TagPicker', () => {
     assert.equal(instance.overlay.querySelector('.rs-check-item-focus').textContent, 'Eugenia');
   });
 
-  it('Should call `onChange` by key=Enter ', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `onChange` by key=Enter ', () => {
+    const onChange = sinon.spy();
     const instance = getDOMNode(
-      <TagPicker defaultOpen data={data} onChange={doneOp} defaultValue={['Kariane']} />
+      <TagPicker defaultOpen data={data} onChange={onChange} defaultValue={['Kariane']} />
     );
 
     fireEvent.keyDown(instance, { key: 'Enter' });
+
+    expect(onChange).to.have.been.calledOnce;
   });
 
-  it('Should call `onChange` by remove last item ', done => {
-    const doneOp = value => {
-      try {
-        assert.deepEqual(value, ['Kariane']);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call `onChange` by remove last item ', () => {
+    const onChange = sinon.spy();
     const instance = getDOMNode(
-      <TagPicker defaultOpen data={data} onChange={doneOp} defaultValue={['Kariane', 'Eugenia']} />
+      <TagPicker
+        defaultOpen
+        data={data}
+        onChange={onChange}
+        defaultValue={['Kariane', 'Eugenia']}
+      />
     );
     assert.equal(instance.querySelectorAll('.rs-tag').length, 2);
     fireEvent.keyDown(instance.querySelector('input') as HTMLElement, { key: 'Backspace' });
+
+    expect(onChange).to.have.been.calledWith(['Kariane']);
   });
 
-  it('Should call `onChange` by removeTag ', done => {
-    const doneOp = value => {
-      try {
-        assert.deepEqual(value, ['Eugenia']);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call `onChange` by removeTag ', () => {
+    const onChange = sinon.spy();
     const instance = getDOMNode(
-      <TagPicker defaultOpen data={data} onChange={doneOp} defaultValue={['Kariane', 'Eugenia']} />
+      <TagPicker
+        defaultOpen
+        data={data}
+        onChange={onChange}
+        defaultValue={['Kariane', 'Eugenia']}
+      />
     );
     assert.equal(instance.querySelectorAll('.rs-tag').length, 2);
     fireEvent.click(instance.querySelector('.rs-tag-icon-close') as HTMLElement);
+
+    expect(onChange).to.have.been.calledWith(['Eugenia']);
   });
 
   it('Should have a custom className', () => {
@@ -309,22 +303,22 @@ describe('TagPicker', () => {
     assert.ok(instance.querySelector('.rs-btn'));
   });
 
-  it('Should call `tagProps.onClose` ', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call `tagProps.onClose` ', () => {
+    const onClose = sinon.spy();
     const instance = getDOMNode(
       <TagPicker
         defaultOpen
         data={data}
         defaultValue={['Kariane', 'Eugenia']}
         tagProps={{
-          onClose: doneOp
+          onClose
         }}
       />
     );
     assert.equal(instance.querySelectorAll('.rs-tag').length, 2);
     fireEvent.click(instance.querySelector('.rs-tag-icon-close') as HTMLElement);
+
+    expect(onClose).to.have.been.calledOnce;
   });
 
   it('Should not render tag close icon', () => {
@@ -405,20 +399,13 @@ describe('TagPicker', () => {
     );
   });
 
-  it('Should call `onCreate` with correct value', done => {
-    const doneOp = value => {
-      try {
-        assert.deepEqual(value, ['abc']);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call `onCreate` with correct value', () => {
+    const onCreate = sinon.spy();
 
     const inputRef = React.createRef<PickerHandle>();
 
     act(() => {
-      render(<TagPicker ref={inputRef} data={[]} onCreate={doneOp} creatable />);
+      render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable />);
     });
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
@@ -427,22 +414,17 @@ describe('TagPicker', () => {
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(onCreate).to.have.been.calledWith(['abc']);
   });
 
-  it('Should create a tag by tirgger="Space" ', done => {
-    const doneOp = value => {
-      try {
-        assert.deepEqual(value, ['abc']);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should create a tag by tirgger="Space" ', () => {
+    const onCreate = sinon.spy();
 
     const inputRef = React.createRef<PickerHandle>();
 
     act(() => {
-      render(<TagPicker ref={inputRef} data={[]} onCreate={doneOp} creatable trigger="Space" />);
+      render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable trigger="Space" />);
     });
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
@@ -451,22 +433,17 @@ describe('TagPicker', () => {
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: ' ' });
+
+    expect(onCreate).to.have.been.calledWith(['abc']);
   });
 
-  it('Should create a tag by tirgger="Comma" ', done => {
-    const doneOp = value => {
-      try {
-        assert.deepEqual(value, ['abc']);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should create a tag by tirgger="Comma" ', () => {
+    const onCreate = sinon.spy();
 
     const inputRef = React.createRef<PickerHandle>();
 
     act(() => {
-      render(<TagPicker ref={inputRef} data={[]} onCreate={doneOp} creatable trigger="Comma" />);
+      render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable trigger="Comma" />);
     });
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
@@ -475,6 +452,8 @@ describe('TagPicker', () => {
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: ',' });
+
+    expect(onCreate).to.have.been.calledWith(['abc']);
   });
 
   it('Should be plaintext', () => {

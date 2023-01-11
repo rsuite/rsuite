@@ -5,6 +5,7 @@ import { getDOMNode } from '@test/testUtils';
 import MonthDropdownItem from '../MonthDropdownItem';
 import { format } from '../../utils/dateUtils';
 import CalendarContext from '../CalendarContext';
+import Sinon from 'sinon';
 
 describe('Calendar-MonthDropdownItem', () => {
   it('Should output a  `1` ', () => {
@@ -14,15 +15,9 @@ describe('Calendar-MonthDropdownItem', () => {
     assert.equal(instance.textContent, '1');
   });
 
-  it('Should call `onSelect` callback with correct date', done => {
-    const onChangeMonth = date => {
-      try {
-        assert.equal(format(date, 'yyyy-MM'), '2017-01');
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call `onSelect` callback with correct date', () => {
+    const onChangeMonth = Sinon.spy();
+
     const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
@@ -33,6 +28,9 @@ describe('Calendar-MonthDropdownItem', () => {
     );
 
     ReactTestUtils.Simulate.click(ref.current as HTMLDivElement);
+
+    expect(onChangeMonth).to.have.been.calledOnce;
+    expect(format(onChangeMonth.firstCall.args[0], 'yyyy-MM')).to.equal('2017-01');
   });
 
   it('Should have a custom className', () => {

@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import PaginationGroup from '../PaginationGroup';
 import { getDOMNode, getInstance } from '@test/testUtils';
+import Sinon from 'sinon';
 
 describe('Pagination Group', () => {
   it('Should output a PaginationGroup', () => {
@@ -88,10 +89,8 @@ describe('Pagination Group', () => {
     );
   });
 
-  it('Should call onChangePage callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onChangePage callback', () => {
+    const onChangePage = Sinon.spy();
     const instance = getDOMNode(
       <PaginationGroup
         last={false}
@@ -99,10 +98,12 @@ describe('Pagination Group', () => {
         prev={false}
         first={false}
         total={100}
-        onChangePage={doneOp}
+        onChangePage={onChangePage}
       />
     );
     ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-pagination-btn')[1]);
+
+    expect(onChangePage).to.have.been.calledOnce;
   });
 
   it('Should render a limit picker', () => {

@@ -3,6 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenuItem from '../DropdownMenuItem';
+import Sinon from 'sinon';
 
 describe('picker - DropdownMenuItem', () => {
   it('Should output a item', () => {
@@ -31,24 +32,23 @@ describe('picker - DropdownMenuItem', () => {
     assert.include((instance.querySelector('.rs-item') as HTMLElement).className, 'item-focus');
   });
 
-  it('Should call onSelect callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<DropdownMenuItem title="title" onSelect={doneOp} />);
+  it('Should call onSelect callback', () => {
+    const onSelect = Sinon.spy();
+    const instance = getDOMNode(<DropdownMenuItem title="title" onSelect={onSelect} />);
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-dropdown-menu-item') as HTMLElement);
+
+    expect(onSelect).to.have.been.calledOnce;
   });
 
-  it('Should call onKeyDown callback', done => {
-    const doneOp = () => {
-      done();
-    };
-    const instance = getDOMNode(<DropdownMenuItem title="title" onKeyDown={doneOp} />);
+  it('Should call onKeyDown callback', () => {
+    const onKeyDown = Sinon.spy();
+    const instance = getDOMNode(<DropdownMenuItem title="title" onKeyDown={onKeyDown} />);
 
     ReactTestUtils.Simulate.keyDown(
       instance.querySelector('.rs-dropdown-menu-item') as HTMLElement
     );
+    expect(onKeyDown).to.have.been.calledOnce;
   });
 
   it('Should have a role', () => {

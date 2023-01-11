@@ -93,12 +93,10 @@ describe('<Sidenav>', () => {
     });
   });
 
-  it('Should call onOpenChange callback', done => {
-    const doneOp = () => {
-      done();
-    };
+  it('Should call onOpenChange callback', () => {
+    const onOpenChange = sinon.spy();
     const instance = getDOMNode(
-      <Sidenav onOpenChange={doneOp}>
+      <Sidenav onOpenChange={onOpenChange}>
         <Nav>
           <Nav.Item eventKey="1">a</Nav.Item>
           <Nav.Item eventKey="2">b</Nav.Item>
@@ -111,6 +109,8 @@ describe('<Sidenav>', () => {
     );
 
     ReactTestUtils.Simulate.click(instance.querySelector('.rs-dropdown-toggle') as HTMLElement);
+
+    expect(onOpenChange).to.have.been.calledOnce;
   });
 
   it('Should open the default menu', () => {

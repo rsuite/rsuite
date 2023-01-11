@@ -3,6 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Slider from '../Slider';
+import Sinon from 'sinon';
 
 describe('Slider', () => {
   testStandardProps(<Slider />);
@@ -90,22 +91,28 @@ describe('Slider', () => {
     assert.equal(input.value, '100');
   });
 
-  it('Should call `onChangeCommitted` callback', done => {
+  it('Should call `onChangeCommitted` callback', () => {
+    const onChangeCommitted = Sinon.spy();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
     const mouseupEvent = new MouseEvent('mouseup', { bubbles: true });
-    const instance = getDOMNode(<Slider onChangeCommitted={() => done()} />);
+    const instance = getDOMNode(<Slider onChangeCommitted={onChangeCommitted} />);
 
     const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
     fireEvent.mouseDown(handle);
     handle.dispatchEvent(mousemoveEvent);
-    handle.dispatchEvent(mouseupEvent);
 
     assert.include(handle.className, 'active');
+    handle.dispatchEvent(mouseupEvent);
+
+    expect(onChangeCommitted).to.have.been.calledOnce;
   });
 
-  it('Should call `onChange` callback', done => {
-    const instance = getDOMNode(<Slider onChange={() => done()} />);
+  it('Should call `onChange` callback', () => {
+    const onChange = Sinon.spy();
+    const instance = getDOMNode(<Slider onChange={onChange} />);
     fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+
+    expect(onChange).to.have.been.calledOnce;
   });
 
   it('Should output an `input` stored value', () => {

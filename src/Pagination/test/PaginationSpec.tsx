@@ -2,6 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import Pagination from '../Pagination';
+import Sinon from 'sinon';
 
 describe('Pagination', () => {
   it('Should render a <div>', () => {
@@ -94,19 +95,13 @@ describe('Pagination', () => {
     );
   });
 
-  it('Should call onSelect callback with correct eventKey', done => {
-    const doneOp = eventKey => {
-      try {
-        assert.equal(eventKey, 2);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
-
-    const instance = getDOMNode(<Pagination pages={20} onSelect={doneOp} />);
+  it('Should call onSelect callback with correct eventKey', () => {
+    const onSelect = Sinon.spy();
+    const instance = getDOMNode(<Pagination pages={20} onSelect={onSelect} />);
 
     ReactTestUtils.Simulate.click(instance.querySelectorAll('button')[1]);
+
+    expect(onSelect).to.have.been.calledWith(2);
   });
 
   it('Should apply size class', () => {

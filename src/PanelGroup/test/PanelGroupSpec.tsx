@@ -30,17 +30,10 @@ describe('PanelGroup', () => {
     assert.equal(instance.querySelectorAll('.rs-panel').length, 2);
   });
 
-  it('Should call onSelect callback', done => {
-    const doneOp = eventKey => {
-      try {
-        assert.equal(eventKey, 2);
-        done();
-      } catch (err) {
-        done(err);
-      }
-    };
+  it('Should call onSelect callback', () => {
+    const onSelect = sinon.spy();
     const instance = getDOMNode(
-      <PanelGroup accordion onSelect={doneOp}>
+      <PanelGroup accordion onSelect={onSelect}>
         <Panel eventKey={1} header="Click me">
           111
         </Panel>
@@ -50,6 +43,8 @@ describe('PanelGroup', () => {
       </PanelGroup>
     );
     ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-panel-header')[1]);
+
+    expect(onSelect).to.have.been.calledWith(2);
   });
 
   it('Should call `onSelect` with undefined when click on Panel without eventKey', () => {
