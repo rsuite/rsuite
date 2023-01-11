@@ -505,6 +505,13 @@ const OverlayTrigger = React.forwardRef(
         </Overlay>
       );
     };
+
+    if (
+      (typeof children === 'object' && children.type === React.Fragment) ||
+      typeof children === 'string'
+    ) {
+      console.error('The OverlayTrigger component does not accept strings or Fragments as child.');
+    }
     return (
       <>
         {typeof children === 'function'

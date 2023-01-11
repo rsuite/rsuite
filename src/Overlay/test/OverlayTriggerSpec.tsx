@@ -245,4 +245,14 @@ describe('OverlayTrigger', () => {
     expect(count.current).to.equal(2);
     expect(getByRole('tooltip').style).to.have.property('left', '10px');
   });
+
+  it('Should throw an error when using Fragment as child', () => {
+    expect(() => {
+      render(
+        <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>}>
+          <>button</>
+        </OverlayTrigger>
+      );
+    }).toHavaError('The OverlayTrigger component does not accept strings or Fragments as child.');
+  });
 });

@@ -57,3 +57,30 @@ chai.use((chai, { flag }) => {
     );
   }
 });
+
+chai.use((chaiAPI, utils) => {
+  chai.Assertion.addMethod('toHavaError', function toHavaError(expectedMessage) {
+    const callback = this._obj;
+    let caughtError = null;
+
+    const originalMethod = console.error;
+
+    console.error = actualMessage => {
+      caughtError = actualMessage;
+    };
+
+    callback();
+
+    console.error = originalMethod;
+
+    if (expectedMessage) {
+      this.assert(
+        utils.eql(caughtError, expectedMessage),
+        'Could not match a call to `console.error`.'
+      );
+      return;
+    }
+
+    this.assert(caughtError !== null, 'Could not match a call to `console.error`.');
+  });
+});
