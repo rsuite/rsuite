@@ -6,17 +6,22 @@ import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export type ComponentProps = WithAsProps & React.HTMLAttributes<HTMLDivElement>;
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+interface Props<TElement extends React.ElementType> extends React.HTMLAttributes<HTMLDivElement> {
   name: string;
-  componentAs?: React.ElementType;
+  componentAs?: TElement;
   componentClassPrefix?: string;
 }
 
 /**
  * Create a component with `classPrefix` and `as` attributes.
  */
-function createComponent({ name, componentAs, componentClassPrefix, ...defaultProps }: Props) {
-  const Component: RsRefForwardingComponent<'div', ComponentProps> = React.forwardRef(
+function createComponent<TElement extends React.ElementType = 'div'>({
+  name,
+  componentAs,
+  componentClassPrefix,
+  ...defaultProps
+}: Props<TElement>) {
+  const Component: RsRefForwardingComponent<TElement, ComponentProps> = React.forwardRef(
     (props: ComponentProps, ref) => {
       const {
         as: Component = componentAs || 'div',
