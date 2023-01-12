@@ -511,7 +511,7 @@ const OverlayTrigger = React.forwardRef(
       typeof children === 'string'
     ) {
       console.error(
-        '[rsuite]: The OverlayTrigger component does not accept strings or Fragments as child.'
+        '[rsuite] The OverlayTrigger component does not accept strings or Fragments as child.'
       );
     }
     return (
