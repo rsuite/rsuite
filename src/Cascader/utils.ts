@@ -85,7 +85,7 @@ export function usePaths<T extends Record<string, unknown>>(params: UsePathsPara
    * Remove subsequent columns of the specified column
    * @param index
    */
-  function romoveColumnByIndex(index: number) {
+  function removeColumnByIndex(index: number) {
     setColumnData([...slice(columnData, 0, index)]);
   }
 
@@ -123,6 +123,6 @@ export function usePaths<T extends Record<string, unknown>>(params: UsePathsPara
     setColumnData,
     setSelectedPaths,
     addColumn,
-    romoveColumnByIndex
+    removeColumnByIndex
   };
 }

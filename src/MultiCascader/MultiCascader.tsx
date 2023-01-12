@@ -169,7 +169,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     );
 
     // The columns displayed in the cascading panel.
-    const { columnData, setColumnData, addColumn, romoveColumnByIndex, enforceUpdateColumnData } =
+    const { columnData, setColumnData, addColumn, removeColumnByIndex, enforceUpdateColumnData } =
       useColumnData(flattenData);
 
     useUpdateEffect(() => {
@@ -254,7 +254,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
               node.loading = false;
               node[childrenKey] = data;
 
-              if (targetRef.current) {
+              if (targetRef.current || inline) {
                 addFlattenData(data, node);
                 addColumn(data, columnIndex);
               }
@@ -269,12 +269,12 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
           addColumn(node[childrenKey], columnIndex);
         } else {
           // Removes subsequent columns of the current column when the clicked node is a leaf node.
-          romoveColumnByIndex(columnIndex);
+          removeColumnByIndex(columnIndex);
         }
 
         triggerRef.current?.updatePosition?.();
       },
-      [onSelect, getChildren, childrenKey, addFlattenData, addColumn, romoveColumnByIndex]
+      [onSelect, getChildren, childrenKey, inline, addFlattenData, addColumn, removeColumnByIndex]
     );
 
     const handleCheck = useCallback(
