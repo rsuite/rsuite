@@ -38,7 +38,7 @@ Fork 此仓库到你的命名空间并克隆至本地机器。
 当编写测试用例时，我们统一使用 [BDD 断言风格](https://www.chaijs.com/api/bdd/)。
 
 ```ts
-expect(instance.className).to.equal('class-in');
+expect(instance.className).to.have.class('class-in');
 ```
 
 ## Bug 反馈

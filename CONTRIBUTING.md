@@ -40,7 +40,7 @@ It's also possible to run tests in several different components as `M` accepts a
 When writing tests, we use [the BDD assertion style](https://www.chaijs.com/api/bdd/).
 
 ```ts
-expect(instance.className).to.equal('class-in');
+expect(instance.className).to.have.class('class-in');
 ```
 
 ## Bug reports
