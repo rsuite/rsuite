@@ -97,9 +97,9 @@ describe('Tree', () => {
     const { getByText } = render(<Tree data={data} draggable />);
     const treeNode = getByText('tester1') as HTMLElement;
     fireEvent.dragStart(treeNode);
-    assert.equal(document.querySelector('.rs-tree-drag-preview')?.textContent, 'tester1');
+    expect(document.querySelector('.rs-tree-drag-preview')?.textContent).to.equal('tester1');
     fireEvent.drop(treeNode);
-    assert.equal(document.querySelector('.rs-tree-drag-preview'), null);
+    expect(document.querySelector('.rs-tree-drag-preview')).to.be.a('null');
   });
 
   it('Should call `onDrop` callback without exception', () => {
