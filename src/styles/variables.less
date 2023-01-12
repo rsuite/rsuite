@@ -241,7 +241,7 @@
 @btn-border-radius-base:    @border-radius; // @deprecated use @btn-border-radius instead
 @btn-border-radius:         @btn-border-radius-base;
 
-@btn-transition:            color 0.2s linear, background-color 0.3s linear;
+@btn-transition:            color 0.15s ease-out, background-color 0.15s ease-out;
 @btn-disabled-opacity:      0.3;
 
 // Ghost Button
@@ -312,7 +312,7 @@
 @input-padding-y:               @padding-base-input-vertical;
 @input-padding-x:               @padding-base-input-horizontal;
 @input-border-width:            1px;
-@input-transition:              border-color ease-in-out 0.3s;
+@input-transition:              border-color ease-in-out 0.15s;
 
 // This has no effect on `<select>`s  in some browsers, due to the limited stylability of `<select>`s in CSS.
 @input-border-radius:       @border-radius;
@@ -368,7 +368,7 @@
 // Toggle
 
 @toggle-active-scale: 1.2;
-@toggle-transition:   0.2s ease-in-out;
+@toggle-transition:   0.15s ease-out;
 
 @toggle-md-height:                      24px;
 @toggle-md-handle-gap:                  3px;
@@ -393,7 +393,7 @@
 
 // Navs
 
-@nav-item-transition:             color 0.3s linear, background-color 0.3s linear;
+@nav-item-transition:             color 0.15s ease-out, background-color 0.15s ease-out;
 
 // Tab
 @nav-tab-bar-width:               1px;
@@ -432,7 +432,7 @@
 @sidenav-icon-spacing:                  20px;
 @sidenav-icon-width:                    @sidenav-level1-item-font-size;
 @sidenav-dropdown-toggle-caret-width:   20px;
-@sidenav-collapse-transition-config:     0.2s ease-in;
+@sidenav-collapse-transition-config:     0.15s ease-in;
 
 @sidenav-level-retract:                 9px;
 @sidenav-level2-retract:                (@sidenav-padding-horizontal + @sidenav-icon-width + @sidenav-icon-spacing);
@@ -648,7 +648,7 @@
 @panel-padding:                 20px;
 @panel-header-font-size:        16px;
 @panel-split-line-color:        @dropdown-divider-bg;
-@panel-accodion-transition:     0.3s linear;
+@panel-accodion-transition:     0.15s linear;
 @panel-box-shadow:              @box-shadow;
 
 // Timeline
@@ -717,7 +717,6 @@
 
 @picker-item-content-padding-vertical:    8px;
 @picker-item-content-padding-horizontal:  @picker-menu-padding;
-@picker-item-transition:                  color 0.3s linear, background-color 0.3s linear;
 
 // group title
 @picker-group-children-padding-left:    26px;
@@ -806,7 +805,7 @@
 @slider-calibration-diameter:         8px;
 @slider-calibration-border-width:     2px;
 @slider-mark-margin-top:              9px;
-@slider-handle-transition:            0.3s ease-in-out;
+@slider-handle-transition:            0.15s ease-in-out;
 
 // Breadcrumbs
 
