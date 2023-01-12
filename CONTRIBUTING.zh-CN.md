@@ -35,6 +35,12 @@ Fork 此仓库到你的命名空间并克隆至本地机器。
     # run tests in src/Button and src/ButtonGroup directories
     $ M={Button,ButtonGroup} npm run tdd
 
+当编写测试用例时，我们统一使用 [BDD 断言风格](https://www.chaijs.com/api/bdd/)。
+
+```ts
+expect(instance.className).to.equal('class-in');
+```
+
 ## Bug 反馈
 
 我们统一通过 Github Issues 收集 bug，及状态管理。如果你发现了一个 bug，可以通过 Github Issues 通知我们。

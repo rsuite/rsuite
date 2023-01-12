@@ -37,6 +37,12 @@ It's also possible to run tests in several different components as `M` accepts a
     # run tests in src/Button and src/ButtonGroup directories
     $ M={Button,ButtonGroup} npm run tdd
 
+When writing tests, we use [the BDD assertion style](https://www.chaijs.com/api/bdd/).
+
+```ts
+expect(instance.className).to.equal('class-in');
+```
+
 ## Bug reports
 
 We uniformly collect bugs and state management through 'Github Issues'. If you find a bug, you can notify us by 'Github issues'.
