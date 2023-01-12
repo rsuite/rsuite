@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "5.24.0",
+  "version": "5.24.1",
   "description": "A suite of react components",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",

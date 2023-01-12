@@ -1,3 +1,16 @@
+## [5.24.1](https://github.com/rsuite/rsuite/compare/v5.24.0...v5.24.1) (2023-01-12)
+
+### Bug Fixes
+
+- **DatePicker,DateRangePicker:** fix the background color error when the cell is hovered ([#3018](https://github.com/rsuite/rsuite/issues/3018)) ([9d6f43e](https://github.com/rsuite/rsuite/commit/9d6f43e6db6049b7fdcc8514e071d870b785ecbb))
+- **MultiCascader:** fix load async data error in inline mode ([#3015](https://github.com/rsuite/rsuite/issues/3015)) ([081eb14](https://github.com/rsuite/rsuite/commit/081eb14de9fb37d80a95324a669b8089e29ef03c)), closes [#3014](https://github.com/rsuite/rsuite/issues/3014)
+- **Navbar.Brand:** fix missing href prop ([#3007](https://github.com/rsuite/rsuite/issues/3007)) ([d0a1f27](https://github.com/rsuite/rsuite/commit/d0a1f276d63e25c295fbef94f82559333ba4c148))
+- **Tree:** fix Tree drag preview style error ([#3003](https://github.com/rsuite/rsuite/issues/3003)) ([4830148](https://github.com/rsuite/rsuite/commit/4830148b9e325bee926a2bfefe0786c08952ec79))
+
+### Performance Improvements
+
+- **CSS transitions:** improved duration of transitions ([#3016](https://github.com/rsuite/rsuite/issues/3016)) ([d1829da](https://github.com/rsuite/rsuite/commit/d1829da2e77131e031479ef9aa4f6d00d6307a52))
+
 # [5.24.0](https://github.com/rsuite/rsuite/compare/v5.23.3...v5.24.0) (2022-12-30)
 
 ### Bug Fixes
