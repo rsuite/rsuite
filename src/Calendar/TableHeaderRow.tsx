@@ -23,10 +23,10 @@ const TableHeaderRow: RsRefForwardingComponent<'div', TableHeaderRowProps> = Rea
 
     return (
       <Component role="row" {...rest} ref={ref} className={classes}>
-        {showWeekNumbers && <div className={prefix('cell')} role="columnheader" />}
+        {showWeekNumbers && <div className={prefix('header-cell')} role="columnheader" />}
         {items.map(key => (
-          <div key={key} className={prefix('cell')} role="columnheader">
-            <span className={prefix('cell-content')}>{locale?.[key]}</span>
+          <div key={key} className={prefix('header-cell')} role="columnheader">
+            <span className={prefix('header-cell-content')}>{locale?.[key]}</span>
           </div>
         ))}
       </Component>
