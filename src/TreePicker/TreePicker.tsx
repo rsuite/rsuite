@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
 import { List, AutoSizer, ListHandle, ListChildComponentProps } from '../Windowing';
 import TreeNode from './TreeNode';
-import { createDragPreview, getTreeNodeIndent, removeDragPreview } from '../utils/treeUtils';
+import {
+  createDragPreview,
+  getTreeNodeIndent,
+  removeDragPreview,
+  stringifyTreeNodeLabel
+} from '../utils/treeUtils';
 import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
@@ -410,7 +415,10 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const handleDragStart = useCallback(
     (nodeData: any, event: React.DragEvent) => {
       if (draggable) {
-        const dragMoverNode = createDragPreview(nodeData[labelKey], treePrefix('drag-preview'));
+        const dragMoverNode = createDragPreview(
+          stringifyTreeNodeLabel(nodeData[labelKey]),
+          treePrefix('drag-preview')
+        );
         event.dataTransfer?.setDragImage(dragMoverNode, 0, 0);
         setDragNodeKeys(getDragNodeKeys(nodeData, childrenKey, valueKey));
         setDragNode(flattenNodes[nodeData.refKey]);

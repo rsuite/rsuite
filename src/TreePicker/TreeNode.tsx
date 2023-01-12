@@ -3,16 +3,15 @@ import PropTypes from 'prop-types';
 import hasClass from 'dom-lib/hasClass';
 import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 import Spinner from '@rsuite/icons/legacy/Spinner';
-import reactToString from '../utils/reactToString';
 import { useClassNames } from '../utils';
-import { getTreeNodeIndent } from '../utils/treeUtils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { getTreeNodeIndent, stringifyTreeNodeLabel } from '../utils/treeUtils';
+import { WithAsProps, RsRefForwardingComponent, ItemDataType } from '../@types/common';
 
 export interface TreeNodeProps extends WithAsProps {
   rtl?: boolean;
   layer: number;
-  value?: any;
-  label?: any;
+  value?: ItemDataType['value'];
+  label?: ItemDataType['label'];
   focus?: boolean;
   loading?: boolean;
   expand?: boolean;
@@ -82,15 +81,6 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
     ref
   ) => {
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
-
-    const getTitle = useCallback(() => {
-      if (typeof label === 'string') {
-        return label;
-      } else if (React.isValidElement(label)) {
-        const nodes = reactToString(label);
-        return nodes.join('');
-      }
-    }, [label]);
 
     const handleExpand = useCallback(
       (event: React.SyntheticEvent) => {
@@ -214,7 +204,7 @@ const TreeNode: RsRefForwardingComponent<'div', TreeNodeProps> = forwardRef<
       return (
         <span
           className={prefix('label')}
-          title={getTitle()}
+          title={stringifyTreeNodeLabel(label)}
           data-layer={layer}
           data-key={nodeData?.refKey || ''}
           role="button"

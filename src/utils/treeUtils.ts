@@ -1017,7 +1017,7 @@ export function getNodeFormattedRefKey(value: string | number) {
  */
 export function createDragPreview(name: string, className: string) {
   const dragPreview = document.createElement('div');
-  dragPreview.id = 'drag-preview';
+  dragPreview.id = 'rs-tree-drag-preview';
   dragPreview.innerHTML = name;
   dragPreview.classList.add(className);
   document.body.appendChild(dragPreview);
@@ -1028,6 +1028,16 @@ export function createDragPreview(name: string, className: string) {
  * remove drag preview when tree node drop
  */
 export function removeDragPreview() {
-  const dragPreview = document.getElementById('drag-preview');
+  const dragPreview = document.getElementById('rs-tree-drag-preview');
   dragPreview?.parentNode?.removeChild?.(dragPreview);
+}
+
+export function stringifyTreeNodeLabel(label: string | React.ReactNode) {
+  if (typeof label === 'string') {
+    return label;
+  } else if (React.isValidElement(label)) {
+    const nodes = reactToString(label);
+    return nodes.join('');
+  }
+  return '';
 }
