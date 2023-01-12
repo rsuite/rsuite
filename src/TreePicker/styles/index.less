@@ -16,6 +16,19 @@
   &.rs-tree-virtualized {
     overflow: hidden;
   }
+
+  &-drag-preview {
+    position: absolute;
+    top: 0;
+    color: var(--rs-text-primary);
+    background-color: var(--rs-bg-overlay);
+    display: inline-block;
+    margin: 0;
+    padding: @picker-tree-node-padding-vertical @picker-tree-node-padding-horizontal;
+    border-radius: 6px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+    z-index: -1;
+  }
 }
 
 .rs-tree-node {

@@ -1008,3 +1008,36 @@ export function getTreeNodeIndent(rtl, layer, absolute = false) {
 export function getNodeFormattedRefKey(value: string | number) {
   return `${typeof value === 'number' ? 'Number_' : 'String_'}${value}`;
 }
+
+/**
+ * create drag preview when tree node start drag
+ * @param name
+ * @param className
+ * @returns
+ */
+export function createDragPreview(name: string, className: string) {
+  const dragPreview = document.createElement('div');
+  dragPreview.id = 'rs-tree-drag-preview';
+  dragPreview.innerHTML = name;
+  dragPreview.classList.add(className);
+  document.body.appendChild(dragPreview);
+  return dragPreview;
+}
+
+/**
+ * remove drag preview when tree node drop
+ */
+export function removeDragPreview() {
+  const dragPreview = document.getElementById('rs-tree-drag-preview');
+  dragPreview?.parentNode?.removeChild?.(dragPreview);
+}
+
+export function stringifyTreeNodeLabel(label: string | React.ReactNode) {
+  if (typeof label === 'string') {
+    return label;
+  } else if (React.isValidElement(label)) {
+    const nodes = reactToString(label);
+    return nodes.join('');
+  }
+  return '';
+}
