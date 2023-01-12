@@ -2,6 +2,7 @@
 @import '../../styles/mixins/listbox';
 @import '../../Button/styles/mixin';
 @import '../../Picker/styles/mixin';
+@import 'mixin';
 
 // DatePicker Picker
 // ----------------------
@@ -91,6 +92,10 @@
       .listbox-option-active();
     }
 
+    .rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content:hover {
+      .calendar-cell-selected-hover();
+    }
+
     .rs-calendar-table-header-row .rs-calendar-table-cell-content {
       height: 24px;
       padding-top: 0;
@@ -107,6 +112,10 @@
     .rs-calendar-table-cell:hover .rs-calendar-table-cell-content {
       // borrowed from listbox option
       .listbox-option-active();
+    }
+
+    .rs-calendar-table-cell-selected:hover .rs-calendar-table-cell-content {
+      .calendar-cell-selected-hover();
     }
 
     .rs-calendar-month-dropdown-scroll {
