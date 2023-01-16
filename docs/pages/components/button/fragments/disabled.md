@@ -23,6 +23,9 @@ const App = () => (
     <IconButton icon={<StarIcon />} disabled>
       Icon Button
     </IconButton>
+    <IconButton icon={<StarIcon />} disabled appearance="primary">
+      Icon Button
+    </IconButton>
   </ButtonToolbar>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
