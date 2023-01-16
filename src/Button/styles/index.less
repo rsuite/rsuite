@@ -135,6 +135,7 @@
     color: var(--rs-btn-ghost-hover-text);
     background-color: transparent;
     border-color: var(--rs-btn-ghost-hover-border);
+    box-shadow: 0 0 0 1px var(--rs-btn-ghost-hover-border);
   });
 
   .button-pressed({
@@ -147,12 +148,15 @@
     color: var(--rs-btn-ghost-text);
     background-color: transparent;
     opacity: 0.3;
+    border-color: var(--rs-btn-ghost-border);
+    box-shadow:none;
   });
 }
 
 // Spectrum buttons
 each(@spectrum, .(@color) {
   @C200: var(~'--rs-@{color}-200');
+  @C300: var(~'--rs-@{color}-300');
   @C400: var(~'--rs-@{color}-400');
   @C500: var(~'--rs-@{color}-500');
   @C600: var(~'--rs-@{color}-600');
@@ -162,15 +166,15 @@ each(@spectrum, .(@color) {
 
   .rs-btn-@{color} {
     --rs-btn-primary-bg: @C500;
-    --rs-btn-primary-hover-bg: @C600;
-    --rs-btn-primary-active-bg: @C700;
+    --rs-btn-primary-hover-bg: @C700;
+    --rs-btn-primary-active-bg: @C800;
     --rs-btn-subtle-hover-bg: @C500;
-    --rs-btn-subtle-hover-text: #fff;
+    --rs-btn-subtle-hover-text: @B200;
     --rs-btn-subtle-active-bg: @C600;
-    --rs-btn-subtle-active-text: #fff;
+    --rs-btn-subtle-active-text: @B800;
     --rs-btn-ghost-border: @C700;
     --rs-btn-ghost-text: @C700;
-    --rs-btn-ghost-hover-border: @C800;
+    --rs-btn-ghost-hover-border: @C900;
     --rs-btn-ghost-hover-text: @C800;
     --rs-btn-ghost-active-border: @C900;
     --rs-btn-ghost-active-text: @C900;
@@ -178,12 +182,12 @@ each(@spectrum, .(@color) {
     --rs-btn-link-hover-text: @C800;
     --rs-btn-link-active-text: @C900;
     --rs-iconbtn-primary-addon: @C600;
-    --rs-iconbtn-primary-activated-addon: @C700;
-    --rs-iconbtn-primary-pressed-addon: @C800;
+    --rs-iconbtn-primary-activated-addon: @C800;
+    --rs-iconbtn-primary-pressed-addon: @C900;
 
     .dark-mode({
       --rs-btn-primary-bg: @C700;
-      --rs-btn-primary-hover-bg: @C600;
+      --rs-btn-primary-hover-bg: @C500;
       --rs-btn-primary-active-bg: @C400;
       --rs-btn-subtle-hover-bg: @C600;
       --rs-btn-subtle-hover-text: #fff;
@@ -199,8 +203,8 @@ each(@spectrum, .(@color) {
       --rs-btn-link-hover-text: @C400;
       --rs-btn-link-active-text: @C200;
       --rs-iconbtn-primary-addon: @C600;
-      --rs-iconbtn-primary-activated-addon: @C500;
-      --rs-iconbtn-primary-pressed-addon: @C400;
+      --rs-iconbtn-primary-activated-addon: @C400;
+      --rs-iconbtn-primary-pressed-addon: @C300;
     });
 
     .high-contrast-mode({
