@@ -135,4 +135,11 @@ describe('<PickerToggle>', () => {
 
     expect(getByTestId('caret')).to.have.class('rs-picker-toggle-caret');
   });
+
+  it('Should not show caret icon when it has value', () => {
+    render(<Toggle hasValue cleanable />);
+
+    expect(screen.getByRole('combobox').querySelector('.rs-picker-toggle-clean')).to.exist;
+    expect(screen.getByRole('combobox').querySelector('.rs-picker-toggle-caret')).to.not.exist;
+  });
 });

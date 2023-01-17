@@ -233,14 +233,6 @@
 
   .rs-picker-cleanable.rs-picker-has-value & {
     padding-right: (@dropdown-toggle-padding-right + @picker-toggle-clean-width);
-
-    .rs-@{date-picker-prefix}&,
-    .rs-@{date-range-picker-prefix}& {
-      padding-right: (
-        @dropdown-toggle-padding-right + @picker-toggle-clean-width +
-          @picker-item-content-padding-vertical
-      );
-    }
   }
 }
 
@@ -259,6 +251,11 @@
 
   &:hover {
     color: var(--rs-state-error);
+  }
+
+  &:hover svg path {
+    stroke: var(--rs-state-error);
+    stroke-width: 1;
   }
 
   .rs-@{date-picker-prefix} &,
