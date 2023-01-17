@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Breadcrumb from '../Breadcrumb';
 import BreadcrumbItem from '../BreadcrumbItem';
 import Sinon from 'sinon';
-import { act } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 
 describe('Breadcrumb.Item', () => {
   testStandardProps(<BreadcrumbItem />);
@@ -13,13 +12,14 @@ describe('Breadcrumb.Item', () => {
   it('Should render `a` as inner element when is not active', () => {
     const instance = getDOMNode(<Breadcrumb.Item href="#">Crumb</Breadcrumb.Item>);
 
-    assert.notInclude(instance.className, 'breadcrumb-item-active');
+    expect(instance).to.not.have.class('rs-breadcrumb-item-active');
   });
 
   it('Should render `span.active` with `active` attribute set.', () => {
     const instance = getDOMNode(<Breadcrumb.Item active>Active Crumb</Breadcrumb.Item>);
-    assert.include(instance.className, 'breadcrumb-item-active');
-    assert.equal(instance.tagName, 'SPAN');
+
+    expect(instance).to.have.class('rs-breadcrumb-item-active');
+    expect(instance.tagName).to.equal('SPAN');
   });
 
   it('Should render `span.active` when active and has href', () => {
@@ -29,10 +29,9 @@ describe('Breadcrumb.Item', () => {
       </Breadcrumb.Item>
     );
 
-    assert.include(instance.className, 'breadcrumb-item-active');
-
-    assert.ok(instance);
-    assert.notOk(instance.hasAttribute('href'));
+    expect(instance).to.have.class('rs-breadcrumb-item-active');
+    expect(instance.tagName).to.equal('SPAN');
+    expect(instance).to.not.have.attribute('href');
   });
 
   it('Should spread additional props onto inner element', () => {
@@ -44,9 +43,7 @@ describe('Breadcrumb.Item', () => {
       </Breadcrumb.Item>
     );
 
-    act(() => {
-      ReactTestUtils.Simulate.click(instance);
-    });
+    fireEvent.click(instance);
 
     expect(onClick).to.have.been.calledOnce;
   });
@@ -58,7 +55,7 @@ describe('Breadcrumb.Item', () => {
       </Breadcrumb.Item>
     );
 
-    assert.equal(instance.id, 'test-link-id');
+    expect(instance.id).to.equal('test-link-id');
   });
 
   it('Should apply `href` property onto `a` inner element', () => {
@@ -66,7 +63,7 @@ describe('Breadcrumb.Item', () => {
       <Breadcrumb.Item href="http://rsuitejs.com/">Crumb</Breadcrumb.Item>
     );
 
-    assert.equal(instance.href, 'http://rsuitejs.com/');
+    expect(instance).to.have.attribute('href', 'http://rsuitejs.com/');
   });
 
   it('Should apply `title` property onto `a` inner element', () => {
@@ -75,7 +72,8 @@ describe('Breadcrumb.Item', () => {
         Crumb
       </Breadcrumb.Item>
     );
-    assert.equal(instance.title, 'test-title');
+
+    expect(instance).to.have.attribute('title', 'test-title');
   });
 
   it('Should set `target` attribute on `anchor`', () => {
@@ -84,6 +82,15 @@ describe('Breadcrumb.Item', () => {
         Crumb
       </Breadcrumb.Item>
     );
-    assert.equal(instance.target, '_blank');
+
+    expect(instance).to.have.attribute('target', '_blank');
+  });
+
+  it('Should be rendered as an a element, only if the href prop is set', () => {
+    const span = getDOMNode(<Breadcrumb.Item />);
+    const link = getDOMNode(<Breadcrumb.Item href="#" />);
+
+    expect(span.tagName).to.equal('SPAN');
+    expect(link.tagName).to.equal('A');
   });
 });
