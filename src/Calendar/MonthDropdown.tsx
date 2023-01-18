@@ -89,39 +89,42 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       [disabledMonth]
     );
 
-    const rowRenderer = ({ index, style }: ListChildComponentProps) => {
-      const selectedMonth = DateUtils.getMonth(date);
-      const selectedYear = DateUtils.getYear(date);
-      const year = startYear + index;
-      const isSelectedYear = year === selectedYear;
-      const titleClassName = prefix('year', { 'year-active': isSelectedYear });
+    const rowRenderer = useCallback(
+      ({ index, style }: ListChildComponentProps) => {
+        const selectedMonth = DateUtils.getMonth(date);
+        const selectedYear = DateUtils.getYear(date);
+        const year = startYear + index;
+        const isSelectedYear = year === selectedYear;
+        const titleClassName = prefix('year', { 'year-active': isSelectedYear });
 
-      const rowClassName = merge(prefix('row'), {
-        'first-row': index === 0,
-        'last-row': index === rowCount - 1
-      });
+        const rowClassName = merge(prefix('row'), {
+          'first-row': index === 0,
+          'last-row': index === rowCount - 1
+        });
 
-      return (
-        <div className={rowClassName} role="row" style={style}>
-          <div className={titleClassName} role="rowheader">
-            {year}
+        return (
+          <div className={rowClassName} role="row" style={style}>
+            <div className={titleClassName} role="rowheader">
+              {year}
+            </div>
+            <div className={prefix('list')} role="gridcell">
+              {monthMap.map((item, month) => {
+                return (
+                  <MonthDropdownItem
+                    disabled={isMonthDisabled(year, month)}
+                    active={isSelectedYear && month === selectedMonth}
+                    key={`${month}_${item}`}
+                    month={month + 1}
+                    year={year}
+                  />
+                );
+              })}
+            </div>
           </div>
-          <div className={prefix('list')} role="gridcell">
-            {monthMap.map((item, month) => {
-              return (
-                <MonthDropdownItem
-                  disabled={isMonthDisabled(year, month)}
-                  active={isSelectedYear && month === selectedMonth}
-                  key={`${month}_${item}`}
-                  month={month + 1}
-                  year={year}
-                />
-              );
-            })}
-          </div>
-        </div>
-      );
-    };
+        );
+      },
+      [date, isMonthDisabled, merge, prefix, rowCount, startYear]
+    );
 
     const classes = merge(className, withClassPrefix(), { show });
     const itemSize = 75;

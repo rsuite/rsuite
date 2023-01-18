@@ -4,14 +4,13 @@ import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import enGB from 'date-fns/locale/en-GB';
 import ReactTestUtils from 'react-dom/test-utils';
-import { format, isSameDay, parseISO } from '../../utils/dateUtils';
+import { format, isSameDay, parseISO, addMonths, isBefore } from '../../utils/dateUtils';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import DatePicker from '../DatePicker';
 import { DateUtils } from '../../utils';
 
 import GearIcon from '@rsuite/icons/Gear';
 import { PickerHandle } from '../../Picker';
-import { isBefore } from 'date-fns';
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -851,5 +850,21 @@ describe('DatePicker', () => {
 
     expect(meridian).to.have.text('AM');
     expect(onSelectSpy).to.have.been.calledWith(new Date('2017-08-14 01:00:00'));
+  });
+
+  it('Should change calendar title after clicking on the month', () => {
+    const instance = getInstance(<DatePicker format="yyyy-MM" />);
+    const today = new Date();
+
+    fireEvent.click(instance.target);
+
+    const headerTitle = instance.overlay.querySelector('.rs-calendar-header-title');
+    const activeMonth = instance.overlay.querySelector('.rs-calendar-month-dropdown-cell-active');
+
+    expect(headerTitle).to.have.text(format(today, 'MMM yyyy'));
+
+    fireEvent.click(activeMonth.nextElementSibling);
+
+    expect(headerTitle).to.have.text(format(addMonths(today, 1), 'MMM yyyy'));
   });
 });
