@@ -39,7 +39,7 @@ Clicking a loading picker won't open its options menu.
 
 <!--{include:`group.md`}-->
 
-### [Placement](#code-ts-placement-code)
+### Placement
 
 <!--{include:`placement.md`}-->
 
