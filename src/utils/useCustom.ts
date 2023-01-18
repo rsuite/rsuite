@@ -22,7 +22,8 @@ function useCustom<T = any>(keys?: string | string[], overrideLocale?): CustomVa
     rtl = getDefaultRTL(),
     formatDate,
     parseDate,
-    toasters
+    toasters,
+    disableRipple
   } = useContext(CustomContext);
 
   let componentLocale: T = {
@@ -59,6 +60,7 @@ function useCustom<T = any>(keys?: string | string[], overrideLocale?): CustomVa
     locale: componentLocale,
     rtl,
     toasters,
+    disableRipple,
     formatDate: formatDate || defaultFormatDate,
     parseDate: parseDate || defaultParseDate
   };

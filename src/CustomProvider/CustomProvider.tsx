@@ -46,6 +46,9 @@ export interface CustomValue<T = Locale> {
    * A Map of toast containers
    */
   toasters?: React.MutableRefObject<Map<string, ToastContainerInstance>>;
+
+  /** If true, the ripple effect is disabled. Affected components include: Button, Nav.Item, Pagination. */
+  disableRipple?: boolean;
 }
 
 export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>> {
@@ -71,14 +74,15 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
     classPrefix = getClassNamePrefix(),
     theme,
     toastContainer: container,
+    disableRipple,
     ...rest
   } = props;
   const toasters = React.useRef(new Map<string, ToastContainerInstance>());
   const { Portal } = usePortal({ container, waitMount: true });
 
   const value = React.useMemo(
-    () => ({ classPrefix, theme, toasters, ...rest }),
-    [classPrefix, theme, rest]
+    () => ({ classPrefix, theme, toasters, disableRipple, ...rest }),
+    [classPrefix, theme, disableRipple, rest]
   );
 
   useEffect(() => {

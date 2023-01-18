@@ -45,10 +45,11 @@ return (
 
 ### `<CustomProvider>`
 
-| Property   | Type`(Default)`                                    | Description                                                                          |
-| ---------- | -------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| formatDate | (date: Date, format?: string) => string            | Return the formatted date string in the given format. The result may vary by locale. |
-| locale     | object`(rsuite/locales/default)`               | Configure Language Pack                                                              |
-| parseDate  | (dateString: string, formatString: string) => Date | Return the date parsed from string using the given format string.                    |
-| rtl        | boolean                                            | Text and other elements go from left to right.                                       |
-| theme      | 'light' &#124; 'dark' &#124; 'high-contrast'       | Supported themes                                                                     |
+| Property      | Type`(Default)`                                    | Description                                                                                             |
+| ------------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| disableRipple | boolean                                            | If true, the ripple effect is disabled. Affected components include: `Button`, `Nav.Item`, `Pagination` |
+| formatDate    | (date: Date, format?: string) => string            | Return the formatted date string in the given format. The result may vary by locale.                    |
+| locale        | object`(rsuite/locales/default)`                   | Configure Language Pack                                                                                 |
+| parseDate     | (dateString: string, formatString: string) => Date | Return the date parsed from string using the given format string.                                       |
+| rtl           | boolean                                            | Text and other elements go from left to right.                                                          |
+| theme         | 'light' &#124; 'dark' &#124; 'high-contrast'       | Supported themes                                                                                        |
