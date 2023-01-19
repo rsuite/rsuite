@@ -99,27 +99,17 @@
   }
 
   .rs-picker-has-value.rs-picker-cleanable & {
-    padding-right: (
-      @padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding + @clean-btn-width +
-        @clean-btn-margin
-    );
+    padding-right: (@padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
   }
 
   .rs-picker-toggle-caret,
   .rs-picker-toggle-clean {
     top: @padding-vertical;
+    right: @padding-horizontal;
 
     .rs-picker-default & {
       top: @padding-vertical - @picker-default-toggle-border-width;
     }
-  }
-
-  .rs-picker-toggle-caret {
-    right: @padding-horizontal;
-  }
-
-  .rs-picker-toggle-clean {
-    right: (@dropdown-caret-width + @padding-horizontal + @clean-btn-width - @clean-btn-margin);
   }
 }
 
@@ -156,18 +146,11 @@
   .rs-picker-toggle-clean,
   .rs-picker-toggle-caret {
     top: @top;
+    right: @padding-horizontal;
 
     .rs-picker-subtle & {
       top: @top - @picker-default-toggle-border-width;
     }
-  }
-
-  .rs-picker-toggle-caret {
-    right: @padding-horizontal;
-  }
-
-  .rs-picker-toggle-clean {
-    right: (@padding-horizontal + @toggle-clean-padding + @calendar-caret-width);
   }
 }
 

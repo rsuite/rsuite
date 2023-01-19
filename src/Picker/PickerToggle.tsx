@@ -277,7 +277,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
               onClick={handleClean}
             />
           )}
-          {caret && <Caret className={prefix`caret`} />}
+          {caret && !showCleanButton && <Caret className={prefix`caret`} />}
         </Stack>
       </Component>
     );
