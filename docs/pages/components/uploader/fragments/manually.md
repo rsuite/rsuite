@@ -4,21 +4,21 @@
 import { Uploader, Button } from 'rsuite';
 
 const App = () => {
-  const [value, setValue] = React.useState([]);
+  const [fileList, setFileList] = React.useState([]);
   const uploader = React.useRef();
 
   return (
     <>
       <Uploader
-        value={value}
+        fileList={fileList}
         autoUpload={false}
         action="//jsonplaceholder.typicode.com/posts/"
-        onChange={setValue}
+        onChange={setFileList}
         ref={uploader}
       />
       <hr />
       <Button
-        disabled={!value.length}
+        disabled={!fileList.length}
         onClick={() => {
           uploader.current.start();
         }}
