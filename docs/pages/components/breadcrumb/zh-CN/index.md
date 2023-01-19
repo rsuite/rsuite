@@ -70,9 +70,9 @@ WAI-ARIA:https://www.w3.org/TR/wai-aria-practices/#breadcrumb
 
 ### `<Breadcrumb.Item>`
 
-| 属性名称    | 类型 `(默认值)`              | 描述                 |
-| ----------- | ---------------------------- | -------------------- |
-| active      | boolean                      | 激活状态             |
-| as          | elementType `('a')`          | 为组件自定义元素类型 |
-| classPrefix | string `('breadcrumb-item')` | 组件 CSS 类的前缀    |
-| href        | string                       | 跳转链接             |
+| 属性名称    | 类型 `(默认值)`              | 描述                                                                        |
+| ----------- | ---------------------------- | --------------------------------------------------------------------------- |
+| active      | boolean                      | 激活状态                                                                    |
+| as          | elementType `('span')`       | 为组件自定义元素类型，默认为 `span` 元素，当设置 `href` 则会默认为 `a` 元素 |
+| classPrefix | string `('breadcrumb-item')` | 组件 CSS 类的前缀                                                           |
+| href        | string                       | 跳转链接                                                                    |

@@ -21,7 +21,7 @@ export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | str
 const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React.forwardRef(
   (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {
-      as: Component = SafeAnchor,
+      as: Component = props.href ? SafeAnchor : 'span',
       href,
       classPrefix = 'breadcrumb-item',
       title,

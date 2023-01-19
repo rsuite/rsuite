@@ -70,9 +70,9 @@ WAI-ARIA:https://www.w3.org/TR/wai-aria-practices/#breadcrumb
 
 ### `<Breadcrumb.Item>`
 
-| Property    | Type `(Default)`             | Description                                           |
-| ----------- | ---------------------------- | ----------------------------------------------------- |
-| active      | boolean                      | Active state                                          |
-| as          | ElementType `('a')`          | You can use a custom element type for this component. |
-| classPrefix | string `('breadcrumb-item')` | The prefix of the component CSS class                 |
-| href        | string                       | Providing a `href` will render an `a` element         |
+| Property    | Type `(Default)`             | Description                                                                                                                                       |
+| ----------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| active      | boolean                      | Active state                                                                                                                                      |
+| as          | ElementType `('a')`          | You can use a custom element type for this component.. The default is a `span` element, and when `href` is set, it will default to an `a` element |
+| classPrefix | string `('breadcrumb-item')` | The prefix of the component CSS class                                                                                                             |
+| href        | string                       | Providing a `href` will render an `a` element                                                                                                     |
