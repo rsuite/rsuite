@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import getOffset from 'dom-lib/getOffset';
 import on from 'dom-lib/on';
 import Transition from '../Animation/Transition';
-import { mergeRefs, useClassNames } from '../utils';
+import { mergeRefs, useClassNames, useCustom } from '../utils';
 import { Offset, WithAsProps } from '../@types/common';
 
 export interface RippleProps extends WithAsProps {
@@ -28,6 +28,7 @@ const getPosition = (target: HTMLElement, event: React.MouseEvent) => {
 };
 
 const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElement>) => {
+  const { disableRipple } = useCustom();
   const { as: Component = 'span', className, classPrefix = 'ripple', onMouseDown, ...rest } = props;
   const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
   const classes = merge(className, prefix('pond'));
@@ -60,6 +61,10 @@ const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElem
       };
     }
   }, [handleMouseDown]);
+
+  if (disableRipple) {
+    return null;
+  }
 
   return (
     <Component {...rest} className={classes} ref={mergeRefs(triggerRef, ref)}>

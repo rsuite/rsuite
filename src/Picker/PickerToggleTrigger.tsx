@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import pick from 'lodash/pick';
 import OverlayTrigger, {
   OverlayTriggerHandle,
@@ -6,8 +6,7 @@ import OverlayTrigger, {
   OverlayTriggerType
 } from '../Overlay/OverlayTrigger';
 import { PositionChildProps } from '../Overlay/Position';
-import { placementPolyfill } from '../utils';
-import { CustomContext } from '../CustomProvider';
+import { placementPolyfill, useCustom } from '../utils';
 import { TypeAttributes, AnimationEventProps } from '../@types/common';
 
 export type { OverlayTriggerHandle, PositionChildProps };
@@ -48,10 +47,10 @@ export const pickTriggerPropKeys = [
 const PickerToggleTrigger = React.forwardRef(
   (props: PickerToggleTriggerProps, ref: React.Ref<any>) => {
     const { pickerProps, speaker, placement, trigger = 'click', ...rest } = props;
-
     const pickerTriggerProps = pick(pickerProps, pickTriggerPropKeys);
 
-    const context = useContext(CustomContext);
+    const { rtl } = useCustom();
+
     return (
       <OverlayTrigger
         {...rest}
@@ -59,7 +58,7 @@ const PickerToggleTrigger = React.forwardRef(
         disabled={pickerTriggerProps.disabled || pickerTriggerProps.loading}
         ref={ref}
         trigger={trigger}
-        placement={placementPolyfill(placement, context?.rtl)}
+        placement={placementPolyfill(placement, rtl)}
         speaker={speaker}
       />
     );
