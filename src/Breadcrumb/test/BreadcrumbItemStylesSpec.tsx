@@ -31,6 +31,7 @@ describe('BreadcrumbItem styles', () => {
     );
     const dom = instanceRef.current as HTMLElement;
     const li = dom.querySelector('.rs-breadcrumb-item') as HTMLElement;
-    assert.equal(getStyle(li, 'color'), toRGB('#8e8e93'));
+
+    expect(getStyle(li, 'color')).to.equal(toRGB('#272c36'));
   });
 });
