@@ -1,3 +1,21 @@
+# [5.25.0](https://github.com/rsuite/rsuite/compare/v5.24.1...v5.25.0) (2023-01-20)
+
+### Bug Fixes
+
+- **Breadcrumb:** improve font color for active item ([#3028](https://github.com/rsuite/rsuite/issues/3028)) ([1efcbf9](https://github.com/rsuite/rsuite/commit/1efcbf90a345ee93928ca13c181c103d247e869d))
+- **Breadcrumb:** rendered breadcrumbs as span when href is not specified ([#3027](https://github.com/rsuite/rsuite/issues/3027)) ([8ad16e4](https://github.com/rsuite/rsuite/commit/8ad16e4d572b55892a50c0cad747554039b43398))
+- **Button:** fix disabled icon button bug in dark mode ([#3020](https://github.com/rsuite/rsuite/issues/3020)) ([8975eff](https://github.com/rsuite/rsuite/commit/8975eff6b6e9a4ec9c2ed4c58cfbdf4f23e5d94a))
+- **DatePicker:** fix first click not working on month selection ([#3019](https://github.com/rsuite/rsuite/issues/3019)) ([42eeaa3](https://github.com/rsuite/rsuite/commit/42eeaa3cc5e19442157f771f02dab850f257c2dc))
+- **Whisper:** add type checking for child components ([#3012](https://github.com/rsuite/rsuite/issues/3012)) ([c189119](https://github.com/rsuite/rsuite/commit/c18911903141423d79eb79d5313bc47dd974705e))
+
+### Features
+
+- **CustomProvider:** add support for disableRipple on `<CustomProvider>` ([#3030](https://github.com/rsuite/rsuite/issues/3030)) ([c6bb7ad](https://github.com/rsuite/rsuite/commit/c6bb7ade76ea843b43e799c5cb797b6b5e69d98f))
+
+### Performance Improvements
+
+- **Button:** improved button color when hovered and activated ([#3022](https://github.com/rsuite/rsuite/issues/3022)) ([7973696](https://github.com/rsuite/rsuite/commit/7973696c2854d7199fc27d040dffe45dc356dc9a))
+
 ## [5.24.1](https://github.com/rsuite/rsuite/compare/v5.24.0...v5.24.1) (2023-01-12)
 
 ### Bug Fixes
