@@ -30,3 +30,6 @@ whisperRef.current?.updatePosition();
 >
   <div></div>
 </Whisper>;
+
+// @ts-expect-error should not accept children of type string
+<Whisper speaker={<div></div>}>button</Whisper>;
