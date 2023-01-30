@@ -1,5 +1,6 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
+import { render } from '@testing-library/react';
 
 import Drawer from '../index';
 
@@ -25,5 +26,14 @@ describe('Drawer.Body', () => {
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(<Drawer.Body classPrefix="custom-prefix" />);
     assert.include(instance.className, 'custom-prefix');
+  });
+
+  context('Ref', () => {
+    it('Should return an HTMLDivElement to ref', () => {
+      const ref = React.createRef<HTMLDivElement>();
+      render(<Drawer.Body ref={ref} />);
+
+      expect(ref.current).to.be.instanceOf(HTMLDivElement);
+    });
   });
 });
