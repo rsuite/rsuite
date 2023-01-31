@@ -313,7 +313,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const handleClean = useCallback(
       (event: React.SyntheticEvent) => {
         updateValue(event, null);
-        resetCalendarDate();
+        resetCalendarDate(null);
       },
       [resetCalendarDate, updateValue]
     );

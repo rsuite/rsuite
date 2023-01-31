@@ -867,4 +867,44 @@ describe('DatePicker', () => {
 
     expect(headerTitle).to.have.text(format(addMonths(today, 1), 'MMM yyyy'));
   });
+
+  it('Should the calendar date be reset when the controlled value is cleared', () => {
+    const ref = React.createRef<PickerHandle>();
+
+    const App = () => {
+      const [value, setValue] = React.useState<Date | null>();
+      return (
+        <DatePicker
+          ref={ref as any}
+          value={value}
+          onChange={setValue}
+          format="yyyy-MM-dd HH:mm:ss"
+          calendarDefaultDate={new Date('2022-02-02 00:00:00')}
+          ranges={[{ label: 'This day', value: new Date('2023-01-01 10:20:30') }]}
+        />
+      );
+    };
+
+    render(<App />);
+
+    fireEvent.click(ref.current?.target as HTMLElement);
+
+    const headerDateElement = ref.current?.overlay?.querySelector('.rs-calendar-header-title-date');
+    const headerTimeElement = ref.current?.overlay?.querySelector('.rs-calendar-header-title-time');
+
+    expect(headerDateElement).to.have.text('Feb 2022');
+    expect(headerTimeElement).to.have.text('00:00:00');
+
+    fireEvent.click(screen.getByRole('button', { name: 'This day' }));
+
+    expect(headerDateElement).to.have.text('Jan 2023');
+    expect(headerTimeElement).to.have.text('10:20:30');
+    expect(ref.current?.target).to.have.text('2023-01-01 10:20:30');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    fireEvent.click(ref.current?.target as HTMLElement);
+
+    expect(headerDateElement).to.have.text('Feb 2022');
+    expect(headerTimeElement).to.have.text('00:00:00');
+  });
 });
