@@ -9,7 +9,7 @@ describe('TagInput', () => {
     const onCreateSpy = sinon.spy();
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" data={[]} />);
+    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
@@ -26,7 +26,7 @@ describe('TagInput', () => {
     const onCreateSpy = sinon.spy();
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Space" data={[]} />);
+    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Space" />);
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
 
@@ -40,7 +40,7 @@ describe('TagInput', () => {
     const onCreateSpy = sinon.spy();
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Comma" data={[]} />);
+    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Comma" />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
@@ -54,7 +54,7 @@ describe('TagInput', () => {
   it('Should render 2 tags by events', () => {
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} trigger="Enter" data={[]} />);
+    render(<TagInput ref={inputRef} trigger="Enter" />);
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
 
@@ -74,7 +74,7 @@ describe('TagInput', () => {
   it('Should render 2 tags by value', () => {
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} value={['abc', '123']} trigger="Enter" data={[]} />);
+    render(<TagInput ref={inputRef} value={['abc', '123']} trigger="Enter" />);
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
 
     expect(picker.querySelectorAll('.rs-tag')).to.lengthOf(2);
@@ -85,7 +85,7 @@ describe('TagInput', () => {
   it('Should render 2 tags by defaultValue', () => {
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} defaultValue={['abc', '123']} trigger="Enter" data={[]} />);
+    render(<TagInput ref={inputRef} defaultValue={['abc', '123']} trigger="Enter" />);
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
 
     expect(picker.querySelectorAll('.rs-tag')).to.lengthOf(2);
@@ -97,7 +97,7 @@ describe('TagInput', () => {
     const onCreateSpy = sinon.spy();
     const inputRef = React.createRef<PickerHandle>();
 
-    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" data={[]} />);
+    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" />);
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
 
