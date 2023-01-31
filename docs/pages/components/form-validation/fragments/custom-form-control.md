@@ -16,7 +16,8 @@ import {
   DatePicker,
   Message,
   toaster,
-  FlexboxGrid
+  FlexboxGrid,
+  Toggle
 } from 'rsuite';
 import JSONTree from 'react-json-tree';
 
@@ -64,7 +65,8 @@ const App = () => {
     status: ['open'],
     level: 1,
     level2: 1,
-    createDate: new Date()
+    createDate: new Date(),
+    toggle: true
   });
 
   const handleSubmit = () => {
@@ -143,6 +145,8 @@ const App = () => {
             label="Create Date"
             errorMessage={formError.createDate}
           />
+
+          <Field accepter={Toggle} name="toggle" label="Toggle" errorMessage={formError.toggle} />
 
           <Form.Group>
             <Button appearance="primary" onClick={handleSubmit}>

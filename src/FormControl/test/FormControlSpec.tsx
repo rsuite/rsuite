@@ -7,6 +7,7 @@ import Form, { FormInstance } from '../../Form';
 import FormControl from '../FormControl';
 import FormGroup from '../../FormGroup';
 import Schema from '../../Schema';
+import Toggle from '../..//Toggle';
 
 describe('FormControl', () => {
   it('Should output a input', () => {
@@ -371,5 +372,19 @@ describe('FormControl', () => {
       assert.equal(handleError.callCount, 1);
       assert.equal(handleError.firstCall.firstArg.user, 'field require');
     });
+  });
+
+  it('Should be to initialize the state of Toggle through the form value', () => {
+    const formValue = {
+      toggle: true
+    };
+
+    render(
+      <Form formValue={formValue}>
+        <FormControl name="toggle" accepter={Toggle} />
+      </Form>
+    );
+
+    expect(screen.getByRole('switch')).to.be.checked;
   });
 });
