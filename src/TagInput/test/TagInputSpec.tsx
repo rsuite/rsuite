@@ -1,6 +1,7 @@
 import React from 'react';
 import TagInput from '../index';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { PickerHandle } from '../../Picker';
 
@@ -112,5 +113,14 @@ describe('TagInput', () => {
     fireEvent.keyDown(input, { key: 'Enter' });
 
     expect(onCreateSpy).to.calledOnce;
+  });
+
+  it('Should call `onChange` with empty array when clicking "Clear" button', () => {
+    const onChange = sinon.spy();
+    render(<TagInput value={['New tag']} onChange={onChange} />);
+
+    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+
+    expect(onChange).to.have.been.calledWith([]);
   });
 });
