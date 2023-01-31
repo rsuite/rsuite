@@ -7,7 +7,7 @@ import InputPicker, {
 import type { PickerComponent } from '../Picker/types';
 import type { TagProps } from '../Tag';
 
-export interface TagInputProps extends Omit<InputPickerProps, 'data'> {
+export interface TagInputProps extends Omit<InputPickerProps<readonly string[]>, 'data'> {
   /**  Tag related props. */
   tagProps?: TagProps;
 
