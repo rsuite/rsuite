@@ -1,16 +1,20 @@
 import React from 'react';
 import AutoComplete from '../AutoComplete';
-import { getDOMNode, getInstance } from '@test/testUtils';
-import { render, fireEvent } from '@testing-library/react';
+import { getInstance } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
+import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
 
 const data = ['item1', 'item2'];
 
 describe('AutoComplete', () => {
-  it('Should render input', () => {
-    const instance = getDOMNode(<AutoComplete data={data} />);
+  testStandardProps(<AutoComplete data={data} />);
 
-    expect(instance.querySelector('input')).to.exist;
+  it('Should render input', () => {
+    render(<AutoComplete data={data} />);
+
+    expect(document.querySelector('input')).to.exist;
   });
 
   it('Should render 2 `option` when set `open` and `defaultValue`', () => {
@@ -24,8 +28,8 @@ describe('AutoComplete', () => {
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<AutoComplete data={data} disabled />);
-    expect(instance).to.have.class('rs-auto-complete-disabled');
+    render(<AutoComplete data={data} disabled data-testid="autocomplete" />);
+    expect(screen.getByTestId('autocomplete')).to.have.class('rs-auto-complete-disabled');
   });
 
   it('Should call onSelect callback with correct args', () => {
@@ -42,40 +46,38 @@ describe('AutoComplete', () => {
   it('Should call onChange callback', () => {
     const onChangeSpy = sinon.spy();
 
-    const instance = getDOMNode(<AutoComplete data={data} onChange={onChangeSpy} />);
-    const input = instance.querySelector('input') as HTMLInputElement;
+    render(<AutoComplete data={data} onChange={onChangeSpy} />);
 
-    fireEvent.change(input, { target: { value: 'a' } });
-    expect(onChangeSpy).to.be.calledOnce;
-    expect(onChangeSpy).to.be.calledWith('a');
+    userEvent.type(screen.getByRole('textbox'), 'a');
+
+    expect(onChangeSpy).to.have.been.calledOnce;
+    expect(onChangeSpy).to.have.been.calledWith('a');
   });
 
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
-    const instance = getDOMNode(<AutoComplete data={data} onFocus={onFocusSpy} />);
-    const input = instance.querySelector('input') as HTMLInputElement;
+    render(<AutoComplete data={data} onFocus={onFocusSpy} />);
+    const input = document.querySelector('input') as HTMLInputElement;
     fireEvent.focus(input);
-    expect(onFocusSpy).to.be.calledOnce;
+    expect(onFocusSpy).to.have.been.calledOnce;
   });
 
   it('Should call onBlur callback', () => {
     const onBlurSpy = sinon.spy();
 
-    const instance = getDOMNode(<AutoComplete data={data} onBlur={onBlurSpy} />);
-    const input = instance.querySelector('input') as HTMLInputElement;
+    render(<AutoComplete data={data} onBlur={onBlurSpy} />);
+    const input = document.querySelector('input') as HTMLInputElement;
     fireEvent.blur(input);
-    expect(onBlurSpy).to.be.calledOnce;
+    expect(onBlurSpy).to.have.been.calledOnce;
   });
 
   it('Should call onKeyDown callback on input', () => {
     const onKeyDownSpy = sinon.spy();
 
-    const instance = getDOMNode(
-      <AutoComplete onKeyDown={onKeyDownSpy} data={['a', 'b', 'ab']} open />
-    );
-    const input = instance.querySelector('input') as HTMLInputElement;
+    render(<AutoComplete onKeyDown={onKeyDownSpy} data={['a', 'b', 'ab']} open />);
+    const input = document.querySelector('input') as HTMLInputElement;
     fireEvent.keyDown(input);
-    expect(onKeyDownSpy).to.be.calledOnce;
+    expect(onKeyDownSpy).to.have.been.calledOnce;
   });
 
   it('Should call onKeyDown callback on menu', () => {
@@ -164,14 +166,6 @@ describe('AutoComplete', () => {
     expect(onCloseSpy).to.be.calledOnce;
   });
 
-  it('Should call onBlur callback', () => {
-    const onBlurSpy = sinon.spy();
-    const instance = getDOMNode(<AutoComplete data={['a', 'b', 'ab']} onBlur={onBlurSpy} />);
-    const input = instance.querySelector('input') as HTMLInputElement;
-    fireEvent.blur(input);
-    expect(onBlurSpy).to.be.calledOnce;
-  });
-
   it('Should render a icon in li', () => {
     const instance = getInstance(
       <AutoComplete
@@ -185,28 +179,12 @@ describe('AutoComplete', () => {
     expect(instance.overlay.querySelectorAll('.rs-auto-complete-item .icon')).to.length(2);
   });
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<AutoComplete data={data} className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
   it('Should have a menuClassName', () => {
     const instance = getInstance(
       <AutoComplete menuClassName="custom" data={['a', 'b', 'ab']} open />
     );
 
     expect(instance.overlay.querySelector('[role="listbox"]').className).to.include('custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<AutoComplete data={data} style={{ fontSize }} />);
-    expect(instance.style.fontSize).to.equal(fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<AutoComplete data={data} classPrefix="custom-prefix" />);
-    expect(instance.className).to.include('custom-prefix');
   });
 
   it('Should have a custom filter function', () => {
