@@ -1,19 +1,18 @@
 import React from 'react';
-import { act } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
 import getOffset from 'dom-lib/getOffset';
 import Affix from '../Affix';
 
 describe('Affix', () => {
   it('Should render a button', () => {
-    const instance = getDOMNode(
+    render(
       <Affix>
-        <button>button</button>
+        <button data-testid="button">button</button>
       </Affix>
     );
 
-    expect(instance.children[0].children[0].tagName).to.equal('BUTTON');
+    expect(screen.getByTestId('button')).to.have.tagName('BUTTON');
   });
 
   it('Should call onChange callback', () => {
@@ -22,7 +21,7 @@ describe('Affix', () => {
 
     const onChangeSpy = sinon.spy();
 
-    getDOMNode(
+    render(
       <div style={{ height: 3000 }}>
         <div style={{ height: 100 }}>--</div>
         <Affix top={10} ref={affixRef} onChange={onChangeSpy}>
@@ -40,16 +39,16 @@ describe('Affix', () => {
 
     expect(onChangeSpy).to.have.been.called;
 
-    const affixDOM = getDOMNode(affixRef.current);
+    const affixDOM = affixRef.current as HTMLDivElement;
 
-    expect(affixDOM.children[0].className).to.contain('rs-affix');
-    expect((affixDOM.children[0] as HTMLElement).style.position).to.equal('fixed');
+    expect(affixDOM.children[0]).to.have.class('rs-affix');
+    expect(affixDOM.children[0]).to.have.style('position', 'fixed');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Affix style={{ fontSize }} />);
+    render(<Affix style={{ fontSize }} data-testid="affix" />);
 
-    expect(instance.style.fontSize).to.equal(fontSize);
+    expect(screen.getByTestId('affix')).to.have.style('font-size', fontSize);
   });
 });
