@@ -497,17 +497,22 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         setValue(null);
         setFocusItemValue(null);
         setSearchKeyword('');
-        handleChange(null, event);
+        if (multi) {
+          handleChange([], event);
+        } else {
+          handleChange(null, event);
+        }
         onClean?.(event);
       },
       [
         disabled,
         searchKeyword,
-        onClean,
-        handleChange,
         setValue,
         setFocusItemValue,
-        setSearchKeyword
+        setSearchKeyword,
+        multi,
+        onClean,
+        handleChange
       ]
     );
 
