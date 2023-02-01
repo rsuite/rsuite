@@ -7,7 +7,7 @@ import Form, { FormInstance } from '../../Form';
 import FormControl from '../FormControl';
 import FormGroup from '../../FormGroup';
 import Schema from '../../Schema';
-import Toggle from '../..//Toggle';
+import Toggle from '../../Toggle';
 
 describe('FormControl', () => {
   it('Should output a input', () => {
