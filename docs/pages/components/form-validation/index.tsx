@@ -22,7 +22,8 @@ import {
   Uploader,
   toaster,
   FlexboxGrid,
-  IconButton
+  IconButton,
+  Toggle
 } from 'rsuite';
 
 import PlusIcon from '@rsuite/icons/Plus';
@@ -65,7 +66,8 @@ export default function Page() {
         FlexboxGrid,
         IconButton,
         PlusIcon,
-        MinusIcon
+        MinusIcon,
+        Toggle
       }}
       sandboxDependencies={sandboxDependencies}
       sandboxFiles={files}
