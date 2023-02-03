@@ -34,6 +34,7 @@ return (
 | it_IT    | 意大利语          |
 | kk_KZ    | 哈萨克语          |
 | ko_KR    | 韩语/朝鲜语       |
+| nl_NL    | 荷兰语            |
 | pt_BR    | 葡萄牙语(巴西)    |
 | ru_RU    | 俄罗斯语          |
 | sv_SE    | 瑞典语            |
@@ -41,7 +42,9 @@ return (
 | zh_CN    | 简体中文          |
 | zh_TW    | 繁体中文          |
 
-## 自定义语言包
+> [如何向 rsuite 添加新语言？](https://github.com/rsuite/rsuite/discussions/2927)
+
+## 自定义本地语言包
 
 React Suite 能够非常方便的定义语言环境。 您可以自己创建一个 locale 配置。
 

@@ -16,7 +16,7 @@ export { default as ruRU } from './ru_RU';
 export { default as svSE } from './sv_SE';
 export { default as trTR } from './tr_TR';
 export { default as zhCN } from './zh_CN';
-export { default as zhTw } from './zh_TW';
+export { default as zhTW } from './zh_TW';
 export { default as faIR } from './fa_IR';
 export { default as frFR } from './fr_FR';
 
