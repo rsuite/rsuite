@@ -214,11 +214,11 @@ describe('FormControl', () => {
     expect(alert).to.exist;
     expect(input).to.have.attr('aria-errormessage', alert.getAttribute('id') as string);
   });
-
   it('Should remove value and error when shouldResetWithUnmount is true', () => {
-    let refValue = { username: '', email: '' };
+    let refValue = { username: '', email: '', password: '' };
     let refError = {};
     const model = Schema.Model({
+      password: Schema.Types.StringType().maxLength(2, 'The length cannot exceed 2'),
       username: Schema.Types.StringType().maxLength(2, 'The length cannot exceed 2'),
       email: Schema.Types.StringType().maxLength(2, 'The length cannot exceed 2')
     });
@@ -244,6 +244,7 @@ describe('FormControl', () => {
             formError={error}
             formValue={value}
           >
+            {email || <FormControl id="password" name="password" shouldResetWithUnmount />}
             {email || <FormControl id="username" name="username" shouldResetWithUnmount />}
             <FormControl id="email" name="email" />
           </Form>
@@ -254,13 +255,19 @@ describe('FormControl', () => {
     fireEvent.change(container.querySelector('#username') as HTMLInputElement, {
       target: { value: 'username' }
     });
-    assert.deepEqual(refValue, { username: 'username', email: '' });
-    assert.deepEqual(refError, { username: 'The length cannot exceed 2' });
+    fireEvent.change(container.querySelector('#password') as HTMLInputElement, {
+      target: { value: 'password' }
+    });
+    expect(refValue).to.deep.equal({ username: 'username', password: 'password', email: '' });
+    expect(refError).to.deep.equal({
+      username: 'The length cannot exceed 2',
+      password: 'The length cannot exceed 2'
+    });
     fireEvent.change(container.querySelector('#email') as HTMLInputElement, {
       target: { value: 'email' }
     });
-    assert.deepEqual(refValue, { email: 'email' } as any);
-    assert.deepEqual(refError, { email: 'The length cannot exceed 2' });
+    expect(refValue).to.deep.equal({ email: 'email' });
+    expect(refError).to.deep.equal({ email: 'The length cannot exceed 2' });
   });
 
   describe('rule', () => {
