@@ -1,3 +1,15 @@
+# [5.26.0](https://github.com/rsuite/rsuite/compare/v5.25.0...v5.26.0) (2023-02-03)
+
+### Bug Fixes
+
+- **DatePicker:** fix uncontrolled default date on calendar ([#3045](https://github.com/rsuite/rsuite/issues/3045)) ([c530b25](https://github.com/rsuite/rsuite/commit/c530b2550c62a8343eb759b60942858a0921c2a2))
+- **Form.Control:** fix `acceptor` prop can not accept `Toggle` ([#3048](https://github.com/rsuite/rsuite/issues/3048)) ([43a413a](https://github.com/rsuite/rsuite/commit/43a413a0b96b3adb88deea54e41b56c582d4e3b6))
+- **Nav.Menu:** open with hover trigger in Navbar ([#3041](https://github.com/rsuite/rsuite/issues/3041)) ([ddbc325](https://github.com/rsuite/rsuite/commit/ddbc3253d5e714d03c5a43daa7bd2c52adec5638))
+
+### Features
+
+- **i18n:** added Dutch locale (nl_NL) ([#3035](https://github.com/rsuite/rsuite/issues/3035)) ([47342c9](https://github.com/rsuite/rsuite/commit/47342c9373c02ce9393fd03693d9e45cc601a186))
+
 # [5.25.0](https://github.com/rsuite/rsuite/compare/v5.24.1...v5.25.0) (2023-01-20)
 
 ### Bug Fixes
