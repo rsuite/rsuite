@@ -9,16 +9,19 @@ The accessibility and scalability of components are improved in React Suite 5. T
 It is our hope that more users can use barrier-free use of products developed by React Suite. We will improve each component provided by React Suite in multiple scenarios such as keyboard operation and screen reading devices.
 
 <br/>
+
 **Accessibility**
 
 React Suite follows the [WAI-ARIA](https://www.w3.org/TR/wai-aria/) standard. All components have been refactored to have appropriate attributes and keyboard interaction functions out of the box.
 
 <br/>
+
 **Add a set of high contrast themes**
 
 In React Suite v4, we refer to the 《Web Content Accessibility Guidelines (WCAG) 》 standard for color contrast requirements, and have made great improvements to the components to meet most users. We still hope to improve on this basis and take care of a small number of people with visual impairments. React Suite officially provides a total of [3 sets of themes (light, dark, high-contrast)](/guide/official-themes/).
 
 <br/>
+
 **Use SVG Icon instead of Icon font**
 
 Icon font has some rendering problems, which makes the icon blurry, the need to load the font file, and the content area flickers. For better accessibility, we decided to prefer SVG Icon. And can be well compatible with third-party icon resources.

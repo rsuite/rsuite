@@ -9,16 +9,19 @@ React Suite 5 的目的是改进组件的可访问性和可扩展性。以下将
 我们的希望可以让更多的用户在 React Suite 开发的产品上无障碍的使用。我们会在键盘操作、读屏设备等多个场景去改善 React Suite 提供的每一个组件。
 
 <br/>
+
 **无障碍设计**
 
 React Suite 遵循 [WAI-ARIA](https://www.w3.org/TR/wai-aria/) 标准，对所有组件进行了重构，均具有开箱即用的适当属性和键盘交互功能。
 
 <br/>
+
 **新增一套高对比度主题**
 
 在 React Suite v4 我们参照 [《Web Content Accessibility Guidelines (WCAG) 》](https://www.w3.org/TR/WCAG/#contrast-minimum)标准对颜色对比度的要求，对组件做了很大的改进，可以满足大多数用户。 我们还是希望在此基础上进行提升，并照顾到一小部分在视力上存在障碍的人群。 目前 React Suite 官方一共提供了 [3 套主题 (light、dark、high-contrast)](/zh/guide/official-themes/)。
 
 <br/>
+
 **采用 SVG Icon 代替 Icon font**
 
 Icon font 存在存在一些渲染上问题，导致图标模糊，需要载入字体文件，内容区域闪烁等问题。 为了更好的可访问性(Accessibility)，我们决定优先采用 SVG Icon。 并且能够友好的兼容第三方的图标资源。
