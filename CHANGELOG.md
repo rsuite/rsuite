@@ -1,3 +1,9 @@
+## [5.26.1](https://github.com/rsuite/rsuite/compare/v5.26.0...v5.26.1) (2023-02-09)
+
+### Bug Fixes
+
+- **Form.Control:** shouldResetWithUnmount isn't working ([#3055](https://github.com/rsuite/rsuite/issues/3055)) ([98c7e1d](https://github.com/rsuite/rsuite/commit/98c7e1d1959e46a6bec97931f159abbaf32dd779))
+
 # [5.26.0](https://github.com/rsuite/rsuite/compare/v5.25.0...v5.26.0) (2023-02-03)
 
 ### Bug Fixes
