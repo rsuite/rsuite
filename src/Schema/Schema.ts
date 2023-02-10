@@ -5,7 +5,8 @@ import {
   ArrayType,
   DateType,
   ObjectType,
-  BooleanType
+  BooleanType,
+  MixedType
 } from 'schema-typed';
 
 const SchemaTyped = {
@@ -16,7 +17,8 @@ const SchemaTyped = {
     ArrayType,
     DateType,
     ObjectType,
-    BooleanType
+    BooleanType,
+    MixedType
   }
 };
 
