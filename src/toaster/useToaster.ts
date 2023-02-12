@@ -14,7 +14,7 @@ const useToaster = () => {
     push: (message: React.ReactNode, options?: ToastContainerProps) => {
       const customToaster = toasters?.current?.get(options?.placement || 'topCenter');
 
-      return customToaster ? customToaster.push(message) : toaster.push(message, options);
+      return customToaster ? customToaster.push(message, options) : toaster.push(message, options);
     },
     remove: (key: string) => {
       toasters

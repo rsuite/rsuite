@@ -1,8 +1,9 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { testStandardProps } from '@test/commonCases';
 import Message from '../Message';
+import ToastContext from '../../toaster/ToastContext';
 
 describe('Message', () => {
   testStandardProps(<Message />);
@@ -58,5 +59,18 @@ describe('Message', () => {
     fireEvent.click(closeButton);
 
     expect(onCloseSpy).to.have.been.calledOnce;
+  });
+
+  it('Should call onClose callback by usedToaster', async () => {
+    const onCloseSpy = sinon.spy();
+    render(
+      <ToastContext.Provider value={{ usedToaster: true }}>
+        <Message duration={1} onClose={onCloseSpy} />
+      </ToastContext.Provider>
+    );
+
+    await waitFor(() => {
+      expect(onCloseSpy).to.have.been.calledOnce;
+    });
   });
 });

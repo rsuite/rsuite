@@ -4,6 +4,7 @@ import kebabCase from 'lodash/kebabCase';
 import Transition from '../Animation/Transition';
 import { useClassNames, guid, createChainedFunction, render } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import ToastContext from './ToastContext';
 
 export type PlacementType =
   | 'topCenter'
@@ -29,12 +30,19 @@ export interface ToastContainerProps extends WithAsProps {
   /** Set the message to appear in the specified container */
   container?: HTMLElement | (() => HTMLElement);
 
+  /** The number of milliseconds to wait before automatically closing a message. */
+  duration?: number;
+
   callback?: (ref: React.RefObject<ToastContainerInstance>) => void;
+}
+
+interface PushOptions {
+  duration?: number;
 }
 
 export interface ToastContainerInstance {
   root: HTMLElement;
-  push: (message: React.ReactNode) => string;
+  push: (message: React.ReactNode, options?: PushOptions) => string;
   remove: (key: string) => void;
   clear: () => void;
   destroy: () => void;
@@ -44,7 +52,7 @@ export interface NodeProps extends WithAsProps {
   onClose?: (event?: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-interface MessageType {
+interface MessageType extends PushOptions {
   key?: string;
   visible?: boolean;
   node: React.ReactElement<NodeProps>;
@@ -69,10 +77,13 @@ const useMessages = () => {
     [messages]
   );
 
-  const push = useCallback(message => {
+  const push = useCallback((message, options) => {
     const key = guid();
 
-    setMessages(prevMessages => [...prevMessages, { key, visible: true, node: message }]);
+    setMessages(prevMessages => [
+      ...prevMessages,
+      { key, visible: true, node: message, ...options }
+    ]);
 
     return key;
   }, []);
@@ -146,6 +157,7 @@ const ToastContainer: ToastContainerComponent = React.forwardRef(
             return React.cloneElement(item.node, {
               ...rest,
               ref,
+              duration: item.duration,
               // Remove the message after the specified time.
               onClose: createChainedFunction(item.node?.props?.onClose, () => remove(item.key)),
               className: merge(
@@ -160,16 +172,18 @@ const ToastContainer: ToastContainerComponent = React.forwardRef(
     });
 
     return (
-      <Component
-        {...rest}
-        ref={selfRef => {
-          rootRef.current = selfRef;
-          callback?.(selfRef);
-        }}
-        className={classes}
-      >
-        {elements}
-      </Component>
+      <ToastContext.Provider value={{ usedToaster: true }}>
+        <Component
+          {...rest}
+          ref={selfRef => {
+            rootRef.current = selfRef;
+            callback?.(selfRef);
+          }}
+          className={classes}
+        >
+          {elements}
+        </Component>
+      </ToastContext.Provider>
     );
   }
 ) as any;

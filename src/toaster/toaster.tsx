@@ -54,15 +54,15 @@ function getContainer(containerId?: string) {
 const toaster: Toaster = (message: React.ReactNode) => toaster.push(message);
 
 toaster.push = (message: React.ReactNode, options: ToastContainerProps = {}) => {
-  const containerId = options?.placement;
+  const { placement: containerId, ...restOptions } = options;
   const container = getContainer(containerId);
 
   if (container?.current) {
-    return container.current.push(message);
+    return container.current.push(message, restOptions);
   }
 
   return createContainer(containerId ?? '', options).then(ref => {
-    return ref.current?.push(message);
+    return ref.current?.push(message, restOptions);
   });
 };
 
