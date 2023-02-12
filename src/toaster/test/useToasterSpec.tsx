@@ -117,7 +117,7 @@ describe('useToaster', () => {
     expect(getByText('上传')).to.exist;
   });
 
-  it('Should pass duration to Message', () => {
+  it('Should pass duration to Message', async () => {
     const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
 
     const Message = React.forwardRef<HTMLDivElement, any>((props, ref) => {
@@ -131,7 +131,9 @@ describe('useToaster', () => {
 
     toaster.push(<Message>message</Message>, { duration: 10 });
 
-    expect(screen.getByTestId('msg-1')).to.have.text('10');
+    await waitFor(() => {
+      expect(screen.getByTestId('msg-1')).to.have.text('10');
+    });
   });
 
   it('Should call onClose callback with duration', async () => {
