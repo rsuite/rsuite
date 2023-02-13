@@ -4,6 +4,7 @@
 | --------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
 | container       | HTMLElement &#124; (() => HTMLElement)                 | Sets the rendering container                                                                                 |
 | controlId       | string                                                 | Set the `id` on `<Overlay>` and `aria-describedby` on `<Whisper>`                                            |
+| defaultOpen     | boolean                                                | Whether to open the overlay by default                                                                       |
 | delay           | number                                                 | Delay time (ms) Time                                                                                         |
 | delayClose      | number                                                 | Delay close time (ms) Time                                                                                   |
 | delayOpen       | number                                                 | Delay open time (ms) Time                                                                                    |
@@ -21,6 +22,7 @@
 | onExiting       | () => void                                             | Callback fired as the overlay begins to transition out                                                       |
 | onFocus         | () => void                                             | Callback function to get focus                                                                               |
 | onOpen          | () => void                                             | Callback fired when open component                                                                           |
+| open            | boolean                                                | Whether to open the overlay                                                                                  |
 | placement       | [Placement](#code-ts-placement-code) `('right')`       | Dispaly placement                                                                                            |
 | preventOverflow | boolean                                                | Prevent floating element overflow                                                                            |
 | speaker \*      | Tooltip &#124; Popover &#124; ReactElement             | Displayed component                                                                                          |
