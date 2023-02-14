@@ -116,21 +116,13 @@ describe('Button', () => {
   });
 
   it('Should render `startIcon` before text', () => {
-    render(
-      <Button startIcon={<i>Icon</i>} data-testid="button">
-        Text
-      </Button>
-    );
+    render(<Button startIcon={<i>Icon</i>}>Text</Button>);
 
-    expect(screen.getByTestId('button')).to.have.text('IconText');
+    expect(screen.getByRole('button')).to.have.text('IconText');
   });
   it('Should render `endIcon` after text', () => {
-    render(
-      <Button endIcon={<i>Icon</i>} data-testid="button">
-        Text
-      </Button>
-    );
+    render(<Button endIcon={<i>Icon</i>}>Text</Button>);
 
-    expect(screen.getByTestId('button')).to.have.text('TextIcon');
+    expect(screen.getByRole('button')).to.have.text('TextIcon');
   });
 });
