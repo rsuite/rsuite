@@ -1,9 +1,9 @@
 import React, { Ref } from 'react';
 import { Simulate } from 'react-dom/test-utils';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
-import OverlayTrigger from '../OverlayTrigger';
+import OverlayTrigger, { OverlayTriggerHandle } from '../OverlayTrigger';
 import Tooltip from '../../Tooltip';
 
 describe('OverlayTrigger', () => {
@@ -252,5 +252,40 @@ describe('OverlayTrigger', () => {
     }).toHaveError(
       '[rsuite] The OverlayTrigger component does not accept strings or Fragments as child.'
     );
+  });
+
+  it('Should open the Overlay', () => {
+    render(
+      <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} open>
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    expect(screen.getByRole('tooltip')).to.exist;
+  });
+
+  it('Should open the Overlay by default', async () => {
+    const onCloseSpy = sinon.spy();
+    const ref = React.createRef<OverlayTriggerHandle>();
+
+    render(
+      <OverlayTrigger
+        speaker={<Tooltip>tooltip</Tooltip>}
+        defaultOpen
+        onExited={onCloseSpy}
+        ref={ref}
+      >
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    expect(screen.getByRole('tooltip')).to.exist;
+
+    ref.current?.close();
+
+    await waitFor(() => {
+      expect(onCloseSpy).to.have.been.calledOnce;
+      expect(screen.queryByRole('tooltip')).to.not.exist;
+    });
   });
 });

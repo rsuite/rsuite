@@ -4,6 +4,7 @@
 | --------------- | ------------------------------------------------------ | ------------------------------------------------------------------------- |
 | container       | HTMLElement &#124; (() => HTMLElement)                 | 设置渲染的容器                                                            |
 | controlId       | string                                                 | 设置 `id` 到 `<Overlay>`上，并且设置 `aria-describedby` 到 `<Whisper>` 上 |
+| defaultOpen     | boolean                                                | 默认是否显示                                                              |
 | delay           | number                                                 | 延迟时间 (ms)                                                             |
 | delayClose      | number                                                 | 延迟关闭时间 (ms)                                                         |
 | delayOpen       | number                                                 | 延迟打开时间 (ms)                                                         |
@@ -21,6 +22,7 @@
 | onExiting       | () => void                                             | 退出中动画过渡的回调函数                                                  |
 | onFocus         | () => void                                             | 获取焦点的回调函数                                                        |
 | onOpen          | () => void                                             | 打开回调函数                                                              |
+| open            | boolean                                                | 手动控制是否显示                                                          |
 | placement       | [Placement](#code-ts-placement-code) `('right')`       | 显示位置                                                                  |
 | preventOverflow | boolean                                                | 防止浮动元素溢出                                                          |
 | speaker \*      | Tooltip &#124; Popover &#124; ReactElement             | 展示的元素                                                                |
