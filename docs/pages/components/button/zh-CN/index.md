@@ -107,19 +107,21 @@ function App() {
 
 ### `<Button>`
 
-| 属性名称    | 类型 `(默认值)`                                      | 描述                   |
-| ----------- | ---------------------------------------------------- | ---------------------- |
-| active      | boolean                                              | 激活状态               |
-| appearance  | [Appearance](#code-ts-appearance-code) `('default')` | 设置外观               |
-| as          | ElementType `('button')`                             | 为组件自定义元素类型   |
-| block       | boolean                                              | 显示为块级元素         |
-| children \* | ReactNode                                            | 组件的内容             |
-| classPrefix | string `('btn')`                                     | 组件 CSS 类的前缀      |
-| color       | [Color](#code-ts-color-code)                         | 设置颜色               |
-| disabled    | boolean                                              | 禁用                   |
-| href        | string                                               | 按钮跳转链接           |
-| loading     | boolean                                              | 按钮可以显示加载指示器 |
-| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`    | 设置按钮尺寸           |
+| 属性名称    | 类型 `(默认值)`                                      | 描述                       |
+| ----------- | ---------------------------------------------------- | -------------------------- | --- |
+| active      | boolean                                              | 激活状态                   |
+| appearance  | [Appearance](#code-ts-appearance-code) `('default')` | 设置外观                   |
+| as          | ElementType `('button')`                             | 为组件自定义元素类型       |
+| block       | boolean                                              | 显示为块级元素             |
+| children \* | ReactNode                                            | 组件的内容                 |
+| classPrefix | string `('btn')`                                     | 组件 CSS 类的前缀          |
+| color       | [Color](#code-ts-color-code)                         | 设置颜色                   |
+| disabled    | boolean                                              | 禁用                       |
+| endIcon     | ReactNode                                            | 在按钮文字之后显示一个图标 |
+| href        | string                                               | 按钮跳转链接               |
+| loading     | boolean                                              | 按钮可以显示加载指示器     |
+| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`    | 设置按钮尺寸               |
+| startIcon   | ReactNode                                            | 在按钮文字之前显示一个图标 |     |
 
 ### `<IconButton>`
 

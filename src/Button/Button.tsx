@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ButtonGroupContext } from '../ButtonGroup';
 import SafeAnchor from '../SafeAnchor';
@@ -37,6 +37,12 @@ export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLEleme
   /** Ripple after button click */
   ripple?: boolean;
 
+  /** The icon element placed _before_ the button text */
+  startIcon?: React.ReactNode;
+
+  /** The icon element placed _after_ the button text */
+  endIcon?: React.ReactNode;
+
   /** Defines HTML button type attribute */
   type?: 'button' | 'reset' | 'submit';
 }
@@ -56,6 +62,8 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
       loading,
       ripple = true,
       size: sizeProp,
+      startIcon,
+      endIcon,
       type: typeProp,
       ...rest
     } = props;
@@ -70,8 +78,20 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
       withClassPrefix(appearance, color, size, { active, disabled, loading, block })
     );
 
-    const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
-    const spin = <span className={prefix`spin`} />;
+    const renderButtonContent = useCallback(() => {
+      const spin = <span className={prefix`spin`} />;
+      const rippleElement = ripple && !isOneOf(appearance, ['link', 'ghost']) ? <Ripple /> : null;
+
+      return (
+        <>
+          {loading && spin}
+          {startIcon ? <span className={prefix`start-icon`}>{startIcon}</span> : null}
+          {children}
+          {endIcon ? <span className={prefix`end-icon`}>{endIcon}</span> : null}
+          {rippleElement}
+        </>
+      );
+    }, [appearance, children, endIcon, loading, prefix, ripple, startIcon]);
 
     if (rest.href) {
       return (
@@ -83,9 +103,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
           disabled={disabled}
           className={classes}
         >
-          {loading && spin}
-          {children}
-          {rippleElement}
+          {renderButtonContent()}
         </SafeAnchor>
       );
     }
@@ -104,9 +122,7 @@ const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef
         aria-disabled={disabled}
         className={classes}
       >
-        {loading && spin}
-        {children}
-        {rippleElement}
+        {renderButtonContent()}
       </Component>
     );
   }
