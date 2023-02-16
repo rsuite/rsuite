@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS, STATUS, useIsMounted } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import CloseButton from '../CloseButton';
+import ToastContext from '../toaster/ToastContext';
 
 export interface MessageProps extends WithAsProps {
   /** The type of the message box. */
@@ -15,6 +16,10 @@ export interface MessageProps extends WithAsProps {
    * Delay automatic removal of messages.
    * When set to 0, the message is not automatically removed.
    * (Unit: milliseconds)
+   *
+   * @default 2000
+   * @deprecated Use `toaster.push(<Message />, { duration: 2000 })` instead.
+   *
    */
   duration?: number;
 
@@ -53,9 +58,10 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
     const [display, setDisplay] = useState<DisplayType>('show');
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const isMounted = useIsMounted();
+    const { usedToaster } = useContext(ToastContext);
 
     // Timed close message
-    const { clear } = useTimeout(onClose, duration, duration > 0);
+    const { clear } = useTimeout(onClose, duration, usedToaster && duration > 0);
 
     const handleClose = useCallback(
       (event: React.MouseEvent<HTMLButtonElement>) => {

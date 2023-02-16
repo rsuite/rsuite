@@ -20,11 +20,14 @@ return () => {
 type PlacementType = 'topCenter' | 'bottomCenter' | 'topStart' | 'topEnd' | 'bottomStart' | 'bottomEnd';
 
 interface ToastContainerProps{
-  /** The placement of the message box */
+  /** 消息框的位置 */
   placement?: PlacementType;
 
-  /** Set the message to appear in the specified container */
+  /** 设置消息出现在指定的容器中 */
   container?: HTMLElement | (() => HTMLElement);
+
+  /** 自动关闭消息前等待的毫秒数 */
+  duration?: number;
 }
 
 toaster.push(message: ReactNode, options?: ToastContainerProps): string;
@@ -33,10 +36,15 @@ toaster.push(message: ReactNode, options?: ToastContainerProps): string;
 e.g:
 
 ```js
-// Message
+// 弹出一个消息
 toaster.push(<Message>message</Message>);
 
-// Notification
+// 弹出一个消息，并设置自动关闭的时间
+toaster.push(<Message>message</Message>, {
+  duration: 1000
+});
+
+// 弹出一个通知, 并设置位置
 toaster.push(<Notification>message</Notification>, {
   placement: 'topEnd'
 });

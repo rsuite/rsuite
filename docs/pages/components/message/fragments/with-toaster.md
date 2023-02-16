@@ -9,7 +9,7 @@ const App = () => {
   const toaster = useToaster();
 
   const message = (
-    <Message showIcon type={type}>
+    <Message showIcon type={type} closable>
       {type}: The message appears on the {placement}.
     </Message>
   );
@@ -45,7 +45,7 @@ const App = () => {
           onChange={setPlacement}
           style={{ width: 200 }}
         />
-        <Button onClick={() => toaster.push(message, { placement })}>Push</Button>
+        <Button onClick={() => toaster.push(message, { placement, duration: 5000 })}>Push</Button>
         <Button onClick={() => toaster.remove()}>Remove</Button>
         <Button onClick={() => toaster.clear()}>Clear</Button>
       </ButtonToolbar>

@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS, useIsMounted } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import CloseButton from '../CloseButton';
+import ToastContext from '../toaster/ToastContext';
 
 export type MessageType = 'info' | 'success' | 'warning' | 'error';
 
@@ -16,6 +17,9 @@ export interface NotificationProps extends WithAsProps {
    * Delay automatic removal of messages.
    * When set to 0, the message is not automatically removed.
    * (Unit: milliseconds)
+   *
+   * @default 4500
+   * @deprecated Use `toaster.push(<Notification />, { duration: 4500 })` instead.
    */
   duration?: number;
 
@@ -48,9 +52,10 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
     const [display, setDisplay] = useState<DisplayType>('show');
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const isMounted = useIsMounted();
+    const { usedToaster } = useContext(ToastContext);
 
     // Timed close message
-    const { clear } = useTimeout(onClose, duration, duration > 0);
+    const { clear } = useTimeout(onClose, duration, usedToaster && duration > 0);
 
     // Click to trigger to close the message
     const handleClose = useCallback(

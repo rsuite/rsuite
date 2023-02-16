@@ -25,6 +25,9 @@ interface ToastContainerProps{
 
   /** Set the message to appear in the specified container */
   container?: HTMLElement | (() => HTMLElement);
+
+  /** The number of milliseconds to wait before automatically closing a message */
+  duration?: number;
 }
 
 toaster.push(message: ReactNode, options?: ToastContainerProps): string;
@@ -33,10 +36,15 @@ toaster.push(message: ReactNode, options?: ToastContainerProps): string;
 e.g:
 
 ```js
-// Message
+// Push a message
 toaster.push(<Message>message</Message>);
 
-// Notification
+// Push a message and set the duration
+toaster.push(<Message>message</Message>, {
+  duration: 1000
+});
+
+// Push notification and set placement
 toaster.push(<Notification>message</Notification>, {
   placement: 'topEnd'
 });
