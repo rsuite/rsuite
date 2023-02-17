@@ -1,3 +1,14 @@
+# [5.27.0](https://github.com/rsuite/rsuite/compare/v5.26.1...v5.27.0) (2023-02-17)
+
+### Bug Fixes
+
+- **Message,Notification:** duration property migrated to `toaster.push` option ([#3065](https://github.com/rsuite/rsuite/issues/3065)) ([f18cc32](https://github.com/rsuite/rsuite/commit/f18cc32e4822fa3596b350efe0dc31f286b3918b))
+- **Schema:** add missing Types.MixedType ([#3058](https://github.com/rsuite/rsuite/issues/3058)) ([b6c9654](https://github.com/rsuite/rsuite/commit/b6c965449f5eb1d13b72b02cfd16f454bc942c90))
+
+### Features
+
+- **Button:** add startIcon and endIcon props ([#3067](https://github.com/rsuite/rsuite/issues/3067)) ([d3e967e](https://github.com/rsuite/rsuite/commit/d3e967e3be84ab6f76eb5a2415989a4f592c6674))
+
 ## [5.26.1](https://github.com/rsuite/rsuite/compare/v5.26.0...v5.26.1) (2023-02-09)
 
 ### Bug Fixes
