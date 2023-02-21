@@ -53,8 +53,8 @@ const PickerToggleTrigger = React.forwardRef(
 
     return (
       <OverlayTrigger
-        {...rest}
         {...pickerTriggerProps}
+        {...rest}
         disabled={pickerTriggerProps.disabled || pickerTriggerProps.loading}
         ref={ref}
         trigger={trigger}
