@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker/locale/en';
+import { SexType } from '@faker-js/faker';
 
 export const importFakerString = `import { faker } from '@faker-js/faker/locale/en';`;
 
@@ -86,8 +87,8 @@ export function mockUsers(length: number) {
   const createRowData = rowIndex => {
     const firstName = faker.name.firstName();
     const lastName = faker.name.lastName();
-    const gender = faker.name.gender(true) as 'female' | 'male';
-    const name = faker.name.findName(firstName, lastName, gender);
+    const gender = faker.name.sex() as SexType;
+    const name = faker.name.fullName({ firstName, lastName, sex: gender });
     const avatar = faker.image.avatar();
 
     const city = faker.address.city();
@@ -96,7 +97,7 @@ export function mockUsers(length: number) {
     const postcode = faker.address.zipCode();
     const phone = faker.phone.number();
     const amount = faker.finance.amount(1000, 90000);
-    const company = faker.company.companyName();
+    const company = faker.company.name();
 
     const age = Math.floor(Math.random() * 30) + 18;
     const stars = Math.floor(Math.random() * 10000);
