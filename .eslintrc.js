@@ -2,6 +2,7 @@ const OFF = 0;
 const WARNING = 1;
 const ERROR = 2;
 
+/** @type {import('eslint').Linter.Config} */
 module.exports = {
   env: {
     browser: true,
@@ -45,9 +46,21 @@ module.exports = {
       }
     },
     {
-      files: ['*Spec.js'],
+      files: ['*Spec.js', '*Spec.ts', '*Spec.tsx'],
+      extends: ['plugin:testing-library/react'],
       rules: {
-        'react/prop-types': 'off'
+        'react/prop-types': 'off',
+        // todo Change this rule to 'error' and fix errors
+        'testing-library/no-node-access': 'warn',
+        // todo Change this rule to 'error' and fix errors
+        'testing-library/render-result-naming-convention': 'warn',
+        // todo Change this rule to 'error' and fix errors
+        'testing-library/prefer-screen-queries': 'warn',
+        // todo Change this rule to 'error' and fix errors
+        'testing-library/no-unnecessary-act': 'warn',
+        // todo Change this rule to 'error' and fix errors
+        'testing-library/no-container': 'warn',
+        'testing-library/no-wait-for-multiple-assertions': 'off'
       }
     }
   ]
