@@ -630,10 +630,10 @@ describe('CheckTreePicker', () => {
 
   it('Should children can be removed', () => {
     const onChangeSpy = sinon.spy();
-    const screen = render(<CheckTreePicker defaultOpen data={data} onChange={onChangeSpy} />);
+    const view = render(<CheckTreePicker defaultOpen data={data} onChange={onChangeSpy} />);
 
-    fireEvent.click(screen.getByText('Master'), { target: { checked: true } });
-    fireEvent.click(screen.getByText('tester0'), { target: { checked: false } });
+    fireEvent.click(view.getByText('Master'), { target: { checked: true } });
+    fireEvent.click(view.getByText('tester0'), { target: { checked: false } });
 
     expect(onChangeSpy.callCount).to.equal(2);
     expect(onChangeSpy.firstCall.args[0]).to.include('Master');
@@ -686,17 +686,17 @@ describe('CheckTreePicker', () => {
 
   it('Should children can be removed when setting virtualized', () => {
     const onChangeSpy = sinon.spy();
-    const screen = render(
+    const view = render(
       <CheckTreePicker open virtualized defaultExpandAll data={data} onChange={onChangeSpy} />
     );
 
-    fireEvent.click(screen.getByText('Master'), {
+    fireEvent.click(view.getByText('Master'), {
       target: {
         checked: true
       }
     });
 
-    fireEvent.click(screen.getByText('tester0'), {
+    fireEvent.click(view.getByText('tester0'), {
       target: {
         checked: false
       }

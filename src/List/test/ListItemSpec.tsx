@@ -29,7 +29,7 @@ describe('ListItem', () => {
   });
 
   it('Should be different size', async () => {
-    const screen = render(
+    const view = render(
       <List size="lg">
         <List.Item index={1} size="sm">
           Small
@@ -38,7 +38,7 @@ describe('ListItem', () => {
       </List>
     );
 
-    const items = await screen.findAllByRole('listitem');
+    const items = await view.findAllByRole('listitem');
     assert.include(items[0].className, 'rs-list-item-sm');
     assert.include(items[1].className, 'rs-list-item-lg');
   });
