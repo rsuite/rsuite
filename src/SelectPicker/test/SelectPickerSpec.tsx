@@ -416,13 +416,13 @@ describe('SelectPicker', () => {
   it('Should call onSearch when closed', async () => {
     const onSearchSpy = sinon.spy();
     const handleClose = sinon.spy();
-    const { container } = render(
+    const view = render(
       <>
-        <button id="exit">exit</button>
+        <button data-testid="exit">exit</button>
         <SelectPicker onClose={handleClose} defaultOpen onSearch={onSearchSpy} data={data} />
       </>
     );
-    const exit = container.querySelector('#exit') as HTMLElement;
+    const exit = view.getByTestId('exit') as HTMLElement;
 
     // close select
     fireEvent.mouseDown(exit, { bubbles: true });

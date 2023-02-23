@@ -245,18 +245,18 @@ describe('FormControl', () => {
             formError={error}
             formValue={value}
           >
-            {email || <FormControl id="password" name="password" shouldResetWithUnmount />}
-            {email || <FormControl id="username" name="username" shouldResetWithUnmount />}
-            <FormControl id="email" name="email" />
+            {email || <FormControl data-testid="password" name="password" shouldResetWithUnmount />}
+            {email || <FormControl data-testid="username" name="username" shouldResetWithUnmount />}
+            <FormControl data-testid="email" name="email" />
           </Form>
         </>
       );
     };
-    const { container } = render(<Wrapper />);
-    fireEvent.change(container.querySelector('#username') as HTMLInputElement, {
+    render(<Wrapper />);
+    fireEvent.change(screen.getByTestId('username'), {
       target: { value: 'username' }
     });
-    fireEvent.change(container.querySelector('#password') as HTMLInputElement, {
+    fireEvent.change(screen.getByTestId('password'), {
       target: { value: 'password' }
     });
     expect(refValue).to.deep.equal({ username: 'username', password: 'password', email: '' });
@@ -264,7 +264,7 @@ describe('FormControl', () => {
       username: 'The length cannot exceed 2',
       password: 'The length cannot exceed 2'
     });
-    fireEvent.change(container.querySelector('#email') as HTMLInputElement, {
+    fireEvent.change(screen.getByTestId('email'), {
       target: { value: 'email' }
     });
     expect(refValue).to.deep.equal({ email: 'email' });
@@ -295,6 +295,7 @@ describe('FormControl', () => {
         return (
           <>
             <button
+              data-testid="button"
               onClick={() => {
                 setShow(false);
               }}
@@ -313,13 +314,13 @@ describe('FormControl', () => {
           </>
         );
       }
-      const { container } = render(<Wrapper />);
+      render(<Wrapper />);
 
       (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 1);
       assert.deepEqual(handleError.firstCall.firstArg, { user: 'require', password: 'require' });
 
-      fireEvent.click(container.querySelector('button') as HTMLElement);
+      fireEvent.click(screen.getByTestId('button'));
       (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 2);
       assert.deepEqual(handleError.secondCall.firstArg, { user: 'require' });
@@ -334,6 +335,7 @@ describe('FormControl', () => {
         return (
           <>
             <button
+              data-testid="button"
               onClick={() => {
                 setRule(Schema.Types.StringType().isRequired('second require'));
               }}
@@ -347,13 +349,13 @@ describe('FormControl', () => {
         );
       }
 
-      const { container } = render(<Wrapper />);
+      render(<Wrapper />);
 
       (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 1);
       assert.deepEqual(handleError.firstCall.firstArg, { user: 'require' });
 
-      fireEvent.click(container.querySelector('button') as HTMLElement);
+      fireEvent.click(screen.getByTestId('button'));
       (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 2);
       assert.deepEqual(handleError.secondCall.firstArg, { user: 'second require' });

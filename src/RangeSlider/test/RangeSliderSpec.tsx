@@ -80,6 +80,7 @@ describe('RangeSlider', () => {
       <RangeSlider value={[10, 50]} onChange={onChange} constraint={() => false} />
     );
 
+    // eslint-disable-next-line testing-library/no-container
     fireEvent.click(container.querySelector('.rs-slider-progress-bar') as HTMLElement);
     expect(onChange).not.to.have.been.called;
 

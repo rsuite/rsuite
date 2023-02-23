@@ -2,7 +2,7 @@ import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
-import { render, act, waitFor, fireEvent } from '@testing-library/react';
+import { render, act, waitFor, fireEvent, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import Carousel from '../Carousel';
 
@@ -128,40 +128,32 @@ describe('Carousel', () => {
   });
 
   it('Should handle active index dynamically', () => {
-    type AppInstance = {
-      setIndex: (newIndex: number) => void;
-    };
-    const ref = React.createRef<AppInstance>();
-    const App = React.forwardRef((_props, ref) => {
-      const [index, setIndex] = React.useState(1);
-      React.useImperativeHandle(ref, () => ({
-        setIndex: newIndex => {
-          setIndex(newIndex);
-        }
-      }));
-
-      return (
-        <Carousel activeIndex={index}>
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-        </Carousel>
-      );
-    });
-
-    const { container } = render(<App ref={ref} />);
-
-    expect((container.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
-      '2'
+    const { rerender } = render(
+      <Carousel activeIndex={1}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+      </Carousel>
     );
 
-    act(() => {
-      (ref.current as AppInstance).setIndex(3);
-    });
+    expect(screen.getByText('1')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('2')).to.have.attr('aria-hidden', 'false');
+    expect(screen.getByText('3')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('4')).to.have.attr('aria-hidden', 'true');
 
-    expect((container.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
-      '4'
+    rerender(
+      <Carousel activeIndex={3}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+      </Carousel>
     );
+
+    expect(screen.getByText('1')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('2')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('3')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('4')).to.have.attr('aria-hidden', 'false');
   });
 });

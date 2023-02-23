@@ -1,6 +1,6 @@
 import React from 'react';
 import { testStandardProps } from '@test/commonCases';
-import { render, act, waitFor } from '@testing-library/react';
+import { render, act, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import Nav from '../Nav';
@@ -34,7 +34,7 @@ describe('<Nav>', () => {
   });
 
   it('Should be selected second option when activeKey = 2 ', () => {
-    const { container } = render(
+    render(
       <Nav activeKey={2}>
         {/* FIXME Figure out whether `eventKey` accepts number */}
         <Nav.Item eventKey={1 as any}>1</Nav.Item>
@@ -42,17 +42,18 @@ describe('<Nav>', () => {
       </Nav>
     );
 
-    expect(container.querySelectorAll('a')[1].className).to.contain('nav-item-active');
+    expect(screen.getByText('2', { selector: 'a' })).to.have.class('rs-nav-item-active');
   });
 
   it('Should be selected second option when activeKey = `{ key: 2, value: 2 }` ', () => {
-    const { container } = render(
+    render(
       <Nav activeKey={{ key: 2, value: 2 }}>
         <Nav.Item eventKey={{ key: 1, value: 1 } as any}>1</Nav.Item>
         <Nav.Item eventKey={{ key: 2, value: 2 } as any}>2</Nav.Item>
       </Nav>
     );
-    expect(container.querySelectorAll('a')[1].className).to.contain('nav-item-active');
+
+    expect(screen.getByText('2', { selector: 'a' })).to.have.class('rs-nav-item-active');
   });
 
   it('Should call onSelect callback with correct arguments', async () => {
@@ -107,7 +108,7 @@ describe('<Nav>', () => {
   });
 
   it('Should work with Dropdown', () => {
-    const { container } = render(
+    render(
       <Nav>
         <Nav.Menu title="Dropdown">
           <Nav.Item>Dropdown item</Nav.Item>
@@ -115,7 +116,7 @@ describe('<Nav>', () => {
       </Nav>
     );
 
-    expect(container.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
+    expect(screen.getByRole('button', { name: 'Dropdown' })).to.exist;
   });
 
   describe('[Deprecated] Legacy Nav.Dropdown API', () => {
@@ -171,7 +172,7 @@ describe('<Nav>', () => {
     });
 
     it('Should work with Dropdown', () => {
-      const { container } = render(
+      render(
         <Nav>
           <Nav.Dropdown title="Dropdown">
             <Nav.Dropdown.Item>Dropdown item</Nav.Dropdown.Item>
@@ -179,7 +180,7 @@ describe('<Nav>', () => {
         </Nav>
       );
 
-      expect(container.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
+      expect(screen.getByRole('button', { name: 'Dropdown' })).to.exist;
     });
   });
 
@@ -236,7 +237,7 @@ describe('<Nav>', () => {
     });
 
     it('Should work with Dropdown', () => {
-      const { container } = render(
+      render(
         <Nav>
           <Nav.Item>Nav item</Nav.Item>
           <Dropdown title="Dropdown">
@@ -245,7 +246,7 @@ describe('<Nav>', () => {
         </Nav>
       );
 
-      expect(container.querySelector('.rs-dropdown'), 'Dropdown').not.to.be.null;
+      expect(screen.getByRole('button', { name: 'Dropdown' })).to.exist;
     });
   });
 });

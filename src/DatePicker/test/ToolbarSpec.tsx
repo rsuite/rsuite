@@ -95,6 +95,7 @@ describe('DatePicker - Toolbar', () => {
 
   it('Should be wrap in ranges', () => {
     const { container } = render(<Toolbar calendarDate={new Date()} locale={{}} />);
+    // eslint-disable-next-line testing-library/no-container
     expect(container.querySelector('.rs-picker-toolbar-ranges')).to.have.style('flex-wrap', 'wrap');
   });
 });

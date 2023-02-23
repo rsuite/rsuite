@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { parseISO } from '../../utils/dateUtils';
 import { testStandardProps } from '@test/commonCases';
 import sinon from 'sinon';
@@ -52,10 +52,10 @@ describe('CalendarContainer', () => {
   });
 
   it('Should render a button that can close the month view', () => {
-    const { container, getByRole } = render(
+    const { getByRole } = render(
       <CalendarContainer calendarDate={new Date(2022, 8, 15)} format="yyyy-MM-dd" locale={{}} />
     );
-    expect(container.querySelector('.rs-calendar-btn-close')).to.be.null;
+    expect(screen.queryByRole('button', { name: 'Collapse month view' })).not.to.exist;
 
     fireEvent.click(getByRole('button', { name: '2022-09' }));
 
@@ -65,18 +65,18 @@ describe('CalendarContainer', () => {
 
     fireEvent.click(getByRole('button', { name: 'Collapse month view' }));
 
-    expect(container.querySelector('.rs-calendar-btn-close')).to.be.null;
+    expect(screen.queryByRole('button', { name: 'Collapse month view' })).not.to.exist;
   });
 
   it('Should render a button that can close the time view', () => {
-    const { container, getByRole } = render(
+    const { getByRole } = render(
       <CalendarContainer
         calendarDate={new Date(2022, 8, 15, 0, 0, 0)}
         format="yyyy-MM-dd HH:mm:ss"
         locale={{}}
       />
     );
-    expect(container.querySelector('.rs-calendar-btn-close')).to.be.null;
+    expect(screen.queryByRole('button', { name: 'Collapse month view' })).not.to.exist;
 
     fireEvent.click(getByRole('button', { name: '00:00:00' }));
 
@@ -86,6 +86,6 @@ describe('CalendarContainer', () => {
 
     fireEvent.click(getByRole('button', { name: 'Collapse time view' }));
 
-    expect(container.querySelector('.rs-calendar-btn-close')).to.be.null;
+    expect(screen.queryByRole('button', { name: 'Collapse month view' })).not.to.exist;
   });
 });

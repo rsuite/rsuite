@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -60,32 +60,29 @@ describe('PanelGroup', () => {
   });
 
   it('Should be a collapsible panel with accordion', () => {
-    const { getByText, container } = render(
+    const { getByText } = render(
       <PanelGroup accordion defaultActiveKey={1}>
-        <Panel header="header-1" eventKey={1}>
+        <Panel header="header-1" eventKey={1} data-testid="panel-1">
           body-1
         </Panel>
-        <Panel header="header-2" eventKey={2}>
+        <Panel header="header-2" eventKey={2} data-testid="panel-2">
           body-2
         </Panel>
       </PanelGroup>
     );
 
     // Expand the first panel by default
-    assert.equal(
-      (container.querySelector('.rs-panel-in .rs-panel-body') as HTMLElement).textContent,
-      'body-1'
-    );
+    expect(screen.getByTestId('panel-1')).to.have.class('rs-panel-in');
+    expect(screen.getByTestId('panel-2')).not.to.have.class('rs-panel-in');
 
     // Expand the second panel
     fireEvent.click(getByText('header-2'));
-    assert.equal(
-      (container.querySelector('.rs-panel-in .rs-panel-body') as HTMLElement).textContent,
-      'body-2'
-    );
+    expect(screen.getByTestId('panel-1')).not.to.have.class('rs-panel-in');
+    expect(screen.getByTestId('panel-2')).to.have.class('rs-panel-in');
 
     // Collapse the second panel
     fireEvent.click(getByText('header-2'));
-    assert.isNull(container.querySelector('.rs-panel-in .rs-panel-body'));
+    expect(screen.getByTestId('panel-1')).not.to.have.class('rs-panel-in');
+    expect(screen.getByTestId('panel-2')).not.to.have.class('rs-panel-in');
   });
 });

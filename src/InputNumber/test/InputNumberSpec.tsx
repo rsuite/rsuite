@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
@@ -150,8 +150,8 @@ describe('InputNumber', () => {
 
   it('Should not call onWheel callback when `scrollable` is false', () => {
     const onWheelSpy = sinon.spy();
-    const { container } = render(<InputNumber onWheel={onWheelSpy} scrollable={false} />);
-    const input = container.querySelector('.rs-input') as HTMLInputElement;
+    render(<InputNumber onWheel={onWheelSpy} scrollable={false} />);
+    const input = screen.getByRole('spinbutton') as HTMLInputElement;
 
     input.focus();
     input.dispatchEvent(new WheelEvent('wheel', { deltaY: 10 }));
