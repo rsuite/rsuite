@@ -82,9 +82,7 @@ describe('Modal', () => {
 
     const { getByRole } = render(<App />);
 
-    act(() => {
-      fireEvent.click(getByRole('button', { name: 'Close' }));
-    });
+    fireEvent.click(getByRole('button', { name: 'Close' }));
 
     await waitFor(() => {
       expect(onExitedSpy).to.have.been.calledOnce;

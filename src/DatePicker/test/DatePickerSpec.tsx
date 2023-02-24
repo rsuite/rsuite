@@ -150,13 +150,9 @@ describe('DatePicker', () => {
     const instance = getInstance(<DatePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
-    act(() => {
-      fireEvent.change(input, { target: { value: '01102021' } });
-    });
+    fireEvent.change(input, { target: { value: '01102021' } });
 
-    act(() => {
-      fireEvent.blur(input);
-    });
+    fireEvent.blur(input);
 
     assert.isTrue(onChangeSpy.calledOnce);
     assert.equal(format(onChangeSpy.firstCall.firstArg, 'dd/MM/yyyy'), '01/10/2021');
@@ -168,12 +164,8 @@ describe('DatePicker', () => {
     const instance = getInstance(<DatePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
-    act(() => {
-      fireEvent.change(input, { target: { value: '01/10/2021' } });
-    });
-    act(() => {
-      fireEvent.keyDown(input, { key: 'Enter' });
-    });
+    fireEvent.change(input, { target: { value: '01/10/2021' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
 
     expect(onChangeSpy).to.calledOnce;
     expect(format(onChangeSpy.firstCall.firstArg, 'dd/MM/yyyy')).to.equal('01/10/2021');
@@ -220,13 +212,9 @@ describe('DatePicker', () => {
     const instance = getInstance(<DatePicker format="HH:mm:ss" />);
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
-    act(() => {
-      fireEvent.change(input, { target: { value: '10:00:00' } });
-    });
+    fireEvent.change(input, { target: { value: '10:00:00' } });
 
-    act(() => {
-      fireEvent.blur(input);
-    });
+    fireEvent.blur(input);
 
     assert.equal(instance.root.querySelector('.rs-picker-toggle-value').textContent, '10:00:00');
   });
@@ -298,16 +286,12 @@ describe('DatePicker', () => {
 
     const month = instance.overlay.querySelector('.rs-calendar-header-title-date');
 
-    act(() => {
-      fireEvent.click(month);
-    });
+    fireEvent.click(month);
 
     assert.isNotNull(instance.overlay.querySelector('.rs-calendar-month-dropdown.show'));
     assert.isTrue(onToggleMonthDropdownSpy.calledOnce);
 
-    act(() => {
-      fireEvent.click(month);
-    });
+    fireEvent.click(month);
 
     expect(instance.overlay.querySelector('.rs-calendar-month-dropdown.show')).to.not.exist;
     expect(onToggleMonthDropdownSpy).to.calledTwice;
@@ -324,16 +308,12 @@ describe('DatePicker', () => {
     );
     const time = instance.overlay.querySelector('.rs-calendar-header-title-time');
 
-    act(() => {
-      fireEvent.click(time);
-    });
+    fireEvent.click(time);
 
     assert.isNotNull(instance.overlay.querySelector('.rs-calendar-time-view'));
     assert.isTrue(onToggleTimeDropdownSpy.calledOnce);
 
-    act(() => {
-      fireEvent.click(time);
-    });
+    fireEvent.click(time);
 
     expect(instance.overlay.querySelector('.rs-calendar-time-view')).to.not.exist;
     expect(onToggleTimeDropdownSpy).to.calledTwice;
@@ -679,9 +659,7 @@ describe('DatePicker', () => {
 
     expect(meridian).to.have.text('PM');
 
-    act(() => {
-      fireEvent.click(meridian);
-    });
+    fireEvent.click(meridian);
 
     expect(meridian).to.have.text('AM');
   });
@@ -844,9 +822,7 @@ describe('DatePicker', () => {
 
     expect(meridian).to.have.text('PM');
 
-    act(() => {
-      fireEvent.click(meridian);
-    });
+    fireEvent.click(meridian);
 
     expect(meridian).to.have.text('AM');
     expect(onSelectSpy).to.have.been.calledWith(new Date('2017-08-14 01:00:00'));

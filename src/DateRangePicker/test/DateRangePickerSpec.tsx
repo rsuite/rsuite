@@ -24,15 +24,9 @@ function setTimePickerValue(picker, calendarIndex, { hours, minutes, seconds }) 
     return `.rs-calendar[index="${calendarIndex}"] .rs-calendar-time-dropdown ul[data-type="${type}"]>li:nth-child(${index}) .rs-calendar-time-dropdown-cell`;
   }
 
-  act(() => {
-    fireEvent.click(picker.querySelector(generateTimeItem(calendarIndex, 'hours', hours + 1)));
-  });
-  act(() => {
-    fireEvent.click(picker.querySelector(generateTimeItem(calendarIndex, 'minutes', minutes + 1)));
-  });
-  act(() => {
-    fireEvent.click(picker.querySelector(generateTimeItem(calendarIndex, 'seconds', seconds + 1)));
-  });
+  fireEvent.click(picker.querySelector(generateTimeItem(calendarIndex, 'hours', hours + 1)));
+  fireEvent.click(picker.querySelector(generateTimeItem(calendarIndex, 'minutes', minutes + 1)));
+  fireEvent.click(picker.querySelector(generateTimeItem(calendarIndex, 'seconds', seconds + 1)));
 }
 
 afterEach(() => {
@@ -142,38 +136,28 @@ describe('DateRangePicker', () => {
     const startTimeToolbar = '.rs-calendar[index="0"] .rs-calendar-header-time-toolbar';
     const endTimeToolbar = '.rs-calendar[index="1"] .rs-calendar-header-time-toolbar';
 
-    act(() => {
-      // click the left calendar time toolbar, display time selection panel
-      fireEvent.click(picker.querySelector(startTimeToolbar));
-    });
+    // click the left calendar time toolbar, display time selection panel
+    fireEvent.click(picker.querySelector(startTimeToolbar));
 
     // select time to 6:6:6
     setTimePickerValue(picker, 0, { hours: 6, minutes: 6, seconds: 6 });
 
-    act(() => {
-      // close the left calendar time picker panel.
-      fireEvent.click(picker.querySelector(startTimeToolbar));
-    });
+    // close the left calendar time picker panel.
+    fireEvent.click(picker.querySelector(startTimeToolbar));
 
     assert.equal(picker.querySelector(startTimeToolbar).textContent, '06:06:06');
 
-    act(() => {
-      // click the right calendar time toolbar, display time selection panel
-      fireEvent.click(picker.querySelector(endTimeToolbar));
-    });
+    // click the right calendar time toolbar, display time selection panel
+    fireEvent.click(picker.querySelector(endTimeToolbar));
     // select time to 9:9:9
     setTimePickerValue(picker, 1, { hours: 9, minutes: 9, seconds: 9 });
 
-    act(() => {
-      fireEvent.click(picker.querySelector(endTimeToolbar));
-    });
+    fireEvent.click(picker.querySelector(endTimeToolbar));
 
     assert.equal(picker.querySelector(endTimeToolbar).textContent, '09:09:09');
 
-    act(() => {
-      // press ok button
-      fireEvent.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
-    });
+    // press ok button
+    fireEvent.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
     assert.ok(
       isSameRange(
@@ -213,10 +197,8 @@ describe('DateRangePicker', () => {
 
     assert.equal(picker.querySelector(endTimeToolbar).textContent, '09:09:09');
 
-    act(() => {
-      // press ok button
-      fireEvent.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
-    });
+    // press ok button
+    fireEvent.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
     assert.ok(
       isSameRange(
@@ -257,9 +239,7 @@ describe('DateRangePicker', () => {
     const onOpenSpy = sinon.spy();
     const instance = getDOMNode(<DateRangePicker onOpen={onOpenSpy} />);
 
-    act(() => {
-      fireEvent.click(instance.querySelector('.rs-picker-toggle') as HTMLElement);
-    });
+    fireEvent.click(instance.querySelector('.rs-picker-toggle') as HTMLElement);
 
     await waitFor(() => {
       expect(onOpenSpy).to.calledOnce;
@@ -326,15 +306,11 @@ describe('DateRangePicker', () => {
       <DateRangePicker open value={[new Date('2019-09-10'), new Date('2019-10-10')]} />
     );
 
-    act(() => {
-      fireEvent.click(getByRole('gridcell', { name: '01 Sep 2019' }).firstChild as HTMLElement);
-    });
+    fireEvent.click(getByRole('gridcell', { name: '01 Sep 2019' }).firstChild as HTMLElement);
 
     expect(getByRole('gridcell', { name: '01 Sep 2019', selected: true })).to.exist;
 
-    act(() => {
-      fireEvent.click(getByRole('gridcell', { name: '24 Sep 2019' }).firstChild as HTMLElement);
-    });
+    fireEvent.click(getByRole('gridcell', { name: '24 Sep 2019' }).firstChild as HTMLElement);
 
     expect(getByRole('gridcell', { name: '24 Sep 2019', selected: true })).to.exist;
   });
@@ -386,17 +362,11 @@ describe('DateRangePicker', () => {
       ?.querySelectorAll('.rs-calendar-table-row')[1]
       .querySelector('.rs-calendar-table-cell-content');
 
-    act(() => {
-      fireEvent.click(day);
-    });
+    fireEvent.click(day);
 
-    act(() => {
-      fireEvent.click(day);
-    });
+    fireEvent.click(day);
 
-    act(() => {
-      fireEvent.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
-    });
+    fireEvent.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
     expect(isSameDay(startOfWeek(new Date('08/01/2021')), onOkSpy.firstCall.firstArg[0])).to.be
       .true;
@@ -410,17 +380,11 @@ describe('DateRangePicker', () => {
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
 
-    act(() => {
-      fireEvent.click(today);
-    });
+    fireEvent.click(today);
 
-    act(() => {
-      fireEvent.click(today);
-    });
+    fireEvent.click(today);
 
-    act(() => {
-      fireEvent.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
-    });
+    fireEvent.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
 
     expect(isSameDay(startOfMonth(new Date()), onOkSpy.firstCall.firstArg[0])).to.be.true;
     expect(isSameDay(endOfMonth(new Date()), onOkSpy.firstCall.firstArg[1])).to.be.true;
@@ -443,13 +407,9 @@ describe('DateRangePicker', () => {
       ?.querySelectorAll('.rs-calendar-table-row')[4]
       .querySelector('.rs-calendar-table-cell-content');
 
-    act(() => {
-      fireEvent.click(startCell);
-    });
+    fireEvent.click(startCell);
 
-    act(() => {
-      fireEvent.mouseEnter(endCell);
-    });
+    fireEvent.mouseEnter(endCell);
 
     const allInRangeCells = menu.querySelectorAll(
       '.rs-calendar-table-cell-in-range, .rs-calendar-table-cell-selected-start'
@@ -476,15 +436,9 @@ describe('DateRangePicker', () => {
       ?.querySelectorAll('.rs-calendar-table-row')[4]
       .querySelector('.rs-calendar-table-cell-content');
 
-    act(() => {
-      fireEvent.click(startCell);
-    });
-    act(() => {
-      fireEvent.mouseEnter(endCell);
-    });
-    act(() => {
-      fireEvent.click(endCell);
-    });
+    fireEvent.click(startCell);
+    fireEvent.mouseEnter(endCell);
+    fireEvent.click(endCell);
 
     const allInRangeCells = menu.querySelectorAll(
       '.rs-calendar-table-cell-in-range, .rs-calendar-table-cell-selected-start'
@@ -504,9 +458,7 @@ describe('DateRangePicker', () => {
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
 
-    act(() => {
-      fireEvent.click(today);
-    });
+    fireEvent.click(today);
 
     expect(onChangeSpy.callCount).to.equal(1);
     expect(isSameDay(startOfWeek(new Date()), onChangeSpy.firstCall.firstArg[0])).to.be.true;
@@ -546,9 +498,7 @@ describe('DateRangePicker', () => {
     const target = instance.target;
     const input = target.querySelector('.rs-picker-toggle-textbox');
 
-    act(() => {
-      fireEvent.change(input, { target: { value: 2020010120210707 } });
-    });
+    fireEvent.change(input, { target: { value: 2020010120210707 } });
 
     expect(input.value).to.equal('2020-01-01 ~ 2021-07-07');
   });
@@ -596,12 +546,8 @@ describe('DateRangePicker', () => {
     const instance = getInstance(<DateRangePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
-    act(() => {
-      fireEvent.change(input, { target: { value: '0910202009112021' } });
-    });
-    act(() => {
-      fireEvent.blur(input);
-    });
+    fireEvent.change(input, { target: { value: '0910202009112021' } });
+    fireEvent.blur(input);
 
     expect(onChangeSpy).to.called;
     expect(format(onChangeSpy.firstCall.firstArg[0], 'dd/MM/yyyy')).to.equal('09/10/2020');
@@ -614,12 +560,8 @@ describe('DateRangePicker', () => {
     const instance = getInstance(<DateRangePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
-    act(() => {
-      fireEvent.change(input, { target: { value: '0910202009112021' } });
-    });
-    act(() => {
-      fireEvent.keyDown(input, { key: 'Enter' });
-    });
+    fireEvent.change(input, { target: { value: '0910202009112021' } });
+    fireEvent.keyDown(input, { key: 'Enter' });
 
     expect(onChangeSpy).to.called;
     expect(format(onChangeSpy.firstCall.firstArg[0], 'dd/MM/yyyy')).to.equal('09/10/2020');
@@ -740,15 +682,11 @@ describe('DateRangePicker', () => {
     const btnShortcutToday = menu.querySelector('.rs-picker-toolbar-ranges button');
     const btnOk = menu.querySelector('.rs-picker-toolbar-right button');
 
-    act(() => {
-      fireEvent.click(btnDay);
-    });
+    fireEvent.click(btnDay);
 
     expect(btnOk.disabled).to.be.true;
 
-    act(() => {
-      fireEvent.click(btnShortcutToday);
-    });
+    fireEvent.click(btnShortcutToday);
 
     expect(btnOk.disabled).to.be.false;
   });

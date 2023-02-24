@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import Nav from '../Nav';
 import Navbar from '../../Navbar';
 import Sidenav from '../../Sidenav';
@@ -16,9 +16,7 @@ describe('<Nav.Menu>', () => {
 
     expect(getByText('Menu')).to.exist;
 
-    act(() => {
-      fireEvent.click(getByText('Menu'));
-    });
+    fireEvent.click(getByText('Menu'));
 
     expect(getByText('Menu item')).to.be.visible;
   });
@@ -36,15 +34,11 @@ describe('<Nav.Menu>', () => {
         }
       );
 
-      act(() => {
-        fireEvent.click(getByText('Menu'));
-      });
+      fireEvent.click(getByText('Menu'));
 
       expect(getByText('Submenu')).to.exist;
 
-      act(() => {
-        fireEvent.mouseOver(getByText('Submenu'));
-      });
+      fireEvent.mouseOver(getByText('Submenu'));
 
       expect(getByText('Submenu item')).to.be.visible;
     });
@@ -77,9 +71,7 @@ describe('<Nav.Menu>', () => {
 
       expect(getByText('Menu')).to.exist;
 
-      act(() => {
-        fireEvent.click(getByText('Menu'));
-      });
+      fireEvent.click(getByText('Menu'));
 
       expect(getByText('Menu item')).to.be.visible;
     });

@@ -54,8 +54,6 @@ module.exports = {
         'testing-library/no-node-access': 'warn',
         // todo Change this rule to 'error' and fix errors
         'testing-library/prefer-screen-queries': 'warn',
-        // todo Change this rule to 'error' and fix errors
-        'testing-library/no-unnecessary-act': 'warn',
         'testing-library/no-wait-for-multiple-assertions': 'off'
       },
       settings: {

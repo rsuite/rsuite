@@ -205,9 +205,7 @@ describe('Cascader', () => {
   it('Should clean selected default value', () => {
     const instance = getDOMNode(<Cascader defaultOpen data={items} defaultValue={'3-1'} />);
 
-    act(() => {
-      fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
-    });
+    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
 
     expect(
       (instance.querySelector('.rs-picker-toggle-placeholder') as HTMLElement).textContent
@@ -246,13 +244,11 @@ describe('Cascader', () => {
       />
     );
 
-    act(() => {
-      fireEvent.click(
-        instance.overlay.querySelector(
-          '.rs-picker-cascader-menu-has-children .rs-picker-cascader-menu-item'
-        )
-      );
-    });
+    fireEvent.click(
+      instance.overlay.querySelector(
+        '.rs-picker-cascader-menu-has-children .rs-picker-cascader-menu-item'
+      )
+    );
 
     expect(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]).to.text('2');
   });
@@ -270,13 +266,11 @@ describe('Cascader', () => {
       <Cascader open data={[{ label: '1', value: '1', children: [] }]} getChildren={fetchNodes} />
     );
 
-    act(() => {
-      fireEvent.click(
-        instance.overlay.querySelector(
-          '.rs-picker-cascader-menu-has-children .rs-picker-cascader-menu-item'
-        )
-      );
-    });
+    fireEvent.click(
+      instance.overlay.querySelector(
+        '.rs-picker-cascader-menu-has-children .rs-picker-cascader-menu-item'
+      )
+    );
     expect(instance.overlay.querySelector('.rs-icon.rs-icon-spin')).to.exist;
   });
 
@@ -431,14 +425,12 @@ describe('Cascader', () => {
       />
     );
 
-    act(() => {
-      const input = ((cascaderRef.current as PickerHandle).overlay as HTMLElement).querySelector(
-        '.rs-picker-search-bar-input'
-      ) as HTMLInputElement;
+    const input = ((cascaderRef.current as PickerHandle).overlay as HTMLElement).querySelector(
+      '.rs-picker-search-bar-input'
+    ) as HTMLInputElement;
 
-      fireEvent.focus(input);
-      fireEvent.change(input, { target: { value: 'g' } });
-    });
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'g' } });
 
     const searchResult = (
       (cascaderRef.current as PickerHandle).overlay as HTMLElement
@@ -481,9 +473,7 @@ describe('Cascader', () => {
       '.rs-picker-search-bar-input'
     ) as HTMLInputElement;
 
-    act(() => {
-      fireEvent.change(input, { target: { value: 'g' } });
-    });
+    fireEvent.change(input, { target: { value: 'g' } });
 
     const searchResult = (
       (cascaderRef.current as PickerHandle).overlay as HTMLElement
@@ -524,9 +514,7 @@ describe('Cascader', () => {
       '.rs-picker-search-bar-input'
     ) as HTMLInputElement;
 
-    act(() => {
-      fireEvent.change(input, { target: { value: 't' } });
-    });
+    fireEvent.change(input, { target: { value: 't' } });
 
     const searchResult = (
       (cascaderRef.current as PickerHandle).overlay as HTMLElement

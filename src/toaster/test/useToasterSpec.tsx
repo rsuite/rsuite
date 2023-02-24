@@ -110,9 +110,7 @@ describe('useToaster', () => {
       </CustomProvider>
     );
 
-    act(() => {
-      fireEvent.click(getByTestId('btn'));
-    });
+    fireEvent.click(getByTestId('btn'));
 
     expect(getByText('上传')).to.exist;
   });

@@ -1,7 +1,7 @@
 import React from 'react';
-import { act, fireEvent } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance, render } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 import TagPicker from '../index';
 import Button from '../../Button';
@@ -399,14 +399,12 @@ describe('TagPicker', () => {
     );
   });
 
-  it('Should call `onCreate` with correct value', () => {
+  it('Should call `onCreate` with correct value', async () => {
     const onCreate = sinon.spy();
 
     const inputRef = React.createRef<PickerHandle>();
 
-    act(() => {
-      render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable />);
-    });
+    render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
@@ -423,9 +421,7 @@ describe('TagPicker', () => {
 
     const inputRef = React.createRef<PickerHandle>();
 
-    act(() => {
-      render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable trigger="Space" />);
-    });
+    render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable trigger="Space" />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
@@ -442,9 +438,7 @@ describe('TagPicker', () => {
 
     const inputRef = React.createRef<PickerHandle>();
 
-    act(() => {
-      render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable trigger="Comma" />);
-    });
+    render(<TagPicker ref={inputRef} data={[]} onCreate={onCreate} creatable trigger="Comma" />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
     const input = picker.querySelector('.rs-picker-search input') as HTMLElement;

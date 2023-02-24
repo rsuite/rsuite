@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, act } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
@@ -108,12 +108,8 @@ describe('Cascader -  DropdownMenu', () => {
       <Dropdown defaultOpen data={items} disabledItemValues={['abcd']} onSelect={onSelectSpy} />
     );
 
-    act(() => {
-      fireEvent.click(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[0]);
-    });
-    act(() => {
-      fireEvent.click(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[2]);
-    });
+    fireEvent.click(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[0]);
+    fireEvent.click(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[2]);
 
     expect(onSelectSpy).to.callCount(2);
   });
@@ -124,9 +120,7 @@ describe('Cascader -  DropdownMenu', () => {
       <Dropdown defaultOpen data={items} disabledItemValues={['abcd']} onSelect={onSelectSpy} />
     );
 
-    act(() => {
-      fireEvent.click(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]);
-    });
+    fireEvent.click(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]);
 
     expect(onSelectSpy).to.not.called;
   });

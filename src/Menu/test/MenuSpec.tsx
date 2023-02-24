@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import Menu from '../Menu';
@@ -96,9 +96,7 @@ describe('<Menu>', () => {
     const button = getByTestId('button');
     const menu = getByTestId('menu');
 
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
     await waitFor(() => {
       expect(menu).to.be.visible;
@@ -106,9 +104,7 @@ describe('<Menu>', () => {
 
     sinon.spy(button, 'focus');
 
-    act(() => {
-      userEvent.click(getByTestId('div'));
-    });
+    userEvent.click(getByTestId('div'));
 
     await waitFor(() => {
       expect(menu).not.to.be.visible;
@@ -139,9 +135,7 @@ describe('<Menu>', () => {
     const button = getByTestId('button');
     const menu = getByTestId('menu');
 
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
     await waitFor(() => {
       expect(menu).to.be.visible;
@@ -149,9 +143,7 @@ describe('<Menu>', () => {
 
     sinon.spy(button, 'focus');
 
-    act(() => {
-      userEvent.click(getByTestId('outside-button'));
-    });
+    userEvent.click(getByTestId('outside-button'));
 
     await waitFor(() => {
       expect(menu).not.to.be.visible;
@@ -179,14 +171,10 @@ describe('<Menu>', () => {
     const button = getByTestId('button');
     const menu = getByTestId('menu');
 
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
     expect(menu).to.be.visible;
 
-    act(() => {
-      fireEvent.blur(getByTestId('container'));
-    });
+    fireEvent.blur(getByTestId('container'));
     expect(menu).not.to.be.visible;
   });
 

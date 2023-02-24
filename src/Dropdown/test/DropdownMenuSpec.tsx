@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, act } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
@@ -63,9 +63,7 @@ describe('<Dropdown.Menu>', () => {
       const menubar = getDOMNode(ui);
 
       if (focusAfterRender) {
-        act(() => {
-          fireEvent.focus(menubar);
-        });
+        fireEvent.focus(menubar);
       }
 
       return menubar;
@@ -90,9 +88,7 @@ describe('<Dropdown.Menu>', () => {
         false
       );
 
-      act(() => {
-        fireEvent.mouseDown(menubar.querySelector('#second-item') as HTMLElement);
-      });
+      fireEvent.mouseDown(menubar.querySelector('#second-item') as HTMLElement);
 
       expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
     });
@@ -106,9 +102,7 @@ describe('<Dropdown.Menu>', () => {
           </DropdownMenu>
         );
 
-        act(() => {
-          fireEvent.keyDown(menubar, { key: 'ArrowDown' });
-        });
+        fireEvent.keyDown(menubar, { key: 'ArrowDown' });
 
         expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
       });
@@ -123,13 +117,9 @@ describe('<Dropdown.Menu>', () => {
           </DropdownMenu>
         );
 
-        act(() => {
-          fireEvent.keyDown(menubar, { key: 'ArrowDown' });
-        });
+        fireEvent.keyDown(menubar, { key: 'ArrowDown' });
 
-        act(() => {
-          fireEvent.keyDown(menubar, { key: 'ArrowUp' });
-        });
+        fireEvent.keyDown(menubar, { key: 'ArrowUp' });
 
         expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
       });
@@ -145,9 +135,7 @@ describe('<Dropdown.Menu>', () => {
           </DropdownMenu>
         );
 
-        act(() => {
-          fireEvent.keyDown(menubar, { key: 'End' });
-        });
+        fireEvent.keyDown(menubar, { key: 'End' });
 
         expect(menubar.getAttribute('aria-activedescendant')).to.equal('last-item');
       });
@@ -163,13 +151,9 @@ describe('<Dropdown.Menu>', () => {
           </DropdownMenu>
         );
 
-        act(() => {
-          fireEvent.keyDown(menubar, { key: 'End' });
-        });
+        fireEvent.keyDown(menubar, { key: 'End' });
 
-        act(() => {
-          fireEvent.keyDown(menubar, { key: 'Home' });
-        });
+        fireEvent.keyDown(menubar, { key: 'Home' });
 
         expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
       });
@@ -188,9 +172,7 @@ describe('<Dropdown.Menu>', () => {
           </DropdownMenu>
         );
 
-        act(() => {
-          fireEvent.keyDown(menubar, { key: 'Enter' });
-        });
+        fireEvent.keyDown(menubar, { key: 'Enter' });
 
         expect(onSelectItemSpy).to.have.been.called;
         expect(onSelectSpy).to.have.been.calledWith('active-item');
@@ -210,9 +192,7 @@ describe('<Dropdown.Menu>', () => {
           </DropdownMenu>
         );
 
-        act(() => {
-          fireEvent.keyDown(menubar, { key: ' ' });
-        });
+        fireEvent.keyDown(menubar, { key: ' ' });
 
         expect(onSelectItemSpy).to.have.been.called;
         expect(onSelectSpy).to.have.been.calledWith('active-item');
@@ -287,10 +267,8 @@ describe('<Dropdown.Menu>', () => {
       </DropdownMenu>
     );
 
-    act(() => {
-      fireEvent.click(instance.querySelectorAll('[role^="menuitem"]')[2], {
-        bubbles: true
-      });
+    fireEvent.click(instance.querySelectorAll('[role^="menuitem"]')[2], {
+      bubbles: true
     });
 
     expect(onSelectSpy).to.have.been.called;

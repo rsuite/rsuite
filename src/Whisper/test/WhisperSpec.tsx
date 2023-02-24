@@ -1,5 +1,5 @@
 import React, { CSSProperties, Ref } from 'react';
-import { render, act, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
@@ -151,9 +151,7 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    act(() => {
-      fireEvent.click(getByTestId('btn'));
-    });
+    fireEvent.click(getByTestId('btn'));
 
     await waitFor(() => {
       expect(onEnterSpy).to.called;
@@ -161,9 +159,7 @@ describe('Whisper', () => {
       expect(onEnteredSpy).to.called;
     });
 
-    act(() => {
-      fireEvent.click(getByTestId('btn'));
-    });
+    fireEvent.click(getByTestId('btn'));
 
     await waitFor(() => {
       expect(onExitSpy).to.called;
@@ -211,18 +207,14 @@ describe('Whisper', () => {
         <button>button</button>
       </Whisper>
     );
-    act(() => {
-      fireEvent.click((ref.current as WhisperInstance).root as HTMLElement);
-    });
 
-    act(() => {
-      fireEvent.click(
-        // FIXME WhisperInstance is missing `overlay` declaration
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        (ref.current as WhisperInstance).overlay.querySelector('button') as HTMLElement
-      );
-    });
+    fireEvent.click((ref.current as WhisperInstance).root as HTMLElement);
+    fireEvent.click(
+      // FIXME WhisperInstance is missing `overlay` declaration
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      (ref.current as WhisperInstance).overlay.querySelector('button') as HTMLElement
+    );
 
     await waitFor(() => {
       expect(onExitedSpy).to.called;

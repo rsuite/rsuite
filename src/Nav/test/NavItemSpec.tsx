@@ -31,9 +31,7 @@ describe('<Nav.Item>', () => {
       }
     );
 
-    act(() => {
-      fireEvent.click(getByTestId('item'));
-    });
+    fireEvent.click(getByTestId('item'));
 
     await waitFor(() => {
       expect(onSelect).to.have.been.calledWith('Test');
@@ -47,9 +45,7 @@ describe('<Nav.Item>', () => {
       wrapper: Nav
     });
 
-    act(() => {
-      fireEvent.click(getByTestId('item'));
-    });
+    fireEvent.click(getByTestId('item'));
 
     await waitFor(() => {
       expect(onClick).to.have.been.called;

@@ -268,15 +268,11 @@ describe('MultiCascader', () => {
 
   it('Should clean selected default value', () => {
     const ref = React.createRef<PickerHandle>();
-    act(() => {
-      render(<MultiCascader ref={ref} defaultOpen data={items} defaultValue={['3-1']} />);
-    });
+    render(<MultiCascader ref={ref} defaultOpen data={items} defaultValue={['3-1']} />);
 
     const target = (ref.current as PickerHandle).root as HTMLElement;
 
-    act(() => {
-      fireEvent.click(target.querySelector('.rs-picker-toggle-clean') as HTMLElement);
-    });
+    fireEvent.click(target.querySelector('.rs-picker-toggle-clean') as HTMLElement);
 
     assert.equal(
       (target.querySelector('.rs-picker-toggle-placeholder') as HTMLElement).textContent,
@@ -355,9 +351,8 @@ describe('MultiCascader', () => {
     TestApp.displayName = 'TestApp';
 
     const ref = React.createRef<TestAppInstance>();
-    act(() => {
-      render(<TestApp ref={ref} />);
-    });
+    render(<TestApp ref={ref} />);
+
     const target = (ref.current as TestAppInstance).picker.root as HTMLElement;
 
     assert.equal((target.querySelector('.rs-picker-value-list') as HTMLElement).textContent, '1');
@@ -438,9 +433,7 @@ describe('MultiCascader', () => {
 
     const ref = React.createRef<TestAppInstance>();
 
-    act(() => {
-      render(<TestApp ref={ref} />);
-    });
+    render(<TestApp ref={ref} />);
 
     const overlay = (ref.current as TestAppInstance).picker.overlay as HTMLElement;
 

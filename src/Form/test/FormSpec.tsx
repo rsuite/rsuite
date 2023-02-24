@@ -224,10 +224,8 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    act(() => {
-      fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
-        target: { value: 'abcd' }
-      });
+    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
+      target: { value: 'abcd' }
     });
 
     expect(onChangeSpy).to.be.called;

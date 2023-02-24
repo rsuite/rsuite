@@ -3,7 +3,7 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import sinon from 'sinon';
 import DropdownMenu from '../DropdownMenu';
 import MultiCascader from '../MultiCascader';
-import { fireEvent, act } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 
 const classPrefix = 'rs-picker-cascader-menu';
 
@@ -121,12 +121,9 @@ describe('MultiCascader -  DropdownMenu', () => {
       />
     );
 
-    act(() => {
-      fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[0]);
-    });
-    act(() => {
-      fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[2]);
-    });
+    fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[0]);
+    fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[2]);
+
     assert.equal(onSelectSpy.callCount, 2);
   });
 

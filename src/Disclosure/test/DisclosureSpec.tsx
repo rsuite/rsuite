@@ -1,5 +1,5 @@
 import React, { Ref } from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import Disclosure from '../Disclosure';
@@ -39,9 +39,7 @@ describe('<Disclosure>', () => {
 
     expect(content.hidden, 'Content is hidden').to.be.true;
 
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
     expect(!content.hidden, 'Content is visible').to.be.true;
   });
@@ -76,9 +74,7 @@ describe('<Disclosure>', () => {
 
     expect(!content.hidden, 'Content is visible').to.be.true;
 
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
     expect(onToggleSpy).to.have.been.calledWith(false);
 
@@ -107,9 +103,7 @@ describe('<Disclosure>', () => {
 
     expect(content.hidden, 'Content is hidden').to.be.true;
 
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
     expect(onToggleSpy).to.have.been.calledWith(true);
   });
@@ -248,15 +242,11 @@ describe('<Disclosure>', () => {
       const button = getByTestId('button');
       const content = getByTestId('content');
 
-      act(() => {
-        fireEvent.keyDown(button, { key: 'Enter' });
-      });
+      fireEvent.keyDown(button, { key: 'Enter' });
 
       expect(!content.hidden, 'Shows the content').to.be.true;
 
-      act(() => {
-        fireEvent.keyDown(button, { key: 'Enter' });
-      });
+      fireEvent.keyDown(button, { key: 'Enter' });
 
       expect(content.hidden, 'Hides the content').to.be.true;
     });
@@ -287,15 +277,11 @@ describe('<Disclosure>', () => {
       const button = getByTestId('button');
       const content = getByTestId('content');
 
-      act(() => {
-        fireEvent.keyDown(button, { key: ' ' });
-      });
+      fireEvent.keyDown(button, { key: ' ' });
 
       expect(!content.hidden, 'Shows the content').to.be.true;
 
-      act(() => {
-        fireEvent.keyDown(button, { key: ' ' });
-      });
+      fireEvent.keyDown(button, { key: ' ' });
 
       expect(content.hidden, 'Hides the content').to.be.true;
     });

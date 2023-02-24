@@ -111,9 +111,7 @@ describe('<Dropdown>', () => {
       </Dropdown>
     );
 
-    act(() => {
-      fireEvent.contextMenu(button);
-    });
+    fireEvent.contextMenu(button);
 
     expect(!menu.hidden, 'Menu is open').to.be.true;
   });
@@ -201,13 +199,9 @@ describe('<Dropdown>', () => {
     const button = instance.querySelector('[role="button"]') as HTMLElement;
 
     // Open the menu
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
-    act(() => {
-      fireEvent.click(instance.querySelector('#menu-item') as HTMLElement);
-    });
+    fireEvent.click(instance.querySelector('#menu-item') as HTMLElement);
     const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
     expect(menu.hidden, 'Menu is closed').to.be.true;
@@ -224,13 +218,9 @@ describe('<Dropdown>', () => {
     );
 
     // Open the menu
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
-    act(() => {
-      fireEvent.click(root.querySelector('#submenu-item') as HTMLElement);
-    });
+    fireEvent.click(root.querySelector('#submenu-item') as HTMLElement);
 
     expect(menu.hidden, 'Menu is closed').to.be.true;
   });
@@ -357,9 +347,7 @@ describe('<Dropdown>', () => {
 
       if (openMenuAfterRendered) {
         // Open the menu
-        act(() => {
-          fireEvent.keyDown(button, { key: 'Enter' });
-        });
+        fireEvent.keyDown(button, { key: 'Enter' });
       }
 
       return {
@@ -382,9 +370,7 @@ describe('<Dropdown>', () => {
               </Dropdown>
             );
 
-            act(() => {
-              fireEvent.keyDown(button, { key });
-            });
+            fireEvent.keyDown(button, { key });
 
             assert.isFalse(menu.hidden, 'The menu is open');
 
@@ -405,9 +391,7 @@ describe('<Dropdown>', () => {
               </Dropdown>
             );
 
-            act(() => {
-              fireEvent.keyDown(button, { key });
-            });
+            fireEvent.keyDown(button, { key });
 
             expect(menu.getAttribute('aria-activedescendant'), 'Active menuitem').to.equal(
               'second-item'
@@ -424,9 +408,7 @@ describe('<Dropdown>', () => {
               </Dropdown>
             );
 
-            act(() => {
-              fireEvent.keyDown(button, { key });
-            });
+            fireEvent.keyDown(button, { key });
 
             expect(menu.getAttribute('aria-activedescendant'), 'Active menuitem').to.equal(
               'second-item'
@@ -444,9 +426,7 @@ describe('<Dropdown>', () => {
                 true
               );
 
-              act(() => {
-                fireEvent.keyDown(button, { key });
-              });
+              fireEvent.keyDown(button, { key });
 
               expect(menu.hidden, 'The menu is closed').to.be.true;
             });
@@ -470,13 +450,9 @@ describe('<Dropdown>', () => {
             const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
             // Open the menu
-            act(() => {
-              fireEvent.keyDown(button, { key: 'Enter' });
-            });
+            fireEvent.keyDown(button, { key: 'Enter' });
 
-            act(() => {
-              fireEvent.keyDown(menu, { key });
-            });
+            fireEvent.keyDown(menu, { key });
 
             const submenu = instance.querySelector('#submenu') as HTMLElement;
 
@@ -497,13 +473,9 @@ describe('<Dropdown>', () => {
             const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
             // Open the menu
-            act(() => {
-              fireEvent.keyDown(button, { key: 'Enter' });
-            });
+            fireEvent.keyDown(button, { key: 'Enter' });
 
-            act(() => {
-              fireEvent.keyDown(menu, { key });
-            });
+            fireEvent.keyDown(menu, { key });
             expect(onSelectSpy, 'The item is activated').to.have.been.calledOnce;
             expect(menu.hidden, 'The menu is closed').to.be.true;
           });
@@ -520,9 +492,7 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
 
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('second-item');
         });
@@ -539,9 +509,7 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
 
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('third-item');
         });
@@ -558,9 +526,7 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
 
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('third-item');
         });
@@ -577,16 +543,10 @@ describe('<Dropdown>', () => {
           const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(button, { key: 'Enter' });
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowUp' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
+          fireEvent.keyDown(menu, { key: 'ArrowUp' });
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
         it('Should skip disabled item', () => {
@@ -601,12 +561,8 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowUp' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
+          fireEvent.keyDown(menu, { key: 'ArrowUp' });
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
 
@@ -622,12 +578,8 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowUp' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
+          fireEvent.keyDown(menu, { key: 'ArrowUp' });
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
       });
@@ -645,13 +597,9 @@ describe('<Dropdown>', () => {
           const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(button, { key: 'Enter' });
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowRight' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowRight' });
 
           const submenu = instance.querySelector('#submenu') as HTMLElement;
 
@@ -669,9 +617,7 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowRight' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowRight' });
 
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
@@ -695,20 +641,14 @@ describe('<Dropdown>', () => {
           const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(button, { key: 'Enter' });
 
           // Open the submenu
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'Enter' });
-          });
+          fireEvent.keyDown(menu, { key: 'Enter' });
 
           const submenu = instance.querySelector('#submenu') as HTMLElement;
 
-          act(() => {
-            fireEvent.keyDown(submenu, { key: 'ArrowRight' });
-          });
+          fireEvent.keyDown(submenu, { key: 'ArrowRight' });
 
           expect(submenu.hidden, 'The submenu is closed').to.be.true;
         });
@@ -727,20 +667,14 @@ describe('<Dropdown>', () => {
           const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(button, { key: 'Enter' });
 
           // Open the submenu
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'Enter' });
-          });
+          fireEvent.keyDown(menu, { key: 'Enter' });
 
           const submenu = instance.querySelector('#submenu') as HTMLElement;
 
-          act(() => {
-            fireEvent.keyDown(submenu, { key: 'ArrowLeft' });
-          });
+          fireEvent.keyDown(submenu, { key: 'ArrowLeft' });
 
           expect(submenu.hidden, 'The submenu is closed').to.be.true;
         });
@@ -763,13 +697,9 @@ describe('<Dropdown>', () => {
           const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(button, { key: 'Enter' });
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowLeft' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowLeft' });
 
           const submenu = instance.querySelector('#submenu') as HTMLElement;
 
@@ -793,9 +723,7 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowLeft' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowLeft' });
 
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
@@ -814,13 +742,9 @@ describe('<Dropdown>', () => {
           const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(button, { key: 'Enter' });
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'End' });
-          });
+          fireEvent.keyDown(menu, { key: 'End' });
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('last-item');
         });
       });
@@ -837,17 +761,11 @@ describe('<Dropdown>', () => {
           const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(button, { key: 'Enter' });
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'End' });
-          });
+          fireEvent.keyDown(menu, { key: 'End' });
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'Home' });
-          });
+          fireEvent.keyDown(menu, { key: 'Home' });
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
       });
@@ -861,14 +779,10 @@ describe('<Dropdown>', () => {
           </Dropdown>
         );
         const button = instance.querySelector('[role="button"]') as HTMLElement;
-        act(() => {
-          fireEvent.click(button);
-        });
+        fireEvent.click(button);
 
         const menu = instance.querySelector('[role="menu"]') as HTMLElement;
-        act(() => {
-          fireEvent.keyDown(menu, { key: 'Escape' });
-        });
+        fireEvent.keyDown(menu, { key: 'Escape' });
 
         assert.isTrue(menu.hidden, 'The menu is closed');
       });

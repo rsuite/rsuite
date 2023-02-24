@@ -1,6 +1,6 @@
 import React from 'react';
 import { testStandardProps } from '@test/commonCases';
-import { render, act, waitFor, screen } from '@testing-library/react';
+import { render, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import Nav from '../Nav';
@@ -72,18 +72,14 @@ describe('<Nav>', () => {
       </Nav>
     );
 
-    act(() => {
-      userEvent.click(getByTestId('item'));
-    });
+    userEvent.click(getByTestId('item'));
 
     await waitFor(() => {
       expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
     });
 
-    act(() => {
-      onSelectSpy.resetHistory();
-      userEvent.click(getByTestId('dropdown-item'));
-    });
+    onSelectSpy.resetHistory();
+    userEvent.click(getByTestId('dropdown-item'));
 
     await waitFor(() => {
       expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
@@ -136,18 +132,14 @@ describe('<Nav>', () => {
         </Nav>
       );
 
-      act(() => {
-        userEvent.click(getByTestId('item'));
-      });
+      userEvent.click(getByTestId('item'));
 
       await waitFor(() => {
         expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
       });
 
-      act(() => {
-        onSelectSpy.resetHistory();
-        userEvent.click(getByTestId('dropdown-item'));
-      });
+      onSelectSpy.resetHistory();
+      userEvent.click(getByTestId('dropdown-item'));
 
       await waitFor(() => {
         expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
@@ -201,18 +193,14 @@ describe('<Nav>', () => {
         </Nav>
       );
 
-      act(() => {
-        userEvent.click(getByTestId('item'));
-      });
+      userEvent.click(getByTestId('item'));
 
       await waitFor(() => {
         expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
       });
 
-      act(() => {
-        onSelectSpy.resetHistory();
-        userEvent.click(getByTestId('dropdown-item'));
-      });
+      onSelectSpy.resetHistory();
+      userEvent.click(getByTestId('dropdown-item'));
 
       await waitFor(() => {
         expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(

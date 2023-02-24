@@ -1,7 +1,7 @@
 import React from 'react';
-import { fireEvent, act, waitFor } from '@testing-library/react';
+import { fireEvent, act, waitFor, render } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, render } from '@test/testUtils';
+import { getDOMNode } from '@test/testUtils';
 import Handle from '../Handle';
 
 describe('Slider - Handle', () => {
@@ -21,13 +21,9 @@ describe('Slider - Handle', () => {
     const ref = React.createRef<HTMLDivElement>();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
 
-    act(() => {
-      render(<Handle ref={ref} onDragMove={onDragMoveSpy} />);
-    });
+    render(<Handle ref={ref} onDragMove={onDragMoveSpy} />);
 
-    act(() => {
-      fireEvent.mouseDown(ref.current as HTMLElement);
-    });
+    fireEvent.mouseDown(ref.current as HTMLElement);
 
     act(() => {
       (ref.current as HTMLElement).dispatchEvent(mousemoveEvent);
