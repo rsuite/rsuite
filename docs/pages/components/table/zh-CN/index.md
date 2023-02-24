@@ -344,7 +344,7 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 | renderRow                | (children?: ReactNode, rowData?: RowDataType) => ReactNode                        | 自定义渲染行                                                    |
 | renderRowExpanded        | (rowDate?: Object) => ReactNode                                                   | 自定义可以展开区域的内容                                        |
 | renderTreeToggle         | (icon:node, rowData:object, expanded:boolean) => ReactNode                        | 树形表格，在展开节点的回调函数                                  |
-| rowClassName             | string &#124; (rowData:object) => string                                          | 为行自定义 className                                            |
+| rowClassName             | string &#124; (rowData:object, rowIndex:number) => string                         | 为行自定义 className                                            |
 | rowExpandedHeight        | number `(100)`                                                                    | 设置可展开区域的高度                                            |
 | rowHeight                | (rowData:object) => number, number`(46)`                                          | 行高                                                            |
 | rowKey                   | string `('key')`                                                                  | 每一个行对应的 `data` 中的唯一 `key`                            |
