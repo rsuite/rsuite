@@ -31,6 +31,7 @@ return (
 | fa_IR  | Persian (Iran)      |
 | fi_FI  | Finnish             |
 | fr_FR  | French              |
+| hu_HU  | Hungarian           |
 | it_IT  | Italian             |
 | kk_KZ  | Kazakh              |
 | ko_KR  | Korean              |

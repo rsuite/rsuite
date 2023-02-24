@@ -31,6 +31,7 @@ return (
 | fa_IR    | 波斯语 (伊朗)     |
 | fi_FI    | 芬兰语            |
 | fr_FR    | 法语              |
+| hu_HU    | 匈牙利语          |
 | it_IT    | 意大利语          |
 | kk_KZ    | 哈萨克语          |
 | ko_KR    | 韩语/朝鲜语       |
