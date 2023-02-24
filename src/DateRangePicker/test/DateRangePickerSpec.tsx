@@ -1,6 +1,6 @@
 import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
-import { render, act, fireEvent, waitFor } from '@testing-library/react';
+import { render, act, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 import {
@@ -886,7 +886,7 @@ describe('DateRangePicker', () => {
   describe('Issue #3074', () => {
     it('Should focus on the right month', () => {
       const onEnterSpy = sinon.spy();
-      const { rerender, getByRole } = render(
+      const { rerender } = render(
         <DateRangePicker value={[new Date(), new Date()]} onEnter={onEnterSpy} />
       );
 
@@ -897,9 +897,9 @@ describe('DateRangePicker', () => {
         />
       );
 
-      fireEvent.click(getByRole('combobox'));
+      fireEvent.click(screen.getByRole('combobox'));
 
-      const dialog = getByRole('dialog');
+      const dialog = screen.getByRole('dialog');
 
       expect(onEnterSpy).to.have.been.calledOnce;
 
