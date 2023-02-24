@@ -1,3 +1,13 @@
+# [5.28.0](https://github.com/rsuite/rsuite/compare/v5.27.0...v5.28.0) (2023-02-24)
+
+### Bug Fixes
+
+- **DateRangePicker:** fix lifecycle for Picker Toggle ([#3074](https://github.com/rsuite/rsuite/issues/3074)) ([f46717b](https://github.com/rsuite/rsuite/commit/f46717b4b464513d64b226faba9a6d8bacc52678))
+
+### Features
+
+- **i18n:** added Hungarian locale (hu_HU) ([#3075](https://github.com/rsuite/rsuite/issues/3075)) ([4df03c2](https://github.com/rsuite/rsuite/commit/4df03c24660dc6b09417c562da0e1ffe68103bad))
+
 # [5.27.0](https://github.com/rsuite/rsuite/compare/v5.26.1...v5.27.0) (2023-02-17)
 
 ### Bug Fixes
