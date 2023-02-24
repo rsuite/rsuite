@@ -1,6 +1,6 @@
 import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
-import { render, act, fireEvent, waitFor } from '@testing-library/react';
+import { render, act, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 import {
@@ -882,6 +882,35 @@ describe('DateRangePicker', () => {
     expect(
       (getByRole('dialog').querySelector('.rs-picker-toolbar') as HTMLElement).childNodes
     ).to.have.length(2);
+  });
+  describe('Issue #3074', () => {
+    it('Should focus on the right month', () => {
+      const onEnterSpy = sinon.spy();
+      const { rerender } = render(
+        <DateRangePicker value={[new Date(), new Date()]} onEnter={onEnterSpy} />
+      );
+
+      rerender(
+        <DateRangePicker
+          value={[new Date(2022, 10, 1), new Date(2022, 11, 1)]}
+          onEnter={onEnterSpy}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      const dialog = screen.getByRole('dialog');
+
+      expect(onEnterSpy).to.have.been.calledOnce;
+
+      const firstMonthPanelTitle =
+        '.rs-calendar[index="0"] .rs-calendar-header-month-toolbar .rs-calendar-header-title';
+      const secondMonthPanelTitle =
+        '.rs-calendar[index="1"] .rs-calendar-header-month-toolbar .rs-calendar-header-title';
+
+      expect(dialog.querySelector(firstMonthPanelTitle)).to.have.text('Nov 2022');
+      expect(dialog.querySelector(secondMonthPanelTitle)).to.have.text('Dec 2022');
+    });
   });
 
   describe('Plain text', () => {
