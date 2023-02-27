@@ -29,6 +29,7 @@
     "@rsuite/responsive-nav": "^5.0.1",
     "@sentry/browser": "^5.30.0",
     "@stackblitz/sdk": "^1.8.0",
+    "@vercel/analytics": "^0.1.10",
     "classnames": "^2.2.6",
     "color": "^3.1.2",
     "core-js": "^2.6.12",
