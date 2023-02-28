@@ -1,51 +1,27 @@
 import React from 'react';
-import { Link } from '@remix-run/react';
-import { Button, List } from 'rsuite';
+import { Button } from 'rsuite';
+import { Navbar } from '~/components/Navbar';
+import style from '~/styles/index.css';
 
 export default function Index() {
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.4' }}>
-      <h1>Welcome to Remix With RSuite</h1>
-      <List>
-        <List.Item>
-          <Button as={Link} to="/rsuite" appearance="link">
-            RSuite
-          </Button>
-        </List.Item>
-        <List.Item>
-          <Button
-            appearance="link"
-            as="a"
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </Button>
-        </List.Item>
-        <List.Item>
-          <Button
-            appearance="link"
-            as="a"
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </Button>
-        </List.Item>
-        <List.Item>
-          <Button
-            appearance="link"
-            as="a"
-            target="_blank"
-            href="https://remix.run/docs"
-            rel="noreferrer"
-          >
-            Remix Docs
-          </Button>
-        </List.Item>
-      </List>
+      <div className="hero">
+        <h1 className="title">Welcome to React Suite</h1>
+        <p className="description">
+          A suite of React components, intimate UI design, and a friendly development experience.
+        </p>
+        <hr />
+        <Navbar />
+        <hr />
+        <Button appearance="primary" href="https://rsuitejs.com/">
+          Getting started
+        </Button>
+      </div>
     </div>
   );
+}
+
+export function links() {
+  return [{ rel: 'stylesheet', href: style }];
 }

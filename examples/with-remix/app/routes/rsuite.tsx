@@ -1,12 +1,11 @@
 import React from 'react';
-import { Link } from '@remix-run/react';
+import { Navbar } from '~/components/Navbar';
 
 export default function RSuite() {
   return (
     <div>
-      <h1>RSuite</h1>
-      <p>RSuite is a React UI library</p>
-      <Link to="/">Home</Link>
+      <h1>A RSuite page with default style</h1>
+      <Navbar />
     </div>
   );
 }
