@@ -1,6 +1,8 @@
 import React from 'react';
 import { Grid, CustomProvider, CustomProviderProps } from 'rsuite';
 import NProgress from 'nprogress';
+import type { AppProps } from 'next/app';
+import { Analytics } from '@vercel/analytics/react';
 import Router from 'next/router';
 import AppContext from '@/components/AppContext';
 import zhCN from 'rsuite/locales/zh_CN';
@@ -46,12 +48,7 @@ Router.events.on('routeChangeComplete', () => {
 });
 Router.events.on('routeChangeError', () => NProgress.done());
 
-interface AppProps {
-  Component: React.ElementType;
-  pageProps: any;
-}
-
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps<{ userLanguage: string }>) {
   const [defaultThemeName, defaultDirection] = React.useMemo<[ThemeType, DirectionType]>(
     readTheme,
     [getDefaultTheme()]
@@ -165,6 +162,7 @@ function App({ Component, pageProps }: AppProps) {
         </Grid>
         <TypedPrompt />
       </CustomProvider>
+      <Analytics />
     </React.StrictMode>
   );
 }
