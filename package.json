@@ -65,7 +65,7 @@
     "prop-types": "^15.8.1",
     "react-window": "^1.8.8",
     "rsuite-table": "^5.9.0",
-    "schema-typed": "^2.0.3"
+    "schema-typed": "^2.1.0"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
