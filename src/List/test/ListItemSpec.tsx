@@ -3,7 +3,7 @@ import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import List from '../List';
 import ListItem from '../ListItem';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 describe('ListItem', () => {
   testStandardProps(<ListItem />);
@@ -29,7 +29,7 @@ describe('ListItem', () => {
   });
 
   it('Should be different size', async () => {
-    const view = render(
+    render(
       <List size="lg">
         <List.Item index={1} size="sm">
           Small
@@ -38,7 +38,7 @@ describe('ListItem', () => {
       </List>
     );
 
-    const items = await view.findAllByRole('listitem');
+    const items = await screen.findAllByRole('listitem');
     assert.include(items[0].className, 'rs-list-item-sm');
     assert.include(items[1].className, 'rs-list-item-lg');
   });

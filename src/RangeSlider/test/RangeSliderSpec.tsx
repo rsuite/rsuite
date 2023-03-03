@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react';
+import { render, fireEvent, act, screen } from '@testing-library/react';
 import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
@@ -65,18 +65,21 @@ describe('RangeSlider', () => {
 
   it('Should respond to keyboard event', async () => {
     const onChange = sinon.spy();
-    const { getAllByRole } = render(<RangeSlider value={[10, 50]} onChange={onChange} />);
+    render(<RangeSlider value={[10, 50]} onChange={onChange} />);
 
     // FIXME Should dispatch event on [role=slider] directly
-    fireEvent.keyDown(getAllByRole('slider')[0].closest('.rs-slider-handle') as HTMLElement, {
-      key: 'ArrowRight'
-    });
+    fireEvent.keyDown(
+      screen.getAllByRole('slider')[0].closest('.rs-slider-handle') as HTMLElement,
+      {
+        key: 'ArrowRight'
+      }
+    );
     expect(onChange).to.have.been.calledWith([11, 50]);
   });
 
   it('Should not call onChange when next value does not match given constraint', async () => {
     const onChange = sinon.spy();
-    const { getAllByRole, container } = render(
+    const { container } = render(
       <RangeSlider value={[10, 50]} onChange={onChange} constraint={() => false} />
     );
 
@@ -84,9 +87,12 @@ describe('RangeSlider', () => {
     fireEvent.click(container.querySelector('.rs-slider-progress-bar') as HTMLElement);
     expect(onChange).not.to.have.been.called;
 
-    fireEvent.keyDown(getAllByRole('slider')[0].closest('.rs-slider-handle') as HTMLElement, {
-      key: 'ArrowRight'
-    });
+    fireEvent.keyDown(
+      screen.getAllByRole('slider')[0].closest('.rs-slider-handle') as HTMLElement,
+      {
+        key: 'ArrowRight'
+      }
+    );
     expect(onChange).not.to.have.been.called;
   });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
-import { fireEvent, getByTestId, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -54,7 +54,7 @@ describe('<Sidenav>', () => {
 
   describe('<Dropdown> inside <Sidenav>', () => {
     it('Should render a disclosure', () => {
-      const { getByText } = render(
+      render(
         <Sidenav>
           <Nav>
             <Dropdown title="Dropdown">
@@ -65,18 +65,18 @@ describe('<Sidenav>', () => {
       );
 
       // Disclosure content is hidden by default
-      expect(getByText('Dropdown Item')).not.to.be.visible;
+      expect(screen.getByText('Dropdown Item')).not.to.be.visible;
 
       // Click the disclosure's button to reveal its content
-      fireEvent.click(getByText('Dropdown'));
-      expect(getByText('Dropdown Item')).to.be.visible;
+      fireEvent.click(screen.getByText('Dropdown'));
+      expect(screen.getByText('Dropdown Item')).to.be.visible;
     });
 
     describe('<Dropdown.Item>', () => {
       it('Should render custom component defined by `as`', () => {
         const Link = ({ to, ...props }) => <a href={to} {...props} />;
 
-        const { getByTestId } = render(
+        render(
           <Sidenav>
             <Nav>
               <Dropdown title="3">
@@ -88,7 +88,7 @@ describe('<Sidenav>', () => {
           </Sidenav>
         );
 
-        expect(getByTestId('link')).to.have.attr('href', '/about');
+        expect(screen.getByTestId('link')).to.have.attr('href', '/about');
       });
     });
   });
@@ -133,7 +133,7 @@ describe('<Sidenav>', () => {
     );
 
     ['1', '2'].forEach(key => {
-      const menu = getByTestId(instance, `menu-${key}`);
+      const menu = screen.getByTestId(`menu-${key}`);
 
       assert.ok(
         (menu.querySelector('[role="group"]') as HTMLElement).classList.contains(
@@ -199,7 +199,7 @@ describe('<Sidenav>', () => {
   });
 
   it('Should mark <Dropdown.Item> matching <Nav> `activeKey` as current', () => {
-    const { getByTestId } = render(
+    render(
       <Sidenav>
         <Nav activeKey="2-1">
           <Dropdown title="Dropdown">
@@ -211,14 +211,14 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    expect(getByTestId('dropdown-item')).to.have.attribute('aria-current', 'true');
+    expect(screen.getByTestId('dropdown-item')).to.have.attribute('aria-current', 'true');
     // The accent style
-    expect(getByTestId('dropdown-item')).to.have.class('rs-dropdown-item-active');
+    expect(screen.getByTestId('dropdown-item')).to.have.class('rs-dropdown-item-active');
   });
 
   it('Should call <Nav onSelect> with correct eventKey', () => {
     const onSelectSpy = sinon.spy();
-    const { getByTestId } = render(
+    render(
       <Sidenav>
         <Nav onSelect={onSelectSpy}>
           <Nav.Item eventKey="1-1" data-testid="nav-item">
@@ -233,14 +233,14 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    fireEvent.click(getByTestId('nav-item'));
+    fireEvent.click(screen.getByTestId('nav-item'));
     expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1-1', sinon.match.any);
 
     onSelectSpy.resetHistory();
     // opens the dropdown
-    fireEvent.click(getByTestId('dropdown'));
+    fireEvent.click(screen.getByTestId('dropdown'));
 
-    fireEvent.click(getByTestId('dropdown-item'));
+    fireEvent.click(screen.getByTestId('dropdown-item'));
     expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
       '2-1',
       sinon.match.any
@@ -249,7 +249,7 @@ describe('<Sidenav>', () => {
 
   it('Should call <Nav onSelect> with correct eventKey when <Sidenav expanded={false}>', () => {
     const onSelectSpy = sinon.spy();
-    const { getByTestId } = render(
+    render(
       <Sidenav expanded={false}>
         <Nav onSelect={onSelectSpy}>
           <Nav.Item eventKey="1-1" data-testid="nav-item">
@@ -264,14 +264,14 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    fireEvent.click(getByTestId('nav-item'));
+    fireEvent.click(screen.getByTestId('nav-item'));
     expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1-1', sinon.match.any);
 
     onSelectSpy.resetHistory();
     // opens the dropdown
-    fireEvent.click(getByTestId('dropdown'));
+    fireEvent.click(screen.getByTestId('dropdown'));
 
-    fireEvent.click(getByTestId('dropdown-item'));
+    fireEvent.click(screen.getByTestId('dropdown-item'));
     expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
       '2-1',
       sinon.match.any
@@ -279,7 +279,7 @@ describe('<Sidenav>', () => {
   });
 
   it('Should add "selected-within" className on <Nav.Menu> when some item inside is selected', () => {
-    const { getByTestId } = render(
+    render(
       <Sidenav>
         <Nav activeKey="2-1">
           <Nav.Menu title="Dropdown 1" data-testid="dropdown-1">
@@ -296,16 +296,16 @@ describe('<Sidenav>', () => {
     // FIXME Upgrade chai-dom definition once this pr is merged https://github.com/DefinitelyTyped/DefinitelyTyped/pull/63125
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    expect(getByTestId('dropdown-1')).to.have.class(/selected-within/);
+    expect(screen.getByTestId('dropdown-1')).to.have.class(/selected-within/);
     // FIXME Upgrade chai-dom definition once this pr is merged https://github.com/DefinitelyTyped/DefinitelyTyped/pull/63125
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    expect(getByTestId('dropdown-2')).to.have.class(/selected-within/);
+    expect(screen.getByTestId('dropdown-2')).to.have.class(/selected-within/);
   });
 
   describe('Collapsed', () => {
     it('Should add "selected-within" className on <Dropdown> when some item inside is selected', () => {
-      const { getByTestId } = render(
+      render(
         <Sidenav expanded={false}>
           <Nav activeKey="2-1">
             <Nav.Menu title="Dropdown 1" data-testid="dropdown-1">
@@ -319,12 +319,12 @@ describe('<Sidenav>', () => {
         </Sidenav>
       );
 
-      expect(getByTestId('dropdown-1').className).to.include('selected-within');
-      expect(getByTestId('dropdown-2').className).to.include('selected-within');
+      expect(screen.getByTestId('dropdown-1').className).to.include('selected-within');
+      expect(screen.getByTestId('dropdown-2').className).to.include('selected-within');
     });
 
     it('Should close the tooltip on click', async () => {
-      const { getByRole } = render(
+      render(
         <Sidenav expanded={false}>
           <Nav>
             <Nav.Menu title="Dropdown 1" eventKey="1" data-testid="dropdown-1">
@@ -334,24 +334,24 @@ describe('<Sidenav>', () => {
         </Sidenav>
       );
 
-      Simulate.mouseOver(getByRole('menuitem', { name: 'Dropdown 1' }));
+      Simulate.mouseOver(screen.getByRole('menuitem', { name: 'Dropdown 1' }));
 
       await waitFor(() => {
-        expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.be.exist;
-        expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.have.class('rs-anim-in');
+        expect(screen.getByRole('tooltip', { name: 'Dropdown 1' })).to.be.exist;
+        expect(screen.getByRole('tooltip', { name: 'Dropdown 1' })).to.have.class('rs-anim-in');
       });
 
-      Simulate.click(getByRole('menuitem', { name: 'Dropdown 1' }));
+      Simulate.click(screen.getByRole('menuitem', { name: 'Dropdown 1' }));
 
       await waitFor(() => {
-        expect(getByRole('tooltip', { name: 'Dropdown 1' })).to.not.have.class('rs-anim-in');
+        expect(screen.getByRole('tooltip', { name: 'Dropdown 1' })).to.not.have.class('rs-anim-in');
       });
     });
   });
 
   describe('Expanded', () => {
     it('Should add collapsed or expanded className on multilevel <Nav.Menu> when click on it', async () => {
-      const { getByText } = render(
+      render(
         <Sidenav defaultOpenKeys={['1', '1-1']}>
           <Sidenav.Body>
             <Nav>
@@ -365,7 +365,7 @@ describe('<Sidenav>', () => {
         </Sidenav>
       );
 
-      const menu = getByText('menu3');
+      const menu = screen.getByText('menu3');
       expect(menu.querySelector('.rs-dropdown-item-toggle-icon')).to.have.class(
         'rs-dropdown-item-collapse-icon'
       );

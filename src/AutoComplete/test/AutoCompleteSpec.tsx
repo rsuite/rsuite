@@ -1,7 +1,7 @@
 import React from 'react';
 import AutoComplete from '../AutoComplete';
 import { getDOMNode, getInstance } from '@test/testUtils';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
 
 const data = ['item1', 'item2'];
@@ -247,7 +247,7 @@ describe('AutoComplete', () => {
   });
 
   it('Should set minimum width for listbox', () => {
-    const { getByRole } = render(
+    render(
       <AutoComplete
         data={['item1', 'item2', 'item3']}
         defaultValue="item"
@@ -257,7 +257,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    const listbox = getByRole('listbox');
+    const listbox = screen.getByRole('listbox');
 
     expect((listbox.parentNode as HTMLElement).style.minWidth).to.equal('100px');
   });
@@ -272,16 +272,14 @@ describe('AutoComplete', () => {
   });
 
   it('Should only receive input attributes on `<input>`', () => {
-    const { getByTestId } = render(
-      <AutoComplete data={data} data-id={1} name="username" data-testid="test" />
-    );
+    render(<AutoComplete data={data} data-id={1} name="username" data-testid="test" />);
 
-    expect(getByTestId('test')).to.have.attribute('data-id', '1');
-    expect(getByTestId('test').querySelector('input')).to.have.attribute('name', 'username');
+    expect(screen.getByTestId('test')).to.have.attribute('data-id', '1');
+    expect(screen.getByTestId('test').querySelector('input')).to.have.attribute('name', 'username');
   });
 
   it('Should apply size class', () => {
-    const { getByTestId } = render(<AutoComplete size="lg" data={[]} data-testid="test" />);
-    expect(getByTestId('test').querySelector('input')).to.have.class('rs-input-lg');
+    render(<AutoComplete size="lg" data={[]} data-testid="test" />);
+    expect(screen.getByTestId('test').querySelector('input')).to.have.class('rs-input-lg');
   });
 });

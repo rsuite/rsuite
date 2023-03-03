@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import AvatarGroup from '../AvatarGroup';
 import Avatar from '../../Avatar';
@@ -8,18 +8,18 @@ describe('AvatarGroup', () => {
   testStandardProps(<AvatarGroup />);
 
   it('Should change the size of all avatars', () => {
-    const { getByTestId } = render(
+    render(
       <AvatarGroup size="xs" data-testid="group">
         <Avatar>A</Avatar>
         <Avatar>B</Avatar>
       </AvatarGroup>
     );
 
-    assert.equal(getByTestId('group').querySelectorAll('.rs-avatar-xs').length, 2);
+    assert.equal(screen.getByTestId('group').querySelectorAll('.rs-avatar-xs').length, 2);
   });
 
   it('Should set the spacing between the avatars', () => {
-    const { getByTestId } = render(
+    render(
       <AvatarGroup spacing={10} data-testid="group">
         <Avatar>A</Avatar>
         <Avatar>A</Avatar>
@@ -28,7 +28,7 @@ describe('AvatarGroup', () => {
       </AvatarGroup>
     );
 
-    const avatars = getByTestId('group').querySelectorAll('.rs-avatar');
+    const avatars = screen.getByTestId('group').querySelectorAll('.rs-avatar');
 
     assert.equal((avatars[0] as HTMLElement).style.marginRight, '10px');
     assert.equal((avatars[1] as HTMLElement).style.marginRight, '10px');
@@ -37,7 +37,7 @@ describe('AvatarGroup', () => {
   });
 
   it('Should be stack', () => {
-    const { getByTestId } = render(<AvatarGroup stack data-testid="group" />);
-    assert.include(getByTestId('group').className, 'rs-avatar-group-stack');
+    render(<AvatarGroup stack data-testid="group" />);
+    assert.include(screen.getByTestId('group').className, 'rs-avatar-group-stack');
   });
 });

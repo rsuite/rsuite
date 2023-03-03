@@ -14,7 +14,7 @@ describe('Nav styles', () => {
   });
 
   it('Should render <Dropdown> as subtle appearance', () => {
-    const { getByRole } = render(
+    render(
       <Nav>
         <Nav.Dropdown title="Dropdown">
           <Nav.Dropdown.Item>Dropdown item</Nav.Dropdown.Item>
@@ -22,7 +22,7 @@ describe('Nav styles', () => {
       </Nav>
     );
 
-    expect(getByRole('button')).to.have.style('background-color', 'rgba(0, 0, 0, 0)');
+    expect(screen.getByRole('button')).to.have.style('background-color', 'rgba(0, 0, 0, 0)');
   });
 
   describe('Issue #2678', () => {

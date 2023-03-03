@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
@@ -217,7 +217,7 @@ describe('<Dropdown.Menu>', () => {
   it('Should call Dropdown.Menu onSelect callback only once', () => {
     const onSelectSpy = sinon.spy();
 
-    const { getByTestId } = render(
+    render(
       <DropdownMenu onSelect={onSelectSpy}>
         <DropdownItem data-testid="item-1" eventKey={1}>
           1
@@ -227,13 +227,13 @@ describe('<Dropdown.Menu>', () => {
       </DropdownMenu>
     );
 
-    fireEvent.click(getByTestId('item-1'));
+    fireEvent.click(screen.getByTestId('item-1'));
 
     expect(onSelectSpy.callCount).to.be.eq(1);
   });
 
   it('Should highlight menu item when hover', () => {
-    const { getByTestId } = render(
+    render(
       <DropdownMenu>
         <DropdownItem data-testid="item-1">1</DropdownItem>
         <DropdownItem>2</DropdownItem>
@@ -242,7 +242,7 @@ describe('<Dropdown.Menu>', () => {
       </DropdownMenu>
     );
 
-    const menuItem = getByTestId('item-1');
+    const menuItem = screen.getByTestId('item-1');
 
     fireEvent.mouseOver(menuItem);
 
@@ -276,7 +276,7 @@ describe('<Dropdown.Menu>', () => {
   });
 
   it('Should not move visual focus to first item when focus on an focusable element within', () => {
-    const { getByTestId } = render(
+    render(
       <DropdownMenu data-testid="menu">
         <DropdownItem panel>
           <input data-testid="input" />
@@ -285,13 +285,13 @@ describe('<Dropdown.Menu>', () => {
       </DropdownMenu>
     );
 
-    fireEvent.focus(getByTestId('input'), { bubbles: true });
+    fireEvent.focus(screen.getByTestId('input'), { bubbles: true });
 
-    expect(getByTestId('menu')).not.to.have.attr('aria-activedescendant');
+    expect(screen.getByTestId('menu')).not.to.have.attr('aria-activedescendant');
   });
 
   it('Should not throw error when items are unmounted and keydown event is triggered', () => {
-    const { getByTestId, rerender } = render(
+    const { rerender } = render(
       <DropdownMenu data-testid="menu">
         <DropdownItem panel>
           <input data-testid="input" />
@@ -300,7 +300,7 @@ describe('<Dropdown.Menu>', () => {
       </DropdownMenu>
     );
 
-    fireEvent.focus(getByTestId('input'), { bubbles: true });
+    fireEvent.focus(screen.getByTestId('input'), { bubbles: true });
 
     rerender(
       <DropdownMenu data-testid="menu">
@@ -310,12 +310,14 @@ describe('<Dropdown.Menu>', () => {
       </DropdownMenu>
     );
 
-    userEvent.type(getByTestId('input'), 'f');
+    userEvent.type(screen.getByTestId('input'), 'f');
   });
 
   it('Should have a custom className', () => {
-    const { getByTestId } = render(<DropdownMenu className="custom" data-testid="menu" />);
-    expect(getByTestId('menu')).to.have.class('custom').and.to.have.class('rs-dropdown-menu');
+    render(<DropdownMenu className="custom" data-testid="menu" />);
+    expect(screen.getByTestId('menu'))
+      .to.have.class('custom')
+      .and.to.have.class('rs-dropdown-menu');
   });
 
   it('Should have a custom style', () => {

@@ -395,34 +395,34 @@ describe('SelectPicker', () => {
 
   describe('Plain text', () => {
     it("Should render selected option's label", () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <SelectPicker data={data} value="Eugenia" plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Eugenia');
+      expect(screen.getByTestId('content')).to.have.text('Eugenia');
     });
     it('Should render "Not selected" if value is empty', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <SelectPicker data={data} value={null} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Not selected');
+      expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
   });
   it('Should call onSearch when closed', async () => {
     const onSearchSpy = sinon.spy();
     const handleClose = sinon.spy();
-    const view = render(
+    render(
       <>
         <button data-testid="exit">exit</button>
         <SelectPicker onClose={handleClose} defaultOpen onSearch={onSearchSpy} data={data} />
       </>
     );
-    const exit = view.getByTestId('exit') as HTMLElement;
+    const exit = screen.getByTestId('exit') as HTMLElement;
 
     // close select
     fireEvent.mouseDown(exit, { bubbles: true });

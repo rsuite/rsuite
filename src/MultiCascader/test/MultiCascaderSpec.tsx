@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import MultiCascader from '../MultiCascader';
@@ -519,39 +519,39 @@ describe('MultiCascader', () => {
   });
 
   it('Should update the subcolumn when the leaf node is clicked', () => {
-    const { queryAllByRole, getByRole } = render(<MultiCascader data={items} open />);
+    render(<MultiCascader data={items} open />);
 
-    expect(queryAllByRole('listbox')).to.length(1);
+    expect(screen.queryAllByRole('listbox')).to.length(1);
 
     // Click on a node that has child nodes
-    fireEvent.click(getByRole('checkbox', { name: '3' }).parentNode as HTMLElement);
+    fireEvent.click(screen.getByRole('checkbox', { name: '3' }).parentNode as HTMLElement);
 
-    expect(queryAllByRole('listbox')).to.length(2);
+    expect(screen.queryAllByRole('listbox')).to.length(2);
 
     // Click on the leaf node
-    fireEvent.click(getByRole('checkbox', { name: '1' }).parentNode as HTMLElement);
+    fireEvent.click(screen.getByRole('checkbox', { name: '1' }).parentNode as HTMLElement);
 
-    expect(queryAllByRole('listbox')).to.length(1);
+    expect(screen.queryAllByRole('listbox')).to.length(1);
   });
 
   describe('Plain text', () => {
     it("Should render selected options' labels (comma-separated) and selected options count", () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <MultiCascader data={items} value={['1', '3-1']} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('1,3-12');
+      expect(screen.getByTestId('content')).to.have.text('1,3-12');
     });
     it('Should render "Not selected" if value is empty', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <MultiCascader data={items} value={[]} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Not selected');
+      expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
   });
 });

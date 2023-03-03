@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor, fireEvent, act } from '@testing-library/react';
+import { render, waitFor, fireEvent, act, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import Cascader from '../Cascader';
 import Button from '../../Button';
@@ -581,23 +581,23 @@ describe('Cascader', () => {
 
   describe('Plain text', () => {
     it('Should render full path (separated by delimiter) of selected data', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <Cascader data={items} value="3-1" plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('3 / 3-1');
+      expect(screen.getByTestId('content')).to.have.text('3 / 3-1');
     });
 
     it('Should render "Not selected" if value is empty', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <Cascader data={items} value={null} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Not selected');
+      expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
   });
 
@@ -625,17 +625,23 @@ describe('Cascader', () => {
   });
 
   it('Should update the subcolumn when the leaf node is clicked', () => {
-    const { getByRole } = render(<Cascader data={items} open />);
+    render(<Cascader data={items} open />);
 
-    expect(getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(1);
+    expect(screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(
+      1
+    );
 
     // Click on a node that has child nodes
-    fireEvent.click(getByRole('treeitem', { name: '3' }));
-    expect(getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(2);
+    fireEvent.click(screen.getByRole('treeitem', { name: '3' }));
+    expect(screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(
+      2
+    );
 
     // Click on the leaf node
-    fireEvent.click(getByRole('treeitem', { name: '1' }));
-    expect(getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(1);
+    fireEvent.click(screen.getByRole('treeitem', { name: '1' }));
+    expect(screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(
+      1
+    );
   });
 
   describe('Focus item', () => {

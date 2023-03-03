@@ -1,12 +1,12 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import MonthDropdown from '../MonthDropdown';
 import CalendarContext from '../CalendarContext';
 
 describe('Calendar-MonthDropdown', () => {
   it('Should output year and month ', () => {
-    const { getAllByRole } = render(
+    render(
       <CalendarContext.Provider
         value={{
           date: new Date(),
@@ -18,14 +18,14 @@ describe('Calendar-MonthDropdown', () => {
       </CalendarContext.Provider>
     );
 
-    expect(getAllByRole('rowheader', { hidden: true })).to.be.lengthOf(7);
-    expect(getAllByRole('gridcell', { hidden: true })).to.be.lengthOf(7);
-    expect(getAllByRole('gridcell', { hidden: true })[0].childNodes).to.be.lengthOf(12);
+    expect(screen.getAllByRole('rowheader', { hidden: true })).to.be.lengthOf(7);
+    expect(screen.getAllByRole('gridcell', { hidden: true })).to.be.lengthOf(7);
+    expect(screen.getAllByRole('gridcell', { hidden: true })[0].childNodes).to.be.lengthOf(12);
   });
 
   it('Should call `onChangeMonth` callback ', () => {
     const onChangeMonthSpy = sinon.spy();
-    const { getByRole } = render(
+    render(
       <CalendarContext.Provider
         value={{
           onChangeMonth: onChangeMonthSpy,
@@ -39,16 +39,16 @@ describe('Calendar-MonthDropdown', () => {
     );
 
     fireEvent.click(
-      getByRole('menu', { hidden: true }).querySelector(
-        '.rs-calendar-month-dropdown-cell'
-      ) as HTMLElement
+      screen
+        .getByRole('menu', { hidden: true })
+        .querySelector('.rs-calendar-month-dropdown-cell') as HTMLElement
     );
 
     expect(onChangeMonthSpy).to.be.calledOnce;
   });
 
   it('Should disable month', () => {
-    const { getByRole } = render(
+    render(
       <CalendarContext.Provider value={{ date: new Date(2019, 8, 1), locale: {}, isoWeek: false }}>
         <MonthDropdown
           show
@@ -63,9 +63,9 @@ describe('Calendar-MonthDropdown', () => {
 
     const cells = (
       (
-        getByRole('menu', { hidden: true }).querySelector(
-          '.rs-calendar-month-dropdown-year-active'
-        ) as HTMLElement
+        screen
+          .getByRole('menu', { hidden: true })
+          .querySelector('.rs-calendar-month-dropdown-year-active') as HTMLElement
       ).parentNode as HTMLElement
     ).querySelectorAll('.rs-calendar-month-dropdown-cell');
 
@@ -76,18 +76,18 @@ describe('Calendar-MonthDropdown', () => {
   });
 
   it('Should have a custom className', () => {
-    const { getByRole } = render(<MonthDropdown className="custom" />);
-    expect(getByRole('menu', { hidden: true })).to.have.class('custom');
+    render(<MonthDropdown className="custom" />);
+    expect(screen.getByRole('menu', { hidden: true })).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
-    const { getByRole } = render(<MonthDropdown style={{ fontSize: 12 }} />);
+    render(<MonthDropdown style={{ fontSize: 12 }} />);
 
-    expect(getByRole('menu', { hidden: true })).to.have.style('font-size', '12px');
+    expect(screen.getByRole('menu', { hidden: true })).to.have.style('font-size', '12px');
   });
 
   it('Should have a custom className prefix', () => {
-    const { getByRole } = render(<MonthDropdown classPrefix="custom-prefix" />);
-    expect(getByRole('menu', { hidden: true })).to.have.class('rs-custom-prefix');
+    render(<MonthDropdown classPrefix="custom-prefix" />);
+    expect(screen.getByRole('menu', { hidden: true })).to.have.class('rs-custom-prefix');
   });
 });

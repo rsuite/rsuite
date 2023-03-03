@@ -1,6 +1,6 @@
 import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
-import { render, act, fireEvent, waitFor } from '@testing-library/react';
+import { render, act, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
 import {
@@ -302,17 +302,19 @@ describe('DateRangePicker', () => {
   });
 
   it('Should select a date range by clicking starting date and ending date', () => {
-    const { getByRole } = render(
-      <DateRangePicker open value={[new Date('2019-09-10'), new Date('2019-10-10')]} />
+    render(<DateRangePicker open value={[new Date('2019-09-10'), new Date('2019-10-10')]} />);
+
+    fireEvent.click(
+      screen.getByRole('gridcell', { name: '01 Sep 2019' }).firstChild as HTMLElement
     );
 
-    fireEvent.click(getByRole('gridcell', { name: '01 Sep 2019' }).firstChild as HTMLElement);
+    expect(screen.getByRole('gridcell', { name: '01 Sep 2019', selected: true })).to.exist;
 
-    expect(getByRole('gridcell', { name: '01 Sep 2019', selected: true })).to.exist;
+    fireEvent.click(
+      screen.getByRole('gridcell', { name: '24 Sep 2019' }).firstChild as HTMLElement
+    );
 
-    fireEvent.click(getByRole('gridcell', { name: '24 Sep 2019' }).firstChild as HTMLElement);
-
-    expect(getByRole('gridcell', { name: '24 Sep 2019', selected: true })).to.exist;
+    expect(screen.getByRole('gridcell', { name: '24 Sep 2019', selected: true })).to.exist;
   });
 
   it('Should be disabled date', () => {
@@ -646,13 +648,13 @@ describe('DateRangePicker', () => {
   });
 
   it('Should render a custom caret', () => {
-    const { getByLabelText } = render(<DateRangePicker caretAs={GearIcon} />);
+    render(<DateRangePicker caretAs={GearIcon} />);
 
-    expect(getByLabelText('gear')).to.have.class('rs-icon');
+    expect(screen.getByLabelText('gear')).to.have.class('rs-icon');
   });
 
   it('Should render a custom calendar title', () => {
-    const { getAllByTestId } = render(
+    render(
       <DateRangePicker
         value={[new Date(2022, 1, 1), new Date(2022, 2, 2)]}
         open
@@ -664,7 +666,7 @@ describe('DateRangePicker', () => {
       />
     );
 
-    const [firstTitle, secondTitle] = getAllByTestId('calendar-title');
+    const [firstTitle, secondTitle] = screen.getAllByTestId('calendar-title');
 
     expect(firstTitle).to.have.text('1 - 2022');
     expect(secondTitle).to.have.text('2 - 2022');
@@ -695,7 +697,7 @@ describe('DateRangePicker', () => {
     const onCloseSpy = sinon.spy();
     const onChangeSpy = sinon.spy();
 
-    const { getByRole } = render(
+    render(
       <DateRangePicker
         defaultOpen
         ranges={[
@@ -709,7 +711,7 @@ describe('DateRangePicker', () => {
       />
     );
 
-    userEvent.click(getByRole('button', { name: 'Yesterday' }));
+    userEvent.click(screen.getByRole('button', { name: 'Yesterday' }));
 
     await waitFor(() => {
       expect(onCloseSpy).to.calledOnce;
@@ -722,7 +724,7 @@ describe('DateRangePicker', () => {
     const onChangeSpy = sinon.spy();
     const yesterday = addDays(new Date(), -1);
 
-    const { getByRole } = render(
+    render(
       <DateRangePicker
         defaultOpen
         ranges={[
@@ -737,9 +739,9 @@ describe('DateRangePicker', () => {
       />
     );
 
-    fireEvent.click(getByRole('button', { name: 'Yesterday' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Yesterday' }));
 
-    expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.text(
+    expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.text(
       `${format(yesterday, 'yyyy-MM-dd')} ~ ${format(yesterday, 'yyyy-MM-dd')}`
     );
 
@@ -751,8 +753,8 @@ describe('DateRangePicker', () => {
 
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
-    const { getByRole } = render(<DateRangePicker onFocus={onFocusSpy} />);
-    const input = getByRole('combobox').querySelector('input') as HTMLInputElement;
+    render(<DateRangePicker onFocus={onFocusSpy} />);
+    const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
 
     fireEvent.focus(input);
 
@@ -763,8 +765,7 @@ describe('DateRangePicker', () => {
     const onCloseSpy = sinon.spy();
     const onChangeSpy = sinon.spy();
     const yesterday = addDays(new Date(), -1);
-
-    const { getByRole } = render(
+    render(
       <DateRangePicker
         defaultOpen
         ranges={[
@@ -781,24 +782,25 @@ describe('DateRangePicker', () => {
 
     expect(
       (
-        (getByRole('dialog').querySelector('.rs-picker-daterange-predefined') as HTMLElement)
+        (screen.getByRole('dialog').querySelector('.rs-picker-daterange-predefined') as HTMLElement)
           .firstChild as HTMLElement
       ).firstChild
-    ).to.equal(getByRole('button', { name: 'Yesterday' }));
+    ).to.equal(screen.getByRole('button', { name: 'Yesterday' }));
 
-    expect(getByRole('dialog').querySelector('.rs-picker-toolbar-ranges button')).to.not.exist;
+    expect(screen.getByRole('dialog').querySelector('.rs-picker-toolbar-ranges button')).to.not
+      .exist;
   });
 
   it('Should be controllable for keyboard input', () => {
-    const { getByTestId } = render(
+    render(
       <>
         <DateRangePicker data-testid="picker-1" />
         <DateRangePicker data-testid="picker-2" editable={false} />
       </>
     );
 
-    const picker1 = getByTestId('picker-1').querySelector('input') as HTMLElement;
-    const picker2 = getByTestId('picker-2').querySelector('input') as HTMLElement;
+    const picker1 = screen.getByTestId('picker-1').querySelector('input') as HTMLElement;
+    const picker2 = screen.getByTestId('picker-2').querySelector('input') as HTMLElement;
 
     expect(picker1).to.have.attribute('readonly');
     expect(picker2).to.have.attribute('readonly');
@@ -811,20 +813,21 @@ describe('DateRangePicker', () => {
   });
 
   it('Should not render the ranges element', () => {
-    const { getByRole } = render(<DateRangePicker open ranges={[]} />);
+    render(<DateRangePicker open ranges={[]} />);
 
-    expect(getByRole('dialog').querySelector('.rs-picker-toolbar-ranges')).to.not.exist;
-    expect(getByRole('dialog').querySelector('.rs-picker-daterange-predefined')).to.not.exist;
+    expect(screen.getByRole('dialog').querySelector('.rs-picker-toolbar-ranges')).to.not.exist;
+    expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-predefined')).to.not
+      .exist;
 
     // A flex layout toolbar should render two children so that the ok button appears on the right
     expect(
-      (getByRole('dialog').querySelector('.rs-picker-toolbar') as HTMLElement).childNodes
+      (screen.getByRole('dialog').querySelector('.rs-picker-toolbar') as HTMLElement).childNodes
     ).to.have.length(2);
   });
 
   describe('Plain text', () => {
     it('Should render formatted date range', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <DateRangePicker
             value={[new Date(2019, 3, 1), new Date(2019, 3, 2)]}
@@ -834,24 +837,24 @@ describe('DateRangePicker', () => {
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('04/01/2019 ~ 04/02/2019');
+      expect(screen.getByTestId('content')).to.have.text('04/01/2019 ~ 04/02/2019');
     });
 
     it('Should render "Not selected" if value is empty', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <DateRangePicker value={null} format="MM/dd/yyyy" plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Not selected');
+      expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
   });
 
   describe('Time stability', () => {
     it('Should the end time not change when the start date is clicked when defaultCalendarValue is set', () => {
       const onSelectSpy = sinon.spy();
-      const { getByRole } = render(
+      render(
         <DateRangePicker
           open
           format="yyyy-MM-dd HH:mm:ss"
@@ -860,28 +863,32 @@ describe('DateRangePicker', () => {
         />
       );
 
-      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
 
-      fireEvent.click(getByRole('gridcell', { name: '07 Feb 2022' }).firstChild as HTMLElement);
+      fireEvent.click(
+        screen.getByRole('gridcell', { name: '07 Feb 2022' }).firstChild as HTMLElement
+      );
 
       expect(onSelectSpy).to.have.been.calledOnce;
-      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
 
-      fireEvent.click(getByRole('gridcell', { name: '10 Feb 2022' }).firstChild as HTMLElement);
+      fireEvent.click(
+        screen.getByRole('gridcell', { name: '10 Feb 2022' }).firstChild as HTMLElement
+      );
 
       expect(onSelectSpy).to.have.been.calledTwice;
-      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
-      expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
+      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
         '2022-02-07 00:00:00 ~ 2022-02-10 23:59:59'
       );
     });
 
     it('Should the end time not change when the start date is clicked when controlled', () => {
       const onSelectSpy = sinon.spy();
-      const { getByRole } = render(
+      render(
         <DateRangePicker
           open
           format="yyyy-MM-dd HH:mm:ss"
@@ -890,27 +897,31 @@ describe('DateRangePicker', () => {
         />
       );
 
-      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
 
-      fireEvent.click(getByRole('gridcell', { name: '07 Feb 2022' }).firstChild as HTMLElement);
+      fireEvent.click(
+        screen.getByRole('gridcell', { name: '07 Feb 2022' }).firstChild as HTMLElement
+      );
 
       expect(onSelectSpy).to.have.been.calledOnce;
-      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
 
-      fireEvent.click(getByRole('gridcell', { name: '10 Feb 2022' }).firstChild as HTMLElement);
+      fireEvent.click(
+        screen.getByRole('gridcell', { name: '10 Feb 2022' }).firstChild as HTMLElement
+      );
 
       expect(onSelectSpy).to.have.been.calledTwice;
-      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
-      expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
+      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
         '2022-02-07 00:00:00 ~ 2022-02-10 23:59:59'
       );
     });
 
     it('Should not change the start and end time when the month is changed', () => {
-      const { getByRole } = render(
+      render(
         <DateRangePicker
           open
           format="yyyy-MM-dd HH:mm:ss"
@@ -918,19 +929,19 @@ describe('DateRangePicker', () => {
         />
       );
 
-      const headerDateTitles = getByRole('dialog').querySelectorAll(
-        '.rs-calendar-header-title-date'
-      );
-      const handerTimeTitles = getByRole('dialog').querySelectorAll(
-        '.rs-calendar-header-title-time'
-      );
-      const firstCalendarForwardButton = getByRole('dialog').querySelectorAll(
-        '.rs-calendar-header-forward'
-      )[0];
+      const headerDateTitles = screen
+        .getByRole('dialog')
+        .querySelectorAll('.rs-calendar-header-title-date');
+      const handerTimeTitles = screen
+        .getByRole('dialog')
+        .querySelectorAll('.rs-calendar-header-title-time');
+      const firstCalendarForwardButton = screen
+        .getByRole('dialog')
+        .querySelectorAll('.rs-calendar-header-forward')[0];
 
-      const secondCalendarBackwardButton = getByRole('dialog').querySelectorAll(
-        '.rs-calendar-header-backward'
-      )[1];
+      const secondCalendarBackwardButton = screen
+        .getByRole('dialog')
+        .querySelectorAll('.rs-calendar-header-backward')[1];
 
       expect(handerTimeTitles[0]).to.have.text('00:00:00');
       expect(handerTimeTitles[1]).to.have.text('23:59:59');
@@ -954,7 +965,7 @@ describe('DateRangePicker', () => {
 
     it('Should not change the start and end time when clicking on the second calendar first', () => {
       const onSelectSpy = sinon.spy();
-      const { getByRole } = render(
+      render(
         <DateRangePicker
           open
           format="yyyy-MM-dd HH:mm:ss"
@@ -963,28 +974,32 @@ describe('DateRangePicker', () => {
         />
       );
 
-      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
 
-      fireEvent.click(getByRole('gridcell', { name: '20 Mar 2022' }).firstChild as HTMLElement);
+      fireEvent.click(
+        screen.getByRole('gridcell', { name: '20 Mar 2022' }).firstChild as HTMLElement
+      );
 
       expect(onSelectSpy).to.have.been.calledOnce;
-      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
 
-      fireEvent.click(getByRole('gridcell', { name: '21 Apr 2022' }).firstChild as HTMLElement);
+      fireEvent.click(
+        screen.getByRole('gridcell', { name: '21 Apr 2022' }).firstChild as HTMLElement
+      );
 
       expect(onSelectSpy).to.have.been.calledTwice;
-      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
-      expect(getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
+      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
         '2022-03-20 00:00:00 ~ 2022-04-21 23:59:59'
       );
     });
 
     it('Should render the default datetime after clicking the clear button', () => {
       const onCleanSpy = sinon.spy();
-      const { getByRole } = render(
+      render(
         <DateRangePicker
           open
           format="yyyy-MM-dd HH:mm:ss"
@@ -994,18 +1009,18 @@ describe('DateRangePicker', () => {
         />
       );
 
-      expect(getByRole('button', { name: '01:01:01' })).to.be.visible;
-      expect(getByRole('button', { name: '02:02:02' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '01:01:01' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '02:02:02' })).to.be.visible;
 
-      fireEvent.click(getByRole('button', { name: 'Clear' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
 
       expect(onCleanSpy).to.have.been.calledOnce;
-      expect(getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
+      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
     });
 
     it('Should switch time from PM to AM', () => {
-      const { getByRole } = render(
+      render(
         <DateRangePicker
           open
           format="yyyy-MM-dd HH:mm:ss"
@@ -1014,8 +1029,10 @@ describe('DateRangePicker', () => {
         />
       );
 
-      const header = getByRole('dialog').querySelector('.rs-picker-daterange-header');
-      const switchButtons = getByRole('dialog').querySelectorAll('.rs-calendar-header-meridian');
+      const header = screen.getByRole('dialog').querySelector('.rs-picker-daterange-header');
+      const switchButtons = screen
+        .getByRole('dialog')
+        .querySelectorAll('.rs-calendar-header-meridian');
 
       expect(header).to.have.text('2022-02-01 13:00:00 ~ 2022-03-01 14:00:00');
       expect(switchButtons[0]).to.have.text('PM');

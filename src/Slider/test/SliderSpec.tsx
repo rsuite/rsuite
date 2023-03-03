@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Slider from '../Slider';
@@ -129,17 +129,17 @@ describe('Slider', () => {
 
   describe('Plain text', () => {
     it('Should render input value', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <Slider value={1} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('1');
+      expect(screen.getByTestId('content')).to.have.text('1');
     });
 
     it('Should render "Not selected" if value is empty', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           {/* FIXME `value` prop does not accept null as value */}
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
@@ -148,7 +148,7 @@ describe('Slider', () => {
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Not selected');
+      expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
   });
 });

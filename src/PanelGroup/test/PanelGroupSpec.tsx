@@ -49,18 +49,18 @@ describe('PanelGroup', () => {
 
   it('Should call `onSelect` with undefined when click on Panel without eventKey', () => {
     const onSelectSpy = sinon.spy();
-    const { getByText } = render(
+    render(
       <PanelGroup accordion onSelect={onSelectSpy}>
         <Panel header="Click me">111</Panel>
       </PanelGroup>
     );
 
-    fireEvent.click(getByText('Click me'));
+    fireEvent.click(screen.getByText('Click me'));
     expect(onSelectSpy).to.have.been.calledWith(undefined);
   });
 
   it('Should be a collapsible panel with accordion', () => {
-    const { getByText } = render(
+    render(
       <PanelGroup accordion defaultActiveKey={1}>
         <Panel header="header-1" eventKey={1} data-testid="panel-1">
           body-1
@@ -76,12 +76,12 @@ describe('PanelGroup', () => {
     expect(screen.getByTestId('panel-2')).not.to.have.class('rs-panel-in');
 
     // Expand the second panel
-    fireEvent.click(getByText('header-2'));
+    fireEvent.click(screen.getByText('header-2'));
     expect(screen.getByTestId('panel-1')).not.to.have.class('rs-panel-in');
     expect(screen.getByTestId('panel-2')).to.have.class('rs-panel-in');
 
     // Collapse the second panel
-    fireEvent.click(getByText('header-2'));
+    fireEvent.click(screen.getByText('header-2'));
     expect(screen.getByTestId('panel-1')).not.to.have.class('rs-panel-in');
     expect(screen.getByTestId('panel-2')).not.to.have.class('rs-panel-in');
   });

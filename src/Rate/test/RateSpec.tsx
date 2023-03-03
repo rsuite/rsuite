@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -222,17 +222,17 @@ describe('Rate', () => {
 
   describe('Plain text', () => {
     it('Should render current value and max value', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <Rate value={1} max={5} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('1(5)');
+      expect(screen.getByTestId('content')).to.have.text('1(5)');
     });
 
     it('Should render "Not selected" if value is empty', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           {/* FIXME `value` prop does not accept null as value */}
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
@@ -241,7 +241,7 @@ describe('Rate', () => {
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Not selected');
+      expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
   });
 });

@@ -32,25 +32,25 @@ describe('<PickerToggle>', () => {
 
   describe('Cleanable (`cleanable`=true)', () => {
     it('Should render a clear button when value is present', () => {
-      const { getByRole } = render(
+      render(
         <Toggle cleanable hasValue>
           Title
         </Toggle>
       );
 
-      expect(getByRole('button', { name: /clear/i })).to.exist;
+      expect(screen.getByRole('button', { name: /clear/i })).to.exist;
     });
 
     it('Should call `onClean` callback when clicking clear button', () => {
       const onCleanSpy = sinon.spy();
 
-      const { getByRole } = render(
+      render(
         <Toggle cleanable hasValue onClean={onCleanSpy}>
           Title
         </Toggle>
       );
 
-      fireEvent.click(getByRole('button', { name: /clear/i }));
+      fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
       expect(onCleanSpy).to.have.been.called;
     });
@@ -131,9 +131,9 @@ describe('<PickerToggle>', () => {
       </span>
     );
 
-    const { getByTestId } = render(<Toggle caretAs={MyCaret} />);
+    render(<Toggle caretAs={MyCaret} />);
 
-    expect(getByTestId('caret')).to.have.class('rs-picker-toggle-caret');
+    expect(screen.getByTestId('caret')).to.have.class('rs-picker-toggle-caret');
   });
 
   it('Should not show caret icon when it has value', () => {

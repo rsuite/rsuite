@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -37,9 +37,9 @@ describe('Checkbox', () => {
   });
 
   it('Should have the underlying input checked', () => {
-    const { getByLabelText } = render(<Checkbox checked>Test</Checkbox>);
+    render(<Checkbox checked>Test</Checkbox>);
 
-    expect(getByLabelText('Test')).to.be.checked;
+    expect(screen.getByLabelText('Test')).to.be.checked;
   });
 
   it('Should be defaultChecked', () => {
@@ -48,9 +48,9 @@ describe('Checkbox', () => {
   });
 
   it('Should have the underlying input checked by default', () => {
-    const { getByLabelText } = render(<Checkbox defaultChecked>Test</Checkbox>);
+    render(<Checkbox defaultChecked>Test</Checkbox>);
 
-    expect(getByLabelText('Test')).to.be.checked;
+    expect(screen.getByLabelText('Test')).to.be.checked;
   });
 
   it('Should have a `Test` value', () => {
@@ -69,13 +69,13 @@ describe('Checkbox', () => {
   it('Should call onChange callback with correct value and checked state', () => {
     const onChange = sinon.spy();
 
-    const { getByLabelText, rerender } = render(
+    const { rerender } = render(
       <Checkbox onChange={onChange} value="Test">
         Checkbox
       </Checkbox>
     );
 
-    fireEvent.click(getByLabelText('Checkbox'));
+    fireEvent.click(screen.getByLabelText('Checkbox'));
 
     expect(onChange).to.have.been.calledWith('Test', true);
 
@@ -85,7 +85,7 @@ describe('Checkbox', () => {
       </Checkbox>
     );
 
-    fireEvent.click(getByLabelText('Checkbox'));
+    fireEvent.click(screen.getByLabelText('Checkbox'));
 
     expect(onChange).to.have.been.calledWith('Test', false);
   });
@@ -118,22 +118,22 @@ describe('Checkbox', () => {
     it('Should render its label if checked', () => {
       const label = 'Check me';
 
-      const { getByTestId } = render(
+      render(
         <Checkbox checked plaintext data-testid="checkbox">
           {label}
         </Checkbox>
       );
 
-      expect(getByTestId('checkbox')).to.have.text(label);
+      expect(screen.getByTestId('checkbox')).to.have.text(label);
     });
     it('Should render nothing if unchecked', () => {
-      const { queryByTestId } = render(
+      render(
         <Checkbox checked={false} plaintext data-testid="checkbox">
           Check me
         </Checkbox>
       );
 
-      expect(queryByTestId('checkbox')).not.to.exist;
+      expect(screen.queryByTestId('checkbox')).not.to.exist;
     });
   });
 });

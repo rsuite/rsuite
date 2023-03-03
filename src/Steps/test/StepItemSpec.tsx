@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import StepItem from '../StepItem';
@@ -36,11 +36,9 @@ describe('StepItem', () => {
 
   (['wait', 'process'] as const).forEach(status => {
     it(`Should render stepNumber when status is "${status}"`, () => {
-      const { getByTestId } = render(
-        <StepItem stepNumber={2} status={status} data-testid="item" />
-      );
+      render(<StepItem stepNumber={2} status={status} data-testid="item" />);
 
-      expect(getByTestId('item')).to.have.text('2');
+      expect(screen.getByTestId('item')).to.have.text('2');
     });
   });
 

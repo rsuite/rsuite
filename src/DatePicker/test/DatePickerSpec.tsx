@@ -85,22 +85,22 @@ describe('DatePicker', () => {
   });
 
   it('Should open a dialog containing grid view of dates in a month', () => {
-    const { getByRole } = render(<DatePicker defaultOpen />);
-    expect(getByRole('dialog')).to.be.visible.and.to.contain(getByRole('grid'));
+    render(<DatePicker defaultOpen />);
+    expect(screen.getByRole('dialog')).to.be.visible.and.to.contain(screen.getByRole('grid'));
   });
 
   it('Should be possible to specify initial month with `calendarDefaultDate`', () => {
     const date = new Date('12/15/2021');
-    const { getByRole } = render(<DatePicker defaultOpen calendarDefaultDate={date} />);
+    render(<DatePicker defaultOpen calendarDefaultDate={date} />);
 
     // Dec 2021
     const month = DateUtils.format(date, 'MMM yyyy', { locale: enGB });
 
-    expect(getByRole('grid', { name: month })).to.exist;
+    expect(screen.getByRole('grid', { name: month })).to.exist;
 
     Array.from({ length: 31 }).forEach((_, index) => {
-      expect(getByRole('grid', { name: month })).to.contain(
-        getByRole('gridcell', {
+      expect(screen.getByRole('grid', { name: month })).to.contain(
+        screen.getByRole('gridcell', {
           name: DateUtils.format(new Date(`12/${index + 1}/2021`), 'dd MMM yyyy', { locale: enGB })
         })
       );
@@ -109,11 +109,9 @@ describe('DatePicker', () => {
 
   it('Should update value to be `null` when "clear" button is clicked', () => {
     const onChangeSpy = sinon.spy();
-    const { getByRole } = render(
-      <DatePicker value={new Date(2021, 0, 4)} onChange={onChangeSpy} cleanable />
-    );
+    render(<DatePicker value={new Date(2021, 0, 4)} onChange={onChangeSpy} cleanable />);
 
-    fireEvent.click(getByRole('button', { name: /clear/i }));
+    fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
     expect(onChangeSpy).to.have.been.calledWith(null);
   });
@@ -221,22 +219,22 @@ describe('DatePicker', () => {
 
   it('Should call `onClean` callback', () => {
     const onCleanSpy = sinon.spy();
-    const { getByRole } = render(<DatePicker defaultValue={new Date()} onClean={onCleanSpy} />);
+    render(<DatePicker defaultValue={new Date()} onClean={onCleanSpy} />);
 
-    fireEvent.click(getByRole('button', { name: /clear/i }));
+    fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
     expect(onCleanSpy).to.calledOnce;
   });
 
   it('Should remain active after clearing the value', () => {
     const onCleanSpy = sinon.spy();
-    const { getByRole } = render(<DatePicker defaultValue={new Date()} onClean={onCleanSpy} />);
+    render(<DatePicker defaultValue={new Date()} onClean={onCleanSpy} />);
 
-    fireEvent.focus(getByRole('combobox'));
-    fireEvent.click(getByRole('button', { name: /clear/i }));
+    fireEvent.focus(screen.getByRole('combobox'));
+    fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
     expect(onCleanSpy).to.calledOnce;
-    expect(getByRole('combobox')).to.have.class('rs-picker-toggle-active');
+    expect(screen.getByRole('combobox')).to.have.class('rs-picker-toggle-active');
   });
 
   it('Should call `onSelect` callback', () => {
@@ -502,25 +500,25 @@ describe('DatePicker', () => {
 
   it('Should call onBlur callback', async () => {
     const onBlurSpy = sinon.spy();
-    const { getByRole } = render(<DatePicker onBlur={onBlurSpy} />);
+    render(<DatePicker onBlur={onBlurSpy} />);
 
-    fireEvent.blur(getByRole('combobox'));
+    fireEvent.blur(screen.getByRole('combobox'));
 
     await waitFor(() => {
       expect(onBlurSpy).to.have.been.calledOnce;
-      expect(getByRole('combobox')).to.not.have.class('rs-picker-toggle-active');
+      expect(screen.getByRole('combobox')).to.not.have.class('rs-picker-toggle-active');
     });
   });
 
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
-    const { getByRole } = render(<DatePicker onFocus={onFocusSpy} defaultValue={new Date()} />);
-    const input = getByRole('combobox').querySelector('input') as HTMLInputElement;
+    render(<DatePicker onFocus={onFocusSpy} defaultValue={new Date()} />);
+    const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
 
     fireEvent.focus(input);
 
     expect(onFocusSpy).to.have.been.calledOnce;
-    expect(getByRole('combobox')).to.have.class('rs-picker-toggle-active');
+    expect(screen.getByRole('combobox')).to.have.class('rs-picker-toggle-active');
   });
 
   it('Should have a custom className prefix', () => {
@@ -586,11 +584,11 @@ describe('DatePicker', () => {
   });
 
   it('Should accept controlled value', () => {
-    const { getByRole } = render(<DatePicker value={new Date('7/11/2021')} open />);
+    render(<DatePicker value={new Date('7/11/2021')} open />);
 
-    expect(getByRole('combobox')).to.have.text('2021-07-11');
-    expect(getByRole('grid', { name: 'Jul 2021' })).to.contain(
-      getByRole('gridcell', { name: '11 Jul 2021', selected: true })
+    expect(screen.getByRole('combobox')).to.have.text('2021-07-11');
+    expect(screen.getByRole('grid', { name: 'Jul 2021' })).to.contain(
+      screen.getByRole('gridcell', { name: '11 Jul 2021', selected: true })
     );
   });
 
@@ -665,13 +663,11 @@ describe('DatePicker', () => {
   });
 
   it('Should render week numbers given `showWeekNumbers=true`', () => {
-    const { getByRole } = render(
-      <DatePicker defaultOpen calendarDefaultDate={new Date('12/15/2021')} showWeekNumbers />
-    );
+    render(<DatePicker defaultOpen calendarDefaultDate={new Date('12/15/2021')} showWeekNumbers />);
 
     [49, 50, 51, 52, 1, 2].forEach(weekOrder => {
-      expect(getByRole('grid', { name: 'Dec 2021' })).to.contain(
-        getByRole('rowheader', {
+      expect(screen.getByRole('grid', { name: 'Dec 2021' })).to.contain(
+        screen.getByRole('rowheader', {
           name: `${weekOrder}`
         })
       );
@@ -680,29 +676,29 @@ describe('DatePicker', () => {
 
   describe('Plain text', () => {
     it('Should render formatted date', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <DatePicker value={new Date(2019, 3, 1)} format="MM/dd/yyyy" plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('04/01/2019');
+      expect(screen.getByTestId('content')).to.have.text('04/01/2019');
     });
 
     it('Should render "Not selected" if value is empty', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <DatePicker value={null} format="MM/dd/yyyy" plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Not selected');
+      expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
 
     it('Should render a custom caret', () => {
-      const { getByLabelText } = render(<DatePicker caretAs={GearIcon} />);
+      render(<DatePicker caretAs={GearIcon} />);
 
-      expect(getByLabelText('gear')).to.have.class('rs-icon');
+      expect(screen.getByLabelText('gear')).to.have.class('rs-icon');
     });
   });
 
@@ -726,7 +722,7 @@ describe('DatePicker', () => {
 
   it('Should reset to default time after clicking clear button', () => {
     const onChangeSpy = sinon.spy();
-    const { getByRole } = render(
+    render(
       <DatePicker
         open
         calendarDefaultDate={new Date('2022-02-02 00:00:00')}
@@ -741,20 +737,20 @@ describe('DatePicker', () => {
       />
     );
 
-    userEvent.click(getByRole('button', { name: 'custom-day' }));
+    userEvent.click(screen.getByRole('button', { name: 'custom-day' }));
 
     expect(isSameDay(onChangeSpy.getCall(0).args[0], new Date('2022-02-02'))).to.be.true;
-    expect(getByRole('button', { name: '12:00:00' })).to.exist;
+    expect(screen.getByRole('button', { name: '12:00:00' })).to.exist;
 
-    userEvent.click(getByRole('button', { name: /clear/i }));
+    userEvent.click(screen.getByRole('button', { name: /clear/i }));
 
     expect(onChangeSpy).to.have.been.calledWith(null);
-    expect(getByRole('button', { name: '00:00:00' })).to.exist;
+    expect(screen.getByRole('button', { name: '00:00:00' })).to.exist;
   });
 
   it('Should render range buttons for bottom and left placements', () => {
     const onChangeSpy = sinon.spy();
-    const { getByRole } = render(
+    render(
       <DatePicker
         open
         calendarDefaultDate={new Date('2022-02-02 00:00:00')}
@@ -779,21 +775,21 @@ describe('DatePicker', () => {
       />
     );
 
-    expect(getByRole('button', { name: 'Left Placement' })).to.exist;
-    expect(getByRole('button', { name: 'Bottom Placement' })).to.exist;
-    expect(getByRole('button', { name: 'Default Placement' })).to.exist;
+    expect(screen.getByRole('button', { name: 'Left Placement' })).to.exist;
+    expect(screen.getByRole('button', { name: 'Bottom Placement' })).to.exist;
+    expect(screen.getByRole('button', { name: 'Default Placement' })).to.exist;
   });
 
   it('Should be controllable for keyboard input', () => {
-    const { getByTestId } = render(
+    render(
       <>
         <DatePicker data-testid="picker-1" />
         <DatePicker data-testid="picker-2" editable={false} />
       </>
     );
 
-    const picker1 = getByTestId('picker-1').querySelector('input') as HTMLInputElement;
-    const picker2 = getByTestId('picker-2').querySelector('input') as HTMLInputElement;
+    const picker1 = screen.getByTestId('picker-1').querySelector('input') as HTMLInputElement;
+    const picker2 = screen.getByTestId('picker-2').querySelector('input') as HTMLInputElement;
 
     expect(picker1).to.have.attribute('readonly');
     expect(picker2).to.have.attribute('readonly');

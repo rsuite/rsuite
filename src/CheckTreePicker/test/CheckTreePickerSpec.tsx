@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, fireEvent, waitFor, act, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
@@ -630,10 +630,10 @@ describe('CheckTreePicker', () => {
 
   it('Should children can be removed', () => {
     const onChangeSpy = sinon.spy();
-    const view = render(<CheckTreePicker defaultOpen data={data} onChange={onChangeSpy} />);
+    render(<CheckTreePicker defaultOpen data={data} onChange={onChangeSpy} />);
 
-    fireEvent.click(view.getByText('Master'), { target: { checked: true } });
-    fireEvent.click(view.getByText('tester0'), { target: { checked: false } });
+    fireEvent.click(screen.getByText('Master'), { target: { checked: true } });
+    fireEvent.click(screen.getByText('tester0'), { target: { checked: false } });
 
     expect(onChangeSpy.callCount).to.equal(2);
     expect(onChangeSpy.firstCall.args[0]).to.include('Master');
@@ -686,17 +686,17 @@ describe('CheckTreePicker', () => {
 
   it('Should children can be removed when setting virtualized', () => {
     const onChangeSpy = sinon.spy();
-    const view = render(
+    render(
       <CheckTreePicker open virtualized defaultExpandAll data={data} onChange={onChangeSpy} />
     );
 
-    fireEvent.click(view.getByText('Master'), {
+    fireEvent.click(screen.getByText('Master'), {
       target: {
         checked: true
       }
     });
 
-    fireEvent.click(view.getByText('tester0'), {
+    fireEvent.click(screen.getByText('tester0'), {
       target: {
         checked: false
       }
@@ -708,40 +708,34 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should not clean values when setting disabled=true', () => {
-    const { getByRole } = render(
-      <CheckTreePicker open value={[data[0].value]} disabled data={data} />
-    );
-    fireEvent.keyDown(getByRole('combobox'), {
+    render(<CheckTreePicker open value={[data[0].value]} disabled data={data} />);
+    fireEvent.keyDown(screen.getByRole('combobox'), {
       key: 'Backspace',
       code: 'Backspace'
     });
-    expect(getByRole('combobox')).to.have.text('Master (All)1');
+    expect(screen.getByRole('combobox')).to.have.text('Master (All)1');
   });
 
   it('Should not clean values when setting cleanable=false', () => {
-    const { getByRole } = render(<CheckTreePicker open value={[data[0].value]} data={data} />);
-    fireEvent.keyDown(getByRole('combobox'), {
+    render(<CheckTreePicker open value={[data[0].value]} data={data} />);
+    fireEvent.keyDown(screen.getByRole('combobox'), {
       key: 'Backspace',
       code: 'Backspace'
     });
-    expect(getByRole('combobox')).to.have.text('Master (All)1');
+    expect(screen.getByRole('combobox')).to.have.text('Master (All)1');
   });
 
   it('Should remove all value when click clean button and value is unControlled', () => {
-    const { getByLabelText, getByRole } = render(
-      <CheckTreePicker defaultOpen data={data} defaultValue={['Master']} />
-    );
+    render(<CheckTreePicker defaultOpen data={data} defaultValue={['Master']} />);
 
-    fireEvent.click(getByLabelText('Clear'));
-    expect(getByRole('combobox')).to.text('Select');
+    fireEvent.click(screen.getByLabelText('Clear'));
+    expect(screen.getByRole('combobox')).to.text('Select');
   });
 
   it('Should persist value when click clean button and value is controlled', () => {
-    const { getByLabelText, getByRole } = render(
-      <CheckTreePicker defaultOpen data={data} value={['Master']} />
-    );
+    render(<CheckTreePicker defaultOpen data={data} value={['Master']} />);
 
-    fireEvent.click(getByLabelText('Clear'));
-    expect(getByRole('combobox')).to.text('Master (All)1');
+    fireEvent.click(screen.getByLabelText('Clear'));
+    expect(screen.getByRole('combobox')).to.text('Master (All)1');
   });
 });

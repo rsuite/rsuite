@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
@@ -72,7 +72,7 @@ describe('CheckboxGroup', () => {
   });
 
   it('Should have underlying inputs checked when set value', () => {
-    const { getByLabelText } = render(
+    render(
       <CheckboxGroup value={[2, 4, '1']}>
         <Checkbox value={1}>Checkbox 1</Checkbox>
         <Checkbox value={2}>Checkbox 2</Checkbox>
@@ -81,10 +81,10 @@ describe('CheckboxGroup', () => {
       </CheckboxGroup>
     );
 
-    expect(getByLabelText('Checkbox 1')).not.to.be.checked;
-    expect(getByLabelText('Checkbox 2')).to.be.checked;
-    expect(getByLabelText('Checkbox 3')).not.to.be.checked;
-    expect(getByLabelText('Checkbox 4')).to.be.checked;
+    expect(screen.getByLabelText('Checkbox 1')).not.to.be.checked;
+    expect(screen.getByLabelText('Checkbox 2')).to.be.checked;
+    expect(screen.getByLabelText('Checkbox 3')).not.to.be.checked;
+    expect(screen.getByLabelText('Checkbox 4')).to.be.checked;
   });
 
   it('Should be checked when set defaultValue', () => {
@@ -106,7 +106,7 @@ describe('CheckboxGroup', () => {
   });
 
   it('Should have underlying inputs checked by default when set value', () => {
-    const { getByLabelText } = render(
+    render(
       <CheckboxGroup defaultValue={[2, 4, '1']}>
         <Checkbox value={1}>Checkbox 1</Checkbox>
         <Checkbox value={2}>Checkbox 2</Checkbox>
@@ -115,15 +115,15 @@ describe('CheckboxGroup', () => {
       </CheckboxGroup>
     );
 
-    expect(getByLabelText('Checkbox 1')).not.to.be.checked;
-    expect(getByLabelText('Checkbox 2')).to.be.checked;
-    expect(getByLabelText('Checkbox 3')).not.to.be.checked;
-    expect(getByLabelText('Checkbox 4')).to.be.checked;
+    expect(screen.getByLabelText('Checkbox 1')).not.to.be.checked;
+    expect(screen.getByLabelText('Checkbox 2')).to.be.checked;
+    expect(screen.getByLabelText('Checkbox 3')).not.to.be.checked;
+    expect(screen.getByLabelText('Checkbox 4')).to.be.checked;
   });
 
   it('Should call onChange callback with correct value', () => {
     const onChange = sinon.spy();
-    const { getByLabelText } = render(
+    render(
       <CheckboxGroup onChange={onChange}>
         <Checkbox value={1}>Option 1</Checkbox>
         <Checkbox value={2}>Option 2</Checkbox>
@@ -132,7 +132,7 @@ describe('CheckboxGroup', () => {
       </CheckboxGroup>
     );
 
-    fireEvent.click(getByLabelText('Option 3'));
+    fireEvent.click(screen.getByLabelText('Option 3'));
 
     expect(onChange).to.have.been.calledWith([3]);
   });
@@ -161,7 +161,7 @@ describe('CheckboxGroup', () => {
 
   describe('Plain text', () => {
     it("Should render selected checkboxes' labels", () => {
-      const { getByTestId } = render(
+      render(
         <CheckboxGroup plaintext value={[2, 4]} data-testid="checkbox-group">
           <Checkbox value={1}>Test1</Checkbox>
           <Checkbox value={2}>Test2</Checkbox>
@@ -170,10 +170,10 @@ describe('CheckboxGroup', () => {
         </CheckboxGroup>
       );
 
-      expect(getByTestId('checkbox-group')).to.have.text('Test2Test4');
+      expect(screen.getByTestId('checkbox-group')).to.have.text('Test2Test4');
     });
     it('Should render "not selected" if none is selected', () => {
-      const { getByTestId } = render(
+      render(
         <CheckboxGroup plaintext value={[]} data-testid="checkbox-group">
           <Checkbox value={1}>Test1</Checkbox>
           <Checkbox value={2}>Test2</Checkbox>
@@ -182,7 +182,7 @@ describe('CheckboxGroup', () => {
         </CheckboxGroup>
       );
 
-      expect(getByTestId('checkbox-group')).to.have.text('Not selected');
+      expect(screen.getByTestId('checkbox-group')).to.have.text('Not selected');
     });
   });
 });

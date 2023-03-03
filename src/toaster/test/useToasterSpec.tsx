@@ -104,15 +104,15 @@ describe('useToaster', () => {
       );
     };
 
-    const { getByTestId, getByText } = render(
+    render(
       <CustomProvider locale={zhCN}>
         <App />
       </CustomProvider>
     );
 
-    fireEvent.click(getByTestId('btn'));
+    fireEvent.click(screen.getByTestId('btn'));
 
-    expect(getByText('上传')).to.exist;
+    expect(screen.getByText('上传')).to.exist;
   });
 
   it('Should pass duration to Message', async () => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import Tree from '../Tree';
 import { PickerHandle } from '../../Picker';
@@ -94,8 +94,8 @@ describe('Tree', () => {
   });
 
   it('Should display drag Preview when dragging, and remove after drop', () => {
-    const { getByText } = render(<Tree data={data} draggable />);
-    const treeNode = getByText('tester1') as HTMLElement;
+    render(<Tree data={data} draggable />);
+    const treeNode = screen.getByText('tester1') as HTMLElement;
     fireEvent.dragStart(treeNode);
     expect(document.querySelector('.rs-tree-drag-preview')?.textContent).to.equal('tester1');
     fireEvent.drop(treeNode);

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
@@ -135,14 +135,14 @@ describe('Uploader', () => {
   });
 
   it('Should apply appearance', () => {
-    const { getByRole } = render(<Uploader action="" appearance="primary" color="red" />);
+    render(<Uploader action="" appearance="primary" color="red" />);
 
-    expect(getByRole('button')).to.have.class('rs-btn-primary');
-    expect(getByRole('button')).to.have.class('rs-btn-red');
+    expect(screen.getByRole('button')).to.have.class('rs-btn-primary');
+    expect(screen.getByRole('button')).to.have.class('rs-btn-red');
   });
 
   it('Should apply size class', () => {
-    const { getByRole } = render(<Uploader action="" size="lg" />);
-    expect(getByRole('button')).to.have.class('rs-btn-lg');
+    render(<Uploader action="" size="lg" />);
+    expect(screen.getByRole('button')).to.have.class('rs-btn-lg');
   });
 });

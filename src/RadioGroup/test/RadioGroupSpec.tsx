@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -169,7 +169,7 @@ describe('RadioGroup', () => {
 
   describe('Plain text', () => {
     it("Should render selected radio's label", () => {
-      const { getByTestId } = render(
+      render(
         <RadioGroup plaintext value={2} data-testid="radio-group">
           <Radio value={1}>Choice 1</Radio>
           <Radio value={2}>Choice 2</Radio>
@@ -178,10 +178,10 @@ describe('RadioGroup', () => {
         </RadioGroup>
       );
 
-      expect(getByTestId('radio-group')).to.have.text('Choice 2');
+      expect(screen.getByTestId('radio-group')).to.have.text('Choice 2');
     });
     it('Should render "not selected" if none is selected', () => {
-      const { getByTestId } = render(
+      render(
         <RadioGroup plaintext data-testid="radio-group">
           <Radio value={1}>Choice 1</Radio>
           <Radio value={2}>Choice 2</Radio>
@@ -190,7 +190,7 @@ describe('RadioGroup', () => {
         </RadioGroup>
       );
 
-      expect(getByTestId('radio-group')).to.have.text('Not selected');
+      expect(screen.getByTestId('radio-group')).to.have.text('Not selected');
     });
   });
 });

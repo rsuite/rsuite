@@ -72,9 +72,9 @@ describe('Panel', () => {
 
     it('Should call onSelect callback with undefined if `eventKey` is not specified', () => {
       const onSelectSpy = sinon.spy();
-      const { getByText } = render(<Panel collapsible onSelect={onSelectSpy} header={'abc'} />);
+      render(<Panel collapsible onSelect={onSelectSpy} header={'abc'} />);
 
-      fireEvent.click(getByText('abc'));
+      fireEvent.click(screen.getByText('abc'));
       expect(onSelectSpy).to.have.been.calledWith(undefined);
     });
 

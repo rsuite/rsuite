@@ -60,17 +60,17 @@ describe('InputNumber', () => {
   });
 
   it('Should render increment/decrement buttons', () => {
-    const { getByRole } = render(<InputNumber />);
+    render(<InputNumber />);
 
-    expect(getByRole('button', { name: /increment/i })).to.exist;
-    expect(getByRole('button', { name: /decrement/i })).to.exist;
+    expect(screen.getByRole('button', { name: /increment/i })).to.exist;
+    expect(screen.getByRole('button', { name: /decrement/i })).to.exist;
   });
 
   it('Should call onChange callback with incremented value when increment button is clicked', () => {
     const onChange = sinon.spy();
-    const { getByRole } = render(<InputNumber value={0} step={5} onChange={onChange} />);
+    render(<InputNumber value={0} step={5} onChange={onChange} />);
 
-    fireEvent.click(getByRole('button', { name: /increment/i }));
+    fireEvent.click(screen.getByRole('button', { name: /increment/i }));
 
     // fixme '5' or 5?
     expect(onChange).to.have.been.calledWith('5');
@@ -78,9 +78,9 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback with decremented value when decrement button is clicked', () => {
     const onChange = sinon.spy();
-    const { getByRole } = render(<InputNumber value={0} step={5} onChange={onChange} />);
+    render(<InputNumber value={0} step={5} onChange={onChange} />);
 
-    fireEvent.click(getByRole('button', { name: /decrement/i }));
+    fireEvent.click(screen.getByRole('button', { name: /decrement/i }));
 
     // fixme '-5' or -5?
     expect(onChange).to.have.been.calledWith('-5');
@@ -88,9 +88,9 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback with min value when increment button is clicked but initial value underflows', () => {
     const onChange = sinon.spy();
-    const { getByRole } = render(<InputNumber value={0} min={10} onChange={onChange} />);
+    render(<InputNumber value={0} min={10} onChange={onChange} />);
 
-    fireEvent.click(getByRole('button', { name: /increment/i }));
+    fireEvent.click(screen.getByRole('button', { name: /increment/i }));
 
     // fixme '10' or 10?
     expect(onChange).to.have.been.calledWith('10');
@@ -98,9 +98,9 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback with max value when decrement button is clicked but initial value overflows', () => {
     const onChange = sinon.spy();
-    const { getByRole } = render(<InputNumber value={100} max={10} onChange={onChange} />);
+    render(<InputNumber value={100} max={10} onChange={onChange} />);
 
-    fireEvent.click(getByRole('button', { name: /decrement/i }));
+    fireEvent.click(screen.getByRole('button', { name: /decrement/i }));
 
     // fixme '10' or 10?
     expect(onChange).to.have.been.calledWith('10');
@@ -196,17 +196,17 @@ describe('InputNumber', () => {
 
   describe('Plain text', () => {
     it('Should render input value', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <InputNumber value={1} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('1');
+      expect(screen.getByTestId('content')).to.have.text('1');
     });
 
     it('Should render "Unfilled" if value is empty', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           {/* FIXME `value` prop does not support `null` value */}
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
@@ -215,16 +215,16 @@ describe('InputNumber', () => {
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Unfilled');
+      expect(screen.getByTestId('content')).to.have.text('Unfilled');
     });
   });
 
   // @see https://www.w3.org/TR/wai-aria-practices-1.2/#spinbutton
   describe('a11y', () => {
     it('Should render an ARIA spinbutton', () => {
-      const { getByRole } = render(<InputNumber value={0} />);
+      render(<InputNumber value={0} />);
 
-      expect(getByRole('spinbutton')).to.exist;
+      expect(screen.getByRole('spinbutton')).to.exist;
     });
 
     it('Should not have focusable elements other than the input', () => {
@@ -242,43 +242,43 @@ describe('InputNumber', () => {
     describe('Keyboard interaction', () => {
       it('Should increase the value when ArrowUp is pressed', () => {
         const onChange = sinon.spy();
-        const { getByRole } = render(<InputNumber value={0} onChange={onChange} />);
+        render(<InputNumber value={0} onChange={onChange} />);
 
-        fireEvent.keyDown(getByRole('spinbutton'), { key: 'ArrowUp' });
+        fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'ArrowUp' });
         expect(onChange).to.have.been.calledWith('1');
       });
 
       it('Should increase the value when ArrowDown is pressed', () => {
         const onChange = sinon.spy();
-        const { getByRole } = render(<InputNumber value={0} onChange={onChange} />);
+        render(<InputNumber value={0} onChange={onChange} />);
 
-        fireEvent.keyDown(getByRole('spinbutton'), { key: 'ArrowDown' });
+        fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'ArrowDown' });
         expect(onChange).to.have.been.calledWith('-1');
       });
 
       it('Should set the value to minimum (if specified) when Home is pressed', () => {
         const onChange = sinon.spy();
-        const { getByRole, rerender } = render(<InputNumber value={10} onChange={onChange} />);
+        const { rerender } = render(<InputNumber value={10} onChange={onChange} />);
 
-        fireEvent.keyDown(getByRole('spinbutton'), { key: 'Home' });
+        fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'Home' });
         expect(onChange).not.to.have.been.called;
 
         rerender(<InputNumber value={10} min={0} onChange={onChange} />);
 
-        fireEvent.keyDown(getByRole('spinbutton'), { key: 'Home' });
+        fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'Home' });
         expect(onChange).to.have.been.calledWith('0');
       });
 
       it('Should set the value to maximum (if specified) when End is pressed', () => {
         const onChange = sinon.spy();
-        const { getByRole, rerender } = render(<InputNumber value={10} onChange={onChange} />);
+        const { rerender } = render(<InputNumber value={10} onChange={onChange} />);
 
-        fireEvent.keyDown(getByRole('spinbutton'), { key: 'End' });
+        fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'End' });
         expect(onChange).not.to.have.been.called;
 
         rerender(<InputNumber value={10} max={100} onChange={onChange} />);
 
-        fireEvent.keyDown(getByRole('spinbutton'), { key: 'End' });
+        fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'End' });
         expect(onChange).to.have.been.calledWith('100');
       });
     });

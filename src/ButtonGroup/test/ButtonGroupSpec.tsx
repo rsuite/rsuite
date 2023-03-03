@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import ButtonGroup from '../ButtonGroup';
@@ -22,13 +22,13 @@ describe('ButtonGroup', () => {
 
     (['lg', 'md', 'sm', 'xs'] as const).forEach(size => {
       it(`Should apply ${size} size on child <Button>s`, () => {
-        const { getByTestId } = render(
+        render(
           <ButtonGroup size={size}>
             <Button data-testid="button">Button</Button>
           </ButtonGroup>
         );
 
-        expect(getByTestId('button')).to.have.class(`rs-btn-${size}`);
+        expect(screen.getByTestId('button')).to.have.class(`rs-btn-${size}`);
       });
     });
   });

@@ -1,5 +1,5 @@
 import React, { CSSProperties, Ref } from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
@@ -136,7 +136,7 @@ describe('Whisper', () => {
     const onEnteringSpy = sinon.spy();
     const onEnteredSpy = sinon.spy();
 
-    const { getByTestId } = render(
+    render(
       <Whisper
         trigger="click"
         speaker={<Tooltip>test</Tooltip>}
@@ -151,7 +151,7 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    fireEvent.click(getByTestId('btn'));
+    fireEvent.click(screen.getByTestId('btn'));
 
     await waitFor(() => {
       expect(onEnterSpy).to.called;
@@ -159,7 +159,7 @@ describe('Whisper', () => {
       expect(onEnteredSpy).to.called;
     });
 
-    fireEvent.click(getByTestId('btn'));
+    fireEvent.click(screen.getByTestId('btn'));
 
     await waitFor(() => {
       expect(onExitSpy).to.called;

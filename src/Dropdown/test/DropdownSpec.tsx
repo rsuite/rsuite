@@ -32,44 +32,46 @@ function renderDropdown(ui) {
 
 describe('<Dropdown>', () => {
   it('Should render a button that controls a popup menu', () => {
-    const { getByRole } = render(
+    render(
       <Dropdown title="Menu">
         <Dropdown.Item>Item 1</Dropdown.Item>
       </Dropdown>
     );
 
-    expect(getByRole('button')).to.have.text('Menu').and.to.have.attr('aria-haspopup', 'menu');
+    expect(screen.getByRole('button'))
+      .to.have.text('Menu')
+      .and.to.have.attr('aria-haspopup', 'menu');
   });
 
   it('Should open the menu when button is clicked', () => {
-    const { getByRole } = render(
+    render(
       <Dropdown title="Menu">
         <Dropdown.Item>Item 1</Dropdown.Item>
       </Dropdown>
     );
-    fireEvent.click(getByRole('button', { name: 'Menu' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Menu' }));
 
-    expect(getByRole('menu')).to.be.visible;
+    expect(screen.getByRole('menu')).to.be.visible;
   });
 
   it('Should open menu initially when defaultOpen=true', () => {
-    const { getByRole } = render(
+    render(
       <Dropdown title="Menu" defaultOpen>
         <Dropdown.Item>Item 1</Dropdown.Item>
       </Dropdown>
     );
 
-    expect(getByRole('menu')).to.be.visible;
+    expect(screen.getByRole('menu')).to.be.visible;
   });
 
   it('Should display/hide menu according to controlled `open` prop', () => {
-    const { getByRole, queryByRole, rerender } = render(
+    const { rerender } = render(
       <Dropdown title="Menu" open>
         <Dropdown.Item>Item 1</Dropdown.Item>
       </Dropdown>
     );
 
-    expect(getByRole('menu')).to.be.visible;
+    expect(screen.getByRole('menu')).to.be.visible;
 
     rerender(
       <Dropdown title="Menu" open={false}>
@@ -77,7 +79,7 @@ describe('<Dropdown>', () => {
       </Dropdown>
     );
 
-    expect(queryByRole('menu')).not.to.exist;
+    expect(screen.queryByRole('menu')).not.to.exist;
   });
 
   it('Should toggle the menu on mouseEnter/mouseLeave button given trigger "hover"', () => {
@@ -268,42 +270,42 @@ describe('<Dropdown>', () => {
 
   it('Should not call onToggle callback when set disabled', () => {
     const onToggleSpy = sinon.spy();
-    const { getByRole } = render(
+    render(
       <Dropdown onToggle={onToggleSpy} disabled>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
 
-    fireEvent.click(getByRole('button'));
+    fireEvent.click(screen.getByRole('button'));
 
     expect(onToggleSpy).to.have.not.been.called;
   });
 
   it('Should not call onToggle callback when set disabled and hover', () => {
     const onToggleSpy = sinon.spy();
-    const { getByRole } = render(
+    render(
       <Dropdown onToggle={onToggleSpy} disabled trigger="hover">
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
 
-    fireEvent.mouseEnter(getByRole('button'));
+    fireEvent.mouseEnter(screen.getByRole('button'));
 
     expect(onToggleSpy).to.have.not.been.called;
   });
 
   it('Should not call onToggle callback when set disabled and contextMenu', () => {
     const onToggleSpy = sinon.spy();
-    const { getByRole } = render(
+    render(
       <Dropdown onToggle={onToggleSpy} disabled trigger="contextMenu">
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
 
-    fireEvent.contextMenu(getByRole('button'));
+    fireEvent.contextMenu(screen.getByRole('button'));
 
     expect(onToggleSpy).to.have.not.been.called;
   });

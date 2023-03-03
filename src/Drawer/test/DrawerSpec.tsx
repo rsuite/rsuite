@@ -42,20 +42,18 @@ describe('Drawer', () => {
 
   it('Should close the drawer when the backdrop is clicked', () => {
     const onCloseSpy = sinon.spy();
-    const { getByTestId } = render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} />);
+    render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} />);
 
-    fireEvent.click(getByTestId('wrapper'));
+    fireEvent.click(screen.getByTestId('wrapper'));
 
     assert.isTrue(onCloseSpy.calledOnce);
   });
 
   it('Should not close the drawer when the "static" drawer is clicked', () => {
     const onCloseSpy = sinon.spy();
-    const { getByTestId } = render(
-      <Drawer data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />
-    );
+    render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />);
 
-    fireEvent.click(getByTestId('wrapper'));
+    fireEvent.click(screen.getByTestId('wrapper'));
 
     assert.isFalse(onCloseSpy.calledOnce);
   });

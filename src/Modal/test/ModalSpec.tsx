@@ -19,30 +19,28 @@ describe('Modal', () => {
 
   it('Should close the modal when the modal dialog is clicked', () => {
     const onCloseSpy = sinon.spy();
-    const { getByTestId } = render(<Modal data-testid="wrapper" open onClose={onCloseSpy} />);
+    render(<Modal data-testid="wrapper" open onClose={onCloseSpy} />);
 
-    fireEvent.click(getByTestId('wrapper'));
+    fireEvent.click(screen.getByTestId('wrapper'));
 
     assert.isTrue(onCloseSpy.calledOnce);
   });
 
   it('Should not close the modal when the "static" dialog is clicked', () => {
     const onCloseSpy = sinon.spy();
-    const { getByTestId } = render(
-      <Modal data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />
-    );
+    render(<Modal data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />);
 
-    fireEvent.click(getByTestId('wrapper'));
+    fireEvent.click(screen.getByTestId('wrapper'));
 
     assert.isFalse(onCloseSpy.calledOnce);
   });
 
   it('Should not close the modal when clicking inside the dialog', () => {
     const onCloseSpy = sinon.spy();
-    const { getByRole } = render(<Modal open onClose={onCloseSpy} />);
+    render(<Modal open onClose={onCloseSpy} />);
 
-    fireEvent.click(getByRole('dialog'));
-    fireEvent.click(getByRole('document'));
+    fireEvent.click(screen.getByRole('dialog'));
+    fireEvent.click(screen.getByRole('document'));
 
     assert.isFalse(onCloseSpy.calledOnce);
   });
@@ -80,9 +78,9 @@ describe('Modal', () => {
       );
     };
 
-    const { getByRole } = render(<App />);
+    render(<App />);
 
-    fireEvent.click(getByRole('button', { name: 'Close' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
 
     await waitFor(() => {
       expect(onExitedSpy).to.have.been.calledOnce;
@@ -151,7 +149,7 @@ describe('Modal', () => {
   it('Should be rendered inside Modal', () => {
     const ref = React.createRef<HTMLDivElement>();
 
-    const { getByRole } = render(
+    render(
       <Modal open ref={ref}>
         <Modal.Body>
           <SelectPicker open data={[{ value: 1, label: 1 }]} />
@@ -159,7 +157,7 @@ describe('Modal', () => {
       </Modal>
     );
 
-    assert.isNotEmpty(getByRole('listbox'));
+    assert.isNotEmpty(screen.getByRole('listbox'));
   });
 
   describe('Focused state', () => {

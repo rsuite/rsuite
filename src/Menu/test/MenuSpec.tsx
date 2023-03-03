@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import Menu from '../Menu';
@@ -10,7 +10,7 @@ afterEach(() => {
 
 describe('<Menu>', () => {
   it('Should open menu initially when defaultOpen=true', () => {
-    const { getByRole } = render(
+    render(
       <Menu
         defaultOpen
         renderMenuButton={(buttonProps, buttonRef) => (
@@ -28,11 +28,11 @@ describe('<Menu>', () => {
       </Menu>
     );
 
-    expect(getByRole('menu')).to.be.visible;
+    expect(screen.getByRole('menu')).to.be.visible;
   });
 
   it('Should display/hide menu according to controlled `open` prop', () => {
-    const { getByRole, queryByRole, rerender } = render(
+    const { rerender } = render(
       <Menu
         open
         renderMenuButton={(buttonProps, buttonRef) => (
@@ -50,7 +50,7 @@ describe('<Menu>', () => {
       </Menu>
     );
 
-    expect(getByRole('menu')).to.be.visible;
+    expect(screen.getByRole('menu')).to.be.visible;
 
     rerender(
       <Menu
@@ -70,11 +70,11 @@ describe('<Menu>', () => {
       </Menu>
     );
 
-    expect(queryByRole('menu')).not.to.exist;
+    expect(screen.queryByRole('menu')).not.to.exist;
   });
 
   it('Closes menu and moves focus to button when clicking outside', async () => {
-    const { getByTestId } = render(
+    render(
       <div data-testid="div">
         <Menu
           renderMenuButton={(buttonProps, buttonRef) => (
@@ -93,8 +93,8 @@ describe('<Menu>', () => {
       </div>
     );
 
-    const button = getByTestId('button');
-    const menu = getByTestId('menu');
+    const button = screen.getByTestId('button');
+    const menu = screen.getByTestId('menu');
 
     fireEvent.click(button);
 
@@ -104,7 +104,7 @@ describe('<Menu>', () => {
 
     sinon.spy(button, 'focus');
 
-    userEvent.click(getByTestId('div'));
+    userEvent.click(screen.getByTestId('div'));
 
     await waitFor(() => {
       expect(menu).not.to.be.visible;
@@ -112,7 +112,7 @@ describe('<Menu>', () => {
     });
   });
   it('Closes menu but dont move focus to button when clicking on a focusable element outside', async () => {
-    const { getByTestId } = render(
+    render(
       <div>
         <Menu
           renderMenuButton={(buttonProps, buttonRef) => (
@@ -132,8 +132,8 @@ describe('<Menu>', () => {
       </div>
     );
 
-    const button = getByTestId('button');
-    const menu = getByTestId('menu');
+    const button = screen.getByTestId('button');
+    const menu = screen.getByTestId('menu');
 
     fireEvent.click(button);
 
@@ -143,7 +143,7 @@ describe('<Menu>', () => {
 
     sinon.spy(button, 'focus');
 
-    userEvent.click(getByTestId('outside-button'));
+    userEvent.click(screen.getByTestId('outside-button'));
 
     await waitFor(() => {
       expect(menu).not.to.be.visible;
@@ -151,7 +151,7 @@ describe('<Menu>', () => {
     });
   });
   it('Closes menu when focus is moving outside of menu', () => {
-    const { getByTestId } = render(
+    render(
       <Menu
         renderMenuButton={(buttonProps, buttonRef) => (
           <button ref={buttonRef} {...buttonProps} data-testid="button">
@@ -168,19 +168,19 @@ describe('<Menu>', () => {
       </Menu>
     );
 
-    const button = getByTestId('button');
-    const menu = getByTestId('menu');
+    const button = screen.getByTestId('button');
+    const menu = screen.getByTestId('menu');
 
     fireEvent.click(button);
     expect(menu).to.be.visible;
 
-    fireEvent.blur(getByTestId('container'));
+    fireEvent.blur(screen.getByTestId('container'));
     expect(menu).not.to.be.visible;
   });
 
   it('Should call onToggleMenu when focus or blur', () => {
     const onToggleMenuSpy = sinon.spy();
-    const { getByTestId } = render(
+    render(
       <div>
         <Menu
           renderMenuButton={(buttonProps, buttonRef) => (
@@ -199,8 +199,8 @@ describe('<Menu>', () => {
       </div>
     );
 
-    const button = getByTestId('button');
-    const input = getByTestId('input');
+    const button = screen.getByTestId('button');
+    const input = screen.getByTestId('input');
 
     userEvent.click(button);
 

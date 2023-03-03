@@ -57,7 +57,7 @@ describe('OverlayTrigger', () => {
   });
 
   it('Should maintain overlay classname when trigger mouseOver and setting [trigger="hover"]', () => {
-    const { getByTestId } = render(
+    render(
       <OverlayTrigger
         trigger="hover"
         speaker={<Tooltip data-testid="test-whisper_hover">test</Tooltip>}
@@ -67,10 +67,10 @@ describe('OverlayTrigger', () => {
     );
 
     act(() => {
-      Simulate.mouseOver(getByTestId('whisper'));
+      Simulate.mouseOver(screen.getByTestId('whisper'));
     });
 
-    expect(getByTestId('test-whisper_hover')).to.exist;
+    expect(screen.getByTestId('test-whisper_hover')).to.exist;
   });
 
   it('Should maintain overlay classname when trigger click and setting [trigger="active"]  ', () => {
@@ -220,7 +220,7 @@ describe('OverlayTrigger', () => {
       );
     });
 
-    const { getByRole } = render(
+    render(
       <OverlayTrigger onMouseMove={onMouseMove} trigger="hover" followCursor speaker={<Tooltip />}>
         <MyButton />
       </OverlayTrigger>
@@ -229,8 +229,8 @@ describe('OverlayTrigger', () => {
     expect(count.current).to.equal(1);
 
     act(() => {
-      Simulate.mouseOver(getByRole('button'));
-      Simulate.mouseMove(getByRole('button'), {
+      Simulate.mouseOver(screen.getByRole('button'));
+      Simulate.mouseMove(screen.getByRole('button'), {
         pageY: 10,
         pageX: 10,
         clientX: 10,
@@ -239,7 +239,7 @@ describe('OverlayTrigger', () => {
     });
 
     expect(count.current).to.equal(2);
-    expect(getByRole('tooltip').style).to.have.property('left', '10px');
+    expect(screen.getByRole('tooltip').style).to.have.property('left', '10px');
   });
 
   it('Should throw an error when using Fragment as child', () => {

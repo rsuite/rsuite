@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import Calendar from '../Calendar';
 import {
   getDefaultPalette,
@@ -112,11 +112,11 @@ describe('Calendar styles', () => {
   });
 
   itChrome('Should be bordered on month row', () => {
-    const { getByTestId } = render(
-      <Calendar defaultState={CalendarState.MONTH} bordered data-testid="body" />
-    );
+    render(<Calendar defaultState={CalendarState.MONTH} bordered data-testid="body" />);
 
-    const row = getByTestId('body').querySelector('.rs-calendar-month-dropdown-row') as HTMLElement;
+    const row = screen
+      .getByTestId('body')
+      .querySelector('.rs-calendar-month-dropdown-row') as HTMLElement;
 
     expect(getStyle(row, 'borderBottom')).to.equal(`1px dotted ${toRGB('#e5e5ea')}`);
   });

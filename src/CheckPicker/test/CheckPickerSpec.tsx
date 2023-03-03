@@ -173,11 +173,11 @@ describe('CheckPicker', () => {
 
   it('Should call `onChange` callback with correct value', () => {
     const onChange = sinon.spy();
-    const { getByText } = render(
+    render(
       <CheckPicker defaultOpen onChange={onChange} data={[{ label: 'Option 1', value: '1' }]} />
     );
 
-    fireEvent.click(getByText('Option 1'));
+    fireEvent.click(screen.getByText('Option 1'));
 
     expect(onChange).to.have.been.calledOnce;
     expect(onChange.getCall(0).args[0]).to.eql(['1']);
@@ -518,22 +518,22 @@ describe('CheckPicker', () => {
 
   describe('Plain text', () => {
     it("Should render selected options' labels (comma-separated) and selected options count", () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <CheckPicker data={data} value={['Eugenia', 'Kariane']} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Eugenia,Kariane2');
+      expect(screen.getByTestId('content')).to.have.text('Eugenia,Kariane2');
     });
     it('Should render "Not selected" if value is empty', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <CheckPicker data={data} value={[]} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Not selected');
+      expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
   });
 

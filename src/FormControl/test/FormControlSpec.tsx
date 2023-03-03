@@ -199,7 +199,7 @@ describe('FormControl', () => {
   });
 
   it('Should be associated with ErrorMessage via aria-errormessage', () => {
-    const { getByRole } = render(
+    render(
       <Form>
         <FormGroup controlId="name1">
           <FormControl errorMessage={'error2'} name="name1" />
@@ -207,8 +207,8 @@ describe('FormControl', () => {
       </Form>
     );
 
-    const input = getByRole('textbox');
-    const alert = getByRole('alert');
+    const input = screen.getByRole('textbox');
+    const alert = screen.getByRole('alert');
 
     expect(input).to.have.attr('aria-invalid', 'true');
 
