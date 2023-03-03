@@ -1,3 +1,9 @@
+## [5.28.1](https://github.com/rsuite/rsuite/compare/v5.28.0...v5.28.1) (2023-03-03)
+
+### Bug Fixes
+
+- **Button:** fix Button content not center-aligned ([#3087](https://github.com/rsuite/rsuite/issues/3087)) ([28ff13b](https://github.com/rsuite/rsuite/commit/28ff13b2c2ab8f08ccaa854caffa0a5674d1aabc))
+
 # [5.28.0](https://github.com/rsuite/rsuite/compare/v5.27.0...v5.28.0) (2023-02-24)
 
 ### Bug Fixes
