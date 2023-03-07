@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { act, render } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import sinon from 'sinon';
@@ -26,7 +26,7 @@ describe('Breadcrumb', () => {
   });
 
   it('Should automatically collapse if there are more than 5 items', () => {
-    const instance = getDOMNode(
+    render(
       <Breadcrumb>
         <Breadcrumb.Item>1</Breadcrumb.Item>
         <Breadcrumb.Item>2</Breadcrumb.Item>
@@ -37,13 +37,12 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    assert.equal(instance.querySelectorAll('.rs-breadcrumb-item').length, 3);
-    assert.equal(instance.querySelectorAll('.rs-breadcrumb-item')[1].textContent, '...');
+    expect(screen.getByRole('navigation')).to.have.text('1/.../6');
   });
 
   it('Should call onExpand callback', () => {
     const onExpand = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Breadcrumb onExpand={onExpand}>
         <Breadcrumb.Item>1</Breadcrumb.Item>
         <Breadcrumb.Item>2</Breadcrumb.Item>
@@ -55,7 +54,7 @@ describe('Breadcrumb', () => {
     );
 
     act(() => {
-      ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-breadcrumb-item')[1]);
+      ReactTestUtils.Simulate.click(screen.getByText('...'));
     });
 
     expect(onExpand).to.have.been.calledOnce;

@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { render, act, screen } from '@testing-library/react';
 import Calendar from '../Calendar';

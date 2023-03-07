@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactTestUtils, { act, Simulate } from 'react-dom/test-utils';
-import { fireEvent, render, waitFor, screen } from '@testing-library/react';
+import { Simulate } from 'react-dom/test-utils';
+import { fireEvent, render, waitFor, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -35,7 +35,7 @@ describe('<Sidenav>', () => {
 
     const onSelectSpy = sinon.spy();
 
-    const instance = getDOMNode(
+    render(
       <Sidenav onSelect={onSelectSpy}>
         <Nav>
           <Nav.Item eventKey="1">a</Nav.Item>
@@ -44,7 +44,7 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-sidenav-item') as HTMLElement);
+    fireEvent.click(screen.getByText('a'));
 
     expect(consoleWarnStub, 'Deprecation warning').to.have.been.calledWith(
       sinon.match(/onselect.+deprecated/i)
@@ -95,7 +95,7 @@ describe('<Sidenav>', () => {
 
   it('Should call onOpenChange callback', () => {
     const onOpenChange = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Sidenav onOpenChange={onOpenChange}>
         <Nav>
           <Nav.Item eventKey="1">a</Nav.Item>
@@ -108,13 +108,13 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-dropdown-toggle') as HTMLElement);
+    fireEvent.click(screen.getByText('3'));
 
     expect(onOpenChange).to.have.been.calledOnce;
   });
 
   it('Should open the default menu', () => {
-    const instance = getDOMNode(
+    render(
       <Sidenav defaultOpenKeys={['1', '2']}>
         <Sidenav.Body>
           <Nav>
@@ -123,7 +123,7 @@ describe('<Sidenav>', () => {
             </Dropdown>
             <Dropdown eventKey="2" title="2" data-testid="menu-2">
               <Dropdown.Item eventKey="2-1">2-1</Dropdown.Item>
-              <Dropdown.Menu eventKey="2-2" title="2-2" className="m-2-2">
+              <Dropdown.Menu eventKey="2-2" title="2-2" data-testid="m-2-2">
                 <Dropdown.Item eventKey="2-2-1">2-2-1</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
@@ -133,36 +133,23 @@ describe('<Sidenav>', () => {
     );
 
     ['1', '2'].forEach(key => {
-      const menu = screen.getByTestId(`menu-${key}`);
-
-      assert.ok(
-        (menu.querySelector('[role="group"]') as HTMLElement).classList.contains(
-          'rs-dropdown-menu-collapse-in'
-        ),
-        `Menu ${key} has transition class`
+      expect(within(screen.getByTestId(`menu-${key}`)).getByRole('group')).to.have.class(
+        'rs-dropdown-menu-collapse-in'
       );
     });
 
-    assert.ok(
-      (instance.querySelector('.m-2-2') as HTMLElement).getAttribute('aria-expanded') !== 'true',
-      'Menu 2-2 should not be open'
-    );
-    assert.ok(
-      (
-        (instance.querySelector('.m-2-2') as HTMLElement).querySelector(
-          '[role="group"]'
-        ) as HTMLElement
-      ).classList.contains('rs-dropdown-menu-collapse-out'),
-      'Menu 2-2 has transition class'
+    expect(screen.getByTestId('m-2-2')).not.to.have.attr('aria-expanded', 'true');
+    expect(within(screen.getByTestId('m-2-2')).getByRole('group', { hidden: true })).to.have.class(
+      'rs-dropdown-menu-collapse-out'
     );
   });
 
   it('<Dropdown> inside collapsed <Sidenav> should contain a header in its menu', () => {
-    const instance = getDOMNode(
+    render(
       <Sidenav expanded={false}>
         <Sidenav.Body>
           <Nav>
-            <Dropdown eventKey="1" title="1" className="m-1">
+            <Dropdown eventKey="1" title="1" data-testid="m-1">
               <Dropdown.Item eventKey="1-1">Geo</Dropdown.Item>
             </Dropdown>
           </Nav>
@@ -170,20 +157,18 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    act(() => {
-      Simulate.click(instance.querySelector('.m-1') as HTMLElement);
-    });
+    fireEvent.click(screen.getByTestId('m-1'));
 
-    expect(instance.querySelector('.rs-dropdown-header')).not.to.be.null;
+    expect(screen.getByText('1', { selector: '.rs-dropdown-header' })).to.exist;
   });
 
   it('Should set `aria-selected=true` on the item indicated by `activeKey`', () => {
     const consoleWarnStub = sinon.stub(console, 'warn').callsFake(() => null);
 
-    const instance = getDOMNode(
+    render(
       <Sidenav activeKey="1">
         <Nav>
-          <Nav.Item eventKey="1" id="selected-item">
+          <Nav.Item eventKey="1" data-testid="selected-item">
             a
           </Nav.Item>
           <Nav.Item eventKey="2">b</Nav.Item>
@@ -193,9 +178,7 @@ describe('<Sidenav>', () => {
     expect(consoleWarnStub, 'Deprecation warning').to.have.been.calledWith(
       sinon.match(/activekey.+deprecated/i)
     );
-    expect(
-      (instance.querySelector('#selected-item') as HTMLElement).getAttribute('aria-selected')
-    ).to.equal('true');
+    expect(screen.getByTestId('selected-item')).to.have.attr('aria-selected', 'true');
   });
 
   it('Should mark <Dropdown.Item> matching <Nav> `activeKey` as current', () => {
@@ -366,6 +349,7 @@ describe('<Sidenav>', () => {
       );
 
       const menu = screen.getByText('menu3');
+      // eslint-disable-next-line testing-library/no-node-access
       expect(menu.querySelector('.rs-dropdown-item-toggle-icon')).to.have.class(
         'rs-dropdown-item-collapse-icon'
       );
@@ -373,6 +357,7 @@ describe('<Sidenav>', () => {
       // opens the menu
       fireEvent.click(menu);
 
+      // eslint-disable-next-line testing-library/no-node-access
       expect(menu.querySelector('.rs-dropdown-item-toggle-icon')).to.have.class(
         'rs-dropdown-item-expand-icon'
       );

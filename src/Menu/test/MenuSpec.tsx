@@ -204,12 +204,12 @@ describe('<Menu>', () => {
 
     userEvent.click(button);
 
-    expect(document.activeElement).to.equal(button);
+    expect(button).to.have.focus;
     expect(onToggleMenuSpy.firstCall).to.have.been.calledWith(true);
 
     userEvent.click(input);
 
-    expect(document.activeElement).to.equal(input);
+    expect(input).to.have.focus;
     expect(onToggleMenuSpy.secondCall).to.have.been.calledWith(false);
   });
 });

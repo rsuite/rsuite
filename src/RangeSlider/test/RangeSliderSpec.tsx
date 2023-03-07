@@ -19,10 +19,12 @@ describe('RangeSlider', () => {
   it('Should have a progress ', () => {
     const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} />);
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance.querySelector('.rs-slider-progress-bar') as HTMLHtmlElement).style.width,
       '40%'
     );
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance.querySelector('.rs-slider-progress-bar') as HTMLElement).style.left,
       '10%'
     );
@@ -30,23 +32,26 @@ describe('RangeSlider', () => {
 
   it('Should render 2 handles ', () => {
     const instance = getDOMNode(<RangeSlider value={[10, 50]} />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance.querySelectorAll('.rs-slider-handle').length, 2);
   });
 
   it('Should output the scale', () => {
     const instance = getDOMNode(<RangeSlider step={10} max={100} graduated />);
     const instance2 = getDOMNode(<RangeSlider min={10} step={10} max={100} graduated />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance.querySelectorAll('li').length, 10);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance2.querySelectorAll('li').length, 9);
   });
 
   it('Should be displayed vertically', () => {
     const instance = getDOMNode(<RangeSlider vertical />);
     assert.include(instance.className, 'rs-slider-vertical');
-    assert.equal(
-      (instance.querySelector('input') as HTMLElement).getAttribute('aria-orientation'),
-      'vertical'
-    );
+
+    screen.getAllByRole('slider').forEach(slider => {
+      expect(slider).to.have.attr('aria-orientation', 'vertical');
+    });
   });
 
   it('Should be disabled', () => {
@@ -57,6 +62,7 @@ describe('RangeSlider', () => {
   it('Should call onChange callback', () => {
     const onChangeSpy = sinon.spy();
     const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} onChange={onChangeSpy} />);
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(instance.querySelector('.rs-slider-progress-bar') as HTMLElement);
 
     assert.equal(onChangeSpy.firstCall.firstArg[0], 0);
@@ -69,6 +75,7 @@ describe('RangeSlider', () => {
 
     // FIXME Should dispatch event on [role=slider] directly
     fireEvent.keyDown(
+      // eslint-disable-next-line testing-library/no-node-access
       screen.getAllByRole('slider')[0].closest('.rs-slider-handle') as HTMLElement,
       {
         key: 'ArrowRight'
@@ -83,11 +90,12 @@ describe('RangeSlider', () => {
       <RangeSlider value={[10, 50]} onChange={onChange} constraint={() => false} />
     );
 
-    // eslint-disable-next-line testing-library/no-container
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     fireEvent.click(container.querySelector('.rs-slider-progress-bar') as HTMLElement);
     expect(onChange).not.to.have.been.called;
 
     fireEvent.keyDown(
+      // eslint-disable-next-line testing-library/no-node-access
       screen.getAllByRole('slider')[0].closest('.rs-slider-handle') as HTMLElement,
       {
         key: 'ArrowRight'
@@ -98,13 +106,15 @@ describe('RangeSlider', () => {
 
   it('Should render custom title', () => {
     const instance = getDOMNode(<RangeSlider tooltip={false} handleTitle={'test'} />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal((instance.querySelector('.rs-slider-handle') as HTMLElement).textContent, 'test');
   });
 
   it('Should handle keyboard operations', () => {
     const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} />);
+    // eslint-disable-next-line testing-library/no-node-access
     const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
-    const input = instance.querySelector('input[type="range"]') as HTMLInputElement;
+    const input = screen.getAllByRole('slider')[0] as HTMLInputElement;
 
     assert.equal(input.value, '10');
 
@@ -133,6 +143,7 @@ describe('RangeSlider', () => {
     const mouseupEvent = new MouseEvent('mouseup', { bubbles: true });
     const instance = getDOMNode(<RangeSlider onChangeCommitted={onChangeCommitted} />);
 
+    // eslint-disable-next-line testing-library/no-node-access
     const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
     fireEvent.mouseDown(handle);
     handle.dispatchEvent(mousemoveEvent);
@@ -143,17 +154,10 @@ describe('RangeSlider', () => {
     expect(onChangeCommitted).to.have.been.calledOnce;
   });
 
-  it('Should call `onChange` callback', () => {
-    const onChange = sinon.spy();
-    const instance = getDOMNode(<RangeSlider onChange={onChange} />);
-    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
-
-    expect(onChange).to.have.been.calledOnce;
-  });
-
   it('Should output an `input` stored value', () => {
     const instance = getDOMNode(<RangeSlider min={10} max={100} value={[20, 50]} />);
 
+    // eslint-disable-next-line testing-library/no-node-access
     const input = instance.querySelectorAll('input[type="range"]') as NodeListOf<HTMLInputElement>;
 
     assert.equal(input[0].value, '20');
@@ -180,6 +184,7 @@ describe('RangeSlider', () => {
       />
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     const sliderBar = instance.querySelector('.rs-slider-bar') as HTMLElement;
 
     act(() => {

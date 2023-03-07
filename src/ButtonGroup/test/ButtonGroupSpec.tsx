@@ -53,12 +53,13 @@ describe('ButtonGroup', () => {
   });
 
   it('Should render 2 <button>', () => {
-    const instance = getDOMNode(
+    render(
       <ButtonGroup>
         <Button>Title</Button>
         <Button>Title</Button>
       </ButtonGroup>
     );
-    assert.equal(instance.querySelectorAll('button').length, 2);
+
+    expect(screen.getAllByRole('button')).to.have.lengthOf(2);
   });
 });

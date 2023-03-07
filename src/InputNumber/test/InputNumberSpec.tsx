@@ -25,38 +25,40 @@ describe('InputNumber', () => {
   });
 
   it('Should output a subtle button', () => {
-    const instance = getDOMNode(<InputNumber />);
-    assert.ok(instance.querySelector('.rs-input-number-touchspin-up.rs-btn-subtle'));
+    render(<InputNumber />);
+    expect(screen.getByRole('button', { name: /increment/i })).to.have.class('rs-btn-subtle');
   });
 
   it('Should render placeholder in input', () => {
-    const instance = getDOMNode(<InputNumber placeholder="abc" />);
-    assert.equal((instance.querySelector('input') as HTMLInputElement).placeholder, 'abc');
+    render(<InputNumber placeholder="abc" />);
+
+    expect(screen.getByRole('spinbutton')).to.have.attr('placeholder', 'abc');
   });
 
   it('Should output a link button', () => {
-    const instance = getDOMNode(<InputNumber buttonAppearance="link" />);
-    assert.ok(instance.querySelector('.rs-input-number-touchspin-up.rs-btn-link'));
+    render(<InputNumber buttonAppearance="link" />);
+    expect(screen.getByRole('button', { name: /increment/i })).to.have.class('rs-btn-link');
   });
 
   it('Should be disabled of down button', () => {
-    const instance = getDOMNode(<InputNumber min={10} value={10} />);
-    assert.ok(instance.querySelector('.rs-input-number-touchspin-down.rs-btn-disabled'));
+    render(<InputNumber min={10} value={10} />);
+    expect(screen.getByRole('button', { name: /decrement/i })).to.have.property('disabled', true);
   });
 
   it('Should be disabled of up button', () => {
-    const instance = getDOMNode(<InputNumber max={10} value={10} />);
-    assert.ok(instance.querySelector('.rs-input-number-touchspin-up.rs-btn-disabled'));
+    render(<InputNumber max={10} value={10} />);
+    expect(screen.getByRole('button', { name: /increment/i })).to.have.property('disabled', true);
   });
 
   it('Should render a prefix', () => {
-    const instance = getDOMNode(<InputNumber prefix={<i />} />);
-    assert.ok(instance.querySelector('.rs-input-group-addon i'));
+    render(<InputNumber prefix={<i data-testid="prefix" />} />);
+
+    expect(screen.getByTestId('prefix')).to.exist;
   });
 
   it('Should render a postfix', () => {
-    const instance = getDOMNode(<InputNumber postfix={<i />} />);
-    assert.ok(instance.querySelector('.rs-input-group-addon i'));
+    render(<InputNumber postfix={<i data-testid="postfix" />} />);
+    expect(screen.getByTestId('postfix')).to.exist;
   });
 
   it('Should render increment/decrement buttons', () => {
@@ -108,8 +110,8 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback when onblur', () => {
     const onChangeSpy = sinon.spy();
-    const instance = getDOMNode(<InputNumber onChange={onChangeSpy} />);
-    const input = instance.querySelector('.rs-input') as HTMLInputElement;
+    render(<InputNumber onChange={onChangeSpy} />);
+    const input = screen.getByRole('spinbutton');
 
     fireEvent.blur(input, { target: { value: 2 } });
     assert.isTrue(onChangeSpy.calledOnce);
@@ -117,8 +119,8 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback when onwheel', () => {
     const onChangeSpy = sinon.spy();
-    const instance = getDOMNode(<InputNumber onChange={onChangeSpy} />);
-    const input = instance.querySelector('.rs-input') as HTMLInputElement;
+    render(<InputNumber onChange={onChangeSpy} />);
+    const input = screen.getByRole('spinbutton');
 
     act(() => {
       input.focus();
@@ -137,8 +139,8 @@ describe('InputNumber', () => {
 
   it('Should call onWheel callback', () => {
     const onWheelSpy = sinon.spy();
-    const instance = getDOMNode(<InputNumber onWheel={onWheelSpy} />);
-    const input = instance.querySelector('.rs-input') as HTMLInputElement;
+    render(<InputNumber onWheel={onWheelSpy} />);
+    const input = screen.getByRole('spinbutton');
 
     act(() => {
       input.focus();
@@ -161,8 +163,8 @@ describe('InputNumber', () => {
 
   it('Should call onChange callback when is control component', () => {
     const onChnageSpy = sinon.spy();
-    const instance = getDOMNode(<InputNumber onChange={onChnageSpy} value={2} />);
-    const input = instance.querySelector('.rs-input') as HTMLInputElement;
+    render(<InputNumber onChange={onChnageSpy} value={2} />);
+    const input = screen.getByRole('spinbutton');
 
     fireEvent.change(input, { target: { value: 3 } });
 
@@ -171,8 +173,8 @@ describe('InputNumber', () => {
 
   it('Should not call onChange callback when is not control component', () => {
     const onChnageSpy = sinon.spy();
-    const instance = getDOMNode(<InputNumber onChange={onChnageSpy} />);
-    const input = instance.querySelector('.rs-input') as HTMLInputElement;
+    render(<InputNumber onChange={onChnageSpy} />);
+    const input = screen.getByRole('spinbutton');
 
     fireEvent.change(input, { target: { value: 3 } });
 
@@ -181,16 +183,16 @@ describe('InputNumber', () => {
 
   it('Should call onBlur callback', () => {
     const onBlurSpy = sinon.spy();
-    const instance = getDOMNode(<InputNumber onBlur={onBlurSpy} />);
-    fireEvent.blur(instance.querySelector('.rs-input') as HTMLInputElement);
+    render(<InputNumber onBlur={onBlurSpy} />);
+    fireEvent.blur(screen.getByRole('spinbutton'));
 
     expect(onBlurSpy).to.called;
   });
 
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
-    const instance = getDOMNode(<InputNumber onFocus={onFocusSpy} />);
-    fireEvent.focus(instance.querySelector('.rs-input') as HTMLInputElement);
+    render(<InputNumber onFocus={onFocusSpy} />);
+    fireEvent.focus(screen.getByRole('spinbutton'));
     expect(onFocusSpy).to.called;
   });
 
@@ -236,6 +238,7 @@ describe('InputNumber', () => {
       // Move focus out
       userEvent.tab();
 
+      // eslint-disable-next-line testing-library/no-node-access
       expect(container).not.to.contain(document.activeElement);
     });
 

@@ -17,43 +17,57 @@ describe('OverlayTrigger', () => {
   });
 
   it('Should maintain overlay classname when trigger click', () => {
-    const whisper = getDOMNode(
+    render(
       <OverlayTrigger
         trigger="click"
-        speaker={<Tooltip className="test-whisper_click">test</Tooltip>}
+        speaker={
+          <Tooltip className="test-whisper_click" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
       >
         <button>button</button>
       </OverlayTrigger>
     );
-    fireEvent.click(whisper);
-    assert.equal(document.getElementsByClassName('test-whisper_click').length, 1);
+
+    fireEvent.click(screen.getByText('button'));
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper_click');
   });
 
   it('Should maintain overlay classname when trigger contextMenu', () => {
-    const whisper = getDOMNode(
+    render(
       <OverlayTrigger
         trigger="contextMenu"
-        speaker={<Tooltip className="test-whisper_context-menu">test</Tooltip>}
+        speaker={
+          <Tooltip className="test-whisper_context-menu" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
       >
         <button>button</button>
       </OverlayTrigger>
     );
-    fireEvent.contextMenu(whisper);
-    assert.equal(document.getElementsByClassName('test-whisper_context-menu').length, 1);
+
+    fireEvent.contextMenu(screen.getByText('button'));
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper_context-menu');
   });
 
   it('Should maintain overlay classname when trigger focus', () => {
-    const whisper = getDOMNode(
+    render(
       <OverlayTrigger
         trigger="focus"
-        speaker={<Tooltip className="test-whisper_focus">test</Tooltip>}
+        speaker={
+          <Tooltip className="test-whisper_focus" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
       >
         <button>button</button>
       </OverlayTrigger>
     );
 
-    fireEvent.focus(whisper);
-    assert.equal(document.getElementsByClassName('test-whisper_focus').length, 1);
+    fireEvent.focus(screen.getByText('button'));
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper_focus');
   });
 
   it('Should maintain overlay classname when trigger mouseOver and setting [trigger="hover"]', () => {
@@ -74,18 +88,21 @@ describe('OverlayTrigger', () => {
   });
 
   it('Should maintain overlay classname when trigger click and setting [trigger="active"]  ', () => {
-    const whisper = getDOMNode(
+    render(
       <OverlayTrigger
         trigger="active"
-        speaker={<Tooltip className="test-whisper_active">test</Tooltip>}
+        speaker={
+          <Tooltip className="test-whisper_active" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
       >
         <button>button</button>
       </OverlayTrigger>
     );
 
-    fireEvent.click(whisper);
-
-    assert.equal(document.getElementsByClassName('test-whisper_active').length, 1);
+    fireEvent.click(screen.getByText('button'));
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper_active');
   });
 
   it('Should call onClick callback', () => {

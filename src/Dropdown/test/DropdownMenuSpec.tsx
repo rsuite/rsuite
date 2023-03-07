@@ -9,41 +9,37 @@ import userEvent from '@testing-library/user-event';
 
 describe('<Dropdown.Menu>', () => {
   it('Should render a vertical ARIA menubar when used alone', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <DropdownMenu>
         <DropdownItem>1</DropdownItem>
         <DropdownItem>2</DropdownItem>
       </DropdownMenu>
     );
-    assert.equal(instance.getAttribute('role'), 'menubar');
-    assert.equal(instance.getAttribute('aria-orientation'), 'vertical');
 
-    // legacy assertions
-    assert.isTrue(/\bdropdown-menu\b/.test(instance.className));
-    assert.equal(instance.children.length, 2);
+    expect(container.firstChild).to.have.attr('role', 'menubar');
+    expect(container.firstChild).to.have.attr('aria-orientation', 'vertical');
+
+    expect(container.firstChild).to.have.class('rs-dropdown-menu');
+    expect(screen.getAllByRole('menuitem')).to.have.lengthOf(2);
   });
 
   it('Should render a submenu when used inside <Dropdown>', () => {
-    const instance = getDOMNode(
-      <Dropdown>
-        <Dropdown.Menu title="Submenu" data-testid="submenu">
-          <Dropdown.Item id="submenu-item">Submenu item</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+    render(
+      <Dropdown.Menu title="Submenu">
+        <Dropdown.Item>Submenu item</Dropdown.Item>
+      </Dropdown.Menu>,
+      {
+        wrapper: Dropdown
+      }
     );
 
-    const button = instance.querySelector('[role="button"]') as HTMLElement;
+    userEvent.click(screen.getByRole('button'));
 
-    userEvent.click(button);
-
-    const menuitem = instance.querySelector('[role="menuitem"]');
-
-    expect(menuitem).not.to.be.null;
-    expect(menuitem).to.have.attribute('aria-haspopup', 'menu');
+    expect(screen.getByRole('menuitem')).to.have.attr('aria-haspopup', 'menu');
   });
 
   it('Should render a submenu when used inside another <Dropdown.Menu>', () => {
-    const instance = getDOMNode(
+    render(
       <Dropdown.Menu>
         <Dropdown.Menu title="Submenu">
           <Dropdown.Item id="submenu-item">Submenu item</Dropdown.Item>
@@ -51,10 +47,7 @@ describe('<Dropdown.Menu>', () => {
       </Dropdown.Menu>
     );
 
-    const menuitem = instance.querySelector('[role="menuitem"]');
-
-    expect(menuitem).not.to.be.null;
-    expect(menuitem).to.have.attribute('aria-haspopup', 'menu');
+    expect(screen.getByRole('menuitem')).to.have.attribute('aria-haspopup', 'menu');
   });
 
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#menu
@@ -88,7 +81,7 @@ describe('<Dropdown.Menu>', () => {
         false
       );
 
-      fireEvent.mouseDown(menubar.querySelector('#second-item') as HTMLElement);
+      fireEvent.mouseDown(screen.getByText('Second item'));
 
       expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
     });
@@ -200,20 +193,6 @@ describe('<Dropdown.Menu>', () => {
     });
   });
 
-  it('Should render a submenu when used inside <Dropdown>', () => {
-    const instance = getDOMNode(
-      <Dropdown>
-        <DropdownItem>1</DropdownItem>
-        <DropdownMenu>
-          <DropdownItem>2</DropdownItem>
-          <DropdownItem>3</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-    );
-
-    assert.isNotNull(instance.querySelector('.rs-dropdown-item-submenu'));
-  });
-
   it('Should call Dropdown.Menu onSelect callback only once', () => {
     const onSelectSpy = sinon.spy();
 
@@ -256,10 +235,10 @@ describe('<Dropdown.Menu>', () => {
   it('Should call onSelect callback with correct `eventKey`', () => {
     const onSelectSpy = sinon.spy();
 
-    const instance = getDOMNode(
+    render(
       // FIXME Correct activeKey type declaration
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+      // @ts-expect-error
       <DropdownMenu onSelect={onSelectSpy} activeKey={1}>
         <DropdownItem eventKey={1}>1</DropdownItem>
         <DropdownItem eventKey={2}>2</DropdownItem>
@@ -267,7 +246,7 @@ describe('<Dropdown.Menu>', () => {
       </DropdownMenu>
     );
 
-    fireEvent.click(instance.querySelectorAll('[role^="menuitem"]')[2], {
+    fireEvent.click(screen.getByRole('menuitem', { name: '3' }), {
       bubbles: true
     });
 

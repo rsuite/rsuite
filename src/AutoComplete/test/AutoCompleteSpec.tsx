@@ -8,14 +8,14 @@ const data = ['item1', 'item2'];
 
 describe('AutoComplete', () => {
   it('Should render input', () => {
-    const instance = getDOMNode(<AutoComplete data={data} />);
+    render(<AutoComplete data={data} />);
 
-    expect(instance.querySelector('input')).to.exist;
+    expect(screen.getByRole('textbox')).to.exist;
   });
 
   it('Should render 2 `option` when set `open` and `defaultValue`', () => {
-    const instance = getInstance(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" />);
-    expect(instance.overlay.querySelectorAll('[role="option"]')).to.length(2);
+    render(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" />);
+    expect(screen.getAllByRole('option')).to.have.lengthOf(2);
   });
 
   it('Should be a `top-end` for placement', () => {
@@ -30,10 +30,8 @@ describe('AutoComplete', () => {
 
   it('Should call onSelect callback with correct args', () => {
     const onSelectSpy = sinon.spy();
-    const instance = getInstance(
-      <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={onSelectSpy} />
-    );
-    fireEvent.click(instance.overlay.querySelectorAll('.rs-auto-complete-item')[0]);
+    render(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={onSelectSpy} />);
+    fireEvent.click(screen.getByRole('option', { name: 'a' }));
 
     expect(onSelectSpy).to.be.calledOnce;
     expect(onSelectSpy).to.be.calledWith('a', { value: 'a', label: 'a' });
@@ -42,8 +40,8 @@ describe('AutoComplete', () => {
   it('Should call onChange callback', () => {
     const onChangeSpy = sinon.spy();
 
-    const instance = getDOMNode(<AutoComplete data={data} onChange={onChangeSpy} />);
-    const input = instance.querySelector('input') as HTMLInputElement;
+    render(<AutoComplete data={data} onChange={onChangeSpy} />);
+    const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 'a' } });
     expect(onChangeSpy).to.be.calledOnce;
@@ -52,8 +50,8 @@ describe('AutoComplete', () => {
 
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
-    const instance = getDOMNode(<AutoComplete data={data} onFocus={onFocusSpy} />);
-    const input = instance.querySelector('input') as HTMLInputElement;
+    render(<AutoComplete data={data} onFocus={onFocusSpy} />);
+    const input = screen.getByRole('textbox');
     fireEvent.focus(input);
     expect(onFocusSpy).to.be.calledOnce;
   });
@@ -61,8 +59,8 @@ describe('AutoComplete', () => {
   it('Should call onBlur callback', () => {
     const onBlurSpy = sinon.spy();
 
-    const instance = getDOMNode(<AutoComplete data={data} onBlur={onBlurSpy} />);
-    const input = instance.querySelector('input') as HTMLInputElement;
+    render(<AutoComplete data={data} onBlur={onBlurSpy} />);
+    const input = screen.getByRole('textbox');
     fireEvent.blur(input);
     expect(onBlurSpy).to.be.calledOnce;
   });
@@ -70,10 +68,8 @@ describe('AutoComplete', () => {
   it('Should call onKeyDown callback on input', () => {
     const onKeyDownSpy = sinon.spy();
 
-    const instance = getDOMNode(
-      <AutoComplete onKeyDown={onKeyDownSpy} data={['a', 'b', 'ab']} open />
-    );
-    const input = instance.querySelector('input') as HTMLInputElement;
+    render(<AutoComplete onKeyDown={onKeyDownSpy} data={['a', 'b', 'ab']} open />);
+    const input = screen.getByRole('textbox');
     fireEvent.keyDown(input);
     expect(onKeyDownSpy).to.be.calledOnce;
   });
@@ -166,23 +162,23 @@ describe('AutoComplete', () => {
 
   it('Should call onBlur callback', () => {
     const onBlurSpy = sinon.spy();
-    const instance = getDOMNode(<AutoComplete data={['a', 'b', 'ab']} onBlur={onBlurSpy} />);
-    const input = instance.querySelector('input') as HTMLInputElement;
+    render(<AutoComplete data={['a', 'b', 'ab']} onBlur={onBlurSpy} />);
+    const input = screen.getByRole('textbox');
     fireEvent.blur(input);
     expect(onBlurSpy).to.be.calledOnce;
   });
 
   it('Should render a icon in li', () => {
-    const instance = getInstance(
+    render(
       <AutoComplete
         data={['a', 'b', 'ab']}
         open
         defaultValue="a"
-        renderMenuItem={() => <i className="icon" />}
+        renderMenuItem={() => <i className="icon" data-testid="icon" />}
       />
     );
 
-    expect(instance.overlay.querySelectorAll('.rs-auto-complete-item .icon')).to.length(2);
+    expect(screen.getAllByTestId('icon')).to.have.lengthOf(2);
   });
 
   it('Should have a custom className', () => {
@@ -191,11 +187,9 @@ describe('AutoComplete', () => {
   });
 
   it('Should have a menuClassName', () => {
-    const instance = getInstance(
-      <AutoComplete menuClassName="custom" data={['a', 'b', 'ab']} open />
-    );
+    render(<AutoComplete menuClassName="custom" data={['a', 'b', 'ab']} open />);
 
-    expect(instance.overlay.querySelector('[role="listbox"]').className).to.include('custom');
+    expect(screen.getByRole('listbox')).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
@@ -210,19 +204,17 @@ describe('AutoComplete', () => {
   });
 
   it('Should have a custom filter function', () => {
-    const instance1 = getInstance(
+    const { rerender } = render(
       <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => true} />
     );
 
-    expect(instance1.overlay.querySelectorAll('[role="option"]')).to.length(3);
+    expect(screen.getAllByRole('option')).to.have.lengthOf(3);
 
-    const instance2 = getInstance(
-      <AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => false} />
-    );
+    rerender(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" filterBy={() => false} />);
 
-    expect(instance2.overlay.querySelectorAll('[role="option"]')).to.length(0);
+    expect(screen.queryAllByRole('option')).to.length(0);
 
-    const instance3 = getInstance(
+    rerender(
       <AutoComplete
         data={['a', 'b', 'ab']}
         open
@@ -232,9 +224,9 @@ describe('AutoComplete', () => {
       />
     );
 
-    expect(instance3.overlay.querySelectorAll('[role="option"]')).to.length(3);
+    expect(screen.getAllByRole('option')).to.have.lengthOf(3);
 
-    const instance4 = getInstance(
+    rerender(
       <AutoComplete
         data={['a', 'b', 'ab']}
         open
@@ -243,7 +235,7 @@ describe('AutoComplete', () => {
       />
     );
 
-    expect(instance4.overlay.querySelectorAll('[role="option"]')).to.length(1);
+    expect(screen.getAllByRole('option')).to.have.lengthOf(1);
   });
 
   it('Should set minimum width for listbox', () => {
@@ -259,6 +251,7 @@ describe('AutoComplete', () => {
 
     const listbox = screen.getByRole('listbox');
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect((listbox.parentNode as HTMLElement).style.minWidth).to.equal('100px');
   });
 
@@ -275,11 +268,13 @@ describe('AutoComplete', () => {
     render(<AutoComplete data={data} data-id={1} name="username" data-testid="test" />);
 
     expect(screen.getByTestId('test')).to.have.attribute('data-id', '1');
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByTestId('test').querySelector('input')).to.have.attribute('name', 'username');
   });
 
   it('Should apply size class', () => {
     render(<AutoComplete size="lg" data={[]} data-testid="test" />);
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByTestId('test').querySelector('input')).to.have.class('rs-input-lg');
   });
 });

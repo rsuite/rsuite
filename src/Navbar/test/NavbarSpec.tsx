@@ -23,12 +23,13 @@ describe('Navbar', () => {
   });
 
   it('Should have a `navbar-nav` className in `nav`', () => {
-    const instance = getDOMNode(
+    render(
       <Navbar>
-        <Nav>1</Nav>
+        <Nav data-testid="nav">1</Nav>
       </Navbar>
     );
-    assert.ok(instance.querySelector('.rs-nav.rs-navbar-nav'));
+
+    expect(screen.getByTestId('nav')).to.have.class('rs-navbar-nav');
   });
 
   context('Nav.Menu within Navbar', () => {

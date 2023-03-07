@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
@@ -8,13 +7,13 @@ import SelectPicker from '../../SelectPicker';
 
 describe('Modal', () => {
   it('Should render the modal content', () => {
-    const instance = getDOMNode(
+    render(
       <Modal open>
-        <p>message</p>
+        <p data-testid="content">message</p>
       </Modal>
     );
 
-    assert.equal(instance.querySelectorAll('p').length, 1);
+    expect(screen.getByTestId('content')).to.exist;
   });
 
   it('Should close the modal when the modal dialog is clicked', () => {
@@ -51,20 +50,21 @@ describe('Modal', () => {
         <Modal.Body style={{ height: 2000 }} />
       </Modal>
     );
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal((instance.querySelector('.rs-modal-body') as HTMLElement).style.overflow, 'auto');
   });
 
   it('Should call onClose callback', () => {
     const onCloseSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Modal open onClose={onCloseSpy}>
         <Modal.Header />
       </Modal>
     );
-    const closeButton = instance.querySelector('.rs-modal-header-close') as HTMLElement;
-    ReactTestUtils.Simulate.click(closeButton);
 
-    assert.isTrue(onCloseSpy.calledOnce);
+    fireEvent.click(screen.getByRole('button', { name: /close/i }));
+
+    expect(onCloseSpy).to.have.been.calledOnce;
   });
 
   it('Should call onExited callback', async () => {
@@ -89,6 +89,7 @@ describe('Modal', () => {
 
   it('Should have a custom className', () => {
     const instance = getDOMNode(<Modal className="custom" open />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.isNotNull(instance.querySelector('.custom'));
   });
 
@@ -177,41 +178,24 @@ describe('Modal', () => {
     it('Should focus on the Modal when it is opened', () => {
       const onOpenSpy = sinon.spy();
 
-      type AppInstance = {
-        readonly dialog: HTMLDivElement;
-        openModal: () => void;
-      };
-      const App = React.forwardRef((props, ref) => {
-        const [open, setOpen] = React.useState(false);
-        const modalRef = React.useRef<HTMLDivElement>(null);
-        React.useImperativeHandle(ref, () => ({
-          get dialog() {
-            return modalRef.current;
-          },
-          openModal: () => {
-            setOpen(true);
-          }
-        }));
+      const modalRef = React.createRef<any>();
 
-        return (
-          <Modal {...props} ref={modalRef} onOpen={onOpenSpy} open={open}>
-            <Modal.Header />
-          </Modal>
-        );
-      });
+      const { rerender } = render(
+        <Modal ref={modalRef} onOpen={onOpenSpy} open={false}>
+          <Modal.Header />
+        </Modal>
+      );
 
-      const ref = React.createRef();
+      expect(focusableContainer).to.have.focus;
 
-      render(<App ref={ref} />);
+      rerender(
+        <Modal ref={modalRef} onOpen={onOpenSpy} open={true}>
+          <Modal.Header />
+        </Modal>
+      );
 
-      assert.equal(document.activeElement, focusableContainer);
-
-      act(() => {
-        (ref.current as AppInstance).openModal();
-      });
-
-      assert.isTrue(onOpenSpy.calledOnce);
-      assert.equal(document.activeElement, (ref.current as AppInstance).dialog);
+      expect(onOpenSpy).to.have.been.calledOnce;
+      expect(modalRef.current).to.have.focus;
     });
 
     it('Should be forced to focus on Modal', () => {
@@ -224,7 +208,7 @@ describe('Modal', () => {
       (focusableContainer as HTMLElement).focus();
       (focusableContainer as HTMLElement).dispatchEvent(new FocusEvent('focus'));
 
-      assert.equal(document.activeElement, ref.current);
+      expect(ref.current).to.have.focus;
     });
 
     it('Should be focused on container outside of Modal', () => {
@@ -237,7 +221,7 @@ describe('Modal', () => {
       (focusableContainer as HTMLElement).focus();
       (focusableContainer as HTMLElement).dispatchEvent(new FocusEvent('focus'));
 
-      assert.equal(document.activeElement, focusableContainer);
+      expect(focusableContainer).to.have.focus;
     });
 
     it('Should only call onOpen once', () => {

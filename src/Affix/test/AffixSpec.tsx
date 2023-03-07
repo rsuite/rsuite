@@ -1,5 +1,5 @@
 import React from 'react';
-import { act } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import getOffset from 'dom-lib/getOffset';
@@ -7,13 +7,13 @@ import Affix from '../Affix';
 
 describe('Affix', () => {
   it('Should render a button', () => {
-    const instance = getDOMNode(
+    render(
       <Affix>
-        <button>button</button>
+        <button data-testid="button">button</button>
       </Affix>
     );
 
-    expect(instance.children[0].children[0].tagName).to.equal('BUTTON');
+    expect(screen.getByTestId('button')).to.exist;
   });
 
   it('Should call onChange callback', () => {
@@ -42,7 +42,9 @@ describe('Affix', () => {
 
     const affixDOM = getDOMNode(affixRef.current);
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(affixDOM.children[0].className).to.contain('rs-affix');
+    // eslint-disable-next-line testing-library/no-node-access
     expect((affixDOM.children[0] as HTMLElement).style.position).to.equal('fixed');
   });
 

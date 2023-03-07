@@ -11,10 +11,9 @@ describe('StackItem', () => {
         <StackItem>stack item</StackItem>
       </Stack>
     );
-    expect(screen.getByText('stack item').className).to.include('rs-stack-item');
-    expect((screen.getByText('stack item').parentNode as HTMLElement).className).to.equal(
-      'rs-stack'
-    );
+    expect(screen.getByText('stack item')).to.have.class('rs-stack-item');
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(screen.getByText('stack item').parentNode).to.have.class('rs-stack');
   });
 
   it('renders a StackItem with flex props', () => {

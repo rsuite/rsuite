@@ -24,8 +24,11 @@ function setTimePickerValue(picker, calendarIndex, { hours, minutes, seconds }) 
     return `.rs-calendar[index="${calendarIndex}"] .rs-calendar-time-dropdown ul[data-type="${type}"]>li:nth-child(${index}) .rs-calendar-time-dropdown-cell`;
   }
 
+  // eslint-disable-next-line testing-library/no-node-access
   fireEvent.click(picker.querySelector(generateTimeItem(calendarIndex, 'hours', hours + 1)));
+  // eslint-disable-next-line testing-library/no-node-access
   fireEvent.click(picker.querySelector(generateTimeItem(calendarIndex, 'minutes', minutes + 1)));
+  // eslint-disable-next-line testing-library/no-node-access
   fireEvent.click(picker.querySelector(generateTimeItem(calendarIndex, 'seconds', seconds + 1)));
 }
 
@@ -59,7 +62,7 @@ describe('DateRangePicker', () => {
   });
 
   it('Should be disabled date', () => {
-    const instance = getInstance(
+    render(
       <DateRangePicker
         ranges={[
           {
@@ -84,14 +87,14 @@ describe('DateRangePicker', () => {
       />
     );
 
-    assert.equal(
-      instance.overlay.querySelectorAll('.rs-picker-toolbar-ranges .rs-btn-disabled').length,
-      4
-    );
+    expect(screen.getByRole('button', { name: 'Yesterday' })).to.have.property('disabled', true);
+    expect(screen.getByRole('button', { name: 'Today' })).to.have.property('disabled', true);
+    expect(screen.getByRole('button', { name: 'Tomorrow' })).to.have.property('disabled', true);
+    expect(screen.getByRole('button', { name: 'Last 7 days' })).to.have.property('disabled', true);
   });
 
   it('Should output custom value', () => {
-    const instance = getInstance(
+    render(
       <DateRangePicker
         value={[parseISO('2019-04-01'), parseISO('2019-04-02')]}
         renderValue={value => {
@@ -100,10 +103,7 @@ describe('DateRangePicker', () => {
       />
     );
 
-    assert.equal(
-      instance.target.querySelector('.rs-picker-toggle-value').textContent,
-      '04/01/2019~04/02/2019'
-    );
+    expect(screen.getByRole('combobox')).to.have.text('04/01/2019~04/02/2019');
   });
 
   it('Should output custom value with time', () => {
@@ -112,12 +112,9 @@ describe('DateRangePicker', () => {
       Date
     ];
     const template = 'MM/dd/yyyy hh:mm:ss';
-    const instance = getInstance(<DateRangePicker value={value} format={template} />);
+    render(<DateRangePicker value={value} format={template} />);
 
-    assert.equal(
-      instance.target.querySelector('.rs-picker-toggle-value').textContent,
-      '11/11/2019 01:00:00 ~ 11/12/2019 01:00:00'
-    );
+    expect(screen.getByRole('combobox')).to.have.text('11/11/2019 01:00:00 ~ 11/12/2019 01:00:00');
   });
 
   it('Should select date time successfully', () => {
@@ -137,27 +134,33 @@ describe('DateRangePicker', () => {
     const endTimeToolbar = '.rs-calendar[index="1"] .rs-calendar-header-time-toolbar';
 
     // click the left calendar time toolbar, display time selection panel
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(picker.querySelector(startTimeToolbar));
 
     // select time to 6:6:6
     setTimePickerValue(picker, 0, { hours: 6, minutes: 6, seconds: 6 });
 
     // close the left calendar time picker panel.
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(picker.querySelector(startTimeToolbar));
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(picker.querySelector(startTimeToolbar).textContent, '06:06:06');
 
     // click the right calendar time toolbar, display time selection panel
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(picker.querySelector(endTimeToolbar));
     // select time to 9:9:9
     setTimePickerValue(picker, 1, { hours: 9, minutes: 9, seconds: 9 });
 
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(picker.querySelector(endTimeToolbar));
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(picker.querySelector(endTimeToolbar).textContent, '09:09:09');
 
     // press ok button
-    fireEvent.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
+    fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
     assert.ok(
       isSameRange(
@@ -166,8 +169,8 @@ describe('DateRangePicker', () => {
         'yyyy-MM-dd HH:mm:ss'
       )
     );
-    assert.equal(
-      instance.target.querySelector('.rs-picker-toggle-value').textContent,
+
+    expect(screen.getByRole('combobox')).to.have.text(
       '11 Nov 2019 06:06:06 ~ 11 Dec 2019 09:09:09'
     );
   });
@@ -190,15 +193,17 @@ describe('DateRangePicker', () => {
     // select time to 6:6:6
     setTimePickerValue(picker, 0, { hours: 6, minutes: 6, seconds: 6 });
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(picker.querySelector(startTimeToolbar).textContent, '06:06:06');
 
     // select time to 9:9:9
     setTimePickerValue(picker, 1, { hours: 9, minutes: 9, seconds: 9 });
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(picker.querySelector(endTimeToolbar).textContent, '09:09:09');
 
     // press ok button
-    fireEvent.click(picker.querySelector('.rs-picker-toolbar-right .rs-btn'));
+    fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
     assert.ok(
       isSameRange(
@@ -207,15 +212,13 @@ describe('DateRangePicker', () => {
         'yyyy-MM-dd HH:mm:ss'
       )
     );
-    assert.equal(
-      instance.target.querySelector('.rs-picker-toggle-value').textContent,
-      '06:06:06 ~ 09:09:09'
-    );
+    expect(screen.getByRole('combobox')).to.have.text('06:06:06 ~ 09:09:09');
   });
 
   it('Should call `onChange` callback', () => {
     const onChangeSpy = sinon.spy();
     const instance = getInstance(<DateRangePicker onChange={onChangeSpy} defaultOpen oneTap />);
+    // eslint-disable-next-line testing-library/no-node-access
     const today = instance.overlay.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
@@ -227,19 +230,17 @@ describe('DateRangePicker', () => {
 
   it('Should call onClean callback', () => {
     const onCleanSpy = sinon.spy();
-    const instance = getInstance(
-      <DateRangePicker defaultValue={[new Date(), new Date()]} onClean={onCleanSpy} />
-    );
+    render(<DateRangePicker defaultValue={[new Date(), new Date()]} onClean={onCleanSpy} />);
 
-    fireEvent.click(instance.root.querySelector('.rs-picker-toggle-clean'));
+    fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
     assert.ok(onCleanSpy.calledOnce);
   });
 
   it('Should call `onOpen` callback', async () => {
     const onOpenSpy = sinon.spy();
-    const instance = getDOMNode(<DateRangePicker onOpen={onOpenSpy} />);
+    render(<DateRangePicker onOpen={onOpenSpy} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle') as HTMLElement);
+    fireEvent.click(screen.getByRole('combobox'));
 
     await waitFor(() => {
       expect(onOpenSpy).to.calledOnce;
@@ -317,37 +318,6 @@ describe('DateRangePicker', () => {
     expect(screen.getByRole('gridcell', { name: '24 Sep 2019', selected: true })).to.exist;
   });
 
-  it('Should be disabled date', () => {
-    const instance = getInstance(
-      <DateRangePicker
-        ranges={[
-          {
-            label: 'Yesterday',
-            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
-          },
-          {
-            label: 'Today',
-            value: [new Date(), new Date()]
-          },
-          {
-            label: 'Tomorrow',
-            value: [addDays(new Date(), 1), addDays(new Date(), 1)]
-          },
-          {
-            label: 'Last 7 days',
-            value: [subDays(new Date(), 6), new Date()]
-          }
-        ]}
-        disabledDate={() => true}
-        open
-      />
-    );
-
-    expect(
-      instance.overlay.querySelectorAll('.rs-picker-toolbar-ranges .rs-btn-disabled')
-    ).to.length(4);
-  });
-
   it('Should select a whole week', () => {
     const onOkSpy = sinon.spy();
 
@@ -361,14 +331,16 @@ describe('DateRangePicker', () => {
     ).overlay;
 
     const day = menu
+      // eslint-disable-next-line testing-library/no-node-access
       ?.querySelectorAll('.rs-calendar-table-row')[1]
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelector('.rs-calendar-table-cell-content');
 
     fireEvent.click(day);
 
     fireEvent.click(day);
 
-    fireEvent.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
+    fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
     expect(isSameDay(startOfWeek(new Date('08/01/2021')), onOkSpy.firstCall.firstArg[0])).to.be
       .true;
@@ -378,6 +350,7 @@ describe('DateRangePicker', () => {
   it('Should select a whole month', () => {
     const onOkSpy = sinon.spy();
     const menu = getInstance(<DateRangePicker onOk={onOkSpy} hoverRange="month" open />).overlay;
+    // eslint-disable-next-line testing-library/no-node-access
     const today = menu?.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
@@ -386,7 +359,7 @@ describe('DateRangePicker', () => {
 
     fireEvent.click(today);
 
-    fireEvent.click(menu.querySelector('.rs-picker-toolbar-right .rs-btn'));
+    fireEvent.click(screen.getByRole('button', { name: 'OK' }));
 
     expect(isSameDay(startOfMonth(new Date()), onOkSpy.firstCall.firstArg[0])).to.be.true;
     expect(isSameDay(endOfMonth(new Date()), onOkSpy.firstCall.firstArg[1])).to.be.true;
@@ -402,17 +375,22 @@ describe('DateRangePicker', () => {
     ).overlay;
 
     const startCell = menu
+      // eslint-disable-next-line testing-library/no-node-access
       ?.querySelectorAll('.rs-calendar-table-row')[3]
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelector('.rs-calendar-table-cell-content');
 
     const endCell = menu
+      // eslint-disable-next-line testing-library/no-node-access
       ?.querySelectorAll('.rs-calendar-table-row')[4]
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelector('.rs-calendar-table-cell-content');
 
     fireEvent.click(startCell);
 
     fireEvent.mouseEnter(endCell);
 
+    // eslint-disable-next-line testing-library/no-node-access
     const allInRangeCells = menu.querySelectorAll(
       '.rs-calendar-table-cell-in-range, .rs-calendar-table-cell-selected-start'
     );
@@ -431,17 +409,22 @@ describe('DateRangePicker', () => {
     ).overlay;
 
     const startCell = menu
+      // eslint-disable-next-line testing-library/no-node-access
       ?.querySelectorAll('.rs-calendar-table-row')[3]
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelector('.rs-calendar-table-cell-content');
 
     const endCell = menu
+      // eslint-disable-next-line testing-library/no-node-access
       ?.querySelectorAll('.rs-calendar-table-row')[4]
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelector('.rs-calendar-table-cell-content');
 
     fireEvent.click(startCell);
     fireEvent.mouseEnter(endCell);
     fireEvent.click(endCell);
 
+    // eslint-disable-next-line testing-library/no-node-access
     const allInRangeCells = menu.querySelectorAll(
       '.rs-calendar-table-cell-in-range, .rs-calendar-table-cell-selected-start'
     );
@@ -456,6 +439,7 @@ describe('DateRangePicker', () => {
       <DateRangePicker onChange={onChangeSpy} hoverRange="week" oneTap defaultOpen />
     ).overlay;
 
+    // eslint-disable-next-line testing-library/no-node-access
     const today = menu.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
@@ -473,31 +457,33 @@ describe('DateRangePicker', () => {
   });
 
   it('Should show default calendar value', () => {
-    const menu = getInstance(
+    render(
       <DateRangePicker
         open
         defaultCalendarValue={[parseISO('2019-01-01'), parseISO('2019-09-01')]}
       />
-    ).overlay;
+    );
 
-    expect(menu.querySelector('div[title="01 Feb 2019"]')).to.exist;
-    expect(menu.querySelector('div[title="01 Sep 2019"]')).to.exist;
+    expect(screen.getByRole('gridcell', { name: '01 Feb 2019' })).to.exist;
+    expect(screen.getByRole('gridcell', { name: '01 Sep 2019' })).to.exist;
   });
 
   it('Should have only one calendar', () => {
     const menu = getInstance(<DateRangePicker showOneCalendar open />).overlay;
 
     assert.include(
+      // eslint-disable-next-line testing-library/no-node-access
       menu.querySelector('.rs-picker-daterange-panel').className,
       'rs-picker-daterange-panel-show-one-calendar'
     );
 
-    expect(menu.querySelectorAll('.rs-picker-daterange-calendar-single')).to.length(1);
+    expect(screen.getAllByRole('grid')).to.have.lengthOf(1);
   });
 
   it('Should display the formatted date', () => {
     const instance = getInstance(<DateRangePicker />);
     const target = instance.target;
+    // eslint-disable-next-line testing-library/no-node-access
     const input = target.querySelector('.rs-picker-toggle-textbox');
 
     fireEvent.change(input, { target: { value: 2020010120210707 } });
@@ -508,6 +494,7 @@ describe('DateRangePicker', () => {
   it('Should render an error message', () => {
     const instance = getInstance(<DateRangePicker />);
     const target = instance.target;
+    // eslint-disable-next-line testing-library/no-node-access
     const input = target.querySelector('.rs-picker-toggle-textbox');
 
     fireEvent.change(input, { target: { value: 'ssss' } });
@@ -520,32 +507,27 @@ describe('DateRangePicker', () => {
   });
 
   it('Should update the calendar when clicking on a non-current month', () => {
-    const menu = getInstance(
+    render(
       <DateRangePicker
         defaultOpen
         defaultValue={[new Date('07/04/2021'), new Date('07/10/2021')]}
       />
-    ).overlay;
+    );
 
     // Jun 27, 2021
-    const unSameMonthCell = menu.querySelector(
-      '.rs-calendar-table-cell-un-same-month .rs-calendar-table-cell-content'
-    );
+    const unSameMonthCell = screen.getByRole('button', { name: '27 Jun 2021' });
 
     fireEvent.mouseEnter(unSameMonthCell);
     fireEvent.click(unSameMonthCell);
 
-    expect(
-      menu
-        .querySelector('.rs-calendar-table-cell-un-same-month .rs-calendar-table-cell-content')
-        .getAttribute('title')
-    ).to.equal('30 May 2021');
+    expect(screen.getByRole('gridcell', { name: '30 May 2021' })).to.exist;
   });
 
   it('Should call `onChange` callback when input change and blur', () => {
     const onChangeSpy = sinon.spy();
 
     const instance = getInstance(<DateRangePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
+    // eslint-disable-next-line testing-library/no-node-access
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     fireEvent.change(input, { target: { value: '0910202009112021' } });
@@ -560,6 +542,7 @@ describe('DateRangePicker', () => {
     const onChangeSpy = sinon.spy();
 
     const instance = getInstance(<DateRangePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
+    // eslint-disable-next-line testing-library/no-node-access
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     fireEvent.change(input, { target: { value: '0910202009112021' } });
@@ -581,11 +564,15 @@ describe('DateRangePicker', () => {
     );
     const picker = instance.overlay;
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(picker.querySelector('.rs-calendar-header-meridian')).to.text('PM');
+    // eslint-disable-next-line testing-library/no-node-access
     expect(picker.querySelector('.rs-calendar-header-title-time')).to.text('01:00:00');
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       picker.querySelector('.rs-calendar-time-dropdown-column').querySelectorAll('li')
     ).to.length(12);
+    // eslint-disable-next-line testing-library/no-node-access
     expect(picker.querySelector('.rs-calendar-time-dropdown-column li')).to.text('12');
   });
 
@@ -601,11 +588,15 @@ describe('DateRangePicker', () => {
 
     const picker = instance.overlay;
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(picker.querySelector('.rs-calendar-header-title-time')).to.text('01:00:00');
 
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(picker.querySelector('.rs-calendar-time-dropdown-cell'));
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(picker.querySelector('.rs-calendar-header-meridian')).to.text('PM');
+    // eslint-disable-next-line testing-library/no-node-access
     expect(picker.querySelector('.rs-calendar-header-title-time')).to.text('12:00:00');
   });
 
@@ -619,6 +610,7 @@ describe('DateRangePicker', () => {
       />
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     const meridian = instance.overlay.querySelector('.rs-calendar-header-meridian');
 
     expect(meridian).to.text('PM');
@@ -630,6 +622,7 @@ describe('DateRangePicker', () => {
 
   it('Should be optional for all months', () => {
     const instance = getInstance(<DateRangePicker format="yyyy-MM" defaultOpen />);
+    // eslint-disable-next-line testing-library/no-node-access
     const disabledCells = instance.overlay.querySelectorAll(
       '.rs-calendar-month-dropdown-cell.disabled'
     );
@@ -680,17 +673,17 @@ describe('DateRangePicker', () => {
       />
     ).overlay;
 
+    // eslint-disable-next-line testing-library/no-node-access
     const btnDay = menu.querySelector('.rs-calendar-table-cell-content');
-    const btnShortcutToday = menu.querySelector('.rs-picker-toolbar-ranges button');
-    const btnOk = menu.querySelector('.rs-picker-toolbar-right button');
+    const btnOk = screen.getByRole('button', { name: 'OK' });
 
     fireEvent.click(btnDay);
 
-    expect(btnOk.disabled).to.be.true;
+    expect(btnOk).to.have.property('disabled', true);
 
-    fireEvent.click(btnShortcutToday);
+    fireEvent.click(screen.getByRole('button', { name: 'Today' }));
 
-    expect(btnOk.disabled).to.be.false;
+    expect(btnOk).to.have.property('disabled', false);
   });
 
   it('Should close picker after predefined range is clicked', async () => {
@@ -741,6 +734,7 @@ describe('DateRangePicker', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Yesterday' }));
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.text(
       `${format(yesterday, 'yyyy-MM-dd')} ~ ${format(yesterday, 'yyyy-MM-dd')}`
     );
@@ -754,6 +748,7 @@ describe('DateRangePicker', () => {
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
     render(<DateRangePicker onFocus={onFocusSpy} />);
+    // eslint-disable-next-line testing-library/no-node-access
     const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
 
     fireEvent.focus(input);
@@ -780,13 +775,12 @@ describe('DateRangePicker', () => {
       />
     );
 
-    expect(
-      (
-        (screen.getByRole('dialog').querySelector('.rs-picker-daterange-predefined') as HTMLElement)
-          .firstChild as HTMLElement
-      ).firstChild
-    ).to.equal(screen.getByRole('button', { name: 'Yesterday' }));
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-predefined')).to.contain(
+      screen.getByRole('button', { name: 'Yesterday' })
+    );
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('dialog').querySelector('.rs-picker-toolbar-ranges button')).to.not
       .exist;
   });
@@ -799,7 +793,9 @@ describe('DateRangePicker', () => {
       </>
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     const picker1 = screen.getByTestId('picker-1').querySelector('input') as HTMLElement;
+    // eslint-disable-next-line testing-library/no-node-access
     const picker2 = screen.getByTestId('picker-2').querySelector('input') as HTMLElement;
 
     expect(picker1).to.have.attribute('readonly');
@@ -815,12 +811,15 @@ describe('DateRangePicker', () => {
   it('Should not render the ranges element', () => {
     render(<DateRangePicker open ranges={[]} />);
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('dialog').querySelector('.rs-picker-toolbar-ranges')).to.not.exist;
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-predefined')).to.not
       .exist;
 
     // A flex layout toolbar should render two children so that the ok button appears on the right
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       (screen.getByRole('dialog').querySelector('.rs-picker-toolbar') as HTMLElement).childNodes
     ).to.have.length(2);
   });
@@ -881,6 +880,7 @@ describe('DateRangePicker', () => {
       expect(onSelectSpy).to.have.been.calledTwice;
       expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
       expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
         '2022-02-07 00:00:00 ~ 2022-02-10 23:59:59'
       );
@@ -915,6 +915,7 @@ describe('DateRangePicker', () => {
       expect(onSelectSpy).to.have.been.calledTwice;
       expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
       expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
         '2022-02-07 00:00:00 ~ 2022-02-10 23:59:59'
       );
@@ -931,16 +932,20 @@ describe('DateRangePicker', () => {
 
       const headerDateTitles = screen
         .getByRole('dialog')
+        // eslint-disable-next-line testing-library/no-node-access
         .querySelectorAll('.rs-calendar-header-title-date');
       const handerTimeTitles = screen
         .getByRole('dialog')
+        // eslint-disable-next-line testing-library/no-node-access
         .querySelectorAll('.rs-calendar-header-title-time');
       const firstCalendarForwardButton = screen
         .getByRole('dialog')
+        // eslint-disable-next-line testing-library/no-node-access
         .querySelectorAll('.rs-calendar-header-forward')[0];
 
       const secondCalendarBackwardButton = screen
         .getByRole('dialog')
+        // eslint-disable-next-line testing-library/no-node-access
         .querySelectorAll('.rs-calendar-header-backward')[1];
 
       expect(handerTimeTitles[0]).to.have.text('00:00:00');
@@ -992,6 +997,7 @@ describe('DateRangePicker', () => {
       expect(onSelectSpy).to.have.been.calledTwice;
       expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
       expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
         '2022-03-20 00:00:00 ~ 2022-04-21 23:59:59'
       );
@@ -1029,9 +1035,11 @@ describe('DateRangePicker', () => {
         />
       );
 
+      // eslint-disable-next-line testing-library/no-node-access
       const header = screen.getByRole('dialog').querySelector('.rs-picker-daterange-header');
       const switchButtons = screen
         .getByRole('dialog')
+        // eslint-disable-next-line testing-library/no-node-access
         .querySelectorAll('.rs-calendar-header-meridian');
 
       expect(header).to.have.text('2022-02-01 13:00:00 ~ 2022-03-01 14:00:00');

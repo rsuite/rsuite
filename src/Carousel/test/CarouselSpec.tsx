@@ -24,8 +24,10 @@ describe('Carousel', () => {
     );
 
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance.querySelector('.rs-carousel-slider') as HTMLElement).childNodes.length
     ).to.equal(2);
+    // eslint-disable-next-line testing-library/no-node-access
     expect(instance.querySelectorAll('.rs-carousel-label-wrapper').length).to.equal(2);
   });
 
@@ -64,7 +66,9 @@ describe('Carousel', () => {
     );
 
     const input = instance
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelectorAll('.rs-carousel-label-wrapper')[1]
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelector('input') as HTMLInputElement;
 
     fireEvent.click(input);
@@ -84,7 +88,9 @@ describe('Carousel', () => {
     );
 
     const input = instance
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelectorAll('.rs-carousel-label-wrapper')[1]
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelector('input') as HTMLInputElement;
 
     act(() => {
@@ -106,6 +112,7 @@ describe('Carousel', () => {
       </Carousel>
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     Simulate.transitionEnd(instance.querySelector('.rs-carousel-slider') as HTMLElement);
 
     await waitFor(() => {
@@ -122,6 +129,7 @@ describe('Carousel', () => {
         <div>4</div>
       </Carousel>
     );
+    // eslint-disable-next-line testing-library/no-node-access
     expect((instance.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
       '3'
     );

@@ -6,6 +6,7 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 
 import Uploader from '../Uploader';
 import Button from '../../Button';
+import userEvent from '@testing-library/user-event';
 
 describe('Uploader', () => {
   it('Should output a Uploader', () => {
@@ -16,6 +17,8 @@ describe('Uploader', () => {
 
   it('Should be disabled', () => {
     const instance = getDOMNode(<Uploader action="" disabled />);
+
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(instance.querySelector('.rs-uploader-trigger-disabled'));
   });
 
@@ -33,15 +36,14 @@ describe('Uploader', () => {
       }
     ];
     const instance = getDOMNode(<Uploader action="" fileList={fileList} fileListVisible={false} />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(!instance.querySelector('.rs-uploader-file-items'));
   });
 
   it('Should render custom component', () => {
-    const instance = getDOMNode(<Uploader action="" toggleAs={Button} appearance="link" />);
-    assert.equal(
-      (instance.querySelector('.rs-uploader-trigger-btn.rs-btn-link') as HTMLElement).tagName,
-      'BUTTON'
-    );
+    render(<Uploader action="" toggleAs={Button} appearance="link" />);
+
+    expect(screen.getByRole('button')).to.have.tagName('BUTTON');
   });
 
   it('Should have a custom className', () => {
@@ -117,6 +119,7 @@ describe('Uploader', () => {
     const instance = getInstance(
       <Uploader name="file" action="" onChange={onUploadSpy} defaultFileList={[file]} />
     );
+    // eslint-disable-next-line testing-library/no-node-access
     const input = instance.root.querySelector('input');
     ReactTestUtils.Simulate.change(input);
     assert.ok(onUploadSpy.calledOnce);
@@ -126,12 +129,11 @@ describe('Uploader', () => {
     const onRemoveSpy = sinon.spy();
     const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' } as const;
 
-    const instance = getInstance(
-      <Uploader name="file" action="" onRemove={onRemoveSpy} defaultFileList={[file]} />
-    );
-    const removeBtn = instance.root.querySelector('.rs-uploader-file-item-btn-remove');
-    ReactTestUtils.Simulate.click(removeBtn);
-    assert.ok(onRemoveSpy.calledOnce);
+    render(<Uploader name="file" action="" onRemove={onRemoveSpy} defaultFileList={[file]} />);
+
+    userEvent.click(screen.getByRole('button', { name: /close/i }));
+
+    expect(onRemoveSpy).to.have.been.calledOnce;
   });
 
   it('Should apply appearance', () => {

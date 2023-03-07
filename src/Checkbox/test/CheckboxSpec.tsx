@@ -10,13 +10,15 @@ describe('Checkbox', () => {
   testStandardProps(<Checkbox />);
 
   it('Should render a checkbox', () => {
-    const instance = getDOMNode(<Checkbox>Test</Checkbox>);
-    assert.equal(instance.querySelectorAll('input[type="checkbox"]').length, 1);
+    render(<Checkbox>Test</Checkbox>);
+
+    expect(screen.getByLabelText('Test')).to.exist.and.to.have.attr('type', 'checkbox');
   });
 
   it('Should add title', () => {
     const title = 'Text';
     const instance = getDOMNode(<Checkbox title={title}>Test</Checkbox>);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal((instance.querySelector('label') as HTMLLabelElement).title, title);
   });
 
@@ -26,9 +28,9 @@ describe('Checkbox', () => {
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<Checkbox disabled>Test</Checkbox>);
-    assert.ok((instance.querySelector('input') as HTMLInputElement).disabled);
-    assert.ok(instance.className.match(/\bcheckbox-disabled\b/));
+    const { container } = render(<Checkbox disabled>Test</Checkbox>);
+    expect(screen.getByLabelText('Test')).to.have.property('disabled', true);
+    expect(container.firstChild).to.have.class('rs-checkbox-disabled');
   });
 
   it('Should be checked', () => {
@@ -55,9 +57,11 @@ describe('Checkbox', () => {
 
   it('Should have a `Test` value', () => {
     const value = 'Test';
-    const instance = getDOMNode(<Checkbox defaultValue={value}>Test</Checkbox>);
+    // FIXME-@SevenOutman
+    // Is it reasonable to validate `defaultValue` for a checkbox?
+    render(<Checkbox defaultValue={value}>Test</Checkbox>);
 
-    assert.equal((instance.querySelector('input') as HTMLInputElement).value, value);
+    expect(screen.getByLabelText('Test')).to.have.value(value);
   });
 
   it('Should support inputRef', () => {
@@ -92,24 +96,24 @@ describe('Checkbox', () => {
 
   it('Should call onClick callback', () => {
     const onClick = sinon.spy();
-    const instance = getDOMNode(<Checkbox onClick={onClick}>Title</Checkbox>);
-    ReactTestUtils.Simulate.click(instance.querySelector('label') as HTMLLabelElement);
+    const { container } = render(<Checkbox onClick={onClick}>Title</Checkbox>);
+    ReactTestUtils.Simulate.click(container.firstChild as HTMLElement);
 
     expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should call onBlur callback', () => {
     const onBlur = sinon.spy();
-    const instance = getDOMNode(<Checkbox onBlur={onBlur} />);
-    ReactTestUtils.Simulate.blur(instance.querySelector('input') as HTMLInputElement);
+    render(<Checkbox onBlur={onBlur} />);
+    ReactTestUtils.Simulate.blur(screen.getByRole('checkbox'));
 
     expect(onBlur).to.have.been.calledOnce;
   });
 
   it('Should call onFocus callback', () => {
     const onFocus = sinon.spy();
-    const instance = getDOMNode(<Checkbox onFocus={onFocus} />);
-    ReactTestUtils.Simulate.focus(instance.querySelector('input') as HTMLInputElement);
+    render(<Checkbox onFocus={onFocus} />);
+    ReactTestUtils.Simulate.focus(screen.getByRole('checkbox'));
 
     expect(onFocus).to.have.been.calledOnce;
   });

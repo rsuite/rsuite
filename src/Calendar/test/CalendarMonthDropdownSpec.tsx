@@ -41,6 +41,7 @@ describe('Calendar-MonthDropdown', () => {
     fireEvent.click(
       screen
         .getByRole('menu', { hidden: true })
+        // eslint-disable-next-line testing-library/no-node-access
         .querySelector('.rs-calendar-month-dropdown-cell') as HTMLElement
     );
 
@@ -61,13 +62,16 @@ describe('Calendar-MonthDropdown', () => {
       </CalendarContext.Provider>
     );
 
+    // TODO-Doma
+    // Use ARIA query e.g. `.getByRole('row', { name: '2019' })`
     const cells = (
-      (
-        screen
-          .getByRole('menu', { hidden: true })
-          .querySelector('.rs-calendar-month-dropdown-year-active') as HTMLElement
-      ).parentNode as HTMLElement
-    ).querySelectorAll('.rs-calendar-month-dropdown-cell');
+      screen
+        .getByRole('menu', { hidden: true })
+        // eslint-disable-next-line testing-library/no-node-access
+        .querySelector('.rs-calendar-month-dropdown-year-active')?.parentNode as HTMLElement
+    )
+      // eslint-disable-next-line testing-library/no-node-access
+      .querySelectorAll('.rs-calendar-month-dropdown-cell');
 
     expect(cells[6]).to.have.class('disabled');
     expect(cells[7]).to.have.class('rs-calendar-month-dropdown-cell');

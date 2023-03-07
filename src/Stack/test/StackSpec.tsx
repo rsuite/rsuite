@@ -55,8 +55,7 @@ describe('Stack', () => {
       </Stack>
     );
 
-    expect(screen.getByTestId('test').children).to.length(3);
-    expect(screen.getByTestId('test').children[1].textContent).to.equal('|');
+    expect(screen.getByTestId('test')).to.have.text('button|button');
   });
 
   it('Should not render empty child', () => {
@@ -69,7 +68,8 @@ describe('Stack', () => {
         {[1, 2]}
       </Stack>
     );
-    expect(screen.getByTestId('test').children).to.length(4);
+
+    expect(screen.getByTestId('test')).to.have.text('012');
   });
 
   it('Should wrap children', () => {

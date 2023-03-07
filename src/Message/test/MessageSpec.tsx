@@ -36,6 +36,7 @@ describe('Message', () => {
   it('Should display icon', () => {
     render(<Message showIcon type="info" />);
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('alert').querySelector('.rs-icon')).to.exist;
     expect(screen.getByRole('alert').className).to.include('rs-message-has-icon');
   });
@@ -48,15 +49,14 @@ describe('Message', () => {
   it('Should be closable', () => {
     render(<Message closable />);
 
-    expect(screen.getByRole('alert').querySelector('.rs-btn-close')).to.exist;
+    expect(screen.getByRole('button', { name: /close/i })).to.exist;
   });
 
   it('Should call onClose callback', () => {
     const onCloseSpy = sinon.spy();
     render(<Message closable onClose={onCloseSpy} />);
-    const closeButton = screen.getByRole('alert').querySelector('.rs-btn-close') as HTMLElement;
 
-    fireEvent.click(closeButton);
+    fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
     expect(onCloseSpy).to.have.been.calledOnce;
   });

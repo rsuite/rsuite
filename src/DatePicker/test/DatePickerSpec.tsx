@@ -37,13 +37,15 @@ describe('DatePicker', () => {
   });
 
   it('Should be not cleanable', () => {
-    const instance = getDOMNode(<DatePicker cleanable={false} value={new Date()} />);
-    assert.ok(!instance.querySelector('.rs-picker-toggle-clean'));
+    render(<DatePicker cleanable={false} value={new Date()} />);
+
+    expect(screen.queryByRole('button', { name: /clear/i })).to.not.exist;
   });
 
   it('Should output a button', () => {
-    const instance = getDOMNode(<DatePicker toggleAs="button" />);
-    assert.equal((instance.querySelector('[role="combobox"]') as HTMLElement).tagName, 'BUTTON');
+    render(<DatePicker toggleAs="button" />);
+
+    expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
   it('Should be block', () => {
@@ -53,15 +55,13 @@ describe('DatePicker', () => {
   });
 
   it('Should output a date', () => {
-    const instance = getDOMNode(<DatePicker defaultValue={parseISO('2017-08-14')} />);
-    assert.equal(
-      (instance.querySelector('.rs-picker-toggle-value') as HTMLElement).textContent,
-      '2017-08-14'
-    );
+    render(<DatePicker defaultValue={parseISO('2017-08-14')} />);
+
+    expect(screen.getByRole('combobox')).to.have.text('2017-08-14');
   });
 
   it('Should output custom value', () => {
-    const instance = getDOMNode(
+    render(
       <DatePicker
         value={parseISO('2017-08-14')}
         renderValue={value => {
@@ -70,18 +70,13 @@ describe('DatePicker', () => {
       />
     );
 
-    assert.equal(
-      (instance.querySelector('.rs-picker-toggle-value') as HTMLElement).textContent,
-      '08/14/2017'
-    );
+    expect(screen.getByRole('combobox')).to.have.text('08/14/2017');
   });
 
   it('Should output a date', () => {
-    const instance = getDOMNode(<DatePicker value={parseISO('2017-08-14')} />);
-    assert.equal(
-      (instance.querySelector('.rs-picker-toggle-value') as HTMLElement).textContent,
-      '2017-08-14'
-    );
+    render(<DatePicker value={parseISO('2017-08-14')} />);
+
+    expect(screen.getByRole('combobox')).to.have.text('2017-08-14');
   });
 
   it('Should open a dialog containing grid view of dates in a month', () => {
@@ -123,9 +118,9 @@ describe('DatePicker', () => {
 
   it('Should call `onChange` callback', () => {
     const onChangeSpy = sinon.spy();
-    const instance = getInstance(<DatePicker onChange={onChangeSpy} defaultOpen />);
+    render(<DatePicker onChange={onChangeSpy} defaultOpen />);
 
-    fireEvent.click(instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn'));
+    fireEvent.click(screen.getByRole('button', { name: /ok/i }));
 
     expect(onChangeSpy).to.calledOnce;
   });
@@ -134,6 +129,7 @@ describe('DatePicker', () => {
     const onChangeSpy = sinon.spy();
 
     const instance = getInstance(<DatePicker onChange={onChangeSpy} defaultOpen />);
+    // eslint-disable-next-line testing-library/no-node-access
     const today = instance.overlay.querySelector('.rs-picker-toolbar button');
 
     fireEvent.click(today);
@@ -146,6 +142,7 @@ describe('DatePicker', () => {
     const onChangeSpy = sinon.spy();
 
     const instance = getInstance(<DatePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
+    // eslint-disable-next-line testing-library/no-node-access
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     fireEvent.change(input, { target: { value: '01102021' } });
@@ -160,6 +157,7 @@ describe('DatePicker', () => {
     const onChangeSpy = sinon.spy();
 
     const instance = getInstance(<DatePicker onChange={onChangeSpy} format="dd/MM/yyyy" />);
+    // eslint-disable-next-line testing-library/no-node-access
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     fireEvent.change(input, { target: { value: '01/10/2021' } });
@@ -171,19 +169,23 @@ describe('DatePicker', () => {
 
   it('Should be prompted for an error date', () => {
     const instance = getInstance(<DatePicker />);
+    // eslint-disable-next-line testing-library/no-node-access
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     fireEvent.change(input, { target: { value: 'abc' } });
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(instance.root.querySelector('.rs-picker-error')).to.exist;
   });
 
   it('Should be prompted for an error date by isValid', () => {
     const instance = getInstance(<DatePicker />);
+    // eslint-disable-next-line testing-library/no-node-access
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     fireEvent.change(input, { target: { value: '2021-00-00' } });
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.isNotNull(instance.root.querySelector('.rs-picker-error'));
   });
 
@@ -195,25 +197,30 @@ describe('DatePicker', () => {
         }}
       />
     );
+    // eslint-disable-next-line testing-library/no-node-access
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     fireEvent.change(input, { target: { value: '2021-10-02' } });
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.isNull(instance.root.querySelector('.rs-picker-error'));
 
     fireEvent.change(input, { target: { value: '2021-10-01' } });
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.isNotNull(instance.root.querySelector('.rs-picker-error'));
   });
 
   it('Should allow only time', () => {
     const instance = getInstance(<DatePicker format="HH:mm:ss" />);
+    // eslint-disable-next-line testing-library/no-node-access
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
 
     fireEvent.change(input, { target: { value: '10:00:00' } });
 
     fireEvent.blur(input);
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance.root.querySelector('.rs-picker-toggle-value').textContent, '10:00:00');
   });
 
@@ -241,6 +248,7 @@ describe('DatePicker', () => {
     const onSelectSpy = sinon.spy();
     const instance = getInstance(<DatePicker onSelect={onSelectSpy} defaultOpen />);
     fireEvent.click(
+      // eslint-disable-next-line testing-library/no-node-access
       instance.overlay.querySelector(
         '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
       )
@@ -250,8 +258,8 @@ describe('DatePicker', () => {
 
   it('Should call `onOk` callback', () => {
     const onOkSpy = sinon.spy();
-    const instance = getInstance(<DatePicker onOk={onOkSpy} defaultOpen />);
-    fireEvent.click(instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn'));
+    render(<DatePicker onOk={onOkSpy} defaultOpen />);
+    fireEvent.click(screen.getByRole('button', { name: /ok/i }));
 
     expect(onOkSpy).to.calledOnce;
   });
@@ -259,6 +267,7 @@ describe('DatePicker', () => {
   it('Should call `onNextMonth` callback', () => {
     const onNextMonthSpy = sinon.spy();
     const instance = getInstance(<DatePicker onNextMonth={onNextMonthSpy} defaultOpen />);
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(instance.overlay.querySelector('.rs-calendar-header-forward'));
 
     expect(onNextMonthSpy).to.calledOnce;
@@ -267,6 +276,7 @@ describe('DatePicker', () => {
   it('Should call `onPrevMonth` callback', () => {
     const onPrevMonthSpy = sinon.spy();
     const instance = getInstance(<DatePicker onPrevMonth={onPrevMonthSpy} defaultOpen />);
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(instance.overlay.querySelector('.rs-calendar-header-backward'));
 
     expect(onPrevMonthSpy).to.calledOnce;
@@ -282,15 +292,18 @@ describe('DatePicker', () => {
       />
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     const month = instance.overlay.querySelector('.rs-calendar-header-title-date');
 
     fireEvent.click(month);
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.isNotNull(instance.overlay.querySelector('.rs-calendar-month-dropdown.show'));
     assert.isTrue(onToggleMonthDropdownSpy.calledOnce);
 
     fireEvent.click(month);
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(instance.overlay.querySelector('.rs-calendar-month-dropdown.show')).to.not.exist;
     expect(onToggleMonthDropdownSpy).to.calledTwice;
   });
@@ -304,15 +317,18 @@ describe('DatePicker', () => {
         format="yyyy-MM-dd HH:mm:ss"
       />
     );
+    // eslint-disable-next-line testing-library/no-node-access
     const time = instance.overlay.querySelector('.rs-calendar-header-title-time');
 
     fireEvent.click(time);
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.isNotNull(instance.overlay.querySelector('.rs-calendar-time-view'));
     assert.isTrue(onToggleTimeDropdownSpy.calledOnce);
 
     fireEvent.click(time);
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(instance.overlay.querySelector('.rs-calendar-time-view')).to.not.exist;
     expect(onToggleTimeDropdownSpy).to.calledTwice;
   });
@@ -335,6 +351,7 @@ describe('DatePicker', () => {
       <DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-calendar-header-backward'));
 
     expect(onChangeCalendarDate).to.have.been.calledOnce;
@@ -346,6 +363,7 @@ describe('DatePicker', () => {
     const instance = getInstance(
       <DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />
     );
+    // eslint-disable-next-line testing-library/no-node-access
     ReactTestUtils.Simulate.click(instance.overlay.querySelector('.rs-calendar-header-forward'));
 
     expect(onChangeCalendarDate).to.have.been.calledOnce;
@@ -357,6 +375,7 @@ describe('DatePicker', () => {
     const instance = getInstance(
       <DatePicker onChangeCalendarDate={onChangeCalendarDate} defaultOpen />
     );
+    // eslint-disable-next-line testing-library/no-node-access
     const today = instance.overlay.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
@@ -373,11 +392,13 @@ describe('DatePicker', () => {
     );
 
     act(() => {
+      // eslint-disable-next-line testing-library/no-node-access
       const title = instance.overlay.querySelector('.rs-calendar-header-title-date');
       ReactTestUtils.Simulate.click(title);
     });
 
     act(() => {
+      // eslint-disable-next-line testing-library/no-node-access
       const month = instance.overlay.querySelector('.rs-calendar-month-dropdown-cell');
       ReactTestUtils.Simulate.click(month);
     });
@@ -403,6 +424,7 @@ describe('DatePicker', () => {
     // TODO use a11y queries and matchers
     expect(
       // The currently selected month is 2022-12
+      // eslint-disable-next-line testing-library/no-node-access
       document.querySelector(
         '.rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content'
       )
@@ -413,8 +435,8 @@ describe('DatePicker', () => {
   it('Should call `onOpen` callback', async () => {
     const onOpen = sinon.spy();
 
-    const instance = getDOMNode(<DatePicker onOpen={onOpen} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('[role="combobox"]') as HTMLElement);
+    render(<DatePicker onOpen={onOpen} />);
+    ReactTestUtils.Simulate.click(screen.getByRole('combobox'));
 
     await waitFor(() => {
       expect(onOpen).to.have.been.calledOnce;
@@ -424,10 +446,8 @@ describe('DatePicker', () => {
   it('Should call `onClose` callback', async () => {
     const onClose = sinon.spy();
 
-    const instance = getInstance(<DatePicker onClose={onClose} defaultOpen />);
-    ReactTestUtils.Simulate.click(
-      instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn')
-    );
+    render(<DatePicker onClose={onClose} defaultOpen />);
+    ReactTestUtils.Simulate.click(screen.getByRole('button', { name: /ok/i }));
     await waitFor(() => {
       expect(onClose).to.have.been.calledOnce;
     });
@@ -487,15 +507,16 @@ describe('DatePicker', () => {
       <DatePicker value={parseISO('2018-01-05')} onChange={onChange} defaultOpen />
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     const allCells = instance.overlay.querySelectorAll(
       '.rs-calendar-table-cell .rs-calendar-table-cell-content'
     );
 
     fireEvent.click(allCells[allCells.length - 1]);
-    fireEvent.click(instance.overlay.querySelector('.rs-picker-toolbar-right .rs-btn'));
+    fireEvent.click(screen.getByRole('button', { name: /ok/i }));
 
     expect(onChange).to.have.been.calledOnce;
-    expect(instance.target.querySelector('.rs-picker-toggle-value')).to.have.text('2018-01-05');
+    expect(screen.getByRole('combobox')).to.have.text('2018-01-05');
   });
 
   it('Should call onBlur callback', async () => {
@@ -513,6 +534,7 @@ describe('DatePicker', () => {
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
     render(<DatePicker onFocus={onFocusSpy} defaultValue={new Date()} />);
+    // eslint-disable-next-line testing-library/no-node-access
     const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
 
     fireEvent.focus(input);
@@ -531,6 +553,7 @@ describe('DatePicker', () => {
 
     const instance = getInstance(<DatePicker onChange={onChangeSpy} oneTap defaultOpen />);
 
+    // eslint-disable-next-line testing-library/no-node-access
     const today = instance.overlay.querySelector(
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
@@ -545,6 +568,7 @@ describe('DatePicker', () => {
       <DatePicker onChange={onChangeSpy} format="yyyy-MM" oneTap defaultOpen />
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     const activeMonth = instance.overlay.querySelector(
       '.rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content'
     );
@@ -564,18 +588,23 @@ describe('DatePicker', () => {
     );
     const picker = instance.overlay;
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(picker.querySelector('.rs-calendar-header-meridian').textContent, 'PM');
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(picker.querySelector('.rs-calendar-header-title-time').textContent, '01:00:00');
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       picker.querySelector('.rs-calendar-time-dropdown-column').querySelectorAll('li').length,
       12
     );
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(picker.querySelector('.rs-calendar-time-dropdown-column li').textContent, '12');
   });
 
   it('Should show dates that are not in the same month', () => {
     const instance = getInstance(<DatePicker value={new Date('6/10/2021')} open />);
     const picker = instance.overlay;
+    // eslint-disable-next-line testing-library/no-node-access
     const days = picker.querySelectorAll('.rs-calendar-table-cell-un-same-month');
 
     assert.equal(days[0].textContent, '30');
@@ -593,34 +622,14 @@ describe('DatePicker', () => {
   });
 
   it('Should be a controlled value, null is allowed', () => {
-    type AppInstance = {
-      picker: PickerHandle;
-      setDate: (newDate: Date | null) => void;
-    };
-    const instanceRef = React.createRef();
-    const App = React.forwardRef((_props, ref) => {
-      const [value, setValue] = React.useState(new Date('6/10/2021'));
-      const pickerRef = React.useRef<PickerHandle>(null);
-      React.useImperativeHandle(ref, () => ({
-        picker: pickerRef.current,
-        setDate: date => {
-          setValue(date);
-        }
-      }));
-      return <DatePicker value={value} open ref={pickerRef as any} format="yyyy-MM-dd" />;
-    });
+    const { rerender } = render(
+      <DatePicker value={new Date('6/10/2021')} open format="yyyy-MM-dd" />
+    );
 
-    render(<App ref={instanceRef} />);
+    expect(screen.getByRole('combobox')).to.have.text('2021-06-10');
 
-    const picker = (instanceRef.current as AppInstance).picker.root as HTMLElement;
-
-    expect(picker.querySelector('.rs-picker-toggle-value')).to.have.text('2021-06-10');
-
-    act(() => {
-      (instanceRef.current as AppInstance).setDate(null);
-    });
-
-    expect(picker.querySelector('.rs-picker-toggle-placeholder')).to.have.text('yyyy-MM-dd');
+    rerender(<DatePicker value={null} open format="yyyy-MM-dd" />);
+    expect(screen.getByRole('combobox')).to.have.text('yyyy-MM-dd');
   });
 
   it('Should keep AM PM unchanged', () => {
@@ -635,11 +644,15 @@ describe('DatePicker', () => {
 
     const picker = instance.overlay;
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(picker.querySelector('.rs-calendar-header-title-time')).to.have.text('01:00:00');
 
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(picker.querySelector('.rs-calendar-time-dropdown-cell'));
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(picker.querySelector('.rs-calendar-header-meridian')).to.have.text('PM');
+    // eslint-disable-next-line testing-library/no-node-access
     expect(picker.querySelector('.rs-calendar-header-title-time')).to.have.text('12:00:00');
   });
 
@@ -653,6 +666,7 @@ describe('DatePicker', () => {
       />
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     const meridian = instance.overlay.querySelector('.rs-calendar-header-meridian');
 
     expect(meridian).to.have.text('PM');
@@ -711,12 +725,15 @@ describe('DatePicker', () => {
     );
 
     userEvent.tab();
+    // eslint-disable-next-line testing-library/no-node-access
     expect(document.activeElement).to.value('2022-01-01');
 
     userEvent.tab();
+    // eslint-disable-next-line testing-library/no-node-access
     expect(document.activeElement).to.value('2022-01-02');
 
     userEvent.tab({ shift: true });
+    // eslint-disable-next-line testing-library/no-node-access
     expect(document.activeElement).to.value('2022-01-01');
   });
 
@@ -788,7 +805,9 @@ describe('DatePicker', () => {
       </>
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     const picker1 = screen.getByTestId('picker-1').querySelector('input') as HTMLInputElement;
+    // eslint-disable-next-line testing-library/no-node-access
     const picker2 = screen.getByTestId('picker-2').querySelector('input') as HTMLInputElement;
 
     expect(picker1).to.have.attribute('readonly');
@@ -814,6 +833,7 @@ describe('DatePicker', () => {
       />
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     const meridian = instance.overlay.querySelector('.rs-calendar-header-meridian');
 
     expect(meridian).to.have.text('PM');
@@ -830,11 +850,14 @@ describe('DatePicker', () => {
 
     fireEvent.click(instance.target);
 
+    // eslint-disable-next-line testing-library/no-node-access
     const headerTitle = instance.overlay.querySelector('.rs-calendar-header-title');
+    // eslint-disable-next-line testing-library/no-node-access
     const activeMonth = instance.overlay.querySelector('.rs-calendar-month-dropdown-cell-active');
 
     expect(headerTitle).to.have.text(format(today, 'MMM yyyy'));
 
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(activeMonth.nextElementSibling);
 
     expect(headerTitle).to.have.text(format(addMonths(today, 1), 'MMM yyyy'));
@@ -861,7 +884,9 @@ describe('DatePicker', () => {
 
     fireEvent.click(ref.current?.target as HTMLElement);
 
+    // eslint-disable-next-line testing-library/no-node-access
     const headerDateElement = ref.current?.overlay?.querySelector('.rs-calendar-header-title-date');
+    // eslint-disable-next-line testing-library/no-node-access
     const headerTimeElement = ref.current?.overlay?.querySelector('.rs-calendar-header-title-time');
 
     expect(headerDateElement).to.have.text('Feb 2022');

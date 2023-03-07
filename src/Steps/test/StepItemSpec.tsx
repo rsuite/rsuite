@@ -15,6 +15,7 @@ describe('StepItem', () => {
 
   it('Should render a content dom', () => {
     const instance = getDOMNode(<StepItem />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance.querySelectorAll('.rs-steps-item-content').length, 1);
   });
 
@@ -24,9 +25,10 @@ describe('StepItem', () => {
   });
 
   it('Should render custom icon', () => {
-    const instance = getDOMNode(<StepItem icon={<User />} />);
-    assert.ok(instance.className.match(/\brs-steps-item-custom\b/));
-    assert.isNotNull(instance.querySelector('[aria-label="user"]'));
+    const { container } = render(<StepItem icon={<User data-testid="custom-icon" />} />);
+
+    expect(container.firstChild).to.have.class('rs-steps-item-custom');
+    expect(screen.getByTestId('custom-icon')).to.exist;
   });
 
   it('Should output a number ', () => {

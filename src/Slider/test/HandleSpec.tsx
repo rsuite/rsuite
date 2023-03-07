@@ -38,10 +38,12 @@ describe('Slider - Handle', () => {
   it('Should show tooltip', () => {
     const instance = getDOMNode(<Handle tooltip value={10} />);
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect((instance.querySelector('.rs-tooltip') as HTMLElement).style.left).to.empty;
 
     fireEvent.mouseEnter(instance);
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect((instance.querySelector('.rs-tooltip') as HTMLElement).style.left).to.not.empty;
   });
 });

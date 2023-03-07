@@ -13,13 +13,14 @@ describe('CheckboxGroup', () => {
   testStandardProps(<CheckboxGroup />);
 
   it('Should render a checkbox group', () => {
-    const instance = getDOMNode(
+    render(
       <CheckboxGroup>
         <Checkbox>Test1</Checkbox>
         <Checkbox>Test2</Checkbox>
       </CheckboxGroup>
     );
-    assert.equal(instance.querySelectorAll(`.${globalKey}checkbox`).length, 2);
+
+    expect(screen.getAllByRole('checkbox')).to.have.lengthOf(2);
   });
 
   it('Should have a name in input', () => {
@@ -30,6 +31,7 @@ describe('CheckboxGroup', () => {
         <Checkbox>Test2</Checkbox>
       </CheckboxGroup>
     );
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance.querySelectorAll('input[name="Test"]').length, 2);
   });
 
@@ -40,35 +42,24 @@ describe('CheckboxGroup', () => {
         <Checkbox>Test2</Checkbox>
       </CheckboxGroup>
     );
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance.querySelectorAll(`.${globalKey}checkbox-inline`).length, 2);
   });
 
-  it('Should output a h1', () => {
-    const instance = getDOMNode(
-      <CheckboxGroup inline>
-        <h1>Group</h1>
-        <Checkbox>Test1</Checkbox>
-      </CheckboxGroup>
-    );
-    assert.ok(instance.querySelectorAll('.h1'));
-  });
-
   it('Should be checked when set value', () => {
-    const instance = getDOMNode(
+    render(
       <CheckboxGroup value={[2, 4, '1']}>
         <Checkbox value={1}>Test1</Checkbox>
         <Checkbox value={2}>Test2</Checkbox>
-        <Checkbox value={3}>Test2</Checkbox>
-        <Checkbox value={4}>Test2</Checkbox>
+        <Checkbox value={3}>Test3</Checkbox>
+        <Checkbox value={4}>Test4</Checkbox>
       </CheckboxGroup>
     );
 
-    const checkboxs = instance.querySelectorAll(`.${globalKey}checkbox`);
-    const checked = /\bcheckbox-checked\b/;
-    assert.ok(!checkboxs[0].className.match(checked));
-    assert.ok(!checkboxs[2].className.match(checked));
-    assert.ok(checkboxs[1].className.match(checked));
-    assert.ok(checkboxs[3].className.match(checked));
+    expect(screen.getByLabelText('Test1')).to.not.be.checked;
+    expect(screen.getByLabelText('Test2')).to.be.checked;
+    expect(screen.getByLabelText('Test3')).to.not.be.checked;
+    expect(screen.getByLabelText('Test4')).to.be.checked;
   });
 
   it('Should have underlying inputs checked when set value', () => {
@@ -88,21 +79,19 @@ describe('CheckboxGroup', () => {
   });
 
   it('Should be checked when set defaultValue', () => {
-    const instance = getDOMNode(
+    render(
       <CheckboxGroup defaultValue={[2, 4, '1']}>
         <Checkbox value={1}>Test1</Checkbox>
         <Checkbox value={2}>Test2</Checkbox>
-        <Checkbox value={3}>Test2</Checkbox>
-        <Checkbox value={4}>Test2</Checkbox>
+        <Checkbox value={3}>Test3</Checkbox>
+        <Checkbox value={4}>Test4</Checkbox>
       </CheckboxGroup>
     );
 
-    const checkboxs = instance.querySelectorAll(`.${globalKey}checkbox`);
-    const checked = /\bcheckbox-checked\b/;
-    assert.ok(!checkboxs[0].className.match(checked));
-    assert.ok(!checkboxs[2].className.match(checked));
-    assert.ok(checkboxs[1].className.match(checked));
-    assert.ok(checkboxs[3].className.match(checked));
+    expect(screen.getByLabelText('Test1')).not.to.be.checked;
+    expect(screen.getByLabelText('Test2')).to.be.checked;
+    expect(screen.getByLabelText('Test3')).not.to.be.checked;
+    expect(screen.getByLabelText('Test4')).to.be.checked;
   });
 
   it('Should have underlying inputs checked by default when set value', () => {
@@ -141,19 +130,18 @@ describe('CheckboxGroup', () => {
     const onChange = sinon.spy();
     const onGroupChange = sinon.spy();
 
-    const instance = getDOMNode(
+    render(
       <CheckboxGroup onChange={onGroupChange}>
         <Checkbox value={1}>Test1</Checkbox>
         <Checkbox value={2}>Test2</Checkbox>
         <Checkbox value={3} onChange={onChange}>
-          Test2
+          Test3
         </Checkbox>
-        <Checkbox value={4}>Test2</Checkbox>
+        <Checkbox value={4}>Test4</Checkbox>
       </CheckboxGroup>
     );
 
-    const checkboxs = instance.querySelectorAll(`.${globalKey}checkbox`);
-    ReactTestUtils.Simulate.change(checkboxs[2].querySelector('input') as HTMLInputElement);
+    ReactTestUtils.Simulate.change(screen.getByLabelText('Test3'));
 
     expect(onChange).to.have.been.calledOnce;
     expect(onGroupChange).to.have.been.calledOnce;

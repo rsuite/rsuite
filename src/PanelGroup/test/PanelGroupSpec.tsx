@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
@@ -27,23 +26,24 @@ describe('PanelGroup', () => {
         <Panel>222</Panel>
       </PanelGroup>
     );
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance.querySelectorAll('.rs-panel').length, 2);
   });
 
   it('Should call onSelect callback', () => {
     const onSelect = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <PanelGroup accordion onSelect={onSelect}>
-        <Panel eventKey={1} header="Click me">
+        <Panel eventKey={1} header="Click me 1">
           111
         </Panel>
-        <Panel eventKey={2} header="Click me">
+        <Panel eventKey={2} header="Click me 2">
           222
         </Panel>
       </PanelGroup>
     );
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-panel-header')[1]);
 
+    fireEvent.click(screen.getByText('Click me 2'));
     expect(onSelect).to.have.been.calledWith(2);
   });
 

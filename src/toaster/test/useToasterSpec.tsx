@@ -39,9 +39,11 @@ describe('useToaster', () => {
     });
 
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       ((screen.queryByTestId('msg-top-end') as HTMLElement).parentNode as HTMLElement).className
     ).to.equal('rs-toast-container rs-toast-container-top-end');
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       ((screen.queryByTestId('msg-bottom-end') as HTMLElement).parentNode as HTMLElement).className
     ).to.equal('rs-toast-container rs-toast-container-bottom-end');
   });

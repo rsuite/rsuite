@@ -10,12 +10,12 @@ describe('AvatarGroup', () => {
   it('Should change the size of all avatars', () => {
     render(
       <AvatarGroup size="xs" data-testid="group">
-        <Avatar>A</Avatar>
+        <Avatar data-testid="avatar">A</Avatar>
         <Avatar>B</Avatar>
       </AvatarGroup>
     );
 
-    assert.equal(screen.getByTestId('group').querySelectorAll('.rs-avatar-xs').length, 2);
+    expect(screen.getByTestId('avatar')).to.have.class('rs-avatar-xs');
   });
 
   it('Should set the spacing between the avatars', () => {
@@ -28,6 +28,7 @@ describe('AvatarGroup', () => {
       </AvatarGroup>
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     const avatars = screen.getByTestId('group').querySelectorAll('.rs-avatar');
 
     assert.equal((avatars[0] as HTMLElement).style.marginRight, '10px');

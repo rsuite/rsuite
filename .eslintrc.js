@@ -51,12 +51,25 @@ module.exports = {
       rules: {
         'react/prop-types': 'off',
         // todo Change this rule to 'error' and fix errors
-        'testing-library/no-node-access': 'warn',
+        'testing-library/no-node-access': [
+          'error',
+          {
+            allowContainerFirstChild: true
+          }
+        ],
         'testing-library/no-wait-for-multiple-assertions': 'off'
       },
       settings: {
         'testing-library/custom-renders': 'off'
-      }
+      },
+      overrides: [
+        {
+          files: ['*StylesSpec.tsx'],
+          rules: {
+            'testing-library/no-node-access': 'warn'
+          }
+        }
+      ]
     }
   ]
 };

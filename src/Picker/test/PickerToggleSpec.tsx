@@ -109,13 +109,14 @@ describe('<PickerToggle>', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should add value to input', () => {
-    const instance = getDOMNode(
+  it('Should add value to input', async () => {
+    render(
       <Toggle title="title" inputValue={['value1', 'value2']}>
         Title
       </Toggle>
     );
-    assert.ok(instance.querySelector('[value="value1,value2"]'));
+
+    expect(screen.getByRole('textbox', { hidden: true })).to.have.attr('value', 'value1,value2');
   });
 
   it('Should be disabled', () => {
@@ -137,9 +138,10 @@ describe('<PickerToggle>', () => {
   });
 
   it('Should not show caret icon when it has value', () => {
-    render(<Toggle hasValue cleanable />);
+    const { container } = render(<Toggle hasValue cleanable />);
 
-    expect(screen.getByRole('combobox').querySelector('.rs-picker-toggle-clean')).to.exist;
-    expect(screen.getByRole('combobox').querySelector('.rs-picker-toggle-caret')).to.not.exist;
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    expect(container.querySelector('.rs-picker-toggle-caret')).to.not.exist;
   });
 });

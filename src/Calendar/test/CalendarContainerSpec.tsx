@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, within } from '@testing-library/react';
 import { parseISO } from '../../utils/dateUtils';
 import { testStandardProps } from '@test/commonCases';
 import sinon from 'sinon';
@@ -32,7 +32,10 @@ describe('CalendarContainer', () => {
         data-testid="calendar"
       />
     );
-    expect(screen.getAllByRole('row')[1].children[0]).to.attribute('aria-label', '01 Jul 2018');
+    expect(within(screen.getAllByRole('row')[1]).getAllByRole('gridcell')[0]).to.attribute(
+      'aria-label',
+      '01 Jul 2018'
+    );
   });
 
   it('Should call `onSelect` callback with the date being clicked', () => {

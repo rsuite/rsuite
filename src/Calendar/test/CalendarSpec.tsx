@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
 import { parseISO } from '../../utils/dateUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -23,15 +23,14 @@ describe('Calendar', () => {
   it('Should be rendered custom elements', () => {
     render(
       <Calendar
-        data-testid="calendar"
         defaultValue={parseISO('2018-07-01')}
         renderCell={() => {
-          return <i className="text">test</i>;
+          return <i data-testid="custom-content">test</i>;
         }}
       />
     );
 
-    expect(screen.getByTestId('calendar').querySelectorAll('.text')).to.length(42);
+    expect(screen.getAllByTestId('custom-content')).to.have.lengthOf(42);
   });
 
   it('Should be bordered', () => {
@@ -43,22 +42,14 @@ describe('Calendar', () => {
   it('Should output valid one day', () => {
     render(<Calendar format="yyyy-MM-dd" defaultValue={parseISO('2018-07-01')} />);
 
-    expect(screen.getAllByRole('row')[1].querySelector('.rs-calendar-table-cell-content')).to.text(
-      '1'
-    );
+    expect(within(screen.getAllByRole('row')[1]).getAllByRole('gridcell')[0]).to.have.text('1');
   });
 
   it('Should call `onSelect` callback', () => {
     const onSelectSpy = sinon.spy();
     render(<Calendar format="yyyy-MM-dd" onSelect={onSelectSpy} data-testid="calendar" />);
 
-    fireEvent.click(
-      screen
-        .getByTestId('calendar')
-        .querySelector(
-          '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
-        ) as HTMLElement
-    );
+    fireEvent.click(screen.getByTitle(/today/i));
 
     expect(onSelectSpy).to.have.been.calledOnce;
   });
@@ -86,11 +77,13 @@ describe('Calendar', () => {
 
     const calendar = (ref.current as AppInstance).calendar;
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(calendar.querySelector('.rs-calendar-header-title')).text('Jun 2021');
 
     (ref.current as AppInstance).setDate(new Date('7/11/2021'));
 
     await waitFor(() => {
+      // eslint-disable-next-line testing-library/no-node-access
       expect(calendar.querySelector('.rs-calendar-header-title')).text('Jul 2021');
     });
   });

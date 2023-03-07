@@ -279,6 +279,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
     const handleCheck = useCallback(
       (node: ItemDataType, event: React.SyntheticEvent, checked: boolean) => {
+        console.log('handleCheck');
         const nodeValue = node[valueKey];
         let nextValue: ValueType = [];
 
