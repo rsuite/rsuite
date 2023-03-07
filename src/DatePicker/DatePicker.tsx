@@ -39,6 +39,7 @@ import {
 
 import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
 import { OverlayCloseCause } from '../Overlay/OverlayTrigger';
+import { deprecatePropTypeNew } from '../utils/deprecatePropType';
 
 export type { RangeType } from './Toolbar';
 
@@ -84,8 +85,16 @@ export interface DatePickerProps
    * Whether to disable a date on the calendar view
    *
    * @returns date should be disabled (not selectable)
+   * @deprecated Use {@link isDateDisabled} instead
    */
   disabledDate?: (date?: Date) => boolean;
+
+  /**
+   * Whether a date on the calendar view should be disabled
+   *
+   * @returns date should be disabled (not selectable)
+   */
+  isDateDisabled?: (date: Date) => boolean;
 
   /** Disabled hours */
   disabledHours?: (hour: number, date: Date) => boolean;
@@ -163,7 +172,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       style,
       toggleAs,
       caretAs: caretAsProp,
-      disabledDate: disabledDateProp,
+      disabledDate: DEPRECATED_disabledDateProp,
+      isDateDisabled: isDateDisabledProp,
       renderValue,
       onChange,
       onChangeCalendarDate,
@@ -372,9 +382,19 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [formatStr, handleDateChange, oneTap, setCalendarDate, updateValue]
     );
 
-    const disabledDate = useCallback(
-      (date: Date): boolean => disabledDateProp?.(date) ?? false,
-      [disabledDateProp]
+    const isDateDisabled = useCallback(
+      (date: Date): boolean => {
+        if (typeof isDateDisabledProp === 'function') {
+          return isDateDisabledProp(date);
+        }
+
+        if (typeof DEPRECATED_disabledDateProp === 'function') {
+          return DEPRECATED_disabledDateProp(date);
+        }
+
+        return false;
+      },
+      [DEPRECATED_disabledDateProp, isDateDisabledProp]
     );
 
     /**
@@ -404,14 +424,14 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           return;
         }
 
-        if (disabledDate(date)) {
+        if (isDateDisabled(date)) {
           setInputState('Error');
           return;
         }
 
         handleSelect(date, event, false);
       },
-      [formatStr, locale, parseDate, disabledDate, handleSelect]
+      [formatStr, locale, parseDate, isDateDisabled, handleSelect]
     );
 
     /**
@@ -440,12 +460,12 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     // Check whether the time is within the time range of the shortcut option in the toolbar.
     const disabledToolbarHandle = useCallback(
       (date: Date): boolean => {
-        const allowDate = disabledDateProp?.(date) ?? false;
+        const allowDate = DEPRECATED_disabledDateProp?.(date) ?? false;
         const allowTime = DateUtils.disabledTime(props, date);
 
         return allowDate || allowTime;
       },
-      [disabledDateProp, props]
+      [DEPRECATED_disabledDateProp, props]
     );
 
     /**
@@ -494,7 +514,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         locale={locale}
         showWeekNumbers={showWeekNumbers}
         showMeridian={showMeridian}
-        disabledDate={disabledDate}
+        disabledDate={isDateDisabled}
         limitEndYear={limitEndYear}
         format={formatStr}
         isoWeek={isoWeek}
@@ -644,7 +664,8 @@ DatePicker.propTypes = {
   ...pickerPropTypes,
   calendarDefaultDate: PropTypes.instanceOf(Date),
   defaultValue: PropTypes.instanceOf(Date),
-  disabledDate: PropTypes.func,
+  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "isDateDisabled" property instead.'),
+  isDateDisabled: PropTypes.func,
   disabledHours: PropTypes.func,
   disabledMinutes: PropTypes.func,
   disabledSeconds: PropTypes.func,

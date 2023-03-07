@@ -216,6 +216,40 @@ describe('DatePicker', () => {
     assert.isNotNull(instance.root.querySelector('.rs-picker-error'));
   });
 
+  it('[Deprecated] Should disable date cells according to `disabledDate`', () => {
+    sinon.spy(console, 'warn');
+    render(
+      <DatePicker
+        calendarDefaultDate={new Date(2023, 2, 7)}
+        disabledDate={date => isSameDay(date as Date, new Date(2023, 2, 8))}
+        open
+      />
+    );
+
+    // TODO use more accurate matchers
+    expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
+      'rs-calendar-table-cell-disabled'
+    );
+    expect(console.warn).to.have.been.calledWith(
+      '[rsuite] "disabledDate" property of DatePicker component has been deprecated.\nUse "isDateDisabled" property instead.'
+    );
+  });
+
+  it('Should disable date cells according to `isDateDisabled`', () => {
+    render(
+      <DatePicker
+        calendarDefaultDate={new Date(2023, 2, 7)}
+        isDateDisabled={date => isSameDay(date, new Date(2023, 2, 8))}
+        open
+      />
+    );
+
+    // TODO use more accurate matchers
+    expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
+      'rs-calendar-table-cell-disabled'
+    );
+  });
+
   it('Should allow only time', () => {
     const instance = getInstance(<DatePicker format="HH:mm:ss" />);
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
