@@ -28,11 +28,11 @@ const App = () => {
     <>
       <RadioGroup inline appearance="picker" value={size} onChange={setSize}>
         <span style={styles.radioGroupLabel}>Size: </span>
-        <Radio value="full">Full page</Radio>
-        <Radio value="lg">Large</Radio>
-        <Radio value="md">Medium</Radio>
-        <Radio value="sm">Small</Radio>
         <Radio value="xs">Xsmall</Radio>
+        <Radio value="sm">Small</Radio>
+        <Radio value="md">Medium</Radio>
+        <Radio value="lg">Large</Radio>
+        <Radio value="full">Full page</Radio>
       </RadioGroup>
       <hr />
       <ButtonToolbar>

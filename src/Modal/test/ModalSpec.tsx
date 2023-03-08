@@ -275,6 +275,18 @@ describe('Modal', () => {
         '"full" property of "Modal" has been deprecated.\nUse size="full" instead.'
       );
     });
+
+    it('Should not have a style attribute on body when size="full" ', () => {
+      render(
+        <Modal size="full" open>
+          <Modal.Body />å
+        </Modal>
+      );
+
+      expect(screen.getByRole('dialog').querySelector('.rs-modal-body')).to.not.have.attribute(
+        'style'
+      );
+    });
   });
 
   describe('a11y', () => {

@@ -5,7 +5,7 @@ import { Modal, ButtonToolbar, Button, Placeholder } from 'rsuite';
 
 const App = () => {
   const [open, setOpen] = React.useState(false);
-  const [size, setSize] = React.useState();
+  const [size, setSize] = React.useState('full');
   const handleOpen = value => {
     setSize(value);
     setOpen(true);
@@ -36,7 +36,7 @@ const App = () => {
           <Modal.Title>Modal Title</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Placeholder.Paragraph />
+          <Placeholder.Paragraph rows={size === 'full' ? 100 : 10} />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleClose} appearance="subtle">

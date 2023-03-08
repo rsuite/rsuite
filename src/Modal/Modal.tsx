@@ -105,7 +105,8 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   const [bodyStyles, onChangeBodyStyles, onDestroyEvents] = useBodyStyles(dialogRef, {
     overflow,
     drawer,
-    prefix
+    prefix,
+    size
   });
 
   const dialogId = useUniqueId('dialog-', idProp);
