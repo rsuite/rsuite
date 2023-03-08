@@ -5,7 +5,7 @@ import { Modal, ButtonToolbar, Button, Placeholder } from 'rsuite';
 
 const App = () => {
   const [open, setOpen] = React.useState(false);
-  const [size, setSize] = React.useState('full');
+  const [size, setSize] = React.useState();
   const handleOpen = value => {
     setSize(value);
     setOpen(true);
