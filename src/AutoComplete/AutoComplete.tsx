@@ -114,6 +114,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       size,
       menuClassName,
       id,
+      readOnly,
       renderMenu,
       renderMenuItem,
       onSelect,
@@ -294,6 +295,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
             disabled={disabled}
             value={value}
             size={size}
+            readOnly={readOnly}
             onBlur={handleInputBlur}
             onFocus={handleInputFocus}
             onChange={handleChange}
@@ -325,6 +327,7 @@ AutoComplete.propTypes = {
   onKeyDown: PropTypes.func,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
+  readOnly: PropTypes.bool,
   renderMenu: PropTypes.func,
   renderMenuItem: PropTypes.func,
   style: PropTypes.object,

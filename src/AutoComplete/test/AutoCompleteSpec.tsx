@@ -28,6 +28,11 @@ describe('AutoComplete', () => {
     expect(instance).to.have.class('rs-auto-complete-disabled');
   });
 
+  it('Should be readOnly', () => {
+    const instance = getDOMNode(<AutoComplete data={data} readOnly />);
+    assert.ok(instance.querySelector('input[readonly]'));
+  });
+
   it('Should call onSelect callback with correct args', () => {
     const onSelectSpy = sinon.spy();
     const instance = getInstance(
