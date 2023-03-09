@@ -85,7 +85,7 @@ export interface DatePickerProps
    * Whether to disable a date on the calendar view
    *
    * @returns date should be disabled (not selectable)
-   * @deprecated Use {@link isDateDisabled} instead
+   * @deprecated Use {@link shouldDisableDate} instead
    */
   disabledDate?: (date?: Date) => boolean;
 
@@ -94,7 +94,7 @@ export interface DatePickerProps
    *
    * @returns date should be disabled (not selectable)
    */
-  isDateDisabled?: (date: Date) => boolean;
+  shouldDisableDate?: (date: Date) => boolean;
 
   /** Disabled hours */
   disabledHours?: (hour: number, date: Date) => boolean;
@@ -173,7 +173,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       toggleAs,
       caretAs: caretAsProp,
       disabledDate: DEPRECATED_disabledDateProp,
-      isDateDisabled: isDateDisabledProp,
+      shouldDisableDate,
       renderValue,
       onChange,
       onChangeCalendarDate,
@@ -384,8 +384,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const isDateDisabled = useCallback(
       (date: Date): boolean => {
-        if (typeof isDateDisabledProp === 'function') {
-          return isDateDisabledProp(date);
+        if (typeof shouldDisableDate === 'function') {
+          return shouldDisableDate(date);
         }
 
         if (typeof DEPRECATED_disabledDateProp === 'function') {
@@ -394,7 +394,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
         return false;
       },
-      [DEPRECATED_disabledDateProp, isDateDisabledProp]
+      [DEPRECATED_disabledDateProp, shouldDisableDate]
     );
 
     /**
@@ -664,8 +664,8 @@ DatePicker.propTypes = {
   ...pickerPropTypes,
   calendarDefaultDate: PropTypes.instanceOf(Date),
   defaultValue: PropTypes.instanceOf(Date),
-  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "isDateDisabled" property instead.'),
-  isDateDisabled: PropTypes.func,
+  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
+  shouldDisableDate: PropTypes.func,
   disabledHours: PropTypes.func,
   disabledMinutes: PropTypes.func,
   disabledSeconds: PropTypes.func,

@@ -338,11 +338,11 @@ describe('DateRangePicker', () => {
       instance.overlay.querySelectorAll('.rs-picker-toolbar-ranges .rs-btn-disabled')
     ).to.have.lengthOf(4);
     expect(console.warn).to.have.been.calledWith(
-      '[rsuite] "disabledDate" property of DateRangePicker component has been deprecated.\nUse "isDateDisabled" property instead.'
+      '[rsuite] "disabledDate" property of DateRangePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
     );
   });
 
-  it('Should disable shortcuts according to `isDateDisabled`', () => {
+  it('Should disable shortcuts according to `shouldDisableDate`', () => {
     const instance = getInstance(
       <DateRangePicker
         ranges={[
@@ -363,7 +363,7 @@ describe('DateRangePicker', () => {
             value: [subDays(new Date(), 6), new Date()]
           }
         ]}
-        isDateDisabled={() => true}
+        shouldDisableDate={() => true}
         open
       />
     );

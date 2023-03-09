@@ -231,15 +231,15 @@ describe('DatePicker', () => {
       'rs-calendar-table-cell-disabled'
     );
     expect(console.warn).to.have.been.calledWith(
-      '[rsuite] "disabledDate" property of DatePicker component has been deprecated.\nUse "isDateDisabled" property instead.'
+      '[rsuite] "disabledDate" property of DatePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
     );
   });
 
-  it('Should disable date cells according to `isDateDisabled`', () => {
+  it('Should disable date cells according to `shouldDisableDate`', () => {
     render(
       <DatePicker
         calendarDefaultDate={new Date(2023, 2, 7)}
-        isDateDisabled={date => isSameDay(date, new Date(2023, 2, 8))}
+        shouldDisableDate={date => isSameDay(date, new Date(2023, 2, 8))}
         open
       />
     );

@@ -100,14 +100,14 @@ export interface DateRangePickerProps
   /**
    * Disabled date
    *
-   * @deprecated Use {@link isDateDisabled} instead
+   * @deprecated Use {@link shouldDisableDate} instead
    */
   disabledDate?: DisabledDateFunction;
 
   /**
    * Whether a date cell is disabled
    */
-  isDateDisabled?: DisabledDateFunction;
+  shouldDisableDate?: DisabledDateFunction;
 
   /** Called when the option is selected */
   onSelect?: (date: Date, event?: React.SyntheticEvent) => void;
@@ -164,7 +164,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     defaultValue,
     disabled,
     disabledDate: DEPRECATED_disabledDateProp,
-    isDateDisabled: isDateDisabledProp,
+    shouldDisableDate,
     format: formatStr = 'yyyy-MM-dd',
     hoverRange,
     isoWeek = false,
@@ -709,15 +709,15 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       selectedDone: boolean,
       target: DATERANGE_DISABLED_TARGET
     ): boolean => {
-      if (typeof isDateDisabledProp === 'function') {
-        return isDateDisabledProp(date, selectDate, selectedDone, target);
+      if (typeof shouldDisableDate === 'function') {
+        return shouldDisableDate(date, selectDate, selectedDone, target);
       }
       if (typeof DEPRECATED_disabledDateProp === 'function') {
         return DEPRECATED_disabledDateProp(date, selectDate, selectedDone, target);
       }
       return false;
     },
-    [DEPRECATED_disabledDateProp, isDateDisabledProp]
+    [DEPRECATED_disabledDateProp, shouldDisableDate]
   );
 
   const disabledByBetween = useCallback(
@@ -939,8 +939,8 @@ DateRangePicker.propTypes = {
   limitEndYear: PropTypes.number,
   onChange: PropTypes.func,
   onOk: PropTypes.func,
-  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "isDateDisabled" property instead.'),
-  isDateDisabled: PropTypes.func,
+  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
+  shouldDisableDate: PropTypes.func,
   onSelect: PropTypes.func,
   showWeekNumbers: PropTypes.bool,
   showMeridian: PropTypes.bool,
