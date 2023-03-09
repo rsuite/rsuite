@@ -262,6 +262,13 @@ describe('AutoComplete', () => {
     expect((listbox.parentNode as HTMLElement).style.minWidth).to.equal('100px');
   });
 
+  it('Should be autoComplete', () => {
+    const { getByTestId } = render(
+      <AutoComplete data={data} autoComplete="on" style={{ width: 100 }} data-testid="test" />
+    );
+    expect(getByTestId('test').querySelector('input')).to.have.attribute('autocomplete', 'on');
+  });
+
   it('Should not throw an error', () => {
     const callback = sinon.spy();
     expect(() => {

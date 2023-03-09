@@ -61,6 +61,9 @@ export interface AutoCompleteProps<T = ValueType>
   /** The width of the menu will automatically follow the width of the input box */
   menuAutoWidth?: boolean;
 
+  /** AutoComplete Content */
+  autoComplete?: string;
+
   /** Custom filter function to determine whether the item will be displayed */
   filterBy?: (value: string, item: ItemDataType) => boolean;
 
