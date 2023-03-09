@@ -279,7 +279,7 @@ describe('Modal', () => {
     it('Should not have a style attribute on body when size="full" ', () => {
       render(
         <Modal size="full" open>
-          <Modal.Body />å
+          <Modal.Body />
         </Modal>
       );
 
