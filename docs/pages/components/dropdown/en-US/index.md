@@ -118,7 +118,7 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 | Property    | Type`(default)`                   | Description                                          |
 | ----------- | --------------------------------- | ---------------------------------------------------- |
 | active      | boolean                           | Active the current option                            |
-| as          | ElementType`('a')`                | You can use a custom element type for this component |
+| as          | ElementType`('li')`               | You can use a custom element type for this component |
 | children \* | ReactNode                         | The content of the component                         |
 | classPrefix | string `('dropdown-item')`        | The prefix of the component CSS class                |
 | disabled    | boolean                           | Disable the current option                           |
