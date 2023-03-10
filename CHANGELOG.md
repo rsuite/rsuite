@@ -1,3 +1,9 @@
+## [5.28.2](https://github.com/rsuite/rsuite/compare/v5.28.1...v5.28.2) (2023-03-10)
+
+### Bug Fixes
+
+- **AutoComplete:** fix readOnly not work ([#3107](https://github.com/rsuite/rsuite/issues/3107)) ([493bbdc](https://github.com/rsuite/rsuite/commit/493bbdcd4fcfbe271bc98108f3831f18ffda9353))
+
 ## [5.28.1](https://github.com/rsuite/rsuite/compare/v5.28.0...v5.28.1) (2023-03-03)
 
 ### Bug Fixes
