@@ -278,6 +278,30 @@ describe('DatePicker', () => {
     );
   });
 
+  it('Should disable minute options according to `shouldDisableMinute`', () => {
+    render(<DatePicker open format="mm" shouldDisableMinute={minute => minute === 40} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '40' })).to.have.class(
+      /disabled/
+    );
+  });
+
+  it('[Deprecated] Should disable minute options according to `disabledMinutes`', () => {
+    sinon.spy(console, 'warn');
+    render(<DatePicker open format="mm" disabledMinutes={minute => minute === 40} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '40' })).to.have.class(
+      /disabled/
+    );
+    expect(console.warn).to.have.been.calledWith(
+      '[rsuite] "disabledMinutes" property of DatePicker component has been deprecated.\nUse "shouldDisableMinute" property instead.'
+    );
+  });
+
   it('Should allow only time', () => {
     const instance = getInstance(<DatePicker format="HH:mm:ss" />);
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');

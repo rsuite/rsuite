@@ -97,6 +97,13 @@ export interface DatePickerProps
   disabledHours?: (hour: number, date: Date) => boolean;
 
   /**
+   * Disabled minutes
+   *
+   * @deprecated Use {@link shouldDisableMinute}
+   */
+  disabledMinutes?: (minute: number, date: Date) => boolean;
+
+  /**
    * Whether a date on the calendar view should be disabled
    *
    * @returns date should be disabled (not selectable)
@@ -108,8 +115,10 @@ export interface DatePickerProps
    */
   shouldDisableHour?: (hour: number, date: Date) => boolean;
 
-  /** Disabled minutes */
-  disabledMinutes?: (minute: number, date: Date) => boolean;
+  /**
+   * Disabled minutes
+   */
+  shouldDisableMinute?: (minute: number, date: Date) => boolean;
 
   /** Disabled seconds */
   disabledSeconds?: (second: number, date: Date) => boolean;
@@ -183,8 +192,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       caretAs: caretAsProp,
       disabledDate: DEPRECATED_disabledDate,
       disabledHours: DEPRECATED_disabledHours,
+      disabledMinutes: DEPRECATED_disabledMinutes,
       shouldDisableDate,
       shouldDisableHour,
+      shouldDisableMinute,
       renderValue,
       onChange,
       onChangeCalendarDate,
@@ -527,6 +538,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         showMeridian={showMeridian}
         disabledDate={isDateDisabled}
         disabledHours={shouldDisableHour ?? DEPRECATED_disabledHours}
+        disabledMinutes={shouldDisableMinute ?? DEPRECATED_disabledMinutes}
         limitEndYear={limitEndYear}
         format={formatStr}
         isoWeek={isoWeek}
@@ -678,9 +690,13 @@ DatePicker.propTypes = {
   defaultValue: PropTypes.instanceOf(Date),
   disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
   disabledHours: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableHour" property instead.'),
+  disabledMinutes: deprecatePropTypeNew(
+    PropTypes.func,
+    'Use "shouldDisableMinute" property instead.'
+  ),
   shouldDisableDate: PropTypes.func,
   shouldDisableHour: PropTypes.func,
-  disabledMinutes: PropTypes.func,
+  shouldDisableMinute: PropTypes.func,
   disabledSeconds: PropTypes.func,
   format: PropTypes.string,
   hideHours: PropTypes.func,
