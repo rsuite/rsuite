@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, act, waitFor, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import enGB from 'date-fns/locale/en-GB';
@@ -11,6 +11,10 @@ import { DateUtils } from '../../utils';
 
 import GearIcon from '@rsuite/icons/Gear';
 import { PickerHandle } from '../../Picker';
+
+afterEach(() => {
+  sinon.restore();
+});
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -247,6 +251,30 @@ describe('DatePicker', () => {
     // TODO use more accurate matchers
     expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
       'rs-calendar-table-cell-disabled'
+    );
+  });
+
+  it('Should disable hour options according to `shouldDisableHour`', () => {
+    render(<DatePicker open format="HH" shouldDisableHour={hour => hour === 11} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '11' })).to.have.class(
+      /disabled/
+    );
+  });
+
+  it('[Deprecated] Should disable hour options according to `disabledHours`', () => {
+    sinon.spy(console, 'warn');
+    render(<DatePicker open format="HH" disabledHours={hour => hour === 11} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '11' })).to.have.class(
+      /disabled/
+    );
+    expect(console.warn).to.have.been.calledWith(
+      '[rsuite] "disabledHours" property of DatePicker component has been deprecated.\nUse "shouldDisableHour" property instead.'
     );
   });
 
