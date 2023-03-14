@@ -69,10 +69,10 @@ function validTime(calendarProps: any, date: Date) {
       return calendarProps[key]?.(getHours(date), date) ?? true;
     }
     if (/(Minutes)/.test(key)) {
-      return calendarProps[key](getMinutes(date), date);
+      return calendarProps[key]?.(getMinutes(date), date) ?? true;
     }
     if (/(Seconds)/.test(key)) {
-      return calendarProps[key](getSeconds(date), date);
+      return calendarProps[key]?.(getSeconds(date), date) ?? true;
     }
     return false;
   });

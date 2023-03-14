@@ -302,6 +302,30 @@ describe('DatePicker', () => {
     );
   });
 
+  it('Should disable second options according to `shouldDisableSecond`', () => {
+    render(<DatePicker open format="ss" shouldDisableSecond={minute => minute === 40} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '40' })).to.have.class(
+      /disabled/
+    );
+  });
+
+  it('[Deprecated] Should disable second options according to `disabledSeconds`', () => {
+    sinon.spy(console, 'warn');
+    render(<DatePicker open format="ss" disabledSeconds={second => second === 40} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '40' })).to.have.class(
+      /disabled/
+    );
+    expect(console.warn).to.have.been.calledWith(
+      '[rsuite] "disabledSeconds" property of DatePicker component has been deprecated.\nUse "shouldDisableSecond" property instead.'
+    );
+  });
+
   it('Should allow only time', () => {
     const instance = getInstance(<DatePicker format="HH:mm:ss" />);
     const input = instance.root.querySelector('.rs-picker-toggle-textbox');
