@@ -5,12 +5,11 @@
   "scripts": {
     "check:type": "tsc",
     "clear": "rimraf ./.next && rimraf ./out ",
-    "dev": "cross-env NODE_ENV=development node server.js",
+    "dev": "next dev",
     "dev:styles": "cross-env STYLE_DEBUG=STYLE npm run dev",
     "build": "npm run clear && next build && next export",
     "build:docker": "next build",
     "build:next": "NODE_OPTIONS=--max_old_space_size=8192 next build",
-    "build:export": "next export",
     "start": "cross-env NODE_ENV=production node server.js",
     "start:next": "next start",
     "parsing-design-docs": "node ./scripts/parsingDesignDocs.js",

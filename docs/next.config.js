@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const RtlCssPlugin = require('rtlcss-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const pkg = require('./package.json');
-const findPages = require('./scripts/findPages');
 const markdownRenderer = require('./scripts/markdownRenderer');
 
 const resolveToStaticPath = relativePath => path.resolve(__dirname, relativePath);
@@ -21,14 +20,6 @@ const {
 
 const __USE_SRC__ = VERCEL_ENV === 'preview' || VERCEL_ENV === 'local';
 
-const LANGUAGES = {
-  // key: [language, path]
-  default: ['en', ''],
-  en: ['en', '/en'],
-  zh: ['zh', '/zh']
-};
-
-const getLanguage = language => LANGUAGES[language] || '';
 /**
  * @type {import('next').NextConfig}
  */
@@ -36,6 +27,10 @@ module.exports = {
   env: {
     DEV: __DEV__ ? 1 : 0,
     VERSION: pkg.version
+  },
+  i18n: {
+    locales: ['en', 'zh'],
+    defaultLocale: 'en'
   },
   eslint: {
     // ESLint is ignored because it's already run in CI workflow
@@ -185,30 +180,6 @@ module.exports = {
     tsconfigPath: __USE_SRC__ ? './tsconfig.local.json' : './tsconfig.json'
   },
   trailingSlash: true,
-  exportPathMap: () => {
-    const pages = findPages();
-    const map = {};
-
-    function traverse(nextPages, userLanguage) {
-      const [language, rootPath] = getLanguage(userLanguage);
-
-      nextPages.forEach(page => {
-        if (page.children.length === 0) {
-          map[`${rootPath}${page.pathname}`] = {
-            page: page.pathname,
-            query: { userLanguage: language }
-          };
-          return;
-        }
-
-        traverse(page.children, userLanguage);
-      });
-    }
-
-    Object.keys(LANGUAGES).forEach(key => traverse(pages, key));
-
-    return map;
-  },
   onDemandEntries: {
     // Period (in ms) where the server will keep pages in the buffer
     maxInactiveAge: 120 * 1e3, // default 25s

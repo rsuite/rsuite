@@ -3,7 +3,7 @@ import { Grid, CustomProvider, CustomProviderProps } from 'rsuite';
 import NProgress from 'nprogress';
 import type { AppProps } from 'next/app';
 import { Analytics } from '@vercel/analytics/react';
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 import AppContext from '@/components/AppContext';
 import zhCN from 'rsuite/locales/zh_CN';
 import enUS from 'rsuite/locales/en_US';
@@ -48,16 +48,15 @@ Router.events.on('routeChangeComplete', () => {
 });
 Router.events.on('routeChangeError', () => NProgress.done());
 
-function App({ Component, pageProps }: AppProps<{ userLanguage: string }>) {
+function App({ Component, pageProps }: AppProps) {
   const [defaultThemeName, defaultDirection] = React.useMemo<[ThemeType, DirectionType]>(
     readTheme,
     [getDefaultTheme()]
   );
   const [themeName, setThemeName] = React.useState<CustomProviderProps['theme']>(defaultThemeName);
   const [direction, setDirection] = React.useState(defaultDirection);
-  const [language, setLanguage] = React.useState(pageProps.userLanguage);
+  const router = useRouter();
   const [styleLoaded, setStyleLoaded] = React.useState(false);
-  const locale = language === 'zh' ? zhCN : enUS;
 
   const handleStyleHeadLoaded = React.useCallback(() => {
     setStyleLoaded(true);
@@ -129,11 +128,7 @@ function App({ Component, pageProps }: AppProps<{ userLanguage: string }>) {
     setDirection(newDirection);
   }, [direction]);
 
-  const onChangeLanguage = React.useCallback((value: string) => {
-    setLanguage(value);
-  }, []);
-
-  const messages = getMessages(language);
+  const messages = getMessages(router.locale);
 
   React.useEffect(() => {
     loadStylesheetForDirection(direction);
@@ -142,17 +137,20 @@ function App({ Component, pageProps }: AppProps<{ userLanguage: string }>) {
 
   return (
     <React.StrictMode>
-      <CustomProvider locale={locale} rtl={direction === 'rtl'} theme={themeName}>
+      <CustomProvider
+        locale={router.locale === 'zh' ? zhCN : enUS}
+        rtl={direction === 'rtl'}
+        theme={themeName}
+      >
         <Grid fluid className="app-container">
           <AppContext.Provider
             value={{
               messages,
-              language,
-              localePath: language === 'zh' ? '/zh-CN' : '/en-US',
+              language: router.locale,
+              localePath: router.locale === 'zh' ? '/zh-CN' : '/en-US',
               theme: [themeName, direction],
               onChangeDirection,
               onChangeTheme,
-              onChangeLanguage,
               styleLoaded
             }}
           >
@@ -166,21 +164,5 @@ function App({ Component, pageProps }: AppProps<{ userLanguage: string }>) {
     </React.StrictMode>
   );
 }
-
-App.getInitialProps = ({ ctx }) => {
-  let pageProps = {
-    userLanguage: 'en'
-  };
-
-  if (!process.browser) {
-    pageProps = {
-      userLanguage: ctx.query.userLanguage
-    };
-  }
-
-  return {
-    pageProps
-  };
-};
 
 export default App;
