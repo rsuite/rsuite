@@ -12,7 +12,6 @@ const port = parseInt(process.env.PORT, 10) || 3000;
 app.prepare().then(() => {
   const server = express();
 
-  server.use('/design', express.static('public/design'));
   server.get('*', (req, res) => {
     const parsedUrl = url.parse(req.url, true);
     let { pathname } = parsedUrl;

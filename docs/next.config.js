@@ -215,5 +215,13 @@ module.exports = {
     // Number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 3 // default 2
   },
-  pageExtensions: ['tsx']
+  pageExtensions: ['tsx'],
+  rewrites() {
+    return [
+      {
+        source: '/design/:theme(default|dark)',
+        destination: '/design/:theme/index.html'
+      }
+    ];
+  }
 };
