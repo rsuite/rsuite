@@ -30,7 +30,8 @@ module.exports = {
   },
   i18n: {
     locales: ['en', 'zh'],
-    defaultLocale: 'en'
+    defaultLocale: 'en',
+    localeDetection: false
   },
   eslint: {
     // ESLint is ignored because it's already run in CI workflow
