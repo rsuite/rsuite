@@ -8,12 +8,12 @@ import {
   TableProps,
   RowDataType,
   TableInstance,
-  CellProps as RsuiteCellProps
+  CellProps as TableCellProps
 } from 'rsuite-table';
 
 import { useCustom } from '../utils';
 
-export interface CellProps<T = any> extends Omit<RsuiteCellProps, 'rowData' | 'dataKey'> {
+export interface CellProps<T = any> extends Omit<TableCellProps, 'rowData' | 'dataKey'> {
   /** Data binding key, but also a sort of key */
   dataKey?: string | keyof T;
 

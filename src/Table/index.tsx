@@ -4,7 +4,6 @@ export type {
   ColumnProps,
   ColumnGroupProps,
   HeaderCellProps,
-  CellProps,
   SortType,
   RowDataType,
   RowKeyType,
@@ -12,5 +11,7 @@ export type {
   TableSizeChangeEventName,
   TableInstance
 } from 'rsuite-table';
+
+export type { CellProps } from './Table';
 
 export default Table;
