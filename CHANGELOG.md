@@ -1,3 +1,10 @@
+## [5.28.3](https://github.com/rsuite/rsuite/compare/v5.28.2...v5.28.3) (2023-03-17)
+
+### Bug Fixes
+
+- **AutoComplete:** add missing autoComplete prop ([#3108](https://github.com/rsuite/rsuite/issues/3108)) ([c855fab](https://github.com/rsuite/rsuite/commit/c855fab4488c6545ad567166007a6f6650db2849))
+- **Form.Control:** fix not able to override checked prop ([#3120](https://github.com/rsuite/rsuite/issues/3120)) ([aac965e](https://github.com/rsuite/rsuite/commit/aac965e1fdc80bf67885c609021fa8e01b2f3576))
+
 ## [5.28.2](https://github.com/rsuite/rsuite/compare/v5.28.1...v5.28.2) (2023-03-10)
 
 ### Bug Fixes
