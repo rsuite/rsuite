@@ -208,8 +208,8 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
         aria-describedby={ariaDescribedby}
         aria-invalid={fieldHasError || undefined}
         aria-errormessage={ariaErrormessage}
-        {...rest}
         {...accepterProps}
+        {...rest}
         readOnly={readOnly}
         plaintext={plaintext}
         disabled={disabled}
