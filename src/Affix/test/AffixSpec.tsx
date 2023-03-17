@@ -18,14 +18,12 @@ describe('Affix', () => {
 
   it('Should call onChange callback', () => {
     const buttonRef = React.createRef<HTMLButtonElement>();
-    const affixRef = React.createRef<HTMLDivElement>();
-
     const onChangeSpy = sinon.spy();
 
     render(
       <div style={{ height: 3000 }}>
         <div style={{ height: 100 }}>--</div>
-        <Affix top={10} ref={affixRef} onChange={onChangeSpy}>
+        <Affix top={10} data-testid="affix" onChange={onChangeSpy}>
           <button ref={buttonRef}>button</button>
         </Affix>
       </div>
@@ -38,10 +36,10 @@ describe('Affix', () => {
 
     expect(onChangeSpy).to.have.been.called;
 
-    const affixDOM = affixRef.current as HTMLElement;
+    const affix = screen.getByTestId('affix').firstChild as HTMLDivElement;
 
-    expect(affixDOM.children[0].className).to.contain('rs-affix');
-    expect((affixDOM.children[0] as HTMLElement).style.position).to.equal('fixed');
+    expect(affix.className).to.contain('rs-affix');
+    expect(affix.style.position).to.equal('fixed');
   });
 
   it('Should have a custom style', () => {
