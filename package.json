@@ -64,7 +64,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.8.1",
     "react-window": "^1.8.8",
-    "rsuite-table": "^5.9.0",
+    "rsuite-table": "^5.10.1",
     "schema-typed": "^2.1.2"
   },
   "peerDependencies": {

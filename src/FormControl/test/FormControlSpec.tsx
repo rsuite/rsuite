@@ -381,17 +381,33 @@ describe('FormControl', () => {
     });
   });
 
-  it('Should be to initialize the state of Toggle through the form value', () => {
-    const formValue = {
-      toggle: true
-    };
+  describe('Use `checked` instead of `value` with Toggle', () => {
+    it('Should be to initialize the state of Toggle through the form value', () => {
+      const formValue = {
+        toggle: true
+      };
 
-    render(
-      <Form formValue={formValue}>
-        <FormControl name="toggle" accepter={Toggle} />
-      </Form>
-    );
+      render(
+        <Form formValue={formValue}>
+          <FormControl name="toggle" accepter={Toggle} />
+        </Form>
+      );
 
-    expect(screen.getByRole('switch')).to.be.checked;
+      expect(screen.getByRole('switch')).to.be.checked;
+    });
+
+    it('Should be possible to override `checked` value', () => {
+      const formValue = {
+        toggle: true
+      };
+
+      render(
+        <Form formValue={formValue}>
+          <FormControl name="toggle" accepter={Toggle} checked={false} />
+        </Form>
+      );
+
+      expect(screen.getByRole('switch')).not.to.be.checked;
+    });
   });
 });
