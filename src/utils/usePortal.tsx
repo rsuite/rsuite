@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import canUseDOM from 'dom-lib/canUseDOM';
 
@@ -26,7 +26,10 @@ function usePortal(props: PortalProps = {}) {
   const { container, waitMount = false } = props;
   const rootElemRef = useRef<HTMLElement | null>(canUseDOM ? document.body : null);
 
-  useEffect(() => {
+  /**
+   * useMemo can be updated before the Portal is called.
+   */
+  useMemo(() => {
     const containerElement = typeof container === 'function' ? container() : container;
 
     // Parent is either a new root or the existing dom element
