@@ -26,17 +26,16 @@ function usePortal(props: PortalProps = {}) {
   const { container, waitMount = false } = props;
   const rootElemRef = useRef<HTMLElement | null>(canUseDOM ? document.body : null);
 
+  const containerElement = typeof container === 'function' ? container() : container;
   /**
    * useMemo can be updated before the Portal is called.
    */
   useMemo(() => {
-    const containerElement = typeof container === 'function' ? container() : container;
-
     // Parent is either a new root or the existing dom element
     const parentElement = containerElement || document.body;
 
     rootElemRef.current = parentElement as HTMLElement;
-  }, [rootElemRef, container]);
+  }, [rootElemRef, containerElement]);
 
   const Portal = useCallback(({ children }: { children: React.ReactNode }) => {
     return rootElemRef.current != null ? createPortal(children, rootElemRef.current) : null;
