@@ -298,27 +298,17 @@ describe('OverlayTrigger', () => {
 
     document.body.appendChild(newContainer);
 
-    const { rerender } = render(
-      <OverlayTrigger
-        speaker={<Tooltip>tooltip</Tooltip>}
-        defaultOpen
-        container={() => document.body}
-      >
+    const App = ({ container }) => (
+      <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} defaultOpen container={container}>
         <button>button</button>
       </OverlayTrigger>
     );
+
+    const { rerender } = render(<App container={() => document.body} />);
 
     expect(newContainer.compareDocumentPosition(screen.getByRole('tooltip'))).to.equal(4);
 
-    rerender(
-      <OverlayTrigger
-        speaker={<Tooltip>tooltip</Tooltip>}
-        defaultOpen
-        container={() => newContainer}
-      >
-        <button>button</button>
-      </OverlayTrigger>
-    );
+    rerender(<App container={() => newContainer} />);
 
     expect(newContainer.compareDocumentPosition(screen.getByRole('tooltip'))).to.equal(20);
 
