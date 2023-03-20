@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, act } from '@testing-library/react';
 import sinon from 'sinon';
 import getOffset from 'dom-lib/getOffset';
 
@@ -31,8 +31,10 @@ describe('Affix', () => {
 
     const top = getOffset(buttonRef.current)?.top;
 
-    window.scrollTo({ top });
-    window.dispatchEvent(new UIEvent('scroll'));
+    act(() => {
+      window.scrollTo({ top });
+      window.dispatchEvent(new UIEvent('scroll'));
+    });
 
     expect(onChangeSpy).to.have.been.called;
 
@@ -73,8 +75,10 @@ describe('Affix', () => {
 
     const top = getOffset(buttonRef.current)?.top;
 
-    window.scrollTo({ top });
-    window.dispatchEvent(new UIEvent('scroll'));
+    act(() => {
+      window.scrollTo({ top });
+      window.dispatchEvent(new UIEvent('scroll'));
+    });
 
     await waitFor(() => {
       expect(onOffsetChangeSpy).to.have.been.called;
