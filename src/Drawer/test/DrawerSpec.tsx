@@ -84,5 +84,25 @@ describe('Drawer', () => {
         '"full" property of "Modal" has been deprecated.\nUse size="full" instead.'
       );
     });
+
+    it('Should set a fixed width for the dialog', () => {
+      render(<Drawer size={200} open></Drawer>);
+      expect(screen.getByRole('dialog')).to.have.style('width', '200px');
+    });
+
+    it('Should set a dynamic width for the dialog', () => {
+      render(<Drawer size="100%" open></Drawer>);
+      expect(screen.getByRole('dialog').style.width).to.equal('100%');
+    });
+
+    it('Should set a fixed height for the dialog', () => {
+      render(<Drawer size={200} open placement="top"></Drawer>);
+      expect(screen.getByRole('dialog')).to.have.style('height', '200px');
+    });
+
+    it('Should set a dynamic height for the dialog', () => {
+      render(<Drawer size="100%" open placement="bottom"></Drawer>);
+      expect(screen.getByRole('dialog').style.height).to.equal('100%');
+    });
   });
 });

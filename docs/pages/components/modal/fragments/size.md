@@ -31,6 +31,22 @@ const App = () => {
           Full page
         </Button>
       </ButtonToolbar>
+
+      <hr />
+      <ButtonToolbar>
+        <Button onClick={() => handleOpen(400)}>
+          <code>size=400</code>
+        </Button>
+
+        <Button onClick={() => handleOpen('50rem')}>
+          <code>size='50rem'</code>
+        </Button>
+
+        <Button onClick={() => handleOpen('calc(100% - 120px)')}>
+          <code>size='calc(100% - 120px)'</code>
+        </Button>
+      </ButtonToolbar>
+
       <Modal size={size} open={open} onClose={handleClose}>
         <Modal.Header>
           <Modal.Title>Modal Title</Modal.Title>

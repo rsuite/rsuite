@@ -4,12 +4,14 @@ import on from 'dom-lib/on';
 import { ResizeObserver } from '@juggle/resize-observer';
 import { TypeAttributes } from '../@types/common';
 
+export type ModalSize = TypeAttributes.Size | 'full' | number | string;
+
 export const useBodyStyles = (
   ref: React.RefObject<HTMLElement>,
   options: {
     overflow: boolean;
     drawer: boolean;
-    size: TypeAttributes.Size | 'full';
+    size?: ModalSize;
     prefix: (...classes: any) => string;
   }
 ): [React.CSSProperties | null, (entering?: boolean) => void, () => void] => {

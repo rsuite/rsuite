@@ -98,7 +98,8 @@ describe('Modal', () => {
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Modal style={{ fontSize }} open />);
+    const instance = getDOMNode(<Modal style={{ fontSize }} open size={200} />);
+
     assert.equal(instance.style.fontSize, fontSize);
   });
 
@@ -286,6 +287,24 @@ describe('Modal', () => {
       expect(screen.getByRole('dialog').querySelector('.rs-modal-body')).to.not.have.attribute(
         'style'
       );
+    });
+
+    it('Should set a fixed width for the dialog', () => {
+      render(
+        <Modal size={200} open>
+          <Modal.Body />
+        </Modal>
+      );
+      expect(screen.getByRole('dialog')).to.have.style('width', '200px');
+    });
+
+    it('Should set a dynamic width for the dialog', () => {
+      render(
+        <Modal size="100%" open>
+          <Modal.Body />
+        </Modal>
+      );
+      expect(screen.getByRole('dialog').style.width).to.equal('100%');
     });
   });
 

@@ -12,12 +12,10 @@ import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
-import { useBodyStyles } from './utils';
-import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
+import { useBodyStyles, ModalSize } from './utils';
+import { RsRefForwardingComponent } from '../@types/common';
 import useUniqueId from '../utils/useUniqueId';
 import deprecatePropType from '../utils/deprecatePropType';
-
-export type ModalSize = TypeAttributes.Size | 'full';
 
 const modalSizes: readonly ModalSize[] = ['xs', 'sm', 'md', 'lg', 'full'];
 
@@ -97,7 +95,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   const inClass = { in: open && !animation };
   const { merge, prefix } = useClassNames(classPrefix);
   const [shake, setShake] = useState(false);
-  const classes = merge(className, prefix(size, { full }));
+  const classes = merge(className, prefix({ full, [size]: modalSizes.includes(size) }));
   const dialogRef = useRef<HTMLElement>(null);
   const transitionEndListener = useRef<{ off: () => void } | null>();
 
@@ -182,6 +180,14 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     transitionEndListener.current?.off();
   });
 
+  let sizeKey = 'width';
+
+  if (drawer) {
+    const { placement } = animationProps || {};
+    // The width or height of the drawer depends on the placement.
+    sizeKey = placement === 'top' || placement === 'bottom' ? 'height' : 'width';
+  }
+
   return (
     <ModalContext.Provider value={modalContextValue}>
       <BaseModal
@@ -210,6 +216,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
               id={dialogId}
               aria-labelledby={ariaLabelledby ?? `${dialogId}-title`}
               aria-describedby={ariaDescribedby}
+              style={{ [sizeKey]: modalSizes.includes(size) ? undefined : size }}
               {...transitionRest}
               {...pick(rest, Object.keys(modalDialogPropTypes))}
               ref={mergeRefs(dialogRef, transitionRef)}
@@ -238,7 +245,7 @@ Modal.propTypes = {
   animationTimeout: PropTypes.number,
   classPrefix: PropTypes.string,
   dialogClassName: PropTypes.string,
-  size: PropTypes.oneOf(modalSizes),
+  size: PropTypes.oneOfType([PropTypes.oneOf(modalSizes), PropTypes.number, PropTypes.string]),
   dialogStyle: PropTypes.object,
   dialogAs: PropTypes.elementType,
   full: deprecatePropType(PropTypes.bool, 'Use size="full" instead.'),
