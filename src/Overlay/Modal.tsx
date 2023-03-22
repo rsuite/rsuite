@@ -2,7 +2,6 @@ import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react'
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import contains from 'dom-lib/contains';
-import getContainer from 'dom-lib/getContainer';
 import on from 'dom-lib/on';
 import ModalManager, { ModalInstance } from './ModalManager';
 import Fade from '../Animation/Fade';
@@ -138,7 +137,7 @@ const Modal: RsRefForwardingComponent<'div', BaseModalProps> = React.forwardRef<
   } = props;
 
   const [exited, setExited] = useState(!open);
-  const { Portal } = usePortal({ container });
+  const { Portal, target: containerElement } = usePortal({ container });
   const modal = useModalManager();
 
   if (open) {
@@ -192,11 +191,9 @@ const Modal: RsRefForwardingComponent<'div', BaseModalProps> = React.forwardRef<
   const documentFocusListener = useRef<{ off: () => void } | null>();
 
   const handleOpen = useEventCallback(() => {
-    const containerElement = getContainer(
-      container as Element | (() => Element),
-      document.body
-    ) as HTMLElement;
-    modal.add(containerElement, containerClassName);
+    if (containerElement) {
+      modal.add(containerElement, containerClassName);
+    }
 
     if (!documentKeyDownListener.current) {
       documentKeyDownListener.current = on(document, 'keydown', handleDocumentKeyDown);
