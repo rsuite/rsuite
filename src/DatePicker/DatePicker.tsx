@@ -39,6 +39,7 @@ import {
 
 import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
 import { OverlayCloseCause } from '../Overlay/OverlayTrigger';
+import { deprecatePropTypeNew } from '../utils/deprecatePropType';
 
 export type { RangeType } from './Toolbar';
 
@@ -84,17 +85,52 @@ export interface DatePickerProps
    * Whether to disable a date on the calendar view
    *
    * @returns date should be disabled (not selectable)
+   * @deprecated Use {@link shouldDisableDate} instead
    */
   disabledDate?: (date?: Date) => boolean;
 
-  /** Disabled hours */
+  /**
+   * Disabled hours
+   *
+   * @deprecated Use {@link shouldDisableHour} instead
+   */
   disabledHours?: (hour: number, date: Date) => boolean;
 
-  /** Disabled minutes */
+  /**
+   * Disabled minutes
+   *
+   * @deprecated Use {@link shouldDisableMinute} instead
+   */
   disabledMinutes?: (minute: number, date: Date) => boolean;
 
-  /** Disabled seconds */
+  /**
+   * Disabled seconds
+   *
+   * @deprecated Use {@link shouldDisableSecond} instead
+   */
   disabledSeconds?: (second: number, date: Date) => boolean;
+
+  /**
+   * Whether a date on the calendar view should be disabled
+   *
+   * @returns date should be disabled (not selectable)
+   */
+  shouldDisableDate?: (date: Date) => boolean;
+
+  /**
+   * Disabled hours
+   */
+  shouldDisableHour?: (hour: number, date: Date) => boolean;
+
+  /**
+   * Disabled minutes
+   */
+  shouldDisableMinute?: (minute: number, date: Date) => boolean;
+
+  /**
+   * Disabled seconds
+   */
+  shouldDisableSecond?: (second: number, date: Date) => boolean;
 
   /** Hidden hours */
   hideHours?: (hour: number, date: Date) => boolean;
@@ -163,7 +199,14 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       style,
       toggleAs,
       caretAs: caretAsProp,
-      disabledDate: disabledDateProp,
+      disabledDate: DEPRECATED_disabledDate,
+      disabledHours: DEPRECATED_disabledHours,
+      disabledMinutes: DEPRECATED_disabledMinutes,
+      disabledSeconds: DEPRECATED_disabledSeconds,
+      shouldDisableDate,
+      shouldDisableHour,
+      shouldDisableMinute,
+      shouldDisableSecond,
       renderValue,
       onChange,
       onChangeCalendarDate,
@@ -372,9 +415,19 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [formatStr, handleDateChange, oneTap, setCalendarDate, updateValue]
     );
 
-    const disabledDate = useCallback(
-      (date: Date): boolean => disabledDateProp?.(date) ?? false,
-      [disabledDateProp]
+    const isDateDisabled = useCallback(
+      (date: Date): boolean => {
+        if (typeof shouldDisableDate === 'function') {
+          return shouldDisableDate(date);
+        }
+
+        if (typeof DEPRECATED_disabledDate === 'function') {
+          return DEPRECATED_disabledDate(date);
+        }
+
+        return false;
+      },
+      [DEPRECATED_disabledDate, shouldDisableDate]
     );
 
     /**
@@ -404,14 +457,14 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           return;
         }
 
-        if (disabledDate(date)) {
+        if (isDateDisabled(date)) {
           setInputState('Error');
           return;
         }
 
         handleSelect(date, event, false);
       },
-      [formatStr, locale, parseDate, disabledDate, handleSelect]
+      [formatStr, locale, parseDate, isDateDisabled, handleSelect]
     );
 
     /**
@@ -440,12 +493,12 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     // Check whether the time is within the time range of the shortcut option in the toolbar.
     const disabledToolbarHandle = useCallback(
       (date: Date): boolean => {
-        const allowDate = disabledDateProp?.(date) ?? false;
+        const allowDate = DEPRECATED_disabledDate?.(date) ?? false;
         const allowTime = DateUtils.disabledTime(props, date);
 
         return allowDate || allowTime;
       },
-      [disabledDateProp, props]
+      [DEPRECATED_disabledDate, props]
     );
 
     /**
@@ -494,7 +547,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         locale={locale}
         showWeekNumbers={showWeekNumbers}
         showMeridian={showMeridian}
-        disabledDate={disabledDate}
+        disabledDate={isDateDisabled}
+        disabledHours={shouldDisableHour ?? DEPRECATED_disabledHours}
+        disabledMinutes={shouldDisableMinute ?? DEPRECATED_disabledMinutes}
+        disabledSeconds={shouldDisableSecond ?? DEPRECATED_disabledSeconds}
         limitEndYear={limitEndYear}
         format={formatStr}
         isoWeek={isoWeek}
@@ -644,10 +700,20 @@ DatePicker.propTypes = {
   ...pickerPropTypes,
   calendarDefaultDate: PropTypes.instanceOf(Date),
   defaultValue: PropTypes.instanceOf(Date),
-  disabledDate: PropTypes.func,
-  disabledHours: PropTypes.func,
-  disabledMinutes: PropTypes.func,
-  disabledSeconds: PropTypes.func,
+  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
+  disabledHours: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableHour" property instead.'),
+  disabledMinutes: deprecatePropTypeNew(
+    PropTypes.func,
+    'Use "shouldDisableMinute" property instead.'
+  ),
+  disabledSeconds: deprecatePropTypeNew(
+    PropTypes.func,
+    'Use "shouldDisableSecond" property instead.'
+  ),
+  shouldDisableDate: PropTypes.func,
+  shouldDisableHour: PropTypes.func,
+  shouldDisableMinute: PropTypes.func,
+  shouldDisableSecond: PropTypes.func,
   format: PropTypes.string,
   hideHours: PropTypes.func,
   hideMinutes: PropTypes.func,

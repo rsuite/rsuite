@@ -64,38 +64,6 @@ describe('DateRangePicker', () => {
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
-  it('Should be disabled date', () => {
-    const instance = getInstance(
-      <DateRangePicker
-        ranges={[
-          {
-            label: 'Yesterday',
-            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
-          },
-          {
-            label: 'Today',
-            value: [new Date(), new Date()]
-          },
-          {
-            label: 'Tomorrow',
-            value: [addDays(new Date(), 1), addDays(new Date(), 1)]
-          },
-          {
-            label: 'Last 7 days',
-            value: [subDays(new Date(), 6), new Date()]
-          }
-        ]}
-        disabledDate={() => true}
-        open
-      />
-    );
-
-    assert.equal(
-      instance.overlay.querySelectorAll('.rs-picker-toolbar-ranges .rs-btn-disabled').length,
-      4
-    );
-  });
-
   it('Should output custom value', () => {
     const instance = getInstance(
       <DateRangePicker
@@ -339,7 +307,8 @@ describe('DateRangePicker', () => {
     expect(getByRole('gridcell', { name: '24 Sep 2019', selected: true })).to.exist;
   });
 
-  it('Should be disabled date', () => {
+  it('[Deprecated] Should disable shortcuts according to `disabledDate`', () => {
+    sinon.spy(console, 'warn');
     const instance = getInstance(
       <DateRangePicker
         ranges={[
@@ -367,7 +336,41 @@ describe('DateRangePicker', () => {
 
     expect(
       instance.overlay.querySelectorAll('.rs-picker-toolbar-ranges .rs-btn-disabled')
-    ).to.length(4);
+    ).to.have.lengthOf(4);
+    expect(console.warn).to.have.been.calledWith(
+      '[rsuite] "disabledDate" property of DateRangePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
+    );
+  });
+
+  it('Should disable shortcuts according to `shouldDisableDate`', () => {
+    const instance = getInstance(
+      <DateRangePicker
+        ranges={[
+          {
+            label: 'Yesterday',
+            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
+          },
+          {
+            label: 'Today',
+            value: [new Date(), new Date()]
+          },
+          {
+            label: 'Tomorrow',
+            value: [addDays(new Date(), 1), addDays(new Date(), 1)]
+          },
+          {
+            label: 'Last 7 days',
+            value: [subDays(new Date(), 6), new Date()]
+          }
+        ]}
+        shouldDisableDate={() => true}
+        open
+      />
+    );
+
+    expect(
+      instance.overlay.querySelectorAll('.rs-picker-toolbar-ranges .rs-btn-disabled')
+    ).to.have.lengthOf(4);
   });
 
   it('Should select a whole week', () => {

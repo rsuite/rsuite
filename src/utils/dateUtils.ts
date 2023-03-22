@@ -66,13 +66,13 @@ function validTime(calendarProps: any, date: Date) {
 
   return Object.keys(calendarProps).some(key => {
     if (/(Hours)/.test(key)) {
-      return calendarProps[key](getHours(date), date);
+      return calendarProps[key]?.(getHours(date), date) ?? true;
     }
     if (/(Minutes)/.test(key)) {
-      return calendarProps[key](getMinutes(date), date);
+      return calendarProps[key]?.(getMinutes(date), date) ?? true;
     }
     if (/(Seconds)/.test(key)) {
-      return calendarProps[key](getSeconds(date), date);
+      return calendarProps[key]?.(getSeconds(date), date) ?? true;
     }
     return false;
   });
@@ -80,6 +80,7 @@ function validTime(calendarProps: any, date: Date) {
 
 /**
  * Verify that the time is valid.
+ *
  * @param props
  * @param date
  */

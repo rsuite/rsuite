@@ -51,6 +51,7 @@ import Calendar from './Calendar';
 import * as disabledDateUtils from './disabledDateUtils';
 import { DisabledDateFunction, RangeType, DateRange } from './types';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
+import { deprecatePropTypeNew } from '../utils/deprecatePropType';
 
 type InputState = 'Typing' | 'Error' | 'Initial';
 
@@ -96,8 +97,17 @@ export interface DateRangePickerProps
   /** The character that separates two dates */
   character?: string;
 
-  /** Disabled date */
+  /**
+   * Disabled date
+   *
+   * @deprecated Use {@link shouldDisableDate} instead
+   */
   disabledDate?: DisabledDateFunction;
+
+  /**
+   * Whether a date cell is disabled
+   */
+  shouldDisableDate?: DisabledDateFunction;
 
   /** Called when the option is selected */
   onSelect?: (date: Date, event?: React.SyntheticEvent) => void;
@@ -153,7 +163,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     defaultCalendarValue,
     defaultValue,
     disabled,
-    disabledDate: disabledDateProp,
+    disabledDate: DEPRECATED_disabledDateProp,
+    shouldDisableDate,
     format: formatStr = 'yyyy-MM-dd',
     hoverRange,
     isoWeek = false,
@@ -698,9 +709,15 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       selectedDone: boolean,
       target: DATERANGE_DISABLED_TARGET
     ): boolean => {
-      return disabledDateProp?.(date, selectDate, selectedDone, target) ?? false;
+      if (typeof shouldDisableDate === 'function') {
+        return shouldDisableDate(date, selectDate, selectedDone, target);
+      }
+      if (typeof DEPRECATED_disabledDateProp === 'function') {
+        return DEPRECATED_disabledDateProp(date, selectDate, selectedDone, target);
+      }
+      return false;
     },
-    [disabledDateProp]
+    [DEPRECATED_disabledDateProp, shouldDisableDate]
   );
 
   const disabledByBetween = useCallback(
@@ -922,7 +939,8 @@ DateRangePicker.propTypes = {
   limitEndYear: PropTypes.number,
   onChange: PropTypes.func,
   onOk: PropTypes.func,
-  disabledDate: PropTypes.func,
+  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
+  shouldDisableDate: PropTypes.func,
   onSelect: PropTypes.func,
   showWeekNumbers: PropTypes.bool,
   showMeridian: PropTypes.bool,
