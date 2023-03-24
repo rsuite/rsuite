@@ -377,7 +377,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         children.then((data: ItemDataType[]) => {
           node.loading = false;
           node[childrenKey] = data;
-          if (targetRef.current) {
+          if (targetRef.current || inline) {
             addColumn(data as ItemDataType<T>[], columnIndex);
           }
         });
