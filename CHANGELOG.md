@@ -1,3 +1,10 @@
+# [5.29.0](https://github.com/rsuite/rsuite/compare/v5.28.3...v5.29.0) (2023-03-24)
+
+### Bug Fixes
+
+- **Affix:** fix misalignment due to DOM content updates ([#3124](https://github.com/rsuite/rsuite/issues/3124)) ([76d21e9](https://github.com/rsuite/rsuite/commit/76d21e9e950da8c2df52d1fbc96abcada633d908))
+- **Picker:** fix async container update cause offset error ([#3126](https://github.com/rsuite/rsuite/issues/3126)) ([c3e15c5](https://github.com/rsuite/rsuite/commit/c3e15c512319b0240236e35a5b28432bea1d25f3))
+
 ## [5.28.3](https://github.com/rsuite/rsuite/compare/v5.28.2...v5.28.3) (2023-03-17)
 
 ### Bug Fixes
