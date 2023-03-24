@@ -257,7 +257,7 @@ describe('Cascader', () => {
     expect(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]).to.text('2');
   });
 
-  it('Should present an asyn loading state', () => {
+  it('Should present an async loading state', () => {
     function fetchNodes() {
       return new Promise<{ label: string; value: string }[]>(resolve => {
         setTimeout(() => {
