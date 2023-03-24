@@ -163,6 +163,8 @@ combine(...) => boolean
 
 ### `<DateRangePicker>`
 
+<!-- prettier-sort-markdown-table -->
+
 | 属性名称             | 类型`(默认值)`                                                                   | 描述                                                                            |
 | -------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | appearance           | 'default' &#124; 'subtle' `('default')`                                          | 设置外观                                                                        |
@@ -175,7 +177,7 @@ combine(...) => boolean
 | defaultOpen          | boolean                                                                          | 默认打开                                                                        |
 | defaultValue         | [ValueType](#code-ts-value-type-code)                                            | 默认值                                                                          |
 | disabled             | boolean                                                                          | 禁用组件                                                                        |
-| disabledDate         | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | 禁用日期                                                                        |
+| disabledDate         | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | 已弃用。 使用 `shouldDisableDate` 代替                                          |
 | editable             | boolean `(true)`                                                                 | 渲染为 Input 输入框，可以通过键盘输入日期                                       |
 | format               | string `('yyyy-MM-dd')`                                                          | 日期显示格式化 [参考 date-fns format](https://date-fns.org/v2.24.0/docs/format) |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | 点击日期时将选中的日期范围                                                      |
@@ -189,13 +191,13 @@ combine(...) => boolean
 | onEnter              | () => void                                                                       | 显示前动画过渡的回调函数                                                        |
 | onEntered            | () => void                                                                       | 显示后动画过渡的回调函数                                                        |
 | onEntering           | () => void                                                                       | 显示中动画过渡的回调函数                                                        |
+| oneTap               | boolean                                                                          | 是否点击一次就选定日期范围，可配合 hoverRange 使用                              |
 | onExit               | () => void                                                                       | 退出前动画过渡的回调函数                                                        |
 | onExited             | () => void                                                                       | 退出后动画过渡的回调函数                                                        |
 | onExiting            | () => void                                                                       | 退出中动画过渡的回调函数                                                        |
 | onOk                 | (value: [ValueType](#code-ts-value-type-code)) => void                           | 点击 `确定` 按钮后的回调函数                                                    |
 | onOpen               | () => void                                                                       | 打开回调函数                                                                    |
 | onSelect             | (data:Date) => void                                                              | 选择日期的回调函数                                                              |
-| oneTap               | boolean                                                                          | 是否点击一次就选定日期范围，可配合 hoverRange 使用                              |
 | open                 | boolean                                                                          | 打开 (受控)                                                                     |
 | placeholder          | string                                                                           | 没有值时候默认显示内容                                                          |
 | placement            | [Placement](#code-ts-placement-code) `('bottomStart')`                           | 显示位置                                                                        |
@@ -203,6 +205,7 @@ combine(...) => boolean
 | ranges               | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code))                  | 快捷项配置，默认 `今天`,`昨天`，`最近 7 天`                                     |
 | renderTitle          | (date: Date) => ReactNode                                                        | 自定义渲染日历面板上的月份标题                                                  |
 | renderValue          | (value: [ValueType](#code-ts-value-type-code), format: string) => ReactNode      | 自定义被选中的选项                                                              |
+| shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | 禁用日期                                                                        |
 | showMeridian         | boolean                                                                          | 显示 12 小时制的时间格式                                                        |
 | showOneCalendar      | boolen                                                                           | 显示一个日历                                                                    |
 | showWeekNumbers      | boolean                                                                          | 显示周数量                                                                      |
