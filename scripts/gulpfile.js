@@ -36,6 +36,8 @@ function clean(done) {
 
 // Build styles
 // - Build LESS into CSS under dist/
+//   - With/Without reset styles
+// - RTL/Non-RTL
 // - Minify CSS files in dist/
 // - Copy LESS into less/
 //
@@ -44,16 +46,44 @@ function clean(done) {
 // - dist/rsuite.min.css
 // - dist/rsuite-rtl.css
 // - dist/rsuite-rtl.min.css
+// - dist/rsuite-no-reset.css
+// - dist/rsuite-no-reset.min.css
+// - dist/rsuite-no-reset-rtl.css
+// - dist/rsuite-no-reset-rtl.min.css
 // - less/**/*.less
+exports.buildStyles = gulp.series(
+  gulp.parallel(
+    buildLess({ outputFileName: 'rsuite.css' }),
+    buildLess({
+      lessOptions: {
+        modifyVars: {
+          '@enable-css-reset': false
+        }
+      },
+      outputFileName: 'rsuite-no-reset.css'
+    })
+  ),
+  buildRTLCSS,
+  minifyCSS
+);
 
-function buildLESS() {
+function buildLess({ lessOptions, outputFileName }) {
+  return () =>
+    gulp
+      .src(`${styleRoot}/index.less`)
+      .pipe(sourcemaps.init())
+      .pipe(less(lessOptions))
+      .pipe(postcss([require('autoprefixer'), postcssCustomProperties()]))
+      .pipe(sourcemaps.write('./'))
+      .pipe(rename(outputFileName))
+      .pipe(gulp.dest(`${distRoot}`));
+}
+
+function buildRTLCSS() {
   return gulp
-    .src(`${styleRoot}/index.less`)
-    .pipe(sourcemaps.init())
-    .pipe(less())
-    .pipe(postcss([require('autoprefixer'), postcssCustomProperties()]))
-    .pipe(sourcemaps.write('./'))
-    .pipe(rename('rsuite.css'))
+    .src(`${distRoot}/rsuite*.css`)
+    .pipe(rtlcss()) // Convert to RTL.
+    .pipe(rename({ suffix: '-rtl' })) // Append "-rtl" to the filename.
     .pipe(gulp.dest(`${distRoot}`));
 }
 
@@ -62,22 +92,9 @@ function buildLESS() {
  */
 function minifyCSS() {
   return gulp
-    .src(`${distRoot}/rsuite.css`)
+    .src(`${distRoot}/rsuite*.css`)
     .pipe(sourcemaps.init())
     .pipe(postcss()) // uses postcss.config.js where cssnano is configured
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(`${distRoot}`));
-}
-
-function buildRTLCSS() {
-  return gulp
-    .src(`${distRoot}/rsuite.css`)
-    .pipe(rtlcss()) // Convert to RTL.
-    .pipe(rename({ suffix: '-rtl' })) // Append "-rtl" to the filename.
-    .pipe(gulp.dest(`${distRoot}`))
-    .pipe(sourcemaps.init())
-    .pipe(postcss())
     .pipe(rename({ suffix: '.min' }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(`${distRoot}`));
@@ -155,7 +172,7 @@ function createPkgFile(done) {
 exports.dev = gulp.series(clean, buildCjs, watch);
 exports.build = gulp.series(
   clean,
-  gulp.parallel(buildCjs, buildEsm, gulp.series(buildLESS, gulp.parallel(minifyCSS, buildRTLCSS))),
+  gulp.parallel(buildCjs, buildEsm, exports.buildStyles),
   gulp.parallel(
     copyTypescriptDeclarationFiles,
     copyLessStylesheets,
