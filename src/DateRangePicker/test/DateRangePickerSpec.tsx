@@ -1126,4 +1126,41 @@ describe('DateRangePicker', () => {
       expect(switchButtons[1]).to.have.text('AM');
     });
   });
+
+  it('Should be disable time when date selection is in progress', () => {
+    render(
+      <DateRangePicker
+        format="yyyy-MM-dd hh:mm aa"
+        showMeridian
+        open
+        defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-05-01 23:59:59')]}
+      />
+    );
+
+    const startCell = screen.getByRole('button', { name: '01 Feb 2022' });
+    const endCell = screen.getByRole('button', { name: '02 Feb 2022' });
+    const btnAM = screen.getByRole('button', { name: 'AM' });
+    const btnPM = screen.getByRole('button', { name: 'PM' });
+    const btnAMTime = screen.getByRole('button', { name: '12:00' });
+    const btnPMTime = screen.getByRole('button', { name: '11:59' });
+
+    expect(btnAM).to.not.have.attribute('disabled');
+    expect(btnPM).to.not.have.attribute('disabled');
+    expect(btnAMTime).to.not.have.attribute('disabled');
+    expect(btnPMTime).to.not.have.attribute('disabled');
+
+    fireEvent.click(startCell);
+
+    expect(btnAM).to.have.attribute('disabled');
+    expect(btnPM).to.have.attribute('disabled');
+    expect(btnAMTime).to.have.attribute('disabled');
+    expect(btnPMTime).to.have.attribute('disabled');
+
+    fireEvent.click(endCell);
+
+    expect(btnAM).to.not.have.attribute('disabled');
+    expect(btnPM).to.not.have.attribute('disabled');
+    expect(btnAMTime).to.not.have.attribute('disabled');
+    expect(btnPMTime).to.not.have.attribute('disabled');
+  });
 });

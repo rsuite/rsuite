@@ -8,6 +8,7 @@ import { useClassNames } from '../utils';
 import { FormattedDate } from '../CustomProvider';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { useCalendarContext } from './CalendarContext';
+import { useDateRangePickerContext } from '../DateRangePicker/DateRangePickerContext';
 
 export interface CalendarHeaderProps {
   disabledBackward?: boolean;
@@ -53,6 +54,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
     } = props;
 
     const { locale, date = new Date(), format, inline, disabledDate } = useCalendarContext();
+    const { isSelectedIdle } = useDateRangePickerContext();
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const btnProps: ButtonProps = {
       appearance: 'subtle',
@@ -125,17 +127,30 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       withClassPrefix({ 'has-month': hasMonth, 'has-time': showTime })
     );
 
+    // If the date is not selected, the time cannot be selected (it only works in DateRangePicker).
+    const disableSelectTime = typeof isSelectedIdle === 'undefined' ? false : !isSelectedIdle;
+
     return (
       <Component {...rest} ref={ref} className={classes}>
         {hasMonth && monthToolbar}
         {showTime && (
           <div className={prefix('time-toolbar')}>
-            <Button {...btnProps} className={timeTitleClasses} onClick={onToggleTimeDropdown}>
+            <Button
+              {...btnProps}
+              className={timeTitleClasses}
+              onClick={onToggleTimeDropdown}
+              disabled={disableSelectTime}
+            >
               {date && <FormattedDate date={date} formatStr={getTimeFormat()} />}
             </Button>
 
             {showMeridian && (
-              <Button {...btnProps} className={prefix('meridian')} onClick={onToggleMeridian}>
+              <Button
+                {...btnProps}
+                className={prefix('meridian')}
+                onClick={onToggleMeridian}
+                disabled={disableSelectTime}
+              >
                 {date && <FormattedDate date={date} formatStr="a" />}
               </Button>
             )}
