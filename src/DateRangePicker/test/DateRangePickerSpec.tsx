@@ -1137,8 +1137,10 @@ describe('DateRangePicker', () => {
       />
     );
 
-    const startCell = screen.getByRole('button', { name: '01 Feb 2022' });
-    const endCell = screen.getByRole('button', { name: '02 Feb 2022' });
+    const startCell = screen.getByRole('gridcell', { name: '01 Feb 2022' })
+      .firstChild as HTMLButtonElement;
+    const endCell = screen.getByRole('gridcell', { name: '02 Feb 2022' })
+      .firstChild as HTMLButtonElement;
     const btnAM = screen.getByRole('button', { name: 'AM' });
     const btnPM = screen.getByRole('button', { name: 'PM' });
     const btnAMTime = screen.getByRole('button', { name: '12:00' });
