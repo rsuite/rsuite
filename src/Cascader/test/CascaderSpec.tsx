@@ -257,7 +257,7 @@ describe('Cascader', () => {
     expect(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item')[1]).to.text('2');
   });
 
-  it('Should present an asyn loading state', () => {
+  it('Should present an async loading state', () => {
     function fetchNodes() {
       return new Promise<{ label: string; value: string }[]>(resolve => {
         setTimeout(() => {
@@ -278,6 +278,37 @@ describe('Cascader', () => {
       );
     });
     expect(instance.overlay.querySelector('.rs-icon.rs-icon-spin')).to.exist;
+  });
+
+  it('Should present an async loading state with inline', async () => {
+    function fetchNodes() {
+      return new Promise<{ label: string; value: string }[]>(resolve => {
+        setTimeout(() => {
+          resolve([{ label: '2', value: '2' }]);
+        }, 500);
+      });
+    }
+
+    const instance = getInstance(
+      <Cascader
+        inline
+        open
+        data={[{ label: '1', value: '1', children: [] }]}
+        getChildren={fetchNodes}
+      />
+    );
+
+    act(() => {
+      fireEvent.click(
+        instance.overlay.querySelector(
+          '.rs-picker-cascader-menu-has-children .rs-picker-cascader-menu-item'
+        )
+      );
+    });
+
+    await waitFor(() => {
+      expect(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-column')).to.length(2);
+    });
   });
 
   it('Should call renderValue', () => {
