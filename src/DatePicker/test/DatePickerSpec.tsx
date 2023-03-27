@@ -264,6 +264,31 @@ describe('DatePicker', () => {
     );
   });
 
+  it('Should warn when time is disabled', () => {
+    const App = props => (
+      <DatePicker
+        open
+        format="yyyy-MM-dd HH:mm:ss"
+        calendarDefaultDate={new Date('2023-01-01 11:22:33')}
+        {...props}
+      />
+    );
+
+    const { rerender } = render(<App />);
+    const btnTime = screen.getByRole('button', { name: '11:22:33' });
+
+    expect(btnTime).to.not.have.class('rs-calendar-header-error');
+
+    rerender(<App shouldDisableHour={hour => hour === 11} />);
+    expect(btnTime).to.have.class('rs-calendar-header-error');
+
+    rerender(<App shouldDisableMinute={minute => minute === 22} />);
+    expect(btnTime).to.have.class('rs-calendar-header-error');
+
+    rerender(<App shouldDisableSecond={second => second === 33} />);
+    expect(btnTime).to.have.class('rs-calendar-header-error');
+  });
+
   it('[Deprecated] Should disable hour options according to `disabledHours`', () => {
     sinon.spy(console, 'warn');
     render(<DatePicker open format="HH" disabledHours={hour => hour === 11} />);
