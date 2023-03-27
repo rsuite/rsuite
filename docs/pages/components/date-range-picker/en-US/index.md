@@ -161,6 +161,8 @@ Learn more in [Accessibility](/guide/accessibility).
 
 ### `<DateRangePicker>`
 
+<!-- prettier-sort-markdown-table -->
+
 | Property             | Type`(default)`                                                                  | Description                                                                                      |
 | -------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
 | appearance           | 'default' &#124; 'subtle' `('default')`                                          | Set picker appearence                                                                            |
@@ -173,7 +175,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | defaultOpen          | boolean                                                                          | Default value of open property                                                                   |
 | defaultValue         | [ValueType](#code-ts-value-type-code)                                            | Default value                                                                                    |
 | disabled             | boolean                                                                          | Whether disabled the component                                                                   |
-| disabledDate         | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | Disabled data                                                                                    |
+| disabledDate         | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | Deprecated. Use `shouldDisableDate` instead                                                      |
 | editable             | boolean `(true)`                                                                 | Rendered as an input, the date can be entered via the keyboard                                   |
 | format               | string `('yyyy-MM-dd')`                                                          | Format date [refer to date-fns format](https://date-fns.org/v2.24.0/docs/format)                 |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | The date range that will be selected when you click on the date                                  |
@@ -186,13 +188,13 @@ Learn more in [Accessibility](/guide/accessibility).
 | onEnter              | () => void                                                                       | Callback fired before the overlay transitions in                                                 |
 | onEntered            | () => void                                                                       | Callback fired after the overlay finishes transitioning in                                       |
 | onEntering           | () => void                                                                       | Callback fired as the overlay begins to transition in                                            |
+| oneTap               | boolean                                                                          | Whether to click once on selected date range，Can be used with hoverRange                        |
 | onExit               | () => void                                                                       | Callback fired right before the overlay transitions out                                          |
 | onExited             | () => void                                                                       | Callback fired after the overlay finishes transitioning out                                      |
 | onExiting            | () => void                                                                       | Callback fired as the overlay begins to transition out                                           |
 | onOk                 | (value: [ValueType](#code-ts-value-type-code)) => void                           | Callback fired when clicked OK button                                                            |
 | onOpen               | () => void                                                                       | Callback fired when open component                                                               |
 | onSelect             | (date:Date) => void                                                              | Callback fired when date is selected                                                             |
-| oneTap               | boolean                                                                          | Whether to click once on selected date range，Can be used with hoverRange                        |
 | open                 | boolean                                                                          | whether open the component                                                                       |
 | placeholder          | string                                                                           | Setting placeholders                                                                             |
 | placement            | [Placement](#code-ts-placement-code) `('bottomStart')`                           | The placement of component                                                                       |
@@ -200,6 +202,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | ranges               | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code))                  | Set predefined date ranges the user can select from. Default: `Today`,`Yesterday`，`Last 7 days` |
 | renderTitle          | (date: Date) => ReactNode                                                        | Custom render for month's title                                                                  |
 | renderValue          | (value: [ValueType](#code-ts-value-type-code), format: string) => ReactNode      | Custom render selected date range                                                                |
+| shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | Disabled date                                                                                    |
 | showMeridian         | boolean                                                                          | Display hours in 12 format                                                                       |
 | showOneCalendar      | boolen                                                                           | Whether to show only one calendar                                                                |
 | showWeekNumbers      | boolean                                                                          | Whether to show week numbers                                                                     |
