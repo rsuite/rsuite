@@ -66,13 +66,13 @@ function validTime(calendarProps: any, date: Date) {
 
   return Object.keys(calendarProps).some(key => {
     if (/(Hours)/.test(key)) {
-      return calendarProps[key]?.(getHours(date), date) ?? true;
+      return calendarProps[key]?.(getHours(date), date);
     }
     if (/(Minutes)/.test(key)) {
-      return calendarProps[key]?.(getMinutes(date), date) ?? true;
+      return calendarProps[key]?.(getMinutes(date), date);
     }
     if (/(Seconds)/.test(key)) {
-      return calendarProps[key]?.(getSeconds(date), date) ?? true;
+      return calendarProps[key]?.(getSeconds(date), date);
     }
     return false;
   });
