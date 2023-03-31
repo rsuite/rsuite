@@ -1,3 +1,11 @@
+# [5.30.0](https://github.com/rsuite/rsuite/compare/v5.29.0...v5.30.0) (2023-03-31)
+
+### Bug Fixes
+
+- **Cascader:** fix infinite load state on inline mode and fix typo ([#3131](https://github.com/rsuite/rsuite/issues/3131)) ([faa05f0](https://github.com/rsuite/rsuite/commit/faa05f03df1ab890f0bcf13ebd173e52129400df))
+- **DatePicker:** fix abnormal time display in the calendar header ([#3136](https://github.com/rsuite/rsuite/issues/3136)) ([860df1a](https://github.com/rsuite/rsuite/commit/860df1a7bd03b40371ac6891e45f3295b9edc72f))
+- **DateRangePicker:** fix the error of invalid time during date selection ([#3135](https://github.com/rsuite/rsuite/issues/3135)) ([adeafdc](https://github.com/rsuite/rsuite/commit/adeafdc44162fd2ef9e2470094a52cb17b5cddb3))
+
 # [5.29.0](https://github.com/rsuite/rsuite/compare/v5.28.3...v5.29.0) (2023-03-24)
 
 ### Bug Fixes
