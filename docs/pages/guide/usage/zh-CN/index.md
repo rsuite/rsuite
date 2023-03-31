@@ -24,11 +24,20 @@ $ yarn add rsuite
 
 ```jsx
 import { Button } from 'rsuite';
-import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
+import 'rsuite/dist/rsuite.min.css';
 
 function App() {
   return <Button appearance="primary">Hello World</Button>;
 }
+```
+
+### 排除 CSS 样式重置
+
+`rsuite.min.css` 包含了 CSS 样式重置。如果你需要使用自己的样式重置，使用 `rsuite-no-reset.min.css` 文件代替。
+
+```diff
+- import 'rsuite/dist/rsuite.min.css';
++ import 'rsuite/dist/rsuite-no-reset.min.css';
 ```
 
 ## 在线示例
