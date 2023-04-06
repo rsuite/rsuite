@@ -536,11 +536,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [props]
     );
 
-    const inSameMonth = useCallback(
-      (date: Date) => DateUtils.isSameMonth(date, calendarDate),
-      [calendarDate]
-    );
-
     const calendar = (
       <CalendarContainer
         {...calendarProps}
@@ -554,7 +549,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         limitEndYear={limitEndYear}
         format={formatStr}
         isoWeek={isoWeek}
-        inSameMonth={inSameMonth}
         calendarDate={calendarDate}
         onMoveForward={handleMoveForward}
         onMoveBackward={handleMoveBackward}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { parseISO } from '../../utils/dateUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -93,5 +93,15 @@ describe('Calendar', () => {
     await waitFor(() => {
       expect(calendar.querySelector('.rs-calendar-header-title')).text('Jul 2021');
     });
+  });
+
+  it('Should be to not highlight dates that are not in this month', () => {
+    render(<Calendar defaultValue={new Date('2023-04-01')} />);
+
+    const cells = Array.from(
+      screen.getByRole('grid').querySelectorAll('.rs-calendar-table-cell-un-same-month')
+    ).map(cell => (cell as HTMLDivElement).innerText);
+
+    expect(cells).to.deep.equal(['26', '27', '28', '29', '30', '31', '1', '2', '3', '4', '5', '6']);
   });
 });

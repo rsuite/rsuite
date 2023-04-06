@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
-import { addMonths, isSameMonth } from '../utils/dateUtils';
+import { addMonths } from '../utils/dateUtils';
 import CalendarCore, { CalendarProps as CalendarCoreProps } from '../Calendar/CalendarContainer';
 import { DateRange } from './types';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
@@ -97,11 +97,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       [index, onToggleMeridian]
     );
 
-    const inSameMonth = useCallback(
-      (date: Date) => isSameMonth(date, calendarDate[index]),
-      [calendarDate, index]
-    );
-
     const getCalendarDate = useCallback(() => calendarDate[index], [calendarDate, index]);
 
     const handleMoveForward = useCallback(() => {
@@ -123,7 +118,6 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
         format={format}
         dateRange={value}
         disabledDate={disabledMonth}
-        inSameMonth={inSameMonth}
         index={index}
         limitEndYear={limitEndYear}
         onChangeMonth={handleChangeMonth}
