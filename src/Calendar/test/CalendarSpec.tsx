@@ -115,4 +115,27 @@ describe('Calendar', () => {
 
     expect(onMonthChangeSpy).to.have.been.calledThrice;
   });
+
+  it('Should  not call `onMonthChange` callback when same month is clicked', () => {
+    const onMonthChangeSpy = sinon.spy();
+    const onToggleMonthDropdownSpy = sinon.spy();
+
+    render(
+      <Calendar
+        defaultValue={new Date('2023-01-01')}
+        onMonthChange={onMonthChangeSpy}
+        onToggleMonthDropdown={onToggleMonthDropdownSpy}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
+    fireEvent.click(
+      screen
+        .getByRole('menu')
+        .querySelector('.rs-calendar-month-dropdown-cell-active') as HTMLElement
+    );
+
+    expect(onMonthChangeSpy).to.have.been.not.called;
+    expect(onToggleMonthDropdownSpy).to.have.been.called;
+  });
 });
