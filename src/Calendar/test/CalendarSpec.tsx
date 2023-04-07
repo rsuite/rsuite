@@ -104,7 +104,7 @@ describe('Calendar', () => {
 
     expect(cells).to.deep.equal(['26', '27', '28', '29', '30', '31', '1', '2', '3', '4', '5', '6']);
   });
-  
+
   it('Should call `onMonthChange` callback', () => {
     const onMonthChangeSpy = sinon.spy();
 
