@@ -57,7 +57,7 @@ describe('CalendarContainer', () => {
     );
     expect(container.querySelector('.rs-calendar-btn-close')).to.be.null;
 
-    fireEvent.click(getByRole('button', { name: '2022-09' }));
+    fireEvent.click(getByRole('button', { name: 'Select month' }));
 
     expect(getByRole('button', { name: 'Collapse month view' })).to.have.class(
       'rs-calendar-btn-close'
