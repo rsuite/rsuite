@@ -181,6 +181,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | The date range that will be selected when you click on the date                                  |
 | isoWeek              | boolean                                                                          | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day             |
 | limitEndYear         | number `(1000)`                                                                  | Sets the lower limit of the available year relative to the current selection date                |
+| limitStartYear       | number                                                                           | Sets the upper limit of the available year relative to the current selection date                |
 | locale               | [CalendarLocaleType](/guide/i18n/#calendar)                                      | Locale text                                                                                      |
 | onChange             | (value: [ValueType](#code-ts-value-type-code)) => void                           | Callback fired when value changed                                                                |
 | onClean              | (event) => void                                                                  | Callback fired when value clean                                                                  |

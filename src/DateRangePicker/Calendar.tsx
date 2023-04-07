@@ -27,8 +27,8 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   hoverRangeValue?: DateRange;
   index: number;
   isoWeek?: boolean;
-  limitStartYear?: number;
   limitEndYear?: number;
+  limitStartYear?: number;
   locale?: DatePickerLocale;
   onChangeCalendarMonth?: (index: number, date: Date) => void;
   onChangeCalendarTime?: (index: number, date: Date) => void;
@@ -47,8 +47,8 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       format = 'yyyy-MM-dd',
       disabledDate,
       index = 0,
-      limitStartYear,
       limitEndYear,
+      limitStartYear,
       onChangeCalendarMonth,
       onChangeCalendarTime,
       onToggleMeridian,
@@ -127,8 +127,8 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
         disabledDate={disabledMonth}
         inSameMonth={inSameMonth}
         index={index}
-        limitStartYear={limitStartYear}
         limitEndYear={limitEndYear}
+        limitStartYear={limitStartYear}
         onChangeMonth={handleChangeMonth}
         onChangeTime={handleChangeTime}
         onMoveBackward={handleMoveBackward}
