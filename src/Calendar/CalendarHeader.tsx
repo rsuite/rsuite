@@ -105,15 +105,23 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
       <div className={prefix('month-toolbar')}>
         <IconButton
           {...btnProps}
+          // TODO: aria-label should be translated by i18n
+          aria-label="Previous month"
           className={backwardClass}
           onClick={disabledBackward ? undefined : onMoveBackward}
           icon={<AngleLeftIcon />}
         />
-        <Button {...btnProps} className={dateTitleClasses} onClick={onToggleMonthDropdown}>
+        <Button
+          {...btnProps}
+          aria-label="Select month"
+          className={dateTitleClasses}
+          onClick={onToggleMonthDropdown}
+        >
           {renderTitle()}
         </Button>
         <IconButton
           {...btnProps}
+          aria-label="Next month"
           className={forwardClass}
           onClick={disabledForward ? undefined : onMoveForward}
           icon={<AngleRightIcon />}
