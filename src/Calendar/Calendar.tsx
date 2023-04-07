@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import isSameMonth from 'date-fns/isSameMonth';
 import Calendar from './CalendarContainer';
 import { CalendarLocale } from '../locales';
 import Button from '../Button';
@@ -30,6 +31,9 @@ export interface CalendarProps extends WithAsProps {
   /**  Callback fired before the value changed  */
   onChange?: (date: Date) => void;
 
+  /** Callback fired before the month changed */
+  onMonthChange?: (date: Date) => void;
+
   /** Callback fired before the date selected */
   onSelect?: (date: Date) => void;
 
@@ -49,6 +53,7 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
       isoWeek,
       locale: overrideLocale,
       onChange,
+      onMonthChange,
       onSelect,
       renderCell,
       value,
@@ -76,6 +81,17 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
         handleChange(nextValue);
       },
       [handleChange, onSelect]
+    );
+
+    // Trigger onMonthChange when the month changes
+    const handleMonthChange = useCallback(
+      (nextValue: Date) => {
+        if (!isSameMonth(nextValue, calendarDate)) {
+          handleChange(nextValue);
+          onMonthChange?.(nextValue);
+        }
+      },
+      [calendarDate, handleChange, onMonthChange]
     );
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
@@ -109,9 +125,9 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
         )}
         renderToolbar={renderToolbar}
         renderCell={customRenderCell}
-        onMoveForward={handleChange}
-        onMoveBackward={handleChange}
-        onChangeMonth={handleChange}
+        onMoveForward={handleMonthChange}
+        onMoveBackward={handleMonthChange}
+        onChangeMonth={handleMonthChange}
         onSelect={handleSelect}
       />
     );

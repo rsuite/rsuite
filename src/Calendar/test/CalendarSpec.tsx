@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { parseISO } from '../../utils/dateUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -93,5 +93,26 @@ describe('Calendar', () => {
     await waitFor(() => {
       expect(calendar.querySelector('.rs-calendar-header-title')).text('Jul 2021');
     });
+  });
+
+  it('Should call `onMonthChange` callback', () => {
+    const onMonthChangeSpy = sinon.spy();
+
+    render(<Calendar defaultValue={new Date('2023-01-01')} onMonthChange={onMonthChangeSpy} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
+    expect(onMonthChangeSpy).to.have.been.calledOnce;
+
+    fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
+    expect(onMonthChangeSpy).to.have.been.calledTwice;
+
+    fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
+
+    fireEvent.click(
+      screen.getByRole('menu').querySelector('.rs-calendar-month-dropdown-cell-active')
+        ?.nextElementSibling as HTMLElement
+    );
+
+    expect(onMonthChangeSpy).to.have.been.calledThrice;
   });
 });
