@@ -80,6 +80,9 @@ export interface DateRangePickerProps
   /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
   isoWeek?: boolean;
 
+  /** Set the upper limit of the available year relative to the current selection date */
+  limitStartYear?: number;
+
   /** Set the lower limit of the available year relative to the current selection date */
   limitEndYear?: number;
 
@@ -169,6 +172,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     format: formatStr = 'yyyy-MM-dd',
     hoverRange,
     isoWeek = false,
+    limitStartYear,
     limitEndYear = 1000,
     locale: overrideLocale,
     menuClassName,
@@ -789,6 +793,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       format: formatStr,
       hoverRangeValue: hoverDateRange ?? undefined,
       isoWeek,
+      limitStartYear,
       limitEndYear,
       locale,
       showWeekNumbers,

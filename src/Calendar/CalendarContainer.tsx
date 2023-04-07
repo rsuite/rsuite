@@ -73,6 +73,9 @@ export interface CalendarProps
   /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
   isoWeek?: boolean;
 
+  /** Limit showing how many years in the past */
+  limitStartYear?: number;
+
   /** Limit showing how many years in the future */
   limitEndYear?: number;
 
@@ -122,6 +125,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       hoverRangeValue,
       inSameMonth,
       isoWeek = false,
+      limitStartYear,
       limitEndYear,
       locale,
       onChangeMonth,
@@ -283,6 +287,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
           {renderMonth && (
             <MonthDropdown
               show={showMonth}
+              limitStartYear={limitStartYear}
               limitEndYear={limitEndYear}
               disabledMonth={isDisabledDate}
             />
