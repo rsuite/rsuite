@@ -188,11 +188,12 @@ module.exports = {
     pagesBufferLength: 3 // default 2
   },
   pageExtensions: ['tsx'],
-  rewrites() {
+  redirects() {
     return [
       {
         source: '/design/:theme(default|dark)',
-        destination: '/design/:theme/index.html'
+        destination: '/design/:theme/index.html',
+        permanent: true
       }
     ];
   }
