@@ -1,3 +1,13 @@
+# [5.31.0](https://github.com/rsuite/rsuite/compare/v5.30.0...v5.31.0) (2023-04-07)
+
+### Bug Fixes
+
+- **toaster:** fix style when message at the left ([#3138](https://github.com/rsuite/rsuite/issues/3138)) ([6084c2a](https://github.com/rsuite/rsuite/commit/6084c2a35cdd32db1e9a4ec560e9bfaadb7a173c))
+
+### Features
+
+- **Calendar:** add support for `onMonthChange` on `<Calendar>` ([#3150](https://github.com/rsuite/rsuite/issues/3150)) ([8dfe9d6](https://github.com/rsuite/rsuite/commit/8dfe9d6da95a55277d78f712b1d91ea56a70b9bb))
+
 # [5.30.0](https://github.com/rsuite/rsuite/compare/v5.29.0...v5.30.0) (2023-03-31)
 
 ### Bug Fixes
