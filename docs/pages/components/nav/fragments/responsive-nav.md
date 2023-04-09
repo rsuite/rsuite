@@ -43,7 +43,7 @@ const App = () => {
       <hr />
       <Slider
         style={{ width: 500 }}
-        min={100}
+        min={300}
         max={700}
         progress
         step={50}
