@@ -1165,4 +1165,22 @@ describe('DateRangePicker', () => {
     expect(btnAMTime).to.not.have.attribute('disabled');
     expect(btnPMTime).to.not.have.attribute('disabled');
   });
+
+  it('Should be to not highlight dates that are not in this month', () => {
+    render(
+      <DateRangePicker defaultValue={[new Date('2023-04-01'), new Date('2023-05-01')]} open />
+    );
+
+    const cells = Array.from(
+      screen.getAllByRole('grid')[0].querySelectorAll('.rs-calendar-table-cell-un-same-month')
+    ).map(cell => (cell as HTMLDivElement).innerText);
+
+    expect(cells).to.deep.equal(['26', '27', '28', '29', '30', '31', '1', '2', '3', '4', '5', '6']);
+
+    const endCells = Array.from(
+      screen.getAllByRole('grid')[1].querySelectorAll('.rs-calendar-table-cell-un-same-month')
+    ).map(cell => (cell as HTMLDivElement).innerText);
+
+    expect(endCells).to.deep.equal(['30', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
+  });
 });
