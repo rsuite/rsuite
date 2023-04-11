@@ -15,7 +15,8 @@ import {
   mergeRefs,
   useControlled,
   useCustom,
-  useClassNames
+  useClassNames,
+  useIsMounted
 } from '../utils';
 
 import {
@@ -36,6 +37,7 @@ import {
 } from '../Picker';
 
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
+import { useSet } from '../utils/useSet';
 
 export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>
@@ -57,7 +59,7 @@ export interface CascaderProps<T = ValueType>
 
   /** Custom render menu */
   renderMenu?: (
-    items: ItemDataType[],
+    items: readonly ItemDataType[],
     menu: React.ReactNode,
     parentNode?: any,
     layer?: number
@@ -162,6 +164,9 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     (value: React.SetStateAction<T | null>) => void,
     boolean
   ];
+
+  const isMounted = useIsMounted();
+  const loadingItemsSet = useSet();
 
   const {
     selectedPaths,
@@ -369,20 +374,23 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
     // Lazy load node's children
     if (typeof getChildren === 'function' && node[childrenKey]?.length === 0) {
-      node.loading = true;
+      loadingItemsSet.add(node);
 
       const children = getChildren(node);
 
       if (children instanceof Promise) {
         children.then((data: ItemDataType[]) => {
-          node.loading = false;
-          node[childrenKey] = data;
-          if (targetRef.current || inline) {
-            addColumn(data as ItemDataType<T>[], columnIndex);
+          if (isMounted()) {
+            loadingItemsSet.delete(node);
+
+            node[childrenKey] = data;
+            if (targetRef.current || inline) {
+              addColumn(data as ItemDataType<T>[], columnIndex);
+            }
           }
         });
       } else {
-        node.loading = false;
+        loadingItemsSet.delete(node);
         node[childrenKey] = children;
         addColumn(children as ItemDataType<T>[], columnIndex);
       }
@@ -542,6 +550,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
             menuWidth={menuWidth}
             menuHeight={menuHeight}
             disabledItemValues={disabledItemValues}
+            loadingItemsSet={loadingItemsSet}
             valueKey={valueKey}
             labelKey={labelKey}
             childrenKey={childrenKey}
