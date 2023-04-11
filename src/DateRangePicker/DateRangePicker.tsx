@@ -946,6 +946,7 @@ DateRangePicker.propTypes = {
   isoWeek: PropTypes.bool,
   oneTap: PropTypes.bool,
   limitEndYear: PropTypes.number,
+  limitStartYear: PropTypes.number,
   onChange: PropTypes.func,
   onOk: PropTypes.func,
   disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),

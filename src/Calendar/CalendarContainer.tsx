@@ -326,6 +326,7 @@ CalendarContainer.propTypes = {
   inSameMonth: PropTypes.func,
   isoWeek: PropTypes.bool,
   limitEndYear: PropTypes.number,
+  limitStartYear: PropTypes.number,
   locale: PropTypes.object,
   onChangeMonth: PropTypes.func,
   onChangeTime: PropTypes.func,

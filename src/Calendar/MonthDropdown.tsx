@@ -161,6 +161,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
 MonthDropdown.displayName = 'MonthDropdown';
 MonthDropdown.propTypes = {
   limitEndYear: PropTypes.number,
+  limitStartYear: PropTypes.number,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   show: PropTypes.bool,
