@@ -37,8 +37,11 @@ export function shouldShowNodeByParentExpanded<T>(
  * @param {*} tree
  * @param {*} childrenKey
  * @param {*} executor
+ *
+ * @deprecated This {@link UNSAFE_flattenTree} function is considered unsafe because it mutates `tree` argument in-place
+ *             Use {@link flattenTree} instead.
  */
-export function flattenTree<TItem>(
+export function UNSAFE_flattenTree<TItem>(
   tree: TItem[],
   childrenKey = 'children',
   executor?: (node: any, index: number) => any
@@ -62,6 +65,34 @@ export function flattenTree<TItem>(
 
   traverse(tree, null);
   return flattenData;
+}
+
+export function flattenTree<T>(
+  rootNodes: readonly T[],
+  getChildren: (node: T) => readonly T[] | undefined
+) {
+  const result: T[] = [];
+
+  walkTree(rootNodes, getChildren, node => result.push(node));
+
+  return result;
+}
+
+function walkTree<T>(
+  rootNodes: readonly T[],
+  getChildren: (node: T) => readonly T[] | undefined,
+  callback: (node: T) => void
+) {
+  for (const queue = [...rootNodes]; queue.length > 0; ) {
+    const node = queue.shift() as T;
+    callback(node);
+
+    const children = getChildren(node);
+
+    if (children) {
+      queue.push(...children);
+    }
+  }
 }
 
 /**
@@ -134,7 +165,7 @@ export function getDefaultExpandItemValues<TItem>(
 ) {
   const { valueKey, defaultExpandAll, childrenKey, defaultExpandItemValues = [] } = props;
   if (defaultExpandAll) {
-    return flattenTree(data, childrenKey)
+    return UNSAFE_flattenTree(data, childrenKey)
       .filter(item => Array.isArray(item[childrenKey]) && item[childrenKey].length > 0)
       .map(item => item[valueKey]);
   }
@@ -761,7 +792,7 @@ export function useFlattenTreeData({
     }
   ): TreeNodeType[] => {
     const { cascade, searchKeyword } = options;
-    return flattenTree(data, childrenKey, (node: any) => {
+    return UNSAFE_flattenTree(data, childrenKey, (node: any) => {
       let formatted = {};
       const curNode = nodes?.[node.refKey];
       const parentKeys = getNodeParentKeys(nodes, curNode, valueKey);

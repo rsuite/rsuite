@@ -10,16 +10,16 @@ export function useSet<T = unknown>() {
       },
       add(value: T) {
         setSet(prev => {
-          const next = new Set(prev);
-          next.add(value);
-          return next;
+          const copy = new Set(prev);
+          copy.add(value);
+          return copy;
         });
       },
       delete(value: T) {
         setSet(prev => {
-          const next = new Set(prev);
-          next.delete(value);
-          return next;
+          const copy = new Set(prev);
+          copy.delete(value);
+          return copy;
         });
       }
     };

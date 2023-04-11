@@ -4,7 +4,7 @@ import remove from 'lodash/remove';
 import slice from 'lodash/slice';
 import { MultiCascaderProps, ValueType } from './MultiCascader';
 import { ItemDataType } from '../@types/common';
-import { flattenTree } from '../utils/treeUtils';
+import { UNSAFE_flattenTree } from '../utils/treeUtils';
 import { attachParent } from '../utils/attachParent';
 
 export interface ItemType extends ItemDataType {
@@ -171,7 +171,9 @@ export const removeAllChildrenValue = <T>(
  */
 export function useFlattenData<T>(data: T[], itemKeys: ItemKeys) {
   const { childrenKey } = itemKeys;
-  const [flattenData, setFlattenData] = useState<T[]>(flattenTree(data, itemKeys.childrenKey));
+  const [flattenData, setFlattenData] = useState<T[]>(
+    UNSAFE_flattenTree(data, itemKeys.childrenKey)
+  );
 
   const addFlattenData = useCallback(
     (children: T[], parent: T) => {
@@ -187,7 +189,7 @@ export function useFlattenData<T>(data: T[], itemKeys: ItemKeys) {
   );
 
   useEffect(() => {
-    setFlattenData(flattenTree(data, itemKeys.childrenKey));
+    setFlattenData(UNSAFE_flattenTree(data, itemKeys.childrenKey));
   }, [data, itemKeys.childrenKey]);
 
   return { addFlattenData, flattenData };
@@ -199,7 +201,9 @@ export function useFlattenData<T>(data: T[], itemKeys: ItemKeys) {
  */
 export function useColumnData<T extends MayHasParent<Record<string, unknown>>>(flattenData: T[]) {
   // The columns displayed in the cascading panel.
-  const [columnData, setColumnData] = useState<T[][]>([flattenData.filter(item => !item.parent)]);
+  const [columnData, setColumnData] = useState<(readonly T[])[]>([
+    flattenData.filter(item => !item.parent)
+  ]);
 
   /**
    * Add a list of options to the cascading panel. Used for lazy loading options.
@@ -219,7 +223,7 @@ export function useColumnData<T extends MayHasParent<Record<string, unknown>>>(f
   }
 
   function enforceUpdateColumnData(nextData: T[]) {
-    const nextFlattenData = flattenTree(nextData);
+    const nextFlattenData = UNSAFE_flattenTree(nextData);
     setColumnData([nextFlattenData.filter(item => !item.parent)]);
   }
 

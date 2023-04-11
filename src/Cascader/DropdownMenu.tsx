@@ -21,7 +21,7 @@ export interface DropdownMenuProps extends Omit<WithAsProps, 'classPrefix'> {
   disabledItemValues: ValueType[];
   activeItemValue?: ValueType | null;
   childrenKey: string;
-  cascadeData: ItemDataType[][];
+  cascadeData: (readonly ItemDataType[])[];
   loadingItemsSet?: SetLike<ItemDataType>;
   cascadePaths: ItemDataType[];
   valueKey: string;
@@ -30,7 +30,7 @@ export interface DropdownMenuProps extends Omit<WithAsProps, 'classPrefix'> {
   menuHeight?: number | string;
   renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
   renderMenu?: (
-    items: ItemDataType[],
+    items: readonly ItemDataType[],
     menu: React.ReactNode,
     parentNode?: ItemDataType,
     layer?: number
