@@ -59,7 +59,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       className,
       classPrefix = 'calendar-month-dropdown',
       limitStartYear,
-      limitEndYear = 5,
+      limitEndYear,
       show,
       height: defaultHeight = 221,
       width: defaultWidth = 256,
@@ -70,13 +70,12 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
     const { date = new Date() } = useCalendarContext();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const thisYear = DateUtils.getYear(new Date());
-    const startYear = limitStartYear ? thisYear - limitStartYear : 1900;
+    const startYear = limitStartYear ?? 1900;
+    const endYear = limitEndYear ?? thisYear + 5;
 
     const rowCount = useMemo(() => {
-      const endYear = thisYear + limitEndYear;
-
-      return endYear - startYear;
-    }, [limitEndYear, startYear, thisYear]);
+      return endYear - startYear + 1;
+    }, [endYear, startYear]);
 
     const isMonthDisabled = useCallback(
       (year, month) => {

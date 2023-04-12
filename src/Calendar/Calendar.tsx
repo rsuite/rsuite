@@ -25,6 +25,12 @@ export interface CalendarProps extends WithAsProps {
   /** Show border   */
   bordered?: boolean;
 
+  /** Set the lower limit of the available year relative to the current selection date */
+  limitEndYear?: number;
+
+  /** Set the upper limit of the available year relative to the current selection date */
+  limitStartYear?: number;
+
   /** Custom locale */
   locale?: CalendarLocale;
 
@@ -118,7 +124,7 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
         isoWeek={isoWeek}
         format="yyyy-MM-dd"
         calendarDate={calendarDate}
-        limitEndYear={1000}
+        limitEndYear={3000}
         locale={locale}
         renderTitle={date => (
           <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
@@ -141,6 +147,8 @@ CalendarPanel.propTypes = {
   isoWeek: PropTypes.bool,
   compact: PropTypes.bool,
   bordered: PropTypes.bool,
+  limitEndYear: PropTypes.number,
+  limitStartYear: PropTypes.number,
   locale: PropTypes.object,
   className: PropTypes.string,
   classPrefix: PropTypes.string,

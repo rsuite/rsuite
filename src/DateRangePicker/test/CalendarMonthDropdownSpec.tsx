@@ -6,6 +6,9 @@ import { DateUtils } from '../../utils';
 
 describe('DateRangePicker-MonthDropdown', () => {
   it('Should output year and month of previous and current year', () => {
+    const currentYear = DateUtils.getYear(new Date());
+    const previousYear = currentYear - 1;
+
     const { getAllByRole } = render(
       <CalendarContext.Provider
         value={{
@@ -14,12 +17,10 @@ describe('DateRangePicker-MonthDropdown', () => {
           isoWeek: false
         }}
       >
-        <MonthDropdown show limitStartYear={1} limitEndYear={1} />
+        <MonthDropdown show limitStartYear={previousYear} limitEndYear={currentYear} />
       </CalendarContext.Provider>
     );
 
-    const currentYear = DateUtils.getYear(new Date());
-    const previousYear = currentYear - 1;
     expect(getAllByRole('row', { hidden: true })).to.be.lengthOf(2);
     expect(getAllByRole('rowheader', { hidden: true })[0].innerText).to.be.eq(
       previousYear.toString()

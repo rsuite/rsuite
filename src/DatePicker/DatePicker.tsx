@@ -69,8 +69,11 @@ export interface DatePickerProps
   /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
   isoWeek?: boolean;
 
-  /** Set the lower limit of the available year relative to the current selection date */
+  /** Set the lower limit of the available year (i.e. 2030)  */
   limitEndYear?: number;
+
+  /** Set the upper limit of the available year (i.e. 1900) */
+  limitStartYear?: number;
 
   /** Whether to show week numbers */
   showWeekNumbers?: boolean;
@@ -185,7 +188,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       // todo Not consistent with locale.formatDayPattern
       format: formatStr = 'yyyy-MM-dd',
       isoWeek,
-      limitEndYear = 1000,
+      limitEndYear = 3000,
+      limitStartYear,
       locale: overrideLocale,
       menuClassName,
       appearance = 'default',
@@ -552,6 +556,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         disabledMinutes={shouldDisableMinute ?? DEPRECATED_disabledMinutes}
         disabledSeconds={shouldDisableSecond ?? DEPRECATED_disabledSeconds}
         limitEndYear={limitEndYear}
+        limitStartYear={limitStartYear}
         format={formatStr}
         isoWeek={isoWeek}
         inSameMonth={inSameMonth}
@@ -720,6 +725,7 @@ DatePicker.propTypes = {
   hideSeconds: PropTypes.func,
   isoWeek: PropTypes.bool,
   limitEndYear: PropTypes.number,
+  limitStartYear: PropTypes.number,
   onChange: PropTypes.func,
   onChangeCalendarDate: PropTypes.func,
   onNextMonth: PropTypes.func,

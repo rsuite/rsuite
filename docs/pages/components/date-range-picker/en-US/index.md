@@ -180,8 +180,8 @@ Learn more in [Accessibility](/guide/accessibility).
 | format               | string `('yyyy-MM-dd')`                                                          | Format date [refer to date-fns format](https://date-fns.org/v2.24.0/docs/format)                 |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | The date range that will be selected when you click on the date                                  |
 | isoWeek              | boolean                                                                          | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day             |
-| limitEndYear         | number `(1000)`                                                                  | Sets the lower limit of the available year relative to the current selection date                |
-| limitStartYear       | number                                                                           | Sets the upper limit of the available year relative to the current selection date                |
+| limitEndYear         | number `(current_year + 5)`                                                      | Sets the upper limit of the available year (i.e. 2030)                                           |
+| limitStartYear       | number                                                                           | Sets the lower limit of the available year (i.e. 1900)                                           |
 | locale               | [CalendarLocaleType](/guide/i18n/#calendar)                                      | Locale text                                                                                      |
 | onChange             | (value: [ValueType](#code-ts-value-type-code)) => void                           | Callback fired when value changed                                                                |
 | onClean              | (event) => void                                                                  | Callback fired when value clean                                                                  |
