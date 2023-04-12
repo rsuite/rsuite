@@ -57,6 +57,8 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
       compact,
       defaultValue = new Date(),
       isoWeek,
+      limitEndYear = 3000,
+      limitStartYear,
       locale: overrideLocale,
       onChange,
       onMonthChange,
@@ -124,7 +126,8 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
         isoWeek={isoWeek}
         format="yyyy-MM-dd"
         calendarDate={calendarDate}
-        limitEndYear={3000}
+        limitEndYear={limitEndYear}
+        limitStartYear={limitStartYear}
         locale={locale}
         renderTitle={date => (
           <FormattedDate date={date} formatStr={locale.formattedMonthPattern || 'MMMM  yyyy'} />
