@@ -8,8 +8,8 @@ import { useCalendarContext } from './CalendarContext';
 
 export interface MonthDropdownProps extends WithAsProps {
   show?: boolean;
-  limitStartYear?: number;
   limitEndYear?: number;
+  limitStartYear?: number;
   height?: number;
   width?: number;
   disabledMonth?: (date: Date) => boolean;
@@ -58,8 +58,8 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       as: Component = 'div',
       className,
       classPrefix = 'calendar-month-dropdown',
-      limitStartYear,
       limitEndYear,
+      limitStartYear,
       show,
       height: defaultHeight = 221,
       width: defaultWidth = 256,
