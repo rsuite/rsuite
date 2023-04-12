@@ -31,6 +31,27 @@ describe('Calendar-MonthDropdown', () => {
     );
   });
 
+  it('Should output only current year', () => {
+    const currentYear = DateUtils.getYear(new Date());
+
+    const { getAllByRole } = render(
+      <CalendarContext.Provider
+        value={{
+          date: new Date(),
+          locale: {},
+          isoWeek: false
+        }}
+      >
+        <MonthDropdown show limitStartYear={currentYear} limitEndYear={currentYear} />
+      </CalendarContext.Provider>
+    );
+
+    expect(getAllByRole('row', { hidden: true })).to.be.lengthOf(1);
+    expect(getAllByRole('rowheader', { hidden: true })[0].innerText).to.be.eq(
+      currentYear.toString()
+    );
+  });
+
   it('Should output year and month ', () => {
     const { getAllByRole } = render(
       <CalendarContext.Provider
