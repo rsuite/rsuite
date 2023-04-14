@@ -15,7 +15,7 @@ const Calendar = {
   minutes: 'Минут',
   seconds: 'Секунд',
   formattedMonthPattern: 'MMM, yyyy',
-  formattedDayPattern: 'MMM dd, yyyy',
+  formattedDayPattern: 'dd MMM yyyy',
   dateLocale: ru as any
 };
 
@@ -26,8 +26,8 @@ export default {
   },
   Plaintext: {
     unfilled: 'незаполненной',
-    notSelected: 'Није изабран',
-    notUploaded: 'Није отпремљено'
+    notSelected: 'Не выбрано',
+    notUploaded: 'Не загружено'
   },
   Pagination: {
     more: 'Больше',
@@ -37,7 +37,7 @@ export default {
     last: 'Последняя',
     limit: '{0} / страниц',
     total: 'всего: {0}',
-    skip: 'Идти к{0}'
+    skip: 'Перейти к {0}'
   },
   Calendar,
   DatePicker: {
@@ -59,9 +59,9 @@ export default {
   },
   Uploader: {
     inited: 'Начало',
-    progress: 'Выгрузка',
+    progress: 'Загрузка',
     error: 'Ошибка',
-    complete: 'Завершенно',
+    complete: 'Завершено',
     emptyFile: 'Пусто',
     upload: 'Загрузить'
   },
