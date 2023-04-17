@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import isSameMonth from 'date-fns/isSameMonth';
-import Calendar from './CalendarContainer';
+import CalendarContainer from './CalendarContainer';
 import { CalendarLocale } from '../locales';
 import Button from '../Button';
 import { FormattedDate } from '../CustomProvider';
@@ -47,10 +47,10 @@ export interface CalendarProps extends WithAsProps {
   renderCell?: (date: Date) => React.ReactNode;
 }
 
-const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = React.forwardRef(
-  (props: CalendarProps, ref) => {
+const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps> =
+  React.forwardRef((props: CalendarProps, ref) => {
     const {
-      as: Component = Calendar,
+      as: Component = CalendarContainer,
       bordered,
       className,
       classPrefix = 'calendar',
@@ -140,11 +140,10 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
         onSelect={handleSelect}
       />
     );
-  }
-);
+  });
 
-CalendarPanel.displayName = 'CalendarPanel';
-CalendarPanel.propTypes = {
+Calendar.displayName = 'Calendar';
+Calendar.propTypes = {
   value: PropTypes.instanceOf(Date),
   defaultValue: PropTypes.instanceOf(Date),
   isoWeek: PropTypes.bool,
@@ -160,4 +159,4 @@ CalendarPanel.propTypes = {
   renderCell: PropTypes.func
 };
 
-export default CalendarPanel;
+export default Calendar;
