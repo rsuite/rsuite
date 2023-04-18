@@ -182,7 +182,8 @@ combine(...) => boolean
 | format               | string `('yyyy-MM-dd')`                                                          | 日期显示格式化 [参考 date-fns format](https://date-fns.org/v2.24.0/docs/format) |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | 点击日期时将选中的日期范围                                                      |
 | isoWeek              | boolean                                                                          | ISO 8601 标准， 每个日历星期从星期一开始，星期日为第 7 天                       |
-| limitEndYear         | number `(1000)`                                                                  | 相对当前选择日期，设置可选年份下限                                              |
+| limitEndYear         | number `(1000)`                                                                  | 相对当前选择日期，设置可选年份上限                                              |
+| limitStartYear       | number                                                                           | 相对当前选择日期，设置可选年份下限                                              |
 | locale               | [CalendarLocaleType](/zh/guide/i18n/#calendar)                                   | 本地化的文本                                                                    |
 | menuClassName        | string                                                                           | 选项菜单的 className                                                            |
 | onChange             | (value: [ValueType](#code-ts-value-type-code)) => void                           | 值改变后的回调函数                                                              |

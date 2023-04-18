@@ -135,7 +135,8 @@
 | hideMinutes           | (minute:number, date:Date) => boolean                           | 隐藏分钟                                                  |
 | hideSeconds           | (second:number, date:Date) => boolean                           | 隐藏秒                                                    |
 | isoWeek               | boolean                                                         | ISO 8601 标准， 每个日历星期从星期一开始，星期日为第 7 天 |
-| limitEndYear          | number `(1000)`                                                 | 相对当前选择日期，设置可选年份下限                        |
+| limitEndYear          | number `(1000)`                                                 | 相对当前选择日期，设置可选年份上限                        |
+| limitStartYear        | number                                                          | 相对当前选择日期，设置可选年份下限                        |
 | locale                | [CalendarLocaleType](/zh/guide/i18n/#calendar)                  | 本地化的文本                                              |
 | menuClassName         | string                                                          | 选项菜单的 className                                      |
 | onChange              | (date: Date) => void                                            | 值改变后的回调函数                                        |
