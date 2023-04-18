@@ -1,4 +1,5 @@
 import React, { useRef, useState, useCallback, useMemo } from 'react';
+import { useSet } from 'react-use-set';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
@@ -37,7 +38,6 @@ import {
 } from '../Picker';
 
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
-import { useSet } from '../utils/useSet';
 import { useMap } from '../utils/useMap';
 
 export type ValueType = number | string;
