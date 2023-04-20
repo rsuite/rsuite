@@ -28,6 +28,7 @@ export interface CalendarProps extends WithAsProps, Omit<CalendarCoreProps, Omit
   index: number;
   isoWeek?: boolean;
   limitEndYear?: number;
+  limitStartYear?: number;
   locale?: DatePickerLocale;
   onChangeCalendarMonth?: (index: number, date: Date) => void;
   onChangeCalendarTime?: (index: number, date: Date) => void;
@@ -47,6 +48,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
       disabledDate,
       index = 0,
       limitEndYear,
+      limitStartYear,
       onChangeCalendarMonth,
       onChangeCalendarTime,
       onToggleMeridian,
@@ -120,6 +122,7 @@ const Calendar: RsRefForwardingComponent<'div', CalendarProps> = React.forwardRe
         disabledDate={disabledMonth}
         index={index}
         limitEndYear={limitEndYear}
+        limitStartYear={limitStartYear}
         onChangeMonth={handleChangeMonth}
         onChangeTime={handleChangeTime}
         onMoveBackward={handleMoveBackward}
@@ -142,6 +145,7 @@ Calendar.propTypes = {
   format: PropTypes.string,
   isoWeek: PropTypes.bool,
   limitEndYear: PropTypes.number,
+  limitStartYear: PropTypes.number,
   classPrefix: PropTypes.string,
   disabledDate: PropTypes.func,
   onSelect: PropTypes.func,

@@ -3,6 +3,7 @@ import { fireEvent, render } from '@testing-library/react';
 import sinon from 'sinon';
 import MonthDropdown from '../MonthDropdown';
 import CalendarContext from '../CalendarContext';
+import { DateUtils } from '../../utils';
 
 describe('Calendar-MonthDropdown', () => {
   it('Should output year and month ', () => {
@@ -21,6 +22,72 @@ describe('Calendar-MonthDropdown', () => {
     expect(getAllByRole('rowheader', { hidden: true })).to.be.lengthOf(7);
     expect(getAllByRole('gridcell', { hidden: true })).to.be.lengthOf(7);
     expect(getAllByRole('gridcell', { hidden: true })[0].childNodes).to.be.lengthOf(12);
+  });
+
+  it('Should output year and month of current year', () => {
+    const { getAllByRole } = render(
+      <CalendarContext.Provider
+        value={{
+          date: new Date(),
+          locale: {},
+          isoWeek: false
+        }}
+      >
+        <MonthDropdown show limitStartYear={1} limitEndYear={1} />
+      </CalendarContext.Provider>
+    );
+    const currentYear = DateUtils.getYear(new Date());
+    expect(getAllByRole('row', { hidden: true })).to.be.lengthOf(1);
+    expect(getAllByRole('rowheader', { hidden: true })[0].innerText).to.be.eq(
+      currentYear.toString()
+    );
+  });
+
+  it('Should output year and month of two previous years', () => {
+    const { getAllByRole } = render(
+      <CalendarContext.Provider
+        value={{
+          date: new Date(),
+          locale: {},
+          isoWeek: false
+        }}
+      >
+        <MonthDropdown show limitStartYear={3} limitEndYear={0} />
+      </CalendarContext.Provider>
+    );
+    const currentYear = DateUtils.getYear(new Date());
+    expect(getAllByRole('row', { hidden: true })).to.be.lengthOf(2);
+    expect(getAllByRole('rowheader', { hidden: true })[0].innerText).to.be.eq(
+      (currentYear - 2).toString()
+    );
+    expect(getAllByRole('rowheader', { hidden: true })[1].innerText).to.be.eq(
+      (currentYear - 1).toString()
+    );
+  });
+
+  it('Should output a range of year and month between previous and next year', () => {
+    const { getAllByRole } = render(
+      <CalendarContext.Provider
+        value={{
+          date: new Date(),
+          locale: {},
+          isoWeek: false
+        }}
+      >
+        <MonthDropdown show limitStartYear={2} limitEndYear={2} />
+      </CalendarContext.Provider>
+    );
+    const currentYear = DateUtils.getYear(new Date());
+    const nextYear = currentYear + 1;
+    const previousYear = currentYear - 1;
+    expect(getAllByRole('row', { hidden: true })).to.be.lengthOf(3);
+    expect(getAllByRole('rowheader', { hidden: true })[0].innerText).to.be.eq(
+      previousYear.toString()
+    );
+    expect(getAllByRole('rowheader', { hidden: true })[1].innerText).to.be.eq(
+      currentYear.toString()
+    );
+    expect(getAllByRole('rowheader', { hidden: true })[2].innerText).to.be.eq(nextYear.toString());
   });
 
   it('Should call `onChangeMonth` callback ', () => {

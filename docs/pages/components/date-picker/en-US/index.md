@@ -137,7 +137,8 @@ Learn more in [Accessibility](/guide/accessibility).
 | hideMinutes           | (minute:number, date:Date) => boolean                           | Hidden minutes                                                                       |
 | hideSeconds           | (second:number, date:Date) => boolean                           | Hidden seconds                                                                       |
 | isoWeek               | boolean                                                         | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day |
-| limitEndYear          | number `(1000)`                                                 | Set the lower limit of the available year relative to the current selection date     |
+| limitEndYear          | number `(1000)`                                                 | Set the upper limit of the available year relative to the current selection date     |
+| limitStartYear        | number                                                          | Set the lower limit of the available year relative to the current selection date     |
 | locale                | [CalendarLocaleType](/guide/i18n/#calendar)                     | Locale text                                                                          |
 | onChange              | (date: Date) => void                                            | Callback fired when value changed                                                    |
 | onChangeCalendarDate  | (date: Date, event) => void                                     | Callback function that changes the calendar date.                                    |

@@ -72,6 +72,9 @@ export interface CalendarProps
   /** Limit showing how many years in the future */
   limitEndYear?: number;
 
+  /** Limit showing how many years in the past */
+  limitStartYear?: number;
+
   /** Custom locale */
   locale: CalendarLocale;
 
@@ -118,6 +121,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       hoverRangeValue,
       isoWeek = false,
       limitEndYear,
+      limitStartYear,
       locale,
       onChangeMonth,
       onChangeTime,
@@ -274,6 +278,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
             <MonthDropdown
               show={showMonth}
               limitEndYear={limitEndYear}
+              limitStartYear={limitStartYear}
               disabledMonth={isDisabledDate}
             />
           )}
@@ -310,6 +315,7 @@ CalendarContainer.propTypes = {
   hideSeconds: PropTypes.func,
   isoWeek: PropTypes.bool,
   limitEndYear: PropTypes.number,
+  limitStartYear: PropTypes.number,
   locale: PropTypes.object,
   onChangeMonth: PropTypes.func,
   onChangeTime: PropTypes.func,
