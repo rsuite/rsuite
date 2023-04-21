@@ -1,3 +1,14 @@
+# [5.32.0](https://github.com/rsuite/rsuite/compare/v5.31.1...v5.32.0) (2023-04-21)
+
+### Bug Fixes
+
+- **build:** fix broken lodash currying in CDN bundles ([#3159](https://github.com/rsuite/rsuite/issues/3159)) ([896a9d5](https://github.com/rsuite/rsuite/commit/896a9d53cf2c1e0140e43eea024c4f0361c04328))
+- **Cascader:** avoid mutating data prop ([#3157](https://github.com/rsuite/rsuite/issues/3157)) ([6d13318](https://github.com/rsuite/rsuite/commit/6d133185ea1c65b47b35da61499d5cff77dde122))
+
+### Features
+
+- **DateRangePicker:** add `limitStartYear` prop ([#3163](https://github.com/rsuite/rsuite/issues/3163)) ([fd27df2](https://github.com/rsuite/rsuite/commit/fd27df21e1c36372ea8b444f79521c901a65780c))
+
 ## [5.31.1](https://github.com/rsuite/rsuite/compare/v5.31.0...v5.31.1) (2023-04-14)
 
 ### Bug Fixes
