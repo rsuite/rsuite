@@ -170,14 +170,15 @@ export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
   }
 }
 
-export interface FocusItemValueProps {
+export interface FocusItemValueProps<T = unknown> {
   target: HTMLElement | null | (() => HTMLElement | null);
-  data?: any[];
+  data?: T[];
   valueKey?: string;
   focusableQueryKey?: string;
   defaultLayer?: number;
   rtl?: boolean;
   callback?: (value: any, event: React.KeyboardEvent) => void;
+  getParent?: (node: T) => T | undefined;
 }
 
 /**
@@ -215,9 +216,9 @@ function scrollTo(container: HTMLElement, direction: 'top' | 'bottom', step: num
  * @param defaultFocusItemValue
  * @param props
  */
-export const useFocusItemValue = <T>(
+export const useFocusItemValue = <T, D>(
   defaultFocusItemValue: T | null | undefined,
-  props: FocusItemValueProps
+  props: FocusItemValueProps<D>
 ) => {
   const {
     valueKey = 'value',
@@ -226,7 +227,10 @@ export const useFocusItemValue = <T>(
     data,
     target,
     rtl,
-    callback
+    callback,
+    // TODO-Doma This legacy behavior of using `.parent` property should be deprecated
+    //           Always explicitly pass `getParent` when there's need to traverse upwards
+    getParent = item => (item as any)?.parent
   } = props;
   const [focusItemValue, setFocusItemValue] = useState<T | null | undefined>(defaultFocusItemValue);
   const [layer, setLayer] = useState(defaultLayer);
@@ -391,7 +395,7 @@ export const useFocusItemValue = <T>(
         setLayer(nextLayer);
 
         const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
-        const parentItemValue = focusItem?.parent?.[valueKey];
+        const parentItemValue = getParent(focusItem)?.[valueKey];
 
         if (parentItemValue) {
           setFocusItemValue(parentItemValue);
@@ -399,7 +403,7 @@ export const useFocusItemValue = <T>(
         }
       }
     },
-    [callback, data, focusItemValue, getSubMenuKeys, layer, valueKey]
+    [callback, data, focusItemValue, getParent, getSubMenuKeys, layer, valueKey]
   );
 
   const handleKeyDown = useCallback(

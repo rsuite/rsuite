@@ -63,6 +63,7 @@
     "dom-lib": "^3.1.3",
     "lodash": "^4.17.11",
     "prop-types": "^15.8.1",
+    "react-use-set": "^1.0.0",
     "react-window": "^1.8.8",
     "rsuite-table": "^5.10.3",
     "schema-typed": "^2.1.2"

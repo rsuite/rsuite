@@ -19,12 +19,12 @@ export interface DropdownMenuProps extends WithAsProps {
   menuWidth?: number;
   menuHeight?: number | string;
   cascade?: boolean;
-  cascadeData: ItemDataType[][];
+  cascadeData: (readonly ItemDataType[])[];
   cascadePaths?: ItemDataType[];
   uncheckableItemValues: ValueType;
   renderMenuItem?: (itemLabel: React.MouseEventHandler, item: ItemDataType) => React.ReactNode;
   renderMenu?: (
-    children: ItemDataType[],
+    children: readonly ItemDataType[],
     menu: React.ReactNode,
     parentNode?: ItemDataType,
     layer?: number
