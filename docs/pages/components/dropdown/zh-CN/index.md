@@ -118,7 +118,7 @@
 | 属性名称    | 类型 `(默认值)`                | 描述                   |
 | ----------- | ------------------------------ | ---------------------- |
 | active      | boolean                        | 选中当前选项           |
-| as          | ElementType `('a')`            | 为组件自定义元素类型   |
+| as          | ElementType `('li')`           | 为组件自定义元素类型   |
 | children \* | ReactNode                      | 组件内容               |
 | classPrefix | string `('dropdown-item')`     | 组件 CSS 类的前缀      |
 | disabled    | boolean                        | 禁用当前选项           |

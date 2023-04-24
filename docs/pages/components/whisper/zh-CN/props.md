@@ -58,9 +58,9 @@ open: (delay?: number) => void
 close: (delay?: number) => void
 ```
 
-更新浮层位置
-
 - updatePosition
+
+更新浮层位置
 
 ```ts
 updatePosition: () => void

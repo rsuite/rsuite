@@ -202,7 +202,7 @@ const OverlayTrigger = React.forwardRef(
       ...rest
     } = props;
 
-    const { Portal } = usePortal({ container });
+    const { Portal, target: containerElement } = usePortal({ container });
     const triggerRef = useRef();
     const overlayRef = useRef<PositionInstance>();
     const [open, setOpen] = useControlled(openProp, defaultOpen);
@@ -470,7 +470,7 @@ const OverlayTrigger = React.forwardRef(
             : undefined,
         onExited: createChainedFunction(followCursor ? handleExited : undefined, onExited),
         placement,
-        container,
+        container: containerElement,
         open
       };
 

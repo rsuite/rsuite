@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { flattenTree } from '../utils/treeUtils';
+import { UNSAFE_flattenTree } from '../utils/treeUtils';
 
 const hasSymbol = typeof Symbol === 'function';
 export const KEY_GROUP = hasSymbol ? Symbol('_$grouped') : '_$grouped';
@@ -33,5 +33,5 @@ export default function getDataGroupBy(data: any[] = [], key: string, sort?): an
     nextData = nextData.sort(sort(true));
   }
 
-  return flattenTree(nextData);
+  return UNSAFE_flattenTree(nextData);
 }

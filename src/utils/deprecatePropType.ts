@@ -24,6 +24,11 @@ export default function deprecatePropType<T extends PropTypes.Validator<any>>(
 
 /**
  * Prints deprecation message when user uses a deprecated prop
+ *
+ * @example
+ *
+ *   deprecatePropTypeNew(PropTypes.bool, 'Use Dropdown.Separator component instead.')
+ *
  */
 export function deprecatePropTypeNew<T extends PropTypes.Validator<any>>(
   propType: T,

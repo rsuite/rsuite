@@ -1,4 +1,5 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useState, useCallback, useMemo } from 'react';
+import { useSet } from 'react-use-set';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
@@ -6,8 +7,8 @@ import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import shallowEqual from '../utils/shallowEqual';
 import DropdownMenu from './DropdownMenu';
-import { findNodeOfTree, flattenTree, getNodeParents } from '../utils/treeUtils';
-import { usePaths } from './utils';
+import { findNodeOfTree, flattenTree } from '../utils/treeUtils';
+import { getParentMap, getPathTowardsItem, usePaths } from './utils';
 import { PickerLocale } from '../locales';
 import {
   getSafeRegExpString,
@@ -15,7 +16,8 @@ import {
   mergeRefs,
   useControlled,
   useCustom,
-  useClassNames
+  useClassNames,
+  useIsMounted
 } from '../utils';
 
 import {
@@ -36,6 +38,7 @@ import {
 } from '../Picker';
 
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
+import { useMap } from '../utils/useMap';
 
 export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>
@@ -57,7 +60,7 @@ export interface CascaderProps<T = ValueType>
 
   /** Custom render menu */
   renderMenu?: (
-    items: ItemDataType[],
+    items: readonly ItemDataType[],
     menu: React.ReactNode,
     parentNode?: any,
     layer?: number
@@ -90,7 +93,7 @@ export interface CascaderProps<T = ValueType>
   onSearch?: (searchKeyword: string, event: React.SyntheticEvent) => void;
 
   /** Asynchronously load the children of the tree node. */
-  getChildren?: (node: ItemDataType) => ItemDataType[] | Promise<ItemDataType[]>;
+  getChildren?: (node: ItemDataType<T>) => ItemDataType<T>[] | Promise<ItemDataType<T>[]>;
 }
 
 export interface CascaderComponent {
@@ -151,7 +154,6 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
   // Use component active state to support keyboard events.
   const [active, setActive] = useState(false);
-  const [flattenData, setFlattenData] = useState<ItemDataType<T>[]>(flattenTree(data, childrenKey));
 
   const triggerRef = useRef<OverlayTriggerHandle>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -163,26 +165,42 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     boolean
   ];
 
-  const {
-    selectedPaths,
-    valueToPaths,
-    columnData,
-    addColumn,
-    removeColumnByIndex,
-    setValueToPaths,
-    setColumnData,
-    setSelectedPaths,
-    enforceUpdate
-  } = usePaths({
-    data,
-    valueKey,
-    childrenKey,
-    value
-  });
+  const isMounted = useIsMounted();
+  const loadingItemsSet = useSet();
+  const asyncChildrenMap = useMap<ItemDataType<T>, readonly ItemDataType<T>[]>();
+  const parentMap = useMemo(
+    () =>
+      getParentMap(
+        data,
+        item =>
+          asyncChildrenMap.get(item) ??
+          (item[childrenKey] as readonly ItemDataType<T>[] | undefined)
+      ),
+    [asyncChildrenMap, childrenKey, data]
+  );
 
-  useEffect(() => {
-    setFlattenData(flattenTree(data, childrenKey));
-  }, [data, childrenKey]);
+  const flattenedData = useMemo(
+    () =>
+      flattenTree(
+        data,
+        item =>
+          asyncChildrenMap.get(item) ??
+          (item[childrenKey] as readonly ItemDataType<T>[] | undefined)
+      ),
+    [asyncChildrenMap, childrenKey, data]
+  );
+
+  // The item that focus is on
+  const [activeItem, setActiveItem] = useState<ItemDataType<T> | undefined>();
+
+  const { columnsToDisplay, pathTowardsActiveItem, pathTowardsSelectedItem } = usePaths({
+    data,
+    activeItem,
+    selectedItem: flattenedData.find(item => item[valueKey] === value),
+    getParent: item => parentMap.get(item),
+    getChildren: item =>
+      asyncChildrenMap.get(item) ?? (item[childrenKey] as readonly ItemDataType<T>[] | undefined)
+  });
 
   usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
 
@@ -191,31 +209,33 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
    * 1.Have a value and the value is valid.
    * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
    */
-  let hasValue = valueToPaths.length > 0 || (!isNil(value) && isFunction(renderValue));
+  let hasValue = pathTowardsSelectedItem.length > 0 || (!isNil(value) && isFunction(renderValue));
 
   const { prefix, merge } = useClassNames(classPrefix);
 
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const someKeyword = useCallback(
-    (item: ItemDataType, keyword?: string) => {
+    (item: ItemDataType<T>, keyword?: string) => {
       if (item[labelKey].match(new RegExp(getSafeRegExpString(keyword || searchKeyword), 'i'))) {
         return true;
       }
 
-      if (item.parent && someKeyword(item.parent)) {
+      const parent = parentMap.get(item);
+
+      if (parent && someKeyword(parent)) {
         return true;
       }
 
       return false;
     },
-    [labelKey, searchKeyword]
+    [labelKey, parentMap, searchKeyword]
   );
 
   const getSearchResult = useCallback(
-    (keyword?: string): ItemDataType[] => {
-      const items: ItemDataType[] = [];
-      const result = flattenData.filter(item => {
+    (keyword?: string): ItemDataType<T>[] => {
+      const items: ItemDataType<T>[] = [];
+      const result = flattenedData.filter(item => {
         if (!parentSelectable && item[childrenKey]) {
           return false;
         }
@@ -232,7 +252,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
       }
       return items;
     },
-    [childrenKey, flattenData, someKeyword, parentSelectable]
+    [childrenKey, flattenedData, someKeyword, parentSelectable]
   );
 
   // Used to hover the focuse item  when trigger `onKeydown`
@@ -244,15 +264,16 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     onKeyDown: onFocusItem
   } = useFocusItemValue(value, {
     rtl,
-    data: flattenData,
+    data: flattenedData,
     valueKey,
-    defaultLayer: valueToPaths?.length ? valueToPaths.length - 1 : 0,
+    defaultLayer: pathTowardsSelectedItem?.length ? pathTowardsSelectedItem.length - 1 : 0,
     target: () => overlayRef.current,
+    getParent: item => parentMap.get(item),
     callback: useCallback(
       value => {
-        enforceUpdate(value, true);
+        setActiveItem(flattenedData.find(item => item[valueKey] === value));
       },
-      [enforceUpdate]
+      [flattenedData, setActiveItem, valueKey]
     )
   });
 
@@ -300,13 +321,10 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         return;
       }
 
-      setColumnData([data]);
       setValue(null);
-      setSelectedPaths([]);
-      setValueToPaths([]);
       onChange?.(null, event);
     },
-    [data, disabled, onChange, setSelectedPaths, setColumnData, setValueToPaths, setValue]
+    [disabled, onChange, setValue]
   );
 
   const handleMenuPressEnter = useCallback(
@@ -316,9 +334,8 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
       if (isLeafNode) {
         setValue(focusItemValue as T | null);
-        setValueToPaths(selectedPaths);
-        if (selectedPaths.length) {
-          setLayer(selectedPaths.length - 1);
+        if (pathTowardsActiveItem.length) {
+          setLayer(pathTowardsActiveItem.length - 1);
         }
 
         if (!shallowEqual(value, focusItemValue)) {
@@ -333,10 +350,9 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
       focusItemValue,
       handleClose,
       onChange,
-      selectedPaths,
+      pathTowardsActiveItem,
       setLayer,
       setValue,
-      setValueToPaths,
       value,
       valueKey
     ]
@@ -356,50 +372,43 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
   });
 
   const handleSelect = (
-    node: ItemDataType,
+    node: ItemDataType<T>,
     cascadePaths: ItemDataType<T>[],
     isLeafNode: boolean,
     event: React.MouseEvent
   ) => {
     onSelect?.(node, cascadePaths, event);
-    setSelectedPaths(cascadePaths);
+    setActiveItem(node);
 
     const nextValue = node[valueKey];
-    const columnIndex = cascadePaths.length;
 
     // Lazy load node's children
-    if (typeof getChildren === 'function' && node[childrenKey]?.length === 0) {
-      node.loading = true;
+    if (
+      typeof getChildren === 'function' &&
+      node[childrenKey]?.length === 0 &&
+      !asyncChildrenMap.has(node)
+    ) {
+      loadingItemsSet.add(node);
 
       const children = getChildren(node);
 
       if (children instanceof Promise) {
-        children.then((data: ItemDataType[]) => {
-          node.loading = false;
-          node[childrenKey] = data;
-          if (targetRef.current) {
-            addColumn(data as ItemDataType<T>[], columnIndex);
+        children.then((data: readonly ItemDataType<T>[]) => {
+          if (isMounted()) {
+            loadingItemsSet.delete(node);
+            asyncChildrenMap.set(node, data);
           }
         });
       } else {
-        node.loading = false;
-        node[childrenKey] = children;
-        addColumn(children as ItemDataType<T>[], columnIndex);
+        loadingItemsSet.delete(node);
+        asyncChildrenMap.set(node, children);
       }
-    } else if (node[childrenKey]?.length) {
-      addColumn(node[childrenKey], columnIndex);
-    } else {
-      // Removes subsequent columns of the current column when the clicked node is a leaf node.
-      removeColumnByIndex(columnIndex);
     }
 
     if (isLeafNode) {
       // Determines whether the option is a leaf node, and if so, closes the picker.
       handleClose();
 
-      // Update the selected path to the value path.
-      // That is, the selected path will be displayed on the button after clicking the child node.
-      setValueToPaths(cascadePaths);
       setValue(nextValue);
 
       if (!shallowEqual(value, nextValue)) {
@@ -413,7 +422,6 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     if (parentSelectable && !shallowEqual(value, nextValue)) {
       setValue(nextValue);
       onChange?.(nextValue, event);
-      setValueToPaths(cascadePaths);
     }
 
     // Update menu position
@@ -433,17 +441,14 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     handleClose();
     setSearchKeyword('');
     setValue(nextValue);
-    setValueToPaths(nodes);
-    enforceUpdate(nextValue);
 
     onSelect?.(node, nodes, event);
     onChange?.(nextValue, event);
   };
 
-  const renderSearchRow = (item: ItemDataType, key: number) => {
+  const renderSearchRow = (item: ItemDataType<T>, key: number) => {
     const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
-    const nodes = getNodeParents(item);
-    nodes.push(item);
+    const nodes = getPathTowardsItem(item, item => parentMap.get(item));
     const formattedNodes = nodes.map(node => {
       const labelElements: React.ReactElement[] = [];
       const a = node[labelKey].split(regx);
@@ -542,12 +547,13 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
             menuWidth={menuWidth}
             menuHeight={menuHeight}
             disabledItemValues={disabledItemValues}
+            loadingItemsSet={loadingItemsSet}
             valueKey={valueKey}
             labelKey={labelKey}
             childrenKey={childrenKey}
             classPrefix={'picker-cascader-menu'}
-            cascadeData={columnData}
-            cascadePaths={selectedPaths}
+            cascadeData={columnsToDisplay}
+            cascadePaths={pathTowardsActiveItem}
             activeItemValue={value}
             // FIXME make onSelect generic
             onSelect={handleSelect as any}
@@ -562,13 +568,13 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
   let selectedElement: any = placeholder;
 
-  if (valueToPaths.length > 0) {
+  if (pathTowardsSelectedItem.length > 0) {
     selectedElement = [];
 
-    valueToPaths.forEach((item, index) => {
+    pathTowardsSelectedItem.forEach((item, index) => {
       const key = item[valueKey] || item[labelKey];
       selectedElement.push(<span key={key}>{item[labelKey]}</span>);
-      if (index < valueToPaths.length - 1) {
+      if (index < pathTowardsSelectedItem.length - 1) {
         selectedElement.push(
           <span className="separator" key={`${key}-separator`}>
             {' / '}
@@ -579,7 +585,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
   }
 
   if (!isNil(value) && isFunction(renderValue)) {
-    selectedElement = renderValue(value, valueToPaths, selectedElement);
+    selectedElement = renderValue(value, pathTowardsSelectedItem, selectedElement);
     // If renderValue returns null or undefined, hasValue is false.
     if (isNil(selectedElement)) {
       hasValue = false;

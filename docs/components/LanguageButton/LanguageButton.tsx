@@ -2,9 +2,7 @@ import React from 'react';
 import classnames from 'classnames';
 import { useRouter } from 'next/router';
 import { IconButton } from 'rsuite';
-import AppContext from '../AppContext';
 import * as SvgIcons from '@/components/SvgIcons';
-import { languageToPath } from '@/components/Link';
 import { Icon } from '@rsuite/icons';
 
 interface ButtonProps {
@@ -14,21 +12,25 @@ interface ButtonProps {
 
 const LanguageButton = React.forwardRef((props: ButtonProps, ref: React.Ref<HTMLElement>) => {
   const router = useRouter();
-  const { language, onChangeLanguage } = React.useContext(AppContext);
   const { className, ...rest } = props;
-  const isZH = language === 'zh';
+  const isZH = router.locale === 'zh';
 
   const handleChangeLanguage = React.useCallback(
     (event: React.MouseEvent) => {
       event.preventDefault();
-      const nextLanguage = isZH ? 'en' : 'zh';
+      const nextLocale = isZH ? 'en' : 'zh';
 
-      onChangeLanguage?.(nextLanguage);
-      const pathname = router.pathname;
-
-      router.push(pathname, `${languageToPath(nextLanguage)}${pathname}`);
+      // https://nextjs.org/docs/advanced-features/i18n-routing#transition-between-locales
+      router.push(
+        {
+          pathname: router.pathname,
+          query: router.query
+        },
+        router.asPath,
+        { locale: nextLocale }
+      );
     },
-    [onChangeLanguage, router, isZH]
+    [router, isZH]
   );
 
   return (

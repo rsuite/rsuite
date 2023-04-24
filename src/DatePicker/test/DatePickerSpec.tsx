@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, act, waitFor, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import enGB from 'date-fns/locale/en-GB';
@@ -11,6 +11,10 @@ import { DateUtils } from '../../utils';
 
 import GearIcon from '@rsuite/icons/Gear';
 import { PickerHandle } from '../../Picker';
+
+afterEach(() => {
+  sinon.restore();
+});
 
 describe('DatePicker', () => {
   it('Should render a div with "rs-picker-date" class', () => {
@@ -209,6 +213,137 @@ describe('DatePicker', () => {
 
     // eslint-disable-next-line testing-library/no-node-access
     assert.isNotNull(instance.root.querySelector('.rs-picker-error'));
+  });
+
+  it('[Deprecated] Should disable date cells according to `disabledDate`', () => {
+    sinon.spy(console, 'warn');
+    render(
+      <DatePicker
+        calendarDefaultDate={new Date(2023, 2, 7)}
+        disabledDate={date => isSameDay(date as Date, new Date(2023, 2, 8))}
+        open
+      />
+    );
+
+    // TODO use more accurate matchers
+    expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
+      'rs-calendar-table-cell-disabled'
+    );
+    expect(console.warn).to.have.been.calledWith(
+      '[rsuite] "disabledDate" property of DatePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
+    );
+  });
+
+  it('Should disable date cells according to `shouldDisableDate`', () => {
+    render(
+      <DatePicker
+        calendarDefaultDate={new Date(2023, 2, 7)}
+        shouldDisableDate={date => isSameDay(date, new Date(2023, 2, 8))}
+        open
+      />
+    );
+
+    // TODO use more accurate matchers
+    expect(screen.getByRole('gridcell', { name: '08 Mar 2023' })).to.have.class(
+      'rs-calendar-table-cell-disabled'
+    );
+  });
+
+  it('Should disable hour options according to `shouldDisableHour`', () => {
+    render(<DatePicker open format="HH" shouldDisableHour={hour => hour === 11} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '11' })).to.have.class(
+      /disabled/
+    );
+  });
+
+  it('Should warn when time is disabled', () => {
+    const App = props => (
+      <DatePicker
+        open
+        format="yyyy-MM-dd HH:mm:ss"
+        calendarDefaultDate={new Date('2023-01-01 11:22:33')}
+        {...props}
+      />
+    );
+
+    const { rerender } = render(<App />);
+    const btnTime = screen.getByRole('button', { name: '11:22:33' });
+
+    expect(btnTime).to.not.have.class('rs-calendar-header-error');
+
+    rerender(<App shouldDisableHour={hour => hour === 11} />);
+    expect(btnTime).to.have.class('rs-calendar-header-error');
+
+    rerender(<App shouldDisableMinute={minute => minute === 22} />);
+    expect(btnTime).to.have.class('rs-calendar-header-error');
+
+    rerender(<App shouldDisableSecond={second => second === 33} />);
+    expect(btnTime).to.have.class('rs-calendar-header-error');
+  });
+
+  it('[Deprecated] Should disable hour options according to `disabledHours`', () => {
+    sinon.spy(console, 'warn');
+    render(<DatePicker open format="HH" disabledHours={hour => hour === 11} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '11' })).to.have.class(
+      /disabled/
+    );
+    expect(console.warn).to.have.been.calledWith(
+      '[rsuite] "disabledHours" property of DatePicker component has been deprecated.\nUse "shouldDisableHour" property instead.'
+    );
+  });
+
+  it('Should disable minute options according to `shouldDisableMinute`', () => {
+    render(<DatePicker open format="mm" shouldDisableMinute={minute => minute === 40} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '40' })).to.have.class(
+      /disabled/
+    );
+  });
+
+  it('[Deprecated] Should disable minute options according to `disabledMinutes`', () => {
+    sinon.spy(console, 'warn');
+    render(<DatePicker open format="mm" disabledMinutes={minute => minute === 40} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '40' })).to.have.class(
+      /disabled/
+    );
+    expect(console.warn).to.have.been.calledWith(
+      '[rsuite] "disabledMinutes" property of DatePicker component has been deprecated.\nUse "shouldDisableMinute" property instead.'
+    );
+  });
+
+  it('Should disable second options according to `shouldDisableSecond`', () => {
+    render(<DatePicker open format="ss" shouldDisableSecond={minute => minute === 40} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '40' })).to.have.class(
+      /disabled/
+    );
+  });
+
+  it('[Deprecated] Should disable second options according to `disabledSeconds`', () => {
+    sinon.spy(console, 'warn');
+    render(<DatePicker open format="ss" disabledSeconds={second => second === 40} />);
+
+    // TODO Use "listbox" and "option" role
+    // TODO Add accessible name to listbox
+    expect(within(screen.getByRole('menu')).getByRole('button', { name: '40' })).to.have.class(
+      /disabled/
+    );
+    expect(console.warn).to.have.been.calledWith(
+      '[rsuite] "disabledSeconds" property of DatePicker component has been deprecated.\nUse "shouldDisableSecond" property instead.'
+    );
   });
 
   it('Should allow only time', () => {
@@ -903,5 +1038,16 @@ describe('DatePicker', () => {
 
     expect(headerDateElement).to.have.text('Feb 2022');
     expect(headerTimeElement).to.have.text('00:00:00');
+  });
+
+  it('Should be to not highlight dates that are not in this month', () => {
+    render(<DatePicker defaultValue={new Date('2023-04-01')} open />);
+
+    const cells = Array.from(
+      // eslint-disable-next-line testing-library/no-node-access
+      screen.getByRole('grid').querySelectorAll('.rs-calendar-table-cell-un-same-month')
+    ).map(cell => (cell as HTMLDivElement).innerText);
+
+    expect(cells).to.deep.equal(['26', '27', '28', '29', '30', '31', '1', '2', '3', '4', '5', '6']);
   });
 });

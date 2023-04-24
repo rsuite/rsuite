@@ -9,7 +9,6 @@ interface AppContextProps {
   theme?: string[];
   onChangeDirection?: () => void;
   onChangeTheme?: (theme: Theme) => void;
-  onChangeLanguage?: (value: string) => void;
   messages?: ZHDict;
   language?: string;
   localePath?: string;
@@ -21,7 +20,6 @@ export const AppContext = React.createContext<AppContextProps>({
   theme: readTheme(), // [themeName,direction]
   onChangeDirection: null,
   onChangeTheme: null,
-  onChangeLanguage: null,
   messages: null,
   language: 'zh',
   localePath: '',

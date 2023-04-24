@@ -61,38 +61,6 @@ describe('DateRangePicker', () => {
     assert.ok(instance.className.match(/\bdisabled\b/));
   });
 
-  it('Should be disabled date', () => {
-    render(
-      <DateRangePicker
-        ranges={[
-          {
-            label: 'Yesterday',
-            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
-          },
-          {
-            label: 'Today',
-            value: [new Date(), new Date()]
-          },
-          {
-            label: 'Tomorrow',
-            value: [addDays(new Date(), 1), addDays(new Date(), 1)]
-          },
-          {
-            label: 'Last 7 days',
-            value: [subDays(new Date(), 6), new Date()]
-          }
-        ]}
-        disabledDate={() => true}
-        open
-      />
-    );
-
-    expect(screen.getByRole('button', { name: 'Yesterday' })).to.have.property('disabled', true);
-    expect(screen.getByRole('button', { name: 'Today' })).to.have.property('disabled', true);
-    expect(screen.getByRole('button', { name: 'Tomorrow' })).to.have.property('disabled', true);
-    expect(screen.getByRole('button', { name: 'Last 7 days' })).to.have.property('disabled', true);
-  });
-
   it('Should output custom value', () => {
     render(
       <DateRangePicker
@@ -311,11 +279,81 @@ describe('DateRangePicker', () => {
 
     expect(screen.getByRole('gridcell', { name: '01 Sep 2019', selected: true })).to.exist;
 
+    expect(screen.getByRole('gridcell', { name: '01 Sep 2019', selected: true })).to.exist;
+
     fireEvent.click(
       screen.getByRole('gridcell', { name: '24 Sep 2019' }).firstChild as HTMLElement
     );
 
     expect(screen.getByRole('gridcell', { name: '24 Sep 2019', selected: true })).to.exist;
+  });
+
+  it('[Deprecated] Should disable shortcuts according to `disabledDate`', () => {
+    sinon.spy(console, 'warn');
+    const instance = getInstance(
+      <DateRangePicker
+        ranges={[
+          {
+            label: 'Yesterday',
+            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
+          },
+          {
+            label: 'Today',
+            value: [new Date(), new Date()]
+          },
+          {
+            label: 'Tomorrow',
+            value: [addDays(new Date(), 1), addDays(new Date(), 1)]
+          },
+          {
+            label: 'Last 7 days',
+            value: [subDays(new Date(), 6), new Date()]
+          }
+        ]}
+        disabledDate={() => true}
+        open
+      />
+    );
+
+    expect(
+      // eslint-disable-next-line testing-library/no-node-access
+      instance.overlay.querySelectorAll('.rs-picker-toolbar-ranges .rs-btn-disabled')
+    ).to.have.lengthOf(4);
+    expect(console.warn).to.have.been.calledWith(
+      '[rsuite] "disabledDate" property of DateRangePicker component has been deprecated.\nUse "shouldDisableDate" property instead.'
+    );
+  });
+
+  it('Should disable shortcuts according to `shouldDisableDate`', () => {
+    const instance = getInstance(
+      <DateRangePicker
+        ranges={[
+          {
+            label: 'Yesterday',
+            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
+          },
+          {
+            label: 'Today',
+            value: [new Date(), new Date()]
+          },
+          {
+            label: 'Tomorrow',
+            value: [addDays(new Date(), 1), addDays(new Date(), 1)]
+          },
+          {
+            label: 'Last 7 days',
+            value: [subDays(new Date(), 6), new Date()]
+          }
+        ]}
+        shouldDisableDate={() => true}
+        open
+      />
+    );
+
+    expect(
+      // eslint-disable-next-line testing-library/no-node-access
+      instance.overlay.querySelectorAll('.rs-picker-toolbar-ranges .rs-btn-disabled')
+    ).to.have.lengthOf(4);
   });
 
   it('Should select a whole week', () => {
@@ -515,12 +553,12 @@ describe('DateRangePicker', () => {
     );
 
     // Jun 27, 2021
-    const unSameMonthCell = screen.getByRole('button', { name: '27 Jun 2021' });
+    const unSameMonthCell = screen.getByTitle('27 Jun 2021');
 
     fireEvent.mouseEnter(unSameMonthCell);
     fireEvent.click(unSameMonthCell);
 
-    expect(screen.getByRole('gridcell', { name: '30 May 2021' })).to.exist;
+    expect(screen.getByTitle('30 May 2021')).to.exist;
   });
 
   it('Should call `onChange` callback when input change and blur', () => {
@@ -823,6 +861,37 @@ describe('DateRangePicker', () => {
       (screen.getByRole('dialog').querySelector('.rs-picker-toolbar') as HTMLElement).childNodes
     ).to.have.length(2);
   });
+  describe('Issue #3074', () => {
+    it('Should focus on the right month', () => {
+      const onEnterSpy = sinon.spy();
+      const { rerender } = render(
+        <DateRangePicker value={[new Date(), new Date()]} onEnter={onEnterSpy} />
+      );
+
+      rerender(
+        <DateRangePicker
+          value={[new Date(2022, 10, 1), new Date(2022, 11, 1)]}
+          onEnter={onEnterSpy}
+        />
+      );
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      const dialog = screen.getByRole('dialog');
+
+      expect(onEnterSpy).to.have.been.calledOnce;
+
+      const firstMonthPanelTitle =
+        '.rs-calendar[index="0"] .rs-calendar-header-month-toolbar .rs-calendar-header-title';
+      const secondMonthPanelTitle =
+        '.rs-calendar[index="1"] .rs-calendar-header-month-toolbar .rs-calendar-header-title';
+
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(dialog.querySelector(firstMonthPanelTitle)).to.have.text('Nov 2022');
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(dialog.querySelector(secondMonthPanelTitle)).to.have.text('Dec 2022');
+    });
+  });
 
   describe('Plain text', () => {
     it('Should render formatted date range', () => {
@@ -1056,5 +1125,64 @@ describe('DateRangePicker', () => {
       expect(header).to.have.text('2022-02-01 01:00:00 ~ 2022-03-01 02:00:00');
       expect(switchButtons[1]).to.have.text('AM');
     });
+  });
+
+  it('Should be disable time when date selection is in progress', () => {
+    render(
+      <DateRangePicker
+        format="yyyy-MM-dd hh:mm aa"
+        showMeridian
+        open
+        defaultCalendarValue={[new Date('2022-02-01 00:00:00'), new Date('2022-05-01 23:59:59')]}
+      />
+    );
+
+    const startCell = screen.getByRole('gridcell', { name: '01 Feb 2022' })
+      .firstChild as HTMLButtonElement;
+    const endCell = screen.getByRole('gridcell', { name: '02 Feb 2022' })
+      .firstChild as HTMLButtonElement;
+    const btnAM = screen.getByRole('button', { name: 'AM' });
+    const btnPM = screen.getByRole('button', { name: 'PM' });
+    const btnAMTime = screen.getByRole('button', { name: '12:00' });
+    const btnPMTime = screen.getByRole('button', { name: '11:59' });
+
+    expect(btnAM).to.not.have.attribute('disabled');
+    expect(btnPM).to.not.have.attribute('disabled');
+    expect(btnAMTime).to.not.have.attribute('disabled');
+    expect(btnPMTime).to.not.have.attribute('disabled');
+
+    fireEvent.click(startCell);
+
+    expect(btnAM).to.have.attribute('disabled');
+    expect(btnPM).to.have.attribute('disabled');
+    expect(btnAMTime).to.have.attribute('disabled');
+    expect(btnPMTime).to.have.attribute('disabled');
+
+    fireEvent.click(endCell);
+
+    expect(btnAM).to.not.have.attribute('disabled');
+    expect(btnPM).to.not.have.attribute('disabled');
+    expect(btnAMTime).to.not.have.attribute('disabled');
+    expect(btnPMTime).to.not.have.attribute('disabled');
+  });
+
+  it('Should be to not highlight dates that are not in this month', () => {
+    render(
+      <DateRangePicker defaultValue={[new Date('2023-04-01'), new Date('2023-05-01')]} open />
+    );
+
+    const cells = Array.from(
+      // eslint-disable-next-line testing-library/no-node-access
+      screen.getAllByRole('grid')[0].querySelectorAll('.rs-calendar-table-cell-un-same-month')
+    ).map(cell => (cell as HTMLDivElement).innerText);
+
+    expect(cells).to.deep.equal(['26', '27', '28', '29', '30', '31', '1', '2', '3', '4', '5', '6']);
+
+    const endCells = Array.from(
+      // eslint-disable-next-line testing-library/no-node-access
+      screen.getAllByRole('grid')[1].querySelectorAll('.rs-calendar-table-cell-un-same-month')
+    ).map(cell => (cell as HTMLDivElement).innerText);
+
+    expect(endCells).to.deep.equal(['30', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
   });
 });

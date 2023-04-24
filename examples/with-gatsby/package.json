@@ -27,7 +27,7 @@
     "gatsby-plugin-less": "^6.24.0",
     "gatsby-plugin-manifest": "^4.24.0",
     "gatsby-plugin-react-helmet": "^5.24.0",
-    "gatsby-plugin-sharp": "^4.24.0",
+    "gatsby-plugin-sharp": "^4.25.1",
     "gatsby-source-filesystem": "^4.24.0",
     "gatsby-starter-default": "^1.0.0",
     "gatsby-transformer-sharp": "^4.24.0",

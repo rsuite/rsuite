@@ -3,8 +3,8 @@ import usePages from '@/utils/usePages';
 import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
 import { ButtonGroup, IconButton, Input, InputGroup } from 'rsuite';
-import CategorizedList from './CategorizedList';
-import SortedList from './SortedList';
+import CategorizedList from '@/components/CategorizedList';
+import SortedList from '@/components/SortedList';
 
 import SearchIcon from '@rsuite/icons/Search';
 import { FaSortAlphaUp, FaList } from 'react-icons/fa';

@@ -276,13 +276,7 @@ describe('<Sidenav>', () => {
       </Sidenav>
     );
 
-    // FIXME Upgrade chai-dom definition once this pr is merged https://github.com/DefinitelyTyped/DefinitelyTyped/pull/63125
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     expect(screen.getByTestId('dropdown-1')).to.have.class(/selected-within/);
-    // FIXME Upgrade chai-dom definition once this pr is merged https://github.com/DefinitelyTyped/DefinitelyTyped/pull/63125
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     expect(screen.getByTestId('dropdown-2')).to.have.class(/selected-within/);
   });
 

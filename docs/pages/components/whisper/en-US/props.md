@@ -58,9 +58,9 @@ Close a overlay.
 close: (delay?: number) => void
 ```
 
-Update overlay position
-
 - updatePosition
+
+Update overlay position
 
 ```ts
 updatePosition: () => void

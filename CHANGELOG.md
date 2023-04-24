@@ -1,3 +1,76 @@
+# [5.32.0](https://github.com/rsuite/rsuite/compare/v5.31.1...v5.32.0) (2023-04-21)
+
+### Bug Fixes
+
+- **build:** fix broken lodash currying in CDN bundles ([#3159](https://github.com/rsuite/rsuite/issues/3159)) ([896a9d5](https://github.com/rsuite/rsuite/commit/896a9d53cf2c1e0140e43eea024c4f0361c04328))
+- **Cascader:** avoid mutating data prop ([#3157](https://github.com/rsuite/rsuite/issues/3157)) ([6d13318](https://github.com/rsuite/rsuite/commit/6d133185ea1c65b47b35da61499d5cff77dde122))
+
+### Features
+
+- **DateRangePicker:** add `limitStartYear` prop ([#3163](https://github.com/rsuite/rsuite/issues/3163)) ([fd27df2](https://github.com/rsuite/rsuite/commit/fd27df21e1c36372ea8b444f79521c901a65780c))
+
+## [5.31.1](https://github.com/rsuite/rsuite/compare/v5.31.0...v5.31.1) (2023-04-14)
+
+### Bug Fixes
+
+- **Calendar:** fix style errors that are not as designed ([#3146](https://github.com/rsuite/rsuite/issues/3146)) ([f3fe484](https://github.com/rsuite/rsuite/commit/f3fe484a8f63e877c517061e5911116d3107b68b))
+- **i18n:** update ru_RU locale ([#3153](https://github.com/rsuite/rsuite/issues/3153)) ([5c626a9](https://github.com/rsuite/rsuite/commit/5c626a99ca70d9e30836b02f81b90a37f5f2de2d))
+- **Toggle:** fix spinner size in sm/lg Toggles ([#3156](https://github.com/rsuite/rsuite/issues/3156)) ([896ee49](https://github.com/rsuite/rsuite/commit/896ee492bbdd2277dbe23f6667305ceaf9154a8a))
+
+# [5.31.0](https://github.com/rsuite/rsuite/compare/v5.30.0...v5.31.0) (2023-04-07)
+
+### Bug Fixes
+
+- **toaster:** fix style when message at the left ([#3138](https://github.com/rsuite/rsuite/issues/3138)) ([6084c2a](https://github.com/rsuite/rsuite/commit/6084c2a35cdd32db1e9a4ec560e9bfaadb7a173c))
+
+### Features
+
+- **Calendar:** add support for `onMonthChange` on `<Calendar>` ([#3150](https://github.com/rsuite/rsuite/issues/3150)) ([8dfe9d6](https://github.com/rsuite/rsuite/commit/8dfe9d6da95a55277d78f712b1d91ea56a70b9bb))
+
+# [5.30.0](https://github.com/rsuite/rsuite/compare/v5.29.0...v5.30.0) (2023-03-31)
+
+### Bug Fixes
+
+- **Cascader:** fix infinite load state on inline mode and fix typo ([#3131](https://github.com/rsuite/rsuite/issues/3131)) ([faa05f0](https://github.com/rsuite/rsuite/commit/faa05f03df1ab890f0bcf13ebd173e52129400df))
+- **DatePicker:** fix abnormal time display in the calendar header ([#3136](https://github.com/rsuite/rsuite/issues/3136)) ([860df1a](https://github.com/rsuite/rsuite/commit/860df1a7bd03b40371ac6891e45f3295b9edc72f))
+- **DateRangePicker:** fix the error of invalid time during date selection ([#3135](https://github.com/rsuite/rsuite/issues/3135)) ([adeafdc](https://github.com/rsuite/rsuite/commit/adeafdc44162fd2ef9e2470094a52cb17b5cddb3))
+
+# [5.29.0](https://github.com/rsuite/rsuite/compare/v5.28.3...v5.29.0) (2023-03-24)
+
+### Bug Fixes
+
+- **Affix:** fix misalignment due to DOM content updates ([#3124](https://github.com/rsuite/rsuite/issues/3124)) ([76d21e9](https://github.com/rsuite/rsuite/commit/76d21e9e950da8c2df52d1fbc96abcada633d908))
+- **Picker:** fix async container update cause offset error ([#3126](https://github.com/rsuite/rsuite/issues/3126)) ([c3e15c5](https://github.com/rsuite/rsuite/commit/c3e15c512319b0240236e35a5b28432bea1d25f3))
+
+## [5.28.3](https://github.com/rsuite/rsuite/compare/v5.28.2...v5.28.3) (2023-03-17)
+
+### Bug Fixes
+
+- **AutoComplete:** add missing autoComplete prop ([#3108](https://github.com/rsuite/rsuite/issues/3108)) ([c855fab](https://github.com/rsuite/rsuite/commit/c855fab4488c6545ad567166007a6f6650db2849))
+- **Form.Control:** fix not able to override checked prop ([#3120](https://github.com/rsuite/rsuite/issues/3120)) ([aac965e](https://github.com/rsuite/rsuite/commit/aac965e1fdc80bf67885c609021fa8e01b2f3576))
+
+## [5.28.2](https://github.com/rsuite/rsuite/compare/v5.28.1...v5.28.2) (2023-03-10)
+
+### Bug Fixes
+
+- **AutoComplete:** fix readOnly not work ([#3107](https://github.com/rsuite/rsuite/issues/3107)) ([493bbdc](https://github.com/rsuite/rsuite/commit/493bbdcd4fcfbe271bc98108f3831f18ffda9353))
+
+## [5.28.1](https://github.com/rsuite/rsuite/compare/v5.28.0...v5.28.1) (2023-03-03)
+
+### Bug Fixes
+
+- **Button:** fix Button content not center-aligned ([#3087](https://github.com/rsuite/rsuite/issues/3087)) ([28ff13b](https://github.com/rsuite/rsuite/commit/28ff13b2c2ab8f08ccaa854caffa0a5674d1aabc))
+
+# [5.28.0](https://github.com/rsuite/rsuite/compare/v5.27.0...v5.28.0) (2023-02-24)
+
+### Bug Fixes
+
+- **DateRangePicker:** fix lifecycle for Picker Toggle ([#3074](https://github.com/rsuite/rsuite/issues/3074)) ([f46717b](https://github.com/rsuite/rsuite/commit/f46717b4b464513d64b226faba9a6d8bacc52678))
+
+### Features
+
+- **i18n:** added Hungarian locale (hu_HU) ([#3075](https://github.com/rsuite/rsuite/issues/3075)) ([4df03c2](https://github.com/rsuite/rsuite/commit/4df03c24660dc6b09417c562da0e1ffe68103bad))
+
 # [5.27.0](https://github.com/rsuite/rsuite/compare/v5.26.1...v5.27.0) (2023-02-17)
 
 ### Bug Fixes

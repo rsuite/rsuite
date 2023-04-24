@@ -1,6 +1,6 @@
 {
   "name": "rsuite",
-  "version": "5.27.0",
+  "version": "5.32.0",
   "description": "A suite of react components",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
@@ -63,9 +63,10 @@
     "dom-lib": "^3.1.3",
     "lodash": "^4.17.11",
     "prop-types": "^15.8.1",
+    "react-use-set": "^1.0.0",
     "react-window": "^1.8.8",
-    "rsuite-table": "^5.8.2",
-    "schema-typed": "^2.0.3"
+    "rsuite-table": "^5.10.3",
+    "schema-typed": "^2.1.2"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
@@ -98,7 +99,7 @@
     "@testing-library/react": "^11.2.3",
     "@testing-library/react-hooks": "^7.0.0",
     "@testing-library/user-event": "^13.1.9",
-    "@types/chai-dom": "^0.0.13",
+    "@types/chai-dom": "^1.11.0",
     "@types/karma": "^5.0.1",
     "@types/karma-mocha": "^1.3.1",
     "@types/karma-sinon-chai": "^2.0.0",
@@ -159,6 +160,7 @@
     "postcss-custom-properties": "^10.0.0",
     "postcss-less": "^6.0.0",
     "prettier": "^2.4.1",
+    "prettier-plugin-sort-markdown-table": "^1.0.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-test-renderer": "^17.0.2",

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import canUseDOM from 'dom-lib/canUseDOM';
 
@@ -24,28 +24,26 @@ const MountedPortal = React.memo(
 
 function usePortal(props: PortalProps = {}) {
   const { container, waitMount = false } = props;
-  const rootElemRef = useRef<HTMLElement | null>(canUseDOM ? document.body : null);
+  const containerElement = typeof container === 'function' ? container() : container;
+  const rootElement = useMemo(
+    () => (canUseDOM ? containerElement || document.body : null),
+    [containerElement]
+  );
 
-  useEffect(() => {
-    const containerElement = typeof container === 'function' ? container() : container;
-
-    // Parent is either a new root or the existing dom element
-    const parentElement = containerElement || document.body;
-
-    rootElemRef.current = parentElement as HTMLElement;
-  }, [rootElemRef, container]);
-
-  const Portal = useCallback(({ children }: { children: React.ReactNode }) => {
-    return rootElemRef.current != null ? createPortal(children, rootElemRef.current) : null;
-  }, []);
+  const Portal = useCallback(
+    ({ children }: { children: React.ReactNode }) => {
+      return rootElement != null ? createPortal(children, rootElement) : null;
+    },
+    [rootElement]
+  );
 
   const WaitMountPortal = useCallback(
-    props => <MountedPortal container={rootElemRef.current} {...props} />,
-    []
+    props => <MountedPortal container={rootElement} {...props} />,
+    [rootElement]
   );
 
   return {
-    target: rootElemRef.current,
+    target: rootElement,
     Portal: waitMount ? WaitMountPortal : Portal
   };
 }

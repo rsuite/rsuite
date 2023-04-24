@@ -305,4 +305,30 @@ describe('OverlayTrigger', () => {
       expect(screen.queryByRole('tooltip')).to.not.exist;
     });
   });
+
+  it('Should open in new container', () => {
+    const newContainer = document.createElement('div');
+
+    newContainer.style.position = 'relative';
+    newContainer.style.marginTop = '100px';
+    newContainer.style.marginLeft = '100px';
+
+    document.body.appendChild(newContainer);
+
+    const App = ({ container }) => (
+      <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} defaultOpen container={container}>
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    const { rerender } = render(<App container={() => document.body} />);
+
+    expect(newContainer.compareDocumentPosition(screen.getByRole('tooltip'))).to.equal(4);
+
+    rerender(<App container={() => newContainer} />);
+
+    expect(newContainer.compareDocumentPosition(screen.getByRole('tooltip'))).to.equal(20);
+
+    document.body.removeChild(newContainer);
+  });
 });

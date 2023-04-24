@@ -28,6 +28,12 @@ describe('AutoComplete', () => {
     expect(instance).to.have.class('rs-auto-complete-disabled');
   });
 
+  it('Should be readOnly', () => {
+    render(<AutoComplete data={data} readOnly />);
+
+    expect(screen.getByRole('textbox')).to.have.attr('readonly');
+  });
+
   it('Should call onSelect callback with correct args', () => {
     const onSelectSpy = sinon.spy();
     render(<AutoComplete data={['a', 'b', 'ab']} open defaultValue="a" onSelect={onSelectSpy} />);
@@ -253,6 +259,11 @@ describe('AutoComplete', () => {
 
     // eslint-disable-next-line testing-library/no-node-access
     expect((listbox.parentNode as HTMLElement).style.minWidth).to.equal('100px');
+  });
+
+  it('Should be autoComplete', () => {
+    render(<AutoComplete data={data} autoComplete="on" style={{ width: 100 }} />);
+    expect(screen.getByRole('textbox')).to.have.attribute('autocomplete', 'on');
   });
 
   it('Should not throw an error', () => {
