@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { getPathTowardsItem } from '../utils/treeUtils';
 
 type GetColumnsAndPathsOptions<T> = {
   getParent: (item: T) => T | undefined;
@@ -100,45 +101,4 @@ export function usePaths<T extends Record<string, unknown>>({
     pathTowardsSelectedItem,
     pathTowardsActiveItem
   };
-}
-
-/**
- * Returns a WeakMap that maps each item in `items` to its parent
- * indicated by `getChildren` function
- */
-export function getParentMap<T extends Record<string, unknown>>(
-  items: readonly T[],
-  getChildren: (item: T) => readonly T[] | undefined
-) {
-  const map = new WeakMap<T, T>();
-  for (const queue = [...items]; queue.length > 0; ) {
-    const item = queue.shift() as T;
-    const children = getChildren(item);
-
-    if (children) {
-      for (const child of children) {
-        map.set(child, item);
-        queue.push(child);
-      }
-    }
-  }
-
-  return map;
-}
-
-/**
- * Returns an array indicating the hirearchy path from root towards `target` item
- */
-export function getPathTowardsItem<T>(
-  target: T | undefined,
-  getParent: (item: T) => T | undefined
-) {
-  if (!target) return [];
-
-  const path = [target];
-  for (let parent = getParent(target); !!parent; parent = getParent(parent)) {
-    path.unshift(parent);
-  }
-
-  return path;
 }

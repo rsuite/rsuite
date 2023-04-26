@@ -92,6 +92,9 @@ export interface TreeBaseProps<ValueType = string | number, ItemDataType = Recor
   /** Callback function after selecting tree node */
   onSelect?: (activeNode: ItemDataType, value: ValueType, event: React.SyntheticEvent) => void;
 
+  /** Callback when a tree item is clicked */
+  onSelectItem?: (item: ItemDataType, path: ItemDataType[]) => void;
+
   /** Custom Render tree Node */
   renderTreeNode?: (nodeData: ItemDataType) => React.ReactNode;
 
