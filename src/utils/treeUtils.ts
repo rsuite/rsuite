@@ -67,18 +67,28 @@ export function UNSAFE_flattenTree<TItem>(
   return flattenData;
 }
 
+export enum WalkTreeStrategy {
+  DFS,
+  BFS
+}
+
 export function flattenTree<T>(
   rootNodes: readonly T[],
-  getChildren: (node: T) => readonly T[] | undefined
+  getChildren: (node: T) => readonly T[] | undefined,
+  walkStrategy = WalkTreeStrategy.BFS
 ) {
   const result: T[] = [];
 
-  walkTree(rootNodes, getChildren, node => result.push(node));
+  if (walkStrategy === WalkTreeStrategy.BFS) {
+    walkTreeBfs(rootNodes, getChildren, node => result.push(node));
+  } else if (walkStrategy === WalkTreeStrategy.DFS) {
+    walkTreeDfs(rootNodes, getChildren, node => result.push(node));
+  }
 
   return result;
 }
 
-function walkTree<T>(
+function walkTreeBfs<T>(
   rootNodes: readonly T[],
   getChildren: (node: T) => readonly T[] | undefined,
   callback: (node: T) => void
@@ -91,6 +101,21 @@ function walkTree<T>(
 
     if (children) {
       queue.push(...children);
+    }
+  }
+}
+
+function walkTreeDfs<T>(
+  rootNodes: readonly T[],
+  getChildren: (node: T) => readonly T[] | undefined,
+  callback: (node: T) => void
+) {
+  for (const node of rootNodes) {
+    callback(node);
+    const children = getChildren(node);
+
+    if (children) {
+      walkTreeDfs(children, getChildren, callback);
     }
   }
 }

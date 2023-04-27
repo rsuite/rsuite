@@ -11,13 +11,13 @@ import { filterNodesOfTree } from '../utils/treeUtils';
 import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
-  getDataGroupBy,
   useClassNames,
   shallowEqual,
   useCustom,
   useControlled,
   mergeRefs
 } from '../utils';
+import { getDataGroupBy } from '../utils/getDataGroupBy';
 
 import {
   DropdownMenu,
