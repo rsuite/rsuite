@@ -6,6 +6,7 @@ import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
 import CheckPicker from '../CheckPicker';
 import Button from '../../Button';
 import '../styles/index.less';
+import userEvent from '@testing-library/user-event';
 
 const namespace = `${globalKey}-picker`;
 const itemFocusClassName = '.rs-check-item-focus';
@@ -111,6 +112,16 @@ describe('CheckPicker', () => {
     const instance = getInstance(<CheckPicker defaultOpen groupBy="role" data={data} />);
 
     expect(instance.overlay.querySelector('.rs-picker-menu-group')).to.exist;
+  });
+
+  it('Should toggle expansion of a group by clicking on the group title', () => {
+    render(<CheckPicker defaultOpen groupBy="role" data={data} />);
+
+    expect(screen.getAllByRole('option')).to.have.lengthOf(3);
+
+    userEvent.click(screen.getByText('Master'));
+
+    expect(screen.queryAllByRole('option')).to.have.lengthOf(0);
   });
 
   it('Should have a placeholder', () => {

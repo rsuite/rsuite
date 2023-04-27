@@ -348,7 +348,9 @@ const CheckPicker = React.forwardRef(
             activeItemValues={value}
             focusItemValue={focusItemValue}
             data={[...filteredStickyItems, ...items]}
+            // `group` is redundant so long as `groupBy` exists
             group={!isUndefined(groupBy)}
+            groupBy={groupBy}
             onSelect={handleItemSelect}
             onGroupTitleClick={onGroupTitleClick}
             virtualized={virtualized}

@@ -21,6 +21,7 @@ import { mergeRefs, useClassNames, useMount } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
 import { KEY_GROUP, KEY_GROUP_TITLE } from '../utils/getDataGroupBy';
 import { StandardProps, ItemDataType, Offset } from '../@types/common';
+import _ from 'lodash';
 
 export interface DropdownMenuProps<Multiple = false>
   extends StandardProps,
@@ -28,6 +29,7 @@ export interface DropdownMenuProps<Multiple = false>
   classPrefix: string;
   data?: ItemDataType[];
   group?: boolean;
+  groupBy?: string;
   disabledItemValues?: any[];
   activeItemValues?: any[];
   focusItemValue?: any;
@@ -66,6 +68,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
   const {
     data = [],
     group,
+    groupBy,
     maxHeight = 320,
     activeItemValues = [],
     disabledItemValues = [],
@@ -215,7 +218,24 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
   };
 
   const filteredItems = group
-    ? data.filter(item => !foldedGroupKeys?.some(key => key === item.parent?.[KEY_GROUP_TITLE]))
+    ? data.filter(item => {
+        // Display group title items
+        if (item[KEY_GROUP as keyof typeof item]) return true;
+
+        // Display items under the unfolded group
+        // FIXME-Doma
+        // `groupBy` is bound to be string when `group` is true
+        // because `group` is actually redundant as a prop
+        // It could simply be derived from `groupBy` value
+        const groupValue =
+          _.get(item, groupBy as string, '') ||
+          // FIXME-Doma
+          // Usage of `item.parent` is strongly discouraged
+          // It's only here for legacy support
+          // Remove once `item.parent` is completely removed across related components
+          item.parent?.[KEY_GROUP_TITLE];
+        return !foldedGroupKeys.includes(groupValue);
+      })
     : data;
   const rowCount = filteredItems.length;
 
