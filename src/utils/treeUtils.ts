@@ -88,7 +88,7 @@ export function flattenTree<T>(
   return result;
 }
 
-function walkTreeBfs<T>(
+export function walkTreeBfs<T>(
   rootNodes: readonly T[],
   getChildren: (node: T) => readonly T[] | undefined,
   callback: (node: T) => void
@@ -105,7 +105,7 @@ function walkTreeBfs<T>(
   }
 }
 
-function walkTreeDfs<T>(
+export function walkTreeDfs<T>(
   rootNodes: readonly T[],
   getChildren: (node: T) => readonly T[] | undefined,
   callback: (node: T) => void
