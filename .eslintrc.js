@@ -50,7 +50,6 @@ module.exports = {
       extends: ['plugin:testing-library/react'],
       rules: {
         'react/prop-types': 'off',
-        // todo Change this rule to 'error' and fix errors
         'testing-library/no-node-access': [
           'error',
           {
@@ -66,7 +65,8 @@ module.exports = {
         {
           files: ['*StylesSpec.tsx'],
           rules: {
-            'testing-library/no-node-access': 'warn'
+            // Node access is unavoidable in style tests as they do test against class selectors
+            'testing-library/no-node-access': 'off'
           }
         }
       ]
