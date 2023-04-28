@@ -1,10 +1,12 @@
-import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
 import { List, AutoSizer, ListHandle, ListChildComponentProps } from '../Windowing';
 import TreeNode from './TreeNode';
 import {
   createDragPreview,
+  getKeyParentMap,
+  getPathTowardsItem,
   getTreeNodeIndent,
   removeDragPreview,
   stringifyTreeNodeLabel
@@ -155,6 +157,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     onOpen,
     onSearch,
     onSelect,
+    onSelectItem,
     onChange,
     onEntered,
     onClose,
@@ -359,6 +362,18 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     };
   };
 
+  // TODO-Doma
+  // Replace `getKeyParentMap` with `getParentMap`
+  const itemParentMap = useMemo(
+    () =>
+      getKeyParentMap(
+        data,
+        node => node[valueKey],
+        node => node[childrenKey]
+      ),
+    [childrenKey, data, valueKey]
+  );
+
   const handleSelect = useCallback(
     (nodeData: any, event: React.SyntheticEvent) => {
       if (!nodeData) {
@@ -372,10 +387,14 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       setFocusItemValue(nodeData[valueKey]);
       onChange?.(nodeValue, event);
       onSelect?.(nodeData, nodeValue, event);
+      onSelectItem?.(
+        nodeData,
+        getPathTowardsItem(nodeData, item => itemParentMap.get(item[valueKey]))
+      );
       targetRef.current?.focus();
       triggerRef.current?.close?.();
     },
-    [valueKey, isControlled, onChange, onSelect, setValue]
+    [valueKey, isControlled, onChange, onSelect, onSelectItem, setValue, itemParentMap]
   );
 
   const handleExpand = useCallback(

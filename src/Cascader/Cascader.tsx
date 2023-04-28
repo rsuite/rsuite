@@ -7,8 +7,8 @@ import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import shallowEqual from '../utils/shallowEqual';
 import DropdownMenu from './DropdownMenu';
-import { findNodeOfTree, flattenTree } from '../utils/treeUtils';
-import { getParentMap, getPathTowardsItem, usePaths } from './utils';
+import { getParentMap, getPathTowardsItem, findNodeOfTree, flattenTree } from '../utils/treeUtils';
+import { usePaths } from './utils';
 import { PickerLocale } from '../locales';
 import {
   getSafeRegExpString,
