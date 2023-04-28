@@ -1,11 +1,12 @@
 import React from 'react';
-import { render, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, fireEvent, waitFor, act, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '../../utils';
 import { data, originMockData, changedMockData } from './mocks';
 import { PickerHandle } from '../../Picker';
+import userEvent from '@testing-library/user-event';
 
 describe('CheckTreePicker', () => {
   it('Should render default value', () => {
@@ -165,6 +166,31 @@ describe('CheckTreePicker', () => {
     const instance = getDOMNode(<CheckTreePicker placeholder="test" data={data} value={['4']} />);
 
     expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('test');
+  });
+
+  it('Should call `onSelectItem` callback with the selected item and the full path', () => {
+    const onSelectItem = sinon.spy();
+
+    render(
+      <CheckTreePicker
+        open
+        data={data}
+        expandItemValues={['Master', 'tester1']}
+        onSelectItem={onSelectItem}
+      />
+    );
+
+    // TODO-Doma
+    // Handle click on `treeitem`
+    userEvent.click(
+      screen.getByRole('treeitem', { name: 'tester2' }).querySelector('label') as HTMLLabelElement
+    );
+
+    expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
+      sinon.match({ value: 'Master' }),
+      sinon.match({ value: 'tester1' }),
+      sinon.match({ value: 'tester2' })
+    ]);
   });
 
   it('Should call `onChange` callback with 1 values', () => {

@@ -1,10 +1,11 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import Tree from '../Tree';
 import { PickerHandle } from '../../Picker';
 import { ListHandle } from '../../Windowing';
+import userEvent from '@testing-library/user-event';
 
 const data = [
   {
@@ -39,6 +40,24 @@ describe('Tree', () => {
 
     assert.include(instance.className, 'rs-tree');
     assert.equal(instance.getAttribute('role'), 'tree');
+  });
+
+  it('Should call `onSelectItem` callback with the selected item and the full path', () => {
+    const onSelectItem = sinon.spy();
+
+    render(
+      <Tree data={data} onSelectItem={onSelectItem} expandItemValues={['Master', 'tester1']} />
+    );
+
+    // TODO-Doma
+    // Use `treeitem` role
+    userEvent.click(screen.getByRole('button', { name: 'tester2' }));
+
+    expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
+      sinon.match({ value: 'Master' }),
+      sinon.match({ value: 'tester1' }),
+      sinon.match({ value: 'tester2' })
+    ]);
   });
 
   it('Should call `onDragStart` callback', () => {

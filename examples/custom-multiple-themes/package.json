@@ -50,7 +50,7 @@
     "less-loader": "^6.0.0",
     "lodash": "^4.17.19",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "postcss-loader": "^4.0.0",
+    "postcss-loader": "^7.1.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "react-hot-loader": "^4.0.0",
