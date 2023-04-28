@@ -1,3 +1,9 @@
+# [5.33.0](https://github.com/rsuite/rsuite/compare/v5.32.0...v5.33.0) (2023-04-28)
+
+### Features
+
+- **Tree,TreePicker,CheckTree,CheckTreePicker:** add onSelectItem prop ([#3172](https://github.com/rsuite/rsuite/issues/3172)) ([9a5618a](https://github.com/rsuite/rsuite/commit/9a5618a3affb13e70330a5aea253e8b54c67b61b))
+
 # [5.32.0](https://github.com/rsuite/rsuite/compare/v5.31.1...v5.32.0) (2023-04-21)
 
 ### Bug Fixes
