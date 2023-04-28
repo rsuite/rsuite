@@ -183,6 +183,33 @@ describe('TreePicker', () => {
     expect(screen.getByRole('combobox')).to.have.text('test');
   });
 
+  it('Should call `onSelectItem` callback with the selected item and the full path', () => {
+    const onSelectItem = sinon.spy();
+
+    render(
+      <TreePicker
+        open
+        data={data}
+        // FIXME-Doma
+        // Wrong typing for `expandItemValues`
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        expandItemValues={['Master', 'tester1']}
+        onSelectItem={onSelectItem}
+      />
+    );
+
+    // TODO-Doma
+    // Use `treeitem` role
+    userEvent.click(screen.getByRole('button', { name: 'tester2' }));
+
+    expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
+      sinon.match({ value: 'Master' }),
+      sinon.match({ value: 'tester1' }),
+      sinon.match({ value: 'tester2' })
+    ]);
+  });
+
   it('Should call `onChange` callback', () => {
     const onChangeSpy = sinon.spy();
     render(<TreePicker open onChange={onChangeSpy} data={data} />);
