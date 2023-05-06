@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
 import { parseISO } from '../../utils/dateUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -9,56 +9,47 @@ describe('Calendar', () => {
   testStandardProps(<Calendar />);
 
   it('Should render a div with `calendar` class', () => {
-    const { getByTestId } = render(<Calendar data-testid="calendar" />);
+    render(<Calendar data-testid="calendar" />);
 
-    expect(getByTestId('calendar')).to.have.class('rs-calendar');
+    expect(screen.getByTestId('calendar')).to.have.class('rs-calendar');
   });
 
   it('Should be compact', () => {
-    const { getByTestId } = render(<Calendar compact data-testid="calendar" />);
+    render(<Calendar compact data-testid="calendar" />);
 
-    expect(getByTestId('calendar')).to.have.class('rs-calendar-compact');
+    expect(screen.getByTestId('calendar')).to.have.class('rs-calendar-compact');
   });
 
   it('Should be rendered custom elements', () => {
-    const { getByTestId } = render(
+    render(
       <Calendar
-        data-testid="calendar"
         defaultValue={parseISO('2018-07-01')}
         renderCell={() => {
-          return <i className="text">test</i>;
+          return <i data-testid="custom-content">test</i>;
         }}
       />
     );
 
-    expect(getByTestId('calendar').querySelectorAll('.text')).to.length(42);
+    expect(screen.getAllByTestId('custom-content')).to.have.lengthOf(42);
   });
 
   it('Should be bordered', () => {
-    const { getByTestId } = render(<Calendar bordered data-testid="calendar" />);
+    render(<Calendar bordered data-testid="calendar" />);
 
-    expect(getByTestId('calendar')).to.have.class('rs-calendar-bordered');
+    expect(screen.getByTestId('calendar')).to.have.class('rs-calendar-bordered');
   });
 
   it('Should output valid one day', () => {
-    const { getAllByRole } = render(
-      <Calendar format="yyyy-MM-dd" defaultValue={parseISO('2018-07-01')} />
-    );
+    render(<Calendar format="yyyy-MM-dd" defaultValue={parseISO('2018-07-01')} />);
 
-    expect(getAllByRole('row')[1].querySelector('.rs-calendar-table-cell-content')).to.text('1');
+    expect(within(screen.getAllByRole('row')[1]).getAllByRole('gridcell')[0]).to.have.text('1');
   });
 
   it('Should call `onSelect` callback', () => {
     const onSelectSpy = sinon.spy();
-    const { getByTestId } = render(
-      <Calendar format="yyyy-MM-dd" onSelect={onSelectSpy} data-testid="calendar" />
-    );
+    render(<Calendar format="yyyy-MM-dd" onSelect={onSelectSpy} data-testid="calendar" />);
 
-    fireEvent.click(
-      getByTestId('calendar').querySelector(
-        '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
-      ) as HTMLElement
-    );
+    fireEvent.click(screen.getByTitle(/today/i));
 
     expect(onSelectSpy).to.have.been.calledOnce;
   });
@@ -86,11 +77,13 @@ describe('Calendar', () => {
 
     const calendar = (ref.current as AppInstance).calendar;
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(calendar.querySelector('.rs-calendar-header-title')).text('Jun 2021');
 
     (ref.current as AppInstance).setDate(new Date('7/11/2021'));
 
     await waitFor(() => {
+      // eslint-disable-next-line testing-library/no-node-access
       expect(calendar.querySelector('.rs-calendar-header-title')).text('Jul 2021');
     });
   });
@@ -99,6 +92,7 @@ describe('Calendar', () => {
     render(<Calendar defaultValue={new Date('2023-04-01')} />);
 
     const cells = Array.from(
+      // eslint-disable-next-line testing-library/no-node-access
       screen.getByRole('grid').querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).map(cell => (cell as HTMLDivElement).innerText);
 
@@ -119,8 +113,10 @@ describe('Calendar', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
 
     fireEvent.click(
-      screen.getByRole('menu').querySelector('.rs-calendar-month-dropdown-cell-active')
-        ?.nextElementSibling as HTMLElement
+      screen
+        .getByRole('menu')
+        // eslint-disable-next-line testing-library/no-node-access
+        .querySelector('.rs-calendar-month-dropdown-cell-active + div') as HTMLElement
     );
 
     expect(onMonthChangeSpy).to.have.been.calledThrice;
@@ -142,6 +138,7 @@ describe('Calendar', () => {
     fireEvent.click(
       screen
         .getByRole('menu')
+        // eslint-disable-next-line testing-library/no-node-access
         .querySelector('.rs-calendar-month-dropdown-cell-active') as HTMLElement
     );
 

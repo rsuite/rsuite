@@ -1,7 +1,7 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import TreePicker from '../index';
-import { act } from '@testing-library/react';
-import { render, getStyle, inChrome } from '@test/testUtils';
+import { getStyle, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 import { PickerHandle } from 'src/Picker';
@@ -37,9 +37,7 @@ describe('TreePicker styles', () => {
   it('Should render the correct styles', () => {
     const instanceRef = React.createRef<PickerHandle>();
 
-    act(() => {
-      render(<TreePicker data={data} ref={instanceRef} open />);
-    });
+    render(<TreePicker data={data} ref={instanceRef} open />);
 
     const pickerMenuDom = document.querySelector('.rs-picker-tree-menu') as HTMLElement;
     const treeWrapperDom = pickerMenuDom.querySelector('.rs-tree') as HTMLElement;

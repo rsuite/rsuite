@@ -9,12 +9,14 @@ describe('ModalDialog', () => {
     const instance = getDOMNode(<ModalDialog>{title}</ModalDialog>);
 
     assert.equal(instance.className, 'rs-modal');
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(instance.querySelector('.rs-modal-dialog'));
     assert.equal(instance.textContent, title);
   });
 
   it('Should have a custom className in dialog', () => {
     const instance = getDOMNode(<ModalDialog dialogClassName="custom-dialog" />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(instance.querySelector('.rs-modal-dialog.custom-dialog'));
   });
 
@@ -22,6 +24,7 @@ describe('ModalDialog', () => {
     const fontSize = '12px';
     const instance = getDOMNode(<ModalDialog dialogStyle={{ fontSize }} />);
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance.querySelector('.rs-modal-dialog') as HTMLElement).style.fontSize,
       fontSize
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import StepItem from '../StepItem';
@@ -15,6 +15,7 @@ describe('StepItem', () => {
 
   it('Should render a content dom', () => {
     const instance = getDOMNode(<StepItem />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance.querySelectorAll('.rs-steps-item-content').length, 1);
   });
 
@@ -24,9 +25,10 @@ describe('StepItem', () => {
   });
 
   it('Should render custom icon', () => {
-    const instance = getDOMNode(<StepItem icon={<User />} />);
-    assert.ok(instance.className.match(/\brs-steps-item-custom\b/));
-    assert.isNotNull(instance.querySelector('[aria-label="user"]'));
+    const { container } = render(<StepItem icon={<User data-testid="custom-icon" />} />);
+
+    expect(container.firstChild).to.have.class('rs-steps-item-custom');
+    expect(screen.getByTestId('custom-icon')).to.exist;
   });
 
   it('Should output a number ', () => {
@@ -36,11 +38,9 @@ describe('StepItem', () => {
 
   (['wait', 'process'] as const).forEach(status => {
     it(`Should render stepNumber when status is "${status}"`, () => {
-      const { getByTestId } = render(
-        <StepItem stepNumber={2} status={status} data-testid="item" />
-      );
+      render(<StepItem stepNumber={2} status={status} data-testid="item" />);
 
-      expect(getByTestId('item')).to.have.text('2');
+      expect(screen.getByTestId('item')).to.have.text('2');
     });
   });
 

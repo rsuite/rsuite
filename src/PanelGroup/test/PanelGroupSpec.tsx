@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -27,65 +26,63 @@ describe('PanelGroup', () => {
         <Panel>222</Panel>
       </PanelGroup>
     );
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance.querySelectorAll('.rs-panel').length, 2);
   });
 
   it('Should call onSelect callback', () => {
     const onSelect = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <PanelGroup accordion onSelect={onSelect}>
-        <Panel eventKey={1} header="Click me">
+        <Panel eventKey={1} header="Click me 1">
           111
         </Panel>
-        <Panel eventKey={2} header="Click me">
+        <Panel eventKey={2} header="Click me 2">
           222
         </Panel>
       </PanelGroup>
     );
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-panel-header')[1]);
 
+    fireEvent.click(screen.getByText('Click me 2'));
     expect(onSelect).to.have.been.calledWith(2);
   });
 
   it('Should call `onSelect` with undefined when click on Panel without eventKey', () => {
     const onSelectSpy = sinon.spy();
-    const { getByText } = render(
+    render(
       <PanelGroup accordion onSelect={onSelectSpy}>
         <Panel header="Click me">111</Panel>
       </PanelGroup>
     );
 
-    fireEvent.click(getByText('Click me'));
+    fireEvent.click(screen.getByText('Click me'));
     expect(onSelectSpy).to.have.been.calledWith(undefined);
   });
 
   it('Should be a collapsible panel with accordion', () => {
-    const { getByText, container } = render(
+    render(
       <PanelGroup accordion defaultActiveKey={1}>
-        <Panel header="header-1" eventKey={1}>
+        <Panel header="header-1" eventKey={1} data-testid="panel-1">
           body-1
         </Panel>
-        <Panel header="header-2" eventKey={2}>
+        <Panel header="header-2" eventKey={2} data-testid="panel-2">
           body-2
         </Panel>
       </PanelGroup>
     );
 
     // Expand the first panel by default
-    assert.equal(
-      (container.querySelector('.rs-panel-in .rs-panel-body') as HTMLElement).textContent,
-      'body-1'
-    );
+    expect(screen.getByTestId('panel-1')).to.have.class('rs-panel-in');
+    expect(screen.getByTestId('panel-2')).not.to.have.class('rs-panel-in');
 
     // Expand the second panel
-    fireEvent.click(getByText('header-2'));
-    assert.equal(
-      (container.querySelector('.rs-panel-in .rs-panel-body') as HTMLElement).textContent,
-      'body-2'
-    );
+    fireEvent.click(screen.getByText('header-2'));
+    expect(screen.getByTestId('panel-1')).not.to.have.class('rs-panel-in');
+    expect(screen.getByTestId('panel-2')).to.have.class('rs-panel-in');
 
     // Collapse the second panel
-    fireEvent.click(getByText('header-2'));
-    assert.isNull(container.querySelector('.rs-panel-in .rs-panel-body'));
+    fireEvent.click(screen.getByText('header-2'));
+    expect(screen.getByTestId('panel-1')).not.to.have.class('rs-panel-in');
+    expect(screen.getByTestId('panel-2')).not.to.have.class('rs-panel-in');
   });
 });

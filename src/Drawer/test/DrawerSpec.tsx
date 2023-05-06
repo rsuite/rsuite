@@ -7,55 +7,56 @@ import Drawer from '../Drawer';
 
 describe('Drawer', () => {
   it('Should render a drawer', () => {
-    const instance = getDOMNode(
+    render(
       <Drawer open>
         <p>message</p>
       </Drawer>
     );
-    assert.isNotNull(instance.querySelectorAll('.rs-drawer.rs-drawer-right'));
+
+    expect(screen.getByRole('dialog')).to.have.text('message');
   });
 
   it('Should have a `top` className for placement', () => {
-    const instance = getDOMNode(
+    render(
       <Drawer open placement="top">
         <p>message</p>
       </Drawer>
     );
-    assert.isNotNull(instance.querySelectorAll('.rs-drawer-top'));
+
+    expect(screen.getByRole('dialog')).to.have.class('rs-drawer-top');
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<Drawer className="custom" open />);
-    assert.isNotNull(instance.querySelector('.rs-drawer.custom'));
+    render(<Drawer className="custom" open />);
+    expect(screen.getByRole('dialog')).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
     const instance = getDOMNode(<Drawer style={{ fontSize }} open />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal((instance.querySelector('.rs-drawer') as HTMLElement).style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Drawer classPrefix="custom-prefix" open />);
-    assert.isNotNull(instance.querySelector('.rs-custom-prefix'));
+    render(<Drawer classPrefix="custom-prefix" open />);
+    expect(screen.getByRole('dialog')).to.have.class('rs-custom-prefix');
   });
 
   it('Should close the drawer when the backdrop is clicked', () => {
     const onCloseSpy = sinon.spy();
-    const { getByTestId } = render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} />);
+    render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} />);
 
-    fireEvent.click(getByTestId('wrapper'));
+    fireEvent.click(screen.getByTestId('wrapper'));
 
     assert.isTrue(onCloseSpy.calledOnce);
   });
 
   it('Should not close the drawer when the "static" drawer is clicked', () => {
     const onCloseSpy = sinon.spy();
-    const { getByTestId } = render(
-      <Drawer data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />
-    );
+    render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />);
 
-    fireEvent.click(getByTestId('wrapper'));
+    fireEvent.click(screen.getByTestId('wrapper'));
 
     assert.isFalse(onCloseSpy.calledOnce);
   });

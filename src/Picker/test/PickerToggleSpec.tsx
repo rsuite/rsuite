@@ -32,25 +32,25 @@ describe('<PickerToggle>', () => {
 
   describe('Cleanable (`cleanable`=true)', () => {
     it('Should render a clear button when value is present', () => {
-      const { getByRole } = render(
+      render(
         <Toggle cleanable hasValue>
           Title
         </Toggle>
       );
 
-      expect(getByRole('button', { name: /clear/i })).to.exist;
+      expect(screen.getByRole('button', { name: /clear/i })).to.exist;
     });
 
     it('Should call `onClean` callback when clicking clear button', () => {
       const onCleanSpy = sinon.spy();
 
-      const { getByRole } = render(
+      render(
         <Toggle cleanable hasValue onClean={onCleanSpy}>
           Title
         </Toggle>
       );
 
-      fireEvent.click(getByRole('button', { name: /clear/i }));
+      fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
       expect(onCleanSpy).to.have.been.called;
     });
@@ -109,13 +109,14 @@ describe('<PickerToggle>', () => {
     assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
-  it('Should add value to input', () => {
-    const instance = getDOMNode(
+  it('Should add value to input', async () => {
+    render(
       <Toggle title="title" inputValue={['value1', 'value2']}>
         Title
       </Toggle>
     );
-    assert.ok(instance.querySelector('[value="value1,value2"]'));
+
+    expect(screen.getByRole('textbox', { hidden: true })).to.have.attr('value', 'value1,value2');
   });
 
   it('Should be disabled', () => {
@@ -131,15 +132,16 @@ describe('<PickerToggle>', () => {
       </span>
     );
 
-    const { getByTestId } = render(<Toggle caretAs={MyCaret} />);
+    render(<Toggle caretAs={MyCaret} />);
 
-    expect(getByTestId('caret')).to.have.class('rs-picker-toggle-caret');
+    expect(screen.getByTestId('caret')).to.have.class('rs-picker-toggle-caret');
   });
 
   it('Should not show caret icon when it has value', () => {
-    render(<Toggle hasValue cleanable />);
+    const { container } = render(<Toggle hasValue cleanable />);
 
-    expect(screen.getByRole('combobox').querySelector('.rs-picker-toggle-clean')).to.exist;
-    expect(screen.getByRole('combobox').querySelector('.rs-picker-toggle-caret')).to.not.exist;
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    expect(container.querySelector('.rs-picker-toggle-caret')).to.not.exist;
   });
 });
