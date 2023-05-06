@@ -1052,4 +1052,10 @@ describe('DatePicker', () => {
 
     expect(cells).to.deep.equal(['26', '27', '28', '29', '30', '31', '1', '2', '3', '4', '5', '6']);
   });
+
+  it('Should display the default month on the calendar based on the defaultValue', () => {
+    render(<DatePicker defaultValue={new Date('2023-04-01')} open />);
+
+    expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Apr 2023');
+  });
 });

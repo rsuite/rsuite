@@ -236,9 +236,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const [value, setValue] = useControlled(valueProp, defaultValue);
     const { calendarDate, setCalendarDate, resetCalendarDate } = useCalendarDate(
-      valueProp,
+      value,
       calendarDefaultDate
     );
+
     const [inputState, setInputState] = useState<InputState>();
 
     const [active, setActive] = useState<boolean>(false);
