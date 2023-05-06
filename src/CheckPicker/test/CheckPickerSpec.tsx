@@ -493,6 +493,22 @@ describe('CheckPicker', () => {
     });
   });
 
+  it('Should open the options list after pressing the enter key', () => {
+    render(<CheckPicker data={data} />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+
+    expect(screen.queryByRole('listbox')).to.exist;
+  });
+
+  it('Should not respond to keyboard events after setting readOnly', () => {
+    render(<CheckPicker data={data} readOnly />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+
+    expect(screen.queryByRole('listbox')).not.to.exist;
+  });
+
   describe('Loading state', () => {
     it('Should display a spinner when loading=true', () => {
       render(<CheckPicker data={data} loading />);

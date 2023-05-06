@@ -436,6 +436,8 @@ export interface ToggleKeyDownEventProps {
   overlayRef?: React.RefObject<any>;
   searchInputRef?: React.RefObject<any>;
   active?: boolean;
+  readOnly?: boolean;
+  disabled?: boolean;
   onExit?: (event) => void;
   onKeyDown?: (event) => void;
   onOpen?: () => void;
@@ -458,6 +460,8 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     overlayRef,
     searchInputRef,
     active,
+    readOnly,
+    disabled,
     onExit,
     onOpen,
     onClose,
@@ -487,6 +491,11 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
   const onToggle = useCallback(
     (event: React.KeyboardEvent) => {
+      // Keyboard events should not be processed when readOnly and disabled are set.
+      if (readOnly || disabled) {
+        return;
+      }
+
       if (event.target === targetRef?.current) {
         // enter
         if (toggle && event.key === KEY_VALUES.ENTER) {
