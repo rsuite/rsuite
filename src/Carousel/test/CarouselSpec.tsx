@@ -2,7 +2,7 @@ import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
-import { render, act, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, act, waitFor, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import Carousel from '../Carousel';
 
@@ -163,5 +163,26 @@ describe('Carousel', () => {
     expect((container.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
       '4'
     );
+  });
+
+  it('Should reset index when children change', () => {
+    const { rerender } = render(
+      <Carousel defaultActiveIndex={2}>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+      </Carousel>
+    );
+
+    expect(screen.getByText('3')).to.have.attribute('aria-hidden', 'false');
+
+    rerender(
+      <Carousel defaultActiveIndex={2}>
+        <button>1</button>
+      </Carousel>
+    );
+
+    expect(screen.getByText('1')).to.have.attribute('aria-hidden', 'false');
   });
 });
