@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { getDOMNode, getStyle, toRGB } from '@test/testUtils';
 import Nav from '../../Nav';
 import Navbar from '../Navbar';
@@ -16,7 +16,7 @@ describe('Navbar styles', () => {
 
   context('Navbar.Item', () => {
     it('Should render an 16px icon with 5px gap against text content', () => {
-      const { getByTestId } = render(
+      render(
         <Navbar>
           <Nav>
             <Nav.Item icon={<i className="rs-icon" data-testid="icon" />}>Home</Nav.Item>
@@ -24,7 +24,7 @@ describe('Navbar styles', () => {
         </Navbar>
       );
 
-      expect(getByTestId('icon'))
+      expect(screen.getByTestId('icon'))
         .to.have.style('font-size', '16px')
         .and.to.have.style('margin-right', '5px');
     });

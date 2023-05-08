@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Table from '../index';
-import { getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -26,8 +25,7 @@ describe('Table styles', () => {
         </Column>
       </Table>
     );
-    const dom = document.querySelector('.rs-table') as HTMLElement;
+    expect(document.querySelector('.rs-table')).to.have.style('position', 'relative');
     // assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#fff'), 'Table background-color');
-    assert.equal(getStyle(dom, 'position'), 'relative', 'Table position');
   });
 });

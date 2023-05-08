@@ -50,6 +50,7 @@ describe('Button', () => {
   it('Should be loading', () => {
     const instance = getInstance(<Button loading>Title</Button>);
     assert.include(instance.className, 'rs-btn-loading');
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(instance.querySelector('.rs-btn-spin'));
   });
 

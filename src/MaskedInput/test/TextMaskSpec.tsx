@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render, act } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import TextMask, { TextMaskProps } from '../TextMask';
 import mergeRefs from '../../utils/mergeRefs';
@@ -43,7 +43,7 @@ describe('TextMask', () => {
   });
 
   it('renders a single input element', () => {
-    const { getByTestId } = render(
+    render(
       <TextMask
         data-testid="test"
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
@@ -51,22 +51,22 @@ describe('TextMask', () => {
       />
     );
 
-    expect(getByTestId('test').tagName).to.be.equal('INPUT');
+    expect(screen.getByTestId('test').tagName).to.be.equal('INPUT');
   });
 
   it('renders correctly with an undefined value', () => {
-    const { getByTestId } = render(
+    render(
       <TextMask
         data-testid="test"
         mask={['(', /\d/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
         guide={true}
       />
     );
-    expect((getByTestId('test') as HTMLInputElement).value).to.equal('');
+    expect((screen.getByTestId('test') as HTMLInputElement).value).to.equal('');
   });
 
   it('renders correctly with an initial value', () => {
-    const { getByTestId } = render(
+    render(
       <TextMask
         data-testid="test"
         value="123"
@@ -75,11 +75,11 @@ describe('TextMask', () => {
       />
     );
 
-    expect((getByTestId('test') as HTMLInputElement).value).to.equal('(123) ___-____');
+    expect((screen.getByTestId('test') as HTMLInputElement).value).to.equal('(123) ___-____');
   });
 
   it('renders mask instead of empty string when showMask is true', () => {
-    const { getByTestId } = render(
+    render(
       <TextMask
         data-testid="test"
         showMask={true}
@@ -87,11 +87,11 @@ describe('TextMask', () => {
         guide={true}
       />
     );
-    expect((getByTestId('test') as HTMLInputElement).value).to.equal('(___) ___-____');
+    expect((screen.getByTestId('test') as HTMLInputElement).value).to.equal('(___) ___-____');
   });
 
   it('does not render mask instead of empty string when showMask is false', () => {
-    const { getByTestId } = render(
+    render(
       <TextMask
         data-testid="test"
         showMask={false}
@@ -99,11 +99,11 @@ describe('TextMask', () => {
         guide={true}
       />
     );
-    expect((getByTestId('test') as HTMLInputElement).value).to.equal('');
+    expect((screen.getByTestId('test') as HTMLInputElement).value).to.equal('');
   });
 
   it('does not render masked characters', () => {
-    const { getByTestId } = render(
+    render(
       <TextMask
         data-testid="test"
         value="abc"
@@ -112,7 +112,7 @@ describe('TextMask', () => {
       />
     );
 
-    expect((getByTestId('test') as HTMLInputElement).value).to.equal('(___) ___-____');
+    expect((screen.getByTestId('test') as HTMLInputElement).value).to.equal('(___) ___-____');
   });
 
   it('does not allow masked characters', () => {
@@ -136,8 +136,8 @@ describe('TextMask', () => {
   });
 
   it('can be disabled by setting the mask to false', () => {
-    const { getByTestId } = render(<TextMask data-testid="test" value="123abc" mask={false} />);
-    expect((getByTestId('test') as HTMLInputElement).value).to.equal('123abc');
+    render(<TextMask data-testid="test" value="123abc" mask={false} />);
+    expect((screen.getByTestId('test') as HTMLInputElement).value).to.equal('123abc');
   });
 
   it('can call textMaskInputElement.update to update the inputElement.value', () => {
@@ -198,7 +198,7 @@ describe('TextMask', () => {
   });
 
   it('accepts function as mask property', () => {
-    const { getByTestId } = render(
+    render(
       <TextMask
         data-testid="test"
         value="1234"
@@ -223,11 +223,11 @@ describe('TextMask', () => {
         }}
       />
     );
-    expect((getByTestId('test') as HTMLInputElement).value).to.equal('(123) 4__-____');
+    expect((screen.getByTestId('test') as HTMLInputElement).value).to.equal('(123) 4__-____');
   });
 
   it('accepts pipe function', () => {
-    const { getByTestId } = render(
+    render(
       <TextMask
         data-testid="test"
         value="1234"
@@ -238,14 +238,14 @@ describe('TextMask', () => {
         }}
       />
     );
-    expect((getByTestId('test') as HTMLInputElement).value).to.equal('abc');
+    expect((screen.getByTestId('test') as HTMLInputElement).value).to.equal('abc');
   });
 
   it('calls `onChange` when a change event is received', () => {
     const onChangeSpy = sinon.spy(event => {
       expect(event.target.value).to.equal('123');
     });
-    const { getByTestId } = render(
+    render(
       <TextMask
         data-testid="test"
         value="123"
@@ -254,7 +254,7 @@ describe('TextMask', () => {
         guide={true}
       />
     );
-    ReactTestUtils.Simulate.change(getByTestId('test'), {
+    ReactTestUtils.Simulate.change(screen.getByTestId('test'), {
       target: { value: '123' } as any
     });
     expect(onChangeSpy.callCount).to.equal(1);
@@ -264,7 +264,7 @@ describe('TextMask', () => {
     const onBlurSpy = sinon.spy(event => {
       expect(event.target.value).to.equal('(123) ___-____');
     });
-    const { getByTestId } = render(
+    render(
       <TextMask
         data-testid="test"
         value="123"
@@ -273,7 +273,7 @@ describe('TextMask', () => {
         guide={true}
       />
     );
-    ReactTestUtils.Simulate.blur(getByTestId('test'));
+    ReactTestUtils.Simulate.blur(screen.getByTestId('test'));
     expect(onBlurSpy.callCount).to.equal(1);
   });
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import CheckPicker from '../index';
 import { getStyle, inChrome } from '@test/testUtils';
 import getWidth from 'dom-lib/getWidth';
@@ -33,12 +33,12 @@ describe('CheckPicker styles', () => {
   });
 
   it('Should change the width of the virtualized list', () => {
-    const { getByRole } = render(<CheckPicker data={data} style={{ width: 400 }} virtualized />);
+    render(<CheckPicker data={data} style={{ width: 400 }} virtualized />);
 
-    fireEvent.click(getByRole('combobox'));
+    fireEvent.click(screen.getByRole('combobox'));
 
     expect(
-      getWidth((getByRole('listbox').firstChild as HTMLElement).firstChild as HTMLElement)
+      getWidth((screen.getByRole('listbox').firstChild as HTMLElement).firstChild as HTMLElement)
     ).to.equal(400);
   });
 });

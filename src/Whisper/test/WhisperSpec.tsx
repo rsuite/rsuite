@@ -1,5 +1,5 @@
 import React, { CSSProperties, Ref } from 'react';
-import { render, act, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
@@ -19,24 +19,38 @@ describe('Whisper', () => {
 
   it('Should maintain overlay classname when trigger click', () => {
     const whisper = getDOMNode(
-      <Whisper trigger="click" speaker={<Tooltip className="test-whisper">test</Tooltip>}>
+      <Whisper
+        trigger="click"
+        speaker={
+          <Tooltip className="test-whisper" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
+      >
         <button>button</button>
       </Whisper>
     );
     fireEvent.click(whisper);
 
-    expect(document.getElementsByClassName('test-whisper')).to.length(1);
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper');
   });
 
   it('Should maintain overlay classname when trigger focus', () => {
     const whisper = getDOMNode(
-      <Whisper trigger="focus" speaker={<Tooltip className="test-whisper">test</Tooltip>}>
+      <Whisper
+        trigger="focus"
+        speaker={
+          <Tooltip className="test-whisper" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
+      >
         <button>button</button>
       </Whisper>
     );
 
     fireEvent.focus(whisper);
-    expect(document.getElementsByClassName('test-whisper')).to.length(1);
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper');
   });
 
   it('Should call onClick callback', () => {
@@ -136,7 +150,7 @@ describe('Whisper', () => {
     const onEnteringSpy = sinon.spy();
     const onEnteredSpy = sinon.spy();
 
-    const { getByTestId } = render(
+    render(
       <Whisper
         trigger="click"
         speaker={<Tooltip>test</Tooltip>}
@@ -151,9 +165,7 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    act(() => {
-      fireEvent.click(getByTestId('btn'));
-    });
+    fireEvent.click(screen.getByTestId('btn'));
 
     await waitFor(() => {
       expect(onEnterSpy).to.called;
@@ -161,9 +173,7 @@ describe('Whisper', () => {
       expect(onEnteredSpy).to.called;
     });
 
-    act(() => {
-      fireEvent.click(getByTestId('btn'));
-    });
+    fireEvent.click(screen.getByTestId('btn'));
 
     await waitFor(() => {
       expect(onExitSpy).to.called;
@@ -211,18 +221,9 @@ describe('Whisper', () => {
         <button>button</button>
       </Whisper>
     );
-    act(() => {
-      fireEvent.click((ref.current as WhisperInstance).root as HTMLElement);
-    });
 
-    act(() => {
-      fireEvent.click(
-        // FIXME WhisperInstance is missing `overlay` declaration
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        (ref.current as WhisperInstance).overlay.querySelector('button') as HTMLElement
-      );
-    });
+    fireEvent.click((ref.current as WhisperInstance).root as HTMLElement);
+    fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
     await waitFor(() => {
       expect(onExitedSpy).to.called;

@@ -44,8 +44,10 @@ describe('CheckTree', () => {
   it('Should show indent line', () => {
     const instance = getDOMNode(<CheckTree data={data} showIndentLine />);
 
+    // eslint-disable-next-line testing-library/no-node-access
     const lines = instance.querySelectorAll('.rs-check-tree-indent-line');
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.isNotNull(instance.querySelector('.rs-check-tree-indent-line'));
     assert.equal(lines.length, 2);
     assert.equal((lines[0] as HTMLElement).style.left, '44px');
@@ -67,6 +69,7 @@ describe('CheckTree', () => {
     // TODO-Doma
     // Handle click on `treeitem`
     userEvent.click(
+      // eslint-disable-next-line testing-library/no-node-access
       screen.getByRole('treeitem', { name: 'tester2' }).querySelector('label') as HTMLLabelElement
     );
 
