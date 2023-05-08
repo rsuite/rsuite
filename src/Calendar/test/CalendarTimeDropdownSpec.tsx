@@ -25,6 +25,7 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
       3
     );
@@ -41,6 +42,7 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
       2
     );
@@ -57,6 +59,7 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
       1
     );
@@ -74,6 +77,7 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     ReactTestUtils.Simulate.click(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector('[data-key="hours-1"]') as HTMLElement
     );
 
@@ -96,6 +100,7 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-cell-disabled')
         .length,
       23 - 10
@@ -117,6 +122,7 @@ describe('Calendar - TimeDropdown', () => {
       </CalendarContext.Provider>
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal((ref.current as HTMLDivElement).querySelectorAll('li').length, 11);
   });
 

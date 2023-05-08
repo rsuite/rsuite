@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 
@@ -27,10 +27,10 @@ const data = [
 
 describe('InputPicker', () => {
   it('Should clean selected default value', () => {
-    const instance = getDOMNode(<InputPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
+    render(<InputPicker data={data} defaultValue={'Eugenia'} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
-    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
+    fireEvent.click(screen.getByRole('button', { name: /clear/i }));
+    expect(screen.getByRole('combobox')).to.have.text('Select');
   });
 
   it('Should have "default" appearance by default', () => {
@@ -40,11 +40,10 @@ describe('InputPicker', () => {
   });
 
   it('Should not clean selected value', () => {
-    const instance = getDOMNode(<InputPicker defaultOpen data={data} value={'Eugenia'} />);
+    render(<InputPicker data={data} value={'Eugenia'} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
-
-    expect(instance.querySelector('.rs-picker-toggle-value')).to.text('Eugenia');
+    fireEvent.click(screen.getByRole('button', { name: /clear/i }));
+    expect(screen.getByRole('combobox')).to.have.text('Eugenia');
   });
 
   it('Should output a dropdown', () => {
@@ -84,30 +83,20 @@ describe('InputPicker', () => {
       </div>
     );
 
-    fireEvent.focus(
-      ((input1Ref.current as PickerHandle).root as HTMLElement).querySelector(
-        '.rs-picker-search-input'
-      ) as HTMLInputElement
-    );
-    fireEvent.focus(
-      ((input2Ref.current as PickerHandle).root as HTMLElement).querySelector(
-        '.rs-picker-search-input'
-      ) as HTMLInputElement
-    );
+    fireEvent.focus(screen.getAllByRole('textbox')[0]);
+    fireEvent.focus(screen.getAllByRole('textbox')[1]);
 
     expect((input1Ref.current as PickerHandle).overlay).to.exist;
-    expect(
-      ((input2Ref.current as PickerHandle).root as HTMLElement).querySelector('input[readonly]')
-    ).to.exist;
+    expect(screen.getAllByRole('textbox')[1]).to.have.attr('readonly');
     expect(() => {
       (input2Ref.current as PickerHandle).overlay;
     }).to.throw('The overlay is not found. Please confirm whether the picker is open.');
   });
 
   it('Should output a button', () => {
-    const instance = getDOMNode(<InputPicker data={[]} toggleAs="button" />);
+    render(<InputPicker data={[]} toggleAs="button" />);
 
-    expect(instance.querySelector('button')).to.exist;
+    expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
   it('Should be block', () => {
@@ -118,43 +107,42 @@ describe('InputPicker', () => {
 
   it('Should active item by `value`', () => {
     const value = 'Louisa';
-    const instance = getInstance(<InputPicker defaultOpen data={data} value={value} />);
+    render(<InputPicker defaultOpen data={data} value={value} />);
 
-    expect(instance.root.querySelector('.rs-picker-toggle-value')).to.text('Louisa');
-    expect(instance.overlay.querySelector('.rs-picker-select-menu-item-active')).to.text('Louisa');
+    expect(screen.getByRole('combobox')).to.have.text(value);
+    expect(screen.getByRole('option', { name: value })).to.have.attr('aria-selected', 'true');
   });
 
   it('Should active item by `defaultValue`', () => {
     const value = 'Louisa';
-    const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={value} />);
+    render(<InputPicker defaultOpen data={data} defaultValue={value} />);
 
-    expect(instance.root.querySelector('.rs-picker-toggle-value')).to.text('Louisa');
-    expect(instance.overlay.querySelector('.rs-picker-select-menu-item-active')).to.text('Louisa');
+    expect(screen.getByRole('combobox')).to.have.text(value);
+    expect(screen.getByRole('option', { name: value })).to.have.attr('aria-selected', 'true');
   });
 
   it('Should render a group', () => {
-    const instance = getInstance(<InputPicker defaultOpen groupBy="role" data={data} />);
+    render(<InputPicker defaultOpen groupBy="role" data={data} />);
 
-    assert.ok(instance.overlay.querySelector('.rs-picker-menu-group'));
+    expect(within(screen.getByRole('listbox')).getByRole('group')).to.exist;
   });
 
   it('Should have a placeholder', () => {
-    const instance = getDOMNode(<InputPicker data={[]} className="custom" placeholder="test" />);
+    render(<InputPicker data={[]} className="custom" placeholder="test" />);
 
-    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('test');
+    expect(screen.getByRole('combobox')).to.have.text('test');
   });
 
   it('Allow `label` to be an empty string', () => {
-    const instance = getInstance(
+    render(
       <InputPicker placeholder="test" data={[{ label: '', value: '1' }]} value={'1'} defaultOpen />
     );
-    const menuContainer = instance.overlay.querySelector('.rs-picker-select-menu-item-active');
 
-    expect(menuContainer).to.text('');
+    expect(screen.getByRole('option', { selected: true })).to.text('');
   });
 
   it('Should render value by `renderValue`', () => {
-    const instance = getDOMNode(
+    render(
       <InputPicker
         className="custom"
         placeholder="test"
@@ -164,14 +152,14 @@ describe('InputPicker', () => {
       />
     );
 
-    expect(instance.querySelector('.rs-picker-toggle-value')).to.text('foo-bar');
+    expect(screen.getByRole('combobox')).to.have.text('foo-bar');
   });
 
   it('Should output a value by renderValue()', () => {
     const placeholder = 'value';
 
     // Valid value
-    const instance = getDOMNode(
+    const { rerender } = render(
       <InputPicker
         renderValue={v => [v, placeholder]}
         data={[{ value: 1, label: '1' }]}
@@ -179,42 +167,39 @@ describe('InputPicker', () => {
       />
     );
 
-    // Invalid value
-    const instance2 = getDOMNode(
-      <InputPicker renderValue={v => [v, placeholder]} data={[]} value={2} />
-    );
+    expect(screen.getByRole('combobox')).to.have.text(`1${placeholder}`);
 
-    expect(instance.querySelector('.rs-picker-toggle-value')).to.text(`1${placeholder}`);
-    expect(instance2.querySelector('.rs-picker-toggle-value')).to.text(`2${placeholder}`);
+    // Invalid value
+    rerender(<InputPicker renderValue={v => [v, placeholder]} data={[]} value={2} />);
+
+    expect(screen.getByRole('combobox')).to.have.text(`2${placeholder}`);
   });
 
   it('Should not be call renderValue()', () => {
-    const instance = getDOMNode(<InputPicker data={[]} renderValue={() => 'value'} />);
+    render(<InputPicker data={[]} renderValue={() => 'value'} />);
 
-    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
+    expect(screen.getByRole('combobox')).to.have.text('Select');
   });
 
   it('Should render a placeholder when value error', () => {
-    const instance = getDOMNode(<InputPicker data={[]} value={2} placeholder={'test'} />);
+    render(<InputPicker data={[]} value={2} placeholder={'test'} />);
 
-    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('test');
+    expect(screen.getByRole('combobox')).to.have.text('test');
   });
 
   it('Should call `onChange` callback with correct value', () => {
     const onChangeSpy = sinon.spy();
-    const instance = getInstance(<InputPicker defaultOpen onChange={onChangeSpy} data={data} />);
+    render(<InputPicker defaultOpen onChange={onChangeSpy} data={data} />);
 
-    fireEvent.click(instance.overlay.querySelector('.rs-picker-select-menu-item'));
+    fireEvent.click(screen.getByRole('option', { name: 'Eugenia' }));
 
     expect(onChangeSpy).to.have.been.calledWith('Eugenia');
   });
 
   it('Should call `onClean` callback', () => {
     const onCleanSpy = sinon.spy();
-    const instance = getDOMNode(
-      <InputPicker data={data} defaultValue={'Eugenia'} onClean={onCleanSpy} />
-    );
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
+    render(<InputPicker data={data} defaultValue={'Eugenia'} onClean={onCleanSpy} />);
+    fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
     expect(onCleanSpy).to.calledOnce;
   });
@@ -242,35 +227,39 @@ describe('InputPicker', () => {
   });
 
   it('Should output a clean button', () => {
-    const instance = getDOMNode(<InputPicker data={data} defaultValue={'Louisa'} />);
+    render(<InputPicker data={data} defaultValue={'Louisa'} />);
 
-    expect(instance.querySelector('.rs-picker-toggle-clean')).to.exist;
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
   });
 
   it('Should call `onSearch` callback with correct search keyword', () => {
     const onSearchSpy = sinon.spy();
-    const instance = getDOMNode(<InputPicker data={[]} defaultOpen onSearch={onSearchSpy} />);
+    render(<InputPicker data={[]} defaultOpen onSearch={onSearchSpy} />);
 
-    const input = instance.querySelector('.rs-picker-search-input') as HTMLInputElement;
+    const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 'a' } });
 
-    expect(onSearchSpy).to.calledOnce;
-    expect(onSearchSpy).to.calledWith('a');
+    expect(onSearchSpy).to.have.been.calledOnce;
+    expect(onSearchSpy).to.have.been.calledWith('a');
   });
 
   it('Should focus item by key=ArrowDown ', () => {
     const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
     fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
 
-    expect(instance.overlay.querySelector('.rs-picker-select-menu-item-focus')).to.text('Kariane');
+    expect(screen.getByRole('option', { name: 'Kariane' }).firstChild).to.have.class(
+      'rs-picker-select-menu-item-focus'
+    );
   });
 
   it('Should focus item by key=ArrowUp ', () => {
     const instance = getInstance(<InputPicker defaultOpen data={data} defaultValue={'Kariane'} />);
     fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
 
-    expect(instance.overlay.querySelector('.rs-picker-select-menu-item-focus')).to.text('Eugenia');
+    expect(screen.getByRole('option', { name: 'Eugenia' }).firstChild).to.have.class(
+      'rs-picker-select-menu-item-focus'
+    );
   });
 
   it('Should call `onChange` by key=Enter ', () => {
@@ -286,16 +275,16 @@ describe('InputPicker', () => {
 
   it('Should call onBlur callback', () => {
     const onBlurSpy = sinon.spy();
-    const instance = getDOMNode(<InputPicker data={[]} onBlur={onBlurSpy} />);
-    fireEvent.blur(instance.querySelector('.rs-picker-search-input') as HTMLInputElement);
+    render(<InputPicker data={[]} onBlur={onBlurSpy} />);
+    fireEvent.blur(screen.getByRole('textbox'));
 
     expect(onBlurSpy).to.calledOnce;
   });
 
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
-    const instance = getDOMNode(<InputPicker data={[]} onFocus={onFocusSpy} />);
-    fireEvent.focus(instance.querySelector('.rs-picker-search-input') as HTMLInputElement);
+    render(<InputPicker data={[]} onFocus={onFocusSpy} />);
+    fireEvent.focus(screen.getByRole('textbox'));
 
     expect(onFocusSpy).to.called;
   });
@@ -319,48 +308,49 @@ describe('InputPicker', () => {
   });
 
   it('Should render a button by toggleAs={Button}', () => {
-    const instance = getDOMNode(<InputPicker open data={data} toggleAs={Button} />);
+    render(<InputPicker open data={data} toggleAs={Button} />);
 
-    expect(instance.querySelector('.rs-btn')).to.exist;
+    expect(screen.getByRole('combobox')).to.have.class('rs-btn');
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
-    const instance = getInstance(
-      <InputPicker defaultOpen data={data} searchBy={(_a, _b, c) => c.value === 'Louisa'} />
-    );
-    const list = instance.overlay.querySelectorAll('.rs-picker-select-menu-item');
+    render(<InputPicker defaultOpen data={data} searchBy={(_a, _b, c) => c.value === 'Louisa'} />);
+    const list = screen.getAllByRole('option');
 
     expect(list).to.be.lengthOf(1);
     expect(list[0]).to.text('Louisa');
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<InputPicker data={[]} value="Test" renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<InputPicker data={[]} value="Test" renderValue={() => null} />);
-    const instance3 = getDOMNode(
-      <InputPicker data={[]} value="Test" renderValue={() => undefined} />
+    const { container, rerender } = render(
+      <InputPicker data={[]} value="Test" renderValue={() => '1'} />
     );
 
-    expect(instance2.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
-    expect(instance3.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
+    expect(container.firstChild).to.have.class('rs-picker-has-value');
 
-    expect(instance1).to.have.class('rs-picker-has-value');
-    expect(instance2).to.not.have.class('rs-picker-has-value');
-    expect(instance3).to.not.have.class('rs-picker-has-value');
+    rerender(<InputPicker data={[]} value="Test" renderValue={() => null} />);
+
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
+
+    rerender(<InputPicker data={[]} value="Test" renderValue={() => undefined} />);
+
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
   });
 
   it('Children should not be selected', () => {
     const data = [{ value: 1, label: 'A', children: [{ value: 2, label: 'B' }] }];
-    const instance = getDOMNode(<InputPicker data={data} value={2} />);
+    const { container } = render(<InputPicker data={data} value={2} />);
 
-    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
-    expect(instance).to.not.have.class('rs-picker-has-value');
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
   });
 
   it('Should set a tabindex for input', () => {
-    const instance = getDOMNode(<InputPicker data={[]} tabIndex={10} />);
+    render(<InputPicker data={[]} tabIndex={10} />);
 
-    expect(instance.querySelector('.rs-picker-search-input')).to.have.attribute('tabindex', '10');
+    expect(screen.getByRole('textbox')).to.have.attribute('tabindex', '10');
   });
 
   it('Should call `onCreate` callback with correct value', () => {
@@ -371,9 +361,7 @@ describe('InputPicker', () => {
 
     fireEvent.focus((inputRef.current as PickerHandle).root as HTMLElement);
 
-    const input = ((inputRef.current as PickerHandle).root as HTMLElement).querySelector(
-      '.rs-picker-search-input'
-    ) as HTMLInputElement;
+    const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 'abc' } });
     fireEvent.keyDown(input, { key: 'Enter' });

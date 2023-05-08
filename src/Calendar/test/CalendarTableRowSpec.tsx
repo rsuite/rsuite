@@ -15,9 +15,12 @@ describe('Calendar-TableRow', () => {
   });
 
   it('Should be active today', () => {
+    // FIXME-Doma
+    // TableRow should always require dates specified
     const instance = getDOMNode(<TableRow />);
 
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance.querySelector('.rs-calendar-table-cell-is-today') as HTMLElement).textContent,
       getDate(new Date()) + ''
     );
@@ -34,6 +37,7 @@ describe('Calendar-TableRow', () => {
       </CalendarContext.Provider>
     );
     ReactTestUtils.Simulate.click(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector(
         '.rs-calendar-table-cell .rs-calendar-table-cell-content'
       ) as HTMLElement
@@ -67,14 +71,12 @@ describe('Calendar-TableRow', () => {
         <TableRow ref={ref} />
       </CalendarContext.Provider>
     );
-    assert.equal(
-      (
-        (ref.current as HTMLDivElement).querySelector(
-          '.rs-calendar-table-cell-week-number'
-        ) as HTMLElement
-      ).textContent,
-      format(new Date(), 'w')
-    );
+    expect(
+      // eslint-disable-next-line testing-library/no-node-access
+      (ref.current as HTMLDivElement).querySelector(
+        '.rs-calendar-table-cell-week-number'
+      ) as HTMLElement
+    ).to.have.text(format(new Date(), 'w'));
   });
 
   it('Should render a ISO week number', () => {
@@ -91,13 +93,11 @@ describe('Calendar-TableRow', () => {
         <TableRow ref={ref} />
       </CalendarContext.Provider>
     );
-    assert.equal(
-      (
-        (ref.current as HTMLDivElement).querySelector(
-          '.rs-calendar-table-cell-week-number'
-        ) as HTMLElement
-      ).textContent,
-      format(new Date(), 'I')
-    );
+    expect(
+      // eslint-disable-next-line testing-library/no-node-access
+      (ref.current as HTMLDivElement).querySelector(
+        '.rs-calendar-table-cell-week-number'
+      ) as HTMLElement
+    ).to.have.text(format(new Date(), 'I'));
   });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { getDOMNode, getStyle, getDefaultPalette } from '@test/testUtils';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
@@ -17,7 +17,7 @@ describe('Sidenav styles', () => {
     });
 
     it('Should highlight selected dropdown item', () => {
-      const { getByTestId } = render(
+      render(
         <Sidenav>
           <Nav>
             <Dropdown title="Dropdown">
@@ -29,13 +29,13 @@ describe('Sidenav styles', () => {
         </Sidenav>
       );
 
-      expect(getByTestId('item')).to.have.style('color', getDefaultPalette('H700'));
+      expect(screen.getByTestId('item')).to.have.style('color', getDefaultPalette('H700'));
     });
   });
 
   context('Subtle', () => {
     it('Should highlight selected dropdown item', () => {
-      const { getByTestId } = render(
+      render(
         <Sidenav appearance="subtle">
           <Nav>
             <Dropdown title="Dropdown">
@@ -47,7 +47,7 @@ describe('Sidenav styles', () => {
         </Sidenav>
       );
 
-      expect(getByTestId('item')).to.have.style('color', getDefaultPalette('H700'));
+      expect(screen.getByTestId('item')).to.have.style('color', getDefaultPalette('H700'));
     });
   });
 });

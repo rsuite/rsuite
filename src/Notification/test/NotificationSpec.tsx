@@ -24,13 +24,14 @@ describe('Notification', () => {
   it('Should be closable', () => {
     render(<Notification closable />);
 
-    expect(screen.getByRole('alert').querySelector('.rs-btn-close')).to.be.exist;
+    expect(screen.getByRole('button', { name: /close/i })).to.exist;
   });
 
   it('Should have a type', () => {
     render(<Notification type="info" header="info" />);
 
     expect(screen.getByRole('alert')).to.have.class('rs-notification-info');
+    // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('alert').querySelector('.rs-icon')).to.have.attribute(
       'aria-label',
       'info'
@@ -40,15 +41,13 @@ describe('Notification', () => {
   it('Should have a header', () => {
     render(<Notification header="header" />);
 
-    expect(screen.getByRole('alert').querySelector('.rs-notification-title')).to.have.text(
-      'header'
-    );
+    expect(screen.getByRole('alert')).to.have.text('header');
   });
 
   it('Should call onClose callback', () => {
     const onClose = Sinon.spy();
     render(<Notification closable onClose={onClose} />);
-    fireEvent.click(screen.getByRole('alert').querySelector('.rs-btn-close') as HTMLElement);
+    fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
     expect(onClose).to.have.been.calledOnce;
   });

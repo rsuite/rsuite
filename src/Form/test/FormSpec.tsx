@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent, act, waitFor } from '@testing-library/react';
+import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -61,20 +62,15 @@ describe('Form', () => {
       name: 'abc',
       email: 'aa@ss.com'
     };
-    const instance = getDOMNode(
+    render(
       <Form formValue={values}>
         <FormControl name="name" />
         <FormControl name="email" />
       </Form>
     );
-    assert.equal(
-      (instance.querySelector('input[name="name"]') as HTMLInputElement).value,
-      values.name
-    );
-    assert.equal(
-      (instance.querySelector('input[name="email"]') as HTMLInputElement).value,
-      values.email
-    );
+
+    expect(screen.getAllByRole('textbox')[0]).to.have.value(values.name);
+    expect(screen.getAllByRole('textbox')[1]).to.have.value(values.email);
   });
 
   it('Should have a default values', () => {
@@ -82,20 +78,15 @@ describe('Form', () => {
       name: 'abc',
       email: 'aa@ss.com'
     };
-    const instance = getDOMNode(
+    render(
       <Form formDefaultValue={values}>
         <FormControl name="name" />
         <FormControl name="email" />
       </Form>
     );
-    assert.equal(
-      (instance.querySelector('input[name="name"]') as HTMLInputElement).value,
-      values.name
-    );
-    assert.equal(
-      (instance.querySelector('input[name="email"]') as HTMLInputElement).value,
-      values.email
-    );
+
+    expect(screen.getAllByRole('textbox')[0]).to.have.value(values.name);
+    expect(screen.getAllByRole('textbox')[1]).to.have.value(values.email);
   });
 
   it('Should be `false` for check status', () => {
@@ -219,16 +210,13 @@ describe('Form', () => {
 
     const onChangeSpy = sinon.spy();
 
-    const instance = getDOMNode(
+    render(
       <Form formDefaultValue={values} onChange={onChangeSpy}>
         <FormControl name="name" />
       </Form>
     );
-    act(() => {
-      fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
-        target: { value: 'abcd' }
-      });
-    });
+
+    userEvent.type(screen.getByRole('textbox'), 'd');
 
     expect(onChangeSpy).to.be.called;
     expect(onChangeSpy).to.be.calledWith({ name: 'abcd' });
@@ -239,15 +227,13 @@ describe('Form', () => {
       name: 'abc'
     };
     const onErrorSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Form formDefaultValue={values} onError={onErrorSpy} model={model}>
         <FormControl name="name" />
       </Form>
     );
 
-    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
-      target: { value: 'abcd' }
-    });
+    userEvent.type(screen.getByRole('textbox'), 'd');
 
     expect(onErrorSpy).to.be.called;
     expect(onErrorSpy).to.be.calledWith({ name: checkEmail });
@@ -259,13 +245,15 @@ describe('Form', () => {
     };
 
     const onErrorSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Form formDefaultValue={values} onError={onErrorSpy} model={model}>
         <FormControl name="name" />
       </Form>
     );
-    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
-      target: { value: 'abcd@ddd.com' }
+
+    userEvent.type(screen.getByRole('textbox'), 'd', {
+      initialSelectionStart: 3,
+      initialSelectionEnd: 3
     });
 
     expect(onErrorSpy).to.be.not.called;
@@ -277,14 +265,14 @@ describe('Form', () => {
     };
 
     const onCheckSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Form formDefaultValue={values} onCheck={onCheckSpy}>
         <FormControl name="name" />
       </Form>
     );
-    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
-      target: { value: 'abcd' }
-    });
+
+    userEvent.type(screen.getByRole('textbox'), 'd');
+
     expect(onCheckSpy).to.be.called;
     expect(onCheckSpy).to.be.calledWith({});
   });
@@ -295,12 +283,12 @@ describe('Form', () => {
     };
 
     const onCheckSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Form formDefaultValue={values} onCheck={onCheckSpy} checkTrigger="blur">
         <FormControl name="name" />
       </Form>
     );
-    fireEvent.blur(instance.querySelector('input[name="name"]') as HTMLInputElement);
+    fireEvent.blur(screen.getByRole('textbox'));
 
     expect(onCheckSpy).to.be.called;
     expect(onCheckSpy).to.be.calledWith({});
@@ -312,7 +300,7 @@ describe('Form', () => {
     };
 
     const onCheckSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       // FIXME `checkTrigger` doesn't support `null` value
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -320,10 +308,8 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    fireEvent.blur(instance.querySelector('input[name="name"]') as HTMLInputElement);
-    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
-      target: { value: 'abcd' }
-    });
+    fireEvent.blur(screen.getByRole('textbox'));
+    userEvent.type(screen.getByRole('textbox'), 'd');
 
     expect(onCheckSpy).to.be.not.called;
   });
@@ -334,7 +320,7 @@ describe('Form', () => {
     };
 
     const onCheckSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Form
         formDefaultValue={values}
         onCheck={onCheckSpy}
@@ -345,9 +331,7 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
-      target: { value: 'abcd' }
-    });
+    userEvent.type(screen.getByRole('textbox'), 'd');
 
     expect(onCheckSpy).to.be.called;
     expect(onCheckSpy).to.be.calledWith({ email: 'email is null' });
@@ -359,15 +343,13 @@ describe('Form', () => {
     };
 
     const onErrorSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Form formDefaultValue={values} onError={onErrorSpy} model={modelAsync}>
         <FormControl name="name" checkAsync />
       </Form>
     );
 
-    fireEvent.change(instance.querySelector('input[name="name"]') as HTMLInputElement, {
-      target: { value: 'abcd' }
-    });
+    userEvent.type(screen.getByRole('textbox'), 'd');
 
     await waitFor(() => {
       expect(onErrorSpy).to.be.called;
@@ -425,14 +407,13 @@ describe('Form', () => {
     };
 
     const onErrorSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Form formDefaultValue={values} onError={onErrorSpy} model={model}>
         <FormControl name="items" accepter={Field} />
       </Form>
     );
-    fireEvent.change(instance.querySelector('input[name="items"]') as HTMLInputElement, {
-      target: { value: 'abcd' }
-    });
+
+    userEvent.type(screen.getByRole('textbox'), 'abcd');
 
     expect(onErrorSpy).to.be.called;
     expect(onErrorSpy).to.be.calledWith({
