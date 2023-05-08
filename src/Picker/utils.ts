@@ -542,17 +542,19 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
       onKeyDown?.(event);
     },
     [
-      handleClose,
-      handleToggleDropdown,
-      overlayRef,
-      onExit,
-      onKeyDown,
-      onMenuKeyDown,
-      onMenuPressBackspace,
-      onMenuPressEnter,
-      toggle,
+      readOnly,
+      disabled,
       targetRef,
-      searchInputRef
+      overlayRef,
+      onKeyDown,
+      toggle,
+      handleToggleDropdown,
+      onExit,
+      onMenuKeyDown,
+      searchInputRef,
+      onMenuPressEnter,
+      onMenuPressBackspace,
+      handleClose
     ]
   );
 
