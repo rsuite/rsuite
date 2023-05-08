@@ -24,8 +24,10 @@ describe('Carousel', () => {
     );
 
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance.querySelector('.rs-carousel-slider') as HTMLElement).childNodes.length
     ).to.equal(2);
+    // eslint-disable-next-line testing-library/no-node-access
     expect(instance.querySelectorAll('.rs-carousel-label-wrapper').length).to.equal(2);
   });
 
@@ -64,7 +66,9 @@ describe('Carousel', () => {
     );
 
     const input = instance
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelectorAll('.rs-carousel-label-wrapper')[1]
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelector('input') as HTMLInputElement;
 
     fireEvent.click(input);
@@ -84,7 +88,9 @@ describe('Carousel', () => {
     );
 
     const input = instance
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelectorAll('.rs-carousel-label-wrapper')[1]
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelector('input') as HTMLInputElement;
 
     act(() => {
@@ -106,6 +112,7 @@ describe('Carousel', () => {
       </Carousel>
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     Simulate.transitionEnd(instance.querySelector('.rs-carousel-slider') as HTMLElement);
 
     await waitFor(() => {
@@ -122,47 +129,40 @@ describe('Carousel', () => {
         <div>4</div>
       </Carousel>
     );
+    // eslint-disable-next-line testing-library/no-node-access
     expect((instance.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
       '3'
     );
   });
 
   it('Should handle active index dynamically', () => {
-    type AppInstance = {
-      setIndex: (newIndex: number) => void;
-    };
-    const ref = React.createRef<AppInstance>();
-    const App = React.forwardRef((_props, ref) => {
-      const [index, setIndex] = React.useState(1);
-      React.useImperativeHandle(ref, () => ({
-        setIndex: newIndex => {
-          setIndex(newIndex);
-        }
-      }));
-
-      return (
-        <Carousel activeIndex={index}>
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-        </Carousel>
-      );
-    });
-
-    const { container } = render(<App ref={ref} />);
-
-    expect((container.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
-      '2'
+    const { rerender } = render(
+      <Carousel activeIndex={1}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+      </Carousel>
     );
 
-    act(() => {
-      (ref.current as AppInstance).setIndex(3);
-    });
+    expect(screen.getByText('1')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('2')).to.have.attr('aria-hidden', 'false');
+    expect(screen.getByText('3')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('4')).to.have.attr('aria-hidden', 'true');
 
-    expect((container.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
-      '4'
+    rerender(
+      <Carousel activeIndex={3}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+      </Carousel>
     );
+
+    expect(screen.getByText('1')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('2')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('3')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('4')).to.have.attr('aria-hidden', 'false');
   });
 
   it('Should reset index when children change', () => {

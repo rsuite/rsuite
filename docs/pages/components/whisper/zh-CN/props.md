@@ -60,7 +60,7 @@ close: (delay?: number) => void
 
 - updatePosition
 
-更新浮层位置 
+更新浮层位置
 
 ```ts
 updatePosition: () => void

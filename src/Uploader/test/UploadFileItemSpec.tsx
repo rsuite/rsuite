@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import UploadFileItem, { formatSize } from '../UploadFileItem';
+import userEvent from '@testing-library/user-event';
 
 const file = {
   fileKey: 'a',
@@ -21,14 +22,18 @@ describe('UploadFileItem', () => {
   it('Should render picture-text for layout', () => {
     const instance = getDOMNode(<UploadFileItem listType="picture-text" file={file} />);
     assert.include(instance.className, 'rs-uploader-file-item-picture-text');
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(instance.querySelector('.rs-uploader-file-item-panel'));
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(instance.querySelector('.rs-uploader-file-item-progress'));
   });
 
   it('Should render picture for layout', () => {
     const instance = getDOMNode(<UploadFileItem listType="picture" file={file} />);
     assert.include(instance.className, 'rs-uploader-file-item-picture');
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance.querySelectorAll('.rs-uploader-file-item-panel').length, 0);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal(instance.querySelectorAll('.rs-uploader-file-item-progress').length, 0);
   });
 
@@ -39,18 +44,20 @@ describe('UploadFileItem', () => {
 
   it('Should call `onCancel` callback', () => {
     const onCancelSpy = sinon.spy();
-    const instance = getDOMNode(<UploadFileItem file={file} onCancel={onCancelSpy} />);
-    ReactTestUtils.Simulate.click(
-      instance.querySelector('.rs-uploader-file-item-btn-remove') as HTMLElement
-    );
+    render(<UploadFileItem file={file} onCancel={onCancelSpy} />);
 
-    assert.ok(onCancelSpy.calledOnce);
+    userEvent.click(screen.getByRole('button', { name: /close/i }));
+    expect(onCancelSpy).to.have.been.calledOnce;
   });
 
-  it('Should not call `onCancel` callback', () => {
+  it('Should not call `onCancel` callback when `disabled=true`', () => {
     const onCancelSpy = sinon.spy();
     const instance = getDOMNode(<UploadFileItem file={file} onCancel={onCancelSpy} disabled />);
     ReactTestUtils.Simulate.click(
+      // FIXME Didn't manage to use RTL query here, possibly because RTL bug
+      // https://github.com/testing-library/dom-testing-library/issues/846
+      //
+      // eslint-disable-next-line testing-library/no-node-access
       instance.querySelector('.rs-uploader-file-item-btn-remove') as HTMLElement
     );
 
@@ -58,8 +65,9 @@ describe('UploadFileItem', () => {
   });
 
   it('Should not render remove button', () => {
-    const instance = getDOMNode(<UploadFileItem file={file} removable={false} />);
-    assert.ok(!instance.querySelector('.rs-uploader-file-item-btn-remove'));
+    render(<UploadFileItem file={file} removable={false} />);
+
+    expect(screen.queryByRole('button', { name: /close/i })).not.to.exist;
   });
 
   it('Should call onPreview callback', () => {
@@ -68,17 +76,19 @@ describe('UploadFileItem', () => {
       <UploadFileItem file={file} onPreview={onPreviewSpy} listType="picture-text" />
     );
     ReactTestUtils.Simulate.click(
+      // eslint-disable-next-line testing-library/no-node-access
       instance.querySelector('.rs-uploader-file-item-title') as HTMLElement
     );
     assert.ok(onPreviewSpy.calledOnce);
   });
 
-  it('Should not call onPreview callback', () => {
+  it('Should not call onPreview callback if `disabled=true`', () => {
     const onPreviewSpy = sinon.spy();
     const instance = getDOMNode(
       <UploadFileItem file={file} onPreview={onPreviewSpy} listType="picture-text" disabled />
     );
     ReactTestUtils.Simulate.click(
+      // eslint-disable-next-line testing-library/no-node-access
       instance.querySelector('.rs-uploader-file-item-title') as HTMLElement
     );
     assert.equal(onPreviewSpy.calledOnce, false);
@@ -90,6 +100,8 @@ describe('UploadFileItem', () => {
       <UploadFileItem file={{ ...file, status: 'error' }} onReupload={onReuploadSpy} />
     );
     ReactTestUtils.Simulate.click(
+      // FIXME Add accessible name to Reload button
+      // eslint-disable-next-line testing-library/no-node-access
       instance.querySelector('.rs-uploader-file-item-icon-reupload') as HTMLElement
     );
     assert.ok(onReuploadSpy.calledOnce);
@@ -101,6 +113,8 @@ describe('UploadFileItem', () => {
       <UploadFileItem file={{ ...file, status: 'error' }} onReupload={onReuploadSpy} disabled />
     );
     ReactTestUtils.Simulate.click(
+      // FIXME Add accessible name to Reload button
+      // eslint-disable-next-line testing-library/no-node-access
       instance.querySelector('.rs-uploader-file-item-icon-reupload') as HTMLElement
     );
     assert.equal(onReuploadSpy.calledOnce, false);
@@ -112,16 +126,21 @@ describe('UploadFileItem', () => {
   });
 
   it('Should output a custom file name', () => {
-    const instance = getDOMNode(
+    render(
       <UploadFileItem
         file={file}
         className="custom"
         renderFileInfo={file => {
-          return <div className="file-info">{file.name}</div>;
+          return (
+            <div className="file-info" data-testid="custom-info">
+              {file.name}
+            </div>
+          );
         }}
       />
     );
-    assert.include((instance.querySelector('.file-info') as HTMLElement).textContent, 'a');
+
+    expect(screen.getByTestId('custom-info')).to.exist;
   });
 
   it('Should have a custom style', () => {
@@ -140,10 +159,12 @@ describe('UploadFileItem', () => {
     const instance2 = getDOMNode(<UploadFileItem file={{ ...file, status: 'inited' }} />);
 
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance.querySelector('.rs-uploader-file-item-icon') as HTMLElement).tagName,
       'I'
     );
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance2.querySelector('.rs-uploader-file-item-icon') as HTMLElement).tagName,
       'svg'
     );
@@ -153,6 +174,7 @@ describe('UploadFileItem', () => {
     const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' } as const;
     const instance = getDOMNode(<UploadFileItem file={file} />);
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance.querySelector('.rs-uploader-file-item-size') as HTMLElement).textContent,
       '3B'
     );
@@ -160,12 +182,14 @@ describe('UploadFileItem', () => {
 
   it('Should not render a default thumbnail', () => {
     const instance = getDOMNode(<UploadFileItem file={file} listType="text" />);
+    // eslint-disable-next-line testing-library/no-node-access
     const thumbnail = instance.querySelector('.rs-uploader-file-item-preview');
     assert.isNull(thumbnail);
   });
 
   it('Should render a default thumbnail when listType="picture-text" ', () => {
     const instance = getDOMNode(<UploadFileItem file={file} listType="picture-text" />);
+    // eslint-disable-next-line testing-library/no-node-access
     const thumbnail = instance.querySelector(
       '.rs-uploader-file-item-preview .rs-uploader-file-item-icon'
     );
@@ -174,6 +198,7 @@ describe('UploadFileItem', () => {
 
   it('Should render a default thumbnail when listType="picture"', () => {
     const instance = getDOMNode(<UploadFileItem file={file} listType="picture" />);
+    // eslint-disable-next-line testing-library/no-node-access
     const thumbnail = instance.querySelector(
       '.rs-uploader-file-item-preview .rs-uploader-file-item-icon'
     );
@@ -190,6 +215,7 @@ describe('UploadFileItem', () => {
         }}
       />
     );
+    // eslint-disable-next-line testing-library/no-node-access
     const thumbnail = instance.querySelector('.rs-uploader-file-item-preview') as HTMLElement;
 
     assert.include(thumbnail.textContent, 'custom-thumbnail');
@@ -207,6 +233,7 @@ describe('UploadFileItem', () => {
     const instance = getDOMNode(<UploadFileItem file={file} listType="picture-text" />);
 
     await waitFor(() => {
+      // eslint-disable-next-line testing-library/no-node-access
       const thumbnail = instance.querySelector(
         '.rs-uploader-file-item-preview img'
       ) as HTMLImageElement;

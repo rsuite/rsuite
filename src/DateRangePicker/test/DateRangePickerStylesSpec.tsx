@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import DateRangePicker from '../index';
 import { getInstance } from '@test/testUtils';
 import getWidth from 'dom-lib/getWidth';
@@ -8,9 +8,9 @@ import '../styles/index.less';
 
 describe('DateRangePicker styles', () => {
   it('Should render the correct styles', () => {
-    const { getByLabelText } = render(<DateRangePicker open />);
+    render(<DateRangePicker open />);
 
-    expect(getByLabelText('calendar').tagName).to.equal('svg');
+    expect(screen.getByLabelText('calendar').tagName).to.equal('svg');
   });
 
   it('Should keep size in `block` mode', function () {

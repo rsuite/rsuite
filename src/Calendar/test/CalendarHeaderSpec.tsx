@@ -21,6 +21,7 @@ describe('Calendar-Header', () => {
     const instance = getDOMNode(<Header showMonth onMoveForward={onMoveForward} />);
 
     ReactTestUtils.Simulate.click(
+      // eslint-disable-next-line testing-library/no-node-access
       instance.querySelector('.rs-calendar-header-forward') as HTMLElement
     );
 
@@ -33,6 +34,7 @@ describe('Calendar-Header', () => {
     const instance = getDOMNode(<Header showMonth onMoveBackward={onMoveBackward} />);
 
     ReactTestUtils.Simulate.click(
+      // eslint-disable-next-line testing-library/no-node-access
       instance.querySelector('.rs-calendar-header-backward') as HTMLElement
     );
     expect(onMoveBackward).to.have.been.calledOnce;
@@ -44,6 +46,7 @@ describe('Calendar-Header', () => {
     const instance = getDOMNode(<Header showMonth onToggleMonthDropdown={onToggleMonthDropdown} />);
 
     ReactTestUtils.Simulate.click(
+      // eslint-disable-next-line testing-library/no-node-access
       instance.querySelector('.rs-calendar-header-title-date') as HTMLElement
     );
     expect(onToggleMonthDropdown).to.have.been.calledOnce;
@@ -62,6 +65,7 @@ describe('Calendar-Header', () => {
     );
 
     ReactTestUtils.Simulate.click(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector('.rs-calendar-header-title-time') as HTMLElement
     );
     expect(onToggleTimeDropdown).to.have.been.calledOnce;

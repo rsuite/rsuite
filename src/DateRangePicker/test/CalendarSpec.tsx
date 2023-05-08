@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import Calendar from '../Calendar';
@@ -16,7 +16,7 @@ describe('DateRangePicker - Calendar', () => {
   });
 
   it('Should output a date', () => {
-    const instance = getDOMNode(
+    render(
       <Calendar
         calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
@@ -26,7 +26,7 @@ describe('DateRangePicker - Calendar', () => {
       />
     );
 
-    expect(instance.querySelector('.rs-calendar-header-title')).to.text('2017-08');
+    expect(screen.getByText('2017-08')).to.exist;
   });
 
   it('Should call `onChangeCalendarMonth` callback', () => {
@@ -40,6 +40,7 @@ describe('DateRangePicker - Calendar', () => {
       />
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(instance.querySelector('.rs-calendar-header-backward') as HTMLElement);
 
     expect(onChangeCalendarMonthSpy).to.have.been.called;
@@ -55,6 +56,7 @@ describe('DateRangePicker - Calendar', () => {
         onToggleMeridian={() => void 0}
       />
     );
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(instance.querySelector('.rs-calendar-header-forward') as HTMLElement);
 
     expect(onChangeCalendarMonthSpy).to.have.been.called;
@@ -71,7 +73,9 @@ describe('DateRangePicker - Calendar', () => {
       />
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(instance.querySelector('.rs-calendar-header-title-date') as HTMLElement);
+    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(instance.querySelector('.rs-calendar-month-dropdown-cell') as HTMLElement);
 
     expect(onChangeCalendarMonthSpy).to.have.been.called;
