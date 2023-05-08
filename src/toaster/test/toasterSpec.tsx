@@ -28,6 +28,7 @@ describe('toaster', () => {
     });
 
     await waitFor(() => {
+      // eslint-disable-next-line testing-library/no-node-access
       expect(element.querySelector('.rs-toast-container.rs-toast-container-top-end')).to.exist;
     });
 
@@ -37,6 +38,7 @@ describe('toaster', () => {
     });
 
     await waitFor(() => {
+      // eslint-disable-next-line testing-library/no-node-access
       expect(element.querySelector('.rs-toast-container.rs-toast-container-bottom-end')).to.exist;
     });
   });

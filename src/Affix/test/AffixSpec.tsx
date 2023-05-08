@@ -9,11 +9,11 @@ describe('Affix', () => {
   it('Should render a button', () => {
     render(
       <Affix>
-        <button>button</button>
+        <button data-testid="button">button</button>
       </Affix>
     );
 
-    expect(screen.getByRole('button')).to.exist;
+    expect(screen.getByTestId('button')).to.exist;
   });
 
   it('Should call onChange callback', () => {
@@ -40,7 +40,9 @@ describe('Affix', () => {
 
     const affix = screen.getByTestId('affix').firstChild as HTMLDivElement;
 
+    // eslint-disable-next-line testing-library/no-node-access
     expect(affix.className).to.contain('rs-affix');
+    // eslint-disable-next-line testing-library/no-node-access
     expect(affix.style.position).to.equal('fixed');
   });
 
