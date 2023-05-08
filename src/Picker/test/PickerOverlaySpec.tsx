@@ -116,6 +116,7 @@ describe('PickerOverlay', () => {
     render(<App ref={instanceRef} />);
     expect(
       getWidth(
+        // eslint-disable-next-line testing-library/no-node-access
         (instanceRef.current as HTMLDivElement).querySelector('.rs-picker-menu') as HTMLElement
       )
     ).to.equal(200);

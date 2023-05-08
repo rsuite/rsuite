@@ -7,22 +7,22 @@ describe('[utils] useIsMounted', () => {
   });
 
   it('should return a function', () => {
-    const hook = renderHook(() => useIsMounted(), { initialProps: false });
+    const { result } = renderHook(() => useIsMounted(), { initialProps: false });
 
-    expect(typeof hook.result.current).to.be.equal('function');
+    expect(result.current).to.be.a('function');
   });
 
   it('should return true if component is mounted', () => {
-    const hook = renderHook(() => useIsMounted(), { initialProps: false });
+    const { result } = renderHook(() => useIsMounted(), { initialProps: false });
 
-    expect(hook.result.current()).to.be.true;
+    expect(result.current()).to.be.true;
   });
 
   it('should return false if component is unmounted', () => {
-    const hook = renderHook(() => useIsMounted(), { initialProps: false });
+    const { unmount, result } = renderHook(() => useIsMounted(), { initialProps: false });
 
-    hook.unmount();
+    unmount();
 
-    expect(hook.result.current()).to.be.false;
+    expect(result.current()).to.be.false;
   });
 });

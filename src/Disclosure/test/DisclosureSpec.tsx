@@ -1,5 +1,5 @@
 import React, { Ref } from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import Disclosure from '../Disclosure';
@@ -8,7 +8,7 @@ import { DisclosureActionTypes } from '../DisclosureContext';
 
 describe('<Disclosure>', () => {
   it('Should render a Disclosure', () => {
-    const { getByTestId } = render(
+    render(
       <Disclosure>
         {() => (
           <>
@@ -31,24 +31,22 @@ describe('<Disclosure>', () => {
       </Disclosure>
     );
 
-    const button = getByTestId('button');
-    const content = getByTestId('content');
+    const button = screen.getByTestId('button');
+    const content = screen.getByTestId('content');
 
     expect(button, 'The button').not.to.be.null;
     expect(content, 'The content').not.to.be.null;
 
     expect(content.hidden, 'Content is hidden').to.be.true;
 
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
     expect(!content.hidden, 'Content is visible').to.be.true;
   });
 
   it('Should be possible to control Disclosure with `open` and `onToggle`', () => {
     const onToggleSpy = sinon.spy();
-    const { getByTestId, rerender } = render(
+    const { rerender } = render(
       <Disclosure open onToggle={onToggleSpy}>
         {() => (
           <>
@@ -71,14 +69,12 @@ describe('<Disclosure>', () => {
       </Disclosure>
     );
 
-    const button = getByTestId('button');
-    const content = getByTestId('content');
+    const button = screen.getByTestId('button');
+    const content = screen.getByTestId('content');
 
     expect(!content.hidden, 'Content is visible').to.be.true;
 
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
     expect(onToggleSpy).to.have.been.calledWith(false);
 
@@ -107,15 +103,13 @@ describe('<Disclosure>', () => {
 
     expect(content.hidden, 'Content is hidden').to.be.true;
 
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
     expect(onToggleSpy).to.have.been.calledWith(true);
   });
 
   it('Should be toggled by mouseEnter/mouseLeave given `trigger=[hover]`', () => {
-    const { getByTestId } = render(
+    render(
       <Disclosure trigger={['hover']}>
         {(props, ref) => (
           <div ref={ref as Ref<HTMLDivElement>} {...props}>
@@ -138,11 +132,11 @@ describe('<Disclosure>', () => {
       </Disclosure>
     );
 
-    fireEvent.mouseEnter(getByTestId('button'));
-    expect(getByTestId('content')).to.be.visible;
+    fireEvent.mouseEnter(screen.getByTestId('button'));
+    expect(screen.getByTestId('content')).to.be.visible;
 
-    fireEvent.mouseLeave(getByTestId('button'));
-    expect(getByTestId('content')).not.to.be.visible;
+    fireEvent.mouseLeave(screen.getByTestId('button'));
+    expect(screen.getByTestId('content')).not.to.be.visible;
   });
 
   context('Nested disclosures', () => {
@@ -163,7 +157,7 @@ describe('<Disclosure>', () => {
         );
       };
 
-      const { getByText, getByTestId } = render(
+      render(
         <Disclosure>
           {() => (
             <>
@@ -210,19 +204,19 @@ describe('<Disclosure>', () => {
         </Disclosure>
       );
 
-      userEvent.click(getByText('Open parent disclosure'));
+      userEvent.click(screen.getByText('Open parent disclosure'));
 
-      userEvent.click(getByText('Open child disclosure'));
+      userEvent.click(screen.getByText('Open child disclosure'));
 
-      userEvent.click(getByText('Close all disclosures'));
+      userEvent.click(screen.getByText('Close all disclosures'));
 
-      expect(getByTestId('parent-content')).not.to.be.visible;
+      expect(screen.getByTestId('parent-content')).not.to.be.visible;
     });
   });
 
   context('Keyboard interaction', function () {
     it('Enter: activates the disclosure control and toggles the visibility of the disclosure content.', () => {
-      const { getByTestId } = render(
+      render(
         <Disclosure>
           {() => (
             <>
@@ -245,23 +239,19 @@ describe('<Disclosure>', () => {
         </Disclosure>
       );
 
-      const button = getByTestId('button');
-      const content = getByTestId('content');
+      const button = screen.getByTestId('button');
+      const content = screen.getByTestId('content');
 
-      act(() => {
-        fireEvent.keyDown(button, { key: 'Enter' });
-      });
+      fireEvent.keyDown(button, { key: 'Enter' });
 
       expect(!content.hidden, 'Shows the content').to.be.true;
 
-      act(() => {
-        fireEvent.keyDown(button, { key: 'Enter' });
-      });
+      fireEvent.keyDown(button, { key: 'Enter' });
 
       expect(content.hidden, 'Hides the content').to.be.true;
     });
     it('Space: activates the disclosure control and toggles the visibility of the disclosure content.', () => {
-      const { getByTestId } = render(
+      render(
         <Disclosure>
           {() => (
             <>
@@ -284,18 +274,14 @@ describe('<Disclosure>', () => {
         </Disclosure>
       );
 
-      const button = getByTestId('button');
-      const content = getByTestId('content');
+      const button = screen.getByTestId('button');
+      const content = screen.getByTestId('content');
 
-      act(() => {
-        fireEvent.keyDown(button, { key: ' ' });
-      });
+      fireEvent.keyDown(button, { key: ' ' });
 
       expect(!content.hidden, 'Shows the content').to.be.true;
 
-      act(() => {
-        fireEvent.keyDown(button, { key: ' ' });
-      });
+      fireEvent.keyDown(button, { key: ' ' });
 
       expect(content.hidden, 'Hides the content').to.be.true;
     });

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
@@ -20,6 +19,7 @@ describe('Panel', () => {
 
   it('Should default expanded', () => {
     const instance = getDOMNode(<Panel collapsible defaultExpanded />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.isNotNull(instance.querySelector('.rs-panel-collapse.rs-anim-in'));
   });
 
@@ -35,17 +35,20 @@ describe('Panel', () => {
 
   it('Should be expanded', () => {
     const instance = getDOMNode(<Panel collapsible expanded />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.isNotNull(instance.querySelector('.rs-panel-collapse.rs-anim-in'));
   });
 
   it('Should render the custom header', () => {
-    const instance = getDOMNode(<Panel header={<a>abc</a>} />);
-    assert.equal((instance.querySelector('a.rs-panel-title') as HTMLElement).textContent, 'abc');
+    render(<Panel header={<a data-testid="custom-header">abc</a>} />);
+
+    expect(screen.getByTestId('custom-header')).to.exist;
   });
 
   it('Should have a role in header', () => {
     const instance = getDOMNode(<Panel headerRole="button" collapsible header={'abc'} />);
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance.querySelector('.rs-panel-header') as HTMLElement).getAttribute('role'),
       'button'
     );
@@ -54,6 +57,7 @@ describe('Panel', () => {
   it('Should have a role in body', () => {
     const instance = getDOMNode(<Panel panelRole="button" collapsible />);
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance.querySelector('.rs-panel-body') as HTMLElement).getAttribute('role'),
       'button'
     );
@@ -62,19 +66,17 @@ describe('Panel', () => {
   describe('Collapsible - `collapsible=true`', () => {
     it('Should call onSelect callback with correct `eventKey`', () => {
       const onSelectSpy = sinon.spy();
-      const instance = getDOMNode(
-        <Panel collapsible onSelect={onSelectSpy} eventKey={12} header={'abc'} />
-      );
+      render(<Panel collapsible onSelect={onSelectSpy} eventKey={12} header={'abc'} />);
 
-      ReactTestUtils.Simulate.click(instance.querySelector('.rs-panel-header') as HTMLElement);
+      fireEvent.click(screen.getByText('abc'));
       expect(onSelectSpy).to.have.been.calledWith(12);
     });
 
     it('Should call onSelect callback with undefined if `eventKey` is not specified', () => {
       const onSelectSpy = sinon.spy();
-      const { getByText } = render(<Panel collapsible onSelect={onSelectSpy} header={'abc'} />);
+      render(<Panel collapsible onSelect={onSelectSpy} header={'abc'} />);
 
-      fireEvent.click(getByText('abc'));
+      fireEvent.click(screen.getByText('abc'));
       expect(onSelectSpy).to.have.been.calledWith(undefined);
     });
 
