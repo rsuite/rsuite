@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
-import UNSAFE_getDataGroupBy from '../../utils/getDataGroupBy';
+import { getDataGroupBy } from '../../utils/getDataGroupBy';
 import Sinon from 'sinon';
 
 const classPrefix = 'dropdown-menu';
@@ -47,7 +47,7 @@ describe('picker -  DropdownMenu', () => {
     const instance = getDOMNode(
       <DropdownMenu
         classPrefix={classPrefix}
-        data={UNSAFE_getDataGroupBy(items, 'groupKey')}
+        data={getDataGroupBy(items, 'groupKey')}
         group
         dropdownMenuItemAs={DropdownMenuItem}
       />
@@ -137,7 +137,7 @@ describe('picker -  DropdownMenu', () => {
     const instance = getDOMNode(
       <DropdownMenu
         group
-        data={UNSAFE_getDataGroupBy(items, 'groupKey')}
+        data={getDataGroupBy(items, 'groupKey')}
         onGroupTitleClick={onGroupTitleClick}
         classPrefix={classPrefix}
         dropdownMenuItemAs={DropdownMenuItem}
@@ -166,7 +166,7 @@ describe('picker -  DropdownMenu', () => {
       <DropdownMenu
         group
         classPrefix={classPrefix}
-        data={UNSAFE_getDataGroupBy(items, 'groupKey')}
+        data={getDataGroupBy(items, 'groupKey')}
         renderMenuGroup={item => <i>{item}</i>}
         dropdownMenuItemAs={DropdownMenuItem}
       />
@@ -214,7 +214,7 @@ describe('picker -  DropdownMenu', () => {
     const instance = getDOMNode(
       <DropdownMenu
         group
-        data={UNSAFE_getDataGroupBy(mockData, 'groupValue')}
+        data={getDataGroupBy(mockData, 'groupValue')}
         valueKey={'value'}
         labelKey={'name'}
         dropdownMenuItemAs={DropdownMenuItem}
