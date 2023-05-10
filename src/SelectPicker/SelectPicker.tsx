@@ -8,13 +8,13 @@ import omit from 'lodash/omit';
 import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
-  getDataGroupBy,
   useCustom,
   useClassNames,
   useControlled,
   mergeRefs,
   shallowEqual
 } from '../utils';
+import { getDataGroupBy } from '../utils/getDataGroupBy';
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -373,7 +373,10 @@ const SelectPicker = React.forwardRef(
           activeItemValues={[value]}
           focusItemValue={focusItemValue}
           data={items}
+          // FIXME-Doma
+          // `group` is redundant so long as `groupBy` exists
           group={!isUndefined(groupBy)}
+          groupBy={groupBy}
           onSelect={handleItemSelect}
           onGroupTitleClick={onGroupTitleClick}
           virtualized={virtualized}

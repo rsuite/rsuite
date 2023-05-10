@@ -16,7 +16,6 @@ import { InputPickerLocale } from '../locales';
 import {
   createChainedFunction,
   tplTransform,
-  getDataGroupBy,
   useClassNames,
   useCustom,
   useControlled,
@@ -24,6 +23,7 @@ import {
   isOneOf,
   KEY_VALUES
 } from '../utils';
+import { getDataGroupBy } from '../utils/getDataGroupBy';
 
 import {
   DropdownMenu,
@@ -694,7 +694,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           focusItemValue={focusItemValue}
           maxHeight={menuMaxHeight}
           data={items}
+          // FIXME-Doma
+          // `group` is redundant so long as `groupBy` exists
           group={!isUndefined(groupBy)}
+          groupBy={groupBy}
           onSelect={multi ? handleCheckTag : (handleSelectItem as any)} // fixme don't use any
           renderMenuGroup={renderMenuGroup}
           renderMenuItem={renderDropdownMenuItem}

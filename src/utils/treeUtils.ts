@@ -1152,7 +1152,7 @@ export function getKeyParentMap<T extends Record<string, unknown>, K = React.Key
 }
 
 /**
- * Returns an array indicating the hirearchy path from root towards `target` item
+ * Returns an array indicating the hierarchy path from root towards `target` item
  */
 export function getPathTowardsItem<T>(
   target: T | undefined,
