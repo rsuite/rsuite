@@ -1,3 +1,12 @@
+## [5.33.1](https://github.com/rsuite/rsuite/compare/v5.33.0...v5.33.1) (2023-05-12)
+
+### Bug Fixes
+
+- **Carousel:** fix index not being reset when children change ([#3185](https://github.com/rsuite/rsuite/issues/3185)) ([3afb746](https://github.com/rsuite/rsuite/commit/3afb7460f5d12b34eb0e7944fa9f5a461b663028))
+- **CheckPicker:** avoid mutating data when groupBy is specified ([#3173](https://github.com/rsuite/rsuite/issues/3173)) ([1a9805a](https://github.com/rsuite/rsuite/commit/1a9805a00cffcb8e527fbeb1df3a346da9a707f0))
+- **DatePicker:** fix defaultValue not changing month on calendar ([#3183](https://github.com/rsuite/rsuite/issues/3183)) ([b0a2b5f](https://github.com/rsuite/rsuite/commit/b0a2b5f5cfe6ea94c1c13f8e9451c5d60f7f5b80))
+- **pickers:** fix keyboard events still responding when readOnly ([#3184](https://github.com/rsuite/rsuite/issues/3184)) ([56e7563](https://github.com/rsuite/rsuite/commit/56e7563b2035be767f5ed8429cd8c3622708abe8))
+
 # [5.33.0](https://github.com/rsuite/rsuite/compare/v5.32.0...v5.33.0) (2023-04-28)
 
 ### Features
