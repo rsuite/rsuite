@@ -491,4 +491,19 @@ describe('SelectPicker', () => {
       expect(instance.list).to.exist;
     });
   });
+
+  describe('Troubleshooting', () => {
+    it('Should not throw when `listProps.itemSize` is a number', () => {
+      expect(() => {
+        render(
+          <SelectPicker
+            data={[{ label: 'Master', value: 'Master' }]}
+            virtualized
+            listProps={{ itemSize: 66 }}
+            open
+          />
+        );
+      }).to.not.throw();
+    });
+  });
 });
