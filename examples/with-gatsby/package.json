@@ -16,7 +16,7 @@
     "format": "prettier --write \"**/*.{js,jsx,json,md}\""
   },
   "dependencies": {
-    "gatsby": "^5.4.0",
+    "gatsby": "^5.10.0",
     "gatsby-image": "^3.11.0",
     "less": "^3.11.1",
     "react": "^17.0.2",
