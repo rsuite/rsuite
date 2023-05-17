@@ -3,9 +3,10 @@ import { render, waitFor, fireEvent, act, screen } from '@testing-library/react'
 import sinon from 'sinon';
 import Cascader from '../Cascader';
 import Button from '../../Button';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getInstance } from '@test/testUtils';
 import { PickerHandle } from '../../Picker';
 import '../styles/index.less';
+import { testStandardProps } from '@test/commonCases';
 
 const items = [
   {
@@ -33,29 +34,32 @@ const items = [
 ];
 
 describe('Cascader', () => {
-  it('Should output a picker', () => {
-    const instance = getDOMNode(<Cascader data={[]}>title</Cascader>);
+  testStandardProps(<Cascader data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-cascader');
+  it('Should output a picker', () => {
+    const { container } = render(<Cascader data={[]}>title</Cascader>);
+
+    expect(container.firstChild).to.have.class('rs-picker-cascader');
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<Cascader data={[]} />);
+    const { container } = render(<Cascader data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-default');
+    expect(container.firstChild).to.have.class('rs-picker-default');
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<Cascader data={[]} disabled />);
+    const { container } = render(<Cascader data={[]} disabled />);
 
-    expect(instance).to.have.class('rs-picker-disabled');
+    expect(container.firstChild).to.have.class('rs-picker-disabled');
   });
 
   it('Should be inline', () => {
-    const instance = getInstance(<Cascader data={[]} inline />);
-    expect(instance.overlay.className).to.contain('rs-picker-inline');
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.overlay.querySelector('.rs-picker-cascader-menu-items')).to.exist;
+    const { container } = render(<Cascader data={[]} inline />);
+
+    expect(container.firstChild).to.have.class('rs-picker-inline');
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    expect(container.querySelector('.rs-picker-cascader-menu-items')).to.exist;
   });
 
   it('Should output a placeholder', () => {
@@ -71,9 +75,9 @@ describe('Cascader', () => {
   });
 
   it('Should be block', () => {
-    const instance = getDOMNode(<Cascader data={[]} block />);
+    const { container } = render(<Cascader data={[]} block />);
 
-    assert.ok(instance.className.match(/\bblock\b/));
+    expect(container.firstChild).to.have.class('rs-picker-block');
   });
 
   it('Should output a value by renderValue()', () => {
@@ -192,19 +196,9 @@ describe('Cascader', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<Cascader data={[]} className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
+    const { container } = render(<Cascader data={[]} className="custom" />);
 
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Cascader data={[]} style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Cascader data={[]} classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    expect(container.firstChild).to.have.class('custom');
   });
 
   it('Should render a button by toggleAs={Button}', () => {

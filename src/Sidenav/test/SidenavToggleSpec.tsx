@@ -9,7 +9,9 @@ describe('Sidenav.Toggle', () => {
   testStandardProps(<SidenavToggle />, {
     renderOptions: {
       wrapper: Sidenav
-    }
+    },
+    // eslint-disable-next-line testing-library/prefer-screen-queries
+    getRootElement: view => view.getByTestId('element')
   });
 
   it('Should have rs-sidenav-toggle className', () => {
