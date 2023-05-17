@@ -1,29 +1,27 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
 import TableRow from '../TableRow';
 import { getDate, format } from '../../utils/dateUtils';
 import CalendarContext from '../CalendarContext';
 import Sinon from 'sinon';
+import { testStandardProps } from '@test/commonCases';
 
 describe('Calendar-TableRow', () => {
+  testStandardProps(<TableRow />);
+
   it('Should render a div with `table-row` class', () => {
-    const instance = getDOMNode(<TableRow />);
-    assert.equal(instance.nodeName, 'DIV');
-    assert.ok(instance.className.match(/\btable-row\b/));
+    const { container } = render(<TableRow />);
+
+    expect(container.firstChild).to.match('div.rs-calendar-table-row');
   });
 
   it('Should be active today', () => {
     // FIXME-Doma
     // TableRow should always require dates specified
-    const instance = getDOMNode(<TableRow />);
+    render(<TableRow />);
 
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access
-      (instance.querySelector('.rs-calendar-table-cell-is-today') as HTMLElement).textContent,
-      getDate(new Date()) + ''
-    );
+    expect(screen.getByTitle(/today/i)).to.have.text(getDate(new Date()) + '');
   });
 
   it('Should call `onSelect` callback', () => {
@@ -44,22 +42,6 @@ describe('Calendar-TableRow', () => {
     );
 
     expect(onSelect).to.have.been.calledOnce;
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<TableRow className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<TableRow style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<TableRow classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should render a week number', () => {
