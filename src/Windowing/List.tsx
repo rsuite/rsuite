@@ -1,4 +1,4 @@
-import React, { useRef, useImperativeHandle, useCallback } from 'react';
+import React, { useRef, useImperativeHandle, useCallback, useMemo } from 'react';
 import {
   VariableSizeList,
   Align,
@@ -56,7 +56,7 @@ export interface ListHandle extends Partial<VariableSizeList> {
 }
 
 const List: RsRefForwardingComponent<'div', ListProps> = React.forwardRef((props, ref) => {
-  const { rowHeight, as: Component = VariableSizeList, ...rest } = props;
+  const { rowHeight, as: Component = VariableSizeList, itemSize: itemSizeProp, ...rest } = props;
   const listRef = useRef<VariableSizeList>(null);
   const { rtl } = useCustom();
 
@@ -82,7 +82,13 @@ const List: RsRefForwardingComponent<'div', ListProps> = React.forwardRef((props
     [rowHeight]
   );
 
-  const compatibleProps = { ...rest } as any;
+  const itemSize = useMemo(() => {
+    if (typeof itemSizeProp === 'function') return itemSizeProp;
+
+    return () => itemSizeProp;
+  }, [itemSizeProp]);
+
+  const compatibleProps = { itemSize, ...rest } as any;
 
   if (rowHeight) {
     compatibleProps.itemSize = Component === VariableSizeList ? setRowHeight : rowHeight;

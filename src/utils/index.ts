@@ -13,7 +13,6 @@ export { default as ReactChildren } from './ReactChildren';
 export { default as tplTransform } from './tplTransform';
 export { default as ajaxUpload } from './ajaxUpload';
 export { default as previewFile } from './previewFile';
-export { default as getDataGroupBy } from './getDataGroupBy';
 export { default as clone } from './clone';
 export { default as placementPolyfill } from './placementPolyfill';
 export { default as getDOMNode } from './getDOMNode';

@@ -27,7 +27,7 @@ const items = [
 
 const App = () => {
   const [activeKey, setActiveKey] = React.useState('A');
-  const [width, setWidth] = React.useState(500);
+  const [width, setWidth] = React.useState(400);
 
   return (
     <>
@@ -44,7 +44,7 @@ const App = () => {
       <Slider
         style={{ width: 500 }}
         min={300}
-        max={1000}
+        max={700}
         progress
         step={50}
         value={width}

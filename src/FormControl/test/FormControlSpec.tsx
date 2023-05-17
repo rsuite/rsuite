@@ -7,48 +7,48 @@ import Form, { FormInstance } from '../../Form';
 import FormControl from '../FormControl';
 import FormGroup from '../../FormGroup';
 import Schema from '../../Schema';
+import Toggle from '../../Toggle';
 
 describe('FormControl', () => {
   it('Should output a input', () => {
-    const instance = getDOMNode(
+    render(
       <Form>
         <FormControl name="username" />
       </Form>
     );
-
-    assert.ok(instance.querySelector('input'));
+    expect(screen.getByRole('textbox')).to.exist;
   });
 
   it('Should output a textarea', () => {
-    const instance = getDOMNode(
+    render(
       <Form>
         <FormControl name="username" accepter="textarea" />
       </Form>
     );
 
-    assert.ok(instance.querySelector('textarea'));
+    expect(screen.getByRole('textbox')).to.have.tagName('TEXTAREA');
   });
 
   it('Should call onChange callback', () => {
     const onChange = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Form>
         <FormControl name="username" onChange={onChange} />
       </Form>
     );
 
-    ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
+    ReactTestUtils.Simulate.change(screen.getByRole('textbox'));
     expect(onChange).to.have.been.calledOnce;
   });
 
   it('Should be readOnly', () => {
-    const instance = getDOMNode(
+    render(
       <Form readOnly>
         <FormControl name="username" />
       </Form>
     );
 
-    assert.ok(instance.querySelector('input[readonly]'));
+    expect(screen.getByRole('textbox')).to.have.attr('readonly');
   });
 
   it('Should be readOnly on accepter', () => {
@@ -70,6 +70,7 @@ describe('FormControl', () => {
       </Form>
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     ReactTestUtils.Simulate.blur(instance.querySelector('input') as HTMLInputElement);
 
     expect(onBlur).to.have.been.calledOnce;
@@ -93,22 +94,25 @@ describe('FormControl', () => {
       </Form>
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal((instance.querySelector('input') as HTMLInputElement).style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
     const instance = getDOMNode(
       <Form>
-        <FormControl classPrefix="custom-prefix" name="username" />
+        <FormControl classPrefix="custom-prefix" name="username" data-testid="control" />
       </Form>
     );
+
     assert.ok(
+      // eslint-disable-next-line testing-library/no-node-access
       (instance.querySelector('div') as HTMLDivElement).className.match(/\bcustom-prefix\b/)
     );
   });
 
   it('Should render correctly when form value was null', () => {
-    const instance = getDOMNode(
+    render(
       // FIXME `formValue` prop does not support `null` value
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -116,22 +120,24 @@ describe('FormControl', () => {
         <FormControl name="name" />
       </Form>
     );
-    assert.equal((instance.querySelector('input') as HTMLInputElement).value, '');
+
+    expect(screen.getByRole('textbox')).to.have.value('');
   });
 
   it('Should render correctly form default value when set', () => {
     const mockValue = 'value';
-    const instance = getDOMNode(
+    render(
       <Form formDefaultValue={{ name: mockValue }}>
         <FormControl name="name" />
       </Form>
     );
-    assert.equal((instance.querySelector('input') as HTMLInputElement).value, mockValue);
+
+    expect(screen.getByRole('textbox')).to.have.value(mockValue);
   });
 
   it('Should render correctly default value when explicitly set and form default is not set', () => {
     const mockValue = 'value';
-    const instance = getDOMNode(
+    render(
       // FIXME `formDefaultValue` prop does not support `null` value
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -139,17 +145,19 @@ describe('FormControl', () => {
         <FormControl name="name" defaultValue={mockValue} />
       </Form>
     );
-    assert.equal((instance.querySelector('input') as HTMLInputElement).value, mockValue);
+
+    expect(screen.getByRole('textbox')).to.have.value(mockValue);
   });
 
   it('Should render correctly default value when explicitly set over form default', () => {
     const mockValue = 'value';
-    const instance = getDOMNode(
+    render(
       <Form formDefaultValue={{ name: 'another value' }}>
         <FormControl name="name" defaultValue={mockValue} />
       </Form>
     );
-    assert.equal((instance.querySelector('input') as HTMLInputElement).value, mockValue);
+
+    expect(screen.getByRole('textbox')).to.have.value(mockValue);
   });
 
   it('Should render correctly when form error was null', () => {
@@ -161,6 +169,7 @@ describe('FormControl', () => {
         <FormControl name="name" />
       </Form>
     );
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(!instance.querySelector('.rs-form-control-message-wrapper'));
   });
 
@@ -171,6 +180,7 @@ describe('FormControl', () => {
       </Form>
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(!instance.querySelector('.rs-form-control-message-wrapper'));
   });
 
@@ -181,24 +191,22 @@ describe('FormControl', () => {
       </Form>
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(!instance.querySelector('.rs-form-control-message-wrapper'));
   });
 
   it('Should the priority of errorMessage be higher than formError', () => {
-    const instance = getDOMNode(
+    render(
       <Form formError={{ username: 'error1' }}>
         <FormControl errorMessage={'error2'} name="username" />
       </Form>
     );
 
-    assert.equal(
-      (instance.querySelector('.rs-form-control-message-wrapper') as HTMLElement).textContent,
-      'error2'
-    );
+    expect(screen.getByText('error2')).to.be.visible;
   });
 
   it('Should be associated with ErrorMessage via aria-errormessage', () => {
-    const { getByRole } = render(
+    render(
       <Form>
         <FormGroup controlId="name1">
           <FormControl errorMessage={'error2'} name="name1" />
@@ -206,19 +214,19 @@ describe('FormControl', () => {
       </Form>
     );
 
-    const input = getByRole('textbox');
-    const alert = getByRole('alert');
+    const input = screen.getByRole('textbox');
+    const alert = screen.getByRole('alert');
 
     expect(input).to.have.attr('aria-invalid', 'true');
 
     expect(alert).to.exist;
     expect(input).to.have.attr('aria-errormessage', alert.getAttribute('id') as string);
   });
-
   it('Should remove value and error when shouldResetWithUnmount is true', () => {
-    let refValue = { username: '', email: '' };
+    let refValue = { username: '', email: '', password: '' };
     let refError = {};
     const model = Schema.Model({
+      password: Schema.Types.StringType().maxLength(2, 'The length cannot exceed 2'),
       username: Schema.Types.StringType().maxLength(2, 'The length cannot exceed 2'),
       email: Schema.Types.StringType().maxLength(2, 'The length cannot exceed 2')
     });
@@ -244,23 +252,30 @@ describe('FormControl', () => {
             formError={error}
             formValue={value}
           >
-            {email || <FormControl id="username" name="username" shouldResetWithUnmount />}
-            <FormControl id="email" name="email" />
+            {email || <FormControl data-testid="password" name="password" shouldResetWithUnmount />}
+            {email || <FormControl data-testid="username" name="username" shouldResetWithUnmount />}
+            <FormControl data-testid="email" name="email" />
           </Form>
         </>
       );
     };
-    const { container } = render(<Wrapper />);
-    fireEvent.change(container.querySelector('#username') as HTMLInputElement, {
+    render(<Wrapper />);
+    fireEvent.change(screen.getByTestId('username'), {
       target: { value: 'username' }
     });
-    assert.deepEqual(refValue, { username: 'username', email: '' });
-    assert.deepEqual(refError, { username: 'The length cannot exceed 2' });
-    fireEvent.change(container.querySelector('#email') as HTMLInputElement, {
+    fireEvent.change(screen.getByTestId('password'), {
+      target: { value: 'password' }
+    });
+    expect(refValue).to.deep.equal({ username: 'username', password: 'password', email: '' });
+    expect(refError).to.deep.equal({
+      username: 'The length cannot exceed 2',
+      password: 'The length cannot exceed 2'
+    });
+    fireEvent.change(screen.getByTestId('email'), {
       target: { value: 'email' }
     });
-    assert.deepEqual(refValue, { email: 'email' } as any);
-    assert.deepEqual(refError, { email: 'The length cannot exceed 2' });
+    expect(refValue).to.deep.equal({ email: 'email' });
+    expect(refError).to.deep.equal({ email: 'The length cannot exceed 2' });
   });
 
   describe('rule', () => {
@@ -287,6 +302,7 @@ describe('FormControl', () => {
         return (
           <>
             <button
+              data-testid="button"
               onClick={() => {
                 setShow(false);
               }}
@@ -305,13 +321,13 @@ describe('FormControl', () => {
           </>
         );
       }
-      const { container } = render(<Wrapper />);
+      render(<Wrapper />);
 
       (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 1);
       assert.deepEqual(handleError.firstCall.firstArg, { user: 'require', password: 'require' });
 
-      fireEvent.click(container.querySelector('button') as HTMLElement);
+      fireEvent.click(screen.getByTestId('button'));
       (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 2);
       assert.deepEqual(handleError.secondCall.firstArg, { user: 'require' });
@@ -326,6 +342,7 @@ describe('FormControl', () => {
         return (
           <>
             <button
+              data-testid="button"
               onClick={() => {
                 setRule(Schema.Types.StringType().isRequired('second require'));
               }}
@@ -339,13 +356,13 @@ describe('FormControl', () => {
         );
       }
 
-      const { container } = render(<Wrapper />);
+      render(<Wrapper />);
 
       (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 1);
       assert.deepEqual(handleError.firstCall.firstArg, { user: 'require' });
 
-      fireEvent.click(container.querySelector('button') as HTMLElement);
+      fireEvent.click(screen.getByTestId('button'));
       (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 2);
       assert.deepEqual(handleError.secondCall.firstArg, { user: 'second require' });
@@ -370,6 +387,36 @@ describe('FormControl', () => {
       (formRef.current as FormInstance).check();
       assert.equal(handleError.callCount, 1);
       assert.equal(handleError.firstCall.firstArg.user, 'field require');
+    });
+  });
+
+  describe('Use `checked` instead of `value` with Toggle', () => {
+    it('Should be to initialize the state of Toggle through the form value', () => {
+      const formValue = {
+        toggle: true
+      };
+
+      render(
+        <Form formValue={formValue}>
+          <FormControl name="toggle" accepter={Toggle} />
+        </Form>
+      );
+
+      expect(screen.getByRole('switch')).to.be.checked;
+    });
+
+    it('Should be possible to override `checked` value', () => {
+      const formValue = {
+        toggle: true
+      };
+
+      render(
+        <Form formValue={formValue}>
+          <FormControl name="toggle" accepter={Toggle} checked={false} />
+        </Form>
+      );
+
+      expect(screen.getByRole('switch')).not.to.be.checked;
     });
   });
 });

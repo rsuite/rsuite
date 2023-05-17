@@ -70,7 +70,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
     const { date = new Date() } = useCalendarContext();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const thisYear = DateUtils.getYear(new Date());
-    const startYear = limitStartYear ? thisYear - limitStartYear : 1900;
+    const startYear = limitStartYear ? thisYear - limitStartYear + 1 : 1900;
 
     const rowCount = useMemo(() => {
       const endYear = thisYear + limitEndYear;

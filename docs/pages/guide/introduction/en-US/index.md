@@ -89,7 +89,7 @@ $ npm install
 $ npm run dev
 ```
 
-3. Your show time. Open url http://127.0.0.1:3200/ in browser.
+3. Your show time. Open url http://127.0.0.1:3000/ in browser.
 
 ## Supporting RSUITE
 

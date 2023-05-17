@@ -1,10 +1,11 @@
 import React from 'react';
 import { getDOMNode } from '@test/testUtils';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import Tree from '../Tree';
 import { PickerHandle } from '../../Picker';
 import { ListHandle } from '../../Windowing';
+import userEvent from '@testing-library/user-event';
 
 const data = [
   {
@@ -41,22 +42,41 @@ describe('Tree', () => {
     assert.equal(instance.getAttribute('role'), 'tree');
   });
 
+  it('Should call `onSelectItem` callback with the selected item and the full path', () => {
+    const onSelectItem = sinon.spy();
+
+    render(
+      <Tree data={data} onSelectItem={onSelectItem} expandItemValues={['Master', 'tester1']} />
+    );
+
+    // TODO-Doma
+    // Use `treeitem` role
+    userEvent.click(screen.getByRole('button', { name: 'tester2' }));
+
+    expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
+      sinon.match({ value: 'Master' }),
+      sinon.match({ value: 'tester1' }),
+      sinon.match({ value: 'tester2' })
+    ]);
+  });
+
   it('Should call `onDragStart` callback', () => {
     const onDragStartSpy = sinon.spy();
-    const instance = getDOMNode(<Tree data={data} onDragStart={onDragStartSpy} draggable />);
-    const treeNode = instance.querySelector('.rs-tree-node') as HTMLElement;
+    render(<Tree data={data} onDragStart={onDragStartSpy} draggable />);
+    const treeNode = screen.getAllByRole('treeitem')[0];
 
     fireEvent.dragStart(treeNode);
 
     assert.isTrue(onDragStartSpy.calledOnce);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.isNotNull(treeNode.querySelector('.rs-tree-node-dragging'));
     assert.equal(onDragStartSpy.firstCall.firstArg.value, 'Master');
   });
 
   it('Should call `onDragEnter` callback', () => {
     const onDragEnterSpy = sinon.spy();
-    const instance = getDOMNode(<Tree data={data} onDragEnter={onDragEnterSpy} draggable />);
-    const treeNode = instance.querySelector('.rs-tree-node') as HTMLElement;
+    render(<Tree data={data} onDragEnter={onDragEnterSpy} draggable />);
+    const treeNode = screen.getAllByRole('treeitem')[0];
 
     fireEvent.dragEnter(treeNode);
     assert.isTrue(onDragEnterSpy.calledOnce);
@@ -65,8 +85,8 @@ describe('Tree', () => {
 
   it('Should call `onDragOver` callback', () => {
     const onDragOverSpy = sinon.spy();
-    const instance = getDOMNode(<Tree data={data} onDragOver={onDragOverSpy} draggable />);
-    const treeNode = instance.querySelector('.rs-tree-node') as HTMLElement;
+    render(<Tree data={data} onDragOver={onDragOverSpy} draggable />);
+    const treeNode = screen.getAllByRole('treeitem')[0];
 
     fireEvent.dragOver(treeNode);
     assert.isTrue(onDragOverSpy.calledOnce);
@@ -75,8 +95,8 @@ describe('Tree', () => {
 
   it('Should call `onDragLeave` callback', () => {
     const onDragLeaveSpy = sinon.spy();
-    const instance = getDOMNode(<Tree data={data} onDragLeave={onDragLeaveSpy} draggable />);
-    const treeNode = instance.querySelector('.rs-tree-node') as HTMLElement;
+    render(<Tree data={data} onDragLeave={onDragLeaveSpy} draggable />);
+    const treeNode = screen.getAllByRole('treeitem')[0];
 
     fireEvent.dragLeave(treeNode);
     assert.isTrue(onDragLeaveSpy.calledOnce);
@@ -85,8 +105,8 @@ describe('Tree', () => {
 
   it('Should call `onDragEnd` callback', () => {
     const onDragEndSpy = sinon.spy();
-    const instance = getDOMNode(<Tree data={data} onDragEnd={onDragEndSpy} draggable />);
-    const treeNode = instance.querySelector('.rs-tree-node') as HTMLElement;
+    render(<Tree data={data} onDragEnd={onDragEndSpy} draggable />);
+    const treeNode = screen.getAllByRole('treeitem')[0];
 
     fireEvent.dragEnd(treeNode);
     assert.isTrue(onDragEndSpy.calledOnce);
@@ -94,22 +114,22 @@ describe('Tree', () => {
   });
 
   it('Should display drag Preview when dragging, and remove after drop', () => {
-    const { getByText } = render(<Tree data={data} draggable />);
-    const treeNode = getByText('tester1') as HTMLElement;
+    render(<Tree data={data} draggable />);
+    const treeNode = screen.getByText('tester1') as HTMLElement;
     fireEvent.dragStart(treeNode);
+    // eslint-disable-next-line testing-library/no-node-access
     expect(document.querySelector('.rs-tree-drag-preview')?.textContent).to.equal('tester1');
     fireEvent.drop(treeNode);
+    // eslint-disable-next-line testing-library/no-node-access
     expect(document.querySelector('.rs-tree-drag-preview')).to.be.a('null');
   });
 
   it('Should call `onDrop` callback without exception', () => {
     expect(() => {
       const onDropSpy = sinon.spy();
-      const instance = getDOMNode(
-        <Tree data={data} onDrop={onDropSpy} draggable defaultExpandAll />
-      );
-      const dragTreeNode = instance.querySelector('span[data-key="String_tester0"]') as HTMLElement;
-      const dropTreeNode = instance.querySelector('span[data-key="String_tester1"]') as HTMLElement;
+      render(<Tree data={data} onDrop={onDropSpy} draggable defaultExpandAll />);
+      const dragTreeNode = screen.getByRole('treeitem', { name: 'tester0' });
+      const dropTreeNode = screen.getByRole('treeitem', { name: 'tester1' });
 
       fireEvent.dragStart(dragTreeNode);
       fireEvent.drop(dropTreeNode);
@@ -155,8 +175,10 @@ describe('Tree', () => {
   it('Should show indent line', () => {
     const instance = getDOMNode(<Tree data={data} showIndentLine />);
 
+    // eslint-disable-next-line testing-library/no-node-access
     const lines = instance.querySelectorAll('.rs-tree-indent-line');
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.isNotNull(instance.querySelector('.rs-tree-indent-line'));
     assert.equal(lines.length, 2);
     assert.equal((lines[0] as HTMLElement).style.left, '44px');

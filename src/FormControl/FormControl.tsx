@@ -10,6 +10,7 @@ import { FormGroupContext } from '../FormGroup/FormGroup';
 import { useWillUnmount } from '../utils';
 import useRegisterModel from './useRegisterModel';
 import type { CheckType } from 'schema-typed';
+import Toggle from '../Toggle';
 
 /**
  * Props that FormControl passes to its accepter
@@ -185,6 +186,20 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   const fieldHasError = Boolean(messageNode);
   const ariaErrormessage = fieldHasError && controlId ? `${controlId}-error-message` : undefined;
 
+  let valueKey = 'value';
+  let defaultValueKey = 'defaultValue';
+
+  // Toggle component is a special case that uses `checked` and `defaultChecked` instead of `value` and `defaultValue` props.
+  if (AccepterComponent === Toggle) {
+    valueKey = 'checked';
+    defaultValueKey = 'defaultChecked';
+  }
+
+  const accepterProps = {
+    [valueKey]: val,
+    [defaultValueKey]: defaultValue ?? formDefaultValue[name]
+  };
+
   return (
     <Component className={classes} ref={ref}>
       <AccepterComponent
@@ -193,6 +208,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
         aria-describedby={ariaDescribedby}
         aria-invalid={fieldHasError || undefined}
         aria-errormessage={ariaErrormessage}
+        {...accepterProps}
         {...rest}
         readOnly={readOnly}
         plaintext={plaintext}
@@ -200,8 +216,6 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
         name={name}
         onChange={handleFieldChange}
         onBlur={handleFieldBlur}
-        defaultValue={defaultValue ?? formDefaultValue[name]}
-        value={val}
       />
 
       <FormErrorMessage

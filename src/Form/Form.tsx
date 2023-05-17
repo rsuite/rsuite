@@ -312,6 +312,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
        * so use Ref to get future error
        */
       const formError = omit(realFormErrorRef.current, [name]);
+      realFormErrorRef.current = formError;
       setFormError(formError);
       onCheck?.(formError);
     },
@@ -325,6 +326,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
        * so use Ref to get future value
        */
       const formValue = omit(realFormValueRef.current, [name]);
+      realFormValueRef.current = formValue;
       setFormValue(formValue);
       onChange?.(formValue);
     },

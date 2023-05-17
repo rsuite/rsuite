@@ -9,11 +9,10 @@ afterEach(() => {
 
 describe('[utils] useTimeput', () => {
   it('Should return clear and reset functions', () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const hook = renderHook(() => useTimeout(() => {}, 10));
+    const { result } = renderHook(() => useTimeout(() => void 0, 10));
 
-    assert.equal(typeof hook.result.current.clear, 'function');
-    assert.equal(typeof hook.result.current.reset, 'function');
+    expect(result.current.clear).to.be.a('function');
+    expect(result.current.reset).to.be.a('function');
   });
 
   it('Should call passed function after given amount of time', () => {
@@ -33,49 +32,49 @@ describe('[utils] useTimeput', () => {
     const clock = sinon.useFakeTimers();
     const callbackSpy = sinon.spy();
 
-    const hook = renderHook(() => useTimeout(callbackSpy, 10));
+    const { result } = renderHook(() => useTimeout(callbackSpy, 10));
 
     act(() => {
-      hook.result.current.clear();
+      result.current.clear();
     });
 
     clock.tick(10);
-    assert.isFalse(callbackSpy.calledOnce);
+    expect(callbackSpy).not.to.have.been.called;
   });
 
   it('Should reset timeout', () => {
     const clock = sinon.useFakeTimers();
     const callbackSpy = sinon.spy();
 
-    const hook = renderHook(() => useTimeout(callbackSpy, 10));
+    const { result } = renderHook(() => useTimeout(callbackSpy, 10));
 
     act(() => {
-      hook.result.current.clear();
+      result.current.clear();
     });
 
     clock.tick(10);
-    assert.isFalse(callbackSpy.calledOnce);
+    expect(callbackSpy).not.to.have.been.called;
 
     act(() => {
-      hook.result.current.reset();
+      result.current.reset();
     });
 
     clock.tick(10);
-    assert.isTrue(callbackSpy.calledOnce);
+    expect(callbackSpy).to.have.been.calledOnce;
   });
 
   it('Should reset timeout on delay change', () => {
     const clock = sinon.useFakeTimers();
     const callbackSpy = sinon.spy();
 
-    const hook = renderHook(({ delay, cb }) => useTimeout(cb, delay), {
+    const { rerender } = renderHook(({ delay, cb }) => useTimeout(cb, delay), {
       initialProps: { delay: 20, cb: callbackSpy }
     });
 
-    hook.rerender({ delay: 5, cb: callbackSpy });
+    rerender({ delay: 5, cb: callbackSpy });
 
     clock.tick(5);
 
-    assert.isTrue(callbackSpy.calledOnce);
+    expect(callbackSpy).to.have.been.calledOnce;
   });
 });

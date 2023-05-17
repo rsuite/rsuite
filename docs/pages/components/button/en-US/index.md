@@ -117,9 +117,11 @@ function App() {
 | classPrefix | string `('btn')`                                     | The prefix of the component CSS class                          |
 | color       | [Color](#code-ts-color-code)                         | A button can have different colors                             |
 | disabled    | boolean                                              | A button can show it is currently unable to be interacted with |
+| endIcon     | ReactNode                                            | Display an icon after buttont text                             |
 | href        | string                                               | Providing a `href` will render an `a` element                  |
 | loading     | boolean                                              | A button can show a loading indicator                          |
 | size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`    | A button can have different sizes                              |
+| startIcon   | ReactNode                                            | Display an icon before buttont text                            |
 
 ### `<IconButton>`
 

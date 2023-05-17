@@ -11,23 +11,23 @@ import WeiboIcon from '@rsuite/icons/legacy/Weibo';
 
 const App = () => (
   <ButtonToolbar>
-    <Button color="blue" appearance="primary">
-      <FacebookOfficialIcon /> Facebook
+    <Button color="blue" appearance="primary" startIcon={<FacebookOfficialIcon />}>
+      Facebook
     </Button>
-    <Button color="red" appearance="primary">
-      <GooglePlusCircleIcon /> Google Plus
+    <Button color="red" appearance="primary" startIcon={<GooglePlusCircleIcon />}>
+      Google Plus
     </Button>
-    <Button color="cyan" appearance="primary">
-      <TwitterIcon /> Twitter
+    <Button color="cyan" appearance="primary" startIcon={<TwitterIcon />}>
+      Twitter
     </Button>
-    <Button color="blue" appearance="primary">
-      <LinkedinIcon /> LinkedIn
+    <Button color="blue" appearance="primary" endIcon={<LinkedinIcon />}>
+      LinkedIn
     </Button>
-    <Button color="green" appearance="primary">
-      <WechatIcon /> WeChat
+    <Button color="green" appearance="primary" endIcon={<WechatIcon />}>
+      WeChat
     </Button>
-    <Button color="yellow" appearance="primary">
-      <WeiboIcon /> WeiBo
+    <Button color="yellow" appearance="primary" endIcon={<WeiboIcon />}>
+      WeiBo
     </Button>
   </ButtonToolbar>
 );

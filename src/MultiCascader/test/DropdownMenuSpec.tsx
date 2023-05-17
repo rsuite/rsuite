@@ -3,7 +3,7 @@ import { getDOMNode, getInstance } from '@test/testUtils';
 import sinon from 'sinon';
 import DropdownMenu from '../DropdownMenu';
 import MultiCascader from '../MultiCascader';
-import { fireEvent, act } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 const classPrefix = 'rs-picker-cascader-menu';
 
@@ -51,13 +51,15 @@ describe('MultiCascader -  DropdownMenu', () => {
   });
 
   it('Should output 3 `menu-item` ', () => {
-    const instance = getInstance(<MultiCascader open data={items} />);
-    assert.equal(instance.overlay.querySelectorAll('li').length, 3);
+    render(<MultiCascader open data={items} />);
+
+    expect(screen.getAllByRole('option')).to.have.lengthOf(3);
   });
 
   it('Should have a menuWidth', () => {
     const instance = getInstance(<MultiCascader defaultOpen data={items} menuWidth={100} />);
 
+    // eslint-disable-next-line testing-library/no-node-access
     const menuContainer = instance.overlay.querySelector('.rs-picker-cascader-menu-column');
     assert.ok(menuContainer.style.width, '100px');
   });
@@ -87,7 +89,7 @@ describe('MultiCascader -  DropdownMenu', () => {
       }
     ];
 
-    const instance = getInstance(
+    render(
       <MultiCascader
         defaultOpen
         labelKey="myLabel"
@@ -97,22 +99,22 @@ describe('MultiCascader -  DropdownMenu', () => {
       />
     );
 
-    assert.equal(instance.overlay.querySelectorAll('li').length, 3);
+    expect(screen.getAllByRole('option')).to.have.lengthOf(3);
   });
 
   it('Should call onSelect callback with correct node value', () => {
     const onSelect = sinon.spy();
 
-    const instance = getInstance(<MultiCascader defaultOpen data={items} onSelect={onSelect} />);
+    render(<MultiCascader defaultOpen data={items} onSelect={onSelect} />);
 
-    fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[1]);
+    fireEvent.click(screen.getByRole('option', { name: 'abcd' }).firstChild as HTMLElement);
 
-    expect(onSelect).to.have.been.calledWithMatch({ value: 'abcd' });
+    expect(onSelect).to.have.been.calledWith({ label: 'abcd', value: 'abcd' });
   });
 
   it('Should call onSelect callback 2 count', () => {
     const onSelectSpy = sinon.spy();
-    const instance = getInstance(
+    render(
       <MultiCascader
         defaultOpen
         data={items}
@@ -121,18 +123,15 @@ describe('MultiCascader -  DropdownMenu', () => {
       />
     );
 
-    act(() => {
-      fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[0]);
-    });
-    act(() => {
-      fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[2]);
-    });
-    assert.equal(onSelectSpy.callCount, 2);
+    fireEvent.click(screen.getByRole('option', { name: 'abc' }).firstChild as HTMLElement);
+    fireEvent.click(screen.getByRole('option', { name: 'abcde' }).firstChild as HTMLElement);
+
+    expect(onSelectSpy).to.have.been.calledTwice;
   });
 
   it('Should not call onSelect callback on disabled item', () => {
     const onSelectSpy = sinon.spy();
-    const instance = getInstance(
+    render(
       <MultiCascader
         defaultOpen
         data={items}
@@ -141,33 +140,37 @@ describe('MultiCascader -  DropdownMenu', () => {
       />
     );
 
-    fireEvent.click(instance.overlay.querySelectorAll('.rs-checkbox')[1]);
-    assert.ok(onSelectSpy.notCalled);
+    fireEvent.click(screen.getByRole('option', { name: 'abcd' }).firstChild as HTMLElement);
+    expect(onSelectSpy).not.to.have.been.called;
   });
 
   it('Should call renderMenuItem callback ', () => {
-    const instance = getInstance(
-      <MultiCascader defaultOpen data={items} renderMenuItem={item => <i>{item}</i>} />
+    render(
+      <MultiCascader
+        defaultOpen
+        data={items}
+        renderMenuItem={item => <i data-testid="custom-item">{item}</i>}
+      />
     );
 
-    assert.equal(instance.overlay.querySelectorAll('.rs-checkbox i').length, 3);
+    expect(screen.getAllByTestId('custom-item')).to.have.lengthOf(3);
   });
 
   it('Should be disabled item ', () => {
-    const instance = getInstance(
-      <MultiCascader defaultOpen data={items} disabledItemValues={['abcd', 'abcde']} />
-    );
+    render(<MultiCascader defaultOpen data={items} disabledItemValues={['abcd', 'abcde']} />);
 
-    assert.ok(instance.overlay.querySelectorAll('.rs-checkbox')[1].className.match(/\bdisabled\b/));
-    assert.ok(instance.overlay.querySelectorAll('.rs-checkbox')[2].className.match(/\bdisabled\b/));
+    expect(screen.getByRole('option', { name: 'abcd' }).firstChild as HTMLElement).to.have.class(
+      'rs-checkbox-disabled'
+    );
+    expect(screen.getByRole('option', { name: 'abcde' }).firstChild as HTMLElement).to.have.class(
+      'rs-checkbox-disabled'
+    );
   });
 
   it('Should be uncheckable item ', () => {
-    const instance = getInstance(
-      <MultiCascader defaultOpen data={items} uncheckableItemValues={['abcd', 'abcde']} />
-    );
+    render(<MultiCascader defaultOpen data={items} uncheckableItemValues={['abcd', 'abcde']} />);
 
-    assert.equal(instance.overlay.querySelectorAll('input[role="checkbox"]').length, 1);
+    expect(screen.getAllByRole('checkbox')).to.have.lengthOf(1);
   });
 
   it('Should have a custom className', () => {

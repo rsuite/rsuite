@@ -7,14 +7,16 @@ import InputPicker, {
 import type { PickerComponent } from '../Picker/types';
 import type { TagProps } from '../Tag';
 
-export interface TagInputProps extends InputPickerProps {
+export interface TagInputProps extends Omit<InputPickerProps<readonly string[]>, 'data'> {
   /**  Tag related props. */
   tagProps?: TagProps;
 
   /**
    * Set the trigger for creating tags. only valid when creatable
+   *
+   * @todo Declare as readonly array
    */
-  trigger: TriggerType | TriggerType[];
+  trigger?: TriggerType | TriggerType[];
 }
 
 const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInputProps, ref) => {

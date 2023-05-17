@@ -31,15 +31,19 @@ return (
 | fa_IR  | Persian (Iran)      |
 | fi_FI  | Finnish             |
 | fr_FR  | French              |
+| hu_HU  | Hungarian           |
 | it_IT  | Italian             |
 | kk_KZ  | Kazakh              |
 | ko_KR  | Korean              |
+| nl_NL  | Dutch               |
 | pt_BR  | Portuguese (Brazil) |
 | ru_RU  | Russian             |
 | sv_SE  | Swedish             |
 | tr_TR  | Turkish             |
 | zh_CN  | Simplified Chinese  |
 | zh_TW  | traditional Chinese |
+
+> [How to add new language to rsuite?](https://github.com/rsuite/rsuite/discussions/2927)
 
 ## Customize
 

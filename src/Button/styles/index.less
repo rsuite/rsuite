@@ -8,7 +8,9 @@
 
 // Default Button
 .rs-btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 0; // For input.btn
   font-weight: @btn-font-weight;
   text-align: center;
@@ -50,6 +52,16 @@
   });
 
   .with-ripple();
+}
+
+.rs-btn-start-icon {
+  line-height: 0; // Eliminate whitespace
+  margin-right: @btn-icon-gap;
+}
+
+.rs-btn-end-icon {
+  line-height: 0; // Eliminate whitespace
+  margin-left: @btn-icon-gap;
 }
 
 // Appearance variants

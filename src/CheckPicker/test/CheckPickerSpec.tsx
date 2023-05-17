@@ -1,18 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { globalKey, getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/testUtils';
 
 import CheckPicker from '../CheckPicker';
 import Button from '../../Button';
 import '../styles/index.less';
-
-const namespace = `${globalKey}-picker`;
-const itemFocusClassName = '.rs-check-item-focus';
-const itemActiveClassName = '.rs-checkbox-checked';
-const cleanClassName = `.${namespace}-toggle-clean`;
-const placeholderClassName = `.${namespace}-toggle-placeholder`;
-const valueClassName = `.${namespace}-value-list`;
+import userEvent from '@testing-library/user-event';
 
 const data = [
   {
@@ -34,13 +28,11 @@ const data = [
 
 describe('CheckPicker', () => {
   it('Should clean selected default value', () => {
-    const instance = getInstance(
-      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />
-    );
+    render(<CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />);
 
-    fireEvent.click(instance.root.querySelector(cleanClassName));
+    fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(instance.root.querySelector(placeholderClassName)).to.text('Select');
+    expect(screen.getByRole('combobox')).to.have.text('Select');
   });
 
   it('Should have "default" appearance by default', () => {
@@ -50,10 +42,11 @@ describe('CheckPicker', () => {
   });
 
   it('Should not clean selected value', () => {
-    const instance = getDOMNode(<CheckPicker defaultOpen data={data} value={['Eugenia']} />);
+    render(<CheckPicker defaultOpen data={data} value={['Eugenia']} />);
 
-    fireEvent.click(instance.querySelector(cleanClassName) as HTMLElement);
-    expect(instance.querySelector(valueClassName)).to.text('Eugenia');
+    fireEvent.click(screen.getByRole('button', { name: /clear/i }));
+
+    expect(screen.getByRole('combobox')).to.have.text('Eugenia1');
   });
 
   it('Should output a dropdown', () => {
@@ -64,8 +57,8 @@ describe('CheckPicker', () => {
   });
 
   it('Should output a button', () => {
-    const instance = getInstance(<CheckPicker data={[]} toggleAs="button" />);
-    expect(instance.root.querySelector('button')).to.be.exist;
+    render(<CheckPicker data={[]} toggleAs="button" />);
+    expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
   it('Should be disabled', () => {
@@ -93,34 +86,44 @@ describe('CheckPicker', () => {
 
   it('Should active item by `value`', () => {
     const value = ['Louisa'];
-    const instance = getInstance(<CheckPicker defaultOpen data={data} value={value} />);
+    render(<CheckPicker defaultOpen data={data} value={value} />);
 
-    expect(instance.root.querySelector(valueClassName)).to.text('Louisa');
-    expect(instance.overlay.querySelector(itemActiveClassName)).to.text('Louisa');
+    expect(screen.getByRole('combobox')).to.have.text('Louisa1');
+    expect(screen.getByRole('option', { name: 'Louisa' })).to.have.attr('aria-selected', 'true');
   });
 
   it('Should active item by `defaultValue`', () => {
     const value = ['Louisa'];
-    const instance = getInstance(<CheckPicker defaultOpen data={data} defaultValue={value} />);
+    render(<CheckPicker defaultOpen data={data} defaultValue={value} />);
 
-    expect(instance.root.querySelector(valueClassName)).to.text('Louisa');
-    expect(instance.overlay.querySelector(itemActiveClassName)).to.text('Louisa');
+    expect(screen.getByRole('combobox')).to.have.text('Louisa1');
+    expect(screen.getByRole('option', { name: 'Louisa' })).to.have.attr('aria-selected', 'true');
   });
 
   it('Should render a group', () => {
-    const instance = getInstance(<CheckPicker defaultOpen groupBy="role" data={data} />);
+    render(<CheckPicker defaultOpen groupBy="role" data={data} />);
 
-    expect(instance.overlay.querySelector('.rs-picker-menu-group')).to.exist;
+    expect(screen.getByRole('group')).to.exist;
+  });
+
+  it('Should toggle expansion of a group by clicking on the group title', () => {
+    render(<CheckPicker defaultOpen groupBy="role" data={data} />);
+
+    expect(screen.getAllByRole('option')).to.have.lengthOf(3);
+
+    userEvent.click(screen.getByText('Master'));
+
+    expect(screen.queryAllByRole('option')).to.have.lengthOf(0);
   });
 
   it('Should have a placeholder', () => {
-    const instance = getDOMNode(<CheckPicker data={[]} className="custom" placeholder="test" />);
+    render(<CheckPicker data={[]} className="custom" placeholder="test" />);
 
-    expect(instance.querySelector(placeholderClassName)).to.text('test');
+    expect(screen.getByRole('combobox')).to.have.text('test');
   });
 
   it('Should render value by `renderValue`', () => {
-    const instance = getDOMNode(
+    render(
       <CheckPicker
         placeholder="test"
         data={[
@@ -132,32 +135,30 @@ describe('CheckPicker', () => {
       />
     );
 
-    expect(instance.querySelector('.rs-picker-toggle-value')).to.text('1,2');
+    expect(screen.getByRole('combobox')).to.have.text('1,2');
   });
 
   it('Should output a value by renderValue()', () => {
     const placeholder = 'value';
 
     // Valid value
-    const instance = getDOMNode(
+    const { rerender } = render(
       <CheckPicker
         renderValue={v => [v, placeholder]}
         data={[{ value: 1, label: '1' }]}
         value={[1]}
       />
     );
+    expect(screen.getByRole('combobox')).to.have.text(`1${placeholder}`);
 
     // Invalid value
-    const instance2 = getDOMNode(
-      <CheckPicker renderValue={v => [v, placeholder]} data={[]} value={[2]} />
-    );
+    rerender(<CheckPicker renderValue={v => [v, placeholder]} data={[]} value={[2]} />);
 
-    expect(instance.querySelector('.rs-picker-toggle-value')).to.text(`1${placeholder}`);
-    expect(instance2.querySelector('.rs-picker-toggle-value')).to.text(`2${placeholder}`);
+    expect(screen.getByRole('combobox')).to.have.text(`2${placeholder}`);
   });
 
   it('Should render a placeholder when value error', () => {
-    const instance = getDOMNode(
+    render(
       <CheckPicker
         placeholder="test"
         data={[
@@ -168,16 +169,16 @@ describe('CheckPicker', () => {
       />
     );
 
-    expect(instance.querySelector(placeholderClassName)).to.text('test');
+    expect(screen.getByRole('combobox')).to.have.text('test');
   });
 
   it('Should call `onChange` callback with correct value', () => {
     const onChange = sinon.spy();
-    const { getByText } = render(
+    render(
       <CheckPicker defaultOpen onChange={onChange} data={[{ label: 'Option 1', value: '1' }]} />
     );
 
-    fireEvent.click(getByText('Option 1'));
+    fireEvent.click(screen.getByText('Option 1'));
 
     expect(onChange).to.have.been.calledOnce;
     expect(onChange.getCall(0).args[0]).to.eql(['1']);
@@ -185,11 +186,9 @@ describe('CheckPicker', () => {
 
   it('Should call `onClean` callback', () => {
     const onCleanSpy = sinon.spy();
-    const instance = getDOMNode(
-      <CheckPicker data={data} defaultValue={['Eugenia']} onClean={onCleanSpy} />
-    );
+    render(<CheckPicker data={data} defaultValue={['Eugenia']} onClean={onCleanSpy} />);
 
-    fireEvent.click(instance.querySelector('.rs-picker-toggle-clean') as HTMLElement);
+    fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
     expect(onCleanSpy).to.have.been.calledOnce;
   });
@@ -238,9 +237,9 @@ describe('CheckPicker', () => {
   });
 
   it('Should output a clean button', () => {
-    const instance = getDOMNode(<CheckPicker data={data} defaultValue={['Louisa']} />);
+    render(<CheckPicker data={data} defaultValue={['Louisa']} />);
 
-    expect(instance.querySelector(cleanClassName)).to.exist;
+    expect(screen.getByRole('button', { name: /clear/i })).to.exist;
   });
 
   it('Should focus item by key=ArrowDown ', () => {
@@ -250,7 +249,9 @@ describe('CheckPicker', () => {
 
     fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
 
-    expect(instance.overlay.querySelector(itemFocusClassName)).to.text('Kariane');
+    expect(screen.getByRole('option', { name: 'Kariane' }).firstChild).to.have.class(
+      'rs-check-item-focus'
+    );
   });
 
   it('Should update scroll position when the focus is not within the viewport and key=ArrowDown', () => {
@@ -261,11 +262,11 @@ describe('CheckPicker', () => {
     fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
     fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
 
-    expect(instance.overlay.querySelector('[role="listbox"]').scrollTop).to.equal(36);
+    expect(screen.getByRole('listbox').scrollTop).to.equal(36);
 
     fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
 
-    expect(instance.overlay.querySelector('[role="listbox"]').scrollTop).to.equal(0);
+    expect(screen.getByRole('listbox').scrollTop).to.equal(0);
   });
 
   it('Should update scroll position when the focus is not within the viewport and key=ArrowUp', () => {
@@ -276,11 +277,11 @@ describe('CheckPicker', () => {
     fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
     fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
 
-    expect(instance.overlay.querySelector('[role="listbox"]').scrollTop).to.equal(36);
+    expect(screen.getByRole('listbox').scrollTop).to.equal(36);
 
     fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
 
-    expect(instance.overlay.querySelector('[role="listbox"]').scrollTop).to.equal(0);
+    expect(screen.getByRole('listbox').scrollTop).to.equal(0);
   });
 
   it('Should focus item by key=ArrowUp ', () => {
@@ -290,7 +291,9 @@ describe('CheckPicker', () => {
 
     fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
 
-    expect(instance.overlay.querySelector(itemFocusClassName)).to.text('Eugenia');
+    expect(screen.getByRole('option', { name: 'Eugenia' }).firstChild).to.have.class(
+      'rs-check-item-focus'
+    );
   });
 
   it('Should call `onChange` by key=Enter ', () => {
@@ -362,7 +365,7 @@ describe('CheckPicker', () => {
   });
 
   it('Allow `label` to be an empty string', () => {
-    const instance = getInstance(
+    render(
       <CheckPicker
         placeholder="test"
         data={[{ label: '', value: '1' }]}
@@ -370,8 +373,7 @@ describe('CheckPicker', () => {
         defaultOpen
       />
     );
-    const checkbox = instance.overlay.querySelector('.rs-checkbox-checked');
-    expect(checkbox).to.text('');
+    expect(screen.getByRole('option')).to.text('');
   });
 
   it('Should have a custom className prefix', () => {
@@ -381,17 +383,13 @@ describe('CheckPicker', () => {
   });
 
   it('Should be sticky', () => {
-    const instance = getInstance(
-      <CheckPicker placeholder="test" sticky data={data} value={['Kariane']} defaultOpen />
-    );
+    render(<CheckPicker placeholder="test" sticky data={data} value={['Kariane']} defaultOpen />);
 
-    const menu = instance.overlay.querySelector('.rs-checkbox');
-
-    expect(menu).to.text('Kariane');
+    expect(screen.getAllByRole('option')[0]).to.text('Kariane');
   });
 
   it('Should be render selected options be sticky', () => {
-    const instance = getInstance(
+    render(
       <CheckPicker
         placeholder="test"
         sticky
@@ -401,54 +399,52 @@ describe('CheckPicker', () => {
       />
     );
 
-    expect(instance.overlay.querySelectorAll('.rs-checkbox-checked')).to.length(3);
+    expect(screen.getAllByRole('checkbox', { checked: true })).to.have.lengthOf(3);
+
+    expect(screen.getAllByRole('checkbox')[0]).to.be.checked;
+    expect(screen.getAllByRole('checkbox')[1]).to.be.checked;
+    expect(screen.getAllByRole('checkbox')[2]).to.be.checked;
   });
 
   it('Should render a button by toggleAs={Button}', () => {
-    const instance = getInstance(<CheckPicker open data={data} toggleAs={Button} />);
-    expect(instance.root.querySelector('.rs-btn')).to.exist;
+    render(<CheckPicker open data={data} toggleAs={Button} />);
+    expect(screen.getByRole('combobox')).to.have.class('rs-btn');
   });
 
   it('Should render the specified menu content by `searchBy`', () => {
-    const instance = getInstance(
-      <CheckPicker defaultOpen data={data} searchBy={(_a, _b, c) => c.value === 'Louisa'} />
-    );
-    const list = instance.overlay.querySelectorAll('.rs-check-item');
+    render(<CheckPicker defaultOpen data={data} searchBy={(_a, _b, c) => c.value === 'Louisa'} />);
+    const list = screen.getAllByRole('option');
 
-    expect(list).to.length(1);
-    expect(list[0]).to.text('Louisa');
+    expect(list).to.have.lengthOf(1);
+    expect(list[0]).to.have.text('Louisa');
   });
 
   it('Should not be call renderValue()', () => {
-    const instance = getDOMNode(<CheckPicker data={[]} renderValue={() => 'value'} />);
+    render(<CheckPicker data={[]} renderValue={() => 'value'} />);
 
-    expect(instance.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
+    expect(screen.getByRole('combobox')).to.text('Select');
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(
+    const { rerender, container } = render(
       <CheckPicker data={[]} value={['Test']} renderValue={() => '1'} />
     );
-    const instance2 = getDOMNode(
-      <CheckPicker data={[]} value={['Test']} renderValue={() => null} />
-    );
-    const instance3 = getDOMNode(
-      <CheckPicker data={[]} value={['Test']} renderValue={() => undefined} />
-    );
+    expect(screen.getByRole('combobox')).to.have.text('1');
+    expect(container.firstChild).to.have.class('rs-picker-has-value');
 
-    expect(instance1.querySelector('.rs-picker-toggle-value')).to.text('1');
-    expect(instance2.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
-    expect(instance3.querySelector('.rs-picker-toggle-placeholder')).to.text('Select');
+    rerender(<CheckPicker data={[]} value={['Test']} renderValue={() => null} />);
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
 
-    expect(instance1.className).to.include('rs-picker-has-value');
-    expect(instance2.className).to.not.include('rs-picker-has-value');
-    expect(instance3.className).to.not.include('rs-picker-has-value');
+    rerender(<CheckPicker data={[]} value={['Test']} renderValue={() => undefined} />);
+    expect(screen.getByRole('combobox')).to.have.text('Select');
+    expect(container.firstChild).to.not.have.class('rs-picker-has-value');
   });
 
   it('Should not call `onClean` callback on Input ', () => {
     const onCleanSpy = sinon.spy();
     const instance = getInstance(<CheckPicker data={data} onClean={onCleanSpy} defaultOpen />);
-    const input = instance.overlay.querySelector('.rs-picker-search-bar-input');
+    const input = screen.getByRole('textbox');
 
     fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
     fireEvent.keyDown(instance.target, { key: 'Enter' });
@@ -493,6 +489,22 @@ describe('CheckPicker', () => {
     });
   });
 
+  it('Should open the options list after pressing the enter key', () => {
+    render(<CheckPicker data={data} />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+
+    expect(screen.queryByRole('listbox')).to.exist;
+  });
+
+  it('Should not respond to keyboard events after setting readOnly', () => {
+    render(<CheckPicker data={data} readOnly />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+
+    expect(screen.queryByRole('listbox')).not.to.exist;
+  });
+
   describe('Loading state', () => {
     it('Should display a spinner when loading=true', () => {
       render(<CheckPicker data={data} loading />);
@@ -518,22 +530,22 @@ describe('CheckPicker', () => {
 
   describe('Plain text', () => {
     it("Should render selected options' labels (comma-separated) and selected options count", () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <CheckPicker data={data} value={['Eugenia', 'Kariane']} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Eugenia,Kariane2');
+      expect(screen.getByTestId('content')).to.have.text('Eugenia,Kariane2');
     });
     it('Should render "Not selected" if value is empty', () => {
-      const { getByTestId } = render(
+      render(
         <div data-testid="content">
           <CheckPicker data={data} value={[]} plaintext />
         </div>
       );
 
-      expect(getByTestId('content')).to.have.text('Not selected');
+      expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
   });
 

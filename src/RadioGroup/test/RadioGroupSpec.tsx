@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import RadioGroup from '../RadioGroup';
@@ -11,88 +10,101 @@ describe('RadioGroup', () => {
   testStandardProps(<RadioGroup />);
 
   it('Should render a radio group', () => {
-    const instance = getDOMNode(
+    render(
       <RadioGroup>
         <Radio>Test1</Radio>
         <Radio>Test2</Radio>
       </RadioGroup>
     );
-    assert.equal(instance.querySelectorAll('.rs-radio').length, 2);
+    expect(screen.getAllByRole('radio')).to.have.lengthOf(2);
   });
 
   it('Should have a name in input', () => {
     const name = 'Test';
-    const instance = getDOMNode(
+    render(
       <RadioGroup name={name}>
         <Radio>Test1</Radio>
         <Radio>Test2</Radio>
       </RadioGroup>
     );
-    assert.equal(instance.querySelectorAll('input[name="Test"]').length, 2);
+
+    for (const radio of screen.getAllByRole('radio')) {
+      expect(radio).to.have.attr('name', 'Test');
+    }
   });
 
   it('Should have `radio-inline` className in radio', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <RadioGroup inline>
         <Radio>Test1</Radio>
         <Radio>Test2</Radio>
       </RadioGroup>
     );
 
-    assert.ok(instance.className.match(/\brs-radio-group-inline\b/));
-    assert.equal(instance.querySelectorAll('.rs-radio-inline').length, 2);
+    expect(container.firstChild).to.have.class('rs-radio-group-inline');
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelectorAll('.rs-radio-inline')).to.have.lengthOf(2);
   });
 
   it('Should output a h1', () => {
-    const instance = getDOMNode(
+    render(
       <RadioGroup inline>
-        <h1>Group</h1>
+        <h1 data-testid="h1">Group</h1>
         <Radio>Test1</Radio>
       </RadioGroup>
     );
-    assert.ok(instance.querySelectorAll('.h1'));
+
+    expect(screen.getByTestId('h1')).to.exist;
   });
 
   it('Should be checked when set value', () => {
-    const instance = getDOMNode(
+    render(
       <RadioGroup value={2}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
-        <Radio value={3}>Test2</Radio>
-        <Radio value={4}>Test2</Radio>
+        <Radio value={3}>Test3</Radio>
+        <Radio value={4}>Test4</Radio>
       </RadioGroup>
     );
-    const radios = instance.querySelectorAll('.rs-radio');
-    assert.ok(radios[1].className.match(/\bradio-checked\b/));
+
+    expect(screen.getByLabelText('Test2')).to.be.checked;
+    expect(
+      screen.getByText((_content, element) => element?.textContent === 'Test2', {
+        selector: '.rs-radio'
+      })
+    ).to.have.class('rs-radio-checked');
   });
 
   it('Should be checked when set defaultValue', () => {
-    const instance = getDOMNode(
+    render(
       <RadioGroup defaultValue={2}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
-        <Radio value={3}>Test2</Radio>
-        <Radio>Test2</Radio>
+        <Radio value={3}>Test3</Radio>
+        <Radio>Test4</Radio>
       </RadioGroup>
     );
-    const radios = instance.querySelectorAll('.rs-radio');
-    assert.ok(radios[1].className.match(/\bradio-checked\b/));
+
+    expect(screen.getByLabelText('Test2')).to.be.checked;
+    expect(
+      screen.getByText((_content, element) => element?.textContent === 'Test2', {
+        selector: '.rs-radio'
+      })
+    ).to.have.class('rs-radio-checked');
   });
 
   it('Should call onChange callback with correct value', () => {
     const onChange = Sinon.spy();
-    const instance = getDOMNode(
+    render(
       <RadioGroup onChange={onChange}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
-        <Radio value={3}>Test2</Radio>
-        <Radio value={4}>Test2</Radio>
+        <Radio value={3}>Test3</Radio>
+        <Radio value={4}>Test4</Radio>
       </RadioGroup>
     );
 
-    const radios = instance.querySelectorAll('.rs-radio');
-    ReactTestUtils.Simulate.change(radios[2].querySelector('input') as HTMLInputElement);
-
+    fireEvent.click(screen.getByText('Test3'));
     expect(onChange).to.have.been.calledWith(3);
   });
 
@@ -100,19 +112,18 @@ describe('RadioGroup', () => {
     const onChange = Sinon.spy();
     const onGroupChange = Sinon.spy();
 
-    const instance = getDOMNode(
+    render(
       <RadioGroup onChange={onGroupChange}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
         <Radio value={3} onChange={onChange}>
-          Test2
+          Test3
         </Radio>
-        <Radio value={4}>Test2</Radio>
+        <Radio value={4}>Test4</Radio>
       </RadioGroup>
     );
 
-    const radios = instance.querySelectorAll('.rs-radio');
-    ReactTestUtils.Simulate.change(radios[2].querySelector('input') as HTMLInputElement);
+    fireEvent.click(screen.getByText('Test3'));
 
     expect(onChange).to.have.been.calledOnce;
     expect(onGroupChange).to.have.been.calledOnce;
@@ -120,17 +131,16 @@ describe('RadioGroup', () => {
 
   it('Should call onChange callback with correct event target', () => {
     const onChange = Sinon.spy();
-    const instance = getDOMNode(
+    render(
       <RadioGroup name="test" onChange={onChange}>
         <Radio value={1}>Test1</Radio>
         <Radio value={2}>Test2</Radio>
-        <Radio value={3}>Test2</Radio>
-        <Radio value={4}>Test2</Radio>
+        <Radio value={3}>Test3</Radio>
+        <Radio value={4}>Test4</Radio>
       </RadioGroup>
     );
 
-    const radios = instance.querySelectorAll('.rs-radio');
-    ReactTestUtils.Simulate.change(radios[2].querySelector('input') as HTMLInputElement);
+    fireEvent.click(screen.getByText('Test3'));
 
     expect(onChange).to.have.been.calledWith(
       3,
@@ -143,7 +153,7 @@ describe('RadioGroup', () => {
   });
 
   it('Should be selected as false', () => {
-    const instance = getDOMNode(
+    render(
       // FIXME `value` prop does not accept boolean values
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -158,7 +168,8 @@ describe('RadioGroup', () => {
         <Radio value={false}>false</Radio>
       </RadioGroup>
     );
-    assert.equal((instance.querySelector('.rs-radio-checked') as HTMLElement).textContent, 'false');
+
+    expect(screen.getByRole('radio', { name: 'false' })).to.be.checked;
   });
 
   it('Should apply appearance', () => {
@@ -169,7 +180,7 @@ describe('RadioGroup', () => {
 
   describe('Plain text', () => {
     it("Should render selected radio's label", () => {
-      const { getByTestId } = render(
+      render(
         <RadioGroup plaintext value={2} data-testid="radio-group">
           <Radio value={1}>Choice 1</Radio>
           <Radio value={2}>Choice 2</Radio>
@@ -178,10 +189,10 @@ describe('RadioGroup', () => {
         </RadioGroup>
       );
 
-      expect(getByTestId('radio-group')).to.have.text('Choice 2');
+      expect(screen.getByTestId('radio-group')).to.have.text('Choice 2');
     });
     it('Should render "not selected" if none is selected', () => {
-      const { getByTestId } = render(
+      render(
         <RadioGroup plaintext data-testid="radio-group">
           <Radio value={1}>Choice 1</Radio>
           <Radio value={2}>Choice 2</Radio>
@@ -190,7 +201,7 @@ describe('RadioGroup', () => {
         </RadioGroup>
       );
 
-      expect(getByTestId('radio-group')).to.have.text('Not selected');
+      expect(screen.getByTestId('radio-group')).to.have.text('Not selected');
     });
   });
 });

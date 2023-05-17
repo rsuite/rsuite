@@ -1,11 +1,12 @@
 import React from 'react';
-import { screen, render, act, fireEvent } from '@testing-library/react';
+import { screen, render, act, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import useToaster from '../useToaster';
 import CustomProvider from '../../CustomProvider';
 import Uploader from '../../Uploader';
 import zhCN from '../../locales/zh_CN';
 import { renderHook } from '@test/testUtils';
+import Message from '../../Message';
 
 afterEach(() => {
   sinon.restore();
@@ -38,9 +39,11 @@ describe('useToaster', () => {
     });
 
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       ((screen.queryByTestId('msg-top-end') as HTMLElement).parentNode as HTMLElement).className
     ).to.equal('rs-toast-container rs-toast-container-top-end');
     expect(
+      // eslint-disable-next-line testing-library/no-node-access
       ((screen.queryByTestId('msg-bottom-end') as HTMLElement).parentNode as HTMLElement).className
     ).to.equal('rs-toast-container rs-toast-container-bottom-end');
   });
@@ -103,16 +106,49 @@ describe('useToaster', () => {
       );
     };
 
-    const { getByTestId, getByText } = render(
+    render(
       <CustomProvider locale={zhCN}>
         <App />
       </CustomProvider>
     );
 
-    act(() => {
-      fireEvent.click(getByTestId('btn'));
+    fireEvent.click(screen.getByTestId('btn'));
+
+    expect(screen.getByText('上传')).to.exist;
+  });
+
+  it('Should pass duration to Message', async () => {
+    const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
+
+    const Message = React.forwardRef<HTMLDivElement, any>((props, ref) => {
+      const { duration } = props;
+      return (
+        <div data-testid="msg-1" ref={ref}>
+          {duration}
+        </div>
+      );
     });
 
-    expect(getByText('上传')).to.exist;
+    toaster.push(<Message>message</Message>, { duration: 10 });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('msg-1')).to.have.text('10');
+    });
+  });
+
+  it('Should call onClose callback with duration', async () => {
+    const onCloseSpy = sinon.spy();
+    const toaster = renderHook(() => useToaster(), { wrapper: CustomProvider }).result.current;
+
+    toaster.push(
+      <Message data-testid="msg-1" onClose={onCloseSpy}>
+        message
+      </Message>,
+      { duration: 10 }
+    );
+
+    await waitFor(() => {
+      expect(onCloseSpy).to.have.been.calledOnce;
+    });
   });
 });

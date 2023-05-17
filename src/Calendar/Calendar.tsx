@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import Calendar from './CalendarContainer';
+import isSameMonth from 'date-fns/isSameMonth';
+import CalendarContainer from './CalendarContainer';
 import { CalendarLocale } from '../locales';
 import Button from '../Button';
 import { FormattedDate } from '../CustomProvider';
@@ -30,6 +31,9 @@ export interface CalendarProps extends WithAsProps {
   /**  Callback fired before the value changed  */
   onChange?: (date: Date) => void;
 
+  /** Callback fired before the month changed */
+  onMonthChange?: (date: Date) => void;
+
   /** Callback fired before the date selected */
   onSelect?: (date: Date) => void;
 
@@ -37,10 +41,10 @@ export interface CalendarProps extends WithAsProps {
   renderCell?: (date: Date) => React.ReactNode;
 }
 
-const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = React.forwardRef(
-  (props: CalendarProps, ref) => {
+const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps> =
+  React.forwardRef((props: CalendarProps, ref) => {
     const {
-      as: Component = Calendar,
+      as: Component = CalendarContainer,
       bordered,
       className,
       classPrefix = 'calendar',
@@ -49,6 +53,7 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
       isoWeek,
       locale: overrideLocale,
       onChange,
+      onMonthChange,
       onSelect,
       renderCell,
       value,
@@ -76,6 +81,17 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
         handleChange(nextValue);
       },
       [handleChange, onSelect]
+    );
+
+    // Trigger onMonthChange when the month changes
+    const handleMonthChange = useCallback(
+      (nextValue: Date) => {
+        if (!isSameMonth(nextValue, calendarDate)) {
+          handleChange(nextValue);
+          onMonthChange?.(nextValue);
+        }
+      },
+      [calendarDate, handleChange, onMonthChange]
     );
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
@@ -109,17 +125,16 @@ const CalendarPanel: RsRefForwardingComponent<typeof Calendar, CalendarProps> = 
         )}
         renderToolbar={renderToolbar}
         renderCell={customRenderCell}
-        onMoveForward={handleChange}
-        onMoveBackward={handleChange}
-        onChangeMonth={handleChange}
+        onMoveForward={handleMonthChange}
+        onMoveBackward={handleMonthChange}
+        onChangeMonth={handleMonthChange}
         onSelect={handleSelect}
       />
     );
-  }
-);
+  });
 
-CalendarPanel.displayName = 'CalendarPanel';
-CalendarPanel.propTypes = {
+Calendar.displayName = 'Calendar';
+Calendar.propTypes = {
   value: PropTypes.instanceOf(Date),
   defaultValue: PropTypes.instanceOf(Date),
   isoWeek: PropTypes.bool,
@@ -133,4 +148,4 @@ CalendarPanel.propTypes = {
   renderCell: PropTypes.func
 };
 
-export default CalendarPanel;
+export default Calendar;

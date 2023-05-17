@@ -4,7 +4,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
-import getDataGroupBy from '../../utils/getDataGroupBy';
+import { getDataGroupBy } from '../../utils/getDataGroupBy';
 import Sinon from 'sinon';
 
 const classPrefix = 'dropdown-menu';

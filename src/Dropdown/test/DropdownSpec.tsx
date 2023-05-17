@@ -18,13 +18,13 @@ afterEach(() => {
  * @return {{button: HTMLButtonElement, root: HTMLElement, menu: HTMLUListElement}}
  */
 function renderDropdown(ui) {
-  const instance = getDOMNode(ui);
+  const { container } = render(ui);
 
-  const button = instance.querySelector('[role="button"]') as HTMLButtonElement;
-  const menu = instance.querySelector('[role="menu"]') as HTMLUListElement;
+  const button = screen.getByRole('button');
+  const menu = screen.getByRole('menu', { hidden: true });
 
   return {
-    root: instance,
+    root: container.firstChild!,
     button,
     menu
   };
@@ -32,44 +32,46 @@ function renderDropdown(ui) {
 
 describe('<Dropdown>', () => {
   it('Should render a button that controls a popup menu', () => {
-    const { getByRole } = render(
+    render(
       <Dropdown title="Menu">
         <Dropdown.Item>Item 1</Dropdown.Item>
       </Dropdown>
     );
 
-    expect(getByRole('button')).to.have.text('Menu').and.to.have.attr('aria-haspopup', 'menu');
+    expect(screen.getByRole('button'))
+      .to.have.text('Menu')
+      .and.to.have.attr('aria-haspopup', 'menu');
   });
 
   it('Should open the menu when button is clicked', () => {
-    const { getByRole } = render(
+    render(
       <Dropdown title="Menu">
         <Dropdown.Item>Item 1</Dropdown.Item>
       </Dropdown>
     );
-    fireEvent.click(getByRole('button', { name: 'Menu' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Menu' }));
 
-    expect(getByRole('menu')).to.be.visible;
+    expect(screen.getByRole('menu')).to.be.visible;
   });
 
   it('Should open menu initially when defaultOpen=true', () => {
-    const { getByRole } = render(
+    render(
       <Dropdown title="Menu" defaultOpen>
         <Dropdown.Item>Item 1</Dropdown.Item>
       </Dropdown>
     );
 
-    expect(getByRole('menu')).to.be.visible;
+    expect(screen.getByRole('menu')).to.be.visible;
   });
 
   it('Should display/hide menu according to controlled `open` prop', () => {
-    const { getByRole, queryByRole, rerender } = render(
+    const { rerender } = render(
       <Dropdown title="Menu" open>
         <Dropdown.Item>Item 1</Dropdown.Item>
       </Dropdown>
     );
 
-    expect(getByRole('menu')).to.be.visible;
+    expect(screen.getByRole('menu')).to.be.visible;
 
     rerender(
       <Dropdown title="Menu" open={false}>
@@ -77,7 +79,7 @@ describe('<Dropdown>', () => {
       </Dropdown>
     );
 
-    expect(queryByRole('menu')).not.to.exist;
+    expect(screen.queryByRole('menu')).not.to.exist;
   });
 
   it('Should toggle the menu on mouseEnter/mouseLeave button given trigger "hover"', () => {
@@ -111,9 +113,7 @@ describe('<Dropdown>', () => {
       </Dropdown>
     );
 
-    act(() => {
-      fireEvent.contextMenu(button);
-    });
+    fireEvent.contextMenu(button);
 
     expect(!menu.hidden, 'Menu is open').to.be.true;
   });
@@ -129,13 +129,13 @@ describe('<Dropdown>', () => {
   });
 
   it('Should have a custom className in toggle', () => {
-    const instance = getDOMNode(
+    render(
       <Dropdown toggleClassName="custom-toggle">
         <Dropdown.Item>1</Dropdown.Item>
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.ok(instance.querySelector('.rs-dropdown-toggle.custom-toggle'));
+    expect(screen.getByRole('button')).to.have.class('custom-toggle');
   });
 
   it('Should have a className for placement', () => {
@@ -149,182 +149,163 @@ describe('<Dropdown>', () => {
   });
 
   it('Should have a title', () => {
-    const instance = getDOMNode(
+    render(
       <Dropdown title="abc">
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
 
-    assert.equal((instance.querySelector('.rs-dropdown-toggle') as HTMLElement).textContent, 'abc');
+    expect(screen.getByRole('button')).to.have.text('abc');
   });
 
   it('Should render custom component', () => {
-    const instance = getDOMNode(<Dropdown toggleAs={'div'} />);
-    assert.equal((instance.querySelector('.rs-dropdown-toggle') as HTMLElement).tagName, 'DIV');
+    render(<Dropdown toggleAs={'div'} />);
+
+    expect(screen.getByRole('button')).to.have.tagName('DIV');
   });
 
   it('Should render a Button', () => {
-    const instance = getDOMNode(<Dropdown toggleAs={Button} size="xs" appearance="link" />);
+    render(<Dropdown toggleAs={Button} size="xs" appearance="link" />);
 
-    const toggle = instance.querySelector('.rs-dropdown-toggle') as HTMLElement;
-    assert.include(toggle.className, 'rs-btn-link');
-    assert.include(toggle.className, 'rs-btn-xs');
-    assert.equal(toggle.tagName, 'BUTTON');
+    const toggle = screen.getByRole('button');
+
+    expect(toggle).to.have.class('rs-btn-link');
+    expect(toggle).to.have.class('rs-btn-xs');
+    expect(toggle).to.have.tagName('BUTTON');
   });
 
   it('Should not show caret', () => {
     const instance = getDOMNode(<Dropdown noCaret />);
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(!instance.querySelector('.rs-dropdown-toggle-caret'));
   });
 
   it('Should call onSelect callback with correct eventKey when clicking an item', () => {
     const onSelect = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Dropdown onSelect={onSelect}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    fireEvent.click(instance.querySelectorAll('.rs-dropdown-menu [role="menuitem"]')[1]);
 
+    fireEvent.click(screen.getByText('2'));
     expect(onSelect).to.have.been.calledWith(2);
   });
 
   it('Should close menu after clicking an item without submenu', () => {
-    const instance = getDOMNode(
-      <Dropdown>
-        <Dropdown.Item id="menu-item">1</Dropdown.Item>
+    render(
+      <Dropdown defaultOpen>
+        <Dropdown.Item>1</Dropdown.Item>
       </Dropdown>
     );
 
-    const button = instance.querySelector('[role="button"]') as HTMLElement;
+    fireEvent.click(screen.getByText('1'));
 
-    // Open the menu
-    act(() => {
-      fireEvent.click(button);
-    });
-
-    act(() => {
-      fireEvent.click(instance.querySelector('#menu-item') as HTMLElement);
-    });
-    const menu = instance.querySelector('[role="menu"]') as HTMLElement;
-
-    expect(menu.hidden, 'Menu is closed').to.be.true;
+    expect(screen.getByRole('menu', { hidden: true })).not.to.be.visible;
   });
 
   it('Should close menu after clicking an item without submenu (inside a submenu)', () => {
-    const { root, button, menu } = renderDropdown(
-      <Dropdown>
+    render(
+      <Dropdown defaultOpen>
         <Dropdown.Item>Menu item</Dropdown.Item>
         <Dropdown.Menu title="Submenu">
-          <Dropdown.Item id="submenu-item">Submenu item</Dropdown.Item>
+          <Dropdown.Item>Submenu item</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
 
-    // Open the menu
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(screen.getByText('Submenu item'));
 
-    act(() => {
-      fireEvent.click(root.querySelector('#submenu-item') as HTMLElement);
-    });
-
-    expect(menu.hidden, 'Menu is closed').to.be.true;
+    expect(screen.getAllByRole('menu', { hidden: true })[0]).not.to.be.visible;
   });
 
   it('Should call onToggle callback', () => {
     const onToggle = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Dropdown onToggle={onToggle}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    fireEvent.click(instance.querySelector('.rs-dropdown-toggle') as HTMLElement);
+    fireEvent.click(screen.getByRole('button'));
 
     expect(onToggle).to.have.been.calledOnce;
   });
 
   it('Should call onOpen callback', () => {
     const onOpen = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Dropdown onOpen={onOpen}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    fireEvent.click(instance.querySelector('.rs-dropdown-toggle') as HTMLElement);
+    fireEvent.click(screen.getByRole('button'));
 
     expect(onOpen).to.have.been.calledOnce;
   });
 
   it('Should call onClose callback', () => {
     const onClose = sinon.spy();
-    const instance = getDOMNode(
-      <Dropdown onClose={onClose}>
+    render(
+      <Dropdown defaultOpen onClose={onClose}>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
-    const btn = instance.querySelector('.rs-dropdown-toggle') as HTMLElement;
-    fireEvent.click(btn);
-    fireEvent.click(btn);
 
+    fireEvent.click(screen.getByRole('button'));
     expect(onClose).to.have.been.calledOnce;
   });
 
   it('Should not call onToggle callback when set disabled', () => {
     const onToggleSpy = sinon.spy();
-    const { getByRole } = render(
+    render(
       <Dropdown onToggle={onToggleSpy} disabled>
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
 
-    fireEvent.click(getByRole('button'));
+    fireEvent.click(screen.getByRole('button'));
 
     expect(onToggleSpy).to.have.not.been.called;
   });
 
   it('Should not call onToggle callback when set disabled and hover', () => {
     const onToggleSpy = sinon.spy();
-    const { getByRole } = render(
+    render(
       <Dropdown onToggle={onToggleSpy} disabled trigger="hover">
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
 
-    fireEvent.mouseEnter(getByRole('button'));
+    fireEvent.mouseEnter(screen.getByRole('button'));
 
     expect(onToggleSpy).to.have.not.been.called;
   });
 
   it('Should not call onToggle callback when set disabled and contextMenu', () => {
     const onToggleSpy = sinon.spy();
-    const { getByRole } = render(
+    render(
       <Dropdown onToggle={onToggleSpy} disabled trigger="contextMenu">
         <Dropdown.Item eventKey={1}>1</Dropdown.Item>
         <Dropdown.Item eventKey={2}>2</Dropdown.Item>
       </Dropdown>
     );
 
-    fireEvent.contextMenu(getByRole('button'));
+    fireEvent.contextMenu(screen.getByRole('button'));
 
     expect(onToggleSpy).to.have.not.been.called;
   });
 
   it('Should have a custom style in Menu', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Dropdown menuStyle={{ fontSize }} />);
-    assert.equal(
-      (instance.querySelector('.rs-dropdown-menu') as HTMLElement).style.fontSize,
-      fontSize
-    );
+    render(<Dropdown defaultOpen menuStyle={{ fontSize }} />);
+    expect(screen.getByRole('menu')).to.have.style('font-size', fontSize);
   });
 
   it('Should have a custom className', () => {
@@ -350,20 +331,18 @@ describe('<Dropdown>', () => {
      * @return {{button: HTMLElement, root: HTMLElement, menu: HTMLElement}}
      */
     function renderDropdown(ui, openMenuAfterRendered = false) {
-      const instance = getDOMNode(ui);
+      const { container } = render(ui);
 
-      const button = instance.querySelector('[role="button"]') as HTMLElement;
-      const menu = instance.querySelector('[role="menu"]') as HTMLElement;
+      const button = screen.getByRole('button');
+      const menu = screen.getByRole('menu', { hidden: true });
 
       if (openMenuAfterRendered) {
         // Open the menu
-        act(() => {
-          fireEvent.keyDown(button, { key: 'Enter' });
-        });
+        fireEvent.keyDown(button, { key: 'Enter' });
       }
 
       return {
-        root: instance,
+        root: container.firstChild,
         button,
         menu
       };
@@ -382,9 +361,7 @@ describe('<Dropdown>', () => {
               </Dropdown>
             );
 
-            act(() => {
-              fireEvent.keyDown(button, { key });
-            });
+            fireEvent.keyDown(button, { key });
 
             assert.isFalse(menu.hidden, 'The menu is open');
 
@@ -405,9 +382,7 @@ describe('<Dropdown>', () => {
               </Dropdown>
             );
 
-            act(() => {
-              fireEvent.keyDown(button, { key });
-            });
+            fireEvent.keyDown(button, { key });
 
             expect(menu.getAttribute('aria-activedescendant'), 'Active menuitem').to.equal(
               'second-item'
@@ -424,9 +399,7 @@ describe('<Dropdown>', () => {
               </Dropdown>
             );
 
-            act(() => {
-              fireEvent.keyDown(button, { key });
-            });
+            fireEvent.keyDown(button, { key });
 
             expect(menu.getAttribute('aria-activedescendant'), 'Active menuitem').to.equal(
               'second-item'
@@ -444,9 +417,7 @@ describe('<Dropdown>', () => {
                 true
               );
 
-              act(() => {
-                fireEvent.keyDown(button, { key });
-              });
+              fireEvent.keyDown(button, { key });
 
               expect(menu.hidden, 'The menu is closed').to.be.true;
             });
@@ -459,53 +430,42 @@ describe('<Dropdown>', () => {
       ['Enter', ' '].forEach(key => {
         describe(`"${key}"`, () => {
           it('When focus is on a menuitem that has a submenu, opens the submenu and places focus on its first item', () => {
-            const instance = getDOMNode(
+            render(
               <Dropdown>
-                <Dropdown.Menu id="submenu">
+                <Dropdown.Menu data-testid="submenu">
                   <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             );
-            const button = instance.querySelector('[role="button"]') as HTMLElement;
-            const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
             // Open the menu
-            act(() => {
-              fireEvent.keyDown(button, { key: 'Enter' });
-            });
+            fireEvent.keyDown(screen.getByRole('button'), { key: 'Enter' });
 
-            act(() => {
-              fireEvent.keyDown(menu, { key });
-            });
+            fireEvent.keyDown(screen.getByRole('menu'), { key });
 
-            const submenu = instance.querySelector('#submenu') as HTMLElement;
-
-            expect(!submenu.hidden, 'The submenu is opened').to.be.true;
-            expect(submenu.getAttribute('aria-activedescendant'), 'Active item').to.equal(
+            expect(screen.getByTestId('submenu')).to.have.property('hidden', false);
+            expect(screen.getByTestId('submenu')).to.have.attr(
+              'aria-activedescendant',
               'first-subitem'
             );
           });
           it('Otherwise, activates the item and closes the menu.', () => {
             const onSelectSpy = sinon.spy();
 
-            const instance = getDOMNode(
+            render(
               <Dropdown title="Menu">
                 <Dropdown.Item onSelect={onSelectSpy}>Item 1</Dropdown.Item>
               </Dropdown>
             );
-            const button = instance.querySelector('[role="button"]') as HTMLElement;
-            const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
             // Open the menu
-            act(() => {
-              fireEvent.keyDown(button, { key: 'Enter' });
-            });
+            fireEvent.keyDown(screen.getByRole('button'), { key: 'Enter' });
 
-            act(() => {
-              fireEvent.keyDown(menu, { key });
-            });
+            const menu = screen.getByRole('menu');
+
+            fireEvent.keyDown(menu, { key });
             expect(onSelectSpy, 'The item is activated').to.have.been.calledOnce;
-            expect(menu.hidden, 'The menu is closed').to.be.true;
+            expect(menu).to.not.be.visible;
           });
         });
       });
@@ -520,9 +480,7 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
 
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('second-item');
         });
@@ -539,9 +497,7 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
 
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('third-item');
         });
@@ -558,35 +514,26 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
 
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('third-item');
         });
       });
       describe('ArrowUp', function () {
         it('Move focus to the previous item', () => {
-          const instance = getDOMNode(
+          render(
             <Dropdown>
               <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
               <Dropdown.Item id="second-item">Item 2</Dropdown.Item>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]') as HTMLElement;
-          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
-
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(screen.getByRole('button'), { key: 'Enter' });
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowUp' });
-          });
+          const menu = screen.getByRole('menu');
+
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
+          fireEvent.keyDown(menu, { key: 'ArrowUp' });
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
         it('Should skip disabled item', () => {
@@ -601,12 +548,8 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowUp' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
+          fireEvent.keyDown(menu, { key: 'ArrowUp' });
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
 
@@ -622,43 +565,32 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowDown' });
-          });
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowUp' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowDown' });
+          fireEvent.keyDown(menu, { key: 'ArrowUp' });
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
       });
 
       describe('ArrowRight', () => {
         it('When focus is in a menu and on a menuitem that has a submenu, opens the submenu and places focus on its first item', () => {
-          const instance = getDOMNode(
+          render(
             <Dropdown>
-              <Dropdown.Menu id="submenu">
+              <Dropdown.Menu data-testid="submenu">
                 <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]') as HTMLElement;
-          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
-
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(screen.getByRole('button'), { key: 'Enter' });
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowRight' });
-          });
+          const menu = screen.getByRole('menu');
 
-          const submenu = instance.querySelector('#submenu') as HTMLElement;
+          fireEvent.keyDown(menu, { key: 'ArrowRight' });
 
-          expect(!submenu.hidden, 'The submenu is opened').to.be.true;
-          expect(submenu.getAttribute('aria-activedescendant'), 'Active item').to.equal(
-            'first-subitem'
-          );
+          const submenu = screen.getByTestId('submenu');
+
+          expect(submenu).to.be.visible;
+          expect(submenu).to.have.attr('aria-activedescendant', 'first-subitem');
         });
 
         it('When focus is in a menu and on a menuitem that does not has a submenu, do nothing', () => {
@@ -668,10 +600,7 @@ describe('<Dropdown>', () => {
             </Dropdown>,
             true
           );
-
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowRight' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowRight' });
 
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
@@ -684,63 +613,47 @@ describe('<Dropdown>', () => {
             parseDate: () => new Date()
           });
 
-          const instance = getDOMNode(
+          render(
             <Dropdown>
-              <Dropdown.Menu id="submenu">
+              <Dropdown.Menu data-testid="submenu">
                 <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]') as HTMLElement;
-          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(screen.getByRole('button'), { key: 'Enter' });
 
           // Open the submenu
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'Enter' });
-          });
+          fireEvent.keyDown(screen.getByRole('menu'), { key: 'Enter' });
 
-          const submenu = instance.querySelector('#submenu') as HTMLElement;
+          const submenu = screen.getByTestId('submenu');
 
-          act(() => {
-            fireEvent.keyDown(submenu, { key: 'ArrowRight' });
-          });
+          fireEvent.keyDown(submenu, { key: 'ArrowRight' });
 
-          expect(submenu.hidden, 'The submenu is closed').to.be.true;
+          expect(submenu).to.not.be.visible;
         });
       });
 
       describe('ArrowLeft', () => {
         it('When focus is in a submenu of an item in a menu, closes the submenu and returns focus to the parent menuitem.', () => {
-          const instance = getDOMNode(
+          render(
             <Dropdown>
-              <Dropdown.Menu id="submenu">
+              <Dropdown.Menu data-testid="submenu">
                 <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]') as HTMLElement;
-          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(screen.getByRole('button'), { key: 'Enter' });
 
           // Open the submenu
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'Enter' });
-          });
+          fireEvent.keyDown(screen.getByRole('menu'), { key: 'Enter' });
 
-          const submenu = instance.querySelector('#submenu') as HTMLElement;
+          const submenu = screen.getByTestId('submenu');
 
-          act(() => {
-            fireEvent.keyDown(submenu, { key: 'ArrowLeft' });
-          });
+          fireEvent.keyDown(submenu, { key: 'ArrowLeft' });
 
           expect(submenu.hidden, 'The submenu is closed').to.be.true;
         });
@@ -752,31 +665,24 @@ describe('<Dropdown>', () => {
             formatDate: () => '',
             parseDate: () => new Date()
           });
-          const instance = getDOMNode(
+
+          render(
             <Dropdown>
-              <Dropdown.Menu id="submenu">
+              <Dropdown.Menu data-testid="submenu">
                 <Dropdown.Item id="first-subitem">Item 1</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]') as HTMLElement;
-          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(screen.getByRole('button'), { key: 'Enter' });
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowLeft' });
-          });
+          fireEvent.keyDown(screen.getByRole('menu'), { key: 'ArrowLeft' });
 
-          const submenu = instance.querySelector('#submenu') as HTMLElement;
+          const submenu = screen.getByTestId('submenu');
 
-          expect(!submenu.hidden, 'The submenu is opened').to.be.true;
-          expect(submenu.getAttribute('aria-activedescendant'), 'Active item').to.equal(
-            'first-subitem'
-          );
+          expect(submenu).to.be.visible;
+          expect(submenu).to.have.attr('aria-activedescendant', 'first-subitem');
         });
 
         it('RTL: When focus is in a menu and on a menuitem that does not has a submenu, do nothing', () => {
@@ -793,9 +699,7 @@ describe('<Dropdown>', () => {
             true
           );
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'ArrowLeft' });
-          });
+          fireEvent.keyDown(menu, { key: 'ArrowLeft' });
 
           expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
         });
@@ -803,74 +707,59 @@ describe('<Dropdown>', () => {
 
       describe('End', () => {
         it('If arrow key wrapping is not supported, moves focus to the last item in the current menu.', () => {
-          const instance = getDOMNode(
+          render(
             <Dropdown>
               <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
               <Dropdown.Item>Item 2</Dropdown.Item>
               <Dropdown.Item id="last-item">Item 3</Dropdown.Item>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]') as HTMLElement;
-          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(screen.getByRole('button'), { key: 'Enter' });
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'End' });
-          });
-          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('last-item');
+          const menu = screen.getByRole('menu');
+
+          fireEvent.keyDown(menu, { key: 'End' });
+          expect(menu).to.have.attr('aria-activedescendant', 'last-item');
         });
       });
       describe('Home', () => {
         it('Home - If arrow key wrapping is not supported, moves focus to the first item in the current menu', () => {
-          const instance = getDOMNode(
+          render(
             <Dropdown>
               <Dropdown.Item id="first-item">Item 1</Dropdown.Item>
               <Dropdown.Item>Item 2</Dropdown.Item>
               <Dropdown.Item id="last-item">Item 3</Dropdown.Item>
             </Dropdown>
           );
-          const button = instance.querySelector('[role="button"]') as HTMLElement;
-          const menu = instance.querySelector('[role="menu"]') as HTMLElement;
 
           // Open the menu
-          act(() => {
-            fireEvent.keyDown(button, { key: 'Enter' });
-          });
+          fireEvent.keyDown(screen.getByRole('button'), { key: 'Enter' });
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'End' });
-          });
+          const menu = screen.getByRole('menu');
 
-          act(() => {
-            fireEvent.keyDown(menu, { key: 'Home' });
-          });
-          expect(menu.getAttribute('aria-activedescendant'), 'Active item').to.equal('first-item');
+          fireEvent.keyDown(menu, { key: 'End' });
+          fireEvent.keyDown(menu, { key: 'Home' });
+
+          expect(menu).to.have.attr('aria-activedescendant', 'first-item');
         });
       });
 
       it('Escape - Close the menu and return focus to button', () => {
-        const instance = getDOMNode(
+        render(
           <Dropdown>
             <Dropdown.Item id="first-menuitem">Item 1</Dropdown.Item>
             <Dropdown.Item>Item 2</Dropdown.Item>
             <Dropdown.Item>Item 3</Dropdown.Item>
           </Dropdown>
         );
-        const button = instance.querySelector('[role="button"]') as HTMLElement;
-        act(() => {
-          fireEvent.click(button);
-        });
+        fireEvent.click(screen.getByRole('button'));
 
-        const menu = instance.querySelector('[role="menu"]') as HTMLElement;
-        act(() => {
-          fireEvent.keyDown(menu, { key: 'Escape' });
-        });
+        const menu = screen.getByRole('menu');
+        fireEvent.keyDown(menu, { key: 'Escape' });
 
-        assert.isTrue(menu.hidden, 'The menu is closed');
+        expect(menu).to.not.be.visible;
       });
     });
   });
@@ -883,15 +772,14 @@ describe('<Dropdown>', () => {
         </button>
       );
     };
-    const instance = getDOMNode(
+    render(
       <Dropdown renderToggle={renderToggle}>
         <Dropdown.Item>item-1</Dropdown.Item>
         <Dropdown.Item>item-2</Dropdown.Item>
       </Dropdown>
     );
 
-    const button = instance.querySelector('[role="button"]') as HTMLElement;
-    assert.equal(button.textContent, 'new');
+    expect(screen.getByRole('button')).to.have.text('new');
   });
 
   context('[Deprecated] Usage within <Nav>', () => {
@@ -913,15 +801,15 @@ describe('<Dropdown>', () => {
       const AsComponent = React.forwardRef((_, ref) => (
         <div ref={ref as Ref<HTMLDivElement>}>As Component</div>
       ));
-      const instance = getDOMNode(
+      render(
         <Nav>
-          <Dropdown title="">
+          <Dropdown title="" open>
             <Dropdown.Item as={AsComponent}>item-1</Dropdown.Item>
           </Dropdown>
         </Nav>
       );
-      fireEvent.click(instance.querySelector('[role="button"]') as HTMLElement);
-      assert.equal(instance.textContent, 'As Component');
+
+      expect(screen.getByText('As Component')).to.exist;
     });
   });
 

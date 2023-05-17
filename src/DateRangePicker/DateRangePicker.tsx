@@ -51,6 +51,8 @@ import Calendar from './Calendar';
 import * as disabledDateUtils from './disabledDateUtils';
 import { DisabledDateFunction, RangeType, DateRange } from './types';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
+import { deprecatePropTypeNew } from '../utils/deprecatePropType';
+import DateRangePickerContext from './DateRangePickerContext';
 
 type InputState = 'Typing' | 'Error' | 'Initial';
 
@@ -78,8 +80,11 @@ export interface DateRangePickerProps
   /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
   isoWeek?: boolean;
 
-  /** Set the lower limit of the available year relative to the current selection date */
+  /** Set the upper limit of the available year relative to the current selection date */
   limitEndYear?: number;
+
+  /** Set the lower limit of the available year relative to the current selection date */
+  limitStartYear?: number;
 
   /** Whether to show week numbers */
   showWeekNumbers?: boolean;
@@ -96,8 +101,17 @@ export interface DateRangePickerProps
   /** The character that separates two dates */
   character?: string;
 
-  /** Disabled date */
+  /**
+   * Disabled date
+   *
+   * @deprecated Use {@link shouldDisableDate} instead
+   */
   disabledDate?: DisabledDateFunction;
+
+  /**
+   * Whether a date cell is disabled
+   */
+  shouldDisableDate?: DisabledDateFunction;
 
   /** Called when the option is selected */
   onSelect?: (date: Date, event?: React.SyntheticEvent) => void;
@@ -153,11 +167,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     defaultCalendarValue,
     defaultValue,
     disabled,
-    disabledDate: disabledDateProp,
+    disabledDate: DEPRECATED_disabledDateProp,
+    shouldDisableDate,
     format: formatStr = 'yyyy-MM-dd',
     hoverRange,
     isoWeek = false,
     limitEndYear = 1000,
+    limitStartYear,
     locale: overrideLocale,
     menuClassName,
     menuStyle,
@@ -200,7 +216,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    *
    * In `oneTap` mode, select action will not change this value, its value should be true always.
    */
-  const hasDoneSelect = useRef(true);
+  const [isSelectedIdle, setSelectedIdle] = useState(true);
 
   /**
    * The currently selected date range.
@@ -396,7 +412,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       // If hasDoneSelect is false,
       // it means there's already one selected date
       // and waiting for user to select the second date to complete the selection.
-      if (!hasDoneSelect.current) {
+      if (!isSelectedIdle) {
         // If `hoverRange` is set, you need to change the value of hoverDateRange according to the rules
         if (!isNil(nextHoverDateRange) && !isNil(selectRangeValueRef.current)) {
           let nextSelectedDates: DateRange = [
@@ -419,7 +435,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         setHoverDateRange(nextHoverDateRange);
       }
     },
-    [getHoverRangeValue]
+    [getHoverRangeValue, isSelectedIdle]
   );
 
   /**
@@ -434,26 +450,26 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       const noHoverRangeValid = isNil(hoverRangeValue);
 
       // in `oneTap` mode
-      if (hasDoneSelect.current && oneTap) {
+      if (isSelectedIdle && oneTap) {
         handleValueUpdate(
           event,
           noHoverRangeValid ? [startOfDay(date), endOfDay(date)] : hoverRangeValue
         );
-        hasDoneSelect.current = false;
+        setSelectedIdle(false);
         return;
       }
 
       // no preset hover range can use
       if (noHoverRangeValid) {
         // start select
-        if (hasDoneSelect.current) {
+        if (isSelectedIdle) {
           nextSelectDates = [date];
         } else {
           // finish select
           nextSelectDates[1] = date;
         }
       } else {
-        if (!hasDoneSelect.current) {
+        if (!isSelectedIdle) {
           nextSelectDates = selectedDates;
           selectRangeValueRef.current = null;
         } else {
@@ -483,7 +499,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       setSelectedDates(nextSelectDates);
       updateCalendarDateRange({ dateRange: nextSelectDates, calendarKey, eventName: 'changeDate' });
       onSelect?.(date, event);
-      hasDoneSelect.current = !hasDoneSelect.current;
+      setSelectedIdle(!isSelectedIdle);
     },
     [
       formatStr,
@@ -491,6 +507,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       getHoverRangeValue,
       handleValueUpdate,
       hoverDateRange,
+      isSelectedIdle,
       onSelect,
       oneTap,
       selectedDates,
@@ -586,7 +603,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       }
 
       // End unfinished selections.
-      hasDoneSelect.current = true;
+      setSelectedIdle(true);
     },
     [handleValueUpdate, updateCalendarDateRange]
   );
@@ -686,7 +703,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const handleExited = useCallback(() => {
     setPickerToggleActive(false);
-    hasDoneSelect.current = true;
+    setSelectedIdle(true);
 
     onClose?.();
   }, [onClose]);
@@ -698,9 +715,15 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       selectedDone: boolean,
       target: DATERANGE_DISABLED_TARGET
     ): boolean => {
-      return disabledDateProp?.(date, selectDate, selectedDone, target) ?? false;
+      if (typeof shouldDisableDate === 'function') {
+        return shouldDisableDate(date, selectDate, selectedDone, target);
+      }
+      if (typeof DEPRECATED_disabledDateProp === 'function') {
+        return DEPRECATED_disabledDateProp(date, selectDate, selectedDone, target);
+      }
+      return false;
     },
-    [disabledDateProp]
+    [DEPRECATED_disabledDateProp, shouldDisableDate]
   );
 
   const disabledByBetween = useCallback(
@@ -708,7 +731,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       // If the date is between the start and the end
       // the button is disabled
       while (DateUtils.isBefore(start, end) || DateUtils.isSameDay(start, end)) {
-        if (isDateDisabled(start, selectedDates, hasDoneSelect.current, type)) {
+        if (isDateDisabled(start, selectedDates, isSelectedIdle, type)) {
           return true;
         }
         start = DateUtils.addDays(start, 1);
@@ -716,17 +739,17 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
       return false;
     },
-    [isDateDisabled, selectedDates]
+    [isDateDisabled, isSelectedIdle, selectedDates]
   );
 
   const disabledOkButton = useCallback(() => {
     const [start, end] = selectedDates;
-    if (!start || !end || !hasDoneSelect.current) {
+    if (!start || !end || !isSelectedIdle) {
       return true;
     }
 
     return disabledByBetween(start, end, DATERANGE_DISABLED_TARGET.TOOLBAR_BUTTON_OK);
-  }, [disabledByBetween, selectedDates]);
+  }, [disabledByBetween, isSelectedIdle, selectedDates]);
 
   const disabledShortcutButton = useCallback(
     (value: SelectedDatesState = []) => {
@@ -743,9 +766,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const handleDisabledDate = useCallback(
     (date: Date, values: SelectedDatesState, type: DATERANGE_DISABLED_TARGET) => {
-      return isDateDisabled(date, values, hasDoneSelect.current, type);
+      return isDateDisabled(date, values, isSelectedIdle, type);
     },
-    [isDateDisabled]
+    [isDateDisabled, isSelectedIdle]
   );
 
   const onPickerKeyDown = useToggleKeyDownEvent({
@@ -771,6 +794,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       hoverRangeValue: hoverDateRange ?? undefined,
       isoWeek,
       limitEndYear,
+      limitStartYear,
       locale,
       showWeekNumbers,
       value: selectedDates,
@@ -817,8 +841,10 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
                 <div
                   className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}
                 >
-                  <Calendar index={0} {...calendarProps} />
-                  {!showOneCalendar && <Calendar index={1} {...calendarProps} />}
+                  <DateRangePickerContext.Provider value={{ isSelectedIdle }}>
+                    <Calendar index={0} {...calendarProps} />
+                    {!showOneCalendar && <Calendar index={1} {...calendarProps} />}
+                  </DateRangePickerContext.Provider>
                 </div>
               </div>
               <Toolbar<SelectedDatesState, DateRange>
@@ -920,9 +946,11 @@ DateRangePicker.propTypes = {
   isoWeek: PropTypes.bool,
   oneTap: PropTypes.bool,
   limitEndYear: PropTypes.number,
+  limitStartYear: PropTypes.number,
   onChange: PropTypes.func,
   onOk: PropTypes.func,
-  disabledDate: PropTypes.func,
+  disabledDate: deprecatePropTypeNew(PropTypes.func, 'Use "shouldDisableDate" property instead.'),
+  shouldDisableDate: PropTypes.func,
   onSelect: PropTypes.func,
   showWeekNumbers: PropTypes.bool,
   showMeridian: PropTypes.bool,

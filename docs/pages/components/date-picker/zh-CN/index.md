@@ -112,6 +112,8 @@
 
 ### `<DatePicker>`
 
+<!-- prettier-sort-markdown-table -->
+
 | 属性名称              | 类型`(默认值)`                                                  | 描述                                                      |
 | --------------------- | --------------------------------------------------------------- | --------------------------------------------------------- |
 | appearance            | 'default' &#124; 'subtle' `('default')`                         | 设置外观                                                  |
@@ -123,17 +125,18 @@
 | defaultOpen           | boolean                                                         | 默认打开                                                  |
 | defaultValue          | Date                                                            | 默认值                                                    |
 | disabled              | boolean                                                         | 禁用组件                                                  |
-| disabledDate          | (date:Date) => boolean                                          | 禁用日期                                                  |
-| disabledHours         | (hour:number, date:Date) => boolean                             | 禁用小时                                                  |
-| disabledMinutes       | (minute:number, date:Date) => boolean                           | 禁用分钟                                                  |
-| disabledSeconds       | (second:number, date:Date) => boolean                           | 禁用秒                                                    |
+| disabledDate          | (date:Date) => boolean                                          | 已弃用。 使用 `shouldDisableDate` 代替                    |
+| disabledHours         | (hour:number, date:Date) => boolean                             | 已弃用。 使用 `shouldDisableHour` 代替                    |
+| disabledMinutes       | (minute:number, date:Date) => boolean                           | 已弃用。 使用 `shouldDisableMinute` 代替                  |
+| disabledSeconds       | (second:number, date:Date) => boolean                           | 已弃用。 使用 `shouldDisableSecond` 代替                  |
 | editable              | boolean `(true)`                                                | 渲染为 Input 输入框，可以通过键盘输入日期                 |
 | format                | string `('yyyy-MM-dd')`                                         | 日期显示格式化                                            |
 | hideHours             | (hour:number, date:Date) => boolean                             | 隐藏小时                                                  |
 | hideMinutes           | (minute:number, date:Date) => boolean                           | 隐藏分钟                                                  |
 | hideSeconds           | (second:number, date:Date) => boolean                           | 隐藏秒                                                    |
 | isoWeek               | boolean                                                         | ISO 8601 标准， 每个日历星期从星期一开始，星期日为第 7 天 |
-| limitEndYear          | number `(1000)`                                                 | 相对当前选择日期，设置可选年份下限                        |
+| limitEndYear          | number `(1000)`                                                 | 相对当前选择日期，设置可选年份上限                        |
+| limitStartYear        | number                                                          | 相对当前选择日期，设置可选年份下限                        |
 | locale                | [CalendarLocaleType](/zh/guide/i18n/#calendar)                  | 本地化的文本                                              |
 | menuClassName         | string                                                          | 选项菜单的 className                                      |
 | onChange              | (date: Date) => void                                            | 值改变后的回调函数                                        |
@@ -143,6 +146,7 @@
 | onEnter               | () => void                                                      | 显示前动画过渡的回调函数                                  |
 | onEntered             | () => void                                                      | 显示后动画过渡的回调函数                                  |
 | onEntering            | () => void                                                      | 显示中动画过渡的回调函数                                  |
+| oneTap                | boolean                                                         | 一个点击完成选择日期                                      |
 | onExit                | () => void                                                      | 退出前动画过渡的回调函数                                  |
 | onExited              | () => void                                                      | 退出后动画过渡的回调函数                                  |
 | onExiting             | () => void                                                      | 退出中动画过渡的回调函数                                  |
@@ -153,12 +157,15 @@
 | onSelect              | (date: Date) => void                                            | 选择日期或者时间的回调函数                                |
 | onToggleMonthDropdown | (open: boolean) => void                                         | 切换到月份视图的回调函数                                  |
 | onToggleTimeDropdown  | (open: boolean) => void                                         | 切换到时间视图的回调函数                                  |
-| oneTap                | boolean                                                         | 一个点击完成选择日期                                      |
 | open                  | boolean                                                         | 打开 (受控)                                               |
 | placeholder           | string                                                          | 没有值时候默认显示内容                                    |
 | placement             | [Placement](#code-ts-placement-code) `('bottomStart')`          | 显示位置                                                  |
 | preventOverflow       | boolean                                                         | 防止浮动元素溢出                                          |
 | ranges                | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | 快捷项配置                                                |
+| shouldDisableDate     | (date:Date) => boolean                                          | 禁用日期                                                  |
+| shouldDisableHour     | (hour:number, date:Date) => boolean                             | 禁用小时                                                  |
+| shouldDisableMinute   | (minute:number, date:Date) => boolean                           | 禁用分钟                                                  |
+| shouldDisableSecond   | (second:number, date:Date) => boolean                           | 禁用秒                                                    |
 | showMeridian          | boolean                                                         | 显示 12 小时制的时间格式                                  |
 | showWeekNumbers       | boolean                                                         | 显示周数量                                                |
 | size                  | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`               | 组件设置尺寸                                              |

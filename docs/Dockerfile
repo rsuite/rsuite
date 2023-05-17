@@ -12,7 +12,7 @@ FROM node:16-alpine AS builder
 WORKDIR /app
 COPY . .
 COPY --from=deps /app/node_modules ./node_modules
-RUN VERCEL_ENV=production npm run build:docker
+RUN VERCEL_ENV=production npm run build
 
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
@@ -26,7 +26,6 @@ COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/server.js ./server.js
 COPY --from=builder /app/scripts ./scripts
 
 USER nextjs

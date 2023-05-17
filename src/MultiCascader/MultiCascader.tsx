@@ -64,7 +64,7 @@ export interface MultiCascaderProps<T = ValueType>
 
   /** Custom render menu */
   renderMenu?: (
-    items: ItemDataType[],
+    items: readonly ItemDataType[],
     menu: React.ReactNode,
     parentNode?: any,
     layer?: number
@@ -203,16 +203,19 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       target: () => overlayRef.current,
       callback: useCallback(
         value => {
-          const { columns, paths } = getColumnsAndPaths(data, value, {
-            valueKey,
-            childrenKey,
-            isAttachChildren: true
-          });
+          const { columns, path } = getColumnsAndPaths(
+            data,
+            flattenData.find(item => item[valueKey] === value),
+            {
+              getParent: () => undefined,
+              getChildren: item => item[childrenKey]
+            }
+          );
 
           setColumnData(columns);
-          setSelectedPaths(paths);
+          setSelectedPaths(path);
         },
-        [childrenKey, data, setColumnData, valueKey]
+        [childrenKey, data, flattenData, setColumnData, valueKey]
       )
     });
 
@@ -279,6 +282,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
     const handleCheck = useCallback(
       (node: ItemDataType, event: React.SyntheticEvent, checked: boolean) => {
+        console.log('handleCheck');
         const nodeValue = node[valueKey];
         let nextValue: ValueType = [];
 

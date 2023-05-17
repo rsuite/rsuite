@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
@@ -50,6 +50,7 @@ describe('Button', () => {
   it('Should be loading', () => {
     const instance = getInstance(<Button loading>Title</Button>);
     assert.include(instance.className, 'rs-btn-loading');
+    // eslint-disable-next-line testing-library/no-node-access
     assert.ok(instance.querySelector('.rs-btn-spin'));
   });
 
@@ -113,5 +114,16 @@ describe('Button', () => {
     render(<Button ref={buttonRef}>Text</Button>);
 
     expect(buttonRef.current).to.have.tagName('button');
+  });
+
+  it('Should render `startIcon` before text', () => {
+    render(<Button startIcon={<i>Icon</i>}>Text</Button>);
+
+    expect(screen.getByRole('button')).to.have.text('IconText');
+  });
+  it('Should render `endIcon` after text', () => {
+    render(<Button endIcon={<i>Icon</i>}>Text</Button>);
+
+    expect(screen.getByRole('button')).to.have.text('TextIcon');
   });
 });

@@ -18,7 +18,7 @@
   }
 
   &-bordered &-table-row:not(:last-child) &-table-cell,
-  &-bordered &-table-header-row &-table-cell {
+  &-bordered &-table-header-row &-table-header-cell {
     border-bottom: 1px solid var(--rs-border-secondary);
   }
 
@@ -63,7 +63,7 @@
     padding-right: 0;
   }
 
-  &-panel &-table-header-row &-table-cell-content {
+  &-panel &-table-header-row &-table-header-cell-content {
     padding-top: 8px; // padding + border = 10px
     padding-bottom: 8px;
   }
@@ -420,6 +420,7 @@
 
 // Table header row
 .rs-calendar-table-header-cell-content {
+  display: inline-block;
   color: var(--rs-text-secondary);
   font-size: @font-size-small;
   line-height: @line-height-small;

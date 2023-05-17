@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { getStyle, inChrome, getGrayScale } from '@test/testUtils';
 import Dropdown from '../Dropdown';
 
@@ -30,14 +30,14 @@ describe('Dropdown styles', () => {
   });
 
   it('Should render a Button in default appearance', () => {
-    const { getByRole } = render(<Dropdown title="Dropdown" />);
+    render(<Dropdown title="Dropdown" />);
 
-    expect(getByRole('button')).to.have.style('background-color', getGrayScale('B050'));
+    expect(screen.getByRole('button')).to.have.style('background-color', getGrayScale('B050'));
   });
 
   it('Should have 12px right padding given `noCaret=true`', () => {
-    const { getByRole } = render(<Dropdown title="Dropdown" noCaret />);
+    render(<Dropdown title="Dropdown" noCaret />);
 
-    expect(getByRole('button')).to.have.style('padding-right', '12px');
+    expect(screen.getByRole('button')).to.have.style('padding-right', '12px');
   });
 });

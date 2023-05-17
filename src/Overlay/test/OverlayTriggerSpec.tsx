@@ -1,9 +1,9 @@
 import React, { Ref } from 'react';
 import { Simulate } from 'react-dom/test-utils';
-import { act, fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
-import OverlayTrigger from '../OverlayTrigger';
+import OverlayTrigger, { OverlayTriggerHandle } from '../OverlayTrigger';
 import Tooltip from '../../Tooltip';
 
 describe('OverlayTrigger', () => {
@@ -17,47 +17,61 @@ describe('OverlayTrigger', () => {
   });
 
   it('Should maintain overlay classname when trigger click', () => {
-    const whisper = getDOMNode(
+    render(
       <OverlayTrigger
         trigger="click"
-        speaker={<Tooltip className="test-whisper_click">test</Tooltip>}
+        speaker={
+          <Tooltip className="test-whisper_click" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
       >
         <button>button</button>
       </OverlayTrigger>
     );
-    fireEvent.click(whisper);
-    assert.equal(document.getElementsByClassName('test-whisper_click').length, 1);
+
+    fireEvent.click(screen.getByText('button'));
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper_click');
   });
 
   it('Should maintain overlay classname when trigger contextMenu', () => {
-    const whisper = getDOMNode(
+    render(
       <OverlayTrigger
         trigger="contextMenu"
-        speaker={<Tooltip className="test-whisper_context-menu">test</Tooltip>}
+        speaker={
+          <Tooltip className="test-whisper_context-menu" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
       >
         <button>button</button>
       </OverlayTrigger>
     );
-    fireEvent.contextMenu(whisper);
-    assert.equal(document.getElementsByClassName('test-whisper_context-menu').length, 1);
+
+    fireEvent.contextMenu(screen.getByText('button'));
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper_context-menu');
   });
 
   it('Should maintain overlay classname when trigger focus', () => {
-    const whisper = getDOMNode(
+    render(
       <OverlayTrigger
         trigger="focus"
-        speaker={<Tooltip className="test-whisper_focus">test</Tooltip>}
+        speaker={
+          <Tooltip className="test-whisper_focus" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
       >
         <button>button</button>
       </OverlayTrigger>
     );
 
-    fireEvent.focus(whisper);
-    assert.equal(document.getElementsByClassName('test-whisper_focus').length, 1);
+    fireEvent.focus(screen.getByText('button'));
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper_focus');
   });
 
   it('Should maintain overlay classname when trigger mouseOver and setting [trigger="hover"]', () => {
-    const { getByTestId } = render(
+    render(
       <OverlayTrigger
         trigger="hover"
         speaker={<Tooltip data-testid="test-whisper_hover">test</Tooltip>}
@@ -67,25 +81,28 @@ describe('OverlayTrigger', () => {
     );
 
     act(() => {
-      Simulate.mouseOver(getByTestId('whisper'));
+      Simulate.mouseOver(screen.getByTestId('whisper'));
     });
 
-    expect(getByTestId('test-whisper_hover')).to.exist;
+    expect(screen.getByTestId('test-whisper_hover')).to.exist;
   });
 
   it('Should maintain overlay classname when trigger click and setting [trigger="active"]  ', () => {
-    const whisper = getDOMNode(
+    render(
       <OverlayTrigger
         trigger="active"
-        speaker={<Tooltip className="test-whisper_active">test</Tooltip>}
+        speaker={
+          <Tooltip className="test-whisper_active" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
       >
         <button>button</button>
       </OverlayTrigger>
     );
 
-    fireEvent.click(whisper);
-
-    assert.equal(document.getElementsByClassName('test-whisper_active').length, 1);
+    fireEvent.click(screen.getByText('button'));
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper_active');
   });
 
   it('Should call onClick callback', () => {
@@ -220,7 +237,7 @@ describe('OverlayTrigger', () => {
       );
     });
 
-    const { getByRole } = render(
+    render(
       <OverlayTrigger onMouseMove={onMouseMove} trigger="hover" followCursor speaker={<Tooltip />}>
         <MyButton />
       </OverlayTrigger>
@@ -229,8 +246,8 @@ describe('OverlayTrigger', () => {
     expect(count.current).to.equal(1);
 
     act(() => {
-      Simulate.mouseOver(getByRole('button'));
-      Simulate.mouseMove(getByRole('button'), {
+      Simulate.mouseOver(screen.getByRole('button'));
+      Simulate.mouseMove(screen.getByRole('button'), {
         pageY: 10,
         pageX: 10,
         clientX: 10,
@@ -239,7 +256,7 @@ describe('OverlayTrigger', () => {
     });
 
     expect(count.current).to.equal(2);
-    expect(getByRole('tooltip').style).to.have.property('left', '10px');
+    expect(screen.getByRole('tooltip').style).to.have.property('left', '10px');
   });
 
   it('Should throw an error when using Fragment as child', () => {
@@ -252,5 +269,66 @@ describe('OverlayTrigger', () => {
     }).toHaveError(
       '[rsuite] The OverlayTrigger component does not accept strings or Fragments as child.'
     );
+  });
+
+  it('Should open the Overlay', () => {
+    render(
+      <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} open>
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    expect(screen.getByRole('tooltip')).to.exist;
+  });
+
+  it('Should open the Overlay by default', async () => {
+    const onCloseSpy = sinon.spy();
+    const ref = React.createRef<OverlayTriggerHandle>();
+
+    render(
+      <OverlayTrigger
+        speaker={<Tooltip>tooltip</Tooltip>}
+        defaultOpen
+        onExited={onCloseSpy}
+        ref={ref}
+      >
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    expect(screen.getByRole('tooltip')).to.exist;
+
+    ref.current?.close();
+
+    await waitFor(() => {
+      expect(onCloseSpy).to.have.been.calledOnce;
+      expect(screen.queryByRole('tooltip')).to.not.exist;
+    });
+  });
+
+  it('Should open in new container', () => {
+    const newContainer = document.createElement('div');
+
+    newContainer.style.position = 'relative';
+    newContainer.style.marginTop = '100px';
+    newContainer.style.marginLeft = '100px';
+
+    document.body.appendChild(newContainer);
+
+    const App = ({ container }) => (
+      <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} defaultOpen container={container}>
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    const { rerender } = render(<App container={() => document.body} />);
+
+    expect(newContainer.compareDocumentPosition(screen.getByRole('tooltip'))).to.equal(4);
+
+    rerender(<App container={() => newContainer} />);
+
+    expect(newContainer.compareDocumentPosition(screen.getByRole('tooltip'))).to.equal(20);
+
+    document.body.removeChild(newContainer);
   });
 });

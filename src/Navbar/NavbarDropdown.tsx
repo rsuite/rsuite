@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import castArray from 'lodash/castArray';
 import omit from 'lodash/omit';
 import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -7,7 +8,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import kebabCase from 'lodash/kebabCase';
 import { NavbarContext } from '.';
-import Disclosure from '../Disclosure/Disclosure';
+import Disclosure, { DisclosureTrigger } from '../Disclosure/Disclosure';
 import Button from '../Button';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';
@@ -120,7 +121,7 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
 
     return (
       <Disclosure
-        trigger={trigger as any}
+        trigger={castArray(trigger) as DisclosureTrigger[]}
         hideOnClickOutside
         onToggle={open => {
           onToggle?.(open);
@@ -131,7 +132,7 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
           }
         }}
       >
-        {({ open }, containerRef: React.Ref<HTMLElement>) => {
+        {({ open, ...props }, containerRef: React.Ref<HTMLElement>) => {
           const classes = merge(
             className,
             withClassPrefix({
@@ -141,7 +142,12 @@ const NavbarDropdown: NavbarDropdownComponent = React.forwardRef<HTMLElement>(
             })
           );
           return (
-            <Component ref={mergeRefs(ref, containerRef)} className={classes} style={style}>
+            <Component
+              ref={mergeRefs(ref, containerRef)}
+              className={classes}
+              style={style}
+              {...props}
+            >
               <Disclosure.Button>
                 {(buttonProps, buttonRef) => (
                   <NavbarDropdownToggle

@@ -81,6 +81,9 @@ function isDOMElement(node) {
 const mountedContainers = new Set();
 const mountedRoots = new Set();
 
+/**
+ * @todo Deprecate and remove usage of this util, use `render` from `@testing-library/react`
+ */
 export function render(children) {
   const container = createTestContainer();
 
