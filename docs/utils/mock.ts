@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker/locale/en';
 import { SexType } from '@faker-js/faker';
 
-export const sandboxFakerVersion = { '@faker-js/faker': 'latest' };
+export const sandboxFakerVersion = { '@faker-js/faker': '^8.0.1' };
 
 export const importFakerString = `import { faker } from '@faker-js/faker/locale/en';`;
 
