@@ -2,7 +2,6 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Checkbox from '../Checkbox';
 
@@ -17,14 +16,15 @@ describe('Checkbox', () => {
 
   it('Should add title', () => {
     const title = 'Text';
-    const instance = getDOMNode(<Checkbox title={title}>Test</Checkbox>);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal((instance.querySelector('label') as HTMLLabelElement).title, title);
+    const { container } = render(<Checkbox title={title}>Test</Checkbox>);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    expect(container.querySelector('label')).to.have.attr('title', title);
   });
 
   it('Should have checkbox-inline class', () => {
-    const instance = getDOMNode(<Checkbox inline>Test</Checkbox>);
-    assert.ok(instance.className.match(/\bcheckbox-inline\b/));
+    const { container } = render(<Checkbox inline>Test</Checkbox>);
+
+    expect(container.firstChild).to.have.class('rs-checkbox-inline');
   });
 
   it('Should be disabled', () => {
@@ -34,8 +34,9 @@ describe('Checkbox', () => {
   });
 
   it('Should be checked', () => {
-    const instance = getDOMNode(<Checkbox checked>Test</Checkbox>);
-    assert.ok(instance.className.match(/\bcheckbox-checked\b/));
+    const { container } = render(<Checkbox checked>Test</Checkbox>);
+
+    expect(container.firstChild).to.have.class('rs-checkbox-checked');
   });
 
   it('Should have the underlying input checked', () => {
@@ -45,8 +46,9 @@ describe('Checkbox', () => {
   });
 
   it('Should be defaultChecked', () => {
-    const instance = getDOMNode(<Checkbox defaultChecked>Test</Checkbox>);
-    assert.ok(instance.className.match(/\bcheckbox-checked\b/));
+    const { container } = render(<Checkbox defaultChecked>Test</Checkbox>);
+
+    expect(container.firstChild).to.have.class('rs-checkbox-checked');
   });
 
   it('Should have the underlying input checked by default', () => {
@@ -65,9 +67,10 @@ describe('Checkbox', () => {
   });
 
   it('Should support inputRef', () => {
-    let input;
-    getDOMNode(<Checkbox inputRef={ref => (input = ref)}>Test</Checkbox>);
-    assert.equal(input.tagName, 'INPUT');
+    const inputRef = React.createRef();
+    render(<Checkbox inputRef={inputRef}>Test</Checkbox>);
+
+    expect(inputRef.current).to.be.instanceof(HTMLInputElement);
   });
 
   it('Should call onChange callback with correct value and checked state', () => {
