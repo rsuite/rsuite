@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker/locale/en';
 import { SexType } from '@faker-js/faker';
 
+export const sandboxFakerVersion = { '@faker-js/faker': 'latest' };
+
 export const importFakerString = `import { faker } from '@faker-js/faker/locale/en';`;
 
 export function mockTreeData(options: {
