@@ -2,12 +2,10 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 
 import CheckboxGroup from '../CheckboxGroup';
 import Checkbox from '../../Checkbox';
-import { globalKey } from '../../utils/prefix';
 
 describe('CheckboxGroup', () => {
   testStandardProps(<CheckboxGroup />);
@@ -25,25 +23,30 @@ describe('CheckboxGroup', () => {
 
   it('Should have a name in input', () => {
     const name = 'Test';
-    const instance = getDOMNode(
+    render(
       <CheckboxGroup name={name}>
         <Checkbox>Test1</Checkbox>
         <Checkbox>Test2</Checkbox>
       </CheckboxGroup>
     );
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('input[name="Test"]').length, 2);
+
+    for (const checkbox of screen.getAllByRole('checkbox')) {
+      expect(checkbox).to.have.attr('name', name);
+    }
   });
 
   it('Should have `checkbox-inline` className in checkbox', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <CheckboxGroup inline>
         <Checkbox>Test1</Checkbox>
         <Checkbox>Test2</Checkbox>
       </CheckboxGroup>
     );
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll(`.${globalKey}checkbox-inline`).length, 2);
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    for (const checkbox of container.firstChild!.childNodes) {
+      expect(checkbox).to.have.class('rs-checkbox-inline');
+    }
   });
 
   it('Should be checked when set value', () => {
