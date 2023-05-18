@@ -1,12 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getInstance } from '@test/testUtils';
 
 import CheckPicker from '../CheckPicker';
 import Button from '../../Button';
 import '../styles/index.less';
 import userEvent from '@testing-library/user-event';
+import { testStandardProps } from '@test/commonCases';
 
 const data = [
   {
@@ -27,6 +28,8 @@ const data = [
 ];
 
 describe('CheckPicker', () => {
+  testStandardProps(<CheckPicker data={[]} />);
+
   it('Should clean selected default value', () => {
     render(<CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />);
 
@@ -36,9 +39,9 @@ describe('CheckPicker', () => {
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<CheckPicker data={[]} />);
+    const { container } = render(<CheckPicker data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-default');
+    expect(container.firstChild).to.have.class('rs-picker-default');
   });
 
   it('Should not clean selected value', () => {
@@ -51,9 +54,9 @@ describe('CheckPicker', () => {
 
   it('Should output a dropdown', () => {
     const Title = 'Title';
-    const instance = getDOMNode(<CheckPicker data={[]}>{Title}</CheckPicker>);
+    const { container } = render(<CheckPicker data={[]}>{Title}</CheckPicker>);
 
-    expect(instance).to.have.class('rs-picker-check');
+    expect(container.firstChild).to.have.class('rs-picker-check');
   });
 
   it('Should output a button', () => {
@@ -62,26 +65,26 @@ describe('CheckPicker', () => {
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<CheckPicker data={[]} disabled />);
+    const { container } = render(<CheckPicker data={[]} disabled />);
 
-    expect(instance).to.have.class('rs-picker-disabled');
+    expect(container.firstChild).to.have.class('rs-picker-disabled');
   });
 
   it('Should be block', () => {
-    const instance = getDOMNode(<CheckPicker data={[]} block />);
+    const { container } = render(<CheckPicker data={[]} block />);
 
-    expect(instance).to.have.class('rs-picker-block');
+    expect(container.firstChild).to.have.class('rs-picker-block');
   });
 
   it('Should be readOnly', () => {
-    const instance = getDOMNode(<CheckPicker data={[]} readOnly />);
+    const { container } = render(<CheckPicker data={[]} readOnly />);
 
-    expect(instance).to.have.class('rs-picker-read-only');
+    expect(container.firstChild).to.have.class('rs-picker-read-only');
   });
 
   it('Should be plaintext', () => {
-    const instance = getDOMNode(<CheckPicker data={[]} plaintext />);
-    expect(instance).to.have.class('rs-picker-plaintext');
+    const { container } = render(<CheckPicker data={[]} plaintext />);
+    expect(container.firstChild).to.have.class('rs-picker-plaintext');
   });
 
   it('Should active item by `value`', () => {
@@ -358,12 +361,6 @@ describe('CheckPicker', () => {
     expect(instance.overlay.className).to.not.include('custom');
   });
 
-  it('Should have a custom style', () => {
-    const instance = getDOMNode(<CheckPicker data={[]} style={{ fontSize: 12 }} />);
-
-    expect(instance).to.have.style('font-size', '12px');
-  });
-
   it('Allow `label` to be an empty string', () => {
     render(
       <CheckPicker
@@ -374,12 +371,6 @@ describe('CheckPicker', () => {
       />
     );
     expect(screen.getByRole('option')).to.text('');
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<CheckPicker data={[]} classPrefix="custom-prefix" />);
-
-    expect(instance.className).to.contain('custom-prefix');
   });
 
   it('Should be sticky', () => {
