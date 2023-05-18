@@ -117,7 +117,7 @@
     "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-transform-dev": "^2.0.1",
     "brfs": "^1.6.1",
-    "chai": "^4.1.0",
+    "chai": "^4.3.5",
     "conventional-changelog-cli": "^2.1.1",
     "cross-env": "^6.0.3",
     "css-loader": "^6.7.3",
