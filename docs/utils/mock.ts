@@ -87,18 +87,18 @@ export const mockTreeDataToString = `export function mockTreeData(options){
 
 export function mockUsers(length: number) {
   const createRowData = rowIndex => {
-    const firstName = faker.name.firstName();
-    const lastName = faker.name.lastName();
-    const gender = faker.name.sex() as SexType;
-    const name = faker.name.fullName({ firstName, lastName, sex: gender });
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const gender = faker.person.sex() as SexType;
+    const name = faker.person.fullName({ firstName, lastName, sex: gender });
     const avatar = faker.image.avatar();
 
-    const city = faker.address.city();
-    const street = faker.address.street();
+    const city = faker.location.city();
+    const street = faker.location.street();
     const email = faker.internet.email();
-    const postcode = faker.address.zipCode();
+    const postcode = faker.location.zipCode();
     const phone = faker.phone.number();
-    const amount = faker.finance.amount(1000, 90000);
+    const amount = faker.finance.amount({ min: 1000, max: 90000 });
     const company = faker.company.name();
 
     const age = Math.floor(Math.random() * 30) + 18;
@@ -136,18 +136,18 @@ export function mockUsers(length: number) {
 
 export const mockUsersString = `export function mockUsers(length) {
   const createRowData = rowIndex => {
-    const firstName = faker.name.firstName();
-    const lastName = faker.name.lastName();
-    const gender = faker.name.gender(true);
-    const name = faker.name.findName(firstName, lastName, gender);
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const gender = faker.person.sex();
+    const name = faker.person.fullName({ firstName, lastName, sex: gender });
     const avatar = faker.image.avatar();
 
-    const city = faker.address.city();
-    const street = faker.address.street();
+    const city = faker.location.city();
+    const street = faker.location.street();
     const email = faker.internet.email();
-    const postcode = faker.address.zipCode();
+    const postcode = faker.location.zipCode();
     const phone = faker.phone.number();
-    const amount = faker.finance.amount(1000, 90000);
+    const amount = faker.finance.amount({ min: 1000, max: 90000 });
 
     const age = Math.floor(Math.random() * 30) + 18;
     const stars = Math.floor(Math.random() * 10000);
