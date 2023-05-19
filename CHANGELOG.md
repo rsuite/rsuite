@@ -1,3 +1,14 @@
+# [5.34.0](https://github.com/rsuite/rsuite/compare/v5.33.1...v5.34.0) (2023-05-19)
+
+### Bug Fixes
+
+- **DatePicker:** added stack styles to datepicker styles ([#3195](https://github.com/rsuite/rsuite/issues/3195)) ([b3ed580](https://github.com/rsuite/rsuite/commit/b3ed580867db2e5205e71475c593e7d17ff04b49))
+- **SelectPicker:** prevent error when listProps.itemSize is a number ([#3193](https://github.com/rsuite/rsuite/issues/3193)) ([151df47](https://github.com/rsuite/rsuite/commit/151df474b15ab4651d4ee5777b66018e58837816))
+
+### Features
+
+- **Timeline:** add isItemActive prop ([#3198](https://github.com/rsuite/rsuite/issues/3198)) ([377930f](https://github.com/rsuite/rsuite/commit/377930f3498c59834a424417c136499866aacec2))
+
 ## [5.33.1](https://github.com/rsuite/rsuite/compare/v5.33.0...v5.33.1) (2023-05-12)
 
 ### Bug Fixes
