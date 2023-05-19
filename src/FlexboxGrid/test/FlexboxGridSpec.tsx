@@ -1,23 +1,23 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import FlexboxGrid from '../FlexboxGrid';
+import { render } from '@testing-library/react';
 
 describe('FlexboxGrid', () => {
   testStandardProps(<FlexboxGrid />);
 
   it('Should render a FlexboxGrid', () => {
-    const instance = getDOMNode(<FlexboxGrid>Test</FlexboxGrid>);
-    assert.include(instance.className, 'rs-flex-box-grid');
+    const { container } = render(<FlexboxGrid>Test</FlexboxGrid>);
+    expect(container.firstChild).to.have.class('rs-flex-box-grid');
   });
 
   it('Should be aligned on the top', () => {
-    const instance = getDOMNode(<FlexboxGrid align="top" />);
-    assert.include(instance.className, 'rs-flex-box-grid-top');
+    const { container } = render(<FlexboxGrid align="top" />);
+    expect(container.firstChild).to.have.class('rs-flex-box-grid-top');
   });
 
   it('Should be justify content on the center', () => {
-    const instance = getDOMNode(<FlexboxGrid justify="center" />);
-    assert.include(instance.className, 'rs-flex-box-grid-center');
+    const { container } = render(<FlexboxGrid justify="center" />);
+    expect(container.firstChild).to.have.class('rs-flex-box-grid-center');
   });
 });

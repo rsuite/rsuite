@@ -1,8 +1,9 @@
-import { getDOMNode, getInstance } from '@test/testUtils';
 import React from 'react';
 import { render, act, fireEvent, waitFor, screen } from '@testing-library/react';
+import { getInstance } from '@test/testUtils';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
+import { testStandardProps } from '@test/commonCases';
 import {
   addDays,
   endOfMonth,
@@ -37,28 +38,29 @@ afterEach(() => {
 });
 
 describe('DateRangePicker', () => {
+  testStandardProps(<DateRangePicker />);
   it('Should render a div with "rs-picker-daterange" class', () => {
-    const instance = getDOMNode(<DateRangePicker />);
+    const { container } = render(<DateRangePicker />);
 
-    assert.equal(instance.tagName, 'DIV');
-    assert.ok(instance.className.match(/\brs-picker-daterange\b/));
+    expect(container.firstChild).to.have.tagName('DIV');
+    expect(container.firstChild).to.have.class('rs-picker-daterange');
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<DateRangePicker />);
+    const { container } = render(<DateRangePicker />);
 
-    expect(instance).to.have.class('rs-picker-default');
+    expect(container.firstChild).to.have.class('rs-picker-default');
   });
 
   it('Should be cleanable by default', () => {
-    const instance = getDOMNode(<DateRangePicker value={[new Date(), new Date()]} />);
+    const { container } = render(<DateRangePicker value={[new Date(), new Date()]} />);
 
-    expect(instance).to.have.class('rs-picker-cleanable');
+    expect(container.firstChild).to.have.class('rs-picker-cleanable');
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<DateRangePicker disabled />);
-    assert.ok(instance.className.match(/\bdisabled\b/));
+    const { container } = render(<DateRangePicker disabled />);
+    expect(container.firstChild).to.have.class('rs-picker-disabled');
   });
 
   it('Should output custom value', () => {
@@ -252,22 +254,10 @@ describe('DateRangePicker', () => {
     assert.ok(root.className.match(/\bblock\b/));
   });
 
-  it('Should have a custom className', () => {
-    const root = getInstance(<DateRangePicker className="custom" />).root;
-    assert.include(root.className, 'custom');
-  });
-
   it('Should have a menuClassName in Menu', () => {
     const menu = getInstance(<DateRangePicker menuClassName="custom" open />).overlay;
 
     assert.include(menu.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-
-    const root = getInstance(<DateRangePicker style={{ fontSize }} />).root;
-    assert.equal(root.style.fontSize, fontSize);
   });
 
   it('Should select a date range by clicking starting date and ending date', () => {
@@ -487,11 +477,6 @@ describe('DateRangePicker', () => {
     expect(onChangeSpy.callCount).to.equal(1);
     expect(isSameDay(startOfWeek(new Date()), onChangeSpy.firstCall.firstArg[0])).to.be.true;
     expect(isSameDay(endOfWeek(new Date()), onChangeSpy.firstCall.firstArg[1])).to.be.true;
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<DateRangePicker classPrefix="custom-prefix" />);
-    expect(instance.className).to.contain('custom-prefix');
   });
 
   it('Should show default calendar value', () => {

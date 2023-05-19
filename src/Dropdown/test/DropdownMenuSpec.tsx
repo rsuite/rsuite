@@ -1,13 +1,14 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
 import Dropdown from '../Dropdown';
 import userEvent from '@testing-library/user-event';
+import { testStandardProps } from '@test/commonCases';
 
 describe('<Dropdown.Menu>', () => {
+  testStandardProps(<DropdownMenu />);
   it('Should render a vertical ARIA menubar when used alone', () => {
     const { container } = render(
       <DropdownMenu>
@@ -53,13 +54,13 @@ describe('<Dropdown.Menu>', () => {
   // Ref: https://www.w3.org/TR/wai-aria-practices-1.2/#menu
   describe('Keyboard interaction & Focus management', () => {
     function renderMenubar(ui, focusAfterRender = true) {
-      const menubar = getDOMNode(ui);
+      const { container } = render(ui);
 
-      if (focusAfterRender) {
-        fireEvent.focus(menubar);
+      if (focusAfterRender && container.firstChild) {
+        fireEvent.focus(container.firstChild);
       }
 
-      return menubar;
+      return container.firstChild;
     }
 
     it('When a menubar receives focus, keyboard focus is placed on the first item.', () => {
@@ -68,8 +69,7 @@ describe('<Dropdown.Menu>', () => {
           <DropdownItem id="first-item">First item</DropdownItem>
         </DropdownMenu>
       );
-
-      expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
+      expect(menubar).to.have.attr('aria-activedescendant', 'first-item');
     });
 
     it('Clicking a menuitem moves focus onto the menuitem.', () => {
@@ -82,8 +82,7 @@ describe('<Dropdown.Menu>', () => {
       );
 
       fireEvent.mouseDown(screen.getByText('Second item'));
-
-      expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
+      expect(menubar).to.have.attr('aria-activedescendant', 'second-item');
     });
 
     describe('Down Arrow', () => {
@@ -94,10 +93,10 @@ describe('<Dropdown.Menu>', () => {
             <DropdownItem id="second-item">Second item</DropdownItem>
           </DropdownMenu>
         );
-
-        fireEvent.keyDown(menubar, { key: 'ArrowDown' });
-
-        expect(menubar.getAttribute('aria-activedescendant')).to.equal('second-item');
+        if (menubar) {
+          fireEvent.keyDown(menubar, { key: 'ArrowDown' });
+          expect(menubar).to.have.attr('aria-activedescendant', 'second-item');
+        }
       });
     });
 
@@ -109,12 +108,12 @@ describe('<Dropdown.Menu>', () => {
             <DropdownItem id="second-item">Second item</DropdownItem>
           </DropdownMenu>
         );
+        if (menubar) {
+          fireEvent.keyDown(menubar, { key: 'ArrowDown' });
 
-        fireEvent.keyDown(menubar, { key: 'ArrowDown' });
-
-        fireEvent.keyDown(menubar, { key: 'ArrowUp' });
-
-        expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
+          fireEvent.keyDown(menubar, { key: 'ArrowUp' });
+          expect(menubar).to.have.attr('aria-activedescendant', 'first-item');
+        }
       });
     });
 
@@ -127,10 +126,10 @@ describe('<Dropdown.Menu>', () => {
             <DropdownItem id="last-item">Third item</DropdownItem>
           </DropdownMenu>
         );
-
-        fireEvent.keyDown(menubar, { key: 'End' });
-
-        expect(menubar.getAttribute('aria-activedescendant')).to.equal('last-item');
+        if (menubar) {
+          fireEvent.keyDown(menubar, { key: 'End' });
+          expect(menubar).to.have.attr('aria-activedescendant', 'last-item');
+        }
       });
     });
 
@@ -143,12 +142,11 @@ describe('<Dropdown.Menu>', () => {
             <DropdownItem id="last-item">Third item</DropdownItem>
           </DropdownMenu>
         );
-
-        fireEvent.keyDown(menubar, { key: 'End' });
-
-        fireEvent.keyDown(menubar, { key: 'Home' });
-
-        expect(menubar.getAttribute('aria-activedescendant')).to.equal('first-item');
+        if (menubar) {
+          fireEvent.keyDown(menubar, { key: 'End' });
+          fireEvent.keyDown(menubar, { key: 'Home' });
+          expect(menubar).to.have.attr('aria-activedescendant', 'first-item');
+        }
       });
     });
 
@@ -164,11 +162,12 @@ describe('<Dropdown.Menu>', () => {
             </DropdownItem>
           </DropdownMenu>
         );
+        if (menubar) {
+          fireEvent.keyDown(menubar, { key: 'Enter' });
 
-        fireEvent.keyDown(menubar, { key: 'Enter' });
-
-        expect(onSelectItemSpy).to.have.been.called;
-        expect(onSelectSpy).to.have.been.calledWith('active-item');
+          expect(onSelectItemSpy).to.have.been.called;
+          expect(onSelectSpy).to.have.been.calledWith('active-item');
+        }
       });
     });
 
@@ -184,11 +183,11 @@ describe('<Dropdown.Menu>', () => {
             </DropdownItem>
           </DropdownMenu>
         );
-
-        fireEvent.keyDown(menubar, { key: ' ' });
-
-        expect(onSelectItemSpy).to.have.been.called;
-        expect(onSelectSpy).to.have.been.calledWith('active-item');
+        if (menubar) {
+          fireEvent.keyDown(menubar, { key: ' ' });
+          expect(onSelectItemSpy).to.have.been.called;
+          expect(onSelectSpy).to.have.been.calledWith('active-item');
+        }
       });
     });
   });
@@ -297,16 +296,5 @@ describe('<Dropdown.Menu>', () => {
     expect(screen.getByTestId('menu'))
       .to.have.class('custom')
       .and.to.have.class('rs-dropdown-menu');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<DropdownMenu style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<DropdownMenu classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

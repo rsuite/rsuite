@@ -1,13 +1,14 @@
 import React, { Ref, useState } from 'react';
 import { fireEvent, render, act, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
+
 import Dropdown from '../Dropdown';
 import Button from '../../Button';
 import Nav from '../../Nav';
 import { KEY_VALUES } from '../../utils';
 import * as utils from '../../utils';
 import userEvent from '@testing-library/user-event';
+import { testStandardProps } from '@test/commonCases';
 
 afterEach(() => {
   sinon.restore();
@@ -31,6 +32,7 @@ function renderDropdown(ui) {
 }
 
 describe('<Dropdown>', () => {
+  testStandardProps(<Dropdown />);
   it('Should render a button that controls a popup menu', () => {
     render(
       <Dropdown title="Menu">
@@ -119,13 +121,13 @@ describe('<Dropdown>', () => {
   });
 
   it('Should be disabled given `disabled=true`', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Dropdown disabled>
         <Dropdown.Item>1</Dropdown.Item>
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.include(instance.className, 'rs-dropdown-disabled');
+    expect(container.firstChild).to.have.class('rs-dropdown-disabled');
   });
 
   it('Should have a custom className in toggle', () => {
@@ -139,13 +141,13 @@ describe('<Dropdown>', () => {
   });
 
   it('Should have a className for placement', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Dropdown placement="topStart">
         <Dropdown.Item>1</Dropdown.Item>
         <Dropdown.Item>2</Dropdown.Item>
       </Dropdown>
     );
-    assert.include(instance.className, 'rs-dropdown-placement-top-start');
+    expect(container.firstChild).to.have.class('rs-dropdown-placement-top-start');
   });
 
   it('Should have a title', () => {
@@ -176,9 +178,9 @@ describe('<Dropdown>', () => {
   });
 
   it('Should not show caret', () => {
-    const instance = getDOMNode(<Dropdown noCaret />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.ok(!instance.querySelector('.rs-dropdown-toggle-caret'));
+    const { container } = render(<Dropdown noCaret />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    expect(container.querySelector('.rs-dropdown-toggle-caret')).not.to.exist;
   });
 
   it('Should call onSelect callback with correct eventKey when clicking an item', () => {
@@ -306,22 +308,6 @@ describe('<Dropdown>', () => {
     const fontSize = '12px';
     render(<Dropdown defaultOpen menuStyle={{ fontSize }} />);
     expect(screen.getByRole('menu')).to.have.style('font-size', fontSize);
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Dropdown className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Dropdown style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Dropdown classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   describe('Keyboard interaction & Focus management', () => {

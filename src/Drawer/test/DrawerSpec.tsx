@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
 
 import Drawer from '../Drawer';
 
@@ -33,9 +32,8 @@ describe('Drawer', () => {
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Drawer style={{ fontSize }} open />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal((instance.querySelector('.rs-drawer') as HTMLElement).style.fontSize, fontSize);
+    render(<Drawer style={{ fontSize }} open />);
+    expect(screen.getByRole('dialog')).to.have.style('font-size', fontSize);
   });
 
   it('Should have a custom className prefix', () => {
