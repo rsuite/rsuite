@@ -1,0 +1,2 @@
+import './getTestId';
+import './mount';
