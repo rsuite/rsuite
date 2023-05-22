@@ -130,6 +130,12 @@ export type { RadioProps } from './Radio';
 export { default as RadioGroup } from './RadioGroup';
 export type { RadioGroupProps } from './RadioGroup';
 
+export { default as RadioTile } from './RadioTile';
+export type { RadioTileProps } from './RadioTile';
+
+export { default as RadioTileGroup } from './RadioTileGroup';
+export type { RadioTileGroupProps } from './RadioTileGroup';
+
 export { default as SelectPicker } from './SelectPicker';
 export type { SelectPickerProps } from './SelectPicker';
 
