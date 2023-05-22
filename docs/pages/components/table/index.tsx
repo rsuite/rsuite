@@ -24,11 +24,12 @@ import CollaspedOutlineIcon from '@rsuite/icons/CollaspedOutline';
 import ExpandOutlineIcon from '@rsuite/icons/ExpandOutline';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import {
-  mockUsers,
+  importFakerString,
   mockTreeData,
-  mockUsersString,
   mockTreeDataToString,
-  importFakerString
+  mockUsers,
+  mockUsersString,
+  sandboxFakerVersion
 } from '@/utils/mock';
 
 const mockfile = {
@@ -37,7 +38,7 @@ const mockfile = {
 };
 
 const sandboxDependencies = {
-  '@faker-js/faker': 'latest'
+  ...sandboxFakerVersion
 };
 
 export default function Page() {

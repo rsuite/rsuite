@@ -2,7 +2,7 @@ import React from 'react';
 import DefaultPage from '@/components/Page';
 import { Table, SelectPicker, CheckPicker, Loader } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
-import { mockUsers, mockUsersString, importFakerString } from '@/utils/mock';
+import { importFakerString, mockUsers, mockUsersString, sandboxFakerVersion } from '@/utils/mock';
 
 const mockfile = {
   name: 'mock.js',
@@ -10,7 +10,7 @@ const mockfile = {
 };
 
 const sandboxDependencies = {
-  '@faker-js/faker': 'latest'
+  ...sandboxFakerVersion
 };
 
 export default function Page() {

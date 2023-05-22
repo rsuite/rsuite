@@ -50,7 +50,7 @@
     "tinycolor2": "^1.4.1"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7.3.0",
+    "@faker-js/faker": "^8.0.1",
     "@svgr/webpack": "^5.5.0",
     "@types/node": "^12.12.21",
     "@types/react": "^17.0.2",

@@ -18,8 +18,13 @@ const data = mockTreeData({
     return faker.vehicle.vehicle();
   },
   getRowData: () => ({
-    price: faker.commerce.price(10000, 1000000, 0, '$', true),
-    rating: faker.finance.amount(2, 5)
+    price: faker.commerce.price({
+      min: 10000,
+      max: 1000000,
+      dec: 0,
+      symbol: '$'
+    }),
+    rating: faker.finance.amount({ min: 2, max: 5 })
   })
 });
 
