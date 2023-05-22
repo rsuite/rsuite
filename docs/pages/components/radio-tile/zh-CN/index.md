@@ -16,6 +16,10 @@
 
 <!--{include:`inline.md`}-->
 
+### 禁用
+
+<!--{include:`disabled.md`}-->
+
 ### 无障碍设计
 
 WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#radiobutton

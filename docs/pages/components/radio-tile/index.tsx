@@ -11,6 +11,10 @@ import {
 } from 'react-icons/vsc';
 import DefaultPage from '@/components/Page';
 
+const sandboxDependencies = {
+  'react-icons': '^4.2.0'
+};
+
 export default function Page() {
   return (
     <DefaultPage
@@ -29,6 +33,7 @@ export default function Page() {
         VscRepoClone,
         VscFile
       }}
+      sandboxDependencies={sandboxDependencies}
     />
   );
 }
