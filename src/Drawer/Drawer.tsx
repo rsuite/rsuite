@@ -58,6 +58,7 @@ const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
   } = props;
   const { merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, prefix(placement));
+
   const animationProps = {
     placement
   };

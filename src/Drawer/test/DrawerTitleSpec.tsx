@@ -6,6 +6,7 @@ import Drawer from '../index';
 
 describe('Drawer.Title', () => {
   testStandardProps(<Drawer.Title />);
+
   it('Should render a drawer title', () => {
     const title = 'Test';
     const { container } = render(<Drawer.Title>{title}</Drawer.Title>);

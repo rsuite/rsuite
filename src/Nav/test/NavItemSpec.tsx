@@ -8,7 +8,11 @@ import Navbar from '../../Navbar';
 import Sidenav from '../../Sidenav';
 
 describe('<Nav.Item>', () => {
-  testStandardProps(<Nav.Item />, { renderOptions: { wrapper: Nav } });
+  testStandardProps(<Nav.Item />, {
+    renderOptions: { wrapper: Nav },
+    // eslint-disable-next-line testing-library/prefer-screen-queries
+    getRootElement: view => view.getByTestId('element')
+  });
 
   it('Should render a <a>', () => {
     render(<Nav.Item data-testid="item">Test</Nav.Item>, {

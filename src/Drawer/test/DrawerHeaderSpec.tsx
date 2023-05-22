@@ -8,6 +8,7 @@ import Drawer from '../Drawer';
 
 describe('Drawer.Header', () => {
   testStandardProps(<Drawer.Header />);
+
   it('Should render a drawer header', () => {
     const title = 'Test';
     const { container } = render(<Drawer.Header>{title}</Drawer.Header>);
@@ -18,7 +19,8 @@ describe('Drawer.Header', () => {
   it('Should hide close button', () => {
     const title = 'Test';
     const { container } = render(<Drawer.Header closeButton={false}>{title}</Drawer.Header>);
-    expect(container.firstChild).to.not.have.class('button');
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelector('button')).to.not.exist;
   });
 
   it('Should call onClose callback', () => {
