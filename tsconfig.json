@@ -15,9 +15,21 @@
     "jsx": "react",
     "skipLibCheck": true,
     "baseUrl": ".",
+    "types": [
+      "node",
+      "jest",
+      "react",
+      "react-dom",
+      "cypress"
+    ],
     "paths": {
       "@test/*": ["./test/*"]
     }
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./test/**/*.ts",
+    "./test/**/*.tsx"
+  ]
 }

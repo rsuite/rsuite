@@ -1,69 +1,56 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor, act } from '@testing-library/react';
-import sinon from 'sinon';
-import getOffset from 'dom-lib/getOffset';
-
 import Affix from '../Affix';
 
 describe('Affix', () => {
   it('Should render a button', () => {
-    render(
+    cy.mount(
       <Affix>
         <button data-testid="button">button</button>
-      </Affix>
+      </Affix>,
     );
-
-    expect(screen.getByTestId('button')).to.exist;
+    cy.getByTestId('button').should('exist');
   });
 
   it('Should call onChange callback', () => {
     const buttonRef = React.createRef<HTMLButtonElement>();
-    const onChangeSpy = sinon.spy();
+    const onChangeSpy = cy.spy().as('onChangeSpy');
 
-    render(
-      <div style={{ height: 3000 }}>
-        <div style={{ height: 100 }}>--</div>
-        <Affix top={10} data-testid="affix" onChange={onChangeSpy}>
-          <button ref={buttonRef}>button</button>
+    cy.mount(
+      <div data-testid="container" style={ { height: 3000 } }>
+        <div style={ { height: 100 } }>--</div>
+        <Affix top={ 10 } data-testid="affix" onChange={ onChangeSpy }>
+          <button ref={ buttonRef }>button</button>
         </Affix>
-      </div>
+      </div>,
     );
 
-    const top = getOffset(buttonRef.current)?.top;
+    cy.window().scrollTo('bottom');
 
-    act(() => {
-      window.scrollTo({ top });
-      window.dispatchEvent(new UIEvent('scroll'));
-    });
+    cy.get('@onChangeSpy').should('have.been.called');
 
-    expect(onChangeSpy).to.have.been.called;
+    cy.getByTestId('affix').find('>*').eq(0).as('affix');
 
-    const affix = screen.getByTestId('affix').firstChild as HTMLDivElement;
-
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(affix.className).to.contain('rs-affix');
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(affix.style.position).to.equal('fixed');
+    cy.get('@affix').should('have.class', 'rs-affix');
+    cy.get('@affix').should('have.css', 'position', 'fixed');
   });
 
   it('Should have a custom style', () => {
-    render(<Affix data-testid="affix" style={{ fontSize: 12 }} />);
+    cy.mount(<Affix data-testid="affix" style={ { fontSize: 12 } }/>);
 
-    expect(screen.getByTestId('affix')).to.have.style('font-size', '12px');
+    cy.getByTestId('affix').should('have.css', 'font-size', '12px');
   });
 
   it('Should call onOffsetChange callback', async () => {
-    const buttonRef = React.createRef<HTMLButtonElement>();
-    const onOffsetChangeSpy = sinon.spy();
+    const onOffsetChangeSpy = cy.spy().as('onOffsetChangeSpy');
 
     const App = () => {
       const [height, setHeight] = React.useState(100);
 
       return (
-        <div style={{ height: 3000 }}>
-          <div style={{ height }}>--</div>
-          <Affix top={10} onOffsetChange={onOffsetChangeSpy}>
-            <button ref={buttonRef} onClick={() => setHeight(200)}>
+        <div style={ { height: 3000 } }>
+          <div style={ { height } }>--</div>
+          <Affix top={ 10 } onOffsetChange={ onOffsetChangeSpy }>
+            <button data-testid="button" onClick={ () => setHeight(200) }>
               button
             </button>
           </Affix>
@@ -71,19 +58,10 @@ describe('Affix', () => {
       );
     };
 
-    render(<App />);
+    cy.mount(<App/>);
 
-    fireEvent.click(buttonRef.current as HTMLButtonElement);
+    cy.getByTestId('button').click();
 
-    const top = getOffset(buttonRef.current)?.top;
-
-    act(() => {
-      window.scrollTo({ top });
-      window.dispatchEvent(new UIEvent('scroll'));
-    });
-
-    await waitFor(() => {
-      expect(onOffsetChangeSpy).to.have.been.called;
-    });
+    cy.get('@onOffsetChangeSpy').should('have.been.called');
   });
 });
