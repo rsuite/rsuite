@@ -12,37 +12,50 @@ export function testTestIdProp(element, renderOptions) {
   });
 }
 
-export function testClassNameProp(element, customClassName = 'custom-class', renderOptions) {
+export function testClassNameProp(
+  element,
+  customClassName = 'custom-class',
+  renderOptions,
+  getRootElement = view => view.container.firstChild
+) {
   it('Should accept custom className', () => {
-    const { getByTestId } = render(
+    const view = render(
       React.cloneElement(element, { 'data-testid': 'element', className: customClassName }),
       renderOptions
     );
 
-    expect(getByTestId('element')).to.have.class(customClassName);
+    expect(getRootElement(view)).to.have.class(customClassName);
   });
 }
 
-export function testClassPrefixProp(element, renderOptions) {
+export function testClassPrefixProp(
+  element,
+  renderOptions,
+  getRootElement = view => view.container.firstChild
+) {
   it('Should accept custom className prefix', () => {
     const customClassPrefix = 'custom-prefix';
-    const { getByTestId } = render(
+    const view = render(
       React.cloneElement(element, { 'data-testid': 'element', classPrefix: customClassPrefix }),
       renderOptions
     );
-    expect(getByTestId('element')).to.have.class(new RegExp('^rs-' + customClassPrefix));
+    expect(getRootElement(view)).to.have.class(new RegExp('^rs-' + customClassPrefix));
   });
 }
 
-export function testStyleProp(element, renderOptions) {
+export function testStyleProp(
+  element,
+  renderOptions,
+  getRootElement = view => view.container.firstChild
+) {
   it('Should accept custom style', () => {
     const fontSize = '12px';
-    const { getByTestId } = render(
+    const view = render(
       React.cloneElement(element, { 'data-testid': 'element', style: { fontSize } }),
       renderOptions
     );
 
-    expect(getByTestId('element')).to.have.style('font-size', fontSize);
+    expect(getRootElement(view)).to.have.style('font-size', fontSize);
   });
 }
 
@@ -50,9 +63,14 @@ export function testStandardProps(element, options) {
   describe('Standard props', () => {
     testTestIdProp(element, options?.renderOptions);
     if (options?.customClassName !== false) {
-      testClassNameProp(element, options?.customClassName, options?.renderOptions);
+      testClassNameProp(
+        element,
+        options?.customClassName,
+        options?.renderOptions,
+        options?.getRootElement
+      );
     }
-    testClassPrefixProp(element, options?.renderOptions);
-    testStyleProp(element, options?.renderOptions);
+    testClassPrefixProp(element, options?.renderOptions, options?.getRootElement);
+    testStyleProp(element, options?.renderOptions, options?.getRootElement);
   });
 }

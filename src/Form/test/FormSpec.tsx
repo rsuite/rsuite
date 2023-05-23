@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 
 import Form, { FormInstance } from '../Form';
@@ -40,21 +40,19 @@ describe('Form', () => {
 
   it('Should render a Form', () => {
     const title = 'Test';
-    const instance = getDOMNode(<Form>{title}</Form>);
-    assert.equal(instance.tagName, 'FORM');
-    assert.equal(instance.innerHTML, title);
+    const { container } = render(<Form>{title}</Form>);
+    expect(container.firstChild).to.have.tagName('FORM');
+    expect(container.firstChild).to.have.text(title);
   });
 
   it('Should be horizontal', () => {
-    const instance = getDOMNode(<Form layout="horizontal" />);
-
-    assert.include(instance.className, 'rs-form-horizontal');
+    const { container } = render(<Form layout="horizontal" />);
+    expect(container.firstChild).to.have.class('rs-form-horizontal');
   });
 
   it('Should be inline', () => {
-    const instance = getDOMNode(<Form layout="inline" />);
-
-    assert.include(instance.className, 'rs-form-inline');
+    const { container } = render(<Form layout="inline" />);
+    expect(container.firstChild).to.have.class('rs-form-inline');
   });
 
   it('Should have a value', () => {
