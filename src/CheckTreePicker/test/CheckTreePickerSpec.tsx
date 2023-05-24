@@ -1,23 +1,26 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getInstance } from '@test/testUtils';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '../../utils';
 import { data, originMockData, changedMockData } from './mocks';
 import { PickerHandle } from '../../Picker';
 import userEvent from '@testing-library/user-event';
+import { testStandardProps } from '@test/commonCases';
 
 describe('CheckTreePicker', () => {
+  testStandardProps(<CheckTreePicker data={data} />);
+
   it('Should render default value', () => {
     render(<CheckTreePicker defaultOpen data={data} value={['Master']} />);
     expect(screen.getByRole('combobox')).to.text('Master (All)1');
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<CheckTreePicker data={[]} />);
+    const { container } = render(<CheckTreePicker data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-default');
+    expect(container.firstChild).to.have.class('rs-picker-default');
   });
 
   it('Should clean selected value', () => {
@@ -46,15 +49,15 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<CheckTreePicker disabled data={[]} />);
+    const { container } = render(<CheckTreePicker disabled data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-disabled');
+    expect(container.firstChild).to.have.class('rs-picker-disabled');
   });
 
   it('Should be block', () => {
-    const instance = getDOMNode(<CheckTreePicker block data={[]} />);
+    const { container } = render(<CheckTreePicker block data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-block');
+    expect(container.firstChild).to.have.class('rs-picker-block');
   });
 
   it('Should active 4 node by `value` when cascade is true', () => {
@@ -331,18 +334,6 @@ describe('CheckTreePicker', () => {
     );
   });
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<CheckTreePicker className="custom" data={data} />);
-
-    expect(instance).to.have.class('custom');
-  });
-
-  it('Should have a custom style', () => {
-    const instance = getDOMNode(<CheckTreePicker style={{ fontSize: 12 }} data={data} />);
-
-    expect(instance).to.have.style('font-size', '12px');
-  });
-
   it('Should have a custom menuStyle', () => {
     const instance = getInstance(<CheckTreePicker menuStyle={{ fontSize: 12 }} data={data} open />);
 
@@ -451,12 +442,6 @@ describe('CheckTreePicker', () => {
     render(<CheckTreePicker data={data} open searchKeyword="name" />);
 
     expect(screen.queryAllByRole('treeitem')).to.have.lengthOf(0);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<CheckTreePicker data={data} classPrefix="custom-prefix" />);
-
-    expect(instance.className).to.contain('custom-prefix');
   });
 
   it('Should render tree without checkbox', () => {

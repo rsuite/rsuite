@@ -1,54 +1,45 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
 
 import Header from '../CalendarHeader';
 import CalendarContext from '../CalendarContext';
 import Sinon from 'sinon';
+import { testStandardProps } from '@test/commonCases';
 
 describe('Calendar-Header', () => {
-  it('Should render a div with "calendar-header" class', () => {
-    const instance = getDOMNode(<Header />);
+  testStandardProps(<Header />);
 
-    assert.equal(instance.nodeName, 'DIV');
-    assert.ok(instance.className.match(/\bcalendar-header\b/));
+  it('Should render a div with "calendar-header" class', () => {
+    const { container } = render(<Header />);
+
+    expect(container.firstChild).to.match('div.rs-calendar-header');
   });
 
   it('Should call `onMoveForward` callback', () => {
     const onMoveForward = Sinon.spy();
 
-    const instance = getDOMNode(<Header showMonth onMoveForward={onMoveForward} />);
+    render(<Header showMonth onMoveForward={onMoveForward} />);
 
-    ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      instance.querySelector('.rs-calendar-header-forward') as HTMLElement
-    );
-
+    ReactTestUtils.Simulate.click(screen.getByRole('button', { name: 'Next month' }));
     expect(onMoveForward).to.have.been.calledOnce;
   });
 
   it('Should call `onMoveBackward` callback', () => {
     const onMoveBackward = Sinon.spy();
 
-    const instance = getDOMNode(<Header showMonth onMoveBackward={onMoveBackward} />);
+    render(<Header showMonth onMoveBackward={onMoveBackward} />);
 
-    ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      instance.querySelector('.rs-calendar-header-backward') as HTMLElement
-    );
+    ReactTestUtils.Simulate.click(screen.getByRole('button', { name: 'Previous month' }));
     expect(onMoveBackward).to.have.been.calledOnce;
   });
 
   it('Should call `onToggleMonthDropdown` callback', () => {
     const onToggleMonthDropdown = Sinon.spy();
 
-    const instance = getDOMNode(<Header showMonth onToggleMonthDropdown={onToggleMonthDropdown} />);
+    render(<Header showMonth onToggleMonthDropdown={onToggleMonthDropdown} />);
 
-    ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      instance.querySelector('.rs-calendar-header-title-date') as HTMLElement
-    );
+    ReactTestUtils.Simulate.click(screen.getByRole('button', { name: 'Select month' }));
     expect(onToggleMonthDropdown).to.have.been.calledOnce;
   });
 
@@ -69,21 +60,5 @@ describe('Calendar-Header', () => {
       (ref.current as HTMLDivElement).querySelector('.rs-calendar-header-title-time') as HTMLElement
     );
     expect(onToggleTimeDropdown).to.have.been.calledOnce;
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<Header className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<Header style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Header classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

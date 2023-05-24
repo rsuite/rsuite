@@ -1,39 +1,38 @@
 import React from 'react';
 import Transition from '../Transition';
-import { getDOMNode, getInstance } from '@test/testUtils';
-import { act, waitFor } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 describe('Animation', () => {
   it('Should output enteredClassName', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Transition in enteredClassName="class-in">
         <div>test</div>
       </Transition>
     );
 
-    expect(instance.className).to.equal('class-in');
+    expect(container.firstChild).to.have.class('class-in');
   });
 
   it('Should outout enteredClassName by function children', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Transition in enteredClassName="class-in">
         {props => <div {...props}>test</div>}
       </Transition>
     );
-    expect(instance.className).to.equal('class-in');
+    expect(container.firstChild).to.have.class('class-in');
   });
 
   it('Should outout exitedClassName by function children', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Transition exitedClassName="class-out">{props => <div {...props}>test</div>}</Transition>
     );
-    expect(instance.className).to.equal('class-out');
+    expect(container.firstChild).to.have.class('class-out');
   });
 
   it('Should be transitionAppear', async () => {
     const onEnteredSpy = sinon.spy();
-    const instance = getDOMNode(
+    const { container } = render(
       <Transition
         transitionAppear
         in
@@ -49,7 +48,7 @@ describe('Animation', () => {
     expect(onEnteredSpy).to.not.be.called;
 
     await waitFor(() => {
-      assert.equal(instance.className, 'class-in');
+      expect(container.firstChild).to.have.class('class-in');
     });
   });
 
@@ -58,7 +57,7 @@ describe('Animation', () => {
     const onEnteringSpy = sinon.spy();
     const onEnteredSpy = sinon.spy();
 
-    getInstance(
+    render(
       <Transition
         transitionAppear
         in
@@ -85,8 +84,10 @@ describe('Animation', () => {
     const onExitingSpy = sinon.spy();
     const onExitedSpy = sinon.spy();
 
-    const instance = getInstance(
+    const transitionRef = React.createRef<Transition>();
+    render(
       <Transition
+        ref={transitionRef}
         timeout={100}
         exitedClassName="class-out"
         enteredClassName="class-in"
@@ -99,7 +100,7 @@ describe('Animation', () => {
     );
 
     act(() => {
-      instance.performExit();
+      transitionRef.current?.performExit(transitionRef.current.props);
     });
 
     await waitFor(() => {

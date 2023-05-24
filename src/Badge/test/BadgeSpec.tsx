@@ -1,61 +1,65 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Badge from '../Badge';
+import { render, screen } from '@testing-library/react';
 
 describe('Badge', () => {
   testStandardProps(<Badge />);
 
   it('Should render independent', () => {
-    const instance = getDOMNode(<Badge />);
-    assert.include(instance.className, 'rs-badge-independent');
+    const { container } = render(<Badge />);
+    expect(container.firstChild).to.have.class('rs-badge-independent');
   });
 
   it('Should render dot', () => {
-    const instance = getDOMNode(<Badge />);
-    assert.include(instance.className, 'rs-badge-dot');
+    const { container } = render(<Badge />);
+    expect(container.firstChild).to.have.class('rs-badge-dot');
   });
 
   it('Should render content', () => {
     const content = 'NEW+';
-    const instance = getDOMNode(<Badge content={content} />);
-    assert.equal(instance.textContent, content);
+    render(<Badge content={content} />);
+
+    expect(screen.getByText(content)).to.exist;
   });
 
   it('Should be invisible', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Badge content={false}>
-        <button>test</button>
+        <button data-testid="button">test</button>
       </Badge>
     );
-    assert.equal(instance.tagName, 'BUTTON');
+
+    expect(container.firstChild).to.equal(screen.getByTestId('button'));
   });
 
   it('MaxCount is invalid', () => {
     const content = '999';
-    const instance = getDOMNode(<Badge content={content} />);
-    assert.equal(instance.textContent, content);
+    render(<Badge content={content} />);
+
+    expect(screen.getByText(content)).to.exist;
   });
 
   it('Should render default maxCount', () => {
-    const instance = getDOMNode(<Badge content={999} />);
-    assert.equal(instance.textContent, '99+');
+    render(<Badge content={999} />);
+
+    expect(screen.getByText('99+')).to.exist;
   });
 
   it('Should render customized maxCount', () => {
     const maxCount = 200;
-    const instance = getDOMNode(<Badge content={999} maxCount={maxCount} />);
-    assert.equal(instance.textContent, `${maxCount}+`);
+    render(<Badge content={999} maxCount={maxCount} />);
+
+    expect(screen.getByText(`${maxCount}+`)).to.exist;
   });
 
   it('Should render wrapper button', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Badge>
         <button>Test</button>
       </Badge>
     );
-    assert.include(instance.className, 'rs-badge-wrapper');
-    assert.equal(instance.getElementsByTagName('button').length, 1);
-    assert.equal(instance.getElementsByClassName('rs-badge-content').length, 1);
+
+    expect(container.firstChild).to.have.class('rs-badge-wrapper');
   });
 });

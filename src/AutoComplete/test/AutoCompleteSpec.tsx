@@ -1,12 +1,15 @@
 import React from 'react';
 import AutoComplete from '../AutoComplete';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getInstance } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
 
 const data = ['item1', 'item2'];
 
 describe('AutoComplete', () => {
+  testStandardProps(<AutoComplete data={data} />);
+
   it('Should render input', () => {
     render(<AutoComplete data={data} />);
 
@@ -24,8 +27,8 @@ describe('AutoComplete', () => {
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<AutoComplete data={data} disabled />);
-    expect(instance).to.have.class('rs-auto-complete-disabled');
+    render(<AutoComplete data={data} disabled data-testid="autocomplete" />);
+    expect(screen.getByTestId('autocomplete')).to.have.class('rs-auto-complete-disabled');
   });
 
   it('Should be readOnly', () => {
@@ -50,8 +53,8 @@ describe('AutoComplete', () => {
     const input = screen.getByRole('textbox');
 
     fireEvent.change(input, { target: { value: 'a' } });
-    expect(onChangeSpy).to.be.calledOnce;
-    expect(onChangeSpy).to.be.calledWith('a');
+    expect(onChangeSpy).to.have.been.calledOnce;
+    expect(onChangeSpy).to.have.been.calledWith('a');
   });
 
   it('Should call onFocus callback', () => {
@@ -59,7 +62,7 @@ describe('AutoComplete', () => {
     render(<AutoComplete data={data} onFocus={onFocusSpy} />);
     const input = screen.getByRole('textbox');
     fireEvent.focus(input);
-    expect(onFocusSpy).to.be.calledOnce;
+    expect(onFocusSpy).to.have.been.calledOnce;
   });
 
   it('Should call onBlur callback', () => {
@@ -68,7 +71,7 @@ describe('AutoComplete', () => {
     render(<AutoComplete data={data} onBlur={onBlurSpy} />);
     const input = screen.getByRole('textbox');
     fireEvent.blur(input);
-    expect(onBlurSpy).to.be.calledOnce;
+    expect(onBlurSpy).to.have.been.calledOnce;
   });
 
   it('Should call onKeyDown callback on input', () => {
@@ -77,7 +80,7 @@ describe('AutoComplete', () => {
     render(<AutoComplete onKeyDown={onKeyDownSpy} data={['a', 'b', 'ab']} open />);
     const input = screen.getByRole('textbox');
     fireEvent.keyDown(input);
-    expect(onKeyDownSpy).to.be.calledOnce;
+    expect(onKeyDownSpy).to.have.been.calledOnce;
   });
 
   it('Should call onKeyDown callback on menu', () => {
@@ -166,14 +169,6 @@ describe('AutoComplete', () => {
     expect(onCloseSpy).to.be.calledOnce;
   });
 
-  it('Should call onBlur callback', () => {
-    const onBlurSpy = sinon.spy();
-    render(<AutoComplete data={['a', 'b', 'ab']} onBlur={onBlurSpy} />);
-    const input = screen.getByRole('textbox');
-    fireEvent.blur(input);
-    expect(onBlurSpy).to.be.calledOnce;
-  });
-
   it('Should render a icon in li', () => {
     render(
       <AutoComplete
@@ -187,26 +182,10 @@ describe('AutoComplete', () => {
     expect(screen.getAllByTestId('icon')).to.have.lengthOf(2);
   });
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<AutoComplete data={data} className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
   it('Should have a menuClassName', () => {
     render(<AutoComplete menuClassName="custom" data={['a', 'b', 'ab']} open />);
 
     expect(screen.getByRole('listbox')).to.have.class('custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<AutoComplete data={data} style={{ fontSize }} />);
-    expect(instance.style.fontSize).to.equal(fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<AutoComplete data={data} classPrefix="custom-prefix" />);
-    expect(instance.className).to.include('custom-prefix');
   });
 
   it('Should have a custom filter function', () => {
