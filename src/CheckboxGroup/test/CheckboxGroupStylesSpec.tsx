@@ -15,6 +15,6 @@ describe('CheckboxGroup styles', () => {
       </CheckboxGroup>
     );
 
-    expect(instanceRef.current).to.have.style('margin-left', '-10px');
+    expect(instanceRef.current).to.have.style('margin-left', '0px');
   });
 });

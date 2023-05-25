@@ -3,11 +3,14 @@
 .rs-radio-group {
   display: flex;
   flex-direction: column;
+
+  > .rs-radio {
+    margin-left: -1 * @radio-sense-width;
+  }
 }
 
 .rs-radio-group-inline {
   flex-direction: row;
-  margin-left: -1 * @radio-sense-width;
 }
 
 // Radio Group - picker appearance
