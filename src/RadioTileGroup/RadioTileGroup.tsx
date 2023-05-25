@@ -51,7 +51,7 @@ const RadioTileGroup: RsRefForwardingComponent<'div', RadioTileGroupProps> = Rea
     const handleChange = useCallback(
       (nextValue: ValueType | undefined, event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(nextValue);
-        onChange?.(nextValue ?? '', event);
+        onChange?.(nextValue as ValueType, event);
       },
       [onChange, setValue]
     );

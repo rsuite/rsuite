@@ -97,4 +97,21 @@ describe('RadioTileGroup', () => {
     expect(onChange).to.have.been.calledOnce;
     expect(onGroupChange).to.have.been.calledOnce;
   });
+
+  it('Should return undefined when no value is set', () => {
+    const onChange = Sinon.spy();
+    const onGroupChange = Sinon.spy();
+
+    render(
+      <RadioTileGroup onChange={onGroupChange}>
+        <RadioTile onChange={onChange}>Test1</RadioTile>
+        <RadioTile value={2}>Test2</RadioTile>
+      </RadioTileGroup>
+    );
+
+    fireEvent.click(screen.getByText('Test1'));
+
+    expect(onChange).to.have.been.calledWith(undefined);
+    expect(onGroupChange).to.have.been.calledWith(undefined);
+  });
 });
