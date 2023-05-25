@@ -43,6 +43,7 @@ const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
   const {
     value: groupValue,
     name: nameContext,
+    disabled: disabledContext,
     onChange: onGroupChange
   } = useContext(RadioTileContext);
 
@@ -53,7 +54,7 @@ const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
     checked: checkedProp,
     className,
     defaultChecked,
-    disabled,
+    disabled = disabledContext,
     icon,
     value,
     label,
@@ -84,12 +85,12 @@ const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
 
   return (
     <Component
+      spacing={6}
       {...restProps}
       childrenRenderMode="clone"
       ref={ref}
       className={classes}
       as="label"
-      spacing={6}
       aria-checked={checked}
       aria-disabled={disabled}
     >

@@ -9,6 +9,7 @@ export interface RadioTileContextProps {
   name?: string;
   value?: ValueType | null;
   controlled?: boolean;
+  disabled?: boolean;
   onChange?: (value: ValueType | undefined, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -18,6 +19,9 @@ export interface RadioTileGroupProps<T = ValueType> extends WithAsProps, FormCon
 
   /** Inline layout */
   inline?: boolean;
+
+  /** Whether radio is disabled */
+  disabled?: boolean;
 
   /** Primary content */
   children?: React.ReactNode;
@@ -33,6 +37,7 @@ const RadioTileGroup: RsRefForwardingComponent<'div', RadioTileGroupProps> = Rea
       inline,
       children,
       classPrefix = 'radio-tile-group',
+      disabled,
       value: valueProp,
       defaultValue,
       name,
@@ -54,21 +59,22 @@ const RadioTileGroup: RsRefForwardingComponent<'div', RadioTileGroupProps> = Rea
     const contextValue = useMemo(
       () => ({
         name,
+        disabled,
         value: typeof value === 'undefined' ? null : value,
         onChange: handleChange
       }),
-      [handleChange, name, value]
+      [disabled, handleChange, name, value]
     );
 
     return (
       <RadioTileContext.Provider value={contextValue}>
         <Component
+          alignItems="stretch"
+          spacing={10}
           {...rest}
           role="radiogroup"
           childrenRenderMode="clone"
-          spacing={10}
           direction={inline ? 'row' : 'column'}
-          alignItems="stretch"
           ref={ref}
           className={classes}
         >

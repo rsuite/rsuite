@@ -8,7 +8,7 @@ import Sinon from 'sinon';
 describe('RadioTileGroup', () => {
   testStandardProps(<RadioTileGroup />);
 
-  it('Should render a radio group', () => {
+  it('Should render 2 radio', () => {
     render(
       <RadioTileGroup>
         <RadioTile>Test1</RadioTile>
@@ -18,10 +18,33 @@ describe('RadioTileGroup', () => {
     expect(screen.getAllByRole('radio')).to.have.lengthOf(2);
   });
 
-  it('Should have a name in input', () => {
-    const name = 'Test';
+  it('Should be inline layout', () => {
     render(
-      <RadioTileGroup name={name}>
+      <RadioTileGroup inline>
+        <RadioTile>Test1</RadioTile>
+        <RadioTile>Test2</RadioTile>
+      </RadioTileGroup>
+    );
+
+    expect(screen.getByRole('radiogroup')).to.have.style('flex-direction', 'row');
+  });
+
+  it('Should be disabled', () => {
+    render(
+      <RadioTileGroup disabled>
+        <RadioTile>Test1</RadioTile>
+        <RadioTile>Test2</RadioTile>
+      </RadioTileGroup>
+    );
+
+    for (const radio of screen.getAllByRole('radio')) {
+      expect(radio).to.have.attr('disabled');
+    }
+  });
+
+  it('Should have a name in input', () => {
+    render(
+      <RadioTileGroup name="Test">
         <RadioTile>Test1</RadioTile>
         <RadioTile>Test2</RadioTile>
       </RadioTileGroup>
@@ -30,6 +53,28 @@ describe('RadioTileGroup', () => {
     for (const radio of screen.getAllByRole('radio')) {
       expect(radio).to.have.attr('name', 'Test');
     }
+  });
+
+  it('Should checked radio with a value of 1', () => {
+    render(
+      <RadioTileGroup value={1}>
+        <RadioTile value={1}>Test1</RadioTile>
+        <RadioTile value={2}>Test2</RadioTile>
+      </RadioTileGroup>
+    );
+
+    expect(screen.getByRole('radio', { checked: true })).to.have.value('1');
+  });
+
+  it('Should checked radio with a value of 1 using defaultValue', () => {
+    render(
+      <RadioTileGroup defaultValue={1}>
+        <RadioTile value={1}>Test1</RadioTile>
+        <RadioTile value={2}>Test2</RadioTile>
+      </RadioTileGroup>
+    );
+
+    expect(screen.getByRole('radio', { checked: true })).to.have.value('1');
   });
 
   it('Should call onChange callback', () => {
