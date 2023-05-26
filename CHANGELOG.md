@@ -1,3 +1,10 @@
+## [5.34.1](https://github.com/rsuite/rsuite/compare/v5.34.0...v5.34.1) (2023-05-26)
+
+### Bug Fixes
+
+- **InputPicker:** add missing top padding of listbox ([#3214](https://github.com/rsuite/rsuite/issues/3214)) ([f6df23c](https://github.com/rsuite/rsuite/commit/f6df23c085c4d7944c5817b0a9f8a1168c41f0b9))
+- **Radio,Checkbox:** remove leading space for Radio/Checkbox in groups ([#3215](https://github.com/rsuite/rsuite/issues/3215)) ([27c1495](https://github.com/rsuite/rsuite/commit/27c14952da87c21612a8e822295eefc0908b08d6))
+
 # [5.34.0](https://github.com/rsuite/rsuite/compare/v5.33.1...v5.34.0) (2023-05-19)
 
 ### Bug Fixes
