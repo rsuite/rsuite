@@ -659,7 +659,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
       const menuClassPrefix = multi ? 'picker-check-menu' : 'picker-select-menu';
-      const classes = merge(className, menuClassName, prefix(menuClassPrefix));
+      const classes = merge(className, menuClassName, prefix(multi ? 'check-menu' : 'select-menu'));
       const styles = { ...menuStyle, left, top };
 
       let items: ItemDataType[] = filterNodesOfTree(getAllData(), checkShouldDisplay);
