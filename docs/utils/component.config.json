@@ -383,7 +383,7 @@
     "id": "radio-tile",
     "name": "RadioTile",
     "title": "磁贴单选",
-    "components": ["RadioTile", "RadioGroup"],
+    "components": ["RadioTile", "RadioTileGroup"],
     "new": true
   },
   {
