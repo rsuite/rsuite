@@ -96,9 +96,14 @@ const TopLevelNav = React.forwardRef((props: TopLevelNavProps, ref: React.Ref<HT
     },
     [onToggleMenuProp]
   );
-  const { messages, language } = React.useContext(AppContext);
+  const {
+    messages,
+    language,
+    theme: [, direction]
+  } = React.useContext(AppContext);
 
   const navItems = getNavItems(messages);
+  const rtl = direction === 'rtl';
 
   const onOpen = () => {
     setSearchModalOpen(true);
@@ -143,7 +148,7 @@ const TopLevelNav = React.forwardRef((props: TopLevelNavProps, ref: React.Ref<HT
           appearance="default"
           icon={showSubmenu ? <AngleLeft /> : <AngleRight />}
           size="xs"
-          style={{ left: showSubmenu ? 310 : 70 }}
+          style={{ [rtl ? 'right' : 'left']: showSubmenu ? 310 : 70 }}
           title={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
           onClick={onToggleMenu}
         />
