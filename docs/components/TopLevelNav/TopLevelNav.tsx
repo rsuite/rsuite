@@ -139,13 +139,7 @@ const TopLevelNav = React.forwardRef((props: TopLevelNavProps, ref: React.Ref<HT
     }
   };
 
-  const ArrowIcon = () => {
-    if (rtl) {
-      return showSubmenu ? <AngleRight /> : <AngleLeft />;
-    } else {
-      return showSubmenu ? <AngleLeft /> : <AngleRight />;
-    }
-  };
+  const arrow = useMemo(() => (rtl ? !showSubmenu : showSubmenu), [showSubmenu, rtl]);
 
   return (
     <div className="top-level-nav" ref={ref}>
@@ -154,7 +148,7 @@ const TopLevelNav = React.forwardRef((props: TopLevelNavProps, ref: React.Ref<HT
           circle
           className="btn-nav-toggle"
           appearance="default"
-          icon={<Icon as={ArrowIcon} />}
+          icon={arrow ? <AngleLeft /> : <AngleRight />}
           size="xs"
           style={{ [rtl ? 'right' : 'left']: showSubmenu ? 310 : 70 }}
           title={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
