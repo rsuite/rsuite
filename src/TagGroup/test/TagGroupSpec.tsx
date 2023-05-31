@@ -11,7 +11,7 @@ describe('TagGroup', () => {
 
     render(<TagGroup ref={instanceRef} />);
 
-    expect(instanceRef.current).to.have.tagName('DIV');
+    expect(instanceRef.current).to.have.property('tagName', 'DIV');
     expect(instanceRef.current).to.have.class('rs-tag-group');
   });
 });
