@@ -12,6 +12,8 @@ import BarsIcon from '@rsuite/icons/legacy/Bars';
 
 interface SideNavbarProps {
   style: React.CSSProperties;
+  onToggleMenu?: (show: boolean) => void;
+  showSubmenu?: boolean;
 }
 
 function setSidebarScrollTop() {
@@ -30,11 +32,11 @@ function initSidebarScrollTop() {
 }
 
 export default React.memo(function SideNavbar(props: SideNavbarProps) {
+  const { onToggleMenu, showSubmenu, style } = props;
   const router = useRouter();
   const activeKey = router.pathname.split('/')?.[1];
-  const [mediaSidebarShow, setMediaSidebarShow] = React.useState<boolean>(false);
   const { language } = React.useContext(AppContext);
-  const showMediaToggleButton = props.style.width !== 0;
+  const showMediaToggleButton = style.width !== 0;
 
   const navItems = [];
   const menuList = usePages();
@@ -43,12 +45,12 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
   const { name: activeTitle, icon, children = [] } = data;
 
   const handleOpenMediaSidebar = React.useCallback(() => {
-    setMediaSidebarShow(true);
-  }, [setMediaSidebarShow]);
+    onToggleMenu(true);
+  }, [onToggleMenu]);
 
   const handleCloseMediaSidebar = React.useCallback(() => {
-    setMediaSidebarShow(false);
-  }, [setMediaSidebarShow]);
+    onToggleMenu(false);
+  }, [onToggleMenu]);
 
   React.useEffect(initSidebarScrollTop, []);
 
@@ -98,9 +100,9 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
       )}
       <div
         className={classnames('rs-sidebar-wrapper fixed', {
-          'media-sidebar-show': mediaSidebarShow
+          'media-sidebar-show': showSubmenu
         })}
-        {...props}
+        style={style}
       >
         <Sidebar>
           <div className="title-wrapper">
@@ -118,7 +120,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
       </div>
       <div
         className={classnames('rs-sidebar-media-backdrop', {
-          'media-sidebar-show': mediaSidebarShow
+          'media-sidebar-show': showSubmenu
         })}
         onClick={handleCloseMediaSidebar}
       />
