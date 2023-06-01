@@ -6,7 +6,7 @@ import { Icon } from '@rsuite/icons';
 import { VscNotebookTemplate, VscRepoClone, VscFile } from 'react-icons/vsc';
 
 const App = () => (
-  <RadioTileGroup defaultValue="blank" inline>
+  <RadioTileGroup defaultValue="blank" inline aria-label="Create new project">
     <RadioTile icon={<Icon as={VscFile} />} label="Create blank project" value="blank">
       Create a blank project to house your files, plan your work, and collaborate on code, among
       other things.

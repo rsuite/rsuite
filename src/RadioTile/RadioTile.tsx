@@ -4,6 +4,7 @@ import CheckIcon from '@rsuite/icons/Check';
 import Stack from '../Stack';
 import { RadioTileContext } from '../RadioTileGroup/RadioTileGroup';
 import { useClassNames, useControlled, partitionHTMLProps } from '../utils';
+import useUniqueId from '../utils/useUniqueId';
 import { WithAsProps } from '../@types/common';
 
 export type ValueType = string | number;
@@ -82,6 +83,7 @@ const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
   );
 
   const classes = merge(className, withClassPrefix({ checked, disabled }));
+  const radioId = useUniqueId('radio-');
 
   return (
     <Component
@@ -91,8 +93,6 @@ const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
       ref={ref}
       className={classes}
       as="label"
-      aria-checked={checked}
-      aria-disabled={disabled}
     >
       <div className={prefix('icon')}>{icon}</div>
       <div className={prefix('body')}>
@@ -105,9 +105,17 @@ const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
           tabIndex={tabIndex}
           disabled={disabled}
           onChange={handleChange}
+          aria-checked={checked}
+          aria-disabled={disabled}
+          aria-labelledby={`${radioId}-label`}
+          aria-describedby={`${radioId}-desc`}
         />
-        <div className={prefix('label')}>{label}</div>
-        <div className={prefix('content')}>{children}</div>
+        <div className={prefix('label')} id={`${radioId}-label`}>
+          {label}
+        </div>
+        <div className={prefix('content')} id={`${radioId}-desc`}>
+          {children}
+        </div>
         <div className={prefix('mark')}>
           <CheckIcon className={prefix('mark-icon')} />
         </div>
