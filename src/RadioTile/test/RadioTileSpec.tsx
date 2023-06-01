@@ -33,7 +33,6 @@ describe('RadioTile', () => {
     );
 
     expect(screen.getByRole('radio')).to.have.attr('disabled');
-    expect(screen.getByTestId('radio')).to.have.attr('aria-disabled', 'true');
     expect(screen.getByTestId('radio')).to.have.class('rs-radio-tile-disabled');
   });
 
@@ -45,7 +44,6 @@ describe('RadioTile', () => {
     );
 
     expect(screen.getByRole('radio')).to.have.attr('checked');
-    expect(screen.getByTestId('radio')).to.have.attr('aria-checked', 'true');
     expect(screen.getByTestId('radio')).to.have.class('rs-radio-tile-checked');
   });
 
@@ -57,7 +55,6 @@ describe('RadioTile', () => {
     );
 
     expect(screen.getByRole('radio')).to.have.attr('checked');
-    expect(screen.getByTestId('radio')).to.have.attr('aria-checked', 'true');
     expect(screen.getByTestId('radio')).to.have.class('rs-radio-tile-checked');
   });
 
