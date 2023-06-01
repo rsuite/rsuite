@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@test/testUtils';
+import { render } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import TagGroup from '../TagGroup';
 
