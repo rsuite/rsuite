@@ -218,9 +218,6 @@ const CheckPicker = React.forwardRef(
       onMenuKeyDown: onFocusItem,
       onMenuPressEnter: handleMenuPressEnter,
       onMenuPressBackspace: handleClean,
-      onClose: () => {
-        setFocusItemValue(null);
-      },
       ...rest
     });
 

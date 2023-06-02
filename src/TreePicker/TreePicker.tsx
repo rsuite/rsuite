@@ -474,13 +474,11 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   });
 
   const handleOpen = useEventCallback(() => {
-    trigger.current?.open?.();
     focusActiveNode();
     setActive(true);
   });
 
   const handleClose = useEventCallback(() => {
-    trigger.current?.close?.();
     setSearchKeyword('');
     setActive(false);
     setFocusItemValue(activeNode?.[valueKey]);
@@ -577,7 +575,6 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     searchInput,
     active,
     onExit: handleClean,
-    onClose: handleClose,
     onMenuKeyDown: event => {
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_VALUES.DOWN),

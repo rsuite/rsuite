@@ -12,8 +12,6 @@ interface ToggleKeyDownEventProps {
   loading?: boolean;
   onExit?: (event) => void;
   onKeyDown?: (event) => void;
-  onOpen?: () => void;
-  onClose?: () => void;
   onMenuKeyDown?: (event) => void;
   onMenuPressEnter?: (event) => void;
   onMenuPressBackspace?: (event) => void;
@@ -35,8 +33,6 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     disabled,
     loading,
     onExit,
-    onOpen,
-    onClose,
     onKeyDown,
     onMenuKeyDown,
     onMenuPressEnter,
@@ -48,12 +44,10 @@ const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
     // The focus is on the trigger button after closing
     trigger.current?.focus?.();
-    onClose?.();
   });
 
   const handleOpen = useEventCallback(() => {
     trigger.current?.open?.();
-    onOpen?.();
   });
 
   const handleToggleDropdown = useEventCallback(() => {

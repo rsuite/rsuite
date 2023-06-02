@@ -274,9 +274,6 @@ const SelectPicker = React.forwardRef(
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
       onMenuPressEnter: handleMenuPressEnter,
-      onClose: () => {
-        setFocusItemValue(null);
-      },
       ...rest
     });
 
@@ -284,6 +281,7 @@ const SelectPicker = React.forwardRef(
       resetSearch();
       setActive(false);
       onSearch?.('');
+      setFocusItemValue(null);
     });
 
     const handleEntered = useEventCallback(() => {
