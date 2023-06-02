@@ -718,6 +718,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       }
 
       setShowMonthDropdown(false);
+
+      props.onClose?.();
     });
 
     const showCleanButton = cleanable && hasValue && !readOnly;
