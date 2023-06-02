@@ -178,8 +178,6 @@ const Cascader = React.forwardRef(<T extends DataItemValue>(props: CascaderProps
     onChange,
     onSelect,
     onSearch,
-    onClose,
-    onOpen,
     getChildren,
     menuClassName: DEPRECATED_menuClassName,
     menuStyle: DEPRECATED_menuStyle,
@@ -322,8 +320,6 @@ const Cascader = React.forwardRef(<T extends DataItemValue>(props: CascaderProps
   });
 
   const { active, handleEntered, handleExited } = useActive({
-    onOpen,
-    onClose,
     onEntered,
     onExited,
     target,

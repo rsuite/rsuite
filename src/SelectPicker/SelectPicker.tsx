@@ -167,8 +167,6 @@ const SelectPicker = React.forwardRef(
       onChange,
       onSelect,
       onSearch,
-      onClose,
-      onOpen,
       sort,
       renderValue,
       renderMenu,
@@ -286,13 +284,11 @@ const SelectPicker = React.forwardRef(
       resetSearch();
       setActive(false);
       onSearch?.('');
-      onClose?.();
     });
 
     const handleEntered = useEventCallback(() => {
       setActive(true);
       setFocusItemValue(value);
-      onOpen?.();
     });
 
     // Find active `MenuItem` by `value`

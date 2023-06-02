@@ -164,8 +164,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       onCreate,
       onSearch,
       onSelect,
-      onOpen,
-      onClose,
       onBlur,
       onFocus,
       searchBy,
@@ -524,7 +522,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const handleExited = useEventCallback(() => {
       setFocusItemValue(multi ? value?.[0] : value);
       resetSearch();
-      onClose?.();
     });
 
     const handleFocus = useEventCallback(() => {
@@ -747,7 +744,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         ref={triggerRef}
         trigger="active"
         onEnter={createChainedFunction(handleEnter, onEnter)}
-        onEntered={createChainedFunction(onEntered, onOpen)}
+        onEntered={onEntered}
         onExit={createChainedFunction(handleExit, onExit)}
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderPopup}
