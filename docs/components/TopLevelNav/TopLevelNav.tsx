@@ -150,7 +150,7 @@ const TopLevelNav = React.forwardRef((props: TopLevelNavProps, ref: React.Ref<HT
           appearance="default"
           icon={arrow ? <AngleLeft /> : <AngleRight />}
           size="xs"
-          style={{ [rtl ? 'right' : 'left']: showSubmenu ? 310 : 70 }}
+          style={{ [rtl ? 'right' : 'left']: showSubmenu ? 310 : 70, width: '24px' }}
           title={showSubmenu ? messages?.common?.closeMenu : messages?.common?.openMenu}
           onClick={onToggleMenu}
         />
