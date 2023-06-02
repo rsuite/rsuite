@@ -10,7 +10,10 @@ describe('Tag', () => {
 
   it('Should output a Tag', () => {
     const { container } = render(<Tag />);
+
     expect(container.firstChild).to.have.class('rs-tag');
+    expect(container.firstChild).to.have.class('rs-tag-md');
+    expect(container.firstChild).to.have.class('rs-tag-default');
   });
 
   it('Should call onClose callback', () => {
