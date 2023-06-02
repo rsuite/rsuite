@@ -380,6 +380,13 @@
     }
   },
   {
+    "id": "radio-tile",
+    "name": "RadioTile",
+    "title": "磁贴单选",
+    "components": ["RadioTile", "RadioTileGroup"],
+    "new": true
+  },
+  {
     "id": "rate",
     "name": "Rate",
     "title": "评分",
