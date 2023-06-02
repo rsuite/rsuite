@@ -13,7 +13,7 @@ export type { OverlayTriggerHandle, PositionChildProps };
 
 export interface PickerToggleTriggerProps
   extends Omit<AnimationEventProps, 'onEntering' | 'onExiting'>,
-    Pick<OverlayTriggerProps, 'speaker' | 'onClose'> {
+    Pick<OverlayTriggerProps, 'speaker' | 'onOpen' | 'onClose'> {
   id?: string;
   /**
    * Identifies the combobox has having a popout, and indicates the type.
@@ -37,7 +37,9 @@ export const omitTriggerPropKeys = [
   'onExit',
   'onExiting',
   'open',
+  'onOpen',
   'defaultOpen',
+  'onClose',
   'container',
   'containerPadding',
   'preventOverflow'
