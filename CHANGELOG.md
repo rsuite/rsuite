@@ -1,3 +1,9 @@
+# [5.35.0](https://github.com/rsuite/rsuite/compare/v5.34.1...v5.35.0) (2023-06-02)
+
+### Features
+
+- **RadioTile:** add support for RadioTile ([#3208](https://github.com/rsuite/rsuite/issues/3208)) ([5cac8e1](https://github.com/rsuite/rsuite/commit/5cac8e12cdef95bc6a6de1333d5cb43ee02f1ab7))
+
 ## [5.34.1](https://github.com/rsuite/rsuite/compare/v5.34.0...v5.34.1) (2023-05-26)
 
 ### Bug Fixes
