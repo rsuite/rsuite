@@ -1,18 +1,17 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Tag from '../index';
-import { getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
+import { toRGB } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Tag styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(<Tag ref={instanceRef}>Text</Tag>);
-    const dom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(dom, 'backgroundColor'), toRGB('#f7f7fa'), 'Tag background-color');
-    inChrome && assert.equal(getStyle(dom, 'padding'), '2px 8px', 'Tag padding');
-    assert.equal(getStyle(dom, 'fontSize'), '12px', 'Tag font-size');
-    assert.equal(getStyle(dom, 'height'), '24px', 'Tag height');
+    const { container } = render(<Tag>Text</Tag>);
+
+    expect(container.firstChild).to.have.style('background-color', toRGB('#f7f7fa'));
+    expect(container.firstChild).to.have.style('padding', '2px 8px');
+    expect(container.firstChild).to.have.style('font-size', '12px');
+    expect(container.firstChild).to.have.style('height', '24px');
   });
 });
