@@ -2,6 +2,8 @@
 
 一系列可选的磁贴组件，其行为类似于 Radio。
 
+> 从 [5.35.0](https://github.com/rsuite/rsuite/releases/tag/v5.35.0) 版本开始支持 `RadioTile`。
+
 ## 获取组件
 
 <!--{include:(components/radio-tile/fragments/import.md)}-->

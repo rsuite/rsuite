@@ -2,6 +2,8 @@
 
 A series of selectable tile components that behave like Radio.
 
+> `RadioTile` is supported since version [5.35.0](https://github.com/rsuite/rsuite/releases/tag/v5.35.0).
+
 ## Import
 
 <!--{include:(components/radio-tile/fragments/import.md)}-->
