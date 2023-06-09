@@ -1,3 +1,10 @@
+## [5.35.1](https://github.com/rsuite/rsuite/compare/v5.35.0...v5.35.1) (2023-06-09)
+
+### Bug Fixes
+
+- **docs:** wrong menuToggle style in RTL direction ([#3223](https://github.com/rsuite/rsuite/issues/3223)) ([38313a9](https://github.com/rsuite/rsuite/commit/38313a9438984c9da8ef4f7f1c10678500fc11db))
+- **TreePicker:** fix tree node disabled still can interact ([#3232](https://github.com/rsuite/rsuite/issues/3232)) ([a57b058](https://github.com/rsuite/rsuite/commit/a57b058ba422caf612d5ffc1fd636101c62b605e))
+
 # [5.35.0](https://github.com/rsuite/rsuite/compare/v5.34.1...v5.35.0) (2023-06-02)
 
 ### Features
