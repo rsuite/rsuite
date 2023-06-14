@@ -377,6 +377,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const handleTagKeyPress = useCallback(
       (event: React.KeyboardEvent) => {
+        // When composing, ignore the keypress event.
+        if (event.nativeEvent.isComposing) {
+          return;
+        }
         const val = cloneValue();
         const data = getAllData();
 
@@ -525,10 +529,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const handleKeyPress = useCallback(
       (event: React.KeyboardEvent<any>) => {
-        // When composing, ignore the keypress event.
-        if (event.nativeEvent.isComposing) {
-          return;
-        }
         // When typing a space, create a tag.
         if (isOneOf('Space', trigger) && event.key === KEY_VALUES.SPACE) {
           handleTagKeyPress(event);
