@@ -525,6 +525,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const handleKeyPress = useCallback(
       (event: React.KeyboardEvent<any>) => {
+        // When composing, ignore the keypress event.
+        if (event.nativeEvent.isComposing) {
+          return;
+        }
         // When typing a space, create a tag.
         if (isOneOf('Space', trigger) && event.key === KEY_VALUES.SPACE) {
           handleTagKeyPress(event);
