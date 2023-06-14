@@ -114,4 +114,25 @@ describe('TagInput', () => {
 
     expect(onChange).to.have.been.calledWith([]);
   });
+
+  it('Should not create tag while text composing', () => {
+    const onCreateSpy = sinon.spy();
+    const inputRef = React.createRef<PickerHandle>();
+
+    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" />);
+    const picker = (inputRef.current as PickerHandle).root as HTMLElement;
+    const input = screen.getByRole('textbox');
+
+    fireEvent.click(picker);
+
+    fireEvent.change(input, { target: { value: 'a' } });
+
+    fireEvent.keyDown(input, { key: 'Enter', isComposing: true });
+
+    expect(onCreateSpy).to.not.called;
+
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(onCreateSpy).to.calledOnce;
+  });
 });
