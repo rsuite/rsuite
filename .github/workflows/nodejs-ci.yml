@@ -33,10 +33,10 @@ jobs:
       - name: Setup kernel, increase watchers
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v3
         with:
-          node-version: '12.x'
+          node-version: 'lts/*'
       - name: Cache Node.js modules
         uses: actions/cache@v1
         with:
