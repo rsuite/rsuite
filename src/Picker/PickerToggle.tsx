@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import Close from '@rsuite/icons/Close';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import CloseButton from '../CloseButton';
 import { useClassNames, KEY_VALUES, mergeRefs } from '../utils';
@@ -12,6 +13,7 @@ import TextMask from '../MaskedInput/TextMask';
 import deprecatePropType from '../utils/deprecatePropType';
 import Loader from '../Loader';
 import Stack from '../Stack';
+import IconButton from '../IconButton';
 
 type ValueType = string | number;
 
@@ -270,8 +272,11 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
             )}
           </Stack.Item>
           {showCleanButton && (
-            <CloseButton
+            <IconButton
+              icon={<Close />}
               className={prefix`clean`}
+              appearance="subtle"
+              size="xs"
               tabIndex={-1}
               locale={{ closeLabel: 'Clear' }}
               onClick={handleClean}

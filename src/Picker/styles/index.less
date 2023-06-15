@@ -240,21 +240,24 @@
 .rs-picker-toggle-clean {
   .dropdown-toggle-caret-common(@picker-toggle-clean-right);
 
-  background: inherit;
-  color: var(--rs-text-secondary);
   transition: 0.2s color linear;
   cursor: pointer;
+  right: 8px !important;
+  
+  &.rs-btn-xs {
+    padding: 4px;
+  }
 
   &.rs-btn-close {
     padding: 4px 0;
   }
 
   &:hover {
-    color: var(--rs-state-error);
+    // color: var(--rs-state-error);
   }
 
   &:hover svg path {
-    stroke: var(--rs-state-error);
+    // stroke: var(--rs-state-error);
     stroke-width: 1;
   }
 
@@ -343,7 +346,6 @@
 // Make sure styles the same with <Input>
 .rs-picker-default,
 .rs-picker-input {
-  .rs-btn,
   .rs-picker-toggle {
     background-color: var(--rs-input-bg) !important;
   }
