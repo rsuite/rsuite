@@ -377,6 +377,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const handleTagKeyPress = useCallback(
       (event: React.KeyboardEvent) => {
+        // When composing, ignore the keypress event.
+        if (event.nativeEvent.isComposing) {
+          return;
+        }
         const val = cloneValue();
         const data = getAllData();
 
