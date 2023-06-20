@@ -610,6 +610,22 @@ describe('Cascader', () => {
     );
   });
 
+  it('Should trigger onChange callback & onSelect callback when press Enter', () => {
+    const onChangeSpy = sinon.spy();
+    const onSelectSpy = sinon.spy();
+
+    const instance = getInstance(
+      <Cascader data={items} onChange={onChangeSpy} onSelect={onSelectSpy} defaultOpen />
+    );
+
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+
+    fireEvent.keyDown(instance.target, { key: 'Enter' });
+
+    expect(onChangeSpy).to.have.been.calledOnce;
+    expect(onSelectSpy).to.have.been.calledOnce;
+  });
+
   describe('Focus item', () => {
     it('Should update scroll position when the focus is not within the viewport', () => {
       const instance = getInstance(<Cascader defaultOpen data={items} menuHeight={72} />);

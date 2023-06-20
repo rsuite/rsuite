@@ -339,6 +339,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         }
 
         if (!shallowEqual(value, focusItemValue)) {
+          onSelect?.(focusItem as ItemDataType<T>, pathTowardsActiveItem, event);
           onChange?.(focusItemValue ?? null, event);
         }
         handleClose();
@@ -354,7 +355,8 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
       setLayer,
       setValue,
       value,
-      valueKey
+      valueKey,
+      onSelect
     ]
   );
 
