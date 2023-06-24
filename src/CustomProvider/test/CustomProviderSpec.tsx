@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import CustomProvider from '../CustomProvider';
 import Pagination from '../../Pagination';
 import Calendar from '../../Calendar';
-import { getDOMNode } from '@test/testUtils';
+// import { getDOMNode } from '@test/testUtils';
 import zhCN from '../../locales/zh_CN';
 import ruRU from '../../locales/ru_RU';
 import TreePicker from '../../TreePicker';
@@ -50,7 +50,7 @@ describe('CustomProvider', () => {
 
   // TODO: This is a side-effect test, which will affect the style check test.
   it('Should be rendered as a dark theme', () => {
-    getDOMNode(
+    render(
       <div>
         <CustomProvider theme="dark">
           <div />
