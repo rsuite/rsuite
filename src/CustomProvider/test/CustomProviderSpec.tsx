@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import CustomProvider from '../CustomProvider';
 import Pagination from '../../Pagination';
 import Calendar from '../../Calendar';
-// import { getDOMNode } from '@test/testUtils';
 import zhCN from '../../locales/zh_CN';
 import ruRU from '../../locales/ru_RU';
 import TreePicker from '../../TreePicker';
