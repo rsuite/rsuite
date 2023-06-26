@@ -76,7 +76,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     dialogStyle,
     animation = Bounce,
     open,
-    size = 'sm',
+    size = 'md',
     full,
     dialogAs: Dialog = ModalDialog,
     animationProps,

@@ -255,6 +255,12 @@ describe('Modal', () => {
         '"full" property of "Modal" has been deprecated.\nUse size="full" instead.'
       );
     });
+
+    it('Should have a default size equal to "md"', () => {
+      render(<Modal open></Modal>);
+
+      expect(screen.getByRole('dialog')).to.have.class('rs-modal-md');
+    });
   });
 
   describe('a11y', () => {
