@@ -40,6 +40,7 @@ import { ListProps } from '../Windowing';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 import { ListHandle } from '../Windowing';
 
+
 export interface SelectProps<T> {
   /** Set group condition key in data */
   groupBy?: string;
@@ -102,6 +103,17 @@ export interface MultipleSelectProps<T> extends Omit<SelectProps<T>, 'renderValu
   ) => React.ReactNode;
 }
 
+interface SelectPickerDataSource {}
+
+interface SelectPickerDelegate {}
+
+function useSelectPickerDataSource(): SelectPickerDataSource {
+  
+}
+
+function useSelectPickerDelegate(dataSource: SelectPickerDataSource): SelectPickerDelegate {
+
+}
 export interface SelectPickerProps<T>
   extends Omit<
       FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
