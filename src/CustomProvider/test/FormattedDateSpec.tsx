@@ -1,8 +1,8 @@
 import React from 'react';
 import ru from 'date-fns/locale/ru';
 import CustomProvider from '../CustomProvider';
+import { render } from '@testing-library/react';
 import FormattedDate from '../FormattedDate';
-import { getDOMNode } from '@test/testUtils';
 import { format } from '../../utils/dateUtils';
 import ruRU from '../../locales/ru_RU';
 
@@ -14,7 +14,7 @@ function formatDate(date, formatStr) {
 
 describe('FormattedDate', () => {
   it('Should render formatted date ', () => {
-    const domNode = getDOMNode(
+    const { container } = render(
       <div>
         <CustomProvider locale={ruRU}>
           <div>
@@ -23,11 +23,12 @@ describe('FormattedDate', () => {
         </CustomProvider>
       </div>
     );
-    assert.equal(domNode.textContent, 'янв. 01, 2020');
+
+    expect(container.firstChild).to.have.text('янв. 01, 2020');
   });
 
   it('Should render formatted date by formatDate', () => {
-    const domNode = getDOMNode(
+    const { container } = render(
       <div>
         <CustomProvider formatDate={formatDate}>
           <div>
@@ -36,15 +37,17 @@ describe('FormattedDate', () => {
         </CustomProvider>
       </div>
     );
-    assert.equal(domNode.textContent, 'янв. 01, 2020');
+
+    expect(container.firstChild).to.have.text('янв. 01, 2020');
   });
 
   it('Should render default formatted date', () => {
-    const domNode = getDOMNode(
+    const { container } = render(
       <div>
         <FormattedDate date={new Date('2020-01-01')} formatStr="MMM dd, yyyy" />
       </div>
     );
-    assert.equal(domNode.textContent, 'Jan 01, 2020');
+
+    expect(container.firstChild).to.have.text('Jan 01, 2020');
   });
 });
