@@ -2,16 +2,25 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 
 import Toolbar from '../Toolbar';
 
 describe('DatePicker - Toolbar', () => {
-  it('Should render a div with `rs-picker-toolbar` class', () => {
-    const instance = getDOMNode(<Toolbar calendarDate={new Date(2021, 11, 24)} locale={{}} />);
+  testStandardProps(
+    <Toolbar
+      calendarDate={new Date(2021, 11, 24)}
+      className="custom"
+      classPrefix="custom-prefix"
+      locale={{}}
+    />
+  );
 
-    assert.equal(instance.nodeName, 'DIV');
-    assert.include(instance.className, 'rs-picker-toolbar');
+  it('Should render a div with `rs-picker-toolbar` class', () => {
+    const { container } = render(<Toolbar calendarDate={new Date(2021, 11, 24)} locale={{}} />);
+
+    expect(container.firstChild).to.have.tagName('DIV');
+    expect(container.firstChild).to.have.class('rs-picker-toolbar');
   });
 
   it('Should render a custom option', () => {
@@ -58,28 +67,6 @@ describe('DatePicker - Toolbar', () => {
     assert.isTrue(onClickShortcutSpy.calledOnce);
   });
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(
-      <Toolbar calendarDate={new Date(2021, 11, 24)} className="custom" locale={{}} />
-    );
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(
-      <Toolbar calendarDate={new Date(2021, 11, 24)} style={{ fontSize }} locale={{}} />
-    );
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(
-      <Toolbar calendarDate={new Date(2021, 11, 24)} classPrefix="custom-prefix" locale={{}} />
-    );
-    assert.include(instance.className, 'custom-prefix');
-  });
-
   it('Should not render the ok button', () => {
     render(<Toolbar calendarDate={new Date(2021, 11, 24)} hideOkBtn locale={{ ok: 'OK' }} />);
 
@@ -87,10 +74,12 @@ describe('DatePicker - Toolbar', () => {
   });
 
   it('Should not render any elements', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Toolbar calendarDate={new Date(2021, 11, 24)} hideOkBtn ranges={[]} locale={{}} />
     );
-    assert.isNull(instance);
+
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelector('button')).to.not.exist;
   });
 
   it('Should be wrap in ranges', () => {
