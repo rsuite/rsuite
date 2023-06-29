@@ -95,7 +95,7 @@ When set to true, the Modal will display the background when it is opened. Click
 | onOpen            | () => void                                                     | Callback fired when Modal display                                                                                                                                                      |
 | open \*           | boolean                                                        | Show Modal                                                                                                                                                                             |
 | overflow          | boolean `(true)`                                               | Automatically sets the height when the body content is too long.                                                                                                                       |
-| size              | 'full' &#124; lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | Set Modal size                                                                                                                                                                         |
+| size              | 'full' &#124; lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('sm')` | Set Modal size                                                                                                                                                                         |
 
 ### `<Modal.Header>`
 
