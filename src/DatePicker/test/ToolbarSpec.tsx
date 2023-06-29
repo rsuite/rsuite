@@ -7,13 +7,11 @@ import { testStandardProps } from '@test/commonCases';
 import Toolbar from '../Toolbar';
 
 describe('DatePicker - Toolbar', () => {
-  const fontSize = '12px';
   testStandardProps(
     <Toolbar
       calendarDate={new Date(2021, 11, 24)}
       className="custom"
       classPrefix="custom-prefix"
-      style={{ fontSize }}
       locale={{}}
     />
   );
@@ -75,7 +73,7 @@ describe('DatePicker - Toolbar', () => {
     expect(screen.queryByRole('button', { name: 'OK' })).to.not.exist;
   });
 
-  it('Should not render any elements xxx', () => {
+  it('Should not render any elements', () => {
     const { container } = render(
       <Toolbar calendarDate={new Date(2021, 11, 24)} hideOkBtn ranges={[]} locale={{}} />
     );
