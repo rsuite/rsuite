@@ -1,3 +1,13 @@
+# [5.36.0](https://github.com/rsuite/rsuite/compare/v5.35.1...v5.36.0) (2023-06-30)
+
+### Bug Fixes
+
+- **TagInput:** fix tag create during text composing ([#3244](https://github.com/rsuite/rsuite/issues/3244)) ([86451d7](https://github.com/rsuite/rsuite/commit/86451d73e611c6fb1f21e2f57b9ad9757430f219))
+
+### Features
+
+- added Japanese locale (ja_JP) ([#3254](https://github.com/rsuite/rsuite/issues/3254)) ([45ea93b](https://github.com/rsuite/rsuite/commit/45ea93bbd0014e88914ca1d2abf5edc2aec0586f))
+
 ## [5.35.1](https://github.com/rsuite/rsuite/compare/v5.35.0...v5.35.1) (2023-06-09)
 
 ### Bug Fixes
