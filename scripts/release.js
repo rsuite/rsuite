@@ -1,16 +1,37 @@
 /**
  * NOT COMPLETED. DO NOT USE UNLESS YOU'RE THE AUTHOR OF THIS SCRIPT.
  *
- * 1. (todo) Exit if user is not on the main branch.
+ * 1. Exit if user is not on the main branch.
  * 2. (todo) Check the main branch is up-to-date with remote
  * 3. Ask whether a minor|patch release this is
  * 4. Confirm the resulted version number with user
  * 5. Run `npm version <type>`
- * 6. (todo) Confirm with user whether it's ready to push the tag.
- * 7. (todo) Push the tag if user confirms
+ * 6. Confirm with user whether it's ready to push the tag.
+ * 7. Push the tag if user confirms
  * 8. (todo) More to be added...
  */
 async function run() {
+  const boxen = (await import('boxen')).default;
+  console.log(boxen('rsuite release wizard', { borderStyle: 'double', padding: 1 }));
+  console.log();
+  const argv = require('minimist')(process.argv.slice(2));
+
+  const isDryRun = argv['dry-run'] === true;
+  if (isDryRun) {
+    console.info(
+      'Using `--dry-run` flag, you would be only testing the release workflow without actually publishing a release.'
+    );
+    console.log();
+  }
+
+  const { $ } = await import('execa');
+
+  const { stdout: currentBranch } = await $`git branch --show-current`;
+
+  if (currentBranch !== 'main' && !isDryRun) {
+    console.info('You could only run this script on `main` branch or with `--dry-run` flag');
+    process.exit(1);
+  }
   const inquirer = (await import('inquirer')).default;
   const semver = require('semver');
   const currentVersion = require('../package.json').version;
@@ -54,7 +75,7 @@ async function run() {
         },
         {
           name: 'No, abort the release',
-          short: 'Yes',
+          short: 'No',
           value: false
         }
       ]
@@ -66,9 +87,42 @@ async function run() {
     process.exit(1);
   }
 
-  const { $ } = await import('execa');
+  if (isDryRun) {
+    console.info('Skipped actual `npm version` in dry-run mode');
+  } else {
+    await $({ stdio: 'inherit' })`npm version ${releaseType}`;
+  }
 
-  $({ stdio: 'inherit' })`npm version ${releaseType}`;
+  const { confirmPushChanges } = await inquirer.prompt([
+    {
+      name: 'confirmPushChanges',
+      message: 'Shall we push the commit and tag now?',
+      type: 'list',
+      choices: [
+        {
+          name: 'Yes, run `git push --follow-tags` now',
+          short: 'Yes',
+          value: true
+        },
+        {
+          name: 'No, abort the release',
+          short: 'No',
+          value: false
+        }
+      ]
+    }
+  ]);
+
+  if (!confirmPushChanges) {
+    console.log('Release is aborted');
+    process.exit(1);
+  }
+
+  if (isDryRun) {
+    console.info('Skipped actual `git push --follow-tags` in dry-run mode');
+  } else {
+    await $({ stdio: 'inherit' })`git push --follow-tags`;
+  }
 }
 
 run();
