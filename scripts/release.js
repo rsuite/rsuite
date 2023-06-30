@@ -6,8 +6,8 @@
  * 3. Ask whether a minor|patch release this is
  * 4. Confirm the resulted version number with user
  * 5. Run `npm version <type>`
- * 6. (todo) Confirm with user whether it's ready to push the tag.
- * 7. (todo) Push the tag if user confirms
+ * 6. Confirm with user whether it's ready to push the tag.
+ * 7. Push the tag if user confirms
  * 8. (todo) More to be added...
  */
 async function run() {
@@ -91,6 +91,37 @@ async function run() {
     console.info('Skipped actual `npm version` in dry-run mode');
   } else {
     $({ stdio: 'inherit' })`npm version ${releaseType}`;
+  }
+
+  const { confirmPushChanges } = await inquirer.prompt([
+    {
+      name: 'confirmPushChanges',
+      message: 'Shall we push the commit and tag now?',
+      type: 'list',
+      choices: [
+        {
+          name: 'Yes, run `git push --follow-tags` now',
+          short: 'Yes',
+          value: true
+        },
+        {
+          name: 'No, abort the release',
+          short: 'No',
+          value: false
+        }
+      ]
+    }
+  ]);
+
+  if (!confirmPushChanges) {
+    console.log('Release is aborted');
+    process.exit(1);
+  }
+
+  if (isDryRun) {
+    console.info('Skipped actual `git push --follow-tags` in dry-run mode');
+  } else {
+    $({ stdio: 'inherit' })`git push --follow-tags`;
   }
 }
 
