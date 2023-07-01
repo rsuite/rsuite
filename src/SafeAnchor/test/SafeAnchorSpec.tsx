@@ -1,63 +1,74 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
+import { render, screen } from '@testing-library/react';
 import SafeAnchor from '../SafeAnchor';
 
 describe('SafeAnchor', () => {
   it('Should output a Anchor', () => {
-    const instance = getDOMNode(<SafeAnchor>Title</SafeAnchor>);
+    const { container } = render(<SafeAnchor>Title</SafeAnchor>);
 
-    assert.equal(instance.getAttribute('href'), '#');
-    assert.equal(instance.getAttribute('role'), 'button');
-    assert.equal(instance.innerHTML, 'Title');
+    expect(container.firstChild).to.have.attr('href', '#');
+    expect(container.firstChild).to.have.attr('role', 'button');
+    expect(container.firstChild).to.have.text('Title');
   });
 
   it('Should call onClick callback', () => {
     const onClick = sinon.spy();
-    const instance = getDOMNode(<SafeAnchor onClick={onClick} />);
-    ReactTestUtils.Simulate.click(instance);
-
+    render(<SafeAnchor onClick={onClick}>Title</SafeAnchor>);
+    ReactTestUtils.Simulate.click(screen.getByText('Title'));
     expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should call onClick callback', () => {
     const onClick = sinon.spy();
-    const instance = getDOMNode(<SafeAnchor onClick={onClick} href="http://a.com" />);
-    ReactTestUtils.Simulate.click(instance);
+    render(
+      <SafeAnchor onClick={onClick} href="http://a.com">
+        Title
+      </SafeAnchor>
+    );
+    ReactTestUtils.Simulate.click(screen.getByText('Title'));
 
     expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should not prevent the default value when href is provided', () => {
     const handleClick = sinon.spy();
-    const instance = getDOMNode(<SafeAnchor onClick={handleClick} href="#foo" />);
+    render(
+      <SafeAnchor onClick={handleClick} href="#foo">
+        Title
+      </SafeAnchor>
+    );
+    ReactTestUtils.Simulate.click(screen.getByText('Title'));
 
-    ReactTestUtils.Simulate.click(instance);
-
-    assert.ok(handleClick.calledOnce);
-    assert.equal(handleClick.getCall(0).args[0].isDefaultPrevented(), false);
+    expect(handleClick).to.have.been.calledOnce;
+    expect(handleClick.getCall(0).args[0].isDefaultPrevented()).to.be.equal(false);
   });
 
   it('Should disabled onClick callback and tabIndex = -1', () => {
     const handleClick = sinon.spy();
-    const instance = getDOMNode(<SafeAnchor onClick={handleClick} disabled />);
-    ReactTestUtils.Simulate.click(instance);
+    const { container } = render(
+      <SafeAnchor onClick={handleClick} disabled>
+        Title
+      </SafeAnchor>
+    );
+    ReactTestUtils.Simulate.click(screen.getByText('Title'));
 
-    assert.equal(handleClick.calledOnce, false);
-    assert.equal(instance.tabIndex, -1);
+    expect(handleClick).to.not.have.been.calledOnce;
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    expect(container.querySelector('[tabindex = "-1"]')).to.exist;
   });
 
   it('Should output an anchor and has href', () => {
     const href = '/url';
-    const instance = getDOMNode(<SafeAnchor href={href}>Title</SafeAnchor>);
+    const { container } = render(<SafeAnchor href={href}>Title</SafeAnchor>);
 
-    assert.isNull(instance.getAttribute('role'));
-    assert.equal(instance.getAttribute('href'), href);
+    expect(container.firstChild).to.not.have.attr('role');
+    expect(container.firstChild).to.have.attr('href', href);
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<SafeAnchor className="custom" />);
-    assert.include(instance.className, 'custom');
+    const { container } = render(<SafeAnchor className="custom" />);
+    expect(container.firstChild).to.have.class('custom');
   });
 });
