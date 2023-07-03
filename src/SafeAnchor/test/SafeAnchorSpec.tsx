@@ -42,7 +42,7 @@ describe('SafeAnchor', () => {
     ReactTestUtils.Simulate.click(screen.getByText('Title'));
 
     expect(handleClick).to.have.been.calledOnce;
-    expect(handleClick.getCall(0).args[0].isDefaultPrevented()).to.be.equal(false);
+    expect(handleClick.getCall(0).args[0].isDefaultPrevented()).to.be.false;
   });
 
   it('Should disabled onClick callback and tabIndex = -1', () => {
@@ -55,8 +55,7 @@ describe('SafeAnchor', () => {
     ReactTestUtils.Simulate.click(screen.getByText('Title'));
 
     expect(handleClick).to.not.have.been.calledOnce;
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    expect(container.querySelector('[tabindex = "-1"]')).to.exist;
+    expect(container.firstChild).to.have.attr('tabindex', '-1');
   });
 
   it('Should output an anchor and has href', () => {
