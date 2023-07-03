@@ -7,6 +7,7 @@ import { ajaxUpload, useClassNames, useCustom, guid, useWillUnmount } from '../u
 import { WithAsProps } from '../@types/common';
 import Plaintext from '../Plaintext';
 import { UploaderLocale } from '../locales';
+import type { ErrorStatus } from '../utils/ajaxUpload';
 
 export interface FileType {
   /** File Name */
@@ -136,8 +137,13 @@ export interface UploaderProps
   /** In the file list, click the callback function for the uploaded file */
   onPreview?: (file: FileType, event: React.SyntheticEvent) => void;
 
-  /** Upload callback function with erro */
-  onError?: (status: any, file: FileType, event: ProgressEvent, xhr: XMLHttpRequest) => void;
+  /** Upload callback function with error */
+  onError?: (
+    status: ErrorStatus,
+    file: FileType,
+    event: ProgressEvent,
+    xhr: XMLHttpRequest
+  ) => void;
 
   /** callback function after successful upload */
   onSuccess?: (response: any, file: FileType, event: ProgressEvent, xhr: XMLHttpRequest) => void;
@@ -349,7 +355,7 @@ const Uploader = React.forwardRef((props: UploaderProps, ref) => {
    * @param xhr
    */
   const handleAjaxUploadError = useCallback(
-    (file: FileType, status: any, event: ProgressEvent, xhr: XMLHttpRequest) => {
+    (file: FileType, status: ErrorStatus, event: ProgressEvent, xhr: XMLHttpRequest) => {
       const nextFile: FileType = {
         ...file,
         status: 'error'

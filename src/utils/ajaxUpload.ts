@@ -1,4 +1,4 @@
-interface ErrorStatus {
+export interface ErrorStatus {
   type: 'timeout' | 'server_error' | 'xhr_error';
   response?: any;
 }
