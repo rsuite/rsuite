@@ -30,6 +30,13 @@ describe('<PickerToggle>', () => {
     assert.equal(instance.textContent, Title);
   });
 
+  it('Should render a hidden <input> element with given "name" attribute', () => {
+    const { container } = render(<Toggle name="field" />);
+
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelector('input')).to.have.attr('name', 'field');
+  });
+
   describe('Cleanable (`cleanable`=true)', () => {
     it('Should render a clear button when value is present', () => {
       render(

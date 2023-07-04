@@ -59,6 +59,13 @@ describe('SelectPicker', () => {
     expect(instance).to.have.class('rs-picker-disabled');
   });
 
+  it('Should render a hidden <input> with given "name" attribute', () => {
+    const { container } = render(<SelectPicker data={[]} name="field" />);
+
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelector('input')).to.have.attr('name', 'field');
+  });
+
   describe('Loading state', () => {
     it('Should display a spinner when loading=true', () => {
       render(<SelectPicker data={data} loading />);
