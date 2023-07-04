@@ -2,29 +2,29 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getInstance } from '@test/testUtils';
 
 import Uploader from '../Uploader';
 import Button from '../../Button';
 import userEvent from '@testing-library/user-event';
+import { testStandardProps } from '@test/commonCases';
 
 describe('Uploader', () => {
   it('Should output a Uploader', () => {
-    const instance = getDOMNode(<Uploader action="" />);
+    const { container } = render(<Uploader action="" />);
 
-    assert.include(instance.className, 'rs-uploader');
+    expect(container.firstChild).to.have.class('rs-uploader');
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<Uploader action="" disabled />);
+    const { container } = render(<Uploader action="" disabled />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.ok(instance.querySelector('.rs-uploader-trigger-disabled'));
+    // eslint-disable-next-line
+    assert.ok(container.querySelector('.rs-uploader-trigger-disabled'));
   });
 
   it('Should render picture type', () => {
-    const instance = getDOMNode(<Uploader action="" listType="picture" />);
-    assert.include(instance.className, 'rs-uploader-picture');
+    testStandardProps(<Uploader action="" listType="picture" />);
   });
 
   it('Should not render the file list', () => {
@@ -35,9 +35,11 @@ describe('Uploader', () => {
         url: 'https://user-images.githubusercontent.com/1203827/47638792-92414e00-db9a-11e8-89c2-f8f430a23cd3.png'
       }
     ];
-    const instance = getDOMNode(<Uploader action="" fileList={fileList} fileListVisible={false} />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.ok(!instance.querySelector('.rs-uploader-file-items'));
+    const { container } = render(
+      <Uploader action="" fileList={fileList} fileListVisible={false} />
+    );
+    // eslint-disable-next-line
+    assert.ok(!container.querySelector('.rs-uploader-file-items'));
   });
 
   it('Should render custom component', () => {
@@ -47,25 +49,21 @@ describe('Uploader', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<Uploader action="" className="custom" />);
-    assert.include(instance.className, 'custom');
+    testStandardProps(<Uploader action="" className="custom" />);
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Uploader action="" style={{ fontSize }} />);
 
-    assert.equal(instance.style.fontSize, fontSize);
+    testStandardProps(<Uploader action="" style={{ fontSize }} />);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Uploader action="" classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    testStandardProps(<Uploader action="" classPrefix="custom-prefix" />);
   });
 
   it('Should have draggable className', () => {
-    const instance = getDOMNode(<Uploader action="" draggable />);
-    assert.include(instance.className, 'rs-uploader-draggable');
+    testStandardProps(<Uploader action="" draggable />);
   });
 
   it('Should call `onUpload` callback', () => {
