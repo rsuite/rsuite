@@ -5,7 +5,7 @@ import { Radio, RadioGroup, Form } from 'rsuite';
 
 const styles = {
   radioGroupLabel: {
-    padding: '8px 2px 8px 10px',
+    padding: '7px 2px 7px 12px',
     display: 'inline-block',
     verticalAlign: 'middle'
   }
