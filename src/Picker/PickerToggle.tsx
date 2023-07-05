@@ -31,6 +31,7 @@ export interface PickerToggleProps extends ToggleButtonProps {
 
   // Renders an input and is editable
   editable?: boolean;
+  name?: string;
   inputPlaceholder?: string;
   inputMask?: (string | RegExp)[];
   onInputChange?: (value: string, event: React.ChangeEvent) => void;
@@ -85,6 +86,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       caretComponent,
       caretAs = caretComponent,
       label,
+      name,
       ...rest
     } = props;
 
@@ -189,11 +191,12 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       (ref, props) => (
         <input
           ref={mergeRefs(inputRef, ref)}
+          name={name}
           style={{ pointerEvents: editable ? undefined : 'none' }}
           {...props}
         />
       ),
-      [editable]
+      [editable, name]
     );
 
     const ToggleCaret = useToggleCaret(placement);

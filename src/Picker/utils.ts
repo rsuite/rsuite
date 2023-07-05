@@ -109,8 +109,9 @@ export function usePickerClassName(props: PickerClassNameProps): [string, string
     })
   );
 
+  // Those props that're used for composing the className
   const usedClassNamePropKeys = Object.keys(
-    omit(props, [...Object.keys(rest || {}), 'disabled', 'readOnly', 'plaintext'])
+    omit(props, [...Object.keys(rest || {}), 'disabled', 'readOnly', 'plaintext', 'name'])
   );
 
   return [classes, usedClassNamePropKeys];
