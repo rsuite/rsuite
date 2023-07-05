@@ -1,5 +1,3 @@
-@import (reference) '../../Button/styles/index';
-
 .rs-radio-group {
   display: flex;
   flex-direction: column;
@@ -15,21 +13,33 @@
 
 // Radio Group - picker appearance
 .rs-radio-group-picker {
+  @radio-group-padding-start: 12px;
+  @radio-group-padding-end: 12px;
+  @radio-group-border-width: 1px;
+  @radio-padding-x: 10px;
+  @radio-active-underline-width: 2px;
+
   display: inline-flex;
   color: var(--rs-text-primary);
-  border: 1px solid var(--rs-border-primary);
+  border: @radio-group-border-width solid var(--rs-border-primary);
   border-radius: @border-radius;
-  margin-left: 0;
 
   .rs-radio-inline {
-    margin-left: 0;
+    padding: 0 @radio-padding-x;
+    margin: 0;
+
+    &:first-child {
+      padding-left: @radio-group-padding-start;
+    }
+
+    &:last-child {
+      padding-right: @radio-group-padding-end;
+    }
   }
 
   .rs-radio-checker {
     padding: 0;
     min-height: auto;
-    border-bottom: 1px solid transparent;
-    margin: 0 10px;
   }
 
   // Picker Radio group hidden radio.
@@ -38,14 +48,16 @@
   }
 
   .rs-radio-checker > label {
-    // TODO: Should not inherit Button styles
-    .rs-btn();
-    .rs-btn-subtle();
-
+    display: inline-block;
+    font-size: @font-size-base;
+    line-height: @line-height-base;
+    border-radius: 0;
     color: var(--rs-text-secondary);
     background: none;
     transition: color 0.3s linear;
-    padding: (@padding-y - 1px) 0;
+    padding: (@padding-y - @radio-group-border-width) 0
+      (@padding-y - @radio-group-border-width - @radio-active-underline-width);
+    border-bottom: @radio-active-underline-width solid transparent;
 
     .high-contrast-mode({
       transition: none;
@@ -59,10 +71,9 @@
   }
 
   .rs-radio-checked .rs-radio-checker {
-    border-bottom: 2px solid var(--rs-text-active);
-
     > label {
       color: var(--rs-text-active);
+      border-color: var(--rs-text-active);
     }
   }
 
