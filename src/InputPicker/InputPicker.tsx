@@ -103,6 +103,20 @@ export interface InputPickerProps<T = ValueType>
 
   /** Called when the option is created */
   onCreate?: (value: ValueType, item: ItemDataType, event: React.SyntheticEvent) => void;
+
+  /**
+   * Customize whether to display "Create option" action with given textbox value
+   *
+   * By default, InputPicker hides "Create option" action when textbox value matches any filtered item's [valueKey] property
+   *
+   * @param searchKeyword Value of the textbox
+   * @param filteredData The items filtered by the searchKeyword
+   */
+  shouldDisplayCreateOption?: (
+    searchKeyword: string,
+    // FIXME-Doma Use generic type
+    filteredData: InputItemDataType[]
+  ) => boolean;
 }
 
 const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
@@ -132,6 +146,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       menuAutoWidth = true,
       menuMaxHeight = 320,
       creatable,
+      shouldDisplayCreateOption,
       value: valueProp,
       valueKey = 'value',
       virtualized,
@@ -668,7 +683,12 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       let items: ItemDataType[] = filterNodesOfTree(getAllData(), checkShouldDisplay);
 
-      if (creatable && searchKeyword && !items.find(item => item[valueKey] === searchKeyword)) {
+      if (
+        creatable &&
+        (typeof shouldDisplayCreateOption === 'function'
+          ? shouldDisplayCreateOption(searchKeyword, items)
+          : searchKeyword && !items.find(item => item[valueKey] === searchKeyword))
+      ) {
         items = [...items, createOption(searchKeyword)];
       }
 

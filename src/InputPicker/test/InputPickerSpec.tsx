@@ -385,6 +385,33 @@ describe('InputPicker', () => {
     expect(onCreateSpy).to.calledWith('abc');
   });
 
+  it('Should hide "Create option" action if `shouldDisplayCreateOption` returns false', () => {
+    const data = [
+      { label: 'Alice', value: 1 },
+      { label: 'Bob', value: 2 }
+    ];
+
+    // Display "Create option" action only when no item's `label` matches searchKeyword
+    const shouldDisplayCreateOption = sinon.spy((searchKeyword, filteredData) =>
+      filteredData.every(item => item.label !== searchKeyword)
+    );
+    render(
+      <InputPicker
+        defaultOpen
+        data={data}
+        creatable
+        shouldDisplayCreateOption={shouldDisplayCreateOption}
+      />
+    );
+
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Alice' } });
+
+    expect(shouldDisplayCreateOption).to.have.been.calledWith('Alice', [
+      { label: 'Alice', value: 1 }
+    ]);
+    expect(screen.queryByText(/^Create option/)).to.not.exist;
+  });
+
   describe('ref testing', () => {
     it('Should get public objects and methods', () => {
       const instance = getInstance(<InputPicker data={data} open virtualized />);
