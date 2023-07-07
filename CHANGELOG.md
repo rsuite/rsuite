@@ -1,3 +1,15 @@
+# [5.37.0](https://github.com/rsuite/rsuite/compare/v5.36.0...v5.37.0) (2023-07-07)
+
+### Bug Fixes
+
+- **Picker:** pass name prop to underlying input element ([#3275](https://github.com/rsuite/rsuite/issues/3275)) ([3b7cce5](https://github.com/rsuite/rsuite/commit/3b7cce56b90de2502b1f997ae0ff74918fcee718))
+- **RadioGroup:** fix style in picker appearance ([#3274](https://github.com/rsuite/rsuite/issues/3274)) ([f673c85](https://github.com/rsuite/rsuite/commit/f673c85963973d2bbd9fc72c461d3a9718b3f25a))
+- **Uploader:** correct type for status argument of onError callback ([#3273](https://github.com/rsuite/rsuite/issues/3273)) ([cdb3c74](https://github.com/rsuite/rsuite/commit/cdb3c7412e793c1d89958ea6fddabbf91d326575))
+
+### Features
+
+- **InputPicker:** add shouldDisplayCreateOption prop ([#3270](https://github.com/rsuite/rsuite/issues/3270)) ([aa52b69](https://github.com/rsuite/rsuite/commit/aa52b690b4aa57918b12fc5a9684d7a59cef4f34))
+
 # [5.36.0](https://github.com/rsuite/rsuite/compare/v5.35.1...v5.36.0) (2023-06-30)
 
 ### Bug Fixes
