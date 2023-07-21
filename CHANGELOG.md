@@ -1,3 +1,9 @@
+## [5.37.1](https://github.com/rsuite/rsuite/compare/v5.37.0...v5.37.1) (2023-07-21)
+
+### Bug Fixes
+
+- **SelectPicker:** wrong padding for grouped options ([#3298](https://github.com/rsuite/rsuite/issues/3298)) ([e929f74](https://github.com/rsuite/rsuite/commit/e929f74273092855503f306f2e7e3362c716e574))
+
 # [5.37.0](https://github.com/rsuite/rsuite/compare/v5.36.0...v5.37.0) (2023-07-07)
 
 ### Bug Fixes
