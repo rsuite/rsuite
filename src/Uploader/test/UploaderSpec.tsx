@@ -20,7 +20,7 @@ describe('Uploader', () => {
   it('Should be disabled', () => {
     const { container } = render(<Uploader action="" disabled />);
 
-    // eslint-disable-next-line
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     assert.ok(container.querySelector('.rs-uploader-trigger-disabled'));
   });
 
@@ -40,7 +40,7 @@ describe('Uploader', () => {
     const { container } = render(
       <Uploader action="" fileList={fileList} fileListVisible={false} />
     );
-    // eslint-disable-next-line
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     assert.ok(!container.querySelector('.rs-uploader-file-items'));
   });
 
