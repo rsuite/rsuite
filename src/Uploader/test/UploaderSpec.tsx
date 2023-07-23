@@ -3,13 +3,14 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getInstance } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 
 import Uploader from '../Uploader';
 import Button from '../../Button';
 import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/commonCases';
 
 describe('Uploader', () => {
+  testStandardProps(<Uploader action="" />);
   it('Should output a Uploader', () => {
     const { container } = render(<Uploader action="" />);
 
@@ -24,7 +25,8 @@ describe('Uploader', () => {
   });
 
   it('Should render picture type', () => {
-    testStandardProps(<Uploader action="" listType="picture" />);
+    const { container } = render(<Uploader action="" listType="picture" />);
+    expect(container.firstChild).to.have.class('rs-uploader-picture');
   });
 
   it('Should not render the file list', () => {
@@ -48,22 +50,9 @@ describe('Uploader', () => {
     expect(screen.getByRole('button')).to.have.tagName('BUTTON');
   });
 
-  it('Should have a custom className', () => {
-    testStandardProps(<Uploader action="" className="custom" />);
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-
-    testStandardProps(<Uploader action="" style={{ fontSize }} />);
-  });
-
-  it('Should have a custom className prefix', () => {
-    testStandardProps(<Uploader action="" classPrefix="custom-prefix" />);
-  });
-
   it('Should have draggable className', () => {
-    testStandardProps(<Uploader action="" draggable />);
+    const { container } = render(<Uploader action="" draggable />);
+    expect(container.firstChild).to.have.class('rs-uploader-draggable');
   });
 
   it('Should call `onUpload` callback', () => {
