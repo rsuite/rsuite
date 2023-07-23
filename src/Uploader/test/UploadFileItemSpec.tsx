@@ -14,30 +14,31 @@ const file = {
 } as const;
 
 describe('UploadFileItem', () => {
+  testStandardProps(<UploadFileItem file={file} />);
   it('Should output a UploadFileItem', () => {
-    testStandardProps(<UploadFileItem file={file} />);
+    const { container } = render(<UploadFileItem file={file} />);
+    expect(container.firstChild).to.have.class('rs-uploader-file-item');
   });
 
   it('Should render picture-text for layout', () => {
-    testStandardProps(<UploadFileItem listType="picture-text" file={file} />);
     const { container } = render(<UploadFileItem listType="picture-text" file={file} />);
-    // eslint-disable-next-line
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     assert.ok(container.querySelector('.rs-uploader-file-item-panel'));
-    // eslint-disable-next-line
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     assert.ok(container.querySelector('.rs-uploader-file-item-progress'));
   });
 
   it('Should render picture for layout', () => {
-    testStandardProps(<UploadFileItem listType="picture" file={file} />);
     const { container } = render(<UploadFileItem listType="picture" file={file} />);
-    // eslint-disable-next-line
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     assert.equal(container.querySelectorAll('.rs-uploader-file-item-panel').length, 0);
-    // eslint-disable-next-line
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     assert.equal(container.querySelectorAll('.rs-uploader-file-item-progress').length, 0);
   });
 
   it('Should be disabled', () => {
-    testStandardProps(<UploadFileItem file={file} disabled />);
+    const { container } = render(<UploadFileItem file={file} disabled />);
+    expect(container.firstChild).to.have.class('rs-uploader-file-item-disabled');
   });
 
   it('Should call `onCancel` callback', () => {
@@ -55,7 +56,7 @@ describe('UploadFileItem', () => {
       // FIXME Didn't manage to use RTL query here, possibly because RTL bug
       // https://github.com/testing-library/dom-testing-library/issues/846
       //
-      // eslint-disable-next-line
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       container.querySelector('.rs-uploader-file-item-btn-remove') as HTMLElement
     );
 
@@ -74,7 +75,7 @@ describe('UploadFileItem', () => {
       <UploadFileItem file={file} onPreview={onPreviewSpy} listType="picture-text" />
     );
     ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       container.querySelector('.rs-uploader-file-item-title') as HTMLElement
     );
     assert.ok(onPreviewSpy.calledOnce);
@@ -86,7 +87,7 @@ describe('UploadFileItem', () => {
       <UploadFileItem file={file} onPreview={onPreviewSpy} listType="picture-text" disabled />
     );
     ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       container.querySelector('.rs-uploader-file-item-title') as HTMLElement
     );
     assert.equal(onPreviewSpy.calledOnce, false);
@@ -99,7 +100,7 @@ describe('UploadFileItem', () => {
     );
     ReactTestUtils.Simulate.click(
       // FIXME Add accessible name to Reload button
-      // eslint-disable-next-line
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       container.querySelector('.rs-uploader-file-item-icon-reupload') as HTMLElement
     );
     assert.ok(onReuploadSpy.calledOnce);
@@ -112,14 +113,10 @@ describe('UploadFileItem', () => {
     );
     ReactTestUtils.Simulate.click(
       // FIXME Add accessible name to Reload button
-      // eslint-disable-next-line
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
       container.querySelector('.rs-uploader-file-item-icon-reupload') as HTMLElement
     );
     assert.equal(onReuploadSpy.calledOnce, false);
-  });
-
-  it('Should have a custom className', () => {
-    testStandardProps(<UploadFileItem file={file} className="custom" />);
   });
 
   it('Should output a custom file name', () => {
@@ -138,15 +135,6 @@ describe('UploadFileItem', () => {
     );
 
     expect(screen.getByTestId('custom-info')).to.exist;
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    testStandardProps(<UploadFileItem file={file} style={{ fontSize }} />);
-  });
-
-  it('Should have a custom className prefix', () => {
-    testStandardProps(<UploadFileItem file={file} classPrefix="custom-prefix" />);
   });
 
   it('Should render an <i> tag, when the file status is uploading', () => {
