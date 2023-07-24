@@ -6,7 +6,7 @@ import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
 import { OverlayTriggerHandle } from './PickerToggleTrigger';
-import { findNodeOfTree, filterNodesOfTree } from '../utils/treeUtils';
+import { findNodeOfTree } from '../utils/treeUtils';
 import {
   KEY_VALUES,
   useClassNames,
@@ -562,76 +562,71 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   return onToggle;
 };
 
-export interface SearchProps<TItem extends Record<string, unknown>, TLabel> {
+interface SearchOptions<T> {
   labelKey: string;
-  data: TItem[];
-  searchBy?: (keyword: string, label: TLabel, item: TItem) => boolean;
-  callback?: (keyword: string, data: TItem[], event: React.SyntheticEvent) => void;
+  searchBy?: (keyword: string, label: any, item: T) => boolean;
+  callback?: (keyword: string, data: T[], event: React.SyntheticEvent) => void;
 }
 
-type UseSearchResult<TItem extends Record<string, unknown>> = {
+type UseSearchResult<T> = {
   searchKeyword: string;
-  filteredData: TItem[];
-  updateFilteredData: (nextData: TItem[]) => void;
-  setSearchKeyword: (value: string) => void;
-  checkShouldDisplay: (item: TItem, keyword?: string) => boolean;
+  filteredData: T[];
+  checkShouldDisplay: (item: T, keyword?: string) => boolean;
   handleSearch: (searchKeyword: string, event: React.SyntheticEvent) => void;
+  resetSearch: () => void;
 };
 
 /**
  * A hook that handles search filter options
- * @param props
  */
-export function useSearch<TItem extends Record<string, unknown>, TLabel>(
-  props: SearchProps<TItem, TLabel>
-): UseSearchResult<TItem> {
-  const { labelKey, data, searchBy, callback } = props;
+export function useSearch<T>(data: readonly T[], props: SearchOptions<T>): UseSearchResult<T> {
+  const { labelKey, searchBy, callback } = props;
 
   // Use search keywords to filter options.
   const [searchKeyword, setSearchKeyword] = useState('');
+
+  const resetSearch = useCallback(() => {
+    setSearchKeyword('');
+  }, []);
 
   /**
    * Index of keyword  in `label`
    * @param {node} label
    */
   const checkShouldDisplay = useCallback(
-    (item: TItem, keyword?: string) => {
-      const label = item?.[labelKey] as TLabel;
+    (item: T, keyword?: string) => {
+      const checkValue = typeof item === 'object' ? item?.[labelKey] : String(item);
       const _keyword = isUndefined(keyword) ? searchKeyword : keyword;
 
       if (typeof searchBy === 'function') {
-        return searchBy(_keyword, label, item);
+        return searchBy(_keyword, checkValue, item);
       }
-      return shouldDisplay(label, _keyword);
+      return shouldDisplay(checkValue, _keyword);
     },
     [labelKey, searchBy, searchKeyword]
   );
 
-  const updateFilteredData = useCallback(
-    (nextData: TItem[]) => {
-      setFilteredData(filterNodesOfTree(nextData, item => checkShouldDisplay(item)));
-    },
-    [checkShouldDisplay]
-  );
-
-  const [filteredData, setFilteredData] = useState<TItem[]>(
-    filterNodesOfTree(data, item => checkShouldDisplay(item))
+  // TODO-Doma
+  // filteredData should be derived from data and searchKeyword
+  // This redundant state might be here for preventing callback firing multiple times
+  // Find out if this is the case and remove this state if possible
+  const [filteredData, setFilteredData] = useState<T[]>(() =>
+    data.filter(item => checkShouldDisplay(item))
   );
 
   const handleSearch = (searchKeyword: string, event: React.SyntheticEvent) => {
-    const filteredData = filterNodesOfTree(data, item => checkShouldDisplay(item, searchKeyword));
+    const filteredData = data.filter(item => checkShouldDisplay(item, searchKeyword));
     setFilteredData(filteredData);
     setSearchKeyword(searchKeyword);
-    callback?.(searchKeyword, filteredData as TItem[], event);
+    callback?.(searchKeyword, filteredData, event);
   };
 
   return {
     searchKeyword,
     filteredData,
-    updateFilteredData,
-    setSearchKeyword,
     checkShouldDisplay,
-    handleSearch
+    handleSearch,
+    resetSearch
   };
 }
 

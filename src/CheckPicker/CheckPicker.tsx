@@ -149,10 +149,9 @@ const CheckPicker = React.forwardRef(
     );
 
     // Use search keywords to filter options.
-    const { searchKeyword, filteredData, setSearchKeyword, handleSearch, checkShouldDisplay } =
-      useSearch({
+    const { searchKeyword, filteredData, handleSearch, resetSearch, checkShouldDisplay } =
+      useSearch(data, {
         labelKey,
-        data,
         searchBy,
         callback: handleSearchCallback
       });
@@ -267,11 +266,11 @@ const CheckPicker = React.forwardRef(
     }, [onOpen]);
 
     const handleExited = useCallback(() => {
-      setSearchKeyword('');
+      resetSearch();
       setFocusItemValue(null);
       setActive(false);
       onClose?.();
-    }, [onClose, setFocusItemValue, setSearchKeyword]);
+    }, [onClose, setFocusItemValue, resetSearch]);
 
     usePublicMethods(ref, { triggerRef, overlayRef, targetRef, listRef });
 
