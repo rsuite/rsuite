@@ -4,8 +4,13 @@ import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 
 import UploadTrigger from '../UploadTrigger';
+import { testStandardProps } from '@test/commonCases';
 
-describe('UploadTrigger', () => {
+describe.only('UploadTrigger', () => {
+  testStandardProps(<UploadTrigger />, {
+    // eslint-disable-next-line testing-library/prefer-screen-queries
+    getRootElement: view => view.getByRole('button')
+  });
   it('Should output a UploadTrigger', () => {
     const instance = getDOMNode(<UploadTrigger />);
     assert.include(instance.className, 'rs-uploader-trigger');
