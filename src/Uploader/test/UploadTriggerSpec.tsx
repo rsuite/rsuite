@@ -4,10 +4,8 @@ import sinon from 'sinon';
 
 import UploadTrigger from '../UploadTrigger';
 import { render } from '@testing-library/react';
-import { testStandardProps } from '@test/commonCases';
 
 describe('UploadTrigger', () => {
-  testStandardProps(<UploadTrigger />); // Not working properly
   it('Should output a UploadTrigger', () => {
     const { container } = render(<UploadTrigger />);
     expect(container.firstChild).to.have.class('rs-uploader-trigger');
@@ -47,25 +45,28 @@ describe('UploadTrigger', () => {
 
   it('Should have a name', () => {
     const { container } = render(<UploadTrigger name="file" />);
+    console.log(container);
     // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
     assert.ok(container.querySelector('input[name="file"]'));
   });
 
-  // it('Should have a custom className', () => {
-  //   const {container} = render(<UploadTrigger className="custom" />);
-  //   assert.include(container.className, 'custom');
-  // });
+  it('Should have a custom className', () => {
+    const { container } = render(<UploadTrigger className="custom" />);
+    expect(container.firstChild).to.have.class('custom');
+  });
 
-  // it('Should have a custom style', () => { //MAYBE this is buggy
-  //   const fontSize = '12px';
-  //   const instance = render(<UploadTrigger style={{ fontSize }} />);
-  //   assert.equal((instance.querySelector('button') as HTMLElement).style.fontSize, fontSize);
-  // });
+  it('Should have a custom style', () => {
+    const fontSize = '12px';
+    const { container } = render(<UploadTrigger style={{ fontSize }} />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    assert.equal((container.querySelector('button') as HTMLElement).style.fontSize, fontSize);
+  });
 
-  // it('Should have a custom className prefix', () => {
-  //   const instance = getDOMNode(<UploadTrigger classPrefix="custom-prefix" />);
-  //   assert.ok(instance.className.match(/\bcustom-prefix\b/));
-  // });
+  it('Should have a custom className prefix', () => {
+    const { container } = render(<UploadTrigger classPrefix="custom-prefix" />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    assert.ok(container.querySelector('.rs-custom-prefix')?.className.match(/\bcustom-prefix\b/));
+  });
 
   it('Should call `onDragEnter` callback', () => {
     const onDragEnterSpy = sinon.spy();
