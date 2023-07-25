@@ -1,6 +1,6 @@
 /** @type {import('stylelint').Config} */
 module.exports = {
-  extends: ['stylelint-config-standard'],
+  extends: ['stylelint-config-standard-less'],
   customSyntax: 'postcss-less',
   rules: {
     'import-notation': 'string',
