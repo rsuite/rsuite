@@ -17,9 +17,9 @@ describe('TreePicker - TreeNode', () => {
     const { container } = render(
       <TreeNode layer={0} onDragStart={onDragStartSpy} nodeData={1} visible />
     );
-    //eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    const div = container.querySelector('div') as HTMLElement;
-    Simulate.dragStart(div); //Not working
+
+    const div = container.firstChild as HTMLElement;
+    Simulate.dragStart(div);
 
     assert.isTrue(onDragStartSpy.calledOnce);
     assert.equal(onDragStartSpy.firstCall.firstArg, 1);

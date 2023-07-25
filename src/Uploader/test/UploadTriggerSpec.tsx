@@ -45,7 +45,6 @@ describe('UploadTrigger', () => {
 
   it('Should have a name', () => {
     const { container } = render(<UploadTrigger name="file" />);
-    console.log(container);
     // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
     assert.ok(container.querySelector('input[name="file"]'));
   });
@@ -64,8 +63,7 @@ describe('UploadTrigger', () => {
 
   it('Should have a custom className prefix', () => {
     const { container } = render(<UploadTrigger classPrefix="custom-prefix" />);
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    assert.ok(container.querySelector('.rs-custom-prefix')?.className.match(/\bcustom-prefix\b/));
+    expect(container.firstChild).to.have.class(/\bcustom-prefix\b/);
   });
 
   it('Should call `onDragEnter` callback', () => {
