@@ -1,7 +1,9 @@
+/** @type {import('stylelint').Config} */
 module.exports = {
-  extends: ['stylelint-config-standard', 'stylelint-config-prettier'],
+  extends: ['stylelint-config-standard'],
   customSyntax: 'postcss-less',
   rules: {
+    'import-notation': 'string',
     // IE 11 does not seem to support percentage format
     'alpha-value-notation': 'number',
 
@@ -47,9 +49,6 @@ module.exports = {
 
     // Allow placing @import at-rule in style blocks (Less-specific syntax)
     'no-invalid-position-at-import-rule': null,
-
-    // Require a leading zero for fractional numbers less than 1.
-    'number-leading-zero': 'always',
 
     // Forbidden use the browser prefix.
     'property-no-vendor-prefix': true,
@@ -110,9 +109,6 @@ module.exports = {
       'focus-visible'
     ],
 
-    // String using single quotes
-    'string-quotes': 'single',
-
     // font-family can contain uppercase letters
     // @see https://github.com/stylelint/stylelint/issues/4622#issuecomment-594641799
     'value-keyword-case': [
@@ -121,7 +117,6 @@ module.exports = {
         ignoreKeywords: ['BlinkMacSystemFont']
       }
     ],
-    'value-list-comma-newline-after': 'always-multi-line',
 
     'value-no-vendor-prefix': true
   }
