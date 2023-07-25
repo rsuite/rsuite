@@ -397,21 +397,19 @@
         cursor: not-allowed;
       }
 
-      .rs-checkbox-wrapper {
-        left: @picker-item-content-padding-horizontal;
-
-        .grouped &,
-        .@{ckpns}-menu-group-children & {
-          left: (
-            @picker-item-content-padding-horizontal + @picker-children-check-item-padding-left
-          );
-        }
-      }
-
       .grouped &,
       .@{ckpns}-menu-group-children & {
         padding-left: @picker-check-item-content-padding-left +
           @picker-children-check-item-padding-left;
+      }
+    }
+
+    .rs-checkbox-wrapper {
+      left: @picker-item-content-padding-horizontal;
+
+      .grouped &,
+      .@{ckpns}-menu-group-children & {
+        left: (@picker-item-content-padding-horizontal + @picker-children-check-item-padding-left);
       }
     }
   }
