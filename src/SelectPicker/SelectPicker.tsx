@@ -1,7 +1,6 @@
 import React, { useRef, useState, useCallback, Ref } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
-import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import omit from 'lodash/omit';
@@ -14,10 +13,7 @@ import {
   mergeRefs,
   shallowEqual
 } from '../utils';
-import { getDataGroupBy } from '../utils/getDataGroupBy';
 import {
-  DropdownMenu,
-  DropdownMenuItem,
   PickerToggle,
   PickerToggleTrigger,
   PickerOverlay,
@@ -39,6 +35,7 @@ import {
 import { ListProps } from '../Windowing';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 import { ListHandle } from '../Windowing';
+import Listbox from './Listbox';
 
 export interface SelectProps<T> {
   /** Set group condition key in data */
@@ -62,6 +59,8 @@ export interface SelectProps<T> {
   searchBy?: (keyword: string, label: React.ReactNode, item: ItemDataType) => boolean;
 
   /** Sort options */
+  // TODO-Doma
+  // Deprecate sort(false). Data should be sorted before passed to the component.
   sort?: (isGroup: boolean) => (a: any, b: any) => number;
 
   /** Customizing the Rendering Menu list */
@@ -341,43 +340,36 @@ const SelectPicker = React.forwardRef(
       const { left, top, className } = positionProps;
       const classes = merge(className, menuClassName, prefix('select-menu'));
       const styles = { ...menuStyle, left, top };
-      let items = filteredData;
 
-      // Create a tree structure data when set `groupBy`
-      if (groupBy) {
-        items = getDataGroupBy(items, groupBy, sort);
-      } else if (typeof sort === 'function') {
-        items = items.sort(sort(false));
-      }
+      const menu = (() => {
+        if (!filteredData.length) {
+          return <div className={prefix`none`}>{locale?.noResultsText}</div>;
+        }
 
-      const menu = items.length ? (
-        <DropdownMenu
-          id={id ? `${id}-listbox` : undefined}
-          listProps={listProps}
-          listRef={listRef}
-          disabledItemValues={disabledItemValues}
-          valueKey={valueKey}
-          labelKey={labelKey}
-          renderMenuGroup={renderMenuGroup}
-          renderMenuItem={renderMenuItem}
-          maxHeight={menuMaxHeight}
-          classPrefix={'picker-select-menu'}
-          dropdownMenuItemClassPrefix={'picker-select-menu-item'}
-          dropdownMenuItemAs={DropdownMenuItem}
-          activeItemValues={[value]}
-          focusItemValue={focusItemValue}
-          data={items}
-          // FIXME-Doma
-          // `group` is redundant so long as `groupBy` exists
-          group={!isUndefined(groupBy)}
-          groupBy={groupBy}
-          onSelect={handleItemSelect}
-          onGroupTitleClick={onGroupTitleClick}
-          virtualized={virtualized}
-        />
-      ) : (
-        <div className={prefix`none`}>{locale?.noResultsText}</div>
-      );
+        return (
+          <Listbox
+            options={filteredData}
+            getOptionKey={option => option[valueKey]}
+            id={id ? `${id}-listbox` : undefined}
+            listProps={listProps}
+            listRef={listRef}
+            disabledOptionKeys={disabledItemValues as any[]}
+            labelKey={labelKey}
+            renderMenuGroup={renderMenuGroup}
+            renderMenuItem={renderMenuItem}
+            maxHeight={menuMaxHeight}
+            classPrefix={'picker-select-menu'}
+            optionClassPrefix={'picker-select-menu-item'}
+            selectedOptionKey={value as any}
+            activeOptionKey={focusItemValue as any}
+            groupBy={groupBy}
+            sort={sort}
+            onSelect={handleItemSelect}
+            onGroupTitleClick={onGroupTitleClick}
+            virtualized={virtualized}
+          />
+        );
+      })();
 
       return (
         <PickerOverlay
