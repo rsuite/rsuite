@@ -36,7 +36,7 @@ function mergeEvents(events = {}, props = {}) {
   return nextEvents;
 }
 
-export interface OverlayTriggerProps extends StandardProps, AnimationEventProps {
+export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, AnimationEventProps {
   /** Triggering events */
   trigger?: OverlayTriggerType | OverlayTriggerType[];
 
