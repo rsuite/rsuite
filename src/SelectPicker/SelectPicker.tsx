@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useEffect, Ref } from 'react';
+import React, { useRef, useState, useCallback, Ref } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import isUndefined from 'lodash/isUndefined';
@@ -202,25 +202,19 @@ const SelectPicker = React.forwardRef(
     });
 
     // Use search keywords to filter options.
-    const { searchKeyword, filteredData, updateFilteredData, setSearchKeyword, handleSearch } =
-      useSearch({
-        labelKey,
-        data,
-        searchBy,
-        callback: (
-          searchKeyword: string,
-          filteredData: ItemDataType[],
-          event: React.SyntheticEvent
-        ) => {
-          // The first option after filtering is the focus.
-          setFocusItemValue(filteredData?.[0]?.[valueKey]);
-          onSearch?.(searchKeyword, event);
-        }
-      });
-
-    useEffect(() => {
-      updateFilteredData(data);
-    }, [data, updateFilteredData]);
+    const { searchKeyword, filteredData, resetSearch, handleSearch } = useSearch(data, {
+      labelKey,
+      searchBy,
+      callback: (
+        searchKeyword: string,
+        filteredData: ItemDataType[],
+        event: React.SyntheticEvent
+      ) => {
+        // The first option after filtering is the focus.
+        setFocusItemValue(filteredData?.[0]?.[valueKey]);
+        onSearch?.(searchKeyword, event);
+      }
+    });
 
     // Use component active state to support keyboard events.
     const [active, setActive] = useState(false);
@@ -304,11 +298,11 @@ const SelectPicker = React.forwardRef(
     });
 
     const handleExited = useCallback(() => {
-      setSearchKeyword('');
+      resetSearch();
       setActive(false);
       onSearch?.('');
       onClose?.();
-    }, [onClose, setSearchKeyword, onSearch]);
+    }, [onClose, resetSearch, onSearch]);
 
     const handleEntered = useCallback(() => {
       setActive(true);

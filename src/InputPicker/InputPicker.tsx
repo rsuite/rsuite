@@ -240,12 +240,14 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     );
 
     // Use search keywords to filter options.
-    const { searchKeyword, setSearchKeyword, checkShouldDisplay, handleSearch } = useSearch({
-      labelKey,
-      data: getAllData(),
-      searchBy,
-      callback: handleSearchCallback
-    });
+    const { searchKeyword, resetSearch, checkShouldDisplay, handleSearch } = useSearch(
+      getAllData(),
+      {
+        labelKey,
+        searchBy,
+        callback: handleSearchCallback
+      }
+    );
 
     // Update the state when the data in props changes
     useEffect(() => {
@@ -356,7 +358,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const handleSelectItem = (value: string, item: InputItemDataType, event: React.MouseEvent) => {
       setValue(value);
       setFocusItemValue(value);
-      setSearchKeyword('');
+      resetSearch();
       handleSelect(value, item, event);
       handleChange(value, event);
       handleClose();
@@ -383,7 +385,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       }
 
       setValue(val);
-      setSearchKeyword('');
+      resetSearch();
       setFocusItemValue(nextItemValue);
       handleSelect(val, item, event);
       handleChange(val, event);
@@ -421,7 +423,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         }
 
         setValue(val);
-        setSearchKeyword('');
+        resetSearch();
         handleSelect(val, focusItem, event);
         handleChange(val, event);
       },
@@ -432,7 +434,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         disabledItemValues,
         disabledOptions,
         setValue,
-        setSearchKeyword,
+        resetSearch,
         handleSelect,
         handleChange,
         valueKey,
@@ -460,7 +462,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           focusItem = createOption(searchKeyword);
         }
         setValue(focusItemValue);
-        setSearchKeyword('');
+        resetSearch();
 
         if (focusItem) {
           handleSelect(focusItemValue, focusItem, event);
@@ -476,7 +478,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         valueKey,
         searchKeyword,
         handleClose,
-        setSearchKeyword,
+        resetSearch,
         createOption,
         getAllData,
         handleChange,
@@ -515,7 +517,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         }
         setValue(null);
         setFocusItemValue(null);
-        setSearchKeyword('');
+        resetSearch();
         if (multi) {
           handleChange([], event);
         } else {
@@ -528,7 +530,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         searchKeyword,
         setValue,
         setFocusItemValue,
-        setSearchKeyword,
+        resetSearch,
         multi,
         onClean,
         handleChange
@@ -581,9 +583,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const handleExited = useCallback(() => {
       setFocusItemValue(multi ? value?.[0] : value);
-      setSearchKeyword('');
+      resetSearch();
       onClose?.();
-    }, [setFocusItemValue, setSearchKeyword, onClose, value, multi]);
+    }, [setFocusItemValue, resetSearch, onClose, value, multi]);
 
     const handleFocus = useCallback(() => {
       if (!readOnly) {
