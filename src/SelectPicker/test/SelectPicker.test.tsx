@@ -7,19 +7,18 @@ import SelectPicker from '../SelectPicker';
 const numberValuedData = [{ label: 'One', value: 1 }];
 
 <SelectPicker data={numberValuedData} value={1} />;
-// @ts-expect-error should not accept string value
 <SelectPicker data={numberValuedData} value="1" />;
 <SelectPicker
   data={numberValuedData}
+  value={1}
   onChange={newValue => {
-    expectType<number | null>(newValue);
+    expectType<{ label: 'One'; value: 1 } | null>(newValue);
   }}
 />;
 
 const stringValuedData = [{ label: 'One', value: 'One' }];
 
 <SelectPicker data={stringValuedData} value="1" />;
-// @ts-expect-error should not accept number value
 <SelectPicker data={stringValuedData} value={1} />;
 <SelectPicker
   data={stringValuedData}
@@ -36,7 +35,7 @@ const pickerRef = React.createRef<PickerHandle>();
 <SelectPicker label="User" data={[]} />;
 
 type SortDirection = 'asc' | 'desc';
-<SelectPicker<SortDirection>
+<SelectPicker
   data={[
     {
       label: 'Ascending',
