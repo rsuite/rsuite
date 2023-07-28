@@ -1,3 +1,11 @@
+## [5.37.2](https://github.com/rsuite/rsuite/compare/v5.37.1...v5.37.2) (2023-07-28)
+
+### Bug Fixes
+
+- **CheckPicker:** wrong padding of grouped options ([#3306](https://github.com/rsuite/rsuite/issues/3306)) ([03ca6bf](https://github.com/rsuite/rsuite/commit/03ca6bff626146d44b1dd9ca1f931a984ad3103a))
+- **Overlay:** type error on OverlayTriggerProps ([#3307](https://github.com/rsuite/rsuite/issues/3307)) ([4a2e28e](https://github.com/rsuite/rsuite/commit/4a2e28e2412a6ffebcb9ad03a99a808f4d9ee3ee))
+- **RadioGroup:** unexpected wrapped text in picker appearance ([#3303](https://github.com/rsuite/rsuite/issues/3303)) ([c5aa81a](https://github.com/rsuite/rsuite/commit/c5aa81affab3333e6a29189d69c071d9208fbba8))
+
 ## [5.37.1](https://github.com/rsuite/rsuite/compare/v5.37.0...v5.37.1) (2023-07-21)
 
 ### Bug Fixes
