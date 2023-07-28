@@ -22,6 +22,7 @@ describe('UploadFileItem', () => {
 
   it('Should render picture-text for layout', () => {
     const { container } = render(<UploadFileItem listType="picture-text" file={file} />);
+    expect(container.firstChild).to.have.class('rs-uploader-file-item-picture-text');
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     assert.ok(container.querySelector('.rs-uploader-file-item-panel'));
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
@@ -30,6 +31,7 @@ describe('UploadFileItem', () => {
 
   it('Should render picture for layout', () => {
     const { container } = render(<UploadFileItem listType="picture" file={file} />);
+    expect(container.firstChild).to.have.class('rs-uploader-file-item-picture');
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     assert.equal(container.querySelectorAll('.rs-uploader-file-item-panel').length, 0);
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
