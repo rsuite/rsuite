@@ -30,9 +30,8 @@ describe('TreePicker - TreeNode', () => {
     const { container } = render(
       <TreeNode layer={0} onDragEnter={onDragEnterSpy} nodeData={1} visible />
     );
-    //eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    const div = container.querySelector('div') as HTMLElement;
 
+    const div = container.firstChild as HTMLElement;
     Simulate.dragEnter(div);
 
     assert.isTrue(onDragEnterSpy.calledOnce);
@@ -44,8 +43,8 @@ describe('TreePicker - TreeNode', () => {
     const { container } = render(
       <TreeNode layer={0} onDragOver={onDragOverSpy} nodeData={1} visible />
     );
-    //eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    const div = container.querySelector('div') as HTMLElement;
+
+    const div = container.firstChild as HTMLElement;
     Simulate.dragOver(div);
 
     assert.isTrue(onDragOverSpy.calledOnce);
@@ -57,9 +56,8 @@ describe('TreePicker - TreeNode', () => {
     const { container } = render(
       <TreeNode layer={0} onDragEnd={onDragEndSpy} nodeData={1} visible />
     );
-    //eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    const div = container.querySelector('div') as HTMLElement;
 
+    const div = container.firstChild as HTMLElement;
     Simulate.dragEnd(div);
 
     assert.isTrue(onDragEndSpy.calledOnce);
