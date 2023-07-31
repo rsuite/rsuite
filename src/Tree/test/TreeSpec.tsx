@@ -1,5 +1,4 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import Tree from '../Tree';
@@ -36,10 +35,10 @@ const data = [
 
 describe('Tree', () => {
   it('Should render a tree', () => {
-    const instance = getDOMNode(<Tree data={data} />);
+    const { container } = render(<Tree data={data} />);
 
-    assert.include(instance.className, 'rs-tree');
-    assert.equal(instance.getAttribute('role'), 'tree');
+    expect(container.firstChild).to.have.class('rs-tree');
+    expect(container.firstChild).to.have.attr('role', 'tree');
   });
 
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {
@@ -173,13 +172,13 @@ describe('Tree', () => {
   });
 
   it('Should show indent line', () => {
-    const instance = getDOMNode(<Tree data={data} showIndentLine />);
+    const { container } = render(<Tree data={data} showIndentLine />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    const lines = instance.querySelectorAll('.rs-tree-indent-line');
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    const lines = container.querySelectorAll('.rs-tree-indent-line');
 
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.isNotNull(instance.querySelector('.rs-tree-indent-line'));
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    assert.isNotNull(container.querySelector('.rs-tree-indent-line'));
     assert.equal(lines.length, 2);
     assert.equal((lines[0] as HTMLElement).style.left, '44px');
     assert.equal((lines[1] as HTMLElement).style.left, '28px');
