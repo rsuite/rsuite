@@ -106,6 +106,18 @@ describe('InputPicker', () => {
     expect(instance).to.have.class('rs-picker-block');
   });
 
+  it('Should update display options when `data` is updated', () => {
+    const { rerender } = render(<InputPicker open data={[{ label: 'Item', value: 1 }]} />);
+
+    expect(screen.getAllByRole('option').map(option => option.textContent)).to.deep.equal(['Item']);
+
+    rerender(<InputPicker open data={[{ label: 'New Item', value: 1 }]} />);
+
+    expect(screen.getAllByRole('option').map(option => option.textContent)).to.deep.equal([
+      'New Item'
+    ]);
+  });
+
   it('Should active item by `value`', () => {
     const value = 'Louisa';
     render(<InputPicker defaultOpen data={data} value={value} />);
