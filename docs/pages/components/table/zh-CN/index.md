@@ -94,6 +94,22 @@ return (
 
 要支持该功能，需要在 `Column` 设置一个 `resizable` 属性。
 
+> 注意：`resizable` 与 `width`，`onResize` 同时使用时，会进入受控模式，需要自己处理 `width` 的变化。
+
+```js
+const [width, setWidth] = React.useState(100);
+
+return (
+  <Table>
+    <Column width={width} onResize={setWidth} resizable>
+      <HeaderCell>Id</HeaderCell>
+      <Cell dataKey="id" />
+    </Column>
+    ...
+  </Table>
+);
+```
+
 ### 流体列宽
 
 <!--{include:`fluid-column.md`}-->
