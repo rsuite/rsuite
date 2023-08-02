@@ -87,6 +87,18 @@ describe('CheckPicker', () => {
     expect(container.firstChild).to.have.class('rs-picker-plaintext');
   });
 
+  it('Should update display options when `data` is updated', () => {
+    const { rerender } = render(<CheckPicker open data={[{ label: 'Item', value: 1 }]} />);
+
+    expect(screen.getAllByRole('option').map(option => option.textContent)).to.deep.equal(['Item']);
+
+    rerender(<CheckPicker open data={[{ label: 'New Item', value: 1 }]} />);
+
+    expect(screen.getAllByRole('option').map(option => option.textContent)).to.deep.equal([
+      'New Item'
+    ]);
+  });
+
   it('Should active item by `value`', () => {
     const value = ['Louisa'];
     render(<CheckPicker defaultOpen data={data} value={value} />);
