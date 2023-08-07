@@ -64,16 +64,19 @@ describe('<PickerToggle>', () => {
   });
 
   describe('Loading state', () => {
-    it('Should not apply active state on clicking when loading=true', () => {
-      render(
-        <Toggle loading data-testid="toggle">
-          Text
-        </Toggle>
-      );
+    it('Should not apply active state on clicking when loading=true', async () => {
 
-      userEvent.click(screen.getByTestId('toggle'));
+                      const user = userEvent.setup();
+                      render(
+                <Toggle loading data-testid="toggle">
+                  Text
+                </Toggle>
+              );
 
-      expect(screen.getByTestId('toggle')).not.to.have.class('rs-picker-toggle-active');
+              await user.click(screen.getByTestId('toggle'));
+
+              expect(screen.getByTestId('toggle')).not.to.have.class('rs-picker-toggle-active');
+                      
     });
   });
 

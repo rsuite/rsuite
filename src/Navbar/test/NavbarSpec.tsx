@@ -33,20 +33,23 @@ describe('Navbar', () => {
   });
 
   context('Nav.Menu within Navbar', () => {
-    it('Should open with `trigger="hover"`', () => {
-      render(
-        <Navbar>
-          <Nav>
-            <Nav.Menu title="Menu" trigger="hover" data-testid="menu">
-              <Nav.Item>Menu item</Nav.Item>
-            </Nav.Menu>
-          </Nav>
-        </Navbar>
-      );
+    it('Should open with `trigger="hover"`', async () => {
 
-      userEvent.hover(screen.getByTestId('menu'));
+                      const user = userEvent.setup();
+                      render(
+                <Navbar>
+                  <Nav>
+                    <Nav.Menu title="Menu" trigger="hover" data-testid="menu">
+                      <Nav.Item>Menu item</Nav.Item>
+                    </Nav.Menu>
+                  </Nav>
+                </Navbar>
+              );
 
-      expect(screen.getByText('Menu item')).to.be.visible;
+              await user.hover(screen.getByTestId('menu'));
+
+              expect(screen.getByText('Menu item')).to.be.visible;
+                      
     });
   });
 

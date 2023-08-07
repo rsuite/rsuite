@@ -112,15 +112,18 @@ describe('Uploader', () => {
     assert.ok(onUploadSpy.calledOnce);
   });
 
-  it('Should call `onRemove` callback', () => {
-    const onRemoveSpy = sinon.spy();
-    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' } as const;
+  it('Should call `onRemove` callback', async () => {
 
-    render(<Uploader name="file" action="" onRemove={onRemoveSpy} defaultFileList={[file]} />);
+                    const user = userEvent.setup();
+                    const onRemoveSpy = sinon.spy();
+          const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' } as const;
 
-    userEvent.click(screen.getByRole('button', { name: /close/i }));
+          render(<Uploader name="file" action="" onRemove={onRemoveSpy} defaultFileList={[file]} />);
 
-    expect(onRemoveSpy).to.have.been.calledOnce;
+          await user.click(screen.getByRole('button', { name: /close/i }));
+
+          expect(onRemoveSpy).to.have.been.calledOnce;
+                    
   });
 
   it('Should apply appearance', () => {

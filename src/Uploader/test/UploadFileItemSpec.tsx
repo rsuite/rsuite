@@ -43,12 +43,15 @@ describe('UploadFileItem', () => {
     expect(container.firstChild).to.have.class('rs-uploader-file-item-disabled');
   });
 
-  it('Should call `onCancel` callback', () => {
-    const onCancelSpy = sinon.spy();
-    render(<UploadFileItem file={file} onCancel={onCancelSpy} />);
+  it('Should call `onCancel` callback', async () => {
 
-    userEvent.click(screen.getByRole('button', { name: /close/i }));
-    expect(onCancelSpy).to.have.been.calledOnce;
+                    const user = userEvent.setup();
+                    const onCancelSpy = sinon.spy();
+          render(<UploadFileItem file={file} onCancel={onCancelSpy} />);
+
+          await user.click(screen.getByRole('button', { name: /close/i }));
+          expect(onCancelSpy).to.have.been.calledOnce;
+                    
   });
 
   it('Should not call `onCancel` callback when `disabled=true`', () => {

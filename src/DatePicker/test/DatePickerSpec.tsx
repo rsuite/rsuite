@@ -584,50 +584,56 @@ describe('DatePicker', () => {
   });
 
   it('Should reset unsaved selected date after closing calendar panel', async () => {
-    render(
-      <>
-        <div data-testid="outside">Outside</div>
-        <DatePicker defaultOpen value={new Date(2022, 9, 14)} />
-      </>
-    );
 
-    // Select a date
-    userEvent.click(screen.getByTitle('13 Oct 2022'));
-    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).to.have.attr(
-      'aria-selected',
-      'true'
-    );
+                    const user = userEvent.setup();
+                    render(
+            <>
+              <div data-testid="outside">Outside</div>
+              <DatePicker defaultOpen value={new Date(2022, 9, 14)} />
+            </>
+          );
 
-    // Close the calendar panel without clicking "OK"
-    userEvent.click(screen.getByTestId('outside'));
+          // Select a date
+          await user.click(screen.getByTitle('13 Oct 2022'));
+          expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).to.have.attr(
+            'aria-selected',
+            'true'
+          );
 
-    // Open the calendar panel again and the selection should be reset
-    userEvent.click(screen.getByRole('combobox'));
-    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).not.to.have.attr(
-      'aria-selected',
-      'true'
-    );
+          // Close the calendar panel without clicking "OK"
+          await user.click(screen.getByTestId('outside'));
+
+          // Open the calendar panel again and the selection should be reset
+          await user.click(screen.getByRole('combobox'));
+          expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).not.to.have.attr(
+            'aria-selected',
+            'true'
+          );
+                    
   });
 
   it('Should not reset saved selected date after closing calendar panel', async () => {
-    render(<DatePicker defaultOpen value={new Date(2022, 9, 14)} />);
 
-    // Select a date
-    userEvent.click(screen.getByTitle('13 Oct 2022'));
-    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).to.have.attr(
-      'aria-selected',
-      'true'
-    );
+                    const user = userEvent.setup();
+                    render(<DatePicker defaultOpen value={new Date(2022, 9, 14)} />);
 
-    // Close the calendar panel without clicking "OK"
-    userEvent.click(screen.getByRole('button', { name: 'OK' }));
+          // Select a date
+          await user.click(screen.getByTitle('13 Oct 2022'));
+          expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).to.have.attr(
+            'aria-selected',
+            'true'
+          );
 
-    // Open the calendar panel again and the selection should be reset
-    userEvent.click(screen.getByRole('combobox'));
-    expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).to.have.attr(
-      'aria-selected',
-      'true'
-    );
+          // Close the calendar panel without clicking "OK"
+          await user.click(screen.getByRole('button', { name: 'OK' }));
+
+          // Open the calendar panel again and the selection should be reset
+          await user.click(screen.getByRole('combobox'));
+          expect(screen.getByRole('gridcell', { name: '13 Oct 2022' })).to.have.attr(
+            'aria-selected',
+            'true'
+          );
+                    
   });
 
   it('Should not change for the value  when it is controlled', () => {
@@ -841,53 +847,59 @@ describe('DatePicker', () => {
     });
   });
 
-  it('Should switch to the previous or next element via the tab key', () => {
-    render(
-      <>
-        <DatePicker data-testid="picker-1" value={new Date('2022-01-01')} />
-        <DatePicker data-testid="picker-2" value={new Date('2022-01-02')} />
-      </>
-    );
+  it('Should switch to the previous or next element via the tab key', async () => {
 
-    userEvent.tab();
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(document.activeElement).to.value('2022-01-01');
+                    const user = userEvent.setup();
+                    render(
+            <>
+              <DatePicker data-testid="picker-1" value={new Date('2022-01-01')} />
+              <DatePicker data-testid="picker-2" value={new Date('2022-01-02')} />
+            </>
+          );
 
-    userEvent.tab();
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(document.activeElement).to.value('2022-01-02');
+          await user.tab();
+          // eslint-disable-next-line testing-library/no-node-access
+          expect(document.activeElement).to.value('2022-01-01');
 
-    userEvent.tab({ shift: true });
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(document.activeElement).to.value('2022-01-01');
+          await user.tab();
+          // eslint-disable-next-line testing-library/no-node-access
+          expect(document.activeElement).to.value('2022-01-02');
+
+          await user.tab({ shift: true });
+          // eslint-disable-next-line testing-library/no-node-access
+          expect(document.activeElement).to.value('2022-01-01');
+                    
   });
 
-  it('Should reset to default time after clicking clear button', () => {
-    const onChangeSpy = sinon.spy();
-    render(
-      <DatePicker
-        open
-        calendarDefaultDate={new Date('2022-02-02 00:00:00')}
-        onChange={onChangeSpy}
-        format="yyyy-MM-dd HH:mm:ss"
-        ranges={[
-          {
-            label: 'custom-day',
-            value: new Date('2022-02-02 12:00:00')
-          }
-        ]}
-      />
-    );
+  it('Should reset to default time after clicking clear button', async () => {
 
-    userEvent.click(screen.getByRole('button', { name: 'custom-day' }));
+                    const user = userEvent.setup();
+                    const onChangeSpy = sinon.spy();
+          render(
+            <DatePicker
+              open
+              calendarDefaultDate={new Date('2022-02-02 00:00:00')}
+              onChange={onChangeSpy}
+              format="yyyy-MM-dd HH:mm:ss"
+              ranges={[
+                {
+                  label: 'custom-day',
+                  value: new Date('2022-02-02 12:00:00')
+                }
+              ]}
+            />
+          );
 
-    expect(isSameDay(onChangeSpy.getCall(0).args[0], new Date('2022-02-02'))).to.be.true;
-    expect(screen.getByRole('button', { name: '12:00:00' })).to.exist;
+          await user.click(screen.getByRole('button', { name: 'custom-day' }));
 
-    userEvent.click(screen.getByRole('button', { name: /clear/i }));
+          expect(isSameDay(onChangeSpy.getCall(0).args[0], new Date('2022-02-02'))).to.be.true;
+          expect(screen.getByRole('button', { name: '12:00:00' })).to.exist;
 
-    expect(onChangeSpy).to.have.been.calledWith(null);
-    expect(screen.getByRole('button', { name: '00:00:00' })).to.exist;
+          await user.click(screen.getByRole('button', { name: /clear/i }));
+
+          expect(onChangeSpy).to.have.been.calledWith(null);
+          expect(screen.getByRole('button', { name: '00:00:00' })).to.exist;
+                    
   });
 
   it('Should render range buttons for bottom and left placements', () => {

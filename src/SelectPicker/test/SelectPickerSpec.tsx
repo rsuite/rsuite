@@ -136,18 +136,21 @@ describe('SelectPicker', () => {
     expect(instance.overlay.querySelector('.rs-picker-menu-group')).to.exist;
   });
 
-  it('Should toggle expansion of a group by clicking on the group title', () => {
-    render(<SelectPicker defaultOpen groupBy="role" data={data} />);
+  it('Should toggle expansion of a group by clicking on the group title', async () => {
 
-    expect(screen.getAllByRole('option')).to.have.lengthOf(3);
+                    const user = userEvent.setup();
+                    render(<SelectPicker defaultOpen groupBy="role" data={data} />);
 
-    // Fold group "Master"
-    userEvent.click(screen.getByText('Master'));
-    expect(screen.queryAllByRole('option')).to.have.lengthOf(0);
+          expect(screen.getAllByRole('option')).to.have.lengthOf(3);
 
-    // Expand group "Master"
-    userEvent.click(screen.getByText('Master'));
-    expect(screen.getAllByRole('option')).to.have.lengthOf(3);
+          // Fold group "Master"
+          await user.click(screen.getByText('Master'));
+          expect(screen.queryAllByRole('option')).to.have.lengthOf(0);
+
+          // Expand group "Master"
+          await user.click(screen.getByText('Master'));
+          expect(screen.getAllByRole('option')).to.have.lengthOf(3);
+                    
   });
 
   it('Should have a placeholder', () => {

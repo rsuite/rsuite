@@ -74,81 +74,87 @@ describe('<Menu>', () => {
   });
 
   it('Closes menu and moves focus to button when clicking outside', async () => {
-    render(
-      <div data-testid="div">
-        <Menu
-          renderMenuButton={(buttonProps, buttonRef) => (
-            <button ref={buttonRef} {...buttonProps} data-testid="button">
-              Button
-            </button>
-          )}
-          renderMenuPopup={({ open, ...popupProps }, popupRef) => (
-            <ul ref={popupRef} {...popupProps} hidden={!open} data-testid="menu" />
-          )}
-        >
-          {(containerProps, containerRef) => (
-            <div ref={containerRef} {...containerProps} data-testid="container" />
-          )}
-        </Menu>
-      </div>
-    );
 
-    const button = screen.getByTestId('button');
-    const menu = screen.getByTestId('menu');
+                    const user = userEvent.setup();
+                    render(
+            <div data-testid="div">
+              <Menu
+                renderMenuButton={(buttonProps, buttonRef) => (
+                  <button ref={buttonRef} {...buttonProps} data-testid="button">
+                    Button
+                  </button>
+                )}
+                renderMenuPopup={({ open, ...popupProps }, popupRef) => (
+                  <ul ref={popupRef} {...popupProps} hidden={!open} data-testid="menu" />
+                )}
+              >
+                {(containerProps, containerRef) => (
+                  <div ref={containerRef} {...containerProps} data-testid="container" />
+                )}
+              </Menu>
+            </div>
+          );
 
-    fireEvent.click(button);
+          const button = screen.getByTestId('button');
+          const menu = screen.getByTestId('menu');
 
-    await waitFor(() => {
-      expect(menu).to.be.visible;
-    });
+          fireEvent.click(button);
 
-    sinon.spy(button, 'focus');
+          await waitFor(() => {
+            expect(menu).to.be.visible;
+          });
 
-    userEvent.click(screen.getByTestId('div'));
+          sinon.spy(button, 'focus');
 
-    await waitFor(() => {
-      expect(menu).not.to.be.visible;
-      expect(button.focus).to.have.been.called;
-    });
+          await user.click(screen.getByTestId('div'));
+
+          await waitFor(() => {
+            expect(menu).not.to.be.visible;
+            expect(button.focus).to.have.been.called;
+          });
+                    
   });
   it('Closes menu but dont move focus to button when clicking on a focusable element outside', async () => {
-    render(
-      <div>
-        <Menu
-          renderMenuButton={(buttonProps, buttonRef) => (
-            <button ref={buttonRef} {...buttonProps} data-testid="button">
-              Button
-            </button>
-          )}
-          renderMenuPopup={({ open, ...popupProps }, popupRef) => (
-            <ul ref={popupRef} {...popupProps} hidden={!open} data-testid="menu" />
-          )}
-        >
-          {(containerProps, containerRef) => (
-            <div ref={containerRef} {...containerProps} data-testid="container" />
-          )}
-        </Menu>
-        <button data-testid="outside-button">Another button</button>
-      </div>
-    );
 
-    const button = screen.getByTestId('button');
-    const menu = screen.getByTestId('menu');
+                    const user = userEvent.setup();
+                    render(
+            <div>
+              <Menu
+                renderMenuButton={(buttonProps, buttonRef) => (
+                  <button ref={buttonRef} {...buttonProps} data-testid="button">
+                    Button
+                  </button>
+                )}
+                renderMenuPopup={({ open, ...popupProps }, popupRef) => (
+                  <ul ref={popupRef} {...popupProps} hidden={!open} data-testid="menu" />
+                )}
+              >
+                {(containerProps, containerRef) => (
+                  <div ref={containerRef} {...containerProps} data-testid="container" />
+                )}
+              </Menu>
+              <button data-testid="outside-button">Another button</button>
+            </div>
+          );
 
-    fireEvent.click(button);
+          const button = screen.getByTestId('button');
+          const menu = screen.getByTestId('menu');
 
-    await waitFor(() => {
-      expect(menu).to.be.visible;
-    });
+          fireEvent.click(button);
 
-    sinon.spy(button, 'focus');
+          await waitFor(() => {
+            expect(menu).to.be.visible;
+          });
 
-    userEvent.click(screen.getByTestId('outside-button'));
+          sinon.spy(button, 'focus');
 
-    await waitFor(() => {
-      expect(menu).not.to.be.visible;
-      expect(button.focus).not.to.have.been.called;
-    });
+          await user.click(screen.getByTestId('outside-button'));
+
+          await waitFor(() => {
+            expect(menu).not.to.be.visible;
+            expect(button.focus).not.to.have.been.called;
+          });
+                    
   });
   it('Closes menu when focus is moving outside of menu', () => {
     render(
@@ -178,38 +184,41 @@ describe('<Menu>', () => {
     expect(menu).not.to.be.visible;
   });
 
-  it('Should call onToggleMenu when focus or blur', () => {
-    const onToggleMenuSpy = sinon.spy();
-    render(
-      <div>
-        <Menu
-          renderMenuButton={(buttonProps, buttonRef) => (
-            <button ref={buttonRef} {...buttonProps} data-testid="button">
-              Button
-            </button>
-          )}
-          renderMenuPopup={({ open, ...popupProps }, popupRef) => (
-            <ul ref={popupRef} {...popupProps} hidden={!open} />
-          )}
-          onToggleMenu={onToggleMenuSpy}
-        >
-          {(containerProps, containerRef) => <div ref={containerRef} {...containerProps} />}
-        </Menu>
-        <input data-testid="input" />
-      </div>
-    );
+  it('Should call onToggleMenu when focus or blur', async () => {
 
-    const button = screen.getByTestId('button');
-    const input = screen.getByTestId('input');
+                    const user = userEvent.setup();
+                    const onToggleMenuSpy = sinon.spy();
+          render(
+            <div>
+              <Menu
+                renderMenuButton={(buttonProps, buttonRef) => (
+                  <button ref={buttonRef} {...buttonProps} data-testid="button">
+                    Button
+                  </button>
+                )}
+                renderMenuPopup={({ open, ...popupProps }, popupRef) => (
+                  <ul ref={popupRef} {...popupProps} hidden={!open} />
+                )}
+                onToggleMenu={onToggleMenuSpy}
+              >
+                {(containerProps, containerRef) => <div ref={containerRef} {...containerProps} />}
+              </Menu>
+              <input data-testid="input" />
+            </div>
+          );
 
-    userEvent.click(button);
+          const button = screen.getByTestId('button');
+          const input = screen.getByTestId('input');
 
-    expect(button).to.have.focus;
-    expect(onToggleMenuSpy.firstCall).to.have.been.calledWith(true);
+          await user.click(button);
 
-    userEvent.click(input);
+          expect(button).to.have.focus;
+          expect(onToggleMenuSpy.firstCall).to.have.been.calledWith(true);
 
-    expect(input).to.have.focus;
-    expect(onToggleMenuSpy.secondCall).to.have.been.calledWith(false);
+          await user.click(input);
+
+          expect(input).to.have.focus;
+          expect(onToggleMenuSpy.secondCall).to.have.been.calledWith(false);
+                    
   });
 });

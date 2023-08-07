@@ -121,14 +121,17 @@ describe('CheckPicker', () => {
     expect(screen.getByRole('group')).to.exist;
   });
 
-  it('Should toggle expansion of a group by clicking on the group title', () => {
-    render(<CheckPicker defaultOpen groupBy="role" data={data} />);
+  it('Should toggle expansion of a group by clicking on the group title', async () => {
 
-    expect(screen.getAllByRole('option')).to.have.lengthOf(3);
+                    const user = userEvent.setup();
+                    render(<CheckPicker defaultOpen groupBy="role" data={data} />);
 
-    userEvent.click(screen.getByText('Master'));
+          expect(screen.getAllByRole('option')).to.have.lengthOf(3);
 
-    expect(screen.queryAllByRole('option')).to.have.lengthOf(0);
+          await user.click(screen.getByText('Master'));
+
+          expect(screen.queryAllByRole('option')).to.have.lengthOf(0);
+                    
   });
 
   it('Should have a placeholder', () => {

@@ -60,3 +60,20 @@ module.exports = {
     ]
   }
 };
+
+if (process.env.REACT === '16') {
+  module.exports.resolve.alias = {
+    ...module.exports.resolve.alias,
+    react: 'react-16',
+    'react-dom': 'react-dom-16'
+  };
+}
+
+if (process.env.REACT === '18') {
+  module.exports.resolve.alias = {
+    ...module.exports.resolve.alias,
+    react: 'react-18',
+    'react-dom': 'react-dom-18',
+    '@testing-library/react': '@testing-library/react-13'
+  };
+}

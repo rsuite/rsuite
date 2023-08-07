@@ -800,41 +800,44 @@ describe('<Dropdown>', () => {
   });
 
   context('issue #2918', () => {
-    it('Should not throw when deleting the last item', () => {
-      const defaultMenuItems = [
-        'First Item',
-        'Second Item',
-        'Third Item',
-        'Fourth Item',
-        'Fifth Item'
-      ];
-      function App() {
-        const [menuItems, setMenuItems] = useState(defaultMenuItems);
+    it('Should not throw when deleting the last item', async () => {
 
-        const handleItemSelect = () => {
-          if (menuItems.length === 1) {
-            setMenuItems(defaultMenuItems);
-            return;
-          }
+                      const user = userEvent.setup();
+                      const defaultMenuItems = [
+                'First Item',
+                'Second Item',
+                'Third Item',
+                'Fourth Item',
+                'Fifth Item'
+              ];
+              function App() {
+                const [menuItems, setMenuItems] = useState(defaultMenuItems);
 
-          setMenuItems(menuItems.slice(0, -1));
-        };
+                const handleItemSelect = () => {
+                  if (menuItems.length === 1) {
+                    setMenuItems(defaultMenuItems);
+                    return;
+                  }
 
-        return (
-          <div>
-            <Dropdown.Menu title="Dropdown">
-              {menuItems.map(item => (
-                <Dropdown.Item key={item} onSelect={handleItemSelect}>
-                  {item}
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </div>
-        );
-      }
+                  setMenuItems(menuItems.slice(0, -1));
+                };
 
-      render(<App />);
-      userEvent.click(screen.getByText('Fifth Item'));
+                return (
+                  <div>
+                    <Dropdown.Menu title="Dropdown">
+                      {menuItems.map(item => (
+                        <Dropdown.Item key={item} onSelect={handleItemSelect}>
+                          {item}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </div>
+                );
+              }
+
+              render(<App />);
+              await user.click(screen.getByText('Fifth Item'));
+                      
     });
   });
 });
