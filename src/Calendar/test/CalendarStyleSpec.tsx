@@ -121,7 +121,7 @@ describe('Calendar styles', () => {
       .getByTestId('body')
       .querySelector('.rs-calendar-month-dropdown-row') as HTMLElement;
 
-    expect(getStyle(row, 'borderBottom')).to.equal(`1px dotted ${toRGB('#e5e5ea')}`);
+    expect(getStyle(row, 'borderBottom')).to.equal(`1px dashed ${toRGB('#e5e5ea')}`);
   });
 
   it('Should render compact calendar', () => {
