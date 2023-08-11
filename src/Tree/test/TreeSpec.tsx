@@ -41,22 +41,25 @@ describe('Tree', () => {
     expect(container.firstChild).to.have.attr('role', 'tree');
   });
 
-  it('Should call `onSelectItem` callback with the selected item and the full path', () => {
-    const onSelectItem = sinon.spy();
+  it('Should call `onSelectItem` callback with the selected item and the full path', async () => {
 
-    render(
-      <Tree data={data} onSelectItem={onSelectItem} expandItemValues={['Master', 'tester1']} />
-    );
+                    const user = userEvent.setup();
+                    const onSelectItem = sinon.spy();
 
-    // TODO-Doma
-    // Use `treeitem` role
-    userEvent.click(screen.getByRole('button', { name: 'tester2' }));
+          render(
+            <Tree data={data} onSelectItem={onSelectItem} expandItemValues={['Master', 'tester1']} />
+          );
 
-    expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
-      sinon.match({ value: 'Master' }),
-      sinon.match({ value: 'tester1' }),
-      sinon.match({ value: 'tester2' })
-    ]);
+          // TODO-Doma
+          // Use `treeitem` role
+          await user.click(screen.getByRole('button', { name: 'tester2' }));
+
+          expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
+            sinon.match({ value: 'Master' }),
+            sinon.match({ value: 'tester1' }),
+            sinon.match({ value: 'tester2' })
+          ]);
+                    
   });
 
   it('Should call `onDragStart` callback', () => {

@@ -25,19 +25,22 @@ describe('<Dropdown.Menu>', () => {
     expect(screen.getAllByRole('menuitem')).to.have.lengthOf(2);
   });
 
-  it('Should render a submenu when used inside <Dropdown>', () => {
-    render(
-      <Dropdown.Menu title="Submenu">
-        <Dropdown.Item>Submenu item</Dropdown.Item>
-      </Dropdown.Menu>,
-      {
-        wrapper: Dropdown
-      }
-    );
+  it('Should render a submenu when used inside <Dropdown>', async () => {
 
-    userEvent.click(screen.getByRole('button'));
+                    const user = userEvent.setup();
+                    render(
+            <Dropdown.Menu title="Submenu">
+              <Dropdown.Item>Submenu item</Dropdown.Item>
+            </Dropdown.Menu>,
+            {
+              wrapper: Dropdown
+            }
+          );
 
-    expect(screen.getByRole('menuitem')).to.have.attr('aria-haspopup', 'menu');
+          await user.click(screen.getByRole('button'));
+
+          expect(screen.getByRole('menuitem')).to.have.attr('aria-haspopup', 'menu');
+                    
   });
 
   it('Should render a submenu when used inside another <Dropdown.Menu>', () => {
@@ -256,27 +259,30 @@ describe('<Dropdown.Menu>', () => {
     expect(screen.getByTestId('menu')).not.to.have.attr('aria-activedescendant');
   });
 
-  it('Should not throw error when items are unmounted and keydown event is triggered', () => {
-    const { rerender } = render(
-      <DropdownMenu data-testid="menu">
-        <DropdownItem panel>
-          <input data-testid="input" />
-        </DropdownItem>
-        <DropdownItem data-testid="item1">Item 1</DropdownItem>
-      </DropdownMenu>
-    );
+  it('Should not throw error when items are unmounted and keydown event is triggered', async () => {
 
-    fireEvent.focus(screen.getByTestId('input'), { bubbles: true });
+                    const user = userEvent.setup();
+                    const { rerender } = render(
+            <DropdownMenu data-testid="menu">
+              <DropdownItem panel>
+                <input data-testid="input" />
+              </DropdownItem>
+              <DropdownItem data-testid="item1">Item 1</DropdownItem>
+            </DropdownMenu>
+          );
 
-    rerender(
-      <DropdownMenu data-testid="menu">
-        <DropdownItem panel>
-          <input data-testid="input" />
-        </DropdownItem>
-      </DropdownMenu>
-    );
+          fireEvent.focus(screen.getByTestId('input'), { bubbles: true });
 
-    userEvent.type(screen.getByTestId('input'), 'f');
+          rerender(
+            <DropdownMenu data-testid="menu">
+              <DropdownItem panel>
+                <input data-testid="input" />
+              </DropdownItem>
+            </DropdownMenu>
+          );
+
+          await user.type(screen.getByTestId('input'), 'f');
+                    
   });
 
   it('Should have a custom className', () => {

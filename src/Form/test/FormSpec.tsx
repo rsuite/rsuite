@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
-
 import Form, { FormInstance } from '../Form';
 import FormControl from '../../FormControl';
 import Schema from '../../Schema';
@@ -201,7 +200,8 @@ describe('Form', () => {
     });
   });
 
-  it('Should call onChange callback with correct form values', () => {
+  it('Should call onChange callback with correct form values', async () => {
+    const user = userEvent.setup();
     const values = {
       name: 'abc'
     };
@@ -214,13 +214,14 @@ describe('Form', () => {
       </Form>
     );
 
-    userEvent.type(screen.getByRole('textbox'), 'd');
+    await user.type(screen.getByRole('textbox'), 'd');
 
     expect(onChangeSpy).to.be.called;
     expect(onChangeSpy).to.be.calledWith({ name: 'abcd' });
   });
 
-  it('Should call onError callback', () => {
+  it('Should call onError callback', async () => {
+    const user = userEvent.setup();
     const values = {
       name: 'abc'
     };
@@ -231,13 +232,14 @@ describe('Form', () => {
       </Form>
     );
 
-    userEvent.type(screen.getByRole('textbox'), 'd');
+    await user.type(screen.getByRole('textbox'), 'd');
 
     expect(onErrorSpy).to.be.called;
     expect(onErrorSpy).to.be.calledWith({ name: checkEmail });
   });
 
-  it('Should not call onError callback', () => {
+  it('Should not call onError callback', async () => {
+    const user = userEvent.setup();
     const values = {
       name: 'abc@ddd.com'
     };
@@ -249,7 +251,7 @@ describe('Form', () => {
       </Form>
     );
 
-    userEvent.type(screen.getByRole('textbox'), 'd', {
+    await user.type(screen.getByRole('textbox'), 'd', {
       initialSelectionStart: 3,
       initialSelectionEnd: 3
     });
@@ -257,7 +259,8 @@ describe('Form', () => {
     expect(onErrorSpy).to.be.not.called;
   });
 
-  it('Should call onCheck callback', () => {
+  it('Should call onCheck callback', async () => {
+    const user = userEvent.setup();
     const values = {
       name: 'abc'
     };
@@ -269,7 +272,7 @@ describe('Form', () => {
       </Form>
     );
 
-    userEvent.type(screen.getByRole('textbox'), 'd');
+    await user.type(screen.getByRole('textbox'), 'd');
 
     expect(onCheckSpy).to.be.called;
     expect(onCheckSpy).to.be.calledWith({});
@@ -292,7 +295,8 @@ describe('Form', () => {
     expect(onCheckSpy).to.be.calledWith({});
   });
 
-  it('Should not call onCheck callback when checkTrigger is null', () => {
+  it('Should not call onCheck callback when checkTrigger is null', async () => {
+    const user = userEvent.setup();
     const values = {
       name: 'abc'
     };
@@ -307,12 +311,13 @@ describe('Form', () => {
       </Form>
     );
     fireEvent.blur(screen.getByRole('textbox'));
-    userEvent.type(screen.getByRole('textbox'), 'd');
+    await user.type(screen.getByRole('textbox'), 'd');
 
     expect(onCheckSpy).to.be.not.called;
   });
 
-  it('Should call onCheck callback', () => {
+  it('Should call onCheck callback', async () => {
+    const user = userEvent.setup();
     const values = {
       name: 'abc'
     };
@@ -329,13 +334,14 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    userEvent.type(screen.getByRole('textbox'), 'd');
+    await user.type(screen.getByRole('textbox'), 'd');
 
     expect(onCheckSpy).to.be.called;
     expect(onCheckSpy).to.be.calledWith({ email: 'email is null' });
   });
 
   it('Should call onError callback by checkAsync', async () => {
+    const user = userEvent.setup();
     const values = {
       name: 'abc'
     };
@@ -347,7 +353,7 @@ describe('Form', () => {
       </Form>
     );
 
-    userEvent.type(screen.getByRole('textbox'), 'd');
+    await user.type(screen.getByRole('textbox'), 'd');
 
     await waitFor(() => {
       expect(onErrorSpy).to.be.called;
@@ -383,7 +389,8 @@ describe('Form', () => {
     expect(result.hasError).to.be.true;
   });
 
-  it('Should support complex inspections by onChange', () => {
+  it.only('Should support complex inspections by onChange', async () => {
+    const user = userEvent.setup();
     const model = Schema.Model({
       items: Schema.Types.ArrayType().of(
         Schema.Types.ObjectType().shape({
@@ -395,6 +402,7 @@ describe('Form', () => {
 
     const Field = ({ onChange }) => {
       const handleChange = () => {
+        console.log('onChange');
         onChange([{ field1: '', field2: '' }]);
       };
       return <input name="items" onChange={handleChange} />;
@@ -411,22 +419,27 @@ describe('Form', () => {
       </Form>
     );
 
-    userEvent.type(screen.getByRole('textbox'), 'abcd');
+    screen.debug(screen.getByRole('textbox'));
 
-    expect(onErrorSpy).to.be.called;
-    expect(onErrorSpy).to.be.calledWith({
-      items: {
-        hasError: true,
-        array: [
-          {
-            hasError: true,
-            object: {
-              field1: { hasError: true, errorMessage: 'error1' },
-              field2: { hasError: true, errorMessage: 'error2' }
+    await userEvent.type(screen.getByRole('textbox'), 'abcd', { skipClick: false });
+    expect(screen.getByRole('textbox')).to.have.focus;
+
+    await waitFor(() => {
+      expect(onErrorSpy).to.be.called;
+      expect(onErrorSpy).to.be.calledWith({
+        items: {
+          hasError: true,
+          array: [
+            {
+              hasError: true,
+              object: {
+                field1: { hasError: true, errorMessage: 'error1' },
+                field2: { hasError: true, errorMessage: 'error2' }
+              }
             }
-          }
-        ]
-      }
+          ]
+        }
+      });
     });
   });
 

@@ -57,36 +57,39 @@ describe('<Nav>', () => {
   });
 
   it('Should call onSelect callback with correct arguments', async () => {
-    const onSelectSpy = sinon.spy();
-    render(
-      <Nav onSelect={onSelectSpy}>
-        <Nav.Item eventKey="1" data-testid="item">
-          Nav item
-        </Nav.Item>
 
-        <Nav.Menu title="Dropdown">
-          <Nav.Item eventKey="2-1" data-testid="dropdown-item">
-            Dropdown item
-          </Nav.Item>
-        </Nav.Menu>
-      </Nav>
-    );
+                    const user = userEvent.setup();
+                    const onSelectSpy = sinon.spy();
+          render(
+            <Nav onSelect={onSelectSpy}>
+              <Nav.Item eventKey="1" data-testid="item">
+                Nav item
+              </Nav.Item>
 
-    userEvent.click(screen.getByTestId('item'));
+              <Nav.Menu title="Dropdown">
+                <Nav.Item eventKey="2-1" data-testid="dropdown-item">
+                  Dropdown item
+                </Nav.Item>
+              </Nav.Menu>
+            </Nav>
+          );
 
-    await waitFor(() => {
-      expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
-    });
+          await user.click(screen.getByTestId('item'));
 
-    onSelectSpy.resetHistory();
-    userEvent.click(screen.getByTestId('dropdown-item'));
+          await waitFor(() => {
+            expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+          });
 
-    await waitFor(() => {
-      expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
-        '2-1',
-        sinon.match.any
-      );
-    });
+          onSelectSpy.resetHistory();
+          await user.click(screen.getByTestId('dropdown-item'));
+
+          await waitFor(() => {
+            expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
+              '2-1',
+              sinon.match.any
+            );
+          });
+                    
   });
 
   it('Should highlight <Nav.Dropdown.Item> with `activeKey`', () => {
@@ -117,36 +120,39 @@ describe('<Nav>', () => {
 
   describe('[Deprecated] Legacy Nav.Dropdown API', () => {
     it('Should call onSelect callback with correct arguments', async () => {
-      const onSelectSpy = sinon.spy();
-      render(
-        <Nav onSelect={onSelectSpy}>
-          <Nav.Item eventKey="1" data-testid="item">
-            Nav item
-          </Nav.Item>
 
-          <Nav.Dropdown title="Dropdown">
-            <Nav.Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
-              Dropdown item
-            </Nav.Dropdown.Item>
-          </Nav.Dropdown>
-        </Nav>
-      );
+                      const user = userEvent.setup();
+                      const onSelectSpy = sinon.spy();
+              render(
+                <Nav onSelect={onSelectSpy}>
+                  <Nav.Item eventKey="1" data-testid="item">
+                    Nav item
+                  </Nav.Item>
 
-      userEvent.click(screen.getByTestId('item'));
+                  <Nav.Dropdown title="Dropdown">
+                    <Nav.Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+                      Dropdown item
+                    </Nav.Dropdown.Item>
+                  </Nav.Dropdown>
+                </Nav>
+              );
 
-      await waitFor(() => {
-        expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
-      });
+              await user.click(screen.getByTestId('item'));
 
-      onSelectSpy.resetHistory();
-      userEvent.click(screen.getByTestId('dropdown-item'));
+              await waitFor(() => {
+                expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+              });
 
-      await waitFor(() => {
-        expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
-          '2-1',
-          sinon.match.any
-        );
-      });
+              onSelectSpy.resetHistory();
+              await user.click(screen.getByTestId('dropdown-item'));
+
+              await waitFor(() => {
+                expect(onSelectSpy, 'Works with <Nav.Dropdown.Item>').to.have.been.calledWith(
+                  '2-1',
+                  sinon.match.any
+                );
+              });
+                      
     });
 
     it('Should highlight <Nav.Dropdown.Item> with `activeKey`', () => {
@@ -178,36 +184,39 @@ describe('<Nav>', () => {
 
   describe('[Deprecated] Usage of <Dropdown> within <Nav>', () => {
     it('Should call onSelect callback with correct arguments', async () => {
-      const onSelectSpy = sinon.spy();
-      render(
-        <Nav onSelect={onSelectSpy}>
-          <Nav.Item eventKey="1" data-testid="item">
-            Nav item
-          </Nav.Item>
 
-          <Dropdown title="Dropdown">
-            <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
-              Dropdown item
-            </Dropdown.Item>
-          </Dropdown>
-        </Nav>
-      );
+                      const user = userEvent.setup();
+                      const onSelectSpy = sinon.spy();
+              render(
+                <Nav onSelect={onSelectSpy}>
+                  <Nav.Item eventKey="1" data-testid="item">
+                    Nav item
+                  </Nav.Item>
 
-      userEvent.click(screen.getByTestId('item'));
+                  <Dropdown title="Dropdown">
+                    <Dropdown.Item eventKey="2-1" data-testid="dropdown-item">
+                      Dropdown item
+                    </Dropdown.Item>
+                  </Dropdown>
+                </Nav>
+              );
 
-      await waitFor(() => {
-        expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
-      });
+              await user.click(screen.getByTestId('item'));
 
-      onSelectSpy.resetHistory();
-      userEvent.click(screen.getByTestId('dropdown-item'));
+              await waitFor(() => {
+                expect(onSelectSpy, 'Works with <Nav.Item>').to.have.been.calledWith('1', sinon.match.any);
+              });
 
-      await waitFor(() => {
-        expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
-          '2-1',
-          sinon.match.any
-        );
-      });
+              onSelectSpy.resetHistory();
+              await user.click(screen.getByTestId('dropdown-item'));
+
+              await waitFor(() => {
+                expect(onSelectSpy, 'Works with <Dropdown.Item>').to.have.been.calledWith(
+                  '2-1',
+                  sinon.match.any
+                );
+              });
+                      
     });
 
     it('Should highlight <Dropdown.Item> with `activeKey`', () => {

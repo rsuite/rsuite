@@ -92,37 +92,40 @@ describe('Panel', () => {
   });
 
   it('Should pass transition callbacks to Collapse', async () => {
-    const onEnter = sinon.spy();
-    const onEntering = sinon.spy();
-    const onEntered = sinon.spy();
-    const onExit = sinon.spy();
-    const onExiting = sinon.spy();
-    const onExited = sinon.spy();
 
-    render(
-      <Panel
-        collapsible
-        defaultExpanded={false}
-        header="Click me"
-        onEnter={onEnter}
-        onEntering={onEntering}
-        onEntered={onEntered}
-        onExit={onExit}
-        onExiting={onExiting}
-        onExited={onExited}
-      >
-        Panel content
-      </Panel>
-    );
+                    const user = userEvent.setup();
+                    const onEnter = sinon.spy();
+          const onEntering = sinon.spy();
+          const onEntered = sinon.spy();
+          const onExit = sinon.spy();
+          const onExiting = sinon.spy();
+          const onExited = sinon.spy();
 
-    userEvent.click(screen.getByText('Click me'));
-    await waitFor(() => expect(onEnter).to.have.been.called);
-    await waitFor(() => expect(onEntering).to.have.been.called);
-    await waitFor(() => expect(onEntered).to.have.been.called);
+          render(
+            <Panel
+              collapsible
+              defaultExpanded={false}
+              header="Click me"
+              onEnter={onEnter}
+              onEntering={onEntering}
+              onEntered={onEntered}
+              onExit={onExit}
+              onExiting={onExiting}
+              onExited={onExited}
+            >
+              Panel content
+            </Panel>
+          );
 
-    userEvent.click(screen.getByText('Click me'));
-    await waitFor(() => expect(onExit).to.have.been.called);
-    await waitFor(() => expect(onExiting).to.have.been.called);
-    await waitFor(() => expect(onExited).to.have.been.called);
+          await user.click(screen.getByText('Click me'));
+          await waitFor(() => expect(onEnter).to.have.been.called);
+          await waitFor(() => expect(onEntering).to.have.been.called);
+          await waitFor(() => expect(onEntered).to.have.been.called);
+
+          await user.click(screen.getByText('Click me'));
+          await waitFor(() => expect(onExit).to.have.been.called);
+          await waitFor(() => expect(onExiting).to.have.been.called);
+          await waitFor(() => expect(onExited).to.have.been.called);
+                    
   });
 });

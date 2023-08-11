@@ -710,29 +710,32 @@ describe('DateRangePicker', () => {
   });
 
   it('Should close picker after predefined range is clicked', async () => {
-    const onCloseSpy = sinon.spy();
-    const onChangeSpy = sinon.spy();
 
-    render(
-      <DateRangePicker
-        defaultOpen
-        ranges={[
-          {
-            label: 'Yesterday',
-            value: [addDays(new Date(), -1), addDays(new Date(), -1)]
-          }
-        ]}
-        onChange={onChangeSpy}
-        onExit={onCloseSpy}
-      />
-    );
+                    const user = userEvent.setup();
+                    const onCloseSpy = sinon.spy();
+          const onChangeSpy = sinon.spy();
 
-    userEvent.click(screen.getByRole('button', { name: 'Yesterday' }));
+          render(
+            <DateRangePicker
+              defaultOpen
+              ranges={[
+                {
+                  label: 'Yesterday',
+                  value: [addDays(new Date(), -1), addDays(new Date(), -1)]
+                }
+              ]}
+              onChange={onChangeSpy}
+              onExit={onCloseSpy}
+            />
+          );
 
-    await waitFor(() => {
-      expect(onCloseSpy).to.calledOnce;
-      expect(onChangeSpy).to.calledOnce;
-    });
+          await user.click(screen.getByRole('button', { name: 'Yesterday' }));
+
+          await waitFor(() => {
+            expect(onCloseSpy).to.calledOnce;
+            expect(onChangeSpy).to.calledOnce;
+          });
+                    
   });
 
   it('Should not close picker', async () => {

@@ -106,13 +106,16 @@ describe('TagInput', () => {
     expect(onCreateSpy).to.calledOnce;
   });
 
-  it('Should call `onChange` with empty array when clicking "Clear" button', () => {
-    const onChange = sinon.spy();
-    render(<TagInput value={['New tag']} onChange={onChange} />);
+  it('Should call `onChange` with empty array when clicking "Clear" button', async () => {
 
-    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+                    const user = userEvent.setup();
+                    const onChange = sinon.spy();
+          render(<TagInput value={['New tag']} onChange={onChange} />);
 
-    expect(onChange).to.have.been.calledWith([]);
+          await user.click(screen.getByRole('button', { name: 'Clear' }));
+
+          expect(onChange).to.have.been.calledWith([]);
+                    
   });
 
   it('Should not create tag while text composing', () => {

@@ -52,29 +52,32 @@ describe('CheckTree', () => {
     assert.equal((lines[1] as HTMLElement).style.left, '28px');
   });
 
-  it('Should call `onSelectItem` callback with the selected item and the full path', () => {
-    const onSelectItem = sinon.spy();
+  it('Should call `onSelectItem` callback with the selected item and the full path', async () => {
 
-    render(
-      <CheckTree
-        open
-        data={data}
-        expandItemValues={['Master', 'tester1']}
-        onSelectItem={onSelectItem}
-      />
-    );
+                    const user = userEvent.setup();
+                    const onSelectItem = sinon.spy();
 
-    // TODO-Doma
-    // Handle click on `treeitem`
-    userEvent.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      screen.getByRole('treeitem', { name: 'tester2' }).querySelector('label') as HTMLLabelElement
-    );
+          render(
+            <CheckTree
+              open
+              data={data}
+              expandItemValues={['Master', 'tester1']}
+              onSelectItem={onSelectItem}
+            />
+          );
 
-    expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
-      sinon.match({ value: 'Master' }),
-      sinon.match({ value: 'tester1' }),
-      sinon.match({ value: 'tester2' })
-    ]);
+          // TODO-Doma
+          // Handle click on `treeitem`
+          await user.click(
+                  // eslint-disable-next-line testing-library/no-node-access
+                  screen.getByRole('treeitem', { name: 'tester2' }).querySelector('label') as HTMLLabelElement
+                );
+
+          expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
+            sinon.match({ value: 'Master' }),
+            sinon.match({ value: 'tester1' }),
+            sinon.match({ value: 'tester2' })
+          ]);
+                    
   });
 });

@@ -229,17 +229,20 @@ describe('InputNumber', () => {
       expect(screen.getByRole('spinbutton')).to.exist;
     });
 
-    it('Should not have focusable elements other than the input', () => {
-      const { container } = render(<InputNumber value={0} />);
+    it('Should not have focusable elements other than the input', async () => {
 
-      // Move focus to the input
-      userEvent.tab();
+                      const user = userEvent.setup();
+                      const { container } = render(<InputNumber value={0} />);
 
-      // Move focus out
-      userEvent.tab();
+              // Move focus to the input
+              await user.tab();
 
-      // eslint-disable-next-line testing-library/no-node-access
-      expect(container).not.to.contain(document.activeElement);
+              // Move focus out
+              await user.tab();
+
+              // eslint-disable-next-line testing-library/no-node-access
+              expect(container).not.to.contain(document.activeElement);
+                      
     });
 
     describe('Keyboard interaction', () => {

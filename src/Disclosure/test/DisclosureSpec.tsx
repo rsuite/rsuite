@@ -140,77 +140,80 @@ describe('<Disclosure>', () => {
   });
 
   context('Nested disclosures', () => {
-    it('Should close parent disclosure when descendants are dispatching with `cascade: true`', () => {
-      const ChildDisclosureContent = () => {
-        const [, dispatch] = useDisclosureContext('ChildDisclosureContent');
-        return (
-          <button
-            onClick={() =>
-              dispatch({
-                type: DisclosureActionTypes.Hide,
-                cascade: true
-              })
-            }
-          >
-            Close all disclosures
-          </button>
-        );
-      };
+    it('Should close parent disclosure when descendants are dispatching with `cascade: true`', async () => {
 
-      render(
-        <Disclosure>
-          {() => (
-            <>
-              <Disclosure.Button>
-                {(props, ref) => (
-                  <button ref={ref as Ref<HTMLButtonElement>} {...props}>
-                    Open parent disclosure
-                  </button>
-                )}
-              </Disclosure.Button>
-              <Disclosure.Content>
-                {({ open, ...props }, ref) => (
-                  <div
-                    ref={ref as Ref<HTMLDivElement>}
-                    {...props}
-                    hidden={!open}
-                    data-testid="parent-content"
+                      const user = userEvent.setup();
+                      const ChildDisclosureContent = () => {
+                const [, dispatch] = useDisclosureContext('ChildDisclosureContent');
+                return (
+                  <button
+                    onClick={() =>
+                      dispatch({
+                        type: DisclosureActionTypes.Hide,
+                        cascade: true
+                      })
+                    }
                   >
-                    <Disclosure>
-                      {() => (
-                        <>
-                          <Disclosure.Button>
-                            {(props, ref) => (
-                              <button ref={ref as Ref<HTMLButtonElement>} {...props}>
-                                Open child disclosure
-                              </button>
-                            )}
-                          </Disclosure.Button>
-                          <Disclosure.Content>
-                            {({ open, ...props }, ref) => (
-                              <div ref={ref as Ref<HTMLDivElement>} {...props} hidden={!open}>
-                                <ChildDisclosureContent />
-                              </div>
-                            )}
-                          </Disclosure.Content>
-                        </>
-                      )}
-                    </Disclosure>
-                  </div>
-                )}
-              </Disclosure.Content>
-            </>
-          )}
-        </Disclosure>
-      );
+                    Close all disclosures
+                  </button>
+                );
+              };
 
-      userEvent.click(screen.getByText('Open parent disclosure'));
+              render(
+                <Disclosure>
+                  {() => (
+                    <>
+                      <Disclosure.Button>
+                        {(props, ref) => (
+                          <button ref={ref as Ref<HTMLButtonElement>} {...props}>
+                            Open parent disclosure
+                          </button>
+                        )}
+                      </Disclosure.Button>
+                      <Disclosure.Content>
+                        {({ open, ...props }, ref) => (
+                          <div
+                            ref={ref as Ref<HTMLDivElement>}
+                            {...props}
+                            hidden={!open}
+                            data-testid="parent-content"
+                          >
+                            <Disclosure>
+                              {() => (
+                                <>
+                                  <Disclosure.Button>
+                                    {(props, ref) => (
+                                      <button ref={ref as Ref<HTMLButtonElement>} {...props}>
+                                        Open child disclosure
+                                      </button>
+                                    )}
+                                  </Disclosure.Button>
+                                  <Disclosure.Content>
+                                    {({ open, ...props }, ref) => (
+                                      <div ref={ref as Ref<HTMLDivElement>} {...props} hidden={!open}>
+                                        <ChildDisclosureContent />
+                                      </div>
+                                    )}
+                                  </Disclosure.Content>
+                                </>
+                              )}
+                            </Disclosure>
+                          </div>
+                        )}
+                      </Disclosure.Content>
+                    </>
+                  )}
+                </Disclosure>
+              );
 
-      userEvent.click(screen.getByText('Open child disclosure'));
+              await user.click(screen.getByText('Open parent disclosure'));
 
-      userEvent.click(screen.getByText('Close all disclosures'));
+              await user.click(screen.getByText('Open child disclosure'));
 
-      expect(screen.getByTestId('parent-content')).not.to.be.visible;
+              await user.click(screen.getByText('Close all disclosures'));
+
+              expect(screen.getByTestId('parent-content')).not.to.be.visible;
+                      
     });
   });
 

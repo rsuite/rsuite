@@ -24,7 +24,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 'lts/*'
-      - run: npm ci
+      - run: npm ci --force
       - run: npm run format:check
       - run: npm run lint
 
@@ -36,7 +36,7 @@ jobs:
     strategy:
       matrix:
         browser: [ChromeCi, Firefox]
-        react: ['React17', 'React18']
+        react-version: [16, 17, 18]
 
     steps:
       - uses: actions/checkout@v2
@@ -56,25 +56,18 @@ jobs:
           restore-keys: |
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
-      
+
       - name: Install dependencies
-        run: npm install
-
-      - name: install react 17
-        if: ${{ matrix.react == 'React17' }}
-        run: npm run install:react-17
-
-      - name: install react 18
-        if: ${{ matrix.react == 'React18' }}
-        run: npm run install:react-18
+        run: npm install --force
 
       - name: Run headless tests
         run: xvfb-run --auto-servernum npm test
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
-          
+          REACT: ${{ matrix.react-version }}
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
-          flags: ${{ matrix.browser }}
+          flags: ${{ matrix.browser }}, React${{ matrix.react-version }}
