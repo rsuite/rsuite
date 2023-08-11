@@ -1,3 +1,13 @@
+## [5.37.4](https://github.com/rsuite/rsuite/compare/v5.37.3...v5.37.4) (2023-08-11)
+
+### Bug Fixes
+
+- **DatePicker,DateRangePicker:** fix calendar styles per design ([#3325](https://github.com/rsuite/rsuite/issues/3325)) ([a7d1c08](https://github.com/rsuite/rsuite/commit/a7d1c08c44c6169bcd10b32dcb4bb9ebcbb93677))
+- **InputGroup:** fix inside addon overlapping input text ([#3324](https://github.com/rsuite/rsuite/issues/3324)) ([8f1ff30](https://github.com/rsuite/rsuite/commit/8f1ff30634dbfcd20f05b63168e767723af5a968))
+- **InputPicker:** Fix InputPicker select bug ([#3329](https://github.com/rsuite/rsuite/issues/3329)) ([c52756b](https://github.com/rsuite/rsuite/commit/c52756b8596c20d275a9d5d2d41b7a81d355920f))
+- **OverlayTrigger:** fix handleClose will trigger twice ([#3286](https://github.com/rsuite/rsuite/issues/3286)) ([11b8eb8](https://github.com/rsuite/rsuite/commit/11b8eb8c6f43b46dcad5d1f800e6eb7a5374b0c2))
+- **Picker:** change color of caret on option group title ([#3323](https://github.com/rsuite/rsuite/issues/3323)) ([0d7be85](https://github.com/rsuite/rsuite/commit/0d7be85eec97063b162877ff8169209070fb1d4a))
+
 ## [5.37.3](https://github.com/rsuite/rsuite/compare/v5.37.2...v5.37.3) (2023-08-02)
 
 ### Bug Fixes
