@@ -327,7 +327,7 @@ const OverlayTrigger = React.forwardRef(
 
     const handleDelayedClose = useCallback(() => {
       if (!enterable) {
-        handleClose();
+        return handleClose();
       }
 
       isOnTrigger.current = false;
