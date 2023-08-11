@@ -594,10 +594,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       }
     }, [readOnly]);
 
-    const handleBlur = useCallback(() => {
-      setOpen(false);
-    }, []);
-
     const handleEnter = useCallback(() => {
       focusInput();
       setOpen(true);
@@ -849,7 +845,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
                   {...inputProps}
                   tabIndex={tabIndex}
                   readOnly={readOnly}
-                  onBlur={createChainedFunction(handleBlur, onBlur)}
+                  onBlur={onBlur}
                   onFocus={createChainedFunction(handleFocus, onFocus)}
                   inputRef={inputRef}
                   onChange={handleSearch}
