@@ -39,6 +39,9 @@ export interface CalendarProps extends WithAsProps {
 
   /** Custom render calendar cells  */
   renderCell?: (date: Date) => React.ReactNode;
+
+  /** Custom cell classes base on it's date */
+  cellClassName?: (date: Date) => string | undefined;
 }
 
 const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps> =
@@ -57,6 +60,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
       onSelect,
       renderCell,
       value,
+      cellClassName,
       ...rest
     } = props;
 
@@ -125,6 +129,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
         )}
         renderToolbar={renderToolbar}
         renderCell={customRenderCell}
+        cellClassName={cellClassName}
         onMoveForward={handleMonthChange}
         onMoveBackward={handleMonthChange}
         onChangeMonth={handleMonthChange}
