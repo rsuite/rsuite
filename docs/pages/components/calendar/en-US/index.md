@@ -20,9 +20,12 @@ A component that displays data by calendar
 
 ### `<Calendar>`
 
+<!-- prettier-sort-markdown-table -->
+
 | Property      | Type`(Default)`                             | Description                                                                          |
 | ------------- | ------------------------------------------- | ------------------------------------------------------------------------------------ |
 | bordered      | boolean                                     | Show border                                                                          |
+| cellClassName | (date: Date) => string \| undefined         | Custom cell classes base on it's date                                                |
 | compact       | boolean                                     | Display a compact calendar                                                           |
 | defaultValue  | Date                                        | Default value                                                                        |
 | isoWeek       | boolean                                     | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day |
@@ -30,5 +33,4 @@ A component that displays data by calendar
 | onChange      | (date:Date) => void                         | Callback fired before the value changed                                              |
 | onSelect      | (date:Date) => void                         | Callback fired before the date selected                                              |
 | renderCell    | (date: Date) => ReactNode                   | Custom render calendar cells                                                         |
-| cellClassName | (date: Date) => string \| undefined         | Custom cell classes base on it's date                                                |
 | value         | Date                                        | Controlled value                                                                     |
