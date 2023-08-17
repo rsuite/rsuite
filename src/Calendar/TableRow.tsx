@@ -27,6 +27,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
       isoWeek,
       onMouseMove,
       onSelect,
+      cellClassName,
       renderCell,
       locale: overrideLocale,
       showWeekNumbers
@@ -101,15 +102,18 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
           }
         }
 
-        const classes = prefix('cell', {
-          'cell-un-same-month': unSameMonth,
-          'cell-is-today': isToday,
-          'cell-selected': isSelected,
-          'cell-selected-start': isStartSelected,
-          'cell-selected-end': isEndSelected,
-          'cell-in-range': !unSameMonth && inRange,
-          'cell-disabled': disabled
-        });
+        const classes = merge(
+          prefix('cell', {
+            'cell-un-same-month': unSameMonth,
+            'cell-is-today': isToday,
+            'cell-selected': isSelected,
+            'cell-selected-start': isStartSelected,
+            'cell-selected-end': isEndSelected,
+            'cell-in-range': !unSameMonth && inRange,
+            'cell-disabled': disabled
+          }),
+          cellClassName?.(thisDate)
+        );
 
         const title = formatDate
           ? formatDate(thisDate, formatStr)
