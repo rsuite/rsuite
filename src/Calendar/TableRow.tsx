@@ -67,6 +67,8 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
           ? isStartSelected || isEndSelected
           : DateUtils.isSameDay(thisDate, selected);
 
+        // TODO-Doma Move those logic that's for DatePicker/DateRangePicker to a separate component
+        //           Calendar is not supposed to be reused this way
         let inRange = false;
         // for Selected
         if (selectedStartDate && selectedEndDate) {
