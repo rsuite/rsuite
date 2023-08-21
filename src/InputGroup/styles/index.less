@@ -129,12 +129,12 @@
       display: block;
       width: 100%;
       border: none;
+      outline: none;
       padding-right: @input-group-padding-for-add-on-base;
     }
 
     .rs-input-group-btn,
     .rs-input-group-addon {
-      position: absolute;
       z-index: @zindex-input-group-icon;
       flex: 0 0 auto;
       width: auto;
@@ -165,7 +165,7 @@
       top: 0;
       background: none;
       border: none;
-      padding: 10px 13px;
+      padding: 10px 12px;
 
       &.rs-input-group-btn {
         padding: 8px 13px;
@@ -178,7 +178,7 @@
     .rs-input-group-addon ~ .rs-auto-complete > input.rs-input,
     .rs-input-group-addon ~ .rs-form-control-wrapper > input.rs-input,
     .rs-input-group-btn ~ .rs-form-control-wrapper > input.rs-input {
-      padding-left: @input-group-padding-for-add-on-base;
+      padding-left: 0;
       padding-right: 12px;
     }
 

@@ -99,6 +99,9 @@ export interface CalendarProps
   /** Custom rendering cell*/
   renderCell?: (date: Date) => React.ReactNode;
 
+  /** Custom cell classes base on it's date */
+  cellClassName?: (date: Date) => string | undefined;
+
   /** Called when opening the month view */
   onToggleMonthDropdown?: (toggle: boolean) => void;
 
@@ -133,6 +136,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       onToggleMonthDropdown,
       onToggleTimeDropdown,
       calendarDate,
+      cellClassName,
       renderCell,
       renderTitle,
       renderToolbar,
@@ -228,6 +232,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         onChangeTime,
         onMouseMove,
         onSelect,
+        cellClassName,
         renderCell,
         showWeekNumbers,
         inline
@@ -246,6 +251,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         onChangeTime,
         onMouseMove,
         onSelect,
+        cellClassName,
         renderCell,
         showWeekNumbers
       ]

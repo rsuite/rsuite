@@ -1,69 +1,76 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
 
 import UploadTrigger from '../UploadTrigger';
+import { render } from '@testing-library/react';
 
 describe('UploadTrigger', () => {
   it('Should output a UploadTrigger', () => {
-    const instance = getDOMNode(<UploadTrigger />);
-    assert.include(instance.className, 'rs-uploader-trigger');
+    const { container } = render(<UploadTrigger />);
+    expect(container.firstChild).to.have.class('rs-uploader-trigger');
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<UploadTrigger disabled />);
-    assert.include(instance.className, 'rs-uploader-trigger-disabled');
+    const { container } = render(<UploadTrigger disabled />);
+    expect(container.firstChild).to.have.class('rs-uploader-trigger-disabled');
   });
 
   it('Should be multipled', () => {
-    const instance = getDOMNode(<UploadTrigger multiple />);
-    assert.ok(instance.querySelector('input[multiple]'));
+    const { container } = render(<UploadTrigger multiple />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    assert.ok(container.querySelector('input[multiple]'));
   });
 
   it('Should have a accept', () => {
-    const instance = getDOMNode(<UploadTrigger accept=".jpg" />);
-    assert.ok(instance.querySelector('input[accept=".jpg"]'));
+    const { container } = render(<UploadTrigger accept=".jpg" />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    assert.ok(container.querySelector('input[accept=".jpg"]'));
   });
 
   it('Should render custom component', () => {
-    const instance = getDOMNode(<UploadTrigger as={'a'} />);
-    assert.equal((instance.querySelector('.rs-uploader-trigger-btn') as HTMLElement).tagName, 'A');
+    const { container } = render(<UploadTrigger as={'a'} />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    assert.equal((container.querySelector('.rs-uploader-trigger-btn') as HTMLElement).tagName, 'A');
   });
 
   it('Should call onChange callback', () => {
     const onChange = sinon.spy();
-    const instance = getDOMNode(<UploadTrigger onChange={onChange} />);
-    ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLElement);
+    const { container } = render(<UploadTrigger onChange={onChange} />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    ReactTestUtils.Simulate.change(container.querySelector('input') as HTMLElement);
 
     expect(onChange).to.have.been.calledOnce;
   });
 
   it('Should have a name', () => {
-    const instance = getDOMNode(<UploadTrigger name="file" />);
-    assert.ok(instance.querySelector('input[name="file"]'));
+    const { container } = render(<UploadTrigger name="file" />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    assert.ok(container.querySelector('input[name="file"]'));
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<UploadTrigger className="custom" />);
-    assert.include(instance.className, 'custom');
+    const { container } = render(<UploadTrigger className="custom" />);
+    expect(container.firstChild).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<UploadTrigger style={{ fontSize }} />);
-    assert.equal((instance.querySelector('button') as HTMLElement).style.fontSize, fontSize);
+    const { container } = render(<UploadTrigger style={{ fontSize }} />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    assert.equal((container.querySelector('button') as HTMLElement).style.fontSize, fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<UploadTrigger classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    const { container } = render(<UploadTrigger classPrefix="custom-prefix" />);
+    expect(container.firstChild).to.have.class(/\bcustom-prefix\b/);
   });
 
   it('Should call `onDragEnter` callback', () => {
     const onDragEnterSpy = sinon.spy();
-    const instance = getDOMNode(<UploadTrigger draggable onDragEnter={onDragEnterSpy} />);
-    const button = instance.querySelector('button') as HTMLElement;
+    const { container } = render(<UploadTrigger draggable onDragEnter={onDragEnterSpy} />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    const button = container.querySelector('button') as HTMLElement;
 
     ReactTestUtils.Simulate.dragEnter(button);
     assert.ok(onDragEnterSpy.calledOnce);
@@ -71,8 +78,9 @@ describe('UploadTrigger', () => {
 
   it('Should call `onDragOver` callback', () => {
     const onDragOverSpy = sinon.spy();
-    const instance = getDOMNode(<UploadTrigger draggable onDragOver={onDragOverSpy} />);
-    const button = instance.querySelector('button') as HTMLElement;
+    const { container } = render(<UploadTrigger draggable onDragOver={onDragOverSpy} />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    const button = container.querySelector('button') as HTMLElement;
 
     ReactTestUtils.Simulate.dragOver(button);
     assert.ok(onDragOverSpy.calledOnce);
@@ -80,8 +88,9 @@ describe('UploadTrigger', () => {
 
   it('Should call `onDragLeave` callback', () => {
     const onDragLeaveSpy = sinon.spy();
-    const instance = getDOMNode(<UploadTrigger draggable onDragLeave={onDragLeaveSpy} />);
-    const button = instance.querySelector('button') as HTMLElement;
+    const { container } = render(<UploadTrigger draggable onDragLeave={onDragLeaveSpy} />);
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    const button = container.querySelector('button') as HTMLElement;
 
     ReactTestUtils.Simulate.dragLeave(button);
     assert.ok(onDragLeaveSpy.calledOnce);

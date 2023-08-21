@@ -17,6 +17,6 @@ describe('DateRangePicker styles', () => {
     const instance = getInstance(<DateRangePicker block defaultOpen />);
 
     expect(instance.root).to.have.class('rs-picker-block');
-    expect(getWidth(instance.overlay)).to.equal(492);
+    expect(getWidth(instance.overlay)).to.equal(264 * 2);
   });
 });

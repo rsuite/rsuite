@@ -1,4 +1,4 @@
-import React, { useState, useImperativeHandle, useCallback } from 'react';
+import React, { useState, useImperativeHandle, useCallback, useMemo } from 'react';
 import kebabCase from 'lodash/kebabCase';
 import trim from 'lodash/trim';
 import isFunction from 'lodash/isFunction';
@@ -606,17 +606,12 @@ export function useSearch<T>(data: readonly T[], props: SearchOptions<T>): UseSe
     [labelKey, searchBy, searchKeyword]
   );
 
-  // TODO-Doma
-  // filteredData should be derived from data and searchKeyword
-  // This redundant state might be here for preventing callback firing multiple times
-  // Find out if this is the case and remove this state if possible
-  const [filteredData, setFilteredData] = useState<T[]>(() =>
-    data.filter(item => checkShouldDisplay(item))
-  );
+  const filteredData = useMemo(() => {
+    return data.filter(item => checkShouldDisplay(item, searchKeyword));
+  }, [checkShouldDisplay, data, searchKeyword]);
 
   const handleSearch = (searchKeyword: string, event: React.SyntheticEvent) => {
     const filteredData = data.filter(item => checkShouldDisplay(item, searchKeyword));
-    setFilteredData(filteredData);
     setSearchKeyword(searchKeyword);
     callback?.(searchKeyword, filteredData, event);
   };

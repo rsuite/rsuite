@@ -346,6 +346,7 @@
 }
 
 // Calendar Table
+// TODO-Doma Use CSS grid layout.
 .rs-calendar-table {
   display: table;
   table-layout: fixed;
@@ -438,7 +439,7 @@
 
 .rs-calendar-table-cell-week-number {
   display: table-cell;
-  width: 1%;
+  min-width: 30px;
   padding: @calendar-table-cell-padding;
   text-align: center;
   vertical-align: middle;
@@ -473,13 +474,13 @@
 
   &-row {
     position: relative;
-    padding-left: (40px + @calendar-picker-padding);
+    padding-left: @calendar-picker-padding + 38px; // 30px for the year label + 8px gap
     padding-right: @calendar-picker-padding;
     padding-top: 5px;
     padding-bottom: 5px;
 
     &:not(:last-child) {
-      border-bottom: 1px dotted var(--rs-border-primary);
+      border-bottom: 1px dashed var(--rs-border-primary);
     }
   }
 
@@ -495,13 +496,14 @@
 
   &-list {
     display: block;
+    min-width: 30px * 6 + 4px * 5;
     .clearfix();
   }
 
   &-cell {
     display: inline-block;
     float: left;
-    width: ~'calc((100% - @{calendar-table-cell-content-today-border-width} * 12 ) / 6)';
+    // width: ~'calc((100% - @{calendar-table-cell-content-today-border-width} * 12 ) / 6)';
     margin: 1px;
     text-align: center;
     vertical-align: middle;
