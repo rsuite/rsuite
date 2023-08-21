@@ -12,6 +12,12 @@ A component that displays data by calendar
 
 <!--{include:`basic.md`}-->
 
+### Custom cell styles
+
+Use `cellClassName` function to specify the custom class name added to each cell. For example, in the following code, we specify that the `.bg-gray` class name is added on Monday, Wednesday, and Friday, so that the background color of the cells in these three columns is gray.
+
+<!--{include:`custom-cell.md`}-->
+
 ### Compact
 
 <!--{include:`compact.md`}-->
