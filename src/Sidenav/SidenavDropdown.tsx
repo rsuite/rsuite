@@ -238,7 +238,7 @@ const SidenavDropdown: SidenavDropdownComponent = React.forwardRef<HTMLElement>(
               disabled,
               open,
               submenu: true,
-              'selected-within': hasSelectedItems
+              'selected-within': hasSelectedItems // TODO-Doma Remove in v6 in favor of :has() selector
             })
           );
           return (

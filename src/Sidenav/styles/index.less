@@ -18,15 +18,13 @@
 
 .rs-sidenav-nav {
   list-style: none;
-  padding: 0;
+  padding: @sidenav-padding-top @sidenav-item-margin-x 0;
 
-  .rs-sidenav-item,
   .rs-dropdown-toggle,
   .rs-dropdown-item,
   .rs-dropdown-item-toggle {
     padding: @sidenav-padding-vertical @sidenav-padding-horizontal;
     transition: @nav-item-transition;
-    border-radius: 0;
     color: inherit;
 
     .high-contrast-mode({
@@ -34,12 +32,8 @@
     });
   }
 
-  > .rs-sidenav-item,
-  > .rs-dropdown {
-    margin: 0 !important;
-  }
-
   // <Dropdown> within <Sidenav>
+  // TODO-Doma Don't mess up with .rs-dropdown. Assign special class names.
   > .rs-dropdown {
     // Submenu toggle
     .rs-dropdown-item-toggle {
@@ -108,10 +102,8 @@
     z-index: 1;
   }
 
-  > .rs-dropdown .rs-dropdown-menu-item-focus,
-  > .rs-dropdown .rs-dropdown-item-active {
+  > .rs-dropdown .rs-dropdown-menu-item-focus {
     font-weight: normal;
-    background: transparent;
   }
 
   > .rs-dropdown .rs-dropdown-menu {
@@ -139,8 +131,8 @@
   > .rs-sidenav-item,
   > .rs-dropdown .rs-dropdown-toggle {
     font-size: @sidenav-level1-item-font-size;
+    font-weight: 600; // Semibold
     line-height: @sidenav-level1-item-line-height;
-    padding-left: (@sidenav-padding-horizontal + @sidenav-icon-width + @sidenav-icon-spacing);
     width: 100%;
     white-space: normal;
 
@@ -148,16 +140,6 @@
     // thus use an inset focus ring to prevent overflow clipping
     &:focus-visible {
       .focus-ring(inset);
-    }
-
-    > .rs-icon:not(.rs-dropdown-toggle-caret) {
-      font-size: @sidenav-level1-item-font-size;
-      margin-right: @sidenav-icon-spacing;
-      position: absolute;
-      left: @sidenav-padding-horizontal;
-      top: @sidenav-padding-vertical;
-      line-height: @sidenav-level1-item-line-height;
-      height: @sidenav-level1-item-font-size;
     }
   }
 
@@ -175,9 +157,23 @@
 
 .rs-sidenav-item {
   position: relative;
-  display: block;
+  display: flex;
+  align-items: center;
   outline: 0;
   overflow: hidden;
+  border-radius: @sidenav-item-border-radius;
+  line-height: @sidenav-item-line-height;
+  padding: @sidenav-item-padding-y @sidenav-item-padding-x;
+  transition: @nav-item-transition;
+  color: inherit;
+
+  .high-contrast-mode({
+    transition: none;
+  });
+
+  &:not(:last-child) {
+    margin-bottom: @sidenav-item-gap-y;
+  }
 
   &:hover,
   &:focus {
@@ -190,6 +186,31 @@
 
     z-index: 2;
   }
+
+  // .rs-sidenav-item-icon
+  // The icon displayed at the start of a Sidenav item
+  &-icon {
+    font-size: @sidenav-level1-item-font-size;
+    margin-right: @sidenav-icon-spacing;
+    line-height: @sidenav-level1-item-line-height;
+    height: @sidenav-level1-item-font-size;
+  }
+}
+
+.rs-sidenav .rs-dropdown-item,
+.rs-sidenav .rs-dropdown-item-toggle {
+  border-radius: @sidenav-item-border-radius;
+  line-height: @sidenav-menuitem-line-height;
+  padding: @sidenav-menuitem-padding-y @sidenav-item-padding-x;
+}
+
+.rs-sidenav-item-active,
+.rs-sidenav .rs-dropdown-item-active {
+  font-size: 600; // Semibold
+}
+
+.rs-sidenav .rs-dropdown-menu > * + * {
+  margin-top: @sidenav-item-gap-y;
 }
 
 // TODO Consider rename as sidenav-footer
@@ -211,11 +232,6 @@
 // Expanded styles
 .rs-sidenav-collapse-in {
   width: @sidenav-collapse-in-width;
-
-  //Nav item
-  .rs-sidenav-item {
-    border-radius: 0;
-  }
 
   //Dropdown style rewrite
   .rs-dropdown {
@@ -333,8 +349,7 @@
   // -----------------
   .rs-dropdown-item,
   .rs-dropdown-item-submenu > .rs-dropdown-item-toggle {
-    padding: @sidenav-children-padding-vertical @sidenav-padding-horizontal
-      @sidenav-children-padding-vertical @sidenav-level2-retract;
+    padding-left: @sidenav-level2-retract;
   }
 
   .rs-dropdown-item {
@@ -450,9 +465,14 @@
     color: var(--rs-sidenav-default-hover-text);
   }
 
-  .rs-sidenav-item.rs-sidenav-item-active,
+  .rs-sidenav-item-active,
+  .rs-dropdown-item-active {
+    background-color: var(--rs-sidenav-default-selected-bg);
+  }
+
+  .rs-sidenav-item-active,
   .rs-dropdown-item.rs-dropdown-item-active,
-  .rs-dropdown.rs-dropdown-selected-within .rs-sidenav-item-icon {
+  .rs-dropdown:has(.rs-dropdown-item-active) .rs-sidenav-item-icon {
     color: var(--rs-sidenav-default-selected-text);
   }
 
@@ -493,15 +513,6 @@
   }
 }
 
-.rs-sidenav-default.rs-sidenav-collapse-in,
-.rs-sidenav-default.rs-sidenav-collapsing,
-.rs-sidenav-default.rs-sidenav-collapse-out {
-  // Set active Level1 style
-  .rs-dropdown.rs-dropdown-selected-within .rs-sidenav-item-icon {
-    color: var(--rs-sidenav-default-selected-text);
-  }
-}
-
 // Inverse Sidenav
 .rs-sidenav-inverse {
   background-color: var(--rs-sidenav-inverse-bg);
@@ -535,14 +546,14 @@
 
   // Active
   .rs-sidenav-item.rs-sidenav-item-active,
-  .rs-dropdown.rs-dropdown-selected-within .rs-dropdown-toggle {
+  .rs-dropdown:has(.rs-dropdown-item-active) .rs-dropdown-toggle {
     .high-contrast-mode({
       color: var(--rs-sidenav-inverse-selected-text);
     });
   }
 
   // Active
-  .rs-dropdown.rs-dropdown-selected-within .rs-dropdown-toggle,
+  .rs-dropdown:has(.rs-dropdown-item-active) .rs-dropdown-toggle,
   .rs-sidenav-item,
   .rs-dropdown .rs-dropdown-toggle {
     color: var(--rs-sidenav-inverse-text);
@@ -583,9 +594,14 @@
   }
 
   // Active
-  .rs-sidenav-item.rs-sidenav-item-active,
-  .rs-dropdown-item.rs-dropdown-item-active,
-  .rs-dropdown.rs-dropdown-selected-within .rs-sidenav-item-icon {
+  .rs-sidenav-item-active,
+  .rs-dropdown-item-active {
+    background-color: var(--rs-sidenav-subtle-selected-bg);
+  }
+
+  .rs-sidenav-item-active,
+  .rs-dropdown-item-active,
+  .rs-dropdown:has(.rs-dropdown-item-active) .rs-sidenav-item-icon {
     color: var(--rs-sidenav-subtle-selected-text);
   }
 
@@ -626,7 +642,7 @@
 .rs-sidenav-subtle.rs-sidenav-collapsing,
 .rs-sidenav-subtle.rs-sidenav-collapse-out {
   // Set active Level1 style
-  .rs-dropdown.rs-dropdown-selected-within .rs-dropdown-toggle {
+  .rs-dropdown:has(.rs-dropdown-item-active) .rs-dropdown-toggle {
     &:hover {
       background-color: var(--rs-sidenav-subtle-hover-bg);
     }
