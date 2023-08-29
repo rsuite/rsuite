@@ -98,6 +98,12 @@
 .rs-nav-horizontal {
   white-space: nowrap;
 
+  > .rs-nav-item {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: top;
+  }
+
   // Waterline
   .rs-nav-bar {
     position: absolute;
@@ -112,19 +118,12 @@
   }
 }
 
-.rs-nav-item,
-.rs-dropdown {
-  .rs-nav-horizontal > & {
-    display: inline-block;
-    vertical-align: top;
-  }
-
-  .rs-nav-vertical > & {
-    display: block;
-  }
-}
-
 .rs-nav-vertical {
+  > .rs-nav-item {
+    display: flex;
+    align-items: center;
+  }
+
   > .rs-dropdown {
     width: 100%;
 
