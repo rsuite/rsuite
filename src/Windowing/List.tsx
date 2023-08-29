@@ -11,7 +11,7 @@ import { useCustom } from '../utils';
 
 export interface ListProps<T = any> extends WithAsProps {
   /**
-   * @deprecated use itemSize instead
+   * @deprecated use {@link itemSize} instead
    * Either a fixed row height (number) or a function that returns the height of a row given its index: ({ index: number }): number
    */
   rowHeight?: number | (({ index: number }) => number);
@@ -47,7 +47,8 @@ export interface ListProps<T = any> extends WithAsProps {
   onScroll?: (props: ListOnScrollProps) => void;
 }
 
-export interface ListHandle extends Partial<VariableSizeList> {
+export interface ListHandle
+  extends Pick<VariableSizeList, 'resetAfterIndex' | 'scrollTo' | 'scrollToItem'> {
   /**
    * @deprecated use scrollToItem instead
    * Ensure row is visible. This method can be used to safely scroll back to a cell that a user has scrolled away from even if it was previously scrolled to.
