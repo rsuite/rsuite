@@ -114,8 +114,8 @@ export function isNodeUncheckable(
 }
 
 export function getFormattedTree(
-  data: any[],
   nodes: TreeNodesType,
+  data: any[],
   props: Required<Pick<CheckTreePickerProps, 'childrenKey' | 'cascade'>>
 ) {
   const { childrenKey, cascade } = props;
@@ -132,7 +132,7 @@ export function getFormattedTree(
       attachParent(formatted, curNode.parent);
       formatted.checkState = checkState;
       if (node[childrenKey]?.length > 0) {
-        formatted[childrenKey] = getFormattedTree(formatted[childrenKey], nodes, props);
+        formatted[childrenKey] = getFormattedTree(nodes, formatted[childrenKey], props);
       }
     }
 

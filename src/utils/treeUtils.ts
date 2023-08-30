@@ -930,10 +930,22 @@ export function useTreeSearch<T>(props: TreeSearchProps<T>) {
   );
 
   // Use search keywords to filter options.
-  const [searchKeywordState, setSearchKeyword] = useState(() => searchKeyword ?? '');
+  const [searchKeywordState, setSearchKeyword] = useState(searchKeyword ?? '');
   const [filteredData, setFilteredData] = useState(() =>
     filterVisibleData(data, searchKeywordState)
   );
+
+  const handleSearch = (searchKeyword: string, event?: React.ChangeEvent) => {
+    const filteredData = filterVisibleData(data, searchKeyword);
+    setFilteredData(filteredData);
+    setSearchKeyword(searchKeyword);
+    event && callback?.(searchKeyword, filteredData, event);
+  };
+
+  useEffect(() => {
+    handleSearch(searchKeyword ?? '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchKeyword]);
 
   const handleSetFilteredData = useCallback(
     (data: T[], searchKeyword: string) => {
@@ -941,13 +953,6 @@ export function useTreeSearch<T>(props: TreeSearchProps<T>) {
     },
     [filterVisibleData]
   );
-
-  const handleSearch = (searchKeyword: string, event: React.ChangeEvent) => {
-    const filteredData = filterVisibleData(data, searchKeyword);
-    setFilteredData(filteredData);
-    setSearchKeyword(searchKeyword);
-    callback?.(searchKeyword, filteredData, event);
-  };
 
   return {
     searchKeywordState,
