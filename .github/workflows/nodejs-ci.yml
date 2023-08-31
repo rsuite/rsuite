@@ -39,7 +39,7 @@ jobs:
         react: ['React17', 'React18']
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup kernel, increase watchers
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
@@ -49,14 +49,14 @@ jobs:
         with:
           node-version: 'lts/*'
       - name: Cache Node.js modules
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
           key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.OS }}-node-
             ${{ runner.OS }}-
-      
+
       - name: Install dependencies
         run: npm install
 
@@ -73,8 +73,8 @@ jobs:
         env:
           CI: true
           BROWSER: ${{ matrix.browser }}
-          
+
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           flags: ${{ matrix.browser }}

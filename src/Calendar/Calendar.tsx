@@ -31,7 +31,10 @@ export interface CalendarProps extends WithAsProps {
   /**  Callback fired before the value changed  */
   onChange?: (date: Date) => void;
 
-  /** Callback fired before the month changed */
+  /**
+   * Callback fired before the month changed
+   * @todo-Doma Change signature to `onMonthChange(year: number, month: number, reason: string)`?
+   */
   onMonthChange?: (date: Date) => void;
 
   /** Callback fired before the date selected */
@@ -39,6 +42,9 @@ export interface CalendarProps extends WithAsProps {
 
   /** Custom render calendar cells  */
   renderCell?: (date: Date) => React.ReactNode;
+
+  /** Custom cell classes base on it's date */
+  cellClassName?: (date: Date) => string | undefined;
 }
 
 const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps> =
@@ -57,6 +63,7 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
       onSelect,
       renderCell,
       value,
+      cellClassName,
       ...rest
     } = props;
 
@@ -67,8 +74,12 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
       (nextValue: Date) => {
         setCalendarDate(nextValue);
         onChange?.(nextValue);
+
+        if (!isSameMonth(nextValue, calendarDate)) {
+          onMonthChange?.(nextValue);
+        }
       },
-      [setCalendarDate, onChange]
+      [setCalendarDate, onChange, calendarDate, onMonthChange]
     );
 
     const handleClickToday = useCallback(() => {
@@ -81,17 +92,6 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
         handleChange(nextValue);
       },
       [handleChange, onSelect]
-    );
-
-    // Trigger onMonthChange when the month changes
-    const handleMonthChange = useCallback(
-      (nextValue: Date) => {
-        if (!isSameMonth(nextValue, calendarDate)) {
-          handleChange(nextValue);
-          onMonthChange?.(nextValue);
-        }
-      },
-      [calendarDate, handleChange, onMonthChange]
     );
 
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
@@ -125,9 +125,10 @@ const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps
         )}
         renderToolbar={renderToolbar}
         renderCell={customRenderCell}
-        onMoveForward={handleMonthChange}
-        onMoveBackward={handleMonthChange}
-        onChangeMonth={handleMonthChange}
+        cellClassName={cellClassName}
+        onMoveForward={handleChange}
+        onMoveBackward={handleChange}
+        onChangeMonth={handleChange}
         onSelect={handleSelect}
       />
     );

@@ -6,6 +6,7 @@ import { getDate, format } from '../../utils/dateUtils';
 import CalendarContext from '../CalendarContext';
 import Sinon from 'sinon';
 import { testStandardProps } from '@test/commonCases';
+import { isToday } from 'date-fns';
 
 describe('Calendar-TableRow', () => {
   testStandardProps(<TableRow />);
@@ -81,5 +82,33 @@ describe('Calendar-TableRow', () => {
         '.rs-calendar-table-cell-week-number'
       ) as HTMLElement
     ).to.have.text(format(new Date(), 'I'));
+  });
+
+  it('Should have a additional className', () => {
+    const ref = React.createRef<HTMLDivElement>();
+    render(
+      <CalendarContext.Provider
+        value={{
+          showWeekNumbers: true,
+          isoWeek: true,
+          date: new Date(),
+          locale: {},
+          cellClassName: (date: Date) => {
+            if (isToday(date)) {
+              return 'custom-cell';
+            }
+          }
+        }}
+      >
+        <TableRow ref={ref} />
+      </CalendarContext.Provider>
+    );
+
+    expect(
+      // eslint-disable-next-line testing-library/no-node-access
+      (ref.current as HTMLDivElement).querySelector(
+        '.rs-calendar-table-cell-is-today'
+      ) as HTMLElement
+    ).to.have.class('custom-cell');
   });
 });

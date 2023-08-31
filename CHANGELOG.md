@@ -1,3 +1,14 @@
+# [5.38.0](https://github.com/rsuite/rsuite/compare/v5.37.4...v5.38.0) (2023-08-18)
+
+### Bug Fixes
+
+- **Calendar:** fix onMonthChange not fired when clicking on dates ([#3335](https://github.com/rsuite/rsuite/issues/3335)) ([035d287](https://github.com/rsuite/rsuite/commit/035d287c0f998e1f1aeed62dca7d2cfeded46167))
+- **InputPicker:** cursor should be text ([#3334](https://github.com/rsuite/rsuite/issues/3334)) ([eed2337](https://github.com/rsuite/rsuite/commit/eed2337546665878c51cf3d88d0801c8a37a908d))
+
+### Features
+
+- **Calendar:** add cellClassName prop ([#3336](https://github.com/rsuite/rsuite/issues/3336)) ([cb7c2ae](https://github.com/rsuite/rsuite/commit/cb7c2aee30985219cb0d29155a3ae3d2f739d1d2)), closes [#3333](https://github.com/rsuite/rsuite/issues/3333)
+
 ## [5.37.4](https://github.com/rsuite/rsuite/compare/v5.37.3...v5.37.4) (2023-08-11)
 
 ### Bug Fixes

@@ -11,10 +11,6 @@
   .picker-menu-group-common(picker);
   .picker-menu-group-title(picker);
   .picker-menu-group-closed(picker);
-
-  .rs-picker-menu-group ~ [role='option'] > .rs-picker-select-menu-item {
-    padding-left: 26px;
-  }
 }
 
 // Menu item (the option)
@@ -44,4 +40,12 @@
   .rs-picker-select-menu-group-children & {
     padding-left: @picker-group-children-padding-left;
   }
+}
+
+.rs-picker-menu-group .rs-picker-select-menu-item {
+  padding-left: @picker-group-children-padding-left;
+}
+
+.rs-picker-menu-group.folded [role='option'] {
+  display: none;
 }
