@@ -1,3 +1,5 @@
+'use client';
+
 // Base
 export { default as Button } from './Button';
 export type { ButtonProps } from './Button';
