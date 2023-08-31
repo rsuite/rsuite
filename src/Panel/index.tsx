@@ -1,3 +1,4 @@
+'use client';
 import Panel from './Panel';
 
 export type { PanelProps } from './Panel';

@@ -1,3 +1,4 @@
+'use client';
 export * from './BrowserDetection';
 export * from './htmlPropsUtils';
 export * from './constants';

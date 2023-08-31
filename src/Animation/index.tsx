@@ -1,3 +1,4 @@
+'use client';
 import Transition, { TransitionProps } from './Transition';
 import Slide, { SlideProps } from './Slide';
 import Collapse, { CollapseProps } from './Collapse';

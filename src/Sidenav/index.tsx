@@ -1,3 +1,4 @@
+'use client';
 import Sidenav from './Sidenav';
 export type { SidenavProps, SidenavComponent } from './Sidenav';
 export type { SidenavToggleProps } from './SidenavToggle';

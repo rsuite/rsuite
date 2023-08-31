@@ -1,3 +1,4 @@
+'use client';
 import React, { useMemo } from 'react';
 import { FormControlPickerProps, RsRefForwardingComponent } from '../@types/common';
 import CheckTreePicker, { ValueType } from '../CheckTreePicker';

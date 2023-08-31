@@ -1,3 +1,4 @@
+'use client';
 import toaster from './toaster';
 
 export type { Toaster } from './toaster';

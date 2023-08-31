@@ -1,3 +1,4 @@
+'use client';
 import RadioTile from './RadioTile';
 export type { RadioTileProps, ValueType } from './RadioTile';
 

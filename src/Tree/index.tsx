@@ -1,3 +1,4 @@
+'use client';
 import Tree from './Tree';
 export type { TreeProps } from './Tree';
 

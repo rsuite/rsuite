@@ -1,3 +1,4 @@
+'use client';
 import Modal from './Modal';
 export type { ModalProps } from './Modal';
 export type { ModalBodyProps } from './ModalBody';

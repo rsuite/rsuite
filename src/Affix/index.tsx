@@ -1,3 +1,4 @@
+'use client';
 import Affix from './Affix';
 import type { AffixProps } from './Affix';
 

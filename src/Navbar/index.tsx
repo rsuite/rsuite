@@ -1,3 +1,4 @@
+'use client';
 import Navbar from './Navbar';
 export type { NavbarProps } from './Navbar';
 export type { NavbarBodyProps } from './NavbarBody';

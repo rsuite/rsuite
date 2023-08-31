@@ -1,3 +1,4 @@
+'use client';
 import defaultLocale from './default';
 export { default as arEG } from './ar_EG';
 export { default as daDK } from './da_DK';

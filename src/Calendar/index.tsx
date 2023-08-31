@@ -1,3 +1,4 @@
+'use client';
 import Calendar from './Calendar';
 import CalendarContainer from './CalendarContainer';
 import { CalendarState } from './useCalendarState';

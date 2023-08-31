@@ -1,3 +1,4 @@
+'use client';
 import Placeholder from './Placeholder';
 
 export type { PlaceholderGraphProps } from './PlaceholderGraph';
