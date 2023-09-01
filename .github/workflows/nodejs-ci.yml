@@ -9,11 +9,13 @@ on:
       - main
       - next
       - v4
+      - *.x
   pull_request:
     branches:
       - main
       - next
       - v4
+      - *.x
 
 jobs:
   lint:
