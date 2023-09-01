@@ -1,0 +1,19 @@
+# https://github.com/actions/stale#usage
+name: 'Close stale issues and PRs'
+on:
+  schedule:
+    - cron: '30 1 * * *'
+
+# https://github.com/actions/stale#recommended-permissions
+permissions:
+  contents: write # only for delete-branch option
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v8
+        with:
+          any-of-labels: 'status: Needs More Info'
