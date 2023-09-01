@@ -28,10 +28,16 @@ async function run() {
 
   const { stdout: currentBranch } = await $`git branch --show-current`;
 
-  if (currentBranch !== 'main' && !isDryRun) {
-    console.info('You could only run this script on `main` branch or with `--dry-run` flag');
+  if (!isReleaseBranch(currentBranch) && !isDryRun) {
+    console.info('You could only run this script on `main`/`*.x` branch or with `--dry-run` flag');
     process.exit(1);
   }
+
+  const pc = (await import('picocolors')).default;
+
+  console.info(`NOTICE: You're doing release on ${pc.bold(currentBranch)} branch`);
+  console.log();
+
   const inquirer = (await import('inquirer')).default;
   const semver = require('semver');
   const currentVersion = require('../package.json').version;
@@ -126,3 +132,7 @@ async function run() {
 }
 
 run();
+
+function isReleaseBranch(branch) {
+  return branch === 'main' || /\d\.x/.test(branch);
+}
