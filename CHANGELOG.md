@@ -1,3 +1,17 @@
+# [5.39.0](https://github.com/rsuite/rsuite/compare/v5.38.0...v5.39.0) (2023-09-04)
+
+### Bug Fixes
+
+- **Nav.Item:** fix vertical mis-alignment of icon ([#3344](https://github.com/rsuite/rsuite/issues/3344)) ([283c013](https://github.com/rsuite/rsuite/commit/283c013b656e19f12ec9b628af83fb1798bc5086))
+
+### Features
+
+- **i18n:** Create ne_NP.ts for Nepali Locale Support. ([#3351](https://github.com/rsuite/rsuite/issues/3351)) ([4b16982](https://github.com/rsuite/rsuite/commit/4b16982b5ac5cec06d9eb707b1ba37ae616cf19f))
+
+### Reverts
+
+- Revert "ci: run ci check on \*.x branches" ([0a98b0c](https://github.com/rsuite/rsuite/commit/0a98b0c765270923f321f1d859ccebbf7adeed37))
+
 # [5.38.0](https://github.com/rsuite/rsuite/compare/v5.37.4...v5.38.0) (2023-08-18)
 
 ### Bug Fixes
