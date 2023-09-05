@@ -243,7 +243,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         }).filter(item => item.visible);
       }
 
-      return getFormattedTree(filteredData, flattenNodes, {
+      return getFormattedTree(flattenNodes, filteredData, {
         childrenKey,
         cascade
       }).map(node => render?.(node, 1));

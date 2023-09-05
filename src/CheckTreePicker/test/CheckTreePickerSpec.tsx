@@ -730,4 +730,16 @@ describe('CheckTreePicker', () => {
     fireEvent.click(screen.getByLabelText('Clear'));
     expect(screen.getByRole('combobox')).to.text('Master (All)1');
   });
+
+  it('Should render correctly when searchKeyword changed', () => {
+    const { rerender } = render(<CheckTreePicker defaultOpen data={data} />);
+
+    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(2);
+    rerender(<CheckTreePicker defaultOpen data={data} searchKeyword="Disabled" />);
+    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(1);
+    rerender(<CheckTreePicker defaultOpen data={data} searchKeyword="Master" />);
+    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(1);
+    rerender(<CheckTreePicker defaultOpen data={data} searchKeyword="Tree" />);
+    expect(screen.queryAllByRole('treeitem')).to.have.lengthOf(0);
+  });
 });
