@@ -1,3 +1,9 @@
+# [5.40.0](https://github.com/rsuite/rsuite/compare/v5.39.0...v5.40.0) (2023-09-10)
+
+### Bug Fixes
+
+- **CheckTree:** searchKeyword is not updated as expected ([#3354](https://github.com/rsuite/rsuite/issues/3354)) ([b642da3](https://github.com/rsuite/rsuite/commit/b642da31c158481eeea8d46e9e3088edfb83acd1)), closes [#3196](https://github.com/rsuite/rsuite/issues/3196)
+
 # [5.39.0](https://github.com/rsuite/rsuite/compare/v5.38.0...v5.39.0) (2023-09-04)
 
 ### Bug Fixes
