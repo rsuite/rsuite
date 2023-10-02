@@ -40,7 +40,7 @@
     "babel-plugin-rsuite": "^1.0.0-beta",
     "babel-plugin-transform-dev": "^2.0.1",
     "brfs": "^1.6.1",
-    "css-loader": "^4.0.0",
+    "css-loader": "^5.0.0",
     "cssnano": "^5.0.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^6.0.0",
