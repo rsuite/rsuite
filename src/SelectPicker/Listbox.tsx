@@ -146,7 +146,7 @@ const Listbox = React.forwardRef(function Listbox<T, K extends React.Key = React
   });
 
   const renderOption = useCallback(
-    (option: T) => {
+    (option: T, style?: React.CSSProperties) => {
       const optionKey = getOptionKey?.(option) ?? JSON.stringify(option);
       const label = option[labelKey];
 
@@ -159,6 +159,7 @@ const Listbox = React.forwardRef(function Listbox<T, K extends React.Key = React
       return (
         <ListboxOption
           key={optionKey}
+          style={style}
           disabled={disabled}
           selected={selected}
           active={focus}
@@ -232,7 +233,7 @@ const Listbox = React.forwardRef(function Listbox<T, K extends React.Key = React
             itemSize={rowHeight}
             {...listProps}
           >
-            {({ index }) => renderOption(options[index])}
+            {({ index, style }) => renderOption(options[index], style)}
           </List>
         )}
       </AutoSizer>

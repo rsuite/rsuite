@@ -525,4 +525,12 @@ describe('SelectPicker', () => {
       }).to.not.throw();
     });
   });
+
+  describe('Virtualized', () => {
+    it('Should option be set to absolute positioning', () => {
+      render(<SelectPicker data={data} open virtualized />);
+
+      expect(screen.queryAllByRole('option')[0]).to.have.style('position', 'absolute');
+    });
+  });
 });
