@@ -33,7 +33,7 @@ describe('Button styles', () => {
     const { container } = render(<Button appearance="subtle">Title</Button>);
 
     expect(container.firstChild).to.have.style('background-color', toRGB('#0000'));
-    expect(container.firstChild).to.have.style('color', toRGB('#8e8e93'));
+    expect(container.firstChild).to.have.style('color', toRGB('#575757'));
   });
 
   it('Ghost button should render the correct styles', () => {
@@ -83,7 +83,7 @@ describe('Button styles', () => {
         </Button>
       );
       expect(container.firstChild).to.have.style('background-color', toRGB('#0000'));
-      expect(container.firstChild).to.have.style('color', toRGB('#8e8e93'));
+      expect(container.firstChild).to.have.style('color', toRGB('#575757'));
     });
   });
 
