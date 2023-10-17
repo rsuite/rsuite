@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-
 import Drawer from '../Drawer';
 
 describe('Drawer', () => {
@@ -43,20 +43,21 @@ describe('Drawer', () => {
 
   it('Should close the drawer when the backdrop is clicked', () => {
     const onCloseSpy = sinon.spy();
+
     render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} />);
 
-    fireEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('wrapper'));
 
-    assert.isTrue(onCloseSpy.calledOnce);
+    expect(onCloseSpy).to.have.been.calledOnce;
   });
 
   it('Should not close the drawer when the "static" drawer is clicked', () => {
     const onCloseSpy = sinon.spy();
     render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />);
 
-    fireEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('wrapper'));
 
-    assert.isFalse(onCloseSpy.calledOnce);
+    expect(onCloseSpy).to.not.have.been.calledOnce;
   });
 
   describe('Size variants', () => {
