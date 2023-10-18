@@ -9,6 +9,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const babel = require('gulp-babel');
 const rtlcss = require('gulp-rtlcss');
+const insert = require('gulp-insert');
 const gulp = require('gulp');
 const babelrc = require('../babel.config');
 const { default: proxyDirectories } = require('./proxyDirectories');
@@ -101,20 +102,31 @@ function minifyCSS() {
 }
 
 function buildCjs() {
-  return gulp.src(tsSources).pipe(babel(babelrc())).pipe(gulp.dest(cjsRoot));
+  return (
+    gulp
+      .src(tsSources)
+      .pipe(babel(babelrc()))
+      // adds the "use-client" directive to /cjs exported from rsuite
+      .pipe(insert.prepend(`'use client';\n`))
+      .pipe(gulp.dest(cjsRoot))
+  );
 }
 
 function buildEsm() {
-  return gulp
-    .src(tsSources)
-    .pipe(
-      babel(
-        babelrc(null, {
-          NODE_ENV: 'esm'
-        })
+  return (
+    gulp
+      .src(tsSources)
+      .pipe(
+        babel(
+          babelrc(null, {
+            NODE_ENV: 'esm'
+          })
+        )
       )
-    )
-    .pipe(gulp.dest(esmRoot));
+      // adds the "use-client" directive to /esm exported from rsuite
+      .pipe(insert.prepend(`'use client';\n`))
+      .pipe(gulp.dest(esmRoot))
+  );
 }
 
 function copyTypescriptDeclarationFiles() {
