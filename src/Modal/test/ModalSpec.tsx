@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import Modal from '../Modal';
@@ -20,18 +21,18 @@ describe('Modal', () => {
     const onCloseSpy = sinon.spy();
     render(<Modal data-testid="wrapper" open onClose={onCloseSpy} />);
 
-    fireEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('wrapper'));
 
-    assert.isTrue(onCloseSpy.calledOnce);
+    expect(onCloseSpy).to.have.been.calledOnce;
   });
 
   it('Should not close the modal when the "static" dialog is clicked', () => {
     const onCloseSpy = sinon.spy();
     render(<Modal data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />);
 
-    fireEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('wrapper'));
 
-    assert.isFalse(onCloseSpy.calledOnce);
+    expect(onCloseSpy).to.not.have.been.calledOnce;
   });
 
   it('Should not close the modal when clicking inside the dialog', () => {

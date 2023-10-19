@@ -145,9 +145,26 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     [onChangeBodyStyles, onEntering]
   );
 
+  const backdropClick = React.useRef<boolean>();
+  const handleMouseDown = useCallback(event => {
+    backdropClick.current = event.target === event.currentTarget;
+  }, []);
+
   const handleBackdropClick = useCallback(
-    e => {
-      if (e.target !== e.currentTarget) {
+    event => {
+      // Ignore click events from non-backdrop.
+      // fix: https://github.com/rsuite/rsuite/issues/3394
+      if (!backdropClick.current) {
+        return;
+      }
+
+      // Ignore click events from dialog.
+      if (event.target === dialogRef.current) {
+        return;
+      }
+
+      // Ignore click events from dialog children.
+      if (event.target !== event.currentTarget) {
         return;
       }
 
@@ -163,18 +180,9 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
         return;
       }
 
-      onClose?.(e);
+      onClose?.(event);
     },
     [backdrop, onClose]
-  );
-
-  const handleClick = useCallback(
-    e => {
-      if (dialogRef.current && e.target !== dialogRef.current) {
-        handleBackdropClick(e);
-      }
-    },
-    [handleBackdropClick]
   );
 
   useWillUnmount(() => {
@@ -199,7 +207,8 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
         animationProps={animationProps}
         dialogTransitionTimeout={animationTimeout}
         backdropTransitionTimeout={150}
-        onClick={backdrop ? handleClick : undefined}
+        onClick={backdrop ? handleBackdropClick : undefined}
+        onMouseDown={handleMouseDown}
       >
         {(transitionProps, transitionRef) => {
           const { className: transitionClassName, ...transitionRest } = transitionProps;
