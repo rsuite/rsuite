@@ -234,13 +234,19 @@ const OverlayTrigger = React.forwardRef(
       };
     }, []);
 
+    // Whether the cursor is on the overlay
+    const mouseEnter = useRef(false);
+
     const handleOpen = useCallback(
       (delay?: number) => {
         const ms = isUndefined(delay) ? delayOpen : delay;
         if (ms && typeof ms === 'number') {
           return (delayOpenTimer.current = setTimeout(() => {
             delayOpenTimer.current = null;
-            setOpen(true);
+
+            if (mouseEnter.current) {
+              setOpen(true);
+            }
           }, ms));
         }
 
@@ -307,6 +313,8 @@ const OverlayTrigger = React.forwardRef(
     }, [open, handleCloseWhenLeave, handleOpen]);
 
     const handleDelayedOpen = useCallback(() => {
+      mouseEnter.current = true;
+
       if (!enterable) {
         return handleOpen();
       }
@@ -326,6 +334,8 @@ const OverlayTrigger = React.forwardRef(
     }, [enterable, open, handleOpen]);
 
     const handleDelayedClose = useCallback(() => {
+      mouseEnter.current = false;
+
       if (!enterable) {
         return handleClose();
       }

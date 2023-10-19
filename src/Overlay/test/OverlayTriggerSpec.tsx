@@ -84,7 +84,31 @@ describe('OverlayTrigger', () => {
       Simulate.mouseOver(screen.getByTestId('whisper'));
     });
 
-    expect(screen.getByTestId('test-whisper_hover')).to.exist;
+    expect(screen.getByRole('tooltip')).to.exist;
+  });
+
+  it('Should delay opening and closing of Tooltip', async () => {
+    render(
+      <OverlayTrigger speaker={<Tooltip>tooltip</Tooltip>} delayOpen={500} trigger="hover">
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    act(() => {
+      Simulate.mouseOver(screen.getByRole('button'));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).to.be.visible;
+    });
+
+    act(() => {
+      Simulate.mouseOut(screen.getByRole('button'));
+    });
+
+    await waitFor(() => {
+      expect(screen.queryByRole('tooltip')).to.not.exist;
+    });
   });
 
   it('Should maintain overlay classname when trigger click and setting [trigger="active"]  ', () => {
