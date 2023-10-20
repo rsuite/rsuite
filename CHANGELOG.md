@@ -1,3 +1,43 @@
+# [5.41.0](https://github.com/rsuite/rsuite/compare/v5.38.0...v5.41.0) (2023-10-20)
+
+### Bug Fixes
+
+- add a safety check for the deprecated findDOMNode ([#3362](https://github.com/rsuite/rsuite/issues/3362)) ([a20d77e](https://github.com/rsuite/rsuite/commit/a20d77e0a11f00eb2ca3d541d5f8150cfa3e675d))
+- **InputGroup:** fix child element's event not firing after InputGroup is disabled ([#3398](https://github.com/rsuite/rsuite/issues/3398)) ([3170408](https://github.com/rsuite/rsuite/commit/3170408f54eba3b0369e9615d471d049b06b75b4))
+- **Modal,Drawer:** fix Modal and Drawer being automatically closed when clicked ([#3400](https://github.com/rsuite/rsuite/issues/3400)) ([b4c6222](https://github.com/rsuite/rsuite/commit/b4c622244ecd2c3f6866278e3fcd6a90707fd8a9))
+- **Navbar:** fix background color of the subtle navigation items incorrect ([#3392](https://github.com/rsuite/rsuite/issues/3392)) ([e49e3e7](https://github.com/rsuite/rsuite/commit/e49e3e763691e131954a5dff3c59280c85e83974))
+- **OverlayTrigger:** fix Overlay should not be open when cursor is not on element ([#3401](https://github.com/rsuite/rsuite/issues/3401)) ([4a340f3](https://github.com/rsuite/rsuite/commit/4a340f357b04825a4a1300c2050613baefcddf52))
+- Typo in docs ([#3368](https://github.com/rsuite/rsuite/issues/3368)) ([dee34c7](https://github.com/rsuite/rsuite/commit/dee34c7e29abbe47fa3d81ab0535a27d5a089afc))
+
+### Features
+
+- add a script to prepend the use client directive ([#3407](https://github.com/rsuite/rsuite/issues/3407)) ([3812779](https://github.com/rsuite/rsuite/commit/38127797adb6d2409d7978df84039a5121f49629))
+- **Button,Nav:** improved font color contrast in subtle appearance ([#3391](https://github.com/rsuite/rsuite/issues/3391)) ([266846a](https://github.com/rsuite/rsuite/commit/266846ac5cdeeb5a24e685da29a49460ea21ea92))
+
+### Reverts
+
+- Revert "refactor(SelectPicker): move grouped options into group element (#3313)" (#3389) ([8b327e3](https://github.com/rsuite/rsuite/commit/8b327e371afbac9f6eb431191900a2ddcaa66ce1)), closes [#3313](https://github.com/rsuite/rsuite/issues/3313) [#3389](https://github.com/rsuite/rsuite/issues/3389)
+
+# [5.40.0](https://github.com/rsuite/rsuite/compare/v5.39.0...v5.40.0) (2023-09-10)
+
+### Bug Fixes
+
+- **CheckTree:** searchKeyword is not updated as expected ([#3354](https://github.com/rsuite/rsuite/issues/3354)) ([b642da3](https://github.com/rsuite/rsuite/commit/b642da31c158481eeea8d46e9e3088edfb83acd1)), closes [#3196](https://github.com/rsuite/rsuite/issues/3196)
+
+# [5.39.0](https://github.com/rsuite/rsuite/compare/v5.38.0...v5.39.0) (2023-09-04)
+
+### Bug Fixes
+
+- **Nav.Item:** fix vertical mis-alignment of icon ([#3344](https://github.com/rsuite/rsuite/issues/3344)) ([283c013](https://github.com/rsuite/rsuite/commit/283c013b656e19f12ec9b628af83fb1798bc5086))
+
+### Features
+
+- **i18n:** Create ne_NP.ts for Nepali Locale Support. ([#3351](https://github.com/rsuite/rsuite/issues/3351)) ([4b16982](https://github.com/rsuite/rsuite/commit/4b16982b5ac5cec06d9eb707b1ba37ae616cf19f))
+
+### Reverts
+
+- Revert "ci: run ci check on \*.x branches" ([0a98b0c](https://github.com/rsuite/rsuite/commit/0a98b0c765270923f321f1d859ccebbf7adeed37))
+
 # [5.38.0](https://github.com/rsuite/rsuite/compare/v5.37.4...v5.38.0) (2023-08-18)
 
 ### Bug Fixes
