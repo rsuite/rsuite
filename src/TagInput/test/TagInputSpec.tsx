@@ -135,4 +135,13 @@ describe('TagInput', () => {
 
     expect(onCreateSpy).to.calledOnce;
   });
+
+  it('Should call `onTagRemove` callback', () => {
+    const onTagRemove = sinon.spy();
+    render(<TagInput defaultValue={['New tag']} onTagRemove={onTagRemove} />);
+    fireEvent.click(screen.getAllByRole('button', { name: /close/i })[0]);
+
+    expect(onTagRemove).to.have.been.calledOnce;
+    expect(onTagRemove).to.have.been.calledWith('New tag');
+  });
 });

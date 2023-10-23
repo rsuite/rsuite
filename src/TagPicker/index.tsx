@@ -15,12 +15,18 @@ export interface TagPickerProps extends InputPickerProps {
    * Set the trigger for creating tags. only valid when creatable
    */
   trigger?: TriggerType | TriggerType[];
+
+  /** Callback fired when a tag is removed. */
+  onTagRemove?: (tag: string, event: React.MouseEvent) => void;
 }
 
 const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(
   (props: TagPickerProps, ref) => {
-    const { tagProps = {}, trigger = 'Enter', ...rest } = props;
-    const contextValue = useMemo(() => ({ multi: true, trigger, tagProps }), [tagProps, trigger]);
+    const { tagProps = {}, trigger = 'Enter', onTagRemove, ...rest } = props;
+    const contextValue = useMemo(
+      () => ({ multi: true, trigger, tagProps, onTagRemove }),
+      [onTagRemove, tagProps, trigger]
+    );
 
     return (
       <InputPickerContext.Provider value={contextValue}>

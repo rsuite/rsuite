@@ -71,6 +71,9 @@ export interface InputPickerContextProps {
    * No overlay provides options
    */
   disabledOptions?: boolean;
+
+  /** Callback fired when a tag is removed. */
+  onTagRemove?: (tag: string, event: React.MouseEvent) => void;
 }
 
 export const InputPickerContext = React.createContext<InputPickerContextProps>({
@@ -178,7 +181,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const { multi, tagProps, trigger, disabledOptions } = useContext(InputPickerContext);
+    const { multi, tagProps, trigger, disabledOptions, onTagRemove } =
+      useContext(InputPickerContext);
 
     if (groupBy === valueKey || groupBy === labelKey) {
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
@@ -332,8 +336,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         remove(val, itemVal => shallowEqual(itemVal, tag));
         setValue(val);
         handleChange(val, event);
+        onTagRemove?.(tag, event);
       },
-      [setValue, cloneValue, handleChange]
+      [cloneValue, setValue, handleChange, onTagRemove]
     );
 
     const handleSelect = useCallback(
