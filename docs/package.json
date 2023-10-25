@@ -67,7 +67,7 @@
     "less-loader": "^8.1.1",
     "markdown-loader": "2.0.2",
     "mini-css-extract-plugin": "^2.1.0",
-    "next": "^12.3.1",
+    "next": "^13.5.1",
     "postcss": "^8.4.31",
     "postcss-custom-properties": "^12.0.0",
     "postcss-loader": "^4.2.0",
