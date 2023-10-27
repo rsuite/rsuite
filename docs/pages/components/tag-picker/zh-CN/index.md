@@ -64,8 +64,8 @@
 | groupBy            | string                                                                           | 设置分组条件在 `data` 中的 `key`           |
 | labelKey           | string `('label')`                                                               | 设置选项显示内容在 `data` 中的 `key`       |
 | listProps          | [ListProps][listprops]                                                           | 虚拟化长列表的相关属性                     |
-| menuMaxHeight      | number `(320)`                                                                   | 设置 Dropdown 的最大高度                   |
 | menuClassName      | string                                                                           | 应用于菜单 DOM 节点的 css class            |
+| menuMaxHeight      | number `(320)`                                                                   | 设置 Dropdown 的最大高度                   |
 | menuStyle          | CSSProperties                                                                    | 应用于菜单 DOM 节点的 style                |
 | onChange           | (value:string, event) => void                                                    | `value` 发生改变时的回调函数               |
 | onClean            | (event) => void                                                                  | 值清理时触发回调                           |
@@ -81,6 +81,7 @@
 | onOpen             | () => void                                                                       | 打开回调函数                               |
 | onSearch           | (searchKeyword: string, event) => void                                           | 搜索的回调函数                             |
 | onSelect           | (value: string, item: [ItemDataType][item] , event) => void                      | 选项被点击选择后的回调函数                 |
+| onTagRemove        | (value: string, event: MouseEvent) => void                                       | 移除标签时的回调函数                       |
 | open               | boolean                                                                          | 是否打开                                   |
 | placeholder        | ReactNode `('Select')`                                                           | 占位符                                     |
 | placement          | [Placement](#code-ts-placement-code)`('bottomStart')`                            | 位置                                       |

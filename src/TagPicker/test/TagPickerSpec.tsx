@@ -457,4 +457,13 @@ describe('TagPicker', () => {
     assert.isEmpty(instance3.target.style.marginLeft);
     assert.equal(instance4.target.style.marginLeft, '-6px');
   });
+
+  it('Should call `onTagRemove` callback', () => {
+    const onTagRemove = sinon.spy();
+    render(<TagPicker data={data} defaultValue={['Kariane']} onTagRemove={onTagRemove} />);
+    fireEvent.click(screen.getAllByRole('button', { name: /close/i })[0]);
+
+    expect(onTagRemove).to.have.been.calledOnce;
+    expect(onTagRemove).to.have.been.calledWith('Kariane');
+  });
 });
