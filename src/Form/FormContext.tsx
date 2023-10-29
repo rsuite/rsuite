@@ -19,9 +19,8 @@ interface TrulyFormContextValue<
   onFieldSuccess: (name: string) => void;
 }
 
-type ExternalPropsContextValue<T> = {
+type ExternalPropsContextValue = {
   checkTrigger?: TypeAttributes.CheckTrigger;
-  formDefaultValue?: T;
   errorFromContext?: boolean;
   readOnly?: boolean;
   plaintext?: boolean;
@@ -34,7 +33,7 @@ export type FormContextValue<T = Record<string, any>, errorMsgType = any> = (
   | TrulyFormContextValue<T, errorMsgType>
   | InitialContextType
 ) &
-  ExternalPropsContextValue<T>;
+  ExternalPropsContextValue;
 
 export const FormContext = React.createContext<FormContextValue>({});
 export const FormValueContext = React.createContext<Record<string, any> | undefined>({});
