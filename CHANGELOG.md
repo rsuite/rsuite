@@ -1,3 +1,13 @@
+# [5.42.0](https://github.com/rsuite/rsuite/compare/v5.41.0...v5.42.0) (2023-10-29)
+
+### Bug Fixes
+
+- **form:** form doesn't pass correct formValue to context ([#3426](https://github.com/rsuite/rsuite/issues/3426)) ([0ade0dc](https://github.com/rsuite/rsuite/commit/0ade0dc60e25857120eb38047cec1c7e78f8df11))
+
+### Features
+
+- **TagPicker,TagInput:** add support for onTagRemove ([#3413](https://github.com/rsuite/rsuite/issues/3413)) ([96f96ab](https://github.com/rsuite/rsuite/commit/96f96abc974fb8b0200c0cc715275fcdcaee3736))
+
 # [5.41.0](https://github.com/rsuite/rsuite/compare/v5.38.0...v5.41.0) (2023-10-20)
 
 ### Bug Fixes
