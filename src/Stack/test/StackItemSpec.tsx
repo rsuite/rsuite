@@ -1,24 +1,23 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Stack from '../Stack';
 import StackItem from '../StackItem';
 import Button from '../../Button';
 
 describe('StackItem', () => {
   it('renders a StackItem', () => {
-    const screen = render(
+    render(
       <Stack>
         <StackItem>stack item</StackItem>
       </Stack>
     );
-    expect(screen.getByText('stack item').className).to.include('rs-stack-item');
-    expect((screen.getByText('stack item').parentNode as HTMLElement).className).to.equal(
-      'rs-stack'
-    );
+    expect(screen.getByText('stack item')).to.have.class('rs-stack-item');
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(screen.getByText('stack item').parentNode).to.have.class('rs-stack');
   });
 
   it('renders a StackItem with flex props', () => {
-    const screen = render(
+    render(
       <Stack>
         <StackItem flex="auto" grow={2} alignSelf="flex-end" order={1}>
           stack item
@@ -35,7 +34,7 @@ describe('StackItem', () => {
   });
 
   it('should render a stackitem with custom class name', () => {
-    const screen = render(
+    render(
       <Stack>
         <StackItem className="custom">custom element</StackItem>
       </Stack>
@@ -46,7 +45,7 @@ describe('StackItem', () => {
   });
 
   it('should render a stackitem as Button', () => {
-    const screen = render(
+    render(
       <Stack>
         <StackItem as={Button}>custom element</StackItem>
       </Stack>

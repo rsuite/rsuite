@@ -8,7 +8,8 @@ import {
   ReactChildren,
   useTimeout,
   mergeRefs,
-  useControlled
+  useControlled,
+  useUpdateEffect
 } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
@@ -67,9 +68,21 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
     const vertical = placement === 'left' || placement === 'right';
     const lengthKey = vertical ? 'height' : 'width';
 
-    const [activeIndex, setActiveIndex] = useControlled(activeIndexProp, defaultActiveIndex);
+    const [activeIndex, setActiveIndex, isControlled] = useControlled(
+      activeIndexProp,
+      defaultActiveIndex
+    );
     const [lastIndex, setLastIndex] = useState(0);
     const rootRef = useRef<HTMLDivElement>(null);
+
+    useUpdateEffect(() => {
+      // When the index is controlled, the index is not updated when the number of children changes.
+      if (isControlled) {
+        return;
+      }
+      // Reset the index when the number of children changes.
+      setActiveIndex(0);
+    }, [children, isControlled]);
 
     // Set a timer for automatic playback.
     // `autoplay` needs to be cast to boolean type to avoid undefined parameters.

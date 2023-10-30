@@ -1,63 +1,63 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
-
 import Drawer from '../Drawer';
 
 describe('Drawer', () => {
   it('Should render a drawer', () => {
-    const instance = getDOMNode(
+    render(
       <Drawer open>
         <p>message</p>
       </Drawer>
     );
-    assert.isNotNull(instance.querySelectorAll('.rs-drawer.rs-drawer-right'));
+
+    expect(screen.getByRole('dialog')).to.have.text('message');
   });
 
   it('Should have a `top` className for placement', () => {
-    const instance = getDOMNode(
+    render(
       <Drawer open placement="top">
         <p>message</p>
       </Drawer>
     );
-    assert.isNotNull(instance.querySelectorAll('.rs-drawer-top'));
+
+    expect(screen.getByRole('dialog')).to.have.class('rs-drawer-top');
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<Drawer className="custom" open />);
-    assert.isNotNull(instance.querySelector('.rs-drawer.custom'));
+    render(<Drawer className="custom" open />);
+    expect(screen.getByRole('dialog')).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Drawer style={{ fontSize }} open />);
-    assert.equal((instance.querySelector('.rs-drawer') as HTMLElement).style.fontSize, fontSize);
+    render(<Drawer style={{ fontSize }} open />);
+    expect(screen.getByRole('dialog')).to.have.style('font-size', fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Drawer classPrefix="custom-prefix" open />);
-    assert.isNotNull(instance.querySelector('.rs-custom-prefix'));
+    render(<Drawer classPrefix="custom-prefix" open />);
+    expect(screen.getByRole('dialog')).to.have.class('rs-custom-prefix');
   });
 
   it('Should close the drawer when the backdrop is clicked', () => {
     const onCloseSpy = sinon.spy();
-    const { getByTestId } = render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} />);
 
-    fireEvent.click(getByTestId('wrapper'));
+    render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} />);
 
-    assert.isTrue(onCloseSpy.calledOnce);
+    userEvent.click(screen.getByTestId('wrapper'));
+
+    expect(onCloseSpy).to.have.been.calledOnce;
   });
 
   it('Should not close the drawer when the "static" drawer is clicked', () => {
     const onCloseSpy = sinon.spy();
-    const { getByTestId } = render(
-      <Drawer data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />
-    );
+    render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />);
 
-    fireEvent.click(getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('wrapper'));
 
-    assert.isFalse(onCloseSpy.calledOnce);
+    expect(onCloseSpy).to.not.have.been.calledOnce;
   });
 
   describe('Size variants', () => {

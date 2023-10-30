@@ -1,37 +1,42 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
 import DropdownToggle from '../DropdownToggle';
 import User from '@rsuite/icons/legacy/User';
+import { render } from '@testing-library/react';
+import { testStandardProps } from '@test/commonCases';
 
 describe('DropdownToggle', () => {
+  testStandardProps(<DropdownToggle />);
   it('Should render a toggle', () => {
     const title = 'Test';
-    const instance = getDOMNode(<DropdownToggle>{title}</DropdownToggle>);
+    const { container } = render(<DropdownToggle>{title}</DropdownToggle>);
+    expect(container.firstChild).to.have.class('rs-dropdown-toggle');
 
-    assert.include(instance.className, 'dropdown-toggle');
-    assert.ok(instance.querySelector('.rs-dropdown-toggle-caret'));
-    assert.equal(instance.textContent, title);
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelector('.rs-dropdown-toggle-caret')).to.exist;
+    expect(container.firstChild).to.have.text(title);
   });
 
   it('Should have a title', () => {
     const title = 'Test';
-    const instance = getDOMNode(<DropdownToggle>{title}</DropdownToggle>);
-    assert.equal(instance.textContent, title);
+    const { container } = render(<DropdownToggle>{title}</DropdownToggle>);
+    expect(container.firstChild).to.have.text(title);
   });
 
   it('Should have an icon', () => {
-    const instance = getDOMNode(<DropdownToggle icon={<User />}>abc</DropdownToggle>);
-    assert.ok(instance.querySelector('.rs-dropdown-toggle-icon.rs-icon'));
+    const { container } = render(<DropdownToggle icon={<User />}>abc</DropdownToggle>);
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelector('.rs-dropdown-toggle-icon.rs-icon')).to.exist;
   });
 
   it('Should render custom component', () => {
-    const instance = getDOMNode(<DropdownToggle as={'div'}>abc</DropdownToggle>);
-    assert.equal(instance.tagName, 'DIV');
+    const { container } = render(<DropdownToggle as={'div'}>abc</DropdownToggle>);
+    expect(container.firstChild).to.have.tagName('DIV');
   });
 
   it('Should not show caret', () => {
-    const instance = getDOMNode(<DropdownToggle noCaret>abc</DropdownToggle>);
-    assert.ok(!instance.querySelector('.rs-dropdown-toggle-caret'));
+    const { container } = render(<DropdownToggle noCaret>abc</DropdownToggle>);
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelector('.rs-dropdown-toggle-caret')).to.not.exist;
   });
 
   it('Should render a custom toggle', () => {
@@ -42,23 +47,7 @@ describe('DropdownToggle', () => {
         </button>
       );
     };
-    const instance = getDOMNode(<DropdownToggle renderToggle={renderToggle}>abc</DropdownToggle>);
-    assert.equal(instance.textContent, 'new');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<DropdownToggle className="custom" />);
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<DropdownToggle style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<DropdownToggle classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    const { container } = render(<DropdownToggle renderToggle={renderToggle}>abc</DropdownToggle>);
+    expect(container.firstChild).to.have.text('new');
   });
 });

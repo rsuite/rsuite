@@ -61,6 +61,9 @@ export interface AutoCompleteProps<T = ValueType>
   /** The width of the menu will automatically follow the width of the input box */
   menuAutoWidth?: boolean;
 
+  /** AutoComplete Content */
+  autoComplete?: string;
+
   /** Custom filter function to determine whether the item will be displayed */
   filterBy?: (value: string, item: ItemDataType) => boolean;
 
@@ -114,6 +117,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       size,
       menuClassName,
       id,
+      readOnly,
       renderMenu,
       renderMenuItem,
       onSelect,
@@ -294,6 +298,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
             disabled={disabled}
             value={value}
             size={size}
+            readOnly={readOnly}
             onBlur={handleInputBlur}
             onFocus={handleInputFocus}
             onChange={handleChange}
@@ -325,6 +330,7 @@ AutoComplete.propTypes = {
   onKeyDown: PropTypes.func,
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
+  readOnly: PropTypes.bool,
   renderMenu: PropTypes.func,
   renderMenuItem: PropTypes.func,
   style: PropTypes.object,

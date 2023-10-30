@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Button from '../Button';
 import ButtonToolbar from '../../ButtonToolbar';
-import { getDOMNode, getDefaultPalette, toRGB, getStyle, itChrome } from '@test/testUtils';
+import { getDefaultPalette, toRGB, getStyle, itChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -10,76 +10,36 @@ const { H500, H700, H900 } = getDefaultPalette();
 
 describe('Button styles', () => {
   it('Default button should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(<Button ref={instanceRef}>Title</Button>);
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'backgroundColor'),
-      toRGB('#f7f7fa'),
-      'Default button background-color'
-    );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'color'),
-      toRGB('#575757'),
-      'Default button font-color'
-    );
+    const { container } = render(<Button>Title</Button>);
+
+    expect(container.firstChild).to.have.style('background-color', toRGB('#f7f7fa'));
+    expect(container.firstChild).to.have.style('color', toRGB('#575757'));
   });
 
   it('Primary button should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(
-      <Button appearance="primary" ref={instanceRef}>
-        Title
-      </Button>
-    );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'backgroundColor'),
-      H500,
-      'Primary button background-color'
-    );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'color'),
-      toRGB('#fff'),
-      'Primary button font-color'
-    );
+    const { container } = render(<Button appearance="primary">Title</Button>);
+
+    expect(container.firstChild).to.have.style('background-color', H500);
+    expect(container.firstChild).to.have.style('color', toRGB('#fff'));
   });
 
   it('Link button should render the correct font color', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(
-      <Button appearance="link" ref={instanceRef}>
-        Title
-      </Button>
-    );
-    assert.equal(getStyle(getDOMNode(instanceRef.current), 'color'), H700);
+    const { container } = render(<Button appearance="link">Title</Button>);
+
+    expect(container.firstChild).to.have.style('color', H700);
   });
 
   it('Subtle button should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(
-      <Button appearance="subtle" ref={instanceRef}>
-        Title
-      </Button>
-    );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'color'),
-      toRGB('#8e8e93'),
-      'Subtle button font-color'
-    );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'backgroundColor'),
-      toRGB('#0000'),
-      'Subtle button background-color'
-    );
+    const { container } = render(<Button appearance="subtle">Title</Button>);
+
+    expect(container.firstChild).to.have.style('background-color', toRGB('#0000'));
+    expect(container.firstChild).to.have.style('color', toRGB('#575757'));
   });
 
   it('Ghost button should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(
-      <Button appearance="ghost" ref={instanceRef}>
-        Title
-      </Button>
-    );
-    assert.equal(getStyle(getDOMNode(instanceRef.current), 'color'), H700);
+    const { container } = render(<Button appearance="ghost">Title</Button>);
+
+    expect(container.firstChild).to.have.style('color', H700);
   });
 
   itChrome('Button should render the correct padding', () => {
@@ -106,50 +66,31 @@ describe('Button styles', () => {
 
   describe('Colorful buttons', () => {
     it('Primary button should render the correct color', () => {
-      const instanceRef = React.createRef<HTMLButtonElement>();
-      render(
-        <Button color="red" appearance="primary" ref={instanceRef}>
+      const { container } = render(
+        <Button color="red" appearance="primary">
           Red
         </Button>
       );
-      const dom = getDOMNode(instanceRef.current);
-      assert.equal(
-        getStyle(dom, 'backgroundColor'),
-        toRGB('#f44336'),
-        'Color button background-color'
-      );
-      assert.equal(getStyle(dom, 'color'), toRGB('#fff'), 'Color button font-color');
+
+      expect(container.firstChild).to.have.style('background-color', toRGB('#f44336'));
+      expect(container.firstChild).to.have.style('color', toRGB('#fff'));
     });
 
     it('Subtle button should render the correct styles', () => {
-      const instanceRef = React.createRef<HTMLButtonElement>();
-      render(
-        <Button color="red" appearance="subtle" ref={instanceRef}>
+      const { container } = render(
+        <Button color="red" appearance="subtle">
           Red
         </Button>
       );
-      assert.equal(
-        getStyle(getDOMNode(instanceRef.current), 'color'),
-        toRGB('#8e8e93'),
-        'Subtle button font-color'
-      );
-      assert.equal(
-        getStyle(getDOMNode(instanceRef.current), 'backgroundColor'),
-        toRGB('#0000'),
-        'Subtle button background-color'
-      );
+      expect(container.firstChild).to.have.style('background-color', toRGB('#0000'));
+      expect(container.firstChild).to.have.style('color', toRGB('#575757'));
     });
   });
 
   it('Button should render the correct display', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(
-      <Button block ref={instanceRef}>
-        Tittle
-      </Button>
-    );
-    const dom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(dom, 'display'), 'block');
+    const { container } = render(<Button block>Tittle</Button>);
+
+    expect(container.firstChild).to.have.style('display', 'block');
   });
 
   it('Disabled button should render the correct opacity', () => {
@@ -187,79 +128,51 @@ describe('Button styles', () => {
   });
 
   it('Default button should render the correct styles when set active', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(
-      <Button ref={instanceRef} active>
-        Title
-      </Button>
-    );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'backgroundColor'),
-      toRGB('#d9d9d9'),
-      'Default button background-color'
-    );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'color'),
-      toRGB('#272c36'),
-      'Default button font-color'
-    );
+    const { container } = render(<Button active>Title</Button>);
+
+    expect(container.firstChild).to.have.style('background-color', toRGB('#d9d9d9'));
+    expect(container.firstChild).to.have.style('color', toRGB('#272c36'));
   });
 
   it('Primary button should render the correct styles when set active', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(
-      <Button appearance="primary" ref={instanceRef} active>
+    const { container } = render(
+      <Button appearance="primary" active>
         Title
       </Button>
     );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'backgroundColor'),
-      H700,
-      'Primary button background-color'
-    );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'color'),
-      toRGB('#fff'),
-      'Primary button font-color'
-    );
+    expect(container.firstChild).to.have.style('background-color', H700);
+    expect(container.firstChild).to.have.style('color', toRGB('#fff'));
   });
 
   it('Link button should render the correct font color when set active', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(
-      <Button appearance="link" ref={instanceRef} active>
+    const { container } = render(
+      <Button appearance="link" active>
         Title
       </Button>
     );
-    assert.equal(getStyle(getDOMNode(instanceRef.current), 'color'), H900);
+
+    expect(container.firstChild).to.have.style('color', H900);
   });
 
   it('Subtle button should render the correct styles when set active', () => {
-    const instanceRef = React.createRef<HTMLButtonElement>();
-    render(
-      <Button appearance="subtle" ref={instanceRef} active>
+    const { container } = render(
+      <Button appearance="subtle" active>
         Title
       </Button>
     );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'color'),
-      toRGB('#272c36'),
-      'Subtle button font-color'
-    );
-    assert.equal(
-      getStyle(getDOMNode(instanceRef.current), 'backgroundColor'),
-      toRGB('#e5e5ea'),
-      'Subtle button background-color'
-    );
+
+    expect(container.firstChild).to.have.style('background-color', toRGB('#e5e5ea'));
+    expect(container.firstChild).to.have.style('color', toRGB('#272c36'));
   });
 
   it('Ghost button should render the correct styles when set active', () => {
     const instanceRef = React.createRef<HTMLButtonElement>();
-    render(
+    const { container } = render(
       <Button appearance="ghost" ref={instanceRef} active>
         Title
       </Button>
     );
-    assert.equal(getStyle(getDOMNode(instanceRef.current), 'color'), H900);
+
+    expect(container.firstChild).to.have.style('color', H900);
   });
 });

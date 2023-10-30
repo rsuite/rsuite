@@ -1,6 +1,7 @@
 const { assert } = require('chai');
 const fs = require('fs');
 const path = require('path');
+const glob = require('glob');
 const flatten = require('lodash/flatten');
 const { findResources } = require('../scripts/proxyDirectories');
 
@@ -45,8 +46,12 @@ const filesToEnsureExistence = [
   'lib/dist/rsuite.min.js',
   'lib/dist/rsuite.css',
   'lib/dist/rsuite.min.css',
+  'lib/dist/rsuite-no-reset.css',
+  'lib/dist/rsuite-no-reset.min.css',
   'lib/dist/rsuite-rtl.css',
   'lib/dist/rsuite-rtl.min.css',
+  'lib/dist/rsuite-no-reset-rtl.css',
+  'lib/dist/rsuite-no-reset-rtl.min.css',
 
   // Validate docs
   'lib/CHANGELOG.md',
@@ -91,4 +96,15 @@ it('Ensure file existence', () => {
 it('Should enable Dark mode by default', () => {
   const css = fs.readFileSync(path.join(__dirname, '../lib/dist/rsuite.css'));
   assert.isTrue(/\.rs-theme-dark/.test(css), 'Dark mode styles are included');
+});
+
+it('Prepends the `use client` directive to components', () => {
+  const libfiles = glob.sync('lib/{cjs,esm}/**/*.js');
+
+  libfiles.forEach(file => {
+    const content = fs.readFileSync(file, 'utf-8');
+    assert.isTrue(content.startsWith(`'use client';`), `File ${file} has 'use client' directive`);
+  });
+
+  console.log(`  ✅ ${libfiles.length} files have been validated.`);
 });

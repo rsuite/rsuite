@@ -1,4 +1,14 @@
-import { findNodeOfTree, filterNodesOfTree, toggleExpand } from '../treeUtils';
+import sinon from 'sinon';
+import {
+  findNodeOfTree,
+  filterNodesOfTree,
+  toggleExpand,
+  getParentMap,
+  getPathTowardsItem,
+  getKeyParentMap,
+  walkTreeDfs,
+  walkTreeBfs
+} from '../treeUtils';
 
 describe('[utils] Tree utils', () => {
   it('Should find the valid node', () => {
@@ -159,6 +169,124 @@ describe('[utils] Tree utils', () => {
           })
         ).to.eql([1]);
       });
+    });
+  });
+
+  describe('getParentMap(items, getChildren)', () => {
+    type Node = {
+      name: string;
+      children?: Node[];
+    };
+    const items = [
+      {
+        name: 'Root',
+        children: [
+          {
+            name: 'Parent',
+            children: [
+              {
+                name: 'Child'
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
+    it('Should return a map that maps an item to its parent', () => {
+      const map = getParentMap(items, (node: Node) => node.children);
+
+      expect(map.get(items[0].children[0].children[0])).to.equal(items[0].children[0]);
+      expect(map.get(items[0].children[0])).to.equal(items[0]);
+      expect(map.get(items[0])).to.be.undefined;
+    });
+  });
+
+  describe('getKeyParentMap(items, getKey, getChildren)', () => {
+    type Node = {
+      name: string;
+      children?: Node[];
+    };
+    const items = [
+      {
+        name: 'Root',
+        children: [
+          {
+            name: 'Parent',
+            children: [
+              {
+                name: 'Child'
+              }
+            ]
+          }
+        ]
+      }
+    ];
+
+    it("Should return a map that maps an item's key to its parent", () => {
+      const map = getKeyParentMap(
+        items,
+        node => node.name,
+        (node: Node) => node.children
+      );
+
+      expect(map.get('Child')).to.equal(items[0].children[0]);
+      expect(map.get('Parent')).to.equal(items[0]);
+      expect(map.get('Root')).to.be.undefined;
+    });
+  });
+
+  describe('getPathTowardsItem(target, getParent)', () => {
+    // const items = [1, 2, 3, 4, 5];
+    const getParent = n => (n === 1 ? undefined : n - 1);
+
+    it('Should return a path from root node towards target node', () => {
+      expect(getPathTowardsItem(5, getParent)).to.eql([1, 2, 3, 4, 5]);
+    });
+
+    it('Should return empty path if target is falsy', () => {
+      expect(getPathTowardsItem(undefined, getParent)).to.eql([]);
+    });
+  });
+
+  describe('walkTreeBfs', () => {
+    it('Should traverse tree nodes with breadth-first strategy', () => {
+      /**
+       * Bindary tree
+       *    0
+       *  1   2
+       * 3 4 5 6
+       */
+      function getChildren(node: number) {
+        if (node >= 3) return undefined;
+        return [node * 2 + 1, node * 2 + 2];
+      }
+
+      const callback = sinon.spy();
+      walkTreeBfs([0], getChildren, callback);
+
+      expect(callback.callCount).to.equal(7);
+      expect(callback.getCalls().map(call => call.firstArg)).to.eql([0, 1, 2, 3, 4, 5, 6]);
+    });
+  });
+  describe('walkTreeDfs', () => {
+    it('Should traverse tree nodes with depth-first strategy', () => {
+      /**
+       * Bindary tree
+       *    0
+       *  1   2
+       * 3 4 5 6
+       */
+      function getChildren(node: number) {
+        if (node >= 3) return undefined;
+        return [node * 2 + 1, node * 2 + 2];
+      }
+
+      const callback = sinon.spy();
+      walkTreeDfs([0], getChildren, callback);
+
+      expect(callback.callCount).to.equal(7);
+      expect(callback.getCalls().map(call => call.firstArg)).to.eql([0, 1, 3, 4, 2, 5, 6]);
     });
   });
 });

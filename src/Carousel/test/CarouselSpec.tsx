@@ -1,8 +1,7 @@
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
-import { render, act, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, act, waitFor, fireEvent } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import Carousel from '../Carousel';
 
@@ -10,12 +9,13 @@ describe('Carousel', () => {
   testStandardProps(<Carousel />);
 
   it('Should button be displayed on the right', () => {
-    const instance = getDOMNode(<Carousel placement="right" />);
-    expect(instance.className).to.contain('carousel-placement-right');
+    const { container } = render(<Carousel placement="right" />);
+
+    expect(container.firstChild).to.have.class('rs-carousel-placement-right');
   });
 
   it('Should render 2 subitems', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Carousel>
         <img />
         {undefined}
@@ -24,20 +24,23 @@ describe('Carousel', () => {
     );
 
     expect(
-      (instance.querySelector('.rs-carousel-slider') as HTMLElement).childNodes.length
+      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+      (container.querySelector('.rs-carousel-slider') as HTMLElement).childNodes.length
     ).to.equal(2);
-    expect(instance.querySelectorAll('.rs-carousel-label-wrapper').length).to.equal(2);
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelectorAll('.rs-carousel-label-wrapper').length).to.equal(2);
   });
 
   it('Should button be displayed as a bar', () => {
-    const instance = getDOMNode(<Carousel shape="bar" />);
-    expect(instance.className).to.contain('carousel-shape-bar');
+    const { container } = render(<Carousel shape="bar" />);
+
+    expect(container.firstChild).to.have.class('rs-carousel-shape-bar');
   });
 
   it('Should be autoplay', async () => {
     const style = { height: 20 };
     const onSlideStartSpy = sinon.spy();
-    getDOMNode(
+    render(
       <Carousel
         autoplay
         autoplayInterval={500}
@@ -56,15 +59,18 @@ describe('Carousel', () => {
 
   it('Should call `onSlideStart` callback', async () => {
     const onSlideStartSpy = sinon.spy();
-    const instance = getDOMNode(
+    const { container } = render(
       <Carousel onSlideStart={onSlideStartSpy}>
         <div>1</div>
         <div>2</div>
       </Carousel>
     );
 
-    const input = instance
+    // eslint-disable-next-line testing-library/no-container
+    const input = container
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelectorAll('.rs-carousel-label-wrapper')[1]
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelector('input') as HTMLInputElement;
 
     fireEvent.click(input);
@@ -76,15 +82,18 @@ describe('Carousel', () => {
 
   it('Should call `onSelect` callback', async () => {
     const onSelectSpy = sinon.spy();
-    const instance = getDOMNode(
+    const { container } = render(
       <Carousel onSelect={onSelectSpy}>
         <div>1</div>
         <div>2</div>
       </Carousel>
     );
 
-    const input = instance
+    // eslint-disable-next-line testing-library/no-container
+    const input = container
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelectorAll('.rs-carousel-label-wrapper')[1]
+      // eslint-disable-next-line testing-library/no-node-access
       .querySelector('input') as HTMLInputElement;
 
     act(() => {
@@ -99,14 +108,15 @@ describe('Carousel', () => {
   it('Should call `onSlideEnd` callback', async () => {
     const onSlideEndSpy = sinon.spy();
 
-    const instance = getDOMNode(
+    const { container } = render(
       <Carousel onSlideEnd={onSlideEndSpy}>
         <div>1</div>
         <div>2</div>
       </Carousel>
     );
 
-    Simulate.transitionEnd(instance.querySelector('.rs-carousel-slider') as HTMLElement);
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    Simulate.transitionEnd(container.querySelector('.rs-carousel-slider') as HTMLElement);
 
     await waitFor(() => {
       expect(onSlideEndSpy).to.called;
@@ -114,7 +124,7 @@ describe('Carousel', () => {
   });
 
   it('Should initialize with the default index position', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Carousel defaultActiveIndex={2}>
         <div>1</div>
         <div>2</div>
@@ -122,46 +132,60 @@ describe('Carousel', () => {
         <div>4</div>
       </Carousel>
     );
-    expect((instance.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
+    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
+    expect((container.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
       '3'
     );
   });
 
   it('Should handle active index dynamically', () => {
-    type AppInstance = {
-      setIndex: (newIndex: number) => void;
-    };
-    const ref = React.createRef<AppInstance>();
-    const App = React.forwardRef((_props, ref) => {
-      const [index, setIndex] = React.useState(1);
-      React.useImperativeHandle(ref, () => ({
-        setIndex: newIndex => {
-          setIndex(newIndex);
-        }
-      }));
-
-      return (
-        <Carousel activeIndex={index}>
-          <div>1</div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-        </Carousel>
-      );
-    });
-
-    const { container } = render(<App ref={ref} />);
-
-    expect((container.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
-      '2'
+    const { rerender } = render(
+      <Carousel activeIndex={1}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+      </Carousel>
     );
 
-    act(() => {
-      (ref.current as AppInstance).setIndex(3);
-    });
+    expect(screen.getByText('1')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('2')).to.have.attr('aria-hidden', 'false');
+    expect(screen.getByText('3')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('4')).to.have.attr('aria-hidden', 'true');
 
-    expect((container.querySelector('[aria-hidden=false]') as HTMLElement).textContent).to.equal(
-      '4'
+    rerender(
+      <Carousel activeIndex={3}>
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+      </Carousel>
     );
+
+    expect(screen.getByText('1')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('2')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('3')).to.have.attr('aria-hidden', 'true');
+    expect(screen.getByText('4')).to.have.attr('aria-hidden', 'false');
+  });
+
+  it('Should reset index when children change', () => {
+    const { rerender } = render(
+      <Carousel defaultActiveIndex={2}>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+      </Carousel>
+    );
+
+    expect(screen.getByText('3')).to.have.attribute('aria-hidden', 'false');
+
+    rerender(
+      <Carousel defaultActiveIndex={2}>
+        <button>1</button>
+      </Carousel>
+    );
+
+    expect(screen.getByText('1')).to.have.attribute('aria-hidden', 'false');
   });
 });

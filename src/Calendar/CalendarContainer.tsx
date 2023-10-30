@@ -5,14 +5,13 @@ import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import CalendarBody from './CalendarBody';
 import CalendarHeader, { CalendarHeaderProps } from './CalendarHeader';
-import { useClassNames, composeFunctions } from '../utils';
+import { useClassNames } from '../utils';
 import {
   disabledTime,
   addMonths,
   shouldRenderDate,
   shouldRenderTime,
   shouldRenderMonth,
-  setDate,
   isSameMonth,
   calendarOnlyProps,
   omitHideDisabledProps
@@ -67,14 +66,14 @@ export interface CalendarProps
   /** The value that mouse hover on in range selection */
   hoverRangeValue?: [Date, Date];
 
-  /** Is it in the same month as today */
-  inSameMonth?: (date: Date) => boolean;
-
   /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
   isoWeek?: boolean;
 
   /** Limit showing how many years in the future */
   limitEndYear?: number;
+
+  /** Limit showing how many years in the past */
+  limitStartYear?: number;
 
   /** Custom locale */
   locale: CalendarLocale;
@@ -100,6 +99,9 @@ export interface CalendarProps
   /** Custom rendering cell*/
   renderCell?: (date: Date) => React.ReactNode;
 
+  /** Custom cell classes base on it's date */
+  cellClassName?: (date: Date) => string | undefined;
+
   /** Called when opening the month view */
   onToggleMonthDropdown?: (toggle: boolean) => void;
 
@@ -120,9 +122,9 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       disabledForward,
       format,
       hoverRangeValue,
-      inSameMonth,
       isoWeek = false,
       limitEndYear,
+      limitStartYear,
       locale,
       onChangeMonth,
       onChangeTime,
@@ -134,6 +136,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       onToggleMonthDropdown,
       onToggleTimeDropdown,
       calendarDate,
+      cellClassName,
       renderCell,
       renderTitle,
       renderToolbar,
@@ -193,12 +196,8 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
     const showMonth = calendarState === CalendarState.MONTH || onlyShowMonth;
 
     const inSameThisMonthDate = useCallback(
-      (date: Date) =>
-        composeFunctions(
-          d => setDate(d, 1),
-          d => isSameMonth(d, date)
-        )(date),
-      []
+      (date: Date) => isSameMonth(calendarDate, date),
+      [calendarDate]
     );
 
     const calendarClasses = merge(
@@ -226,13 +225,14 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         disabledDate: isDisabledDate,
         format,
         hoverRangeValue,
-        inSameMonth: inSameMonth ?? inSameThisMonthDate,
+        inSameMonth: inSameThisMonthDate,
         isoWeek,
         locale,
         onChangeMonth: handleChangeMonth,
         onChangeTime,
         onMouseMove,
         onSelect,
+        cellClassName,
         renderCell,
         showWeekNumbers,
         inline
@@ -243,7 +243,6 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         format,
         handleChangeMonth,
         hoverRangeValue,
-        inSameMonth,
         inSameThisMonthDate,
         inline,
         isDisabledDate,
@@ -252,6 +251,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         onChangeTime,
         onMouseMove,
         onSelect,
+        cellClassName,
         renderCell,
         showWeekNumbers
       ]
@@ -284,6 +284,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
             <MonthDropdown
               show={showMonth}
               limitEndYear={limitEndYear}
+              limitStartYear={limitStartYear}
               disabledMonth={isDisabledDate}
             />
           )}
@@ -318,9 +319,9 @@ CalendarContainer.propTypes = {
   hideHours: PropTypes.func,
   hideMinutes: PropTypes.func,
   hideSeconds: PropTypes.func,
-  inSameMonth: PropTypes.func,
   isoWeek: PropTypes.bool,
   limitEndYear: PropTypes.number,
+  limitStartYear: PropTypes.number,
   locale: PropTypes.object,
   onChangeMonth: PropTypes.func,
   onChangeTime: PropTypes.func,

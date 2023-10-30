@@ -2,6 +2,7 @@
 @import '../../styles/mixins/listbox';
 @import '../../Button/styles/mixin';
 @import '../../Picker/styles/mixin';
+@import '../../Stack/styles/index';
 @import 'mixin';
 
 // DatePicker Picker
@@ -48,9 +49,11 @@
 
 // Calendar in DatePicker popup
 .rs-picker-menu {
-  @calendar-width: (
-    @datepicker-calendar-cell-gap-x * 6 + 30px * 7 + @datepicker-calendar-padding-x * 2
-  );
+  @calendar-width: 264px; // This is a fixed value per design.
+
+  @calendar-padding-x: 15px;
+  // The padding used when show week numbers.
+  @calendar-padding-x-condensed: 12px;
 
   .rs-picker-toolbar {
     max-width: 100%;
@@ -67,15 +70,23 @@
     margin: 0 auto;
 
     &-show-week-numbers {
-      @calendar-width: (
-        @datepicker-calendar-cell-gap-x * 7 + 30px * 8 + @datepicker-calendar-padding-x * 2
-      );
+      @calendar-width: 278px; // This is a fixed value per design.
 
       min-width: @calendar-width;
+
+      & .rs-calendar-body {
+        padding-left: @calendar-padding-x-condensed;
+        padding-right: @calendar-padding-x-condensed;
+      }
     }
 
     &-header {
       width: 100%;
+    }
+
+    &-body {
+      padding-left: @calendar-padding-x;
+      padding-right: @calendar-padding-x;
     }
 
     &-table {

@@ -20,6 +20,8 @@ export { default as zhCN } from './zh_CN';
 export { default as zhTW } from './zh_TW';
 export { default as faIR } from './fa_IR';
 export { default as frFR } from './fr_FR';
+export { default as jaJP } from './ja_JP';
+export { default as neNP } from './ne_NP';
 
 type PickKeys<T> = {
   [keys in keyof T]?: T[keys];

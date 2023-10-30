@@ -63,8 +63,8 @@ Learn more in [Accessibility](/guide/accessibility).
 | labelKey           | string `('label')`                                                             | Set label key in data                                       |
 | listProps          | [ListProps][listprops]                                                         | Properties of virtualized lists.                            |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                       | Locale text                                                 |
-| menuMaxHeight      | number `(320)`                                                                 | The max height of Dropdown                                  |
 | menuClassName      | string                                                                         | A css class to apply to the Menu DOM node.                  |
+| menuMaxHeight      | number `(320)`                                                                 | The max height of Dropdown                                  |
 | menuStyle          | CSSProperties                                                                  | A style to apply to the Menu DOM node.                      |
 | onChange           | (value:string[], event) => void                                                | Callback fired when value change                            |
 | onClean            | (event) => void                                                                | Callback fired when value clean                             |
@@ -80,6 +80,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | onOpen             | () => void                                                                     | Callback fired when open component                          |
 | onSearch           | (searchKeyword:string, event) => void                                          | Callback fired when search                                  |
 | onSelect           | (value:string[], item: [ItemDataType][item] , event) => void                   | Callback fired when item is selected                        |
+| onTagRemove        | (value: string, event: MouseEvent) => void                                     | Callback fired when tag remove                              |
 | open               | boolean                                                                        | Whether open the component                                  |
 | placeholder        | ReactNode `('Select')`                                                         | Setting placeholders                                        |
 | placement          | [Placement](#code-ts-placement-code)`('bottomStart')`                          | The placement of component                                  |

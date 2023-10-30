@@ -5,19 +5,20 @@ import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import {
   importFakerString,
+  mockAsyncData,
+  mockAsyncDataString,
   mockTreeData,
   mockTreeDataToString,
-  mockAsyncData,
-  mockAsyncDataString
+  sandboxFakerVersion
 } from '@/utils/mock';
-
-const sandboxDependencies = {
-  '@faker-js/faker': 'latest'
-};
 
 const mockfile = {
   name: 'mock.js',
   content: [importFakerString, mockTreeDataToString, mockAsyncDataString].join('\n')
+};
+
+const sandboxDependencies = {
+  ...sandboxFakerVersion
 };
 
 export default function Page() {

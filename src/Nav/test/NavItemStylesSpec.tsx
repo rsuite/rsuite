@@ -17,7 +17,7 @@ describe('NavItem styles', () => {
     );
     const navItemContentDom = getDOMNode(instanceRef.current);
     inChrome && assert.equal(getStyle(navItemContentDom, 'padding'), '8px 12px', 'NavItem padding');
-    assert.equal(getStyle(navItemContentDom, 'color'), toRGB('#8e8e93'), 'NavItem color');
+    assert.equal(getStyle(navItemContentDom, 'color'), toRGB('#575757'), 'NavItem color');
   });
 
   it('Default NavItem should render the correct styles when active', () => {

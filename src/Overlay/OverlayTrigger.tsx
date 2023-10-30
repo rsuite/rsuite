@@ -36,7 +36,7 @@ function mergeEvents(events = {}, props = {}) {
   return nextEvents;
 }
 
-export interface OverlayTriggerProps extends StandardProps, AnimationEventProps {
+export interface OverlayTriggerProps extends Omit<StandardProps, 'children'>, AnimationEventProps {
   /** Triggering events */
   trigger?: OverlayTriggerType | OverlayTriggerType[];
 
@@ -202,7 +202,7 @@ const OverlayTrigger = React.forwardRef(
       ...rest
     } = props;
 
-    const { Portal } = usePortal({ container });
+    const { Portal, target: containerElement } = usePortal({ container });
     const triggerRef = useRef();
     const overlayRef = useRef<PositionInstance>();
     const [open, setOpen] = useControlled(openProp, defaultOpen);
@@ -234,13 +234,19 @@ const OverlayTrigger = React.forwardRef(
       };
     }, []);
 
+    // Whether the cursor is on the overlay
+    const mouseEnter = useRef(false);
+
     const handleOpen = useCallback(
       (delay?: number) => {
         const ms = isUndefined(delay) ? delayOpen : delay;
         if (ms && typeof ms === 'number') {
           return (delayOpenTimer.current = setTimeout(() => {
             delayOpenTimer.current = null;
-            setOpen(true);
+
+            if (mouseEnter.current) {
+              setOpen(true);
+            }
           }, ms));
         }
 
@@ -307,6 +313,8 @@ const OverlayTrigger = React.forwardRef(
     }, [open, handleCloseWhenLeave, handleOpen]);
 
     const handleDelayedOpen = useCallback(() => {
+      mouseEnter.current = true;
+
       if (!enterable) {
         return handleOpen();
       }
@@ -326,8 +334,10 @@ const OverlayTrigger = React.forwardRef(
     }, [enterable, open, handleOpen]);
 
     const handleDelayedClose = useCallback(() => {
+      mouseEnter.current = false;
+
       if (!enterable) {
-        handleClose();
+        return handleClose();
       }
 
       isOnTrigger.current = false;
@@ -470,7 +480,7 @@ const OverlayTrigger = React.forwardRef(
             : undefined,
         onExited: createChainedFunction(followCursor ? handleExited : undefined, onExited),
         placement,
-        container,
+        container: containerElement,
         open
       };
 

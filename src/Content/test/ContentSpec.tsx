@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
+import { render } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import Content from '../Content';
 
@@ -8,9 +8,9 @@ describe('Content', () => {
 
   it('Should render a Content', () => {
     const title = 'Test';
-    const instance = getDOMNode(<Content>{title}</Content>);
+    const { container } = render(<Content>{title}</Content>);
 
-    assert.equal(instance.className, 'rs-content');
-    assert.equal(instance.textContent, title);
+    expect(container.firstChild).to.have.class('rs-content');
+    expect(container.firstChild).to.have.text(title);
   });
 });

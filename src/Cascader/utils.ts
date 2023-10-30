@@ -1,128 +1,104 @@
-import { useState, useMemo } from 'react';
-import slice from 'lodash/slice';
-import { shallowEqual, useUpdateEffect } from '../utils';
-import { findNodeOfTree } from '../utils/treeUtils';
-import { attachParent } from '../utils/attachParent';
+import { useMemo } from 'react';
+import { getPathTowardsItem } from '../utils/treeUtils';
 
-export function getColumnsAndPaths<T extends Record<string, unknown>>(data: T[], value, options) {
-  const { childrenKey, valueKey, isAttachChildren } = options;
-  const columns: T[][] = [];
-  const paths: T[] = [];
-  const findNode = (items: T[]): { items: T[]; active: T } | null => {
-    for (let i = 0; i < items.length; i += 1) {
-      const children = items[i][childrenKey] as T[] | undefined;
+type GetColumnsAndPathsOptions<T> = {
+  getParent: (item: T) => T | undefined;
+  getChildren: (item: T) => readonly T[] | undefined;
+};
 
-      if (shallowEqual(items[i][valueKey], value)) {
-        return { items, active: items[i] };
-      } else if (children) {
-        const node = findNode(children);
+/**
+ * Calculate columns to be displayed:
+ *
+ * - Every ancestor level of activeItem should be displayed
+ * - The level that activeItem is at should be displayed
+ * - If activeItem is a parent node, its child level should be displayed
+ *
+ * @param items
+ * @param value
+ * @param options
+ * @returns
+ */
+export function getColumnsAndPaths<T extends Record<string, unknown>>(
+  items: readonly T[],
+  pathTarget: T | undefined,
+  options: GetColumnsAndPathsOptions<T>
+) {
+  const { getParent, getChildren } = options;
 
-        if (node) {
-          columns.push(children.map(item => attachParent(item, items[i])));
-          paths.push(node.active);
-
-          return { items, active: items[i] };
-        }
-      }
-    }
-    return null;
-  };
-
-  const selectedNode = findNode(data);
-  columns.push(data);
-
-  if (selectedNode) {
-    paths.push(selectedNode.active);
+  if (!pathTarget) {
+    return {
+      columns: [items],
+      path: []
+    };
   }
 
-  if (isAttachChildren) {
-    const valueToNode = findNodeOfTree(data, item => item[valueKey] === value);
-    if (valueToNode?.[childrenKey]) {
-      columns.unshift(valueToNode[childrenKey]);
-    }
+  const columns: (readonly T[])[] = [];
+  const path: T[] = [pathTarget];
+
+  const children = getChildren(pathTarget);
+
+  if (children && children.length > 0) {
+    columns.unshift(children);
   }
 
-  columns.reverse();
-  paths.reverse();
+  for (let parent = getParent(pathTarget); !!parent; parent = getParent(parent)) {
+    columns.unshift(getChildren(parent) ?? []);
+    path.unshift(parent);
+  }
 
-  return { columns, paths };
+  columns.unshift(items);
+
+  return { columns, path };
 }
 
 type UsePathsParams<T> = {
   data: T[];
-  valueKey: string;
-  childrenKey: string;
-  value: unknown;
+  /**
+   * The item where the focus is on
+   */
+  activeItem: T | undefined;
+  /**
+   * The item selected by Cascader's value
+   */
+  selectedItem: T | undefined;
+  getParent: (item: T) => T | undefined;
+  getChildren: (item: T) => readonly T[] | undefined;
 };
 
-export function usePaths<T extends Record<string, unknown>>(params: UsePathsParams<T>) {
-  const { data, valueKey, childrenKey, value } = params;
-
-  const { columns, paths } = useMemo(
-    () => getColumnsAndPaths(data, value, { valueKey, childrenKey }),
-    [data, value, valueKey, childrenKey]
+/**
+ * Caculate following 3 things
+ *
+ * - The columns of items to be displayed
+ * - The path towards the current focused item
+ * - The path towards the current selected item (referred to by Cascader's value)
+ *
+ * @param params
+ * @returns
+ */
+export function usePaths<T extends Record<string, unknown>>({
+  data,
+  activeItem,
+  selectedItem,
+  getParent,
+  getChildren
+}: UsePathsParams<T>) {
+  const pathTowardsSelectedItem = useMemo(
+    () => getPathTowardsItem(selectedItem, getParent),
+    [getParent, selectedItem]
   );
 
-  // The columns displayed in the cascading panel.
-  const [columnData, setColumnData] = useState(columns);
-
-  // The path after cascading data selection.
-  const [selectedPaths, setSelectedPaths] = useState<T[]>(paths);
-
-  // The path corresponding to the selected value.
-  const [valueToPaths, setValueToPaths] = useState<T[]>(paths);
-
-  /**
-   * Add a list of options to the cascading panel. Used for lazy loading options.
-   * @param column
-   * @param index The index of the current column.
-   */
-  function addColumn(column: T[], index: number) {
-    setColumnData([...slice(columnData, 0, index), column]);
-  }
-
-  /**
-   * Remove subsequent columns of the specified column
-   * @param index
-   */
-  function removeColumnByIndex(index: number) {
-    setColumnData([...slice(columnData, 0, index)]);
-  }
-
-  /**
-   * Enforce update of columns and paths.
-   * @param nextValue  Selected value
-   * @param isAttachChildren  Whether to attach the children of the selected node.
-   */
-  function enforceUpdate(nextValue, isAttachChildren?: boolean) {
-    const { columns, paths } = getColumnsAndPaths(data, nextValue, {
-      valueKey,
-      childrenKey,
-      isAttachChildren
-    });
-
-    setColumnData(columns);
-    setSelectedPaths(paths);
-  }
-
-  useUpdateEffect(() => {
-    // Update paths when value is updated, then update valueToPaths.
-    setValueToPaths(paths);
-  }, [paths]);
-
-  useUpdateEffect(() => {
-    enforceUpdate(value);
-  }, [data]);
+  const { columns: columnsToDisplay, path: pathTowardsActiveItem } = useMemo(
+    () =>
+      getColumnsAndPaths(data, activeItem, {
+        getParent,
+        getChildren
+      }),
+    [data, activeItem, getParent, getChildren]
+  );
 
   return {
-    enforceUpdate,
-    columnData,
-    valueToPaths,
-    selectedPaths,
-    setValueToPaths,
-    setColumnData,
-    setSelectedPaths,
-    addColumn,
-    removeColumnByIndex
+    columnsToDisplay,
+    pathTowardsSelectedItem,
+    pathTowardsActiveItem
   };
 }

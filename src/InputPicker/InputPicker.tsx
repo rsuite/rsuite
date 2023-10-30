@@ -16,7 +16,6 @@ import { InputPickerLocale } from '../locales';
 import {
   createChainedFunction,
   tplTransform,
-  getDataGroupBy,
   useClassNames,
   useCustom,
   useControlled,
@@ -24,6 +23,7 @@ import {
   isOneOf,
   KEY_VALUES
 } from '../utils';
+import { getDataGroupBy } from '../utils/getDataGroupBy';
 
 import {
   DropdownMenu,
@@ -71,6 +71,9 @@ export interface InputPickerContextProps {
    * No overlay provides options
    */
   disabledOptions?: boolean;
+
+  /** Callback fired when a tag is removed. */
+  onTagRemove?: (tag: string, event: React.MouseEvent) => void;
 }
 
 export const InputPickerContext = React.createContext<InputPickerContextProps>({
@@ -103,6 +106,20 @@ export interface InputPickerProps<T = ValueType>
 
   /** Called when the option is created */
   onCreate?: (value: ValueType, item: ItemDataType, event: React.SyntheticEvent) => void;
+
+  /**
+   * Customize whether to display "Create option" action with given textbox value
+   *
+   * By default, InputPicker hides "Create option" action when textbox value matches any filtered item's [valueKey] property
+   *
+   * @param searchKeyword Value of the textbox
+   * @param filteredData The items filtered by the searchKeyword
+   */
+  shouldDisplayCreateOption?: (
+    searchKeyword: string,
+    // FIXME-Doma Use generic type
+    filteredData: InputItemDataType[]
+  ) => boolean;
 }
 
 const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
@@ -132,6 +149,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       menuAutoWidth = true,
       menuMaxHeight = 320,
       creatable,
+      shouldDisplayCreateOption,
       value: valueProp,
       valueKey = 'value',
       virtualized,
@@ -163,7 +181,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const { multi, tagProps, trigger, disabledOptions } = useContext(InputPickerContext);
+    const { multi, tagProps, trigger, disabledOptions, onTagRemove } =
+      useContext(InputPickerContext);
 
     if (groupBy === valueKey || groupBy === labelKey) {
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
@@ -225,12 +244,14 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     );
 
     // Use search keywords to filter options.
-    const { searchKeyword, setSearchKeyword, checkShouldDisplay, handleSearch } = useSearch({
-      labelKey,
-      data: getAllData(),
-      searchBy,
-      callback: handleSearchCallback
-    });
+    const { searchKeyword, resetSearch, checkShouldDisplay, handleSearch } = useSearch(
+      getAllData(),
+      {
+        labelKey,
+        searchBy,
+        callback: handleSearchCallback
+      }
+    );
 
     // Update the state when the data in props changes
     useEffect(() => {
@@ -315,8 +336,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         remove(val, itemVal => shallowEqual(itemVal, tag));
         setValue(val);
         handleChange(val, event);
+        onTagRemove?.(tag, event);
       },
-      [setValue, cloneValue, handleChange]
+      [cloneValue, setValue, handleChange, onTagRemove]
     );
 
     const handleSelect = useCallback(
@@ -341,7 +363,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const handleSelectItem = (value: string, item: InputItemDataType, event: React.MouseEvent) => {
       setValue(value);
       setFocusItemValue(value);
-      setSearchKeyword('');
+      resetSearch();
       handleSelect(value, item, event);
       handleChange(value, event);
       handleClose();
@@ -368,7 +390,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       }
 
       setValue(val);
-      setSearchKeyword('');
+      resetSearch();
       setFocusItemValue(nextItemValue);
       handleSelect(val, item, event);
       handleChange(val, event);
@@ -377,6 +399,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const handleTagKeyPress = useCallback(
       (event: React.KeyboardEvent) => {
+        // When composing, ignore the keypress event.
+        if (event.nativeEvent.isComposing) {
+          return;
+        }
         const val = cloneValue();
         const data = getAllData();
 
@@ -402,7 +428,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         }
 
         setValue(val);
-        setSearchKeyword('');
+        resetSearch();
         handleSelect(val, focusItem, event);
         handleChange(val, event);
       },
@@ -413,7 +439,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         disabledItemValues,
         disabledOptions,
         setValue,
-        setSearchKeyword,
+        resetSearch,
         handleSelect,
         handleChange,
         valueKey,
@@ -441,7 +467,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           focusItem = createOption(searchKeyword);
         }
         setValue(focusItemValue);
-        setSearchKeyword('');
+        resetSearch();
 
         if (focusItem) {
           handleSelect(focusItemValue, focusItem, event);
@@ -457,7 +483,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         valueKey,
         searchKeyword,
         handleClose,
-        setSearchKeyword,
+        resetSearch,
         createOption,
         getAllData,
         handleChange,
@@ -496,7 +522,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         }
         setValue(null);
         setFocusItemValue(null);
-        setSearchKeyword('');
+        resetSearch();
         if (multi) {
           handleChange([], event);
         } else {
@@ -509,7 +535,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         searchKeyword,
         setValue,
         setFocusItemValue,
-        setSearchKeyword,
+        resetSearch,
         multi,
         onClean,
         handleChange
@@ -562,9 +588,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const handleExited = useCallback(() => {
       setFocusItemValue(multi ? value?.[0] : value);
-      setSearchKeyword('');
+      resetSearch();
       onClose?.();
-    }, [setFocusItemValue, setSearchKeyword, onClose, value, multi]);
+    }, [setFocusItemValue, resetSearch, onClose, value, multi]);
 
     const handleFocus = useCallback(() => {
       if (!readOnly) {
@@ -572,10 +598,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         triggerRef.current?.open();
       }
     }, [readOnly]);
-
-    const handleBlur = useCallback(() => {
-      setOpen(false);
-    }, []);
 
     const handleEnter = useCallback(() => {
       focusInput();
@@ -659,12 +681,17 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
       const menuClassPrefix = multi ? 'picker-check-menu' : 'picker-select-menu';
-      const classes = merge(className, menuClassName, prefix(menuClassPrefix));
+      const classes = merge(className, menuClassName, prefix(multi ? 'check-menu' : 'select-menu'));
       const styles = { ...menuStyle, left, top };
 
       let items: ItemDataType[] = filterNodesOfTree(getAllData(), checkShouldDisplay);
 
-      if (creatable && searchKeyword && !items.find(item => item[valueKey] === searchKeyword)) {
+      if (
+        creatable &&
+        (typeof shouldDisplayCreateOption === 'function'
+          ? shouldDisplayCreateOption(searchKeyword, items)
+          : searchKeyword && !items.find(item => item[valueKey] === searchKeyword))
+      ) {
         items = [...items, createOption(searchKeyword)];
       }
 
@@ -694,7 +721,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           focusItemValue={focusItemValue}
           maxHeight={menuMaxHeight}
           data={items}
+          // FIXME-Doma
+          // `group` is redundant so long as `groupBy` exists
           group={!isUndefined(groupBy)}
+          groupBy={groupBy}
           onSelect={multi ? handleCheckTag : (handleSelectItem as any)} // fixme don't use any
           renderMenuGroup={renderMenuGroup}
           renderMenuItem={renderDropdownMenuItem}
@@ -820,7 +850,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
                   {...inputProps}
                   tabIndex={tabIndex}
                   readOnly={readOnly}
-                  onBlur={createChainedFunction(handleBlur, onBlur)}
+                  onBlur={onBlur}
                   onFocus={createChainedFunction(handleFocus, onFocus)}
                   inputRef={inputRef}
                   onChange={handleSearch}

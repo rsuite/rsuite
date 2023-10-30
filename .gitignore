@@ -37,6 +37,14 @@ node_modules
 
 .scannerwork/
 
+# eslint
+
+.eslintcache
+
+# stylelint
+
+.stylelintcache
+
 # custom
 
 .vscode

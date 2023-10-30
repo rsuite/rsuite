@@ -2,7 +2,6 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Button from '../Button';
 
@@ -10,101 +9,111 @@ describe('Button', () => {
   testStandardProps(<Button />);
 
   it('Should output a button', () => {
-    const instance = getDOMNode(<Button>Title</Button>);
-    assert.equal(instance.textContent, 'Title');
-    assert.equal(instance.nodeName, 'BUTTON');
-    assert.ok(instance.className.match(/\bbtn-default\b/));
+    render(<Button>Title</Button>);
+
+    const button = screen.getByRole('button');
+    expect(button).to.have.text('Title');
+    expect(button).to.have.tagName('BUTTON');
+    expect(button).to.have.class('rs-btn-default');
   });
 
   it('Should show the submit type', () => {
-    const instance = getDOMNode(<Button type="submit">Title</Button>);
-    assert.equal(instance.getAttribute('type'), 'submit');
+    render(<Button type="submit">Title</Button>);
+
+    expect(screen.getByRole('button')).to.have.attr('type', 'submit');
   });
 
   it('Should show the default type', () => {
-    const instance = getDOMNode(<Button>Title</Button>);
-    assert.equal(instance.getAttribute('type'), 'button');
+    render(<Button>Title</Button>);
+
+    expect(screen.getByRole('button')).to.have.attr('type', 'button');
   });
 
   it('Should output an anchor if called with a href', () => {
     const href = '/url';
-    const instance = getDOMNode(<Button href={href}>Title</Button>);
-    assert.equal(instance.nodeName, 'A');
-    assert.equal(instance.getAttribute('href'), href);
+    render(<Button href={href}>Title</Button>);
+
+    expect(screen.getByRole('link')).to.have.attr('href', href);
   });
 
   it('Should call onClick callback', () => {
     const onClick = sinon.spy();
-    const instance = getDOMNode(<Button onClick={onClick}>Title</Button>);
-    ReactTestUtils.Simulate.click(instance);
+    render(<Button onClick={onClick}>Title</Button>);
+    ReactTestUtils.Simulate.click(screen.getByRole('button'));
 
     expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<Button disabled>Title</Button>) as HTMLButtonElement;
+    render(<Button disabled>Title</Button>);
 
-    assert.ok(instance.disabled);
+    expect(screen.getByRole('button')).to.have.property('disabled', true);
   });
 
   it('Should be loading', () => {
-    const instance = getInstance(<Button loading>Title</Button>);
-    assert.include(instance.className, 'rs-btn-loading');
-    assert.ok(instance.querySelector('.rs-btn-spin'));
+    const { container } = render(<Button loading>Title</Button>);
+
+    expect(container.firstChild).to.have.class('rs-btn-loading');
+    // eslint-disable-next-line testing-library/no-container,testing-library/no-node-access
+    expect(container.querySelector('.rs-btn-spin')).to.exist;
   });
 
   it('Should be disabled link', () => {
     const onClickSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Button disabled href="https://rsuitejs.com" onClick={onClickSpy}>
         Title
       </Button>
     );
 
-    ReactTestUtils.Simulate.click(instance);
-    assert.ok(!onClickSpy.calledOnce);
+    ReactTestUtils.Simulate.click(screen.getByText('Title'));
+    expect(onClickSpy).to.not.have.been.calledOnce;
   });
 
   it('Should have block class', () => {
-    const instance = getDOMNode(<Button block>Title</Button>);
-    assert.ok(instance.className.match(/\bbtn-block\b/));
+    const { container } = render(<Button block>Title</Button>);
+
+    expect(container.firstChild).to.have.class('rs-btn-block');
   });
 
   it('Should apply appearance', () => {
-    const instance = getDOMNode(<Button appearance="ghost">Title</Button>);
-    assert.ok(instance.className.match(/\bbtn-ghost\b/));
+    const { container } = render(<Button appearance="ghost">Title</Button>);
+
+    expect(container.firstChild).to.have.class('rs-btn-ghost');
   });
 
   it('Should apply size class', () => {
-    const instance = getDOMNode(<Button size="lg">Title</Button>);
-    assert.ok(instance.className.match(/\bbtn-lg\b/));
+    const { container } = render(<Button size="lg">Title</Button>);
+
+    expect(container.firstChild).to.have.class('rs-btn-lg');
   });
 
   it('Should honour additional classes passed in, adding not overriding', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Button className="bob" appearance="ghost">
         Title
       </Button>
     );
 
-    assert.ok(instance.className.match(/\bbob\b/));
-    assert.ok(instance.className.match(/\bbtn-ghost\b/));
+    expect(container.firstChild).to.have.class('bob');
+    expect(container.firstChild).to.have.class('rs-btn-ghost');
   });
 
   it('Should be active', () => {
-    const instance = getDOMNode(<Button active>Title</Button>);
-    assert.ok(instance.className.match(/\bactive\b/));
+    const { container } = render(<Button active>Title</Button>);
+
+    expect(container.firstChild).to.have.class('rs-btn-active');
   });
 
   it('Should have a correct role', () => {
-    const instance = getDOMNode(<Button as="span" />);
+    const { container, rerender } = render(<Button as="span" />);
 
-    const instance2 = getDOMNode(<Button as="span" role="combobox" />);
+    expect(container.firstChild).to.have.attr('role', 'button');
+    expect(container.firstChild).to.have.tagName('SPAN');
 
-    assert.equal(instance.getAttribute('role'), 'button');
-    assert.equal(instance.nodeName, 'SPAN');
+    rerender(<Button as="span" role="combobox" />);
 
-    assert.equal(instance2.getAttribute('role'), 'combobox');
+    expect(container.firstChild).to.have.attr('role', 'combobox');
   });
 
   it('Should access the underlying <button> element via `ref` attribute', () => {
@@ -112,7 +121,7 @@ describe('Button', () => {
 
     render(<Button ref={buttonRef}>Text</Button>);
 
-    expect(buttonRef.current).to.have.tagName('button');
+    expect(buttonRef.current).to.be.instanceOf(HTMLButtonElement);
   });
 
   it('Should render `startIcon` before text', () => {

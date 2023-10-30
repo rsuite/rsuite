@@ -14,10 +14,21 @@ export interface TimelineProps extends WithAsProps {
 
   /** Timeline endless **/
   endless?: boolean;
+
+  /**
+   * Whether an item is active (with highlighted dot).
+   *
+   * @default
+   * The last item is marked active.
+   */
+  isItemActive?: (index: number, totalItemsCount: number) => boolean;
 }
 
 interface TimelineComponent extends RsRefForwardingComponent<'div', TimelineProps> {
   Item: typeof TimelineItem;
+
+  ACTIVE_FIRST: (index: number, totalItemsCount: number) => boolean;
+  ACTIVE_LAST: (index: number, totalItemsCount: number) => boolean;
 }
 
 const Timeline: TimelineComponent = React.forwardRef((props: TimelineProps, ref) => {
@@ -28,6 +39,7 @@ const Timeline: TimelineComponent = React.forwardRef((props: TimelineProps, ref)
     className,
     align = 'left',
     endless,
+    isItemActive = Timeline.ACTIVE_LAST,
     ...rest
   } = props;
 
@@ -44,11 +56,15 @@ const Timeline: TimelineComponent = React.forwardRef((props: TimelineProps, ref)
     <Component {...rest} ref={ref} className={classes}>
       {ReactChildren.mapCloneElement(children, (_child: any, index: number) => ({
         last: index + 1 === count,
+        INTERNAL_active: isItemActive(index, count),
         align
       }))}
     </Component>
   );
 }) as unknown as TimelineComponent;
+
+Timeline.ACTIVE_FIRST = index => index === 0;
+Timeline.ACTIVE_LAST = (index, totalItemsCount) => index === totalItemsCount - 1;
 
 Timeline.Item = TimelineItem;
 

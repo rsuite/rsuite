@@ -95,7 +95,8 @@
 | onOpen            | () => void                                                                                 | 显示时的回调函数                                                                                     |
 | open \*           | boolean                                                                                    | 显示 Modal                                                                                           |
 | overflow          | boolean `(true)`                                                                           | body 内容过长时自动设置高度                                                                          |
-| size              | 'xs' &#124; 'sm' &#124; 'md' &#124; lg' &#124; 'full' &#124; number &#124; string `('md')` | 设置 Modal 的宽度                                                                                    |
+| size              | 'xs' &#124; 'sm' &#124; 'md' &#124; lg' &#124; 'full' &#124; number &#124; string `('sm')` | 设置 Modal 的宽度                                                                                    |
+
 
 ### `<Modal.Header>`
 

@@ -6,7 +6,7 @@ import { List, AutoSizer, ListHandle, ListChildComponentProps } from '../Windowi
 import CheckTreeNode from './CheckTreeNode';
 import TreeContext from '../Tree/TreeContext';
 import { PickerLocale } from '../locales';
-import { getTreeNodeIndent } from '../utils/treeUtils';
+import { getKeyParentMap, getPathTowardsItem, getTreeNodeIndent } from '../utils/treeUtils';
 import {
   createChainedFunction,
   useCustom,
@@ -149,6 +149,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     onExited,
     onSearch,
     onSelect,
+    onSelectItem,
     onOpen,
     onScroll,
     onExpand,
@@ -242,7 +243,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         }).filter(item => item.visible);
       }
 
-      return getFormattedTree(filteredData, flattenNodes, {
+      return getFormattedTree(flattenNodes, filteredData, {
         childrenKey,
         cascade
       }).map(node => render?.(node, 1));
@@ -399,6 +400,18 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ]
   );
 
+  // TODO-Doma
+  // Replace `getKeyParentMap` with `getParentMap`
+  const itemParentMap = useMemo(
+    () =>
+      getKeyParentMap(
+        data,
+        node => node[valueKey],
+        node => node[childrenKey]
+      ),
+    [childrenKey, data, valueKey]
+  );
+
   const handleSelect = useCallback(
     (node: TreeNodeType, event: React.SyntheticEvent) => {
       const currentNode = node.refKey ? flattenNodes[node.refKey] : null;
@@ -425,18 +438,24 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
       onChange?.(selectedValues, event);
       onSelect?.(node as ItemDataType, selectedValues, event);
+      onSelectItem?.(
+        node,
+        getPathTowardsItem(node, item => itemParentMap.get(item[valueKey]))
+      );
     },
     [
-      cascade,
-      valueKey,
       flattenNodes,
+      toggleChecked,
       isControlled,
-      uncheckableItemValues,
-      setValue,
+      valueKey,
       onChange,
       onSelect,
-      toggleChecked,
-      unSerializeList
+      onSelectItem,
+      unSerializeList,
+      cascade,
+      uncheckableItemValues,
+      setValue,
+      itemParentMap
     ]
   );
 

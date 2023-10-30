@@ -1,17 +1,18 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
 import TimeDropdown from '../TimeDropdown';
 import CalendarContext from '../CalendarContext';
 import Sinon from 'sinon';
+import { testStandardProps } from '@test/commonCases';
 
 describe('Calendar - TimeDropdown', () => {
-  it('Should render a div with `time-dropdown` class', () => {
-    const instance = getDOMNode(<TimeDropdown />);
+  testStandardProps(<TimeDropdown />);
 
-    assert.equal(instance.nodeName, 'DIV');
-    assert.ok(instance.className.match(/\btime-dropdown\b/));
+  it('Should render a div with `time-dropdown` class', () => {
+    const { container } = render(<TimeDropdown />);
+
+    expect(container.firstChild).to.match('div.rs-calendar-time-dropdown');
   });
 
   it('Should render 3 column', () => {
@@ -25,6 +26,7 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
       3
     );
@@ -41,6 +43,7 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
       2
     );
@@ -57,6 +60,7 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-column').length,
       1
     );
@@ -74,6 +78,7 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     ReactTestUtils.Simulate.click(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector('[data-key="hours-1"]') as HTMLElement
     );
 
@@ -96,6 +101,7 @@ describe('Calendar - TimeDropdown', () => {
     );
 
     assert.equal(
+      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelectorAll('.rs-calendar-time-dropdown-cell-disabled')
         .length,
       23 - 10
@@ -117,22 +123,7 @@ describe('Calendar - TimeDropdown', () => {
       </CalendarContext.Provider>
     );
 
+    // eslint-disable-next-line testing-library/no-node-access
     assert.equal((ref.current as HTMLDivElement).querySelectorAll('li').length, 11);
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<TimeDropdown className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<TimeDropdown style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<TimeDropdown classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 });

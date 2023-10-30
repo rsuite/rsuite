@@ -1,66 +1,80 @@
 import React, { CSSProperties, Ref } from 'react';
-import { render, act, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getInstance } from '@test/testUtils';
 
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../../Tooltip';
 
 describe('Whisper', () => {
   it('Should create Whisper element', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Whisper speaker={<Tooltip>tooltip</Tooltip>}>
         <button type="button">button</button>
       </Whisper>
     );
 
-    expect(instance.nodeName).to.equal('BUTTON');
+    expect(container.firstChild).to.have.tagName('BUTTON');
   });
 
   it('Should maintain overlay classname when trigger click', () => {
-    const whisper = getDOMNode(
-      <Whisper trigger="click" speaker={<Tooltip className="test-whisper">test</Tooltip>}>
+    render(
+      <Whisper
+        trigger="click"
+        speaker={
+          <Tooltip className="test-whisper" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
+      >
         <button>button</button>
       </Whisper>
     );
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
 
-    expect(document.getElementsByClassName('test-whisper')).to.length(1);
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper');
   });
 
   it('Should maintain overlay classname when trigger focus', () => {
-    const whisper = getDOMNode(
-      <Whisper trigger="focus" speaker={<Tooltip className="test-whisper">test</Tooltip>}>
+    render(
+      <Whisper
+        trigger="focus"
+        speaker={
+          <Tooltip className="test-whisper" data-testid="tooltip">
+            test
+          </Tooltip>
+        }
+      >
         <button>button</button>
       </Whisper>
     );
 
-    fireEvent.focus(whisper);
-    expect(document.getElementsByClassName('test-whisper')).to.length(1);
+    fireEvent.focus(screen.getByRole('button'));
+    expect(screen.getByTestId('tooltip')).to.have.class('test-whisper');
   });
 
   it('Should call onClick callback', () => {
     const onClick = sinon.spy();
-    const whisper = getDOMNode(
+    render(
       <Whisper onClick={onClick} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
 
     expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should call onOpen callback', async () => {
     const onOpen = sinon.spy();
-    const whisper = getDOMNode(
+    render(
       <Whisper onOpen={onOpen} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
 
     await waitFor(() => {
       expect(onOpen).to.have.been.calledOnce;
@@ -84,13 +98,13 @@ describe('Whisper', () => {
   it('Should call onEntered callback', async () => {
     const onEntered = sinon.spy();
 
-    const whisper = getDOMNode(
+    render(
       <Whisper onEntered={onEntered} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
     await waitFor(() => {
       expect(onEntered).to.have.been.calledOnce;
     });
@@ -99,14 +113,14 @@ describe('Whisper', () => {
   it('Should call onClose callback', async () => {
     const onClose = sinon.spy();
 
-    const whisper = getDOMNode(
+    render(
       <Whisper onClose={onClose} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
-    fireEvent.click(whisper);
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByRole('button'));
     await waitFor(() => {
       expect(onClose).to.have.been.calledOnce;
     });
@@ -115,14 +129,14 @@ describe('Whisper', () => {
   it('Should call onExited callback', async () => {
     const onExited = sinon.spy();
 
-    const whisper = getDOMNode(
+    render(
       <Whisper onExited={onExited} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
-    fireEvent.click(whisper);
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByRole('button'));
     await waitFor(() => {
       expect(onExited).to.have.been.calledOnce;
     });
@@ -136,7 +150,7 @@ describe('Whisper', () => {
     const onEnteringSpy = sinon.spy();
     const onEnteredSpy = sinon.spy();
 
-    const { getByTestId } = render(
+    render(
       <Whisper
         trigger="click"
         speaker={<Tooltip>test</Tooltip>}
@@ -151,9 +165,7 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    act(() => {
-      fireEvent.click(getByTestId('btn'));
-    });
+    fireEvent.click(screen.getByTestId('btn'));
 
     await waitFor(() => {
       expect(onEnterSpy).to.called;
@@ -161,9 +173,7 @@ describe('Whisper', () => {
       expect(onEnteredSpy).to.called;
     });
 
-    act(() => {
-      fireEvent.click(getByTestId('btn'));
-    });
+    fireEvent.click(screen.getByTestId('btn'));
 
     await waitFor(() => {
       expect(onExitSpy).to.called;
@@ -211,18 +221,9 @@ describe('Whisper', () => {
         <button>button</button>
       </Whisper>
     );
-    act(() => {
-      fireEvent.click((ref.current as WhisperInstance).root as HTMLElement);
-    });
 
-    act(() => {
-      fireEvent.click(
-        // FIXME WhisperInstance is missing `overlay` declaration
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        (ref.current as WhisperInstance).overlay.querySelector('button') as HTMLElement
-      );
-    });
+    fireEvent.click((ref.current as WhisperInstance).root as HTMLElement);
+    fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
     await waitFor(() => {
       expect(onExitedSpy).to.called;

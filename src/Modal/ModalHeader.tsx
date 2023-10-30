@@ -64,8 +64,7 @@ ModalHeader.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   closeButton: PropTypes.bool,
-  children: PropTypes.node,
-  onHide: PropTypes.func
+  children: PropTypes.node
 };
 
 export default ModalHeader;

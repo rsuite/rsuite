@@ -12,12 +12,17 @@ import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
 
+type SetLike<T = unknown> = {
+  has(value: T): boolean;
+};
+
 export interface DropdownMenuProps extends Omit<WithAsProps, 'classPrefix'> {
   classPrefix: string;
   disabledItemValues: ValueType[];
   activeItemValue?: ValueType | null;
   childrenKey: string;
-  cascadeData: ItemDataType[][];
+  cascadeData: (readonly ItemDataType[])[];
+  loadingItemsSet?: SetLike<ItemDataType>;
   cascadePaths: ItemDataType[];
   valueKey: string;
   labelKey: string;
@@ -25,7 +30,7 @@ export interface DropdownMenuProps extends Omit<WithAsProps, 'classPrefix'> {
   menuHeight?: number | string;
   renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
   renderMenu?: (
-    items: ItemDataType[],
+    items: readonly ItemDataType[],
     menu: React.ReactNode,
     parentNode?: ItemDataType,
     layer?: number
@@ -54,6 +59,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       valueKey = 'value',
       cascadeData = emptyArray,
       cascadePaths = emptyArray,
+      loadingItemsSet,
       labelKey = 'label',
       renderMenu,
       renderMenuItem,
@@ -116,9 +122,11 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
       const disabled = disabledItemValues.some(disabledValue => shallowEqual(disabledValue, value));
 
+      const loading = loadingItemsSet?.has(node) ?? false;
+
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
-      const Icon = node.loading ? SpinnerIcon : rtl ? AngleLeftIcon : AngleRightIcon;
+      const Icon = loading ? SpinnerIcon : rtl ? AngleLeftIcon : AngleRightIcon;
 
       return (
         <DropdownMenuItem
@@ -135,7 +143,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
           onSelect={(_value, event) => handleSelect(layer, node, event)}
         >
           {renderMenuItem ? renderMenuItem(label, node) : label}
-          {children ? <Icon className={prefix('caret')} spin={node.loading} /> : null}
+          {children ? <Icon className={prefix('caret')} spin={loading} /> : null}
         </DropdownMenuItem>
       );
     };

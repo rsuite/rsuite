@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { act, render } from '@testing-library/react';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { act, render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import sinon from 'sinon';
 import Breadcrumb from '../Breadcrumb';
@@ -14,19 +13,20 @@ describe('Breadcrumb', () => {
   testStandardProps(<Breadcrumb />);
 
   it('Should apply id to the wrapper nav element', () => {
-    const instance = getDOMNode(<Breadcrumb id="custom-id" />);
+    const { container } = render(<Breadcrumb id="custom-id" />);
 
-    assert.equal(instance.tagName, 'NAV');
-    assert.equal(instance.id, 'custom-id');
+    expect(container.firstChild).to.have.tagName('NAV');
+    expect(container.firstChild).to.have.id('custom-id');
   });
 
   it('Should have breadcrumb class', () => {
-    const instance = getInstance(<Breadcrumb />);
-    assert.include(instance.className, 'breadcrumb');
+    const { container } = render(<Breadcrumb />);
+
+    expect(container.firstChild).to.have.class('rs-breadcrumb');
   });
 
   it('Should automatically collapse if there are more than 5 items', () => {
-    const instance = getDOMNode(
+    render(
       <Breadcrumb>
         <Breadcrumb.Item>1</Breadcrumb.Item>
         <Breadcrumb.Item>2</Breadcrumb.Item>
@@ -37,13 +37,12 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     );
 
-    assert.equal(instance.querySelectorAll('.rs-breadcrumb-item').length, 3);
-    assert.equal(instance.querySelectorAll('.rs-breadcrumb-item')[1].textContent, '...');
+    expect(screen.getByRole('navigation')).to.have.text('1/.../6');
   });
 
   it('Should call onExpand callback', () => {
     const onExpand = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Breadcrumb onExpand={onExpand}>
         <Breadcrumb.Item>1</Breadcrumb.Item>
         <Breadcrumb.Item>2</Breadcrumb.Item>
@@ -55,35 +54,34 @@ describe('Breadcrumb', () => {
     );
 
     act(() => {
-      ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-breadcrumb-item')[1]);
+      ReactTestUtils.Simulate.click(screen.getByText('...'));
     });
 
     expect(onExpand).to.have.been.calledOnce;
   });
 
   it('Should have a default separator', () => {
-    const instance = getDOMNode(
+    render(
       <Breadcrumb>
         <Breadcrumb.Item>1</Breadcrumb.Item>
         <Breadcrumb.Item>2</Breadcrumb.Item>
       </Breadcrumb>
     );
 
-    assert.equal((instance.childNodes[1] as HTMLElement).className, 'rs-breadcrumb-separator');
-    assert.equal(instance.childNodes[1].textContent, '/');
+    expect(screen.getByText('/')).to.exist;
+    expect(screen.getByRole('navigation')).to.have.text('1/2');
   });
 
   it('Should have a custom separator', () => {
-    const instance = getDOMNode(
+    render(
       <Breadcrumb separator={<span>-</span>}>
         <Breadcrumb.Item>1</Breadcrumb.Item>
         <Breadcrumb.Item>2</Breadcrumb.Item>
       </Breadcrumb>
     );
 
-    assert.equal((instance.childNodes[1] as HTMLElement).className, 'rs-breadcrumb-separator');
-    assert.equal((instance.childNodes[1] as HTMLElement).tagName, 'SPAN');
-    assert.equal(instance.childNodes[1].textContent, '-');
+    expect(screen.getByText('-')).to.exist;
+    expect(screen.getByRole('navigation')).to.have.text('1-2');
   });
 
   it('Should not get "children with the same key" warning when generating items with array.map', () => {

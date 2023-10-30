@@ -71,6 +71,9 @@ describe('List', () => {
     await waitFor(() => {
       expect(onSortStart).to.have.been.calledOnce;
     });
+
+    // FIXME-Doma
+    // This test case didn't cleanup the nodes it creates
   });
 
   it('should call onSortMove', async () => {
@@ -93,6 +96,8 @@ describe('List', () => {
     await waitFor(() => {
       expect(onSortMove).to.have.been.calledOnce;
     });
+    // FIXME-Doma
+    // This test case didn't cleanup the nodes it creates
   });
 
   it('should call onSortEnd & onSort', async () => {

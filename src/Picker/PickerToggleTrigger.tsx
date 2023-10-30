@@ -30,7 +30,6 @@ export const omitTriggerPropKeys = [
   'onExiting',
   'open',
   'defaultOpen',
-  'onHide',
   'container',
   'containerPadding',
   'preventOverflow'

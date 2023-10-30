@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
+import { render } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import Divider from '../Divider';
 
@@ -7,23 +7,19 @@ describe('Divider', () => {
   testStandardProps(<Divider />);
 
   it('Should render a Divider', () => {
-    const instance = getDOMNode(<Divider />);
-    const classes = instance.className;
-
-    assert.include(classes, 'rs-divider');
-    assert.include(classes, 'rs-divider-horizontal');
+    const { container } = render(<Divider />);
+    expect(container.firstChild).to.have.class('rs-divider');
+    expect(container.firstChild).to.have.class('rs-divider-horizontal');
   });
 
   it('Should be vertical', () => {
-    const instance = getDOMNode(<Divider vertical />);
-    const classes = instance.className;
-    assert.include(classes, 'rs-divider-vertical');
-    assert.equal(instance.getAttribute('aria-orientation'), 'vertical');
+    const { container } = render(<Divider vertical />);
+    expect(container.firstChild).to.have.class('rs-divider-vertical');
+    expect(container.firstChild).to.have.attr('aria-orientation', 'vertical');
   });
 
   it('Should hava a children', () => {
-    const instance = getDOMNode(<Divider>abc</Divider>);
-    const classes = instance.className;
-    assert.include(classes, 'rs-divider-with-text');
+    const { container } = render(<Divider>abc</Divider>);
+    expect(container.firstChild).to.have.class('rs-divider-with-text');
   });
 });

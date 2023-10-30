@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { getDOMNode } from '@test/testUtils';
+import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import ButtonGroup from '../ButtonGroup';
 import Button from '../../Button';
@@ -9,56 +8,62 @@ describe('ButtonGroup', () => {
   testStandardProps(<ButtonGroup />);
 
   it('Should output a button group', () => {
-    const instance = getDOMNode(<ButtonGroup />);
-    assert.equal(instance.nodeName, 'DIV');
-    assert.ok(instance.className.match(/\bbtn-group\b/));
+    const { container } = render(<ButtonGroup />);
+
+    expect(container.firstChild).to.have.tagName('DIV');
+    expect(container.firstChild).to.have.class('rs-btn-group');
   });
 
   context('Sizes', () => {
     it('Should add size', () => {
-      const instance = getDOMNode(<ButtonGroup size="lg" />);
-      assert.ok(instance.className.match(/\bbtn-group-lg\b/));
+      const { container } = render(<ButtonGroup size="lg" />);
+
+      expect(container.firstChild).to.have.class('rs-btn-group-lg');
     });
 
     (['lg', 'md', 'sm', 'xs'] as const).forEach(size => {
       it(`Should apply ${size} size on child <Button>s`, () => {
-        const { getByTestId } = render(
+        render(
           <ButtonGroup size={size}>
             <Button data-testid="button">Button</Button>
           </ButtonGroup>
         );
 
-        expect(getByTestId('button')).to.have.class(`rs-btn-${size}`);
+        expect(screen.getByTestId('button')).to.have.class(`rs-btn-${size}`);
       });
     });
   });
 
   it('Should add vertical variation', () => {
-    const instance = getDOMNode(<ButtonGroup vertical />);
-    assert.ok(instance.className.match(/\bbtn-group-vertical\b/));
+    const { container } = render(<ButtonGroup vertical />);
+
+    expect(container.firstChild).to.have.class('rs-btn-group-vertical');
   });
 
   it('Should add block variation', () => {
-    const instance = getDOMNode(<ButtonGroup vertical block />);
-    assert.ok(instance.className.match(/\bbtn-group-block\b/));
+    const { container } = render(<ButtonGroup vertical block />);
+
+    expect(container.firstChild).to.have.class('rs-btn-group-block');
   });
 
   it('Should warn about block without vertical', () => {
-    getDOMNode(<ButtonGroup block />);
+    render(<ButtonGroup block />);
   });
 
   it('Should add justified variation', () => {
-    const instance = getDOMNode(<ButtonGroup justified />);
-    assert.ok(instance.className.match(/\bbtn-group-justified\b/));
+    const { container } = render(<ButtonGroup justified />);
+
+    expect(container.firstChild).to.have.class('rs-btn-group-justified');
   });
 
   it('Should render 2 <button>', () => {
-    const instance = getDOMNode(
+    render(
       <ButtonGroup>
         <Button>Title</Button>
         <Button>Title</Button>
       </ButtonGroup>
     );
-    assert.equal(instance.querySelectorAll('button').length, 2);
+
+    expect(screen.getAllByRole('button')).to.have.lengthOf(2);
   });
 });

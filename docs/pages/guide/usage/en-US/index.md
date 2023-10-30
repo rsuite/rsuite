@@ -24,11 +24,20 @@ The following is a simple example of using a default button component.
 
 ```jsx
 import { Button } from 'rsuite';
-import 'rsuite/styles/index.less'; // or 'rsuite/dist/rsuite.min.css'
+import 'rsuite/dist/rsuite.min.css';
 
 function App() {
   return <Button appearance="primary">Hello World</Button>;
 }
+```
+
+### Without CSS Reset
+
+`rsuite.min.css` includes a CSS reset. If you want to use your own CSS reset, you can import the `rsuite-no-reset.min.css` file instead.
+
+```diff
+- import 'rsuite/dist/rsuite.min.css';
++ import 'rsuite/dist/rsuite-no-reset.min.css';
 ```
 
 ## Online example

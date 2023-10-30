@@ -11,13 +11,13 @@ import { filterNodesOfTree } from '../utils/treeUtils';
 import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
-  getDataGroupBy,
   useClassNames,
   shallowEqual,
   useCustom,
   useControlled,
   mergeRefs
 } from '../utils';
+import { getDataGroupBy } from '../utils/getDataGroupBy';
 
 import {
   DropdownMenu,
@@ -149,10 +149,9 @@ const CheckPicker = React.forwardRef(
     );
 
     // Use search keywords to filter options.
-    const { searchKeyword, filteredData, setSearchKeyword, handleSearch, checkShouldDisplay } =
-      useSearch({
+    const { searchKeyword, filteredData, handleSearch, resetSearch, checkShouldDisplay } =
+      useSearch(data, {
         labelKey,
-        data,
         searchBy,
         callback: handleSearchCallback
       });
@@ -267,11 +266,11 @@ const CheckPicker = React.forwardRef(
     }, [onOpen]);
 
     const handleExited = useCallback(() => {
-      setSearchKeyword('');
+      resetSearch();
       setFocusItemValue(null);
       setActive(false);
       onClose?.();
-    }, [onClose, setFocusItemValue, setSearchKeyword]);
+    }, [onClose, setFocusItemValue, resetSearch]);
 
     usePublicMethods(ref, { triggerRef, overlayRef, targetRef, listRef });
 
@@ -348,7 +347,9 @@ const CheckPicker = React.forwardRef(
             activeItemValues={value}
             focusItemValue={focusItemValue}
             data={[...filteredStickyItems, ...items]}
+            // `group` is redundant so long as `groupBy` exists
             group={!isUndefined(groupBy)}
+            groupBy={groupBy}
             onSelect={handleItemSelect}
             onGroupTitleClick={onGroupTitleClick}
             virtualized={virtualized}

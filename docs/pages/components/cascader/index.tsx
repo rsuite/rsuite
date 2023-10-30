@@ -6,11 +6,12 @@ import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 
 import {
+  importFakerString,
+  mockAsyncData,
+  mockAsyncDataString,
   mockTreeData,
   mockTreeDataToString,
-  mockAsyncData,
-  importFakerString,
-  mockAsyncDataString
+  sandboxFakerVersion
 } from '@/utils/mock';
 
 const mockfile = {
@@ -19,7 +20,7 @@ const mockfile = {
 };
 
 const sandboxDependencies = {
-  '@faker-js/faker': 'latest'
+  ...sandboxFakerVersion
 };
 
 export default function Page() {

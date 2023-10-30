@@ -17,13 +17,16 @@ export interface TagInputProps extends Omit<InputPickerProps<readonly string[]>,
    * @todo Declare as readonly array
    */
   trigger?: TriggerType | TriggerType[];
+
+  /** Callback fired when a tag is removed. */
+  onTagRemove?: (tag: string, event: React.MouseEvent) => void;
 }
 
 const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInputProps, ref) => {
-  const { tagProps = {}, trigger = 'Enter', value, defaultValue, ...rest } = props;
+  const { tagProps = {}, trigger = 'Enter', value, defaultValue, onTagRemove, ...rest } = props;
   const contextValue = useMemo(
-    () => ({ multi: true, disabledOptions: true, trigger, tagProps }),
-    [tagProps, trigger]
+    () => ({ multi: true, disabledOptions: true, trigger, tagProps, onTagRemove }),
+    [onTagRemove, tagProps, trigger]
   );
 
   const data = useMemo(

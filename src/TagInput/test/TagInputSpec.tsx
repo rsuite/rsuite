@@ -13,7 +13,7 @@ describe('TagInput', () => {
     render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
-    const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
+    const input = screen.getByRole('textbox');
 
     fireEvent.click(picker);
 
@@ -29,7 +29,7 @@ describe('TagInput', () => {
 
     render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Space" />);
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
-    const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
+    const input = screen.getByRole('textbox');
 
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
@@ -44,7 +44,7 @@ describe('TagInput', () => {
     render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Comma" />);
 
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
-    const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
+    const input = screen.getByRole('textbox');
 
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
@@ -57,7 +57,7 @@ describe('TagInput', () => {
 
     render(<TagInput ref={inputRef} trigger="Enter" />);
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
-    const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
+    const input = screen.getByRole('textbox');
 
     fireEvent.click(picker);
     fireEvent.change(input, { target: { value: 'abc' } });
@@ -67,31 +67,22 @@ describe('TagInput', () => {
     fireEvent.change(input, { target: { value: 'a' } });
     fireEvent.keyDown(input, { key: 'Enter' });
 
-    expect(picker.querySelectorAll('.rs-tag')).to.lengthOf(2);
-    expect(picker.querySelectorAll('.rs-tag')[0]).to.text('abc');
-    expect(picker.querySelectorAll('.rs-tag')[1]).to.text('a');
+    expect(screen.getByText('abc', { selector: '.rs-tag-text' })).to.exist;
+    expect(screen.getByText('a', { selector: '.rs-tag-text' })).to.exist;
   });
 
   it('Should render 2 tags by value', () => {
-    const inputRef = React.createRef<PickerHandle>();
+    render(<TagInput value={['abc', '123']} trigger="Enter" />);
 
-    render(<TagInput ref={inputRef} value={['abc', '123']} trigger="Enter" />);
-    const picker = (inputRef.current as PickerHandle).root as HTMLElement;
-
-    expect(picker.querySelectorAll('.rs-tag')).to.lengthOf(2);
-    expect(picker.querySelectorAll('.rs-tag')[0]).to.text('abc');
-    expect(picker.querySelectorAll('.rs-tag')[1]).to.text('123');
+    expect(screen.getByText('abc', { selector: '.rs-tag-text' })).to.exist;
+    expect(screen.getByText('123', { selector: '.rs-tag-text' })).to.exist;
   });
 
   it('Should render 2 tags by defaultValue', () => {
-    const inputRef = React.createRef<PickerHandle>();
+    render(<TagInput defaultValue={['abc', '123']} trigger="Enter" />);
 
-    render(<TagInput ref={inputRef} defaultValue={['abc', '123']} trigger="Enter" />);
-    const picker = (inputRef.current as PickerHandle).root as HTMLElement;
-
-    expect(picker.querySelectorAll('.rs-tag')).to.lengthOf(2);
-    expect(picker.querySelectorAll('.rs-tag')[0]).to.text('abc');
-    expect(picker.querySelectorAll('.rs-tag')[1]).to.text('123');
+    expect(screen.getByText('abc', { selector: '.rs-tag-text' })).to.exist;
+    expect(screen.getByText('123', { selector: '.rs-tag-text' })).to.exist;
   });
 
   it('Should create a label only through `Enter`', () => {
@@ -100,7 +91,7 @@ describe('TagInput', () => {
 
     render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" />);
     const picker = (inputRef.current as PickerHandle).root as HTMLElement;
-    const input = picker.querySelector('.rs-picker-search input') as HTMLElement;
+    const input = screen.getByRole('textbox');
 
     fireEvent.click(picker);
 
@@ -122,5 +113,35 @@ describe('TagInput', () => {
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
 
     expect(onChange).to.have.been.calledWith([]);
+  });
+
+  it('Should not create tag while text composing', () => {
+    const onCreateSpy = sinon.spy();
+    const inputRef = React.createRef<PickerHandle>();
+
+    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" />);
+    const picker = (inputRef.current as PickerHandle).root as HTMLElement;
+    const input = screen.getByRole('textbox');
+
+    fireEvent.click(picker);
+
+    fireEvent.change(input, { target: { value: 'a' } });
+
+    fireEvent.keyDown(input, { key: 'Enter', isComposing: true });
+
+    expect(onCreateSpy).to.not.called;
+
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(onCreateSpy).to.calledOnce;
+  });
+
+  it('Should call `onTagRemove` callback', () => {
+    const onTagRemove = sinon.spy();
+    render(<TagInput defaultValue={['New tag']} onTagRemove={onTagRemove} />);
+    fireEvent.click(screen.getAllByRole('button', { name: /close/i })[0]);
+
+    expect(onTagRemove).to.have.been.calledOnce;
+    expect(onTagRemove).to.have.been.calledWith('New tag');
   });
 });

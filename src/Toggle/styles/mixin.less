@@ -6,6 +6,20 @@
     height: @handle-diameter;
     left: @toggle-handle-gap;
     top: @toggle-handle-gap;
+
+    .rs-loader-spin,
+    .rs-loader-spin::before,
+    .rs-loader-spin::after {
+      width: @handle-diameter;
+      height: @handle-diameter;
+    }
+
+    & when (@handle-diameter < 16px) {
+      .rs-loader-spin::before,
+      .rs-loader-spin::after {
+        border-width: 2px;
+      }
+    }
   }
 
   .rs-toggle-presentation {

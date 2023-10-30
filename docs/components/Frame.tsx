@@ -31,7 +31,7 @@ export default function Frame(props: FrameProps) {
   return (
     <div className={submenu ? '' : 'submenu-close'}>
       <TopLevelNav showSubmenu={submenu} onToggleMenu={handleToggleMenu} />
-      <SideNavbar style={menuStyles} />
+      <SideNavbar style={menuStyles} showSubmenu={submenu} onToggleMenu={handleToggleMenu} />
       <div className="page-context" style={contextStyle}>
         {props.children}
       </div>

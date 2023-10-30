@@ -1,22 +1,22 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
 import Calendar from '../Calendar';
 import { parseISO } from '../../utils/dateUtils';
+import { testStandardProps } from '@test/commonCases';
 
 describe('DateRangePicker - Calendar', () => {
+  testStandardProps(<Calendar index={0} onToggleMeridian={() => void 0} />);
   it('Should render a div with "rs-calendar" class', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Calendar onChangeCalendarMonth={() => 1} index={0} onToggleMeridian={() => void 0} />
     );
-
-    expect(instance.nodeName).to.equal('DIV');
-    expect(instance).to.have.class('rs-calendar');
+    expect(container.firstChild).to.have.class('rs-calendar');
+    expect(container.firstChild).to.have.tagName('DIV');
   });
 
   it('Should output a date', () => {
-    const instance = getDOMNode(
+    render(
       <Calendar
         calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
@@ -26,12 +26,12 @@ describe('DateRangePicker - Calendar', () => {
       />
     );
 
-    expect(instance.querySelector('.rs-calendar-header-title')).to.text('2017-08');
+    expect(screen.getByText('2017-08')).to.exist;
   });
 
   it('Should call `onChangeCalendarMonth` callback', () => {
     const onChangeCalendarMonthSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Calendar
         calendarDate={[parseISO('2017-08'), parseISO('2017-09')]}
         index={0}
@@ -40,14 +40,13 @@ describe('DateRangePicker - Calendar', () => {
       />
     );
 
-    fireEvent.click(instance.querySelector('.rs-calendar-header-backward') as HTMLElement);
-
+    fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
     expect(onChangeCalendarMonthSpy).to.have.been.called;
   });
 
   it('Should call `onChangeCalendarMonth` callback', () => {
     const onChangeCalendarMonthSpy = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Calendar
         calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
@@ -55,14 +54,14 @@ describe('DateRangePicker - Calendar', () => {
         onToggleMeridian={() => void 0}
       />
     );
-    fireEvent.click(instance.querySelector('.rs-calendar-header-forward') as HTMLElement);
-
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
     expect(onChangeCalendarMonthSpy).to.have.been.called;
   });
 
   it('Should call `onChangeCalendarMonth` callback', () => {
     const onChangeCalendarMonthSpy = sinon.spy();
-    const instance = getDOMNode(
+    const { container } = render(
       <Calendar
         calendarDate={[parseISO('2017-08'), parseISO('2017-10')]}
         index={0}
@@ -71,17 +70,10 @@ describe('DateRangePicker - Calendar', () => {
       />
     );
 
-    fireEvent.click(instance.querySelector('.rs-calendar-header-title-date') as HTMLElement);
-    fireEvent.click(instance.querySelector('.rs-calendar-month-dropdown-cell') as HTMLElement);
+    fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    fireEvent.click(container.querySelector('.rs-calendar-month-dropdown-cell') as HTMLElement);
 
     expect(onChangeCalendarMonthSpy).to.have.been.called;
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(
-      <Calendar classPrefix="custom-prefix" index={0} onToggleMeridian={() => void 0} />
-    );
-
-    expect(instance.className).to.contain('custom-prefix');
   });
 });

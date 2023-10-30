@@ -72,7 +72,6 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     plaintext: plaintextContext,
     disabled: disabledContext,
     errorFromContext,
-    formDefaultValue = {},
     formError,
     removeFieldValue,
     removeFieldError,
@@ -187,17 +186,14 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   const ariaErrormessage = fieldHasError && controlId ? `${controlId}-error-message` : undefined;
 
   let valueKey = 'value';
-  let defaultValueKey = 'defaultValue';
 
   // Toggle component is a special case that uses `checked` and `defaultChecked` instead of `value` and `defaultValue` props.
   if (AccepterComponent === Toggle) {
     valueKey = 'checked';
-    defaultValueKey = 'defaultChecked';
   }
 
   const accepterProps = {
-    [valueKey]: val,
-    [defaultValueKey]: defaultValue ?? formDefaultValue[name]
+    [valueKey]: val ?? defaultValue
   };
 
   return (
@@ -208,8 +204,8 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
         aria-describedby={ariaDescribedby}
         aria-invalid={fieldHasError || undefined}
         aria-errormessage={ariaErrormessage}
-        {...rest}
         {...accepterProps}
+        {...rest}
         readOnly={readOnly}
         plaintext={plaintext}
         disabled={disabled}

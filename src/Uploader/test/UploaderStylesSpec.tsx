@@ -1,7 +1,7 @@
 import React from 'react';
 import Uploader from '../index';
-import { render } from '@testing-library/react';
-import { getStyle, toRGB } from '@test/testUtils';
+import { render, screen } from '@testing-library/react';
+import { toRGB } from '@test/testUtils';
 
 import '../styles/index.less';
 import { UploaderInstance } from '../Uploader';
@@ -12,13 +12,6 @@ describe('Uploader styles', () => {
 
     render(<Uploader action="" ref={ref} />);
 
-    const button = (ref.current as UploaderInstance).root.querySelector(
-      '.rs-uploader-trigger-btn'
-    ) as HTMLElement;
-    assert.equal(
-      getStyle(button, 'backgroundColor'),
-      toRGB('#f7f7fa'),
-      'Uploader trigger button background-color'
-    );
+    expect(screen.getByRole('button')).to.have.style('background-color', toRGB('#f7f7fa'));
   });
 });

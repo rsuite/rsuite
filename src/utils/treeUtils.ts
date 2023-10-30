@@ -37,8 +37,11 @@ export function shouldShowNodeByParentExpanded<T>(
  * @param {*} tree
  * @param {*} childrenKey
  * @param {*} executor
+ *
+ * @deprecated This {@link UNSAFE_flattenTree} function is considered unsafe because it mutates `tree` argument in-place
+ *             Use {@link flattenTree} instead.
  */
-export function flattenTree<TItem>(
+export function UNSAFE_flattenTree<TItem>(
   tree: TItem[],
   childrenKey = 'children',
   executor?: (node: any, index: number) => any
@@ -62,6 +65,59 @@ export function flattenTree<TItem>(
 
   traverse(tree, null);
   return flattenData;
+}
+
+export enum WalkTreeStrategy {
+  DFS,
+  BFS
+}
+
+export function flattenTree<T>(
+  rootNodes: readonly T[],
+  getChildren: (node: T) => readonly T[] | undefined,
+  walkStrategy = WalkTreeStrategy.BFS
+) {
+  const result: T[] = [];
+
+  if (walkStrategy === WalkTreeStrategy.BFS) {
+    walkTreeBfs(rootNodes, getChildren, node => result.push(node));
+  } else if (walkStrategy === WalkTreeStrategy.DFS) {
+    walkTreeDfs(rootNodes, getChildren, node => result.push(node));
+  }
+
+  return result;
+}
+
+export function walkTreeBfs<T>(
+  rootNodes: readonly T[],
+  getChildren: (node: T) => readonly T[] | undefined,
+  callback: (node: T) => void
+) {
+  for (const queue = [...rootNodes]; queue.length > 0; ) {
+    const node = queue.shift() as T;
+    callback(node);
+
+    const children = getChildren(node);
+
+    if (children) {
+      queue.push(...children);
+    }
+  }
+}
+
+export function walkTreeDfs<T>(
+  rootNodes: readonly T[],
+  getChildren: (node: T) => readonly T[] | undefined,
+  callback: (node: T) => void
+) {
+  for (const node of rootNodes) {
+    callback(node);
+    const children = getChildren(node);
+
+    if (children) {
+      walkTreeDfs(children, getChildren, callback);
+    }
+  }
 }
 
 /**
@@ -134,7 +190,7 @@ export function getDefaultExpandItemValues<TItem>(
 ) {
   const { valueKey, defaultExpandAll, childrenKey, defaultExpandItemValues = [] } = props;
   if (defaultExpandAll) {
-    return flattenTree(data, childrenKey)
+    return UNSAFE_flattenTree(data, childrenKey)
       .filter(item => Array.isArray(item[childrenKey]) && item[childrenKey].length > 0)
       .map(item => item[valueKey]);
   }
@@ -761,7 +817,7 @@ export function useFlattenTreeData({
     }
   ): TreeNodeType[] => {
     const { cascade, searchKeyword } = options;
-    return flattenTree(data, childrenKey, (node: any) => {
+    return UNSAFE_flattenTree(data, childrenKey, (node: any) => {
       let formatted = {};
       const curNode = nodes?.[node.refKey];
       const parentKeys = getNodeParentKeys(nodes, curNode, valueKey);
@@ -874,10 +930,22 @@ export function useTreeSearch<T>(props: TreeSearchProps<T>) {
   );
 
   // Use search keywords to filter options.
-  const [searchKeywordState, setSearchKeyword] = useState(() => searchKeyword ?? '');
+  const [searchKeywordState, setSearchKeyword] = useState(searchKeyword ?? '');
   const [filteredData, setFilteredData] = useState(() =>
     filterVisibleData(data, searchKeywordState)
   );
+
+  const handleSearch = (searchKeyword: string, event?: React.ChangeEvent) => {
+    const filteredData = filterVisibleData(data, searchKeyword);
+    setFilteredData(filteredData);
+    setSearchKeyword(searchKeyword);
+    event && callback?.(searchKeyword, filteredData, event);
+  };
+
+  useEffect(() => {
+    handleSearch(searchKeyword ?? '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchKeyword]);
 
   const handleSetFilteredData = useCallback(
     (data: T[], searchKeyword: string) => {
@@ -885,13 +953,6 @@ export function useTreeSearch<T>(props: TreeSearchProps<T>) {
     },
     [filterVisibleData]
   );
-
-  const handleSearch = (searchKeyword: string, event: React.ChangeEvent) => {
-    const filteredData = filterVisibleData(data, searchKeyword);
-    setFilteredData(filteredData);
-    setSearchKeyword(searchKeyword);
-    callback?.(searchKeyword, filteredData, event);
-  };
 
   return {
     searchKeywordState,
@@ -1040,4 +1101,74 @@ export function stringifyTreeNodeLabel(label: string | React.ReactNode) {
     return nodes.join('');
   }
   return '';
+}
+
+/**
+ * Returns a WeakMap that maps each item in `items` to its parent
+ * indicated by `getChildren` function
+ */
+export function getParentMap<T extends Record<string, unknown>>(
+  items: readonly T[],
+  getChildren: (item: T) => readonly T[] | undefined
+) {
+  const map = new WeakMap<T, T>();
+  for (const queue = [...items]; queue.length > 0; ) {
+    const item = queue.shift() as T;
+    const children = getChildren(item);
+
+    if (children) {
+      for (const child of children) {
+        map.set(child, item);
+        queue.push(child);
+      }
+    }
+  }
+
+  return map;
+}
+
+/**
+ * Returns a Map that maps each item's "key", indicated by `getKey` function,
+ * to its parent indicated by `getChildren` function
+ *
+ * NOTICE:
+ * Using this function is discouraged.
+ * Use {@link getParentMap} whenever possible.
+ */
+export function getKeyParentMap<T extends Record<string, unknown>, K = React.Key>(
+  items: readonly T[],
+  getKey: (item: T) => K,
+  getChildren: (item: T) => readonly T[] | undefined
+) {
+  const map = new Map<K, T>();
+  for (const queue = [...items]; queue.length > 0; ) {
+    const item = queue.shift() as T;
+    const children = getChildren(item);
+
+    if (children) {
+      for (const child of children) {
+        map.set(getKey(child), item);
+        queue.push(child);
+      }
+    }
+  }
+
+  return map;
+}
+
+/**
+ * Returns an array indicating the hierarchy path from root towards `target` item
+ */
+export function getPathTowardsItem<T>(
+  target: T | undefined,
+  getParent: (item: T) => T | undefined
+) {
+  if (!target) return [];
+
+  const path = [target];
+  for (let parent = getParent(target); !!parent; parent = getParent(parent)) {
+    path.unshift(parent);
+  }
+
+  return path;
 }
