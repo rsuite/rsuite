@@ -3,8 +3,7 @@
 对 Nav 的一个封装，一般用于页面顶部导航。
 
 - `<Navbar>` 导航栏组件。
-- `<Navbar.Header>` 设置导航栏头部信息。
-- `<Navbar.Body>` 设置导航栏选项。
+- `<Navbar.Brand>` 设置导航栏头部信息。
 
 ## 获取组件
 
