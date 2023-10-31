@@ -3,7 +3,7 @@
 For navigation at the top of the page.
 
 - `<Navbar>` The navigation bar component.
-- `<Navbar.Brand>` Sets the navigation bar header information.
+- `<Navbar.Brand>` Set a brand, which can be your company, product or project name.
 
 ## Usage
 
