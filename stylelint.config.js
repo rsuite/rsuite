@@ -107,7 +107,8 @@ module.exports = {
       'target',
       // Level 4 (including Working Drafts)
       'focus-within',
-      'focus-visible'
+      'focus-visible',
+      'has'
     ],
 
     // String using single quotes

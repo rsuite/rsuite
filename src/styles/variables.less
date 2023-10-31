@@ -421,27 +421,46 @@
 
 // Sidenav
 
+@sidenav-padding-vertical:              10px;  // Deprecated in v6. Use @sidenav-item-padding-y instead.
+@sidenav-padding-horizontal:            12px;  // Deprecated in v6, Use @sidenav-item-padding-x instead.
+
+@sidenav-padding-top:                   4px; // TODO-Doma consider better naming.
+
+@sidenav-item-margin-x:                 8px;
+@sidenav-item-padding-y:                @sidenav-padding-vertical;
+@sidenav-item-padding-x:                @sidenav-padding-horizontal;
+@sidenav-item-line-height:              22px;
+@sidenav-item-height:                   (@sidenav-item-padding-y * 2 + @sidenav-item-line-height);
+@sidenav-item-gap-y:                    4px;
+@sidenav-item-border-radius:            6px;
 @sidenav-item-caret-size:               16px;
-@sidenav-padding-vertical:              15px;
+
+@sidenav-default-item-selected-bg:      #e5e5ea80;
+@sidenav-default-item-hover-bg:         @B200;
+
+@sidenav-subtle-item-selected-bg:       #CCE9FF80;
+
+@sidenav-menuitem-padding-y:            8px;
+@sidenav-menuitem-line-height:          20px;
+@sidenav-menuitem-height:               (@sidenav-menuitem-padding-y * 2 + @sidenav-menuitem-line-height);
+
 @sidenav-children-padding-vertical:     11px;
-@sidenav-padding-horizontal:            20px;
 @sidenav-collapse-in-width:             100%;
 @sidenav-default-width:                 56px;
 @sidenav-compact-width:                 @sidenav-default-width; // TODO Replace sidenav-default-width
-@sidenav-item-height:                   (@sidenav-padding-vertical * 2 + @line-height-computed);
 @sidenav-menu-max-height:               (@sidenav-item-height * 40);
 @sidenav-menu-animation-time:           1.5s;
 @sidenav-footer-height:                 @sidenav-item-height; // Footer is same height as a sidenav item
 @sidenav-level1-item-font-size:         @font-size-large;
 @sidenav-level1-item-line-height:       unit((@line-height-computed / @font-size-large));
-@sidenav-icon-spacing:                  20px;
+@sidenav-icon-spacing:                  12px;
 @sidenav-icon-width:                    @sidenav-level1-item-font-size;
 @sidenav-dropdown-toggle-caret-width:   20px;
 @sidenav-collapse-transition-config:     0.15s ease-in;
 
 @sidenav-level-retract:                 9px;
 @sidenav-level2-retract:                (@sidenav-padding-horizontal + @sidenav-icon-width + @sidenav-icon-spacing);
-@sidenav-level3-retract:                (@sidenav-level2-retract + @sidenav-level-retract); //60 px
+@sidenav-level3-retract:                54px;
 @sidenav-level4-retract:                (@sidenav-level2-retract + @sidenav-level-retract * 2);
 @sidenav-level5-retract:                (@sidenav-level2-retract + @sidenav-level-retract * 3);
 @sidenav-level6-retract:                (@sidenav-level2-retract + @sidenav-level-retract * 4);
