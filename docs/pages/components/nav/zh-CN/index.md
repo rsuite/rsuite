@@ -84,6 +84,7 @@
 | as          | ElementType`('a')`                | 为组件自定义元素类型   |
 | children \* | ReactNode                         | 组件内容               |
 | disabled    | boolean                           | 禁用状态               |
+| eventKey    | string                            | 当前选项的值           |
 | href        | string                            | 链接                   |
 | icon        | Element&lt;typeof Icon&gt;        | 设置图标               |
 | onSelect    | (eventKey: string, event) => void | 选择事件触发的回调函数 |

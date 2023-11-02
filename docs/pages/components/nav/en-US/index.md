@@ -80,6 +80,7 @@ Provides a list of various forms of navigation menus, which can be landscape and
 | as          | ElementType `('a')`               | You can use a custom element type for this component. |
 | children \* | ReactNode                         | The contents of the component                         |
 | disabled    | boolean                           | Disabled status                                       |
+| eventKey    | string                            | The value of the current option                       |
 | href        | string                            | Link                                                  |
 | icon        | Element&lt;typeof Icon&gt;        | Sets the icon for the component                       |
 | onSelect    | (eventKey: string, event) => void | Select the callback function that the event triggers. |
