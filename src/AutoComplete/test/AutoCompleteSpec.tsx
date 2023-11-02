@@ -267,4 +267,26 @@ describe('AutoComplete', () => {
     // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByTestId('test').querySelector('input')).to.have.class('rs-input-lg');
   });
+
+  describe('Plain text', () => {
+    it('Should render input value', () => {
+      render(
+        <div data-testid="content">
+          <AutoComplete value="Haha" data={[]} plaintext />
+        </div>
+      );
+
+      expect(screen.getByTestId('content')).to.have.text('Haha');
+    });
+
+    it('Should render "Unfilled" if value is empty', () => {
+      render(
+        <div data-testid="content">
+          <AutoComplete value="" data={[]} plaintext />
+        </div>
+      );
+
+      expect(screen.getByTestId('content')).to.have.text('Unfilled');
+    });
+  });
 });
