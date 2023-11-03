@@ -1,3 +1,14 @@
+# [5.43.0](https://github.com/rsuite/rsuite/compare/5.42.0...5.43.0) (2023-11-03)
+
+### Bug Fixes
+
+- **AutoComplete:** fix AutoComplete plaintext mode not working ([#3436](https://github.com/rsuite/rsuite/issues/3436)) ([72b79e7](https://github.com/rsuite/rsuite/commit/72b79e7b6dfb90ec23bb81b1145db125f8b827cd))
+- **Drawer:** change Drawer title font-size to 18px ([#3430](https://github.com/rsuite/rsuite/issues/3430)) ([3eff439](https://github.com/rsuite/rsuite/commit/3eff439a0fa28e5349e306b6b2ded8eb9e847f95))
+
+### Features
+
+- **CSS:** use CSS custom properties instead of less variables ([#3428](https://github.com/rsuite/rsuite/issues/3428)) ([f6474e4](https://github.com/rsuite/rsuite/commit/f6474e490036cd8faf228332e2b7bd6b85902671))
+
 # [5.42.0](https://github.com/rsuite/rsuite/compare/v5.41.0...v5.42.0) (2023-10-29)
 
 ### Bug Fixes
