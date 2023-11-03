@@ -279,6 +279,16 @@ describe('AutoComplete', () => {
       expect(screen.getByTestId('content')).to.have.text('Haha');
     });
 
+    it('Should render input default value', () => {
+      render(
+        <div data-testid="content">
+          <AutoComplete defaultValue="Haha" data={[]} plaintext />
+        </div>
+      );
+
+      expect(screen.getByTestId('content')).to.have.text('Haha');
+    });
+
     it('Should render "Unfilled" if value is empty', () => {
       render(
         <div data-testid="content">
