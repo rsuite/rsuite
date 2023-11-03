@@ -1,6 +1,7 @@
 // see https://rsuitejs.com/design/default
 & {
   // Gray levels
+  --rs-gray-0: @B000;
   --rs-gray-50: @B050;
   --rs-gray-100: @B100;
   --rs-gray-200: @B200;
@@ -24,6 +25,15 @@
   --rs-primary-800: @H800;
   --rs-primary-900: @H900;
 
+  // Spectrum
+  --rs-color-red: @red;
+  --rs-color-orange: @orange;
+  --rs-color-yellow: @yellow;
+  --rs-color-green: @green;
+  --rs-color-cyan: @cyan;
+  --rs-color-blue: @blue;
+  --rs-color-violet: @violet;
+
   // Spectrum levels
   each(@spectrum, .(@color-name) {
     @color: @@color-name;
@@ -38,13 +48,13 @@
   });
 
   // Stateful colors
-  --rs-state-success: @green;
-  --rs-state-info: @blue;
-  --rs-state-warning: @yellow;
-  --rs-state-error: @red;
+  --rs-state-success: var(--rs-color-green);
+  --rs-state-info: var(--rs-color-blue);
+  --rs-state-warning: var(--rs-color-yellow);
+  --rs-state-error: var(--rs-color-red);
 
   // Reset
-  --rs-body: @B000;
+  --rs-body: var(--rs-gray-0);
 
   // States
   --rs-bg-success: #edfae1;
@@ -53,289 +63,289 @@
   --rs-bg-error: #fde9ef;
 
   // Misc
-  --rs-text-link: @H700;
-  --rs-text-link-hover: @H800;
-  --rs-text-link-active: @H900;
-  --rs-text-primary: @B800;
-  --rs-text-secondary: @B600;
-  --rs-text-tertiary: @B500;
-  --rs-text-heading: @B900;
-  --rs-text-inverse: @B050;
-  --rs-text-heading-inverse: @B000;
-  --rs-text-active: @H700;
-  --rs-text-disabled: @B400;
-  --rs-text-error: @red;
-  --rs-border-primary: @B200;
-  --rs-border-secondary: @B100;
-  --rs-bg-card: @B000;
-  --rs-bg-overlay: @B000;
-  --rs-bg-well: @B050;
-  --rs-bg-active: @H500;
-  --rs-bg-backdrop: fade(@B900, 30%);
-  --rs-state-hover-bg: @H050;
-  --rs-color-focus-ring: fade(@H500, 25%);
-  --rs-state-focus-shadow: 0 0 0 3px fade(@H500, 25%);
-  --rs-state-focus-outline: 3px solid fade(@H500, 25%);
+  --rs-text-link: var(--rs-primary-700);
+  --rs-text-link-hover: var(--rs-primary-800);
+  --rs-text-link-active: var(--rs-primary-900);
+  --rs-text-primary: var(--rs-gray-800);
+  --rs-text-secondary: var(--rs-gray-600);
+  --rs-text-tertiary: var(--rs-gray-500);
+  --rs-text-heading: var(--rs-gray-900);
+  --rs-text-inverse: var(--rs-gray-50);
+  --rs-text-heading-inverse: var(--rs-gray-0);
+  --rs-text-active: var(--rs-primary-700);
+  --rs-text-disabled: var(--rs-gray-400);
+  --rs-text-error: var(--rs-color-red);
+  --rs-border-primary: var(--rs-gray-200);
+  --rs-border-secondary: var(--rs-gray-100);
+  --rs-bg-card: var(--rs-gray-0);
+  --rs-bg-overlay: var(--rs-gray-0);
+  --rs-bg-well: var(--rs-gray-50);
+  --rs-bg-active: var(--rs-primary-500);
+  --rs-bg-backdrop: rgb(from var(--rs-gray-900) r g b / 30%);
+  --rs-state-hover-bg: var(--rs-primary-50);
+  --rs-color-focus-ring: rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-state-focus-shadow: 0 0 0 3px rgb(from var(--rs-primary-500) r g b / 25%);
+  --rs-state-focus-outline: 3px solid rgb(from var(--rs-primary-500) r g b / 25%);
   --rs-shadow-overlay: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // Button
-  --rs-btn-default-bg: @B050;
-  --rs-btn-default-text: @B800;
-  --rs-btn-default-hover-bg: @B200;
-  --rs-btn-default-active-bg: @B300;
-  --rs-btn-default-active-text: @B900;
-  --rs-btn-default-disabled-bg: @B050;
-  --rs-btn-default-disabled-text: @B400;
-  --rs-btn-primary-bg: @H500;
-  --rs-btn-primary-text: @B000;
-  --rs-btn-primary-hover-bg: @H600;
-  --rs-btn-primary-active-bg: @H700;
-  --rs-btn-subtle-text: @B800;
-  --rs-btn-subtle-hover-bg: @B200;
-  --rs-btn-subtle-hover-text: @B800;
-  --rs-btn-subtle-active-bg: @B200;
-  --rs-btn-subtle-active-text: @B900;
-  --rs-btn-subtle-disabled-text: @B400;
-  --rs-btn-ghost-border: @H700;
-  --rs-btn-ghost-text: @H700;
-  --rs-btn-ghost-hover-border: @H800;
-  --rs-btn-ghost-hover-text: @H800;
-  --rs-btn-ghost-active-border: @H900;
-  --rs-btn-ghost-active-text: @H900;
-  --rs-btn-link-text: @H700;
-  --rs-btn-link-hover-text: @H800;
-  --rs-btn-link-active-text: @H900;
+  --rs-btn-default-bg: var(--rs-gray-50);
+  --rs-btn-default-text: var(--rs-gray-800);
+  --rs-btn-default-hover-bg: var(--rs-gray-200);
+  --rs-btn-default-active-bg: var(--rs-gray-300);
+  --rs-btn-default-active-text: var(--rs-gray-900);
+  --rs-btn-default-disabled-bg: var(--rs-gray-50);
+  --rs-btn-default-disabled-text: var(--rs-gray-400);
+  --rs-btn-primary-bg: var(--rs-primary-500);
+  --rs-btn-primary-text: var(--rs-gray-0);
+  --rs-btn-primary-hover-bg: var(--rs-primary-600);
+  --rs-btn-primary-active-bg: var(--rs-primary-700);
+  --rs-btn-subtle-text: var(--rs-gray-800);
+  --rs-btn-subtle-hover-bg: var(--rs-gray-200);
+  --rs-btn-subtle-hover-text: var(--rs-gray-800);
+  --rs-btn-subtle-active-bg: var(--rs-gray-200);
+  --rs-btn-subtle-active-text: var(--rs-gray-900);
+  --rs-btn-subtle-disabled-text: var(--rs-gray-400);
+  --rs-btn-ghost-border: var(--rs-primary-700);
+  --rs-btn-ghost-text: var(--rs-primary-700);
+  --rs-btn-ghost-hover-border: var(--rs-primary-800);
+  --rs-btn-ghost-hover-text: var(--rs-primary-800);
+  --rs-btn-ghost-active-border: var(--rs-primary-900);
+  --rs-btn-ghost-active-text: var(--rs-primary-900);
+  --rs-btn-link-text: var(--rs-primary-700);
+  --rs-btn-link-hover-text: var(--rs-primary-800);
+  --rs-btn-link-active-text: var(--rs-primary-900);
 
   // Icon Button
-  --rs-iconbtn-addon: @B100;
-  --rs-iconbtn-activated-addon: @B300;
-  --rs-iconbtn-pressed-addon: @B400;
-  --rs-iconbtn-primary-addon: @H600;
-  --rs-iconbtn-primary-activated-addon: @H700;
-  --rs-iconbtn-primary-pressed-addon: @H800;
+  --rs-iconbtn-addon: var(--rs-gray-100);
+  --rs-iconbtn-activated-addon: var(--rs-gray-300);
+  --rs-iconbtn-pressed-addon: var(--rs-gray-400);
+  --rs-iconbtn-primary-addon: var(--rs-primary-600);
+  --rs-iconbtn-primary-activated-addon: var(--rs-primary-700);
+  --rs-iconbtn-primary-pressed-addon: var(--rs-primary-800);
 
   // Divider
-  --rs-divider-border: @B200;
+  --rs-divider-border: var(--rs-gray-200);
 
   // Loader
-  --rs-loader-ring: fade(@B050, 80);
-  --rs-loader-rotor: @B500;
-  --rs-loader-backdrop: fade(@B000, 90%);
-  --rs-loader-ring-inverse: fade(@B050, 30);
-  --rs-loader-rotor-inverse: @B000;
-  --rs-loader-backdrop-inverse: fade(@B900, 83);
+  --rs-loader-ring: rgb(from var(--rs-gray-50) r g b / 80%);
+  --rs-loader-rotor: var(--rs-gray-500);
+  --rs-loader-backdrop: rgb(from var(--rs-gray-0) r g b / 90%);
+  --rs-loader-ring-inverse: rgb(from var(--rs-gray-50) r g b / 30%);
+  --rs-loader-rotor-inverse: var(--rs-gray-0);
+  --rs-loader-backdrop-inverse: rgb(from var(--rs-gray-900) r g b / 83%);
 
   // Message
   --rs-message-success-header: var(--rs-text-heading);
   --rs-message-success-text: var(--rs-text-primary);
-  --rs-message-success-icon: @green;
-  --rs-message-success-bg: @green-50;
+  --rs-message-success-icon: var(--rs-color-green);
+  --rs-message-success-bg: var(--rs-green-50);
   --rs-message-info-header: var(--rs-text-heading);
   --rs-message-info-text: var(--rs-text-primary);
-  --rs-message-info-icon: @blue;
-  --rs-message-info-bg: @blue-50;
+  --rs-message-info-icon: var(--rs-color-blue);
+  --rs-message-info-bg: var(--rs-blue-50);
   --rs-message-warning-header: var(--rs-text-heading);
   --rs-message-warning-text: var(--rs-text-primary);
-  --rs-message-warning-icon: @yellow;
-  --rs-message-warning-bg: @yellow-50;
+  --rs-message-warning-icon: var(--rs-color-yellow);
+  --rs-message-warning-bg: var(--rs-yellow-50);
   --rs-message-error-header: var(--rs-text-heading);
   --rs-message-error-text: var(--rs-text-primary);
-  --rs-message-error-icon: @red;
-  --rs-message-error-bg: @red-50;
+  --rs-message-error-icon: var(--rs-color-red);
+  --rs-message-error-bg: var(--rs-red-50);
 
   // Tooltip
-  --rs-tooltip-bg: @B900;
-  --rs-tooltip-text: @B000;
+  --rs-tooltip-bg: var(--rs-gray-900);
+  --rs-tooltip-text: var(--rs-gray-0);
 
   // Progress
-  --rs-progress-bg: @B200;
-  --rs-progress-bar: @H500;
-  --rs-progress-bar-success: @green;
-  --rs-progress-bar-fail: @red;
+  --rs-progress-bg: var(--rs-gray-200);
+  --rs-progress-bar: var(--rs-primary-500);
+  --rs-progress-bar-success: var(--rs-color-green);
+  --rs-progress-bar-fail: var(--rs-color-red);
 
   // Placeholder
-  --rs-placeholder: @B100;
-  --rs-placeholder-active: @B200;
+  --rs-placeholder: var(--rs-gray-100);
+  --rs-placeholder-active: var(--rs-gray-200);
 
   // Breadcrumb
-  --rs-breadcrumb-item-active-text: @B900;
+  --rs-breadcrumb-item-active-text: var(--rs-gray-900);
 
   // Dropdown
-  --rs-dropdown-divider: @B200;
-  --rs-dropdown-item-bg-hover: fade(@H100, 50%);
-  --rs-dropdown-item-bg-active: @H050;
-  --rs-dropdown-item-text-active: @H700;
-  --rs-dropdown-header-text: @B500;
+  --rs-dropdown-divider: var(--rs-gray-200);
+  --rs-dropdown-item-bg-hover: rgb(from var(--rs-primary-100) r g b / 50%);
+  --rs-dropdown-item-bg-active: var(--rs-primary-50);
+  --rs-dropdown-item-text-active: var(--rs-primary-700);
+  --rs-dropdown-header-text: var(--rs-gray-500);
   --rs-dropdown-shadow: 0 0 10px rgba(0, 0, 0, 0.06), 0 4px 4px rgba(0, 0, 0, 0.12);
 
   // ARIA menu
-  --rs-menuitem-active-bg: fade(@H100, 50);
-  --rs-menuitem-active-text: @H700;
+  --rs-menuitem-active-bg: rgb(from var(--rs-primary-100) r g b / 50%);
+  --rs-menuitem-active-text: var(--rs-primary-700);
 
   // Steps
-  --rs-steps-border: @B600;
-  --rs-steps-state-finish: @H500;
-  --rs-steps-border-state-finish: @H500;
-  --rs-steps-state-wait: @B600;
-  --rs-steps-state-process: @H500;
-  --rs-steps-state-error: @red;
-  --rs-steps-border-state-error: @red;
-  --rs-steps-icon-state-process: @H500;
-  --rs-steps-icon-state-error: @red;
+  --rs-steps-border: var(--rs-gray-600);
+  --rs-steps-state-finish: var(--rs-primary-500);
+  --rs-steps-border-state-finish: var(--rs-primary-500);
+  --rs-steps-state-wait: var(--rs-gray-600);
+  --rs-steps-state-process: var(--rs-primary-500);
+  --rs-steps-state-error: var(--rs-color-red);
+  --rs-steps-border-state-error: var(--rs-color-red);
+  --rs-steps-icon-state-process: var(--rs-primary-500);
+  --rs-steps-icon-state-error: var(--rs-color-red);
 
   // Nav
-  --rs-navs-text: @B800;
-  --rs-navs-text-hover: @B800;
-  --rs-navs-bg-hover: @B200;
-  --rs-navs-text-active: @B900;
-  --rs-navs-bg-active: @B200;
-  --rs-navs-tab-border: @B300;
-  --rs-navs-subtle-border: @B050;
-  --rs-navs-selected: @H700;
+  --rs-navs-text: var(--rs-gray-800);
+  --rs-navs-text-hover: var(--rs-gray-800);
+  --rs-navs-bg-hover: var(--rs-gray-200);
+  --rs-navs-text-active: var(--rs-gray-900);
+  --rs-navs-bg-active: var(--rs-gray-200);
+  --rs-navs-tab-border: var(--rs-gray-300);
+  --rs-navs-subtle-border: var(--rs-gray-50);
+  --rs-navs-selected: var(--rs-primary-700);
 
   // Navbar
-  --rs-navbar-default-bg: @B050;
-  --rs-navbar-default-text: @B800;
-  --rs-navbar-default-selected-text: @H700;
-  --rs-navbar-default-hover-bg: @B200;
-  --rs-navbar-default-hover-text: @B800;
-  --rs-navbar-inverse-bg: @H500;
+  --rs-navbar-default-bg: var(--rs-gray-50);
+  --rs-navbar-default-text: var(--rs-gray-800);
+  --rs-navbar-default-selected-text: var(--rs-primary-700);
+  --rs-navbar-default-hover-bg: var(--rs-gray-200);
+  --rs-navbar-default-hover-text: var(--rs-gray-800);
+  --rs-navbar-inverse-bg: var(--rs-primary-500);
   --rs-navbar-inverse-text: #fff;
-  --rs-navbar-inverse-selected-bg: @H700;
-  --rs-navbar-inverse-hover-bg: @H600;
+  --rs-navbar-inverse-selected-bg: var(--rs-primary-700);
+  --rs-navbar-inverse-hover-bg: var(--rs-primary-600);
   --rs-navbar-inverse-hover-text: #fff;
   --rs-navbar-subtle-bg: #fff;
-  --rs-navbar-subtle-text: @B800;
-  --rs-navbar-subtle-selected-text: @H700;
-  --rs-navbar-subtle-hover-bg: @B050;
-  --rs-navbar-subtle-hover-text: @B800;
+  --rs-navbar-subtle-text: var(--rs-gray-800);
+  --rs-navbar-subtle-selected-text: var(--rs-primary-700);
+  --rs-navbar-subtle-hover-bg: var(--rs-gray-50);
+  --rs-navbar-subtle-hover-text: var(--rs-gray-800);
 
   // Sidenav
-  --rs-sidenav-default-bg: @B050;
-  --rs-sidenav-default-text: @B800;
-  --rs-sidenav-default-selected-text: @H700;
-  --rs-sidenav-default-hover-bg: @B200;
-  --rs-sidenav-default-hover-text: @B800;
-  --rs-sidenav-default-footer-border: @B200;
-  --rs-sidenav-inverse-bg: @H500;
+  --rs-sidenav-default-bg: var(--rs-gray-50);
+  --rs-sidenav-default-text: var(--rs-gray-800);
+  --rs-sidenav-default-selected-text: var(--rs-primary-700);
+  --rs-sidenav-default-hover-bg: var(--rs-gray-200);
+  --rs-sidenav-default-hover-text: var(--rs-gray-800);
+  --rs-sidenav-default-footer-border: var(--rs-gray-200);
+  --rs-sidenav-inverse-bg: var(--rs-primary-500);
   --rs-sidenav-inverse-text: #fff;
-  --rs-sidenav-inverse-selected-bg: @H700;
-  --rs-sidenav-inverse-hover-bg: @H600;
-  --rs-sidenav-inverse-footer-border: @H600;
+  --rs-sidenav-inverse-selected-bg: var(--rs-primary-700);
+  --rs-sidenav-inverse-hover-bg: var(--rs-primary-600);
+  --rs-sidenav-inverse-footer-border: var(--rs-primary-600);
   --rs-sidenav-subtle-bg: #fff;
-  --rs-sidenav-subtle-text: @B800;
-  --rs-sidenav-subtle-selected-text: @H700;
-  --rs-sidenav-subtle-hover-bg: @B050;
-  --rs-sidenav-subtle-hover-text: @B800;
-  --rs-sidenav-subtle-footer-border: @B200;
+  --rs-sidenav-subtle-text: var(--rs-gray-800);
+  --rs-sidenav-subtle-selected-text: var(--rs-primary-700);
+  --rs-sidenav-subtle-hover-bg: var(--rs-gray-50);
+  --rs-sidenav-subtle-hover-text: var(--rs-gray-800);
+  --rs-sidenav-subtle-footer-border: var(--rs-gray-200);
 
   // Input
-  --rs-input-bg: @B000;
-  --rs-input-focus-border: @H500;
-  --rs-input-disabled-bg: @B050;
+  --rs-input-bg: var(--rs-gray-0);
+  --rs-input-focus-border: var(--rs-primary-500);
+  --rs-input-disabled-bg: var(--rs-gray-50);
 
   // ARIA Listboxes
-  --rs-listbox-option-hover-bg: fade(@H100, 50%);
-  --rs-listbox-option-hover-text: @H700;
-  --rs-listbox-option-selected-text: @H700;
-  --rs-listbox-option-selected-bg: @H050;
-  --rs-listbox-option-disabled-text: @B400;
-  --rs-listbox-option-disabled-selected-text: @H200;
+  --rs-listbox-option-hover-bg: rgb(from var(--rs-primary-100) r g b / 50%);
+  --rs-listbox-option-hover-text: var(--rs-primary-700);
+  --rs-listbox-option-selected-text: var(--rs-primary-700);
+  --rs-listbox-option-selected-bg: var(--rs-primary-50);
+  --rs-listbox-option-disabled-text: var(--rs-gray-400);
+  --rs-listbox-option-disabled-selected-text: var(--rs-primary-200);
 
   // Checkbox
   --rs-checkbox-icon: #fff;
-  --rs-checkbox-border: @B300;
-  --rs-checkbox-checked-bg: @H500;
-  --rs-checkbox-disabled-bg: @B050;
+  --rs-checkbox-border: var(--rs-gray-300);
+  --rs-checkbox-checked-bg: var(--rs-primary-500);
+  --rs-checkbox-disabled-bg: var(--rs-gray-50);
 
   // Radio
   --rs-radio-marker: #fff;
-  --rs-radio-border: @B300;
-  --rs-radio-checked-bg: @H500;
-  --rs-radio-disabled-bg: @B050;
+  --rs-radio-border: var(--rs-gray-300);
+  --rs-radio-checked-bg: var(--rs-primary-500);
+  --rs-radio-disabled-bg: var(--rs-gray-50);
 
   // RadioTile
-  --rs-radio-tile-border: @B300;
-  --rs-radio-tile-bg: @B000;
-  --rs-radio-tile-checked-color: @H500;
+  --rs-radio-tile-border: var(--rs-gray-300);
+  --rs-radio-tile-bg: var(--rs-gray-0);
+  --rs-radio-tile-checked-color: var(--rs-primary-500);
   --rs-radio-tile-checked-mark-color: #fff;
-  --rs-radio-tile-checked-disabled-color: @H100;
+  --rs-radio-tile-checked-disabled-color: var(--rs-primary-100);
   --rs-radio-tile-icon-size: 32px;
 
   // Rate
-  --rs-rate-symbol: @B600;
-  --rs-rate-symbol-checked: @yellow-500;
+  --rs-rate-symbol: var(--rs-gray-600);
+  --rs-rate-symbol-checked: var(--rs-blue-500);
 
   // Toggle
-  --rs-toggle-bg: @B300;
+  --rs-toggle-bg: var(--rs-gray-300);
   --rs-toggle-thumb: #fff;
-  --rs-toggle-loader-ring: fade(@B050, 30%);
-  --rs-toggle-loader-rotor: @B000;
-  --rs-toggle-hover-bg: @B400;
-  --rs-toggle-disabled-bg: @B050;
+  --rs-toggle-loader-ring: rgb(from var(--rs-gray-50) r g b / 30%);
+  --rs-toggle-loader-rotor: var(--rs-gray-0);
+  --rs-toggle-hover-bg: var(--rs-gray-400);
+  --rs-toggle-disabled-bg: var(--rs-gray-50);
   --rs-toggle-disabled-thumb: #fff;
-  --rs-toggle-checked-bg: @H500;
+  --rs-toggle-checked-bg: var(--rs-primary-500);
   --rs-toggle-checked-thumb: #fff;
-  --rs-toggle-checked-hover-bg: @H600;
-  --rs-toggle-checked-disabled-bg: @H100;
+  --rs-toggle-checked-hover-bg: var(--rs-primary-600);
+  --rs-toggle-checked-disabled-bg: var(--rs-primary-100);
   --rs-toggle-checked-disabled-thumb: #fff;
 
   // Slider
-  --rs-slider-bar: @B100;
-  --rs-slider-hover-bar: @B200;
-  --rs-slider-thumb-border: @H500;
+  --rs-slider-bar: var(--rs-gray-100);
+  --rs-slider-hover-bar: var(--rs-gray-200);
+  --rs-slider-thumb-border: var(--rs-primary-500);
   --rs-slider-thumb-bg: #fff;
-  --rs-slider-thumb-hover-shadow: 0 0 0 8px fade(@H500, 25);
-  --rs-slider-progress: @H500;
+  --rs-slider-thumb-hover-shadow: 0 0 0 8px rgb(from var(--rs-gray-500) r g b / 25%);
+  --rs-slider-progress: var(--rs-primary-500);
 
   // Uploader
-  --rs-uploader-item-bg: @B300;
-  --rs-uploader-item-hover-bg: @B050;
-  --rs-uploader-overlay-bg: fade(#fff, 80);
-  --rs-uploader-dnd-bg: @B000;
-  --rs-uploader-dnd-border: @B200;
-  --rs-uploader-dnd-hover-border: @H500;
+  --rs-uploader-item-bg: var(--rs-gray-300);
+  --rs-uploader-item-hover-bg: var(--rs-gray-50);
+  --rs-uploader-overlay-bg: rgb(from #fff r g b / 80%);
+  --rs-uploader-dnd-bg: var(--rs-gray-0);
+  --rs-uploader-dnd-border: var(--rs-gray-200);
+  --rs-uploader-dnd-hover-border: var(--rs-primary-500);
 
   // Avatar
-  --rs-avatar-bg: @B300;
-  --rs-avatar-text: @B000;
+  --rs-avatar-bg: var(--rs-gray-300);
+  --rs-avatar-text: var(--rs-gray-0);
 
   // Badge
-  --rs-badge-bg: @red;
-  --rs-badge-text: @B000;
+  --rs-badge-bg: var(--rs-color-red);
+  --rs-badge-text: var(--rs-gray-0);
 
   // Tag
-  --rs-tag-bg: @B050;
-  --rs-tag-close: @red;
+  --rs-tag-bg: var(--rs-gray-50);
+  --rs-tag-close: var(--rs-color-red);
 
   // Carousel
-  --rs-carousel-bg: @B600;
-  --rs-carousel-indicator: fade(@B000, 40);
-  --rs-carousel-indicator-hover: @B000;
-  --rs-carousel-indicator-active: @H500;
+  --rs-carousel-bg: var(--rs-gray-600);
+  --rs-carousel-indicator: rgb(from var(--rs-gray-0) r g b / 40%);
+  --rs-carousel-indicator-hover: var(--rs-gray-0);
+  --rs-carousel-indicator-active: var(--rs-primary-500);
 
   // Panel
   --rs-panel-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // List
-  --rs-list-bg: @B000;
-  --rs-list-border: @B200;
-  --rs-list-hover-bg: @H050;
-  --rs-list-placeholder-bg: fade(@H050, 50%);
-  --rs-list-placeholder-border: @H500;
+  --rs-list-bg: var(--rs-gray-0);
+  --rs-list-border: var(--rs-gray-200);
+  --rs-list-hover-bg: var(--rs-primary-50);
+  --rs-list-placeholder-bg: rgb(from var(--rs-primary-50) r g b / 50%);
+  --rs-list-placeholder-border: var(--rs-primary-500);
 
   // Timeline
-  --rs-timeline-indicator-bg: @B300;
-  --rs-timeline-indicator-active-bg: @H500;
+  --rs-timeline-indicator-bg: var(--rs-gray-300);
+  --rs-timeline-indicator-active-bg: var(--rs-primary-500);
 
   // Table
   --rs-table-shadow: rgba(9, 9, 9, 0.08);
-  --rs-table-sort: @H500;
-  --rs-table-resize: @H500;
-  --rs-table-scrollbar-track: @B200;
-  --rs-table-scrollbar-thumb: @B800;
-  --rs-table-scrollbar-thumb-active: @B900;
-  --rs-table-scrollbar-vertical-track: fade(@B200, 40%);
+  --rs-table-sort: var(--rs-primary-500);
+  --rs-table-resize: var(--rs-primary-500);
+  --rs-table-scrollbar-track: var(--rs-gray-200);
+  --rs-table-scrollbar-thumb: var(--rs-gray-800);
+  --rs-table-scrollbar-thumb-active: var(--rs-gray-900);
+  --rs-table-scrollbar-vertical-track: rgb(from var(--rs-gray-200) r g b / 40%);
 
   // Drawer
   --rs-drawer-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
@@ -344,23 +354,69 @@
   --rs-modal-shadow: 0 4px 4px rgba(0, 0, 0, 0.12), 0 0 10px rgba(0, 0, 0, 0.06);
 
   // Form
-  --rs-form-errormessage-text: @red;
+  --rs-form-errormessage-text: var(--rs-color-red);
   --rs-form-errormessage-bg: #fff;
-  --rs-form-errormessage-border: @B200;
+  --rs-form-errormessage-border: var(--rs-gray-200);
 
   // Picker
-  --rs-picker-value: @H700;
-  --rs-picker-count-bg: @H500;
+  --rs-picker-value: var(--rs-primary-700);
+  --rs-picker-count-bg: var(--rs-primary-500);
   --rs-picker-count-text: #fff;
 
   // Calendar
-  --rs-calendar-today-bg: @H500;
+  --rs-calendar-today-bg: var(--rs-primary-500);
   --rs-calendar-today-text: #fff;
-  --rs-calendar-range-bg: fade(@H100, 50%);
-  --rs-calendar-time-unit-bg: @B050;
+  --rs-calendar-range-bg: rgb(from var(--rs-primary-100) r g b / 50%);
+  --rs-calendar-time-unit-bg: var(--rs-gray-50);
   --rs-calendar-date-selected-text: #fff;
-  --rs-calendar-cell-selected-hover-bg: @H700;
+  --rs-calendar-cell-selected-hover-bg: var(--rs-primary-700);
 
   // Popover
   --rs-popover-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+
+  // CSS relative color syntax is not supported
+  // https://developer.chrome.com/blog/css-relative-color-syntax/
+  @supports not (color: rgb(from white r g b)) {
+    // Misc
+    --rs-bg-backdrop: fade(@B900, 30%);
+    --rs-color-focus-ring: fade(@H500, 25%);
+    --rs-state-focus-shadow: 0 0 0 3px fade(@H500, 25%);
+    --rs-state-focus-outline: 3px solid fade(@H500, 25%);
+
+    // Loader
+    --rs-loader-ring: fade(@B050, 80);
+    --rs-loader-backdrop: fade(@B000, 90%);
+    --rs-loader-ring-inverse: fade(@B050, 30%);
+    --rs-loader-backdrop-inverse: fade(@B900, 83%);
+
+    // Dropdown
+    --rs-dropdown-item-bg-hover: fade(@H100, 50%);
+
+    // ARIA menu
+    --rs-menuitem-active-bg: fade(@H100, 50);
+
+    // ARIA Listboxes
+    --rs-listbox-option-hover-bg: fade(@H100, 50%);
+
+    // Toggle
+    --rs-toggle-loader-ring: fade(@B050, 30%);
+
+    // Slider
+    --rs-slider-thumb-hover-shadow: 0 0 0 8px fade(@H500, 25%);
+
+    // Uploader
+    --rs-uploader-overlay-bg: fade(#fff, 80);
+
+    // Carousel
+    --rs-carousel-indicator: fade(@B000, 40);
+
+    // List
+    --rs-list-placeholder-bg: fade(@H050, 50%);
+
+    // Table
+    --rs-table-scrollbar-vertical-track: fade(@B200, 40%);
+
+    // Calendar
+    --rs-calendar-range-bg: fade(@H100, 50%);
+  }
 }
