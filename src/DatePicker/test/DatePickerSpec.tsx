@@ -1046,4 +1046,23 @@ describe('DatePicker', () => {
 
     expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Apr 2023');
   });
+
+  it('Should call `onShortcutClick` callback', async () => {
+    const onShortcutClickSpy = sinon.spy();
+
+    render(
+      <DatePicker
+        defaultOpen
+        ranges={[{ label: 'custom-day', value: new Date('2022-02-02 12:00:00') }]}
+        onShortcutClick={onShortcutClickSpy}
+      />
+    );
+
+    userEvent.click(screen.getByRole('button', { name: 'custom-day' }));
+
+    await waitFor(() => {
+      expect(onShortcutClickSpy).to.calledOnce;
+      expect(onShortcutClickSpy.firstCall.firstArg.label).to.equal('custom-day');
+    });
+  });
 });

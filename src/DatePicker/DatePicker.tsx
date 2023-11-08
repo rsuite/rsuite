@@ -165,6 +165,9 @@ export interface DatePickerProps
   /** Called after clicking the OK button */
   onOk?: (date: Date, event: React.SyntheticEvent) => void;
 
+  /** Called after clicking the shortcut button */
+  onShortcutClick?: (range: RangeType<Date>, event: React.MouseEvent) => void;
+
   /** Called when clean */
   onClean?: (event: React.MouseEvent) => void;
 
@@ -225,6 +228,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onSelect,
       onToggleMonthDropdown,
       onToggleTimeDropdown,
+      onShortcutClick,
       ...rest
     } = props;
 
@@ -337,11 +341,14 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * The callback triggered after the date in the shortcut area is clicked.
      */
     const handleShortcutPageDate = useCallback(
-      (value: Date, closeOverlay: boolean, event: React.SyntheticEvent) => {
+      (range: RangeType<Date>, closeOverlay: boolean, event: React.MouseEvent) => {
+        const value = range.value as Date;
+
         updateValue(event, value, closeOverlay);
         handleDateChange(value, event);
+        onShortcutClick?.(range, event);
       },
-      [handleDateChange, updateValue]
+      [handleDateChange, onShortcutClick, updateValue]
     );
 
     /**
@@ -594,7 +601,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 calendarDate={calendarDate}
                 locale={locale}
                 disabledShortcut={disabledToolbarHandle}
-                onClickShortcut={handleShortcutPageDate}
+                onShortcutClick={handleShortcutPageDate}
               />
             )}
 
@@ -606,7 +613,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 calendarDate={calendarDate}
                 disabledOkBtn={isOKButtonDisabled}
                 disabledShortcut={disabledToolbarHandle}
-                onClickShortcut={handleShortcutPageDate}
+                onShortcutClick={handleShortcutPageDate}
                 onOk={handleOK}
                 hideOkBtn={oneTap}
               />

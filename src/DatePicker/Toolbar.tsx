@@ -55,7 +55,7 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
     disabledShortcut,
     hideOkBtn,
     onOk,
-    onClickShortcut,
+    onShortcutClick,
     calendarDate,
     ranges,
     locale,
@@ -85,7 +85,7 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
         calendarDate={calendarDate}
         locale={locale}
         disabledShortcut={disabledShortcut}
-        onClickShortcut={onClickShortcut}
+        onShortcutClick={onShortcutClick}
       />
       <div className={prefix('right')}>
         <SubmitButton
@@ -110,7 +110,7 @@ Toolbar.propTypes = {
     PropTypes.instanceOf(Date),
     PropTypes.arrayOf(PropTypes.instanceOf(Date))
   ]).isRequired,
-  onClickShortcut: PropTypes.func,
+  onShortcutClick: PropTypes.func,
   onOk: PropTypes.func,
   disabledShortcut: PropTypes.func,
   disabledOkBtn: PropTypes.func,

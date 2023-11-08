@@ -119,6 +119,9 @@ export interface DateRangePickerProps
   /** Called after clicking the OK button */
   onOk?: (date: DateRange, event: React.SyntheticEvent) => void;
 
+  /** Called after clicking the shortcut button */
+  onShortcutClick?: (range: RangeType, event: React.MouseEvent) => void;
+
   /** Called when clean */
   onClean?: (event: React.MouseEvent) => void;
 
@@ -198,6 +201,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     onOk,
     onOpen,
     onSelect,
+    onShortcutClick,
     renderTitle,
     ...rest
   } = props;
@@ -593,7 +597,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    * Toolbar operation callback function
    */
   const handleShortcutPageDate = useCallback(
-    (value: DateRange, closeOverlay = false, event: React.SyntheticEvent) => {
+    (range: RangeType, closeOverlay = false, event: React.MouseEvent) => {
+      const value = range.value as DateRange;
+
       updateCalendarDateRange({ dateRange: value });
 
       if (closeOverlay) {
@@ -602,10 +608,12 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         setSelectedDates(value ?? []);
       }
 
+      onShortcutClick?.(range, event);
+
       // End unfinished selections.
       setSelectedIdle(true);
     },
-    [handleValueUpdate, updateCalendarDateRange]
+    [handleValueUpdate, onShortcutClick, updateCalendarDateRange]
   );
 
   const handleOK = useCallback(
@@ -831,7 +839,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
                 calendarDate={calendarDate}
                 locale={locale}
                 disabledShortcut={disabledShortcutButton}
-                onClickShortcut={handleShortcutPageDate}
+                onShortcutClick={handleShortcutPageDate}
               />
             )}
 
@@ -854,7 +862,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
                 disabledShortcut={disabledShortcutButton}
                 hideOkBtn={oneTap}
                 onOk={handleOK}
-                onClickShortcut={handleShortcutPageDate}
+                onShortcutClick={handleShortcutPageDate}
                 ranges={bottomRanges}
               />
             </>
