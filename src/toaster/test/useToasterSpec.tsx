@@ -151,4 +151,16 @@ describe('useToaster', () => {
       expect(onCloseSpy).to.have.been.calledOnce;
     });
   });
+
+  it('Should keep the same reference when useToaster re-renders', async () => {
+    const { result, rerender } = renderHook(() => useToaster(), { wrapper: CustomProvider });
+
+    const toaster1 = result.current;
+
+    rerender();
+
+    const toaster2 = result.current;
+
+    expect(toaster1).to.equal(toaster2);
+  });
 });
