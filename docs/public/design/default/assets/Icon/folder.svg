@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Icon/folder</title>
+    <g id="Icon/folder" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M6.58578644,2 C6.85100293,2 7.10535684,2.10535684 7.29289322,2.29289322 L8.70710678,3.70710678 C8.89464316,3.89464316 9.14899707,4 9.41421356,4 L15,4 C15.5522847,4 16,4.44771525 16,5 L16,13 C16,13.5522847 15.5522847,14 15,14 L1,14 C0.44771525,14 0,13.5522847 0,13 L0,3 C0,2.44771525 0.44771525,2 1,2 L6.58578644,2 Z M6.58578644,3 L1,3 L1,13 L15,13 L15,5 L9.41421356,5 C8.94271758,5 8.48838715,4.83351018 8.12982019,4.53308685 L8,4.41421356 L6.58578644,3 Z" id="Rectangle-Copy-3" fill="#575757" fill-rule="nonzero"></path>
+    </g>
+</svg>
