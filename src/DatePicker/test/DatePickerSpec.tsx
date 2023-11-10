@@ -1046,7 +1046,7 @@ describe('DatePicker', () => {
 
     expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Apr 2023');
   });
-  
+
   it('Should call `onShortcutClick` callback', async () => {
     const onShortcutClickSpy = sinon.spy();
 
