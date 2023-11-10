@@ -3,6 +3,7 @@ import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
 import partial from 'lodash/partial';
 import pick from 'lodash/pick';
+import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormControlBaseProps, PickerBaseProps } from '../@types/common';
@@ -119,6 +120,9 @@ export interface DateRangePickerProps
   /** Called after clicking the OK button */
   onOk?: (date: DateRange, event: React.SyntheticEvent) => void;
 
+  /** Called after clicking the shortcut button */
+  onShortcutClick?: (range: RangeType, event: React.MouseEvent) => void;
+
   /** Called when clean */
   onClean?: (event: React.MouseEvent) => void;
 
@@ -198,6 +202,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     onOk,
     onOpen,
     onSelect,
+    onShortcutClick,
     renderTitle,
     ...rest
   } = props;
@@ -593,7 +598,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
    * Toolbar operation callback function
    */
   const handleShortcutPageDate = useCallback(
-    (value: DateRange, closeOverlay = false, event: React.SyntheticEvent) => {
+    (range: RangeType, closeOverlay = false, event: React.MouseEvent) => {
+      const value = range.value as DateRange;
+
       updateCalendarDateRange({ dateRange: value });
 
       if (closeOverlay) {
@@ -602,10 +609,12 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         setSelectedDates(value ?? []);
       }
 
+      onShortcutClick?.(range, event);
+
       // End unfinished selections.
       setSelectedIdle(true);
     },
-    [handleValueUpdate, updateCalendarDateRange]
+    [handleValueUpdate, onShortcutClick, updateCalendarDateRange]
   );
 
   const handleOK = useCallback(
@@ -617,7 +626,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   );
 
   const handleClean = useCallback(
-    (event: React.MouseEvent) => {
+    (event: React.SyntheticEvent) => {
       updateCalendarDateRange({ dateRange: null });
       handleValueUpdate(event, null);
     },
@@ -676,6 +685,18 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       setInputState('Initial');
     },
     [handleValueUpdate, selectedDates, inputState]
+  );
+
+  const handleInputBackspace = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      const value = (event.target as HTMLInputElement).value;
+
+      // When the input box is empty, the date is cleared.
+      if (value === '') {
+        handleClean(event);
+      }
+    },
+    [handleClean]
   );
 
   const handleEnter = useCallback(() => {
@@ -831,7 +852,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
                 calendarDate={calendarDate}
                 locale={locale}
                 disabledShortcut={disabledShortcutButton}
-                onClickShortcut={handleShortcutPageDate}
+                onShortcutClick={handleShortcutPageDate}
               />
             )}
 
@@ -854,7 +875,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
                 disabledShortcut={disabledShortcutButton}
                 hideOkBtn={oneTap}
                 onOk={handleOK}
-                onClickShortcut={handleShortcutPageDate}
+                onShortcutClick={handleShortcutPageDate}
                 ranges={bottomRanges}
               />
             </>
@@ -909,6 +930,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           onInputChange={handleInputChange}
           onInputBlur={handleInputPressEnd}
           onInputPressEnter={handleInputPressEnd}
+          onInputBackspace={debounce(handleInputBackspace, 10)}
           onKeyDown={onPickerKeyDown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}

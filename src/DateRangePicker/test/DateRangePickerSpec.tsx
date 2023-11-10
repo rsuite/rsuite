@@ -1171,6 +1171,51 @@ describe('DateRangePicker', () => {
     expect(endCells).to.deep.equal(['30', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
   });
 
+  it('Should call `onShortcutClick` callback', async () => {
+    const onShortcutClickSpy = sinon.spy();
+
+    render(
+      <DateRangePicker
+        defaultOpen
+        ranges={[{ label: 'Yesterday', value: [addDays(new Date(), -1), addDays(new Date(), -1)] }]}
+        onShortcutClick={onShortcutClickSpy}
+      />
+    );
+
+    userEvent.click(screen.getByRole('button', { name: 'Yesterday' }));
+
+    await waitFor(() => {
+      expect(onShortcutClickSpy).to.calledOnce;
+      expect(onShortcutClickSpy.firstCall.firstArg.label).to.equal('Yesterday');
+    });
+  });
+
+  it('Should be clear the value via the Backspace key', async () => {
+    const onChangeSpy = sinon.spy();
+
+    render(
+      <DateRangePicker
+        onChange={onChangeSpy}
+        format="yyyy-MM"
+        defaultValue={[new Date('2023-11-01'), new Date('2023-12-01')]}
+      />
+    );
+
+    const input = screen
+      .getByRole('combobox')
+      // eslint-disable-next-line testing-library/no-node-access
+      .querySelector('.rs-picker-toggle-textbox') as HTMLInputElement;
+
+    userEvent.click(input);
+    userEvent.keyboard('{Backspace}');
+    input.value = '';
+
+    await waitFor(() => {
+      expect(onChangeSpy).to.calledOnce;
+      expect(onChangeSpy.firstCall.firstArg).to.equal(null);
+    });
+  });
+
   describe('Loading state', () => {
     it('Should display a spinner when loading=true', () => {
       render(<DateRangePicker loading />);

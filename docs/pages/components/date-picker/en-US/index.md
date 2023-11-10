@@ -157,6 +157,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | onOpen                | () => void                                                      | Callback fired when open component                                                   |
 | onPrevMonth           | (date: Date) => void                                            | Switch to the callback function for the previous Month                               |
 | onSelect              | (date: Date) => void                                            | Callback fired when date or time is selected                                         |
+| onShortcutClick       | (shortcut: Range, event) => void                                | Callback fired when shortcut clicked                                                 |
 | onToggleMonthDropdown | (open: boolean) => void                                         | Callback function that switches to the month view                                    |
 | onToggleTimeDropdown  | (open: boolean) => void                                         | Callback function that switches to the time view                                     |
 | open                  | boolean                                                         | Whether open the component                                                           |
