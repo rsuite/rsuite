@@ -1,3 +1,15 @@
+# [5.44.0](https://github.com/rsuite/rsuite/compare/5.43.0...5.44.0) (2023-11-10)
+
+### Bug Fixes
+
+- **DatePicker,DateRangePicker:** fix inability to clear values via Backspace key ([#3446](https://github.com/rsuite/rsuite/issues/3446)) ([ca7dcdd](https://github.com/rsuite/rsuite/commit/ca7dcddb1406b8d6a20ff4ad11755fbac83be07e))
+- **toaster:** fix useToaster not keep same reference when re-renders ([#3440](https://github.com/rsuite/rsuite/issues/3440)) ([a603033](https://github.com/rsuite/rsuite/commit/a603033eeb0a1de2299938c506fb42ee13375f2c))
+
+### Features
+
+- add loading prop for all pickers ([#3444](https://github.com/rsuite/rsuite/issues/3444)) ([3c5b2af](https://github.com/rsuite/rsuite/commit/3c5b2af3658bb44c8eb22f1c59f8a9c989c7e62e))
+- **DatePicker,DateRangePicker:** add support for onShortcutClick ([#3439](https://github.com/rsuite/rsuite/issues/3439)) ([ae00f90](https://github.com/rsuite/rsuite/commit/ae00f9045fd7dba95739f1f3fc8a21d671b6875b))
+
 # [5.43.0](https://github.com/rsuite/rsuite/compare/5.42.0...5.43.0) (2023-11-03)
 
 ### Bug Fixes
