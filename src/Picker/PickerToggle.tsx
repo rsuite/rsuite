@@ -36,6 +36,7 @@ export interface PickerToggleProps extends ToggleButtonProps {
   inputMask?: (string | RegExp)[];
   onInputChange?: (value: string, event: React.ChangeEvent) => void;
   onInputPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onInputBackspace?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onInputBlur?: (event: React.FocusEvent<HTMLElement>) => void;
   onInputFocus?: (event: React.FocusEvent<HTMLElement>) => void;
   placement?: TypeAttributes.Placement;
@@ -77,6 +78,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       inputMask = defaultInputMask,
       onInputChange,
       onInputPressEnter,
+      onInputBackspace,
       onInputBlur,
       onInputFocus,
       onClean,
@@ -180,11 +182,17 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
 
     const handleInputKeyDown = useCallback(
       (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (editable && event.key === KEY_VALUES.ENTER) {
-          onInputPressEnter?.(event);
+        if (editable) {
+          if (event.key === KEY_VALUES.ENTER) {
+            onInputPressEnter?.(event);
+          }
+
+          if (event.key === KEY_VALUES.BACKSPACE) {
+            onInputBackspace?.(event);
+          }
         }
       },
-      [onInputPressEnter, editable]
+      [editable, onInputPressEnter, onInputBackspace]
     );
 
     const renderInput = useCallback(
