@@ -27,6 +27,8 @@ export interface PickerToggleProps extends ToggleButtonProps {
   readOnly?: boolean;
   plaintext?: boolean;
   tabIndex?: number;
+
+  /** Whether to display an loading indicator on toggle button */
   loading?: boolean;
 
   // Renders an input and is editable

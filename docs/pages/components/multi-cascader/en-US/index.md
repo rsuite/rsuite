@@ -74,10 +74,13 @@ Learn more in [Accessibility](/guide/accessibility).
 
 ### `<MultiCascader>`
 
+<!-- prettier-sort-markdown-table -->
+
 | Property              | Type`(Default)`                                                                                         | Description                                                      |
 | --------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
 | appearance            | 'default' &#124; 'subtle' `('default')`                                                                 | Set picker appearence                                            |
 | block                 | boolean                                                                                                 | Blocking an entire row                                           |
+| caretAs               | ElementType                                                                                             | Custom component for the caret icon                              |
 | cascade               | boolean `(true)`                                                                                        | whether cascade select                                           |
 | childrenKey           | string `('children')`                                                                                   | Set children key in data                                         |
 | classPrefix           | string `('picker')`                                                                                     | The prefix of the component CSS class                            |
@@ -92,6 +95,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | height                | number `(320)`                                                                                          | The height of Dropdown                                           |
 | inline                | boolean                                                                                                 | The menu is displayed directly when the component is initialized |
 | labelKey              | string `('label')`                                                                                      | Set label key in data                                            |
+| loading               | boolean `(false)`                                                                                       | Whether to display a loading state indicator                     |
 | locale                | [PickerLocaleType](/guide/i18n/#pickers)                                                                | Locale text                                                      |
 | menuHeight            | number `(200)`                                                                                          | Sets the height of the menu                                      |
 | menuWidth             | number `(156)`                                                                                          | Sets the width of the menu                                       |
@@ -122,7 +126,6 @@ Learn more in [Accessibility](/guide/accessibility).
 | uncheckableItemValues | [ValueType][value]                                                                                      | Set the option value for the check box not to be rendered        |
 | value                 | [ValueType][value]                                                                                      | Specifies the values of the selected items(Controlled)           |
 | valueKey              | string `('value')`                                                                                      | Set value key in data                                            |
-| caretAs               | ElementType                                                                                             | Custom component for the caret icon                              |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement-start.md)}-->

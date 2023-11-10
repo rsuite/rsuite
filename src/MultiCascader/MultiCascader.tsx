@@ -34,14 +34,16 @@ import {
   OverlayTriggerHandle,
   PositionChildProps,
   listPickerPropTypes,
-  PickerComponent
+  PickerComponent,
+  PickerToggleProps
 } from '../Picker';
 
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 export type ValueType = (number | string)[];
 export interface MultiCascaderProps<T = ValueType>
-  extends FormControlPickerProps<T, PickerLocale, ItemDataType> {
+  extends FormControlPickerProps<T, PickerLocale, ItemDataType>,
+    Pick<PickerToggleProps, 'loading'> {
   cascade?: boolean;
 
   /** A picker that can be counted */

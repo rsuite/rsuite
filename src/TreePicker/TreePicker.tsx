@@ -76,7 +76,7 @@ export interface TreePickerProps<T = number | string>
   extends TreeBaseProps<T, ItemDataType>,
     TreeDragProps,
     FormControlPickerProps<T, PickerLocale, ItemDataType>,
-    Pick<PickerToggleProps, 'caretAs'> {
+    Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   /** The height of Dropdown */
   height?: number;
 

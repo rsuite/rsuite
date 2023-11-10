@@ -529,6 +529,16 @@ describe('CheckPicker', () => {
 
       expect(screen.queryByRole('listbox')).not.to.exist;
     });
+
+    it('Should not open menu on Enter key when loading=true', () => {
+      render(<CheckPicker data={data} loading />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), {
+        key: 'Enter'
+      });
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
   });
 
   describe('Plain text', () => {

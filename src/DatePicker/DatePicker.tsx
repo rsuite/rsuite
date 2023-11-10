@@ -46,7 +46,7 @@ export type { RangeType } from './Toolbar';
 export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
     FormControlBaseProps<Date | null>,
-    Pick<PickerToggleProps, 'caretAs' | 'readOnly' | 'plaintext'> {
+    Pick<PickerToggleProps, 'caretAs' | 'readOnly' | 'plaintext' | 'loading'> {
   /** Predefined date Ranges */
   ranges?: RangeType<Date>[];
 

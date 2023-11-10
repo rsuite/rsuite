@@ -1046,4 +1046,30 @@ describe('DatePicker', () => {
 
     expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Apr 2023');
   });
+
+  describe('Loading state', () => {
+    it('Should display a spinner when loading=true', () => {
+      render(<DatePicker loading />);
+
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should not open menu on click when loading=true', () => {
+      render(<DatePicker loading />);
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+
+    it('Should not open menu on Enter key when loading=true', () => {
+      render(<DatePicker loading />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), {
+        key: 'Enter'
+      });
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+  });
 });
