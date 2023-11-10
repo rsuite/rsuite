@@ -199,6 +199,7 @@ combine(...) => boolean
 | onOk                 | (value: [ValueType](#code-ts-value-type-code)) => void                           | 点击 `确定` 按钮后的回调函数                                                    |
 | onOpen               | () => void                                                                       | 打开回调函数                                                                    |
 | onSelect             | (data:Date) => void                                                              | 选择日期的回调函数                                                              |
+| onShortcutClick      | (shortcut: Range, event) => void                                                 | 点击快捷项的回调函数                                                            |
 | open                 | boolean                                                                          | 打开 (受控)                                                                     |
 | placeholder          | string                                                                           | 没有值时候默认显示内容                                                          |
 | placement            | [Placement](#code-ts-placement-code) `('bottomStart')`                           | 显示位置                                                                        |

@@ -5,9 +5,9 @@ export type ValueType = [Date?, Date?];
 
 export type DateRange = [Date, Date];
 
-export interface RangeType {
+export interface RangeType<T = DateRange> {
   label: React.ReactNode;
-  value: DateRange | ((value?: ValueType) => DateRange);
+  value: T | ((value?: T) => T);
   closeOverlay?: boolean;
   placement?: 'bottom' | 'left';
 }

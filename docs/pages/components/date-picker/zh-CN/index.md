@@ -155,6 +155,7 @@
 | onOpen                | () => void                                                      | 打开回调函数                                              |
 | onPrevMonth           | (date: Date) => void                                            | 切换到上一月的回调函数                                    |
 | onSelect              | (date: Date) => void                                            | 选择日期或者时间的回调函数                                |
+| onShortcutClick       | (shortcut: Range, event) => void                                | 点击快捷项的回调函数                                      |
 | onToggleMonthDropdown | (open: boolean) => void                                         | 切换到月份视图的回调函数                                  |
 | onToggleTimeDropdown  | (open: boolean) => void                                         | 切换到时间视图的回调函数                                  |
 | open                  | boolean                                                         | 打开 (受控)                                               |

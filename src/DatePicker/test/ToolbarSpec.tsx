@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { testStandardProps } from '@test/commonCases';
 
@@ -47,24 +46,25 @@ describe('DatePicker - Toolbar', () => {
   it('Should call `onOk` callback', () => {
     const onOkSpy = sinon.spy();
     render(<Toolbar calendarDate={new Date(2021, 11, 24)} onOk={onOkSpy} locale={{ ok: 'OK' }} />);
-    ReactTestUtils.Simulate.click(screen.getByRole('button', { name: /ok/i }));
 
+    fireEvent.click(screen.getByRole('button', { name: /ok/i }));
     expect(onOkSpy).to.have.been.calledOnce;
   });
 
-  it('Should call `onClickShortcut` callback', () => {
-    const onClickShortcutSpy = sinon.spy();
+  it('Should call `onShortcutClick` callback', () => {
+    const onShortcutClickSpy = sinon.spy();
     render(
       <Toolbar
         calendarDate={new Date(2021, 11, 24)}
-        onClickShortcut={onClickShortcutSpy}
+        onShortcutClick={onShortcutClickSpy}
         locale={{
           today: 'Today'
         }}
       />
     );
-    ReactTestUtils.Simulate.click(screen.getByRole('button', { name: 'Today' }));
-    assert.isTrue(onClickShortcutSpy.calledOnce);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Today' }));
+    expect(onShortcutClickSpy).to.have.been.calledOnce;
   });
 
   it('Should not render the ok button', () => {
