@@ -3,6 +3,7 @@ import isNil from 'lodash/isNil';
 import omit from 'lodash/omit';
 import partial from 'lodash/partial';
 import pick from 'lodash/pick';
+import debounce from 'lodash/debounce';
 import PropTypes from 'prop-types';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormControlBaseProps, PickerBaseProps } from '../@types/common';
@@ -625,7 +626,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   );
 
   const handleClean = useCallback(
-    (event: React.MouseEvent) => {
+    (event: React.SyntheticEvent) => {
       updateCalendarDateRange({ dateRange: null });
       handleValueUpdate(event, null);
     },
@@ -684,6 +685,18 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       setInputState('Initial');
     },
     [handleValueUpdate, selectedDates, inputState]
+  );
+
+  const handleInputBackspace = useCallback(
+    (event: React.KeyboardEvent<HTMLInputElement>) => {
+      const value = (event.target as HTMLInputElement).value;
+
+      // When the input box is empty, the date is cleared.
+      if (value === '') {
+        handleClean(event);
+      }
+    },
+    [handleClean]
   );
 
   const handleEnter = useCallback(() => {
@@ -917,6 +930,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
           onInputChange={handleInputChange}
           onInputBlur={handleInputPressEnd}
           onInputPressEnter={handleInputPressEnd}
+          onInputBackspace={debounce(handleInputBackspace, 10)}
           onKeyDown={onPickerKeyDown}
           onClean={createChainedFunction(handleClean, onClean)}
           cleanable={cleanable && !disabled}

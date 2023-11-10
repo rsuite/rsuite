@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
+import debounce from 'lodash/debounce';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
 import IconClockO from '@rsuite/icons/legacy/ClockO';
 import CalendarContainer from '../Calendar/CalendarContainer';
@@ -492,6 +493,18 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [inputState, calendarDate, updateValue]
     );
 
+    const handleInputBackspace = useCallback(
+      (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const value = (event.target as HTMLInputElement).value;
+
+        // When the input box is empty, the date is cleared.
+        if (value === '') {
+          handleClean(event);
+        }
+      },
+      [handleClean]
+    );
+
     const handleEntered = useCallback(() => {
       onOpen?.();
       setActive(true);
@@ -684,6 +697,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             onInputChange={handleInputChange}
             onInputBlur={handleInputPressEnd}
             onInputPressEnter={handleInputPressEnd}
+            onInputBackspace={debounce(handleInputBackspace, 10)}
             onKeyDown={onPickerKeyDown}
             onClean={createChainedFunction(handleClean, onClean)}
             cleanable={cleanable && !disabled}
