@@ -62,7 +62,7 @@ type SelectedDatesState = [] | [Date] | [Date, Date];
 export interface DateRangePickerProps
   extends PickerBaseProps,
     FormControlBaseProps<DateRange | null>,
-    Pick<PickerToggleProps, 'caretAs' | 'readOnly' | 'plaintext'> {
+    Pick<PickerToggleProps, 'caretAs' | 'readOnly' | 'plaintext' | 'loading'> {
   /** Predefined date ranges */
   ranges?: RangeType[];
 

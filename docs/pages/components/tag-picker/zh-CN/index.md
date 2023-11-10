@@ -50,6 +50,8 @@
 
 ### `<TagPicker>`
 
+<!-- prettier-sort-markdown-table -->
+
 | 属性名称           | 类型`(默认值)`                                                                   | 描述                                       |
 | ------------------ | -------------------------------------------------------------------------------- | ------------------------------------------ |
 | cacheData          | [ItemDataType][item][]                                                           | 当异步搜索时，用于缓存 `value` 的选项      |
@@ -64,6 +66,7 @@
 | groupBy            | string                                                                           | 设置分组条件在 `data` 中的 `key`           |
 | labelKey           | string `('label')`                                                               | 设置选项显示内容在 `data` 中的 `key`       |
 | listProps          | [ListProps][listprops]                                                           | 虚拟化长列表的相关属性                     |
+| loading            | boolean `(false)`                                                                | 是否显示一个加载中状态指示器               |
 | menuClassName      | string                                                                           | 应用于菜单 DOM 节点的 css class            |
 | menuMaxHeight      | number `(320)`                                                                   | 设置 Dropdown 的最大高度                   |
 | menuStyle          | CSSProperties                                                                    | 应用于菜单 DOM 节点的 style                |
@@ -90,8 +93,8 @@
 | renderMenuGroup    | (groupTitle: ReactNode, item: [ItemDataType][item]) => ReactNode                 | 自定义选项组                               |
 | renderMenuItem     | (label: ReactNode, item: [ItemDataType][item]) => ReactNode                      | 自定义选项                                 |
 | renderValue        | (value: string[], items: [ItemDataType][item][], tags: ReactNode[]) => ReactNode | 自定义被选中的选项                         |
-| searchBy           | (keyword: string, label: ReactNode, item: [ItemDataType][item]) => boolean       | 自定义搜索规则                             |
 | searchable         | boolean `(true)`                                                                 | 可以搜索                                   |
+| searchBy           | (keyword: string, label: ReactNode, item: [ItemDataType][item]) => boolean       | 自定义搜索规则                             |
 | size               | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                | 设置组件尺寸                               |
 | sort               | (isGroup: boolean) => (a: any, b: any) => number                                 | 对选项排序                                 |
 | tagProps           | [TagProps][tagprops]                                                             | 设置 Tag 的属性                            |

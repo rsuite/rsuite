@@ -470,4 +470,30 @@ describe('MultiCascader', () => {
       expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
   });
+
+  describe('Loading state', () => {
+    it('Should display a spinner when loading=true', () => {
+      render(<MultiCascader data={items} loading />);
+
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should not open menu on click when loading=true', () => {
+      render(<MultiCascader data={items} loading />);
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+
+    it('Should not open menu on Enter key when loading=true', () => {
+      render(<MultiCascader data={items} loading />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), {
+        key: 'Enter'
+      });
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+  });
 });

@@ -34,7 +34,8 @@ import {
   OverlayTriggerHandle,
   PositionChildProps,
   listPickerPropTypes,
-  PickerHandle
+  PickerHandle,
+  PickerToggleProps
 } from '../Picker';
 
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
@@ -42,7 +43,8 @@ import { useMap } from '../utils/useMap';
 
 export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>
-  extends FormControlPickerProps<T | null, PickerLocale, ItemDataType<T>> {
+  extends FormControlPickerProps<T | null, PickerLocale, ItemDataType<T>>,
+    Pick<PickerToggleProps, 'loading'> {
   /** Sets the width of the menu */
   menuWidth?: number;
 

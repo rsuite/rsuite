@@ -50,7 +50,7 @@ export type ValueType = (number | string)[];
 export interface CheckPickerProps<T>
   extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>>,
     MultipleSelectProps<T>,
-    Pick<PickerToggleProps, 'label' | 'caretAs'> {
+    Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
   /** Top the selected option in the options */
   sticky?: boolean;
 

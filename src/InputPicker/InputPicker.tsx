@@ -89,7 +89,7 @@ export type ValueType = any;
 export interface InputPickerProps<T = ValueType>
   extends FormControlPickerProps<T, InputPickerLocale, InputItemDataType>,
     SelectProps<T>,
-    Pick<PickerToggleProps, 'caretAs'> {
+    Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   tabIndex?: number;
 
   /** Settings can create new options */
@@ -777,7 +777,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       [prefix`disabled-options`]: disabledOptions
     });
     const searching = !!searchKeyword && open;
-    const displaySearchInput = searchable && !disabled;
+    const displaySearchInput = searchable && !disabled && !rest.loading;
 
     const inputProps = multi
       ? { inputStyle: { maxWidth: maxWidth - 63 }, as: InputAutosize }

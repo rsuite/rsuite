@@ -68,10 +68,13 @@ Learn more in [Accessibility](/guide/accessibility).
 
 ### `<Cascader>`
 
+<!-- prettier-sort-markdown-table -->
+
 | Property           | Type`(Default)`                                                                                                  | Description                                                      |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
 | appearance         | 'default' &#124; 'subtle' `('default')`                                                                          | Set picker appearence                                            |
 | block              | boolean                                                                                                          | Blocking an entire row                                           |
+| caretAs            | ElementType                                                                                                      | Custom component for the caret icon                              |
 | childrenKey        | string `('children')`                                                                                            | Set children key in data                                         |
 | classPrefix        | string `('picker')`                                                                                              | The prefix of the component CSS class                            |
 | cleanable          | boolean `(true)`                                                                                                 | Whether the selected value can be cleared                        |
@@ -84,6 +87,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | height             | number `(320)`                                                                                                   | The height of Dropdown                                           |
 | inline             | boolean                                                                                                          | The menu is displayed directly when the component is initialized |
 | labelKey           | string `('label')`                                                                                               | Set label key in data                                            |
+| loading            | boolean `(false)`                                                                                                | Whether to display a loading state indicator                     |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                                                         | Locale text                                                      |
 | menuHeight         | number                                                                                                           | Sets the height of the menu                                      |
 | menuWidth          | number                                                                                                           | Sets the width of the menu                                       |
@@ -114,7 +118,6 @@ Learn more in [Accessibility](/guide/accessibility).
 | toggleAs           | ElementType `('a')`                                                                                              | You can use a custom element for this component                  |
 | value              | string                                                                                                           | Specifies the values of the selected items(Controlled)           |
 | valueKey           | string `('value')`                                                                                               | Set value key in data                                            |
-| caretAs            | ElementType                                                                                                      | Custom component for the caret icon                              |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement-start.md)}-->
