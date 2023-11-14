@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Slide from '../Animation/Slide';
 import Modal, {
@@ -11,10 +11,14 @@ import Modal, {
 import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import { useClassNames } from '../utils';
 import deprecateComponent from '../utils/deprecateComponent';
+import DrawerContext from './DrawerContext';
 
 export interface DrawerProps extends ModalProps {
   /** The placement of Drawer */
   placement?: TypeAttributes.Placement4;
+
+  /** Custom close button */
+  closeButton?: React.ReactNode | boolean;
 }
 
 const DrawerBody: RsRefForwardingComponent<'div', ModalBodyProps> = React.forwardRef(
@@ -54,6 +58,7 @@ const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
     placement = 'right',
     classPrefix = 'drawer',
     animation = Slide,
+    closeButton = true,
     ...rest
   } = props;
   const { merge, prefix } = useClassNames(classPrefix);
@@ -63,16 +68,19 @@ const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
     placement
   };
 
+  const contextValue = useMemo(() => ({ closeButton, isDrawer: true }), [closeButton]);
+
   return (
-    <Modal
-      {...rest}
-      ref={ref}
-      drawer
-      classPrefix={classPrefix}
-      className={classes}
-      animation={animation}
-      animationProps={animationProps}
-    />
+    <DrawerContext.Provider value={contextValue}>
+      <Modal
+        {...rest}
+        ref={ref}
+        classPrefix={classPrefix}
+        className={classes}
+        animation={animation}
+        animationProps={animationProps}
+      />
+    </DrawerContext.Provider>
   );
 }) as unknown as DrawerComponent;
 
