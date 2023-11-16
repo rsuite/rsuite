@@ -25,12 +25,12 @@
   },
   "devDependencies": {
     "gatsby-plugin-less": "^6.24.0",
-    "gatsby-plugin-manifest": "^4.24.0",
+    "gatsby-plugin-manifest": "^5.12.3",
     "gatsby-plugin-react-helmet": "^5.24.0",
-    "gatsby-plugin-sharp": "^4.25.1",
+    "gatsby-plugin-sharp": "^5.12.3",
     "gatsby-source-filesystem": "^4.24.0",
     "gatsby-starter-default": "^1.0.0",
-    "gatsby-transformer-sharp": "^4.24.0",
+    "gatsby-transformer-sharp": "^5.12.3",
     "prettier": "^2.7.1"
   }
 }
