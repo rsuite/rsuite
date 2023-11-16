@@ -123,6 +123,7 @@
 
 @font-family-base:      Apple-System, Arial, Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', STXihei, sans-serif;
 
+@font-size-extra-large: 18px;
 @font-size-large:       16px;
 @font-size-base:        14px;
 @font-size-small:       12px;
@@ -147,6 +148,7 @@
 @line-height-large-computed:  22px;
 
 // Unit-less `line-height` for use in components like buttons.
+@line-height-extra-large:     unit((@line-height-large-computed / @font-size-extra-large)); // ~1.222
 @line-height-large:           unit((@line-height-large-computed / @font-size-large)); // ~1.375
 @line-height-base:            unit((@line-height-computed / @font-size-base)); // ~1.4285714285714286
 @line-height-small:           unit((@line-height-computed / @font-size-small)); // ~1.6666666666666667
@@ -517,9 +519,9 @@
 @modal-body-margin:             20px;
 @modal-border-radius:           @border-radius;
 
-@modal-title-font-size:         @font-size-large;
+@modal-title-font-size:         @font-size-extra-large;
 @modal-title-color:             var(--rs-text-primary);
-@modal-title-line-height:       @line-height-large;
+@modal-title-line-height:       @line-height-extra-large;
 
 @modal-close-btn-size:          @font-size-small;
 @modal-close-btn-line-height:   @line-height-small;

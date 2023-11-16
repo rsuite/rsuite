@@ -52,10 +52,13 @@ Learn more in [Accessibility](/guide/accessibility).
 
 ### `<TreePicker>`
 
+<!-- prettier-sort-markdown-table -->
+
 | Property                | Type `(Default)`                                                                                  | Description                                                               |
 | ----------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | appearance              | 'default' &#124; 'subtle' `('default')`                                                           | Set picker appearence                                                     |
 | block                   | boolean                                                                                           | Blocking an entire row                                                    |
+| caretAs                 | ElementType                                                                                       | Custom component for the caret icon                                       |
 | childrenKey             | string `('children')`                                                                             | Tree data structure Children property name                                |
 | classPrefix             | string`('picker')`                                                                                | The prefix of the component CSS class                                     |
 | cleanable               | boolean `(true)`                                                                                  | Set whether you can clear                                                 |
@@ -72,6 +75,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | height                  | number `(360px)`                                                                                  | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                                | Tree data structure Label property name                                   |
 | listProps               | [ListProps][listprops]                                                                            | Properties of virtualized lists.                                          |
+| loading                 | boolean `(false)`                                                                                 | Whether to display a loading state indicator                              |
 | locale                  | [PickerLocaleType](/guide/i18n/#pickers)                                                          | Locale text                                                               |
 | menuClassName           | string                                                                                            | A css class to apply to the Menu DOM node                                 |
 | menuStyle               | CSSProperties                                                                                     | style for Menu                                                            |
@@ -95,14 +99,13 @@ Learn more in [Accessibility](/guide/accessibility).
 | renderTreeIcon          | (item: [ItemDataType][item]) => ReactNode                                                         | Custom render icon                                                        |
 | renderTreeNode          | (item: [ItemDataType][item]) => ReactNode                                                         | Custom render tree Node                                                   |
 | renderValue             | (value: string,item:[ItemDataType][item], selectedElement:ReactNode) => ReactNode                 | Custom render selected value                                              |
-| searchBy                | (keyword: string, label: ReactNode, item: [ItemDataType][item]) => boolean                        | Custom search rules                                                       |
 | searchable              | boolean `(true)`                                                                                  | Set whether you can search                                                |
+| searchBy                | (keyword: string, label: ReactNode, item: [ItemDataType][item]) => boolean                        | Custom search rules                                                       |
 | size                    | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                                 | A picker can have different sizes                                         |
 | toggleAs                | ElementType `('a')`                                                                               | You can use a custom element for this component                           |
 | value                   | string                                                                                            | Selected value                                                            |
 | valueKey                | string `('value')`                                                                                | Tree data Structure Value property name                                   |
 | virtualized             | boolean                                                                                           | Whether using Virtualized List                                            |
-| caretAs                 | ElementType                                                                                       | Custom component for the caret icon                                       |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->

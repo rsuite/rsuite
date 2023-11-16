@@ -265,6 +265,7 @@ describe('Modal', () => {
         </Modal>
       );
 
+      // eslint-disable-next-line testing-library/no-node-access
       expect(screen.getByRole('dialog').querySelector('.rs-modal-body')).to.not.have.attribute(
         'style'
       );

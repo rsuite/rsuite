@@ -44,9 +44,6 @@ export interface SelectProps<T> {
   /** Set group condition key in data */
   groupBy?: string;
 
-  /** Whether to display an loading indicator on toggle button */
-  loading?: boolean;
-
   /** Whether dispaly search input box */
   searchable?: boolean;
 
@@ -108,7 +105,7 @@ export interface SelectPickerProps<T>
       'value' | 'defaultValue' | 'onChange'
     >,
     SelectProps<T>,
-    Pick<PickerToggleProps, 'caretAs' | 'label'> {
+    Pick<PickerToggleProps, 'caretAs' | 'label' | 'loading'> {
   /** Initial value */
   defaultValue?: T;
 

@@ -34,6 +34,7 @@ import {
 } from '../@types/common';
 
 import { transformData, shouldDisplay } from './utils';
+import Plaintext from '../Plaintext';
 
 export type ValueType = string;
 
@@ -118,6 +119,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       menuClassName,
       id,
       readOnly,
+      plaintext,
       renderMenu,
       renderMenuItem,
       onSelect,
@@ -281,6 +283,14 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
         </PickerOverlay>
       );
     };
+
+    if (plaintext) {
+      return (
+        <Plaintext ref={ref} localeKey="unfilled">
+          {typeof value === 'undefined' ? defaultValue : value}
+        </Plaintext>
+      );
+    }
 
     return (
       <PickerToggleTrigger

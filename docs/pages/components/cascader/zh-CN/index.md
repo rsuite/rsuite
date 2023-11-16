@@ -68,10 +68,13 @@
 
 ### `<Cascader>`
 
+<!-- prettier-sort-markdown-table -->
+
 | 属性名称           | 类型`(默认值)`                                                                                | 描述                                 |
 | ------------------ | --------------------------------------------------------------------------------------------- | ------------------------------------ |
 | appearance         | 'default' &#124; 'subtle' `('default')`                                                       | 设置外观                             |
 | block              | boolean                                                                                       | 堵塞整行                             |
+| caretAs            | ElementType                                                                                   | 自定义右侧箭头图标的组件             |
 | childrenKey        | string `('children')`                                                                         | 设置选项子节点在 `data` 中的 `key`   |
 | classPrefix        | string `('picker')`                                                                           | 组件 CSS 类的前缀                    |
 | cleanable          | boolean `(true)`                                                                              | 可以清除                             |
@@ -84,6 +87,7 @@
 | height             | number `(320)`                                                                                | 设置 Dropdown 的高度                 |
 | inline             | boolean                                                                                       | 在组件初始后直接展示菜单             |
 | labelKey           | string `('label')`                                                                            | 设置选项显示内容在 `data` 中的 `key` |
+| loading            | boolean `(false)`                                                                             | 是否显示一个加载中状态指示器         |
 | locale             | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                   | 本地化的文本                         |
 | menuClassName      | string                                                                                        | 选项菜单的 className                 |
 | menuHeight         | number                                                                                        | 设置菜单的高度                       |
@@ -115,7 +119,6 @@
 | toggleAs           | ElementType `('a')`                                                                           | 为组件自定义元素类型                 |
 | value              | string                                                                                        | 设置值（受控）                       |
 | valueKey           | string `('value')`                                                                            | 设置选项值在 `data` 中的 `key`       |
-| caretAs            | ElementType                                                                                   | 自定义右侧箭头图标的组件             |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement-start.md)}-->

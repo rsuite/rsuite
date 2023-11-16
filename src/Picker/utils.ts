@@ -463,6 +463,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     active,
     readOnly,
     disabled,
+    loading,
     onExit,
     onOpen,
     onClose,
@@ -493,7 +494,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   const onToggle = useCallback(
     (event: React.KeyboardEvent) => {
       // Keyboard events should not be processed when readOnly and disabled are set.
-      if (readOnly || disabled) {
+      if (readOnly || disabled || loading) {
         return;
       }
 
@@ -545,6 +546,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     [
       readOnly,
       disabled,
+      loading,
       targetRef,
       overlayRef,
       onKeyDown,

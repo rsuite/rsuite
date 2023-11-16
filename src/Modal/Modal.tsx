@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useCallback } from 'react';
+import React, { useRef, useMemo, useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import on from 'dom-lib/on';
@@ -16,6 +16,7 @@ import { useBodyStyles, ModalSize } from './utils';
 import { RsRefForwardingComponent } from '../@types/common';
 import useUniqueId from '../utils/useUniqueId';
 import deprecatePropType from '../utils/deprecatePropType';
+import DrawerContext from '../Drawer/DrawerContext';
 
 const modalSizes: readonly ModalSize[] = ['xs', 'sm', 'md', 'lg', 'full'];
 
@@ -51,9 +52,6 @@ export interface ModalProps
 
   /** Automatically sets the height when the body content is too long. */
   overflow?: boolean;
-
-  /** Render Modal as Drawer */
-  drawer?: boolean;
 }
 interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
   Body: typeof ModalBody;
@@ -80,7 +78,6 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     animationProps,
     animationTimeout = 300,
     overflow = true,
-    drawer = false,
     onClose,
     onEntered,
     onEntering,
@@ -99,10 +96,13 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   const dialogRef = useRef<HTMLElement>(null);
   const transitionEndListener = useRef<{ off: () => void } | null>();
 
+  // Render Modal as Drawer
+  const { isDrawer = false } = useContext(DrawerContext) || {};
+
   // The style of the Modal body will be updated with the size of the window or container.
   const [bodyStyles, onChangeBodyStyles, onDestroyEvents] = useBodyStyles(dialogRef, {
     overflow,
-    drawer,
+    drawer: isDrawer,
     prefix,
     size
   });
@@ -112,10 +112,9 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     () => ({
       dialogId,
       onModalClose: onClose,
-      getBodyStyles: () => bodyStyles,
-      isDrawer: drawer
+      getBodyStyles: () => bodyStyles
     }),
-    [dialogId, onClose, bodyStyles, drawer]
+    [dialogId, onClose, bodyStyles]
   );
 
   const handleExited = useCallback(
@@ -190,7 +189,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
 
   let sizeKey = 'width';
 
-  if (drawer) {
+  if (isDrawer) {
     const { placement } = animationProps || {};
     // The width or height of the drawer depends on the placement.
     sizeKey = placement === 'top' || placement === 'bottom' ? 'height' : 'width';

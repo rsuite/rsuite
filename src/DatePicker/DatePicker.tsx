@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
+import debounce from 'lodash/debounce';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
 import IconClockO from '@rsuite/icons/legacy/ClockO';
 import CalendarContainer from '../Calendar/CalendarContainer';
@@ -46,7 +47,7 @@ export type { RangeType } from './Toolbar';
 export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
     FormControlBaseProps<Date | null>,
-    Pick<PickerToggleProps, 'caretAs' | 'readOnly' | 'plaintext'> {
+    Pick<PickerToggleProps, 'caretAs' | 'readOnly' | 'plaintext' | 'loading'> {
   /** Predefined date Ranges */
   ranges?: RangeType<Date>[];
 
@@ -165,6 +166,9 @@ export interface DatePickerProps
   /** Called after clicking the OK button */
   onOk?: (date: Date, event: React.SyntheticEvent) => void;
 
+  /** Called after clicking the shortcut button */
+  onShortcutClick?: (range: RangeType<Date>, event: React.MouseEvent) => void;
+
   /** Called when clean */
   onClean?: (event: React.MouseEvent) => void;
 
@@ -225,6 +229,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onSelect,
       onToggleMonthDropdown,
       onToggleTimeDropdown,
+      onShortcutClick,
       ...rest
     } = props;
 
@@ -337,11 +342,14 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * The callback triggered after the date in the shortcut area is clicked.
      */
     const handleShortcutPageDate = useCallback(
-      (value: Date, closeOverlay: boolean, event: React.SyntheticEvent) => {
+      (range: RangeType<Date>, closeOverlay: boolean, event: React.MouseEvent) => {
+        const value = range.value as Date;
+
         updateValue(event, value, closeOverlay);
         handleDateChange(value, event);
+        onShortcutClick?.(range, event);
       },
-      [handleDateChange, updateValue]
+      [handleDateChange, onShortcutClick, updateValue]
     );
 
     /**
@@ -485,6 +493,18 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [inputState, calendarDate, updateValue]
     );
 
+    const handleInputBackspace = useCallback(
+      (event: React.KeyboardEvent<HTMLInputElement>) => {
+        const value = (event.target as HTMLInputElement).value;
+
+        // When the input box is empty, the date is cleared.
+        if (value === '') {
+          handleClean(event);
+        }
+      },
+      [handleClean]
+    );
+
     const handleEntered = useCallback(() => {
       onOpen?.();
       setActive(true);
@@ -594,7 +614,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 calendarDate={calendarDate}
                 locale={locale}
                 disabledShortcut={disabledToolbarHandle}
-                onClickShortcut={handleShortcutPageDate}
+                onShortcutClick={handleShortcutPageDate}
               />
             )}
 
@@ -606,7 +626,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 calendarDate={calendarDate}
                 disabledOkBtn={isOKButtonDisabled}
                 disabledShortcut={disabledToolbarHandle}
-                onClickShortcut={handleShortcutPageDate}
+                onShortcutClick={handleShortcutPageDate}
                 onOk={handleOK}
                 hideOkBtn={oneTap}
               />
@@ -677,6 +697,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             onInputChange={handleInputChange}
             onInputBlur={handleInputPressEnd}
             onInputPressEnter={handleInputPressEnd}
+            onInputBackspace={debounce(handleInputBackspace, 10)}
             onKeyDown={onPickerKeyDown}
             onClean={createChainedFunction(handleClean, onClean)}
             cleanable={cleanable && !disabled}

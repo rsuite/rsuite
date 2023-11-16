@@ -41,6 +41,35 @@ describe('Drawer', () => {
     expect(screen.getByRole('dialog')).to.have.class('rs-custom-prefix');
   });
 
+  it('Should render a default close button', () => {
+    render(
+      <Drawer open>
+        <Drawer.Body />
+      </Drawer>
+    );
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(screen.getByRole('dialog')?.querySelector('.rs-drawer-body-close')).to.exist;
+  });
+
+  it('Should not render the close button', () => {
+    render(
+      <Drawer closeButton={false} open>
+        <Drawer.Body />
+      </Drawer>
+    );
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(screen.getByRole('dialog')?.querySelector('.rs-drawer-body-close')).to.not.exist;
+  });
+
+  it('Should render a custom close button', () => {
+    render(
+      <Drawer closeButton={<button>custom close button</button>} open>
+        <Drawer.Body />
+      </Drawer>
+    );
+    expect(screen.getByText('custom close button')).to.exist;
+  });
+
   it('Should close the drawer when the backdrop is clicked', () => {
     const onCloseSpy = sinon.spy();
 

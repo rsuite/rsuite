@@ -1046,4 +1046,71 @@ describe('DatePicker', () => {
 
     expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Apr 2023');
   });
+
+  it('Should call `onShortcutClick` callback', async () => {
+    const onShortcutClickSpy = sinon.spy();
+
+    render(
+      <DatePicker
+        defaultOpen
+        ranges={[{ label: 'custom-day', value: new Date('2022-02-02 12:00:00') }]}
+        onShortcutClick={onShortcutClickSpy}
+      />
+    );
+
+    userEvent.click(screen.getByRole('button', { name: 'custom-day' }));
+
+    await waitFor(() => {
+      expect(onShortcutClickSpy).to.calledOnce;
+      expect(onShortcutClickSpy.firstCall.firstArg.label).to.equal('custom-day');
+    });
+  });
+
+  it('Should be clear the value via the Backspace key', async () => {
+    const onChangeSpy = sinon.spy();
+
+    render(
+      <DatePicker onChange={onChangeSpy} format="yyyy-MM" defaultValue={new Date('2023-11-01')} />
+    );
+
+    const input = screen
+      .getByRole('combobox')
+      // eslint-disable-next-line testing-library/no-node-access
+      .querySelector('.rs-picker-toggle-textbox') as HTMLInputElement;
+
+    userEvent.click(input);
+    userEvent.keyboard('{Backspace}');
+    input.value = '';
+
+    await waitFor(() => {
+      expect(onChangeSpy).to.calledOnce;
+      expect(onChangeSpy.firstCall.firstArg).to.equal(null);
+    });
+  });
+
+  describe('Loading state', () => {
+    it('Should display a spinner when loading=true', () => {
+      render(<DatePicker loading />);
+
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should not open menu on click when loading=true', () => {
+      render(<DatePicker loading />);
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+
+    it('Should not open menu on Enter key when loading=true', () => {
+      render(<DatePicker loading />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), {
+        key: 'Enter'
+      });
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+  });
 });
