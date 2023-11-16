@@ -291,6 +291,21 @@ describe('FormControl', () => {
     expect(refError).to.deep.equal({ email: 'The length cannot exceed 2' });
   });
 
+  it('should pass null as value to component when value is null', () => {
+    let refValue = void 0;
+    function CostumeComponent({ value }) {
+      refValue = value;
+      return null;
+    }
+    render(
+      <Form formValue={{ username: null }}>
+        <FormControl accepter={CostumeComponent} name="username" />
+      </Form>
+    );
+
+    expect(refValue).to.be.null;
+  });
+
   describe('rule', () => {
     it("should check the field's rule", () => {
       const formRef = React.createRef<FormInstance>();

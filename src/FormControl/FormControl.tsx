@@ -193,7 +193,8 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   }
 
   const accepterProps = {
-    [valueKey]: val ?? defaultValue
+    // need to distinguish between undefined and null
+    [valueKey]: val === undefined ? defaultValue : val
   };
 
   return (
