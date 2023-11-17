@@ -27,13 +27,14 @@ describe('Modal styles', () => {
     // );
   });
 
-  it('Should have correct margin-x: 60px in `full` size', () => {
+  it('Should be full screen in `full` size', () => {
     const instanceRef = React.createRef<HTMLDivElement>();
     render(<Modal ref={instanceRef} open size="full" />);
     const dom = instanceRef.current as HTMLElement;
     const dialog = dom.querySelector('.rs-modal-dialog') as HTMLElement;
     const { left, right } = dialog.getBoundingClientRect();
-    assert.equal(left, 60, 'margin-left');
-    assert.equal(window.innerWidth - right, 60, 'margin-right');
+
+    expect(left).to.equal(0);
+    expect(window.innerWidth - right).to.equal(0);
   });
 });

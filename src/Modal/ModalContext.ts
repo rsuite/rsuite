@@ -8,7 +8,7 @@ export interface ModalContextProps {
   onModalClose?: (event: React.MouseEvent<Element, MouseEvent>) => void;
 
   /** Pass the latest style to body. */
-  getBodyStyles?: () => React.CSSProperties;
+  getBodyStyles?: () => React.CSSProperties | null;
 }
 
 export const ModalContext = React.createContext<ModalContextProps | null>(null);

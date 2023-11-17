@@ -2,13 +2,21 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import getHeight from 'dom-lib/getHeight';
 import on from 'dom-lib/on';
 import { ResizeObserver } from '@juggle/resize-observer';
+import { TypeAttributes } from '../@types/common';
+
+export type ModalSize = TypeAttributes.Size | 'full' | number | string;
 
 export const useBodyStyles = (
   ref: React.RefObject<HTMLElement>,
-  options: { overflow: boolean; drawer: boolean; prefix: (...classes: any) => string }
-): [React.CSSProperties, (entering?: boolean) => void, () => void] => {
-  const [bodyStyles, setBodyStyles] = useState({});
-  const { overflow, drawer, prefix } = options;
+  options: {
+    overflow: boolean;
+    drawer: boolean;
+    size?: ModalSize;
+    prefix: (...classes: any) => string;
+  }
+): [React.CSSProperties | null, (entering?: boolean) => void, () => void] => {
+  const [bodyStyles, setBodyStyles] = useState<React.CSSProperties | null>({});
+  const { overflow, drawer, prefix, size } = options;
   const windowResizeListener = useRef<any>();
   const contentElement = useRef<HTMLElement | null>(null);
   const contentElementResizeObserver = useRef<ResizeObserver | null>();
@@ -56,7 +64,12 @@ export const useBodyStyles = (
 
   const onChangeBodyStyles = useCallback(
     (entering?: boolean) => {
-      if (overflow && !drawer && ref.current) {
+      if (drawer || size === 'full') {
+        setBodyStyles(null);
+        return;
+      }
+
+      if (overflow && ref.current) {
         updateBodyStyles(undefined, entering);
 
         contentElement.current = ref.current.querySelector(`.${prefix('content')}`);
@@ -71,7 +84,7 @@ export const useBodyStyles = (
         }
       }
     },
-    [drawer, overflow, prefix, ref, updateBodyStyles]
+    [drawer, overflow, prefix, ref, size, updateBodyStyles]
   );
 
   useEffect(() => {
@@ -79,5 +92,5 @@ export const useBodyStyles = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return [overflow ? bodyStyles : {}, onChangeBodyStyles, onDestroyEvents];
+  return [overflow ? bodyStyles : null, onChangeBodyStyles, onDestroyEvents];
 };

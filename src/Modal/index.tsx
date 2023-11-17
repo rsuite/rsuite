@@ -5,4 +5,5 @@ export type { ModalDialogProps } from './ModalDialog';
 export type { ModalFooterProps } from './ModalFooter';
 export type { ModalHeaderProps } from './ModalHeader';
 export type { ModalTitleProps } from './ModalTitle';
+export type { ModalSize } from './utils';
 export default Modal;
