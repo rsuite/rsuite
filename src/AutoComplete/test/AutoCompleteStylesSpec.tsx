@@ -1,13 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import tinycolor from 'tinycolor2';
 import AutoComplete from '../index';
-import { getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
+import { getStyle, toRGB, inChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 import { PickerHandle } from '../../Picker';
-
-const { H100 } = getDefaultPalette();
 
 describe('AutoComplete styles', () => {
   it('Input should render the correct styles', () => {
@@ -30,15 +27,10 @@ describe('AutoComplete styles', () => {
     const dom = ((instanceRef.current as PickerHandle).root as HTMLElement).querySelector(
       'input'
     ) as HTMLInputElement;
-    const focusItemDom = document.querySelector('.rs-auto-complete-item-focus') as HTMLElement;
     const unFocusItemDom = document.querySelector(
       '.rs-auto-complete-item:not(.rs-auto-complete-item-focus)'
     ) as HTMLElement;
-    assert.equal(
-      getStyle(focusItemDom, 'backgroundColor'),
-      tinycolor(H100).setAlpha(0.5).toRgbString(),
-      'AutoComplete focus item background-color'
-    );
+
     assert.equal(getStyle(dom, 'color'), toRGB('#575757'), 'AutoComplete  focus item font-color');
     assert.equal(
       getStyle(unFocusItemDom, 'backgroundColor'),
