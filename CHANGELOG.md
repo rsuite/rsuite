@@ -1,3 +1,15 @@
+# [5.45.0](https://github.com/rsuite/rsuite/compare/v5.44.0...v5.45.0) (2023-11-17)
+
+### Bug Fixes
+
+- **Button:** fix button radius using wrong less variable ([#3451](https://github.com/rsuite/rsuite/issues/3451)) ([037a2b3](https://github.com/rsuite/rsuite/commit/037a2b3fb2696a55390018958a3d84cd0dc38958))
+- formControll will pass undefined as value when value is null defaultValue is undefined ([#3456](https://github.com/rsuite/rsuite/issues/3456)) ([cde5a88](https://github.com/rsuite/rsuite/commit/cde5a889036f1873115b8be2ac31a31b8ff28bd3))
+
+### Features
+
+- **Drawer:** add support for closeButton ([#3450](https://github.com/rsuite/rsuite/issues/3450)) ([90f25d0](https://github.com/rsuite/rsuite/commit/90f25d09e131e606c9ebd6dca41c0047e02f7908))
+- **Modal,Drawer:** size prop supports number and string values ([#3103](https://github.com/rsuite/rsuite/issues/3103)) ([39741b7](https://github.com/rsuite/rsuite/commit/39741b755460e29cb8cfefb32bf4056b14cbf985))
+
 # [5.44.0](https://github.com/rsuite/rsuite/compare/5.43.0...5.44.0) (2023-11-10)
 
 ### Bug Fixes
