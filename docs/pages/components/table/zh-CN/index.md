@@ -356,23 +356,15 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 | width                    | number                                                                            | 宽度                                                            |
 | wordWrap                 | boolean &#124; 'break-all' &#124; 'break-word' &#124; 'keep-all'                  | 是否在文本溢出其内容框时自动换行                                |
 
-### Table methods
+### Table ref
 
-- scrollTop
-
-垂直滚动条滚动到指定位置
-
-```ts
-scrollTop: (top: number) => void;
-```
-
-- scrollLeft
-
-横向滚动条滚动到指定位置
-
-```ts
-scrollLeft: (left: number) => void;
-```
+| Property       | Type                     | Description              |
+| -------------- | ------------------------ | ------------------------ |
+| body           | HTMLDivElement           | 表格的主体元素           |
+| root           | HTMLDivElement           | 表格的根元素             |
+| scrollLeft     | (left:number)=>void      | 横向滚动条滚动到指定位置 |
+| scrollPosition | {top:number,left:number} | 表格的滚动位置           |
+| scrollTop      | (top:number)=>void       | 垂直滚动条滚动到指定位置 |
 
 ### `<Table.Column>`
 

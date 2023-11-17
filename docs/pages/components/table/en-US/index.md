@@ -360,23 +360,15 @@ Display the hidden text in its entirety when hovering over the cell.
 | width                    | number                                                                            | Table width                                                                                                                         |
 | wordWrap                 | boolean &#124; 'break-all' &#124; 'break-word' &#124; 'keep-all'                  | Whether to appear line breaks where text overflows its content box                                                                  |
 
-### Table methods
+### Table ref
 
-- scrollTop
-
-The vertical scroll bar scrolls to the specified position
-
-```ts
-scrollTop: (top: number) => void;
-```
-
-- scrollLeft
-
-The horizontal scroll bar scrolls to the specified position
-
-```ts
-scrollLeft: (left: number) => void;
-```
+| Property       | Type                     | Description                                                    |
+| -------------- | ------------------------ | -------------------------------------------------------------- |
+| body           | HTMLDivElement           | The body element of the table                                  |
+| root           | HTMLDivElement           | The root element of the table                                  |
+| scrollLeft     | (left:number)=>void      | Set the number of pixels for horizontal scrolling of the table |
+| scrollPosition | {top:number,left:number} | The scroll position of the table                               |
+| scrollTop      | (top:number)=>void       | Set the number of pixels for vertical scrolling of the table   |
 
 ### `<Table.Column>`
 
