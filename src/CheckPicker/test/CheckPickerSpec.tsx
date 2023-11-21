@@ -605,4 +605,39 @@ describe('CheckPicker', () => {
       expect(instance.list).to.exist;
     });
   });
+
+  describe('Accessibility', () => {
+    it('Should have a role combobox', () => {
+      render(<CheckPicker data={data} />);
+
+      expect(screen.getByRole('combobox')).to.exist;
+    });
+
+    it('Should have a role listbox', () => {
+      render(<CheckPicker data={data} defaultOpen />);
+
+      expect(screen.getByRole('listbox')).to.exist;
+    });
+
+    it('Should have a role option', () => {
+      render(<CheckPicker data={data} defaultOpen />);
+
+      expect(screen.getAllByRole('option')).to.have.lengthOf(3);
+    });
+
+    it('Should have a role searchbox', () => {
+      render(<CheckPicker data={data} defaultOpen />);
+
+      expect(screen.getByRole('searchbox')).to.exist;
+    });
+
+    it('Should be the focus switch option via keyboard', () => {
+      render(<CheckPicker data={data} />);
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.activeElement).to.have.text('Eugenia');
+    });
+  });
 });

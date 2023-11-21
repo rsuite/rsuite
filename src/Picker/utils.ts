@@ -237,6 +237,17 @@ export const useFocusItemValue = <T, D>(
   const [layer, setLayer] = useState(defaultLayer);
   const [keys, setKeys] = useState<any[]>([]);
 
+  const focusCallback = useCallback(
+    (value: any, event: React.KeyboardEvent) => {
+      const menu = isFunction(target) ? target() : target;
+      const focusElement = menu?.querySelector(`[data-key="${value}"]`) as HTMLElement;
+
+      focusElement?.focus();
+      callback?.(value, event);
+    },
+    [callback, target]
+  );
+
   const getScrollContainer = useCallback(() => {
     const menu = isFunction(target) ? target() : target;
 
@@ -331,12 +342,12 @@ export const useFocusItemValue = <T, D>(
 
         if (!isUndefined(focusItem)) {
           setFocusItemValue(focusItem[valueKey]);
-          callback?.(focusItem[valueKey], event);
+          focusCallback(focusItem[valueKey], event);
           scrollListItem('bottom', focusItem[valueKey], willOverflow);
         }
       });
     },
-    [callback, findFocusItemIndex, scrollListItem, valueKey]
+    [focusCallback, findFocusItemIndex, scrollListItem, valueKey]
   );
 
   const focusPrevMenuItem = useCallback(
@@ -347,12 +358,12 @@ export const useFocusItemValue = <T, D>(
         const focusItem = items[nextIndex];
         if (!isUndefined(focusItem)) {
           setFocusItemValue(focusItem[valueKey]);
-          callback?.(focusItem[valueKey], event);
+          focusCallback(focusItem[valueKey], event);
           scrollListItem('top', focusItem[valueKey], willOverflow);
         }
       });
     },
-    [callback, findFocusItemIndex, scrollListItem, valueKey]
+    [focusCallback, findFocusItemIndex, scrollListItem, valueKey]
   );
 
   const getSubMenuKeys = useCallback(
@@ -380,10 +391,10 @@ export const useFocusItemValue = <T, D>(
         setKeys(nextKeys);
         setLayer(nextLayer);
         setFocusItemValue(nextKeys[0]);
-        callback?.(nextKeys[0], event);
+        focusCallback(nextKeys[0], event);
       }
     },
-    [callback, getSubMenuKeys, layer]
+    [focusCallback, getSubMenuKeys, layer]
   );
 
   const focusPrevLevelMenu = useCallback(
@@ -400,11 +411,11 @@ export const useFocusItemValue = <T, D>(
 
         if (parentItemValue) {
           setFocusItemValue(parentItemValue);
-          callback?.(parentItemValue, event);
+          focusCallback(parentItemValue, event);
         }
       }
     },
-    [callback, data, focusItemValue, getParent, getSubMenuKeys, layer, valueKey]
+    [focusCallback, data, focusItemValue, getParent, getSubMenuKeys, layer, valueKey]
   );
 
   const handleKeyDown = useCallback(
@@ -475,8 +486,11 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
   const handleClose = useCallback(() => {
     triggerRef.current?.close?.();
+
+    // The focus is on the trigger button after closing
+    targetRef.current?.focus?.();
     onClose?.();
-  }, [onClose, triggerRef]);
+  }, [onClose, targetRef, triggerRef]);
 
   const handleOpen = useCallback(() => {
     triggerRef.current?.open?.();

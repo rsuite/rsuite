@@ -220,7 +220,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const handleClose = useCallback(() => {
       triggerRef?.current?.close();
-    }, [triggerRef]);
+
+      // The focus is on the trigger button after closing
+      targetRef.current?.focus?.();
+    }, []);
 
     // Used to hover the focuse item  when trigger `onKeydown`
     const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(
@@ -829,7 +832,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             plaintext={plaintext}
             ref={targetRef}
             as={toggleAs}
-            tabIndex={undefined}
+            tabIndex={tabIndex}
             onClean={handleClean}
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
@@ -848,7 +851,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
               {displaySearchInput && (
                 <InputSearch
                   {...inputProps}
-                  tabIndex={tabIndex}
+                  tabIndex={-1}
                   readOnly={readOnly}
                   onBlur={onBlur}
                   onFocus={createChainedFunction(handleFocus, onFocus)}
