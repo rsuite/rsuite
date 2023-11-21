@@ -483,7 +483,7 @@ describe('MultiCascader', () => {
 
       fireEvent.click(screen.getByRole('combobox'));
 
-      expect(screen.queryByRole('listbox')).not.to.exist;
+      expect(screen.queryByRole('tree')).not.to.exist;
     });
 
     it('Should not open menu on Enter key when loading=true', () => {
@@ -493,7 +493,7 @@ describe('MultiCascader', () => {
         key: 'Enter'
       });
 
-      expect(screen.queryByRole('listbox')).not.to.exist;
+      expect(screen.queryByRole('tree')).not.to.exist;
     });
   });
 });

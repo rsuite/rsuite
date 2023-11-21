@@ -273,6 +273,11 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     getParent: item => parentMap.get(item),
     callback: useCallback(
       value => {
+        const selectedElement = overlayRef.current?.querySelector(
+          `[data-key="${value}"]`
+        ) as HTMLElement;
+
+        selectedElement?.focus();
         setActiveItem(flattenedData.find(item => item[valueKey] === value));
       },
       [flattenedData, setActiveItem, valueKey]
@@ -285,6 +290,12 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
       setSearchKeyword(value);
       onSearch?.(value, event);
+
+      if (!value || items.length === 0) {
+        setFocusItemValue(undefined);
+        return;
+      }
+
       if (items.length > 0) {
         setFocusItemValue(items[0][valueKey]);
         setLayer(0);
@@ -494,6 +505,8 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         aria-disabled={disabled}
         data-key={item[valueKey]}
         className={itemClasses}
+        tabIndex={-1}
+        role="option"
         onClick={event => {
           if (!disabled) {
             handleSearchRowSelect(item, nodes, event);
@@ -512,7 +525,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
     const items = getSearchResult();
     return (
-      <div className={prefix('cascader-search-panel')} data-layer={0}>
+      <div className={prefix('cascader-search-panel')} data-layer={0} role="listbox">
         {items.length ? (
           items.map(renderSearchRow)
         ) : (
