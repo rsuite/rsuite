@@ -8,17 +8,19 @@ import {
   TableProps,
   RowDataType,
   TableInstance,
-  CellProps as TableCellProps
+  CellProps as TableCellProps,
+  RowKeyType
 } from 'rsuite-table';
 
 import { useCustom } from '../utils';
 
-export interface CellProps<T = any> extends Omit<TableCellProps, 'rowData' | 'dataKey'> {
+export interface CellProps<Row extends RowDataType>
+  extends Omit<TableCellProps<Row>, 'rowData' | 'dataKey'> {
   /** Data binding key, but also a sort of key */
-  dataKey?: string | keyof T;
+  dataKey?: string | keyof Row;
 
   /** Row Data */
-  rowData?: T;
+  rowData?: Row;
 }
 
 const CustomTable = React.forwardRef((props, ref) => {
@@ -26,7 +28,7 @@ const CustomTable = React.forwardRef((props, ref) => {
   const { locale, rtl } = useCustom('Table', localeProp);
 
   return <Table {...rest} rtl={rtl} ref={ref} locale={locale} loadAnimation={loadAnimation} />;
-}) as <Row extends RowDataType, Key>(
+}) as <Row extends RowDataType, Key extends RowKeyType>(
   props: TableProps<Row, Key> & React.RefAttributes<TableInstance<Row, Key>>
 ) => React.ReactElement;
 

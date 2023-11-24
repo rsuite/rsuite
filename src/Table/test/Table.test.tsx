@@ -39,3 +39,42 @@ ref.current?.body;
 ref.current?.root;
 ref.current?.scrollLeft(100);
 ref.current?.scrollTop(100);
+
+interface InventoryItem {
+  id: string;
+  name: string;
+}
+
+const table = React.createRef<TableInstance<InventoryItem, string>>();
+
+<Table<InventoryItem, string> ref={table}>
+  {({ Column, HeaderCell, Cell }) => (
+    <>
+      <Column>
+        <HeaderCell>Name</HeaderCell>
+        <Cell>{row => row.name}</Cell>
+      </Column>
+      <Column>
+        <HeaderCell>Type</HeaderCell>
+        {/** @ts-expect-error Property 'type' does not exist on type 'InventoryItem' */}
+        <Cell>{row => row.type}</Cell>
+      </Column>
+    </>
+  )}
+</Table>;
+
+interface ImageCellProps<TKey extends string, TRow extends Record<TKey, string>> {
+  rowData: TRow;
+  dataKey: TKey;
+  // ... any other props
+}
+
+export const ImageCell = <TKey extends string, TRow extends Record<TKey, string>>({
+  rowData,
+  dataKey,
+  ...rest
+}: ImageCellProps<TKey, TRow>) => (
+  <Table.Cell<TRow, TKey> {...rest}>
+    <img src={rowData[dataKey]} width="50" />
+  </Table.Cell>
+);
