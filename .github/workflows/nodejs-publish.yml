@@ -15,7 +15,7 @@ jobs:
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: 'lts/*'
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: npm install
