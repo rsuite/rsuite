@@ -1,3 +1,16 @@
+# [5.46.0](https://github.com/rsuite/rsuite/compare/v5.45.0...v5.46.0) (2023-11-24)
+
+### Bug Fixes
+
+- **DatePicker:** improve DatePicker accessibility ([#3464](https://github.com/rsuite/rsuite/issues/3464)) ([63ac804](https://github.com/rsuite/rsuite/commit/63ac8048d9ed7ab3048d9b488a5a1ce306ea2f6d))
+- improve accessibility of picker related components ([#3463](https://github.com/rsuite/rsuite/issues/3463)) ([1cc5481](https://github.com/rsuite/rsuite/commit/1cc54812957b096273e0fa503b365da3c5eeba11))
+- **AutoComplete,Loader:** fix CSS relative colors causing test errors ([#3460](https://github.com/rsuite/rsuite/issues/3460)) ([f9b1244](https://github.com/rsuite/rsuite/commit/f9b124489d6c505d10b9c8a0324b5046022aef27))
+- **Cascader:** fix bug in value selection via Enter key ([#3461](https://github.com/rsuite/rsuite/issues/3461)) ([4266e79](https://github.com/rsuite/rsuite/commit/4266e79928ce75a4e856b68003510d1d12ee4b70))
+
+### Features
+
+- **CSS:** add compatibility for relative color syntax ([#3462](https://github.com/rsuite/rsuite/issues/3462)) ([a02eaa9](https://github.com/rsuite/rsuite/commit/a02eaa9b14dc374d503481a443051d413a9fd041))
+
 # [5.45.0](https://github.com/rsuite/rsuite/compare/v5.44.0...v5.45.0) (2023-11-17)
 
 ### Bug Fixes
