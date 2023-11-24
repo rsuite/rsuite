@@ -377,11 +377,15 @@ describe('DateRangePicker', () => {
 
   it('Should select a whole month', () => {
     const onOkSpy = sinon.spy();
-    const menu = getInstance(<DateRangePicker onOk={onOkSpy} hoverRange="month" open />).overlay;
-    // eslint-disable-next-line testing-library/no-node-access
-    const today = menu?.querySelector(
-      '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
-    );
+
+    render(<DateRangePicker onOk={onOkSpy} hoverRange="month" open />);
+
+    const today = screen
+      .getByRole('dialog')
+      // eslint-disable-next-line testing-library/no-node-access
+      ?.querySelector(
+        '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
+      ) as HTMLElement;
 
     fireEvent.click(today);
 

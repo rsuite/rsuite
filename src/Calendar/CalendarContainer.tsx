@@ -145,8 +145,8 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       inline,
       ...rest
     } = props;
-    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
 
+    const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const { calendarState, reset, openMonth, openTime } = useCalendarState(defaultState);
 
     const isDisabledDate = useCallback(

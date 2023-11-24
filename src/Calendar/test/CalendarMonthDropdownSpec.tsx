@@ -19,9 +19,10 @@ describe('Calendar-MonthDropdown', () => {
       </CalendarContext.Provider>
     );
 
+    console.log(screen.getAllByRole('gridcell', { hidden: true }).length);
+
     expect(screen.getAllByRole('rowheader', { hidden: true })).to.be.lengthOf(7);
-    expect(screen.getAllByRole('gridcell', { hidden: true })).to.be.lengthOf(7);
-    expect(screen.getAllByRole('gridcell', { hidden: true })[0].childNodes).to.be.lengthOf(12);
+    expect(screen.getAllByRole('gridcell', { hidden: true })).to.be.lengthOf(7 * 12);
   });
 
   it('Should output year and month of current year', () => {

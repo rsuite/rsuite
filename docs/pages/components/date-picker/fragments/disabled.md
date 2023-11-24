@@ -14,11 +14,11 @@ const App = () => (
     <DatePicker disabled style={{ width: 200 }} />
     <br />
     <Label>Disabled date: </Label>
-    <DatePicker disabledDate={date => isBefore(date, new Date())} style={{ width: 200 }} />
+    <DatePicker shouldDisableDate={date => isBefore(date, new Date())} style={{ width: 200 }} />
     <br />
     <Label>Disabled month: </Label>
     <DatePicker
-      disabledDate={date => isBefore(date, new Date())}
+      shouldDisableDate={date => isBefore(date, new Date())}
       format="yyyy-MM"
       style={{ width: 200 }}
     />
@@ -28,9 +28,9 @@ const App = () => (
       format="HH:mm:ss"
       ranges={[]}
       defaultValue={new Date('2017-12-12 09:15:30')}
-      disabledHours={hour => hour < 8 || hour > 18}
-      disabledMinutes={minute => minute % 15 !== 0}
-      disabledSeconds={second => second % 30 !== 0}
+      shouldDisableHour={hour => hour < 8 || hour > 18}
+      shouldDisableMinute={minute => minute % 15 !== 0}
+      shouldDisableSecond={second => second % 30 !== 0}
       style={{ width: 200 }}
     />
     <br />
