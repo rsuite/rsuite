@@ -107,7 +107,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
             <div className={titleClassName} role="rowheader">
               {year}
             </div>
-            <div className={prefix('list')} role="gridcell">
+            <div className={prefix('list')}>
               {monthMap.map((item, month) => {
                 return (
                   <MonthDropdownItem

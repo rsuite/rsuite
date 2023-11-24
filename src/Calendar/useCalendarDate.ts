@@ -7,7 +7,7 @@ const useCalendarDate = (value: Date | null | undefined, defaultDate: Date | und
   const [calendarDate, setValue] = useState<Date>(value ?? defaultDate ?? new Date());
 
   const setCalendarDate = useCallback(
-    (date: Date | undefined) => {
+    (date: React.SetStateAction<Date> | undefined) => {
       if (date && date?.valueOf() !== calendarDate?.valueOf()) {
         setValue(date);
       }

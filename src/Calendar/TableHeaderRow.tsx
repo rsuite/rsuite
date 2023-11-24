@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import upperFirst from 'lodash/upperFirst';
 import { useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { useCalendarContext } from './CalendarContext';
@@ -25,7 +26,12 @@ const TableHeaderRow: RsRefForwardingComponent<'div', TableHeaderRowProps> = Rea
       <Component role="row" {...rest} ref={ref} className={classes}>
         {showWeekNumbers && <div className={prefix('header-cell')} role="columnheader" />}
         {items.map(key => (
-          <div key={key} className={prefix('header-cell')} role="columnheader">
+          <div
+            key={key}
+            className={prefix('header-cell')}
+            role="columnheader"
+            aria-label={upperFirst(key)}
+          >
             <span className={prefix('header-cell-content')}>{locale?.[key]}</span>
           </div>
         ))}

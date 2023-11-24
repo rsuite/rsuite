@@ -93,6 +93,21 @@
       width: unset;
     }
 
+    &-month-dropdown-cell:focus-visible {
+      .rs-calendar-month-dropdown-cell-content {
+        outline: 3px solid var(--rs-color-focus-ring);
+      }
+    }
+
+    &-table-cell {
+      &:focus-visible {
+        outline: none;
+        .rs-calendar-table-cell-content {
+          outline: 3px solid var(--rs-color-focus-ring);
+        }
+      }
+    }
+
     .rs-calendar-month-dropdown-cell-content,
     .rs-calendar-table-cell-content {
       width: @calendar-in-menu-content-side-length;

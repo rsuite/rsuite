@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import ReactTestUtils from 'react-dom/test-utils';
+import { render, screen, fireEvent } from '@testing-library/react';
 import TableRow from '../TableRow';
 import { getDate, format } from '../../utils/dateUtils';
 import CalendarContext from '../CalendarContext';
@@ -12,9 +11,8 @@ describe('Calendar-TableRow', () => {
   testStandardProps(<TableRow />);
 
   it('Should render a div with `table-row` class', () => {
-    const { container } = render(<TableRow />);
-
-    expect(container.firstChild).to.match('div.rs-calendar-table-row');
+    render(<TableRow />);
+    expect(screen.getByRole('row')).to.have.class('rs-calendar-table-row');
   });
 
   it('Should be active today', () => {
@@ -35,7 +33,7 @@ describe('Calendar-TableRow', () => {
         <TableRow ref={ref} />
       </CalendarContext.Provider>
     );
-    ReactTestUtils.Simulate.click(
+    fireEvent.click(
       // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLDivElement).querySelector(
         '.rs-calendar-table-cell .rs-calendar-table-cell-content'
@@ -110,5 +108,12 @@ describe('Calendar-TableRow', () => {
         '.rs-calendar-table-cell-is-today'
       ) as HTMLElement
     ).to.have.class('custom-cell');
+  });
+
+  describe('Accessibility', () => {
+    it('Should have a role attribute', () => {
+      render(<TableRow />);
+      expect(screen.getByRole('row')).to.have.attribute('role', 'row');
+    });
   });
 });

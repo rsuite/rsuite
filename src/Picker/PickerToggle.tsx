@@ -200,6 +200,8 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
     const renderInput = useCallback(
       (ref, props) => (
         <input
+          type="text"
+          autoComplete="off"
           ref={mergeRefs(inputRef, ref)}
           name={name}
           style={{ pointerEvents: editable ? undefined : 'none' }}
@@ -255,6 +257,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
             ) : (
               <>
                 <TextMask
+                  keepCharPositions
                   mask={inputMask}
                   value={Array.isArray(inputValue) ? inputValue.toString() : inputValue}
                   onBlur={handleInputBlur}
