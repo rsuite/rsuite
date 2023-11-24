@@ -15,7 +15,8 @@ jobs:
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v1
         with:
-          node-version: '16.x'
+          # Using version 14.x, npm versions greater than 14.x will not support npm publish [<folder>]
+          node-version: '14.x'
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
         run: npm install
