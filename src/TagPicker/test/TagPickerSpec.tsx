@@ -382,12 +382,6 @@ describe('TagPicker', () => {
     expect(container.firstChild).not.to.have.class('rs-picker-has-value');
   });
 
-  it('Should set a tabindex for input', () => {
-    render(<TagPicker data={[]} tabIndex={10} />);
-
-    expect(screen.getByRole('textbox')).to.have.attr('tabIndex', '10');
-  });
-
   it('Should call `onCreate` with correct value', async () => {
     const onCreate = sinon.spy();
 
@@ -490,6 +484,41 @@ describe('TagPicker', () => {
       });
 
       expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('Should have a role combobox', () => {
+      render(<TagPicker data={data} />);
+
+      expect(screen.getByRole('combobox')).to.exist;
+    });
+
+    it('Should have a role listbox', () => {
+      render(<TagPicker data={data} defaultOpen />);
+
+      expect(screen.getByRole('listbox')).to.exist;
+    });
+
+    it('Should have a role option', () => {
+      render(<TagPicker data={data} defaultOpen />);
+
+      expect(screen.getAllByRole('option')).to.have.lengthOf(3);
+    });
+
+    it('Should set a tabindex for input', () => {
+      render(<TagPicker data={[]} tabIndex={10} />);
+
+      expect(screen.getByRole('combobox')).to.have.attribute('tabindex', '10');
+    });
+
+    it('Should be the focus switch option via keyboard', () => {
+      render(<TagPicker data={data} />);
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.activeElement).to.have.text('Eugenia');
     });
   });
 });

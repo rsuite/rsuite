@@ -273,11 +273,6 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     getParent: item => parentMap.get(item),
     callback: useCallback(
       value => {
-        const selectedElement = overlayRef.current?.querySelector(
-          `[data-key="${value}"]`
-        ) as HTMLElement;
-
-        selectedElement?.focus();
         setActiveItem(flattenedData.find(item => item[valueKey] === value));
       },
       [flattenedData, setActiveItem, valueKey]
@@ -326,7 +321,10 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
   const handleClose = useCallback(() => {
     triggerRef.current?.close();
-  }, [triggerRef]);
+
+    // The focus is on the trigger button after closing
+    targetRef.current?.focus?.();
+  }, []);
 
   const handleClean = useCallback(
     (event: React.SyntheticEvent) => {
