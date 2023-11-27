@@ -154,6 +154,18 @@ describe('RangeSlider', () => {
     expect(onChangeCommitted).to.have.been.calledOnce;
   });
 
+  it('Should call `onChangeCommitted` callback when click bar', () => {
+    const onChangeCommitted = sinon.spy();
+    const instance = getDOMNode(
+      <RangeSlider defaultValue={[10, 50]} onChangeCommitted={onChangeCommitted} />
+    );
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.click(instance.querySelector('.rs-slider-progress-bar') as HTMLElement);
+
+    assert.equal(onChangeCommitted.firstCall.firstArg[0], 0);
+    assert.equal(onChangeCommitted.firstCall.firstArg[1], 50);
+  });
+
   it('Should output an `input` stored value', () => {
     const instance = getDOMNode(<RangeSlider min={10} max={100} value={[20, 50]} />);
 

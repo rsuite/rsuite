@@ -111,6 +111,15 @@ describe('Slider', () => {
     expect(onChangeCommitted).to.have.been.calledOnce;
   });
 
+  it('Should call `onChangeCommitted` callback when click bar', () => {
+    const onChangeCommitted = Sinon.spy();
+    const instance = getDOMNode(<Slider onChangeCommitted={onChangeCommitted} />);
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+
+    expect(onChangeCommitted).to.have.been.calledOnce;
+  });
+
   it('Should call `onChange` callback', () => {
     const onChange = Sinon.spy();
     const instance = getDOMNode(<Slider onChange={onChange} />);
