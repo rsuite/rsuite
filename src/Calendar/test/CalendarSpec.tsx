@@ -165,4 +165,14 @@ describe('Calendar', () => {
     expect(onMonthChangeSpy).to.have.been.not.called;
     expect(onToggleMonthDropdownSpy).to.have.been.called;
   });
+
+  it('Should render the correct week numbers', () => {
+    const { rerender } = render(<Calendar value={new Date('2020-12-01')} showWeekNumbers />);
+
+    expect(screen.queryByRole('rowheader', { name: 'Week 53' })).to.be.exist;
+
+    rerender(<Calendar value={new Date('2022-12-01')} showWeekNumbers />);
+
+    expect(screen.queryByRole('rowheader', { name: 'Week 53' })).to.not.exist;
+  });
 });
