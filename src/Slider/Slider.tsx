@@ -142,7 +142,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
 
   const classes = merge(
     className,
-    withClassPrefix({ vertical, disabled, readOnly, graduated, 'with-mark': renderMark })
+    withClassPrefix({ vertical, disabled, graduated, 'with-mark': renderMark, readonly: readOnly })
   );
 
   const max = useMemo(

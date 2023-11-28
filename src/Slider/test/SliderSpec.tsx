@@ -38,8 +38,37 @@ describe('Slider', () => {
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<Slider disabled />);
-    assert.include(instance.className, 'rs-slider-disabled');
+    const onChange = Sinon.spy();
+    const onChangeCommitted = Sinon.spy();
+    const instance = getDOMNode(
+      <Slider disabled onChange={onChange} onChangeCommitted={onChangeCommitted} />
+    );
+
+    expect(instance).to.have.class('rs-slider-disabled');
+    expect(screen.getByRole('slider')).to.have.attr('aria-disabled', 'true');
+
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+
+    expect(onChange).to.have.not.been.called;
+    expect(onChangeCommitted).to.have.not.been.called;
+  });
+
+  it('Should be readOnly', () => {
+    const onChange = Sinon.spy();
+    const onChangeCommitted = Sinon.spy();
+    const instance = getDOMNode(
+      <Slider readOnly onChange={onChange} onChangeCommitted={onChangeCommitted} />
+    );
+
+    expect(instance).to.have.class('rs-slider-readonly');
+    expect(screen.getByRole('slider')).to.have.attr('readonly');
+
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+
+    expect(onChange).to.have.not.been.called;
+    expect(onChangeCommitted).to.have.not.been.called;
   });
 
   it('Should custom render mark', () => {

@@ -44,6 +44,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     progress = true,
     vertical,
     disabled,
+    readOnly,
     classPrefix = 'slider',
     min = 0,
     max: maxProp = 100,
@@ -195,6 +196,10 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
    * Callback function that is fired when the mousemove is triggered
    */
   const handleDragMove = useEventCallback((event: React.MouseEvent, dataset: HandleDataset) => {
+    if (disabled || readOnly) {
+      return;
+    }
+
     const nextValue = getNextValue(event, dataset);
 
     if (isRangeMatchingConstraint(nextValue)) {
@@ -208,6 +213,10 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
    */
   const handleChangeCommitted = useCallback(
     (event: React.MouseEvent, dataset?: DOMStringMap) => {
+      if (disabled || readOnly) {
+        return;
+      }
+
       const nextValue = getNextValue(event, dataset as HandleDataset);
 
       if (isRangeMatchingConstraint(nextValue)) {
@@ -215,7 +224,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
         onChangeCommitted?.(nextValue, event);
       }
     },
-    [getNextValue, onChangeCommitted, isRangeMatchingConstraint, setValue]
+    [disabled, readOnly, getNextValue, isRangeMatchingConstraint, setValue, onChangeCommitted]
   );
 
   const handleKeyDown = useCallback(
@@ -266,7 +275,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 
   const handleBarClick = useCallback(
     (event: React.MouseEvent) => {
-      if (disabled) {
+      if (disabled || readOnly) {
         return;
       }
 
@@ -290,6 +299,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     },
     [
       disabled,
+      readOnly,
       getValidValue,
       getValueByPosition,
       isRangeMatchingConstraint,

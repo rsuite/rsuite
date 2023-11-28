@@ -55,8 +55,38 @@ describe('RangeSlider', () => {
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<RangeSlider disabled />);
-    assert.include(instance.className, 'rs-slider-disabled');
+    const onChange = sinon.spy();
+    const onChangeCommitted = sinon.spy();
+
+    const instance = getDOMNode(
+      <RangeSlider disabled onChange={onChange} onChangeCommitted={onChangeCommitted} />
+    );
+    expect(instance).to.have.class('rs-slider-disabled');
+    expect(screen.queryAllByRole('slider')[0]).to.have.attr('aria-disabled', 'true');
+    expect(screen.queryAllByRole('slider')[1]).to.have.attr('aria-disabled', 'true');
+
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+
+    expect(onChange).to.have.not.been.called;
+    expect(onChangeCommitted).to.have.not.been.called;
+  });
+
+  it('Should be readOnly', () => {
+    const onChange = sinon.spy();
+    const onChangeCommitted = sinon.spy();
+
+    const instance = getDOMNode(
+      <RangeSlider readOnly onChange={onChange} onChangeCommitted={onChangeCommitted} />
+    );
+    expect(screen.queryAllByRole('slider')[0]).to.have.attr('readonly');
+    expect(screen.queryAllByRole('slider')[1]).to.have.attr('readonly');
+
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+
+    expect(onChange).to.have.not.been.called;
+    expect(onChangeCommitted).to.have.not.been.called;
   });
 
   it('Should call onChange callback', () => {
@@ -65,8 +95,7 @@ describe('RangeSlider', () => {
     // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(instance.querySelector('.rs-slider-progress-bar') as HTMLElement);
 
-    assert.equal(onChangeSpy.firstCall.firstArg[0], 0);
-    assert.equal(onChangeSpy.firstCall.firstArg[1], 50);
+    expect(onChangeSpy).to.have.been.calledWith([0, 50]);
   });
 
   it('Should respond to keyboard event', async () => {
@@ -160,7 +189,7 @@ describe('RangeSlider', () => {
       <RangeSlider defaultValue={[10, 50]} onChangeCommitted={onChangeCommitted} />
     );
     // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(instance.querySelector('.rs-slider-progress-bar') as HTMLElement);
+    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
 
     assert.equal(onChangeCommitted.firstCall.firstArg[0], 0);
     assert.equal(onChangeCommitted.firstCall.firstArg[1], 50);
@@ -203,16 +232,19 @@ describe('RangeSlider', () => {
       Simulate.click(sliderBar, { pageX: 0, pageY: 80 });
     });
 
+    expect(onChangeSpy).to.have.been.calledWith([20, 50]);
+
     act(() => {
       Simulate.click(sliderBar, { pageX: 0, pageY: 0 });
     });
-
-    assert.deepEqual(onChangeSpy.firstCall.firstArg, [20, 50]);
 
     /**
      * fix: https://github.com/rsuite/rsuite/issues/2425
      * Error thrown before fix: expected [ 100, 20 ] to deeply equal [ 20, 100 ]
      */
-    assert.deepEqual(onChangeSpy.secondCall.firstArg, [20, 100]);
+
+    expect(onChangeSpy).to.have.been.calledWith([20, 100]);
+
+    expect(onChangeSpy).to.have.been.calledTwice;
   });
 });
