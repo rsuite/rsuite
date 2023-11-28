@@ -13,41 +13,41 @@ describe('RangeSlider', () => {
 
   it('Should render a RangeSlider', () => {
     const instance = getDOMNode(<RangeSlider />);
-    assert.equal(instance.className, 'rs-slider');
+    expect(instance).to.have.class('rs-slider');
   });
 
   it('Should have a progress ', () => {
     const instance = getDOMNode(<RangeSlider defaultValue={[10, 50]} />);
-    assert.equal(
+
+    expect(
       // eslint-disable-next-line testing-library/no-node-access
-      (instance.querySelector('.rs-slider-progress-bar') as HTMLHtmlElement).style.width,
-      '40%'
-    );
-    assert.equal(
+      (instance.querySelector('.rs-slider-progress-bar') as HTMLHtmlElement).style.width
+    ).to.equal('40%');
+
+    expect(
       // eslint-disable-next-line testing-library/no-node-access
-      (instance.querySelector('.rs-slider-progress-bar') as HTMLElement).style.left,
-      '10%'
-    );
+      (instance.querySelector('.rs-slider-progress-bar') as HTMLElement).style.left
+    ).to.equal('10%');
   });
 
   it('Should render 2 handles ', () => {
-    const instance = getDOMNode(<RangeSlider value={[10, 50]} />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('.rs-slider-handle').length, 2);
+    render(<RangeSlider value={[10, 50]} />);
+    expect(screen.getAllByRole('slider')).to.have.length(2);
   });
 
   it('Should output the scale', () => {
     const instance = getDOMNode(<RangeSlider step={10} max={100} graduated />);
     const instance2 = getDOMNode(<RangeSlider min={10} step={10} max={100} graduated />);
     // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('li').length, 10);
+    expect(instance.querySelectorAll('li')).to.have.length(10);
     // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance2.querySelectorAll('li').length, 9);
+    expect(instance2.querySelectorAll('li')).to.have.length(9);
   });
 
   it('Should be displayed vertically', () => {
     const instance = getDOMNode(<RangeSlider vertical />);
-    assert.include(instance.className, 'rs-slider-vertical');
+
+    expect(instance).to.have.class('rs-slider-vertical');
 
     screen.getAllByRole('slider').forEach(slider => {
       expect(slider).to.have.attr('aria-orientation', 'vertical');
@@ -136,7 +136,7 @@ describe('RangeSlider', () => {
   it('Should render custom title', () => {
     const instance = getDOMNode(<RangeSlider tooltip={false} handleTitle={'test'} />);
     // eslint-disable-next-line testing-library/no-node-access
-    assert.equal((instance.querySelector('.rs-slider-handle') as HTMLElement).textContent, 'test');
+    expect(instance.querySelector('.rs-slider-handle')).to.have.text('test');
   });
 
   it('Should handle keyboard operations', () => {
@@ -145,25 +145,32 @@ describe('RangeSlider', () => {
     const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
     const input = screen.getAllByRole('slider')[0] as HTMLInputElement;
 
-    assert.equal(input.value, '10');
+    expect(input).to.value('10');
+    expect(input).to.have.attr('aria-valuenow', '10');
 
     fireEvent.keyDown(handle, { key: 'ArrowUp' });
-    assert.equal(input.value, '11');
+    expect(input).to.value('11');
+    expect(input).to.have.attr('aria-valuenow', '11');
 
     fireEvent.keyDown(handle, { key: 'ArrowRight' });
-    assert.equal(input.value, '12');
+    expect(input).to.value('12');
+    expect(input).to.have.attr('aria-valuenow', '12');
 
     fireEvent.keyDown(handle, { key: 'ArrowDown' });
-    assert.equal(input.value, '11');
+    expect(input).to.value('11');
+    expect(input).to.have.attr('aria-valuenow', '11');
 
     fireEvent.keyDown(handle, { key: 'ArrowLeft' });
-    assert.equal(input.value, '10');
+    expect(input).to.value('10');
+    expect(input).to.have.attr('aria-valuenow', '10');
 
     fireEvent.keyDown(handle, { key: 'Home' });
-    assert.equal(input.value, '0');
+    expect(input).to.value('0');
+    expect(input).to.have.attr('aria-valuenow', '0');
 
     fireEvent.keyDown(handle, { key: 'End' });
-    assert.equal(input.value, '100');
+    expect(input).to.value('100');
+    expect(input).to.have.attr('aria-valuenow', '100');
   });
 
   it('Should call `onChangeCommitted` callback', async () => {
@@ -177,7 +184,7 @@ describe('RangeSlider', () => {
     fireEvent.mouseDown(handle);
     handle.dispatchEvent(mousemoveEvent);
 
-    assert.include(handle.className, 'active');
+    expect(handle).to.have.class('active');
 
     handle.dispatchEvent(mouseupEvent);
     expect(onChangeCommitted).to.have.been.calledOnce;
@@ -191,8 +198,7 @@ describe('RangeSlider', () => {
     // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
 
-    assert.equal(onChangeCommitted.firstCall.firstArg[0], 0);
-    assert.equal(onChangeCommitted.firstCall.firstArg[1], 50);
+    expect(onChangeCommitted).to.have.been.calledWith([0, 50]);
   });
 
   it('Should output an `input` stored value', () => {
@@ -201,17 +207,17 @@ describe('RangeSlider', () => {
     // eslint-disable-next-line testing-library/no-node-access
     const input = instance.querySelectorAll('input[type="range"]') as NodeListOf<HTMLInputElement>;
 
-    assert.equal(input[0].value, '20');
-    assert.equal(input[0].getAttribute('aria-valuenow'), '20');
-    assert.equal(input[0].getAttribute('aria-valuemax'), '100');
-    assert.equal(input[0].getAttribute('aria-valuemin'), '10');
-    assert.equal(input[0].getAttribute('aria-orientation'), 'horizontal');
+    expect(input[0]).to.value('20');
+    expect(input[0]).to.have.attr('aria-valuenow', '20');
+    expect(input[0]).to.have.attr('aria-valuemax', '100');
+    expect(input[0]).to.have.attr('aria-valuemin', '10');
+    expect(input[0]).to.have.attr('aria-orientation', 'horizontal');
 
-    assert.equal(input[1].value, '50');
-    assert.equal(input[1].getAttribute('aria-valuenow'), '50');
-    assert.equal(input[1].getAttribute('aria-valuemax'), '100');
-    assert.equal(input[1].getAttribute('aria-valuemin'), '10');
-    assert.equal(input[1].getAttribute('aria-orientation'), 'horizontal');
+    expect(input[1]).to.value('50');
+    expect(input[1]).to.have.attr('aria-valuenow', '50');
+    expect(input[1]).to.have.attr('aria-valuemax', '100');
+    expect(input[1]).to.have.attr('aria-valuemin', '10');
+    expect(input[1]).to.have.attr('aria-orientation', 'horizontal');
   });
 
   it('Should be reversed start and end values', () => {
