@@ -12,9 +12,7 @@ const App = () => (
     <TagPicker
       tagProps={{
         checkable: true,
-        onCheck: e => {
-          console.log(e);
-        }
+        onCheck: e => {}
       }}
       data={data}
       style={{ width: 300 }}

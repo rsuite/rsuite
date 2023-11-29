@@ -28,6 +28,10 @@ Multi-select by tag and support new options
 
 <!--{include:`creatable.md`}-->
 
+### Checkable
+
+<!--{include:`checkable.md`}-->
+
 ### Custom
 
 <!--{include:`custom.md`}-->
@@ -35,10 +39,6 @@ Multi-select by tag and support new options
 ### Disabled and read only
 
 <!--{include:`disabled.md`}-->
-
-### Checkable
-
-<!--{include:`checkable.md`}-->
 
 ### Async
 

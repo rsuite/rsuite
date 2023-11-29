@@ -30,6 +30,10 @@
 
 <!--{include:`creatable.md`}-->
 
+### TODO: checkable translation
+
+<!--{include:`checkable.md`}-->
+
 ### 自定义
 
 <!--{include:`custom.md`}-->
