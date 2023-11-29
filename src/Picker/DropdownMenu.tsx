@@ -209,6 +209,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
         active={active}
         focus={focus}
         value={value}
+        indeterminate={item.indeterminate}
         classPrefix={dropdownMenuItemClassPrefix}
         onSelect={handleSelect.bind(null, item)}
       >

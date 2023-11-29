@@ -74,6 +74,9 @@ export interface InputPickerContextProps {
 
   /** Callback fired when a tag is removed. */
   onTagRemove?: (tag: string, event: React.MouseEvent) => void;
+
+  /** Callback fired when a tag is checked. */
+  onTagCheck?: (tag: string, item?: ItemDataType) => void;
 }
 
 export const InputPickerContext = React.createContext<InputPickerContextProps>({
@@ -181,7 +184,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const { multi, tagProps, trigger, disabledOptions, onTagRemove } =
+    const { multi, tagProps, trigger, disabledOptions, onTagRemove, onTagCheck } =
       useContext(InputPickerContext);
 
     if (groupBy === valueKey || groupBy === labelKey) {
@@ -646,7 +649,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         return null;
       }
 
-      const { closable = true, onClose, onCheck, checkable, ...tagRest } = tagProps;
+      const { closable = true, onClose, ...tagRest } = tagProps;
       const tags = value || [];
       const items: (ItemDataType | undefined)[] = [];
 
@@ -665,10 +668,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
               key={tag}
               size={rest.size === 'lg' ? 'lg' : rest.size === 'xs' ? 'sm' : 'md'}
               closable={!disabled && closable && !readOnly && !plaintext}
-              checkable={!disabled && !readOnly && !plaintext && checkable}
+              checkable={!disabled && !readOnly && !plaintext && activeItem?.indeterminate}
               title={typeof itemNode === 'string' ? itemNode : undefined}
               onClose={createChainedFunction(handleRemoveItemByTag.bind(null, tag), onClose)}
-              onCheck={onCheck}
+              onCheck={() => onTagCheck?.(tag, activeItem)}
             >
               {itemNode}
             </Tag>

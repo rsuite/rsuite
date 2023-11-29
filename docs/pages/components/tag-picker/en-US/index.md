@@ -28,10 +28,6 @@ Multi-select by tag and support new options
 
 <!--{include:`creatable.md`}-->
 
-### Checkable
-
-<!--{include:`checkable.md`}-->
-
 ### Custom
 
 <!--{include:`custom.md`}-->

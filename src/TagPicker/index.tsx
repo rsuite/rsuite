@@ -6,6 +6,7 @@ import InputPicker, {
 } from '../InputPicker/InputPicker';
 import type { PickerComponent } from '../Picker/types';
 import type { TagProps } from '../Tag';
+import { ItemDataType } from 'src/@types/common';
 
 export interface TagPickerProps extends InputPickerProps {
   /**  Tag related props. */
@@ -18,14 +19,17 @@ export interface TagPickerProps extends InputPickerProps {
 
   /** Callback fired when a tag is removed. */
   onTagRemove?: (tag: string, event: React.MouseEvent) => void;
+
+  /** Callback fired when a tag is checked. */
+  onTagCheck?: (tag: string, item?: ItemDataType) => void;
 }
 
 const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(
   (props: TagPickerProps, ref) => {
-    const { tagProps = {}, trigger = 'Enter', onTagRemove, ...rest } = props;
+    const { tagProps = {}, trigger = 'Enter', onTagRemove, onTagCheck, ...rest } = props;
     const contextValue = useMemo(
-      () => ({ multi: true, trigger, tagProps, onTagRemove }),
-      [onTagRemove, tagProps, trigger]
+      () => ({ multi: true, trigger, tagProps, onTagRemove, onTagCheck }),
+      [onTagRemove, tagProps, trigger, onTagCheck]
     );
 
     return (
