@@ -39,5 +39,6 @@ export type PickerLocale = typeof defaultLocale.Picker & CommonLocale;
 export type InputPickerLocale = PickerLocale & typeof defaultLocale.InputPicker;
 export type UploaderLocale = PickKeys<typeof defaultLocale.Uploader>;
 export type CloseButtonLocale = PickKeys<typeof defaultLocale.CloseButton>;
+export type CheckButtonLocale = PickKeys<typeof defaultLocale.CheckButton>;
 export type BreadcrumbLocale = PickKeys<typeof defaultLocale.Breadcrumb>;
 export type ToggleLocale = PickKeys<typeof defaultLocale.Toggle>;

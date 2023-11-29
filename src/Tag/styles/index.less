@@ -24,6 +24,10 @@
     color: var(--rs-tag-close);
   }
 
+  &-default &-icon-check:hover {
+    color: var(--rs-tag-check);
+  }
+
   &-group {
     margin: (-1 * @tag-gap) 0 0 (-1 * @tag-gap);
   }
@@ -40,6 +44,9 @@
     .rs-tag-icon-close {
       padding: 9px 8px;
     }
+    .rs-tag-icon-check {
+      padding: 9px 8px;
+    }
   }
 
   &-closable&-lg {
@@ -53,6 +60,9 @@
     .rs-tag-icon-close {
       padding: 6px 8px;
     }
+    .rs-tag-icon-check {
+      padding: 6px 8px;
+    }
   }
 
   &-closable&-md {
@@ -64,6 +74,9 @@
     font-size: 12px;
 
     .rs-tag-icon-close {
+      padding: 4px 5px;
+    }
+    .rs-tag-icon-check {
       padding: 4px 5px;
     }
   }

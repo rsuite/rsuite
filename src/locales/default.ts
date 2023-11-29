@@ -72,6 +72,9 @@ export default {
   CloseButton: {
     closeLabel: 'Close'
   },
+  CheckButton: {
+    checkLabel: 'Check'
+  },
   Breadcrumb: {
     expandText: 'Show path'
   },

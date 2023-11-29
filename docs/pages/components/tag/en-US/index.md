@@ -34,5 +34,7 @@ Tag for categorizing or markup.
 | children \* | ReactNode                             | The content of the component.                        |
 | classPrefix | string `('tag')`                      | The prefix of the component CSS class                |
 | closable    | boolean                               |                                                      |
+| checkable   | boolean                               |                                                      |
 | onClose     | (event) => void                       | Click the callback function for the Close button     |
+| onCheck     | (event) => void                       | Click the callback function for the Check button     |
 | size        | 'sm' &#124; 'md' &#124; 'lg' `('md')` | Set the tag size                                     |

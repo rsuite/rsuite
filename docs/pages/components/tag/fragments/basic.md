@@ -7,6 +7,9 @@ const App = () => (
   <TagGroup>
     <Tag>Text</Tag>
     <Tag closable>Closable</Tag>
+    <Tag closable checkable>
+      Closable and Checkable
+    </Tag>
     <Tag>
       <a target="_blank" href="https://rsuitejs.com" rel="noreferrer">
         Link
