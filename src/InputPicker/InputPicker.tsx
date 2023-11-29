@@ -646,7 +646,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         return null;
       }
 
-      const { closable = true, onClose, ...tagRest } = tagProps;
+      const { closable = true, onClose, onCheck, checkable, ...tagRest } = tagProps;
       const tags = value || [];
       const items: (ItemDataType | undefined)[] = [];
 
@@ -665,8 +665,10 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
               key={tag}
               size={rest.size === 'lg' ? 'lg' : rest.size === 'xs' ? 'sm' : 'md'}
               closable={!disabled && closable && !readOnly && !plaintext}
+              checkable={!disabled && !readOnly && !plaintext && checkable}
               title={typeof itemNode === 'string' ? itemNode : undefined}
               onClose={createChainedFunction(handleRemoveItemByTag.bind(null, tag), onClose)}
+              onCheck={onCheck}
             >
               {itemNode}
             </Tag>

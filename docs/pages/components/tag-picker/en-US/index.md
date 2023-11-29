@@ -36,6 +36,10 @@ Multi-select by tag and support new options
 
 <!--{include:`disabled.md`}-->
 
+### Checkable
+
+<!--{include:`checkable.md`}-->
+
 ### Async
 
 <!--{include:`async.md`}-->
@@ -108,5 +112,5 @@ Learn more in [Accessibility](/guide/accessibility).
 <!--{include:(_common/types/list-props.md)}-->
 
 [listprops]: #code-ts-list-props-code
-[tagprops]: https://rsuitejs.com/components/tag#Props
+[tagprops]: /components/tag#props
 [item]: #code-ts-item-data-type-code
