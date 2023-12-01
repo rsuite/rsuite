@@ -1,3 +1,11 @@
+## [5.46.1](https://github.com/rsuite/rsuite/compare/v5.46.0...v5.46.1) (2023-12-01)
+
+### Bug Fixes
+
+- **Calendar:** fix incorrect week numbers calculation ([#3471](https://github.com/rsuite/rsuite/issues/3471)) ([646e728](https://github.com/rsuite/rsuite/commit/646e72874595ee7c0a8d8596175c974ff67e146a))
+- **CSS:** fix CSS calc syntax compatibility issue ([#3474](https://github.com/rsuite/rsuite/issues/3474)) ([88021ee](https://github.com/rsuite/rsuite/commit/88021eeaa0f7e720f6511616c0e2413570700159))
+- **Slider,RangeSlider:** fix onChangeCommitted not triggered when the… ([#3472](https://github.com/rsuite/rsuite/issues/3472)) ([18a6e17](https://github.com/rsuite/rsuite/commit/18a6e17417bcb516701340b335c10ee3c7efa15a))
+
 # [5.46.0](https://github.com/rsuite/rsuite/compare/v5.45.0...v5.46.0) (2023-11-24)
 
 ### Bug Fixes
