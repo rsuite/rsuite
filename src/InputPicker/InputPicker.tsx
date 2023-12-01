@@ -12,7 +12,6 @@ import getWidth from 'dom-lib/getWidth';
 import shallowEqual from '../utils/shallowEqual';
 import { filterNodesOfTree } from '../utils/treeUtils';
 import Plaintext from '../Plaintext';
-import { InputPickerLocale } from '../locales';
 import {
   createChainedFunction,
   tplTransform,
@@ -46,40 +45,15 @@ import {
   PickerToggleProps
 } from '../Picker';
 
-import Tag, { TagProps } from '../Tag';
-import { ItemDataType, FormControlPickerProps } from '../@types/common';
-import { SelectProps } from '../SelectPicker';
+import Tag from '../Tag';
 import InputAutosize from './InputAutosize';
 import InputSearch from './InputSearch';
-import { ListHandle } from '../Windowing';
+import InputPickerContext from './InputPickerContext';
 
-export type TriggerType = 'Enter' | 'Space' | 'Comma';
-
-export interface InputPickerContextProps {
-  /** Multiple selections are allowed */
-  multi?: boolean;
-
-  /** Tag related props. */
-  tagProps: TagProps;
-
-  /**
-   * Set the trigger for creating tags. only valid when creatable
-   */
-  trigger: TriggerType | TriggerType[];
-
-  /**
-   * No overlay provides options
-   */
-  disabledOptions?: boolean;
-
-  /** Callback fired when a tag is removed. */
-  onTagRemove?: (tag: string, event: React.MouseEvent) => void;
-}
-
-export const InputPickerContext = React.createContext<InputPickerContextProps>({
-  tagProps: {},
-  trigger: 'Enter'
-});
+import type { ItemDataType, FormControlPickerProps } from '../@types/common';
+import type { InputPickerLocale } from '../locales';
+import type { ListHandle } from '../Windowing';
+import type { SelectProps } from '../SelectPicker';
 
 interface InputItemDataType extends ItemDataType {
   create?: boolean;
@@ -181,7 +155,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const { multi, tagProps, trigger, disabledOptions, onTagRemove } =
+    const { multi, tagProps, trigger, disabledOptions, onTagRemove, renderMenuItemCheckbox } =
       useContext(InputPickerContext);
 
     if (groupBy === valueKey || groupBy === labelKey) {
@@ -720,6 +694,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           classPrefix={menuClassPrefix}
           dropdownMenuItemClassPrefix={multi ? undefined : `${menuClassPrefix}-item`}
           dropdownMenuItemAs={multi ? DropdownMenuCheckItem : DropdownMenuItem}
+          dropdownMenuItemProps={{ renderMenuItemCheckbox }}
           activeItemValues={multi ? value : [value]}
           focusItemValue={focusItemValue}
           maxHeight={menuMaxHeight}

@@ -40,6 +40,7 @@ export interface DropdownMenuProps<Multiple = false>
   style?: React.CSSProperties;
   dropdownMenuItemAs: React.ElementType | string;
   dropdownMenuItemClassPrefix?: string;
+  dropdownMenuItemProps?: any;
   rowHeight?: number;
   rowGroupHeight?: number;
   virtualized?: boolean;
@@ -83,6 +84,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
     focusItemValue,
     dropdownMenuItemClassPrefix,
     dropdownMenuItemAs: DropdownMenuItem,
+    dropdownMenuItemProps,
     rowHeight = 36,
     rowGroupHeight = 48,
     renderMenuGroup,
@@ -211,6 +213,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
         value={value}
         classPrefix={dropdownMenuItemClassPrefix}
         onSelect={handleSelect.bind(null, item)}
+        {...dropdownMenuItemProps}
       >
         {renderMenuItem ? renderMenuItem(label, item) : label}
       </DropdownMenuItem>

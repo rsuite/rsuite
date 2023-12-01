@@ -1,5 +1,5 @@
 import React from 'react';
-import { TagPicker, Button, Tag } from 'rsuite';
+import { TagPicker, Button, Tag, Checkbox } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 
@@ -10,6 +10,7 @@ export default function Page() {
   return (
     <DefaultPage
       dependencies={{
+        Checkbox,
         Tag,
         TagPicker,
         Button,
