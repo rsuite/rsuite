@@ -44,6 +44,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     progress = true,
     vertical,
     disabled,
+    readOnly,
     classPrefix = 'slider',
     min = 0,
     max: maxProp = 100,
@@ -195,6 +196,10 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
    * Callback function that is fired when the mousemove is triggered
    */
   const handleDragMove = useEventCallback((event: React.MouseEvent, dataset: HandleDataset) => {
+    if (disabled || readOnly) {
+      return;
+    }
+
     const nextValue = getNextValue(event, dataset);
 
     if (isRangeMatchingConstraint(nextValue)) {
@@ -208,6 +213,10 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
    */
   const handleChangeCommitted = useCallback(
     (event: React.MouseEvent, dataset?: DOMStringMap) => {
+      if (disabled || readOnly) {
+        return;
+      }
+
       const nextValue = getNextValue(event, dataset as HandleDataset);
 
       if (isRangeMatchingConstraint(nextValue)) {
@@ -215,7 +224,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
         onChangeCommitted?.(nextValue, event);
       }
     },
-    [getNextValue, onChangeCommitted, isRangeMatchingConstraint, setValue]
+    [disabled, readOnly, getNextValue, isRangeMatchingConstraint, setValue, onChangeCommitted]
   );
 
   const handleKeyDown = useCallback(
@@ -264,9 +273,9 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     [max, min, onChange, rtl, isRangeMatchingConstraint, setValue, step, value]
   );
 
-  const handleClick = useCallback(
+  const handleBarClick = useCallback(
     (event: React.MouseEvent) => {
-      if (disabled) {
+      if (disabled || readOnly) {
         return;
       }
 
@@ -285,14 +294,17 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
       if (isRangeMatchingConstraint(nextValue)) {
         setValue(nextValue);
         onChange?.(nextValue, event);
+        onChangeCommitted?.(nextValue, event);
       }
     },
     [
       disabled,
+      readOnly,
       getValidValue,
       getValueByPosition,
       isRangeMatchingConstraint,
       onChange,
+      onChangeCommitted,
       setValue,
       value
     ]
@@ -340,7 +352,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
 
   return (
     <Component {...rest} ref={ref} className={classes}>
-      <div className={merge(barClassName, prefix('bar'))} ref={barRef} onClick={handleClick}>
+      <div className={merge(barClassName, prefix('bar'))} ref={barRef} onClick={handleBarClick}>
         {progress && (
           <ProgressBar
             rtl={rtl}
