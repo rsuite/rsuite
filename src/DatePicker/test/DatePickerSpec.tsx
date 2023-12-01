@@ -970,8 +970,9 @@ describe('DatePicker', () => {
   });
 
   it('Should change calendar title after clicking on the month', () => {
-    const instance = getInstance(<DatePicker format="yyyy-MM" />);
-    const today = new Date();
+    const date = new Date('2023-10-01');
+
+    const instance = getInstance(<DatePicker format="yyyy-MM" defaultValue={date} />);
 
     fireEvent.click(instance.target);
 
@@ -980,12 +981,12 @@ describe('DatePicker', () => {
     // eslint-disable-next-line testing-library/no-node-access
     const activeMonth = instance.overlay.querySelector('.rs-calendar-month-dropdown-cell-active');
 
-    expect(headerTitle).to.have.text(format(today, 'MMM yyyy'));
+    expect(headerTitle).to.have.text(format(date, 'MMM yyyy'));
 
     // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(activeMonth.nextElementSibling);
 
-    expect(headerTitle).to.have.text(format(addMonths(today, 1), 'MMM yyyy'));
+    expect(headerTitle).to.have.text(format(addMonths(date, 1), 'MMM yyyy'));
   });
 
   it('Should the calendar date be reset when the controlled value is cleared', () => {
