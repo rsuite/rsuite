@@ -7,6 +7,7 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import TableCell from './TableCell';
 export interface TableRowProps extends WithAsProps {
   weekendDate?: Date;
+  rowIndex?: number;
 }
 
 const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRef(
@@ -16,6 +17,7 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
       className,
       classPrefix = 'calendar-table',
       weekendDate = new Date(),
+      rowIndex,
       ...rest
     } = props;
     const {
@@ -99,12 +101,13 @@ const TableRow: RsRefForwardingComponent<'div', TableRowProps> = React.forwardRe
     };
 
     const classes = merge(className, prefix('row'));
+    const week = format(weekendDate, isoWeek ? 'I' : 'w', { firstWeekContainsDate: 4 });
 
     return (
-      <Component {...rest} ref={ref} role="row" className={classes}>
+      <Component {...rest} ref={ref} role="row" aria-rowindex={rowIndex} className={classes}>
         {showWeekNumbers && (
-          <div className={prefix('cell-week-number')} role="rowheader">
-            {format(weekendDate, isoWeek ? 'I' : 'w')}
+          <div role="rowheader" aria-label={`Week ${week}`} className={prefix('cell-week-number')}>
+            {week}
           </div>
         )}
         {renderDays()}

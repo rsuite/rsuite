@@ -804,10 +804,10 @@ describe('DatePicker', () => {
   it('Should render week numbers given `showWeekNumbers=true`', () => {
     render(<DatePicker defaultOpen calendarDefaultDate={new Date('12/15/2021')} showWeekNumbers />);
 
-    [49, 50, 51, 52, 1, 2].forEach(weekOrder => {
+    [48, 49, 50, 51, 52, 1].forEach(weekOrder => {
       expect(screen.getByRole('grid', { name: 'Dec 2021' })).to.contain(
         screen.getByRole('rowheader', {
-          name: `${weekOrder}`
+          name: `Week ${weekOrder}`
         })
       );
     });
