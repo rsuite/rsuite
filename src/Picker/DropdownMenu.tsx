@@ -4,6 +4,7 @@ import isUndefined from 'lodash/isUndefined';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
 import findIndex from 'lodash/findIndex';
+import pickBy from 'lodash/pickBy';
 import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
 import getHeight from 'dom-lib/getHeight';
@@ -213,7 +214,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
         value={value}
         classPrefix={dropdownMenuItemClassPrefix}
         onSelect={handleSelect.bind(null, item)}
-        {...dropdownMenuItemProps}
+        {...pickBy(dropdownMenuItemProps, v => v !== undefined)}
       >
         {renderMenuItem ? renderMenuItem(label, item) : label}
       </DropdownMenuItem>
