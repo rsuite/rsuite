@@ -1,59 +1,60 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, screen, cleanup } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import List from '../List';
 import Sinon from 'sinon';
 
 describe('List', () => {
+  afterEach(cleanup);
+
   testStandardProps(<List />);
 
   it('Should render a List', () => {
-    const domNode = getDOMNode(<List />);
-    assert.include(domNode.className, 'rs-list');
+    render(<List data-testid="list" />);
+    expect(screen.getByTestId('list')).to.have.class('rs-list');
   });
 
   it('Should be bordered', () => {
-    const domNode = getDOMNode(<List bordered />);
-    assert.include(domNode.className, 'rs-list-bordered');
+    render(<List data-testid="list" bordered />);
+    expect(screen.getByTestId('list')).to.have.class('rs-list-bordered');
   });
 
   it('Should have hover animation', () => {
-    const domNode = getDOMNode(<List hover />);
-    assert.include(domNode.className, 'rs-list-hover');
+    render(<List data-testid="list" hover />);
+    expect(screen.getByTestId('list')).to.have.class('rs-list-hover');
   });
 
   it('should be sortable', () => {
-    const domNode = getDOMNode(<List sortable />);
-    assert.include(domNode.className, 'rs-list-sortable');
+    render(<List data-testid="list" sortable />);
+    expect(screen.getByTestId('list')).to.have.class('rs-list-sortable');
   });
 
   it('Should render different size', () => {
-    const domNode = getDOMNode(
-      <List>
-        <List.Item index={1} />
-      </List>
+    render(
+      <>
+        <List data-testid="list">
+          <List.Item index={1} />
+        </List>
+
+        <List data-testid="list-sm" size="sm">
+          <List.Item index={1} />
+        </List>
+
+        <List data-testid="list-md" size="md">
+          <List.Item index={1} />
+        </List>
+
+        <List data-testid="list-lg" size="lg">
+          <List.Item index={1} />
+        </List>
+      </>
     );
-    const domNodeSmall = getDOMNode(
-      <List size="sm">
-        <List.Item index={1} />
-      </List>
-    );
-    const domNodeMedium = getDOMNode(
-      <List size="md">
-        <List.Item index={1} />
-      </List>
-    );
-    const domNodeLarge = getDOMNode(
-      <List size="lg">
-        <List.Item index={1} />
-      </List>
-    );
-    assert.include((domNode.firstChild as HTMLElement).className, 'rs-list-item-md');
-    assert.include((domNodeSmall.firstChild as HTMLElement).className, 'rs-list-item-sm');
-    assert.include((domNodeMedium.firstChild as HTMLElement).className, 'rs-list-item-md');
-    assert.include((domNodeLarge.firstChild as HTMLElement).className, 'rs-list-item-lg');
+
+    expect(screen.getByTestId('list').firstChild).to.have.class('rs-list-item-md');
+    expect(screen.getByTestId('list-sm').firstChild).to.have.class('rs-list-item-sm');
+    expect(screen.getByTestId('list-md').firstChild).to.have.class('rs-list-item-md');
+    expect(screen.getByTestId('list-lg').firstChild).to.have.class('rs-list-item-lg');
   });
 
   it('should call onSortStart', async () => {
