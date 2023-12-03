@@ -11,23 +11,23 @@ describe('List', () => {
   testStandardProps(<List />);
 
   it('Should render a List', () => {
-    render(<List data-testid="list" />);
-    expect(screen.getByTestId('list')).to.have.class('rs-list');
+    render(<List />);
+    expect(screen.getByRole('list')).to.have.class('rs-list');
   });
 
   it('Should be bordered', () => {
-    render(<List data-testid="list" bordered />);
-    expect(screen.getByTestId('list')).to.have.class('rs-list-bordered');
+    render(<List bordered />);
+    expect(screen.getByRole('list')).to.have.class('rs-list-bordered');
   });
 
   it('Should have hover animation', () => {
-    render(<List data-testid="list" hover />);
-    expect(screen.getByTestId('list')).to.have.class('rs-list-hover');
+    render(<List hover />);
+    expect(screen.getByRole('list')).to.have.class('rs-list-hover');
   });
 
   it('should be sortable', () => {
-    render(<List data-testid="list" sortable />);
-    expect(screen.getByTestId('list')).to.have.class('rs-list-sortable');
+    render(<List sortable />);
+    expect(screen.getByRole('list')).to.have.class('rs-list-sortable');
   });
 
   it('Should render different size', () => {
