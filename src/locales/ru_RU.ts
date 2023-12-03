@@ -66,7 +66,7 @@ export default {
     upload: 'Загрузить'
   },
   CloseButton: {
-    closeLabel: 'неисправность'
+    closeLabel: 'Закрыть'
   },
   Breadcrumb: {
     expandText: 'Показать путь'
