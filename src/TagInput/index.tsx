@@ -1,26 +1,10 @@
 import React, { useMemo } from 'react';
-import InputPicker, {
-  InputPickerProps,
-  InputPickerContext,
-  TriggerType
-} from '../InputPicker/InputPicker';
+import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
+import InputPickerContext, { TagOnlyProps } from '../InputPicker/InputPickerContext';
 import type { PickerComponent } from '../Picker/types';
-import type { TagProps } from '../Tag';
 
-export interface TagInputProps extends Omit<InputPickerProps<readonly string[]>, 'data'> {
-  /**  Tag related props. */
-  tagProps?: TagProps;
-
-  /**
-   * Set the trigger for creating tags. only valid when creatable
-   *
-   * @todo Declare as readonly array
-   */
-  trigger?: TriggerType | TriggerType[];
-
-  /** Callback fired when a tag is removed. */
-  onTagRemove?: (tag: string, event: React.MouseEvent) => void;
-}
+export type TagInputProps = Omit<InputPickerProps<readonly string[]>, 'data'> &
+  Partial<TagOnlyProps>;
 
 const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInputProps, ref) => {
   const { tagProps = {}, trigger = 'Enter', value, defaultValue, onTagRemove, ...rest } = props;
