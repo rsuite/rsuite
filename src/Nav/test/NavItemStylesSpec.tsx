@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Nav from '../index';
-import { getDOMNode, getStyle, toRGB, getDefaultPalette, inChrome } from '@test/testUtils';
+import { toRGB, getDefaultPalette } from '@test/testUtils';
 
 import '../styles/index.less';
 
@@ -9,41 +9,38 @@ const { H700 } = getDefaultPalette();
 
 describe('NavItem styles', () => {
   it('Default NavItem should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLAnchorElement>();
     render(
       <Nav>
-        <Nav.Item ref={instanceRef}>Text</Nav.Item>
+        <Nav.Item>Nav item</Nav.Item>
       </Nav>
     );
-    const navItemContentDom = getDOMNode(instanceRef.current);
-    inChrome && assert.equal(getStyle(navItemContentDom, 'padding'), '8px 12px', 'NavItem padding');
-    assert.equal(getStyle(navItemContentDom, 'color'), toRGB('#575757'), 'NavItem color');
+    const navItem = screen.getByText('Nav item');
+
+    expect(navItem).to.have.style('padding', '8px 12px');
+    expect(navItem).to.have.style('color', toRGB('#575757'));
   });
 
   it('Default NavItem should render the correct styles when active', () => {
-    const instanceRef = React.createRef<HTMLAnchorElement>();
     render(
       <Nav>
-        <Nav.Item ref={instanceRef} active>
-          Active
-        </Nav.Item>
+        <Nav.Item active>Active nav item</Nav.Item>
       </Nav>
     );
-    const navItemContentDom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(navItemContentDom, 'color'), H700, 'NavItem color');
+    const navItemActive = screen.getByText('Active nav item');
+
+    expect(navItemActive).to.have.style('color', H700);
   });
 
   it('Default NavItem should render the correct styles when disabled', () => {
-    const instanceRef = React.createRef<HTMLAnchorElement>();
     render(
       <Nav>
-        <Nav.Item ref={instanceRef} disabled>
-          Disabled
-        </Nav.Item>
+        <Nav.Item disabled>Disabled nav item</Nav.Item>
       </Nav>
     );
-    const navItemContentDom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(navItemContentDom, 'color'), toRGB('#c5c6c7'), 'NavItem color');
-    assert.equal(getStyle(navItemContentDom, 'cursor'), 'not-allowed', 'NavItem cursor');
+
+    const navItemDisabled = screen.getByText('Disabled nav item');
+
+    expect(navItemDisabled).to.have.style('color', toRGB('#c5c6c7'));
+    expect(navItemDisabled).to.have.style('cursor', 'not-allowed');
   });
 });
