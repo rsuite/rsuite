@@ -26,7 +26,9 @@ const Calendar = {
 export default {
   common: {
     loading: 'Caricamento in corso...',
-    emptyMessage: 'Nessun elemento trovato'
+    emptyMessage: 'Nessun elemento trovato',
+    remove: 'Rimuovi',
+    clear: 'Chiaro'
   },
   Plaintext: {
     unfilled: 'Vacanti',
@@ -67,7 +69,8 @@ export default {
     error: 'Errore',
     complete: 'Completato',
     emptyFile: 'Vuoto',
-    upload: 'Carica'
+    upload: 'Carica',
+    removeFile: 'Rimuovi file'
   },
   CloseButton: {
     closeLabel: 'spegnimento'

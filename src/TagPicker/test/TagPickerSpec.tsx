@@ -282,8 +282,7 @@ describe('TagPicker', () => {
         defaultValue={['Kariane', 'Eugenia']}
       />
     );
-    // TODO Change accessible name to "Remove"
-    fireEvent.click(screen.getAllByRole('button', { name: /close/i })[0]);
+    fireEvent.click(screen.getAllByRole('button', { name: /Remove/i })[0]);
 
     expect(onChange).to.have.been.calledWith(['Eugenia']);
   });
@@ -306,7 +305,7 @@ describe('TagPicker', () => {
         }}
       />
     );
-    fireEvent.click(screen.getAllByRole('button', { name: /close/i })[0]);
+    fireEvent.click(screen.getAllByRole('button', { name: /Remove/i })[0]);
 
     expect(onClose).to.have.been.calledOnce;
   });
@@ -322,7 +321,7 @@ describe('TagPicker', () => {
       />
     );
 
-    expect(screen.queryAllByRole('button', { name: /close/i })).to.have.lengthOf(0);
+    expect(screen.queryAllByRole('button', { name: /Remove/i })).to.have.lengthOf(0);
   });
 
   it('Should render a span tag', () => {
@@ -444,7 +443,7 @@ describe('TagPicker', () => {
   it('Should call `onTagRemove` callback', () => {
     const onTagRemove = sinon.spy();
     render(<TagPicker data={data} defaultValue={['Kariane']} onTagRemove={onTagRemove} />);
-    fireEvent.click(screen.getAllByRole('button', { name: /close/i })[0]);
+    fireEvent.click(screen.getAllByRole('button', { name: /Remove/i })[0]);
 
     expect(onTagRemove).to.have.been.calledOnce;
     expect(onTagRemove).to.have.been.calledWith('Kariane');

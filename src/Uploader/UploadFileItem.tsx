@@ -156,7 +156,13 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
 
   const renderPreview = () => {
     const thumbnail = previewImage ? (
-      <img role="presentation" src={previewImage} alt={file.name} onClick={handlePreview} />
+      <img
+        role="presentation"
+        src={previewImage}
+        alt={file.name}
+        onClick={handlePreview}
+        aria-label={`Preview: ${file.name}`}
+      />
     ) : (
       <Attachment className={prefix('icon')} />
     );
@@ -178,7 +184,7 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
     if (uploading) {
       return (
         <div className={classes}>
-          <i className={prefix('icon')} />
+          <i className={prefix('icon')} aria-label="Uploading" />
         </div>
       );
     }
@@ -202,7 +208,20 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
       return null;
     }
 
-    return <CloseButton className={prefix('btn-remove')} onClick={handleRemove} />;
+    let closeLabel = 'Remove file';
+
+    if (locale?.removeFile) {
+      closeLabel = locale?.removeFile + (file?.name ? `: ${file?.name}` : '');
+    }
+
+    return (
+      <CloseButton
+        className={prefix('btn-remove')}
+        onClick={handleRemove}
+        tabIndex={-1}
+        locale={{ closeLabel }}
+      />
+    );
   };
 
   /**
@@ -214,7 +233,7 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
         <div className={prefix('status')}>
           {<span>{locale?.error}</span>}
           {allowReupload && (
-            <a role="button" tabIndex={-1} onClick={handleReupload}>
+            <a role="button" tabIndex={-1} onClick={handleReupload} aria-label="Retry">
               <Reload className={prefix('icon-reupload')} />
             </a>
           )}
@@ -239,7 +258,12 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
    */
   const renderFilePanel = () => {
     const fileElement = (
-      <div className={prefix('title')} onClick={handlePreview}>
+      <div
+        className={prefix('title')}
+        tabIndex={-1}
+        onClick={handlePreview}
+        aria-label={`Preview: ${file.name}`}
+      >
         {file.name}
       </div>
     );

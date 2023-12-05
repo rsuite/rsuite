@@ -22,7 +22,9 @@ const Calendar = {
 export default {
   common: {
     loading: 'Жүктелуде...',
-    emptyMessage: 'Мәліметтер жоқ'
+    emptyMessage: 'Мәліметтер жоқ',
+    remove: 'Жою',
+    clear: 'Таза'
   },
   Plaintext: {
     unfilled: 'Мәліметтер жоқ',
@@ -63,7 +65,8 @@ export default {
     error: 'Қате',
     complete: 'Жүктелді',
     emptyFile: 'Бос',
-    upload: 'Жүктеу'
+    upload: 'Жүктеу',
+    removeFile: 'Файлды жою'
   },
   CloseButton: {
     closeLabel: 'Жабу'

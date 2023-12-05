@@ -1,11 +1,13 @@
 <!--start-code-->
 
 ```js
-import { Uploader } from 'rsuite';
+import { Uploader, Button } from 'rsuite';
 
 const App = () => (
   <>
-    <Uploader action="//jsonplaceholder.typicode.com/posts/" />
+    <Uploader action="//jsonplaceholder.typicode.com/posts/">
+      <Button>Select files...</Button>
+    </Uploader>
   </>
 );
 

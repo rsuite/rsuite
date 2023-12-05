@@ -25,7 +25,9 @@ const Calendar = {
 export default {
   common: {
     loading: '로딩...',
-    emptyMessage: '데이터가 없습니다'
+    emptyMessage: '데이터가 없습니다',
+    remove: '제거하다',
+    clear: '분명한'
   },
   Plaintext: {
     unfilled: '채워지지 않은',
@@ -66,7 +68,8 @@ export default {
     error: '오류',
     complete: '끝마친',
     emptyFile: '빈',
-    upload: '업로드'
+    upload: '업로드',
+    removeFile: '파일 삭제'
   },
   CloseButton: {
     closeLabel: '종료'

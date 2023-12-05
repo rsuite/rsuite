@@ -18,7 +18,9 @@ const App = () => {
           alert('File check passed, run upload');
           return true;
         }}
-      />
+      >
+        <Button>Select files...</Button>
+      </Uploader>
       <hr />
       <Uploader
         action="//jsonplaceholder.typicode.com/posts/"

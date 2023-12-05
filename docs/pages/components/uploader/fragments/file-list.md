@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Uploader } from 'rsuite';
+import { Uploader, Button } from 'rsuite';
 
 const fileList = [
   {
@@ -20,7 +20,9 @@ const App = () => (
     listType="picture-text"
     defaultFileList={fileList}
     action="//jsonplaceholder.typicode.com/posts/"
-  />
+  >
+    <Button>Select files...</Button>
+  </Uploader>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

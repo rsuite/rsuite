@@ -22,7 +22,9 @@ const Calendar = {
 export default {
   common: {
     loading: '加载中...',
-    emptyMessage: '数据为空'
+    emptyMessage: '数据为空',
+    remove: '移除',
+    clear: '清除'
   },
   Plaintext: {
     unfilled: '未填写',
@@ -63,7 +65,8 @@ export default {
     error: '上传出错',
     complete: '上传完成',
     emptyFile: '无文件',
-    upload: '上传'
+    upload: '上传',
+    removeFile: '删除文件'
   },
   CloseButton: {
     closeLabel: '关闭'
