@@ -61,7 +61,11 @@ describe('UploadFileItem', () => {
     const onCancelSpy = sinon.spy();
     render(<UploadFileItem file={file} onCancel={onCancelSpy} disabled />);
 
-    fireEvent.click(screen.getByRole('button', { name: 'Remove file' }));
+    expect(screen.getByRole('button', { hidden: true })).to.have.class(
+      'rs-uploader-file-item-btn-remove'
+    );
+
+    fireEvent.click(screen.getByRole('button', { hidden: true }));
 
     expect(onCancelSpy).to.have.not.been.called;
   });

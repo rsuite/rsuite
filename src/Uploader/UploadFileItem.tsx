@@ -220,6 +220,7 @@ const UploadFileItem = React.forwardRef<HTMLDivElement, UploadFileItemProps>((pr
         onClick={handleRemove}
         tabIndex={-1}
         locale={{ closeLabel }}
+        aria-hidden={disabled}
       />
     );
   };
