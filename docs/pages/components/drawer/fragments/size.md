@@ -7,13 +7,7 @@ import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
 import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
 
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 12px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-};
+const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 const App = () => {
   const [size, setSize] = React.useState();
@@ -27,7 +21,7 @@ const App = () => {
   return (
     <>
       <RadioGroup inline appearance="picker" value={placement} onChange={setPlacement}>
-        <span style={styles.radioGroupLabel}>Placement: </span>
+        <RadioLabel>Placement: </RadioLabel>
         <Radio value="left">left</Radio>
         <Radio value="right">right</Radio>
         <Radio value="top">top</Radio>
