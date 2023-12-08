@@ -1,23 +1,19 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Panel from '../index';
-import { getDOMNode, getStyle, toRGB, inChrome, itChrome } from '@test/testUtils';
+import { toRGB, inChrome, itChrome } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Panel styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(<Panel ref={instanceRef} />);
-    const dom = getDOMNode(instanceRef.current);
-    inChrome && assert.equal(getStyle(dom, 'borderRadius'), '6px', 'Panel border-radius');
-    assert.equal(getStyle(dom, 'overflow'), 'hidden', 'Panel overflow');
+    render(<Panel data-testid="panel" />);
+    inChrome && expect(screen.getByTestId('panel')).to.have.style('border-radius', '6px');
+    expect(screen.getByTestId('panel')).to.have.style('overflow', 'hidden');
   });
 
   itChrome('Should render the correct border', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(<Panel ref={instanceRef} bordered />);
-    const dom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(dom, 'border'), `1px solid ${toRGB('#e5e5ea')}`);
+    render(<Panel data-testid="panel" bordered />);
+    expect(screen.getByTestId('panel')).to.have.style('border', `1px solid ${toRGB('#e5e5ea')}`);
   });
 });
