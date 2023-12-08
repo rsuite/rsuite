@@ -16,6 +16,8 @@ const JSONView = ({ formValue, formError }) => (
   </div>
 );
 
+const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
+
 const Field = React.forwardRef((props, ref) => {
   const { name, message, label, accepter, error, ...rest } = props;
   return (
@@ -32,14 +34,6 @@ const model = Schema.Model({
     .isEmail('Please enter a valid email address.')
     .isRequired('This field is required.')
 });
-
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 12px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-};
 
 const App = () => {
   const formRef = React.useRef();
@@ -67,7 +61,7 @@ const App = () => {
             setFormError({});
           }}
         >
-          <span style={styles.radioGroupLabel}>checkTrigger: </span>
+          <RadioLabel>checkTrigger: </RadioLabel>
           <Radio value="blur">blur</Radio>
           <Radio value="change">change</Radio>
           <Radio value="none">none</Radio>

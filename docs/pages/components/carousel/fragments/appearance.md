@@ -3,13 +3,7 @@
 ```js
 import { Carousel, RadioGroup, Radio, Divider } from 'rsuite';
 
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 12px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-};
+const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 function App() {
   const [placement, setPlacement] = React.useState('bottom');
@@ -24,7 +18,7 @@ function App() {
         defaultValue={placement}
         onChange={setPlacement}
       >
-        <span style={styles.radioGroupLabel}>Placement: </span>
+        <RadioLabel>Placement: </RadioLabel>
         <Radio value="top">Top</Radio>
         <Radio value="bottom">Bottom</Radio>
         <Radio value="left">Left</Radio>
@@ -38,7 +32,7 @@ function App() {
         defaultValue={shape}
         onChange={setShape}
       >
-        <span style={styles.radioGroupLabel}>Shape: </span>
+        <RadioLabel>Shape: </RadioLabel>
         <Radio value="dot">Dot</Radio>
         <Radio value="bar">Bar</Radio>
       </RadioGroup>
