@@ -1,18 +1,14 @@
 <!--start-code-->
 
 ```js
-import { Uploader } from 'rsuite';
+import { Uploader, Button } from 'rsuite';
 
 const App = () => {
   const [value, setValue] = React.useState([]);
   return (
-    <>
-      <Uploader
-        fileList={value}
-        action="//jsonplaceholder.typicode.com/posts/"
-        onChange={setValue}
-      />
-    </>
+    <Uploader fileList={value} action="//jsonplaceholder.typicode.com/posts/" onChange={setValue}>
+      <Button>Select files...</Button>
+    </Uploader>
   );
 };
 

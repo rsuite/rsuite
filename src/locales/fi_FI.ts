@@ -26,7 +26,9 @@ const Calendar = {
 export default {
   common: {
     loading: 'Hetkinen...',
-    emptyMessage: 'Dataa ei löytynyt'
+    emptyMessage: 'Dataa ei löytynyt',
+    remove: 'Poista',
+    clear: 'Asia selvä'
   },
   Plaintext: {
     unfilled: 'täyttämättömät',
@@ -71,7 +73,8 @@ export default {
     error: 'Virhe',
     complete: 'Valmis',
     emptyFile: 'Tyhjä',
-    upload: 'Lataa'
+    upload: 'Lataa',
+    removeFile: 'Poista tiedosto'
   },
   CloseButton: {
     closeLabel: 'Sammuttaa'

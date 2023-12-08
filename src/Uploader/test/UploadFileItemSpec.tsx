@@ -1,14 +1,13 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import UploadFileItem, { formatSize } from '../UploadFileItem';
 import userEvent from '@testing-library/user-event';
 import { testStandardProps } from '@test/commonCases';
 
 const file = {
-  fileKey: 'a',
-  name: 'a',
+  fileKey: 'key',
+  name: 'file.txt',
   progress: 0,
   status: 'inited'
 } as const;
@@ -16,109 +15,103 @@ const file = {
 describe('UploadFileItem', () => {
   testStandardProps(<UploadFileItem file={file} />);
   it('Should output a UploadFileItem', () => {
-    const { container } = render(<UploadFileItem file={file} />);
-    expect(container.firstChild).to.have.class('rs-uploader-file-item');
+    render(<UploadFileItem file={file} data-testid="upload-file-row" />);
+
+    expect(screen.getByTestId('upload-file-row')).to.have.class('rs-uploader-file-item');
+    expect(screen.getByText('file.txt')).to.exist;
   });
 
   it('Should render picture-text for layout', () => {
-    const { container } = render(<UploadFileItem listType="picture-text" file={file} />);
-    expect(container.firstChild).to.have.class('rs-uploader-file-item-picture-text');
+    render(<UploadFileItem listType="picture-text" file={file} data-testid="upload-file-row" />);
+
+    const fileRow = screen.getByTestId('upload-file-row');
+
+    expect(fileRow).to.have.class('rs-uploader-file-item-picture-text');
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    assert.ok(container.querySelector('.rs-uploader-file-item-panel'));
+    expect(fileRow.querySelector('.rs-uploader-file-item-panel')).to.exist;
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    assert.ok(container.querySelector('.rs-uploader-file-item-progress'));
+    expect(fileRow.querySelector('.rs-uploader-file-item-progress')).to.exist;
   });
 
   it('Should render picture for layout', () => {
-    const { container } = render(<UploadFileItem listType="picture" file={file} />);
-    expect(container.firstChild).to.have.class('rs-uploader-file-item-picture');
+    render(<UploadFileItem listType="picture" file={file} data-testid="upload-file-row" />);
+
+    const fileRow = screen.getByTestId('upload-file-row');
+    expect(fileRow).to.have.class('rs-uploader-file-item-picture');
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    assert.equal(container.querySelectorAll('.rs-uploader-file-item-panel').length, 0);
+    expect(fileRow.querySelector('.rs-uploader-file-item-panel')).to.not.exist;
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    assert.equal(container.querySelectorAll('.rs-uploader-file-item-progress').length, 0);
+    expect(fileRow.querySelector('.rs-uploader-file-item-progress')).to.not.exist;
   });
 
   it('Should be disabled', () => {
-    const { container } = render(<UploadFileItem file={file} disabled />);
-    expect(container.firstChild).to.have.class('rs-uploader-file-item-disabled');
+    render(<UploadFileItem file={file} disabled data-testid="upload-file-row" />);
+    expect(screen.getByTestId('upload-file-row')).to.have.class('rs-uploader-file-item-disabled');
   });
 
   it('Should call `onCancel` callback', () => {
     const onCancelSpy = sinon.spy();
     render(<UploadFileItem file={file} onCancel={onCancelSpy} />);
 
-    userEvent.click(screen.getByRole('button', { name: /close/i }));
+    userEvent.click(screen.getByRole('button', { name: 'Remove file' }));
     expect(onCancelSpy).to.have.been.calledOnce;
   });
 
   it('Should not call `onCancel` callback when `disabled=true`', () => {
     const onCancelSpy = sinon.spy();
-    const { container } = render(<UploadFileItem file={file} onCancel={onCancelSpy} disabled />);
-    ReactTestUtils.Simulate.click(
-      // FIXME Didn't manage to use RTL query here, possibly because RTL bug
-      // https://github.com/testing-library/dom-testing-library/issues/846
-      //
-      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-      container.querySelector('.rs-uploader-file-item-btn-remove') as HTMLElement
+    render(<UploadFileItem file={file} onCancel={onCancelSpy} disabled />);
+
+    expect(screen.getByRole('button', { hidden: true })).to.have.class(
+      'rs-uploader-file-item-btn-remove'
     );
 
-    assert.equal(onCancelSpy.calledOnce, false);
+    fireEvent.click(screen.getByRole('button', { hidden: true }));
+
+    expect(onCancelSpy).to.have.not.been.called;
   });
 
   it('Should not render remove button', () => {
     render(<UploadFileItem file={file} removable={false} />);
 
-    expect(screen.queryByRole('button', { name: /close/i })).not.to.exist;
+    expect(screen.queryByRole('button', { name: 'Remove file' })).not.to.exist;
   });
 
   it('Should call onPreview callback', () => {
     const onPreviewSpy = sinon.spy();
-    const { container } = render(
-      <UploadFileItem file={file} onPreview={onPreviewSpy} listType="picture-text" />
-    );
-    ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-      container.querySelector('.rs-uploader-file-item-title') as HTMLElement
-    );
-    assert.ok(onPreviewSpy.calledOnce);
+    render(<UploadFileItem file={file} onPreview={onPreviewSpy} listType="picture-text" />);
+
+    fireEvent.click(screen.getByLabelText('Preview: file.txt'));
+
+    expect(onPreviewSpy).to.have.been.calledOnce;
   });
 
   it('Should not call onPreview callback if `disabled=true`', () => {
     const onPreviewSpy = sinon.spy();
-    const { container } = render(
+    render(
       <UploadFileItem file={file} onPreview={onPreviewSpy} listType="picture-text" disabled />
     );
-    ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-      container.querySelector('.rs-uploader-file-item-title') as HTMLElement
-    );
-    assert.equal(onPreviewSpy.calledOnce, false);
+    fireEvent.click(screen.getByLabelText('Preview: file.txt'));
+
+    expect(onPreviewSpy).to.have.not.been.called;
   });
 
   it('Should call onReupload callback', () => {
     const onReuploadSpy = sinon.spy();
-    const { container } = render(
-      <UploadFileItem file={{ ...file, status: 'error' }} onReupload={onReuploadSpy} />
-    );
-    ReactTestUtils.Simulate.click(
-      // FIXME Add accessible name to Reload button
-      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-      container.querySelector('.rs-uploader-file-item-icon-reupload') as HTMLElement
-    );
-    assert.ok(onReuploadSpy.calledOnce);
+    render(<UploadFileItem file={{ ...file, status: 'error' }} onReupload={onReuploadSpy} />);
+
+    fireEvent.click(screen.getByLabelText('Retry'));
+
+    expect(onReuploadSpy).to.have.been.calledOnce;
   });
 
   it('Should not call onReupload callback', () => {
     const onReuploadSpy = sinon.spy();
-    const { container } = render(
+    render(
       <UploadFileItem file={{ ...file, status: 'error' }} onReupload={onReuploadSpy} disabled />
     );
-    ReactTestUtils.Simulate.click(
-      // FIXME Add accessible name to Reload button
-      // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-      container.querySelector('.rs-uploader-file-item-icon-reupload') as HTMLElement
-    );
-    assert.equal(onReuploadSpy.calledOnce, false);
+    fireEvent.click(screen.getByLabelText('Retry'));
+
+    expect(onReuploadSpy).to.have.not.been.called;
   });
 
   it('Should output a custom file name', () => {
@@ -140,62 +133,41 @@ describe('UploadFileItem', () => {
   });
 
   it('Should render an <i> tag, when the file status is uploading', () => {
-    const { container, rerender } = render(
-      <UploadFileItem file={{ ...file, status: 'uploading' }} />
-    );
+    const { rerender } = render(<UploadFileItem file={{ ...file, status: 'uploading' }} />);
 
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-      (container.querySelector('.rs-uploader-file-item-icon') as HTMLElement).tagName,
-      'I'
-    );
+    expect(screen.getByLabelText('Uploading')).to.exist;
 
     rerender(<UploadFileItem file={{ ...file, status: 'inited' }} />);
 
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-      (container.querySelector('.rs-uploader-file-item-icon') as HTMLElement).tagName,
-      'svg'
-    );
+    expect(screen.queryAllByLabelText('Uploading')[0]).to.not.exist;
   });
 
   it('Should render an <i> tag, when the file status is uploading', () => {
     const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' } as const;
-    const { container } = render(<UploadFileItem file={file} />);
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-      (container.querySelector('.rs-uploader-file-item-size') as HTMLElement).textContent,
-      '3B'
-    );
+    render(<UploadFileItem file={file} />);
+
+    expect(screen.getByText('3B')).to.have.class('rs-uploader-file-item-size');
   });
 
   it('Should not render a default thumbnail', () => {
-    const { container } = render(<UploadFileItem file={file} listType="text" />);
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    const thumbnail = container.querySelector('.rs-uploader-file-item-preview');
-    assert.isNull(thumbnail);
+    render(<UploadFileItem file={file} listType="text" />);
+
+    expect(screen.getByLabelText('Preview: file.txt')).to.exist;
   });
 
   it('Should render a default thumbnail when listType="picture-text" ', () => {
-    const { container } = render(<UploadFileItem file={file} listType="picture-text" />);
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    const thumbnail = container.querySelector(
-      '.rs-uploader-file-item-preview .rs-uploader-file-item-icon'
-    );
-    assert.isNotNull(thumbnail);
+    render(<UploadFileItem file={file} listType="picture-text" />);
+
+    expect(screen.getByLabelText('attachment')).to.exist;
   });
 
   it('Should render a default thumbnail when listType="picture"', () => {
-    const { container } = render(<UploadFileItem file={file} listType="picture" />);
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    const thumbnail = container.querySelector(
-      '.rs-uploader-file-item-preview .rs-uploader-file-item-icon'
-    );
-    assert.isNotNull(thumbnail);
+    render(<UploadFileItem file={file} listType="picture" />);
+    expect(screen.getByLabelText('attachment')).to.exist;
   });
 
   it('Should render a custom thumbnail', () => {
-    const { container } = render(
+    render(
       <UploadFileItem
         file={file}
         listType="picture-text"
@@ -204,10 +176,8 @@ describe('UploadFileItem', () => {
         }}
       />
     );
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    const thumbnail = container.querySelector('.rs-uploader-file-item-preview') as HTMLElement;
 
-    assert.include(thumbnail.textContent, 'custom-thumbnail');
+    expect(screen.getByText('custom-thumbnail')).to.exist;
   });
 
   it('Should render a thumbnail previewing the image to upload', async () => {
@@ -219,27 +189,28 @@ describe('UploadFileItem', () => {
       })
     };
 
-    const { container } = render(<UploadFileItem file={file} listType="picture-text" />);
+    render(<UploadFileItem file={file} listType="picture-text" />);
 
     await waitFor(() => {
-      // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-      const thumbnail = container.querySelector(
-        '.rs-uploader-file-item-preview img'
-      ) as HTMLImageElement;
-      assert.equal(thumbnail.src, 'data:image/png;base64,MTA=');
+      expect(screen.queryAllByLabelText('Preview: image.png')[0]).to.have.property(
+        'src',
+        'data:image/png;base64,MTA='
+      );
     });
   });
 });
 
 describe('UploadFileItem - formatSize', () => {
   it('Should be formatted to file size unit', () => {
-    assert.equal(formatSize(1024), '1024B');
-    assert.equal(formatSize(1024 + 1), '1.00KB');
-    assert.equal(formatSize(1024 * 1024), '1024.00KB');
-    assert.equal(formatSize(1024 * 1024 + 1), '1.00MB');
-    assert.equal(formatSize(1024 * 1024 * 1024), '1024.00MB');
-    assert.equal(formatSize(1024 * 1024 * 1024 + 1), '1.00GB');
-    assert.equal(formatSize(1024 * 1024 * 1024 * 1024), '1024.00GB');
-    assert.equal(formatSize(1024 * 1024 * 1024 * 1024 + 1), '1024.00GB');
+    expect(formatSize(0)).to.equal('0B');
+    expect(formatSize(undefined)).to.equal('0B');
+    expect(formatSize(1024)).to.equal('1024B');
+    expect(formatSize(1024 + 1)).to.equal('1.00KB');
+    expect(formatSize(1024 * 1024)).to.equal('1024.00KB');
+    expect(formatSize(1024 * 1024 + 1)).to.equal('1.00MB');
+    expect(formatSize(1024 * 1024 * 1024)).to.equal('1024.00MB');
+    expect(formatSize(1024 * 1024 * 1024 + 1)).to.equal('1.00GB');
+    expect(formatSize(1024 * 1024 * 1024 * 1024)).to.equal('1024.00GB');
+    expect(formatSize(1024 * 1024 * 1024 * 1024 + 1)).to.equal('1024.00GB');
   });
 });

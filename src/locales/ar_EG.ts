@@ -22,7 +22,9 @@ const Calendar = {
 export default {
   common: {
     loading: 'جاري التحميل...',
-    emptyMessage: 'لا يوجد المزيد من البيانات'
+    emptyMessage: 'لا يوجد المزيد من البيانات',
+    remove: 'حذف',
+    clear: 'يزيل'
   },
   Plaintext: {
     unfilled: 'شاغرة',
@@ -64,7 +66,8 @@ export default {
     error: 'خطأ',
     complete: 'تم الإنتهاء',
     emptyFile: 'فارغ',
-    upload: 'رفع'
+    upload: 'رفع',
+    removeFile: 'حذف الملف'
   },
   CloseButton: {
     closeLabel: 'اغلق'

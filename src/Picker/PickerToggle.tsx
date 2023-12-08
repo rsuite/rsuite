@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import CloseButton from '../CloseButton';
-import { useClassNames, KEY_VALUES, mergeRefs } from '../utils';
+import { useClassNames, useCustom, KEY_VALUES, mergeRefs } from '../utils';
 import { RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
 import useToggleCaret from '../utils/useToggleCaret';
@@ -94,6 +94,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       ...rest
     } = props;
 
+    const { locale } = useCustom();
     const inputRef = useRef<HTMLInputElement>(null);
     const comboboxRef = useRef<HTMLDivElement>(null);
     const [activeState, setActive] = useState(false);
@@ -289,7 +290,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
             <CloseButton
               className={prefix`clean`}
               tabIndex={-1}
-              locale={{ closeLabel: 'Clear' }}
+              locale={{ closeLabel: locale?.clear }}
               onClick={handleClean}
             />
           )}

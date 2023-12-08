@@ -15,7 +15,9 @@ const App = () => {
         action="//jsonplaceholder.typicode.com/posts/"
         onChange={setFileList}
         ref={uploader}
-      />
+      >
+        <Button>Select files...</Button>
+      </Uploader>
       <hr />
       <Button
         disabled={!fileList.length}

@@ -22,7 +22,9 @@ const Calendar = {
 export default {
   common: {
     loading: 'در حال بارگذاری...',
-    emptyMessage: 'داده ایی پیدا نشد'
+    emptyMessage: 'داده ایی پیدا نشد',
+    remove: 'برداشتن',
+    clear: 'پاک کردن'
   },
   Plaintext: {
     unfilled: 'خالی',
@@ -63,7 +65,8 @@ export default {
     error: 'مشکل',
     complete: 'تمام شد',
     emptyFile: 'خالی',
-    upload: 'اپلود'
+    upload: 'اپلود',
+    removeFile: 'حذف فایل'
   },
   CloseButton: {
     closeLabel: 'بستن'

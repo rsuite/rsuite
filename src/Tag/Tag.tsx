@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
+import { useClassNames, useCustom } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import CloseButton from '../CloseButton';
 
@@ -36,11 +36,19 @@ const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: 
 
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(size, color, { closable }));
+  const { locale } = useCustom();
 
   return (
     <Component {...rest} ref={ref} className={classes}>
       <span className={prefix`text`}>{children}</span>
-      {closable && <CloseButton className={prefix`icon-close`} onClick={onClose} />}
+      {closable && (
+        <CloseButton
+          className={prefix`icon-close`}
+          onClick={onClose}
+          tabIndex={-1}
+          locale={{ closeLabel: locale?.remove }}
+        />
+      )}
     </Component>
   );
 });

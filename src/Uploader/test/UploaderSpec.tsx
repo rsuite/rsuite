@@ -12,16 +12,15 @@ import userEvent from '@testing-library/user-event';
 describe('Uploader', () => {
   testStandardProps(<Uploader action="" />);
   it('Should output a Uploader', () => {
-    const { container } = render(<Uploader action="" />);
+    render(<Uploader action="" />);
 
-    expect(container.firstChild).to.have.class('rs-uploader');
+    expect(screen.getByRole('button')).to.have.class('rs-uploader-trigger-btn');
   });
 
   it('Should be disabled', () => {
-    const { container } = render(<Uploader action="" disabled />);
+    render(<Uploader action="" disabled />);
 
-    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    assert.ok(container.querySelector('.rs-uploader-trigger-disabled'));
+    expect(screen.getByRole('button')).to.have.attr('disabled');
   });
 
   it('Should render picture type', () => {
@@ -41,7 +40,7 @@ describe('Uploader', () => {
       <Uploader action="" fileList={fileList} fileListVisible={false} />
     );
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
-    assert.ok(!container.querySelector('.rs-uploader-file-items'));
+    expect(container.querySelector('.rs-uploader-file-items')).to.not.exist;
   });
 
   it('Should render custom component', () => {
@@ -64,8 +63,8 @@ describe('Uploader', () => {
     const instance = getInstance(<Uploader name="file" action="" onUpload={onUploadSpy} />);
     instance.start(file);
 
-    assert.ok(onUploadSpy.args[0][1] instanceof FormData);
-    assert.ok(onUploadSpy.calledOnce);
+    expect(onUploadSpy.args[0][1] instanceof FormData).to.equal(true);
+    expect(onUploadSpy).to.been.calledOnce;
   });
 
   it('Should call `onUpload` callback', () => {
@@ -74,7 +73,8 @@ describe('Uploader', () => {
 
     const instance = getInstance(<Uploader name="file" action="" onUpload={onUploadSpy} />);
     instance.start(file);
-    assert.ok(onUploadSpy.calledOnce);
+
+    expect(onUploadSpy).to.been.calledOnce;
   });
 
   it('Should upload a FormData', () => {
@@ -84,7 +84,7 @@ describe('Uploader', () => {
     const instance = getInstance(<Uploader name="file" action="" onUpload={onUploadSpy} />);
     instance.start(file);
 
-    assert.ok(onUploadSpy.args[0][1] instanceof FormData);
+    expect(onUploadSpy.args[0][1] instanceof FormData).to.equal(true);
   });
 
   it('Should upload a File', () => {
@@ -96,7 +96,7 @@ describe('Uploader', () => {
     );
     instance.start(file);
 
-    assert.ok(onUploadSpy.args[0][1] instanceof File);
+    expect(onUploadSpy.args[0][1] instanceof File).to.equal(true);
   });
 
   it('Should call `onChange` callback', () => {
@@ -109,16 +109,21 @@ describe('Uploader', () => {
     // eslint-disable-next-line testing-library/no-node-access
     const input = instance.root.querySelector('input');
     ReactTestUtils.Simulate.change(input);
-    assert.ok(onUploadSpy.calledOnce);
+
+    expect(onUploadSpy).to.been.calledOnce;
   });
 
   it('Should call `onRemove` callback', () => {
     const onRemoveSpy = sinon.spy();
-    const file = { blobFile: new File(['foo'], 'foo.txt'), status: 'finished' } as const;
+    const file = {
+      blobFile: new File(['foo'], 'foo.txt'),
+      status: 'finished',
+      name: 'foo.txt'
+    } as const;
 
     render(<Uploader name="file" action="" onRemove={onRemoveSpy} defaultFileList={[file]} />);
 
-    userEvent.click(screen.getByRole('button', { name: /close/i }));
+    userEvent.click(screen.getByRole('button', { name: 'Remove file: foo.txt' }));
 
     expect(onRemoveSpy).to.have.been.calledOnce;
   });

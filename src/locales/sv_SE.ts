@@ -26,7 +26,9 @@ const Calendar = {
 export default {
   common: {
     loading: 'Laddar...',
-    emptyMessage: 'Kunde inte hitta data'
+    emptyMessage: 'Kunde inte hitta data',
+    remove: 'Ta bort',
+    clear: 'Rensa'
   },
   Plaintext: {
     unfilled: 'Ofylld',
@@ -67,7 +69,8 @@ export default {
     error: 'Fel',
     complete: 'Färdig',
     emptyFile: 'Tom',
-    upload: 'Ladda upp'
+    upload: 'Ladda upp',
+    removeFile: 'Radera filer'
   },
   CloseButton: {
     closeLabel: 'Stänga av'

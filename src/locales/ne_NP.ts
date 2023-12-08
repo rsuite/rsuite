@@ -26,7 +26,9 @@ const Calendar = {
 export default {
   common: {
     loading: 'लोड हुँदैछ...',
-    emptyMessage: 'कुनै डाटा छैन'
+    emptyMessage: 'कुनै डाटा छैन',
+    remove: 'हटाउनुहोस्',
+    clear: 'खाली गर्नुहोस्'
   },
   Plaintext: {
     unfilled: 'भरिएको छैन',
@@ -67,7 +69,8 @@ export default {
     error: 'त्रुटि भयो',
     complete: 'समाप्त',
     emptyFile: 'खाली',
-    upload: 'अपलोड गर्नुहोस्'
+    upload: 'अपलोड गर्नुहोस्',
+    removeFile: 'फाइल हटाउनुहोस्'
   },
   CloseButton: {
     closeLabel: 'बन्द गर्नुहोस्'

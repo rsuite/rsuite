@@ -7,10 +7,15 @@ describe('CloseButton', () => {
   testStandardProps(<CloseButton />);
 
   it('Should render a button', () => {
-    const title = 'Test';
-    const { container } = render(<CloseButton>{title}</CloseButton>);
+    render(<CloseButton />);
 
-    expect(container.firstChild).to.have.class('rs-btn-close');
-    expect(screen.getByRole('button', { name: 'Close' })).to.have.attr('title', 'Close');
+    expect(screen.getByRole('button', { name: 'Close' })).to.have.property('tagName', 'BUTTON');
+    expect(screen.getByRole('button', { name: 'Close' })).to.have.class('rs-btn-close');
+  });
+
+  it('Should customize aria-label', () => {
+    render(<CloseButton locale={{ closeLabel: 'Remove Item' }} />);
+
+    expect(screen.getByRole('button', { name: 'Remove Item' })).to.exist;
   });
 });

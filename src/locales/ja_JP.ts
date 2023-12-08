@@ -26,7 +26,9 @@ const Calendar = {
 export default {
   common: {
     loading: '読み込み中...',
-    emptyMessage: 'データはありません。'
+    emptyMessage: 'データはありません。',
+    remove: '取り除く',
+    clear: 'クリア'
   },
   Plaintext: {
     unfilled: '未記入',
@@ -67,7 +69,8 @@ export default {
     error: 'エラー',
     complete: '終了',
     emptyFile: '空',
-    upload: 'アップロード'
+    upload: 'アップロード',
+    removeFile: 'ファイル削除'
   },
   CloseButton: {
     closeLabel: '終了'
