@@ -294,6 +294,12 @@
     }
   },
   {
+    "id": "date-input",
+    "name": "DateInput",
+    "title": "日期输入框",
+    "components": ["DateInput"]
+  },
+  {
     "id": "date-picker",
     "name": "DatePicker",
     "title": "日期选择器",

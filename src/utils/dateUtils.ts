@@ -10,6 +10,10 @@ import set from 'date-fns/set';
 
 export { default as addDays } from 'date-fns/addDays';
 export { default as addMonths } from 'date-fns/addMonths';
+export { default as addYears } from 'date-fns/addYears';
+export { default as addSeconds } from 'date-fns/addSeconds';
+export { default as addMinutes } from 'date-fns/addMinutes';
+export { default as addHours } from 'date-fns/addHours';
 export { default as compareAsc } from 'date-fns/compareAsc';
 export { default as endOfDay } from 'date-fns/endOfDay';
 export { default as endOfISOWeek } from 'date-fns/endOfISOWeek';

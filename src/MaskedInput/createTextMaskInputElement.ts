@@ -3,12 +3,10 @@ import isNumber from 'lodash/isNumber';
 import adjustCaretPosition from './adjustCaretPosition';
 import conformToMask from './conformToMask';
 import { convertMaskToPlaceholder, processCaretTraps, defaultPlaceholderChar } from './utilities';
+import safeSetSelection from '../utils/safeSetSelection';
 
 const emptyString = '';
-const strNone = 'none';
 const strObject = 'object';
-const isAndroid = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent);
-const defer = typeof requestAnimationFrame !== 'undefined' ? requestAnimationFrame : setTimeout;
 
 export default function createTextMaskInputElement(config?) {
   // Anything that we will need to keep between `update` calls, we will store in this `state` object.
@@ -144,7 +142,7 @@ export default function createTextMaskInputElement(config?) {
         // indicate rejection. Or return just a string when there are no piped characters.
         // If the `pipe` returns `false` or a string, the block below turns it into an object that the rest
         // of the code can work with.
-        if (pipeResults === false) {
+        if (typeof pipeResults === 'boolean' && pipeResults === false) {
           // If the `pipe` rejects `conformedValue`, we use the `previousConformedValue`, and set `rejected` to `true`.
           pipeResults = { value: previousConformedValue, rejected: true };
         } else if (isString(pipeResults)) {
@@ -187,19 +185,12 @@ export default function createTextMaskInputElement(config?) {
       }
 
       inputElement.value = inputElementValue; // set the input value
-      safeSetSelection(inputElement, adjustedCaretPosition); // adjust caret position
+
+      if (typeof adjustedCaretPosition === 'number') {
+        safeSetSelection(inputElement, adjustedCaretPosition, adjustedCaretPosition); // adjust caret position
+      }
     }
   };
-}
-
-function safeSetSelection(element, selectionPosition) {
-  if (document.activeElement === element) {
-    if (isAndroid) {
-      defer(() => element.setSelectionRange(selectionPosition, selectionPosition, strNone), 0);
-    } else {
-      element.setSelectionRange(selectionPosition, selectionPosition, strNone);
-    }
-  }
 }
 
 function getSafeRawValue(inputValue) {
