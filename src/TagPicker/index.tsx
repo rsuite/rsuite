@@ -5,10 +5,17 @@ import type { PickerComponent } from '../Picker/types';
 import type { CheckboxProps } from '../Checkbox';
 
 export interface TagPickerProps extends InputPickerProps, Partial<TagOnlyProps> {
-  /** Custom render checkbox on menu item */
+  /**
+   * Custom render checkbox on menu item
+   * @version 5.47.0
+   **/
   renderMenuItemCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
 }
 
+/**
+ * Multi-select by tag and support new options
+ * @see https://rsuitejs.com/components/tag-picker/
+ */
 const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(
   (props: TagPickerProps, ref) => {
     const {

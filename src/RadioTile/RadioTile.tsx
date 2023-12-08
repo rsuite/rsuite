@@ -40,6 +40,11 @@ export interface RadioTileProps<T = ValueType>
   onChange?: (value?: T, event?: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
+/**
+ * A series of selectable tile components that behave like Radio.
+ * @version 5.35.0
+ * @see https://rsuitejs.com/components/radio-tile/
+ */
 const RadioTile = React.forwardRef((props: RadioTileProps, ref) => {
   const {
     value: groupValue,
