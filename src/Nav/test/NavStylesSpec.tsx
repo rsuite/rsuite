@@ -1,24 +1,21 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Nav from '../Nav';
-import { getDOMNode, getStyle } from '@test/testUtils';
 
 import '../styles/index.less';
 
 describe('Nav styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(<Nav ref={instanceRef} />);
-    const dom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(dom, 'position'), 'relative', 'Nav position');
+    render(<Nav data-testid="nav" />);
+    expect(screen.getByTestId('nav')).to.have.style('position', 'relative');
   });
 
   it('Should render <Dropdown> as subtle appearance', () => {
     render(
       <Nav>
-        <Nav.Dropdown title="Dropdown">
-          <Nav.Dropdown.Item>Dropdown item</Nav.Dropdown.Item>
-        </Nav.Dropdown>
+        <Nav.Menu title="Dropdown">
+          <Nav.Item>Dropdown item</Nav.Item>
+        </Nav.Menu>
       </Nav>
     );
 
