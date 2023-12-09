@@ -1,25 +1,25 @@
 <!--start-code-->
 
 ```js
-import { Input, InputGroup, Stack } from 'rsuite';
-import SearchIcon from '@rsuite/icons/Search';
+import { DateInput, InputGroup, Stack } from 'rsuite';
+import CalendarIcon from '@rsuite/icons/Calendar';
 
 const App = () => (
   <Stack spacing={10} direction="column" alignItems="flex-start">
     <label>Disabled:</label>
-    <Input disabled value="A piece of text for demonstration." />
+    <DateInput disabled value={new Date()} />
     <InputGroup disabled>
-      <Input value="A piece of text for demonstration." />
+      <DateInput value={new Date()} />
       <InputGroup.Addon>
-        <SearchIcon />
+        <CalendarIcon />
       </InputGroup.Addon>
     </InputGroup>
 
     <label>Read only:</label>
-    <Input readOnly value="A piece of text for demonstration." />
+    <DateInput readOnly value={new Date()} />
 
     <label>Plaintext:</label>
-    <Input plaintext value="A piece of text for demonstration." />
+    <DateInput plaintext value={new Date()} />
   </Stack>
 );
 

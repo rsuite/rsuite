@@ -297,7 +297,8 @@
     "id": "date-input",
     "name": "DateInput",
     "title": "日期输入框",
-    "components": ["DateInput"]
+    "components": ["DateInput"],
+    "new": true
   },
   {
     "id": "date-picker",

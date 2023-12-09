@@ -24,6 +24,7 @@ export { default as reactToString } from './reactToString';
 export { default as scrollTopAnimation } from './scrollTopAnimation';
 export { default as appendTooltip } from './appendTooltip';
 export { default as render } from './render';
+export { default as safeSetSelection } from './safeSetSelection';
 
 /** Hooks **/
 export { default as useClassNames } from './useClassNames';

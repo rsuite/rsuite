@@ -1,10 +1,25 @@
 import { useCallback } from 'react';
 import startCase from 'lodash/startCase';
-import { addDays, addMonths, addYears, addHours, addMinutes, addSeconds } from '../utils/dateUtils';
+import {
+  addDays,
+  addMonths,
+  addYears,
+  addHours,
+  addMinutes,
+  addSeconds,
+  format
+} from '../utils/dateUtils';
 import { useDateFiled, patternMap } from './DateFiled';
 import type { Locale } from 'date-fns';
 
-function useDateInputState(formatStr: string, localize: Locale['localize'], date?: Date | null) {
+interface DateInputState {
+  formatStr: string;
+  localize: Locale['localize'];
+  date?: Date | null;
+  isControlledDate?: boolean;
+}
+
+function useDateInputState({ formatStr, localize, date, isControlledDate }: DateInputState) {
   const { dateFiled, dispatch, toDateString, toDate } = useDateFiled(formatStr, localize, date);
 
   const setDateOffset = useCallback(
@@ -85,12 +100,16 @@ function useDateInputState(formatStr: string, localize: Locale['localize'], date
     [dateFiled]
   );
 
+  const toControlledDateString = useCallback(() => {
+    return format(date || new Date(), formatStr);
+  }, [date, formatStr]);
+
   return {
     dateFiled,
     setDateOffset,
     setDateField,
     getDateField,
-    toDateString
+    toDateString: isControlledDate ? toControlledDateString : toDateString
   };
 }
 
