@@ -13,7 +13,7 @@ export const patternMap = {
   a: 'meridian'
 };
 
-export class DateFiled extends Object {
+export class DateField extends Object {
   format: string;
   patternArray: { pattern: string; key: string }[] = [];
   year: number | null = null;
@@ -68,8 +68,8 @@ function padNumber(number: number, length: number) {
   return numberString;
 }
 
-export const useDateFiled = (format: string, localize: Locale['localize'], date?: Date | null) => {
-  const [dateFiled, dispatch] = useReducer((state: DateFiled, action: any) => {
+export const useDateField = (format: string, localize: Locale['localize'], date?: Date | null) => {
+  const [dateField, dispatch] = useReducer((state: DateField, action: any) => {
     switch (action.type) {
       case 'setYear':
         return { ...state, year: action.value };
@@ -88,13 +88,13 @@ export const useDateFiled = (format: string, localize: Locale['localize'], date?
       default:
         return state;
     }
-  }, new DateFiled(format, date));
+  }, new DateField(format, date));
 
   const toDateString = () => {
     let str = format;
-    dateFiled.patternArray.forEach(item => {
+    dateField.patternArray.forEach(item => {
       const { key, pattern } = item;
-      let value = dateFiled[key];
+      let value = dateField[key];
 
       if (value !== null) {
         if (pattern === 'MMM' && typeof value === 'number') {
@@ -109,6 +109,7 @@ export const useDateFiled = (format: string, localize: Locale['localize'], date?
         if (typeof value === 'number') {
           value = padNumber(value, pattern.length);
         }
+
         str = str.replace(pattern, value);
       }
     });
@@ -123,12 +124,12 @@ export const useDateFiled = (format: string, localize: Locale['localize'], date?
 
     return modifyDate(
       new Date(
-        dateFiled.year,
-        dateFiled.month ? dateFiled.month - 1 : 0,
-        dateFiled.day,
-        dateFiled.hour,
-        dateFiled.minute,
-        dateFiled.second
+        dateField.year,
+        dateField.month ? dateField.month - 1 : 0,
+        dateField.day,
+        dateField.hour,
+        dateField.minute,
+        dateField.second
       ),
       type,
       value
@@ -136,7 +137,7 @@ export const useDateFiled = (format: string, localize: Locale['localize'], date?
   };
 
   return {
-    dateFiled,
+    dateField,
     dispatch,
     toDate,
     toDateString

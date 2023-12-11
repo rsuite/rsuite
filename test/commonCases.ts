@@ -59,7 +59,7 @@ export function testStyleProp(
   });
 }
 
-export function testStandardProps(element, options) {
+export function testStandardProps(element, options: any = {}) {
   describe('Standard props', () => {
     testTestIdProp(element, options?.renderOptions);
     if (options?.customClassName !== false) {

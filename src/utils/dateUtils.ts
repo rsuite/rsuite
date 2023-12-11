@@ -51,6 +51,8 @@ export { default as isMatch } from 'date-fns/isMatch';
 export { default as isValid } from 'date-fns/isValid';
 export { default as set } from 'date-fns/set';
 export { default as differenceInCalendarMonths } from 'date-fns/differenceInCalendarMonths';
+export { default as isLastDayOfMonth } from 'date-fns/isLastDayOfMonth';
+export { default as lastDayOfMonth } from 'date-fns/lastDayOfMonth';
 
 const disabledTimeProps = ['disabledHours', 'disabledMinutes', 'disabledSeconds'];
 const hideTimeProps = ['hideHours', 'hideMinutes', 'hideSeconds'];

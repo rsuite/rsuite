@@ -340,7 +340,7 @@
     "id": "input",
     "name": "Input",
     "title": "输入框",
-    "components": ["Input", "InputGroup", "InputGroup.Button", "InputGroup.Addon"],
+    "components": ["Input", "InputGroup", "InputGroup.Button", "InputGroup.Addon", "MaskedInput"],
     "designHash": {
       "default": "46",
       "dark": "46"

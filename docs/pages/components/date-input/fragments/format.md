@@ -12,6 +12,7 @@ const App = () => (
     <DateInput format="yyyy年MM月dd日" />
     <DateInput format="MM/dd/yyyy HH:mm" />
     <DateInput format="MM/dd/yyyy hh:mm aa" />
+    <DateInput format="HH:mm:ss" />
   </Stack>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

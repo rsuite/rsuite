@@ -7,9 +7,11 @@ import {
   addHours,
   addMinutes,
   addSeconds,
-  format
+  format,
+  isLastDayOfMonth,
+  lastDayOfMonth
 } from '../utils/dateUtils';
-import { useDateFiled, patternMap } from './DateFiled';
+import { useDateField, patternMap } from './DateField';
 import type { Locale } from 'date-fns';
 
 interface DateInputState {
@@ -20,17 +22,17 @@ interface DateInputState {
 }
 
 function useDateInputState({ formatStr, localize, date, isControlledDate }: DateInputState) {
-  const { dateFiled, dispatch, toDateString, toDate } = useDateFiled(formatStr, localize, date);
+  const { dateField, dispatch, toDateString, toDate } = useDateField(formatStr, localize, date);
 
   const setDateOffset = useCallback(
     (pattern: string, offset: number, callback?: (newDate: Date) => void) => {
       const currentDate = new Date();
-      const year = dateFiled.year || currentDate.getFullYear();
-      const month = dateFiled.month ? dateFiled.month - 1 : currentDate.getMonth();
-      const day = dateFiled.day || 0;
-      const hour = dateFiled.hour || 0;
-      const minute = dateFiled.minute || 0;
-      const second = dateFiled.second || 0;
+      const year = dateField.year || currentDate.getFullYear();
+      const month = dateField.month ? dateField.month - 1 : currentDate.getMonth();
+      const day = dateField.day || 0;
+      const hour = dateField.hour || 0;
+      const minute = dateField.minute || 0;
+      const second = dateField.second || 0;
 
       let actionName;
       let value;
@@ -46,7 +48,15 @@ function useDateInputState({ formatStr, localize, date, isControlledDate }: Date
           break;
         case 'd':
           actionName = 'setDay';
-          value = addDays(new Date(year, month, day), offset).getDate();
+          const prevDate = new Date(year, month, day);
+
+          value = addDays(prevDate, offset).getDate();
+
+          if (offset > 0) {
+            value = isLastDayOfMonth(prevDate) ? 1 : value;
+          } else {
+            value = prevDate.getDate() === 1 ? lastDayOfMonth(prevDate).getDate() : value;
+          }
           break;
         case 'H':
         case 'h':
@@ -60,9 +70,10 @@ function useDateInputState({ formatStr, localize, date, isControlledDate }: Date
         case 's':
           actionName = 'setSecond';
           value = addSeconds(new Date(year, month, day, hour, minute, second), offset).getSeconds();
+          break;
         case 'a':
           actionName = 'setMeridian';
-          value = dateFiled.meridian === 'AM' ? 'PM' : 'AM';
+          value = dateField.meridian === 'AM' ? 'PM' : 'AM';
           break;
       }
 
@@ -74,7 +85,7 @@ function useDateInputState({ formatStr, localize, date, isControlledDate }: Date
         callback?.(toDate(field, value));
       }
     },
-    [dateFiled, toDate, dispatch]
+    [dateField, toDate, dispatch]
   );
 
   const setDateField = useCallback(
@@ -94,10 +105,10 @@ function useDateInputState({ formatStr, localize, date, isControlledDate }: Date
       const fieldName = patternMap[pattern];
       return {
         name: fieldName,
-        value: dateFiled[fieldName]
+        value: dateField[fieldName]
       };
     },
-    [dateFiled]
+    [dateField]
   );
 
   const toControlledDateString = useCallback(() => {
@@ -105,7 +116,7 @@ function useDateInputState({ formatStr, localize, date, isControlledDate }: Date
   }, [date, formatStr]);
 
   return {
-    dateFiled,
+    dateField,
     setDateOffset,
     setDateField,
     getDateField,
