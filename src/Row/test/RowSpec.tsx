@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
+import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import Row from '../Row';
 
@@ -7,24 +7,27 @@ describe('Row', () => {
   testStandardProps(<Row />);
 
   it('Should render a row', () => {
-    const instance = getDOMNode(
+    render(
       <Row>
         <div />
       </Row>
     );
-    assert.include(instance.className, 'rs-row');
+
+    expect(screen.getByRole('row')).to.have.class('rs-row');
   });
 
   it('Should render a gutter', () => {
-    const instance = getDOMNode(
+    render(
       <Row gutter={10}>
         <div />
       </Row>
     );
 
-    assert.equal(instance.style.marginLeft, '-5px');
-    assert.equal(instance.style.marginRight, '-5px');
-    assert.equal((instance.childNodes[0] as HTMLElement).style.paddingLeft, '5px');
-    assert.equal((instance.childNodes[0] as HTMLElement).style.paddingRight, '5px');
+    const row = screen.getByRole('row');
+
+    expect(row).to.have.style('margin-left', '-5px');
+    expect(row).to.have.style('margin-right', '-5px');
+    expect(row.firstChild).to.have.style('padding-left', '5px');
+    expect(row.firstChild).to.have.style('padding-right', '5px');
   });
 });
