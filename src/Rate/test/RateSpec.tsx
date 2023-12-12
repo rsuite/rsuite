@@ -1,7 +1,8 @@
+/* eslint-disable testing-library/no-node-access, testing-library/no-container */
 import React from 'react';
 import { render, act, screen } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
+import userEvent from '@testing-library/user-event';
 import { testStandardProps } from '@test/commonCases';
 import CameraRetro from '@rsuite/icons/legacy/CameraRetro';
 import Star from '@rsuite/icons/legacy/Star';
@@ -12,94 +13,67 @@ describe('Rate', () => {
   testStandardProps(<Rate />);
 
   it('Should render a default Rate', () => {
-    const instance = getDOMNode(<Rate />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('li.rs-rate-character-empty').length, 5);
+    render(<Rate />);
+    expect(screen.getByRole('radiogroup')).to.exist;
+    expect(screen.getAllByRole('radio')).to.have.length(5);
   });
 
   it('Should allow half select, value is 0.5', () => {
-    const instance = getDOMNode(<Rate allowHalf defaultValue={0.5} />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('.rs-rate-character-half').length, 1);
+    render(<Rate allowHalf defaultValue={0.5} />);
+    expect(screen.getAllByRole('radio')[0]).to.have.class('rs-rate-character-half');
   });
 
   it('Should allow clean full value', () => {
     const ref = React.createRef<HTMLUListElement>();
     render(<Rate defaultValue={1} ref={ref} />);
 
-    act(() => {
-      ReactTestUtils.Simulate.click(
-        // eslint-disable-next-line testing-library/no-node-access
-        (ref.current as HTMLElement).querySelector('.rs-rate-character-full') as HTMLElement
-      );
-    });
+    userEvent.click(
+      (ref.current as HTMLElement).querySelector('.rs-rate-character-full') as HTMLElement
+    );
 
     assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as HTMLElement).querySelectorAll('.rs-rate-character-full').length,
       0
     );
   });
 
   it('Should allow clean half value', () => {
-    const instance = getDOMNode(<Rate defaultValue={0.5} allowHalf />);
-    ReactTestUtils.Simulate.mouseMove(
-      // eslint-disable-next-line testing-library/no-node-access
-      instance.querySelector('.rs-rate-character-before') as HTMLElement
-    );
-    ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      instance.querySelector('.rs-rate-character-before') as HTMLElement
-    );
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('.rs-rate-character-full').length, 0);
+    const { container } = render(<Rate defaultValue={0.5} allowHalf />);
+
+    userEvent.hover(container.querySelector('.rs-rate-character-before') as HTMLElement);
+    userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
+
+    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(0);
   });
 
   it('Should cant clean value', () => {
-    const instance = getDOMNode(<Rate defaultValue={0.5} allowHalf cleanable={false} />);
-    ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      instance.querySelector('.rs-rate-character-before') as HTMLElement
-    );
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('.rs-rate-character-half').length, 1);
+    const { container } = render(<Rate defaultValue={0.5} allowHalf cleanable={false} />);
+    userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
+    expect(container.querySelectorAll('.rs-rate-character-half')).to.have.length(1);
   });
 
-  it('Should render same value when click again after clean', () => {
-    // half
-    const instance1 = getDOMNode(<Rate defaultValue={0.5} allowHalf />);
-    ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      instance1.querySelector('.rs-rate-character-before') as HTMLElement
-    );
-    ReactTestUtils.Simulate.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      instance1.querySelector('.rs-rate-character-before') as HTMLElement
-    );
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance1.querySelectorAll('.rs-rate-character-half').length, 1);
+  it('Should render same value for a half-rate when click again after clean ', () => {
+    const { container } = render(<Rate defaultValue={0.5} allowHalf />);
+    userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
+    userEvent.click(container.querySelector('.rs-rate-character-before') as HTMLElement);
+    expect(container.querySelectorAll('.rs-rate-character-half')).to.have.length(1);
+  });
 
-    // full
-    const instance2 = getDOMNode(<Rate defaultValue={1} />);
-    // eslint-disable-next-line testing-library/no-node-access
-    ReactTestUtils.Simulate.click(instance2.querySelector('.rs-rate-character') as HTMLElement);
-    // eslint-disable-next-line testing-library/no-node-access
-    ReactTestUtils.Simulate.click(instance2.querySelector('.rs-rate-character') as HTMLElement);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance2.querySelectorAll('.rs-rate-character-full').length, 1);
+  it('Should render same value for a full-rate when click again after clean ', () => {
+    const { container } = render(<Rate defaultValue={1} />);
+    userEvent.click(container.querySelector('.rs-rate-character') as HTMLElement);
+    userEvent.click(container.querySelector('.rs-rate-character') as HTMLElement);
+    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(1);
   });
 
   it('Should render A character', () => {
-    const instance = getDOMNode(<Rate defaultValue={1} character="A" />);
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access
-      (instance.querySelector('.rs-rate-character-before') as HTMLElement).textContent,
-      'A'
-    );
+    const { container } = render(<Rate defaultValue={1} character="A" />);
+
+    expect(container.querySelector('.rs-rate-character-before') as HTMLElement).to.have.text('A');
   });
 
   it('Should render a custom character', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Rate
         defaultValue={4}
         renderCharacter={value => {
@@ -111,35 +85,29 @@ describe('Rate', () => {
       />
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.isNotNull(instance.querySelector('[aria-label="camera retro"]'));
+    expect(container.querySelector('[aria-label="camera retro"]')).to.exist;
   });
 
   it('Should disabled,cant click', () => {
-    const instance = getDOMNode(<Rate defaultValue={1} disabled />);
-    // eslint-disable-next-line testing-library/no-node-access
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-rate-character')[3]);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('.rs-rate-character-full').length, 1);
+    const { container } = render(<Rate defaultValue={1} disabled />);
+    userEvent.click(container.querySelectorAll('.rs-rate-character')[3]);
+    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(1);
   });
 
   it('Should disabled,cant hover', () => {
-    const instance = getDOMNode(<Rate defaultValue={1} disabled />);
-    // eslint-disable-next-line testing-library/no-node-access
-    ReactTestUtils.Simulate.mouseMove(instance.querySelectorAll('.rs-rate-character')[3]);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('.rs-rate-character-full').length, 1);
+    const { container } = render(<Rate defaultValue={1} disabled />);
+    userEvent.hover(container.querySelectorAll('.rs-rate-character')[3]);
+    expect(container.querySelectorAll('.rs-rate-character-full')).to.have.length(1);
   });
 
   it('Should render 10 characters', () => {
-    const instance = getDOMNode(<Rate max={10} />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('.rs-rate-character').length, 10);
+    render(<Rate max={10} />);
+    expect(screen.getAllByRole('radio')).to.have.length(10);
   });
 
   it('Should render lg size character', () => {
-    const instance = getDOMNode(<Rate size="lg" character="A" />);
-    assert.include(instance.className, 'rs-rate-lg');
+    render(<Rate size="lg" character="A" />);
+    expect(screen.getByRole('radiogroup')).to.have.class('rs-rate-lg');
   });
 
   it('Should call onChange callback with correct value', () => {
@@ -148,19 +116,9 @@ describe('Rate', () => {
     const ref = React.createRef<HTMLUListElement>();
     render(<Rate ref={ref} defaultValue={1} onChange={onChange} />);
 
-    act(() => {
-      ReactTestUtils.Simulate.mouseMove(
-        // eslint-disable-next-line testing-library/no-node-access
-        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character-before')[2]
-      );
-    });
+    userEvent.hover((ref.current as HTMLElement).querySelectorAll('.rs-rate-character-before')[2]);
 
-    act(() => {
-      ReactTestUtils.Simulate.click(
-        // eslint-disable-next-line testing-library/no-node-access
-        (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2]
-      );
-    });
+    userEvent.click((ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2]);
 
     expect(onChange).to.have.been.calledWith(3);
   });
@@ -174,7 +132,6 @@ describe('Rate', () => {
 
     act(() => {
       ReactTestUtils.Simulate.keyDown(
-        // eslint-disable-next-line testing-library/no-node-access
         (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[1],
         {
           key: 'ArrowRight'
@@ -184,7 +141,6 @@ describe('Rate', () => {
 
     act(() => {
       ReactTestUtils.Simulate.keyDown(
-        // eslint-disable-next-line testing-library/no-node-access
         (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2],
         {
           key: 'ArrowRight'
@@ -194,7 +150,6 @@ describe('Rate', () => {
 
     act(() => {
       ReactTestUtils.Simulate.keyDown(
-        // eslint-disable-next-line testing-library/no-node-access
         (ref.current as HTMLElement).querySelectorAll('.rs-rate-character')[2],
         {
           key: 'Enter'
@@ -206,9 +161,8 @@ describe('Rate', () => {
   });
 
   it('Should be vertical', () => {
-    const instance = getDOMNode(<Rate defaultValue={1.5} vertical allowHalf />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.ok(instance.querySelectorAll('.rs-rate-character-vertical').length);
+    const { container } = render(<Rate defaultValue={1.5} vertical allowHalf />);
+    expect(container.querySelectorAll('.rs-rate-character-vertical')).to.have.length(5);
   });
 
   it('Should update characterMap when value is updated', () => {
@@ -233,7 +187,6 @@ describe('Rate', () => {
     render(<TestApp ref={ref} />);
 
     expect(
-      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as TestAppInstance).root.querySelector('[aria-checked="true"]') as HTMLElement
     ).to.have.attr('aria-posinset', '2');
 
@@ -242,7 +195,6 @@ describe('Rate', () => {
     });
 
     assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access
       (ref.current as TestAppInstance).root.querySelectorAll('[aria-checked="false"]').length,
       5
     );
