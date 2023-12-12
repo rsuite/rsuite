@@ -97,6 +97,9 @@ export interface AutoCompleteProps<T = ValueType>
 }
 
 /**
+ * Autocomplete function of input field.
+ * @see https://rsuitejs.com/components/auto-complete
+ *
  * TODO: Remove unnecessary .rs-auto-complete element
  * TODO: role=combobox and aria-autocomplete on input element
  */

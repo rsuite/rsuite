@@ -117,6 +117,12 @@ function useFixed(offset: Offset | null, containerOffset: Offset | null, props: 
   return fixed;
 }
 
+/**
+ * Components such as navigation, buttons, etc. can be fixed in the visible range.
+ * Commonly used for pages with long content, fixed the specified elements in the visible range of the page to assist in quick operation.
+ *
+ * @see https://rsuitejs.com/components/affix/
+ */
 const Affix: RsRefForwardingComponent<'div', AffixProps> = React.forwardRef(
   (props: AffixProps, ref) => {
     const {

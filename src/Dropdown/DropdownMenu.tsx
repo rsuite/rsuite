@@ -42,11 +42,11 @@ export interface DropdownMenuProps<T = string> extends StandardProps {
 }
 
 /**
- * The <Dropdown.Menu> API
+ * The `<Dropdown.Menu>` API
  *
  * @description
- * Note the difference between this component and <Menu> component:
- * <Menu> is used for ARIA menu control logic and is used internally only.
+ * Note the difference between this component and `<Menu>` component:
+ * `<Menu>` is used for ARIA menu control logic and is used internally only.
  * This component is only used for supporting submenu syntax and is
  * assigned to Dropdown.Menu
  *

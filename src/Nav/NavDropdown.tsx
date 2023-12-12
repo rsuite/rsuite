@@ -95,8 +95,9 @@ export interface NavDropdownComponent extends RsRefForwardingComponent<'div', Na
 
 /**
  * @private this component is not supposed to be used directly
- *          Instead it's rendered by a <Nav.Menu> call
+ *          Instead it's rendered by a `<Nav.Menu>` call
  *
+ * @example
  * <Nav>
  *   <Nav.Menu> -> This will render <NavDropdown> component
  *   </Nav.Menu>

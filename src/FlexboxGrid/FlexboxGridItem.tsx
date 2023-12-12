@@ -11,6 +11,10 @@ export interface FlexboxGridItemProps extends WithAsProps {
   order?: number;
 }
 
+/**
+ * The `FlexboxGrid.Item` component is used to specify the layout of the child element in the `FlexboxGrid` component.
+ * @see https://rsuitejs.com/components/flexbox-grid
+ */
 const FlexboxGridItem: RsRefForwardingComponent<'div', FlexboxGridItemProps> = React.forwardRef(
   (props: FlexboxGridItemProps, ref) => {
     const {

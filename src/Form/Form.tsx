@@ -107,6 +107,10 @@ export interface FormComponent
   HelpText: typeof FormHelpText;
 }
 
+/**
+ * The `Form` component is a form interface for collecting and validating user input.
+ * @see https://rsuitejs.com/components/form
+ */
 const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<FormInstance>) => {
   const {
     checkTrigger = 'change',

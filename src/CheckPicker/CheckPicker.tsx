@@ -70,6 +70,10 @@ export interface CheckPickerComponent {
   propTypes?: React.WeakValidationMap<CheckPickerProps<any>>;
 }
 
+/**
+ * A component for selecting checkable items in a dropdown list.
+ * @see https://rsuitejs.com/components/check-picker
+ */
 const CheckPicker = React.forwardRef(
   <T extends number | string>(props: CheckPickerProps<T>, ref: React.Ref<PickerHandle>) => {
     const {

@@ -46,6 +46,10 @@ export interface PanelProps<T = string | number> extends WithAsProps, AnimationE
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
 }
 
+/**
+ * The `Panel` component is used to display content that can be collapsed.
+ * @see https://rsuitejs.com/components/panel
+ */
 const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
   (props: PanelProps, ref) => {
     const {

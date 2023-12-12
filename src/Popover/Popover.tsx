@@ -17,6 +17,10 @@ export interface PopoverProps extends WithAsProps {
   arrow?: boolean;
 }
 
+/**
+ * The `Popover` component is used to display a popup window for a target component.
+ * @see https://rsuitejs.com/components/popover
+ */
 const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
   (props: PopoverProps, ref) => {
     const {

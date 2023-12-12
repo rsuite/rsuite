@@ -20,6 +20,10 @@ export interface PlaceholderParagraphProps extends WithAsProps {
   active?: boolean;
 }
 
+/**
+ * The `Placeholder.Paragraph` component is used to display the loading state of the block.
+ * @see https://rsuitejs.com/components/placeholder
+ */
 const PlaceholderParagraph: RsRefForwardingComponent<'div', PlaceholderParagraphProps> =
   React.forwardRef((props: PlaceholderParagraphProps, ref) => {
     const {

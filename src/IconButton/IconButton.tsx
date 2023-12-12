@@ -16,6 +16,10 @@ export interface IconButtonProps extends ButtonProps {
   placement?: 'left' | 'right';
 }
 
+/**
+ * The `IconButton` component is used to specify a button with icon.
+ * @see https://rsuitejs.com/components/button
+ */
 const IconButton: RsRefForwardingComponent<
   typeof Button,
   IconButtonProps & {

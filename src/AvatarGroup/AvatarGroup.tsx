@@ -16,6 +16,10 @@ export interface AvatarGroupProps extends WithAsProps {
 
 export const AvatarGroupContext = React.createContext<{ size?: TypeAttributes.Size }>({});
 
+/**
+ * The AvatarGroup component is used to represent a collection of avatars.
+ * @see https://rsuitejs.com/components/avatar
+ */
 const AvatarGroup: RsRefForwardingComponent<'div', AvatarGroupProps> = React.forwardRef(
   (props: AvatarGroupProps, ref) => {
     const {

@@ -35,6 +35,11 @@ export interface NotificationProps extends WithAsProps {
   onClose?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
+/**
+ * The `Notification` component is used to display global messages and notifications.
+ *
+ * @see https://rsuitejs.com/components/notification
+ */
 const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.forwardRef(
   (props: NotificationProps, ref) => {
     const {

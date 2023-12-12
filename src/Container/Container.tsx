@@ -10,6 +10,10 @@ interface ContainerContextValue {
   setHasSidebar?: (value: boolean) => void;
 }
 
+/**
+ * The Container component is used to wrap content in a themed container with a max-width.
+ * @see https://rsuitejs.com/components/container
+ */
 const Container = React.forwardRef((props: ContainerProps, ref: React.Ref<HTMLDivElement>) => {
   const {
     as: Component = 'section',

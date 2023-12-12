@@ -4,6 +4,10 @@ import { useClassNames } from '../utils';
 
 export type FadeProps = TransitionProps;
 
+/**
+ * Fade animation component
+ * @see https://rsuitejs.com/components/animation/#fade
+ */
 const Fade = React.forwardRef(
   ({ timeout = 300, className, ...props }: FadeProps, ref: React.Ref<any>) => {
     const { prefix, merge } = useClassNames('anim');

@@ -20,6 +20,10 @@ export interface ListItemProps extends WithAsProps, React.HTMLAttributes<HTMLEle
   size?: 'lg' | 'md' | 'sm';
 }
 
+/**
+ * The `List.Item` component is used to specify the layout of the list item.
+ * @see https://rsuitejs.com/components/list
+ */
 const ListItem = React.forwardRef((props: ListItemProps, ref: React.Ref<HTMLDivElement>) => {
   const {
     as: Component = 'div',

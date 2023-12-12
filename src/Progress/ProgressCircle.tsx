@@ -35,6 +35,10 @@ export interface ProgressCircleProps extends WithAsProps {
   status?: 'success' | 'fail' | 'active';
 }
 
+/**
+ * The `Progress.Circle` component is used to display the progress of current operation.
+ * @see https://rsuitejs.com/components/progress/#circle
+ */
 const ProgressCircle: RsRefForwardingComponent<'div', ProgressCircleProps> = React.forwardRef(
   (props: ProgressCircleProps, ref) => {
     const {

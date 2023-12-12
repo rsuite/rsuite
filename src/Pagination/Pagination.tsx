@@ -66,6 +66,11 @@ export interface PaginationProps extends WithAsProps {
   onSelect?: (eventKey: string | number, event: React.MouseEvent) => void;
 }
 
+/**
+ * Pagination component for displaying page numbers.
+ *
+ * @see https://rsuitejs.com/components/pagination
+ */
 const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwardRef(
   (props: PaginationProps, ref) => {
     const {

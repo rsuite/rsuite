@@ -38,6 +38,10 @@ export interface InputProps
   onPressEnter?: React.KeyboardEventHandler<HTMLInputElement>;
 }
 
+/**
+ * The `<Input>` component is used to get user input in a text field.
+ * @see https://rsuitejs.com/components/input
+ */
 const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
   (props: InputProps, ref) => {
     const {

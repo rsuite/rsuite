@@ -13,6 +13,10 @@ export interface ButtonToolbarProps extends WithAsProps {
   role?: string;
 }
 
+/**
+ * The ButtonToolbar component is used to group a series of buttons together in a single line.
+ * @see https://rsuitejs.com/components/button/#button-toolbar
+ */
 const ButtonToolbar: RsRefForwardingComponent<typeof Stack, ButtonToolbarProps> = React.forwardRef(
   (props: ButtonToolbarProps, ref) => {
     const {

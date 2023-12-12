@@ -10,7 +10,7 @@ export interface DropdownSeparatorProps extends WithAsProps, React.HTMLAttribute
 }
 
 /**
- * The <Dropdown.Separator> API
+ * The `<Dropdown.Separator>` API
  *
  * Renders a non-focusable and non-interactive `separator`
  * Per ARIA APG https://www.w3.org/WAI/ARIA/apg/patterns/menu/

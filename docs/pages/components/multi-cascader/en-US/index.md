@@ -1,6 +1,6 @@
 # MultiCascader
 
-Single selection of data with hierarchical relationship structure.
+The `MultiCascader` component is used to select multiple values from cascading options.
 
 ## Import
 

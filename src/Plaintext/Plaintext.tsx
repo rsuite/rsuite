@@ -12,7 +12,8 @@ export interface PlaintextProps extends WithAsProps {
 }
 
 /**
- *  Make the component display in plain text, and display default characters when there is no children.
+ * Make the component display in plain text, and display default characters when there is no children.
+ * @private
  */
 const Plaintext = React.forwardRef((props: PlaintextProps, ref) => {
   const { locale } = useCustom<PlaintextLocale>('Plaintext');

@@ -159,6 +159,11 @@ export interface DateRangePicker extends PickerComponent<DateRangePickerProps> {
   combine?: (...args: any) => DisabledDateFunction;
 }
 
+/**
+ * A date range picker allows you to select a date range from a calendar.
+ *
+ * @see https://rsuitejs.com/components/date-range-picker
+ */
 const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
   const {
     as: Component = 'div',

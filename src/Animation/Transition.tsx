@@ -73,6 +73,10 @@ export const transitionPropTypes = {
 
 type EventToken = { off: () => void };
 
+/**
+ * A Transition component for animation.
+ * @see https://rsuitejs.com/components/animation/#transition
+ */
 class Transition extends React.Component<TransitionProps, TransitionState> {
   static propTypes = transitionPropTypes;
   static displayName = 'Transition';

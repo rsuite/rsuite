@@ -13,6 +13,10 @@ export interface FormGroupProps extends WithAsProps {
 
 export const FormGroupContext = React.createContext<{ controlId?: string }>({});
 
+/**
+ * The `<Form.Group>` component is the easiest way to add some structure to forms.
+ * @see https://rsuitejs.com/components/form/
+ */
 const FormGroup: RsRefForwardingComponent<'div', FormGroupProps> = React.forwardRef(
   (props: FormGroupProps, ref) => {
     const {

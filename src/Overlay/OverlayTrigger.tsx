@@ -169,6 +169,10 @@ export interface OverlayTriggerHandle {
 
 const defaultTrigger = ['hover', 'focus'];
 
+/**
+ * OverlayTrigger is used to display floating elements on another component.
+ * @private
+ */
 const OverlayTrigger = React.forwardRef(
   (props: OverlayTriggerProps, ref: React.Ref<OverlayTriggerHandle>) => {
     const { overlayContainer } = useContext(OverlayContext);

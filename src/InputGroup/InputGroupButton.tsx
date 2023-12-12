@@ -2,6 +2,10 @@ import React from 'react';
 import { useClassNames } from '../utils';
 import Button, { ButtonProps } from '../Button';
 
+/**
+ * The `InputGroup.Button` component is used to specify an input field with an add-on.
+ * @see https://rsuitejs.com/components/input/#input-group
+ */
 const InputGroupButton = React.forwardRef((props: ButtonProps, ref: React.Ref<any>) => {
   const { classPrefix = 'input-group-btn', className, ...rest } = props;
   const { withClassPrefix, merge } = useClassNames(classPrefix);

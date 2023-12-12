@@ -65,6 +65,10 @@ export interface CheckboxProps<V = ValueType> extends WithAsProps {
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
+/**
+ * The Checkbox component is used for selecting multiple options from a set.
+ * @see https://rsuitejs.com/components/checkbox
+ */
 const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRef(
   (props: CheckboxProps, ref) => {
     const checkboxGroupContext = useContext(CheckboxGroupContext);

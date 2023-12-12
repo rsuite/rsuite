@@ -21,6 +21,10 @@ export interface PlaceholderGridProps extends WithAsProps {
   active?: boolean;
 }
 
+/**
+ * The `Placeholder.Grid` component is used to display the loading state of the block.
+ * @see https://rsuitejs.com/components/placeholder
+ */
 const PlaceholderGrid: RsRefForwardingComponent<'div', PlaceholderGridProps> = React.forwardRef(
   (props: PlaceholderGridProps, ref) => {
     const {

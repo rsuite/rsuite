@@ -42,6 +42,10 @@ export interface CarouselProps extends WithAsProps {
   onSlideEnd?: (index: number, event: React.TransitionEvent<HTMLDivElement>) => void;
 }
 
+/**
+ * The Carousel component is used to display a series of content.
+ * @see https://rsuitejs.com/components/carousel
+ */
 const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRef(
   (props: CarouselProps, ref) => {
     const {
