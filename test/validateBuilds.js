@@ -29,6 +29,7 @@ const unstyledComponents = [
   'Col',
   'TagGroup',
   'MaskedInput',
+  'DateInput',
   'Windowing'
 ];
 
