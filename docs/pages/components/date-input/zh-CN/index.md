@@ -2,6 +2,8 @@
 
 DateInput 组件允许用户使用键盘选择日期。
 
+![Supported from version 5.48.0](https://img.shields.io/badge/version->=5.48.0-blue)
+
 ## 获取组件
 
 <!--{include:(components/date-input/fragments/import.md)}-->

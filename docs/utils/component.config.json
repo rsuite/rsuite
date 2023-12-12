@@ -298,6 +298,7 @@
     "name": "DateInput",
     "title": "日期输入框",
     "components": ["DateInput"],
+    "minVersion": "5.48.0",
     "new": true
   },
   {
