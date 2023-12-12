@@ -30,7 +30,7 @@ const Plaintext = React.forwardRef((props: PlaintextProps, ref) => {
   const classes = merge(className, withClassPrefix({ empty: !children }));
 
   return (
-    <Component {...rest} ref={ref} className={classes}>
+    <Component role="text" {...rest} ref={ref} className={classes}>
       {children ? children : placeholder}
     </Component>
   );

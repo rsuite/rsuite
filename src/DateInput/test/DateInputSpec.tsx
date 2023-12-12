@@ -1,12 +1,33 @@
 import React from 'react';
+import { format } from 'date-fns';
 import { testStandardProps } from '@test/commonCases';
+import { testControlledUnControlled } from '@test/utils';
 import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import DateInput from '../DateInput';
+
 import { testKeyPress, testContinuousKeyPress } from './testUtils';
 
 describe('DateInput', () => {
   testStandardProps(<DateInput />);
+
+  testControlledUnControlled(DateInput, {
+    defaultValue: new Date(),
+    value: new Date('2023-10-01'),
+    changedValue: new Date('2023-10-02'),
+    triggerChangeValue: () => {
+      const input = screen.getByRole('textbox') as HTMLInputElement;
+      userEvent.type(input, '2025');
+      return [new Date('2025-10-01'), 4];
+    },
+    expectedValue: (value: Date) => {
+      expect(screen.getByRole('textbox')).to.value(format(value, 'yyyy-MM-dd'));
+    },
+    expectedTextValue: (value: Date) => {
+      expect(screen.getByRole('text')).to.have.text(format(value, 'yyyy-MM-dd'));
+    }
+  });
 
   it('Should render values according to the default format', () => {
     render(<DateInput />);
@@ -24,18 +45,6 @@ describe('DateInput', () => {
     render(<DateInput format="MMMM dd, yyyy" value={new Date('2023-12-08')} />);
 
     expect(screen.getByRole('textbox')).to.value('December 08, 2023');
-  });
-
-  it('Should be controlled value', () => {
-    const { rerender } = render(
-      <DateInput value={new Date('2023-12-08')} format="MMMM dd, yyyy" />
-    );
-
-    expect(screen.getByRole('textbox')).to.value('December 08, 2023');
-
-    rerender(<DateInput value={new Date('2023-12-09')} format="MMMM dd, yyyy" />);
-
-    expect(screen.getByRole('textbox')).to.value('December 09, 2023');
   });
 
   it('Should call `onChange` with the new value', () => {
