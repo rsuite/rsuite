@@ -13,13 +13,15 @@ describe('DateInput', () => {
   testStandardProps(<DateInput />);
 
   testControlledUnControlled(DateInput, {
-    defaultValue: new Date(),
+    defaultValue: new Date('2023-10-01'),
     value: new Date('2023-10-01'),
     changedValue: new Date('2023-10-02'),
-    triggerChangeValue: () => {
-      const input = screen.getByRole('textbox') as HTMLInputElement;
-      userEvent.type(input, '2025');
-      return [new Date('2025-10-01'), 4];
+    simulateEvent: {
+      changeValue: () => {
+        const input = screen.getByRole('textbox') as HTMLInputElement;
+        userEvent.type(input, '2025');
+        return { changedValue: new Date('2025-10-01'), callCount: 4 };
+      }
     },
     expectedValue: (value: Date) => {
       expect(screen.getByRole('textbox')).to.value(format(value, 'yyyy-MM-dd'));

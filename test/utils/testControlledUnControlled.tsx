@@ -1,16 +1,47 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Sinon from 'sinon';
+import type { FormControlBaseProps } from '../../src/@types/common';
 
-export function testControlledUnControlled(TestComponent: React.FC<any>, options: any) {
-  const {
-    value,
-    defaultValue,
-    expectedValue,
-    expectedTextValue,
-    changedValue,
-    triggerChangeValue
-  } = options;
+interface TestControlledUnControlledOptions {
+  /**
+   * The value when the component is controlled.
+   */
+  value: any;
+
+  /**
+   * The default value when the component is uncontrolled.
+   */
+  defaultValue: any;
+
+  /**
+   * The expected value when the component is not plaintext.
+   */
+  expectedValue: (value: any) => void;
+
+  /**
+   * The expected text value when the component is plaintext.
+   */
+  expectedTextValue?: (value: any) => void;
+  /**
+   * The changed value after user interaction.
+   */
+  changedValue: any;
+
+  /**
+   * Simulate event and return the changed value.
+   */
+  simulateEvent: {
+    changeValue: () => { changedValue: any; callCount?: number };
+  };
+}
+
+export function testControlledUnControlled(
+  TestComponent: React.ComponentType<FormControlBaseProps<any>>,
+  options: TestControlledUnControlledOptions
+) {
+  const { value, defaultValue, expectedValue, expectedTextValue, changedValue, simulateEvent } =
+    options;
   const displayName = TestComponent.displayName;
 
   describe(`${displayName} - Controlled and uncontrolled value`, () => {
@@ -42,6 +73,31 @@ export function testControlledUnControlled(TestComponent: React.FC<any>, options
       expectedValue(changedValue);
     });
 
+    it('Should be uncontrolled and render default value', () => {
+      const { rerender } = render(<TestComponent defaultValue={defaultValue} />);
+
+      expectedValue(defaultValue);
+
+      rerender(<TestComponent defaultValue={changedValue} />);
+
+      expectedValue(defaultValue);
+    });
+
+    it('Should be uncontrolled and render user-changed value', () => {
+      const onChange = Sinon.spy();
+      render(<TestComponent defaultValue={defaultValue} onChange={onChange} />);
+
+      expectedValue(defaultValue);
+
+      const { changedValue, callCount } = simulateEvent.changeValue();
+
+      expectedValue(changedValue);
+
+      if (typeof callCount === 'number') {
+        expect(onChange).to.have.callCount(callCount);
+      }
+    });
+
     it('Should call `onChange` and render the updated value', () => {
       const onChange = Sinon.spy();
       const TestApp = () => {
@@ -57,12 +113,12 @@ export function testControlledUnControlled(TestComponent: React.FC<any>, options
 
       expectedValue(value);
 
-      const [changedValue, callCount] = triggerChangeValue();
+      const { changedValue, callCount } = simulateEvent.changeValue();
 
       expectedValue(changedValue);
 
       expect(onChange).to.have.been.calledWithMatch(changedValue);
-      if (callCount === undefined) {
+      if (typeof callCount === 'number') {
         expect(onChange).to.have.callCount(callCount);
       }
     });
@@ -73,7 +129,7 @@ export function testControlledUnControlled(TestComponent: React.FC<any>, options
 
       expect(screen.getByRole('textbox')).to.have.attribute('disabled');
 
-      triggerChangeValue();
+      simulateEvent.changeValue();
 
       expect(onChange).to.have.not.been.called;
       expectedValue(defaultValue);
@@ -85,7 +141,7 @@ export function testControlledUnControlled(TestComponent: React.FC<any>, options
 
       expect(screen.getByRole('textbox')).to.have.attribute('readonly');
 
-      triggerChangeValue();
+      simulateEvent.changeValue();
 
       expect(onChange).to.have.not.been.called;
       expectedValue(defaultValue);
