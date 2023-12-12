@@ -392,6 +392,7 @@
     "name": "RadioTile",
     "title": "磁贴单选",
     "components": ["RadioTile", "RadioTileGroup"],
+    "minVersion": "5.35.0",
     "new": true
   },
   {
