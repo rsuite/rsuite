@@ -3,10 +3,12 @@ import ToastContainer, { ToastContainerProps, ToastContainerInstance } from './T
 
 export interface Toaster {
   /**
-   * Add a message to the container.
-   * When the container does not exist, create a new container. Use `placement` as the ID of the container
-   * @param message
-   * @param options
+   * Push a toast message.
+   * @param message The message to be displayed.
+   *                eg: `<Message type="success" description="Success" />` or `<Notification type="success" closable>Success</Notification>`
+   * @param options The options of the toast message. (optional)
+   *                eg: `{ placement: 'topCenter', duration: 5000 }`
+   * @returns The key of the toast message.
    */
   push(
     message: React.ReactNode,
@@ -14,13 +16,13 @@ export interface Toaster {
   ): string | undefined | Promise<string | undefined>;
 
   /**
-   * Remove a message by key
-   * @param key
+   * Remove a toast message.
+   * @param key  The key of the toast message.
    */
   remove(key: string): void;
 
   /**
-   * Clear all messages
+   * Clear all toast messages.
    */
   clear(): void;
 }

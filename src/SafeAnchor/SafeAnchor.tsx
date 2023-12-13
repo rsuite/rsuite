@@ -14,6 +14,10 @@ function isTrivialHref(href: string | undefined) {
   return !href || href.trim() === '#';
 }
 
+/**
+ * A SafeAnchor is a wrapper around the `<a>` HTML element.
+ * @private
+ */
 const SafeAnchor: RsRefForwardingComponent<'a', SafeAnchorProps> = React.forwardRef(
   (props: SafeAnchorProps, ref) => {
     const { as: Component = 'a', href, disabled, onClick, ...restProps } = props;

@@ -11,6 +11,11 @@ export interface StackItemProps extends WithAsProps {
   order?: React.CSSProperties['order'];
 }
 
+/**
+ * The `Stack.Item` component is used to set the layout of the child element in the `Stack` component.
+ *
+ * @see https://rsuitejs.com/components/stack
+ */
 export default function StackItem(props: StackItemProps) {
   const {
     as: Component = 'div',

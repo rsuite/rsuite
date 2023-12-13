@@ -41,6 +41,11 @@ export interface ToggleProps extends WithAsProps {
   onChange?: (checked: boolean, event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
+/**
+ * The `Toggle` component is used to activate or deactivate an element.
+ *
+ * @see https://rsuitejs.com/components/toggle
+ */
 const Toggle: RsRefForwardingComponent<'label', ToggleProps> = React.forwardRef<
   HTMLLabelElement,
   ToggleProps

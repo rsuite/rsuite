@@ -12,6 +12,10 @@ export interface SidebarProps extends WithAsProps {
   collapsible?: boolean;
 }
 
+/**
+ * The `Sidebar` component for use with the `Container` component.
+ * @see https://rsuitejs.com/components/container/
+ */
 const Sidebar: RsRefForwardingComponent<'aside', SidebarProps> = React.forwardRef(
   (props: SidebarProps, ref) => {
     const {

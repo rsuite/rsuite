@@ -17,6 +17,11 @@ export interface TooltipProps extends WithAsProps {
   arrow?: boolean;
 }
 
+/**
+ * The `Tooltip` component is used to describe a element.
+ *
+ * @see https://rsuitejs.com/components/tooltip
+ */
 const Tooltip: RsRefForwardingComponent<'div', TooltipProps> = React.forwardRef(
   (props: TooltipProps, ref) => {
     const {

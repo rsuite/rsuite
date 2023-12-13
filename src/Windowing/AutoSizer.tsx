@@ -34,6 +34,11 @@ export interface AutoSizerProps {
   onResize?: ((size: Size) => void) | undefined;
 }
 
+/**
+ * High-order component that automatically adjusts the width and height of a single child.
+ *
+ * @private
+ */
 const AutoSizer = React.forwardRef<HTMLDivElement, AutoSizerProps>((props, ref) => {
   const {
     children,

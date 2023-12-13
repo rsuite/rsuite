@@ -31,6 +31,11 @@ interface TimelineComponent extends RsRefForwardingComponent<'div', TimelineProp
   ACTIVE_LAST: (index: number, totalItemsCount: number) => boolean;
 }
 
+/**
+ * The `Timeline` component is used to display a list of items in chronological order.
+ *
+ * @see https://rsuitejs.com/components/timeline
+ */
 const Timeline: TimelineComponent = React.forwardRef((props: TimelineProps, ref) => {
   const {
     children,

@@ -38,6 +38,11 @@ export interface TimelineItemProps extends WithAsProps {
   INTERNAL_active?: boolean;
 }
 
+/**
+ * The `Timeline.Item` component is used to set the layout of the child element in the `Timeline` component.
+ *
+ * @see https://rsuitejs.com/compo◊nents/timeline
+ */
 const TimelineItem: RsRefForwardingComponent<'div', TimelineItemProps> = React.forwardRef(
   (props: TimelineItemProps, ref) => {
     const {
