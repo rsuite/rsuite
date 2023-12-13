@@ -8,7 +8,7 @@ const App = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const isMobile = useMediaQuery('(max-width: 700px)');
+  const [isMobile] = useMediaQuery('(max-width: 700px)');
 
   return (
     <>

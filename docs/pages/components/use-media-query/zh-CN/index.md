@@ -10,7 +10,11 @@
 import { useMediaQuery } from 'rsuite';
 
 const App = () => {
-  const isMobile = useMediaQuery('(max-width: 700px)');
+  const [isMobile, isDark, isLandscape] = useMediaQuery([
+    '(max-width: 700px)',
+    '(prefers-color-scheme: dark)',
+    '(orientation:landscape)'
+  ]);
 
   return <div>{isMobile ? 'Mobile' : 'Desktop'}</div>;
 };

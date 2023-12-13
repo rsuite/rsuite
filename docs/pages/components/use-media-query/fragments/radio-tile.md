@@ -6,7 +6,10 @@ import { Icon } from '@rsuite/icons';
 import { VscNotebookTemplate, VscRepoClone, VscFile } from 'react-icons/vsc';
 
 const App = () => {
-  const isInline = useMediaQuery('xl'); // (min-width: 1200px)
+  const [isInline, isDark] = useMediaQuery([
+    'xl', // (min-width: 1200px)
+    '(prefers-color-scheme: dark)'
+  ]);
 
   return (
     <RadioTileGroup defaultValue="blank" inline={isInline} aria-label="Create new project">

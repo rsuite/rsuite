@@ -10,7 +10,11 @@ Use useMediaQuery to easily retrieve media dimensions, combined with the compone
 import { useMediaQuery } from 'rsuite';
 
 const App = () => {
-  const isMobile = useMediaQuery('(max-width: 700px)');
+  const [isMobile, isDark, isLandscape] = useMediaQuery([
+    '(max-width: 700px)',
+    '(prefers-color-scheme: dark)',
+    '(orientation:landscape)'
+  ]);
 
   return <div>{isMobile ? 'Mobile' : 'Desktop'}</div>;
 };
@@ -32,7 +36,7 @@ The `Modal` component has a `size` prop that sets the size of the modal. We can 
 
 ## API
 
-### `useMediaQuery(query) => matches`
+### `useMediaQuery(query) => [...matches]`
 
 ```tsx
 
