@@ -300,4 +300,4 @@ export type {
 
 export type { PickerHandle } from './Picker';
 
-export { default as useMediaQuery } from './utils/useMediaQuery';
+export { default as useMediaQuery } from './useMediaQuery';
