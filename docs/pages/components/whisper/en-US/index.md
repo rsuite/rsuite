@@ -1,7 +1,6 @@
 # Whisper
 
-The `Whisper` component is used to display a floating element.
-It is usually used with the `Tooltip` and `Popover` components.
+The `Whisper` component is used to display a floating element. It is usually used with the `Tooltip` and `Popover` components.
 
 ## Import
 
