@@ -37,9 +37,9 @@ const App = () => {
 
 ## API
 
-### `useMediaQuery(query) => matches`
+### `useMediaQuery(query) => [...matches]`
 
-```tsx
+```ts
 
  const mediaQuerySizeMap = {
   xs: '(max-width: 575px)',
@@ -51,6 +51,10 @@ const App = () => {
 };
 
 
-useMediaQuery(string | keyof typeof mediaQuerySizeMap) => boolean
+useMediaQuery(
+  string
+  | keyof typeof mediaQuerySizeMap
+  | (string | keyof typeof mediaQuerySizeMap)[]
+) => boolean[]
 
 ```

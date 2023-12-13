@@ -50,6 +50,9 @@ The `Modal` component has a `size` prop that sets the size of the modal. We can 
 };
 
 
-useMediaQuery(string | keyof typeof mediaQuerySizeMap) => boolean
-
+useMediaQuery(
+  string
+  | keyof typeof mediaQuerySizeMap
+  | (string | keyof typeof mediaQuerySizeMap)[]
+) => boolean[]
 ```
