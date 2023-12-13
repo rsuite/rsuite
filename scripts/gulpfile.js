@@ -5,10 +5,12 @@ const path = require('path');
 const less = require('gulp-less');
 const postcss = require('gulp-postcss');
 const postcssCustomProperties = require('postcss-custom-properties');
+const postcssRelativeColorSyntax = require('@csstools/postcss-relative-color-syntax');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const babel = require('gulp-babel');
 const rtlcss = require('gulp-rtlcss');
+const insert = require('gulp-insert');
 const gulp = require('gulp');
 const babelrc = require('../babel.config');
 const { default: proxyDirectories } = require('./proxyDirectories');
@@ -73,7 +75,15 @@ function buildLess({ lessOptions, outputFileName }) {
       .src(`${styleRoot}/index.less`)
       .pipe(sourcemaps.init())
       .pipe(less(lessOptions))
-      .pipe(postcss([require('autoprefixer'), postcssCustomProperties()]))
+      .pipe(
+        postcss([
+          require('autoprefixer'),
+          postcssCustomProperties(),
+          postcssRelativeColorSyntax({
+            preserve: true
+          })
+        ])
+      )
       .pipe(sourcemaps.write('./'))
       .pipe(rename(outputFileName))
       .pipe(gulp.dest(`${distRoot}`));
@@ -101,20 +111,31 @@ function minifyCSS() {
 }
 
 function buildCjs() {
-  return gulp.src(tsSources).pipe(babel(babelrc())).pipe(gulp.dest(cjsRoot));
+  return (
+    gulp
+      .src(tsSources)
+      .pipe(babel(babelrc()))
+      // adds the "use-client" directive to /cjs exported from rsuite
+      .pipe(insert.prepend(`'use client';\n`))
+      .pipe(gulp.dest(cjsRoot))
+  );
 }
 
 function buildEsm() {
-  return gulp
-    .src(tsSources)
-    .pipe(
-      babel(
-        babelrc(null, {
-          NODE_ENV: 'esm'
-        })
+  return (
+    gulp
+      .src(tsSources)
+      .pipe(
+        babel(
+          babelrc(null, {
+            NODE_ENV: 'esm'
+          })
+        )
       )
-    )
-    .pipe(gulp.dest(esmRoot));
+      // adds the "use-client" directive to /esm exported from rsuite
+      .pipe(insert.prepend(`'use client';\n`))
+      .pipe(gulp.dest(esmRoot))
+  );
 }
 
 function copyTypescriptDeclarationFiles() {

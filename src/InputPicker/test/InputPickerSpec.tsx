@@ -106,6 +106,18 @@ describe('InputPicker', () => {
     expect(instance).to.have.class('rs-picker-block');
   });
 
+  it('Should update display options when `data` is updated', () => {
+    const { rerender } = render(<InputPicker open data={[{ label: 'Item', value: 1 }]} />);
+
+    expect(screen.getAllByRole('option').map(option => option.textContent)).to.deep.equal(['Item']);
+
+    rerender(<InputPicker open data={[{ label: 'New Item', value: 1 }]} />);
+
+    expect(screen.getAllByRole('option').map(option => option.textContent)).to.deep.equal([
+      'New Item'
+    ]);
+  });
+
   it('Should active item by `value`', () => {
     const value = 'Louisa';
     render(<InputPicker defaultOpen data={data} value={value} />);
@@ -362,12 +374,6 @@ describe('InputPicker', () => {
     expect(container.firstChild).to.not.have.class('rs-picker-has-value');
   });
 
-  it('Should set a tabindex for input', () => {
-    render(<InputPicker data={[]} tabIndex={10} />);
-
-    expect(screen.getByRole('textbox')).to.have.attribute('tabindex', '10');
-  });
-
   it('Should call `onCreate` callback with correct value', () => {
     const inputRef = React.createRef<PickerHandle>();
 
@@ -385,6 +391,33 @@ describe('InputPicker', () => {
     expect(onCreateSpy).to.calledWith('abc');
   });
 
+  it('Should hide "Create option" action if `shouldDisplayCreateOption` returns false', () => {
+    const data = [
+      { label: 'Alice', value: 1 },
+      { label: 'Bob', value: 2 }
+    ];
+
+    // Display "Create option" action only when no item's `label` matches searchKeyword
+    const shouldDisplayCreateOption = sinon.spy((searchKeyword, filteredData) =>
+      filteredData.every(item => item.label !== searchKeyword)
+    );
+    render(
+      <InputPicker
+        defaultOpen
+        data={data}
+        creatable
+        shouldDisplayCreateOption={shouldDisplayCreateOption}
+      />
+    );
+
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Alice' } });
+
+    expect(shouldDisplayCreateOption).to.have.been.calledWith('Alice', [
+      { label: 'Alice', value: 1 }
+    ]);
+    expect(screen.queryByText(/^Create option/)).to.not.exist;
+  });
+
   describe('ref testing', () => {
     it('Should get public objects and methods', () => {
       const instance = getInstance(<InputPicker data={data} open virtualized />);
@@ -397,6 +430,67 @@ describe('InputPicker', () => {
 
       expect(instance.overlay).to.exist;
       expect(instance.list).to.exist;
+    });
+  });
+
+  describe('Loading state', () => {
+    it('Should display a spinner when loading=true', () => {
+      render(<InputPicker data={data} loading />);
+
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should not open menu on click when loading=true', () => {
+      render(<InputPicker data={data} loading />);
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+
+    it('Should not open menu on Enter key when loading=true', () => {
+      render(<InputPicker data={data} loading />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), {
+        key: 'Enter'
+      });
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('Should have a role combobox', () => {
+      render(<InputPicker data={data} />);
+
+      expect(screen.getByRole('combobox')).to.exist;
+    });
+
+    it('Should have a role listbox', () => {
+      render(<InputPicker data={data} defaultOpen />);
+
+      expect(screen.getByRole('listbox')).to.exist;
+    });
+
+    it('Should have a role option', () => {
+      render(<InputPicker data={data} defaultOpen />);
+
+      expect(screen.getAllByRole('option')).to.have.lengthOf(3);
+    });
+
+    it('Should set a tabindex for input', () => {
+      render(<InputPicker data={[]} tabIndex={10} />);
+
+      expect(screen.getByRole('combobox')).to.have.attribute('tabindex', '10');
+    });
+
+    it('Should be the focus switch option via keyboard', () => {
+      render(<InputPicker data={data} />);
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.activeElement).to.have.text('Eugenia');
     });
   });
 });

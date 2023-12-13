@@ -31,7 +31,9 @@ export default {
   Plaintext: {
     unfilled: 'Kitöltetlen',
     notSelected: 'Nincs kiválasztva',
-    notUploaded: 'Nincs feltöltve'
+    notUploaded: 'Nincs feltöltve',
+    remove: 'Távolítsa el',
+    clear: 'Egyértelmű'
   },
   Pagination: {
     more: 'Több',
@@ -67,7 +69,8 @@ export default {
     error: 'Hiba',
     complete: 'Befejezett',
     emptyFile: 'Üres',
-    upload: 'Feltöltés'
+    upload: 'Feltöltés',
+    removeFile: 'Fájl törlése'
   },
   CloseButton: {
     closeLabel: 'Bezárás'

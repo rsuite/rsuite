@@ -11,14 +11,18 @@ export interface PredefinedRangesProps<T = any, Shortcut = T> extends StackProps
   calendarDate: T;
   locale: CalendarLocale;
   disabledShortcut?: (value: T) => boolean;
-  onClickShortcut?: (value: Shortcut, closeOverlay: boolean, event: React.MouseEvent) => void;
+  onShortcutClick?: (
+    range: InnerRange<Shortcut>,
+    closeOverlay: boolean,
+    event: React.MouseEvent
+  ) => void;
 }
 
 const PredefinedRanges = React.forwardRef<HTMLDivElement, PredefinedRangesProps>((props, ref) => {
   const {
     className,
     disabledShortcut,
-    onClickShortcut,
+    onShortcutClick,
     calendarDate,
     ranges: rangesProp,
     locale,
@@ -41,14 +45,15 @@ const PredefinedRanges = React.forwardRef<HTMLDivElement, PredefinedRangesProps>
 
   return (
     <Stack className={className} ref={ref} alignItems="flex-start" spacing={4} {...rest}>
-      {ranges.map(({ value, closeOverlay, label, ...rest }, index: number) => {
+      {ranges.map((range, index: number) => {
+        const { value, closeOverlay, label, ...rest } = range;
         const disabled = disabledShortcut?.(value);
 
         const handleClickShortcut = (event: React.MouseEvent) => {
           if (disabled) {
             return;
           }
-          onClickShortcut?.(value, closeOverlay !== false ? true : false, event);
+          onShortcutClick?.(range, closeOverlay !== false ? true : false, event);
         };
 
         return (

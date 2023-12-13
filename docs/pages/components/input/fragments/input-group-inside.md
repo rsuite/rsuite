@@ -30,6 +30,11 @@ const App = () => (
     </InputGroup>
 
     <InputGroup inside style={styles}>
+      <InputGroup.Addon>https://</InputGroup.Addon>
+      <Input defaultValue="www." />
+    </InputGroup>
+
+    <InputGroup inside style={styles}>
       <Input />
       <InputGroup.Addon>
         <SearchIcon />

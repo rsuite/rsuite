@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
-import Checkbox from '../Checkbox';
+import Checkbox, { CheckboxProps } from '../Checkbox';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface DropdownMenuCheckItemProps extends WithAsProps {
@@ -20,6 +20,7 @@ export interface DropdownMenuCheckItemProps extends WithAsProps {
   onCheck?: (value: any, event: React.SyntheticEvent, checked: boolean) => void;
   onSelectItem?: (value: any, event: React.SyntheticEvent, checked: boolean) => void;
   onKeyDown?: (event: React.KeyboardEvent) => void;
+  renderMenuItemCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
 }
 
 const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckItemProps> =
@@ -40,6 +41,7 @@ const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckIt
       onSelect,
       onCheck,
       onSelectItem,
+      renderMenuItemCheckbox,
       ...rest
     } = props;
 
@@ -71,6 +73,20 @@ const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckIt
     const { withClassPrefix } = useClassNames(classPrefix);
     const checkboxItemClasses = withClassPrefix({ focus });
 
+    const checkboxProps: CheckboxProps = {
+      value,
+      disabled,
+      indeterminate,
+      checkable,
+      children,
+      checked: active,
+      className: checkboxItemClasses,
+      onKeyDown: disabled ? undefined : onKeyDown,
+      onChange: handleChange,
+      onClick: handleSelectItem,
+      onCheckboxClick: handleCheck
+    };
+
     return (
       <Component
         role="option"
@@ -82,21 +98,11 @@ const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckIt
         className={className}
         tabIndex={-1}
       >
-        <CheckboxItem
-          value={value}
-          role="checkbox"
-          disabled={disabled}
-          checked={active}
-          checkable={checkable}
-          indeterminate={indeterminate}
-          className={checkboxItemClasses}
-          onKeyDown={disabled ? null : onKeyDown}
-          onChange={handleChange}
-          onClick={handleSelectItem}
-          onCheckboxClick={handleCheck}
-        >
-          {children}
-        </CheckboxItem>
+        {renderMenuItemCheckbox ? (
+          renderMenuItemCheckbox(checkboxProps)
+        ) : (
+          <CheckboxItem role="checkbox" {...checkboxProps} />
+        )}
       </Component>
     );
   });

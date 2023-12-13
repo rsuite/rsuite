@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { TagPicker, Tag } from 'rsuite';
+import { TagPicker, Tag, Checkbox } from 'rsuite';
 import UserIcon from '@rsuite/icons/legacy/User';
 import GroupIcon from '@rsuite/icons/legacy/Group';
 
@@ -24,6 +24,14 @@ const App = () => (
         <>
           <UserIcon /> {label}
         </>
+      );
+    }}
+    renderMenuItemCheckbox={checkboxProps => {
+      const { value, checked, children, ...restProps } = checkboxProps;
+      return (
+        <Checkbox value={value} checked={checked} {...restProps} indeterminate={checked}>
+          {children}
+        </Checkbox>
       );
     }}
     renderMenuGroup={(label, item) => {

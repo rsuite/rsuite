@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState, useCallback } from 'react';
+import React, { useRef, useMemo, useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import on from 'dom-lib/on';
@@ -12,12 +12,11 @@ import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
 import ModalTitle from './ModalTitle';
 import ModalFooter from './ModalFooter';
-import { useBodyStyles } from './utils';
-import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
+import { useBodyStyles, ModalSize } from './utils';
+import { RsRefForwardingComponent } from '../@types/common';
 import useUniqueId from '../utils/useUniqueId';
 import deprecatePropType from '../utils/deprecatePropType';
-
-export type ModalSize = TypeAttributes.Size | 'full';
+import DrawerContext from '../Drawer/DrawerContext';
 
 const modalSizes: readonly ModalSize[] = ['xs', 'sm', 'md', 'lg', 'full'];
 
@@ -53,9 +52,6 @@ export interface ModalProps
 
   /** Automatically sets the height when the body content is too long. */
   overflow?: boolean;
-
-  /** Render Modal as Drawer */
-  drawer?: boolean;
 }
 interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
   Body: typeof ModalBody;
@@ -82,7 +78,6 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     animationProps,
     animationTimeout = 300,
     overflow = true,
-    drawer = false,
     onClose,
     onEntered,
     onEntering,
@@ -97,15 +92,19 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   const inClass = { in: open && !animation };
   const { merge, prefix } = useClassNames(classPrefix);
   const [shake, setShake] = useState(false);
-  const classes = merge(className, prefix(size, { full }));
+  const classes = merge(className, prefix({ full, [size]: modalSizes.includes(size) }));
   const dialogRef = useRef<HTMLElement>(null);
   const transitionEndListener = useRef<{ off: () => void } | null>();
+
+  // Render Modal as Drawer
+  const { isDrawer = false } = useContext(DrawerContext) || {};
 
   // The style of the Modal body will be updated with the size of the window or container.
   const [bodyStyles, onChangeBodyStyles, onDestroyEvents] = useBodyStyles(dialogRef, {
     overflow,
-    drawer,
-    prefix
+    drawer: isDrawer,
+    prefix,
+    size
   });
 
   const dialogId = useUniqueId('dialog-', idProp);
@@ -113,10 +112,9 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     () => ({
       dialogId,
       onModalClose: onClose,
-      getBodyStyles: () => bodyStyles,
-      isDrawer: drawer
+      getBodyStyles: () => bodyStyles
     }),
-    [dialogId, onClose, bodyStyles, drawer]
+    [dialogId, onClose, bodyStyles]
   );
 
   const handleExited = useCallback(
@@ -145,9 +143,26 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     [onChangeBodyStyles, onEntering]
   );
 
+  const backdropClick = React.useRef<boolean>();
+  const handleMouseDown = useCallback(event => {
+    backdropClick.current = event.target === event.currentTarget;
+  }, []);
+
   const handleBackdropClick = useCallback(
-    e => {
-      if (e.target !== e.currentTarget) {
+    event => {
+      // Ignore click events from non-backdrop.
+      // fix: https://github.com/rsuite/rsuite/issues/3394
+      if (!backdropClick.current) {
+        return;
+      }
+
+      // Ignore click events from dialog.
+      if (event.target === dialogRef.current) {
+        return;
+      }
+
+      // Ignore click events from dialog children.
+      if (event.target !== event.currentTarget) {
         return;
       }
 
@@ -163,23 +178,22 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
         return;
       }
 
-      onClose?.(e);
+      onClose?.(event);
     },
     [backdrop, onClose]
-  );
-
-  const handleClick = useCallback(
-    e => {
-      if (dialogRef.current && e.target !== dialogRef.current) {
-        handleBackdropClick(e);
-      }
-    },
-    [handleBackdropClick]
   );
 
   useWillUnmount(() => {
     transitionEndListener.current?.off();
   });
+
+  let sizeKey = 'width';
+
+  if (isDrawer) {
+    const { placement } = animationProps || {};
+    // The width or height of the drawer depends on the placement.
+    sizeKey = placement === 'top' || placement === 'bottom' ? 'height' : 'width';
+  }
 
   return (
     <ModalContext.Provider value={modalContextValue}>
@@ -199,7 +213,8 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
         animationProps={animationProps}
         dialogTransitionTimeout={animationTimeout}
         backdropTransitionTimeout={150}
-        onClick={backdrop ? handleClick : undefined}
+        onClick={backdrop ? handleBackdropClick : undefined}
+        onMouseDown={handleMouseDown}
       >
         {(transitionProps, transitionRef) => {
           const { className: transitionClassName, ...transitionRest } = transitionProps;
@@ -209,6 +224,7 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
               id={dialogId}
               aria-labelledby={ariaLabelledby ?? `${dialogId}-title`}
               aria-describedby={ariaDescribedby}
+              style={{ [sizeKey]: modalSizes.includes(size) ? undefined : size }}
               {...transitionRest}
               {...pick(rest, Object.keys(modalDialogPropTypes))}
               ref={mergeRefs(dialogRef, transitionRef)}
@@ -237,7 +253,7 @@ Modal.propTypes = {
   animationTimeout: PropTypes.number,
   classPrefix: PropTypes.string,
   dialogClassName: PropTypes.string,
-  size: PropTypes.oneOf(modalSizes),
+  size: PropTypes.oneOfType([PropTypes.oneOf(modalSizes), PropTypes.number, PropTypes.string]),
   dialogStyle: PropTypes.object,
   dialogAs: PropTypes.elementType,
   full: deprecatePropType(PropTypes.bool, 'Use size="full" instead.'),

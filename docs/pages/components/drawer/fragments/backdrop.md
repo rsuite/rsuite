@@ -3,13 +3,8 @@
 ```js
 import { Drawer, RadioGroup, Radio, ButtonToolbar, Button, Placeholder } from 'rsuite';
 
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 12px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-};
+const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
+
 const App = () => {
   const [backdrop, setBackdrop] = React.useState('static');
   const [open, setOpen] = React.useState(false);
@@ -22,7 +17,7 @@ const App = () => {
         value={backdrop}
         onChange={setBackdrop}
       >
-        <span style={styles.radioGroupLabel}>Backdrop: </span>
+        <RadioLabel>Backdrop: </RadioLabel>
         <Radio value="static">static</Radio>
         <Radio value={true}>true</Radio>
         <Radio value={false}>false</Radio>

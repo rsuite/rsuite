@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import CloseButton from '../CloseButton';
-import { useClassNames, KEY_VALUES, mergeRefs } from '../utils';
+import { useClassNames, useCustom, KEY_VALUES, mergeRefs } from '../utils';
 import { RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
 import useToggleCaret from '../utils/useToggleCaret';
@@ -27,14 +27,18 @@ export interface PickerToggleProps extends ToggleButtonProps {
   readOnly?: boolean;
   plaintext?: boolean;
   tabIndex?: number;
+
+  /** Whether to display an loading indicator on toggle button */
   loading?: boolean;
 
   // Renders an input and is editable
   editable?: boolean;
+  name?: string;
   inputPlaceholder?: string;
   inputMask?: (string | RegExp)[];
   onInputChange?: (value: string, event: React.ChangeEvent) => void;
   onInputPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  onInputBackspace?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onInputBlur?: (event: React.FocusEvent<HTMLElement>) => void;
   onInputFocus?: (event: React.FocusEvent<HTMLElement>) => void;
   placement?: TypeAttributes.Placement;
@@ -76,6 +80,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       inputMask = defaultInputMask,
       onInputChange,
       onInputPressEnter,
+      onInputBackspace,
       onInputBlur,
       onInputFocus,
       onClean,
@@ -85,9 +90,11 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       caretComponent,
       caretAs = caretComponent,
       label,
+      name,
       ...rest
     } = props;
 
+    const { locale } = useCustom();
     const inputRef = useRef<HTMLInputElement>(null);
     const comboboxRef = useRef<HTMLDivElement>(null);
     const [activeState, setActive] = useState(false);
@@ -178,22 +185,31 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
 
     const handleInputKeyDown = useCallback(
       (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (editable && event.key === KEY_VALUES.ENTER) {
-          onInputPressEnter?.(event);
+        if (editable) {
+          if (event.key === KEY_VALUES.ENTER) {
+            onInputPressEnter?.(event);
+          }
+
+          if (event.key === KEY_VALUES.BACKSPACE) {
+            onInputBackspace?.(event);
+          }
         }
       },
-      [onInputPressEnter, editable]
+      [editable, onInputPressEnter, onInputBackspace]
     );
 
     const renderInput = useCallback(
       (ref, props) => (
         <input
+          type="text"
+          autoComplete="off"
           ref={mergeRefs(inputRef, ref)}
+          name={name}
           style={{ pointerEvents: editable ? undefined : 'none' }}
           {...props}
         />
       ),
-      [editable]
+      [editable, name]
     );
 
     const ToggleCaret = useToggleCaret(placement);
@@ -242,6 +258,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
             ) : (
               <>
                 <TextMask
+                  keepCharPositions
                   mask={inputMask}
                   value={Array.isArray(inputValue) ? inputValue.toString() : inputValue}
                   onBlur={handleInputBlur}
@@ -273,7 +290,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
             <CloseButton
               className={prefix`clean`}
               tabIndex={-1}
-              locale={{ closeLabel: 'Clear' }}
+              locale={{ closeLabel: locale?.clear }}
               onClick={handleClean}
             />
           )}

@@ -1,4 +1,4 @@
-import React, { useState, useImperativeHandle, useCallback } from 'react';
+import React, { useState, useImperativeHandle, useCallback, useMemo } from 'react';
 import kebabCase from 'lodash/kebabCase';
 import trim from 'lodash/trim';
 import isFunction from 'lodash/isFunction';
@@ -6,7 +6,7 @@ import isUndefined from 'lodash/isUndefined';
 import omit from 'lodash/omit';
 import find from 'lodash/find';
 import { OverlayTriggerHandle } from './PickerToggleTrigger';
-import { findNodeOfTree, filterNodesOfTree } from '../utils/treeUtils';
+import { findNodeOfTree } from '../utils/treeUtils';
 import {
   KEY_VALUES,
   useClassNames,
@@ -109,8 +109,9 @@ export function usePickerClassName(props: PickerClassNameProps): [string, string
     })
   );
 
+  // Those props that're used for composing the className
   const usedClassNamePropKeys = Object.keys(
-    omit(props, [...Object.keys(rest || {}), 'disabled', 'readOnly', 'plaintext'])
+    omit(props, [...Object.keys(rest || {}), 'disabled', 'readOnly', 'plaintext', 'name'])
   );
 
   return [classes, usedClassNamePropKeys];
@@ -236,6 +237,17 @@ export const useFocusItemValue = <T, D>(
   const [layer, setLayer] = useState(defaultLayer);
   const [keys, setKeys] = useState<any[]>([]);
 
+  const focusCallback = useCallback(
+    (value: any, event: React.KeyboardEvent) => {
+      const menu = isFunction(target) ? target() : target;
+      const focusElement = menu?.querySelector(`[data-key="${value}"]`) as HTMLElement;
+
+      focusElement?.focus();
+      callback?.(value, event);
+    },
+    [callback, target]
+  );
+
   const getScrollContainer = useCallback(() => {
     const menu = isFunction(target) ? target() : target;
 
@@ -330,12 +342,12 @@ export const useFocusItemValue = <T, D>(
 
         if (!isUndefined(focusItem)) {
           setFocusItemValue(focusItem[valueKey]);
-          callback?.(focusItem[valueKey], event);
+          focusCallback(focusItem[valueKey], event);
           scrollListItem('bottom', focusItem[valueKey], willOverflow);
         }
       });
     },
-    [callback, findFocusItemIndex, scrollListItem, valueKey]
+    [focusCallback, findFocusItemIndex, scrollListItem, valueKey]
   );
 
   const focusPrevMenuItem = useCallback(
@@ -346,12 +358,12 @@ export const useFocusItemValue = <T, D>(
         const focusItem = items[nextIndex];
         if (!isUndefined(focusItem)) {
           setFocusItemValue(focusItem[valueKey]);
-          callback?.(focusItem[valueKey], event);
+          focusCallback(focusItem[valueKey], event);
           scrollListItem('top', focusItem[valueKey], willOverflow);
         }
       });
     },
-    [callback, findFocusItemIndex, scrollListItem, valueKey]
+    [focusCallback, findFocusItemIndex, scrollListItem, valueKey]
   );
 
   const getSubMenuKeys = useCallback(
@@ -379,10 +391,10 @@ export const useFocusItemValue = <T, D>(
         setKeys(nextKeys);
         setLayer(nextLayer);
         setFocusItemValue(nextKeys[0]);
-        callback?.(nextKeys[0], event);
+        focusCallback(nextKeys[0], event);
       }
     },
-    [callback, getSubMenuKeys, layer]
+    [focusCallback, getSubMenuKeys, layer]
   );
 
   const focusPrevLevelMenu = useCallback(
@@ -399,11 +411,11 @@ export const useFocusItemValue = <T, D>(
 
         if (parentItemValue) {
           setFocusItemValue(parentItemValue);
-          callback?.(parentItemValue, event);
+          focusCallback(parentItemValue, event);
         }
       }
     },
-    [callback, data, focusItemValue, getParent, getSubMenuKeys, layer, valueKey]
+    [focusCallback, data, focusItemValue, getParent, getSubMenuKeys, layer, valueKey]
   );
 
   const handleKeyDown = useCallback(
@@ -462,6 +474,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     active,
     readOnly,
     disabled,
+    loading,
     onExit,
     onOpen,
     onClose,
@@ -473,8 +486,11 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
 
   const handleClose = useCallback(() => {
     triggerRef.current?.close?.();
+
+    // The focus is on the trigger button after closing
+    targetRef.current?.focus?.();
     onClose?.();
-  }, [onClose, triggerRef]);
+  }, [onClose, targetRef, triggerRef]);
 
   const handleOpen = useCallback(() => {
     triggerRef.current?.open?.();
@@ -492,7 +508,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   const onToggle = useCallback(
     (event: React.KeyboardEvent) => {
       // Keyboard events should not be processed when readOnly and disabled are set.
-      if (readOnly || disabled) {
+      if (readOnly || disabled || loading) {
         return;
       }
 
@@ -544,6 +560,7 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     [
       readOnly,
       disabled,
+      loading,
       targetRef,
       overlayRef,
       onKeyDown,
@@ -561,76 +578,66 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   return onToggle;
 };
 
-export interface SearchProps<TItem extends Record<string, unknown>, TLabel> {
+interface SearchOptions<T> {
   labelKey: string;
-  data: TItem[];
-  searchBy?: (keyword: string, label: TLabel, item: TItem) => boolean;
-  callback?: (keyword: string, data: TItem[], event: React.SyntheticEvent) => void;
+  searchBy?: (keyword: string, label: any, item: T) => boolean;
+  callback?: (keyword: string, data: T[], event: React.SyntheticEvent) => void;
 }
 
-type UseSearchResult<TItem extends Record<string, unknown>> = {
+type UseSearchResult<T> = {
   searchKeyword: string;
-  filteredData: TItem[];
-  updateFilteredData: (nextData: TItem[]) => void;
-  setSearchKeyword: (value: string) => void;
-  checkShouldDisplay: (item: TItem, keyword?: string) => boolean;
+  filteredData: T[];
+  checkShouldDisplay: (item: T, keyword?: string) => boolean;
   handleSearch: (searchKeyword: string, event: React.SyntheticEvent) => void;
+  resetSearch: () => void;
 };
 
 /**
  * A hook that handles search filter options
- * @param props
  */
-export function useSearch<TItem extends Record<string, unknown>, TLabel>(
-  props: SearchProps<TItem, TLabel>
-): UseSearchResult<TItem> {
-  const { labelKey, data, searchBy, callback } = props;
+export function useSearch<T>(data: readonly T[], props: SearchOptions<T>): UseSearchResult<T> {
+  const { labelKey, searchBy, callback } = props;
 
   // Use search keywords to filter options.
   const [searchKeyword, setSearchKeyword] = useState('');
+
+  const resetSearch = useCallback(() => {
+    setSearchKeyword('');
+  }, []);
 
   /**
    * Index of keyword  in `label`
    * @param {node} label
    */
   const checkShouldDisplay = useCallback(
-    (item: TItem, keyword?: string) => {
-      const label = item?.[labelKey] as TLabel;
+    (item: T, keyword?: string) => {
+      const checkValue = typeof item === 'object' ? item?.[labelKey] : String(item);
       const _keyword = isUndefined(keyword) ? searchKeyword : keyword;
 
       if (typeof searchBy === 'function') {
-        return searchBy(_keyword, label, item);
+        return searchBy(_keyword, checkValue, item);
       }
-      return shouldDisplay(label, _keyword);
+      return shouldDisplay(checkValue, _keyword);
     },
     [labelKey, searchBy, searchKeyword]
   );
 
-  const updateFilteredData = useCallback(
-    (nextData: TItem[]) => {
-      setFilteredData(filterNodesOfTree(nextData, item => checkShouldDisplay(item)));
-    },
-    [checkShouldDisplay]
-  );
-
-  const [filteredData, setFilteredData] = useState<TItem[]>(
-    filterNodesOfTree(data, item => checkShouldDisplay(item))
-  );
+  const filteredData = useMemo(() => {
+    return data.filter(item => checkShouldDisplay(item, searchKeyword));
+  }, [checkShouldDisplay, data, searchKeyword]);
 
   const handleSearch = (searchKeyword: string, event: React.SyntheticEvent) => {
-    const filteredData = filterNodesOfTree(data, item => checkShouldDisplay(item, searchKeyword));
-    setFilteredData(filteredData);
+    const filteredData = data.filter(item => checkShouldDisplay(item, searchKeyword));
     setSearchKeyword(searchKeyword);
-    callback?.(searchKeyword, filteredData as TItem[], event);
+    callback?.(searchKeyword, filteredData, event);
   };
 
   return {
     searchKeyword,
     filteredData,
-    updateFilteredData,
-    setSearchKeyword,
     checkShouldDisplay,
-    handleSearch
+    handleSearch,
+    resetSearch
   };
 }
 

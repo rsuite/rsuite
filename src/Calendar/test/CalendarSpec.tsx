@@ -99,17 +99,21 @@ describe('Calendar', () => {
     expect(cells).to.deep.equal(['26', '27', '28', '29', '30', '31', '1', '2', '3', '4', '5', '6']);
   });
 
-  it('Should call `onMonthChange` callback', () => {
+  it('Should call `onMonthChange` callback when the display month changes', () => {
     const onMonthChangeSpy = sinon.spy();
 
-    render(<Calendar defaultValue={new Date('2023-01-01')} onMonthChange={onMonthChangeSpy} />);
+    const { rerender } = render(
+      <Calendar defaultValue={new Date(2023, 0, 1)} onMonthChange={onMonthChangeSpy} />
+    );
 
+    // Change month with Next/Previous month button
     fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
     expect(onMonthChangeSpy).to.have.been.calledOnce;
 
     fireEvent.click(screen.getByRole('button', { name: 'Previous month' }));
     expect(onMonthChangeSpy).to.have.been.calledTwice;
 
+    // Change month with Month dropdown
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
 
     fireEvent.click(
@@ -120,6 +124,22 @@ describe('Calendar', () => {
     );
 
     expect(onMonthChangeSpy).to.have.been.calledThrice;
+
+    // Change month by clicking on a date in a different month
+    rerender(<Calendar value={new Date(2023, 0, 1)} onMonthChange={onMonthChangeSpy} />);
+    fireEvent.click(screen.getByTitle('01 Feb 2023')); // TODO-Doma Add accessible name to the button via aria-label
+    expect(onMonthChangeSpy).to.have.callCount(4);
+    expect((onMonthChangeSpy.getCall(3).args[0] as Date).getFullYear()).to.equal(2023);
+    expect((onMonthChangeSpy.getCall(3).args[0] as Date).getMonth()).to.equal(1);
+
+    // Change month with "Today" button
+    const clock = sinon.useFakeTimers(new Date(2023, 0, 1));
+    rerender(<Calendar value={new Date(2023, 1, 1)} onMonthChange={onMonthChangeSpy} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Today' }));
+    expect(onMonthChangeSpy).to.have.callCount(5);
+    expect((onMonthChangeSpy.getCall(4).args[0] as Date).getFullYear()).to.equal(2023);
+    expect((onMonthChangeSpy.getCall(4).args[0] as Date).getMonth()).to.equal(0);
+    clock.restore();
   });
 
   it('Should  not call `onMonthChange` callback when same month is clicked', () => {
@@ -144,5 +164,15 @@ describe('Calendar', () => {
 
     expect(onMonthChangeSpy).to.have.been.not.called;
     expect(onToggleMonthDropdownSpy).to.have.been.called;
+  });
+
+  it('Should render the correct week numbers', () => {
+    const { rerender } = render(<Calendar value={new Date('2020-12-01')} showWeekNumbers />);
+
+    expect(screen.queryByRole('rowheader', { name: 'Week 53' })).to.be.exist;
+
+    rerender(<Calendar value={new Date('2022-12-01')} showWeekNumbers />);
+
+    expect(screen.queryByRole('rowheader', { name: 'Week 53' })).to.not.exist;
   });
 });

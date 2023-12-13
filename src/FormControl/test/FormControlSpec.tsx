@@ -32,7 +32,7 @@ describe('FormControl', () => {
   it('Should call onChange callback', () => {
     const onChange = sinon.spy();
     render(
-      <Form>
+      <Form formDefaultValue={{ username: '' }}>
         <FormControl name="username" onChange={onChange} />
       </Form>
     );
@@ -149,15 +149,28 @@ describe('FormControl', () => {
     expect(screen.getByRole('textbox')).to.have.value(mockValue);
   });
 
-  it('Should render correctly default value when explicitly set over form default', () => {
-    const mockValue = 'value';
-    render(
-      <Form formDefaultValue={{ name: 'another value' }}>
-        <FormControl name="name" defaultValue={mockValue} />
-      </Form>
-    );
+  describe('defaultValue', () => {
+    it("Should render current value when field's defaultValue was set", () => {
+      const correctValue = 'value';
+      render(
+        <Form>
+          <FormControl name="name" defaultValue={correctValue} />
+        </Form>
+      );
 
-    expect(screen.getByRole('textbox')).to.have.value(mockValue);
+      expect(screen.getByRole('textbox')).to.have.value(correctValue);
+    });
+
+    it("Should render Form's when both the defaultValue of the form and the defaultValue of the field were set", () => {
+      const correctValue = 'value';
+      render(
+        <Form formDefaultValue={{ name: correctValue }}>
+          <FormControl name="name" defaultValue="additional value" />
+        </Form>
+      );
+
+      expect(screen.getByRole('textbox')).to.have.value(correctValue);
+    });
   });
 
   it('Should render correctly when form error was null', () => {
@@ -276,6 +289,21 @@ describe('FormControl', () => {
     });
     expect(refValue).to.deep.equal({ email: 'email' });
     expect(refError).to.deep.equal({ email: 'The length cannot exceed 2' });
+  });
+
+  it('should pass null as value to component when value is null', () => {
+    let refValue = void 0;
+    function CostumeComponent({ value }) {
+      refValue = value;
+      return null;
+    }
+    render(
+      <Form formValue={{ username: null }}>
+        <FormControl accepter={CostumeComponent} name="username" />
+      </Form>
+    );
+
+    expect(refValue).to.be.null;
   });
 
   describe('rule', () => {

@@ -25,7 +25,7 @@ function renderDropdown(ui) {
   const menu = screen.getByRole('menu', { hidden: true });
 
   return {
-    root: container.firstChild!,
+    root: container.firstChild as HTMLDivElement,
     button,
     menu
   };

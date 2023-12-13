@@ -22,7 +22,9 @@ const Calendar = {
 export default {
   common: {
     loading: 'Yükleniyor...',
-    emptyMessage: 'Veri bulunamadı'
+    emptyMessage: 'Veri bulunamadı',
+    remove: 'Kaldır',
+    clear: 'Temizlemek'
   },
   Plaintext: {
     unfilled: 'Doldurulmadı',
@@ -63,7 +65,8 @@ export default {
     error: 'Hata',
     complete: 'Tamamlandı',
     emptyFile: 'Boş',
-    upload: 'Yükle'
+    upload: 'Yükle',
+    removeFile: 'Dosyayı kaldır'
   },
   CloseButton: {
     closeLabel: 'Kapat'

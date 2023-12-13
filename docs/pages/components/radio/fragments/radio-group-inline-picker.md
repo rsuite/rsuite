@@ -3,13 +3,7 @@
 ```js
 import { Radio, RadioGroup, Form } from 'rsuite';
 
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 2px 8px 10px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-};
+const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 const App = () => (
   <Form.Group controlId="radioList">
@@ -24,7 +18,7 @@ const App = () => (
 
     <hr />
     <RadioGroup name="radioList" inline appearance="picker" defaultValue="A">
-      <span style={styles.radioGroupLabel}>Status: </span>
+      <RadioLabel>Status: </RadioLabel>
       <Radio value="A">All</Radio>
       <Radio value="B">Enabled</Radio>
       <Radio value="C">Disabled</Radio>

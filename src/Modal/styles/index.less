@@ -72,8 +72,30 @@
   }
 
   &-full {
-    @modal-full-size-margin-value: @modal-full-size-margin* 2;
-    .content-width(~'calc(100% - @{modal-full-size-margin-value})');
+    margin: 0;
+    height: 100%;
+
+    .rs-modal-content {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      border-radius: 0;
+      display: flex;
+      flex-direction: column;
+
+      .rs-modal-header {
+        flex: 0 0 auto;
+      }
+
+      .rs-modal-body {
+        flex: 1 1 auto;
+        overflow: auto;
+      }
+
+      .rs-modal-footer {
+        flex: 0 0 auto;
+      }
+    }
   }
 }
 

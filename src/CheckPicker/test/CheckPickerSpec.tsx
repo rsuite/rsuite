@@ -87,6 +87,18 @@ describe('CheckPicker', () => {
     expect(container.firstChild).to.have.class('rs-picker-plaintext');
   });
 
+  it('Should update display options when `data` is updated', () => {
+    const { rerender } = render(<CheckPicker open data={[{ label: 'Item', value: 1 }]} />);
+
+    expect(screen.getAllByRole('option').map(option => option.textContent)).to.deep.equal(['Item']);
+
+    rerender(<CheckPicker open data={[{ label: 'New Item', value: 1 }]} />);
+
+    expect(screen.getAllByRole('option').map(option => option.textContent)).to.deep.equal([
+      'New Item'
+    ]);
+  });
+
   it('Should active item by `value`', () => {
     const value = ['Louisa'];
     render(<CheckPicker defaultOpen data={data} value={value} />);
@@ -517,6 +529,16 @@ describe('CheckPicker', () => {
 
       expect(screen.queryByRole('listbox')).not.to.exist;
     });
+
+    it('Should not open menu on Enter key when loading=true', () => {
+      render(<CheckPicker data={data} loading />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), {
+        key: 'Enter'
+      });
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
   });
 
   describe('Plain text', () => {
@@ -581,6 +603,41 @@ describe('CheckPicker', () => {
 
       expect(instance.overlay).to.exist;
       expect(instance.list).to.exist;
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('Should have a role combobox', () => {
+      render(<CheckPicker data={data} />);
+
+      expect(screen.getByRole('combobox')).to.exist;
+    });
+
+    it('Should have a role listbox', () => {
+      render(<CheckPicker data={data} defaultOpen />);
+
+      expect(screen.getByRole('listbox')).to.exist;
+    });
+
+    it('Should have a role option', () => {
+      render(<CheckPicker data={data} defaultOpen />);
+
+      expect(screen.getAllByRole('option')).to.have.lengthOf(3);
+    });
+
+    it('Should have a role searchbox', () => {
+      render(<CheckPicker data={data} defaultOpen />);
+
+      expect(screen.getByRole('searchbox')).to.exist;
+    });
+
+    it('Should be the focus switch option via keyboard', () => {
+      render(<CheckPicker data={data} />);
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.activeElement).to.have.text('Eugenia');
     });
   });
 });

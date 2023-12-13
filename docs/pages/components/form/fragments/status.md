@@ -31,13 +31,7 @@ const selectData = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice'].map(
   value: item
 }));
 
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 12px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-};
+const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</label>;
 
 const defaultFormValue = {
   input: '',
@@ -89,7 +83,7 @@ const App = () => {
         onChange={formValue => setFormValue(formValue)}
       >
         <RadioGroup appearance="picker" inline value={status} onChange={setStatus}>
-          <span style={styles.radioGroupLabel}>Change status: </span>
+          <RadioLabel>Change status: </RadioLabel>
           <Radio value="normal">normal</Radio>
           <Radio value="readonly">readonly</Radio>
           <Radio value="disabled">disabled</Radio>

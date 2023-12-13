@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-
 import Drawer from '../Drawer';
 
 describe('Drawer', () => {
@@ -41,22 +41,52 @@ describe('Drawer', () => {
     expect(screen.getByRole('dialog')).to.have.class('rs-custom-prefix');
   });
 
+  it('Should render a default close button', () => {
+    render(
+      <Drawer open>
+        <Drawer.Body />
+      </Drawer>
+    );
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(screen.getByRole('dialog')?.querySelector('.rs-drawer-body-close')).to.exist;
+  });
+
+  it('Should not render the close button', () => {
+    render(
+      <Drawer closeButton={false} open>
+        <Drawer.Body />
+      </Drawer>
+    );
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(screen.getByRole('dialog')?.querySelector('.rs-drawer-body-close')).to.not.exist;
+  });
+
+  it('Should render a custom close button', () => {
+    render(
+      <Drawer closeButton={<button>custom close button</button>} open>
+        <Drawer.Body />
+      </Drawer>
+    );
+    expect(screen.getByText('custom close button')).to.exist;
+  });
+
   it('Should close the drawer when the backdrop is clicked', () => {
     const onCloseSpy = sinon.spy();
+
     render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} />);
 
-    fireEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('wrapper'));
 
-    assert.isTrue(onCloseSpy.calledOnce);
+    expect(onCloseSpy).to.have.been.calledOnce;
   });
 
   it('Should not close the drawer when the "static" drawer is clicked', () => {
     const onCloseSpy = sinon.spy();
     render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />);
 
-    fireEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('wrapper'));
 
-    assert.isFalse(onCloseSpy.calledOnce);
+    expect(onCloseSpy).to.not.have.been.calledOnce;
   });
 
   describe('Size variants', () => {
@@ -82,6 +112,26 @@ describe('Drawer', () => {
       expect(console.warn).to.have.been.calledWith(
         '"full" property of "Modal" has been deprecated.\nUse size="full" instead.'
       );
+    });
+
+    it('Should set a fixed width for the dialog', () => {
+      render(<Drawer size={200} open></Drawer>);
+      expect(screen.getByRole('dialog')).to.have.style('width', '200px');
+    });
+
+    it('Should set a dynamic width for the dialog', () => {
+      render(<Drawer size="100%" open></Drawer>);
+      expect(screen.getByRole('dialog').style.width).to.equal('100%');
+    });
+
+    it('Should set a fixed height for the dialog', () => {
+      render(<Drawer size={200} open placement="top"></Drawer>);
+      expect(screen.getByRole('dialog')).to.have.style('height', '200px');
+    });
+
+    it('Should set a dynamic height for the dialog', () => {
+      render(<Drawer size="100%" open placement="bottom"></Drawer>);
+      expect(screen.getByRole('dialog').style.height).to.equal('100%');
     });
   });
 });

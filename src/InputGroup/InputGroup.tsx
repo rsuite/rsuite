@@ -54,14 +54,17 @@ const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix(size, { inside, focus, disabled }));
 
-  const disabledChildren = () => {
+  const renderChildren = useCallback(() => {
     return React.Children.map(children, item => {
       if (React.isValidElement(item)) {
-        return React.cloneElement(item, { disabled: true });
+        if (React.isValidElement(item)) {
+          // Fix: Add type assertion to pass the disabled prop to the child element
+          return disabled ? React.cloneElement(item, { disabled } as { disabled?: boolean }) : item;
+        }
       }
       return item;
     });
-  };
+  }, [children, disabled]);
 
   const contextValue = useMemo(
     () => ({ onFocus: handleFocus, onBlur: handleBlur }),
@@ -71,7 +74,7 @@ const InputGroup: InputGroupComponent = React.forwardRef((props: InputGroupProps
   return (
     <InputGroupContext.Provider value={contextValue}>
       <Component {...rest} ref={ref} className={classes}>
-        {disabled ? disabledChildren() : children}
+        {renderChildren()}
       </Component>
     </InputGroupContext.Provider>
   );

@@ -93,10 +93,13 @@
 
 ### `<CheckPicker>`
 
+<!-- prettier-sort-markdown-table -->
+
 | 属性名称           | 类型`(默认值)`                                                                    | 描述                                 |
 | ------------------ | --------------------------------------------------------------------------------- | ------------------------------------ |
 | appearance         | 'default' &#124; 'subtle' `('default')`                                           | 设置外观                             |
 | block              | boolean                                                                           | 堵塞整行                             |
+| caretAs            | ElementType                                                                       | 自定义右侧箭头图标的组件             |
 | classPrefix        | string `('picker')`                                                               | 组件 CSS 类的前缀                    |
 | cleanable          | boolean `(true)`                                                                  | 可以清除                             |
 | container          | HTMLElement &#124; (() => HTMLElement)                                            | 设置渲染的容器                       |
@@ -109,10 +112,10 @@
 | label              | ReactNode                                                                         | 在按钮开头显示的标签                 |
 | labelKey           | string `('label')`                                                                | 设置选项显示内容在 `data` 中的 `key` |
 | listProps          | [ListProps][listprops]                                                            | 虚拟化长列表的相关属性               |
-| loading            | boolean `(false)`                                                                 | 是否显示一个加载中状态指示器           |
+| loading            | boolean `(false)`                                                                 | 是否显示一个加载中状态指示器         |
 | locale             | [PickerLocaleType](/zh/guide/i18n/#pickers)                                       | 本地化的文本                         |
-| menuMaxHeight      | number `(320)`                                                                    | 设置 Dropdown 的最大高度             |
 | menuClassName      | string                                                                            | 应用于菜单 DOM 节点的 css class      |
+| menuMaxHeight      | number `(320)`                                                                    | 设置 Dropdown 的最大高度             |
 | menuStyle          | CSSProperties                                                                     | 应用于菜单 DOM 节点的 style          |
 | onChange           | (value: [ValueType][value] , event) => void                                       | `value` 发生改变时的回调函数         |
 | onClean            | (event:SyntheticEvent) => void                                                    | 值清理时触发回调                     |
@@ -136,8 +139,8 @@
 | renderMenuGroup    | (groupTitle:ReactNode, item: [ItemDataType][item]) => ReactNode                   | 自定义选项组                         |
 | renderMenuItem     | (label:ReactNode, item: [ItemDataType][item]) => ReactNode                        | 自定义选项                           |
 | renderValue        | (value: [ValueType][value] , items: any[],selectedElement:ReactNode) => ReactNode | 自定义被选中的选项                   |
-| searchBy           | (keyword: string, label: ReactNode, item: [ItemDataType][item]) => boolean        | 自定义搜索规则                       |
 | searchable         | boolean `(true)`                                                                  | 可以搜索                             |
+| searchBy           | (keyword: string, label: ReactNode, item: [ItemDataType][item]) => boolean        | 自定义搜索规则                       |
 | size               | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                 | 设置组件尺寸                         |
 | sort               | (isGroup: boolean) => (a: any, b: any) => number                                  | 对选项排序                           |
 | sticky             | boolean                                                                           | 把选项中已选择的选项置顶在最前面     |
@@ -145,7 +148,6 @@
 | value              | [ValueType][value]                                                                | 设置值 `受控`                        |
 | valueKey           | string `('value')`                                                                | 设置选项值在 `data` 中的 `key`       |
 | virtualized        | boolean                                                                           | 是否开启虚拟列表                     |
-| caretAs            | ElementType                                                                       | 自定义右侧箭头图标的组件             |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->

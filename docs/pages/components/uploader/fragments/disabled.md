@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Uploader } from 'rsuite';
+import { Uploader, Button } from 'rsuite';
 
 const fileList = [
   { name: 'file1.jpg', fileKey: 1 },
@@ -16,7 +16,9 @@ const App = () => (
       disabledFileItem
       defaultFileList={fileList}
       action="//jsonplaceholder.typicode.com/posts/"
-    />
+    >
+      <Button>Select files...</Button>
+    </Uploader>
 
     <hr />
     <label>Read only: </label>
@@ -25,7 +27,9 @@ const App = () => (
       disabledFileItem
       defaultFileList={fileList}
       action="//jsonplaceholder.typicode.com/posts/"
-    />
+    >
+      <Button>Select files...</Button>
+    </Uploader>
 
     <hr />
     <label>Plaintext: </label>
@@ -34,7 +38,9 @@ const App = () => (
       disabledFileItem
       defaultFileList={fileList}
       action="//jsonplaceholder.typicode.com/posts/"
-    />
+    >
+      <Button>Select files...</Button>
+    </Uploader>
   </>
 );
 

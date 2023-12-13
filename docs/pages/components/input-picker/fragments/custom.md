@@ -2,9 +2,15 @@
 
 ```js
 import { InputPicker } from 'rsuite';
+import UserIcon from '@rsuite/icons/legacy/User';
+import GroupIcon from '@rsuite/icons/legacy/Group';
 
 const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', 'Albert'].map(
-  item => ({ label: item, value: item })
+  item => ({
+    label: item,
+    value: item,
+    role: Math.random() > 0.5 ? 'Owner' : 'Guest'
+  })
 );
 
 const App = () => (
@@ -15,23 +21,23 @@ const App = () => (
     style={{ width: 224 }}
     renderMenuItem={(label, item) => {
       return (
-        <div>
-          <i className="rs-icon rs-icon-user" /> {label}
-        </div>
+        <>
+          <UserIcon /> {label}
+        </>
       );
     }}
     renderMenuGroup={(label, item) => {
       return (
-        <div>
-          <i className="rs-icon rs-icon-group" /> {label} - ({item.children.length})
-        </div>
+        <>
+          <GroupIcon /> {label} - ({item.children.length})
+        </>
       );
     }}
     renderValue={(value, item, selectedElement) => {
       return (
         <div>
           <span style={{ color: '#575757' }}>
-            <i className="rs-icon rs-icon-user" /> User :
+            <UserIcon /> User :
           </span>{' '}
           {value}
         </div>

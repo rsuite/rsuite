@@ -49,8 +49,18 @@ const App = () => (
       ranges={predefinedBottomRanges}
       placeholder="Placement defaults to bottom"
       style={{ width: 300 }}
+      onShortcutClick={(shortcut, event) => {
+        console.log(shortcut);
+      }}
     />
-    <DatePicker ranges={predefinedRanges} placeholder="Placement mixed" style={{ width: 300 }} />
+    <DatePicker
+      ranges={predefinedRanges}
+      placeholder="Placement mixed"
+      style={{ width: 300 }}
+      onShortcutClick={(shortcut, event) => {
+        console.log(shortcut);
+      }}
+    />
   </Stack>
 );
 

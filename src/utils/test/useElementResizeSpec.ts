@@ -3,6 +3,10 @@ import { renderHook } from '@test/testUtils';
 import useElementResize from '../useElementResize';
 import { act, waitFor } from '@testing-library/react';
 
+afterEach(() => {
+  sinon.restore();
+});
+
 describe('[utils] useElementResize', () => {
   it('should be defined', () => {
     expect(useElementResize).to.be.exist;

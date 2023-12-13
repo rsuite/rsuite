@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Uploader } from 'rsuite';
+import { Uploader, Button } from 'rsuite';
 
 const fileList = [
   {
@@ -28,7 +28,9 @@ const App = () => (
         </>
       );
     }}
-  />
+  >
+    <Button>Select files...</Button>
+  </Uploader>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

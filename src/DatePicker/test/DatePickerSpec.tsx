@@ -1,11 +1,12 @@
 import React from 'react';
+import { testStandardProps } from '@test/commonCases';
 import { render, fireEvent, act, waitFor, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import enGB from 'date-fns/locale/en-GB';
 import ReactTestUtils from 'react-dom/test-utils';
 import { format, isSameDay, parseISO, addMonths, isBefore } from '../../utils/dateUtils';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getInstance } from '@test/testUtils';
 import DatePicker from '../DatePicker';
 import { DateUtils } from '../../utils';
 
@@ -17,27 +18,31 @@ afterEach(() => {
 });
 
 describe('DatePicker', () => {
+  testStandardProps(<DatePicker />);
+
   it('Should render a div with "rs-picker-date" class', () => {
-    const instance = getDOMNode(<DatePicker />);
-    assert.equal(instance.nodeName, 'DIV');
-    assert.ok(instance.className.match(/\brs-picker-date\b/));
+    const { container } = render(<DatePicker />);
+
+    expect(container.firstChild).to.have.tagName('DIV');
+    expect(container.firstChild).to.have.class('rs-picker-date');
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<DatePicker />);
+    const { container } = render(<DatePicker />);
 
-    expect(instance).to.have.class('rs-picker-default');
+    expect(container.firstChild).to.have.class('rs-picker-default');
   });
 
   it('Should be cleanable by default', () => {
-    const instance = getDOMNode(<DatePicker value={new Date()} />);
+    const { container } = render(<DatePicker value={new Date()} />);
 
-    expect(instance).to.have.class('rs-picker-cleanable');
+    expect(container.firstChild).to.have.class('rs-picker-cleanable');
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<DatePicker disabled />);
-    assert.ok(instance.className.match(/\bdisabled\b/));
+    const { container } = render(<DatePicker disabled />);
+
+    expect(container.firstChild).to.have.class('rs-picker-disabled');
   });
 
   it('Should be not cleanable', () => {
@@ -53,9 +58,9 @@ describe('DatePicker', () => {
   });
 
   it('Should be block', () => {
-    const instance = getDOMNode(<DatePicker block />);
+    const { container } = render(<DatePicker block />);
 
-    assert.ok(instance.className.match(/\bblock\b/));
+    expect(container.firstChild).to.have.class('rs-picker-block');
   });
 
   it('Should output a date', () => {
@@ -116,8 +121,9 @@ describe('DatePicker', () => {
   });
 
   it('Should get panel container ref', function () {
-    const instance = getDOMNode(<DatePicker defaultOpen />);
-    assert.equal(instance.tagName, 'DIV');
+    const { container } = render(<DatePicker defaultOpen />);
+
+    expect(container.firstChild).to.have.tagName('DIV');
   });
 
   it('Should call `onChange` callback', () => {
@@ -468,17 +474,6 @@ describe('DatePicker', () => {
     expect(onToggleTimeDropdownSpy).to.calledTwice;
   });
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<DatePicker className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<DatePicker style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
   it('Should call `onChangeCalendarDate` callback when click backward', () => {
     const onChangeCalendarDate = sinon.spy();
 
@@ -678,11 +673,6 @@ describe('DatePicker', () => {
     expect(screen.getByRole('combobox')).to.have.class('rs-picker-toggle-active');
   });
 
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<DatePicker classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
-  });
-
   it('Should call onChange after setting oneTap and clicking date', () => {
     const onChangeSpy = sinon.spy();
 
@@ -814,10 +804,10 @@ describe('DatePicker', () => {
   it('Should render week numbers given `showWeekNumbers=true`', () => {
     render(<DatePicker defaultOpen calendarDefaultDate={new Date('12/15/2021')} showWeekNumbers />);
 
-    [49, 50, 51, 52, 1, 2].forEach(weekOrder => {
+    [48, 49, 50, 51, 52, 1].forEach(weekOrder => {
       expect(screen.getByRole('grid', { name: 'Dec 2021' })).to.contain(
         screen.getByRole('rowheader', {
-          name: `${weekOrder}`
+          name: `Week ${weekOrder}`
         })
       );
     });
@@ -980,8 +970,9 @@ describe('DatePicker', () => {
   });
 
   it('Should change calendar title after clicking on the month', () => {
-    const instance = getInstance(<DatePicker format="yyyy-MM" />);
-    const today = new Date();
+    const date = new Date('2023-10-01');
+
+    const instance = getInstance(<DatePicker format="yyyy-MM" defaultValue={date} />);
 
     fireEvent.click(instance.target);
 
@@ -990,12 +981,12 @@ describe('DatePicker', () => {
     // eslint-disable-next-line testing-library/no-node-access
     const activeMonth = instance.overlay.querySelector('.rs-calendar-month-dropdown-cell-active');
 
-    expect(headerTitle).to.have.text(format(today, 'MMM yyyy'));
+    expect(headerTitle).to.have.text(format(date, 'MMM yyyy'));
 
     // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(activeMonth.nextElementSibling);
 
-    expect(headerTitle).to.have.text(format(addMonths(today, 1), 'MMM yyyy'));
+    expect(headerTitle).to.have.text(format(addMonths(date, 1), 'MMM yyyy'));
   });
 
   it('Should the calendar date be reset when the controlled value is cleared', () => {
@@ -1055,5 +1046,278 @@ describe('DatePicker', () => {
     render(<DatePicker defaultValue={new Date('2023-04-01')} open />);
 
     expect(screen.getByRole('button', { name: 'Select month' })).to.have.text('Apr 2023');
+  });
+
+  it('Should call `onShortcutClick` callback', async () => {
+    const onShortcutClickSpy = sinon.spy();
+
+    render(
+      <DatePicker
+        defaultOpen
+        ranges={[{ label: 'custom-day', value: new Date('2022-02-02 12:00:00') }]}
+        onShortcutClick={onShortcutClickSpy}
+      />
+    );
+
+    userEvent.click(screen.getByRole('button', { name: 'custom-day' }));
+
+    await waitFor(() => {
+      expect(onShortcutClickSpy).to.calledOnce;
+      expect(onShortcutClickSpy.firstCall.firstArg.label).to.equal('custom-day');
+    });
+  });
+
+  it('Should be clear the value via the Backspace key', async () => {
+    const onChangeSpy = sinon.spy();
+
+    render(
+      <DatePicker onChange={onChangeSpy} format="yyyy-MM" defaultValue={new Date('2023-11-01')} />
+    );
+
+    const input = screen
+      .getByRole('combobox')
+      // eslint-disable-next-line testing-library/no-node-access
+      .querySelector('.rs-picker-toggle-textbox') as HTMLInputElement;
+
+    userEvent.click(input);
+    userEvent.keyboard('{Backspace}');
+    input.value = '';
+
+    await waitFor(() => {
+      expect(onChangeSpy).to.calledOnce;
+      expect(onChangeSpy.firstCall.firstArg).to.equal(null);
+    });
+  });
+
+  describe('Loading state', () => {
+    it('Should display a spinner when loading=true', () => {
+      render(<DatePicker loading />);
+
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should not open menu on click when loading=true', () => {
+      render(<DatePicker loading />);
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+
+    it('Should not open menu on Enter key when loading=true', () => {
+      render(<DatePicker loading />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), {
+        key: 'Enter'
+      });
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('Should have a aria-label attribute', () => {
+      render(<DatePicker aria-label="Custom label" />);
+
+      expect(screen.getByRole('combobox')).to.have.attribute('aria-label', 'Custom label');
+    });
+
+    it('Should have a aria-labelledby attribute', () => {
+      render(<DatePicker aria-labelledby="custom-label" />);
+
+      expect(screen.getByRole('combobox')).to.have.attribute('aria-labelledby', 'custom-label');
+    });
+
+    it('Should focus on specified date by ArrowDown key', async () => {
+      render(<DatePicker defaultValue={new Date('2023-10-01')} />);
+
+      // eslint-disable-next-line testing-library/no-node-access
+      const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
+
+      fireEvent.click(input);
+      fireEvent.keyDown(input, {
+        key: 'ArrowDown'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: '01 Oct 2023' })).to.have.focus;
+      });
+
+      fireEvent.keyDown(screen.getByRole('grid'), {
+        key: 'ArrowDown'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: '08 Oct 2023' })).to.have.focus;
+      });
+    });
+
+    it('Should focus on specified date by ArrowUp key', async () => {
+      render(<DatePicker defaultValue={new Date('2023-10-01')} />);
+
+      // eslint-disable-next-line testing-library/no-node-access
+      const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
+
+      fireEvent.click(input);
+      fireEvent.keyDown(input, {
+        key: 'ArrowDown'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: '01 Oct 2023' })).to.have.focus;
+      });
+
+      fireEvent.keyDown(screen.getByRole('grid'), {
+        key: 'ArrowUp'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: '24 Sep 2023' })).to.have.focus;
+      });
+    });
+
+    it('Should focus on specified date by ArrowRight key', async () => {
+      render(<DatePicker defaultValue={new Date('2023-10-01')} />);
+
+      // eslint-disable-next-line testing-library/no-node-access
+      const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
+
+      fireEvent.click(input);
+      fireEvent.keyDown(input, {
+        key: 'ArrowDown'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: '01 Oct 2023' })).to.have.focus;
+      });
+
+      fireEvent.keyDown(screen.getByRole('grid'), {
+        key: 'ArrowRight'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: '02 Oct 2023' })).to.have.focus;
+      });
+    });
+
+    it('Should focus on specified date by ArrowLeft key', async () => {
+      render(<DatePicker defaultValue={new Date('2023-10-01')} />);
+
+      // eslint-disable-next-line testing-library/no-node-access
+      const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
+
+      fireEvent.click(input);
+      fireEvent.keyDown(input, {
+        key: 'ArrowDown'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: '01 Oct 2023' })).to.have.focus;
+      });
+
+      fireEvent.keyDown(screen.getByRole('grid'), {
+        key: 'ArrowLeft'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: '30 Sep 2023' })).to.have.focus;
+      });
+    });
+
+    it('Should focus on specified month by ArrowDown key', async () => {
+      render(<DatePicker defaultValue={new Date('2023-10-01')} format="yyyy-MM" />);
+
+      // eslint-disable-next-line testing-library/no-node-access
+      const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
+
+      fireEvent.click(input);
+      fireEvent.keyDown(input, {
+        key: 'ArrowDown'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: 'Oct 2023' })).to.have.focus;
+      });
+
+      fireEvent.keyDown(screen.getByRole('dialog'), {
+        key: 'ArrowDown'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: 'Apr 2024' })).to.have.focus;
+      });
+    });
+
+    it('Should focus on specified month by ArrowUp key', async () => {
+      render(<DatePicker defaultValue={new Date('2023-10-01')} format="yyyy-MM" />);
+
+      // eslint-disable-next-line testing-library/no-node-access
+      const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
+
+      fireEvent.click(input);
+      fireEvent.keyDown(input, {
+        key: 'ArrowDown'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: 'Oct 2023' })).to.have.focus;
+      });
+
+      fireEvent.keyDown(screen.getByRole('dialog'), {
+        key: 'ArrowUp'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: 'Apr 2023' })).to.have.focus;
+      });
+    });
+
+    it('Should focus on specified month by ArrowRight key', async () => {
+      render(<DatePicker defaultValue={new Date('2023-10-01')} format="yyyy-MM" />);
+
+      // eslint-disable-next-line testing-library/no-node-access
+      const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
+
+      fireEvent.click(input);
+      fireEvent.keyDown(input, {
+        key: 'ArrowDown'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: 'Oct 2023' })).to.have.focus;
+      });
+
+      fireEvent.keyDown(screen.getByRole('dialog'), {
+        key: 'ArrowRight'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: 'Nov 2023' })).to.have.focus;
+      });
+    });
+
+    it('Should focus on specified month by ArrowLeft key', async () => {
+      render(<DatePicker defaultValue={new Date('2023-10-01')} format="yyyy-MM" />);
+
+      // eslint-disable-next-line testing-library/no-node-access
+      const input = screen.getByRole('combobox').querySelector('input') as HTMLInputElement;
+
+      fireEvent.click(input);
+      fireEvent.keyDown(input, {
+        key: 'ArrowDown'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: 'Oct 2023' })).to.have.focus;
+      });
+
+      fireEvent.keyDown(screen.getByRole('dialog'), {
+        key: 'ArrowLeft'
+      });
+
+      await waitFor(() => {
+        expect(screen.getByRole('gridcell', { name: 'Sep 2023' })).to.have.focus;
+      });
+    });
   });
 });

@@ -1,24 +1,24 @@
 import React, { CSSProperties, Ref } from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getInstance } from '@test/testUtils';
 
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../../Tooltip';
 
 describe('Whisper', () => {
   it('Should create Whisper element', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Whisper speaker={<Tooltip>tooltip</Tooltip>}>
         <button type="button">button</button>
       </Whisper>
     );
 
-    expect(instance.nodeName).to.equal('BUTTON');
+    expect(container.firstChild).to.have.tagName('BUTTON');
   });
 
   it('Should maintain overlay classname when trigger click', () => {
-    const whisper = getDOMNode(
+    render(
       <Whisper
         trigger="click"
         speaker={
@@ -30,13 +30,13 @@ describe('Whisper', () => {
         <button>button</button>
       </Whisper>
     );
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
 
     expect(screen.getByTestId('tooltip')).to.have.class('test-whisper');
   });
 
   it('Should maintain overlay classname when trigger focus', () => {
-    const whisper = getDOMNode(
+    render(
       <Whisper
         trigger="focus"
         speaker={
@@ -49,32 +49,32 @@ describe('Whisper', () => {
       </Whisper>
     );
 
-    fireEvent.focus(whisper);
+    fireEvent.focus(screen.getByRole('button'));
     expect(screen.getByTestId('tooltip')).to.have.class('test-whisper');
   });
 
   it('Should call onClick callback', () => {
     const onClick = sinon.spy();
-    const whisper = getDOMNode(
+    render(
       <Whisper onClick={onClick} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
 
     expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should call onOpen callback', async () => {
     const onOpen = sinon.spy();
-    const whisper = getDOMNode(
+    render(
       <Whisper onOpen={onOpen} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
 
     await waitFor(() => {
       expect(onOpen).to.have.been.calledOnce;
@@ -98,13 +98,13 @@ describe('Whisper', () => {
   it('Should call onEntered callback', async () => {
     const onEntered = sinon.spy();
 
-    const whisper = getDOMNode(
+    render(
       <Whisper onEntered={onEntered} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
     await waitFor(() => {
       expect(onEntered).to.have.been.calledOnce;
     });
@@ -113,14 +113,14 @@ describe('Whisper', () => {
   it('Should call onClose callback', async () => {
     const onClose = sinon.spy();
 
-    const whisper = getDOMNode(
+    render(
       <Whisper onClose={onClose} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
-    fireEvent.click(whisper);
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByRole('button'));
     await waitFor(() => {
       expect(onClose).to.have.been.calledOnce;
     });
@@ -129,14 +129,14 @@ describe('Whisper', () => {
   it('Should call onExited callback', async () => {
     const onExited = sinon.spy();
 
-    const whisper = getDOMNode(
+    render(
       <Whisper onExited={onExited} trigger="click" speaker={<Tooltip />}>
         <button>button</button>
       </Whisper>
     );
 
-    fireEvent.click(whisper);
-    fireEvent.click(whisper);
+    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByRole('button'));
     await waitFor(() => {
       expect(onExited).to.have.been.calledOnce;
     });

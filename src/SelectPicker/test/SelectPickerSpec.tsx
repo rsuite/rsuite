@@ -59,6 +59,13 @@ describe('SelectPicker', () => {
     expect(instance).to.have.class('rs-picker-disabled');
   });
 
+  it('Should render a hidden <input> with given "name" attribute', () => {
+    const { container } = render(<SelectPicker data={[]} name="field" />);
+
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelector('input')).to.have.attr('name', 'field');
+  });
+
   describe('Loading state', () => {
     it('Should display a spinner when loading=true', () => {
       render(<SelectPicker data={data} loading />);
@@ -80,6 +87,16 @@ describe('SelectPicker', () => {
 
       expect(screen.queryByRole('listbox')).not.to.exist;
     });
+
+    it('Should not open menu on Enter key when loading=true', () => {
+      render(<SelectPicker data={data} loading />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), {
+        key: 'Enter'
+      });
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
   });
 
   it('Should output a button', () => {
@@ -92,6 +109,18 @@ describe('SelectPicker', () => {
     const instance = getDOMNode(<SelectPicker data={[]} block />);
 
     expect(instance).to.have.class('rs-picker-block');
+  });
+
+  it('Should update display options when `data` is updated', () => {
+    const { rerender } = render(<SelectPicker open data={[{ label: 'Item', value: 1 }]} />);
+
+    expect(screen.getAllByRole('option').map(option => option.textContent)).to.deep.equal(['Item']);
+
+    rerender(<SelectPicker open data={[{ label: 'New Item', value: 1 }]} />);
+
+    expect(screen.getAllByRole('option').map(option => option.textContent)).to.deep.equal([
+      'New Item'
+    ]);
   });
 
   it('Should active item by `value`', () => {
@@ -504,6 +533,41 @@ describe('SelectPicker', () => {
           />
         );
       }).to.not.throw();
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('Should have a role combobox', () => {
+      render(<SelectPicker data={data} />);
+
+      expect(screen.getByRole('combobox')).to.exist;
+    });
+
+    it('Should have a role listbox', () => {
+      render(<SelectPicker data={data} defaultOpen />);
+
+      expect(screen.getByRole('listbox')).to.exist;
+    });
+
+    it('Should have a role option', () => {
+      render(<SelectPicker data={data} defaultOpen />);
+
+      expect(screen.getAllByRole('option')).to.have.lengthOf(3);
+    });
+
+    it('Should have a role searchbox', () => {
+      render(<SelectPicker data={data} defaultOpen />);
+
+      expect(screen.getByRole('searchbox')).to.exist;
+    });
+
+    it('Should be the focus switch option via keyboard', () => {
+      render(<SelectPicker data={data} />);
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(document.activeElement).to.have.text('Eugenia');
     });
   });
 });

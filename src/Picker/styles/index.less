@@ -18,10 +18,6 @@
     max-width: 100%;
   }
 
-  &-toggle {
-    min-width: 75px;
-  }
-
   &-toggle.rs-btn {
     .rs-ripple-pond {
       display: none !important;
@@ -249,15 +245,6 @@
     padding: 4px 0;
   }
 
-  &:hover {
-    color: var(--rs-state-error);
-  }
-
-  &:hover svg path {
-    stroke: var(--rs-state-error);
-    stroke-width: 1;
-  }
-
   .rs-@{date-picker-prefix} &,
   .rs-@{date-range-picker-prefix} & {
     right: (@picker-toggle-clean-right + @picker-item-content-padding-vertical);
@@ -397,21 +384,19 @@
         cursor: not-allowed;
       }
 
-      .rs-checkbox-wrapper {
-        left: @picker-item-content-padding-horizontal;
-
-        .grouped &,
-        .@{ckpns}-menu-group-children & {
-          left: (
-            @picker-item-content-padding-horizontal + @picker-children-check-item-padding-left
-          );
-        }
-      }
-
       .grouped &,
       .@{ckpns}-menu-group-children & {
         padding-left: @picker-check-item-content-padding-left +
           @picker-children-check-item-padding-left;
+      }
+    }
+
+    .rs-checkbox-wrapper {
+      left: @picker-item-content-padding-horizontal;
+
+      .grouped &,
+      .@{ckpns}-menu-group-children & {
+        left: (@picker-item-content-padding-horizontal + @picker-children-check-item-padding-left);
       }
     }
   }

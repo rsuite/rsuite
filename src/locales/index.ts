@@ -20,6 +20,8 @@ export { default as zhCN } from './zh_CN';
 export { default as zhTW } from './zh_TW';
 export { default as faIR } from './fa_IR';
 export { default as frFR } from './fr_FR';
+export { default as jaJP } from './ja_JP';
+export { default as neNP } from './ne_NP';
 
 type PickKeys<T> = {
   [keys in keyof T]?: T[keys];
@@ -35,7 +37,7 @@ export type DatePickerLocale = PickKeys<typeof defaultLocale.DatePicker>;
 export type DateRangePickerLocale = PickKeys<typeof defaultLocale.DateRangePicker>;
 export type PickerLocale = typeof defaultLocale.Picker & CommonLocale;
 export type InputPickerLocale = PickerLocale & typeof defaultLocale.InputPicker;
-export type UploaderLocale = PickKeys<typeof defaultLocale.Uploader>;
+export type UploaderLocale = PickKeys<typeof defaultLocale.Uploader> & CommonLocale;
 export type CloseButtonLocale = PickKeys<typeof defaultLocale.CloseButton>;
 export type BreadcrumbLocale = PickKeys<typeof defaultLocale.Breadcrumb>;
 export type ToggleLocale = PickKeys<typeof defaultLocale.Toggle>;

@@ -161,7 +161,7 @@
     "id": "navbar",
     "name": "Navbar",
     "title": "导航栏",
-    "components": ["Navbar", "Navbar.Header", "Navbar.Brand", "Navbar.Body"],
+    "components": ["Navbar", "Navbar.Brand"],
     "designHash": {
       "default": "30",
       "dark": "30"

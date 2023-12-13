@@ -60,6 +60,9 @@ export interface CheckboxProps<V = ValueType> extends WithAsProps {
 
   /** Called when the checkbox is clicked. */
   onCheckboxClick?: (event: React.SyntheticEvent) => void;
+
+  /** Called when the user presses down a key. */
+  onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
 const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRef(

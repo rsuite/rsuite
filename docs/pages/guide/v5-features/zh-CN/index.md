@@ -367,7 +367,7 @@ return (
 // for rsuite v4
 Alert.info('description');
 
-// for rsutie v5
+// for rsuite v5
 toaster.push(
   <Message type="info" closable>
     description

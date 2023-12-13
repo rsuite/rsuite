@@ -22,7 +22,9 @@ const Calendar = {
 export default {
   common: {
     loading: 'Carregando...',
-    emptyMessage: 'Nenhum dado encontrado'
+    emptyMessage: 'Nenhum dado encontrado',
+    remove: 'Remover',
+    clear: 'Claro'
   },
   Plaintext: {
     unfilled: 'sin llenar',
@@ -63,7 +65,8 @@ export default {
     error: 'Erro',
     complete: 'Finalizado',
     emptyFile: 'Em branco',
-    upload: 'Upload'
+    upload: 'Upload',
+    removeFile: 'Remover arquivo'
   },
   CloseButton: {
     closeLabel: 'Apagar'

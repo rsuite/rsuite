@@ -34,7 +34,8 @@ import {
   OverlayTriggerHandle,
   PositionChildProps,
   listPickerPropTypes,
-  PickerHandle
+  PickerHandle,
+  PickerToggleProps
 } from '../Picker';
 
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
@@ -42,7 +43,8 @@ import { useMap } from '../utils/useMap';
 
 export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>
-  extends FormControlPickerProps<T | null, PickerLocale, ItemDataType<T>> {
+  extends FormControlPickerProps<T | null, PickerLocale, ItemDataType<T>>,
+    Pick<PickerToggleProps, 'loading'> {
   /** Sets the width of the menu */
   menuWidth?: number;
 
@@ -283,6 +285,12 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
       setSearchKeyword(value);
       onSearch?.(value, event);
+
+      if (!value || items.length === 0) {
+        setFocusItemValue(undefined);
+        return;
+      }
+
       if (items.length > 0) {
         setFocusItemValue(items[0][valueKey]);
         setLayer(0);
@@ -313,7 +321,10 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
   const handleClose = useCallback(() => {
     triggerRef.current?.close();
-  }, [triggerRef]);
+
+    // The focus is on the trigger button after closing
+    targetRef.current?.focus?.();
+  }, []);
 
   const handleClean = useCallback(
     (event: React.SyntheticEvent) => {
@@ -339,6 +350,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         }
 
         if (!shallowEqual(value, focusItemValue)) {
+          onSelect?.(focusItem as ItemDataType<T>, pathTowardsActiveItem, event);
           onChange?.(focusItemValue ?? null, event);
         }
         handleClose();
@@ -354,7 +366,8 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
       setLayer,
       setValue,
       value,
-      valueKey
+      valueKey,
+      onSelect
     ]
   );
 
@@ -490,6 +503,8 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         aria-disabled={disabled}
         data-key={item[valueKey]}
         className={itemClasses}
+        tabIndex={-1}
+        role="option"
         onClick={event => {
           if (!disabled) {
             handleSearchRowSelect(item, nodes, event);
@@ -508,7 +523,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
     const items = getSearchResult();
     return (
-      <div className={prefix('cascader-search-panel')} data-layer={0}>
+      <div className={prefix('cascader-search-panel')} data-layer={0} role="listbox">
         {items.length ? (
           items.map(renderSearchRow)
         ) : (

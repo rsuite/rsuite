@@ -385,7 +385,6 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     () => ({
       getCombinedModel,
       checkTrigger,
-      formDefaultValue,
       errorFromContext,
       readOnly,
       plaintext,
@@ -402,7 +401,6 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
     [
       getCombinedModel,
       checkTrigger,
-      formDefaultValue,
       errorFromContext,
       readOnly,
       plaintext,
@@ -421,7 +419,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
   return (
     <form {...rest} ref={rootRef} onSubmit={handleSubmit} className={classes}>
       <FormContext.Provider value={formContextValue}>
-        <FormValueContext.Provider value={formValue}>{children}</FormValueContext.Provider>
+        <FormValueContext.Provider value={realFormValue}>{children}</FormValueContext.Provider>
       </FormContext.Provider>
     </form>
   );

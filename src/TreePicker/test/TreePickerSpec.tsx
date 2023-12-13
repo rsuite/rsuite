@@ -1,12 +1,13 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getInstance } from '@test/testUtils';
 import TreePicker, { TreePickerProps } from '../TreePicker';
 import { KEY_VALUES } from '../../utils';
 import { PickerHandle } from '../../Picker';
 import { ListHandle } from '../../Windowing';
 import userEvent from '@testing-library/user-event';
+import { testStandardProps } from '@test/commonCases';
 
 const data = [
   {
@@ -36,6 +37,7 @@ const data = [
 ];
 
 describe('TreePicker', () => {
+  testStandardProps(<TreePicker data={data} />);
   it('Should render default value', () => {
     render(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
 
@@ -43,9 +45,9 @@ describe('TreePicker', () => {
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<TreePicker data={[]} />);
+    const { container } = render(<TreePicker data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-default');
+    expect(container.firstChild).to.have.class('rs-picker-default');
   });
 
   it('Should clean selected value', () => {
@@ -72,15 +74,15 @@ describe('TreePicker', () => {
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<TreePicker disabled data={[]} />);
+    const { container } = render(<TreePicker disabled data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-disabled');
+    expect(container.firstChild).to.have.class('rs-picker-disabled');
   });
 
   it('Should be block', () => {
-    const instance = getDOMNode(<TreePicker block data={[]} />);
+    const { container } = render(<TreePicker block data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-block');
+    expect(container.firstChild).to.have.class('rs-picker-block');
   });
 
   it('Should active one node by `value`', () => {
@@ -339,16 +341,6 @@ describe('TreePicker', () => {
     expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class('rs-tree-node-focus');
   });
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<TreePicker className="custom" data={data} />);
-    expect(instance).to.have.class('custom');
-  });
-
-  it('Should have a custom style', () => {
-    const instance = getDOMNode(<TreePicker style={{ fontSize: 12 }} data={data} />);
-    expect(instance).to.have.style('font-size', '12px');
-  });
-
   it('Should have a custom menuStyle', () => {
     const instance = getInstance(<TreePicker open menuStyle={{ fontSize: 12 }} data={data} />);
     expect(instance.overlay).to.have.style('font-size', '12px');
@@ -399,12 +391,6 @@ describe('TreePicker', () => {
     render(<TreePicker data={data} open searchKeyword="M" />);
 
     expect(screen.getAllByRole('treeitem')).to.have.lengthOf(1);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<TreePicker data={data} classPrefix="custom-prefix" />);
-
-    expect(instance.className).to.contain('custom-prefix');
   });
 
   it('Should render tree node with custom dom', () => {
@@ -670,5 +656,31 @@ describe('TreePicker', () => {
 
     fireEvent.click(screen.getByLabelText('Clear'));
     expect(screen.getByRole('combobox')).to.text('Master');
+  });
+
+  describe('Loading state', () => {
+    it('Should display a spinner when loading=true', () => {
+      render(<TreePicker data={data} loading />);
+
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should not open menu on click when loading=true', () => {
+      render(<TreePicker data={data} loading />);
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+
+    it('Should not open menu on Enter key when loading=true', () => {
+      render(<TreePicker data={data} loading />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), {
+        key: 'Enter'
+      });
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
   });
 });

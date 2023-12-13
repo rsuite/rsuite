@@ -7,6 +7,7 @@ import { getInstance } from '@test/testUtils';
 import { PickerHandle } from '../../Picker';
 import '../styles/index.less';
 import { testStandardProps } from '@test/commonCases';
+import userEvent from '@testing-library/user-event';
 
 const items = [
   {
@@ -610,6 +611,22 @@ describe('Cascader', () => {
     );
   });
 
+  it('Should trigger onChange callback & onSelect callback when press Enter', () => {
+    const onChangeSpy = sinon.spy();
+    const onSelectSpy = sinon.spy();
+
+    const instance = getInstance(
+      <Cascader data={items} onChange={onChangeSpy} onSelect={onSelectSpy} defaultOpen />
+    );
+
+    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+
+    fireEvent.keyDown(instance.target, { key: 'Enter' });
+
+    expect(onChangeSpy).to.have.been.calledOnce;
+    expect(onSelectSpy).to.have.been.calledOnce;
+  });
+
   describe('Focus item', () => {
     it('Should update scroll position when the focus is not within the viewport', () => {
       const instance = getInstance(<Cascader defaultOpen data={items} menuHeight={72} />);
@@ -656,6 +673,53 @@ describe('Cascader', () => {
 
       expect(focusItems).to.length(1);
       expect(focusItems[0]).to.have.text('2');
+    });
+
+    it('Should be selected for focus item by Enter key', () => {
+      render(<Cascader data={items} />);
+
+      userEvent.click(screen.getByRole('combobox'));
+
+      // eslint-disable-next-line testing-library/no-node-access
+      const input = screen.getByRole('searchbox').querySelector('input') as HTMLInputElement;
+
+      userEvent.type(input, '1');
+      userEvent.type(screen.getByRole('combobox'), '{enter}');
+
+      expect(screen.getByRole('combobox')).to.have.text('1');
+
+      userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+      userEvent.click(screen.getByRole('combobox'));
+      userEvent.type(input, '12');
+      userEvent.type(screen.getByRole('combobox'), '{enter}');
+
+      expect(screen.getByRole('combobox')).to.have.text('Select');
+    });
+  });
+
+  describe('Loading state', () => {
+    it('Should display a spinner when loading=true', () => {
+      render(<Cascader data={items} loading />);
+
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should not open menu on click when loading=true', () => {
+      render(<Cascader data={items} loading />);
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      expect(screen.queryByRole('tree')).not.to.exist;
+    });
+
+    it('Should not open menu on Enter key when loading=true', () => {
+      render(<Cascader data={items} loading />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), {
+        key: 'Enter'
+      });
+
+      expect(screen.queryByRole('tree')).not.to.exist;
     });
   });
 });

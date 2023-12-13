@@ -182,6 +182,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | isoWeek              | boolean                                                                          | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day             |
 | limitEndYear         | number `(1000)`                                                                  | Sets the upper limit of the available year relative to the current selection date                |
 | limitStartYear       | number                                                                           | Sets the lower limit of the available year relative to the current selection date                |
+| loading              | boolean `(false)`                                                                | Whether to display a loading state indicator                                                     |
 | locale               | [CalendarLocaleType](/guide/i18n/#calendar)                                      | Locale text                                                                                      |
 | onChange             | (value: [ValueType](#code-ts-value-type-code)) => void                           | Callback fired when value changed                                                                |
 | onClean              | (event) => void                                                                  | Callback fired when value clean                                                                  |
@@ -196,6 +197,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | onOk                 | (value: [ValueType](#code-ts-value-type-code)) => void                           | Callback fired when clicked OK button                                                            |
 | onOpen               | () => void                                                                       | Callback fired when open component                                                               |
 | onSelect             | (date:Date) => void                                                              | Callback fired when date is selected                                                             |
+| onShortcutClick      | (shortcut: Range, event) => void                                                 | Callback fired when shortcut clicked                                                             |
 | open                 | boolean                                                                          | whether open the component                                                                       |
 | placeholder          | string                                                                           | Setting placeholders                                                                             |
 | placement            | [Placement](#code-ts-placement-code) `('bottomStart')`                           | The placement of component                                                                       |

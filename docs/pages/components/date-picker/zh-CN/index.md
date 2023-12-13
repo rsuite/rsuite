@@ -137,6 +137,7 @@
 | isoWeek               | boolean                                                         | ISO 8601 标准， 每个日历星期从星期一开始，星期日为第 7 天 |
 | limitEndYear          | number `(1000)`                                                 | 相对当前选择日期，设置可选年份上限                        |
 | limitStartYear        | number                                                          | 相对当前选择日期，设置可选年份下限                        |
+| loading               | boolean `(false)`                                               | 是否显示一个加载中状态指示器                              |
 | locale                | [CalendarLocaleType](/zh/guide/i18n/#calendar)                  | 本地化的文本                                              |
 | menuClassName         | string                                                          | 选项菜单的 className                                      |
 | onChange              | (date: Date) => void                                            | 值改变后的回调函数                                        |
@@ -155,6 +156,7 @@
 | onOpen                | () => void                                                      | 打开回调函数                                              |
 | onPrevMonth           | (date: Date) => void                                            | 切换到上一月的回调函数                                    |
 | onSelect              | (date: Date) => void                                            | 选择日期或者时间的回调函数                                |
+| onShortcutClick       | (shortcut: Range, event) => void                                | 点击快捷项的回调函数                                      |
 | onToggleMonthDropdown | (open: boolean) => void                                         | 切换到月份视图的回调函数                                  |
 | onToggleTimeDropdown  | (open: boolean) => void                                         | 切换到时间视图的回调函数                                  |
 | open                  | boolean                                                         | 打开 (受控)                                               |

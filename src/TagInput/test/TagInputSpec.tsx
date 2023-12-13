@@ -114,4 +114,34 @@ describe('TagInput', () => {
 
     expect(onChange).to.have.been.calledWith([]);
   });
+
+  it('Should not create tag while text composing', () => {
+    const onCreateSpy = sinon.spy();
+    const inputRef = React.createRef<PickerHandle>();
+
+    render(<TagInput ref={inputRef} onCreate={onCreateSpy} creatable trigger="Enter" />);
+    const picker = (inputRef.current as PickerHandle).root as HTMLElement;
+    const input = screen.getByRole('textbox');
+
+    fireEvent.click(picker);
+
+    fireEvent.change(input, { target: { value: 'a' } });
+
+    fireEvent.keyDown(input, { key: 'Enter', isComposing: true });
+
+    expect(onCreateSpy).to.not.called;
+
+    fireEvent.keyDown(input, { key: 'Enter' });
+
+    expect(onCreateSpy).to.calledOnce;
+  });
+
+  it('Should call `onTagRemove` callback', () => {
+    const onTagRemove = sinon.spy();
+    render(<TagInput defaultValue={['New tag']} onTagRemove={onTagRemove} />);
+    fireEvent.click(screen.getAllByRole('button', { name: /Remove/i })[0]);
+
+    expect(onTagRemove).to.have.been.calledOnce;
+    expect(onTagRemove).to.have.been.calledWith('New tag');
+  });
 });

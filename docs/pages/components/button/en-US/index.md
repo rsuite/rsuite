@@ -21,11 +21,11 @@ Commonly used operating buttons, button combinations, button layouts.
 
 `appearance` property can set appearance of button:
 
-- 'default'(default) default button.
-- 'primary' Emphasi, guide button.
-- 'link' Button like link.
-- 'subtle' Weakened button.
-- 'ghost' Ghost button, background transparent, place button on background element.
+- `default`(default) default button.
+- `primary` Emphasi, guide button.
+- `link` Button like link.
+- `subtle` Weakened button.
+- `ghost` Ghost button, background transparent, place button on background element.
 
 <!--{include:`appearance.md`}-->
 

@@ -1,17 +1,25 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
+import { testStandardProps } from '@test/commonCases';
 
 import Toolbar from '../Toolbar';
 
 describe('DatePicker - Toolbar', () => {
-  it('Should render a div with `rs-picker-toolbar` class', () => {
-    const instance = getDOMNode(<Toolbar calendarDate={new Date(2021, 11, 24)} locale={{}} />);
+  testStandardProps(
+    <Toolbar
+      calendarDate={new Date(2021, 11, 24)}
+      className="custom"
+      classPrefix="custom-prefix"
+      locale={{}}
+    />
+  );
 
-    assert.equal(instance.nodeName, 'DIV');
-    assert.include(instance.className, 'rs-picker-toolbar');
+  it('Should render a div with `rs-picker-toolbar` class', () => {
+    const { container } = render(<Toolbar calendarDate={new Date(2021, 11, 24)} locale={{}} />);
+
+    expect(container.firstChild).to.have.tagName('DIV');
+    expect(container.firstChild).to.have.class('rs-picker-toolbar');
   });
 
   it('Should render a custom option', () => {
@@ -38,46 +46,25 @@ describe('DatePicker - Toolbar', () => {
   it('Should call `onOk` callback', () => {
     const onOkSpy = sinon.spy();
     render(<Toolbar calendarDate={new Date(2021, 11, 24)} onOk={onOkSpy} locale={{ ok: 'OK' }} />);
-    ReactTestUtils.Simulate.click(screen.getByRole('button', { name: /ok/i }));
 
+    fireEvent.click(screen.getByRole('button', { name: /ok/i }));
     expect(onOkSpy).to.have.been.calledOnce;
   });
 
-  it('Should call `onClickShortcut` callback', () => {
-    const onClickShortcutSpy = sinon.spy();
+  it('Should call `onShortcutClick` callback', () => {
+    const onShortcutClickSpy = sinon.spy();
     render(
       <Toolbar
         calendarDate={new Date(2021, 11, 24)}
-        onClickShortcut={onClickShortcutSpy}
+        onShortcutClick={onShortcutClickSpy}
         locale={{
           today: 'Today'
         }}
       />
     );
-    ReactTestUtils.Simulate.click(screen.getByRole('button', { name: 'Today' }));
-    assert.isTrue(onClickShortcutSpy.calledOnce);
-  });
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(
-      <Toolbar calendarDate={new Date(2021, 11, 24)} className="custom" locale={{}} />
-    );
-    assert.include(instance.className, 'custom');
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(
-      <Toolbar calendarDate={new Date(2021, 11, 24)} style={{ fontSize }} locale={{}} />
-    );
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(
-      <Toolbar calendarDate={new Date(2021, 11, 24)} classPrefix="custom-prefix" locale={{}} />
-    );
-    assert.include(instance.className, 'custom-prefix');
+    fireEvent.click(screen.getByRole('button', { name: 'Today' }));
+    expect(onShortcutClickSpy).to.have.been.calledOnce;
   });
 
   it('Should not render the ok button', () => {
@@ -87,10 +74,12 @@ describe('DatePicker - Toolbar', () => {
   });
 
   it('Should not render any elements', () => {
-    const instance = getDOMNode(
+    const { container } = render(
       <Toolbar calendarDate={new Date(2021, 11, 24)} hideOkBtn ranges={[]} locale={{}} />
     );
-    assert.isNull(instance);
+
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelector('button')).to.not.exist;
   });
 
   it('Should be wrap in ranges', () => {

@@ -730,4 +730,42 @@ describe('CheckTreePicker', () => {
     fireEvent.click(screen.getByLabelText('Clear'));
     expect(screen.getByRole('combobox')).to.text('Master (All)1');
   });
+
+  it('Should render correctly when searchKeyword changed', () => {
+    const { rerender } = render(<CheckTreePicker defaultOpen data={data} />);
+
+    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(2);
+    rerender(<CheckTreePicker defaultOpen data={data} searchKeyword="Disabled" />);
+    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(1);
+    rerender(<CheckTreePicker defaultOpen data={data} searchKeyword="Master" />);
+    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(1);
+    rerender(<CheckTreePicker defaultOpen data={data} searchKeyword="Tree" />);
+    expect(screen.queryAllByRole('treeitem')).to.have.lengthOf(0);
+  });
+
+  describe('Loading state', () => {
+    it('Should display a spinner when loading=true', () => {
+      render(<CheckTreePicker data={data} loading />);
+
+      expect(screen.getByTestId('spinner')).to.exist;
+    });
+
+    it('Should not open menu on click when loading=true', () => {
+      render(<CheckTreePicker data={data} loading />);
+
+      fireEvent.click(screen.getByRole('combobox'));
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+
+    it('Should not open menu on Enter key when loading=true', () => {
+      render(<CheckTreePicker data={data} loading />);
+
+      fireEvent.keyDown(screen.getByRole('combobox'), {
+        key: 'Enter'
+      });
+
+      expect(screen.queryByRole('listbox')).not.to.exist;
+    });
+  });
 });

@@ -4,6 +4,7 @@ import isUndefined from 'lodash/isUndefined';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
 import findIndex from 'lodash/findIndex';
+import pickBy from 'lodash/pickBy';
 import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
 import getHeight from 'dom-lib/getHeight';
@@ -40,6 +41,7 @@ export interface DropdownMenuProps<Multiple = false>
   style?: React.CSSProperties;
   dropdownMenuItemAs: React.ElementType | string;
   dropdownMenuItemClassPrefix?: string;
+  dropdownMenuItemProps?: any;
   rowHeight?: number;
   rowGroupHeight?: number;
   virtualized?: boolean;
@@ -83,6 +85,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
     focusItemValue,
     dropdownMenuItemClassPrefix,
     dropdownMenuItemAs: DropdownMenuItem,
+    dropdownMenuItemProps,
     rowHeight = 36,
     rowGroupHeight = 48,
     renderMenuGroup,
@@ -211,6 +214,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
         value={value}
         classPrefix={dropdownMenuItemClassPrefix}
         onSelect={handleSelect.bind(null, item)}
+        {...pickBy(dropdownMenuItemProps, v => v !== undefined)}
       >
         {renderMenuItem ? renderMenuItem(label, item) : label}
       </DropdownMenuItem>

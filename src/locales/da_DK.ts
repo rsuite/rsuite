@@ -26,7 +26,9 @@ const Calendar = {
 export default {
   common: {
     loading: 'Indlæser...',
-    emptyMessage: 'Ingen data fundet'
+    emptyMessage: 'Ingen data fundet',
+    remove: 'Fjerne',
+    clear: 'Ryd'
   },
   Plaintext: {
     unfilled: 'ubesatte',
@@ -67,7 +69,8 @@ export default {
     error: 'Fejl',
     complete: 'Færdig',
     emptyFile: 'Tom',
-    upload: 'Upload'
+    upload: 'Upload',
+    removeFile: 'Fjern fil'
   },
   CloseButton: {
     closeLabel: 'lukke ned'

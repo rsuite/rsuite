@@ -16,12 +16,6 @@ describe('Loader styles', () => {
     assert.equal(getStyle(dom, 'height'), '18px', 'Loader height');
     inChrome &&
       assert.equal(
-        window.getComputedStyle(spinDom, '::before').border,
-        `3px solid ${toRGB('#f7f7facc')}`,
-        'Loader spin before border'
-      );
-    inChrome &&
-      assert.equal(
         window.getComputedStyle(spinDom, '::after').borderColor,
         `${toRGB('#a6a6a6')} ${toRGB('#0000')} ${toRGB('#0000')}`,
         'Loader spin after border-color'

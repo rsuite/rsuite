@@ -1,26 +1,34 @@
 import React, { useMemo } from 'react';
-import InputPicker, {
-  InputPickerProps,
-  InputPickerContext,
-  TriggerType
-} from '../InputPicker/InputPicker';
+import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
+import InputPickerContext, { TagOnlyProps } from '../InputPicker/InputPickerContext';
 import type { PickerComponent } from '../Picker/types';
-import type { TagProps } from '../Tag';
+import type { CheckboxProps } from '../Checkbox';
 
-export interface TagPickerProps extends InputPickerProps {
-  /**  Tag related props. */
-  tagProps?: TagProps;
-
+export interface TagPickerProps extends InputPickerProps, Partial<TagOnlyProps> {
   /**
-   * Set the trigger for creating tags. only valid when creatable
-   */
-  trigger?: TriggerType | TriggerType[];
+   * Custom render checkbox on menu item
+   * @version 5.47.0
+   **/
+  renderMenuItemCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
 }
 
+/**
+ * Multi-select by tag and support new options
+ * @see https://rsuitejs.com/components/tag-picker/
+ */
 const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(
   (props: TagPickerProps, ref) => {
-    const { tagProps = {}, trigger = 'Enter', ...rest } = props;
-    const contextValue = useMemo(() => ({ multi: true, trigger, tagProps }), [tagProps, trigger]);
+    const {
+      tagProps = {},
+      trigger = 'Enter',
+      onTagRemove,
+      renderMenuItemCheckbox,
+      ...rest
+    } = props;
+    const contextValue = useMemo(
+      () => ({ multi: true, trigger, tagProps, onTagRemove, renderMenuItemCheckbox }),
+      [onTagRemove, renderMenuItemCheckbox, tagProps, trigger]
+    );
 
     return (
       <InputPickerContext.Provider value={contextValue}>

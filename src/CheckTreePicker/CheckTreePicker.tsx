@@ -77,7 +77,7 @@ export type ValueType = (string | number)[];
 export interface CheckTreePickerProps<T = ValueType>
   extends TreeBaseProps<T, ItemDataType>,
     FormControlPickerProps<T, PickerLocale, ItemDataType>,
-    Pick<PickerToggleProps, 'caretAs'> {
+    Pick<PickerToggleProps, 'caretAs' | 'loading'> {
   /** Tree node cascade */
   cascade?: boolean;
 
@@ -243,7 +243,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         }).filter(item => item.visible);
       }
 
-      return getFormattedTree(filteredData, flattenNodes, {
+      return getFormattedTree(flattenNodes, filteredData, {
         childrenKey,
         cascade
       }).map(node => render?.(node, 1));
@@ -688,7 +688,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         enter: selectActiveItem,
         del: handleClean
       });
-    }
+    },
+    ...rest
   });
 
   const handleTreeKeydown = useCallback(

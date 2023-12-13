@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/testUtils';
 import Modal from '../Modal';
@@ -20,18 +21,18 @@ describe('Modal', () => {
     const onCloseSpy = sinon.spy();
     render(<Modal data-testid="wrapper" open onClose={onCloseSpy} />);
 
-    fireEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('wrapper'));
 
-    assert.isTrue(onCloseSpy.calledOnce);
+    expect(onCloseSpy).to.have.been.calledOnce;
   });
 
   it('Should not close the modal when the "static" dialog is clicked', () => {
     const onCloseSpy = sinon.spy();
     render(<Modal data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />);
 
-    fireEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('wrapper'));
 
-    assert.isFalse(onCloseSpy.calledOnce);
+    expect(onCloseSpy).to.not.have.been.calledOnce;
   });
 
   it('Should not close the modal when clicking inside the dialog', () => {
@@ -95,7 +96,8 @@ describe('Modal', () => {
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Modal style={{ fontSize }} open />);
+    const instance = getDOMNode(<Modal style={{ fontSize }} open size={200} />);
+
     assert.equal(instance.style.fontSize, fontSize);
   });
 
@@ -254,6 +256,37 @@ describe('Modal', () => {
       expect(console.warn).to.have.been.calledWith(
         '"full" property of "Modal" has been deprecated.\nUse size="full" instead.'
       );
+    });
+
+    it('Should not have a style attribute on body when size="full" ', () => {
+      render(
+        <Modal size="full" open>
+          <Modal.Body />
+        </Modal>
+      );
+
+      // eslint-disable-next-line testing-library/no-node-access
+      expect(screen.getByRole('dialog').querySelector('.rs-modal-body')).to.not.have.attribute(
+        'style'
+      );
+    });
+
+    it('Should set a fixed width for the dialog', () => {
+      render(
+        <Modal size={200} open>
+          <Modal.Body />
+        </Modal>
+      );
+      expect(screen.getByRole('dialog')).to.have.style('width', '200px');
+    });
+
+    it('Should set a dynamic width for the dialog', () => {
+      render(
+        <Modal size="100%" open>
+          <Modal.Body />
+        </Modal>
+      );
+      expect(screen.getByRole('dialog').style.width).to.equal('100%');
     });
   });
 

@@ -142,7 +142,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
 
   const classes = merge(
     className,
-    withClassPrefix({ vertical, disabled, readOnly, graduated, 'with-mark': renderMark })
+    withClassPrefix({ vertical, disabled, graduated, 'with-mark': renderMark, readonly: readOnly })
   );
 
   const max = useMemo(
@@ -238,6 +238,14 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     [disabled, getValidValue, getValueByPosition, onChangeCommitted, readOnly]
   );
 
+  const handleClickBar = useCallback(
+    (event: React.MouseEvent) => {
+      handleChangeValue(event);
+      handleChangeCommitted(event);
+    },
+    [handleChangeCommitted, handleChangeValue]
+  );
+
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
       let nextValue;
@@ -283,7 +291,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
 
   return (
     <Componnet {...rest} ref={ref} className={classes} role="presentation">
-      <div ref={barRef} className={merge(barClassName, prefix('bar'))} onClick={handleChangeValue}>
+      <div ref={barRef} className={merge(barClassName, prefix('bar'))} onClick={handleClickBar}>
         {progress && (
           <ProgressBar
             rtl={rtl}

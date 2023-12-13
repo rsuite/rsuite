@@ -52,10 +52,13 @@
 
 ### `<TreePicker>`
 
+<!-- prettier-sort-markdown-table -->
+
 | 属性名称                | 类型 `(默认值)`                                                                                   | 描述                                                                            |
 | ----------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | appearance              | 'default' &#124; 'subtle' `('default')`                                                           | 设置外观                                                                        |
 | block                   | boolean                                                                                           | 堵塞整行                                                                        |
+| caretAs                 | ElementType                                                                                       | 自定义右侧箭头图标的组件                                                        |
 | childrenKey             | string `('children')`                                                                             | tree 数据结构 children 属性名称                                                 |
 | classPrefix             | string`('picker')`                                                                                | 组件 CSS 类的前缀                                                               |
 | cleanable               | boolean `(true)`                                                                                  | 是否可以清除                                                                    |
@@ -72,6 +75,7 @@
 | height                  | number `(360px)`                                                                                  | menu 的高度。当设置了 virtualized 为 true 时， 可以通过 height 控制 menu 的高度 |
 | labelKey                | string `('label')`                                                                                | tree 数据结构 label 属性名称                                                    |
 | listProps               | [ListProps][listprops]                                                                            | 虚拟化长列表的相关属性                                                          |
+| loading                 | boolean `(false)`                                                                                 | 是否显示一个加载中状态指示器                                                    |
 | locale                  | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                       | 本地化的文本                                                                    |
 | locale                  | object                                                                                            | 本地语言                                                                        |
 | menuClassName           | string                                                                                            | 应用于菜单 DOM 节点的 css class                                                 |
@@ -96,14 +100,13 @@
 | renderTreeIcon          | (item: [ItemDataType][item]) => ReactNode                                                         | 自定义渲染 图标                                                                 |
 | renderTreeNode          | (item: [ItemDataType][item]) => ReactNode                                                         | 自定义渲染 tree 节点                                                            |
 | renderValue             | (value:string,item:[ItemDataType][item], selectedElement:ReactNode) => ReactNode                  | 自定义渲染选中的值                                                              |
-| searchBy                | (keyword: string, label: ReactNode, item: [ItemDataType][item]) => boolean                        | 自定义搜索规则                                                                  |
 | searchable              | boolean `(true)`                                                                                  | 是否可以搜索                                                                    |
+| searchBy                | (keyword: string, label: ReactNode, item: [ItemDataType][item]) => boolean                        | 自定义搜索规则                                                                  |
 | size                    | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                                 | 设置组件尺寸                                                                    |
 | toggleAs                | ElementType `('a')`                                                                               | 为组件自定义元素类型                                                            |
 | value                   | string                                                                                            | 当前选中的值                                                                    |
 | valueKey                | string `('value')`                                                                                | tree 数据结构 value 属性名称                                                    |
 | virtualized             | boolean                                                                                           | 是否开启虚拟列表                                                                |
-| caretAs                 | ElementType                                                                                       | 自定义右侧箭头图标的组件                                                        |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->

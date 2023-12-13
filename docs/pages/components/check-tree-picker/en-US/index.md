@@ -58,6 +58,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | ----------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
 | appearance              | 'default' &#124; 'subtle' `('default')`                                                            | Set picker appearence                                                     |
 | block                   | boolean                                                                                            | Blocking an entire row                                                    |
+| caretAs                 | ElementType                                                                                        | Custom component for the caret icon                                       |
 | cascade                 | boolean                                                                                            | whether cascade select                                                    |
 | childrenKey             | string `('children')`                                                                              | set children key in data                                                  |
 | cleanable               | boolean `(true)`                                                                                   | whether the selected value can be cleared                                 |
@@ -74,6 +75,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | height                  | number `(360px)`                                                                                   | height of menu. When `virtualize` is true, you can set the height of menu |
 | labelKey                | string `('label')`                                                                                 | set label key in data                                                     |
 | listProps               | [ListProps][listprops]                                                                             | Properties of virtualized lists.                                          |
+| loading                 | boolean `(false)`                                                                                  | Whether to display a loading state indicator                              |
 | locale                  | [PickerLocaleType](/guide/i18n/#pickers)                                                           | Locale text                                                               |
 | menuClassName           | string                                                                                             | className for Menu                                                        |
 | menuStyle               | CSSProperties                                                                                      | style for Menu                                                            |
@@ -107,7 +109,6 @@ Learn more in [Accessibility](/guide/accessibility).
 | value                   | string[]                                                                                           | (Controlled) specifies the values of the selected tree node               |
 | valueKey                | string `('value')`                                                                                 | Set value key in data                                                     |
 | virtualized             | boolean                                                                                            | Whether using Virtualized List                                            |
-| caretAs                 | ElementType                                                                                        | Custom component for the caret icon                                       |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->

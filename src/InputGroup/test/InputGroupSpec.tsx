@@ -1,63 +1,98 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import sinon from 'sinon';
 import { testStandardProps } from '@test/commonCases';
 import InputGroup from '../InputGroup';
 import Input from '../../Input/Input';
+import SelectPicker from '../../SelectPicker/SelectPicker';
+
+import '../styles/index.less';
 
 describe('InputGroup', () => {
   testStandardProps(<InputGroup />);
 
   it('Should render a container', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<InputGroup>{title}</InputGroup>);
-    assert.equal(instance.className, 'rs-input-group');
-    assert.equal(instance.innerHTML, title);
+    render(<InputGroup>title</InputGroup>);
+    expect(screen.getByText('title')).to.have.class('rs-input-group');
   });
 
   it('Should have a `input-group-inside` className', () => {
-    const instance = getDOMNode(<InputGroup inside />);
-    assert.include(instance.className, 'rs-input-group-inside');
+    render(<InputGroup inside data-testid="group" />);
+    expect(screen.getByTestId('group')).to.have.class('rs-input-group-inside');
   });
 
   it('Should add size', () => {
-    const instance = getDOMNode(<InputGroup size="lg" />);
-    assert.include(instance.className, 'rs-input-group-lg');
+    render(<InputGroup size="lg" data-testid="group" />);
+    expect(screen.getByTestId('group')).to.have.class('rs-input-group-lg');
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<InputGroup disabled />);
-    assert.include(instance.className, 'rs-input-group-disabled');
+    render(<InputGroup disabled data-testid="group" />);
+    expect(screen.getByTestId('group')).to.have.class('rs-input-group-disabled');
   });
 
   it('Should be disabled for children', () => {
-    const instance = getDOMNode(
+    render(
       <InputGroup disabled>
         <InputGroup.Addon> @</InputGroup.Addon>
         <Input />
       </InputGroup>
     );
 
-    assert.ok(instance.querySelector('.rs-input-group-addon-disabled'));
-    assert.ok(instance.querySelector('input[disabled]'));
+    expect(screen.getByText('@')).to.have.class('rs-input-group-addon-disabled');
+    expect(screen.getByRole('textbox')).to.have.attribute('disabled');
   });
 
   it('Should have a children Element and className is `input-group-addon` ', () => {
-    const instance = getDOMNode(
+    render(
       <InputGroup>
         <InputGroup.Addon> @</InputGroup.Addon>
         <Input />
       </InputGroup>
     );
-    assert.ok(instance.querySelector('.rs-input-group-addon'));
+    expect(screen.getByText('@')).to.have.class('rs-input-group-addon');
   });
 
   it('Should have a children Element and className is `input-group-btn` ', () => {
-    const instance = getDOMNode(
+    render(
       <InputGroup>
         <Input />
         <InputGroup.Button>btn</InputGroup.Button>
       </InputGroup>
     );
-    assert.ok(instance.querySelector('.rs-input-group-btn'));
+    expect(screen.getByText('btn')).to.have.class('rs-input-group-btn');
+  });
+
+  // issue: https://github.com/rsuite/rsuite/issues/3393
+  it('Should callback onExited and onClose after the InputGroup is disabled ', async () => {
+    const onExited = sinon.spy();
+    const onClose = sinon.spy();
+
+    const App = () => {
+      const [disabled, setDisabled] = React.useState(false);
+      return (
+        <>
+          <button onClick={() => setDisabled(true)}>disabled</button>
+          <InputGroup disabled={disabled}>
+            <SelectPicker
+              data={[{ label: 'foo', value: 'foo' }]}
+              onExited={onExited}
+              onClose={onClose}
+              defaultOpen
+            />
+          </InputGroup>
+        </>
+      );
+    };
+
+    render(<App />);
+
+    userEvent.click(screen.getByText('disabled'));
+
+    expect(screen.getByRole('combobox')).to.have.attribute('aria-disabled', 'true');
+
+    await waitFor(() => expect(onExited).to.have.been.calledOnce);
+    await waitFor(() => expect(onClose).to.have.been.calledOnce);
   });
 });

@@ -93,10 +93,13 @@ Learn more in [Accessibility](/guide/accessibility).
 
 ### `<CheckPicker>`
 
+<!-- prettier-sort-markdown-table -->
+
 | Property           | Type`(Default)`                                                                                    | Description                                                 |
 | ------------------ | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
 | appearance         | 'default' &#124; 'subtle' `('default')`                                                            | Set picker appearence                                       |
 | block              | boolean                                                                                            | Blocking an entire row                                      |
+| caretAs            | ElementType                                                                                        | Custom component for the caret icon                         |
 | classPrefix        | string `('picker')`                                                                                | The prefix of the component CSS class                       |
 | cleanable          | boolean `(true)`                                                                                   | Whether the selected value can be cleared                   |
 | container          | HTMLElement &#124; (() => HTMLElement)                                                             | Sets the rendering container                                |
@@ -111,8 +114,8 @@ Learn more in [Accessibility](/guide/accessibility).
 | listProps          | [ListProps][listprops]                                                                             | Properties of virtualized lists                             |
 | loading            | boolean `(false)`                                                                                  | Whether to display a loading state indicator                |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                                           | Locale text                                                 |
-| menuMaxHeight      | number `(320)`                                                                                     | The max height of Dropdown                                  |
 | menuClassName      | string                                                                                             | A css class to apply to the Menu DOM node.                  |
+| menuMaxHeight      | number `(320)`                                                                                     | The max height of Dropdown                                  |
 | menuStyle          | CSSProperties                                                                                      | A style to apply to the Menu DOM node.                      |
 | onChange           | (value: [ValueType][value], event) => void                                                         | Callback fired when value change                            |
 | onClean            | (event:SyntheticEvent) => void                                                                     | Callback fired when value clean                             |
@@ -136,8 +139,8 @@ Learn more in [Accessibility](/guide/accessibility).
 | renderMenuGroup    | (groupTitle:ReactNode, item:[ItemDataType][item]) => ReactNode                                     | Custom render menu group                                    |
 | renderMenuItem     | (label:ReactNode, item: [ItemDataType][item]) => ReactNode                                         | Custom render menu items                                    |
 | renderValue        | (value: [ValueType][value], items: [ItemDataType][item][], selectedElement:ReactNode) => ReactNode | Custom render selected items                                |
-| searchBy           | (keyword: string, label: ReactNode, item: ItemDataType) => boolean                                 | Custom search rules                                         |
 | searchable         | boolean `(true)`                                                                                   | Whether dispaly search input box                            |
+| searchBy           | (keyword: string, label: ReactNode, item: ItemDataType) => boolean                                 | Custom search rules                                         |
 | size               | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                                  | A picker can have different sizes                           |
 | sort               | (isGroup: boolean) => (a: any, b: any) => number                                                   | Sort options                                                |
 | sticky             | boolean                                                                                            | Top the selected option in the options                      |
@@ -145,7 +148,6 @@ Learn more in [Accessibility](/guide/accessibility).
 | value              | [ValueType][value]                                                                                 | Specifies the values of the selected items (Controlled)     |
 | valueKey           | string `('value')`                                                                                 | Set value key in data                                       |
 | virtualized        | boolean                                                                                            | Whether using Virtualized List                              |
-| caretAs            | ElementType                                                                                        | Custom component for the caret icon                         |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 <!--{include:(_common/types/placement.md)}-->
