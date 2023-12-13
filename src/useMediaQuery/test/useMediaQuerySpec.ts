@@ -1,6 +1,6 @@
 import { renderHook } from '@test/testUtils';
 import { act } from '@testing-library/react';
-import MatchMediaMock from './matchmedia-mock';
+import MatchMediaMock from '@test/mocks/matchmedia-mock';
 
 let matchMedia: MatchMediaMock;
 import useMediaQuery from '../useMediaQuery';
