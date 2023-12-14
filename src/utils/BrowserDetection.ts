@@ -15,6 +15,8 @@ export const isIE11 = () =>
 // Edge 20+
 export const isEdge = () => canUseDOM && !isIE() && 'styleMedia' in window;
 
+export const isAndroid = () => canUseDOM && /Android/i.test(navigator.userAgent);
+
 export const getChromeVersion = () => {
   if (canUseDOM) {
     const match = window.navigator.userAgent.match(/Chrom(e|ium)\/([\d\.]+)\./);

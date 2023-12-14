@@ -132,7 +132,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | disabledMinutes       | (minute:number, date:Date) => boolean                           | Deprecated. Use `shouldDisableMinute` instead                                        |
 | disabledSeconds       | (second:number, date:Date) => boolean                           | Deprecated. Use `shouldDisableSecond` instead                                        |
 | editable              | boolean `(true)`                                                | Rendered as an input, the date can be entered via the keyboard                       |
-| format                | string `('yyyy-MM-dd')`                                         | Format date                                                                          |
+| format                | string `('yyyy-MM-dd')`                                         | Format of the date when rendered in the input，                                      |
 | hideHours             | (hour:number, date:Date) => boolean                             | Hidden hours                                                                         |
 | hideMinutes           | (minute:number, date:Date) => boolean                           | Hidden minutes                                                                       |
 | hideSeconds           | (second:number, date:Date) => boolean                           | Hidden seconds                                                                       |

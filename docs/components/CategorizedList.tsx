@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from '@/components/Link';
+import SupportVersion from './SupportVersion';
 
 const Item = ({ name, isComponent }: { name: string; isComponent?: boolean }) => (
   <li>
@@ -44,6 +45,7 @@ const CategorizedList = React.forwardRef(
 
                     {item.apis ? item.apis.map(name => <Item name={name} key={name} />) : null}
                   </ul>
+                  {item.minVersion && <SupportVersion minVersion={item.minVersion} />}
                 </li>
               );
             }

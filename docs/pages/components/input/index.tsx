@@ -11,7 +11,8 @@ import {
   SelectPicker,
   ButtonToolbar,
   Toggle,
-  FlexboxGrid
+  FlexboxGrid,
+  Stack
 } from 'rsuite';
 import DefaultPage from '@/components/Page';
 
@@ -41,7 +42,8 @@ export default function Page() {
         SelectPicker,
         ButtonToolbar,
         Toggle,
-        FlexboxGrid
+        FlexboxGrid,
+        Stack
       }}
     />
   );

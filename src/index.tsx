@@ -163,6 +163,9 @@ export type { CascaderProps } from './Cascader';
 export { default as MultiCascader } from './MultiCascader';
 export type { MultiCascaderProps } from './MultiCascader';
 
+export { default as DateInput } from './DateInput';
+export type { DateInputProps } from './DateInput';
+
 export { default as DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';
 

@@ -294,6 +294,14 @@
     }
   },
   {
+    "id": "date-input",
+    "name": "DateInput",
+    "title": "日期输入框",
+    "components": ["DateInput"],
+    "minVersion": "5.48.0",
+    "tag": "New"
+  },
+  {
     "id": "date-picker",
     "name": "DatePicker",
     "title": "日期选择器",
@@ -333,7 +341,7 @@
     "id": "input",
     "name": "Input",
     "title": "输入框",
-    "components": ["Input", "InputGroup", "InputGroup.Button", "InputGroup.Addon"],
+    "components": ["Input", "InputGroup", "InputGroup.Button", "InputGroup.Addon", "MaskedInput"],
     "designHash": {
       "default": "46",
       "dark": "46"
@@ -384,6 +392,7 @@
     "name": "RadioTile",
     "title": "磁贴单选",
     "components": ["RadioTile", "RadioTileGroup"],
+    "minVersion": "5.35.0",
     "tag": "New"
   },
   {
