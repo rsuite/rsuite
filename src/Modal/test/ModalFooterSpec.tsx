@@ -1,29 +1,29 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
+import { render, screen } from '@testing-library/react';
 
 import ModalFooter from '../ModalFooter';
 
+const footerText = 'Test';
+
 describe('ModalFooter', () => {
   it('Should render a modal footer', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<ModalFooter>{title}</ModalFooter>);
-    assert.equal(instance.className, 'rs-modal-footer');
-    assert.equal(instance.innerHTML, title);
+    render(<ModalFooter>{footerText}</ModalFooter>);
+    expect(screen.getByText(footerText)).to.have.class('rs-modal-footer');
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<ModalFooter className="custom" />);
-    assert.include(instance.className, 'custom');
+    render(<ModalFooter className="custom">{footerText}</ModalFooter>);
+    expect(screen.getByText(footerText)).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<ModalFooter style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
+    render(<ModalFooter style={{ fontSize }}>{footerText}</ModalFooter>);
+    expect(screen.getByText(footerText)).to.have.style('font-size', fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<ModalFooter classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    render(<ModalFooter classPrefix="custom-prefix">{footerText}</ModalFooter>);
+    expect(screen.getByText(footerText).className).to.match(/\bcustom-prefix\b/);
   });
 });

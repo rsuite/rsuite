@@ -1,49 +1,44 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ModalDialog from '../ModalDialog';
-import { getDOMNode } from '@test/testUtils';
 
 describe('ModalDialog', () => {
   it('Should render a dialog', () => {
     const title = 'Test';
-    const instance = getDOMNode(<ModalDialog>{title}</ModalDialog>);
+    render(<ModalDialog>{title}</ModalDialog>);
 
-    assert.equal(instance.className, 'rs-modal');
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.ok(instance.querySelector('.rs-modal-dialog'));
-    assert.equal(instance.textContent, title);
+    expect(screen.getByRole('dialog')).to.have.class('rs-modal');
+    expect(screen.getByRole('document')).to.have.class('rs-modal-dialog');
+    expect(screen.getByRole('dialog')).to.have.text(title);
   });
 
   it('Should have a custom className in dialog', () => {
-    const instance = getDOMNode(<ModalDialog dialogClassName="custom-dialog" />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.ok(instance.querySelector('.rs-modal-dialog.custom-dialog'));
+    render(<ModalDialog dialogClassName="custom-dialog" />);
+    expect(screen.getByRole('document'))
+      .to.have.class('rs-modal-dialog')
+      .to.have.class('custom-dialog');
   });
 
   it('Should have a custom style in dialog', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<ModalDialog dialogStyle={{ fontSize }} />);
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access
-      (instance.querySelector('.rs-modal-dialog') as HTMLElement).style.fontSize,
-      fontSize
-    );
+    render(<ModalDialog dialogStyle={{ fontSize }} />);
+    expect(screen.getByRole('document')).to.have.style('font-size', fontSize);
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<ModalDialog className="custom" />);
-    assert.include(instance.className, 'custom');
+    render(<ModalDialog className="custom" />);
+    expect(screen.getByRole('dialog')).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<ModalDialog style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
+    render(<ModalDialog style={{ fontSize }} />);
+    expect(screen.getByRole('dialog')).to.have.style('font-size', fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<ModalDialog classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    render(<ModalDialog classPrefix="custom-prefix" />);
+    expect(screen.getByRole('dialog').className).to.match(/\bcustom-prefix\b/);
   });
 
   describe('a11y', () => {
