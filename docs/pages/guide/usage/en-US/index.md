@@ -4,19 +4,9 @@ Before you start using it, you need to master at least the basics of front-end d
 
 ## Install
 
-### Using npm or yarn
+To install rsuite, run one of the following commands in your terminal:
 
-We recommend using npm or yarn to install.First you need to properly install the NPM environment locally and install rsuite via npm.
-
-```bash
-$ npm i rsuite --save
-```
-
-If you are using yarn you can also install through yarn:
-
-```bash
-$ yarn add rsuite
-```
+<!--{include:<install-guide>}-->
 
 ## Examples
 
