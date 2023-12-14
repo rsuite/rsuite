@@ -28,6 +28,11 @@ export default function usePages(): Menu[] {
       icon: <Icon as={() => <SvgIcons.Guide />} style={{ fontSize: 20 }} />,
       children: [
         {
+          group: true,
+          id: 'getting-started',
+          name: messages?.common?.gettingStarted
+        },
+        {
           id: 'introduction',
           name: messages?.common?.introduction
         },
@@ -36,35 +41,27 @@ export default function usePages(): Menu[] {
           name: messages?.common?.usage
         },
         {
-          id: 'v5-features',
-          name: messages?.common?.v5Features,
-          tag: 'New'
-        },
-        {
           id: 'composition',
           name: messages?.common?.composition
         },
-
-        {
-          id: 'official-themes',
-          name: messages?.common?.officialThemes
-        },
-        {
-          id: 'customization',
-          name: messages?.common?.customization
-        },
-
         {
           id: 'accessibility',
           name: messages?.common?.accessibility
         },
         {
-          id: 'i18n',
-          name: messages?.common?.i18n
+          id: 'v5-features',
+          name: messages?.common?.v5Features
         },
         {
-          id: 'rtl',
-          name: messages?.common?.rtl
+          id: 'logs',
+          name: messages?.common?.changeLog,
+          target: '_blank',
+          url: 'https://github.com/rsuite/rsuite/releases'
+        },
+        {
+          group: true,
+          id: 'frameworks',
+          name: messages?.common?.frameworks
         },
         {
           id: 'use-with-create-react-app',
@@ -75,18 +72,44 @@ export default function usePages(): Menu[] {
           name: messages?.common?.useNextApp
         },
         {
+          group: true,
+          id: 'customization',
+          name: messages?.common?.customization
+        },
+        {
+          id: 'official-themes',
+          name: messages?.common?.officialThemes
+        },
+
+        {
+          id: 'customization-less',
+          name: messages?.common?.customizationLess
+        },
+        {
+          id: 'css-variables',
+          name: messages?.common?.cssVariables
+        },
+
+        {
+          id: 'i18n',
+          name: messages?.common?.i18n
+        },
+        {
+          id: 'rtl',
+          name: messages?.common?.rtl
+        },
+        {
+          group: true,
           id: 'performance',
           name: messages?.common?.performance
         },
         {
-          id: 'modularized',
-          name: messages?.common?.modularized
+          id: 'optimizing-performance',
+          name: messages?.common?.optimizingPerformance
         },
         {
-          id: 'logs',
-          name: messages?.common?.changeLog,
-          target: '_blank',
-          url: 'https://github.com/rsuite/rsuite/releases'
+          id: 'modularized',
+          name: messages?.common?.modularized
         }
       ]
     },

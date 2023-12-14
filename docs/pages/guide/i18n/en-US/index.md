@@ -1,4 +1,4 @@
-# i18n
+# Localization 🌏
 
 The locale in the React Suite component defaults to English. If you need to set another locale, you can configure it with [`<CustomProvider>`](/components/custom-provider/).
 

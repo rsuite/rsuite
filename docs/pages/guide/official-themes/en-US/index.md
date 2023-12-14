@@ -1,4 +1,4 @@
-# Official Themes
+# Themes
 
 React Suite officially provides the following 3 themes by default, you only need a simple configuration to use.
 
@@ -56,4 +56,4 @@ If you want to change the theme of only a part of the component, just add the `.
 
 ## Customization
 
-If the themes provided above cannot meet the visual requirements of your application, you can meet the [customization](/guide/customization) requirements of your business through some of our predefined parameter configurations.
+If the themes provided above cannot meet the visual requirements of your application, you can meet the [customization](/guide/customization-less) requirements of your business through some of our predefined parameter configurations.

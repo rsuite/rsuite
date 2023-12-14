@@ -51,4 +51,4 @@ We reset some HTML styles in rsuite by default.But you may not need these styles
 }
 ```
 
-[config-reset-import]: /guide/customization/#disable-html-styles-reset
+[config-reset-import]: /guide/customization-less/#disable-html-styles-reset

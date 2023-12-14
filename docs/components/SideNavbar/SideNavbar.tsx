@@ -87,7 +87,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
             {child.tag && (
               <Badge
                 content={child.tag}
-                color={(child.tagColor as TypeAttributes.Color) ?? 'green'}
+                color={(child.tagColor as TypeAttributes.Color) ?? 'blue'}
               />
             )}
           </Nav.Item>

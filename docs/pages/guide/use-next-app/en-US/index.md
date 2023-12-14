@@ -95,6 +95,8 @@ return () => {
 
 ## Using Less
 
+We recommend that you use CSS directly, but if you need to use Less to customize rsuite styles, you will need to add Less support to your Next.js project.
+
 Next.js has droped the support for [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less) in versions 10 and 11 and only supports [Sass](https://sass-lang.com/) (`*.scss` file extention) as CSS pre-processor.
 So if you want to use Less to customize rsuite styles, you have to
 setup Less support for your Next.js project.

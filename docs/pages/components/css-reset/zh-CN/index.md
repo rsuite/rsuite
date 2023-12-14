@@ -40,4 +40,4 @@
 
 <!--{include:`list-dl.md`}-->
 
-[config-reset-import]: /zh/guide/customization/#禁用-reset-相关样式引用
+[config-reset-import]: /zh/guide/customization-less/#禁用-reset-相关样式引用

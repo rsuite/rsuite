@@ -10,7 +10,7 @@
 - [管理系统][demo-admin]
 - [模块化按需加载][demo-modular-import]
 - [CDN 引入][demo-cdn]
-- [国际化方案][demo-intl-app]
+- [本地化语言方案][demo-intl-app]
 - [多主题方案][demo-multiple-themes]
 - [RTL 方案 - rtlcss][demo-rtlcss]
 - [RTL 方案 - postcss-rtl][demo-postcss-rtl]

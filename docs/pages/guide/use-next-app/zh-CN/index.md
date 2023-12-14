@@ -21,7 +21,6 @@ export default MyApp;
 import React from 'react';
 import Head from 'next/head';
 import { Button } from 'rsuite';
-import 'rsuite/styles/index.less';
 
 const Home = () => (
   <div>
@@ -93,6 +92,8 @@ return () => {
 ```
 
 ## 使用 Less
+
+我们推荐你直接使用 CSS，但是如果你需要使用 Less 来自定义 rsuite 样式，你需要为你的 Next.js 项目添加 Less 支持。
 
 Next.js 在版本 10、11 中已移除了对 [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less) 的支持，仅支持 [Sass](https://sass-lang.com/) 作为 CSS 预处理器。
 因此，如果你需要使用 Less 来自定义 rsuite 样式，你需要为你的 Next.js 项目添加 Less 支持。

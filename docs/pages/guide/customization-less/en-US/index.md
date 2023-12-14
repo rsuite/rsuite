@@ -1,4 +1,4 @@
-# Customization 🎨
+# Less Customization 🎨
 
 React Suite uses [Less][less] to develop styles and defines a series of variables that can be customized using [Modify Variables][modify variables]. This includes but is not limited to customizing theme colors, resizing component fillet radii, modifying font styles, replacing auxiliary colors, and so on. The code in the following example is a new action in `custom-theme.less`.
 

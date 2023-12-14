@@ -1,4 +1,4 @@
-# Right-to-left
+# Right to left
 
 In order to support the habits of languages ​​such as Arabic and Hebrew, the UI of the language read from right to left (RTL).
 

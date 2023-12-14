@@ -1,4 +1,4 @@
-# 国际化
+# 本地化语言 🌏
 
 React Suite 组件中的语言默认为英语。 如果需要设置其他语言，可以使用 [`<CustomProvider>`](/zh/components/custom-provider/)进行配置。
 
