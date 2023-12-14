@@ -150,11 +150,7 @@ export function getInputSelectedState(options: SelectedStateOptions) {
   };
 }
 
-export function validateDateTime(type: string, value: number | string) {
-  if (typeof value !== 'number') {
-    value = parseInt(value, 10);
-  }
-
+export function validateDateTime(type: string, value: number) {
   switch (type) {
     case 'year':
       if (value < 1 || value > 9999) {

@@ -89,6 +89,22 @@ describe('DateInput', () => {
       });
     });
 
+    it('Should go back to January when it exceeds December', () => {
+      testKeyPress({
+        key: '{arrowright}{arrowup}',
+        defaultValue: new Date('2023-12-01'),
+        expectedValue: '2023-01-01'
+      });
+    });
+
+    it('Should go back to December when it exceeds January', () => {
+      testKeyPress({
+        key: '{arrowright}{arrowdown}',
+        defaultValue: new Date('2023-01-01'),
+        expectedValue: '2023-12-01'
+      });
+    });
+
     it('Should decrement month when pressing ArrowDown ', () => {
       testKeyPress({
         key: '{arrowright}{arrowdown}',
@@ -266,6 +282,62 @@ describe('DateInput', () => {
           { key: '9', expected: 'Sep' },
           { key: '1', expected: 'Jan' },
           { key: '1', expected: 'Nov' }
+        ]
+      });
+    });
+
+    it('Should support the day format', () => {
+      testContinuousKeyPress({
+        format: 'dd',
+        keySequences: [
+          { key: '3', expected: '03' },
+          { key: '1', expected: '31' },
+          { key: '2', expected: '02' },
+          { key: '9', expected: '29' },
+          { key: '1', expected: '01' },
+          { key: '1', expected: '11' }
+        ]
+      });
+    });
+
+    it('Should support the hour format', () => {
+      testContinuousKeyPress({
+        format: 'HH',
+        keySequences: [
+          { key: '2', expected: '02' },
+          { key: '1', expected: '21' },
+          { key: '5', expected: '05' },
+          { key: '9', expected: '09' },
+          { key: '1', expected: '01' },
+          { key: '1', expected: '11' }
+        ]
+      });
+    });
+
+    it('Should support the minute format', () => {
+      testContinuousKeyPress({
+        format: 'mm',
+        keySequences: [
+          { key: '2', expected: '02' },
+          { key: '1', expected: '21' },
+          { key: '5', expected: '05' },
+          { key: '9', expected: '59' },
+          { key: '6', expected: '06' },
+          { key: '1', expected: '01' }
+        ]
+      });
+    });
+
+    it('Should support the second format', () => {
+      testContinuousKeyPress({
+        format: 'ss',
+        keySequences: [
+          { key: '2', expected: '02' },
+          { key: '1', expected: '21' },
+          { key: '5', expected: '05' },
+          { key: '9', expected: '59' },
+          { key: '6', expected: '06' },
+          { key: '1', expected: '01' }
         ]
       });
     });
