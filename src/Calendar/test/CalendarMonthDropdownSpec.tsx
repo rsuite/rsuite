@@ -19,8 +19,6 @@ describe('Calendar-MonthDropdown', () => {
       </CalendarContext.Provider>
     );
 
-    console.log(screen.getAllByRole('gridcell', { hidden: true }).length);
-
     expect(screen.getAllByRole('rowheader', { hidden: true })).to.be.lengthOf(7);
     expect(screen.getAllByRole('gridcell', { hidden: true })).to.be.lengthOf(7 * 12);
   });
