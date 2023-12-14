@@ -102,9 +102,12 @@ export interface DropdownComponent extends RsRefForwardingComponent<'div', Dropd
 }
 
 /**
- * The <Dropdown> API
- * When used inside <Sidenav>, renders a <TreeviewRootItem>;
- * Otherwise renders a <MenuRoot>
+ * The `Dropdown` component is used to select an option from a set of options.
+ * @see https://rsuitejs.com/components/dropdown
+ *
+ * The `<Dropdown>` API
+ * - When used inside `<Sidenav>`, renders a `<TreeviewRootItem>`;
+ * - Otherwise renders a `<MenuRoot>`
  */
 const Dropdown: DropdownComponent = React.forwardRef<HTMLElement>((props: DropdownProps, ref) => {
   const { activeKey, onSelect, ...rest } = props;

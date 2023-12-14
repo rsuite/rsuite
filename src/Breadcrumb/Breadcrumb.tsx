@@ -27,6 +27,10 @@ export interface BreadcrumbComponent extends RsRefForwardingComponent<'ol', Brea
   Item: typeof BreadcrumbItem;
 }
 
+/**
+ * The Breadcrumb component is used to indicate the current page location and navigate.
+ * @see https://rsuitejs.com/components/breadcrumb
+ */
 const Breadcrumb: BreadcrumbComponent = React.forwardRef((props: BreadcrumbProps, ref) => {
   const {
     as: Component = 'nav',

@@ -6,6 +6,10 @@ export interface SlideProps extends TransitionProps {
   placement?: 'top' | 'right' | 'bottom' | 'left';
 }
 
+/**
+ * Slide animation component
+ * @see https://rsuitejs.com/components/animation/#slide
+ */
 const Slide = React.forwardRef(
   ({ timeout = 300, placement = 'right', ...props }: SlideProps, ref: React.Ref<any>) => {
     const { prefix } = useClassNames('anim');

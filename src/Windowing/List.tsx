@@ -14,7 +14,7 @@ export interface ListProps<T = any> extends WithAsProps {
    * @deprecated use itemSize instead
    * Either a fixed row height (number) or a function that returns the height of a row given its index: ({ index: number }): number
    */
-  rowHeight?: number | (({ index: number }) => number);
+  rowHeight?: number | (({ index }) => number);
 
   /**
    * Size of a item in the direction being windowed.
@@ -55,6 +55,11 @@ export interface ListHandle extends Partial<VariableSizeList> {
   scrollToRow?: (index: number) => void;
 }
 
+/**
+ * This component renders a virtualized list of elements with either fixed or dynamic heights.
+ *
+ * @private
+ */
 const List: RsRefForwardingComponent<'div', ListProps> = React.forwardRef((props, ref) => {
   const { rowHeight, as: Component = VariableSizeList, itemSize: itemSizeProp, ...rest } = props;
   const listRef = useRef<VariableSizeList>(null);

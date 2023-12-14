@@ -38,6 +38,10 @@ export interface MessageProps extends WithAsProps {
 
 type DisplayType = 'show' | 'hide' | 'hiding';
 
+/**
+ * The `Message` component is used to display important messages to users.
+ * @see https://rsuitejs.com/components/message
+ */
 const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
   (props: MessageProps, ref) => {
     const {

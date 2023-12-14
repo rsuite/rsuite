@@ -7,6 +7,10 @@ export interface Progress extends RsRefForwardingComponent<'div', ProgressLinePr
   Circle: typeof ProgressCircle;
 }
 
+/**
+ * The `Progress` component is used to display the progress of current operation.
+ * @see https://rsuitejs.com/components/progress
+ */
 const Progress: Progress = ProgressLine as Progress;
 
 Progress.Line = ProgressLine;

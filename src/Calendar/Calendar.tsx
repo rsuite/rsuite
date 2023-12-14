@@ -47,6 +47,10 @@ export interface CalendarProps extends WithAsProps {
   cellClassName?: (date: Date) => string | undefined;
 }
 
+/**
+ * The Calendar component is used to select dates.
+ * @see https://rsuitejs.com/components/calendar
+ */
 const Calendar: RsRefForwardingComponent<typeof CalendarContainer, CalendarProps> =
   React.forwardRef((props: CalendarProps, ref) => {
     const {

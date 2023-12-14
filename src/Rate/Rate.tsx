@@ -46,6 +46,10 @@ export interface RateProps<T = number> extends WithAsProps, FormControlBaseProps
   onChangeActive?: (value: T, event: React.SyntheticEvent) => void;
 }
 
+/**
+ * The `Rate` component is used for rating. It can be used to evaluate the quality of the content.
+ * @see https://rsuitejs.com/components/rate/
+ */
 const Rate: RsRefForwardingComponent<'ul', RateProps> = React.forwardRef(
   (props: RateProps, ref) => {
     const {

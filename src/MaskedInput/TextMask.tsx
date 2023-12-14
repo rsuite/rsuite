@@ -51,6 +51,10 @@ export type TextMaskProps = TextMaskBaseProps &
 
 const defaultRender = (ref, props) => <input ref={ref} {...props} />;
 
+/**
+ * The `TextMask` component is used to format the user input data.
+ * @see https://rsuitejs.com/components/input/#masked-input
+ */
 const TextMask = React.forwardRef((props: TextMaskProps, ref: React.Ref<HTMLInputElement>) => {
   const {
     mask,

@@ -27,6 +27,10 @@ const getPosition = (target: HTMLElement, event: React.MouseEvent) => {
   };
 };
 
+/**
+ * The `Ripple` component is used to implement the ripple effect.
+ * @private
+ */
 const Ripple = React.forwardRef((props: RippleProps, ref: React.Ref<HTMLSpanElement>) => {
   const { disableRipple } = useCustom();
   const { as: Component = 'span', className, classPrefix = 'ripple', onMouseDown, ...rest } = props;

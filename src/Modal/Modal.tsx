@@ -61,6 +61,10 @@ interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
   Dialog: typeof ModalDialog;
 }
 
+/**
+ * The `Modal` component is used to show content in a layer above the app.
+ * @see https://rsuitejs.com/components/modal
+ */
 const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   const {
     className,

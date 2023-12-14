@@ -109,6 +109,10 @@ export interface MultiCascaderProps<T = ValueType>
 
 const emptyArray = [];
 
+/**
+ * The `MultiCascader` component is used to select multiple values from cascading options.
+ * @see https://rsuitejs.com/components/multi-cascader/
+ */
 const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
   (props: MultiCascaderProps, ref) => {
     const {

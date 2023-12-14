@@ -112,6 +112,11 @@ export interface TreePickerProps<T = number | string>
 const emptyArray = [];
 const itemSize = () => 36;
 
+/**
+ * The `TreePicker` component is used for selecting single options which are organized in a tree structure.
+ *
+ * @see https://rsuitejs.com/components/tree-picker/
+ */
 const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, ref) => {
   const {
     as: Component = 'div',

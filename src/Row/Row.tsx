@@ -7,6 +7,10 @@ export interface RowProps extends WithAsProps {
   gutter?: number;
 }
 
+/**
+ * The `Row` component is used for layout and grids.
+ * @see https://rsuitejs.com/components/grid
+ */
 const Row: RsRefForwardingComponent<'div', RowProps> = React.forwardRef((props: RowProps, ref) => {
   const {
     as: Component = 'div',

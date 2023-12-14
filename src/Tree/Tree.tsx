@@ -142,6 +142,11 @@ export interface TreeProps<ValueType = string | number>
   defaultValue?: ValueType;
 }
 
+/**
+ * The `Tree` component is used to display hierarchical data.
+ *
+ * @see https://rsuitejs.com/components/tree
+ */
 const Tree: RsRefForwardingComponent<'div', TreeProps> = React.forwardRef(
   (props: TreeProps, ref: React.Ref<any>) => {
     const contextValue = useMemo(() => ({ inline: true }), []);

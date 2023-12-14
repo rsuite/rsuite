@@ -53,6 +53,10 @@ interface NavComponent extends RsRefForwardingComponent<'div', NavProps> {
   Menu: typeof NavMenu;
 }
 
+/**
+ * The `Nav` component is used to create navigation links.
+ * @see https://rsuitejs.com/components/nav
+ */
 const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTMLElement>) => {
   const {
     as: Component = 'div',

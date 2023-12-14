@@ -21,6 +21,12 @@ export interface TagProps extends WithAsProps {
   onClose?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
+/**
+ * The `Tag` component is used to label and categorize.
+ * It can be used to mark the status of an object or classify it into different categories.
+ *
+ * @see https://rsuitejs.com/components/tag
+ */
 const Tag: RsRefForwardingComponent<'div', TagProps> = React.forwardRef((props: TagProps, ref) => {
   const {
     as: Component = 'div',

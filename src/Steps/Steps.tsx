@@ -25,6 +25,11 @@ interface StepsComponent extends RsRefForwardingComponent<'div', StepsProps> {
   Item: typeof StepItem;
 }
 
+/**
+ * The `Steps` component is used to guide users to complete tasks in accordance with the process.
+ *
+ * @see https://rsuitejs.com/components/steps
+ */
 const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
   const {
     as: Component = 'div',

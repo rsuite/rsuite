@@ -29,6 +29,10 @@ export interface ProgressLineProps extends WithAsProps {
   vertical?: boolean;
 }
 
+/**
+ * The `Progress.Line` component is used to display the progress of current operation.
+ * @see https://rsuitejs.com/components/progress/#line
+ */
 const ProgressLine: RsRefForwardingComponent<'div', ProgressLineProps> = React.forwardRef(
   (props: ProgressLineProps, ref) => {
     const {

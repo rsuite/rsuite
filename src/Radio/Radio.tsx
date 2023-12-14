@@ -52,6 +52,10 @@ export interface RadioProps<T = ValueType>
   ) => void;
 }
 
+/**
+ * The `Radio` component is a simple radio button.
+ * @see https://rsuitejs.com/components/radio
+ */
 const Radio = React.forwardRef((props: RadioProps, ref) => {
   const {
     value: groupValue,

@@ -30,6 +30,10 @@ interface HandleDataset extends DOMStringMap {
 
 const defaultDefaultValue: Range = [0, 0];
 
+/**
+ * The `RangeSlider` component is used to select a range from a given numerical range.
+ * @see https://rsuitejs.com/components/slider/
+ */
 const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   const {
     'aria-label': ariaLabel,

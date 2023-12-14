@@ -6,6 +6,11 @@ import type { PickerComponent } from '../Picker/types';
 export type TagInputProps = Omit<InputPickerProps<readonly string[]>, 'data'> &
   Partial<TagOnlyProps>;
 
+/**
+ * The `TagInput` component is an enhancement of Input and supports input tags and management tags.
+ *
+ * @see https://rsuitejs.com/components/tag-input
+ */
 const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInputProps, ref) => {
   const { tagProps = {}, trigger = 'Enter', value, defaultValue, onTagRemove, ...rest } = props;
   const contextValue = useMemo(

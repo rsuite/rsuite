@@ -4,6 +4,10 @@ import { useClassNames } from '../utils';
 
 export type BounceProps = TransitionProps;
 
+/**
+ * Bounce animation component
+ * @see https://rsuitejs.com/components/animation/#bounce
+ */
 const Bounce = React.forwardRef(({ timeout = 300, ...props }: BounceProps, ref: React.Ref<any>) => {
   const { prefix } = useClassNames('anim');
 

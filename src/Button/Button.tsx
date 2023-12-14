@@ -47,6 +47,10 @@ export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLEleme
   type?: 'button' | 'reset' | 'submit';
 }
 
+/**
+ * The Button component is used to trigger a custom action.
+ * @see https://rsuitejs.com/components/button
+ */
 const Button: RsRefForwardingComponent<'button', ButtonProps> = React.forwardRef(
   (props: ButtonProps, ref) => {
     const {

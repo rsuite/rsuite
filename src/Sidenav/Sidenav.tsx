@@ -64,6 +64,10 @@ export interface SidenavComponent extends RsRefForwardingComponent<'div', Sidena
 
 const emptyArray = [];
 
+/**
+ * The `Sidenav` component is an encapsulation of the page sidebar `Nav`.
+ * @see https://rsuitejs.com/components/sidenav/
+ */
 const Sidenav: SidenavComponent = React.forwardRef((props: SidenavProps, ref) => {
   const {
     as: Component = 'nav',

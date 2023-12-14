@@ -110,6 +110,10 @@ export interface CascaderComponent {
 
 const emptyArray = [];
 
+/**
+ * The `Cascader` component displays a hierarchical list of options.
+ * @see https://rsuitejs.com/components/cascader
+ */
 const Cascader = React.forwardRef(<T extends number | string>(props: CascaderProps<T>, ref) => {
   const {
     as: Component = 'div',

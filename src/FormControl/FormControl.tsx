@@ -66,6 +66,10 @@ interface FormControlComponent extends React.FC<FormControlProps> {
   ): React.ReactElement | null;
 }
 
+/**
+ * The `<Form.Control>` component is used to wrap the components that need to be validated.
+ * @see https://rsuitejs.com/components/form/
+ */
 const FormControl: FormControlComponent = React.forwardRef((props: FormControlProps, ref) => {
   const {
     readOnly: readOnlyContext,

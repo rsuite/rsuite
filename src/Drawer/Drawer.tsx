@@ -52,6 +52,10 @@ interface DrawerComponent extends React.FC<DrawerProps> {
   Footer: typeof DrawerFooter;
 }
 
+/**
+ * The Drawer component is used to display extra content from a main content.
+ * @see https://rsuitejs.com/components/drawer
+ */
 const Drawer: DrawerComponent = React.forwardRef((props: DrawerProps, ref) => {
   const {
     className,

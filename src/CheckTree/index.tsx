@@ -15,6 +15,10 @@ export interface CheckTreeProps
   uncheckableItemValues?: ValueType;
 }
 
+/**
+ * The `CheckTree` component is used for selecting multiple options which are organized in a tree structure.
+ * @see https://rsuitejs.com/components/check-tree
+ */
 const CheckTree: RsRefForwardingComponent<'div', CheckTreeProps> = React.forwardRef(
   (props: CheckTreeProps, ref: React.Ref<any>) => {
     const contextValue = useMemo(() => ({ inline: true }), []);

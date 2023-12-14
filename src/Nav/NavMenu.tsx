@@ -57,9 +57,12 @@ const reducer = (state: NavMenuState, action: NavMenuAction): NavMenuState => {
 };
 
 /**
- * The <Nav.Menu> API
- * When used as direct child of <Nav>, render the NavDropdown
- * When used within another <Nav.Menu>, render the NavDropdownMenu
+ * The `Nav.Menu` component is used to create navigation menus.
+ *
+ * - When used as direct child of `<Nav>`, render the NavDropdown
+ * - When used within another `<Nav.Menu>`, render the NavDropdownMenu
+ *
+ * @see https://rsuitejs.com/components/nav
  */
 const NavMenu = React.forwardRef((props: NavMenuProps, ref: React.Ref<any>) => {
   const parentNavMenu = useContext(NavMenuContext);

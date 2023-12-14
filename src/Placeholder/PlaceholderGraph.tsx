@@ -14,6 +14,10 @@ export interface PlaceholderGraphProps extends WithAsProps {
   active?: boolean;
 }
 
+/**
+ * The `Placeholder.Graph` component is used to display the loading state of the block.
+ * @see https://rsuitejs.com/components/placeholder
+ */
 const PlaceholderGraph: RsRefForwardingComponent<'div', PlaceholderGraphProps> = React.forwardRef(
   (props: PlaceholderGraphProps, ref) => {
     const {

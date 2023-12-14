@@ -66,11 +66,10 @@ export interface DropdownMenuItemProps<T = any>
   /** Select the callback function for the current option  */
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
-
 /**
- * The <Dropdown.Item> API
- * When used inside <Sidenav>, renders a <TreeviewItem>
- * Otherwise renders a <MenuItem>
+ * The `<Dropdown.Item>` API
+ * - When used inside `<Sidenav>`, renders a `<TreeviewItem>`
+ * - Otherwise renders a `<MenuItem>`
  */
 const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = React.forwardRef(
   (props: DropdownMenuItemProps, ref: React.Ref<any>) => {

@@ -96,6 +96,10 @@ export interface ColProps extends WithAsProps {
   xxlHidden?: boolean;
 }
 
+/**
+ * The `Col` component is used for layout and grids.
+ * @see https://rsuitejs.com/en/components/grid
+ */
 const Col: RsRefForwardingComponent<'div', ColProps> = React.forwardRef((props: ColProps, ref) => {
   const { as: Component = 'div', classPrefix = 'col', className, ...rest } = props;
   const { prefix, merge, rootPrefix, withClassPrefix } = useClassNames(classPrefix);

@@ -13,7 +13,8 @@ export interface TagPickerProps extends InputPickerProps, Partial<TagOnlyProps> 
 }
 
 /**
- * Multi-select by tag and support new options
+ * `TagPicker` component enables multi-selection by tags and supports new options.
+ *
  * @see https://rsuitejs.com/components/tag-picker/
  */
 const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(

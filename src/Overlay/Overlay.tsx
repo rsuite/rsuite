@@ -50,6 +50,10 @@ export const overlayPropTypes = {
   onExited: PropTypes.func
 };
 
+/**
+ * Overlay is a powerful component that helps you create floating components.
+ * @private
+ */
 const Overlay = React.forwardRef((props: OverlayProps, ref) => {
   const { overlayContainer } = useContext(OverlayContext);
   const {
