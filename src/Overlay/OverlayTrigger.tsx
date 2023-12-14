@@ -240,6 +240,7 @@ const OverlayTrigger = React.forwardRef(
     const handleOpen = useCallback(
       (delay?: number) => {
         const ms = isUndefined(delay) ? delayOpen : delay;
+
         if (ms && typeof ms === 'number') {
           return (delayOpenTimer.current = setTimeout(() => {
             delayOpenTimer.current = null;
@@ -301,17 +302,6 @@ const OverlayTrigger = React.forwardRef(
       }
     }, [handleClose]);
 
-    /**
-     * Toggle open and closed state.
-     */
-    const handleOpenState = useCallback(() => {
-      if (open) {
-        handleCloseWhenLeave();
-      } else {
-        handleOpen();
-      }
-    }, [open, handleCloseWhenLeave, handleOpen]);
-
     const handleDelayedOpen = useCallback(() => {
       mouseEnter.current = true;
 
@@ -332,6 +322,17 @@ const OverlayTrigger = React.forwardRef(
 
       handleOpen();
     }, [enterable, open, handleOpen]);
+
+    /**
+     * Toggle open and closed state.
+     */
+    const handleOpenState = useCallback(() => {
+      if (open) {
+        handleCloseWhenLeave();
+      } else {
+        handleDelayedOpen();
+      }
+    }, [open, handleCloseWhenLeave, handleDelayedOpen]);
 
     const handleDelayedClose = useCallback(() => {
       mouseEnter.current = false;
