@@ -33,7 +33,7 @@ const CategorizedList = React.forwardRef(
                     {item.name}
                     {language === 'zh' ? (
                       <span>
-                        <br /> ({item.title})
+                        <br /> {item.title ? `(${item.title})` : null}
                       </span>
                     ) : null}
                   </Link>

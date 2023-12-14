@@ -1,5 +1,13 @@
 import React from 'react';
-import { Form, RadioGroup, Button, Radio, RadioTile, RadioTileGroup, useMediaQuery } from 'rsuite';
+import {
+  Modal,
+  Button,
+  ButtonToolbar,
+  Placeholder,
+  RadioTile,
+  RadioTileGroup,
+  useMediaQuery
+} from 'rsuite';
 import { Icon } from '@rsuite/icons';
 import {
   VscLock,
@@ -11,22 +19,18 @@ import {
 } from 'react-icons/vsc';
 import DefaultPage from '@/components/Page';
 
-const sandboxDependencies = {
-  'react-icons': '^4.2.0'
-};
-
 export default function Page() {
   return (
     <DefaultPage
       dependencies={{
-        Form,
-        RadioGroup,
+        useMediaQuery,
+        Modal,
         Button,
-        Radio,
+        ButtonToolbar,
+        Placeholder,
+        Icon,
         RadioTile,
         RadioTileGroup,
-        Icon,
-        useMediaQuery,
         VscLock,
         VscRepo,
         VscWorkspaceTrusted,
@@ -34,7 +38,6 @@ export default function Page() {
         VscRepoClone,
         VscFile
       }}
-      sandboxDependencies={sandboxDependencies}
     />
   );
 }

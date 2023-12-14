@@ -384,7 +384,7 @@
     "name": "RadioTile",
     "title": "磁贴单选",
     "components": ["RadioTile", "RadioTileGroup"],
-    "new": true
+    "tag": "New"
   },
   {
     "id": "rate",
@@ -573,8 +573,8 @@
   {
     "group": true,
     "id": "utils",
-    "name": "Utils",
-    "title": "Utils"
+    "name": "Utils & Hooks",
+    "title": "Utils & Hooks"
   },
   {
     "id": "animation",
@@ -600,6 +600,7 @@
     "title": "DOM 助手",
     "apis": ["DOMHelper"]
   },
+
   {
     "id": "whisper",
     "name": "Whisper",
@@ -612,6 +613,14 @@
     "title": "数据模型",
     "target": "_blank",
     "url": "https://github.com/rsuite/schema-typed#schema-typed"
+  },
+  {
+    "id": "use-media-query",
+    "name": "useMediaQuery",
+    "title": "",
+    "apis": ["useMediaQuery"],
+    "tag": "Unstable 🧪",
+    "tagColor": "orange"
   },
   {
     "group": true,

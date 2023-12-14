@@ -15,7 +15,8 @@ interface Menu {
   url?: string;
   apis?: string[];
   children?: Menu[];
-  new?: boolean;
+  tag?: string;
+  tagColor?: string;
 }
 
 export default function usePages(): Menu[] {
@@ -37,7 +38,7 @@ export default function usePages(): Menu[] {
         {
           id: 'v5-features',
           name: messages?.common?.v5Features,
-          new: true
+          tag: 'New'
         },
         {
           id: 'composition',
