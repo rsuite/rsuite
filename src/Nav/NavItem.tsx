@@ -37,9 +37,12 @@ export interface NavItemProps<T = string>
 }
 
 /**
- * The <Nav.Item> API
- * When used as direct child of <Nav>, render the NavItem
- * When used within a <Nav.Menu>, render the NavDropdownItem
+ * The `Nav.Item` component is used to create navigation links.
+ *
+ * - When used as direct child of `<Nav>`, render the NavItem
+ * - When used within a `<Nav.Menu>`, render the NavDropdownItem
+ * @see https://rsuitejs.com/components/nav
+ *
  */
 const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
   (props: NavItemProps, ref: React.Ref<any>) => {

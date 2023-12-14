@@ -12,6 +12,10 @@ export interface FormErrorMessageProps extends WithAsProps {
   placement?: TypeAttributes.Placement8;
 }
 
+/**
+ * The `<Form.ErrorMessage>` component is used to display error messages in the form.
+ * @see https://rsuitejs.com/components/form/
+ */
 const FormErrorMessage: RsRefForwardingComponent<'div', FormErrorMessageProps> = React.forwardRef(
   (props: FormErrorMessageProps, ref: React.Ref<HTMLDivElement>) => {
     const {

@@ -24,6 +24,10 @@ export interface ListComponent extends RsRefForwardingComponent<'div', ListProps
   Item: typeof ListItem;
 }
 
+/**
+ * The `List` component is used to specify the layout of the list.
+ * @see https://rsuitejs.com/components/list
+ */
 const List: ListComponent = React.forwardRef((props: ListProps, ref: React.Ref<HTMLDivElement>) => {
   const {
     as: Component = 'div',

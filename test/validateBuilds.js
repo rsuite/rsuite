@@ -33,7 +33,9 @@ const unstyledComponents = [
   'Windowing'
 ];
 
-const styledComponents = components.filter(i => !unstyledComponents.includes(i));
+const styledComponents = components.filter(
+  i => !unstyledComponents.includes(i) && !/^use[A-Za-z]+/.test(i)
+);
 
 const locales = findResources({
   dir: path.join(__dirname, '../src/locales'),

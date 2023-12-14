@@ -19,6 +19,10 @@ export interface CheckboxGroupProps<V = ValueType[]> extends WithAsProps, FormCo
   inline?: boolean;
 }
 
+/**
+ * The `CheckboxGroup` component is used for selecting multiple options which are unrelated.
+ * @see https://rsuitejs.com/components/checkbox/#checkbox-group
+ */
 const CheckboxGroup: RsRefForwardingComponent<'div', CheckboxGroupProps> = React.forwardRef(
   (props: CheckboxGroupProps, ref) => {
     const {

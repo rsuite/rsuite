@@ -26,6 +26,10 @@ export interface LoaderProps extends WithAsProps {
   size?: TypeAttributes.Size;
 }
 
+/**
+ * The `Loader` component is used to indicate the loading state of a page or a section.
+ * @see https://rsuitejs.com/components/loader
+ */
 const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
   (props: LoaderProps, ref) => {
     const {

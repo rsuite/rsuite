@@ -41,6 +41,12 @@ export interface StackComponent extends RsRefForwardingComponent<'div', StackPro
   Item: typeof StackItem;
 }
 
+/**
+ * The `Stack` component is a quick layout component through Flexbox,
+ * supporting vertical and horizontal stacking, custom spacing and line wrapping.
+ *
+ * @see https://rsuitejs.com/components/stack
+ */
 const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement>) => {
   const {
     as: Component = 'div',

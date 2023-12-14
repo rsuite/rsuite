@@ -32,6 +32,10 @@ interface PanelGroupContext {
 
 export const PanelGroupContext = React.createContext<PanelGroupContext>({});
 
+/**
+ * The `PanelGroup` component is used to display content that can be collapsed.
+ * @see https://rsuitejs.com/components/panel
+ */
 const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
   const {
     as: Component = 'div',

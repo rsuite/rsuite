@@ -26,6 +26,10 @@ interface NavbarComponent extends RsRefForwardingComponent<'div', NavbarProps> {
   Brand: typeof NavbarBrand;
 }
 
+/**
+ * The `Navbar` component is used to create a navigation header.
+ * @see https://rsuitejs.com/components/navbar
+ */
 const Navbar: NavbarComponent = React.forwardRef(
   (props: NavbarProps, ref: React.Ref<HTMLElement>) => {
     const {

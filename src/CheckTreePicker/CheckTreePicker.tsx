@@ -101,6 +101,11 @@ export interface CheckTreePickerProps<T = ValueType>
 const emptyArray = [];
 const itemSize = () => 36;
 
+/**
+ * The `CheckTreePicker` component is used for selecting multiple options which are organized in a tree structure.
+ *
+ * @see https://rsuitejs.com/components/check-tree-picker
+ */
 const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef((props, ref) => {
   const {
     as: Component = 'div',

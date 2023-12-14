@@ -43,6 +43,10 @@ function getScrollDimensionValue(elem: Element, dimension: DIMENSION) {
   return `${value}px`;
 }
 
+/**
+ * A Collapse animation component.
+ * @see https://rsuitejs.com/components/animation/#collapse
+ */
 const Collapse = React.forwardRef((props: CollapseProps, ref: React.Ref<any>) => {
   const {
     className,

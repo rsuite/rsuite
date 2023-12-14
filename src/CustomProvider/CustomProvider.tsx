@@ -68,6 +68,11 @@ export interface CustomProviderProps<T = Locale> extends Partial<CustomValue<T>>
 const CustomContext = React.createContext<CustomProviderProps>({});
 const themes = ['light', 'dark', 'high-contrast'];
 
+/**
+ * CustomProvider is used to provide global configuration, such as language, theme, etc.
+ *
+ * @see https://rsuitejs.com/components/custom-provider
+ */
 const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
   const {
     children,

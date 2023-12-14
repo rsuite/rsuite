@@ -32,6 +32,10 @@ export interface RadioGroupProps<T = ValueType> extends WithAsProps, FormControl
 
 export const RadioContext = React.createContext<RadioContextProps>({});
 
+/**
+ * The `RadioGroup` component is used to group a collection of `Radio` components.
+ * @see https://rsuitejs.com/components/radio/#radio-group
+ */
 const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwardRef(
   (props: RadioGroupProps, ref) => {
     const {

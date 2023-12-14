@@ -12,6 +12,10 @@ export interface FormHelpTextProps extends WithAsProps {
   tooltip?: boolean;
 }
 
+/**
+ * The `<Form.HelpText>` component is used to display help information in the form.
+ * @see https://rsuitejs.com/components/form/
+ */
 const FormHelpText: RsRefForwardingComponent<'span', FormHelpTextProps> = React.forwardRef(
   (props: FormHelpTextProps, ref: React.Ref<any>) => {
     const {

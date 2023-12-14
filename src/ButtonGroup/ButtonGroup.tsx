@@ -28,6 +28,10 @@ export interface ButtonGroupProps extends WithAsProps {
   size?: TypeAttributes.Size;
 }
 
+/**
+ * The ButtonGroup component is used to group a series of buttons together in a single line or column.
+ * @see https://rsuitejs.com/components/button/#button-group
+ */
 const ButtonGroup: RsRefForwardingComponent<'div', ButtonGroupProps> = React.forwardRef(
   (props: ButtonGroupProps, ref) => {
     const {

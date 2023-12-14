@@ -200,6 +200,11 @@ export interface DatePickerProps
 
 type InputState = 'Typing' | 'Error' | 'Initial';
 
+/**
+ * A date picker allows users to select a date from a calendar.
+ *
+ * @see https://rsuitejs.com/components/date-picker
+ */
 const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwardRef(
   (props: DatePickerProps, ref) => {
     const {

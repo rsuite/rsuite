@@ -18,6 +18,10 @@ export interface BreadcrumbItemProps extends WithAsProps<React.ElementType | str
   target?: string;
 }
 
+/**
+ * The `<Breadcrumb.Item>` component is used to specify each section of the Breadcrumb.
+ * @see https://rsuitejs.com/components/breadcrumb
+ */
 const BreadcrumbItem: RsRefForwardingComponent<'a', BreadcrumbItemProps> = React.forwardRef(
   (props: BreadcrumbItemProps, ref: React.Ref<any>) => {
     const {

@@ -251,6 +251,11 @@ const useFileList = (
   return [fileListRef, dispatchCallback];
 };
 
+/**
+ * The `Uploader` component is used to upload files.
+ *
+ * @see https://rsuitejs.com/components/uploader
+ */
 const Uploader = React.forwardRef((props: UploaderProps, ref) => {
   const {
     as: Component = 'div',

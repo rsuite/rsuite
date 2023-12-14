@@ -14,6 +14,10 @@ export interface BadgeProps extends WithAsProps {
   color?: TypeAttributes.Color;
 }
 
+/**
+ * The Badge component is usually used to mark or highlight the status or quantity of an object.
+ * @see https://rsuitejs.com/components/badge
+ */
 const Badge: RsRefForwardingComponent<'div', BadgeProps> = React.forwardRef(
   (props: BadgeProps, ref) => {
     const {

@@ -36,6 +36,11 @@ export interface StepItemProps extends WithAsProps {
   title?: React.ReactNode;
 }
 
+/**
+ * The `Step.Item` component is used to set the layout of the child element in the `Steps` component.
+ *
+ * @see https://rsuitejs.com/components/steps
+ */
 const StepItem: RsRefForwardingComponent<'div', StepItemProps> = React.forwardRef(
   (props: StepItemProps, ref) => {
     const {

@@ -29,6 +29,11 @@ export interface RadioTileGroupProps<T = ValueType> extends WithAsProps, FormCon
 
 export const RadioTileContext = React.createContext<RadioTileContextProps>({});
 
+/**
+ * The `RadioTileGroup` component is used to group a collection of `RadioTile` components.
+ * @version 5.35.0
+ * @see https://rsuitejs.com/components/radio-tile/
+ */
 const RadioTileGroup: RsRefForwardingComponent<'div', RadioTileGroupProps> = React.forwardRef(
   (props: RadioTileGroupProps, ref) => {
     const {

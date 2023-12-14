@@ -104,6 +104,11 @@ export const sliderPropTypes = {
   getAriaValueText: PropTypes.func
 };
 
+/**
+ * A Slider is an interface for users to adjust a value in a specific range.
+ *
+ * @see https://rsuitejs.com/components/slider
+ */
 const Slider = React.forwardRef((props: SliderProps, ref) => {
   const {
     'aria-label': ariaLabel,

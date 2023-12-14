@@ -9,6 +9,7 @@ import debounce from 'lodash/debounce';
 import scrollTop from 'dom-lib/scrollTop';
 import ExternalLinkSquare from '@rsuite/icons/legacy/ExternalLinkSquare';
 import BarsIcon from '@rsuite/icons/legacy/Bars';
+import { TypeAttributes } from 'rsuite/esm/@types/common';
 
 interface SideNavbarProps {
   style: React.CSSProperties;
@@ -82,7 +83,13 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
         navItems.push(
           <Nav.Item key={child.id} href={pathname} active={active} as={Link}>
             {child.name}
-            {title} {child.new && <Badge content="new" />}
+            {title}{' '}
+            {child.tag && (
+              <Badge
+                content={child.tag}
+                color={(child.tagColor as TypeAttributes.Color) ?? 'green'}
+              />
+            )}
           </Nav.Item>
         );
       }

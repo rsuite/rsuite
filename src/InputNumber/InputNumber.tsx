@@ -109,6 +109,10 @@ function valueReachesMin(value: number | string | undefined, min: number) {
   return false;
 }
 
+/**
+ * The `InputNumber` component is used to enter a numerical value.
+ * @see https://rsuitejs.com/components/input-number
+ */
 const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const {
     as: Component = InputGroup,

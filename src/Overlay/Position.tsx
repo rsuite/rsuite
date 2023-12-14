@@ -167,6 +167,10 @@ export interface PositionInstance {
   child?: Element;
 }
 
+/**
+ * The `Position` component calculates the position of the child element.
+ * @private
+ */
 const Position = React.forwardRef((props: PositionProps, ref) => {
   const { children, className, followCursor, cursorPosition } = props;
   const childRef = React.useRef<HTMLElement>(null);

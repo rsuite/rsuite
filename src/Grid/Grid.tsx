@@ -8,6 +8,10 @@ export interface GridProps extends WithAsProps {
   fluid?: boolean;
 }
 
+/**
+ * The Grid component is used to specify the layout of child elements in rows and columns.
+ * @see https://rsuitejs.com/components/grid
+ */
 const Grid: RsRefForwardingComponent<'div', GridProps> = React.forwardRef(
   (props: GridProps, ref) => {
     const {

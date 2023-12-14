@@ -665,7 +665,9 @@ export function useTreeDrag<T>() {
   const [dragOverNodeKey, setDragOverNodeKey] = useState(null);
   // drag node and it's children nodes key
   const [dragNodeKeys, setDragNodeKeys] = useState<(number | string)[]>([]);
-  const [dropNodePosition, setDropNodePosition] = useState<TREE_NODE_DROP_POSITION | null>(null);
+  const [dropNodePosition, setDropNodePosition] = useState<TREE_NODE_DROP_POSITION | null | -1>(
+    null
+  );
 
   const setDragNode = (node: T | null) => {
     dragNode.current = node;

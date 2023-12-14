@@ -9,6 +9,10 @@ export interface Placeholder extends RsRefForwardingComponent<'div', Placeholder
   Graph: typeof PlaceholderGraph;
 }
 
+/**
+ * The `Placeholder` component is used to display the loading state of the block.
+ * @see https://rsuitejs.com/components/placeholder
+ */
 const Placeholder: Placeholder = PlaceholderParagraph as Placeholder;
 
 Placeholder.Paragraph = PlaceholderParagraph;

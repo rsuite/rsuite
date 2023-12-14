@@ -1,3 +1,14 @@
+# [5.47.0](https://github.com/rsuite/rsuite/compare/v5.46.1...v5.47.0) (2023-12-08)
+
+### Bug Fixes
+
+- **CloseButton:** fix close label translation string ([#3483](https://github.com/rsuite/rsuite/issues/3483)) ([feedbde](https://github.com/rsuite/rsuite/commit/feedbde550d96d207d6be690b89c3d12247b87d9))
+- **CloseButton:** improve CloseButton accessibility ([#3488](https://github.com/rsuite/rsuite/issues/3488)) ([92ed9a5](https://github.com/rsuite/rsuite/commit/92ed9a5080e241f7e4057cbbc6e971240fb464fe))
+
+### Features
+
+- **TagPicker:** add support for renderMenuItemCheckbox ([#3481](https://github.com/rsuite/rsuite/issues/3481)) ([6b044e9](https://github.com/rsuite/rsuite/commit/6b044e9621db421ea75dc549da27d63493a91261))
+
 ## [5.46.1](https://github.com/rsuite/rsuite/compare/v5.46.0...v5.46.1) (2023-12-01)
 
 ### Bug Fixes

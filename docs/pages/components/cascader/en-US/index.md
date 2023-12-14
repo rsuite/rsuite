@@ -1,6 +1,6 @@
 # Cascader
 
-Single selection of data with hierarchical relationship structure.
+The `Cascader` component displays a hierarchical list of options.
 
 ## Import
 

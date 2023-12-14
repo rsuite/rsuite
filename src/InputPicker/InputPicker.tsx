@@ -96,6 +96,11 @@ export interface InputPickerProps<T = ValueType>
   ) => boolean;
 }
 
+/**
+ * Single item selector with text box input.
+ *
+ * @see https://rsuitejs.com/components/input-picker
+ */
 const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
   (props: InputPickerProps, ref) => {
     const {

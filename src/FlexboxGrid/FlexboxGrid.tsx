@@ -16,6 +16,10 @@ interface FlexboxGridCompont extends RsRefForwardingComponent<'div', FlexboxGrid
   Item: typeof FlexboxGridItem;
 }
 
+/**
+ * The FlexboxGrid component is a box that can be used to layout other components.
+ * @see https://rsuitejs.com/components/flexbox-grid
+ */
 const FlexboxGrid: FlexboxGridCompont = React.forwardRef((props: FlexboxGridProps, ref) => {
   const {
     as: Component = 'div',

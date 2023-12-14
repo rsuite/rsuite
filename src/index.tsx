@@ -302,3 +302,5 @@ export type {
 } from './locales';
 
 export type { PickerHandle } from './Picker';
+
+export { default as useMediaQuery } from './useMediaQuery';

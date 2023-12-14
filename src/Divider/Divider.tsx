@@ -10,6 +10,10 @@ export interface DividerProps extends WithAsProps {
   vertical?: boolean;
 }
 
+/**
+ * The Divider component is used to separate content.
+ * @see https://rsuitejs.com/components/divider
+ */
 const Divider: RsRefForwardingComponent<'div', DividerProps> = React.forwardRef(
   (props: DividerProps, ref) => {
     const {

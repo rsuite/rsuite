@@ -1,8 +1,8 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
 import { testStandardProps } from '@test/commonCases';
 import Panel from '../Panel';
 
@@ -11,32 +11,48 @@ describe('Panel', () => {
 
   it('Should render a panel', () => {
     const title = 'Test';
-    const instance = getDOMNode(<Panel>{title}</Panel>);
-    assert.equal(instance.tagName, 'DIV');
-    assert.ok(instance.className.match(/\bpanel\b/));
-    assert.equal(instance.textContent, title);
+    render(<Panel data-testid="panel">{title}</Panel>);
+    const panel = screen.getByTestId('panel');
+
+    expect(panel).to.have.tagName('div');
+    expect(panel).to.have.class(/\bpanel\b/);
+    expect(panel).to.have.text(title);
   });
 
   it('Should default expanded', () => {
-    const instance = getDOMNode(<Panel collapsible defaultExpanded />);
+    const text = 'Text';
+    render(
+      <Panel collapsible defaultExpanded>
+        {text}
+      </Panel>
+    );
     // eslint-disable-next-line testing-library/no-node-access
-    assert.isNotNull(instance.querySelector('.rs-panel-collapse.rs-anim-in'));
+    expect(screen.getByText(text).parentNode).to.have.class('rs-panel-collapse');
+    expect(screen.getByText(text).parentNode).to.have.class('rs-anim-in');
   });
 
   it('Should show border', () => {
-    const instance = getDOMNode(<Panel bordered />);
-    assert.include(instance.className, 'rs-panel-bordered');
+    render(<Panel data-testid="panel" bordered />);
+
+    expect(screen.getByTestId('panel')).to.have.class('rs-panel-bordered');
   });
 
   it('Should with shadow', () => {
-    const instance = getDOMNode(<Panel shaded />);
-    assert.include(instance.className, 'rs-panel-shaded');
+    render(<Panel data-testid="panel" shaded />);
+
+    expect(screen.getByTestId('panel')).to.have.class('rs-panel-shaded');
   });
 
   it('Should be expanded', () => {
-    const instance = getDOMNode(<Panel collapsible expanded />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.isNotNull(instance.querySelector('.rs-panel-collapse.rs-anim-in'));
+    const text = 'Text';
+    render(
+      <Panel collapsible expanded>
+        {text}
+      </Panel>
+    );
+
+    expect(screen.getByText(text).parentNode).to.have.class('rs-panel-collapse');
+    expect(screen.getByText(text).parentNode).to.have.class('rs-anim-in');
   });
 
   it('Should render the custom header', () => {
@@ -46,21 +62,18 @@ describe('Panel', () => {
   });
 
   it('Should have a role in header', () => {
-    const instance = getDOMNode(<Panel headerRole="button" collapsible header={'abc'} />);
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access
-      (instance.querySelector('.rs-panel-header') as HTMLElement).getAttribute('role'),
-      'button'
-    );
+    const headerText = 'abc';
+    const headerRole = 'button';
+    render(<Panel headerRole={headerRole} collapsible header={headerText} />);
+
+    expect(screen.getByRole(headerRole)).to.have.text(headerText);
+    expect(screen.getByRole(headerRole)).to.have.class('rs-panel-header');
   });
 
   it('Should have a role in body', () => {
-    const instance = getDOMNode(<Panel panelRole="button" collapsible />);
-    assert.equal(
-      // eslint-disable-next-line testing-library/no-node-access
-      (instance.querySelector('.rs-panel-body') as HTMLElement).getAttribute('role'),
-      'button'
-    );
+    render(<Panel panelRole="button" collapsible />);
+
+    expect(screen.getByRole('button')).to.have.class('rs-panel-body');
   });
 
   describe('Collapsible - `collapsible=true`', () => {

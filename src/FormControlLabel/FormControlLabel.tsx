@@ -11,6 +11,10 @@ export interface FormControlLabelProps
   htmlFor?: string;
 }
 
+/**
+ * The `<Form.ControlLabel>` component renders a label with required indicator, for form controls.
+ * @see https://rsuitejs.com/components/form/
+ */
 const FormControlLabel: RsRefForwardingComponent<'label', FormControlLabelProps> = React.forwardRef(
   (props: FormControlLabelProps, ref) => {
     const {

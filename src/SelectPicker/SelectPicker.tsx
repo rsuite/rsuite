@@ -128,6 +128,10 @@ export interface SelectPickerComponent {
   propTypes?: React.WeakValidationMap<SelectPickerProps<any>>;
 }
 
+/**
+ * The `SelectPicker` component is used to select an item from a list of data.
+ * @see https://rsuitejs.com/components/select-picker/
+ */
 const SelectPicker = React.forwardRef(
   <T extends number | string>(props: SelectPickerProps<T>, ref: React.Ref<PickerHandle>) => {
     const {

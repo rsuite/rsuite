@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, RadioGroup, Button, Radio, RadioTile, RadioTileGroup } from 'rsuite';
+import { Form, RadioGroup, Button, Radio, RadioTile, RadioTileGroup, useMediaQuery } from 'rsuite';
 import { Icon } from '@rsuite/icons';
 import {
   VscLock,
@@ -26,6 +26,7 @@ export default function Page() {
         RadioTile,
         RadioTileGroup,
         Icon,
+        useMediaQuery,
         VscLock,
         VscRepo,
         VscWorkspaceTrusted,

@@ -37,6 +37,10 @@ export interface AvatarProps extends WithAsProps {
   alt?: string;
 }
 
+/**
+ * The Avatar component is used to represent user or brand.
+ * @see https://rsuitejs.com/components/avatar
+ */
 const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
   (props: AvatarProps, ref) => {
     const {
