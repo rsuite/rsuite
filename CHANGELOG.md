@@ -1,3 +1,15 @@
+# [5.48.0](https://github.com/rsuite/rsuite/compare/v5.47.0...v5.48.0) (2023-12-14)
+
+### Bug Fixes
+
+- **Whisper:** fix delay and other related props not working ([#3499](https://github.com/rsuite/rsuite/issues/3499)) ([a54aee1](https://github.com/rsuite/rsuite/commit/a54aee1f37e05fcf4618077a9a59165051de2a5a))
+
+### Features
+
+- **DateInput:** add support for DateInput ([#3492](https://github.com/rsuite/rsuite/issues/3492)) ([3095c03](https://github.com/rsuite/rsuite/commit/3095c037090b8366f39a98e9b275cd732e4dd069))
+- **useMediaQuery:** add a CSS media query hook ([#3234](https://github.com/rsuite/rsuite/issues/3234)) ([d2bfdd6](https://github.com/rsuite/rsuite/commit/d2bfdd661a0f6c75de3906dc6fba3d8f41176551))
+- add annotations and link for components using JSDoc format ([#3498](https://github.com/rsuite/rsuite/issues/3498)) ([39d4e5f](https://github.com/rsuite/rsuite/commit/39d4e5ff8491472fa3ef93bb0af9f14ec6ca6037))
+
 # [5.47.0](https://github.com/rsuite/rsuite/compare/v5.46.1...v5.47.0) (2023-12-08)
 
 ### Bug Fixes
