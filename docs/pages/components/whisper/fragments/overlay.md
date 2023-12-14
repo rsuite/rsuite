@@ -26,15 +26,28 @@ const Overlay = React.forwardRef(({ style, onClose, ...rest }, ref) => {
 });
 
 const App = () => (
-  <Whisper
-    trigger="click"
-    speaker={(props, ref) => {
-      const { className, left, top, onClose } = props;
-      return <Overlay style={{ left, top }} onClose={onClose} className={className} ref={ref} />;
-    }}
-  >
-    <Button>Open</Button>
-  </Whisper>
+  <ButtonToolbar>
+    <Whisper
+      trigger="click"
+      speaker={(props, ref) => {
+        const { className, left, top, onClose } = props;
+        return <Overlay style={{ left, top }} onClose={onClose} className={className} ref={ref} />;
+      }}
+    >
+      <Button>Open</Button>
+    </Whisper>
+
+    <Whisper
+      trigger="click"
+      delay={1000}
+      speaker={(props, ref) => {
+        const { className, left, top, onClose } = props;
+        return <Overlay style={{ left, top }} onClose={onClose} className={className} ref={ref} />;
+      }}
+    >
+      <Button>Delay (1000ms) to open</Button>
+    </Whisper>
+  </ButtonToolbar>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));
