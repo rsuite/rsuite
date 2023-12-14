@@ -4,19 +4,9 @@
 
 ## 安装
 
-### 使用 npm 或 yarn 安装
+在终端中运行以下命令之一来安装 rsuite：
 
-推荐使用 npm 或 yarn 的方式安装。首先需要在本地正确安装 NPM 环境，通过 npm 安装 rsuite。
-
-```bash
-$ npm i rsuite --save
-```
-
-如果您在使用 yarn 也可以通过 yarn 安装:
-
-```bash
-$ yarn add rsuite
-```
+<!--{include:<install-guide>}-->
 
 ## 代码示例
 

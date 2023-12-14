@@ -66,8 +66,8 @@ function App() {
 您可以阅读[完整文档][rsuite-doc-guide]，或者从下面几个章节开始学习
 
 - [如何使用？][rsuite-doc-guide]
-- [自定义主题][rsuite-doc-guide-themes]
-- [国际化][rsuite-doc-guide-intl]
+- [基于 Less 定制主题][rsuite-doc-guide-themes]
+- [语言本地化][rsuite-doc-guide-intl]
 - [Right-to-left][rsuite-doc-guide-intl]
 - [组件][rsuite-components-overview]
 
@@ -77,7 +77,7 @@ function App() {
 - [管理系统][demo-admin]
 - [模块化按需加载][demo-modular-import]
 - [CDN 引入][demo-cdn]
-- [国际化方案][demo-intl-app]
+- [语言本地化方案][demo-intl-app]
 - [多主题方案][demo-multiple-themes]
 - [RTL 方案 - rtlcss][demo-rtlcss]
 - [RTL 方案 - postcss-rtl][demo-postcss-rtl]
@@ -144,7 +144,7 @@ React Suite 基于 [MIT licensed][license] 发布。
 [rsuite-design]: https://rsuitejs.com/design/default
 [live-preview-on-codesandbox]: https://codesandbox.io/s/rsuite-template-5vq6zo2z5l
 [rsuite-doc-guide]: https://rsuitejs.com/guide/introduction
-[rsuite-doc-guide-themes]: https://rsuitejs.com/guide/customization
+[rsuite-doc-guide-themes]: https://rsuitejs.com/guide/customization-less
 [rsuite-doc-guide-intl]: https://rsuitejs.com/guide/intl
 [rsuite-doc-guide-intl]: https://rsuitejs.com/en/guide/intl
 [rsuite-components-overview]: https://rsuitejs.com/components/overview

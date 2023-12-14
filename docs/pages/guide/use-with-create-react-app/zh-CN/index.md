@@ -110,7 +110,7 @@ module.exports = override(
 
 重新执行 `yarn start`，看到红色按钮就是配置成功了。
 
-这里使用 [react-app-rewired][react-app-rewired] 和 [customize-cra][customize-cra],配合 [less-loader][less-loader] 利用 `modifyVars` 配置实现定制主题。更多方法，详见[定制主题](/guide/customization)。
+这里使用 [react-app-rewired][react-app-rewired] 和 [customize-cra][customize-cra],配合 [less-loader][less-loader] 利用 `modifyVars` 配置实现定制主题。更多方法，详见[定制主题](/guide/customization-less)。
 
 ## 常见问题
 

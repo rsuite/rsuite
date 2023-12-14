@@ -11,6 +11,11 @@ import { getTitle, getDescription } from '../utils/parseHTML';
 import scrollIntoView from '../utils/scrollIntoView';
 import { VercelBanner } from './VercelBanner';
 import CustomCodeView, { CustomCodeViewProps } from './CodeView';
+import InstallGuide from './InstallGuide';
+
+const inDocsComponents = {
+  'install-guide': InstallGuide
+};
 
 export interface PageContentProps extends CustomCodeViewProps {
   id?: string;
@@ -109,6 +114,15 @@ const PageContent = (props: PageContentProps) => {
               }
             </MarkdownRenderer>
           );
+        }
+
+        // Render component
+        const componentKey = item.match(/include:\<([\S\-]+)\>/)?.[1];
+
+        if (componentKey) {
+          const Component = inDocsComponents[componentKey];
+
+          return <Component key={index} />;
         }
 
         return <MarkdownRenderer key={index}>{item}</MarkdownRenderer>;

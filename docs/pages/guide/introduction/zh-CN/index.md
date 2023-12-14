@@ -18,9 +18,7 @@ React Suite 设计原型与规范， [点击查看][rsuite-design]。
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | IE11, Edge                                                                                                                                                  | last 2 versions                                                                                                                                               | last 2 versions                                                                                                                                            | last 2 versions                                                                                                                                           |
 
-- 从 React Suite 5 开始** 不支持 IE10 以下版本(包括 IE10) ** 。
-- 如果您需要继续在 IE 10 浏览器上使用，请使用 [React Suite 4 版本](https://v4.rsuitejs.com/zh/guide/introduction/)。
-- 不推荐在移动端使用。
+> 从 v5 开始不支持 IE10 以下版本(包括 IE10)，如果您需要继续在 IE 10 浏览器上使用，请使用 [v4](https://v4.rsuitejs.com/zh/guide/introduction/)。
 
 ### 服务端
 
@@ -107,17 +105,9 @@ $ npm run dev
 
 RSUITE 基于 [MIT licensed][license] 发布。
 
-[readm-cn]: https://github.com/rsuite/rsuite/blob/master/README_zh.md
 [npm-svg]: https://badge.fury.io/js/rsuite.svg
 [npm-home]: https://www.npmjs.com/package/rsuite
-[discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
-[discord-invite]: https://discord.gg/R8mnjwh
 [rsuite-design]: https://rsuitejs.com/design/default
-[live-preview-on-codesandbox]: https://codesandbox.io/s/mo7jxvr9x9?from-embed
-[rsuite-doc-guide]: https://rsuitejs.com/guide/introduction
-[rsuite-doc-guide-themes]: https://rsuitejs.com/guide/customization
-[rsuite-doc-guide-intl]: https://rsuitejs.com/guide/intl
-[rsuite-components-overview]: https://rsuitejs.com/components/overview
 [release-notes]: https://github.com/rsuite/rsuite/releases
 [contributing]: https://github.com/rsuite/rsuite/blob/master/CONTRIBUTING.md
 [prettierrc]: https://github.com/rsuite/rsuite/wiki/.prettierrc
@@ -127,5 +117,4 @@ RSUITE 基于 [MIT licensed][license] 发布。
 [license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
 [gitter]: https://gitter.im/rsuite/rsuite-CN?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://badges.gitter.im/rsuite/rsuite.svg
-[babel-preset-env]: https://babeljs.io/docs/en/babel-preset-env
 [rsuite-stars]: https://img.shields.io/github/stars/rsuite/rsuite?style=social

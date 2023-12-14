@@ -111,7 +111,7 @@ module.exports = override(
 
 Re-executing `yarn start`, the red button is the configuration was successful
 
-We uses [react-app-rewired][react-app-rewired] and [customize-cra][customize-cra] to implement custom themes with [less-loader][less-loader] using `modifyVars` configuration. For more details, see [Customize Theme](/guide/customization).
+We uses [react-app-rewired][react-app-rewired] and [customize-cra][customize-cra] to implement custom themes with [less-loader][less-loader] using `modifyVars` configuration. For more details, see [Customize Theme](/guide/customization-less).
 
 ## Troubleshooting
 
