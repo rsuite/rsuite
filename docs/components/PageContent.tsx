@@ -117,12 +117,14 @@ const PageContent = (props: PageContentProps) => {
         }
 
         // Render component
-        const componentKey = item.match(/include:\<([\S\-]+)\>/)?.[1];
+        const componentKey = item.match(/include:\<([A-Za-z-]+)\>/)?.[1];
 
         if (componentKey) {
           const Component = inDocsComponents[componentKey];
 
-          return <Component key={index} />;
+          if (Component) {
+            return <Component key={index} />;
+          }
         }
 
         return <MarkdownRenderer key={index}>{item}</MarkdownRenderer>;
