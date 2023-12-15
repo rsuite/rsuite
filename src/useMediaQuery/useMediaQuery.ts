@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import canUseDOM from 'dom-lib/canUseDOM';
+import pick from 'lodash/pick';
 
 export const mediaQuerySizeMap = {
   xs: '(max-width: 575px)',
@@ -9,6 +10,11 @@ export const mediaQuerySizeMap = {
   xl: '(min-width: 1200px)',
   xxl: '(min-width: 1400px)'
 };
+
+interface MediaQuery {
+  matches: boolean;
+  media: string;
+}
 
 const matchMedia = (query: string) => {
   if (canUseDOM) {
@@ -33,12 +39,12 @@ export function useMediaQueryLegacy(
   const queries = Array.isArray(query) ? query : [query];
   const mediaQueries = queries.map(query => mediaQuerySizeMap[query] || query);
 
-  const [mediaQueryArray, setMediaQueryArray] = useState<MediaQueryList[]>(() => {
-    return mediaQueries.map(query => matchMedia(query));
+  const [mediaQueryArray, setMediaQueryArray] = useState<MediaQuery[]>(() => {
+    return mediaQueries.map(query => pick(matchMedia(query), ['matches', 'media']));
   });
 
   function handleChange(event: MediaQueryListEvent) {
-    setMediaQueryArray((prevMediaQueryArray: MediaQueryList[]) => {
+    setMediaQueryArray((prevMediaQueryArray: MediaQuery[]) => {
       return prevMediaQueryArray.map(item => {
         return item.media === event.media ? { ...item, matches: event.matches } : item;
       });
@@ -57,7 +63,6 @@ export function useMediaQueryLegacy(
         query.removeEventListener('change', handleChange);
       });
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mediaQueries]);
 
   return mediaQueryArray.map(query => query.matches);
