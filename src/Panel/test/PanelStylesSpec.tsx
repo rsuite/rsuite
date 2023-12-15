@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Panel from '../index';
-import { toRGB, inChrome, itChrome } from '@test/testUtils';
+import { toRGB, inChrome, itChrome } from '@test/utils';
 
 import '../styles/index.less';
 

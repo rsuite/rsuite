@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { renderHook } from '@test/testUtils';
+import { renderHook } from '@test/utils';
 import useElementResize from '../useElementResize';
 import { act, waitFor } from '@testing-library/react';
 
@@ -29,9 +29,9 @@ describe('[utils] useElementResize', () => {
       // ResizeObserver first fires a resize event
       const { width, height } = callbackSpy.firstCall.args[0][0].contentRect;
 
-      assert.equal(callbackSpy.callCount, 1);
-      assert.equal(width, 100);
-      assert.equal(height, 100);
+      expect(callbackSpy).to.have.been.calledOnce;
+      expect(width).to.equal(100);
+      expect(height).to.equal(100);
     });
 
     act(() => {
@@ -42,9 +42,9 @@ describe('[utils] useElementResize', () => {
       // ResizeObserver second fires a resize event
       const { width, height } = callbackSpy.secondCall.args[0][0].contentRect;
 
-      assert.equal(callbackSpy.callCount, 2);
-      assert.equal(width, 200);
-      assert.equal(height, 100);
+      expect(callbackSpy).to.have.been.calledTwice;
+      expect(width).to.equal(200);
+      expect(height).to.equal(100);
     });
   });
 });

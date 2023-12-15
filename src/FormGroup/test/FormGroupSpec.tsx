@@ -1,6 +1,5 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getDOMNode, testStandardProps } from '@test/utils';
 import FormGroup from '../FormGroup';
 import Input from '../../Input';
 import FormControlLabel from '../../FormControlLabel';

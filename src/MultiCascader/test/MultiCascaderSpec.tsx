@@ -1,7 +1,7 @@
 import React from 'react';
 import { act, fireEvent, render, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, testStandardProps } from '@test/utils';
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
 import { PickerHandle } from '../../Picker';
@@ -32,6 +32,13 @@ const items = [
 ];
 
 describe('MultiCascader', () => {
+  testStandardProps(<MultiCascader data={[]} />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
+
   it('Should output a dropdown', () => {
     const instance = getDOMNode(<MultiCascader data={[]}>Title</MultiCascader>);
 

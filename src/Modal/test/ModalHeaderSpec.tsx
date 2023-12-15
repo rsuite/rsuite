@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 
 import ModalHeader from '../ModalHeader';
 import Sinon from 'sinon';

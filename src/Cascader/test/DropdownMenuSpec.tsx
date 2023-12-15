@@ -1,10 +1,10 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getInstance } from '@test/testUtils';
+import { getInstance } from '@test/utils';
 import DropdownMenu from '../DropdownMenu';
 import Dropdown from '../Cascader';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 const items = [
   {

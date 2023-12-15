@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 import DropdownMenuItem from '../DropdownMenuCheckItem';
 
 describe('picker - DropdownMenuCheckItem', () => {

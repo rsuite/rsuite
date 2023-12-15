@@ -1,10 +1,10 @@
 import React from 'react';
 import Uploader from '../index';
 import { render, screen } from '@testing-library/react';
-import { toRGB } from '@test/testUtils';
+import { toRGB } from '@test/utils';
+import { UploaderInstance } from '../Uploader';
 
 import '../styles/index.less';
-import { UploaderInstance } from '../Uploader';
 
 describe('Uploader styles', () => {
   it('Should render the correct styles', () => {

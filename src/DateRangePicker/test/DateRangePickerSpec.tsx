@@ -1,9 +1,8 @@
 import React from 'react';
 import { render, act, fireEvent, waitFor, screen } from '@testing-library/react';
-import { getInstance } from '@test/testUtils';
+import { getInstance, testStandardProps } from '@test/utils';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/commonCases';
 import {
   addDays,
   endOfMonth,
@@ -38,7 +37,13 @@ afterEach(() => {
 });
 
 describe('DateRangePicker', () => {
-  testStandardProps(<DateRangePicker />);
+  testStandardProps(<DateRangePicker />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
+
   it('Should render a div with "rs-picker-daterange" class', () => {
     const { container } = render(<DateRangePicker />);
 

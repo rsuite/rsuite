@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Row from '../index';
-import { itChrome } from '@test/testUtils';
+import { itChrome } from '@test/utils';
 
 import '../styles/index.less';
 

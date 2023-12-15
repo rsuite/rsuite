@@ -4,7 +4,7 @@ import {
   removeAllChildrenValue,
   useFlattenData
 } from '../utils';
-import { renderHook } from '@test/testUtils';
+import { renderHook } from '@test/utils';
 
 const itemKeys = { childrenKey: 'children', labelKey: 'label', valueKey: 'value' };
 

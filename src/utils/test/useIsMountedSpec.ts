@@ -1,4 +1,4 @@
-import { renderHook } from '@test/testUtils';
+import { renderHook } from '@test/utils';
 import useIsMounted from '../useIsMounted';
 
 describe('[utils] useIsMounted', () => {

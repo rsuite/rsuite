@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 import { parseISO } from '../../utils/dateUtils';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import sinon from 'sinon';
 import CalendarContainer from '../CalendarContainer';
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { getDOMNode } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getDOMNode, testStandardProps } from '@test/utils';
 import TimelineItem from '../TimelineItem';
 
 describe('TimelineItem', () => {

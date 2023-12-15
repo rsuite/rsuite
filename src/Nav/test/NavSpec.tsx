@@ -1,5 +1,5 @@
 import React from 'react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import { render, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';

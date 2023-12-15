@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 import DropdownMenuItem from '../DropdownMenuItem';
 import Sinon from 'sinon';
 

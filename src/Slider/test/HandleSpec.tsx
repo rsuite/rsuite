@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, act, waitFor, render } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 import Handle from '../Handle';
 
 describe('Slider - Handle', () => {

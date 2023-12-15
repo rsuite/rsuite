@@ -1,6 +1,6 @@
 import React from 'react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import Notification from '../Notification';
 import Sinon from 'sinon';
 import { waitFor, render, fireEvent, screen } from '@testing-library/react';

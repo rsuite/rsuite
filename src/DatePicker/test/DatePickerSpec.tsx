@@ -1,12 +1,11 @@
 import React from 'react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps, getInstance } from '@test/utils';
 import { render, fireEvent, act, waitFor, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import enGB from 'date-fns/locale/en-GB';
 import ReactTestUtils from 'react-dom/test-utils';
 import { format, isSameDay, parseISO, addMonths, isBefore } from '../../utils/dateUtils';
-import { getInstance } from '@test/testUtils';
 import DatePicker from '../DatePicker';
 import { DateUtils } from '../../utils';
 
@@ -18,7 +17,12 @@ afterEach(() => {
 });
 
 describe('DatePicker', () => {
-  testStandardProps(<DatePicker />);
+  testStandardProps(<DatePicker />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
 
   it('Should render a div with "rs-picker-date" class', () => {
     const { container } = render(<DatePicker />);

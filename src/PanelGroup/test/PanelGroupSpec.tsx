@@ -1,8 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getDOMNode, testStandardProps } from '@test/utils';
 import PanelGroup from '../PanelGroup';
 import Panel from '../../Panel';
 

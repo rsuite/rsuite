@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import FormErrorMessage from '../index';
-import { getStyle, getDOMNode, toRGB, inChrome } from '@test/testUtils';
+import { getStyle, getDOMNode, toRGB, inChrome } from '@test/utils';
 
 import '../styles/index.less';
 

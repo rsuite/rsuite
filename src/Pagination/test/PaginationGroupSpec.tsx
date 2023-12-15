@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import PaginationGroup from '../PaginationGroup';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/utils';
 import Sinon from 'sinon';
 
 describe('Pagination Group', () => {

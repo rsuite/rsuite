@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { getDOMNode, getStyle, toRGB } from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB } from '@test/utils';
 import Nav from '../../Nav';
 import Navbar from '../Navbar';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import PlaceholderGraph from '../PlaceholderGraph';
-import { getDOMNode, getStyle, toRGB } from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB } from '@test/utils';
 
 import '../styles/index.less';
 

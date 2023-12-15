@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { renderHook } from '@test/testUtils';
+import { renderHook } from '@test/utils';
 import useMount from '../useMount';
 
 describe('[utils] useMount', () => {

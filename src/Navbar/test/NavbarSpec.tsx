@@ -1,8 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getDOMNode, testStandardProps } from '@test/utils';
 import Navbar from '../Navbar';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';

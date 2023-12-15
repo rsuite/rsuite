@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Sidebar from '../index';
-import { getDOMNode, getStyle, itChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, itChrome } from '@test/utils';
 
 import '../styles/index.less';
 

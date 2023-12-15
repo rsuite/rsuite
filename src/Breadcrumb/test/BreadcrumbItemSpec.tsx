@@ -1,5 +1,5 @@
 import React from 'react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import Breadcrumb from '../Breadcrumb';
 import BreadcrumbItem from '../BreadcrumbItem';
 import Sinon from 'sinon';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { format } from 'date-fns';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import { testControlledUnControlled } from '@test/utils';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -10,12 +10,13 @@ import DateInput from '../DateInput';
 import { testKeyPress, testContinuousKeyPress } from './testUtils';
 
 describe('DateInput', () => {
-  testStandardProps(<DateInput />);
+  testStandardProps(<DateInput />, { sizes: ['lg', 'md', 'sm', 'xs'] });
 
   testControlledUnControlled(DateInput, {
     defaultValue: new Date('2023-10-01'),
     value: new Date('2023-10-01'),
     changedValue: new Date('2023-10-02'),
+    defaultPlaintextValue: 'yyyy-MM-dd',
     simulateEvent: {
       changeValue: () => {
         const input = screen.getByRole('textbox') as HTMLInputElement;
@@ -26,8 +27,10 @@ describe('DateInput', () => {
     expectedValue: (value: Date) => {
       expect(screen.getByRole('textbox')).to.value(format(value, 'yyyy-MM-dd'));
     },
-    expectedTextValue: (value: Date) => {
-      expect(screen.getByRole('text')).to.have.text(format(value, 'yyyy-MM-dd'));
+    expectedTextValue: (value: Date | string) => {
+      expect(screen.getByRole('text')).to.have.text(
+        typeof value === 'string' ? value : format(value, 'yyyy-MM-dd')
+      );
     }
   });
 

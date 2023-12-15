@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Footer from '../index';
-import { itChrome } from '@test/testUtils';
+import { itChrome } from '@test/utils';
 
 import '../styles/index.less';
 

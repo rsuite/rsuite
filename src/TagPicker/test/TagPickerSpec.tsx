@@ -1,8 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getDOMNode, getInstance, testStandardProps } from '@test/utils';
 import TagPicker from '../index';
 import Button from '../../Button';
 import { PickerHandle } from '../../Picker';
@@ -26,7 +25,12 @@ const data = [
 ];
 
 describe('TagPicker', () => {
-  testStandardProps(<TagPicker data={data} />);
+  testStandardProps(<TagPicker data={data} />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
 
   it('Should clean selected default value', () => {
     render(<TagPicker defaultOpen data={data} defaultValue={['Eugenia']} />);

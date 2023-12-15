@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Nav from '../index';
-import { toRGB, getDefaultPalette } from '@test/testUtils';
+import { toRGB, getDefaultPalette } from '@test/utils';
 
 import '../styles/index.less';
 

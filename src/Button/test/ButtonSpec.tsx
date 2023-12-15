@@ -2,11 +2,11 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import Button from '../Button';
 
 describe('Button', () => {
-  testStandardProps(<Button />);
+  testStandardProps(<Button />, { sizes: ['lg', 'md', 'sm', 'xs'] });
 
   it('Should output a button', () => {
     render(<Button>Title</Button>);
@@ -80,12 +80,6 @@ describe('Button', () => {
     const { container } = render(<Button appearance="ghost">Title</Button>);
 
     expect(container.firstChild).to.have.class('rs-btn-ghost');
-  });
-
-  it('Should apply size class', () => {
-    const { container } = render(<Button size="lg">Title</Button>);
-
-    expect(container.firstChild).to.have.class('rs-btn-lg');
   });
 
   it('Should honour additional classes passed in, adding not overriding', () => {

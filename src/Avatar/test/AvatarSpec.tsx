@@ -1,10 +1,12 @@
 import React from 'react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import Avatar from '../Avatar';
 import { render, screen } from '@testing-library/react';
 
 describe('Avatar', () => {
-  testStandardProps(<Avatar />);
+  testStandardProps(<Avatar />, {
+    sizes: ['lg', 'md', 'sm', 'xs']
+  });
 
   it('Should render avatar', () => {
     const content = 'RS';
@@ -55,11 +57,5 @@ describe('Avatar', () => {
 
     expect(screen.getByRole('img')).to.have.id('img');
     expect(screen.getByRole('img')).to.have.attr('title', 'Avatar');
-  });
-
-  it('Should apply size class', () => {
-    const { container } = render(<Avatar size="lg">RS</Avatar>);
-
-    expect(container.firstChild).to.have.class('rs-avatar-lg');
   });
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, waitFor, screen, cleanup } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import List from '../List';
 import Sinon from 'sinon';
 

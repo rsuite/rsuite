@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import InputGroup from '../index';
 import Input from '../../Input';
-import { getStyle } from '@test/testUtils';
+import { getStyle } from '@test/utils';
 
 import '../styles/index.less';
 

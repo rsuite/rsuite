@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactChildren from '../ReactChildren';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 
 describe('[utils] ReactChildren', () => {
   it('Should count the number', () => {

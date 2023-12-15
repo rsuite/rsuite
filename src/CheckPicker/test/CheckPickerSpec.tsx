@@ -1,13 +1,12 @@
 import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
-import { getInstance } from '@test/testUtils';
+import { getInstance, testStandardProps } from '@test/utils';
 
 import CheckPicker from '../CheckPicker';
 import Button from '../../Button';
 import '../styles/index.less';
 import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/commonCases';
 
 const data = [
   {
@@ -28,7 +27,12 @@ const data = [
 ];
 
 describe('CheckPicker', () => {
-  testStandardProps(<CheckPicker data={[]} />);
+  testStandardProps(<CheckPicker data={[]} />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
 
   it('Should clean selected default value', () => {
     render(<CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />);

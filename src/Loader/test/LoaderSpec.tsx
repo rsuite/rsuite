@@ -1,10 +1,11 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getDOMNode, testStandardProps } from '@test/utils';
 import Loader from '../Loader';
 
 describe('Loader', () => {
-  testStandardProps(<Loader />);
+  testStandardProps(<Loader />, {
+    sizes: ['lg', 'md', 'sm', 'xs']
+  });
 
   it('Should render a Loader', () => {
     const instance = getDOMNode(<Loader />);

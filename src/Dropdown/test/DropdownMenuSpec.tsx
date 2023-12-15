@@ -5,7 +5,7 @@ import DropdownMenu from '../DropdownMenu';
 import DropdownItem from '../DropdownItem';
 import Dropdown from '../Dropdown';
 import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 describe('<Dropdown.Menu>', () => {
   testStandardProps(<DropdownMenu />);

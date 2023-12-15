@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import InputGroup from '../InputGroup';
 import Input from '../../Input/Input';
 import SelectPicker from '../../SelectPicker/SelectPicker';

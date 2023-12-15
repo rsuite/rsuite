@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 
 import Toggle from '../PickerToggle';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 
 describe('<PickerToggle>', () => {
   it('Should output a toggle', () => {

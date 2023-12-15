@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import SearchBar from '../SearchBar';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 import Sinon from 'sinon';
 
 const searchInputClassName = '.rs-picker-search-bar-input';

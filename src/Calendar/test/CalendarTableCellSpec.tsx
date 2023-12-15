@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import TableCell from '../TableCell';
 import CalendarContext from '../CalendarContext';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 describe('Calendar-TableHeaderRow', () => {
   testStandardProps(<TableCell date={new Date()} />);

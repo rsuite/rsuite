@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Drawer from '../index';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 describe('Drawer.Actions', () => {
   testStandardProps(<Drawer.Actions />);

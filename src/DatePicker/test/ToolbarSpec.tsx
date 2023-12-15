@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 import Toolbar from '../Toolbar';
 

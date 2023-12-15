@@ -1,7 +1,7 @@
 import React from 'react';
 import Drawer from '../index';
 import { render } from '@testing-library/react';
-import { getStyle } from '@test/testUtils';
+import { getStyle } from '@test/utils';
 
 import '../styles/index.less';
 

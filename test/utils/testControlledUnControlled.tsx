@@ -1,18 +1,18 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Sinon from 'sinon';
-import type { FormControlBaseProps } from '../../src/@types/common';
 
 interface TestControlledUnControlledOptions {
-  /**
-   * The value when the component is controlled.
-   */
-  value: any;
-
   /**
    * The default value when the component is uncontrolled.
    */
   defaultValue: any;
+
+  /**
+   * The value when the component is controlled.
+   * Should be set to a different value than defaultValue.
+   */
+  value: any;
 
   /**
    * The expected value when the component is not plaintext.
@@ -34,14 +34,23 @@ interface TestControlledUnControlledOptions {
   simulateEvent: {
     changeValue: () => { changedValue: any; callCount?: number };
   };
+
+  defaultPlaintextValue?: string;
 }
 
 export function testControlledUnControlled(
-  TestComponent: React.ComponentType<FormControlBaseProps<any>>,
+  TestComponent: React.ComponentType<any>,
   options: TestControlledUnControlledOptions
 ) {
-  const { value, defaultValue, expectedValue, expectedTextValue, changedValue, simulateEvent } =
-    options;
+  const {
+    value,
+    defaultValue,
+    expectedValue,
+    expectedTextValue,
+    changedValue,
+    simulateEvent,
+    defaultPlaintextValue = 'Unfilled'
+  } = options;
   const displayName = TestComponent.displayName;
 
   describe(`${displayName} - Controlled and uncontrolled value`, () => {
@@ -52,14 +61,19 @@ export function testControlledUnControlled(
     });
 
     it('Should render `value` when both `value` and `defaultValue` are present', () => {
-      render(<TestComponent defaultValue={defaultValue} value={value} />);
+      if (displayName === 'Input') {
+        expect(() => {
+          render(<TestComponent defaultValue={defaultValue} value={value} />);
+        }).to.throw();
+      } else {
+        render(<TestComponent defaultValue={defaultValue} value={value} />);
 
-      expectedValue(value);
+        expectedValue(value);
+      }
     });
 
     it('Should render `value`', () => {
       render(<TestComponent value={value} />);
-
       expectedValue(value);
     });
 
@@ -158,6 +172,12 @@ export function testControlledUnControlled(
       }
 
       expectedTextValue?.(value);
+    });
+
+    it('Should render a default plain text', () => {
+      render(<TestComponent plaintext />);
+
+      expectedTextValue?.(defaultPlaintextValue);
     });
   });
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import TreePicker from '../index';
-import { getStyle, inChrome } from '@test/testUtils';
+import { getStyle, inChrome } from '@test/utils';
 
 import '../styles/index.less';
 import { PickerHandle } from 'src/Picker';

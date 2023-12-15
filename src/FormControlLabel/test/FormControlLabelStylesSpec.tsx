@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import FormControlLabel from '../index';
-import { getDOMNode, getStyle } from '@test/testUtils';
+import { getDOMNode, getStyle } from '@test/utils';
 
 import '../styles/index.less';
 

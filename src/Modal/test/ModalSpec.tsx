@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 import Modal from '../Modal';
 import SelectPicker from '../../SelectPicker';
 

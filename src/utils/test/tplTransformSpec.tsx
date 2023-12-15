@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 
 import tplTransform from '../tplTransform';
 

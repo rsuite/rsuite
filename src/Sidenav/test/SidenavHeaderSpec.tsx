@@ -1,6 +1,5 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getDOMNode, testStandardProps } from '@test/utils';
 import SidenavHeader from '../SidenavHeader';
 
 describe('SidenavHeader', () => {

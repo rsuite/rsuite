@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Avatar from '../index';
-import { getStyle, toRGB, itChrome } from '@test/testUtils';
+import { toRGB, itChrome } from '@test/utils';
 
 import '../styles/index.less';
 
@@ -10,14 +10,6 @@ describe('Avatar styles', () => {
     const { container } = render(<Avatar />);
 
     expect(container.firstChild).to.have.style('background-color', toRGB('#d9d9d9'));
-  });
-
-  it('Should apply size class', () => {
-    const { container } = render(<Avatar size="lg" />);
-    const dom = container.firstChild as HTMLElement;
-    assert.equal(getStyle(dom, 'width'), '60px');
-    assert.equal(getStyle(dom, 'width'), getStyle(dom, 'height'));
-    assert.equal(getStyle(dom, 'font-size'), '26px');
   });
 
   // @description Can't get border-radius value in other browser except chrome

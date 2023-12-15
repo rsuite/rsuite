@@ -8,7 +8,7 @@ import Nav from '../../Nav';
 import { KEY_VALUES } from '../../utils';
 import * as utils from '../../utils';
 import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 afterEach(() => {
   sinon.restore();

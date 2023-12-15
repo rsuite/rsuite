@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { getStyle, inChrome, getGrayScale } from '@test/testUtils';
+import { getStyle, inChrome, getGrayScale } from '@test/utils';
 import Dropdown from '../Dropdown';
 
 import '../styles/index.less';

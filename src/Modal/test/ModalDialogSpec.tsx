@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ModalDialog from '../ModalDialog';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 
 describe('ModalDialog', () => {
   it('Should render a dialog', () => {

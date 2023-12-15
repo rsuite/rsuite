@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDOMNode, getStyle, toRGB } from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB } from '@test/utils';
 import Toggle from '../index';
 
 import '../styles/index.less';

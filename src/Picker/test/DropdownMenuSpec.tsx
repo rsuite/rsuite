@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 import DropdownMenu from '../DropdownMenu';
 import DropdownMenuItem from '../DropdownMenuItem';
 import { getDataGroupBy } from '../../utils/getDataGroupBy';

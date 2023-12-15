@@ -1,5 +1,5 @@
 import React from 'react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import Badge from '../Badge';
 import { render, screen } from '@testing-library/react';
 

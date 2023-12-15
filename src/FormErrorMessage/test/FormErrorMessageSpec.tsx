@@ -1,6 +1,6 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getDOMNode } from '@test/utils';
+import { testStandardProps } from '@test/utils';
 import FormErrorMessage from '../FormErrorMessage';
 
 describe('FormErrorMessage', () => {

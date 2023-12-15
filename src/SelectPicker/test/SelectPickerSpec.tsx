@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, testStandardProps } from '@test/utils';
 import SelectPicker from '../SelectPicker';
 import Input from '../../Input';
 import Button from '../../Button';
@@ -27,6 +27,13 @@ const data = [
 ];
 
 describe('SelectPicker', () => {
+  testStandardProps(<SelectPicker data={data} />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
+
   it('Should clean selected default value', () => {
     render(<SelectPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
 

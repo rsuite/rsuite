@@ -2,7 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 import CheckboxGroup from '../CheckboxGroup';
 import Checkbox from '../../Checkbox';

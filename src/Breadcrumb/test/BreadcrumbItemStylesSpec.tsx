@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Breadcrumb from '../index';
-import { getStyle, toRGB, inChrome } from '@test/testUtils';
+import { getStyle, toRGB, inChrome } from '@test/utils';
 
 import '../styles/index.less';
 

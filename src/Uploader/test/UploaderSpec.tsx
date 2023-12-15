@@ -2,15 +2,18 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getInstance } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getInstance, testStandardProps } from '@test/utils';
 
 import Uploader from '../Uploader';
 import Button from '../../Button';
 import userEvent from '@testing-library/user-event';
 
 describe('Uploader', () => {
-  testStandardProps(<Uploader action="" />);
+  testStandardProps(<Uploader action="" />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => screen.getByRole('button')
+  });
+
   it('Should output a Uploader', () => {
     render(<Uploader action="" />);
 
@@ -133,10 +136,5 @@ describe('Uploader', () => {
 
     expect(screen.getByRole('button')).to.have.class('rs-btn-primary');
     expect(screen.getByRole('button')).to.have.class('rs-btn-red');
-  });
-
-  it('Should apply size class', () => {
-    render(<Uploader action="" size="lg" />);
-    expect(screen.getByRole('button')).to.have.class('rs-btn-lg');
   });
 });

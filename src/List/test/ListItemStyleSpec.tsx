@@ -2,7 +2,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import List from '../index';
-import { getStyle } from '@test/testUtils';
+import { getStyle } from '@test/utils';
 
 import '../styles/index.less';
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { Simulate } from 'react-dom/test-utils';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import Nav from '../Nav';
 import Navbar from '../../Navbar';
 import Sidenav from '../../Sidenav';
@@ -10,8 +10,7 @@ import Sidenav from '../../Sidenav';
 describe('<Nav.Item>', () => {
   testStandardProps(<Nav.Item />, {
     renderOptions: { wrapper: Nav },
-    // eslint-disable-next-line testing-library/prefer-screen-queries
-    getRootElement: view => view.getByTestId('element')
+    getRootElement: () => screen.getByTestId('element')
   });
 
   it('Should render a <a>', () => {

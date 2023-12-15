@@ -1,5 +1,5 @@
 import { act } from '@testing-library/react';
-import { renderHook } from '@test/testUtils';
+import { renderHook } from '@test/utils';
 
 import useControlled from '../useControlled';
 
@@ -7,15 +7,17 @@ describe('[utils] useControlled', () => {
   it('Should return `controlled value`', () => {
     const { result } = renderHook(() => useControlled('controlled value', undefined));
     const [value, , isControlled] = result.current;
-    assert.equal(value, 'controlled value');
-    assert.ok(isControlled);
+
+    expect(value).to.equal('controlled value');
+    expect(isControlled).to.equal(true);
   });
 
   it('Should return `defaultValue`', () => {
     const { result } = renderHook(() => useControlled(undefined, 'default value'));
     const [value, , isControlled] = result.current;
-    assert.equal(value, 'default value');
-    assert.ok(!isControlled);
+
+    expect(value).to.equal('default value');
+    expect(isControlled).to.equal(false);
   });
 
   it('Should works with `setValue`', () => {
@@ -29,7 +31,7 @@ describe('[utils] useControlled', () => {
      * const [value] = result.current
      * The value cannot be obtained by the above deconstruction method, otherwise the latest value cannot be obtained
      */
-    assert.equal(result.current[0], 'changedValue');
+    expect(result.current[0]).to.equal('changedValue');
   });
 
   it('Should works when controlled value change `undefined` to `actualValue`', () => {
@@ -40,7 +42,7 @@ describe('[utils] useControlled', () => {
     controlledValue = 'actualValue';
     rerender();
 
-    assert.equal(result.current[0], controlledValue);
-    assert.ok(result.current[2]);
+    expect(result.current[0]).to.equal(controlledValue);
+    expect(result.current[2]).to.equal(true);
   });
 });

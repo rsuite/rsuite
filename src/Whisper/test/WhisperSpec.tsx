@@ -1,7 +1,7 @@
 import React, { CSSProperties, Ref } from 'react';
 import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getInstance } from '@test/testUtils';
+import { getInstance } from '@test/utils';
 
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../../Tooltip';

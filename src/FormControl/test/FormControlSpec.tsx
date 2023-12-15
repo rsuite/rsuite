@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 import Form, { FormInstance } from '../../Form';
 import FormControl from '../FormControl';
 import FormGroup from '../../FormGroup';

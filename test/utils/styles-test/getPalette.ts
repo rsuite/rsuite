@@ -9,7 +9,7 @@ const SATURATION_MAX = 100;
 const BRIGHTNESS_MIN = 20;
 const BRIGHTNESS_MAX = 100;
 
-export default function (primaryColor) {
+export function getPalette(primaryColor) {
   const colors = Object.fromEntries(
     Array.from(new Array(10), (color, index) => {
       const { h, s, v } = tinycolor(primaryColor).toHsv();
@@ -60,7 +60,7 @@ function calculateBrightnessAdjustValue(brightness, step) {
   if (step < 0) {
     if (brightness > 40) {
       // basicGap 向上取整，避免为0 的情况
-      let basicGap = Math.ceil((brightness - 40) / 4 / 4);
+      const basicGap = Math.ceil((brightness - 40) / 4 / 4);
       const levels = Math.abs(step);
       // 大于40 时，明度更小 ，n 为减少基数的倍数（等差增加）
       const n = ((1 + levels) * levels) / 2;

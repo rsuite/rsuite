@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance, testStandardProps } from '@test/utils';
 
 import InputPicker from '../InputPicker';
 import Button from '../../Button';
@@ -27,6 +27,13 @@ const data = [
 ];
 
 describe('InputPicker', () => {
+  testStandardProps(<InputPicker data={data} />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
+
   it('Should clean selected default value', () => {
     render(<InputPicker data={data} defaultValue={'Eugenia'} />);
 

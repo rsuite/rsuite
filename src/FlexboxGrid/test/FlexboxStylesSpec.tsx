@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Flexbox from '../index';
-import { inChrome } from '@test/testUtils';
+import { inChrome } from '@test/utils';
 
 import '../styles/index.less';
 

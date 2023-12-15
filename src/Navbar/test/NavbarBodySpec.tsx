@@ -1,6 +1,6 @@
 import React from 'react';
 import sinon, { SinonStub } from 'sinon';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 
 import NavbarBody from '../NavbarBody';
 

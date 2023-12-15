@@ -1,11 +1,13 @@
 import React from 'react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import Tag from '../Tag';
 import Sinon from 'sinon';
 import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('Tag', () => {
-  testStandardProps(<Tag />);
+  testStandardProps(<Tag />, {
+    sizes: ['lg', 'md', 'sm']
+  });
 
   it('Should output a Tag', () => {
     render(<Tag data-testid="tag" />);

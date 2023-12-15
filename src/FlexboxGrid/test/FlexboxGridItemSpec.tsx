@@ -1,5 +1,5 @@
 import React from 'react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import FlexboxGridItem from '../FlexboxGridItem';
 import Col from '../../Col';
 import { render } from '@testing-library/react';

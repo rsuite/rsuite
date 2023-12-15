@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from '../Table';
 import { render } from '@testing-library/react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 describe('Calendar-Table', () => {
   testStandardProps(<Table rows={[]} />);

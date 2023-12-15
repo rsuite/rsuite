@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import SidenavToggle from '../SidenavToggle';
 import Sidenav from '../Sidenav';
 
@@ -10,8 +10,7 @@ describe('Sidenav.Toggle', () => {
     renderOptions: {
       wrapper: Sidenav
     },
-    // eslint-disable-next-line testing-library/prefer-screen-queries
-    getRootElement: view => view.getByTestId('element')
+    getRootElement: () => screen.getByTestId('element')
   });
 
   it('Should have rs-sidenav-toggle className', () => {

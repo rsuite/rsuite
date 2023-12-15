@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode, testStandardProps } from '@test/utils';
 import Pagination from '../Pagination';
 import Sinon from 'sinon';
 
 describe('Pagination', () => {
+  testStandardProps(<Pagination />, {
+    sizes: ['lg', 'md', 'sm', 'xs']
+  });
+
   it('Should render a <div>', () => {
     const instance = getDOMNode(<Pagination />);
     assert.equal(instance.tagName, 'DIV');
@@ -102,11 +106,6 @@ describe('Pagination', () => {
     ReactTestUtils.Simulate.click(instance.querySelectorAll('button')[1]);
 
     expect(onSelect).to.have.been.calledWith(2);
-  });
-
-  it('Should apply size class', () => {
-    const instance = getDOMNode(<Pagination size="lg">Title</Pagination>);
-    assert.ok(instance.className.match(/\bpagination-lg\b/));
   });
 
   it('Should have a custom className', () => {

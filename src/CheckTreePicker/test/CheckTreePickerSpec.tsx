@@ -1,16 +1,21 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getInstance } from '@test/testUtils';
+import { getInstance } from '@test/utils';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '../../utils';
 import { data, originMockData, changedMockData } from './mocks';
 import { PickerHandle } from '../../Picker';
 import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 describe('CheckTreePicker', () => {
-  testStandardProps(<CheckTreePicker data={data} />);
+  testStandardProps(<CheckTreePicker data={data} />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
 
   it('Should render default value', () => {
     render(<CheckTreePicker defaultOpen data={data} value={['Master']} />);

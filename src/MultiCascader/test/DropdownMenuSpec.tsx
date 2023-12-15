@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import { getDOMNode, getInstance } from '@test/utils';
 import sinon from 'sinon';
 import DropdownMenu from '../DropdownMenu';
 import MultiCascader from '../MultiCascader';

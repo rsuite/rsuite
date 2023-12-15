@@ -14,7 +14,7 @@ export function testTestIdProp(element, renderOptions) {
 
 export function testClassNameProp(
   element,
-  customClassName = 'custom-class',
+  customClassName,
   renderOptions,
   getRootElement = view => view.container.firstChild
 ) {
@@ -59,18 +59,51 @@ export function testStyleProp(
   });
 }
 
-export function testStandardProps(element, options: any = {}) {
-  describe('Standard props', () => {
-    testTestIdProp(element, options?.renderOptions);
-    if (options?.customClassName !== false) {
+export function testSizeProp(
+  element,
+  sizes: string[] = [],
+  renderOptions,
+  getUIElement = view => view.container.firstChild
+) {
+  sizes.forEach(size => {
+    it(`Should have a ${size} size`, () => {
+      const view = render(
+        React.cloneElement(element, { 'data-testid': 'element', size }),
+        renderOptions
+      );
+
+      expect(getUIElement(view)).to.have.class(new RegExp('^rs-[a-z]+-' + size));
+    });
+  });
+}
+
+interface TestStandardPropsOptions {
+  renderOptions?: any;
+  customClassName?: string | boolean;
+  sizes?: string[];
+  getRootElement?: (view: any) => HTMLElement;
+  getUIElement?: (view: any) => HTMLElement;
+}
+
+export function testStandardProps(element, options: TestStandardPropsOptions = {}) {
+  const { displayName } = element.type;
+  const { renderOptions, customClassName, sizes, getRootElement, getUIElement } = options;
+
+  describe(`${displayName} - Standard props`, () => {
+    testTestIdProp(element, renderOptions);
+    if (customClassName !== false) {
       testClassNameProp(
         element,
-        options?.customClassName,
-        options?.renderOptions,
-        options?.getRootElement
+        typeof customClassName === 'string' ? customClassName : 'custom-class',
+        renderOptions,
+        getRootElement
       );
     }
-    testClassPrefixProp(element, options?.renderOptions, options?.getRootElement);
-    testStyleProp(element, options?.renderOptions, options?.getRootElement);
+    testClassPrefixProp(element, renderOptions, getRootElement);
+    testStyleProp(element, renderOptions, getRootElement);
+
+    if (sizes) {
+      testSizeProp(element, sizes, renderOptions, getUIElement);
+    }
   });
 }

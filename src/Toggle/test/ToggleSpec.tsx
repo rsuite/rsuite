@@ -2,12 +2,14 @@ import React from 'react';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getDOMNode, testStandardProps } from '@test/utils';
+
 import Toggle from '../Toggle';
 
 describe('Toggle', () => {
-  testStandardProps(<Toggle />);
+  testStandardProps(<Toggle />, {
+    sizes: ['lg', 'md', 'sm']
+  });
 
   it('Should output a toggle', () => {
     const instance = getDOMNode(<Toggle />);
@@ -22,11 +24,6 @@ describe('Toggle', () => {
   it('Should be checked', () => {
     const instance = getDOMNode(<Toggle checked />);
     assert.ok(instance.className.match(/\btoggle-checked\b/));
-  });
-
-  it('Should apply size class', () => {
-    const instance = getDOMNode(<Toggle size="lg" />);
-    assert.ok(instance.className.match(/\btoggle-lg\b/));
   });
 
   it('Should output a `off` in inner ', () => {
