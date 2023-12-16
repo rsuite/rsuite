@@ -89,21 +89,20 @@ describe('Modal', () => {
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<Modal className="custom" open />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.isNotNull(instance.querySelector('.custom'));
+    render(<Modal className="custom" open />);
+    expect(screen.getByRole('dialog')).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<Modal style={{ fontSize }} open size={200} />);
+    render(<Modal style={{ fontSize }} open size={200} />);
 
-    assert.equal(instance.style.fontSize, fontSize);
+    expect(screen.getByRole('dialog')).to.have.style('font-size', fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<Modal classPrefix="custom-prefix" open />);
-    assert.isNotNull(instance.className.match(/\bcustom-prefix\b/));
+    render(<Modal classPrefix="custom-prefix" open />);
+    expect(screen.getByRole('dialog').className).to.match(/\bcustom-prefix\b/);
   });
 
   it('Should call onOpen callback', () => {

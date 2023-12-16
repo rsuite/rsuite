@@ -1,45 +1,44 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/utils';
+import { render, screen } from '@testing-library/react';
 
 import ModalHeader from '../ModalHeader';
 import Sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
+
+const headerText = 'Test';
 
 describe('ModalHeader', () => {
   it('Should render a modal header', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<ModalHeader>{title}</ModalHeader>);
-    assert.equal(instance.className, 'rs-modal-header');
-    assert.equal(instance.textContent, 'Test');
+    render(<ModalHeader>{headerText}</ModalHeader>);
+    expect(screen.getByText(headerText)).to.have.class('rs-modal-header');
   });
 
   it('Should hide close button', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<ModalHeader closeButton={false}>{title}</ModalHeader>);
-    assert.ok(!instance.querySelector('button'));
+    render(<ModalHeader closeButton={false}>{headerText}</ModalHeader>);
+    expect(screen.queryByRole('button')).to.not.exist;
   });
 
   it('Should call onClose callback', () => {
     const onClose = Sinon.spy();
-    const instance = getDOMNode(<ModalHeader onClose={onClose} />);
-    ReactTestUtils.Simulate.click(instance.querySelector('.rs-modal-header-close') as HTMLElement);
+    render(<ModalHeader onClose={onClose} />);
+    userEvent.click(screen.getByRole('button'));
 
     expect(onClose).to.have.been.calledOnce;
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<ModalHeader className="custom" />);
-    assert.include(instance.className, 'custom');
+    render(<ModalHeader className="custom">{headerText}</ModalHeader>);
+    expect(screen.getByText(headerText)).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<ModalHeader style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
+    render(<ModalHeader style={{ fontSize }}>{headerText}</ModalHeader>);
+    expect(screen.getByText(headerText)).to.have.style('font-size', fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<ModalHeader classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    render(<ModalHeader classPrefix="custom-prefix">{headerText}</ModalHeader>);
+    expect(screen.getByText(headerText).className).to.match(/\bcustom-prefix\b/);
   });
 });
