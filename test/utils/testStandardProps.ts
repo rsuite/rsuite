@@ -72,7 +72,7 @@ export function testSizeProp(
         renderOptions
       );
 
-      expect(getUIElement(view)).to.have.class(new RegExp('^rs-[a-z]+-' + size));
+      expect(getUIElement(view)).to.have.class(new RegExp('^rs-[a-z-]+-' + size));
     });
   });
 }

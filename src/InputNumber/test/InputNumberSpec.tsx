@@ -2,25 +2,43 @@ import React from 'react';
 import { render, fireEvent, act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import {
+  getDOMNode,
+  testStandardProps,
+  testControlledUnControlled,
+  testFormControl
+} from '@test/utils';
 import InputNumber from '../InputNumber';
 
 describe('InputNumber', () => {
-  testStandardProps(<InputNumber />);
+  testStandardProps(<InputNumber />, {
+    sizes: ['lg', 'md', 'sm', 'xs']
+  });
+
+  testControlledUnControlled(InputNumber, {
+    value: 1,
+    defaultValue: 2,
+    changedValue: 3,
+    simulateEvent: {
+      changeValue: () => {
+        const input = screen.getByRole('spinbutton');
+        userEvent.clear(input);
+        userEvent.type(input, '4');
+        return { changedValue: 4 };
+      }
+    },
+    expectedValue: (value: number) => {
+      expect(screen.getByRole('spinbutton')).to.value(value.toString());
+    }
+  });
+
+  testFormControl(InputNumber, {
+    getUIElement: () => screen.getByRole('spinbutton')
+  });
 
   it('Should render a input', () => {
     const domNode = getDOMNode(<InputNumber />);
     assert.include(domNode.className, 'rs-input-number');
-  });
-
-  it('Should be disabled', () => {
-    const domNode = getDOMNode(<InputNumber disabled />);
-    assert.include(domNode.className, 'rs-input-group-disabled');
-  });
-
-  it('Should set size', () => {
-    const instance = getDOMNode(<InputNumber size="lg" />);
-    assert.include(instance.className, 'rs-input-group-lg');
   });
 
   it('Should output a subtle button', () => {
@@ -113,7 +131,8 @@ describe('InputNumber', () => {
     const input = screen.getByRole('spinbutton');
 
     fireEvent.blur(input, { target: { value: 2 } });
-    assert.isTrue(onChangeSpy.calledOnce);
+
+    expect(onChangeSpy).to.be.calledOnce;
   });
 
   it('Should call onChange callback when onwheel', () => {
@@ -126,14 +145,14 @@ describe('InputNumber', () => {
       input.dispatchEvent(new WheelEvent('wheel', { deltaY: 10 }));
     });
 
-    assert.isTrue(onChangeSpy.calledOnce);
+    expect(onChangeSpy).to.be.calledOnce;
 
     act(() => {
       input.focus();
       input.dispatchEvent(new WheelEvent('wheel', { deltaY: -10 }));
     });
 
-    assert.isTrue(onChangeSpy.calledTwice);
+    expect(onChangeSpy).to.be.calledTwice;
   });
 
   it('Should call onWheel callback', () => {
@@ -146,7 +165,7 @@ describe('InputNumber', () => {
       input.dispatchEvent(new WheelEvent('wheel', { deltaY: 10 }));
     });
 
-    assert.isTrue(onWheelSpy.calledOnce);
+    expect(onWheelSpy).to.be.calledOnce;
   });
 
   it('Should not call onWheel callback when `scrollable` is false', () => {

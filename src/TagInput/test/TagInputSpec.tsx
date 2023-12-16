@@ -1,11 +1,46 @@
 import React from 'react';
 import TagInput from '../index';
 import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
+
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { PickerHandle } from '../../Picker';
 
 describe('TagInput', () => {
+  testStandardProps(<TagInput />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
+
+  testControlledUnControlled(TagInput, {
+    componentProps: { defaultOpen: true },
+    value: ['Eugenia'],
+    defaultValue: ['Kariane'],
+    changedValue: ['Louisa'],
+    simulateEvent: {
+      changeValue: (prevValue: any) => {
+        const input = screen.getByRole('textbox');
+
+        userEvent.type(input, 'newtag{enter}');
+        return { changedValue: [...prevValue, 'newtag'] };
+      }
+    },
+    expectedValue: (value: string) => {
+      expect(screen.getByTestId('picker-toggle-input')).to.have.attribute(
+        'value',
+        value.toString()
+      );
+    }
+  });
+
+  testFormControl(TagInput, {
+    value: ['Eugenia'],
+    getUIElement: () => screen.getByRole('combobox')
+  });
+
   it('Should create a tag', () => {
     const onCreateSpy = sinon.spy();
     const inputRef = React.createRef<PickerHandle>();

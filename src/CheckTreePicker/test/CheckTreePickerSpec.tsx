@@ -1,13 +1,14 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { getInstance } from '@test/utils';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '../../utils';
-import { data, originMockData, changedMockData } from './mocks';
+import { data, originMockData, changedMockData, controlledData } from './mocks';
 import { PickerHandle } from '../../Picker';
-import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/utils';
+import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
+import '../styles/index.less';
 
 describe('CheckTreePicker', () => {
   testStandardProps(<CheckTreePicker data={data} />, {
@@ -15,6 +16,37 @@ describe('CheckTreePicker', () => {
     getUIElement: () => {
       return screen.getByRole('combobox');
     }
+  });
+
+  testControlledUnControlled(CheckTreePicker, {
+    componentProps: {
+      data: controlledData,
+      defaultOpen: true,
+      defaultExpandAll: true
+    },
+    value: ['Eugenia'],
+    defaultValue: ['Kariane'],
+    changedValue: ['Louisa'],
+    simulateEvent: {
+      changeValue: (prevValue: any) => {
+        const input = screen.getAllByRole('checkbox')[2];
+        userEvent.click(input);
+
+        return { changedValue: [...prevValue, 'Louisa'] };
+      }
+    },
+    expectedValue: (value: string[]) => {
+      expect(screen.getByTestId('picker-toggle-input')).to.have.attribute(
+        'value',
+        value.toString()
+      );
+    }
+  });
+
+  testFormControl(CheckTreePicker, {
+    value: ['Eugenia'],
+    componentProps: { data },
+    getUIElement: () => screen.getByRole('combobox')
   });
 
   it('Should render default value', () => {

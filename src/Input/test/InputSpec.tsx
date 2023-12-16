@@ -1,33 +1,13 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { testStandardProps, testControlledUnControlled } from '@test/utils';
-import userEvent from '@testing-library/user-event';
+import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
 import Input from '../Input';
 import Sinon from 'sinon';
 
 describe('Input', () => {
   testStandardProps(<Input />, { sizes: ['lg', 'md', 'sm', 'xs'] });
-
-  testControlledUnControlled(Input, {
-    defaultValue: 'foo',
-    value: 'bar',
-    changedValue: 'foobar',
-    simulateEvent: {
-      changeValue: () => {
-        const input = screen.getByRole('textbox') as HTMLInputElement;
-
-        userEvent.clear(input);
-        userEvent.type(input, 'input');
-        return { changedValue: 'input' };
-      }
-    },
-    expectedValue: (value: string) => {
-      expect(screen.getByRole('textbox')).to.value(value);
-    },
-    expectedTextValue: (value: string) => {
-      expect(screen.getByRole('text')).to.have.text(value);
-    }
-  });
+  testControlledUnControlled(Input);
+  testFormControl(Input);
 
   it('Should render a input', () => {
     render(<Input />);

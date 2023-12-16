@@ -1,7 +1,14 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getDOMNode, getInstance, testStandardProps } from '@test/utils';
+import {
+  getDOMNode,
+  getInstance,
+  testStandardProps,
+  testControlledUnControlled,
+  testFormControl
+} from '@test/utils';
 import TagPicker from '../index';
 import Button from '../../Button';
 import { PickerHandle } from '../../Picker';
@@ -30,6 +37,32 @@ describe('TagPicker', () => {
     getUIElement: () => {
       return screen.getByRole('combobox');
     }
+  });
+
+  testControlledUnControlled(TagPicker, {
+    componentProps: { data, defaultOpen: true },
+    value: ['Eugenia'],
+    defaultValue: ['Kariane'],
+    changedValue: ['Louisa'],
+    simulateEvent: {
+      changeValue: (prevValue: any) => {
+        const input = screen.getAllByRole('checkbox')[2];
+        userEvent.click(input);
+        return { changedValue: [...prevValue, 'Louisa'] };
+      }
+    },
+    expectedValue: (value: string) => {
+      expect(screen.getByTestId('picker-toggle-input')).to.have.attribute(
+        'value',
+        value.toString()
+      );
+    }
+  });
+
+  testFormControl(TagPicker, {
+    value: ['Eugenia'],
+    componentProps: { data },
+    getUIElement: () => screen.getByRole('combobox')
   });
 
   it('Should clean selected default value', () => {

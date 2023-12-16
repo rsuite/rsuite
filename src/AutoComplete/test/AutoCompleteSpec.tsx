@@ -1,9 +1,13 @@
 import React from 'react';
 import AutoComplete from '../AutoComplete';
-import { getInstance, testStandardProps, testControlledUnControlled } from '@test/utils';
+import {
+  getInstance,
+  testStandardProps,
+  testControlledUnControlled,
+  testFormControl
+} from '@test/utils';
 import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import userEvent from '@testing-library/user-event';
 
 const data = ['item1', 'item2'];
 
@@ -13,26 +17,8 @@ describe('AutoComplete', () => {
     getUIElement: () => screen.getByRole('textbox')
   });
 
-  testControlledUnControlled(AutoComplete, {
-    defaultValue: 'foo',
-    value: 'bar',
-    changedValue: 'foobar',
-    simulateEvent: {
-      changeValue: () => {
-        const input = screen.getByRole('textbox') as HTMLInputElement;
-
-        userEvent.clear(input);
-        userEvent.type(input, 'input');
-        return { changedValue: 'input' };
-      }
-    },
-    expectedValue: (value: string) => {
-      expect(screen.getByRole('textbox')).to.value(value);
-    },
-    expectedTextValue: (value: string) => {
-      expect(screen.getByRole('text')).to.have.text(value);
-    }
-  });
+  testControlledUnControlled(AutoComplete);
+  testFormControl(AutoComplete);
 
   it('Should render input', () => {
     render(<AutoComplete data={data} />);

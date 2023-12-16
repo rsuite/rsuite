@@ -1,61 +1,71 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Sinon from 'sinon';
 
 interface TestControlledUnControlledOptions {
   /**
+   * The component props.
+   */
+  componentProps?: Record<string, any>;
+  /**
    * The default value when the component is uncontrolled.
    */
-  defaultValue: any;
+  defaultValue?: any;
 
   /**
    * The value when the component is controlled.
    * Should be set to a different value than defaultValue.
    */
-  value: any;
+  value?: any;
 
-  /**
-   * The expected value when the component is not plaintext.
-   */
-  expectedValue: (value: any) => void;
-
-  /**
-   * The expected text value when the component is plaintext.
-   */
-  expectedTextValue?: (value: any) => void;
   /**
    * The changed value after user interaction.
    */
-  changedValue: any;
+  changedValue?: any;
 
   /**
    * Simulate event and return the changed value.
    */
   simulateEvent: {
-    changeValue: () => { changedValue: any; callCount?: number };
+    changeValue: (prevValue: any) => { changedValue: any; callCount?: number };
   };
 
-  defaultPlaintextValue?: string;
+  /**
+   * The expected value when the component is not plaintext.
+   */
+  expectedValue: (value: any) => void;
 }
+
+const defaultSimulateChangeEvent = () => {
+  const input = screen.getByRole('textbox') as HTMLInputElement;
+
+  userEvent.clear(input);
+  userEvent.type(input, 'input');
+  return { changedValue: 'input', callCount: undefined };
+};
 
 export function testControlledUnControlled(
   TestComponent: React.ComponentType<any>,
-  options: TestControlledUnControlledOptions
+  options?: TestControlledUnControlledOptions
 ) {
   const {
-    value,
-    defaultValue,
-    expectedValue,
-    expectedTextValue,
-    changedValue,
-    simulateEvent,
-    defaultPlaintextValue = 'Unfilled'
-  } = options;
+    value = 'value',
+    defaultValue = 'default value',
+    changedValue = 'changed value',
+    simulateEvent = {
+      changeValue: defaultSimulateChangeEvent
+    },
+    expectedValue = (value: string) => {
+      expect(screen.getByRole('textbox')).to.value(value);
+    },
+    componentProps
+  } = options || {};
   const displayName = TestComponent.displayName;
 
   describe(`${displayName} - Controlled and uncontrolled value`, () => {
     it('Should render `defaultValue` when no `value`', () => {
-      render(<TestComponent defaultValue={defaultValue} />);
+      render(<TestComponent defaultValue={defaultValue} {...componentProps} />);
 
       expectedValue(defaultValue);
     });
@@ -63,47 +73,49 @@ export function testControlledUnControlled(
     it('Should render `value` when both `value` and `defaultValue` are present', () => {
       if (displayName === 'Input') {
         expect(() => {
-          render(<TestComponent defaultValue={defaultValue} value={value} />);
+          render(<TestComponent defaultValue={defaultValue} value={value} {...componentProps} />);
         }).to.throw();
       } else {
-        render(<TestComponent defaultValue={defaultValue} value={value} />);
+        render(<TestComponent defaultValue={defaultValue} value={value} {...componentProps} />);
 
         expectedValue(value);
       }
     });
 
     it('Should render `value`', () => {
-      render(<TestComponent value={value} />);
+      render(<TestComponent value={value} {...componentProps} />);
       expectedValue(value);
     });
 
     it('Should render the updated value', () => {
-      const { rerender } = render(<TestComponent value={value} />);
+      const { rerender } = render(<TestComponent value={value} {...componentProps} />);
 
       expectedValue(value);
 
-      rerender(<TestComponent value={changedValue} />);
+      rerender(<TestComponent value={changedValue} {...componentProps} />);
 
       expectedValue(changedValue);
     });
 
     it('Should be uncontrolled and render default value', () => {
-      const { rerender } = render(<TestComponent defaultValue={defaultValue} />);
+      const { rerender } = render(
+        <TestComponent defaultValue={defaultValue} {...componentProps} />
+      );
 
       expectedValue(defaultValue);
 
-      rerender(<TestComponent defaultValue={changedValue} />);
+      rerender(<TestComponent defaultValue={changedValue} {...componentProps} />);
 
       expectedValue(defaultValue);
     });
 
     it('Should be uncontrolled and render user-changed value', () => {
       const onChange = Sinon.spy();
-      render(<TestComponent defaultValue={defaultValue} onChange={onChange} />);
+      render(<TestComponent defaultValue={defaultValue} onChange={onChange} {...componentProps} />);
 
       expectedValue(defaultValue);
 
-      const { changedValue, callCount } = simulateEvent.changeValue();
+      const { changedValue, callCount } = simulateEvent.changeValue(defaultValue);
 
       expectedValue(changedValue);
 
@@ -115,19 +127,21 @@ export function testControlledUnControlled(
     it('Should call `onChange` and render the updated value', () => {
       const onChange = Sinon.spy();
       const TestApp = () => {
-        const [value, setValue] = React.useState(options.value);
-        const handleChange = (value, event) => {
-          setValue(value);
-          onChange(value, event);
+        const [controlledValue, setControlledValue] = React.useState(value);
+        const handleChange = (nextValue, event) => {
+          setControlledValue(nextValue);
+          onChange(nextValue, event);
         };
-        return <TestComponent value={value} onChange={handleChange} />;
+        return (
+          <TestComponent value={controlledValue} onChange={handleChange} {...componentProps} />
+        );
       };
 
       render(<TestApp />);
 
       expectedValue(value);
 
-      const { changedValue, callCount } = simulateEvent.changeValue();
+      const { changedValue, callCount } = simulateEvent.changeValue(value);
 
       expectedValue(changedValue);
 
@@ -135,49 +149,6 @@ export function testControlledUnControlled(
       if (typeof callCount === 'number') {
         expect(onChange).to.have.callCount(callCount);
       }
-    });
-
-    it('Should be disabled', () => {
-      const onChange = Sinon.spy();
-      render(<TestComponent disabled onChange={onChange} defaultValue={defaultValue} />);
-
-      expect(screen.getByRole('textbox')).to.have.attribute('disabled');
-
-      simulateEvent.changeValue();
-
-      expect(onChange).to.have.not.been.called;
-      expectedValue(defaultValue);
-    });
-
-    it('Should be read only', () => {
-      const onChange = Sinon.spy();
-      render(<TestComponent readOnly onChange={onChange} defaultValue={defaultValue} />);
-
-      expect(screen.getByRole('textbox')).to.have.attribute('readonly');
-
-      simulateEvent.changeValue();
-
-      expect(onChange).to.have.not.been.called;
-      expectedValue(defaultValue);
-    });
-
-    it('Should be plaintext', () => {
-      render(<TestComponent plaintext value={value} defaultValue={defaultValue} />);
-
-      expect(screen.queryByRole('textbox')).to.not.exist;
-      expect(screen.queryByRole('text')).to.exist;
-
-      if (typeof value === 'string') {
-        expect(screen.getByRole('text')).to.have.text(value);
-      }
-
-      expectedTextValue?.(value);
-    });
-
-    it('Should render a default plain text', () => {
-      render(<TestComponent plaintext />);
-
-      expectedTextValue?.(defaultPlaintextValue);
     });
   });
 }

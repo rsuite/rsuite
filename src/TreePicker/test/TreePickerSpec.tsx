@@ -2,7 +2,12 @@ import React from 'react';
 import { act, fireEvent, render, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
-import { getInstance, testStandardProps } from '@test/utils';
+import {
+  getInstance,
+  testStandardProps,
+  testControlledUnControlled,
+  testFormControl
+} from '@test/utils';
 import TreePicker, { TreePickerProps } from '../TreePicker';
 import { KEY_VALUES } from '../../utils';
 import { PickerHandle } from '../../Picker';
@@ -42,6 +47,30 @@ describe('TreePicker', () => {
       return screen.getByRole('combobox');
     }
   });
+
+  testControlledUnControlled(TreePicker, {
+    componentProps: { data, defaultOpen: true },
+    value: '1',
+    defaultValue: '2',
+    changedValue: '3',
+    simulateEvent: {
+      changeValue: () => {
+        const input = screen.getAllByRole('button')[1];
+        userEvent.click(input);
+        return { changedValue: 'Master' };
+      }
+    },
+    expectedValue: (value: string) => {
+      expect(screen.getByTestId('picker-toggle-input')).to.have.attribute('value', value);
+    }
+  });
+
+  testFormControl(TreePicker, {
+    value: 'tester0',
+    componentProps: { data },
+    getUIElement: () => screen.getByRole('combobox')
+  });
+
   it('Should render default value', () => {
     render(<TreePicker defaultOpen data={data} defaultValue={'Master'} />);
 
@@ -75,12 +104,6 @@ describe('TreePicker', () => {
     render(<TreePicker toggleAs="button" data={[]} />);
 
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
-  });
-
-  it('Should be disabled', () => {
-    const { container } = render(<TreePicker disabled data={[]} />);
-
-    expect(container.firstChild).to.have.class('rs-picker-disabled');
   });
 
   it('Should be block', () => {

@@ -1,7 +1,13 @@
 import React from 'react';
-import { act, fireEvent, render, waitFor, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance, testStandardProps } from '@test/utils';
+import {
+  getDOMNode,
+  getInstance,
+  testStandardProps,
+  testFormControl,
+  testControlledUnControlled
+} from '@test/utils';
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
 import { PickerHandle } from '../../Picker';
@@ -37,6 +43,35 @@ describe('MultiCascader', () => {
     getUIElement: () => {
       return screen.getByRole('combobox');
     }
+  });
+
+  testControlledUnControlled(MultiCascader, {
+    componentProps: {
+      data: items,
+      defaultOpen: true
+    },
+    value: ['1'],
+    defaultValue: ['2'],
+    changedValue: ['3'],
+    simulateEvent: {
+      changeValue: (prevValue: any) => {
+        // TODO: Move click handler to correct element
+        const input = screen.getByText('3', { selector: 'label' }).firstChild as HTMLInputElement;
+        fireEvent.click(input);
+        return { changedValue: [...prevValue, '3'] };
+      }
+    },
+    expectedValue: (value: string[]) => {
+      const input = screen.getByTestId('picker-toggle-input');
+
+      expect(input).to.have.attribute('value', value.toString());
+    }
+  });
+
+  testFormControl(MultiCascader, {
+    value: ['1'],
+    componentProps: { data: items },
+    getUIElement: () => screen.getByRole('combobox')
   });
 
   it('Should output a dropdown', () => {
@@ -88,20 +123,12 @@ describe('MultiCascader', () => {
     expect(screen.getByRole('combobox')).to.have.text('3-1,3-22');
   });
 
-  it('Should be disabled', () => {
-    const instance = getDOMNode(<MultiCascader data={[]} disabled />);
+  it('Should be inline', () => {
+    const { container } = render(<MultiCascader data={[]} inline />);
 
-    assert.ok(instance.className.match(/\bdisabled\b/));
-  });
-
-  it('Should be inline', async () => {
-    const instance = getInstance(<MultiCascader data={[]} inline />);
-
-    await waitFor(() => {
-      assert.ok(instance.overlay.className.match(/\brs-picker-inline\b/));
-      // eslint-disable-next-line testing-library/no-node-access
-      assert.ok(instance.overlay.querySelector('.rs-picker-cascader-menu-items'));
-    });
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(container.firstChild).to.have.class('rs-picker-inline');
+    expect(screen.getByRole('listbox')).to.exist;
   });
 
   it('Should output a placeholder', () => {
@@ -223,7 +250,7 @@ describe('MultiCascader', () => {
       picker.open();
     });
 
-    assert.ok(onOpenSpy.calledOnce);
+    expect(onOpenSpy).to.be.calledOnce;
   });
 
   it('Should call `onClose` callback', () => {
@@ -233,7 +260,8 @@ describe('MultiCascader', () => {
     act(() => {
       picker.close();
     });
-    assert.ok(onCloseSpy.calledOnce);
+
+    expect(onCloseSpy).to.be.calledOnce;
   });
 
   it('Should clean selected default value', () => {
@@ -243,22 +271,6 @@ describe('MultiCascader', () => {
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
     expect(screen.getByRole('combobox')).to.have.text('Select');
-  });
-
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<MultiCascader data={[]} className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<MultiCascader data={[]} style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<MultiCascader data={[]} classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
   });
 
   it('Should render a button by toggleAs={Button}', () => {
@@ -455,27 +467,6 @@ describe('MultiCascader', () => {
     fireEvent.click(screen.getByText('1', { selector: 'label' }));
 
     expect(screen.queryAllByRole('listbox')).to.have.lengthOf(1);
-  });
-
-  describe('Plain text', () => {
-    it("Should render selected options' labels (comma-separated) and selected options count", () => {
-      render(
-        <div data-testid="content">
-          <MultiCascader data={items} value={['1', '3-1']} plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('1,3-12');
-    });
-    it('Should render "Not selected" if value is empty', () => {
-      render(
-        <div data-testid="content">
-          <MultiCascader data={items} value={[]} plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Not selected');
-    });
   });
 
   describe('Loading state', () => {

@@ -1,5 +1,10 @@
 import React from 'react';
-import { testStandardProps, getInstance } from '@test/utils';
+import {
+  testStandardProps,
+  getInstance,
+  testControlledUnControlled,
+  testFormControl
+} from '@test/utils';
 import { render, fireEvent, act, waitFor, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
@@ -22,6 +27,28 @@ describe('DatePicker', () => {
     getUIElement: () => {
       return screen.getByRole('combobox');
     }
+  });
+
+  testControlledUnControlled(DatePicker, {
+    defaultValue: new Date('2023-10-01'),
+    value: new Date('2023-10-01'),
+    changedValue: new Date('2023-10-02'),
+    componentProps: { defaultOpen: true },
+    simulateEvent: {
+      changeValue: () => {
+        userEvent.click(screen.getByRole('gridcell', { name: '02 Oct 2023' }));
+        userEvent.click(screen.getByRole('button', { name: 'OK' }));
+        return { changedValue: new Date('2023-10-02') };
+      }
+    },
+    expectedValue: (value: Date) => {
+      expect(screen.getByTestId('picker-toggle-input')).to.value(format(value, 'yyyy-MM-dd'));
+    }
+  });
+
+  testFormControl(DatePicker, {
+    value: new Date('2023-10-01'),
+    getUIElement: () => screen.getByRole('combobox')
   });
 
   it('Should render a div with "rs-picker-date" class', () => {
@@ -217,12 +244,12 @@ describe('DatePicker', () => {
     fireEvent.change(input, { target: { value: '2021-10-02' } });
 
     // eslint-disable-next-line testing-library/no-node-access
-    assert.isNull(instance.root.querySelector('.rs-picker-error'));
+    expect(instance.root.querySelector('.rs-picker-error')).to.not.exist;
 
     fireEvent.change(input, { target: { value: '2021-10-01' } });
 
     // eslint-disable-next-line testing-library/no-node-access
-    assert.isNotNull(instance.root.querySelector('.rs-picker-error'));
+    expect(instance.root.querySelector('.rs-picker-error')).to.exist;
   });
 
   it('[Deprecated] Should disable date cells according to `disabledDate`', () => {
@@ -687,8 +714,9 @@ describe('DatePicker', () => {
       '.rs-calendar-table-cell-is-today .rs-calendar-table-cell-content'
     );
 
-    ReactTestUtils.Simulate.click(today);
-    assert.isTrue(isSameDay(onChangeSpy.firstCall.firstArg, new Date()));
+    fireEvent.click(today);
+
+    expect(isSameDay(onChangeSpy.firstCall.firstArg, new Date())).to.be.true;
   });
 
   it('Should call onChange after setting oneTap and clicking month', () => {
@@ -702,8 +730,8 @@ describe('DatePicker', () => {
       '.rs-calendar-month-dropdown-cell-active .rs-calendar-month-dropdown-cell-content'
     );
 
-    ReactTestUtils.Simulate.click(activeMonth);
-    assert.isTrue(isSameDay(onChangeSpy.firstCall.firstArg, new Date()));
+    fireEvent.click(activeMonth);
+    expect(isSameDay(onChangeSpy.firstCall.firstArg, new Date())).to.be.true;
   });
 
   it('Should be show meridian', () => {
@@ -718,27 +746,28 @@ describe('DatePicker', () => {
     const picker = instance.overlay;
 
     // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(picker.querySelector('.rs-calendar-header-meridian').textContent, 'PM');
+    expect(picker.querySelector('.rs-calendar-header-meridian')).to.have.text('PM');
     // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(picker.querySelector('.rs-calendar-header-title-time').textContent, '01:00:00');
-    assert.equal(
+    expect(picker.querySelector('.rs-calendar-header-title-time')).to.have.text('01:00:00');
+
+    expect(
       // eslint-disable-next-line testing-library/no-node-access
-      picker.querySelector('.rs-calendar-time-dropdown-column').querySelectorAll('li').length,
-      12
-    );
+      picker.querySelector('.rs-calendar-time-dropdown-column').querySelectorAll('li')
+    ).to.have.length(12);
     // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(picker.querySelector('.rs-calendar-time-dropdown-column li').textContent, '12');
+    expect(picker.querySelector('.rs-calendar-time-dropdown-column li')).to.have.text('12');
   });
 
   it('Should show dates that are not in the same month', () => {
     const instance = getInstance(<DatePicker value={new Date('6/10/2021')} open />);
     const picker = instance.overlay;
-    // eslint-disable-next-line testing-library/no-node-access
-    const days = picker.querySelectorAll('.rs-calendar-table-cell-un-same-month');
 
-    assert.equal(days[0].textContent, '30');
-    assert.equal(days[1].textContent, '31');
-    assert.equal(days[2].textContent, '1');
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(picker.querySelectorAll('.rs-calendar-table-cell-un-same-month')).to.contain.text([
+      '30',
+      '31',
+      '1'
+    ]);
   });
 
   it('Should accept controlled value', () => {
@@ -817,32 +846,10 @@ describe('DatePicker', () => {
     });
   });
 
-  describe('Plain text', () => {
-    it('Should render formatted date', () => {
-      render(
-        <div data-testid="content">
-          <DatePicker value={new Date(2019, 3, 1)} format="MM/dd/yyyy" plaintext />
-        </div>
-      );
+  it('Should render a custom caret', () => {
+    render(<DatePicker caretAs={GearIcon} />);
 
-      expect(screen.getByTestId('content')).to.have.text('04/01/2019');
-    });
-
-    it('Should render "Not selected" if value is empty', () => {
-      render(
-        <div data-testid="content">
-          <DatePicker value={null} format="MM/dd/yyyy" plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Not selected');
-    });
-
-    it('Should render a custom caret', () => {
-      render(<DatePicker caretAs={GearIcon} />);
-
-      expect(screen.getByLabelText('gear')).to.have.class('rs-icon');
-    });
+    expect(screen.getByLabelText('gear')).to.have.class('rs-icon');
   });
 
   it('Should switch to the previous or next element via the tab key', () => {
