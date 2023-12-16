@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
+import { render, screen } from '@testing-library/react';
 import { testStandardProps } from '@test/commonCases';
 import Header from '../Header';
 
@@ -8,8 +8,7 @@ describe('Header', () => {
 
   it('Should render a Header', () => {
     const title = 'Test';
-    const instance = getDOMNode(<Header>{title}</Header>);
-    assert.include(instance.className, 'rs-header');
-    assert.equal(instance.textContent, title);
+    render(<Header>{title}</Header>);
+    expect(screen.getByText(title)).to.have.class('rs-header');
   });
 });
