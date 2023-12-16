@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, waitFor, act, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { getInstance } from '@test/utils';
@@ -7,7 +7,12 @@ import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '../../utils';
 import { data, originMockData, changedMockData, controlledData } from './mocks';
 import { PickerHandle } from '../../Picker';
-import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
+import {
+  testStandardProps,
+  testControlledUnControlled,
+  testFormControl,
+  testPickers
+} from '@test/utils';
 import '../styles/index.less';
 
 describe('CheckTreePicker', () => {
@@ -17,7 +22,7 @@ describe('CheckTreePicker', () => {
       return screen.getByRole('combobox');
     }
   });
-
+  testPickers(CheckTreePicker, { virtualized: true });
   testControlledUnControlled(CheckTreePicker, {
     componentProps: {
       data: controlledData,
@@ -669,50 +674,6 @@ describe('CheckTreePicker', () => {
     expect(onChangeSpy.secondCall.args[0]).to.include('tester1');
   });
 
-  describe('ref testing', () => {
-    it('Should call onOpen', async () => {
-      const onOpenSpy = sinon.spy();
-      const instance = getInstance(<CheckTreePicker onOpen={onOpenSpy} data={data} />);
-
-      act(() => {
-        instance.open();
-      });
-      await waitFor(() => {
-        expect(onOpenSpy).to.have.been.calledOnce;
-      });
-    });
-
-    it('Should call onClose', async () => {
-      const onCloseSpy = sinon.spy();
-
-      const instance = getInstance(<CheckTreePicker onClose={onCloseSpy} data={data} />);
-
-      act(() => {
-        instance.open();
-      });
-      act(() => {
-        instance.close();
-      });
-
-      await waitFor(() => {
-        expect(onCloseSpy).to.have.been.calledOnce;
-      });
-    });
-
-    it('Should get public objects and methods', () => {
-      const instance = getInstance(<CheckTreePicker data={data} open virtualized />);
-
-      expect(instance.root).to.exist;
-      expect(instance.target).to.exist;
-      expect(instance.updatePosition).to.instanceOf(Function);
-      expect(instance.open).to.instanceOf(Function);
-      expect(instance.close).to.instanceOf(Function);
-
-      expect(instance.overlay).to.exist;
-      expect(instance.list).to.exist;
-    });
-  });
-
   it('Should children can be removed when setting virtualized', () => {
     const onChangeSpy = sinon.spy();
     render(
@@ -778,31 +739,5 @@ describe('CheckTreePicker', () => {
     expect(screen.getAllByRole('treeitem')).to.have.lengthOf(1);
     rerender(<CheckTreePicker defaultOpen data={data} searchKeyword="Tree" />);
     expect(screen.queryAllByRole('treeitem')).to.have.lengthOf(0);
-  });
-
-  describe('Loading state', () => {
-    it('Should display a spinner when loading=true', () => {
-      render(<CheckTreePicker data={data} loading />);
-
-      expect(screen.getByTestId('spinner')).to.exist;
-    });
-
-    it('Should not open menu on click when loading=true', () => {
-      render(<CheckTreePicker data={data} loading />);
-
-      fireEvent.click(screen.getByRole('combobox'));
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
-
-    it('Should not open menu on Enter key when loading=true', () => {
-      render(<CheckTreePicker data={data} loading />);
-
-      fireEvent.keyDown(screen.getByRole('combobox'), {
-        key: 'Enter'
-      });
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
   });
 });

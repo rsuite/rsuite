@@ -6,7 +6,8 @@ import {
   getInstance,
   testStandardProps,
   testControlledUnControlled,
-  testFormControl
+  testFormControl,
+  testPickers
 } from '@test/utils';
 
 import InputPicker from '../InputPicker';
@@ -39,7 +40,7 @@ describe('InputPicker', () => {
       return screen.getByRole('combobox');
     }
   });
-
+  testPickers(InputPicker, { virtualized: true });
   testControlledUnControlled(InputPicker, {
     componentProps: { data, defaultOpen: true },
     value: 'Eugenia',
@@ -450,47 +451,6 @@ describe('InputPicker', () => {
       { label: 'Alice', value: 1 }
     ]);
     expect(screen.queryByText(/^Create option/)).to.not.exist;
-  });
-
-  describe('ref testing', () => {
-    it('Should get public objects and methods', () => {
-      const instance = getInstance(<InputPicker data={data} open virtualized />);
-
-      expect(instance.root).to.exist;
-      expect(instance.target).to.exist;
-      expect(instance.updatePosition).to.instanceOf(Function);
-      expect(instance.open).to.instanceOf(Function);
-      expect(instance.close).to.instanceOf(Function);
-
-      expect(instance.overlay).to.exist;
-      expect(instance.list).to.exist;
-    });
-  });
-
-  describe('Loading state', () => {
-    it('Should display a spinner when loading=true', () => {
-      render(<InputPicker data={data} loading />);
-
-      expect(screen.getByTestId('spinner')).to.exist;
-    });
-
-    it('Should not open menu on click when loading=true', () => {
-      render(<InputPicker data={data} loading />);
-
-      fireEvent.click(screen.getByRole('combobox'));
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
-
-    it('Should not open menu on Enter key when loading=true', () => {
-      render(<InputPicker data={data} loading />);
-
-      fireEvent.keyDown(screen.getByRole('combobox'), {
-        key: 'Enter'
-      });
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
   });
 
   describe('Accessibility', () => {

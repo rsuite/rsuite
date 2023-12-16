@@ -1,12 +1,13 @@
 import React from 'react';
-import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import {
   getInstance,
   testStandardProps,
   testControlledUnControlled,
-  testFormControl
+  testFormControl,
+  testPickers
 } from '@test/utils';
 
 import CheckPicker from '../CheckPicker';
@@ -38,7 +39,7 @@ describe('CheckPicker', () => {
       return screen.getByRole('combobox');
     }
   });
-
+  testPickers(CheckPicker, { virtualized: true });
   testControlledUnControlled(CheckPicker, {
     componentProps: { data, defaultOpen: true },
     value: ['Eugenia'],
@@ -524,83 +525,6 @@ describe('CheckPicker', () => {
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
     expect(screen.queryByRole('listbox')).not.to.exist;
-  });
-
-  describe('Loading state', () => {
-    it('Should display a spinner when loading=true', () => {
-      render(<CheckPicker data={data} loading />);
-
-      expect(screen.getByTestId('spinner')).to.exist;
-    });
-
-    it('Should display label and spinner when label is specified', () => {
-      render(<CheckPicker label="User" data={data} loading />);
-
-      expect(screen.getByRole('combobox')).to.have.text('User');
-      expect(screen.getByTestId('spinner')).to.exist;
-    });
-
-    it('Should not open menu on click when loading=true', () => {
-      render(<CheckPicker data={data} loading />);
-
-      fireEvent.click(screen.getByRole('combobox'));
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
-
-    it('Should not open menu on Enter key when loading=true', () => {
-      render(<CheckPicker data={data} loading />);
-
-      fireEvent.keyDown(screen.getByRole('combobox'), {
-        key: 'Enter'
-      });
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
-  });
-
-  describe('ref testing', () => {
-    it('Should call onOpen', async () => {
-      const onOpenSpy = sinon.spy();
-      const instance = getInstance(<CheckPicker onOpen={onOpenSpy} data={data} />);
-
-      act(() => {
-        instance.open();
-      });
-      await waitFor(() => {
-        expect(onOpenSpy).to.have.been.calledOnce;
-      });
-    });
-
-    it('Should call onClose', async () => {
-      const onCloseSpy = sinon.spy();
-
-      const instance = getInstance(<CheckPicker onClose={onCloseSpy} data={data} />);
-
-      act(() => {
-        instance.open();
-      });
-      act(() => {
-        instance.close();
-      });
-
-      await waitFor(() => {
-        expect(onCloseSpy).to.have.been.calledOnce;
-      });
-    });
-
-    it('Should get public objects and methods', () => {
-      const instance = getInstance(<CheckPicker data={data} open virtualized />);
-
-      expect(instance.root).to.exist;
-      expect(instance.target).to.exist;
-      expect(instance.updatePosition).to.instanceOf(Function);
-      expect(instance.open).to.instanceOf(Function);
-      expect(instance.close).to.instanceOf(Function);
-
-      expect(instance.overlay).to.exist;
-      expect(instance.list).to.exist;
-    });
   });
 
   describe('Accessibility', () => {

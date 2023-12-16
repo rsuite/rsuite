@@ -3,7 +3,8 @@ import {
   testStandardProps,
   getInstance,
   testControlledUnControlled,
-  testFormControl
+  testFormControl,
+  testPickers
 } from '@test/utils';
 import { render, fireEvent, act, waitFor, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -28,7 +29,7 @@ describe('DatePicker', () => {
       return screen.getByRole('combobox');
     }
   });
-
+  testPickers(DatePicker);
   testControlledUnControlled(DatePicker, {
     defaultValue: new Date('2023-10-01'),
     value: new Date('2023-10-01'),
@@ -1097,32 +1098,6 @@ describe('DatePicker', () => {
     await waitFor(() => {
       expect(onChangeSpy).to.calledOnce;
       expect(onChangeSpy.firstCall.firstArg).to.equal(null);
-    });
-  });
-
-  describe('Loading state', () => {
-    it('Should display a spinner when loading=true', () => {
-      render(<DatePicker loading />);
-
-      expect(screen.getByTestId('spinner')).to.exist;
-    });
-
-    it('Should not open menu on click when loading=true', () => {
-      render(<DatePicker loading />);
-
-      fireEvent.click(screen.getByRole('combobox'));
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
-
-    it('Should not open menu on Enter key when loading=true', () => {
-      render(<DatePicker loading />);
-
-      fireEvent.keyDown(screen.getByRole('combobox'), {
-        key: 'Enter'
-      });
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
     });
   });
 

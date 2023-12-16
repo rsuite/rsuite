@@ -1,12 +1,13 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import {
   getDOMNode,
   getInstance,
   testStandardProps,
   testControlledUnControlled,
-  testFormControl
+  testFormControl,
+  testPickers
 } from '@test/utils';
 import SelectPicker from '../SelectPicker';
 import Input from '../../Input';
@@ -40,6 +41,7 @@ describe('SelectPicker', () => {
     }
   });
 
+  testPickers(SelectPicker, { virtualized: true });
   testControlledUnControlled(SelectPicker, {
     componentProps: { data, defaultOpen: true },
     value: 'Eugenia',
@@ -98,39 +100,6 @@ describe('SelectPicker', () => {
 
     // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
     expect(container.querySelector('input')).to.have.attr('name', 'field');
-  });
-
-  describe('Loading state', () => {
-    it('Should display a spinner when loading=true', () => {
-      render(<SelectPicker data={data} loading />);
-
-      expect(screen.getByTestId('spinner')).to.exist;
-    });
-
-    it('Should display label and spinner when label is specified', () => {
-      render(<SelectPicker label="User" data={data} loading />);
-
-      expect(screen.getByRole('combobox')).to.have.text('User');
-      expect(screen.getByTestId('spinner')).to.exist;
-    });
-
-    it('Should not open menu on click when loading=true', () => {
-      render(<SelectPicker data={data} loading />);
-
-      fireEvent.click(screen.getByRole('combobox'));
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
-
-    it('Should not open menu on Enter key when loading=true', () => {
-      render(<SelectPicker data={data} loading />);
-
-      fireEvent.keyDown(screen.getByRole('combobox'), {
-        key: 'Enter'
-      });
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
   });
 
   it('Should output a button', () => {
@@ -367,25 +336,6 @@ describe('SelectPicker', () => {
     expect(onFocusSpy).to.calledOnce;
   });
 
-  it('Should have a custom className', () => {
-    const instance = getInstance(<SelectPicker className="custom" defaultOpen data={data} />);
-
-    expect(instance.root).to.have.class('custom');
-    expect(instance.overlay).to.not.have.class('custom');
-  });
-
-  it('Should have a custom style', () => {
-    const instance = getDOMNode(<SelectPicker data={[]} style={{ fontSize: 12 }} />);
-
-    expect(instance).to.have.style('font-size', '12px');
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<SelectPicker data={[]} classPrefix="custom-prefix" />);
-
-    expect(instance).to.have.class('rs-custom-prefix');
-  });
-
   it('Should render a button by toggleAs={Button}', () => {
     render(<SelectPicker open data={data} toggleAs={Button} />);
 
@@ -488,50 +438,6 @@ describe('SelectPicker', () => {
     await waitFor(() => {
       expect(onSearchSpy).to.calledOnce;
       expect(onSearchSpy.firstCall.firstArg).to.equal('');
-    });
-  });
-
-  describe('ref testing', () => {
-    it('Should call onOpen', async () => {
-      const onOpenSpy = sinon.spy();
-      const instance = getInstance(<SelectPicker onOpen={onOpenSpy} data={data} />);
-
-      act(() => {
-        instance.open();
-      });
-      await waitFor(() => {
-        expect(onOpenSpy).to.have.been.calledOnce;
-      });
-    });
-
-    it('Should call onClose', async () => {
-      const onCloseSpy = sinon.spy();
-
-      const instance = getInstance(<SelectPicker onClose={onCloseSpy} data={data} />);
-
-      act(() => {
-        instance.open();
-      });
-      act(() => {
-        instance.close();
-      });
-
-      await waitFor(() => {
-        expect(onCloseSpy).to.have.been.calledOnce;
-      });
-    });
-
-    it('Should get public objects and methods', () => {
-      const instance = getInstance(<SelectPicker data={data} open virtualized />);
-
-      expect(instance.root).to.exist;
-      expect(instance.target).to.exist;
-      expect(instance.updatePosition).to.instanceOf(Function);
-      expect(instance.open).to.instanceOf(Function);
-      expect(instance.close).to.instanceOf(Function);
-
-      expect(instance.overlay).to.exist;
-      expect(instance.list).to.exist;
     });
   });
 

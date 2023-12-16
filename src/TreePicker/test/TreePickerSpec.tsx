@@ -6,7 +6,8 @@ import {
   getInstance,
   testStandardProps,
   testControlledUnControlled,
-  testFormControl
+  testFormControl,
+  testPickers
 } from '@test/utils';
 import TreePicker, { TreePickerProps } from '../TreePicker';
 import { KEY_VALUES } from '../../utils';
@@ -48,6 +49,7 @@ describe('TreePicker', () => {
     }
   });
 
+  testPickers(TreePicker);
   testControlledUnControlled(TreePicker, {
     componentProps: { data, defaultOpen: true },
     value: '1',
@@ -609,50 +611,6 @@ describe('TreePicker', () => {
     expect(() => JSON.stringify(renderTreeNodeSpy.firstCall.args[0])).not.to.throw();
   });
 
-  describe('ref testing', () => {
-    it('Should call onOpen', async () => {
-      const onOpenSpy = sinon.spy();
-      const instance = getInstance(<TreePicker onOpen={onOpenSpy} data={data} />);
-
-      act(() => {
-        instance.open();
-      });
-      await waitFor(() => {
-        expect(onOpenSpy).to.have.been.calledOnce;
-      });
-    });
-
-    it('Should call onClose', async () => {
-      const onCloseSpy = sinon.spy();
-
-      const instance = getInstance(<TreePicker onClose={onCloseSpy} data={data} />);
-
-      act(() => {
-        instance.open();
-      });
-      act(() => {
-        instance.close();
-      });
-
-      await waitFor(() => {
-        expect(onCloseSpy).to.have.been.calledOnce;
-      });
-    });
-
-    it('Should get public objects and methods', () => {
-      const instance = getInstance(<TreePicker data={data} open virtualized />);
-
-      expect(instance.root).to.exist;
-      expect(instance.target).to.exist;
-      expect(instance.updatePosition).to.instanceOf(Function);
-      expect(instance.open).to.instanceOf(Function);
-      expect(instance.close).to.instanceOf(Function);
-
-      expect(instance.overlay).to.exist;
-      expect(instance.list).to.exist;
-    });
-  });
-
   it('Should not clean values when setting disabled=true', () => {
     render(<TreePicker open value={data[0].value} disabled data={data} />);
     fireEvent.keyDown(screen.getByRole('combobox'), {
@@ -683,31 +641,5 @@ describe('TreePicker', () => {
 
     fireEvent.click(screen.getByLabelText('Clear'));
     expect(screen.getByRole('combobox')).to.text('Master');
-  });
-
-  describe('Loading state', () => {
-    it('Should display a spinner when loading=true', () => {
-      render(<TreePicker data={data} loading />);
-
-      expect(screen.getByTestId('spinner')).to.exist;
-    });
-
-    it('Should not open menu on click when loading=true', () => {
-      render(<TreePicker data={data} loading />);
-
-      fireEvent.click(screen.getByRole('combobox'));
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
-
-    it('Should not open menu on Enter key when loading=true', () => {
-      render(<TreePicker data={data} loading />);
-
-      fireEvent.keyDown(screen.getByRole('combobox'), {
-        key: 'Enter'
-      });
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
   });
 });

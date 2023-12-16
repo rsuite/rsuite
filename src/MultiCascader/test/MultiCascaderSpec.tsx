@@ -6,7 +6,8 @@ import {
   getInstance,
   testStandardProps,
   testFormControl,
-  testControlledUnControlled
+  testControlledUnControlled,
+  testPickers
 } from '@test/utils';
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
@@ -44,7 +45,7 @@ describe('MultiCascader', () => {
       return screen.getByRole('combobox');
     }
   });
-
+  testPickers(MultiCascader);
   testControlledUnControlled(MultiCascader, {
     componentProps: {
       data: items,
@@ -467,31 +468,5 @@ describe('MultiCascader', () => {
     fireEvent.click(screen.getByText('1', { selector: 'label' }));
 
     expect(screen.queryAllByRole('listbox')).to.have.lengthOf(1);
-  });
-
-  describe('Loading state', () => {
-    it('Should display a spinner when loading=true', () => {
-      render(<MultiCascader data={items} loading />);
-
-      expect(screen.getByTestId('spinner')).to.exist;
-    });
-
-    it('Should not open menu on click when loading=true', () => {
-      render(<MultiCascader data={items} loading />);
-
-      fireEvent.click(screen.getByRole('combobox'));
-
-      expect(screen.queryByRole('tree')).not.to.exist;
-    });
-
-    it('Should not open menu on Enter key when loading=true', () => {
-      render(<MultiCascader data={items} loading />);
-
-      fireEvent.keyDown(screen.getByRole('combobox'), {
-        key: 'Enter'
-      });
-
-      expect(screen.queryByRole('tree')).not.to.exist;
-    });
   });
 });
