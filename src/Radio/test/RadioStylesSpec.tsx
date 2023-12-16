@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Radio from '../index';
-import { getDOMNode, toRGB, itChrome } from '@test/testUtils';
+import { getDOMNode, toRGB, itChrome } from '@test/utils';
 
 import '../styles/index.less';
 

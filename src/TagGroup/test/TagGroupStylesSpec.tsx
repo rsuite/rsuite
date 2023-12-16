@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { itChrome } from '@test/testUtils';
+import { itChrome } from '@test/utils';
 import TagGroup from '../TagGroup';
 
 import '../../Tag/styles/index.less';

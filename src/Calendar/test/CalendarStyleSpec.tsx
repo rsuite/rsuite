@@ -2,7 +2,7 @@
 import React from 'react';
 import { render, act, screen } from '@testing-library/react';
 import Calendar from '../Calendar';
-import { getDefaultPalette, getStyle, inChrome, itChrome, toRGB } from '@test/testUtils';
+import { getDefaultPalette, getStyle, inChrome, itChrome, toRGB } from '@test/utils';
 
 import '../styles/index.less';
 import { CalendarState } from '../useCalendarState';

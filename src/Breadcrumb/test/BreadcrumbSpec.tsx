@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { act, render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import sinon from 'sinon';
 import Breadcrumb from '../Breadcrumb';
 

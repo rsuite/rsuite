@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Button from '../Button';
 import ButtonToolbar from '../../ButtonToolbar';
-import { getDefaultPalette, toRGB, getStyle, itChrome } from '@test/testUtils';
+import { getDefaultPalette, toRGB, getStyle, itChrome } from '@test/utils';
 
 import '../styles/index.less';
 

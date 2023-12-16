@@ -1,7 +1,7 @@
 import React from 'react';
 import CloseButton from '../CloseButton';
 import { render, screen } from '@testing-library/react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 describe('CloseButton', () => {
   testStandardProps(<CloseButton />);

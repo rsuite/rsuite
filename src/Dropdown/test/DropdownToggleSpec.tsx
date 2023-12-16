@@ -2,7 +2,7 @@ import React from 'react';
 import DropdownToggle from '../DropdownToggle';
 import User from '@rsuite/icons/legacy/User';
 import { render } from '@testing-library/react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 describe('DropdownToggle', () => {
   testStandardProps(<DropdownToggle />);

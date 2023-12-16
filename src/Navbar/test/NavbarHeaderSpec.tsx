@@ -1,7 +1,7 @@
 import React from 'react';
 import sinon, { SinonStub } from 'sinon';
 import NavbarHeader from '../NavbarHeader';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 
 describe('NavbarHeader (deprecated)', () => {
   beforeEach(() => {

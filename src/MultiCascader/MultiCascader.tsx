@@ -16,7 +16,8 @@ import {
   getSafeRegExpString,
   useClassNames,
   useCustom,
-  useUpdateEffect
+  useUpdateEffect,
+  useControlled
 } from '../utils';
 
 import {
@@ -164,12 +165,13 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     const itemKeys = { childrenKey, labelKey, valueKey };
     const [active, setActive] = useState(false);
     const { flattenData, addFlattenData } = useFlattenData(data, itemKeys);
+    const [controlledValue] = useControlled(valueProp, defaultValue);
     const { value, setValue, splitValue } = useCascadeValue(
       {
         ...itemKeys,
         uncheckableItemValues,
         cascade,
-        value: valueProp || defaultValue
+        value: controlledValue
       },
       flattenData
     );

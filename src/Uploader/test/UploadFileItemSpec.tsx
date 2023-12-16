@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import UploadFileItem, { formatSize } from '../UploadFileItem';
 import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 const file = {
   fileKey: 'key',

@@ -5,7 +5,7 @@ import useToaster from '../useToaster';
 import CustomProvider from '../../CustomProvider';
 import Uploader from '../../Uploader';
 import zhCN from '../../locales/zh_CN';
-import { renderHook } from '@test/testUtils';
+import { renderHook } from '@test/utils';
 import Message from '../../Message';
 
 afterEach(() => {

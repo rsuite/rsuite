@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import FormControl from '../index';
 import Form from '../../Form';
-import { getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB, inChrome } from '@test/utils';
 
 import '../../Input/styles/index.less';
 import '../styles/index.less';

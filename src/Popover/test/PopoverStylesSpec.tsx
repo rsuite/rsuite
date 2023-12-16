@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Popover from '../index';
-import { getStyle, toRGB } from '@test/testUtils';
+import { getStyle, toRGB } from '@test/utils';
 
 import '../styles/index.less';
 import Whisper from '../../Whisper/index';

@@ -1,4 +1,4 @@
-import { renderHook } from '@test/testUtils';
+import { renderHook } from '@test/utils';
 import { act } from '@testing-library/react';
 import MatchMediaMock from '@test/mocks/matchmedia-mock';
 

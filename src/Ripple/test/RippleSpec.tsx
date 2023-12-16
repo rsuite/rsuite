@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, act } from '@testing-library/react';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 import Ripple from '../Ripple';
 import Sinon from 'sinon';
 

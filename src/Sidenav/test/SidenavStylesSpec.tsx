@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { getDOMNode, getStyle, getDefaultPalette } from '@test/testUtils';
+import { getDOMNode, getStyle, getDefaultPalette } from '@test/utils';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
 import Sidenav from '../Sidenav';

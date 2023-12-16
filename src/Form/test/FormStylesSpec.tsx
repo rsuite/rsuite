@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import Form, { FormInstance } from '../index';
 import Button from '../../Button';
 import FormControlLabel from '../../FormControlLabel';
-import { getStyle } from '@test/testUtils';
+import { getStyle } from '@test/utils';
 
 import '../styles/index.less';
 

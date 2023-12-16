@@ -2,8 +2,7 @@ import React from 'react';
 import { render, fireEvent, act, screen } from '@testing-library/react';
 import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getDOMNode, testStandardProps } from '@test/utils';
 import RangeSlider from '../RangeSlider';
 
 import '../../Slider/styles/index.less';

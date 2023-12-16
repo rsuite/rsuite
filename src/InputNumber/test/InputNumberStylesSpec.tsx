@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import InputNumber from '../index';
-import { getDOMNode, getStyle, toRGB, inChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, toRGB, inChrome } from '@test/utils';
 
 import '../styles/index.less';
 

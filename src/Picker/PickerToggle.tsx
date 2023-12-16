@@ -274,6 +274,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
                   className={prefix('textbox', { 'read-only': !inputFocused })}
                   placeholder={inputPlaceholder}
                   render={renderInput}
+                  data-testid="picker-toggle-input"
                 />
                 {children ? (
                   <span

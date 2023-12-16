@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import ButtonGroup from '../ButtonGroup';
 import Button from '../../Button';
-import { getStyle, itChrome } from '@test/testUtils';
+import { getStyle, itChrome } from '@test/utils';
 
 import '../../Button/styles/index.less';
 import '../styles/index.less';

@@ -1,9 +1,13 @@
 import React from 'react';
 import { render, act, fireEvent, waitFor, screen } from '@testing-library/react';
-import { getInstance } from '@test/testUtils';
+import {
+  getInstance,
+  testStandardProps,
+  testFormControl,
+  testControlledUnControlled
+} from '@test/utils';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/commonCases';
 import {
   addDays,
   endOfMonth,
@@ -38,7 +42,38 @@ afterEach(() => {
 });
 
 describe('DateRangePicker', () => {
-  testStandardProps(<DateRangePicker />);
+  testStandardProps(<DateRangePicker />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
+
+  testControlledUnControlled(DateRangePicker, {
+    defaultValue: [new Date('2023-11-01'), new Date('2023-11-02')],
+    value: [new Date('2023-11-03'), new Date('2023-11-04')],
+    changedValue: [new Date('2024-10-01'), new Date('2024-10-02')],
+    componentProps: { defaultOpen: true },
+    simulateEvent: {
+      changeValue: () => {
+        userEvent.click(screen.getByRole('gridcell', { name: '05 Nov 2023' }));
+        userEvent.click(screen.getByRole('gridcell', { name: '06 Nov 2023' }));
+        userEvent.click(screen.getByRole('button', { name: 'OK' }));
+        return { changedValue: [new Date('2023-11-05'), new Date('2023-11-06')] };
+      }
+    },
+    expectedValue: (value: [Date, Date]) => {
+      expect(screen.getByTestId('picker-toggle-input')).to.value(
+        value.map(v => format(v, 'yyyy-MM-dd')).join(' ~ ')
+      );
+    }
+  });
+
+  testFormControl(DateRangePicker, {
+    value: [new Date('2023-10-01'), new Date('2023-10-02')],
+    getUIElement: () => screen.getByRole('combobox')
+  });
+
   it('Should render a div with "rs-picker-daterange" class', () => {
     const { container } = render(<DateRangePicker />);
 
@@ -56,11 +91,6 @@ describe('DateRangePicker', () => {
     const { container } = render(<DateRangePicker value={[new Date(), new Date()]} />);
 
     expect(container.firstChild).to.have.class('rs-picker-cleanable');
-  });
-
-  it('Should be disabled', () => {
-    const { container } = render(<DateRangePicker disabled />);
-    expect(container.firstChild).to.have.class('rs-picker-disabled');
   });
 
   it('Should output custom value', () => {
@@ -879,32 +909,6 @@ describe('DateRangePicker', () => {
       expect(dialog.querySelector(firstMonthPanelTitle)).to.have.text('Nov 2022');
       // eslint-disable-next-line testing-library/no-node-access
       expect(dialog.querySelector(secondMonthPanelTitle)).to.have.text('Dec 2022');
-    });
-  });
-
-  describe('Plain text', () => {
-    it('Should render formatted date range', () => {
-      render(
-        <div data-testid="content">
-          <DateRangePicker
-            value={[new Date(2019, 3, 1), new Date(2019, 3, 2)]}
-            format="MM/dd/yyyy"
-            plaintext
-          />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('04/01/2019 ~ 04/02/2019');
-    });
-
-    it('Should render "Not selected" if value is empty', () => {
-      render(
-        <div data-testid="content">
-          <DateRangePicker value={null} format="MM/dd/yyyy" plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
   });
 

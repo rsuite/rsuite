@@ -1,5 +1,5 @@
 import { act } from '@testing-library/react';
-import { renderHook } from '@test/testUtils';
+import { renderHook } from '@test/utils';
 import { useSearch } from '../utils';
 import Sinon from 'sinon';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DateRangePicker from '../index';
-import { getInstance } from '@test/testUtils';
+import { getInstance } from '@test/utils';
 import getWidth from 'dom-lib/getWidth';
 
 import '../styles/index.less';

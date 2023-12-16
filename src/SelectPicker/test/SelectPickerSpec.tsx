@@ -1,7 +1,13 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import {
+  getDOMNode,
+  getInstance,
+  testStandardProps,
+  testControlledUnControlled,
+  testFormControl
+} from '@test/utils';
 import SelectPicker from '../SelectPicker';
 import Input from '../../Input';
 import Button from '../../Button';
@@ -27,6 +33,40 @@ const data = [
 ];
 
 describe('SelectPicker', () => {
+  testStandardProps(<SelectPicker data={data} />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
+
+  testControlledUnControlled(SelectPicker, {
+    componentProps: { data, defaultOpen: true },
+    value: 'Eugenia',
+    defaultValue: 'Kariane',
+    changedValue: 'Louisa',
+    simulateEvent: {
+      changeValue: () => {
+        const input = screen.getAllByRole('option')[2];
+        userEvent.click(input);
+
+        return { changedValue: 'Louisa' };
+      }
+    },
+    expectedValue: (value: string) => {
+      expect(screen.getByTestId('picker-toggle-input')).to.have.attribute(
+        'value',
+        value.toString()
+      );
+    }
+  });
+
+  testFormControl(SelectPicker, {
+    value: 'Eugenia',
+    componentProps: { data },
+    getUIElement: () => screen.getByRole('combobox')
+  });
+
   it('Should clean selected default value', () => {
     render(<SelectPicker defaultOpen data={data} defaultValue={'Eugenia'} />);
 
@@ -51,12 +91,6 @@ describe('SelectPicker', () => {
     const instance = getDOMNode(<SelectPicker data={[]} />);
 
     expect(instance).to.have.class('rs-picker-select');
-  });
-
-  it('Should be disabled', () => {
-    const instance = getDOMNode(<SelectPicker data={[]} disabled />);
-
-    expect(instance).to.have.class('rs-picker-disabled');
   });
 
   it('Should render a hidden <input> with given "name" attribute', () => {
@@ -437,26 +471,6 @@ describe('SelectPicker', () => {
     });
   });
 
-  describe('Plain text', () => {
-    it("Should render selected option's label", () => {
-      render(
-        <div data-testid="content">
-          <SelectPicker data={data} value="Eugenia" plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Eugenia');
-    });
-    it('Should render "Not selected" if value is empty', () => {
-      render(
-        <div data-testid="content">
-          <SelectPicker data={data} value={null} plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Not selected');
-    });
-  });
   it('Should call onSearch when closed', async () => {
     const onSearchSpy = sinon.spy();
     const handleClose = sinon.spy();

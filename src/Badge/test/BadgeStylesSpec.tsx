@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Badge from '../index';
-import { getStyle, itChrome, toRGB } from '@test/testUtils';
+import { getStyle, itChrome, toRGB } from '@test/utils';
 
 import '../styles/index.less';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import CheckPicker from '../index';
-import { getStyle, inChrome } from '@test/testUtils';
+import { getStyle, inChrome } from '@test/utils';
 import getWidth from 'dom-lib/getWidth';
 import '../styles/index.less';
 

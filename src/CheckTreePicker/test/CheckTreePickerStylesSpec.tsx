@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import CheckTreePicker from '../index';
-import { getStyle, itChrome } from '@test/testUtils';
+import { getStyle, itChrome } from '@test/utils';
 
 import '../styles/index.less';
 

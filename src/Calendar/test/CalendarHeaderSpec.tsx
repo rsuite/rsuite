@@ -5,7 +5,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import Header from '../CalendarHeader';
 import CalendarContext from '../CalendarContext';
 import Sinon from 'sinon';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 describe('Calendar-Header', () => {
   testStandardProps(<Header />);

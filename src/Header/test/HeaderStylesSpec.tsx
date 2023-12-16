@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Header from '../index';
-
 import '../styles/index.less';
 
 describe('Header styles', () => {

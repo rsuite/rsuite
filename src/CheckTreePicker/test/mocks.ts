@@ -63,3 +63,18 @@ export const changedMockData = [
     ]
   }
 ];
+
+export const controlledData = [
+  {
+    label: 'Eugenia',
+    value: 'Eugenia'
+  },
+  {
+    label: 'Kariane',
+    value: 'Kariane'
+  },
+  {
+    label: 'Louisa',
+    value: 'Louisa'
+  }
+];

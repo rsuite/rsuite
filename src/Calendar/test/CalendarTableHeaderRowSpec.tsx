@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import TableHeaderRow from '../TableHeaderRow';
 import CalendarContext from '../CalendarContext';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 
 describe('Calendar-TableHeaderRow', () => {
   testStandardProps(<TableHeaderRow />);

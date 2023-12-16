@@ -1,7 +1,13 @@
 import React from 'react';
 import { render, fireEvent, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode, getInstance } from '@test/testUtils';
+import {
+  getDOMNode,
+  getInstance,
+  testStandardProps,
+  testControlledUnControlled,
+  testFormControl
+} from '@test/utils';
 
 import InputPicker from '../InputPicker';
 import Button from '../../Button';
@@ -27,6 +33,40 @@ const data = [
 ];
 
 describe('InputPicker', () => {
+  testStandardProps(<InputPicker data={data} />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
+
+  testControlledUnControlled(InputPicker, {
+    componentProps: { data, defaultOpen: true },
+    value: 'Eugenia',
+    defaultValue: 'Kariane',
+    changedValue: 'Louisa',
+    simulateEvent: {
+      changeValue: () => {
+        const input = screen.getAllByRole('option')[2];
+        userEvent.click(input);
+
+        return { changedValue: 'Louisa' };
+      }
+    },
+    expectedValue: (value: string) => {
+      expect(screen.getByTestId('picker-toggle-input')).to.have.attribute(
+        'value',
+        value.toString()
+      );
+    }
+  });
+
+  testFormControl(InputPicker, {
+    value: 'Eugenia',
+    componentProps: { data },
+    getUIElement: () => screen.getByRole('combobox')
+  });
+
   it('Should clean selected default value', () => {
     render(<InputPicker data={data} defaultValue={'Eugenia'} />);
 
@@ -51,12 +91,6 @@ describe('InputPicker', () => {
     const instance = getDOMNode(<InputPicker data={[]} />);
 
     expect(instance).to.have.class('rs-picker-input');
-  });
-
-  it('Should be disabled', () => {
-    const instance = getDOMNode(<InputPicker data={[]} disabled />);
-
-    expect(instance).to.have.class('rs-picker-disabled');
   });
 
   it('Should be plaintext', () => {

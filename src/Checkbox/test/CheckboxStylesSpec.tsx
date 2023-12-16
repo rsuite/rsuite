@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Checkbox from '../Checkbox';
-import { toRGB, itChrome } from '@test/testUtils';
+import { toRGB, itChrome } from '@test/utils';
 
 import '../styles/index.less';
 

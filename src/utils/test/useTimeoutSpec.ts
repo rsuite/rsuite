@@ -1,6 +1,6 @@
 import { act } from '@testing-library/react';
 import sinon from 'sinon';
-import { renderHook } from '@test/testUtils';
+import { renderHook } from '@test/utils';
 import useTimeout from '../useTimeout';
 
 afterEach(() => {

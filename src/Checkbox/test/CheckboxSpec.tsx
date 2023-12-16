@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import Checkbox from '../Checkbox';
 
 describe('Checkbox', () => {

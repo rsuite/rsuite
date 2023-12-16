@@ -2,8 +2,7 @@ import React from 'react';
 import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getInstance } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import { getInstance, testStandardProps } from '@test/utils';
 
 import Form, { FormInstance } from '../Form';
 import FormControl from '../../FormControl';

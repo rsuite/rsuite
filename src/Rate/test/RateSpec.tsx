@@ -3,7 +3,7 @@ import React from 'react';
 import { render, act, screen } from '@testing-library/react';
 import ReactTestUtils from 'react-dom/test-utils';
 import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import CameraRetro from '@rsuite/icons/legacy/CameraRetro';
 import Star from '@rsuite/icons/legacy/Star';
 import Rate from '../Rate';

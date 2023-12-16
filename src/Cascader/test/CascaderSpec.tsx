@@ -3,10 +3,14 @@ import { render, waitFor, fireEvent, act, screen } from '@testing-library/react'
 import sinon from 'sinon';
 import Cascader from '../Cascader';
 import Button from '../../Button';
-import { getInstance } from '@test/testUtils';
+import {
+  getInstance,
+  testStandardProps,
+  testControlledUnControlled,
+  testFormControl
+} from '@test/utils';
 import { PickerHandle } from '../../Picker';
 import '../styles/index.less';
-import { testStandardProps } from '@test/commonCases';
 import userEvent from '@testing-library/user-event';
 
 const items = [
@@ -35,7 +39,35 @@ const items = [
 ];
 
 describe('Cascader', () => {
-  testStandardProps(<Cascader data={[]} />);
+  testStandardProps(<Cascader data={[]} />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
+
+  testControlledUnControlled(Cascader, {
+    componentProps: { data: items, defaultOpen: true },
+    value: '1',
+    defaultValue: '2',
+    changedValue: '3',
+    simulateEvent: {
+      changeValue: () => {
+        const input = screen.getAllByRole('treeitem')[1];
+        userEvent.click(input);
+        return { changedValue: '2' };
+      }
+    },
+    expectedValue: (value: string) => {
+      expect(screen.getByTestId('picker-toggle-input')).to.have.attribute('value', value);
+    }
+  });
+
+  testFormControl(Cascader, {
+    value: '1',
+    componentProps: { data: items },
+    getUIElement: () => screen.getByRole('combobox')
+  });
 
   it('Should output a picker', () => {
     const { container } = render(<Cascader data={[]}>title</Cascader>);

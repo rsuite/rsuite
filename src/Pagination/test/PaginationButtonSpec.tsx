@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { Ref } from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/testUtils';
+import { getDOMNode } from '@test/utils';
 import PaginationButton, { PaginationButtonProps } from '../PaginationButton';
 import Sinon from 'sinon';
 

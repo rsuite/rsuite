@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import Message from '../Message';
 import ToastContext from '../../toaster/ToastContext';
 

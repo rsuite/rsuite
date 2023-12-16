@@ -1,13 +1,17 @@
 import React from 'react';
 import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getInstance } from '@test/testUtils';
+import {
+  getInstance,
+  testStandardProps,
+  testControlledUnControlled,
+  testFormControl
+} from '@test/utils';
 
 import CheckPicker from '../CheckPicker';
 import Button from '../../Button';
 import '../styles/index.less';
-import userEvent from '@testing-library/user-event';
-import { testStandardProps } from '@test/commonCases';
 
 const data = [
   {
@@ -28,7 +32,39 @@ const data = [
 ];
 
 describe('CheckPicker', () => {
-  testStandardProps(<CheckPicker data={[]} />);
+  testStandardProps(<CheckPicker data={[]} />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => {
+      return screen.getByRole('combobox');
+    }
+  });
+
+  testControlledUnControlled(CheckPicker, {
+    componentProps: { data, defaultOpen: true },
+    value: ['Eugenia'],
+    defaultValue: ['Kariane'],
+    changedValue: ['Louisa'],
+    simulateEvent: {
+      changeValue: (prevValue: any) => {
+        const input = screen.getAllByRole('checkbox')[2];
+        userEvent.click(input);
+
+        return { changedValue: [...prevValue, 'Louisa'] };
+      }
+    },
+    expectedValue: (value: string) => {
+      expect(screen.getByTestId('picker-toggle-input')).to.have.attribute(
+        'value',
+        value.toString()
+      );
+    }
+  });
+
+  testFormControl(CheckPicker, {
+    value: ['Eugenia'],
+    componentProps: { data },
+    getUIElement: () => screen.getByRole('combobox')
+  });
 
   it('Should clean selected default value', () => {
     render(<CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />);
@@ -53,8 +89,7 @@ describe('CheckPicker', () => {
   });
 
   it('Should output a dropdown', () => {
-    const Title = 'Title';
-    const { container } = render(<CheckPicker data={[]}>{Title}</CheckPicker>);
+    const { container } = render(<CheckPicker data={[]} />);
 
     expect(container.firstChild).to.have.class('rs-picker-check');
   });
@@ -64,27 +99,10 @@ describe('CheckPicker', () => {
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
-  it('Should be disabled', () => {
-    const { container } = render(<CheckPicker data={[]} disabled />);
-
-    expect(container.firstChild).to.have.class('rs-picker-disabled');
-  });
-
   it('Should be block', () => {
     const { container } = render(<CheckPicker data={[]} block />);
 
     expect(container.firstChild).to.have.class('rs-picker-block');
-  });
-
-  it('Should be readOnly', () => {
-    const { container } = render(<CheckPicker data={[]} readOnly />);
-
-    expect(container.firstChild).to.have.class('rs-picker-read-only');
-  });
-
-  it('Should be plaintext', () => {
-    const { container } = render(<CheckPicker data={[]} plaintext />);
-    expect(container.firstChild).to.have.class('rs-picker-plaintext');
   });
 
   it('Should update display options when `data` is updated', () => {
@@ -538,27 +556,6 @@ describe('CheckPicker', () => {
       });
 
       expect(screen.queryByRole('listbox')).not.to.exist;
-    });
-  });
-
-  describe('Plain text', () => {
-    it("Should render selected options' labels (comma-separated) and selected options count", () => {
-      render(
-        <div data-testid="content">
-          <CheckPicker data={data} value={['Eugenia', 'Kariane']} plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Eugenia,Kariane2');
-    });
-    it('Should render "Not selected" if value is empty', () => {
-      render(
-        <div data-testid="content">
-          <CheckPicker data={data} value={[]} plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Not selected');
     });
   });
 

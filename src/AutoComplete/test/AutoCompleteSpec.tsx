@@ -1,14 +1,24 @@
 import React from 'react';
 import AutoComplete from '../AutoComplete';
-import { getInstance } from '@test/testUtils';
-import { testStandardProps } from '@test/commonCases';
+import {
+  getInstance,
+  testStandardProps,
+  testControlledUnControlled,
+  testFormControl
+} from '@test/utils';
 import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
 
 const data = ['item1', 'item2'];
 
 describe('AutoComplete', () => {
-  testStandardProps(<AutoComplete data={data} />);
+  testStandardProps(<AutoComplete data={data} />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    getUIElement: () => screen.getByRole('textbox')
+  });
+
+  testControlledUnControlled(AutoComplete);
+  testFormControl(AutoComplete);
 
   it('Should render input', () => {
     render(<AutoComplete data={data} />);
@@ -24,17 +34,6 @@ describe('AutoComplete', () => {
   it('Should be a `top-end` for placement', () => {
     const instance = getInstance(<AutoComplete data={data} open placement="topEnd" />);
     expect(instance.overlay.className).to.contain('placement-top-end');
-  });
-
-  it('Should be disabled', () => {
-    render(<AutoComplete data={data} disabled data-testid="autocomplete" />);
-    expect(screen.getByTestId('autocomplete')).to.have.class('rs-auto-complete-disabled');
-  });
-
-  it('Should be readOnly', () => {
-    render(<AutoComplete data={data} readOnly />);
-
-    expect(screen.getByRole('textbox')).to.have.attr('readonly');
   });
 
   it('Should call onSelect callback with correct args', () => {
@@ -260,43 +259,5 @@ describe('AutoComplete', () => {
     expect(screen.getByTestId('test')).to.have.attribute('data-id', '1');
     // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByTestId('test').querySelector('input')).to.have.attribute('name', 'username');
-  });
-
-  it('Should apply size class', () => {
-    render(<AutoComplete size="lg" data={[]} data-testid="test" />);
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.getByTestId('test').querySelector('input')).to.have.class('rs-input-lg');
-  });
-
-  describe('Plain text', () => {
-    it('Should render input value', () => {
-      render(
-        <div data-testid="content">
-          <AutoComplete value="Haha" data={[]} plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Haha');
-    });
-
-    it('Should render input default value', () => {
-      render(
-        <div data-testid="content">
-          <AutoComplete defaultValue="Haha" data={[]} plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Haha');
-    });
-
-    it('Should render "Unfilled" if value is empty', () => {
-      render(
-        <div data-testid="content">
-          <AutoComplete value="" data={[]} plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Unfilled');
-    });
   });
 });

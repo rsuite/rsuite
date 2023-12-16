@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, waitFor, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
 import { parseISO } from '../../utils/dateUtils';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import Calendar from '../Calendar';
 
 describe('Calendar', () => {

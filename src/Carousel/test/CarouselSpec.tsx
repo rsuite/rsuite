@@ -2,7 +2,7 @@ import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { render, screen, act, waitFor, fireEvent } from '@testing-library/react';
-import { testStandardProps } from '@test/commonCases';
+import { testStandardProps } from '@test/utils';
 import Carousel from '../Carousel';
 
 describe('Carousel', () => {

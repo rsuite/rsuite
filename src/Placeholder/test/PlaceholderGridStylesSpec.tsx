@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import PlaceholderGrid from '../PlaceholderGrid';
-import { getDOMNode, getStyle, inChrome } from '@test/testUtils';
+import { getDOMNode, getStyle, inChrome } from '@test/utils';
 
 import '../styles/index.less';
 
