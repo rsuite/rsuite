@@ -1,29 +1,27 @@
 import React from 'react';
-import { getDOMNode } from '@test/testUtils';
+import { render, screen } from '@testing-library/react';
 import ModalBody from '../ModalBody';
 
+const modalBodyText = 'Test';
 describe('ModalBody', () => {
   it('Should render a modal body', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<ModalBody>{title}</ModalBody>);
-
-    assert.equal(instance.className, 'rs-modal-body');
-    assert.equal(instance.innerHTML, title);
+    render(<ModalBody>{modalBodyText}</ModalBody>);
+    expect(screen.getByText(modalBodyText)).to.have.class('rs-modal-body');
   });
 
   it('Should have a custom className', () => {
-    const instance = getDOMNode(<ModalBody className="custom" />);
-    assert.include(instance.className, 'custom');
+    render(<ModalBody className="custom">{modalBodyText}</ModalBody>);
+    expect(screen.getByText(modalBodyText)).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
     const fontSize = '12px';
-    const instance = getDOMNode(<ModalBody style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
+    render(<ModalBody style={{ fontSize }}>{modalBodyText}</ModalBody>);
+    expect(screen.getByText(modalBodyText)).to.have.style('font-size', fontSize);
   });
 
   it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<ModalBody classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    render(<ModalBody classPrefix="custom-prefix">{modalBodyText}</ModalBody>);
+    expect(screen.getByText(modalBodyText).className).to.match(/\bcustom-prefix\b/);
   });
 });
