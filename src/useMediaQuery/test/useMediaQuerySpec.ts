@@ -37,8 +37,10 @@ describe('useMediaQuery', () => {
     expect(result.current).to.be.deep.equal([true]);
 
     act(() => window.resizeTo(399, 1000));
-
     expect(result.current).to.be.deep.equal([false]);
+
+    act(() => window.resizeTo(410, 1000));
+    expect(result.current).to.be.deep.equal([true]);
   });
 
   it('Should match the breakpoint correctly with mediaQuerySizeMap.xs', () => {
