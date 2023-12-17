@@ -7,7 +7,8 @@ import {
   getInstance,
   testStandardProps,
   testControlledUnControlled,
-  testFormControl
+  testFormControl,
+  testPickers
 } from '@test/utils';
 import { PickerHandle } from '../../Picker';
 import '../styles/index.less';
@@ -45,7 +46,7 @@ describe('Cascader', () => {
       return screen.getByRole('combobox');
     }
   });
-
+  testPickers(Cascader);
   testControlledUnControlled(Cascader, {
     componentProps: { data: items, defaultOpen: true },
     value: '1',
@@ -726,32 +727,6 @@ describe('Cascader', () => {
       userEvent.type(screen.getByRole('combobox'), '{enter}');
 
       expect(screen.getByRole('combobox')).to.have.text('Select');
-    });
-  });
-
-  describe('Loading state', () => {
-    it('Should display a spinner when loading=true', () => {
-      render(<Cascader data={items} loading />);
-
-      expect(screen.getByTestId('spinner')).to.exist;
-    });
-
-    it('Should not open menu on click when loading=true', () => {
-      render(<Cascader data={items} loading />);
-
-      fireEvent.click(screen.getByRole('combobox'));
-
-      expect(screen.queryByRole('tree')).not.to.exist;
-    });
-
-    it('Should not open menu on Enter key when loading=true', () => {
-      render(<Cascader data={items} loading />);
-
-      fireEvent.keyDown(screen.getByRole('combobox'), {
-        key: 'Enter'
-      });
-
-      expect(screen.queryByRole('tree')).not.to.exist;
     });
   });
 });

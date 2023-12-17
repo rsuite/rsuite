@@ -4,7 +4,8 @@ import {
   getInstance,
   testStandardProps,
   testFormControl,
-  testControlledUnControlled
+  testControlledUnControlled,
+  testPickers
 } from '@test/utils';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
@@ -48,7 +49,7 @@ describe('DateRangePicker', () => {
       return screen.getByRole('combobox');
     }
   });
-
+  testPickers(DateRangePicker);
   testControlledUnControlled(DateRangePicker, {
     defaultValue: [new Date('2023-11-01'), new Date('2023-11-02')],
     value: [new Date('2023-11-03'), new Date('2023-11-04')],
@@ -1221,32 +1222,6 @@ describe('DateRangePicker', () => {
     await waitFor(() => {
       expect(onChangeSpy).to.calledOnce;
       expect(onChangeSpy.firstCall.firstArg).to.equal(null);
-    });
-  });
-
-  describe('Loading state', () => {
-    it('Should display a spinner when loading=true', () => {
-      render(<DateRangePicker loading />);
-
-      expect(screen.getByTestId('spinner')).to.exist;
-    });
-
-    it('Should not open menu on click when loading=true', () => {
-      render(<DateRangePicker loading />);
-
-      fireEvent.click(screen.getByRole('combobox'));
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
-    });
-
-    it('Should not open menu on Enter key when loading=true', () => {
-      render(<DateRangePicker loading />);
-
-      fireEvent.keyDown(screen.getByRole('combobox'), {
-        key: 'Enter'
-      });
-
-      expect(screen.queryByRole('listbox')).not.to.exist;
     });
   });
 });
