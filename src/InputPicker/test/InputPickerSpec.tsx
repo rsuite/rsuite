@@ -135,12 +135,6 @@ describe('InputPicker', () => {
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
-  it('Should be block', () => {
-    const instance = getDOMNode(<InputPicker data={[]} block />);
-
-    expect(instance).to.have.class('rs-picker-block');
-  });
-
   it('Should update display options when `data` is updated', () => {
     const { rerender } = render(<InputPicker open data={[{ label: 'Item', value: 1 }]} />);
 

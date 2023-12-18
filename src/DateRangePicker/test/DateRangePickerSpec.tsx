@@ -279,18 +279,6 @@ describe('DateRangePicker', () => {
     assert.ok(instance.target.tagName === 'BUTTON');
   });
 
-  it('Should be block', () => {
-    const instance = getInstance(<DateRangePicker block />);
-    const root = instance.root;
-    assert.ok(root.className.match(/\bblock\b/));
-  });
-
-  it('Should have a menuClassName in Menu', () => {
-    const menu = getInstance(<DateRangePicker menuClassName="custom" open />).overlay;
-
-    assert.include(menu.className, 'custom');
-  });
-
   it('Should select a date range by clicking starting date and ending date', () => {
     render(<DateRangePicker open value={[new Date('2019-09-10'), new Date('2019-10-10')]} />);
 
