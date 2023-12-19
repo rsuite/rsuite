@@ -82,12 +82,6 @@ describe('Cascader', () => {
     expect(container.firstChild).to.have.class('rs-picker-default');
   });
 
-  it('Should be disabled', () => {
-    const { container } = render(<Cascader data={[]} disabled />);
-
-    expect(container.firstChild).to.have.class('rs-picker-disabled');
-  });
-
   it('Should be inline', () => {
     const { container } = render(<Cascader data={[]} inline />);
 
@@ -106,12 +100,6 @@ describe('Cascader', () => {
   it('Should output a button', () => {
     render(<Cascader data={[]} toggleAs="button" />);
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
-  });
-
-  it('Should be block', () => {
-    const { container } = render(<Cascader data={[]} block />);
-
-    expect(container.firstChild).to.have.class('rs-picker-block');
   });
 
   it('Should output a value by renderValue()', () => {

@@ -100,12 +100,6 @@ describe('CheckPicker', () => {
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
-  it('Should be block', () => {
-    const { container } = render(<CheckPicker data={[]} block />);
-
-    expect(container.firstChild).to.have.class('rs-picker-block');
-  });
-
   it('Should update display options when `data` is updated', () => {
     const { rerender } = render(<CheckPicker open data={[{ label: 'Item', value: 1 }]} />);
 

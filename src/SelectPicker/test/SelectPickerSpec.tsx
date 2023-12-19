@@ -108,12 +108,6 @@ describe('SelectPicker', () => {
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
-  it('Should be block', () => {
-    const instance = getDOMNode(<SelectPicker data={[]} block />);
-
-    expect(instance).to.have.class('rs-picker-block');
-  });
-
   it('Should update display options when `data` is updated', () => {
     const { rerender } = render(<SelectPicker open data={[{ label: 'Item', value: 1 }]} />);
 

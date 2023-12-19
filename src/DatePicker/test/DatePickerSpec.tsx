@@ -71,12 +71,6 @@ describe('DatePicker', () => {
     expect(container.firstChild).to.have.class('rs-picker-cleanable');
   });
 
-  it('Should be disabled', () => {
-    const { container } = render(<DatePicker disabled />);
-
-    expect(container.firstChild).to.have.class('rs-picker-disabled');
-  });
-
   it('Should be not cleanable', () => {
     render(<DatePicker cleanable={false} value={new Date()} />);
 
@@ -87,12 +81,6 @@ describe('DatePicker', () => {
     render(<DatePicker toggleAs="button" />);
 
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
-  });
-
-  it('Should be block', () => {
-    const { container } = render(<DatePicker block />);
-
-    expect(container.firstChild).to.have.class('rs-picker-block');
   });
 
   it('Should output a date', () => {

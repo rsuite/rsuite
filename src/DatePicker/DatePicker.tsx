@@ -223,6 +223,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       limitStartYear,
       locale: overrideLocale,
       menuClassName,
+      menuStyle,
       appearance = 'default',
       placement = 'bottomStart',
       oneTap,
@@ -736,10 +737,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       ranges?.filter(range => range?.placement === 'bottom' || range?.placement === undefined) ||
       [];
 
-    const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+    const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
       const classes = merge(menuClassName, className, prefix('date-menu'));
-      const styles = { left, top };
+      const styles = { ...menuStyle, left, top };
       return (
         <PickerOverlay
           role="dialog"
@@ -827,7 +828,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         onClose={handleTriggerClose}
         onEntered={createChainedFunction(handleEntered, onEntered)}
         onExited={createChainedFunction(handleExited, onExited)}
-        speaker={renderDropdownMenu}
+        speaker={renderCalendarOverlay}
       >
         <Component className={merge(className, classes)} style={style} ref={rootRef}>
           <PickerToggle
