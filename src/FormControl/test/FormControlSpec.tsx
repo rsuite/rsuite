@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
 import { render, fireEvent, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/utils';
@@ -37,7 +36,10 @@ describe('FormControl', () => {
       </Form>
     );
 
-    ReactTestUtils.Simulate.change(screen.getByRole('textbox'));
+    fireEvent.change(screen.getByRole('textbox'), {
+      target: { value: '1' }
+    });
+
     expect(onChange).to.have.been.calledOnce;
   });
 
@@ -53,7 +55,8 @@ describe('FormControl', () => {
 
   it('Should be readOnly on accepter', () => {
     const Input = sinon.spy(props => <input {...props} />);
-    getDOMNode(
+
+    render(
       <Form readOnly>
         <FormControl name="username" accepter={Input} />
       </Form>
@@ -64,14 +67,13 @@ describe('FormControl', () => {
 
   it('Should call onBlur callback', () => {
     const onBlur = sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Form>
         <FormControl name="username" onBlur={onBlur} />
       </Form>
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    ReactTestUtils.Simulate.blur(instance.querySelector('input') as HTMLInputElement);
+    fireEvent.blur(screen.getByRole('textbox'));
 
     expect(onBlur).to.have.been.calledOnce;
   });
@@ -79,23 +81,21 @@ describe('FormControl', () => {
   it('Should apply custom className to accepter component', () => {
     render(
       <Form>
-        <FormControl className="custom" name="username" data-testid="input" />
+        <FormControl className="custom" name="username" />
       </Form>
     );
 
-    expect(screen.getByTestId('input')).to.have.class('custom');
+    expect(screen.getByRole('textbox')).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(
+    render(
       <Form>
-        <FormControl style={{ fontSize }} name="username" />
+        <FormControl style={{ fontSize: 12 }} name="username" />
       </Form>
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal((instance.querySelector('input') as HTMLInputElement).style.fontSize, fontSize);
+    expect(screen.getByRole('textbox')).to.have.style('font-size', '12px');
   });
 
   it('Should have a custom className prefix', () => {
@@ -174,7 +174,7 @@ describe('FormControl', () => {
   });
 
   it('Should render correctly when form error was null', () => {
-    const instance = getDOMNode(
+    render(
       // FIXME `formError` prop does not support `null` value
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
@@ -182,30 +182,28 @@ describe('FormControl', () => {
         <FormControl name="name" />
       </Form>
     );
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.ok(!instance.querySelector('.rs-form-control-message-wrapper'));
+
+    expect(screen.queryByRole('alert')).to.not.exist;
   });
 
   it('Should render correctly when errorMessage was null', () => {
-    const instance = getDOMNode(
+    render(
       <Form formError={{ username: 'error' }}>
         <FormControl errorMessage={null} name="username" />
       </Form>
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.ok(!instance.querySelector('.rs-form-control-message-wrapper'));
+    expect(screen.queryByRole('alert')).to.not.exist;
   });
 
   it('Should render correctly when errorMessage was null 2', () => {
-    const instance = getDOMNode(
+    render(
       <Form formError={{ username: 'error' }} errorFromContext={false}>
         <FormControl name="username" />
       </Form>
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.ok(!instance.querySelector('.rs-form-control-message-wrapper'));
+    expect(screen.queryByRole('alert')).to.not.exist;
   });
 
   it('Should the priority of errorMessage be higher than formError', () => {
@@ -309,21 +307,22 @@ describe('FormControl', () => {
   describe('rule', () => {
     it("should check the field's rule", () => {
       const formRef = React.createRef<FormInstance>();
-      const handleError = sinon.spy();
+      const onError = sinon.spy();
 
       render(
-        <Form ref={formRef} onError={handleError}>
+        <Form ref={formRef} onError={onError}>
           <FormControl name="items" rule={Schema.Types.StringType().isRequired('require')} />
         </Form>
       );
       (formRef.current as FormInstance).check();
-      assert.equal(handleError.callCount, 1);
-      assert.deepEqual(handleError.firstCall.firstArg, { items: 'require' });
+
+      expect(onError).to.be.calledOnce;
+      expect(onError).to.be.calledWithMatch({ items: 'require' });
     });
 
     it('Should not validate fields unmounted with rule', () => {
       const formRef = React.createRef<FormInstance>();
-      const handleError = sinon.spy();
+      const onError = sinon.spy();
 
       function Wrapper() {
         const [show, setShow] = useState(true);
@@ -337,7 +336,7 @@ describe('FormControl', () => {
             >
               hidden
             </button>
-            <Form ref={formRef} onError={handleError}>
+            <Form ref={formRef} onError={onError}>
               <FormControl name="user" rule={Schema.Types.StringType().isRequired('require')} />
               {show && (
                 <FormControl
@@ -352,18 +351,21 @@ describe('FormControl', () => {
       render(<Wrapper />);
 
       (formRef.current as FormInstance).check();
-      assert.equal(handleError.callCount, 1);
-      assert.deepEqual(handleError.firstCall.firstArg, { user: 'require', password: 'require' });
+
+      expect(onError).to.be.calledOnce;
+      expect(onError).to.be.calledWithMatch({ user: 'require', password: 'require' });
 
       fireEvent.click(screen.getByTestId('button'));
+
       (formRef.current as FormInstance).check();
-      assert.equal(handleError.callCount, 2);
-      assert.deepEqual(handleError.secondCall.firstArg, { user: 'require' });
+
+      expect(onError).to.be.calledTwice;
+      expect(onError).to.be.calledWithMatch({ user: 'require' });
     });
 
     it("Should validate accurately,when field's rule is dynamic", () => {
       const formRef = React.createRef<FormInstance>();
-      const handleError = sinon.spy();
+      const onError = sinon.spy();
 
       function Wrapper() {
         const [rule, setRule] = useState(Schema.Types.StringType().isRequired('require'));
@@ -377,7 +379,7 @@ describe('FormControl', () => {
             >
               setRule
             </button>
-            <Form ref={formRef} onError={handleError}>
+            <Form ref={formRef} onError={onError}>
               <FormControl name="user" rule={rule} />
             </Form>
           </>
@@ -387,25 +389,27 @@ describe('FormControl', () => {
       render(<Wrapper />);
 
       (formRef.current as FormInstance).check();
-      assert.equal(handleError.callCount, 1);
-      assert.deepEqual(handleError.firstCall.firstArg, { user: 'require' });
+
+      expect(onError).to.be.calledOnce;
+      expect(onError).to.be.calledWithMatch({ user: 'require' });
 
       fireEvent.click(screen.getByTestId('button'));
       (formRef.current as FormInstance).check();
-      assert.equal(handleError.callCount, 2);
-      assert.deepEqual(handleError.secondCall.firstArg, { user: 'second require' });
+
+      expect(onError).to.be.calledTwice;
+      expect(onError).to.be.calledWithMatch({ user: 'second require' });
     });
 
     it("Should use the field's rule when both model and field have same name rule", () => {
       const formRef = React.createRef<FormInstance>();
-      const handleError = sinon.spy();
+      const onError = sinon.spy();
 
       function Wrapper() {
         const model = Schema.Model({
           user: Schema.Types.StringType().isRequired('form require')
         });
         return (
-          <Form ref={formRef} model={model} onError={handleError}>
+          <Form ref={formRef} model={model} onError={onError}>
             <FormControl name="user" rule={Schema.Types.StringType().isRequired('field require')} />
           </Form>
         );
@@ -413,8 +417,9 @@ describe('FormControl', () => {
       render(<Wrapper />);
 
       (formRef.current as FormInstance).check();
-      assert.equal(handleError.callCount, 1);
-      assert.equal(handleError.firstCall.firstArg.user, 'field require');
+
+      expect(onError).to.be.calledOnce;
+      expect(onError).to.be.calledWithMatch({ user: 'field require' });
     });
   });
 
@@ -444,7 +449,7 @@ describe('FormControl', () => {
         </Form>
       );
 
-      expect(screen.getByRole('switch')).not.to.be.checked;
+      expect(screen.getByRole('switch')).to.not.be.checked;
     });
   });
 });

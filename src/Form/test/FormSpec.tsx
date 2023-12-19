@@ -95,7 +95,8 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    assert.equal(instance.check(), false);
+
+    expect(instance.check()).to.be.false;
   });
 
   it('Should be `false` for check status by checkForField', () => {
@@ -114,10 +115,13 @@ describe('Form', () => {
       </Form>
     );
     const checkStatus = instance.checkForField('name', checkResult => {
-      assert.equal(checkResult.hasError, true);
-      assert.equal(checkResult.errorMessage, checkEmail);
+      expect(checkResult).to.be.deep.equal({
+        hasError: true,
+        errorMessage: checkEmail
+      });
     });
-    assert.equal(checkStatus, false);
+
+    expect(checkStatus).to.be.false;
   });
 
   it('Should be `true` for check status', () => {
@@ -129,7 +133,7 @@ describe('Form', () => {
         <FormControl name="name" />
       </Form>
     );
-    assert.equal(instance.check(), true);
+    expect(instance.check()).to.be.true;
   });
 
   it('Should be `true` for check status by checkForField', () => {
@@ -142,9 +146,12 @@ describe('Form', () => {
       </Form>
     );
     const checkStatus = instance.checkForField('name', checkResult => {
-      assert.equal(checkResult.hasError, false);
+      expect(checkResult).to.be.deep.equal({
+        hasError: false
+      });
     });
-    assert.equal(checkStatus, true);
+
+    expect(checkStatus).to.be.true;
   });
 
   it('Should be {} for formError when call cleanErrors', () => {
@@ -159,7 +166,7 @@ describe('Form', () => {
     );
     instance.check();
     instance.cleanErrors(() => {
-      assert.equal(Object.keys(instance.state.formError).length, 0);
+      expect(instance.state.formError).to.be.deep.equal({});
     });
   });
 
@@ -181,8 +188,7 @@ describe('Form', () => {
     );
     instance.check();
     instance.cleanErrorForField('n2', () => {
-      assert.equal(instance.state.formError.n1, 'error');
-      assert.equal(instance.state.formError.n2, undefined);
+      expect(instance.state.formError).to.be.deep.equal({ n1: 'error' });
     });
   });
 
@@ -196,7 +202,7 @@ describe('Form', () => {
       </Form>
     );
     instance.resetErrors({ name: 'error' }, () => {
-      assert.equal(instance.state.formError.name, 'error');
+      expect(instance.state.formError).to.be.deep.equal({ name: 'error' });
     });
   });
 

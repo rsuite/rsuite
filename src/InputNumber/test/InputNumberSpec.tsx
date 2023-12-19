@@ -33,6 +33,7 @@ describe('InputNumber', () => {
   });
 
   testFormControl(InputNumber, {
+    value: 1,
     getUIElement: () => screen.getByRole('spinbutton')
   });
 
