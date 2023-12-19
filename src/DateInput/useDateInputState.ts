@@ -125,10 +125,14 @@ function useDateInputState({ formatStr, localize, date, isControlledDate }: Date
   }, [date, formatStr, toDateString]);
 
   useEffect(() => {
-    if (date && isValid(date)) {
-      dispatch({ type: 'setNewDate', value: date });
+    if (isControlledDate) {
+      if (date && isValid(date)) {
+        dispatch({ type: 'setNewDate', value: date });
+      } else if (date === null) {
+        dispatch({ type: 'setNewDate', value: null });
+      }
     }
-  }, [date, dispatch]);
+  }, [date, dispatch, isControlledDate]);
 
   return {
     dateField,
