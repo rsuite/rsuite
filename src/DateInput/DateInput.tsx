@@ -1,6 +1,12 @@
 import React, { useState, useCallback, useRef, useMemo } from 'react';
 import Input, { InputProps } from '../Input';
-import { mergeRefs, useCustom, useControlled, safeSetSelection } from '../utils';
+import {
+  mergeRefs,
+  useCustom,
+  useControlled,
+  safeSetSelection,
+  createChainedFunction
+} from '../utils';
 import { FormControlBaseProps } from '../@types/common';
 import { getInputSelectedState, validateDateTime, getPatternGroups } from './utils';
 import useDateInputState from './useDateInputState';
@@ -16,6 +22,11 @@ export interface DateInputProps
    * @default 'yyyy-MM-dd'
    **/
   format?: string;
+
+  /**
+   * The `placeholder` prop defines the text displayed in a form control when the control has no value.
+   */
+  placeholder?: string;
 }
 
 /**
@@ -28,8 +39,11 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     format: formatStr = 'yyyy-MM-dd',
     value: valueProp,
     defaultValue,
+    placeholder,
     onChange,
     onKeyDown,
+    onBlur,
+    onFocus,
     ...rest
   } = props;
 
@@ -48,12 +62,14 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
   const { locale } = useCustom('Calendar');
   const localize = locale.dateLocale.localize;
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
-  const { dateField, setDateOffset, setDateField, getDateField, toDateString } = useDateInputState({
-    formatStr,
-    localize,
-    date: value,
-    isControlledDate: isControlled
-  });
+  const [focused, setFocused] = useState(false);
+  const { dateField, setDateOffset, setDateField, getDateField, toDateString, isEmptyValue } =
+    useDateInputState({
+      formatStr,
+      localize,
+      date: value,
+      isControlledDate: isControlled
+    });
 
   const dateString = toDateString();
   const keyPressOptions = useMemo(
@@ -81,9 +97,9 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
   );
 
   const handleChange = useCallback(
-    (value: Date, event: React.SyntheticEvent<HTMLInputElement>) => {
-      setValue(value);
+    (value: Date | null, event: React.SyntheticEvent<HTMLInputElement>) => {
       onChange?.(value, event);
+      setValue(value);
     },
     [onChange, setValue]
   );
@@ -243,6 +259,14 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     [keyPressOptions, setSelectionRange]
   );
 
+  const renderedValue = useMemo(() => {
+    if (!isEmptyValue()) {
+      return dateString;
+    }
+
+    return !focused ? '' : dateString;
+  }, [dateString, focused, isEmptyValue]);
+
   return (
     <Input
       inputMode="text"
@@ -252,7 +276,16 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       ref={mergeRefs(inputRef, ref)}
       onKeyDown={handleKeyDown}
       onClick={handleClick}
-      value={dateString}
+      value={renderedValue}
+      placeholder={placeholder || formatStr}
+      onFocus={createChainedFunction(
+        onFocus,
+        useCallback(() => setFocused(true), [])
+      )}
+      onBlur={createChainedFunction(
+        onBlur,
+        useCallback(() => setFocused(false), [])
+      )}
       {...rest}
     />
   );

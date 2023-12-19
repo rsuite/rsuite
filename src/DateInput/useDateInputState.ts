@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import startCase from 'lodash/startCase';
 import {
   addDays,
@@ -9,7 +9,8 @@ import {
   addSeconds,
   format,
   isLastDayOfMonth,
-  lastDayOfMonth
+  lastDayOfMonth,
+  isValid
 } from '../utils/dateUtils';
 import { useDateField, patternMap } from './DateField';
 import type { Locale } from 'date-fns';
@@ -22,10 +23,14 @@ interface DateInputState {
 }
 
 function useDateInputState({ formatStr, localize, date, isControlledDate }: DateInputState) {
-  const { dateField, dispatch, toDateString, toDate } = useDateField(formatStr, localize, date);
+  const { dateField, dispatch, toDateString, toDate, isEmptyValue } = useDateField(
+    formatStr,
+    localize,
+    date
+  );
 
   const setDateOffset = useCallback(
-    (pattern: string, offset: number, callback?: (newDate: Date) => void) => {
+    (pattern: string, offset: number, callback?: (newDate: Date | null) => void) => {
       const currentDate = new Date();
       const year = dateField.year || currentDate.getFullYear();
       const month = dateField.month ? dateField.month - 1 : currentDate.getMonth();
@@ -72,8 +77,8 @@ function useDateInputState({ formatStr, localize, date, isControlledDate }: Date
           value = addSeconds(new Date(year, month, day, hour, minute, second), offset).getSeconds();
           break;
         case 'a':
-          actionName = 'setMeridian';
-          value = dateField.meridian === 'AM' ? 'PM' : 'AM';
+          actionName = 'setHour';
+          value = hour >= 12 ? hour - 12 : hour + 12;
           break;
       }
 
@@ -89,7 +94,7 @@ function useDateInputState({ formatStr, localize, date, isControlledDate }: Date
   );
 
   const setDateField = useCallback(
-    (pattern: string, value: number | null, callback?: (newDate: Date) => void) => {
+    (pattern: string, value: number | null, callback?: (newDate: Date | null) => void) => {
       const field = patternMap[pattern];
       const actionName = `set${startCase(field)}`;
 
@@ -112,15 +117,26 @@ function useDateInputState({ formatStr, localize, date, isControlledDate }: Date
   );
 
   const toControlledDateString = useCallback(() => {
-    return format(date || new Date(), formatStr);
-  }, [date, formatStr]);
+    if (date && isValid(date)) {
+      return format(date, formatStr);
+    }
+    // if date is not valid, return uncontrolled date string
+    return toDateString();
+  }, [date, formatStr, toDateString]);
+
+  useEffect(() => {
+    if (date && isValid(date)) {
+      dispatch({ type: 'setNewDate', value: date });
+    }
+  }, [date, dispatch]);
 
   return {
     dateField,
     setDateOffset,
     setDateField,
     getDateField,
-    toDateString: isControlledDate ? toControlledDateString : toDateString
+    toDateString: isControlledDate ? toControlledDateString : toDateString,
+    isEmptyValue
   };
 }
 
