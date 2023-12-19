@@ -1,7 +1,7 @@
 import { useContext, useCallback } from 'react';
 import defaultLocale from '../locales/default';
 import { CustomContext, CustomValue } from '../CustomProvider/CustomProvider';
-import { format, parse } from '../utils/dateUtils';
+import { format, parse, isValid } from '../utils/dateUtils';
 
 const mergeObject = (list: any[]) =>
   list.reduce((a, b) => {
@@ -44,7 +44,7 @@ function useCustom<T = any>(keys?: string | string[], overrideLocale?): CustomVa
 
   const defaultFormatDate = useCallback(
     (date: number | Date, formatStr: string) =>
-      format(date, formatStr, {
+      format(isValid(date) ? date : new Date(), formatStr, {
         locale: locale?.Calendar?.dateLocale
       }),
     [locale.Calendar?.dateLocale]

@@ -26,10 +26,13 @@ describe('DatePicker', () => {
   testStandardProps(<DatePicker />, {
     sizes: ['lg', 'md', 'sm', 'xs'],
     getUIElement: () => {
-      return screen.getByRole('combobox');
+      // eslint-disable-next-line testing-library/no-node-access
+      return screen.getByRole('textbox').parentElement as HTMLElement;
     }
   });
+
   testPickers(DatePicker);
+
   testControlledUnControlled(DatePicker, {
     defaultValue: new Date('2023-10-01'),
     value: new Date('2023-10-01'),
@@ -43,13 +46,13 @@ describe('DatePicker', () => {
       }
     },
     expectedValue: (value: Date) => {
-      expect(screen.getByTestId('picker-toggle-input')).to.value(format(value, 'yyyy-MM-dd'));
+      expect(screen.getByRole('textbox')).to.value(format(value, 'yyyy-MM-dd'));
     }
   });
 
   testFormControl(DatePicker, {
     value: new Date('2023-10-01'),
-    getUIElement: () => screen.getByRole('combobox')
+    getUIElement: () => screen.getByRole('textbox')
   });
 
   it('Should render a div with "rs-picker-date" class', () => {
@@ -83,12 +86,6 @@ describe('DatePicker', () => {
     expect(screen.queryByRole('button', { name: /clear/i })).to.not.exist;
   });
 
-  it('Should output a button', () => {
-    render(<DatePicker toggleAs="button" />);
-
-    expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
-  });
-
   it('Should be block', () => {
     const { container } = render(<DatePicker block />);
 
@@ -98,26 +95,7 @@ describe('DatePicker', () => {
   it('Should output a date', () => {
     render(<DatePicker defaultValue={parseISO('2017-08-14')} />);
 
-    expect(screen.getByRole('combobox')).to.have.text('2017-08-14');
-  });
-
-  it('Should output custom value', () => {
-    render(
-      <DatePicker
-        value={parseISO('2017-08-14')}
-        renderValue={value => {
-          return format(value, 'MM/dd/yyyy');
-        }}
-      />
-    );
-
-    expect(screen.getByRole('combobox')).to.have.text('08/14/2017');
-  });
-
-  it('Should output a date', () => {
-    render(<DatePicker value={parseISO('2017-08-14')} />);
-
-    expect(screen.getByRole('combobox')).to.have.text('2017-08-14');
+    expect(screen.getByRole('textbox')).to.have.value('2017-08-14');
   });
 
   it('Should open a dialog containing grid view of dates in a month', () => {

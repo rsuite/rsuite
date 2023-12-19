@@ -14,7 +14,8 @@ import {
   shouldRenderMonth,
   isSameMonth,
   calendarOnlyProps,
-  omitHideDisabledProps
+  omitHideDisabledProps,
+  isValid
 } from '../utils/dateUtils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { CalendarLocale } from '../locales';
@@ -135,7 +136,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       onToggleMeridian,
       onToggleMonthDropdown,
       onToggleTimeDropdown,
-      calendarDate,
+      calendarDate: calendarDateProp,
       cellClassName,
       renderCell,
       renderTitle,
@@ -148,6 +149,10 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const { calendarState, reset, openMonth, openTime } = useCalendarState(defaultState);
+
+    const calendarDate = useMemo(() => {
+      return isValid(calendarDateProp) ? calendarDateProp : new Date();
+    }, [calendarDateProp]);
 
     const isDisabledDate = useCallback(
       (date: Date) => disabledDate?.(date) ?? false,

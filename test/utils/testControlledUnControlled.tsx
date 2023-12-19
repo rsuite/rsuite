@@ -3,6 +3,13 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Sinon from 'sinon';
 
+interface ChangeEvent {
+  change: () => void;
+  value: any;
+  callCount?: number;
+  expectedValue?: (value: any) => void;
+}
+
 interface TestControlledUnControlledOptions {
   /**
    * The component props.
@@ -27,9 +34,14 @@ interface TestControlledUnControlledOptions {
   /**
    * Simulate event and return the changed value.
    */
-  simulateEvent: {
+  simulateEvent?: {
     changeValue: (prevValue: any) => { changedValue: any; callCount?: number };
-  };
+  } | null;
+
+  /**
+   * Simulate change events.
+   */
+  simulateChangeEvents?: ChangeEvent[];
 
   /**
    * The expected value when the component is not plaintext.
@@ -56,6 +68,7 @@ export function testControlledUnControlled(
     simulateEvent = {
       changeValue: defaultSimulateChangeEvent
     },
+    simulateChangeEvents = [],
     expectedValue = (value: string) => {
       expect(screen.getByRole('textbox')).to.value(value);
     },
@@ -109,46 +122,106 @@ export function testControlledUnControlled(
       expectedValue(defaultValue);
     });
 
-    it('Should be uncontrolled and render user-changed value', () => {
-      const onChange = Sinon.spy();
-      render(<TestComponent defaultValue={defaultValue} onChange={onChange} {...componentProps} />);
+    if (simulateEvent) {
+      it('Should be uncontrolled and render user-changed value', () => {
+        const onChange = Sinon.spy();
+        render(
+          <TestComponent defaultValue={defaultValue} onChange={onChange} {...componentProps} />
+        );
 
-      expectedValue(defaultValue);
+        expectedValue(defaultValue);
 
-      const { changedValue, callCount } = simulateEvent.changeValue(defaultValue);
+        const { changedValue, callCount } = simulateEvent.changeValue(defaultValue);
 
-      expectedValue(changedValue);
+        expectedValue(changedValue);
 
-      if (typeof callCount === 'number') {
-        expect(onChange).to.have.callCount(callCount);
-      }
+        if (typeof callCount === 'number') {
+          expect(onChange).to.have.callCount(callCount);
+        }
+      });
+    }
+
+    simulateChangeEvents.forEach(event => {
+      it('Should be uncontrolled and render user-changed value', () => {
+        const onChange = Sinon.spy();
+        render(
+          <TestComponent defaultValue={defaultValue} onChange={onChange} {...componentProps} />
+        );
+
+        expectedValue(defaultValue);
+
+        event.change();
+
+        if (event.expectedValue) {
+          event.expectedValue(event.value);
+        } else {
+          expectedValue(event.value);
+        }
+
+        if (event.callCount) {
+          expect(onChange).to.have.callCount(event.callCount);
+        }
+      });
     });
 
-    it('Should call `onChange` and render the updated value', () => {
-      const onChange = Sinon.spy();
-      const TestApp = () => {
-        const [controlledValue, setControlledValue] = React.useState(value);
-        const handleChange = (nextValue, event) => {
-          setControlledValue(nextValue);
-          onChange(nextValue, event);
+    if (simulateEvent) {
+      it('Should call `onChange` and render the updated value', () => {
+        const onChange = Sinon.spy();
+        const TestApp = () => {
+          const [controlledValue, setControlledValue] = React.useState(value);
+          const handleChange = (nextValue, event) => {
+            setControlledValue(nextValue);
+            onChange(nextValue, event);
+          };
+          return (
+            <TestComponent value={controlledValue} onChange={handleChange} {...componentProps} />
+          );
         };
-        return (
-          <TestComponent value={controlledValue} onChange={handleChange} {...componentProps} />
-        );
-      };
 
-      render(<TestApp />);
+        render(<TestApp />);
 
-      expectedValue(value);
+        expectedValue(value);
 
-      const { changedValue, callCount } = simulateEvent.changeValue(value);
+        const { changedValue, callCount } = simulateEvent.changeValue(value);
 
-      expectedValue(changedValue);
+        expectedValue(changedValue);
+        expect(onChange).to.have.been.calledWithMatch(changedValue);
+        if (typeof callCount === 'number') {
+          expect(onChange).to.have.callCount(callCount);
+        }
+      });
+    }
 
-      expect(onChange).to.have.been.calledWithMatch(changedValue);
-      if (typeof callCount === 'number') {
-        expect(onChange).to.have.callCount(callCount);
-      }
+    simulateChangeEvents.forEach(event => {
+      it('Should call `onChange` and render the updated value', () => {
+        const onChange = Sinon.spy();
+        const TestApp = () => {
+          const [controlledValue, setControlledValue] = React.useState(value);
+          const handleChange = (nextValue, event) => {
+            setControlledValue(nextValue);
+            onChange(nextValue, event);
+          };
+          return (
+            <TestComponent value={controlledValue} onChange={handleChange} {...componentProps} />
+          );
+        };
+
+        render(<TestApp />);
+
+        expectedValue(value);
+
+        event.change();
+
+        if (event.expectedValue) {
+          event.expectedValue(event.value);
+        } else {
+          expectedValue(event.value);
+        }
+
+        if (event.callCount) {
+          expect(onChange).to.have.callCount(event.callCount);
+        }
+      });
     });
   });
 }

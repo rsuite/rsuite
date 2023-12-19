@@ -70,43 +70,28 @@ function padNumber(number: number, length: number) {
 interface Action {
   type: string;
   value: any;
-  callback?: (dateFiled: DateField) => void;
 }
 
 export const useDateField = (format: string, localize: Locale['localize'], date?: Date | null) => {
   const [dateField, dispatch] = useReducer((state: DateField, action: Action) => {
-    const { type, value, callback } = action;
-    let newState = state;
-    switch (type) {
+    switch (action.type) {
       case 'setYear':
-        newState = { ...state, year: value };
-        break;
+        return { ...state, year: action.value };
       case 'setMonth':
-        newState = { ...state, month: value };
-        break;
+        return { ...state, month: action.value };
       case 'setDay':
-        newState = { ...state, day: value };
-        break;
+        return { ...state, day: action.value };
       case 'setHour':
-        newState = { ...state, hour: value };
-        break;
+        return { ...state, hour: action.value };
       case 'setMinute':
-        newState = { ...state, minute: value };
-        break;
+        return { ...state, minute: action.value };
       case 'setSecond':
-        newState = { ...state, second: value };
-        break;
+        return { ...state, second: action.value };
       case 'setNewDate':
-        newState = new DateField(format, value);
-        break;
+        return new DateField(format, action.value);
       default:
-        newState = state;
-        break;
+        return state;
     }
-
-    callback?.(newState);
-
-    return newState;
   }, new DateField(format, date));
 
   const toDateString = () => {

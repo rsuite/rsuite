@@ -2,9 +2,8 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
-import omit from 'lodash/omit';
 import delay from 'lodash/delay';
-import debounce from 'lodash/debounce';
+import omit from 'lodash/omit';
 import IconCalendar from '@rsuite/icons/legacy/Calendar';
 import IconClockO from '@rsuite/icons/legacy/ClockO';
 import CalendarContainer from '../Calendar/CalendarContainer';
@@ -36,10 +35,7 @@ import {
   setSeconds,
   getSeconds,
   isValid,
-  format,
-  getDateMask,
   disabledTime,
-  isMatch,
   calendarOnlyProps,
   CalendarOnlyPropsType
 } from '../utils/dateUtils';
@@ -47,29 +43,31 @@ import {
   PickerOverlay,
   OverlayTriggerHandle,
   pickerPropTypes,
-  PickerToggle,
   PickerToggleTrigger,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
   usePickerClassName,
   usePublicMethods,
-  useToggleKeyDownEvent,
   PickerToggleProps,
   onMenuKeyDown
 } from '../Picker';
-
+import DateInput from '../DateInput';
+import InputGroup from '../InputGroup';
+import CloseButton from '../CloseButton';
+import Loader from '../Loader';
 import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
 import { OverlayCloseCause } from '../Overlay/OverlayTrigger';
 import { deprecatePropTypeNew } from '../utils/deprecatePropType';
 import { getAriaLabel } from '../Calendar/utils';
+import { Icon } from '@rsuite/icons';
 
 export type { RangeType } from './Toolbar';
 
 export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
     FormControlBaseProps<Date | null>,
-    Pick<PickerToggleProps, 'caretAs' | 'readOnly' | 'plaintext' | 'loading'> {
+    Pick<PickerToggleProps, 'label' | 'caretAs' | 'readOnly' | 'plaintext' | 'loading'> {
   /** Predefined date Ranges */
   ranges?: RangeType<Date>[];
 
@@ -194,7 +192,11 @@ export interface DatePickerProps
   /** Called when clean */
   onClean?: (event: React.MouseEvent) => void;
 
-  /** Custom render value */
+  /**
+   * Custom render value
+   *
+   * @deprecated
+   */
   renderValue?: (value: Date, format: string) => string;
 }
 
@@ -216,12 +218,16 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       editable = true,
       defaultValue,
       disabled,
+      readOnly,
+      plaintext,
       // todo Not consistent with locale.formatDayPattern
       format: formatStr = 'yyyy-MM-dd',
       isoWeek,
       limitEndYear = 1000,
       limitStartYear,
       locale: overrideLocale,
+      loading,
+      label,
       menuClassName,
       appearance = 'default',
       placement = 'bottomStart',
@@ -232,7 +238,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       showMeridian,
       showWeekNumbers,
       style,
-      toggleAs,
       caretAs: caretAsProp,
       disabledDate: DEPRECATED_disabledDate,
       disabledHours: DEPRECATED_disabledHours,
@@ -242,10 +247,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       shouldDisableHour,
       shouldDisableMinute,
       shouldDisableSecond,
-      renderValue,
       onChange,
       onChangeCalendarDate,
-      onClean,
+      //onClean,
       onClose,
       onEntered,
       onExited,
@@ -260,10 +264,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       ...rest
     } = props;
 
-    const { locale, formatDate, parseDate } = useCustom<DatePickerLocale>(
-      'DatePicker',
-      overrideLocale
-    );
+    const { locale, formatDate } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
     const { merge, prefix } = useClassNames(classPrefix);
     const [value, setValue] = useControlled(valueProp, defaultValue);
     const { calendarDate, setCalendarDate, resetCalendarDate } = useCalendarDate(
@@ -278,8 +279,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const showMonth = onlyShowMonth || showMonthDropdown;
 
     const [inputState, setInputState] = useState<InputState>();
-
-    const [active, setActive] = useState<boolean>(false);
     const triggerRef = useRef<OverlayTriggerHandle>(null);
     const rootRef = useRef<HTMLDivElement>(null);
     const targetRef = useRef<HTMLButtonElement>(null);
@@ -449,28 +448,15 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     /**
      * Callback after clicking the clear button.
      */
+
     const handleClean = useCallback(
       (event: React.SyntheticEvent) => {
         updateValue(event, null);
         resetCalendarDate(null);
+        event.preventDefault();
+        event.stopPropagation();
       },
       [resetCalendarDate, updateValue]
-    );
-
-    const handlePickerToggleKeyDown = useCallback(
-      (event: React.KeyboardEvent) => {
-        const tagName = (event.target as HTMLElement)?.tagName;
-
-        if (tagName === 'INPUT') {
-          if (event.key === 'ArrowDown') {
-            event.preventDefault();
-            focusSelectedDate();
-          } else if (event.key === 'Enter') {
-            triggerRef.current?.open?.();
-          }
-        }
-      },
-      [focusSelectedDate]
     );
 
     const handlePickerOverlayKeyDown = useCallback(
@@ -519,18 +505,13 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [onToggleMonthDropdown]
     );
 
-    /**
-     * Handle keyboard events.
-     */
-    const onPickerKeyDown = useToggleKeyDownEvent({
-      triggerRef,
-      targetRef,
-      overlayRef,
-      active,
-      onExit: handleClean,
-      onKeyDown: handlePickerToggleKeyDown,
-      ...rest
-    });
+    const handleClick = useCallback(() => {
+      if (editable) {
+        return;
+      }
+
+      focusSelectedDate();
+    }, [editable, focusSelectedDate]);
 
     /**
      * Callback after the date is selected.
@@ -594,69 +575,25 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       (value, event) => {
         setInputState('Typing');
 
-        // isMatch('01/11/2020', 'MM/dd/yyyy') ==> true
-        // isMatch('2020-11-01', 'MM/dd/yyyy') ==> false
-        if (!isMatch(value, formatStr, { locale: locale.dateLocale })) {
+        if (!isValid(value)) {
           setInputState('Error');
-
-          return;
-        }
-
-        let date = parseDate(value, formatStr);
-
-        // If only the time is included in the characters, it will default to today.
-        if (shouldOnlyRenderTime(formatStr)) {
-          date = new Date(`${format(new Date(), 'yyyy-MM-dd')} ${value}`);
-        }
-
-        if (!isValid(date)) {
+        } else if (isDateDisabled(value)) {
           setInputState('Error');
-          return;
+        } else {
+          handleSelect(value, event);
         }
 
-        if (isDateDisabled(date)) {
-          setInputState('Error');
-          return;
-        }
-
-        handleSelect(date, event, false);
+        updateValue(event, value, false);
       },
-      [formatStr, locale, parseDate, isDateDisabled, handleSelect]
-    );
-
-    /**
-     * The callback after the enter key is triggered on the input
-     */
-    const handleInputPressEnd = useCallback(
-      event => {
-        if (inputState === 'Typing') {
-          updateValue(event, calendarDate);
-        }
-        setInputState('Initial');
-      },
-      [inputState, calendarDate, updateValue]
-    );
-
-    const handleInputBackspace = useCallback(
-      (event: React.KeyboardEvent<HTMLInputElement>) => {
-        const value = (event.target as HTMLInputElement).value;
-
-        // When the input box is empty, the date is cleared.
-        if (value === '') {
-          handleClean(event);
-        }
-      },
-      [handleClean]
+      [isDateDisabled, handleSelect, updateValue]
     );
 
     const handleEntered = useCallback(() => {
       onOpen?.();
-      setActive(true);
     }, [onOpen]);
 
     const handleExited = useCallback(() => {
       onClose?.();
-      setActive(false);
     }, [onClose]);
 
     // Check whether the time is within the time range of the shortcut option in the toolbar.
@@ -743,6 +680,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       return (
         <PickerOverlay
           role="dialog"
+          tabIndex={-1}
           className={classes}
           ref={mergeRefs(overlayRef, speakerRef)}
           style={styles}
@@ -781,8 +719,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       );
     };
 
-    const hasValue = !!value;
+    prefix({ error: inputState === 'Error' });
 
+    const hasValue = isValid(value);
     const [classes, usedClassNamePropKeys] = usePickerClassName({
       ...props,
       classPrefix,
@@ -791,14 +730,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       hasValue,
       cleanable
     });
-
-    const renderDate = useCallback(() => {
-      if (!value) {
-        return placeholder || formatStr;
-      }
-
-      return renderValue?.(value, formatStr) ?? formatDate(value, formatStr);
-    }, [formatStr, formatDate, placeholder, renderValue, value]);
 
     const caretAs = useMemo(
       () => caretAsProp || (shouldOnlyRenderTime(formatStr) ? IconClockO : IconCalendar),
@@ -818,6 +749,25 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [resetCalendarDate]
     );
 
+    const showCleanButton = cleanable && hasValue && !readOnly;
+
+    const addon = useMemo(() => {
+      if (loading) {
+        return <Loader style={{ display: 'block', padding: '1px 0' }} data-testid="spinner" />;
+      }
+      if (showCleanButton) {
+        return (
+          <CloseButton
+            className={prefix`clean`}
+            tabIndex={-1}
+            locale={{ closeLabel: locale?.clear }}
+            onClick={handleClean}
+          />
+        );
+      }
+      return <Icon as={caretAs} />;
+    }, [caretAs, handleClean, loading, locale?.clear, prefix, showCleanButton]);
+
     return (
       <PickerToggleTrigger
         trigger="active"
@@ -829,39 +779,43 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderDropdownMenu}
       >
-        <Component className={merge(className, classes)} style={style} ref={rootRef}>
-          <PickerToggle
-            {...omit(rest, [
-              ...omitTriggerPropKeys,
-              ...usedClassNamePropKeys,
-              ...calendarOnlyProps
-            ])}
-            className={prefix({ error: inputState === 'Error' })}
-            as={toggleAs}
-            ref={targetRef}
-            appearance={appearance}
-            editable={editable}
-            inputValue={value ? formatDate(value, formatStr) : ''}
-            inputPlaceholder={
-              typeof placeholder === 'string' && placeholder ? placeholder : formatStr
-            }
-            inputMask={getDateMask(formatStr)}
-            onInputChange={handleInputChange}
-            onInputBlur={handleInputPressEnd}
-            onInputPressEnter={handleInputPressEnd}
-            onInputBackspace={debounce(handleInputBackspace, 10)}
-            onKeyDown={onPickerKeyDown}
-            onClean={createChainedFunction(handleClean, onClean)}
-            cleanable={cleanable && !disabled}
-            hasValue={hasValue}
-            active={active}
-            placement={placement}
-            disabled={disabled}
-            caretAs={caretAs}
-            aria-haspopup="dialog"
-          >
-            {renderDate()}
-          </PickerToggle>
+        <Component
+          className={merge(className, classes, { [prefix('error')]: inputState === 'Error' })}
+          style={style}
+          ref={rootRef}
+        >
+          {plaintext ? (
+            <DateInput value={value} format={formatStr} plaintext={plaintext} />
+          ) : (
+            <InputGroup
+              inside
+              {...omit(rest, [
+                ...omitTriggerPropKeys,
+                ...usedClassNamePropKeys,
+                ...calendarOnlyProps
+              ])}
+            >
+              {label && (
+                <InputGroup.Addon data-testid="date-picker-label">{label}</InputGroup.Addon>
+              )}
+              <DateInput
+                ref={targetRef}
+                aria-haspopup="dialog"
+                aria-invalid={inputState === 'Error'}
+                value={value}
+                format={formatStr}
+                placeholder={
+                  typeof placeholder === 'string' && placeholder ? placeholder : formatStr
+                }
+                disabled={disabled}
+                onChange={handleInputChange}
+                readOnly={readOnly || !editable || loading}
+                plaintext={plaintext}
+                onClick={handleClick}
+              />
+              <InputGroup.Addon>{addon}</InputGroup.Addon>
+            </InputGroup>
+          )}
         </Component>
       </PickerToggleTrigger>
     );
