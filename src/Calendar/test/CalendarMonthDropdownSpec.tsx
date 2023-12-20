@@ -107,7 +107,9 @@ describe('Calendar-MonthDropdown', () => {
     );
 
     fireEvent.click(
-      within(screen.getByRole('grid', { hidden: true })).queryAllByRole('gridcell')[0]
+      within(screen.getByRole('grid', { hidden: true })).queryAllByRole('gridcell', {
+        hidden: true
+      })[0]
     );
 
     expect(onChangeMonthSpy).to.be.calledOnce;
@@ -127,7 +129,10 @@ describe('Calendar-MonthDropdown', () => {
       </CalendarContext.Provider>
     );
 
-    const cells = within(screen.getByRole('row', { name: '2019' })).getAllByRole('gridcell');
+    const cells = within(screen.getByRole('row', { name: '2019', hidden: true })).getAllByRole(
+      'gridcell',
+      { hidden: true }
+    );
 
     expect(cells[6]).to.have.class('disabled');
     expect(cells[7]).to.have.class('rs-calendar-month-dropdown-cell');

@@ -615,18 +615,7 @@ describe('DatePicker', () => {
         .getByRole('grid', { name: 'Jun 2021' })
         // eslint-disable-next-line testing-library/no-node-access
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
-    ).to.have.text(['30', '31', '1']);
-  });
-
-  it('Should be to not highlight dates that are not in this month', () => {
-    render(<DatePicker defaultValue={new Date('2023-04-01')} open />);
-
-    expect(
-      screen
-        .getByRole('grid', { name: 'Apr 2023' })
-        // eslint-disable-next-line testing-library/no-node-access
-        .querySelectorAll('.rs-calendar-table-cell-un-same-month')
-    ).to.have.text(['26', '27', '28', '29', '30', '31', '1', '2', '3', '4', '5', '6']);
+    ).to.have.text(['30', '31', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
   });
 
   it('Should accept controlled value', () => {
