@@ -17,6 +17,7 @@ export interface CalendarInnerContextValue {
   cellClassName?: (date: Date) => string | undefined;
   showWeekNumbers?: boolean;
   inline?: boolean;
+  targetId?: string;
 }
 
 export interface CalendarContextValue extends CalendarInnerContextValue {

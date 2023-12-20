@@ -202,7 +202,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   };
 
   return (
-    <Component className={classes} ref={ref}>
+    <Component className={classes} ref={ref} data-testid="form-control-wrapper">
       <AccepterComponent
         id={controlId}
         aria-labelledby={controlId ? `${controlId}-control-label` : null}

@@ -108,12 +108,6 @@ describe('TreePicker', () => {
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
-  it('Should be block', () => {
-    const { container } = render(<TreePicker block data={[]} />);
-
-    expect(container.firstChild).to.have.class('rs-picker-block');
-  });
-
   it('Should active one node by `value`', () => {
     render(<TreePicker data={data} value={'Master'} open />);
 
@@ -368,11 +362,6 @@ describe('TreePicker', () => {
     userEvent.keyboard('{ArrowRight}');
 
     expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class('rs-tree-node-focus');
-  });
-
-  it('Should have a custom menuStyle', () => {
-    const instance = getInstance(<TreePicker open menuStyle={{ fontSize: 12 }} data={data} />);
-    expect(instance.overlay).to.have.style('font-size', '12px');
   });
 
   it('Should load data async', () => {

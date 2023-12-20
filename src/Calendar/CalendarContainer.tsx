@@ -30,6 +30,9 @@ export interface CalendarProps
   /** The panel render based on date range */
   dateRange?: Date[];
 
+  /** The Id of the target element that triggers the opening of the calendar */
+  targetId?: string;
+
   /** Date displayed on the current page */
   calendarDate: Date;
 
@@ -124,6 +127,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       format,
       hoverRangeValue,
       isoWeek = false,
+      targetId,
       limitEndYear,
       limitStartYear,
       locale,
@@ -232,6 +236,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         hoverRangeValue,
         inSameMonth: inSameThisMonthDate,
         isoWeek,
+        targetId,
         locale,
         onChangeMonth: handleChangeMonth,
         onChangeTime,
@@ -252,6 +257,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         inline,
         isDisabledDate,
         isoWeek,
+        targetId,
         locale,
         onChangeTime,
         onMouseMove,
@@ -264,6 +270,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
     return (
       <CalendarProvider value={contextValue}>
         <Component
+          data-testid="calendar"
           {...omitHideDisabledProps<Partial<CalendarProps>>(rest)}
           className={calendarClasses}
           ref={ref}

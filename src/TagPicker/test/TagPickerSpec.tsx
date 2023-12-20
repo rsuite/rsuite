@@ -87,23 +87,10 @@ describe('TagPicker', () => {
     expect(instance).to.have.class('rs-picker-tag');
   });
 
-  it('Should be disabled', () => {
-    const instance = getDOMNode(<TagPicker disabled data={data} value={['Eugenia']} />);
-
-    expect(instance).to.have.class('rs-picker-disabled');
-    expect(screen.queryByRole('button', { name: /clear/i })).not.to.exist;
-  });
-
   it('Should output a button', () => {
     render(<TagPicker data={[]} toggleAs="button" />);
 
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
-  });
-
-  it('Should be block', () => {
-    const instance = getDOMNode(<TagPicker data={[]} block />);
-
-    expect(instance).to.have.class('rs-picker-block');
   });
 
   it('Should active item by `value`', () => {

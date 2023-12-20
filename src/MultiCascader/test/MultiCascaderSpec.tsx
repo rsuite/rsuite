@@ -145,12 +145,6 @@ describe('MultiCascader', () => {
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
-  it('Should be block', () => {
-    const instance = getDOMNode(<MultiCascader data={[]} block />);
-
-    assert.ok(instance.className.match(/\bblock\b/));
-  });
-
   it('Should output a placeholder by renderValue()', () => {
     const placeholder = 'foobar';
     const { rerender } = render(

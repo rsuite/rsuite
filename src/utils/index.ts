@@ -44,3 +44,4 @@ export { default as useWillUnmount } from './useWillUnmount';
 export { default as useUpdateEffect } from './useUpdateEffect';
 export { default as useIsMounted } from './useIsMounted';
 export { default as useMount } from './useMount';
+export { default as useUniqueId } from './useUniqueId';

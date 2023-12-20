@@ -67,7 +67,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
       ...rest
     } = props;
 
-    const { date = new Date() } = useCalendarContext();
+    const { date = new Date(), targetId } = useCalendarContext();
     const { prefix, merge, withClassPrefix } = useClassNames(classPrefix);
     const thisYear = DateUtils.getYear(new Date());
     const startYear = limitStartYear ? thisYear - limitStartYear + 1 : 1900;
@@ -103,7 +103,7 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
         });
 
         return (
-          <div className={rowClassName} role="row" style={style}>
+          <div className={rowClassName} role="row" aria-label={`${year}`} style={style}>
             <div className={titleClassName} role="rowheader">
               {year}
             </div>
@@ -132,7 +132,15 @@ const MonthDropdown: RsRefForwardingComponent<'div', MonthDropdownProps> = React
     const initialScrollOffset = itemSize * initialItemIndex;
 
     return (
-      <Component role="menu" {...rest} ref={ref} className={classes}>
+      <Component
+        role="grid"
+        aria-label="Select month"
+        tabIndex={-1}
+        id={targetId ? `${targetId}-${classPrefix}` : undefined}
+        {...rest}
+        ref={ref}
+        className={classes}
+      >
         <div className={prefix('content')}>
           <div className={prefix('scroll')}>
             {show && (

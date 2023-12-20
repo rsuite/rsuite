@@ -19,7 +19,9 @@ import {
   mergeRefs,
   useClassNames,
   useControlled,
-  useCustom
+  useCustom,
+  useUniqueId,
+  partitionHTMLProps
 } from '../utils';
 import {
   shouldRenderMonth,
@@ -49,7 +51,6 @@ import {
   PositionChildProps,
   usePickerClassName,
   usePublicMethods,
-  PickerToggleProps,
   onMenuKeyDown
 } from '../Picker';
 import DateInput from '../DateInput';
@@ -66,13 +67,15 @@ export type { RangeType } from './Toolbar';
 
 export interface DatePickerProps
   extends PickerBaseProps<DatePickerLocale>,
-    FormControlBaseProps<Date | null>,
-    Pick<PickerToggleProps, 'label' | 'caretAs' | 'readOnly' | 'plaintext' | 'loading'> {
-  /** Predefined date Ranges */
-  ranges?: RangeType<Date>[];
+    FormControlBaseProps<Date | null> {
+  /** Custom caret component */
+  caretAs?: React.ElementType | null;
 
   /** Calendar panel default presentation date and time */
   calendarDefaultDate?: Date;
+
+  /** Whether disabled the component */
+  disabled?: boolean;
 
   /** Rendered as an input, the date can be entered via the keyboard */
   editable?: boolean;
@@ -90,20 +93,35 @@ export interface DatePickerProps
   /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
   isoWeek?: boolean;
 
+  /** A label displayed at the beginning of toggle button */
+  label?: React.ReactNode;
+
   /** Set the upper limit of the available year relative to the current selection date */
   limitEndYear?: number;
 
   /** Set the lower limit of the available year relative to the current selection date */
   limitStartYear?: number;
 
+  /** Whether to display a loading state indicator */
+  loading?: boolean;
+
+  /** one tap to select */
+  oneTap?: boolean;
+
+  /** Whether plaintext the component */
+  plaintext?: boolean;
+
+  /** Whether read only the component */
+  readOnly?: boolean;
+
+  /** Predefined date Ranges */
+  ranges?: RangeType<Date>[];
+
   /** Whether to show week numbers */
   showWeekNumbers?: boolean;
 
   /** Meridian format */
   showMeridian?: boolean;
-
-  /** one tap to select */
-  oneTap?: boolean;
 
   /**
    * Whether to disable a date on the calendar view
@@ -222,6 +240,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       plaintext,
       // todo Not consistent with locale.formatDayPattern
       format: formatStr = 'yyyy-MM-dd',
+      id: idProp,
       isoWeek,
       limitEndYear = 1000,
       limitStartYear,
@@ -229,6 +248,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       loading,
       label,
       menuClassName,
+      menuStyle,
       appearance = 'default',
       placement = 'bottomStart',
       oneTap,
@@ -238,6 +258,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       showMeridian,
       showWeekNumbers,
       style,
+      size,
       caretAs: caretAsProp,
       disabledDate: DEPRECATED_disabledDate,
       disabledHours: DEPRECATED_disabledHours,
@@ -249,7 +270,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       shouldDisableSecond,
       onChange,
       onChangeCalendarDate,
-      //onClean,
+      onClean,
       onClose,
       onEntered,
       onExited,
@@ -261,9 +282,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onToggleMonthDropdown,
       onToggleTimeDropdown,
       onShortcutClick,
-      ...rest
+      ...restProps
     } = props;
 
+    const id = useUniqueId(`${classPrefix}-`, idProp);
     const { locale, formatDate } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
     const { merge, prefix } = useClassNames(classPrefix);
     const [value, setValue] = useControlled(valueProp, defaultValue);
@@ -278,7 +300,35 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const onlyShowMonth = shouldRenderMonth(formatStr) && !shouldRenderDate(formatStr);
     const showMonth = onlyShowMonth || showMonthDropdown;
 
-    const [inputState, setInputState] = useState<InputState>();
+    const isDateDisabled = useCallback(
+      (date: Date): boolean => {
+        if (typeof shouldDisableDate === 'function') {
+          return shouldDisableDate(date);
+        }
+
+        if (typeof DEPRECATED_disabledDate === 'function') {
+          return DEPRECATED_disabledDate(date);
+        }
+
+        return false;
+      },
+      [DEPRECATED_disabledDate, shouldDisableDate]
+    );
+
+    const getInputState = useCallback(
+      (value?: Date | null): InputState => {
+        if (!isValid(value)) {
+          return 'Error';
+        } else if (value && isDateDisabled(value)) {
+          return 'Error';
+        }
+
+        return 'Initial';
+      },
+      [isDateDisabled]
+    );
+
+    const [inputState, setInputState] = useState<InputState>(getInputState(value));
     const triggerRef = useRef<OverlayTriggerHandle>(null);
     const rootRef = useRef<HTMLDivElement>(null);
     const targetRef = useRef<HTMLButtonElement>(null);
@@ -387,10 +437,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * Get the corresponding container based on date selection and month selection
      */
     const getOverlayContainer = useCallback(() => {
-      return overlayRef.current?.querySelector(
-        showMonth ? '[role="menu"]' : '[role="grid"]'
-      ) as HTMLElement;
-    }, [showMonth]);
+      return showMonth
+        ? document.getElementById(`${id}-calendar-month-dropdown`)
+        : document.getElementById(`${id}-calendar-table`);
+    }, [id, showMonth]);
 
     /**
      * Check whether the date is focusable
@@ -401,9 +451,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         const ariaLabel = getAriaLabel(date, formatStr as string, formatDate);
         const container = getOverlayContainer();
 
-        const dateElement = container.querySelector(`[aria-label="${ariaLabel}"]`);
+        const dateElement = container?.querySelector(`[aria-label="${ariaLabel}"]`);
 
-        if (dateElement?.hasAttribute('aria-disabled')) {
+        if (dateElement?.getAttribute('aria-disabled') === 'true') {
           return false;
         }
 
@@ -420,6 +470,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         const container = getOverlayContainer();
 
         const selectedElement = container?.querySelector('[aria-selected="true"]') as HTMLElement;
+
         selectedElement?.focus();
       }, 1);
     }, [getOverlayContainer]);
@@ -450,13 +501,14 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      */
 
     const handleClean = useCallback(
-      (event: React.SyntheticEvent) => {
+      (event: React.MouseEvent) => {
         updateValue(event, null);
         resetCalendarDate(null);
+        onClean?.(event);
         event.preventDefault();
         event.stopPropagation();
       },
-      [resetCalendarDate, updateValue]
+      [onClean, resetCalendarDate, updateValue]
     );
 
     const handlePickerOverlayKeyDown = useCallback(
@@ -553,21 +605,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [focusSelectedDate, handleDateChange, oneTap, onlyShowMonth, setCalendarDate, updateValue]
     );
 
-    const isDateDisabled = useCallback(
-      (date: Date): boolean => {
-        if (typeof shouldDisableDate === 'function') {
-          return shouldDisableDate(date);
-        }
-
-        if (typeof DEPRECATED_disabledDate === 'function') {
-          return DEPRECATED_disabledDate(date);
-        }
-
-        return false;
-      },
-      [DEPRECATED_disabledDate, shouldDisableDate]
-    );
-
     /**
      * Callback after the input box value is changed.
      */
@@ -575,9 +612,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       (value, event) => {
         setInputState('Typing');
 
-        if (!isValid(value)) {
-          setInputState('Error');
-        } else if (isDateDisabled(value)) {
+        if (getInputState(value) === 'Error') {
           setInputState('Error');
         } else {
           handleSelect(value, event);
@@ -585,7 +620,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
         updateValue(event, value, false);
       },
-      [isDateDisabled, handleSelect, updateValue]
+      [getInputState, updateValue, handleSelect]
     );
 
     const handleEntered = useCallback(() => {
@@ -642,6 +677,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const calendar = (
       <CalendarContainer
         {...calendarProps}
+        targetId={id}
         locale={locale}
         showWeekNumbers={showWeekNumbers}
         showMeridian={showMeridian}
@@ -673,10 +709,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       ranges?.filter(range => range?.placement === 'bottom' || range?.placement === undefined) ||
       [];
 
-    const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+    const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
       const classes = merge(menuClassName, className, prefix('date-menu'));
-      const styles = { left, top };
+      const styles = { ...menuStyle, left, top };
       return (
         <PickerOverlay
           role="dialog"
@@ -719,8 +755,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       );
     };
 
-    prefix({ error: inputState === 'Error' });
-
     const hasValue = isValid(value);
     const [classes, usedClassNamePropKeys] = usePickerClassName({
       ...props,
@@ -731,10 +765,12 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       cleanable
     });
 
-    const caretAs = useMemo(
-      () => caretAsProp || (shouldOnlyRenderTime(formatStr) ? IconClockO : IconCalendar),
-      [caretAsProp, formatStr]
-    );
+    const caretAs: React.ElementType | null = useMemo(() => {
+      if (caretAsProp === null) {
+        return null;
+      }
+      return caretAsProp || (shouldOnlyRenderTime(formatStr) ? IconClockO : IconCalendar);
+    }, [caretAsProp, formatStr]) as React.ElementType | null;
 
     const handleTriggerClose = useCallback(
       cause => {
@@ -765,8 +801,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           />
         );
       }
-      return <Icon as={caretAs} />;
+      return caretAs && <Icon as={caretAs} />;
     }, [caretAs, handleClean, loading, locale?.clear, prefix, showCleanButton]);
+
+    const [ariaProps, rest] = partitionHTMLProps(restProps, { htmlProps: [], includeAria: true });
 
     return (
       <PickerToggleTrigger
@@ -777,7 +815,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         onClose={handleTriggerClose}
         onEntered={createChainedFunction(handleEntered, onEntered)}
         onExited={createChainedFunction(handleExited, onExited)}
-        speaker={renderDropdownMenu}
+        speaker={renderCalendarOverlay}
       >
         <Component
           className={merge(className, classes, { [prefix('error')]: inputState === 'Error' })}
@@ -788,18 +826,24 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             <DateInput value={value} format={formatStr} plaintext={plaintext} />
           ) : (
             <InputGroup
-              inside
               {...omit(rest, [
                 ...omitTriggerPropKeys,
                 ...usedClassNamePropKeys,
                 ...calendarOnlyProps
               ])}
+              inside
+              size={size}
+              onClick={handleClick}
             >
               {label && (
-                <InputGroup.Addon data-testid="date-picker-label">{label}</InputGroup.Addon>
+                <InputGroup.Addon data-testid="date-picker-label" className={prefix`label`}>
+                  {label}
+                </InputGroup.Addon>
               )}
               <DateInput
+                {...(ariaProps as any)}
                 ref={targetRef}
+                id={id}
                 aria-haspopup="dialog"
                 aria-invalid={inputState === 'Error'}
                 value={value}
@@ -811,7 +855,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 onChange={handleInputChange}
                 readOnly={readOnly || !editable || loading}
                 plaintext={plaintext}
-                onClick={handleClick}
               />
               <InputGroup.Addon>{addon}</InputGroup.Addon>
             </InputGroup>

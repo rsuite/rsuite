@@ -99,8 +99,9 @@ describe('DateInput', () => {
 
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
-    userEvent.click(input);
-    userEvent.type(input, '{backspace}');
+    fireEvent.click(input);
+    fireEvent.keyDown(input, { key: 'Backspace' });
+    fireEvent.blur(input);
 
     expect(input).to.value('');
     expect(onChange).to.have.been.calledWith(null);

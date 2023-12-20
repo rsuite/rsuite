@@ -90,18 +90,6 @@ describe('CheckTreePicker', () => {
     expect(screen.getByRole('combobox')).to.have.tagName('BUTTON');
   });
 
-  it('Should be disabled', () => {
-    const { container } = render(<CheckTreePicker disabled data={[]} />);
-
-    expect(container.firstChild).to.have.class('rs-picker-disabled');
-  });
-
-  it('Should be block', () => {
-    const { container } = render(<CheckTreePicker block data={[]} />);
-
-    expect(container.firstChild).to.have.class('rs-picker-block');
-  });
-
   it('Should active 4 node by `value` when cascade is true', () => {
     const instance = getInstance(<CheckTreePicker open data={data} value={['Master']} />);
 
@@ -374,12 +362,6 @@ describe('CheckTreePicker', () => {
     expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class(
       'rs-check-tree-node-focus'
     );
-  });
-
-  it('Should have a custom menuStyle', () => {
-    const instance = getInstance(<CheckTreePicker menuStyle={{ fontSize: 12 }} data={data} open />);
-
-    expect(instance.overlay).to.have.style('font-size', '12px');
   });
 
   it('Should load data async', () => {

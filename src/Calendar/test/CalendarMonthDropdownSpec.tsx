@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, within } from '@testing-library/react';
 import sinon from 'sinon';
 import MonthDropdown from '../MonthDropdown';
 import CalendarContext from '../CalendarContext';
@@ -107,10 +107,7 @@ describe('Calendar-MonthDropdown', () => {
     );
 
     fireEvent.click(
-      screen
-        .getByRole('menu', { hidden: true })
-        // eslint-disable-next-line testing-library/no-node-access
-        .querySelector('.rs-calendar-month-dropdown-cell') as HTMLElement
+      within(screen.getByRole('grid', { hidden: true })).queryAllByRole('gridcell')[0]
     );
 
     expect(onChangeMonthSpy).to.be.calledOnce;
@@ -130,16 +127,7 @@ describe('Calendar-MonthDropdown', () => {
       </CalendarContext.Provider>
     );
 
-    // TODO-Doma
-    // Use ARIA query e.g. `.getByRole('row', { name: '2019' })`
-    const cells = (
-      screen
-        .getByRole('menu', { hidden: true })
-        // eslint-disable-next-line testing-library/no-node-access
-        .querySelector('.rs-calendar-month-dropdown-year-active')?.parentNode as HTMLElement
-    )
-      // eslint-disable-next-line testing-library/no-node-access
-      .querySelectorAll('.rs-calendar-month-dropdown-cell');
+    const cells = within(screen.getByRole('row', { name: '2019' })).getAllByRole('gridcell');
 
     expect(cells[6]).to.have.class('disabled');
     expect(cells[7]).to.have.class('rs-calendar-month-dropdown-cell');
@@ -149,17 +137,17 @@ describe('Calendar-MonthDropdown', () => {
 
   it('Should have a custom className', () => {
     render(<MonthDropdown className="custom" />);
-    expect(screen.getByRole('menu', { hidden: true })).to.have.class('custom');
+    expect(screen.getByRole('grid', { hidden: true })).to.have.class('custom');
   });
 
   it('Should have a custom style', () => {
     render(<MonthDropdown style={{ fontSize: 12 }} />);
 
-    expect(screen.getByRole('menu', { hidden: true })).to.have.style('font-size', '12px');
+    expect(screen.getByRole('grid', { hidden: true })).to.have.style('font-size', '12px');
   });
 
   it('Should have a custom className prefix', () => {
     render(<MonthDropdown classPrefix="custom-prefix" />);
-    expect(screen.getByRole('menu', { hidden: true })).to.have.class('rs-custom-prefix');
+    expect(screen.getByRole('grid', { hidden: true })).to.have.class('rs-custom-prefix');
   });
 });
