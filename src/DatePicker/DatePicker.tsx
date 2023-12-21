@@ -331,7 +331,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const [inputState, setInputState] = useState<InputState>(getInputState(value));
     const triggerRef = useRef<OverlayTriggerHandle>(null);
     const rootRef = useRef<HTMLDivElement>(null);
-    const targetRef = useRef<HTMLButtonElement>(null);
+    const targetRef = useRef<HTMLInputElement>(null);
     const overlayRef = useRef<HTMLDivElement>(null);
 
     usePublicMethods(ref, { rootRef, triggerRef, overlayRef, targetRef });
@@ -478,10 +478,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     /**
      * Focus on the input element
      */
-    const focusTargetButton = useCallback(() => {
-      delay(() => {
-        targetRef.current?.querySelector('input')?.focus();
-      }, 100);
+    const focusTargetInput = useCallback(() => {
+      delay(() => targetRef.current?.focus(), 1);
     }, []);
 
     /**
@@ -491,9 +489,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       (event: React.SyntheticEvent) => {
         updateValue(event);
         onOk?.(calendarDate, event);
-        focusTargetButton();
+        focusTargetInput();
       },
-      [updateValue, onOk, calendarDate, focusTargetButton]
+      [updateValue, onOk, calendarDate, focusTargetInput]
     );
 
     /**
@@ -584,9 +582,18 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         handleDateChange(nextValue);
         if (oneTap && updatableValue) {
           updateValue(event, nextValue);
+          focusTargetInput();
         }
       },
-      [setCalendarDate, formatStr, handleDateChange, oneTap, calendarDate, updateValue]
+      [
+        setCalendarDate,
+        formatStr,
+        handleDateChange,
+        oneTap,
+        calendarDate,
+        updateValue,
+        focusTargetInput
+      ]
     );
 
     /**
@@ -600,9 +607,18 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
         if (oneTap && onlyShowMonth) {
           updateValue(event, nextPageDate);
+          focusTargetInput();
         }
       },
-      [focusSelectedDate, handleDateChange, oneTap, onlyShowMonth, setCalendarDate, updateValue]
+      [
+        focusSelectedDate,
+        focusTargetInput,
+        handleDateChange,
+        oneTap,
+        onlyShowMonth,
+        setCalendarDate,
+        updateValue
+      ]
     );
 
     /**
@@ -836,16 +852,21 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               onClick={handleClick}
             >
               {label && (
-                <InputGroup.Addon data-testid="date-picker-label" className={prefix`label`}>
+                <InputGroup.Addon
+                  data-testid="date-picker-label"
+                  className={prefix`label`}
+                  id={`${id}-label`}
+                >
                   {label}
                 </InputGroup.Addon>
               )}
               <DateInput
+                aria-haspopup="dialog"
+                aria-invalid={inputState === 'Error'}
+                aria-labelledby={label ? `${id}-label` : undefined}
                 {...(ariaProps as any)}
                 ref={targetRef}
                 id={id}
-                aria-haspopup="dialog"
-                aria-invalid={inputState === 'Error'}
                 value={value}
                 format={formatStr}
                 placeholder={

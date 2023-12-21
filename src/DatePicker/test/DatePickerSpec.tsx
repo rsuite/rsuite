@@ -696,22 +696,51 @@ describe('DatePicker', () => {
   it('Should switch to the previous or next element via the tab key', () => {
     render(
       <>
-        <DatePicker data-testid="picker-1" value={new Date('2022-01-01')} />
-        <DatePicker data-testid="picker-2" value={new Date('2022-01-02')} />
+        <DatePicker aria-label="picker-1" value={new Date('2022-01-01')} />
+        <DatePicker aria-label="picker-2" value={new Date('2022-01-02')} />
       </>
     );
 
     userEvent.tab();
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(document.activeElement).to.value('2022-01-01');
+    expect(screen.getByRole('textbox', { name: 'picker-1' })).to.be.focus;
 
     userEvent.tab();
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(document.activeElement).to.value('2022-01-02');
+    expect(screen.getByRole('textbox', { name: 'picker-2' })).to.be.focus;
 
     userEvent.tab({ shift: true });
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(document.activeElement).to.value('2022-01-01');
+    expect(screen.getByRole('textbox', { name: 'picker-1' })).to.be.focus;
+  });
+
+  it('Should focus on the textbox when clicking the OK button', async () => {
+    render(<DatePicker defaultOpen />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'OK' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).to.be.focus;
+    });
+  });
+
+  it('Should focus on the textbox when clicking the day', async () => {
+    render(<DatePicker defaultOpen oneTap defaultValue={new Date('2023-10-01')} />);
+
+    fireEvent.click(screen.getByRole('gridcell', { name: '01 Oct 2023' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).to.be.focus;
+    });
+  });
+
+  it('Should focus on the textbox when clicking the month', async () => {
+    render(
+      <DatePicker defaultOpen oneTap defaultValue={new Date('2023-10-01')} format="yyyy-MM" />
+    );
+
+    fireEvent.click(screen.getByRole('gridcell', { name: 'Oct 2023' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('textbox')).to.be.focus;
+    });
   });
 
   it('Should reset to default time after clicking clear button', () => {
@@ -906,6 +935,14 @@ describe('DatePicker', () => {
       render(<DatePicker aria-labelledby="custom-label" />);
 
       expect(screen.getByRole('textbox')).to.have.attribute('aria-labelledby', 'custom-label');
+    });
+
+    it('Should associate with aria-labelledby to a corresponding label id.', () => {
+      render(<DatePicker label="custom-label" />);
+
+      const labelId = screen.getByTestId('date-picker-label').getAttribute('id') as string;
+
+      expect(screen.getByRole('textbox')).to.have.attribute('aria-labelledby', labelId);
     });
 
     it('Should focus on specified date by ArrowDown key', async () => {
