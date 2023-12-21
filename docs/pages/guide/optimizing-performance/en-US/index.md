@@ -18,4 +18,4 @@ To avoid loading too much data the first time, it can be designed to fetch data 
 
 ## Other Optimizing Performance
 
-- [Minimizing Bundle Size](/zh/guide/modularized/)：We should make the compiled files as small as possible to improve user experience.
+- [Minimizing Bundle Size](/guide/modularized/)：We should make the compiled files as small as possible to improve user experience.
