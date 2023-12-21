@@ -67,7 +67,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         if (combobox) {
           expect(combobox).to.have.text('User');
         } else {
-          expect(screen.getByTestId('date-picker-label')).to.have.text('User');
+          expect(screen.getByTestId('picker-label')).to.have.text('User');
         }
         expect(screen.getByTestId('spinner')).to.exist;
       });

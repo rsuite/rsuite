@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
@@ -21,6 +21,7 @@ import {
   useControlled,
   useCustom,
   useUniqueId,
+  useEventCallback,
   partitionHTMLProps
 } from '../utils';
 import {
@@ -55,13 +56,12 @@ import {
 } from '../Picker';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
-import CloseButton from '../CloseButton';
-import Loader from '../Loader';
+import PickerLabel from './PickerLabel';
+import PickerIndicator from './PickerIndicator';
 import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
 import { OverlayCloseCause } from '../Overlay/OverlayTrigger';
 import { deprecatePropTypeNew } from '../utils/deprecatePropType';
 import { getAriaLabel } from '../Calendar/utils';
-import { Icon } from '@rsuite/icons';
 
 export type { RangeType } from './Toolbar';
 
@@ -300,33 +300,27 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     const onlyShowMonth = shouldRenderMonth(formatStr) && !shouldRenderDate(formatStr);
     const showMonth = onlyShowMonth || showMonthDropdown;
 
-    const isDateDisabled = useCallback(
-      (date: Date): boolean => {
-        if (typeof shouldDisableDate === 'function') {
-          return shouldDisableDate(date);
-        }
+    const isDateDisabled = (date: Date): boolean => {
+      if (typeof shouldDisableDate === 'function') {
+        return shouldDisableDate(date);
+      }
 
-        if (typeof DEPRECATED_disabledDate === 'function') {
-          return DEPRECATED_disabledDate(date);
-        }
+      if (typeof DEPRECATED_disabledDate === 'function') {
+        return DEPRECATED_disabledDate(date);
+      }
 
-        return false;
-      },
-      [DEPRECATED_disabledDate, shouldDisableDate]
-    );
+      return false;
+    };
 
-    const getInputState = useCallback(
-      (value?: Date | null): InputState => {
-        if (!isValid(value)) {
-          return 'Error';
-        } else if (value && isDateDisabled(value)) {
-          return 'Error';
-        }
+    const getInputState = (value?: Date | null): InputState => {
+      if (!isValid(value)) {
+        return 'Error';
+      } else if (value && isDateDisabled(value)) {
+        return 'Error';
+      }
 
-        return 'Initial';
-      },
-      [isDateDisabled]
-    );
+      return 'Initial';
+    };
 
     const [inputState, setInputState] = useState<InputState>(getInputState(value));
     const triggerRef = useRef<OverlayTriggerHandle>(null);
@@ -339,133 +333,118 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     /**
      * Switch to the callback triggered after the next month.
      */
-    const handleMoveForward = useCallback(
-      (nextPageDate: Date) => {
-        setCalendarDate(nextPageDate);
+    const handleMoveForward = useEventCallback((nextPageDate: Date) => {
+      setCalendarDate(nextPageDate);
 
-        onNextMonth?.(nextPageDate);
-        onChangeCalendarDate?.(nextPageDate);
-      },
-      [onChangeCalendarDate, onNextMonth, setCalendarDate]
-    );
+      onNextMonth?.(nextPageDate);
+      onChangeCalendarDate?.(nextPageDate);
+    });
 
     /**
      * Switch to the callback triggered after the previous month.
      */
-    const handleMoveBackward = useCallback(
-      (nextPageDate: Date) => {
-        setCalendarDate(nextPageDate);
+    const handleMoveBackward = useEventCallback((nextPageDate: Date) => {
+      setCalendarDate(nextPageDate);
 
-        onPrevMonth?.(nextPageDate);
-        onChangeCalendarDate?.(nextPageDate);
-      },
-      [onChangeCalendarDate, onPrevMonth, setCalendarDate]
-    );
+      onPrevMonth?.(nextPageDate);
+      onChangeCalendarDate?.(nextPageDate);
+    });
 
     /**
      * The callback triggered when the date changes.
      */
-    const handleDateChange = useCallback(
-      (nextValue: Date, event?: React.SyntheticEvent) => {
-        onSelect?.(nextValue, event);
-        onChangeCalendarDate?.(nextValue, event);
-      },
-      [onChangeCalendarDate, onSelect]
-    );
+    const handleDateChange = useEventCallback((nextValue: Date, event?: React.SyntheticEvent) => {
+      onSelect?.(nextValue, event);
+      onChangeCalendarDate?.(nextValue, event);
+    });
 
     /**
      *  A callback triggered when the time on the calendar changes.
      */
-    const handleChangeTime = useCallback(
-      (nextPageTime: Date) => {
-        setCalendarDate(nextPageTime);
-        handleDateChange(nextPageTime);
-      },
-      [handleDateChange, setCalendarDate]
-    );
+    const handleChangeTime = useEventCallback((nextPageTime: Date) => {
+      setCalendarDate(nextPageTime);
+      handleDateChange(nextPageTime);
+    });
 
-    const handleClose = useCallback(() => {
+    const handleClose = useEventCallback(() => {
       triggerRef.current?.close?.();
-    }, []);
+    });
 
     /**
      * The callback triggered when PM/AM is switched.
      */
-    const handleToggleMeridian = useCallback(() => {
+    const handleToggleMeridian = useEventCallback(() => {
       const hours = getHours(calendarDate);
       const nextHours = hours >= 12 ? hours - 12 : hours + 12;
       const nextDate = setHours(calendarDate, nextHours);
 
       handleChangeTime(nextDate);
-    }, [calendarDate, handleChangeTime]);
+    });
 
-    const updateValue = useCallback(
-      (event: React.SyntheticEvent, nextPageDate?: Date | null, closeOverlay = true) => {
-        const nextValue: Date | null =
-          typeof nextPageDate !== 'undefined' ? nextPageDate : calendarDate;
+    const updateValue = (
+      event: React.SyntheticEvent,
+      nextPageDate?: Date | null,
+      closeOverlay = true
+    ) => {
+      const nextValue: Date | null =
+        typeof nextPageDate !== 'undefined' ? nextPageDate : calendarDate;
 
-        setCalendarDate(nextValue || new Date());
-        setValue(nextValue);
+      setCalendarDate(nextValue || new Date());
+      setValue(nextValue);
 
-        if (nextValue !== value) {
-          onChange?.(nextValue, event);
-        }
+      if (nextValue !== value) {
+        onChange?.(nextValue, event);
+      }
 
-        // `closeOverlay` default value is `true`
-        if (closeOverlay !== false) {
-          handleClose();
-        }
-      },
-      [handleClose, onChange, calendarDate, setCalendarDate, setValue, value]
-    );
+      // `closeOverlay` default value is `true`
+      if (closeOverlay !== false) {
+        handleClose();
+      }
+    };
 
     /**
      * The callback triggered after the date in the shortcut area is clicked.
      */
-    const handleShortcutPageDate = useCallback(
+    const handleShortcutPageDate = useEventCallback(
       (range: RangeType<Date>, closeOverlay: boolean, event: React.MouseEvent) => {
         const value = range.value as Date;
 
         updateValue(event, value, closeOverlay);
         handleDateChange(value, event);
         onShortcutClick?.(range, event);
-      },
-      [handleDateChange, onShortcutClick, updateValue]
+      }
     );
 
     /**
      * Get the corresponding container based on date selection and month selection
      */
-    const getOverlayContainer = useCallback(() => {
+    const getOverlayContainer = () => {
       return showMonth
         ? document.getElementById(`${id}-calendar-month-dropdown`)
         : document.getElementById(`${id}-calendar-table`);
-    }, [id, showMonth]);
+    };
 
     /**
      * Check whether the date is focusable
      */
-    const checkFocusable = useCallback(
-      (date: Date) => {
-        const formatStr = showMonth ? locale.formattedMonthPattern : locale.formattedDayPattern;
-        const ariaLabel = getAriaLabel(date, formatStr as string, formatDate);
-        const container = getOverlayContainer();
+    const checkFocusable = (date: Date) => {
+      const formatStr = showMonth ? locale.formattedMonthPattern : locale.formattedDayPattern;
+      const ariaLabel = getAriaLabel(date, formatStr as string, formatDate);
+      const container = getOverlayContainer();
 
-        const dateElement = container?.querySelector(`[aria-label="${ariaLabel}"]`);
+      const dateElement = container?.querySelector(`[aria-label="${ariaLabel}"]`);
 
-        if (dateElement?.getAttribute('aria-disabled') === 'true') {
-          return false;
-        }
+      if (dateElement?.getAttribute('aria-disabled') === 'true') {
+        return false;
+      }
 
-        return true;
-      },
-      [formatDate, getOverlayContainer, locale, showMonth]
-    );
+      return true;
+    };
 
     /**
      * Focus on the currently selected date element
      */
-    const focusSelectedDate = useCallback(() => {
+    const focusSelectedDate = () => {
       delay(() => {
         const container = getOverlayContainer();
 
@@ -473,100 +452,88 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
         selectedElement?.focus();
       }, 1);
-    }, [getOverlayContainer]);
+    };
 
     /**
      * Focus on the input element
      */
-    const focusTargetInput = useCallback(() => {
+    const focusTargetInput = useEventCallback(() => {
       delay(() => targetRef.current?.focus(), 1);
-    }, []);
+    });
 
     /**
      * The callback triggered after clicking the OK button.
      */
-    const handleOK = useCallback(
-      (event: React.SyntheticEvent) => {
-        updateValue(event);
-        onOk?.(calendarDate, event);
-        focusTargetInput();
-      },
-      [updateValue, onOk, calendarDate, focusTargetInput]
-    );
+    const handleOK = useEventCallback((event: React.SyntheticEvent) => {
+      updateValue(event);
+      onOk?.(calendarDate, event);
+      focusTargetInput();
+    });
 
     /**
      * Callback after clicking the clear button.
      */
 
-    const handleClean = useCallback(
-      (event: React.MouseEvent) => {
-        updateValue(event, null);
-        resetCalendarDate(null);
-        onClean?.(event);
-        event.preventDefault();
-        event.stopPropagation();
-      },
-      [onClean, resetCalendarDate, updateValue]
-    );
+    const handleClean = useEventCallback((event: React.MouseEvent) => {
+      updateValue(event, null);
+      resetCalendarDate(null);
+      onClean?.(event);
+      event.preventDefault();
+      event.stopPropagation();
+    });
 
-    const handlePickerOverlayKeyDown = useCallback(
-      (event: React.KeyboardEvent) => {
-        let delta = 0;
+    const handlePickerOverlayKeyDown = useEventCallback((event: React.KeyboardEvent) => {
+      let delta = 0;
 
-        const step = showMonth ? 6 : 7;
-        const changeDateFunc = showMonth ? addMonths : addDays;
+      const step = showMonth ? 6 : 7;
+      const changeDateFunc = showMonth ? addMonths : addDays;
 
-        onMenuKeyDown(event, {
-          down: () => {
-            delta = step;
-          },
-          up: () => {
-            delta = -step;
-          },
-          right: () => {
-            delta = 1;
-          },
-          left: () => {
-            delta = -1;
-          },
-          enter: () => {
-            handleOK(event);
-          }
-        });
-
-        const nextDate = changeDateFunc(calendarDate, delta);
-
-        if (checkFocusable(nextDate)) {
-          setCalendarDate(nextDate);
-          focusSelectedDate();
+      onMenuKeyDown(event, {
+        down: () => {
+          delta = step;
+        },
+        up: () => {
+          delta = -step;
+        },
+        right: () => {
+          delta = 1;
+        },
+        left: () => {
+          delta = -1;
+        },
+        enter: () => {
+          handleOK(event);
         }
-      },
-      [showMonth, calendarDate, checkFocusable, handleOK, setCalendarDate, focusSelectedDate]
-    );
+      });
+
+      const nextDate = changeDateFunc(calendarDate, delta);
+
+      if (checkFocusable(nextDate)) {
+        setCalendarDate(nextDate);
+        focusSelectedDate();
+      }
+    });
 
     /**
      * The callback triggered after the month selection box is opened or closed.
      */
-    const handleToggleMonthDropdown = useCallback(
-      (toggle: boolean) => {
-        onToggleMonthDropdown?.(toggle);
-        setShowMonthDropdown(toggle);
-      },
-      [onToggleMonthDropdown]
-    );
+    const handleToggleMonthDropdown = useEventCallback((toggle: boolean) => {
+      onToggleMonthDropdown?.(toggle);
+      setShowMonthDropdown(toggle);
+    });
 
-    const handleClick = useCallback(() => {
+    const handleClick = useEventCallback(() => {
       if (editable) {
         return;
       }
 
       focusSelectedDate();
-    }, [editable, focusSelectedDate]);
+    });
 
     /**
      * Callback after the date is selected.
      */
-    const handleSelect = useCallback(
+    const handleSelect = useEventCallback(
       (nextValue: Date, event: React.SyntheticEvent, updatableValue = true) => {
         setCalendarDate(
           // Determine whether the current value contains time, if not, use calendarDate.
@@ -584,79 +551,65 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           updateValue(event, nextValue);
           focusTargetInput();
         }
-      },
-      [
-        setCalendarDate,
-        formatStr,
-        handleDateChange,
-        oneTap,
-        calendarDate,
-        updateValue,
-        focusTargetInput
-      ]
+      }
     );
 
     /**
      *  A callback triggered when the date on the calendar changes.
      */
-    const handleChangeMonth = useCallback(
-      (nextPageDate: Date, event: React.MouseEvent) => {
-        setCalendarDate(nextPageDate);
-        handleDateChange(nextPageDate);
-        focusSelectedDate();
+    const handleChangeMonth = useEventCallback((nextPageDate: Date, event: React.MouseEvent) => {
+      setCalendarDate(nextPageDate);
+      handleDateChange(nextPageDate);
+      focusSelectedDate();
 
-        if (oneTap && onlyShowMonth) {
-          updateValue(event, nextPageDate);
-          focusTargetInput();
-        }
-      },
-      [
-        focusSelectedDate,
-        focusTargetInput,
-        handleDateChange,
-        oneTap,
-        onlyShowMonth,
-        setCalendarDate,
-        updateValue
-      ]
-    );
+      if (oneTap && onlyShowMonth) {
+        updateValue(event, nextPageDate);
+        focusTargetInput();
+      }
+    });
 
     /**
      * Callback after the input box value is changed.
      */
-    const handleInputChange = useCallback(
-      (value, event) => {
-        setInputState('Typing');
+    const handleInputChange = useEventCallback((value, event) => {
+      setInputState('Typing');
 
-        if (getInputState(value) === 'Error') {
-          setInputState('Error');
-        } else {
-          handleSelect(value, event);
+      if (getInputState(value) === 'Error') {
+        setInputState('Error');
+      } else {
+        handleSelect(value, event);
+      }
+
+      updateValue(event, value, false);
+    });
+
+    const handleInputKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+      onMenuKeyDown(event, {
+        esc: handleClose,
+        enter: () => {
+          const { open } = triggerRef.current?.getState() || {};
+          if (open) {
+            if (isValid(calendarDate) && !isDateDisabled(calendarDate)) {
+              updateValue(event);
+              focusTargetInput();
+            }
+          } else {
+            triggerRef.current?.open();
+          }
         }
+      });
+    });
 
-        updateValue(event, value, false);
-      },
-      [getInputState, updateValue, handleSelect]
-    );
-
-    const handleEntered = useCallback(() => {
-      onOpen?.();
-    }, [onOpen]);
-
-    const handleExited = useCallback(() => {
-      onClose?.();
-    }, [onClose]);
+    const handleEntered = useEventCallback(() => onOpen?.());
+    const handleExited = useEventCallback(() => onClose?.());
 
     // Check whether the time is within the time range of the shortcut option in the toolbar.
-    const disabledToolbarHandle = useCallback(
-      (date: Date): boolean => {
-        const allowDate = DEPRECATED_disabledDate?.(date) ?? false;
-        const allowTime = disabledTime(props, date);
+    const disabledToolbarHandle = (date: Date): boolean => {
+      const allowDate = DEPRECATED_disabledDate?.(date) ?? false;
+      const allowTime = disabledTime(props, date);
 
-        return allowDate || allowTime;
-      },
-      [DEPRECATED_disabledDate, props]
-    );
+      return allowDate || allowTime;
+    };
 
     /**
      * Whether "OK" button is disabled
@@ -664,20 +617,17 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * - If format is date, disable ok button if selected date is disabled
      * - If format is month, disable ok button if all dates in the month of selected date are disabled
      */
-    const isOKButtonDisabled = useCallback(
-      (selectedDate: Date): boolean => {
-        if (shouldRenderMonth(formatStr) && !shouldRenderDate(formatStr)) {
-          return isEveryDateInMonth(
-            selectedDate.getFullYear(),
-            selectedDate.getMonth(),
-            disabledToolbarHandle
-          );
-        }
+    const isOKButtonDisabled = (selectedDate: Date): boolean => {
+      if (shouldRenderMonth(formatStr) && !shouldRenderDate(formatStr)) {
+        return isEveryDateInMonth(
+          selectedDate.getFullYear(),
+          selectedDate.getMonth(),
+          disabledToolbarHandle
+        );
+      }
 
-        return disabledToolbarHandle(selectedDate);
-      },
-      [disabledToolbarHandle, formatStr]
-    );
+      return disabledToolbarHandle(selectedDate);
+    };
 
     const calendarProps = useMemo(
       () =>
@@ -688,33 +638,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               disabledOrHiddenTimeFunc?.(next, date) ?? false
         ),
       [props]
-    );
-
-    const calendar = (
-      <CalendarContainer
-        {...calendarProps}
-        targetId={id}
-        locale={locale}
-        showWeekNumbers={showWeekNumbers}
-        showMeridian={showMeridian}
-        disabledDate={isDateDisabled}
-        disabledHours={shouldDisableHour ?? DEPRECATED_disabledHours}
-        disabledMinutes={shouldDisableMinute ?? DEPRECATED_disabledMinutes}
-        disabledSeconds={shouldDisableSecond ?? DEPRECATED_disabledSeconds}
-        limitEndYear={limitEndYear}
-        limitStartYear={limitStartYear}
-        format={formatStr}
-        isoWeek={isoWeek}
-        calendarDate={calendarDate}
-        onMoveForward={handleMoveForward}
-        onMoveBackward={handleMoveBackward}
-        onSelect={handleSelect}
-        onToggleMonthDropdown={handleToggleMonthDropdown}
-        onToggleTimeDropdown={onToggleTimeDropdown}
-        onChangeMonth={handleChangeMonth}
-        onChangeTime={handleChangeTime}
-        onToggleMeridian={handleToggleMeridian}
-      />
     );
 
     // The shortcut option on the left side of the calendar panel
@@ -754,7 +677,30 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
             )}
 
             <>
-              {calendar}
+              <CalendarContainer
+                {...calendarProps}
+                targetId={id}
+                locale={locale}
+                showWeekNumbers={showWeekNumbers}
+                showMeridian={showMeridian}
+                disabledDate={isDateDisabled}
+                disabledHours={shouldDisableHour ?? DEPRECATED_disabledHours}
+                disabledMinutes={shouldDisableMinute ?? DEPRECATED_disabledMinutes}
+                disabledSeconds={shouldDisableSecond ?? DEPRECATED_disabledSeconds}
+                limitEndYear={limitEndYear}
+                limitStartYear={limitStartYear}
+                format={formatStr}
+                isoWeek={isoWeek}
+                calendarDate={calendarDate}
+                onMoveForward={handleMoveForward}
+                onMoveBackward={handleMoveBackward}
+                onSelect={handleSelect}
+                onToggleMonthDropdown={handleToggleMonthDropdown}
+                onToggleTimeDropdown={onToggleTimeDropdown}
+                onChangeMonth={handleChangeMonth}
+                onChangeTime={handleChangeTime}
+                onToggleMeridian={handleToggleMeridian}
+              />
               <Toolbar
                 locale={locale}
                 ranges={bottomRanges}
@@ -788,38 +734,17 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       return caretAsProp || (shouldOnlyRenderTime(formatStr) ? IconClockO : IconCalendar);
     }, [caretAsProp, formatStr]) as React.ElementType | null;
 
-    const handleTriggerClose = useCallback(
-      cause => {
-        // Unless overlay is closing on user clicking "OK" button,
-        // reset the selected date on calendar panel
-        if (cause !== OverlayCloseCause.ImperativeHandle) {
-          resetCalendarDate();
-        }
+    const handleTriggerClose = useEventCallback(cause => {
+      // Unless overlay is closing on user clicking "OK" button,
+      // reset the selected date on calendar panel
+      if (cause !== OverlayCloseCause.ImperativeHandle) {
+        resetCalendarDate();
+      }
 
-        setShowMonthDropdown(false);
-      },
-      [resetCalendarDate]
-    );
+      setShowMonthDropdown(false);
+    });
 
     const showCleanButton = cleanable && hasValue && !readOnly;
-
-    const addon = useMemo(() => {
-      if (loading) {
-        return <Loader style={{ display: 'block', padding: '1px 0' }} data-testid="spinner" />;
-      }
-      if (showCleanButton) {
-        return (
-          <CloseButton
-            className={prefix`clean`}
-            tabIndex={-1}
-            locale={{ closeLabel: locale?.clear }}
-            onClick={handleClean}
-          />
-        );
-      }
-      return caretAs && <Icon as={caretAs} />;
-    }, [caretAs, handleClean, loading, locale?.clear, prefix, showCleanButton]);
-
     const [ariaProps, rest] = partitionHTMLProps(restProps, { htmlProps: [], includeAria: true });
 
     return (
@@ -851,15 +776,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               size={size}
               onClick={handleClick}
             >
-              {label && (
-                <InputGroup.Addon
-                  data-testid="date-picker-label"
-                  className={prefix`label`}
-                  id={`${id}-label`}
-                >
-                  {label}
-                </InputGroup.Addon>
-              )}
+              <PickerLabel className={prefix`label`} id={`${id}-label`}>
+                {label}
+              </PickerLabel>
               <DateInput
                 aria-haspopup="dialog"
                 aria-invalid={inputState === 'Error'}
@@ -869,15 +788,19 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 id={id}
                 value={value}
                 format={formatStr}
-                placeholder={
-                  typeof placeholder === 'string' && placeholder ? placeholder : formatStr
-                }
+                placeholder={placeholder ? placeholder : formatStr}
                 disabled={disabled}
                 onChange={handleInputChange}
                 readOnly={readOnly || !editable || loading}
                 plaintext={plaintext}
+                onKeyDown={handleInputKeyDown}
               />
-              <InputGroup.Addon>{addon}</InputGroup.Addon>
+              <PickerIndicator
+                loading={loading}
+                caretAs={caretAs}
+                onClose={handleClean}
+                showCleanButton={showCleanButton}
+              />
             </InputGroup>
           )}
         </Component>

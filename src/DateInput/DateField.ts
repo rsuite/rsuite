@@ -1,4 +1,4 @@
-import { useCallback, useReducer } from 'react';
+import { useReducer } from 'react';
 import type { Locale } from 'date-fns';
 import isValid from 'date-fns/isValid';
 import { modifyDate } from './utils';
@@ -128,76 +128,67 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
   };
 
   // Check if the field value is valid.
-  const validFieldValue = useCallback(
-    (type: string, value: number | null) => {
-      let isValid = true;
+  const validFieldValue = (type: string, value: number | null) => {
+    let isValid = true;
 
-      format.match(new RegExp('([y|d|M|H|h|m|s])+', 'ig'))?.forEach((pattern: string) => {
+    format.match(new RegExp('([y|d|M|H|h|m|s])+', 'ig'))?.forEach((pattern: string) => {
+      const key = patternMap[pattern[0]];
+      const fieldValue = type === key ? value : dateField[key];
+
+      if (fieldValue === null) {
+        isValid = false;
+        return;
+      }
+    });
+
+    return isValid;
+  };
+
+  const isEmptyValue = (type?: string, value?: number | null) => {
+    const checkValueArray = format
+      .match(new RegExp('([y|d|M|H|h|m|s])+', 'ig'))
+      ?.map((pattern: string) => {
         const key = patternMap[pattern[0]];
         const fieldValue = type === key ? value : dateField[key];
 
-        if (fieldValue === null) {
-          isValid = false;
-          return;
-        }
+        return fieldValue !== null;
       });
 
-      return isValid;
-    },
-    [dateField, format]
-  );
+    return checkValueArray?.every(item => item === false);
+  };
 
-  const isEmptyValue = useCallback(
-    (type?: string, value?: number | null) => {
-      const checkValueArray = format
-        .match(new RegExp('([y|d|M|H|h|m|s])+', 'ig'))
-        ?.map((pattern: string) => {
-          const key = patternMap[pattern[0]];
-          const fieldValue = type === key ? value : dateField[key];
+  const toDate = (type?: string, value?: number | null): Date | null => {
+    const { year, month, day, hour, minute, second } = dateField;
+    const date = new Date(
+      year || 0,
+      typeof month === 'number' ? month - 1 : 0,
+      // The default day is 1 when the value is null, otherwise it becomes the last day of the month.
+      day || 1,
+      hour || 0,
+      minute || 0,
+      second || 0
+    );
 
-          return fieldValue !== null;
-        });
+    if (typeof type === 'undefined' || typeof value === 'undefined') {
+      return date;
+    }
 
-      return checkValueArray?.every(item => item === false);
-    },
-    [dateField, format]
-  );
-
-  const toDate = useCallback(
-    (type?: string, value?: number | null): Date | null => {
-      const { year, month, day, hour, minute, second } = dateField;
-      const date = new Date(
-        year || 0,
-        typeof month === 'number' ? month - 1 : 0,
-        // The default day is 1 when the value is null, otherwise it becomes the last day of the month.
-        day || 1,
-        hour || 0,
-        minute || 0,
-        second || 0
-      );
-
-      if (typeof type === 'undefined' || typeof value === 'undefined') {
-        return date;
+    if (value === null || !validFieldValue(type, value)) {
+      if (isEmptyValue(type, value)) {
+        return null;
       }
 
-      if (value === null || !validFieldValue(type, value)) {
-        if (isEmptyValue(type, value)) {
-          return null;
-        }
+      return new Date('');
+    }
 
-        return new Date('');
-      }
+    if (type === 'meridian' && typeof hour === 'number') {
+      const newHour = hour > 12 ? hour - 12 : hour + 12;
+      type = 'hour';
+      value = newHour as number;
+    }
 
-      if (type === 'meridian' && typeof hour === 'number') {
-        const newHour = hour > 12 ? hour - 12 : hour + 12;
-        type = 'hour';
-        value = newHour as number;
-      }
-
-      return modifyDate(date, type, value);
-    },
-    [dateField, isEmptyValue, validFieldValue]
-  );
+    return modifyDate(date, type, value);
+  };
 
   return {
     dateField,

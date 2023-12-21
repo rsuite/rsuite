@@ -165,6 +165,7 @@ export interface OverlayTriggerHandle {
   updatePosition: () => void;
   open: (delay?: number) => void;
   close: (delay?: number) => void;
+  getState: () => { open?: boolean };
 }
 
 const defaultTrigger = ['hover', 'focus'];
@@ -288,6 +289,7 @@ const OverlayTrigger = React.forwardRef(
       get overlay() {
         return overlayRef.current?.child;
       },
+      getState: () => ({ open }),
       open: handleOpen,
       close: (delay?: number) =>
         handleClose(delay, () => onClose?.(OverlayCloseCause.ImperativeHandle)),

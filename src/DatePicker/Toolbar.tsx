@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from '../Button';
 import { useClassNames } from '../utils';
 import PredefinedRanges, { PredefinedRangesProps } from './PredefinedRanges';
@@ -47,7 +46,10 @@ const SubmitButton = ({ hide, disabledOkBtn, calendarDate, onOk, children }: Sub
 /**
  * Toolbar for DatePicker and DateRangePicker
  */
-const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>((props, ref) => {
+const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
+  props,
+  ref
+) {
   const {
     className,
     classPrefix = 'picker-toolbar',
@@ -100,21 +102,5 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
     </Stack>
   );
 });
-
-Toolbar.displayName = 'Toolbar';
-Toolbar.propTypes = {
-  ranges: PropTypes.array,
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  calendarDate: PropTypes.oneOfType([
-    PropTypes.instanceOf(Date),
-    PropTypes.arrayOf(PropTypes.instanceOf(Date))
-  ]).isRequired,
-  onShortcutClick: PropTypes.func,
-  onOk: PropTypes.func,
-  disabledShortcut: PropTypes.func,
-  disabledOkBtn: PropTypes.func,
-  hideOkBtn: PropTypes.bool
-};
 
 export default Toolbar;

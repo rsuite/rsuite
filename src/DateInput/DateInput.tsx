@@ -1,9 +1,10 @@
-import React, { useState, useCallback, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import Input, { InputProps } from '../Input';
 import {
   mergeRefs,
   useCustom,
   useControlled,
+  useEventCallback,
   safeSetSelection,
   createChainedFunction
 } from '../utils';
@@ -77,34 +78,30 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     [dateField, dateString, formatStr, localize]
   );
 
-  const setSelectionRange = useCallback(
-    (
-      selectionStart: number = selectedState.selectionStart,
-      selectionEnd: number = selectedState.selectionEnd
-    ) => {
-      const input = inputRef?.current as HTMLInputElement;
+  const setSelectionRange = (
+    selectionStart: number = selectedState.selectionStart,
+    selectionEnd: number = selectedState.selectionEnd
+  ) => {
+    const input = inputRef?.current as HTMLInputElement;
 
-      if (isTestEnvironment) {
-        safeSetSelection(input, selectionStart, selectionEnd);
-        return;
-      }
+    if (isTestEnvironment) {
+      safeSetSelection(input, selectionStart, selectionEnd);
+      return;
+    }
 
-      requestAnimationFrame(() => {
-        safeSetSelection(input, selectionStart, selectionEnd);
-      });
-    },
-    [selectedState]
-  );
+    requestAnimationFrame(() => {
+      safeSetSelection(input, selectionStart, selectionEnd);
+    });
+  };
 
-  const handleChange = useCallback(
+  const handleChange = useEventCallback(
     (value: Date | null, event: React.SyntheticEvent<HTMLInputElement>) => {
       onChange?.(value, event);
       setValue(value);
-    },
-    [onChange, setValue]
+    }
   );
 
-  const handleChangeField = useCallback(
+  const handleChangeField = useEventCallback(
     (event: React.KeyboardEvent<HTMLInputElement>, nextDirection?: 'right' | 'left') => {
       const input = event.target as HTMLInputElement;
       const direction = nextDirection || (event.key === 'ArrowRight' ? 'right' : 'left');
@@ -112,11 +109,10 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
 
       setSelectionRange(state.selectionStart, state.selectionEnd);
       setSelectedState(state);
-    },
-    [keyPressOptions, setSelectionRange]
+    }
   );
 
-  const handleChangeFieldValue = useCallback(
+  const handleChangeFieldValue = useEventCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       const key = event.key;
       const input = event.target as HTMLInputElement;
@@ -127,38 +123,33 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       setSelectedState(state);
       setDateOffset(state.selectedPattern, offset, date => handleChange(date, event));
       setSelectionRange(state.selectionStart, state.selectionEnd);
-    },
-    [handleChange, keyPressOptions, setDateOffset, setSelectionRange]
+    }
   );
 
-  const isFieldFullValue = useCallback(
-    (value: number, pattern: string) => {
-      const patternGroup = getPatternGroups(formatStr, pattern);
+  const isFieldFullValue = (value: number, pattern: string) => {
+    const patternGroup = getPatternGroups(formatStr, pattern);
 
-      if (value.toString().length === patternGroup.length) {
-        return true;
-      }
+    if (value.toString().length === patternGroup.length) {
+      return true;
+    }
 
-      switch (pattern) {
-        case 'M':
-          return parseInt(`${value}0`) > 12;
-        case 'd':
-          return parseInt(`${value}0`) > 31;
-        case 'H':
-          return parseInt(`${value}0`) > 23;
-        case 'h':
-          return parseInt(`${value}0`) > 12;
-        case 'm':
-        case 's':
-          return parseInt(`${value}0`) > 59;
-        default:
-          return false;
-      }
-    },
-    [formatStr]
-  );
-
-  const handleChangeFieldValueWithNumericKeys = useCallback(
+    switch (pattern) {
+      case 'M':
+        return parseInt(`${value}0`) > 12;
+      case 'd':
+        return parseInt(`${value}0`) > 31;
+      case 'H':
+        return parseInt(`${value}0`) > 23;
+      case 'h':
+        return parseInt(`${value}0`) > 12;
+      case 'm':
+      case 's':
+        return parseInt(`${value}0`) > 59;
+      default:
+        return false;
+    }
+  };
+  const handleChangeFieldValueWithNumericKeys = useEventCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       const key = event.key;
       const input = event.target as HTMLInputElement;
@@ -197,28 +188,16 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       if (isFieldFullValue(newValue, pattern) && input.selectionEnd !== input.value.length) {
         handleChangeField(event, 'right');
       }
-    },
-    [
-      dateField,
-      getDateField,
-      handleChange,
-      handleChangeField,
-      isFieldFullValue,
-      keyPressOptions,
-      selectedState.selectedPattern,
-      setDateField,
-      setSelectionRange
-    ]
+    }
   );
 
-  const handleRemoveFieldValue = useCallback(
+  const handleRemoveFieldValue = useEventCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (selectedState.selectedPattern) {
         setDateField(selectedState.selectedPattern, null, date => handleChange(date, event));
         setSelectionRange();
       }
-    },
-    [handleChange, selectedState, setDateField, setSelectionRange]
+    }
   );
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -248,16 +227,13 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     onKeyDown?.(event);
   };
 
-  const handleClick = useCallback(
-    (event: React.MouseEvent<HTMLInputElement>) => {
-      const input = event.target as HTMLInputElement;
-      const state = getInputSelectedState({ ...keyPressOptions, input });
+  const handleClick = useEventCallback((event: React.MouseEvent<HTMLInputElement>) => {
+    const input = event.target as HTMLInputElement;
+    const state = getInputSelectedState({ ...keyPressOptions, input });
 
-      setSelectedState(state);
-      setSelectionRange(state.selectionStart, state.selectionEnd);
-    },
-    [keyPressOptions, setSelectionRange]
-  );
+    setSelectedState(state);
+    setSelectionRange(state.selectionStart, state.selectionEnd);
+  });
 
   const renderedValue = useMemo(() => {
     if (!isEmptyValue()) {
@@ -280,11 +256,11 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       placeholder={placeholder || formatStr}
       onFocus={createChainedFunction(
         onFocus,
-        useCallback(() => setFocused(true), [])
+        useEventCallback(() => setFocused(true))
       )}
       onBlur={createChainedFunction(
         onBlur,
-        useCallback(() => setFocused(false), [])
+        useEventCallback(() => setFocused(false))
       )}
       {...rest}
     />

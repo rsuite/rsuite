@@ -940,7 +940,7 @@ describe('DatePicker', () => {
     it('Should associate with aria-labelledby to a corresponding label id.', () => {
       render(<DatePicker label="custom-label" />);
 
-      const labelId = screen.getByTestId('date-picker-label').getAttribute('id') as string;
+      const labelId = screen.getByTestId('picker-label').getAttribute('id') as string;
 
       expect(screen.getByRole('textbox')).to.have.attribute('aria-labelledby', labelId);
     });
