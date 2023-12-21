@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/utils';
 import StepItem from '../StepItem';
 import User from '@rsuite/icons/legacy/User';
 
@@ -8,19 +8,21 @@ describe('StepItem', () => {
   testStandardProps(<StepItem />);
 
   it('Should render a StepItem', () => {
-    const instance = getDOMNode(<StepItem />);
-    assert.equal(instance.className, 'rs-steps-item');
+    render(<StepItem data-testid="step_item" />);
+    expect(screen.getByTestId('step_item')).to.have.class('rs-steps-item');
   });
 
   it('Should render a content dom', () => {
-    const instance = getDOMNode(<StepItem />);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.equal(instance.querySelectorAll('.rs-steps-item-content').length, 1);
+    render(<StepItem data-testid="step_item" />);
+    expect(
+      // eslint-disable-next-line testing-library/no-node-access
+      screen.getByTestId('step_item').querySelectorAll('.rs-steps-item-content')
+    ).to.have.length(1);
   });
 
   it('Should have a status', () => {
-    const instance = getDOMNode(<StepItem status="process" />);
-    assert.ok(instance.className.match(/\brs-steps-item-status-process\b/));
+    render(<StepItem data-testid="step_item" status="process" />);
+    expect(screen.getByTestId('step_item')).to.have.class('rs-steps-item-status-process');
   });
 
   it('Should render custom icon', () => {
@@ -30,9 +32,9 @@ describe('StepItem', () => {
     expect(screen.getByTestId('custom-icon')).to.exist;
   });
 
-  it('Should output a number ', () => {
-    const instance = getDOMNode(<StepItem stepNumber={10} />);
-    assert.equal(instance.textContent, '10');
+  it('Should output a number', () => {
+    render(<StepItem stepNumber={10} />);
+    expect(screen.getByText('10')).to.exist;
   });
 
   (['wait', 'process'] as const).forEach(status => {
@@ -43,13 +45,13 @@ describe('StepItem', () => {
     });
   });
 
-  it('Should render description ', () => {
-    const instance = getDOMNode(<StepItem description={'test'} />);
-    assert.equal(instance.textContent, 'test');
+  it('Should render description', () => {
+    render(<StepItem description="test" />);
+    expect(screen.getByText('test')).to.have.class('rs-steps-item-description');
   });
 
-  it('Should render title ', () => {
-    const instance = getDOMNode(<StepItem title={'test'} />);
-    assert.equal(instance.textContent, 'test');
+  it('Should render title', () => {
+    render(<StepItem title="test" />);
+    expect(screen.getByText('test')).to.have.class('rs-steps-item-title');
   });
 });

@@ -1,15 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import StepItem from '../StepItem';
-import { getDOMNode, getStyle, itChrome } from '@test/utils';
 
 import '../styles/index.less';
 
 describe('StepItem styles', () => {
-  itChrome('Should render the correct styles', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(<StepItem ref={instanceRef} />);
-    const dom = getDOMNode(instanceRef.current);
-    assert.equal(getStyle(dom, 'paddingLeft'), '40px', 'StepItem padding-left');
+  it('Should render the correct styles', () => {
+    render(<StepItem data-testid="step_item" />);
+    expect(screen.getByTestId('step_item')).to.have.style('paddingLeft', '40px');
   });
 });
