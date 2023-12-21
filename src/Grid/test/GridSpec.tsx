@@ -1,5 +1,6 @@
 import React from 'react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps } from '@test/utils';
+import { render, screen } from '@testing-library/react';
 import Grid from '../Grid';
 
 describe('Grid', () => {
@@ -7,14 +8,14 @@ describe('Grid', () => {
 
   it('Should render a container', () => {
     const title = 'Test';
-    const instance = getDOMNode(<Grid>{title}</Grid>);
-    assert.equal(instance.className, 'rs-grid-container');
-    assert.equal(instance.innerHTML, title);
+    render(<Grid>{title}</Grid>);
+    expect(screen.getByRole('grid')).to.have.class('rs-grid-container');
+    expect(screen.getByRole('grid')).to.have.text(title);
   });
 
   it('Should render a fluid container', () => {
     const title = 'Test';
-    const instance = getDOMNode(<Grid fluid>{title}</Grid>);
-    assert.equal(instance.className, 'rs-grid-container-fluid');
+    render(<Grid fluid>{title}</Grid>);
+    expect(screen.getByRole('grid')).to.have.class('rs-grid-container-fluid');
   });
 });
