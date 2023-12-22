@@ -1,3 +1,11 @@
+## [5.48.1](https://github.com/rsuite/rsuite/compare/v5.48.0...v5.48.1) (2023-12-22)
+
+### Bug Fixes
+
+- **build:** fix environment variable undefined error when building ([#3521](https://github.com/rsuite/rsuite/issues/3521)) ([8efa27b](https://github.com/rsuite/rsuite/commit/8efa27b69233d4cd72a4b09dbbd080b15db7d1c0))
+- **DatePicker:** fix `menuStyle` prop not working ([#3509](https://github.com/rsuite/rsuite/issues/3509)) ([aa816be](https://github.com/rsuite/rsuite/commit/aa816be89573f8483335736b67365a0b13848ecf))
+- **useMediaQuery:** fix MediaQueryList not updating status when triggering change event ([#3503](https://github.com/rsuite/rsuite/issues/3503)) ([06b79dd](https://github.com/rsuite/rsuite/commit/06b79dda26ced54b070cda3fd6d70f96a7a7e373))
+
 # [5.48.0](https://github.com/rsuite/rsuite/compare/v5.47.0...v5.48.0) (2023-12-14)
 
 ### Bug Fixes
