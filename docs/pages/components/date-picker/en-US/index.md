@@ -68,6 +68,10 @@ The calendar panel can be displayed in ISO standard via the ʻisoWeek` property 
 
 <!--{include:`loading.md`}-->
 
+### With a label
+
+<!--{include:`with-label.md`}-->
+
 ### Disable input
 
 `DatePicker` allows date and time input via keyboard by default, if you wish to disable it, you can disable editing by setting `editable={false}`.
