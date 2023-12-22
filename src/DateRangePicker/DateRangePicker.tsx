@@ -811,6 +811,12 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     const panelClasses = prefix('daterange-panel', {
       'daterange-panel-show-one-calendar': showOneCalendar
     });
+
+    /**
+     * Set a min-width (528px) when there are two calendars
+     * @see https://github.com/rsuite/rsuite/issues/3522
+     */
+    const panelStyles: React.CSSProperties = { minWidth: showOneCalendar ? 'auto' : 528 };
     const styles = { ...menuStyle, left, top };
 
     const calendarProps = {
@@ -846,7 +852,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
         target={triggerRef}
         style={styles}
       >
-        <div className={panelClasses}>
+        <div className={panelClasses} style={panelStyles}>
           <Stack alignItems="flex-start">
             {sideRanges.length > 0 && (
               <PredefinedRanges
@@ -863,7 +869,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
             <>
               <div className={prefix('daterange-content')}>
-                <div className={prefix('daterange-header')}>{getDisplayString(selectedDates)}</div>
+                <div className={prefix('daterange-header')} data-testid="daterange-header">
+                  {getDisplayString(selectedDates)}
+                </div>
                 <div
                   className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}
                 >
