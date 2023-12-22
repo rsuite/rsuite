@@ -25,7 +25,7 @@ const PickerIndicator = ({
 
   const addon = () => {
     if (loading) {
-      return <Loader style={{ display: 'block', padding: '1px 0' }} data-testid="spinner" />;
+      return <Loader className={prefix('loader')} data-testid="spinner" />;
     }
     if (showCleanButton) {
       return (

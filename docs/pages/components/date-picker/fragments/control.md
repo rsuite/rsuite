@@ -5,6 +5,8 @@ import { DatePicker } from 'rsuite';
 
 const App = () => {
   const [value, setValue] = React.useState(new Date());
+
+  console.log(value);
   return <DatePicker style={{ width: 200 }} value={value} onChange={setValue} />;
 };
 

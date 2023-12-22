@@ -10,7 +10,7 @@ import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Sinon from 'sinon';
 import enGB from 'date-fns/locale/en-GB';
-import { format, isSameDay, parseISO, isBefore } from 'date-fns';
+import { format, isSameDay, parseISO, isBefore, isValid } from 'date-fns';
 import DatePicker from '../DatePicker';
 import GearIcon from '@rsuite/icons/Gear';
 
@@ -922,6 +922,22 @@ describe('DatePicker', () => {
 
     expect(onChange).to.be.calledOnce;
     expect(onChange).to.be.calledWithMatch(null);
+  });
+
+  it('Should call `onChange` callback and return an invalid date', () => {
+    const onChange = Sinon.spy();
+
+    render(
+      <DatePicker onChange={onChange} format="yyyy-MM-dd" defaultValue={new Date('2023-11-01')} />
+    );
+
+    userEvent.type(screen.getByRole('textbox'), '{backspace}');
+
+    expect(onChange).to.be.calledOnce;
+    expect(screen.getByRole('textbox')).to.have.value('yyyy-11-01');
+
+    // Invalid date
+    expect(isValid(onChange.firstCall.firstArg)).to.be.false;
   });
 
   describe('Accessibility', () => {

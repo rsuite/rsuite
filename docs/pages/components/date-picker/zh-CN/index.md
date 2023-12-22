@@ -62,6 +62,10 @@
 
 <!--{include:`disabled.md`}-->
 
+### 加载中状态
+
+<!--{include:`loading.md`}-->
+
 ### 禁用输入
 
 `DatePicker` 默认是可以通过键盘输入日期和时间的，如果您希望禁用它，可以通过设置 `editable={false}` 来禁用编辑。

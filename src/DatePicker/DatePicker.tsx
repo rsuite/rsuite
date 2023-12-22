@@ -615,7 +615,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
-      const classes = merge(menuClassName, className, prefix('date-menu'));
+      const classes = merge(menuClassName, className);
       const styles = { ...menuStyle, left, top };
       return (
         <PickerOverlay

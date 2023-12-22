@@ -19,16 +19,11 @@ type ToolbarComponent = React.ForwardRefExoticComponent<ToolbarProps> & {
 interface SubmitButtonProps {
   calendarDate: any;
   children: React.ReactNode;
-  hide?: boolean;
   disabledOkBtn?: (value: any) => boolean;
   onOk?: (event: React.MouseEvent) => void;
 }
 
-const SubmitButton = ({ hide, disabledOkBtn, calendarDate, onOk, children }: SubmitButtonProps) => {
-  if (hide) {
-    return null;
-  }
-
+const SubmitButton = ({ disabledOkBtn, calendarDate, onOk, children }: SubmitButtonProps) => {
   const disabled = disabledOkBtn?.(calendarDate);
 
   return (
@@ -90,14 +85,11 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
         onShortcutClick={onShortcutClick}
       />
       <div className={prefix('right')}>
-        <SubmitButton
-          disabledOkBtn={disabledOkBtn}
-          hide={hideOkBtn}
-          calendarDate={calendarDate}
-          onOk={onOk}
-        >
-          {locale?.ok}
-        </SubmitButton>
+        {!hideOkBtn && (
+          <SubmitButton disabledOkBtn={disabledOkBtn} calendarDate={calendarDate} onOk={onOk}>
+            {locale?.ok}
+          </SubmitButton>
+        )}
       </div>
     </Stack>
   );
