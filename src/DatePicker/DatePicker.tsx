@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
@@ -14,7 +14,6 @@ import Stack from '../Stack';
 import PredefinedRanges from './PredefinedRanges';
 import { DatePickerLocale } from '../locales';
 import {
-  composeFunctions,
   createChainedFunction,
   mergeRefs,
   useClassNames,
@@ -33,27 +32,23 @@ import {
   getHours,
   addMonths,
   addDays,
-  setMinutes,
-  getMinutes,
-  setSeconds,
-  getSeconds,
   isValid,
   disabledTime,
+  copyTime,
   calendarOnlyProps,
   CalendarOnlyPropsType
 } from '../utils/dateUtils';
 import {
   PickerOverlay,
-  OverlayTriggerHandle,
   pickerPropTypes,
   PickerToggleTrigger,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
   usePickerClassName,
-  usePublicMethods,
   onMenuKeyDown
 } from '../Picker';
+import usePickerRef from '../Picker/usePickerRef';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
 import PickerLabel from './PickerLabel';
@@ -62,6 +57,7 @@ import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from 
 import { OverlayCloseCause } from '../Overlay/OverlayTrigger';
 import { deprecatePropTypeNew } from '../utils/deprecatePropType';
 import { getAriaLabel } from '../Calendar/utils';
+import { splitRanges } from './utils';
 
 export type { RangeType } from './Toolbar';
 
@@ -211,14 +207,10 @@ export interface DatePickerProps
   onClean?: (event: React.MouseEvent) => void;
 
   /**
-   * Custom render value
-   *
    * @deprecated
    */
   renderValue?: (value: Date, format: string) => string;
 }
-
-type InputState = 'Typing' | 'Error' | 'Initial';
 
 /**
  * A date picker allows users to select a date from a calendar.
@@ -286,6 +278,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     } = props;
 
     const id = useUniqueId(`${classPrefix}-`, idProp);
+    const { trigger, root, target, overlay } = usePickerRef(ref);
     const { locale, formatDate } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
     const { merge, prefix } = useClassNames(classPrefix);
     const [value, setValue] = useControlled(valueProp, defaultValue);
@@ -312,23 +305,15 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       return false;
     };
 
-    const getInputState = (value?: Date | null): InputState => {
+    const isErrorValue = (value?: Date | null) => {
       if (!isValid(value)) {
-        return 'Error';
+        return true;
       } else if (value && isDateDisabled(value)) {
-        return 'Error';
+        return true;
       }
 
-      return 'Initial';
+      return false;
     };
-
-    const [inputState, setInputState] = useState<InputState>(getInputState(value));
-    const triggerRef = useRef<OverlayTriggerHandle>(null);
-    const rootRef = useRef<HTMLDivElement>(null);
-    const targetRef = useRef<HTMLInputElement>(null);
-    const overlayRef = useRef<HTMLDivElement>(null);
-
-    usePublicMethods(ref, { rootRef, triggerRef, overlayRef, targetRef });
 
     /**
      * Switch to the callback triggered after the next month.
@@ -367,7 +352,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
     });
 
     const handleClose = useEventCallback(() => {
-      triggerRef.current?.close?.();
+      trigger.current?.close?.();
     });
 
     /**
@@ -458,7 +443,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * Focus on the input element
      */
     const focusTargetInput = useEventCallback(() => {
-      delay(() => targetRef.current?.focus(), 1);
+      delay(() => target.current?.focus(), 1);
     });
 
     /**
@@ -478,7 +463,6 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       updateValue(event, null);
       resetCalendarDate(null);
       onClean?.(event);
-      event.preventDefault();
       event.stopPropagation();
     });
 
@@ -537,13 +521,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       (nextValue: Date, event: React.SyntheticEvent, updatableValue = true) => {
         setCalendarDate(
           // Determine whether the current value contains time, if not, use calendarDate.
-          shouldRenderTime(formatStr)
-            ? nextValue
-            : composeFunctions(
-                (d: Date) => setHours(d, getHours(calendarDate)),
-                (d: Date) => setMinutes(d, getMinutes(calendarDate)),
-                (d: Date) => setSeconds(d, getSeconds(calendarDate))
-              )(nextValue)
+          shouldRenderTime(formatStr) ? nextValue : copyTime({ from: calendarDate, to: nextValue })
         );
 
         handleDateChange(nextValue);
@@ -572,11 +550,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
      * Callback after the input box value is changed.
      */
     const handleInputChange = useEventCallback((value, event) => {
-      setInputState('Typing');
-
-      if (getInputState(value) === 'Error') {
-        setInputState('Error');
-      } else {
+      if (!isErrorValue(value)) {
         handleSelect(value, event);
       }
 
@@ -587,21 +561,18 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onMenuKeyDown(event, {
         esc: handleClose,
         enter: () => {
-          const { open } = triggerRef.current?.getState() || {};
+          const { open } = trigger.current?.getState() || {};
           if (open) {
             if (isValid(calendarDate) && !isDateDisabled(calendarDate)) {
               updateValue(event);
               focusTargetInput();
             }
           } else {
-            triggerRef.current?.open();
+            trigger.current?.open();
           }
         }
       });
     });
-
-    const handleEntered = useEventCallback(() => onOpen?.());
-    const handleExited = useEventCallback(() => onClose?.());
 
     // Check whether the time is within the time range of the shortcut option in the toolbar.
     const disabledToolbarHandle = (date: Date): boolean => {
@@ -640,13 +611,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       [props]
     );
 
-    // The shortcut option on the left side of the calendar panel
-    const sideRanges = ranges?.filter(range => range?.placement === 'left') || [];
-
-    // The shortcut option on the bottom of the calendar panel
-    const bottomRanges =
-      ranges?.filter(range => range?.placement === 'bottom' || range?.placement === undefined) ||
-      [];
+    const { sideRanges, bottomRanges } = splitRanges(ranges);
 
     const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
@@ -657,9 +622,9 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           role="dialog"
           tabIndex={-1}
           className={classes}
-          ref={mergeRefs(overlayRef, speakerRef)}
+          ref={mergeRefs(overlay, speakerRef)}
           style={styles}
-          target={triggerRef}
+          target={trigger}
           onKeyDown={handlePickerOverlayKeyDown}
         >
           <Stack alignItems="flex-start">
@@ -746,22 +711,23 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const showCleanButton = cleanable && hasValue && !readOnly;
     const [ariaProps, rest] = partitionHTMLProps(restProps, { htmlProps: [], includeAria: true });
+    const invalidValue = isErrorValue(value);
 
     return (
       <PickerToggleTrigger
         trigger="active"
         pickerProps={pick(props, pickTriggerPropKeys)}
-        ref={triggerRef}
+        ref={trigger}
         placement={placement}
         onClose={handleTriggerClose}
-        onEntered={createChainedFunction(handleEntered, onEntered)}
-        onExited={createChainedFunction(handleExited, onExited)}
+        onEntered={createChainedFunction(onOpen, onEntered)}
+        onExited={createChainedFunction(onClose, onExited)}
         speaker={renderCalendarOverlay}
       >
         <Component
-          className={merge(className, classes, { [prefix('error')]: inputState === 'Error' })}
+          className={merge(className, classes, { [prefix('error')]: invalidValue })}
           style={style}
-          ref={rootRef}
+          ref={root}
         >
           {plaintext ? (
             <DateInput value={value} format={formatStr} plaintext={plaintext} />
@@ -781,10 +747,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               </PickerLabel>
               <DateInput
                 aria-haspopup="dialog"
-                aria-invalid={inputState === 'Error'}
+                aria-invalid={invalidValue}
                 aria-labelledby={label ? `${id}-label` : undefined}
                 {...(ariaProps as any)}
-                ref={targetRef}
+                ref={target}
                 id={id}
                 value={value}
                 format={formatStr}
