@@ -14,7 +14,13 @@ module.exports = (api, options) => {
     '@babel/plugin-proposal-nullish-coalescing-operator',
     '@babel/plugin-proposal-export-namespace-from',
     '@babel/plugin-proposal-export-default-from',
-    ['@babel/plugin-transform-runtime', { useESModules: !modules }]
+    ['@babel/plugin-transform-runtime', { useESModules: !modules }],
+    [
+      'transform-inline-environment-variables',
+      {
+        include: ['RUN_ENV']
+      }
+    ]
   ];
 
   return {
