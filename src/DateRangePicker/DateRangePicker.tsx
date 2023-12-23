@@ -869,9 +869,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
             <>
               <div className={prefix('daterange-content')}>
-                <div className={prefix('daterange-header')} data-testid="daterange-header">
-                  {getDisplayString(selectedDates)}
-                </div>
+                <div className={prefix('daterange-header')}>{getDisplayString(selectedDates)}</div>
                 <div
                   className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}
                 >
