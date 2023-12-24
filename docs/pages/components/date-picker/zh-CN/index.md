@@ -112,9 +112,23 @@
 
 <!--{include:`native-pickers.md`}-->
 
-## 无障碍设计
+## 可访问性
 
-了解更多有关[无障碍设计](/zh/guide/accessibility)的信息。
+### ARIA 属性
+
+默认拥有 DateInput 组件的 ARIA 属性。
+
+- 当值无效时，`aria-invalid="true"` 属性被添加到 `<input>` 元素。
+- 当设置了 `label`, `aria-labelledby` 属性被添加到 `<input>` 元素和 `dialog` 元素上，并将值设置为 `label` 的 `id` 属性值。
+- 拥有 `aria-haspopup="dialog"` 属性，用于指示组件拥有一个可交互的弹出层。
+
+### 键盘交互
+
+默认拥有 DateInput 组件的键盘交互。
+
+- 当焦点在日历面板上时，使用 <kbd>→</kbd> <kbd>←</kbd> <kbd>↓</kbd> <kbd>↑</kbd> 键切切换日期。
+- 当焦点在日历面板上时，使用 <kbd>Enter</kbd> 键选中日期。
+- 当 DatePicker 组件设置了 `editable={false}` 来禁用输入，使用 <kbd>↓</kbd> 将焦点移到日历面板。
 
 ## Props
 

@@ -620,6 +620,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       return (
         <PickerOverlay
           role="dialog"
+          aria-labelledby={label ? `${id}-label` : undefined}
           tabIndex={-1}
           className={classes}
           ref={mergeRefs(overlay, speakerRef)}
@@ -747,7 +748,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               </PickerLabel>
               <DateInput
                 aria-haspopup="dialog"
-                aria-invalid={invalidValue}
+                aria-invalid={value && invalidValue}
                 aria-labelledby={label ? `${id}-label` : undefined}
                 {...(ariaProps as any)}
                 ref={target}

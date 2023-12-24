@@ -116,7 +116,21 @@ If you only need to meet the simple date selection function, you can use the nat
 
 ## Accessibility
 
-Learn more in [Accessibility](/guide/accessibility).
+### ARIA properties
+
+Has all ARIA properties of the DateInput component by default.
+
+- The `aria-invalid="true"` attribute is added to the `<input>` element when the value is invalid.
+- When `label` is set, the `aria-labelledby` attribute is added to the `<input>` element and the `dialog` element and is set to the value of the `id` attribute of `label`.
+- Has the `aria-haspopup="dialog"` attribute to indicate that the component has an interactive dialog.
+
+### Keyboard interactions
+
+Has keyboard interaction for the DateInput component by default.
+
+- When the focus is on the calendar, use the <kbd>→</kbd> <kbd>←</kbd> <kbd>↓</kbd> <kbd>↑</kbd> keys to switch dates.
+- When the focus is on the calendar, use the <kbd>Enter</kbd> key to select a date.
+- When the DatePicker component has `editable={false}` set to disable input, use <kbd>↓</kbd> to move focus to the calendar.
 
 ## Props
 

@@ -148,6 +148,8 @@ describe('DatePicker', () => {
 
     const input = screen.getByRole('textbox');
 
+    expect(input).to.not.have.attribute('aria-invalid');
+
     userEvent.type(input, '1');
 
     expect(container.firstChild).to.have.class('rs-picker-error');
