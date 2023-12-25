@@ -31,7 +31,7 @@ interface SelectedStateOptions {
    * The offset of the value, which is used to calculate the month.
    * This value will be changed when pressing the up and down arrow keys.
    */
-  valueOffset?: number;
+  valueOffset?: number | null;
 
   /**
    * The date is rendered in string format according to format
@@ -62,13 +62,20 @@ export function getInputSelectedState(options: SelectedStateOptions) {
 
     // If the month is abbreviated or full, the gap needs to be adjusted.
     if (monthIsAbbreviated || monthIsFull) {
-      const isSelected = pattern === 'M';
+      const isSelectedMonth = pattern === 'M';
 
-      if (selectedMonth === null && valueOffset === 0) {
-        return gap;
+      // If the selected is the month, and the valueOffset is null,
+      // it means that the delete key is pressed, and the default pattern is displayed, and the gap is 0 at this time.
+      if (isSelectedMonth && valueOffset === null) {
+        return 0;
       }
 
-      let month = selectedMonth ? selectedMonth + (isSelected ? valueOffset : 0) : 1;
+      // If the month is null and the valueOffset is 0, the month will not be updated, and the gap is 0 at this time.
+      if (selectedMonth === null && valueOffset === 0) {
+        return 0;
+      }
+
+      let month = selectedMonth ? selectedMonth + (isSelectedMonth ? valueOffset || 0 : 0) : 1;
 
       if (month > 12) {
         month = 1;
@@ -109,7 +116,15 @@ export function getInputSelectedState(options: SelectedStateOptions) {
     const selectionEnd = formatStr.lastIndexOf(pattern) + 1;
     const gap = getSelectIndexGap(pattern);
 
-    if (pattern === 'M') {
+    const isSelectedMonth = pattern === 'M';
+    const isNullMonth = selectedMonth === null && !(isSelectedMonth && valueOffset !== 0);
+
+    // If the month is null and the valueOffset is 0, the month will not be updated, and the gap is 0 at this time.
+    if (isNullMonth) {
+      return { selectionStart, selectionEnd };
+    }
+
+    if (isSelectedMonth) {
       return {
         selectionStart,
         selectionEnd: selectionEnd + gap

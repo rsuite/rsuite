@@ -194,8 +194,13 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
   const handleRemoveFieldValue = useEventCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (selectedState.selectedPattern) {
+        const input = event.target as HTMLInputElement;
+        const nextState = getInputSelectedState({ ...keyPressOptions, input, valueOffset: null });
+
+        setSelectedState(nextState);
+        setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
+
         setDateField(selectedState.selectedPattern, null, date => handleChange(date, event));
-        setSelectionRange();
       }
     }
   );
