@@ -46,7 +46,7 @@ To select or input a date or time
 
 <!--{include:`format-time.md`}-->
 
-### Meridian format
+### Meridian format (AM/PM)
 
 Display hours in 12 format.
 
@@ -74,7 +74,7 @@ The calendar panel can be displayed in ISO standard via the ʻisoWeek` property 
 
 ### Disable input
 
-`DatePicker` allows date and time input via keyboard by default, if you wish to disable it, you can disable editing by setting `editable={false}`.
+`DatePicker` allows date and time input via keyboard by default, if you wish to disable it, you can disable input by setting `editable={false}`.
 
 <!--{include:`editable.md`}-->
 
@@ -92,13 +92,13 @@ The calendar panel can be displayed in ISO standard via the ʻisoWeek` property 
 
 ### Custom short options
 
+Clicking "Prev Day" in the example does not close the picker layer because the `closeOverlay=false` property is configured. This property is used to set whether to close the picker layer after clicking the shortcut item. The default value is `true`.
+
 <!--{include:`custom.md`}-->
 
-Clicking "The day before" in the example does not close the picker layer because the `closeOverlay:boolean` property is configured. This property is used to set whether to close the picker layer after clicking the shortcut item. The default value is `true`.
+### Controlled vs. uncontrolled value
 
-### Controlled
-
-<!--{include:`control.md`}-->
+<!--{include:`controlled.md`}-->
 
 ### Selection range
 

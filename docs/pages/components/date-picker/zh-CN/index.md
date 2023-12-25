@@ -46,7 +46,7 @@
 
 <!--{include:`format-time.md`}-->
 
-### 以 12 小时制的格式显示
+### 以 12 小时制的格式显示 (AM/PM)
 
 <!--{include:`format-time-meridian.md`}-->
 
@@ -72,7 +72,7 @@
 
 ### 禁用输入
 
-`DatePicker` 默认是可以通过键盘输入日期和时间的，如果您希望禁用它，可以通过设置 `editable={false}` 来禁用编辑。
+`DatePicker` 默认是可以通过键盘输入日期和时间的，如果您希望禁用它，可以通过设置 `editable={false}` 来禁用输入。
 
 <!--{include:`editable.md`}-->
 
@@ -90,13 +90,13 @@
 
 ### 自定义快捷项
 
+示例中点击“Prev Day”，不会关闭浮层，是因为配置 `closeOverlay=false` 参数，该参数用于设置点击快捷项以后是否关闭浮层，默认为 `true`。
+
 <!--{include:`custom.md`}-->
 
-示例中点击“前一天”，不会关闭浮层，是因为配置 `closeOverlay:boolean` 参数，该参数用于设置点击快捷项以后是否关闭浮层，默认为 `true`。
+### 受控与非受控的值
 
-### 受控
-
-<!--{include:`control.md`}-->
+<!--{include:`controlled.md`}-->
 
 ### 选择范围
 
