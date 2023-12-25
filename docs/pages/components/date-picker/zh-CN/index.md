@@ -46,7 +46,7 @@
 
 <!--{include:`format-time.md`}-->
 
-### 以 12 小时制的格式显示
+### 以 12 小时制的格式显示 (AM/PM)
 
 <!--{include:`format-time-meridian.md`}-->
 
@@ -62,9 +62,17 @@
 
 <!--{include:`disabled.md`}-->
 
+### 加载中状态
+
+<!--{include:`loading.md`}-->
+
+### 具有标签
+
+<!--{include:`with-label.md`}-->
+
 ### 禁用输入
 
-`DatePicker` 默认是可以通过键盘输入日期和时间的，如果您希望禁用它，可以通过设置 `editable={false}` 来禁用编辑。
+`DatePicker` 默认是可以通过键盘输入日期和时间的，如果您希望禁用它，可以通过设置 `editable={false}` 来禁用输入。
 
 <!--{include:`editable.md`}-->
 
@@ -82,13 +90,13 @@
 
 ### 自定义快捷项
 
+示例中点击“Prev Day”，不会关闭浮层，是因为配置 `closeOverlay=false` 参数，该参数用于设置点击快捷项以后是否关闭浮层，默认为 `true`。
+
 <!--{include:`custom.md`}-->
 
-示例中点击“前一天”，不会关闭浮层，是因为配置 `closeOverlay:boolean` 参数，该参数用于设置点击快捷项以后是否关闭浮层，默认为 `true`。
+### 受控与非受控的值
 
-### 受控
-
-<!--{include:`control.md`}-->
+<!--{include:`controlled.md`}-->
 
 ### 选择范围
 
@@ -104,9 +112,23 @@
 
 <!--{include:`native-pickers.md`}-->
 
-## 无障碍设计
+## 可访问性
 
-了解更多有关[无障碍设计](/zh/guide/accessibility)的信息。
+### ARIA 属性
+
+默认拥有 DateInput 组件的 ARIA 属性。
+
+- 当值无效时，`aria-invalid="true"` 属性被添加到 `<input>` 元素。
+- 当设置了 `label`, `aria-labelledby` 属性被添加到 `<input>` 元素和 `dialog` 元素上，并将值设置为 `label` 的 `id` 属性值。
+- 拥有 `aria-haspopup="dialog"` 属性，用于指示组件拥有一个可交互的弹出层。
+
+### 键盘交互
+
+默认拥有 DateInput 组件的键盘交互。
+
+- 当焦点在日历面板上时，使用 <kbd>→</kbd> <kbd>←</kbd> <kbd>↓</kbd> <kbd>↑</kbd> 键切切换日期。
+- 当焦点在日历面板上时，使用 <kbd>Enter</kbd> 键选中日期。
+- 当 DatePicker 组件设置了 `editable={false}` 来禁用输入，使用 <kbd>↓</kbd> 将焦点移到日历面板。
 
 ## Props
 

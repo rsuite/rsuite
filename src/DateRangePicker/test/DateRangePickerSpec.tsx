@@ -913,26 +913,24 @@ describe('DateRangePicker', () => {
         />
       );
 
-      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      const times = screen.queryAllByRole('button', { name: 'Select time' });
 
-      fireEvent.click(
-        screen.getByRole('gridcell', { name: '07 Feb 2022' }).firstChild as HTMLElement
-      );
+      expect(times[0]).to.have.text('00:00:00');
+      expect(times[1]).to.have.text('23:59:59');
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '07 Feb 2022' }));
 
       expect(onSelectSpy).to.have.been.calledOnce;
-      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(times[0]).to.have.text('00:00:00');
+      expect(times[1]).to.have.text('23:59:59');
 
-      fireEvent.click(
-        screen.getByRole('gridcell', { name: '10 Feb 2022' }).firstChild as HTMLElement
-      );
+      fireEvent.click(screen.getByRole('gridcell', { name: '10 Feb 2022' }));
 
       expect(onSelectSpy).to.have.been.calledTwice;
-      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
-      // eslint-disable-next-line testing-library/no-node-access
-      expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
+      expect(times[0]).to.have.text('00:00:00');
+      expect(times[1]).to.have.text('23:59:59');
+
+      expect(screen.getByTestId('daterange-header')).to.have.text(
         '2022-02-07 00:00:00 ~ 2022-02-10 23:59:59'
       );
     });
@@ -948,26 +946,24 @@ describe('DateRangePicker', () => {
         />
       );
 
-      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      const times = screen.queryAllByRole('button', { name: 'Select time' });
 
-      fireEvent.click(
-        screen.getByRole('gridcell', { name: '07 Feb 2022' }).firstChild as HTMLElement
-      );
+      expect(times[0]).to.have.text('00:00:00');
+      expect(times[1]).to.have.text('23:59:59');
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '07 Feb 2022' }));
 
       expect(onSelectSpy).to.have.been.calledOnce;
-      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(times[0]).to.have.text('00:00:00');
+      expect(times[1]).to.have.text('23:59:59');
 
-      fireEvent.click(
-        screen.getByRole('gridcell', { name: '10 Feb 2022' }).firstChild as HTMLElement
-      );
+      fireEvent.click(screen.getByRole('gridcell', { name: '10 Feb 2022' }));
 
       expect(onSelectSpy).to.have.been.calledTwice;
-      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
-      // eslint-disable-next-line testing-library/no-node-access
-      expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
+      expect(times[0]).to.have.text('00:00:00');
+      expect(times[1]).to.have.text('23:59:59');
+
+      expect(screen.getByTestId('daterange-header')).to.have.text(
         '2022-02-07 00:00:00 ~ 2022-02-10 23:59:59'
       );
     });
@@ -981,23 +977,16 @@ describe('DateRangePicker', () => {
         />
       );
 
-      const headerDateTitles = screen
-        .getByRole('dialog')
-        // eslint-disable-next-line testing-library/no-node-access
-        .querySelectorAll('.rs-calendar-header-title-date');
-      const handerTimeTitles = screen
-        .getByRole('dialog')
-        // eslint-disable-next-line testing-library/no-node-access
-        .querySelectorAll('.rs-calendar-header-title-time');
-      const firstCalendarForwardButton = screen
-        .getByRole('dialog')
-        // eslint-disable-next-line testing-library/no-node-access
-        .querySelectorAll('.rs-calendar-header-forward')[0];
+      const headerDateTitles = screen.queryAllByRole('button', { name: 'Select month' });
+      const handerTimeTitles = screen.queryAllByRole('button', { name: 'Select time' });
 
-      const secondCalendarBackwardButton = screen
-        .getByRole('dialog')
-        // eslint-disable-next-line testing-library/no-node-access
-        .querySelectorAll('.rs-calendar-header-backward')[1];
+      const firstCalendarForwardButton = screen.queryAllByRole('button', {
+        name: 'Next month'
+      })[0];
+
+      const secondCalendarBackwardButton = screen.queryAllByRole('button', {
+        name: 'Previous month'
+      })[1];
 
       expect(handerTimeTitles[0]).to.have.text('00:00:00');
       expect(handerTimeTitles[1]).to.have.text('23:59:59');
@@ -1030,26 +1019,24 @@ describe('DateRangePicker', () => {
         />
       );
 
-      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      const times = screen.queryAllByRole('button', { name: 'Select time' });
 
-      fireEvent.click(
-        screen.getByRole('gridcell', { name: '20 Mar 2022' }).firstChild as HTMLElement
-      );
+      expect(times[0]).to.have.text('00:00:00');
+      expect(times[1]).to.have.text('23:59:59');
+
+      fireEvent.click(screen.getByRole('gridcell', { name: '20 Mar 2022' }));
 
       expect(onSelectSpy).to.have.been.calledOnce;
-      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(times[0]).to.have.text('00:00:00');
+      expect(times[1]).to.have.text('23:59:59');
 
-      fireEvent.click(
-        screen.getByRole('gridcell', { name: '21 Apr 2022' }).firstChild as HTMLElement
-      );
+      fireEvent.click(screen.getByRole('gridcell', { name: '21 Apr 2022' }));
 
       expect(onSelectSpy).to.have.been.calledTwice;
-      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
-      // eslint-disable-next-line testing-library/no-node-access
-      expect(screen.getByRole('dialog').querySelector('.rs-picker-daterange-header')).to.have.text(
+      expect(times[0]).to.have.text('00:00:00');
+      expect(times[1]).to.have.text('23:59:59');
+
+      expect(screen.getByTestId('daterange-header')).to.have.text(
         '2022-03-20 00:00:00 ~ 2022-04-21 23:59:59'
       );
     });
@@ -1066,14 +1053,16 @@ describe('DateRangePicker', () => {
         />
       );
 
-      expect(screen.getByRole('button', { name: '01:01:01' })).to.be.visible;
-      expect(screen.getByRole('button', { name: '02:02:02' })).to.be.visible;
+      const times = screen.queryAllByRole('button', { name: 'Select time' });
+
+      expect(times[0]).to.have.text('01:01:01');
+      expect(times[1]).to.have.text('02:02:02');
 
       fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
 
       expect(onCleanSpy).to.have.been.calledOnce;
-      expect(screen.getByRole('button', { name: '00:00:00' })).to.be.visible;
-      expect(screen.getByRole('button', { name: '23:59:59' })).to.be.visible;
+      expect(times[0]).to.have.text('00:00:00');
+      expect(times[1]).to.have.text('23:59:59');
     });
 
     it('Should switch time from PM to AM', () => {
@@ -1086,12 +1075,8 @@ describe('DateRangePicker', () => {
         />
       );
 
-      // eslint-disable-next-line testing-library/no-node-access
-      const header = screen.getByRole('dialog').querySelector('.rs-picker-daterange-header');
-      const switchButtons = screen
-        .getByRole('dialog')
-        // eslint-disable-next-line testing-library/no-node-access
-        .querySelectorAll('.rs-calendar-header-meridian');
+      const header = screen.getByTestId('daterange-header');
+      const switchButtons = screen.queryAllByRole('button', { name: 'Toggle meridian' });
 
       expect(header).to.have.text('2022-02-01 13:00:00 ~ 2022-03-01 14:00:00');
       expect(switchButtons[0]).to.have.text('PM');
@@ -1119,14 +1104,12 @@ describe('DateRangePicker', () => {
       />
     );
 
-    const startCell = screen.getByRole('gridcell', { name: '01 Feb 2022' })
-      .firstChild as HTMLButtonElement;
-    const endCell = screen.getByRole('gridcell', { name: '02 Feb 2022' })
-      .firstChild as HTMLButtonElement;
-    const btnAM = screen.getByRole('button', { name: 'AM' });
-    const btnPM = screen.getByRole('button', { name: 'PM' });
-    const btnAMTime = screen.getByRole('button', { name: '12:00' });
-    const btnPMTime = screen.getByRole('button', { name: '11:59' });
+    const startCell = screen.getByRole('gridcell', { name: '01 Feb 2022' });
+    const endCell = screen.getByRole('gridcell', { name: '02 Feb 2022' });
+    const btnAM = screen.queryAllByRole('button', { name: 'Toggle meridian' })[0];
+    const btnPM = screen.queryAllByRole('button', { name: 'Toggle meridian' })[1];
+    const btnAMTime = screen.queryAllByRole('button', { name: 'Select time' })[0];
+    const btnPMTime = screen.queryAllByRole('button', { name: 'Select time' })[1];
 
     expect(btnAM).to.not.have.attribute('disabled');
     expect(btnPM).to.not.have.attribute('disabled');

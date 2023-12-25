@@ -11,17 +11,13 @@ const Label = props => {
 const App = () => (
   <div className="field">
     <Label>Disabled: </Label>
-    <DatePicker disabled style={{ width: 200 }} />
+    <DatePicker disabled />
     <br />
     <Label>Disabled date: </Label>
-    <DatePicker shouldDisableDate={date => isBefore(date, new Date())} style={{ width: 200 }} />
+    <DatePicker defaultValue={new Date()} shouldDisableDate={date => isBefore(date, new Date())} />
     <br />
     <Label>Disabled month: </Label>
-    <DatePicker
-      shouldDisableDate={date => isBefore(date, new Date())}
-      format="yyyy-MM"
-      style={{ width: 200 }}
-    />
+    <DatePicker shouldDisableDate={date => isBefore(date, new Date())} format="yyyy-MM" />
     <br />
     <Label>Disabled time: </Label>
     <DatePicker
@@ -31,7 +27,6 @@ const App = () => (
       shouldDisableHour={hour => hour < 8 || hour > 18}
       shouldDisableMinute={minute => minute % 15 !== 0}
       shouldDisableSecond={second => second % 30 !== 0}
-      style={{ width: 200 }}
     />
     <br />
     <Label>Hidden time: </Label>
@@ -42,15 +37,14 @@ const App = () => (
       hideHours={hour => hour < 8 || hour > 18}
       hideMinutes={minute => minute % 15 !== 0}
       hideSeconds={second => second % 30 !== 0}
-      style={{ width: 200 }}
     />
     <hr />
     <Label>Read only: </Label>
-    <DatePicker readOnly defaultValue={new Date()} style={{ width: 200 }} />
+    <DatePicker readOnly defaultValue={new Date()} />
 
     <hr />
     <Label>Plaintext: </Label>
-    <DatePicker plaintext defaultValue={new Date()} style={{ width: 200 }} />
+    <DatePicker plaintext defaultValue={new Date()} />
   </div>
 );
 

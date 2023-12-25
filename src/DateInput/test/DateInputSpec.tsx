@@ -5,6 +5,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import DateInput from '../DateInput';
+import CustomProvider from '../../CustomProvider';
+import zhCN from '../../locales/zh_CN';
 
 import { testKeyPress, testContinuousKeyPress } from './testUtils';
 
@@ -15,13 +17,25 @@ describe('DateInput', () => {
     defaultValue: new Date('2023-10-01'),
     value: new Date('2023-10-01'),
     changedValue: new Date('2023-10-02'),
-    simulateEvent: {
-      changeValue: () => {
-        const input = screen.getByRole('textbox') as HTMLInputElement;
-        userEvent.type(input, '2025');
-        return { changedValue: new Date('2025-10-01'), callCount: 4 };
+    simulateEvent: null,
+    simulateChangeEvents: [
+      {
+        change: () => {
+          userEvent.type(screen.getByRole('textbox'), '2025');
+        },
+        value: new Date('2025-10-01'),
+        callCount: 4
+      },
+      {
+        change: () => {
+          userEvent.type(screen.getByRole('textbox'), '{backspace}');
+        },
+        value: new Date(''),
+        expectedValue: () => {
+          expect(screen.getByRole('textbox')).to.value('yyyy-10-01');
+        }
       }
-    },
+    ],
     expectedValue: (value: Date) => {
       expect(screen.getByRole('textbox')).to.value(format(value, 'yyyy-MM-dd'));
     }
@@ -31,16 +45,22 @@ describe('DateInput', () => {
     value: new Date('2023-10-01')
   });
 
-  it('Should render values according to the default format', () => {
+  it('Should render placeholder according to the default format', () => {
     render(<DateInput />);
 
-    expect(screen.getByRole('textbox')).to.value('yyyy-MM-dd');
+    expect(screen.getByRole('textbox')).to.have.attribute('placeholder', 'yyyy-MM-dd');
+
+    fireEvent.focus(screen.getByRole('textbox'));
+    expect(screen.getByRole('textbox')).to.have.value('yyyy-MM-dd');
   });
 
-  it('Should render values according to the given format', () => {
+  it('Should render placeholder according to the given format', () => {
     render(<DateInput format="dd-MM-yyyy" />);
 
-    expect(screen.getByRole('textbox')).to.value('dd-MM-yyyy');
+    expect(screen.getByRole('textbox')).to.have.attribute('placeholder', 'dd-MM-yyyy');
+
+    fireEvent.focus(screen.getByRole('textbox'));
+    expect(screen.getByRole('textbox')).to.have.value('dd-MM-yyyy');
   });
 
   it('Should format the value according to the given `format`', () => {
@@ -51,17 +71,62 @@ describe('DateInput', () => {
 
   it('Should call `onChange` with the new value', () => {
     const onChange = sinon.spy();
-    render(
-      <DateInput onChange={onChange} format="yyyy-MM-dd" defaultValue={new Date('2023-10-01')} />
-    );
+    render(<DateInput onChange={onChange} format="yyyy-MM-dd" />);
+
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+
+    userEvent.click(input);
+    userEvent.type(input, '2024');
+
+    expect(isNaN(onChange.getCall(3).firstArg.getTime())).to.be.true;
+    expect(input).to.value('2024-MM-dd');
+
+    userEvent.type(input, '{arrowright}12');
+
+    expect(isNaN(onChange.getCall(5).firstArg.getTime())).to.be.true;
+    expect(input).to.value('2024-12-dd');
+
+    userEvent.type(input, '{arrowright}{arrowright}20');
+
+    expect(format(onChange.lastCall.firstArg, 'yyyy-MM-dd')).to.be.eql('2024-12-20');
+    expect(input).to.value('2024-12-20');
+
+    expect(onChange).to.be.callCount(8);
+  });
+
+  it('Should get null value in onChange callback', () => {
+    const onChange = sinon.spy();
+
+    render(<DateInput onChange={onChange} format="yyyy" defaultValue={new Date('2023-10-01')} />);
 
     const input = screen.getByRole('textbox') as HTMLInputElement;
 
     fireEvent.click(input);
-    fireEvent.keyDown(input, { key: '2024' });
+    fireEvent.keyDown(input, { key: 'Backspace' });
+    fireEvent.blur(input);
 
-    expect(onChange).to.be.calledWithMatch(new Date('2024-10-01'));
-    expect(input).to.value('2024-10-01');
+    expect(input).to.value('');
+    expect(onChange).to.have.been.calledWith(null);
+
+    expect(onChange).to.have.been.calledOnce;
+  });
+
+  it('Should format dates according to locale configuration', () => {
+    const { rerender } = render(
+      <CustomProvider locale={zhCN}>
+        <DateInput value={new Date('2023-10-01')} format="dd MMMM yyyy" />
+      </CustomProvider>
+    );
+
+    expect(screen.getByRole('textbox')).to.have.value('01 十月 2023');
+
+    rerender(
+      <CustomProvider locale={zhCN}>
+        <DateInput value={new Date('2023-11-20')} format="dd MMM yyyy" />
+      </CustomProvider>
+    );
+
+    expect(screen.getByRole('textbox')).to.have.value('20 11月 2023');
   });
 
   describe('DateInput - KeyPress', () => {
@@ -134,6 +199,15 @@ describe('DateInput', () => {
         key: '{arrowright}{arrowright}{arrowup}',
         defaultValue: new Date('2023-10-01'),
         expectedValue: '2023-10-02'
+      });
+    });
+
+    it('Should be updated for full month', () => {
+      testKeyPress({
+        defaultValue: new Date('2023-01-01'),
+        format: 'dd MMMM yyyy',
+        key: '{arrowright}{arrowup}',
+        expectedValue: '01 February 2023'
       });
     });
 
@@ -221,9 +295,21 @@ describe('DateInput', () => {
     it('Should support the AM/PM format', () => {
       testContinuousKeyPress({
         format: 'aa',
+        defaultValue: new Date('2023-10-01 13:00:00'),
         keySequences: [
           { key: '{arrowup}', expected: 'AM' },
           { key: '{arrowdown}', expected: 'PM' }
+        ]
+      });
+    });
+
+    it('Should show correct AM/PM by changing the hour', () => {
+      testContinuousKeyPress({
+        format: 'HH aa',
+        defaultValue: new Date('2023-10-01 13:00:00'),
+        keySequences: [
+          { key: '1', expected: '01 AM' },
+          { key: '3', expected: '13 PM' }
         ]
       });
     });

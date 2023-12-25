@@ -26,6 +26,21 @@ The DateInput component lets users select a date with the keyboard.
 
 <!--{include:`controlled.md`}-->
 
+## Accessibility
+
+### ARIA properties
+
+- The DateInput component is the `<input type="text">` element.
+- When the DateInput component is disabled, the `disabled` property is added to the `<input>` element.
+- When the DateInput component is read only, the `readonly` property is added to the `<input>` element.
+
+### Keyboard interactions
+
+- Use <kbd>→</kbd> <kbd>←</kbd> keyboard to switch to select year/month/day/hour/minute/second.
+- Use <kbd>↓</kbd> <kbd>↑</kbd> keys to increase and decrease values.
+- Use <kbd>Backspace</kbd> key to delete selected value.
+- Use numeric key to update selected value.
+
 ## Props
 
 ### `<DateInput>`

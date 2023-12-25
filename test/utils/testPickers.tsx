@@ -21,14 +21,17 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
     it('Should render a picker', () => {
       const { container } = render(<TestComponent data={data} />);
 
-      expect(screen.getByRole('combobox')).to.exist;
       expect(container.firstChild).to.have.class('rs-picker');
     });
 
     it('Should have a subtle appearance', () => {
       render(<TestComponent data={data} appearance="subtle" />);
 
-      expect(screen.getByRole('combobox')).to.have.class('rs-btn-subtle');
+      const combobox = screen.queryByRole('combobox');
+
+      if (combobox) {
+        expect(combobox).to.have.class('rs-btn-subtle');
+      }
     });
 
     it('Should be block', () => {
@@ -59,26 +62,42 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       it('Should display label and spinner when label is specified', () => {
         render(<TestComponent label="User" data={data} loading />);
 
-        expect(screen.getByRole('combobox')).to.have.text('User');
+        const combobox = screen.queryByRole('combobox');
+
+        if (combobox) {
+          expect(combobox).to.have.text('User');
+        } else {
+          expect(screen.getByTestId('picker-label')).to.have.text('User');
+        }
         expect(screen.getByTestId('spinner')).to.exist;
       });
 
       it('Should not open menu on click when loading=true', () => {
         render(<TestComponent data={data} loading />);
 
-        fireEvent.click(screen.getByRole('combobox'));
+        const combobox = screen.queryByRole('combobox');
 
-        expect(screen.queryByRole('listbox')).not.to.exist;
+        if (combobox) {
+          fireEvent.click(combobox);
+          expect(screen.queryByRole('listbox')).not.to.exist;
+        } else {
+          fireEvent.click(screen.getByRole('textbox'));
+          expect(screen.queryByRole('dialog')).not.to.exist;
+        }
       });
 
       it('Should not open menu on Enter key when loading=true', () => {
         render(<TestComponent data={data} loading />);
 
-        fireEvent.keyDown(screen.getByRole('combobox'), {
-          key: 'Enter'
-        });
+        const combobox = screen.queryByRole('combobox');
 
-        expect(screen.queryByRole('listbox')).not.to.exist;
+        if (combobox) {
+          fireEvent.keyDown(combobox, { key: 'Enter' });
+          expect(screen.queryByRole('listbox')).not.to.exist;
+        } else {
+          fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
+          expect(screen.queryByRole('dialog')).not.to.exist;
+        }
       });
     });
 

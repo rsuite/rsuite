@@ -80,6 +80,26 @@
   &.rs-picker-focused {
     box-shadow: var(--rs-state-focus-shadow);
   }
+
+  &-label.rs-input-group-addon {
+    color: var(--rs-text-primary);
+    padding-right: 4px !important;
+  }
+
+  &-loader {
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+  }
+
+  &-error > .rs-input-group {
+    border-color: var(--rs-state-error) !important;
+
+    &:focus-within {
+      outline: var(--rs-state-error-outline) !important;
+    }
+  }
 }
 
 .rs-picker-toggle {

@@ -101,7 +101,7 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
       showMeridian = false,
       ...rest
     } = props;
-    const { locale, format, date, onChangeTime: onSelect } = useCalendarContext();
+    const { locale, format, date, onChangeTime: onSelect, targetId } = useCalendarContext();
     const rowRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -153,25 +153,28 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
           });
 
           items.push(
-            <li key={i} role="menuitem">
-              <a
-                role="button"
-                className={itemClasses}
-                tabIndex={-1}
-                data-key={`${type}-${i}`}
-                onClick={!disabled ? partial(handleClick, type, i) : undefined}
-              >
+            <li
+              key={i}
+              role="option"
+              tabIndex={-1}
+              aria-label={`${i} ${type}`}
+              aria-selected={active === i}
+              aria-disabled={disabled}
+              data-key={`${type}-${i}`}
+              onClick={!disabled ? partial(handleClick, type, i) : undefined}
+            >
+              <span className={itemClasses}>
                 {showMeridian && type === 'hours' && i === 0 ? '12' : i}
-              </a>
+              </span>
             </li>
           );
         }
       }
 
       return (
-        <div className={prefix('column')} role="listitem">
+        <div className={prefix('column')}>
           <div className={prefix('column-title')}>{locale?.[type]}</div>
-          <ul data-type={type} role="menu">
+          <ul data-type={type} role="listbox" aria-label={`Select ${type}`}>
             {items}
           </ul>
         </div>
@@ -179,11 +182,13 @@ const TimeDropdown: RsRefForwardingComponent<'div', TimeDropdownProps> = React.f
     };
 
     const time = getTime({ format, date, showMeridian });
-    const classes = merge(className, rootPrefix(classPrefix));
+    const classes = merge(className, rootPrefix(classPrefix), { show });
 
     return (
       <Component
-        role="list"
+        role="group"
+        tabIndex={-1}
+        id={targetId ? `${targetId}-${classPrefix}` : undefined}
         {...DateUtils.omitHideDisabledProps<TimeDropdownProps>(rest)}
         ref={ref}
         className={classes}

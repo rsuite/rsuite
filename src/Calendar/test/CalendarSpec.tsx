@@ -92,8 +92,10 @@ describe('Calendar', () => {
     render(<Calendar defaultValue={new Date('2023-04-01')} />);
 
     const cells = Array.from(
-      // eslint-disable-next-line testing-library/no-node-access
-      screen.getByRole('grid').querySelectorAll('.rs-calendar-table-cell-un-same-month')
+      screen
+        .getByRole('grid', { name: 'Apr 2023' })
+        // eslint-disable-next-line testing-library/no-node-access
+        .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).map(cell => (cell as HTMLDivElement).innerText);
 
     expect(cells).to.deep.equal(['26', '27', '28', '29', '30', '31', '1', '2', '3', '4', '5', '6']);
@@ -117,10 +119,8 @@ describe('Calendar', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
 
     fireEvent.click(
-      screen
-        .getByRole('menu')
-        // eslint-disable-next-line testing-library/no-node-access
-        .querySelector('.rs-calendar-month-dropdown-cell-active + div') as HTMLElement
+      // eslint-disable-next-line testing-library/no-node-access
+      screen.getByRole('gridcell', { name: 'Jan 2023' })?.nextElementSibling as HTMLDivElement
     );
 
     expect(onMonthChangeSpy).to.have.been.calledThrice;
@@ -155,12 +155,7 @@ describe('Calendar', () => {
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Select month' }));
-    fireEvent.click(
-      screen
-        .getByRole('menu')
-        // eslint-disable-next-line testing-library/no-node-access
-        .querySelector('.rs-calendar-month-dropdown-cell-active') as HTMLElement
-    );
+    fireEvent.click(screen.getByRole('gridcell', { name: 'Jan 2023' }));
 
     expect(onMonthChangeSpy).to.have.been.not.called;
     expect(onToggleMonthDropdownSpy).to.have.been.called;

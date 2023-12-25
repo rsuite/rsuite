@@ -14,7 +14,8 @@ import {
   shouldRenderMonth,
   isSameMonth,
   calendarOnlyProps,
-  omitHideDisabledProps
+  omitHideDisabledProps,
+  isValid
 } from '../utils/dateUtils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { CalendarLocale } from '../locales';
@@ -28,6 +29,9 @@ export interface CalendarProps
     CalendarHeaderProps {
   /** The panel render based on date range */
   dateRange?: Date[];
+
+  /** The Id of the target element that triggers the opening of the calendar */
+  targetId?: string;
 
   /** Date displayed on the current page */
   calendarDate: Date;
@@ -123,6 +127,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       format,
       hoverRangeValue,
       isoWeek = false,
+      targetId,
       limitEndYear,
       limitStartYear,
       locale,
@@ -135,7 +140,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       onToggleMeridian,
       onToggleMonthDropdown,
       onToggleTimeDropdown,
-      calendarDate,
+      calendarDate: calendarDateProp,
       cellClassName,
       renderCell,
       renderTitle,
@@ -148,6 +153,10 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
 
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const { calendarState, reset, openMonth, openTime } = useCalendarState(defaultState);
+
+    const calendarDate = useMemo(() => {
+      return isValid(calendarDateProp) ? calendarDateProp : new Date();
+    }, [calendarDateProp]);
 
     const isDisabledDate = useCallback(
       (date: Date) => disabledDate?.(date) ?? false,
@@ -227,6 +236,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         hoverRangeValue,
         inSameMonth: inSameThisMonthDate,
         isoWeek,
+        targetId,
         locale,
         onChangeMonth: handleChangeMonth,
         onChangeTime,
@@ -247,6 +257,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
         inline,
         isDisabledDate,
         isoWeek,
+        targetId,
         locale,
         onChangeTime,
         onMouseMove,
@@ -259,6 +270,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
     return (
       <CalendarProvider value={contextValue}>
         <Component
+          data-testid="calendar"
           {...omitHideDisabledProps<Partial<CalendarProps>>(rest)}
           className={calendarClasses}
           ref={ref}

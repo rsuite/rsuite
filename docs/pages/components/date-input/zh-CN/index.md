@@ -26,6 +26,21 @@ DateInput 组件允许用户使用键盘选择日期。
 
 <!--{include:`controlled.md`}-->
 
+## 可访问性
+
+### ARIA 属性
+
+- DateInput 组件是 `<input type="text">`元素。
+- 当 DateInput 组件被禁用时，`disabled` 属性被添加到 `<input>` 元素。
+- 当 DateInput 组件为只读时，`readonly` 属性被添加到 `<input>` 元素。
+
+### 键盘交互
+
+- 使用 <kbd>→</kbd> <kbd>←</kbd> 键切换到选择年/月/日/时/分/秒。
+- 使用 <kbd>↓</kbd> <kbd>↑</kbd> 键增加和减少值。
+- 使用 <kbd>Backspace</kbd> 键删除选中的值。
+- 使用数字健更新选中的值。
+
 ## Props
 
 <!-- prettier-sort-markdown-table -->

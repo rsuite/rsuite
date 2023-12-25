@@ -145,6 +145,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
           <div className={prefix('time-toolbar')}>
             <Button
               {...btnProps}
+              aria-label="Select time"
               className={timeTitleClasses}
               onClick={onToggleTimeDropdown}
               disabled={disableSelectTime}
@@ -155,6 +156,7 @@ const CalendarHeader: RsRefForwardingComponent<'div', CalendarHeaderPrivateProps
             {showMeridian && (
               <Button
                 {...btnProps}
+                aria-label="Toggle meridian"
                 className={prefix('meridian')}
                 onClick={onToggleMeridian}
                 disabled={disableSelectTime}

@@ -4,18 +4,17 @@ import sinon from 'sinon';
 import DateInput from '../DateInput';
 import userEvent from '@testing-library/user-event';
 import isMatch from 'date-fns/isMatch';
+import formatDate from 'date-fns/format';
 
 export function testKeyPress({
   defaultValue = new Date(),
   format = 'yyyy-MM-dd',
   expectedValue,
-  expectedDate,
   key
 }: {
-  defaultValue?: Date;
+  defaultValue?: Date | null;
   format?: string;
   expectedValue: string;
-  expectedDate?: Date;
   key: string;
 }) {
   const onChange = sinon.spy();
@@ -29,7 +28,7 @@ export function testKeyPress({
   expect(input).to.value(expectedValue);
 
   if (isMatch(expectedValue, format)) {
-    expect(onChange).to.be.calledWithMatch(expectedDate || new Date(expectedValue));
+    expect(formatDate(onChange.args[0][0], format)).to.equal(expectedValue);
   }
 }
 

@@ -18,16 +18,15 @@ describe('Calendar-MonthDropdownItem', () => {
   it('Should call `onSelect` callback with correct date', () => {
     const onChangeMonth = Sinon.spy();
 
-    const ref = React.createRef<HTMLDivElement>();
     render(
       <CalendarContext.Provider
         value={{ date: new Date(), onChangeMonth, locale: {}, isoWeek: false }}
       >
-        <MonthDropdownItem month={1} year={2017} ref={ref} />
+        <MonthDropdownItem month={1} year={2017} />
       </CalendarContext.Provider>
     );
 
-    fireEvent.click(ref.current as HTMLDivElement);
+    fireEvent.click(screen.getByRole('gridcell'));
 
     expect(onChangeMonth).to.have.been.calledOnce;
     expect(format(onChangeMonth.firstCall.args[0], 'yyyy-MM')).to.equal('2017-01');

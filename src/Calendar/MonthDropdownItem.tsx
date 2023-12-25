@@ -58,8 +58,8 @@ const MonthDropdownItem: RsRefForwardingComponent<'div', MonthDropdownItemProps>
       <Component
         key={month}
         role="gridcell"
-        aria-selected={active ? true : undefined}
-        aria-disabled={disabled ? true : undefined}
+        aria-selected={active}
+        aria-disabled={disabled}
         aria-label={ariaLabel}
         tabIndex={active ? 0 : -1}
         ref={ref}

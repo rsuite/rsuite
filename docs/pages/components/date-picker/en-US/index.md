@@ -46,7 +46,7 @@ To select or input a date or time
 
 <!--{include:`format-time.md`}-->
 
-### Meridian format
+### Meridian format (AM/PM)
 
 Display hours in 12 format.
 
@@ -64,9 +64,17 @@ The calendar panel can be displayed in ISO standard via the ʻisoWeek` property 
 
 <!--{include:`disabled.md`}-->
 
+### Loading state
+
+<!--{include:`loading.md`}-->
+
+### With a label
+
+<!--{include:`with-label.md`}-->
+
 ### Disable input
 
-`DatePicker` allows date and time input via keyboard by default, if you wish to disable it, you can disable editing by setting `editable={false}`.
+`DatePicker` allows date and time input via keyboard by default, if you wish to disable it, you can disable input by setting `editable={false}`.
 
 <!--{include:`editable.md`}-->
 
@@ -84,13 +92,13 @@ The calendar panel can be displayed in ISO standard via the ʻisoWeek` property 
 
 ### Custom short options
 
+Clicking "Prev Day" in the example does not close the picker layer because the `closeOverlay=false` property is configured. This property is used to set whether to close the picker layer after clicking the shortcut item. The default value is `true`.
+
 <!--{include:`custom.md`}-->
 
-Clicking "The day before" in the example does not close the picker layer because the `closeOverlay:boolean` property is configured. This property is used to set whether to close the picker layer after clicking the shortcut item. The default value is `true`.
+### Controlled vs. uncontrolled value
 
-### Controlled
-
-<!--{include:`control.md`}-->
+<!--{include:`controlled.md`}-->
 
 ### Selection range
 
@@ -108,7 +116,21 @@ If you only need to meet the simple date selection function, you can use the nat
 
 ## Accessibility
 
-Learn more in [Accessibility](/guide/accessibility).
+### ARIA properties
+
+Has all ARIA properties of the DateInput component by default.
+
+- The `aria-invalid="true"` attribute is added to the `<input>` element when the value is invalid.
+- When `label` is set, the `aria-labelledby` attribute is added to the `<input>` element and the `dialog` element and is set to the value of the `id` attribute of `label`.
+- Has the `aria-haspopup="dialog"` attribute to indicate that the component has an interactive dialog.
+
+### Keyboard interactions
+
+Has keyboard interaction for the DateInput component by default.
+
+- When the focus is on the calendar, use the <kbd>→</kbd> <kbd>←</kbd> <kbd>↓</kbd> <kbd>↑</kbd> keys to switch dates.
+- When the focus is on the calendar, use the <kbd>Enter</kbd> key to select a date.
+- When the DatePicker component has `editable={false}` set to disable input, use <kbd>↓</kbd> to move focus to the calendar.
 
 ## Props
 
