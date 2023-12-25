@@ -712,7 +712,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
 
     const showCleanButton = cleanable && hasValue && !readOnly;
     const [ariaProps, rest] = partitionHTMLProps(restProps, { htmlProps: [], includeAria: true });
-    const invalidValue = isErrorValue(value);
+    const invalidValue = value && isErrorValue(value);
 
     return (
       <PickerToggleTrigger
@@ -748,7 +748,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               </PickerLabel>
               <DateInput
                 aria-haspopup="dialog"
-                aria-invalid={value && invalidValue}
+                aria-invalid={invalidValue}
                 aria-labelledby={label ? `${id}-label` : undefined}
                 {...(ariaProps as any)}
                 ref={target}
