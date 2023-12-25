@@ -61,21 +61,27 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
   });
 
   const { locale } = useCustom('Calendar');
-  const localize = locale.dateLocale.localize;
+
+  const dateLocale = locale.dateLocale;
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
   const [focused, setFocused] = useState(false);
   const { dateField, setDateOffset, setDateField, getDateField, toDateString, isEmptyValue } =
     useDateInputState({
       formatStr,
-      localize,
+      locale: dateLocale,
       date: value,
       isControlledDate: isControlled
     });
 
   const dateString = toDateString();
   const keyPressOptions = useMemo(
-    () => ({ formatStr, localize, selectedMonth: dateField.month, dateString }),
-    [dateField, dateString, formatStr, localize]
+    () => ({
+      formatStr,
+      localize: dateLocale.localize,
+      selectedMonth: dateField.month,
+      dateString
+    }),
+    [dateField, dateString, formatStr, dateLocale]
   );
 
   const setSelectionRange = (

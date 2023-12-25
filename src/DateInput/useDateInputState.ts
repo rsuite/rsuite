@@ -17,15 +17,16 @@ import type { Locale } from 'date-fns';
 
 interface DateInputState {
   formatStr: string;
-  localize: Locale['localize'];
+  formatDate?: typeof format;
+  locale: Locale;
   date?: Date | null;
   isControlledDate?: boolean;
 }
 
-function useDateInputState({ formatStr, localize, date, isControlledDate }: DateInputState) {
+function useDateInputState({ formatStr, locale, date, isControlledDate }: DateInputState) {
   const { dateField, dispatch, toDateString, toDate, isEmptyValue } = useDateField(
     formatStr,
-    localize,
+    locale.localize,
     date
   );
 
@@ -117,7 +118,7 @@ function useDateInputState({ formatStr, localize, date, isControlledDate }: Date
 
   const toControlledDateString = () => {
     if (date && isValid(date)) {
-      return format(date, formatStr);
+      return format(date, formatStr, { locale });
     }
     // if date is not valid, return uncontrolled date string
     return toDateString();

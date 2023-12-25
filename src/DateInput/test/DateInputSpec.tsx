@@ -5,6 +5,8 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import DateInput from '../DateInput';
+import CustomProvider from '../../CustomProvider';
+import zhCN from '../../locales/zh_CN';
 
 import { testKeyPress, testContinuousKeyPress } from './testUtils';
 
@@ -109,6 +111,24 @@ describe('DateInput', () => {
     expect(onChange).to.have.been.calledOnce;
   });
 
+  it('Should format dates according to locale configuration', () => {
+    const { rerender } = render(
+      <CustomProvider locale={zhCN}>
+        <DateInput value={new Date('2023-10-01')} format="dd MMMM yyyy" />
+      </CustomProvider>
+    );
+
+    expect(screen.getByRole('textbox')).to.have.value('01 十月 2023');
+
+    rerender(
+      <CustomProvider locale={zhCN}>
+        <DateInput value={new Date('2023-11-20')} format="dd MMM yyyy" />
+      </CustomProvider>
+    );
+
+    expect(screen.getByRole('textbox')).to.have.value('20 11月 2023');
+  });
+
   describe('DateInput - KeyPress', () => {
     it('Should increase year when pressing ArrowUp ', () => {
       testKeyPress({
@@ -179,6 +199,15 @@ describe('DateInput', () => {
         key: '{arrowright}{arrowright}{arrowup}',
         defaultValue: new Date('2023-10-01'),
         expectedValue: '2023-10-02'
+      });
+    });
+
+    it('Should be updated for full month', () => {
+      testKeyPress({
+        defaultValue: new Date('2023-01-01'),
+        format: 'dd MMMM yyyy',
+        key: '{arrowright}{arrowup}',
+        expectedValue: '01 February 2023'
       });
     });
 
