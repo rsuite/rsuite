@@ -95,7 +95,10 @@
 
   &-error > .rs-input-group {
     border-color: var(--rs-state-error) !important;
-    outline: var(--rs-state-error-outline) !important;
+
+    &:focus-within {
+      outline: var(--rs-state-error-outline) !important;
+    }
   }
 }
 
