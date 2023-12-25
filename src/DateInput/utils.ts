@@ -54,6 +54,12 @@ export function getInputSelectedState(options: SelectedStateOptions) {
     valueOffset = 0
   } = options;
 
+  // Determine whether the cursor is after the month.
+  // If the currently operated field is after the month, the selected field needs to be moved backward.
+  const isCursorAfterMonth = (cursorIndex: number) => {
+    return cursorIndex > formatStr.indexOf('M');
+  };
+
   const getSelectIndexGap = (pattern?: string) => {
     let gap = 0;
 
@@ -99,7 +105,11 @@ export function getInputSelectedState(options: SelectedStateOptions) {
       return pattern;
     }
 
-    const gap = getSelectIndexGap(pattern);
+    let gap = 0;
+    if (isCursorAfterMonth(selectionIndex)) {
+      gap = getSelectIndexGap(pattern);
+    }
+
     pattern = formatStr.charAt(selectionIndex - gap);
 
     // If the pattern is not a letter, then get the pattern from the previous or next letter.
@@ -131,10 +141,14 @@ export function getInputSelectedState(options: SelectedStateOptions) {
       };
     }
 
-    return {
-      selectionStart: selectionStart + gap,
-      selectionEnd: selectionEnd + gap
-    };
+    if (isCursorAfterMonth(selectionStart)) {
+      return {
+        selectionStart: selectionStart + gap,
+        selectionEnd: selectionEnd + gap
+      };
+    }
+
+    return { selectionStart, selectionEnd };
   };
 
   if (typeof input.selectionEnd === 'number' && typeof input.selectionStart === 'number') {
