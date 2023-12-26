@@ -30,6 +30,7 @@ const unstyledComponents = [
   'TagGroup',
   'MaskedInput',
   'DateInput',
+  'DateRangeInput',
   'Windowing'
 ];
 

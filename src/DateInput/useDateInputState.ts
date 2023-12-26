@@ -23,7 +23,7 @@ interface DateInputState {
   isControlledDate?: boolean;
 }
 
-function useDateInputState({ formatStr, locale, date, isControlledDate }: DateInputState) {
+export function useDateInputState({ formatStr, locale, date, isControlledDate }: DateInputState) {
   const { dateField, dispatch, toDateString, toDate, isEmptyValue } = useDateField(
     formatStr,
     locale.localize,

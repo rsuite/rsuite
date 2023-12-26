@@ -1,5 +1,6 @@
 import { type Locale } from 'date-fns';
 import { setYear, setMonth, setDate, setHours, setMinutes, setSeconds } from '../utils/dateUtils';
+import { safeSetSelection } from '../utils';
 
 interface SelectedStateOptions {
   /**
@@ -43,6 +44,102 @@ export function getPatternGroups(format: string, pattern: string) {
   return format.match(new RegExp(`(${pattern})+`))?.[0] || '';
 }
 
+interface SelectIndexGapOptions {
+  pattern: string;
+  formatStr: string;
+  valueOffset: number | null;
+  selectedMonth: number | null;
+  localize: Locale['localize'];
+}
+
+export function getSelectIndexGap(options: SelectIndexGapOptions) {
+  const { pattern, formatStr, valueOffset, selectedMonth, localize } = options;
+  let gap = 0;
+
+  const monthIsAbbreviated = formatStr.includes('MMM');
+  const monthIsFull = formatStr.includes('MMMM');
+
+  // If the month is abbreviated or full, the gap needs to be adjusted.
+  if (monthIsAbbreviated || monthIsFull) {
+    const isSelectedMonth = pattern === 'M';
+
+    // If the selected is the month, and the valueOffset is null,
+    // it means that the delete key is pressed, and the default pattern is displayed, and the gap is 0 at this time.
+    if (isSelectedMonth && valueOffset === null) {
+      return 0;
+    }
+
+    // If the month is null and the valueOffset is 0, the month will not be updated, and the gap is 0 at this time.
+    if (selectedMonth === null && valueOffset === 0) {
+      return 0;
+    }
+
+    let month = selectedMonth ? selectedMonth + (isSelectedMonth ? valueOffset || 0 : 0) : 1;
+
+    if (month > 12) {
+      month = 1;
+    } else if (month === 0) {
+      month = 12;
+    }
+
+    const monthStr = localize?.month(month - 1, { width: monthIsFull ? 'wide' : 'abbreviated' });
+    gap = monthStr.length - (monthIsFull ? 4 : 3);
+  }
+
+  return gap;
+}
+
+interface DatePatternOptions {
+  selectionIndex: number;
+  positionOffset?: number;
+  formatStr: string;
+  dateString: string;
+  valueOffset: number | null;
+  selectedMonth: number | null;
+  localize: Locale['localize'];
+}
+
+export function getDatePattern(options: DatePatternOptions) {
+  const {
+    selectionIndex,
+    positionOffset = -1,
+    formatStr,
+    dateString,
+    valueOffset,
+    selectedMonth,
+    localize
+  } = options;
+
+  let pattern = formatStr.charAt(selectionIndex || 0);
+
+  if (selectionIndex < 0 || selectionIndex > dateString.length - 1) {
+    pattern = formatStr.trim().charAt(0);
+
+    return pattern;
+  }
+
+  let gap = 0;
+  if (isCursorAfterMonth(selectionIndex, formatStr)) {
+    gap = getSelectIndexGap({ pattern, formatStr, valueOffset, selectedMonth, localize });
+  }
+
+  pattern = formatStr.charAt(selectionIndex - gap);
+
+  // If the pattern is not a letter, then get the pattern from the previous or next letter.
+  if (!pattern.match(/[y|d|M|H|h|m|s|a]/)) {
+    const nextIndex = selectionIndex + positionOffset;
+    pattern = getDatePattern({ ...options, selectionIndex: nextIndex });
+  }
+
+  return pattern;
+}
+
+// Determine whether the cursor is after the month.
+// If the currently operated field is after the month, the selected field needs to be moved backward.
+export function isCursorAfterMonth(cursorIndex: number, formatStr: string) {
+  return cursorIndex > formatStr.indexOf('M');
+}
+
 export function getInputSelectedState(options: SelectedStateOptions) {
   const {
     input,
@@ -54,77 +151,10 @@ export function getInputSelectedState(options: SelectedStateOptions) {
     valueOffset = 0
   } = options;
 
-  // Determine whether the cursor is after the month.
-  // If the currently operated field is after the month, the selected field needs to be moved backward.
-  const isCursorAfterMonth = (cursorIndex: number) => {
-    return cursorIndex > formatStr.indexOf('M');
-  };
-
-  const getSelectIndexGap = (pattern?: string) => {
-    let gap = 0;
-
-    const monthIsAbbreviated = formatStr.includes('MMM');
-    const monthIsFull = formatStr.includes('MMMM');
-
-    // If the month is abbreviated or full, the gap needs to be adjusted.
-    if (monthIsAbbreviated || monthIsFull) {
-      const isSelectedMonth = pattern === 'M';
-
-      // If the selected is the month, and the valueOffset is null,
-      // it means that the delete key is pressed, and the default pattern is displayed, and the gap is 0 at this time.
-      if (isSelectedMonth && valueOffset === null) {
-        return 0;
-      }
-
-      // If the month is null and the valueOffset is 0, the month will not be updated, and the gap is 0 at this time.
-      if (selectedMonth === null && valueOffset === 0) {
-        return 0;
-      }
-
-      let month = selectedMonth ? selectedMonth + (isSelectedMonth ? valueOffset || 0 : 0) : 1;
-
-      if (month > 12) {
-        month = 1;
-      } else if (month === 0) {
-        month = 12;
-      }
-
-      const monthStr = localize?.month(month - 1, { width: monthIsFull ? 'wide' : 'abbreviated' });
-      gap = monthStr.length - (monthIsFull ? 4 : 3);
-    }
-
-    return gap;
-  };
-
-  const getDatePattern = (selectionIndex: number, positionOffset = -1) => {
-    let pattern = formatStr.charAt(input?.selectionStart || 0);
-
-    if (selectionIndex < 0 || selectionIndex > dateString.length - 1) {
-      pattern = formatStr.trim().charAt(0);
-
-      return pattern;
-    }
-
-    let gap = 0;
-    if (isCursorAfterMonth(selectionIndex)) {
-      gap = getSelectIndexGap(pattern);
-    }
-
-    pattern = formatStr.charAt(selectionIndex - gap);
-
-    // If the pattern is not a letter, then get the pattern from the previous or next letter.
-    if (!pattern.match(/[y|d|M|H|h|m|s|a]/)) {
-      const nextIndex = selectionIndex + positionOffset;
-      pattern = getDatePattern(nextIndex, positionOffset);
-    }
-
-    return pattern;
-  };
-
   const getPatternSelectedIndexes = (pattern: string) => {
     const selectionStart = formatStr.indexOf(pattern);
     const selectionEnd = formatStr.lastIndexOf(pattern) + 1;
-    const gap = getSelectIndexGap(pattern);
+    const gap = getSelectIndexGap({ pattern, formatStr, valueOffset, selectedMonth, localize });
 
     const isSelectedMonth = pattern === 'M';
     const isNullMonth = selectedMonth === null && !(isSelectedMonth && valueOffset !== 0);
@@ -141,7 +171,7 @@ export function getInputSelectedState(options: SelectedStateOptions) {
       };
     }
 
-    if (isCursorAfterMonth(selectionStart)) {
+    if (isCursorAfterMonth(selectionStart, formatStr)) {
       return {
         selectionStart: selectionStart + gap,
         selectionEnd: selectionEnd + gap
@@ -152,18 +182,27 @@ export function getInputSelectedState(options: SelectedStateOptions) {
   };
 
   if (typeof input.selectionEnd === 'number' && typeof input.selectionStart === 'number') {
-    let index = input.selectionStart;
+    let selectionIndex = input.selectionStart;
 
     let positionOffset = -1;
 
     if (direction === 'left') {
-      index = input.selectionStart - 1;
+      selectionIndex = input.selectionStart - 1;
     } else if (direction === 'right') {
-      index = input.selectionEnd + 1;
+      selectionIndex = input.selectionEnd + 1;
       positionOffset = 1;
     }
 
-    const datePattern = getDatePattern(index, positionOffset);
+    const datePattern = getDatePattern({
+      selectionIndex,
+      positionOffset,
+      formatStr,
+      dateString,
+      valueOffset,
+      selectedMonth,
+      localize
+    });
+
     const indexes = getPatternSelectedIndexes(datePattern);
 
     return {
@@ -235,4 +274,43 @@ export function modifyDate(date: Date, type: string, value: number) {
   }
 
   return date;
+}
+
+export function isFieldFullValue(formatStr: string, value: number, pattern: string) {
+  const patternGroup = getPatternGroups(formatStr, pattern);
+
+  if (value.toString().length === patternGroup.length) {
+    return true;
+  }
+
+  switch (pattern) {
+    case 'M':
+      return parseInt(`${value}0`) > 12;
+    case 'd':
+      return parseInt(`${value}0`) > 31;
+    case 'H':
+      return parseInt(`${value}0`) > 23;
+    case 'h':
+      return parseInt(`${value}0`) > 12;
+    case 'm':
+    case 's':
+      return parseInt(`${value}0`) > 59;
+    default:
+      return false;
+  }
+}
+
+const isTestEnvironment = process.env.RUN_ENV === 'test';
+
+export function useInputSelection(input: React.RefObject<any>) {
+  return function setSelectionRange(selectionStart: number, selectionEnd: number) {
+    if (isTestEnvironment) {
+      safeSetSelection(input.current, selectionStart, selectionEnd);
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      safeSetSelection(input.current, selectionStart, selectionEnd);
+    });
+  };
 }
