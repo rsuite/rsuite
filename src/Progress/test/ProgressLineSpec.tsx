@@ -1,13 +1,15 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps, getDOMNode } from '@test/utils';
+import { render, screen } from '@testing-library/react';
 import ProgressLine from '../ProgressLine';
 
 describe('Progress - Line', () => {
   testStandardProps(<ProgressLine />);
 
   it('Should render a Line', () => {
-    const instance = getDOMNode(<ProgressLine />);
-    assert.ok(instance.className.match(/\brs-progress-line\b/));
+    render(<ProgressLine />);
+    expect(screen.getByRole('progressbar')).to.have.class('rs-progress-line');
   });
 
   it('Should have a percentage', () => {
@@ -21,36 +23,40 @@ describe('Progress - Line', () => {
   });
 
   it('Should have a height', () => {
-    const instance = getDOMNode(<ProgressLine strokeWidth={10} />);
-    assert.equal(
-      (instance.querySelector('.rs-progress-line-bg') as HTMLElement).style.height,
+    render(<ProgressLine strokeWidth={10} />);
+    expect(screen.getByRole('progressbar').querySelector('.rs-progress-line-bg')).to.have.style(
+      'height',
       '10px'
     );
   });
 
   it('Should have a background color', () => {
-    const instance = getDOMNode(<ProgressLine strokeColor={'#ff0000'} />);
-    assert.equal(
-      (instance.querySelector('.rs-progress-line-bg') as HTMLElement).style.backgroundColor,
+    render(<ProgressLine strokeColor="#ff0000" />);
+    expect(screen.getByRole('progressbar').querySelector('.rs-progress-line-bg')).to.have.style(
+      'background-color',
       'rgb(255, 0, 0)'
     );
   });
 
   it('Should render info', () => {
-    const instance = getDOMNode(<ProgressLine />);
-    const instance2 = getDOMNode(<ProgressLine showInfo={false} />);
+    render(<ProgressLine />);
 
-    assert.ok(instance.querySelector('.rs-progress-info'));
-    assert.ok(!instance2.querySelector('.rs-progress-info'));
+    expect(screen.getByRole('progressbar').querySelector('.rs-progress-info')).to.exist;
+  });
+
+  it('Should not render info', () => {
+    render(<ProgressLine showInfo={false} />);
+
+    expect(screen.getByRole('progressbar').querySelector('.rs-progress-info')).to.not.exist;
   });
 
   it('Should render a status', () => {
-    const instance = getDOMNode(<ProgressLine status="success" />);
-    assert.ok(instance.className.match(/\brs-progress-line-success\b/));
+    render(<ProgressLine status="success" />);
+    expect(screen.getByRole('progressbar')).to.have.class('rs-progress-line-success');
   });
 
   it('Should be vertical', () => {
-    const instance = getDOMNode(<ProgressLine vertical />);
-    assert.ok(instance.className.match(/\brs-progress-line-vertical\b/));
+    render(<ProgressLine vertical />);
+    expect(screen.getByRole('progressbar')).to.have.class('rs-progress-line-vertical');
   });
 });
