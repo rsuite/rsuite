@@ -5,7 +5,7 @@ import { Input } from 'rsuite';
 
 const App = () => (
   <>
-    <Input placeholder="Default Input" />
+    <Input placeholder="Default Input" htmlSize={10} />
   </>
 );
 ReactDOM.render(<App />, document.getElementById('root'));

@@ -22,6 +22,13 @@ Instead of HTML native controls, input, textarea.
 
 <!--{include:`size.md`}-->
 
+If you want to use the native DOM size attribute you can use the `htmlSize` prop.
+For it to work as expected you will also need to provide the `style={{ width: 'auto' }}` prop.
+
+```jsx
+<Input htmlSize={10} style={{ width: 'auto' }} />
+```
+
 ### Textarea
 
 <!--{include:`textarea.md`}-->
@@ -60,15 +67,16 @@ MaskedInput is an input mask component. It can create input masks for phone numb
 
 ### `<Input>`
 
-| Property     | Type `(Default)`                                  | Description                                      |
-| ------------ | ------------------------------------------------- | ------------------------------------------------ |
-| classPrefix  | string `('input')`                                | The prefix of the component CSS class            |
-| defaultValue | string                                            | Default value                                    |
-| disabled     | boolean                                           | Disabled component                               |
-| onChange     | (value: string, event) => void                    | The callback function in which value is changed. |
-| size         | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | An input can have different sizes                |
-| type         | string `('text' )`                                | HTML input type                                  |
-| value        | string                                            | Value (Controlled)                               |
+| Property     | Type `(Default)`                                  | Description                                              |
+| ------------ | ------------------------------------------------- | -------------------------------------------------------- |
+| classPrefix  | string `('input')`                                | The prefix of the component CSS class                    |
+| defaultValue | string                                            | Default value                                            |
+| disabled     | boolean                                           | Disabled component                                       |
+| htmlSize     | number                                            | The native HTML size attribute to be passed to the input |
+| onChange     | (value: string, event) => void                    | The callback function in which value is changed.         |
+| size         | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | An input can have different sizes                        |
+| type         | string `('text' )`                                | HTML input type                                          |
+| value        | string                                            | Value (Controlled)                                       |
 
 ### `<InputGroup>`
 
@@ -84,8 +92,8 @@ MaskedInput is an input mask component. It can create input masks for phone numb
 
 | Property          | Type `(Default)`      | Description                                                                                             |
 | ----------------- | --------------------- | ------------------------------------------------------------------------------------------------------- |
-| mask (\*)         | array &#124; function | Used to define how to block user input.                                                                 |
 | guide             | boolean               | In guide mode or no guide mode                                                                          |
-| placeholderChar   | string `('_')`        | The placeholder character represents the fillable spot in the mask                                      |
 | keepCharPositions | boolean `(false)`     | When `true`, adding or deleting characters will not affect the position of existing characters.         |
+| mask (\*)         | array &#124; function | Used to define how to block user input.                                                                 |
+| placeholderChar   | string `('_')`        | The placeholder character represents the fillable spot in the mask                                      |
 | showMask          | boolean               | When the input value is empty, the mask is displayed as a placeholder instead of a regular placeholder. |

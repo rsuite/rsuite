@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
@@ -32,6 +32,17 @@ export interface InputProps
   /** Ref of input element */
   inputRef?: React.Ref<any>;
 
+  /**
+   * The htmlSize attribute defines the width of the <input> element.
+   *
+   * @see MDN https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/size
+   * @version 5.49.0
+   */
+  htmlSize?: number;
+
+  /**
+   * The callback function in which value is changed.
+   */
   onChange?: PrependParameters<React.ChangeEventHandler<HTMLInputElement>, [value: string]>;
 
   /** Called on press enter */
@@ -40,6 +51,7 @@ export interface InputProps
 
 /**
  * The `<Input>` component is used to get user input in a text field.
+ *
  * @see https://rsuitejs.com/components/input
  */
 const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
@@ -55,6 +67,7 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       inputRef,
       id,
       size,
+      htmlSize,
       plaintext,
       readOnly,
       onPressEnter,
@@ -65,22 +78,16 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const handleKeyDown = useCallback(
-      (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === KEY_VALUES.ENTER) {
-          onPressEnter?.(event);
-        }
-        onKeyDown?.(event);
-      },
-      [onPressEnter, onKeyDown]
-    );
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+      if (event.key === KEY_VALUES.ENTER) {
+        onPressEnter?.(event);
+      }
+      onKeyDown?.(event);
+    };
 
-    const handleChange = useCallback(
-      (event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange?.(event.target?.value, event);
-      },
-      [onChange]
-    );
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange?.(event.target?.value, event);
+    };
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(size, { plaintext }));
@@ -97,10 +104,10 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       );
     }
 
-    const operable = !disabled && !readOnly;
+    const inputable = !disabled && !readOnly;
     const eventProps: React.HTMLAttributes<HTMLInputElement> = {};
 
-    if (operable) {
+    if (inputable) {
       eventProps.onChange = handleChange;
       eventProps.onKeyDown = handleKeyDown;
       eventProps.onFocus = createChainedFunction(onFocus, inputGroupContext?.onFocus);
@@ -119,6 +126,7 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
         defaultValue={defaultValue}
         disabled={disabled}
         readOnly={readOnly}
+        size={htmlSize}
       />
     );
   }
