@@ -1,11 +1,10 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import InputPicker from '../index';
 import Button from '../../Button';
-import { getStyle, toRGB, inChrome } from '@test/utils';
+import { toRGB } from '@test/utils';
 
 import '../styles/index.less';
-import { PickerHandle } from '../../Picker';
 
 const data = [
   {
@@ -27,53 +26,43 @@ const data = [
 
 describe('InputPicker styles', () => {
   it('Should render correct toggle styles', () => {
-    const instanceRef = React.createRef<PickerHandle>();
-    render(<InputPicker ref={instanceRef} data={data} />);
-    const dom = (instanceRef.current as PickerHandle).root as HTMLElement;
-    const toggleDom = dom.querySelector('.rs-picker-toggle') as HTMLElement;
-    const toggleInputDom = dom.querySelector('.rs-picker-search-input') as HTMLElement;
-    inChrome &&
-      assert.equal(getStyle(dom, 'border'), `1px solid ${toRGB('#e5e5ea')}`, 'Picker border');
+    const { container } = render(<InputPicker data={data} />);
 
-    assert.equal(getStyle(dom, 'backgroundColor'), `${toRGB('#fff')}`, 'Toggle background color');
-    assert.equal(getStyle(toggleDom, 'height'), '34px', 'Toggle height');
-    inChrome &&
-      assert.equal(getStyle(toggleInputDom, 'border-style'), 'none', 'Toggle input border');
+    expect(container.firstChild).to.have.style('border', `1px solid ${toRGB('#e5e5ea')}`);
+    expect(container.firstChild).to.have.style('background-color', `${toRGB('#fff')}`);
+    expect(screen.getByRole('combobox')).to.have.style('height', '34px');
+    expect(screen.getByRole('textbox')).to.have.style('border-style', 'none');
   });
 
   it('Should render correct large size', () => {
-    const instanceRef = React.createRef<PickerHandle>();
-    render(<InputPicker toggleAs={Button} size="lg" ref={instanceRef} data={data} />);
-    const dom = (instanceRef.current as PickerHandle).root as HTMLElement;
-    assert.equal(getStyle(dom, 'height'), '42px', 'Toggle height');
+    render(<InputPicker toggleAs={Button} size="lg" data={data} />);
+    expect(screen.getByRole('combobox')).to.have.class('rs-btn-lg');
+    expect(screen.getByRole('combobox')).to.have.style('height', '40px');
   });
 
   it('Should render correct middle size ', () => {
-    const instanceRef = React.createRef<PickerHandle>();
-    render(<InputPicker toggleAs={Button} size="md" ref={instanceRef} data={data} />);
-    const dom = (instanceRef.current as PickerHandle).root as HTMLElement;
-    assert.equal(getStyle(dom, 'height'), '36px', 'Toggle height');
+    render(<InputPicker toggleAs={Button} size="md" data={data} />);
+
+    expect(screen.getByRole('combobox')).to.have.class('rs-btn-md');
+    expect(screen.getByRole('combobox')).to.have.style('height', '34px');
   });
 
   it('Should render correct small size ', () => {
-    const instanceRef = React.createRef<PickerHandle>();
-    render(<InputPicker toggleAs={Button} size="sm" ref={instanceRef} data={data} />);
-    const dom = (instanceRef.current as PickerHandle).root as HTMLElement;
-    assert.equal(getStyle(dom, 'height'), '30px', 'Toggle height');
+    render(<InputPicker toggleAs={Button} size="sm" data={data} />);
+    expect(screen.getByRole('combobox')).to.have.class('rs-btn-sm');
+    expect(screen.getByRole('combobox')).to.have.style('height', '28px');
   });
 
   it('Should render correct xsmall size ', () => {
-    const instanceRef = React.createRef<PickerHandle>();
-    render(<InputPicker toggleAs={Button} size="xs" ref={instanceRef} data={data} />);
-    const dom = (instanceRef.current as PickerHandle).root as HTMLElement;
-    assert.equal(getStyle(dom, 'height'), '24px', 'Toggle height');
+    render(<InputPicker toggleAs={Button} size="xs" data={data} />);
+
+    expect(screen.getByRole('combobox')).to.have.class('rs-btn-xs');
+    expect(screen.getByRole('combobox')).to.have.style('height', '22px');
   });
 
   it('Should have correct height when disabled', () => {
-    const instanceRef = React.createRef<PickerHandle>();
-    render(<InputPicker ref={instanceRef} data={data} disabled />);
-    const dom = (instanceRef.current as PickerHandle).root as HTMLElement;
+    render(<InputPicker data={data} disabled />);
 
-    assert.equal(getStyle(dom, 'height'), '36px', 'InputPicker height');
+    expect(screen.getByRole('combobox')).to.have.style('height', '34px');
   });
 });
