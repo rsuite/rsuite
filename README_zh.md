@@ -8,10 +8,13 @@
 
 [![npm][npm-svg]][npm-home]
 [![GitHub Actions][actions-svg]][actions-home]
-[![codecov](https://codecov.io/gh/rsuite/rsuite/branch/main/graph/badge.svg?token=HGeKd0BD3t)](https://codecov.io/gh/rsuite/rsuite)
+[![npm bundle size][npm-bundle-size-img]][npm-bundle-size]
+[![rsuite.min.js][rsuite-min-js-img]][rsuite-min-js]
+[![codecov][codecov-img]][codecov]
 [![Discord][discord-svg]][discord-invite]
 [![Gitter][gitter-svg]][gitter]
 [![Gitter][gitter-cn-svg]][gitter-cn]
+[![Gitpod ready-to-code][gitpod-img]][gitpod]
 
 React Suite 是一套 React 组件库，为后台产品而生。同时也是一个具有贴心设计以及对开发者友好的 UI 框架。
 
@@ -140,6 +143,10 @@ React Suite 基于 [MIT licensed][license] 发布。
 [readm-en]: https://github.com/rsuite/rsuite/blob/main/README.md
 [npm-svg]: https://img.shields.io/npm/v/rsuite
 [npm-home]: https://www.npmjs.com/package/rsuite
+[npm-bundle-size-img]: https://img.shields.io/bundlephobia/minzip/rsuite
+[npm-bundle-size]: https://bundlephobia.com/package/rsuite
+[rsuite-min-js-img]: https://img.badgesize.io/https:/unpkg.com/rsuite/dist/rsuite.min.js?label=rsuite.min.js&compression=gzip
+[rsuite-min-js]: https://unpkg.com/browse/rsuite/dist/rsuite.min.js
 [actions-svg]: https://github.com/rsuite/rsuite/workflows/Node.js%20CI/badge.svg?branch=main
 [actions-home]: https://github.com/rsuite/rsuite/actions?query=branch%3Amain+workflow%3A%22Node.js+CI%22
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
@@ -178,3 +185,7 @@ React Suite 基于 [MIT licensed][license] 发布。
 [demo-nextjs-typescript]: https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs-typescript
 [demo-snowpack]: https://github.com/rsuite/rsuite/tree/main/examples/with-snowpack
 [demo-vite]: https://github.com/rsuite/rsuite/tree/main/examples/with-vite
+[codecov]: https://codecov.io/gh/rsuite/rsuite
+[codecov-img]: https://codecov.io/gh/rsuite/rsuite/branch/main/graph/badge.svg?token=HGeKd0BD3t
+[gitpod]: https://gitpod.io/#https://github.com/rsuite/rsuite
+[gitpod-img]: https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod
