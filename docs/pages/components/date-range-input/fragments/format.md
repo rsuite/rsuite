@@ -7,8 +7,8 @@ const App = () => (
   <>
     <style type="text/css">{` .format-container .rs-stack-item { width: 380px; } `}</style>
     <Stack spacing={10} direction="column" alignItems="flex-start" className="format-container">
-      <DateRangeInput />
-      <DateRangeInput format="MM/dd/yyyy" />
+      <DateRangeInput format="MM/dd/yyyy" character=" – " />
+      <DateRangeInput format="dd.MM.yyyy" />
       <DateRangeInput format="MMM dd, yyyy" />
       <DateRangeInput format="MMMM dd, yyyy" />
       <DateRangeInput format="yyyy年MM月dd日" />

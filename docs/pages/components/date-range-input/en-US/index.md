@@ -36,7 +36,7 @@ The DateRangeInput component lets users select a date with the keyboard.
 
 ### Keyboard interactions
 
-- Use <kbd>→</kbd> <kbd>←</kbd> keyboard to switch to select year/month/day/hour/minute/second.
+- Use <kbd>→</kbd> <kbd>←</kbd> keyboard to navigate to the previous or next date segment.
 - Use <kbd>↓</kbd> <kbd>↑</kbd> keys to increase and decrease values.
 - Use <kbd>Backspace</kbd> key to delete selected value.
 - Use numeric key to update selected value.
@@ -49,6 +49,7 @@ The DateRangeInput component lets users select a date with the keyboard.
 
 | Property     | Type`(default)`                             | Description                                               |
 | ------------ | ------------------------------------------- | --------------------------------------------------------- |
+| character    | string `(' ~ ')`                            | The character between the start and end dates             |
 | defaultValue | [Date, Date]〡 null                         | Default value                                             |
 | disabled     | boolean                                     | Whether disabled the component                            |
 | format       | string `('yyyy-MM-dd')`                     | Format of the date when rendered in the input             |

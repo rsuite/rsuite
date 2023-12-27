@@ -30,9 +30,9 @@ DateRangeInput 组件允许用户使用键盘选择日期。
 
 ### ARIA 属性
 
-- DateInput 组件是 `<input type="text">`元素。
-- 当 DateInput 组件被禁用时，`disabled` 属性被添加到 `<input>` 元素。
-- 当 DateInput 组件为只读时，`readonly` 属性被添加到 `<input>` 元素。
+- DateRangeInput 组件是 `<input type="text">`元素。
+- 当 DateRangeInput 组件被禁用时，`disabled` 属性被添加到 `<input>` 元素。
+- 当 DateRangeInput 组件为只读时，`readonly` 属性被添加到 `<input>` 元素。
 
 ### 键盘交互
 
@@ -47,6 +47,7 @@ DateRangeInput 组件允许用户使用键盘选择日期。
 
 | 属性名称     | 类型`(默认值)`                              | 描述               |
 | ------------ | ------------------------------------------- | ------------------ |
+| character    | string `(' ~ ')`                            | 日期范围分隔符     |
 | defaultValue | [Date, Date]〡 null                         | 默认值             |
 | disabled     | boolean                                     | 禁用               |
 | format       | string `('yyyy-MM-dd')`                     | 日期显示格式化     |
