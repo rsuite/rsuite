@@ -17,6 +17,7 @@ describe('Progress - Circle', () => {
 
   it('Should have a percentage', () => {
     render(<ProgressCircle percent={10} />);
+
     expect(screen.getByRole('progressbar')).to.have.text('10%');
   });
 

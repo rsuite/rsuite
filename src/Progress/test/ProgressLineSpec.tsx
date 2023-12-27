@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/no-node-access */
 import React from 'react';
-import { testStandardProps, getDOMNode } from '@test/utils';
+import { testStandardProps, getStyle } from '@test/utils';
 import { render, screen } from '@testing-library/react';
 import ProgressLine from '../ProgressLine';
 
@@ -9,21 +9,23 @@ describe('Progress - Line', () => {
 
   it('Should render a Line', () => {
     render(<ProgressLine />);
+
     expect(screen.getByRole('progressbar')).to.have.class('rs-progress-line');
   });
 
   it('Should have a percentage', () => {
-    const instance = getDOMNode(<ProgressLine percent={10} />);
+    render(<ProgressLine percent={10} />);
 
-    assert.equal(
-      (instance.querySelector('.rs-progress-line-bg') as HTMLElement).style.width,
-      '10%'
-    );
-    assert.equal(instance.textContent, '10%');
+    const progress = screen
+      .getByRole('progressbar')
+      .querySelector('.rs-progress-line-bg') as HTMLDivElement;
+
+    expect(getStyle(progress, 'width')).to.equal('10%');
   });
 
   it('Should have a height', () => {
     render(<ProgressLine strokeWidth={10} />);
+
     expect(screen.getByRole('progressbar').querySelector('.rs-progress-line-bg')).to.have.style(
       'height',
       '10px'
@@ -32,6 +34,7 @@ describe('Progress - Line', () => {
 
   it('Should have a background color', () => {
     render(<ProgressLine strokeColor="#ff0000" />);
+
     expect(screen.getByRole('progressbar').querySelector('.rs-progress-line-bg')).to.have.style(
       'background-color',
       'rgb(255, 0, 0)'
@@ -52,11 +55,13 @@ describe('Progress - Line', () => {
 
   it('Should render a status', () => {
     render(<ProgressLine status="success" />);
+
     expect(screen.getByRole('progressbar')).to.have.class('rs-progress-line-success');
   });
 
   it('Should be vertical', () => {
     render(<ProgressLine vertical />);
+
     expect(screen.getByRole('progressbar')).to.have.class('rs-progress-line-vertical');
   });
 });
