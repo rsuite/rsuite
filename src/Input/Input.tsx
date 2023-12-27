@@ -33,13 +33,6 @@ export interface InputProps
   inputRef?: React.Ref<any>;
 
   /**
-   * The htmlSize attribute defines the width of the <input> element.
-   *
-   * @see MDN https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/size
-   */
-  htmlSize?: number;
-
-  /**
    * The callback function in which value is changed.
    */
   onChange?: PrependParameters<React.ChangeEventHandler<HTMLInputElement>, [value: string]>;
@@ -65,7 +58,7 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       inputRef,
       id,
       size,
-      htmlSize,
+
       plaintext,
       readOnly,
       onPressEnter,
@@ -130,7 +123,6 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
         defaultValue={defaultValue}
         disabled={disabled}
         readOnly={readOnly}
-        size={htmlSize}
       />
     );
   }
