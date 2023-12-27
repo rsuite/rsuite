@@ -283,6 +283,17 @@ describe('DateRangeInput', () => {
       });
     });
 
+    it('Should support 12 hour format', () => {
+      testContinuousKeyPress({
+        format: 'hh',
+        defaultValue: [new Date('2023-10-01 12:00:00'), null],
+        keySequences: [
+          { key: '{arrowup}', expected: '01 ~ hh' },
+          { key: '{arrowdown}', expected: '12 ~ hh' }
+        ]
+      });
+    });
+
     it('Should support the minute format', () => {
       testContinuousKeyPress({
         format: 'mm',
