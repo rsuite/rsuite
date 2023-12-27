@@ -21,8 +21,9 @@ export interface DateInputProps
   extends Omit<InputProps, 'value' | 'onChange' | 'defaultValue'>,
     FormControlBaseProps<Date | null> {
   /**
-   * Format of the date when rendered in the input.
-   * Format of the string is based on Unicode Technical Standard: https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
+   * Format of the date when rendered in the input. Format of the string is based on Unicode Technical Standard.
+   *
+   * @see https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
    * @default 'yyyy-MM-dd'
    **/
   format?: string;
@@ -180,7 +181,7 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     }
   );
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     const key = event.key;
 
     switch (key) {
@@ -205,7 +206,7 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     }
 
     onKeyDown?.(event);
-  };
+  });
 
   const handleClick = useEventCallback((event: React.MouseEvent<HTMLInputElement>) => {
     const input = event.target as HTMLInputElement;
@@ -249,9 +250,9 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
 
 DateInput.displayName = 'DateInput';
 DateInput.propTypes = {
+  defaultValue: PropTypes.instanceOf(Date),
   format: PropTypes.string,
   value: PropTypes.instanceOf(Date),
-  defaultValue: PropTypes.instanceOf(Date),
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   onKeyDown: PropTypes.func,

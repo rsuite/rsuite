@@ -9,7 +9,6 @@ import {
   useEventCallback,
   createChainedFunction
 } from '../utils';
-import { FormControlBaseProps } from '../@types/common';
 import {
   validateDateTime,
   isFieldFullValue,
@@ -17,6 +16,7 @@ import {
   useInputSelection
 } from '../DateInput';
 import { getInputSelectedState, DateType, getDateType, isSwitchDateType } from './utils';
+import { FormControlBaseProps } from '../@types/common';
 
 type ValueType = [Date | null, Date | null] | null;
 
@@ -24,14 +24,15 @@ export interface DateRangeInputProps
   extends Omit<InputProps, 'value' | 'onChange' | 'defaultValue'>,
     FormControlBaseProps<ValueType> {
   /**
-   * The character that separates two dates
+   * The character between the start and end dates.
    * @default ' ~ '
    **/
   character?: string;
 
   /**
-   * Format of the date when rendered in the input.
-   * Format of the string is based on Unicode Technical Standard: https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
+   * Format of the date when rendered in the input. Format of the string is based on Unicode Technical Standard.
+   *
+   * @see https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table
    * @default 'yyyy-MM-dd'
    **/
   format?: string;
@@ -236,7 +237,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
     }
   );
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     const key = event.key;
 
     switch (key) {
@@ -261,7 +262,7 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
     }
 
     onKeyDown?.(event);
-  };
+  });
 
   const handleClick = useEventCallback((event: React.MouseEvent<HTMLInputElement>) => {
     const input = event.target as HTMLInputElement;
@@ -313,10 +314,10 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 DateRangeInput.displayName = 'DateRangeInput';
 DateRangeInput.propTypes = {
   character: PropTypes.string,
-  format: PropTypes.string,
-  placeholder: PropTypes.string,
   className: PropTypes.string,
   classPrefix: PropTypes.string,
+  format: PropTypes.string,
+  placeholder: PropTypes.string,
   onChange: PropTypes.func,
   onKeyDown: PropTypes.func,
   onFocus: PropTypes.func,
