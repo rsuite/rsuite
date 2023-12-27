@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { getClassNamePrefix, prefix } from '../utils/prefix';
 import { Locale } from '../locales';
 import { addClass, removeClass, canUseDOM } from '../DOMHelper';
 import ToastContainer, { ToastContainerInstance, toastPlacements } from '../toaster/ToastContainer';
-import { usePortal } from '../utils';
+import { usePortal, useIsomorphicLayoutEffect } from '../utils';
 
 export interface CustomValue<T = Locale> {
   /** Language configuration */
@@ -90,7 +90,7 @@ const CustomProvider = (props: Omit<CustomProviderProps, 'toasters'>) => {
     [classPrefix, theme, disableRipple, rest]
   );
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (canUseDOM && theme) {
       addClass(document.body, prefix(classPrefix, `theme-${theme}`));
 
