@@ -32,9 +32,7 @@ export interface InputProps
   /** Ref of input element */
   inputRef?: React.Ref<any>;
 
-  /**
-   * The callback function in which value is changed.
-   */
+  /** The callback function in which value is changed */
   onChange?: PrependParameters<React.ChangeEventHandler<HTMLInputElement>, [value: string]>;
 
   /** Called on press enter */
@@ -58,7 +56,6 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       inputRef,
       id,
       size,
-
       plaintext,
       readOnly,
       onPressEnter,
