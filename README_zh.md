@@ -7,10 +7,14 @@
 </p>
 
 [![npm][npm-svg]][npm-home]
-[![codecov](https://codecov.io/gh/rsuite/rsuite/branch/main/graph/badge.svg?token=HGeKd0BD3t)](https://codecov.io/gh/rsuite/rsuite)
+[![GitHub Actions][actions-svg]][actions-home]
+[![npm bundle size][npm-bundle-size-img]][npm-bundle-size]
+[![rsuite.min.js][rsuite-min-js-img]][rsuite-min-js]
+[![codecov][codecov-img]][codecov]
 [![Discord][discord-svg]][discord-invite]
 [![Gitter][gitter-svg]][gitter]
 [![Gitter][gitter-cn-svg]][gitter-cn]
+[![Gitpod ready-to-code][gitpod-img]][gitpod]
 
 React Suite 是一套 React 组件库，为后台产品而生。同时也是一个具有贴心设计以及对开发者友好的 UI 框架。
 
@@ -136,9 +140,15 @@ function App() {
 
 React Suite 基于 [MIT licensed][license] 发布。
 
-[readm-en]: https://github.com/rsuite/rsuite/blob/master/README.md
+[readm-en]: https://github.com/rsuite/rsuite/blob/main/README.md
 [npm-svg]: https://img.shields.io/npm/v/rsuite
 [npm-home]: https://www.npmjs.com/package/rsuite
+[npm-bundle-size-img]: https://img.shields.io/bundlephobia/minzip/rsuite
+[npm-bundle-size]: https://bundlephobia.com/package/rsuite
+[rsuite-min-js-img]: https://img.badgesize.io/https:/unpkg.com/rsuite/dist/rsuite.min.js?label=rsuite.min.js&compression=gzip
+[rsuite-min-js]: https://unpkg.com/browse/rsuite/dist/rsuite.min.js
+[actions-svg]: https://github.com/rsuite/rsuite/workflows/Node.js%20CI/badge.svg?branch=main
+[actions-home]: https://github.com/rsuite/rsuite/actions?query=branch%3Amain+workflow%3A%22Node.js+CI%22
 [discord-svg]: https://img.shields.io/badge/Discord-Join%20chat%20%E2%86%92-738bd7.svg
 [discord-invite]: https://discord.gg/R8mnjwh
 [rsuite-design]: https://rsuitejs.com/design/default
@@ -149,29 +159,33 @@ React Suite 基于 [MIT licensed][license] 发布。
 [rsuite-doc-guide-intl]: https://rsuitejs.com/en/guide/intl
 [rsuite-components-overview]: https://rsuitejs.com/components/overview
 [release-notes]: https://github.com/rsuite/rsuite/releases
-[contributing]: https://github.com/rsuite/rsuite/blob/master/CONTRIBUTING.zh-CN.md
+[contributing]: https://github.com/rsuite/rsuite/blob/main/CONTRIBUTING.zh-CN.md
 [prettierrc]: https://github.com/rsuite/rsuite/wiki/.prettierrc
 [issues-11]: https://github.com/rsuite/rsuite/issues/11
 [opencollective-svg]: https://opencollective.com/rsuite/tiers/backer.svg?avatarHeight=36
 [opencollective-home]: https://opencollective.com/rsuite
-[license]: https://github.com/rsuite/rsuite/blob/master/LICENSE
+[license]: https://github.com/rsuite/rsuite/blob/main/LICENSE
 [gitter]: https://gitter.im/rsuite/rsuite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-english
 [gitter-cn]: https://gitter.im/rsuite/rsuite-CN?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 [gitter-cn-svg]: https://img.shields.io/gitter/room/rsuite/rsuite?label=chat-chinese
 [demo-admin]: https://github.com/rsuite/rsuite-management-system
-[demo-modular-import]: https://github.com/rsuite/rsuite/tree/master/examples/with-babel-preset-rsuite
-[demo-cdn]: https://github.com/rsuite/rsuite/tree/master/examples/cdn
-[demo-create-react-app]: https://github.com/rsuite/rsuite/tree/master/examples/create-react-app
-[demo-electron]: https://github.com/rsuite/rsuite/tree/master/examples/with-electron
-[demo-intl-app]: https://github.com/rsuite/rsuite/tree/master/examples/custom-i18n
-[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
-[demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
-[demo-typescript-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-typescript
-[demo-nextjs]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs
-[demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
-[demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
-[demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
-[demo-nextjs-typescript]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs-typescript
-[demo-snowpack]: https://github.com/rsuite/rsuite/tree/master/examples/with-snowpack
-[demo-vite]: https://github.com/rsuite/rsuite/tree/master/examples/with-vite
+[demo-modular-import]: https://github.com/rsuite/rsuite/tree/main/examples/with-babel-preset-rsuite
+[demo-cdn]: https://github.com/rsuite/rsuite/tree/main/examples/cdn
+[demo-create-react-app]: https://github.com/rsuite/rsuite/tree/main/examples/create-react-app
+[demo-electron]: https://github.com/rsuite/rsuite/tree/main/examples/with-electron
+[demo-intl-app]: https://github.com/rsuite/rsuite/tree/main/examples/custom-i18n
+[demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/main/examples/custom-multiple-themes
+[demo-flow-app]: https://github.com/rsuite/rsuite/tree/main/examples/with-flow
+[demo-typescript-app]: https://github.com/rsuite/rsuite/tree/main/examples/with-typescript
+[demo-nextjs]: https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs
+[demo-umi-app]: https://github.com/rsuite/rsuite/tree/main/examples/with-umi
+[demo-rtlcss]: https://github.com/rsuite/rsuite/tree/main/examples/with-rtlcss
+[demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/main/examples/with-postcss-rtl
+[demo-nextjs-typescript]: https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs-typescript
+[demo-snowpack]: https://github.com/rsuite/rsuite/tree/main/examples/with-snowpack
+[demo-vite]: https://github.com/rsuite/rsuite/tree/main/examples/with-vite
+[codecov]: https://codecov.io/gh/rsuite/rsuite
+[codecov-img]: https://codecov.io/gh/rsuite/rsuite/branch/main/graph/badge.svg?token=HGeKd0BD3t
+[gitpod]: https://gitpod.io/#https://github.com/rsuite/rsuite
+[gitpod-img]: https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod
