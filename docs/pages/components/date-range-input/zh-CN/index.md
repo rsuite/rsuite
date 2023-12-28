@@ -1,6 +1,6 @@
 # DateRangeInput 日期范围输入框
 
-DateRangeInput 组件允许用户使用键盘选择日期。
+DateRangeInput 组件允许用户使用键盘选择日期范围。
 
 ![Supported from version 5.49.0](https://img.shields.io/badge/version->=5.49.0-blue)
 

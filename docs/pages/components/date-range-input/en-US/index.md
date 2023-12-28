@@ -1,6 +1,6 @@
 # DateRangeInput
 
-The DateRangeInput component lets users select a date with the keyboard.
+The DateRangeInput components let the user select a date range with the keyboard.
 
 ![Supported from version 5.49.0](https://img.shields.io/badge/version->=5.49.0-blue)
 
@@ -30,9 +30,9 @@ The DateRangeInput component lets users select a date with the keyboard.
 
 ### ARIA properties
 
-- The DateInput component is the `<input type="text">` element.
-- When the DateInput component is disabled, the `disabled` property is added to the `<input>` element.
-- When the DateInput component is read only, the `readonly` property is added to the `<input>` element.
+- The DateRangeInput component is the `<input type="text">` element.
+- When the DateRangeInput component is disabled, the `disabled` property is added to the `<input>` element.
+- When the DateRangeInput component is read only, the `readonly` property is added to the `<input>` element.
 
 ### Keyboard interactions
 
@@ -43,7 +43,7 @@ The DateRangeInput component lets users select a date with the keyboard.
 
 ## Props
 
-### `<DateInput>`
+### `<DateRangeInput>`
 
 <!-- prettier-sort-markdown-table -->
 

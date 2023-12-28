@@ -7,8 +7,9 @@ import sinon from 'sinon';
 import DateRangeInput from '../DateRangeInput';
 import CustomProvider from '../../CustomProvider';
 import zhCN from '../../locales/zh_CN';
+import { keyPressTests } from '../../DateInput/test/testUtils';
 
-import { testKeyPress, testContinuousKeyPress } from './testUtils';
+const { testKeyPress, testContinuousKeyPress } = keyPressTests(DateRangeInput);
 
 describe('DateRangeInput', () => {
   testStandardProps(<DateRangeInput />, { sizes: ['lg', 'md', 'sm', 'xs'] });
