@@ -22,6 +22,13 @@
 
 <!--{include:`size.md`}-->
 
+如果你想使用原生 DOM 的 size 属性，你可以使用 `htmlSize` 属性。
+为了使其按预期工作，您还需要提供 `style={{ width: 'auto' }}` 属性。
+
+```jsx
+<Input htmlSize={10} style={{ width: 'auto' }} />
+```
+
 ### Textarea
 
 <!--{include:`textarea.md`}-->
@@ -60,15 +67,16 @@ MaskedInput 是一个输入掩码组件。 它可以为电话、日期、货币�
 
 ### `<Input>`
 
-| 属性名称     | 类型 `(默认值)`                                   | 描述                     |
-| ------------ | ------------------------------------------------- | ------------------------ |
-| classPrefix  | string `('input')`                                | 组件 CSS 类的前缀        |
-| defaultValue | string                                            | 设置默认值               |
-| disabled     | boolean                                           | 禁用                     |
-| onChange     | (value: string, event) => void                    | value 发生变化的回调函数 |
-| size         | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | 设置输入框尺寸           |
-| type         | string `('text' )`                                | HTML input type.         |
-| value        | string                                            | 设置值 `受控`            |
+| 属性名称     | 类型 `(默认值)`                                   | 描述                        |
+| ------------ | ------------------------------------------------- | --------------------------- |
+| classPrefix  | string `('input')`                                | 组件 CSS 类的前缀           |
+| defaultValue | string                                            | 设置默认值                  |
+| disabled     | boolean                                           | 禁用                        |
+| htmlSize     | number                                            | 设置原生 input 的 size 属性 |
+| onChange     | (value: string, event) => void                    | value 发生变化的回调函数    |
+| size         | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | 设置输入框尺寸              |
+| type         | string `('text' )`                                | HTML input type.            |
+| value        | string                                            | 设置值 `受控`               |
 
 ### `<InputGroup>`
 
@@ -84,8 +92,8 @@ MaskedInput 是一个输入掩码组件。 它可以为电话、日期、货币�
 
 | 属性名称          | 类型 `(默认值)`       | 描述                                               |
 | ----------------- | --------------------- | -------------------------------------------------- |
-| mask (\*)         | array &#124; function | 用于定义如何阻止用户输入。                         |
 | guide             | boolean               | 在引导模式或无引导模式                             |
-| placeholderChar   | string `('_')`        | 占位符代表遮罩中的可填充点                         |
 | keepCharPositions | boolean `(false)`     | 当为 true 时，添加或删除字符不会影响现有字符的位置 |
+| mask (\*)         | array &#124; function | 用于定义如何阻止用户输入。                         |
+| placeholderChar   | string `('_')`        | 占位符代表遮罩中的可填充点                         |
 | showMask          | boolean               | 在输入值为空时将掩码显示为占位符而不是常规占位符   |

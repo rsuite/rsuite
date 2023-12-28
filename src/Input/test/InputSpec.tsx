@@ -14,6 +14,11 @@ describe('Input', () => {
     expect(screen.getByRole('textbox')).to.have.class('rs-input');
   });
 
+  it('Should have a size attribute on input element', () => {
+    render(<Input htmlSize={20} />);
+    expect(screen.getByRole('textbox')).to.have.attribute('size', '20');
+  });
+
   it('Should call onChange callback', () => {
     const onChange = Sinon.spy();
     render(<Input onChange={onChange} />);
