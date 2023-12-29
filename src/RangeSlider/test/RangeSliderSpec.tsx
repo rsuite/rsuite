@@ -4,6 +4,7 @@ import { Simulate } from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { getDOMNode, testStandardProps } from '@test/utils';
 import RangeSlider from '../RangeSlider';
+import { addStyle } from 'dom-lib';
 
 import '../../Slider/styles/index.less';
 
@@ -233,6 +234,9 @@ describe('RangeSlider', () => {
     // eslint-disable-next-line testing-library/no-node-access
     const sliderBar = instance.querySelector('.rs-slider-bar') as HTMLElement;
 
+    // `margin` will cause the values of `pageX` and `pageY` to be inaccurate in the test environment, so you need to set them manually here.
+    addStyle(document.body, 'margin', '0');
+
     act(() => {
       Simulate.click(sliderBar, { pageX: 0, pageY: 80 });
     });
@@ -247,7 +251,6 @@ describe('RangeSlider', () => {
      * fix: https://github.com/rsuite/rsuite/issues/2425
      * Error thrown before fix: expected [ 100, 20 ] to deeply equal [ 20, 100 ]
      */
-
     expect(onChangeSpy).to.have.been.calledWith([20, 100]);
 
     expect(onChangeSpy).to.have.been.calledTwice;
