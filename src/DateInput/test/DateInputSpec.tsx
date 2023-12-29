@@ -7,8 +7,9 @@ import sinon from 'sinon';
 import DateInput from '../DateInput';
 import CustomProvider from '../../CustomProvider';
 import zhCN from '../../locales/zh_CN';
+import { keyPressTests } from './testUtils';
 
-import { testKeyPress, testContinuousKeyPress } from './testUtils';
+const { testKeyPress, testContinuousKeyPress } = keyPressTests(DateInput);
 
 describe('DateInput', () => {
   testStandardProps(<DateInput />, { sizes: ['lg', 'md', 'sm', 'xs'] });
@@ -266,6 +267,16 @@ describe('DateInput', () => {
         keySequences: [
           { key: '{arrowup}', expected: '11' },
           { key: '{arrowdown}', expected: '10' }
+        ]
+      });
+    });
+    it('Should support 12 hour format', () => {
+      testContinuousKeyPress({
+        format: 'hh',
+        defaultValue: new Date('2023-10-01 12:00:00'),
+        keySequences: [
+          { key: '{arrowup}', expected: '01' },
+          { key: '{arrowdown}', expected: '12' }
         ]
       });
     });

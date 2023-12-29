@@ -1,22 +1,29 @@
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import Input, { InputProps } from '../Input';
-import { mergeRefs, useCustom, useControlled, useEventCallback } from '../utils';
-import { FormControlBaseProps } from '../@types/common';
+import { mergeRefs, useClassNames, useCustom, useControlled, useEventCallback } from '../utils';
 import {
-  getInputSelectedState,
   validateDateTime,
   isFieldFullValue,
-  useInputSelection
-} from './utils';
+  useDateInputState,
+  useInputSelection,
+  useKeyboardInputEvent,
+  useIsFocused
+} from '../DateInput';
+import { getInputSelectedState, DateType, getDateType, isSwitchDateType } from './utils';
+import { FormControlBaseProps } from '../@types/common';
 
-import useDateInputState from './useDateInputState';
-import useKeyboardInputEvent from './useKeyboardInputEvent';
-import useIsFocused from './useIsFocused';
+type ValueType = [Date | null, Date | null] | null;
 
-export interface DateInputProps
+export interface DateRangeInputProps
   extends Omit<InputProps, 'value' | 'onChange' | 'defaultValue'>,
-    FormControlBaseProps<Date | null> {
+    FormControlBaseProps<ValueType> {
+  /**
+   * The character between the start and end dates.
+   * @default ' ~ '
+   **/
+  character?: string;
+
   /**
    * Format of the date when rendered in the input. Format of the string is based on Unicode Technical Standard.
    *
@@ -32,15 +39,18 @@ export interface DateInputProps
 }
 
 /**
- * The DateInput component lets users select a date with the keyboard.
- * @version 5.58.0
- * @see https://rsuitejs.com/components/date-input/
+ * The DateRangeInput component lets users select a date with the keyboard.
+ * @version 5.59.0
+ * @see https://rsuitejs.com/components/date-range-input/
  */
-const DateInput = React.forwardRef((props: DateInputProps, ref) => {
+const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
   const {
+    className,
+    classPrefix = 'date-range-input',
+    character = ' ~ ',
     format: formatStr = 'yyyy-MM-dd',
     value: valueProp,
-    defaultValue,
+    defaultValue = [],
     placeholder,
     onChange,
     onKeyDown,
@@ -48,6 +58,9 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     onFocus,
     ...rest
   } = props;
+
+  const { withClassPrefix, merge } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix());
 
   const inputRef = useRef<HTMLInputElement>();
 
@@ -62,36 +75,55 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
   });
 
   const { locale } = useCustom('Calendar');
+  const rangeFormatStr = `${formatStr}${character}${formatStr}`;
 
   const dateLocale = locale.dateLocale;
   const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
-  const { dateField, setDateOffset, setDateField, getDateField, toDateString, isEmptyValue } =
-    useDateInputState({
-      formatStr,
-      locale: dateLocale,
-      date: value,
-      isControlledDate: isControlled
-    });
+  const [dateType, setDateType] = useState<DateType>(DateType.Start);
 
-  const dateString = toDateString();
-  const keyPressOptions = useMemo(
-    () => ({
-      formatStr,
-      localize: dateLocale.localize,
-      selectedMonth: dateField.month,
-      dateString
-    }),
-    [dateField, dateString, formatStr, dateLocale]
-  );
+  const dateInputOptions = { formatStr, locale: dateLocale, isControlledDate: isControlled };
 
-  const handleChange = useEventCallback(
-    (value: Date | null, event: React.SyntheticEvent<HTMLInputElement>) => {
-      onChange?.(value, event);
-      setValue(value);
+  const startDateState = useDateInputState({ ...dateInputOptions, date: value?.[0] });
+  const endDateState = useDateInputState({ ...dateInputOptions, date: value?.[1] });
+
+  const getActiveState = (type: DateType = dateType) => {
+    return type === DateType.Start ? startDateState : endDateState;
+  };
+
+  const [focused, focusEventProps] = useIsFocused({ onBlur, onFocus });
+
+  const renderedValue = useMemo(() => {
+    const dateString = startDateState.toDateString() + character + endDateState.toDateString();
+    if (!startDateState.isEmptyValue() || !endDateState.isEmptyValue()) {
+      return dateString;
     }
-  );
+
+    return !focused ? '' : dateString;
+  }, [character, endDateState, focused, startDateState]);
+
+  const keyPressOptions = {
+    formatStr,
+    rangeFormatStr,
+    localize: dateLocale.localize,
+    selectedMonth: getActiveState().dateField.month,
+    dateString: renderedValue,
+    dateType,
+    character
+  };
 
   const setSelectionRange = useInputSelection(inputRef);
+
+  const handleChange = useEventCallback(
+    (date: Date | null, event: React.SyntheticEvent<HTMLInputElement>) => {
+      const nextValue =
+        dateType === DateType.Start
+          ? ([date, value?.[1]] as ValueType)
+          : ([value?.[0], date] as ValueType);
+
+      onChange?.(nextValue, event);
+      setValue(nextValue);
+    }
+  );
 
   const onSegmentChange = useEventCallback(
     (event: React.KeyboardEvent<HTMLInputElement>, nextDirection?: 'right' | 'left') => {
@@ -99,7 +131,26 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       const key = event.key;
       const direction = nextDirection || (key === 'ArrowRight' ? 'right' : 'left');
 
-      const state = getInputSelectedState({ ...keyPressOptions, input, direction });
+      if (input.selectionEnd === null || input.selectionStart === null) {
+        return;
+      }
+
+      const cursorIndex = direction === 'right' ? input.selectionEnd : input.selectionStart;
+      let nextDateType = dateType;
+
+      if (isSwitchDateType(renderedValue, character, cursorIndex, direction)) {
+        nextDateType = dateType === DateType.Start ? DateType.End : DateType.Start;
+
+        setDateType(nextDateType);
+      }
+
+      const state = getInputSelectedState({
+        ...keyPressOptions,
+        dateType: nextDateType,
+        selectedMonth: getActiveState(nextDateType).dateField.month,
+        input,
+        direction
+      });
 
       setSelectionRange(state.selectionStart, state.selectionEnd);
       setSelectedState(state);
@@ -114,7 +165,9 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     const state = getInputSelectedState({ ...keyPressOptions, input, valueOffset: offset });
 
     setSelectedState(state);
-    setDateOffset(state.selectedPattern, offset, date => handleChange(date, event));
+    getActiveState().setDateOffset(state.selectedPattern, offset, date =>
+      handleChange(date, event)
+    );
     setSelectionRange(state.selectionStart, state.selectionEnd);
   });
 
@@ -122,13 +175,12 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       const input = event.target as HTMLInputElement;
       const key = event.key;
-
       const pattern = selectedState.selectedPattern;
       if (!pattern) {
         return;
       }
 
-      const field = getDateField(pattern);
+      const field = getActiveState().getDateField(pattern);
       const value = parseInt(key, 10);
       const padValue = parseInt(`${field.value || ''}${key}`, 10);
 
@@ -144,11 +196,11 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
         newValue = Math.max(1, newValue);
       }
 
-      setDateField(pattern, newValue, date => handleChange(date, event));
+      getActiveState().setDateField(pattern, newValue, date => handleChange(date, event));
 
       // The currently selected month will be retained as a parameter of getInputSelectedState,
       // but if the user enters a month, the month value will be replaced with the value entered by the user.
-      const selectedMonth = pattern === 'M' ? newValue : dateField.month;
+      const selectedMonth = pattern === 'M' ? newValue : getActiveState().dateField.month;
       const nextState = getInputSelectedState({ ...keyPressOptions, input, selectedMonth });
 
       setSelectedState(nextState);
@@ -172,14 +224,30 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
       setSelectedState(nextState);
       setSelectionRange(nextState.selectionStart, nextState.selectionEnd);
 
-      setDateField(selectedState.selectedPattern, null, date => handleChange(date, event));
+      getActiveState().setDateField(selectedState.selectedPattern, null, date =>
+        handleChange(date, event)
+      );
     }
   });
 
   const handleClick = useEventCallback((event: React.MouseEvent<HTMLInputElement>) => {
     const input = event.target as HTMLInputElement;
-    const state = getInputSelectedState({ ...keyPressOptions, input });
 
+    if (input.selectionStart === null) {
+      return;
+    }
+
+    const cursorIndex = input.selectionStart === renderedValue.length ? 0 : input.selectionStart;
+
+    const dateType = getDateType(renderedValue, character, cursorIndex);
+    const state = getInputSelectedState({
+      ...keyPressOptions,
+      dateType,
+      selectedMonth: getActiveState(dateType).dateField.month,
+      input
+    });
+
+    setDateType(dateType);
     setSelectedState(state);
     setSelectionRange(state.selectionStart, state.selectionEnd);
   });
@@ -192,43 +260,35 @@ const DateInput = React.forwardRef((props: DateInputProps, ref) => {
     onKeyDown
   });
 
-  const [focused, focusEventProps] = useIsFocused({ onBlur, onFocus });
-
-  const renderedValue = useMemo(() => {
-    if (!isEmptyValue()) {
-      return dateString;
-    }
-
-    return !focused ? '' : dateString;
-  }, [dateString, focused, isEmptyValue]);
-
   return (
     <Input
       inputMode={focused ? 'numeric' : 'text'}
       autoComplete="off"
       autoCorrect="off"
       spellCheck={false}
+      className={classes}
       ref={mergeRefs(inputRef, ref)}
       onKeyDown={onKeyboardInput}
       onClick={handleClick}
       value={renderedValue}
-      placeholder={placeholder || formatStr}
+      placeholder={placeholder || rangeFormatStr}
       {...focusEventProps}
       {...rest}
     />
   );
 });
 
-DateInput.displayName = 'DateInput';
-DateInput.propTypes = {
-  defaultValue: PropTypes.instanceOf(Date),
+DateRangeInput.displayName = 'DateRangeInput';
+DateRangeInput.propTypes = {
+  character: PropTypes.string,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
   format: PropTypes.string,
-  value: PropTypes.instanceOf(Date),
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
   onKeyDown: PropTypes.func,
-  onBlur: PropTypes.func,
-  onFocus: PropTypes.func
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func
 };
 
-export default DateInput;
+export default DateRangeInput;

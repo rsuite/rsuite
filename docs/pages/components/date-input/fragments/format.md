@@ -5,8 +5,8 @@ import { DateInput, Stack } from 'rsuite';
 
 const App = () => (
   <Stack spacing={10} direction="column" alignItems="flex-start">
-    <DateInput />
     <DateInput format="MM/dd/yyyy" />
+    <DateInput format="dd.MM.yyyy" />
     <DateInput format="MMM dd, yyyy" />
     <DateInput format="MMMM dd, yyyy" />
     <DateInput format="yyyy年MM月dd日" />

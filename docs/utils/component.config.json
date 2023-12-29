@@ -312,6 +312,14 @@
     }
   },
   {
+    "id": "date-range-input",
+    "name": "DateRangeInput",
+    "title": "日期范围输入框",
+    "components": ["DateRangeInput"],
+    "minVersion": "5.49.0",
+    "tag": "New"
+  },
+  {
     "id": "date-range-picker",
     "name": "DateRangePicker",
     "title": "日期范围选择器",

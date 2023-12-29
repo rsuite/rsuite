@@ -169,6 +169,9 @@ export type { DateInputProps } from './DateInput';
 export { default as DatePicker } from './DatePicker';
 export type { DatePickerProps } from './DatePicker';
 
+export { default as DateRangeInput } from './DateRangeInput';
+export type { DateRangeInputProps } from './DateRangeInput';
+
 export { default as DateRangePicker } from './DateRangePicker';
 export type { DateRangePickerProps } from './DateRangePicker';
 
