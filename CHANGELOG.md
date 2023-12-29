@@ -1,3 +1,17 @@
+# [5.49.0](https://github.com/rsuite/rsuite/compare/v5.48.1...v5.49.0) (2023-12-29)
+
+### Bug Fixes
+
+- **CSS Reset:** fix `rsuite-no-reset.css` overrides the default styles of the app ([#3527](https://github.com/rsuite/rsuite/issues/3527)) ([dff5804](https://github.com/rsuite/rsuite/commit/dff5804f81c00dfe4f4bb02eac92e070fabcc4f8))
+- **CustomProvider:** fix the flicker when initializing in Dark mode ([#3528](https://github.com/rsuite/rsuite/issues/3528)) ([2bd67fd](https://github.com/rsuite/rsuite/commit/2bd67fd60ddaec9a5925d22e7cee126425b6ad78))
+- **DateRangePicker:** fix layout misalignment due to missing min-width ([#3523](https://github.com/rsuite/rsuite/issues/3523)) ([464af79](https://github.com/rsuite/rsuite/commit/464af7964fe5fb8e434c7113084e6597726f3db6))
+
+### Features
+
+- **DatePicker:** supports date selection by using keyboard ([#3515](https://github.com/rsuite/rsuite/issues/3515)) ([bc56cb3](https://github.com/rsuite/rsuite/commit/bc56cb33fb15854a0d3f6c3c3bb6ee3b4036aef5))
+- **DateRangeInput:** add support for DateRangeInput ([#3525](https://github.com/rsuite/rsuite/issues/3525)) ([074245a](https://github.com/rsuite/rsuite/commit/074245a2f5f18028426d896584690d1738606d1c))
+- **Input:** add support for htmlSize prop ([#3526](https://github.com/rsuite/rsuite/issues/3526)) ([62de8ca](https://github.com/rsuite/rsuite/commit/62de8ca14eb2aaf8dde904b3667035cb3f060c23))
+
 ## [5.48.1](https://github.com/rsuite/rsuite/compare/v5.48.0...v5.48.1) (2023-12-22)
 
 ### Bug Fixes
