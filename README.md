@@ -150,7 +150,7 @@ React Suite is [MIT licensed][license]. Copyright (c) 2016-present, HYPERS.
 [readm-cn]: https://github.com/rsuite/rsuite/blob/main/README_zh.md
 [npm-svg]: https://img.shields.io/npm/v/rsuite
 [npm-home]: https://www.npmjs.com/package/rsuite
-[npm-bundle-size-img]: https://img.shields.io/bundlephobia/minzip/rsuite
+[npm-bundle-size-img]: https://badgen.net/bundlephobia/minzip/rsuite?icon=npm
 [npm-bundle-size]: https://bundlephobia.com/package/rsuite
 [rsuite-min-js-img]: https://img.badgesize.io/https:/unpkg.com/rsuite/dist/rsuite.min.js?label=rsuite.min.js&compression=gzip
 [rsuite-min-js]: https://unpkg.com/browse/rsuite/dist/rsuite.min.js
