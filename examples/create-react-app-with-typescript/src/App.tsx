@@ -1,22 +1,50 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Button } from 'rsuite';
-import './App.css';
-import 'rsuite/dist/rsuite.css';
+import { Button, CustomProvider, Container, Stack, Toggle } from 'rsuite';
+import { Icon } from '@rsuite/icons';
+import { FaMoon, FaSun } from 'react-icons/fa';
+import Logo from './Logo';
+import './App.less';
 
 function App() {
+  const [theme, setTheme] = React.useState<'light' | 'dark'>('dark');
+
+  const toggleTheme = (checked: boolean) => {
+    setTheme(checked ? 'light' : 'dark');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <Button className="App-link" href="https://rsuitejs.com" target="_blank">
-          React Suite
-        </Button>
-      </header>
-    </div>
+    <CustomProvider theme={theme}>
+      <Container className="App">
+        <header className="App-header">
+          <Logo />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+
+          <Toggle
+            checked={theme === 'light'}
+            checkedChildren={<Icon as={FaSun} style={{ fontSize: 16 }} />}
+            unCheckedChildren={<Icon as={FaMoon} style={{ fontSize: 16 }} />}
+            onChange={toggleTheme}
+          />
+
+          <Stack spacing={10}>
+            <Button
+              appearance="primary"
+              href="https://rsuitejs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Learn React Suite
+            </Button>
+
+            <Button href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
+              Learn React
+            </Button>
+          </Stack>
+        </header>
+      </Container>
+    </CustomProvider>
   );
 }
 

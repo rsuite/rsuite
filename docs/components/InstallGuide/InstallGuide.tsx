@@ -3,14 +3,20 @@ import { Nav } from 'rsuite';
 import { Icon } from '@rsuite/icons';
 import { SiPnpm, SiNpm, SiYarn } from 'react-icons/si';
 
-const commands = {
+const defaultCommands = {
   npm: 'npm install rsuite --save',
   yarn: 'yarn add rsuite',
   pnpm: 'pnpm add rsuite'
 };
 
-const InstallGuide = () => {
-  const [active, setActive] = React.useState('npm');
+interface InstallGuideProps {
+  commands?: typeof defaultCommands;
+  activeCommand?: keyof typeof defaultCommands;
+}
+
+const InstallGuide = (props: InstallGuideProps) => {
+  const { commands = defaultCommands, activeCommand } = props;
+  const [active, setActive] = React.useState(activeCommand || 'npm');
 
   return (
     <div style={{ marginTop: 16 }}>

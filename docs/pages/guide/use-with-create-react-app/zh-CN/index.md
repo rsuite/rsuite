@@ -1,135 +1,132 @@
-# 在 create-react-app 中使用
+# Create React App
 
-[create-react-app][create-react-app] 可以帮助快速建立一个 `react` 工程，本向导将介绍如何将 `rsuite` 于 `create-react-app` 结合使用。
+Create React App 是 React 官方支持的创建单页 React 应用的方式。以下将介绍如何在 Create React App 中使用 rsuite。
 
-## 初始化一个项目
+## 自动安装
 
-在开始之前，您可能需要安装 [yarn][yarn]。
+Create React App 允许用户使用模板创建项目，rsuite 提供了两个模板，分别是 JavaScript 和 TypeScript。
 
-```bash
-$ yarn create react-app test-app
+### JavaScript 模版
+
+生成 JavaScript 项目的入门模板，请运行以下命令：
+
+<!--{include:<install-cra-js>}-->
+
+### TypeScript 模版
+
+生成 TypeScript 项目的入门模板，请运行以下命令：
+
+<!--{include:<install-cra-ts>}-->
+
+## 手动安装
+
+如果您已经有了一个 Create React App 项目，您可以按照以下步骤安装 rsuite。
+
+### 1、安装 rsuite
+
+在 Create React App 项目目录中，通过运行以下任一命令来安装 rsuite：
+
+<!--{include:<install-guide>}-->
+
+### 2、使用 rsuite 组件
+
+编辑`./src/App.js`，使用 `CustomProvider` 组件包裹根组件，设置默认主题为 `light`:
+
+```tsx
+import React from 'react';
+import { Button, CustomProvider, Container } from 'rsuite';
+import logo from './logo.svg';
+import 'rsuite/dist/rsuite.min.css';
+import './App.css';
+
+function App() {
+  return (
+    <CustomProvider theme="light">
+      <Container className="app">
+        <header className="app-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+
+          <Button href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
+            Learn React
+          </Button>
+        </header>
+      </Container>
+    </CustomProvider>
+  );
+}
+
+export default App;
 ```
 
-执行后，工具将自动生成一个 `react` 开发脚手架，并安装开发 `react` 所必须的所有依赖。安装完成后执行
+## 基于 Less 的定制 (可选)
 
-```bash
-$ yarn start
-```
+默认情况下你可以通过修改 [CSS 变量来定制主题](https://rsuitejs.com/guide/css-variables/)，如果你的项目中使用了 Less，你可以通过以下步骤来定制主题。
 
-浏览器会自动打开 `http://localhost:3000/`，当您看到 `Welcome to React` 页面就是安装成功了。
+### 1、安装 @craco/craco
 
-## 引入 rsuite
+<!--{include:<install-craco>}-->
 
-安装 rsuite
+### 2、craco.config.js
 
-```
-$ yarn add rsuite
-```
-
-然后编辑`./src/App.js`
+在项目的根目录中创建 CRACO 配置文件并配置：
 
 ```diff
-  import React, { Component } from 'react';
-- import logo from './logo.svg';
-  import './App.css';
+  my-app
+  ├── node_modules
++ ├── craco.config.js
+  └── package.json
+```
 
-+ import 'rsuite/dist/rsuite.min.css';
-+ import { Button } from 'rsuite';
+编辑 craco.config.js 文件如下
 
-  class App extends Component {
-    render() {
-      return (
-        <div className="App">
--         <header className="App-header">
--           <img src={logo} className="App-logo" alt="logo" />
--           <h1 className="App-title">Welcome to React</h1>
--         </header>
--         <p className="App-intro">
--           To get started, edit <code>src/App.js</code> and save to reload.
--         </p>
-+         <Button appearance="primary"> Hello world </Button>
-        </div>
-      );
+```js
+const CracoLessPlugin = require('craco-less');
+
+module.exports = {
+  plugins: [
+    {
+      plugin: CracoLessPlugin,
+      options: {
+        lessLoaderOptions: {
+          lessOptions: {
+            modifyVars: { '@primary-color': '#f44336' },
+            javascriptEnabled: true
+          }
+        }
+      }
     }
-  }
-
-  export default App;
+  ]
+};
 ```
 
-之后您会看到一个强调按钮 ，现在您可以继续进行开发了。如果您遇到其他的问题，可以查询 create-react-app 的 [官方文档][create-react-app-readme]。
+### 3、引入 rsuite 的 less 文件
 
-## 定制主题
-
-要使用定制主题功能，必须要修改 create-react-app 的默认配置。
-
-1.  安装必要依赖。
-
-```bash
-yarn add react-app-rewired customize-cra less less-loader@7
-```
-
-2.  修改 `package.json` 中的脚本
-
-```diff
-    "scripts": {
--     "start": "react-scripts start",
-+     "start": "react-app-rewired start",
--     "build": "react-scripts build",
-+     "build": "react-app-rewired build",
--     "test": "react-scripts test --env=jsdom",
-+     "test": "react-app-rewired test --env=jsdom",
--     "eject": "react-scripts eject"
-+     "eject": "react-app-rewired eject"
-    }
-```
-
-3.  编辑`./src/App.js`
+修改 `./src/App.js`，引入 rsuite 的 less 文件：
 
 ```diff
 - import 'rsuite/dist/rsuite.min.css';
 + import 'rsuite/styles/index.less';
-  import { Button } from 'rsuite';
 ```
 
-4.  在根目录新建 `config-overrides.js`，内容如下:
+### 4、使用 craco CLI
 
-```javascript
-/* config-overrides.js */
-const { override, addLessLoader } = require('customize-cra');
+更新 package.json 脚本部分中对 react-scripts 的调用改为使用 craco CLI：
 
-module.exports = override(
-  addLessLoader({
-    // 如果使用 less-loader@5 或者更老的版本 ，请移除 lessOptions 这一级直接配置选项。
-    lessOptions: {
-      javascriptEnabled: true,
-      modifyVars: { '@base-color': '#f44336' }
-    }
-  })
-);
+```diff
+
+"scripts": {
+-  "start": "react-scripts start"
++  "start": "craco start"
+-  "build": "react-scripts build"
++  "build": "craco build"
+-  "test": "react-scripts test"
++  "test": "craco test"
+}
 ```
 
-重新执行 `yarn start`，看到红色按钮就是配置成功了。
+重启项目，即可看到定制后的主题。
 
-这里使用 [react-app-rewired][react-app-rewired] 和 [customize-cra][customize-cra],配合 [less-loader][less-loader] 利用 `modifyVars` 配置实现定制主题。更多方法，详见[定制主题](/guide/customization-less)。
-
-## 常见问题
-
-### TypeError: this.getOptions is not a function
-
-`less-loader` 自 `8.0.0` 起不再支持 webpack <5 版本，而 `create-react-app` 包含的 webpack 版本为 4。
-查看[相关 issue](https://github.com/webpack-contrib/less-loader/issues/416) 。
-
-您应使用更早版本的 `less-loader`，例如 `7.3.0`。
-
-## 源码
-
-- [create-react-app](https://github.com/rsuite/rsuite/tree/master/examples/create-react-app)
-
-[yarn]: https://yarnpkg.com/
-[nvm]: https://github.com/creationix/nvm#installation
-[nvm-windows]: https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows
-[create-react-app]: https://github.com/facebook/create-react-app
-[create-react-app-readme]: https://github.com/facebook/create-react-app/blob/next/README.md
-[react-app-rewired]: https://github.com/timarney/react-app-rewired
-[customize-cra]: https://github.com/arackaf/customize-cra
-[less-loader]: https://github.com/webpack-contrib/less-loader
+> 完整示例请参考 [examples/create-react-app](https://github.com/rsuite/rsuite/tree/main/examples/create-react-app)。
