@@ -342,7 +342,7 @@ describe('DateRangeInput', () => {
     it('Should support the year format', () => {
       testContinuousKeyPress({
         format: 'yyyy',
-        defaultValue: [new Date(), null],
+        defaultValue: [new Date('2023-10-01'), null],
         keySequences: [
           { key: '2', expected: '0002 ~ yyyy' },
           { key: '0', expected: '0020 ~ yyyy' },
@@ -359,7 +359,7 @@ describe('DateRangeInput', () => {
     it('Should support the month format', () => {
       testContinuousKeyPress({
         format: 'MM',
-        defaultValue: [new Date(), null],
+        defaultValue: [new Date('2023-10-01'), null],
         keySequences: [
           { key: '2', expected: '02 ~ MM' },
           { key: '1', expected: '01 ~ MM' },
@@ -374,7 +374,7 @@ describe('DateRangeInput', () => {
     it('Should use numeric input to match to month', () => {
       testContinuousKeyPress({
         format: 'MMMM',
-        defaultValue: [new Date(), null],
+        defaultValue: [new Date('2023-10-01'), null],
         keySequences: [
           { key: '2', expected: 'February ~ MMMM' },
           { key: '1', expected: 'January ~ MMMM' },
@@ -389,7 +389,7 @@ describe('DateRangeInput', () => {
     it('Should use numeric input to match to abbreviated month', () => {
       testContinuousKeyPress({
         format: 'MMM',
-        defaultValue: [new Date(), null],
+        defaultValue: [new Date('2023-10-01'), null],
         keySequences: [
           { key: '2', expected: 'Feb ~ MMM' },
           { key: '1', expected: 'Jan ~ MMM' },
@@ -404,7 +404,7 @@ describe('DateRangeInput', () => {
     it('Should support the day format', () => {
       testContinuousKeyPress({
         format: 'dd',
-        defaultValue: [new Date(), null],
+        defaultValue: [new Date('2023-10-10'), null],
         keySequences: [
           { key: '3', expected: '03 ~ dd' },
           { key: '1', expected: '31 ~ dd' },
