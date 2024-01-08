@@ -42,7 +42,6 @@ describe('FormControl', () => {
   });
 
   it('Should set correctly defaultValue', () => {
-    // const onChange = sinon.spy();
     render(
       <Form formDefaultValue={{ user: { name: ['name0', 'name1'] } }}>
         <FormControl name="user.name.1" />
