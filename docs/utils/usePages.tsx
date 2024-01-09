@@ -63,15 +63,19 @@ export default function usePages(): Menu[] {
           id: 'frameworks',
           name: messages?.common?.frameworks
         },
-
+        {
+          id: 'use-vite',
+          name: messages?.common?.useVite
+        },
         {
           id: 'use-next-app',
           name: messages?.common?.useNextApp
         },
         {
-          id: 'use-vite',
-          name: messages?.common?.useVite
+          id: 'use-next-pages',
+          name: messages?.common?.useNextPages
         },
+
         {
           id: 'use-with-create-react-app',
           name: messages?.common?.useWithCreateReactApp

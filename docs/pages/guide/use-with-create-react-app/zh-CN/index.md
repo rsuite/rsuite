@@ -129,4 +129,6 @@ module.exports = {
 
 重启项目，即可看到定制后的主题。
 
-> 完整示例请参考 [examples/create-react-app](https://github.com/rsuite/rsuite/tree/main/examples/create-react-app)。
+## 示例项目
+
+- [examples/create-react-app](https://github.com/rsuite/rsuite/tree/main/examples/create-react-app)

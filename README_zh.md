@@ -89,8 +89,8 @@ function App() {
 - [在 Electron 中使用][demo-electron]
 - [在 Flow 中使用][demo-flow-app]
 - [在 TypeScript 中使用][demo-typescript-app]
-- [在 Next.js 中使用][demo-nextjs]
-- [在 Next.js 和 Typescript 中使用 ][demo-nextjs-typescript]
+- [在 Next.js App 中使用][demo-nextjs-app]
+- [在 Next.js Pages 中使用 ][demo-nextjs-pages]
 - [在 UmiJS 中使用][demo-umi-app]
 - [在 Snowpack 中使用][demo-snowpack]
 - [在 Vite 中使用][demo-vite]
@@ -178,11 +178,11 @@ React Suite 基于 [MIT licensed][license] 发布。
 [demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/main/examples/custom-multiple-themes
 [demo-flow-app]: https://github.com/rsuite/rsuite/tree/main/examples/with-flow
 [demo-typescript-app]: https://github.com/rsuite/rsuite/tree/main/examples/with-typescript
-[demo-nextjs]: https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs
+[demo-nextjs-app]: https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs-app
+[demo-nextjs-pages]: https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs-pages
 [demo-umi-app]: https://github.com/rsuite/rsuite/tree/main/examples/with-umi
 [demo-rtlcss]: https://github.com/rsuite/rsuite/tree/main/examples/with-rtlcss
 [demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/main/examples/with-postcss-rtl
-[demo-nextjs-typescript]: https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs-typescript
 [demo-snowpack]: https://github.com/rsuite/rsuite/tree/main/examples/with-snowpack
 [demo-vite]: https://github.com/rsuite/rsuite/tree/main/examples/with-vite
 [codecov]: https://codecov.io/gh/rsuite/rsuite
