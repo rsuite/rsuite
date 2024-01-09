@@ -19,6 +19,7 @@ export default {
     usage: '快速开始',
     useWithCreateReactApp: 'Create React App',
     useNextApp: 'Next.js',
+    useVite: 'Vite',
     officialThemes: '主题',
     cssVariables: 'CSS 变量',
     customizationLess: '基于 Less 的定制',
