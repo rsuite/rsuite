@@ -1,136 +1,132 @@
-# Use in create-react-app
+# Create React App
 
-[create-react-app][create-react-app] can help build a `react` project quickly, and this wizard will explain how to use `rsuite` in conjunction with `create-react-app`.
+Create React App is the official way to create single-page React applications. Here's how to use rsuite in Create React App.
 
-## Install and Initialization
+## Automatic Installation
 
-Before all start, you may need install [yarn][yarn].
+Create React App allows users to create projects using templates, and rsuite provides two templates, JavaScript and TypeScript.
 
-```bash
-$ yarn create react-app test-app
+### JavaScript Template
+
+To generate a JavaScript project template, run the following command:
+
+<!--{include:<install-cra-js>}-->
+
+### TypeScript Template
+
+To generate a TypeScript project template, run the following command:
+
+<!--{include:<install-cra-ts>}-->
+
+## Manual Installation
+
+If you already have a Create React App project, you can install rsuite by following these steps.
+
+### 1、Install rsuite
+
+In the Create React App project directory, install rsuite by running either of the following commands:
+
+<!--{include:<install-guide>}-->
+
+### 2、Use rsuite components
+
+Edit `./src/App.js` and wrap the root component with the `CustomProvider` component, setting the default theme to `light`:
+
+```tsx
+import React from 'react';
+import { Button, CustomProvider, Container } from 'rsuite';
+import logo from './logo.svg';
+import 'rsuite/dist/rsuite.min.css';
+import './App.css';
+
+function App() {
+  return (
+    <CustomProvider theme="light">
+      <Container className="app">
+        <header className="app-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+
+          <Button href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
+            Learn React
+          </Button>
+        </header>
+      </Container>
+    </CustomProvider>
+  );
+}
+
+export default App;
 ```
 
-After execution, the tool will automatically generate a `react` development scaffold and install all dependencies necessary to develop `react`.
-Execute after Setup completes
+## Less-based customization (optional)
 
-```bash
-$ yarn start
-```
+By default, you can customize the theme by modifying [CSS variables](https://rsuitejs.com/guide/css-variables/). If you are using Less in your project, you can customize the theme by following these steps.
 
-Open the browser at `http://localhost:3000/`. It renders a header saying "Welcome to React" on the page.
+### 1. Install craco
 
-## Install rsuite
+<!--{include:<install-craco>}-->
 
-```
-$ yarn add rsuite
-```
+### 2. craco.config.js
 
-And then edit `./src/App.js`
+Create a CRACO configuration file in your project's root directory and configure:
 
 ```diff
-  import React, { Component } from 'react';
-- import logo from './logo.svg';
-  import './App.css';
+  my-app
+  ├── node_modules
++ ├── craco.config.js
+  └── package.json
+```
 
-+ import 'rsuite/dist/rsuite.min.css';
-+ import { Button } from 'rsuite';
+Edit the `craco.config.js` file as follows
 
-  class App extends Component {
-    render() {
-      return (
-        <div className="App">
--         <header className="App-header">
--           <img src={logo} className="App-logo" alt="logo" />
--           <h1 className="App-title">Welcome to React</h1>
--         </header>
--         <p className="App-intro">
--           To get started, edit <code>src/App.js</code> and save to reload.
--         </p>
-+         <Button appearance="primary"> Hello world </Button>
-        </div>
-      );
+```js
+const CracoLessPlugin = require('craco-less');
+
+module.exports = {
+  plugins: [
+    {
+      plugin: CracoLessPlugin,
+      options: {
+        lessLoaderOptions: {
+          lessOptions: {
+            modifyVars: { '@primary-color': '#f44336' },
+            javascriptEnabled: true
+          }
+        }
+      }
     }
-  }
-
-  export default App;
+  ]
+};
 ```
 
-Then you'll see an accent button and now you can go ahead and develop.
+### 3、Import rsuite less file
 
-If you encounter other problems, you can check create-react-app's [official documentation][create-react-app-readme].
-
-## Customize Theme
-
-To use the custom theme feature, you must modify the default configuration of the create-react-app.
-
-1.  Installation dependencies.
-
-```bash
-yarn add react-app-rewired customize-cra less less-loader@7
-```
-
-2.  Modify scripts in `package.json`
-
-```diff
-    "scripts": {
--     "start": "react-scripts start",
-+     "start": "react-app-rewired start",
--     "build": "react-scripts build",
-+     "build": "react-app-rewired build",
--     "test": "react-scripts test --env=jsdom",
-+     "test": "react-app-rewired test --env=jsdom",
--     "eject": "react-scripts eject"
-+     "eject": "react-app-rewired eject"
-    }
-```
-
-3.  Edit `./src/App.js`
+Edit `./src/App.js` and import the rsuite less file:
 
 ```diff
 - import 'rsuite/dist/rsuite.min.css';
 + import 'rsuite/styles/index.less';
-  import { Button } from 'rsuite';
 ```
 
-4.  Create a new `config-overrides.js` in the root directory. The contents are as follows:
+### 4、Use craco CLI
 
-```javascript
-/* config-overrides.js */
-const { override, addLessLoader } = require('customize-cra');
+Update the existing calls to react-scripts in the scripts section of your package.json to use the craco CLI:
 
-module.exports = override(
-  addLessLoader({
-    // If you are using less-loader@5 or older version, please spread the lessOptions to options directly.
-    lessOptions: {
-      javascriptEnabled: true,
-      modifyVars: { '@base-color': '#f44336' }
-    }
-  })
-);
+```diff
+
+"scripts": {
+-  "start": "react-scripts start"
++  "start": "craco start"
+-  "build": "react-scripts build"
++  "build": "craco build"
+-  "test": "react-scripts test"
++  "test": "craco test"
+}
 ```
 
-Re-executing `yarn start`, the red button is the configuration was successful
+Restart the project and you will see the customized theme.
 
-We uses [react-app-rewired][react-app-rewired] and [customize-cra][customize-cra] to implement custom themes with [less-loader][less-loader] using `modifyVars` configuration. For more details, see [Customize Theme](/guide/customization-less).
-
-## Troubleshooting
-
-### TypeError: this.getOptions is not a function
-
-`less-loader` no longer supports webpack <5 since `8.0.0` while `create-react-app` comes with webpack 4.
-See [related issue](https://github.com/webpack-contrib/less-loader/issues/416).
-
-Make sure you are using `less-loader` with a lower major version, e.g. `7.3.0`.
-
-## Source code
-
-- [create-react-app](https://github.com/rsuite/rsuite/tree/master/examples/create-react-app)
-
-[yarn]: https://yarnpkg.com/
-[nvm]: https://github.com/creationix/nvm#installation
-[nvm-windows]: https://github.com/coreybutler/nvm-windows#node-version-manager-nvm-for-windows
-[create-react-app]: https://github.com/facebook/create-react-app
-[create-react-app-readme]: https://github.com/facebook/create-react-app/blob/next/README.md
-[react-app-rewired]: https://github.com/timarney/react-app-rewired
-[customize-cra]: https://github.com/arackaf/customize-cra
-[less-loader]: https://github.com/webpack-contrib/less-loader
+> For a complete example, please refer to [examples/create-react-app](https://github.com/rsuite/rsuite/tree/main/examples/create-react-app).

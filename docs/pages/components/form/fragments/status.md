@@ -75,6 +75,7 @@ const App = () => {
 
   return (
     <Panel>
+      dsdfsdf
       <Form
         disabled={disabled}
         readOnly={readOnly}
@@ -134,16 +135,6 @@ const App = () => {
           />
         </Form.Group>
 
-        <Form.Group controlId="datePicker">
-          <Form.ControlLabel>DatePicker:</Form.ControlLabel>
-          <Form.Control name="datePicker" accepter={DatePicker} />
-        </Form.Group>
-
-        <Form.Group controlId="dateRangePicker">
-          <Form.ControlLabel>DateRangePicker:</Form.ControlLabel>
-          <Form.Control name="dateRangePicker" accepter={DateRangePicker} />
-        </Form.Group>
-
         <Form.Group controlId="checkPicker">
           <Form.ControlLabel>CheckPicker:</Form.ControlLabel>
           <Form.Control name="checkPicker" accepter={CheckPicker} data={selectData} />
@@ -157,6 +148,16 @@ const App = () => {
         <Form.Group controlId="tagPicker">
           <Form.ControlLabel>TagPicker:</Form.ControlLabel>
           <Form.Control name="tagPicker" accepter={TagPicker} data={selectData} />
+        </Form.Group>
+
+        <Form.Group controlId="datePicker">
+          <Form.ControlLabel>DatePicker:</Form.ControlLabel>
+          <Form.Control name="datePicker" accepter={DatePicker} />
+        </Form.Group>
+
+        <Form.Group controlId="dateRangePicker">
+          <Form.ControlLabel>DateRangePicker:</Form.ControlLabel>
+          <Form.Control name="dateRangePicker" accepter={DateRangePicker} />
         </Form.Group>
 
         <Form.Group controlId="inputPicker">

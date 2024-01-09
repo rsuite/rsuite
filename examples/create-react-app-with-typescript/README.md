@@ -13,10 +13,7 @@ Install it and run:
 
 ```
 npm install
-npm run start
-# or
-yarn
-yarn start
+npm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.

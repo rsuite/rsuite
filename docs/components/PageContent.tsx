@@ -13,7 +13,7 @@ import { VercelBanner } from './VercelBanner';
 import CustomCodeView, { CustomCodeViewProps } from './CodeView';
 import InstallGuide from './InstallGuide';
 
-const inDocsComponents = {
+const defaultInDocsComponents = {
   'install-guide': InstallGuide
 };
 
@@ -24,6 +24,7 @@ export interface PageContentProps extends CustomCodeViewProps {
   tabExamples?: any[];
   children?: React.ReactNode;
   hidePageNav?: boolean;
+  inDocsComponents?: Record<string, React.ComponentType>;
 }
 
 function installCarbon() {
@@ -49,7 +50,8 @@ const PageContent = (props: PageContentProps) => {
     children,
     hidePageNav,
     sandboxFiles,
-    sandboxDependencies
+    sandboxDependencies,
+    inDocsComponents = defaultInDocsComponents
   } = props;
   const { localePath } = React.useContext(AppContext);
 
