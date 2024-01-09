@@ -20,6 +20,7 @@ export default {
     usage: 'Quick Start',
     useWithCreateReactApp: 'Create React App',
     useNextApp: 'Next.js',
+    useVite: 'Vite',
     officialThemes: 'Themes',
     cssVariables: 'CSS Variables',
     customizationLess: 'Less Customization',

@@ -11,5 +11,5 @@ cd with-vite
 
 Install it and run:
 
-- `npm install` (or use npm if you want)
-- `npm run dev`: This will automatically start vite dev server at [http://localhost:3000/](http://localhost:3000/) and watch files for change.
+- `npm install`
+- `npm run dev`
