@@ -100,4 +100,6 @@ import { Nav } from 'rsuite';
 </Dropdown.Item>;
 ```
 
-> For a complete example, please refer to [examples/with-nextjs-app](https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs-app).
+## Example projects
+
+- [examples/with-nextjs-app](https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs-app).

@@ -100,4 +100,6 @@ import { Nav } from 'rsuite';
 </Dropdown.Item>;
 ```
 
-> 完整示例请参考 [examples/with-nextjs-app](https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs-app)。
+## 示例项目
+
+- [examples/with-nextjs-app](https://github.com/rsuite/rsuite/tree/main/examples/with-nextjs-app)。
