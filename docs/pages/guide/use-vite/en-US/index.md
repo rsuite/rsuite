@@ -2,6 +2,8 @@
 
 Vite is a Web development build tool driven by native ESM. The following will introduce how to use rsuite in Vite React project.
 
+> This document is written based on Vite v5.x.x. If you are using other versions, it may be different.
+
 ## 1. Install
 
 In Vite React project, install rsuite by running either of the following commands:
@@ -47,3 +49,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 );
 ```
+
+## Example projects
+
+- [examples/with-vite](https://github.com/rsuite/rsuite/tree/main/examples/with-vite)

@@ -129,4 +129,6 @@ Update the existing calls to react-scripts in the scripts section of your packag
 
 Restart the project and you will see the customized theme.
 
-> For a complete example, please refer to [examples/create-react-app](https://github.com/rsuite/rsuite/tree/main/examples/create-react-app).
+## Example projects
+
+- [examples/create-react-app](https://github.com/rsuite/rsuite/tree/main/examples/create-react-app)

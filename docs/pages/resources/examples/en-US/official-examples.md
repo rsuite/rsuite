@@ -2,8 +2,8 @@
 - [Use in Electron][demo-electron]
 - [Use in Flow][demo-flow-app]
 - [Use in TypeScript][demo-typescript-app]
-- [Use in Next.js][demo-nextjs]
-- [Use in Next.js and Typescript][demo-nextjs-typescript]
+- [Use in Next.js (App)][demo-nextjs-app]
+- [Use in Next.js (Pages)][demo-nextjs-pages]
 - [Use in UmiJS][demo-umi-app]
 - [Use in Snowpack][demo-snowpack]
 - [Use in Vite][demo-vite]
@@ -24,10 +24,10 @@
 [demo-multiple-themes]: https://github.com/rsuite/rsuite/tree/master/examples/custom-multiple-themes
 [demo-flow-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-flow
 [demo-typescript-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-typescript
-[demo-nextjs]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs
+[demo-nextjs-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs-app
+[demo-nextjs-pages]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs-pages
 [demo-umi-app]: https://github.com/rsuite/rsuite/tree/master/examples/with-umi
 [demo-rtlcss]: https://github.com/rsuite/rsuite/tree/master/examples/with-rtlcss
 [demo-postcss-rtl]: https://github.com/rsuite/rsuite/tree/master/examples/with-postcss-rtl
-[demo-nextjs-typescript]: https://github.com/rsuite/rsuite/tree/master/examples/with-nextjs-typescript
 [demo-snowpack]: https://github.com/rsuite/rsuite/tree/master/examples/with-snowpack
 [demo-vite]: https://github.com/rsuite/rsuite/tree/master/examples/with-vite
