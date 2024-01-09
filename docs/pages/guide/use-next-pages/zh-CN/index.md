@@ -89,7 +89,7 @@ import { Nav } from 'rsuite';
 
 我们推荐您直接使用 CSS，但是如果您需要使用 Less 来自定义 rsuite 样式，您需要为您的 Next.js 项目添加 Less 支持。
 
-Next.js 在版本 10、11 中已移除了对 [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less) 的支持，仅支持 [SASS/SCSS](https://sass-lang.com/) 作为 CSS 预处理器。 因此，需要使用 [next-with-less](https://github.com/elado/next-with-less) 来支持 Less。
+Next.js v10 后版本已移除了对 [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less) 的支持，仅支持 [SASS/SCSS](https://sass-lang.com/) 作为 CSS 预处理器。 因此，需要使用 [next-with-less](https://github.com/elado/next-with-less) 来支持 Less。
 
 ### 6.1、安装 next-with-less
 
