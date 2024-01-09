@@ -1,0 +1,15 @@
+@import url("./Logo/Logo.css");
+
+.app-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  gap: 20px;
+}
+
+.rs-theme-dark .app-header {
+  background-color: #282c34;
+}
