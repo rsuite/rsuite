@@ -89,7 +89,7 @@ import { Nav } from 'rsuite';
 
 We recommend that you use CSS directly, but if you need to use Less to customize the rsuite style, you need to add Less support for your Next.js project.
 
-Next.js v10 and later versions have removed support for [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less), and only support [SASS/SCSS](https://sass-lang.com/) as CSS preprocessor. Therefore, you need to use [next-with-less](
+Next.js v10 and later versions have removed support for [`@zeit/next-less`](https://www.npmjs.com/package/@zeit/next-less), and only support [SASS/SCSS](https://sass-lang.com/) as CSS preprocessor. Therefore, you need to use [next-with-less](https://github.com/elado/next-with-less) to support Less.
 
 ### 6.1 Install next-with-less
 
