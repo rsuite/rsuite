@@ -30,7 +30,7 @@ npx create-next-app@latest
 
 ## 3、导入样式
 
-编辑 `./src/app/loyout.tsx` 文件, 添加 `import 'rsuite/dist/rsuite-no-reset.min.css';`, 如下:
+编辑 `./src/app/layout.tsx` 文件, 添加 `import 'rsuite/dist/rsuite-no-reset.min.css';`, 如下:
 
 ```diff
 import type { Metadata } from 'next';
@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ## 4、设置 Provider
 
-继续编辑 `./src/app/loyout.tsx` 文件, 导入 `CustomProvider` , 将其包裹在 `body` 标签中, 如下:
+继续编辑 `./src/app/layout.tsx` 文件, 导入 `CustomProvider` , 将其包裹在 `body` 标签中, 如下:
 
 ```diff
 import type { Metadata } from 'next';

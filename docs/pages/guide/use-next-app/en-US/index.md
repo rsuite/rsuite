@@ -30,7 +30,7 @@ When installing, you will see the following prompt:
 
 ## 3、Import styles
 
-Edit the `./src/app/loyout.tsx` file and add `import 'rsuite/dist/rsuite-no-reset.min.css';`, as follows:
+Edit the `./src/app/layout.tsx` file and add `import 'rsuite/dist/rsuite-no-reset.min.css';`, as follows:
 
 ```diff
 import type { Metadata } from 'next';
@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ## 4. Provider Setup
 
-Continue editing the `./src/app/loyout.tsx` file, import `CustomProvider`, and wrap it in the `body` tag, as follows:
+Continue editing the `./src/app/layout.tsx` file, import `CustomProvider`, and wrap it in the `body` tag, as follows:
 
 ```diff
 import type { Metadata } from 'next';
