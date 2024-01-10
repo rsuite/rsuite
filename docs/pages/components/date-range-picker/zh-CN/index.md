@@ -14,17 +14,13 @@
 
 <!--{include:`basic.md`}-->
 
-### 日期时间或时间
+### 尺寸
 
-<!--{include:`format-date-time.md`}-->
+<!--{include:`size.md`}-->
 
 ### 外观
 
 <!--{include:`appearance.md`}-->
-
-### 尺寸
-
-<!--{include:`size.md`}-->
 
 ### 撑满
 
@@ -147,17 +143,39 @@ combine(...) => boolean
 
 <!--{include:`editable.md`}-->
 
+### 加载中状态
+
+<!--{include:`loading.md`}-->
+
+### 具有标签
+
+<!--{include:`with-label.md`}-->
+
 ### 自定义快捷键
 
 <!--{include:`custom-shortcut-options.md`}-->
 
-### 受控
+### 受控与非受控的值
 
 <!--{include:`controlled.md`}-->
 
-## 无障碍设计
+### 自定义日历图标
 
-了解更多有关[无障碍设计](/zh/guide/accessibility)的信息。
+<!--{include:`caret.md`}-->
+
+## 可访问性
+
+### ARIA 属性
+
+默认拥有 DateRangeInput 组件的 ARIA 属性。
+
+- 当值无效时，`aria-invalid="true"` 属性被添加到 `<input>` 元素。
+- 当设置了 `label`, `aria-labelledby` 属性被添加到 `<input>` 元素和 `dialog` 元素上，并将值设置为 `label` 的 `id` 属性值。
+- 拥有 `aria-haspopup="dialog"` 属性，用于指示组件拥有一个可交互的弹出层。
+
+### 键盘交互
+
+默认拥有 DateRangeInput 组件的键盘交互。
 
 ## Props
 
@@ -182,6 +200,7 @@ combine(...) => boolean
 | format               | string `('yyyy-MM-dd')`                                                          | 日期显示格式化 [参考 date-fns format](https://date-fns.org/v2.24.0/docs/format) |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | 点击日期时将选中的日期范围                                                      |
 | isoWeek              | boolean                                                                          | ISO 8601 标准， 每个日历星期从星期一开始，星期日为第 7 天                       |
+| label                | ReactNode                                                                        | 在按钮开头显示的标签                                                            |
 | limitEndYear         | number `(1000)`                                                                  | 相对当前选择日期，设置可选年份上限                                              |
 | limitStartYear       | number                                                                           | 相对当前选择日期，设置可选年份下限                                              |
 | loading              | boolean `(false)`                                                                | 是否显示一个加载中状态指示器                                                    |
@@ -207,13 +226,11 @@ combine(...) => boolean
 | preventOverflow      | boolean                                                                          | 防止浮动元素溢出                                                                |
 | ranges               | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code))                  | 快捷项配置，默认 `今天`,`昨天`，`最近 7 天`                                     |
 | renderTitle          | (date: Date) => ReactNode                                                        | 自定义渲染日历面板上的月份标题                                                  |
-| renderValue          | (value: [ValueType](#code-ts-value-type-code), format: string) => ReactNode      | 自定义被选中的选项                                                              |
 | shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | 禁用日期                                                                        |
 | showMeridian         | boolean                                                                          | 显示 12 小时制的时间格式                                                        |
 | showOneCalendar      | boolen                                                                           | 显示一个日历                                                                    |
 | showWeekNumbers      | boolean                                                                          | 显示周数量                                                                      |
 | size                 | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                | 设置组件尺寸                                                                    |
-| toggleAs             | ElementType `('a')`                                                              | 为组件自定义元素类型                                                            |
 | value                | [ValueType](#code-ts-value-type-code)                                            | 值 `受控`                                                                       |
 
 <!--{include:(_common/types/placement.md)}-->

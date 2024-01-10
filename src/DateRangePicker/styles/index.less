@@ -4,13 +4,23 @@
 @import '../../DatePicker/styles/index';
 @import '../../Calendar/styles/index';
 
-// Change the <caret/> & <clean/> vertical position make it align middle.
 .rs-picker-daterange {
-  &.rs-picker-default {
-    .rs-picker-toggle-caret,
-    .rs-picker-toggle-clean {
-      top: @padding-y - @picker-default-toggle-border-width;
+  .rs-input-group-addon {
+    color: var(--rs-text-secondary);
+
+    .rs-btn-close {
+      padding: 0;
     }
+  }
+
+  &.rs-picker-subtle {
+    .rs-input-group {
+      border-color: transparent;
+    }
+  }
+
+  > .rs-input-group.rs-input-group-inside .rs-input {
+    padding-right: 0;
   }
 }
 

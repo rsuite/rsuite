@@ -83,8 +83,8 @@ const DateRangeInput = React.forwardRef((props: DateRangeInputProps, ref) => {
 
   const dateInputOptions = { formatStr, locale: dateLocale, isControlledDate: isControlled };
 
-  const startDateState = useDateInputState({ ...dateInputOptions, date: value?.[0] });
-  const endDateState = useDateInputState({ ...dateInputOptions, date: value?.[1] });
+  const startDateState = useDateInputState({ ...dateInputOptions, date: value?.[0] || null });
+  const endDateState = useDateInputState({ ...dateInputOptions, date: value?.[1] || null });
 
   const getActiveState = (type: DateType = dateType) => {
     return type === DateType.Start ? startDateState : endDateState;

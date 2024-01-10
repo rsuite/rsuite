@@ -106,6 +106,10 @@
 
 <!--{include:`show-week-numbers.md`}-->
 
+### 自定义日历图标
+
+<!--{include:`caret.md`}-->
+
 ### 原生的选择器
 
 如果您只需要满足简单的日期选择功能，完全可以使用浏览器支持的原生选择器。
@@ -157,6 +161,7 @@
 | hideMinutes           | (minute:number, date:Date) => boolean                           | 隐藏分钟                                                  |
 | hideSeconds           | (second:number, date:Date) => boolean                           | 隐藏秒                                                    |
 | isoWeek               | boolean                                                         | ISO 8601 标准， 每个日历星期从星期一开始，星期日为第 7 天 |
+| label                 | ReactNode                                                       | 在按钮开头显示的标签                                      |
 | limitEndYear          | number `(1000)`                                                 | 相对当前选择日期，设置可选年份上限                        |
 | limitStartYear        | number                                                          | 相对当前选择日期，设置可选年份下限                        |
 | loading               | boolean `(false)`                                               | 是否显示一个加载中状态指示器                              |
@@ -193,7 +198,6 @@
 | showMeridian          | boolean                                                         | 显示 12 小时制的时间格式                                  |
 | showWeekNumbers       | boolean                                                         | 显示周数量                                                |
 | size                  | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`               | 组件设置尺寸                                              |
-| toggleAs              | ElementType `('a')`                                             | 为组件自定义元素类型                                      |
 | value                 | Date                                                            | 值`受控                                                   |
 
 <!--{include:(_common/types/placement.md)}-->

@@ -108,6 +108,10 @@ Clicking "Prev Day" in the example does not close the picker layer because the `
 
 <!--{include:`show-week-numbers.md`}-->
 
+### Custom Calendar Icon
+
+<!--{include:`caret.md`}-->
+
 ### Native pickers
 
 If you only need to meet the simple date selection function, you can use the native pickers supported by the browser.
@@ -159,6 +163,7 @@ Has keyboard interaction for the DateInput component by default.
 | hideMinutes           | (minute:number, date:Date) => boolean                           | Hidden minutes                                                                       |
 | hideSeconds           | (second:number, date:Date) => boolean                           | Hidden seconds                                                                       |
 | isoWeek               | boolean                                                         | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day |
+| label                 | ReactNode                                                       | A label displayed at the beginning of toggle button                                  |
 | limitEndYear          | number `(1000)`                                                 | Set the upper limit of the available year relative to the current selection date     |
 | limitStartYear        | number                                                          | Set the lower limit of the available year relative to the current selection date     |
 | loading               | boolean `(false)`                                               | Whether to display a loading state indicator                                         |
@@ -194,7 +199,6 @@ Has keyboard interaction for the DateInput component by default.
 | showMeridian          | boolean                                                         | Display hours in 12 format                                                           |
 | showWeekNumbers       | boolean                                                         | Whether to show week numbers                                                         |
 | size                  | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`               | A picker can have different sizes                                                    |
-| toggleAs              | ElementType `('a')`                                             | You can use a custom element for this component                                      |
 | value                 | Date                                                            | Value (Controlled)                                                                   |
 
 <!--{include:(_common/types/placement.md)}-->

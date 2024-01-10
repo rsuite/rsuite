@@ -83,6 +83,7 @@ const Toolbar: ToolbarComponent = React.forwardRef<HTMLDivElement, ToolbarProps>
         locale={locale}
         disabledShortcut={disabledShortcut}
         onShortcutClick={onShortcutClick}
+        data-testid="daterange-predefined-bottom"
       />
       <div className={prefix('right')}>
         {!hideOkBtn && (

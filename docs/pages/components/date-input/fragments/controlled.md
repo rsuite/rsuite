@@ -15,7 +15,7 @@ const App = () => {
     <Stack spacing={10} direction="column" alignItems="flex-start">
       <label>Controlled Value:</label>
       <DateInput value={value} onChange={handleChange} />
-
+      <button onClick={() => setValue(null)}>Clear</button>
       <label>Uncontrolled Value:</label>
       <DateInput defaultValue={new Date()} />
     </Stack>

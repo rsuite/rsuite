@@ -14,17 +14,13 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 <!--{include:`basic.md`}-->
 
-### Date Time or Time
+### Size
 
-<!--{include:`format-date-time.md`}-->
+<!--{include:`size.md`}-->
 
 ### Appearance
 
 <!--{include:`appearance.md`}-->
-
-### Size
-
-<!--{include:`size.md`}-->
 
 ### Block
 
@@ -145,17 +141,39 @@ combine(...) => boolean
 
 <!--{include:`editable.md`}-->
 
+### Loading state
+
+<!--{include:`loading.md`}-->
+
+### With a label
+
+<!--{include:`with-label.md`}-->
+
 ### Predefined Date Ranges
 
 <!--{include:`custom-shortcut-options.md`}-->
 
-### Controlled
+### Controlled vs. uncontrolled value
 
 <!--{include:`controlled.md`}-->
 
+### Custom Calendar Icon
+
+<!--{include:`caret.md`}-->
+
 ## Accessibility
 
-Learn more in [Accessibility](/guide/accessibility).
+### ARIA properties
+
+Has all ARIA properties of the DateRangeInput component by default.
+
+- The `aria-invalid="true"` attribute is added to the `<input>` element when the value is invalid.
+- When `label` is set, the `aria-labelledby` attribute is added to the `<input>` element and the `dialog` element and is set to the value of the `id` attribute of `label`.
+- Has the `aria-haspopup="dialog"` attribute to indicate that the component has an interactive dialog.
+
+### Keyboard interactions
+
+Has keyboard interaction for the DateRangeInput component by default.
 
 ## Props
 
@@ -180,6 +198,7 @@ Learn more in [Accessibility](/guide/accessibility).
 | format               | string `('yyyy-MM-dd')`                                                          | Format date [refer to date-fns format](https://date-fns.org/v2.24.0/docs/format)                 |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | The date range that will be selected when you click on the date                                  |
 | isoWeek              | boolean                                                                          | ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day             |
+| label                | ReactNode                                                                        | A label displayed at the beginning of toggle button                                              |
 | limitEndYear         | number `(1000)`                                                                  | Sets the upper limit of the available year relative to the current selection date                |
 | limitStartYear       | number                                                                           | Sets the lower limit of the available year relative to the current selection date                |
 | loading              | boolean `(false)`                                                                | Whether to display a loading state indicator                                                     |
@@ -204,13 +223,11 @@ Learn more in [Accessibility](/guide/accessibility).
 | preventOverflow      | boolean                                                                          | Prevent floating element overflow                                                                |
 | ranges               | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code))                  | Set predefined date ranges the user can select from. Default: `Today`,`Yesterday`，`Last 7 days` |
 | renderTitle          | (date: Date) => ReactNode                                                        | Custom render for month's title                                                                  |
-| renderValue          | (value: [ValueType](#code-ts-value-type-code), format: string) => ReactNode      | Custom render selected date range                                                                |
 | shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | Disabled date                                                                                    |
 | showMeridian         | boolean                                                                          | Display hours in 12 format                                                                       |
 | showOneCalendar      | boolen                                                                           | Whether to show only one calendar                                                                |
 | showWeekNumbers      | boolean                                                                          | Whether to show week numbers                                                                     |
 | size                 | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                | A picker can have different sizes                                                                |
-| toggleAs             | ElementType `('a')`                                                              | You can use a custom element for this component                                                  |
 | value                | [ValueType](#code-ts-value-type-code)                                            | Value (Controlled)                                                                               |
 
 <!--{include:(_common/types/placement.md)}-->
