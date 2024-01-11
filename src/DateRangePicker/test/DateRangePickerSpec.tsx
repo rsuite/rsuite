@@ -452,10 +452,34 @@ describe('DateRangePicker', () => {
     expect(screen.queryByTestId('calendar-end')).to.be.not.exist;
   });
 
-  it('Should render an error ', () => {
+  it('Should have a error style when date is invalid', () => {
     const { container } = render(<DateRangePicker value={[new Date(''), new Date('')]} />);
 
     expect(container.firstChild).to.have.class('rs-picker-error');
+    expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
+  });
+
+  it('Should have a error style when start date is after end date', () => {
+    const { container } = render(
+      <DateRangePicker value={[new Date('2023-10-02'), new Date('2023-10-01')]} />
+    );
+
+    expect(container.firstChild).to.have.class('rs-picker-error');
+    expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
+  });
+
+  it('Should have a error style when date is disabled', () => {
+    const { container } = render(
+      <DateRangePicker
+        value={[new Date('2023-10-01'), new Date('2023-10-02')]}
+        shouldDisableDate={date => {
+          return date.getDay() === 1;
+        }}
+      />
+    );
+
+    expect(container.firstChild).to.have.class('rs-picker-error');
+    expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
   });
 
   it('Should update the calendar when clicking on a non-current month', () => {

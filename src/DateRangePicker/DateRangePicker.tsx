@@ -623,10 +623,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const isDateDisabled = (
     date: Date,
-    selectDate: SelectedDatesState,
-    selectedDone: boolean,
-    target: DATERANGE_DISABLED_TARGET
+    options: {
+      selectDate?: SelectedDatesState;
+      selectedDone?: boolean;
+      target?: DATERANGE_DISABLED_TARGET;
+    }
   ): boolean => {
+    const { selectDate, selectedDone, target } = options;
     if (typeof shouldDisableDate === 'function') {
       return shouldDisableDate(date, selectDate, selectedDone, target);
     }
@@ -640,7 +643,13 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     // If the date is between the start and the end
     // the button is disabled
     while (isBefore(start, end) || isSameDay(start, end)) {
-      if (isDateDisabled(start, selectedDates, isSelectedIdle, type)) {
+      if (
+        isDateDisabled(start, {
+          selectDate: selectedDates,
+          selectedDone: isSelectedIdle,
+          target: type
+        })
+      ) {
         return true;
       }
       start = addDays(start, 1);
@@ -701,7 +710,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     const calendarProps = {
       calendarDate,
       disabledDate: (date: Date, values: SelectedDatesState, type: DATERANGE_DISABLED_TARGET) =>
-        isDateDisabled(date, values, isSelectedIdle, type),
+        isDateDisabled(date, { selectDate: values, selectedDone: isSelectedIdle, target: type }),
       format: formatStr,
       hoverRangeValue: hoverDateRange ?? undefined,
       isoWeek,
@@ -810,6 +819,16 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     }
 
     if (isBefore(endDate, startDate)) {
+      return true;
+    }
+
+    const disabledOptions = {
+      selectDate: value,
+      selectedDone: isSelectedIdle,
+      target: DATERANGE_DISABLED_TARGET.INPUT
+    };
+
+    if (isDateDisabled(startDate, disabledOptions) || isDateDisabled(endDate, disabledOptions)) {
       return true;
     }
 
