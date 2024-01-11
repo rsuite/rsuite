@@ -47,7 +47,7 @@ describe('SelectPicker styles', () => {
     assert.equal(
       (
         ((instanceRef.current as PickerHandle).target as HTMLElement).querySelector(
-          '.rs-picker-toggle-caret'
+          '.rs-picker-caret-icon'
         ) as HTMLElement
       ).getAttribute('aria-label'),
       'angle down'

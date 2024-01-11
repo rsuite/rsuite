@@ -18,6 +18,8 @@ import {
   PickerOverlay,
   pickerPropTypes,
   PickerToggleTrigger,
+  PickerIndicator,
+  PickerLabel,
   pickTriggerPropKeys,
   PositionChildProps,
   usePickerClassName,
@@ -63,8 +65,6 @@ import { deprecatePropTypeNew } from '../utils/deprecatePropType';
 import DateRangePickerContext from './DateRangePickerContext';
 import DateRangeInput from '../DateRangeInput';
 import InputGroup from '../InputGroup';
-import PickerLabel from '../DatePicker/PickerLabel';
-import PickerIndicator from '../DatePicker/PickerIndicator';
 import usePickerRef from '../Picker/usePickerRef';
 
 type SelectedDatesState = [] | [Date] | [Date, Date];

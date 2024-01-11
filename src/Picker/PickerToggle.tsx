@@ -1,17 +1,14 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
-import debounce from 'lodash/debounce';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
-import CloseButton from '../CloseButton';
-import { useClassNames, useCustom, KEY_VALUES, mergeRefs } from '../utils';
+import { useClassNames, mergeRefs } from '../utils';
 import { RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import Plaintext from '../Plaintext';
 import useToggleCaret from '../utils/useToggleCaret';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import TextMask from '../MaskedInput/TextMask';
-import deprecatePropType from '../utils/deprecatePropType';
-import Loader from '../Loader';
 import Stack from '../Stack';
+import PickerIndicator from './PickerIndicator';
+import PickerLabel from './PickerLabel';
 
 type ValueType = string | number;
 
@@ -34,13 +31,7 @@ export interface PickerToggleProps extends ToggleButtonProps {
   // Renders an input and is editable
   editable?: boolean;
   name?: string;
-  inputPlaceholder?: string;
-  inputMask?: (string | RegExp)[];
-  onInputChange?: (value: string, event: React.ChangeEvent) => void;
-  onInputPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  onInputBackspace?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  onInputBlur?: (event: React.FocusEvent<HTMLElement>) => void;
-  onInputFocus?: (event: React.FocusEvent<HTMLElement>) => void;
+
   placement?: TypeAttributes.Placement;
   /**
    * Custom caret component
@@ -54,12 +45,10 @@ export interface PickerToggleProps extends ToggleButtonProps {
   label?: React.ReactNode;
 }
 
-const defaultInputMask = [];
-
 const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerToggleProps> =
   React.forwardRef((props: PickerToggleProps, ref) => {
     const {
-      active: activeProp,
+      active,
       as: Component = ToggleButton,
       classPrefix = 'picker-toggle',
       children,
@@ -75,17 +64,9 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       tabIndex: tabIndexProp = editable ? -1 : 0,
       id,
       value,
-      inputPlaceholder,
       inputValue: inputValueProp,
-      inputMask = defaultInputMask,
-      onInputChange,
-      onInputPressEnter,
-      onInputBackspace,
-      onInputBlur,
-      onInputFocus,
       onClean,
-      onFocus,
-      onBlur,
+
       placement = 'bottomStart',
       caretComponent,
       caretAs = caretComponent,
@@ -94,10 +75,8 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       ...rest
     } = props;
 
-    const { locale } = useCustom();
     const inputRef = useRef<HTMLInputElement>(null);
     const comboboxRef = useRef<HTMLDivElement>(null);
-    const [activeState, setActive] = useState(false);
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const getInputValue = useCallback(
       () =>
@@ -117,54 +96,14 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       }
     }, [getInputValue]);
 
-    const classes = merge(className, withClassPrefix({ active: activeProp || activeState }));
+    const classes = merge(className, withClassPrefix({ active }));
 
-    const handleFocus = useCallback(
-      (event: React.FocusEvent<HTMLElement>) => {
-        if (!loading) {
-          setActive(true);
-        }
-
-        if (editable) {
-          // Avoid firing the onFocus event twice when DatePicker and DateRangePicker allow keyboard input.
-          if (event.target === inputRef.current) {
-            onFocus?.(event);
-          }
-
-          // Force the input to be focused and editable.
-          if (document.activeElement === comboboxRef.current) {
-            inputRef.current?.focus();
-          }
-        } else {
-          onFocus?.(event);
-        }
-      },
-      [editable, loading, onFocus]
-    );
-
-    const handleBlur = useCallback(
-      (event: React.FocusEvent<HTMLElement>) => {
-        if (inputRef.current && !editable) {
-          setActive(false);
-        }
-
-        // When activeElement is an input, it remains active.
-        if (editable && inputRef.current && document.activeElement !== inputRef.current) {
-          setActive(false);
-        }
-
-        onBlur?.(event);
-      },
-      [editable, onBlur]
-    );
-
-    const handleInputBlur = (event: React.FocusEvent<HTMLElement>) => {
+    const handleInputBlur = () => {
       setInputValue(getInputValue());
-      onInputBlur?.(event);
     };
 
     const handleClean = useCallback(
-      (event: React.MouseEvent<HTMLSpanElement>) => {
+      (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation();
         onClean?.(event);
 
@@ -174,29 +113,10 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       [editable, onClean]
     );
 
-    const handleInputChange = useCallback(
-      (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target?.value;
-        setInputValue(value);
-        onInputChange?.(value, event);
-      },
-      [onInputChange]
-    );
-
-    const handleInputKeyDown = useCallback(
-      (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (editable) {
-          if (event.key === KEY_VALUES.ENTER) {
-            onInputPressEnter?.(event);
-          }
-
-          if (event.key === KEY_VALUES.BACKSPACE) {
-            onInputBackspace?.(event);
-          }
-        }
-      },
-      [editable, onInputPressEnter, onInputBackspace]
-    );
+    const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+      const value = event.target?.value;
+      setInputValue(value);
+    }, []);
 
     const renderInput = useCallback(
       (ref, props) => (
@@ -226,7 +146,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
     const showCleanButton = cleanableProp && hasValue && !readOnly;
 
     // When the component is read-only or disabled, the input is not interactive.
-    const inputFocused = readOnly || disabled ? false : editable && activeState;
+    const inputFocused = readOnly || disabled ? false : editable;
 
     const tabIndex = disabled ? undefined : tabIndexProp;
 
@@ -234,7 +154,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       <Component
         role="combobox"
         aria-haspopup="listbox"
-        aria-expanded={activeProp}
+        aria-expanded={active}
         aria-disabled={disabled}
         aria-owns={id ? `${id}-listbox` : undefined}
         {...rest}
@@ -242,81 +162,60 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
         disabled={disabled}
         tabIndex={tabIndex}
         className={classes}
-        onFocus={!disabled ? handleFocus : null}
-        // The debounce is set to 200 to solve the flicker caused by the switch between input and div.
-        onBlur={!disabled ? debounce(handleBlur, 200) : null}
       >
         <Stack>
           {label && (
             <Stack.Item>
-              <span className={prefix('label')}>{label}</span>
+              <PickerLabel
+                as="span"
+                className={prefix('label')}
+                id={id ? `${id}-label` : undefined}
+              >
+                {label}
+              </PickerLabel>
             </Stack.Item>
           )}
           <Stack.Item grow={1} style={{ overflow: 'hidden' }}>
-            {loading ? (
-              <Loader style={{ display: 'block', padding: '1px 0' }} data-testid="spinner" />
-            ) : (
-              <>
-                <TextMask
-                  keepCharPositions
-                  mask={inputMask}
-                  value={Array.isArray(inputValue) ? inputValue.toString() : inputValue}
-                  onBlur={handleInputBlur}
-                  onFocus={onInputFocus}
-                  onChange={handleInputChange}
-                  onKeyDown={handleInputKeyDown}
-                  id={id}
-                  aria-hidden={!inputFocused}
-                  readOnly={!inputFocused}
-                  disabled={disabled}
-                  aria-controls={id ? `${id}-listbox` : undefined}
-                  tabIndex={editable ? 0 : -1}
-                  className={prefix('textbox', { 'read-only': !inputFocused })}
-                  placeholder={inputPlaceholder}
-                  render={renderInput}
-                  data-testid="picker-toggle-input"
-                />
-                {children ? (
-                  <span
-                    className={prefix(hasValue ? 'value' : 'placeholder')}
-                    aria-placeholder={typeof children === 'string' ? children : undefined}
-                  >
-                    {children}
-                  </span>
-                ) : null}
-              </>
-            )}
-          </Stack.Item>
-          {showCleanButton && (
-            <CloseButton
-              className={prefix`clean`}
-              tabIndex={-1}
-              locale={{ closeLabel: locale?.clear }}
-              onClick={handleClean}
+            <TextMask
+              aria-hidden={!inputFocused}
+              aria-controls={id ? `${id}-listbox` : undefined}
+              aria-labelledby={label ? `${id}-label` : undefined}
+              mask={[]}
+              value={Array.isArray(inputValue) ? inputValue.toString() : inputValue}
+              onBlur={handleInputBlur}
+              onChange={handleInputChange}
+              id={id}
+              readOnly={!inputFocused}
+              disabled={disabled}
+              tabIndex={editable ? 0 : -1}
+              className={prefix('textbox', { 'read-only': !inputFocused })}
+              render={renderInput}
+              data-testid="picker-toggle-input"
             />
-          )}
-          {caret && !showCleanButton && <Caret className={prefix`caret`} />}
+            {children ? (
+              <span
+                className={prefix(hasValue ? 'value' : 'placeholder')}
+                aria-placeholder={typeof children === 'string' ? children : undefined}
+              >
+                {children}
+              </span>
+            ) : null}
+          </Stack.Item>
+
+          <Stack.Item className={prefix`indicator`}>
+            <PickerIndicator
+              as={React.Fragment}
+              loading={loading}
+              caretAs={caret ? Caret : null}
+              onClose={handleClean}
+              showCleanButton={showCleanButton}
+            />
+          </Stack.Item>
         </Stack>
       </Component>
     );
   });
 
 PickerToggle.displayName = 'PickerToggle';
-PickerToggle.propTypes = {
-  classPrefix: PropTypes.string,
-  hasValue: PropTypes.bool,
-  cleanable: PropTypes.bool,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  caret: PropTypes.bool,
-  as: PropTypes.elementType,
-  onClean: PropTypes.func,
-  active: PropTypes.bool,
-  readOnly: PropTypes.bool,
-  disabled: PropTypes.bool,
-  plaintext: PropTypes.bool,
-  caretComponent: deprecatePropType(PropTypes.elementType, 'Use `caretAs` instead.'),
-  caretAs: PropTypes.elementType
-};
 
 export default PickerToggle;

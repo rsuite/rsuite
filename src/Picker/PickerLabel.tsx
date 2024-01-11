@@ -2,7 +2,7 @@ import React from 'react';
 import InputGroup from '../InputGroup';
 
 interface PickerLabelProps {
-  id: string;
+  id?: string;
   className?: string;
   children?: React.ReactNode;
   as?: React.ElementType;

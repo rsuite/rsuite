@@ -1,8 +1,9 @@
-@import '../../styles/common';
-@import '../../styles/mixins/listbox';
-@import (reference) '../../Button/styles/index';
-@import '../../Form/styles/mixin';
-@import 'mixin';
+@import '../../styles/common.less';
+@import '../../styles/mixins/listbox.less';
+@import '../../styles/mixins/combobox.less';
+@import (reference) '../../Button/styles/index.less';
+@import '../../Form/styles/mixin.less';
+@import 'mixin.less';
 
 //
 // Pickers
@@ -252,31 +253,37 @@
   }
 }
 
-// Picker clear button
-.rs-picker-toggle-clean {
-  .dropdown-toggle-caret-common(@picker-toggle-clean-right);
+.rs-picker-toggle-indicator {
+  // Picker clear button
+  .rs-picker-clean {
+    .combobox-indicator-icon(@picker-toggle-clean-right);
 
-  background: inherit;
-  color: var(--rs-text-secondary);
-  transition: 0.2s color linear;
-  cursor: pointer;
+    background: inherit;
+    color: var(--rs-text-secondary);
+    transition: 0.2s color linear;
+    cursor: pointer;
 
-  &.rs-btn-close {
-    padding: 4px 0;
+    &.rs-btn-close {
+      padding: 4px 0;
+    }
+
+    .rs-@{date-picker-prefix} &,
+    .rs-@{date-range-picker-prefix} & {
+      right: (@picker-toggle-clean-right + @picker-item-content-padding-vertical);
+    }
   }
 
-  .rs-@{date-picker-prefix} &,
-  .rs-@{date-range-picker-prefix} & {
-    right: (@picker-toggle-clean-right + @picker-item-content-padding-vertical);
+  // Picker toggle caret
+  .rs-picker-caret-icon {
+    // Extend  Dropdown toggle caret style
+    .combobox-indicator-icon();
+
+    color: var(--rs-text-secondary);
   }
-}
 
-// Picker toggle caret
-.rs-picker-toggle-caret {
-  // Extend  Dropdown toggle caret style
-  .dropdown-toggle-caret-common();
-
-  color: var(--rs-text-secondary);
+  .rs-picker-loader {
+    .combobox-indicator-icon();
+  }
 }
 
 // Picker Menu

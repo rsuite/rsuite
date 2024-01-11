@@ -62,13 +62,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       it('Should display label and spinner when label is specified', () => {
         render(<TestComponent label="User" data={data} loading />);
 
-        const combobox = screen.queryByRole('combobox');
-
-        if (combobox) {
-          expect(combobox).to.have.text('User');
-        } else {
-          expect(screen.getByTestId('picker-label')).to.have.text('User');
-        }
+        expect(screen.getByTestId('picker-label')).to.have.text('User');
         expect(screen.getByTestId('spinner')).to.exist;
       });
 
