@@ -43,6 +43,28 @@ describe('FormControl', () => {
     expect(onChange).to.have.been.calledOnce;
   });
 
+  it('Should set correctly defaultValue', () => {
+    render(
+      <Form formDefaultValue={{ user: { name: ['name0', 'name1'] } }}>
+        <FormControl name="user.name.1" />
+      </Form>
+    );
+
+    expect(screen.getByRole('textbox')).to.have.value('name1');
+  });
+
+  it('Should return correctly value when onChange called', () => {
+    let formValue: Record<string, any> = { user: { name: ['name0', 'name1'] } };
+    render(
+      <Form formValue={formValue} onChange={value => (formValue = value)}>
+        <FormControl name="user.name.1" />
+      </Form>
+    );
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'name2' } });
+
+    expect(formValue.user.name[1]).to.equal('name2');
+  });
+
   it('Should be readOnly', () => {
     render(
       <Form readOnly>

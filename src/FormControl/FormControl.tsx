@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
+import get from 'lodash/get';
+import set from 'lodash/set';
 import Input from '../Input';
 import FormErrorMessage from '../FormErrorMessage';
 import { useClassNames } from '../utils';
@@ -129,7 +131,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
 
   const trigger = checkTrigger || contextCheckTrigger;
   const formValue = useContext(FormValueContext);
-  const val = isUndefined(value) ? formValue?.[name] : value;
+  const val = isUndefined(value) ? get(formValue, name) : value;
 
   const { withClassPrefix, prefix } = useClassNames(classPrefix);
   const classes = withClassPrefix('wrapper');
@@ -158,7 +160,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
       return checkResult;
     };
 
-    const nextFormValue = { ...formValue, [name]: value };
+    const nextFormValue = set(formValue || {}, name, value);
     const model = getCombinedModel();
     if (checkAsync) {
       return model?.checkForFieldAsync(name, nextFormValue).then(checkResult => {
