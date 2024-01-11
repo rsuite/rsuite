@@ -1,8 +1,6 @@
 # DateRangePicker
 
-Used to quickly select a date range
-
-If `<DateRangePicker>` does not satisfy the business scenario in which you select the time range, you can use two [DatePicker](/components/date-picker/#selection-range) combinations.
+DateRangePicker is used to quickly enter or pick a date and time range.
 
 ## Import
 

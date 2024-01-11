@@ -1007,4 +1007,22 @@ describe('DateRangePicker', () => {
     // 2023年10月01日-2023年11月01日
     expect(screen.getByRole('textbox')).to.have.attribute('size', '33');
   });
+
+  it('Should cancel the Ok button disable when the shortcut button is clicked', () => {
+    render(
+      <DateRangePicker
+        open
+        format="MMM yyyy"
+        defaultCalendarValue={[parseISO('2022-05-01'), parseISO('2022-06-01')]}
+      />
+    );
+
+    const btnOk = screen.getByRole('button', { name: 'OK' });
+
+    expect(btnOk).to.have.property('disabled', true);
+
+    fireEvent.click(screen.getAllByRole('gridcell', { name: 'May 2022' })[0]);
+
+    expect(btnOk).to.have.property('disabled', false);
+  });
 });

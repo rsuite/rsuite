@@ -1,8 +1,6 @@
 # DatePicker
 
-To select or input a date or time
-
-> When you need to select a date range, it is recommended to use [DateRangePicker](/components/date-range-picker).
+DatePicker is a highly customizable component that allows users to enter and pick dates and times in different formats.
 
 ## Usage
 

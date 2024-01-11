@@ -10,7 +10,7 @@ import {
   FaCalendarCheck,
   FaClock
 } from 'react-icons/fa';
-
+import { BsCalendar2MonthFill } from 'react-icons/bs';
 import DefaultPage from '@/components/Page';
 
 export default function Page() {
@@ -29,7 +29,8 @@ export default function Page() {
         FaCalendarWeek,
         FaCalendarDay,
         FaCalendarCheck,
-        FaClock
+        FaClock,
+        BsCalendar2MonthFill
       }}
       sandboxDependencies={{ 'date-fns': '^2.13.0' }}
     />

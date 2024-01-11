@@ -16,13 +16,17 @@ import {
 
 export function getSafeCalendarDate({
   value,
-  calendarKey = 'start'
+  calendarKey = 'start',
+  allowAameMonth
 }: {
   value: [] | [Date] | [Date, Date] | null;
   calendarKey?: 'start' | 'end';
+  allowAameMonth?: boolean;
 }): DateRange {
   // Update calendarDate if the value is not null
   value = value ?? [];
+
+  const gap = allowAameMonth ? 0 : 1;
 
   if (value[0] && value[1]) {
     const diffMonth = differenceInCalendarMonths(value[1], value[0]);
@@ -30,22 +34,22 @@ export function getSafeCalendarDate({
     if (calendarKey === 'start') {
       return [
         value[0],
-        diffMonth <= 0 ? copyTime({ from: value[1], to: addMonths(value[0], 1) }) : value[1]
+        diffMonth <= 0 ? copyTime({ from: value[1], to: addMonths(value[0], gap) }) : value[1]
       ];
     } else if (calendarKey === 'end') {
       return [
-        diffMonth <= 0 ? copyTime({ from: value[0], to: addMonths(value[1], -1) }) : value[0],
+        diffMonth <= 0 ? copyTime({ from: value[0], to: addMonths(value[1], -gap) }) : value[0],
         value[1]
       ];
     }
 
     // If only the start date
   } else if (value[0]) {
-    return [value[0], addMonths(value[0], 1)];
+    return [value[0], addMonths(value[0], gap)];
   }
 
   const todayDate = new Date();
-  return [todayDate, addMonths(todayDate, 1)];
+  return [todayDate, addMonths(todayDate, gap)];
 }
 
 export const isSameRange = (source: DateRange | null, dest: DateRange | null, format: string) => {

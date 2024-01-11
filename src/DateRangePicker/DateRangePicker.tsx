@@ -48,6 +48,8 @@ import {
   isAfter,
   copyTime,
   isSameMonth,
+  shouldRenderMonth,
+  shouldRenderDate,
   reverseDateRangeOmitTime,
   getReversedTimeMeridian,
   calendarOnlyProps,
@@ -245,6 +247,9 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
   const [value, setValue] = useControlled(valueProp, defaultValue ?? null);
 
+  // Show only the calendar month panel. formatStr = 'yyyy-MM'
+  const onlyShowMonth = shouldRenderMonth(formatStr) && !shouldRenderDate(formatStr);
+
   /**
    * Whether to complete the selection.
    * Everytime selection will change this value. If the value is false, it means that the selection has not been completed.
@@ -318,7 +323,17 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       nextValue = defaultCalendarValue;
     }
 
-    setCalendarDate(getSafeCalendarDate({ value: nextValue, calendarKey }));
+    const nextCalendarDate = getSafeCalendarDate({
+      value: nextValue,
+      calendarKey,
+      allowAameMonth: onlyShowMonth
+    });
+
+    setCalendarDate(nextCalendarDate);
+
+    if (onlyShowMonth && eventName === 'changeMonth') {
+      setSelectedDates(nextCalendarDate);
+    }
   };
 
   // if valueProp changed then update selectValue/hoverValue
@@ -515,19 +530,19 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     doneSelected && setHoverDateRange(null);
   }, [selectedDates]);
 
-  const updateSingleCalendarMonth = useEventCallback((index: number, date: Date) => {
+  const handleSingleCalendarMonth = useEventCallback((index: number, date: Date) => {
     const calendarKey = index === 0 ? 'start' : 'end';
-    const nextCalendarDate = Array.from(calendarDate);
+    const nextCalendarDate = Array.from(calendarDate) as DateRange;
     nextCalendarDate[index] = date;
 
     setCalendarDateRange({
-      dateRange: nextCalendarDate as DateRange,
+      dateRange: nextCalendarDate,
       calendarKey,
       eventName: 'changeMonth'
     });
   });
 
-  const updateSingleCalendarTime = useEventCallback((index: number, date: Date) => {
+  const handleSingleCalendarTime = useEventCallback((index: number, date: Date) => {
     const calendarKey = index === 0 ? 'start' : 'end';
     const nextCalendarDate = Array.from(calendarDate);
     nextCalendarDate[index] = date;
@@ -736,8 +751,8 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       showWeekNumbers,
       value: selectedDates,
       showMeridian,
-      onChangeCalendarMonth: updateSingleCalendarMonth,
-      onChangeCalendarTime: updateSingleCalendarTime,
+      onChangeCalendarMonth: handleSingleCalendarMonth,
+      onChangeCalendarTime: handleSingleCalendarTime,
       onMouseMove: handleMouseMove,
       onSelect: handleSelectDate,
       onToggleMeridian: handleToggleMeridian,

@@ -1,8 +1,6 @@
 # DateRangePicker 日期范围选择器
 
-用于快速选择一个日期范围
-
-如果 `<DateRangePicker>` 不能满足您选择时间范围的业务场景，可以采用两个 [DatePicker](/zh/components/date-picker/#选择范围) 组合。
+DateRangePicker 用于快速输入或选择一个日期和时间范围。
 
 ## 获取组件
 

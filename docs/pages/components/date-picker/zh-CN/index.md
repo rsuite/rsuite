@@ -1,8 +1,6 @@
 # DatePicker 时间选择器
 
-时间选择器，可以选择日期和时间。
-
-> 当需要选择日期范围，推荐使用 [DateRangePicker](/zh/components/date-range-picker)。
+DatePicker 是一个高度可定制的组件，用户可以输入或选择不同格式的日期和时间。
 
 ## 获取组件
 

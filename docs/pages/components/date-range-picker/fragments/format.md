@@ -3,6 +3,7 @@
 ```js
 import { DateRangePicker, Stack } from 'rsuite';
 import { FaCalendar, FaClock } from 'react-icons/fa';
+import { BsCalendar2MonthFill } from 'react-icons/bs';
 
 const App = () => (
   <Stack spacing={10} direction="column" alignItems="flex-start">
@@ -13,6 +14,7 @@ const App = () => (
     <DateRangePicker format="yyyy年MM月dd日" />
     <DateRangePicker format="MM/dd/yyyy HH:mm" />
     <DateRangePicker format="MM/dd/yyyy hh:mm aa" showMeridian />
+    <DateRangePicker format="MMM yyyy" caretAs={BsCalendar2MonthFill} />
     <DateRangePicker format="HH:mm:ss" caretAs={FaClock} />
     <DateRangePicker format="dd MMM yyyy hh:mm:ss aa" showMeridian caretAs={FaCalendar} />
   </Stack>
