@@ -1,4 +1,5 @@
-import { useCallback, useImperativeHandle, useRef } from 'react';
+import { useImperativeHandle, useRef } from 'react';
+import useEventCallback from '../utils/useEventCallback';
 import type { OverlayTriggerHandle } from './PickerToggleTrigger';
 import type { ListHandle } from '../Windowing';
 
@@ -13,24 +14,26 @@ import type { PickerHandle } from './types';
  */
 function usePickerRef(ref, parmas?: PickerDependentParameters) {
   const trigger = useRef<OverlayTriggerHandle>(null);
-  const root = useRef<HTMLElement>(null);
+  const root = useRef<any>(null);
   const target = useRef<HTMLElement>(null);
   const overlay = useRef<HTMLElement>(null);
   const list = useRef<ListHandle>(null);
+  const searchInput = useRef<HTMLInputElement>(null);
+  const treeView = useRef<HTMLDivElement>(null);
 
   const { inline } = parmas || {};
 
-  const handleOpen = useCallback(() => {
+  const handleOpen = useEventCallback(() => {
     trigger?.current?.open();
-  }, [trigger]);
+  });
 
-  const handleClose = useCallback(() => {
+  const handleClose = useEventCallback(() => {
     trigger?.current?.close();
-  }, [trigger]);
+  });
 
-  const handleUpdatePosition = useCallback(() => {
+  const handleUpdatePosition = useEventCallback(() => {
     trigger?.current?.updatePosition();
-  }, [trigger]);
+  });
 
   useImperativeHandle(ref, (): PickerHandle => {
     // Tree and CheckTree
@@ -83,7 +86,9 @@ function usePickerRef(ref, parmas?: PickerDependentParameters) {
     root,
     overlay,
     target,
-    list
+    list,
+    searchInput,
+    treeView
   };
 }
 

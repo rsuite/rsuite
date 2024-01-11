@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect, useCallback, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
-import { List, AutoSizer, ListHandle, ListChildComponentProps } from '../Windowing';
+import { List, AutoSizer, ListChildComponentProps } from '../Windowing';
 import CheckTreeNode from './CheckTreeNode';
 import TreeContext from '../Tree/TreeContext';
 import { PickerLocale } from '../locales';
@@ -12,6 +12,7 @@ import {
   useCustom,
   useClassNames,
   useControlled,
+  useEventCallback,
   KEY_VALUES,
   mergeRefs
 } from '../utils';
@@ -23,17 +24,16 @@ import {
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
+  PickerComponent,
+  PickerToggleProps,
   createConcatChildrenFunction,
   usePickerClassName,
-  usePublicMethods,
-  OverlayTriggerHandle,
+  useToggleKeyDownEvent,
+  usePickerRef,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
   PositionChildProps,
-  listPickerPropTypes,
-  PickerComponent,
-  useToggleKeyDownEvent,
-  PickerToggleProps
+  listPickerPropTypes
 } from '../Picker';
 
 import {
@@ -165,12 +165,9 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   } = props;
 
   const { inline } = useContext(TreeContext);
-  const triggerRef = useRef<OverlayTriggerHandle>(null);
-  const targetRef = useRef<HTMLButtonElement>(null);
-  const listRef = useRef<ListHandle>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null);
-  const treeViewRef = useRef<HTMLDivElement>(null);
+  const { trigger, root, target, overlay, list, searchInput, treeView } = usePickerRef(ref, {
+    inline
+  });
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
   const [active, setActive] = useState(false);
   const [activeNode, setActiveNode] = useState<TreeNodeType | null>(null);
@@ -239,31 +236,19 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
    * get formatted nodes for render tree
    * @params render - renderNode function. only used when virtualized setting false
    */
-  const getFormattedNodes = useCallback(
-    (render?: any) => {
-      if (virtualized) {
-        return formatVirtualizedTreeData(flattenNodes, filteredData, expandItemValues, {
-          cascade,
-          searchKeyword: searchKeywordState
-        }).filter(item => item.visible);
-      }
+  const getFormattedNodes = (render?: any) => {
+    if (virtualized) {
+      return formatVirtualizedTreeData(flattenNodes, filteredData, expandItemValues, {
+        cascade,
+        searchKeyword: searchKeywordState
+      }).filter(item => item.visible);
+    }
 
-      return getFormattedTree(flattenNodes, filteredData, {
-        childrenKey,
-        cascade
-      }).map(node => render?.(node, 1));
-    },
-    [
-      searchKeywordState,
-      expandItemValues,
-      filteredData,
-      flattenNodes,
-      formatVirtualizedTreeData,
-      virtualized,
+    return getFormattedTree(flattenNodes, filteredData, {
       childrenKey,
       cascade
-    ]
-  );
+    }).map(node => render?.(node, 1));
+  };
 
   const getTreeNodeProps = (node: any, layer: number) => {
     return {
@@ -293,19 +278,19 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     };
   };
 
-  const focusActiveNode = useCallback(() => {
-    if (listRef.current) {
+  const focusActiveNode = () => {
+    if (list.current) {
       focusToActiveTreeNode({
-        list: listRef.current,
+        list: list.current,
         valueKey,
         selector: `.${checkTreePrefix('node-active')}`,
         activeNode,
         virtualized,
-        container: treeViewRef.current,
+        container: treeView.current,
         formattedNodes: getFormattedNodes()
       });
     }
-  }, [checkTreePrefix, activeNode, getFormattedNodes, valueKey, virtualized]);
+  };
 
   useEffect(() => {
     setValue(getCheckTreePickerDefaultValue(value, uncheckableItemValues));
@@ -341,7 +326,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     forceUpdate();
   }, [cascade, value, uncheckableItemValues, unSerializeList, flattenNodes, forceUpdate]);
 
-  const toggleUpChecked = useCallback(
+  const toggleUpChecked = useEventCallback(
     (nodes: TreeNodesType, node: TreeNodeType, checked: boolean) => {
       const currentNode = node.refKey ? nodes[node.refKey] : null;
       if (cascade && currentNode) {
@@ -361,11 +346,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           toggleUpChecked(nodes, currentNode.parent, checked);
         }
       }
-    },
-    [cascade]
+    }
   );
 
-  const toggleDownChecked = useCallback(
+  const toggleDownChecked = useEventCallback(
     (nodes: TreeNodesType, node: TreeNodeType, isChecked: boolean) => {
       const currentNode = node.refKey ? nodes[node.refKey] : null;
 
@@ -383,27 +367,17 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           toggleDownChecked(nodes, child, isChecked);
         });
       }
-    },
-    [cascade, childrenKey]
+    }
   );
 
-  const toggleChecked = useCallback(
-    (node: TreeNodeType, isChecked: boolean) => {
-      const nodes = cloneDeep(flattenNodes);
-      toggleDownChecked(nodes, node, isChecked);
-      node.parent && toggleUpChecked(nodes, node.parent, isChecked);
-      const values = serializeListOnlyParent(nodes, 'check');
-      // filter uncheckableItemValues
-      return values.filter(v => !uncheckableItemValues.includes(v));
-    },
-    [
-      flattenNodes,
-      uncheckableItemValues,
-      serializeListOnlyParent,
-      toggleDownChecked,
-      toggleUpChecked
-    ]
-  );
+  const toggleChecked = useEventCallback((node: TreeNodeType, isChecked: boolean) => {
+    const nodes = cloneDeep(flattenNodes);
+    toggleDownChecked(nodes, node, isChecked);
+    node.parent && toggleUpChecked(nodes, node.parent, isChecked);
+    const values = serializeListOnlyParent(nodes, 'check');
+    // filter uncheckableItemValues
+    return values.filter(v => !uncheckableItemValues.includes(v));
+  });
 
   // TODO-Doma
   // Replace `getKeyParentMap` with `getParentMap`
@@ -417,63 +391,47 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     [childrenKey, data, valueKey]
   );
 
-  const handleSelect = useCallback(
-    (node: TreeNodeType, event: React.SyntheticEvent) => {
-      const currentNode = node.refKey ? flattenNodes[node.refKey] : null;
+  const handleSelect = useEventCallback((node: TreeNodeType, event: React.SyntheticEvent) => {
+    const currentNode = node.refKey ? flattenNodes[node.refKey] : null;
 
-      if (!node || !currentNode) {
-        return;
-      }
+    if (!node || !currentNode) {
+      return;
+    }
 
-      const selectedValues = toggleChecked(node, !currentNode.check);
+    const selectedValues = toggleChecked(node, !currentNode.check);
 
-      if (!isControlled) {
-        unSerializeList({
-          nodes: flattenNodes,
-          key: 'check',
-          value: selectedValues,
-          cascade,
-          uncheckableItemValues
-        });
-        setValue(selectedValues);
-      }
+    if (!isControlled) {
+      unSerializeList({
+        nodes: flattenNodes,
+        key: 'check',
+        value: selectedValues,
+        cascade,
+        uncheckableItemValues
+      });
+      setValue(selectedValues);
+    }
 
-      setActiveNode(node);
-      setFocusItemValue(node[valueKey]);
+    setActiveNode(node);
+    setFocusItemValue(node[valueKey]);
 
-      onChange?.(selectedValues, event);
-      onSelect?.(node as ItemDataType, selectedValues, event);
-      onSelectItem?.(
-        node,
-        getPathTowardsItem(node, item => itemParentMap.get(item[valueKey]))
-      );
-    },
-    [
-      flattenNodes,
-      toggleChecked,
-      isControlled,
-      valueKey,
-      onChange,
-      onSelect,
-      onSelectItem,
-      unSerializeList,
-      cascade,
-      uncheckableItemValues,
-      setValue,
-      itemParentMap
-    ]
-  );
+    onChange?.(selectedValues, event);
+    onSelect?.(node as ItemDataType, selectedValues, event);
+    onSelectItem?.(
+      node,
+      getPathTowardsItem(node, item => itemParentMap.get(item[valueKey]))
+    );
+  });
 
-  const handleOpen = useCallback(() => {
-    triggerRef.current?.open?.();
+  const handleOpen = useEventCallback(() => {
+    trigger.current?.open?.();
     setFocusItemValue(activeNode?.[valueKey]);
     focusActiveNode();
     onOpen?.();
     setActive(true);
-  }, [activeNode, focusActiveNode, onOpen, valueKey]);
+  });
 
-  const handleClose = useCallback(() => {
-    triggerRef.current?.close?.();
+  const handleClose = useEventCallback(() => {
+    trigger.current?.close?.();
     setSearchKeyword('');
     onClose?.();
     setFocusItemValue(null);
@@ -482,135 +440,89 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     /**
      * when using keyboard toggle picker, should refocus on PickerToggle Component after close picker menu
      */
-    targetRef.current?.focus();
-  }, [onClose, setSearchKeyword]);
-
-  const handleExpand = useCallback(
-    (node: any) => {
-      const nextExpandItemValues = toggleExpand({
-        node: node,
-        isExpand: !node.expand,
-        expandItemValues,
-        valueKey
-      });
-      setExpandItemValues(nextExpandItemValues);
-      onExpand?.(
-        nextExpandItemValues,
-        node,
-        createConcatChildrenFunction(node, node[valueKey], { valueKey, childrenKey })
-      );
-      if (
-        isFunction(getChildren) &&
-        !node.expand &&
-        Array.isArray(node[childrenKey]) &&
-        node[childrenKey].length === 0
-      ) {
-        loadChildren(node, getChildren);
-      }
-    },
-    [
-      childrenKey,
-      expandItemValues,
-      getChildren,
-      loadChildren,
-      onExpand,
-      setExpandItemValues,
-      valueKey
-    ]
-  );
-
-  usePublicMethods(ref, {
-    rootRef: inline ? treeViewRef : undefined,
-    triggerRef,
-    overlayRef,
-    targetRef,
-    listRef,
-    inline
+    target.current?.focus();
   });
 
-  const handleClean = useCallback(
-    (event: React.SyntheticEvent) => {
-      const target = event.target as Element;
-      // exclude searchBar
-      if (target.matches('div[role="searchbox"] > input') || disabled || !cleanable) {
-        return;
-      }
-
-      setActiveNode(null);
-      setFocusItemValue(null);
-
-      if (!isControlled) {
-        setValue([]);
-        unSerializeList({
-          nodes: flattenNodes,
-          key: 'check',
-          value: [],
-          cascade,
-          uncheckableItemValues
-        });
-      }
-
-      onChange?.([], event);
-    },
-    [
-      cascade,
-      cleanable,
-      disabled,
-      flattenNodes,
-      onChange,
-      setValue,
-      unSerializeList,
-      uncheckableItemValues,
-      isControlled
-    ]
-  );
-
-  const handleFocusItem = useCallback(
-    (key: string) => {
-      const focusableItems = getFocusableItems(
-        filteredData,
-        {
-          disabledItemValues,
-          valueKey,
-          childrenKey,
-          expandItemValues
-        },
-        isSearching(searchKeywordState)
-      );
-
-      const selector = `.${checkTreePrefix('node-label')}`;
-      const focusProps = {
-        focusItemValue,
-        focusableItems,
-        treeNodesRefs,
-        selector,
-        valueKey,
-        callback: nextFocusItemValue => {
-          setFocusItemValue(nextFocusItemValue);
-        }
-      };
-      if (key === KEY_VALUES.DOWN) {
-        focusNextItem(focusProps);
-        return;
-      }
-      if (key === KEY_VALUES.UP) {
-        focusPreviousItem(focusProps);
-      }
-    },
-    [
-      searchKeywordState,
-      checkTreePrefix,
+  const handleExpand = useEventCallback((node: any) => {
+    const nextExpandItemValues = toggleExpand({
+      node: node,
+      isExpand: !node.expand,
       expandItemValues,
-      filteredData,
-      focusItemValue,
-      treeNodesRefs,
-      childrenKey,
-      valueKey,
-      disabledItemValues
-    ]
-  );
+      valueKey
+    });
+    setExpandItemValues(nextExpandItemValues);
+    onExpand?.(
+      nextExpandItemValues,
+      node,
+      createConcatChildrenFunction(node, node[valueKey], { valueKey, childrenKey })
+    );
+    if (
+      isFunction(getChildren) &&
+      !node.expand &&
+      Array.isArray(node[childrenKey]) &&
+      node[childrenKey].length === 0
+    ) {
+      loadChildren(node, getChildren);
+    }
+  });
 
-  const handleLeftArrow = useCallback(() => {
+  const handleClean = useEventCallback((event: React.SyntheticEvent) => {
+    const target = event.target as Element;
+    // exclude searchBar
+    if (target.matches('div[role="searchbox"] > input') || disabled || !cleanable) {
+      return;
+    }
+
+    setActiveNode(null);
+    setFocusItemValue(null);
+
+    if (!isControlled) {
+      setValue([]);
+      unSerializeList({
+        nodes: flattenNodes,
+        key: 'check',
+        value: [],
+        cascade,
+        uncheckableItemValues
+      });
+    }
+
+    onChange?.([], event);
+  });
+
+  const handleFocusItem = useEventCallback((key: string) => {
+    const focusableItems = getFocusableItems(
+      filteredData,
+      {
+        disabledItemValues,
+        valueKey,
+        childrenKey,
+        expandItemValues
+      },
+      isSearching(searchKeywordState)
+    );
+
+    const selector = `.${checkTreePrefix('node-label')}`;
+    const focusProps = {
+      focusItemValue,
+      focusableItems,
+      treeNodesRefs,
+      selector,
+      valueKey,
+      callback: nextFocusItemValue => {
+        setFocusItemValue(nextFocusItemValue);
+      }
+    };
+    if (key === KEY_VALUES.DOWN) {
+      focusNextItem(focusProps);
+      return;
+    }
+    if (key === KEY_VALUES.UP) {
+      focusPreviousItem(focusProps);
+    }
+  });
+
+  const handleLeftArrow = useEventCallback(() => {
     if (isNil(focusItemValue)) return;
     const focusItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
     leftArrowHandler({
@@ -627,18 +539,9 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         );
       }
     });
-  }, [
-    checkTreePrefix,
-    expandItemValues,
-    flattenNodes,
-    focusItemValue,
-    handleExpand,
-    treeNodesRefs,
-    valueKey,
-    childrenKey
-  ]);
+  });
 
-  const handleRightArrow = useCallback(() => {
+  const handleRightArrow = useEventCallback(() => {
     if (isNil(focusItemValue)) return;
     const focusItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
 
@@ -651,36 +554,25 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         handleFocusItem(KEY_VALUES.DOWN);
       }
     });
-  }, [
-    focusItemValue,
-    flattenNodes,
-    valueKey,
-    expandItemValues,
-    childrenKey,
-    handleExpand,
-    handleFocusItem
-  ]);
+  });
 
-  const selectActiveItem = useCallback(
-    (event: React.KeyboardEvent<any>) => {
-      if (isNil(focusItemValue)) return;
-      const activeItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
-      if (
-        !isNodeUncheckable(activeItem, { uncheckableItemValues, valueKey }) &&
-        activeItem !== null
-      ) {
-        handleSelect(activeItem, event);
-      }
-    },
-    [flattenNodes, focusItemValue, handleSelect, uncheckableItemValues, valueKey]
-  );
+  const selectActiveItem = (event: React.KeyboardEvent<any>) => {
+    if (isNil(focusItemValue)) return;
+    const activeItem = getActiveItem(focusItemValue, flattenNodes, valueKey);
+    if (
+      !isNodeUncheckable(activeItem, { uncheckableItemValues, valueKey }) &&
+      activeItem !== null
+    ) {
+      handleSelect(activeItem, event);
+    }
+  };
 
   const onPickerKeydown = useToggleKeyDownEvent({
     toggle: !focusItemValue || !active,
-    triggerRef,
-    targetRef,
-    overlayRef,
-    searchInputRef,
+    trigger,
+    target,
+    overlay,
+    searchInput,
     active,
     onExit: handleClean,
     onClose: handleClose,
@@ -697,22 +589,19 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     ...rest
   });
 
-  const handleTreeKeydown = useCallback(
-    (event: React.KeyboardEvent<any>) => {
-      if (!treeViewRef.current) {
-        return;
-      }
+  const handleTreeKeydown = useEventCallback((event: React.KeyboardEvent<any>) => {
+    if (!treeView.current) {
+      return;
+    }
 
-      onMenuKeyDown(event, {
-        down: () => handleFocusItem(KEY_VALUES.DOWN),
-        up: () => handleFocusItem(KEY_VALUES.UP),
-        left: rtl ? handleRightArrow : handleLeftArrow,
-        right: rtl ? handleLeftArrow : handleRightArrow,
-        enter: selectActiveItem
-      });
-    },
-    [handleFocusItem, handleLeftArrow, handleRightArrow, rtl, selectActiveItem]
-  );
+    onMenuKeyDown(event, {
+      down: () => handleFocusItem(KEY_VALUES.DOWN),
+      up: () => handleFocusItem(KEY_VALUES.UP),
+      left: rtl ? handleRightArrow : handleLeftArrow,
+      right: rtl ? handleLeftArrow : handleRightArrow,
+      enter: selectActiveItem
+    });
+  });
 
   const renderNode = (node: TreeNodeType, layer: number) => {
     const { visible, refKey } = node;
@@ -836,7 +725,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     return (
       <div
         id={id ? `${id}-listbox` : undefined}
-        ref={treeViewRef}
+        ref={inline ? root : treeView}
         role="tree"
         aria-multiselectable
         className={classes}
@@ -852,7 +741,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
             >
               {({ height }) => (
                 <List
-                  ref={listRef}
+                  ref={list}
                   height={height}
                   itemSize={itemSize}
                   itemCount={formattedNodes.length}
@@ -881,16 +770,16 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         autoWidth={menuAutoWidth}
         className={classes}
         style={mergedMenuStyle}
-        ref={mergeRefs(overlayRef, speakerRef)}
+        ref={mergeRefs(overlay, speakerRef)}
         onKeyDown={onPickerKeydown}
-        target={triggerRef}
+        target={trigger}
       >
         {searchable ? (
           <SearchBar
             placeholder={locale.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeywordState}
-            inputRef={searchInputRef}
+            inputRef={searchInput}
           />
         ) : null}
         {renderMenu ? renderMenu(renderCheckTree()) : renderCheckTree()}
@@ -946,18 +835,18 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   return (
     <PickerToggleTrigger
       pickerProps={pick(props, pickTriggerPropKeys)}
-      ref={triggerRef}
+      ref={trigger}
       placement={placement}
       onEnter={handleOpen}
       onEntered={onEntered}
       onExited={createChainedFunction(handleClose, onExited)}
       speaker={renderDropdownMenu}
     >
-      <Component className={classes} style={style}>
+      <Component className={classes} style={style} root={root}>
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
           id={id}
-          ref={targetRef}
+          ref={target}
           appearance={appearance}
           onKeyDown={onPickerKeydown}
           onClean={createChainedFunction(handleClean, onClean)}

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
@@ -6,9 +6,10 @@ import Input from '../Input';
 import {
   useClassNames,
   useControlled,
+  useIsMounted,
+  useEventCallback,
   PLACEMENT,
   mergeRefs,
-  useIsMounted,
   partitionHTMLProps
 } from '../utils';
 import { animationPropTypes } from '../Animation/utils';
@@ -19,10 +20,9 @@ import {
   DropdownMenuItem,
   PickerOverlay,
   useFocusItemValue,
-  usePublicMethods,
+  usePickerRef,
   pickTriggerPropKeys,
   PositionChildProps,
-  OverlayTriggerHandle,
   PickerComponent
 } from '../Picker';
 
@@ -142,7 +142,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     const [focus, setFocus] = useState(false);
     const items = datalist?.filter(shouldDisplay(filterBy, value)) || [];
     const hasItems = items.length > 0;
-    const overlayRef = useRef<HTMLDivElement>(null);
+    const { trigger, overlay, root } = usePickerRef(ref);
     const isMounted = useIsMounted();
 
     // Used to hover the focuse item  when trigger `onKeydown`
@@ -153,11 +153,11 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     } = useFocusItemValue(value, {
       data: datalist,
       callback: onMenuFocus,
-      target: () => overlayRef.current
+      target: () => overlay.current
     });
 
     const handleKeyDownEvent = (event: React.KeyboardEvent) => {
-      if (!overlayRef.current) {
+      if (!overlay.current) {
         return;
       }
       onMenuKeyDown(event, {
@@ -185,19 +185,13 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       handleClose();
     };
 
-    const handleSelect = useCallback(
-      (item: ItemDataType, event: React.SyntheticEvent) => {
-        onSelect?.(item.value, item, event);
-      },
-      [onSelect]
-    );
+    const handleSelect = useEventCallback((item: ItemDataType, event: React.SyntheticEvent) => {
+      onSelect?.(item.value, item, event);
+    });
 
-    const handleChangeValue = useCallback(
-      (value: any, event: React.SyntheticEvent) => {
-        onChange?.(value, event);
-      },
-      [onChange]
-    );
+    const handleChangeValue = useEventCallback((value: any, event: React.SyntheticEvent) => {
+      onChange?.(value, event);
+    });
 
     const handleChange = (value: string, event: React.FormEvent<HTMLInputElement>) => {
       setFocusItemValue('');
@@ -206,19 +200,19 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       handleChangeValue(value, event);
     };
 
-    const handleClose = useCallback(() => {
+    const handleClose = useEventCallback(() => {
       if (isMounted()) {
         setFocus(false);
         onClose?.();
       }
-    }, [isMounted, onClose]);
+    });
 
-    const handleOpen = useCallback(() => {
+    const handleOpen = useEventCallback(() => {
       setFocus(true);
       onOpen?.();
-    }, [onOpen]);
+    });
 
-    const handleItemSelect = useCallback(
+    const handleItemSelect = useEventCallback(
       (nextItemValue: ValueType, item: ItemDataType, event: React.SyntheticEvent) => {
         setValue(nextItemValue);
         setFocusItemValue(nextItemValue);
@@ -228,32 +222,22 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
           handleChangeValue(nextItemValue, event);
         }
         handleClose();
-      },
-      [value, setValue, handleSelect, handleChangeValue, handleClose, setFocusItemValue]
+      }
     );
 
-    const handleInputFocus = useCallback(
-      (event: React.FocusEvent) => {
-        onFocus?.(event);
-        handleOpen();
-      },
-      [onFocus, handleOpen]
-    );
+    const handleInputFocus = useEventCallback((event: React.FocusEvent) => {
+      onFocus?.(event);
+      handleOpen();
+    });
 
-    const handleInputBlur = useCallback(
-      (event: React.FocusEvent) => {
-        setTimeout(handleClose, 300);
-        onBlur?.(event);
-      },
-      [onBlur, handleClose]
-    );
+    const handleInputBlur = useEventCallback((event: React.FocusEvent) => {
+      setTimeout(handleClose, 300);
+      onBlur?.(event);
+    });
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix({ disabled }));
-    const triggerRef = useRef<OverlayTriggerHandle>(null);
     const [htmlInputProps, restProps] = partitionHTMLProps(omit(rest, pickTriggerPropKeys));
-
-    usePublicMethods(ref, { triggerRef, overlayRef });
 
     const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
@@ -275,11 +259,11 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
 
       return (
         <PickerOverlay
-          ref={mergeRefs(overlayRef, speakerRef)}
+          ref={mergeRefs(overlay, speakerRef)}
           style={styles}
           className={className}
           onKeyDown={handleKeyDownEvent}
-          target={triggerRef}
+          target={trigger}
           autoWidth={menuAutoWidth}
         >
           {renderMenu ? renderMenu(menu) : menu}
@@ -297,14 +281,14 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
 
     return (
       <PickerToggleTrigger
-        ref={triggerRef}
+        ref={trigger}
         placement={placement}
         pickerProps={pick(props, pickTriggerPropKeys)}
         trigger={['click', 'focus']}
         open={open || (focus && hasItems)}
         speaker={renderDropdownMenu}
       >
-        <Component className={classes} style={style} {...restProps}>
+        <Component className={classes} style={style} ref={root} {...restProps}>
           <Input
             {...(htmlInputProps as Omit<React.InputHTMLAttributes<any>, 'size'>)}
             id={id}

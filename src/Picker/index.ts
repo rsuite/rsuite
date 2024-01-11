@@ -19,6 +19,7 @@ export { default as PickerIndicator } from './PickerIndicator';
 export { default as PickerToggleTrigger } from './PickerToggleTrigger';
 export { default as SearchBar } from './SearchBar';
 export { default as SelectedElement } from './SelectedElement';
+export { default as usePickerRef } from './usePickerRef';
 export { pickTriggerPropKeys, omitTriggerPropKeys };
 
 export type {

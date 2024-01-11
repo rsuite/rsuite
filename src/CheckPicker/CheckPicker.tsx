@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, Ref } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import clone from 'lodash/clone';
 import isUndefined from 'lodash/isUndefined';
@@ -15,6 +15,7 @@ import {
   shallowEqual,
   useCustom,
   useControlled,
+  useEventCallback,
   mergeRefs
 } from '../utils';
 import { getDataGroupBy } from '../utils/getDataGroupBy';
@@ -30,11 +31,10 @@ import {
   useFocusItemValue,
   usePickerClassName,
   useSearch,
-  usePublicMethods,
   useToggleKeyDownEvent,
+  usePickerRef,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
-  OverlayTriggerHandle,
   PositionChildProps,
   listPickerPropTypes,
   PickerHandle,
@@ -44,7 +44,6 @@ import {
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import type { MultipleSelectProps } from '../SelectPicker';
 import { TreeNodeType } from '../CheckTreePicker/utils';
-import { ListHandle } from '../Windowing';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T>
@@ -63,7 +62,7 @@ const emptyArray = [];
 export interface CheckPickerComponent {
   <T>(
     props: CheckPickerProps<T> & {
-      ref?: Ref<PickerHandle>;
+      ref?: React.Ref<PickerHandle>;
     }
   ): JSX.Element | null;
   displayName?: string;
@@ -124,11 +123,7 @@ const CheckPicker = React.forwardRef(
       ...rest
     } = props;
 
-    const triggerRef = useRef<OverlayTriggerHandle>(null);
-    const targetRef = useRef<HTMLButtonElement>(null);
-    const overlayRef = useRef<HTMLDivElement>(null);
-    const searchInputRef = useRef<HTMLInputElement>(null);
-    const listRef = useRef<ListHandle>(null);
+    const { trigger, root, target, overlay, list, searchInput } = usePickerRef(ref);
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled(valueProp, defaultValue || []);
 
@@ -140,16 +135,15 @@ const CheckPicker = React.forwardRef(
     } = useFocusItemValue(value?.[0], {
       data,
       valueKey,
-      target: () => overlayRef.current
+      target: () => overlay.current
     });
 
-    const handleSearchCallback = useCallback(
+    const handleSearchCallback = useEventCallback(
       (searchKeyword: string, filteredData: ItemDataType[], event: React.SyntheticEvent) => {
         // The first option after filtering is the focus.
         setFocusItemValue(filteredData?.[0]?.[valueKey]);
         onSearch?.(searchKeyword, event);
-      },
-      [setFocusItemValue, onSearch, valueKey]
+      }
     );
 
     // Use search keywords to filter options.
@@ -182,25 +176,19 @@ const CheckPicker = React.forwardRef(
       setStickyItems(nextStickyItems);
     };
 
-    const handleChangeValue = useCallback(
-      (value: T[], event: React.SyntheticEvent) => {
-        onChange?.(value, event);
-      },
-      [onChange]
-    );
+    const handleChangeValue = useEventCallback((value: T[], event: React.SyntheticEvent) => {
+      onChange?.(value, event);
+    });
 
-    const handleClean = useCallback(
-      (event: React.SyntheticEvent) => {
-        if (disabled || !cleanable) {
-          return;
-        }
+    const handleClean = useEventCallback((event: React.SyntheticEvent) => {
+      if (disabled || !cleanable) {
+        return;
+      }
 
-        setValue([]);
-        onClean?.(event);
-        handleChangeValue([], event);
-      },
-      [disabled, cleanable, setValue, onClean, handleChangeValue]
-    );
+      setValue([]);
+      onClean?.(event);
+      handleChangeValue([], event);
+    });
 
     const handleMenuPressEnter = (event: React.KeyboardEvent<HTMLElement>) => {
       const nextValue = clone(value);
@@ -223,10 +211,10 @@ const CheckPicker = React.forwardRef(
 
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: !focusItemValue || !active,
-      triggerRef,
-      targetRef,
-      overlayRef,
-      searchInputRef,
+      trigger,
+      target,
+      overlay,
+      searchInput,
       active,
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
@@ -238,14 +226,13 @@ const CheckPicker = React.forwardRef(
       ...rest
     });
 
-    const handleSelect = useCallback(
+    const handleSelect = useEventCallback(
       (nextItemValue: any, item: ItemDataType, event: React.SyntheticEvent) => {
         onSelect?.(nextItemValue, item, event);
-      },
-      [onSelect]
+      }
     );
 
-    const handleItemSelect = useCallback(
+    const handleItemSelect = useEventCallback(
       (nextItemValue: any, item: ItemDataType, event: React.SyntheticEvent, checked: boolean) => {
         const nextValue = clone(value);
 
@@ -260,23 +247,20 @@ const CheckPicker = React.forwardRef(
 
         handleSelect(nextValue, item, event);
         handleChangeValue(nextValue, event);
-      },
-      [value, setValue, handleSelect, handleChangeValue, setFocusItemValue]
+      }
     );
 
-    const handleEntered = useCallback(() => {
+    const handleEntered = useEventCallback(() => {
       setActive(true);
       onOpen?.();
-    }, [onOpen]);
+    });
 
-    const handleExited = useCallback(() => {
+    const handleExited = useEventCallback(() => {
       resetSearch();
       setFocusItemValue(null);
       setActive(false);
       onClose?.();
-    }, [onClose, setFocusItemValue, resetSearch]);
-
-    usePublicMethods(ref, { triggerRef, overlayRef, targetRef, listRef });
+    });
 
     const selectedItems =
       data.filter(item => value?.some(val => shallowEqual(item[valueKey], val))) || [];
@@ -339,7 +323,7 @@ const CheckPicker = React.forwardRef(
           <DropdownMenu<true>
             id={id ? `${id}-listbox` : undefined}
             listProps={listProps}
-            listRef={listRef}
+            listRef={list}
             disabledItemValues={disabledItemValues}
             valueKey={valueKey}
             labelKey={labelKey}
@@ -364,19 +348,19 @@ const CheckPicker = React.forwardRef(
 
       return (
         <PickerOverlay
-          ref={mergeRefs(overlayRef, speakerRef)}
+          ref={mergeRefs(overlay, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
           style={styles}
           onKeyDown={onPickerKeyDown}
-          target={triggerRef}
+          target={trigger}
         >
           {searchable && (
             <SearchBar
               placeholder={locale?.searchPlaceholder}
               onChange={handleSearch}
               value={searchKeyword}
-              inputRef={searchInputRef}
+              inputRef={searchInput}
             />
           )}
           {renderMenu ? renderMenu(menu) : menu}
@@ -398,18 +382,18 @@ const CheckPicker = React.forwardRef(
     return (
       <PickerToggleTrigger
         pickerProps={pick(props, pickTriggerPropKeys)}
-        ref={triggerRef}
+        ref={trigger}
         placement={placement}
         onEnter={createChainedFunction(initStickyItems, onEnter)}
         onEntered={createChainedFunction(handleEntered, onEntered)}
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderDropdownMenu}
       >
-        <Component className={classes} style={style}>
+        <Component className={classes} style={style} root={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
-            ref={targetRef}
+            ref={target}
             appearance={appearance}
             disabled={disabled}
             onClean={handleClean}

@@ -1,4 +1,4 @@
-import React, { useState, useImperativeHandle, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import kebabCase from 'lodash/kebabCase';
 import trim from 'lodash/trim';
 import isFunction from 'lodash/isFunction';
@@ -12,11 +12,11 @@ import {
   useClassNames,
   shallowEqual,
   reactToString,
-  placementPolyfill
+  placementPolyfill,
+  useEventCallback
 } from '../utils';
 import { TypeAttributes } from '../@types/common';
 import type { ListHandle } from '../Windowing';
-import type { PickerHandle } from './types';
 import { getHeight } from 'dom-lib';
 
 export interface NodeKeys {
@@ -443,10 +443,10 @@ export const useFocusItemValue = <T, D>(
 
 export interface ToggleKeyDownEventProps {
   toggle?: boolean;
-  triggerRef: React.RefObject<any>;
-  targetRef: React.RefObject<any>;
-  overlayRef?: React.RefObject<any>;
-  searchInputRef?: React.RefObject<any>;
+  trigger: React.RefObject<any>;
+  target: React.RefObject<any>;
+  overlay?: React.RefObject<any>;
+  searchInput?: React.RefObject<any>;
   active?: boolean;
   readOnly?: boolean;
   disabled?: boolean;
@@ -467,10 +467,10 @@ export interface ToggleKeyDownEventProps {
 export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
   const {
     toggle = true,
-    triggerRef,
-    targetRef,
-    overlayRef,
-    searchInputRef,
+    trigger,
+    target,
+    overlay,
+    searchInput,
     active,
     readOnly,
     disabled,
@@ -484,96 +484,78 @@ export const useToggleKeyDownEvent = (props: ToggleKeyDownEventProps) => {
     onMenuPressBackspace
   } = props;
 
-  const handleClose = useCallback(() => {
-    triggerRef.current?.close?.();
+  const handleClose = useEventCallback(() => {
+    trigger.current?.close?.();
 
     // The focus is on the trigger button after closing
-    targetRef.current?.focus?.();
+    trigger.current?.focus?.();
     onClose?.();
-  }, [onClose, targetRef, triggerRef]);
+  });
 
-  const handleOpen = useCallback(() => {
-    triggerRef.current?.open?.();
+  const handleOpen = useEventCallback(() => {
+    trigger.current?.open?.();
     onOpen?.();
-  }, [onOpen, triggerRef]);
+  });
 
-  const handleToggleDropdown = useCallback(() => {
+  const handleToggleDropdown = useEventCallback(() => {
     if (active) {
       handleClose();
       return;
     }
     handleOpen();
-  }, [active, handleOpen, handleClose]);
+  });
 
-  const onToggle = useCallback(
-    (event: React.KeyboardEvent) => {
-      // Keyboard events should not be processed when readOnly and disabled are set.
-      if (readOnly || disabled || loading) {
-        return;
+  const onToggle = useEventCallback((event: React.KeyboardEvent) => {
+    // Keyboard events should not be processed when readOnly and disabled are set.
+    if (readOnly || disabled || loading) {
+      return;
+    }
+
+    if (event.target === target?.current) {
+      // enter
+      if (toggle && event.key === KEY_VALUES.ENTER) {
+        handleToggleDropdown();
       }
 
-      if (event.target === targetRef?.current) {
-        // enter
-        if (toggle && event.key === KEY_VALUES.ENTER) {
-          handleToggleDropdown();
-        }
+      // delete
+      if (event.key === KEY_VALUES.BACKSPACE) {
+        onExit?.(event);
+      }
+    }
 
-        // delete
-        if (event.key === KEY_VALUES.BACKSPACE) {
-          onExit?.(event);
-        }
+    if (overlay?.current) {
+      // The keyboard operation callback on the menu.
+      onMenuKeyDown?.(event);
+
+      if (event.key === KEY_VALUES.ENTER) {
+        onMenuPressEnter?.(event);
       }
 
-      if (overlayRef?.current) {
-        // The keyboard operation callback on the menu.
-        onMenuKeyDown?.(event);
-
-        if (event.key === KEY_VALUES.ENTER) {
-          onMenuPressEnter?.(event);
-        }
-
-        /**
-         * There is no callback when typing the Backspace key in the search box.
-         * The default is to remove search keywords
-         */
-        if (event.key === KEY_VALUES.BACKSPACE && event.target !== searchInputRef?.current) {
-          onMenuPressBackspace?.(event);
-        }
-
-        // The search box gets focus when typing characters and numbers.
-        if (event.key.length === 1 && /\w/.test(event.key)) {
-          // Exclude Input
-          // eg: <SelectPicker renderExtraFooter={() => <Input />} />
-          if ((event.target as HTMLInputElement)?.tagName !== 'INPUT') {
-            searchInputRef?.current?.focus();
-          }
-        }
+      /**
+       * There is no callback when typing the Backspace key in the search box.
+       * The default is to remove search keywords
+       */
+      if (event.key === KEY_VALUES.BACKSPACE && event.target !== searchInput?.current) {
+        onMenuPressBackspace?.(event);
       }
 
-      if (event.key === KEY_VALUES.ESC || event.key === KEY_VALUES.TAB) {
-        handleClose();
+      // The search box gets focus when typing characters and numbers.
+      if (event.key.length === 1 && /\w/.test(event.key)) {
+        // Exclude Input
+        // eg: <SelectPicker renderExtraFooter={() => <Input />} />
+        if ((event.target as HTMLInputElement)?.tagName !== 'INPUT') {
+          searchInput?.current?.focus();
+        }
       }
+    }
 
-      // Native event callback
-      onKeyDown?.(event);
-    },
-    [
-      readOnly,
-      disabled,
-      loading,
-      targetRef,
-      overlayRef,
-      onKeyDown,
-      toggle,
-      handleToggleDropdown,
-      onExit,
-      onMenuKeyDown,
-      searchInputRef,
-      onMenuPressEnter,
-      onMenuPressBackspace,
-      handleClose
-    ]
-  );
+    if (event.key === KEY_VALUES.ESC || event.key === KEY_VALUES.TAB) {
+      handleClose();
+    }
+
+    // Native event callback
+    onKeyDown?.(event);
+  });
 
   return onToggle;
 };
@@ -648,69 +630,4 @@ export interface PickerDependentParameters {
   targetRef?: React.RefObject<HTMLElement>;
   listRef?: React.RefObject<ListHandle>;
   inline?: boolean;
-}
-
-/**
- * A hook of the exposed method of Picker
- */
-export function usePublicMethods(ref, parmas: PickerDependentParameters) {
-  const { triggerRef, overlayRef, targetRef, rootRef, listRef, inline } = parmas;
-
-  const handleOpen = useCallback(() => {
-    triggerRef?.current?.open();
-  }, [triggerRef]);
-
-  const handleClose = useCallback(() => {
-    triggerRef?.current?.close();
-  }, [triggerRef]);
-
-  const handleUpdatePosition = useCallback(() => {
-    triggerRef?.current?.updatePosition();
-  }, [triggerRef]);
-
-  useImperativeHandle(ref, (): PickerHandle => {
-    // Tree and CheckTree
-    if (inline) {
-      return {
-        get root() {
-          return rootRef?.current ? rootRef?.current : triggerRef?.current?.root ?? null;
-        },
-        get list() {
-          if (!listRef?.current) {
-            throw new Error('The list is not found, please set `virtualized` for the component.');
-          }
-          return listRef?.current;
-        }
-      };
-    }
-
-    return {
-      get root() {
-        return (rootRef?.current || triggerRef?.current?.root) ?? null;
-      },
-      get overlay() {
-        if (!overlayRef?.current) {
-          throw new Error('The overlay is not found. Please confirm whether the picker is open.');
-        }
-
-        return overlayRef?.current ?? null;
-      },
-      get target() {
-        return targetRef?.current ?? null;
-      },
-      get list() {
-        if (!listRef?.current) {
-          throw new Error(`
-            The list is not found.
-            1.Please set virtualized for the component.
-            2.Please confirm whether the picker is open.
-          `);
-        }
-        return listRef?.current;
-      },
-      updatePosition: handleUpdatePosition,
-      open: handleOpen,
-      close: handleClose
-    };
-  });
 }
