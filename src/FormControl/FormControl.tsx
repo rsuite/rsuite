@@ -25,7 +25,17 @@ export interface FormControlProps<P = any, ValueType = any>
   /** Proxied components */
   accepter?: React.ElementType<P & FormControlBaseProps<ValueType>>;
 
-  /** The name of form-control */
+  /**
+   * The name of form-control, support nested path. such as `address.city`.
+   * The path will be used to get and set form values.
+   *
+   * @example
+   * ```js
+   * <Form formValue={{ address: { city: 'Shanghai' } }}>
+   *   <FormControl name="address.city" />
+   * </Form>
+   * ```
+   **/
   name: string;
 
   /** Value */
