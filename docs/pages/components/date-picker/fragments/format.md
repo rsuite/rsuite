@@ -1,22 +1,27 @@
 <!--start-code-->
 
 ```js
-import { DatePicker } from 'rsuite';
+import { DatePicker, Stack } from 'rsuite';
+import { FaCalendar, FaClock } from 'react-icons/fa';
 
 const App = () => (
-  <DatePicker
-    format="yyyy-MM-dd HH:mm:ss"
-    calendarDefaultDate={new Date('2022-02-02 00:00:00')}
-    ranges={[
-      {
-        label: 'Now',
-        value: new Date()
-      }
-    ]}
-    style={{ width: 260 }}
-  />
+  <Stack spacing={10} direction="column" alignItems="flex-start">
+    <DatePicker format="MM/dd/yyyy" />
+    <DatePicker format="dd.MM.yyyy" />
+    <DatePicker format="MMM dd, yyyy" />
+    <DatePicker format="MMMM dd, yyyy" />
+    <DatePicker format="yyyy年MM月dd日" />
+    <DatePicker format="MM/dd/yyyy HH:mm" />
+    <DatePicker format="MM/dd/yyyy hh:mm aa" showMeridian />
+    <DatePicker format="HH:mm:ss" caretAs={FaClock} />
+    <DatePicker
+      format="dd MMM yyyy hh:mm:ss aa"
+      showMeridian
+      caretAs={FaCalendar}
+      style={{ width: 220 }}
+    />
+  </Stack>
 );
-
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 

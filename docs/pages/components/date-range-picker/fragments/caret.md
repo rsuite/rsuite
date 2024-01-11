@@ -2,7 +2,13 @@
 
 ```js
 import { DateRangePicker, Stack } from 'rsuite';
-import { FaCalendar, FaCalendarWeek, FaCalendarDay, FaCalendarCheck } from 'react-icons/fa';
+import {
+  FaCalendar,
+  FaCalendarWeek,
+  FaCalendarDay,
+  FaCalendarCheck,
+  FaClock
+} from 'react-icons/fa';
 
 const App = () => (
   <Stack direction="column" alignItems="flex-start" spacing={6}>
@@ -10,6 +16,7 @@ const App = () => (
     <DateRangePicker caretAs={FaCalendarWeek} />
     <DateRangePicker caretAs={FaCalendarDay} />
     <DateRangePicker caretAs={FaCalendarCheck} />
+    <DateRangePicker format="HH:mm:ss" caretAs={FaClock} />
   </Stack>
 );
 

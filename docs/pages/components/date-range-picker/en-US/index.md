@@ -14,6 +14,10 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 <!--{include:`basic.md`}-->
 
+### Customize the date format
+
+<!--{include:`format.md`}-->
+
 ### Size
 
 <!--{include:`size.md`}-->
@@ -50,25 +54,25 @@ If `<DateRangePicker>` does not satisfy the business scenario in which you selec
 
 <!--{include:`disabled.md`}-->
 
-`disabledDate` is a function type property that is called when the calendar is rendered and the date is selected, and the options that need to be disabled can be customized according to the business. The syntax is as follows:
+`shouldDisableDate` is a function type property that is called when the calendar is rendered and the date is selected, and the options that need to be disabled can be customized according to the business. The syntax is as follows:
 
 ```ts
-disabledDate(
+shouldDisableDate(
  date: Date,              // Date used to determine if disabling is required.
  selectDate: Array<Date>, // Date selected.
  selectedDone: boolean,     // Whether to choose to finish now. If `false`, only the start date is selected, waiting for the selection end date.
- target: 'CALENDAR', 'TOOLBAR_BUTTON_OK', 'TOOLBAR_SHORTCUT'   // Call the target of the `disabledDate` function
+ target: 'CALENDAR' | 'TOOLBAR_BUTTON_OK' | 'TOOLBAR_SHORTCUT' | 'INPUT',   // Call the target of the `shouldDisableDate` function
 ) => boolean
 ```
 
 To make it easier to set the date you want to disable, `DateRangePicker` provides some methods for easy calling, examples:
 
-```ts
+```tsx
 import { DateRangePicker } from 'rsuite';
 
 const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 
-ReactDOM.render(<DateRangePicker disabledDate={combine(allowedMaxDays(7), beforeToday())} />);
+<DateRangePicker shouldDisableDate={combine(allowedMaxDays(7), beforeToday())} />;
 ```
 
 **allowedMaxDays**
@@ -193,7 +197,6 @@ Has keyboard interaction for the DateRangeInput component by default.
 | defaultOpen          | boolean                                                                          | Default value of open property                                                                   |
 | defaultValue         | [ValueType](#code-ts-value-type-code)                                            | Default value                                                                                    |
 | disabled             | boolean                                                                          | Whether disabled the component                                                                   |
-| disabledDate         | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | Deprecated. Use `shouldDisableDate` instead                                                      |
 | editable             | boolean `(true)`                                                                 | Rendered as an input, the date can be entered via the keyboard                                   |
 | format               | string `('yyyy-MM-dd')`                                                          | Format date [refer to date-fns format](https://date-fns.org/v2.24.0/docs/format)                 |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | The date range that will be selected when you click on the date                                  |
@@ -256,7 +259,7 @@ type DisabledDateFunction = (
   selectedDone?: boolean,
 
   // Call the target of the `disabledDate` function
-  target?: 'CALENDAR' | 'TOOLBAR_BUTTON_OK' | 'TOOLBAR_SHORTCUT'
+  target?: 'CALENDAR' | 'TOOLBAR_BUTTON_OK' | 'TOOLBAR_SHORTCUT', 'INPUT'
 ) => boolean;
 ```
 

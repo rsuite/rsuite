@@ -14,6 +14,10 @@
 
 <!--{include:`basic.md`}-->
 
+### 自定义日期格式
+
+<!--{include:`format.md`}-->
+
 ### 尺寸
 
 <!--{include:`size.md`}-->
@@ -52,25 +56,25 @@
 
 <!--{include:`disabled.md`}-->
 
-`disabledDate` 是一个函数类型属性，它会在渲染日历以及选择日期的地方调用，可以根据业务自定义需要禁用的选项。格式如下：
+`shouldDisableDate` 是一个函数类型属性，它会在渲染日历以及选择日期的地方调用，可以根据业务自定义需要禁用的选项。格式如下：
 
 ```ts
-disabledDate(
+shouldDisableDate(
  date: Date,              // 用于判断是否需要禁用的日期
  selectDate: Array<Date>, // 选择的日期
  selectedDone: boolean,     // 当前是否选择完成。如果为 false, 则只选择了开始日期，等待选择结束日期
- target: 'CALENDAR', 'TOOLBAR_BUTTON_OK', 'TOOLBAR_SHORTCUT'   // disabledDate 调用的位置
+ target: 'CALENDAR' | 'TOOLBAR_BUTTON_OK' | 'TOOLBAR_SHORTCUT' | 'INPUT'   // shouldDisableDate 调用的位置
 ) => boolean
 ```
 
 为了更方便的设置需要禁用的日期，`DateRangePicker` 提供一些方法方便调用，示例:
 
-```ts
+```tsx
 import { DateRangePicker } from 'rsuite';
 
 const { combine, allowedMaxDays, beforeToday } = DateRangePicker;
 
-ReactDOM.render(<DateRangePicker disabledDate={combine(allowedMaxDays(7), beforeToday())} />);
+<DateRangePicker shouldDisableDate={combine(allowedMaxDays(7), beforeToday())} />)
 ```
 
 **allowedMaxDays**
@@ -195,7 +199,6 @@ combine(...) => boolean
 | defaultOpen          | boolean                                                                          | 默认打开                                                                        |
 | defaultValue         | [ValueType](#code-ts-value-type-code)                                            | 默认值                                                                          |
 | disabled             | boolean                                                                          | 禁用组件                                                                        |
-| disabledDate         | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | 已弃用。 使用 `shouldDisableDate` 代替                                          |
 | editable             | boolean `(true)`                                                                 | 渲染为 Input 输入框，可以通过键盘输入日期                                       |
 | format               | string `('yyyy-MM-dd')`                                                          | 日期显示格式化 [参考 date-fns format](https://date-fns.org/v2.24.0/docs/format) |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | 点击日期时将选中的日期范围                                                      |
@@ -259,7 +262,7 @@ type DisabledDateFunction = (
   selectedDone?: boolean,
 
   // Call the target of the `disabledDate` function
-  target?: 'CALENDAR' | 'TOOLBAR_BUTTON_OK' | 'TOOLBAR_SHORTCUT'
+  target?: 'CALENDAR' | 'TOOLBAR_BUTTON_OK' | 'TOOLBAR_SHORTCUT' | 'INPUT'
 ) => boolean;
 ```
 

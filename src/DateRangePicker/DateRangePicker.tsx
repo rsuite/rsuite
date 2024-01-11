@@ -32,7 +32,8 @@ import {
   useCustom,
   useUniqueId,
   useEventCallback,
-  partitionHTMLProps
+  partitionHTMLProps,
+  getStringLength
 } from '../utils';
 import {
   addMonths,
@@ -236,7 +237,10 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   const id = useUniqueId(`${classPrefix}-`, idProp);
   const { trigger, root, target, overlay } = usePickerRef(ref);
   const { merge, prefix } = useClassNames(classPrefix);
-  const { locale } = useCustom<DateRangePickerLocale>('DateRangePicker', overrideLocale);
+  const { locale, formatDate } = useCustom<DateRangePickerLocale>(
+    'DateRangePicker',
+    overrideLocale
+  );
   const rangeFormatStr = `${formatStr}${character}${formatStr}`;
 
   const [value, setValue] = useControlled(valueProp, defaultValue ?? null);
@@ -340,6 +344,18 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     }
 
     return rangeFormatStr;
+  };
+
+  const getInputHtmlSize = () => {
+    const padding = 4;
+    let strings = rangeFormatStr;
+    if (value) {
+      const [startDate, endDate] = value;
+
+      strings = `${formatDate(startDate, formatStr)}${character}${formatDate(endDate, formatStr)}`;
+    }
+
+    return getStringLength(strings) + padding;
   };
 
   /**
@@ -878,6 +894,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
               ref={target}
               id={id}
               value={value}
+              character={character}
               format={formatStr}
               placeholder={placeholder ? placeholder : rangeFormatStr}
               disabled={disabled}
@@ -885,7 +902,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
               readOnly={readOnly || !editable || loading}
               plaintext={plaintext}
               onKeyDown={handleInputKeyDown}
-              htmlSize={rangeFormatStr.length + 6}
+              htmlSize={getInputHtmlSize()}
             />
             <PickerIndicator
               loading={loading}

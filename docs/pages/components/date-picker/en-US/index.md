@@ -14,6 +14,10 @@ To select or input a date or time
 
 <!--{include:`basic.md`}-->
 
+### Customize the date format
+
+<!--{include:`format.md`}-->
+
 ### Size
 
 <!--{include:`size.md`}-->
@@ -33,24 +37,6 @@ To select or input a date or time
 ### Placeholder
 
 <!--{include:`placeholder.md`}-->
-
-### Date and time
-
-<!--{include:`format.md`}-->
-
-### Show month
-
-<!--{include:`format-month.md`}-->
-
-### Show time
-
-<!--{include:`format-time.md`}-->
-
-### Meridian format (AM/PM)
-
-Display hours in 12 format.
-
-<!--{include:`format-time-meridian.md`}-->
 
 ### ISO week
 

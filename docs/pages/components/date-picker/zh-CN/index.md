@@ -14,6 +14,10 @@
 
 <!--{include:`basic.md`}-->
 
+### 自定义日期格式
+
+<!--{include:`format.md`}-->
+
 ### 尺寸
 
 <!--{include:`size.md`}-->
@@ -33,22 +37,6 @@
 ### 占位符
 
 <!--{include:`placeholder.md`}-->
-
-### 日期与时间
-
-<!--{include:`format.md`}-->
-
-### 只显示月份
-
-<!--{include:`format-month.md`}-->
-
-### 只显示时间
-
-<!--{include:`format-time.md`}-->
-
-### 以 12 小时制的格式显示 (AM/PM)
-
-<!--{include:`format-time-meridian.md`}-->
 
 ### ISO week
 

@@ -979,4 +979,32 @@ describe('DateRangePicker', () => {
       expect(onShortcutClickSpy.firstCall.firstArg.label).to.equal('Yesterday');
     });
   });
+
+  it('Should reander the correct size', () => {
+    const { rerender } = render(<DateRangePicker format="MMMM dd, yyyy" />);
+
+    // MMMM dd, yyyy ~ MMMM dd, yyyy
+    expect(screen.getByRole('textbox')).to.have.attribute('size', '33');
+
+    rerender(
+      <DateRangePicker
+        format="MMMM dd, yyyy"
+        value={[new Date('2023-10-01'), new Date('2023-11-01')]}
+      />
+    );
+
+    // October 01, 2023 ~ November 01, 2023
+    expect(screen.getByRole('textbox')).to.have.attribute('size', '40');
+
+    rerender(
+      <DateRangePicker
+        format="yyyy年MM月dd日"
+        character="-"
+        value={[new Date('2023-10-01'), new Date('2023-11-01')]}
+      />
+    );
+
+    // 2023年10月01日-2023年11月01日
+    expect(screen.getByRole('textbox')).to.have.attribute('size', '33');
+  });
 });
