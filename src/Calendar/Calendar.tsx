@@ -16,7 +16,11 @@ export interface CalendarProps extends WithAsProps {
   /** Default value  */
   defaultValue?: Date;
 
-  /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day  */
+  /**
+   * ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day
+   *
+   * @see https://en.wikipedia.org/wiki/ISO_week_date
+   */
   isoWeek?: boolean;
 
   /** Display a compact calendar   */

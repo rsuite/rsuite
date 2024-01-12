@@ -86,7 +86,11 @@ export interface DatePickerProps
    **/
   inline?: boolean;
 
-  /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
+  /**
+   * ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day
+   *
+   * @see https://en.wikipedia.org/wiki/ISO_week_date
+   */
   isoWeek?: boolean;
 
   /** A label displayed at the beginning of toggle button */
