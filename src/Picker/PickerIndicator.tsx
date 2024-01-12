@@ -8,7 +8,7 @@ import Loader from '../Loader';
 interface PickerIndicatorProps {
   loading?: boolean;
   caretAs?: React.ElementType | null;
-  onClose?: () => void;
+  onClose?: (event: React.MouseEvent<HTMLElement>) => void;
   showCleanButton?: boolean;
   as?: React.ElementType;
 }
@@ -37,7 +37,7 @@ const PickerIndicator = ({
         />
       );
     }
-    return caretAs && <Icon as={caretAs} />;
+    return caretAs && <Icon as={caretAs} className={prefix('caret-icon')} />;
   };
 
   return <Component>{addon()}</Component>;

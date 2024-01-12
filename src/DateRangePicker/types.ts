@@ -13,15 +13,24 @@ export interface RangeType<T = DateRange> {
 }
 
 export type DisabledDateFunction = (
-  /** Date used to determine if disabling is required. */
+  /**
+   * Date used to determine if disabling is required.
+   */
   date: Date,
-  /** Date selected. */
+
+  /**
+   * Date selected.
+   */
   selectDate?: ValueType,
+
   /**
    * Whether to choose to finish now.
    * If `false`, only the start date is selected, waiting for the selection end date.
    */
   selectedDone?: boolean,
-  // Call the target of the `disabledDate` function
+
+  /**
+   * Call the target of the `shouldDisableDate` function.
+   */
   target?: DATERANGE_DISABLED_TARGET
 ) => boolean;

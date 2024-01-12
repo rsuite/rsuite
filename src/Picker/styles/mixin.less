@@ -103,13 +103,15 @@
     padding-right: (@padding-horizontal + @dropdown-caret-width + @dropdown-caret-padding);
   }
 
-  .rs-picker-toggle-caret,
-  .rs-picker-toggle-clean {
-    top: @padding-vertical;
-    right: @padding-horizontal;
+  .rs-picker-toggle-indicator {
+    .rs-picker-caret-icon,
+    .rs-picker-clean {
+      top: @padding-vertical;
+      right: @padding-horizontal;
 
-    .rs-picker-default & {
-      top: @padding-vertical - @picker-default-toggle-border-width;
+      .rs-picker-default & {
+        top: @padding-vertical - @picker-default-toggle-border-width;
+      }
     }
   }
 }
@@ -144,13 +146,15 @@
 
   padding-right: (@padding-horizontal + @calendar-caret-width + @dropdown-caret-padding);
 
-  .rs-picker-toggle-clean,
-  .rs-picker-toggle-caret {
-    top: @top;
-    right: @padding-horizontal;
+  .rs-picker-toggle-indicator {
+    .rs-picker-clean,
+    .rs-picker-caret-icon {
+      top: @top;
+      right: @padding-horizontal;
 
-    .rs-picker-subtle & {
-      top: @top - @picker-default-toggle-border-width;
+      .rs-picker-subtle & {
+        top: @top - @picker-default-toggle-border-width;
+      }
     }
   }
 }

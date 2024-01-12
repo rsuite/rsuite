@@ -70,7 +70,11 @@ export interface CalendarProps
   /** The value that mouse hover on in range selection */
   hoverRangeValue?: [Date, Date];
 
-  /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day */
+  /**
+   * ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day
+   *
+   * @see https://en.wikipedia.org/wiki/ISO_week_date
+   */
   isoWeek?: boolean;
 
   /** Limit showing how many years in the future */

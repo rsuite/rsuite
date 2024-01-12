@@ -141,7 +141,7 @@ describe('<PickerToggle>', () => {
 
     render(<Toggle caretAs={MyCaret} />);
 
-    expect(screen.getByTestId('caret')).to.have.class('rs-picker-toggle-caret');
+    expect(screen.getByTestId('caret')).to.have.class('rs-picker-caret-icon');
   });
 
   it('Should not show caret icon when it has value', () => {
@@ -149,6 +149,6 @@ describe('<PickerToggle>', () => {
 
     expect(screen.getByRole('button', { name: /clear/i })).to.exist;
     // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    expect(container.querySelector('.rs-picker-toggle-caret')).to.not.exist;
+    expect(container.querySelector('.rs-picker-caret-icon')).to.not.exist;
   });
 });

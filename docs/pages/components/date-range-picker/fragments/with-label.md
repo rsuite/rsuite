@@ -1,14 +1,13 @@
 <!--start-code-->
 
 ```js
-import { DatePicker } from 'rsuite';
+import { DateRangePicker } from 'rsuite';
 
 const App = () => (
   <>
-    <DatePicker format="yyyy-MM" ranges={[]} style={{ width: 200 }} />
+    <DateRangePicker label="Project start and end date:" />
   </>
 );
-
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 

@@ -23,6 +23,8 @@ const App = () => {
         <label>Controlled Value:</label>
         <DateRangeInput value={value} onChange={handleChange} />
 
+        <button onClick={() => setValue(null)}>Clear</button>
+
         <label>Uncontrolled Value:</label>
         <DateRangeInput defaultValue={value} />
       </Stack>

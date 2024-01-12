@@ -9,6 +9,14 @@ import endOfMonth from 'date-fns/endOfMonth';
 import subDays from 'date-fns/subDays';
 import isAfter from 'date-fns/isAfter';
 import addMonths from 'date-fns/addMonths';
+import { BsCalendar2MonthFill } from 'react-icons/bs';
+import {
+  FaCalendar,
+  FaCalendarWeek,
+  FaCalendarDay,
+  FaCalendarCheck,
+  FaClock
+} from 'react-icons/fa';
 
 export default function Page() {
   return (
@@ -25,7 +33,13 @@ export default function Page() {
         endOfWeek,
         startOfMonth,
         endOfMonth,
-        addMonths
+        addMonths,
+        FaCalendar,
+        FaCalendarWeek,
+        FaCalendarDay,
+        FaCalendarCheck,
+        FaClock,
+        BsCalendar2MonthFill
       }}
       sandboxDependencies={{ 'date-fns': '^2.13.0' }}
     />

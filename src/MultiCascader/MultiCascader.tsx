@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
@@ -17,7 +17,8 @@ import {
   useClassNames,
   useCustom,
   useUpdateEffect,
-  useControlled
+  useControlled,
+  useEventCallback
 } from '../utils';
 
 import {
@@ -27,12 +28,11 @@ import {
   SelectedElement,
   PickerToggleTrigger,
   usePickerClassName,
-  usePublicMethods,
+  usePickerRef,
   useToggleKeyDownEvent,
   useFocusItemValue,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
-  OverlayTriggerHandle,
   PositionChildProps,
   listPickerPropTypes,
   PickerComponent,
@@ -186,14 +186,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
     // The path after cascading data selection.
     const [selectedPaths, setSelectedPaths] = useState<ItemDataType[]>();
-
-    const triggerRef = useRef<OverlayTriggerHandle>(null);
-    const overlayRef = useRef<HTMLDivElement>(null);
-    const targetRef = useRef<HTMLDivElement>(null);
-    const searchInputRef = useRef<HTMLInputElement>(null);
-
-    usePublicMethods(ref, { triggerRef, overlayRef, targetRef });
-
+    const { trigger, root, target, overlay, searchInput } = usePickerRef(ref);
     const { locale, rtl } = useCustom<PickerLocale>('Picker', overrideLocale);
     const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
 
@@ -208,7 +201,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       data: flattenData,
       valueKey,
       defaultLayer: selectedPaths?.length ? selectedPaths.length - 1 : 0,
-      target: () => overlayRef.current,
+      target: () => overlay.current,
       callback: useCallback(
         value => {
           const { columns, path } = getColumnsAndPaths(
@@ -238,17 +231,17 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
     const [searchKeyword, setSearchKeyword] = useState('');
 
-    const handleEntered = useCallback(() => {
+    const handleEntered = useEventCallback(() => {
       onOpen?.();
       setActive(true);
-    }, [onOpen]);
+    });
 
-    const handleExited = useCallback(() => {
+    const handleExited = useEventCallback(() => {
       setActive(false);
       setSearchKeyword('');
-    }, []);
+    });
 
-    const handleSelect = useCallback(
+    const handleSelect = useEventCallback(
       (node: ItemDataType, cascadePaths: ItemDataType[], event: React.SyntheticEvent) => {
         setSelectedPaths(cascadePaths);
         onSelect?.(node, cascadePaths, event);
@@ -265,7 +258,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
               node.loading = false;
               node[childrenKey] = data;
 
-              if (targetRef.current || inline) {
+              if (target.current || inline) {
                 addFlattenData(data, node);
                 addColumn(data, columnIndex);
               }
@@ -283,12 +276,11 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
           removeColumnByIndex(columnIndex);
         }
 
-        triggerRef.current?.updatePosition?.();
-      },
-      [onSelect, getChildren, childrenKey, inline, addFlattenData, addColumn, removeColumnByIndex]
+        trigger.current?.updatePosition?.();
+      }
     );
 
-    const handleCheck = useCallback(
+    const handleCheck = useEventCallback(
       (node: ItemDataType, event: React.SyntheticEvent, checked: boolean) => {
         const nodeValue = node[valueKey];
         let nextValue: ValueType = [];
@@ -307,44 +299,37 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         setValue(nextValue);
         onChange?.(nextValue, event);
         onCheck?.(nextValue, node, checked, event);
-      },
-      [cascade, onChange, onCheck, setValue, splitValue, value, valueKey]
+      }
     );
 
-    const handleClean = useCallback(
-      (event: React.SyntheticEvent) => {
-        if (disabled || !targetRef.current) {
-          return;
-        }
+    const handleClean = useEventCallback((event: React.SyntheticEvent) => {
+      if (disabled || !target.current) {
+        return;
+      }
 
-        setSelectedPaths([]);
-        setValue([]);
-        setColumnData([data]);
-        onChange?.([], event);
-      },
-      [data, disabled, onChange, setColumnData, setValue]
-    );
+      setSelectedPaths([]);
+      setValue([]);
+      setColumnData([data]);
+      onChange?.([], event);
+    });
 
-    const handleMenuPressEnter = useCallback(
-      (event: React.SyntheticEvent) => {
-        const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
-        const checkbox = overlayRef.current?.querySelector(
-          `[data-key="${focusItemValue}"] [type="checkbox"]`
-        );
+    const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
+      const focusItem = findNodeOfTree(data, item => item[valueKey] === focusItemValue);
+      const checkbox = overlay.current?.querySelector(
+        `[data-key="${focusItemValue}"] [type="checkbox"]`
+      );
 
-        if (checkbox) {
-          handleCheck(focusItem, event, checkbox?.getAttribute('aria-checked') !== 'true');
-        }
-      },
-      [data, focusItemValue, handleCheck, valueKey]
-    );
+      if (checkbox) {
+        handleCheck(focusItem, event, checkbox?.getAttribute('aria-checked') !== 'true');
+      }
+    });
 
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: !focusItemValue || !active,
-      triggerRef,
-      targetRef,
-      overlayRef,
-      searchInputRef,
+      trigger,
+      target,
+      overlay,
+      searchInput,
       active,
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
@@ -352,21 +337,18 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       ...rest
     });
 
-    const handleSearch = useCallback(
-      (value: string, event: React.SyntheticEvent) => {
-        setSearchKeyword(value);
-        onSearch?.(value, event);
-        if (value) {
-          setLayer(0);
-        } else if (selectedPaths?.length) {
-          setLayer(selectedPaths.length - 1);
-        }
-        setKeys([]);
-      },
-      [onSearch, selectedPaths, setKeys, setLayer]
-    );
+    const handleSearch = useEventCallback((value: string, event: React.SyntheticEvent) => {
+      setSearchKeyword(value);
+      onSearch?.(value, event);
+      if (value) {
+        setLayer(0);
+      } else if (selectedPaths?.length) {
+        setLayer(selectedPaths.length - 1);
+      }
+      setKeys([]);
+    });
 
-    const getSearchResult = useCallback(() => {
+    const getSearchResult = () => {
       const items: ItemDataType[] = [];
       const result = flattenData.filter(item => {
         if (uncheckableItemValues.some(value => item[valueKey] === value)) {
@@ -388,7 +370,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         }
       }
       return items;
-    }, [flattenData, labelKey, searchKeyword, uncheckableItemValues, valueKey]);
+    };
 
     const renderSearchRow = (item: ItemDataType, key: number) => {
       const nodes = getNodeParents(item);
@@ -480,10 +462,10 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
       return (
         <PickerOverlay
-          ref={mergeRefs(overlayRef, speakerRef)}
+          ref={mergeRefs(overlay, speakerRef)}
           className={classes}
           style={styles}
-          target={triggerRef}
+          target={trigger}
           onKeyDown={onPickerKeyDown}
         >
           {searchable && (
@@ -491,7 +473,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
               placeholder={locale?.searchPlaceholder}
               onChange={handleSearch}
               value={searchKeyword}
-              inputRef={searchInputRef}
+              inputRef={searchInput}
             />
           )}
 
@@ -570,21 +552,21 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     return (
       <PickerToggleTrigger
         pickerProps={pick(props, pickTriggerPropKeys)}
-        ref={triggerRef}
+        ref={trigger}
         placement={placement}
         onEnter={createChainedFunction(handleEntered, onEnter)}
         onExited={createChainedFunction(handleExited, onExited)}
         onExit={createChainedFunction(onClose, onExit)}
         speaker={renderDropdownMenu}
       >
-        <Component className={classes} style={style}>
+        <Component className={classes} style={style} ref={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
             as={toggleAs}
             appearance={appearance}
             disabled={disabled}
-            ref={targetRef}
+            ref={target}
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={onPickerKeyDown}
             cleanable={cleanable && !disabled}

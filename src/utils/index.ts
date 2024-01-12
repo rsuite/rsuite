@@ -25,6 +25,7 @@ export { default as scrollTopAnimation } from './scrollTopAnimation';
 export { default as appendTooltip } from './appendTooltip';
 export { default as render } from './render';
 export { default as safeSetSelection } from './safeSetSelection';
+export { default as getStringLength } from './getStringLength';
 
 /** Hooks **/
 export { default as useClassNames } from './useClassNames';

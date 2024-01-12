@@ -1,13 +1,10 @@
 <!--start-code-->
 
 ```js
-import { DateRangePicker } from 'rsuite';
+import { DateRangePicker, Stack } from 'rsuite';
 
-const App = () => (
-  <>
-    <DateRangePicker />
-  </>
-);
+const App = () => <DateRangePicker />;
+
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
 

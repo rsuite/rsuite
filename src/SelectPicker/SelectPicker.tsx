@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, Ref } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import isUndefined from 'lodash/isUndefined';
@@ -11,6 +11,7 @@ import {
   useCustom,
   useClassNames,
   useControlled,
+  useEventCallback,
   mergeRefs,
   shallowEqual
 } from '../utils';
@@ -25,11 +26,10 @@ import {
   useFocusItemValue,
   usePickerClassName,
   useSearch,
-  usePublicMethods,
   useToggleKeyDownEvent,
+  usePickerRef,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
-  OverlayTriggerHandle,
   PositionChildProps,
   listPickerPropTypes,
   PickerHandle,
@@ -38,7 +38,6 @@ import {
 
 import { ListProps } from '../Windowing';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
-import { ListHandle } from '../Windowing';
 
 export interface SelectProps<T> {
   /** Set group condition key in data */
@@ -121,7 +120,7 @@ const emptyArray = [];
 export interface SelectPickerComponent {
   <T>(
     props: SelectPickerProps<T> & {
-      ref?: Ref<PickerHandle>;
+      ref?: React.Ref<PickerHandle>;
     }
   ): JSX.Element | null;
   displayName?: string;
@@ -179,11 +178,7 @@ const SelectPicker = React.forwardRef(
       ...rest
     } = props;
 
-    const triggerRef = useRef<OverlayTriggerHandle>(null);
-    const targetRef = useRef<HTMLButtonElement>(null);
-    const overlayRef = useRef<HTMLDivElement>(null);
-    const searchInputRef = useRef<HTMLInputElement>(null);
-    const listRef = useRef<ListHandle>(null);
+    const { trigger, root, target, overlay, list, searchInput } = usePickerRef(ref);
     const { locale } = useCustom<PickerLocale>('Picker', overrideLocale);
     const [value, setValue] = useControlled(valueProp, defaultValue) as [
       T | null | undefined,
@@ -199,7 +194,7 @@ const SelectPicker = React.forwardRef(
     } = useFocusItemValue(value, {
       data,
       valueKey,
-      target: () => overlayRef.current
+      target: () => overlay.current
     });
 
     // Use search keywords to filter options.
@@ -220,45 +215,38 @@ const SelectPicker = React.forwardRef(
     // Use component active state to support keyboard events.
     const [active, setActive] = useState(false);
 
-    const handleClose = useCallback(() => {
-      triggerRef.current?.close?.();
-    }, []);
+    const handleClose = useEventCallback(() => {
+      trigger.current?.close?.();
+    });
 
-    const handleSelect = useCallback(
+    const handleSelect = useEventCallback(
       (value: any, item: ItemDataType, event: React.SyntheticEvent) => {
         onSelect?.(value, item, event);
-        targetRef.current?.focus();
-      },
-      [onSelect]
+        target.current?.focus();
+      }
     );
 
-    const handleChangeValue = useCallback(
-      (value: any, event: React.SyntheticEvent) => {
-        onChange?.(value, event);
-      },
-      [onChange]
-    );
+    const handleChangeValue = useEventCallback((value: any, event: React.SyntheticEvent) => {
+      onChange?.(value, event);
+    });
 
-    const handleMenuPressEnter = useCallback(
-      (event: React.SyntheticEvent) => {
-        if (!focusItemValue) {
-          return;
-        }
+    const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
+      if (!focusItemValue) {
+        return;
+      }
 
-        // Find active `MenuItem` by `value`
-        const focusItem = data.find(item =>
-          shallowEqual(item[valueKey], focusItemValue)
-        ) as ItemDataType;
+      // Find active `MenuItem` by `value`
+      const focusItem = data.find(item =>
+        shallowEqual(item[valueKey], focusItemValue)
+      ) as ItemDataType;
 
-        setValue(focusItemValue);
-        handleSelect(focusItemValue, focusItem, event);
-        handleChangeValue(focusItemValue, event);
-        handleClose();
-      },
-      [data, focusItemValue, handleChangeValue, handleClose, handleSelect, setValue, valueKey]
-    );
+      setValue(focusItemValue);
+      handleSelect(focusItemValue, focusItem, event);
+      handleChangeValue(focusItemValue, event);
+      handleClose();
+    });
 
-    const handleItemSelect = useCallback(
+    const handleItemSelect = useEventCallback(
       (value: any, item: ItemDataType, event: React.SyntheticEvent) => {
         setValue(value);
         setFocusItemValue(value);
@@ -266,28 +254,24 @@ const SelectPicker = React.forwardRef(
         handleSelect(value, item, event);
         handleChangeValue(value, event);
         handleClose();
-      },
-      [setValue, setFocusItemValue, handleSelect, handleChangeValue, handleClose]
+      }
     );
 
-    const handleClean = useCallback(
-      (event: React.SyntheticEvent) => {
-        if (disabled || !cleanable) {
-          return;
-        }
-        setValue(null);
-        setFocusItemValue(value);
-        handleChangeValue(null, event);
-      },
-      [value, disabled, cleanable, setValue, handleChangeValue, setFocusItemValue]
-    );
+    const handleClean = useEventCallback((event: React.SyntheticEvent) => {
+      if (disabled || !cleanable) {
+        return;
+      }
+      setValue(null);
+      setFocusItemValue(value);
+      handleChangeValue(null, event);
+    });
 
     const onPickerKeyDown = useToggleKeyDownEvent({
       toggle: !focusItemValue || !active,
-      triggerRef,
-      targetRef,
-      overlayRef,
-      searchInputRef,
+      trigger,
+      target,
+      overlay,
+      searchInput,
       active,
       onExit: handleClean,
       onMenuKeyDown: onFocusItem,
@@ -298,20 +282,18 @@ const SelectPicker = React.forwardRef(
       ...rest
     });
 
-    const handleExited = useCallback(() => {
+    const handleExited = useEventCallback(() => {
       resetSearch();
       setActive(false);
       onSearch?.('');
       onClose?.();
-    }, [onClose, resetSearch, onSearch]);
+    });
 
-    const handleEntered = useCallback(() => {
+    const handleEntered = useEventCallback(() => {
       setActive(true);
       setFocusItemValue(value);
       onOpen?.();
-    }, [onOpen, setFocusItemValue, value]);
-
-    usePublicMethods(ref, { triggerRef, overlayRef, targetRef, listRef });
+    });
 
     // Find active `MenuItem` by `value`
     const activeItem = data.find(item => shallowEqual(item[valueKey], value));
@@ -355,7 +337,7 @@ const SelectPicker = React.forwardRef(
         <DropdownMenu
           id={id ? `${id}-listbox` : undefined}
           listProps={listProps}
-          listRef={listRef}
+          listRef={list}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
           labelKey={labelKey}
@@ -382,19 +364,19 @@ const SelectPicker = React.forwardRef(
 
       return (
         <PickerOverlay
-          ref={mergeRefs(overlayRef, speakerRef)}
+          ref={mergeRefs(overlay, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
           style={styles}
           onKeyDown={onPickerKeyDown}
-          target={triggerRef}
+          target={trigger}
         >
           {searchable && (
             <SearchBar
               placeholder={locale?.searchPlaceholder}
               onChange={handleSearch}
               value={searchKeyword}
-              inputRef={searchInputRef}
+              inputRef={searchInput}
             />
           )}
 
@@ -416,17 +398,17 @@ const SelectPicker = React.forwardRef(
     return (
       <PickerToggleTrigger
         pickerProps={pick(props, pickTriggerPropKeys)}
-        ref={triggerRef}
+        ref={trigger}
         placement={placement}
         onEntered={createChainedFunction(handleEntered, onEntered)}
         onExited={createChainedFunction(handleExited, onExited)}
         speaker={renderDropdownMenu}
       >
-        <Component className={classes} style={style}>
+        <Component className={classes} style={style} ref={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
             id={id}
-            ref={targetRef}
+            ref={target}
             appearance={appearance}
             onClean={createChainedFunction(handleClean, onClean)}
             onKeyDown={onPickerKeyDown}

@@ -54,7 +54,6 @@ describe('DateRangePicker - Calendar', () => {
         onToggleMeridian={() => void 0}
       />
     );
-    // eslint-disable-next-line testing-library/no-node-access
     fireEvent.click(screen.getByRole('button', { name: 'Next month' }));
     expect(onChangeCalendarMonthSpy).to.have.been.called;
   });

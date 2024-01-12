@@ -18,6 +18,7 @@ import {
   useClassNames,
   useCustom,
   useControlled,
+  useEventCallback,
   mergeRefs,
   isOneOf,
   KEY_VALUES
@@ -34,11 +35,10 @@ import {
   useFocusItemValue,
   usePickerClassName,
   useSearch,
-  usePublicMethods,
+  usePickerRef,
   useToggleKeyDownEvent,
   pickTriggerPropKeys,
   omitTriggerPropKeys,
-  OverlayTriggerHandle,
   PositionChildProps,
   PickerComponent,
   listPickerPropTypes,
@@ -52,7 +52,6 @@ import InputPickerContext from './InputPickerContext';
 
 import type { ItemDataType, FormControlPickerProps } from '../@types/common';
 import type { InputPickerLocale } from '../locales';
-import type { ListHandle } from '../Windowing';
 import type { SelectProps } from '../SelectPicker';
 
 interface InputItemDataType extends ItemDataType {
@@ -167,11 +166,9 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       throw Error('`groupBy` can not be equal to `valueKey` and `labelKey`');
     }
 
-    const overlayRef = useRef<HTMLDivElement>(null);
-    const targetRef = useRef<HTMLButtonElement>(null);
-    const triggerRef = useRef<OverlayTriggerHandle>(null);
     const inputRef = useRef<any>();
-    const listRef = useRef<ListHandle>(null);
+
+    const { trigger: triggerRef, root, target, overlay, list } = usePickerRef(ref);
     const { locale } = useCustom<InputPickerLocale>(['Picker', 'InputPicker'], overrideLocale);
 
     const { prefix, merge } = useClassNames(classPrefix);
@@ -195,14 +192,14 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       multi ? defaultValue || [] : defaultValue
     );
 
-    const cloneValue = useCallback(() => (multi ? clone(value) || [] : value), [multi, value]);
+    const cloneValue = () => (multi ? clone(value) || [] : value);
 
-    const handleClose = useCallback(() => {
+    const handleClose = useEventCallback(() => {
       triggerRef?.current?.close();
 
       // The focus is on the trigger button after closing
-      targetRef.current?.focus?.();
-    }, []);
+      target.current?.focus?.();
+    });
 
     // Used to hover the focuse item  when trigger `onKeydown`
     const { focusItemValue, setFocusItemValue, onKeyDown } = useFocusItemValue(
@@ -210,19 +207,18 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       {
         data: getAllDataAndCache(),
         valueKey,
-        target: () => overlayRef.current
+        target: () => overlay.current
       }
     );
 
-    const handleSearchCallback = useCallback(
+    const handleSearchCallback = useEventCallback(
       (searchKeyword: string, filteredData: InputItemDataType[], event: React.SyntheticEvent) => {
         // The first option after filtering is the focus.
         setFocusItemValue(
           disabledOptions ? searchKeyword : filteredData?.[0]?.[valueKey] || searchKeyword
         );
         onSearch?.(searchKeyword, event);
-      },
-      [disabledOptions, setFocusItemValue, valueKey, onSearch]
+      }
     );
 
     // Use search keywords to filter options.
@@ -249,11 +245,13 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       if (triggerRef.current?.root) {
         setMaxWidth(getWidth(triggerRef.current.root));
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Update the position of the menu when the search keyword and value change
     useEffect(() => {
       triggerRef.current?.updatePosition?.();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKeyword, value]);
 
     const getDateItem = (value: any) => {
@@ -274,56 +272,45 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       };
     };
 
-    const getInput = useCallback(
-      () => (multi ? inputRef.current?.input : inputRef.current),
-      [inputRef, multi]
-    );
-    const focusInput = useCallback(() => getInput()?.focus(), [getInput]);
-    const blurInput = useCallback(() => getInput()?.blur(), [getInput]);
+    const getInput = () => (multi ? inputRef.current?.input : inputRef.current);
+
+    const focusInput = () => getInput()?.focus();
+    const blurInput = () => getInput()?.blur();
 
     /**
      * Convert the string of the newly created option into an object.
      */
-    const createOption = useCallback(
-      (value: string) => {
-        if (groupBy) {
-          return {
-            create: true,
-            [groupBy]: locale?.newItem,
-            [valueKey]: value,
-            [labelKey]: value
-          };
-        }
-
+    const createOption = (value: string) => {
+      if (groupBy) {
         return {
           create: true,
+          [groupBy]: locale?.newItem,
           [valueKey]: value,
           [labelKey]: value
         };
-      },
-      [groupBy, valueKey, labelKey, locale]
-    );
+      }
 
-    const handleChange = useCallback(
-      (value: any, event: React.SyntheticEvent) => {
-        onChange?.(value, event);
-      },
-      [onChange]
-    );
+      return {
+        create: true,
+        [valueKey]: value,
+        [labelKey]: value
+      };
+    };
 
-    const handleRemoveItemByTag = useCallback(
-      (tag: string, event: React.MouseEvent) => {
-        event.stopPropagation();
-        const val = cloneValue();
-        remove(val, itemVal => shallowEqual(itemVal, tag));
-        setValue(val);
-        handleChange(val, event);
-        onTagRemove?.(tag, event);
-      },
-      [cloneValue, setValue, handleChange, onTagRemove]
-    );
+    const handleChange = useEventCallback((value: any, event: React.SyntheticEvent) => {
+      onChange?.(value, event);
+    });
 
-    const handleSelect = useCallback(
+    const handleRemoveItemByTag = useEventCallback((tag: string, event: React.MouseEvent) => {
+      event.stopPropagation();
+      const val = cloneValue();
+      remove(val, itemVal => shallowEqual(itemVal, tag));
+      setValue(val);
+      handleChange(val, event);
+      onTagRemove?.(tag, event);
+    });
+
+    const handleSelect = useEventCallback(
       (value: string | string[], item: InputItemDataType, event: React.SyntheticEvent) => {
         onSelect?.(value, item, event);
 
@@ -332,8 +319,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           onCreate?.(value, item, event);
           setNewData(newData.concat(item));
         }
-      },
-      [creatable, newData, onSelect, onCreate]
+      }
     );
 
     /**
@@ -342,14 +328,16 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
      * @param item
      * @param event
      */
-    const handleSelectItem = (value: string, item: InputItemDataType, event: React.MouseEvent) => {
-      setValue(value);
-      setFocusItemValue(value);
-      resetSearch();
-      handleSelect(value, item, event);
-      handleChange(value, event);
-      handleClose();
-    };
+    const handleSelectItem = useEventCallback(
+      (value: string, item: InputItemDataType, event: React.MouseEvent) => {
+        setValue(value);
+        setFocusItemValue(value);
+        resetSearch();
+        handleSelect(value, item, event);
+        handleChange(value, event);
+        handleClose();
+      }
+    );
 
     /**
      * Callback triggered by multiple selection
@@ -358,171 +346,125 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
      * @param event
      * @param checked
      */
-    const handleCheckTag = (
-      nextItemValue: string,
-      item: InputItemDataType,
-      event: React.MouseEvent,
-      checked: boolean
-    ) => {
-      const val = cloneValue();
-      if (checked) {
-        val.push(nextItemValue);
-      } else {
-        remove(val, itemVal => shallowEqual(itemVal, nextItemValue));
-      }
-
-      setValue(val);
-      resetSearch();
-      setFocusItemValue(nextItemValue);
-      handleSelect(val, item, event);
-      handleChange(val, event);
-      focusInput();
-    };
-
-    const handleTagKeyPress = useCallback(
-      (event: React.KeyboardEvent) => {
-        // When composing, ignore the keypress event.
-        if (event.nativeEvent.isComposing) {
-          return;
-        }
+    const handleCheckTag = useEventCallback(
+      (
+        nextItemValue: string,
+        item: InputItemDataType,
+        event: React.MouseEvent,
+        checked: boolean
+      ) => {
         const val = cloneValue();
-        const data = getAllData();
-
-        if (!focusItemValue || !data) {
-          return;
-        }
-
-        // If the value is disabled in this option, it is returned.
-        if (disabledItemValues?.some(item => item === focusItemValue)) {
-          return;
-        }
-
-        if (!val.some(v => shallowEqual(v, focusItemValue))) {
-          val.push(focusItemValue);
-        } else if (!disabledOptions) {
-          remove(val, itemVal => shallowEqual(itemVal, focusItemValue));
-        }
-
-        let focusItem = data.find(item => shallowEqual(item?.[valueKey], focusItemValue));
-
-        if (!focusItem) {
-          focusItem = createOption(focusItemValue);
+        if (checked) {
+          val.push(nextItemValue);
+        } else {
+          remove(val, itemVal => shallowEqual(itemVal, nextItemValue));
         }
 
         setValue(val);
         resetSearch();
-        handleSelect(val, focusItem, event);
+        setFocusItemValue(nextItemValue);
+        handleSelect(val, item, event);
         handleChange(val, event);
-      },
-      [
-        cloneValue,
-        getAllData,
-        focusItemValue,
-        disabledItemValues,
-        disabledOptions,
-        setValue,
-        resetSearch,
-        handleSelect,
-        handleChange,
-        valueKey,
-        createOption
-      ]
+        focusInput();
+      }
     );
 
-    const handleMenuItemKeyPress = useCallback(
-      (event: React.KeyboardEvent) => {
-        if (!focusItemValue || !controlledData) {
-          return;
-        }
+    const handleTagKeyPress = useEventCallback((event: React.KeyboardEvent) => {
+      // When composing, ignore the keypress event.
+      if (event.nativeEvent.isComposing) {
+        return;
+      }
+      const val = cloneValue();
+      const data = getAllData();
 
-        // If the value is disabled in this option, it is returned.
-        if (disabledItemValues?.some(item => item === focusItemValue)) {
-          return;
-        }
+      if (!focusItemValue || !data) {
+        return;
+      }
 
-        // Find active `MenuItem` by `value`
-        const allData = getAllData();
-        let focusItem = allData.find(item => shallowEqual(item[valueKey], focusItemValue));
+      // If the value is disabled in this option, it is returned.
+      if (disabledItemValues?.some(item => item === focusItemValue)) {
+        return;
+      }
 
-        // FIXME Bad state flow
-        if (!focusItem && focusItemValue === searchKeyword) {
-          focusItem = createOption(searchKeyword);
-        }
-        setValue(focusItemValue);
-        resetSearch();
+      if (!val.some(v => shallowEqual(v, focusItemValue))) {
+        val.push(focusItemValue);
+      } else if (!disabledOptions) {
+        remove(val, itemVal => shallowEqual(itemVal, focusItemValue));
+      }
 
-        if (focusItem) {
-          handleSelect(focusItemValue, focusItem, event);
-        }
-        handleChange(focusItemValue, event);
-        handleClose();
-      },
-      [
-        setValue,
-        disabledItemValues,
-        controlledData,
-        focusItemValue,
-        valueKey,
-        searchKeyword,
-        handleClose,
-        resetSearch,
-        createOption,
-        getAllData,
-        handleChange,
-        handleSelect
-      ]
-    );
+      let focusItem = data.find(item => shallowEqual(item?.[valueKey], focusItemValue));
 
-    usePublicMethods(ref, { triggerRef, overlayRef, targetRef, listRef });
+      if (!focusItem) {
+        focusItem = createOption(focusItemValue);
+      }
+
+      setValue(val);
+      resetSearch();
+      handleSelect(val, focusItem, event);
+      handleChange(val, event);
+    });
+
+    const handleMenuItemKeyPress = useEventCallback((event: React.KeyboardEvent) => {
+      if (!focusItemValue || !controlledData) {
+        return;
+      }
+
+      // If the value is disabled in this option, it is returned.
+      if (disabledItemValues?.some(item => item === focusItemValue)) {
+        return;
+      }
+
+      // Find active `MenuItem` by `value`
+      const allData = getAllData();
+      let focusItem = allData.find(item => shallowEqual(item[valueKey], focusItemValue));
+
+      // FIXME Bad state flow
+      if (!focusItem && focusItemValue === searchKeyword) {
+        focusItem = createOption(searchKeyword);
+      }
+      setValue(focusItemValue);
+      resetSearch();
+
+      if (focusItem) {
+        handleSelect(focusItemValue, focusItem, event);
+      }
+      handleChange(focusItemValue, event);
+      handleClose();
+    });
 
     /**
      * Remove the last item, after pressing the back key on the keyboard.
      * @param event
      */
-    const removeLastItem = useCallback(
-      (event: React.KeyboardEvent<HTMLInputElement>) => {
-        const target = event?.target as HTMLInputElement;
-        if (target?.tagName !== 'INPUT') {
-          focusInput();
-          return;
-        }
-        if (target?.tagName === 'INPUT' && target?.value) {
-          return;
-        }
-        const val = cloneValue();
-        val.pop();
-        setValue(val);
-        handleChange(val, event);
-      },
-      [setValue, focusInput, handleChange, cloneValue]
-    );
+    const removeLastItem = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+      const target = event?.target as HTMLInputElement;
+      if (target?.tagName !== 'INPUT') {
+        focusInput();
+        return;
+      }
+      if (target?.tagName === 'INPUT' && target?.value) {
+        return;
+      }
+      const val = cloneValue();
+      val.pop();
+      setValue(val);
+      handleChange(val, event);
+    });
 
-    const handleClean = useCallback(
-      (event: React.SyntheticEvent) => {
-        if (disabled || searchKeyword !== '') {
-          return;
-        }
-        setValue(null);
-        setFocusItemValue(null);
-        resetSearch();
-        if (multi) {
-          handleChange([], event);
-        } else {
-          handleChange(null, event);
-        }
-        onClean?.(event);
-      },
-      [
-        disabled,
-        searchKeyword,
-        setValue,
-        setFocusItemValue,
-        resetSearch,
-        multi,
-        onClean,
-        handleChange
-      ]
-    );
+    const handleClean = useEventCallback((event: React.SyntheticEvent) => {
+      if (disabled || searchKeyword !== '') {
+        return;
+      }
+      setValue(null);
+      setFocusItemValue(null);
+      resetSearch();
+      if (multi) {
+        handleChange([], event);
+      } else {
+        handleChange(null, event);
+      }
+      onClean?.(event);
+    });
 
     const events = {
       onMenuPressBackspace: multi ? removeLastItem : handleClean,
@@ -531,22 +473,19 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       onKeyDown: undefined as React.ReactEventHandler | undefined
     };
 
-    const handleKeyPress = useCallback(
-      (event: React.KeyboardEvent<any>) => {
-        // When typing a space, create a tag.
-        if (isOneOf('Space', trigger) && event.key === KEY_VALUES.SPACE) {
-          handleTagKeyPress(event);
-          event.preventDefault();
-        }
+    const handleKeyPress = useEventCallback((event: React.KeyboardEvent<any>) => {
+      // When typing a space, create a tag.
+      if (isOneOf('Space', trigger) && event.key === KEY_VALUES.SPACE) {
+        handleTagKeyPress(event);
+        event.preventDefault();
+      }
 
-        // When typing a comma, create a tag.
-        if (isOneOf('Comma', trigger) && event.key === KEY_VALUES.COMMA) {
-          handleTagKeyPress(event);
-          event.preventDefault();
-        }
-      },
-      [handleTagKeyPress, trigger]
-    );
+      // When typing a comma, create a tag.
+      if (isOneOf('Comma', trigger) && event.key === KEY_VALUES.COMMA) {
+        handleTagKeyPress(event);
+        event.preventDefault();
+      }
+    });
 
     if (multi) {
       if (isOneOf('Enter', trigger)) {
@@ -561,35 +500,35 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     }
 
     const onPickerKeyDown = useToggleKeyDownEvent({
-      triggerRef,
-      targetRef,
-      overlayRef,
+      trigger: triggerRef,
+      target,
+      overlay,
       ...events,
       ...rest
     });
 
-    const handleExited = useCallback(() => {
+    const handleExited = useEventCallback(() => {
       setFocusItemValue(multi ? value?.[0] : value);
       resetSearch();
       onClose?.();
-    }, [setFocusItemValue, resetSearch, onClose, value, multi]);
+    });
 
-    const handleFocus = useCallback(() => {
+    const handleFocus = useEventCallback(() => {
       if (!readOnly) {
         setOpen(true);
         triggerRef.current?.open();
       }
-    }, [readOnly]);
+    });
 
-    const handleEnter = useCallback(() => {
+    const handleEnter = useEventCallback(() => {
       focusInput();
       setOpen(true);
-    }, [focusInput]);
+    });
 
-    const handleExit = useCallback(() => {
+    const handleExit = useEventCallback(() => {
       blurInput();
       setOpen(false);
-    }, [blurInput]);
+    });
 
     const renderDropdownMenuItem = (label: React.ReactNode, item: InputItemDataType) => {
       // 'Create option "{0}"' =>  Create option "xxxxx"
@@ -685,14 +624,14 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       }
 
       if (disabledOptions) {
-        return <PickerOverlay ref={mergeRefs(overlayRef, speakerRef)} />;
+        return <PickerOverlay ref={mergeRefs(overlay, speakerRef)} />;
       }
 
       const menu = items.length ? (
         <DropdownMenu
           id={id ? `${id}-listbox` : undefined}
           listProps={listProps}
-          listRef={listRef}
+          listRef={list}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
           labelKey={labelKey}
@@ -719,7 +658,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       return (
         <PickerOverlay
-          ref={mergeRefs(overlayRef, speakerRef)}
+          ref={mergeRefs(overlay, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
           style={styles}
@@ -778,7 +717,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       }
 
       return (
-        <Plaintext localeKey="notSelected" ref={targetRef} {...plaintextProps}>
+        <Plaintext localeKey="notSelected" ref={target} {...plaintextProps}>
           {itemNode || (tagElements?.length ? tagElements : null) || placeholder}
         </Plaintext>
       );
@@ -803,6 +742,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           style={style}
           onClick={focusInput}
           onKeyDown={onPickerKeyDown}
+          ref={root}
         >
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
@@ -810,7 +750,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             appearance={appearance}
             readOnly={readOnly}
             plaintext={plaintext}
-            ref={targetRef}
+            ref={target}
             as={toggleAs}
             tabIndex={tabIndex}
             onClean={handleClean}
