@@ -1,3 +1,16 @@
+# [5.50.0](https://github.com/rsuite/rsuite/compare/v5.49.0...v5.50.0) (2024-01-12)
+
+### Bug Fixes
+
+- typo in Next.js guide ([#3555](https://github.com/rsuite/rsuite/issues/3555)) ([77d60cf](https://github.com/rsuite/rsuite/commit/77d60cfeb27e3e52b4003d72114e5164b275a3d2))
+
+### Features
+
+- **cra:** supports using CRA to install javascript template ([#3538](https://github.com/rsuite/rsuite/issues/3538)) ([1b697f4](https://github.com/rsuite/rsuite/commit/1b697f4a4f61a7943351c5ca0f46a484c9ea1ac6))
+- **cra:** supports using CRA to install typescript template ([#3540](https://github.com/rsuite/rsuite/issues/3540)) ([bbe3609](https://github.com/rsuite/rsuite/commit/bbe3609d4492e9186e32309f6c6ee6101d5eb83c))
+- **DateRangePicker:** supports date selection by using keyboard ([#3554](https://github.com/rsuite/rsuite/issues/3554)) ([2c8d197](https://github.com/rsuite/rsuite/commit/2c8d1974e018903b3a1b874566b31c751d207493))
+- **FormControl:** added support for `name` setting path of object ([#3511](https://github.com/rsuite/rsuite/issues/3511)) ([03d5396](https://github.com/rsuite/rsuite/commit/03d5396b8a23d88907be9d1864776d61a0a3b963))
+
 # [5.49.0](https://github.com/rsuite/rsuite/compare/v5.48.1...v5.49.0) (2023-12-29)
 
 ### Bug Fixes
