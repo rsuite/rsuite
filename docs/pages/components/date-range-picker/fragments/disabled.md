@@ -18,34 +18,34 @@ const App = () => (
 
     <br />
     <Label>Custom disabled </Label>
-    <DateRangePicker disabledDate={date => isAfter(date, new Date())} />
+    <DateRangePicker shouldDisableDate={date => isAfter(date, new Date())} />
 
     <br />
     <Label>Allow maximum selection for 7 days, other dates are disabled.</Label>
-    <DateRangePicker disabledDate={allowedMaxDays(7)} />
+    <DateRangePicker shouldDisableDate={allowedMaxDays(7)} />
 
     <br />
     <Label>Only 7 days allowed, other dates are disabled</Label>
-    <DateRangePicker disabledDate={allowedDays(7)} />
+    <DateRangePicker shouldDisableDate={allowedDays(7)} />
 
     <br />
     <Label>Only one date range is allowed, other dates are disabled</Label>
-    <DateRangePicker disabledDate={allowedRange('2020-10-01', '2021-10-01')} />
+    <DateRangePicker shouldDisableDate={allowedRange('2020-10-01', '2021-10-01')} />
 
     <br />
     <Label>Disable dates before today</Label>
-    <DateRangePicker disabledDate={beforeToday()} />
+    <DateRangePicker shouldDisableDate={beforeToday()} />
 
     <br />
     <Label>Disable dates after today</Label>
-    <DateRangePicker disabledDate={afterToday()} />
+    <DateRangePicker shouldDisableDate={afterToday()} />
 
     <br />
     <Label>
       Combination: Allow maximum selection for 7 days, while disabling dates before today, other
       dates are disabled
     </Label>
-    <DateRangePicker disabledDate={combine(allowedMaxDays(7), beforeToday())} />
+    <DateRangePicker shouldDisableDate={combine(allowedMaxDays(7), beforeToday())} />
 
     <hr />
     <Label>Read only: </Label>
