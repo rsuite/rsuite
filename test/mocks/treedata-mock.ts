@@ -20,7 +20,7 @@ export function mockTreeData(
 
   data.forEach(item => {
     if (Array.isArray(item)) {
-      const children = mockTreeData(item.slice(1));
+      const children = mockTreeData(item.slice(1), options);
       items.push({
         [valueKey]: item[0],
         [labelKey]: item[0],
