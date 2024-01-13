@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
-import Input from '../Input';
 import {
   useClassNames,
   useControlled,
@@ -35,6 +34,7 @@ import {
 
 import { transformData, shouldDisplay } from './utils';
 import Plaintext from '../Plaintext';
+import Combobox from './Combobox';
 
 export type ValueType = string;
 
@@ -245,7 +245,6 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
 
       const menu = (
         <DropdownMenu
-          id={id ? `${id}-listbox` : undefined}
           classPrefix="auto-complete-menu"
           dropdownMenuItemClassPrefix="auto-complete-item"
           dropdownMenuItemAs={DropdownMenuItem}
@@ -279,23 +278,26 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       );
     }
 
+    const expanded = open || (focus && hasItems);
+
     return (
       <PickerToggleTrigger
+        id={id}
         ref={trigger}
         placement={placement}
         pickerProps={pick(props, pickTriggerPropKeys)}
         trigger={['click', 'focus']}
-        open={open || (focus && hasItems)}
+        open={expanded}
         speaker={renderDropdownMenu}
       >
         <Component className={classes} style={style} ref={root} {...restProps}>
-          <Input
+          <Combobox
             {...(htmlInputProps as Omit<React.InputHTMLAttributes<any>, 'size'>)}
-            id={id}
             disabled={disabled}
             value={value}
             size={size}
             readOnly={readOnly}
+            expanded={expanded}
             onBlur={handleInputBlur}
             onFocus={handleInputFocus}
             onChange={handleChange}

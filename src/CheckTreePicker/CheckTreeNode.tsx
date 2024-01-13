@@ -1,11 +1,16 @@
-import React, { forwardRef, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { forwardRef } from 'react';
 import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 import Spinner from '@rsuite/icons/legacy/Spinner';
 import DropdownMenuCheckItem from '../Picker/DropdownMenuCheckItem';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { getTreeNodeIndent } from '../utils/treeUtils';
-import { useClassNames, CHECK_STATE, CheckStateType, reactToString } from '../utils';
+import {
+  useClassNames,
+  useEventCallback,
+  CHECK_STATE,
+  CheckStateType,
+  reactToString
+} from '../utils';
 
 export interface CheckTreeNodeProps extends WithAsProps {
   rtl?: boolean;
@@ -27,8 +32,8 @@ export interface CheckTreeNodeProps extends WithAsProps {
   allUncheckable?: boolean;
   onExpand?: (nodeData: any) => void;
   onSelect?: (nodeData: any, event: React.SyntheticEvent) => void;
-  onRenderTreeIcon?: (nodeData: any, expandIcon?: React.ReactNode) => React.ReactNode;
-  onRenderTreeNode?: (nodeData: any) => React.ReactNode;
+  renderTreeIcon?: (nodeData: any, expandIcon?: React.ReactNode) => React.ReactNode;
+  renderTreeNode?: (nodeData: any) => React.ReactNode;
 }
 
 const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwardRef<
@@ -54,10 +59,11 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
       label,
       uncheckable,
       checkState,
+      value,
       onExpand,
       onSelect,
-      onRenderTreeIcon,
-      onRenderTreeNode,
+      renderTreeIcon,
+      renderTreeNode,
       ...rest
     },
     ref
@@ -73,38 +79,32 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
       }
     };
 
-    const handleExpand = useCallback(
-      (event: React.SyntheticEvent) => {
-        // stop propagation when using custom loading icon
-        event?.nativeEvent?.stopImmediatePropagation?.();
-        onExpand?.(nodeData);
-      },
-      [nodeData, onExpand]
-    );
+    const handleExpand = useEventCallback((event: React.SyntheticEvent) => {
+      // stop propagation when using custom loading icon
+      event?.nativeEvent?.stopImmediatePropagation?.();
+      onExpand?.(nodeData);
+    });
 
-    const handleSelect = useCallback(
-      (_value: any, event: React.SyntheticEvent) => {
-        if (disabled || uncheckable) {
-          return;
-        }
+    const handleSelect = useEventCallback((_value: any, event: React.SyntheticEvent) => {
+      if (disabled || uncheckable) {
+        return;
+      }
 
-        let isChecked = false;
-        if (checkState === CHECK_STATE.UNCHECK || checkState === CHECK_STATE.INDETERMINATE) {
-          isChecked = true;
-        }
+      let isChecked = false;
+      if (checkState === CHECK_STATE.UNCHECK || checkState === CHECK_STATE.INDETERMINATE) {
+        isChecked = true;
+      }
 
-        if (checkState === CHECK_STATE.CHECK) {
-          isChecked = false;
-        }
+      if (checkState === CHECK_STATE.CHECK) {
+        isChecked = false;
+      }
 
-        const nextNodeData = {
-          ...nodeData,
-          check: isChecked
-        };
-        onSelect?.(nextNodeData, event);
-      },
-      [disabled, checkState, uncheckable, nodeData, onSelect]
-    );
+      const nextNodeData = {
+        ...nodeData,
+        check: isChecked
+      };
+      onSelect?.(nextNodeData, event);
+    });
 
     const renderIcon = () => {
       const expandIconClasses = prefix('expand-icon', 'icon', {
@@ -121,8 +121,8 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
         );
       }
 
-      if (typeof onRenderTreeIcon === 'function') {
-        const customIcon = onRenderTreeIcon(nodeData);
+      if (typeof renderTreeIcon === 'function') {
+        const customIcon = renderTreeIcon(nodeData);
         expandIcon =
           customIcon !== null ? (
             <div className={prefix('custom-icon')}>{customIcon}</div>
@@ -143,28 +143,6 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
       ) : null;
     };
 
-    const renderLabel = () => {
-      return (
-        <DropdownMenuCheckItem
-          as="div"
-          active={checkState === CHECK_STATE.CHECK}
-          indeterminate={checkState === CHECK_STATE.INDETERMINATE}
-          focus={focus}
-          checkable={!uncheckable}
-          disabled={disabled}
-          data-layer={layer}
-          value={nodeData.refKey}
-          className={prefix('label')}
-          title={getTitle()}
-          onSelect={handleSelect}
-        >
-          <span className={prefix('text-wrapper')}>
-            {typeof onRenderTreeNode === 'function' ? onRenderTreeNode(nodeData) : label}
-          </span>
-        </DropdownMenuCheckItem>
-      );
-    };
-
     const classes = merge(
       className,
       withClassPrefix({
@@ -176,51 +154,37 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     );
 
     const styles = { ...style, ...getTreeNodeIndent(rtl, layer - 1) };
-
     return visible ? (
-      <Component
-        role="treeitem"
-        aria-label={label}
-        aria-expanded={expand}
-        aria-selected={checkState === CHECK_STATE.CHECK}
-        aria-disabled={disabled}
-        aria-level={layer}
-        {...rest}
-        style={styles}
-        className={classes}
-        ref={ref}
-      >
+      <Component {...rest} style={styles} className={classes} ref={ref}>
         {renderIcon()}
-        {renderLabel()}
+        <DropdownMenuCheckItem
+          as="div"
+          role="treeitem"
+          aria-label={label}
+          aria-expanded={expand}
+          aria-selected={checkState === CHECK_STATE.CHECK}
+          aria-disabled={disabled}
+          aria-level={layer}
+          active={checkState === CHECK_STATE.CHECK}
+          indeterminate={checkState === CHECK_STATE.INDETERMINATE}
+          focus={focus}
+          checkable={!uncheckable}
+          disabled={disabled}
+          data-layer={layer}
+          value={nodeData.refKey || value}
+          className={prefix('label')}
+          title={getTitle()}
+          onSelect={handleSelect}
+        >
+          <span className={prefix('text-wrapper')}>
+            {typeof renderTreeNode === 'function' ? renderTreeNode(nodeData) : label}
+          </span>
+        </DropdownMenuCheckItem>
       </Component>
     ) : null;
   }
 );
 
 CheckTreeNode.displayName = 'CheckTreeNode';
-CheckTreeNode.propTypes = {
-  as: PropTypes.elementType,
-  rtl: PropTypes.bool,
-  classPrefix: PropTypes.string,
-  visible: PropTypes.bool,
-  style: PropTypes.object,
-  label: PropTypes.any,
-  layer: PropTypes.number,
-  loading: PropTypes.bool,
-  value: PropTypes.any,
-  focus: PropTypes.bool,
-  expand: PropTypes.bool,
-  nodeData: PropTypes.object,
-  disabled: PropTypes.bool,
-  className: PropTypes.string,
-  checkState: PropTypes.oneOf([CHECK_STATE.UNCHECK, CHECK_STATE.CHECK, CHECK_STATE.INDETERMINATE]),
-  hasChildren: PropTypes.bool,
-  uncheckable: PropTypes.bool,
-  allUncheckable: PropTypes.bool,
-  onExpand: PropTypes.func,
-  onSelect: PropTypes.func,
-  onRenderTreeIcon: PropTypes.func,
-  onRenderTreeNode: PropTypes.func
-};
 
 export default CheckTreeNode;

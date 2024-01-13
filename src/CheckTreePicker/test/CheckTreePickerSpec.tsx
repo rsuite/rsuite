@@ -266,9 +266,10 @@ describe('CheckTreePicker', () => {
     render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
     fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.DOWN });
 
-    expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.class(
-      'rs-check-tree-node-focus'
-    );
+    const treeitem = screen.getByRole('treeitem', { name: 'Master' });
+
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(treeitem.parentNode).to.have.class('rs-check-tree-node-focus');
   });
 
   it('Should focus item by key=ArrowUp ', async () => {
@@ -277,9 +278,10 @@ describe('CheckTreePicker', () => {
     fireEvent.click(screen.getByLabelText('tester1', { selector: 'input' }));
     fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.UP });
 
-    expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class(
-      'rs-check-tree-node-focus'
-    );
+    const treeitem = screen.getByRole('treeitem', { name: 'tester0' });
+
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(treeitem.parentNode).to.have.class('rs-check-tree-node-focus');
   });
 
   /**
@@ -297,36 +299,37 @@ describe('CheckTreePicker', () => {
   /**
    * When focus is on a root node that is also either an end node or a closed node, does nothing.
    */
+
   it('Should change nothing when trigger on root node by key=ArrowLeft', () => {
     render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
     fireEvent.click(screen.getByLabelText('Master', { selector: 'input' }));
     fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
 
-    expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.class(
-      'rs-check-tree-node-focus'
-    );
-    expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.attr('aria-expanded', 'false');
+    const treeitem = screen.getByRole('treeitem', { name: 'Master' });
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(treeitem.parentNode).to.have.class('rs-check-tree-node-focus');
+    expect(treeitem).to.have.attr('aria-expanded', 'false');
   });
 
   /**
    * When focus is on a child node that is also either an end node or a closed node, moves focus to its parent node.
    */
+
   it('Should focus on parentNode when trigger on leaf node by key=ArrowLeft', () => {
     render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
     fireEvent.click(screen.getByLabelText('tester0', { selector: 'input' }));
     fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.LEFT });
 
-    expect(screen.getByRole('treeitem', { name: 'Master' })).to.have.class(
-      'rs-check-tree-node-focus'
-    );
+    const treeitem = screen.getByRole('treeitem', { name: 'Master' });
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(treeitem.parentNode).to.have.class('rs-check-tree-node-focus');
   });
 
   /**
    * When focus is on a closed node, opens the node; focus does not move.
    */
-
   it('Should fold children node by key=ArrowRight', () => {
     render(<CheckTreePicker defaultOpen data={data} />);
 
@@ -339,29 +342,32 @@ describe('CheckTreePicker', () => {
   /**
    * When focus is on an end node, does nothing.
    */
+
   it('Should change nothing when trigger on leaf node key=ArrowRight', () => {
     render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
     fireEvent.click(screen.getByLabelText('tester0', { selector: 'input' }));
     fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
 
-    expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class(
-      'rs-check-tree-node-focus'
-    );
+    const treeitem = screen.getByRole('treeitem', { name: 'tester0' });
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(treeitem.parentNode).to.have.class('rs-check-tree-node-focus');
+    expect(treeitem).to.have.attr('aria-expanded', 'false');
   });
 
   /**
    * When focus is on a open node, moves focus to the first child node.
    */
+
   it('Should focus on first child node when node expanded by keyCode=39', () => {
     render(<CheckTreePicker defaultOpen data={data} defaultExpandAll />);
 
     fireEvent.click(screen.getByLabelText('Master', { selector: 'input' }));
     fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.RIGHT });
 
-    expect(screen.getByRole('treeitem', { name: 'tester0' })).to.have.class(
-      'rs-check-tree-node-focus'
-    );
+    const treeitem = screen.getByRole('treeitem', { name: 'tester0' });
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(treeitem.parentNode).to.have.class('rs-check-tree-node-focus');
   });
 
   it('Should load data async', () => {

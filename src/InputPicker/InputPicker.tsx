@@ -629,7 +629,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       const menu = items.length ? (
         <DropdownMenu
-          id={id ? `${id}-listbox` : undefined}
           listProps={listProps}
           listRef={list}
           disabledItemValues={disabledItemValues}
@@ -727,6 +726,8 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     return (
       <PickerToggleTrigger
+        id={id}
+        multiSelectable={multi}
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={triggerRef}
         trigger="active"
@@ -746,7 +747,6 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         >
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-            id={id}
             appearance={appearance}
             readOnly={readOnly}
             plaintext={plaintext}

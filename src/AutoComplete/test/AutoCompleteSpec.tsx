@@ -14,16 +14,29 @@ const data = ['item1', 'item2'];
 describe('AutoComplete', () => {
   testStandardProps(<AutoComplete data={data} />, {
     sizes: ['lg', 'md', 'sm', 'xs'],
-    getUIElement: () => screen.getByRole('textbox')
+    getUIElement: () => screen.getByRole('combobox')
   });
 
-  testControlledUnControlled(AutoComplete);
-  testFormControl(AutoComplete);
+  testControlledUnControlled(AutoComplete, {
+    simulateEvent: {
+      changeValue: () => {
+        const input = screen.getByRole('combobox');
+        fireEvent.change(input, { target: { value: 'a' } });
+        return { changedValue: 'a' };
+      }
+    },
+    expectedValue: (value: string) => {
+      expect(screen.getByRole('combobox')).to.have.value(value);
+    }
+  });
+  testFormControl(AutoComplete, {
+    getUIElement: () => screen.getByRole('combobox')
+  });
 
   it('Should render input', () => {
     render(<AutoComplete data={data} />);
 
-    expect(screen.getByRole('textbox')).to.exist;
+    expect(screen.getByRole('combobox')).to.exist;
   });
 
   it('Should render 2 `option` when set `open` and `defaultValue`', () => {
@@ -49,7 +62,7 @@ describe('AutoComplete', () => {
     const onChangeSpy = sinon.spy();
 
     render(<AutoComplete data={data} onChange={onChangeSpy} />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('combobox');
 
     fireEvent.change(input, { target: { value: 'a' } });
     expect(onChangeSpy).to.have.been.calledOnce;
@@ -59,7 +72,7 @@ describe('AutoComplete', () => {
   it('Should call onFocus callback', () => {
     const onFocusSpy = sinon.spy();
     render(<AutoComplete data={data} onFocus={onFocusSpy} />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('combobox');
     fireEvent.focus(input);
     expect(onFocusSpy).to.have.been.calledOnce;
   });
@@ -68,7 +81,7 @@ describe('AutoComplete', () => {
     const onBlurSpy = sinon.spy();
 
     render(<AutoComplete data={data} onBlur={onBlurSpy} />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('combobox');
     fireEvent.blur(input);
     expect(onBlurSpy).to.have.been.calledOnce;
   });
@@ -77,7 +90,7 @@ describe('AutoComplete', () => {
     const onKeyDownSpy = sinon.spy();
 
     render(<AutoComplete onKeyDown={onKeyDownSpy} data={['a', 'b', 'ab']} open />);
-    const input = screen.getByRole('textbox');
+    const input = screen.getByRole('combobox');
     fireEvent.keyDown(input);
     expect(onKeyDownSpy).to.have.been.calledOnce;
   });
@@ -241,7 +254,7 @@ describe('AutoComplete', () => {
 
   it('Should be autoComplete', () => {
     render(<AutoComplete data={data} autoComplete="on" style={{ width: 100 }} />);
-    expect(screen.getByRole('textbox')).to.have.attribute('autocomplete', 'on');
+    expect(screen.getByRole('combobox')).to.have.attribute('autocomplete', 'on');
   });
 
   it('Should not throw an error', () => {

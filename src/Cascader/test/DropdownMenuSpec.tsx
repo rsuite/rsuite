@@ -5,31 +5,9 @@ import { getInstance } from '@test/utils';
 import DropdownMenu from '../DropdownMenu';
 import Dropdown from '../Cascader';
 import { testStandardProps } from '@test/utils';
+import { mockTreeData } from '@test/mocks/treedata-mock';
 
-const items = [
-  {
-    value: 'abc',
-    label: 'abc'
-  },
-  {
-    value: 'abcd',
-    label: 'abcd'
-  },
-  {
-    value: 'abcde',
-    label: 'abcde',
-    children: [
-      {
-        value: 'vv-abc',
-        label: 'vv-abc'
-      },
-      {
-        value: 'vv-abcd',
-        label: 'vv-abcd'
-      }
-    ]
-  }
-];
+const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 
 describe('Cascader -  DropdownMenu', () => {
   testStandardProps(
@@ -75,29 +53,11 @@ describe('Cascader -  DropdownMenu', () => {
   });
 
   it('Should output 3 `menu-item` ', () => {
-    const data = [
-      {
-        myValue: 'abc',
-        myLabel: 'abc'
-      },
-      {
-        myValue: 'abcd',
-        myLabel: 'abcd'
-      },
-      {
-        myLabel: 'vvv',
-        items: [
-          {
-            myValue: 'vv-abc',
-            myLabel: 'vv-abc'
-          },
-          {
-            myValue: 'vv-abcd',
-            myLabel: 'vv-abcd'
-          }
-        ]
-      }
-    ];
+    const data = mockTreeData(['1', '2', ['3', '3-1', '3-2']], {
+      valueKey: 'myValue',
+      labelKey: 'myLabel',
+      childrenKey: 'items'
+    });
 
     render(
       <Dropdown defaultOpen labelKey="myLabel" valueKey="myValue" childrenKey="items" data={data} />
@@ -110,15 +70,15 @@ describe('Cascader -  DropdownMenu', () => {
     const onSelect = sinon.spy();
     render(<Dropdown defaultOpen data={items} onSelect={onSelect} />);
 
-    fireEvent.click(screen.getByRole('treeitem', { name: 'abcd' }));
+    fireEvent.click(screen.getByRole('treeitem', { name: '2' }));
 
-    expect(onSelect).to.have.been.calledWith(sinon.match({ value: 'abcd' }));
+    expect(onSelect).to.have.been.calledWith(sinon.match({ value: '2' }));
   });
 
   it('Should call onSelect callback 2 count', () => {
     const onSelectSpy = sinon.spy();
     const instance = getInstance(
-      <Dropdown defaultOpen data={items} disabledItemValues={['abcd']} onSelect={onSelectSpy} />
+      <Dropdown defaultOpen data={items} disabledItemValues={['2']} onSelect={onSelectSpy} />
     );
 
     // eslint-disable-next-line testing-library/no-node-access
@@ -131,11 +91,9 @@ describe('Cascader -  DropdownMenu', () => {
 
   it('Should not call onSelect callback on disabled item', () => {
     const onSelectSpy = sinon.spy();
-    render(
-      <Dropdown defaultOpen data={items} disabledItemValues={['abcd']} onSelect={onSelectSpy} />
-    );
+    render(<Dropdown defaultOpen data={items} disabledItemValues={['2']} onSelect={onSelectSpy} />);
 
-    fireEvent.click(screen.getByRole('treeitem', { name: 'abcd' }));
+    fireEvent.click(screen.getByRole('treeitem', { name: '2' }));
 
     expect(onSelectSpy).to.not.called;
   });
@@ -151,7 +109,7 @@ describe('Cascader -  DropdownMenu', () => {
 
   it('Should be disabled item ', () => {
     const instance = getInstance(
-      <Dropdown defaultOpen data={items} disabledItemValues={['abcd', 'abcde']} />
+      <Dropdown defaultOpen data={items} disabledItemValues={['2', '3']} />
     );
 
     expect(

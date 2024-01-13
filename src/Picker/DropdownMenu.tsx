@@ -1,5 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef, useState, useEffect } from 'react';
 import isUndefined from 'lodash/isUndefined';
 import isString from 'lodash/isString';
 import isNumber from 'lodash/isNumber';
@@ -8,6 +7,7 @@ import pickBy from 'lodash/pickBy';
 import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
 import getHeight from 'dom-lib/getHeight';
+import get from 'lodash/get';
 import classNames from 'classnames';
 import {
   List,
@@ -18,11 +18,11 @@ import {
   ListChildComponentProps
 } from '../Windowing';
 import shallowEqual from '../utils/shallowEqual';
-import { mergeRefs, useClassNames, useMount } from '../utils';
+import { mergeRefs, useClassNames, useMount, useEventCallback } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
 import { KEY_GROUP, KEY_GROUP_TITLE } from '../utils/getDataGroupBy';
 import { StandardProps, ItemDataType, Offset } from '../@types/common';
-import _ from 'lodash';
+import useCombobox from './useCombobox';
 
 export interface DropdownMenuProps<Multiple = false>
   extends StandardProps,
@@ -97,29 +97,26 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
 
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix('items', { grouped: group }));
+  const { id, labelId, popupType, multiSelectable } = useCombobox();
 
   const menuBodyContainerRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<ListHandle>(null);
 
   const [foldedGroupKeys, setFoldedGroupKeys] = useState<string[]>([]);
 
-  const handleGroupTitleClick = useCallback(
-    (key: string, event: React.MouseEvent) => {
-      const nextGroupKeys = foldedGroupKeys.filter(item => item !== key);
-      if (nextGroupKeys.length === foldedGroupKeys.length) {
-        nextGroupKeys.push(key);
-      }
-      setFoldedGroupKeys(nextGroupKeys);
-      onGroupTitleClick?.(event);
-    },
-    [onGroupTitleClick, foldedGroupKeys]
-  );
+  const handleGroupTitleClick = useEventCallback((key: string, event: React.MouseEvent) => {
+    const nextGroupKeys = foldedGroupKeys.filter(item => item !== key);
+    if (nextGroupKeys.length === foldedGroupKeys.length) {
+      nextGroupKeys.push(key);
+    }
+    setFoldedGroupKeys(nextGroupKeys);
+    onGroupTitleClick?.(event);
+  });
 
-  const handleSelect = useCallback(
+  const handleSelect = useEventCallback(
     (item: any, value: any, event: React.MouseEvent, checked?: boolean) => {
       onSelect?.(value, item, event, checked);
-    },
-    [onSelect]
+    }
   );
 
   const getRowHeight = (list: any[], index) => {
@@ -232,7 +229,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
         // because `group` is actually redundant as a prop
         // It could simply be derived from `groupBy` value
         const groupValue =
-          _.get(item, groupBy as string, '') ||
+          get(item, groupBy as string, '') ||
           // FIXME-Doma
           // Usage of `item.parent` is strongly discouraged
           // It's only here for legacy support
@@ -251,6 +248,9 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
   return (
     <div
       role="listbox"
+      id={`${id}-${popupType}`}
+      aria-labelledby={labelId}
+      aria-multiselectable={multiSelectable}
       {...rest}
       className={classes}
       ref={mergeRefs(menuBodyContainerRef, ref)}
@@ -279,31 +279,6 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
   );
 });
 
-export const dropdownMenuPropTypes = {
-  classPrefix: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  dropdownMenuItemAs: PropTypes.elementType.isRequired,
-  dropdownMenuItemClassPrefix: PropTypes.string,
-  data: PropTypes.array,
-  group: PropTypes.bool,
-  disabledItemValues: PropTypes.array,
-  activeItemValues: PropTypes.array,
-  focusItemValue: PropTypes.any,
-  maxHeight: PropTypes.number,
-  valueKey: PropTypes.string,
-  labelKey: PropTypes.string,
-  style: PropTypes.object,
-  renderMenuItem: PropTypes.func,
-  renderMenuGroup: PropTypes.func,
-  onSelect: PropTypes.func,
-  onGroupTitleClick: PropTypes.func,
-  virtualized: PropTypes.bool,
-  listProps: PropTypes.any,
-  rowHeight: PropTypes.number,
-  rowGroupHeight: PropTypes.number
-};
-
 DropdownMenu.displayName = 'DropdownMenu';
-DropdownMenu.propTypes = dropdownMenuPropTypes;
 
 export default DropdownMenu;

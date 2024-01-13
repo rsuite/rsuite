@@ -335,7 +335,6 @@ const SelectPicker = React.forwardRef(
 
       const menu = items.length ? (
         <DropdownMenu
-          id={id ? `${id}-listbox` : undefined}
           listProps={listProps}
           listRef={list}
           disabledItemValues={disabledItemValues}
@@ -397,6 +396,7 @@ const SelectPicker = React.forwardRef(
 
     return (
       <PickerToggleTrigger
+        id={id}
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={trigger}
         placement={placement}
@@ -407,7 +407,6 @@ const SelectPicker = React.forwardRef(
         <Component className={classes} style={style} ref={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-            id={id}
             ref={target}
             appearance={appearance}
             onClean={createChainedFunction(handleClean, onClean)}

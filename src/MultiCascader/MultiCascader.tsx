@@ -481,7 +481,6 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
           {searchKeyword === '' && (
             <DropdownMenu
-              id={id ? `${id}-listbox` : undefined}
               cascade={cascade}
               menuWidth={menuWidth}
               menuHeight={menuHeight}
@@ -551,6 +550,9 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
     return (
       <PickerToggleTrigger
+        id={id}
+        popupType="tree"
+        multiSelectable
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={trigger}
         placement={placement}
@@ -562,7 +564,6 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         <Component className={classes} style={style} ref={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-            id={id}
             as={toggleAs}
             appearance={appearance}
             disabled={disabled}

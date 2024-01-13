@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef } from 'react';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
-import { shallowEqual, useClassNames, mergeRefs, useCustom } from '../utils';
-import { DropdownMenuItem } from '../Picker';
+import { shallowEqual, useClassNames, mergeRefs, useCustom, useEventCallback } from '../utils';
+import { DropdownMenuItem, useCombobox } from '../Picker';
 import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { ValueType } from './Cascader';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
@@ -61,6 +60,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       cascadePaths = emptyArray,
       loadingItemsSet,
       labelKey = 'label',
+      style,
       renderMenu,
       renderMenuItem,
       onSelect,
@@ -70,6 +70,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
     const classes = merge(className, prefix('items'));
     const rootRef = useRef<HTMLDivElement>();
     const { rtl } = useCustom('DropdownMenu');
+    const { id, labelId, popupType } = useCombobox();
 
     useEffect(() => {
       const columns = rootRef.current?.querySelectorAll('[data-type="column"]') || [];
@@ -91,37 +92,39 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       });
     }, [prefix]);
 
-    const getCascadePaths = useCallback(
-      (layer: number, node: ItemDataType) => {
-        const paths: ItemDataType[] = [];
+    const getCascadePaths = (layer: number, node: ItemDataType) => {
+      const paths: ItemDataType[] = [];
 
-        for (let i = 0; i < cascadeData.length && i < layer; i += 1) {
-          if (i < layer - 1 && cascadePaths) {
-            paths.push(cascadePaths[i]);
-          }
+      for (let i = 0; i < cascadeData.length && i < layer; i += 1) {
+        if (i < layer - 1 && cascadePaths) {
+          paths.push(cascadePaths[i]);
         }
+      }
 
-        paths.push(node);
+      paths.push(node);
 
-        return paths;
-      },
-      [cascadeData, cascadePaths]
-    );
+      return paths;
+    };
 
-    const handleSelect = (layer: number, node: any, event: React.MouseEvent) => {
+    const handleSelect = useEventCallback((layer: number, node: any, event: React.MouseEvent) => {
       const isLeafNode = isNil(node[childrenKey]);
       const cascadePaths = getCascadePaths(layer + 1, node);
 
       onSelect?.(node, cascadePaths, isLeafNode, event);
-    };
+    });
 
-    const renderCascadeNode = (node: any, index: number, layer: number, focus: boolean) => {
+    const renderCascadeNode = (nodeProps: {
+      node: any;
+      index: number;
+      layer: number;
+      focus: boolean;
+      size: number;
+    }) => {
+      const { node, index, layer, focus, size } = nodeProps;
       const children = node[childrenKey];
       const value = node[valueKey];
       const label = node[labelKey];
-
       const disabled = disabledItemValues.some(disabledValue => shallowEqual(disabledValue, value));
-
       const loading = loadingItemsSet?.has(node) ?? false;
 
       // Use `value` in keys when If `value` is string or number
@@ -130,15 +133,18 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
       return (
         <DropdownMenuItem
-          classPrefix="picker-cascader-menu-item"
           as={'li'}
           role="treeitem"
+          aria-level={layer + 1}
+          aria-setsize={size}
+          aria-posinset={index + 1}
+          aria-label={typeof label === 'string' ? label : undefined}
+          classPrefix="picker-cascader-menu-item"
           key={`${layer}-${onlyKey}`}
           disabled={disabled}
           active={!isUndefined(activeItemValue) && shallowEqual(activeItemValue, value)}
           focus={focus}
           value={value}
-          aria-owns={node.children ? 'treeitem-' + value + '-children' : undefined}
           className={children ? prefix('has-children') : undefined}
           onSelect={(_value, event) => handleSelect(layer, node, event)}
         >
@@ -148,68 +154,52 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       );
     };
 
-    const styles = { width: cascadeData.length * menuWidth };
-
     const cascadeNodes = cascadeData.map((children, layer) => {
       const onlyKey = `${layer}_${children.length}`;
-
       const parentNode = cascadePaths[layer - 1];
-
       const menu = (
-        <ul
-          role={layer === 0 ? 'none presentation' : 'group'}
-          id={parentNode ? 'treeitem-' + parentNode[valueKey] + '-children' : undefined}
-        >
-          {children.map((item, index) =>
-            renderCascadeNode(
-              item,
-              index,
-              layer,
-              cascadePaths[layer] && shallowEqual(cascadePaths[layer][valueKey], item[valueKey])
-            )
-          )}
-        </ul>
+        <>
+          {children.map((item, index) => {
+            const focus =
+              cascadePaths[layer] && shallowEqual(cascadePaths[layer][valueKey], item[valueKey]);
+
+            return renderCascadeNode({ node: item, index, layer, focus, size: children.length });
+          })}
+        </>
       );
 
       return (
-        <div
-          key={onlyKey}
-          className={prefix('column')}
+        <ul
+          role="group"
           data-layer={layer}
           data-type={'column'}
+          key={onlyKey}
+          className={prefix('column')}
           style={{ height: menuHeight, width: menuWidth }}
         >
           {renderMenu ? renderMenu(children, menu, parentNode, layer) : menu}
-        </div>
+        </ul>
       );
     });
 
+    const styles = { ...style, width: cascadeData.length * menuWidth };
+
     return (
-      <Component role="tree" {...rest} ref={mergeRefs(rootRef, ref)} className={classes}>
-        <div style={styles}>{cascadeNodes}</div>
+      <Component
+        role="tree"
+        id={`${id}-${popupType}`}
+        aria-labelledby={labelId}
+        {...rest}
+        ref={mergeRefs(rootRef, ref)}
+        className={classes}
+        style={styles}
+      >
+        {cascadeNodes}
       </Component>
     );
   }
 );
 
-export const dropdownMenuPropTypes = {
-  classPrefix: PropTypes.string,
-  disabledItemValues: PropTypes.array,
-  activeItemValue: PropTypes.any,
-  childrenKey: PropTypes.string,
-  valueKey: PropTypes.string,
-  labelKey: PropTypes.string,
-  menuWidth: PropTypes.number,
-  menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  className: PropTypes.string,
-  renderMenuItem: PropTypes.func,
-  renderMenu: PropTypes.func,
-  onSelect: PropTypes.func,
-  cascadeData: PropTypes.array,
-  cascadePaths: PropTypes.array
-};
-
 DropdownMenu.displayName = 'DropdownMenu';
-DropdownMenu.propTypes = dropdownMenuPropTypes;
 
 export default DropdownMenu;

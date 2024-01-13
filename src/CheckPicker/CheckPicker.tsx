@@ -321,7 +321,6 @@ const CheckPicker = React.forwardRef(
       const menu =
         items.length || filteredStickyItems.length ? (
           <DropdownMenu<true>
-            id={id ? `${id}-listbox` : undefined}
             listProps={listProps}
             listRef={list}
             disabledItemValues={disabledItemValues}
@@ -381,6 +380,8 @@ const CheckPicker = React.forwardRef(
 
     return (
       <PickerToggleTrigger
+        id={id}
+        multiSelectable
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={trigger}
         placement={placement}
@@ -392,7 +393,6 @@ const CheckPicker = React.forwardRef(
         <Component className={classes} style={style} ref={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-            id={id}
             ref={target}
             appearance={appearance}
             disabled={disabled}

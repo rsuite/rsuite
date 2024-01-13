@@ -13,31 +13,9 @@ import {
 import { PickerHandle } from '../../Picker';
 import '../styles/index.less';
 import userEvent from '@testing-library/user-event';
+import { mockTreeData } from '@test/mocks/treedata-mock';
 
-const items = [
-  {
-    value: '1',
-    label: '1'
-  },
-  {
-    value: '2',
-    label: '2'
-  },
-  {
-    value: '3',
-    label: '3',
-    children: [
-      {
-        value: '3-1',
-        label: '3-1'
-      },
-      {
-        value: '3-2',
-        label: '3-2'
-      }
-    ]
-  }
-];
+const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 
 describe('Cascader', () => {
   testStandardProps(<Cascader data={[]} />, {
@@ -378,30 +356,9 @@ describe('Cascader', () => {
   it('Should show search items with childrenKey', () => {
     const itemsWithChildrenKey = {
       childrenKey: 'sub',
-      data: [
-        {
-          value: 't',
-          label: 't'
-        },
-        {
-          value: 'h',
-          label: 'h'
-        },
-        {
-          value: 'g',
-          label: 'g',
-          sub: [
-            {
-              value: 'g-m',
-              label: 'g-m'
-            },
-            {
-              value: 'g-b',
-              label: 'g-b'
-            }
-          ]
-        }
-      ]
+      data: mockTreeData(['t', 'h', ['g', 'g-m', 'g-b']], {
+        childrenKey: 'sub'
+      })
     };
 
     const cascaderRef = React.createRef<PickerHandle>();
@@ -430,30 +387,7 @@ describe('Cascader', () => {
   });
 
   it('Should show search items with parentSelectable', () => {
-    const items = [
-      {
-        value: 't',
-        label: 't'
-      },
-      {
-        value: 'h',
-        label: 'h'
-      },
-      {
-        value: 'g',
-        label: 'g',
-        children: [
-          {
-            value: 'g-m',
-            label: 'g-m'
-          },
-          {
-            value: 'g-b',
-            label: 'g-b'
-          }
-        ]
-      }
-    ];
+    const items = mockTreeData(['t', 'h', ['g', 'g-m', 'g-b']]);
 
     const cascaderRef = React.createRef<PickerHandle>();
 
@@ -471,18 +405,8 @@ describe('Cascader', () => {
   });
 
   it('Should show search items rendered by renderSearchItem', () => {
-    const items = [
-      {
-        label: 'parent',
-        value: 'parent',
-        children: [
-          {
-            label: 'test',
-            value: 'test'
-          }
-        ]
-      }
-    ];
+    const items = mockTreeData([['parent', 'test']]);
+
     const cascaderRef = React.createRef<PickerHandle>();
     let searchItems: unknown | null = null;
 

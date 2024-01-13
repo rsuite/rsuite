@@ -1,11 +1,9 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
-
-import { useClassNames, shallowEqual, useCustom } from '../utils';
-import { DropdownMenuCheckItem } from '../Picker';
+import { useClassNames, shallowEqual, useCustom, useEventCallback } from '../utils';
+import { DropdownMenuCheckItem, useCombobox } from '../Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
 import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { ValueType } from './MultiCascader';
@@ -59,6 +57,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       value,
       valueKey = 'value',
       labelKey = 'label',
+      style,
       renderMenuItem,
       renderMenu,
       onCheck,
@@ -69,43 +68,42 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('items'));
     const { rtl } = useCustom('DropdownMenu');
+    const { id, labelId, popupType, multiSelectable } = useCombobox();
 
-    const getCascadePaths = useCallback(
-      (layer: number, node: ItemDataType) => {
-        const paths: ItemDataType[] = [];
+    const getCascadePaths = (layer: number, node: ItemDataType) => {
+      const paths: ItemDataType[] = [];
 
-        for (let i = 0; i < cascadeData.length && i < layer; i += 1) {
-          if (i < layer - 1 && cascadePaths) {
-            paths.push(cascadePaths[i]);
-          }
+      for (let i = 0; i < cascadeData.length && i < layer; i += 1) {
+        if (i < layer - 1 && cascadePaths) {
+          paths.push(cascadePaths[i]);
         }
+      }
 
-        paths.push(node);
+      paths.push(node);
 
-        return paths;
-      },
-      [cascadeData, cascadePaths]
-    );
+      return paths;
+    };
 
-    const handleSelect = useCallback(
+    const handleSelect = useEventCallback(
       (layer: number, node: any, event: React.SyntheticEvent) => {
         const cascadePaths = getCascadePaths(layer + 1, node);
 
         onSelect?.(node, cascadePaths, event);
-      },
-      [getCascadePaths, onSelect]
+      }
     );
 
-    const renderCascadeNode = (
-      node: any,
-      index: number,
-      layer: number,
-      focus: boolean,
-      uncheckable: boolean
-    ) => {
+    const renderCascadeNode = (nodeProps: {
+      node: any;
+      index: number;
+      layer: number;
+      focus: boolean;
+      uncheckable: boolean;
+      size: number;
+    }) => {
+      const { node, index, layer, focus, uncheckable, size } = nodeProps;
       const children = node[childrenKey];
       const nodeValue = node[valueKey];
-      const nodeLabel = node[labelKey];
+      const label = node[labelKey];
 
       const disabled = disabledItemValues.some(disabledValue =>
         shallowEqual(disabledValue, nodeValue)
@@ -123,6 +121,11 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       return (
         <DropdownMenuCheckItem
           as="li"
+          role="treeitem"
+          aria-level={layer + 1}
+          aria-setsize={size}
+          aria-posinset={index + 1}
+          aria-label={typeof label === 'string' ? label : undefined}
           key={`${layer}-${onlyKey}`}
           disabled={disabled}
           active={active}
@@ -137,82 +140,77 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
           onCheck={(_value, event, checked) => onCheck?.(node, event, checked)}
           checkable={!uncheckable}
         >
-          {renderMenuItem ? renderMenuItem(nodeLabel, node) : nodeLabel}
+          {renderMenuItem ? renderMenuItem(label, node) : label}
           {children ? <Icon className={prefix('caret')} spin={node.loading} /> : null}
         </DropdownMenuCheckItem>
       );
     };
 
-    const renderCascade = () => {
-      const styles = { width: cascadeData.length * menuWidth };
-      const columnStyles = { height: menuHeight, width: menuWidth };
+    const columnStyles = { height: menuHeight, width: menuWidth };
+    const cascadeNodes = cascadeData.map((children, layer) => {
+      let uncheckableCount = 0;
+      const onlyKey = `${layer}_${children.length}`;
+      const menu = (
+        <>
+          {children.map((item, index) => {
+            const uncheckable = uncheckableItemValues.some(uncheckableValue =>
+              shallowEqual(uncheckableValue, item[valueKey])
+            );
+            if (uncheckable) {
+              uncheckableCount++;
+            }
 
-      const cascadeNodes = cascadeData.map((children, layer) => {
-        let uncheckableCount = 0;
-        const onlyKey = `${layer}_${children.length}`;
-        const menu = (
-          <ul role="listbox">
-            {children.map((item, index) => {
-              const uncheckable = uncheckableItemValues.some(uncheckableValue =>
-                shallowEqual(uncheckableValue, item[valueKey])
-              );
-              if (uncheckable) {
-                uncheckableCount++;
-              }
-              return renderCascadeNode(
-                item,
-                index,
-                layer,
-                cascadePaths[layer] && shallowEqual(cascadePaths[layer][valueKey], item[valueKey]),
-                uncheckable
-              );
-            })}
-          </ul>
-        );
+            const focus =
+              cascadePaths[layer] && shallowEqual(cascadePaths[layer][valueKey], item[valueKey]);
+            return renderCascadeNode({
+              node: item,
+              index,
+              layer,
+              focus,
+              uncheckable,
+              size: children.length
+            });
+          })}
+        </>
+      );
 
-        const parentNode = cascadePaths[layer - 1];
-        const columnClasses = prefix('column', {
-          'column-uncheckable': uncheckableCount === children.length
-        });
-
-        return (
-          <div key={onlyKey} className={columnClasses} data-layer={layer} style={columnStyles}>
-            {renderMenu ? renderMenu(children, menu, parentNode, layer) : menu}
-          </div>
-        );
+      const parentNode = cascadePaths[layer - 1];
+      const columnClasses = prefix('column', {
+        'column-uncheckable': uncheckableCount === children.length
       });
-      return <div style={styles}>{cascadeNodes}</div>;
-    };
+
+      return (
+        <ul
+          role="group"
+          key={onlyKey}
+          className={columnClasses}
+          data-layer={layer}
+          style={columnStyles}
+        >
+          {renderMenu ? renderMenu(children, menu, parentNode, layer) : menu}
+        </ul>
+      );
+    });
+
+    const styles = { ...style, width: cascadeData.length * menuWidth };
 
     return (
-      <Component {...rest} ref={ref} className={classes}>
-        {renderCascade()}
+      <Component
+        role="tree"
+        id={`${id}-${popupType}`}
+        aria-labelledby={labelId}
+        aria-multiselectable={multiSelectable}
+        {...rest}
+        ref={ref}
+        className={classes}
+        style={styles}
+      >
+        {cascadeNodes}
       </Component>
     );
   }
 );
 
 DropdownMenu.displayName = 'DropdownMenu';
-
-DropdownMenu.propTypes = {
-  classPrefix: PropTypes.string,
-  data: PropTypes.array,
-  disabledItemValues: PropTypes.array,
-  value: PropTypes.array,
-  childrenKey: PropTypes.string,
-  valueKey: PropTypes.string,
-  labelKey: PropTypes.string,
-  menuWidth: PropTypes.number,
-  menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  className: PropTypes.string,
-  cascade: PropTypes.bool,
-  cascadeData: PropTypes.array,
-  cascadePaths: PropTypes.array,
-  uncheckableItemValues: PropTypes.array,
-  renderMenuItem: PropTypes.func,
-  renderMenu: PropTypes.func,
-  onSelect: PropTypes.func,
-  onCheck: PropTypes.func
-};
 
 export default DropdownMenu;

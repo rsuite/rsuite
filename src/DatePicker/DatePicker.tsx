@@ -281,7 +281,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       ...restProps
     } = props;
 
-    const id = useUniqueId(`${classPrefix}-`, idProp);
+    const id = useUniqueId('rs-', idProp);
     const { trigger, root, target, overlay } = usePickerRef(ref);
     const { locale, formatDate } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
     const { merge, prefix } = useClassNames(classPrefix);

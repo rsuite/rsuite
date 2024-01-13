@@ -1,11 +1,11 @@
-import React, { HTMLAttributes, useCallback, useMemo } from 'react';
+import React, { HTMLAttributes, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import MonthDropdown from './MonthDropdown';
 import TimeDropdown from './TimeDropdown';
 import CalendarBody from './CalendarBody';
 import CalendarHeader, { CalendarHeaderProps } from './CalendarHeader';
-import { useClassNames } from '../utils';
+import { useClassNames, useEventCallback } from '../utils';
 import {
   disabledTime,
   addMonths,
@@ -162,21 +162,18 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       return isValid(calendarDateProp) ? calendarDateProp : new Date();
     }, [calendarDateProp]);
 
-    const isDisabledDate = useCallback(
-      (date: Date) => disabledDate?.(date) ?? false,
-      [disabledDate]
-    );
+    const isDisabledDate = useEventCallback((date: Date) => disabledDate?.(date) ?? false);
     const isTimeDisabled = (date: Date) => disabledTime(props, date);
-    const handleMoveForward = useCallback(() => {
+    const handleMoveForward = useEventCallback(() => {
       onMoveForward?.(addMonths(calendarDate, 1));
-    }, [onMoveForward, calendarDate]);
+    });
 
-    const handleMoveBackward = useCallback(() => {
+    const handleMoveBackward = useEventCallback(() => {
       onMoveBackward?.(addMonths(calendarDate, -1));
-    }, [onMoveBackward, calendarDate]);
+    });
 
     // It is displayed as the month to be selected.
-    const toggleMonthView = useCallback(() => {
+    const toggleMonthView = useEventCallback(() => {
       if (calendarState === CalendarState.MONTH) {
         reset();
       } else {
@@ -184,10 +181,10 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       }
 
       onToggleMonthDropdown?.(calendarState !== CalendarState.MONTH);
-    }, [calendarState, onToggleMonthDropdown, openMonth, reset]);
+    });
 
     // It is displayed as a time to be selected.
-    const toggleTimeView = useCallback(() => {
+    const toggleTimeView = useEventCallback(() => {
       if (calendarState === CalendarState.TIME) {
         reset();
       } else {
@@ -195,9 +192,9 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       }
 
       onToggleTimeDropdown?.(calendarState !== CalendarState.TIME);
-    }, [calendarState, onToggleTimeDropdown, openTime, reset]);
+    });
 
-    const handleCloseDropdown = useCallback(() => reset(), [reset]);
+    const handleCloseDropdown = useEventCallback(() => reset());
 
     const renderDate = shouldRenderDate(format);
     const renderTime = shouldRenderTime(format);
@@ -208,10 +205,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
     const showTime = calendarState === CalendarState.TIME || onlyShowTime;
     const showMonth = calendarState === CalendarState.MONTH || onlyShowMonth;
 
-    const inSameThisMonthDate = useCallback(
-      (date: Date) => isSameMonth(calendarDate, date),
-      [calendarDate]
-    );
+    const inSameThisMonthDate = useEventCallback((date: Date) => isSameMonth(calendarDate, date));
 
     const calendarClasses = merge(
       className,
@@ -223,54 +217,31 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
     );
     const timeDropdownProps = pick(rest, calendarOnlyProps);
 
-    const handleChangeMonth = useCallback(
-      (date: Date, event: React.MouseEvent) => {
-        reset();
-        onChangeMonth?.(date, event);
-      },
-      [onChangeMonth, reset]
-    );
+    const handleChangeMonth = useEventCallback((date: Date, event: React.MouseEvent) => {
+      reset();
+      onChangeMonth?.(date, event);
+    });
 
-    const contextValue = useMemo(
-      () => ({
-        date: calendarDate,
-        dateRange,
-        disabledDate: isDisabledDate,
-        format,
-        hoverRangeValue,
-        inSameMonth: inSameThisMonthDate,
-        isoWeek,
-        targetId,
-        locale,
-        onChangeMonth: handleChangeMonth,
-        onChangeTime,
-        onMouseMove,
-        onSelect,
-        cellClassName,
-        renderCell,
-        showWeekNumbers,
-        inline
-      }),
-      [
-        calendarDate,
-        dateRange,
-        format,
-        handleChangeMonth,
-        hoverRangeValue,
-        inSameThisMonthDate,
-        inline,
-        isDisabledDate,
-        isoWeek,
-        targetId,
-        locale,
-        onChangeTime,
-        onMouseMove,
-        onSelect,
-        cellClassName,
-        renderCell,
-        showWeekNumbers
-      ]
-    );
+    const contextValue = {
+      date: calendarDate,
+      dateRange,
+      disabledDate: isDisabledDate,
+      format,
+      hoverRangeValue,
+      inSameMonth: inSameThisMonthDate,
+      isoWeek,
+      targetId,
+      locale,
+      onChangeMonth: handleChangeMonth,
+      onChangeTime,
+      onMouseMove,
+      onSelect,
+      cellClassName,
+      renderCell,
+      showWeekNumbers,
+      inline
+    };
+
     return (
       <CalendarProvider value={contextValue}>
         <Component

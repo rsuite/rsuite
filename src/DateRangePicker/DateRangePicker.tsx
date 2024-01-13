@@ -240,7 +240,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     ...restProps
   } = props;
 
-  const id = useUniqueId(`${classPrefix}-`, idProp);
+  const id = useUniqueId('rs-', idProp);
   const { trigger, root, target, overlay } = usePickerRef(ref);
   const { merge, prefix } = useClassNames(classPrefix);
   const { locale, formatDate } = useCustom<DateRangePickerLocale>(

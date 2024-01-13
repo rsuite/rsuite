@@ -530,7 +530,6 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         {renderSearchResultPanel()}
         {searchKeyword === '' && (
           <DropdownMenu
-            id={id ? `${id}-listbox` : undefined}
             menuWidth={menuWidth}
             menuHeight={menuHeight}
             disabledItemValues={disabledItemValues}
@@ -596,6 +595,8 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
   return (
     <PickerToggleTrigger
+      id={id}
+      popupType="tree"
       pickerProps={pick(props, pickTriggerPropKeys)}
       ref={trigger}
       placement={placement}
@@ -606,7 +607,6 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
       <Component className={classes} style={style} ref={root}>
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-          id={id}
           ref={target}
           as={toggleAs}
           appearance={appearance}
