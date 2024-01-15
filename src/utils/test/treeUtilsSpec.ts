@@ -9,7 +9,7 @@ import {
   walkTreeDfs,
   walkTreeBfs
 } from '../treeUtils';
-import { mockTreeData } from '@test/mocks/treedata-mock';
+import { mockTreeData } from '@test/mocks/data-mock';
 
 describe('[utils] Tree utils', () => {
   it('Should find the valid node', () => {

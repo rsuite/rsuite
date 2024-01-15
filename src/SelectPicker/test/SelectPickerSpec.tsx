@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import {
   getDOMNode,
@@ -9,29 +10,13 @@ import {
   testFormControl,
   testPickers
 } from '@test/utils';
+import { mockGroupData } from '@test/mocks/data-mock';
 import SelectPicker from '../SelectPicker';
 import Input from '../../Input';
 import Button from '../../Button';
 import { PickerHandle } from '../../Picker';
-import userEvent from '@testing-library/user-event';
 
-const data = [
-  {
-    label: 'Eugenia',
-    value: 'Eugenia',
-    role: 'Master'
-  },
-  {
-    label: <span>Kariane</span>,
-    value: 'Kariane',
-    role: 'Master'
-  },
-  {
-    label: 'Louisa',
-    value: 'Louisa',
-    role: 'Master'
-  }
-];
+const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('SelectPicker', () => {
   testStandardProps(<SelectPicker data={data} />, {

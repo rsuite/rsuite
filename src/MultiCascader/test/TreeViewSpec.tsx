@@ -1,16 +1,16 @@
 import React from 'react';
 import { testStandardProps } from '@test/utils';
 import sinon from 'sinon';
-import DropdownMenu from '../DropdownMenu';
+import TreeView from '../TreeView';
 import MultiCascader from '../MultiCascader';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { mockTreeData } from '@test/mocks/treedata-mock';
+import { mockTreeData } from '@test/mocks/data-mock';
 
 const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 
-describe('MultiCascader -  DropdownMenu', () => {
+describe('MultiCascader -  TreeView', () => {
   testStandardProps(
-    <DropdownMenu
+    <TreeView
       classPrefix="picker-cascader-menu"
       disabledItemValues={[]}
       value={[]}
@@ -24,7 +24,7 @@ describe('MultiCascader -  DropdownMenu', () => {
 
   it('Should output a `cascader-menu-items` ', () => {
     render(
-      <DropdownMenu
+      <TreeView
         classPrefix="picker-cascader-menu"
         disabledItemValues={[]}
         value={[]}

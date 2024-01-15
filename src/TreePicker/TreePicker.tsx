@@ -51,7 +51,7 @@ import {
 
 import {
   PickerToggle,
-  PickerOverlay,
+  PickerPopup,
   TreeView,
   SearchBar,
   PickerToggleTrigger,
@@ -722,13 +722,13 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     );
   };
 
-  const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+  const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
     const { left, top, className } = positionProps;
     const classes = merge(className, menuClassName, prefix('tree-menu'));
     const mergedMenuStyle = { ...menuStyle, left, top };
 
     return (
-      <PickerOverlay
+      <PickerPopup
         autoWidth={menuAutoWidth}
         className={classes}
         style={mergedMenuStyle}
@@ -746,7 +746,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         ) : null}
         {renderMenu ? renderMenu(renderTree()) : renderTree()}
         {renderExtraFooter?.()}
-      </PickerOverlay>
+      </PickerPopup>
     );
   };
 
@@ -792,7 +792,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       onEntered={onEntered}
       onExit={createChainedFunction(onClose, onExit)}
       onExited={createChainedFunction(handleClose, onExited)}
-      speaker={renderDropdownMenu}
+      speaker={renderTreeView}
     >
       <Component className={classes} style={style} ref={root}>
         <PickerToggle

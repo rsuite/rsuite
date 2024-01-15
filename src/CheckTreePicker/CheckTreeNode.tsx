@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 import Spinner from '@rsuite/icons/legacy/Spinner';
-import DropdownMenuCheckItem from '../Picker/DropdownMenuCheckItem';
+import ListCheckItem from '../Picker/ListCheckItem';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { getTreeNodeIndent } from '../utils/treeUtils';
 import {
@@ -157,7 +157,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
     return visible ? (
       <Component {...rest} style={styles} className={classes} ref={ref}>
         {renderIcon()}
-        <DropdownMenuCheckItem
+        <ListCheckItem
           as="div"
           role="treeitem"
           aria-label={label}
@@ -179,7 +179,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
           <span className={prefix('text-wrapper')}>
             {typeof renderTreeNode === 'function' ? renderTreeNode(nodeData) : label}
           </span>
-        </DropdownMenuCheckItem>
+        </ListCheckItem>
       </Component>
     ) : null;
   }

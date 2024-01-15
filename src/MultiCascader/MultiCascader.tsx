@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import isFunction from 'lodash/isFunction';
 import isNil from 'lodash/isNil';
-import DropdownMenu from './DropdownMenu';
+import TreeView from './TreeView';
 import Checkbox from '../Checkbox';
 import { useCascadeValue, useColumnData, useFlattenData, isSomeChildChecked } from './utils';
 import { getNodeParents, findNodeOfTree } from '../utils/treeUtils';
@@ -23,7 +23,7 @@ import {
 
 import {
   PickerToggle,
-  PickerOverlay,
+  PickerPopup,
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
@@ -450,7 +450,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       );
     };
 
-    const renderDropdownMenu = (positionProps?: PositionChildProps, speakerRef?) => {
+    const renderTreeView = (positionProps?: PositionChildProps, speakerRef?) => {
       const { left, top, className } = positionProps || {};
       const styles = { ...menuStyle, left, top };
 
@@ -461,7 +461,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       );
 
       return (
-        <PickerOverlay
+        <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
           className={classes}
           style={styles}
@@ -480,7 +480,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
           {renderSearchResultPanel()}
 
           {searchKeyword === '' && (
-            <DropdownMenu
+            <TreeView
               cascade={cascade}
               menuWidth={menuWidth}
               menuHeight={menuHeight}
@@ -501,7 +501,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
           )}
 
           {renderExtraFooter?.()}
-        </PickerOverlay>
+        </PickerPopup>
       );
     };
 
@@ -545,7 +545,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     });
 
     if (inline) {
-      return renderDropdownMenu();
+      return renderTreeView();
     }
 
     return (
@@ -559,7 +559,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         onEnter={createChainedFunction(handleEntered, onEnter)}
         onExited={createChainedFunction(handleExited, onExited)}
         onExit={createChainedFunction(onClose, onExit)}
-        speaker={renderDropdownMenu}
+        speaker={renderTreeView}
       >
         <Component className={classes} style={style} ref={root}>
           <PickerToggle

@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useEffect } from 'react';
 import omit from 'lodash/omit';
 import addStyle from 'dom-lib/addStyle';
 import getWidth from 'dom-lib/getWidth';
-import { getDOMNode, mergeRefs, useElementResize, useClassNames } from '../utils';
+import { getDOMNode, mergeRefs, useElementResize, useClassNames, useEventCallback } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { OverlayTriggerHandle } from '../Picker';
 
@@ -28,7 +28,7 @@ const resizePlacement = [
   'autoHorizontalEnd'
 ];
 
-export interface PickerOverlayProps extends WithAsProps {
+export interface PickerPopupProps extends WithAsProps {
   placement?: string;
   autoWidth?: boolean;
   children?: React.ReactNode;
@@ -36,11 +36,11 @@ export interface PickerOverlayProps extends WithAsProps {
   onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
-const PickerOverlay: RsRefForwardingComponent<'div', PickerOverlayProps> = React.forwardRef(
-  (props: PickerOverlayProps, ref) => {
+const PickerPopup: RsRefForwardingComponent<'div', PickerPopupProps> = React.forwardRef(
+  (props: PickerPopupProps, ref) => {
     const {
       as: Component = 'div',
-      classPrefix = 'picker-menu',
+      classPrefix = 'picker-popup',
       autoWidth,
       className,
       placement = 'bottomStart',
@@ -49,13 +49,13 @@ const PickerOverlay: RsRefForwardingComponent<'div', PickerOverlayProps> = React
     } = props;
 
     const overlayRef = useRef(null);
-    const handleResize = useCallback(() => {
+    const handleResize = useEventCallback(() => {
       const instance = target?.current;
 
       if (instance && resizePlacement.includes(placement)) {
         instance.updatePosition();
       }
-    }, [target, placement]);
+    });
 
     useElementResize(
       useCallback(() => overlayRef.current, []),
@@ -79,11 +79,16 @@ const PickerOverlay: RsRefForwardingComponent<'div', PickerOverlayProps> = React
     const classes = merge(className, withClassPrefix());
 
     return (
-      <Component {...omit(rest, omitProps)} ref={mergeRefs(overlayRef, ref)} className={classes} />
+      <Component
+        data-testid="picker-popup"
+        {...omit(rest, omitProps)}
+        ref={mergeRefs(overlayRef, ref)}
+        className={classes}
+      />
     );
   }
 );
 
-PickerOverlay.displayName = 'PickerOverlay';
+PickerPopup.displayName = 'PickerPopup';
 
-export default PickerOverlay;
+export default PickerPopup;

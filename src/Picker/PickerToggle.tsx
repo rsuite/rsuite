@@ -111,6 +111,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
         aria-disabled={disabled}
         aria-controls={`${id}-${popupType}`}
         aria-labelledby={labelId}
+        aria-describedby={`${id}-describe`}
         {...rest}
         ref={mergeRefs(combobox, ref)}
         disabled={disabled}
@@ -139,7 +140,8 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
             {children ? (
               <span
                 className={prefix(hasValue ? 'value' : 'placeholder')}
-                aria-placeholder={typeof children === 'string' ? children : undefined}
+                id={`${id}-describe`}
+                data-testid="picker-describe"
               >
                 {children}
               </span>

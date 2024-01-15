@@ -13,7 +13,7 @@ import {
 import { PickerHandle } from '../../Picker';
 import '../styles/index.less';
 import userEvent from '@testing-library/user-event';
-import { mockTreeData } from '@test/mocks/treedata-mock';
+import { mockTreeData } from '@test/mocks/data-mock';
 
 const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 

@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import { getInstance } from '@test/utils';
+import { mockTreeData } from '@test/mocks/data-mock';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '../../utils';
 import { data, originMockData, changedMockData, controlledData } from './mocks';
@@ -412,44 +413,10 @@ describe('CheckTreePicker', () => {
   });
 
   it('Should trigger onChange and return correctly value', () => {
-    const data = [
-      {
-        value: '1',
-        label: '1',
-        children: [
-          {
-            value: '1-1',
-            label: '1-1'
-          },
-          {
-            value: '1-2',
-            label: '1-2'
-          },
-          {
-            value: '1-3',
-            label: '1-3'
-          }
-        ]
-      },
-      {
-        value: '2',
-        label: '2',
-        children: [
-          {
-            value: '2-1',
-            label: '2-1'
-          },
-          {
-            value: '2-2',
-            label: '2-2'
-          },
-          {
-            value: '2-3',
-            label: '2-3'
-          }
-        ]
-      }
-    ];
+    const data = mockTreeData([
+      ['1', '1-1', '1-2', '1-3'],
+      ['2', '2-1', '2-2', '2-3']
+    ]);
 
     const expectedValue = ['1', '2-1'];
     const mockOnChange = sinon.spy();

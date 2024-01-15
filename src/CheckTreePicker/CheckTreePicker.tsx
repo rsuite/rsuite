@@ -21,7 +21,7 @@ import {
   PickerToggle,
   TreeView,
   onMenuKeyDown,
-  PickerOverlay,
+  PickerPopup,
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
@@ -764,7 +764,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     const mergedMenuStyle = { ...menuStyle, left, top };
 
     return (
-      <PickerOverlay
+      <PickerPopup
         autoWidth={menuAutoWidth}
         className={classes}
         style={mergedMenuStyle}
@@ -782,7 +782,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         ) : null}
         {renderMenu ? renderMenu(renderCheckTree()) : renderCheckTree()}
         {renderExtraFooter?.()}
-      </PickerOverlay>
+      </PickerPopup>
     );
   };
 

@@ -13,15 +13,10 @@ export const pickerPropTypes = {
   containerPadding: PropTypes.number,
   container: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
   disabled: PropTypes.bool,
-  // PropTypes.elementType conflictin with React.ElementType
-  // toggleAs: PropTypes.elementType,
   menuClassName: PropTypes.string,
   menuStyle: PropTypes.object,
   placeholder: PropTypes.node,
   placement: PropTypes.oneOf(PLACEMENT),
-  /**
-   * Prevent floating element overflow
-   */
   preventOverflow: PropTypes.bool,
   open: PropTypes.bool,
   defaultOpen: PropTypes.bool,

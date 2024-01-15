@@ -21,10 +21,10 @@ import {
 import { getDataGroupBy } from '../utils/getDataGroupBy';
 
 import {
-  DropdownMenu,
-  DropdownMenuCheckItem as DropdownMenuItem,
+  Listbox,
+  ListCheckItem,
   PickerToggle,
-  PickerOverlay,
+  PickerPopup,
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
@@ -295,7 +295,7 @@ const CheckPicker = React.forwardRef(
       }
     }
 
-    const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+    const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
       const classes = merge(className, menuClassName, prefix('check-menu'));
       const styles = { ...menuStyle, left, top };
@@ -320,7 +320,7 @@ const CheckPicker = React.forwardRef(
 
       const menu =
         items.length || filteredStickyItems.length ? (
-          <DropdownMenu<true>
+          <Listbox<true>
             listProps={listProps}
             listRef={list}
             disabledItemValues={disabledItemValues}
@@ -330,7 +330,7 @@ const CheckPicker = React.forwardRef(
             renderMenuItem={renderMenuItem}
             maxHeight={menuMaxHeight}
             classPrefix={'picker-check-menu'}
-            dropdownMenuItemAs={DropdownMenuItem}
+            listItemAs={ListCheckItem}
             activeItemValues={value}
             focusItemValue={focusItemValue}
             data={[...filteredStickyItems, ...items]}
@@ -346,7 +346,7 @@ const CheckPicker = React.forwardRef(
         );
 
       return (
-        <PickerOverlay
+        <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
@@ -364,7 +364,7 @@ const CheckPicker = React.forwardRef(
           )}
           {renderMenu ? renderMenu(menu) : menu}
           {renderExtraFooter?.()}
-        </PickerOverlay>
+        </PickerPopup>
       );
     };
 
@@ -388,7 +388,7 @@ const CheckPicker = React.forwardRef(
         onEnter={createChainedFunction(initStickyItems, onEnter)}
         onEntered={createChainedFunction(handleEntered, onEntered)}
         onExited={createChainedFunction(handleExited, onExited)}
-        speaker={renderDropdownMenu}
+        speaker={renderPopup}
       >
         <Component className={classes} style={style} ref={root}>
           <PickerToggle

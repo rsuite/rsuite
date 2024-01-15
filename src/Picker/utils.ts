@@ -42,7 +42,7 @@ export function shouldDisplay(label: React.ReactNode, searchKeyword: string) {
   return false;
 }
 
-export interface EventsProps {
+export interface KeyboardEvents {
   down?: React.KeyboardEventHandler;
   up?: React.KeyboardEventHandler;
   enter?: React.KeyboardEventHandler;
@@ -57,7 +57,7 @@ export interface EventsProps {
  * @param event Keyboard event object
  * @param events Event callback functions
  */
-export function onMenuKeyDown(event: React.KeyboardEvent, events: EventsProps) {
+export function onMenuKeyDown(event: React.KeyboardEvent, events: KeyboardEvents) {
   const { down, up, enter, del, esc, right, left } = events;
   switch (event.key) {
     // down

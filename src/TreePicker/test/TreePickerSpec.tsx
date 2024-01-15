@@ -9,37 +9,13 @@ import {
   testFormControl,
   testPickers
 } from '@test/utils';
+import { mockTreeData } from '@test/mocks/data-mock';
 import TreePicker, { TreePickerProps } from '../TreePicker';
 import { KEY_VALUES } from '../../utils';
 import { PickerHandle } from '../../Picker';
 import { ListHandle } from '../../Windowing';
 
-const data = [
-  {
-    label: 'Master',
-    value: 'Master',
-    children: [
-      {
-        label: 'tester0',
-        value: 'tester0'
-      },
-      {
-        label: 'tester1',
-        value: 'tester1',
-        children: [
-          {
-            label: 'tester2',
-            value: 'tester2'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    label: 'Disabled node',
-    value: 'disabled'
-  }
-];
+const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
 
 describe('TreePicker', () => {
   testStandardProps(<TreePicker data={data} />, {

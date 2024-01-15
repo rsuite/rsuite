@@ -36,3 +36,15 @@ export function mockTreeData(
 
   return items;
 }
+
+export function mockGroupData(data, appendInfo) {
+  const items: any[] = [];
+  data.forEach(item => {
+    items.push({
+      label: item,
+      value: item,
+      ...appendInfo
+    });
+  });
+  return items;
+}

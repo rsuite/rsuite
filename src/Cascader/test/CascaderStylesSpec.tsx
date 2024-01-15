@@ -2,25 +2,11 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import Cascader from '../index';
 import { getStyle, inChrome } from '@test/utils';
+import { mockTreeData } from '@test/mocks/data-mock';
 
 import '../styles/index.less';
 
-const data = [
-  {
-    value: 'abcde',
-    label: 'abcde',
-    children: [
-      {
-        value: 'vv-abc',
-        label: 'vv-abc'
-      },
-      {
-        value: 'vv-abcd',
-        label: 'vv-abcd'
-      }
-    ]
-  }
-];
+const data = mockTreeData([['abcde', 'vv-abc', 'vv-abcd']]);
 
 describe('Cascader styles', () => {
   it('Should render the correct caret', () => {

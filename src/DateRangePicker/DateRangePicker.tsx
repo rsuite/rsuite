@@ -15,7 +15,7 @@ import { DateRangePickerLocale } from '../locales';
 import {
   omitTriggerPropKeys,
   PickerComponent,
-  PickerOverlay,
+  PickerPopup,
   pickerPropTypes,
   PickerToggleTrigger,
   PickerIndicator,
@@ -769,7 +769,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     );
 
     return (
-      <PickerOverlay
+      <PickerPopup
         role="dialog"
         aria-labelledby={label ? `${id}-label` : undefined}
         tabIndex={-1}
@@ -821,7 +821,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
             </>
           </Stack>
         </div>
-      </PickerOverlay>
+      </PickerPopup>
     );
   };
 

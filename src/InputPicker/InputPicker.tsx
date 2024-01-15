@@ -26,11 +26,11 @@ import {
 import { getDataGroupBy } from '../utils/getDataGroupBy';
 
 import {
-  DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuCheckItem,
+  Listbox,
+  ListItem,
+  ListCheckItem,
   PickerToggle,
-  PickerOverlay,
+  PickerPopup,
   PickerToggleTrigger,
   useFocusItemValue,
   usePickerClassName,
@@ -47,12 +47,24 @@ import {
 
 import Tag from '../Tag';
 import InputAutosize from './InputAutosize';
-import InputSearch from './InputSearch';
+import TextBox from './TextBox';
 import InputPickerContext from './InputPickerContext';
 
 import type { ItemDataType, FormControlPickerProps } from '../@types/common';
 import type { InputPickerLocale } from '../locales';
 import type { SelectProps } from '../SelectPicker';
+
+const convertSize = (size?: string) => {
+  switch (size) {
+    case 'lg':
+      return 'lg';
+    case 'sm':
+    case 'xs':
+      return 'sm';
+    default:
+      return 'md';
+  }
+};
 
 interface InputItemDataType extends ItemDataType {
   create?: boolean;
@@ -254,7 +266,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchKeyword, value]);
 
-    const getDateItem = (value: any) => {
+    const getDataItem = (value: any) => {
       // Find active `MenuItem` by `value`
       const allData = getAllDataAndCache();
       const activeItem = allData.find(item => shallowEqual(item[valueKey], value));
@@ -530,7 +542,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       setOpen(false);
     });
 
-    const renderDropdownMenuItem = (label: React.ReactNode, item: InputItemDataType) => {
+    const renderListItem = (label: React.ReactNode, item: InputItemDataType) => {
       // 'Create option "{0}"' =>  Create option "xxxxx"
       const newLabel = item.create ? (
         <span>{tplTransform(locale.createOption, label)}</span>
@@ -545,7 +557,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         return { isValid: false, itemNode: null };
       }
 
-      const dataItem = getDateItem(value);
+      const dataItem = getDataItem(value);
       let itemNode = dataItem.itemNode;
 
       if (!isNil(value) && isFunction(renderValue)) {
@@ -570,7 +582,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
       const tagElements = tags
         .map(tag => {
-          const { isValid, itemNode, activeItem } = getDateItem(tag);
+          const { isValid, itemNode, activeItem } = getDataItem(tag);
           items.push(activeItem);
 
           if (!isValid) {
@@ -581,7 +593,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             <Tag
               {...tagRest}
               key={tag}
-              size={rest.size === 'lg' ? 'lg' : rest.size === 'xs' ? 'sm' : 'md'}
+              size={convertSize(rest.size)}
               closable={!disabled && closable && !readOnly && !plaintext}
               title={typeof itemNode === 'string' ? itemNode : undefined}
               onClose={createChainedFunction(handleRemoveItemByTag.bind(null, tag), onClose)}
@@ -599,7 +611,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       return tagElements;
     };
 
-    const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+    const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
       const menuClassPrefix = multi ? 'picker-check-menu' : 'picker-select-menu';
       const classes = merge(className, menuClassName, prefix(multi ? 'check-menu' : 'select-menu'));
@@ -624,20 +636,20 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       }
 
       if (disabledOptions) {
-        return <PickerOverlay ref={mergeRefs(overlay, speakerRef)} />;
+        return <PickerPopup ref={mergeRefs(overlay, speakerRef)} />;
       }
 
       const menu = items.length ? (
-        <DropdownMenu
+        <Listbox
           listProps={listProps}
           listRef={list}
           disabledItemValues={disabledItemValues}
           valueKey={valueKey}
           labelKey={labelKey}
           classPrefix={menuClassPrefix}
-          dropdownMenuItemClassPrefix={multi ? undefined : `${menuClassPrefix}-item`}
-          dropdownMenuItemAs={multi ? DropdownMenuCheckItem : DropdownMenuItem}
-          dropdownMenuItemProps={{ renderMenuItemCheckbox }}
+          listItemClassPrefix={multi ? undefined : `${menuClassPrefix}-item`}
+          listItemAs={multi ? ListCheckItem : ListItem}
+          listItemProps={{ renderMenuItemCheckbox }}
           activeItemValues={multi ? value : [value]}
           focusItemValue={focusItemValue}
           maxHeight={menuMaxHeight}
@@ -648,7 +660,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           groupBy={groupBy}
           onSelect={multi ? handleCheckTag : (handleSelectItem as any)} // fixme don't use any
           renderMenuGroup={renderMenuGroup}
-          renderMenuItem={renderDropdownMenuItem}
+          renderMenuItem={renderListItem}
           virtualized={virtualized}
         />
       ) : (
@@ -656,7 +668,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       );
 
       return (
-        <PickerOverlay
+        <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
@@ -666,7 +678,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         >
           {renderMenu ? renderMenu(menu) : menu}
           {renderExtraFooter?.()}
-        </PickerOverlay>
+        </PickerPopup>
       );
     };
 
@@ -698,7 +710,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       [prefix`disabled-options`]: disabledOptions
     });
     const searching = !!searchKeyword && open;
-    const displaySearchInput = searchable && !disabled && !rest.loading;
+    const editable = searchable && !disabled && !rest.loading;
 
     const inputProps = multi
       ? { inputStyle: { maxWidth: maxWidth - 63 }, as: InputAutosize }
@@ -735,7 +747,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         onEntered={createChainedFunction(onEntered, onOpen)}
         onExit={createChainedFunction(handleExit, onExit)}
         onExited={createChainedFunction(handleExited, onExited)}
-        speaker={renderDropdownMenu}
+        speaker={renderPopup}
         placement={placement}
       >
         <Component
@@ -764,24 +776,20 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           >
             {searching || (multi && hasValue) ? null : itemNode || placeholderNode}
           </PickerToggle>
-          {/* TODO Separate InputPicker and TagPicker implementation */}
-          {!(!multi && disabled) && (
-            <div className={prefix`tag-wrapper`}>
-              {tagElements}
-              {displaySearchInput && (
-                <InputSearch
-                  {...inputProps}
-                  tabIndex={-1}
-                  readOnly={readOnly}
-                  onBlur={onBlur}
-                  onFocus={createChainedFunction(handleFocus, onFocus)}
-                  inputRef={inputRef}
-                  onChange={handleSearch}
-                  value={open ? searchKeyword : ''}
-                />
-              )}
-            </div>
-          )}
+          <TextBox
+            showTagList={hasValue && multi}
+            tags={tagElements}
+            editable={editable}
+            readOnly={readOnly}
+            disabled={disabled}
+            multiple={multi}
+            onBlur={onBlur}
+            onFocus={createChainedFunction(handleFocus, onFocus)}
+            inputRef={inputRef}
+            onChange={handleSearch}
+            inputValue={open ? searchKeyword : ''}
+            inputProps={inputProps}
+          />
         </Component>
       </PickerToggleTrigger>
     );

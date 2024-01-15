@@ -9,28 +9,12 @@ import {
   testFormControl,
   testPickers
 } from '@test/utils';
-
+import { mockGroupData } from '@test/mocks/data-mock';
 import CheckPicker from '../CheckPicker';
 import Button from '../../Button';
 import '../styles/index.less';
 
-const data = [
-  {
-    label: 'Eugenia',
-    value: 'Eugenia',
-    role: 'Master'
-  },
-  {
-    label: <span>Kariane</span>,
-    value: 'Kariane',
-    role: 'Master'
-  },
-  {
-    label: 'Louisa',
-    value: 'Louisa',
-    role: 'Master'
-  }
-];
+const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('CheckPicker', () => {
   testStandardProps(<CheckPicker data={[]} />, {

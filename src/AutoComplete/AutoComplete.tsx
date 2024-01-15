@@ -15,9 +15,9 @@ import { animationPropTypes } from '../Animation/utils';
 import {
   PickerToggleTrigger,
   onMenuKeyDown,
-  DropdownMenu,
-  DropdownMenuItem,
-  PickerOverlay,
+  Listbox,
+  ListItem,
+  PickerPopup,
   useFocusItemValue,
   usePickerRef,
   pickTriggerPropKeys,
@@ -240,15 +240,15 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     const classes = merge(className, withClassPrefix({ disabled }));
     const [htmlInputProps, restProps] = partitionHTMLProps(omit(rest, pickTriggerPropKeys));
 
-    const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+    const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
       const styles = { left, top };
 
       const menu = (
-        <DropdownMenu
+        <Listbox
           classPrefix="auto-complete-menu"
-          dropdownMenuItemClassPrefix="auto-complete-item"
-          dropdownMenuItemAs={DropdownMenuItem}
+          listItemClassPrefix="auto-complete-item"
+          listItemAs={ListItem}
           focusItemValue={focusItemValue}
           onSelect={handleItemSelect}
           renderMenuItem={renderMenuItem}
@@ -258,7 +258,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       );
 
       return (
-        <PickerOverlay
+        <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
           style={styles}
           className={className}
@@ -267,7 +267,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
           autoWidth={menuAutoWidth}
         >
           {renderMenu ? renderMenu(menu) : menu}
-        </PickerOverlay>
+        </PickerPopup>
       );
     };
 
@@ -289,7 +289,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
         pickerProps={pick(props, pickTriggerPropKeys)}
         trigger={['click', 'focus']}
         open={expanded}
-        speaker={renderDropdownMenu}
+        speaker={renderPopup}
       >
         <Component className={classes} style={style} ref={root} {...restProps}>
           <Combobox

@@ -223,14 +223,14 @@
 }
 
 .tag-picker-search-input-size(@padding-vertical; @padding-horizontal; @font-size; @line-height;) {
-  .rs-picker-input:not(.rs-picker-tag) & ~ .rs-picker-tag-wrapper .rs-picker-search-input {
+  .rs-picker-input:not(.rs-picker-tag) & ~ .rs-picker-textbox .rs-picker-search-input {
     padding: (@padding-vertical - 1px) @padding-horizontal;
     font-size: @font-size;
     line-height: @line-height;
   }
 
   // FIXME Bad design. Should not set search input styles in a mixin that is used in picker buttons.
-  .rs-picker-tag & ~ .rs-picker-tag-wrapper {
+  .rs-picker-tag & ~ .rs-picker-textbox {
     padding-bottom: @padding-vertical - 3px;
 
     .rs-tag {
@@ -281,7 +281,7 @@
   );
   /* stylelint-enable */
 
-  .rs-picker-input.rs-picker-tag & ~ .rs-picker-tag-wrapper {
+  .rs-picker-input.rs-picker-tag & ~ .rs-picker-textbox {
     padding-bottom: @padding-y-xs - 1px;
 
     .rs-tag {

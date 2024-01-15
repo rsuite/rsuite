@@ -3,12 +3,12 @@ import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import { useClassNames, shallowEqual, useCustom, useEventCallback } from '../utils';
-import { DropdownMenuCheckItem, useCombobox } from '../Picker';
+import { ListCheckItem, useCombobox } from '../Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
 import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { ValueType } from './MultiCascader';
 
-export interface DropdownMenuProps extends WithAsProps {
+export interface TreeViewProps extends WithAsProps {
   disabledItemValues: ValueType;
   value: ValueType;
   childrenKey: string;
@@ -40,8 +40,8 @@ const emptyArray = [];
 /**
  * TODO: reuse Menu from Cascader for consistent behavior
  */
-const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.forwardRef(
-  (props: DropdownMenuProps, ref) => {
+const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRef(
+  (props: TreeViewProps, ref) => {
     const {
       as: Component = 'div',
       classPrefix = 'menu',
@@ -67,7 +67,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
 
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('items'));
-    const { rtl } = useCustom('DropdownMenu');
+    const { rtl } = useCustom();
     const { id, labelId, popupType, multiple } = useCombobox();
 
     const getCascadePaths = (layer: number, node: ItemDataType) => {
@@ -119,7 +119,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
       }
 
       return (
-        <DropdownMenuCheckItem
+        <ListCheckItem
           as="li"
           role="treeitem"
           aria-level={layer + 1}
@@ -142,7 +142,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
         >
           {renderMenuItem ? renderMenuItem(label, node) : label}
           {children ? <Icon className={prefix('caret')} spin={node.loading} /> : null}
-        </DropdownMenuCheckItem>
+        </ListCheckItem>
       );
     };
 
@@ -211,6 +211,6 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
   }
 );
 
-DropdownMenu.displayName = 'DropdownMenu';
+TreeView.displayName = 'TreeView';
 
-export default DropdownMenu;
+export default TreeView;
