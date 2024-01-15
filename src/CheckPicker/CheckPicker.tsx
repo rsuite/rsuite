@@ -381,7 +381,7 @@ const CheckPicker = React.forwardRef(
     return (
       <PickerToggleTrigger
         id={id}
-        multiSelectable
+        multiple
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={trigger}
         placement={placement}

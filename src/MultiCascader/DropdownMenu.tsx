@@ -68,7 +68,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
     const { merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, prefix('items'));
     const { rtl } = useCustom('DropdownMenu');
-    const { id, labelId, popupType, multiSelectable } = useCombobox();
+    const { id, labelId, popupType, multiple } = useCombobox();
 
     const getCascadePaths = (layer: number, node: ItemDataType) => {
       const paths: ItemDataType[] = [];
@@ -199,7 +199,7 @@ const DropdownMenu: RsRefForwardingComponent<'div', DropdownMenuProps> = React.f
         role="tree"
         id={`${id}-${popupType}`}
         aria-labelledby={labelId}
-        aria-multiselectable={multiSelectable}
+        aria-multiselectable={multiple}
         {...rest}
         ref={ref}
         className={classes}

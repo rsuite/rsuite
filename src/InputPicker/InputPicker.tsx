@@ -727,7 +727,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
     return (
       <PickerToggleTrigger
         id={id}
-        multiSelectable={multi}
+        multiple={multi}
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={triggerRef}
         trigger="active"

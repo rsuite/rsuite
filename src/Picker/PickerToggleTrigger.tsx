@@ -21,7 +21,7 @@ export interface PickerToggleTriggerProps
    * @see MDN https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-haspopup
    */
   popupType?: 'listbox' | 'tree' | 'grid' | 'dialog' | 'menu';
-  multiSelectable?: boolean;
+  multiple?: boolean;
   placement?: TypeAttributes.Placement;
   pickerProps: any;
   open?: boolean;
@@ -54,7 +54,7 @@ export const pickTriggerPropKeys = [
 
 export interface ComboboxContextProps {
   id?: string;
-  multiSelectable?: boolean;
+  multiple?: boolean;
   hasLabel?: boolean;
   popupType?: 'listbox' | 'tree' | 'grid' | 'dialog' | 'menu';
 }
@@ -71,7 +71,7 @@ const PickerToggleTrigger = React.forwardRef(
       placement,
       trigger = 'click',
       id,
-      multiSelectable,
+      multiple,
       popupType = 'listbox',
       ...rest
     } = props;
@@ -84,7 +84,7 @@ const PickerToggleTrigger = React.forwardRef(
         value={{
           id: pickerId,
           hasLabel: typeof pickerTriggerProps.label !== 'undefined',
-          multiSelectable,
+          multiple,
           popupType
         }}
       >

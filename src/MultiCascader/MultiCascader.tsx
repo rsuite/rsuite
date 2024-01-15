@@ -552,7 +552,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       <PickerToggleTrigger
         id={id}
         popupType="tree"
-        multiSelectable
+        multiple
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={trigger}
         placement={placement}

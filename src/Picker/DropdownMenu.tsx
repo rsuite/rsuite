@@ -97,7 +97,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
 
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix('items', { grouped: group }));
-  const { id, labelId, popupType, multiSelectable } = useCombobox();
+  const { id, labelId, popupType, multiple } = useCombobox();
 
   const menuBodyContainerRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<ListHandle>(null);
@@ -250,7 +250,7 @@ const DropdownMenu: DropdownMenuComponent = React.forwardRef<
       role="listbox"
       id={`${id}-${popupType}`}
       aria-labelledby={labelId}
-      aria-multiselectable={multiSelectable}
+      aria-multiselectable={multiple}
       {...rest}
       className={classes}
       ref={mergeRefs(menuBodyContainerRef, ref)}
