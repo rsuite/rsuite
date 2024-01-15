@@ -152,6 +152,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       onKeyDown: handleKeyDown
     } = useFocusItemValue(value, {
       data: datalist,
+      focusToOption: false,
       callback: onMenuFocus,
       target: () => overlay.current
     });

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ComboboxContextContext, type ComboboxContextProps } from './PickerToggleTrigger';
+import { ComboboxContextContext, type ComboboxContextProps } from '../PickerToggleTrigger';
 
 function useCombobox() {
   const { id, hasLabel, popupType, multiSelectable } =

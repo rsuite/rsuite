@@ -48,9 +48,9 @@ import {
   omitTriggerPropKeys,
   PositionChildProps,
   usePickerClassName,
+  usePickerRef,
   onMenuKeyDown
 } from '../Picker';
-import usePickerRef from '../Picker/usePickerRef';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
 import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';

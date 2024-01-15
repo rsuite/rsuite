@@ -22,7 +22,7 @@ import { mergeRefs, useClassNames, useMount, useEventCallback } from '../utils';
 import DropdownMenuGroup from './DropdownMenuGroup';
 import { KEY_GROUP, KEY_GROUP_TITLE } from '../utils/getDataGroupBy';
 import { StandardProps, ItemDataType, Offset } from '../@types/common';
-import useCombobox from './useCombobox';
+import useCombobox from './hooks/useCombobox';
 
 export interface DropdownMenuProps<Multiple = false>
   extends StandardProps,

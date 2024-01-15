@@ -1,5 +1,5 @@
 import React from 'react';
-import useCombobox from './useCombobox';
+import useCombobox from './hooks/useCombobox';
 
 interface TreeViewProps extends React.HTMLAttributes<HTMLDivElement> {
   treeRootClassName: string;

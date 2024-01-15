@@ -23,6 +23,7 @@ import {
   pickTriggerPropKeys,
   PositionChildProps,
   usePickerClassName,
+  usePickerRef,
   onMenuKeyDown
 } from '../Picker';
 import {
@@ -65,7 +66,6 @@ import { deprecatePropTypeNew } from '../utils/deprecatePropType';
 import DateRangePickerContext from './DateRangePickerContext';
 import DateRangeInput from '../DateRangeInput';
 import InputGroup from '../InputGroup';
-import usePickerRef from '../Picker/usePickerRef';
 
 type SelectedDatesState = [] | [Date] | [Date, Date];
 

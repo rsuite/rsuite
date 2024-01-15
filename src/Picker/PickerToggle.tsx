@@ -8,7 +8,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import Stack from '../Stack';
 import PickerIndicator from './PickerIndicator';
 import PickerLabel from './PickerLabel';
-import useCombobox from './useCombobox';
+import useCombobox from './hooks/useCombobox';
 
 type ValueType = string | number;
 
