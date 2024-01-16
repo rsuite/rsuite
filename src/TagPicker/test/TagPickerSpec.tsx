@@ -13,7 +13,10 @@ import TagPicker from '../index';
 import Button from '../../Button';
 import { PickerHandle } from '../../Picker';
 
-const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
+const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], {
+  role: 'Master',
+  labelElementType: React.Fragment
+});
 
 describe('TagPicker', () => {
   testStandardProps(<TagPicker data={data} />, {
@@ -58,10 +61,10 @@ describe('TagPicker', () => {
   });
 
   it('Should not clean selected value', () => {
-    render(<TagPicker defaultOpen data={data} value={['Eugenia']} />);
+    render(<TagPicker data={data} value={['Eugenia']} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
-    expect(screen.getByText('Eugenia', { selector: '.rs-tag-text' })).to.exist;
+    expect(screen.getByRole('option', { name: 'Eugenia' })).to.exist;
   });
 
   it('Should output a TagPicker', () => {
@@ -80,7 +83,7 @@ describe('TagPicker', () => {
     const value = 'Louisa';
     render(<TagPicker defaultOpen data={data} value={[value]} />);
 
-    expect(screen.getByText(value, { selector: '.rs-tag-text' })).to.exist;
+    expect(screen.queryAllByRole('option', { name: value })).to.have.lengthOf(2);
     expect(screen.getByRole('option', { name: value, selected: true })).to.exist;
   });
 
@@ -88,7 +91,7 @@ describe('TagPicker', () => {
     const value = 'Louisa';
     render(<TagPicker defaultOpen data={data} defaultValue={[value]} />);
 
-    expect(screen.getByText(value, { selector: '.rs-tag-text' })).to.exist;
+    expect(screen.queryAllByRole('option', { name: value })).to.have.lengthOf(2);
     expect(screen.getByRole('option', { name: value, selected: true })).to.exist;
     expect(screen.getByRole('button', { name: /clear/i })).to.exist;
   });

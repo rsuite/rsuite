@@ -1,3 +1,4 @@
+import React from 'react';
 /**
  * Mock tree data
  * @example
@@ -37,13 +38,15 @@ export function mockTreeData(
   return items;
 }
 
-export function mockGroupData(data, appendInfo) {
+export function mockGroupData(data, options) {
   const items: any[] = [];
+  const { labelElementType: Label = 'span', ...rest } = options || {};
+
   data.forEach(item => {
     items.push({
-      label: item,
+      label: <Label>{item}</Label>,
       value: item,
-      ...appendInfo
+      ...rest
     });
   });
   return items;
