@@ -9,6 +9,7 @@ import Ripple from '../Ripple';
 import SafeAnchor from '../SafeAnchor';
 import NavContext from '../Nav/NavContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
+import classNames from 'classnames';
 
 export interface SidenavDropdownItemProps<T = any>
   extends WithAsProps,
@@ -139,7 +140,10 @@ const ExpandedSidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdow
         ...menuitemEventHandlers,
         children: (
           <>
-            {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+            {icon &&
+              React.cloneElement(icon, {
+                className: classNames(prefix('menu-icon'), icon.props.className)
+              })}
             {children}
             <Ripple />
           </>
