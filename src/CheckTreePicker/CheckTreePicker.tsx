@@ -470,8 +470,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const handleClean = useEventCallback((event: React.SyntheticEvent) => {
     const target = event.target as Element;
-    // exclude searchBar
-    if (target.matches('div[role="searchbox"] > input') || disabled || !cleanable) {
+    // exclude searchbox
+    if (target.matches('input[role="searchbox"]') || disabled || !cleanable) {
       return;
     }
 

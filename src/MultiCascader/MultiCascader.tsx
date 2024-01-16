@@ -409,7 +409,13 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       });
 
       return (
-        <div key={key} className={itemClasses} aria-disabled={disabled} data-key={item[valueKey]}>
+        <div
+          role="treeitem"
+          aria-disabled={disabled}
+          key={key}
+          className={itemClasses}
+          data-key={item[valueKey]}
+        >
           <Checkbox
             disabled={disabled}
             checked={active}
@@ -440,7 +446,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
       const items = getSearchResult();
       return (
-        <div className={prefix('cascader-search-panel')} data-layer={0}>
+        <div className={prefix('cascader-search-panel')} data-layer={0} role="tree">
           {items.length ? (
             items.map(renderSearchRow)
           ) : (

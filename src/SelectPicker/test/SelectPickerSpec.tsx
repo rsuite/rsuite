@@ -240,8 +240,8 @@ describe('SelectPicker', () => {
   it('Should call `onSearch` callback with correct search keyword', () => {
     const onSearchSpy = sinon.spy();
     render(<SelectPicker defaultOpen onSearch={onSearchSpy} data={data} />);
-    // TODO Use "searchbox" role
-    const input = screen.getByRole('textbox');
+
+    const input = screen.getByRole('searchbox');
 
     fireEvent.change(input, { target: { value: 'a' } });
 
@@ -382,8 +382,7 @@ describe('SelectPicker', () => {
 
     fireEvent.keyDown(target as HTMLElement, { key: 'a' });
 
-    // TODO Use "searchbox" role
-    expect(screen.getAllByRole('textbox')[0]).to.have.focus;
+    expect(screen.getByRole('searchbox')).to.have.focus;
   });
 
   describe('With a label', () => {

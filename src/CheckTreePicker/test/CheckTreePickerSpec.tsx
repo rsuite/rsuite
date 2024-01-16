@@ -527,14 +527,12 @@ describe('CheckTreePicker', () => {
   it('Should only clean the searchKeyword', async () => {
     render(<CheckTreePicker defaultOpen defaultExpandAll data={data} defaultValue={['Master']} />);
 
-    // FIXME-Doma
-    // Use "searchbox" role
-    const searchBar = screen.getByRole('textbox');
+    const searchbox = screen.getByRole('searchbox');
 
-    fireEvent.focus(searchBar);
-    fireEvent.change(searchBar, { target: { value: 'Master' } });
+    fireEvent.focus(searchbox);
+    fireEvent.change(searchbox, { target: { value: 'Master' } });
 
-    fireEvent.keyDown(searchBar, { key: KEY_VALUES.BACKSPACE });
+    fireEvent.keyDown(searchbox, { key: KEY_VALUES.BACKSPACE });
 
     expect(screen.getByRole('combobox')).to.have.text('Master (All)1');
 
@@ -548,9 +546,9 @@ describe('CheckTreePicker', () => {
 
     expect(screen.getAllByRole('treeitem')).to.have.lengthOf(2);
 
-    const searchBar = screen.getByRole('textbox');
+    const searchbox = screen.getByRole('searchbox');
 
-    fireEvent.change(searchBar, { target: { value: 'test' } });
+    fireEvent.change(searchbox, { target: { value: 'test' } });
 
     expect(screen.getAllByRole('treeitem')).to.have.lengthOf(4);
   });

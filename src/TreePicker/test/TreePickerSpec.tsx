@@ -485,34 +485,29 @@ describe('TreePicker', () => {
   });
 
   it('Should only clean the searchKeyword', () => {
-    const instance = getInstance(
-      <TreePicker defaultOpen defaultExpandAll data={data} defaultValue={'Master'} />
-    );
+    render(<TreePicker defaultOpen defaultExpandAll data={data} defaultValue={'Master'} />);
 
-    // FIXME Use "searchbox" role
-    // eslint-disable-next-line testing-library/no-node-access
-    const searchBar = instance.overlay.querySelector('.rs-picker-search-bar-input');
-    fireEvent.keyDown(searchBar, { target: { value: 'Master' } });
+    const searchbox = screen.getByRole('searchbox');
+    fireEvent.keyDown(searchbox, { target: { value: 'Master' } });
 
-    searchBar.focus();
-    fireEvent.keyDown(searchBar, { key: KEY_VALUES.BACKSPACE });
+    searchbox.focus();
+    fireEvent.keyDown(searchbox, { key: KEY_VALUES.BACKSPACE });
 
     expect(screen.getByRole('combobox')).to.have.text('Master');
 
-    fireEvent.keyDown(instance.overlay, { key: KEY_VALUES.BACKSPACE });
+    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.BACKSPACE });
 
     expect(screen.getByRole('combobox')).to.have.text('Select');
   });
 
   it('Should display the search result when in virtualized mode', () => {
-    const instance = getInstance(<TreePicker open virtualized data={data} />);
+    render(<TreePicker open virtualized data={data} />);
 
     expect(screen.getAllByRole('treeitem')).to.have.lengthOf(2);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    const searchBar = instance.overlay.querySelector('.rs-picker-search-bar-input');
+    const searchbox = screen.getByRole('searchbox');
 
-    fireEvent.change(searchBar, { target: { value: 'test' } });
+    fireEvent.change(searchbox, { target: { value: 'test' } });
 
     expect(screen.getAllByRole('treeitem')).to.have.lengthOf(4);
   });

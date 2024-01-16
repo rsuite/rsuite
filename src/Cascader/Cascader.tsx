@@ -471,12 +471,12 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
     return (
       <div
+        role="treeitem"
         key={key}
         aria-disabled={disabled}
         data-key={item[valueKey]}
         className={itemClasses}
         tabIndex={-1}
-        role="option"
         onClick={event => {
           if (!disabled) {
             handleSearchRowSelect(item, nodes, event);
@@ -495,7 +495,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
     const items = getSearchResult();
     return (
-      <div className={prefix('cascader-search-panel')} data-layer={0} role="listbox">
+      <div className={prefix('cascader-search-panel')} data-layer={0} role="tree">
         {items.length ? (
           items.map(renderSearchRow)
         ) : (

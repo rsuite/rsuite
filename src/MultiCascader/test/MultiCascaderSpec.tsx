@@ -415,13 +415,12 @@ describe('MultiCascader', () => {
   it('Should call `onSearch` callback ', () => {
     const onSearchSpy = sinon.spy();
     render(<MultiCascader data={items} defaultOpen onSearch={onSearchSpy} />);
-    // TODO Use "searchbox" role
-    const input = screen.getByRole('textbox');
 
-    fireEvent.change(input, { target: { value: '3' } });
+    const searchbox = screen.getByRole('searchbox');
 
-    // TODO Use "treeitem" role here
-    expect(screen.getAllByRole('checkbox')).to.have.lengthOf(3);
+    fireEvent.change(searchbox, { target: { value: '3' } });
+
+    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(3);
     expect(onSearchSpy).to.have.been.calledOnce;
   });
 

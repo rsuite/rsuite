@@ -4,7 +4,6 @@ import sinon from 'sinon';
 import Cascader from '../Cascader';
 import Button from '../../Button';
 import {
-  getInstance,
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
@@ -166,10 +165,10 @@ describe('Cascader', () => {
 
   it('Should call `onOpen` callback', async () => {
     const onOpen = sinon.spy();
-    const picker = getInstance(<Cascader onOpen={onOpen} data={items} />);
-    act(() => {
-      picker.open();
-    });
+    const ref = React.createRef<any>();
+    render(<Cascader ref={ref} onOpen={onOpen} data={items} />);
+
+    ref.current.open();
 
     await waitFor(() => {
       expect(onOpen).to.have.been.calledOnce;
@@ -178,10 +177,11 @@ describe('Cascader', () => {
 
   it('Should call `onClose` callback', async () => {
     const onClose = sinon.spy();
-    const picker = getInstance(<Cascader defaultOpen onClose={onClose} data={items} />);
-    act(() => {
-      picker.close();
-    });
+    const ref = React.createRef<any>();
+    render(<Cascader ref={ref} defaultOpen onClose={onClose} data={items} />);
+
+    ref.current.close();
+
     await waitFor(() => {
       expect(onClose).to.have.been.calledOnce;
     });
@@ -231,13 +231,13 @@ describe('Cascader', () => {
       });
     }
 
-    const instance = getInstance(
+    render(
       <Cascader open data={[{ label: '1', value: '1', children: [] }]} getChildren={fetchNodes} />
     );
 
     fireEvent.click(screen.getByRole('treeitem', { name: '1' }));
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.overlay.querySelector('.rs-icon.rs-icon-spin')).to.exist;
+
+    expect(screen.getByTestId('spinner')).to.exist;
   });
 
   it('Should present an async loading state with inline', async () => {
@@ -249,7 +249,7 @@ describe('Cascader', () => {
       });
     }
 
-    const instance = getInstance(
+    render(
       <Cascader
         inline
         open
@@ -258,16 +258,10 @@ describe('Cascader', () => {
       />
     );
 
-    fireEvent.click(
-      // eslint-disable-next-line testing-library/no-node-access
-      instance.overlay.querySelector(
-        '.rs-picker-cascader-menu-has-children .rs-picker-cascader-menu-item'
-      )
-    );
+    fireEvent.click(screen.getAllByRole('treeitem')[0]);
 
     await waitFor(() => {
-      // eslint-disable-next-line testing-library/no-node-access
-      expect(instance.overlay.querySelectorAll('.rs-picker-cascader-menu-column')).to.length(2);
+      expect(screen.getAllByRole('group')).to.have.length(2);
     });
   });
 
@@ -372,18 +366,12 @@ describe('Cascader', () => {
       />
     );
 
-    // TODO-Doma
-    // Use `searchbox` role
-    const input = screen.getByRole('textbox');
+    const searchbox = screen.getByRole('searchbox');
 
-    fireEvent.focus(input);
-    fireEvent.change(input, { target: { value: 'g' } });
+    fireEvent.focus(searchbox);
+    fireEvent.change(searchbox, { target: { value: 'g' } });
 
-    const searchResult = ((cascaderRef.current as PickerHandle).overlay as HTMLElement)
-      // eslint-disable-next-line testing-library/no-node-access
-      .querySelectorAll('.rs-picker-cascader-row');
-
-    expect(searchResult.length).to.equal(2);
+    expect(screen.getAllByRole('treeitem')).to.have.length(2);
   });
 
   it('Should show search items with parentSelectable', () => {
@@ -393,15 +381,11 @@ describe('Cascader', () => {
 
     render(<Cascader ref={cascaderRef} defaultOpen data={items} parentSelectable />);
 
-    const input = screen.getByRole('textbox');
+    const searchbox = screen.getByRole('searchbox');
 
-    fireEvent.change(input, { target: { value: 'g' } });
+    fireEvent.change(searchbox, { target: { value: 'g' } });
 
-    const searchResult = ((cascaderRef.current as PickerHandle).overlay as HTMLElement)
-      // eslint-disable-next-line testing-library/no-node-access
-      .querySelectorAll('.rs-picker-cascader-row');
-
-    expect(searchResult.length).to.equal(3);
+    expect(screen.getAllByRole('treeitem')).to.have.length(3);
   });
 
   it('Should show search items rendered by renderSearchItem', () => {
@@ -422,40 +406,33 @@ describe('Cascader', () => {
       />
     );
 
-    const input = screen.getByRole('textbox');
+    const searchbox = screen.getByRole('searchbox');
 
-    fireEvent.change(input, { target: { value: 't' } });
+    fireEvent.change(searchbox, { target: { value: 't' } });
 
-    const searchResult = ((cascaderRef.current as PickerHandle).overlay as HTMLElement)
-      // eslint-disable-next-line testing-library/no-node-access
-      .querySelector('.rs-picker-cascader-row .test-item');
-
-    expect(searchResult).to.exist;
-    expect(searchItems).to.length(2);
-    expect(searchItems).to.deep.contain(items[0]);
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(searchItems).to.deep.contain(items[0].children[0]);
-
-    expect(searchResult).to.text('parenttest');
+    expect(screen.getAllByRole('treeitem')).to.have.length(1);
+    expect(searchItems).to.have.length(2);
+    expect(screen.getByRole('treeitem')).to.have.text('parenttest');
   });
 
   describe('ref testing', () => {
     it('Should control the open and close of picker', async () => {
-      const onOpenSpy = sinon.spy();
-      const onCloseSpy = sinon.spy();
+      const onOpen = sinon.spy();
+      const onClose = sinon.spy();
+      const ref = React.createRef<any>();
 
-      const instance = getInstance(
-        <Cascader onOpen={onOpenSpy} onClose={onCloseSpy} data={items} />
-      );
+      render(<Cascader ref={ref} onOpen={onOpen} onClose={onClose} data={items} />);
 
-      instance.open();
+      ref.current.open();
+
       await waitFor(() => {
-        assert.isTrue(onOpenSpy.calledOnce);
+        expect(onOpen).to.be.calledOnce;
       });
 
-      instance.close();
+      ref.current.close();
+
       await waitFor(() => {
-        assert.isTrue(onCloseSpy.calledOnce);
+        expect(onClose).to.be.calledOnce;
       });
     });
   });
@@ -536,85 +513,73 @@ describe('Cascader', () => {
   it('Should update the subcolumn when the leaf node is clicked', () => {
     render(<Cascader data={items} open />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(
-      1
-    );
+    expect(screen.getAllByRole('group')).to.length(1);
 
     // Click on a node that has child nodes
     fireEvent.click(screen.getByRole('treeitem', { name: '3' }));
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(
-      2
-    );
+    expect(screen.getAllByRole('group')).to.length(2);
 
     // Click on the leaf node
     fireEvent.click(screen.getByRole('treeitem', { name: '1' }));
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-column')).to.length(
-      1
-    );
+    expect(screen.getAllByRole('group')).to.length(1);
   });
 
   it('Should trigger onChange callback & onSelect callback when press Enter', () => {
-    const onChangeSpy = sinon.spy();
-    const onSelectSpy = sinon.spy();
+    const onChange = sinon.spy();
+    const onSelect = sinon.spy();
 
-    const instance = getInstance(
-      <Cascader data={items} onChange={onChangeSpy} onSelect={onSelectSpy} defaultOpen />
-    );
+    render(<Cascader data={items} onChange={onChange} onSelect={onSelect} defaultOpen />);
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    fireEvent.keyDown(instance.target, { key: 'Enter' });
-
-    expect(onChangeSpy).to.have.been.calledOnce;
-    expect(onSelectSpy).to.have.been.calledOnce;
+    expect(onChange).to.have.been.calledOnce;
+    expect(onSelect).to.have.been.calledOnce;
   });
 
   describe('Focus item', () => {
     it('Should update scroll position when the focus is not within the viewport', () => {
-      const instance = getInstance(<Cascader defaultOpen data={items} menuHeight={72} />);
+      render(<Cascader defaultOpen data={items} menuHeight={72} />);
 
-      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-      // eslint-disable-next-line testing-library/no-node-access
-      expect(instance.overlay.querySelector('[data-type="column"]').scrollTop).to.equal(36);
+      expect(screen.getAllByRole('group')[0].scrollTop).to.equal(36);
 
-      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-      // eslint-disable-next-line testing-library/no-node-access
-      expect(instance.overlay.querySelector('[data-type="column"]').scrollTop).to.equal(0);
+      expect(screen.getAllByRole('group')[0].scrollTop).to.equal(0);
     });
 
     it('Should be switched to sub-selection using the left and right keys', () => {
-      const instance = getInstance(<Cascader defaultOpen data={items} />);
+      render(<Cascader defaultOpen data={items} />);
 
-      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-      fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-      // eslint-disable-next-line testing-library/no-node-access
-      let focusItems = instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item-focus');
+      let focusItems = screen
+        .getByRole('tree')
+        // eslint-disable-next-line testing-library/no-node-access
+        .querySelectorAll('.rs-picker-cascader-menu-item-focus');
 
       expect(focusItems).to.length(1);
       expect(focusItems[0]).to.have.text('3');
 
-      fireEvent.keyDown(instance.target, { key: 'ArrowRight' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowRight' });
 
       // eslint-disable-next-line testing-library/no-node-access
-      focusItems = instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item-focus');
+      focusItems = screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-item-focus');
 
       expect(focusItems).to.length(2);
       expect(focusItems[1]).to.have.text('3-1');
 
-      fireEvent.keyDown(instance.target, { key: 'ArrowLeft' });
-      fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowLeft' });
+      fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
       // eslint-disable-next-line testing-library/no-node-access
-      focusItems = instance.overlay.querySelectorAll('.rs-picker-cascader-menu-item-focus');
+      focusItems = screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-item-focus');
 
       expect(focusItems).to.length(1);
       expect(focusItems[0]).to.have.text('2');
@@ -625,8 +590,7 @@ describe('Cascader', () => {
 
       userEvent.click(screen.getByRole('combobox'));
 
-      // eslint-disable-next-line testing-library/no-node-access
-      const input = screen.getByRole('searchbox').querySelector('input') as HTMLInputElement;
+      const input = screen.getByRole('searchbox');
 
       userEvent.type(input, '1');
       userEvent.type(screen.getByRole('combobox'), '{enter}');

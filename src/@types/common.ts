@@ -116,6 +116,16 @@ export interface PickerBaseProps<LocaleType = any> extends WithAsProps, Animatio
   /** Called when Modal is closed */
   onClose?: () => void;
 
+  /**
+   * Called when the component is focused.
+   */
+  onFocus?: React.FocusEventHandler<any>;
+
+  /**
+   * Called when the component is blurred.
+   */
+  onBlur?: React.FocusEventHandler<any>;
+
   /** Custom render extra footer */
   renderExtraFooter?: () => React.ReactNode;
 }
