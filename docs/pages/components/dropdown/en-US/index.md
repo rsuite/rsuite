@@ -101,6 +101,7 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 | disabled        | boolean                                                | Whether or not component is disabled                                                    |
 | icon            | Element&lt;typeof Icon&gt;                             | Set the icon                                                                            |
 | menuStyle       | CSSProperties                                          | The style of the menu.                                                                  |
+| noCaret         | boolean                                                | Do not display the arrow icon                                                           |
 | onClose         | () => void                                             | The callback function that the menu closes                                              |
 | onOpen          | () => void                                             | Menu Pop-up callback function                                                           |
 | onSelect        | (eventKey: string, event) => void                      | Selected callback function                                                              |

@@ -101,6 +101,7 @@
 | disabled        | boolean                                                | 禁用组件                                         |
 | icon            | Element&lt;typeof Icon&gt;                             | 设置图标                                         |
 | menuStyle       | CSSProperties                                          | 菜单样式                                         |
+| noCaret         | boolean                                                | 不展示箭头 icon                                  |
 | onClose         | () => void                                             | 菜单关闭的回调函数                               |
 | onOpen          | () => void                                             | 菜单弹出的回调函数                               |
 | onSelect        | (eventKey: string, event) => void                      | 选择后的回调函数                                 |
