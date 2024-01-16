@@ -134,12 +134,12 @@ describe('TagPicker', () => {
       <TagPicker renderValue={v => [v, 'value']} data={[{ value: 1, label: '1' }]} value={[1]} />
     );
 
-    expect(screen.getByRole('group')).to.have.text('1value');
+    expect(screen.getByRole('listbox')).to.have.text('1value');
 
     // Invalid value
     rerender(<TagPicker renderValue={v => [v, 'value']} data={[]} value={[2]} />);
 
-    expect(screen.getByRole('group')).to.have.text('2value');
+    expect(screen.getByRole('listbox')).to.have.text('2value');
 
     rerender(
       <TagPicker
@@ -153,7 +153,7 @@ describe('TagPicker', () => {
       />
     );
 
-    expect(screen.getByRole('group')).to.have.text('foo-bar');
+    expect(screen.getByRole('listbox')).to.have.text('foo-bar');
   });
 
   it('Should renderMenuItemCheckbox render correct', () => {
@@ -332,7 +332,7 @@ describe('TagPicker', () => {
       />
     );
 
-    expect(screen.getByRole('group')).to.be.contain('.rs-tag');
+    expect(screen.getByRole('listbox')).to.be.contain('.rs-tag');
   });
 
   it('Should not be call renderValue()', () => {
@@ -343,7 +343,7 @@ describe('TagPicker', () => {
   it('Should call renderValue', () => {
     const { rerender } = render(<TagPicker data={[]} value={['Test']} renderValue={() => '1'} />);
 
-    expect(screen.getByRole('group')).to.have.text('1');
+    expect(screen.getByRole('listbox')).to.have.text('1');
     // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('combobox').parentNode).to.have.class('rs-picker-has-value');
 

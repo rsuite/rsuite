@@ -9,7 +9,7 @@ const TagList = React.forwardRef(
     const { id } = useCombobox();
 
     return (
-      <div ref={ref} role="group" id={`${id}-describe`} className={prefix`tag-list`} {...rest}>
+      <div ref={ref} role="listbox" id={`${id}-describe`} className={prefix`tag-list`} {...rest}>
         {children}
       </div>
     );

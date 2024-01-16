@@ -404,6 +404,7 @@ const CheckPicker = React.forwardRef(
             active={active}
             placement={placement}
             inputValue={value}
+            focusItemValue={focusItemValue}
           >
             {selectedElement || locale?.placeholder}
           </PickerToggle>

@@ -618,6 +618,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
           active={active}
           placement={placement}
           inputValue={value ?? ''}
+          focusItemValue={focusItemValue}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>

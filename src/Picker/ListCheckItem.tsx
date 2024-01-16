@@ -2,6 +2,7 @@ import React from 'react';
 import { useClassNames, useEventCallback } from '../utils';
 import Checkbox, { CheckboxProps } from '../Checkbox';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import useCombobox from './hooks/useCombobox';
 
 export interface ListCheckItemProps extends WithAsProps {
   active?: boolean;
@@ -62,6 +63,7 @@ const ListCheckItem: RsRefForwardingComponent<'div', ListCheckItemProps> = React
       }
     });
 
+    const { id } = useCombobox();
     const { withClassPrefix } = useClassNames(classPrefix);
     const checkboxItemClasses = withClassPrefix({ focus });
 
@@ -84,6 +86,7 @@ const ListCheckItem: RsRefForwardingComponent<'div', ListCheckItemProps> = React
         role="option"
         aria-selected={active}
         aria-disabled={disabled}
+        id={id ? `${id}-opt-${value}` : undefined}
         data-key={value}
         {...rest}
         ref={ref}

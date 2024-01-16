@@ -38,6 +38,7 @@ export interface PickerToggleProps extends ToggleButtonProps {
   label?: React.ReactNode;
   name?: string;
   inputValue?: ValueType | ValueType[];
+  focusItemValue?: ValueType | null;
   onClean?: (event: React.MouseEvent) => void;
 }
 
@@ -58,6 +59,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       cleanable,
       tabIndex = 0,
       inputValue: inputValueProp,
+      focusItemValue,
       onClean,
       placement = 'bottomStart',
       caretComponent,
@@ -112,6 +114,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
         aria-controls={`${id}-${popupType}`}
         aria-labelledby={labelId}
         aria-describedby={`${id}-describe`}
+        aria-activedescendant={active && focusItemValue ? `${id}-opt-${focusItemValue}` : undefined}
         {...rest}
         ref={mergeRefs(combobox, ref)}
         disabled={disabled}

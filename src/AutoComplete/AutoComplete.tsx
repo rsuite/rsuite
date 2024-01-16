@@ -299,6 +299,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
             size={size}
             readOnly={readOnly}
             expanded={expanded}
+            focusItemValue={focusItemValue}
             onBlur={handleInputBlur}
             onFocus={handleInputFocus}
             onChange={handleChange}

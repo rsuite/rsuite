@@ -1,13 +1,14 @@
 import React from 'react';
 import { useClassNames, useEventCallback } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import useCombobox from './hooks/useCombobox';
 
 export interface ListItemProps
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
   active?: boolean;
   disabled?: boolean;
-  value?: any;
+  value?: string | number;
   focus?: boolean;
   title?: string;
   onSelect?: (value: any, event: React.MouseEvent) => void;
@@ -33,6 +34,8 @@ const ListItem: RsRefForwardingComponent<'div', ListItemProps> = React.forwardRe
       ...rest
     } = props;
 
+    const { id } = useCombobox();
+
     const handleClick = useEventCallback((event: React.MouseEvent) => {
       event.preventDefault();
       if (!disabled) {
@@ -48,6 +51,7 @@ const ListItem: RsRefForwardingComponent<'div', ListItemProps> = React.forwardRe
         role={role}
         aria-selected={active}
         aria-disabled={disabled}
+        id={id ? `${id}-opt-${value}` : undefined}
         data-key={value}
         {...rest}
         ref={ref}

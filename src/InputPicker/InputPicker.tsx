@@ -591,6 +591,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
           return (
             <Tag
+              role="option"
               {...tagRest}
               key={tag}
               size={convertSize(rest.size)}
@@ -772,6 +773,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             disabled={disabled}
             placement={placement}
             inputValue={value}
+            focusItemValue={focusItemValue}
             caret={!disabledOptions}
           >
             {searching || (multi && hasValue) ? null : itemNode || placeholderNode}

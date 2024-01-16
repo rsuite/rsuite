@@ -808,6 +808,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           active={active}
           placement={placement}
           inputValue={value}
+          focusItemValue={focusItemValue}
         >
           {selectedElement || locale.placeholder}
         </PickerToggle>

@@ -416,6 +416,7 @@ const SelectPicker = React.forwardRef(
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             inputValue={value ?? ''}
+            focusItemValue={focusItemValue}
             active={active}
             placement={placement}
           >
