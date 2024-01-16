@@ -1,9 +1,8 @@
-import React, { useCallback } from 'react';
-import get from 'lodash/get';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Search from '@rsuite/icons/legacy/Search';
 
-import { useClassNames } from '../utils';
+import { useClassNames, useEventCallback } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface SearchBarProps extends WithAsProps {
@@ -29,15 +28,13 @@ const SearchBar: RsRefForwardingComponent<'div', SearchBarProps> = React.forward
     } = props;
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
-    const handleChange = useCallback(
-      (event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange?.(get(event, 'target.value'), event);
-      },
-      [onChange]
-    );
+    const handleChange = useEventCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange?.(event.target?.value, event);
+    });
     return (
-      <Component role="searchbox" {...rest} ref={ref} className={classes}>
+      <Component {...rest} ref={ref} className={classes}>
         <input
+          role="searchbox"
           className={prefix('input')}
           value={value}
           onChange={handleChange}

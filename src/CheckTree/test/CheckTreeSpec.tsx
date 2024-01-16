@@ -3,33 +3,9 @@ import sinon from 'sinon';
 import { render, screen } from '@testing-library/react';
 import CheckTree from '../index';
 import userEvent from '@testing-library/user-event';
+import { mockTreeData } from '@test/mocks/data-mock';
 
-const data = [
-  {
-    label: 'Master',
-    value: 'Master',
-    children: [
-      {
-        label: 'tester0',
-        value: 'tester0'
-      },
-      {
-        label: 'tester1',
-        value: 'tester1',
-        children: [
-          {
-            label: 'tester2',
-            value: 'tester2'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    label: 'Disabled node',
-    value: 'disabled'
-  }
-];
+const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
 
 describe('CheckTree', () => {
   it('Should render a multi-selectable tree', () => {

@@ -17,11 +17,11 @@ import {
 } from '../utils';
 import { getDataGroupBy } from '../utils/getDataGroupBy';
 import {
-  DropdownMenu,
-  DropdownMenuItem,
+  Listbox,
+  ListItem,
   PickerToggle,
   PickerToggleTrigger,
-  PickerOverlay,
+  PickerPopup,
   SearchBar,
   useFocusItemValue,
   usePickerClassName,
@@ -320,7 +320,7 @@ const SelectPicker = React.forwardRef(
       }
     }
 
-    const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+    const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
       const classes = merge(className, menuClassName, prefix('select-menu'));
       const styles = { ...menuStyle, left, top };
@@ -334,8 +334,7 @@ const SelectPicker = React.forwardRef(
       }
 
       const menu = items.length ? (
-        <DropdownMenu
-          id={id ? `${id}-listbox` : undefined}
+        <Listbox
           listProps={listProps}
           listRef={list}
           disabledItemValues={disabledItemValues}
@@ -345,8 +344,8 @@ const SelectPicker = React.forwardRef(
           renderMenuItem={renderMenuItem}
           maxHeight={menuMaxHeight}
           classPrefix={'picker-select-menu'}
-          dropdownMenuItemClassPrefix={'picker-select-menu-item'}
-          dropdownMenuItemAs={DropdownMenuItem}
+          listItemClassPrefix={'picker-select-menu-item'}
+          listItemAs={ListItem}
           activeItemValues={[value]}
           focusItemValue={focusItemValue}
           data={items}
@@ -363,7 +362,7 @@ const SelectPicker = React.forwardRef(
       );
 
       return (
-        <PickerOverlay
+        <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
           autoWidth={menuAutoWidth}
           className={classes}
@@ -382,7 +381,7 @@ const SelectPicker = React.forwardRef(
 
           {renderMenu ? renderMenu(menu) : menu}
           {renderExtraFooter?.()}
-        </PickerOverlay>
+        </PickerPopup>
       );
     };
 
@@ -397,17 +396,17 @@ const SelectPicker = React.forwardRef(
 
     return (
       <PickerToggleTrigger
+        id={id}
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={trigger}
         placement={placement}
         onEntered={createChainedFunction(handleEntered, onEntered)}
         onExited={createChainedFunction(handleExited, onExited)}
-        speaker={renderDropdownMenu}
+        speaker={renderPopup}
       >
         <Component className={classes} style={style} ref={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-            id={id}
             ref={target}
             appearance={appearance}
             onClean={createChainedFunction(handleClean, onClean)}
@@ -417,6 +416,7 @@ const SelectPicker = React.forwardRef(
             cleanable={cleanable && !disabled}
             hasValue={hasValue}
             inputValue={value ?? ''}
+            focusItemValue={focusItemValue}
             active={active}
             placement={placement}
           >

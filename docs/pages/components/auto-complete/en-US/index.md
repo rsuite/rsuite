@@ -36,6 +36,23 @@ Autocomplete function of input field.
 
 <!--{include:`controlled.md`}-->
 
+## Accessibility
+
+### ARIA properties
+
+- Autocomplete has role `combobox`.
+- Has the `aria-haspopup="listbox"` attribute to indicate that the input has a popup listbox.
+- Has the `aria-expanded` attribute to indicate whether the listbox is open or not.
+- Has the `aria-controls` attribute to indicate the ID of the listbox element.
+- Has the `aria-activedescendant` attribute to indicate the ID of the focused option.
+
+### Keyboard interactions
+
+- <kbd>Down</kbd> - Move focus to the next option.
+- <kbd>Up</kbd> - Move focus to the previous option.
+- <kbd>Enter</kbd> - Select the focused option.
+- <kbd>Esc</kbd> - Close the listbox.
+
 ## Props
 
 ### `<AutoComplete>`

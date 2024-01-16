@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
+import React from 'react';
+import { useClassNames, useEventCallback } from '../utils';
 import Checkbox, { CheckboxProps } from '../Checkbox';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import useCombobox from './hooks/useCombobox';
 
-export interface DropdownMenuCheckItemProps extends WithAsProps {
+export interface ListCheckItemProps extends WithAsProps {
   active?: boolean;
   checkboxAs?: React.ElementType | string;
   classPrefix?: string;
@@ -23,8 +23,8 @@ export interface DropdownMenuCheckItemProps extends WithAsProps {
   renderMenuItemCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
 }
 
-const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckItemProps> =
-  React.forwardRef((props: DropdownMenuCheckItemProps, ref) => {
+const ListCheckItem: RsRefForwardingComponent<'div', ListCheckItemProps> = React.forwardRef(
+  (props: ListCheckItemProps, ref) => {
     const {
       active = false,
       as: Component = 'div',
@@ -45,31 +45,25 @@ const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckIt
       ...rest
     } = props;
 
-    const handleChange = useCallback(
+    const handleChange = useEventCallback(
       (value: any, checked: boolean, event: React.SyntheticEvent) => {
         onSelect?.(value, event, checked);
-      },
-      [onSelect]
+      }
     );
 
-    const handleCheck = useCallback(
-      (event: React.SyntheticEvent) => {
-        if (!disabled) {
-          onCheck?.(value, event, !active);
-        }
-      },
-      [value, disabled, onCheck, active]
-    );
+    const handleCheck = useEventCallback((event: React.SyntheticEvent) => {
+      if (!disabled) {
+        onCheck?.(value, event, !active);
+      }
+    });
 
-    const handleSelectItem = useCallback(
-      (event: React.SyntheticEvent) => {
-        if (!disabled) {
-          onSelectItem?.(value, event, !active);
-        }
-      },
-      [value, disabled, onSelectItem, active]
-    );
+    const handleSelectItem = useEventCallback((event: React.SyntheticEvent) => {
+      if (!disabled) {
+        onSelectItem?.(value, event, !active);
+      }
+    });
 
+    const { id } = useCombobox();
     const { withClassPrefix } = useClassNames(classPrefix);
     const checkboxItemClasses = withClassPrefix({ focus });
 
@@ -92,6 +86,7 @@ const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckIt
         role="option"
         aria-selected={active}
         aria-disabled={disabled}
+        id={id ? `${id}-opt-${value}` : undefined}
         data-key={value}
         {...rest}
         ref={ref}
@@ -105,26 +100,9 @@ const DropdownMenuCheckItem: RsRefForwardingComponent<'div', DropdownMenuCheckIt
         )}
       </Component>
     );
-  });
+  }
+);
 
-DropdownMenuCheckItem.displayName = 'DropdownMenuCheckItem';
-DropdownMenuCheckItem.propTypes = {
-  classPrefix: PropTypes.string,
-  active: PropTypes.bool,
-  disabled: PropTypes.bool,
-  checkable: PropTypes.bool,
-  indeterminate: PropTypes.bool,
-  value: PropTypes.any,
-  onSelect: PropTypes.func,
-  onCheck: PropTypes.func,
-  onSelectItem: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  focus: PropTypes.bool,
-  title: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  as: PropTypes.elementType,
-  checkboxAs: PropTypes.elementType
-};
+ListCheckItem.displayName = 'ListCheckItem';
 
-export default DropdownMenuCheckItem;
+export default ListCheckItem;

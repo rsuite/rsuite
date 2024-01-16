@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import {
   getDOMNode,
@@ -9,29 +10,13 @@ import {
   testFormControl,
   testPickers
 } from '@test/utils';
+import { mockGroupData } from '@test/mocks/data-mock';
 import SelectPicker from '../SelectPicker';
 import Input from '../../Input';
 import Button from '../../Button';
 import { PickerHandle } from '../../Picker';
-import userEvent from '@testing-library/user-event';
 
-const data = [
-  {
-    label: 'Eugenia',
-    value: 'Eugenia',
-    role: 'Master'
-  },
-  {
-    label: <span>Kariane</span>,
-    value: 'Kariane',
-    role: 'Master'
-  },
-  {
-    label: 'Louisa',
-    value: 'Louisa',
-    role: 'Master'
-  }
-];
+const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('SelectPicker', () => {
   testStandardProps(<SelectPicker data={data} />, {
@@ -255,8 +240,8 @@ describe('SelectPicker', () => {
   it('Should call `onSearch` callback with correct search keyword', () => {
     const onSearchSpy = sinon.spy();
     render(<SelectPicker defaultOpen onSearch={onSearchSpy} data={data} />);
-    // TODO Use "searchbox" role
-    const input = screen.getByRole('textbox');
+
+    const input = screen.getByRole('searchbox');
 
     fireEvent.change(input, { target: { value: 'a' } });
 
@@ -397,8 +382,7 @@ describe('SelectPicker', () => {
 
     fireEvent.keyDown(target as HTMLElement, { key: 'a' });
 
-    // TODO Use "searchbox" role
-    expect(screen.getAllByRole('textbox')[0]).to.have.focus;
+    expect(screen.getByRole('searchbox')).to.have.focus;
   });
 
   describe('With a label', () => {

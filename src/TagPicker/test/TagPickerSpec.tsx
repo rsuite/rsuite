@@ -3,34 +3,20 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import {
-  getDOMNode,
-  getInstance,
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
   testPickers
 } from '@test/utils';
+import { mockGroupData } from '@test/mocks/data-mock';
 import TagPicker from '../index';
 import Button from '../../Button';
 import { PickerHandle } from '../../Picker';
 
-const data = [
-  {
-    label: 'Eugenia',
-    value: 'Eugenia',
-    role: 'Master'
-  },
-  {
-    label: <span>Kariane</span>,
-    value: 'Kariane',
-    role: 'Master'
-  },
-  {
-    label: 'Louisa',
-    value: 'Louisa',
-    role: 'Master'
-  }
-];
+const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], {
+  role: 'Master',
+  labelElementType: React.Fragment
+});
 
 describe('TagPicker', () => {
   testStandardProps(<TagPicker data={data} />, {
@@ -75,16 +61,16 @@ describe('TagPicker', () => {
   });
 
   it('Should not clean selected value', () => {
-    render(<TagPicker defaultOpen data={data} value={['Eugenia']} />);
+    render(<TagPicker data={data} value={['Eugenia']} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
-    expect(screen.getByText('Eugenia', { selector: '.rs-tag-text' })).to.exist;
+    expect(screen.getByRole('option', { name: 'Eugenia' })).to.exist;
   });
 
   it('Should output a TagPicker', () => {
-    const instance = getDOMNode(<TagPicker data={[]} />);
+    const { container } = render(<TagPicker data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-tag');
+    expect(container.firstChild).to.have.class('rs-picker-tag');
   });
 
   it('Should output a button', () => {
@@ -97,7 +83,7 @@ describe('TagPicker', () => {
     const value = 'Louisa';
     render(<TagPicker defaultOpen data={data} value={[value]} />);
 
-    expect(screen.getByText(value, { selector: '.rs-tag-text' })).to.exist;
+    expect(screen.queryAllByRole('option', { name: value })).to.have.lengthOf(2);
     expect(screen.getByRole('option', { name: value, selected: true })).to.exist;
   });
 
@@ -105,16 +91,15 @@ describe('TagPicker', () => {
     const value = 'Louisa';
     render(<TagPicker defaultOpen data={data} defaultValue={[value]} />);
 
-    expect(screen.getByText(value, { selector: '.rs-tag-text' })).to.exist;
+    expect(screen.queryAllByRole('option', { name: value })).to.have.lengthOf(2);
     expect(screen.getByRole('option', { name: value, selected: true })).to.exist;
     expect(screen.getByRole('button', { name: /clear/i })).to.exist;
   });
 
   it('Should render a group', () => {
-    const instance = getInstance(<TagPicker defaultOpen groupBy="role" data={data} />);
+    render(<TagPicker defaultOpen groupBy="role" data={data} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.overlay.querySelector('.rs-picker-menu-group')).to.exist;
+    expect(screen.queryByRole('group')).to.have.class('rs-picker-menu-group');
   });
 
   it('Should display custom placeholder', () => {
@@ -148,34 +133,30 @@ describe('TagPicker', () => {
 
   it('Should output a value by renderValue()', () => {
     // Valid value
-    const instance = getDOMNode(
+    const { rerender } = render(
       <TagPicker renderValue={v => [v, 'value']} data={[{ value: 1, label: '1' }]} value={[1]} />
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.querySelector('.rs-picker-tag-wrapper')).to.have.text('1value');
+    expect(screen.getByRole('listbox')).to.have.text('1value');
 
     // Invalid value
-    const instance2 = getDOMNode(
-      <TagPicker renderValue={v => [v, 'value']} data={[]} value={[2]} />
-    );
+    rerender(<TagPicker renderValue={v => [v, 'value']} data={[]} value={[2]} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance2.querySelector('.rs-picker-tag-wrapper')).to.have.text('2value');
+    expect(screen.getByRole('listbox')).to.have.text('2value');
 
-    const instance3 = getDOMNode(
+    rerender(
       <TagPicker
         className="custom"
         placeholder="test"
         data={[{ label: 'foo', value: 'bar' }]}
         value={['bar']}
-        renderValue={(_value, items) => `${items[0].label}-${items[0].value}`}
+        renderValue={(_value, items) => {
+          return `${items[0]?.label}-${items[0]?.value}`;
+        }}
       />
     );
 
-    // TODO Use `aria-owns` to bind .rs-picker-tag-wrapper with combobox
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance3.querySelector('.rs-picker-tag-wrapper')).to.have.text('foo-bar');
+    expect(screen.getByRole('listbox')).to.have.text('foo-bar');
   });
 
   it('Should renderMenuItemCheckbox render correct', () => {
@@ -224,12 +205,10 @@ describe('TagPicker', () => {
 
   it('Should call `onSelect` with correct args by key=Enter ', () => {
     const onSelect = sinon.spy();
-    const instance = getDOMNode(
-      <TagPicker defaultOpen data={data} onSelect={onSelect} defaultValue={['Kariane']} />
-    );
+    render(<TagPicker defaultOpen data={data} onSelect={onSelect} defaultValue={['Kariane']} />);
 
-    fireEvent.keyDown(instance, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance, { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
     expect(onSelect).to.have.been.calledWith(
       ['Kariane', 'Louisa'],
@@ -256,28 +235,24 @@ describe('TagPicker', () => {
   });
 
   it('Should focus item by key=ArrowDown ', () => {
-    const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={['Eugenia']} />);
-    fireEvent.keyDown(instance.overlay, { key: 'ArrowDown' });
+    render(<TagPicker defaultOpen data={data} defaultValue={['Eugenia']} />);
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.overlay.querySelector('.rs-check-item-focus')).to.have.text('Kariane');
+    expect(screen.getByRole('option', { name: 'Kariane' })).to.contain('.rs-check-item-focus');
   });
 
   it('Should focus item by key=ArrowUp ', () => {
-    const instance = getInstance(<TagPicker defaultOpen data={data} defaultValue={['Kariane']} />);
-    fireEvent.keyDown(instance.overlay, { key: 'ArrowUp' });
+    render(<TagPicker defaultOpen data={data} defaultValue={['Kariane']} />);
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.overlay.querySelector('.rs-check-item-focus')).to.have.text('Eugenia');
+    expect(screen.getByRole('option', { name: 'Eugenia' })).to.contain('.rs-check-item-focus');
   });
 
   it('Should call `onChange` by key=Enter ', () => {
     const onChange = sinon.spy();
-    const instance = getDOMNode(
-      <TagPicker defaultOpen data={data} onChange={onChange} defaultValue={['Kariane']} />
-    );
+    render(<TagPicker defaultOpen data={data} onChange={onChange} defaultValue={['Kariane']} />);
 
-    fireEvent.keyDown(instance, { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
     expect(onChange).to.have.been.calledOnce;
   });
@@ -350,7 +325,7 @@ describe('TagPicker', () => {
   });
 
   it('Should render a span tag', () => {
-    const instance = getDOMNode(
+    render(
       <TagPicker
         data={data}
         defaultValue={['Kariane']}
@@ -360,8 +335,7 @@ describe('TagPicker', () => {
       />
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.querySelector('.rs-tag')?.tagName).to.equal('SPAN');
+    expect(screen.getByRole('listbox')).to.be.contain('.rs-tag');
   });
 
   it('Should not be call renderValue()', () => {
@@ -370,30 +344,32 @@ describe('TagPicker', () => {
   });
 
   it('Should call renderValue', () => {
-    const instance1 = getDOMNode(<TagPicker data={[]} value={['Test']} renderValue={() => '1'} />);
-    const instance2 = getDOMNode(<TagPicker data={[]} value={['Test']} renderValue={() => null} />);
-    const instance3 = getDOMNode(
-      <TagPicker data={[]} value={['Test']} renderValue={() => undefined} />
-    );
+    const { rerender } = render(<TagPicker data={[]} value={['Test']} renderValue={() => '1'} />);
 
+    expect(screen.getByRole('listbox')).to.have.text('1');
     // eslint-disable-next-line testing-library/no-node-access
-    expect(instance1.querySelector('.rs-picker-tag-wrapper')).to.have.text('1');
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance2.querySelector('.rs-picker-toggle-placeholder')).to.have.text('Select');
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance3.querySelector('.rs-picker-toggle-placeholder')).to.have.text('Select');
+    expect(screen.getByRole('combobox').parentNode).to.have.class('rs-picker-has-value');
 
-    expect(instance1).to.have.class('rs-picker-has-value');
-    expect(instance2).not.to.have.class('rs-picker-has-value');
-    expect(instance3).not.to.have.class('rs-picker-has-value');
+    rerender(<TagPicker data={[]} value={['Test']} renderValue={() => null} />);
+
+    expect(screen.getByTestId('picker-describe')).to.have.class('rs-picker-toggle-placeholder');
+    expect(screen.getByTestId('picker-describe')).to.have.text('Select');
+    expect(screen.getByTestId('picker-describe')).to.not.have.class('rs-picker-has-value');
+
+    rerender(<TagPicker data={[]} value={['Test']} renderValue={() => undefined} />);
+
+    expect(screen.getByTestId('picker-describe')).to.have.class('rs-picker-toggle-placeholder');
+    expect(screen.getByTestId('picker-describe')).to.have.text('Select');
+    expect(screen.getByTestId('picker-describe')).to.not.have.class('rs-picker-has-value');
   });
 
   it('Children should not be selected', () => {
     const data = [{ value: 1, label: 'A', children: [{ value: 2, label: 'B' }] }];
-    const instance = getDOMNode(<TagPicker data={data} value={[2]} />);
+    render(<TagPicker data={data} value={[2]} />);
 
     expect(screen.getByRole('combobox')).to.have.text('Select');
-    expect(instance).not.to.have.class('rs-picker-has-value');
+    expect(screen.getByTestId('picker-describe')).to.have.text('Select');
+    expect(screen.getByTestId('picker-describe')).to.not.have.class('rs-picker-has-value');
   });
 
   it('Should call `onCreate` with correct value', async () => {
@@ -447,22 +423,23 @@ describe('TagPicker', () => {
   });
 
   it('Should be plaintext', () => {
-    const instance1 = getInstance(<TagPicker plaintext data={data} value={['Eugenia']} />);
-    const instance2 = getInstance(<TagPicker plaintext data={data} />);
-    const instance3 = getInstance(<TagPicker plaintext data={data} placeholder="-" />);
-    const instance4 = getInstance(
-      <TagPicker plaintext data={data} placeholder="-" value={['Eugenia']} />
-    );
+    const { rerender } = render(<TagPicker plaintext data={data} value={['Eugenia']} />);
 
-    expect(instance1.target).to.have.text('Eugenia');
-    expect(instance2.target).to.have.text('Not selected');
-    expect(instance3.target).to.have.text('-');
-    expect(instance4.target).to.have.text('Eugenia');
+    expect(screen.getByRole('text')).to.have.text('Eugenia');
+    expect(screen.getByRole('text')).to.style('margin-left', '-6px');
 
-    expect(instance1.target).to.style('margin-left', '-6px');
-    expect(instance2.target).to.not.have.style('margin-left', '');
-    expect(instance3.target).to.not.have.style('margin-left', '');
-    expect(instance4.target).to.style('margin-left', '-6px');
+    rerender(<TagPicker plaintext data={data} />);
+    expect(screen.getByRole('text')).to.have.text('Not selected');
+    expect(screen.getByRole('text')).to.not.have.style('margin-left', '');
+
+    rerender(<TagPicker plaintext data={data} placeholder="-" />);
+    expect(screen.getByRole('text')).to.have.text('-');
+    expect(screen.getByRole('text')).to.not.have.style('margin-left', '');
+
+    rerender(<TagPicker plaintext data={data} placeholder="-" value={['Eugenia']} />);
+
+    expect(screen.getByRole('text')).to.have.text('Eugenia');
+    expect(screen.getByRole('text')).to.style('margin-left', '-6px');
   });
 
   it('Should call `onTagRemove` callback', () => {

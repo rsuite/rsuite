@@ -1,6 +1,6 @@
 import { act } from '@testing-library/react';
 import { renderHook } from '@test/utils';
-import { useSearch } from '../utils';
+import useSearch from '../hooks/useSearch';
 import Sinon from 'sinon';
 
 describe('useSearch(data, opts)', () => {

@@ -2,26 +2,11 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import TagPicker from '../index';
 import { getStyle, inChrome } from '@test/utils';
+import { mockGroupData } from '@test/mocks/data-mock';
 
 import '../styles/index.less';
 
-const data = [
-  {
-    label: 'Eugenia',
-    value: 'Eugenia',
-    role: 'Master'
-  },
-  {
-    label: <span>Kariane</span>,
-    value: 'Kariane',
-    role: 'Master'
-  },
-  {
-    label: 'Louisa',
-    value: 'Louisa',
-    role: 'Master'
-  }
-];
+const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('TagPicker styles', () => {
   it('Should render the correct styles', () => {

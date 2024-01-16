@@ -85,9 +85,24 @@
 
 <!--{include:`virtualized.md`}-->
 
-## 无障碍设计
+## 可访问性
 
-了解更多有关[无障碍设计](/zh/guide/accessibility)的信息。
+### ARIA 属性
+
+- CheckPicker 组件的 `role` 属性为 `combobox`。
+- 有 `aria-haspopup="listbox"` 属性来指示 combobox 有一个弹出的列表框。
+- 有 `aria-expanded` 属性来指示列表框是否打开。
+- 有 `aria-controls` 属性来指示列表框元素的 ID。
+- 有 `aria-activedescendant` 属性来指示焦点选项的 ID。
+- 当设置了 `label`, `aria-labelledby` 属性被添加到 combobox 元素和 listbox 元素上，并将值设置为 `label` 的 `id` 属性值。
+- listbox 有 `aria-multiselectable=true` 属性来指示列表框是多选的。
+
+### 键盘交互
+
+- <kbd>↓</kbd> - 移动焦点到下一个选项。
+- <kbd>↑</kbd> - 移动焦点到上一个选项。
+- <kbd>Enter</kbd> - 选择焦点选项。
+- <kbd>Esc</kbd> - 关闭列表框。
 
 ## Props
 

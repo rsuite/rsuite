@@ -1,15 +1,23 @@
 import React from 'react';
-import PickerOverlay from '../PickerOverlay';
+import PickerPopup from '../PickerPopup';
 import getWidth from 'dom-lib/getWidth';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import sinon from 'sinon';
+import { testStandardProps } from '@test/utils';
 import * as utils from '../../utils';
 import useElementResize from '@test/stubs/useElementResize';
 import { OverlayTriggerHandle } from '../PickerToggleTrigger';
 
-describe('PickerOverlay', () => {
+describe('PickerPopup', () => {
   afterEach(() => {
     sinon.restore();
+  });
+
+  testStandardProps(<PickerPopup />);
+
+  it('Should render a popup', () => {
+    render(<PickerPopup data-testid="overlay" />);
+    expect(screen.getByTestId('overlay').className).to.contain('picker-popup');
   });
 
   it('Should update the position after the size is changed', () => {
@@ -53,11 +61,11 @@ describe('PickerOverlay', () => {
       return (
         <div>
           <Button ref={targetRef}>target</Button>
-          <PickerOverlay target={targetRef} placement="topStart">
+          <PickerPopup target={targetRef} placement="topStart">
             <div ref={contentRef} style={{ width: 100, height: 100 }}>
               test
             </div>
-          </PickerOverlay>
+          </PickerPopup>
         </div>
       );
     });
@@ -99,7 +107,7 @@ describe('PickerOverlay', () => {
           <Button ref={targetRef} style={{ width: 200 }}>
             target
           </Button>
-          <PickerOverlay
+          <PickerPopup
             target={targetRef}
             placement="topStart"
             autoWidth
@@ -108,17 +116,12 @@ describe('PickerOverlay', () => {
             }}
           >
             <div>test</div>
-          </PickerOverlay>
+          </PickerPopup>
         </div>
       );
     });
 
     render(<App ref={instanceRef} />);
-    expect(
-      getWidth(
-        // eslint-disable-next-line testing-library/no-node-access
-        (instanceRef.current as HTMLDivElement).querySelector('.rs-picker-menu') as HTMLElement
-      )
-    ).to.equal(200);
+    expect(getWidth(screen.getByTestId('picker-popup'))).to.equal(200);
   });
 });

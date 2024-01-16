@@ -6,7 +6,7 @@ import OverlayTrigger, {
   OverlayTriggerType
 } from '../Overlay/OverlayTrigger';
 import { PositionChildProps } from '../Overlay/Position';
-import { placementPolyfill, useCustom } from '../utils';
+import { placementPolyfill, useCustom, useUniqueId } from '../utils';
 import { TypeAttributes, AnimationEventProps } from '../@types/common';
 
 export type { OverlayTriggerHandle, PositionChildProps };
@@ -14,6 +14,14 @@ export type { OverlayTriggerHandle, PositionChildProps };
 export interface PickerToggleTriggerProps
   extends Omit<AnimationEventProps, 'onEntering' | 'onExiting'>,
     Pick<OverlayTriggerProps, 'speaker' | 'onClose'> {
+  id?: string;
+  /**
+   * Identifies the combobox has having a popout, and indicates the type.
+   *
+   * @see MDN https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-haspopup
+   */
+  popupType?: 'listbox' | 'tree' | 'grid' | 'dialog' | 'menu';
+  multiple?: boolean;
   placement?: TypeAttributes.Placement;
   pickerProps: any;
   open?: boolean;
@@ -40,26 +48,56 @@ export const pickTriggerPropKeys = [
   'disabled',
   'plaintext',
   'readOnly',
-  'loading'
+  'loading',
+  'label'
 ];
+
+export interface ComboboxContextProps {
+  id?: string;
+  multiple?: boolean;
+  hasLabel?: boolean;
+  popupType?: 'listbox' | 'tree' | 'grid' | 'dialog' | 'menu';
+}
+
+export const ComboboxContextContext = React.createContext<ComboboxContextProps>({
+  popupType: 'listbox'
+});
 
 const PickerToggleTrigger = React.forwardRef(
   (props: PickerToggleTriggerProps, ref: React.Ref<any>) => {
-    const { pickerProps, speaker, placement, trigger = 'click', ...rest } = props;
+    const {
+      pickerProps,
+      speaker,
+      placement,
+      trigger = 'click',
+      id,
+      multiple,
+      popupType = 'listbox',
+      ...rest
+    } = props;
     const pickerTriggerProps = pick(pickerProps, pickTriggerPropKeys);
-
+    const pickerId = useUniqueId('rs-', id);
     const { rtl } = useCustom();
 
     return (
-      <OverlayTrigger
-        {...pickerTriggerProps}
-        {...rest}
-        disabled={pickerTriggerProps.disabled || pickerTriggerProps.loading}
-        ref={ref}
-        trigger={trigger}
-        placement={placementPolyfill(placement, rtl)}
-        speaker={speaker}
-      />
+      <ComboboxContextContext.Provider
+        value={{
+          id: pickerId,
+          hasLabel: typeof pickerTriggerProps.label !== 'undefined',
+          multiple,
+          popupType
+        }}
+      >
+        <OverlayTrigger
+          {...pickerTriggerProps}
+          {...rest}
+          disabled={pickerTriggerProps.disabled || pickerTriggerProps.loading}
+          ref={ref}
+          trigger={trigger}
+          placement={placementPolyfill(placement, rtl)}
+          speaker={speaker}
+        />
+      </ComboboxContextContext.Provider>
     );
   }
 );

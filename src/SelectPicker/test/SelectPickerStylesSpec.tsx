@@ -2,27 +2,12 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import SelectPicker from '../index';
 import { getStyle, toRGB, inChrome, itChrome } from '@test/utils';
+import { mockGroupData } from '@test/mocks/data-mock';
 import { PickerHandle } from '../../Picker';
 
 import '../styles/index.less';
 
-const data = [
-  {
-    label: 'Eugenia',
-    value: 'Eugenia',
-    role: 'Master'
-  },
-  {
-    label: <span>Kariane</span>,
-    value: 'Kariane',
-    role: 'Developer'
-  },
-  {
-    label: 'Louisa',
-    value: 'Louisa',
-    role: 'Master'
-  }
-];
+const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('SelectPicker styles', () => {
   it('Default select picker should render correct toggle styles', () => {
@@ -131,6 +116,24 @@ describe('SelectPicker styles', () => {
   });
 
   it('Select picker group should render correct styles', () => {
+    const data = [
+      {
+        label: 'Eugenia',
+        value: 'Eugenia',
+        role: 'Master'
+      },
+      {
+        label: 'Kariane',
+        value: 'Kariane',
+        role: 'Developer'
+      },
+      {
+        label: 'Louisa',
+        value: 'Louisa',
+        role: 'Master'
+      }
+    ];
+
     const ref = React.createRef<PickerHandle>();
     render(
       <SelectPicker ref={ref} groupBy="role" data={data} menuClassName="group-test-menu" open />
@@ -139,6 +142,7 @@ describe('SelectPicker styles', () => {
     const secondItemGroup = ((ref.current as PickerHandle).overlay as HTMLElement).querySelectorAll(
       '.group-test-menu .rs-picker-menu-group'
     )[1];
+
     inChrome &&
       assert.equal(getStyle(secondItemGroup, 'borderTop'), `1px solid ${toRGB('#e5e5ea')}`);
     assert.equal(getStyle(secondItemGroup, 'marginTop'), '6px');

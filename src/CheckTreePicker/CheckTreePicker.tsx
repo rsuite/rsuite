@@ -19,8 +19,9 @@ import {
 
 import {
   PickerToggle,
+  TreeView,
   onMenuKeyDown,
-  PickerOverlay,
+  PickerPopup,
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
@@ -168,6 +169,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   const { trigger, root, target, overlay, list, searchInput, treeView } = usePickerRef(ref, {
     inline
   });
+
   const { rtl, locale } = useCustom<PickerLocale>('Picker', overrideLocale);
   const [active, setActive] = useState(false);
   const [activeNode, setActiveNode] = useState<TreeNodeType | null>(null);
@@ -273,8 +275,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       ),
       onSelect: handleSelect,
       onExpand: handleExpand,
-      onRenderTreeNode: renderTreeNode,
-      onRenderTreeIcon: renderTreeIcon
+      renderTreeNode,
+      renderTreeIcon
     };
   };
 
@@ -468,8 +470,8 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   const handleClean = useEventCallback((event: React.SyntheticEvent) => {
     const target = event.target as Element;
-    // exclude searchBar
-    if (target.matches('div[role="searchbox"] > input') || disabled || !cleanable) {
+    // exclude searchbox
+    if (target.matches('input[role="searchbox"]') || disabled || !cleanable) {
       return;
     }
 
@@ -648,7 +650,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       return (
         <div className={childrenClass} key={node[valueKey]}>
           <CheckTreeNode {...nodeProps} ref={ref => saveTreeNodeRef(ref, refKey)} />
-          <div className={checkTreePrefix('children')}>
+          <div className={checkTreePrefix('group')} role="group">
             {nodes.map(child => renderNode(child, layer))}
             {showIndentLine && (
               <span
@@ -713,7 +715,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       return <div className={prefix('none')}>{locale.noResultsText}</div>;
     }
 
-    const treeNodesClass = merge(checkTreePrefix('nodes'), {
+    const treeNodesClass = merge(checkTreePrefix('root'), {
       [checkTreePrefix('all-uncheckable')]: isEveryFirstLevelNodeUncheckable(
         flattenNodes,
         uncheckableItemValues,
@@ -721,42 +723,38 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       )
     });
 
-    const styles = inline ? { height, ...style } : {};
     return (
-      <div
-        id={id ? `${id}-listbox` : undefined}
+      <TreeView
         ref={inline ? root : treeView}
-        role="tree"
-        aria-multiselectable
+        multiselectable
+        treeRootClassName={treeNodesClass}
         className={classes}
-        style={styles}
+        style={inline ? { height, ...style } : {}}
         onScroll={onScroll}
         onKeyDown={inline ? handleTreeKeydown : undefined}
       >
-        <div className={treeNodesClass}>
-          {virtualized ? (
-            <AutoSizer
-              defaultHeight={inline ? height : menuMaxHeight}
-              style={{ width: 'auto', height: 'auto' }}
-            >
-              {({ height }) => (
-                <List
-                  ref={list}
-                  height={height}
-                  itemSize={itemSize}
-                  itemCount={formattedNodes.length}
-                  itemData={formattedNodes}
-                  {...listProps}
-                >
-                  {renderVirtualListNode}
-                </List>
-              )}
-            </AutoSizer>
-          ) : (
-            formattedNodes
-          )}
-        </div>
-      </div>
+        {virtualized ? (
+          <AutoSizer
+            defaultHeight={inline ? height : menuMaxHeight}
+            style={{ width: 'auto', height: 'auto' }}
+          >
+            {({ height }) => (
+              <List
+                ref={list}
+                height={height}
+                itemSize={itemSize}
+                itemCount={formattedNodes.length}
+                itemData={formattedNodes}
+                {...listProps}
+              >
+                {renderVirtualListNode}
+              </List>
+            )}
+          </AutoSizer>
+        ) : (
+          formattedNodes
+        )}
+      </TreeView>
     );
   };
 
@@ -766,7 +764,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     const mergedMenuStyle = { ...menuStyle, left, top };
 
     return (
-      <PickerOverlay
+      <PickerPopup
         autoWidth={menuAutoWidth}
         className={classes}
         style={mergedMenuStyle}
@@ -784,7 +782,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         ) : null}
         {renderMenu ? renderMenu(renderCheckTree()) : renderCheckTree()}
         {renderExtraFooter?.()}
-      </PickerOverlay>
+      </PickerPopup>
     );
   };
 
@@ -834,6 +832,9 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
 
   return (
     <PickerToggleTrigger
+      id={id}
+      popupType="tree"
+      multiple
       pickerProps={pick(props, pickTriggerPropKeys)}
       ref={trigger}
       placement={placement}
@@ -845,7 +846,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       <Component className={classes} style={style} ref={root}>
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-          id={id}
           ref={target}
           appearance={appearance}
           onKeyDown={onPickerKeydown}
@@ -857,6 +857,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
           active={active}
           placement={placement}
           inputValue={value}
+          focusItemValue={focusItemValue}
         >
           {selectedElement || locale.placeholder}
         </PickerToggle>

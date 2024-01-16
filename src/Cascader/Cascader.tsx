@@ -6,7 +6,7 @@ import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import shallowEqual from '../utils/shallowEqual';
-import DropdownMenu from './DropdownMenu';
+import TreeView from './TreeView';
 import { getParentMap, getPathTowardsItem, findNodeOfTree, flattenTree } from '../utils/treeUtils';
 import { usePaths } from './utils';
 import { PickerLocale } from '../locales';
@@ -23,7 +23,7 @@ import {
 
 import {
   PickerToggle,
-  PickerOverlay,
+  PickerPopup,
   SearchBar,
   PickerToggleTrigger,
   usePickerClassName,
@@ -471,12 +471,12 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
     return (
       <div
+        role="treeitem"
         key={key}
         aria-disabled={disabled}
         data-key={item[valueKey]}
         className={itemClasses}
         tabIndex={-1}
-        role="option"
         onClick={event => {
           if (!disabled) {
             handleSearchRowSelect(item, nodes, event);
@@ -495,7 +495,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
     const items = getSearchResult();
     return (
-      <div className={prefix('cascader-search-panel')} data-layer={0} role="listbox">
+      <div className={prefix('cascader-search-panel')} data-layer={0} role="tree">
         {items.length ? (
           items.map(renderSearchRow)
         ) : (
@@ -505,13 +505,13 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     );
   };
 
-  const renderDropdownMenu = (positionProps?: PositionChildProps, speakerRef?) => {
+  const renderTreeView = (positionProps?: PositionChildProps, speakerRef?) => {
     const { left, top, className } = positionProps || {};
     const styles = { ...menuStyle, left, top };
     const classes = merge(className, menuClassName, prefix('cascader-menu', { inline }));
 
     return (
-      <PickerOverlay
+      <PickerPopup
         ref={mergeRefs(overlay, speakerRef)}
         className={classes}
         style={styles}
@@ -529,8 +529,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
         {renderSearchResultPanel()}
         {searchKeyword === '' && (
-          <DropdownMenu
-            id={id ? `${id}-listbox` : undefined}
+          <TreeView
             menuWidth={menuWidth}
             menuHeight={menuHeight}
             disabledItemValues={disabledItemValues}
@@ -549,7 +548,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
           />
         )}
         {renderExtraFooter?.()}
-      </PickerOverlay>
+      </PickerPopup>
     );
   };
 
@@ -591,22 +590,23 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
   // TODO: bad api design
   //       consider an isolated Menu component
   if (inline) {
-    return renderDropdownMenu();
+    return renderTreeView();
   }
 
   return (
     <PickerToggleTrigger
+      id={id}
+      popupType="tree"
       pickerProps={pick(props, pickTriggerPropKeys)}
       ref={trigger}
       placement={placement}
       onEntered={createChainedFunction(handleEntered, onEnter)}
       onExited={createChainedFunction(handleExited, onExited)}
-      speaker={renderDropdownMenu}
+      speaker={renderTreeView}
     >
       <Component className={classes} style={style} ref={root}>
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-          id={id}
           ref={target}
           as={toggleAs}
           appearance={appearance}
@@ -618,6 +618,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
           active={active}
           placement={placement}
           inputValue={value ?? ''}
+          focusItemValue={focusItemValue}
         >
           {selectedElement || locale?.placeholder}
         </PickerToggle>

@@ -27,6 +27,10 @@ const TagInput: PickerComponent<TagInputProps> = React.forwardRef((props: TagInp
     <InputPickerContext.Provider value={contextValue}>
       <InputPicker
         {...rest}
+        aria-haspopup={false}
+        aria-expanded={undefined}
+        aria-controls={undefined}
+        aria-keyshortcuts={trigger}
         value={value}
         defaultValue={defaultValue}
         data={data}

@@ -4,7 +4,7 @@ import pick from 'lodash/pick';
 import omit from 'lodash/omit';
 import isFunction from 'lodash/isFunction';
 import isNil from 'lodash/isNil';
-import DropdownMenu from './DropdownMenu';
+import TreeView from './TreeView';
 import Checkbox from '../Checkbox';
 import { useCascadeValue, useColumnData, useFlattenData, isSomeChildChecked } from './utils';
 import { getNodeParents, findNodeOfTree } from '../utils/treeUtils';
@@ -23,7 +23,7 @@ import {
 
 import {
   PickerToggle,
-  PickerOverlay,
+  PickerPopup,
   SearchBar,
   SelectedElement,
   PickerToggleTrigger,
@@ -409,7 +409,13 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       });
 
       return (
-        <div key={key} className={itemClasses} aria-disabled={disabled} data-key={item[valueKey]}>
+        <div
+          role="treeitem"
+          aria-disabled={disabled}
+          key={key}
+          className={itemClasses}
+          data-key={item[valueKey]}
+        >
           <Checkbox
             disabled={disabled}
             checked={active}
@@ -440,7 +446,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
 
       const items = getSearchResult();
       return (
-        <div className={prefix('cascader-search-panel')} data-layer={0}>
+        <div className={prefix('cascader-search-panel')} data-layer={0} role="tree">
           {items.length ? (
             items.map(renderSearchRow)
           ) : (
@@ -450,7 +456,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       );
     };
 
-    const renderDropdownMenu = (positionProps?: PositionChildProps, speakerRef?) => {
+    const renderTreeView = (positionProps?: PositionChildProps, speakerRef?) => {
       const { left, top, className } = positionProps || {};
       const styles = { ...menuStyle, left, top };
 
@@ -461,7 +467,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       );
 
       return (
-        <PickerOverlay
+        <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
           className={classes}
           style={styles}
@@ -480,8 +486,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
           {renderSearchResultPanel()}
 
           {searchKeyword === '' && (
-            <DropdownMenu
-              id={id ? `${id}-listbox` : undefined}
+            <TreeView
               cascade={cascade}
               menuWidth={menuWidth}
               menuHeight={menuHeight}
@@ -502,7 +507,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
           )}
 
           {renderExtraFooter?.()}
-        </PickerOverlay>
+        </PickerPopup>
       );
     };
 
@@ -546,23 +551,25 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
     });
 
     if (inline) {
-      return renderDropdownMenu();
+      return renderTreeView();
     }
 
     return (
       <PickerToggleTrigger
+        id={id}
+        popupType="tree"
+        multiple
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={trigger}
         placement={placement}
         onEnter={createChainedFunction(handleEntered, onEnter)}
         onExited={createChainedFunction(handleExited, onExited)}
         onExit={createChainedFunction(onClose, onExit)}
-        speaker={renderDropdownMenu}
+        speaker={renderTreeView}
       >
         <Component className={classes} style={style} ref={root}>
           <PickerToggle
             {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys])}
-            id={id}
             as={toggleAs}
             appearance={appearance}
             disabled={disabled}

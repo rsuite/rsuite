@@ -39,7 +39,7 @@ import {
   CalendarOnlyPropsType
 } from '../utils/dateUtils';
 import {
-  PickerOverlay,
+  PickerPopup,
   PickerLabel,
   PickerIndicator,
   PickerToggleTrigger,
@@ -48,9 +48,9 @@ import {
   omitTriggerPropKeys,
   PositionChildProps,
   usePickerClassName,
+  usePickerRef,
   onMenuKeyDown
 } from '../Picker';
-import usePickerRef from '../Picker/usePickerRef';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
 import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
@@ -281,7 +281,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       ...restProps
     } = props;
 
-    const id = useUniqueId(`${classPrefix}-`, idProp);
+    const id = useUniqueId('rs-', idProp);
     const { trigger, root, target, overlay } = usePickerRef(ref);
     const { locale, formatDate } = useCustom<DatePickerLocale>('DatePicker', overrideLocale);
     const { merge, prefix } = useClassNames(classPrefix);
@@ -470,7 +470,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       event.stopPropagation();
     });
 
-    const handlePickerOverlayKeyDown = useEventCallback((event: React.KeyboardEvent) => {
+    const handlePickerPopupKeyDown = useEventCallback((event: React.KeyboardEvent) => {
       let delta = 0;
 
       const step = showMonth ? 6 : 7;
@@ -622,7 +622,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       const classes = merge(menuClassName, className);
       const styles = { ...menuStyle, left, top };
       return (
-        <PickerOverlay
+        <PickerPopup
           role="dialog"
           aria-labelledby={label ? `${id}-label` : undefined}
           tabIndex={-1}
@@ -630,7 +630,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
           ref={mergeRefs(overlay, speakerRef)}
           style={styles}
           target={trigger}
-          onKeyDown={handlePickerOverlayKeyDown}
+          onKeyDown={handlePickerPopupKeyDown}
         >
           <Stack alignItems="flex-start">
             {sideRanges.length > 0 && (
@@ -683,7 +683,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               />
             </>
           </Stack>
-        </PickerOverlay>
+        </PickerPopup>
       );
     };
 

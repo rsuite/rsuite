@@ -12,31 +12,9 @@ import {
 import MultiCascader from '../MultiCascader';
 import Button from '../../Button';
 import { PickerHandle } from '../../Picker';
+import { mockTreeData } from '@test/mocks/data-mock';
 
-const items = [
-  {
-    value: '1',
-    label: '1'
-  },
-  {
-    value: '2',
-    label: '2'
-  },
-  {
-    value: '3',
-    label: '3',
-    children: [
-      {
-        value: '3-1',
-        label: '3-1'
-      },
-      {
-        value: '3-2',
-        label: '3-2'
-      }
-    ]
-  }
-];
+const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 
 describe('MultiCascader', () => {
   testStandardProps(<MultiCascader data={[]} />, {
@@ -129,7 +107,7 @@ describe('MultiCascader', () => {
 
     // eslint-disable-next-line testing-library/no-node-access
     expect(container.firstChild).to.have.class('rs-picker-inline');
-    expect(screen.getByRole('listbox')).to.exist;
+    expect(screen.getByRole('tree')).to.exist;
   });
 
   it('Should output a placeholder', () => {
@@ -361,12 +339,12 @@ describe('MultiCascader', () => {
   it('Should update columns', () => {
     const { rerender } = render(<MultiCascader data={[]} open />);
 
-    expect(screen.queryAllByRole('option')).to.have.lengthOf(0);
+    expect(screen.queryAllByRole('treeitem')).to.have.lengthOf(0);
 
     rerender(<MultiCascader data={[{ label: 'test', value: 1 }]} open />);
 
-    expect(screen.getAllByRole('option')).to.have.lengthOf(1);
-    expect(screen.getAllByRole('option')[0]).to.have.text('test');
+    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(1);
+    expect(screen.getAllByRole('treeitem')[0]).to.have.text('test');
   });
 
   it('Should children be loaded lazily', () => {
@@ -381,11 +359,11 @@ describe('MultiCascader', () => {
     );
 
     fireEvent.click(
-      // TODO Move click handler to "option"
+      // TODO Move click handler to "treeitem"
       screen.getByText('1', { selector: 'label' })
     );
 
-    expect(screen.getByRole('option', { name: '2' })).to.exist;
+    expect(screen.getByRole('treeitem', { name: '2' })).to.exist;
   });
 
   it('Should children be loaded lazily in inline mode', () => {
@@ -400,11 +378,11 @@ describe('MultiCascader', () => {
     );
 
     fireEvent.click(
-      // TODO Move click handler to "option"
+      // TODO Move click handler to "treeitem"
       screen.getByText('1', { selector: 'label' })
     );
 
-    expect(screen.getByRole('option', { name: '2' })).to.exist;
+    expect(screen.getByRole('treeitem', { name: '2' })).to.exist;
   });
 
   it('Should present an asyn loading state', () => {
@@ -425,42 +403,41 @@ describe('MultiCascader', () => {
     );
 
     fireEvent.click(
-      // TODO Move click handler to "option"
+      // TODO Move click handler to "treeitem"
       screen.getByText('1', { selector: 'label' })
     );
 
     // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.getByRole('option', { name: '1' }).querySelector('.rs-icon.rs-icon-spin')).to
+    expect(screen.getByRole('treeitem', { name: '1' }).querySelector('.rs-icon.rs-icon-spin')).to
       .exist;
   });
 
   it('Should call `onSearch` callback ', () => {
     const onSearchSpy = sinon.spy();
     render(<MultiCascader data={items} defaultOpen onSearch={onSearchSpy} />);
-    // TODO Use "searchbox" role
-    const input = screen.getByRole('textbox');
 
-    fireEvent.change(input, { target: { value: '3' } });
+    const searchbox = screen.getByRole('searchbox');
 
-    // TODO Use "option" role here
-    expect(screen.getAllByRole('checkbox')).to.have.lengthOf(3);
+    fireEvent.change(searchbox, { target: { value: '3' } });
+
+    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(3);
     expect(onSearchSpy).to.have.been.calledOnce;
   });
 
   it('Should update the subcolumn when the leaf node is clicked', () => {
     render(<MultiCascader data={items} open />);
 
-    expect(screen.queryAllByRole('listbox')).to.have.lengthOf(1);
+    expect(screen.queryByRole('tree')).to.be.exist;
 
     // Click on a node that has child nodes
-    // TODO Use "option" role here
+    // TODO Use "treeitem" role here
     fireEvent.click(screen.getByText('3', { selector: 'label' }));
 
-    expect(screen.queryAllByRole('listbox')).to.have.lengthOf(2);
+    expect(screen.queryAllByRole('group')).to.have.lengthOf(2);
 
     // Click on the leaf node
     fireEvent.click(screen.getByText('1', { selector: 'label' }));
 
-    expect(screen.queryAllByRole('listbox')).to.have.lengthOf(1);
+    expect(screen.queryAllByRole('group')).to.have.lengthOf(1);
   });
 });

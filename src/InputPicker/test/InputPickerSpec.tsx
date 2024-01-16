@@ -9,29 +9,13 @@ import {
   testFormControl,
   testPickers
 } from '@test/utils';
-
+import { mockGroupData } from '@test/mocks/data-mock';
 import InputPicker from '../InputPicker';
 import Button from '../../Button';
 import { PickerHandle } from '../../Picker';
 import userEvent from '@testing-library/user-event';
 
-const data = [
-  {
-    label: 'Eugenia',
-    value: 'Eugenia',
-    role: 'Master'
-  },
-  {
-    label: <span>Kariane</span>,
-    value: 'Kariane',
-    role: 'Master'
-  },
-  {
-    label: 'Louisa',
-    value: 'Louisa',
-    role: 'Master'
-  }
-];
+const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('InputPicker', () => {
   testStandardProps(<InputPicker data={data} />, {

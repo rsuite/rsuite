@@ -1,13 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps } from '../@types/common';
 import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 
-export interface DropdownMenuGroupProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {}
+export interface ListItemGroupProps extends WithAsProps, React.HTMLAttributes<HTMLDivElement> {}
 
-const DropdownMenuGroup = React.forwardRef(
-  (props: DropdownMenuGroupProps, ref: React.Ref<HTMLDivElement>) => {
+const ListItemGroup = React.forwardRef(
+  (props: ListItemGroupProps, ref: React.Ref<HTMLDivElement>) => {
     const {
       as: Component = 'div',
       classPrefix = 'dropdown-menu-group',
@@ -29,11 +28,6 @@ const DropdownMenuGroup = React.forwardRef(
   }
 );
 
-DropdownMenuGroup.displayName = 'DropdownMenuGroup';
-DropdownMenuGroup.propTypes = {
-  classPrefix: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node
-};
+ListItemGroup.displayName = 'ListItemGroup';
 
-export default DropdownMenuGroup;
+export default ListItemGroup;

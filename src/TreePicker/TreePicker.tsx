@@ -51,7 +51,8 @@ import {
 
 import {
   PickerToggle,
-  PickerOverlay,
+  PickerPopup,
+  TreeView,
   SearchBar,
   PickerToggleTrigger,
   createConcatChildrenFunction,
@@ -346,8 +347,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       onDragEnd: handleDragEnd,
       onDrop: handleDrop,
       onExpand: handleExpand,
-      onRenderTreeNode: renderTreeNode,
-      onRenderTreeIcon: renderTreeIcon
+      renderTreeNode,
+      renderTreeIcon
     };
   };
 
@@ -559,8 +560,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   const handleClean = useEventCallback((event: React.SyntheticEvent) => {
     const nullValue: any = null;
     const target = event.target as Element;
-    // exclude searchBar
-    if (target.matches('div[role="searchbox"] > input') || disabled || !cleanable) {
+    // exclude searchbox
+    if (target.matches('input[role="searchbox"]') || disabled || !cleanable) {
       return;
     }
     if (!isControlled) {
@@ -638,7 +639,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       return (
         <div className={childrenClass} key={node[valueKey]}>
           <TreeNode {...nodeProps} ref={ref => saveTreeNodeRef(ref, node.refKey)} />
-          <div className={treePrefix('children')}>
+          <div className={treePrefix('group')} role="group">
             {nodes.map((child, i) => renderNode(child, i, layer))}
             {showIndentLine && (
               <span
@@ -687,50 +688,47 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     });
 
     const formattedNodes = getFormattedNodes(renderNode);
-    const styles = inline ? { height, ...style } : {};
+
     return (
-      <div
-        role="tree"
-        id={id ? `${id}-listbox` : undefined}
+      <TreeView
+        treeRootClassName={treePrefix('root')}
         ref={inline ? root : treeView}
         className={classes}
-        style={styles}
+        style={inline ? { height, ...style } : {}}
         onKeyDown={inline ? handleTreeKeyDown : undefined}
       >
-        <div className={treePrefix('nodes')}>
-          {virtualized ? (
-            <AutoSizer
-              defaultHeight={inline ? height : menuMaxHeight}
-              style={{ width: 'auto', height: 'auto' }}
-            >
-              {({ height }) => (
-                <List
-                  ref={list}
-                  height={height}
-                  itemSize={itemSize}
-                  itemCount={formattedNodes.length}
-                  itemData={formattedNodes}
-                  {...listProps}
-                >
-                  {renderVirtualListNode}
-                </List>
-              )}
-            </AutoSizer>
-          ) : (
-            formattedNodes
-          )}
-        </div>
-      </div>
+        {virtualized ? (
+          <AutoSizer
+            defaultHeight={inline ? height : menuMaxHeight}
+            style={{ width: 'auto', height: 'auto' }}
+          >
+            {({ height }) => (
+              <List
+                ref={list}
+                height={height}
+                itemSize={itemSize}
+                itemCount={formattedNodes.length}
+                itemData={formattedNodes}
+                {...listProps}
+              >
+                {renderVirtualListNode}
+              </List>
+            )}
+          </AutoSizer>
+        ) : (
+          formattedNodes
+        )}
+      </TreeView>
     );
   };
 
-  const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+  const renderTreeView = (positionProps: PositionChildProps, speakerRef) => {
     const { left, top, className } = positionProps;
     const classes = merge(className, menuClassName, prefix('tree-menu'));
     const mergedMenuStyle = { ...menuStyle, left, top };
 
     return (
-      <PickerOverlay
+      <PickerPopup
         autoWidth={menuAutoWidth}
         className={classes}
         style={mergedMenuStyle}
@@ -748,7 +746,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         ) : null}
         {renderMenu ? renderMenu(renderTree()) : renderTree()}
         {renderExtraFooter?.()}
-      </PickerOverlay>
+      </PickerPopup>
     );
   };
 
@@ -785,6 +783,8 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
 
   return (
     <PickerToggleTrigger
+      id={id}
+      popupType="tree"
       pickerProps={pick(props, pickTriggerPropKeys)}
       ref={trigger}
       placement={placement}
@@ -792,12 +792,11 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
       onEntered={onEntered}
       onExit={createChainedFunction(onClose, onExit)}
       onExited={createChainedFunction(handleClose, onExited)}
-      speaker={renderDropdownMenu}
+      speaker={renderTreeView}
     >
       <Component className={classes} style={style} ref={root}>
         <PickerToggle
           {...omit(rest, [...omitTriggerPropKeys, ...usedClassNamePropKeys, 'cascade'])}
-          id={id}
           ref={target}
           appearance={appearance}
           onKeyDown={onPickerKeydown}
@@ -809,6 +808,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
           active={active}
           placement={placement}
           inputValue={value}
+          focusItemValue={focusItemValue}
         >
           {selectedElement || locale.placeholder}
         </PickerToggle>

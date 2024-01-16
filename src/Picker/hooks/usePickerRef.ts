@@ -1,13 +1,13 @@
 import { useImperativeHandle, useRef } from 'react';
-import useEventCallback from '../utils/useEventCallback';
-import type { OverlayTriggerHandle } from './PickerToggleTrigger';
-import type { ListHandle } from '../Windowing';
+import useEventCallback from '../../utils/useEventCallback';
+import type { OverlayTriggerHandle } from '../PickerToggleTrigger';
+import type { ListHandle } from '../../Windowing';
 
 export interface PickerDependentParameters {
   inline?: boolean;
 }
 
-import type { PickerHandle } from './types';
+import type { PickerHandle } from '../types';
 
 /**
  * A hook of the exposed method of Picker

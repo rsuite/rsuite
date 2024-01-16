@@ -9,37 +9,13 @@ import {
   testFormControl,
   testPickers
 } from '@test/utils';
+import { mockTreeData } from '@test/mocks/data-mock';
 import TreePicker, { TreePickerProps } from '../TreePicker';
 import { KEY_VALUES } from '../../utils';
 import { PickerHandle } from '../../Picker';
 import { ListHandle } from '../../Windowing';
 
-const data = [
-  {
-    label: 'Master',
-    value: 'Master',
-    children: [
-      {
-        label: 'tester0',
-        value: 'tester0'
-      },
-      {
-        label: 'tester1',
-        value: 'tester1',
-        children: [
-          {
-            label: 'tester2',
-            value: 'tester2'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    label: 'Disabled node',
-    value: 'disabled'
-  }
-];
+const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
 
 describe('TreePicker', () => {
   testStandardProps(<TreePicker data={data} />, {
@@ -509,34 +485,29 @@ describe('TreePicker', () => {
   });
 
   it('Should only clean the searchKeyword', () => {
-    const instance = getInstance(
-      <TreePicker defaultOpen defaultExpandAll data={data} defaultValue={'Master'} />
-    );
+    render(<TreePicker defaultOpen defaultExpandAll data={data} defaultValue={'Master'} />);
 
-    // FIXME Use "searchbox" role
-    // eslint-disable-next-line testing-library/no-node-access
-    const searchBar = instance.overlay.querySelector('.rs-picker-search-bar-input');
-    fireEvent.keyDown(searchBar, { target: { value: 'Master' } });
+    const searchbox = screen.getByRole('searchbox');
+    fireEvent.keyDown(searchbox, { target: { value: 'Master' } });
 
-    searchBar.focus();
-    fireEvent.keyDown(searchBar, { key: KEY_VALUES.BACKSPACE });
+    searchbox.focus();
+    fireEvent.keyDown(searchbox, { key: KEY_VALUES.BACKSPACE });
 
     expect(screen.getByRole('combobox')).to.have.text('Master');
 
-    fireEvent.keyDown(instance.overlay, { key: KEY_VALUES.BACKSPACE });
+    fireEvent.keyDown(screen.getByRole('tree'), { key: KEY_VALUES.BACKSPACE });
 
     expect(screen.getByRole('combobox')).to.have.text('Select');
   });
 
   it('Should display the search result when in virtualized mode', () => {
-    const instance = getInstance(<TreePicker open virtualized data={data} />);
+    render(<TreePicker open virtualized data={data} />);
 
     expect(screen.getAllByRole('treeitem')).to.have.lengthOf(2);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    const searchBar = instance.overlay.querySelector('.rs-picker-search-bar-input');
+    const searchbox = screen.getByRole('searchbox');
 
-    fireEvent.change(searchBar, { target: { value: 'test' } });
+    fireEvent.change(searchbox, { target: { value: 'test' } });
 
     expect(screen.getAllByRole('treeitem')).to.have.lengthOf(4);
   });

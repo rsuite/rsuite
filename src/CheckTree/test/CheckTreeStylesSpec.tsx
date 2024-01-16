@@ -2,33 +2,9 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import CheckTree from '../index';
 import { getStyle, inChrome } from '@test/utils';
+import { mockTreeData } from '@test/mocks/data-mock';
 
-const data = [
-  {
-    label: 'Master',
-    value: 'Master',
-    children: [
-      {
-        label: 'tester0',
-        value: 'tester0'
-      },
-      {
-        label: 'tester1',
-        value: 'tester1',
-        children: [
-          {
-            label: 'tester2',
-            value: 'tester2'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    label: 'Disabled node',
-    value: 'disabled'
-  }
-];
+const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
 
 describe('CheckTree styles', () => {
   it('Should render the correct styles', () => {

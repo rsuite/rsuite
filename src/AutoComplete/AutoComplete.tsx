@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
-import Input from '../Input';
 import {
   useClassNames,
   useControlled,
@@ -16,9 +15,9 @@ import { animationPropTypes } from '../Animation/utils';
 import {
   PickerToggleTrigger,
   onMenuKeyDown,
-  DropdownMenu,
-  DropdownMenuItem,
-  PickerOverlay,
+  Listbox,
+  ListItem,
+  PickerPopup,
   useFocusItemValue,
   usePickerRef,
   pickTriggerPropKeys,
@@ -35,6 +34,7 @@ import {
 
 import { transformData, shouldDisplay } from './utils';
 import Plaintext from '../Plaintext';
+import Combobox from './Combobox';
 
 export type ValueType = string;
 
@@ -152,6 +152,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       onKeyDown: handleKeyDown
     } = useFocusItemValue(value, {
       data: datalist,
+      focusToOption: false,
       callback: onMenuFocus,
       target: () => overlay.current
     });
@@ -239,16 +240,15 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
     const classes = merge(className, withClassPrefix({ disabled }));
     const [htmlInputProps, restProps] = partitionHTMLProps(omit(rest, pickTriggerPropKeys));
 
-    const renderDropdownMenu = (positionProps: PositionChildProps, speakerRef) => {
+    const renderPopup = (positionProps: PositionChildProps, speakerRef) => {
       const { left, top, className } = positionProps;
       const styles = { left, top };
 
       const menu = (
-        <DropdownMenu
-          id={id ? `${id}-listbox` : undefined}
+        <Listbox
           classPrefix="auto-complete-menu"
-          dropdownMenuItemClassPrefix="auto-complete-item"
-          dropdownMenuItemAs={DropdownMenuItem}
+          listItemClassPrefix="auto-complete-item"
+          listItemAs={ListItem}
           focusItemValue={focusItemValue}
           onSelect={handleItemSelect}
           renderMenuItem={renderMenuItem}
@@ -258,7 +258,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       );
 
       return (
-        <PickerOverlay
+        <PickerPopup
           ref={mergeRefs(overlay, speakerRef)}
           style={styles}
           className={className}
@@ -267,7 +267,7 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
           autoWidth={menuAutoWidth}
         >
           {renderMenu ? renderMenu(menu) : menu}
-        </PickerOverlay>
+        </PickerPopup>
       );
     };
 
@@ -279,23 +279,27 @@ const AutoComplete: PickerComponent<AutoCompleteProps> = React.forwardRef(
       );
     }
 
+    const expanded = open || (focus && hasItems);
+
     return (
       <PickerToggleTrigger
+        id={id}
         ref={trigger}
         placement={placement}
         pickerProps={pick(props, pickTriggerPropKeys)}
         trigger={['click', 'focus']}
-        open={open || (focus && hasItems)}
-        speaker={renderDropdownMenu}
+        open={expanded}
+        speaker={renderPopup}
       >
         <Component className={classes} style={style} ref={root} {...restProps}>
-          <Input
+          <Combobox
             {...(htmlInputProps as Omit<React.InputHTMLAttributes<any>, 'size'>)}
-            id={id}
             disabled={disabled}
             value={value}
             size={size}
             readOnly={readOnly}
+            expanded={expanded}
+            focusItemValue={focusItemValue}
             onBlur={handleInputBlur}
             onFocus={handleInputFocus}
             onChange={handleChange}

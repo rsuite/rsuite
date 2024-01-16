@@ -46,7 +46,21 @@ Single item selector with text box input.
 
 ## Accessibility
 
-Learn more in [Accessibility](/guide/accessibility).
+### ARIA properties
+
+- InputPicker has role `combobox`.
+- Has the `aria-haspopup="listbox"` attribute to indicate that the combobox has a popup listbox.
+- Has the `aria-expanded` attribute to indicate whether the listbox is open or not.
+- Has the `aria-controls` attribute to indicate the ID of the listbox element.
+- Has the `aria-activedescendant` attribute to indicate the ID of the focused option.
+- When `label` is set, the `aria-labelledby` attribute is added to the combobox element and the listbox element and is set to the value of the `id` attribute of `label`.
+
+### Keyboard interactions
+
+- <kbd>↓</kbd> - Move focus to the next option.
+- <kbd>↑</kbd> - Move focus to the previous option.
+- <kbd>Enter</kbd> - Select the focused option.
+- <kbd>Esc</kbd> - Close the listbox.
 
 ## Props
 

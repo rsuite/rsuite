@@ -36,6 +36,23 @@
 
 <!--{include:`controlled.md`}-->
 
+## 可访问性
+
+### ARIA 属性
+
+- Autocomplete 组件的 `role` 属性为 `combobox`。
+- 有 `aria-haspopup="listbox"` 属性来指示输入框有一个弹出的列表框。
+- 有 `aria-expanded` 属性来指示列表框是否打开。
+- 有 `aria-controls` 属性来指示列表框元素的 ID。
+- 有 `aria-activedescendant` 属性来指示焦点选项的 ID。
+
+### 键盘交互
+
+- <kbd>↓</kbd> - 移动焦点到下一个选项。
+- <kbd>↑</kbd> - 移动焦点到上一个选项。
+- <kbd>Enter</kbd> - 选择焦点选项。
+- <kbd>Esc</kbd> - 关闭列表框。
+
 ## Props
 
 ### `<AutoComplete>`

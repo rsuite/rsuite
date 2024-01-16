@@ -52,12 +52,16 @@
     }
   }
 
-  .rs-picker-tag-wrapper {
+  .rs-picker-textbox {
     position: relative;
     // make sure tag in front of toggle
     z-index: @zindex-picker-toggle + 1;
     padding-bottom: @tag-picker-content-padding-vertical;
   }
+}
+
+.rs-picker-tag-list {
+  display: contents;
 }
 
 .rs-plaintext .rs-tag {

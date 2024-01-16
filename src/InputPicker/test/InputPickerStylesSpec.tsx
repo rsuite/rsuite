@@ -3,26 +3,10 @@ import { render, screen } from '@testing-library/react';
 import InputPicker from '../index';
 import Button from '../../Button';
 import { toRGB } from '@test/utils';
-
+import { mockGroupData } from '@test/mocks/data-mock';
 import '../styles/index.less';
 
-const data = [
-  {
-    label: 'Eugenia',
-    value: 'Eugenia',
-    role: 'Master'
-  },
-  {
-    label: <span>Kariane</span>,
-    value: 'Kariane',
-    role: 'Developer'
-  },
-  {
-    label: 'Louisa',
-    value: 'Louisa',
-    role: 'Master'
-  }
-];
+const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('InputPicker styles', () => {
   it('Should render correct toggle styles', () => {

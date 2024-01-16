@@ -8,6 +8,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import Stack from '../Stack';
 import PickerIndicator from './PickerIndicator';
 import PickerLabel from './PickerLabel';
+import useCombobox from './hooks/useCombobox';
 
 type ValueType = string | number;
 
@@ -36,8 +37,8 @@ export interface PickerToggleProps extends ToggleButtonProps {
   loading?: boolean;
   label?: React.ReactNode;
   name?: string;
-  id?: string;
   inputValue?: ValueType | ValueType[];
+  focusItemValue?: ValueType | null;
   onClean?: (event: React.MouseEvent) => void;
 }
 
@@ -57,8 +58,8 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
       loading = false,
       cleanable,
       tabIndex = 0,
-      id,
       inputValue: inputValueProp,
+      focusItemValue,
       onClean,
       placement = 'bottomStart',
       caretComponent,
@@ -70,6 +71,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
 
     const combobox = useRef<HTMLDivElement>(null);
     const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
+    const { id, labelId, popupType } = useCombobox();
 
     const inputValue = useMemo(() => {
       if (typeof inputValueProp === 'number' || typeof inputValueProp === 'string') {
@@ -105,10 +107,14 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
     return (
       <Component
         role="combobox"
-        aria-haspopup="listbox"
+        id={id}
+        aria-haspopup={popupType}
         aria-expanded={active}
         aria-disabled={disabled}
-        aria-owns={id ? `${id}-listbox` : undefined}
+        aria-controls={`${id}-${popupType}`}
+        aria-labelledby={labelId}
+        aria-describedby={`${id}-describe`}
+        aria-activedescendant={active && focusItemValue ? `${id}-opt-${focusItemValue}` : undefined}
         {...rest}
         ref={mergeRefs(combobox, ref)}
         disabled={disabled}
@@ -118,11 +124,7 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
         <Stack>
           {label && (
             <Stack.Item>
-              <PickerLabel
-                as="span"
-                className={prefix('label')}
-                id={id ? `${id}-label` : undefined}
-              >
+              <PickerLabel as="span" className={prefix('label')} id={labelId}>
                 {label}
               </PickerLabel>
             </Stack.Item>
@@ -131,20 +133,18 @@ const PickerToggle: RsRefForwardingComponent<typeof ToggleButton, PickerTogglePr
             <input
               readOnly
               aria-hidden={true}
-              aria-controls={id ? `${id}-listbox` : undefined}
-              aria-labelledby={label ? `${id}-label` : undefined}
               tabIndex={-1}
               data-testid="picker-toggle-input"
               name={name}
               value={inputValue}
-              id={id}
               className={prefix('textbox', 'read-only')}
               style={{ pointerEvents: 'none' }}
             />
             {children ? (
               <span
                 className={prefix(hasValue ? 'value' : 'placeholder')}
-                aria-placeholder={typeof children === 'string' ? children : undefined}
+                id={`${id}-describe`}
+                data-testid="picker-describe"
               >
                 {children}
               </span>

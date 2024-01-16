@@ -15,7 +15,7 @@ import { DateRangePickerLocale } from '../locales';
 import {
   omitTriggerPropKeys,
   PickerComponent,
-  PickerOverlay,
+  PickerPopup,
   pickerPropTypes,
   PickerToggleTrigger,
   PickerIndicator,
@@ -23,6 +23,7 @@ import {
   pickTriggerPropKeys,
   PositionChildProps,
   usePickerClassName,
+  usePickerRef,
   onMenuKeyDown
 } from '../Picker';
 import {
@@ -65,7 +66,6 @@ import { deprecatePropTypeNew } from '../utils/deprecatePropType';
 import DateRangePickerContext from './DateRangePickerContext';
 import DateRangeInput from '../DateRangeInput';
 import InputGroup from '../InputGroup';
-import usePickerRef from '../Picker/usePickerRef';
 
 type SelectedDatesState = [] | [Date] | [Date, Date];
 
@@ -240,7 +240,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     ...restProps
   } = props;
 
-  const id = useUniqueId(`${classPrefix}-`, idProp);
+  const id = useUniqueId('rs-', idProp);
   const { trigger, root, target, overlay } = usePickerRef(ref);
   const { merge, prefix } = useClassNames(classPrefix);
   const { locale, formatDate } = useCustom<DateRangePickerLocale>(
@@ -769,7 +769,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     );
 
     return (
-      <PickerOverlay
+      <PickerPopup
         role="dialog"
         aria-labelledby={label ? `${id}-label` : undefined}
         tabIndex={-1}
@@ -821,7 +821,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
             </>
           </Stack>
         </div>
-      </PickerOverlay>
+      </PickerPopup>
     );
   };
 

@@ -2,26 +2,11 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import CheckPicker from '../index';
 import { getStyle, inChrome } from '@test/utils';
+import { mockGroupData } from '@test/mocks/data-mock';
 import getWidth from 'dom-lib/getWidth';
 import '../styles/index.less';
 
-const data = [
-  {
-    label: 'Eugenia',
-    value: 'Eugenia',
-    role: 'Master'
-  },
-  {
-    label: <span>Kariane</span>,
-    value: 'Kariane',
-    role: 'Master'
-  },
-  {
-    label: 'Louisa',
-    value: 'Louisa',
-    role: 'Master'
-  }
-];
+const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('CheckPicker styles', () => {
   it('Should render the correct styles', () => {

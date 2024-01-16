@@ -1,12 +1,14 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
+import React from 'react';
+import { useClassNames, useEventCallback } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import useCombobox from './hooks/useCombobox';
 
-export interface DropdownMenuItemProps extends WithAsProps {
+export interface ListItemProps
+  extends WithAsProps,
+    Omit<React.HTMLAttributes<HTMLElement>, 'onSelect'> {
   active?: boolean;
   disabled?: boolean;
-  value?: any;
+  value?: string | number;
   focus?: boolean;
   title?: string;
   onSelect?: (value: any, event: React.MouseEvent) => void;
@@ -14,12 +16,13 @@ export interface DropdownMenuItemProps extends WithAsProps {
   renderItem?: (value: any) => React.ReactNode;
 }
 
-const DropdownMenuItem: RsRefForwardingComponent<'div', DropdownMenuItemProps> = React.forwardRef(
-  (props: DropdownMenuItemProps, ref) => {
+const ListItem: RsRefForwardingComponent<'div', ListItemProps> = React.forwardRef(
+  (props: ListItemProps, ref) => {
     const {
       as: Component = 'div',
-      active,
+      role = 'option',
       classPrefix = 'dropdown-menu-item',
+      active,
       children,
       className,
       disabled,
@@ -31,24 +34,24 @@ const DropdownMenuItem: RsRefForwardingComponent<'div', DropdownMenuItemProps> =
       ...rest
     } = props;
 
-    const handleClick = useCallback(
-      (event: React.MouseEvent) => {
-        event.preventDefault();
-        if (!disabled) {
-          onSelect?.(value, event);
-        }
-      },
-      [onSelect, disabled, value]
-    );
+    const { id } = useCombobox();
+
+    const handleClick = useEventCallback((event: React.MouseEvent) => {
+      event.preventDefault();
+      if (!disabled) {
+        onSelect?.(value, event);
+      }
+    });
 
     const { withClassPrefix } = useClassNames(classPrefix);
     const classes = withClassPrefix({ active, focus, disabled });
 
     return (
       <Component
-        role="option"
+        role={role}
         aria-selected={active}
         aria-disabled={disabled}
+        id={id ? `${id}-opt-${value}` : undefined}
         data-key={value}
         {...rest}
         ref={ref}
@@ -63,19 +66,6 @@ const DropdownMenuItem: RsRefForwardingComponent<'div', DropdownMenuItemProps> =
   }
 );
 
-DropdownMenuItem.displayName = 'DropdownMenuItem';
-DropdownMenuItem.propTypes = {
-  classPrefix: PropTypes.string,
-  active: PropTypes.bool,
-  disabled: PropTypes.bool,
-  value: PropTypes.any,
-  onSelect: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  focus: PropTypes.bool,
-  title: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node,
-  as: PropTypes.elementType
-};
+ListItem.displayName = 'ListItem';
 
-export default DropdownMenuItem;
+export default ListItem;

@@ -3,34 +3,17 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import {
-  getInstance,
   testStandardProps,
   testControlledUnControlled,
   testFormControl,
   testPickers
 } from '@test/utils';
-
+import { mockGroupData } from '@test/mocks/data-mock';
 import CheckPicker from '../CheckPicker';
 import Button from '../../Button';
 import '../styles/index.less';
 
-const data = [
-  {
-    label: 'Eugenia',
-    value: 'Eugenia',
-    role: 'Master'
-  },
-  {
-    label: <span>Kariane</span>,
-    value: 'Kariane',
-    role: 'Master'
-  },
-  {
-    label: 'Louisa',
-    value: 'Louisa',
-    role: 'Master'
-  }
-];
+const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
 describe('CheckPicker', () => {
   testStandardProps(<CheckPicker data={[]} />, {
@@ -213,54 +196,58 @@ describe('CheckPicker', () => {
   });
 
   it('Should call `onClean` callback', () => {
-    const onCleanSpy = sinon.spy();
-    render(<CheckPicker data={data} defaultValue={['Eugenia']} onClean={onCleanSpy} />);
+    const onClean = sinon.spy();
+    render(<CheckPicker data={data} defaultValue={['Eugenia']} onClean={onClean} />);
 
     fireEvent.click(screen.getByRole('button', { name: /clear/i }));
 
-    expect(onCleanSpy).to.have.been.calledOnce;
+    expect(onClean).to.have.been.calledOnce;
   });
 
   it('Should call `onClean` callback by key="Backspace" ', () => {
-    const onCleanSpy = sinon.spy();
-    const instance = getInstance(<CheckPicker data={data} onClean={onCleanSpy} defaultOpen />);
+    const onClean = sinon.spy();
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance.target, { key: 'Enter' });
-    fireEvent.keyDown(instance.target, { key: 'Backspace' });
+    render(<CheckPicker data={data} onClean={onClean} defaultOpen />);
 
-    expect(onCleanSpy).to.have.been.called;
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Backspace' });
+
+    expect(onClean).to.have.been.called;
   });
 
   it('Should call `onClean` callback by key="Backspace" on overlay ', () => {
-    const onCleanSpy = sinon.spy();
-    const instance = getInstance(<CheckPicker data={data} onClean={onCleanSpy} defaultOpen />);
+    const onClean = sinon.spy();
+    render(<CheckPicker data={data} onClean={onClean} defaultOpen />);
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance.overlay, { key: 'Enter' });
-    fireEvent.keyDown(instance.overlay, { key: 'Backspace' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('listbox'), { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('listbox'), { key: 'Backspace' });
 
-    expect(onCleanSpy).to.have.been.called;
+    expect(onClean).to.have.been.called;
   });
 
   it('Should call `onOpen` callback', async () => {
-    const onOpenSpy = sinon.spy();
-    const picker = getInstance(<CheckPicker onOpen={onOpenSpy} data={data} />);
+    const onOpen = sinon.spy();
+    const ref = React.createRef<any>();
+    render(<CheckPicker ref={ref} onOpen={onOpen} data={data} />);
 
-    picker.open();
+    ref.current.open();
 
     await waitFor(() => {
-      expect(onOpenSpy).to.have.been.called;
+      expect(onOpen).to.have.been.called;
     });
   });
 
   it('Should call `onClose` callback', async () => {
-    const onCloseSpy = sinon.spy();
-    const picker = getInstance(<CheckPicker defaultOpen onClose={onCloseSpy} data={data} />);
-    picker.close();
+    const onClose = sinon.spy();
+    const ref = React.createRef<any>();
+    render(<CheckPicker ref={ref} defaultOpen onClose={onClose} data={data} />);
+
+    ref.current.close();
 
     await waitFor(() => {
-      expect(onCloseSpy).to.have.been.called;
+      expect(onClose).to.have.been.called;
     });
   });
 
@@ -271,11 +258,9 @@ describe('CheckPicker', () => {
   });
 
   it('Should focus item by key=ArrowDown ', () => {
-    const instance = getInstance(
-      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />
-    );
+    render(<CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} />);
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
     expect(screen.getByRole('option', { name: 'Kariane' }).firstChild).to.have.class(
       'rs-check-item-focus'
@@ -283,41 +268,35 @@ describe('CheckPicker', () => {
   });
 
   it('Should update scroll position when the focus is not within the viewport and key=ArrowDown', () => {
-    const instance = getInstance(
-      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} menuMaxHeight={72} />
-    );
+    render(<CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} menuMaxHeight={72} />);
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
     expect(screen.getByRole('listbox').scrollTop).to.equal(36);
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
     expect(screen.getByRole('listbox').scrollTop).to.equal(0);
   });
 
   it('Should update scroll position when the focus is not within the viewport and key=ArrowUp', () => {
-    const instance = getInstance(
-      <CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} menuMaxHeight={72} />
-    );
+    render(<CheckPicker defaultOpen data={data} defaultValue={['Eugenia']} menuMaxHeight={72} />);
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
-    fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
     expect(screen.getByRole('listbox').scrollTop).to.equal(36);
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
     expect(screen.getByRole('listbox').scrollTop).to.equal(0);
   });
 
   it('Should focus item by key=ArrowUp ', () => {
-    const instance = getInstance(
-      <CheckPicker defaultOpen data={data} defaultValue={['Kariane']} />
-    );
+    render(<CheckPicker defaultOpen data={data} defaultValue={['Kariane']} />);
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowUp' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
     expect(screen.getByRole('option', { name: 'Eugenia' }).firstChild).to.have.class(
       'rs-check-item-focus'
@@ -325,65 +304,56 @@ describe('CheckPicker', () => {
   });
 
   it('Should call `onChange` by key=Enter ', () => {
-    const onChangeSpy = sinon.spy();
-    const instance = getInstance(
-      <CheckPicker defaultOpen data={data} onChange={onChangeSpy} defaultValue={['Kariane']} />
-    );
+    const onChange = sinon.spy();
+    render(<CheckPicker defaultOpen data={data} onChange={onChange} defaultValue={['Kariane']} />);
 
-    fireEvent.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    expect(onChangeSpy).to.have.been.calledOnce;
+    expect(onChange).to.have.been.calledOnce;
   });
 
   it('Should call `onSelect` by key=Enter ', async () => {
-    const onSelectSpy = sinon.spy();
-    const instance = getInstance(
-      <CheckPicker defaultOpen data={data} onSelect={onSelectSpy} defaultValue={['Kariane']} />
-    );
+    const onSelect = sinon.spy();
+    render(<CheckPicker defaultOpen data={data} onSelect={onSelect} defaultValue={['Kariane']} />);
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance.target, { key: 'Enter' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
 
-    expect(onSelectSpy).to.have.been.calledOnce;
-    expect(onSelectSpy.firstCall.firstArg).to.eql(['Kariane', 'Louisa']);
-    expect(onSelectSpy.firstCall.args[1].value).to.equal('Louisa');
+    expect(onSelect).to.have.been.calledOnce;
+    expect(onSelect.firstCall.firstArg).to.eql(['Kariane', 'Louisa']);
+    expect(onSelect.firstCall.args[1].value).to.equal('Louisa');
   });
 
   it('Should call onBlur callback', async () => {
-    const onBlurSpy = sinon.spy();
-    // FIXME Figure out whether CheckPicker actually has onBlur prop
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const instance = getInstance(<CheckPicker data={data} onBlur={onBlurSpy} />);
+    const onBlur = sinon.spy();
+    render(<CheckPicker data={data} onBlur={onBlur} />);
 
-    fireEvent.blur(instance.target);
+    fireEvent.blur(screen.getByRole('combobox'));
 
     await waitFor(() => {
-      expect(onBlurSpy).to.have.been.calledOnce;
+      expect(onBlur).to.have.been.calledOnce;
     });
   });
 
   it('Should call onFocus callback', async () => {
-    const onFocusSpy = sinon.spy();
-    // FIXME Figure out whether CheckPicker actually has onFocus prop
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const instance = getInstance(<CheckPicker data={data} onFocus={onFocusSpy} />);
+    const onFocus = sinon.spy();
 
-    fireEvent.focus(instance.target);
+    render(<CheckPicker data={data} onFocus={onFocus} />);
+
+    fireEvent.focus(screen.getByRole('combobox'));
 
     await waitFor(() => {
-      expect(onFocusSpy).to.have.been.calledOnce;
+      expect(onFocus).to.have.been.calledOnce;
     });
   });
 
   it('Should have a custom className', () => {
-    const instance = getInstance(
+    const { container } = render(
       <CheckPicker className="custom" defaultOpen data={[{ label: '', value: '1' }]} />
     );
 
-    expect(instance.root.className).to.include('custom');
-    expect(instance.overlay.className).to.not.include('custom');
+    expect(container.firstChild).to.have.class('custom');
+    expect(screen.getByTestId('picker-popup')).to.not.have.class('custom');
   });
 
   it('Allow `label` to be an empty string', () => {
@@ -458,21 +428,21 @@ describe('CheckPicker', () => {
   });
 
   it('Should not call `onClean` callback on Input ', () => {
-    const onCleanSpy = sinon.spy();
-    const instance = getInstance(<CheckPicker data={data} onClean={onCleanSpy} defaultOpen />);
-    const input = screen.getByRole('textbox');
+    const onClean = sinon.spy();
+    render(<CheckPicker data={data} onClean={onClean} defaultOpen />);
+    const searchbox = screen.getByRole('searchbox');
 
-    fireEvent.keyDown(instance.target, { key: 'ArrowDown' });
-    fireEvent.keyDown(instance.target, { key: 'Enter' });
-    fireEvent.keyDown(input, { key: 'Backspace' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Enter' });
+    fireEvent.keyDown(searchbox, { key: 'Backspace' });
 
-    expect(onCleanSpy).to.not.have.been.called;
+    expect(onClean).to.not.have.been.called;
   });
 
   it('Should call onClose callback by key="Escape"', async () => {
     const onClose = sinon.spy();
-    const instance = getInstance(<CheckPicker data={data} onClose={onClose} defaultOpen />);
-    fireEvent.keyDown(instance.target, { key: 'Escape' });
+    render(<CheckPicker data={data} onClose={onClose} defaultOpen />);
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Escape' });
 
     await waitFor(() => {
       expect(onClose).to.have.been.calledOnce;
@@ -481,8 +451,8 @@ describe('CheckPicker', () => {
 
   it('Should call onClose callback by key="Tab"', async () => {
     const onClose = sinon.spy();
-    const instance = getInstance(<CheckPicker data={data} onClose={onClose} defaultOpen />);
-    fireEvent.keyDown(instance.target, { key: 'Tab' });
+    render(<CheckPicker data={data} onClose={onClose} defaultOpen />);
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'Tab' });
 
     await waitFor(() => {
       expect(onClose).to.have.been.calledOnce;

@@ -9,28 +9,11 @@ import {
   walkTreeDfs,
   walkTreeBfs
 } from '../treeUtils';
+import { mockTreeData } from '@test/mocks/data-mock';
 
 describe('[utils] Tree utils', () => {
   it('Should find the valid node', () => {
-    const items = [
-      {
-        value: 'abc'
-      },
-      {
-        value: 'abcd'
-      },
-      {
-        value: 'vvv',
-        children: [
-          {
-            value: 'vv-abc'
-          },
-          {
-            value: 'vv-abcd'
-          }
-        ]
-      }
-    ];
+    const items = mockTreeData(['abc', 'abcd', ['vvv', 'vv-abc', 'vv-abcd']]);
 
     const node = findNodeOfTree(items, item => item.value === 'abcd');
     const node2 = findNodeOfTree(items, item => item.value === 'vv-abcd');
@@ -44,28 +27,8 @@ describe('[utils] Tree utils', () => {
   });
 
   it('Should have 2 children', () => {
-    const items = [
-      {
-        value: 'abc'
-      },
-      {
-        value: 'abcd'
-      },
-      {
-        value: 'vvv',
-        children: [
-          {
-            value: 'vv-abc'
-          },
-          {
-            value: 'vv-abcd'
-          }
-        ]
-      }
-    ] as const;
-
+    const items = mockTreeData(['abc', 'abcd', ['vvv', 'vv-abc', 'vv-abcd']]);
     const stringItems = JSON.stringify(items);
-
     const nodes = filterNodesOfTree(items, item => item.value.indexOf('abcd') >= 0);
 
     assert.equal(stringItems, JSON.stringify(items));
@@ -78,26 +41,7 @@ describe('[utils] Tree utils', () => {
   });
 
   it('Should have a child', () => {
-    const items = [
-      {
-        value: 'abc'
-      },
-      {
-        value: 'abcd'
-      },
-      {
-        value: 'vvv',
-        children: [
-          {
-            value: 'vv-abc'
-          },
-          {
-            value: 'vv-abcd'
-          }
-        ]
-      }
-    ];
-
+    const items = mockTreeData(['abc', 'abcd', ['vvv', 'vv-abc', 'vv-abcd']]);
     const stringItems = JSON.stringify(items);
 
     const nodes = filterNodesOfTree(items, item => item.value.indexOf('vvv') >= 0);
