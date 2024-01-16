@@ -15,6 +15,7 @@ import warnOnce from '../utils/warnOnce';
 import Nav from '../Nav';
 import DropdownSeparator, { DropdownSeparatorProps } from './DropdownSeparator';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -186,7 +187,10 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
             ...restProps,
             children: (
               <>
-                {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                {icon &&
+                  React.cloneElement(icon, {
+                    className: classNames(prefix('menu-icon'), icon.props.className)
+                  })}
                 {children}
               </>
             )
