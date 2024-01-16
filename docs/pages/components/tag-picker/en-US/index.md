@@ -50,7 +50,7 @@ Multi-select by tag and support new options
 - Has the `aria-controls` attribute to indicate the ID of the listbox element.
 - Has the `aria-activedescendant` attribute to indicate the ID of the focused option.
 - When `label` is set, the `aria-labelledby` attribute is added to the combobox element and the listbox element and is set to the value of the `id` attribute of `label`.
-- listbox has the `aria-multiselectable=tree` attribute to indicate that the listbox is multi-selectable.
+- listbox has the `aria-multiselectable=true` attribute to indicate that the listbox is multi-selectable.
 
 ### Keyboard interactions
 

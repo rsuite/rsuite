@@ -76,7 +76,7 @@ The `MultiCascader` component is used to select multiple values from cascading o
 - Has the `aria-controls` attribute to indicate the ID of the tree element.
 - Has the `aria-activedescendant` attribute to indicate the ID of the focused tree node.
 - When `label` is set, the `aria-labelledby` attribute is added to the combobox element and the tree element and is set to the value of the `id` attribute of `label`.
-- The tree has the `aria-multiselectable=tree` attribute to indicate that the tree is multi-selectable.
+- The tree has the `aria-multiselectable=true` attribute to indicate that the tree is multi-selectable.
 
 ### Keyboard interactions
 

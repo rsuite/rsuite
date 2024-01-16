@@ -74,7 +74,7 @@
 - 有 `aria-controls` 属性来指示树形列表框元素的 ID。
 - 有 `aria-activedescendant` 属性来指示焦点树节点的 ID。
 - 当设置了 `label`, `aria-labelledby` 属性被添加到 combobox 元素和 tree 元素上，并将值设置为 `label` 的 `id` 属性值。
-- tree 有 `aria-multiselectable=tree` 属性来指示树形列表框是多选的。
+- tree 有 `aria-multiselectable=true` 属性来指示树形列表框是多选的。
 
 ### 键盘交互
 
