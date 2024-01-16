@@ -62,7 +62,23 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 ## Accessibility
 
-Learn more in [Accessibility](/guide/accessibility).
+### ARIA properties
+
+- Cascader has role `combobox`.
+- Has the `aria-haspopup="tree"` attribute to indicate that the combobox has a popup tree.
+- Has the `aria-expanded` attribute to indicate whether the tree is open or not.
+- Has the `aria-controls` attribute to indicate the ID of the tree element.
+- Has the `aria-activedescendant` attribute to indicate the ID of the focused tree node.
+- When `label` is set, the `aria-labelledby` attribute is added to the combobox element and the tree element and is set to the value of the `id` attribute of `label`.
+
+### Keyboard interactions
+
+- <kbd>↓</kbd> - Move focus to the next tree node.
+- <kbd>↑</kbd> - Move focus to the previous tree node.
+- <kbd>→</kbd> - Expand the focused tree node if it is collapsed.
+- <kbd>←</kbd> - Collapse the focused tree node if it is expanded.
+- <kbd>Enter</kbd> - Select the focused tree node.
+- <kbd>Esc</kbd> - Close the tree.
 
 ## Props
 

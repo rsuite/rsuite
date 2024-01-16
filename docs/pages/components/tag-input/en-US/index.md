@@ -22,7 +22,7 @@ The enhancement of Input supports input tags and management tags.
 
 ### Tag trigger
 
-Sets the trigger for creating a tag. Options include: `Enter`, `Space`, `Comma` - (<kbd>⏎</kbd>, <kbd> </kbd>, <kbd>,</kbd>). and the default value `Enter`. Multiple trigger values can be set.
+Sets the trigger for creating a tag. Options include: `Enter`, `Space`, `Comma`. and the default value `Enter`. Multiple trigger values can be set.
 
 <!--{include:`trigger.md`}-->
 

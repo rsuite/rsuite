@@ -22,7 +22,7 @@
 
 ### 触发事件
 
-通过 `trigger` 属性设置创建标签的触发器。 可选择包括：`Enter`, `Space`, `Comma` - (<kbd>⏎</kbd>, <kbd> </kbd>, <kbd>,</kbd>)，默认值为 `Enter`, 可以同时设置多个触发事件。
+通过 `trigger` 属性设置创建标签的触发器。 可选择包括：`Enter`, `Space`, `Comma`，默认值为 `Enter`, 可以同时设置多个触发事件。
 
 <!--{include:`trigger.md`}-->
 

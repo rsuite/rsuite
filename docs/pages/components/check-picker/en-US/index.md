@@ -87,7 +87,22 @@ Customize a select all function.
 
 ## Accessibility
 
-Learn more in [Accessibility](/guide/accessibility).
+### ARIA properties
+
+- CheckPicker has role `combobox`.
+- Has the `aria-haspopup="listbox"` attribute to indicate that the combobox has a popup listbox.
+- Has the `aria-expanded` attribute to indicate whether the listbox is open or not.
+- Has the `aria-controls` attribute to indicate the ID of the listbox element.
+- Has the `aria-activedescendant` attribute to indicate the ID of the focused option.
+- When `label` is set, the `aria-labelledby` attribute is added to the combobox element and the listbox element and is set to the value of the `id` attribute of `label`.
+- listbox has the `aria-multiselectable=tree` attribute to indicate that the listbox is multi-selectable.
+
+### Keyboard interactions
+
+- <kbd>↓</kbd> - Move focus to the next option.
+- <kbd>↑</kbd> - Move focus to the previous option.
+- <kbd>Enter</kbd> - Select the focused option.
+- <kbd>Esc</kbd> - Close the listbox.
 
 ## Props
 

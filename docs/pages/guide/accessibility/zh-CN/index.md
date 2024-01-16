@@ -51,9 +51,7 @@
 在表单中通过 `aria-*` 属性让表单输入组件具有描述性，便于屏幕阅读器读出组件对应的标签与描述。例如: 通过 [Form.Group][form.group] 的 `controlId` 属性自动关联 `aria-labelledby` 与 `aria-describedby`。当您尝试提交表单时，如果存在验证错误，我们在表单输入组件下显示一个错误消息框，并包含了一些 ARIA 属性。 以下是对应 HTML 结构:
 
 ```html
-<div role="alert" aria-relevant="all" class="rs-form-control-message">
-  This field is required.
-</div>
+<div role="alert" aria-relevant="all" class="rs-form-control-message">This field is required.</div>
 ```
 
 - `role="alert"` 自动将其转变为实时区域，所以它一变化就会念出来。
@@ -63,16 +61,6 @@
 
 - 为了让屏幕阅读器跳过被禁用的组件，会为该组件添加属性 `aria-disabled="true"`，比如禁用一个 [Button][button]。
 - 有许多组件具备选择操作，会在被选中的选项上添加属性 `aria-selected="true"`，如果当前选项具有子选项，会设置属性 `aria-expanded`， 告诉屏幕阅读器当前选项的子选项是否被展开，比如: [Tree][tree]。
-
-### 选择器(Pickers)
-
-- Combo Box: https://www.w3.org/TR/wai-aria-practices/#combobox
-- Listbox: https://www.w3.org/TR/wai-aria-practices/#Listbox
-
-- 组件具有 `combobox` role。
-- 组件具有 `aria-expanded` 属性，默认值为 `false`， 让弹窗展示的时候值为 `true`。
-- 组件的弹窗具有 `listbox` role。
-- 当为组件设置一个 `id` 时，会自动为弹窗生成一个 `id`, 值为`[id]-listbox`， 同时会为组件设置 `aria-controls=[id]-listbox` 与弹窗的 id 关联。
 
 [form.group]: /zh/components/form#无障碍设计
 [slider]: /zh/components/slider
