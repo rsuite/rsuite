@@ -48,7 +48,7 @@ describe('Cascader', () => {
   });
 
   it('Should output a picker', () => {
-    const { container } = render(<Cascader data={[]}>title</Cascader>);
+    const { container } = render(<Cascader data={[]} />);
 
     expect(container.firstChild).to.have.class('rs-picker-cascader');
   });
@@ -64,7 +64,7 @@ describe('Cascader', () => {
 
     expect(container.firstChild).to.have.class('rs-picker-inline');
     // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    expect(container.querySelector('.rs-picker-cascader-menu-items')).to.exist;
+    expect(container.querySelector('.rs-cascade-tree-items')).to.exist;
   });
 
   it('Should output a placeholder', () => {
@@ -116,7 +116,7 @@ describe('Cascader', () => {
     render(<Cascader defaultOpen data={items} value={value} />);
 
     expect(screen.getByRole('treeitem', { name: value }).firstChild).to.have.class(
-      'rs-picker-cascader-menu-item-active'
+      'rs-cascade-tree-item-active'
     );
   });
 
@@ -125,7 +125,7 @@ describe('Cascader', () => {
     render(<Cascader defaultOpen data={items} defaultValue={value} />);
 
     expect(screen.getByRole('treeitem', { name: value }).firstChild).to.have.class(
-      'rs-picker-cascader-menu-item-active'
+      'rs-cascade-tree-item-active'
     );
   });
 
@@ -562,7 +562,7 @@ describe('Cascader', () => {
       let focusItems = screen
         .getByRole('tree')
         // eslint-disable-next-line testing-library/no-node-access
-        .querySelectorAll('.rs-picker-cascader-menu-item-focus');
+        .querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(1);
       expect(focusItems[0]).to.have.text('3');
@@ -570,7 +570,7 @@ describe('Cascader', () => {
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowRight' });
 
       // eslint-disable-next-line testing-library/no-node-access
-      focusItems = screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-item-focus');
+      focusItems = screen.getByRole('tree').querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(2);
       expect(focusItems[1]).to.have.text('3-1');
@@ -579,7 +579,7 @@ describe('Cascader', () => {
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
       // eslint-disable-next-line testing-library/no-node-access
-      focusItems = screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-item-focus');
+      focusItems = screen.getByRole('tree').querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(1);
       expect(focusItems[0]).to.have.text('2');

@@ -4,8 +4,7 @@ import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
 import { shallowEqual, useClassNames, mergeRefs, useCustom, useEventCallback } from '../utils';
 import { ListItem, useCombobox } from '../Picker';
-import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { ValueType } from './Cascader';
+import { ItemDataType, WithAsProps, RsRefForwardingComponent, DataProps } from '../@types/common';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import getPosition from 'dom-lib/getPosition';
@@ -15,29 +14,31 @@ type SetLike<T = unknown> = {
   has(value: T): boolean;
 };
 
-export interface TreeViewProps extends Omit<WithAsProps, 'classPrefix'> {
-  classPrefix: string;
-  disabledItemValues: ValueType[];
-  activeItemValue?: ValueType | null;
-  childrenKey: string;
-  cascadeData: (readonly ItemDataType[])[];
-  loadingItemsSet?: SetLike<ItemDataType>;
-  cascadePaths: ItemDataType[];
-  valueKey: string;
-  labelKey: string;
-  menuWidth?: number;
-  menuHeight?: number | string;
-  renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
-  renderMenu?: (
-    items: readonly ItemDataType[],
-    menu: React.ReactNode,
-    parentNode?: ItemDataType,
-    layer?: number
+export interface TreeViewProps<T = any>
+  extends WithAsProps,
+    Omit<DataProps<ItemDataType<T>>, 'data'> {
+  data?: (readonly ItemDataType<T>[])[];
+  disabledItemValues: T[];
+  activeItemValue?: T | null;
+  loadingItemsSet?: SetLike<ItemDataType<T>>;
+  cascadePaths: ItemDataType<T>[];
+  columnWidth?: number;
+  columnHeight?: number | string;
+  renderTreeNode?: (node: React.ReactNode, itemData: ItemDataType<T>) => React.ReactNode;
+  renderColumn?: (
+    childNodes: React.ReactNode,
+    column: {
+      items: readonly ItemDataType<T>[];
+      parentItem?: ItemDataType<T>;
+      layer?: number;
+    }
   ) => React.ReactNode;
   onSelect?: (
-    node: ItemDataType,
-    cascadePaths: ItemDataType[],
-    isLeafNode: boolean,
+    node: {
+      itemData: ItemDataType<T>;
+      cascadePaths: ItemDataType<T>[];
+      isLeafNode: boolean;
+    },
     event: React.MouseEvent
   ) => void;
 }
@@ -49,20 +50,20 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
     const {
       as: Component = 'div',
       activeItemValue,
-      classPrefix,
+      classPrefix = 'tree',
       className,
       childrenKey = 'children',
       disabledItemValues = emptyArray,
-      menuWidth = 120,
-      menuHeight = 200,
+      columnWidth = 140,
+      columnHeight = 200,
       valueKey = 'value',
-      cascadeData = emptyArray,
+      data = emptyArray,
       cascadePaths = emptyArray,
       loadingItemsSet,
       labelKey = 'label',
       style,
-      renderMenu,
-      renderMenuItem,
+      renderColumn,
+      renderTreeNode,
       onSelect,
       ...rest
     } = props;
@@ -95,7 +96,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
     const getCascadePaths = (layer: number, node: ItemDataType) => {
       const paths: ItemDataType[] = [];
 
-      for (let i = 0; i < cascadeData.length && i < layer; i += 1) {
+      for (let i = 0; i < data.length && i < layer; i += 1) {
         if (i < layer - 1 && cascadePaths) {
           paths.push(cascadePaths[i]);
         }
@@ -106,26 +107,28 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
       return paths;
     };
 
-    const handleSelect = useEventCallback((layer: number, node: any, event: React.MouseEvent) => {
-      const isLeafNode = isNil(node[childrenKey]);
-      const cascadePaths = getCascadePaths(layer + 1, node);
+    const handleSelect = useEventCallback(
+      (layer: number, itemData: any, event: React.MouseEvent) => {
+        const isLeafNode = isNil(itemData[childrenKey]);
+        const cascadePaths = getCascadePaths(layer + 1, itemData);
 
-      onSelect?.(node, cascadePaths, isLeafNode, event);
-    });
+        onSelect?.({ itemData, cascadePaths, isLeafNode }, event);
+      }
+    );
 
     const renderCascadeNode = (nodeProps: {
-      node: any;
+      itemData: any;
       index: number;
       layer: number;
       focus: boolean;
       size: number;
     }) => {
-      const { node, index, layer, focus, size } = nodeProps;
-      const children = node[childrenKey];
-      const value = node[valueKey];
-      const label = node[labelKey];
+      const { itemData, index, layer, focus, size } = nodeProps;
+      const children = itemData[childrenKey];
+      const value = itemData[valueKey];
+      const label = itemData[labelKey];
       const disabled = disabledItemValues.some(disabledValue => shallowEqual(disabledValue, value));
-      const loading = loadingItemsSet?.has(node) ?? false;
+      const loading = loadingItemsSet?.has(itemData) ?? false;
 
       // Use `value` in keys when If `value` is string or number
       const onlyKey = typeof value === 'number' || typeof value === 'string' ? value : index;
@@ -139,31 +142,34 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
           aria-setsize={size}
           aria-posinset={index + 1}
           aria-label={typeof label === 'string' ? label : undefined}
-          classPrefix="picker-cascader-menu-item"
+          classPrefix="cascade-tree-item"
           key={`${layer}-${onlyKey}`}
           disabled={disabled}
           active={!isUndefined(activeItemValue) && shallowEqual(activeItemValue, value)}
           focus={focus}
           value={value}
           className={children ? prefix('has-children') : undefined}
-          onSelect={(_value, event) => handleSelect(layer, node, event)}
+          onSelect={(_value, event) => handleSelect(layer, itemData, event)}
         >
-          {renderMenuItem ? renderMenuItem(label, node) : label}
-          {children ? <Icon className={prefix('caret')} spin={loading} /> : null}
+          {renderTreeNode ? renderTreeNode(label, itemData) : label}
+          {children ? (
+            <Icon className={prefix('caret')} spin={loading} data-testid="spinner" />
+          ) : null}
         </ListItem>
       );
     };
 
-    const cascadeNodes = cascadeData.map((children, layer) => {
+    const cascadeNodes = data.map((children, layer) => {
       const onlyKey = `${layer}_${children.length}`;
-      const parentNode = cascadePaths[layer - 1];
-      const menu = (
+      const parentItem = cascadePaths[layer - 1];
+      const childNodes = (
         <>
-          {children.map((item, index) => {
+          {children.map((itemData, index) => {
             const focus =
-              cascadePaths[layer] && shallowEqual(cascadePaths[layer][valueKey], item[valueKey]);
+              cascadePaths[layer] &&
+              shallowEqual(cascadePaths[layer][valueKey], itemData[valueKey]);
 
-            return renderCascadeNode({ node: item, index, layer, focus, size: children.length });
+            return renderCascadeNode({ itemData, index, layer, focus, size: children.length });
           })}
         </>
       );
@@ -175,19 +181,21 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
           data-type={'column'}
           key={onlyKey}
           className={prefix('column')}
-          style={{ height: menuHeight, width: menuWidth }}
+          style={{ height: columnHeight, width: columnWidth }}
         >
-          {renderMenu ? renderMenu(children, menu, parentNode, layer) : menu}
+          {renderColumn
+            ? renderColumn(childNodes, { items: children, parentItem, layer })
+            : childNodes}
         </ul>
       );
     });
 
-    const styles = { ...style, width: cascadeData.length * menuWidth };
+    const styles = { ...style, width: data.length * columnWidth };
 
     return (
       <Component
         role="tree"
-        id={`${id}-${popupType}`}
+        id={id ? `${id}-${popupType}` : undefined}
         aria-labelledby={labelId}
         {...rest}
         ref={mergeRefs(rootRef, ref)}

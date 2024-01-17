@@ -526,6 +526,14 @@
     }
   },
   {
+    "id": "cascade-tree",
+    "name": "CascadeTree",
+    "title": "级联树",
+    "components": ["CascadeTree"],
+    "minVersion": "5.51.0",
+    "tag": "New"
+  },
+  {
     "id": "check-tree",
     "name": "CheckTree",
     "title": "树形多选控件",

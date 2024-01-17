@@ -56,10 +56,6 @@
 
 <!--{include:`container.md`}-->
 
-### 直接展示
-
-<!--{include:`inline.md`}-->
-
 ## 可访问性
 
 ### ARIA 属性
@@ -94,6 +90,8 @@
 | childrenKey        | string `('children')`                                                                         | 设置选项子节点在 `data` 中的 `key`   |
 | classPrefix        | string `('picker')`                                                                           | 组件 CSS 类的前缀                    |
 | cleanable          | boolean `(true)`                                                                              | 可以清除                             |
+| columnHeight       | number                                                                                        | 设置菜单的高度                       |
+| columnWidth        | number                                                                                        | 设置菜单的宽度                       |
 | container          | HTMLElement &#124; (() => HTMLElement)                                                        | 设置渲染的容器                       |
 | data \*            | [ItemDataType][item][]                                                                        | 组件数据                             |
 | defaultValue       | string                                                                                        | 设置默认值                           |
@@ -101,13 +99,9 @@
 | disabledItemValues | string[]                                                                                      | 禁用选项                             |
 | getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;                         | 异步加载树节点的子级                 |
 | height             | number `(320)`                                                                                | 设置 Dropdown 的高度                 |
-| inline             | boolean                                                                                       | 在组件初始后直接展示菜单             |
 | labelKey           | string `('label')`                                                                            | 设置选项显示内容在 `data` 中的 `key` |
 | loading            | boolean `(false)`                                                                             | 是否显示一个加载中状态指示器         |
 | locale             | [PickerLocaleType](/zh/guide/i18n/#pickers)                                                   | 本地化的文本                         |
-| menuClassName      | string                                                                                        | 选项菜单的 className                 |
-| menuHeight         | number                                                                                        | 设置菜单的高度                       |
-| menuWidth          | number                                                                                        | 设置菜单的宽度                       |
 | onChange           | (value:string, event) => void                                                                 | `value` 发生改变时的回调函数         |
 | onClean            | (event:SyntheticEvent) => void                                                                | 清除值后的回调函数                   |
 | onClose            | () => void                                                                                    | 关闭回调函数                         |
@@ -125,10 +119,10 @@
 | placeholder        | ReactNode `('Select')`                                                                        | 占位符                               |
 | placement          | [Placement](#code-ts-placement-code) `('bottomStart')`                                        | 打开位置                             |
 | preventOverflow    | boolean                                                                                       | 防止浮动元素溢出                     |
+| renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode                     | 自定义渲染菜单列表                   |
 | renderExtraFooter  | () => ReactNode                                                                               | 自定义页脚内容                       |
-| renderMenu         | (children: object[], menu:ReactNode, parentNode?: object, layer?: number) => ReactNode        | 自定义渲染菜单列表                   |
-| renderMenuItem     | (label:ReactNode, item: [ItemDataType][item]) => ReactNode                                    | 自定义选项                           |
-| renderSearchItem   | (label:ReactNode, items: [ItemDataType][item][]) => ReactNode                                 | 自定义渲染搜索结果选项               |
+| renderSearchItem   | (node: ReactNode, items: [ItemDataType][item][]) => ReactNode                                 | 自定义渲染搜索结果选项               |
+| renderTreeNode     | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                    | 自定义选项                           |
 | renderValue        | (value:string, selectedPaths: [ItemDataType][item][], selectedElement:ReactNode) => ReactNode | 自定义被选中的选项                   |
 | searchable         | boolean `(true)`                                                                              | 可以搜索                             |
 | size               | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                             | 设置组件尺寸                         |

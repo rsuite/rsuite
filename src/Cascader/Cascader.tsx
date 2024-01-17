@@ -6,9 +6,10 @@ import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import shallowEqual from '../utils/shallowEqual';
-import TreeView from './TreeView';
+import TreeView from '../CascadeTree/TreeView';
+import { usePaths } from '../CascadeTree/utils';
 import { getParentMap, getPathTowardsItem, findNodeOfTree, flattenTree } from '../utils/treeUtils';
-import { usePaths } from './utils';
+import { deprecatePropTypeNew } from '../utils/deprecatePropType';
 import { PickerLocale } from '../locales';
 import {
   getSafeRegExpString,
@@ -45,22 +46,64 @@ export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>
   extends FormControlPickerProps<T | null, PickerLocale, ItemDataType<T>>,
     Pick<PickerToggleProps, 'loading'> {
-  /** Sets the width of the menu */
-  menuWidth?: number;
-
-  /** Sets the height of the menu */
-  menuHeight?: number | string;
-
   /** Whether dispaly search input box */
   searchable?: boolean;
 
-  /** The menu is displayed directly when the component is initialized */
+  /**
+   * The menu is displayed directly when the component is initialized
+   * @deprecated Use CascadeTree instead
+   * @see CascadeTree https://rsuitejs.com/components/cascade-tree
+   * */
   inline?: boolean;
 
   /** When true, make the parent node selectable */
   parentSelectable?: boolean;
 
-  /** Custom render menu */
+  /**
+   * Custom menu class name
+   * @deprecated Use popupClassName instead
+   */
+  menuClassName?: string;
+
+  /**
+   * Custom popup style
+   */
+  popupClassName?: string;
+
+  /**
+   * Custom menu style
+   * @deprecated Use popupStyle instead
+   */
+  menuStyle?: React.CSSProperties;
+
+  /**
+   * Custom popup style
+   */
+  popupStyle?: React.CSSProperties;
+
+  /**
+   * Sets the width of the menu.
+   *
+   * @deprecated Use columnWidth instead
+   */
+  menuWidth?: number;
+
+  /**
+   * Sets the height of the menu
+   * @deprecated Use columnHeight instead
+   */
+  menuHeight?: number | string;
+
+  /** Sets the width of the column */
+  columnWidth?: number;
+
+  /** Sets the height of the column */
+  columnHeight?: number;
+
+  /**
+   * Custom render menu
+   * @deprecated Use renderColumn instead
+   */
   renderMenu?: (
     items: readonly ItemDataType[],
     menu: React.ReactNode,
@@ -68,11 +111,27 @@ export interface CascaderProps<T = ValueType>
     layer?: number
   ) => React.ReactNode;
 
-  /** Custom render menu items */
-  renderMenuItem?: (itemLabel: React.ReactNode, item: ItemDataType) => React.ReactNode;
+  /**
+   * Custom render menu item
+   * @deprecated Use renderTreeNode instead
+   */
+  renderMenuItem?: (node: React.ReactNode, item: ItemDataType) => React.ReactNode;
+
+  /** Custom render column */
+  renderColumn?: (
+    childNodes: React.ReactNode,
+    column: {
+      items: readonly ItemDataType<T>[];
+      parentItem?: ItemDataType<T>;
+      layer?: number;
+    }
+  ) => React.ReactNode;
+
+  /** Custom render tree node */
+  renderTreeNode?: (node: React.ReactNode, itemData: ItemDataType<T>) => React.ReactNode;
 
   /** Custom render search items */
-  renderSearchItem?: (itemLabel: React.ReactNode, items: ItemDataType[]) => React.ReactNode;
+  renderSearchItem?: (node: React.ReactNode, items: ItemDataType[]) => React.ReactNode;
 
   /** Custom render selected items */
   renderValue?: (
@@ -133,18 +192,24 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     style,
     value: valueProp,
     inline,
-    menuClassName,
-    menuStyle,
-    menuWidth,
-    menuHeight,
+    menuClassName: DEPRECATED_menuClassName,
+    menuStyle: DEPRECATED_menuStyle,
+    popupClassName,
+    popupStyle,
+    menuWidth: DEPRECATED_menuWidth,
+    menuHeight: DEPRECATED_menuHeight,
+    columnHeight,
+    columnWidth,
     searchable = true,
     parentSelectable,
     placement = 'bottomStart',
     id,
-    renderMenuItem,
+    renderMenuItem: DEPRECATED_renderMenuItem,
+    renderMenu: DEPRECATED_renderMenu,
+    renderColumn,
+    renderTreeNode,
     renderSearchItem,
     renderValue,
-    renderMenu,
     renderExtraFooter,
     onEnter,
     onExited,
@@ -170,39 +235,27 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
   const isMounted = useIsMounted();
   const loadingItemsSet = useSet();
-  const asyncChildrenMap = useMap<ItemDataType<T>, readonly ItemDataType<T>[]>();
+  const childrenMap = useMap<ItemDataType<T>, readonly ItemDataType<T>[]>();
   const parentMap = useMemo(
-    () =>
-      getParentMap(
-        data,
-        item =>
-          asyncChildrenMap.get(item) ??
-          (item[childrenKey] as readonly ItemDataType<T>[] | undefined)
-      ),
-    [asyncChildrenMap, childrenKey, data]
+    () => getParentMap(data, item => childrenMap.get(item) ?? item[childrenKey]),
+    [childrenMap, childrenKey, data]
   );
 
   const flattenedData = useMemo(
-    () =>
-      flattenTree(
-        data,
-        item =>
-          asyncChildrenMap.get(item) ??
-          (item[childrenKey] as readonly ItemDataType<T>[] | undefined)
-      ),
-    [asyncChildrenMap, childrenKey, data]
+    () => flattenTree(data, item => childrenMap.get(item) ?? item[childrenKey]),
+    [childrenMap, childrenKey, data]
   );
 
   // The item that focus is on
   const [activeItem, setActiveItem] = useState<ItemDataType<T> | undefined>();
 
-  const { columnsToDisplay, pathTowardsActiveItem, pathTowardsSelectedItem } = usePaths({
+  const { columns, pathTowardsActiveItem, pathTowardsSelectedItem } = usePaths({
     data,
     activeItem,
     selectedItem: flattenedData.find(item => item[valueKey] === value),
     getParent: item => parentMap.get(item),
     getChildren: item =>
-      asyncChildrenMap.get(item) ?? (item[childrenKey] as readonly ItemDataType<T>[] | undefined)
+      childrenMap.get(item) ?? (item[childrenKey] as readonly ItemDataType<T>[] | undefined)
   });
 
   const { locale, rtl } = useCustom<PickerLocale>('Picker', overrideLocale);
@@ -358,36 +411,40 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
 
   const handleSelect = useEventCallback(
     (
-      node: ItemDataType<T>,
-      cascadePaths: ItemDataType<T>[],
-      isLeafNode: boolean,
+      node: {
+        itemData: ItemDataType<T>;
+        cascadePaths: ItemDataType<T>[];
+        isLeafNode: boolean;
+      },
       event: React.MouseEvent
     ) => {
-      onSelect?.(node, cascadePaths, event);
-      setActiveItem(node);
+      const { itemData, cascadePaths, isLeafNode } = node;
 
-      const nextValue = node[valueKey];
+      onSelect?.(itemData, cascadePaths, event);
+      setActiveItem(itemData);
+
+      const nextValue = itemData[valueKey];
 
       // Lazy load node's children
       if (
         typeof getChildren === 'function' &&
-        node[childrenKey]?.length === 0 &&
-        !asyncChildrenMap.has(node)
+        itemData[childrenKey]?.length === 0 &&
+        !childrenMap.has(itemData)
       ) {
-        loadingItemsSet.add(node);
+        loadingItemsSet.add(itemData);
 
-        const children = getChildren(node);
+        const children = getChildren(itemData);
 
         if (children instanceof Promise) {
           children.then((data: readonly ItemDataType<T>[]) => {
             if (isMounted()) {
-              loadingItemsSet.delete(node);
-              asyncChildrenMap.set(node, data);
+              loadingItemsSet.delete(itemData);
+              childrenMap.set(itemData, data);
             }
           });
         } else {
-          loadingItemsSet.delete(node);
-          asyncChildrenMap.set(node, children);
+          loadingItemsSet.delete(itemData);
+          childrenMap.set(itemData, children);
         }
       }
 
@@ -419,25 +476,25 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
    * The search structure option is processed after being selected.
    */
   const handleSearchRowSelect = useEventCallback(
-    (node: ItemDataType, nodes: ItemDataType<T>[], event: React.SyntheticEvent) => {
-      const nextValue = node[valueKey];
+    (itemData: ItemDataType, nodes: ItemDataType<T>[], event: React.SyntheticEvent) => {
+      const nextValue = itemData[valueKey];
 
       handleClose();
       setSearchKeyword('');
       setValue(nextValue);
 
-      onSelect?.(node, nodes, event);
+      onSelect?.(itemData, nodes, event);
       onChange?.(nextValue, event);
     }
   );
 
   const renderSearchRow = (item: ItemDataType<T>, key: number) => {
     const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
-    const nodes = getPathTowardsItem(item, item => parentMap.get(item));
-    const formattedNodes = nodes.map(node => {
+    const items = getPathTowardsItem(item, item => parentMap.get(item));
+    const formattedNodes = items.map(itemData => {
       const labelElements: React.ReactElement[] = [];
-      const a = node[labelKey].split(regx);
-      const b = node[labelKey].match(regx);
+      const a = itemData[labelKey].split(regx);
+      const b = itemData[labelKey].match(regx);
 
       for (let i = 0; i < a.length; i++) {
         labelElements.push(a[i]);
@@ -450,22 +507,22 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         }
       }
       return {
-        ...node,
+        ...itemData,
         [labelKey]: labelElements
       };
     });
 
     const disabled = disabledItemValues.some(value =>
-      formattedNodes.some(node => node[valueKey] === value)
+      formattedNodes.some(itemData => itemData[valueKey] === value)
     );
     const itemClasses = prefix('cascader-row', {
       'cascader-row-disabled': disabled,
       'cascader-row-focus': item[valueKey] === focusItemValue
     });
 
-    const label = formattedNodes.map((node, index) => (
+    const label = formattedNodes.map((itemData, index) => (
       <span key={`col-${index}`} className={prefix('cascader-col')}>
-        {node[labelKey]}
+        {itemData[labelKey]}
       </span>
     ));
 
@@ -479,11 +536,11 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         tabIndex={-1}
         onClick={event => {
           if (!disabled) {
-            handleSearchRowSelect(item, nodes, event);
+            handleSearchRowSelect(item, items, event);
           }
         }}
       >
-        {renderSearchItem ? renderSearchItem(label, nodes) : label}
+        {renderSearchItem ? renderSearchItem(label, items) : label}
       </div>
     );
   };
@@ -505,10 +562,43 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     );
   };
 
+  const renderCascadeColumn = (
+    childNodes: React.ReactNode,
+    column: {
+      items: readonly ItemDataType<T>[];
+      parentItem?: ItemDataType<T>;
+      layer?: number;
+    }
+  ) => {
+    const { items, parentItem, layer } = column;
+
+    if (typeof renderColumn === 'function') {
+      return renderColumn(childNodes, column);
+    } else if (typeof DEPRECATED_renderMenu === 'function') {
+      return DEPRECATED_renderMenu(items, childNodes, parentItem, layer);
+    }
+    return childNodes;
+  };
+
+  const renderCascadeTreeNode = (node: React.ReactNode, itemData: ItemDataType<T>) => {
+    const render =
+      typeof renderTreeNode === 'function' ? renderTreeNode : DEPRECATED_renderMenuItem;
+
+    if (typeof render === 'function') {
+      return render(node, itemData);
+    }
+    return node;
+  };
+
   const renderTreeView = (positionProps?: PositionChildProps, speakerRef?) => {
     const { left, top, className } = positionProps || {};
-    const styles = { ...menuStyle, left, top };
-    const classes = merge(className, menuClassName, prefix('cascader-menu', { inline }));
+    const styles = { ...DEPRECATED_menuStyle, ...popupStyle, left, top };
+    const classes = merge(
+      className,
+      DEPRECATED_menuClassName,
+      popupClassName,
+      prefix('cascader-menu', { inline })
+    );
 
     return (
       <PickerPopup
@@ -530,21 +620,20 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         {renderSearchResultPanel()}
         {searchKeyword === '' && (
           <TreeView
-            menuWidth={menuWidth}
-            menuHeight={menuHeight}
+            columnWidth={columnWidth ?? DEPRECATED_menuWidth}
+            columnHeight={columnHeight ?? DEPRECATED_menuHeight}
             disabledItemValues={disabledItemValues}
             loadingItemsSet={loadingItemsSet}
             valueKey={valueKey}
             labelKey={labelKey}
             childrenKey={childrenKey}
-            classPrefix={'picker-cascader-menu'}
-            cascadeData={columnsToDisplay}
+            classPrefix={'cascade-tree'}
+            data={columns}
             cascadePaths={pathTowardsActiveItem}
             activeItemValue={value}
-            // FIXME make onSelect generic
-            onSelect={handleSelect as any}
-            renderMenu={renderMenu}
-            renderMenuItem={renderMenuItem}
+            onSelect={handleSelect}
+            renderColumn={renderCascadeColumn}
+            renderTreeNode={renderCascadeTreeNode}
           />
         )}
         {renderExtraFooter?.()}
@@ -633,17 +722,21 @@ Cascader.propTypes = {
   disabledItemValues: PropTypes.array,
   locale: PropTypes.any,
   appearance: PropTypes.oneOf(['default', 'subtle']),
-  renderMenu: PropTypes.func,
   onSelect: PropTypes.func,
   onSearch: PropTypes.func,
   cleanable: PropTypes.bool,
-  renderMenuItem: PropTypes.func,
+  renderColumn: PropTypes.func,
+  renderTreeNode: PropTypes.func,
   renderSearchItem: PropTypes.func,
-  menuWidth: PropTypes.number,
-  menuHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  columnWidth: PropTypes.number,
+  columnHeight: PropTypes.number,
   searchable: PropTypes.bool,
   inline: PropTypes.bool,
-  parentSelectable: PropTypes.bool
+  parentSelectable: PropTypes.bool,
+  renderMenu: deprecatePropTypeNew(PropTypes.func, 'Use "renderColumn" property instead.'),
+  renderMenuItem: deprecatePropTypeNew(PropTypes.func, 'Use "renderTreeNode" property instead.'),
+  menuWidth: deprecatePropTypeNew(PropTypes.number, 'Use "columnWidth" property instead.'),
+  menuHeight: deprecatePropTypeNew(PropTypes.number, 'Use "columnHeight" property instead.')
 };
 
 export default Cascader;

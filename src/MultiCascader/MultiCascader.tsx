@@ -8,7 +8,7 @@ import TreeView from './TreeView';
 import Checkbox from '../Checkbox';
 import { useCascadeValue, useColumnData, useFlattenData, isSomeChildChecked } from './utils';
 import { getNodeParents, findNodeOfTree } from '../utils/treeUtils';
-import { getColumnsAndPaths } from '../Cascader/utils';
+import { getColumnsAndPaths } from '../CascadeTree/utils';
 import { PickerLocale } from '../locales';
 import {
   createChainedFunction,

@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Cascader } from 'rsuite';
+import { CascadeTree } from 'rsuite';
 import AdminIcon from '@rsuite/icons/Admin';
 import { mockTreeData } from './mock';
 
@@ -33,10 +33,9 @@ const Column = ({ header, children }) => {
 };
 
 const App = () => (
-  <Cascader
+  <CascadeTree
     data={data}
-    style={{ width: 224 }}
-    columnWidth={160}
+    columnWidth={180}
     renderTreeNode={(label, node) => {
       return (
         <>
@@ -46,9 +45,6 @@ const App = () => (
     }}
     renderColumn={(childNodes, { layer }) => {
       return <Column header={headers[layer]}> {childNodes}</Column>;
-    }}
-    renderValue={(value, activePaths, activeItemLabel) => {
-      return activePaths.map(item => item.label).join(' > ');
     }}
   />
 );

@@ -161,14 +161,9 @@ export interface FormControlBaseProps<
 
 type ToArray<V> = V extends any[] ? V : V[];
 
-export interface FormControlPickerProps<
-  ValueType = any,
-  LocaleType = any,
-  DataType = Record<string, any>
-> extends PickerBaseProps<LocaleType>,
-    FormControlBaseProps<ValueType> {
+export interface DataProps<TData> {
   /** The data of component */
-  data: DataType[];
+  data: TData[];
 
   /** Set option value 'key' in 'data' */
   valueKey?: string;
@@ -178,18 +173,17 @@ export interface FormControlPickerProps<
 
   /** Set children key in data */
   childrenKey?: string;
+}
 
+export interface FormControlPickerProps<
+  ValueType = any,
+  LocaleType = any,
+  DataType = Record<string, any>
+> extends PickerBaseProps<LocaleType>,
+    FormControlBaseProps<ValueType>,
+    DataProps<DataType> {
   /** Disabled items */
   disabledItemValues?: ToArray<NonNullable<ValueType>>;
-
-  /** Initial value */
-  defaultValue?: ValueType;
-
-  /** Current value of the component. Creates a controlled component */
-  value?: ValueType;
-
-  /** Called after the value has been changed */
-  onChange?: (value: ValueType, event: React.SyntheticEvent) => void;
 }
 
 export declare namespace TypeAttributes {

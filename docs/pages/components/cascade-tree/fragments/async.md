@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Cascader } from 'rsuite';
+import { CascadeTree } from 'rsuite';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
 import { mockAsyncData } from './mock';
@@ -10,17 +10,11 @@ const [getNodes, fetchNodes] = mockAsyncData();
 const initialData = getNodes(5);
 
 const App = () => {
-  const [value, setValue] = React.useState();
-
   return (
-    <div className="example-item">
-      <Cascader
-        value={value}
-        onChange={setValue}
-        placeholder="Select"
-        style={{ width: 224 }}
+    <div style={{ overflow: 'auto' }}>
+      <CascadeTree
+        columnWidth={180}
         data={initialData}
-        columnWidth={200}
         getChildren={node => {
           return fetchNodes(node.id);
         }}

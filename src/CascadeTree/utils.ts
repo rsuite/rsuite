@@ -87,7 +87,7 @@ export function usePaths<T extends Record<string, unknown>>({
     [getParent, selectedItem]
   );
 
-  const { columns: columnsToDisplay, path: pathTowardsActiveItem } = useMemo(
+  const { columns, path: pathTowardsActiveItem } = useMemo(
     () =>
       getColumnsAndPaths(data, activeItem, {
         getParent,
@@ -97,7 +97,7 @@ export function usePaths<T extends Record<string, unknown>>({
   );
 
   return {
-    columnsToDisplay,
+    columns,
     pathTowardsSelectedItem,
     pathTowardsActiveItem
   };
