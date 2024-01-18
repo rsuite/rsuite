@@ -8,7 +8,7 @@ import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
-import Disclosure from '../Disclosure/Disclosure';
+import Disclosure from '../internals/Disclosure/Disclosure';
 import useInternalId from '../utils/useInternalId';
 import SidenavDropdownToggle from './SidenavDropdownToggle';
 import { NavMenuContext } from '../Nav/NavMenu';

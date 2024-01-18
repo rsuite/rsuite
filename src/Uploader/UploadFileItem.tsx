@@ -6,7 +6,7 @@ import Reload from '@rsuite/icons/Reload';
 import { previewFile, useClassNames } from '../utils';
 import { FileType } from './Uploader';
 import { UploaderLocale } from '../locales';
-import CloseButton from '../CloseButton';
+import CloseButton from '../internals/CloseButton';
 import { WithAsProps } from '../@types/common';
 
 export interface UploadFileItemProps extends WithAsProps {

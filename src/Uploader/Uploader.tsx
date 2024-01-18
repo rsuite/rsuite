@@ -5,7 +5,7 @@ import FileItem from './UploadFileItem';
 import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
 import { ajaxUpload, useClassNames, useCustom, guid, useWillUnmount } from '../utils';
 import { WithAsProps } from '../@types/common';
-import Plaintext from '../Plaintext';
+import Plaintext from '../internals/Plaintext';
 import { UploaderLocale } from '../locales';
 import type { ErrorStatus } from '../utils/ajaxUpload';
 

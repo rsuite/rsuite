@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { TreePicker } from 'rsuite';
+import { TreePicker, Stack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -13,9 +13,16 @@ const data = mockTreeData({
 });
 
 const App = () => (
-  <>
+  <Stack spacing={10} direction="column" alignItems="flex-start">
     <TreePicker defaultExpandAll data={data} style={{ width: 246 }} />
-  </>
+    <TreePicker
+      defaultExpandAll
+      data={data}
+      searchable={false}
+      style={{ width: 246 }}
+      placeholder="Select without search"
+    />
+  </Stack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

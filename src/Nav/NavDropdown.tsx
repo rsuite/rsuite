@@ -6,7 +6,7 @@ import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../uti
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import deprecatePropType from '../utils/deprecatePropType';
 import { initialState, reducer } from '../Dropdown/DropdownState';
-import Menu, { MenuButtonTrigger } from '../Menu/Menu';
+import Menu, { MenuButtonTrigger } from '../internals/Menu/Menu';
 import kebabCase from 'lodash/kebabCase';
 import NavContext from './NavContext';
 import Button from '../Button';

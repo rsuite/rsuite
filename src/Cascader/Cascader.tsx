@@ -24,7 +24,6 @@ import {
 import {
   PickerToggle,
   PickerPopup,
-  SearchBar,
   PickerToggleTrigger,
   usePickerClassName,
   usePickerRef,
@@ -36,8 +35,8 @@ import {
   listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
-} from '../Picker';
-
+} from '../internals/Picker';
+import SearchBox from '../internals/SearchBox';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import { useMap } from '../utils/useMap';
 
@@ -519,7 +518,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         onKeyDown={onPickerKeyDown}
       >
         {searchable && (
-          <SearchBar
+          <SearchBox
             placeholder={locale?.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeyword}

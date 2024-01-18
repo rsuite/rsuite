@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useClassNames, useControlled } from '../utils';
 import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
 import { ValueType } from '../Radio';
-import Plaintext from '../Plaintext';
+import Plaintext from '../internals/Plaintext';
 
 export interface RadioContextProps {
   inline?: boolean;

@@ -9,7 +9,7 @@ import Graduated from './Graduated';
 import { useClassNames, useControlled, useCustom } from '../utils';
 import { precisionMath, checkValue } from './utils';
 import { WithAsProps, FormControlBaseProps, Offset } from '../@types/common';
-import Plaintext from '../Plaintext';
+import Plaintext from '../internals/Plaintext';
 
 export interface LocaleType {
   placeholder?: string;

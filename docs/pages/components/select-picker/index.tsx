@@ -1,5 +1,5 @@
 import React from 'react';
-import { SelectPicker, Button, RadioGroup, Radio, Loader } from 'rsuite';
+import { SelectPicker, Button, RadioGroup, Radio, Loader, Stack } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 
@@ -12,7 +12,8 @@ export default function Page() {
         Button,
         SpinnerIcon,
         RadioGroup,
-        Radio
+        Radio,
+        Stack
       }}
     />
   );

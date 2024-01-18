@@ -6,7 +6,7 @@ import Star from '@rsuite/icons/legacy/Star';
 import { useClassNames, useControlled, shallowEqualArray, SIZE, KEY_VALUES } from '../utils';
 import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
 import Character from './Character';
-import Plaintext from '../Plaintext';
+import Plaintext from '../internals/Plaintext';
 import {
   WithAsProps,
   TypeAttributes,

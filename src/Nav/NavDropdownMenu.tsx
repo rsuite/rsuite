@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import omit from 'lodash/omit';
-import Menu from '../Menu/Menu';
-import MenuItem from '../Menu/MenuItem';
+import Menu from '../internals/Menu/Menu';
+import MenuItem from '../internals/Menu/MenuItem';
 import { mergeRefs, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';

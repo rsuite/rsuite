@@ -2,8 +2,8 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import Tree from '../Tree';
-import { PickerHandle } from '../../Picker';
-import { ListHandle } from '../../Windowing';
+import { PickerHandle } from '../../internals/Picker';
+import { ListHandle } from '../../internals/Windowing';
 import userEvent from '@testing-library/user-event';
 import { mockTreeData } from '@test/mocks/data-mock';
 

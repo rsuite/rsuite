@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import on from 'dom-lib/on';
 import getAnimationEnd from 'dom-lib/getAnimationEnd';
-import BaseModal, { BaseModalProps, modalPropTypes } from '../Overlay/Modal';
+import BaseModal, { BaseModalProps, modalPropTypes } from '../internals/Overlay/Modal';
 import Bounce from '../Animation/Bounce';
 import { useClassNames, mergeRefs, useWillUnmount } from '../utils';
 import ModalDialog, { modalDialogPropTypes } from './ModalDialog';

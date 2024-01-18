@@ -6,7 +6,9 @@ import deprecatePropType from '../utils/deprecatePropType';
 import isNil from 'lodash/isNil';
 import { createChainedFunction, shallowEqual, useClassNames } from '../utils';
 import { NavbarContext } from './Navbar';
-import DisclosureContext, { DisclosureActionTypes } from '../Disclosure/DisclosureContext';
+import DisclosureContext, {
+  DisclosureActionTypes
+} from '../internals/Disclosure/DisclosureContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 import NavContext from '../Nav/NavContext';
 

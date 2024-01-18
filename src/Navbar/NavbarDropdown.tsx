@@ -8,7 +8,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import kebabCase from 'lodash/kebabCase';
 import { NavbarContext } from '.';
-import Disclosure, { DisclosureTrigger } from '../Disclosure/Disclosure';
+import Disclosure, { DisclosureTrigger } from '../internals/Disclosure/Disclosure';
 import Button from '../Button';
 import NavDropdownItem from '../Nav/NavDropdownItem';
 import NavDropdownMenu from '../Nav/NavDropdownMenu';

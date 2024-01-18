@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
-import { List, AutoSizer, ListChildComponentProps } from '../Windowing';
+import { List, AutoSizer, ListChildComponentProps } from '../internals/Windowing';
 import CheckTreeNode from './CheckTreeNode';
 import TreeContext from '../Tree/TreeContext';
 import { PickerLocale } from '../locales';
@@ -22,7 +22,6 @@ import {
   TreeView,
   onMenuKeyDown,
   PickerPopup,
-  SearchBar,
   SelectedElement,
   PickerToggleTrigger,
   PickerComponent,
@@ -35,8 +34,8 @@ import {
   omitTriggerPropKeys,
   PositionChildProps,
   listPickerPropTypes
-} from '../Picker';
-
+} from '../internals/Picker';
+import SearchBox from '../internals/SearchBox';
 import {
   isEveryChildChecked,
   isSomeNodeHasChildren,
@@ -773,7 +772,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         target={trigger}
       >
         {searchable ? (
-          <SearchBar
+          <SearchBox
             placeholder={locale.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeywordState}

@@ -4,7 +4,7 @@ import AutoComplete from '../index';
 import { getStyle, toRGB, inChrome } from '@test/utils';
 
 import '../styles/index.less';
-import { PickerHandle } from '../../Picker';
+import { PickerHandle } from '../../internals/Picker';
 
 describe('AutoComplete styles', () => {
   it('Input should render the correct styles', () => {

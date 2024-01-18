@@ -5,7 +5,7 @@ import { getStyle, inChrome } from '@test/utils';
 import { mockTreeData } from '@test/mocks/data-mock';
 
 import '../styles/index.less';
-import { PickerHandle } from '../../Picker';
+import { PickerHandle } from '../../internals/Picker';
 
 const data = mockTreeData([['abcde', ['vv-abc', 'vv-abcd']]]);
 

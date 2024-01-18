@@ -7,7 +7,7 @@ import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import NavContext, { NavContextProps } from './NavContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
-import Menubar from '../Menu/Menubar';
+import Menubar from '../internals/Menu/Menubar';
 import NavDropdown from './NavDropdown';
 import NavMenu, { NavMenuActionType, NavMenuContext } from './NavMenu';
 import deprecateComponent from '../utils/deprecateComponent';

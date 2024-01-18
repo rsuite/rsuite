@@ -1,6 +1,6 @@
 import React from 'react';
 import { expectType } from 'ts-expect';
-import { PickerHandle } from '../../Picker';
+import { PickerHandle } from '../../internals/Picker';
 import SelectPicker from '../SelectPicker';
 
 // Infer value and onChange types from data

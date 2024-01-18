@@ -10,8 +10,8 @@ import ArrowRightLine from '@rsuite/icons/ArrowRightLine';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
-import Ripple from '../Ripple';
-import Disclosure from '../Disclosure/Disclosure';
+import Ripple from '../internals/Ripple';
+import Disclosure from '../internals/Disclosure/Disclosure';
 
 export interface SidenavDropdownMenuProps<T = any>
   extends WithAsProps,
