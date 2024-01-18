@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/utils';
 import Form, { FormInstance } from '../../Form';
@@ -494,7 +494,7 @@ describe('FormControl', () => {
       expect(screen.getByRole('alert')).to.have.text('Age must be a number ');
     });
 
-    it('Should render an error message when the form is checked', () => {
+    it('Should render an error message when the form is checked', async () => {
       const model = Schema.Model({
         user: Schema.Types.ObjectType().shape({
           age: Schema.Types.NumberType('Age must be a number ')
@@ -519,7 +519,9 @@ describe('FormControl', () => {
 
       ref.current.check();
 
-      expect(screen.getByRole('alert')).to.have.text('Age must be a number ');
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).to.have.text('Age must be a number ');
+      });
     });
   });
 });
