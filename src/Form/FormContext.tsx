@@ -10,6 +10,7 @@ interface TrulyFormContextValue<
 > {
   getCombinedModel: () => Schema;
   formError: E;
+  nestedField: boolean;
   removeFieldValue: (name: string) => void;
   removeFieldError: (name: string) => void;
   pushFieldRule: (name: string, fieldRule: FieldRuleType) => void;

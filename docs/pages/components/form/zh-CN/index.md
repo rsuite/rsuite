@@ -99,6 +99,8 @@
 
 ### `<Form>`
 
+<!-- prettier-sort-markdown-table -->
+
 | 名称             | 类型 `(默认值)`                                               | 描述                                               |
 | ---------------- | ------------------------------------------------------------- | -------------------------------------------------- |
 | checkTrigger     | 'change' &#124; 'blur' &#124; 'none' `('change')`             | 触发表单校验的类型                                 |
@@ -111,13 +113,14 @@
 | formValue        | object                                                        | 表单的值 `受控组件`                                |
 | layout           | 'horizontal' &#124; 'vertical' &#124; 'inline' `('vertical')` | 设置表单内的元素左右两栏布局                       |
 | model            | Schema                                                        | SchemaModel 对象                                   |
+| nestedField      | boolean `(false)`                                             | 是否支持表单数据嵌套                               |
 | onChange         | (formValue: object, event) => void                            | 数据改变后的回调函数                               |
 | onCheck          | (formError: object) => void                                   | 数据校验的回调函数                                 |
 | onError          | (formError: object) => void                                   | 校验出错的回调函数                                 |
 | plaintext        | boolean `(false)`                                             | 表单显示为纯文本                                   |
 | readOnly         | boolean `(false)`                                             | 只读表单                                           |
 
-### Form methods
+### Form ref
 
 - check 检验表单数据
 

@@ -99,6 +99,8 @@ HTML:
 
 ### `<Form>`
 
+<!-- prettier-sort-markdown-table -->
+
 | Property         | Type `(default)`                                              | Description                                                                                                |
 | ---------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | checkTrigger     | 'change' &#124; 'blur' &#124; 'none' `('change')`             | Trigger the type of form validation                                                                        |
@@ -111,13 +113,14 @@ HTML:
 | formValue        | object                                                        | Value of form (Controlled)                                                                                 |
 | layout           | 'horizontal' &#124; 'vertical' &#124; 'inline' `('vertical')` | Set the left and right columns of the layout of the elements within the form                               |
 | model            | Schema                                                        | SchemaModel object                                                                                         |
+| nestedField      | boolean `(false)`                                             | Whether to support nested fields                                                                           |
 | onChange         | (formValue: object, event) => void                            | Callback fired when data changing                                                                          |
 | onCheck          | (formError: object) => void                                   | Callback fired when data cheking                                                                           |
 | onError          | (formError: object) => void                                   | Callback fired when error checking                                                                         |
 | plaintext        | boolean `(false)`                                             | Render the form as plain text                                                                              |
 | readOnly         | boolean `(false)`                                             | Make the form readonly                                                                                     |
 
-### Form methods
+### Form ref
 
 - check
 
