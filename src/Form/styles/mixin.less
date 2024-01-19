@@ -114,10 +114,9 @@
   @height: ~'input-height-@{size-name}';
   @useable-height: (@@height - 2px);
   @vertical: ~'padding-@{size-name}-vertical';
-  @add-on-padding: ~'input-group-padding-for-add-on-@{size-name}';
 
   &.rs-input-group-inside > .rs-input {
-    padding-right: @@add-on-padding;
+    padding-right: 0;
   }
 
   &.rs-input-group {
