@@ -9,7 +9,7 @@ import { useClassNames } from '../utils';
 import { TypeAttributes, FormControlBaseProps, WithAsProps } from '../@types/common';
 import FormContext, { FormValueContext } from '../Form/FormContext';
 import { FormGroupContext } from '../FormGroup/FormGroup';
-import { useWillUnmount } from '../utils';
+import { useWillUnmount, useEventCallback } from '../utils';
 import useRegisterModel from './useRegisterModel';
 import type { CheckType } from 'schema-typed';
 import Toggle from '../Toggle';
@@ -89,6 +89,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     disabled: disabledContext,
     errorFromContext,
     formError,
+    nestedField,
     removeFieldValue,
     removeFieldError,
     pushFieldRule,
@@ -141,52 +142,83 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
 
   const trigger = checkTrigger || contextCheckTrigger;
   const formValue = useContext(FormValueContext);
-  const val = isUndefined(value) ? get(formValue, name) : value;
+
+  const getFieldValue = (fieldName: string) => {
+    if (!isUndefined(value)) {
+      return value;
+    }
+
+    return nestedField ? get(formValue, fieldName) : formValue?.[name];
+  };
+
+  const setFieldValue = (fieldName: string, fieldValue: any) => {
+    if (nestedField) {
+      return set({ ...formValue }, fieldName, fieldValue);
+    }
+
+    return { ...formValue, [fieldName]: fieldValue };
+  };
+
+  const getFieldError = (fieldName: string) => {
+    if (nestedField) {
+      const name = fieldName.includes('.')
+        ? fieldName.replace('.', '.object.') + '.errorMessage'
+        : fieldName;
+
+      return get(formError, name);
+    }
+
+    return formError?.[fieldName];
+  };
+
+  const fieldValue = getFieldValue(name);
 
   const { withClassPrefix, prefix } = useClassNames(classPrefix);
   const classes = withClassPrefix('wrapper');
 
-  const handleFieldChange = (value: any, event: React.SyntheticEvent) => {
+  const handleFieldChange = useEventCallback((value: any, event: React.SyntheticEvent) => {
     handleFieldCheck(value, trigger === 'change');
     onFieldChange?.(name, value, event);
     onChange?.(value, event);
-  };
+  });
 
-  const handleFieldBlur = (event: React.FocusEvent<HTMLFormElement>) => {
-    handleFieldCheck(val, trigger === 'blur');
+  const handleFieldBlur = useEventCallback((event: React.FocusEvent<HTMLFormElement>) => {
+    handleFieldCheck(fieldValue, trigger === 'blur');
     onBlur?.(event);
-  };
+  });
 
-  const handleFieldCheck = (value: any, isCheckTrigger: boolean) => {
+  const handleFieldCheck = useEventCallback((value: any, isCheckTrigger: boolean) => {
+    const checkFieldName = nestedField ? name.split('.')[0] : name;
+
     const callbackEvents = checkResult => {
       // The relevant event is triggered only when the inspection is allowed.
       if (isCheckTrigger) {
         if (checkResult.hasError) {
-          onFieldError?.(name, checkResult?.errorMessage || checkResult);
+          onFieldError?.(checkFieldName, checkResult?.errorMessage || checkResult);
         } else {
-          onFieldSuccess?.(name);
+          onFieldSuccess?.(checkFieldName);
         }
       }
       return checkResult;
     };
 
-    const nextFormValue = set(formValue || {}, name, value);
+    const nextFormValue = setFieldValue(name, value);
     const model = getCombinedModel();
     if (checkAsync) {
-      return model?.checkForFieldAsync(name, nextFormValue).then(checkResult => {
+      return model?.checkForFieldAsync(checkFieldName, nextFormValue).then(checkResult => {
         return callbackEvents(checkResult);
       });
     }
 
-    return Promise.resolve(callbackEvents(model?.checkForField(name, nextFormValue)));
-  };
+    return Promise.resolve(callbackEvents(model?.checkForField(checkFieldName, nextFormValue)));
+  });
 
   let messageNode: React.ReactNode | null = null;
 
   if (!isUndefined(errorMessage)) {
     messageNode = errorMessage;
   } else if (errorFromContext) {
-    const fieldError = formError?.[name];
+    const fieldError = getFieldError(name);
 
     if (
       typeof fieldError === 'string' ||
@@ -210,7 +242,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
 
   const accepterProps = {
     // need to distinguish between undefined and null
-    [valueKey]: val === undefined ? defaultValue : val
+    [valueKey]: fieldValue === undefined ? defaultValue : fieldValue
   };
 
   return (
@@ -232,7 +264,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
       />
 
       <FormErrorMessage
-        id={`${controlId}-error-message`}
+        id={controlId ? `${controlId}-error-message` : undefined}
         role="alert"
         aria-relevant="all"
         show={!!messageNode}

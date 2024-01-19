@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { getDOMNode } from '@test/utils';
 import Form, { FormInstance } from '../../Form';
@@ -41,28 +41,6 @@ describe('FormControl', () => {
     });
 
     expect(onChange).to.have.been.calledOnce;
-  });
-
-  it('Should set correctly defaultValue', () => {
-    render(
-      <Form formDefaultValue={{ user: { name: ['name0', 'name1'] } }}>
-        <FormControl name="user.name.1" />
-      </Form>
-    );
-
-    expect(screen.getByRole('textbox')).to.have.value('name1');
-  });
-
-  it('Should return correctly value when onChange called', () => {
-    let formValue: Record<string, any> = { user: { name: ['name0', 'name1'] } };
-    render(
-      <Form formValue={formValue} onChange={value => (formValue = value)}>
-        <FormControl name="user.name.1" />
-      </Form>
-    );
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'name2' } });
-
-    expect(formValue.user.name[1]).to.equal('name2');
   });
 
   it('Should be readOnly', () => {
@@ -472,6 +450,104 @@ describe('FormControl', () => {
       );
 
       expect(screen.getByRole('switch')).to.not.be.checked;
+    });
+  });
+
+  describe('Nested Fields', () => {
+    it('Should set correctly defaultValue', () => {
+      render(
+        <Form formDefaultValue={{ user: { name: ['foo', 'bar'] } }} nestedField>
+          <FormControl name="user.name.1" />
+        </Form>
+      );
+
+      expect(screen.getByRole('textbox')).to.have.value('bar');
+    });
+
+    it('Should render the value on the FormControl', () => {
+      render(
+        <Form formDefaultValue={{ user: { name: ['foo', 'bar'] } }} nestedField>
+          <FormControl name="user.name.1" value="tom" />
+        </Form>
+      );
+
+      expect(screen.getByRole('textbox')).to.have.value('tom');
+    });
+
+    it('Should return correctly value when onChange called', () => {
+      let formValue: Record<string, any> = { user: { name: ['foo', 'bar'] } };
+      render(
+        <Form formValue={formValue} onChange={value => (formValue = value)} nestedField>
+          <FormControl name="user.name.1" />
+        </Form>
+      );
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'tom' } });
+
+      expect(formValue.user.name[1]).to.equal('tom');
+    });
+
+    it('Should render an error message when the value changes', () => {
+      const model = Schema.Model({
+        user: Schema.Types.ObjectType().shape({
+          age: Schema.Types.NumberType('Age must be a number ')
+        })
+      });
+
+      render(
+        <Form formDefaultValue={{ user: { age: '10' } }} model={model} nestedField>
+          <FormControl name="user.age" />
+        </Form>
+      );
+
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'a' } });
+
+      expect(screen.getByRole('alert')).to.have.text('Age must be a number ');
+    });
+
+    it('Should render an error message when the value changes', () => {
+      const model = Schema.Model({
+        age: Schema.Types.NumberType('Age must be a number ')
+      });
+
+      render(
+        <Form formDefaultValue={{ age: '10' }} model={model} nestedField>
+          <FormControl name="age" />
+        </Form>
+      );
+
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'a' } });
+
+      expect(screen.getByRole('alert')).to.have.text('Age must be a number ');
+    });
+
+    it('Should render an error message when the form is checked', async () => {
+      const model = Schema.Model({
+        user: Schema.Types.ObjectType().shape({
+          age: Schema.Types.NumberType('Age must be a number ')
+        })
+      });
+
+      const ref = React.createRef<any>();
+
+      render(
+        <Form
+          formDefaultValue={{ user: { age: '10' } }}
+          model={model}
+          nestedField
+          ref={ref}
+          checkTrigger="none"
+        >
+          <FormControl name="user.age" />
+        </Form>
+      );
+
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'a' } });
+
+      ref.current.check();
+
+      await waitFor(() => {
+        expect(screen.getByRole('alert')).to.have.text('Age must be a number ');
+      });
     });
   });
 });

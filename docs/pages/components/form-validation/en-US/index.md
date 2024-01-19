@@ -115,6 +115,10 @@ There are `checkTrigger` properties on the `<Form>` and `<Form.Control>` compone
 
 <!--{include:`dynamic-form.md`}-->
 
+### Nested fields
+
+<!--{include:`form-nested-fields.md`}-->
+
 ## Props & Methods
 
 - [Form props](/components/form)

@@ -64,8 +64,11 @@
 
 <!--{include:`status.md`}-->
 
-## 无障碍设计
+## 可访问性
 
+### ARIA 属性
+
+- 您应该为每个表单设置 `aria-label` 或 `aria-labelledby` 属性，以便屏幕阅读器可以正确地读取表单的目的。
 - 通过 `<Form.Group>` 的 `controlId` 属性，可以在 `<Form.Control>` 上设置 `id` 同时在 `<Form.ControlLabel>` 上设置 `htmlFor`。另外会为 `<Form.Control>` 生成`aria-labelledby` 和 `aria- describeby`， 对应到 `<Form.ControlLabel>` 与 `<Form.HelpText>` 的 `id`。
 
 ```html
@@ -93,11 +96,15 @@
 </div>
 ```
 
+### 必需的 JavaScript 功能
+
 - 在 Form 内点击 `type='submit'` 的按钮，会自动触发表单的 submit 事件。
 
 ## Props
 
 ### `<Form>`
+
+<!-- prettier-sort-markdown-table -->
 
 | 名称             | 类型 `(默认值)`                                               | 描述                                               |
 | ---------------- | ------------------------------------------------------------- | -------------------------------------------------- |
@@ -111,13 +118,14 @@
 | formValue        | object                                                        | 表单的值 `受控组件`                                |
 | layout           | 'horizontal' &#124; 'vertical' &#124; 'inline' `('vertical')` | 设置表单内的元素左右两栏布局                       |
 | model            | Schema                                                        | SchemaModel 对象                                   |
+| nestedField      | boolean `(false)`                                             | 是否支持表单数据嵌套                               |
 | onChange         | (formValue: object, event) => void                            | 数据改变后的回调函数                               |
 | onCheck          | (formError: object) => void                                   | 数据校验的回调函数                                 |
 | onError          | (formError: object) => void                                   | 校验出错的回调函数                                 |
 | plaintext        | boolean `(false)`                                             | 表单显示为纯文本                                   |
 | readOnly         | boolean `(false)`                                             | 只读表单                                           |
 
-### Form methods
+### Form ref
 
 - check 检验表单数据
 

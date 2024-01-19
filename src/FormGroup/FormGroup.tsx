@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
+import { useClassNames, useUniqueId } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface FormGroupProps extends WithAsProps {
@@ -22,13 +22,14 @@ const FormGroup: RsRefForwardingComponent<'div', FormGroupProps> = React.forward
     const {
       as: Component = 'div',
       classPrefix = 'form-group',
-      controlId,
+      controlId: controlIdProp,
       className,
       ...rest
     } = props;
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix());
+    const controlId = useUniqueId('rs-', controlIdProp);
     const contextValue = useMemo(() => ({ controlId }), [controlId]);
 
     return (
