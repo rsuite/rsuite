@@ -1,5 +1,5 @@
 @import '../../styles/common';
-@import '../../Picker/styles/index';
+@import '../../internals/Picker/styles/index';
 @import '../../TreePicker/styles/mixin';
 @import '../../Checkbox/styles/index';
 
@@ -160,14 +160,10 @@
 
   &.rs-check-tree-menu {
     padding-top: @picker-menu-padding;
-
-    .rs-picker-search-bar {
-      padding-top: 0;
-    }
   }
 
   .rs-check-tree {
-    padding: 0 @picker-menu-padding @picker-menu-padding 0;
+    padding-right: @picker-menu-padding;
 
     &-node > .rs-check-tree-node-label .rs-check-tree-node-text-wrapper {
       .ellipsis();

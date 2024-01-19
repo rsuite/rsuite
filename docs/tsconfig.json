@@ -19,6 +19,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": ".",
     "paths": {
+      "@/internals/*": ["../src/internals/*"],
       "@/*": ["./*"]
     }
   },

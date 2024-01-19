@@ -23,8 +23,8 @@ import {
   pickTriggerPropKeys,
   PositionChildProps,
   PickerComponent
-} from '../Picker';
-
+} from '../internals/Picker';
+import Plaintext from '../internals/Plaintext';
 import {
   WithAsProps,
   FormControlPickerProps,
@@ -33,7 +33,7 @@ import {
 } from '../@types/common';
 
 import { transformData, shouldDisplay } from './utils';
-import Plaintext from '../Plaintext';
+
 import Combobox from './Combobox';
 
 export type ValueType = string;

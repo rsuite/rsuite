@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cascader, Button, RadioGroup, Radio } from 'rsuite';
+import { Cascader, Button, RadioGroup, Radio, Stack } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
@@ -34,6 +34,7 @@ export default function Page() {
         AdminIcon,
         FolderFillIcon,
         PageIcon,
+        Stack,
         mockAsyncData,
         mockTreeData
       }}

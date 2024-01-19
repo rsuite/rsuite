@@ -8,7 +8,7 @@ import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import { mergeRefs, useClassNames, useCustom } from '../utils';
 import { NavbarContext } from '.';
-import Disclosure from '../Disclosure';
+import Disclosure from '../internals/Disclosure';
 import NavContext from '../Nav/NavContext';
 import deprecatePropType from '../utils/deprecatePropType';
 

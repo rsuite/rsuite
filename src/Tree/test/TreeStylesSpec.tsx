@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import Tree from '../index';
 import { getStyle, inChrome } from '@test/utils';
 import { mockTreeData } from '@test/mocks/data-mock';
-import { PickerHandle } from '../../Picker';
+import { PickerHandle } from '../../internals/Picker';
 
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
 

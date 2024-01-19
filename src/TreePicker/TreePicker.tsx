@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
-import { List, AutoSizer, ListChildComponentProps } from '../Windowing';
+import { List, AutoSizer, ListChildComponentProps } from '../internals/Windowing';
 import TreeNode from './TreeNode';
 import {
   createDragPreview,
@@ -53,7 +53,6 @@ import {
   PickerToggle,
   PickerPopup,
   TreeView,
-  SearchBar,
   PickerToggleTrigger,
   createConcatChildrenFunction,
   usePickerClassName,
@@ -66,8 +65,8 @@ import {
   PickerComponent,
   useToggleKeyDownEvent,
   PickerToggleProps
-} from '../Picker';
-
+} from '../internals/Picker';
+import SearchBox from '../internals/SearchBox';
 import { TreeDragProps, TreeBaseProps, DropData } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
@@ -737,7 +736,7 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
         target={trigger}
       >
         {searchable ? (
-          <SearchBar
+          <SearchBox
             placeholder={locale.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeywordState}

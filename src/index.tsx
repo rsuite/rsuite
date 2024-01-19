@@ -304,6 +304,5 @@ export type {
   ToggleLocale
 } from './locales';
 
-export type { PickerHandle } from './Picker';
-
+export type { PickerHandle } from './internals/Picker';
 export { default as useMediaQuery } from './useMediaQuery';

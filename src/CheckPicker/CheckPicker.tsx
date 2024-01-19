@@ -25,7 +25,6 @@ import {
   ListCheckItem,
   PickerToggle,
   PickerPopup,
-  SearchBar,
   SelectedElement,
   PickerToggleTrigger,
   useFocusItemValue,
@@ -39,8 +38,8 @@ import {
   listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
-} from '../Picker';
-
+} from '../internals/Picker';
+import SearchBox from '../internals/SearchBox';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import type { MultipleSelectProps } from '../SelectPicker';
 import { TreeNodeType } from '../CheckTreePicker/utils';
@@ -355,7 +354,7 @@ const CheckPicker = React.forwardRef(
           target={trigger}
         >
           {searchable && (
-            <SearchBar
+            <SearchBox
               placeholder={locale?.searchPlaceholder}
               onChange={handleSearch}
               value={searchKeyword}

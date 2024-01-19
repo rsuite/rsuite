@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import Ripple from '../Ripple';
+import Ripple from '../internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { shallowEqual, useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';

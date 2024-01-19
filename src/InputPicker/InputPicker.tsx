@@ -11,7 +11,7 @@ import pick from 'lodash/pick';
 import getWidth from 'dom-lib/getWidth';
 import shallowEqual from '../utils/shallowEqual';
 import { filterNodesOfTree } from '../utils/treeUtils';
-import Plaintext from '../Plaintext';
+import Plaintext from '../internals/Plaintext';
 import {
   createChainedFunction,
   tplTransform,
@@ -43,7 +43,7 @@ import {
   PickerComponent,
   listPickerPropTypes,
   PickerToggleProps
-} from '../Picker';
+} from '../internals/Picker';
 
 import Tag from '../Tag';
 import InputAutosize from './InputAutosize';

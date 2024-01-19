@@ -7,7 +7,7 @@ import { mockTreeData } from '@test/mocks/data-mock';
 import CheckTreePicker from '../CheckTreePicker';
 import { KEY_VALUES } from '../../utils';
 import { data, originMockData, changedMockData, controlledData } from './mocks';
-import { PickerHandle } from '../../Picker';
+import { PickerHandle } from '../../internals/Picker';
 import {
   testStandardProps,
   testControlledUnControlled,

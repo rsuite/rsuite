@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import ArrowDown from '@rsuite/icons/legacy/ArrowDown';
 import Spinner from '@rsuite/icons/legacy/Spinner';
-import ListCheckItem from '../Picker/ListCheckItem';
+import ListCheckItem from '../internals/Picker/ListCheckItem';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { getTreeNodeIndent } from '../utils/treeUtils';
 import {

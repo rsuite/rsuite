@@ -1,7 +1,8 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import omit from 'lodash/omit';
-import Menu from '../Menu/Menu';
-import MenuItem from '../Menu/MenuItem';
+import Menu from '../internals/Menu/Menu';
+import MenuItem from '../internals/Menu/MenuItem';
+import Menubar from '../internals/Menu/Menubar';
 import { mergeRefs, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
@@ -10,7 +11,6 @@ import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import useCustom from '../utils/useCustom';
 import DropdownContext from './DropdownContext';
-import Menubar from '../Menu/Menubar';
 import Nav from '../Nav';
 import NavContext from '../Nav/NavContext';
 import warnOnce from '../utils/warnOnce';

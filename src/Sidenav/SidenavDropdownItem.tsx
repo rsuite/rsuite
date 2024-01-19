@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from './Sidenav';
 import deprecatePropType from '../utils/deprecatePropType';
-import MenuItem from '../Menu/MenuItem';
+import MenuItem from '../internals/Menu/MenuItem';
 import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';
 import NavContext from '../Nav/NavContext';

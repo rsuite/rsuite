@@ -13,7 +13,8 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
-      '@test': path.resolve(__dirname, './test')
+      '@test': path.resolve(__dirname, './test'),
+      '@': path.resolve(__dirname, './src')
     },
     /**
      * Polyfill Node.js util module which is used by sinon

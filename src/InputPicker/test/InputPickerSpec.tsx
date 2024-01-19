@@ -12,7 +12,7 @@ import {
 import { mockGroupData } from '@test/mocks/data-mock';
 import InputPicker from '../InputPicker';
 import Button from '../../Button';
-import { PickerHandle } from '../../Picker';
+import { PickerHandle } from '../../internals/Picker';
 import userEvent from '@testing-library/user-event';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });

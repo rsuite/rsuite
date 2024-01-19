@@ -25,7 +25,7 @@ import {
   usePickerClassName,
   usePickerRef,
   onMenuKeyDown
-} from '../Picker';
+} from '../internals/Picker';
 import {
   createChainedFunction,
   DATERANGE_DISABLED_TARGET,

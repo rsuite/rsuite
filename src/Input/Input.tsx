@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
-import Plaintext from '../Plaintext';
+import Plaintext from '../internals/Plaintext';
 import { createChainedFunction, TypeChecker, mergeRefs, useClassNames, KEY_VALUES } from '../utils';
 import {
   WithAsProps,

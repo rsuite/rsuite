@@ -16,7 +16,8 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@test/*": ["./test/*"]
+      "@test/*": ["./test/*"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]

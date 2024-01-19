@@ -2,7 +2,7 @@ import React, { useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS, STATUS, useIsMounted } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
-import CloseButton from '../CloseButton';
+import CloseButton from '../internals/CloseButton';
 import ToastContext from '../toaster/ToastContext';
 
 export interface MessageProps extends WithAsProps {

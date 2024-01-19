@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import InputPicker, { InputPickerProps } from '../InputPicker/InputPicker';
 import InputPickerContext, { TagOnlyProps } from '../InputPicker/InputPickerContext';
-import type { PickerComponent } from '../Picker/types';
+import type { PickerComponent } from '../internals/Picker/types';
 import type { CheckboxProps } from '../Checkbox';
 
 export interface TagPickerProps extends InputPickerProps, Partial<TagOnlyProps> {

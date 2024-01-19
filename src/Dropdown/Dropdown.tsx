@@ -9,7 +9,7 @@ import { IconProps } from '@rsuite/icons/lib/Icon';
 import deprecatePropType from '../utils/deprecatePropType';
 import DropdownItem from './DropdownItem';
 import DropdownContext, { DropdownContextProps } from './DropdownContext';
-import Menu, { MenuButtonTrigger } from '../Menu/Menu';
+import Menu, { MenuButtonTrigger } from '../internals/Menu/Menu';
 import DropdownToggle from './DropdownToggle';
 import kebabCase from 'lodash/kebabCase';
 import NavContext from '../Nav/NavContext';

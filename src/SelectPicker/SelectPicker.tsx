@@ -22,7 +22,6 @@ import {
   PickerToggle,
   PickerToggleTrigger,
   PickerPopup,
-  SearchBar,
   useFocusItemValue,
   usePickerClassName,
   useSearch,
@@ -34,9 +33,9 @@ import {
   listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
-} from '../Picker';
-
-import { ListProps } from '../Windowing';
+} from '../internals/Picker';
+import SearchBox from '../internals/SearchBox';
+import { ListProps } from '../internals/Windowing';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 export interface SelectProps<T> {
@@ -371,7 +370,7 @@ const SelectPicker = React.forwardRef(
           target={trigger}
         >
           {searchable && (
-            <SearchBar
+            <SearchBox
               placeholder={locale?.searchPlaceholder}
               onChange={handleSearch}
               value={searchKeyword}

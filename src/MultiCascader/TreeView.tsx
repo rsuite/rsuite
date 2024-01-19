@@ -3,7 +3,7 @@ import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import { useClassNames, shallowEqual, useCustom, useEventCallback } from '../utils';
-import { ListCheckItem, useCombobox } from '../Picker';
+import { ListCheckItem, useCombobox } from '../internals/Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
 import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { ValueType } from './MultiCascader';

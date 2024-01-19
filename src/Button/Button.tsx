@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ButtonGroupContext } from '../ButtonGroup';
 import SafeAnchor from '../SafeAnchor';
-import Ripple from '../Ripple';
+import Ripple from '../internals/Ripple';
 import { isOneOf, useClassNames } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
