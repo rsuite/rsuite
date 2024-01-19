@@ -64,8 +64,11 @@
 
 <!--{include:`status.md`}-->
 
-## 无障碍设计
+## 可访问性
 
+### ARIA 属性
+
+- 您应该为每个表单设置 `aria-label` 或 `aria-labelledby` 属性，以便屏幕阅读器可以正确地读取表单的目的。
 - 通过 `<Form.Group>` 的 `controlId` 属性，可以在 `<Form.Control>` 上设置 `id` 同时在 `<Form.ControlLabel>` 上设置 `htmlFor`。另外会为 `<Form.Control>` 生成`aria-labelledby` 和 `aria- describeby`， 对应到 `<Form.ControlLabel>` 与 `<Form.HelpText>` 的 `id`。
 
 ```html
@@ -92,6 +95,8 @@
   <span id="name-help-text" class="rs-form-help-text">Username is required</span>
 </div>
 ```
+
+### 必需的 JavaScript 功能
 
 - 在 Form 内点击 `type='submit'` 的按钮，会自动触发表单的 submit 事件。
 

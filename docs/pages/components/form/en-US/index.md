@@ -66,6 +66,10 @@ Error message can be set in 2 ways:
 
 ## Accessibility
 
+### ARIA properties
+
+- You should set the `aria-label` or `aria-labelledby` property for each form so that the screen reader can read the purpose of the form correctly.
+
 - Through the `controlId` prop of `<Form.Group>`, you can set `id` on `<Form.Control>` and set `htmlFor` on `<Form.ControlLabel>`. In addition, `aria-labelledby` and `aria-describeby` will be generated for `<Form.Control>`, corresponding to the `id` of `<Form.ControlLabel>` and `<Form.HelpText>`.
 
 ```html
@@ -92,6 +96,8 @@ HTML:
   <span id="name-help-text" class="rs-form-help-text">Username is required</span>
 </div>
 ```
+
+### Required JavaScript features
 
 - Click the button of `type='submit'` in the Form, and the submit event of the form will be triggered automatically.
 
