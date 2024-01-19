@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, act, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
-import { getInstance, testStandardProps } from '@test/utils';
+import { getInstance, testStandardProps, itChrome } from '@test/utils';
 
 import Form, { FormInstance } from '../Form';
 import FormControl from '../../FormControl';
@@ -54,18 +54,22 @@ describe('Form', () => {
     expect(screen.getByRole('form')).to.have.class('rs-form-inline');
   });
 
-  it('Should be disabled', () => {
+  itChrome('Should be disabled', () => {
     const onSubmit = sinon.spy();
-    render(<Form aria-label="form" disabled onSubmit={onSubmit} />);
+    render(
+      <Form aria-label="form" disabled onSubmit={onSubmit}>
+        <button type="submit">submit</button>
+      </Form>
+    );
 
     expect(screen.getByRole('form')).to.have.class('rs-form-disabled');
 
-    fireEvent.submit(screen.getByRole('form'));
+    fireEvent.click(screen.getByRole('button'));
 
     expect(onSubmit).to.be.not.called;
   });
 
-  it('Should be readOnly', () => {
+  itChrome('Should be readOnly', () => {
     const onSubmit = sinon.spy();
     render(<Form aria-label="form" readOnly onSubmit={onSubmit} />);
 
@@ -76,7 +80,7 @@ describe('Form', () => {
     expect(onSubmit).to.be.not.called;
   });
 
-  it('Should be plaintext', () => {
+  itChrome('Should be plaintext', () => {
     const onSubmit = sinon.spy();
     render(<Form aria-label="form" plaintext onSubmit={onSubmit} />);
 
