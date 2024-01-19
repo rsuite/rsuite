@@ -1,3 +1,14 @@
+# [5.51.0](https://github.com/rsuite/rsuite/compare/v5.50.0...v5.51.0) (2024-01-19)
+
+### Bug Fixes
+
+- **InputGroup:** fix style conflict caused by zIndex set in InputGoup ([#3552](https://github.com/rsuite/rsuite/issues/3552)) ([f874edf](https://github.com/rsuite/rsuite/commit/f874edfdbf0dbc9a53e4fe26fb9cf39108f1a00c))
+
+### Features
+
+- **Form:** add support for `nestedField` prop on Form ([#3568](https://github.com/rsuite/rsuite/issues/3568)) ([47fce55](https://github.com/rsuite/rsuite/commit/47fce559b159f128fd2f89ffc36c0e9bcfd3f25b))
+- improve accessibility of all pickers ([#3558](https://github.com/rsuite/rsuite/issues/3558)) ([8ad3cfd](https://github.com/rsuite/rsuite/commit/8ad3cfd4f1a2de16b52fec2bed5e4a9ea509f824))
+
 # [5.50.0](https://github.com/rsuite/rsuite/compare/v5.49.0...v5.50.0) (2024-01-12)
 
 ### Bug Fixes
