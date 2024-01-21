@@ -496,6 +496,15 @@
     }
   },
   {
+    "id": "accordion",
+    "name": "Accordion",
+    "title": "手风琴",
+    "components": ["Accordion", "Accordion.Item"],
+    "tag": "New",
+    "minVersion": "5.52.0"
+  },
+
+  {
     "id": "badge",
     "name": "Badge",
     "title": "徽标",

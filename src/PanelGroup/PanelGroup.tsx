@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useControlled } from '../utils';
+import { useClassNames, useControlled, useEventCallback } from '../utils';
 import { WithAsProps } from '../@types/common';
 
 type KeyType = string | number;
@@ -51,20 +51,13 @@ const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
   } = props;
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const [activeKey, setActiveKey] = useControlled(activeProp, defaultActiveKey);
-  const classes = merge(
-    className,
-    withClassPrefix({
-      accordion,
-      bordered
-    })
-  );
+  const classes = merge(className, withClassPrefix({ accordion, bordered }));
 
-  const handleSelect = useCallback(
+  const handleSelect = useEventCallback(
     (activeKey: KeyType | undefined, event: React.MouseEvent) => {
       setActiveKey(activeKey);
       onSelect?.(activeKey, event);
-    },
-    [onSelect, setActiveKey]
+    }
   );
 
   const contextValue = useMemo(
@@ -73,7 +66,7 @@ const PanelGroup = React.forwardRef((props: PanelGroupProps, ref) => {
   );
 
   return (
-    <Component {...rest} ref={ref} role={accordion ? 'tablist' : undefined} className={classes}>
+    <Component {...rest} ref={ref} className={classes}>
       <PanelGroupContext.Provider value={contextValue}>{children}</PanelGroupContext.Provider>
     </Component>
   );

@@ -1,34 +1,32 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
-import AngleDownIcon from '@rsuite/icons/legacy/AngleDown';
-
 import Collapse from '../Animation/Collapse';
-import { useClassNames, useControlled } from '../utils';
+import { useClassNames, useControlled, useUniqueId, useEventCallback } from '../utils';
 import { AnimationEventProps, RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { PanelGroupContext } from '../PanelGroup';
+import AccordionButton from './AccordionButton';
 
 export interface PanelProps<T = string | number> extends WithAsProps, AnimationEventProps {
-  /** Whether it is a collapsible panel */
-  collapsible?: boolean;
-
   /** Show border */
   bordered?: boolean;
-
-  /** With shadow */
-  shaded?: boolean;
 
   /** Content area filled with containers */
   bodyFill?: boolean;
 
-  /** The head displays information. */
-  header?: React.ReactNode;
+  /** Whether it is a collapsible panel */
+  collapsible?: boolean;
 
-  /** ID */
-  id?: string | number;
+  /**
+   * The icon on the right side of the title.
+   */
+  caretAs?: React.ElementType;
 
   /** Expand then panel by default */
   defaultExpanded?: boolean;
+
+  /** Whether the panel is disabled */
+  disabled?: boolean;
 
   /** Expand then panel */
   expanded?: boolean;
@@ -36,11 +34,22 @@ export interface PanelProps<T = string | number> extends WithAsProps, AnimationE
   /** The event key corresponding to the panel. */
   eventKey?: T;
 
-  /** Role of header */
+  /** The head displays information. */
+  header?: React.ReactNode;
+
+  /** ID */
+  id?: string;
+
+  /**
+   * Role of header
+   */
   headerRole?: string;
 
   /** Role of Panel */
   panelRole?: string;
+
+  /** With shadow */
+  shaded?: boolean;
 
   /** callback function for the panel clicked */
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
@@ -54,20 +63,22 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
   (props: PanelProps, ref) => {
     const {
       as: Component = 'div',
+      bodyFill,
+      bordered,
       children,
       className,
       classPrefix = 'panel',
-      bodyFill,
-      bordered,
+      caretAs,
       collapsible: collapsibleProp,
       defaultExpanded,
+      disabled,
       eventKey,
       expanded: expandedProp,
       header,
-      headerRole: headerRoleProp,
+      headerRole,
       panelRole = 'region',
       shaded,
-      id,
+      id: idProp,
       onEnter,
       onEntered,
       onEntering,
@@ -77,6 +88,10 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       onSelect,
       ...rest
     } = props;
+    const id = useUniqueId('rs-', idProp);
+    const panelId = `${id}-panel`;
+    const btnId = `${id}-btn`;
+
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
     const { accordion, activeKey, onGroupSelect } = useContext(PanelGroupContext) || {};
     const [expandedState, setExpanded] = useControlled(
@@ -85,39 +100,41 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
     );
 
     let collapsible = collapsibleProp;
-    let headerRole = headerRoleProp;
     let expanded = expandedState;
 
     if (accordion) {
       collapsible = true;
-      headerRole = 'button';
+    }
 
-      // Collapses all inactive panels.
+    if (collapsible) {
       if (typeof activeKey !== 'undefined' && activeKey !== eventKey) {
         expanded = false;
       }
     }
 
-    const handleSelect = useCallback(
-      (event: React.MouseEvent) => {
-        onSelect?.(eventKey, event);
-        onGroupSelect?.(eventKey, event);
-        setExpanded(!expanded);
-      },
-      [eventKey, expanded, onGroupSelect, onSelect, setExpanded]
-    );
+    useEffect(() => {
+      if (accordion && typeof activeKey !== 'undefined') {
+        setExpanded(activeKey === eventKey);
+      }
+    }, [accordion, activeKey, eventKey, setExpanded]);
 
-    const renderBody = useCallback(() => {
+    const handleSelect = useEventCallback((event: React.MouseEvent) => {
+      onSelect?.(eventKey, event);
+      onGroupSelect?.(eventKey, event);
+      setExpanded(!expanded);
+    });
+
+    const renderBody = useEventCallback((bodyProps?: React.HTMLAttributes<HTMLDivElement>) => {
       const classes = prefix('body', {
         'body-fill': bodyFill
       });
 
       return (
-        <div role={panelRole} className={classes}>
+        <div {...bodyProps} className={classes}>
           {children}
         </div>
       );
-    }, [bodyFill, children, panelRole, prefix]);
+    });
 
     const renderCollapsibleBody = () => (
       <Collapse
@@ -132,14 +149,8 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
         {(transitionProps, ref) => {
           const { className, ...rest } = transitionProps;
           return (
-            <div
-              {...rest}
-              id={id ? `${id}` : null}
-              aria-expanded={expanded}
-              className={merge(className, prefix('collapse'))}
-              ref={ref}
-            >
-              {renderBody()}
+            <div {...rest} className={merge(className, prefix('collapse'))} ref={ref}>
+              {renderBody({ role: panelRole, id: panelId, 'aria-labelledby': btnId })}
             </div>
           );
         }}
@@ -151,31 +162,33 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
         return null;
       }
 
-      let panelTitleElement: React.ReactNode;
+      let headerElement: React.ReactNode;
 
       if (!React.isValidElement(header) || Array.isArray(header)) {
-        panelTitleElement = (
-          <span className={prefix('title')} role="presentation">
-            <span className={expanded ? undefined : 'collapsed'}>{header}</span>
-          </span>
-        );
+        headerElement = <span className={prefix('title')}>{header}</span>;
       } else {
         const className = merge(prefix('title'), get(header, 'props.className'));
-        panelTitleElement = React.cloneElement<any>(header, { className });
+        headerElement = React.cloneElement<any>(header, { className });
       }
 
       return (
-        <div
-          role={headerRole}
-          aria-controls={collapsible && id ? `${id}` : undefined}
-          aria-expanded={expanded}
-          className={prefix('header')}
-          onClick={collapsible ? handleSelect : undefined}
-          tabIndex={-1}
-        >
-          {panelTitleElement}
-          {collapsible && <AngleDownIcon rotate={expanded ? 180 : 0} data-testid="caret icon" />}
-        </div>
+        <h2 className={prefix('header')}>
+          {collapsible ? (
+            <AccordionButton
+              id={btnId}
+              role={headerRole}
+              caretAs={caretAs}
+              controlId={panelId}
+              disabled={disabled}
+              expanded={expanded}
+              onClick={handleSelect}
+            >
+              {headerElement}
+            </AccordionButton>
+          ) : (
+            headerElement
+          )}
+        </h2>
       );
     };
 
@@ -185,7 +198,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
     );
 
     return (
-      <Component {...rest} ref={ref} className={classes} id={collapsible ? null : id}>
+      <Component {...rest} ref={ref} className={classes} id={idProp}>
         {renderHeading()}
         {collapsible ? renderCollapsibleBody() : renderBody()}
       </Component>
@@ -203,7 +216,6 @@ Panel.propTypes = {
   defaultExpanded: PropTypes.bool,
   expanded: PropTypes.bool,
   eventKey: PropTypes.any,
-  headerRole: PropTypes.string,
   panelRole: PropTypes.string,
   classPrefix: PropTypes.string,
   children: PropTypes.node,

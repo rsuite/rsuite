@@ -30,11 +30,43 @@
     color: var(--rs-text-heading);
     font-size: 16px;
     line-height: unit((@line-height-computed / 16px));
+    font-weight: inherit;
+  }
+
+  &-btn {
+    width: 100%;
+    border: none;
+    background: none;
+    outline: transparent solid 2px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 6px;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: var(--rs-btn-subtle-hover-bg);
+      color: var(--rs-btn-subtle-hover-text);
+      outline: transparent solid 2px;
+    }
+
+    &-icon {
+      transition: transform 0.2s ease 0s;
+    }
+
+    &[disabled] {
+      cursor: not-allowed;
+      color: var(--rs-text-disabled);
+      background-color: var(--rs-btn-subtle-disabled-bg);
+    }
   }
 
   &-title {
     margin: 0;
-
+    flex: 1 1 0%;
+    text-align: left;
     a {
       color: inherit;
 
@@ -57,6 +89,7 @@
     cursor: pointer;
     transition: background-color 0.3s linear, border-radius 0.3s linear;
     position: relative;
+    padding: 10px;
 
     > .rs-icon {
       color: var(--rs-text-secondary);
