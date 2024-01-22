@@ -98,6 +98,8 @@
     "@commitlint/config-conventional": "^13.2.0",
     "@csstools/postcss-relative-color-syntax": "^2.0.7",
     "@npmcli/package-json": "^2.0.0",
+    "@storybook/blocks": "^7.6.10",
+    "@storybook/react": "^7.6.10",
     "@testing-library/react": "^11.2.3",
     "@testing-library/react-hooks": "^7.0.0",
     "@testing-library/user-event": "^13.1.9",
