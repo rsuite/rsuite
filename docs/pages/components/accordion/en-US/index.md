@@ -2,7 +2,9 @@
 
 The Accordion component is used to expand and collapse the content area by clicking the title. It is often used to display a large amount of content in a limited space.
 
-## Usage
+![Supported from version 5.52.0](https://img.shields.io/badge/version->=5.52.0-blue)
+
+## Import
 
 <!--{include:(components/accordion/fragments/import.md)}-->
 
