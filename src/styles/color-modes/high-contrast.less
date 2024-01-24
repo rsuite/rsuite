@@ -382,4 +382,39 @@
 
   // Popover
   --rs-popover-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+
+  // CSS relative color syntax is not supported
+  // https://developer.chrome.com/blog/css-relative-color-syntax/
+  @supports not (color: rgb(from white r g b)) {
+    // Misc
+    --rs-bg-backdrop: fade(@B900-high-contrast, 80%);
+    --rs-state-focus-outline: 3px solid fade(@H500-high-contrast, 25%);
+
+    // Loader
+    --rs-loader-ring: fade(@B050-high-contrast, 30);
+    --rs-loader-backdrop: fade(@B900-high-contrast, 83%);
+    --rs-loader-ring-inverse: fade(@B050-high-contrast, 80);
+    --rs-loader-backdrop-inverse: fade(@B000-high-contrast, 90);
+
+    // Dropdown
+    --rs-dropdown-item-bg-active: fade(@H900-high-contrast, 20);
+
+    // Slider
+    --rs-slider-thumb-hover-shadow: 0 0 0 8px fade(@H500-high-contrast, 25);
+
+    // Uploader
+    --rs-uploader-overlay-bg: fade(@B600-high-contrast, 80);
+
+    // Carousel
+    --rs-carousel-indicator: fade(@B000-high-contrast, 40);
+
+    // List
+    --rs-list-placeholder-bg: fade(@H900-high-contrast, 20%);
+
+    // Calendar
+    --rs-calendar-range-bg: fade(@H900-high-contrast, 50%);
+
+    // Placeholder
+    --rs-placeholder-active: lighten(@B600-high-contrast, 5%);
+  }
 }
