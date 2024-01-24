@@ -15,7 +15,17 @@ export function installCarbon() {
 }
 
 function createStorybook(componentName: string) {
-  const ignoreList = ['Affix', 'Animation', 'DOMHelper', 'Whisper', 'DOMHelper', 'CustomProvider'];
+  const ignoreList = [
+    'Affix',
+    'Animation',
+    'DOMHelper',
+    'Whisper',
+    'useMediaQuery',
+    'CustomProvider',
+    'Overview',
+    'Icons',
+    'CSS Reset'
+  ];
 
   if (ignoreList.includes(componentName) || !componentName) {
     return null;
