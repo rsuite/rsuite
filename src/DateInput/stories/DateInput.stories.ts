@@ -1,55 +1,15 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 import DateInput from '../DateInput';
+import { createMeta } from '@/storybook/utils';
+
 import '../styles/index.less';
 
-const meta = {
-  title: 'Components/DateInput',
-  component: DateInput,
-  parameters: {
-    layout: 'padded'
-  },
-  argTypes: {
-    appearance: {
-      control: {
-        type: 'select'
-      },
-      options: ['default', 'subtle']
-    },
-    size: {
-      control: {
-        type: 'select'
-      },
-      options: ['xs', 'sm', 'md', 'lg']
-    },
-    format: {
-      control: {
-        type: 'text'
-      }
-    },
-    disabled: {
-      control: {
-        type: 'boolean'
-      }
-    },
-    placeholder: {
-      control: {
-        type: 'text'
-      }
-    },
-    readOnly: {
-      control: {
-        type: 'boolean'
-      }
-    },
-    plaintext: {
-      control: {
-        type: 'boolean'
-      }
-    }
-  }
-} as Meta<typeof DateInput>;
+const meta = createMeta(DateInput);
 
-export default meta;
+export default {
+  title: 'Components/DateInput',
+  ...meta
+};
 
 type Story = StoryObj<typeof meta>;
 

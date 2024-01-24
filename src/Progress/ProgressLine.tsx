@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, PROGRESS_STATUS_ICON } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface ProgressLineProps extends WithAsProps {
@@ -109,7 +110,7 @@ ProgressLine.propTypes = {
   trailWidth: PropTypes.number,
   showInfo: PropTypes.bool,
   vertical: PropTypes.bool,
-  status: PropTypes.oneOf(['success', 'fail', 'active'])
+  status: oneOf(['success', 'fail', 'active'])
 };
 
 export default ProgressLine;

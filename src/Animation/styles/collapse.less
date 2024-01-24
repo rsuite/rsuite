@@ -1,0 +1,22 @@
+.rs-anim-collapse {
+  display: none;
+
+  &.rs-anim-in {
+    display: block;
+  }
+
+  tr&.rs-anim-in {
+    display: table-row;
+  }
+
+  tbody&.rs-anim-in {
+    display: table-row-group;
+  }
+}
+
+.rs-anim-collapsing {
+  position: relative;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.35s ease, width 0.35s ease, visibility 0.35s ease;
+}

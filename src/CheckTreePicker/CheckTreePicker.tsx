@@ -69,7 +69,7 @@ import {
   rightArrowHandler,
   isSearching
 } from '../utils/treeUtils';
-
+import { oneOf } from '../internals/propTypes';
 import { TreeBaseProps } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
@@ -869,7 +869,7 @@ CheckTreePicker.displayName = 'CheckTreePicker';
 CheckTreePicker.propTypes = {
   ...listPickerPropTypes,
   height: PropTypes.number,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   locale: PropTypes.any,
   cascade: PropTypes.bool,
   countable: PropTypes.bool,

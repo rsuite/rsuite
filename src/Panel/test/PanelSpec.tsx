@@ -71,9 +71,9 @@ describe('Panel', () => {
   });
 
   it('Should have a role in body', () => {
-    render(<Panel panelRole="button" collapsible />);
+    render(<Panel panelRole="tabpanel" collapsible expanded />);
 
-    expect(screen.getByRole('button')).to.have.class('rs-panel-body');
+    expect(screen.getByRole('tabpanel')).to.have.class('rs-panel-body');
   });
 
   describe('Collapsible - `collapsible=true`', () => {

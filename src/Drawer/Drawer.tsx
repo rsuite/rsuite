@@ -12,6 +12,7 @@ import { TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import { useClassNames } from '../utils';
 import deprecateComponent from '../utils/deprecateComponent';
 import DrawerContext from './DrawerContext';
+import { oneOf } from '../internals/propTypes';
 
 export interface DrawerProps extends ModalProps {
   /** The placement of Drawer */
@@ -105,8 +106,9 @@ Drawer.Title = DrawerTitle;
 
 Drawer.displayName = 'Drawer';
 Drawer.propTypes = {
+  ...Modal.propTypes,
   classPrefix: PropTypes.string,
-  placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+  placement: oneOf(['top', 'right', 'bottom', 'left']),
   children: PropTypes.node,
   className: PropTypes.string
 };

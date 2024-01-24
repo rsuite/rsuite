@@ -28,10 +28,25 @@ export function map(children: React.ReactNode, func: any, context?: any) {
     return handle;
   });
 }
+function typeOf(object) {
+  if (typeof object === 'object' && object !== null) {
+    return object.type || object.$$typeof;
+  }
+}
+
+function isFragment(children: React.ReactNode) {
+  return React.Children.count(children) === 1 && typeOf(children) === Symbol.for('react.fragment');
+}
 
 export function mapCloneElement(children: React.ReactNode, func: any, context?: any) {
+  let elements = children;
+
+  if (isFragment(children)) {
+    elements = (children as React.ReactElement).props?.children;
+  }
+
   return map(
-    children,
+    elements,
     (child: React.DetailedReactHTMLElement<any, HTMLElement>, index: number) =>
       React.cloneElement(child, {
         key: index,

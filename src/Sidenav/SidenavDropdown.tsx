@@ -6,7 +6,7 @@ import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../uti
 import { SidenavContext } from './Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import deprecatePropType from '../utils/deprecatePropType';
+import { deprecatePropType, oneOf } from '../internals/propTypes';
 import Menu, { MenuButtonTrigger } from '../internals/Menu/Menu';
 import MenuItem from '../internals/Menu/MenuItem';
 import kebabCase from 'lodash/kebabCase';
@@ -263,11 +263,8 @@ SidenavDropdown.displayName = 'Sidenav.Dropdown';
 SidenavDropdown.propTypes = {
   activeKey: PropTypes.any,
   classPrefix: PropTypes.string,
-  trigger: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.oneOf(['click', 'hover', 'contextMenu'])
-  ]),
-  placement: PropTypes.oneOf(PLACEMENT_8),
+  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover', 'contextMenu'])]),
+  placement: oneOf(PLACEMENT_8),
   title: PropTypes.node,
   disabled: PropTypes.bool,
   icon: PropTypes.node,

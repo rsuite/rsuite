@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import Star from '@rsuite/icons/legacy/Star';
-
+import { oneOf } from '../internals/propTypes';
 import { useClassNames, useControlled, shallowEqualArray, SIZE, KEY_VALUES } from '../utils';
 import { transformValueToCharacterMap, transformCharacterMapToValue, CharacterType } from './utils';
 import Character from './Character';
@@ -226,7 +226,7 @@ Rate.propTypes = {
   max: PropTypes.number,
   renderCharacter: PropTypes.func,
   readOnly: PropTypes.bool,
-  size: PropTypes.oneOf(SIZE),
+  size: oneOf(SIZE),
   value: PropTypes.number,
   vertical: PropTypes.bool,
   onChange: PropTypes.func,

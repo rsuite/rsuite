@@ -55,7 +55,7 @@ import { OverlayCloseCause } from '../internals/Overlay/OverlayTrigger';
 import DateInput from '../DateInput';
 import InputGroup from '../InputGroup';
 import { FormControlBaseProps, PickerBaseProps, RsRefForwardingComponent } from '../@types/common';
-import { deprecatePropTypeNew } from '../utils/deprecatePropType';
+import { deprecatePropTypeNew } from '../internals/propTypes';
 import { getAriaLabel } from '../Calendar/utils';
 import { splitRanges } from './utils';
 

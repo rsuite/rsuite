@@ -1,9 +1,10 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useControlled } from '../utils';
+import { oneOf } from '../internals/propTypes';
+import Plaintext from '../internals/Plaintext';
 import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
 import { ValueType } from '../Radio';
-import Plaintext from '../internals/Plaintext';
 
 export interface RadioContextProps {
   inline?: boolean;
@@ -98,7 +99,7 @@ const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwa
 
 RadioGroup.displayName = 'RadioGroup';
 RadioGroup.propTypes = {
-  appearance: PropTypes.oneOf(['default', 'picker']),
+  appearance: oneOf(['default', 'picker']),
   name: PropTypes.string,
   inline: PropTypes.bool,
   value: PropTypes.any,

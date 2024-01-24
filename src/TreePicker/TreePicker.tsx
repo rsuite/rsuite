@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { pick, omit, isUndefined, isNil, isFunction } from 'lodash';
 import { List, AutoSizer, ListChildComponentProps } from '../internals/Windowing';
+import { oneOf } from '../internals/propTypes';
 import TreeNode from './TreeNode';
 import {
   createDragPreview,
@@ -820,7 +821,7 @@ TreePicker.displayName = 'TreePicker';
 TreePicker.propTypes = {
   ...listPickerPropTypes,
   locale: PropTypes.any,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   height: PropTypes.number,
   draggable: PropTypes.bool,
   virtualized: PropTypes.bool,

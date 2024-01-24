@@ -1,95 +1,14 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 import DateRangePicker from '../DateRangePicker';
+import { createMeta } from '@/storybook/utils';
 import '../styles/index.less';
 
-const meta = {
-  title: 'Components/DateRangePicker',
-  component: DateRangePicker,
-  parameters: {
-    layout: 'padded'
-  },
-  argTypes: {
-    appearance: {
-      control: {
-        type: 'select'
-      },
-      options: ['default', 'subtle']
-    },
-    size: {
-      control: {
-        type: 'select'
-      },
-      options: ['xs', 'sm', 'md', 'lg']
-    },
-    format: {
-      control: {
-        type: 'text'
-      }
-    },
-    disabled: {
-      control: {
-        type: 'boolean'
-      }
-    },
-    placeholder: {
-      control: {
-        type: 'text'
-      }
-    },
-    readOnly: {
-      control: {
-        type: 'boolean'
-      }
-    },
-    plaintext: {
-      control: {
-        type: 'boolean'
-      }
-    },
-    placement: {
-      control: {
-        type: 'select'
-      },
-      options: [
-        'topLeft',
-        'topRight',
-        'bottomLeft',
-        'bottomRight',
-        'leftTop',
-        'leftBottom',
-        'rightTop',
-        'rightBottom',
-        'auto',
-        'autoVerticalStart',
-        'autoVerticalEnd',
-        'autoHorizontalStart',
-        'autoHorizontalEnd'
-      ]
-    },
-    open: {
-      control: {
-        type: 'boolean'
-      }
-    },
-    loading: {
-      control: {
-        type: 'boolean'
-      }
-    },
-    block: {
-      control: {
-        type: 'boolean'
-      }
-    },
-    isoWeek: {
-      control: {
-        type: 'boolean'
-      }
-    }
-  }
-} as Meta<typeof DateRangePicker>;
+const meta = createMeta(DateRangePicker);
 
-export default meta;
+export default {
+  title: 'Components/DateRangePicker',
+  ...meta
+};
 
 type Story = StoryObj<typeof meta>;
 
@@ -101,6 +20,13 @@ const defaultArgs: Story['args'] = {
 export const Default: Story = {
   args: {
     ...defaultArgs
+  }
+};
+
+export const Subtle: Story = {
+  args: {
+    ...defaultArgs,
+    appearance: 'subtle'
   }
 };
 

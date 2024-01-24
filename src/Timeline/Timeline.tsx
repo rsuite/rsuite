@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import some from 'lodash/some';
 import TimelineItem from './TimelineItem';
 import { useClassNames, ReactChildren } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface TimelineProps extends WithAsProps {
@@ -79,7 +80,7 @@ Timeline.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   children: PropTypes.node,
-  align: PropTypes.oneOf(['left', 'right', 'alternate']),
+  align: oneOf(['left', 'right', 'alternate']),
   endless: PropTypes.bool
 };
 

@@ -15,7 +15,7 @@ import type { EdgeOffset } from './utils';
 import { useIsMounted } from '../../utils';
 import useManager, { Collection, ManagedItem } from './useManager';
 
-interface MovedItemInfo {
+export interface MovedItemInfo {
   collection: Collection;
   node: HTMLElement;
   newIndex: number;

@@ -2,7 +2,7 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import deprecatePropType from '../utils/deprecatePropType';
+import { deprecatePropType, oneOf } from '../internals/propTypes';
 import MenuItem from '../internals/Menu/MenuItem';
 import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';
@@ -159,7 +159,7 @@ NavDropdownItem.propTypes = {
   as: PropTypes.elementType,
   divider: PropTypes.bool,
   panel: PropTypes.bool,
-  trigger: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['click', 'hover'])]),
+  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover'])]),
   open: deprecatePropType(PropTypes.bool),
   active: PropTypes.bool,
   disabled: PropTypes.bool,

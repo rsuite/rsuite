@@ -10,6 +10,7 @@ import { TypeAttributes, FormControlBaseProps, WithAsProps } from '../@types/com
 import FormContext, { FormValueContext } from '../Form/FormContext';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { useWillUnmount, useEventCallback } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import useRegisterModel from './useRegisterModel';
 import type { CheckType } from 'schema-typed';
 import Toggle from '../Toggle';
@@ -280,14 +281,14 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
 FormControl.displayName = 'FormControl';
 FormControl.propTypes = {
   name: PropTypes.string.isRequired,
-  checkTrigger: PropTypes.oneOf(['change', 'blur', 'none']),
+  checkTrigger: oneOf(['change', 'blur', 'none']),
   checkAsync: PropTypes.bool,
   accepter: PropTypes.any,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   classPrefix: PropTypes.string,
   errorMessage: PropTypes.node,
-  errorPlacement: PropTypes.oneOf([
+  errorPlacement: oneOf([
     'bottomStart',
     'bottomEnd',
     'topStart',

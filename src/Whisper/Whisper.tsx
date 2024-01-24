@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import OverlayTrigger, { OverlayTriggerHandle } from '../internals/Overlay/OverlayTrigger';
 import { createChainedFunction, placementPolyfill, PLACEMENT } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { CustomContext } from '../CustomProvider';
 import { OverlayTriggerProps } from '../internals/Overlay/OverlayTrigger';
 
@@ -45,7 +46,7 @@ Whisper.propTypes = {
   onClose: PropTypes.func,
   onEntered: PropTypes.func,
   onExited: PropTypes.func,
-  placement: PropTypes.oneOf(PLACEMENT),
+  placement: oneOf(PLACEMENT),
   /**
    * Prevent floating element overflow
    */

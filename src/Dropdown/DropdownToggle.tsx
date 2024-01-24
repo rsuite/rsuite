@@ -5,6 +5,7 @@ import { useClassNames } from '../utils';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import useToggleCaret from '../utils/useToggleCaret';
+import { oneOf } from '../internals/propTypes';
 
 export interface DropdownToggleProps extends WithAsProps {
   icon?: React.ReactElement<IconProps>;
@@ -56,7 +57,7 @@ DropdownToggle.propTypes = {
   noCaret: PropTypes.bool,
   as: PropTypes.elementType,
   renderToggle: PropTypes.func,
-  placement: PropTypes.oneOf([
+  placement: oneOf([
     'bottomStart',
     'bottomEnd',
     'topStart',

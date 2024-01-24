@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Check from '@rsuite/icons/Check';
 import Close from '@rsuite/icons/Close';
-
+import { oneOf } from '../internals/propTypes';
 import { useClassNames } from '../utils';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
@@ -94,7 +94,7 @@ StepItem.propTypes = {
   classPrefix: PropTypes.string,
   style: PropTypes.object,
   itemWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  status: PropTypes.oneOf(['finish', 'wait', 'process', 'error']),
+  status: oneOf(['finish', 'wait', 'process', 'error']),
   icon: PropTypes.object,
   stepNumber: PropTypes.number,
   description: PropTypes.node,

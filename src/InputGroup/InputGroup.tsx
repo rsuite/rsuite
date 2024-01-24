@@ -1,9 +1,9 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-
 import InputGroupAddon from './InputGroupAddon';
 import InputGroupButton from './InputGroupButton';
 import { useClassNames } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 
 export const InputGroupContext = React.createContext<{
@@ -91,7 +91,7 @@ InputGroup.propTypes = {
   children: PropTypes.node,
   disabled: PropTypes.bool,
   inside: PropTypes.bool,
-  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs'])
+  size: oneOf(['lg', 'md', 'sm', 'xs'])
 };
 
 InputGroup.Addon = InputGroupAddon;

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { RsRefForwardingComponent } from '../@types/common';
+import { oneOf } from '../internals/propTypes';
 import { useClassNames } from '../utils';
 import Button, { ButtonProps } from '../Button';
 
@@ -60,7 +61,7 @@ IconButton.propTypes = {
   classPrefix: PropTypes.string,
   circle: PropTypes.bool,
   children: PropTypes.node,
-  placement: PropTypes.oneOf(['left', 'right'])
+  placement: oneOf(['left', 'right'])
 };
 
 export default IconButton;

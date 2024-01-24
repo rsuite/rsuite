@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Attachment from '@rsuite/icons/legacy/Attachment';
 import Reload from '@rsuite/icons/Reload';
-
+import { oneOf } from '../internals/propTypes';
 import { previewFile, useClassNames } from '../utils';
 import { FileType } from './Uploader';
 import { UploaderLocale } from '../locales';
@@ -316,7 +316,7 @@ UploadFileItem.displayName = 'UploadFileItem';
 UploadFileItem.propTypes = {
   locale: PropTypes.any,
   file: PropTypes.object.isRequired,
-  listType: PropTypes.oneOf(['text', 'picture-text', 'picture'] as const),
+  listType: oneOf(['text', 'picture-text', 'picture'] as const),
   disabled: PropTypes.bool,
   className: PropTypes.string,
   maxPreviewFileSize: PropTypes.number,
