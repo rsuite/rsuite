@@ -11,15 +11,15 @@ describe('[utils] ReactChildren', () => {
 
   it('Should clone the element and add props', () => {
     const children = ReactChildren.mapCloneElement(
-      [<div key="1" role="listitem" />, <div key="2" role="listitem" />],
+      [<div key="1" role="button" />, <div key="2" role="button" />],
       () => {
         return { className: 'foo' };
       }
     );
 
-    render(<div role="list">{children}</div>);
+    render(<div>{children}</div>);
 
-    screen.getAllByRole('listitem').forEach(node => {
+    screen.getAllByRole('button').forEach(node => {
       expect(node).to.have.class('foo');
     });
   });
@@ -27,17 +27,17 @@ describe('[utils] ReactChildren', () => {
   it('Should clone the element and add props with fragment syntax', () => {
     const children = ReactChildren.mapCloneElement(
       <>
-        <div key="1" role="listitem" />
-        <div key="2" role="listitem" />
+        <div key="1" role="button" />
+        <div key="2" role="button" />
       </>,
       () => {
         return { className: 'foo' };
       }
     );
 
-    render(<div role="list">{children}</div>);
+    render(<div>{children}</div>);
 
-    screen.getAllByRole('listitem').forEach(node => {
+    screen.getAllByRole('button').forEach(node => {
       expect(node).to.have.class('foo');
     });
   });
@@ -45,17 +45,17 @@ describe('[utils] ReactChildren', () => {
   it('Should clone the element and add props with React.Fragment', () => {
     const children = ReactChildren.mapCloneElement(
       <React.Fragment>
-        <div key="1" role="listitem" />
-        <div key="2" role="listitem" />
+        <div key="1" role="button" />
+        <div key="2" role="button" />
       </React.Fragment>,
       () => {
         return { className: 'foo' };
       }
     );
 
-    render(<div role="list">{children}</div>);
+    render(<div>{children}</div>);
 
-    screen.getAllByRole('listitem').forEach(node => {
+    screen.getAllByRole('button').forEach(node => {
       expect(node).to.have.class('foo');
     });
   });
