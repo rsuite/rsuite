@@ -27,7 +27,8 @@ const tsSources = [
   `${srcRoot}/**/*.tsx`,
   `${srcRoot}/**/*.ts`,
   `!${srcRoot}/**/*.d.ts`,
-  `!${srcRoot}/**/test/*`
+  `!${srcRoot}/**/test/*`,
+  `!${srcRoot}/**/stories/*`
 ];
 
 function clean(done) {

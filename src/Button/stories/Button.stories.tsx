@@ -1,67 +1,18 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import Button, { ButtonProps } from '../Button';
 import ButtonToolbar from '../../ButtonToolbar';
+import { createMeta } from '@/storybook/utils';
 import '../styles/index.less';
 import '../../ButtonToolbar/styles/index.less';
 
-const meta = {
+const meta = createMeta(Button);
+
+export default {
   title: 'Components/Button',
-  component: Button,
-  parameters: {
-    layout: 'padded'
-  },
-  docs: {
-    description: {
-      component: 'A button indicates a possible user action.'
-    }
-  },
-  argTypes: {
-    appearance: {
-      control: {
-        type: 'select'
-      },
-      options: ['primary', 'default', 'link', 'subtle', 'ghost']
-    },
-    active: {
-      control: {
-        type: 'boolean'
-      }
-    },
-    block: {
-      control: {
-        type: 'boolean'
-      }
-    },
-    color: {
-      control: {
-        type: 'select'
-      },
-
-      options: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
-    },
-    disabled: {
-      control: {
-        type: 'boolean'
-      }
-    },
-    size: {
-      control: {
-        type: 'select'
-      },
-
-      options: ['xs', 'sm', 'md', 'lg']
-    },
-    loading: {
-      control: {
-        type: 'boolean'
-      }
-    }
-  }
-} as Meta<typeof Button>;
-
-export default meta;
+  ...meta
+};
 
 type Story = StoryObj<typeof meta>;
 

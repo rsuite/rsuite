@@ -43,6 +43,7 @@ import SearchBox from '../internals/SearchBox';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import type { MultipleSelectProps } from '../SelectPicker';
 import { TreeNodeType } from '../CheckTreePicker/utils';
+import { oneOf } from '../internals/propTypes';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T>
@@ -417,7 +418,7 @@ CheckPicker.displayName = 'CheckPicker';
 CheckPicker.propTypes = {
   ...listPickerPropTypes,
   locale: PropTypes.any,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   menuAutoWidth: PropTypes.bool,
   menuMaxHeight: PropTypes.number,
   renderMenu: PropTypes.func,

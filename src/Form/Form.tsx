@@ -14,6 +14,7 @@ import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types
 import { useFormClassNames } from './useFormClassNames';
 import useSchemaModel from './useSchemaModel';
 import { useControlled, useEventCallback } from '../utils';
+import { oneOf } from '../internals/propTypes';
 
 export interface FormProps<
   T = Record<string, any>,
@@ -437,12 +438,12 @@ Form.propTypes = {
   classPrefix: PropTypes.string,
   children: PropTypes.node,
   errorFromContext: PropTypes.bool,
-  layout: PropTypes.oneOf(['horizontal', 'vertical', 'inline']),
+  layout: oneOf(['horizontal', 'vertical', 'inline']),
   fluid: PropTypes.bool,
   formValue: PropTypes.object,
   formDefaultValue: PropTypes.object,
   formError: PropTypes.object,
-  checkTrigger: PropTypes.oneOf(['change', 'blur', 'none']),
+  checkTrigger: oneOf(['change', 'blur', 'none']),
   onChange: PropTypes.func,
   onError: PropTypes.func,
   onCheck: PropTypes.func,

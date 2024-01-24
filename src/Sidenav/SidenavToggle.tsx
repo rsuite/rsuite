@@ -5,7 +5,7 @@ import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
-import deprecatePropType from '../utils/deprecatePropType';
+import { deprecatePropType } from '../internals/propTypes';
 import { SidenavContext } from './Sidenav';
 
 export interface SidenavToggleProps extends WithAsProps {

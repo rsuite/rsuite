@@ -23,6 +23,7 @@ import {
   isOneOf,
   KEY_VALUES
 } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { getDataGroupBy } from '../utils/getDataGroupBy';
 
 import {
@@ -66,7 +67,7 @@ const convertSize = (size?: string) => {
   }
 };
 
-interface InputItemDataType extends ItemDataType {
+export interface InputItemDataType extends ItemDataType {
   create?: boolean;
 }
 
@@ -802,7 +803,7 @@ InputPicker.displayName = 'InputPicker';
 InputPicker.propTypes = {
   ...listPickerPropTypes,
   locale: PropTypes.any,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   cacheData: PropTypes.array,
   menuAutoWidth: PropTypes.bool,
   menuMaxHeight: PropTypes.number,

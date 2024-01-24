@@ -5,6 +5,7 @@ import Button from '../Button';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import NavItem, { NavItemProps } from './NavItem';
+import { oneOf } from '../internals/propTypes';
 
 export interface NavDropdownToggleProps extends WithAsProps {
   icon?: NavItemProps['icon'];
@@ -56,7 +57,7 @@ NavDropdownToggle.propTypes = {
   noCaret: PropTypes.bool,
   as: PropTypes.elementType,
   renderToggle: PropTypes.func,
-  placement: PropTypes.oneOf([
+  placement: oneOf([
     'bottomStart',
     'bottomEnd',
     'topStart',

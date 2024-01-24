@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import ArrowDownLineIcon from '@rsuite/icons/ArrowDownLine';
 import Button from '../Button';
 import { useClassNames } from '../utils';
-import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import NavbarItem from './NavbarItem';
+import { oneOf } from '../internals/propTypes';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 
 export interface NavbarDropdownToggleProps extends WithAsProps {
   noCaret?: boolean;
@@ -54,7 +55,7 @@ NavbarDropdownToggle.propTypes = {
   noCaret: PropTypes.bool,
   as: PropTypes.elementType,
   renderToggle: PropTypes.func,
-  placement: PropTypes.oneOf([
+  placement: oneOf([
     'bottomStart',
     'bottomEnd',
     'topStart',

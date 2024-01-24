@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
 import Plaintext from '../internals/Plaintext';
-import { createChainedFunction, TypeChecker, mergeRefs, useClassNames, KEY_VALUES } from '../utils';
+import { createChainedFunction, mergeRefs, useClassNames, KEY_VALUES } from '../utils';
 import {
   WithAsProps,
   RsRefForwardingComponent,
   TypeAttributes,
   FormControlBaseProps
 } from '../@types/common';
+import { refType, oneOf } from '../internals/propTypes';
 import { PrependParameters } from '../@types/utils';
 
 export interface LocaleType {
@@ -142,8 +143,8 @@ Input.propTypes = {
   disabled: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
-  inputRef: TypeChecker.refType,
+  size: oneOf(['lg', 'md', 'sm', 'xs']),
+  inputRef: refType,
   onChange: PropTypes.func,
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,

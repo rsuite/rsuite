@@ -62,7 +62,7 @@ import Calendar from './Calendar';
 import * as disabledDateUtils from './disabledDateUtils';
 import { DisabledDateFunction, RangeType, DateRange } from './types';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
-import { deprecatePropTypeNew } from '../utils/deprecatePropType';
+import { deprecatePropTypeNew, oneOf } from '../internals/propTypes';
 import DateRangePickerContext from './DateRangePickerContext';
 import DateRangeInput from '../DateRangeInput';
 import InputGroup from '../InputGroup';
@@ -952,7 +952,7 @@ DateRangePicker.propTypes = {
   value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   defaultCalendarValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  hoverRange: PropTypes.oneOfType([PropTypes.oneOf(['week', 'month']), PropTypes.func]),
+  hoverRange: PropTypes.oneOfType([oneOf(['week', 'month']), PropTypes.func]),
   format: PropTypes.string,
   isoWeek: PropTypes.bool,
   oneTap: PropTypes.bool,

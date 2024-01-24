@@ -1,12 +1,22 @@
-@import '../../styles/common';
+@import '../../styles/common.less';
 
 //
 // Panel
 // --------------------------------------------------
 
 .rs-panel {
+  @import '../../Animation/styles/collapse.less';
+
   border-radius: 6px;
   overflow: hidden;
+
+  .rs-anim-collapse {
+    display: none;
+
+    &.rs-anim-in {
+      display: block;
+    }
+  }
 
   &-bordered {
     border: 1px solid var(--rs-border-primary);

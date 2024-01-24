@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, ReactChildren } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import StepItem from './StepItem';
 
@@ -94,7 +95,7 @@ Steps.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   current: PropTypes.number,
-  currentStatus: PropTypes.oneOf(['finish', 'wait', 'process', 'error'])
+  currentStatus: oneOf(['finish', 'wait', 'process', 'error'])
 };
 
 export default Steps;

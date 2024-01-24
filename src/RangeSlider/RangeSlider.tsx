@@ -10,7 +10,7 @@ import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
 import { precisionMath, checkValue } from '../Slider/utils';
 import { SliderProps } from '../Slider';
-import { tupleType } from '../utils/propTypeChecker';
+import { tupleType } from '../internals/propTypes';
 import { Offset } from '../@types/common';
 
 export type Range = [number, number];

@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { StoryObj } from '@storybook/react';
 import AutoComplete from '../AutoComplete';
+import { createMeta } from '@/storybook/utils';
 import '../styles/index.less';
 
 const data = [
@@ -23,26 +24,50 @@ const data = [
   'Hilda'
 ];
 
-const meta = {
-  title: 'Components/AutoComplete',
-  component: AutoComplete,
-  parameters: {
-    layout: 'padded'
-  },
-  argTypes: {}
-} as Meta<typeof AutoComplete>;
+const meta = createMeta(AutoComplete);
 
-export default meta;
+export default {
+  title: 'Components/AutoComplete',
+  ...meta
+};
 
 type Story = StoryObj<typeof meta>;
 
 const defaultArgs = {
+  style: { width: 200 },
   data
 };
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Default: Story = {
   args: {
     ...defaultArgs
+  }
+};
+
+export const Disabled: Story = {
+  args: {
+    ...defaultArgs,
+    disabled: true
+  }
+};
+
+export const Readnly: Story = {
+  args: {
+    ...defaultArgs,
+    readOnly: true
+  }
+};
+
+export const Plaintext: Story = {
+  args: {
+    ...defaultArgs,
+    plaintext: true
+  }
+};
+
+export const Size: Story = {
+  args: {
+    ...defaultArgs,
+    size: 'lg'
   }
 };

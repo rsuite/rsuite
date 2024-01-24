@@ -1,4 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite';
+import { mergeConfig } from 'vite';
+import path from 'path';
 
 const Component = process.env.M;
 
@@ -23,6 +25,13 @@ const config: StorybookConfig = {
   },
   docs: {
     autodocs: 'tag'
+  },
+  async viteFinal(config, { configType }) {
+    return mergeConfig(config, {
+      resolve: {
+        alias: [{ find: '@/storybook/', replacement: path.resolve(__dirname, '../') + '/' }]
+      }
+    });
   }
 };
 export default config;

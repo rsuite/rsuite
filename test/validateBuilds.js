@@ -21,13 +21,9 @@ const unstyledComponents = [
   'internals',
   'CustomProvider',
   'locales',
-  'CheckTree',
-  'Tree',
   'Col',
   'TagGroup',
-  'MaskedInput',
-  'DateInput',
-  'DateRangeInput'
+  'MaskedInput'
 ];
 
 const styledComponents = components.filter(

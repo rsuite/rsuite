@@ -2,7 +2,6 @@ export * from './BrowserDetection';
 export * from './htmlPropsUtils';
 export * from './constants';
 export * as DateUtils from './dateUtils';
-export * as TypeChecker from './propTypeChecker';
 export * from './statusIcons';
 
 export { default as guid } from './guid';

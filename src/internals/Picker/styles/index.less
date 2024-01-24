@@ -1,9 +1,13 @@
 @import '../../../styles/common.less';
+@import '../../../Button/styles/index.less';
 @import '../../../styles/mixins/listbox.less';
 @import '../../../styles/mixins/combobox.less';
-@import (reference) '../../../Button/styles/index.less';
+@import '../../../Stack/styles/index.less';
 @import '../../../Form/styles/mixin.less';
 @import '../../CloseButton/styles/index.less';
+@import '../../../Loader/styles/index.less';
+@import '../../../Input/styles/index.less';
+@import '../../../InputGroup/styles/index.less';
 @import './mixin.less';
 
 //
@@ -230,8 +234,11 @@
   .picker-default-toggle();
   .picker-subtle-toggle();
 
-  width: 100%;
-  text-align: left;
+  &.rs-btn {
+    width: 100%;
+    text-align: left;
+  }
+
   .ellipsis();
 
   &-label {

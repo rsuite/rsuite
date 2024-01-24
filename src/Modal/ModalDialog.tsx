@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, SIZE } from '../utils';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
+import { oneOf } from '../internals/propTypes';
 
 export interface ModalDialogProps extends WithAsProps {
   /** A modal can have different sizes */
@@ -11,7 +12,7 @@ export interface ModalDialogProps extends WithAsProps {
 }
 
 export const modalDialogPropTypes = {
-  size: PropTypes.oneOf(SIZE),
+  size: oneOf(SIZE),
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   dialogClassName: PropTypes.string,
