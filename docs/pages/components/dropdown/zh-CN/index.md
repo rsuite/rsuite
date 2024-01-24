@@ -5,6 +5,7 @@
 - `<Dropdown>` 下拉菜单。
 - `<Dropdown.Item>` 下拉菜单选项。
 - `<Dropdown.Menu>` 下拉菜单中创建子菜单。
+- `<Dropdown.Separator>` 下拉菜单中的分割线。
 
 ## 获取组件
 
@@ -54,7 +55,7 @@
 
 ### 分割线与面板
 
-- `divider` 设置分割选项。
+- `<Dropdown.Separator>` 设置分割线。
 - `panel` 设置一个面板。
 
 <!--{include:`divider.md`}-->
@@ -135,6 +136,12 @@
 | -------- | -------------------------- | ------------------ |
 | icon     | Element&lt;typeof Icon&gt; | 设置图标           |
 | title    | string                     | 作为子菜单定义标题 |
+
+### `<Dropdown.Separator>`
+
+| 属性名称 | 类型                 | 描述                 |
+| -------- | -------------------- | -------------------- |
+| as       | ElementType `('li')` | 为组件自定义元素类型 |
 
 <!--{include:(_common/types/placement8.md)}-->
 <!--{include:(_common/types/trigger.md)}-->
