@@ -11,6 +11,7 @@ import DisclosureContext, {
 } from '../internals/Disclosure/DisclosureContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 import NavContext from '../Nav/NavContext';
+import classNames from 'classnames';
 
 export interface NavbarDropdownItemProps<T = any>
   extends WithAsProps,
@@ -158,7 +159,10 @@ const NavbarDropdownItem: RsRefForwardingComponent<'li', NavbarDropdownItemProps
       onClick: createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick),
       children: (
         <>
-          {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+          {icon &&
+            React.cloneElement(icon, {
+              className: classNames(prefix('menu-icon'), icon.props.className)
+            })}
           {children}
         </>
       )

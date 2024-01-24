@@ -10,6 +10,7 @@ import { mergeRefs, shallowEqual, useClassNames } from '../utils';
 import NavContext from '../Nav/NavContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 import ExpandedSidenavDropdownItem from './ExpandedSidenavDropdownItem';
+import classNames from 'classnames';
 
 export interface SidenavDropdownItemProps<T = any>
   extends WithAsProps,
@@ -162,7 +163,10 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
             ...restProps,
             children: (
               <>
-                {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                {icon &&
+                  React.cloneElement(icon, {
+                    className: classNames(prefix('menu-icon'), icon.props.className)
+                  })}
                 {children}
               </>
             )

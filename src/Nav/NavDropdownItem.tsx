@@ -8,6 +8,7 @@ import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';
 import NavContext from './NavContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
+import classNames from 'classnames';
 
 export interface NavDropdownItemProps<T = any>
   extends WithAsProps,
@@ -143,7 +144,10 @@ const NavDropdownItem: RsRefForwardingComponent<'li', NavDropdownItemProps> = Re
             ...restProps,
             children: (
               <>
-                {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                {icon &&
+                  React.cloneElement(icon, {
+                    className: classNames(prefix('menu-icon'), icon.props.className)
+                  })}
                 {children}
               </>
             )

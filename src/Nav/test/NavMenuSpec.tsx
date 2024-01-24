@@ -97,4 +97,69 @@ describe('<Nav.Menu>', () => {
       expect(screen.getByText('Menu item')).to.be.visible;
     });
   });
+  context('rendering icon', () => {
+    it('Should render an icon', () => {
+      render(
+        <Nav>
+          <Nav.Menu title="Menu">
+            <Nav.Item icon={<div data-testid="icon" />} />
+          </Nav.Menu>
+        </Nav>
+      );
+
+      expect(screen.getByTestId('icon')).to.exist;
+    });
+
+    it('Should render an icon without overriding className', () => {
+      render(
+        <Nav>
+          <Nav.Menu title="Menu">
+            <Nav.Item icon={<div data-testid="icon" className="custom-icon" />} />
+          </Nav.Menu>
+        </Nav>
+      );
+      expect(screen.getByTestId('icon')).to.have.class('custom-icon');
+    });
+
+    context('Within <Navbar>', () => {
+      it('Should render an icon without overriding className', () => {
+        render(
+          <Navbar>
+            <Nav>
+              <Nav.Menu title="Menu">
+                <Nav.Item icon={<div data-testid="icon" className="custom-icon" />} />
+              </Nav.Menu>
+            </Nav>
+          </Navbar>
+        );
+        expect(screen.getByTestId('icon')).to.have.class('custom-icon');
+      });
+    });
+    context('Within <Sidenav>', () => {
+      it('When expanded is true Should render an icon without overriding className', () => {
+        render(
+          <Sidenav>
+            <Nav>
+              <Nav.Menu title="Menu">
+                <Nav.Item icon={<div data-testid="icon" className="custom-icon" />} />
+              </Nav.Menu>
+            </Nav>
+          </Sidenav>
+        );
+        expect(screen.getByTestId('icon')).to.have.class('custom-icon');
+      });
+      it('When expanded is false Should render an icon without overriding className', () => {
+        render(
+          <Sidenav expanded={false}>
+            <Nav>
+              <Nav.Menu title="Menu">
+                <Nav.Item icon={<div data-testid="icon" className="custom-icon" />} />
+              </Nav.Menu>
+            </Nav>
+          </Sidenav>
+        );
+        expect(screen.getByTestId('icon')).to.have.class('custom-icon');
+      });
+    });
+  });
 });
