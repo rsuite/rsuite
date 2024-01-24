@@ -28,6 +28,7 @@ export function map(children: React.ReactNode, func: any, context?: any) {
     return handle;
   });
 }
+
 function typeOf(object) {
   if (typeof object === 'object' && object !== null) {
     return object.type || object.$$typeof;
@@ -56,7 +57,7 @@ export function mapCloneElement(children: React.ReactNode, func: any, context?: 
   );
 }
 
-export function count(children: React.ReactChildren) {
+export function count(children: React.ReactNode) {
   return React.Children.count(Array.isArray(children) ? children.filter(child => child) : children);
 }
 
