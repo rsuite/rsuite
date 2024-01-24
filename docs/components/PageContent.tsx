@@ -12,6 +12,7 @@ import scrollIntoView from '../utils/scrollIntoView';
 import { VercelBanner } from './VercelBanner';
 import CustomCodeView, { CustomCodeViewProps } from './CodeView';
 import InstallGuide from './InstallGuide';
+import { installCarbon, installBadges } from './scripts';
 
 const defaultInDocsComponents = {
   'install-guide': InstallGuide
@@ -25,22 +26,6 @@ export interface PageContentProps extends CustomCodeViewProps {
   children?: React.ReactNode;
   hidePageNav?: boolean;
   inDocsComponents?: Record<string, React.ComponentType>;
-}
-
-function installCarbon() {
-  const subtitle = document.querySelector('h2');
-  const carbonadsJs = document.getElementById('_carbonads_js');
-
-  if (subtitle && !carbonadsJs) {
-    const adSpace = document.createElement('div');
-    const carbon = document.createElement('script');
-
-    carbon.src = 'https://cdn.carbonads.com/carbon.js?serve=CEAIL2JU&placement=rsuitejscom';
-    carbon.id = '_carbonads_js';
-    adSpace.appendChild(carbon);
-
-    subtitle.parentNode.insertBefore(adSpace, subtitle);
-  }
 }
 
 const PageContent = (props: PageContentProps) => {
@@ -74,11 +59,15 @@ const PageContent = (props: PageContentProps) => {
   useEffect(() => {
     scrollIntoView();
     installCarbon();
+
+    installBadges({ minVersion: component?.minVersion, componentName: component?.name });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <PageContainer designHash={designHash} routerId={pathname} hidePageNav={hidePageNav}>
       {pageHead}
+
       {fragments.map((item, index) => {
         const result = item.match(/include:`(\S+)`(\|(\d+)\|)?/);
 
