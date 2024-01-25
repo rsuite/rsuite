@@ -163,6 +163,10 @@ combine(...) => boolean
 
 <!--{include:`caret.md`}-->
 
+### Hide Header
+
+<!--{include:`hide-header.md`}-->
+
 ## Accessibility
 
 ### ARIA properties
@@ -225,6 +229,7 @@ Has keyboard interaction for the DateRangeInput component by default.
 | ranges               | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code))                  | Set predefined date ranges the user can select from. Default: `Today`,`Yesterday`，`Last 7 days`                                    |
 | renderTitle          | (date: Date) => ReactNode                                                        | Custom render for month's title                                                                                                     |
 | shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | Disabled date                                                                                                                       |
+| showHeader           | boolean `(true)`                                                                 | Whether to display the formatted date range at the header of the calendar. <br/>![](https://img.shields.io/badge/min-v5.52.0-blue)  |
 | showMeridian         | boolean                                                                          | Display hours in 12 format                                                                                                          |
 | showOneCalendar      | boolen                                                                           | Whether to show only one calendar                                                                                                   |
 | showWeekNumbers      | boolean                                                                          | Whether to show week numbers                                                                                                        |
