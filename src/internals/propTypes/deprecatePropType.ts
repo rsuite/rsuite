@@ -1,6 +1,6 @@
 // Ref: https://github.com/thefrontside/deprecated-prop-type/blob/master/deprecated.js
 import * as PropTypes from 'prop-types';
-import warnOnce from './warnOnce';
+import warnOnce from '../../utils/warnOnce';
 
 /**
  * Prints deprecation message when user uses a deprecated prop

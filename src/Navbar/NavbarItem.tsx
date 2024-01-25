@@ -7,6 +7,7 @@ import SafeAnchor from '../SafeAnchor';
 import { shallowEqual, useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import NavContext, { NavContextProps } from '../Nav/NavContext';
+import classNames from 'classnames';
 
 export interface NavbarItemProps<T = string>
   extends WithAsProps,
@@ -84,7 +85,10 @@ const NavbarItem: RsRefForwardingComponent<'a', NavbarItemProps> = React.forward
         onClick={handleClick}
         style={style}
       >
-        {icon && React.cloneElement(icon, { className: prefix('icon') })}
+        {icon &&
+          React.cloneElement(icon, {
+            className: classNames(prefix('icon'), icon.props.className)
+          })}
         {children}
         <Ripple />
       </Component>

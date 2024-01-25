@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useCustom } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
-
+import { oneOf } from '../internals/propTypes';
 export interface AvatarGroupProps extends WithAsProps {
   /** Render all avatars as stacks */
   stack?: boolean;
@@ -62,7 +62,7 @@ AvatarGroup.propTypes = {
   children: PropTypes.node,
   stack: PropTypes.bool,
   spacing: PropTypes.number,
-  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs'])
+  size: oneOf(['lg', 'md', 'sm', 'xs'])
 };
 
 export default AvatarGroup;

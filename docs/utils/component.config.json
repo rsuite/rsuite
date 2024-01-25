@@ -33,6 +33,7 @@
   {
     "id": "icon",
     "name": "Icons",
+    "components": ["Icon"],
     "title": "图标"
   },
   {

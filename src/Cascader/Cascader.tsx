@@ -39,11 +39,12 @@ import {
 import SearchBox from '../internals/SearchBox';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import { useMap } from '../utils/useMap';
+import { oneOf } from '../internals/propTypes';
 
 export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>
   extends FormControlPickerProps<T | null, PickerLocale, ItemDataType<T>>,
-    Pick<PickerToggleProps, 'loading'> {
+    Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
   /** Sets the width of the menu */
   menuWidth?: number;
 
@@ -631,7 +632,7 @@ Cascader.propTypes = {
   ...listPickerPropTypes,
   disabledItemValues: PropTypes.array,
   locale: PropTypes.any,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   renderMenu: PropTypes.func,
   onSelect: PropTypes.func,
   onSearch: PropTypes.func,

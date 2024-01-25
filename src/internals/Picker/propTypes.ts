@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { PLACEMENT } from '../../utils';
 import { animationPropTypes } from '../../Animation/utils';
+import { oneOf } from '../propTypes';
 
 export const pickerPropTypes = {
   ...animationPropTypes,
@@ -8,7 +9,7 @@ export const pickerPropTypes = {
   className: PropTypes.string,
   style: PropTypes.object,
   locale: PropTypes.any,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   block: PropTypes.bool,
   containerPadding: PropTypes.number,
   container: PropTypes.oneOfType([PropTypes.any, PropTypes.func]),
@@ -16,7 +17,7 @@ export const pickerPropTypes = {
   menuClassName: PropTypes.string,
   menuStyle: PropTypes.object,
   placeholder: PropTypes.node,
-  placement: PropTypes.oneOf(PLACEMENT),
+  placement: oneOf(PLACEMENT),
   preventOverflow: PropTypes.bool,
   open: PropTypes.bool,
   defaultOpen: PropTypes.bool,

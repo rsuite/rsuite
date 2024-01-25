@@ -9,11 +9,11 @@ const App = () => (
       <p>Signed in as</p>
       <strong>foobar</strong>
     </Dropdown.Item>
-    <Dropdown.Item divider />
+    <Dropdown.Separator />
     <Dropdown.Item>Your profile</Dropdown.Item>
     <Dropdown.Item>Your stars</Dropdown.Item>
     <Dropdown.Item>Your Gists</Dropdown.Item>
-    <Dropdown.Item divider />
+    <Dropdown.Separator />
     <Dropdown.Item>Help</Dropdown.Item>
     <Dropdown.Item>Settings</Dropdown.Item>
     <Dropdown.Item>Sign out</Dropdown.Item>

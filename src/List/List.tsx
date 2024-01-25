@@ -5,6 +5,7 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { mergeRefs, useClassNames } from '../utils';
 import ListContext, { ListContextType } from './ListContext';
 import ListItem from './ListItem';
+import { oneOf } from '../internals/propTypes';
 
 export interface ListProps extends WithAsProps, SortConfig {
   /* Size of list item */
@@ -87,7 +88,7 @@ List.propTypes = {
   bordered: PropTypes.bool,
   hover: PropTypes.bool,
   sortable: PropTypes.bool,
-  size: PropTypes.oneOf(['lg', 'md', 'sm']),
+  size: oneOf(['lg', 'md', 'sm']),
   autoScroll: PropTypes.bool,
   pressDelay: PropTypes.number,
   transitionDuration: PropTypes.number,

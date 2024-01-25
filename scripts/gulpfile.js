@@ -5,7 +5,6 @@ const path = require('path');
 const less = require('gulp-less');
 const postcss = require('gulp-postcss');
 const postcssCustomProperties = require('postcss-custom-properties');
-const postcssRelativeColorSyntax = require('@csstools/postcss-relative-color-syntax');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const babel = require('gulp-babel');
@@ -28,7 +27,8 @@ const tsSources = [
   `${srcRoot}/**/*.tsx`,
   `${srcRoot}/**/*.ts`,
   `!${srcRoot}/**/*.d.ts`,
-  `!${srcRoot}/**/test/*`
+  `!${srcRoot}/**/test/*`,
+  `!${srcRoot}/**/stories/*`
 ];
 
 function clean(done) {
@@ -75,15 +75,7 @@ function buildLess({ lessOptions, outputFileName }) {
       .src(`${styleRoot}/index.less`)
       .pipe(sourcemaps.init())
       .pipe(less(lessOptions))
-      .pipe(
-        postcss([
-          require('autoprefixer'),
-          postcssCustomProperties(),
-          postcssRelativeColorSyntax({
-            preserve: true
-          })
-        ])
-      )
+      .pipe(postcss([require('autoprefixer'), postcssCustomProperties()]))
       .pipe(sourcemaps.write('./'))
       .pipe(rename(outputFileName))
       .pipe(gulp.dest(`${distRoot}`));

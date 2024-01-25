@@ -199,11 +199,11 @@ export const mockAsyncData = (sort = true) => {
   };
 
   const getNodes = length => {
-    const list = [];
+    const list: any[] = [];
     for (let i = 0; i < length; i++) {
       list.push(createNode());
     }
-    return sort ? list.sort((a, b) => (b.children ? 1 : 0) - (a.children ? 1 : 0)) : list;
+    return sort ? list.sort((a: any, b: any) => (b.children ? 1 : 0) - (a.children ? 1 : 0)) : list;
   };
 
   const fetchNodes = () => {

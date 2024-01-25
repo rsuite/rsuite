@@ -15,6 +15,7 @@ import {
   useControlled,
   KEY_VALUES
 } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { WithAsProps, TypeAttributes, FormControlBaseProps } from '../@types/common';
 
 export interface InputNumberProps<T = number | string>
@@ -348,8 +349,8 @@ InputNumber.propTypes = {
   readOnly: PropTypes.bool,
   plaintext: PropTypes.bool,
   scrollable: PropTypes.bool,
-  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
-  buttonAppearance: PropTypes.oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
+  size: oneOf(['lg', 'md', 'sm', 'xs']),
+  buttonAppearance: oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
   onWheel: PropTypes.func,
   onChange: PropTypes.func
 };

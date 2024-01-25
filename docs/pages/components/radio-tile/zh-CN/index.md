@@ -2,8 +2,6 @@
 
 一系列可选的磁贴组件，其行为类似于 Radio。
 
-![Supported from version 5.35.0](https://img.shields.io/badge/version->=5.35.0-blue)
-
 ## 获取组件
 
 <!--{include:(components/radio-tile/fragments/import.md)}-->

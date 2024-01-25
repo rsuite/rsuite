@@ -1,8 +1,9 @@
 import React, { useContext, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useControlled, partitionHTMLProps, useClassNames, TypeChecker } from '../utils';
+import { useControlled, partitionHTMLProps, useClassNames } from '../utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { refType } from '../internals/propTypes';
 
 export type ValueType = string | number;
 export interface CheckboxProps<V = ValueType> extends WithAsProps {
@@ -205,7 +206,7 @@ Checkbox.propTypes = {
   onChange: PropTypes.func,
   onClick: PropTypes.func,
   inputProps: PropTypes.any,
-  inputRef: TypeChecker.refType,
+  inputRef: refType,
   value: PropTypes.any,
   children: PropTypes.node,
   classPrefix: PropTypes.string,

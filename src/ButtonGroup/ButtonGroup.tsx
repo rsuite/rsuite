@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import ButtonGroupContext from './ButtonGroupContext';
-
+import { oneOf } from '../internals/propTypes';
 export interface ButtonGroupProps extends WithAsProps {
   /** Display block buttongroups */
   block?: boolean;
@@ -71,7 +71,7 @@ ButtonGroup.propTypes = {
   vertical: PropTypes.bool,
   justified: PropTypes.bool,
   role: PropTypes.string,
-  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs'])
+  size: oneOf(['lg', 'md', 'sm', 'xs'])
 };
 
 export default ButtonGroup;

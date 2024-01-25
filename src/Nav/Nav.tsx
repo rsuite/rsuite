@@ -8,6 +8,7 @@ import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import NavContext, { NavContextProps } from './NavContext';
 import useEnsuredRef from '../utils/useEnsuredRef';
 import Menubar from '../internals/Menu/Menubar';
+import { oneOf } from '../internals/propTypes';
 import NavDropdown from './NavDropdown';
 import NavMenu, { NavMenuActionType, NavMenuContext } from './NavMenu';
 import deprecateComponent from '../utils/deprecateComponent';
@@ -231,7 +232,7 @@ Nav.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
-  appearance: PropTypes.oneOf(['default', 'subtle', 'tabs']),
+  appearance: oneOf(['default', 'subtle', 'tabs']),
   // Reverse Direction of tabs/subtle
   reversed: PropTypes.bool,
   justified: PropTypes.bool,

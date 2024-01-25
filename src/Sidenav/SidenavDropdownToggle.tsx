@@ -5,6 +5,7 @@ import Button from '../Button';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import SidenavItem from './SidenavItem';
+import { oneOf } from '../internals/propTypes';
 
 export interface SidenavDropdownToggleProps extends WithAsProps {
   noCaret?: boolean;
@@ -54,7 +55,7 @@ SidenavDropdownToggle.propTypes = {
   noCaret: PropTypes.bool,
   as: PropTypes.elementType,
   renderToggle: PropTypes.func,
-  placement: PropTypes.oneOf([
+  placement: oneOf([
     'bottomStart',
     'bottomEnd',
     'topStart',

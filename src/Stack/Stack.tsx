@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useCustom, isSupportFlexGap } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import StackItem from './StackItem';
 
@@ -128,15 +129,9 @@ Stack.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
   classPrefix: PropTypes.string,
-  direction: PropTypes.oneOf(['row', 'row-reverse', 'column', 'column-reverse']),
-  alignItems: PropTypes.oneOf(['flex-start', 'center', 'flex-end', 'stretch', 'baseline']),
-  justifyContent: PropTypes.oneOf([
-    'flex-start',
-    'center',
-    'flex-end',
-    'space-between',
-    'space-around'
-  ]),
+  direction: oneOf(['row', 'row-reverse', 'column', 'column-reverse']),
+  alignItems: oneOf(['flex-start', 'center', 'flex-end', 'stretch', 'baseline']),
+  justifyContent: oneOf(['flex-start', 'center', 'flex-end', 'space-between', 'space-around']),
   spacing: PropTypes.oneOfType([PropTypes.number, PropTypes.string, PropTypes.array]),
   divider: PropTypes.node,
   wrap: PropTypes.bool
