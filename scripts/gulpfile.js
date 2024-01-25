@@ -5,6 +5,8 @@ const path = require('path');
 const less = require('gulp-less');
 const postcss = require('gulp-postcss');
 const postcssCustomProperties = require('postcss-custom-properties');
+const postcssPruneVar = require('postcss-prune-var');
+const postcssDiscardEmpty = require('postcss-discard-empty');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const babel = require('gulp-babel');
@@ -96,7 +98,9 @@ async function buildComponentCSS(done) {
   Promise.all(
     buildList.map(item => {
       return new Promise((resolve, reject) => {
-        return buildLess(item)().on('end', resolve).on('error', reject);
+        return buildLess({ ...item, postcssPlugins: [postcssPruneVar(), postcssDiscardEmpty()] })()
+          .on('end', resolve)
+          .on('error', reject);
       });
     })
   ).then(() => {
@@ -111,14 +115,15 @@ function buildLess({
   lessOptions,
   outputFileName,
   src = `${styleRoot}/index.less`,
-  dist = distRoot
+  dist = distRoot,
+  postcssPlugins = []
 }) {
   return () =>
     gulp
       .src(src)
       .pipe(sourcemaps.init())
       .pipe(less(lessOptions))
-      .pipe(postcss([require('autoprefixer'), postcssCustomProperties()]))
+      .pipe(postcss([require('autoprefixer'), postcssCustomProperties(), ...postcssPlugins]))
       .pipe(sourcemaps.write('./'))
       .pipe(rename(outputFileName))
       .pipe(gulp.dest(dist));
