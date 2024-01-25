@@ -2,8 +2,6 @@
 
 手风琴组件用于通过点击标题展开和折叠内容区域。它通常用于在有限的空间中显示大量内容。
 
-![Supported from version 5.52.0](https://img.shields.io/badge/version->=5.52.0-blue)
-
 ## 获取组件
 
 <!--{include:(components/accordion/fragments/import.md)}-->
