@@ -629,6 +629,14 @@
   },
 
   {
+    "id": "visually-hidden",
+    "name": "VisuallyHidden",
+    "title": "视觉隐藏",
+    "components": ["VisuallyHidden"],
+    "minVersion": "5.52.0",
+    "tag": "New"
+  },
+  {
     "id": "whisper",
     "name": "Whisper",
     "title": "弹窗触发器",

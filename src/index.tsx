@@ -309,3 +309,6 @@ export type {
 
 export type { PickerHandle } from './internals/Picker';
 export { default as useMediaQuery } from './useMediaQuery';
+
+export { default as VisuallyHidden } from './VisuallyHidden';
+export type { VisuallyHiddenProps } from './VisuallyHidden';
