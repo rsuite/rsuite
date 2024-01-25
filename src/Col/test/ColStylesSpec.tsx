@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import Col from '../index';
 import { itChrome } from '@test/utils';
 import '../../Grid/styles/index.less';
+import '../../Col/styles/index.less';
 
 describe('Col styles', () => {
   itChrome('Should render the correct styles', () => {
