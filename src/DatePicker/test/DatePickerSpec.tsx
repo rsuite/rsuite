@@ -619,6 +619,15 @@ describe('DatePicker', () => {
         // eslint-disable-next-line testing-library/no-node-access
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).to.have.text(['30', '31', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
+
+    userEvent.click(screen.getByRole('button', { name: 'Next month' }));
+
+    expect(
+      screen
+        .getByRole('grid', { name: 'Jul 2021' })
+        // eslint-disable-next-line testing-library/no-node-access
+        .querySelectorAll('.rs-calendar-table-cell-un-same-month')
+    ).to.have.text(['27', '28', '29', '30', '1', '2', '3', '4', '5', '6', '7']);
   });
 
   it('Should accept controlled value', () => {
