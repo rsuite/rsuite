@@ -2,12 +2,12 @@
 
 对 Nav 的一个封装，一般用于页面顶部导航。
 
-- `<Navbar>` 导航栏组件。
-- `<Navbar.Brand>` 设置品牌，可以是你的公司、产品或项目的名称。
-
 ## 获取组件
 
-<!--{include:(components/navbar/fragments/import.md)`}-->
+<!--{include:<import-guide>}-->
+
+- `<Navbar>` 导航栏组件。
+- `<Navbar.Brand>` 设置品牌，可以是你的公司、产品或项目的名称。
 
 ## 演示
 

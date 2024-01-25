@@ -4,7 +4,7 @@ An input component that can only enter numbers.
 
 ## Import
 
-<!--{include:(components/input-number/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

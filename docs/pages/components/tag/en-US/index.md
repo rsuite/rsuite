@@ -4,7 +4,10 @@ Tag for categorizing or markup.
 
 ## Import
 
-<!--{include:(components/tag/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Tag>`
+- `<TagGroup>`
 
 ## Examples
 
@@ -28,6 +31,8 @@ Tag for categorizing or markup.
 
 ### `<Tag>`
 
+<!-- prettier-sort-markdown-table -->
+
 | Property    | Type `(Default)`                      | Description                                          |
 | ----------- | ------------------------------------- | ---------------------------------------------------- |
 | as          | ElementType `('div')`                 | You can use a custom element type for this component |
@@ -36,3 +41,13 @@ Tag for categorizing or markup.
 | closable    | boolean                               |                                                      |
 | onClose     | (event) => void                       | Click the callback function for the Close button     |
 | size        | 'sm' &#124; 'md' &#124; 'lg' `('md')` | Set the tag size                                     |
+
+### `<TagGroup>`
+
+<!-- prettier-sort-markdown-table -->
+
+| Property    | Type `(Default)`       | Description                                          |
+| ----------- | ---------------------- | ---------------------------------------------------- |
+| as          | ElementType `('div')`  | You can use a custom element type for this component |
+| children \* | ReactNode              | The content of the component.                        |
+| classPrefix | string `('tag-group')` | The prefix of the component CSS class                |

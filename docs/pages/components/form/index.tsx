@@ -29,8 +29,8 @@ import {
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
 import AvatarIcon from '@rsuite/icons/legacy/Avatar';
-
 import { mockTreeData, mockTreeDataToString } from '@/utils/mock';
 
 const mockfile = {
@@ -38,9 +38,26 @@ const mockfile = {
   content: mockTreeDataToString
 };
 
+const inDocsComponents = {
+  'import-guide': () => (
+    <ImportGuide
+      components={['Form']}
+      hasCssComponents={[
+        'Form',
+        'FormControl',
+        'FormControlLabel',
+        'FormErrorMessage',
+        'FormHelpText',
+        'FormGroup'
+      ]}
+    />
+  )
+};
+
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Form,
         Input,

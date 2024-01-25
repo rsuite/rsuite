@@ -17,6 +17,7 @@
     "dist:dev": "cross-env NODE_ENV=development  webpack --progress",
     "dist:pro": "webpack --mode production --progress",
     "build": "npm run build:gulp && npm run dist && npm run build:types",
+    "build:css": "gulp buildComponentCSS --gulpfile scripts/gulpfile.js",
     "build:gulp": "gulp build --gulpfile scripts/gulpfile.js",
     "build:types": "tsc --project tsconfig.build.json --emitDeclarationOnly --outDir lib/cjs && tsc --project tsconfig.build.json --emitDeclarationOnly --outDir lib/esm",
     "postbuild": "mocha test/validateBuilds.js",

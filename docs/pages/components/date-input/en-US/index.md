@@ -4,7 +4,7 @@ The DateInput component lets users select a date with the keyboard.
 
 ## Import
 
-<!--{include:(components/date-input/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

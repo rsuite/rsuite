@@ -4,7 +4,7 @@
 
 ## Import
 
-<!--{include:(components/tree/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

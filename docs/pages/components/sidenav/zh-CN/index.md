@@ -2,13 +2,13 @@
 
 对 Nav 的一个封装，用于页面侧边栏。
 
+## 获取组件
+
+<!--{include:<import-guide>}-->
+
 - `<Sidenav>` 侧导航组件。
 - `<Sidenav.Header>` 导航顶部内容区域。
 - `<Sidenav.Body>` 导航选项区域。
-
-## 获取组件
-
-<!--{include:(components/sidenav/fragments/import.md)}-->
 
 ## 演示
 

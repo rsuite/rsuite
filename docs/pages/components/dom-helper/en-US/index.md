@@ -4,7 +4,7 @@ In React , we do not recommend direct manipulation of the DOM, but inside the RS
 
 ## Import
 
-<!--{include:(components/dom-helper/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## APIs
 

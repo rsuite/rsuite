@@ -8,11 +8,15 @@
 
 > [React Suite 图标资源](/zh/resources/icons)
 
-<!--{include:(components/icon/fragments/install.md)}-->
+## 安装
 
-**使用**
+<!--{include:<install-guide>}-->
 
-<!--{include:(components/icon/fragments/import.md)}-->
+## 获取组件
+
+<!--{include:<import-guide>}-->
+
+## 使用示例
 
 ### 大小
 

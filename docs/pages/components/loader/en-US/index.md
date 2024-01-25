@@ -4,7 +4,7 @@ A component that provides state during data loading.
 
 ## Import
 
-<!--{include:(components/loader/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

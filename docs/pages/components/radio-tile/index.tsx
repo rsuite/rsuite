@@ -10,14 +10,20 @@ import {
   VscFile
 } from 'react-icons/vsc';
 import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
 
 const sandboxDependencies = {
   'react-icons': '^4.2.0'
 };
 
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['RadioTile', 'RadioTileGroup']} />
+};
+
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Form,
         RadioGroup,

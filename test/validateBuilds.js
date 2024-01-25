@@ -16,13 +16,10 @@ const unstyledComponents = [
   'Whisper',
   'SafeAnchor',
   'Affix',
-  'RangeSlider',
   'utils',
   'internals',
   'CustomProvider',
   'locales',
-  'Col',
-  'TagGroup',
   'MaskedInput'
 ];
 

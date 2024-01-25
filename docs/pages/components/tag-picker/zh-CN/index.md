@@ -2,11 +2,9 @@
 
 以标签的方式进行多选，同时支持新增选项
 
-- `<TagPicker>`
-
 ## 获取组件
 
-<!--{include:(components/tag-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 

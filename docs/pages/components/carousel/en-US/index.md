@@ -4,7 +4,7 @@ Display a set of elements in a carousel
 
 ## Import
 
-<!--{include:(components/carousel/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

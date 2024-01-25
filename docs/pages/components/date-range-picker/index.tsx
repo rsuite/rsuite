@@ -1,6 +1,7 @@
 import React from 'react';
 import { DateRangePicker, Button, Divider, Stack } from 'rsuite';
 import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
 import startOfWeek from 'date-fns/startOfWeek';
 import endOfWeek from 'date-fns/endOfWeek';
 import addDays from 'date-fns/addDays';
@@ -18,9 +19,14 @@ import {
   FaClock
 } from 'react-icons/fa';
 
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['DateRangePicker']} />
+};
+
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Stack,
         DateRangePicker,

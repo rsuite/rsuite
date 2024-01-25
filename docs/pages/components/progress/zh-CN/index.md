@@ -4,7 +4,10 @@
 
 ## 获取组件
 
-<!--{include:(components/progress/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- <Progress.Line> 线形进度条。
+- <Progress.Circle> 圆形进度条。
 
 ## 演示
 

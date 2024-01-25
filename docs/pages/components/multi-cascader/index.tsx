@@ -1,6 +1,7 @@
 import React from 'react';
 import { MultiCascader, Button, Toggle, RadioGroup, Radio, Stack } from 'rsuite';
 import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import {
@@ -21,9 +22,14 @@ const sandboxDependencies = {
   ...sandboxFakerVersion
 };
 
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['MultiCascader']} />
+};
+
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         MultiCascader,
         Button,

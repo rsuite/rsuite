@@ -3,6 +3,7 @@ import type { StoryObj } from '@storybook/react';
 import TagGroup, { TagGroupProps } from '../TagGroup';
 import Tag from '../../Tag';
 import { createMeta } from '@/storybook/utils';
+import '../styles/index.less';
 import '../../Tag/styles/index.less';
 
 const meta = createMeta(TagGroup);

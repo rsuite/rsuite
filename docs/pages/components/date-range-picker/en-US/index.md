@@ -4,7 +4,7 @@ DateRangePicker is used to quickly enter or pick a date and time range.
 
 ## Import
 
-<!--{include:(components/date-range-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

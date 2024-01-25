@@ -4,7 +4,7 @@ Check boxes are usually used in groups. Allow users to select one or more values
 
 ## Import
 
-<!--{include:(components/checkbox/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

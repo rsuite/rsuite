@@ -4,7 +4,7 @@ The DateRangeInput components let the user select a date range with the keyboard
 
 ## Import
 
-<!--{include:(components/date-range-input/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

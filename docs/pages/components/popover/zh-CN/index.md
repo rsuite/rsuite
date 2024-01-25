@@ -2,12 +2,12 @@
 
 鼠标点击/移入的时候，弹出的弹出框，用于显示更多内容。
 
-- `<Popover>` 弹出框。
-- `<Whisper>` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Popover>` 展示出来。
-
 ## 获取组件
 
-<!--{include:(components/popover/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Popover>` 弹出框。
+- `<Whisper>` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Popover>` 展示出来。
 
 ## 演示
 

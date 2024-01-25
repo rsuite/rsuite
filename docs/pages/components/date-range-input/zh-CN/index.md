@@ -4,7 +4,7 @@ DateRangeInput 组件允许用户使用键盘选择日期范围。
 
 ## 获取组件
 
-<!--{include:(components/date-range-input/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 

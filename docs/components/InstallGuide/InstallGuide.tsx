@@ -2,6 +2,7 @@ import React from 'react';
 import { Nav } from 'rsuite';
 import { Icon } from '@rsuite/icons';
 import { SiPnpm, SiNpm, SiYarn } from 'react-icons/si';
+import StaticCodeView from '../CodeView/StaticCodeView';
 
 const defaultCommands = {
   npm: 'npm install rsuite --save',
@@ -32,11 +33,7 @@ const InstallGuide = (props: InstallGuideProps) => {
         </Nav.Item>
       </Nav>
       <div>
-        <div className="rcv-highlight">
-          <pre>
-            <code className="bash">{commands[active]}</code>
-          </pre>
-        </div>
+        <StaticCodeView code={commands[active]} language="bash" />
       </div>
     </div>
   );

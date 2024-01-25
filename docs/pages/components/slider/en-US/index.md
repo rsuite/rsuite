@@ -2,12 +2,12 @@
 
 A Slider component for displaying current value
 
-- `<Slider>` Slide input controls.
-- `<RangeSlider>` Slide range input controls.
-
 ## Import
 
-<!--{include:(components/slider/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Slider>` Slide input controls.
+- `<RangeSlider>` Slide range input controls.
 
 ## Examples
 

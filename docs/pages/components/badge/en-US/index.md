@@ -4,7 +4,7 @@ Used for buttons, numbers or status markers next to icons.
 
 ## Usage
 
-<!--{include:(components/badge/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

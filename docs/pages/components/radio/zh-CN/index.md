@@ -4,7 +4,10 @@
 
 ## 获取组件
 
-<!--{include:(components/radio/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Radio>` 单选框。
+- `<RadioGroup>` 单选框组。
 
 ## 演示
 

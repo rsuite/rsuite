@@ -1,18 +1,16 @@
 # Animation 动画
 
-处理动画相关的组件
+动画组件，提供了一些常用的动画效果，可以通过配置相关属性来实现动画效果。
+
+## 获取组件
+
+<!--{include:<import-guide>}-->
 
 - `<Animation.Fade>` 淡入淡出过渡效果。
 - `<Animation.Collapse>` 折叠过渡效果。
 - `<Animation.Bounce>`弹入弹出过渡效果。
 - `<Animation.Slide>` 滑入滑出过渡效果。
 - `<Animation.Transition>` 自定义一个过渡效果。
-
-当 Transition 无法满足业务需求时，可以试一试 [react-transition-group](https://github.com/reactjs/react-transition-group)
-
-## 获取组件
-
-<!--{include:(components/animation/fragments/import.md)}-->
 
 ## 演示
 

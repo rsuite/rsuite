@@ -4,7 +4,7 @@ The `MultiCascader` component is used to select multiple values from cascading o
 
 ## Import
 
-<!--{include:(components/multi-cascader/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

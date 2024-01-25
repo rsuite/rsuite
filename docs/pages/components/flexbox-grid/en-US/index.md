@@ -4,7 +4,7 @@ Grid layout component implemented via CSS Flexbox, providing 24 grids.
 
 ## Import
 
-<!--{include:(components/flexbox-grid/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

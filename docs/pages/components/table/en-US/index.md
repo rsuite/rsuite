@@ -2,15 +2,15 @@
 
 A table displays rows of data.
 
+## Import
+
+<!--{include:<import-guide>}-->
+
 - `<Table>` Table component
 - `<Table.Column>` Table definition column component
 - `<Table.ColumnGroup>` Used for column header grouping
 - `<Table.HeaderCell>` Column Header cell component
 - `<Table.Cell>` Cell component
-
-## Import
-
-<!--{include:(components/table/fragments/import.md)}-->
 
 ## Examples
 
@@ -317,6 +317,8 @@ Display the hidden text in its entirety when hovering over the cell.
 ## Props
 
 ### `<Table>`
+
+<!-- prettier-sort-markdown-table -->
 
 | Property                 | Type `(Default)`                                                                                  | Description                                                                                                                                                                               |
 | ------------------------ | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

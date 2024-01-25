@@ -4,7 +4,7 @@ The enhancement of Input supports input tags and management tags.
 
 ## Import
 
-<!--{include:(components/tag-input/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

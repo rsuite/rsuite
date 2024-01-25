@@ -4,7 +4,7 @@ Used to display the current page path and quickly return to the history page.
 
 ## Import
 
-<!--{include:(components/breadcrumb/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

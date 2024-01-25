@@ -2,13 +2,13 @@
 
 Placeholder before component loaded.
 
+## Import
+
+<!--{include:<import-guide>}-->
+
 - `<Placeholder.Paragraph>` Paragraph placeholder
 - `<Placeholder.Graph>` Graph placeholder
 - `<Placeholder.Grid>` Grid placeholder
-
-## Import
-
-<!--{include:(components/placeholder/fragments/import.md)}-->
 
 ## Examples
 

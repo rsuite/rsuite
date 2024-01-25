@@ -2,24 +2,13 @@
 
 A Grid layout component that provides 24 grids, referring to the responsive design of [Bootstrap](https://getbootstrap.com/docs/5.2/layout/grid/#grid-options).
 
-Contains the following components:
-
-- `<Grid>`
-- `<Row>`
-- `<Col>`
-
-Corresponds to the screen width:
-
-- xxl, extra-large: ≥ `1400px`
-- xl, extra-large: ≥ `1200px`
-- lg, large: ≥ `992px`
-- md, medium: ≥ `768px`
-- sm, small: ≥ `576px`
-- xs, extra-small: < `576px`
-
 ## Import
 
-<!--{include:(components/grid/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Grid>` Define a grid layout.
+- `<Row>` Define a row in the grid layout.
+- `<Col>` Define a column in the grid layout.
 
 ## Examples
 
@@ -102,3 +91,12 @@ Corresponds to the screen width:
 | xsOffset  | number                | Move columns to the right for Extra small devices Phones                             |
 | xsPull    | number                | Change the order of grid columns to the left for Extra small devices Phones          |
 | xsPush    | number                | Change the order of grid columns to the right for Extra small devices Phones         |
+
+#### Corresponds to the screen width
+
+- xxl, extra-large: ≥ `1400px`
+- xl, extra-large: ≥ `1200px`
+- lg, large: ≥ `992px`
+- md, medium: ≥ `768px`
+- sm, small: ≥ `576px`
+- xs, extra-small: < `576px`

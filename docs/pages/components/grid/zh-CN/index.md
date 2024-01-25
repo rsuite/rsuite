@@ -2,24 +2,13 @@
 
 栅格布局的组件，提供 24 栅格， 参照 [Bootstrap](https://getbootstrap.com/docs/5.2/layout/grid/#grid-options) 的响应式设计。
 
-包含下面组件：
-
-- `<Grid>`
-- `<Row>`
-- `<Col>`
-
-对应屏幕宽度:
-
-- xxl, extra-large: ≥ `1400px`
-- xl, extra-large: ≥ `1200px`
-- lg, large: ≥ `992px`
-- md, medium: ≥ `768px`
-- sm, small: ≥ `576px`
-- xs, extra-small: < `576px`
-
 ## 获取组件
 
-<!--{include:(components/grid/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Grid>` 定义一个栅格布局。
+- `<Row>` 定义栅格布局中的一行。
+- `<Col>` 定义栅格布局中的一列。
 
 ## 演示
 
@@ -102,3 +91,12 @@
 | xsOffset  | number                | 栅格左侧的间隔格数，间隔内不可以有栅格 |
 | xsPull    | number                | 栅格向左移动格数                       |
 | xsPush    | number                | 栅格向右移动格数                       |
+
+#### 对应屏幕宽度
+
+- xxl, extra-large: ≥ `1400px`
+- xl, extra-large: ≥ `1200px`
+- lg, large: ≥ `992px`
+- md, medium: ≥ `768px`
+- sm, small: ≥ `576px`
+- xs, extra-small: < `576px`

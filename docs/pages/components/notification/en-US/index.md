@@ -4,7 +4,7 @@ Used for system notifications. Generally used to push messages.
 
 ## Import
 
-<!--{include:(components/notification/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

@@ -2,13 +2,13 @@
 
 用于在组件加载完成之前占位。
 
+## 获取组件
+
+<!--{include:<import-guide>}-->
+
 - `<Placeholder.Paragraph>` 段落
 - `<Placeholder.Graph>` 图形
 - `<Placeholder.Grid>` 网格
-
-## 获取组件
-
-<!--{include:(components/placeholder/fragments/import.md)}-->
 
 ## 演示
 
