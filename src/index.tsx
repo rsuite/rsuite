@@ -200,6 +200,9 @@ export type { CheckTreeProps } from './CheckTree';
 export { default as Panel } from './Panel';
 export type { PanelProps } from './Panel';
 
+export { default as Accordion } from './Accordion';
+export type { AccordionProps } from './Accordion';
+
 export { default as PanelGroup } from './PanelGroup';
 export type { PanelGroupProps } from './PanelGroup';
 
@@ -306,3 +309,6 @@ export type {
 
 export type { PickerHandle } from './internals/Picker';
 export { default as useMediaQuery } from './useMediaQuery';
+
+export { default as VisuallyHidden } from './VisuallyHidden';
+export type { VisuallyHiddenProps } from './VisuallyHidden';

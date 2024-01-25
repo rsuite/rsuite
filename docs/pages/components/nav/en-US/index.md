@@ -2,7 +2,7 @@
 
 Provides a list of various forms of navigation menus, which can be landscape and portrait layout.
 
-## Usage
+## Import
 
 <!--{include:<import-guide>}-->
 

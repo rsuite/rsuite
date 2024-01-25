@@ -7,6 +7,7 @@ import getMinutes from 'date-fns/getMinutes';
 import getSeconds from 'date-fns/getSeconds';
 import addDays from 'date-fns/addDays';
 import set from 'date-fns/set';
+import isValid from 'date-fns/isValid';
 
 export { default as addDays } from 'date-fns/addDays';
 export { default as addMonths } from 'date-fns/addMonths';
@@ -144,6 +145,10 @@ export function getMonthView(monthDate: Date, isoWeek: boolean) {
  * Copy the time of one date to another
  */
 export function copyTime({ from, to }: { from: Date; to: Date }) {
+  if (!isValid(from) || !isValid(to)) {
+    return to;
+  }
+
   return set(to, {
     hours: getHours(from),
     minutes: getMinutes(from),
