@@ -236,5 +236,6 @@ exports.build = gulp.series(
     copyDocs,
     createPkgFile
   ),
+  buildComponentCSS,
   buildDirectories
 );
