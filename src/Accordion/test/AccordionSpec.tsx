@@ -93,7 +93,9 @@ describe('Accordion', () => {
     it('Should have a region role in body', () => {
       render(
         <Accordion>
-          <Accordion.Panel header="title">body</Accordion.Panel>
+          <Accordion.Panel header="title" expanded>
+            body
+          </Accordion.Panel>
         </Accordion>
       );
 

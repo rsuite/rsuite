@@ -157,7 +157,7 @@ describe('Panel', () => {
 
     it('Should have a region role in body', () => {
       render(
-        <Panel collapsible header="title">
+        <Panel collapsible header="title" expanded>
           body content
         </Panel>
       );
@@ -173,7 +173,7 @@ describe('Panel', () => {
     });
 
     it('Should customize role in body', () => {
-      render(<Panel panelRole="tabpanel" collapsible />);
+      render(<Panel panelRole="tabpanel" collapsible expanded />);
 
       expect(screen.getByRole('tabpanel')).to.have.class('rs-panel-body');
     });
@@ -197,7 +197,7 @@ describe('Panel', () => {
     });
 
     it('Should have aria-labelledby in body', () => {
-      render(<Panel collapsible header="title" />);
+      render(<Panel collapsible header="title" expanded />);
 
       expect(screen.getByRole('region')).to.have.attribute('aria-labelledby');
     });
