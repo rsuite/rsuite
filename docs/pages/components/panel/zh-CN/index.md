@@ -58,22 +58,37 @@
 
 <!--{include:`accordion-group-active.md`}-->
 
+## 可访问性
+
+### ARIA 属性
+
+- 当 Panel 为可折叠时，在按钮上设置 `aria-expanded` 属性，用于标识当前面板是否展开。
+- 当 Panel 为可折叠时，在按钮上设置 `aria-controls` 属性，用于标识当前面板的内容区域。
+- 当 Panel 为可折叠时，在面板内容区域上设置 `aria-labelledby` 属性，用于标识当前面板的标题。
+
+### 键盘操作
+
+- 当 Panel 为可折叠时，按下 <kbd>Enter</kbd> 或 <kbd>Space</kbd> 键，展开或折叠面板。
+- 当 Panel 为可折叠时，按下 <kbd>Tab</kbd> 键，焦点移动到下一个可聚焦的面板。
+
 ## Props
 
 ### `<Panel>`
 
-| 属性名称        | 类型`(默认值)`       | 描述               |
-| --------------- | -------------------- | ------------------ |
-| bodyFill        | boolean              | 内容区域撑满容器   |
-| bordered        | boolean              | 显示线框           |
-| shaded          | boolean              | 显示阴影           |
-| classPrefix     | string `('panel')`   | 组件 CSS 类的前缀  |
-| collapsible     | boolean              | 可折叠的           |
-| defaultExpanded | boolean              | 默认展开           |
-| eventKey        | string               | 面板对应的事件 key |
-| expanded        | boolean              | 展开面板           |
-| header          | ReactNode            | 头部显示信息       |
-| id              | string &#124; number | ID                 |
+<!-- prettier-sort-markdown-table -->
+
+| 属性名称        | 类型`(默认值)`     | 描述               |
+| --------------- | ------------------ | ------------------ |
+| bodyFill        | boolean            | 内容区域撑满容器   |
+| bordered        | boolean            | 显示线框           |
+| classPrefix     | string `('panel')` | 组件 CSS 类的前缀  |
+| collapsible     | boolean            | 可折叠的           |
+| defaultExpanded | boolean            | 默认展开           |
+| eventKey        | string             | 面板对应的事件 key |
+| expanded        | boolean            | 展开面板           |
+| header          | ReactNode          | 头部显示信息       |
+| id              | string             | 面板的 id          |
+| shaded          | boolean            | 显示阴影           |
 
 ### `<PanelGroup>`
 

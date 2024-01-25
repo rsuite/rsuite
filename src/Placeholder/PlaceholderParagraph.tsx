@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-
+import { oneOf } from '../internals/propTypes';
 export interface PlaceholderParagraphProps extends WithAsProps {
   /* number of rows */
   rows?: number;
@@ -77,7 +77,7 @@ PlaceholderParagraph.propTypes = {
   rows: PropTypes.number,
   rowHeight: PropTypes.number,
   rowMargin: PropTypes.number,
-  graph: PropTypes.oneOfType([PropTypes.bool, PropTypes.oneOf(['circle', 'square', 'image'])]),
+  graph: PropTypes.oneOfType([PropTypes.bool, oneOf(['circle', 'square', 'image'])]),
   active: PropTypes.bool
 };
 

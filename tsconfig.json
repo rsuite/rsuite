@@ -17,8 +17,10 @@
     "baseUrl": ".",
     "paths": {
       "@test/*": ["./test/*"],
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/storybook/*": ["./storybook/*"]
     }
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "exclude": ["./src/**/stories/*"]
 }

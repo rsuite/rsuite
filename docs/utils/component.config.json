@@ -33,6 +33,7 @@
   {
     "id": "icon",
     "name": "Icons",
+    "components": ["Icon"],
     "title": "图标"
   },
   {
@@ -495,6 +496,15 @@
       "dark": "74"
     }
   },
+  {
+    "id": "accordion",
+    "name": "Accordion",
+    "title": "手风琴",
+    "components": ["Accordion", "Accordion.Item"],
+    "tag": "New",
+    "minVersion": "5.52.0"
+  },
+
   {
     "id": "badge",
     "name": "Badge",

@@ -619,6 +619,15 @@ describe('DatePicker', () => {
         // eslint-disable-next-line testing-library/no-node-access
         .querySelectorAll('.rs-calendar-table-cell-un-same-month')
     ).to.have.text(['30', '31', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
+
+    userEvent.click(screen.getByRole('button', { name: 'Next month' }));
+
+    expect(
+      screen
+        .getByRole('grid', { name: 'Jul 2021' })
+        // eslint-disable-next-line testing-library/no-node-access
+        .querySelectorAll('.rs-calendar-table-cell-un-same-month')
+    ).to.have.text(['27', '28', '29', '30', '1', '2', '3', '4', '5', '6', '7']);
   });
 
   it('Should accept controlled value', () => {
@@ -941,6 +950,35 @@ describe('DatePicker', () => {
 
     // Invalid date
     expect(isValid(onChange.firstCall.firstArg)).to.be.false;
+  });
+
+  it('Should call `onChange` callback and return a valid date', () => {
+    const onChange = Sinon.spy();
+
+    render(
+      <DatePicker
+        onChange={onChange}
+        format="yyyy-MM-dd"
+        defaultValue={new Date('2023-11-01')}
+        open
+      />
+    );
+
+    userEvent.type(screen.getByRole('textbox'), '{backspace}');
+
+    expect(onChange).to.be.calledOnce;
+    expect(screen.getByRole('textbox')).to.have.value('yyyy-11-01');
+
+    // Invalid date
+    expect(isValid(onChange.firstCall.firstArg)).to.be.false;
+
+    userEvent.click(screen.getByRole('gridcell', { selected: true }));
+    userEvent.click(screen.getByRole('button', { name: 'OK' }));
+
+    expect(onChange).to.be.calledTwice;
+    expect(format(onChange.secondCall.firstArg, 'yyyy-MM-dd')).to.equal(
+      format(new Date(), 'yyyy-MM-dd')
+    );
   });
 
   describe('Accessibility', () => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 
 export interface LoaderProps extends WithAsProps {
@@ -82,8 +83,8 @@ Loader.propTypes = {
   inverse: PropTypes.bool,
   vertical: PropTypes.bool,
   content: PropTypes.node,
-  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
-  speed: PropTypes.oneOf(['normal', 'fast', 'slow'])
+  size: oneOf(['lg', 'md', 'sm', 'xs']),
+  speed: oneOf(['normal', 'fast', 'slow'])
 };
 
 export default Loader;

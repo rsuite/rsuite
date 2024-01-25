@@ -12,6 +12,7 @@ import omit from 'lodash/omit';
 import { SidenavContext } from './Sidenav';
 import Whisper, { WhisperInstance } from '../Whisper';
 import Tooltip from '../Tooltip';
+import classNames from 'classnames';
 
 export interface SidenavItemProps<T = any>
   extends WithAsProps,
@@ -90,6 +91,12 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
     [disabled, onSelect, onSelectFromNav, eventKey, onClick]
   );
 
+  const clonedIcon = icon
+    ? React.cloneElement(icon, {
+        className: classNames(prefix('icon'), icon.props.className)
+      })
+    : null;
+
   if (!sidenav.expanded) {
     return (
       <Whisper
@@ -122,7 +129,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
                   )}
                   onMouseOut={createChainedFunction(menuitem.onMouseOut, triggerProps.onMouseOut)}
                 >
-                  {icon && React.cloneElement(icon, { className: prefix('icon') })}
+                  {clonedIcon}
                   {children}
                   <Ripple />
                 </Component>
@@ -170,7 +177,7 @@ const SidenavItem: RsRefForwardingComponent<'li', SidenavItemProps> = React.forw
       data-event-key={eventKey}
       {...rest}
     >
-      {icon && React.cloneElement(icon, { className: prefix('icon') })}
+      {clonedIcon}
       {children}
       <Ripple />
     </Component>

@@ -27,9 +27,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': {
-        RUN_ENV: JSON.stringify(process.env.RUN_ENV)
-      }
+      process: { env: { RUN_ENV: JSON.stringify(process.env.RUN_ENV) } }
     })
   ],
   module: {

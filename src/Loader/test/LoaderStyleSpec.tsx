@@ -1,24 +1,20 @@
 /* eslint-disable testing-library/no-node-access */
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Loader from '../Loader';
-import { getDOMNode, getStyle, toRGB, inChrome } from '@test/utils';
+import { toRGB } from '@test/utils';
 
 import '../styles/index.less';
 
 describe('Loader styles', () => {
   it('Should render correct toggle styles', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(<Loader ref={instanceRef} />);
-    const dom = getDOMNode(instanceRef.current);
-    const spinDom = dom.querySelector('.rs-loader-spin') as HTMLElement;
+    render(<Loader />);
+    const loader = screen.getByRole('progressbar');
+    const loaderSpinner = loader.querySelector('.rs-loader-spin');
 
-    assert.equal(getStyle(dom, 'height'), '18px', 'Loader height');
-    inChrome &&
-      assert.equal(
-        window.getComputedStyle(spinDom, '::after').borderColor,
-        `${toRGB('#a6a6a6')} ${toRGB('#0000')} ${toRGB('#0000')}`,
-        'Loader spin after border-color'
-      );
+    expect(loader).to.have.style('height', '18px');
+    expect(window.getComputedStyle(loaderSpinner as HTMLElement, ':after').borderColor).to.equal(
+      `${toRGB('#a6a6a6')} ${toRGB('#0000')} ${toRGB('#0000')}`
+    );
   });
 });

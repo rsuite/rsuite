@@ -38,6 +38,7 @@ import {
   PickerToggleProps
 } from '../internals/Picker';
 import SearchBox from '../internals/SearchBox';
+import { oneOf } from '../internals/propTypes';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 export type ValueType = (number | string)[];
@@ -595,7 +596,7 @@ MultiCascader.propTypes = {
   value: PropTypes.array,
   disabledItemValues: PropTypes.array,
   locale: PropTypes.any,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   cascade: PropTypes.bool,
   inline: PropTypes.bool,
   countable: PropTypes.bool,

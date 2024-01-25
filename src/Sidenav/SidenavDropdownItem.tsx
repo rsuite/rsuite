@@ -3,13 +3,14 @@ import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { SidenavContext } from './Sidenav';
-import deprecatePropType from '../utils/deprecatePropType';
+import { deprecatePropType, oneOf } from '../internals/propTypes';
 import MenuItem from '../internals/Menu/MenuItem';
 import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';
 import NavContext from '../Nav/NavContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 import ExpandedSidenavDropdownItem from './ExpandedSidenavDropdownItem';
+import classNames from 'classnames';
 
 export interface SidenavDropdownItemProps<T = any>
   extends WithAsProps,
@@ -162,7 +163,10 @@ const SidenavDropdownItem: RsRefForwardingComponent<'li', SidenavDropdownItemPro
             ...restProps,
             children: (
               <>
-                {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                {icon &&
+                  React.cloneElement(icon, {
+                    className: classNames(prefix('menu-icon'), icon.props.className)
+                  })}
                 {children}
               </>
             )
@@ -177,7 +181,7 @@ SidenavDropdownItem.propTypes = {
   as: PropTypes.elementType,
   divider: PropTypes.bool,
   panel: PropTypes.bool,
-  trigger: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['click', 'hover'])]),
+  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover'])]),
   open: deprecatePropType(PropTypes.bool),
   active: PropTypes.bool,
   disabled: PropTypes.bool,

@@ -2,7 +2,7 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import deprecatePropType from '../utils/deprecatePropType';
+import { deprecatePropType, oneOf } from '../internals/propTypes';
 import isNil from 'lodash/isNil';
 import { createChainedFunction, shallowEqual, useClassNames } from '../utils';
 import { NavbarContext } from './Navbar';
@@ -11,6 +11,7 @@ import DisclosureContext, {
 } from '../internals/Disclosure/DisclosureContext';
 import { useRenderDropdownItem } from '../Dropdown/useRenderDropdownItem';
 import NavContext from '../Nav/NavContext';
+import classNames from 'classnames';
 
 export interface NavbarDropdownItemProps<T = any>
   extends WithAsProps,
@@ -158,7 +159,10 @@ const NavbarDropdownItem: RsRefForwardingComponent<'li', NavbarDropdownItemProps
       onClick: createChainedFunction(handleClickNavbarDropdownItem, restProps.onClick),
       children: (
         <>
-          {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+          {icon &&
+            React.cloneElement(icon, {
+              className: classNames(prefix('menu-icon'), icon.props.className)
+            })}
           {children}
         </>
       )
@@ -170,7 +174,7 @@ NavbarDropdownItem.propTypes = {
   as: PropTypes.elementType,
   divider: PropTypes.bool,
   panel: PropTypes.bool,
-  trigger: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['click', 'hover'])]),
+  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover'])]),
   open: deprecatePropType(PropTypes.bool),
   active: PropTypes.bool,
   disabled: PropTypes.bool,

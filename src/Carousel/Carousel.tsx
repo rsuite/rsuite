@@ -12,6 +12,7 @@ import {
   useUpdateEffect
 } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { oneOf } from '../internals/propTypes';
 
 export interface CarouselProps extends WithAsProps {
   /** Autoplay element */
@@ -214,8 +215,8 @@ Carousel.propTypes = {
   defaultActiveIndex: PropTypes.number,
   autoplay: PropTypes.bool,
   autoplayInterval: PropTypes.number,
-  placement: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
-  shape: PropTypes.oneOf(['dot', 'bar']),
+  placement: oneOf(['top', 'bottom', 'left', 'right']),
+  shape: oneOf(['dot', 'bar']),
   onSelect: PropTypes.func,
   onSlideStart: PropTypes.func,
   onSlideEnd: PropTypes.func

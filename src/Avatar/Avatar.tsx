@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { AvatarGroupContext } from '../AvatarGroup/AvatarGroup';
+import { oneOf } from '../internals/propTypes';
 
 export interface AvatarProps extends WithAsProps {
   /** A avatar can have different sizes */
@@ -87,7 +88,7 @@ Avatar.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   children: PropTypes.node,
-  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
+  size: oneOf(['lg', 'md', 'sm', 'xs']),
   src: PropTypes.string,
   sizes: PropTypes.string,
   srcSet: PropTypes.string,

@@ -19,7 +19,7 @@ describe('Navbar styles', () => {
       render(
         <Navbar>
           <Nav>
-            <Nav.Item icon={<i className="rs-icon" data-testid="icon" />}>Home</Nav.Item>
+            <Nav.Item icon={<i data-testid="icon" />}>Home</Nav.Item>
           </Nav>
         </Navbar>
       );

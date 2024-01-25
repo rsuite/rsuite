@@ -2,8 +2,6 @@
 
 A series of selectable tile components that behave like Radio.
 
-![Supported from version 5.35.0](https://img.shields.io/badge/version->=5.35.0-blue)
-
 ## Import
 
 <!--{include:(components/radio-tile/fragments/import.md)}-->

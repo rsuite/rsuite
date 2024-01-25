@@ -3,6 +3,7 @@ import omit from 'lodash/omit';
 import Menu from '../internals/Menu/Menu';
 import MenuItem from '../internals/Menu/MenuItem';
 import Menubar from '../internals/Menu/Menubar';
+import { oneOf } from '../internals/propTypes';
 import { mergeRefs, useClassNames } from '../utils';
 import PropTypes from 'prop-types';
 import { StandardProps } from '../@types/common';
@@ -215,7 +216,7 @@ DropdownMenu.propTypes = {
   pullLeft: PropTypes.bool,
   title: PropTypes.node,
   open: PropTypes.bool,
-  trigger: PropTypes.oneOf(['click', 'hover']),
+  trigger: oneOf(['click', 'hover']),
   eventKey: PropTypes.any,
   expanded: PropTypes.bool,
   collapsible: PropTypes.bool,
