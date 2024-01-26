@@ -1,10 +1,10 @@
 # AutoComplete 自动完成
 
-为输入框提供自动完成功能。
+为输入框提供自动完成的功能。
 
 ## 获取组件
 
-<!--{include:(components/auto-complete/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 

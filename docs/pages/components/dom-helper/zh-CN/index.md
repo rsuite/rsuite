@@ -4,7 +4,7 @@
 
 ## 获取方法
 
-<!--{include:(components/dom-helper/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## APIs
 

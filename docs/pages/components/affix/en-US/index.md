@@ -4,7 +4,7 @@ Components such as navigation, buttons, etc. can be fixed in the visible range. 
 
 ## Import
 
-<!--{include:(components/affix/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

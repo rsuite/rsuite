@@ -4,7 +4,7 @@
 
 ## 获取组件
 
-<!--{include:(components/tree-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 

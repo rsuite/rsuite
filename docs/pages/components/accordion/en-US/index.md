@@ -4,7 +4,7 @@ The Accordion component is used to expand and collapse the content area by click
 
 ## Import
 
-<!--{include:(components/accordion/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

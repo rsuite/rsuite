@@ -2,16 +2,14 @@
 
 一套模态对话框组件，用于消息提示、确认消息和提交内容。 如果需要放置更多内容可以使用 Drawer。
 
-模态框，包含下面组件:
-
-- `<Modal.Header>`
-- `<Modal.Title>`
-- `<Modal.Body>`
-- `<Modal.Footer>`
-
 ## 获取组件
 
-<!--{include:(components/modal/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Modal.Header>` 模态框头部，包含关闭按钮。
+- `<Modal.Title>` 模态框标题，放置在模态框头部。
+- `<Modal.Body>` 模态框内容。
+- `<Modal.Footer>` 模态框底部，一般放置按钮。
 
 ## 演示
 
@@ -21,7 +19,7 @@
 
 ### 背景板
 
-当设置为 true，Modal 打开时会显示背景，点击背景会关闭 Modal，如果不想关闭 Modal，可以设置为 'static'
+当设置为 `true`，Modal 打开时会显示背景，点击背景会关闭 Modal，如果不想关闭 Modal，可以设置为 'static'
 
 <!--{include:`backdrop.md`}-->
 
@@ -96,7 +94,6 @@
 | open \*           | boolean                                                                                    | 显示 Modal                                                                                           |
 | overflow          | boolean `(true)`                                                                           | body 内容过长时自动设置高度                                                                          |
 | size              | 'xs' &#124; 'sm' &#124; 'md' &#124; lg' &#124; 'full' &#124; number &#124; string `('sm')` | 设置 Modal 的宽度                                                                                    |
-
 
 ### `<Modal.Header>`
 

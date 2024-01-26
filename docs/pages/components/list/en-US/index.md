@@ -4,7 +4,7 @@ Used to display a set of data
 
 ## Import
 
-<!--{include:(components/list/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

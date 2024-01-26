@@ -4,7 +4,7 @@ Quickly layout components through Flexbox, support vertical and horizontal stack
 
 ## Import
 
-<!--{include:(components/stack/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

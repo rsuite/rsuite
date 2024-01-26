@@ -4,7 +4,7 @@ A rating indicates user interest in content.
 
 ## Import
 
-<!--{include:(components/rate/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

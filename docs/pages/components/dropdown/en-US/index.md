@@ -2,14 +2,14 @@
 
 A drop-down menu is a navigation that uses selectpicker if you want to select a value.
 
+## Import
+
+<!--{include:<import-guide>}-->
+
 - `<Dropdown>` Drop-down menu.
 - `<Dropdown.Item>` Drop-down menu options.
 - `<Dropdown.Menu>` A submenu is created in the Drop-down menu.
 - `<Dropdown.Separator>` A Separator in the Drop-down menu.
-
-## Import
-
-<!--{include:(components/dropdown/fragments/import.md)}-->
 
 ## Examples
 

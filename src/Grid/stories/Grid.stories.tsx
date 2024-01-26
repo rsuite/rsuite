@@ -5,6 +5,8 @@ import Col from '../../Col';
 import Row from '../../Row';
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.less';
+import '../../Col/styles/index.less';
+import '../../Row/styles/index.less';
 import './styles.less';
 
 const meta = createMeta(Grid);

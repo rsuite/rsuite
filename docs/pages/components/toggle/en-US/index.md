@@ -1,10 +1,10 @@
 # Toggle
 
-Used to select between two values.
+Toggle switch, used for selection between two values.
 
 ## Import
 
-<!--{include:(components/toggle/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

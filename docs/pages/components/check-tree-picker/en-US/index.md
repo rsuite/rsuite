@@ -4,7 +4,7 @@ CheckTreePicker are supported in multiple selectors for multiple selection of co
 
 ## Import
 
-<!--{include:(components/check-tree-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

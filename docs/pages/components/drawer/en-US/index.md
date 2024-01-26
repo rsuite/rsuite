@@ -4,7 +4,7 @@ A panel that slides out from the edge of the page can replace Modal to present m
 
 ## Import
 
-<!--{include:(components/drawer/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

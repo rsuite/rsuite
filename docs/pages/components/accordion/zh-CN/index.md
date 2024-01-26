@@ -4,7 +4,7 @@
 
 ## 获取组件
 
-<!--{include:(components/accordion/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 示例
 

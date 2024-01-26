@@ -4,7 +4,10 @@ A series of selectable tile components that behave like Radio.
 
 ## Import
 
-<!--{include:(components/radio-tile/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<RadioTile>`
+- `<RadioTileGroup>`
 
 ## Examples
 

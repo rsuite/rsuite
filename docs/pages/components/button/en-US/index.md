@@ -2,14 +2,14 @@
 
 Commonly used operating buttons, button combinations, button layouts.
 
+## Import
+
+<!--{include:<import-guide>}-->
+
 - `<Button>` is the most basic element in the component, you can quickly create a styled button.
 - `<IconButton>` Button with icon.
 - `<ButtonGroup>` Button group control can put a group of buttons together and control the layout.
 - `<ButtonToolbar>` Button Toolbar Controls.
-
-## Import
-
-<!--{include:(components/button/fragments/import.md)}-->
 
 ## Examples
 

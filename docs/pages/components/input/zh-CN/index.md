@@ -2,15 +2,15 @@
 
 代替 HTML 原生控件，input、textarea。
 
-- `<Input>` 输入框组件
-- `<InputGroup>` 输入框组合组件
-- `<InputGroup.Button>` 与按钮组合
-- `<InputGroup.Addon>` 自定义附加元素
-- `<MaskedInput>` 带掩码的输入框组件
-
 ## 获取组件
 
-<!--{include:(components/input/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Input>` 输入框组件。
+- `<InputGroup>` 输入框组合组件。
+- `<InputGroup.Button>` 与按钮组合。
+- `<InputGroup.Addon>` 自定义附加元素。
+- `<MaskedInput>` 带掩码的输入框组件。
 
 ## 演示
 

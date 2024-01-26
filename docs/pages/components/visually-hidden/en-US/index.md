@@ -4,7 +4,7 @@ VisuallyHidden is a component that visually hides its children while keeping the
 
 ## Import
 
-<!--{include:(components/visually-hidden/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Usage
 

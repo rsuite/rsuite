@@ -36,10 +36,18 @@ import LinkIcon from '@rsuite/icons/legacy/Link';
 import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import PlusIcon from '@rsuite/icons/Plus';
 import ArrowDownIcon from '@rsuite/icons/ArrowDown';
+import ImportGuide from '@/components/ImportGuide';
+
+const inDocsComponents = {
+  'import-guide': () => (
+    <ImportGuide components={['Button', 'IconButton', 'ButtonGroup', 'ButtonToolbar']} />
+  )
+};
 
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Whisper,
         Popover,

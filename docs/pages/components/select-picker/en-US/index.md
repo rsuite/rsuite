@@ -4,7 +4,7 @@ For a single data selection, support grouping.
 
 ## Import
 
-<!--{include:(components/select-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

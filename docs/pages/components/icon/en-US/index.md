@@ -8,11 +8,15 @@ React Suite provides a set of icon components, you need to install the `@rsuite/
 
 > [React Suite Icons](/resources/icons)
 
-<!--{include:(components/icon/fragments/install.md)}-->
+## Install
 
-**Usage**
+<!--{include:<install-guide>}-->
 
-<!--{include:(components/icon/fragments/import.md)}-->
+## Import
+
+<!--{include:<import-guide>}-->
+
+## Examples
 
 ### Size
 

@@ -5,6 +5,8 @@ const path = require('path');
 const less = require('gulp-less');
 const postcss = require('gulp-postcss');
 const postcssCustomProperties = require('postcss-custom-properties');
+const postcssPruneVar = require('postcss-prune-var');
+const postcssDiscardEmpty = require('postcss-discard-empty');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
 const babel = require('gulp-babel');
@@ -69,16 +71,62 @@ exports.buildStyles = gulp.series(
   minifyCSS
 );
 
-function buildLess({ lessOptions, outputFileName }) {
+// Build component styles
+// Final outputs:
+// - lib/Button/styles/index.css
+// - lib/IconButton/styles/index.css
+// - ...
+async function buildComponentCSS(done) {
+  const buildList = [];
+
+  fs.readdirSync(srcRoot).forEach(item => {
+    const itemPath = path.resolve(srcRoot, item);
+    const componentName = itemPath.split('/').pop();
+
+    const lessFile = itemPath + '/styles/index.less';
+
+    if (fs.existsSync(lessFile)) {
+      buildList.push({
+        src: lessFile,
+        dist: `${libRoot}/${componentName}/styles`,
+        lessOptions: { modifyVars: { '@enable-css-reset': false } },
+        outputFileName: 'index.css'
+      });
+    }
+  });
+
+  Promise.all(
+    buildList.map(item => {
+      return new Promise((resolve, reject) => {
+        return buildLess({ ...item, postcssPlugins: [postcssPruneVar(), postcssDiscardEmpty()] })()
+          .on('end', resolve)
+          .on('error', reject);
+      });
+    })
+  ).then(() => {
+    console.log('Build component CSS done.');
+    done();
+  });
+}
+
+exports.buildComponentCSS = buildComponentCSS;
+
+function buildLess({
+  lessOptions,
+  outputFileName,
+  src = `${styleRoot}/index.less`,
+  dist = distRoot,
+  postcssPlugins = []
+}) {
   return () =>
     gulp
-      .src(`${styleRoot}/index.less`)
+      .src(src)
       .pipe(sourcemaps.init())
       .pipe(less(lessOptions))
-      .pipe(postcss([require('autoprefixer'), postcssCustomProperties()]))
+      .pipe(postcss([require('autoprefixer'), postcssCustomProperties(), ...postcssPlugins]))
       .pipe(sourcemaps.write('./'))
       .pipe(rename(outputFileName))
-      .pipe(gulp.dest(`${distRoot}`));
+      .pipe(gulp.dest(dist));
 }
 
 function buildRTLCSS() {
@@ -193,5 +241,6 @@ exports.build = gulp.series(
     copyDocs,
     createPkgFile
   ),
+  buildComponentCSS,
   buildDirectories
 );

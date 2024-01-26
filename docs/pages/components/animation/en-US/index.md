@@ -1,18 +1,16 @@
 # Animation
 
-Handling animation components
+`Animation` component is a set of animation components. You can achieve animation effects by configuring related properties.
+
+## Import
+
+<!--{include:<import-guide>}-->
 
 - `<Animation.Fade>`
 - `<Animation.Collapse>`
 - `<Animation.Bounce>`
 - `<Animation.Slide>`
 - `<Animation.Transition>`
-
-When Transition fails to meet business needs，you can try [react-transition-group](https://github.com/reactjs/react-transition-group)
-
-## Import
-
-<!--{include:(components/animation/fragments/import.md)}-->
 
 ## Examples
 

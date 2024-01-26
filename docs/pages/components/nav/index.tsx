@@ -1,6 +1,7 @@
 import React from 'react';
 import { Nav, Button, Row, Col, Slider } from 'rsuite';
 import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
 import ResponsiveNav from '@rsuite/responsive-nav';
 import Link from 'next/link';
 
@@ -21,9 +22,14 @@ const sandboxDependencies = {
   '@rsuite/responsive-nav': 'latest'
 };
 
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Nav']} />
+};
+
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Nav,
         Button,

@@ -2,9 +2,9 @@
 
 VisuallyHidden 是一个组件，它在视觉上隐藏其子元素，同时使屏幕阅读器可以访问它们。
 
-## 导入
+## 获取组件
 
-<!--{include:(components/visually-hidden/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 用法
 

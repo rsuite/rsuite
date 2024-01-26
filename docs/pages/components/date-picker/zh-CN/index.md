@@ -4,7 +4,7 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 
 ## 获取组件
 
-<!--{include:(components/date-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 

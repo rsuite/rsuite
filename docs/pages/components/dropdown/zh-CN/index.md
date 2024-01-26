@@ -2,14 +2,14 @@
 
 下拉菜单是一种导航，如果需要选择值请使用 SelectPicker。
 
+## 获取组件
+
+<!--{include:<import-guide>}-->
+
 - `<Dropdown>` 下拉菜单。
 - `<Dropdown.Item>` 下拉菜单选项。
 - `<Dropdown.Menu>` 下拉菜单中创建子菜单。
 - `<Dropdown.Separator>` 下拉菜单中的分割线。
-
-## 获取组件
-
-<!--{include:(components/dropdown/fragments/import.md)}-->
 
 ## 演示
 

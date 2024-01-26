@@ -4,7 +4,7 @@
 
 ## 获取组件
 
-<!--{include:(components/stack/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 

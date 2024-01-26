@@ -2,16 +2,16 @@
 
 一组处理表单数据的组件和模型。
 
+## 获取组件
+
+<!--{include:<import-guide>}-->
+
 - `<Form>` 定义一个表单。
 - `<Form.Group>` 表单控件组，用于表单控件布局。
 - `<Form.Control>` 表单控件，定义一个表单字段。
 - `<Form.ControlLabel>` 表单控件对应的标题。
 - `<Form.HelpText>` 表单控件对应帮助信息。
 - `<Form.ErrorMessage>` 表单控件对应的错误提示信息。
-
-## 获取组件
-
-<!--{include:(components/form/fragments/import.md)}-->
 
 ## 布局
 

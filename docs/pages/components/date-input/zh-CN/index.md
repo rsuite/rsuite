@@ -4,7 +4,7 @@ DateInput 组件允许用户使用键盘选择日期。
 
 ## 获取组件
 
-<!--{include:(components/date-input/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 

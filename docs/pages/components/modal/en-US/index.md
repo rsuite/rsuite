@@ -2,16 +2,14 @@
 
 A modal dialog box component for message prompts, acknowledgement messages, and submissions. You can use Drawer if you need to place more content.
 
-Modal box containing the following components:
-
-- `<Modal.Header>`
-- `<Modal.Title>`
-- `<Modal.Body>`
-- `<Modal.Footer>`
-
 ## Import
 
-<!--{include:(components/modal/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Modal.Header>` The header of the modal dialog box.
+- `<Modal.Title>` The title of the modal dialog box.
+- `<Modal.Body>` The content of the modal dialog box.
+- `<Modal.Footer>` The footer of the modal dialog box.
 
 ## Examples
 
@@ -21,7 +19,7 @@ Modal box containing the following components:
 
 ### Backdrop
 
-When set to true, the Modal will display the background when it is opened. Clicking on the background will close the Modal. If you do not want to close the Modal, set it to 'static'.
+When set to `true`, the Modal will display the background when it is opened. Clicking on the background will close the Modal. If you do not want to close the Modal, set it to 'static'.
 
 <!--{include:`backdrop.md`}-->
 

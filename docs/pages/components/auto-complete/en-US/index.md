@@ -1,10 +1,10 @@
 # AutoComplete
 
-Autocomplete function of input field.
+Provide auto-complete functionality for input box.
 
 ## Import
 
-<!--{include:(components/auto-complete/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 
