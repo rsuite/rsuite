@@ -1,7 +1,7 @@
 import * as React from 'react';
 import uniqueId from 'lodash/uniqueId';
 
-const reactUseId: undefined | (() => string) = (React as any)['useId' + ''];
+const reactUseId: undefined | (() => string) = (React as any)['useId'.toString()];
 
 /**
  * Used for generating unique ID for DOM elements
