@@ -19,13 +19,6 @@
   .rs-theme-high-contrast & {
     background-color: @doc-highlight-bg;
   }
-
-  .copy-code-button {
-    position: absolute;
-    right: 8px;
-    top: 8px;
-    color: #858b94;
-  }
 }
 
 code:not(.rcv-highlight) {
@@ -83,6 +76,10 @@ a code {
 
   .CodeMirror {
     margin: 0;
+    background-color: @doc-highlight-bg;
+  }
+  .CodeMirror-gutters {
+    background-color: @doc-highlight-bg;
   }
 
   hr {
@@ -129,4 +126,24 @@ a code {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.rcv-editor {
+  border-radius: 0 0 6px 6px;
+}
+
+.copy-code-button {
+  position: absolute;
+  color: #858b94;
+}
+
+.rcv-editor .copy-code-button {
+  right: 8px;
+  top: 8px;
+  z-index: 1;
+}
+
+.rcv-highlight .copy-code-button {
+  right: 8px;
+  top: 8px;
 }

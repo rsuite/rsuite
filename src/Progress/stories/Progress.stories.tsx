@@ -1,6 +1,7 @@
 import React from 'react';
 import type { StoryObj } from '@storybook/react';
 import Progress from '../Progress';
+import Stack from '../../Stack';
 
 import { createMeta } from '@/storybook/utils';
 import '../styles/index.less';
@@ -41,16 +42,17 @@ export const Status: Story = {
 
 export const Vertical: Story = {
   render: props => (
-    <>
-      <Progress percent={30} strokeColor="#ffc107" />
+    <Stack>
+      <Progress percent={30} strokeColor="#ffc107" {...props} />
       <Progress percent={30} status="success" {...props} />
       <Progress percent={50} status="active" {...props} />
       <Progress percent={70} status="fail" {...props} />
-      <Progress percent={80} showInfo={false} />
-    </>
+      <Progress percent={80} showInfo={false} {...props} />
+    </Stack>
   ),
   args: {
     ...defaultArgs,
+    style: { height: 300 },
     vertical: true
   }
 };
