@@ -27,7 +27,7 @@
     "dev": "npm i && npm i --prefix docs  && npm run dev --prefix docs",
     "lint": "npm run lint:ts && npm run lint:js && npm run lint:style",
     "lint:style": "stylelint src/**/*.less --cache",
-    "lint:ts": "eslint --ext tsx --ext ts src --cache && tsc --noEmit",
+    "lint:ts": "eslint --ext tsx --ext ts src --cache && tsc --noEmit --project tsconfig.build.json",
     "lint:js": "eslint --ext js src --cache",
     "prepublishOnly": "npm run build",
     "tdd": "cross-env RUN_ENV=test karma start",
