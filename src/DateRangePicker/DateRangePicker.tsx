@@ -117,6 +117,13 @@ export interface DateRangePickerProps
   /** Meridian format */
   showMeridian?: boolean;
 
+  /**
+   * Whether to display the formatted date range at the header of the calendar
+   * @default true
+   * @version 5.52.0
+   */
+  showHeader?: boolean;
+
   /** Set default date for calendar */
   defaultCalendarValue?: DateRange;
 
@@ -222,6 +229,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     showOneCalendar = false,
     showWeekNumbers,
     showMeridian,
+    showHeader = true,
     style,
     size,
     caretAs: caretAsProp,
@@ -347,8 +355,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   }, [valueProp]);
 
   const getDateRangeString = (nextValue: Date[] | null) => {
-    const startDate: Date | null = nextValue?.[0] ?? null;
-    const endDate: Date | null = nextValue?.[1] ?? null;
+    const [startDate, endDate] = nextValue ?? [null, null];
 
     if (startDate && endDate) {
       const displayValue: any = [startDate, endDate].sort(compareAsc);
@@ -796,9 +803,11 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
             <>
               <div className={prefix('daterange-content')}>
-                <div className={prefix('daterange-header')} data-testid="daterange-header">
-                  {getDateRangeString(selectedDates)}
-                </div>
+                {showHeader && (
+                  <div className={prefix('daterange-header')} data-testid="daterange-header">
+                    {getDateRangeString(isSelectedIdle ? selectedDates : hoverDateRange)}
+                  </div>
+                )}
                 <div
                   className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}
                 >

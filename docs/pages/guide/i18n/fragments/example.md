@@ -31,7 +31,6 @@ const App = () => {
       </div>
       <hr />
       <Pagination
-        size
         prev
         next
         first
