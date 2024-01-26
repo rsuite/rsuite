@@ -21,6 +21,5 @@
       "@/storybook/*": ["./storybook/*"]
     }
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
-  "exclude": ["./src/**/stories/*"]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }
