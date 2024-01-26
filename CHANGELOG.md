@@ -1,3 +1,20 @@
+# [5.52.0](https://github.com/rsuite/rsuite/compare/v5.51.0...v5.52.0) (2024-01-26)
+
+### Bug Fixes
+
+- **DatePicker:** fix DatePicker can't select after typing with keyboard ([#3589](https://github.com/rsuite/rsuite/issues/3589)) ([d70d883](https://github.com/rsuite/rsuite/commit/d70d88342b44461940e768f82df04ea5549f0f4a))
+- **pickers:** fix the spacing of the searchbox is not uniform in all pickers ([#3565](https://github.com/rsuite/rsuite/issues/3565)) ([4c90a03](https://github.com/rsuite/rsuite/commit/4c90a03e79f34af0ec12730362c844e1ad0bd89d))
+- **useUniqueId:** use toString instead of an empty string ([#3591](https://github.com/rsuite/rsuite/issues/3591)) ([d80914c](https://github.com/rsuite/rsuite/commit/d80914c5635d2b9b41d09258266249e52a6b7a90))
+- NavItem and DropDownItem rendering icon without overriding className ([#3561](https://github.com/rsuite/rsuite/issues/3561)) ([6a8e81f](https://github.com/rsuite/rsuite/commit/6a8e81fb2aa38433e88a5d11835357808bb772d8))
+
+### Features
+
+- **Accordion:** add support for Accordion ([#3575](https://github.com/rsuite/rsuite/issues/3575)) ([1c81777](https://github.com/rsuite/rsuite/commit/1c817770db4e9d2e0ca9de0110c2537e7e677ae7))
+- **CSS:** export individual CSS files for all components ([#3588](https://github.com/rsuite/rsuite/issues/3588)) ([616deff](https://github.com/rsuite/rsuite/commit/616deff9e44125e89fec10fdecabe1c3cbc8837b))
+- **DateRangePicker:** add support for `showHeader` on DateRangePicker ([#3590](https://github.com/rsuite/rsuite/issues/3590)) ([1203c34](https://github.com/rsuite/rsuite/commit/1203c34e3420388cc534547c06433b8b58bc0405))
+- **storybook:** add storybook examples for all components ([#3585](https://github.com/rsuite/rsuite/issues/3585)) ([48df8a9](https://github.com/rsuite/rsuite/commit/48df8a9fa081cfa08c7b97d35dae4757796e5872))
+- **VisuallyHidden:** add support for VisuallyHidden ([#3571](https://github.com/rsuite/rsuite/issues/3571)) ([43544a0](https://github.com/rsuite/rsuite/commit/43544a075c79196159711405c1f696fb3a2a6625))
+
 # [5.51.0](https://github.com/rsuite/rsuite/compare/v5.50.0...v5.51.0) (2024-01-19)
 
 ### Bug Fixes
