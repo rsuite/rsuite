@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useCustom } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
-import CloseButton from '../CloseButton';
+import CloseButton from '../internals/CloseButton';
 
 export interface TagProps extends WithAsProps {
   /** Different sizes */

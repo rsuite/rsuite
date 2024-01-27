@@ -1,9 +1,11 @@
 @import '~react-code-view/styles/react-code-view.css';
 
 .rcv-highlight {
-  background-color: #f5f5f5;
+  position: relative;
+  background-color: @doc-highlight-bg;
   padding: 10px;
   margin: 1em 0;
+  border-radius: 6px;
   pre {
     margin: 0;
   }
@@ -11,33 +13,36 @@
   .hljs-title {
     padding: 0 !important;
     margin: 0 !important;
-    color: var(--rs-text-primary) !important;
   }
 
   .rs-theme-dark &,
   .rs-theme-high-contrast & {
-    background-color: #1e1e1e;
+    background-color: @doc-highlight-bg;
   }
 }
 
 code:not(.rcv-highlight) {
   border-radius: 2px;
-  color: #e96900;
   font-size: 0.8rem;
   margin: 0 2px;
   padding: 3px 5px;
   white-space: pre-wrap;
-  background-color: @doc-highlight-bg;
   font-family: Roboto Mono, Monaco, courier, monospace;
+
+  color: rgb(236, 80, 96);
 
   .rs-theme-dark &,
   .rs-theme-high-contrast & {
-    background-color: #1e1e1e;
+    background-color: @doc-highlight-bg;
   }
 }
 
+code.bash {
+  background-color: @doc-highlight-bg;
+  color: #eee;
+}
+
 a code {
-  color: var(--rs-primary-500) !important;
   background: none !important;
 }
 
@@ -67,14 +72,14 @@ a code {
   padding: 0;
   border-color: @code-view-wrapper-border-color;
   background-color: @code-view-wrapper-bg;
-  border-radius: 4px;
-
-  &:hover {
-    border: 1px dashed var(--rs-primary-500);
-  }
+  border-radius: 6px;
 
   .CodeMirror {
     margin: 0;
+    background-color: @doc-highlight-bg;
+  }
+  .CodeMirror-gutters {
+    background-color: @doc-highlight-bg;
   }
 
   hr {
@@ -121,4 +126,24 @@ a code {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+.rcv-editor {
+  border-radius: 0 0 6px 6px;
+}
+
+.copy-code-button {
+  position: absolute;
+  color: #858b94;
+}
+
+.rcv-editor .copy-code-button {
+  right: 8px;
+  top: 8px;
+  z-index: 1;
+}
+
+.rcv-highlight .copy-code-button {
+  right: 8px;
+  top: 8px;
 }

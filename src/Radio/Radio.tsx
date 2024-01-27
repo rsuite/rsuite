@@ -1,8 +1,9 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { RadioContext } from '../RadioGroup/RadioGroup';
-import { useClassNames, useControlled, partitionHTMLProps, TypeChecker } from '../utils';
+import { useClassNames, useControlled, partitionHTMLProps } from '../utils';
 import { WithAsProps } from '../@types/common';
+import { refType } from '../internals/propTypes';
 
 export type ValueType = string | number;
 export interface RadioProps<T = ValueType>
@@ -180,7 +181,7 @@ Radio.propTypes = {
   className: PropTypes.string,
   classPrefix: PropTypes.string,
   value: PropTypes.any,
-  inputRef: TypeChecker.refType,
+  inputRef: refType,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
   tabIndex: PropTypes.number

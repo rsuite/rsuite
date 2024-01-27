@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import on from 'dom-lib/on';
 import getAnimationEnd from 'dom-lib/getAnimationEnd';
-import BaseModal, { BaseModalProps, modalPropTypes } from '../Overlay/Modal';
+import BaseModal, { BaseModalProps, modalPropTypes } from '../internals/Overlay/Modal';
 import Bounce from '../Animation/Bounce';
 import { useClassNames, mergeRefs, useWillUnmount } from '../utils';
 import ModalDialog, { modalDialogPropTypes } from './ModalDialog';
@@ -15,7 +15,7 @@ import ModalFooter from './ModalFooter';
 import { useBodyStyles, ModalSize } from './utils';
 import { RsRefForwardingComponent } from '../@types/common';
 import useUniqueId from '../utils/useUniqueId';
-import deprecatePropType from '../utils/deprecatePropType';
+import { deprecatePropType, oneOf } from '../internals/propTypes';
 import DrawerContext from '../Drawer/DrawerContext';
 
 const modalSizes: readonly ModalSize[] = ['xs', 'sm', 'md', 'lg', 'full'];
@@ -257,12 +257,11 @@ Modal.propTypes = {
   animationTimeout: PropTypes.number,
   classPrefix: PropTypes.string,
   dialogClassName: PropTypes.string,
-  size: PropTypes.oneOfType([PropTypes.oneOf(modalSizes), PropTypes.number, PropTypes.string]),
+  size: PropTypes.oneOfType([oneOf(modalSizes), PropTypes.number, PropTypes.string]),
   dialogStyle: PropTypes.object,
   dialogAs: PropTypes.elementType,
   full: deprecatePropType(PropTypes.bool, 'Use size="full" instead.'),
-  overflow: PropTypes.bool,
-  drawer: PropTypes.bool
+  overflow: PropTypes.bool
 };
 
 export default Modal;

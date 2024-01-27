@@ -4,7 +4,7 @@ Paging navigation, used to assist long lists to load only part of the data, you 
 
 ## Import
 
-<!--{include:(components/pagination/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

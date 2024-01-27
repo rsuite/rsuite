@@ -1,12 +1,13 @@
 import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
-import Ripple from '../Ripple';
+import Ripple from '../internals/Ripple';
 import SafeAnchor from '../SafeAnchor';
 import { shallowEqual, useClassNames } from '../utils';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import NavContext from './NavContext';
+import classNames from 'classnames';
 
 export interface NavItemProps<T = string>
   extends WithAsProps,
@@ -124,7 +125,10 @@ const NavItem: RsRefForwardingComponent<'a', NavItemProps> = React.forwardRef(
         style={style}
         aria-selected={active || undefined}
       >
-        {icon && React.cloneElement(icon, { className: prefix('icon') })}
+        {icon &&
+          React.cloneElement(icon, {
+            className: classNames(prefix('icon'), icon.props.className)
+          })}
         {children}
         <Ripple />
       </Component>

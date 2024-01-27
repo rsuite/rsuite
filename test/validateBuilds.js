@@ -15,23 +15,12 @@ const unstyledComponents = [
   'DOMHelper',
   'Whisper',
   'SafeAnchor',
-  'Menu',
   'Affix',
-  'RangeSlider',
   'utils',
-  'Plaintext',
-  'Disclosure',
-  'Overlay',
+  'internals',
   'CustomProvider',
   'locales',
-  'CheckTree',
-  'Tree',
-  'Col',
-  'TagGroup',
-  'MaskedInput',
-  'DateInput',
-  'DateRangeInput',
-  'Windowing'
+  'MaskedInput'
 ];
 
 const styledComponents = components.filter(

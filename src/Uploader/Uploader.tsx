@@ -5,7 +5,8 @@ import FileItem from './UploadFileItem';
 import UploadTrigger, { UploadTriggerInstance, UploadTriggerProps } from './UploadTrigger';
 import { ajaxUpload, useClassNames, useCustom, guid, useWillUnmount } from '../utils';
 import { WithAsProps } from '../@types/common';
-import Plaintext from '../Plaintext';
+import Plaintext from '../internals/Plaintext';
+import { oneOf } from '../internals/propTypes';
 import { UploaderLocale } from '../locales';
 import type { ErrorStatus } from '../utils/ajaxUpload';
 
@@ -614,7 +615,7 @@ Uploader.propTypes = {
   withCredentials: PropTypes.bool,
   headers: PropTypes.object,
   locale: PropTypes.any,
-  listType: PropTypes.oneOf(['text', 'picture-text', 'picture']),
+  listType: oneOf(['text', 'picture-text', 'picture']),
   shouldQueueUpdate: PropTypes.func,
   shouldUpload: PropTypes.func,
   onChange: PropTypes.func,

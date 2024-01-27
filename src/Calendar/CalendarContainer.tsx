@@ -205,7 +205,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
     const showTime = calendarState === CalendarState.TIME || onlyShowTime;
     const showMonth = calendarState === CalendarState.MONTH || onlyShowMonth;
 
-    const inSameThisMonthDate = useEventCallback((date: Date) => isSameMonth(calendarDate, date));
+    const inSameThisMonthDate = (date: Date) => isSameMonth(calendarDate, date);
 
     const calendarClasses = merge(
       className,

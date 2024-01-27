@@ -1,8 +1,9 @@
 import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { partitionHTMLProps, useClassNames, useControlled, useCustom } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
-import Plaintext from '../Plaintext';
+import Plaintext from '../internals/Plaintext';
 import { ToggleLocale } from '../locales';
 import Loader from '../Loader';
 
@@ -135,7 +136,7 @@ Toggle.propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func,
   as: PropTypes.elementType,
-  size: PropTypes.oneOf(['sm', 'md', 'lg']),
+  size: oneOf(['sm', 'md', 'lg']),
   locale: PropTypes.shape({
     on: PropTypes.string,
     off: PropTypes.string

@@ -2,11 +2,9 @@
 
 The DateInput component lets users select a date with the keyboard.
 
-![Supported from version 5.48.0](https://img.shields.io/badge/version->=5.48.0-blue)
-
 ## Import
 
-<!--{include:(components/date-input/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

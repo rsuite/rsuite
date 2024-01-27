@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import TreePicker from '../TreePicker';
 import TreeContext from './TreeContext';
 import { StandardProps, ItemDataType, RsRefForwardingComponent } from '../@types/common';
-import { ListProps } from '../Windowing';
+import { ListProps } from '../internals/Windowing';
 
 /**
  * Tree Node Drag Type

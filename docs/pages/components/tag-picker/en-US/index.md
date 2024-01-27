@@ -4,7 +4,7 @@ Multi-select by tag and support new options
 
 ## Import
 
-<!--{include:(components/tag-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

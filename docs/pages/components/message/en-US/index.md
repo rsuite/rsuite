@@ -4,7 +4,7 @@ Used to show important tips on a page.
 
 ## Import
 
-<!--{include:(components/message/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

@@ -4,7 +4,7 @@ DatePicker is a highly customizable component that allows users to enter and pic
 
 ## Usage
 
-<!--{include:(components/date-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

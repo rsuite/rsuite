@@ -2,9 +2,10 @@ import React, { useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ButtonGroupContext } from '../ButtonGroup';
 import SafeAnchor from '../SafeAnchor';
-import Ripple from '../Ripple';
+import Ripple from '../internals/Ripple';
 import { isOneOf, useClassNames } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { oneOf } from '../internals/propTypes';
 
 export interface ButtonProps extends WithAsProps, React.HTMLAttributes<HTMLElement> {
   /** A button can have different appearances. */
@@ -136,16 +137,16 @@ Button.displayName = 'Button';
 Button.propTypes = {
   as: PropTypes.elementType,
   active: PropTypes.bool,
-  appearance: PropTypes.oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
+  appearance: oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
   block: PropTypes.bool,
   children: PropTypes.node,
-  color: PropTypes.oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']),
+  color: oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']),
   disabled: PropTypes.bool,
   href: PropTypes.string,
   loading: PropTypes.bool,
   ripple: PropTypes.bool,
-  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
-  type: PropTypes.oneOf(['button', 'reset', 'submit'])
+  size: oneOf(['lg', 'md', 'sm', 'xs']),
+  type: oneOf(['button', 'reset', 'submit'])
 };
 
 export default Button;

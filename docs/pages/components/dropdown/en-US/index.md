@@ -2,13 +2,14 @@
 
 A drop-down menu is a navigation that uses selectpicker if you want to select a value.
 
+## Import
+
+<!--{include:<import-guide>}-->
+
 - `<Dropdown>` Drop-down menu.
 - `<Dropdown.Item>` Drop-down menu options.
 - `<Dropdown.Menu>` A submenu is created in the Drop-down menu.
-
-## Import
-
-<!--{include:(components/dropdown/fragments/import.md)}-->
+- `<Dropdown.Separator>` A Separator in the Drop-down menu.
 
 ## Examples
 
@@ -52,9 +53,9 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 
 <!--{include:`icons.md`}-->
 
-### Divider and Panel
+### Separator and Panel
 
-- `divider` Sets the divider options.
+- `<Dropdown.Separator>` Set up a separator.
 - `panel` Set up a panel.
 
 <!--{include:`divider.md`}-->
@@ -135,6 +136,12 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 | -------- | -------------------------- | ----------------------------- |
 | icon     | Element&lt;typeof Icon&gt; | Set the icon                  |
 | title    | string                     | Define the title as a submenu |
+
+### `<Dropdown.Separator>`
+
+| Property | Type`(default)`      | Description                                          |
+| -------- | -------------------- | ---------------------------------------------------- |
+| as       | ElementType `('li')` | You can use a custom element type for this component |
 
 <!--{include:(_common/types/placement8.md)}-->
 <!--{include:(_common/types/trigger.md)}-->

@@ -5,9 +5,9 @@ import { TreeNodeType, TreeNodesType, getNodeCheckState } from '../CheckTreePick
 import { TREE_NODE_DROP_POSITION, shallowEqual } from '../utils';
 import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker';
 import { TreePickerProps } from '../TreePicker/TreePicker';
-import { shouldDisplay } from '../Picker';
+import { shouldDisplay } from '../internals/Picker';
 import reactToString from './reactToString';
-import { ListHandle } from '../Windowing';
+import { ListHandle } from '../internals/Windowing';
 import { TREE_NODE_PADDING, TREE_NODE_ROOT_PADDING } from './constants';
 import { attachParent } from './attachParent';
 

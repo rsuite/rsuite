@@ -4,7 +4,7 @@ A component that displays data by calendar
 
 ## Import
 
-<!--{include:(components/calendar/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

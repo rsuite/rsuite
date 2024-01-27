@@ -4,7 +4,7 @@ The `Whisper` component is used to display a floating element. It is usually use
 
 ## Import
 
-<!--{include:(components/whisper/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

@@ -4,7 +4,10 @@ Radio buttons allow the user to select one option from a set.
 
 ## Import
 
-<!--{include:(components/radio/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Radio>` Radio button.
+- `<RadioGroup>` Radio group.
 
 ## Examples
 

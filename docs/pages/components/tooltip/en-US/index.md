@@ -2,12 +2,12 @@
 
 A text tip for secondary, which replaces the default title property of an HTML element.
 
-- `<Tooltip>` Text tip.
-- `<Whisper>` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
-
 ## Import
 
-<!--{include:(components/tooltip/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Tooltip>` Text tip.
+- `<Whisper>` Monitor triggers, wrap the outside of the listener object, and notify the `Tooltip` when the event is triggered.
 
 ## Examples
 

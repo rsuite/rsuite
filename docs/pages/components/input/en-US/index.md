@@ -2,15 +2,15 @@
 
 Instead of HTML native controls, input, textarea.
 
+## Import
+
+<!--{include:<import-guide>}-->
+
 - `<Input>` The input box component.
 - `<InputGroup>` The input box combination component.
 - `<InputGroup.Button>` Combined with the button.
 - `<InputGroup.Addon>` Custom additional elements.
 - `<MaskedInput>` The input box component with mask.
-
-## Import
-
-<!--{include:(components/input/fragments/import.md)}-->
 
 ## Examples
 

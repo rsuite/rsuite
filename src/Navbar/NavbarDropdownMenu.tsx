@@ -8,9 +8,9 @@ import AngleLeft from '@rsuite/icons/legacy/AngleLeft';
 import AngleRight from '@rsuite/icons/legacy/AngleRight';
 import { mergeRefs, useClassNames, useCustom } from '../utils';
 import { NavbarContext } from '.';
-import Disclosure from '../Disclosure';
+import Disclosure from '../internals/Disclosure';
 import NavContext from '../Nav/NavContext';
-import deprecatePropType from '../utils/deprecatePropType';
+import { deprecatePropType, oneOf } from '../internals/propTypes';
 
 export interface NavbarDropdownMenuProps<T = any> extends StandardProps {
   /** Define the title as a submenu */
@@ -187,7 +187,7 @@ NavbarDropdownMenu.propTypes = {
   icon: PropTypes.any,
   classPrefix: PropTypes.string,
   pullLeft: deprecatePropType(PropTypes.bool, 'Use openDirection="start" instead.'),
-  openDirection: PropTypes.oneOf(['start', 'end']),
+  openDirection: oneOf(['start', 'end']),
   title: PropTypes.node,
   open: PropTypes.bool,
   eventKey: PropTypes.any,

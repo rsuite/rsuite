@@ -4,9 +4,9 @@ import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import deprecatePropType from '../utils/deprecatePropType';
+import { deprecatePropType, oneOf } from '../internals/propTypes';
 import { initialState, reducer } from '../Dropdown/DropdownState';
-import Menu, { MenuButtonTrigger } from '../Menu/Menu';
+import Menu, { MenuButtonTrigger } from '../internals/Menu/Menu';
 import kebabCase from 'lodash/kebabCase';
 import NavContext from './NavContext';
 import Button from '../Button';
@@ -233,11 +233,8 @@ NavDropdown.Menu = NavDropdownMenu;
 NavDropdown.displayName = 'Nav.Dropdown';
 NavDropdown.propTypes = {
   classPrefix: PropTypes.string,
-  trigger: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.oneOf(['click', 'hover', 'contextMenu'])
-  ]),
-  placement: PropTypes.oneOf(PLACEMENT_8),
+  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover', 'contextMenu'])]),
+  placement: oneOf(PLACEMENT_8),
   title: PropTypes.node,
   disabled: PropTypes.bool,
   icon: PropTypes.node,

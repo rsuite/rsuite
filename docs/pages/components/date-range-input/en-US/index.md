@@ -2,11 +2,9 @@
 
 The DateRangeInput components let the user select a date range with the keyboard.
 
-![Supported from version 5.49.0](https://img.shields.io/badge/version->=5.49.0-blue)
-
 ## Import
 
-<!--{include:(components/date-range-input/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

@@ -2,13 +2,13 @@
 
 An encapsulation of the Nav for the sidebar of the page.
 
+## Import
+
+<!--{include:<import-guide>}-->
+
 - `<Sidenav>` Side navigation component.
 - `<Sidenav.Header>` Navigates the header content.
 - `<Sidenav.Body>` Navigation body content.
-
-## Import
-
-<!--{include:(components/sidenav/fragments/import.md)}-->
 
 ## Examples
 

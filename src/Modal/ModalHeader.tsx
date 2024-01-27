@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { createChainedFunction, useClassNames } from '../utils';
 import { ModalContext } from './ModalContext';
-import CloseButton from '../CloseButton';
+import CloseButton from '../internals/CloseButton';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import Close from '@rsuite/icons/Close';
 import IconButton from '../IconButton';

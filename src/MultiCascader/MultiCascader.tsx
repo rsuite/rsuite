@@ -24,7 +24,6 @@ import {
 import {
   PickerToggle,
   PickerPopup,
-  SearchBar,
   SelectedElement,
   PickerToggleTrigger,
   usePickerClassName,
@@ -37,8 +36,9 @@ import {
   listPickerPropTypes,
   PickerComponent,
   PickerToggleProps
-} from '../Picker';
-
+} from '../internals/Picker';
+import SearchBox from '../internals/SearchBox';
+import { oneOf } from '../internals/propTypes';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
 export type ValueType = (number | string)[];
@@ -475,7 +475,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
           onKeyDown={onPickerKeyDown}
         >
           {searchable && (
-            <SearchBar
+            <SearchBox
               placeholder={locale?.searchPlaceholder}
               onChange={handleSearch}
               value={searchKeyword}
@@ -596,7 +596,7 @@ MultiCascader.propTypes = {
   value: PropTypes.array,
   disabledItemValues: PropTypes.array,
   locale: PropTypes.any,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   cascade: PropTypes.bool,
   inline: PropTypes.bool,
   countable: PropTypes.bool,

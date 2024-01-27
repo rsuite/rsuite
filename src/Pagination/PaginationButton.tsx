@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import Ripple from '../Ripple';
+import Ripple from '../internals/Ripple';
 import { useClassNames, createChainedFunction } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 

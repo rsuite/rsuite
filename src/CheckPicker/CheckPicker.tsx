@@ -25,7 +25,6 @@ import {
   ListCheckItem,
   PickerToggle,
   PickerPopup,
-  SearchBar,
   SelectedElement,
   PickerToggleTrigger,
   useFocusItemValue,
@@ -39,11 +38,12 @@ import {
   listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
-} from '../Picker';
-
+} from '../internals/Picker';
+import SearchBox from '../internals/SearchBox';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import type { MultipleSelectProps } from '../SelectPicker';
 import { TreeNodeType } from '../CheckTreePicker/utils';
+import { oneOf } from '../internals/propTypes';
 
 export type ValueType = (number | string)[];
 export interface CheckPickerProps<T>
@@ -355,7 +355,7 @@ const CheckPicker = React.forwardRef(
           target={trigger}
         >
           {searchable && (
-            <SearchBar
+            <SearchBox
               placeholder={locale?.searchPlaceholder}
               onChange={handleSearch}
               value={searchKeyword}
@@ -418,7 +418,7 @@ CheckPicker.displayName = 'CheckPicker';
 CheckPicker.propTypes = {
   ...listPickerPropTypes,
   locale: PropTypes.any,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   menuAutoWidth: PropTypes.bool,
   menuMaxHeight: PropTypes.number,
   renderMenu: PropTypes.func,

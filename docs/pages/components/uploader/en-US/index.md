@@ -4,7 +4,7 @@ Upload files by clicking or drag-and-drop, it supports previewing the uploaded i
 
 ## Import
 
-<!--{include:(components/uploader/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

@@ -4,7 +4,7 @@ Vertical display timeline.
 
 ## Import
 
-<!--{include:(components/timeline/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

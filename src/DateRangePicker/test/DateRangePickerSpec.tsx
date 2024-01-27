@@ -1025,4 +1025,10 @@ describe('DateRangePicker', () => {
 
     expect(btnOk).to.have.property('disabled', false);
   });
+
+  it('Should hide the calendar header', () => {
+    render(<DateRangePicker open showHeader={false} />);
+
+    expect(screen.queryByTestId('daterange-header')).to.not.exist;
+  });
 });

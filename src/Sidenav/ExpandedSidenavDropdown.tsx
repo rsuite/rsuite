@@ -6,9 +6,9 @@ import { useClassNames, placementPolyfill, PLACEMENT_8, mergeRefs } from '../uti
 import { SidenavContext } from './Sidenav';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import deprecatePropType from '../utils/deprecatePropType';
+import { deprecatePropType, oneOf } from '../internals/propTypes';
 import SidenavDropdownCollapse from './SidenavDropdownCollapse';
-import Disclosure from '../Disclosure/Disclosure';
+import Disclosure from '../internals/Disclosure/Disclosure';
 import useInternalId from '../utils/useInternalId';
 import SidenavDropdownToggle from './SidenavDropdownToggle';
 import { NavMenuContext } from '../Nav/NavMenu';
@@ -194,7 +194,7 @@ ExpandedSidenavDropdown.displayName = 'Sidenav.Dropdown';
 ExpandedSidenavDropdown.propTypes = {
   activeKey: PropTypes.any,
   classPrefix: PropTypes.string,
-  placement: PropTypes.oneOf(PLACEMENT_8),
+  placement: oneOf(PLACEMENT_8),
   title: PropTypes.node,
   disabled: PropTypes.bool,
   icon: PropTypes.node,

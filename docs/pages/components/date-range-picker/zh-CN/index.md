@@ -4,7 +4,7 @@ DateRangePicker 用于快速输入或选择一个日期和时间范围。
 
 ## 获取组件
 
-<!--{include:(components/date-range-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 
@@ -165,6 +165,10 @@ combine(...) => boolean
 
 <!--{include:`caret.md`}-->
 
+### 不显示头部
+
+<!--{include:`hide-header.md`}-->
+
 ## 可访问性
 
 ### ARIA 属性
@@ -228,6 +232,7 @@ combine(...) => boolean
 | ranges               | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code))                  | 快捷项配置，默认 `今天`,`昨天`，`最近 7 天`                                                              |
 | renderTitle          | (date: Date) => ReactNode                                                        | 自定义渲染日历面板上的月份标题                                                                           |
 | shouldDisableDate    | [DisabledDateFunction](#code-ts-disabled-date-function-code)                     | 禁用日期                                                                                                 |
+| showHeader           | boolean `(true)`                                                                 | 是否在日历面板的头部显示格式化的日期范围。<br/>![](https://img.shields.io/badge/min-v5.52.0-blue)        |
 | showMeridian         | boolean                                                                          | 显示 12 小时制的时间格式                                                                                 |
 | showOneCalendar      | boolen                                                                           | 显示一个日历                                                                                             |
 | showWeekNumbers      | boolean                                                                          | 显示周数量                                                                                               |

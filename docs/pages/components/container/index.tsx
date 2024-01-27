@@ -19,6 +19,7 @@ import {
 } from 'rsuite';
 
 import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
 
 import MagicIcon from '@rsuite/icons/legacy/Magic';
 import GearCircleIcon from '@rsuite/icons/legacy/GearCircle';
@@ -32,9 +33,16 @@ import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 
 import files from './files';
 
+const inDocsComponents = {
+  'import-guide': () => (
+    <ImportGuide components={['Container', 'Header', 'Content', 'Footer', 'Sidebar']} />
+  )
+};
+
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       sandboxFiles={files}
       dependencies={{
         Divider,

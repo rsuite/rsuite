@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import SelectPicker from '../index';
 import { getStyle, toRGB, inChrome, itChrome } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
-import { PickerHandle } from '../../Picker';
+import { PickerHandle } from '../../internals/Picker';
 
 import '../styles/index.less';
 

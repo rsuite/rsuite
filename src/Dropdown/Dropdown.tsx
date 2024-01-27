@@ -6,10 +6,10 @@ import DropdownMenu from './DropdownMenu';
 import { mergeRefs, PLACEMENT_8, placementPolyfill, useClassNames } from '../utils';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import deprecatePropType from '../utils/deprecatePropType';
+import { deprecatePropType, oneOf } from '../internals/propTypes';
 import DropdownItem from './DropdownItem';
 import DropdownContext, { DropdownContextProps } from './DropdownContext';
-import Menu, { MenuButtonTrigger } from '../Menu/Menu';
+import Menu, { MenuButtonTrigger } from '../internals/Menu/Menu';
 import DropdownToggle from './DropdownToggle';
 import kebabCase from 'lodash/kebabCase';
 import NavContext from '../Nav/NavContext';
@@ -256,11 +256,8 @@ Dropdown.displayName = 'Dropdown';
 Dropdown.propTypes = {
   activeKey: PropTypes.any,
   classPrefix: PropTypes.string,
-  trigger: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.oneOf(['click', 'hover', 'contextMenu'])
-  ]),
-  placement: PropTypes.oneOf(PLACEMENT_8),
+  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover', 'contextMenu'])]),
+  placement: oneOf(PLACEMENT_8),
   title: PropTypes.node,
   disabled: PropTypes.bool,
   icon: PropTypes.node,

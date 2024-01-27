@@ -43,6 +43,12 @@ describe('Panel', () => {
     expect(screen.getByTestId('panel')).to.have.class('rs-panel-shaded');
   });
 
+  it('Should body fill', () => {
+    render(<Panel data-testid="panel" bodyFill />);
+
+    expect(screen.getByTestId('panel')).to.have.contain('.rs-panel-body-fill');
+  });
+
   it('Should be expanded', () => {
     const text = 'Text';
     render(
@@ -55,53 +61,27 @@ describe('Panel', () => {
     expect(screen.getByText(text).parentNode).to.have.class('rs-anim-in');
   });
 
+  it('Should be disabled', () => {
+    render(
+      <Panel disabled collapsible header="title">
+        Text
+      </Panel>
+    );
+
+    expect(screen.getByRole('button')).to.have.attribute('disabled');
+    expect(screen.getByRole('button')).to.have.attribute('aria-disabled', 'true');
+  });
+
   it('Should render the custom header', () => {
     render(<Panel header={<a data-testid="custom-header">abc</a>} />);
 
     expect(screen.getByTestId('custom-header')).to.exist;
   });
 
-  it('Should have a role in header', () => {
-    const headerText = 'abc';
-    const headerRole = 'button';
-    render(<Panel headerRole={headerRole} collapsible header={headerText} />);
+  it('Should custom a indicator', () => {
+    render(<Panel collapsible header="title" caretAs="span" />);
 
-    expect(screen.getByRole(headerRole)).to.have.text(headerText);
-    expect(screen.getByRole(headerRole)).to.have.class('rs-panel-header');
-  });
-
-  it('Should have a role in body', () => {
-    render(<Panel panelRole="button" collapsible />);
-
-    expect(screen.getByRole('button')).to.have.class('rs-panel-body');
-  });
-
-  describe('Collapsible - `collapsible=true`', () => {
-    it('Should call onSelect callback with correct `eventKey`', () => {
-      const onSelectSpy = sinon.spy();
-      render(<Panel collapsible onSelect={onSelectSpy} eventKey={12} header={'abc'} />);
-
-      fireEvent.click(screen.getByText('abc'));
-      expect(onSelectSpy).to.have.been.calledWith(12);
-    });
-
-    it('Should call onSelect callback with undefined if `eventKey` is not specified', () => {
-      const onSelectSpy = sinon.spy();
-      render(<Panel collapsible onSelect={onSelectSpy} header={'abc'} />);
-
-      fireEvent.click(screen.getByText('abc'));
-      expect(onSelectSpy).to.have.been.calledWith(undefined);
-    });
-
-    it('Should not hide caret icon when header prop is passed an element', () => {
-      render(
-        <Panel header={<span>Panel title</span>} bordered collapsible>
-          Panel content
-        </Panel>
-      );
-
-      expect(screen.getByTestId('caret icon')).to.exist;
-    });
+    expect(screen.getByTestId('caret icon')).to.have.tagName('span');
   });
 
   it('Should pass transition callbacks to Collapse', async () => {
@@ -137,5 +117,107 @@ describe('Panel', () => {
     await waitFor(() => expect(onExit).to.have.been.called);
     await waitFor(() => expect(onExiting).to.have.been.called);
     await waitFor(() => expect(onExited).to.have.been.called);
+  });
+
+  describe('Collapsible - `collapsible=true`', () => {
+    it('Should call onSelect callback with correct `eventKey`', () => {
+      const onSelectSpy = sinon.spy();
+      render(<Panel collapsible onSelect={onSelectSpy} eventKey={12} header={'abc'} />);
+
+      fireEvent.click(screen.getByText('abc'));
+      expect(onSelectSpy).to.have.been.calledWith(12);
+    });
+
+    it('Should call onSelect callback with undefined if `eventKey` is not specified', () => {
+      const onSelectSpy = sinon.spy();
+      render(<Panel collapsible onSelect={onSelectSpy} header={'abc'} />);
+
+      fireEvent.click(screen.getByText('abc'));
+      expect(onSelectSpy).to.have.been.calledWith(undefined);
+    });
+
+    it('Should not hide caret icon when header prop is passed an element', () => {
+      render(
+        <Panel header={<span>Panel title</span>} bordered collapsible>
+          Panel content
+        </Panel>
+      );
+
+      expect(screen.getByTestId('caret icon')).to.exist;
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('Should have a button role in header', () => {
+      render(<Panel collapsible header="title" />);
+
+      expect(screen.getByRole('button')).to.have.class('rs-panel-btn');
+      expect(screen.getByRole('button')).to.have.text('title');
+    });
+
+    it('Should have a region role in body', () => {
+      render(
+        <Panel collapsible header="title" expanded>
+          body content
+        </Panel>
+      );
+
+      expect(screen.getByRole('region')).to.have.class('rs-panel-body');
+      expect(screen.getByRole('region')).to.have.text('body content');
+    });
+
+    it('Should customize role in header', () => {
+      render(<Panel collapsible header="title" headerRole="tab" />);
+
+      expect(screen.getByRole('tab')).to.have.class('rs-panel-btn');
+    });
+
+    it('Should customize role in body', () => {
+      render(<Panel panelRole="tabpanel" collapsible expanded />);
+
+      expect(screen.getByRole('tabpanel')).to.have.class('rs-panel-body');
+    });
+
+    it('Should have aria-expanded in header', () => {
+      render(<Panel collapsible header="title" />);
+
+      expect(screen.getByRole('button')).to.have.attribute('aria-expanded', 'false');
+    });
+
+    it('Should have aria-controls in header', () => {
+      render(<Panel collapsible header="title" />);
+
+      expect(screen.getByRole('button')).to.have.attribute('aria-controls');
+    });
+
+    it('Should have aria-disabled in header', () => {
+      render(<Panel collapsible header="title" disabled />);
+
+      expect(screen.getByRole('button')).to.have.attribute('aria-disabled', 'true');
+    });
+
+    it('Should have aria-labelledby in body', () => {
+      render(<Panel collapsible header="title" expanded />);
+
+      expect(screen.getByRole('region')).to.have.attribute('aria-labelledby');
+    });
+
+    it('Should expand panel when click on header', () => {
+      render(<Panel collapsible header="title" />);
+
+      expect(screen.getByRole('button')).to.have.attribute('aria-expanded', 'false');
+
+      fireEvent.click(screen.getByRole('button'));
+      expect(screen.getByRole('button')).to.have.attribute('aria-expanded', 'true');
+    });
+
+    it('Should collapse panel when click on header', () => {
+      render(<Panel collapsible header="title" defaultExpanded />);
+
+      expect(screen.getByRole('button')).to.have.attribute('aria-expanded', 'true');
+
+      fireEvent.click(screen.getByRole('button'));
+      expect(screen.getByRole('button')).to.have.attribute('aria-expanded', 'false');
+    });
   });
 });

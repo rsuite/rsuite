@@ -8,7 +8,7 @@ import SidenavHeader from './SidenavHeader';
 import SidenavToggle from './SidenavToggle';
 import { useClassNames, useControlled, mergeRefs } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import deprecatePropType from '../utils/deprecatePropType';
+import { deprecatePropType, oneOf } from '../internals/propTypes';
 
 export interface SidenavProps<T = string> extends WithAsProps {
   /** Whether to expand the Sidenav */
@@ -152,7 +152,7 @@ Sidenav.propTypes = {
   classPrefix: PropTypes.string,
   className: PropTypes.string,
   expanded: PropTypes.bool,
-  appearance: PropTypes.oneOf(['default', 'inverse', 'subtle']),
+  appearance: oneOf(['default', 'inverse', 'subtle']),
   defaultOpenKeys: PropTypes.array,
   openKeys: PropTypes.array,
   onOpenChange: PropTypes.func,

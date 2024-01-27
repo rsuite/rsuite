@@ -9,7 +9,7 @@ import shallowEqual from '../utils/shallowEqual';
 import TreeView from '../CascadeTree/TreeView';
 import { usePaths } from '../CascadeTree/utils';
 import { getParentMap, getPathTowardsItem, findNodeOfTree, flattenTree } from '../utils/treeUtils';
-import { deprecatePropTypeNew } from '../utils/deprecatePropType';
+import { deprecatePropTypeNew } from '../internals/propTypes';
 import { PickerLocale } from '../locales';
 import {
   getSafeRegExpString,
@@ -25,7 +25,6 @@ import {
 import {
   PickerToggle,
   PickerPopup,
-  SearchBar,
   PickerToggleTrigger,
   usePickerClassName,
   usePickerRef,
@@ -37,15 +36,16 @@ import {
   listPickerPropTypes,
   PickerHandle,
   PickerToggleProps
-} from '../Picker';
-
+} from '../internals/Picker';
+import SearchBox from '../internals/SearchBox';
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import { useMap } from '../utils/useMap';
+import { oneOf } from '../internals/propTypes';
 
 export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>
   extends FormControlPickerProps<T | null, PickerLocale, ItemDataType<T>>,
-    Pick<PickerToggleProps, 'loading'> {
+    Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
   /** Whether dispaly search input box */
   searchable?: boolean;
 
@@ -609,7 +609,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         onKeyDown={onPickerKeyDown}
       >
         {searchable && (
-          <SearchBar
+          <SearchBox
             placeholder={locale?.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeyword}
@@ -721,7 +721,7 @@ Cascader.propTypes = {
   ...listPickerPropTypes,
   disabledItemValues: PropTypes.array,
   locale: PropTypes.any,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   onSelect: PropTypes.func,
   onSearch: PropTypes.func,
   cleanable: PropTypes.bool,

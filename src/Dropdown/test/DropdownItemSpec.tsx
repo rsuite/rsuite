@@ -82,12 +82,20 @@ describe('<Dropdown.Item>', () => {
 
   it('Should render a icon', () => {
     render(
-      <Dropdown>
-        <DropdownItem icon={<User data-testid="icon" />} data-testid="item" />
+      <Dropdown open>
+        <DropdownItem icon={<User data-testid="icon" />} />
       </Dropdown>
     );
 
-    expect(screen.getByTestId('item')).to.contain(screen.getByTestId('icon'));
+    expect(screen.getByRole('menuitem')).to.contain(screen.getByTestId('icon'));
+  });
+  it('Should render a icon without overriding className', () => {
+    render(
+      <Dropdown open>
+        <DropdownItem icon={<div className="custom-class" />} data-testid="item" />
+      </Dropdown>
+    );
+    expect(screen.getByRole('menuitem')).to.contain('.custom-class');
   });
 
   it('Should call onSelect callback with correct `eventKey`', () => {

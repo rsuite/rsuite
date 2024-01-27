@@ -157,4 +157,60 @@ describe('<Nav.Item>', () => {
       expect(screen.getByRole('tooltip'), 'Tooltip').not.to.be.null;
     });
   });
+
+  context('rendering icon', () => {
+    it('Should render an icon', () => {
+      render(
+        <Nav>
+          <Nav.Item icon={<div data-testid="icon" />} />
+        </Nav>
+      );
+
+      expect(screen.getByTestId('icon')).to.exist;
+    });
+
+    it('Should render an icon without overriding className', () => {
+      render(
+        <Nav>
+          <Nav.Item icon={<div data-testid="icon" className="custom-icon" />} />
+        </Nav>
+      );
+      expect(screen.getByTestId('icon')).to.have.class('custom-icon');
+    });
+
+    context('Within <Navbar>', () => {
+      it('Should render an icon without overriding className', () => {
+        render(
+          <Navbar>
+            <Nav>
+              <Nav.Item icon={<div data-testid="icon" className="custom-icon" />} />
+            </Nav>
+          </Navbar>
+        );
+        expect(screen.getByTestId('icon')).to.have.class('custom-icon');
+      });
+    });
+    context('Within <Sidenav>', () => {
+      it('When expanded is true Should render an icon without overriding className', () => {
+        render(
+          <Sidenav>
+            <Nav>
+              <Nav.Item icon={<div data-testid="icon" className="custom-icon" />} />
+            </Nav>
+          </Sidenav>
+        );
+        expect(screen.getByTestId('icon')).to.have.class('custom-icon');
+      });
+      it('When expanded is false Should render an icon without overriding className', () => {
+        render(
+          <Sidenav expanded={false}>
+            <Nav>
+              <Nav.Item icon={<div data-testid="icon" className="custom-icon" />} />
+            </Nav>
+          </Sidenav>
+        );
+        expect(screen.getByTestId('icon')).to.have.class('custom-icon');
+      });
+    });
+  });
 });

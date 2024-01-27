@@ -38,20 +38,42 @@ describe('Form', () => {
   testStandardProps(<Form />);
 
   it('Should render a Form', () => {
-    const title = 'Test';
-    const { container } = render(<Form>{title}</Form>);
-    expect(container.firstChild).to.have.tagName('FORM');
-    expect(container.firstChild).to.have.text(title);
+    render(<Form aria-label="form">My Form</Form>);
+
+    expect(screen.getByRole('form')).to.have.tagName('FORM');
+    expect(screen.getByRole('form')).to.have.text('My Form');
   });
 
   it('Should be horizontal', () => {
-    const { container } = render(<Form layout="horizontal" />);
-    expect(container.firstChild).to.have.class('rs-form-horizontal');
+    render(<Form aria-label="form" layout="horizontal" />);
+    expect(screen.getByRole('form')).to.have.class('rs-form-horizontal');
   });
 
   it('Should be inline', () => {
-    const { container } = render(<Form layout="inline" />);
-    expect(container.firstChild).to.have.class('rs-form-inline');
+    render(<Form aria-label="form" layout="inline" />);
+    expect(screen.getByRole('form')).to.have.class('rs-form-inline');
+  });
+
+  it('Should be disabled', () => {
+    render(
+      <Form aria-label="form" disabled>
+        <button type="submit">submit</button>
+      </Form>
+    );
+
+    expect(screen.getByRole('form')).to.have.class('rs-form-disabled');
+  });
+
+  it('Should be readOnly', () => {
+    render(<Form aria-label="form" readOnly />);
+
+    expect(screen.getByRole('form')).to.have.class('rs-form-readonly');
+  });
+
+  it('Should be plaintext', () => {
+    render(<Form aria-label="form" plaintext />);
+
+    expect(screen.getByRole('form')).to.have.class('rs-form-plaintext');
   });
 
   it('Should have a value', () => {
@@ -108,7 +130,7 @@ describe('Form', () => {
         model={model}
         formDefaultValue={values}
         onError={formError => {
-          assert.equal(formError.name, checkEmail);
+          expect(formError.name).to.equal(checkEmail);
         }}
       >
         <FormControl name="name" />
@@ -211,18 +233,18 @@ describe('Form', () => {
       name: 'abc'
     };
 
-    const onChangeSpy = sinon.spy();
+    const onChange = sinon.spy();
 
     render(
-      <Form formDefaultValue={values} onChange={onChangeSpy}>
+      <Form formDefaultValue={values} onChange={onChange}>
         <FormControl name="name" />
       </Form>
     );
 
     userEvent.type(screen.getByRole('textbox'), 'd');
 
-    expect(onChangeSpy).to.be.called;
-    expect(onChangeSpy).to.be.calledWith({ name: 'abcd' });
+    expect(onChange).to.be.called;
+    expect(onChange).to.be.calledWith({ name: 'abcd' });
   });
 
   it('Should call onError callback', () => {

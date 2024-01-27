@@ -2,12 +2,12 @@
 
 For navigation at the top of the page.
 
-- `<Navbar>` The navigation bar component.
-- `<Navbar.Brand>` Set a brand, which can be your company, product or project name.
-
 ## Usage
 
-<!--{include:(components/navbar/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Navbar>` The navigation bar component.
+- `<Navbar.Brand>` Set a brand, which can be your company, product or project name.
 
 ## Examples
 

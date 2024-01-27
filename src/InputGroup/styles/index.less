@@ -102,11 +102,6 @@
     // Ensure that the input is always above the *appended* addon button for
     // proper border colors.
     position: relative;
-    z-index: @zindex-input;
-
-    &:focus {
-      z-index: (@zindex-input+1);
-    }
   }
 
   input.rs-input ~ .rs-input-group-addon,
@@ -136,7 +131,6 @@
 
     .rs-input-group-btn,
     .rs-input-group-addon {
-      z-index: @zindex-input-group-icon;
       flex: 0 0 auto;
       width: auto;
     }
@@ -380,13 +374,6 @@
     + .rs-btn {
       margin-left: -1px;
     }
-
-    // Bring the "active" button to the front
-    &:hover,
-    &:focus,
-    &:active {
-      z-index: 2;
-    }
   }
 
   // Negative margin to only have a 1px border between the two
@@ -401,7 +388,6 @@
   &:last-child {
     > .rs-btn,
     > .rs-btn-group {
-      z-index: 2;
       margin-left: -1px;
     }
   }

@@ -33,6 +33,7 @@
   {
     "id": "icon",
     "name": "Icons",
+    "components": ["Icon"],
     "title": "图标"
   },
   {
@@ -496,6 +497,15 @@
     }
   },
   {
+    "id": "accordion",
+    "name": "Accordion",
+    "title": "手风琴",
+    "components": ["Accordion", "Accordion.Item"],
+    "tag": "New",
+    "minVersion": "5.52.0"
+  },
+
+  {
     "id": "badge",
     "name": "Badge",
     "title": "徽标",
@@ -626,6 +636,14 @@
     "apis": ["DOMHelper"]
   },
 
+  {
+    "id": "visually-hidden",
+    "name": "VisuallyHidden",
+    "title": "视觉隐藏",
+    "components": ["VisuallyHidden"],
+    "minVersion": "5.52.0",
+    "tag": "New"
+  },
   {
     "id": "whisper",
     "name": "Whisper",

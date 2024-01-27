@@ -2,12 +2,12 @@
 
 用于展示当前值和可选范围的滑动输入控件。
 
-- `<Slider>` 滑动输入控件。
-- `<RangeSlider>` 滑动范围输入控件。
-
 ## 获取组件
 
-<!--{include:(components/slider/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Slider>` 滑动输入控件。
+- `<RangeSlider>` 滑动范围输入控件。
 
 ## 演示
 

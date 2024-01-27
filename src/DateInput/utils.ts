@@ -300,7 +300,7 @@ export function isFieldFullValue(formatStr: string, value: number, pattern: stri
   }
 }
 
-const isTestEnvironment = process.env.RUN_ENV === 'test';
+const isTestEnvironment = typeof process !== 'undefined' && process.env.RUN_ENV === 'test';
 
 export function useInputSelection(input: React.RefObject<any>) {
   return function setSelectionRange(selectionStart: number, selectionEnd: number) {

@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { AutoSizer, FixedSizeList, ListChildComponentProps } from '../Windowing';
+import { AutoSizer, FixedSizeList, ListChildComponentProps } from '../internals/Windowing';
 import { DateUtils, useClassNames } from '../utils';
 import MonthDropdownItem from './MonthDropdownItem';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';

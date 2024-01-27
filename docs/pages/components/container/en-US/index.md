@@ -2,15 +2,15 @@
 
 The container layout can define the main frame of the page.
 
-- `<Container>` Container, used for layout.
+## Import
+
+<!--{include:<import-guide>}-->
+
+- `<Container>` Container, used to organize the layout structure.
 - `<Header>` Container header.
 - `<Content>` Container content.
 - `<Footer>` Container footer.
 - `<Sidebar>` Container sidebar.
-
-## Import
-
-<!--{include:(components/container/fragments/import.md)}-->
 
 ## Examples
 

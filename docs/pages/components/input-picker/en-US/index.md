@@ -4,7 +4,7 @@ Single item selector with text box input.
 
 ## Import
 
-<!--{include:(components/input-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

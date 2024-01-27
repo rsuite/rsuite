@@ -1,9 +1,10 @@
 import React from 'react';
-import { CheckTreePicker, Button, Toggle, Checkbox } from 'rsuite';
+import { CheckTreePicker, Button, Toggle, Checkbox, Stack } from 'rsuite';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
 import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
 import {
   importFakerString,
   mockAsyncData,
@@ -22,9 +23,14 @@ const sandboxDependencies = {
   ...sandboxFakerVersion
 };
 
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['CheckTreePicker']} />
+};
+
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Checkbox,
         CheckTreePicker,
@@ -33,6 +39,7 @@ export default function Page() {
         SpinnerIcon,
         PeoplesIcon,
         AdminIcon,
+        Stack,
         mockTreeData,
         mockAsyncData
       }}

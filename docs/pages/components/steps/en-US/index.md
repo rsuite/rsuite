@@ -4,7 +4,7 @@ Steps is a navigation bar that guides users through the steps of a task.
 
 ## Import
 
-<!--{include:(components/steps/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

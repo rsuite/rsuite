@@ -25,7 +25,7 @@ import {
   usePickerClassName,
   usePickerRef,
   onMenuKeyDown
-} from '../Picker';
+} from '../internals/Picker';
 import {
   createChainedFunction,
   DATERANGE_DISABLED_TARGET,
@@ -62,7 +62,7 @@ import Calendar from './Calendar';
 import * as disabledDateUtils from './disabledDateUtils';
 import { DisabledDateFunction, RangeType, DateRange } from './types';
 import { getSafeCalendarDate, getMonthHoverRange, getWeekHoverRange, isSameRange } from './utils';
-import { deprecatePropTypeNew } from '../utils/deprecatePropType';
+import { deprecatePropTypeNew, oneOf } from '../internals/propTypes';
 import DateRangePickerContext from './DateRangePickerContext';
 import DateRangeInput from '../DateRangeInput';
 import InputGroup from '../InputGroup';
@@ -116,6 +116,13 @@ export interface DateRangePickerProps
 
   /** Meridian format */
   showMeridian?: boolean;
+
+  /**
+   * Whether to display the formatted date range at the header of the calendar
+   * @default true
+   * @version 5.52.0
+   */
+  showHeader?: boolean;
 
   /** Set default date for calendar */
   defaultCalendarValue?: DateRange;
@@ -222,6 +229,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
     showOneCalendar = false,
     showWeekNumbers,
     showMeridian,
+    showHeader = true,
     style,
     size,
     caretAs: caretAsProp,
@@ -347,8 +355,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
   }, [valueProp]);
 
   const getDateRangeString = (nextValue: Date[] | null) => {
-    const startDate: Date | null = nextValue?.[0] ?? null;
-    const endDate: Date | null = nextValue?.[1] ?? null;
+    const [startDate, endDate] = nextValue ?? [null, null];
 
     if (startDate && endDate) {
       const displayValue: any = [startDate, endDate].sort(compareAsc);
@@ -796,9 +803,11 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
 
             <>
               <div className={prefix('daterange-content')}>
-                <div className={prefix('daterange-header')} data-testid="daterange-header">
-                  {getDateRangeString(selectedDates)}
-                </div>
+                {showHeader && (
+                  <div className={prefix('daterange-header')} data-testid="daterange-header">
+                    {getDateRangeString(isSelectedIdle ? selectedDates : hoverDateRange)}
+                  </div>
+                )}
                 <div
                   className={prefix(`daterange-calendar-${showOneCalendar ? 'single' : 'group'}`)}
                 >
@@ -952,7 +961,7 @@ DateRangePicker.propTypes = {
   value: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   defaultValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
   defaultCalendarValue: PropTypes.arrayOf(PropTypes.instanceOf(Date)),
-  hoverRange: PropTypes.oneOfType([PropTypes.oneOf(['week', 'month']), PropTypes.func]),
+  hoverRange: PropTypes.oneOfType([oneOf(['week', 'month']), PropTypes.func]),
   format: PropTypes.string,
   isoWeek: PropTypes.bool,
   oneTap: PropTypes.bool,

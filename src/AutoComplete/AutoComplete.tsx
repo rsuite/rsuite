@@ -23,17 +23,17 @@ import {
   pickTriggerPropKeys,
   PositionChildProps,
   PickerComponent
-} from '../Picker';
-
+} from '../internals/Picker';
+import Plaintext from '../internals/Plaintext';
 import {
   WithAsProps,
   FormControlPickerProps,
   TypeAttributes,
   ItemDataType
 } from '../@types/common';
-
+import { oneOf } from '../internals/propTypes';
 import { transformData, shouldDisplay } from './utils';
-import Plaintext from '../Plaintext';
+
 import Combobox from './Combobox';
 
 export type ValueType = string;
@@ -324,7 +324,7 @@ AutoComplete.propTypes = {
   className: PropTypes.string,
   menuClassName: PropTypes.string,
   menuAutoWidth: PropTypes.bool,
-  placement: PropTypes.oneOf(PLACEMENT),
+  placement: oneOf(PLACEMENT),
   onFocus: PropTypes.func,
   onMenuFocus: PropTypes.func,
   onBlur: PropTypes.func,
@@ -335,7 +335,7 @@ AutoComplete.propTypes = {
   renderMenu: PropTypes.func,
   renderMenuItem: PropTypes.func,
   style: PropTypes.object,
-  size: PropTypes.oneOf(['lg', 'md', 'sm', 'xs']),
+  size: oneOf(['lg', 'md', 'sm', 'xs']),
   open: PropTypes.bool,
   selectOnEnter: PropTypes.bool,
   filterBy: PropTypes.func

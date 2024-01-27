@@ -12,8 +12,8 @@ import {
 import { mockTreeData } from '@test/mocks/data-mock';
 import TreePicker, { TreePickerProps } from '../TreePicker';
 import { KEY_VALUES } from '../../utils';
-import { PickerHandle } from '../../Picker';
-import { ListHandle } from '../../Windowing';
+import { PickerHandle } from '../../internals/Picker';
+import { ListHandle } from '../../internals/Windowing';
 
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
 

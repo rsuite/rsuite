@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { MultiCascader } from 'rsuite';
+import { MultiCascader, Stack } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -13,9 +13,15 @@ const data = mockTreeData({
 });
 
 const App = () => (
-  <>
+  <Stack spacing={10} direction="column" alignItems="flex-start">
     <MultiCascader data={data} style={{ width: 224 }} />
-  </>
+    <MultiCascader
+      data={data}
+      searchable={false}
+      style={{ width: 224 }}
+      placeholder="Select without search"
+    />
+  </Stack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

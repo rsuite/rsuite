@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { isNil, pick, isFunction, omit, cloneDeep, isUndefined } from 'lodash';
-import { List, AutoSizer, ListChildComponentProps } from '../Windowing';
+import { List, AutoSizer, ListChildComponentProps } from '../internals/Windowing';
 import CheckTreeNode from './CheckTreeNode';
 import TreeContext from '../Tree/TreeContext';
 import { PickerLocale } from '../locales';
@@ -22,7 +22,6 @@ import {
   TreeView,
   onMenuKeyDown,
   PickerPopup,
-  SearchBar,
   SelectedElement,
   PickerToggleTrigger,
   PickerComponent,
@@ -35,8 +34,8 @@ import {
   omitTriggerPropKeys,
   PositionChildProps,
   listPickerPropTypes
-} from '../Picker';
-
+} from '../internals/Picker';
+import SearchBox from '../internals/SearchBox';
 import {
   isEveryChildChecked,
   isSomeNodeHasChildren,
@@ -70,7 +69,7 @@ import {
   rightArrowHandler,
   isSearching
 } from '../utils/treeUtils';
-
+import { oneOf } from '../internals/propTypes';
 import { TreeBaseProps } from '../Tree/Tree';
 import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
@@ -773,7 +772,7 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
         target={trigger}
       >
         {searchable ? (
-          <SearchBar
+          <SearchBox
             placeholder={locale.searchPlaceholder}
             onChange={handleSearch}
             value={searchKeywordState}
@@ -870,7 +869,7 @@ CheckTreePicker.displayName = 'CheckTreePicker';
 CheckTreePicker.propTypes = {
   ...listPickerPropTypes,
   height: PropTypes.number,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   locale: PropTypes.any,
   cascade: PropTypes.bool,
   countable: PropTypes.bool,

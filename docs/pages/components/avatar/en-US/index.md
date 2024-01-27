@@ -4,7 +4,7 @@ Used to display an avatar or brand.
 
 ## Import
 
-<!--{include:(components/avatar/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

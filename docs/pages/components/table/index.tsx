@@ -18,7 +18,7 @@ import {
 } from 'rsuite';
 import { faker } from '@faker-js/faker/locale/en';
 import DefaultPage from '@/components/Page';
-
+import ImportGuide from '@/components/ImportGuide';
 import MoreIcon from '@rsuite/icons/legacy/More';
 import CollaspedOutlineIcon from '@rsuite/icons/CollaspedOutline';
 import ExpandOutlineIcon from '@rsuite/icons/ExpandOutline';
@@ -41,9 +41,14 @@ const sandboxDependencies = {
   ...sandboxFakerVersion
 };
 
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['Table']} />
+};
+
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         Nav,
         Checkbox,

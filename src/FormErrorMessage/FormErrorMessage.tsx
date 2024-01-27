@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import kebabCase from 'lodash/kebabCase';
 import { placementPolyfill, useClassNames } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export interface FormErrorMessageProps extends WithAsProps {
@@ -58,7 +59,7 @@ FormErrorMessage.propTypes = {
   classPrefix: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
-  placement: PropTypes.oneOf([
+  placement: oneOf([
     'bottomStart',
     'bottomEnd',
     'topStart',

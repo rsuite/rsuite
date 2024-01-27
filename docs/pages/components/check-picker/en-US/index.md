@@ -4,7 +4,7 @@ Used for multiple data selection, support grouping.
 
 ## Import
 
-<!--{include:(components/check-picker/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

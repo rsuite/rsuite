@@ -11,7 +11,7 @@ import pick from 'lodash/pick';
 import getWidth from 'dom-lib/getWidth';
 import shallowEqual from '../utils/shallowEqual';
 import { filterNodesOfTree } from '../utils/treeUtils';
-import Plaintext from '../Plaintext';
+import Plaintext from '../internals/Plaintext';
 import {
   createChainedFunction,
   tplTransform,
@@ -23,6 +23,7 @@ import {
   isOneOf,
   KEY_VALUES
 } from '../utils';
+import { oneOf } from '../internals/propTypes';
 import { getDataGroupBy } from '../utils/getDataGroupBy';
 
 import {
@@ -43,7 +44,7 @@ import {
   PickerComponent,
   listPickerPropTypes,
   PickerToggleProps
-} from '../Picker';
+} from '../internals/Picker';
 
 import Tag from '../Tag';
 import InputAutosize from './InputAutosize';
@@ -66,7 +67,7 @@ const convertSize = (size?: string) => {
   }
 };
 
-interface InputItemDataType extends ItemDataType {
+export interface InputItemDataType extends ItemDataType {
   create?: boolean;
 }
 
@@ -802,7 +803,7 @@ InputPicker.displayName = 'InputPicker';
 InputPicker.propTypes = {
   ...listPickerPropTypes,
   locale: PropTypes.any,
-  appearance: PropTypes.oneOf(['default', 'subtle']),
+  appearance: oneOf(['default', 'subtle']),
   cacheData: PropTypes.array,
   menuAutoWidth: PropTypes.bool,
   menuMaxHeight: PropTypes.number,

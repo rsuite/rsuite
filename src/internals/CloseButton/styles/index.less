@@ -1,0 +1,25 @@
+@import '../../../styles/common';
+
+// Close button
+.rs-btn-close {
+  border: none;
+  outline: none !important;
+  background: transparent;
+  line-height: 1;
+
+  cursor: pointer;
+
+  .rs-icon {
+    vertical-align: bottom;
+  }
+
+  &:hover,
+  &:focus {
+    color: var(--rs-close-button-hover-color);
+
+    svg path {
+      stroke: var(--rs-close-button-hover-color);
+      stroke-width: 1;
+    }
+  }
+}

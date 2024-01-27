@@ -3,7 +3,7 @@ import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
 import { shallowEqual, useClassNames, mergeRefs, useCustom, useEventCallback } from '../utils';
-import { ListItem, useCombobox } from '../Picker';
+import { ListItem, useCombobox } from '../internals/Picker';
 import { ItemDataType, WithAsProps, RsRefForwardingComponent, DataProps } from '../@types/common';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';

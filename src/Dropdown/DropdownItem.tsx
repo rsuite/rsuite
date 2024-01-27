@@ -2,8 +2,8 @@ import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import React, { useCallback, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { IconProps } from '@rsuite/icons/lib/Icon';
-import deprecatePropType, { deprecatePropTypeNew } from '../utils/deprecatePropType';
-import MenuItem from '../Menu/MenuItem';
+import { deprecatePropType, deprecatePropTypeNew, oneOf } from '../internals/propTypes';
+import MenuItem from '../internals/Menu/MenuItem';
 import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';
@@ -15,6 +15,7 @@ import warnOnce from '../utils/warnOnce';
 import Nav from '../Nav';
 import DropdownSeparator, { DropdownSeparatorProps } from './DropdownSeparator';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -186,7 +187,10 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
             ...restProps,
             children: (
               <>
-                {icon && React.cloneElement(icon, { className: prefix('menu-icon') })}
+                {icon &&
+                  React.cloneElement(icon, {
+                    className: classNames(prefix('menu-icon'), icon.props.className)
+                  })}
                 {children}
               </>
             )
@@ -202,7 +206,7 @@ DropdownItem.propTypes = {
   as: PropTypes.elementType,
   divider: deprecatePropTypeNew(PropTypes.bool, 'Use Dropdown.Separator component instead.'),
   panel: PropTypes.bool,
-  trigger: PropTypes.oneOfType([PropTypes.array, PropTypes.oneOf(['click', 'hover'])]),
+  trigger: PropTypes.oneOfType([PropTypes.array, oneOf(['click', 'hover'])]),
   open: deprecatePropType(PropTypes.bool),
   active: PropTypes.bool,
   disabled: PropTypes.bool,

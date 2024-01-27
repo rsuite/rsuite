@@ -4,7 +4,7 @@ The `Cascader` component displays a hierarchical list of options.
 
 ## Import
 
-<!--{include:(components/cascader/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

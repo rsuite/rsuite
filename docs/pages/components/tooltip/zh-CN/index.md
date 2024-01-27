@@ -2,12 +2,12 @@
 
 用于辅助的文字提示，可代替 HTML 元素默认的 title 属性。
 
-- `<Tooltip>` 文字提示。
-- `<Whisper>` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Tooltip>` 展示出来。
-
 ## 获取组件
 
-<!--{include:(components/tooltip/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
+
+- `<Tooltip>` 文字提示。
+- `<Whisper>` 监听触发器，包裹被监听对象的外面，触发事件后通知到 `<Tooltip>` 展示出来。
 
 ## 演示
 

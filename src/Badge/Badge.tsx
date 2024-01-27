@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
-
+import { oneOf } from '../internals/propTypes';
 export interface BadgeProps extends WithAsProps {
   /** Main content */
   content?: React.ReactNode;
@@ -72,7 +72,7 @@ Badge.propTypes = {
   as: PropTypes.elementType,
   content: PropTypes.oneOfType([PropTypes.node, PropTypes.bool]),
   maxCount: PropTypes.number,
-  color: PropTypes.oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'])
+  color: oneOf(['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'])
 };
 
 export default Badge;

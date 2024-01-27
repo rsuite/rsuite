@@ -1,9 +1,16 @@
-import React, { useCallback, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS, useIsMounted } from '../utils';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import CloseButton from '../CloseButton';
+import {
+  useClassNames,
+  useTimeout,
+  MESSAGE_STATUS_ICONS,
+  useIsMounted,
+  useEventCallback
+} from '../utils';
+import { oneOf } from '../internals/propTypes';
+import CloseButton from '../internals/CloseButton';
 import ToastContext from '../toaster/ToastContext';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 
 export type MessageType = 'info' | 'success' | 'warning' | 'error';
 
@@ -63,22 +70,19 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
     const { clear } = useTimeout(onClose, duration, usedToaster && duration > 0);
 
     // Click to trigger to close the message
-    const handleClose = useCallback(
-      (event: React.MouseEvent<HTMLButtonElement>) => {
-        setDisplay('hiding');
-        onClose?.(event);
-        clear();
+    const handleClose = useEventCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+      setDisplay('hiding');
+      onClose?.(event);
+      clear();
 
-        setTimeout(() => {
-          if (isMounted()) {
-            setDisplay('hide');
-          }
-        }, 1000);
-      },
-      [onClose, clear, isMounted]
-    );
+      setTimeout(() => {
+        if (isMounted()) {
+          setDisplay('hide');
+        }
+      }, 1000);
+    });
 
-    const renderHeader = useCallback(() => {
+    const renderHeader = () => {
       if (!header) {
         return null;
       }
@@ -95,7 +99,7 @@ const Notification: RsRefForwardingComponent<'div', NotificationProps> = React.f
           )}
         </div>
       );
-    }, [header, type, prefix]);
+    };
 
     if (display === 'hide') {
       return null;
@@ -125,7 +129,7 @@ Notification.propTypes = {
   closable: PropTypes.bool,
   classPrefix: PropTypes.string,
   className: PropTypes.string,
-  type: PropTypes.oneOf(['info', 'success', 'warning', 'error']),
+  type: oneOf(['info', 'success', 'warning', 'error']),
   onClose: PropTypes.func
 };
 

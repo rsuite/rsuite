@@ -2,7 +2,8 @@ import React, { useState, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS, STATUS, useIsMounted } from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
-import CloseButton from '../CloseButton';
+import { oneOf } from '../internals/propTypes';
+import CloseButton from '../internals/CloseButton';
 import ToastContext from '../toaster/ToastContext';
 
 export interface MessageProps extends WithAsProps {
@@ -108,7 +109,7 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
 
 Message.displayName = 'Message';
 Message.propTypes = {
-  type: PropTypes.oneOf(STATUS),
+  type: oneOf(STATUS),
   className: PropTypes.string,
   onClose: PropTypes.func,
   closable: PropTypes.bool,

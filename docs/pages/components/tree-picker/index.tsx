@@ -1,6 +1,7 @@
 import React from 'react';
-import { TreePicker, Button } from 'rsuite';
+import { TreePicker, Button, Stack } from 'rsuite';
 import DefaultPage from '@/components/Page';
+import ImportGuide from '@/components/ImportGuide';
 import SpinnerIcon from '@rsuite/icons/legacy/Spinner';
 import PeoplesIcon from '@rsuite/icons/Peoples';
 import AdminIcon from '@rsuite/icons/Admin';
@@ -25,12 +26,18 @@ const sandboxDependencies = {
   ...sandboxFakerVersion
 };
 
+const inDocsComponents = {
+  'import-guide': () => <ImportGuide components={['TreePicker']} />
+};
+
 export default function Page() {
   return (
     <DefaultPage
+      inDocsComponents={inDocsComponents}
       dependencies={{
         TreePicker,
         Button,
+        Stack,
         SpinnerIcon,
         PeoplesIcon,
         AdminIcon,
