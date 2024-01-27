@@ -13,7 +13,7 @@ const TreeView = React.forwardRef((props: TreeViewProps, ref: React.Ref<HTMLDivE
   return (
     <div
       role="tree"
-      id={`${id}-${popupType}`}
+      id={id ? `${id}-${popupType}` : undefined}
       aria-multiselectable={multiselectable}
       aria-labelledby={labelId}
       ref={ref}

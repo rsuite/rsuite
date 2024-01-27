@@ -64,7 +64,7 @@ const ListCheckItem: RsRefForwardingComponent<'div', ListCheckItemProps> = React
     });
 
     const { id } = useCombobox();
-    const { withClassPrefix } = useClassNames(classPrefix);
+    const { withClassPrefix, merge, rootPrefix } = useClassNames(classPrefix);
     const checkboxItemClasses = withClassPrefix({ focus });
 
     const checkboxProps: CheckboxProps = {
@@ -81,6 +81,8 @@ const ListCheckItem: RsRefForwardingComponent<'div', ListCheckItemProps> = React
       onCheckboxClick: handleCheck
     };
 
+    console.log(className, 'className');
+
     return (
       <Component
         role="option"
@@ -90,7 +92,7 @@ const ListCheckItem: RsRefForwardingComponent<'div', ListCheckItemProps> = React
         data-key={value}
         {...rest}
         ref={ref}
-        className={className}
+        className={merge(className, rootPrefix`picker-list-item`)}
         tabIndex={-1}
       >
         {renderMenuItemCheckbox ? (
