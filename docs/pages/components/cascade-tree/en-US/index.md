@@ -2,11 +2,9 @@
 
 CascadeTree is a component that displays tree-structured data in columns.
 
-![Supported from version 5.51.0](https://img.shields.io/badge/version->=5.51.0-blue)
-
 ## Import
 
-<!--{include:(components/cascade-tree/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## Examples
 

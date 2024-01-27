@@ -2,11 +2,9 @@
 
 CascadeTree 是一个按列显示树形结构数据的组件。
 
-![Supported from version 5.51.0](https://img.shields.io/badge/version->=5.51.0-blue)
-
 ## 获取组件
 
-<!--{include:(components/cascade-tree/fragments/import.md)}-->
+<!--{include:<import-guide>}-->
 
 ## 演示
 

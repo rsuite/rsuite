@@ -540,7 +540,7 @@
     "name": "CascadeTree",
     "title": "级联树",
     "components": ["CascadeTree"],
-    "minVersion": "5.51.0",
+    "minVersion": "5.53.0",
     "tag": "New"
   },
   {
