@@ -14,20 +14,23 @@ Provides a list of various forms of navigation menus, which can be landscape and
 
 ### Appearance
 
-`appearance` values include: `default`,`tabs`,`subtle`.
+`appearance` property sets the appearance of the navigation:
+
+- `default` - default navigation.
+- `tabs` - Tabbed navigation.
+- `subtle` - Subtle navigation.
 
 <!--{include:`appearance.md`}-->
 
-> For subtle and tabs navigation, you can set a reversed property to reverse direction and fit all directions.
+### Reversed
+
+<!--{include:`reversed.md`}-->
 
 ### Vertical
 
 <!--{include:`vertical.md`}-->
 
-### Option Status
-
-- active
-- disabled
+### Disabled Item
 
 <!--{include:`status.md`}-->
 

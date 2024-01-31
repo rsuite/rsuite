@@ -32,7 +32,7 @@
   },
   {
     "id": "icon",
-    "name": "Icons",
+    "name": "Icon",
     "components": ["Icon"],
     "title": "图标"
   },
@@ -570,6 +570,14 @@
       "default": "89",
       "dark": "87"
     }
+  },
+  {
+    "id": "tabs",
+    "name": "Tabs",
+    "title": "选项卡",
+    "components": ["Tabs", "Tabs.Tab"],
+    "minVersion": "5.53.0",
+    "tag": "New"
   },
   {
     "id": "tree",
