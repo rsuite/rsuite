@@ -1,6 +1,6 @@
 import React from 'react';
 import { testStandardProps } from '@test/utils';
-import { render, waitFor, screen } from '@testing-library/react';
+import { render, waitFor, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
 import Nav from '../Nav';
@@ -174,6 +174,26 @@ describe('<Nav>', () => {
 
       expect(screen.getByRole('button', { name: 'Dropdown' })).to.exist;
     });
+  });
+
+  it('Should call onClose callback when click element inside the menu item ', () => {
+    const onClose = sinon.spy();
+    render(
+      <Nav>
+        <Nav.Item eventKey="1">1</Nav.Item>
+        <Nav.Menu title="Dropdown" onClose={onClose}>
+          <Nav.Item eventKey="2">
+            <div>
+              <span data-testid="item2">2</span>
+            </div>
+          </Nav.Item>
+        </Nav.Menu>
+      </Nav>
+    );
+
+    fireEvent.click(screen.getByTestId('item2'));
+
+    expect(onClose).to.have.been.calledOnce;
   });
 
   describe('[Deprecated] Usage of <Dropdown> within <Nav>', () => {

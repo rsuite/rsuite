@@ -6,6 +6,7 @@ import { deprecatePropType, deprecatePropTypeNew, oneOf } from '../internals/pro
 import MenuItem from '../internals/Menu/MenuItem';
 import DropdownContext from './DropdownContext';
 import isNil from 'lodash/isNil';
+import pick from 'lodash/pick';
 import { mergeRefs, shallowEqual, useClassNames } from '../utils';
 import NavContext from '../Nav/NavContext';
 import useInternalId from '../utils/useInternalId';
@@ -14,7 +15,6 @@ import { useRenderDropdownItem } from './useRenderDropdownItem';
 import warnOnce from '../utils/warnOnce';
 import Nav from '../Nav';
 import DropdownSeparator, { DropdownSeparatorProps } from './DropdownSeparator';
-import _ from 'lodash';
 import classNames from 'classnames';
 
 export interface DropdownMenuItemProps<T = any>
@@ -144,7 +144,9 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     }
 
     if (divider) {
-      return <DropdownSeparator {...(_.pick(props, ['data-testid']) as DropdownSeparatorProps)} />;
+      return (
+        <DropdownSeparator as="li" {...(pick(props, ['data-testid']) as DropdownSeparatorProps)} />
+      );
     }
 
     if (panel) {

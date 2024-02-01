@@ -63,6 +63,18 @@ export interface MenuHandle {
 
 const defaultOpenMenuOn = ['click'] as const;
 
+function getMenuItemTarget(event: React.MouseEvent) {
+  const target = event.target as HTMLElement;
+
+  if (target.getAttribute('role') === 'menuitem') {
+    return target;
+  }
+
+  return Array.from(event.currentTarget?.querySelectorAll('[role="menuitem"]')).find(item => {
+    return item.contains(target);
+  });
+}
+
 /**
  * Headless ARIA `menu`
  * @private
@@ -370,7 +382,9 @@ function Menu({
   // Only used for clicks bubbling from child `menuitem`s.
   const handleMenuClick = useCallback(
     (event: React.MouseEvent) => {
-      const target = event.target as HTMLElement;
+      const target = getMenuItemTarget(event);
+
+      if (!target) return;
 
       // Only handle clicks on `menuitem`s
       if (target.getAttribute('role') !== 'menuitem') return;
