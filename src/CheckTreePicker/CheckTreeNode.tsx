@@ -176,7 +176,7 @@ const CheckTreeNode: RsRefForwardingComponent<'div', CheckTreeNodeProps> = forwa
           title={getTitle()}
           onSelect={handleSelect}
         >
-          <span className={prefix('text-wrapper')}>
+          <span className={prefix('label-content')}>
             {typeof renderTreeNode === 'function' ? renderTreeNode(nodeData) : label}
           </span>
         </ListCheckItem>
