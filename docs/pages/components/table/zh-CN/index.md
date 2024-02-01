@@ -223,7 +223,7 @@ const CustomCell = ({ rowData, ...rest }) => {
 
 <!--{include:`edit.md`}-->
 
-> 可编辑的表格，只需要自定义一个 `Cell` 就行了
+可编辑的表格，只需要自定义一个 `Cell` 就行了
 
 ```js
 export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
@@ -266,7 +266,7 @@ export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
 </ColumnGroup>
 ```
 
-> 当 `lastName` 对应列的值为 `null` 或者 `undefined` 的时候，则会被 `firstName` 列合并。
+当 `lastName` 对应列的值为 `null` 或者 `undefined` 的时候，则会被 `firstName` 列合并。
 
 ### 合并行
 

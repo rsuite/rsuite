@@ -215,7 +215,7 @@ Customize a `Cell` and put a button inside to manipulate the value in `expandedR
 
 <!--{include:`edit.md`}-->
 
-> Editable tables, just customize a `Cell` on the line
+Editable tables, just customize a `Cell` on the line
 
 ```js
 export const EditCell = ({ rowData, dataKey, onChange, ...props }) => {
@@ -257,7 +257,7 @@ In some cases, you need to merge the relationships between columns to organize y
 </ColumnGroup>
 ```
 
-> When `lastName` corresponds to a column value of `null` or `undefined`, it is merged by the `firstName` column.
+When `lastName` corresponds to a column value of `null` or `undefined`, it is merged by the `firstName` column.
 
 ### Rowspan
 

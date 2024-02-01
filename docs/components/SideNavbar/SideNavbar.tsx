@@ -4,12 +4,13 @@ import { useRouter } from 'next/router';
 import { Sidebar, Nav, IconButton, Badge } from 'rsuite';
 import Link from '@/components/Link';
 import AppContext from '../AppContext';
-import usePages from '@/utils/usePages';
+import usePages, { type MenuItem } from '@/utils/usePages';
 import debounce from 'lodash/debounce';
 import scrollTop from 'dom-lib/scrollTop';
 import ExternalLinkSquare from '@rsuite/icons/legacy/ExternalLinkSquare';
 import BarsIcon from '@rsuite/icons/legacy/Bars';
 import { TypeAttributes } from 'rsuite/esm/@types/common';
+import pkg from '../../package.json';
 
 interface SideNavbarProps {
   style: React.CSSProperties;
@@ -31,6 +32,20 @@ function initSidebarScrollTop() {
     scrollTop(sidebar, +top);
   }
 }
+
+const isNewComponent = (minVersion?: string) => {
+  if (!minVersion) return false;
+
+  const [, currentMinor] = pkg.version.split('.');
+  const [, minor] = minVersion.split('.');
+
+  // If the current version is less than 10 minor versions of the minimum version, it is considered a new component.
+  if (parseInt(currentMinor) - parseInt(minor) <= 10) {
+    return true;
+  }
+
+  return false;
+};
 
 export default React.memo(function SideNavbar(props: SideNavbarProps) {
   const { onToggleMenu, showSubmenu, style } = props;
@@ -54,6 +69,23 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
   }, [onToggleMenu]);
 
   React.useEffect(initSidebarScrollTop, []);
+
+  const renderTag = (item: MenuItem) => {
+    if (item.tag) {
+      return (
+        <Badge
+          content={item.tag}
+          color={(item.tagColor as TypeAttributes.Color) ?? 'blue'}
+          style={{ marginLeft: 5 }}
+        />
+      );
+    }
+
+    if (isNewComponent(item.minVersion)) {
+      return <Badge content="New" color="blue" style={{ marginLeft: 5 }} />;
+    }
+    return null;
+  };
 
   if (children) {
     children.forEach(child => {
@@ -83,13 +115,8 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
         navItems.push(
           <Nav.Item key={child.id} href={pathname} active={active} as={Link}>
             {child.name}
-            {title}{' '}
-            {child.tag && (
-              <Badge
-                content={child.tag}
-                color={(child.tagColor as TypeAttributes.Color) ?? 'blue'}
-              />
-            )}
+            {title}
+            {renderTag(child)}
           </Nav.Item>
         );
       }
