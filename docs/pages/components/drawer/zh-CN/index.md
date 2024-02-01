@@ -6,6 +6,13 @@
 
 <!--{include:<import-guide>}-->
 
+- `<Drawer>` - 抽屉的容器。
+- `<Drawer.Body>` - 抽屉的内容。
+- `<Drawer.Actions>` - 抽屉的操作按钮， 一般放置在抽屉的头部。（可选）
+- `<Drawer.Header>` - 抽屉的头部， 包含关闭按钮。（可选）
+- `<Drawer.Title>` - 抽屉的标题， 一般放置在抽屉的头部。 （可选）
+- `<Drawer.Footer>` - 抽屉的底部。（可选）
+
 ## 演示
 
 ### 默认

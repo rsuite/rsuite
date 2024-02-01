@@ -6,6 +6,7 @@
 
 <!--{include:<import-guide>}-->
 
+- `<Modal>` 模态框容器。
 - `<Modal.Header>` 模态框头部，包含关闭按钮。
 - `<Modal.Title>` 模态框标题，放置在模态框头部。
 - `<Modal.Body>` 模态框内容。

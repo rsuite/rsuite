@@ -299,8 +299,7 @@
     "name": "DateInput",
     "title": "日期输入框",
     "components": ["DateInput"],
-    "minVersion": "5.48.0",
-    "tag": "New"
+    "minVersion": "5.48.0"
   },
   {
     "id": "date-picker",
@@ -317,8 +316,7 @@
     "name": "DateRangeInput",
     "title": "日期范围输入框",
     "components": ["DateRangeInput"],
-    "minVersion": "5.49.0",
-    "tag": "New"
+    "minVersion": "5.49.0"
   },
   {
     "id": "date-range-picker",
@@ -401,8 +399,7 @@
     "name": "RadioTile",
     "title": "磁贴单选",
     "components": ["RadioTile", "RadioTileGroup"],
-    "minVersion": "5.35.0",
-    "tag": "New"
+    "minVersion": "5.35.0"
   },
   {
     "id": "rate",
@@ -501,7 +498,6 @@
     "name": "Accordion",
     "title": "手风琴",
     "components": ["Accordion", "Accordion.Item"],
-    "tag": "New",
     "minVersion": "5.52.0"
   },
 
@@ -633,8 +629,7 @@
     "name": "VisuallyHidden",
     "title": "视觉隐藏",
     "components": ["VisuallyHidden"],
-    "minVersion": "5.52.0",
-    "tag": "New"
+    "minVersion": "5.52.0"
   },
   {
     "id": "whisper",
