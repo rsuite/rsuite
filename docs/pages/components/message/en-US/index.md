@@ -34,6 +34,16 @@ A message type that contains an Alert
 
 <!--{include:`with-toaster.md`}-->
 
+## Accessibility
+
+### ARIA properties
+
+Message has a `role` of `alert`.
+
+### Keyboard interactions
+
+No keyboard interaction needed.
+
 ## Props & Hooks
 
 ### `<Message>`

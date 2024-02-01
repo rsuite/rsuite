@@ -34,6 +34,16 @@
 
 <!--{include:`with-toaster.md`}-->
 
+## 可访问性
+
+### ARIA 属性
+
+Message 的 `role` 为 `alert`。
+
+### Keyboard interactions
+
+无需键盘交互。
+
 ## Props & Hooks
 
 ### `<Message>`
