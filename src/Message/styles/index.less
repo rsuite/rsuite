@@ -16,6 +16,7 @@
   line-height: @line-height-base;
   position: relative;
   animation-fill-mode: forwards;
+  overflow: hidden;
 
   &-container {
     padding: @message-padding;
@@ -54,6 +55,12 @@
   // Description
   &-body {
     color: var(--rs-text-primary);
+    ul,
+    ol {
+      margin: 0;
+      padding: 0;
+      padding-inline-start: 16px;
+    }
   }
 
   // Message with a title
