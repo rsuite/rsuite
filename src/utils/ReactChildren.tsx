@@ -1,10 +1,24 @@
 import React from 'react';
 
+function typeOf(object) {
+  if (typeof object === 'object' && object !== null) {
+    return object.type || object.$$typeof;
+  }
+}
+
+function isFragment(children: React.ReactNode) {
+  return React.Children.count(children) === 1 && typeOf(children) === Symbol.for('react.fragment');
+}
+
+function getChildren(children: React.ReactNode) {
+  return isFragment(children) ? (children as React.ReactElement).props?.children : children;
+}
+
 export function find(children: React.ReactNode, func: any, context?: any) {
   let index = 0;
   let result: React.ReactNode;
 
-  React.Children.forEach(children, child => {
+  React.Children.forEach(getChildren(children), child => {
     if (result) {
       return;
     }
@@ -19,7 +33,8 @@ export function find(children: React.ReactNode, func: any, context?: any) {
 
 export function map(children: React.ReactNode, func: any, context?: any) {
   let index = 0;
-  return React.Children.map(children, child => {
+
+  return React.Children.map(getChildren(children), child => {
     if (!React.isValidElement(child)) {
       return child;
     }
@@ -29,25 +44,9 @@ export function map(children: React.ReactNode, func: any, context?: any) {
   });
 }
 
-function typeOf(object) {
-  if (typeof object === 'object' && object !== null) {
-    return object.type || object.$$typeof;
-  }
-}
-
-function isFragment(children: React.ReactNode) {
-  return React.Children.count(children) === 1 && typeOf(children) === Symbol.for('react.fragment');
-}
-
 export function mapCloneElement(children: React.ReactNode, func: any, context?: any) {
-  let elements = children;
-
-  if (isFragment(children)) {
-    elements = (children as React.ReactElement).props?.children;
-  }
-
   return map(
-    elements,
+    children,
     (child: React.DetailedReactHTMLElement<any, HTMLElement>, index: number) =>
       React.cloneElement(child, {
         key: index,
@@ -65,7 +64,7 @@ function some(children: React.ReactNode, func: any, context?: any) {
   let index = 0;
   let result = false;
 
-  React.Children.forEach(children, child => {
+  React.Children.forEach(getChildren(children), child => {
     if (result) {
       return;
     }

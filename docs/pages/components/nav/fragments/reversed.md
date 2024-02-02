@@ -20,9 +20,8 @@ const App = () => {
 
   return (
     <>
-      <Navbar active={active} onSelect={setActive} />
-      <Navbar appearance="tabs" active={active} onSelect={setActive} />
-      <Navbar appearance="subtle" active={active} onSelect={setActive} />
+      <Navbar appearance="tabs" reversed active={active} onSelect={setActive} />
+      <Navbar appearance="subtle" reversed active={active} onSelect={setActive} />
     </>
   );
 };

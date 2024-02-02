@@ -206,6 +206,9 @@ export type { AccordionProps } from './Accordion';
 export { default as PanelGroup } from './PanelGroup';
 export type { PanelGroupProps } from './PanelGroup';
 
+export { default as Tabs } from './Tabs';
+export type { TabsProps } from './Tabs';
+
 export { default as Table } from './Table';
 export type {
   TableProps,

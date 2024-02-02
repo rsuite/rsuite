@@ -2,7 +2,6 @@
 
 ```js
 import { Container, Header, Content, Footer, Navbar, Nav } from 'rsuite';
-import HomeIcon from '@rsuite/icons/legacy/Home';
 import CogIcon from '@rsuite/icons/legacy/Cog';
 
 const App = () => (
@@ -14,7 +13,7 @@ const App = () => (
             <a style={{ color: '#fff' }}>Brand</a>
           </Navbar.Brand>
           <Nav>
-            <Nav.Item icon={<HomeIcon />}>Home</Nav.Item>
+            <Nav.Item>Home</Nav.Item>
             <Nav.Item>News</Nav.Item>
             <Nav.Item>Products</Nav.Item>
             <Nav.Menu title="About">

@@ -22,16 +22,15 @@
 
 <!--{include:`appearance.md`}-->
 
-> 针对 subtle/tabs 导航，可以设置一个 `reversed` 属性颠倒方向，用来适配导航在上下左右都可以使用。
+### Reversed
+
+<!--{include:`reversed.md`}-->
 
 ### 垂直布局
 
 <!--{include:`vertical.md`}-->
 
-### 设置选项状态
-
-- active 激活
-- disabled 禁用
+### 禁用项
 
 <!--{include:`status.md`}-->
 

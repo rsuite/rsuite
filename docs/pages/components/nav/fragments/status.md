@@ -5,24 +5,30 @@ import { Nav } from 'rsuite';
 
 const App = () => (
   <>
-    <Nav>
-      <Nav.Item>Default Item</Nav.Item>
-      <Nav.Item active>Active Item</Nav.Item>
-      <Nav.Item disabled>Disabled Item</Nav.Item>
+    <Nav defaultActiveKey="1">
+      <Nav.Item eventKey="1">Item 1</Nav.Item>
+      <Nav.Item eventKey="2" disabled>
+        Item 2
+      </Nav.Item>
+      <Nav.Item eventKey="3">Item 3</Nav.Item>
     </Nav>
     <br />
 
-    <Nav appearance="tabs">
-      <Nav.Item>Default Item</Nav.Item>
-      <Nav.Item active>Active Item</Nav.Item>
-      <Nav.Item disabled>Disabled Item</Nav.Item>
+    <Nav appearance="tabs" defaultActiveKey="1">
+      <Nav.Item eventKey="1">Item 1</Nav.Item>
+      <Nav.Item eventKey="2" disabled>
+        Item 2
+      </Nav.Item>
+      <Nav.Item eventKey="3">Item 3</Nav.Item>
     </Nav>
     <br />
 
-    <Nav appearance="subtle">
-      <Nav.Item>Default Item</Nav.Item>
-      <Nav.Item active>Active Item</Nav.Item>
-      <Nav.Item disabled>Disabled Item</Nav.Item>
+    <Nav appearance="subtle" defaultActiveKey="1">
+      <Nav.Item eventKey="1">Item 1</Nav.Item>
+      <Nav.Item eventKey="2" disabled>
+        Item 2
+      </Nav.Item>
+      <Nav.Item eventKey="3">Item 3</Nav.Item>
     </Nav>
   </>
 );
