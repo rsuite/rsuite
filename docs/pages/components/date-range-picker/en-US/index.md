@@ -189,6 +189,7 @@ Has keyboard interaction for the DateRangeInput component by default.
 
 | Property             | Type`(default)`                                                                  | Description                                                                                                                         |
 | -------------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| ~disabledDate~       | (date:Date) => boolean                                                           | ⚠️`[Deprecated]` Use `shouldDisableDate` instead                                                                                    |
 | appearance           | 'default' &#124; 'subtle' `('default')`                                          | Set picker appearence                                                                                                               |
 | block                | boolean                                                                          | Blocking an entire row                                                                                                              |
 | caretAs              | ElementType                                                                      | Custom component for the caret icon                                                                                                 |

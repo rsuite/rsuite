@@ -128,6 +128,10 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 
 | 属性名称              | 类型`(默认值)`                                                  | 描述                                                                                                     |
 | --------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| ~disabledDate~        | (date:Date) => boolean                                          | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                                               |
+| ~disabledHours~       | (hour:number, date:Date) => boolean                             | ⚠️`[已弃用]` 使用 `shouldDisableHour` 代替                                                               |
+| ~disabledMinutes~     | (minute:number, date:Date) => boolean                           | ⚠️`[已弃用]` 使用 `shouldDisableMinute` 代替                                                             |
+| ~disabledSeconds~     | (second:number, date:Date) => boolean                           | ⚠️`[已弃用]` 使用 `shouldDisableSecond` 代替                                                             |
 | appearance            | 'default' &#124; 'subtle' `('default')`                         | 设置外观                                                                                                 |
 | block                 | boolean                                                         | 堵塞整行                                                                                                 |
 | calendarDefaultDate   | Date                                                            | 日历面板默认呈现的日期时间                                                                               |
@@ -137,10 +141,6 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | defaultOpen           | boolean                                                         | 默认打开                                                                                                 |
 | defaultValue          | Date                                                            | 默认值                                                                                                   |
 | disabled              | boolean                                                         | 禁用组件                                                                                                 |
-| disabledDate          | (date:Date) => boolean                                          | 已弃用。 使用 `shouldDisableDate` 代替                                                                   |
-| disabledHours         | (hour:number, date:Date) => boolean                             | 已弃用。 使用 `shouldDisableHour` 代替                                                                   |
-| disabledMinutes       | (minute:number, date:Date) => boolean                           | 已弃用。 使用 `shouldDisableMinute` 代替                                                                 |
-| disabledSeconds       | (second:number, date:Date) => boolean                           | 已弃用。 使用 `shouldDisableSecond` 代替                                                                 |
 | editable              | boolean `(true)`                                                | 渲染为 Input 输入框，可以通过键盘输入日期                                                                |
 | format                | string `('yyyy-MM-dd')`                                         | 日期显示格式化                                                                                           |
 | hideHours             | (hour:number, date:Date) => boolean                             | 隐藏小时                                                                                                 |
