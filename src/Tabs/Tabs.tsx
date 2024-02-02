@@ -160,6 +160,12 @@ const renderTabs = (
   });
 };
 
+/**
+ * Tabs are a set of layered sections of content, known as tab panels, that display one panel of content at a time.
+ *
+ * @version 5.53.0
+ * @see https://rsuitejs.com/components/tabs
+ */
 const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<HTMLDivElement>) => {
   const {
     as: Component = 'div',
