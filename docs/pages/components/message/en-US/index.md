@@ -16,7 +16,11 @@ Used to show important tips on a page.
 
 <!--{include:`types.md`}-->
 
-### Icons
+### With header and actions
+
+<!--{include:`header.md`}-->
+
+### With icon
 
 <!--{include:`icons.md`}-->
 
@@ -33,6 +37,16 @@ Used to show important tips on a page.
 A message type that contains an Alert
 
 <!--{include:`with-toaster.md`}-->
+
+## Accessibility
+
+### ARIA properties
+
+Message has a `role` of `alert`.
+
+### Keyboard interactions
+
+No keyboard interaction needed.
 
 ## Props & Hooks
 

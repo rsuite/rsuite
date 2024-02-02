@@ -140,19 +140,19 @@
   --rs-message-success-header: var(--rs-text-heading);
   --rs-message-success-text: var(--rs-text-primary);
   --rs-message-success-icon: var(--rs-color-green);
-  --rs-message-success-bg: var(--rs-green-50);
+  --rs-message-success-bg: rgb(from var(--rs-green-100) r g b / 60%);
   --rs-message-info-header: var(--rs-text-heading);
   --rs-message-info-text: var(--rs-text-primary);
   --rs-message-info-icon: var(--rs-color-blue);
-  --rs-message-info-bg: var(--rs-blue-50);
+  --rs-message-info-bg: rgb(from var(--rs-blue-100) r g b / 60%);
   --rs-message-warning-header: var(--rs-text-heading);
   --rs-message-warning-text: var(--rs-text-primary);
   --rs-message-warning-icon: var(--rs-color-yellow);
-  --rs-message-warning-bg: var(--rs-yellow-50);
+  --rs-message-warning-bg: rgb(from var(--rs-yellow-100) r g b / 60%);
   --rs-message-error-header: var(--rs-text-heading);
   --rs-message-error-text: var(--rs-text-primary);
   --rs-message-error-icon: var(--rs-color-red);
-  --rs-message-error-bg: var(--rs-red-50);
+  --rs-message-error-bg: rgb(from var(--rs-red-100) r g b / 60%);
 
   // Tooltip
   --rs-tooltip-bg: var(--rs-gray-900);
@@ -391,6 +391,12 @@
     --rs-loader-backdrop: fade(@B000, 90%);
     --rs-loader-ring-inverse: fade(@B050, 30%);
     --rs-loader-backdrop-inverse: fade(@B900, 83%);
+
+    // Message
+    --rs-message-success-bg: fade(@green-100, 60%);
+    --rs-message-info-bg: fade(@blue-100, 60%);
+    --rs-message-warning-bg: fade(@yellow-100, 60%);
+    --rs-message-error-bg: fade(@red-100, 60%);
 
     // Dropdown
     --rs-dropdown-item-bg-hover: fade(@H100, 50%);

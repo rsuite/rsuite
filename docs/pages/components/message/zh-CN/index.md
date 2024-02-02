@@ -12,9 +12,13 @@
 
 <!--{include:`basic.md`}-->
 
-### 类型
+### 消息类型
 
 <!--{include:`types.md`}-->
+
+### 带标题和操作
+
+<!--{include:`header.md`}-->
 
 ### 显示图标
 
@@ -33,6 +37,16 @@
 一种包含 Alert 的消息类型
 
 <!--{include:`with-toaster.md`}-->
+
+## 可访问性
+
+### ARIA 属性
+
+Message 的 `role` 为 `alert`。
+
+### Keyboard interactions
+
+无需键盘交互。
 
 ## Props & Hooks
 
