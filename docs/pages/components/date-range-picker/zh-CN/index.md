@@ -191,7 +191,6 @@ combine(...) => boolean
 
 | 属性名称             | 类型`(默认值)`                                                                   | 描述                                                                                                     |
 | -------------------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| ~disabledDate~       | (date:Date) => boolean                                                           | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                                               |
 | appearance           | 'default' &#124; 'subtle' `('default')`                                          | 设置外观                                                                                                 |
 | block                | boolean                                                                          | 堵塞整行                                                                                                 |
 | caretAs              | ElementType                                                                      | 自定义右侧箭头图标的组件                                                                                 |
@@ -202,6 +201,7 @@ combine(...) => boolean
 | defaultOpen          | boolean                                                                          | 默认打开                                                                                                 |
 | defaultValue         | [ValueType](#code-ts-value-type-code)                                            | 默认值                                                                                                   |
 | disabled             | boolean                                                                          | 禁用组件                                                                                                 |
+| ~disabledDate~       | (date:Date) => boolean                                                           | ⚠️`[已弃用]` 使用 `shouldDisableDate` 代替                                                               |
 | editable             | boolean `(true)`                                                                 | 渲染为 Input 输入框，可以通过键盘输入日期                                                                |
 | format               | string `('yyyy-MM-dd')`                                                          | 日期显示格式化                                                                                           |
 | hoverRange           | unions: 'week', 'month' or (date: Date) => [ValueType](#code-ts-value-type-code) | 点击日期时将选中的日期范围                                                                               |

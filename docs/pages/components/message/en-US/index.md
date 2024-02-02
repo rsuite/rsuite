@@ -64,12 +64,12 @@ No keyboard interaction needed.
 
 | Property    | Type `(Default)`                                        | Description                                                                                  |
 | ----------- | ------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| ~duration~  | number `(2000)`                                         | ⚠️`[Deprecated]`Use `toaster.push(<Message />, { duration: 2000 })` instead.                 |
 | bordered    | boolean                                                 | Show a border around the message box.<br/>![](https://img.shields.io/badge/min-v5.53.0-blue) |
 | centered    | boolean                                                 | Center the message vertically.<br/>![](https://img.shields.io/badge/min-v5.53.0-blue)        |
 | children    | ReactNode                                               | The description information for the message.                                                 |
 | classPrefix | string `('message')`                                    | The prefix of the component CSS class.                                                       |
 | closable    | boolean                                                 | Whether it is possible to close the message box                                              |
+| ~duration~  | number `(2000)`                                         | ⚠️`[Deprecated]`Use `toaster.push(<Message />, { duration: 2000 })` instead.                 |
 | full        | boolean                                                 | Fill the container                                                                           |
 | header      | ReactNode                                               | The title of the message.                                                                    |
 | onClose     | (event?: MouseEvent) => void                            | Called after the message is closed                                                           |
