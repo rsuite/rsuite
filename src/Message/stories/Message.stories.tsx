@@ -87,6 +87,35 @@ export const Closable: Story = {
   }
 };
 
+export const Bordered: Story = {
+  args: {
+    ...defaultArgs,
+    showIcon: true,
+    bordered: true
+  }
+};
+
+export const Centered: Story = {
+  args: {
+    ...defaultArgs,
+    showIcon: true,
+    centered: true,
+    type: 'success',
+    header: 'Application has been accepted !',
+    children: (
+      <>
+        <p>
+          Your application has been successfully submitted, and we will process it within 1-3
+          working days.
+        </p>
+        <p>
+          You can check the application status in the <a href="#">application record</a>.
+        </p>
+      </>
+    )
+  }
+};
+
 export const WithToaster: Story = {
   render: props => (
     <ButtonToolbar>

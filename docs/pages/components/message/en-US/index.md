@@ -24,6 +24,14 @@ Used to show important tips on a page.
 
 <!--{include:`icons.md`}-->
 
+### Bordered
+
+<!--{include:`bordered.md`}-->
+
+### Centered
+
+<!--{include:`centered.md`}-->
+
 ### Closable
 
 <!--{include:`close.md`}-->
@@ -52,8 +60,12 @@ No keyboard interaction needed.
 
 ### `<Message>`
 
+<!-- prettier-sort-markdown-table -->
+
 | Property    | Type `(Default)`                                        | Description                                                                                                                                                                   |
 | ----------- | ------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| bordered    | boolean                                                 | Show a border around the message box.<br/>![](https://img.shields.io/badge/min-v5.53.0-blue)                                                                                  |
+| centered    | boolean                                                 | Center the message vertically.<br/>![](https://img.shields.io/badge/min-v5.53.0-blue)                                                                                         |
 | children    | ReactNode                                               | The description information for the message.                                                                                                                                  |
 | classPrefix | string `('message')`                                    | The prefix of the component CSS class.                                                                                                                                        |
 | closable    | boolean                                                 | Whether it is possible to close the message box                                                                                                                               |

@@ -1,16 +1,37 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useTimeout, MESSAGE_STATUS_ICONS, STATUS, useIsMounted } from '../utils';
+import {
+  useClassNames,
+  useTimeout,
+  MESSAGE_STATUS_ICONS,
+  STATUS,
+  useIsMounted,
+  useEventCallback
+} from '../utils';
 import { WithAsProps, TypeAttributes, RsRefForwardingComponent } from '../@types/common';
 import { oneOf } from '../internals/propTypes';
 import CloseButton from '../internals/CloseButton';
 import ToastContext from '../toaster/ToastContext';
 
 export interface MessageProps extends WithAsProps {
-  /** The type of the message box. */
+  /**
+   * The type of the message box.
+   */
   type?: TypeAttributes.Status;
 
-  /** Whether it is possible to close the message box */
+  /**
+   * Show a border around the message box
+   */
+  bordered?: boolean;
+
+  /**
+   * Center the message vertically.
+   */
+  centered?: boolean;
+
+  /**
+   * Whether it is possible to close the message box
+   */
   closable?: boolean;
 
   /**
@@ -24,16 +45,24 @@ export interface MessageProps extends WithAsProps {
    */
   duration?: number;
 
-  /** The title of the message  */
+  /**
+   * The title of the message
+   */
   header?: React.ReactNode;
 
-  /** Whether to display an icon */
+  /**
+   * Whether to display an icon
+   */
   showIcon?: boolean;
 
-  /** Fill the container */
+  /**
+   * Fill the container
+   */
   full?: boolean;
 
-  /** Callback after the message is removed */
+  /**
+   * Callback after the message is removed
+   */
   onClose?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -47,6 +76,8 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
   (props: MessageProps, ref) => {
     const {
       as: Component = 'div',
+      bordered,
+      centered,
       className,
       classPrefix = 'message',
       children,
@@ -68,20 +99,17 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
     // Timed close message
     const { clear } = useTimeout(onClose, duration, usedToaster && duration > 0);
 
-    const handleClose = useCallback(
-      (event: React.MouseEvent<HTMLButtonElement>) => {
-        setDisplay('hiding');
-        onClose?.(event);
-        clear();
+    const handleClose = useEventCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+      setDisplay('hiding');
+      onClose?.(event);
+      clear();
 
-        setTimeout(() => {
-          if (isMounted()) {
-            setDisplay('hide');
-          }
-        }, 1000);
-      },
-      [clear, isMounted, onClose]
-    );
+      setTimeout(() => {
+        if (isMounted()) {
+          setDisplay('hide');
+        }
+      }, 1000);
+    });
 
     if (display === 'hide') {
       return null;
@@ -89,14 +117,20 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
 
     const classes = merge(
       className,
-      withClassPrefix(type, display, { full, ['has-title']: header, ['has-icon']: showIcon })
+      withClassPrefix(type, display, {
+        full,
+        bordered,
+        centered,
+        ['has-title']: header,
+        ['has-icon']: showIcon
+      })
     );
 
     return (
       <Component role="alert" {...rest} ref={ref} className={classes}>
         <div className={prefix`container`}>
           {closable && <CloseButton onClick={handleClose} />}
-          {showIcon && <div className={prefix`icon-wrapper`}>{MESSAGE_STATUS_ICONS[type]}</div>}
+          {showIcon && <div className={prefix`icon`}>{MESSAGE_STATUS_ICONS[type]}</div>}
           <div className={prefix`content`}>
             {header && <div className={prefix`header`}>{header}</div>}
             {children && <div className={prefix`body`}>{children}</div>}
@@ -109,15 +143,17 @@ const Message: RsRefForwardingComponent<'div', MessageProps> = React.forwardRef(
 
 Message.displayName = 'Message';
 Message.propTypes = {
-  type: oneOf(STATUS),
-  className: PropTypes.string,
-  onClose: PropTypes.func,
+  bordered: PropTypes.bool,
+  centered: PropTypes.bool,
   closable: PropTypes.bool,
-  title: PropTypes.node,
+  className: PropTypes.string,
+  classPrefix: PropTypes.string,
   description: PropTypes.node,
-  showIcon: PropTypes.bool,
   full: PropTypes.bool,
-  classPrefix: PropTypes.string
+  onClose: PropTypes.func,
+  showIcon: PropTypes.bool,
+  title: PropTypes.node,
+  type: oneOf(STATUS)
 };
 
 export default Message;
