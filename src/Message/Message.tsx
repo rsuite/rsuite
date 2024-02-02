@@ -20,12 +20,14 @@ export interface MessageProps extends WithAsProps {
   type?: TypeAttributes.Status;
 
   /**
-   * Show a border around the message box
+   * Show a border around the message box.
+   * @version 5.53.0
    */
   bordered?: boolean;
 
   /**
    * Center the message vertically.
+   * @version 5.53.0
    */
   centered?: boolean;
 
