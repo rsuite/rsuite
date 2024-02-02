@@ -5,7 +5,9 @@ import { Message } from 'rsuite';
 
 const App = () => (
   <>
-    <Message>Informational</Message>
+    <Message>
+      <strong>Info!</strong> You can use the `Message` component to display a alert message.
+    </Message>
   </>
 );
 

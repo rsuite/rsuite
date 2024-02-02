@@ -11,10 +11,11 @@ const styles = {
 
 const App = () => (
   <div style={styles}>
-    <Message full showIcon type="warning">
-      Warning
+    <Message full showIcon type="warning" closable>
+      <strong> Warning!</strong> The system will be maintained in two days, please be prepared in
+      advance.
     </Message>
-    <Placeholder.Paragraph rows={10} />
+    <Placeholder.Paragraph rows={10} graph="image" />
   </div>
 );
 

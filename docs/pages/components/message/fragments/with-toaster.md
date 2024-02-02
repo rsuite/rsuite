@@ -10,7 +10,7 @@ const App = () => {
 
   const message = (
     <Message showIcon type={type} closable>
-      {type}: The message appears on the {placement}.
+      <strong>{type}!</strong> The message appears on the {placement}.
     </Message>
   );
 

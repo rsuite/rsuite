@@ -12,9 +12,13 @@
 
 <!--{include:`basic.md`}-->
 
-### 类型
+### 消息类型
 
 <!--{include:`types.md`}-->
+
+### 带标题和操作
+
+<!--{include:`header.md`}-->
 
 ### 显示图标
 

@@ -16,7 +16,11 @@ Used to show important tips on a page.
 
 <!--{include:`types.md`}-->
 
-### Icons
+### With header and actions
+
+<!--{include:`header.md`}-->
+
+### With icon
 
 <!--{include:`icons.md`}-->
 
