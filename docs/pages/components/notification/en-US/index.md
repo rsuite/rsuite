@@ -12,7 +12,7 @@ Used for system notifications. Generally used to push messages.
 
 <!--{include:`basic.md`}-->
 
-### Message type
+### Types
 
 <!--{include:`type.md`}-->
 
