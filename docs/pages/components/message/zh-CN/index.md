@@ -24,6 +24,14 @@
 
 <!--{include:`icons.md`}-->
 
+### 带边框
+
+<!--{include:`bordered.md`}-->
+
+### 垂直居中
+
+<!--{include:`centered.md`}-->
+
 ### 可关闭的
 
 <!--{include:`close.md`}-->
@@ -52,8 +60,12 @@ Message 的 `role` 为 `alert`。
 
 ### `<Message>`
 
+<!-- prettier-sort-markdown-table -->
+
 | 属性名称    | 类型 `(默认值)`                                                    | 描述                                                                                            |
 | ----------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
+| bordered    | boolean                                                            | 显示消息框边框 <br/>![](https://img.shields.io/badge/min-v5.53.0-blue)                          |
+| centered    | boolean                                                            | 垂直居中消息框 <br/>![](https://img.shields.io/badge/min-v5.53.0-blue)                          |
 | children    | ReactNode                                                          | 消息描述信息                                                                                    |
 | classPrefix | string `('message')`                                               | 组件 CSS 类的前缀                                                                               |
 | closable    | boolean                                                            | 可以关闭消息框                                                                                  |

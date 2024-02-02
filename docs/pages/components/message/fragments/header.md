@@ -5,11 +5,11 @@ import { Message, Button, Divider } from 'rsuite';
 
 const App = () => (
   <>
-    <Message showIcon type="warning" header={<strong>Cannot delete the file</strong>}>
+    <Message showIcon type="warning" header="Cannot delete the file">
       We are sorry, the file cannot be deleted. Please try again later.
     </Message>
 
-    <Message showIcon type="error" header={<strong>A problem occurred</strong>}>
+    <Message showIcon type="error" header="A problem occurred">
       <ol>
         <li>Please check your network connection.</li>
         <li>Please check the file permissions.</li>
@@ -18,8 +18,8 @@ const App = () => (
       </ol>
     </Message>
 
-    <Message showIcon type="info" header={<strong>Do you want to allow notifications?</strong>}>
-      We can let you know when new messages arrive.
+    <Message showIcon type="info" header="Do you want to allow notifications?">
+      <p> We can let you know when new messages arrive.</p>
       <hr />
       <ButtonToolbar>
         <Button size="sm">Don't allow</Button>
