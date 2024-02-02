@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Notification,
-  Button,
-  ButtonToolbar,
-  SelectPicker,
-  useToaster,
-  Uploader,
-  Placeholder
-} from 'rsuite';
+import { Notification, Button, ButtonToolbar, SelectPicker, useToaster, Stack } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -25,8 +17,7 @@ export default function Page() {
         ButtonToolbar,
         SelectPicker,
         useToaster,
-        Uploader,
-        Placeholder
+        Stack
       }}
     />
   );

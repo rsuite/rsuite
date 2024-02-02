@@ -45,7 +45,12 @@ const App = () => {
           onChange={setPlacement}
           style={{ width: 200 }}
         />
-        <Button onClick={() => toaster.push(message, { placement, duration: 5000 })}>Push</Button>
+        <Button
+          onClick={() => toaster.push(message, { placement, duration: 5000 })}
+          appearance="primary"
+        >
+          Push
+        </Button>
         <Button onClick={() => toaster.remove()}>Remove</Button>
         <Button onClick={() => toaster.clear()}>Clear</Button>
       </ButtonToolbar>

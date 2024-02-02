@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Notification, Placeholder } from 'rsuite';
+import { Notification } from 'rsuite';
 
 const App = () => <Notification>You have a new message, please check it.</Notification>;
 
