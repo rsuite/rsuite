@@ -124,17 +124,15 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       setExpanded(!expanded);
     });
 
-    const renderBody = useEventCallback((bodyProps?: React.HTMLAttributes<HTMLDivElement>) => {
-      const classes = prefix('body', {
-        'body-fill': bodyFill
-      });
+    const renderBody = (bodyProps?: React.HTMLAttributes<HTMLDivElement>) => {
+      const classes = prefix('body', { 'body-fill': bodyFill });
 
       return (
         <div {...bodyProps} className={classes}>
           {children}
         </div>
       );
-    });
+    };
 
     const renderCollapsibleBody = () => (
       <Collapse

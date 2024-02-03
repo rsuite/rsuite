@@ -53,7 +53,7 @@ export interface TabsProps extends WithAsProps {
    * @param event
    * @returns
    */
-  onSelect?: (eventKey: string, event: React.MouseEvent) => void;
+  onSelect?: (eventKey: string | undefined, event: React.SyntheticEvent) => void;
 }
 
 interface TabsComponent extends RsRefForwardingComponent<'div', TabsProps> {
@@ -188,10 +188,12 @@ const Tabs: TabsComponent = React.forwardRef((props: TabsProps, ref: React.Ref<H
   const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
   const tablistRef = React.useRef<HTMLDivElement>(null);
 
-  const handleSelect = useEventCallback((eventKey: string, event: React.MouseEvent) => {
-    setActiveKey(eventKey);
-    onSelect?.(eventKey, event);
-  });
+  const handleSelect = useEventCallback(
+    (eventKey: string | undefined, event: React.SyntheticEvent) => {
+      setActiveKey(eventKey);
+      onSelect?.(eventKey, event);
+    }
+  );
 
   const handleKeyDown = useEventCallback((event: React.KeyboardEvent) => {
     const target = event.target as HTMLElement;
