@@ -73,6 +73,8 @@ When set to `true`, the Modal will display the background when it is opened. Cli
 
 ### `<Modal>`
 
+<!-- prettier-sort-markdown-table -->
+
 | Property          | Type `(Default)`                                                                           | Description                                                                                                                                                                            |
 | ----------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | autoFocus         | boolean `(true)`                                                                           | When set to true, the Modal is opened and is automatically focused on its own, accessible to screen readers                                                                            |
@@ -82,7 +84,7 @@ When set to `true`, the Modal will display the background when it is opened. Cli
 | dialogAs          | ElementType `(ModalDialog)`                                                                | You can use a custom element type for Dialog                                                                                                                                           |
 | dialogClassName   | string                                                                                     | CSS class applied to Dialog DOM nodes.                                                                                                                                                 |
 | enforceFocus      | boolean `(true)`                                                                           | When set to true, Modal will prevent the focus from leaving when opened, making it easier for the secondary screen reader to access                                                    |
-| ~~full~~          | boolean                                                                                    | Deprecated. Use size="full" instead. Full screen                                                                                                                                       |
+| ~full~            | boolean                                                                                    | ⚠️`[Deprecated]` Use size="full" instead. Full screen                                                                                                                                  |
 | keyboard          | boolean `(true)`                                                                           | Close Modal when `esc` key is pressed.                                                                                                                                                 |
 | onClose           | () => void                                                                                 | Callback fired when Modal hide                                                                                                                                                         |
 | onEnter           | () => void                                                                                 | Callback fired before the Modal transitions in                                                                                                                                         |
