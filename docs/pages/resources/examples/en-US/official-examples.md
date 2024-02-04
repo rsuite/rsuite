@@ -1,4 +1,4 @@
-- [Use in create-react-app][demo-create-react-app]
+- [Use in Create React App][demo-create-react-app]
 - [Use in Electron][demo-electron]
 - [Use in Flow][demo-flow-app]
 - [Use in TypeScript][demo-typescript-app]
