@@ -10,15 +10,22 @@ function isFragment(children: React.ReactNode) {
   return React.Children.count(children) === 1 && typeOf(children) === Symbol.for('react.fragment');
 }
 
-function getChildren(children: React.ReactNode) {
-  return isFragment(children) ? (children as React.ReactElement).props?.children : children;
+function flatChildren(children: React.ReactNode) {
+  return React.Children.toArray(
+    React.Children.map(children as React.ReactElement[], child => {
+      if (isFragment(child)) {
+        return React.Children.toArray(child.props?.children || []);
+      }
+      return child;
+    })
+  );
 }
 
 export function find(children: React.ReactNode, func: any, context?: any) {
   let index = 0;
   let result: React.ReactNode;
 
-  React.Children.forEach(getChildren(children), child => {
+  React.Children.forEach(flatChildren(children), child => {
     if (result) {
       return;
     }
@@ -34,7 +41,7 @@ export function find(children: React.ReactNode, func: any, context?: any) {
 export function map(children: React.ReactNode, func: any, context?: any) {
   let index = 0;
 
-  return React.Children.map(getChildren(children), child => {
+  return React.Children.map(flatChildren(children), child => {
     if (!React.isValidElement(child)) {
       return child;
     }
@@ -57,14 +64,14 @@ export function mapCloneElement(children: React.ReactNode, func: any, context?: 
 }
 
 export function count(children: React.ReactNode) {
-  return React.Children.count(Array.isArray(children) ? children.filter(child => child) : children);
+  return React.Children.count(flatChildren(children));
 }
 
 function some(children: React.ReactNode, func: any, context?: any) {
   let index = 0;
   let result = false;
 
-  React.Children.forEach(getChildren(children), child => {
+  React.Children.forEach(flatChildren(children), child => {
     if (result) {
       return;
     }
