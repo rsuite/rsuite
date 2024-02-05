@@ -801,7 +801,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
               />
             )}
 
-            <>
+            <Stack.Item>
               <div className={prefix('daterange-content')}>
                 {showHeader && (
                   <div className={prefix('daterange-header')} data-testid="daterange-header">
@@ -827,7 +827,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
                 onShortcutClick={handleShortcutPageDate}
                 ranges={bottomRanges}
               />
-            </>
+            </Stack.Item>
           </Stack>
         </div>
       </PickerPopup>
