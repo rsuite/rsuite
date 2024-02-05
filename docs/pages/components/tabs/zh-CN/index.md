@@ -32,6 +32,10 @@ Tabs 是一组分层的内容区域，也就是标签面板，每次只显示一
 
 <!--{include:`with-icon.md`}-->
 
+### 受控的
+
+<!--{include:`controlled.md`}-->
+
 ## 可访问性
 
 ### ARIA 属性
