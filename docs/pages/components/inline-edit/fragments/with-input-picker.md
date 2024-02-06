@@ -9,12 +9,7 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 
 const App = () => (
   <InlineEdit placeholder="Click to edit ..." showControls={false}>
-    {(props, ref) => {
-      const { onBlur, ...rest } = props;
-      return (
-        <InputPicker {...rest} disabled onClose={onBlur} ref={ref} data={data} style={{ width: 200 }} />
-      );
-    }}
+    <InputPicker data={data} style={{ width: 200 }} />
   </InlineEdit>
 );
 

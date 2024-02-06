@@ -40,18 +40,18 @@
 
 ### `<InlineEdit>`
 
-| 属性         | 类型 `(默认值)`                                       | 说明                                      |
-| ------------ | ----------------------------------------------------- | ----------------------------------------- |
-| as           | elementType `('div')`                                 | 自定义元素类型。                          |
-| disabled     | boolean                                               | 如果为 `true`，则 `InlineEdit` 将被禁用。 |
-| defaultValue | any                                                   | 当未受控时，`InlineEdit` 的初始值。       |
-| value        | any                                                   | `InlineEdit` 的值。                       |
-| showControls | boolean `(true)`                                      | 编辑时显示控制按钮。                      |
-| placeholder  | string                                                | `InlineEdit` 的占位符。                   |
-| size         | `'lg'` \| `'md'` \| `'sm'` \| `'xs'`                  | `InlineEdit` 的大小。                     |
-| stateOnBlur  | `'save'` \| `'cancel'`                                | 当失焦时，`InlineEdit` 的状态。           |
-| onChange     | (value: any, event: ChangeEvent) => void              | `InlineEdit` 的值发生变化时的回调函数。   |
-| onCancel     | (event?: SyntheticEvent) => void                      | 当 `InlineEdit` 被取消时的回调函数。      |
-| onSave       | (event?: SyntheticEvent) => void                      | 当 `InlineEdit` 被保存时的回调函数。      |
-| onEdit       | (event: SyntheticEvent) => void                       | 当 `InlineEdit` 被点击时的回调函数。      |
-| children     | (props: ChildrenProps, ref: Ref<any>) => ReactElement | `InlineEdit` 的渲染函数。                 |
+| 属性         | 类型 `(默认值)`                                                 | 说明                                      |
+| ------------ | --------------------------------------------------------------- | ----------------------------------------- |
+| as           | elementType `('div')`                                           | 自定义元素类型。                          |
+| disabled     | boolean                                                         | 如果为 `true`，则 `InlineEdit` 将被禁用。 |
+| defaultValue | any                                                             | 当未受控时，`InlineEdit` 的初始值。       |
+| value        | any                                                             | `InlineEdit` 的值。                       |
+| showControls | boolean `(true)`                                                | 编辑时显示控制按钮。                      |
+| placeholder  | string                                                          | `InlineEdit` 的占位符。                   |
+| size         | `'lg'` \| `'md'` \| `'sm'` \| `'xs'`                            | `InlineEdit` 的大小。                     |
+| stateOnBlur  | `'save'` \| `'cancel'`                                          | 当失焦时，`InlineEdit` 的状态。           |
+| onChange     | (value: any, event: ChangeEvent) => void                        | `InlineEdit` 的值发生变化时的回调函数。   |
+| onCancel     | (event?: SyntheticEvent) => void                                | 当 `InlineEdit` 被取消时的回调函数。      |
+| onSave       | (event?: SyntheticEvent) => void                                | 当 `InlineEdit` 被保存时的回调函数。      |
+| onEdit       | (event: SyntheticEvent) => void                                 | 当 `InlineEdit` 被点击时的回调函数。      |
+| children     | ReactNode \| (props: ChildrenProps, ref: Ref<any>) => ReactNode | `InlineEdit` 的渲染函数。                 |

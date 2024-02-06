@@ -9,9 +9,7 @@ const data = ['Eugenia', 'Bryan', 'Linda', 'Nancy', 'Lloyd', 'Alice', 'Julia', '
 
 const App = () => (
   <InlineEdit placeholder="Click to edit ..." style={{ width: 300 }}>
-    {(props, ref) => {
-      return <TagPicker {...props} ref={ref} data={data} block />;
-    }}
+    <TagPicker data={data} block />
   </InlineEdit>
 );
 

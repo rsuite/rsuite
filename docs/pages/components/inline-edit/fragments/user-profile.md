@@ -21,16 +21,14 @@ const TextArea = React.forwardRef((props, ref) => {
   return <Input as="textarea" ref={ref} {...props} />;
 });
 
-const Field = ({ label, as: Component, ...rest }) => {
+const Field = ({ label, as: Component, defaultValue, ...rest }) => {
   return (
     <Stack direction="row">
       <label style={{ width: 120, display: 'inline-block', color: 'var(--rs-text-secondary)' }}>
         {label}
       </label>
-      <InlineEdit placeholder="Click to edit ...">
-        {(props, ref) => {
-          return <Component ref={ref} style={{ width: 300 }} {...rest} {...props} />;
-        }}
+      <InlineEdit placeholder="Click to edit ..." defaultValue={defaultValue}>
+        <Component style={{ width: 300 }} {...rest} />
       </InlineEdit>
     </Stack>
   );
