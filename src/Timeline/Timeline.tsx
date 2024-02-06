@@ -50,7 +50,7 @@ const Timeline: TimelineComponent = React.forwardRef((props: TimelineProps, ref)
   } = props;
 
   const { merge, withClassPrefix } = useClassNames(classPrefix);
-  const count = React.Children.count(children);
+  const count = ReactChildren.count(children);
   const withTime = some(React.Children.toArray(children), (item: any) => item?.props?.time);
 
   const classes = merge(
