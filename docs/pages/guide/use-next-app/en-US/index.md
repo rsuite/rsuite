@@ -24,11 +24,11 @@ When installing, you will see the following prompt:
 ✔ Would you like to customize the default import alias (@/*)? … No
 ```
 
-## 2、Install rsuite
+## 2. Install rsuite
 
 <!--{include:<install-guide>}-->
 
-## 3、Import styles
+## 3. Import styles
 
 Edit the `./src/app/layout.tsx` file and add `import 'rsuite/dist/rsuite-no-reset.min.css';`, as follows:
 

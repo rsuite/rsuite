@@ -35,25 +35,25 @@ return (
 
 React Suite 的导航组件支持 `as` 属性， 用于接收一个第三方路由库的组件类型。 包含的组件: `Dropdown`，`Breadcrumb`，`Nav`。
 
-### next/link
+### `next/link`
 
 ```jsx
 import Link from 'next/link';
 
-const NavLink = React.forwardRef(({ href, as, ...rest }, ref) => (
-  <Link href={href} as={as}>
-    <a ref={ref} {...rest} />
-  </Link>
-));
+<Nav.Item as={Link} href="/about">
+  About
+</Nav.Item>;
 
-return (
-  <Nav.Item as={NavLink} href="/">
-    Home
-  </Nav.Item>
-);
+<Breadcrumb.Item as={Link} href="/about">
+  About
+</Breadcrumb.Item>;
+
+<Dropdown.Item as={Link} href="/about">
+  About
+</Dropdown.Item>;
 ```
 
-### react-router-dom
+### `react-router-dom`
 
 ```jsx
 import { Link } from 'react-router-dom';

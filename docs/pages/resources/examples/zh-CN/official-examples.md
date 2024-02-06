@@ -1,4 +1,4 @@
-- [在 create-react-app 中使用][demo-create-react-app]
+- [在 Create React App 中使用][demo-create-react-app]
 - [在 Electron 中使用][demo-electron]
 - [在 Flow 中使用][demo-flow-app]
 - [在 TypeScript 中使用][demo-typescript-app]
