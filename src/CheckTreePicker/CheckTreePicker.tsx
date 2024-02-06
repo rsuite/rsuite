@@ -173,8 +173,9 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   const [active, setActive] = useState(false);
   const [activeNode, setActiveNode] = useState<TreeNodeType | null>(null);
   const { prefix, merge } = useClassNames(classPrefix);
-  const { prefix: checkTreePrefix, withClassPrefix: withCheckTreeClassPrefix } =
-    useClassNames('check-tree');
+  const { prefix: checkTreePrefix, withClassPrefix: withCheckTreeClassPrefix } = useClassNames(
+    inline && classPrefix !== 'picker' ? classPrefix : 'check-tree'
+  );
 
   const [value, setValue, isControlled] = useControlled(controlledValue, defaultValue);
   const {
@@ -702,11 +703,13 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   };
 
   const renderCheckTree = () => {
-    const classes = withCheckTreeClassPrefix({
-      [className ?? '']: inline,
-      'without-children': !isSomeNodeHasChildren(data, childrenKey),
-      virtualized
-    });
+    const classes = merge(
+      withCheckTreeClassPrefix({
+        'without-children': !isSomeNodeHasChildren(data, childrenKey),
+        virtualized
+      }),
+      { [className ?? '']: inline }
+    );
 
     const formattedNodes = getFormattedNodes(renderNode);
 
@@ -722,13 +725,24 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
       )
     });
 
+    let treeViewProps: any = {
+      ref: treeView
+    };
+
+    if (inline) {
+      treeViewProps = {
+        ref: root,
+        style: { height, ...style },
+        ...rest
+      };
+    }
+
     return (
       <TreeView
-        ref={inline ? root : treeView}
+        {...treeViewProps}
         multiselectable
         treeRootClassName={treeNodesClass}
         className={classes}
-        style={inline ? { height, ...style } : {}}
         onScroll={onScroll}
         onKeyDown={inline ? handleTreeKeydown : undefined}
       >

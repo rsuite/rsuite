@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
@@ -6,15 +7,17 @@ import { PickerHandle } from '../../internals/Picker';
 import { ListHandle } from '../../internals/Windowing';
 import userEvent from '@testing-library/user-event';
 import { mockTreeData } from '@test/mocks/data-mock';
+import { testStandardProps } from '@test/utils';
 
 const data = mockTreeData([['Master', 'tester0', ['tester1', 'tester2']], 'disabled']);
 
 describe('Tree', () => {
-  it('Should render a tree', () => {
-    const { container } = render(<Tree data={data} />);
+  testStandardProps(<Tree data={data} />);
 
-    expect(container.firstChild).to.have.class('rs-tree');
-    expect(container.firstChild).to.have.attr('role', 'tree');
+  it('Should render a tree', () => {
+    render(<Tree data={data} />);
+
+    expect(screen.getByRole('tree')).to.have.class('rs-tree');
   });
 
   it('Should call `onSelectItem` callback with the selected item and the full path', () => {
@@ -28,7 +31,7 @@ describe('Tree', () => {
     // Use `treeitem` role
     userEvent.click(screen.getByRole('button', { name: 'tester2' }));
 
-    expect(onSelectItem).to.have.been.calledWith(sinon.match({ value: 'tester2' }), [
+    expect(onSelectItem).to.have.been.calledWithMatch({ value: 'tester2' }, [
       sinon.match({ value: 'Master' }),
       sinon.match({ value: 'tester1' }),
       sinon.match({ value: 'tester2' })
@@ -36,66 +39,72 @@ describe('Tree', () => {
   });
 
   it('Should call `onDragStart` callback', () => {
-    const onDragStartSpy = sinon.spy();
-    render(<Tree data={data} onDragStart={onDragStartSpy} draggable />);
+    const onDragStart = sinon.spy();
+    render(<Tree data={data} onDragStart={onDragStart} draggable />);
     const treeNode = screen.getAllByRole('treeitem')[0];
 
     fireEvent.dragStart(treeNode);
 
-    assert.isTrue(onDragStartSpy.calledOnce);
-    // eslint-disable-next-line testing-library/no-node-access
-    assert.isNotNull(treeNode.querySelector('.rs-tree-node-dragging'));
-    assert.equal(onDragStartSpy.firstCall.firstArg.value, 'Master');
+    expect(onDragStart).to.have.calledOnce;
+    expect(onDragStart).to.have.calledWithMatch({ value: 'Master' });
+    expect(treeNode.querySelector('.rs-tree-node-dragging')).to.exist;
   });
 
   it('Should call `onDragEnter` callback', () => {
-    const onDragEnterSpy = sinon.spy();
-    render(<Tree data={data} onDragEnter={onDragEnterSpy} draggable />);
+    const onDragEnter = sinon.spy();
+    render(<Tree data={data} onDragEnter={onDragEnter} draggable />);
     const treeNode = screen.getAllByRole('treeitem')[0];
 
     fireEvent.dragEnter(treeNode);
-    assert.isTrue(onDragEnterSpy.calledOnce);
-    assert.equal(onDragEnterSpy.firstCall.firstArg.value, 'Master');
+    assert.isTrue(onDragEnter.calledOnce);
+    assert.equal(onDragEnter.firstCall.firstArg.value, 'Master');
+
+    expect(onDragEnter).to.have.calledOnce;
+    expect(onDragEnter).to.have.calledWithMatch({ value: 'Master' });
   });
 
   it('Should call `onDragOver` callback', () => {
-    const onDragOverSpy = sinon.spy();
-    render(<Tree data={data} onDragOver={onDragOverSpy} draggable />);
+    const onDragOver = sinon.spy();
+    render(<Tree data={data} onDragOver={onDragOver} draggable />);
     const treeNode = screen.getAllByRole('treeitem')[0];
 
     fireEvent.dragOver(treeNode);
-    assert.isTrue(onDragOverSpy.calledOnce);
-    assert.equal(onDragOverSpy.firstCall.firstArg.value, 'Master');
+
+    expect(onDragOver).to.have.calledOnce;
+    expect(onDragOver).to.have.calledWithMatch({ value: 'Master' });
   });
 
   it('Should call `onDragLeave` callback', () => {
-    const onDragLeaveSpy = sinon.spy();
-    render(<Tree data={data} onDragLeave={onDragLeaveSpy} draggable />);
+    const onDragLeave = sinon.spy();
+    render(<Tree data={data} onDragLeave={onDragLeave} draggable />);
     const treeNode = screen.getAllByRole('treeitem')[0];
 
     fireEvent.dragLeave(treeNode);
-    assert.isTrue(onDragLeaveSpy.calledOnce);
-    assert.equal(onDragLeaveSpy.firstCall.firstArg.value, 'Master');
+
+    expect(onDragLeave).to.have.calledOnce;
+    expect(onDragLeave).to.have.calledWithMatch({ value: 'Master' });
   });
 
   it('Should call `onDragEnd` callback', () => {
-    const onDragEndSpy = sinon.spy();
-    render(<Tree data={data} onDragEnd={onDragEndSpy} draggable />);
+    const onDragEnd = sinon.spy();
+    render(<Tree data={data} onDragEnd={onDragEnd} draggable />);
     const treeNode = screen.getAllByRole('treeitem')[0];
 
     fireEvent.dragEnd(treeNode);
-    assert.isTrue(onDragEndSpy.calledOnce);
-    assert.equal(onDragEndSpy.firstCall.firstArg.value, 'Master');
+
+    expect(onDragEnd).to.have.calledOnce;
+    expect(onDragEnd).to.have.calledWithMatch({ value: 'Master' });
   });
 
   it('Should display drag Preview when dragging, and remove after drop', () => {
     render(<Tree data={data} draggable />);
     const treeNode = screen.getByText('tester1') as HTMLElement;
     fireEvent.dragStart(treeNode);
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(document.querySelector('.rs-tree-drag-preview')?.textContent).to.equal('tester1');
+
+    expect(document.querySelector('.rs-tree-drag-preview')).to.have.text('tester1');
+
     fireEvent.drop(treeNode);
-    // eslint-disable-next-line testing-library/no-node-access
+
     expect(document.querySelector('.rs-tree-drag-preview')).to.be.a('null');
   });
 
@@ -127,7 +136,7 @@ describe('Tree', () => {
   });
 
   it('Should scroll the list by `scrollToRow`', () => {
-    const onScrollSpy = sinon.spy();
+    const onScroll = sinon.spy();
     const ref = React.createRef<PickerHandle>();
     render(
       <Tree
@@ -138,25 +147,21 @@ describe('Tree', () => {
         ref={ref}
         virtualized
         style={{ height: 30 }}
-        listProps={{
-          onScroll: onScrollSpy
-        }}
+        listProps={{ onScroll }}
       />
     );
     ((ref.current as PickerHandle).list as ListHandle).scrollToRow?.(2);
-    assert.isTrue(onScrollSpy.calledOnce);
+
+    expect(onScroll).to.have.calledOnce;
   });
 
   it('Should show indent line', () => {
-    const { container } = render(<Tree data={data} showIndentLine />);
+    render(<Tree data={data} showIndentLine />);
 
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    const lines = container.querySelectorAll('.rs-tree-indent-line');
+    const lines = screen.getByRole('tree').querySelectorAll('.rs-tree-indent-line');
 
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    assert.isNotNull(container.querySelector('.rs-tree-indent-line'));
-    assert.equal(lines.length, 2);
-    assert.equal((lines[0] as HTMLElement).style.left, '44px');
-    assert.equal((lines[1] as HTMLElement).style.left, '28px');
+    expect(lines).to.have.length(2);
+    expect(lines[0]).to.have.style('left', '44px');
+    expect(lines[1]).to.have.style('left', '28px');
   });
 });
