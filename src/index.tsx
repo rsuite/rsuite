@@ -190,6 +190,9 @@ export type { RangeSliderProps } from './RangeSlider';
 export { default as Rate } from './Rate';
 export type { RateProps } from './Rate';
 
+export { default as InlineEdit } from './InlineEdit';
+export type { InlineEditProps } from './InlineEdit';
+
 // Data display
 export { default as Tree } from './Tree';
 export type { TreeProps } from './Tree';

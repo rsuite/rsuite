@@ -62,6 +62,9 @@ export interface SliderProps<T = number> extends WithAsProps, FormControlBasePro
   /** Show sliding progress bar */
   progress?: boolean;
 
+  /** Placeholder text */
+  placeholder?: React.ReactNode;
+
   /** Vertical Slide */
   vertical?: boolean;
 
@@ -133,6 +136,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
     defaultValue = 0,
     value: valueProp,
     max: maxProp = 100,
+    placeholder,
     getAriaValueText,
     renderTooltip,
     renderMark,
@@ -288,7 +292,7 @@ const Slider = React.forwardRef((props: SliderProps, ref) => {
 
   if (plaintext) {
     return (
-      <Plaintext localeKey="notSelected" ref={ref}>
+      <Plaintext localeKey="notSelected" ref={ref} placeholder={placeholder}>
         {value}
       </Plaintext>
     );

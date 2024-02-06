@@ -2,6 +2,7 @@ import { useImperativeHandle, useRef } from 'react';
 import useEventCallback from '../../../utils/useEventCallback';
 import type { OverlayTriggerHandle } from '../PickerToggleTrigger';
 import type { ListHandle } from '../../../internals/Windowing';
+import { RSUITE_PICKER_TYPE } from '../../../internals/symbols';
 
 export interface PickerDependentParameters {
   inline?: boolean;
@@ -75,6 +76,7 @@ function usePickerRef(ref, parmas?: PickerDependentParameters) {
         }
         return list?.current;
       },
+      type: RSUITE_PICKER_TYPE,
       updatePosition: handleUpdatePosition,
       open: handleOpen,
       close: handleClose
