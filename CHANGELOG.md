@@ -1,3 +1,13 @@
+## [5.53.1](https://github.com/rsuite/rsuite/compare/v5.53.0...v5.53.1) (2024-02-06)
+
+
+### Bug Fixes
+
+* supports Fragment children component ([#3607](https://github.com/rsuite/rsuite/issues/3607)) ([299b951](https://github.com/rsuite/rsuite/commit/299b951644ce6564bd53f6d0a4d031180d9e4e9d))
+* **Panel:** fix uncontrolled re-rendering of Panel children ([#3610](https://github.com/rsuite/rsuite/issues/3610)) ([8f9a8a8](https://github.com/rsuite/rsuite/commit/8f9a8a831156ac1eeee50b8093bce9ed89cf043d))
+
+
+
 # [5.53.0](https://github.com/rsuite/rsuite/compare/v5.52.0...v5.53.0) (2024-02-02)
 
 ### Bug Fixes
