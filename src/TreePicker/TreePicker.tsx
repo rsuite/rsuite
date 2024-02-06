@@ -216,7 +216,9 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
     }
   });
   const { prefix, merge } = useClassNames(classPrefix);
-  const { prefix: treePrefix, withClassPrefix: withTreeClassPrefix } = useClassNames('tree');
+  const { prefix: treePrefix, withClassPrefix: withTreeClassPrefix } = useClassNames(
+    inline && classPrefix !== 'picker' ? classPrefix : 'tree'
+  );
 
   const { filteredData, searchKeywordState, setSearchKeyword, handleSearch, setFilteredData } =
     useTreeSearch({
@@ -682,21 +684,24 @@ const TreePicker: PickerComponent<TreePickerProps> = React.forwardRef((props, re
   };
 
   const renderTree = () => {
-    const classes = withTreeClassPrefix({
-      [className ?? '']: inline,
-      virtualized
-    });
-
+    const classes = merge(withTreeClassPrefix({ virtualized }), { [className ?? '']: inline });
     const formattedNodes = getFormattedNodes(renderNode);
 
+    let treeViewProps: any = {
+      ref: treeView
+    };
+
+    if (inline) {
+      treeViewProps = {
+        ref: root,
+        style: { height, ...style },
+        onKeyDown: handleTreeKeyDown,
+        ...rest
+      };
+    }
+
     return (
-      <TreeView
-        treeRootClassName={treePrefix('root')}
-        ref={inline ? root : treeView}
-        className={classes}
-        style={inline ? { height, ...style } : {}}
-        onKeyDown={inline ? handleTreeKeyDown : undefined}
-      >
+      <TreeView {...treeViewProps} treeRootClassName={treePrefix('root')} className={classes}>
         {virtualized ? (
           <AutoSizer
             defaultHeight={inline ? height : menuMaxHeight}
