@@ -81,8 +81,6 @@ const ListCheckItem: RsRefForwardingComponent<'div', ListCheckItemProps> = React
       onCheckboxClick: handleCheck
     };
 
-    console.log(className, 'className');
-
     return (
       <Component
         role="option"
