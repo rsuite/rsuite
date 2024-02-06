@@ -1,3 +1,13 @@
+## [5.53.2](https://github.com/rsuite/rsuite/compare/v5.53.1...v5.53.2) (2024-02-06)
+
+
+### Bug Fixes
+
+* **CheckPicker:** remove debug script ([#3615](https://github.com/rsuite/rsuite/issues/3615)) ([62285da](https://github.com/rsuite/rsuite/commit/62285da3f238dceeb2f75c168cc07bbacf0a52ce))
+* **Tree,CheckTree:** fix `classPrefix` and `className` not working correctly ([#3616](https://github.com/rsuite/rsuite/issues/3616)) ([c82cb91](https://github.com/rsuite/rsuite/commit/c82cb919a12be2bd94e7bf1018e3f3c8aa522c1f))
+
+
+
 ## [5.53.1](https://github.com/rsuite/rsuite/compare/v5.53.0...v5.53.1) (2024-02-06)
 
 
