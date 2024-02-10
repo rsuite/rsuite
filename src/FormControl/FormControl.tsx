@@ -125,7 +125,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
 
   const { controlId } = useContext(FormGroupContext);
 
-  if (!onFieldChange) {
+  if (!onFieldChange || !pushFieldRule || !removeFieldRule) {
     throw new Error(`
       <FormControl> must be inside a component decorated with <Form>.
       And need to update React to 16.6.0 +.
@@ -162,8 +162,8 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
 
   const getFieldError = (fieldName: string) => {
     if (nestedField) {
-      const name = fieldName.includes('.')
-        ? fieldName.replace('.', '.object.') + '.errorMessage'
+      const name = /[\.\[\]]+/g.test(fieldName)
+        ? fieldName.replace(/\./g, '.object.').replace(/\[(.*)\]/g, '.array[$1]') + '.errorMessage'
         : fieldName;
 
       return get(formError, name);
@@ -189,7 +189,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   });
 
   const handleFieldCheck = useEventCallback((value: any, isCheckTrigger: boolean) => {
-    const checkFieldName = nestedField ? name.split('.')[0] : name;
+    const checkFieldName = name?.match(/^\w+/g)?.[0] ?? name;
 
     const callbackEvents = checkResult => {
       // The relevant event is triggered only when the inspection is allowed.
@@ -204,7 +204,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     };
 
     const nextFormValue = setFieldValue(name, value);
-    const model = getCombinedModel();
+    const model = getCombinedModel?.() ?? null;
     if (checkAsync) {
       return model?.checkForFieldAsync(checkFieldName, nextFormValue).then(checkResult => {
         return callbackEvents(checkResult);

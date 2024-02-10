@@ -254,7 +254,7 @@ const Form: FormComponent = React.forwardRef((props: FormProps, ref: React.Ref<F
       for (let i = 0; i < values.length; i++) {
         if (values[i].hasError) {
           errorCount += 1;
-          formError[keys[i]] = values[i].errorMessage;
+          formError[keys[i]] = values[i]?.errorMessage ?? values[i];
         }
       }
 
