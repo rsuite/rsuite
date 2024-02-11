@@ -163,7 +163,8 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   const getFieldError = (fieldName: string) => {
     if (nestedField) {
       const name = /[\.\[\]]+/g.test(fieldName)
-        ? fieldName.replace(/\./g, '.object.').replace(/\[(.*)\]/g, '.array[$1]') + '.errorMessage'
+        ? fieldName.replace(/\./g, '.object.').replace(/\[([^\]]*)\]/g, '.array[$1]') +
+          '.errorMessage'
         : fieldName;
 
       return get(formError, name);
