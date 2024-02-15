@@ -22,7 +22,7 @@ export interface InlineEditProps extends WithAsProps {
   /**
    * The value of the InlineEdit.
    */
-  value: any;
+  value?: any;
 
   /**
    * show the control buttons when editing.
@@ -112,7 +112,7 @@ const InlineEdit = React.forwardRef<HTMLDivElement, InlineEditProps>((props, ref
     <Component
       ref={mergeRefs(root, ref)}
       tabIndex={0}
-      className={merge(className, withClassPrefix({ size, disabled }))}
+      className={merge(className, withClassPrefix(size, { disabled }))}
       onClick={onClick}
       onKeyDown={onKeyDown}
       {...htmlProps}

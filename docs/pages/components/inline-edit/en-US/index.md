@@ -40,6 +40,10 @@ An inline edit displays a custom input component that switches between reading a
 
 <!--{include:`user-profile.md`}-->
 
+### Size
+
+<!--{include:`size.md`}-->
+
 ## Props
 
 ### `<InlineEdit>`
