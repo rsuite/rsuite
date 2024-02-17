@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Stack, Panel } from 'rsuite';
 import { SiNextdotjs, SiCreatereactapp } from 'react-icons/si';
 import ViteIcon from '@/resources/images/vitejs.svg';
+import InstallGuide from '@/components/InstallGuide';
 
 const frameworks = [
   {
@@ -50,6 +51,7 @@ const FrameworkGuide = () => {
 };
 
 const inDocsComponents = {
+  'install-guide': () => <InstallGuide />,
   'framework-guide': () => <FrameworkGuide />
 };
 
