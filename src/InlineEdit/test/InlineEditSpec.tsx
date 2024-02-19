@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import Sinon from 'sinon';
 import { testStandardProps } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
@@ -79,13 +78,7 @@ describe('InlineEdit', () => {
 
     fireEvent.click(screen.getByText('input something'));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
-    userEvent.click(document.body);
-
-    const textbox = screen.getByRole('textbox');
-
-    if (textbox) {
-      fireEvent.blur(textbox);
-    }
+    fireEvent.blur(screen.getByRole('textbox'), { relatedTarget: document.body });
 
     expect(onCancel).to.have.been.calledOnce;
     expect(screen.getByText('input something')).to.exist;
@@ -122,13 +115,7 @@ describe('InlineEdit', () => {
 
     fireEvent.click(screen.getByText('input something'));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
-    userEvent.click(document.body);
-
-    const textbox = screen.getByRole('textbox');
-
-    if (textbox) {
-      fireEvent.blur(textbox);
-    }
+    fireEvent.blur(screen.getByRole('textbox'), { relatedTarget: document.body });
 
     expect(onSave).to.have.been.calledOnce;
     expect(screen.getByText('new value')).to.exist;
