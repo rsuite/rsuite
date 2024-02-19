@@ -80,7 +80,12 @@ describe('InlineEdit', () => {
     fireEvent.click(screen.getByText('input something'));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
     userEvent.click(document.body);
-    fireEvent.blur(screen.getByRole('textbox'));
+
+    const textbox = screen.getByRole('textbox');
+
+    if (textbox) {
+      fireEvent.blur(textbox);
+    }
 
     expect(onCancel).to.have.been.calledOnce;
     expect(screen.getByText('input something')).to.exist;
@@ -118,7 +123,12 @@ describe('InlineEdit', () => {
     fireEvent.click(screen.getByText('input something'));
     fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
     userEvent.click(document.body);
-    fireEvent.blur(screen.getByRole('textbox'));
+
+    const textbox = screen.getByRole('textbox');
+
+    if (textbox) {
+      fireEvent.blur(textbox);
+    }
 
     expect(onSave).to.have.been.calledOnce;
     expect(screen.getByText('new value')).to.exist;
