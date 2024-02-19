@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Placeholder } from 'rsuite';
+import { Tabs, Placeholder, ButtonGroup, Button, Panel } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 import { FaRegSquare, FaImage, FaRegCircle } from 'react-icons/fa';
@@ -15,6 +15,9 @@ export default function Page() {
       dependencies={{
         Tabs,
         Placeholder,
+        ButtonGroup,
+        Button,
+        Panel,
         FaRegSquare,
         FaImage,
         FaRegCircle

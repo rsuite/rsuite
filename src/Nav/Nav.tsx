@@ -100,8 +100,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     })
   );
 
-  const { activeKey: activeKeyFromSidenav, onSelect: onSelectFromSidenav = onSelectProp } =
-    sidenav || {};
+  const { activeKey: activeKeyFromSidenav, onSelect: onSelectFromSidenav } = sidenav || {};
 
   const [activeKey, setActiveKey] = useControlled(
     activeKeyProp ?? activeKeyFromSidenav,

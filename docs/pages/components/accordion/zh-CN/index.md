@@ -28,7 +28,7 @@
 
 `activeKey` 可以通过 `onSelect` 回调来控制。
 
-<!--{include:`controled.md`}-->
+<!--{include:`controlled.md`}-->
 
 ### 自定义指示器
 

@@ -1,3 +1,23 @@
+## [5.53.2](https://github.com/rsuite/rsuite/compare/v5.53.1...v5.53.2) (2024-02-06)
+
+
+### Bug Fixes
+
+* **CheckPicker:** remove debug script ([#3615](https://github.com/rsuite/rsuite/issues/3615)) ([62285da](https://github.com/rsuite/rsuite/commit/62285da3f238dceeb2f75c168cc07bbacf0a52ce))
+* **Tree,CheckTree:** fix `classPrefix` and `className` not working correctly ([#3616](https://github.com/rsuite/rsuite/issues/3616)) ([c82cb91](https://github.com/rsuite/rsuite/commit/c82cb919a12be2bd94e7bf1018e3f3c8aa522c1f))
+
+
+
+## [5.53.1](https://github.com/rsuite/rsuite/compare/v5.53.0...v5.53.1) (2024-02-06)
+
+
+### Bug Fixes
+
+* supports Fragment children component ([#3607](https://github.com/rsuite/rsuite/issues/3607)) ([299b951](https://github.com/rsuite/rsuite/commit/299b951644ce6564bd53f6d0a4d031180d9e4e9d))
+* **Panel:** fix uncontrolled re-rendering of Panel children ([#3610](https://github.com/rsuite/rsuite/issues/3610)) ([8f9a8a8](https://github.com/rsuite/rsuite/commit/8f9a8a831156ac1eeee50b8093bce9ed89cf043d))
+
+
+
 # [5.53.0](https://github.com/rsuite/rsuite/compare/v5.52.0...v5.53.0) (2024-02-02)
 
 ### Bug Fixes

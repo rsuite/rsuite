@@ -93,4 +93,17 @@ describe('Stack', () => {
     expect(screen.getByTestId('test').firstChild).to.tagName('BUTTON');
     expect(screen.getByTestId('test').firstChild).to.have.class('rs-stack-item');
   });
+
+  it('Should render deep children, when direct child is a Fragment', () => {
+    render(
+      <Stack data-testid="test">
+        <>
+          <button>child one</button>
+          <button>child two</button>
+        </>
+      </Stack>
+    );
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(screen.getByTestId('test').children).to.have.length(2);
+  });
 });

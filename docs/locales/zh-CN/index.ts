@@ -50,7 +50,7 @@ export default {
     copySucceed: '复制成功',
     copyFailed: '复制失败，浏览器不支持此功能',
     shareTwitter: '分享到 Twitter',
-    accessibility: '无障碍设计',
+    accessibility: '可访问性',
     composition: '组件封装',
     optimizingPerformance: '性能优化',
     examples: '示例项目',

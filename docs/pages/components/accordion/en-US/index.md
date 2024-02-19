@@ -28,7 +28,7 @@ When `defaultActiveKey` or `activeKey` is set, only one panel can be expanded.
 
 `activeKey` can be controlled by `onSelect` callback.
 
-<!--{include:`controled.md`}-->
+<!--{include:`controlled.md`}-->
 
 ### Custom Indicator
 

@@ -32,6 +32,10 @@ Tabs are a set of layered sections of content, known as tab panels, that display
 
 <!--{include:`with-icon.md`}-->
 
+### Controlled
+
+<!--{include:`controlled.md`}-->
+
 ## Accessibility
 
 ### ARIA properties
