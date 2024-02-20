@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/prefer-screen-queries */
 import React from 'react';
 import { render, act, fireEvent, waitFor, screen, getByRole } from '@testing-library/react';
 import {
@@ -28,11 +29,8 @@ import { RangeType, DateRange } from '../types';
 function setTimePickerValue(calendarKey: 'start' | 'end', { hours, minutes, seconds }) {
   const calendar = screen.queryByTestId(`calendar-${calendarKey}`) as HTMLDivElement;
 
-  // eslint-disable-next-line testing-library/prefer-screen-queries
   const hourNode = getByRole(calendar, 'option', { name: `${hours} hours` });
-  // eslint-disable-next-line testing-library/prefer-screen-queries
   const minuteNode = getByRole(calendar, 'option', { name: `${minutes} minutes` });
-  // eslint-disable-next-line testing-library/prefer-screen-queries
   const secondNode = getByRole(calendar, 'option', { name: `${seconds} seconds` });
 
   fireEvent.click(hourNode);
@@ -480,6 +478,20 @@ describe('DateRangePicker', () => {
 
     expect(container.firstChild).to.have.class('rs-picker-error');
     expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
+  });
+
+  it('Should not have a error style when date is null', () => {
+    const { container } = render(<DateRangePicker value={null} />);
+
+    expect(container.firstChild).to.not.have.class('rs-picker-error');
+    expect(screen.getByRole('textbox')).to.not.have.attribute('aria-invalid');
+  });
+
+  it('Should not have a error style when date is empty array', () => {
+    const { container } = render(<DateRangePicker value={[] as any} />);
+
+    expect(container.firstChild).to.not.have.class('rs-picker-error');
+    expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'false');
   });
 
   it('Should update the calendar when clicking on a non-current month', () => {

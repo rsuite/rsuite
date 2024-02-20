@@ -851,8 +851,13 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     return caretAsProp || (shouldOnlyRenderTime(formatStr) ? IconClockO : IconCalendar);
   }, [caretAsProp, formatStr]) as React.ElementType | null;
 
-  const isErrorValue = (value?: [Date, Date] | null) => {
+  const isErrorValue = (value?: [Date, Date] | [] | null) => {
     if (!value) {
+      return false;
+    }
+
+    // If the value is an empty array, it is not an error value.
+    if (Array.isArray(value) && value.length === 0) {
       return false;
     }
 
