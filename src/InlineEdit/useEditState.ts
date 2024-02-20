@@ -70,11 +70,6 @@ const useEditState = (props: EditStateProps) => {
           handleCancel(event);
           break;
       }
-
-      return;
-    }
-    if (event.key === 'Enter' || event.key === 'Space') {
-      handleClick(event);
     }
   });
 

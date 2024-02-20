@@ -11,30 +11,10 @@ const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' })
 describe('InlineEdit', () => {
   testStandardProps(<InlineEdit />);
 
-  it('Should render value in InlineEdit with SelectPicker', () => {
-    render(
-      <InlineEdit value="Louisa">
-        <SelectPicker data={data} />
-      </InlineEdit>
-    );
-
-    expect(screen.getByText('Louisa')).to.exist;
-  });
-
   it('Should render placeholder in InlineEdit', () => {
     render(<InlineEdit placeholder="input something" />);
 
     expect(screen.getByText('input something')).to.exist;
-  });
-
-  it("Should render children's value in InlineEdit", () => {
-    render(
-      <InlineEdit>
-        <SelectPicker data={data} defaultValue="Louisa" />
-      </InlineEdit>
-    );
-
-    expect(screen.getByText('Louisa')).to.exist;
   });
 
   it('Should call onEdit callback', () => {
@@ -170,5 +150,88 @@ describe('InlineEdit', () => {
     fireEvent.click(screen.getByText('input something'));
 
     expect(screen.getByRole('textbox')).to.have.class('rs-input-lg');
+  });
+
+  it('Should custom render a input element', () => {
+    render(
+      <InlineEdit defaultValue="input something">
+        {(props, ref) => {
+          const { onChange, value, size, plaintext, ...rest } = props;
+
+          if (plaintext) {
+            return <span>{value}</span>;
+          }
+
+          return (
+            <input
+              type="text"
+              ref={ref}
+              value={value}
+              className={size}
+              onChange={event => {
+                onChange(event.target.value, event);
+              }}
+              {...rest}
+            />
+          );
+        }}
+      </InlineEdit>
+    );
+
+    expect(screen.getByText('input something')).to.have.tagName('span');
+
+    fireEvent.click(screen.getByText('input something'));
+
+    expect(screen.getByRole('textbox')).to.have.value('input something');
+  });
+
+  describe('InlineEdit with SelectPicker', () => {
+    it('Should render value in InlineEdit with SelectPicker', () => {
+      render(
+        <InlineEdit value="Louisa">
+          <SelectPicker data={data} />
+        </InlineEdit>
+      );
+
+      expect(screen.getByText('Louisa')).to.exist;
+    });
+
+    it("Should render children's value in InlineEdit", () => {
+      render(
+        <InlineEdit>
+          <SelectPicker data={data} defaultValue="Louisa" />
+        </InlineEdit>
+      );
+
+      expect(screen.getByText('Louisa')).to.exist;
+    });
+  });
+
+  describe('InlineEdit with keyboard', () => {
+    it('Should change value by pressing Enter', () => {
+      const onSave = Sinon.spy();
+
+      render(<InlineEdit onSave={onSave} defaultValue="input something" />);
+      fireEvent.click(screen.getByText('input something'));
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
+
+      fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
+
+      expect(screen.getByText('new value')).to.exist;
+      expect(onSave).to.have.been.calledOnce;
+    });
+
+    it('Should cancel editing by pressing Escape', () => {
+      const onCancel = Sinon.spy();
+
+      render(<InlineEdit onCancel={onCancel} defaultValue="input something" />);
+      fireEvent.click(screen.getByText('input something'));
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
+
+      fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Escape' });
+
+      expect(screen.getByText('input something')).to.exist;
+      expect(onCancel).to.have.been.calledOnce;
+    });
   });
 });
