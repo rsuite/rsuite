@@ -11,8 +11,7 @@ import { Input, Button } from 'rsuite';
 const App = () => {
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: ''
+      name: ''
     },
     onSubmit: values => {
       console.log(values);
@@ -28,14 +27,7 @@ const App = () => {
           formik.setFieldValue('name', value);
         }}
       />
-      <Input
-        name="email"
-        value={formik.values.email}
-        onChange={value => {
-          formik.setFieldValue('email', value);
-        }}
-      />
-      <button type="submit">Submit</button>
+      <Button type="submit">Submit</Button>
     </form>
   );
 };
@@ -46,3 +38,11 @@ const App = () => {
 ### 基础实例
 
 <!--{include:`basic.md`}-->
+
+### 验证
+
+<!--{include:`validation.md`}-->
+
+### 使用 Yup 验证
+
+<!--{include:`yup-schema-validation.md`}-->
