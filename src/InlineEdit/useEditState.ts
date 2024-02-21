@@ -64,7 +64,9 @@ const useEditState = (props: EditStateProps) => {
     if (isEditing) {
       switch (event.key) {
         case 'Enter':
-          handleSave(event);
+          if ((event.target as HTMLInputElement)?.tagName === 'INPUT') {
+            handleSave(event);
+          }
           break;
         case 'Escape':
           handleCancel(event);

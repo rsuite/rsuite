@@ -5,6 +5,7 @@ import { testStandardProps } from '@test/utils';
 import { mockGroupData } from '@test/mocks/data-mock';
 import InlineEdit from '../InlineEdit';
 import SelectPicker from '../../SelectPicker';
+import Input from '../../Input';
 
 const data = mockGroupData(['Eugenia', 'Kariane', 'Louisa'], { role: 'Master' });
 
@@ -219,6 +220,23 @@ describe('InlineEdit', () => {
 
       expect(screen.getByText('new value')).to.exist;
       expect(onSave).to.have.been.calledOnce;
+    });
+
+    it('Should not change value by pressing Enter when the input is a textarea', () => {
+      const onSave = Sinon.spy();
+
+      render(
+        <InlineEdit onSave={onSave} defaultValue="input something">
+          <Input as="textarea" />
+        </InlineEdit>
+      );
+      fireEvent.click(screen.getByText('input something'));
+      fireEvent.change(screen.getByRole('textbox'), { target: { value: 'new value' } });
+
+      fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
+
+      expect(screen.getByRole('textbox')).to.exist;
+      expect(onSave).to.not.have.been.called;
     });
 
     it('Should cancel editing by pressing Escape', () => {
