@@ -727,6 +727,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
         plaintextProps.as = Stack;
         plaintextProps.spacing = 6;
         plaintextProps.wrap = true;
+        plaintextProps.childrenRenderMode = 'clone';
       }
 
       return (
