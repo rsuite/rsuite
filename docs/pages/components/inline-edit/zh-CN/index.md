@@ -32,9 +32,19 @@
 
 <!--{include:`with-slider.md`}-->
 
+### 自定义输入
+
+InlineEdit 可以包裹任何数据输入组件，包括自定义输入组件。
+
+<!--{include:`custom-input.md`}-->
+
 ### 用户资料
 
 <!--{include:`user-profile.md`}-->
+
+### 不同尺寸
+
+<!--{include:`size.md`}-->
 
 ## Props
 

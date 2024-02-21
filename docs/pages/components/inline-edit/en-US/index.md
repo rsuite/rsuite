@@ -32,6 +32,12 @@ An inline edit displays a custom input component that switches between reading a
 
 <!--{include:`with-slider.md`}-->
 
+### Custom Input
+
+InlineEdit can wrap any data input component, including custom input components.
+
+<!--{include:`custom-input.md`}-->
+
 ### Disabled
 
 <!--{include:`disabled.md`}-->
