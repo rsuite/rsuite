@@ -646,7 +646,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               />
             )}
 
-            <>
+            <Stack.Item>
               <CalendarContainer
                 {...calendarProps}
                 targetId={id}
@@ -681,7 +681,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 onOk={handleOK}
                 hideOkBtn={oneTap}
               />
-            </>
+            </Stack.Item>
           </Stack>
         </PickerPopup>
       );
