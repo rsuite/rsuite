@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, mergeRefs } from '../utils';
 import { oneOf } from '../internals/propTypes';
-import { WithAsProps } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import EditableControls from './EditableControls';
 import useFocusEvent from './useFocusEvent';
 import useEditState from './useEditState';
@@ -73,7 +73,10 @@ export interface InlineEditProps extends WithAsProps {
     | React.ReactElement;
 }
 
-const InlineEdit = React.forwardRef<HTMLDivElement, InlineEditProps>((props, ref) => {
+const InlineEdit: RsRefForwardingComponent<'div', InlineEditProps> = React.forwardRef<
+  HTMLDivElement,
+  InlineEditProps
+>((props, ref) => {
   const {
     as: Component = 'div',
     children = defaultRenderInput,
