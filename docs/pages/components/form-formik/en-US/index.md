@@ -43,6 +43,6 @@ const App = () => {
 
 <!--{include:`validation.md`}-->
 
-### With Yup Schema Validation
+### Validation with Yup
 
 <!--{include:`yup-schema-validation.md`}-->

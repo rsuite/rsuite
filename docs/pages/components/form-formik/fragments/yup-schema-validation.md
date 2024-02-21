@@ -9,7 +9,9 @@ const Field = ({ error, ...rest }) => {
   return (
     <Form.Group>
       <Input {...rest} />
-      <Form.ErrorMessage show={!!error}>{error}</Form.ErrorMessage>
+      <Form.ErrorMessage show={!!error} placement="bottomStart">
+        {error}
+      </Form.ErrorMessage>
     </Form.Group>
   );
 };

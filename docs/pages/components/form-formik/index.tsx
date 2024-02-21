@@ -5,7 +5,8 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 
 const sandboxDependencies = {
-  formik: '^2.4.5'
+  formik: '^2.4.5',
+  yup: '^1.3.3'
 };
 
 export default function Page() {
