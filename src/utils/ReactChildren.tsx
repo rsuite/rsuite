@@ -1,10 +1,31 @@
 import React from 'react';
 
+function typeOf(object) {
+  if (typeof object === 'object' && object !== null) {
+    return object.type || object.$$typeof;
+  }
+}
+
+function isFragment(children: React.ReactNode) {
+  return React.Children.count(children) === 1 && typeOf(children) === Symbol.for('react.fragment');
+}
+
+function flatChildren(children: React.ReactNode) {
+  return React.Children.toArray(
+    React.Children.map(children as React.ReactElement[], child => {
+      if (isFragment(child)) {
+        return React.Children.toArray(child.props?.children || []);
+      }
+      return child;
+    })
+  );
+}
+
 export function find(children: React.ReactNode, func: any, context?: any) {
   let index = 0;
   let result: React.ReactNode;
 
-  React.Children.forEach(children, child => {
+  React.Children.forEach(flatChildren(children), child => {
     if (result) {
       return;
     }
@@ -19,7 +40,8 @@ export function find(children: React.ReactNode, func: any, context?: any) {
 
 export function map(children: React.ReactNode, func: any, context?: any) {
   let index = 0;
-  return React.Children.map(children, child => {
+
+  return React.Children.map(flatChildren(children), child => {
     if (!React.isValidElement(child)) {
       return child;
     }
@@ -29,25 +51,9 @@ export function map(children: React.ReactNode, func: any, context?: any) {
   });
 }
 
-function typeOf(object) {
-  if (typeof object === 'object' && object !== null) {
-    return object.type || object.$$typeof;
-  }
-}
-
-function isFragment(children: React.ReactNode) {
-  return React.Children.count(children) === 1 && typeOf(children) === Symbol.for('react.fragment');
-}
-
 export function mapCloneElement(children: React.ReactNode, func: any, context?: any) {
-  let elements = children;
-
-  if (isFragment(children)) {
-    elements = (children as React.ReactElement).props?.children;
-  }
-
   return map(
-    elements,
+    children,
     (child: React.DetailedReactHTMLElement<any, HTMLElement>, index: number) =>
       React.cloneElement(child, {
         key: index,
@@ -58,14 +64,14 @@ export function mapCloneElement(children: React.ReactNode, func: any, context?: 
 }
 
 export function count(children: React.ReactNode) {
-  return React.Children.count(Array.isArray(children) ? children.filter(child => child) : children);
+  return React.Children.count(flatChildren(children));
 }
 
 function some(children: React.ReactNode, func: any, context?: any) {
   let index = 0;
   let result = false;
 
-  React.Children.forEach(children, child => {
+  React.Children.forEach(flatChildren(children), child => {
     if (result) {
       return;
     }

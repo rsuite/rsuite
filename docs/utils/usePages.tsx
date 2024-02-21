@@ -4,7 +4,7 @@ import components from './component.config.json';
 import AppContext from '@/components/AppContext';
 import * as SvgIcons from '@/components/SvgIcons';
 
-interface Menu {
+export interface MenuItem {
   id?: string;
   name?: string;
   icon?: any;
@@ -14,12 +14,13 @@ interface Menu {
   group?: boolean;
   url?: string;
   apis?: string[];
-  children?: Menu[];
+  children?: MenuItem[];
   tag?: string;
   tagColor?: string;
+  minVersion?: string;
 }
 
-export default function usePages(): Menu[] {
+export default function usePages(): MenuItem[] {
   const { messages } = React.useContext(AppContext);
   return [
     {

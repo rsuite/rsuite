@@ -1,6 +1,6 @@
 {
   "name": "docs",
-  "version": "5.52.0",
+  "version": "5.53.1",
   "private": true,
   "scripts": {
     "check:type": "tsc",
@@ -41,10 +41,10 @@
     "react-color": "^2.18.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^17.0.2",
-    "react-icons": "^4.2.0",
+    "react-icons": "^5.0.1",
     "react-json-tree": "^0.18.0",
     "react-select": "^5.5.9",
-    "rsuite": "^5.52.0",
+    "rsuite": "^5.53.1",
     "svg-sprite-loader": "^6.0.11",
     "svgo": "^2.3.1",
     "svgo-loader": "^3.0.3",

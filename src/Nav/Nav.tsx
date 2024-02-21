@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import NavItem, { NavItemProps } from './NavItem';
-import { useClassNames } from '../utils';
+import { useClassNames, useEnsuredRef, useInternalId, useControlled } from '../utils';
 import { NavbarContext } from '../Navbar/Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import NavContext, { NavContextProps } from './NavContext';
-import useEnsuredRef from '../utils/useEnsuredRef';
 import Menubar from '../internals/Menu/Menubar';
 import { oneOf } from '../internals/propTypes';
 import NavDropdown from './NavDropdown';
@@ -18,7 +17,6 @@ import NavbarDropdownItem from '../Navbar/NavbarDropdownItem';
 import SidenavDropdownItem from '../Sidenav/SidenavDropdownItem';
 import NavbarItem from '../Navbar/NavbarItem';
 import SidenavItem from '../Sidenav/SidenavItem';
-import useInternalId from '../utils/useInternalId';
 
 export interface NavProps<T = any>
   extends WithAsProps,
@@ -40,6 +38,9 @@ export interface NavProps<T = any>
 
   /** Active key, corresponding to eventkey in <Nav.item>. */
   activeKey?: T;
+
+  /** Default active key, corresponding to eventkey in <Nav.item>. */
+  defaultActiveKey?: T;
 
   /** Callback function triggered after selection */
   onSelect?: (eventKey: T | undefined, event: React.SyntheticEvent) => void;
@@ -70,6 +71,7 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     className,
     children,
     activeKey: activeKeyProp,
+    defaultActiveKey,
     onSelect: onSelectProp,
     ...rest
   } = props;
@@ -98,16 +100,22 @@ const Nav: NavComponent = React.forwardRef((props: NavProps, ref: React.Ref<HTML
     })
   );
 
-  const { activeKey: activeKeyFromSidenav, onSelect: onSelectFromSidenav = onSelectProp } =
-    sidenav || {};
+  const { activeKey: activeKeyFromSidenav, onSelect: onSelectFromSidenav } = sidenav || {};
 
-  const activeKey = activeKeyProp ?? activeKeyFromSidenav;
+  const [activeKey, setActiveKey] = useControlled(
+    activeKeyProp ?? activeKeyFromSidenav,
+    defaultActiveKey
+  );
   const contextValue = useMemo<NavContextProps>(
     () => ({
       activeKey,
-      onSelect: onSelectProp ?? onSelectFromSidenav
+      onSelect: (eventKey: string | undefined, event: React.SyntheticEvent) => {
+        setActiveKey(eventKey);
+        onSelectProp?.(eventKey, event);
+        onSelectFromSidenav?.(eventKey, event);
+      }
     }),
-    [activeKey, onSelectFromSidenav, onSelectProp]
+    [activeKey, onSelectFromSidenav, onSelectProp, setActiveKey]
   );
 
   if (sidenav?.expanded) {

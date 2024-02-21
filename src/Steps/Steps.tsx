@@ -48,7 +48,7 @@ const Steps: StepsComponent = React.forwardRef((props: StepsProps, ref) => {
   const horizontal = !vertical;
   const classes = merge(className, withClassPrefix({ small, vertical, horizontal: !vertical }));
 
-  const count = React.Children.count(children);
+  const count = ReactChildren.count(children);
   const items = ReactChildren.mapCloneElement(children, (item, index) => {
     const itemStyles = {
       flexBasis: index < count - 1 ? `${100 / (count - 1)}%` : undefined,

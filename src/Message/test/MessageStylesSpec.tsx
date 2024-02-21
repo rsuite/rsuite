@@ -1,21 +1,21 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Message from '../index';
-import { getDOMNode, getStyle, toRGB } from '@test/utils';
-
+import { toRGB } from '@test/utils';
 import '../styles/index.less';
 
 describe('Message styles', () => {
   it('Should render the correct background color', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(<Message ref={instanceRef} />);
-    assert.equal(getStyle(getDOMNode(instanceRef.current), 'backgroundColor'), toRGB('#f0f9ff'));
+    render(<Message />);
+    expect(screen.getByRole('alert')).to.have.style('background-color', toRGB('#fff'));
   });
 
   it('Icon should render the correct color', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(<Message showIcon type="info" ref={instanceRef} />);
-    const icon = getDOMNode(instanceRef.current).querySelector('.rs-icon') as HTMLElement;
-    assert.equal(getStyle(icon, 'color'), toRGB('#2196f3'));
+    render(<Message showIcon type="info" />);
+
+    expect(screen.getByRole('alert').querySelector('.rs-icon')).to.have.style(
+      'color',
+      toRGB('#2196f3')
+    );
   });
 });

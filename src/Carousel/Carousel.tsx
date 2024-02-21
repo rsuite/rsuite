@@ -131,7 +131,7 @@ const Carousel: RsRefForwardingComponent<'div', CarouselProps> = React.forwardRe
     );
 
     const uniqueId = useMemo(() => guid(), []);
-    const items = React.Children.map(
+    const items = ReactChildren.map(
       children as React.ReactElement[],
       (child: React.ReactElement, index) => {
         if (!child) {

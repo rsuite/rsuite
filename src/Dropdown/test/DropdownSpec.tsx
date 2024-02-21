@@ -262,6 +262,36 @@ describe('<Dropdown>', () => {
     expect(onClose).to.have.been.calledOnce;
   });
 
+  it('Should call onClose callback when click menu item', () => {
+    const onClose = sinon.spy();
+    render(
+      <Dropdown defaultOpen onClose={onClose}>
+        <Dropdown.Item eventKey={1}>1</Dropdown.Item>
+        <Dropdown.Item eventKey={2}>2</Dropdown.Item>
+      </Dropdown>
+    );
+
+    fireEvent.click(screen.queryAllByRole('menuitem')[0]);
+    expect(onClose).to.have.been.calledOnce;
+  });
+
+  it('Should call onClose callback when click element inside the menu item ', () => {
+    const onClose = sinon.spy();
+    render(
+      <Dropdown defaultOpen onClose={onClose}>
+        <Dropdown.Item eventKey={1}>
+          <div>
+            <span data-testid="item1">1</span>
+          </div>
+        </Dropdown.Item>
+        <Dropdown.Item eventKey={2}>2</Dropdown.Item>
+      </Dropdown>
+    );
+
+    fireEvent.click(screen.getByTestId('item1'));
+    expect(onClose).to.have.been.calledOnce;
+  });
+
   it('Should not call onToggle callback when set disabled', () => {
     const onToggleSpy = sinon.spy();
     render(

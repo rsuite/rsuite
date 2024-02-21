@@ -2,14 +2,13 @@
 
 ```js
 import { Navbar, Nav } from 'rsuite';
-import HomeIcon from '@rsuite/icons/legacy/Home';
 import CogIcon from '@rsuite/icons/legacy/Cog';
 
 const App = () => (
   <Navbar>
     <Navbar.Brand href="#">RSUITE</Navbar.Brand>
     <Nav>
-      <Nav.Item icon={<HomeIcon />}>Home</Nav.Item>
+      <Nav.Item>Home</Nav.Item>
       <Nav.Item>News</Nav.Item>
       <Nav.Item>Products</Nav.Item>
       <Nav.Menu title="About">

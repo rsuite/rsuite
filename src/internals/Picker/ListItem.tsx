@@ -43,7 +43,7 @@ const ListItem: RsRefForwardingComponent<'div', ListItemProps> = React.forwardRe
       }
     });
 
-    const { withClassPrefix } = useClassNames(classPrefix);
+    const { withClassPrefix, merge, rootPrefix } = useClassNames(classPrefix);
     const classes = withClassPrefix({ active, focus, disabled });
 
     return (
@@ -55,7 +55,7 @@ const ListItem: RsRefForwardingComponent<'div', ListItemProps> = React.forwardRe
         data-key={value}
         {...rest}
         ref={ref}
-        className={className}
+        className={merge(className, rootPrefix`picker-list-item`)}
         tabIndex={-1}
         onKeyDown={disabled ? null : onKeyDown}
         onClick={handleClick}

@@ -27,6 +27,18 @@ describe('Message', () => {
     expect(screen.getByRole('alert')).to.text('description');
   });
 
+  it('Should be bordered', () => {
+    render(<Message bordered />);
+
+    expect(screen.getByRole('alert')).to.have.class('rs-message-bordered');
+  });
+
+  it('Should be centered', () => {
+    render(<Message centered />);
+
+    expect(screen.getByRole('alert')).to.have.class('rs-message-centered');
+  });
+
   it('Should have a type', () => {
     render(<Message type="info" />);
 

@@ -6,6 +6,13 @@
 
 <!--{include:<import-guide>}-->
 
+- `<Drawer>` - 抽屉的容器。
+- `<Drawer.Body>` - 抽屉的内容。
+- `<Drawer.Actions>` - 抽屉的操作按钮， 一般放置在抽屉的头部。（可选）
+- `<Drawer.Header>` - 抽屉的头部， 包含关闭按钮。（可选）
+- `<Drawer.Title>` - 抽屉的标题， 一般放置在抽屉的头部。 （可选）
+- `<Drawer.Footer>` - 抽屉的底部。（可选）
+
 ## 演示
 
 ### 默认
@@ -32,13 +39,13 @@
 
 | 属性名称          | 类型 `(默认值)`                                                                   | 描述                                                                                                    |
 | ----------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| ~~full~~          | boolean                                                                           | 已废弃，使用 size="full" 代替。 撑满全屏                                                                |
 | autoFocus         | boolean `(true)`                                                                  | 当设置为 true, Drawer 被打开是自动焦点移到其自身,辅助屏幕阅读器容易访问                                 |
 | backdrop          | boolean &#124; 'static'                                                           | 当设置为 true，Drawer 打开时会显示背景，点击背景会关闭 Drawer，如果不想关闭 Drawer，可以设置为 'static' |
 | backdropClassName | string                                                                            | 为背景设置一个自定义 className                                                                          |
 | classPrefix       | string `('drawer')`                                                               | 组件 CSS 类的前缀                                                                                       |
 | closeButton       | ReactNode &#124; boolean                                                          | 自定义关闭按钮，设置为 false 时不显示关闭按钮                                                           |
 | enforceFocus      | boolean `(true)`                                                                  | 当设置为 true, Drawer 将防止焦点在打开时离开,辅助屏幕阅读器容易访问                                     |
+| ~full~            | boolean                                                                           | 已废弃，使用 size="full" 代替。 撑满全屏                                                                |
 | keyboard          | boolean                                                                           | 按下 esc 键时关闭 Drawer                                                                                |
 | onClose           | () => void                                                                        | 隐藏时的回调函数                                                                                        |
 | onEnter           | () => void                                                                        | 显示前动画过渡的回调函数                                                                                |

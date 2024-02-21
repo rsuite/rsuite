@@ -46,3 +46,5 @@ export { default as useIsMounted } from './useIsMounted';
 export { default as useMount } from './useMount';
 export { default as useUniqueId } from './useUniqueId';
 export { default as useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
+export { default as useInternalId } from './useInternalId';
+export { default as useEnsuredRef } from './useEnsuredRef';

@@ -164,30 +164,30 @@ export interface DateRangePickerProps
   renderTitle?: (date: Date) => React.ReactNode;
 }
 
-export interface DateRangePicker extends PickerComponent<DateRangePickerProps> {
+export interface DateRangePickerComponent extends PickerComponent<DateRangePickerProps> {
   /** Allow the maximum number of days specified, other dates are disabled */
-  allowedMaxDays?: (days: number) => DisabledDateFunction;
+  allowedMaxDays: (days: number) => DisabledDateFunction;
 
   /** Only allowed days are specified, other dates are disabled */
-  allowedDays?: (days: number) => DisabledDateFunction;
+  allowedDays: (days: number) => DisabledDateFunction;
 
   /** Allow specified date range, other dates are disabled */
-  allowedRange?: (startDate: string | Date, endDate: string | Date) => DisabledDateFunction;
+  allowedRange: (startDate: string | Date, endDate: string | Date) => DisabledDateFunction;
 
   /** Disable dates after the specified date */
-  before?: (beforeDate: string | Date) => DisabledDateFunction;
+  before: (beforeDate: string | Date) => DisabledDateFunction;
 
   /** Disable dates before the specified date */
-  after?: (afterDate: string | Date) => DisabledDateFunction;
+  after: (afterDate: string | Date) => DisabledDateFunction;
 
   /** Disable dates after today. */
-  beforeToday?: () => DisabledDateFunction;
+  beforeToday: () => DisabledDateFunction;
 
   /** Disable dates before today */
-  afterToday?: () => DisabledDateFunction;
+  afterToday: () => DisabledDateFunction;
 
   /** Used to combine multiple conditions */
-  combine?: (...args: any) => DisabledDateFunction;
+  combine: (...args: any) => DisabledDateFunction;
 }
 
 /**
@@ -195,7 +195,7 @@ export interface DateRangePicker extends PickerComponent<DateRangePickerProps> {
  *
  * @see https://rsuitejs.com/components/date-range-picker
  */
-const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
+const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
   const {
     as: Component = 'div',
     classPrefix = 'picker',
@@ -801,7 +801,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
               />
             )}
 
-            <>
+            <Stack.Item>
               <div className={prefix('daterange-content')}>
                 {showHeader && (
                   <div className={prefix('daterange-header')} data-testid="daterange-header">
@@ -827,7 +827,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
                 onShortcutClick={handleShortcutPageDate}
                 ranges={bottomRanges}
               />
-            </>
+            </Stack.Item>
           </Stack>
         </div>
       </PickerPopup>
@@ -943,7 +943,7 @@ const DateRangePicker: DateRangePicker = React.forwardRef((props: DateRangePicke
       </Component>
     </PickerToggleTrigger>
   );
-});
+}) as unknown as DateRangePickerComponent;
 
 DateRangePicker.after = disabledDateUtils.after;
 DateRangePicker.afterToday = disabledDateUtils.afterToday;

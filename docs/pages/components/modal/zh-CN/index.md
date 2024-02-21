@@ -6,6 +6,7 @@
 
 <!--{include:<import-guide>}-->
 
+- `<Modal>` 模态框容器。
 - `<Modal.Header>` 模态框头部，包含关闭按钮。
 - `<Modal.Title>` 模态框标题，放置在模态框头部。
 - `<Modal.Body>` 模态框内容。
@@ -72,6 +73,8 @@
 
 ### `<Modal>`
 
+<!-- prettier-sort-markdown-table -->
+
 | 属性名称          | 类型 `(默认值)`                                                                            | 描述                                                                                                 |
 | ----------------- | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
 | autoFocus         | boolean `(true)`                                                                           | 当设置为 true, Modal 被打开是自动焦点移到其自身,辅助屏幕阅读器容易访问                               |
@@ -81,7 +84,7 @@
 | dialogAs          | ElementType `(ModalDialog)`                                                                | 以对 Dialog 使用自定义元素类型                                                                       |
 | dialogClassName   | string                                                                                     | 应用于 Dialog DOM 节点的 css class                                                                   |
 | enforceFocus      | boolean `(true)`                                                                           | 当设置为 true, Modal 将防止焦点在打开时离开,辅助屏幕阅读器容易访问                                   |
-| ~~full~~          | boolean                                                                                    | 已废弃，使用 size="full" 代替。撑满全屏                                                              |
+| ~full~            | boolean                                                                                    | 已废弃，使用 size="full" 代替。撑满全屏                                                              |
 | keyboard          | boolean `(true)`                                                                           | 按下 esc 键时关闭 Modal                                                                              |
 | onClose           | () => void                                                                                 | 隐藏时的回调函数                                                                                     |
 | onEnter           | () => void                                                                                 | 显示前动画过渡的回调函数                                                                             |

@@ -1,3 +1,38 @@
+## [5.53.2](https://github.com/rsuite/rsuite/compare/v5.53.1...v5.53.2) (2024-02-06)
+
+
+### Bug Fixes
+
+* **CheckPicker:** remove debug script ([#3615](https://github.com/rsuite/rsuite/issues/3615)) ([62285da](https://github.com/rsuite/rsuite/commit/62285da3f238dceeb2f75c168cc07bbacf0a52ce))
+* **Tree,CheckTree:** fix `classPrefix` and `className` not working correctly ([#3616](https://github.com/rsuite/rsuite/issues/3616)) ([c82cb91](https://github.com/rsuite/rsuite/commit/c82cb919a12be2bd94e7bf1018e3f3c8aa522c1f))
+
+
+
+## [5.53.1](https://github.com/rsuite/rsuite/compare/v5.53.0...v5.53.1) (2024-02-06)
+
+
+### Bug Fixes
+
+* supports Fragment children component ([#3607](https://github.com/rsuite/rsuite/issues/3607)) ([299b951](https://github.com/rsuite/rsuite/commit/299b951644ce6564bd53f6d0a4d031180d9e4e9d))
+* **Panel:** fix uncontrolled re-rendering of Panel children ([#3610](https://github.com/rsuite/rsuite/issues/3610)) ([8f9a8a8](https://github.com/rsuite/rsuite/commit/8f9a8a831156ac1eeee50b8093bce9ed89cf043d))
+
+
+
+# [5.53.0](https://github.com/rsuite/rsuite/compare/v5.52.0...v5.53.0) (2024-02-02)
+
+### Bug Fixes
+
+- **DateRangePicker:** fix incorrect static method type definition ([#3598](https://github.com/rsuite/rsuite/issues/3598)) ([68b3afb](https://github.com/rsuite/rsuite/commit/68b3afb712535632435ea8d2a2a6c7581ab7f8e7))
+- **InputGroup:** fix that the bg color of `InputGroup.Addon` is inconsistent with `Input` ([#3595](https://github.com/rsuite/rsuite/issues/3595)) ([a6bb6b0](https://github.com/rsuite/rsuite/commit/a6bb6b082fea563515d53979e8ba6b9183f2af89))
+- **Menu:** fix the menuitem cannot be closed correctly when it contains child elements ([#3599](https://github.com/rsuite/rsuite/issues/3599)) ([5f08313](https://github.com/rsuite/rsuite/commit/5f08313e8fded19ea0d918c95f1cb6a84101760d))
+- **Message:** make the visual style of Message more prominent ([#3603](https://github.com/rsuite/rsuite/issues/3603)) ([114013f](https://github.com/rsuite/rsuite/commit/114013ff6b7922f72e383f3b7d51a5938a1e4313))
+- **tree:** improve the hover and focus status of Tree nodes ([#3594](https://github.com/rsuite/rsuite/issues/3594)) ([559b837](https://github.com/rsuite/rsuite/commit/559b83731e3e46b09efe6cfcf6bb4d78e8cc0038))
+
+### Features
+
+- **Message:** add support for `bordered` and `centered` props on Message ([#3605](https://github.com/rsuite/rsuite/issues/3605)) ([2e0f2ec](https://github.com/rsuite/rsuite/commit/2e0f2ec620bce242709acbeea0bff060abc848b4))
+- **Tabs:** add support for Tabs ([#3597](https://github.com/rsuite/rsuite/issues/3597)) ([303350f](https://github.com/rsuite/rsuite/commit/303350fb3dd4abc20961a72b356132a1d5188685))
+
 # [5.52.0](https://github.com/rsuite/rsuite/compare/v5.51.0...v5.52.0) (2024-01-26)
 
 ### Bug Fixes

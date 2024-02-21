@@ -16,6 +16,7 @@
   line-height: @line-height-base;
   position: relative;
   animation-fill-mode: forwards;
+  overflow: hidden;
 
   &-container {
     padding: @message-padding;
@@ -23,8 +24,30 @@
     display: flex;
   }
 
-  // Icon wrapper
-  &-icon-wrapper {
+  &-centered {
+    .rs-message-container {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .rs-message-icon {
+      align-self: center !important;
+
+      .rs-icon {
+        font-size: 40px !important;
+      }
+    }
+
+    &.rs-message-bordered {
+      border-left-width: 1px !important;
+      border-top-width: 4px !important;
+    }
+  }
+
+  // Message icon
+  &-icon {
     align-self: center;
     font-size: 0; // remove whitespace before svg
     margin-right: 10px;
@@ -44,6 +67,7 @@
   &-header {
     color: var(--rs-text-heading);
     line-height: unit((round((@message-icon-large-size / @message-title-size), 16)));
+    font-weight: bold;
     .ellipsis();
 
     & + .rs-message-body {
@@ -54,12 +78,18 @@
   // Description
   &-body {
     color: var(--rs-text-primary);
+    ul,
+    ol {
+      margin: 0;
+      padding: 0;
+      padding-inline-start: 16px;
+    }
   }
 
   // Message with a title
   &.rs-message-has-title {
     // Bigger icon
-    .rs-message-icon-wrapper {
+    .rs-message-icon {
       align-self: flex-start;
 
       .rs-icon {
@@ -103,6 +133,7 @@
   left: 0;
   width: 100%;
   border-radius: 0;
+  z-index: @zindex-message-full;
 }
 
 // Alternate styles
@@ -117,6 +148,8 @@
     var(--rs-message-success-header);
     var(--rs-message-success-text);
     var(--rs-message-success-icon);
+    var(--rs-message-success-border);
+    var(--rs-message-success-icon-border);
   );
 
   .high-contrast-mode({
@@ -130,6 +163,8 @@
     var(--rs-message-info-header);
     var(--rs-message-info-text);
     var(--rs-message-info-icon);
+    var(--rs-message-info-border);
+    var(--rs-message-info-icon-border);
   );
 
   .high-contrast-mode({
@@ -143,6 +178,8 @@
     var(--rs-message-warning-header);
     var(--rs-message-warning-text);
     var(--rs-message-warning-icon);
+    var(--rs-message-warning-border);
+    var(--rs-message-warning-icon-border);
   );
 
   .high-contrast-mode({
@@ -156,6 +193,8 @@
     var(--rs-message-error-header);
     var(--rs-message-error-text);
     var(--rs-message-error-icon);
+    var(--rs-message-error-border);
+    var(--rs-message-error-icon-border);
   );
 
   .high-contrast-mode({

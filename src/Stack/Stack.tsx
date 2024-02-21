@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useCustom, isSupportFlexGap } from '../utils';
+import { useClassNames, useCustom, isSupportFlexGap, ReactChildren } from '../utils';
 import { oneOf } from '../internals/propTypes';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import StackItem from './StackItem';
@@ -90,11 +90,11 @@ const Stack = React.forwardRef((props: StackProps, ref: React.Ref<HTMLDivElement
    */
   const filterChildren = React.Children.toArray(children);
 
-  const count = filterChildren.length;
+  const count = ReactChildren.count(filterChildren as React.ReactElement[]);
 
   return (
     <Component {...rest} ref={ref} className={classes} style={styles}>
-      {React.Children.map(filterChildren as React.ReactElement[], (child, index) => {
+      {ReactChildren.map(filterChildren as React.ReactElement[], (child, index) => {
         const childNode =
           childrenRenderMode === 'wrap' && child.type !== StackItem ? (
             <StackItem
