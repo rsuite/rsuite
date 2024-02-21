@@ -167,5 +167,3 @@ ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 <!--end-code-->
-
-> For example: `<Form.Control accepter={CheckboxGroup} />` , Form.Control renders a `<CheckboxGroup>` component and binds to the Schema.Model instance in the Form. The rich text editor in the following example, using [react-quill](https://github.com/zenoamaro/react-quill)
