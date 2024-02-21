@@ -11,7 +11,7 @@ import pick from 'lodash/pick';
 import getWidth from 'dom-lib/getWidth';
 import shallowEqual from '../utils/shallowEqual';
 import { filterNodesOfTree } from '../utils/treeUtils';
-import Plaintext from '../internals/Plaintext';
+import Plaintext, { type PlaintextProps } from '../internals/Plaintext';
 import {
   createChainedFunction,
   tplTransform,
@@ -50,6 +50,7 @@ import Tag from '../Tag';
 import InputAutosize from './InputAutosize';
 import TextBox from './TextBox';
 import InputPickerContext from './InputPickerContext';
+import Stack, { type StackProps } from '../Stack';
 
 import type { ItemDataType, FormControlPickerProps } from '../@types/common';
 import type { InputPickerLocale } from '../locales';
@@ -719,14 +720,13 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       : { as: 'input' };
 
     if (plaintext) {
-      const plaintextProps: React.DetailsHTMLAttributes<HTMLDivElement> = {};
+      const plaintextProps: PlaintextProps & StackProps = {};
 
-      // TagPicker has -6px margin-left on the plaintext wrapper
-      // for fixing margin-left on tags from 2nd line on
+      // When multiple selection, the tag is displayed in a stack layout.
       if (multi && hasValue) {
-        plaintextProps.style = {
-          marginLeft: -6
-        };
+        plaintextProps.as = Stack;
+        plaintextProps.spacing = 6;
+        plaintextProps.wrap = true;
       }
 
       return (
