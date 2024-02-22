@@ -1,3 +1,21 @@
+# [5.54.0](https://github.com/rsuite/rsuite/compare/v5.53.2...v5.54.0) (2024-02-22)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix style error of the bottom button in the datePicker ([#3634](https://github.com/rsuite/rsuite/issues/3634)) ([536ad7e](https://github.com/rsuite/rsuite/commit/536ad7e9b0bf9c727dd69c5e0584033751422e1f))
+* **DateRangePicker:** fix error state when value is empty array ([#3631](https://github.com/rsuite/rsuite/issues/3631)) ([f8778f5](https://github.com/rsuite/rsuite/commit/f8778f537c441e0a49ecebf2c41c9af14a764400))
+* **InputGroup:** fix Input padding issue in InputGroup ([#3600](https://github.com/rsuite/rsuite/issues/3600)) ([56b3792](https://github.com/rsuite/rsuite/commit/56b379297e237aa26aff0140cd93ec3a7314e5f4))
+* **TagPicker:** fix the margin issue between tags in plaintext mode ([#3638](https://github.com/rsuite/rsuite/issues/3638)) ([61f343b](https://github.com/rsuite/rsuite/commit/61f343b43677b9d1441f5c5a60cc7a95ae6890ca))
+* fixed issue with install guide page ([#3619](https://github.com/rsuite/rsuite/issues/3619)) ([#3620](https://github.com/rsuite/rsuite/issues/3620)) ([33159b6](https://github.com/rsuite/rsuite/commit/33159b6ffeff4ce44cae03e1eb9ae806c6d2d12c))
+
+
+### Features
+
+* **InlineEdit:** add support for InlineEdit ([#3614](https://github.com/rsuite/rsuite/issues/3614)) ([8ed7e6d](https://github.com/rsuite/rsuite/commit/8ed7e6d57b7ccd930bd72017a0a8299be0c21515))
+
+
+
 ## [5.53.2](https://github.com/rsuite/rsuite/compare/v5.53.1...v5.53.2) (2024-02-06)
 
 
