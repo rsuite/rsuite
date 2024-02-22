@@ -1,4 +1,4 @@
-# Formik integration
+# Formik integration 🧩
 
 React Suite can be coupled smoothly with Formik. This guide will show you how to use Formik with React Suite.
 

@@ -264,11 +264,17 @@
     "components": ["Form", "Form.Control", "Schema"]
   },
   {
+    "id": "schema",
+    "name": "schema-typed",
+    "title": "数据模型",
+    "target": "_blank",
+    "url": "https://github.com/rsuite/schema-typed#schema-typed"
+  },
+  {
     "id": "form-formik",
     "name": "Formik integration",
     "title": "",
-    "tag": "🔌",
-    "tagColor": "yellow"
+    "icon": "IoExtensionPuzzleOutline"
   },
   {
     "group": true,
@@ -660,13 +666,6 @@
     "name": "Whisper",
     "title": "弹窗触发器",
     "components": ["Whisper"]
-  },
-  {
-    "id": "schema",
-    "name": "Schema",
-    "title": "数据模型",
-    "target": "_blank",
-    "url": "https://github.com/rsuite/schema-typed#schema-typed"
   },
   {
     "id": "use-media-query",
