@@ -96,6 +96,10 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 
 <!--{include:`caret.md`}-->
 
+### 自定义渲染单元格
+
+<!--{include:`render-cell.md`}-->
+
 ### 原生的选择器
 
 如果您只需要满足简单的日期选择功能，完全可以使用浏览器支持的原生选择器。
@@ -128,12 +132,12 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 
 | 属性名称              | 类型`(默认值)`                                                  | 描述                                                                                                     |
 | --------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| appearance            | 'default' &#124; 'subtle' `('default')`                         | 设置外观                                                                                                 |
+| appearance            | 'default' \| 'subtle' `('default')`                             | 设置外观                                                                                                 |
 | block                 | boolean                                                         | 堵塞整行                                                                                                 |
 | calendarDefaultDate   | Date                                                            | 日历面板默认呈现的日期时间                                                                               |
 | caretAs               | ElementType                                                     | 自定义右侧箭头图标的组件                                                                                 |
 | cleanable             | boolean `(true)`                                                | 可以清除                                                                                                 |
-| container             | HTMLElement &#124; (() => HTMLElement)                          | 设置渲染的容器                                                                                           |
+| container             | HTMLElement \| (() => HTMLElement)                              | 设置渲染的容器                                                                                           |
 | defaultOpen           | boolean                                                         | 默认打开                                                                                                 |
 | defaultValue          | Date                                                            | 默认值                                                                                                   |
 | disabled              | boolean                                                         | 禁用组件                                                                                                 |
@@ -177,13 +181,14 @@ DatePicker 是一个高度可定制的组件，用户可以输入或选择不同
 | placement             | [Placement](#code-ts-placement-code) `('bottomStart')`          | 显示位置                                                                                                 |
 | preventOverflow       | boolean                                                         | 防止浮动元素溢出                                                                                         |
 | ranges                | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | 快捷项配置                                                                                               |
+| renderCell            | (date: Date) => ReactNode                                       | 自定义渲染日历单元格 <br/>![](https://img.shields.io/badge/min-v5.54.0-blue)                             |
 | shouldDisableDate     | (date:Date) => boolean                                          | 禁用日期                                                                                                 |
 | shouldDisableHour     | (hour:number, date:Date) => boolean                             | 禁用小时                                                                                                 |
 | shouldDisableMinute   | (minute:number, date:Date) => boolean                           | 禁用分钟                                                                                                 |
 | shouldDisableSecond   | (second:number, date:Date) => boolean                           | 禁用秒                                                                                                   |
 | showMeridian          | boolean                                                         | 显示 12 小时制的时间格式                                                                                 |
 | showWeekNumbers       | boolean                                                         | 显示周数量                                                                                               |
-| size                  | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`               | 组件设置尺寸                                                                                             |
+| size                  | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                           | 组件设置尺寸                                                                                             |
 | value                 | Date                                                            | 值`受控                                                                                                  |
 
 <!--{include:(_common/types/placement.md)}-->

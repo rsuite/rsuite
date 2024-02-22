@@ -107,6 +107,11 @@ export interface CalendarProps
   /** Custom rendering cell*/
   renderCell?: (date: Date) => React.ReactNode;
 
+  /**
+   * Custom rendering cell on the picker
+   */
+  renderCellOnPicker?: (date: Date) => React.ReactNode;
+
   /** Custom cell classes base on it's date */
   cellClassName?: (date: Date) => string | undefined;
 
@@ -147,6 +152,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       calendarDate: calendarDateProp,
       cellClassName,
       renderCell,
+      renderCellOnPicker,
       renderTitle,
       renderToolbar,
       showMeridian,
@@ -238,6 +244,7 @@ const CalendarContainer: RsRefForwardingComponent<'div', CalendarProps> = React.
       onSelect,
       cellClassName,
       renderCell,
+      renderCellOnPicker,
       showWeekNumbers,
       inline
     };

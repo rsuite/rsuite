@@ -981,6 +981,22 @@ describe('DatePicker', () => {
     );
   });
 
+  it('Should custom render cell', () => {
+    render(
+      <DatePicker
+        open
+        value={new Date('2023-10-01')}
+        renderCell={date => {
+          const day = date.getDate();
+
+          return day === 1 ? <span>1🎉</span> : day;
+        }}
+      />
+    );
+
+    expect(screen.getByRole('gridcell', { name: '01 Oct 2023' })).to.have.text('1🎉');
+  });
+
   describe('Accessibility', () => {
     it('Should have a aria-label attribute', () => {
       render(<DatePicker aria-label="Custom label" />);
