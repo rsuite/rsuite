@@ -1,4 +1,5 @@
-import { getDataGroupBy, KEY_GROUP } from '../getDataGroupBy';
+import { getDataGroupBy } from '../getDataGroupBy';
+import { RSUITE_PICKER_GROUP_KEY } from '../../internals/symbols';
 
 describe('[utils] getDataGroupBy', () => {
   it('Should be grouped by title', () => {
@@ -16,7 +17,7 @@ describe('[utils] getDataGroupBy', () => {
     const groups = getDataGroupBy(items, 'group');
 
     assert.equal((groups[0] as any).groupTitle, 'title');
-    assert.equal(groups[0][KEY_GROUP], true);
+    assert.equal(groups[0][RSUITE_PICKER_GROUP_KEY], true);
     assert.equal(groups.length, 3);
   });
 
@@ -59,9 +60,9 @@ describe('[utils] getDataGroupBy', () => {
     const groups = getDataGroupBy(items, 'country.name');
 
     assert.equal((groups[0] as any).groupTitle, 'Egypt');
-    assert.equal(groups[0][KEY_GROUP], true);
+    assert.equal(groups[0][RSUITE_PICKER_GROUP_KEY], true);
     assert.equal((groups[3] as any).groupTitle, 'USA');
-    assert.equal(groups[3][KEY_GROUP], true);
+    assert.equal(groups[3][RSUITE_PICKER_GROUP_KEY], true);
     assert.equal(groups.length, 6);
   });
 
@@ -113,9 +114,9 @@ describe('[utils] getDataGroupBy', () => {
     const groups = getDataGroupBy(items, 'group', sort);
 
     assert.equal((groups[0] as any).groupTitle, 'group-1');
-    assert.equal(groups[0][KEY_GROUP], true);
+    assert.equal(groups[0][RSUITE_PICKER_GROUP_KEY], true);
     assert.equal((groups[3] as any).groupTitle, 'group-2');
-    assert.equal(groups[3][KEY_GROUP], true);
+    assert.equal(groups[3][RSUITE_PICKER_GROUP_KEY], true);
     assert.equal(groups.length, 6);
   });
 });

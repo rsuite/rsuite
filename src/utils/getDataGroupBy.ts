@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import { WalkTreeStrategy, flattenTree } from '../utils/treeUtils';
+import { RSUITE_PICKER_GROUP_KEY } from '../internals/symbols';
 
-const hasSymbol = typeof Symbol === 'function';
-export const KEY_GROUP = hasSymbol ? Symbol('_$grouped') : '_$grouped';
 export const KEY_GROUP_TITLE = 'groupTitle';
 
 export function getDataGroupBy<T>(
@@ -16,7 +15,7 @@ export function getDataGroupBy<T>(
   const groups = Object.entries(groupMap).map(([groupTitle, children]: [string, any[]]) => ({
     children: isSort ? children.sort(sort(false)) : children,
     [KEY_GROUP_TITLE]: groupTitle,
-    [KEY_GROUP]: true
+    [RSUITE_PICKER_GROUP_KEY]: true
   }));
 
   if (isSort) {

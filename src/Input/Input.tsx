@@ -70,6 +70,7 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
       size,
       htmlSize,
       plaintext,
+      placeholder,
       readOnly,
       onPressEnter,
       onFocus,
@@ -99,7 +100,7 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
     // and display default characters when there is no value.
     if (plaintext) {
       return (
-        <Plaintext ref={ref} localeKey="unfilled">
+        <Plaintext ref={ref} localeKey="unfilled" placeholder={placeholder}>
           {typeof value === 'undefined' ? defaultValue : value}
         </Plaintext>
       );
@@ -128,6 +129,7 @@ const Input: RsRefForwardingComponent<'input', InputProps> = React.forwardRef(
         disabled={disabled}
         readOnly={readOnly}
         size={htmlSize}
+        placeholder={placeholder}
       />
     );
   }

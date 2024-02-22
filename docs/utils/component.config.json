@@ -397,6 +397,13 @@
     }
   },
   {
+    "id": "inline-edit",
+    "name": "InlineEdit",
+    "title": "行内编辑",
+    "components": ["InlineEdit"],
+    "minVersion": "5.54.0"
+  },
+  {
     "id": "multi-cascader",
     "name": "MultiCascader",
     "title": "级联多项选择器",
