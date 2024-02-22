@@ -264,17 +264,17 @@
     "components": ["Form", "Form.Control", "Schema"]
   },
   {
+    "id": "form-formik",
+    "name": "Formik integration",
+    "title": "",
+    "icon": "IoExtensionPuzzleOutline"
+  },
+  {
     "id": "schema",
     "name": "schema-typed",
     "title": "数据模型",
     "target": "_blank",
     "url": "https://github.com/rsuite/schema-typed#schema-typed"
-  },
-  {
-    "id": "form-formik",
-    "name": "Formik integration",
-    "title": "",
-    "icon": "IoExtensionPuzzleOutline"
   },
   {
     "group": true,
