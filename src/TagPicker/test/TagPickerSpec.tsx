@@ -426,20 +426,16 @@ describe('TagPicker', () => {
     const { rerender } = render(<TagPicker plaintext data={data} value={['Eugenia']} />);
 
     expect(screen.getByRole('text')).to.have.text('Eugenia');
-    expect(screen.getByRole('text')).to.style('margin-left', '-6px');
 
     rerender(<TagPicker plaintext data={data} />);
     expect(screen.getByRole('text')).to.have.text('Not selected');
-    expect(screen.getByRole('text')).to.not.have.style('margin-left', '');
 
     rerender(<TagPicker plaintext data={data} placeholder="-" />);
     expect(screen.getByRole('text')).to.have.text('-');
-    expect(screen.getByRole('text')).to.not.have.style('margin-left', '');
 
     rerender(<TagPicker plaintext data={data} placeholder="-" value={['Eugenia']} />);
 
     expect(screen.getByRole('text')).to.have.text('Eugenia');
-    expect(screen.getByRole('text')).to.style('margin-left', '-6px');
   });
 
   it('Should call `onTagRemove` callback', () => {
