@@ -24,7 +24,8 @@ function createStorybook(componentName: string) {
     'CustomProvider',
     'Overview',
     'Icons',
-    'CSS Reset'
+    'CSS Reset',
+    'Formik integration'
   ];
 
   if (ignoreList.includes(componentName) || !componentName) {

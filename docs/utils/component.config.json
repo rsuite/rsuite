@@ -240,6 +240,44 @@
   },
   {
     "group": true,
+    "id": "form-category",
+    "name": "From",
+    "title": "表单"
+  },
+  {
+    "id": "form",
+    "name": "Form",
+    "title": "表单",
+    "components": [
+      "Form",
+      "Form.Group",
+      "Form.Control",
+      "Form.ControlLabel",
+      "Form.HelpText",
+      "Form.ErrorMessage"
+    ]
+  },
+  {
+    "id": "form-validation",
+    "name": "Form Validation",
+    "title": "表单校验",
+    "components": ["Form", "Form.Control", "Schema"]
+  },
+  {
+    "id": "form-formik",
+    "name": "Formik integration",
+    "title": "",
+    "icon": "IoExtensionPuzzleOutline"
+  },
+  {
+    "id": "schema",
+    "name": "schema-typed",
+    "title": "数据模型",
+    "target": "_blank",
+    "url": "https://github.com/rsuite/schema-typed#schema-typed"
+  },
+  {
+    "group": true,
     "id": "entry",
     "name": "Data Entry",
     "title": "数据录入"
@@ -327,22 +365,6 @@
       "default": "68",
       "dark": "68"
     }
-  },
-  {
-    "id": "form",
-    "name": "Form",
-    "title": "表单",
-    "components": ["Form", "FormControl", "FormGroup", "ControlLabel", "HelpBlock"],
-    "designHash": {
-      "default": "38",
-      "dark": "38"
-    }
-  },
-  {
-    "id": "form-validation",
-    "name": "Form Validation",
-    "title": "表单校验",
-    "components": ["Form", "FormControl", "Schema"]
   },
   {
     "id": "input",
@@ -644,13 +666,6 @@
     "name": "Whisper",
     "title": "弹窗触发器",
     "components": ["Whisper"]
-  },
-  {
-    "id": "schema",
-    "name": "Schema",
-    "title": "数据模型",
-    "target": "_blank",
-    "url": "https://github.com/rsuite/schema-typed#schema-typed"
   },
   {
     "id": "use-media-query",
