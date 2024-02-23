@@ -1,40 +1,41 @@
-/* eslint-disable react/prop-types */
 import React, { Ref } from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode } from '@test/utils';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { testStandardProps } from '@test/utils';
 import PaginationButton, { PaginationButtonProps } from '../PaginationButton';
 import Sinon from 'sinon';
 
 describe('PaginationButton', () => {
+  testStandardProps(<PaginationButton eventKey="" />);
+
   it('Should render a <button>', () => {
-    const title = 'Test';
-    const instance = getDOMNode(<PaginationButton eventKey="">{title}</PaginationButton>);
-    assert.equal(instance.tagName, 'BUTTON');
-    assert.equal(instance.textContent, title);
+    render(<PaginationButton eventKey="">Test</PaginationButton>);
+
+    expect(screen.getByText('Test')).to.exist;
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<PaginationButton eventKey="" disabled />);
-    assert.ok(instance.className.match(/\bdisabled\b/));
+    render(<PaginationButton eventKey="" disabled />);
+    expect(screen.getByRole('button')).to.have.attribute('disabled');
   });
 
   it('Should be active', () => {
-    const instance = getDOMNode(<PaginationButton eventKey="" active />);
-    assert.ok(instance.className.match(/\bactive\b/));
+    render(<PaginationButton eventKey="" active />);
+
+    expect(screen.getByRole('button')).to.have.class('rs-pagination-btn-active');
   });
 
   it('Should call onSelect callback with correct eventKey', () => {
     const onSelect = Sinon.spy();
-    const instance = getDOMNode(<PaginationButton onSelect={onSelect} eventKey={10} />);
-    ReactTestUtils.Simulate.click(instance);
+    render(<PaginationButton onSelect={onSelect} eventKey={10} />);
+    fireEvent.click(screen.getByRole('button'));
 
     expect(onSelect).to.have.been.calledWith(10);
   });
 
   it('Should call onClick callback', () => {
     const onClick = Sinon.spy();
-    const instance = getDOMNode(<PaginationButton onClick={onClick} eventKey={10} />);
-    ReactTestUtils.Simulate.click(instance);
+    render(<PaginationButton onClick={onClick} eventKey={10} />);
+    fireEvent.click(screen.getByRole('button'));
 
     expect(onClick).to.have.been.calledOnce;
   });
@@ -43,13 +44,16 @@ describe('PaginationButton', () => {
     const Button = React.forwardRef(({ active }: PaginationButtonProps, ref: Ref<HTMLElement>) => {
       return <span ref={ref}>{active ? 'active' : 'inactive'}</span>;
     });
+
     Button.displayName = 'Button';
-    const activeInstance = getDOMNode(<PaginationButton eventKey="" active as={Button} />);
-    const inactiveInstance = getDOMNode(
-      <PaginationButton eventKey="" active={false} as={Button} />
-    );
-    assert.equal(activeInstance.textContent, 'active');
-    assert.equal(inactiveInstance.textContent, 'inactive');
+
+    const { rerender } = render(<PaginationButton eventKey="" active as={Button} />);
+
+    expect(screen.getByText('active')).to.exist;
+
+    rerender(<PaginationButton eventKey="" active={false} as={Button} />);
+
+    expect(screen.getByText('inactive')).to.exist;
   });
 
   it('Custom elements can get the eventKey prop', () => {
@@ -63,23 +67,8 @@ describe('PaginationButton', () => {
         </span>
       );
     });
-    const instance = getDOMNode(<PaginationButton eventKey={1} as={Button} />);
-    assert.equal(instance.textContent, '1');
-  });
+    render(<PaginationButton eventKey={1} as={Button} />);
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<PaginationButton eventKey="" className="custom" />);
-    assert.ok(instance.className.match(/\bcustom\b/));
-  });
-
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<PaginationButton eventKey="" style={{ fontSize }} />);
-    assert.equal(instance.style.fontSize, fontSize);
-  });
-
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<PaginationButton eventKey="" classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    expect(screen.getByText('1')).to.exist;
   });
 });
