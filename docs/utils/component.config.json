@@ -265,7 +265,13 @@
   },
   {
     "id": "form-formik",
-    "name": "Formik integration",
+    "name": "Formik",
+    "title": "",
+    "icon": "IoExtensionPuzzleOutline"
+  },
+  {
+    "id": "form-react-hook-form",
+    "name": "React Hook Form",
     "title": "",
     "icon": "IoExtensionPuzzleOutline"
   },
