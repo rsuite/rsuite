@@ -38,7 +38,7 @@
 | ------------- | ------------------------------------------------------- | ---------------------------------------------------- |
 | activePage \* | number `(1)`                                            | 当前页码                                             |
 | boundaryLinks | boolean                                                 | 显示边界分页按钮 1 和 pages                          |
-| classPrefix   | string `('pagination')`                                 | 组件 CSS 类的前缀                                    |
+| classPrefix   | string `('pagination-group')`                           | 组件 CSS 类的前缀                                    |
 | disabled      | boolean &#124; (eventKey: number) => boolean            | 禁用分页                                             |
 | ellipsis      | boolean                                                 | 显示省略符                                           |
 | first         | boolean                                                 | 显示第一页                                           |
