@@ -317,12 +317,17 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
   }: {
     dateRange: SelectedDatesState | null;
     calendarKey?: 'start' | 'end';
-    eventName?: 'changeTime' | 'changeDate' | 'changeMonth';
+    eventName?: 'changeTime' | 'changeDate' | 'changeMonth' | 'shortcutSelection';
   }) => {
     let nextValue = dateRange;
 
     // The time should remain the same when the dates in the date range are changed.
-    if (shouldRenderTime(formatStr) && dateRange?.length && eventName !== 'changeTime') {
+    if (
+      shouldRenderTime(formatStr) &&
+      dateRange?.length &&
+      eventName !== 'changeTime' &&
+      eventName !== 'shortcutSelection'
+    ) {
       const startDate = copyTime({ from: getCalendarDatetime('start'), to: dateRange[0] });
       const endDate = copyTime({
         from: getCalendarDatetime('end'),
@@ -619,7 +624,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     (range: RangeType, closeOverlay = false, event: React.MouseEvent) => {
       const value = range.value as DateRange;
 
-      setCalendarDateRange({ dateRange: value });
+      setCalendarDateRange({ dateRange: value, eventName: 'shortcutSelection' });
 
       if (closeOverlay) {
         setDateRange(event, value, closeOverlay);
