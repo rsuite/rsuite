@@ -33,17 +33,17 @@ export default function Page() {
     <DefaultPage>
       <div className="component-overview">
         <div className="toolbar">
-          <ButtonGroup>
+          <ButtonGroup style={{ width: 80 }}>
             <IconButton
               icon={<FaList />}
               active={type === 'category'}
               onClick={() => setType('category')}
-            ></IconButton>
+            />
             <IconButton
               icon={<FaSortAlphaUp />}
               active={type === 'sorted'}
               onClick={() => setType('sorted')}
-            ></IconButton>
+            />
           </ButtonGroup>
           <InputGroup size="md" inside className="component-search-input">
             <Input
