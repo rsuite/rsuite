@@ -9,11 +9,22 @@ import { RsRefForwardingComponent } from '../@types/common';
 import { PaginationLocale } from '../locales';
 import LimitPicker from './LimitPicker';
 
-type LayoutType = 'total' | '-' | 'pager' | '|' | 'limit' | 'skip';
+/**
+ * The layout of the paging component.
+ */
+type LayoutType = 'total' | 'pager' | 'limit' | 'skip' | '-' | '|';
 
 export interface PaginationGroupProps extends PaginationProps {
   /**
    * Customize the layout of a paging component.
+   * - `total` Component used to display the total.
+   * - `pager` Component used to display the page number.
+   * - `limit` Component used to display the number of rows per page.
+   * - `skip` Component used to jump to a page.
+   * - `-` Placeholder, take up the remaining space.
+   * - `|` Divider
+   *
+   * @default ['pager']
    */
   layout?: LayoutType[];
 
