@@ -1,6 +1,7 @@
+/* eslint-disable testing-library/no-node-access */
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { testStandardProps, getStyle } from '@test/utils';
 import Slider from '../Slider';
 import Sinon from 'sinon';
 
@@ -8,27 +9,24 @@ describe('Slider', () => {
   testStandardProps(<Slider />);
 
   it('Should render a Slider', () => {
-    const instance = getDOMNode(<Slider />);
-    expect(instance).to.have.class('rs-slider');
+    const { container } = render(<Slider />);
+    expect(container.firstChild).to.have.class('rs-slider');
   });
 
   it('Should have a progress ', () => {
-    const instance = getDOMNode(<Slider progress defaultValue={50} />);
+    render(<Slider progress defaultValue={50} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect((instance.querySelector('.rs-slider-progress-bar') as HTMLElement).style.width).to.equal(
-      '50%'
-    );
+    expect(getStyle(screen.getByTestId('slider-progress-bar'))).to.have.property('width', '50%');
   });
 
   it('Should output the scale', () => {
-    const instance = getDOMNode(<Slider step={10} max={100} graduated />);
-    const instance2 = getDOMNode(<Slider min={10} step={10} max={100} graduated />);
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance.querySelectorAll('li')).to.have.length(10);
+    const { rerender } = render(<Slider step={10} max={100} graduated />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(instance2.querySelectorAll('li')).to.have.length(9);
+    expect(screen.getByTestId('slider-bar').querySelectorAll('li')).to.have.length(10);
+
+    rerender(<Slider min={10} step={10} max={100} graduated />);
+
+    expect(screen.getByTestId('slider-bar').querySelectorAll('li')).to.have.length(9);
   });
 
   it('Should be displayed vertically', () => {
@@ -40,15 +38,14 @@ describe('Slider', () => {
   it('Should be disabled', () => {
     const onChange = Sinon.spy();
     const onChangeCommitted = Sinon.spy();
-    const instance = getDOMNode(
+    const { container } = render(
       <Slider disabled onChange={onChange} onChangeCommitted={onChangeCommitted} />
     );
 
-    expect(instance).to.have.class('rs-slider-disabled');
+    expect(container.firstChild).to.have.class('rs-slider-disabled');
     expect(screen.getByRole('slider')).to.have.attr('aria-disabled', 'true');
 
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+    fireEvent.click(screen.getByTestId('slider-bar'));
 
     expect(onChange).to.have.not.been.called;
     expect(onChangeCommitted).to.have.not.been.called;
@@ -57,22 +54,21 @@ describe('Slider', () => {
   it('Should be readOnly', () => {
     const onChange = Sinon.spy();
     const onChangeCommitted = Sinon.spy();
-    const instance = getDOMNode(
+    const { container } = render(
       <Slider readOnly onChange={onChange} onChangeCommitted={onChangeCommitted} />
     );
 
-    expect(instance).to.have.class('rs-slider-readonly');
+    expect(container.firstChild).to.have.class('rs-slider-readonly');
     expect(screen.getByRole('slider')).to.have.attr('readonly');
 
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+    fireEvent.click(screen.getByTestId('slider-bar'));
 
     expect(onChange).to.have.not.been.called;
     expect(onChangeCommitted).to.have.not.been.called;
   });
 
   it('Should custom render mark', () => {
-    const instance = getDOMNode(
+    render(
       <Slider
         progress
         min={0}
@@ -84,8 +80,7 @@ describe('Slider', () => {
       />
     );
 
-    // eslint-disable-next-line testing-library/no-node-access
-    const marks = instance.querySelectorAll('.rs-slider-mark-content');
+    const marks = screen.getByTestId('slider-bar').querySelectorAll('.rs-slider-mark-content');
 
     expect(marks[0]).to.have.text('Single');
     expect(marks[1]).to.have.text('1');
@@ -93,16 +88,16 @@ describe('Slider', () => {
   });
 
   it('Should render custom title', () => {
-    const instance = getDOMNode(<Slider tooltip={false} handleTitle={'test'} />);
-    expect(instance).to.have.text('test');
+    render(<Slider tooltip={false} handleTitle={'test'} />);
+
+    expect(screen.getByText('test')).to.have.class('rs-slider-handle');
   });
 
   it('Should handle keyboard operations', () => {
-    const instance = getDOMNode(<Slider defaultValue={10} />);
-    // eslint-disable-next-line testing-library/no-node-access
-    const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
-    // eslint-disable-next-line testing-library/no-node-access
-    const input = instance.querySelector('input[type="range"]') as HTMLInputElement;
+    render(<Slider defaultValue={10} />);
+
+    const handle = screen.getByTestId('slider-handle');
+    const input = screen.getByRole('slider');
 
     expect(input).to.value('10');
     expect(input).to.have.attr('aria-valuenow', '10');
@@ -137,10 +132,9 @@ describe('Slider', () => {
     const onChangeCommitted = Sinon.spy();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
     const mouseupEvent = new MouseEvent('mouseup', { bubbles: true });
-    const instance = getDOMNode(<Slider onChangeCommitted={onChangeCommitted} />);
+    render(<Slider onChangeCommitted={onChangeCommitted} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    const handle = instance.querySelector('.rs-slider-handle') as HTMLElement;
+    const handle = screen.getByTestId('slider-handle');
     fireEvent.mouseDown(handle);
     handle.dispatchEvent(mousemoveEvent);
 
@@ -152,18 +146,18 @@ describe('Slider', () => {
 
   it('Should call `onChangeCommitted` callback when click bar', () => {
     const onChangeCommitted = Sinon.spy();
-    const instance = getDOMNode(<Slider onChangeCommitted={onChangeCommitted} />);
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+    render(<Slider onChangeCommitted={onChangeCommitted} />);
+
+    fireEvent.click(screen.getByTestId('slider-bar'));
 
     expect(onChangeCommitted).to.have.been.calledOnce;
   });
 
   it('Should call `onChange` callback', () => {
     const onChange = Sinon.spy();
-    const instance = getDOMNode(<Slider onChange={onChange} />);
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(instance.querySelector('.rs-slider-bar') as HTMLElement);
+    render(<Slider onChange={onChange} />);
+
+    fireEvent.click(screen.getByTestId('slider-bar'));
 
     expect(onChange).to.have.been.calledOnce;
   });
@@ -181,26 +175,15 @@ describe('Slider', () => {
 
   describe('Plain text', () => {
     it('Should render input value', () => {
-      render(
-        <div data-testid="content">
-          <Slider value={1} plaintext />
-        </div>
-      );
+      render(<Slider value={1} plaintext />);
 
-      expect(screen.getByTestId('content')).to.have.text('1');
+      expect(screen.getByText('1')).to.have.class('rs-plaintext');
     });
 
     it('Should render "Not selected" if value is empty', () => {
-      render(
-        <div data-testid="content">
-          {/* FIXME `value` prop does not accept null as value */}
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-          {/* @ts-ignore */}
-          <Slider value={null} plaintext />
-        </div>
-      );
+      render(<Slider value={null as any} plaintext />);
 
-      expect(screen.getByTestId('content')).to.have.text('Not selected');
+      expect(screen.getByText('Not selected')).to.have.class('rs-plaintext');
     });
   });
 });

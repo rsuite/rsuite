@@ -8,7 +8,7 @@ import { sliderPropTypes } from '../Slider/Slider';
 import ProgressBar from '../Slider/ProgressBar';
 import Handle, { HandleProps } from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
-import { precisionMath, checkValue } from '../Slider/utils';
+import { precisionMath, checkValue, getPosition } from '../Slider/utils';
 import { SliderProps } from '../Slider';
 import { tupleType } from '../internals/propTypes';
 import { Offset } from '../@types/common';
@@ -42,14 +42,14 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
     as: Component = 'div',
     barClassName,
     className,
+    classPrefix = 'slider',
     constraint,
     defaultValue = defaultDefaultValue,
+    disabled,
     graduated,
     progress = true,
     vertical,
-    disabled,
     readOnly,
-    classPrefix = 'slider',
     min = 0,
     max: maxProp = 100,
     step = 1,
@@ -130,11 +130,10 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   );
 
   const getValueByPosition = useCallback(
-    (event: React.MouseEvent) => {
+    (event: React.MouseEvent | React.TouchEvent) => {
       const barOffset = getOffset(barRef.current as HTMLElement) as Offset;
-      const offset = vertical
-        ? barOffset.top + barOffset.height - event.pageY
-        : event.pageX - barOffset.left;
+      const { pageX, pageY } = getPosition(event);
+      const offset = vertical ? barOffset.top + barOffset.height - pageY : pageX - barOffset.left;
       const val = rtl && !vertical ? barOffset.width - offset : offset;
 
       return getValueByOffset(val) + min;
@@ -143,7 +142,7 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   );
 
   const getRangeValue = useCallback(
-    (value: Range, key: string, event: React.MouseEvent): Range => {
+    (value: Range, key: string, event: React.MouseEvent | React.TouchEvent): Range => {
       // Get the corresponding value according to the cursor position
       const v = getValueByPosition(event);
 
@@ -159,10 +158,11 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   );
 
   const getNextValue = useCallback(
-    (event: React.MouseEvent, dataset: HandleDataset) => {
+    (event: React.MouseEvent | React.TouchEvent, dataset: HandleDataset) => {
       const { key: eventKey, range } = dataset;
       const value = range.split(',').map(i => +i) as Range;
       const nextValue = getValidValue(getRangeValue(value, eventKey, event));
+
       if (nextValue[0] >= nextValue[1]) {
         /**
          * When the value of `start` is greater than the value of` end`,
@@ -199,23 +199,25 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
   /**
    * Callback function that is fired when the mousemove is triggered
    */
-  const handleDragMove = useEventCallback((event: React.MouseEvent, dataset: HandleDataset) => {
-    if (disabled || readOnly) {
-      return;
-    }
+  const handleDragMove = useEventCallback(
+    (event: React.MouseEvent | React.TouchEvent, dataset: HandleDataset) => {
+      if (disabled || readOnly) {
+        return;
+      }
 
-    const nextValue = getNextValue(event, dataset);
+      const nextValue = getNextValue(event, dataset);
 
-    if (isRangeMatchingConstraint(nextValue)) {
-      setValue(nextValue);
-      onChange?.(nextValue, event);
+      if (isRangeMatchingConstraint(nextValue)) {
+        setValue(nextValue);
+        onChange?.(nextValue, event);
+      }
     }
-  });
+  );
 
   /**
    * Callback function that is fired when the mouseup is triggered
    */
-  const handleChangeCommitted = useCallback(
+  const handleChangeCommitted = useEventCallback(
     (event: React.MouseEvent, dataset?: DOMStringMap) => {
       if (disabled || readOnly) {
         return;
@@ -227,92 +229,75 @@ const RangeSlider = React.forwardRef((props: RangeSliderProps, ref) => {
         setValue(nextValue);
         onChangeCommitted?.(nextValue, event);
       }
-    },
-    [disabled, readOnly, getNextValue, isRangeMatchingConstraint, setValue, onChangeCommitted]
+    }
   );
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLDivElement>) => {
-      const { key } = event.target?.['dataset'];
-      const nextValue: Range = [...value];
-      const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
-      const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
-      const valueIndex = key === 'start' ? 0 : 1;
+  const handleKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
+    const { key } = event.target?.['dataset'];
+    const nextValue: Range = [...value];
+    const increaseKey = rtl ? 'ArrowLeft' : 'ArrowRight';
+    const decreaseKey = rtl ? 'ArrowRight' : 'ArrowLeft';
+    const valueIndex = key === 'start' ? 0 : 1;
 
-      switch (event.key) {
-        case 'Home':
-          nextValue[valueIndex] = min;
+    switch (event.key) {
+      case 'Home':
+        nextValue[valueIndex] = min;
 
-          break;
-        case 'End':
-          nextValue[valueIndex] = max;
-          break;
-        case increaseKey:
-        case 'ArrowUp':
-          nextValue[valueIndex] = Math.min(max, value[valueIndex] + step);
-          break;
+        break;
+      case 'End':
+        nextValue[valueIndex] = max;
+        break;
+      case increaseKey:
+      case 'ArrowUp':
+        nextValue[valueIndex] = Math.min(max, value[valueIndex] + step);
+        break;
 
-        case decreaseKey:
-        case 'ArrowDown':
-          nextValue[valueIndex] = Math.max(min, value[valueIndex] - step);
-          break;
-        default:
-          return;
-      }
-
-      // When the start value is greater than the end value, let the handle and value switch positions.
-      if (nextValue[0] >= nextValue[1]) {
-        nextValue.reverse();
-        handleIndexs.current.reverse();
-      }
-
-      // Prevent scroll of the page
-      event.preventDefault();
-
-      if (isRangeMatchingConstraint(nextValue)) {
-        setValue(nextValue);
-        onChange?.(nextValue, event);
-      }
-    },
-    [max, min, onChange, rtl, isRangeMatchingConstraint, setValue, step, value]
-  );
-
-  const handleBarClick = useCallback(
-    (event: React.MouseEvent) => {
-      if (disabled || readOnly) {
+      case decreaseKey:
+      case 'ArrowDown':
+        nextValue[valueIndex] = Math.max(min, value[valueIndex] - step);
+        break;
+      default:
         return;
-      }
+    }
 
-      let [start, end] = value;
-      const v = getValueByPosition(event);
+    // When the start value is greater than the end value, let the handle and value switch positions.
+    if (nextValue[0] >= nextValue[1]) {
+      nextValue.reverse();
+      handleIndexs.current.reverse();
+    }
 
-      //  Judging that the current click value is closer to the values ​​of `start` and` end`.
-      if (Math.abs(start - v) < Math.abs(end - v)) {
-        start = v;
-      } else {
-        end = v;
-      }
+    // Prevent scroll of the page
+    event.preventDefault();
 
-      const nextValue = getValidValue([start, end].sort((a, b) => a - b) as Range);
+    if (isRangeMatchingConstraint(nextValue)) {
+      setValue(nextValue);
+      onChange?.(nextValue, event);
+    }
+  });
 
-      if (isRangeMatchingConstraint(nextValue)) {
-        setValue(nextValue);
-        onChange?.(nextValue, event);
-        onChangeCommitted?.(nextValue, event);
-      }
-    },
-    [
-      disabled,
-      readOnly,
-      getValidValue,
-      getValueByPosition,
-      isRangeMatchingConstraint,
-      onChange,
-      onChangeCommitted,
-      setValue,
-      value
-    ]
-  );
+  const handleBarClick = useEventCallback((event: React.MouseEvent) => {
+    if (disabled || readOnly) {
+      return;
+    }
+
+    let [start, end] = value;
+    const v = getValueByPosition(event);
+
+    //  Judging that the current click value is closer to the values ​​of `start` and` end`.
+    if (Math.abs(start - v) < Math.abs(end - v)) {
+      start = v;
+    } else {
+      end = v;
+    }
+
+    const nextValue = getValidValue([start, end].sort((a, b) => a - b) as Range);
+
+    if (isRangeMatchingConstraint(nextValue)) {
+      setValue(nextValue);
+      onChange?.(nextValue, event);
+      onChangeCommitted?.(nextValue, event);
+    }
+  });
 
   const handleProps = useMemo(
     () => [
