@@ -1,20 +1,25 @@
 <!--start-code-->
 
 ```js
-import { InputNumber } from 'rsuite';
+import { InputNumber, Stack } from 'rsuite';
 
 const App = () => (
-  <div style={{ width: 160 }}>
-    <label>Disabled:</label>
-    <InputNumber disabled defaultValue={10} />
-    <hr />
-    <label>Read only:</label>
-    <InputNumber readOnly defaultValue={10} />
+  <Stack direction="column" alignItems="flex-start" spacing={10}>
+    <Stack.Item>
+      <label>Disabled:</label>
+      <InputNumber disabled defaultValue={10} />
+    </Stack.Item>
 
-    <hr />
-    <label>Plaintext</label>
-    <InputNumber plaintext defaultValue={10} />
-  </div>
+    <Stack.Item>
+      <label>Read only:</label>
+      <InputNumber readOnly defaultValue={10} />
+    </Stack.Item>
+
+    <Stack.Item>
+      <label>Plaintext</label>
+      <InputNumber plaintext defaultValue={10} />
+    </Stack.Item>
+  </Stack>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

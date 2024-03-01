@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import isNil from 'lodash/isNil';
 import AngleUpIcon from '@rsuite/icons/legacy/AngleUp';
@@ -13,12 +13,13 @@ import {
   createChainedFunction,
   useClassNames,
   useControlled,
+  useEventCallback,
   KEY_VALUES
 } from '../utils';
 import { oneOf } from '../internals/propTypes';
 import { WithAsProps, TypeAttributes, FormControlBaseProps } from '../@types/common';
 
-export interface InputNumberProps<T = number | string>
+export interface InputNumberProps<T = number | string | null>
   extends Omit<
       React.InputHTMLAttributes<HTMLInputElement>,
       | 'value'
@@ -30,33 +31,59 @@ export interface InputNumberProps<T = number | string>
     >,
     WithAsProps,
     FormControlBaseProps<T> {
-  /** Button can have different appearances */
+  /**
+   * Button can have different appearances
+   */
   buttonAppearance?: TypeAttributes.Appearance;
 
-  /** An input can show that it is disabled */
+  /**
+   * An input can show that it is disabled
+   */
   disabled?: boolean;
 
-  /** Minimum value */
+  /**
+   * Format the value of the input
+   */
+  formatter?: (value: number | string) => string;
+
+  /**
+   * Minimum value
+   */
   min?: number;
 
-  /** Maximum value */
+  /**
+   * Maximum value
+   */
   max?: number;
 
-  /** The value of each step. can be decimal */
+  /**
+   * The value of each step. can be decimal
+   */
   step?: number;
 
-  /** Sets the element displayed to the left of the component */
+  /**
+   * Sets the element displayed to the left of the component
+   */
   prefix?: React.ReactNode;
 
-  /** Sets the element displayed on the right side of the component */
+  /**
+   * Sets the element displayed on the right side of the component
+   */
   postfix?: React.ReactNode;
 
-  /** An Input can have different sizes */
+  /**
+   * An Input can have different sizes
+   */
   size?: TypeAttributes.Size;
 
-  /** Whether the value can be changed through the wheel event */
+  /**
+   * Whether the value can be changed through the wheel event
+   */
   scrollable?: boolean;
 
+  /**
+   * Callback function when wheel event is triggered
+   */
   onWheel?: (event: React.WheelEvent) => void;
 }
 
@@ -91,7 +118,7 @@ function decimals(...values: number[]) {
  * @param value
  * @param max
  */
-function valueReachesMax(value: number | string | undefined, max: number) {
+function valueReachesMax(value: number | string | null | undefined, max: number) {
   if (!isNil(value)) {
     return +value >= max;
   }
@@ -103,7 +130,7 @@ function valueReachesMax(value: number | string | undefined, max: number) {
  * @param value
  * @param min
  */
-function valueReachesMin(value: number | string | undefined, min: number) {
+function valueReachesMin(value: number | string | null | undefined, min: number) {
   if (!isNil(value)) {
     return +value <= min;
   }
@@ -120,6 +147,7 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     className,
     classPrefix = 'input-number',
     disabled,
+    formatter,
     readOnly,
     plaintext,
     value: valueProp,
@@ -134,6 +162,8 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     scrollable = true,
     onChange,
     onWheel,
+    onBlur,
+    onFocus,
     ...restProps
   } = props;
 
@@ -141,59 +171,49 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const max = maxProp ?? Infinity;
 
   const [value, setValue] = useControlled(valueProp, defaultValue);
-
+  const [isFocused, setIsFocused] = useState(false);
   const { withClassPrefix, merge, prefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
 
   const [htmlInputProps, rest] = partitionHTMLProps(restProps);
   const inputRef = useRef();
 
-  const handleChangeValue = useCallback(
+  const getSafeValue = (value: number | string) => {
+    if (!Number.isNaN(value)) {
+      if (+value > max) {
+        value = max;
+      }
+      if (+value < min) {
+        value = min;
+      }
+    } else {
+      value = '';
+    }
+    return value.toString();
+  };
+
+  const handleChangeValue = useEventCallback(
     (currentValue: number | string, event: React.SyntheticEvent) => {
       if (currentValue !== value) {
         setValue(currentValue);
         onChange?.(currentValue, event);
       }
-    },
-    [onChange, setValue, value]
-  );
-
-  const getSafeValue = useCallback(
-    value => {
-      if (!Number.isNaN(value)) {
-        if (+value > max) {
-          value = max;
-        }
-        if (+value < min) {
-          value = min;
-        }
-      } else {
-        value = '';
-      }
-      return value.toString();
-    },
-    [max, min]
+    }
   );
 
   // Increment value by step
-  const handleStepUp = useCallback(
-    (event: React.SyntheticEvent) => {
-      const val = +(value || 0);
-      const bit = decimals(val, step);
-      handleChangeValue(getSafeValue((val + step).toFixed(bit)), event);
-    },
-    [getSafeValue, handleChangeValue, step, value]
-  );
+  const handleStepUp = useEventCallback((event: React.SyntheticEvent) => {
+    const val = +(value || 0);
+    const bit = decimals(val, step);
+    handleChangeValue(getSafeValue((val + step).toFixed(bit)), event);
+  });
 
   // Decrement value by step
-  const handleStepDown = useCallback(
-    (event: React.SyntheticEvent) => {
-      const val = +(value || 0);
-      const bit = decimals(val, step);
-      handleChangeValue(getSafeValue((val - step).toFixed(bit)), event);
-    },
-    [getSafeValue, handleChangeValue, step, value]
-  );
+  const handleStepDown = useEventCallback((event: React.SyntheticEvent) => {
+    const val = +(value || 0);
+    const bit = decimals(val, step);
+    handleChangeValue(getSafeValue((val - step).toFixed(bit)), event);
+  });
 
   // Disables step up/down button when
   // - InputNumber is disabled/readonly
@@ -201,75 +221,66 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
   const stepUpDisabled = disabled || readOnly || valueReachesMax(value, max);
   const stepDownDisabled = disabled || readOnly || valueReachesMin(value, min);
 
-  const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent) => {
-      switch (event.key) {
-        case KEY_VALUES.UP:
-          event.preventDefault();
-          handleStepUp(event);
-          break;
-        case KEY_VALUES.DOWN:
-          event.preventDefault();
-          handleStepDown(event);
-          break;
-        case KEY_VALUES.HOME:
-          if (typeof minProp !== 'undefined') {
-            event.preventDefault();
-            handleChangeValue(getSafeValue(minProp), event);
-          }
-          break;
-        case KEY_VALUES.END:
-          if (typeof maxProp !== 'undefined') {
-            event.preventDefault();
-            handleChangeValue(getSafeValue(maxProp), event);
-          }
-          break;
-      }
-    },
-    [handleStepUp, handleStepDown, minProp, maxProp, handleChangeValue, getSafeValue]
-  );
-
-  const handleWheel = useCallback(
-    (event: React.WheelEvent<HTMLInputElement>) => {
-      if (!scrollable) {
+  const handleKeyDown = useEventCallback((event: React.KeyboardEvent) => {
+    switch (event.key) {
+      case KEY_VALUES.UP:
         event.preventDefault();
-        return;
-      }
-
-      if (!disabled && !readOnly && event.target === document.activeElement) {
+        handleStepUp(event);
+        break;
+      case KEY_VALUES.DOWN:
         event.preventDefault();
-        const delta: number = event['wheelDelta'] || -event.deltaY || -event?.detail;
+        handleStepDown(event);
+        break;
+      case KEY_VALUES.HOME:
+        if (typeof minProp !== 'undefined') {
+          event.preventDefault();
+          handleChangeValue(getSafeValue(minProp), event);
+        }
+        break;
+      case KEY_VALUES.END:
+        if (typeof maxProp !== 'undefined') {
+          event.preventDefault();
+          handleChangeValue(getSafeValue(maxProp), event);
+        }
+        break;
+    }
+  });
 
-        if (delta > 0) {
-          handleStepDown(event);
-        }
-        if (delta < 0) {
-          handleStepUp(event);
-        }
+  const handleWheel = useEventCallback((event: React.WheelEvent<HTMLInputElement>) => {
+    if (!scrollable) {
+      event.preventDefault();
+      return;
+    }
+
+    if (!disabled && !readOnly && event.target === document.activeElement) {
+      event.preventDefault();
+      const delta: number = event['wheelDelta'] || -event.deltaY || -event?.detail;
+
+      if (delta > 0) {
+        handleStepDown(event);
       }
+      if (delta < 0) {
+        handleStepUp(event);
+      }
+    }
 
-      onWheel?.(event);
-    },
-    [disabled, handleStepDown, handleStepUp, onWheel, readOnly, scrollable]
-  );
+    onWheel?.(event);
+  });
 
-  const handleChange = useCallback(
+  const handleChange = useEventCallback(
     (value: any, event: React.ChangeEvent<HTMLInputElement>) => {
       if (!/^-?(?:\d+)?(\.)?\d*$/.test(value) && value !== '') {
         return;
       }
       handleChangeValue(value, event);
-    },
-    [handleChangeValue]
+    }
   );
 
-  const handleBlur = useCallback(
-    (event: React.FocusEvent<HTMLInputElement>) => {
-      const targetValue = Number.parseFloat(event.target?.value);
-      handleChangeValue(getSafeValue(targetValue), event);
-    },
-    [getSafeValue, handleChangeValue]
-  );
+  const handleBlur = useEventCallback((event: React.FocusEvent<HTMLInputElement>) => {
+    const targetValue = Number.parseFloat(event.target?.value);
+    handleChangeValue(getSafeValue(targetValue), event);
+    setIsFocused(false);
+  });
 
   useEffect(() => {
     let wheelListener: ReturnType<typeof on>;
@@ -281,21 +292,34 @@ const InputNumber = React.forwardRef((props: InputNumberProps, ref) => {
     };
   }, [handleWheel, scrollable]);
 
+  const renderValue = () => {
+    if (isNil(value)) {
+      return '';
+    }
+
+    if (isFocused) {
+      return value;
+    }
+
+    return formatter ? formatter(value) : value;
+  };
+
   const input = (
     <Input
       {...(htmlInputProps as Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'>)}
-      type="number"
-      autoComplete="off"
-      step={step}
+      ref={plaintext ? (ref as any) : undefined}
       inputRef={inputRef}
-      onChange={handleChange}
-      onBlur={createChainedFunction(handleBlur, htmlInputProps?.onBlur)}
-      value={isNil(value) ? '' : `${value}`}
+      autoComplete="off"
+      inputMode="numeric"
+      step={step}
+      value={renderValue()}
       disabled={disabled}
       readOnly={readOnly}
       plaintext={plaintext}
-      ref={plaintext ? (ref as any) : undefined}
       onKeyDown={handleKeyDown}
+      onChange={handleChange}
+      onBlur={createChainedFunction(handleBlur, onBlur)}
+      onFocus={createChainedFunction(() => setIsFocused(true), onFocus)}
     />
   );
 
