@@ -96,6 +96,10 @@ Clicking "Prev Day" in the example does not close the picker layer because the `
 
 <!--{include:`caret.md`}-->
 
+### Custom Calendar Cell
+
+<!--{include:`render-cell.md`}-->
+
 ### Native pickers
 
 If you only need to meet the simple date selection function, you can use the native pickers supported by the browser.
@@ -128,12 +132,12 @@ Has keyboard interaction for the DateInput component by default.
 
 | Property              | Type`(default)`                                                 | Description                                                                                                                         |
 | --------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| appearance            | 'default' &#124; 'subtle' `('default')`                         | Set picker appearence                                                                                                               |
+| appearance            | 'default' \| 'subtle' `('default')`                             | Set picker appearence                                                                                                               |
 | block                 | boolean                                                         | Blocking an entire row                                                                                                              |
 | calendarDefaultDate   | Date                                                            | Calendar panel default presentation date and time                                                                                   |
 | caretAs               | ElementType                                                     | Custom component for the caret icon                                                                                                 |
 | cleanable             | boolean `(true)`                                                | Whether the selected value can be cleared                                                                                           |
-| container             | HTMLElement &#124; (() => HTMLElement)                          | Sets the rendering container                                                                                                        |
+| container             | HTMLElement \| (() => HTMLElement)                              | Sets the rendering container                                                                                                        |
 | defaultOpen           | boolean                                                         | Default value of open property                                                                                                      |
 | defaultValue          | Date                                                            | Default value                                                                                                                       |
 | disabled              | boolean                                                         | Whether disabled the component                                                                                                      |
@@ -176,13 +180,14 @@ Has keyboard interaction for the DateInput component by default.
 | placement             | [Placement](#code-ts-placement-code) `('bottomStart')`          | The placement of component                                                                                                          |
 | preventOverflow       | boolean                                                         | Prevent floating element overflow                                                                                                   |
 | ranges                | [Range[]](#code-ts-range-code) ([Ranges](#code-ts-ranges-code)) | Shortcut config                                                                                                                     |
+| renderCell            | (date: Date) => ReactNode                                       | Custom calendar cell rendering <br/>![](https://img.shields.io/badge/min-v5.54.0-blue)                                              |
 | shouldDisableDate     | (date:Date) => boolean                                          | Disabled date                                                                                                                       |
 | shouldDisableHour     | (hour:number, date:Date) => boolean                             | Disabled hours                                                                                                                      |
 | shouldDisableMinute   | (minute:number, date:Date) => boolean                           | Disabled minutes                                                                                                                    |
 | shouldDisableSecond   | (second:number, date:Date) => boolean                           | Disabled seconds                                                                                                                    |
 | showMeridian          | boolean                                                         | Display hours in 12 format                                                                                                          |
 | showWeekNumbers       | boolean                                                         | Whether to show week numbers                                                                                                        |
-| size                  | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`               | A picker can have different sizes                                                                                                   |
+| size                  | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                           | A picker can have different sizes                                                                                                   |
 | value                 | Date                                                            | Value (Controlled)                                                                                                                  |
 
 <!--{include:(_common/types/placement.md)}-->
