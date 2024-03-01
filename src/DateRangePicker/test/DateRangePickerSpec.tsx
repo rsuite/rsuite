@@ -974,22 +974,44 @@ describe('DateRangePicker', () => {
   });
 
   it('Should call `onShortcutClick` callback', async () => {
-    const onShortcutClickSpy = sinon.spy();
+    const onShortcutClick = sinon.spy();
 
     render(
       <DateRangePicker
         defaultOpen
         ranges={[{ label: 'Yesterday', value: [addDays(new Date(), -1), addDays(new Date(), -1)] }]}
-        onShortcutClick={onShortcutClickSpy}
+        onShortcutClick={onShortcutClick}
       />
     );
 
     userEvent.click(screen.getByRole('button', { name: 'Yesterday' }));
 
     await waitFor(() => {
-      expect(onShortcutClickSpy).to.calledOnce;
-      expect(onShortcutClickSpy.firstCall.firstArg.label).to.equal('Yesterday');
+      expect(onShortcutClick).to.calledOnce;
+      expect(onShortcutClick.firstCall.firstArg.label).to.equal('Yesterday');
     });
+  });
+
+  it('Should render the correct time when the range is clicked', () => {
+    render(
+      <DateRangePicker
+        open
+        format="yyyy-MM-dd HH:mm"
+        ranges={[
+          {
+            label: 'custom range',
+            value: [new Date('2024-02-27 09:00:00'), new Date('2024-02-28 10:00:00')]
+          }
+        ]}
+      />
+    );
+
+    userEvent.click(screen.getByRole('button', { name: 'custom range' }));
+
+    const times = screen.queryAllByRole('button', { name: 'Select time' });
+
+    expect(times[0]).to.have.text('09:00');
+    expect(times[1]).to.have.text('10:00');
   });
 
   it('Should reander the correct size', () => {
