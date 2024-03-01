@@ -1,38 +1,44 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-
+import { fireEvent, render, screen } from '@testing-library/react';
 import PaginationGroup from '../PaginationGroup';
-import { getDOMNode, getInstance } from '@test/utils';
+import { testStandardProps } from '@test/utils';
 import Sinon from 'sinon';
 
 describe('Pagination Group', () => {
+  testStandardProps(<PaginationGroup total={10} />);
+
   it('Should output a PaginationGroup', () => {
-    const instance = getDOMNode(<PaginationGroup total={10} />);
-    assert.include(instance.className, 'rs-pagination-group');
+    const { container } = render(<PaginationGroup total={10} />);
+
+    expect(container.firstChild).to.have.class('rs-pagination-group');
   });
 
   it('Should output a prev button', () => {
-    const instance = getInstance(<PaginationGroup total={10} prev />);
-    assert.ok(instance.querySelector('[aria-label="page previous"]'));
+    render(<PaginationGroup total={10} prev />);
+
+    expect(screen.getByLabelText('page previous')).to.exist;
   });
 
   it('Should output a next button', () => {
-    const instance = getInstance(<PaginationGroup total={10} next />);
-    assert.ok(instance.querySelector('[aria-label="page next"]'));
+    render(<PaginationGroup total={10} next />);
+
+    expect(screen.getByLabelText('page next')).to.exist;
   });
 
   it('Should output a first button', () => {
-    const instance = getInstance(<PaginationGroup total={10} first />);
-    assert.ok(instance.querySelector('[aria-label="page top"]'));
+    render(<PaginationGroup total={10} first />);
+
+    expect(screen.getByLabelText('page top')).to.exist;
   });
 
   it('Should output a last button', () => {
-    const instance = getInstance(<PaginationGroup total={10} last />);
-    assert.ok(instance.querySelector('[aria-label="page end"]'));
+    render(<PaginationGroup total={10} last />);
+
+    expect(screen.getByLabelText('page end')).to.exist;
   });
 
   it('Should render 10  buttons', () => {
-    const instance = getDOMNode(
+    render(
       <PaginationGroup
         total={100}
         limit={10}
@@ -44,11 +50,11 @@ describe('Pagination Group', () => {
       />
     );
 
-    assert.equal(instance.querySelectorAll('.rs-pagination-btn').length, 10);
+    expect(screen.getAllByRole('button')).to.have.length(10);
   });
 
   it('Should render 6  buttons by `maxButtons`', () => {
-    const instance = getDOMNode(
+    render(
       <PaginationGroup
         total={100}
         limit={10}
@@ -59,11 +65,12 @@ describe('Pagination Group', () => {
         first={false}
       />
     );
-    assert.equal(instance.querySelectorAll('.rs-pagination-btn').length, 6);
+
+    expect(screen.getAllByRole('button')).to.have.length(6);
   });
 
   it('Should active page 2', () => {
-    const instance = getDOMNode(
+    render(
       <PaginationGroup
         total={100}
         limit={10}
@@ -75,23 +82,19 @@ describe('Pagination Group', () => {
         first={false}
       />
     );
-    assert.equal(
-      (instance.querySelector('.rs-pagination-btn-active') as HTMLElement).textContent,
-      '2'
-    );
+
+    expect(screen.getByText('2')).to.have.class('rs-pagination-btn-active');
   });
 
   it('Should show total', () => {
-    const instance = getDOMNode(<PaginationGroup layout={['total']} total={100} />);
-    assert.equal(
-      (instance.querySelector('.rs-pagination-group-total') as HTMLElement).textContent,
-      'Total Rows: 100'
-    );
+    const { container } = render(<PaginationGroup layout={['total']} total={100} />);
+
+    expect(container.firstChild).to.have.text('Total Rows: 100');
   });
 
   it('Should call onChangePage callback', () => {
     const onChangePage = Sinon.spy();
-    const instance = getDOMNode(
+    render(
       <PaginationGroup
         last={false}
         next={false}
@@ -101,17 +104,18 @@ describe('Pagination Group', () => {
         onChangePage={onChangePage}
       />
     );
-    ReactTestUtils.Simulate.click(instance.querySelectorAll('.rs-pagination-btn')[1]);
+
+    fireEvent.click(screen.getByText('2'));
 
     expect(onChangePage).to.have.been.calledOnce;
   });
 
   it('Should render a limit picker', () => {
-    const instance = getInstance(
+    render(
       <PaginationGroup
         layout={['limit']}
         total={100}
-        limit={10}
+        limit={30}
         maxButtons={6}
         activePage={2}
         last={false}
@@ -121,31 +125,34 @@ describe('Pagination Group', () => {
       />
     );
 
-    assert.ok(instance.querySelector('.rs-picker-select'));
+    expect(screen.getByRole('combobox')).to.have.text('30 / page');
   });
 
-  it('Should have a custom className', () => {
-    const instance = getDOMNode(<PaginationGroup className="custom" total={10} />);
-    assert.include(instance.className, 'custom');
-  });
+  it('Should render the limit selector in the specified container', () => {
+    render(<PaginationGroup layout={['limit']} total={100} limit={30} />);
 
-  it('Should have a custom style', () => {
-    const fontSize = '12px';
-    const instance = getDOMNode(<PaginationGroup style={{ fontSize }} total={10} />);
-    assert.equal(instance.style.fontSize, fontSize);
+    fireEvent.click(screen.getByRole('combobox'));
+
+    // eslint-disable-next-line testing-library/no-node-access
+    expect(screen.getByTestId('picker-popup').parentNode).to.have.class(
+      'rs-pagination-group-limit'
+    );
   });
 
   it('Should be disabled', () => {
-    // total={60}  ==> pages 2
-    const instance = getDOMNode(
+    render(
       <PaginationGroup layout={['pager', 'limit']} total={60} disabled first last prev next />
     );
-    assert.equal(instance.querySelectorAll('.rs-pagination-btn-disabled').length, 6);
-    assert.ok(instance.querySelector('.rs-picker-disabled'));
+
+    screen.getAllByRole('button').forEach(button => {
+      expect(button).to.have.attribute('disabled');
+    });
+
+    expect(screen.getByRole('combobox')).to.have.attribute('disabled');
   });
 
-  it('Should be disabled', () => {
-    const instance = getDOMNode(
+  it('Should be disabled by function', () => {
+    render(
       <PaginationGroup
         layout={['pager', 'limit']}
         total={60}
@@ -161,19 +168,12 @@ describe('Pagination Group', () => {
         }}
       />
     );
-    const disabledDOMs = instance.querySelectorAll('.rs-pagination-btn-disabled');
-    assert.ok(instance.querySelector('.rs-picker-disabled'));
-    assert.equal(disabledDOMs.length, 1);
-    assert.equal(disabledDOMs[0].textContent, '2');
-  });
 
-  it('Should have a custom className prefix', () => {
-    const instance = getDOMNode(<PaginationGroup total={10} classPrefix="custom-prefix" />);
-    assert.ok(instance.className.match(/\bcustom-prefix\b/));
+    expect(screen.getByRole('button', { name: '2' })).to.have.class('rs-pagination-btn-disabled');
   });
 
   it('Should render the maximum', () => {
-    const instance = getDOMNode(
+    render(
       <PaginationGroup
         total={100}
         limit={10}
@@ -187,11 +187,13 @@ describe('Pagination Group', () => {
         boundaryLinks={true}
       />
     );
-    assert.equal((instance.querySelector('button:last-child') as HTMLElement).textContent, '10');
+
+    expect(screen.getAllByRole('button')).to.have.length(5);
+    expect(screen.getAllByRole('button')[4]).to.have.text('10');
   });
 
   it('Should render a `more` icon', () => {
-    const instance = getDOMNode(
+    render(
       <PaginationGroup
         total={100}
         limit={10}
@@ -204,6 +206,7 @@ describe('Pagination Group', () => {
         ellipsis={true}
       />
     );
-    assert.ok(instance.querySelector('[aria-label="more"]'));
+
+    fireEvent.click(screen.getByLabelText('more'));
   });
 });
