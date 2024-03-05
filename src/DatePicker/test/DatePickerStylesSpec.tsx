@@ -15,4 +15,9 @@ describe('DatePicker styles', () => {
     render(<DatePicker format="HH:mm:ss" />);
     expect(screen.getByLabelText('clock o')).to.have.class('rs-icon');
   });
+
+  it('Should hava a padding of 0px', () => {
+    render(<DatePicker open />);
+    expect(screen.getByRole('dialog')).to.have.style('padding', '0px');
+  });
 });
