@@ -1,13 +1,11 @@
 import React from 'react';
-import { ItemDataType } from '../@types/common';
-import { getSafeRegExpString } from '../utils';
+import { ItemDataType, WithAsProps } from '../@types/common';
+import { getSafeRegExpString, useClassNames, useCustom } from '../utils';
 import { getPathTowardsItem } from '../utils/treeUtils';
 import SearchBox from '../internals/SearchBox';
 
-interface SearchPanelProps<T> {
+interface SearchViewProps<T> extends WithAsProps {
   searchKeyword: string;
-  locale: Record<string, any>;
-  prefix: (...args: any[]) => string;
   labelKey: string;
   valueKey: string;
   parentMap: WeakMap<ItemDataType<T>, ItemDataType<T>>;
@@ -17,14 +15,15 @@ interface SearchPanelProps<T> {
   renderSearchItem?: (label: React.ReactNode, items: ItemDataType<T>[]) => React.ReactNode;
   onSelect: (item: ItemDataType<T>, items: ItemDataType<T>[], event: React.MouseEvent) => void;
   onSearch: (value: string, event: React.ChangeEvent<HTMLInputElement>) => void;
-  inputRef: React.RefObject<HTMLInputElement>;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 
-function SearchPanel<T>(props: SearchPanelProps<T>) {
+function SearchView<T>(props: SearchViewProps<T>) {
   const {
+    as: Component = 'div',
+    classPrefix = 'cascade-search-view',
+    className,
     searchKeyword,
-    locale,
-    prefix,
     labelKey,
     valueKey,
     parentMap,
@@ -34,8 +33,13 @@ function SearchPanel<T>(props: SearchPanelProps<T>) {
     inputRef,
     renderSearchItem,
     onSearch,
-    onSelect
+    onSelect,
+    ...rest
   } = props;
+
+  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const classes = merge(className, withClassPrefix());
+  const { locale } = useCustom('Picker');
 
   const renderSearchRow = (item: ItemDataType<T>, key: number) => {
     const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
@@ -49,7 +53,7 @@ function SearchPanel<T>(props: SearchPanelProps<T>) {
         labelElements.push(a[i]);
         if (b && b[i]) {
           labelElements.push(
-            <span key={i} className={prefix('cascader-search-match')}>
+            <span key={i} className={prefix('match')}>
               {b[i]}
             </span>
           );
@@ -64,13 +68,13 @@ function SearchPanel<T>(props: SearchPanelProps<T>) {
     const disabled = disabledItemValues.some(value =>
       formattedNodes.some(itemData => itemData[valueKey] === value)
     );
-    const itemClasses = prefix('cascader-row', {
-      'cascader-row-disabled': disabled,
-      'cascader-row-focus': item[valueKey] === focusItemValue
+    const itemClasses = prefix('row', {
+      'row-disabled': disabled,
+      'row-focus': item[valueKey] === focusItemValue
     });
 
     const label = formattedNodes.map((itemData, index) => (
-      <span key={`col-${index}`} className={prefix('cascader-col')}>
+      <span key={`col-${index}`} className={prefix('col')}>
         {itemData[labelKey]}
       </span>
     ));
@@ -78,8 +82,9 @@ function SearchPanel<T>(props: SearchPanelProps<T>) {
     return (
       <div
         role="treeitem"
-        key={key}
         aria-disabled={disabled}
+        aria-label={item[labelKey]}
+        key={key}
         data-key={item[valueKey]}
         className={itemClasses}
         tabIndex={-1}
@@ -95,7 +100,7 @@ function SearchPanel<T>(props: SearchPanelProps<T>) {
   };
 
   return (
-    <>
+    <Component className={classes} {...rest}>
       <SearchBox
         placeholder={locale?.searchPlaceholder}
         onChange={onSearch}
@@ -103,7 +108,7 @@ function SearchPanel<T>(props: SearchPanelProps<T>) {
         inputRef={inputRef}
       />
       {searchKeyword !== '' && (
-        <div className={prefix('cascader-search-panel')} data-layer={0} role="tree">
+        <div className={prefix('panel')} data-layer={0} role="tree">
           {data.length ? (
             data.map(renderSearchRow)
           ) : (
@@ -111,8 +116,8 @@ function SearchPanel<T>(props: SearchPanelProps<T>) {
           )}
         </div>
       )}
-    </>
+    </Component>
   );
 }
 
-export default SearchPanel;
+export default SearchView;

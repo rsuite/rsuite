@@ -22,6 +22,10 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 <!--{include:`async.md`}-->
 
+### Searchable
+
+<!--{include:`searchable.md`}-->
+
 ## Props
 
 ### `<CascadeTree>`
@@ -38,9 +42,11 @@ This tree allows the use of the `getChildren` option and the length of the child
 | disabledItemValues | string[]                                                                           | Disabled items                                         |
 | getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | Asynchronously load the children of the tree node.     |
 | labelKey           | string `('label')`                                                                 | Set label key in data                                  |
+| onSearch           | (value: string, event) => void                                                     | Callback fired when search value changes               |
 | onSelect           | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void | Callback fired when item is selected                   |
 | renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode          | Customizing the Rendering Menu list                    |
 | renderTreeNode     | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                         | Custom render menu items                               |
+| searchable         | boolean                                                                            | Whether to enable search                               |
 | value              | string                                                                             | Specifies the values of the selected items(Controlled) |
 | valueKey           | string `('value')`                                                                 | Set value key in data                                  |
 

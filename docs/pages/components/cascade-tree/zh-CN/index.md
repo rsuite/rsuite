@@ -22,6 +22,10 @@ CascadeTree 是一个按列显示树形结构数据的组件。
 
 <!--{include:`async.md`}-->
 
+### 可搜索
+
+<!--{include:`searchable.md`}-->
+
 ## Props
 
 ### `<CascadeTree>`
@@ -38,9 +42,11 @@ CascadeTree 是一个按列显示树形结构数据的组件。
 | disabledItemValues | string[]                                                                           | 禁用选项                             |
 | getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | 异步加载树节点的子级                 |
 | labelKey           | string `('label')`                                                                 | 设置选项显示内容在 `data` 中的 `key` |
+| onSearch           | (value: string, event) => void                                                     | 搜索值变化后的回调函数               |
 | onSelect           | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void | 选项被点击选择后的回调函数           |
 | renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode          | 自定义渲染菜单列表                   |
 | renderTreeNode     | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                         | 自定义选项                           |
+| searchable         | boolean                                                                            | 是否启用搜索                         |
 | value              | string                                                                             | 设置值（受控）                       |
 
 <!--{include:(_common/types/item-data-type.md)}-->

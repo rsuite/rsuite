@@ -6,23 +6,40 @@ import { useControlled, useClassNames, useIsMounted, useEventCallback } from '..
 import { ItemDataType, DataProps, WithAsProps } from '../@types/common';
 import { useMap } from '../utils/useMap';
 import TreeView from './TreeView';
+import SearchView from './SearchView';
+import useSearch from './useSearch';
 
 export type ValueType = number | string | null;
 
 export interface CascadeTreeProps<T = ValueType> extends WithAsProps, DataProps<ItemDataType<T>> {
-  /** Selected value */
+  /**
+   * Selected value
+   */
   value?: T;
 
-  /** Sets the width of the menu */
+  /**
+   * Sets the width of the menu
+   */
   columnWidth?: number;
 
-  /** Sets the height of the menu */
+  /**
+   * Sets the height of the menu
+   */
   columnHeight?: number;
 
-  /** Disabled items */
+  /**
+   * Disabled items
+   */
   disabledItemValues?: T[];
 
-  /** Custom render menu */
+  /**
+   * Whether dispaly search input box
+   */
+  searchable?: boolean;
+
+  /**
+   * Custom render menu
+   */
   renderColumn?: (
     childNodes: React.ReactNode,
     column: {
@@ -32,10 +49,14 @@ export interface CascadeTreeProps<T = ValueType> extends WithAsProps, DataProps<
     }
   ) => React.ReactNode;
 
-  /** Custom render menu items */
+  /**
+   * Custom render menu items
+   */
   renderTreeNode?: (node: React.ReactNode, itemData: ItemDataType<T>) => React.ReactNode;
 
-  /** Called when the option is selected */
+  /**
+   * Called when the option is selected
+   */
   onSelect?: (
     node: {
       itemData: ItemDataType<T>;
@@ -45,7 +66,14 @@ export interface CascadeTreeProps<T = ValueType> extends WithAsProps, DataProps<
     event: React.MouseEvent
   ) => void;
 
-  /** Asynchronously load the children of the tree node. */
+  /**
+   * Called when searching
+   */
+  onSearch?: (value: string, event: React.SyntheticEvent) => void;
+
+  /**
+   * Asynchronously load the children of the tree node.
+   */
   getChildren?: (childNodes: ItemDataType<T>) => ItemDataType<T>[] | Promise<ItemDataType<T>[]>;
 }
 
@@ -73,9 +101,11 @@ const CascadeTree = React.forwardRef(<T extends ValueType>(props: CascadeTreePro
     disabledItemValues = [],
     columnWidth,
     columnHeight,
+    searchable,
     renderTreeNode,
     renderColumn,
     onSelect,
+    onSearch,
     getChildren,
     ...rest
   } = props;
@@ -114,6 +144,15 @@ const CascadeTree = React.forwardRef(<T extends ValueType>(props: CascadeTreePro
 
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
+
+  const { items, searchKeyword, setSearchKeyword, handleSearch } = useSearch({
+    labelKey,
+    childrenKey,
+    parentMap,
+    flattenedData,
+    onSearch: (value: string, _items: ItemDataType<T>[], event: React.SyntheticEvent) =>
+      onSearch?.(value, event)
+  });
 
   const handleSelect = useEventCallback(
     (
@@ -160,24 +199,51 @@ const CascadeTree = React.forwardRef(<T extends ValueType>(props: CascadeTreePro
     }
   );
 
+  const handleSearchRowSelect = useEventCallback(
+    (item: ItemDataType<T>, items: ItemDataType<T>[], event: React.MouseEvent) => {
+      const node = {
+        itemData: item,
+        cascadePaths: items,
+        isLeafNode: !item[childrenKey]?.length
+      };
+
+      handleSelect(node, event);
+      setSearchKeyword('');
+    }
+  );
+
   return (
     <Component className={classes} {...rest} ref={ref}>
-      <TreeView
-        columnWidth={columnWidth}
-        columnHeight={columnHeight}
-        disabledItemValues={disabledItemValues}
-        loadingItemsSet={loadingItemsSet}
-        valueKey={valueKey}
-        labelKey={labelKey}
-        childrenKey={childrenKey}
-        classPrefix={classPrefix}
-        data={columns}
-        cascadePaths={pathTowardsActiveItem}
-        activeItemValue={value}
-        onSelect={handleSelect}
-        renderColumn={renderColumn}
-        renderTreeNode={renderTreeNode}
-      />
+      {searchable && (
+        <SearchView
+          data={items}
+          searchKeyword={searchKeyword}
+          valueKey={valueKey}
+          labelKey={labelKey}
+          parentMap={parentMap}
+          disabledItemValues={disabledItemValues}
+          onSelect={handleSearchRowSelect}
+          onSearch={handleSearch}
+        />
+      )}
+      {!searchKeyword && (
+        <TreeView
+          columnWidth={columnWidth}
+          columnHeight={columnHeight}
+          disabledItemValues={disabledItemValues}
+          loadingItemsSet={loadingItemsSet}
+          valueKey={valueKey}
+          labelKey={labelKey}
+          childrenKey={childrenKey}
+          classPrefix={classPrefix}
+          data={columns}
+          cascadePaths={pathTowardsActiveItem}
+          activeItemValue={value}
+          onSelect={handleSelect}
+          renderColumn={renderColumn}
+          renderTreeNode={renderTreeNode}
+        />
+      )}
     </Component>
   );
 }) as CascadeTreeComponent;

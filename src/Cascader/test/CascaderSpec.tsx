@@ -315,23 +315,12 @@ describe('Cascader', () => {
   });
 
   it('Should show search items with childrenKey', () => {
-    const itemsWithChildrenKey = {
-      childrenKey: 'sub',
-      data: mockTreeData(['t', 'h', ['g', 'g-m', 'g-b']], {
-        childrenKey: 'sub'
-      })
-    };
+    const childrenKey = 'sub';
+    const data = mockTreeData(['t', 'h', ['g', 'g-m', 'g-b']], {
+      childrenKey
+    });
 
-    const cascaderRef = React.createRef<PickerHandle>();
-
-    render(
-      <Cascader
-        ref={cascaderRef}
-        defaultOpen
-        data={itemsWithChildrenKey.data}
-        childrenKey={itemsWithChildrenKey.childrenKey}
-      />
-    );
+    render(<Cascader defaultOpen data={data} childrenKey={childrenKey} />);
 
     const searchbox = screen.getByRole('searchbox');
 
@@ -344,9 +333,7 @@ describe('Cascader', () => {
   it('Should show search items with parentSelectable', () => {
     const items = mockTreeData(['t', 'h', ['g', 'g-m', 'g-b']]);
 
-    const cascaderRef = React.createRef<PickerHandle>();
-
-    render(<Cascader ref={cascaderRef} defaultOpen data={items} parentSelectable />);
+    render(<Cascader defaultOpen data={items} parentSelectable />);
 
     const searchbox = screen.getByRole('searchbox');
 
@@ -358,12 +345,10 @@ describe('Cascader', () => {
   it('Should show search items rendered by renderSearchItem', () => {
     const items = mockTreeData([['parent', 'test']]);
 
-    const cascaderRef = React.createRef<PickerHandle>();
     let searchItems: unknown | null = null;
 
     render(
       <Cascader
-        ref={cascaderRef}
         defaultOpen
         data={items}
         renderSearchItem={(label, items) => {
@@ -380,28 +365,6 @@ describe('Cascader', () => {
     expect(screen.getAllByRole('treeitem')).to.have.length(1);
     expect(searchItems).to.have.length(2);
     expect(screen.getByRole('treeitem')).to.have.text('parenttest');
-  });
-
-  describe('ref testing', () => {
-    it('Should control the open and close of picker', async () => {
-      const onOpen = sinon.spy();
-      const onClose = sinon.spy();
-      const ref = React.createRef<any>();
-
-      render(<Cascader ref={ref} onOpen={onOpen} onClose={onClose} data={items} />);
-
-      ref.current.open();
-
-      await waitFor(() => {
-        expect(onOpen).to.be.calledOnce;
-      });
-
-      ref.current.close();
-
-      await waitFor(() => {
-        expect(onClose).to.be.calledOnce;
-      });
-    });
   });
 
   it('Should update columns', () => {
@@ -430,28 +393,6 @@ describe('Cascader', () => {
 
     expect(screen.getAllByRole('treeitem')).to.have.lengthOf(1);
     expect(screen.getByRole('treeitem')).to.have.text('test');
-  });
-
-  describe('Plain text', () => {
-    it('Should render full path (separated by delimiter) of selected data', () => {
-      render(
-        <div data-testid="content">
-          <Cascader data={items} value="3-1" plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('3 / 3-1');
-    });
-
-    it('Should render "Not selected" if value is empty', () => {
-      render(
-        <div data-testid="content">
-          <Cascader data={items} value={null} plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Not selected');
-    });
   });
 
   it('Should item able to stringfy', () => {
@@ -502,6 +443,50 @@ describe('Cascader', () => {
 
     expect(onChange).to.have.been.calledOnce;
     expect(onSelect).to.have.been.calledOnce;
+  });
+
+  describe('ref testing', () => {
+    it('Should control the open and close of picker', async () => {
+      const onOpen = sinon.spy();
+      const onClose = sinon.spy();
+      const ref = React.createRef<any>();
+
+      render(<Cascader ref={ref} onOpen={onOpen} onClose={onClose} data={items} />);
+
+      ref.current.open();
+
+      await waitFor(() => {
+        expect(onOpen).to.be.calledOnce;
+      });
+
+      ref.current.close();
+
+      await waitFor(() => {
+        expect(onClose).to.be.calledOnce;
+      });
+    });
+  });
+
+  describe('Plain text', () => {
+    it('Should render full path (separated by delimiter) of selected data', () => {
+      render(
+        <div data-testid="content">
+          <Cascader data={items} value="3-1" plaintext />
+        </div>
+      );
+
+      expect(screen.getByTestId('content')).to.have.text('3 / 3-1');
+    });
+
+    it('Should render "Not selected" if value is empty', () => {
+      render(
+        <div data-testid="content">
+          <Cascader data={items} value={null} plaintext />
+        </div>
+      );
+
+      expect(screen.getByTestId('content')).to.have.text('Not selected');
+    });
   });
 
   describe('Focus item', () => {

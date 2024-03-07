@@ -90,4 +90,57 @@ describe('CascadeTree', () => {
     fireEvent.click(screen.getByRole('treeitem', { name: '1' }));
     expect(screen.getAllByRole('group')).to.length(1);
   });
+
+  it('Should call `onSearch` callback', () => {
+    const data = mockTreeData(['a', 'b', ['c', 'c-1', 'c-2']]);
+    const onSearch = sinon.spy();
+
+    render(<CascadeTree searchable data={data} onSearch={onSearch} />);
+
+    const searchbox = screen.getByRole('searchbox');
+
+    fireEvent.focus(searchbox);
+    fireEvent.change(searchbox, { target: { value: 'c' } });
+
+    expect(onSearch).to.be.calledOnce;
+    expect(onSearch).to.be.calledWith('c');
+  });
+
+  it('Should show search items with childrenKey', () => {
+    const childrenKey = 'sub';
+    const data = mockTreeData(['a', 'b', ['c', 'c-1', 'c-2']], {
+      childrenKey
+    });
+
+    render(<CascadeTree searchable data={data} childrenKey={childrenKey} />);
+
+    const searchbox = screen.getByRole('searchbox');
+
+    fireEvent.focus(searchbox);
+    fireEvent.change(searchbox, { target: { value: 'c' } });
+
+    expect(screen.getAllByRole('treeitem')).to.have.length(2);
+
+    screen.getAllByRole('treeitem').forEach((item, index) => {
+      expect(item).to.have.text(['cc-1', 'cc-2'][index]);
+    });
+  });
+
+  it('Should switch from search panel to tree panel', () => {
+    const data = mockTreeData(['a', 'b', ['c', 'c-1', 'c-2']]);
+
+    render(<CascadeTree searchable data={data} />);
+
+    const searchbox = screen.getByRole('searchbox');
+
+    fireEvent.focus(searchbox);
+    fireEvent.change(searchbox, { target: { value: 'c' } });
+
+    expect(screen.getAllByRole('treeitem')).to.have.length(2);
+
+    fireEvent.click(screen.getByRole('treeitem', { name: 'c-1' }));
+
+    expect(screen.getAllByRole('group')).to.have.length(2);
+    expect(screen.getByRole('treeitem', { name: 'c-1' })).to.be.attribute('aria-selected', 'true');
+  });
 });

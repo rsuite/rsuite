@@ -7,6 +7,8 @@ import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
 import shallowEqual from '../utils/shallowEqual';
 import TreeView from '../CascadeTree/TreeView';
+import SearchView from '../CascadeTree/SearchView';
+import useSearch from '../CascadeTree/useSearch';
 import { usePaths } from '../CascadeTree/utils';
 import { getParentMap, findNodeOfTree, flattenTree } from '../utils/treeUtils';
 import { deprecatePropTypeNew } from '../internals/propTypes';
@@ -36,8 +38,7 @@ import {
   PickerHandle,
   PickerToggleProps
 } from '../internals/Picker';
-import SearchPanel from './SearchPanel';
-import useSearch from './useSearch';
+
 import { ItemDataType, FormControlPickerProps } from '../@types/common';
 import { useMap } from '../utils/useMap';
 import { oneOf } from '../internals/propTypes';
@@ -46,7 +47,9 @@ export type ValueType = number | string;
 export interface CascaderProps<T = ValueType>
   extends FormControlPickerProps<T | null, PickerLocale, ItemDataType<T>>,
     Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
-  /** Whether dispaly search input box */
+  /**
+   * Whether dispaly search input box
+   */
   searchable?: boolean;
 
   /**
@@ -520,11 +523,9 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         onKeyDown={onPickerKeyDown}
       >
         {searchable && (
-          <SearchPanel
+          <SearchView
             data={items}
             searchKeyword={searchKeyword}
-            locale={locale}
-            prefix={prefix}
             valueKey={valueKey}
             labelKey={labelKey}
             parentMap={parentMap}
