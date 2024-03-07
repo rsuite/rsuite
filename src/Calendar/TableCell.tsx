@@ -1,7 +1,7 @@
 import React from 'react';
 import partial from 'lodash/partial';
-import { DateUtils, useClassNames, useCustom } from '../utils';
-import { isSameDay } from '../utils/dateUtils';
+import { useClassNames, useCustom } from '../utils';
+import { isSameDay, getDate } from '../utils/dateUtils';
 import { useCalendarContext } from './CalendarContext';
 import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { getAriaLabel } from './utils';
@@ -33,7 +33,13 @@ const TableCell: RsRefForwardingComponent<'div', TableCellProps> = React.forward
       ...rest
     } = props;
 
-    const { onMouseMove, cellClassName, renderCell, locale: overrideLocale } = useCalendarContext();
+    const {
+      onMouseMove,
+      cellClassName,
+      renderCell,
+      renderCellOnPicker,
+      locale: overrideLocale
+    } = useCalendarContext();
     const { prefix, merge } = useClassNames(classPrefix);
     const { locale, formatDate } = useCustom('Calendar', overrideLocale);
     const formatStr = locale.formattedDayPattern;
@@ -69,7 +75,11 @@ const TableCell: RsRefForwardingComponent<'div', TableCellProps> = React.forward
         {...rest}
       >
         <div className={prefix('cell-content')}>
-          <span className={prefix('cell-day')}>{DateUtils.getDate(date)}</span>
+          {renderCellOnPicker ? (
+            renderCellOnPicker(date)
+          ) : (
+            <span className={prefix('cell-day')}>{getDate(date)}</span>
+          )}
           {renderCell?.(date)}
         </div>
       </Component>

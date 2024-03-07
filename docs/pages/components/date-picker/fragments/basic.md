@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { DatePicker, Stack } from 'rsuite';
+import { DatePicker } from 'rsuite';
 
 const App = () => <DatePicker />;
 

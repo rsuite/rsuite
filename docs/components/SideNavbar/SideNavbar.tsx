@@ -8,10 +8,13 @@ import usePages, { type MenuItem } from '@/utils/usePages';
 import debounce from 'lodash/debounce';
 import scrollTop from 'dom-lib/scrollTop';
 import ExternalLinkSquare from '@rsuite/icons/legacy/ExternalLinkSquare';
+import { IoExtensionPuzzleOutline } from 'react-icons/io5';
+
 import BarsIcon from '@rsuite/icons/legacy/Bars';
 import { TypeAttributes } from 'rsuite/esm/@types/common';
 import pkg from '../../package.json';
 
+const icons = { IoExtensionPuzzleOutline };
 interface SideNavbarProps {
   style: React.CSSProperties;
   onToggleMenu?: (show: boolean) => void;
@@ -87,6 +90,16 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
     return null;
   };
 
+  const renderIcon = (icon?: string) => {
+    if (icon) {
+      const Icon = icons[icon];
+      if (Icon) {
+        return <Icon />;
+      }
+    }
+    return null;
+  };
+
   if (children) {
     children.forEach(child => {
       const pathname = child.url ? child.url : `/${data.id}/${child.id}`;
@@ -117,6 +130,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
             {child.name}
             {title}
             {renderTag(child)}
+            {renderIcon(child.icon)}
           </Nav.Item>
         );
       }

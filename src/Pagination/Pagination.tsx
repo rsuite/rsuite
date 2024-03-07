@@ -1,11 +1,10 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import More from '@rsuite/icons/legacy/More';
 import PagePrevious from '@rsuite/icons/legacy/PagePrevious';
 import PageNext from '@rsuite/icons/legacy/PageNext';
 import PageTop from '@rsuite/icons/legacy/PageTop';
 import PageEnd from '@rsuite/icons/legacy/PageEnd';
-
 import PaginationButton, { PaginationButtonProps } from './PaginationButton';
 import { useClassNames, useCustom } from '../utils';
 import { RsRefForwardingComponent, WithAsProps, TypeAttributes } from '../@types/common';
@@ -97,34 +96,31 @@ const Pagination: RsRefForwardingComponent<'div', PaginationProps> = React.forwa
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
     const { locale } = useCustom<PaginationLocale>('Pagination', overrideLocale);
 
-    const renderItem = useCallback(
-      (key: string | number, itemProps: PaginationButtonProps) => {
-        const { eventKey, disabled, ...itemRest } = itemProps;
+    const renderItem = (key: string | number, itemProps: PaginationButtonProps) => {
+      const { eventKey, disabled, ...itemRest } = itemProps;
 
-        let disabledItem = disabled;
+      let disabledButton = disabled;
 
-        if (typeof disabledProp !== 'undefined') {
-          disabledItem = typeof disabledProp === 'function' ? disabledProp(eventKey) : disabledProp;
-        }
+      if (typeof disabledProp !== 'undefined') {
+        disabledButton = typeof disabledProp === 'function' ? disabledProp(eventKey) : disabledProp;
+      }
 
-        const title = locale?.[key] || eventKey;
+      const title = locale?.[key] || eventKey;
 
-        return (
-          <PaginationButton
-            aria-label={title}
-            title={title}
-            {...itemRest}
-            {...linkProps}
-            key={`${key}-${eventKey}`}
-            eventKey={eventKey}
-            as={linkAs}
-            disabled={disabledItem}
-            onSelect={disabledItem ? undefined : onSelect}
-          />
-        );
-      },
-      [disabledProp, linkAs, linkProps, locale, onSelect]
-    );
+      return (
+        <PaginationButton
+          aria-label={title}
+          title={title}
+          {...itemRest}
+          {...linkProps}
+          key={`${key}-${eventKey}`}
+          eventKey={eventKey}
+          as={linkAs}
+          disabled={disabledButton}
+          onSelect={disabledButton ? undefined : onSelect}
+        />
+      );
+    };
 
     const renderFirst = () => {
       if (!first) {

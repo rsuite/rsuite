@@ -87,7 +87,9 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
         if (activeItem) {
           const position = getPosition(activeItem, column);
           // Let the active option scroll into view.
-          scrollTop(column, position?.top);
+          if (position?.top) {
+            scrollTop(column, position?.top);
+          }
         }
       });
     }, [prefix]);

@@ -32,7 +32,9 @@ const ProgressBar: RsRefForwardingComponent<'div', ProgressBarProps> = React.for
     const styles = { ...style, [startKey]: `${start}%`, [sizeKey]: `${end - start}%` };
     const classes = merge(className, withClassPrefix());
 
-    return <Component ref={ref} style={styles} className={classes} />;
+    return (
+      <Component ref={ref} style={styles} className={classes} data-testid="slider-progress-bar" />
+    );
   }
 );
 

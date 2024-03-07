@@ -1,3 +1,39 @@
+# [5.55.0](https://github.com/rsuite/rsuite/compare/v5.54.0...v5.55.0) (2024-03-01)
+
+
+### Bug Fixes
+
+* **DateRangePicker:** fix time picker does not update when clicking the shortcut item ([#3647](https://github.com/rsuite/rsuite/issues/3647)) ([00c9eaa](https://github.com/rsuite/rsuite/commit/00c9eaa9b246da027c729fb3cf3639001473d4fe))
+* **Pagination:** fix SelectPicker rendering misalignment ([#3643](https://github.com/rsuite/rsuite/issues/3643)) ([044c48f](https://github.com/rsuite/rsuite/commit/044c48f3e358f93bc7568bc83242e7ea6348825e))
+* **Slider,RangeSlider:** fix touch event not working ([#3653](https://github.com/rsuite/rsuite/issues/3653)) ([3d57ebc](https://github.com/rsuite/rsuite/commit/3d57ebcaebafa3207b84987ba7e80cd4c38a2741))
+
+
+### Features
+
+* added czech locale ([#3649](https://github.com/rsuite/rsuite/issues/3649)) ([f589257](https://github.com/rsuite/rsuite/commit/f58925757314da09dd2a2ee0706321860a32ab13))
+* **DatePicker:** add support `renderCell` on `<DatePicker>` ([#3641](https://github.com/rsuite/rsuite/issues/3641)) ([b63d1a3](https://github.com/rsuite/rsuite/commit/b63d1a37b0289383dbe0099481609097e1c4a436))
+* **InputNumber:** add support for `formatter` on `<InputNumber>` ([#3642](https://github.com/rsuite/rsuite/issues/3642)) ([d457d3a](https://github.com/rsuite/rsuite/commit/d457d3a67d929fa02780e4d012844756361c7c68))
+
+
+
+# [5.54.0](https://github.com/rsuite/rsuite/compare/v5.53.2...v5.54.0) (2024-02-22)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix style error of the bottom button in the datePicker ([#3634](https://github.com/rsuite/rsuite/issues/3634)) ([536ad7e](https://github.com/rsuite/rsuite/commit/536ad7e9b0bf9c727dd69c5e0584033751422e1f))
+* **DateRangePicker:** fix error state when value is empty array ([#3631](https://github.com/rsuite/rsuite/issues/3631)) ([f8778f5](https://github.com/rsuite/rsuite/commit/f8778f537c441e0a49ecebf2c41c9af14a764400))
+* **InputGroup:** fix Input padding issue in InputGroup ([#3600](https://github.com/rsuite/rsuite/issues/3600)) ([56b3792](https://github.com/rsuite/rsuite/commit/56b379297e237aa26aff0140cd93ec3a7314e5f4))
+* **TagPicker:** fix the margin issue between tags in plaintext mode ([#3638](https://github.com/rsuite/rsuite/issues/3638)) ([61f343b](https://github.com/rsuite/rsuite/commit/61f343b43677b9d1441f5c5a60cc7a95ae6890ca))
+* fixed issue with install guide page ([#3619](https://github.com/rsuite/rsuite/issues/3619)) ([#3620](https://github.com/rsuite/rsuite/issues/3620)) ([33159b6](https://github.com/rsuite/rsuite/commit/33159b6ffeff4ce44cae03e1eb9ae806c6d2d12c))
+
+
+### Features
+
+* **InlineEdit:** add support for InlineEdit ([#3614](https://github.com/rsuite/rsuite/issues/3614)) ([8ed7e6d](https://github.com/rsuite/rsuite/commit/8ed7e6d57b7ccd930bd72017a0a8299be0c21515))
+
+
+
 ## [5.53.2](https://github.com/rsuite/rsuite/compare/v5.53.1...v5.53.2) (2024-02-06)
 
 

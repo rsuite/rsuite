@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputNumber, InputGroup } from 'rsuite';
+import { InputNumber, InputGroup, Stack } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <DefaultPage
       inDocsComponents={inDocsComponents}
-      dependencies={{ InputNumber, InputGroup }}
+      dependencies={{ InputNumber, InputGroup, Stack }}
       sandboxFiles={files}
     />
   );

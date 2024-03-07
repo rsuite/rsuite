@@ -1,49 +1,46 @@
 import React from 'react';
-import { fireEvent, act, waitFor, render } from '@testing-library/react';
+import { fireEvent, act, waitFor, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
-import { getDOMNode } from '@test/utils';
 import Handle from '../Handle';
 
 describe('Slider - Handle', () => {
   it('Should call `onDragStart` callback', () => {
-    const onDragStartSpy = sinon.spy();
-    const instance = getDOMNode(<Handle onDragStart={onDragStartSpy} />);
+    const onDragStart = sinon.spy();
 
-    fireEvent.mouseDown(instance);
+    render(<Handle onDragStart={onDragStart} />);
 
-    expect(instance.className).to.contain('active');
-    expect(onDragStartSpy).to.called;
+    fireEvent.mouseDown(screen.getByTestId('slider-handle'));
+
+    expect(screen.getByTestId('slider-handle')).to.have.class('active');
+    expect(onDragStart).to.have.been.calledOnce;
   });
 
   it('Should call `onDragMove` callback', async () => {
-    const onDragMoveSpy = sinon.spy();
+    const onDragMove = sinon.spy();
 
-    const ref = React.createRef<HTMLDivElement>();
     const mousemoveEvent = new MouseEvent('mousemove', { bubbles: true });
 
-    render(<Handle ref={ref} onDragMove={onDragMoveSpy} />);
+    render(<Handle onDragMove={onDragMove} />);
 
-    fireEvent.mouseDown(ref.current as HTMLElement);
+    fireEvent.mouseDown(screen.getByTestId('slider-handle'));
 
     act(() => {
-      (ref.current as HTMLElement).dispatchEvent(mousemoveEvent);
+      screen.getByTestId('slider-handle').dispatchEvent(mousemoveEvent);
     });
 
     await waitFor(() => {
-      expect((ref.current as HTMLElement).className).to.contain('active');
-      expect(onDragMoveSpy).to.called;
+      expect(screen.getByTestId('slider-handle')).to.have.class('active');
+      expect(onDragMove).to.have.been.calledOnce;
     });
   });
 
   it('Should show tooltip', () => {
-    const instance = getDOMNode(<Handle tooltip value={10} />);
+    render(<Handle tooltip value={10} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect((instance.querySelector('.rs-tooltip') as HTMLElement).style.left).to.empty;
+    expect(screen.getByRole('tooltip', { hidden: true }).style.left).to.empty;
 
-    fireEvent.mouseEnter(instance);
+    fireEvent.mouseEnter(screen.getByTestId('slider-handle'));
 
-    // eslint-disable-next-line testing-library/no-node-access
-    expect((instance.querySelector('.rs-tooltip') as HTMLElement).style.left).to.not.empty;
+    expect(screen.getByRole('tooltip', { hidden: true }).style.left).to.not.empty;
   });
 });

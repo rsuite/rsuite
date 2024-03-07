@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/prefer-screen-queries */
 import React from 'react';
 import { render, act, fireEvent, waitFor, screen, getByRole } from '@testing-library/react';
 import {
@@ -28,11 +29,8 @@ import { RangeType, DateRange } from '../types';
 function setTimePickerValue(calendarKey: 'start' | 'end', { hours, minutes, seconds }) {
   const calendar = screen.queryByTestId(`calendar-${calendarKey}`) as HTMLDivElement;
 
-  // eslint-disable-next-line testing-library/prefer-screen-queries
   const hourNode = getByRole(calendar, 'option', { name: `${hours} hours` });
-  // eslint-disable-next-line testing-library/prefer-screen-queries
   const minuteNode = getByRole(calendar, 'option', { name: `${minutes} minutes` });
-  // eslint-disable-next-line testing-library/prefer-screen-queries
   const secondNode = getByRole(calendar, 'option', { name: `${seconds} seconds` });
 
   fireEvent.click(hourNode);
@@ -480,6 +478,20 @@ describe('DateRangePicker', () => {
 
     expect(container.firstChild).to.have.class('rs-picker-error');
     expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'true');
+  });
+
+  it('Should not have a error style when date is null', () => {
+    const { container } = render(<DateRangePicker value={null} />);
+
+    expect(container.firstChild).to.not.have.class('rs-picker-error');
+    expect(screen.getByRole('textbox')).to.not.have.attribute('aria-invalid');
+  });
+
+  it('Should not have a error style when date is empty array', () => {
+    const { container } = render(<DateRangePicker value={[] as any} />);
+
+    expect(container.firstChild).to.not.have.class('rs-picker-error');
+    expect(screen.getByRole('textbox')).to.have.attribute('aria-invalid', 'false');
   });
 
   it('Should update the calendar when clicking on a non-current month', () => {
@@ -962,22 +974,44 @@ describe('DateRangePicker', () => {
   });
 
   it('Should call `onShortcutClick` callback', async () => {
-    const onShortcutClickSpy = sinon.spy();
+    const onShortcutClick = sinon.spy();
 
     render(
       <DateRangePicker
         defaultOpen
         ranges={[{ label: 'Yesterday', value: [addDays(new Date(), -1), addDays(new Date(), -1)] }]}
-        onShortcutClick={onShortcutClickSpy}
+        onShortcutClick={onShortcutClick}
       />
     );
 
     userEvent.click(screen.getByRole('button', { name: 'Yesterday' }));
 
     await waitFor(() => {
-      expect(onShortcutClickSpy).to.calledOnce;
-      expect(onShortcutClickSpy.firstCall.firstArg.label).to.equal('Yesterday');
+      expect(onShortcutClick).to.calledOnce;
+      expect(onShortcutClick.firstCall.firstArg.label).to.equal('Yesterday');
     });
+  });
+
+  it('Should render the correct time when the range is clicked', () => {
+    render(
+      <DateRangePicker
+        open
+        format="yyyy-MM-dd HH:mm"
+        ranges={[
+          {
+            label: 'custom range',
+            value: [new Date('2024-02-27 09:00:00'), new Date('2024-02-28 10:00:00')]
+          }
+        ]}
+      />
+    );
+
+    userEvent.click(screen.getByRole('button', { name: 'custom range' }));
+
+    const times = screen.queryAllByRole('button', { name: 'Select time' });
+
+    expect(times[0]).to.have.text('09:00');
+    expect(times[1]).to.have.text('10:00');
   });
 
   it('Should reander the correct size', () => {

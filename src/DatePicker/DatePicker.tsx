@@ -214,6 +214,13 @@ export interface DatePickerProps
    * @deprecated
    */
   renderValue?: (value: Date, format: string) => string;
+
+  /**
+   * Custom rendering calendar cell content.
+   *
+   * @version 5.54.0
+   */
+  renderCell?: (date: Date) => React.ReactNode;
 }
 
 /**
@@ -278,6 +285,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onToggleMonthDropdown,
       onToggleTimeDropdown,
       onShortcutClick,
+      renderCell,
       ...restProps
     } = props;
 
@@ -646,7 +654,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
               />
             )}
 
-            <>
+            <Stack.Item>
               <CalendarContainer
                 {...calendarProps}
                 targetId={id}
@@ -662,6 +670,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 format={formatStr}
                 isoWeek={isoWeek}
                 calendarDate={calendarDate}
+                renderCellOnPicker={renderCell}
                 onMoveForward={handleMoveForward}
                 onMoveBackward={handleMoveBackward}
                 onSelect={handleSelect}
@@ -681,7 +690,7 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
                 onOk={handleOK}
                 hideOkBtn={oneTap}
               />
-            </>
+            </Stack.Item>
           </Stack>
         </PickerPopup>
       );
@@ -815,7 +824,6 @@ DatePicker.propTypes = {
   onToggleMonthDropdown: PropTypes.func,
   onToggleTimeDropdown: PropTypes.func,
   oneTap: PropTypes.bool,
-  panelContainerRef: PropTypes.any,
   ranges: PropTypes.array,
   showMeridian: PropTypes.bool,
   showWeekNumbers: PropTypes.bool,

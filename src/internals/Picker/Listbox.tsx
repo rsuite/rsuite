@@ -20,15 +20,20 @@ import {
 import shallowEqual from '../../utils/shallowEqual';
 import { mergeRefs, useClassNames, useMount, useEventCallback } from '../../utils';
 import ListItemGroup from './ListItemGroup';
-import { KEY_GROUP, KEY_GROUP_TITLE } from '../../utils/getDataGroupBy';
+import { KEY_GROUP_TITLE } from '../../utils/getDataGroupBy';
 import { StandardProps, ItemDataType, Offset } from '../../@types/common';
 import useCombobox from './hooks/useCombobox';
+import { RSUITE_PICKER_GROUP_KEY } from '../../internals/symbols';
+
+interface InnerItemDataType extends ItemDataType {
+  [RSUITE_PICKER_GROUP_KEY]?: boolean;
+}
 
 export interface ListboxProps<Multiple = false>
   extends StandardProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'onSelect'> {
   classPrefix: string;
-  data?: ItemDataType[];
+  data?: InnerItemDataType[];
   group?: boolean;
   groupBy?: string;
   disabledItemValues?: any[];
@@ -120,7 +125,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     const getRowHeight = (list: any[], index) => {
       const item = list[index];
 
-      if (group && item[KEY_GROUP] && index !== 0) {
+      if (group && item[RSUITE_PICKER_GROUP_KEY] && index !== 0) {
         return rowGroupHeight;
       }
 
@@ -157,7 +162,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
     const filteredItems = group
       ? data.filter(item => {
           // Display group title items
-          if (item[KEY_GROUP as keyof typeof item]) return true;
+          if (item[RSUITE_PICKER_GROUP_KEY]) return true;
 
           // Display items under the unfolded group
           // FIXME-Doma
@@ -186,7 +191,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
       const value = item[valueKey];
       const label = item[labelKey];
 
-      if (isUndefined(label) && !item[KEY_GROUP]) {
+      if (isUndefined(label) && !item[RSUITE_PICKER_GROUP_KEY]) {
         throw Error(`labelKey "${labelKey}" is not defined in "data" : ${index}`);
       }
 
@@ -197,7 +202,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
        * Render <ListboxGroup>
        * when if `group` is enabled
        */
-      if (group && item[KEY_GROUP]) {
+      if (group && item[RSUITE_PICKER_GROUP_KEY]) {
         const groupValue = item[KEY_GROUP_TITLE];
         // TODO: grouped options should be owned by group
         return (
@@ -213,7 +218,7 @@ const Listbox: ListboxComponent = React.forwardRef<HTMLDivElement, ListboxProps<
             {renderMenuGroup ? renderMenuGroup(groupValue, item) : groupValue}
           </ListItemGroup>
         );
-      } else if (isUndefined(value) && !isUndefined(item[KEY_GROUP])) {
+      } else if (isUndefined(value) && !isUndefined(item[RSUITE_PICKER_GROUP_KEY])) {
         throw Error(`valueKey "${valueKey}" is not defined in "data" : ${index} `);
       }
 

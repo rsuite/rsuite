@@ -39,7 +39,7 @@ const defaultFormValue = {
   radio: '',
   slider: 0,
   datePicker: null,
-  dateRangePicker: [],
+  dateRangePicker: null,
   checkPicker: [],
   selectPicker: '',
   tagPicker: [],

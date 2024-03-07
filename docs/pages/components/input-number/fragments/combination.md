@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { InputNumber, InputGroup } from 'rsuite';
+import { InputNumber, InputGroup, Stack } from 'rsuite';
 
 const App = () => {
   const [value, setValue] = React.useState(0);
@@ -13,25 +13,21 @@ const App = () => {
   };
 
   return (
-    <div style={{ width: 160 }}>
+    <Stack direction="column" alignItems="flex-start" spacing={10}>
       <InputNumber prefix="$" />
-      <hr />
       <InputNumber postfix="￥" />
-      <hr />
       <InputNumber postfix="%" />
-      <hr />
       <InputGroup>
         <InputGroup.Button onClick={handleMinus}>-</InputGroup.Button>
         <InputNumber className={'custom-input-number'} value={value} onChange={setValue} />
         <InputGroup.Button onClick={handlePlus}>+</InputGroup.Button>
       </InputGroup>
-      <hr />
       <InputGroup>
         <InputNumber />
         <InputGroup.Addon>~</InputGroup.Addon>
         <InputNumber />
       </InputGroup>
-    </div>
+    </Stack>
   );
 };
 
