@@ -314,6 +314,43 @@ describe('Cascader', () => {
     expect(screen.getByRole('treeitem')).to.have.text('test');
   });
 
+  it('Should call `onSearch` callback', () => {
+    const data = mockTreeData(['a', 'b', ['c', 'c-1', 'c-2']]);
+    const onSearch = sinon.spy();
+
+    render(<Cascader defaultOpen data={data} onSearch={onSearch} />);
+
+    const searchbox = screen.getByRole('searchbox');
+
+    fireEvent.focus(searchbox);
+    fireEvent.change(searchbox, { target: { value: 'c' } });
+
+    expect(onSearch).to.be.calledOnce;
+    expect(onSearch).to.be.calledWith('c');
+  });
+
+  it('Should close the search panel when clicking on the search option', async () => {
+    const onClose = sinon.spy();
+    const data = mockTreeData(['a', 'b', ['c', 'c-1', 'c-2']]);
+
+    render(<Cascader defaultOpen searchable data={data} onClose={onClose} />);
+
+    const searchbox = screen.getByRole('searchbox');
+
+    fireEvent.focus(searchbox);
+    fireEvent.change(searchbox, { target: { value: 'c' } });
+
+    expect(screen.getAllByRole('treeitem')).to.have.length(2);
+
+    fireEvent.click(screen.getByRole('treeitem', { name: 'c-1' }));
+
+    expect(screen.getByRole('combobox')).to.have.text('c / c-1');
+
+    await waitFor(() => {
+      expect(onClose).to.have.been.calledOnce;
+    });
+  });
+
   it('Should show search items with childrenKey', () => {
     const childrenKey = 'sub';
     const data = mockTreeData(['t', 'h', ['g', 'g-m', 'g-b']], {
