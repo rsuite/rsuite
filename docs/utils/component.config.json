@@ -571,8 +571,7 @@
     "name": "CascadeTree",
     "title": "级联树",
     "components": ["CascadeTree"],
-    "minVersion": "5.53.0",
-    "tag": "New"
+    "minVersion": "5.56.0"
   },
   {
     "id": "check-tree",
@@ -615,8 +614,7 @@
     "name": "Tabs",
     "title": "选项卡",
     "components": ["Tabs", "Tabs.Tab"],
-    "minVersion": "5.53.0",
-    "tag": "New"
+    "minVersion": "5.53.0"
   },
   {
     "id": "tree",
