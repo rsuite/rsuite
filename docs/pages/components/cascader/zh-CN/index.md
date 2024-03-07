@@ -84,7 +84,7 @@
 
 | 属性名称           | 类型`(默认值)`                                                                                | 描述                                 |
 | ------------------ | --------------------------------------------------------------------------------------------- | ------------------------------------ |
-| appearance         | 'default' &#124; 'subtle' `('default')`                                                       | 设置外观                             |
+| appearance         | 'default' \| 'subtle' `('default')`                                                           | 设置外观                             |
 | block              | boolean                                                                                       | 堵塞整行                             |
 | caretAs            | ElementType                                                                                   | 自定义右侧箭头图标的组件             |
 | childrenKey        | string `('children')`                                                                         | 设置选项子节点在 `data` 中的 `key`   |
@@ -92,7 +92,7 @@
 | cleanable          | boolean `(true)`                                                                              | 可以清除                             |
 | columnHeight       | number                                                                                        | 设置菜单的高度                       |
 | columnWidth        | number                                                                                        | 设置菜单的宽度                       |
-| container          | HTMLElement &#124; (() => HTMLElement)                                                        | 设置渲染的容器                       |
+| container          | HTMLElement \| (() => HTMLElement)                                                            | 设置渲染的容器                       |
 | data \*            | [ItemDataType][item][]                                                                        | 组件数据                             |
 | defaultValue       | string                                                                                        | 设置默认值                           |
 | disabled           | boolean                                                                                       | 禁用组件                             |
@@ -125,7 +125,7 @@
 | renderTreeNode     | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                    | 自定义选项                           |
 | renderValue        | (value:string, selectedPaths: [ItemDataType][item][], selectedElement:ReactNode) => ReactNode | 自定义被选中的选项                   |
 | searchable         | boolean `(true)`                                                                              | 可以搜索                             |
-| size               | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                             | 设置组件尺寸                         |
+| size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                         | 设置组件尺寸                         |
 | toggleAs           | ElementType `('a')`                                                                           | 为组件自定义元素类型                 |
 | value              | string                                                                                        | 设置值（受控）                       |
 | valueKey           | string `('value')`                                                                            | 设置选项值在 `data` 中的 `key`       |

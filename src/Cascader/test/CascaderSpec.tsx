@@ -59,14 +59,6 @@ describe('Cascader', () => {
     expect(container.firstChild).to.have.class('rs-picker-default');
   });
 
-  it('Should be inline', () => {
-    const { container } = render(<Cascader data={[]} inline />);
-
-    expect(container.firstChild).to.have.class('rs-picker-inline');
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    expect(container.querySelector('.rs-cascade-tree-items')).to.exist;
-  });
-
   it('Should output a placeholder', () => {
     const placeholder = 'foobar';
     render(<Cascader data={[]} placeholder={placeholder} />);
@@ -238,31 +230,6 @@ describe('Cascader', () => {
     fireEvent.click(screen.getByRole('treeitem', { name: '1' }));
 
     expect(screen.getByTestId('spinner')).to.exist;
-  });
-
-  it('Should present an async loading state with inline', async () => {
-    function fetchNodes() {
-      return new Promise<{ label: string; value: string }[]>(resolve => {
-        setTimeout(() => {
-          resolve([{ label: '2', value: '2' }]);
-        }, 500);
-      });
-    }
-
-    render(
-      <Cascader
-        inline
-        open
-        data={[{ label: '1', value: '1', children: [] }]}
-        getChildren={fetchNodes}
-      />
-    );
-
-    fireEvent.click(screen.getAllByRole('treeitem')[0]);
-
-    await waitFor(() => {
-      expect(screen.getAllByRole('group')).to.have.length(2);
-    });
   });
 
   it('Should call renderValue', () => {

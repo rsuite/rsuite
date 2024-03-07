@@ -84,7 +84,7 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 | Property           | Type`(Default)`                                                                                | Description                                                 |
 | ------------------ | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| appearance         | 'default' &#124; 'subtle' `('default')`                                                        | Set picker appearence                                       |
+| appearance         | 'default' \| 'subtle' `('default')`                                                        | Set picker appearence                                       |
 | block              | boolean                                                                                        | Blocking an entire row                                      |
 | caretAs            | ElementType                                                                                    | Custom component for the caret icon                         |
 | childrenKey        | string `('children')`                                                                          | Set children key in data                                    |
@@ -92,7 +92,7 @@ This tree allows the use of the `getChildren` option and the length of the child
 | cleanable          | boolean `(true)`                                                                               | Whether the selected value can be cleared                   |
 | columnHeight       | number                                                                                         | Sets the height of the menu                                 |
 | columnWidth        | number                                                                                         | Sets the width of the menu                                  |
-| container          | HTMLElement &#124; (() => HTMLElement)                                                         | Sets the rendering container                                |
+| container          | HTMLElement \| (() => HTMLElement)                                                         | Sets the rendering container                                |
 | data \*            | [ItemDataType][item][]                                                                         | The data of component                                       |
 | defaultValue       | string                                                                                         | Default values of the selected items                        |
 | disabled           | boolean                                                                                        | Disabled component                                          |
@@ -125,7 +125,7 @@ This tree allows the use of the `getChildren` option and the length of the child
 | renderTreeNode     | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                     | Custom render menu items                                    |
 | renderValue        | (value: string, selectedPaths: [ItemDataType][item][], selectedElement:ReactNode) => ReactNode | Custom render selected items                                |
 | searchable         | boolean `(true)`                                                                               | Whether you can search for options.                         |
-| size               | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`                                              | A picker can have different sizes                           |
+| size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                              | A picker can have different sizes                           |
 | toggleAs           | ElementType `('a')`                                                                            | You can use a custom element for this component             |
 | value              | string                                                                                         | Specifies the values of the selected items(Controlled)      |
 | valueKey           | string `('value')`                                                                             | Set value key in data                                       |
