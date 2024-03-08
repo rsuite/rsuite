@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCombobox } from '../internals/Picker';
-import Input, { type InputProps } from '../Input';
+import Input from '../Input';
+import type { InputProps } from '../Input';
 
 interface ComboboxProps extends InputProps {
   expanded?: boolean;
