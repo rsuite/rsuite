@@ -84,7 +84,7 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 | Property           | Type`(Default)`                                                                                | Description                                                 |
 | ------------------ | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| appearance         | 'default' \| 'subtle' `('default')`                                                        | Set picker appearence                                       |
+| appearance         | 'default' \| 'subtle' `('default')`                                                            | Set picker appearence                                       |
 | block              | boolean                                                                                        | Blocking an entire row                                      |
 | caretAs            | ElementType                                                                                    | Custom component for the caret icon                         |
 | childrenKey        | string `('children')`                                                                          | Set children key in data                                    |
@@ -92,16 +92,21 @@ This tree allows the use of the `getChildren` option and the length of the child
 | cleanable          | boolean `(true)`                                                                               | Whether the selected value can be cleared                   |
 | columnHeight       | number                                                                                         | Sets the height of the menu                                 |
 | columnWidth        | number                                                                                         | Sets the width of the menu                                  |
-| container          | HTMLElement \| (() => HTMLElement)                                                         | Sets the rendering container                                |
+| container          | HTMLElement \| (() => HTMLElement)                                                             | Sets the rendering container                                |
 | data \*            | [ItemDataType][item][]                                                                         | The data of component                                       |
 | defaultValue       | string                                                                                         | Default values of the selected items                        |
 | disabled           | boolean                                                                                        | Disabled component                                          |
 | disabledItemValues | string[]                                                                                       | Disabled items                                              |
 | getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;                          | Asynchronously load the children of the tree node.          |
 | height             | number `(320)`                                                                                 | The height of Dropdown                                      |
+| ~inline~           | boolean                                                                                        | ⚠️`[Deprecated]` Use the `<CascadeTree>` component instead  |
 | labelKey           | string `('label')`                                                                             | Set label key in data                                       |
 | loading            | boolean `(false)`                                                                              | Whether to display a loading state indicator                |
 | locale             | [PickerLocaleType](/guide/i18n/#pickers)                                                       | Locale text                                                 |
+| ~menuClassName~    | string                                                                                         | ⚠️`[Deprecated]` Use `popupClassName` instead               |
+| ~menuHeight~       | number                                                                                         | ⚠️`[Deprecated]` Use `columnHeight` instead                 |
+| ~menuStyle~        | CSSProperties                                                                                  | ⚠️`[Deprecated]` Use `popupStyle` instead                   |
+| ~menuWidth~        | number                                                                                         | ⚠️`[Deprecated]` Use `columnWidth` instead                  |
 | onChange           | (value:string, event) => void                                                                  | Callback fired when value change                            |
 | onClean            | (event) => void                                                                                | Callback fired when value clean                             |
 | onClose            | () => void                                                                                     | Callback fired when close component                         |
@@ -118,14 +123,18 @@ This tree allows the use of the `getChildren` option and the length of the child
 | parentSelectable   | boolean                                                                                        | Make parent node selectable                                 |
 | placeholder        | ReactNode `('Select')`                                                                         | Setting placeholders                                        |
 | placement          | [Placement](#code-ts-placement-code) `('bottomStart')`                                         | The placement of component                                  |
+| popupClassName     | string                                                                                         | Custom class name for the popup                             |
+| popupStyle         | CSSProperties                                                                                  | Custom style for the popup                                  |
 | preventOverflow    | boolean                                                                                        | Prevent floating element overflow                           |
+| ~rendeMenu~        | (node: ReactNode, column: { items, parentItem, layer}) => ReactNode                            | ⚠️`[Deprecated]` Use `renderColumn` instead                 |
 | renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode                      | Customizing the Rendering Menu list                         |
 | renderExtraFooter  | () => ReactNode                                                                                | custom render extra footer                                  |
+| ~renderMenuItem~   | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                     | ⚠️`[Deprecated]` Use `renderTreeNode` instead               |
 | renderSearchItem   | (node: ReactNode, items: [ItemDataType][item][]) => ReactNode                                  | Custom render search result items                           |
 | renderTreeNode     | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                     | Custom render menu items                                    |
 | renderValue        | (value: string, selectedPaths: [ItemDataType][item][], selectedElement:ReactNode) => ReactNode | Custom render selected items                                |
 | searchable         | boolean `(true)`                                                                               | Whether you can search for options.                         |
-| size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                              | A picker can have different sizes                           |
+| size               | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                                                          | A picker can have different sizes                           |
 | toggleAs           | ElementType `('a')`                                                                            | You can use a custom element for this component             |
 | value              | string                                                                                         | Specifies the values of the selected items(Controlled)      |
 | valueKey           | string `('value')`                                                                             | Set value key in data                                       |
