@@ -1,8 +1,7 @@
 <!--start-code-->
 
 ```js
-import { MultiCascader } from 'rsuite';
-import PeoplesIcon from '@rsuite/icons/Peoples';
+import { MultiCascadeTree } from 'rsuite';
 import AdminIcon from '@rsuite/icons/Admin';
 import { mockTreeData } from './mock';
 
@@ -34,33 +33,19 @@ const Column = ({ header, children }) => {
 };
 
 const App = () => (
-  <MultiCascader
+  <MultiCascadeTree
     data={data}
-    block
-    columnWidth={220}
-    renderTreeNode={(label, node) => {
+    columnWidth={180}
+    renderTreeNode={(node, item) => {
       return (
-        <div>
-          <AdminIcon /> {label}
-        </div>
+        <>
+          <AdminIcon /> {node}
+        </>
       );
     }}
     renderColumn={(childNodes, { layer }) => {
       return <Column header={headers[layer]}> {childNodes}</Column>;
     }}
-    placeholder={
-      <span>
-        <PeoplesIcon /> Location
-      </span>
-    }
-    renderValue={(value, selectedItems, selectedElement) => (
-      <span>
-        <span style={{ color: '#575757' }}>
-          <PeoplesIcon /> Location :
-        </span>{' '}
-        {selectedItems.map(item => item.label).join(' , ')}
-      </span>
-    )}
   />
 );
 

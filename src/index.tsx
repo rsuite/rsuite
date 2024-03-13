@@ -160,9 +160,6 @@ export type { CheckTreePickerProps } from './CheckTreePicker';
 export { default as Cascader } from './Cascader';
 export type { CascaderProps } from './Cascader';
 
-export { default as CascadeTree } from './CascadeTree';
-export type { CascadeTreeProps } from './CascadeTree';
-
 export { default as MultiCascader } from './MultiCascader';
 export type { MultiCascaderProps } from './MultiCascader';
 
@@ -202,6 +199,12 @@ export type { TreeProps } from './Tree';
 
 export { default as CheckTree } from './CheckTree';
 export type { CheckTreeProps } from './CheckTree';
+
+export { default as CascadeTree } from './CascadeTree';
+export type { CascadeTreeProps } from './CascadeTree';
+
+export { default as MultiCascadeTree } from './MultiCascadeTree';
+export type { MultiCascadeTreeProps } from './MultiCascadeTree';
 
 export { default as Panel } from './Panel';
 export type { PanelProps } from './Panel';

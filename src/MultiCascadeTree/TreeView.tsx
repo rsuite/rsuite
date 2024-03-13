@@ -6,60 +6,58 @@ import { useClassNames, shallowEqual, useCustom, useEventCallback } from '../uti
 import { ListCheckItem, useCombobox } from '../internals/Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
 import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/common';
-import { ValueType } from './MultiCascader';
 
-export interface TreeViewProps extends WithAsProps {
-  disabledItemValues: ValueType;
-  value: ValueType;
+export interface TreeViewProps<T = any> extends WithAsProps {
+  disabledItemValues?: T[];
+  value: T[];
   childrenKey: string;
   valueKey: string;
   labelKey: string;
-  menuWidth?: number;
-  menuHeight?: number | string;
+  columnWidth?: number;
+  columnHeight?: number | string;
   cascade?: boolean;
-  cascadeData: (readonly ItemDataType[])[];
-  cascadePaths?: ItemDataType[];
-  uncheckableItemValues: ValueType;
-  renderMenuItem?: (itemLabel: React.MouseEventHandler, item: ItemDataType) => React.ReactNode;
-  renderMenu?: (
-    children: readonly ItemDataType[],
-    menu: React.ReactNode,
-    parentNode?: ItemDataType,
-    layer?: number
+  cascadeData: (readonly ItemDataType<T>[])[];
+  cascadePaths?: ItemDataType<T>[];
+  uncheckableItemValues: T[];
+  renderTreeNode?: (node: React.ReactNode, item: ItemDataType<T>) => React.ReactNode;
+  renderColumn?: (
+    childNodes: React.ReactNode,
+    column: {
+      items: readonly ItemDataType<T>[];
+      parentItem?: ItemDataType<T>;
+      layer?: number;
+    }
   ) => React.ReactNode;
-  onCheck?: (node: ItemDataType, event: React.SyntheticEvent, checked: boolean) => void;
+  onCheck?: (node: ItemDataType<T>, event: React.SyntheticEvent, checked: boolean) => void;
   onSelect?: (
-    node: ItemDataType,
-    cascadePaths: ItemDataType[],
+    node: ItemDataType<T>,
+    cascadePaths: ItemDataType<T>[],
     event: React.SyntheticEvent
   ) => void;
 }
 
 const emptyArray = [];
 
-/**
- * TODO: reuse Menu from Cascader for consistent behavior
- */
 const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRef(
   (props: TreeViewProps, ref) => {
     const {
       as: Component = 'div',
-      classPrefix = 'menu',
+      classPrefix = 'tree',
       className,
       cascade,
       cascadeData = emptyArray,
       cascadePaths = emptyArray,
       childrenKey = 'children',
       disabledItemValues = emptyArray,
-      menuWidth = 156,
-      menuHeight = 200,
+      columnWidth = 156,
+      columnHeight = 200,
       uncheckableItemValues = emptyArray,
       value,
       valueKey = 'value',
       labelKey = 'label',
       style,
-      renderMenuItem,
-      renderMenu,
+      renderTreeNode,
+      renderColumn,
       onCheck,
       onSelect,
       ...rest
@@ -140,17 +138,17 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
           onCheck={(_value, event, checked) => onCheck?.(node, event, checked)}
           checkable={!uncheckable}
         >
-          {renderMenuItem ? renderMenuItem(label, node) : label}
+          {renderTreeNode ? renderTreeNode(label, node) : label}
           {children ? <Icon className={prefix('caret')} spin={node.loading} /> : null}
         </ListCheckItem>
       );
     };
 
-    const columnStyles = { height: menuHeight, width: menuWidth };
+    const columnStyles = { height: columnHeight, width: columnWidth };
     const cascadeNodes = cascadeData.map((children, layer) => {
       let uncheckableCount = 0;
       const onlyKey = `${layer}_${children.length}`;
-      const menu = (
+      const childNodes = (
         <>
           {children.map((item, index) => {
             const uncheckable = uncheckableItemValues.some(uncheckableValue =>
@@ -174,7 +172,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
         </>
       );
 
-      const parentNode = cascadePaths[layer - 1];
+      const parentItem = cascadePaths[layer - 1];
       const columnClasses = prefix('column', {
         'column-uncheckable': uncheckableCount === children.length
       });
@@ -187,17 +185,19 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
           data-layer={layer}
           style={columnStyles}
         >
-          {renderMenu ? renderMenu(children, menu, parentNode, layer) : menu}
+          {renderColumn
+            ? renderColumn(childNodes, { items: children, parentItem, layer })
+            : childNodes}
         </ul>
       );
     });
 
-    const styles = { ...style, width: cascadeData.length * menuWidth };
+    const styles = { ...style, width: cascadeData.length * columnWidth };
 
     return (
       <Component
         role="tree"
-        id={`${id}-${popupType}`}
+        id={id ? `${id}-${popupType}` : undefined}
         aria-labelledby={labelId}
         aria-multiselectable={multiple}
         {...rest}

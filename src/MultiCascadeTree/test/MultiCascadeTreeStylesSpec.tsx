@@ -1,16 +1,16 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import MultiCascader from '../index';
+import MultiCascadeTree from '../MultiCascadeTree';
 import { itChrome } from '@test/utils';
 import { mockTreeData } from '@test/mocks/data-mock';
 
 import '../styles/index.less';
 
-const data = mockTreeData([['abcde', ['vv-abc', 'vv-abcd']]]);
+const data = mockTreeData([['1', ['2', '2-1']]]);
 
-describe('MultiCascader styles', () => {
+describe('MultiCascadeTree styles', () => {
   itChrome('Should render the correct caret', () => {
-    render(<MultiCascader data={data} open />);
+    render(<MultiCascadeTree data={data} />);
 
     const tree = screen.getByRole('tree');
 

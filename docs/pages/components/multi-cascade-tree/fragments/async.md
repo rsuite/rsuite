@@ -1,7 +1,9 @@
 <!--start-code-->
 
 ```js
-import { MultiCascader } from 'rsuite';
+import { MultiCascadeTree } from 'rsuite';
+import FolderFillIcon from '@rsuite/icons/FolderFill';
+import PageIcon from '@rsuite/icons/Page';
 import { mockAsyncData } from './mock';
 
 const [getNodes, fetchNodes] = mockAsyncData();
@@ -11,14 +13,20 @@ const App = () => {
   const [value, setValue] = React.useState();
 
   return (
-    <div className="example-item">
-      <MultiCascader
+    <div style={{ overflow: 'auto' }}>
+      <MultiCascadeTree
         value={value}
         onChange={setValue}
-        placeholder="Select"
-        style={{ width: 224 }}
+        columnWidth={180}
         data={initialData}
         getChildren={fetchNodes}
+        renderTreeNode={(label, item) => {
+          return (
+            <>
+              {item.children ? <FolderFillIcon /> : <PageIcon />} {label}
+            </>
+          );
+        }}
       />
     </div>
   );

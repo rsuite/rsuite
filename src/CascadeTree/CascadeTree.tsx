@@ -13,6 +13,11 @@ export type ValueType = number | string | null;
 
 export interface CascadeTreeProps<T = ValueType> extends WithAsProps, DataProps<ItemDataType<T>> {
   /**
+   * Initial value
+   */
+  defaultValue?: T;
+
+  /**
    * Selected value
    */
   value?: T;
@@ -38,7 +43,7 @@ export interface CascadeTreeProps<T = ValueType> extends WithAsProps, DataProps<
   searchable?: boolean;
 
   /**
-   * Custom render menu
+   * Custom render columns
    */
   renderColumn?: (
     childNodes: React.ReactNode,
@@ -50,7 +55,7 @@ export interface CascadeTreeProps<T = ValueType> extends WithAsProps, DataProps<
   ) => React.ReactNode;
 
   /**
-   * Custom render menu items
+   * Custom render tree node
    */
   renderTreeNode?: (node: React.ReactNode, itemData: ItemDataType<T>) => React.ReactNode;
 
@@ -65,6 +70,11 @@ export interface CascadeTreeProps<T = ValueType> extends WithAsProps, DataProps<
     },
     event: React.MouseEvent
   ) => void;
+
+  /**
+   * Called after the value has been changed
+   */
+  onChange?: (value: T, event: React.SyntheticEvent) => void;
 
   /**
    * Called when searching
@@ -92,6 +102,7 @@ const CascadeTree = React.forwardRef(<T extends ValueType>(props: CascadeTreePro
   const {
     as: Component = 'div',
     data = [],
+    defaultValue,
     className,
     classPrefix = 'cascade-tree',
     childrenKey = 'children',
@@ -106,11 +117,12 @@ const CascadeTree = React.forwardRef(<T extends ValueType>(props: CascadeTreePro
     renderColumn,
     onSelect,
     onSearch,
+    onChange,
     getChildren,
     ...rest
   } = props;
 
-  const [value, setValue] = useControlled(valueProp, null) as [
+  const [value, setValue] = useControlled(valueProp, defaultValue) as [
     T | null | undefined,
     (value: React.SetStateAction<T | null>) => void,
     boolean
@@ -195,6 +207,7 @@ const CascadeTree = React.forwardRef(<T extends ValueType>(props: CascadeTreePro
 
       if (isLeafNode) {
         setValue(nextValue);
+        onChange?.(nextValue, event);
       }
     }
   );

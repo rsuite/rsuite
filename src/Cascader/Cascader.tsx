@@ -53,7 +53,7 @@ export interface CascaderProps<T = ValueType>
   searchable?: boolean;
 
   /**
-   * The menu is displayed directly when the component is initialized
+   * The panel is displayed directly when the component is initialized
    * @deprecated Use CascadeTree instead
    * @see CascadeTree https://rsuitejs.com/components/cascade-tree
    */
@@ -99,10 +99,14 @@ export interface CascaderProps<T = ValueType>
    */
   menuHeight?: number | string;
 
-  /** Sets the width of the column */
+  /**
+   * Sets the width of the column
+   */
   columnWidth?: number;
 
-  /** Sets the height of the column */
+  /**
+   * Sets the height of the column
+   */
   columnHeight?: number;
 
   /**

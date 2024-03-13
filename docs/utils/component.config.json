@@ -309,6 +309,13 @@
     }
   },
   {
+    "id": "cascade-tree",
+    "name": "CascadeTree",
+    "title": "级联树",
+    "components": ["CascadeTree"],
+    "minVersion": "5.56.0"
+  },
+  {
     "id": "check-picker",
     "name": "CheckPicker",
     "title": "多项选择器",
@@ -327,6 +334,12 @@
       "default": "58",
       "dark": "58"
     }
+  },
+  {
+    "id": "check-tree",
+    "name": "CheckTree",
+    "title": "树形多选控件",
+    "components": ["CheckTree"]
   },
   {
     "id": "checkbox",
@@ -420,6 +433,13 @@
     }
   },
   {
+    "id": "multi-cascade-tree",
+    "name": "MultiCascadeTree",
+    "title": "多选级联树",
+    "components": ["MultiCascadeTree"],
+    "minVersion": "5.56.0"
+  },
+  {
     "id": "radio",
     "name": "Radio",
     "title": "单选框",
@@ -503,6 +523,12 @@
     }
   },
   {
+    "id": "tree",
+    "name": "Tree",
+    "title": "树形控件",
+    "components": ["Tree"]
+  },
+  {
     "id": "uploader",
     "name": "Uploader",
     "title": "上传控件",
@@ -528,14 +554,6 @@
       "dark": "74"
     }
   },
-  {
-    "id": "accordion",
-    "name": "Accordion",
-    "title": "手风琴",
-    "components": ["Accordion", "Accordion.Item"],
-    "minVersion": "5.52.0"
-  },
-
   {
     "id": "badge",
     "name": "Badge",
@@ -566,19 +584,7 @@
       "dark": "90"
     }
   },
-  {
-    "id": "cascade-tree",
-    "name": "CascadeTree",
-    "title": "级联树",
-    "components": ["CascadeTree"],
-    "minVersion": "5.56.0"
-  },
-  {
-    "id": "check-tree",
-    "name": "CheckTree",
-    "title": "树形多选控件",
-    "components": ["CheckTree"]
-  },
+
   {
     "id": "list",
     "name": "List",
@@ -609,19 +615,7 @@
       "dark": "87"
     }
   },
-  {
-    "id": "tabs",
-    "name": "Tabs",
-    "title": "选项卡",
-    "components": ["Tabs", "Tabs.Tab"],
-    "minVersion": "5.53.0"
-  },
-  {
-    "id": "tree",
-    "name": "Tree",
-    "title": "树形控件",
-    "components": ["Tree"]
-  },
+
   {
     "id": "timeline",
     "name": "Timeline",
@@ -641,6 +635,33 @@
       "default": "86",
       "dark": "84"
     }
+  },
+  {
+    "group": true,
+    "id": "disclosure",
+    "name": "Disclosure",
+    "title": "展现"
+  },
+  {
+    "id": "accordion",
+    "name": "Accordion",
+    "title": "手风琴",
+    "components": ["Accordion", "Accordion.Item"],
+    "minVersion": "5.52.0"
+  },
+  {
+    "id": "tabs",
+    "name": "Tabs",
+    "title": "选项卡",
+    "components": ["Tabs", "Tabs.Tab"],
+    "minVersion": "5.53.0"
+  },
+  {
+    "id": "visually-hidden",
+    "name": "VisuallyHidden",
+    "title": "视觉隐藏",
+    "components": ["VisuallyHidden"],
+    "minVersion": "5.52.0"
   },
   {
     "group": true,
@@ -671,14 +692,6 @@
     "name": "DOMHelper",
     "title": "DOM 助手",
     "apis": ["DOMHelper"]
-  },
-
-  {
-    "id": "visually-hidden",
-    "name": "VisuallyHidden",
-    "title": "视觉隐藏",
-    "components": ["VisuallyHidden"],
-    "minVersion": "5.52.0"
   },
   {
     "id": "whisper",

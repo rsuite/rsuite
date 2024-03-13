@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import uniq from 'lodash/uniq';
 import remove from 'lodash/remove';
 import slice from 'lodash/slice';
-import { MultiCascaderProps, ValueType } from './MultiCascader';
+import { MultiCascadeTreeProps } from './MultiCascadeTree';
 import { ItemDataType } from '../@types/common';
 import { UNSAFE_flattenTree } from '../utils/treeUtils';
 import { attachParent } from '../utils/attachParent';
@@ -46,7 +46,7 @@ export const getParents = <T extends Record<string, unknown>>(node: MayHasParent
  */
 export const isSomeChildChecked = <T extends Record<string, unknown>>(
   node: T,
-  value: ValueType,
+  value: T[],
   itemKeys: Omit<ItemKeys, 'labelKey'>
 ) => {
   const { childrenKey, valueKey } = itemKeys;
@@ -73,7 +73,7 @@ export const isSomeChildChecked = <T extends Record<string, unknown>>(
  */
 export const isSomeParentChecked = <T extends Record<string, unknown>>(
   node: MayHasParent<T>,
-  value: ValueType,
+  value: T[],
   itemKeys: Pick<ItemKeys, 'valueKey'>
 ) => {
   const { valueKey } = itemKeys;
@@ -242,7 +242,7 @@ export function useColumnData<T extends MayHasParent<Record<string, unknown>>>(f
  * @param flattenData
  */
 export function useCascadeValue<T>(
-  props: Partial<MultiCascaderProps<T[]>> & ItemKeys,
+  props: Partial<MultiCascadeTreeProps<T>> & ItemKeys,
   flattenData: ItemType[]
 ) {
   const { valueKey, childrenKey, uncheckableItemValues, cascade, value: valueProp } = props;
@@ -368,7 +368,7 @@ export function useCascadeValue<T>(
       // Finally traverse all nextValue, and delete if its parent node is also nextValue
       return nextValue.filter(v => {
         const item = flattenData.find(n => n[valueKey] === v);
-        if (item?.parent && nextValue.some(v => v === item.parent && item.parent[valueKey])) {
+        if (item?.parent && nextValue.some(v => v === item.parent?.[valueKey])) {
           return false;
         }
         return true;

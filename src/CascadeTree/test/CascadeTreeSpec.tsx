@@ -20,7 +20,16 @@ describe('CascadeTree', () => {
     );
   });
 
-  it('Should call onSelect callback with correct node value', () => {
+  it('Should be active by defaultValue', () => {
+    const value = '2';
+    render(<CascadeTree data={items} defaultValue={value} />);
+
+    expect(screen.getByRole('treeitem', { name: value }).firstChild).to.have.class(
+      'rs-cascade-tree-item-active'
+    );
+  });
+
+  it('Should call `onSelect` callback with correct node value', () => {
     const onSelect = sinon.spy();
     render(<CascadeTree data={items} onSelect={onSelect} />);
     fireEvent.click(screen.getByRole('treeitem', { name: '2' }));

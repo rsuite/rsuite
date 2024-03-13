@@ -39,9 +39,11 @@ This tree allows the use of the `getChildren` option and the length of the child
 | columnHeight       | number                                                                             | Sets the height of the menu                            |
 | columnWidth        | number                                                                             | Sets the width of the menu                             |
 | data \*            | [ItemDataType][item][]                                                             | The data of component                                  |
+| defaultValue       | string                                                                             | Specifies the default value of the selected items      |
 | disabledItemValues | string[]                                                                           | Disabled items                                         |
 | getChildren        | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | Asynchronously load the children of the tree node.     |
 | labelKey           | string `('label')`                                                                 | Set label key in data                                  |
+| onChange           | (value: string, event: SyntheticEvent) => void                                     | Callback fired when value changes                      |
 | onSearch           | (value: string, event) => void                                                     | Callback fired when search value changes               |
 | onSelect           | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void | Callback fired when item is selected                   |
 | renderColumn       | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode          | Customizing the Rendering Menu list                    |

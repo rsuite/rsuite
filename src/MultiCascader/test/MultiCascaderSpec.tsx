@@ -2,7 +2,6 @@ import React from 'react';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import sinon from 'sinon';
 import {
-  getDOMNode,
   getInstance,
   testStandardProps,
   testFormControl,
@@ -36,6 +35,7 @@ describe('MultiCascader', () => {
       changeValue: (prevValue: any) => {
         // TODO: Move click handler to correct element
         const input = screen.getByText('3', { selector: 'label' }).firstChild as HTMLInputElement;
+
         fireEvent.click(input);
         return { changedValue: [...prevValue, '3'] };
       }
@@ -53,16 +53,16 @@ describe('MultiCascader', () => {
     getUIElement: () => screen.getByRole('combobox')
   });
 
-  it('Should output a dropdown', () => {
-    const instance = getDOMNode(<MultiCascader data={[]}>Title</MultiCascader>);
+  it('Should output a picker', () => {
+    const { container } = render(<MultiCascader data={[]}>Title</MultiCascader>);
 
-    expect(instance.className).to.contain('picker-cascader');
+    expect(container.firstChild).to.class('rs-picker-cascader');
   });
 
   it('Should have "default" appearance by default', () => {
-    const instance = getDOMNode(<MultiCascader data={[]} />);
+    const { container } = render(<MultiCascader data={[]} />);
 
-    expect(instance).to.have.class('rs-picker-default');
+    expect(container.firstChild).to.have.class('rs-picker-default');
   });
 
   it('Should display number of selected values', () => {
@@ -100,14 +100,6 @@ describe('MultiCascader', () => {
     render(<MultiCascader data={items} value={['3-1', '3-2']} uncheckableItemValues={['3']} />);
 
     expect(screen.getByRole('combobox')).to.have.text('3-1,3-22');
-  });
-
-  it('Should be inline', () => {
-    const { container } = render(<MultiCascader data={[]} inline />);
-
-    // eslint-disable-next-line testing-library/no-node-access
-    expect(container.firstChild).to.have.class('rs-picker-inline');
-    expect(screen.getByRole('tree')).to.exist;
   });
 
   it('Should output a placeholder', () => {
@@ -190,21 +182,21 @@ describe('MultiCascader', () => {
     expect(screen.getByRole('checkbox', { name: '2' })).to.be.checked;
   });
 
-  it('Should call `onSelect` callback ', () => {
-    const onSelectSpy = sinon.spy();
-    render(<MultiCascader data={items} defaultOpen onSelect={onSelectSpy} />);
+  it('Should call `onSelect` callback', () => {
+    const onSelect = sinon.spy();
+    render(<MultiCascader data={items} defaultOpen onSelect={onSelect} />);
 
     fireEvent.click(screen.getByText('2', { selector: 'label' }));
-    expect(onSelectSpy).to.have.been.calledOnce;
+    expect(onSelect).to.have.been.calledOnce;
   });
 
-  it('Should call `onChange` callback ', () => {
-    const onChangeSpy = sinon.spy();
-    render(<MultiCascader data={items} defaultOpen onChange={onChangeSpy} />);
+  it('Should call `onChange` callback', () => {
+    const onChange = sinon.spy();
+    render(<MultiCascader data={items} defaultOpen onChange={onChange} />);
 
-    // TODO Move click handler to correct element
-    fireEvent.click(screen.getByText('1', { selector: 'label' }).firstChild as HTMLElement);
-    expect(onChangeSpy).to.have.been.calledWith(['1']);
+    // eslint-disable-next-line testing-library/no-node-access
+    fireEvent.click(screen.getByRole('checkbox', { name: '1' }).parentNode as HTMLElement);
+    expect(onChange).to.have.been.calledWith(['1']);
   });
 
   it('Should call `onClean` callback', () => {
@@ -216,25 +208,25 @@ describe('MultiCascader', () => {
   });
 
   it('Should call `onOpen` callback', () => {
-    const onOpenSpy = sinon.spy();
-    const picker = getInstance(<MultiCascader onOpen={onOpenSpy} data={items} />);
+    const onOpen = sinon.spy();
+    const picker = getInstance(<MultiCascader onOpen={onOpen} data={items} />);
 
     act(() => {
       picker.open();
     });
 
-    expect(onOpenSpy).to.be.calledOnce;
+    expect(onOpen).to.be.calledOnce;
   });
 
   it('Should call `onClose` callback', () => {
-    const onCloseSpy = sinon.spy();
-    const picker = getInstance(<MultiCascader defaultOpen onClose={onCloseSpy} data={items} />);
+    const onClose = sinon.spy();
+    const picker = getInstance(<MultiCascader defaultOpen onClose={onClose} data={items} />);
 
     act(() => {
       picker.close();
     });
 
-    expect(onCloseSpy).to.be.calledOnce;
+    expect(onClose).to.be.calledOnce;
   });
 
   it('Should clean selected default value', () => {
@@ -279,16 +271,16 @@ describe('MultiCascader', () => {
   });
 
   it('Should call onSelect callback with 3 params', () => {
-    const onSelectSpy = sinon.spy();
+    const onSelect = sinon.spy();
 
-    render(<MultiCascader defaultOpen data={items} onSelect={onSelectSpy} />);
+    render(<MultiCascader defaultOpen data={items} onSelect={onSelect} />);
     const checkbox = screen.getByText((_content, element) => element?.textContent === '2', {
       selector: '.rs-checkbox'
     });
 
     fireEvent.click(checkbox);
 
-    expect(onSelectSpy).to.have.been.calledWith(
+    expect(onSelect).to.have.been.calledWith(
       { label: '2', value: '2' },
       [{ label: '2', value: '2' }],
       sinon.match({ target: checkbox })
@@ -296,27 +288,22 @@ describe('MultiCascader', () => {
   });
 
   it('Should item able to stringfy', () => {
-    const onSelectSpy = sinon.spy();
-    const renderMenuItemSpy = sinon.spy();
+    const onSelect = sinon.spy();
+    const renderMenuItem = sinon.spy();
 
-    const instance = getInstance(
-      <MultiCascader
-        defaultOpen
-        data={items}
-        onSelect={onSelectSpy}
-        renderMenuItem={renderMenuItemSpy}
-      />
+    render(
+      <MultiCascader defaultOpen data={items} onSelect={onSelect} renderMenuItem={renderMenuItem} />
     );
     // eslint-disable-next-line testing-library/no-node-access
-    const checkbox = instance.overlay.querySelectorAll('.rs-checkbox')[2];
+    const checkbox = screen.getByRole('tree').querySelectorAll('.rs-checkbox')[2];
 
     fireEvent.click(checkbox);
 
-    expect(onSelectSpy).to.called;
-    expect(renderMenuItemSpy).to.called;
+    expect(onSelect).to.called;
+    expect(renderMenuItem).to.called;
     expect(() => JSON.stringify(items[2])).to.not.throw();
-    expect(() => JSON.stringify(onSelectSpy.firstCall.args[1])).to.not.throw();
-    expect(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(onSelect.firstCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(renderMenuItem.lastCall.args[1])).to.not.throw();
   });
 
   it('Should call onCheck callback ', () => {
@@ -339,11 +326,11 @@ describe('MultiCascader', () => {
   it('Should update columns', () => {
     const { rerender } = render(<MultiCascader data={[]} open />);
 
-    expect(screen.queryAllByRole('treeitem')).to.have.lengthOf(0);
+    expect(screen.queryAllByRole('treeitem')).to.have.length(0);
 
     rerender(<MultiCascader data={[{ label: 'test', value: 1 }]} open />);
 
-    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(1);
+    expect(screen.getAllByRole('treeitem')).to.have.length(1);
     expect(screen.getAllByRole('treeitem')[0]).to.have.text('test');
   });
 
@@ -358,29 +345,7 @@ describe('MultiCascader', () => {
       />
     );
 
-    fireEvent.click(
-      // TODO Move click handler to "treeitem"
-      screen.getByText('1', { selector: 'label' })
-    );
-
-    expect(screen.getByRole('treeitem', { name: '2' })).to.exist;
-  });
-
-  it('Should children be loaded lazily in inline mode', () => {
-    render(
-      <MultiCascader
-        inline
-        data={[{ label: '1', value: '1', children: [] }]}
-        getChildren={() => {
-          return [{ label: '2', value: '2' }];
-        }}
-      />
-    );
-
-    fireEvent.click(
-      // TODO Move click handler to "treeitem"
-      screen.getByText('1', { selector: 'label' })
-    );
+    fireEvent.click(screen.getByRole('treeitem', { name: '1' }).firstChild as HTMLElement);
 
     expect(screen.getByRole('treeitem', { name: '2' })).to.exist;
   });
@@ -402,10 +367,7 @@ describe('MultiCascader', () => {
       />
     );
 
-    fireEvent.click(
-      // TODO Move click handler to "treeitem"
-      screen.getByText('1', { selector: 'label' })
-    );
+    fireEvent.click(screen.getByRole('treeitem', { name: '1' }).firstChild as HTMLElement);
 
     // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('treeitem', { name: '1' }).querySelector('.rs-icon.rs-icon-spin')).to
@@ -413,15 +375,15 @@ describe('MultiCascader', () => {
   });
 
   it('Should call `onSearch` callback ', () => {
-    const onSearchSpy = sinon.spy();
-    render(<MultiCascader data={items} defaultOpen onSearch={onSearchSpy} />);
+    const onSearch = sinon.spy();
+    render(<MultiCascader data={items} defaultOpen onSearch={onSearch} />);
 
     const searchbox = screen.getByRole('searchbox');
 
     fireEvent.change(searchbox, { target: { value: '3' } });
 
-    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(3);
-    expect(onSearchSpy).to.have.been.calledOnce;
+    expect(screen.getAllByRole('treeitem')).to.have.length(3);
+    expect(onSearch).to.have.been.calledOnce;
   });
 
   it('Should update the subcolumn when the leaf node is clicked', () => {
@@ -430,14 +392,13 @@ describe('MultiCascader', () => {
     expect(screen.queryByRole('tree')).to.be.exist;
 
     // Click on a node that has child nodes
-    // TODO Use "treeitem" role here
-    fireEvent.click(screen.getByText('3', { selector: 'label' }));
+    fireEvent.click(screen.getByRole('treeitem', { name: '3' }).firstChild as HTMLElement);
 
-    expect(screen.queryAllByRole('group')).to.have.lengthOf(2);
+    expect(screen.queryAllByRole('group')).to.have.length(2);
 
     // Click on the leaf node
-    fireEvent.click(screen.getByText('1', { selector: 'label' }));
+    fireEvent.click(screen.getByRole('treeitem', { name: '1' }).firstChild as HTMLElement);
 
-    expect(screen.queryAllByRole('group')).to.have.lengthOf(1);
+    expect(screen.queryAllByRole('group')).to.have.length(1);
   });
 });
