@@ -51,8 +51,7 @@ describe('picker - ListCheckItem', () => {
 
     render(<ListCheckItem title="title" onCheck={onCheck} onSelectItem={onSelect} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(screen.getByRole('checkbox').parentNode as HTMLElement);
+    fireEvent.click(screen.getByRole('checkbox'));
 
     expect(onCheck).to.have.been.calledOnce;
     expect(onSelect).to.have.been.calledOnce;
@@ -62,8 +61,7 @@ describe('picker - ListCheckItem', () => {
     const onSelectItem = sinon.spy();
     render(<ListCheckItem title="title" onSelectItem={onSelectItem} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(screen.getByRole('checkbox').parentNode as HTMLElement);
+    fireEvent.click(screen.getByRole('checkbox'));
     expect(onSelectItem).to.have.been.calledOnce;
   });
 

@@ -12,7 +12,7 @@ const App = () => {
   const handleChange = value => setValue(value);
 
   return (
-    <div>
+    <>
       <Checkbox
         indeterminate={value.length > 0 && value.length < data.length}
         checked={value.length === data.length}
@@ -20,15 +20,20 @@ const App = () => {
       >
         Check all
       </Checkbox>
-      <hr />
-      <CheckboxGroup inline name="checkboxList" value={value} onChange={handleChange}>
+
+      <CheckboxGroup
+        name="checkboxList"
+        value={value}
+        onChange={handleChange}
+        style={{ marginLeft: 36 }}
+      >
         {data.map(item => (
           <Checkbox key={item} value={item}>
             Item {item}
           </Checkbox>
         ))}
       </CheckboxGroup>
-    </div>
+    </>
   );
 };
 

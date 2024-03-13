@@ -78,9 +78,15 @@
   top: @checkbox-sense-width;
 
   [type='checkbox'] {
-    width: 0;
-    height: 0;
+    position: absolute;
     opacity: 0;
+    z-index: 1;
+
+    // Sense area(Can be clicked)
+    top: -@checkbox-sense-width;
+    right: -@checkbox-sense-width;
+    bottom: -@checkbox-sense-width;
+    left: -@checkbox-sense-width;
   }
 
   &::before,
@@ -108,14 +114,6 @@
       opacity: 0;
       visibility: visible;
     }
-  }
-
-  // Sense area(Can be clicked)
-  &::after {
-    top: -@checkbox-sense-width;
-    right: -@checkbox-sense-width;
-    bottom: -@checkbox-sense-width;
-    left: -@checkbox-sense-width;
   }
 
   // Out border
