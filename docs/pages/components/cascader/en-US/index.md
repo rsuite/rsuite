@@ -48,7 +48,7 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 <!--{include:`async.md`}-->
 
-### Contorlled
+### Controlled
 
 <!--{include:`controlled.md`}-->
 
