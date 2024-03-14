@@ -1,4 +1,4 @@
-# VisuallyHidden
+# VisuallyHidden 视觉隐藏
 
 VisuallyHidden 是一个组件，它在视觉上隐藏其子元素，同时使屏幕阅读器可以访问它们。
 
