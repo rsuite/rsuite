@@ -17,7 +17,7 @@ export interface CheckboxProps<V = ValueType>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /**
-   * A badge can have different colors.
+   * The color of the checkbox when checked or indeterminate
    *
    * @version 5.56.0
    */
@@ -222,7 +222,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       ) : null;
     }
 
-    const input = (
+    const control = (
       <span className={prefix`control`}>
         <input
           {...htmlInputProps}
@@ -248,7 +248,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       <Component {...restProps} ref={ref} onClick={onClick} className={classes}>
         <div className={prefix`checker`}>
           <label title={title} onClick={handleLabelClick}>
-            {checkable ? input : null}
+            {checkable ? control : null}
             <span className={prefix`label`} id={labelId}>
               {children}
             </span>
