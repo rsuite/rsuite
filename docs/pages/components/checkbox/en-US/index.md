@@ -16,9 +16,9 @@ Check boxes are usually used in groups. Allow users to select one or more values
 
 <!--{include:`disabled.md`}-->
 
-### Indeterminate State
+### Indeterminate
 
-the `indeterminate` property is mainly used on the select all or tree structure checkbox.
+The `indeterminate` property sets the Checkbox to an indeterminate state, mainly used in the select all or tree structure Checkbox.
 
 <!--{include:`indeterminate.md`}-->
 
@@ -32,7 +32,7 @@ the `indeterminate` property is mainly used on the select all or tree structure 
 
 ### Checkbox Group (Controlled)
 
-<!--{include:`checkbox-group-controller.md`}-->
+<!--{include:`checkbox-group-controlled.md`}-->
 
 ## Accessibility
 

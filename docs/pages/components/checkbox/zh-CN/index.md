@@ -16,9 +16,9 @@
 
 <!--{include:`disabled.md`}-->
 
-### Indeterminate 状态
+### 不确定状态
 
-`indeterminate` 该状态主要在全选或者树形结构 Checkbox 上使用。
+使用 `indeterminate` 属性可以将 Checkbox 设置为不确定状态，主要用在全选或者树形结构 Checkbox 上。
 
 <!--{include:`indeterminate.md`}-->
 
@@ -32,7 +32,7 @@
 
 ### 受控的复选框组
 
-<!--{include:`checkbox-group-controller.md`}-->
+<!--{include:`checkbox-group-controlled.md`}-->
 
 ## 无障碍设计
 

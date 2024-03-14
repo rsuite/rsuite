@@ -6,7 +6,7 @@ import { Checkbox } from 'rsuite';
 const App = () => (
   <>
     <Checkbox />
-    <Checkbox>Default</Checkbox>
+    <Checkbox>Label</Checkbox>
     <Checkbox defaultChecked>Checked</Checkbox>
   </>
 );

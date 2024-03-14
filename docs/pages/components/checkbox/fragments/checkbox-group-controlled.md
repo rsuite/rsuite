@@ -7,20 +7,16 @@ const App = () => {
   const [value, setValue] = React.useState(['A', 'C']);
   return (
     <CheckboxGroup
-      inline
-      name="checkboxList"
+      name="checkbox-group"
       value={value}
       onChange={value => {
-        console.log(value, 'onChange');
         setValue(value);
       }}
     >
-      <Checkbox value="A">Item A</Checkbox>
-      <Checkbox value="B">Item B</Checkbox>
-      <Checkbox value="C">Item C</Checkbox>
-      <Checkbox value="D" disabled>
-        Item D
-      </Checkbox>
+      <Checkbox value="A">Checkbox A</Checkbox>
+      <Checkbox value="B">Checkbox B</Checkbox>
+      <Checkbox value="C">Checkbox C</Checkbox>
+      <Checkbox value="D">Checkbox D</Checkbox>
     </CheckboxGroup>
   );
 };

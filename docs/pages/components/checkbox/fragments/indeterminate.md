@@ -3,10 +3,10 @@
 ```js
 import { Checkbox, CheckboxGroup } from 'rsuite';
 
-const data = ['A', 'B', 'C', 'D'];
+const data = ['A', 'B'];
 
 const App = () => {
-  const [value, setValue] = React.useState(['A', 'C']);
+  const [value, setValue] = React.useState(['A']);
 
   const handleCheckAll = (value, checked) => setValue(checked ? data : []);
   const handleChange = value => setValue(value);
@@ -18,7 +18,7 @@ const App = () => {
         checked={value.length === data.length}
         onChange={handleCheckAll}
       >
-        Check all
+        Parent Checkbox
       </Checkbox>
 
       <CheckboxGroup
@@ -29,7 +29,7 @@ const App = () => {
       >
         {data.map(item => (
           <Checkbox key={item} value={item}>
-            Item {item}
+            Child Checkbox {item}
           </Checkbox>
         ))}
       </CheckboxGroup>
