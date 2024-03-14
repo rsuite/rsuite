@@ -209,7 +209,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
     }
 
     const input = (
-      <span className={prefix`wrapper`}>
+      <span className={prefix`control`}>
         <input
           {...htmlInputProps}
           {...inputProps}
