@@ -12,12 +12,9 @@ import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { refType } from '../internals/propTypes';
 
 export type ValueType = string | number;
-export interface CheckboxProps<V = ValueType> extends WithAsProps {
-  /**
-   * HTML title
-   */
-  title?: string;
-
+export interface CheckboxProps<V = ValueType>
+  extends WithAsProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /**
    * Inline layout
    *
@@ -71,11 +68,6 @@ export interface CheckboxProps<V = ValueType> extends WithAsProps {
   value?: V;
 
   /**
-   * A checkbox can receive focus.
-   */
-  tabIndex?: number;
-
-  /**
    * Whether to show checkbox
    *
    * @private Used in MultiCascader
@@ -107,11 +99,6 @@ export interface CheckboxProps<V = ValueType> extends WithAsProps {
    * Called when the checkbox or label is clicked.
    */
   onClick?: (event: React.SyntheticEvent) => void;
-
-  /**
-   * Called when the user presses down a key.
-   */
-  onKeyDown?: (event: React.KeyboardEvent) => void;
 
   /**
    * Called when the checkbox is clicked.
@@ -269,8 +256,6 @@ Checkbox.propTypes = {
   indeterminate: PropTypes.bool,
   inputProps: PropTypes.any,
   inputRef: refType,
-  tabIndex: PropTypes.number,
-  title: PropTypes.string,
   value: PropTypes.any,
   onChange: PropTypes.func,
   onClick: PropTypes.func,
