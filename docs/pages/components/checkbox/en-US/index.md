@@ -53,11 +53,11 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#checkbox
 
 | Property       | Type `(default)`                                           | Description                                                                                                     |
 | -------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| as             | ElementType`(div)`                                         | Custom element type for the component                                                                           |
 | checked        | boolean                                                    | Specifies whether the checkbox is selected                                                                      |
 | color          | [Color](#code-ts-color-code)                               | The color of the checkbox when checked or indeterminate <br/>![](https://img.shields.io/badge/min-v5.56.0-blue) |
 | defaultChecked | boolean                                                    | Specifies the initial state: whether or not the checkbox is selected                                            |
 | disabled       | boolean                                                    | Whether disabled                                                                                                |
-| id             | ElementType                                                | Custom element type for the component                                                                           |
 | indeterminate  | boolean                                                    | When being a checkbox , setting styles after the child part is selected                                         |
 | inputRef       | Ref                                                        | Ref of input element                                                                                            |
 | name           | string                                                     | Used for the name of the form                                                                                   |
@@ -67,12 +67,12 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#checkbox
 
 ### `<CheckboxGroup>`
 
-| Property     | Type `(default)`                          | Description                                                 |
-| ------------ | ----------------------------------------- | ----------------------------------------------------------- |
-| defaultValue | string[] \| number[]                      | Default value                                               |
-| inline       | boolean                                   | Inline layout                                               |
-| name         | string                                    | Used for the name of the form                               |
-| onChange     | (value:string \| number[], event) => void | Callback fired when checkbox is triggered and state changes |
-| value        | string[] \| number[]                      | Value of checked box (Controlled)                           |
+| Property     | Type `(default)`                            | Description                                                 |
+| ------------ | ------------------------------------------- | ----------------------------------------------------------- |
+| defaultValue | string[] \| number[]                        | Default value                                               |
+| inline       | boolean                                     | Inline layout                                               |
+| name         | string                                      | Used for the name of the form                               |
+| onChange     | (value:string[] \| number[], event) => void | Callback fired when checkbox is triggered and state changes |
+| value        | string[] \| number[]                        | Value of checked box (Controlled)                           |
 
 <!--{include:(_common/types/color.md)}-->
