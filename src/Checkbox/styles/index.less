@@ -150,3 +150,25 @@
     }
   }
 }
+
+each(@spectrum, .(@color) {
+  .rs-checkbox-@{color} {
+    .rs-checkbox-control::before{
+      border-color: var(~'--rs-@{color}-500');
+    }
+
+    label:hover{
+      .rs-checkbox-inner::before {
+        border-color: var(~'--rs-@{color}-500');
+      }
+    }
+
+    &.rs-checkbox-checked,
+    &.rs-checkbox-indeterminate  {
+      .rs-checkbox-inner::before{
+        border-color: var(~'--rs-@{color}-500');
+        background-color:var(~'--rs-@{color}-500');
+      }
+    }
+  }
+});

@@ -6,7 +6,10 @@ import { testStandardProps } from '@test/utils';
 import Button from '../Button';
 
 describe('Button', () => {
-  testStandardProps(<Button />, { sizes: ['lg', 'md', 'sm', 'xs'] });
+  testStandardProps(<Button />, {
+    sizes: ['lg', 'md', 'sm', 'xs'],
+    colors: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
+  });
 
   it('Should output a button', () => {
     render(<Button>Title</Button>);

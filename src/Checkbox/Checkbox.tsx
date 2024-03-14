@@ -5,10 +5,11 @@ import {
   partitionHTMLProps,
   useClassNames,
   useEventCallback,
+  useUniqueId,
   mergeRefs
 } from '../utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
-import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 import { refType } from '../internals/propTypes';
 
 export type ValueType = string | number;
@@ -16,11 +17,18 @@ export interface CheckboxProps<V = ValueType>
   extends WithAsProps,
     Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   /**
-   * Inline layout
+   * A badge can have different colors.
    *
-   * @private Used in CheckboxGroup
+   * @version 5.56.0
    */
-  inline?: boolean;
+  color?: TypeAttributes.Color;
+
+  /**
+   * Whether to show checkbox
+   *
+   * @private Used in MultiCascader
+   */
+  checkable?: boolean;
 
   /**
    * A checkbox can appear disabled and be unable to change states
@@ -63,16 +71,16 @@ export interface CheckboxProps<V = ValueType>
   inputRef?: React.Ref<any>;
 
   /**
+   * Inline layout
+   *
+   * @private Used in CheckboxGroup
+   */
+  inline?: boolean;
+
+  /**
    * The HTML input value.
    */
   value?: V;
-
-  /**
-   * Whether to show checkbox
-   *
-   * @private Used in MultiCascader
-   */
-  checkable?: boolean;
 
   /**
    * Used for the name of the form
@@ -132,6 +140,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       children,
       classPrefix = 'checkbox',
       checkable = true,
+      color,
       defaultChecked = false,
       title,
       inputRef,
@@ -167,7 +176,10 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
     }, [checkboxGroupContext, selfChecked, value]);
 
     const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix({ inline, indeterminate, disabled, checked }));
+    const classes = merge(
+      className,
+      withClassPrefix(color, { inline, indeterminate, disabled, checked })
+    );
     const [htmlInputProps, restProps] = partitionHTMLProps(rest);
 
     // If <Checkbox> is within a <CheckboxGroup>, it's bound to be controlled
@@ -200,6 +212,8 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       }
     });
 
+    const labelId = useUniqueId('label-');
+
     if (plaintext) {
       return checked ? (
         <Component {...restProps} ref={ref} className={classes}>
@@ -213,6 +227,9 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
         <input
           {...htmlInputProps}
           {...inputProps}
+          aria-disabled={disabled}
+          aria-checked={indeterminate ? 'mixed' : checked}
+          aria-labelledby={labelId}
           name={name}
           value={value}
           type="checkbox"
@@ -220,8 +237,6 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
           tabIndex={tabIndex}
           readOnly={readOnly}
           disabled={disabled}
-          aria-disabled={disabled}
-          aria-checked={indeterminate ? 'mixed' : checked}
           onClick={onCheckboxClick}
           onChange={handleChange}
         />
@@ -234,7 +249,9 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
         <div className={prefix`checker`}>
           <label title={title} onClick={handleLabelClick}>
             {checkable ? input : null}
-            <span className={prefix`label`}>{children}</span>
+            <span className={prefix`label`} id={labelId}>
+              {children}
+            </span>
           </label>
         </div>
       </Component>

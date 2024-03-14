@@ -6,7 +6,8 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 describe('Tag', () => {
   testStandardProps(<Tag />, {
-    sizes: ['lg', 'md', 'sm']
+    sizes: ['lg', 'md', 'sm'],
+    colors: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
   });
 
   it('Should output a Tag', () => {
