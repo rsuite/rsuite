@@ -4,14 +4,14 @@ import Checkbox, { CheckboxProps } from '../../Checkbox';
 import { WithAsProps, RsRefForwardingComponent } from '../../@types/common';
 import useCombobox from './hooks/useCombobox';
 
-export interface ListCheckItemProps extends WithAsProps, CheckboxProps {
+export interface ListCheckItemProps extends WithAsProps, Omit<CheckboxProps, 'onSelect'> {
   active?: boolean;
   checkboxAs?: React.ElementType | string;
   focus?: boolean;
   onSelect?: (value: any, event: React.SyntheticEvent, checked: boolean) => void;
   onCheck?: (value: any, event: React.SyntheticEvent, checked: boolean) => void;
   onSelectItem?: (value: any, event: React.SyntheticEvent, checked: boolean) => void;
-  renderMenuItemCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
+  renderCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
 }
 
 const ListCheckItem: RsRefForwardingComponent<'div', ListCheckItemProps> = React.forwardRef(
@@ -33,7 +33,7 @@ const ListCheckItem: RsRefForwardingComponent<'div', ListCheckItemProps> = React
       onSelect,
       onCheck,
       onSelectItem,
-      renderMenuItemCheckbox,
+      renderCheckbox,
       ...rest
     } = props;
 
@@ -86,8 +86,8 @@ const ListCheckItem: RsRefForwardingComponent<'div', ListCheckItemProps> = React
         className={merge(className, rootPrefix`picker-list-item`)}
         tabIndex={-1}
       >
-        {renderMenuItemCheckbox ? (
-          renderMenuItemCheckbox(checkboxProps)
+        {renderCheckbox ? (
+          renderCheckbox(checkboxProps)
         ) : (
           <CheckboxItem role="checkbox" {...checkboxProps} />
         )}

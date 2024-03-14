@@ -159,7 +159,7 @@ describe('TagPicker', () => {
     expect(screen.getByRole('listbox')).to.have.text('foo-bar');
   });
 
-  it('Should renderMenuItemCheckbox render correct', () => {
+  it('Should renderCheckbox render correct', () => {
     render(
       <TagPicker
         data={data}

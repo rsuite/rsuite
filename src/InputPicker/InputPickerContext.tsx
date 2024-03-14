@@ -27,7 +27,7 @@ export interface InputPickerContextProps extends TagOnlyProps {
   disabledOptions?: boolean;
 
   /** Custom render checkbox on menu item */
-  renderMenuItemCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
+  renderCheckbox?: (checkboxProps: CheckboxProps) => React.ReactNode;
 }
 
 const InputPickerContext = React.createContext<InputPickerContextProps>({
