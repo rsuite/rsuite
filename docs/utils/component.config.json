@@ -683,7 +683,7 @@
   {
     "id": "use-media-query",
     "name": "useMediaQuery",
-    "title": "不稳定 🧪",
+    "title": "媒体查询",
     "apis": ["useMediaQuery"],
     "tag": "Unstable 🧪",
     "tagColor": "orange"
