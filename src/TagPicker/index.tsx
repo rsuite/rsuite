@@ -26,8 +26,15 @@ const TagPicker: PickerComponent<TagPickerProps> = React.forwardRef(
       renderMenuItemCheckbox,
       ...rest
     } = props;
+
     const contextValue = useMemo(
-      () => ({ multi: true, trigger, tagProps, onTagRemove, renderMenuItemCheckbox }),
+      () => ({
+        multi: true,
+        trigger,
+        tagProps,
+        onTagRemove,
+        renderCheckbox: renderMenuItemCheckbox
+      }),
       [onTagRemove, renderMenuItemCheckbox, tagProps, trigger]
     );
 

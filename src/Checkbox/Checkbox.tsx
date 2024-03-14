@@ -1,69 +1,111 @@
-import React, { useContext, useCallback, useMemo } from 'react';
+import React, { useContext, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useControlled, partitionHTMLProps, useClassNames } from '../utils';
+import {
+  useControlled,
+  partitionHTMLProps,
+  useClassNames,
+  useEventCallback,
+  mergeRefs
+} from '../utils';
 import { CheckboxGroupContext } from '../CheckboxGroup';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { refType } from '../internals/propTypes';
 
 export type ValueType = string | number;
-export interface CheckboxProps<V = ValueType> extends WithAsProps {
-  /** HTML title */
-  title?: string;
-
-  /** Inline layout */
+export interface CheckboxProps<V = ValueType>
+  extends WithAsProps,
+    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  /**
+   * Inline layout
+   *
+   * @private Used in CheckboxGroup
+   */
   inline?: boolean;
 
-  /** A checkbox can appear disabled and be unable to change states */
+  /**
+   * A checkbox can appear disabled and be unable to change states
+   */
   disabled?: boolean;
 
-  /** Make the control readonly */
+  /**
+   * Make the control readonly
+   */
   readOnly?: boolean;
 
-  /** Render the control as plain text */
+  /**
+   * Render the control as plain text
+   */
   plaintext?: boolean;
 
-  /** Whether or not checkbox is checked. */
+  /**
+   * Whether or not checkbox is checked.
+   */
   checked?: boolean;
 
-  /** The initial value of checked. */
+  /**
+   * The initial value of checked.
+   */
   defaultChecked?: boolean;
 
-  /** Whether or not checkbox is indeterminate. */
+  /**
+   * Whether or not checkbox is indeterminate.
+   */
   indeterminate?: boolean;
 
-  /** Attributes applied to the input element. */
+  /**
+   * Attributes applied to the input element.
+   */
   inputProps?: React.HTMLAttributes<HTMLInputElement>;
 
-  /** Pass a ref to the input element. */
+  /**
+   * Pass a ref to the input element.
+   */
   inputRef?: React.Ref<any>;
 
-  /** The HTML input value. */
+  /**
+   * The HTML input value.
+   */
   value?: V;
 
-  /** A checkbox can receive focus. */
-  tabIndex?: number;
-
-  /** Whether to show checkbox */
+  /**
+   * Whether to show checkbox
+   *
+   * @private Used in MultiCascader
+   */
   checkable?: boolean;
 
-  /** Used for the name of the form */
+  /**
+   * Used for the name of the form
+   */
   name?: string;
 
-  /** Called when the user attempts to change the checked state. */
+  /**
+   * Whether the label is clickable
+   *
+   * @private Used in MultiCascader
+   */
+  labelClickable?: boolean;
+
+  /**
+   * Called when the user attempts to change the checked state.
+   */
   onChange?: (
     value: V | undefined,
     checked: boolean,
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
 
-  /** Called when the checkbox or label is clicked. */
+  /**
+   * Called when the checkbox or label is clicked.
+   */
   onClick?: (event: React.SyntheticEvent) => void;
 
-  /** Called when the checkbox is clicked. */
+  /**
+   * Called when the checkbox is clicked.
+   *
+   * @private Used in MultiCascader
+   */
   onCheckboxClick?: (event: React.SyntheticEvent) => void;
-
-  /** Called when the user presses down a key. */
-  onKeyDown?: (event: React.KeyboardEvent) => void;
 }
 
 /**
@@ -95,6 +137,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       inputRef,
       inputProps,
       indeterminate,
+      labelClickable = true,
       tabIndex = 0,
       disabled = disabledContext,
       readOnly = readOnlyContext,
@@ -136,20 +179,26 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
       htmlInputProps[controlled ? 'checked' : 'defaultChecked'] = checked;
     }
 
-    const handleChange = useCallback(
-      (event: React.ChangeEvent<HTMLInputElement>) => {
-        const nextChecked = event.target.checked;
+    const checkboxRef = useRef<HTMLInputElement>(null);
 
-        if (disabled || readOnly) {
-          return;
-        }
+    const handleChange = useEventCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+      const nextChecked = event.target.checked;
 
-        setSelfChecked(nextChecked);
-        onChange?.(value, nextChecked, event);
-        onGroupChange?.(value, nextChecked, event);
-      },
-      [disabled, readOnly, setSelfChecked, onChange, value, onGroupChange]
-    );
+      if (disabled || readOnly) {
+        return;
+      }
+
+      setSelfChecked(nextChecked);
+      onChange?.(value, nextChecked, event);
+      onGroupChange?.(value, nextChecked, event);
+    });
+
+    const handleLabelClick = useEventCallback((event: React.SyntheticEvent) => {
+      // Prevent check when label is not clickable
+      if (!labelClickable && event.target !== checkboxRef.current) {
+        event.preventDefault();
+      }
+    });
 
     if (plaintext) {
       return checked ? (
@@ -160,20 +209,20 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
     }
 
     const input = (
-      <span className={prefix`wrapper`} onClick={onCheckboxClick} aria-disabled={disabled}>
+      <span className={prefix`control`}>
         <input
           {...htmlInputProps}
           {...inputProps}
           name={name}
           value={value}
           type="checkbox"
-          ref={inputRef}
+          ref={mergeRefs(checkboxRef, inputRef)}
           tabIndex={tabIndex}
           readOnly={readOnly}
           disabled={disabled}
           aria-disabled={disabled}
           aria-checked={indeterminate ? 'mixed' : checked}
-          onClick={event => event.stopPropagation()}
+          onClick={onCheckboxClick}
           onChange={handleChange}
         />
         <span className={prefix`inner`} aria-hidden role="presentation" />
@@ -183,9 +232,9 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
     return (
       <Component {...restProps} ref={ref} onClick={onClick} className={classes}>
         <div className={prefix`checker`}>
-          <label title={title}>
+          <label title={title} onClick={handleLabelClick}>
             {checkable ? input : null}
-            {children}
+            <span className={prefix`label`}>{children}</span>
           </label>
         </div>
       </Component>
@@ -196,22 +245,20 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
 Checkbox.displayName = 'Checkbox';
 Checkbox.propTypes = {
   as: PropTypes.elementType,
-  title: PropTypes.string,
-  className: PropTypes.string,
-  inline: PropTypes.bool,
-  disabled: PropTypes.bool,
   checked: PropTypes.bool,
+  checkable: PropTypes.bool,
+  className: PropTypes.string,
+  children: PropTypes.node,
+  classPrefix: PropTypes.string,
+  disabled: PropTypes.bool,
   defaultChecked: PropTypes.bool,
+  inline: PropTypes.bool,
   indeterminate: PropTypes.bool,
-  onChange: PropTypes.func,
-  onClick: PropTypes.func,
   inputProps: PropTypes.any,
   inputRef: refType,
   value: PropTypes.any,
-  children: PropTypes.node,
-  classPrefix: PropTypes.string,
-  tabIndex: PropTypes.number,
-  checkable: PropTypes.bool,
+  onChange: PropTypes.func,
+  onClick: PropTypes.func,
   onCheckboxClick: PropTypes.func
 };
 

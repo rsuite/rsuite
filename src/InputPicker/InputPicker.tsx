@@ -173,7 +173,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const { multi, tagProps, trigger, disabledOptions, onTagRemove, renderMenuItemCheckbox } =
+    const { multi, tagProps, trigger, disabledOptions, onTagRemove, renderCheckbox } =
       useContext(InputPickerContext);
 
     if (groupBy === valueKey || groupBy === labelKey) {
@@ -652,7 +652,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
           classPrefix={menuClassPrefix}
           listItemClassPrefix={multi ? undefined : `${menuClassPrefix}-item`}
           listItemAs={multi ? ListCheckItem : ListItem}
-          listItemProps={{ renderMenuItemCheckbox }}
+          listItemProps={{ renderCheckbox }}
           activeItemValues={multi ? value : [value]}
           focusItemValue={focusItemValue}
           maxHeight={menuMaxHeight}

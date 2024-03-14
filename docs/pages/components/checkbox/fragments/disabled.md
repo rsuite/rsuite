@@ -5,25 +5,51 @@ import { Checkbox } from 'rsuite';
 
 const App = () => (
   <>
-    <label>Disabled: </label>
-    <Checkbox disabled> Default</Checkbox>
+    <Label>Disabled</Label>
+    <Checkbox disabled>Default</Checkbox>
     <Checkbox defaultChecked disabled>
       Checked
     </Checkbox>
+    <Checkbox indeterminate disabled>
+      Indeterminate
+    </Checkbox>
+
     <hr />
-    <label>Read only: </label>
-    <Checkbox readOnly> Default</Checkbox>
+    <Label>Read only</Label>
+    <Checkbox readOnly>Default</Checkbox>
     <Checkbox defaultChecked readOnly>
       Checked
     </Checkbox>
+    <Checkbox indeterminate readOnly>
+      Indeterminate
+    </Checkbox>
     <hr />
-    <label>Plaintext: </label>
-    <Checkbox plaintext> Default</Checkbox>
+    <Label>Plaintext</Label>
+    <Checkbox plaintext>Default</Checkbox>
     <Checkbox defaultChecked plaintext>
+      Checked
+    </Checkbox>
+    <Checkbox indeterminate plaintext>
       Checked
     </Checkbox>
   </>
 );
+
+function Label({ children }) {
+  return (
+    <label
+      style={{
+        verticalAlign: 'middle',
+        display: 'inline-block',
+        marginRight: 10,
+        width: 70,
+        color: 'var(--rs-text-secondary)'
+      }}
+    >
+      {children}
+    </label>
+  );
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
