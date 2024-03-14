@@ -22,6 +22,10 @@
 
 <!--{include:`indeterminate.md`}-->
 
+### 颜色
+
+<!--{include:`colors.md`}-->
+
 ### 复选框分组
 
 <!--{include:`checkbox-group.md`}-->
@@ -51,25 +55,28 @@ type ValueType = string | number;
 
 ### `<Checkbox>`
 
-| 属性名称       | 类型 `(默认值)`                                            | 描述                                         |
-| -------------- | ---------------------------------------------------------- | -------------------------------------------- |
-| checked        | boolean                                                    | 被选择（受控）                               |
-| defaultChecked | boolean                                                    | 默认被选择                                   |
-| disabled       | boolean                                                    | 禁用                                         |
-| id             | ElementType                                                | 为组件自定义元素类型                         |
-| indeterminate  | boolean                                                    | 作为一个全选框时，子项部分被选择后的样式设置 |
-| inputRef       | Ref                                                        | HTML input 元素                              |
-| name           | string                                                     | 用于表单对应的名称                           |
-| onChange       | (value: string \| number, checked: boolean, event) => void | checked 状态发生改变的回调函数               |
-| title          | string                                                     | HTML title                                   |
-| value          | string \| number                                           | 值，对应 CheckboxGroup 的值，判断是否选中    |
+| 属性名称       | 类型 `(默认值)`                                            | 描述                                                                             |
+| -------------- | ---------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| as             | ElementType`(div)`                                         | 为组件自定义元素类型                                                             |
+| checked        | boolean                                                    | 被选择（受控）                                                                   |
+| color          | [Color](#code-ts-color-code)                               | 选中或不确定状态时的颜色 <br/>![](https://img.shields.io/badge/min-v5.56.0-blue) |
+| defaultChecked | boolean                                                    | 默认被选择                                                                       |
+| disabled       | boolean                                                    | 禁用                                                                             |
+| indeterminate  | boolean                                                    | 作为一个全选框时，子项部分被选择后的样式设置                                     |
+| inputRef       | Ref                                                        | HTML input 元素                                                                  |
+| name           | string                                                     | 用于表单对应的名称                                                               |
+| onChange       | (value: string \| number, checked: boolean, event) => void | checked 状态发生改变的回调函数                                                   |
+| title          | string                                                     | HTML title                                                                       |
+| value          | string \| number                                           | 值，对应 CheckboxGroup 的值，判断是否选中                                        |
 
 ### `<CheckboxGroup>`
 
-| 属性名称     | 类型 `(默认值)`                           | 描述               |
-| ------------ | ----------------------------------------- | ------------------ |
-| defaultValue | string[] \| number[]                      | 默认值             |
-| inline       | boolean                                   | 内联布局           |
-| name         | string                                    | 用于表单对应的名称 |
-| onChange     | (value:string \| number[], event) => void | 值改变后的回调函数 |
-| value        | string[] \| number[]                      | 值(受控)           |
+| 属性名称     | 类型 `(默认值)`                             | 描述               |
+| ------------ | ------------------------------------------- | ------------------ |
+| defaultValue | string[] \| number[]                        | 默认值             |
+| inline       | boolean                                     | 内联布局           |
+| name         | string                                      | 用于表单对应的名称 |
+| onChange     | (value:string[] \| number[], event) => void | 值改变后的回调函数 |
+| value        | string[] \| number[]                        | 值(受控)           |
+
+<!--{include:(_common/types/color.md)}-->

@@ -5,7 +5,9 @@ import { testStandardProps } from '@test/utils';
 import Checkbox from '../Checkbox';
 
 describe('Checkbox', () => {
-  testStandardProps(<Checkbox />);
+  testStandardProps(<Checkbox />, {
+    colors: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
+  });
 
   it('Should render a checkbox', () => {
     render(<Checkbox>Test</Checkbox>);

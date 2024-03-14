@@ -77,17 +77,36 @@ export function testSizeProp(
   });
 }
 
+export function testColorProp(
+  element,
+  colors: string[] = [],
+  renderOptions,
+  getUIElement = view => view.container.firstChild
+) {
+  colors.forEach(color => {
+    it(`Should be ${color} color`, () => {
+      const view = render(
+        React.cloneElement(element, { 'data-testid': 'element', color }),
+        renderOptions
+      );
+
+      expect(getUIElement(view)).to.have.class(new RegExp('^rs-[a-z-]+-' + color));
+    });
+  });
+}
+
 interface TestStandardPropsOptions {
   renderOptions?: any;
   customClassName?: string | boolean;
   sizes?: string[];
+  colors?: string[];
   getRootElement?: (view: any) => HTMLElement;
   getUIElement?: (view: any) => HTMLElement;
 }
 
 export function testStandardProps(element, options: TestStandardPropsOptions = {}) {
   const { displayName } = element.type;
-  const { renderOptions, customClassName, sizes, getRootElement, getUIElement } = options;
+  const { renderOptions, customClassName, sizes, colors, getRootElement, getUIElement } = options;
 
   describe(`${displayName} - Standard props`, () => {
     testTestIdProp(element, renderOptions);
@@ -104,6 +123,10 @@ export function testStandardProps(element, options: TestStandardPropsOptions = {
 
     if (sizes) {
       testSizeProp(element, sizes, renderOptions, getUIElement);
+    }
+
+    if (colors) {
+      testColorProp(element, colors, renderOptions, getUIElement);
     }
   });
 }
