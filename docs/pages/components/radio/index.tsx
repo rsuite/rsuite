@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, RadioGroup, Button, Radio } from 'rsuite';
+import { RadioGroup, Button, Radio } from 'rsuite';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
 
@@ -9,9 +9,6 @@ const inDocsComponents = {
 
 export default function Page() {
   return (
-    <DefaultPage
-      inDocsComponents={inDocsComponents}
-      dependencies={{ Form, RadioGroup, Button, Radio }}
-    />
+    <DefaultPage inDocsComponents={inDocsComponents} dependencies={{ RadioGroup, Button, Radio }} />
   );
 }
