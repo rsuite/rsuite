@@ -1,107 +1,119 @@
 import React from 'react';
-import ReactTestUtils from 'react-dom/test-utils';
-import { getDOMNode, testStandardProps } from '@test/utils';
+import { render, fireEvent, screen } from '@testing-library/react';
+import { Simulate } from 'react-dom/test-utils';
+import { testStandardProps } from '@test/utils';
 import Radio from '../Radio';
 import Sinon from 'sinon';
 
 describe('Radio', () => {
-  testStandardProps(<Radio />);
-
-  it('Should render a radio', () => {
-    const instance = getDOMNode(<Radio>Test</Radio>);
-    assert.equal(instance.querySelectorAll('input[type="radio"]').length, 1);
+  testStandardProps(<Radio />, {
+    colors: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
   });
 
-  it('Should add title', () => {
-    const title = 'Text';
-    const instance = getDOMNode(<Radio title={title}>Test</Radio>);
-    assert.equal((instance.querySelector('label') as HTMLLabelElement).title, title);
+  it('Should render a radio', () => {
+    render(<Radio>Radio</Radio>);
+    expect(screen.getByRole('radio')).to.exist;
+  });
+
+  it('Should have a `title` attribute', () => {
+    const { container } = render(<Radio title="My title">Radio</Radio>);
+    // eslint-disable-next-line testing-library/no-container, testing-library/no-node-access
+    expect(container.querySelector('label')).to.have.attr('title', 'My title');
   });
 
   it('Should have radio-inline class', () => {
-    const instance = getDOMNode(<Radio inline>Test</Radio>);
-    assert.ok(instance.className.match(/\bradio-inline\b/));
+    const { container } = render(<Radio inline>Test</Radio>);
+
+    expect(container.firstChild).to.have.class('rs-radio-inline');
   });
 
   it('Should be disabled', () => {
-    const instance = getDOMNode(<Radio disabled>Test</Radio>);
-    assert.ok((instance.querySelector('input') as HTMLInputElement).disabled);
-    assert.ok(instance.className.match(/\bradio-disabled\b/));
+    const { container } = render(<Radio disabled>Test</Radio>);
+
+    expect(screen.getByRole('radio')).to.have.property('disabled', true);
+    expect(container.firstChild).to.have.class('rs-radio-disabled');
+  });
+
+  it('Should be readOnly', () => {
+    render(<Radio readOnly>Test</Radio>);
+    expect(screen.getByRole('radio')).to.have.property('readOnly', true);
   });
 
   it('Should be checked', () => {
-    const instance = getDOMNode(<Radio checked>Test</Radio>);
+    const { container } = render(<Radio checked>Test</Radio>);
 
-    assert.ok(instance.className.match(/\bradio-checked\b/));
+    expect(container.firstChild).to.have.class('rs-radio-checked');
+    expect(screen.getByRole('radio')).to.be.checked;
   });
 
-  it('Should be defaultChecked', () => {
-    const instance = getDOMNode(<Radio defaultChecked>Test</Radio>);
+  it('Should be checked with defaultChecked', () => {
+    const { container } = render(<Radio defaultChecked>Test</Radio>);
 
-    assert.ok(instance.className.match(/\bradio-checked\b/));
+    expect(container.firstChild).to.have.class('rs-radio-checked');
+    expect(screen.getByRole('radio')).to.be.checked;
   });
 
-  it('Should have a `Test` value', () => {
-    const value = 'Test';
-    const instance = getDOMNode(<Radio defaultValue={value}>Test</Radio>);
+  it('Should have a default value', () => {
+    render(<Radio defaultValue="Text">Radio</Radio>);
 
-    assert.equal((instance.querySelector('input') as HTMLInputElement).value, value);
+    expect(screen.getByRole('radio')).to.have.value('Text');
   });
 
   it('Should support inputRef', () => {
-    let input;
-    getDOMNode(<Radio inputRef={ref => (input = ref)}>Test</Radio>);
-    assert.ok(input);
+    const inputRef = React.createRef<HTMLInputElement>();
+    render(<Radio inputRef={inputRef}>Test</Radio>);
+
+    expect(inputRef.current).to.be.instanceof(HTMLInputElement);
   });
 
   it('Should call onClick callback', () => {
     const onClick = Sinon.spy();
 
-    const instance = getDOMNode(<Radio onClick={onClick}>Title</Radio>);
-    ReactTestUtils.Simulate.click(instance.querySelector('label') as HTMLLabelElement);
+    const { container } = render(<Radio onClick={onClick}>Title</Radio>);
+
+    fireEvent.click(container.firstChild as HTMLElement);
 
     expect(onClick).to.have.been.calledOnce;
   });
 
   it('Should call onChange callback with correct value', () => {
-    const value = 'Test';
     const onChange = Sinon.spy();
 
-    const instance = getDOMNode(
-      <Radio onChange={onChange} value={value}>
-        Title
+    render(
+      <Radio onChange={onChange} value={'test'}>
+        Label
       </Radio>
     );
-    ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
+    Simulate.change(screen.getByRole('radio'));
 
-    expect(onChange).to.have.been.calledWith(value);
+    expect(onChange).to.have.been.calledWith('test');
   });
 
   it('Should call onBlur callback', () => {
     const onBlur = Sinon.spy();
-    const instance = getDOMNode(<Radio onBlur={onBlur} />);
-    ReactTestUtils.Simulate.blur(instance.querySelector('input') as HTMLInputElement);
+    render(<Radio onBlur={onBlur} />);
+    fireEvent.blur(screen.getByRole('radio'));
 
     expect(onBlur).to.have.been.calledOnce;
   });
 
   it('Should call onFocus callback', () => {
     const onFocus = Sinon.spy();
-    const instance = getDOMNode(<Radio onFocus={onFocus} />);
-    ReactTestUtils.Simulate.focus(instance.querySelector('input') as HTMLInputElement);
+    render(<Radio onFocus={onFocus} />);
+    fireEvent.focus(screen.getByRole('radio'));
 
     expect(onFocus).to.have.been.calledOnce;
   });
 
   it('Should be checked with change', () => {
     const onChange = Sinon.spy();
-    const instance = getDOMNode(
+    render(
       <Radio onChange={onChange} value="100">
         Title
       </Radio>
     );
 
-    ReactTestUtils.Simulate.change(instance.querySelector('input') as HTMLInputElement);
+    Simulate.change(screen.getByRole('radio'));
     expect(onChange).to.have.been.calledWith('100');
   });
 });
