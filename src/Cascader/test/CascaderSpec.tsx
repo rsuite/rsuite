@@ -433,26 +433,69 @@ describe('Cascader', () => {
   });
 
   it('Should item able to stringfy', () => {
-    const onSelectSpy = sinon.spy();
-    const renderMenuItemSpy = sinon.spy();
+    const onSelect = sinon.spy();
+    const renderMenuItem = sinon.spy();
 
     render(
-      <Cascader
-        defaultOpen
-        data={items}
-        onSelect={onSelectSpy}
-        renderMenuItem={renderMenuItemSpy}
-      />
+      <Cascader defaultOpen data={items} onSelect={onSelect} renderMenuItem={renderMenuItem} />
     );
     const checkbox = screen.getAllByRole('treeitem')[2];
 
     fireEvent.click(checkbox);
 
-    expect(onSelectSpy).to.called;
-    expect(renderMenuItemSpy).to.called;
+    expect(onSelect).to.called;
+    expect(renderMenuItem).to.called;
     expect(() => JSON.stringify(items[2])).to.not.throw();
-    expect(() => JSON.stringify(onSelectSpy.firstCall.args[1])).to.not.throw();
-    expect(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(onSelect.firstCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(renderMenuItem.lastCall.args[1])).to.not.throw();
+  });
+
+  it("Should custom render the tree's node", () => {
+    render(
+      <Cascader
+        defaultOpen
+        data={items}
+        renderTreeNode={(_node, item) => <i data-testid="custom-item">{item.label}</i>}
+      />
+    );
+
+    expect(screen.getAllByTestId('custom-item')).to.have.length(3);
+  });
+
+  it('Should custom render the column', () => {
+    render(
+      <Cascader
+        defaultOpen
+        data={items}
+        renderColumn={(_childNodes, { items }) => (
+          <div data-testid="custom-column">
+            {items.map((item, index) => (
+              <i key={index}>{item.label}</i>
+            ))}
+          </div>
+        )}
+      />
+    );
+
+    expect(screen.getAllByTestId('custom-column')).to.have.length(1);
+  });
+
+  it('[Deprecated renderMenu] Should custom render the column', () => {
+    render(
+      <Cascader
+        defaultOpen
+        data={items}
+        renderMenu={items => (
+          <div data-testid="custom-column">
+            {items.map((item, index) => (
+              <i key={index}>{item.label}</i>
+            ))}
+          </div>
+        )}
+      />
+    );
+
+    expect(screen.getAllByTestId('custom-column')).to.have.length(1);
   });
 
   it('Should update the subcolumn when the leaf node is clicked', () => {
@@ -480,6 +523,30 @@ describe('Cascader', () => {
 
     expect(onChange).to.have.been.calledOnce;
     expect(onSelect).to.have.been.calledOnce;
+  });
+
+  it('Should custom column width', () => {
+    render(<Cascader data={items} columnWidth={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('width', '100px');
+  });
+
+  it('Should custom column height', () => {
+    render(<Cascader data={items} columnHeight={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('height', '100px');
+  });
+
+  it('[Deprecated menuWidth] Should custom column width', () => {
+    render(<Cascader data={items} menuWidth={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('width', '100px');
+  });
+
+  it('[Deprecated menuHeight] Should custom column height', () => {
+    render(<Cascader data={items} menuHeight={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('height', '100px');
   });
 
   describe('ref testing', () => {

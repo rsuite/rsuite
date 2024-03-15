@@ -179,6 +179,66 @@ describe('MultiCascader', () => {
     expect(screen.getByRole('checkbox', { name: '2' })).to.be.checked;
   });
 
+  it('Should custom column width', () => {
+    render(<MultiCascader data={items} columnWidth={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('width', '100px');
+  });
+
+  it('Should custom column height', () => {
+    render(<MultiCascader data={items} columnHeight={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('height', '100px');
+  });
+
+  it('[Deprecated menuWidth] Should custom column width', () => {
+    render(<MultiCascader data={items} menuWidth={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('width', '100px');
+  });
+
+  it('[Deprecated menuHeight] Should custom column height', () => {
+    render(<MultiCascader data={items} menuHeight={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('height', '100px');
+  });
+
+  it('Should custom render the column', () => {
+    render(
+      <MultiCascader
+        defaultOpen
+        data={items}
+        renderColumn={(_childNodes, { items }) => (
+          <div data-testid="custom-column">
+            {items.map((item, index) => (
+              <i key={index}>{item.label}</i>
+            ))}
+          </div>
+        )}
+      />
+    );
+
+    expect(screen.getAllByTestId('custom-column')).to.have.length(1);
+  });
+
+  it('[Deprecated renderMenu] Should custom render the column', () => {
+    render(
+      <MultiCascader
+        defaultOpen
+        data={items}
+        renderMenu={items => (
+          <div data-testid="custom-column">
+            {items.map((item, index) => (
+              <i key={index}>{item.label}</i>
+            ))}
+          </div>
+        )}
+      />
+    );
+
+    expect(screen.getAllByTestId('custom-column')).to.have.length(1);
+  });
+
   it('Should call `onSelect` callback', () => {
     const onSelect = sinon.spy();
     render(<MultiCascader data={items} defaultOpen onSelect={onSelect} />);
