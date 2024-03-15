@@ -232,7 +232,7 @@ const MultiCascadeTree = React.forwardRef(
     );
 
     const { withClassPrefix, merge } = useClassNames(classPrefix);
-    const classes = merge(className, withClassPrefix());
+    const classes = merge(className, withClassPrefix('multi'));
 
     return (
       <Component ref={ref} className={classes} {...rest}>

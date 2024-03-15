@@ -39,7 +39,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
     ...rest
   } = props;
 
-  const { merge, prefix, withClassPrefix } = useClassNames(classPrefix);
+  const { merge, prefix, withClassPrefix, rootPrefix } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
   const { locale } = useCustom('Picker');
 
@@ -120,7 +120,9 @@ function SearchView<T>(props: SearchViewProps<T>) {
           {data.length ? (
             data.map(renderSearchRow)
           ) : (
-            <div className={prefix('none')}>{locale.noResultsText}</div>
+            <div className={merge(prefix('none'), rootPrefix('picker-none'))}>
+              {locale.noResultsText}
+            </div>
           )}
         </div>
       )}

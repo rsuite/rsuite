@@ -515,7 +515,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
       className,
       DEPRECATED_menuClassName,
       popupClassName,
-      prefix('cascader-menu')
+      prefix('popup-cascader')
     );
 
     return (

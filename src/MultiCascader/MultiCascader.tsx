@@ -476,7 +476,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         className,
         DEPRECATED_menuClassName,
         popupClassName,
-        prefix('cascader-menu', 'multi-cascader-menu')
+        prefix('popup-multi-cascader')
       );
 
       return (
