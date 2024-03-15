@@ -1,13 +1,13 @@
-# Radio 单选框
+# Radio 单选按钮
 
-允许用户从一组中选择一个选项。
+单选按钮用于在一系列选项中只能选择一个选项时使用。
 
 ## 获取组件
 
 <!--{include:<import-guide>}-->
 
-- `<Radio>` 单选框。
-- `<RadioGroup>` 单选框组。
+- `<Radio>` 单选按钮是一个可选中的输入，当与其他单选按钮关联时，只能有一个选中。
+- `<RadioGroup>` 单选组允许用户从互斥选项列表中选择单个选项。
 
 ## 演示
 
@@ -19,44 +19,57 @@
 
 <!--{include:`disabled.md`}-->
 
-### Radio 组
+### 颜色
+
+<!--{include:`colors.md`}-->
+
+### 单选按钮组
 
 <!--{include:`radio-group.md`}-->
 
-### Radio 组 - 横向布局
+### 单选按钮组 - 横向布局
 
 <!--{include:`radio-group-inline.md`}-->
 
-### Radio 组 - Picker
+### 单选按钮组 - Picker
 
 <!--{include:`radio-group-inline-picker.md`}-->
 
-### 受控的 Radio 组
+### 受控的单选按钮组
 
-<!--{include:`radio-group-controller.md`}-->
+<!--{include:`radio-group-controlled.md`}-->
 
-### 无障碍设计
+## 可访问性
 
-WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#radiobutton
+### ARIA 属性
 
-- 选中 `Radio` 时将 `aria-checked` 设置为 `true`。 否则，将 `aria-checked` 设置为 `false`。
+- 单选按钮组的 `role` 属性为 `radiogroup`。
+- 每一个单选按钮的 `role` 属性为 `radio`。
+- 如果选中单选按钮，则将 `aria-checked` 设置为 `true`。
+- 如果单选按钮禁用，则将 `aria-disabled` 设置为 `true`。
+
+### 键盘交互
+
+- <kbd>→</kbd> - 将焦点移动到下一个单选按钮，当焦点位于单选组中的最后一个单选按钮上则移动到第一个单选按钮。
+- <kbd>←</kbd> - 将焦点移动到上一个单选按钮。焦点位于单选组中的第一个单选按钮上则移动到最后个单选按钮。
 
 ## Props
 
 ### `<Radio>`
 
-| 属性名称       | 类型                                             | 描述                                   |
-| -------------- | ------------------------------------------------ | -------------------------------------- |
-| checked        | boolean                                          | 被选中（受控）                         |
-| defaultChecked | boolean                                          | 默认被选中                             |
-| disabled       | boolean                                          | 禁用                                   |
-| inline         | boolean                                          | 内联布局                               |
-| inputProps     | object                                           | 设置 input 元素的属性                  |
-| inputRef       | ref                                              | 将 ref 传递给 input 元素               |
-| name           | string                                           | 用于表单对应的名称                     |
-| onChange       | (value: string, checked: boolean, event) => void | checked 状态发生改变的回调函数         |
-| title          | string                                           | HTML title                             |
-| value          | string                                           | 值，对应 RadioGroup 的值，判断是否选中 |
+| 属性名称       | 类型                                             | 描述                                                                     |
+| -------------- | ------------------------------------------------ | ------------------------------------------------------------------------ |
+| as             | ElementType`(div)`                               | 为组件自定义元素类型                                                     |
+| checked        | boolean                                          | 被选中（受控）                                                           |
+| color          | [Color](#code-ts-color-code)                     | 选中状态时的颜色 <br/>![](https://img.shields.io/badge/min-v5.56.0-blue) |
+| defaultChecked | boolean                                          | 默认被选中                                                               |
+| disabled       | boolean                                          | 禁用                                                                     |
+| inline         | boolean                                          | 内联布局                                                                 |
+| inputProps     | object                                           | 设置 input 元素的属性                                                    |
+| inputRef       | ref                                              | 将 ref 传递给 input 元素                                                 |
+| name           | string                                           | 用于表单对应的名称                                                       |
+| onChange       | (value: string, checked: boolean, event) => void | checked 状态发生改变的回调函数                                           |
+| value          | string                                           | 值，对应 RadioGroup 的值，判断是否选中                                   |
 
 ### `<RadioGroup>`
 
@@ -68,3 +81,5 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#radiobutton
 | name         | string                        | 用于表单对应的名称 |
 | onChange     | (value:string, event) => void | 值改变后的回调函数 |
 | value        | string                        | 值(受控)           |
+
+<!--{include:(_common/types/color.md)}-->

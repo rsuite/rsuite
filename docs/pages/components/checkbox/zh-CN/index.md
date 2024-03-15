@@ -38,14 +38,20 @@
 
 <!--{include:`checkbox-group-controlled.md`}-->
 
-## 无障碍设计
+## 可访问性
 
-WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#checkbox
+### ARIA 属性
 
-- 选中后，`Checkbox` 将 `aria-checked` 设置为 `true`。
-- 如果未选中，则 `Checkbox` 的 `aria-checked` 设置为 `false`。
-- 如果部分选中，则 `Checkbox` 的 `aria-checked` 设置为 `mixed`。
-- 如果设置了 `children`, 则会和 `Checkbox` 一起包裹在 `<label>` 中。
+- 复选框组的 `role` 属性为 `group`。
+- 每一个复选框的 `role` 属性为 `checkbox`。
+- 如果复选框禁用，则将 `aria-disabled` 设置为 `true`。
+- 如果复选框选中，则将 `aria-checked` 设置为 `true`，否则设置为 `false`。
+- 当部分选中时，`aria-checked` 设置为 mixed。
+- 由 `aria-labelledby` 引用的可见标签设置在具有 `role` 为 `checkbox` 的元素上。
+
+### 键盘交互
+
+- 当复选框获得焦点时，按下 <kbd>Space</kbd> 键改变复选框的状态。
 
 ## Props
 

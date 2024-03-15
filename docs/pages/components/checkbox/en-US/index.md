@@ -40,12 +40,18 @@ The `indeterminate` property sets the Checkbox to an indeterminate state, mainly
 
 ## Accessibility
 
-WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#checkbox
+### ARIA properties
 
-- When `checked`, Checkbox has `aria-checked` set to `true`.
-- When not `checked`, Checkbox has `aria-checked` set to `false`.
-- When partially `checked`, Checkbox has `aria-checked` set to `mixed`.
-- If `children` is set, it will be wrapped in `<label>` together with `Checkbox`.
+- The `role` property of the CheckboxGroup is `group`.
+- The `role` property of each Checkbox is `checkbox`.
+- If the Checkbox is disabled, set `aria-disabled` to `true`.
+- If the Checkbox is checked, set `aria-checked` to `true`, otherwise set it to `false`.
+- When partially checked, it has state `aria-checked` set to mixed.
+- A visible label referenced by the value of `aria-labelledby` set on the element with role `checkbox`.
+
+### Keyboard interaction
+
+- When the Checkbox has focus, pressing the <kbd>Space</kbd> key changes the state of the Checkbox.
 
 ## Props
 
