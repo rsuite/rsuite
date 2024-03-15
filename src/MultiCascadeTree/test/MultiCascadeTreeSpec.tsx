@@ -27,7 +27,7 @@ describe('MultiCascadeTree', () => {
     const onSelect = sinon.spy();
     render(<MultiCascadeTree data={items} onSelect={onSelect} />);
 
-    fireEvent.click(screen.getByRole('treeitem', { name: '2' }).firstChild as HTMLElement);
+    fireEvent.click(screen.getByRole('checkbox', { name: '2' }));
     expect(onSelect).to.have.been.calledOnce;
   });
 
@@ -36,8 +36,7 @@ describe('MultiCascadeTree', () => {
 
     render(<MultiCascadeTree data={items} onChange={onChange} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(screen.getByRole('checkbox', { name: '1' }).parentNode as HTMLElement);
+    fireEvent.click(screen.getByRole('checkbox', { name: '1' }));
 
     expect(onChange).to.have.been.calledWith(['1']);
   });
@@ -78,8 +77,7 @@ describe('MultiCascadeTree', () => {
     const onCheck = sinon.spy();
     render(<MultiCascadeTree data={items} onCheck={onCheck} />);
 
-    // eslint-disable-next-line testing-library/no-node-access
-    fireEvent.click(screen.getByRole('checkbox', { name: '1' }).parentNode as HTMLElement);
+    fireEvent.click(screen.getByRole('checkbox', { name: '1' }));
 
     expect(onCheck).to.have.been.calledWith(['1'], { label: '1', value: '1' }, true);
   });

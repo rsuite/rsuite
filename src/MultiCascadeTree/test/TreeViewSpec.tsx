@@ -61,7 +61,7 @@ describe('MultiCascadeTree -  TreeView', () => {
       <MultiCascadeTree labelKey="myLabel" valueKey="myValue" childrenKey="items" data={data} />
     );
 
-    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(3);
+    expect(screen.getAllByRole('treeitem')).to.have.length(3);
   });
 
   it('Should call onSelect callback with correct node value', () => {
@@ -69,27 +69,27 @@ describe('MultiCascadeTree -  TreeView', () => {
 
     render(<MultiCascadeTree data={items} onSelect={onSelect} />);
 
-    fireEvent.click(screen.getByRole('treeitem', { name: '2' }).firstChild as HTMLElement);
+    fireEvent.click(screen.getByRole('checkbox', { name: '2' }));
 
     expect(onSelect).to.have.been.calledWith({ label: '2', value: '2' });
   });
 
   it('Should call onSelect callback 2 count', () => {
-    const onSelectSpy = sinon.spy();
-    render(<MultiCascadeTree data={items} disabledItemValues={['2']} onSelect={onSelectSpy} />);
+    const onSelect = sinon.spy();
+    render(<MultiCascadeTree data={items} disabledItemValues={['2']} onSelect={onSelect} />);
 
-    fireEvent.click(screen.getByRole('treeitem', { name: '1' }).firstChild as HTMLElement);
-    fireEvent.click(screen.getByRole('treeitem', { name: '3' }).firstChild as HTMLElement);
+    fireEvent.click(screen.getByRole('checkbox', { name: '1' }));
+    fireEvent.click(screen.getByRole('checkbox', { name: '3' }));
 
-    expect(onSelectSpy).to.have.been.calledTwice;
+    expect(onSelect).to.have.been.calledTwice;
   });
 
   it('Should not call onSelect callback on disabled item', () => {
-    const onSelectSpy = sinon.spy();
-    render(<MultiCascadeTree data={items} disabledItemValues={['2']} onSelect={onSelectSpy} />);
+    const onSelect = sinon.spy();
+    render(<MultiCascadeTree data={items} disabledItemValues={['2']} onSelect={onSelect} />);
 
-    fireEvent.click(screen.getByRole('treeitem', { name: '2' }).firstChild as HTMLElement);
-    expect(onSelectSpy).not.to.have.been.called;
+    fireEvent.click(screen.getByRole('checkbox', { name: '2' }));
+    expect(onSelect).not.to.have.been.called;
   });
 
   it('Should call renderTreeNode callback ', () => {
@@ -100,7 +100,7 @@ describe('MultiCascadeTree -  TreeView', () => {
       />
     );
 
-    expect(screen.getAllByTestId('custom-item')).to.have.lengthOf(3);
+    expect(screen.getAllByTestId('custom-item')).to.have.length(3);
   });
 
   it('Should be disabled item ', () => {
@@ -117,6 +117,6 @@ describe('MultiCascadeTree -  TreeView', () => {
   it('Should be uncheckable item ', () => {
     render(<MultiCascadeTree data={items} uncheckableItemValues={['2', '3']} />);
 
-    expect(screen.getAllByRole('checkbox')).to.have.lengthOf(1);
+    expect(screen.getAllByRole('checkbox')).to.have.length(1);
   });
 });
