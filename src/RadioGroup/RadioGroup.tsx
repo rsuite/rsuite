@@ -1,6 +1,6 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames, useControlled } from '../utils';
+import { useClassNames, useControlled, useEventCallback } from '../utils';
 import { oneOf } from '../internals/propTypes';
 import Plaintext from '../internals/Plaintext';
 import { WithAsProps, FormControlBaseProps, RsRefForwardingComponent } from '../@types/common';
@@ -31,7 +31,7 @@ export interface RadioGroupProps<T = ValueType> extends WithAsProps, FormControl
   children?: React.ReactNode;
 }
 
-export const RadioContext = React.createContext<RadioContextProps>({});
+export const RadioContext = React.createContext<RadioContextProps | undefined>(void 0);
 
 /**
  * The `RadioGroup` component is used to group a collection of `Radio` components.
@@ -59,12 +59,11 @@ const RadioGroup: RsRefForwardingComponent<'div', RadioGroupProps> = React.forwa
     const classes = merge(className, withClassPrefix(appearance, { inline }));
     const [value, setValue, isControlled] = useControlled(valueProp, defaultValue);
 
-    const handleChange = useCallback(
+    const handleChange = useEventCallback(
       (nextValue: ValueType | undefined, event: React.ChangeEvent<HTMLInputElement>) => {
         setValue(nextValue);
         onChange?.(nextValue ?? '', event);
-      },
-      [onChange, setValue]
+      }
     );
 
     const contextValue = useMemo(

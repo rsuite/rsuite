@@ -1,7 +1,13 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { RadioContext } from '../RadioGroup/RadioGroup';
-import { useClassNames, useControlled, useEventCallback, partitionHTMLProps } from '../utils';
+import {
+  useClassNames,
+  useControlled,
+  useEventCallback,
+  useUniqueId,
+  partitionHTMLProps
+} from '../utils';
 import { WithAsProps, TypeAttributes } from '../@types/common';
 import { refType } from '../internals/propTypes';
 
@@ -83,16 +89,16 @@ export interface RadioProps<T = ValueType>
  * @see https://rsuitejs.com/components/radio
  */
 const Radio = React.forwardRef((props: RadioProps, ref) => {
+  const radioContext = useContext(RadioContext);
   const {
     value: groupValue,
-    controlled,
     inline: inlineContext,
     name: nameContext,
     disabled: disabledContext,
     readOnly: readOnlyContext,
     plaintext: plaintextContext,
     onChange: onGroupChange
-  } = useContext(RadioContext);
+  } = radioContext ?? {};
 
   const {
     as: Component = 'div',
@@ -117,7 +123,7 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
     ...rest
   } = props;
 
-  const [checked, setChecked] = useControlled(
+  const [checked, setChecked, selfControlled] = useControlled(
     typeof groupValue !== 'undefined' ? groupValue === value : checkedProp,
     defaultChecked || false
   );
@@ -136,28 +142,14 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
     onChange?.(value, true, event);
   });
 
+  const controlled = radioContext ? true : selfControlled;
+
   if (typeof controlled !== 'undefined') {
     // In uncontrolled situations, use defaultChecked instead of checked
     htmlInputProps[controlled ? 'checked' : 'defaultChecked'] = checked;
   }
 
-  const control = (
-    <span className={prefix`control`}>
-      <input
-        {...htmlInputProps}
-        {...inputProps}
-        ref={inputRef}
-        type="radio"
-        name={name}
-        value={value}
-        tabIndex={tabIndex}
-        disabled={disabled}
-        onChange={handleChange}
-        onClick={useCallback(event => event.stopPropagation(), [])}
-      />
-      <span className={prefix`inner`} aria-hidden />
-    </span>
-  );
+  const labelId = useUniqueId('label-');
 
   if (plaintext) {
     return checked ? (
@@ -167,20 +159,36 @@ const Radio = React.forwardRef((props: RadioProps, ref) => {
     ) : null;
   }
 
+  const control = (
+    <span className={prefix`control`}>
+      <input
+        {...htmlInputProps}
+        {...inputProps}
+        aria-labelledby={labelId}
+        aria-checked={checked}
+        aria-disabled={disabled}
+        ref={inputRef}
+        type="radio"
+        name={name}
+        value={value}
+        tabIndex={tabIndex}
+        readOnly={readOnly}
+        disabled={disabled}
+        onChange={handleChange}
+      />
+      <span className={prefix`inner`} aria-hidden />
+    </span>
+  );
+
   return (
-    <Component
-      {...restProps}
-      ref={ref}
-      onClick={onClick}
-      className={classes}
-      aria-checked={checked}
-      aria-disabled={disabled}
-    >
+    <Component {...restProps} ref={ref} onClick={onClick} className={classes}>
       <div className={prefix`checker`}>
         {children ? (
           <label title={title}>
             {control}
-            <span className={prefix`label`}>{children}</span>
+            <span className={prefix`label`} id={labelId}>
+              {children}
+            </span>
           </label>
         ) : (
           control
