@@ -1,3 +1,20 @@
+# [5.56.0](https://github.com/rsuite/rsuite/compare/v5.55.1...v5.56.0) (2024-03-15)
+
+
+### Bug Fixes
+
+* examples/with-gatsby/package.json to reduce vulnerabilities ([#3583](https://github.com/rsuite/rsuite/issues/3583)) ([2f10776](https://github.com/rsuite/rsuite/commit/2f10776c541b2616b9eef9f8e34e4758d3451f77))
+* **Checkbox:** listen for click events on the correct element ([#3666](https://github.com/rsuite/rsuite/issues/3666)) ([cd43df5](https://github.com/rsuite/rsuite/commit/cd43df5feee868ad411fa4da54635b54d2d25934))
+* **TagGroup:** fix css entry in nested children ([#3663](https://github.com/rsuite/rsuite/issues/3663)) ([fc59018](https://github.com/rsuite/rsuite/commit/fc590180066e26cbfba28428b4db54f6f4a070dc))
+
+
+### Features
+
+* **Checkbox:** add support for `color` on `<Checkbox>` ([#3670](https://github.com/rsuite/rsuite/issues/3670)) ([a9e14ee](https://github.com/rsuite/rsuite/commit/a9e14ee834d612153e649ff14a54f5f83f6d6b2f))
+* **Radio:** add support for `color` on `<Radio>` ([#3672](https://github.com/rsuite/rsuite/issues/3672)) ([9406886](https://github.com/rsuite/rsuite/commit/9406886a59443f54a6e08d23025a0654dcd68bf0))
+
+
+
 ## [5.55.1](https://github.com/rsuite/rsuite/compare/v5.55.0...v5.55.1) (2024-03-08)
 
 
