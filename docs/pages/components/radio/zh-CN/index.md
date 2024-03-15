@@ -1,13 +1,13 @@
 # Radio 单选按钮
 
-Radio 通常在 RadioGroup 中使用 — 描述一组相关选项的单选按钮的集合。
+单选按钮用于在一系列选项中只能选择一个选项时使用。
 
 ## 获取组件
 
 <!--{include:<import-guide>}-->
 
-- `<Radio>` 单选按钮。
-- `<RadioGroup>` 单选按钮组。
+- `<Radio>` 单选按钮是一个可选中的输入，当与其他单选按钮关联时，只能有一个选中。
+- `<RadioGroup>` 单选组允许用户从互斥选项列表中选择单个选项。
 
 ## 演示
 
@@ -69,7 +69,6 @@ Radio 通常在 RadioGroup 中使用 — 描述一组相关选项的单选按钮
 | inputRef       | ref                                              | 将 ref 传递给 input 元素                                                 |
 | name           | string                                           | 用于表单对应的名称                                                       |
 | onChange       | (value: string, checked: boolean, event) => void | checked 状态发生改变的回调函数                                           |
-| title          | string                                           | HTML title                                                               |
 | value          | string                                           | 值，对应 RadioGroup 的值，判断是否选中                                   |
 
 ### `<RadioGroup>`

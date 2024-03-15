@@ -1,13 +1,13 @@
 # Radio
 
-Radio
+Radios are used when only one choice may be selected in a series of options.
 
 ## Import
 
 <!--{include:<import-guide>}-->
 
-- `<Radio>` Radio button.
-- `<RadioGroup>` Radio group.
+- `<Radio>` A radio button is a checkable input that when associated with other radio buttons, only one of which can be checked at a time.
+- `<RadioGroup>` Radio Group allow users to select a single option from a list of mutually exclusive options.
 
 ## Examples
 
@@ -69,7 +69,6 @@ Radio
 | inputRef       | ref                                              | Pass a ref to the input element.                                                            |
 | name           | string                                           | Name to use for form                                                                        |
 | onChange       | (value: string, checked: boolean, event) => void | callback function that has been checked for changes in state                                |
-| title          | string                                           | HTML title                                                                                  |
 | value          | string                                           | Value, corresponding to the value of the Radiogroup, to determine whether the               |
 
 ### `<RadioGroup>`

@@ -7,7 +7,7 @@ const RadioLabel = ({ children }) => <label style={{ padding: 7 }}>{children}</l
 
 const App = () => (
   <>
-    <RadioGroup name="radio-group" inline appearance="picker" defaultValue="A">
+    <RadioGroup name="radio-group-inline-picker" inline appearance="picker" defaultValue="A">
       <Radio value="A">Radio A</Radio>
       <Radio value="B">Radio B</Radio>
       <Radio value="C">Radio C</Radio>
@@ -15,7 +15,7 @@ const App = () => (
     </RadioGroup>
 
     <hr />
-    <RadioGroup name="radio-group" inline appearance="picker" defaultValue="A">
+    <RadioGroup name="radio-group-inline-picker-label" inline appearance="picker" defaultValue="A">
       <RadioLabel>Label: </RadioLabel>
       <Radio value="A">Radio A</Radio>
       <Radio value="B">Radio B</Radio>
