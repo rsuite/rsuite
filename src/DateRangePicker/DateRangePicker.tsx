@@ -742,7 +742,7 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
 
   const renderCalendarOverlay = (positionProps: PositionChildProps, speakerRef) => {
     const { left, top, className } = positionProps;
-    const classes = merge(className, menuClassName, prefix('daterange-menu'));
+    const classes = merge(className, menuClassName, prefix('popup-daterange'));
     const panelClasses = prefix('daterange-panel', {
       'daterange-panel-show-one-calendar': showOneCalendar
     });

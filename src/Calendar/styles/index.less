@@ -503,7 +503,7 @@
   &-cell {
     display: inline-block;
     float: left;
-    // width: ~'calc((100% - @{calendar-table-cell-content-today-border-width} * 12 ) / 6)';
+    width: ~'calc((100% - @{calendar-table-cell-content-today-border-width} * 12 ) / 6)';
     margin: 1px;
     text-align: center;
     vertical-align: middle;
@@ -516,6 +516,8 @@
 
   &-cell-content {
     .picker-calendar-cell-content();
+    width: @calendar-in-menu-content-side-length;
+    height: @calendar-in-menu-content-side-length;
   }
 
   &-cell:not(&-cell-active).disabled &-cell-content {

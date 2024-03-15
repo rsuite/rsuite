@@ -19,4 +19,9 @@ describe('DateRangePicker styles', () => {
     expect(instance.root).to.have.class('rs-picker-block');
     expect(getWidth(instance.overlay)).to.equal(264 * 2);
   });
+
+  it('Should hava a padding of 0px', () => {
+    render(<DateRangePicker open />);
+    expect(screen.getByRole('dialog')).to.have.style('padding', '0px');
+  });
 });

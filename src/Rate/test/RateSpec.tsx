@@ -10,7 +10,9 @@ import Rate from '../Rate';
 import Sinon from 'sinon';
 
 describe('Rate', () => {
-  testStandardProps(<Rate />);
+  testStandardProps(<Rate />, {
+    colors: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
+  });
 
   it('Should render a default Rate', () => {
     render(<Rate />);

@@ -16,11 +16,15 @@ Check boxes are usually used in groups. Allow users to select one or more values
 
 <!--{include:`disabled.md`}-->
 
-### Indeterminate State
+### Indeterminate
 
-the `indeterminate` property is mainly used on the select all or tree structure checkbox.
+The `indeterminate` property sets the Checkbox to an indeterminate state, mainly used in the select all or tree structure Checkbox.
 
 <!--{include:`indeterminate.md`}-->
+
+### Colors
+
+<!--{include:`colors.md`}-->
 
 ### Checkbox Group
 
@@ -32,7 +36,7 @@ the `indeterminate` property is mainly used on the select all or tree structure 
 
 ### Checkbox Group (Controlled)
 
-<!--{include:`checkbox-group-controller.md`}-->
+<!--{include:`checkbox-group-controlled.md`}-->
 
 ## Accessibility
 
@@ -47,32 +51,28 @@ WAI-ARIA: https://www.w3.org/TR/wai-aria-practices/#checkbox
 
 ### `<Checkbox>`
 
-| Property       | Type `(default)`                                                                | Description                                                             |
-| -------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| checked        | boolean                                                                         | Specifies whether the checkbox is selected                              |
-| defaultChecked | boolean                                                                         | Specifies the initial state: whether or not the checkbox is selected    |
-| disabled       | boolean                                                                         | Whether disabled                                                        |
-| id             | ElementType                                                                     | Custom element type for the component                                   |
-| indeterminate  | boolean                                                                         | When being a checkbox , setting styles after the child part is selected |
-| inline         | boolean                                                                         | Inline layout                                                           |
-| inputRef       | Ref                                                                             | Ref of input element                                                    |
-| name           | string                                                                          | Used for the name of the form                                           |
-| onChange       | (value: [ValueType](#code-ts-value-type-code), checked: boolean, event) => void | Callback fired when checkbox is triggered and state changes             |
-| title          | string                                                                          | HTML title                                                              |
-| value          | [ValueType](#code-ts-value-type-code)                                           | Correspond to the value of CheckboxGroup, determine whether to select   |
+| Property       | Type `(default)`                                           | Description                                                                                                     |
+| -------------- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| as             | ElementType`(div)`                                         | Custom element type for the component                                                                           |
+| checked        | boolean                                                    | Specifies whether the checkbox is selected                                                                      |
+| color          | [Color](#code-ts-color-code)                               | The color of the checkbox when checked or indeterminate <br/>![](https://img.shields.io/badge/min-v5.56.0-blue) |
+| defaultChecked | boolean                                                    | Specifies the initial state: whether or not the checkbox is selected                                            |
+| disabled       | boolean                                                    | Whether disabled                                                                                                |
+| indeterminate  | boolean                                                    | When being a checkbox , setting styles after the child part is selected                                         |
+| inputRef       | Ref                                                        | Ref of input element                                                                                            |
+| name           | string                                                     | Used for the name of the form                                                                                   |
+| onChange       | (value: string \| number, checked: boolean, event) => void | Callback fired when checkbox is triggered and state changes                                                     |
+| title          | string                                                     | HTML title                                                                                                      |
+| value          | string \| number                                           | Correspond to the value of CheckboxGroup, determine whether to select                                           |
 
 ### `<CheckboxGroup>`
 
-| Property     | Type `(default)`                                               | Description                                                 |
-| ------------ | -------------------------------------------------------------- | ----------------------------------------------------------- |
-| defaultValue | [ValueType](#code-ts-value-type-code)[]                        | Default value                                               |
-| inline       | boolean                                                        | Inline layout                                               |
-| name         | string                                                         | Used for the name of the form                               |
-| onChange     | (value:[ValueType](#code-ts-value-type-code)[], event) => void | Callback fired when checkbox is triggered and state changes |
-| value        | [ValueType](#code-ts-value-type-code)[]                        | Value of checked box (Controlled)                           |
+| Property     | Type `(default)`                            | Description                                                 |
+| ------------ | ------------------------------------------- | ----------------------------------------------------------- |
+| defaultValue | string[] \| number[]                        | Default value                                               |
+| inline       | boolean                                     | Inline layout                                               |
+| name         | string                                      | Used for the name of the form                               |
+| onChange     | (value:string[] \| number[], event) => void | Callback fired when checkbox is triggered and state changes |
+| value        | string[] \| number[]                        | Value of checked box (Controlled)                           |
 
-### `ts:ValueType`
-
-```ts
-type ValueType = string | number;
-```
+<!--{include:(_common/types/color.md)}-->

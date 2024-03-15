@@ -1,3 +1,15 @@
+## [5.55.1](https://github.com/rsuite/rsuite/compare/v5.55.0...v5.55.1) (2024-03-08)
+
+
+### Bug Fixes
+
+* **Calendar:** fix misalignment of month selection menu layout ([#3655](https://github.com/rsuite/rsuite/issues/3655)) ([eff9702](https://github.com/rsuite/rsuite/commit/eff9702977d893caa0c701dba03b19a44d56799a))
+* **DatePicker,DateRangePicker:** fix the problem of padding ([#3659](https://github.com/rsuite/rsuite/issues/3659)) ([47f84f4](https://github.com/rsuite/rsuite/commit/47f84f4a3d2e3d4bd716a40ae78cb792ac779380))
+* **Message:** fix the z-index issue of Message in full screen state ([#3658](https://github.com/rsuite/rsuite/issues/3658)) ([f899b92](https://github.com/rsuite/rsuite/commit/f899b9254b694e61306ab096d324d19870bc9709))
+* **nav:** default appearance doesn't show an active background when focused ([#3654](https://github.com/rsuite/rsuite/issues/3654)) ([3dcf943](https://github.com/rsuite/rsuite/commit/3dcf943a8e6811f4369ed858fba671e7783ef6f7))
+
+
+
 # [5.55.0](https://github.com/rsuite/rsuite/compare/v5.54.0...v5.55.0) (2024-03-01)
 
 
