@@ -34,6 +34,19 @@ MultiCascadeTree 是一个按列显示树形结构数据的组件，支持多选
 
 <!--{include:`searchable.md`}-->
 
+## 可访问性
+
+### ARIA 属性
+
+- MultiCascadeTree 具有 `tree` 角色。
+- 每个列具有 `group` 角色。
+- 每个选项具有 `treeitem` 角色。
+- 每个选项的 `aria-setsize` 等于列中的选项数。
+- 每个选项的 `aria-level` 等于列索引。
+- 选中的选项具有 `aria-selected="true"`。
+- 禁用的选项具有 `aria-disabled="true"`。
+- 搜索输入具有 `searchbox` 角色。
+
 ## Props
 
 ### `<MultiCascadeTree>`

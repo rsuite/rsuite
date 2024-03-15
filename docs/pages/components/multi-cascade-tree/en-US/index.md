@@ -34,6 +34,19 @@ This tree allows the use of the `getChildren` option and the length of the child
 
 <!--{include:`searchable.md`}-->
 
+## Accessibility
+
+### ARIA properties
+
+- MultiCascadeTree has role `tree`.
+- Each column has role `group`.
+- Each item has role `treeitem`.
+- Each item has `aria-setsize` equal to the number of items in the column.
+- Each item has `aria-level` equal to the column index.
+- The selected item has `aria-selected="true"`.
+- The disabled item has `aria-disabled="true"`.
+- The search input has role `searchbox`.
+
 ## Props
 
 ### `<MultiCascadeTree>`
