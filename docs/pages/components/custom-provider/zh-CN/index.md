@@ -1,4 +1,4 @@
-# CustomProvider
+# CustomProvider 个性化配置
 
 支持本地化、Right to Left、主题等个性化配置。
 

@@ -20,7 +20,7 @@
   position: relative;
 }
 
-.rs-radio-wrapper {
+.rs-radio-control {
   position: absolute;
   width: @radio-width-height;
   height: @radio-width-height;
@@ -33,13 +33,16 @@
     // bring to foreground
     position: absolute;
     z-index: 1;
-    width: @radio-width-height;
-    height: @radio-width-height;
     cursor: pointer;
+
+    // Sense area(Can be clicked).
+    top: -@radio-sense-width;
+    right: -@radio-sense-width;
+    bottom: -@radio-sense-width;
+    left: -@radio-sense-width;
   }
 
   &::before,
-  &::after,
   .rs-radio-inner::before,
   .rs-radio-inner::after {
     content: '';
@@ -73,14 +76,6 @@
       opacity: 0;
       visibility: visible;
     }
-  }
-
-  // Sense area(Can be clicked).
-  &::after {
-    top: -@radio-sense-width;
-    right: -@radio-sense-width;
-    bottom: -@radio-sense-width;
-    left: -@radio-sense-width;
   }
 }
 
@@ -140,3 +135,24 @@
     }
   }
 }
+
+each(@spectrum, .(@color) {
+  .rs-radio-@{color} {
+    .rs-radio-control::before{
+      border-color: var(~'--rs-@{color}-500');
+    }
+
+    label:hover{
+      .rs-radio-inner::before {
+        border-color: var(~'--rs-@{color}-500');
+      }
+    }
+
+    &.rs-radio-checked  {
+      .rs-radio-inner::before{
+        border-color: var(~'--rs-@{color}-500');
+        background-color:var(~'--rs-@{color}-500');
+      }
+    }
+  }
+});

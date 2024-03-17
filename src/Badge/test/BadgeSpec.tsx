@@ -4,7 +4,9 @@ import Badge from '../Badge';
 import { render, screen } from '@testing-library/react';
 
 describe('Badge', () => {
-  testStandardProps(<Badge />);
+  testStandardProps(<Badge />, {
+    colors: ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet']
+  });
 
   it('Should render independent', () => {
     const { container } = render(<Badge />);

@@ -1,19 +1,15 @@
 <!--start-code-->
 
 ```js
-import { Radio, RadioGroup, Form } from 'rsuite';
+import { Radio, RadioGroup } from 'rsuite';
 
 const App = () => (
-  <Form.Group controlId="radioList">
-    <RadioGroup name="radioList" inline>
-      <Radio value="A">Item A</Radio>
-      <Radio value="B">Item B</Radio>
-      <Radio value="C">Item C</Radio>
-      <Radio value="D" disabled>
-        Item D
-      </Radio>
-    </RadioGroup>
-  </Form.Group>
+  <RadioGroup name="radio-group-inline" inline defaultValue="A">
+    <Radio value="A">Radio A</Radio>
+    <Radio value="B">Radio B</Radio>
+    <Radio value="C">Radio C</Radio>
+    <Radio value="D">Radio D</Radio>
+  </RadioGroup>
 );
 
 ReactDOM.render(<App />, document.getElementById('root'));

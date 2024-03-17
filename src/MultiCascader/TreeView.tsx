@@ -139,6 +139,7 @@ const TreeView: RsRefForwardingComponent<'div', TreeViewProps> = React.forwardRe
           onSelectItem={(_value, event) => handleSelect(layer, node, event)}
           onCheck={(_value, event, checked) => onCheck?.(node, event, checked)}
           checkable={!uncheckable}
+          labelClickable={false}
         >
           {renderMenuItem ? renderMenuItem(label, node) : label}
           {children ? <Icon className={prefix('caret')} spin={node.loading} /> : null}

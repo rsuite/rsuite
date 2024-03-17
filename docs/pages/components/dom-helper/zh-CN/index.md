@@ -1,4 +1,4 @@
-# DOMHelper
+# DOMHelper DOM助手
 
 在 React 项目中，我们不推荐直接操作 DOM ， 但是在 RSUITE 组件内部，为了一些考虑不得不直接操作 DOM， 如果您也有类似的需求，可以直接使用这组方法。
 
