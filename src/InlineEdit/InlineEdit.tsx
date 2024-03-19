@@ -8,7 +8,7 @@ import useFocusEvent from './useFocusEvent';
 import useEditState from './useEditState';
 import { renderChildren, defaultRenderInput, type ChildrenProps } from './renderChildren';
 
-export interface InlineEditProps extends WithAsProps {
+export interface InlineEditProps extends Omit<WithAsProps, 'children'> {
   /**
    * If true, the InlineEdit will be disabled.
    */
