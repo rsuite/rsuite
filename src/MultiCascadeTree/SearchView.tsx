@@ -1,10 +1,11 @@
 import React from 'react';
 import { ItemDataType, WithAsProps } from '../@types/common';
-import { getSafeRegExpString, useClassNames, useCustom } from '../utils';
+import { useClassNames, useCustom } from '../utils';
 import { getNodeParents } from '../utils/treeUtils';
 import SearchBox from '../internals/SearchBox';
 import Checkbox from '../Checkbox';
 import { isSomeChildChecked } from './utils';
+import { highlightLabel } from '../CascadeTree/utils';
 
 interface SearchViewProps<T> extends WithAsProps {
   searchKeyword: string;
@@ -45,24 +46,18 @@ function SearchView<T>(props: SearchViewProps<T>) {
 
   const renderSearchRow = (item: ItemDataType<T>, key: number) => {
     const nodes = getNodeParents(item);
-    const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
-    const labelElements: React.ReactNode[] = [];
+    const label = highlightLabel<T>({
+      item,
+      labelKey,
+      searchKeyword,
+      render: (patch: React.ReactNode, index: number) => (
+        <span key={index} className={prefix('match')}>
+          {patch}
+        </span>
+      )
+    });
 
-    const a = item[labelKey].split(regx);
-    const b = item[labelKey].match(regx);
-
-    for (let i = 0; i < a.length; i++) {
-      labelElements.push(a[i]);
-      if (b[i]) {
-        labelElements.push(
-          <span key={i} className={prefix('cascader-search-match')}>
-            {b[i]}
-          </span>
-        );
-      }
-    }
-
-    nodes.push({ ...item, [labelKey]: labelElements });
+    nodes.push({ ...item, [labelKey]: label });
 
     const active = value.some(value => {
       if (cascade) {
@@ -72,28 +67,28 @@ function SearchView<T>(props: SearchViewProps<T>) {
     });
     const disabled = disabledItemValues.some(value => nodes.some(node => node[valueKey] === value));
 
-    const itemClasses = prefix('row', {
-      'row-disabled': disabled
-    });
+    const rowClasses = prefix('row', { 'row-disabled': disabled });
+    const indeterminate =
+      cascade && !active && isSomeChildChecked<any>(item, value, { valueKey, childrenKey });
+
+    const handleChange = (_value: any, checked: boolean, event: React.SyntheticEvent) => {
+      onCheck?.(item, event, checked);
+    };
 
     return (
       <div
         role="treeitem"
         aria-disabled={disabled}
         key={key}
-        className={itemClasses}
+        className={rowClasses}
         data-key={item[valueKey]}
       >
         <Checkbox
           disabled={disabled}
           checked={active}
           value={item[valueKey]}
-          indeterminate={
-            cascade && !active && isSomeChildChecked<any>(item, value, { valueKey, childrenKey })
-          }
-          onChange={(_value, checked, event) => {
-            onCheck?.(item, event, checked);
-          }}
+          indeterminate={indeterminate}
+          onChange={handleChange}
         >
           <span className={prefix('col-group')}>
             {nodes.map((node, index) => (

@@ -1,5 +1,5 @@
-import { useMemo } from 'react';
-import { getPathTowardsItem } from '../utils/treeUtils';
+import { ItemDataType } from '../@types/common';
+import { getSafeRegExpString } from '../utils';
 
 type GetColumnsAndPathsOptions<T> = {
   getParent: (item: T) => T | undefined;
@@ -51,54 +51,28 @@ export function getColumnsAndPaths<T extends Record<string, unknown>>(
   return { columns, path };
 }
 
-type UsePathsParams<T> = {
-  data: T[];
-  /**
-   * The item where the focus is on
-   */
-  activeItem: T | undefined;
-  /**
-   * The item selected by Cascader's value
-   */
-  selectedItem: T | undefined;
-  getParent: (item: T) => T | undefined;
-  getChildren: (item: T) => readonly T[] | undefined;
-};
-
 /**
- * Caculate following 3 things
- *
- * - The columns of items to be displayed
- * - The path towards the current focused item
- * - The path towards the current selected item (referred to by Cascader's value)
- *
- * @param params
- * @returns
+ * Highlight the search keyword in the label
  */
-export function usePaths<T extends Record<string, unknown>>({
-  data,
-  activeItem,
-  selectedItem,
-  getParent,
-  getChildren
-}: UsePathsParams<T>) {
-  const pathTowardsSelectedItem = useMemo(
-    () => getPathTowardsItem(selectedItem, getParent),
-    [getParent, selectedItem]
-  );
+export function highlightLabel<T>(props: {
+  item: ItemDataType<T>;
+  labelKey: string;
+  searchKeyword: string;
+  render: (patch: React.ReactNode, index: number) => React.ReactNode;
+}) {
+  const { item, searchKeyword, labelKey, render } = props;
+  const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
+  const labelElements: React.ReactNode[] = [];
 
-  const { columns, path: pathTowardsActiveItem } = useMemo(
-    () =>
-      getColumnsAndPaths(data, activeItem, {
-        getParent,
-        getChildren
-      }),
-    [data, activeItem, getParent, getChildren]
-  );
+  const strArr = item[labelKey].split(regx);
+  const highStrArr = item[labelKey].match(regx);
 
-  return {
-    columns,
-    pathTowardsSelectedItem,
-    pathTowardsActiveItem
-  };
+  for (let i = 0; i < strArr.length; i++) {
+    labelElements.push(strArr[i]);
+    if (highStrArr?.[i]) {
+      labelElements.push(render(highStrArr[i], i));
+    }
+  }
+
+  return labelElements;
 }

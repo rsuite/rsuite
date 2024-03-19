@@ -1,7 +1,8 @@
 import React from 'react';
 import { ItemDataType, WithAsProps } from '../@types/common';
-import { getSafeRegExpString, useClassNames, useCustom } from '../utils';
+import { useClassNames, useCustom } from '../utils';
 import { getPathTowardsItem } from '../utils/treeUtils';
+import { highlightLabel } from './utils';
 import SearchBox from '../internals/SearchBox';
 
 interface SearchViewProps<T> extends WithAsProps {
@@ -42,27 +43,21 @@ function SearchView<T>(props: SearchViewProps<T>) {
   const { locale } = useCustom('Picker');
 
   const renderSearchRow = (item: ItemDataType<T>, key: number) => {
-    const regx = new RegExp(getSafeRegExpString(searchKeyword), 'ig');
     const items = getPathTowardsItem(item, item => parentMap.get(item));
-    const formattedNodes = items.map(itemData => {
-      const labelElements: React.ReactElement[] = [];
-      const a = itemData[labelKey].split(regx);
-      const b = itemData[labelKey].match(regx);
 
-      for (let i = 0; i < a.length; i++) {
-        labelElements.push(a[i]);
-        if (b && b[i]) {
-          labelElements.push(
-            <span key={i} className={prefix('match')}>
-              {b[i]}
-            </span>
-          );
-        }
-      }
-      return {
-        ...itemData,
-        [labelKey]: labelElements
-      };
+    const formattedNodes = items.map(itemData => {
+      const label = highlightLabel<T>({
+        item: itemData,
+        labelKey,
+        searchKeyword,
+        render: (patch: React.ReactNode, index: number) => (
+          <span key={index} className={prefix('match')}>
+            {patch}
+          </span>
+        )
+      });
+
+      return { ...itemData, [labelKey]: label };
     });
 
     const disabled = disabledItemValues.some(value =>
@@ -79,6 +74,12 @@ function SearchView<T>(props: SearchViewProps<T>) {
       </span>
     ));
 
+    const handleCheck = (event: React.MouseEvent) => {
+      if (!disabled) {
+        onSelect(item, items, event);
+      }
+    };
+
     return (
       <div
         role="treeitem"
@@ -88,11 +89,7 @@ function SearchView<T>(props: SearchViewProps<T>) {
         data-key={item[valueKey]}
         className={itemClasses}
         tabIndex={-1}
-        onClick={event => {
-          if (!disabled) {
-            onSelect(item, items, event);
-          }
-        }}
+        onClick={handleCheck}
       >
         {renderSearchItem ? renderSearchItem(label, items) : label}
       </div>

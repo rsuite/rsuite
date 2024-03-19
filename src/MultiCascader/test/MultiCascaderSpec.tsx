@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import {
   getInstance,
@@ -274,7 +274,7 @@ describe('MultiCascader', () => {
     expect(onOpen).to.be.calledOnce;
   });
 
-  it('Should call `onClose` callback', () => {
+  it('Should call `onClose` callback', async () => {
     const onClose = sinon.spy();
     const picker = getInstance(<MultiCascader defaultOpen onClose={onClose} data={items} />);
 
@@ -282,7 +282,9 @@ describe('MultiCascader', () => {
       picker.close();
     });
 
-    expect(onClose).to.be.calledOnce;
+    await waitFor(() => {
+      expect(onClose).to.be.calledOnce;
+    });
   });
 
   it('Should clean selected default value', () => {

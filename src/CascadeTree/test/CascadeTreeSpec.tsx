@@ -34,7 +34,11 @@ describe('CascadeTree', () => {
     render(<CascadeTree data={items} onSelect={onSelect} />);
     fireEvent.click(screen.getByRole('treeitem', { name: '2' }));
 
-    expect(onSelect.getCall(0).args[0]['itemData']).to.have.property('value', '2');
+    const args = onSelect.getCall(0).args;
+
+    expect(args[0]).to.deep.equal({ value: '2', label: '2' });
+    expect(args[1]).to.deep.equal([{ value: '2', label: '2' }]);
+    expect(args[2].target).to.have.text('2');
   });
 
   it('Should children be loaded lazily', () => {

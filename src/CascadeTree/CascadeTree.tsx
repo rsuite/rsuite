@@ -1,91 +1,13 @@
-import React, { useState, useMemo } from 'react';
-import { useSet } from 'react-use-set';
+import React, { useCallback, useMemo } from 'react';
 import { getParentMap, flattenTree } from '../utils/treeUtils';
-import { usePaths } from './utils';
-import { useControlled, useClassNames, useIsMounted, useEventCallback } from '../utils';
-import { ItemDataType, DataProps, WithAsProps } from '../@types/common';
+import { type SelectNode } from './types';
+import { useControlled, useClassNames, useEventCallback } from '../utils';
+import { ItemDataType, DataItemValue } from '../@types/common';
 import { useMap } from '../utils/useMap';
 import TreeView from './TreeView';
 import SearchView from './SearchView';
-import useSearch from './useSearch';
-
-export type ValueType = number | string | null;
-
-export interface CascadeTreeProps<T = ValueType> extends WithAsProps, DataProps<ItemDataType<T>> {
-  /**
-   * Initial value
-   */
-  defaultValue?: T;
-
-  /**
-   * Selected value
-   */
-  value?: T;
-
-  /**
-   * Sets the width of the menu
-   */
-  columnWidth?: number;
-
-  /**
-   * Sets the height of the menu
-   */
-  columnHeight?: number;
-
-  /**
-   * Disabled items
-   */
-  disabledItemValues?: T[];
-
-  /**
-   * Whether dispaly search input box
-   */
-  searchable?: boolean;
-
-  /**
-   * Custom render columns
-   */
-  renderColumn?: (
-    childNodes: React.ReactNode,
-    column: {
-      items: readonly ItemDataType<T>[];
-      parentItem?: ItemDataType<T>;
-      layer?: number;
-    }
-  ) => React.ReactNode;
-
-  /**
-   * Custom render tree node
-   */
-  renderTreeNode?: (node: React.ReactNode, itemData: ItemDataType<T>) => React.ReactNode;
-
-  /**
-   * Called when the option is selected
-   */
-  onSelect?: (
-    node: {
-      itemData: ItemDataType<T>;
-      cascadePaths?: ItemDataType<T>[];
-      isLeafNode?: boolean;
-    },
-    event: React.MouseEvent
-  ) => void;
-
-  /**
-   * Called after the value has been changed
-   */
-  onChange?: (value: T, event: React.SyntheticEvent) => void;
-
-  /**
-   * Called when searching
-   */
-  onSearch?: (value: string, event: React.SyntheticEvent) => void;
-
-  /**
-   * Asynchronously load the children of the tree node.
-   */
-  getChildren?: (childNodes: ItemDataType<T>) => ItemDataType<T>[] | Promise<ItemDataType<T>[]>;
-}
+import { useSearch, useSelect, usePaths } from './hooks';
+import { CascadeTreeProps } from './types';
 
 export interface CascadeTreeComponent {
   <T>(props: CascadeTreeProps<T> & { ref?: React.Ref<HTMLDivElement> }): JSX.Element | null;
@@ -98,7 +20,7 @@ export interface CascadeTreeComponent {
  *
  * @see https://rsuitejs.com/components/cascade-tree
  */
-const CascadeTree = React.forwardRef(<T extends ValueType>(props: CascadeTreeProps<T>, ref) => {
+const CascadeTree = React.forwardRef(<T extends DataItemValue>(props: CascadeTreeProps<T>, ref) => {
   const {
     as: Component = 'div',
     data = [],
@@ -128,23 +50,46 @@ const CascadeTree = React.forwardRef(<T extends ValueType>(props: CascadeTreePro
     boolean
   ];
 
-  const isMounted = useIsMounted();
-  const loadingItemsSet = useSet();
+  // Store the children of each node
   const childrenMap = useMap<ItemDataType<T>, readonly ItemDataType<T>[]>();
+
+  // Store the parent of each node
   const parentMap = useMemo(
     () => getParentMap(data, item => childrenMap.get(item) ?? item[childrenKey]),
     [childrenMap, childrenKey, data]
   );
 
+  // Flatten the tree data
   const flattenedData = useMemo(
     () => flattenTree(data, item => childrenMap.get(item) ?? item[childrenKey]),
     [childrenMap, childrenKey, data]
   );
 
+  // The selected item
   const selectedItem = flattenedData.find(item => item[valueKey] === value);
 
-  // The item that focus is on
-  const [activeItem, setActiveItem] = useState<ItemDataType<T> | undefined>(selectedItem);
+  // Callback function after selecting the node
+  const onSelectCallback = (node: SelectNode<T>, event: React.SyntheticEvent) => {
+    const { isLeafNode, cascadePaths, itemData } = node;
+
+    onSelect?.(itemData, cascadePaths, event);
+
+    if (isLeafNode) {
+      const nextValue = itemData[valueKey];
+      setValue(nextValue);
+    }
+  };
+
+  const { activeItem, loadingItemsSet, handleSelect } = useSelect<T>({
+    value,
+    valueKey,
+    childrenKey,
+    childrenMap,
+    selectedItem,
+    getChildren,
+    onChange,
+    onSelect: onSelectCallback
+  });
 
   const { columns, pathTowardsActiveItem } = usePaths({
     data,
@@ -157,60 +102,19 @@ const CascadeTree = React.forwardRef(<T extends ValueType>(props: CascadeTreePro
   const { withClassPrefix, merge } = useClassNames(classPrefix);
   const classes = merge(className, withClassPrefix());
 
+  const onSearchCallback = useCallback(
+    (value: string, _items: ItemDataType<T>[], event: React.SyntheticEvent) =>
+      onSearch?.(value, event),
+    [onSearch]
+  );
+
   const { items, searchKeyword, setSearchKeyword, handleSearch } = useSearch({
     labelKey,
     childrenKey,
     parentMap,
     flattenedData,
-    onSearch: (value: string, _items: ItemDataType<T>[], event: React.SyntheticEvent) =>
-      onSearch?.(value, event)
+    onSearch: onSearchCallback
   });
-
-  const handleSelect = useEventCallback(
-    (
-      node: {
-        itemData: ItemDataType<T>;
-        cascadePaths: ItemDataType<T>[];
-        isLeafNode: boolean;
-      },
-      event: React.MouseEvent
-    ) => {
-      const { itemData, isLeafNode } = node;
-
-      onSelect?.(node, event);
-      setActiveItem(itemData);
-
-      const nextValue = itemData[valueKey];
-
-      // Lazy load node's children
-      if (
-        typeof getChildren === 'function' &&
-        itemData[childrenKey]?.length === 0 &&
-        !childrenMap.has(itemData)
-      ) {
-        loadingItemsSet.add(itemData);
-
-        const children = getChildren(itemData);
-
-        if (children instanceof Promise) {
-          children.then((data: readonly ItemDataType<T>[]) => {
-            if (isMounted()) {
-              loadingItemsSet.delete(itemData);
-              childrenMap.set(itemData, data);
-            }
-          });
-        } else {
-          loadingItemsSet.delete(itemData);
-          childrenMap.set(itemData, children);
-        }
-      }
-
-      if (isLeafNode) {
-        setValue(nextValue);
-        onChange?.(nextValue, event);
-      }
-    }
-  );
 
   const handleSearchRowSelect = useEventCallback(
     (item: ItemDataType<T>, items: ItemDataType<T>[], event: React.MouseEvent) => {

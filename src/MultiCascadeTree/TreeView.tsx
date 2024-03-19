@@ -6,6 +6,7 @@ import { useClassNames, shallowEqual, useCustom, useEventCallback } from '../uti
 import { ListCheckItem, useCombobox } from '../internals/Picker';
 import { isSomeParentChecked, isSomeChildChecked } from './utils';
 import { ItemDataType, WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import type { CascadeColumn } from '../CascadeTree/types';
 
 export interface TreeViewProps<T = any> extends WithAsProps {
   disabledItemValues?: T[];
@@ -20,14 +21,7 @@ export interface TreeViewProps<T = any> extends WithAsProps {
   cascadePaths?: ItemDataType<T>[];
   uncheckableItemValues: T[];
   renderTreeNode?: (node: React.ReactNode, item: ItemDataType<T>) => React.ReactNode;
-  renderColumn?: (
-    childNodes: React.ReactNode,
-    column: {
-      items: readonly ItemDataType<T>[];
-      parentItem?: ItemDataType<T>;
-      layer?: number;
-    }
-  ) => React.ReactNode;
+  renderColumn?: (childNodes: React.ReactNode, column: CascadeColumn<T>) => React.ReactNode;
   onCheck?: (node: ItemDataType<T>, event: React.SyntheticEvent, checked: boolean) => void;
   onSelect?: (
     node: ItemDataType<T>,

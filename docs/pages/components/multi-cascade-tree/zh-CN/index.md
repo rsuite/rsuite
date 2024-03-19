@@ -53,25 +53,25 @@ MultiCascadeTree 是一个按列显示树形结构数据的组件，支持多选
 
 <!-- prettier-sort-markdown-table -->
 
-| 属性名称              | 类型`(默认值)`                                                                             | 描述                                 |
-| --------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------ |
-| childrenKey           | string `('children')`                                                                      | 设置选项子节点在 `data` 中的 `key`   |
-| classPrefix           | string `('multi-cascade-tree')`                                                            | 组件 CSS 类的前缀                    |
-| columnHeight          | number                                                                                     | 设置列的高度                         |
-| columnWidth           | number                                                                                     | 设置列的宽度                         |
-| data \*               | [ItemDataType][item][]                                                                     | 组件数据                             |
-| defaultValue          | string                                                                                     | 默认值                               |
-| disabledItemValues    | string[]                                                                                   | 禁用选项                             |
-| getChildren           | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;                      | 异步加载树节点的子级                 |
-| labelKey              | string `('label')`                                                                         | 设置选项显示内容在 `data` 中的 `key` |
-| onChange              | (value: string[], event: React.SyntheticEvent) => void                                     | 值变化后的回调函数                   |
-| onSearch              | (value: string, event) => void                                                             | 搜索值变化后的回调函数               |
-| onSelect              | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void         | 选项被点击选择后的回调函数           |
-| renderColumn          | (items: ItemDataType[],columnNode: ReactNode,parentNode?: any,layer?: number) => ReactNode | 紫丁香渲染列                         |
-| renderTreeNode        | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                                 | 自定义选项                           |
-| searchable            | boolean                                                                                    | 是否启用搜索                         |
-| uncheckableItemValues | string[]                                                                                   | 设置不可选中的选项                   |
-| value                 | string                                                                                     | 设置值（受控）                       |
+| 属性名称              | 类型`(默认值)`                                                                     | 描述                                 |
+| --------------------- | ---------------------------------------------------------------------------------- | ------------------------------------ |
+| childrenKey           | string `('children')`                                                              | 设置选项子节点在 `data` 中的 `key`   |
+| classPrefix           | string `('multi-cascade-tree')`                                                    | 组件 CSS 类的前缀                    |
+| columnHeight          | number                                                                             | 设置列的高度                         |
+| columnWidth           | number                                                                             | 设置列的宽度                         |
+| data \*               | [ItemDataType][item][]                                                             | 组件数据                             |
+| defaultValue          | string                                                                             | 默认值                               |
+| disabledItemValues    | string[]                                                                           | 禁用选项                             |
+| getChildren           | (item: [ItemDataType][item]) => Promise&lt;[ItemDataType][item][]&gt;              | 异步加载树节点的子级                 |
+| labelKey              | string `('label')`                                                                 | 设置选项显示内容在 `data` 中的 `key` |
+| onChange              | (value: string[], event) => void                                                   | 值变化后的回调函数                   |
+| onSearch              | (value: string, event) => void                                                     | 搜索值变化后的回调函数               |
+| onSelect              | (item: [ItemDataType][item], selectedPaths: [ItemDataType][item][], event) => void | 选项被点击选择后的回调函数           |
+| renderColumn          | (childNodes: ReactNode, column: { items, parentItem, layer}) => ReactNode          | 紫丁香渲染列                         |
+| renderTreeNode        | (node: ReactNode, item: [ItemDataType][item]) => ReactNode                         | 自定义选项                           |
+| searchable            | boolean                                                                            | 是否启用搜索                         |
+| uncheckableItemValues | string[]                                                                           | 设置不可选中的选项                   |
+| value                 | string                                                                             | 设置值（受控）                       |
 
 <!--{include:(_common/types/item-data-type.md)}-->
 

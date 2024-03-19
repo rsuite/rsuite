@@ -1,9 +1,6 @@
 import _ from 'lodash';
-import {
-  getOtherItemValuesByUnselectChild,
-  removeAllChildrenValue,
-  useFlattenData
-} from '../utils';
+import { getOtherItemValuesByUnselectChild, removeAllChildrenValue } from '../utils';
+import useFlattenData from '../hooks/useFlattenData';
 import { renderHook } from '@test/utils';
 
 const itemKeys = { childrenKey: 'children', labelKey: 'label', valueKey: 'value' };

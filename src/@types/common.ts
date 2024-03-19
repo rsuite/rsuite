@@ -53,11 +53,11 @@ export interface AnimationEventProps {
 
 export type PickerAppearance = 'default' | 'subtle';
 
-export interface PickerBaseProps<LocaleType = any> extends WithAsProps, AnimationEventProps {
+export interface PickerBaseProps<L = any> extends WithAsProps, AnimationEventProps {
   id?: string;
 
   /** Custom locale */
-  locale?: Partial<LocaleType>;
+  locale?: Partial<L>;
 
   /** A picker can have different appearances. */
   appearance?: PickerAppearance;
@@ -159,7 +159,7 @@ export interface FormControlBaseProps<
   readOnly?: boolean;
 }
 
-type ToArray<V> = V extends any[] ? V : V[];
+export type ToArray<V> = V extends any[] ? V : V[];
 
 export interface DataProps<TData> {
   /** The data of component */
@@ -175,15 +175,14 @@ export interface DataProps<TData> {
   childrenKey?: string;
 }
 
-export interface FormControlPickerProps<
-  ValueType = any,
-  LocaleType = any,
-  DataType = Record<string, any>
-> extends PickerBaseProps<LocaleType>,
-    FormControlBaseProps<ValueType>,
-    DataProps<DataType> {
-  /** Disabled items */
-  disabledItemValues?: ToArray<NonNullable<ValueType>>;
+export interface FormControlPickerProps<T = any, L = any, D = Record<string, any>, I = T>
+  extends PickerBaseProps<L>,
+    FormControlBaseProps<T>,
+    DataProps<D> {
+  /**
+   * Disabled items
+   */
+  disabledItemValues?: ToArray<NonNullable<I>>;
 }
 
 export declare namespace TypeAttributes {
@@ -227,6 +226,8 @@ export interface ItemDataType<T = number | string> extends Record<string, any> {
   children?: ItemDataType<T>[];
   loading?: boolean;
 }
+
+export type DataItemValue = number | string | null;
 
 export interface Offset {
   top: number;

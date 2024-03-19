@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import pick from 'lodash/pick';
 import omit from 'lodash/omit';
@@ -12,7 +12,6 @@ import {
   mergeRefs,
   useClassNames,
   useCustom,
-  useUpdateEffect,
   useControlled,
   useEventCallback
 } from '../utils';
@@ -34,22 +33,18 @@ import {
   PickerToggleProps
 } from '../internals/Picker';
 import { deprecatePropTypeNew } from '../internals/propTypes';
-import { useCascadeValue, useColumnData, useFlattenData } from '../MultiCascadeTree/utils';
+import { useCascadeValue, useSearch, useSelect } from '../MultiCascadeTree/hooks';
 import TreeView from '../MultiCascadeTree/TreeView';
 import SearchView from '../MultiCascadeTree/SearchView';
-import useSearch from '../MultiCascadeTree/useSearch';
 import { oneOf } from '../internals/propTypes';
-import { FormControlPickerProps, ItemDataType } from '../@types/common';
+import { FormControlPickerProps, ItemDataType, DataItemValue } from '../@types/common';
+import useActive from '../Cascader/useActive';
+import type { MultiCascadeTreeProps } from '../MultiCascadeTree';
 
-export type ValueType = number | string;
-export interface MultiCascaderProps<T = ValueType>
-  extends FormControlPickerProps<T[], PickerLocale, ItemDataType>,
+export interface MultiCascaderProps<T extends DataItemValue>
+  extends FormControlPickerProps<T[], PickerLocale, ItemDataType<T>, T>,
+    MultiCascadeTreeProps<T, T[]>,
     Pick<PickerToggleProps, 'loading'> {
-  /**
-   * When set to true, selecting a child node will update the state of the parent node.
-   */
-  cascade?: boolean;
-
   /**
    * A picker that can be counted
    */
@@ -91,26 +86,6 @@ export interface MultiCascaderProps<T = ValueType>
   popupClassName?: string;
 
   /**
-   * Sets the width of the column
-   */
-  columnWidth?: number;
-
-  /**
-   * Sets the height of the column
-   */
-  columnHeight?: number;
-
-  /**
-   * Set the option value for the check box not to be rendered
-   */
-  uncheckableItemValues?: T[];
-
-  /**
-   * Whether dispaly search input box
-   */
-  searchable?: boolean;
-
-  /**
    * The panel is displayed directly when the component is initialized
    * @deprecated Use MultiCascadeTree instead
    * @see MultiCascadeTree https://rsuitejs.com/components/multi-cascade-tree
@@ -122,22 +97,10 @@ export interface MultiCascaderProps<T = ValueType>
    * @deprecated Use renderColumn instead
    */
   renderMenu?: (
-    items: readonly ItemDataType[],
+    items: readonly ItemDataType<T>[],
     menu: React.ReactNode,
     parentNode?: any,
     layer?: number
-  ) => React.ReactNode;
-
-  /**
-   * Custom render column
-   */
-  renderColumn?: (
-    childNodes: React.ReactNode,
-    column: {
-      items: readonly ItemDataType<T>[];
-      parentItem?: ItemDataType<T>;
-      layer?: number;
-    }
   ) => React.ReactNode;
 
   /**
@@ -147,47 +110,18 @@ export interface MultiCascaderProps<T = ValueType>
   renderMenuItem?: (node: React.ReactNode, item: ItemDataType<T>) => React.ReactNode;
 
   /**
-   * Custom render tree node
-   */
-  renderTreeNode?: (node: React.ReactNode, item: ItemDataType<T>) => React.ReactNode;
-
-  /**
    * Custom render selected items
    */
   renderValue?: (
     value: T[],
-    selectedItems: ItemDataType[],
+    selectedItems: ItemDataType<T>[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
-
-  /**
-   * Called when the option is selected
-   */
-  onSelect?: (
-    node: ItemDataType,
-    cascadePaths: ItemDataType[],
-    event: React.SyntheticEvent
-  ) => void;
-
-  /**
-   * Called after the checkbox state changes
-   */
-  onCheck?: (value: T[], node: ItemDataType, checked: boolean, event: React.SyntheticEvent) => void;
 
   /**
    * Called when clean
    */
   onClean?: (event: React.SyntheticEvent) => void;
-
-  /**
-   * Called when searching
-   */
-  onSearch?: (searchKeyword: string, event: React.SyntheticEvent) => void;
-
-  /**
-   * Asynchronously load the children of the tree node.
-   */
-  getChildren?: (node: ItemDataType) => ItemDataType[] | Promise<ItemDataType[]>;
 }
 
 const emptyArray = [];
@@ -196,8 +130,8 @@ const emptyArray = [];
  * The `MultiCascader` component is used to select multiple values from cascading options.
  * @see https://rsuitejs.com/components/multi-cascader/
  */
-const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
-  <T extends ValueType>(props: MultiCascaderProps<T>, ref) => {
+const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.forwardRef(
+  <T extends DataItemValue>(props: MultiCascaderProps<T>, ref) => {
     const {
       as: Component = 'div',
       appearance = 'default',
@@ -230,8 +164,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       renderExtraFooter,
       renderColumn,
       renderTreeNode,
-      onEnter,
-      onExit,
+      onEntered,
       onExited,
       onClean,
       onSearch,
@@ -249,33 +182,61 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const itemKeys = { childrenKey, labelKey, valueKey };
-    const [active, setActive] = useState(false);
-    const { flattenData, addFlattenData } = useFlattenData(data, itemKeys);
-    const [controlledValue] = useControlled(valueProp, defaultValue);
-    const { value, setValue, splitValue } = useCascadeValue<T>(
-      {
-        ...itemKeys,
-        uncheckableItemValues,
-        cascade,
-        value: controlledValue
-      },
-      flattenData
-    );
-
-    // The columns displayed in the cascading panel.
-    const { columnData, setColumnData, addColumn, removeColumnByIndex, enforceUpdateColumnData } =
-      useColumnData(flattenData);
-
-    useUpdateEffect(() => {
-      enforceUpdateColumnData(data);
-    }, [data]);
-
-    // The path after cascading data selection.
-    const [selectedPaths, setSelectedPaths] = useState<ItemDataType[]>();
     const { trigger, root, target, overlay, searchInput } = usePickerRef(ref);
     const { locale, rtl } = useCustom<PickerLocale>('Picker', overrideLocale);
+    const { prefix, merge } = useClassNames(classPrefix);
+
+    const onSelectCallback = useCallback(
+      (node: ItemDataType<T>, cascadePaths: ItemDataType<T>[], event: React.SyntheticEvent) => {
+        onSelect?.(node, cascadePaths, event);
+        trigger.current?.updatePosition?.();
+      },
+      [onSelect, trigger]
+    );
+
+    const {
+      selectedPaths,
+      flattenData,
+      columnData,
+      setColumnData,
+      setSelectedPaths,
+      handleSelect
+    } = useSelect({
+      data,
+      childrenKey,
+      labelKey,
+      valueKey,
+      onSelect: onSelectCallback,
+      getChildren
+    });
+
+    const [controlledValue] = useControlled(valueProp, defaultValue);
+    const itemKeys = { childrenKey, labelKey, valueKey };
+    const cascadeValueProps = {
+      ...itemKeys,
+      uncheckableItemValues,
+      cascade,
+      value: controlledValue,
+      onCheck,
+      onChange
+    };
+
+    const { value, setValue, handleCheck } = useCascadeValue<T>(cascadeValueProps, flattenData);
     const selectedItems = flattenData.filter(item => value.some(v => v === item[valueKey])) || [];
+
+    const onFocusItemCallback = useCallback(
+      value => {
+        const { columns, path } = getColumnsAndPaths(
+          data,
+          flattenData.find(item => item[valueKey] === value),
+          { getParent: () => undefined, getChildren: item => item[childrenKey] }
+        );
+
+        setColumnData(columns);
+        setSelectedPaths(path);
+      },
+      [childrenKey, data, flattenData, setColumnData, setSelectedPaths, valueKey]
+    );
 
     // Used to hover the focuse item  when trigger `onKeydown`
     const {
@@ -289,32 +250,19 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       valueKey,
       defaultLayer: selectedPaths?.length ? selectedPaths.length - 1 : 0,
       target: () => overlay.current,
-      callback: useCallback(
-        value => {
-          const { columns, path } = getColumnsAndPaths(
-            data,
-            flattenData.find(item => item[valueKey] === value),
-            {
-              getParent: () => undefined,
-              getChildren: item => item[childrenKey]
-            }
-          );
-
-          setColumnData(columns);
-          setSelectedPaths(path);
-        },
-        [childrenKey, data, flattenData, setColumnData, valueKey]
-      )
+      callback: onFocusItemCallback
     });
 
-    /**
-     * 1.Have a value and the value is valid.
-     * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
-     */
-    let hasValue =
-      selectedItems.length > 0 || (Number(valueProp?.length) > 0 && isFunction(renderValue));
+    const onSearchCallback = (value: string, event: React.SyntheticEvent) => {
+      if (value) {
+        setLayer(0);
+      } else if (selectedPaths?.length) {
+        setLayer(selectedPaths.length - 1);
+      }
+      setKeys([]);
 
-    const { prefix, merge } = useClassNames(classPrefix);
+      onSearch?.(value, event);
+    };
 
     const { items, searchKeyword, setSearchKeyword, handleSearch } = useSearch({
       labelKey,
@@ -322,88 +270,17 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       childrenKey,
       flattenedData: flattenData,
       uncheckableItemValues,
-      onSearch: (value: string, event: React.SyntheticEvent) => {
-        if (value) {
-          setLayer(0);
-        } else if (selectedPaths?.length) {
-          setLayer(selectedPaths.length - 1);
-        }
-        setKeys([]);
-
-        onSearch?.(value, event);
-      }
+      onSearch: onSearchCallback
     });
 
-    const handleEntered = useEventCallback(() => {
-      onOpen?.();
-      setActive(true);
+    const { active, handleEntered, handleExited } = useActive({
+      onOpen,
+      onClose,
+      onEntered,
+      onExited,
+      target,
+      setSearchKeyword
     });
-
-    const handleExited = useEventCallback(() => {
-      setActive(false);
-      setSearchKeyword('');
-    });
-
-    const handleSelect = useEventCallback(
-      (node: ItemDataType, cascadePaths: ItemDataType[], event: React.SyntheticEvent) => {
-        setSelectedPaths(cascadePaths);
-        onSelect?.(node, cascadePaths, event);
-
-        const columnIndex = cascadePaths.length;
-
-        // Lazy load node's children
-        if (typeof getChildren === 'function' && node[childrenKey]?.length === 0) {
-          node.loading = true;
-
-          const children = getChildren(node);
-          if (children instanceof Promise) {
-            children.then((data: ItemDataType[]) => {
-              node.loading = false;
-              node[childrenKey] = data;
-
-              if (target.current) {
-                addFlattenData(data, node);
-                addColumn(data, columnIndex);
-              }
-            });
-          } else {
-            node.loading = false;
-            node[childrenKey] = children;
-            addFlattenData(children, node);
-            addColumn(children, columnIndex);
-          }
-        } else if (node[childrenKey]?.length) {
-          addColumn(node[childrenKey], columnIndex);
-        } else {
-          // Removes subsequent columns of the current column when the clicked node is a leaf node.
-          removeColumnByIndex(columnIndex);
-        }
-
-        trigger.current?.updatePosition?.();
-      }
-    );
-
-    const handleCheck = useEventCallback(
-      (node: ItemDataType, event: React.SyntheticEvent, checked: boolean) => {
-        const nodeValue = node[valueKey];
-        let nextValue: T[] = [];
-
-        if (cascade) {
-          nextValue = splitValue(node, checked, value).value;
-        } else {
-          nextValue = [...value];
-          if (checked) {
-            nextValue.push(nodeValue);
-          } else {
-            nextValue = nextValue.filter(n => n !== nodeValue);
-          }
-        }
-
-        setValue(nextValue);
-        onChange?.(nextValue, event);
-        onCheck?.(nextValue, node, checked, event);
-      }
-    );
 
     const handleClean = useEventCallback((event: React.SyntheticEvent) => {
       if (disabled || !target.current) {
@@ -501,7 +378,7 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
             />
           )}
 
-          {searchKeyword === '' && (
+          {!searchKeyword && (
             <TreeView
               cascade={cascade}
               columnWidth={columnWidth ?? DEPRECATED_menuWidth}
@@ -544,6 +421,13 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
       );
     }
 
+    /**
+     * 1.Have a value and the value is valid.
+     * 2.Regardless of whether the value is valid, as long as renderValue is set, it is judged to have a value.
+     */
+    let hasValue =
+      selectedItems.length > 0 || (Number(valueProp?.length) > 0 && isFunction(renderValue));
+
     if (hasValue && isFunction(renderValue)) {
       selectedElement = renderValue(
         value.length ? value : valueProp ?? [],
@@ -574,9 +458,8 @@ const MultiCascader: PickerComponent<MultiCascaderProps> = React.forwardRef(
         pickerProps={pick(props, pickTriggerPropKeys)}
         ref={trigger}
         placement={placement}
-        onEnter={createChainedFunction(handleEntered, onEnter)}
-        onExited={createChainedFunction(handleExited, onExited)}
-        onExit={createChainedFunction(onClose, onExit)}
+        onEnter={handleEntered}
+        onExited={handleExited}
         speaker={renderTreeView}
       >
         <Component className={classes} style={style} ref={root}>

@@ -15,7 +15,7 @@ const data = mockTreeData({
 const App = () => {
   return (
     <>
-      <MultiCascadeTree searchable data={data} />
+      <MultiCascadeTree searchable data={data} cascade={false} />
     </>
   );
 };

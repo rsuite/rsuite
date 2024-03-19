@@ -4,11 +4,18 @@ import isUndefined from 'lodash/isUndefined';
 import isNil from 'lodash/isNil';
 import { shallowEqual, useClassNames, mergeRefs, useCustom, useEventCallback } from '../utils';
 import { ListItem, useCombobox } from '../internals/Picker';
-import { ItemDataType, WithAsProps, RsRefForwardingComponent, DataProps } from '../@types/common';
+import {
+  ItemDataType,
+  WithAsProps,
+  RsRefForwardingComponent,
+  DataProps,
+  ToArray
+} from '../@types/common';
 import AngleLeftIcon from '@rsuite/icons/legacy/AngleLeft';
 import AngleRightIcon from '@rsuite/icons/legacy/AngleRight';
 import getPosition from 'dom-lib/getPosition';
 import scrollTop from 'dom-lib/scrollTop';
+import { SelectNode, CascadeColumn } from './types';
 
 type SetLike<T = unknown> = {
   has(value: T): boolean;
@@ -18,29 +25,15 @@ export interface TreeViewProps<T = any>
   extends WithAsProps,
     Omit<DataProps<ItemDataType<T>>, 'data'> {
   data?: (readonly ItemDataType<T>[])[];
-  disabledItemValues: T[];
+  disabledItemValues?: ToArray<NonNullable<T>>;
   activeItemValue?: T | null;
   loadingItemsSet?: SetLike<ItemDataType<T>>;
-  cascadePaths: ItemDataType<T>[];
+  cascadePaths?: ItemDataType<T>[];
   columnWidth?: number;
   columnHeight?: number | string;
   renderTreeNode?: (node: React.ReactNode, itemData: ItemDataType<T>) => React.ReactNode;
-  renderColumn?: (
-    childNodes: React.ReactNode,
-    column: {
-      items: readonly ItemDataType<T>[];
-      parentItem?: ItemDataType<T>;
-      layer?: number;
-    }
-  ) => React.ReactNode;
-  onSelect?: (
-    node: {
-      itemData: ItemDataType<T>;
-      cascadePaths: ItemDataType<T>[];
-      isLeafNode: boolean;
-    },
-    event: React.MouseEvent
-  ) => void;
+  renderColumn?: (childNodes: React.ReactNode, column: CascadeColumn<T>) => React.ReactNode;
+  onSelect?: (node: SelectNode<T>, event: React.MouseEvent) => void;
 }
 
 const emptyArray = [];

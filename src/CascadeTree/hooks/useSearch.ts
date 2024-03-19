@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ItemDataType } from '../@types/common';
-import { getSafeRegExpString, useEventCallback } from '../utils';
+import { ItemDataType } from '../../@types/common';
+import { getSafeRegExpString, useEventCallback } from '../../utils';
 
 interface SearchPanelProps<T> {
   labelKey: string;

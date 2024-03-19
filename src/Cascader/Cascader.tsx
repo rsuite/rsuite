@@ -1,25 +1,23 @@
-import React, { useState, useCallback, useMemo } from 'react';
-import { useSet } from 'react-use-set';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import omit from 'lodash/omit';
 import pick from 'lodash/pick';
 import isNil from 'lodash/isNil';
 import isFunction from 'lodash/isFunction';
-import shallowEqual from '../utils/shallowEqual';
 import TreeView from '../CascadeTree/TreeView';
 import SearchView from '../CascadeTree/SearchView';
-import useSearch from '../CascadeTree/useSearch';
-import { usePaths } from '../CascadeTree/utils';
+import type { SelectNode, CascadeTreeProps } from '../CascadeTree/types';
+import { usePaths, useSelect, useSearch } from '../CascadeTree/hooks';
 import { getParentMap, findNodeOfTree, flattenTree } from '../utils/treeUtils';
 import { deprecatePropTypeNew } from '../internals/propTypes';
 import { PickerLocale } from '../locales';
 import {
   createChainedFunction,
   mergeRefs,
+  shallowEqual,
   useControlled,
   useCustom,
   useClassNames,
-  useIsMounted,
   useEventCallback
 } from '../utils';
 
@@ -39,19 +37,15 @@ import {
   PickerToggleProps
 } from '../internals/Picker';
 
-import { ItemDataType, FormControlPickerProps } from '../@types/common';
+import { ItemDataType, DataItemValue, FormControlPickerProps } from '../@types/common';
 import { useMap } from '../utils/useMap';
 import { oneOf } from '../internals/propTypes';
+import useActive from './useActive';
 
-export type ValueType = number | string;
-export interface CascaderProps<T = ValueType>
-  extends FormControlPickerProps<T | null, PickerLocale, ItemDataType<T>>,
+export interface CascaderProps<T = DataItemValue>
+  extends FormControlPickerProps<T, PickerLocale, ItemDataType<T>>,
+    CascadeTreeProps<T>,
     Pick<PickerToggleProps, 'label' | 'caretAs' | 'loading'> {
-  /**
-   * Whether dispaly search input box
-   */
-  searchable?: boolean;
-
   /**
    * The panel is displayed directly when the component is initialized
    * @deprecated Use CascadeTree instead
@@ -65,26 +59,26 @@ export interface CascaderProps<T = ValueType>
   parentSelectable?: boolean;
 
   /**
+   * Custom popup style
+   */
+  popupClassName?: string;
+
+  /**
+   * Custom popup style
+   */
+  popupStyle?: React.CSSProperties;
+
+  /**
    * Custom menu class name
    * @deprecated Use popupClassName instead
    */
   menuClassName?: string;
 
   /**
-   * Custom popup style
-   */
-  popupClassName?: string;
-
-  /**
    * Custom menu style
    * @deprecated Use popupStyle instead
    */
   menuStyle?: React.CSSProperties;
-
-  /**
-   * Custom popup style
-   */
-  popupStyle?: React.CSSProperties;
 
   /**
    * Sets the width of the menu.
@@ -100,21 +94,11 @@ export interface CascaderProps<T = ValueType>
   menuHeight?: number | string;
 
   /**
-   * Sets the width of the column
-   */
-  columnWidth?: number;
-
-  /**
-   * Sets the height of the column
-   */
-  columnHeight?: number;
-
-  /**
    * Custom render menu
    * @deprecated Use renderColumn instead
    */
   renderMenu?: (
-    items: readonly ItemDataType[],
+    items: readonly ItemDataType<T>[],
     menu: React.ReactNode,
     parentNode?: any,
     layer?: number
@@ -124,62 +108,21 @@ export interface CascaderProps<T = ValueType>
    * Custom render menu item
    * @deprecated Use renderTreeNode instead
    */
-  renderMenuItem?: (node: React.ReactNode, item: ItemDataType) => React.ReactNode;
-
-  /**
-   * Custom render column
-   */
-  renderColumn?: (
-    childNodes: React.ReactNode,
-    column: {
-      items: readonly ItemDataType<T>[];
-      parentItem?: ItemDataType<T>;
-      layer?: number;
-    }
-  ) => React.ReactNode;
-
-  /**
-   * Custom render tree node
-   */
-  renderTreeNode?: (node: React.ReactNode, itemData: ItemDataType<T>) => React.ReactNode;
-
-  /**
-   * Custom render search items
-   */
-  renderSearchItem?: (node: React.ReactNode, items: ItemDataType[]) => React.ReactNode;
+  renderMenuItem?: (node: React.ReactNode, item: ItemDataType<T>) => React.ReactNode;
 
   /**
    * Custom render selected items
    */
   renderValue?: (
     value: T,
-    selectedPaths: ItemDataType[],
+    selectedPaths: ItemDataType<T>[],
     selectedElement: React.ReactNode
   ) => React.ReactNode;
-
-  /**
-   * Called when the option is selected
-   */
-  onSelect?: (
-    value: ItemDataType,
-    selectedPaths: ItemDataType[],
-    event: React.SyntheticEvent
-  ) => void;
 
   /**
    * Called when clean
    */
   onClean?: (event: React.SyntheticEvent) => void;
-
-  /**
-   * Called when searching
-   */
-  onSearch?: (searchKeyword: string, event: React.SyntheticEvent) => void;
-
-  /**
-   * Asynchronously load the children of the tree node.
-   */
-  getChildren?: (node: ItemDataType<T>) => ItemDataType<T>[] | Promise<ItemDataType<T>[]>;
 }
 
 export interface CascaderComponent {
@@ -198,7 +141,7 @@ const emptyArray = [];
  * The `Cascader` component displays a hierarchical list of options.
  * @see https://rsuitejs.com/components/cascader
  */
-const Cascader = React.forwardRef(<T extends number | string>(props: CascaderProps<T>, ref) => {
+const Cascader = React.forwardRef(<T extends DataItemValue>(props: CascaderProps<T>, ref) => {
   const {
     as: Component = 'div',
     data = emptyArray,
@@ -229,7 +172,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     renderSearchItem,
     renderValue,
     renderExtraFooter,
-    onEnter,
+    onEntered,
     onExited,
     onClean,
     onChange,
@@ -247,9 +190,6 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     ...rest
   } = props;
 
-  // Use component active state to support keyboard events.
-  const [active, setActive] = useState(false);
-
   const { trigger, root, target, overlay, searchInput } = usePickerRef(ref);
   const [value, setValue] = useControlled(valueProp, defaultValue) as [
     T | null | undefined,
@@ -257,26 +197,64 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     boolean
   ];
 
-  const isMounted = useIsMounted();
-  const loadingItemsSet = useSet();
+  // Store the children of each node
   const childrenMap = useMap<ItemDataType<T>, readonly ItemDataType<T>[]>();
+
+  // Store the parent of each node
   const parentMap = useMemo(
     () => getParentMap(data, item => childrenMap.get(item) ?? item[childrenKey]),
     [childrenMap, childrenKey, data]
   );
 
+  // Flatten the tree data
   const flattenedData = useMemo(
     () => flattenTree(data, item => childrenMap.get(item) ?? item[childrenKey]),
     [childrenMap, childrenKey, data]
   );
 
-  // The item that focus is on
-  const [activeItem, setActiveItem] = useState<ItemDataType<T> | undefined>();
+  // The selected item
+  const selectedItem = flattenedData.find(item => item[valueKey] === value);
+
+  // Callback function after selecting the node
+  const onSelectCallback = (node: SelectNode<T>, event: React.SyntheticEvent) => {
+    const { isLeafNode, cascadePaths, itemData } = node;
+
+    onSelect?.(itemData, cascadePaths, event);
+
+    const nextValue = itemData[valueKey];
+
+    if (isLeafNode) {
+      // Determines whether the option is a leaf node, and if so, closes the picker.
+      handleClose();
+      setValue(nextValue);
+      return;
+    }
+
+    //  When the parent is optional, the value and the displayed path are updated.
+    if (parentSelectable && !shallowEqual(value, nextValue)) {
+      setValue(nextValue);
+      onChange?.(nextValue, event);
+    }
+
+    // Update menu position
+    trigger.current?.updatePosition();
+  };
+
+  const { activeItem, setActiveItem, loadingItemsSet, handleSelect } = useSelect<T>({
+    value,
+    valueKey,
+    childrenKey,
+    childrenMap,
+    selectedItem,
+    getChildren,
+    onChange,
+    onSelect: onSelectCallback
+  });
 
   const { columns, pathTowardsActiveItem, pathTowardsSelectedItem } = usePaths({
     data,
     activeItem,
-    selectedItem: flattenedData.find(item => item[valueKey] === value),
+    selectedItem,
     getParent: item => parentMap.get(item),
     getChildren: item =>
       childrenMap.get(item) ?? (item[childrenKey] as readonly ItemDataType<T>[] | undefined)
@@ -290,6 +268,13 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
   let hasValue = pathTowardsSelectedItem.length > 0 || (!isNil(value) && isFunction(renderValue));
 
   const { prefix, merge } = useClassNames(classPrefix);
+
+  const onFocusItemCallback = useCallback(
+    value => {
+      setActiveItem(flattenedData.find(item => item[valueKey] === value));
+    },
+    [flattenedData, setActiveItem, valueKey]
+  );
 
   // Used to hover the focuse item  when trigger `onKeydown`
   const {
@@ -305,13 +290,27 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     defaultLayer: pathTowardsSelectedItem?.length ? pathTowardsSelectedItem.length - 1 : 0,
     target: () => overlay.current,
     getParent: item => parentMap.get(item),
-    callback: useCallback(
-      value => {
-        setActiveItem(flattenedData.find(item => item[valueKey] === value));
-      },
-      [flattenedData, setActiveItem, valueKey]
-    )
+    callback: onFocusItemCallback
   });
+
+  const onSearchCallback = (
+    value: string,
+    items: ItemDataType<T>[],
+    event: React.SyntheticEvent
+  ) => {
+    onSearch?.(value, event);
+
+    if (!value || items.length === 0) {
+      setFocusItemValue(undefined);
+      return;
+    }
+
+    if (items.length > 0) {
+      setFocusItemValue(items[0][valueKey]);
+      setLayer(0);
+      setKeys([]);
+    }
+  };
 
   const { items, searchKeyword, setSearchKeyword, handleSearch } = useSearch({
     labelKey,
@@ -319,39 +318,16 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     parentMap,
     flattenedData,
     parentSelectable,
-    onSearch: (value: string, items: ItemDataType<T>[], event: React.SyntheticEvent) => {
-      onSearch?.(value, event);
-
-      if (!value || items.length === 0) {
-        setFocusItemValue(undefined);
-        return;
-      }
-
-      if (items.length > 0) {
-        setFocusItemValue(items[0][valueKey]);
-        setLayer(0);
-        setKeys([]);
-      }
-    }
+    onSearch: onSearchCallback
   });
 
-  const handleEntered = useEventCallback(() => {
-    if (!target.current) {
-      return;
-    }
-
-    onOpen?.();
-    setActive(true);
-  });
-
-  const handleExited = useEventCallback(() => {
-    if (!target.current) {
-      return;
-    }
-
-    onClose?.();
-    setActive(false);
-    setSearchKeyword('');
+  const { active, handleEntered, handleExited } = useActive({
+    onOpen,
+    onClose,
+    onEntered,
+    onExited,
+    target,
+    setSearchKeyword
   });
 
   const handleClose = useEventCallback(() => {
@@ -367,7 +343,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     }
 
     setValue(null);
-    onChange?.(null, event);
+    onChange?.(null as T, event);
   });
 
   const handleMenuPressEnter = useEventCallback((event: React.SyntheticEvent) => {
@@ -375,14 +351,14 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     const isLeafNode = focusItem && !focusItem[childrenKey];
 
     if (isLeafNode) {
-      setValue(focusItemValue as T | null);
+      setValue(focusItemValue as T);
       if (pathTowardsActiveItem.length) {
         setLayer(pathTowardsActiveItem.length - 1);
       }
 
       if (!shallowEqual(value, focusItemValue)) {
         onSelect?.(focusItem as ItemDataType<T>, pathTowardsActiveItem, event);
-        onChange?.(focusItemValue ?? null, event);
+        onChange?.(focusItemValue ?? (null as T), event);
       }
       handleClose();
     }
@@ -401,74 +377,11 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
     ...rest
   });
 
-  const handleSelect = useEventCallback(
-    (
-      node: {
-        itemData: ItemDataType<T>;
-        cascadePaths: ItemDataType<T>[];
-        isLeafNode: boolean;
-      },
-      event: React.MouseEvent
-    ) => {
-      const { itemData, cascadePaths, isLeafNode } = node;
-
-      onSelect?.(itemData, cascadePaths, event);
-      setActiveItem(itemData);
-
-      const nextValue = itemData[valueKey];
-
-      // Lazy load node's children
-      if (
-        typeof getChildren === 'function' &&
-        itemData[childrenKey]?.length === 0 &&
-        !childrenMap.has(itemData)
-      ) {
-        loadingItemsSet.add(itemData);
-
-        const children = getChildren(itemData);
-
-        if (children instanceof Promise) {
-          children.then((data: readonly ItemDataType<T>[]) => {
-            if (isMounted()) {
-              loadingItemsSet.delete(itemData);
-              childrenMap.set(itemData, data);
-            }
-          });
-        } else {
-          loadingItemsSet.delete(itemData);
-          childrenMap.set(itemData, children);
-        }
-      }
-
-      if (isLeafNode) {
-        // Determines whether the option is a leaf node, and if so, closes the picker.
-        handleClose();
-
-        setValue(nextValue);
-
-        if (!shallowEqual(value, nextValue)) {
-          onChange?.(nextValue, event);
-        }
-
-        return;
-      }
-
-      /** When the parent is optional, the value and the displayed path are updated. */
-      if (parentSelectable && !shallowEqual(value, nextValue)) {
-        setValue(nextValue);
-        onChange?.(nextValue, event);
-      }
-
-      // Update menu position
-      trigger.current?.updatePosition();
-    }
-  );
-
   /**
    * The search structure option is processed after being selected.
    */
   const handleSearchRowSelect = useEventCallback(
-    (itemData: ItemDataType, nodes: ItemDataType<T>[], event: React.SyntheticEvent) => {
+    (itemData: ItemDataType<T>, nodes: ItemDataType<T>[], event: React.SyntheticEvent) => {
       const nextValue = itemData[valueKey];
 
       handleClose();
@@ -527,7 +440,7 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
         onKeyDown={onPickerKeyDown}
       >
         {searchable && (
-          <SearchView
+          <SearchView<T>
             data={items}
             searchKeyword={searchKeyword}
             valueKey={valueKey}
@@ -607,8 +520,8 @@ const Cascader = React.forwardRef(<T extends number | string>(props: CascaderPro
       pickerProps={pick(props, pickTriggerPropKeys)}
       ref={trigger}
       placement={placement}
-      onEntered={createChainedFunction(handleEntered, onEnter)}
-      onExited={createChainedFunction(handleExited, onExited)}
+      onEntered={handleEntered}
+      onExited={handleExited}
       speaker={renderTreeView}
     >
       <Component className={classes} style={style} ref={root}>

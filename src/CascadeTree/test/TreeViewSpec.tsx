@@ -9,37 +9,19 @@ import { mockTreeData } from '@test/mocks/data-mock';
 const items = mockTreeData(['1', '2', ['3', '3-1', '3-2']]);
 
 describe('CascadeTree -  TreeView', () => {
-  testStandardProps(
-    <TreeView
-      classPrefix="cascader"
-      disabledItemValues={[]}
-      childrenKey="children"
-      data={[]}
-      cascadePaths={[]}
-      valueKey="value"
-      labelKey="label"
-    />
-  );
+  testStandardProps(<TreeView classPrefix="cascader" />);
   it('Should output a `cascade-tree-items` ', () => {
     const { container } = render(
-      <TreeView
-        classPrefix="cascade-tree"
-        disabledItemValues={[]}
-        childrenKey="children"
-        data={[]}
-        cascadePaths={[]}
-        valueKey="value"
-        labelKey="label"
-      />
+      <TreeView classPrefix="cascade-tree" disabledItemValues={[]} data={[]} cascadePaths={[]} />
     );
 
     expect(container.firstChild).to.have.class('rs-cascade-tree-items');
   });
 
-  it('Should output 3 `menu-item` ', () => {
+  it('Should render 3 tree item', () => {
     render(<CascadeTree data={items} />);
 
-    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(3);
+    expect(screen.getAllByRole('treeitem')).to.have.length(3);
   });
 
   it('Should have a menuWidth', () => {
@@ -48,7 +30,7 @@ describe('CascadeTree -  TreeView', () => {
     expect(screen.getByRole('group')).to.have.style('width', '100px');
   });
 
-  it('Should output 3 `menu-item` ', () => {
+  it('Should render 3 tree item', () => {
     const data = mockTreeData(['1', '2', ['3', '3-1', '3-2']], {
       valueKey: 'myValue',
       labelKey: 'myLabel',
@@ -57,16 +39,7 @@ describe('CascadeTree -  TreeView', () => {
 
     render(<CascadeTree labelKey="myLabel" valueKey="myValue" childrenKey="items" data={data} />);
 
-    expect(screen.getAllByRole('treeitem')).to.have.lengthOf(3);
-  });
-
-  it('Should call onSelect callback node value', () => {
-    const onSelect = sinon.spy();
-    render(<CascadeTree data={items} onSelect={onSelect} />);
-
-    fireEvent.click(screen.getByRole('treeitem', { name: '2' }));
-
-    expect(onSelect.getCall(0).args[0]['itemData']).to.have.property('value', '2');
+    expect(screen.getAllByRole('treeitem')).to.have.length(3);
   });
 
   it('Should call onSelect callback 2 count', () => {

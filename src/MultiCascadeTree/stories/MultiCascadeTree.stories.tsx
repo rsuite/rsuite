@@ -3,7 +3,8 @@ import type { StoryObj } from '@storybook/react';
 import AdminIcon from '@rsuite/icons/Admin';
 import FolderFillIcon from '@rsuite/icons/FolderFill';
 import PageIcon from '@rsuite/icons/Page';
-import MultiCascadeTree, { ItemDataType } from '../';
+import MultiCascadeTree from '../';
+import type { ItemDataType } from '../../@types/common';
 import { createMeta } from '@/storybook/utils';
 import { mockTreeData, mockAsyncData } from '@/storybook/mocks';
 import '../styles/index.less';
@@ -77,13 +78,19 @@ export const CustomColumn: Story = {
 
 const [getNodes, fetchNodes] = mockAsyncData();
 
+const AsyncLoadTemplate = (props: any) => {
+  const [value, setValue] = React.useState();
+  return <MultiCascadeTree {...props} value={value} onChange={setValue} getChildren={fetchNodes} />;
+};
+
 export const AsyncLoadData: Story = {
+  render: AsyncLoadTemplate,
   args: {
     ...defaultArgs,
     columnWidth: 180,
     data: getNodes(5) as any,
-    getChildren: (node: ItemDataType<string | number>) => {
-      return fetchNodes(node.id) as Promise<ItemDataType<string>>[];
+    getChildren: (node: ItemDataType<any>) => {
+      return fetchNodes(node.id) as Promise<ItemDataType<any>>[];
     },
     renderTreeNode: (label, item) => {
       return (
