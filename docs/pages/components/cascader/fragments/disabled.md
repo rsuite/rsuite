@@ -13,16 +13,18 @@ const data = mockTreeData({
 });
 
 const ControlLabel = ({ children }) => (
-  <label style={{ width: 130, display: 'inline-block' }}>{children}</label>
+  <label style={{ width: 120, display: 'inline-block', color: 'var(--rs-text-secondary)' }}>
+    {children}:
+  </label>
 );
 
 const App = () => (
   <>
-    <ControlLabel>Disabled: </ControlLabel>
+    <ControlLabel>Disabled</ControlLabel>
     <Cascader disabled defaultValue="1-1" data={data} style={{ widht: 224 }} />
 
     <hr />
-    <ControlLabel>Disabled option: </ControlLabel>
+    <ControlLabel>Disabled options</ControlLabel>
     <Cascader
       data={data}
       defaultValue="1-1"
@@ -30,11 +32,11 @@ const App = () => (
       style={{ widht: 224 }}
     />
     <hr />
-    <ControlLabel>Read only: </ControlLabel>
+    <ControlLabel>Read only</ControlLabel>
     <Cascader readOnly defaultValue="1-1" data={data} style={{ widht: 224 }} />
 
     <hr />
-    <ControlLabel>Plaintext: </ControlLabel>
+    <ControlLabel>Plaintext</ControlLabel>
     <Cascader plaintext defaultValue="1-1" data={data} style={{ widht: 224 }} />
   </>
 );

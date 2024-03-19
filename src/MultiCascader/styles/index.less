@@ -1,36 +1,16 @@
-@import '../../styles/common';
-@import '../../Cascader/styles/index';
-@import '../../internals/Picker/styles/index';
-@import '../../Checkbox/styles/index';
+@import '../../styles/common.less';
+@import '../../MultiCascadeTree/styles/index.less';
+@import '../../internals/Picker/styles/index.less';
+@import '../../Checkbox/styles/index.less';
 
-// MultiCascader
-// ----------------------
-
-.rs-picker-cascader {
-  &-menu .rs-check-item .rs-checkbox-checker > label {
-    padding-right: 26px; // 12px + 8px + 6px
+.rs-picker-popup-multi-cascader {
+  .rs-cascade-search-view-row {
+    padding-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
-  &-menu .rs-check-item.rs-check-item-focus,
-  &-menu .rs-check-item.rs-checkbox-checked {
-    .rs-checkbox-checker > label {
-      font-weight: bold;
-    }
+  .rs-cascade-search-view-col {
+    padding: 0;
   }
-
-  &-menu-column&-menu-column-uncheckable {
-    .rs-check-item .rs-checkbox-checker > label {
-      padding-left: @picker-item-content-padding-horizontal;
-    }
-  }
-}
-
-.rs-picker-multi-cascader-menu .rs-picker-cascader-col {
-  padding: 0;
-}
-
-.rs-picker-multi-cascader-menu .rs-picker-cascader-row {
-  padding-left: 0;
-  padding-top: 0;
-  padding-bottom: 0;
 }

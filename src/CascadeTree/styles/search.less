@@ -1,0 +1,45 @@
+// Search panel
+.rs-cascade-search-view-panel {
+  max-height: @cascader-search-panel-max-height;
+  margin-top: 6px;
+  overflow: auto;
+}
+
+.rs-cascade-search-view-row {
+  .listbox-option();
+
+  &:hover {
+    .listbox-option-active();
+  }
+
+  &&-focus {
+    .listbox-option-active();
+  }
+
+  &:disabled,
+  &&-disabled {
+    .listbox-options-disabled();
+
+    .rs-cascade-search-view-match {
+      opacity: 0.7;
+      font-weight: normal;
+    }
+  }
+}
+
+.rs-cascade-search-view-col {
+  display: inline-block;
+
+  &::after {
+    content: '\00a0/\00a0'; //content:' / '
+  }
+
+  &:last-child::after {
+    display: none;
+  }
+}
+
+.rs-cascade-search-view-match {
+  color: var(--rs-primary-500);
+  font-weight: bold;
+}

@@ -117,14 +117,14 @@ export interface TreeBaseProps<ValueType = string | number, ItemDataType = Recor
   getChildren?: (activeNode: ItemDataType) => ItemDataType[] | Promise<ItemDataType>;
 }
 
-export interface TreeProps<ValueType = string | number>
-  extends TreeBaseProps<ValueType, ItemDataType>,
-    TreeDragProps<ItemDataType> {
+export interface TreeProps<T = string | number>
+  extends TreeBaseProps<T, ItemDataType<T>>,
+    TreeDragProps<ItemDataType<T>> {
   /** Tree Data */
-  data: ItemDataType[];
+  data: ItemDataType<T>[];
 
   /** Selected value */
-  value?: ValueType;
+  value?: T;
 
   /** Whether using virtualized list */
   virtualized?: boolean;
@@ -139,7 +139,7 @@ export interface TreeProps<ValueType = string | number>
   childrenKey?: string;
 
   /** Default selected Value  */
-  defaultValue?: ValueType;
+  defaultValue?: T;
 }
 
 /**

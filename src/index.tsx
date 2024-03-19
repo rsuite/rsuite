@@ -200,6 +200,12 @@ export type { TreeProps } from './Tree';
 export { default as CheckTree } from './CheckTree';
 export type { CheckTreeProps } from './CheckTree';
 
+export { default as CascadeTree } from './CascadeTree';
+export type { CascadeTreeProps } from './CascadeTree';
+
+export { default as MultiCascadeTree } from './MultiCascadeTree';
+export type { MultiCascadeTreeProps } from './MultiCascadeTree';
+
 export { default as Panel } from './Panel';
 export type { PanelProps } from './Panel';
 

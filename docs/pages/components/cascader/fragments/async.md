@@ -20,22 +20,16 @@ const App = () => {
         placeholder="Select"
         style={{ width: 224 }}
         data={initialData}
-        menuWidth={200}
+        columnWidth={200}
         getChildren={node => {
           return fetchNodes(node.id);
         }}
-        renderMenuItem={(label, item) => {
+        renderTreeNode={(label, item) => {
           return (
             <>
               {item.children ? <FolderFillIcon /> : <PageIcon />} {label}
             </>
           );
-        }}
-        renderMenu={(children, menu, parentNode) => {
-          if (parentNode && parentNode.loading) {
-            return <p style={{ padding: 4, color: '#999', textAlign: 'center' }}>Loading...</p>;
-          }
-          return menu;
         }}
       />
     </div>

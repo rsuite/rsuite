@@ -48,7 +48,7 @@ describe('Cascader', () => {
   });
 
   it('Should output a picker', () => {
-    const { container } = render(<Cascader data={[]}>title</Cascader>);
+    const { container } = render(<Cascader data={[]} />);
 
     expect(container.firstChild).to.have.class('rs-picker-cascader');
   });
@@ -57,14 +57,6 @@ describe('Cascader', () => {
     const { container } = render(<Cascader data={[]} />);
 
     expect(container.firstChild).to.have.class('rs-picker-default');
-  });
-
-  it('Should be inline', () => {
-    const { container } = render(<Cascader data={[]} inline />);
-
-    expect(container.firstChild).to.have.class('rs-picker-inline');
-    // eslint-disable-next-line testing-library/no-node-access, testing-library/no-container
-    expect(container.querySelector('.rs-picker-cascader-menu-items')).to.exist;
   });
 
   it('Should output a placeholder', () => {
@@ -116,7 +108,7 @@ describe('Cascader', () => {
     render(<Cascader defaultOpen data={items} value={value} />);
 
     expect(screen.getByRole('treeitem', { name: value }).firstChild).to.have.class(
-      'rs-picker-cascader-menu-item-active'
+      'rs-cascade-tree-item-active'
     );
   });
 
@@ -125,7 +117,7 @@ describe('Cascader', () => {
     render(<Cascader defaultOpen data={items} defaultValue={value} />);
 
     expect(screen.getByRole('treeitem', { name: value }).firstChild).to.have.class(
-      'rs-picker-cascader-menu-item-active'
+      'rs-cascade-tree-item-active'
     );
   });
 
@@ -134,7 +126,11 @@ describe('Cascader', () => {
     render(<Cascader data={items} defaultOpen onSelect={onSelect} />);
     fireEvent.click(screen.getByRole('treeitem', { name: '2' }));
 
-    expect(onSelect).to.have.been.calledWith(sinon.match({ value: '2' }));
+    const args = onSelect.getCall(0).args;
+
+    expect(args[0]).to.deep.equal({ value: '2', label: '2' });
+    expect(args[1]).to.deep.equal([{ value: '2', label: '2' }]);
+    expect(args[2].target).to.have.text('2');
   });
 
   it('Should call onChange callback with correct value', () => {
@@ -240,31 +236,6 @@ describe('Cascader', () => {
     expect(screen.getByTestId('spinner')).to.exist;
   });
 
-  it('Should present an async loading state with inline', async () => {
-    function fetchNodes() {
-      return new Promise<{ label: string; value: string }[]>(resolve => {
-        setTimeout(() => {
-          resolve([{ label: '2', value: '2' }]);
-        }, 500);
-      });
-    }
-
-    render(
-      <Cascader
-        inline
-        open
-        data={[{ label: '1', value: '1', children: [] }]}
-        getChildren={fetchNodes}
-      />
-    );
-
-    fireEvent.click(screen.getAllByRole('treeitem')[0]);
-
-    await waitFor(() => {
-      expect(screen.getAllByRole('group')).to.have.length(2);
-    });
-  });
-
   it('Should call renderValue', () => {
     const { container, rerender } = render(
       <Cascader data={[]} value="Test" renderValue={() => '1'} />
@@ -347,24 +318,50 @@ describe('Cascader', () => {
     expect(screen.getByRole('treeitem')).to.have.text('test');
   });
 
+  it('Should call `onSearch` callback', () => {
+    const data = mockTreeData(['a', 'b', ['c', 'c-1', 'c-2']]);
+    const onSearch = sinon.spy();
+
+    render(<Cascader defaultOpen data={data} onSearch={onSearch} />);
+
+    const searchbox = screen.getByRole('searchbox');
+
+    fireEvent.focus(searchbox);
+    fireEvent.change(searchbox, { target: { value: 'c' } });
+
+    expect(onSearch).to.be.calledOnce;
+    expect(onSearch).to.be.calledWith('c');
+  });
+
+  it('Should close the search panel when clicking on the search option', async () => {
+    const onClose = sinon.spy();
+    const data = mockTreeData(['a', 'b', ['c', 'c-1', 'c-2']]);
+
+    render(<Cascader defaultOpen searchable data={data} onClose={onClose} />);
+
+    const searchbox = screen.getByRole('searchbox');
+
+    fireEvent.focus(searchbox);
+    fireEvent.change(searchbox, { target: { value: 'c' } });
+
+    expect(screen.getAllByRole('treeitem')).to.have.length(2);
+
+    fireEvent.click(screen.getByRole('treeitem', { name: 'c-1' }));
+
+    expect(screen.getByRole('combobox')).to.have.text('c / c-1');
+
+    await waitFor(() => {
+      expect(onClose).to.have.been.calledOnce;
+    });
+  });
+
   it('Should show search items with childrenKey', () => {
-    const itemsWithChildrenKey = {
-      childrenKey: 'sub',
-      data: mockTreeData(['t', 'h', ['g', 'g-m', 'g-b']], {
-        childrenKey: 'sub'
-      })
-    };
+    const childrenKey = 'sub';
+    const data = mockTreeData(['t', 'h', ['g', 'g-m', 'g-b']], {
+      childrenKey
+    });
 
-    const cascaderRef = React.createRef<PickerHandle>();
-
-    render(
-      <Cascader
-        ref={cascaderRef}
-        defaultOpen
-        data={itemsWithChildrenKey.data}
-        childrenKey={itemsWithChildrenKey.childrenKey}
-      />
-    );
+    render(<Cascader defaultOpen data={data} childrenKey={childrenKey} />);
 
     const searchbox = screen.getByRole('searchbox');
 
@@ -377,9 +374,7 @@ describe('Cascader', () => {
   it('Should show search items with parentSelectable', () => {
     const items = mockTreeData(['t', 'h', ['g', 'g-m', 'g-b']]);
 
-    const cascaderRef = React.createRef<PickerHandle>();
-
-    render(<Cascader ref={cascaderRef} defaultOpen data={items} parentSelectable />);
+    render(<Cascader defaultOpen data={items} parentSelectable />);
 
     const searchbox = screen.getByRole('searchbox');
 
@@ -391,12 +386,10 @@ describe('Cascader', () => {
   it('Should show search items rendered by renderSearchItem', () => {
     const items = mockTreeData([['parent', 'test']]);
 
-    const cascaderRef = React.createRef<PickerHandle>();
     let searchItems: unknown | null = null;
 
     render(
       <Cascader
-        ref={cascaderRef}
         defaultOpen
         data={items}
         renderSearchItem={(label, items) => {
@@ -413,28 +406,6 @@ describe('Cascader', () => {
     expect(screen.getAllByRole('treeitem')).to.have.length(1);
     expect(searchItems).to.have.length(2);
     expect(screen.getByRole('treeitem')).to.have.text('parenttest');
-  });
-
-  describe('ref testing', () => {
-    it('Should control the open and close of picker', async () => {
-      const onOpen = sinon.spy();
-      const onClose = sinon.spy();
-      const ref = React.createRef<any>();
-
-      render(<Cascader ref={ref} onOpen={onOpen} onClose={onClose} data={items} />);
-
-      ref.current.open();
-
-      await waitFor(() => {
-        expect(onOpen).to.be.calledOnce;
-      });
-
-      ref.current.close();
-
-      await waitFor(() => {
-        expect(onClose).to.be.calledOnce;
-      });
-    });
   });
 
   it('Should update columns', () => {
@@ -465,49 +436,70 @@ describe('Cascader', () => {
     expect(screen.getByRole('treeitem')).to.have.text('test');
   });
 
-  describe('Plain text', () => {
-    it('Should render full path (separated by delimiter) of selected data', () => {
-      render(
-        <div data-testid="content">
-          <Cascader data={items} value="3-1" plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('3 / 3-1');
-    });
-
-    it('Should render "Not selected" if value is empty', () => {
-      render(
-        <div data-testid="content">
-          <Cascader data={items} value={null} plaintext />
-        </div>
-      );
-
-      expect(screen.getByTestId('content')).to.have.text('Not selected');
-    });
-  });
-
   it('Should item able to stringfy', () => {
-    const onSelectSpy = sinon.spy();
-    const renderMenuItemSpy = sinon.spy();
+    const onSelect = sinon.spy();
+    const renderMenuItem = sinon.spy();
 
     render(
-      <Cascader
-        defaultOpen
-        data={items}
-        onSelect={onSelectSpy}
-        renderMenuItem={renderMenuItemSpy}
-      />
+      <Cascader defaultOpen data={items} onSelect={onSelect} renderMenuItem={renderMenuItem} />
     );
     const checkbox = screen.getAllByRole('treeitem')[2];
 
     fireEvent.click(checkbox);
 
-    expect(onSelectSpy).to.called;
-    expect(renderMenuItemSpy).to.called;
+    expect(onSelect).to.called;
+    expect(renderMenuItem).to.called;
     expect(() => JSON.stringify(items[2])).to.not.throw();
-    expect(() => JSON.stringify(onSelectSpy.firstCall.args[1])).to.not.throw();
-    expect(() => JSON.stringify(renderMenuItemSpy.lastCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(onSelect.firstCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(renderMenuItem.lastCall.args[1])).to.not.throw();
+  });
+
+  it("Should custom render the tree's node", () => {
+    render(
+      <Cascader
+        defaultOpen
+        data={items}
+        renderTreeNode={(_node, item) => <i data-testid="custom-item">{item.label}</i>}
+      />
+    );
+
+    expect(screen.getAllByTestId('custom-item')).to.have.length(3);
+  });
+
+  it('Should custom render the column', () => {
+    render(
+      <Cascader
+        defaultOpen
+        data={items}
+        renderColumn={(_childNodes, { items }) => (
+          <div data-testid="custom-column">
+            {items.map((item, index) => (
+              <i key={index}>{item.label}</i>
+            ))}
+          </div>
+        )}
+      />
+    );
+
+    expect(screen.getAllByTestId('custom-column')).to.have.length(1);
+  });
+
+  it('[Deprecated renderMenu] Should custom render the column', () => {
+    render(
+      <Cascader
+        defaultOpen
+        data={items}
+        renderMenu={items => (
+          <div data-testid="custom-column">
+            {items.map((item, index) => (
+              <i key={index}>{item.label}</i>
+            ))}
+          </div>
+        )}
+      />
+    );
+
+    expect(screen.getAllByTestId('custom-column')).to.have.length(1);
   });
 
   it('Should update the subcolumn when the leaf node is clicked', () => {
@@ -537,6 +529,74 @@ describe('Cascader', () => {
     expect(onSelect).to.have.been.calledOnce;
   });
 
+  it('Should custom column width', () => {
+    render(<Cascader data={items} columnWidth={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('width', '100px');
+  });
+
+  it('Should custom column height', () => {
+    render(<Cascader data={items} columnHeight={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('height', '100px');
+  });
+
+  it('[Deprecated menuWidth] Should custom column width', () => {
+    render(<Cascader data={items} menuWidth={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('width', '100px');
+  });
+
+  it('[Deprecated menuHeight] Should custom column height', () => {
+    render(<Cascader data={items} menuHeight={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('height', '100px');
+  });
+
+  describe('ref testing', () => {
+    it('Should control the open and close of picker', async () => {
+      const onOpen = sinon.spy();
+      const onClose = sinon.spy();
+      const ref = React.createRef<any>();
+
+      render(<Cascader ref={ref} onOpen={onOpen} onClose={onClose} data={items} />);
+
+      ref.current.open();
+
+      await waitFor(() => {
+        expect(onOpen).to.be.calledOnce;
+      });
+
+      ref.current.close();
+
+      await waitFor(() => {
+        expect(onClose).to.be.calledOnce;
+      });
+    });
+  });
+
+  describe('Plain text', () => {
+    it('Should render full path (separated by delimiter) of selected data', () => {
+      render(
+        <div data-testid="content">
+          <Cascader data={items} value="3-1" plaintext />
+        </div>
+      );
+
+      expect(screen.getByTestId('content')).to.have.text('3 / 3-1');
+    });
+
+    it('Should render "Not selected" if value is empty', () => {
+      render(
+        <div data-testid="content">
+          <Cascader data={items} value={null} plaintext />
+        </div>
+      );
+
+      expect(screen.getByTestId('content')).to.have.text('Not selected');
+    });
+  });
+
   describe('Focus item', () => {
     it('Should update scroll position when the focus is not within the viewport', () => {
       render(<Cascader defaultOpen data={items} menuHeight={72} />);
@@ -562,7 +622,7 @@ describe('Cascader', () => {
       let focusItems = screen
         .getByRole('tree')
         // eslint-disable-next-line testing-library/no-node-access
-        .querySelectorAll('.rs-picker-cascader-menu-item-focus');
+        .querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(1);
       expect(focusItems[0]).to.have.text('3');
@@ -570,7 +630,7 @@ describe('Cascader', () => {
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowRight' });
 
       // eslint-disable-next-line testing-library/no-node-access
-      focusItems = screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-item-focus');
+      focusItems = screen.getByRole('tree').querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(2);
       expect(focusItems[1]).to.have.text('3-1');
@@ -579,7 +639,7 @@ describe('Cascader', () => {
       fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
       // eslint-disable-next-line testing-library/no-node-access
-      focusItems = screen.getByRole('tree').querySelectorAll('.rs-picker-cascader-menu-item-focus');
+      focusItems = screen.getByRole('tree').querySelectorAll('.rs-cascade-tree-item-focus');
 
       expect(focusItems).to.length(1);
       expect(focusItems[0]).to.have.text('2');

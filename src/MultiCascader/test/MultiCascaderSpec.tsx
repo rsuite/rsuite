@@ -1,5 +1,5 @@
 import React from 'react';
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import {
   getInstance,
@@ -179,6 +179,66 @@ describe('MultiCascader', () => {
     expect(screen.getByRole('checkbox', { name: '2' })).to.be.checked;
   });
 
+  it('Should custom column width', () => {
+    render(<MultiCascader data={items} columnWidth={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('width', '100px');
+  });
+
+  it('Should custom column height', () => {
+    render(<MultiCascader data={items} columnHeight={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('height', '100px');
+  });
+
+  it('[Deprecated menuWidth] Should custom column width', () => {
+    render(<MultiCascader data={items} menuWidth={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('width', '100px');
+  });
+
+  it('[Deprecated menuHeight] Should custom column height', () => {
+    render(<MultiCascader data={items} menuHeight={100} defaultOpen />);
+
+    expect(screen.getByRole('group')).to.have.style('height', '100px');
+  });
+
+  it('Should custom render the column', () => {
+    render(
+      <MultiCascader
+        defaultOpen
+        data={items}
+        renderColumn={(_childNodes, { items }) => (
+          <div data-testid="custom-column">
+            {items.map((item, index) => (
+              <i key={index}>{item.label}</i>
+            ))}
+          </div>
+        )}
+      />
+    );
+
+    expect(screen.getAllByTestId('custom-column')).to.have.length(1);
+  });
+
+  it('[Deprecated renderMenu] Should custom render the column', () => {
+    render(
+      <MultiCascader
+        defaultOpen
+        data={items}
+        renderMenu={items => (
+          <div data-testid="custom-column">
+            {items.map((item, index) => (
+              <i key={index}>{item.label}</i>
+            ))}
+          </div>
+        )}
+      />
+    );
+
+    expect(screen.getAllByTestId('custom-column')).to.have.length(1);
+  });
+
   it('Should call `onSelect` callback', () => {
     const onSelect = sinon.spy();
     render(<MultiCascader data={items} defaultOpen onSelect={onSelect} />);
@@ -214,7 +274,7 @@ describe('MultiCascader', () => {
     expect(onOpen).to.be.calledOnce;
   });
 
-  it('Should call `onClose` callback', () => {
+  it('Should call `onClose` callback', async () => {
     const onClose = sinon.spy();
     const picker = getInstance(<MultiCascader defaultOpen onClose={onClose} data={items} />);
 
@@ -222,7 +282,9 @@ describe('MultiCascader', () => {
       picker.close();
     });
 
-    expect(onClose).to.be.calledOnce;
+    await waitFor(() => {
+      expect(onClose).to.be.calledOnce;
+    });
   });
 
   it('Should clean selected default value', () => {
@@ -285,10 +347,10 @@ describe('MultiCascader', () => {
 
   it('Should item able to stringfy', () => {
     const onSelect = sinon.spy();
-    const renderMenuItem = sinon.spy();
+    const renderTreeNode = sinon.spy();
 
     render(
-      <MultiCascader defaultOpen data={items} onSelect={onSelect} renderMenuItem={renderMenuItem} />
+      <MultiCascader defaultOpen data={items} onSelect={onSelect} renderTreeNode={renderTreeNode} />
     );
     // eslint-disable-next-line testing-library/no-node-access
     const checkbox = screen.getByRole('tree').querySelectorAll('.rs-checkbox')[2];
@@ -296,10 +358,10 @@ describe('MultiCascader', () => {
     fireEvent.click(checkbox);
 
     expect(onSelect).to.called;
-    expect(renderMenuItem).to.called;
+    expect(renderTreeNode).to.called;
     expect(() => JSON.stringify(items[2])).to.not.throw();
     expect(() => JSON.stringify(onSelect.firstCall.args[1])).to.not.throw();
-    expect(() => JSON.stringify(renderMenuItem.lastCall.args[1])).to.not.throw();
+    expect(() => JSON.stringify(renderTreeNode.lastCall.args[1])).to.not.throw();
   });
 
   it('Should call onCheck callback', () => {

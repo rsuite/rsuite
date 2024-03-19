@@ -1,7 +1,7 @@
 import React, { useRef, useMemo } from 'react';
 import ToggleButton, { ToggleButtonProps } from './ToggleButton';
 import { useClassNames, mergeRefs, useEventCallback } from '../../utils';
-import { RsRefForwardingComponent, TypeAttributes } from '../../@types/common';
+import { RsRefForwardingComponent, TypeAttributes, DataItemValue } from '../../@types/common';
 import Plaintext from '../Plaintext';
 import useToggleCaret from '../../utils/useToggleCaret';
 import { IconProps } from '@rsuite/icons/lib/Icon';
@@ -10,9 +10,7 @@ import PickerIndicator from './PickerIndicator';
 import PickerLabel from './PickerLabel';
 import useCombobox from './hooks/useCombobox';
 
-type ValueType = string | number;
-
-export interface PickerToggleProps extends ToggleButtonProps {
+export interface PickerToggleProps<T = DataItemValue> extends ToggleButtonProps {
   active?: boolean;
   hasValue?: boolean;
   cleanable?: boolean;
@@ -37,8 +35,8 @@ export interface PickerToggleProps extends ToggleButtonProps {
   loading?: boolean;
   label?: React.ReactNode;
   name?: string;
-  inputValue?: ValueType | ValueType[];
-  focusItemValue?: ValueType | null;
+  inputValue?: T | T[];
+  focusItemValue?: T | null;
   onClean?: (event: React.MouseEvent) => void;
 }
 

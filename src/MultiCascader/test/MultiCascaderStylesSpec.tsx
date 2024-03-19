@@ -1,32 +1,24 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import MultiCascader from '../index';
-import { getStyle, inChrome } from '@test/utils';
+import { itChrome } from '@test/utils';
 import { mockTreeData } from '@test/mocks/data-mock';
 
 import '../styles/index.less';
-import { PickerHandle } from '../../internals/Picker';
 
 const data = mockTreeData([['abcde', ['vv-abc', 'vv-abcd']]]);
 
 describe('MultiCascader styles', () => {
-  it('Should render the correct caret', () => {
-    const instanceRef = React.createRef<PickerHandle>();
-    render(
-      <MultiCascader
-        ref={instanceRef}
-        data={data}
-        menuClassName="rs-multi-cascader-styles-test"
-        open
-      />
+  itChrome('Should render the correct caret', () => {
+    render(<MultiCascader data={data} open />);
+
+    const tree = screen.getByRole('tree');
+
+    expect(tree.querySelector('.rs-checkbox-checker label')).to.have.style(
+      'padding',
+      '8px 26px 8px 38px'
     );
 
-    const menuItemDom = (instanceRef.current as PickerHandle).overlay as HTMLElement;
-    inChrome &&
-      assert.equal(
-        getStyle(menuItemDom.querySelector('.rs-checkbox-checker label') as HTMLElement, 'padding'),
-        '8px 26px 8px 38px'
-      );
-    assert.isNotNull(menuItemDom.querySelector('[aria-label="angle right"]'));
+    expect(tree.querySelector('[aria-label="angle right"]')).to.exist;
   });
 });

@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { MultiCascader, Button } from 'rsuite';
+import { MultiCascader } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -15,10 +15,10 @@ const styles = { width: 224, display: 'block', marginBottom: 10 };
 
 const App = () => (
   <>
-    <MultiCascader toggleAs={Button} size="lg" placeholder="Large" data={data} style={styles} />
-    <MultiCascader toggleAs={Button} size="md" placeholder="Medium" data={data} style={styles} />
-    <MultiCascader toggleAs={Button} size="sm" placeholder="Small" data={data} style={styles} />
-    <MultiCascader toggleAs={Button} size="xs" placeholder="Xsmall" data={data} style={styles} />
+    <MultiCascader size="lg" placeholder="Large" data={data} style={styles} />
+    <MultiCascader size="md" placeholder="Medium" data={data} style={styles} />
+    <MultiCascader size="sm" placeholder="Small" data={data} style={styles} />
+    <MultiCascader size="xs" placeholder="Xsmall" data={data} style={styles} />
   </>
 );
 

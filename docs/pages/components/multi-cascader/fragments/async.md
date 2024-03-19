@@ -19,12 +19,6 @@ const App = () => {
         style={{ width: 224 }}
         data={initialData}
         getChildren={fetchNodes}
-        renderMenu={(children, menu, parentNode) => {
-          if (parentNode && parentNode.loading) {
-            return <p style={{ padding: 10, color: '#999', textAlign: 'center' }}>Loading...</p>;
-          }
-          return menu;
-        }}
       />
     </div>
   );

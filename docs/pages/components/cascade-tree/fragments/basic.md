@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Cascader } from 'rsuite';
+import { CascadeTree } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -12,9 +12,13 @@ const data = mockTreeData({
   }
 });
 
-const App = () => (
-  <Cascader inline data={data} searchable={false} menuHeight="auto" menuWidth={180} />
-);
+const App = () => {
+  return (
+    <>
+      <CascadeTree data={data} />
+    </>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```

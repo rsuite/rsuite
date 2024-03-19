@@ -48,3 +48,4 @@ export { default as useUniqueId } from './useUniqueId';
 export { default as useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 export { default as useInternalId } from './useInternalId';
 export { default as useEnsuredRef } from './useEnsuredRef';
+export { useMap } from './useMap';

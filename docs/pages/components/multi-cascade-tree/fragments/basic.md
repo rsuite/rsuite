@@ -1,7 +1,7 @@
 <!--start-code-->
 
 ```js
-import { MultiCascader } from 'rsuite';
+import { MultiCascadeTree } from 'rsuite';
 import { mockTreeData } from './mock';
 
 const data = mockTreeData({
@@ -12,11 +12,13 @@ const data = mockTreeData({
   }
 });
 
-const App = () => (
-  <>
-    <MultiCascader inline data={data} searchable={false} menuHeight="auto" menuWidth={180} />
-  </>
-);
+const App = () => {
+  return (
+    <>
+      <MultiCascadeTree data={data} />
+    </>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
