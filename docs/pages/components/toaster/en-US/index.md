@@ -1,6 +1,30 @@
+# Toaster
+
+Toaster display brief, temporary notifications of actions, errors, or other events in an application. It is often used with the Message and Notification components.
+
+## Import
+
+<!--{include:<import-guide>}-->
+
+## Examples
+
+### With Message
+
+<!--{include:`with-message.md`}-->
+
+### With Notification
+
+<!--{include:`with-notification.md`}-->
+
+### Custom Toast
+
+<!--{include:`custom.md`}-->
+
+## Hooks
+
 ### useToaster
 
-useToaster 是一个用于创建和管理 Toast 的 React Hook。
+useToaster is a React Hook for creating and managing Toasts.
 
 ```ts
 import { useToaster } from 'rsuite';
@@ -14,19 +38,19 @@ return () => {
 
 #### toaster.push
 
-推送一个消息，并返回一个唯一的 key
+Push a message and return a unique key.
 
 ```ts
 type PlacementType = 'topCenter' | 'bottomCenter' | 'topStart' | 'topEnd' | 'bottomStart' | 'bottomEnd';
 
 interface ToastContainerProps{
-  /** 消息框的位置 */
+  /** The placement of the message box */
   placement?: PlacementType;
 
-  /** 设置消息出现在指定的容器中 */
+  /** Set the message to appear in the specified container */
   container?: HTMLElement | (() => HTMLElement);
 
-  /** 自动关闭消息前等待的毫秒数 */
+  /** The number of milliseconds to wait before automatically closing a message */
   duration?: number;
 }
 
@@ -36,15 +60,15 @@ toaster.push(message: ReactNode, options?: ToastContainerProps): string;
 e.g:
 
 ```js
-// 弹出一个消息
+// Push a message
 toaster.push(<Message>message</Message>);
 
-// 弹出一个消息，并设置自动关闭的时间
+// Push a message and set the duration
 toaster.push(<Message>message</Message>, {
   duration: 1000
 });
 
-// 弹出一个通知, 并设置位置
+// Push notification and set placement
 toaster.push(<Notification>message</Notification>, {
   placement: 'topEnd'
 });
@@ -52,7 +76,7 @@ toaster.push(<Notification>message</Notification>, {
 
 #### toaster.remove
 
-通过 key 删除一个消息
+Remove a message by key
 
 ```ts
 toaster.remove(key: string): void;
@@ -70,7 +94,7 @@ toaster.remove(key);
 
 #### toaster.clear
 
-删除所有消息
+Clear all messages
 
 ```ts
 toaster.clear(): void;

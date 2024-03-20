@@ -7,7 +7,6 @@ Commonly used operating buttons, button combinations, button layouts.
 <!--{include:<import-guide>}-->
 
 - `<Button>` is the most basic element in the component, you can quickly create a styled button.
-- `<IconButton>` Button with icon.
 - `<ButtonGroup>` Button group control can put a group of buttons together and control the layout.
 - `<ButtonToolbar>` Button Toolbar Controls.
 
@@ -19,37 +18,25 @@ Commonly used operating buttons, button combinations, button layouts.
 
 ### Appearance
 
-`appearance` property can set appearance of button:
-
-- `default`(default) default button.
-- `primary` Emphasi, guide button.
-- `link` Button like link.
-- `subtle` Weakened button.
-- `ghost` Ghost button, background transparent, place button on background element.
+`appearance` property sets the button style, options includes: `default`, `primary`, `link`, `subtle`, `ghost`.
 
 <!--{include:`appearance.md`}-->
 
-### Size
+### Sizes
 
-The `size` property sets the button size, options includes: 'lg', 'md', 'sm', 'xs'.
+The `size` property sets the button size, options includes: `lg`, `md`, `sm`, `xs`.
 
 <!--{include:`size.md`}-->
 
-### Colorful button
+### Colors
 
-The `color` property sets the button style, Options include: 'red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'.
+The `color` property sets the button style, Options include: `red`, `orange`, `yellow`, `green`, `cyan`, `blue`, `violet`.
 
 <!--{include:`color.md`}-->
 
 ### Custom combination button
 
 <!--{include:`custom.md`}-->
-
-### Icon button
-
-`<IconButton>` is a component designed for icon buttons that sets the icon required for the `Icon` property definition. Only the icon button can be set to a round button.
-
-<!--{include:`icon-button.md`}-->
 
 ### Block
 
@@ -71,7 +58,7 @@ This is generally applicable to flow layouts, or to full rows at the top and bot
 
 ### Button group
 
-<!--{include:`group-basic.md`}-->
+<!--{include:`group.md`}-->
 
 ### Vertical group
 
@@ -91,17 +78,15 @@ The buttons are laid out horizontally in the button set and are equally wide.
 
 <!--{include:`justified.md`}-->
 
-## Accessing DOM
+## Accessibility
 
-The underlying `<button>` element is accessible via `ref` attribute of `Button`.
+### ARIA Properties
 
-```tsx
-function App() {
-  const buttonRef = useRef<HTMLButtonElement>(null);
+- Button has role of `button`.
 
-  return <Button ref={buttonRef}>Text</Button>;
-}
-```
+### Keyboard interaction
+
+- When Button has focus, <kbd>Space</kbd> or <kbd>Space</kbd> activates it.
 
 ## Props
 
@@ -113,36 +98,25 @@ function App() {
 | appearance  | [Appearance](#code-ts-appearance-code) `('default')` | A button can have different appearances                        |
 | as          | ElementType `('button')`                             | You can use a custom element for this component                |
 | block       | boolean                                              | Spans the full width of the Button parent                      |
-| children \* | ReactNode                                            | Primary content                                                |
+| children    | ReactNode                                            | Primary content                                                |
 | classPrefix | string `('btn')`                                     | The prefix of the component CSS class                          |
 | color       | [Color](#code-ts-color-code)                         | A button can have different colors                             |
 | disabled    | boolean                                              | A button can show it is currently unable to be interacted with |
 | endIcon     | ReactNode                                            | Display an icon after buttont text                             |
 | href        | string                                               | Providing a `href` will render an `a` element                  |
 | loading     | boolean                                              | A button can show a loading indicator                          |
-| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')`    | A button can have different sizes                              |
+| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')`                | A button can have different sizes                              |
 | startIcon   | ReactNode                                            | Display an icon before buttont text                            |
-
-### `<IconButton>`
-
-`Iconbutton` extends all props of `Button`
-
-| Property    | Type `(Default)`                     | Description                           |
-| ----------- | ------------------------------------ | ------------------------------------- |
-| circle      | boolean                              | Set circle button                     |
-| classPrefix | string `('btn-icon')`                | The prefix of the component CSS class |
-| icon        | Element&lt;typeof Icon&gt;           | Set the icon of button                |
-| placement   | enum: 'left'&#124;'right' `('left')` | The placement of icon                 |
 
 ### `<ButtonGroup>`
 
-| Property    | Type `(Default)`                                  | Description                           |
-| ----------- | ------------------------------------------------- | ------------------------------------- |
-| block       | boolean                                           | Display block buttongroups            |
-| classPrefix | string `('btn-group')`                            | The prefix of the component CSS class |
-| justified   | boolean                                           | Horizontal constant width layout      |
-| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs' `('md')` | Set button size                       |
-| vertical    | boolean                                           | Vertical layouts of button            |
+| Property    | Type `(Default)`                      | Description                           |
+| ----------- | ------------------------------------- | ------------------------------------- |
+| block       | boolean                               | Display block buttongroups            |
+| classPrefix | string `('btn-group')`                | The prefix of the component CSS class |
+| justified   | boolean                               | Horizontal constant width layout      |
+| size        | 'lg' \| 'md' \| 'sm' \| 'xs' `('md')` | Set button size                       |
+| vertical    | boolean                               | Vertical layouts of button            |
 
 <!--{include:(_common/types/appearance.md)}-->
 <!--{include:(_common/types/color.md)}-->

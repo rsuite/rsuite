@@ -6,19 +6,110 @@
   },
   {
     "group": true,
-    "id": "general",
-    "name": "General",
-    "title": "常规"
+    "id": "layout",
+    "name": "Layout",
+    "title": "布局"
+  },
+  {
+    "id": "container",
+    "name": "Container",
+    "title": "容器布局",
+    "components": ["Container", "Header", "Footer", "Content", "Sidebar"]
+  },
+  {
+    "id": "flexbox-grid",
+    "name": "FlexboxGrid",
+    "title": "弹性栅格",
+    "components": ["FlexboxGrid", "FlexboxGrid.Item"]
+  },
+  {
+    "id": "grid",
+    "name": "Grid",
+    "title": "栅格",
+    "components": ["Grid", "Row", "Col"]
+  },
+  {
+    "id": "stack",
+    "name": "Stack",
+    "title": "堆叠",
+    "components": ["Stack"]
+  },
+  {
+    "group": true,
+    "id": "buttons",
+    "name": "Buttons",
+    "title": "按钮"
   },
   {
     "id": "button",
     "name": "Button",
     "title": "按钮",
-    "components": ["Button", "ButtonGroup", "IconButton"],
+    "components": ["Button", "ButtonGroup"]
+  },
+  {
+    "id": "icon-button",
+    "name": "IconButton",
+    "title": "图标按钮",
+    "components": ["IconButton"]
+  },
+
+  {
+    "group": true,
+    "id": "status",
+    "name": "Status",
+    "title": "状态"
+  },
+  {
+    "id": "badge",
+    "name": "Badge",
+    "title": "徽标",
+    "components": ["Badge"],
     "designHash": {
-      "default": "1",
-      "dark": "1"
+      "default": "75",
+      "dark": "75"
     }
+  },
+  {
+    "id": "loader",
+    "name": "Loader",
+    "title": "加载器",
+    "components": ["Loader"]
+  },
+  {
+    "id": "message",
+    "name": "Message",
+    "title": "消息框",
+    "components": ["Message"]
+  },
+  {
+    "id": "notification",
+    "name": "Notification",
+    "title": "通知框",
+    "components": ["Notification"]
+  },
+  {
+    "id": "progress",
+    "name": "Progress",
+    "title": "进度条",
+    "components": ["Progress.Line", "Progress.Circle"]
+  },
+  {
+    "id": "placeholder",
+    "name": "Placeholder",
+    "title": "占位符",
+    "components": ["Placeholder.Graph", "Placeholder.Grid", "Placeholder.Paragraph"]
+  },
+  {
+    "id": "toaster",
+    "name": "Toaster",
+    "title": "轻量弹窗",
+    "apis": ["useToaster"]
+  },
+  {
+    "group": true,
+    "id": "overlays",
+    "name": "Overlays",
+    "title": "叠加层"
   },
   {
     "id": "drawer",
@@ -31,29 +122,13 @@
     }
   },
   {
-    "id": "icon",
-    "name": "Icon",
-    "components": ["Icon"],
-    "title": "图标"
-  },
-  {
-    "id": "loader",
-    "name": "Loader",
-    "title": "加载器",
-    "components": ["Loader"],
+    "id": "dropdown",
+    "name": "Dropdown",
+    "title": "下拉菜单",
+    "components": ["Dropdown", "Dropdown.Item", "Dropdown.Menu"],
     "designHash": {
-      "default": "12",
-      "dark": "12"
-    }
-  },
-  {
-    "id": "message",
-    "name": "Message",
-    "title": "消息框",
-    "components": ["Message"],
-    "designHash": {
-      "default": "13",
-      "dark": null
+      "default": "27",
+      "dark": "27"
     }
   },
   {
@@ -66,26 +141,7 @@
       "dark": "14"
     }
   },
-  {
-    "id": "notification",
-    "name": "Notification",
-    "title": "通知框",
-    "components": ["Notification"],
-    "designHash": {
-      "default": "11",
-      "dark": "11"
-    }
-  },
-  {
-    "id": "tooltip",
-    "name": "Tooltip",
-    "title": "文字提示",
-    "components": ["Tooltip"],
-    "designHash": {
-      "default": "9",
-      "dark": "9"
-    }
-  },
+
   {
     "id": "popover",
     "name": "Popover",
@@ -97,23 +153,13 @@
     }
   },
   {
-    "id": "progress",
-    "name": "Progress",
-    "title": "进度条",
-    "components": ["Progress.Line", "Progress.Circle"],
+    "id": "tooltip",
+    "name": "Tooltip",
+    "title": "工具提示框",
+    "components": ["Tooltip"],
     "designHash": {
-      "default": "23",
-      "dark": "23"
-    }
-  },
-  {
-    "id": "placeholder",
-    "name": "Placeholder",
-    "title": "占位符",
-    "components": ["Placeholder.Graph", "Placeholder.Grid", "Placeholder.Paragraph"],
-    "designHash": {
-      "default": "24",
-      "dark": "24"
+      "default": "9",
+      "dark": "9"
     }
   },
   {
@@ -138,16 +184,7 @@
       "dark": "37"
     }
   },
-  {
-    "id": "dropdown",
-    "name": "Dropdown",
-    "title": "下拉菜单",
-    "components": ["Dropdown", "Dropdown.Item", "Dropdown.Menu"],
-    "designHash": {
-      "default": "27",
-      "dark": "27"
-    }
-  },
+
   {
     "id": "nav",
     "name": "Nav",
@@ -198,45 +235,24 @@
       "dark": "36"
     }
   },
+
   {
     "group": true,
-    "id": "layout",
-    "name": "Layout",
-    "title": "布局"
+    "id": "media-and-icons",
+    "name": "Media and icons",
+    "title": "媒体和图标"
   },
   {
-    "id": "container",
-    "name": "Container",
-    "title": "容器布局",
-    "components": ["Container", "Header", "Footer", "Content", "Sidebar"]
+    "id": "avatar",
+    "name": "Avatar",
+    "title": "头像",
+    "components": ["Avatar", "AvatarGroup"]
   },
   {
-    "id": "divider",
-    "name": "Divider",
-    "title": "分割线",
-    "components": ["Divider"],
-    "designHash": {
-      "default": "22",
-      "dark": "22"
-    }
-  },
-  {
-    "id": "flexbox-grid",
-    "name": "FlexboxGrid",
-    "title": "弹性栅格",
-    "components": ["FlexboxGrid", "FlexboxGrid.Item"]
-  },
-  {
-    "id": "grid",
-    "name": "Grid",
-    "title": "栅格",
-    "components": ["Grid", "Row", "Col"]
-  },
-  {
-    "id": "stack",
-    "name": "Stack",
-    "title": "堆叠",
-    "components": ["Stack"]
+    "id": "icon",
+    "name": "Icon",
+    "components": ["Icon"],
+    "title": "图标"
   },
   {
     "group": true,
@@ -544,26 +560,7 @@
     "name": "Data Display",
     "title": "数据展示"
   },
-  {
-    "id": "avatar",
-    "name": "Avatar",
-    "title": "头像",
-    "components": ["Avatar", "AvatarGroup"],
-    "designHash": {
-      "default": "76",
-      "dark": "74"
-    }
-  },
-  {
-    "id": "badge",
-    "name": "Badge",
-    "title": "徽标",
-    "components": ["Badge"],
-    "designHash": {
-      "default": "75",
-      "dark": "75"
-    }
-  },
+
   {
     "id": "calendar",
     "name": "Calendar",
@@ -584,7 +581,16 @@
       "dark": "90"
     }
   },
-
+  {
+    "id": "divider",
+    "name": "Divider",
+    "title": "分割线",
+    "components": ["Divider"],
+    "designHash": {
+      "default": "22",
+      "dark": "22"
+    }
+  },
   {
     "id": "list",
     "name": "List",

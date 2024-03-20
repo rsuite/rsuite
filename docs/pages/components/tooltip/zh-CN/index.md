@@ -1,4 +1,4 @@
-# Tooltip 文字提示
+# Tooltip 工具提示框
 
 用于辅助的文字提示，可代替 HTML 元素默认的 title 属性。
 
