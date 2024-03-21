@@ -9,7 +9,7 @@ import '../styles/index.less';
 describe('Loader styles', () => {
   it('Should render correct toggle styles', () => {
     render(<Loader />);
-    const loader = screen.getByRole('progressbar');
+    const loader = screen.getByRole('status');
     const loaderSpinner = loader.querySelector('.rs-loader-spin');
 
     expect(loader).to.have.style('height', '18px');
