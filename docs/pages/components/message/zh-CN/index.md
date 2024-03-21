@@ -56,7 +56,7 @@ Message 的 `role` 为 `alert`。
 
 无需键盘交互。
 
-## Props & Hooks
+## Props
 
 ### `<Message>`
 
@@ -64,16 +64,14 @@ Message 的 `role` 为 `alert`。
 
 | 属性名称    | 类型 `(默认值)`                                                    | 描述                                                                      |
 | ----------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| ~duration~  | number `(2000)`                                                    | ⚠️`[已弃用]`请使用 `toaster.push(<Message />, { duration: 2000 })` 代替。 |
 | bordered    | boolean                                                            | 显示消息框边框 <br/>![](https://img.shields.io/badge/min-v5.53.0-blue)    |
 | centered    | boolean                                                            | 垂直居中消息框 <br/>![](https://img.shields.io/badge/min-v5.53.0-blue)    |
 | children    | ReactNode                                                          | 消息描述信息                                                              |
 | classPrefix | string `('message')`                                               | 组件 CSS 类的前缀                                                         |
 | closable    | boolean                                                            | 可以关闭消息框                                                            |
-| ~duration~  | number `(2000)`                                                    | ⚠️`[已弃用]`请使用 `toaster.push(<Message />, { duration: 2000 })` 代替。 |
 | full        | boolean                                                            | 撑满容器                                                                  |
 | header      | ReactNode                                                          | 消息标题                                                                  |
 | onClose     | (event?: MouseEvent) => void                                       | 消息关闭后调用                                                            |
 | showIcon    | boolean                                                            | 显示图标                                                                  |
 | type        | 'info' &#124; 'success' &#124; 'warning' &#124; 'error' `('info')` | 消息框类型                                                                |
-
-<!--{include:(components/notification/zh-CN/toaster.md)}-->

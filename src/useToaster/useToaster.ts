@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
-import toaster from './toaster';
-import { ToastContainerProps } from './ToastContainer';
+import toaster from '../toaster';
+import { ToastContainerProps } from '../toaster/ToastContainer';
 import { useCustom } from '../utils';
 
 /**
- * The 'useToaster' hook is a wrapper for the 'toaster' module.
+ * Toaster display brief, temporary notifications of actions, errors, or other events in an application.
+ * It is often used with the Message and Notification components.
  * @returns toaster { push, remove, clear }
  *
- * @see https://rsuitejs.com/components/message/
- * @see https://rsuitejs.com/components/notification/
+ * @see https://rsuitejs.com/components/use-toaster/
  */
 const useToaster = () => {
   const { toasters } = useCustom();

@@ -24,7 +24,7 @@
 
 <!--{include:`with-toaster.md`}-->
 
-## Props & Hooks
+## Props
 
 ### `<Notification>`
 
@@ -38,5 +38,4 @@
 | placement   | [Placement](#code-ts-placement-code)`('topCenter')`                | 通知出现的位置                                                                 |
 | type        | 'info' &#124; 'success' &#124; 'warning' &#124; 'error' `('info')` | 通知类型                                                                       |
 
-<!--{include:(components/notification/zh-CN/toaster.md)}-->
 <!--{include:(_common/types/placement-toaster.md)}-->

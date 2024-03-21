@@ -1,12 +1,14 @@
-# Icons 图标
+# Icon 图标
 
-在 React Suite 应用中使用图标，我们提供了一些知道和建议。
+在 React Suite 应用中使用图标，我们提供了一些指导和建议。
 
 ## React Suite 图标
 
-我们提供了一套图标组件，您需要安装`@rsuite/icons`图标组件。
+<a href="/resources/icons" target="_blank" rel="noopener noreferrer" title="React Suite Icons" >
+ <img src="../../../../public/images/icons.png" alt="React Icons" style="max-width: 400px; margin-bottom:20px">
+</a>
 
-> [React Suite 图标资源](/zh/resources/icons)
+我们提供了一套图标组件，您需要安装`@rsuite/icons`图标组件。
 
 ## 安装
 

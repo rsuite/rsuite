@@ -24,10 +24,17 @@ export const toastPlacements: PlacementType[] = [
 ];
 
 export interface ToastContainerProps extends WithAsProps {
-  /** The placement of the message box */
+  /**
+   * The placement of the message box。
+   *
+   * @default 'topCenter'
+   */
   placement?: PlacementType;
 
-  /** Set the message to appear in the specified container */
+  /**
+   * Set the message to appear in the specified container
+   *
+   */
   container?: HTMLElement | (() => HTMLElement);
 
   /** The number of milliseconds to wait before automatically closing a message. */

@@ -1,8 +1,7 @@
 <!--start-code-->
 
 ```js
-import { Button, ButtonToolbar, ButtonGroup, IconButton } from 'rsuite';
-import StarIcon from '@rsuite/icons/legacy/Star';
+import { Button, ButtonToolbar, ButtonGroup } from 'rsuite';
 
 const App = () => (
   <>
@@ -11,13 +10,6 @@ const App = () => (
       <Button size="md">Medium</Button>
       <Button size="sm">Small</Button>
       <Button size="xs">Xsmall</Button>
-    </ButtonToolbar>
-
-    <ButtonToolbar>
-      <IconButton icon={<StarIcon />} circle size="lg" />
-      <IconButton icon={<StarIcon />} circle size="md" />
-      <IconButton icon={<StarIcon />} circle size="sm" />
-      <IconButton icon={<StarIcon />} circle size="xs" />
     </ButtonToolbar>
 
     <ButtonToolbar>
