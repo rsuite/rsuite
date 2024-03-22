@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useClassNames } from '../utils';
+import { useClassNames, useUniqueId } from '../utils';
 import { oneOf } from '../internals/propTypes';
 import { WithAsProps, RsRefForwardingComponent, TypeAttributes } from '../@types/common';
 
@@ -47,14 +47,13 @@ const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
       ...rest
     } = props;
 
-    const hasContent = !!content;
     const { merge, withClassPrefix, prefix } = useClassNames(classPrefix);
+    const labelId = useUniqueId('loader-label-');
 
     const classes = merge(
       className,
       prefix('wrapper', `speed-${speed}`, size, {
         'backdrop-wrapper': backdrop,
-        'has-content': hasContent,
         vertical,
         inverse,
         center
@@ -62,11 +61,21 @@ const Loader: RsRefForwardingComponent<'div', LoaderProps> = React.forwardRef(
     );
 
     return (
-      <Component role="progressbar" {...rest} ref={ref} className={classes}>
+      <Component
+        role="status"
+        aria-labelledby={content ? labelId : undefined}
+        {...rest}
+        ref={ref}
+        className={classes}
+      >
         {backdrop && <div className={prefix('backdrop')} />}
         <div className={withClassPrefix()}>
           <span className={prefix('spin')} />
-          {hasContent && <span className={prefix('content')}>{content}</span>}
+          {content && (
+            <span id={labelId} className={prefix('content')}>
+              {content}
+            </span>
+          )}
         </div>
       </Component>
     );

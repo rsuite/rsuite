@@ -36,17 +36,24 @@ A component that provides state during data loading.
 
 <!--{include:`inverse.md`}-->
 
+## Accessibility
+
+### ARIA Roles
+
+- Loader has `role` of `status`.
+- When the Loader has a `content` attribute, the `aria-labelledby` attribute is set to the `id` of the `content` element.
+
 ## Props
 
 ### `<Loader>`
 
-| Property    | Type `(Default)`                                 | Description                                     |
-| ----------- | ------------------------------------------------ | ----------------------------------------------- |
-| backdrop    | boolean                                          | Whether the background is displayed             |
-| center      | boolean                                          | Centered in the container                       |
-| classPrefix | string                                           | The prefix of the component CSS class           |
-| content     | ReactNode                                        | Custom descriptive text                         |
-| inverse     | boolean                                          | An alternative dark visual style for the Loader |
-| size        | 'lg' &#124; 'md' &#124; 'sm' &#124; 'xs'`('md')` | Sets the loader dimensions                      |
-| speed       | 'fast' &#124; 'normal' &#124; 'slow'`('normal')` | The speed at which the loader rotates           |
-| vertical    | boolean                                          | The icon is displayed vertically with the text  |
+| Property    | Type `(Default)`                         | Description                                     |
+| ----------- | ---------------------------------------- | ----------------------------------------------- |
+| backdrop    | boolean                                  | Whether the background is displayed             |
+| center      | boolean                                  | Centered in the container                       |
+| classPrefix | string                                   | The prefix of the component CSS class           |
+| content     | ReactNode                                | Custom descriptive text                         |
+| inverse     | boolean                                  | An alternative dark visual style for the Loader |
+| size        | 'lg' \| 'md' \| 'sm' \| 'xs'`('md')`     | Sets the loader dimensions                      |
+| speed       | 'fast' \| 'normal' \| 'slow'`('normal')` | The speed at which the loader rotates           |
+| vertical    | boolean                                  | The icon is displayed vertically with the text  |
