@@ -1,3 +1,19 @@
+# [5.57.0](https://github.com/rsuite/rsuite/compare/v5.56.0...v5.57.0) (2024-03-22)
+
+
+### Bug Fixes
+
+* **InlineEdit:** fix type conflict for defined `children` ([#3685](https://github.com/rsuite/rsuite/issues/3685)) ([619c455](https://github.com/rsuite/rsuite/commit/619c4551329f3e83be8f862c4cc02bb15245d0de))
+* **Loader:** set correct ARIA properties for Loader ([#3691](https://github.com/rsuite/rsuite/issues/3691)) ([92505e2](https://github.com/rsuite/rsuite/commit/92505e258303e9be52d8771e2eedcd147e79406c))
+* fix the problem that useToaster cannot be imported on demand and update the docs directory ([#3689](https://github.com/rsuite/rsuite/issues/3689)) ([1e4f4e3](https://github.com/rsuite/rsuite/commit/1e4f4e3ea37c20442faced375a697169a659ba56))
+
+
+### Features
+
+* add support for CascadeTree and MultiCascadeTree ([#3563](https://github.com/rsuite/rsuite/issues/3563)) ([524fc7a](https://github.com/rsuite/rsuite/commit/524fc7ac4810fd8128b7dea0b72b525f55d70401))
+
+
+
 # [5.56.0](https://github.com/rsuite/rsuite/compare/v5.55.1...v5.56.0) (2024-03-15)
 
 
