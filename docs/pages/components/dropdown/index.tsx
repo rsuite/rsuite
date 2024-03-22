@@ -1,5 +1,15 @@
 import React from 'react';
-import { Dropdown, Button, ButtonToolbar, IconButton, ButtonGroup, Popover, Whisper } from 'rsuite';
+import {
+  Dropdown,
+  Button,
+  ButtonToolbar,
+  IconButton,
+  ButtonGroup,
+  Popover,
+  Whisper,
+  Stack,
+  Text
+} from 'rsuite';
 import Link from 'next/link';
 import DefaultPage from '@/components/Page';
 import ImportGuide from '@/components/ImportGuide';
@@ -32,7 +42,9 @@ export default function Page() {
         ButtonGroup,
         Popover,
         Whisper,
-        Link
+        Link,
+        Stack,
+        Text
       }}
     />
   );

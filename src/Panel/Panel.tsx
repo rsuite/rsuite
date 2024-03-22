@@ -5,6 +5,7 @@ import Collapse from '../Animation/Collapse';
 import { useClassNames, useControlled, useUniqueId, useEventCallback } from '../utils';
 import { AnimationEventProps, RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import { PanelGroupContext } from '../PanelGroup';
+import Heading from '../Heading';
 import AccordionButton from './AccordionButton';
 
 export interface PanelProps<T = string | number> extends WithAsProps, AnimationEventProps {
@@ -170,7 +171,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
       }
 
       return (
-        <h2 className={prefix('header')}>
+        <Heading level={2} className={prefix('header')}>
           {collapsible ? (
             <AccordionButton
               id={btnId}
@@ -186,7 +187,7 @@ const Panel: RsRefForwardingComponent<'div', PanelProps> = React.forwardRef(
           ) : (
             headerElement
           )}
-        </h2>
+        </Heading>
       );
     };
 

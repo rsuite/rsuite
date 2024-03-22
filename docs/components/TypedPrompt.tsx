@@ -47,7 +47,7 @@ export default function TypedPrompt(props) {
   return (
     <Modal {...props} open={open} animationTimeout={0} onClose={handleClose}>
       <Modal.Header>Type Declarations</Modal.Header>
-      <Modal.Body className="markdown">
+      <Modal.Body className="markdown rcv-highlight rcv-code-renderer">
         <div className="doc-highlight" dangerouslySetInnerHTML={{ __html: typedCode }} />
       </Modal.Body>
     </Modal>

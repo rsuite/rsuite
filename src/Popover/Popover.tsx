@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames } from '../utils';
 import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import Heading from '../Heading';
 
 export interface PopoverProps extends WithAsProps {
   /** The title of the component. */
@@ -48,7 +49,11 @@ const Popover: RsRefForwardingComponent<'div', PopoverProps> = React.forwardRef(
     return (
       <Component role="dialog" {...rest} ref={ref} className={classes} style={styles}>
         {arrow && <div className={prefix`arrow`} aria-hidden />}
-        {title && <h3 className={prefix`title`}>{title}</h3>}
+        {title && (
+          <Heading level={3} className={prefix`title`}>
+            {title}
+          </Heading>
+        )}
         <div className={prefix`content`}>{children}</div>
       </Component>
     );

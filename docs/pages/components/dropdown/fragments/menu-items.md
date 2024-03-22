@@ -1,23 +1,52 @@
 <!--start-code-->
 
 ```js
-import { Dropdown } from 'rsuite';
+import { Dropdown, Text } from 'rsuite';
+
+const { Menu, Item } = Dropdown;
+const MenuIten = ({ children }) => {
+  return (
+    <Item>
+      <Stack justifyContent="space-between">{children}</Stack>
+    </Item>
+  );
+};
 
 const App = () => (
-  <Dropdown.Menu
+  <Menu
     style={{
-      width: 200,
+      width: 300,
       border: '1px solid #ddd'
     }}
   >
-    <Dropdown.Item>New File</Dropdown.Item>
-    <Dropdown.Item>New File with Current Profile</Dropdown.Item>
-    <Dropdown.Item>Download As...</Dropdown.Item>
-    <Dropdown.Item>Export PDF</Dropdown.Item>
-    <Dropdown.Item>Export HTML</Dropdown.Item>
-    <Dropdown.Item>Settings</Dropdown.Item>
-    <Dropdown.Item>About</Dropdown.Item>
-  </Dropdown.Menu>
+    <MenuIten>
+      New File <Text as="kbd"> ⌘ + N</Text>
+    </MenuIten>
+    <MenuIten>
+      New File with Current Profile
+      <Text as="kbd"> ⌘ + Shift + N</Text>
+    </MenuIten>
+    <MenuIten>
+      Download As...
+      <Text as="kbd"> ⌘ + Shift + D</Text>
+    </MenuIten>
+    <MenuIten>
+      Export PDF
+      <Text as="kbd"> ⌘ + Shift + E</Text>
+    </MenuIten>
+    <MenuIten>
+      Export HTML
+      <Text as="kbd"> ⌘ + Shift + H</Text>
+    </MenuIten>
+    <MenuIten>
+      Settings
+      <Text as="kbd"> ⌘ + ,</Text>
+    </MenuIten>
+    <MenuIten>
+      About
+      <Text as="kbd"> ⌘ + Shift + ,</Text>
+    </MenuIten>
+  </Menu>
 );
 ReactDOM.render(<App />, document.getElementById('root'));
 ```
