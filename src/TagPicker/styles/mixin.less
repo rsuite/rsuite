@@ -1,0 +1,21 @@
+.rs-tag-picker-size(@padding-vertical; @padding-horizontal; @font-size; @line-height;) {
+  .rs-picker-textbox {
+    padding-bottom: @padding-vertical - 3px;
+
+    .rs-picker-search-input {
+      padding-left: @padding-horizontal;
+      margin-top: @padding-vertical - 3px;
+      font-size: @font-size;
+    }
+
+    input {
+      height: @line-height * @font-size - 2px;
+    }
+  }
+
+  .rs-picker-toggle {
+    padding-top: @padding-vertical - 1px;
+    padding-bottom: @padding-vertical - 1px;
+    box-shadow: none;
+  }
+}
