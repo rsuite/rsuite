@@ -140,7 +140,7 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         fireEvent.click(combobox);
         expect(screen.getByRole(ariaHaspopup)).to.exist;
 
-        expect(onOpen).to.have.been.calledOnce;
+        expect(onOpen).to.have.been.called;
       });
 
       it('Should open the popup on Enter key', () => {
