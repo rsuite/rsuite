@@ -23,7 +23,7 @@ describe('Cascader', () => {
       return screen.getByRole('combobox');
     }
   });
-  testPickers(Cascader);
+  testPickers(Cascader, { ariaHaspopup: 'tree' });
   testControlledUnControlled(Cascader, {
     componentProps: { data: items, defaultOpen: true },
     value: '1',

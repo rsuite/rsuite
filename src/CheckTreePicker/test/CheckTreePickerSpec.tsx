@@ -23,7 +23,7 @@ describe('CheckTreePicker', () => {
       return screen.getByRole('combobox');
     }
   });
-  testPickers(CheckTreePicker, { virtualized: true });
+  testPickers(CheckTreePicker, { virtualized: true, ariaHaspopup: 'tree' });
   testControlledUnControlled(CheckTreePicker, {
     componentProps: {
       data: controlledData,

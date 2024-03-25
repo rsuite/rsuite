@@ -27,7 +27,7 @@ describe('DatePicker', () => {
     }
   });
 
-  testPickers(DatePicker);
+  testPickers(DatePicker, { role: 'textbox', ariaHaspopup: 'dialog' });
 
   testControlledUnControlled(DatePicker, {
     defaultValue: new Date('2023-10-01'),

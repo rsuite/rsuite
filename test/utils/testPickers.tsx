@@ -6,6 +6,8 @@ import { getInstance } from './getInstance';
 interface TestPickerOptions {
   data?: any;
   virtualized?: boolean;
+  role?: 'combobox' | 'textbox';
+  ariaHaspopup?: 'listbox' | 'dialog' | 'grid' | 'menu' | 'tree';
 }
 
 const defaultData = [
@@ -14,7 +16,12 @@ const defaultData = [
 ];
 
 export function testPickers(TestComponent: React.ComponentType<any>, options?: TestPickerOptions) {
-  const { data = defaultData, virtualized } = options || {};
+  const {
+    data = defaultData,
+    virtualized,
+    role = 'combobox',
+    ariaHaspopup = 'listbox'
+  } = options || {};
   const displayName = TestComponent.displayName;
 
   describe(`${displayName} - Common props for all pickers`, () => {
@@ -24,15 +31,13 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       expect(container.firstChild).to.have.class('rs-picker');
     });
 
-    it('Should have a subtle appearance', () => {
-      render(<TestComponent data={data} appearance="subtle" />);
+    if (role === 'combobox') {
+      it('Should have a subtle appearance', () => {
+        render(<TestComponent data={data} appearance="subtle" />);
 
-      const combobox = screen.queryByRole('combobox');
-
-      if (combobox) {
-        expect(combobox).to.have.class('rs-btn-subtle');
-      }
-    });
+        expect(screen.getByRole(role)).to.have.class('rs-btn-subtle');
+      });
+    }
 
     it('Should be block', () => {
       const { container } = render(<TestComponent data={data} block />);
@@ -69,29 +74,19 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
       it('Should not open menu on click when loading=true', () => {
         render(<TestComponent data={data} loading />);
 
-        const combobox = screen.queryByRole('combobox');
+        const combobox = screen.getByRole(role);
 
-        if (combobox) {
-          fireEvent.click(combobox);
-          expect(screen.queryByRole('listbox')).not.to.exist;
-        } else {
-          fireEvent.click(screen.getByRole('textbox'));
-          expect(screen.queryByRole('dialog')).not.to.exist;
-        }
+        fireEvent.click(combobox);
+        expect(screen.queryByRole(ariaHaspopup)).not.to.exist;
       });
 
       it('Should not open menu on Enter key when loading=true', () => {
         render(<TestComponent data={data} loading />);
 
-        const combobox = screen.queryByRole('combobox');
+        const combobox = screen.getByRole(role);
 
-        if (combobox) {
-          fireEvent.keyDown(combobox, { key: 'Enter' });
-          expect(screen.queryByRole('listbox')).not.to.exist;
-        } else {
-          fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter' });
-          expect(screen.queryByRole('dialog')).not.to.exist;
-        }
+        fireEvent.keyDown(combobox, { key: 'Enter' });
+        expect(screen.queryByRole(ariaHaspopup)).not.to.exist;
       });
     });
 
@@ -131,6 +126,95 @@ export function testPickers(TestComponent: React.ComponentType<any>, options?: T
         if (virtualized) {
           expect(instance.list).to.exist;
         }
+      });
+    });
+
+    describe('Open state', () => {
+      it('Should open the popup on click', () => {
+        const onOpen = Sinon.spy();
+
+        render(<TestComponent data={data} onOpen={onOpen} />);
+
+        const combobox = screen.getByRole(role);
+
+        fireEvent.click(combobox);
+        expect(screen.getByRole(ariaHaspopup)).to.exist;
+
+        expect(onOpen).to.have.been.calledOnce;
+      });
+
+      it('Should open the popup on Enter key', () => {
+        const onOpen = Sinon.spy();
+
+        render(<TestComponent data={data} onOpen={onOpen} />);
+
+        const combobox = screen.getByRole(role);
+
+        fireEvent.keyDown(combobox, { key: 'Enter' });
+        expect(screen.getByRole(ariaHaspopup)).to.exist;
+
+        expect(onOpen).to.have.been.calledOnce;
+      });
+
+      it('Should close the popup on outside click', () => {
+        const onClose = Sinon.spy();
+
+        render(<TestComponent data={data} defaultOpen onClose={onClose} />);
+
+        fireEvent.mouseDown(document.body);
+
+        expect(onClose).to.have.been.calledOnce;
+      });
+
+      it('Should close the popup on Escape key', () => {
+        const onClose = Sinon.spy();
+
+        render(<TestComponent data={data} defaultOpen onClose={onClose} />);
+
+        const combobox = screen.getByRole(role);
+
+        fireEvent.keyDown(combobox, { key: 'Escape' });
+        expect(screen.getByRole(ariaHaspopup)).to.exist;
+
+        expect(onClose).to.have.been.calledOnce;
+      });
+
+      it('Should close the popup on Tab key', () => {
+        const onClose = Sinon.spy();
+
+        render(<TestComponent data={data} defaultOpen onClose={onClose} />);
+
+        const combobox = screen.getByRole(role);
+
+        fireEvent.keyDown(combobox, { key: 'Tab' });
+        expect(screen.getByRole(ariaHaspopup)).to.exist;
+
+        expect(onClose).to.have.been.calledOnce;
+      });
+
+      it('Should be controlled by `open`', () => {
+        const App = () => {
+          const [open, setOpen] = React.useState(false);
+          return (
+            <TestComponent
+              data={data}
+              open={open}
+              onOpen={() => {
+                setOpen(true);
+              }}
+              onClose={() => {
+                setOpen(false);
+              }}
+            />
+          );
+        };
+
+        render(<App />);
+
+        const combobox = screen.getByRole(role);
+
+        fireEvent.click(combobox);
+        expect(screen.getByRole(ariaHaspopup)).to.exist;
       });
     });
   });
