@@ -108,7 +108,7 @@ export default React.memo(function SideNavbar(props: SideNavbarProps) {
       if (child.group) {
         navItems.push(
           <Nav.Item panel key={child.id}>
-            # {child.name}
+            {child.name}
           </Nav.Item>
         );
         return;

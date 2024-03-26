@@ -22,7 +22,7 @@ function createStorybook(componentName: string) {
     'Whisper',
     'useMediaQuery',
     'CustomProvider',
-    'Overview',
+    'All Components',
     'Icons',
     'CSS Reset',
     'Formik integration'

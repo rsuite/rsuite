@@ -23,6 +23,7 @@ export default {
     useVite: 'Vite',
     officialThemes: '主题',
     cssVariables: 'CSS 变量',
+    cssReset: 'CSS 重置',
     customizationLess: '基于 Less 的定制',
     i18n: '语言本地化',
     rtl: '从右到左 (RTL)',

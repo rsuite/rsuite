@@ -21,9 +21,9 @@ function App() {
 }
 ```
 
-### 2.1、排除 CSS 样式重置（可选）
+### 2.1、排除 CSS 重置（可选）
 
-`rsuite.min.css` 包含了 [CSS 样式重置](/zh/components/css-reset/)。如果你需要使用自己的样式重置，使用 `rsuite-no-reset.min.css` 文件代替。
+`rsuite.min.css` 包含了 [CSS 重置](/zh/guide/css-reset/)。如果你需要使用自己的样式，使用 `rsuite-no-reset.min.css` 文件代替。
 
 ```diff
 - import 'rsuite/dist/rsuite.min.css';

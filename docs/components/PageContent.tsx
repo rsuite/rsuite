@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
-import { Divider, Footer } from 'rsuite';
+import { Divider, Footer, TagGroup, Tag } from 'rsuite';
 import { MarkdownRenderer } from 'react-code-view';
 import AppContext from './AppContext';
 import PageContainer from './PageContainer';
@@ -13,6 +13,7 @@ import { VercelBanner } from './VercelBanner';
 import CustomCodeView, { CustomCodeViewProps } from './CodeView';
 import InstallGuide from './InstallGuide';
 import { installCarbon, installBadges } from './scripts';
+import { type MenuItem } from '../utils/usePages';
 
 const defaultInDocsComponents = {
   'install-guide': InstallGuide
@@ -51,7 +52,7 @@ const PageContent = (props: PageContentProps) => {
   const description = getDescription(context);
   const pageHead = <Head title={title} description={description} />;
 
-  const component = components.find(item => item.id === id || item.name === id);
+  const component: MenuItem = components.find(item => item.id === id || item.name === id);
   const designHash = component?.designHash;
 
   const fragments = context.split(/<!--{(\S+)}-->/);
@@ -124,6 +125,14 @@ const PageContent = (props: PageContentProps) => {
       {children}
 
       <Divider />
+
+      {component?.keywords ? (
+        <TagGroup>
+          {component.keywords.map((keyword, index) => (
+            <Tag key={index}>{keyword}</Tag>
+          ))}
+        </TagGroup>
+      ) : null}
       <Footer>
         <VercelBanner />
       </Footer>
