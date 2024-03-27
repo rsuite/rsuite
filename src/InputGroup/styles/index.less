@@ -11,12 +11,12 @@
 .rs-input-group {
   position: relative; // For dropdowns
   display: flex;
-  border-radius: @input-border-radius;
   transition: @input-transition;
   width: 100%;
   cursor: text;
   color: var(--rs-text-primary);
   border: 1px solid var(--rs-border-primary);
+  border-radius: var(--rs-border-radius-md);
 
   .high-contrast-mode({
     transition: none;
@@ -210,6 +210,8 @@
 
 //Reset Input size
 .rs-input-group-lg {
+  border-radius: var(--rs-border-radius-lg);
+
   > .rs-input {
     .input-lg();
   }
@@ -223,6 +225,8 @@
 }
 
 .rs-input-group-md {
+  border-radius: var(--rs-border-radius-lg);
+
   > .rs-input {
     .input-md();
   }
@@ -236,6 +240,8 @@
 }
 
 .rs-input-group-sm {
+  border-radius: var(--rs-border-radius-sm);
+
   > .rs-input {
     .input-sm();
   }
@@ -249,6 +255,8 @@
 }
 
 .rs-input-group-xs {
+  border-radius: var(--rs-border-radius-xs);
+
   > .rs-input {
     .input-xs();
   }

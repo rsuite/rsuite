@@ -8,7 +8,8 @@
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
   border: 1px solid var(--rs-border-primary);
   transition: @input-transition;
-  border-radius: @border-radius;
+  border-radius: var(--rs-border-radius-md);
+
   .input-md();
 
   .high-contrast-mode({
@@ -90,6 +91,7 @@
   min-width: @width;
   padding-left: @padding-horizontal;
   padding-right: @padding-horizontal;
+
 }
 
 .reset-inside-input-group-btn-size(@size-name) {
