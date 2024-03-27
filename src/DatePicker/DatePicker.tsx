@@ -14,7 +14,6 @@ import Stack from '../Stack';
 import PredefinedRanges from './PredefinedRanges';
 import { DatePickerLocale } from '../locales';
 import {
-  createChainedFunction,
   mergeRefs,
   useClassNames,
   useControlled,
@@ -274,12 +273,10 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       onChange,
       onChangeCalendarDate,
       onClean,
-      onClose,
       onEntered,
       onExited,
       onNextMonth,
       onOk,
-      onOpen,
       onPrevMonth,
       onSelect,
       onToggleMonthDropdown,
@@ -721,6 +718,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
       }
 
       setShowMonthDropdown(false);
+
+      props.onClose?.();
     });
 
     const showCleanButton = cleanable && hasValue && !readOnly;
@@ -734,8 +733,8 @@ const DatePicker: RsRefForwardingComponent<'div', DatePickerProps> = React.forwa
         ref={trigger}
         placement={placement}
         onClose={handleTriggerClose}
-        onEntered={createChainedFunction(onOpen, onEntered)}
-        onExited={createChainedFunction(onClose, onExited)}
+        onEntered={onEntered}
+        onExited={onExited}
         speaker={renderCalendarOverlay}
       >
         <Component

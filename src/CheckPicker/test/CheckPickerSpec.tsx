@@ -392,6 +392,24 @@ describe('CheckPicker', () => {
     expect(screen.getAllByRole('checkbox')[2]).to.be.checked;
   });
 
+  it('Should trigger onOpen & onClose with open props set', () => {
+    const onOpenSpy = sinon.spy();
+    const onCloseSpy = sinon.spy();
+    const { rerender } = render(
+      <CheckPicker data={data} onOpen={onOpenSpy} onClose={onCloseSpy} open />
+    );
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    expect(onCloseSpy).to.have.been.calledOnce;
+
+    rerender(<CheckPicker data={data} onOpen={onOpenSpy} onClose={onCloseSpy} open={false} />);
+
+    fireEvent.click(screen.getByRole('combobox'));
+
+    expect(onOpenSpy).to.have.been.calledOnce;
+  });
+
   it('Should render a button by toggleAs={Button}', () => {
     render(<CheckPicker open data={data} toggleAs={Button} />);
     expect(screen.getByRole('combobox')).to.have.class('rs-btn');

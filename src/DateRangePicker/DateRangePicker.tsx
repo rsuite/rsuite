@@ -236,12 +236,10 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
     value: valueProp,
     onChange,
     onClean,
-    onClose,
     onEnter,
     onEntered,
     onExited,
     onOk,
-    onOpen,
     onSelect,
     onShortcutClick,
     renderTitle,
@@ -900,8 +898,8 @@ const DateRangePicker = React.forwardRef((props: DateRangePickerProps, ref) => {
       pickerProps={pick(props, pickTriggerPropKeys)}
       placement={placement}
       onEnter={createChainedFunction(handleEnter, onEnter)}
-      onEntered={createChainedFunction(onOpen, onEntered)}
-      onExited={createChainedFunction(onClose, onExited)}
+      onEntered={onEntered}
+      onExited={onExited}
       speaker={renderCalendarOverlay}
     >
       <Component

@@ -22,7 +22,7 @@ describe('MultiCascader', () => {
       return screen.getByRole('combobox');
     }
   });
-  testPickers(MultiCascader);
+  testPickers(MultiCascader, { ariaHaspopup: 'tree' });
   testControlledUnControlled(MultiCascader, {
     componentProps: {
       data: items,

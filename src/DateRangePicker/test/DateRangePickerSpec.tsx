@@ -51,7 +51,7 @@ describe('DateRangePicker', () => {
     }
   });
 
-  testPickers(DateRangePicker);
+  testPickers(DateRangePicker, { role: 'textbox', ariaHaspopup: 'dialog' });
   testControlledUnControlled(DateRangePicker, {
     defaultValue: [new Date('2023-11-01'), new Date('2023-11-02')],
     value: [new Date('2023-11-03'), new Date('2023-11-04')],

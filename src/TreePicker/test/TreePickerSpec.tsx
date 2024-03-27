@@ -25,7 +25,7 @@ describe('TreePicker', () => {
     }
   });
 
-  testPickers(TreePicker);
+  testPickers(TreePicker, { ariaHaspopup: 'tree' });
   testControlledUnControlled(TreePicker, {
     componentProps: { data, defaultOpen: true },
     value: '1',

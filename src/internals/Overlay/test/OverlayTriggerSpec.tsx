@@ -285,6 +285,42 @@ describe('OverlayTrigger', () => {
     expect(screen.getByRole('tooltip')).to.exist;
   });
 
+  it('Should trigger onOpen & onClose with open props set', () => {
+    const onOpenSpy = sinon.spy();
+    const onCloseSpy = sinon.spy();
+    const { rerender } = render(
+      <OverlayTrigger
+        speaker={<Tooltip>tooltip</Tooltip>}
+        open
+        onOpen={onOpenSpy}
+        onClose={onCloseSpy}
+        trigger="click"
+      >
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    fireEvent.click(screen.getByText('button'));
+
+    expect(onCloseSpy).to.have.been.calledOnce;
+
+    rerender(
+      <OverlayTrigger
+        speaker={<Tooltip>tooltip</Tooltip>}
+        open={false}
+        onOpen={onOpenSpy}
+        onClose={onCloseSpy}
+        trigger="click"
+      >
+        <button>button</button>
+      </OverlayTrigger>
+    );
+
+    fireEvent.click(screen.getByText('button'));
+
+    expect(onOpenSpy).to.have.been.calledOnce;
+  });
+
   it('Should open the Overlay by default', async () => {
     const onCloseSpy = sinon.spy();
     const ref = React.createRef<OverlayTriggerHandle>();

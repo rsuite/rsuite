@@ -150,12 +150,10 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     onEntered,
     onChange,
     onClean,
-    onClose,
     onExited,
     onSearch,
     onSelect,
     onSelectItem,
-    onOpen,
     onScroll,
     onExpand,
     renderValue,
@@ -425,17 +423,13 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
   });
 
   const handleOpen = useEventCallback(() => {
-    trigger.current?.open?.();
     setFocusItemValue(activeNode?.[valueKey]);
     focusActiveNode();
-    onOpen?.();
     setActive(true);
   });
 
   const handleClose = useEventCallback(() => {
-    trigger.current?.close?.();
     setSearchKeyword('');
-    onClose?.();
     setFocusItemValue(null);
     setActive(false);
 
@@ -577,7 +571,6 @@ const CheckTreePicker: PickerComponent<CheckTreePickerProps> = React.forwardRef(
     searchInput,
     active,
     onExit: handleClean,
-    onClose: handleClose,
     onMenuKeyDown: event => {
       onMenuKeyDown(event, {
         down: () => handleFocusItem(KEY_VALUES.DOWN),

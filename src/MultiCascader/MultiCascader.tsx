@@ -170,8 +170,6 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
       onSearch,
       onSelect,
       onChange,
-      onOpen,
-      onClose,
       onCheck,
       menuClassName: DEPRECATED_menuClassName,
       menuStyle: DEPRECATED_menuStyle,
@@ -274,8 +272,6 @@ const MultiCascader: PickerComponent<MultiCascaderProps<DataItemValue>> = React.
     });
 
     const { active, handleEntered, handleExited } = useActive({
-      onOpen,
-      onClose,
       onEntered,
       onExited,
       target,
