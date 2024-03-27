@@ -3,6 +3,7 @@
 @import '../../Checkbox/styles/index.less';
 @import '../../internals/Picker/styles/mixin.less';
 @import '../../InputPicker/styles/index.less';
+@import './mixin.less';
 
 .rs-picker-tag {
   .rs-picker-toggle {
@@ -34,11 +35,6 @@
     padding-left: @tag-picker-content-padding-horizontal;
   }
 
-  .rs-tag,
-  .rs-tag + .rs-tag {
-    margin-left: @tag-picker-content-padding-horizontal;
-  }
-
   .rs-picker-search {
     &,
     &-input,
@@ -67,4 +63,60 @@
 
 .rs-plaintext .rs-tag {
   margin: 0;
+}
+
+// Tag Picker Size
+// --------------------------------------------------
+.rs-picker-tag-lg {
+  .rs-tag-picker-size(@padding-y-lg - 1; @padding-x-lg; @font-size-large; @line-height-large);
+  .rs-picker-textbox {
+    min-height: 40px;
+  }
+  .rs-picker-tag-list .rs-tag-lg {
+    margin-top: 6px;
+    margin-left: 6px;
+  }
+}
+
+// Default size
+.rs-picker-tag,
+.rs-picker-tag-md {
+  .rs-tag-picker-size(@padding-y; @padding-x; @font-size-base; @line-height-base);
+  .rs-picker-tag-list .rs-tag-md {
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+}
+
+.rs-picker-tag-sm {
+  .rs-tag-picker-size(@padding-y-sm; @padding-x-sm; @font-size-base; @line-height-base);
+  .rs-picker-textbox {
+    min-height: 28px;
+  }
+  .rs-picker-tag-list .rs-tag-sm {
+    margin-top: 4px;
+    margin-left: 4px;
+  }
+}
+
+.rs-picker-tag-xs {
+  .rs-tag-picker-size(@padding-y-xs; @padding-x-xs; @font-size-extra-small; @line-height-extra-small);
+
+  .rs-picker-textbox {
+    min-height: 22px;
+    padding-bottom: @padding-y-xs - 1px;
+
+    // Adjust search-input size the same with button
+    .rs-picker-search-input {
+      .padding-vertical(1px);
+    }
+  }
+
+  .rs-picker-tag-list {
+    // Tag does not have `xs` size, and the size needs to be determined through the superior element.
+    .rs-tag-sm {
+      margin-top: 1px;
+      margin-left: 2px;
+    }
+  }
 }

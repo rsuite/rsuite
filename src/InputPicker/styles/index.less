@@ -3,6 +3,7 @@
 @import '../../Input/styles/index.less';
 @import '../../SelectPicker/styles/index.less';
 @import '../../internals/Picker/styles/index.less';
+@import './mixin.less';
 
 .rs-picker-input {
   position: relative;
@@ -37,18 +38,6 @@
 .rs-picker-textbox {
   margin-right: @dropdown-toggle-padding-right;
   min-height: 34px;
-
-  .rs-picker-toggle.rs-btn-lg ~ & {
-    min-height: 40px;
-  }
-
-  .rs-picker-toggle.rs-btn-sm ~ & {
-    min-height: 28px;
-  }
-
-  .rs-picker-toggle.rs-btn-xs ~ & {
-    min-height: 22px;
-  }
 
   .rs-picker-cleanable & {
     margin-right: (@dropdown-toggle-padding-right + @picker-toggle-clean-width);
@@ -86,5 +75,32 @@
     .rs-picker-focused & {
       z-index: @zindex-picker-input;
     }
+  }
+}
+
+// Input Picker Size
+// --------------------------------------------------
+.rs-picker-input-lg {
+  .rs-input-picker-size(@padding-y-lg - 1; @padding-x-lg; @font-size-large; @line-height-large);
+  .rs-picker-textbox {
+    min-height: 40px;
+  }
+}
+
+.rs-picker-input-md {
+  .rs-input-picker-size(@padding-y; @padding-x; @font-size-base; @line-height-base);
+}
+
+.rs-picker-input-sm {
+  .rs-input-picker-size(@padding-y-sm; @padding-x-sm; @font-size-base; @line-height-base);
+  .rs-picker-textbox {
+    min-height: 28px;
+  }
+}
+
+.rs-picker-input-xs {
+  .rs-input-picker-size(@padding-y-xs; @padding-x-xs; @font-size-extra-small; @line-height-extra-small);
+  .rs-picker-textbox {
+    min-height: 22px;
   }
 }

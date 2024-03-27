@@ -167,6 +167,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
       onBlur,
       onFocus,
       searchBy,
+      size,
       placement = 'bottomStart',
       ...rest
     } = props;
@@ -593,7 +594,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
               role="option"
               {...tagRest}
               key={tag}
-              size={convertSize(rest.size)}
+              size={convertSize(size)}
               closable={!disabled && closable && !readOnly && !plaintext}
               title={typeof itemNode === 'string' ? itemNode : undefined}
               onClose={createChainedFunction(handleRemoveItemByTag.bind(null, tag), onClose)}
@@ -706,6 +707,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
 
     const classes = merge(pickerClasses, {
       [prefix`tag`]: multi,
+      [prefix(`${multi ? 'tag' : 'input'}-${size}`)]: size,
       [prefix`focused`]: open,
       [prefix`disabled-options`]: disabledOptions
     });
@@ -774,6 +776,7 @@ const InputPicker: PickerComponent<InputPickerProps> = React.forwardRef(
             inputValue={value}
             focusItemValue={focusItemValue}
             caret={!disabledOptions}
+            size={size}
           >
             {searching || (multi && hasValue) ? null : itemNode || placeholderNode}
           </PickerToggle>
