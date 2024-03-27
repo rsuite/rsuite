@@ -18,6 +18,8 @@ export interface MenuItem {
   tag?: string;
   tagColor?: string;
   minVersion?: string;
+  keywords?: string[];
+  designHash?: string;
 }
 
 export default function usePages(): MenuItem[] {
@@ -99,7 +101,10 @@ export default function usePages(): MenuItem[] {
           id: 'css-variables',
           name: messages?.common?.cssVariables
         },
-
+        {
+          id: 'css-reset',
+          name: messages?.common?.cssReset
+        },
         {
           id: 'i18n',
           name: messages?.common?.i18n

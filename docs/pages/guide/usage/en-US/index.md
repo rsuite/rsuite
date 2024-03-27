@@ -23,7 +23,7 @@ function App() {
 
 ### 2.1. Without CSS Reset (Optional)
 
-`rsuite.min.css` includes a [CSS reset](/components/css-reset/). If you want to use your own CSS reset, you can import the `rsuite-no-reset.min.css` file instead.
+`rsuite.min.css` includes a [CSS reset](/guide/css-reset/). If you want to use your own CSS reset, you can import the `rsuite-no-reset.min.css` file instead.
 
 ```diff
 - import 'rsuite/dist/rsuite.min.css';

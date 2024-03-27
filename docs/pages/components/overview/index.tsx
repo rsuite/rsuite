@@ -1,5 +1,5 @@
 import React from 'react';
-import usePages from '@/utils/usePages';
+import usePages, { type MenuItem } from '@/utils/usePages';
 import DefaultPage from '@/components/Page';
 import AppContext from '@/components/AppContext';
 import { ButtonGroup, IconButton, Input, InputGroup } from 'rsuite';
@@ -9,31 +9,45 @@ import SortedList from '@/components/SortedList';
 import SearchIcon from '@rsuite/icons/Search';
 import { FaSortAlphaUp, FaList } from 'react-icons/fa';
 
+function includes(str: string, keyword: string) {
+  return str.toLowerCase().includes(keyword.toLowerCase());
+}
+
+const filterComponents = (item: MenuItem, search: string) => {
+  const { name, title, keywords } = item;
+
+  return (
+    includes(name, search) ||
+    includes(title, search) ||
+    keywords?.some(keyword => includes(keyword, search))
+  );
+};
+
 export default function Page() {
   const { language, messages } = React.useContext(AppContext);
   const pages = usePages();
   const [type, setType] = React.useState<'category' | 'sorted'>('category');
   const [search, setSearch] = React.useState('');
 
-  const filterComponents = (name: string, title: string) => {
-    if (language === 'zh') {
-      return (
-        name.toLowerCase().includes(search.toLowerCase()) ||
-        title.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-    return name.toLowerCase().includes(search.toLowerCase());
-  };
-
   const components = (pages?.[1]?.children).filter(
-    item => !['overview', 'css-packs'].includes(item.id) && filterComponents(item.name, item.title)
+    item => !['overview', 'css-packs'].includes(item.id) && filterComponents(item, search)
   );
 
   return (
     <DefaultPage>
       <div className="component-overview">
         <div className="toolbar">
-          <ButtonGroup style={{ width: 80 }}>
+          <InputGroup inside className="component-search-input">
+            <Input
+              placeholder={messages.common.searchComponents}
+              onChange={value => setSearch(value)}
+            />
+            <InputGroup.Addon>
+              <SearchIcon />
+            </InputGroup.Addon>
+          </InputGroup>
+
+          <ButtonGroup className="group">
             <IconButton
               icon={<FaList />}
               active={type === 'category'}
@@ -45,15 +59,6 @@ export default function Page() {
               onClick={() => setType('sorted')}
             />
           </ButtonGroup>
-          <InputGroup size="md" inside className="component-search-input">
-            <Input
-              placeholder={messages.common.searchComponents}
-              onChange={value => setSearch(value)}
-            />
-            <InputGroup.Addon>
-              <SearchIcon />
-            </InputGroup.Addon>
-          </InputGroup>
         </div>
 
         {type === 'category' ? (
