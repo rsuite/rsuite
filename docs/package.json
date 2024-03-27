@@ -80,11 +80,7 @@
     "postcss-rtl": "^1.7.3",
     "rimraf": "^3.0.2",
     "rtlcss": "^2.4.1",
-    "rtlcss-webpack-plugin": "^4.0.6",
-    "webpack": "^5.76.0",
-    "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^5.7.3"
+    "rtlcss-webpack-plugin": "^4.0.6"
   },
   "engines": {
     "node": "^16.13.0"
