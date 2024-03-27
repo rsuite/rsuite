@@ -18,17 +18,6 @@
   display: inline-block;
   vertical-align: middle; // Make sure dropdown vertical alignment with button,button group and so on.
 
-  // Dropdown button style
-  .rs-btn {
-    > .rs-dropdown-toggle-icon {
-      margin-right: 6px;
-    }
-
-    > .rs-dropdown-toggle-caret {
-      margin-left: 4px;
-    }
-  }
-
   &-disabled &-toggle.rs-btn {
     cursor: @cursor-disabled !important;
     box-shadow: none;
@@ -81,6 +70,9 @@
   &.rs-btn {
     // Force set style even if has `.btn`.
     .dropdown-toggle();
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
 
   &.rs-dropdown-toggle-no-caret {
@@ -123,7 +115,10 @@
 
 // Links within the dropdown menu
 .rs-dropdown-item {
-  display: block;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 6px;
   padding: @dropdown-item-padding-y @dropdown-item-padding-x;
   clear: both;
   font-weight: normal;
@@ -133,10 +128,18 @@
   cursor: pointer; //fixed link has not [href] style
   .reset-link-text-decoration(none);
 
+  &-content {
+    flex: 1;
+  }
+
+  .rs-dropdown-item-shortcut {
+    margin-inline-start: 20px;
+    border: none;
+  }
+
   > .rs-icon {
     width: @font-size-base;
     text-align: center;
-    margin-right: 6px;
   }
 
   &&-active {
@@ -148,6 +151,10 @@
     &:focus {
       color: var(--rs-dropdown-item-text-active);
       background-color: var(--rs-dropdown-item-bg-active);
+
+      .rs-text {
+        color: var(--rs-dropdown-item-text-active);
+      }
     }
   }
 
@@ -167,6 +174,10 @@
     color: var(--rs-text-disabled);
     cursor: @cursor-disabled;
     pointer-events: none;
+
+    .rs-text {
+      color: var(--rs-text-disabled);
+    }
 
     // Nuke hover/focus effects
     &:hover,

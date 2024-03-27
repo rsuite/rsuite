@@ -29,36 +29,34 @@ Set the trigger event with the `trigger` attribute, support the event:
 
 <!--{include:`trigger.md`}-->
 
-### Option Active State
-
-<!--{include:`active.md`}-->
-
-### Disabled State
+### Disabled
 
 You can disable the entire component or disable individual options by configuring the `disabled` property.
 
 <!--{include:`disabled.md`}-->
 
-### Extends button props
+### Size
 
-The default value of the `toggleAs` property of`Dropdown` is `Button`. You can set the button-related props (eg. size, appearance) and display it in the style of a button.
-
-<!--{include:`toggle-as.md`}-->
+<!--{include:`size.md`}-->
 
 ### No caret variation
 
 <!--{include:`no-caret.md`}-->
 
-### Dropdown with Icon
+### With Shortcut
+
+<!--{include:`shortcut.md`}-->
+
+### With Icons
 
 <!--{include:`icons.md`}-->
 
 ### Separator and Panel
 
-- `<Dropdown.Separator>` Set up a separator.
-- `panel` Set up a panel.
+- Use `<Dropdown.Separator>` to set the separator.
+- Use the `panel` prop to set a `Dropdown.Item` as a panel.
 
-<!--{include:`divider.md`}-->
+<!--{include:`custom.md`}-->
 
 ### Placement
 
@@ -84,11 +82,11 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 
 <!--{include:`buttons.md`}-->
 
-### Used with `next/link`
+### Routing
+
+The `<Dropdown.Item>` component works with frameworks and client side routers like Next.js and React Router. See the [Routing Guide](/guide/composition/#third-party-routing-library) for setup instructions.
 
 <!--{include:`with-router.md`}-->
-
-> [ Used with `Link` in React Router](/guide/composition/#react-router-dom)
 
 ## Props
 
@@ -117,18 +115,19 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 
 ### `<Dropdown.Item>`
 
-| Property    | Type`(default)`                   | Description                                          |
-| ----------- | --------------------------------- | ---------------------------------------------------- |
-| active      | boolean                           | Active the current option                            |
-| as          | ElementType`('li')`               | You can use a custom element type for this component |
-| children \* | ReactNode                         | The content of the component                         |
-| classPrefix | string `('dropdown-item')`        | The prefix of the component CSS class                |
-| disabled    | boolean                           | Disable the current option                           |
-| divider     | boolean                           | Whether to display the divider                       |
-| eventKey    | string                            | The value of the current option                      |
-| icon        | Element&lt;typeof Icon&gt;        | Set the icon                                         |
-| onSelect    | (eventKey: string, event) => void | Select the callback function for the current option  |
-| panel       | boolean                           | Displays a custom panel                              |
+| Property    | Type`(default)`                   | Description                                                                                 |
+| ----------- | --------------------------------- | ------------------------------------------------------------------------------------------- |
+| active      | boolean                           | Active the current option                                                                   |
+| as          | ElementType`('li')`               | You can use a custom element type for this component                                        |
+| children \* | ReactNode                         | The content of the component                                                                |
+| classPrefix | string `('dropdown-item')`        | The prefix of the component CSS class                                                       |
+| disabled    | boolean                           | Disable the current option                                                                  |
+| divider     | boolean                           | Whether to display the divider                                                              |
+| eventKey    | string                            | The value of the current option                                                             |
+| icon        | Element&lt;typeof Icon&gt;        | Set the icon                                                                                |
+| onSelect    | (eventKey: string, event) => void | Select the callback function for the current option                                         |
+| panel       | boolean                           | Displays a custom panel                                                                     |
+| shortcut    | string                            | The dropdown item keyboard shortcut <br/>![](https://img.shields.io/badge/min-v5.58.0-blue) |
 
 ### `<Dropdown.Menu>`
 

@@ -174,6 +174,16 @@ describe('<Dropdown.Item>', () => {
     expect(screen.getByTestId('item')).to.have.id(id);
   });
 
+  it('Should render a shortcut', () => {
+    render(
+      <Dropdown defaultOpen>
+        <DropdownItem shortcut="Ctrl + A" data-testid="item" />
+      </Dropdown>
+    );
+
+    expect(screen.getByRole('menuitem')).to.contain.text('Ctrl + A');
+  });
+
   context('[Deprecated] Within <Nav>', () => {
     it('Should warn deprecation message', () => {
       sinon.spy(console, 'warn');

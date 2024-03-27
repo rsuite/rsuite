@@ -1,6 +1,6 @@
-import { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 import React, { useCallback, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 import { deprecatePropType, deprecatePropTypeNew, oneOf } from '../internals/propTypes';
 import MenuItem from '../internals/Menu/MenuItem';
@@ -14,8 +14,9 @@ import { DropdownActionType } from './DropdownState';
 import { useRenderDropdownItem } from './useRenderDropdownItem';
 import warnOnce from '../utils/warnOnce';
 import Nav from '../Nav';
-import DropdownSeparator, { DropdownSeparatorProps } from './DropdownSeparator';
-import classNames from 'classnames';
+import Text from '../Text';
+import DropdownSeparator, { type DropdownSeparatorProps } from './DropdownSeparator';
+import type { RsRefForwardingComponent, WithAsProps } from '../@types/common';
 
 export interface DropdownMenuItemProps<T = any>
   extends WithAsProps,
@@ -64,7 +65,16 @@ export interface DropdownMenuItemProps<T = any>
    */
   open?: boolean;
 
-  /** Select the callback function for the current option  */
+  /**
+   * The dropdown item keyboard shortcut.
+   *
+   * @version 5.58.0
+   */
+  shortcut?: React.ReactNode;
+
+  /**
+   * Select the callback function for the current option
+   */
   onSelect?: (eventKey: T, event: React.SyntheticEvent) => void;
 }
 /**
@@ -77,6 +87,7 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
     const {
       classPrefix = 'dropdown-item',
       className,
+      shortcut,
       active: activeProp,
       eventKey,
       onSelect,
@@ -193,7 +204,14 @@ const DropdownItem: RsRefForwardingComponent<'li', DropdownMenuItemProps> = Reac
                   React.cloneElement(icon, {
                     className: classNames(prefix('menu-icon'), icon.props.className)
                   })}
-                {children}
+                <Text as="span" className={prefix('content')}>
+                  {children}
+                </Text>
+                {shortcut && (
+                  <Text as="kbd" className={prefix('shortcut')} muted>
+                    {shortcut}
+                  </Text>
+                )}
               </>
             )
           });
