@@ -68,7 +68,7 @@ The default value of the `toggleAs` property of`Dropdown` is `Button`. You can s
 
 <!--{include:`submenu.md`}-->
 
-### Menu items
+### Menu
 
 <!--{include:`menu-items.md`}-->
 

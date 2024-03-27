@@ -107,6 +107,24 @@
   },
   {
     "group": true,
+    "id": "typography",
+    "name": "Typography",
+    "title": "排版"
+  },
+  {
+    "id": "heading",
+    "name": "Heading",
+    "title": "标题",
+    "components": ["Heading"]
+  },
+  {
+    "id": "text",
+    "name": "Text",
+    "title": "文本",
+    "components": ["Text"]
+  },
+  {
+    "group": true,
     "id": "overlays",
     "name": "Overlays",
     "title": "叠加层"
