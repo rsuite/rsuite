@@ -6,11 +6,11 @@ import { AvatarGroup, Badge, Avatar } from 'rsuite';
 const App = () => (
   <AvatarGroup>
     <Badge>
-      <Avatar src="https://avatars.githubusercontent.com/u/12592949" alt="@superman66" />
+      <Avatar src="https://i.pravatar.cc/150?u=1" />
     </Badge>
 
     <Badge content="20">
-      <Avatar src="https://avatars.githubusercontent.com/u/8225666" alt="@SevenOutman" />
+      <Avatar src="https://i.pravatar.cc/150?u=2" />
     </Badge>
   </AvatarGroup>
 );
