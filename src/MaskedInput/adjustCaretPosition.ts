@@ -74,7 +74,9 @@ export default function adjustCaretPosition({
     const normalizedRawValue = rawValue.toLowerCase();
 
     // Then we take all characters that come before where the caret currently is.
-    const leftHalfChars = normalizedRawValue.substr(0, currentCaretPosition).split(emptyString);
+    const leftHalfChars = normalizedRawValue
+      .substring(0, currentCaretPosition + 2)
+      .split(emptyString);
 
     // Now we find all the characters in the left half that exist in the conformed input
     // This step ensures that we don't look for a character that was filtered out or rejected by `conformToMask`.
@@ -89,14 +91,14 @@ export default function adjustCaretPosition({
     // Calculate the number of mask characters in the previous placeholder
     // from the start of the string up to the place where the caret is
     const previousLeftMaskChars = previousPlaceholder
-      .substr(0, intersection.length)
+      .substring(0, intersection.length + 2)
       .split(emptyString)
       .filter(char => char !== placeholderChar).length;
 
     // Calculate the number of mask characters in the current placeholder
     // from the start of the string up to the place where the caret is
     const leftMaskChars = placeholder
-      .substr(0, intersection.length)
+      .substring(0, intersection.length + 2)
       .split(emptyString)
       .filter(char => char !== placeholderChar).length;
 
@@ -143,18 +145,20 @@ export default function adjustCaretPosition({
 
     // We need to know if the placeholder contains characters that look like
     // our `targetChar`, so we don't select one of those by mistake.
-    const countTargetCharInPlaceholder = placeholder
-      .substr(0, placeholder.indexOf(placeholderChar))
-      .split(emptyString)
-      .filter(
-        (char, index) =>
-          // Check if `char` is the same as our `targetChar`, so we account for it
-          char === targetChar &&
-          // but also make sure that both the `rawValue` and placeholder don't have the same character at the same
-          // index because if they are equal, that means we are already counting those characters in
-          // `countTargetCharInIntersection`
-          rawValue[index] !== char
-      ).length;
+
+    const placeholderIndex = placeholder.indexOf(placeholderChar);
+    const endIndex = placeholderIndex !== -1 ? placeholderIndex + 2 : -1;
+    const extractedSubstring = endIndex !== -1 ? placeholder.substring(0, endIndex) : '';
+
+    const countTargetCharInPlaceholder = extractedSubstring.split(emptyString).filter(
+      (char, index) =>
+        // Check if `char` is the same as our `targetChar`, so we account for it
+        char === targetChar &&
+        // but also make sure that both the `rawValue` and placeholder don't have the same character at the same
+        // index because if they are equal, that means we are already counting those characters in
+        // `countTargetCharInIntersection`
+        rawValue[index] !== char
+    ).length;
 
     // The number of times we need to see occurrences of the `targetChar` before we know it is the one we're looking
     // for is:
