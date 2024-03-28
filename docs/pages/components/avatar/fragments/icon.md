@@ -2,16 +2,25 @@
 
 ```js
 import { AvatarGroup, Badge, Avatar } from 'rsuite';
-import { Icon } from '@rsuite/icons';
-import UserIcon from '@rsuite/icons/legacy/User';
+import { FaUserLarge } from 'react-icons/fa6';
+import { FcBusinessman, FcCustomerSupport } from 'react-icons/fc';
 
 const App = () => (
   <AvatarGroup spacing={6}>
     <Avatar>
-      <UserIcon />
+      <FaUserLarge />
     </Avatar>
-    <Avatar>🙂</Avatar>
-    <Avatar>👍</Avatar>
+    <Avatar>
+      <FaUserLarge size={30} />
+    </Avatar>
+
+    <Avatar>
+      <FcBusinessman size={30} />
+    </Avatar>
+
+    <Avatar>
+      <FcCustomerSupport size={30} />
+    </Avatar>
   </AvatarGroup>
 );
 
