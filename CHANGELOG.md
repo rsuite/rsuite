@@ -1,3 +1,19 @@
+# [5.58.0](https://github.com/rsuite/rsuite/compare/v5.57.0...v5.58.0) (2024-03-28)
+
+
+### Bug Fixes
+
+* **TagPicker:** fix TagPicker size issue ([#3702](https://github.com/rsuite/rsuite/issues/3702)) ([3319e12](https://github.com/rsuite/rsuite/commit/3319e127f00ea84150c2a08f6eb0a7a042ce32f1))
+
+
+### Features
+
+* **Dropdown:** add support for `shortcut` on `<Dropdown.Item>` ([#3704](https://github.com/rsuite/rsuite/issues/3704)) ([2edac54](https://github.com/rsuite/rsuite/commit/2edac546c50a0bff2c827c9d3e2bab2e757bedc7))
+* Picker's onOpen & onClose should decouple with onEnter & onExit ([#3228](https://github.com/rsuite/rsuite/issues/3228)) ([09db561](https://github.com/rsuite/rsuite/commit/09db5610aa5c6d9051a35fd3e980f248459c4870))
+* **Typography:** add support for Heading and Text ([#3693](https://github.com/rsuite/rsuite/issues/3693)) ([b278b4e](https://github.com/rsuite/rsuite/commit/b278b4e2f76c40966b58cfeb11a1e165c547a3a1))
+
+
+
 # [5.57.0](https://github.com/rsuite/rsuite/compare/v5.56.0...v5.57.0) (2024-03-22)
 
 
