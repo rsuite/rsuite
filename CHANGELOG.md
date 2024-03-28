@@ -1,3 +1,12 @@
+## [5.58.1](https://github.com/rsuite/rsuite/compare/v5.58.0...v5.58.1) (2024-03-28)
+
+
+### Bug Fixes
+
+* fix build errors caused by export type ([#3712](https://github.com/rsuite/rsuite/issues/3712)) ([94e9ef4](https://github.com/rsuite/rsuite/commit/94e9ef423c7722ecfa4ed3d72a320b38f13a0c6d))
+
+
+
 # [5.58.0](https://github.com/rsuite/rsuite/compare/v5.57.0...v5.58.0) (2024-03-28)
 
 
