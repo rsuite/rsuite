@@ -119,13 +119,15 @@
     "id": "heading",
     "name": "Heading",
     "title": "标题",
-    "components": ["Heading"]
+    "components": ["Heading"],
+    "minVersion": "5.58.0"
   },
   {
     "id": "text",
     "name": "Text",
     "title": "文本",
-    "components": ["Text"]
+    "components": ["Text"],
+    "minVersion": "5.58.0"
   },
   {
     "group": true,
