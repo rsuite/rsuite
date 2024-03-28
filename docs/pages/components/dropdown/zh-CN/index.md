@@ -29,25 +29,21 @@
 
 <!--{include:`trigger.md`}-->
 
-### 选项激活状态
-
-<!--{include:`active.md`}-->
-
-### 禁用状态
-
-可以禁用整个组件，也可以禁用单个选项，只需配置 `disabled` 属性。
+### 禁用
 
 <!--{include:`disabled.md`}-->
 
-### 继承按钮属性
+### 尺寸
 
-`Dropdown` 的 `toggleAs` 属性默认值为是 `Button`, 可以设置按钮相关的属性（例如: size, appearance）, 以按钮的样式展示。
-
-<!--{include:`toggle-as.md`}-->
+<!--{include:`size.md`}-->
 
 ### 没有箭头图标
 
 <!--{include:`no-caret.md`}-->
+
+### 带快捷键
+
+<!--{include:`shortcut.md`}-->
 
 ### 带图标的
 
@@ -55,10 +51,10 @@
 
 ### 分割线与面板
 
-- `<Dropdown.Separator>` 设置分割线。
-- `panel` 设置一个面板。
+- 使用 `<Dropdown.Separator>` 设置分割线。
+- 使用 `panel` 属性将一个 `Dropdown.Item` 设置为一个面板。
 
-<!--{include:`divider.md`}-->
+<!--{include:`custom.md`}-->
 
 ### 菜单位置
 
@@ -84,11 +80,11 @@
 
 <!--{include:`buttons.md`}-->
 
-### 与 `next/link` 组合
+### 使用路由
+
+`<Dropdown.Item>` 组件可与框架和客户端路由（例如 Next.js 和 React Router）配合使用。请参阅[路由指南](/zh/guide/composition/#third-party-routing-library)以了解如何进行设置。
 
 <!--{include:`with-router.md`}-->
-
-> [与 React Router 中的 Link 组合](/zh/guide/composition/#react-router-dom)
 
 ## Props
 
@@ -98,7 +94,7 @@
 | --------------- | ------------------------------------------------------ | ------------------------------------------------ |
 | activeKey       | string                                                 | 激活状态的选项，对应 Dropdown.Item 中的 eventKey |
 | classPrefix     | string `('dropdown')`                                  | 组件 CSS 类的前缀                                |
-| defaultOpen     | boolean `(false)`                                      | 菜单是否初始开启                                 |
+| defaultOpen     | boolean                                                | 菜单是否初始开启                                 |
 | disabled        | boolean                                                | 禁用组件                                         |
 | icon            | Element&lt;typeof Icon&gt;                             | 设置图标                                         |
 | menuStyle       | CSSProperties                                          | 菜单样式                                         |
@@ -117,18 +113,19 @@
 
 ### `<Dropdown.Item>`
 
-| 属性名称    | 类型 `(默认值)`                | 描述                   |
-| ----------- | ------------------------------ | ---------------------- |
-| active      | boolean                        | 选中当前选项           |
-| as          | ElementType `('li')`           | 为组件自定义元素类型   |
-| children \* | ReactNode                      | 组件内容               |
-| classPrefix | string `('dropdown-item')`     | 组件 CSS 类的前缀      |
-| disabled    | boolean                        | 禁用当前选项           |
-| divider     | boolean                        | 显示为分割线           |
-| eventKey    | string                         | 当前选项的值           |
-| icon        | Element&lt;typeof Icon&gt;     | 设置图标               |
-| onSelect    | (eventKey: any, event) => void | 选中当前选项的回调函数 |
-| panel       | boolean                        | 显示一个自定义的面板   |
+| 属性名称    | 类型 `(默认值)`                | 描述                                                                           |
+| ----------- | ------------------------------ | ------------------------------------------------------------------------------ |
+| active      | boolean                        | 选中当前选项                                                                   |
+| as          | ElementType `('li')`           | 为组件自定义元素类型                                                           |
+| children \* | ReactNode                      | 组件内容                                                                       |
+| classPrefix | string `('dropdown-item')`     | 组件 CSS 类的前缀                                                              |
+| disabled    | boolean                        | 禁用当前选项                                                                   |
+| divider     | boolean                        | 显示为分割线                                                                   |
+| eventKey    | string                         | 当前选项的值                                                                   |
+| icon        | Element&lt;typeof Icon&gt;     | 设置图标                                                                       |
+| onSelect    | (eventKey: any, event) => void | 选中当前选项的回调函数                                                         |
+| panel       | boolean                        | 显示一个自定义的面板                                                           |
+| shortcut    | string                         | 下拉菜单项的键盘快捷键 <br/>![](https://img.shields.io/badge/min-v5.58.0-blue) |
 
 ### `<Dropdown.Menu>`
 

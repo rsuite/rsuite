@@ -8,7 +8,7 @@ import {
   Popover,
   Whisper,
   Stack,
-  Text
+  Avatar
 } from 'rsuite';
 import Link from 'next/link';
 import DefaultPage from '@/components/Page';
@@ -44,7 +44,7 @@ export default function Page() {
         Whisper,
         Link,
         Stack,
-        Text
+        Avatar
       }}
     />
   );

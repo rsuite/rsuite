@@ -1,13 +1,17 @@
 <!--start-code-->
 
 ```js
-import { Dropdown } from 'rsuite';
+import { Dropdown, Avatar } from 'rsuite';
+
+const renderToggle = props => (
+  <Avatar circle {...props} src="https://i.pravatar.cc/150?u=git@rsutiejs.com" />
+);
 
 const App = () => (
-  <Dropdown title="GitHub">
+  <Dropdown renderToggle={renderToggle}>
     <Dropdown.Item panel style={{ padding: 10, width: 160 }}>
       <p>Signed in as</p>
-      <strong>foobar</strong>
+      <strong>Tony</strong>
     </Dropdown.Item>
     <Dropdown.Separator />
     <Dropdown.Item>Your profile</Dropdown.Item>
