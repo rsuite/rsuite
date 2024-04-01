@@ -71,22 +71,115 @@ describe('Drawer', () => {
   });
 
   it('Should close the drawer when the backdrop is clicked', () => {
-    const onCloseSpy = sinon.spy();
+    const onClose = sinon.spy();
 
-    render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} />);
+    render(<Drawer open onClose={onClose} />);
 
-    userEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('drawer-wrapper'));
 
-    expect(onCloseSpy).to.have.been.calledOnce;
+    expect(onClose).to.have.been.calledOnce;
   });
 
   it('Should not close the drawer when the "static" drawer is clicked', () => {
-    const onCloseSpy = sinon.spy();
-    render(<Drawer data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />);
+    const onClose = sinon.spy();
+    render(<Drawer open onClose={onClose} backdrop="static" />);
 
-    userEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('drawer-wrapper'));
 
-    expect(onCloseSpy).to.not.have.been.calledOnce;
+    expect(onClose).to.not.have.been.calledOnce;
+  });
+
+  it('Should render backdrop', () => {
+    render(<Drawer open backdrop />);
+
+    expect(screen.queryByTestId('backdrop')).to.exist;
+    expect(screen.getByTestId('drawer-wrapper')).to.not.have.class('rs-drawer-no-backdrop');
+  });
+
+  it('Should not render backdrop', () => {
+    render(<Drawer open backdrop={false} />);
+
+    expect(screen.queryByTestId('backdrop')).to.not.exist;
+    expect(screen.getByTestId('drawer-wrapper')).to.have.class('rs-drawer-no-backdrop');
+  });
+
+  describe('Focused state', () => {
+    let focusableContainer: HTMLElement | null = null;
+
+    beforeEach(() => {
+      focusableContainer = document.createElement('div');
+      focusableContainer.tabIndex = 0;
+      document.body.appendChild(focusableContainer);
+      focusableContainer.focus();
+    });
+
+    afterEach(() => {
+      document.body.removeChild(focusableContainer as HTMLElement);
+    });
+
+    it('Should focus on the Drawer when it is opened', () => {
+      const onOpen = sinon.spy();
+
+      const { rerender } = render(
+        <Drawer onOpen={onOpen} open={false}>
+          <Drawer.Header />
+        </Drawer>
+      );
+
+      expect(focusableContainer).to.have.focus;
+
+      rerender(
+        <Drawer onOpen={onOpen} open={true}>
+          <Drawer.Header />
+        </Drawer>
+      );
+
+      expect(onOpen).to.have.been.calledOnce;
+      expect(screen.getByTestId('drawer-wrapper')).to.have.focus;
+    });
+
+    it('Should be forced to focus on Drawer', () => {
+      render(
+        <Drawer open backdrop={false} enforceFocus>
+          test
+        </Drawer>
+      );
+      (focusableContainer as HTMLElement).focus();
+      (focusableContainer as HTMLElement).dispatchEvent(new FocusEvent('focus'));
+
+      expect(screen.getByTestId('drawer-wrapper')).to.have.focus;
+    });
+
+    it('Should be focused on container outside of Drawer', () => {
+      render(
+        <Drawer open backdrop={false} enforceFocus={false}>
+          test
+        </Drawer>
+      );
+      (focusableContainer as HTMLElement).focus();
+      (focusableContainer as HTMLElement).dispatchEvent(new FocusEvent('focus'));
+
+      expect(focusableContainer).to.have.focus;
+    });
+
+    it('Should be focused on container outside of Drawer when  backdrop is not displayed', () => {
+      render(
+        <Drawer open backdrop={false}>
+          test
+        </Drawer>
+      );
+      (focusableContainer as HTMLElement).focus();
+      (focusableContainer as HTMLElement).dispatchEvent(new FocusEvent('focus'));
+
+      expect(focusableContainer).to.have.focus;
+    });
+
+    it('Should only call onOpen once', () => {
+      const onOpen = sinon.spy();
+      render(<Drawer open onOpen={onOpen}></Drawer>);
+
+      expect(onOpen).to.be.calledOnce;
+    });
   });
 
   describe('Size variants', () => {
@@ -110,7 +203,7 @@ describe('Drawer', () => {
       expect(screen.getByRole('dialog')).to.have.class('rs-drawer-full');
 
       expect(console.warn).to.have.been.calledWith(
-        '"full" property of "Modal" has been deprecated.\nUse size="full" instead.'
+        '"full" property of "Drawer" has been deprecated.\nUse size="full" instead.'
       );
     });
 
