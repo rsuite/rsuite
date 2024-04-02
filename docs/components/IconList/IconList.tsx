@@ -1,5 +1,15 @@
 import React, { useCallback, useState, useContext } from 'react';
-import { Input, Modal, Button, FlexboxGrid, InputGroup } from 'rsuite';
+import {
+  Input,
+  Modal,
+  Button,
+  FlexboxGrid,
+  InputGroup,
+  Heading,
+  Stack,
+  IconButton,
+  ButtonGroup
+} from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
 import Link from '@/components/Link';
 import IconItem from './IconItem';
@@ -110,7 +120,7 @@ function IconList() {
           <Modal.Title>{iconName}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className="doc-highlight" style={{ margin: '0 0 1em 0' }}>
+          <div className="doc-highlight rcv-highlight" style={{ margin: '0 0 1em 0' }}>
             <pre>
               <code className="javascript">
                 <span className="hljs-keyword">import</span>
@@ -121,33 +131,57 @@ function IconList() {
             </pre>
           </div>
           {IconComponent ? (
-            <FlexboxGrid>
-              <FlexboxGrid.Item colspan={12}>
-                <div className="icon-bg-transparent" style={{ padding: 10, textAlign: 'center' }}>
-                  <IconComponent style={{ fontSize: 200 }} />
-                </div>
-              </FlexboxGrid.Item>
-              <FlexboxGrid.Item colspan={12}>
-                <div className="icon-example-list">
-                  <IconComponent style={{ fontSize: '2em' }} />
-                  <IconComponent style={{ fontSize: '3em' }} />
-                  <IconComponent style={{ fontSize: '4em' }} />
-                  <IconComponent style={{ fontSize: '5em' }} />
-                </div>
-                <div className="icon-example-list" style={{ marginTop: 20 }}>
-                  <IconComponent className="icon-item-box" style={{ color: '#1675e0' }} />
-                  <IconComponent
-                    className="icon-item-box"
-                    style={{ background: '#1675e0', color: '#fff' }}
-                  />
-                  <IconComponent className="icon-item-box" style={{ color: '#000' }} />
-                  <IconComponent
-                    className="icon-item-box"
-                    style={{ background: '#000', color: '#fff' }}
-                  />
-                </div>
-              </FlexboxGrid.Item>
-            </FlexboxGrid>
+            <>
+              <FlexboxGrid>
+                <FlexboxGrid.Item colspan={12}>
+                  <div className="icon-bg-transparent" style={{ padding: 10, textAlign: 'center' }}>
+                    <IconComponent style={{ fontSize: 200 }} />
+                  </div>
+                </FlexboxGrid.Item>
+                <FlexboxGrid.Item colspan={12}>
+                  <div className="icon-example-list">
+                    <IconComponent style={{ fontSize: '2em' }} />
+                    <IconComponent style={{ fontSize: '3em' }} />
+                    <IconComponent style={{ fontSize: '4em' }} />
+                    <IconComponent style={{ fontSize: '5em' }} />
+                  </div>
+                  <div className="icon-example-list" style={{ marginTop: 20 }}>
+                    <IconComponent className="icon-item-box" style={{ color: '#1675e0' }} />
+                    <IconComponent
+                      className="icon-item-box"
+                      style={{ background: '#1675e0', color: '#fff' }}
+                    />
+                    <IconComponent className="icon-item-box" style={{ color: '#000' }} />
+                    <IconComponent
+                      className="icon-item-box"
+                      style={{ background: '#000', color: '#fff' }}
+                    />
+                  </div>
+                </FlexboxGrid.Item>
+              </FlexboxGrid>
+              <Heading level={5} style={{ margin: '20px 0' }}>
+                Examples
+              </Heading>
+              <Stack spacing={10} wrap>
+                <Button startIcon={<IconComponent />} appearance="primary">
+                  Button
+                </Button>
+                <Button startIcon={<IconComponent />}>Button</Button>
+                <IconButton icon={<IconComponent />} appearance="primary" />
+                <IconButton icon={<IconComponent />} />
+                <ButtonGroup>
+                  <IconButton icon={<IconComponent />} />
+                  <IconButton icon={<IconComponent />} />
+                  <IconButton icon={<IconComponent />} />
+                </ButtonGroup>
+                <InputGroup>
+                  <InputGroup.Addon>
+                    <IconComponent />
+                  </InputGroup.Addon>
+                  <Input placeholder="Input group" />
+                </InputGroup>
+              </Stack>
+            </>
           ) : null}
         </Modal.Body>
         <Modal.Footer>

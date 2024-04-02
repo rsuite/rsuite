@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import classnames from 'classnames';
 import { IconProps } from '@rsuite/icons/lib/Icon';
 
@@ -12,7 +12,7 @@ export interface IconItemProps {
 const IconItem = (props: IconItemProps) => {
   const { onSelect, icon: IconComponent, name, newIcon, ...rest } = props;
 
-  const handleSelect = React.useCallback(
+  const handleSelect = useCallback(
     event => {
       onSelect?.(name, event);
     },

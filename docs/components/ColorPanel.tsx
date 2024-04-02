@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import Color from 'color';
-import { Popover, Whisper } from 'rsuite';
+import { Button, ButtonToolbar, Popover, Whisper } from 'rsuite';
 import Question2 from '@rsuite/icons/legacy/Question2';
 import getPalette from '@/utils/getPalette';
 
@@ -15,62 +15,85 @@ export default function ColorPanel(props: ColorPanelProps) {
     return getPalette(baseColor);
   }, [baseColor]);
 
+  console.log(colors);
+
+  function handleCopyCss() {
+    const css = colors.map(item => `--${item.cssName}: ${item.hex};`).join('\n');
+    navigator.clipboard.writeText(css);
+  }
+
+  function handleCopyLess() {
+    const less = colors.map(item => `${item.lessName}: ${item.hex};`).join('\n');
+    navigator.clipboard.writeText(less);
+  }
+
   return (
-    <table className="panel-color">
-      <thead>
-        <tr>
-          <th>Color</th>
-          <th>
-            <Whisper placement={'top'} trigger="hover" speaker={<Speaker />}>
-              <a href="https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast">
-                Ratio <Question2 />
-              </a>
-            </Whisper>
-          </th>
-          <th>Normal</th>
-          <th>Large</th>
-        </tr>
-      </thead>
-      <tbody>
-        {colors.map((item, index) => {
-          const a = Color('#575757').contrast(Color(item.hex));
-          const b = Color('#fff').contrast(Color(item.hex));
-          const contrast = Math.max(a, b);
+    <>
+      <table className="panel-color">
+        <thead>
+          <tr>
+            <th>Color</th>
+            <th>
+              <Whisper placement={'top'} trigger="hover" speaker={<Speaker />} enterable>
+                <a href="https://www.w3.org/TR/WCAG20/#visual-audio-contrast-contrast">
+                  Ratio <Question2 />
+                </a>
+              </Whisper>
+            </th>
+            <th>Normal</th>
+            <th>Large</th>
+          </tr>
+        </thead>
+        <tbody>
+          {colors.map((item, index) => {
+            const a = Color('#575757').contrast(Color(item.hex));
+            const b = Color('#fff').contrast(Color(item.hex));
+            const contrast = Math.max(a, b);
 
-          const styles = {
-            background: item.hex,
-            color: a > b ? '#575757' : '#fff'
-          };
+            const styles = {
+              background: item.hex,
+              color: a > b ? '#575757' : '#fff'
+            };
 
-          let levelNoraml = '⚠️';
-          let levelLarge = '⚠️';
+            let levelNoraml = '⚠️';
+            let levelLarge = '⚠️';
 
-          if (contrast >= 3) {
-            levelLarge = 'AA';
-          }
+            if (contrast >= 3) {
+              levelLarge = 'AA';
+            }
 
-          if (contrast >= 4.5) {
-            levelNoraml = 'AA';
-            levelLarge = 'AAA';
-          }
+            if (contrast >= 4.5) {
+              levelNoraml = 'AA';
+              levelLarge = 'AAA';
+            }
 
-          if (contrast >= 7) {
-            levelNoraml = 'AAA';
-          }
+            if (contrast >= 7) {
+              levelNoraml = 'AAA';
+            }
 
-          return (
-            <tr key={index} data-index={index} style={styles}>
-              <td>
-                {item.name}:{item.hex}
-              </td>
-              <td className="contrast">{contrast.toFixed(1)} : 1</td>
-              <td>{levelNoraml}</td>
-              <td style={{ fontWeight: 'bold' }}>{levelLarge}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+            return (
+              <tr key={index} data-index={index} style={styles}>
+                <td>
+                  {item.name}:{item.hex}
+                </td>
+                <td className="contrast">{contrast.toFixed(1)} : 1</td>
+                <td>{levelNoraml}</td>
+                <td style={{ fontWeight: 'bold' }}>{levelLarge}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <hr />
+      <ButtonToolbar>
+        <Button appearance="primary" onClick={handleCopyCss}>
+          Copy CSS Variable
+        </Button>
+        <Button appearance="primary" onClick={handleCopyLess}>
+          Copy Less Variable
+        </Button>
+      </ButtonToolbar>
+    </>
   );
 }
 
