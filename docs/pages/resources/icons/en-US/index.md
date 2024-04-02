@@ -4,3 +4,5 @@ React Suite currently provides 200+ official icons and will continue to be updat
 
 - [How to use it?](/components/icon)
 - [SVG Source Files](https://github.com/rsuite/rsuite-icon-font/tree/master/src/svg)
+
+<div id="ad-view"></div>

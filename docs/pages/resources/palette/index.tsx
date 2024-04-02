@@ -75,7 +75,8 @@ function Preview({ themeColor }: PreviewProps) {
         <link rel="stylesheet/less" type="text/css" href="/less/palette.less" />
       </NextHead>
 
-      <Panel header={<h3>Preview {!less && <Loader content="Downloading Less.js" />}</h3>} bordered>
+      <Panel>
+        {!less && <Loader content="Downloading Less.js" />}
         <ButtonToolbar>
           <Button appearance="default">Default</Button>
           <Button appearance="primary">Primary</Button>

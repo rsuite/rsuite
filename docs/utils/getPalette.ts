@@ -73,8 +73,13 @@ function calculateBrightness(originalBrightness, index) {
 export default function getPalette(primaryColor) {
   const colors = Array.from(new Array(10), (_color, index) => {
     const { h, s, v } = tinycolor(primaryColor).toHsv();
+    const key = index === 0 ? '50' : index * 100;
+    const lessKey = index === 0 ? '050' : index * 100;
     return {
-      name: `@H${index === 0 ? '050' : index * 100}`,
+      key,
+      name: `@H${lessKey}`,
+      cssName: `--rs-primary-${key}`,
+      lessName: `@H${lessKey}`,
       hex:
         index === PRIMARY_INDEX
           ? primaryColor

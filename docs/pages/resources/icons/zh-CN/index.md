@@ -4,3 +4,5 @@ React Suite 目前提供了 200+ 个官方图标，并会持续更新。 同时 
 
 - [如何使用图标组件？](/components/icon)
 - [SVG 源文件](https://github.com/rsuite/rsuite-icon-font/tree/master/src/svg)
+
+<div id="ad-view"></div>

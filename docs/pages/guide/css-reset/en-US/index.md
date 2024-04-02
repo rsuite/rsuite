@@ -4,6 +4,8 @@ With regard to typography, after using the React Suite style, you can use the HT
 
 > If you don't need these styles , you can [disable import it][config-reset-import].
 
+<div id="ad-view"></div>
+
 ### `<a>`: The Anchor element
 
 The HTML `<a>` element (or anchor element), along with its href attribute, creates a hyperlink to other web pages, files, locations within the same page, email addresses, or any other URL.

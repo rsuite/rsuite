@@ -2,6 +2,8 @@
 
 React Suite 的样式使用了 [Less][less] 作为样式的预处理，并且定义了一系列的变量，可使用 [Modify Variables][modify variables] 的方式进行定制化。包括但不限定于[定制主题色](#定制主题色)、[调整组件圆角半径](#调整组件圆角半径)、[修改字体样式](#修改字体样式)、[替换辅助色](#替换辅助色)等。下面示例中的代码均为在`custom-theme.less`进行新增操作。
 
+<div id="ad-view"></div>
+
 ### 引入 less
 
 新建一个单独的 Less 文件如下，再引入这个文件。

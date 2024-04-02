@@ -1,8 +1,9 @@
 export function installCarbon() {
   const subtitle = document.querySelector('h2');
   const carbonadsJs = document.getElementById('_carbonads_js');
+  const adView = document.getElementById('ad-view');
 
-  if (subtitle && !carbonadsJs) {
+  if (!carbonadsJs) {
     const adSpace = document.createElement('div');
     const carbon = document.createElement('script');
 
@@ -10,7 +11,11 @@ export function installCarbon() {
     carbon.id = '_carbonads_js';
     adSpace.appendChild(carbon);
 
-    subtitle.parentNode.insertBefore(adSpace, subtitle);
+    if (adView) {
+      adView.appendChild(adSpace);
+    } else if (subtitle) {
+      subtitle.parentNode.insertBefore(adSpace, subtitle);
+    }
   }
 }
 
