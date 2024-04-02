@@ -178,6 +178,10 @@ export const useDateField = (format: string, localize: Locale['localize'], date?
         return null;
       }
 
+      // Invalid Date
+      return new Date('');
+    } else if (type === 'day' && value === 0) {
+      // Invalid Date. If the type is day and the value is 0, it is considered an invalid date.
       return new Date('');
     }
 
