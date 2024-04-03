@@ -1,5 +1,5 @@
 import React from 'react';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import { testStandardProps, testControlledUnControlled, testFormControl } from '@test/utils';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -128,6 +128,24 @@ describe('DateInput', () => {
     );
 
     expect(screen.getByRole('textbox')).to.have.value('20 11月 2023');
+  });
+
+  // fix: #3715
+  it('Should return invalid value in `onChange` callback', () => {
+    const onChange = sinon.spy();
+
+    render(<DateInput onChange={onChange} format="dd" />);
+
+    const input = screen.getByRole('textbox');
+
+    userEvent.click(input);
+    userEvent.keyboard('0');
+
+    expect(isValid(onChange.lastCall.firstArg)).to.be.false;
+
+    userEvent.keyboard('05');
+
+    expect(isValid(onChange.lastCall.firstArg)).to.be.true;
   });
 
   describe('DateInput - KeyPress', () => {
