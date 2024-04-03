@@ -29,6 +29,7 @@ export default function Page() {
         SiWechat,
         SiSinaweibo
       }}
+      sandboxDependencies={{ 'react-icons': 'latest' }}
     />
   );
 }

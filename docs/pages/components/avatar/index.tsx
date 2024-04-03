@@ -14,6 +14,7 @@ export default function Page() {
     <DefaultPage
       inDocsComponents={inDocsComponents}
       dependencies={{ Avatar, AvatarGroup, Badge, FaUserLarge, FcBusinessman, FcCustomerSupport }}
+      sandboxDependencies={{ 'react-icons': 'latest' }}
     />
   );
 }
