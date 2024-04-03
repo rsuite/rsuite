@@ -1,3 +1,18 @@
+# [5.59.0](https://github.com/rsuite/rsuite/compare/v5.58.1...v5.59.0) (2024-04-03)
+
+
+### Bug Fixes
+
+* **DatePicker,DateRangePicker:** fix the date change when the input date is incomplete ([#3719](https://github.com/rsuite/rsuite/issues/3719)) ([24f162f](https://github.com/rsuite/rsuite/commit/24f162f6ee403dbca0829159f3a099167b278bcf))
+* **Drawer:** fix the focus cannot be moved to elements outside the Drawer when `backdrop=false` ([#3716](https://github.com/rsuite/rsuite/issues/3716)) ([f044445](https://github.com/rsuite/rsuite/commit/f044445e97d653debcb1772a70c51b4a30d44f6b))
+
+
+### Features
+
+* **Avatar:** add support for `bordered` and `color` props ([#3711](https://github.com/rsuite/rsuite/issues/3711)) ([3ca7dc1](https://github.com/rsuite/rsuite/commit/3ca7dc1eeaf46461fff107012dac972d4ef20c1b))
+
+
+
 ## [5.58.1](https://github.com/rsuite/rsuite/compare/v5.58.0...v5.58.1) (2024-03-28)
 
 
