@@ -15,8 +15,6 @@ export default function ColorPanel(props: ColorPanelProps) {
     return getPalette(baseColor);
   }, [baseColor]);
 
-  console.log(colors);
-
   function handleCopyCss() {
     const css = colors.map(item => `--${item.cssName}: ${item.hex};`).join('\n');
     navigator.clipboard.writeText(css);

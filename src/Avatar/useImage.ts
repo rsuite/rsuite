@@ -99,8 +99,6 @@ const useImage = (props: UseImageProps) => {
     return flush;
   }, []);
 
-  console.log('status', status);
-
   return {
     loaded: status === 'loaded',
     status
