@@ -21,6 +21,11 @@ interface UseImageProps {
    * The image `crossOrigin` attribute
    */
   crossOrigin?: ImgHTMLAttributes<HTMLImageElement>['crossOrigin'];
+
+  /**
+   * Callback fired when the image failed to load.
+   */
+  onError?: OnErrorEventHandler;
 }
 
 type Status = 'pending' | 'loading' | 'error' | 'loaded';
@@ -36,7 +41,7 @@ type Status = 'pending' | 'loading' | 'error' | 'loaded';
  * ```
  */
 const useImage = (props: UseImageProps) => {
-  const { src, srcSet, sizes, crossOrigin } = props;
+  const { src, srcSet, sizes, crossOrigin, onError } = props;
   const [status, setStatus] = useState<Status>('pending');
 
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -49,15 +54,19 @@ const useImage = (props: UseImageProps) => {
     }
   };
 
-  const onLoad = useCallback(() => {
+  const handleLoad = useCallback(() => {
     setStatus('loaded');
     flush();
   }, []);
 
-  const onError = useCallback(() => {
-    setStatus('error');
-    flush();
-  }, []);
+  const handleError = useCallback(
+    event => {
+      setStatus('error');
+      flush();
+      onError?.(event);
+    },
+    [onError]
+  );
 
   useEffect(() => {
     setStatus(src ? 'loading' : 'pending');
@@ -69,8 +78,8 @@ const useImage = (props: UseImageProps) => {
     }
 
     const img = new Image();
-    img.onload = onLoad;
-    img.onerror = onError;
+    img.onload = handleLoad;
+    img.onerror = handleError;
 
     if (src) img.src = src;
     if (srcSet) img.srcset = srcSet;
@@ -78,7 +87,7 @@ const useImage = (props: UseImageProps) => {
     if (crossOrigin) img.crossOrigin = crossOrigin;
 
     imgRef.current = img;
-  }, [crossOrigin, onError, onLoad, sizes, src, srcSet]);
+  }, [crossOrigin, handleError, handleLoad, sizes, src, srcSet]);
 
   useIsomorphicLayoutEffect(() => {
     if (status === 'loading') {
@@ -89,6 +98,8 @@ const useImage = (props: UseImageProps) => {
   useEffect(() => {
     return flush;
   }, []);
+
+  console.log('status', status);
 
   return {
     loaded: status === 'loaded',

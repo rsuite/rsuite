@@ -59,6 +59,12 @@ export interface AvatarProps extends WithAsProps {
    * @version 5.59.0
    */
   color?: TypeAttributes.Color;
+
+  /**
+   * Callback fired when the image failed to load.
+   * @version 5.59.0
+   */
+  onError?: OnErrorEventHandler;
 }
 
 /**
@@ -83,13 +89,14 @@ const Avatar: RsRefForwardingComponent<'div', AvatarProps> = React.forwardRef(
       srcSet,
       sizes,
       imgProps,
+      onError,
       ...rest
     } = props;
 
     const { withClassPrefix, prefix, merge } = useClassNames(classPrefix);
     const classes = merge(className, withClassPrefix(size, color, { circle, bordered }));
     const imageProps = { ...imgProps, alt, src, srcSet, sizes };
-    const { loaded } = useImage(imageProps);
+    const { loaded } = useImage({ ...imageProps, onError });
 
     const altComponent = useMemo(() => {
       if (alt) {
