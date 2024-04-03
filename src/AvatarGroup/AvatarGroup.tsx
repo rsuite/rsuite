@@ -1,20 +1,30 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useClassNames, useCustom } from '../utils';
-import { TypeAttributes, WithAsProps, RsRefForwardingComponent } from '../@types/common';
+import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 import { oneOf } from '../internals/propTypes';
+
+export type Size = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs';
+
 export interface AvatarGroupProps extends WithAsProps {
-  /** Render all avatars as stacks */
+  /**
+   * Render all avatars as stacks
+   */
   stack?: boolean;
 
-  /** Set the spacing of the avatar */
+  /**
+   * Set the spacing of the avatar
+   */
   spacing?: number;
 
-  /** Set the size of all avatars. */
-  size?: TypeAttributes.Size;
+  /**
+   * Set the size of all avatars.
+   * @version xxl and xs added in v5.59.0
+   */
+  size?: Size;
 }
 
-export const AvatarGroupContext = React.createContext<{ size?: TypeAttributes.Size }>({});
+export const AvatarGroupContext = React.createContext<{ size?: Size }>({});
 
 /**
  * The AvatarGroup component is used to represent a collection of avatars.

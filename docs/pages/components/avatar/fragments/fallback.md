@@ -5,9 +5,8 @@ import { AvatarGroup, Avatar } from 'rsuite';
 
 const App = () => (
   <AvatarGroup spacing={6}>
-    <Avatar src="https://i.pravatar.cc/150?u=1" />
-    <Avatar circle />
-    <Avatar src="https://i.pravatar.cc/150?u=2" circle />
+    <Avatar circle src="https://images.unsplash.com/broken" alt="Alt" />
+    <Avatar circle src="https://images.unsplash.com/broken" />
   </AvatarGroup>
 );
 
