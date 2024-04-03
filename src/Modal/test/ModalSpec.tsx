@@ -18,31 +18,31 @@ describe('Modal', () => {
   });
 
   it('Should close the modal when the modal dialog is clicked', () => {
-    const onCloseSpy = sinon.spy();
-    render(<Modal data-testid="wrapper" open onClose={onCloseSpy} />);
+    const onClose = sinon.spy();
+    render(<Modal open onClose={onClose} />);
 
-    userEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('modal-wrapper'));
 
-    expect(onCloseSpy).to.have.been.calledOnce;
+    expect(onClose).to.have.been.calledOnce;
   });
 
   it('Should not close the modal when the "static" dialog is clicked', () => {
-    const onCloseSpy = sinon.spy();
-    render(<Modal data-testid="wrapper" open onClose={onCloseSpy} backdrop="static" />);
+    const onClose = sinon.spy();
+    render(<Modal open onClose={onClose} backdrop="static" />);
 
-    userEvent.click(screen.getByTestId('wrapper'));
+    userEvent.click(screen.getByTestId('modal-wrapper'));
 
-    expect(onCloseSpy).to.not.have.been.calledOnce;
+    expect(onClose).to.not.have.been.calledOnce;
   });
 
   it('Should not close the modal when clicking inside the dialog', () => {
-    const onCloseSpy = sinon.spy();
-    render(<Modal open onClose={onCloseSpy} />);
+    const onClose = sinon.spy();
+    render(<Modal open onClose={onClose} />);
 
     fireEvent.click(screen.getByRole('dialog'));
     fireEvent.click(screen.getByRole('document'));
 
-    assert.isFalse(onCloseSpy.calledOnce);
+    assert.isFalse(onClose.calledOnce);
   });
 
   it('Should be automatic height', () => {
@@ -56,16 +56,16 @@ describe('Modal', () => {
   });
 
   it('Should call onClose callback', () => {
-    const onCloseSpy = sinon.spy();
+    const onClose = sinon.spy();
     render(
-      <Modal open onClose={onCloseSpy}>
+      <Modal open onClose={onClose}>
         <Modal.Header />
       </Modal>
     );
 
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
 
-    expect(onCloseSpy).to.have.been.calledOnce;
+    expect(onClose).to.have.been.calledOnce;
   });
 
   it('Should call onExited callback', async () => {
@@ -136,16 +136,16 @@ describe('Modal', () => {
   });
 
   it('Should call onClose callback by Esc', () => {
-    const onCloseSpy = sinon.spy();
+    const onClose = sinon.spy();
     render(
-      <Modal open onClose={onCloseSpy}>
+      <Modal open onClose={onClose}>
         <Modal.Header />
       </Modal>
     );
 
     const event = new KeyboardEvent('keydown', { key: 'Escape' });
     document.dispatchEvent(event);
-    assert.isTrue(onCloseSpy.calledOnce);
+    assert.isTrue(onClose.calledOnce);
   });
 
   it('Should be rendered inside Modal', () => {
@@ -177,12 +177,10 @@ describe('Modal', () => {
     });
 
     it('Should focus on the Modal when it is opened', () => {
-      const onOpenSpy = sinon.spy();
-
-      const modalRef = React.createRef<any>();
+      const onOpen = sinon.spy();
 
       const { rerender } = render(
-        <Modal ref={modalRef} onOpen={onOpenSpy} open={false}>
+        <Modal onOpen={onOpen} open={false}>
           <Modal.Header />
         </Modal>
       );
@@ -190,32 +188,30 @@ describe('Modal', () => {
       expect(focusableContainer).to.have.focus;
 
       rerender(
-        <Modal ref={modalRef} onOpen={onOpenSpy} open={true}>
+        <Modal onOpen={onOpen} open={true}>
           <Modal.Header />
         </Modal>
       );
 
-      expect(onOpenSpy).to.have.been.calledOnce;
-      expect(modalRef.current).to.have.focus;
+      expect(onOpen).to.have.been.calledOnce;
+      expect(screen.getByTestId('modal-wrapper')).to.have.focus;
     });
 
     it('Should be forced to focus on Modal', () => {
-      const ref = React.createRef<HTMLDivElement>();
       render(
-        <Modal ref={ref} open backdrop={false} enforceFocus>
+        <Modal open backdrop={false} enforceFocus>
           test
         </Modal>
       );
       (focusableContainer as HTMLElement).focus();
       (focusableContainer as HTMLElement).dispatchEvent(new FocusEvent('focus'));
 
-      expect(ref.current).to.have.focus;
+      expect(screen.getByTestId('modal-wrapper')).to.have.focus;
     });
 
     it('Should be focused on container outside of Modal', () => {
-      const ref = React.createRef<HTMLDivElement>();
       render(
-        <Modal ref={ref} open backdrop={false} enforceFocus={false}>
+        <Modal open backdrop={false} enforceFocus={false}>
           test
         </Modal>
       );
@@ -226,9 +222,11 @@ describe('Modal', () => {
     });
 
     it('Should only call onOpen once', () => {
-      const onOpenSpy = sinon.spy();
-      render(<Modal open onOpen={onOpenSpy}></Modal>);
-      assert.equal(onOpenSpy.callCount, 1);
+      const onOpen = sinon.spy();
+
+      render(<Modal open onOpen={onOpen}></Modal>);
+
+      expect(onOpen).to.be.calledOnce;
     });
   });
 

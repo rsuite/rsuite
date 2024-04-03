@@ -67,29 +67,30 @@ interface ModalComponent extends RsRefForwardingComponent<'div', ModalProps> {
  */
 const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
   const {
+    animation = Bounce,
+    animationProps,
+    animationTimeout = 300,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+    backdropClassName,
+    backdrop = true,
     className,
     children,
     classPrefix = 'modal',
     dialogClassName,
-    backdropClassName,
-    backdrop = true,
     dialogStyle,
-    animation = Bounce,
-    open,
-    size = 'sm',
-    full,
     dialogAs: Dialog = ModalDialog,
-    animationProps,
-    animationTimeout = 300,
+    enforceFocus: enforceFocusProp,
+    full,
     overflow = true,
+    open,
     onClose,
     onEntered,
     onEntering,
     onExited,
     role = 'dialog',
+    size = 'sm',
     id: idProp,
-    'aria-labelledby': ariaLabelledby,
-    'aria-describedby': ariaDescribedby,
     ...rest
   } = props;
 
@@ -199,15 +200,32 @@ const Modal: ModalComponent = React.forwardRef((props: ModalProps, ref) => {
     sizeKey = placement === 'top' || placement === 'bottom' ? 'height' : 'width';
   }
 
+  const enforceFocus = useMemo(() => {
+    if (typeof enforceFocusProp === 'boolean') {
+      return enforceFocusProp;
+    }
+
+    // When the Drawer is displayed and the backdrop is not displayed, the focus is not restricted.
+    if (isDrawer && backdrop === false) {
+      return false;
+    }
+  }, [backdrop, enforceFocusProp, isDrawer]);
+
+  const wrapperClassName = merge(prefix`wrapper`, {
+    [prefix`no-backdrop`]: backdrop === false
+  });
+
   return (
     <ModalContext.Provider value={modalContextValue}>
       <BaseModal
+        data-testid={isDrawer ? 'drawer-wrapper' : 'modal-wrapper'}
         {...rest}
         ref={ref}
         backdrop={backdrop}
+        enforceFocus={enforceFocus}
         open={open}
         onClose={onClose}
-        className={prefix`wrapper`}
+        className={wrapperClassName}
         onEntered={handleEntered}
         onEntering={handleEntering}
         onExited={handleExited}

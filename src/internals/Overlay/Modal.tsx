@@ -266,6 +266,7 @@ const Modal: RsRefForwardingComponent<'div', BaseModalProps> = React.forwardRef<
             return (
               <div
                 aria-hidden
+                data-testid="backdrop"
                 {...rest}
                 style={backdropStyle}
                 ref={mergeRefs(modal.setBackdropRef, ref)}

@@ -9,6 +9,10 @@
   left: 0;
   width: 100%;
   height: 100%;
+
+  &.rs-drawer-no-backdrop {
+    pointer-events: none;
+  }
 }
 
 // Container that the drawer scrolls within
@@ -18,6 +22,7 @@
   position: fixed;
   z-index: @zindex-drawer;
   box-shadow: var(--rs-drawer-shadow);
+  pointer-events: auto;
   // Prevent Chrome on Windows from adding a focus outline. For details, see
   // https://github.com/twbs/bootstrap/pull/10951.
   outline: 0;

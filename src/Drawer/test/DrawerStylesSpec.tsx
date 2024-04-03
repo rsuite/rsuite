@@ -1,44 +1,37 @@
 import React from 'react';
 import Drawer from '../index';
-import { render } from '@testing-library/react';
-import { getStyle } from '@test/utils';
+import { render, screen } from '@testing-library/react';
 
 import '../styles/index.less';
 
 describe('Drawer styles', () => {
   it('Should render the correct styles', () => {
-    const instanceRef = React.createRef();
+    render(<Drawer open />);
 
-    // FIXME Add missing `ref` delcaration for Drawer
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    render(<Drawer ref={instanceRef} open />);
-
-    const drawer = (instanceRef.current as HTMLDivElement).querySelector(
-      '.rs-drawer'
-    ) as HTMLElement;
-
-    assert.equal(getStyle(drawer, 'position'), 'fixed');
-    assert.equal(getStyle(drawer, 'zIndex'), '1050');
-    assert.equal(getStyle(drawer, 'overflow'), 'visible');
+    expect(screen.getByRole('dialog')).to.have.style('z-index', '1050');
+    expect(screen.getByRole('dialog')).to.have.style('position', 'fixed');
+    expect(screen.getByRole('dialog')).to.have.style('overflow', 'visible');
   });
 
   it('Should have a wrapper that fills the window', () => {
-    const instanceRef = React.createRef();
-    // FIXME Add missing `ref` delcaration for Drawer
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    render(<Drawer ref={instanceRef} open />);
+    render(<Drawer open />);
 
-    const wrapper = instanceRef.current as HTMLDivElement;
+    const wrapper = screen.getByTestId('drawer-wrapper');
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
 
-    assert.equal(getStyle(wrapper, 'position'), 'fixed');
-    assert.equal(getStyle(wrapper, 'zIndex'), '1050');
-    assert.equal(getStyle(wrapper, 'width'), `${windowWidth}px`);
-    assert.equal(getStyle(wrapper, 'height'), `${windowHeight}px`);
-    assert.equal(getStyle(wrapper, 'left'), `0px`);
-    assert.equal(getStyle(wrapper, 'top'), `0px`);
+    expect(wrapper).to.have.style('position', 'fixed');
+    expect(wrapper).to.have.style('z-index', '1050');
+    expect(wrapper).to.have.style('width', `${windowWidth}px`);
+    expect(wrapper).to.have.style('height', `${windowHeight}px`);
+    expect(wrapper).to.have.style('left', `0px`);
+    expect(wrapper).to.have.style('top', `0px`);
+  });
+
+  it('Should not render backdrop', () => {
+    render(<Drawer open backdrop={false} />);
+
+    expect(screen.getByTestId('drawer-wrapper')).to.have.style('pointer-events', 'none');
+    expect(screen.getByRole('dialog')).to.have.style('pointer-events', 'auto');
   });
 });
