@@ -240,7 +240,7 @@ const Checkbox: RsRefForwardingComponent<'div', CheckboxProps> = React.forwardRe
           onClick={onCheckboxClick}
           onChange={handleChange}
         />
-        <span className={prefix`inner`} aria-hidden role="presentation" />
+        <span className={prefix`inner`} aria-hidden data-testid="checkbox-control-inner" />
       </span>
     );
 

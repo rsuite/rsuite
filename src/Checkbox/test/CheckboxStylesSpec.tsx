@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Checkbox from '../Checkbox';
 import { toRGB, itChrome } from '@test/utils';
 
@@ -7,13 +7,18 @@ import '../styles/index.less';
 
 describe('Checkbox styles', () => {
   itChrome('Should render the correct border', () => {
-    const instanceRef = React.createRef<HTMLDivElement>();
-    render(<Checkbox ref={instanceRef} />);
+    render(<Checkbox />);
 
-    const innerDom = instanceRef.current?.querySelector('.rs-checkbox-inner') as HTMLElement;
-    assert.equal(
-      window.getComputedStyle(innerDom, '::before').border,
+    const inner = screen.getByTestId('checkbox-control-inner');
+    expect(window.getComputedStyle(inner, '::before').border).to.equal(
       `1px solid ${toRGB('#d9d9d9')}`
     );
+  });
+
+  it('Should render the correct size', () => {
+    render(<Checkbox />);
+
+    expect(screen.getByRole('checkbox')).to.have.style('width', '36px');
+    expect(screen.getByRole('checkbox')).to.have.style('height', '36px');
   });
 });
