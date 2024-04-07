@@ -193,6 +193,7 @@ cleanErrorForField: (fieldName: keyof E, callback?: () => void) => void;
 | plaintext              | boolean                                               | Make the control plaintext.                                                                                                                                                   |
 | readOnly               | boolean                                               | Make the control readonly.                                                                                                                                                    |
 | rule                   | checkType                                             | Current field verification rule. If it conflicts with the `<Form>`'s `model`, it get higher priority, [example](/components/form-validation/#field-level-verification-rules). |
+| ruleDependencies       | string[]                                              | The dependent fields for the check. <br/>![](https://img.shields.io/badge/min-v5.50.0-blue)                                                                                                                                           |
 | shouldResetWithUnmount | boolean`('false')`                                    | Remove field value and error message when component is unmounted.                                                                                                             |
 
 ### `<Form.Group>`

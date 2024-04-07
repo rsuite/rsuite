@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { type ReactNode, useContext } from 'react';
 import PropTypes from 'prop-types';
 import isUndefined from 'lodash/isUndefined';
 import get from 'lodash/get';
 import set from 'lodash/set';
+import omit from 'lodash/omit';
 import Input from '../Input';
 import FormErrorMessage from '../FormErrorMessage';
 import { useClassNames } from '../utils';
@@ -11,7 +12,8 @@ import FormContext, { FormValueContext } from '../Form/FormContext';
 import { FormGroupContext } from '../FormGroup/FormGroup';
 import { useWillUnmount, useEventCallback } from '../utils';
 import { oneOf } from '../internals/propTypes';
-import useRegisterModel from './useRegisterModel';
+import { useRegisterModel } from './useRegisterModel';
+import { useRegisterDependencies } from './useRegisterDependencies';
 import type { CheckType } from 'schema-typed';
 import Toggle from '../Toggle';
 
@@ -71,6 +73,12 @@ export interface FormControlProps<P = any, ValueType = any>
 
   /** Validation rule */
   rule?: CheckType<unknown, any>;
+
+  /**
+   * The dependent fields for the check.
+   * @version 5.50.0
+   */
+  ruleDependencies?: string[];
 }
 
 interface FormControlComponent extends React.FC<FormControlProps> {
@@ -96,9 +104,11 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     pushFieldRule,
     removeFieldRule,
     onFieldChange,
-    onFieldError,
-    onFieldSuccess,
     getCombinedModel,
+    pushDependencies,
+    removeDependencies,
+    getShouldValidateFieldNames,
+    onErrorChange,
     checkTrigger: contextCheckTrigger
   } = useContext(FormContext);
 
@@ -120,6 +130,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     defaultValue,
     shouldResetWithUnmount = false,
     rule,
+    ruleDependencies,
     ...rest
   } = props;
 
@@ -133,6 +144,7 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
   }
 
   useRegisterModel(name, pushFieldRule, removeFieldRule, rule);
+  useRegisterDependencies(name, pushDependencies, removeDependencies, ruleDependencies);
 
   useWillUnmount(() => {
     if (shouldResetWithUnmount) {
@@ -172,46 +184,67 @@ const FormControl: FormControlComponent = React.forwardRef((props: FormControlPr
     return formError?.[fieldName];
   };
 
+  const getFieldCheckName = (fieldName: string) => {
+    if (nestedField) {
+      return fieldName.split('.')[0];
+    }
+    return fieldName;
+  };
+
   const fieldValue = getFieldValue(name);
 
   const { withClassPrefix, prefix } = useClassNames(classPrefix);
   const classes = withClassPrefix('wrapper');
 
   const handleFieldChange = useEventCallback((value: any, event: React.SyntheticEvent) => {
-    handleFieldCheck(value, trigger === 'change');
+    trigger === 'change' && handleFieldCheck(value);
     onFieldChange?.(name, value, event);
     onChange?.(value, event);
   });
 
   const handleFieldBlur = useEventCallback((event: React.FocusEvent<HTMLFormElement>) => {
-    handleFieldCheck(fieldValue, trigger === 'blur');
+    trigger === 'blur' && handleFieldCheck(fieldValue);
     onBlur?.(event);
   });
 
-  const handleFieldCheck = useEventCallback((value: any, isCheckTrigger: boolean) => {
-    const checkFieldName = nestedField ? name.split('.')[0] : name;
-
-    const callbackEvents = checkResult => {
-      // The relevant event is triggered only when the inspection is allowed.
-      if (isCheckTrigger) {
-        if (checkResult.hasError) {
-          onFieldError?.(checkFieldName, checkResult?.errorMessage || checkResult);
-        } else {
-          onFieldSuccess?.(checkFieldName);
-        }
-      }
-      return checkResult;
-    };
-
+  const handleFieldCheck = useEventCallback((value: any) => {
+    const checkFieldNames = [...getShouldValidateFieldNames(name), name].map(getFieldCheckName);
     const nextFormValue = setFieldValue(name, value);
     const model = getCombinedModel();
-    if (checkAsync) {
-      return model?.checkForFieldAsync(checkFieldName, nextFormValue).then(checkResult => {
-        return callbackEvents(checkResult);
-      });
-    }
 
-    return Promise.resolve(callbackEvents(model?.checkForField(checkFieldName, nextFormValue)));
+    const checkedCallback = (checkedErrors: Record<string, ReactNode>) => {
+      const nextError = {
+        ...omit(formError, checkFieldNames),
+        ...checkedErrors
+      };
+      onErrorChange(nextError);
+    };
+
+    if (checkAsync) {
+      Promise.all(
+        checkFieldNames.map(checkFieldName =>
+          model?.checkForFieldAsync(checkFieldName, nextFormValue)
+        )
+      ).then(checkResults => {
+        const checkedErrors = checkResults.reduce((acc, checkResult, index) => {
+          if (checkResult.hasError) {
+            acc[checkFieldNames[index]] = checkResult.errorMessage || checkResult;
+          }
+          return acc;
+        }, {} as Record<string, ReactNode>);
+
+        checkedCallback(checkedErrors);
+      });
+    } else {
+      const checkedErrors = checkFieldNames.reduce((acc, checkFieldName) => {
+        const checkResult = model?.checkForField(checkFieldName, nextFormValue);
+        if (checkResult.hasError) {
+          acc[checkFieldName] = checkResult.errorMessage || checkResult;
+        }
+        return acc;
+      }, {} as Record<string, ReactNode>);
+      checkedCallback(checkedErrors);
+    }
   });
 
   let messageNode: React.ReactNode | null = null;
