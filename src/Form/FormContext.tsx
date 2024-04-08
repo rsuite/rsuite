@@ -1,7 +1,7 @@
 import React from 'react';
 import { TypeAttributes } from '../@types/common';
 import type { Schema } from 'schema-typed';
-import type { FieldRuleType } from './useSchemaModel';
+import type { FieldRuleType } from './hooks/useSchemaModel';
 
 interface TrulyFormContextValue<
   T = Record<string, any>,

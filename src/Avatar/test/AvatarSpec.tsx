@@ -59,7 +59,7 @@ describe('Avatar', () => {
   });
 
   it('Should render image avatar when src is valid', async () => {
-    const src = 'https://i.pravatar.cc/150?u=1';
+    const src = 'https://rsuitejs.com/images/react-suite.png';
 
     render(<Avatar src={src}>RS</Avatar>);
 
@@ -69,9 +69,10 @@ describe('Avatar', () => {
   });
 
   it('Should hava a srcSet attribute when srcSet is passed', async () => {
-    const srcSet = 'https://i.pravatar.cc/150?u=1 320w, https://i.pravatar.cc/150?u=1 480w';
+    const srcSet =
+      'https://rsuitejs.com/images/react-suite.png 320w, https://rsuitejs.com/images/react-suite.png 480w';
 
-    render(<Avatar src="https://i.pravatar.cc/150?u=1" srcSet={srcSet} />);
+    render(<Avatar src="https://rsuitejs.com/images/react-suite.png" srcSet={srcSet} />);
 
     await waitFor(() => {
       expect(screen.getByRole('img')).to.have.attribute('srcset', srcSet);
@@ -79,10 +80,13 @@ describe('Avatar', () => {
   });
 
   it('Should hava a sizes attribute when sizes is passed', async () => {
-    const srcSet = 'https://i.pravatar.cc/150?u=1 320w, https://i.pravatar.cc/150?u=1 480w';
+    const srcSet =
+      'https://rsuitejs.com/images/react-suite.png 320w, https://rsuitejs.com/images/react-suite.png 480w';
     const sizes = '(max-width: 320px) 280px,(max-width: 480px) 440px, 800px';
 
-    render(<Avatar src="https://i.pravatar.cc/150?u=1" srcSet={srcSet} sizes={sizes} />);
+    render(
+      <Avatar src="https://rsuitejs.com/images/react-suite.png" srcSet={srcSet} sizes={sizes} />
+    );
 
     await waitFor(() => {
       expect(screen.getByRole('img')).to.have.attribute('sizes', sizes);
@@ -92,7 +96,7 @@ describe('Avatar', () => {
   it(' Should set the value of imgProps to the image', async () => {
     render(
       <Avatar
-        src="https://i.pravatar.cc/150?u=1"
+        src="https://rsuitejs.com/images/react-suite.png"
         imgProps={{ title: 'Avatar Title', 'aria-label': 'Avatar Name' }}
       />
     );
