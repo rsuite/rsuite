@@ -1,5 +1,5 @@
 import { renderHook } from '@test/utils';
-import { useFormClassNames } from '../useFormClassNames';
+import useFormClassNames from '../hooks/useFormClassNames';
 
 describe('useFormClassNames', () => {
   it('Should return .rs-form.rs-form-vertical.rs-form-fixed-width by default', () => {

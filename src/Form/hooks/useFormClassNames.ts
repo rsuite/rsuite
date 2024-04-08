@@ -1,10 +1,10 @@
-import { useClassNames } from '../utils';
-import type { FormProps } from './Form';
+import { useClassNames } from '../../utils';
+import type { FormProps } from '../Form';
 
 /**
  * Take <Form> props and return className for <Form> styles
  */
-export function useFormClassNames({
+export default function useFormClassNames({
   classPrefix = 'form',
   className,
   fluid,

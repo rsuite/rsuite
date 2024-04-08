@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react';
-import type { FieldRuleType } from '../Form/useSchemaModel';
+import type { FieldRuleType } from '../Form/hooks/useSchemaModel';
 import type { CheckType } from 'schema-typed';
 
 function useRegisterModel(
