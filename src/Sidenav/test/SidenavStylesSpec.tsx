@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { getDOMNode, getStyle, getDefaultPalette } from '@test/utils';
+import { getDefaultPalette } from '@test/utils';
 import Nav from '../../Nav';
 import Dropdown from '../../Dropdown';
 import Sidenav from '../Sidenav';
@@ -8,14 +8,29 @@ import Sidenav from '../Sidenav';
 import '../styles/index.less';
 
 describe('Sidenav styles', () => {
-  context('Default', () => {
-    it('Should render the correct styles', () => {
-      const instanceRef = React.createRef<HTMLDivElement>();
-      render(<Sidenav ref={instanceRef} expanded={false} />);
-      const dom = getDOMNode(instanceRef.current);
-      assert.equal(getStyle(dom, 'width'), '56px', 'Sidenav width');
-    });
+  it('Should be collapsed', () => {
+    const { container } = render(<Sidenav expanded={false} />);
 
+    expect(container.firstChild).to.have.style('width', '56px');
+  });
+
+  it('Should render Nav.Item as block', () => {
+    render(
+      <Sidenav>
+        <Nav>
+          <Nav.Menu title="Menu">
+            <Nav.Menu title="Menu">
+              <Nav.Item>Child Item</Nav.Item>
+            </Nav.Menu>
+          </Nav.Menu>
+        </Nav>
+      </Sidenav>
+    );
+
+    expect(screen.getByText('Child Item')).to.have.style('display', 'block');
+  });
+
+  context('Default', () => {
     it('Should highlight selected dropdown item', () => {
       render(
         <Sidenav>
