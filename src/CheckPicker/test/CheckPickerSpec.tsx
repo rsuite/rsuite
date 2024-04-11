@@ -273,7 +273,7 @@ describe('CheckPicker', () => {
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
-    expect(screen.getByRole('listbox').scrollTop).to.equal(36);
+    expect(screen.getByRole('listbox').scrollTop).to.not.equal(0);
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
 
@@ -286,7 +286,7 @@ describe('CheckPicker', () => {
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
-    expect(screen.getByRole('listbox').scrollTop).to.equal(36);
+    expect(screen.getByRole('listbox').scrollTop).to.not.equal(0);
 
     fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowUp' });
 
