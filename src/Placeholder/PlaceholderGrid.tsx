@@ -7,11 +7,15 @@ import { WithAsProps, RsRefForwardingComponent } from '../@types/common';
 export interface PlaceholderGridProps extends WithAsProps {
   /**
    * The number of rows.
+   *
+   * @default 5
    */
   rows?: number;
 
   /**
    * The height of the row.
+   *
+   * @default 10
    */
   rowHeight?: number;
 
@@ -22,6 +26,8 @@ export interface PlaceholderGridProps extends WithAsProps {
 
   /**
    * The spacing between rows.
+   *
+   * @default 20
    * @version 5.59.1
    */
   rowSpacing?: number;

@@ -96,7 +96,7 @@ PlaceholderParagraph.propTypes = {
   classPrefix: PropTypes.string,
   rows: PropTypes.number,
   rowHeight: PropTypes.number,
-  rowMargin: PropTypes.number,
+  rowSpacing: PropTypes.number,
   graph: PropTypes.oneOfType([PropTypes.bool, oneOf(['circle', 'square', 'image'])]),
   active: PropTypes.bool
 };
