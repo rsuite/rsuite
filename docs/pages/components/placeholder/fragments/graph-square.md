@@ -5,7 +5,7 @@ import { Placeholder } from 'rsuite';
 
 const App = () => (
   <>
-    <Placeholder.Paragraph />
+    <Placeholder.Graph active width={100} height={100} />
   </>
 );
 
